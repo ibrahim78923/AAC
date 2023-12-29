@@ -46,16 +46,12 @@ export const useProductCatalog = () => {
 
   const getProductCatalogListData = async () => {
     try {
-      const response = await lazyGetProductCatalogTrigger(
-        getProductCatalogParameter,
-      )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Tickets Retrieved successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await lazyGetProductCatalogTrigger(getProductCatalogParameter)?.unwrap();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Error', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      !!error?.data?.data?.message &&
+        enqueueSnackbar(error?.data?.data?.message, {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        });
     }
   };
   useEffect(() => {

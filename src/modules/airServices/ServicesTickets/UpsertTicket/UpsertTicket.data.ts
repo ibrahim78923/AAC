@@ -16,20 +16,9 @@ import {
   ticketStatusOptions,
 } from '../ServicesTickets.data';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 
-const todayDate = dayjs()?.format('MM/DD/YYYY');
-
-export const dropdownDummy = [
-  {
-    value: 'option1',
-    label: 'Option 1',
-  },
-  {
-    value: 'option2',
-    label: 'Option 2',
-  },
-];
+const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
 export const upsertTicketValidationSchema = Yup?.object()?.shape({
   requester: Yup?.mixed()?.nullable()?.required('Required'),
@@ -43,9 +32,9 @@ export const upsertTicketValidationSchema = Yup?.object()?.shape({
   impact: Yup?.mixed()?.nullable(),
   agent: Yup?.mixed()?.nullable(),
   plannedStartDate: Yup?.date(),
-  plannedStartTime: Yup?.date(),
+  plannedStartTime: Yup?.date()?.nullable(),
   plannedEndDate: Yup?.date(),
-  plannedEndTime: Yup?.date(),
+  plannedEndTime: Yup?.date()?.nullable(),
   plannedEffort: Yup?.string()?.trim(),
   associatesAssets: Yup?.mixed()?.nullable(),
   attachFile: Yup?.mixed()?.nullable(),
@@ -53,23 +42,47 @@ export const upsertTicketValidationSchema = Yup?.object()?.shape({
 
 export const upsertTicketDefaultValuesFunction = (data?: any) => {
   return {
-    requester: data?.requester ?? null,
+    requester: !!Object(data?.requesterDetails)?.keys?.length
+      ? {
+          name: `${data?.requesterDetails?.firstName} ${data?.requesterDetails?.firstName}`,
+          _id: data?.requesterDetails?._id,
+        }
+      : null,
     subject: data?.subject ?? '',
     description: data?.description ?? '',
     category: data?.category ?? null,
     status: data?.status ?? null,
-    priority: data?.priority ?? null,
-    department: data?.department ?? null,
+    priority: data?.pirority ?? null,
+    department: !!Object(data?.departmentDetails)?.keys?.length
+      ? {
+          name: data?.departmentDetails?.name,
+          _id: data?.departmentDetails?._id,
+        }
+      : null,
     source: data?.source ?? null,
     impact: data?.impact ?? null,
-    agent: data?.agent ?? null,
+    agent: !!Object(data?.agentDetails)?.keys?.length
+      ? {
+          name: `${data?.agentDetails?.firstName} ${data?.agentDetails?.firstName}`,
+          _id: data?.agentDetails?._id,
+        }
+      : null,
     plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
-    plannedStartTime: new Date(),
+    plannedStartTime:
+      typeof data?.plannedStartDate === 'string'
+        ? new Date(data?.plannedStartDate)
+        : null,
     plannedEndDate: new Date(data?.plannedEndDate ?? todayDate),
-    plannedEndTime: new Date(),
-    plannedEffort: !!data?.plannedEffort?.length ? data?.plannedEffort : '',
-    associatesAssets: !!data?.associatesAsset?.length
-      ? data?.associatesAsset
+    plannedEndTime:
+      typeof data?.plannedEndDate === 'string'
+        ? new Date(data?.plannedEndDate)
+        : null,
+    plannedEffort: data?.plannedEffort ?? '',
+    associatesAssets: !!data?.associateAssets?.length
+      ? data?.associateAssets?.map((asset: any) => ({
+          name: asset?.name ?? asset,
+          _id: asset?._id ?? asset,
+        }))
       : [],
     attachFile: null,
   };
@@ -77,8 +90,9 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
 export const upsertTicketFormFieldsDynamic = (
   apiQueryRequester?: any,
   apiQueryDepartment?: any,
-  apiQueryCategory?: any,
   apiQueryAgent?: any,
+  apiQueryCategory?: any,
+  apiQueryAssociateAsset?: any,
   router?: any,
 ) => [
   {
@@ -89,6 +103,9 @@ export const upsertTicketFormFieldsDynamic = (
       required: true,
       apiQuery: apiQueryRequester,
       EndIcon: AddCircleIcon,
+      externalParams: { limit: 50, role: 'ORG_REQUESTER' },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
       endIconClick: () => {
         router?.push(AIR_SERVICES?.REQUESTERS_SETTINGS);
       },
@@ -121,6 +138,8 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       apiQuery: apiQueryCategory,
       placeholder: 'Choose Category',
+      // externalParams: { limit: 50 },
+      getOptionLabel: (option: any) => option?.categoryName,
     },
     component: RHFAutocompleteAsync,
   },
@@ -153,6 +172,7 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       apiQuery: apiQueryDepartment,
       placeholder: 'Choose Department',
+      // externalParams: { limit: 50, role: 'ORG_REQUESTER' },
     },
     component: RHFAutocompleteAsync,
   },
@@ -183,6 +203,9 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
+      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
   },
@@ -238,7 +261,9 @@ export const upsertTicketFormFieldsDynamic = (
       label: 'Associate Assets',
       fullWidth: true,
       multiple: true,
-      apiQuery: apiQueryDepartment,
+      apiQuery: apiQueryAssociateAsset,
+      externalParams: { limit: 50 },
+      getOptionLabel: (option: any) => option?.displayName,
       placeholder: 'Choose Assets',
     },
     component: RHFAutocompleteAsync,

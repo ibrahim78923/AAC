@@ -13,7 +13,6 @@ export const TicketsListSubHeader = (props: any) => {
     onCustomizeClick,
     onFilterClick,
     ticketsActionDropdown,
-    search,
     setSearch,
     disabledActionButton,
     setTicketsListsActiveColumn,
@@ -34,7 +33,6 @@ export const TicketsListSubHeader = (props: any) => {
         <Search
           label="Search Here"
           width="100%"
-          searchBy={search}
           setSearchBy={setSearch}
           sx={{ minWidth: '260px' }}
         />

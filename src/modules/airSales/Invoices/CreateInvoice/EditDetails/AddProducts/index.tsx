@@ -48,7 +48,7 @@ const AddProducts = (props: any) => {
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        title="Create Products"
+        title="Create Product"
         isOk={true}
         okText="Add"
         cancelText="Cancel"

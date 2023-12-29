@@ -47,7 +47,6 @@ const ProductsTable = () => {
         <Typography variant="h5">Products</Typography>
         <Button
           variant="contained"
-          sx={{ display: 'flex', gap: '10px' }}
           startIcon={<PlusIcon />}
           onClick={() => setIsDrawerOpen(true)}
         >
@@ -61,7 +60,12 @@ const ProductsTable = () => {
         <Grid item xs={12} sm={7} lg={8} xl={9}>
           <TextareaAutosize
             placeholder="Comments"
-            style={{ width: '100%', height: '203px', padding: '16px' }}
+            style={{
+              width: '100%',
+              height: '203px',
+              padding: '16px',
+              fontSize: '14px',
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={5} lg={4} xl={3}>
@@ -181,7 +185,7 @@ const ProductsTable = () => {
       {/* delete modal */}
       {isDeleteModal && (
         <AlertModals
-          message="You're about to delete all record. Detailed records can't be restored after 90 days."
+          message="You're about to delete all record. Deleted records can't be restored after 90 days."
           type="delete"
           open={isDeleteModal}
           handleClose={() => setIsDeleteModal(false)}

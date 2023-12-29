@@ -20,8 +20,8 @@ export const associatesListsData: any = [
 ];
 
 export const ASSETS_IMPACTS = {
-  LOW: 'Low',
-  MEDIUM: 'Medium',
+  LOW: 'low',
+  MEDIUM: 'medium',
 };
 
 export const associatesListsColumnFunction: any = (
@@ -40,8 +40,8 @@ export const associatesListsColumnFunction: any = (
   };
   return [
     {
-      accessorFn: (row: any) => row?.asset,
-      id: 'asset',
+      accessorFn: (row: any) => row?.associateAssetsDetails?.displayName,
+      id: 'associateAssetsDetails.displayName',
       cell: (info: any) => (
         <Typography variant="body4" color={theme?.palette?.custom?.bright}>
           {info?.getValue()}
@@ -51,22 +51,22 @@ export const associatesListsColumnFunction: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.assetType,
-      id: 'assetType',
+      accessorFn: (row: any) => row?.associateAssetsDetails?.assetType,
+      id: 'associateAssetsDetails.assetType',
       isSortable: true,
       header: 'Asset Type',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.usedBy,
-      id: 'usedBy',
+      accessorFn: (row: any) => row?.associateAssetsDetails?.usedBy,
+      id: 'associateAssetsDetails.usedBy',
       isSortable: true,
       header: 'Used By',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.impact,
-      id: 'impact',
+      accessorFn: (row: any) => row?.associateAssetsDetails?.impact,
+      id: 'associateAssetsDetails.impact',
       isSortable: true,
       header: 'Impact',
       cell: (info: any) => {
@@ -88,7 +88,7 @@ export const associatesListsColumnFunction: any = (
       },
     },
     {
-      accessorFn: (row: any) => row?.id,
+      accessorFn: (row: any) => row?.associateAssetsDetails._id,
       id: 'actions',
       cell: () => {
         return (

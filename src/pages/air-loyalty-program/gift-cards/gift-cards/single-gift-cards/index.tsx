@@ -1,5 +1,4 @@
 import Layout from '@/layout';
-
 import { GiftCardsDetails } from '@/modules/airLoyaltyProgram/GiftCards/GiftCardsDetails';
 
 const GiftCardsDetailsPage = () => <GiftCardsDetails />;
