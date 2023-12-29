@@ -28,7 +28,7 @@ const CreateViewCompany = (props: any) => {
         isDrawerOpen={isCreateView}
         onClose={() => {
           reset();
-          setIsCreateView(false);
+          setIsCreateView({ ...isCreateView, createViewDrawer: false });
         }}
         title="Create View"
         submitHandler={handleSubmit(onSubmit)}

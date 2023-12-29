@@ -37,7 +37,7 @@ const ReassignModal = ({ isReassign, setIsReassign }: any) => {
       open={isReassign}
       cancelBtnText="Cancel"
       submitBtnText="Update"
-      handleClose={() => setIsReassign(false)}
+      handleClose={() => setIsReassign({ ...isReassign, reassignModal: false })}
       handleSubmit={function (): void {
         throw new Error('Function not implemented.');
       }}
