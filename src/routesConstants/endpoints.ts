@@ -71,6 +71,7 @@ export const END_POINTS = {
   COMPANY: `/companies`,
   DELETED_COMPANIES: '/companies/deleted',
   COMPANY_PREVIEW: '/companies/get-company-preview',
+  RESTORE_COMPANIES: '/companies/restore-action',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
 };
 

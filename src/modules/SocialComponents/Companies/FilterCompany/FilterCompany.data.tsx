@@ -25,7 +25,6 @@ export const FilterArray = [
       select: true,
     },
     options: [
-      { value: '-', label: '-' },
       { value: 'AirApple Cart', label: 'AirApple Cart' },
       { value: 'PhoenixBaker', label: 'PhoenixBaker' },
       { value: 'Foster App', label: 'Foster App' },
@@ -42,7 +41,6 @@ export const FilterArray = [
       select: true,
     },
     options: [
-      { value: '-', label: '-' },
       { value: 'AirApple Cart', label: 'AirApple Cart' },
       { value: 'PhoenixBaker', label: 'PhoenixBaker' },
       { value: 'Foster App', label: 'Foster App' },
@@ -59,7 +57,6 @@ export const FilterArray = [
       select: true,
     },
     options: [
-      { value: '-', label: '-' },
       { value: 'Savannah Shane', label: 'Savannah Shane' },
       { value: 'April Cruitis', label: 'April Cruitis' },
       { value: 'Cameron Williamson', label: 'Cameron Williamson' },

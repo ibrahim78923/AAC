@@ -74,7 +74,7 @@ const MergeModal = ({ isMerge, setIsMerge }: any) => {
       open={isMerge}
       cancelBtnText="Cancel"
       submitBtnText="Merge"
-      handleClose={() => setIsMerge(false)}
+      handleClose={() => setIsMerge({ ...isMerge, mergeModal: false })}
       handleSubmit={function (): void {
         throw new Error('Function not implemented.');
       }}
