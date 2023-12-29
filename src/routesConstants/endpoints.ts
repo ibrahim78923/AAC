@@ -93,6 +93,7 @@ export const END_POINTS = {
   REQUESTER_LIST: `/requester/requester-list`,
   SERVICES_CATEGORIES: `/service-catalog/get-category-list`,
   DEPARTMENT_LIST: `/Department/department-list`,
+  TICKETS_DETACH_ASSOCIATES_ASSETS: '/ticket/detach-assets',
 };
 
 export const superAdminBillingInvoices = {
