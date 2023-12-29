@@ -32,8 +32,8 @@ export const styles = {
     },
   }),
   groupNumber: (palette: any) => ({
-    p: '10px 18px',
-    borderRadius: 1.5,
+    p: '9px 11px',
+    borderRadius: 1,
     color: palette?.common?.white,
     bgcolor: palette?.blue?.main,
     display: 'flex',
