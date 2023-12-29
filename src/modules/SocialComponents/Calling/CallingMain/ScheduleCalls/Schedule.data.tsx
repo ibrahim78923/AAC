@@ -57,7 +57,7 @@ export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.scheduledBy,
+      accessorFn: (row: any) => row?.scheduledByUsers?.fullName,
       id: 'Scheduled By',
       cell: (info: any) => info?.getValue(),
       header: 'Scheduled By',

@@ -68,7 +68,7 @@ const useScheduleEditorDrawer = ({
           outcome,
           callNotes,
         }: any = editCallValue;
-        const currentDate = new Date().toJSON().slice(0, 10);
+        const currentDate = new Date()?.toJSON()?.slice(0, 10);
 
         return {
           title,
