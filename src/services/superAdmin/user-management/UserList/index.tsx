@@ -82,6 +82,7 @@ export const userListApi = baseAPI.injectEndpoints({
 export const {
   useGetUsersAccountsQuery,
   useGetEmployeeListQuery,
+  useLazyGetEmployeeListQuery,
   useGetUserAccountsByIdQuery,
   usePostUsersAccountMutation,
   usePostCompanyMutation,

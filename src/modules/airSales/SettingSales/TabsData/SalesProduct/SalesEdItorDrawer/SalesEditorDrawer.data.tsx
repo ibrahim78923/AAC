@@ -2,6 +2,7 @@ import {
   RHFDropZone,
   RHFEditor,
   RHFSelect,
+  RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
 
@@ -24,10 +25,9 @@ export const salesProductDefaultValues = {
   purchasePrice: null,
   category: '',
   description: '',
-  // activeProduct: false,
   unitPrice: null,
   fileUrl: '',
-  isActive: true,
+  isActive: false,
   // upload: '',
 };
 
@@ -94,23 +94,6 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'activeProduct',
-      label: 'Active Product',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'all', label: 'All' },
-      { value: 'copyUrl', label: 'Copy URL' },
-      { value: 'createDashboard', label: 'Create Dashboard' },
-      { value: 'updateDashboard', label: 'Update Dashboard' },
-      { value: 'view-dashboard', label: 'View Dashboard' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
       name: 'unitPrice',
       label: 'Unit Price (£)',
       fullWidth: true,
@@ -122,8 +105,17 @@ export const dataArray = [
     md: 12,
   },
   {
+    id: 13,
     componentProps: {
-      name: 'upload',
+      name: 'isActive',
+      label: 'Active Product',
+    },
+    component: RHFSwitch,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'fileUrl',
       label: 'Upload',
       fullWidth: true,
     },
