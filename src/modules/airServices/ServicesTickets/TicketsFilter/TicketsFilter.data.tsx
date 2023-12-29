@@ -51,8 +51,8 @@ export const ticketsFilterFormFieldsDefaultValues = (data?: any) => {
 export const ticketsFilterFormFieldsDataFunction = (
   apiQueryRequester?: any,
   apiQueryDepartment?: any,
-  apiQueryCategory?: any,
   apiQueryAgent?: any,
+  apiQueryCategory?: any,
 ) => [
   {
     id: 1,
@@ -93,6 +93,9 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Agent',
       placeholder: 'Choose Agent',
       apiQuery: apiQueryAgent,
+      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
   },
@@ -104,6 +107,9 @@ export const ticketsFilterFormFieldsDataFunction = (
       fullWidth: true,
       placeholder: 'Choose Requester',
       apiQuery: apiQueryRequester,
+      externalParams: { limit: 50, role: 'ORG_REQUESTER' },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
   },
@@ -148,6 +154,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Category',
       placeholder: 'Choose Category',
       apiQuery: apiQueryCategory,
+      getOptionLabel: (option: any) => option?.categoryName,
     },
     component: RHFAutocompleteAsync,
   },
@@ -166,6 +173,7 @@ export const ticketsFilterFormFieldsDataFunction = (
     componentProps: {
       name: 'plannedStartTime',
       label: '\u00a0\u00a0',
+      fullWidth: true,
     },
     gridLength: 4.5,
     component: RHFTimePicker,

@@ -2,12 +2,31 @@ import Typography from '@mui/material/Typography';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box, Card, Divider, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
-import { activitiesData } from './Activities.data';
 import { ActivitiesDataI } from './Activities.interface';
 import { v4 as uuidv4 } from 'uuid';
+import CustomPagination from '@/components/CustomPagination';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
+import { useActivities } from './useActivities';
+import { PAGINATION } from '@/config';
 
 export const Activities = () => {
   const theme = useTheme();
+
+  const {
+    isLoading,
+    isError,
+    activitiesData,
+    paginationData,
+    pageLimit,
+    page,
+    handlePageChange,
+    setPageLimit,
+    setPage,
+  } = useActivities();
+  if (isLoading) return <SkeletonTable />;
+  if (isError) return <ApiErrorState />;
+
   return (
     <>
       <Typography variant="h5" pb={1.6} color={theme?.palette?.slateBlue?.main}>
@@ -133,6 +152,16 @@ export const Activities = () => {
           </Box>
         ))}
       </Card>
+      <CustomPagination
+        count={paginationData?.pages}
+        totalRecords={paginationData?.total}
+        pageLimit={pageLimit}
+        currentPage={page}
+        rowsPerPageOptions={PAGINATION?.ROWS_PER_PAGE}
+        onPageChange={handlePageChange}
+        setPageLimit={setPageLimit}
+        setPage={setPage}
+      />
     </>
   );
 };

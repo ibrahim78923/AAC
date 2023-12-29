@@ -1,7 +1,7 @@
 import {
+  RHFAutocomplete,
   // RHFAutocompleteAsync,
   RHFDatePicker,
-  RHFSelect,
 } from '@/components/ReactHookForm';
 
 export const productOptions = [
@@ -35,9 +35,9 @@ export const objectOptions = [
 ];
 
 export const defaultValues = {
-  product: '',
-  user: '',
-  object: '',
+  product: null,
+  user: null,
+  object: null,
   createdDate: new Date(),
 };
 
@@ -46,46 +46,51 @@ export const filterFieldsFunction = () =>
   [
     {
       id: 2,
-      component: RHFSelect,
+      component: RHFAutocomplete,
       gridLength: 12,
       componentProps: {
         fullWidth: true,
         name: 'product',
-        label: 'product',
+        label: 'Product',
         select: true,
+        placeholder: 'Product',
         options: productOptions,
       },
     },
     //TODO: Below commented code will be used with integration
-    // {
-    //   id: 920,
-    //   componentProps: {
-    //     name: 'user',
-    //     label: 'user',
-    //     fullWidth: true,
-    //     apiQuery: apiQuerySearch,
-    //   },
-    //   gridLength: 12,
-    //   component: RHFAutocompleteAsync,
-    // },
+    {
+      id: 920,
+      componentProps: {
+        name: 'user',
+        label: 'User',
+        fullWidth: true,
+        placeholder: 'User',
+        // apiQuery: apiQuerySearch,
+        options: [],
+      },
+      gridLength: 12,
+      component: RHFAutocomplete,
+      // component: RHFAutocompleteAsync,
+    },
     {
       id: 920,
       componentProps: {
         fullWidth: true,
         name: 'object',
-        label: 'object',
+        label: 'Object',
         select: true,
         options: objectOptions,
+        placeholder: 'Object',
       },
       gridLength: 12,
-      component: RHFSelect,
+      component: RHFAutocomplete,
     },
     {
       id: 150,
       componentProps: {
         fullWidth: true,
         name: 'createdDate',
-        label: 'created Date',
+        label: 'Created Date',
       },
       gridLength: 12,
       component: RHFDatePicker,

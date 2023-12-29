@@ -35,7 +35,7 @@ const PreviewDrawer = ({ isPreview, setIsPreview, checkedRows }: any) => {
       <CommonDrawer
         isDrawerOpen={isPreview}
         onClose={() => {
-          setIsPreview(false);
+          setIsPreview({ ...isPreview, previewDrawer: false });
         }}
         okText="Apply"
         isOk={true}

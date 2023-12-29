@@ -10,29 +10,66 @@ export const columns: any = (columnsProps: any) => {
   const navigate = useRouter();
   const theme = useTheme();
 
-  const { checkedRows, setCheckedRows } = columnsProps;
+  const { checkedRows, setCheckedRows, companiesData } = columnsProps;
 
-  const handleCheckboxChange = (val: any, rowId: string) => {
-    val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
+  // const handleCheckboxChange = (val: any, rowId: string) => {
+  //   val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
+  // };
+  const handleSelectCompaniesById = (checked: boolean, id: string): void => {
+    if (checked) {
+      setCheckedRows([...checkedRows, id]);
+    } else {
+      setCheckedRows(checkedRows?.filter((_id: any) => _id !== id));
+    }
+  };
+
+  const handleSelectAllCompanies = (checked: boolean): void => {
+    setCheckedRows(
+      checked ? companiesData?.data?.companies?.map(({ _id }: any) => _id) : [],
+    );
   };
 
   return [
     {
-      accessorFn: (row: any) => row?.Id,
+      accessorFn: (row: any) => row?._id,
       id: 'Id',
-      cell: (info: any) => (
+      cell: ({ row: { original } }: any) => (
         <Checkbox
-          color="primary"
-          name={info?.getValue()}
-          defaultChecked={checkedRows === info?.row?.original?._id}
-          onChange={(e: any) =>
-            handleCheckboxChange(e, info?.row?.original?._id)
+          checked={checkedRows?.includes(original?._id)}
+          onChange={({ target }) => {
+            handleSelectCompaniesById(target.checked, original?._id);
+          }}
+        />
+      ),
+      header: (
+        <Checkbox
+          onChange={({ target }) => {
+            handleSelectAllCompanies(target.checked);
+          }}
+          checked={
+            companiesData?.data?.companies?.length &&
+            checkedRows?.length === companiesData?.data?.companies?.length
           }
         />
       ),
-      header: <Checkbox color="primary" name="Id" />,
       isSortable: false,
     },
+    // {
+    //   accessorFn: (row: any) => row?.Id,
+    //   id: 'Id',
+    //   cell: (info: any) => (
+    //     <Checkbox
+    //       color="primary"
+    //       name={info?.getValue()}
+    //       defaultChecked={checkedRows === info?.row?.original?._id}
+    //       onChange={(e: any) =>
+    //         handleCheckboxChange(e, info?.row?.original?._id)
+    //       }
+    //     />
+    //   ),
+    //   header: <Checkbox color="primary" name="Id" />,
+    //   isSortable: false,
+    // },
     {
       accessorFn: (row: any) => row?.owner,
       id: 'owner',

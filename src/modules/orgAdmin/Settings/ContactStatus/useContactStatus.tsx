@@ -93,7 +93,7 @@ const useContactStatus = () => {
       ...data,
     };
     try {
-      if (editData) {
+      if (Object?.keys(editData)[0]) {
         await updateContactStatus({
           body: settingContactStatus,
           id: editData?._id,

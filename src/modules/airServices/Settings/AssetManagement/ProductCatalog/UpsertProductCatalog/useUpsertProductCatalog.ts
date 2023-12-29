@@ -8,7 +8,7 @@ import {
   upsertProductCatalogValidationSchema,
 } from './UpsertProductCatalog.data';
 import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { MODE_OF_PROCUREMENT, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
 import {
   useGetProductCatalogByIdQuery,
@@ -17,7 +17,7 @@ import {
   usePostProductCatalogMutation,
 } from '@/services/airServices/settings/asset-management/product-catalog';
 import { useEffect } from 'react';
-
+//TODO: will need to fix data body after integration issue fix.
 export const useUpsertProductCatalog = () => {
   const router = useRouter();
   const { productCatalogId } = router?.query;
@@ -55,6 +55,10 @@ export const useUpsertProductCatalog = () => {
     const body = {
       ...data,
       assetType: data?.assetType?._id,
+      manufacturer: !!data?.manufacturer ? data?.manufacturer : '--',
+      modeOfProcurement: !!data?.modeOfProcurement
+        ? data?.modeOfProcurement
+        : MODE_OF_PROCUREMENT?.BUY,
     };
     if (!!productCatalogId) {
       submitUpdateProductCatalog(body);
@@ -76,8 +80,8 @@ export const useUpsertProductCatalog = () => {
       );
       moveBack?.();
       reset();
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
@@ -102,8 +106,8 @@ export const useUpsertProductCatalog = () => {
       );
       moveBack?.();
       reset();
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
