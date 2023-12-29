@@ -15,7 +15,6 @@ import {
   useGetDealsPipelineQuery,
   usePostDealsPipelineMutation,
 } from '@/services/airSales/deals/settings/deals-pipeline';
-import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
@@ -41,8 +40,7 @@ const useDealPipelines = () => {
 
   const { data, isLoading } = useGetDealsPipelineQuery({
     query,
-    page: PAGINATION?.CURRENT_PAGE,
-    pageLimit: PAGINATION?.PAGE_LIMIT,
+    meta: false,
   });
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

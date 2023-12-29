@@ -121,7 +121,12 @@ export const AIR_CUSTOMER_PORTAL_TICKET = {
   PROCESSING: 'Processing',
 };
 
-export const NOTISTACK_VARIANTS: any = {
+export const NOTISTACK_VARIANTS: {
+  SUCCESS: 'success';
+  ERROR: 'error';
+  WARNING: 'warning';
+  INFO: 'info';
+} = {
   SUCCESS: 'success',
   ERROR: 'error',
   WARNING: 'warning',
@@ -288,4 +293,15 @@ export const ACTIONS_TYPES = {
   DELETE: 'delete',
   EDIT: 'edit',
   CLONE: 'clone',
+};
+
+export enum ROLES {
+  ORG_REQUESTER = 'ORG_REQUESTER',
+  ORG_AGENT = 'ORG_AGENT',
+}
+
+export const TICKETS_STATE = {
+  NEW: 'New',
+  RESPONSE_DUE: 'Response due',
+  OVERDUE: 'Overdue',
 };

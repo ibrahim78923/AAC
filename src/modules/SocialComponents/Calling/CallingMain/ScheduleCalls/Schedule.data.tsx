@@ -2,12 +2,22 @@ import { DATE_FORMAT } from '@/constants';
 import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 
-export const columns = () => {
+export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
   return [
     {
-      accessorFn: (row: any) => row?.id,
-      id: 'id',
-      cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
+      accessorFn: (row: any) => row?.Id,
+      id: 'Id',
+      cell: (info: any) => (
+        <Checkbox
+          color="primary"
+          name={'name'}
+          onChange={(event) => handleCheckboxChange(event, info?.row?.original)}
+          checked={selectedCheckboxes?.some(
+            (selectedItem: any) =>
+              selectedItem?._id === info?.row?.original?._id,
+          )}
+        />
+      ),
       header: <Checkbox color="primary" name="Id" />,
       isSortable: false,
     },
@@ -40,14 +50,14 @@ export const columns = () => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.dealId,
+      accessorFn: (row: any) => row?.deals?.name,
       id: 'linkedDeals',
       cell: (info: any) => info?.getValue(),
       header: 'Linked Deals',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.scheduledBy,
+      accessorFn: (row: any) => row?.scheduledByUsers?.fullName,
       id: 'Scheduled By',
       cell: (info: any) => info?.getValue(),
       header: 'Scheduled By',

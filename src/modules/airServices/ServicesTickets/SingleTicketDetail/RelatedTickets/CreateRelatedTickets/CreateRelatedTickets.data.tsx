@@ -1,8 +1,8 @@
 import {
+  RHFAutocomplete,
   RHFDatePicker,
   RHFDropZone,
   RHFEditor,
-  RHFSelect,
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
@@ -11,16 +11,16 @@ import { InputAdornment } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export const createTicketValidationSchema: any = Yup?.object()?.shape({
-  requester: Yup?.string()?.required('Field is Required'),
-  subject: Yup?.string()?.trim()?.required('Field is Required'),
+  requester: Yup?.mixed()?.nullable()?.required('Required'),
+  subject: Yup?.string()?.trim()?.required('Required'),
   description: Yup?.string(),
-  category: Yup?.string(),
-  status: Yup?.string()?.required('Field is Required'),
-  priority: Yup?.string()?.required('Field is Required'),
-  department: Yup?.string(),
+  category: Yup?.mixed()?.nullable(),
+  status: Yup?.string()?.required('Required'),
+  priority: Yup?.string()?.required('Required'),
+  department: Yup?.mixed()?.nullable(),
   source: Yup?.string(),
   impact: Yup?.string(),
-  agent: Yup?.string(),
+  agent: Yup?.mixed()?.nullable(),
   plannedStartDate: Yup?.date(),
   plannedStartTime: Yup?.date(),
   plannedEndDate: Yup?.date(),
@@ -31,16 +31,16 @@ export const createTicketValidationSchema: any = Yup?.object()?.shape({
 });
 
 export const createTicketDefaultValues: any = {
-  requester: '', //01
+  requester: null, //01
   subject: '', //2
   description: '', //3
-  category: '', //4
+  category: null, //4
   status: '', //5
   priority: '', //6
-  department: '', //7
+  department: null, //7
   source: '', //8
   impact: '', //9
-  agent: '', //10
+  agent: null, //10
   plannedStartDate: new Date(), //11
   plannedStartTime: new Date(), //12
   plannedEndDate: new Date(), //13
@@ -50,25 +50,38 @@ export const createTicketDefaultValues: any = {
   attachFile: null, //16
 };
 
-export const createTicketDataArray = [
+export const createTicketDataArrayFunction = (
+  requesterList: any = [],
+  agentList: any = [],
+  // serviceCategoriesList: any = [],
+  departmentList: any = [],
+) => [
+  // Todo: will be letter use with requester dropdown api
+  // {
+  //   id: 2,
+  //   componentProps: {
+  //     name: 'requester',
+  //     label: 'Requester',
+  //     placeholder: 'Requester',
+  //     fullWidth: true,
+  //     required: true,
+  //     apiQuery: requesterQuery,
+  //     externalParams: { role: ROLES?.ORG_REQUESTER, limit: 50 },
+  //   },
+  //   component: RHFAutocompleteAsync,
+  // },
   {
+    id: 2,
     componentProps: {
       name: 'requester',
       label: 'Requester',
+      placeholder: 'Requester',
       fullWidth: true,
-      select: false,
       required: true,
-      InputProps: {
-        endAdornment: (
-          <InputAdornment position="end">
-            <AddCircleIcon color={'secondary'} />
-          </InputAdornment>
-        ),
-      },
+      options: requesterList,
+      getOptionLabel: (option: any) => option?.label,
     },
-    options: [{ value: 'BE', label: 'BE' }],
-    component: RHFTextField,
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
     componentProps: {
@@ -90,156 +103,93 @@ export const createTicketDataArray = [
     md: 12,
   },
   {
+    id: 1233452,
     componentProps: {
       name: 'category',
       label: 'Category',
+      placeholder: 'Category',
       fullWidth: true,
-      select: true,
+      options: [
+        'HARDWARE',
+        'SOFTWARE',
+        'NETWORK',
+        'OFFICE_APPLICATION',
+        'OFFICE_FURNITURE',
+      ],
+      // options: serviceCategoriesList,
+      // getOptionLabel: (option: any) => option?.label,
     },
-    options: [
-      { value: 'Hardware', label: 'Hardware' },
-      { value: 'Hardware', label: 'Hardware' },
-      { value: 'Sofware', label: 'Sofware' },
-      { value: 'Network', label: 'Network' },
-      { value: 'Office Application', label: 'Office Application' },
-      { value: 'Office Furniture', label: 'Office Furniture' },
-      { value: 'Office Equipment', label: 'Office Equipment' },
-      { value: 'Employee Benefits', label: 'Employee Benefits' },
-      {
-        value: 'Employee Records and Documents',
-        label: 'Employee Records and Documents',
-      },
-      {
-        value: 'Employee Onboarding/Offboarding',
-        label: 'Employee Onboarding/Offboarding',
-      },
-      { value: 'Talent Management', label: 'Talent Management' },
-      { value: 'Employees Relations', label: 'Employees Relations' },
-      {
-        value: 'Workplace Access and Security',
-        label: 'Workplace Access and Security',
-      },
-      { value: 'Travel', label: 'Travel' },
-      {
-        value: 'Building and Ground Maintenance',
-        label: 'Building and Ground Maintenance',
-      },
-      { value: 'Vendor Document Review', label: 'Vendor Document Review' },
-      { value: 'Payroll', label: 'Payroll' },
-      { value: 'Vendor Payment', label: 'Vendor Payment' },
-      { value: 'Customer Payment', label: 'Customer Payment' },
-      {
-        value: 'Reimbursement and Advances',
-        label: 'Reimbursement and Advances',
-      },
-      { value: 'Legal Document Creation', label: 'Legal Document Creation' },
-      {
-        value: 'Legal Review-Vendor Documents',
-        label: 'Legal Review-Vendor Documents',
-      },
-      {
-        value: 'Legal Review-Customer Documents',
-        label: 'Legal Review-Customer Documents',
-      },
-      { value: 'Other', label: 'Other' },
-    ],
-    component: RHFSelect,
-
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
+    id: 1352,
     componentProps: {
       name: 'status',
       label: 'Status',
-      fullWidth: true,
-      select: true,
+      placeholder: 'Status',
       required: true,
+      fullWidth: true,
+      options: ['OPEN', 'CLOSE', 'PENDING', 'RESOLVED'],
     },
-    options: [
-      { value: 'Open', label: 'Open' },
-      { value: 'Close', label: 'Close' },
-      { value: 'Pending', label: 'Pending' },
-      { value: 'Resolved', label: 'Resolved' },
-    ],
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
+    id: 1353742,
     componentProps: {
       name: 'priority',
       label: 'Priority',
-      fullWidth: true,
-      select: true,
+      placeholder: 'Priority',
       required: true,
+      fullWidth: true,
+      options: ['LOW', 'MEDIUM', 'HIGH', 'URGENT'],
     },
-    options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-      { value: 'Urgent', label: 'Urgent' },
-    ],
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
+    id: 1233242,
     componentProps: {
       name: 'department',
       label: 'Department',
+      placeholder: 'Department',
       fullWidth: true,
-      select: true,
+      options: departmentList,
+      getOptionLabel: (option: any) => option?.label,
     },
-    options: [
-      { value: 'IT', label: 'IT' },
-      { value: 'HR', label: 'HR' },
-      { value: 'Finance', label: 'Finance' },
-    ],
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
+    id: 13542,
     componentProps: {
       name: 'source',
       label: 'Source',
+      placeholder: 'Source',
       fullWidth: true,
-      select: true,
+      options: ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'],
     },
-    options: [
-      { value: 'Phone', label: 'Phone' },
-      { value: 'Email', label: 'Email' },
-      { value: 'Portal', label: 'Portal' },
-      { value: 'Chat', label: 'Chat' },
-    ],
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
+    id: 13542,
     componentProps: {
       name: 'impact',
       label: 'Impact',
+      placeholder: 'Impact',
       fullWidth: true,
-      select: true,
+      options: ['LOW', 'MEDIUM', 'HIGH'],
     },
-    options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-    ],
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
+    id: 1232,
     componentProps: {
       name: 'agent',
       label: 'Agent',
+      placeholder: 'agent',
       fullWidth: true,
-      select: true,
+      options: agentList,
+      getOptionLabel: (option: any) => option?.label,
     },
-    options: [
-      { value: 'Andrew Schulz', label: 'Andrew Schulz' },
-      { value: 'Ryan Miler', label: 'Ryan Miler' },
-    ],
-    component: RHFSelect,
-    md: 12,
+    component: RHFAutocomplete,
   },
   {
     componentProps: {

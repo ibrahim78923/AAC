@@ -30,8 +30,8 @@ export const Filter = () => {
         <CommonDrawer
           isDrawerOpen={isDrawerOpen}
           onClose={resetFilterForm}
-          okText={'filter'}
-          title={'Filter'}
+          okText={'Apply'}
+          title={'Filters'}
           submitHandler={submitFilterForm}
           isOk={true}
           cancelText={'Reset'}
