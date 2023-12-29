@@ -69,6 +69,7 @@ export const END_POINTS = {
   POST_COMPANY_ACCOUNT: '/org-company-account',
   VENDOR_DETAIL_OVERVIEW: '/vendors/get-vendor',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
+  DEPARTMENT: '/department',
   DROPDOWN_DEPARTMENT: `/Department/department-list`,
   TICKETS_ASSOCIATES_ASSETS: '/ticket/associate-assets',
   DROPDOWN_VENDORS_LIST: `/vendors/get-vendors`,
