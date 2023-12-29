@@ -65,37 +65,39 @@ export const useCreateRelatedTickets = (setIsDrawerOpen: any, data?: any) => {
   );
 
   const submit = async (values: any) => {
-    const formData = new FormData();
-    if (data) {
-      enqueueSnackbar(`Something went wrong!`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-    } else {
-      const payload = {
-        requester: values?.requester?.value,
-        agent: values?.agent?.value,
-        moduleType: 'TICKETS',
-        ticketType: 'INC',
-        status: values?.status,
-        subject: values?.subject,
-        pirority: values?.priority,
-        impact: values?.impact,
-        category: values?.category,
-        // category: values?.category?.value,
-        fileUrl: values?.attachFile,
-        description: values?.description,
-        department: values?.department?.value,
-        source: values?.source,
-        plannedEndDate: dayjs(values?.plannedEndDate)?.format(DATE_FORMAT?.API),
-        plannedEffort: values?.plannedEffort,
-        // associateAssets: [values?.associateAssets] ?? [],
-      };
-      Object?.entries(payload)?.map(
-        ([key, value]: any) => formData?.append(key, value),
-      );
-    }
-
     try {
+      const formData = new FormData();
+      if (!!!data) {
+        enqueueSnackbar(`Something went wrong!`, {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        });
+      } else {
+        const payload = {
+          requester: values?.requester?.value,
+          agent: values?.agent?.value,
+          moduleType: 'TICKETS',
+          ticketType: 'INC',
+          status: values?.status,
+          subject: values?.subject,
+          pirority: values?.priority,
+          impact: values?.impact,
+          category: values?.category,
+          // category: values?.category?.value,
+          fileUrl: values?.attachFile,
+          description: values?.description,
+          department: values?.department?.value,
+          source: values?.source,
+          plannedEndDate: dayjs(values?.plannedEndDate)?.format(
+            DATE_FORMAT?.API,
+          ),
+          plannedEffort: values?.plannedEffort,
+          // associateAssets: [values?.associateAssets] ?? [],
+        };
+        Object?.entries(payload)?.map(
+          ([key, value]: any) => value && formData?.append(key, value),
+        );
+      }
+
       await addChildTickets({ id, body: formData })?.unwrap();
       enqueueSnackbar(`child ticket successfully`, {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
