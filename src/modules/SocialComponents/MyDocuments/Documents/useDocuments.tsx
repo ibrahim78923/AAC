@@ -56,7 +56,7 @@ const useDocuments: any = () => {
           id: item,
           body: {
             parentFolderId: selectedItemId,
-            name: data?.data?.folders?.find((item2: any) => item2?._id == item)
+            name: data?.data?.folders.find((item2: any) => item2?._id == item)
               .name,
           },
         }).unwrap();
