@@ -28,8 +28,21 @@ export const dropdownsAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => transformResponse(response),
       providesTags: [TAG],
     }),
+
+    getFolders: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_FOLDERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => transformResponse(response),
+      providesTags: [TAG],
+    }),
   }),
 });
 
-export const { useLazyGetOrganizationsQuery, useLazyGetProductsQuery } =
-  dropdownsAPI;
+export const {
+  useLazyGetOrganizationsQuery,
+  useLazyGetProductsQuery,
+  useLazyGetFoldersQuery,
+} = dropdownsAPI;

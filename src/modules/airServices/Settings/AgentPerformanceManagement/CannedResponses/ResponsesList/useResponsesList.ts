@@ -50,7 +50,7 @@ export const useResponsesList = () => {
   };
   useEffect(() => {
     getResponsesListListData();
-  }, [search, page, pageLimit]);
+  }, [search, page, pageLimit, cannedResponseId]);
   const handleActionClick = (ActionType: string) => {
     // open delete modal on selected action type
     if (ActionType === CANNED_RESPONSES?.DELETE) {

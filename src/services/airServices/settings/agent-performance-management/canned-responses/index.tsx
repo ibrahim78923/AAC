@@ -46,6 +46,22 @@ export const cannedResponsesAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG1],
     }),
+    moveResponses: builder?.mutation({
+      query: (moveResponsesParameter: any) => ({
+        url: `${END_POINTS?.MOVE_RESPONSES}`,
+        method: 'PATCH',
+        body: moveResponsesParameter?.body,
+      }),
+      invalidatesTags: [TAG1],
+    }),
+    deleteResponses: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.DELETE_RESPONSES}`,
+        method: 'DELETE',
+        params: apiDataParameter?.queryParams,
+      }),
+      invalidatesTags: [TAG1],
+    }),
   }),
 });
 
@@ -56,4 +72,6 @@ export const {
   usePostCannedResponsesMutation,
   usePostResponseMutation,
   usePatchResponseMutation,
+  useMoveResponsesMutation,
+  useDeleteResponsesMutation,
 } = cannedResponsesAPI;

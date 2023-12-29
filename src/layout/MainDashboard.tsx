@@ -100,7 +100,7 @@ const DashboardLayout = ({ children, window }: any) => {
   const lowerRoutes = getLowerRoutes(findEmailRole);
   const pathname = usePathname();
 
-  const routerPathName = pathname.split('/')[2] ?? pathname.split('/')[1];
+  const routerPathName = pathname?.split('/')[2] ?? pathname?.split('/')[1];
 
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [dropDownOpen, setDropDownOpen] = useState<any>({});

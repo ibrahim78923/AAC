@@ -127,10 +127,13 @@ export const ResponsesList = () => {
         deleteModal={deleteModal}
         setDeleteModal={setDeleteModal}
         setSelectedData={setSelectedData}
+        selectedData={selectedData}
       />
       <MoveFolderModal
         openMoveFolderModal={openMoveFolderModal}
         closeMoveFolderModal={() => setOpenMoveFolderModal(false)}
+        setSelectedData={setSelectedData}
+        selectedData={selectedData}
       />
     </>
   );
