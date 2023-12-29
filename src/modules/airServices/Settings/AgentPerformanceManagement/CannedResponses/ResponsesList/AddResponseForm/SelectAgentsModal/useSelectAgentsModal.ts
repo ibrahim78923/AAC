@@ -6,10 +6,12 @@ import {
   selectAgentSchema,
 } from './SelectAgentsModal.data';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useLazyGetAgentDropdownQuery } from '@/services/airServices/tickets';
 
 export const useSelectAgentsModal = (props: any) => {
   const { openSelectAgentsModal, closeSelectAgentsModal, setAgentsResponses } =
     props;
+  const apiQueryAgents = useLazyGetAgentDropdownQuery();
   const method = useForm({
     defaultValues: selectAgentDefaultValues,
     resolver: yupResolver(selectAgentSchema),
@@ -29,5 +31,6 @@ export const useSelectAgentsModal = (props: any) => {
     agents,
     openSelectAgentsModal,
     closeSelectAgentsModal,
+    apiQueryAgents,
   };
 };

@@ -62,6 +62,7 @@ export const END_POINTS = {
   MOVE_RESPONSES: '/canned-responses/move-responses',
   DELETE_RESPONSES: '/canned-responses/delete-responses',
   DROPDOWN_FOLDERS: '/dropdown/folders',
+  AGENTS_DROPDOWN: '/dropdown/agents',
   PRODUCT_CATALOG_LIST: '/product-catalog/list',
   PRODUCT_CATALOG: '/product-catalog',
   EDIT_PRODUCT_CATALOG: '/product-catalog/edit-product-catalog',
