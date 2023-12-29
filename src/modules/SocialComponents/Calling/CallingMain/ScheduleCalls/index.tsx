@@ -36,7 +36,8 @@ const ScheduleCalls = () => {
     handleCheckboxChange,
     selectedCheckboxes,
     deleteCallsHandler,
-  } = useScheduleCalls();
+    setSelectedCheckboxes,
+  } = useScheduleCalls({ callingSearch, setIsDeleteModalOpen });
   const getColumns = columns({ handleCheckboxChange, selectedCheckboxes });
 
   return (
@@ -44,9 +45,8 @@ const ScheduleCalls = () => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
+          flexDirection: { xs: 'column', sm: 'row' },
           gap: '10px',
-          alignItems: 'center',
           justifyContent: 'space-between',
           px: '24px',
           pb: '10px',
@@ -56,9 +56,7 @@ const ScheduleCalls = () => {
           label={'Search here'}
           searchBy={callingSearch}
           setSearchBy={setCallingSearch}
-          size="small"
         />
-
         <Button
           id="basic-button"
           aria-controls={actionMenuOpenAction ? 'basic-menu' : undefined}
@@ -72,6 +70,7 @@ const ScheduleCalls = () => {
               width: '100%',
             },
           }}
+          disabled={selectedCheckboxes?.length === 0}
         >
           Actions &nbsp; <DownIcon />
         </Button>
@@ -88,6 +87,7 @@ const ScheduleCalls = () => {
             onClick={() => {
               setOpenDrawer('Edit'), handleCloseAction;
             }}
+            disabled={selectedCheckboxes?.length > 1}
           >
             Edit
           </MenuItem>
@@ -120,13 +120,14 @@ const ScheduleCalls = () => {
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
           selectedCheckboxes={selectedCheckboxes}
+          setSelectedCheckboxes={setSelectedCheckboxes}
         />
       )}
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
         type="delete"
         open={isDeleteModalOpen}
-        handleCloseBtn={() => setIsDeleteModalOpen(false)}
+        handleClose={() => setIsDeleteModalOpen(false)}
         handleSubmitBtn={deleteCallsHandler}
       />
     </>

@@ -50,7 +50,7 @@ export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.dealId,
+      accessorFn: (row: any) => row?.deals?.name,
       id: 'linkedDeals',
       cell: (info: any) => info?.getValue(),
       header: 'Linked Deals',

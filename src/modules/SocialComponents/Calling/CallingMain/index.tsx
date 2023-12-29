@@ -19,7 +19,7 @@ import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import ScheduleCalls from './ScheduleCalls';
 import ScheduleEditorDrawer from './ScheduleCallDrawer';
 
-const CallsTabsData = ['Calls', 'Schedule Calls'];
+const CallsTabsData = ['Schedule Calls', 'Call logs'];
 
 const CallingMain = ({ setAddaNumber }: any) => {
   const {
@@ -60,7 +60,7 @@ const CallingMain = ({ setAddaNumber }: any) => {
             sx={{
               display: 'flex',
               gap: '10px',
-              flexDirection: { xs: 'column', md: 'row' },
+              flexDirection: { xs: 'column', sm: 'row' },
               '@media(max-width: 500px)': {
                 width: '100%',
               },

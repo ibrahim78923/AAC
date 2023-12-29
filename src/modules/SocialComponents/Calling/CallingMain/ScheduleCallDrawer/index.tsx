@@ -22,14 +22,24 @@ import { options } from '@/modules/airSales/Contacts/ViewDetails/Emails/EmailEdi
 import useScheduleEditorDrawer from './useScheduleEditorDrawer';
 
 const ScheduleEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, selectedCheckboxes } = props;
+  const {
+    openDrawer,
+    setOpenDrawer,
+    selectedCheckboxes,
+    setSelectedCheckboxes,
+  } = props;
   const {
     handleSubmit,
     onSubmit,
     methodsdealsCalls,
     EmployeeData,
     DealsListData,
-  } = useScheduleEditorDrawer({ selectedCheckboxes, openDrawer });
+  } = useScheduleEditorDrawer({
+    selectedCheckboxes,
+    openDrawer,
+    setOpenDrawer,
+    setSelectedCheckboxes,
+  });
 
   return (
     <div>

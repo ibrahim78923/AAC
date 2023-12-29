@@ -6,13 +6,17 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
-const useScheduleCalls = () => {
+const useScheduleCalls = ({ callingSearch, setIsDeleteModalOpen }: any) => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [deleteCalls] = useDeleteCallsMutation();
+  const paramsObj: any = {};
+  if (callingSearch) paramsObj['search'] = callingSearch;
+  const query = '&' + new URLSearchParams(paramsObj)?.toString();
   const { data: Calls, isLoading } = useGetCallsQuery({
     page,
     pageLimit,
+    query,
   });
 
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
@@ -27,6 +31,8 @@ const useScheduleCalls = () => {
     try {
       await deleteCalls({ id: selectedCheckboxesId })?.unwrap();
       enqueueSnackbar('Record Deleted Successfully', { variant: 'success' });
+      setIsDeleteModalOpen(false);
+      setSelectedCheckboxes([]);
     } catch (error) {
       const errMsg = error?.data?.message;
       enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
@@ -56,6 +62,7 @@ const useScheduleCalls = () => {
     isLoading,
     selectedCheckboxes,
     handleCheckboxChange,
+    setSelectedCheckboxes,
     deleteCallsHandler,
   };
 };

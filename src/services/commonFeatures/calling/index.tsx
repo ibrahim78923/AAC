@@ -4,8 +4,8 @@ import { baseAPI } from '@/services/base-api';
 export const exampleExampleAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getCalls: builder?.query({
-      query: ({ page, pageLimit }: any) => ({
-        url: `${END_POINTS?.CALLS}?page=${page}&limit=${pageLimit}`,
+      query: ({ page, pageLimit, query }: any) => ({
+        url: `${END_POINTS?.CALLS}?page=${page}&limit=${pageLimit}${query}`,
         method: 'GET',
       }),
       providesTags: ['CALLS'],
@@ -19,8 +19,8 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['CALLS'],
     }),
     updateCalls: builder?.mutation({
-      query: ({ body, contactId }: any) => ({
-        url: `${END_POINTS?.CALLS}/${contactId}`,
+      query: ({ body, id }: any) => ({
+        url: `${END_POINTS?.CALLS}/${id}`,
         method: 'PATCH',
         body: body,
       }),

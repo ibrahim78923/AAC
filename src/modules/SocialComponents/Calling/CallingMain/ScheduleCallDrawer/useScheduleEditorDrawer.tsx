@@ -3,7 +3,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { getSession } from '@/utils';
 import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
-import { usePostCallsMutation } from '@/services/commonFeatures/calling';
+import {
+  usePostCallsMutation,
+  useUpdateCallsMutation,
+} from '@/services/commonFeatures/calling';
 import {
   dealsCallsDefaultValues,
   dealsCallsValidationSchema,
@@ -15,7 +18,12 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useGetDealsListQuery } from '@/services/airSales/deals';
 
-const useScheduleEditorDrawer = ({ selectedCheckboxes, openDrawer }: any) => {
+const useScheduleEditorDrawer = ({
+  selectedCheckboxes,
+  openDrawer,
+  setOpenDrawer,
+  setSelectedCheckboxes,
+}: any) => {
   const { user } = getSession();
   const { data: deals } = useGetDealsListQuery({});
   const editCallValue = selectedCheckboxes && selectedCheckboxes[0];
@@ -26,6 +34,7 @@ const useScheduleEditorDrawer = ({ selectedCheckboxes, openDrawer }: any) => {
   const { data: ContactListData } = useGetContactsQuery({});
 
   const [postCalls] = usePostCallsMutation();
+  const [updateCalls] = useUpdateCallsMutation();
 
   const EmployeeList = ContactListData?.data?.contacts?.concat(
     employeeList?.data?.users,
@@ -44,41 +53,45 @@ const useScheduleEditorDrawer = ({ selectedCheckboxes, openDrawer }: any) => {
     resolver: yupResolver(dealsCallsValidationSchema),
 
     defaultValues: async () => {
-      if (editCallValue && openDrawer !== 'Add') {
+      if (editCallValue && openDrawer === 'Edit') {
         const {
           title,
           status,
           callFromDate,
-          // callFromTime,
+          callFromTime,
           callToDate,
-          // callToTime,
+          callToTime,
           dealId,
           callType,
           setReminder,
           attendees,
           outcome,
           callNotes,
-          scheduledBy,
         }: any = editCallValue;
+        const currentDate = new Date().toJSON().slice(0, 10);
+
         return {
           title,
           status,
           callFromDate: new Date(callFromDate),
-          // callFromTime,
+          callFromTime: new Date(`${currentDate} ${callFromTime}`),
           callToDate: new Date(callToDate),
-          // callToTime,
+          callToTime: new Date(`${currentDate} ${callToTime}`),
           dealId,
           callType,
           setReminder,
           attendees,
           outcome,
           callNotes,
-          scheduledBy,
         };
       }
       return dealsCallsDefaultValues;
     },
   });
+  const onClose = () => {
+    setOpenDrawer('');
+    openDrawer === 'Edit' && setSelectedCheckboxes([]);
+  };
 
   const onSubmit = async (values: any) => {
     const { callToDate, callToTime, callFromTime, callFromDate, ...rest } =
@@ -92,13 +105,21 @@ const useScheduleEditorDrawer = ({ selectedCheckboxes, openDrawer }: any) => {
     };
 
     try {
-      await postCalls({
-        body: payload,
-      })?.unwrap();
-
-      enqueueSnackbar(`Call Schedule Successfully`, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      openDrawer === 'Edit'
+        ? await updateCalls({
+            body: payload,
+            id: editCallValue?._id,
+          })?.unwrap()
+        : await postCalls({ body: payload })?.unwrap();
+      enqueueSnackbar(
+        `Call Schedule ${
+          openDrawer === 'Edit' ? 'Updated' : 'Added '
+        } Successfully`,
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
+      onClose();
     } catch (error) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
