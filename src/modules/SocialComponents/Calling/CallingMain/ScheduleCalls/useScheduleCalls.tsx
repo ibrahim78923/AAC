@@ -1,4 +1,5 @@
 import { PAGINATION } from '@/config';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useDeleteCallsMutation,
   useGetCallsQuery,
@@ -30,12 +31,16 @@ const useScheduleCalls = ({ callingSearch, setIsDeleteModalOpen }: any) => {
   const deleteCallsHandler = async () => {
     try {
       await deleteCalls({ id: selectedCheckboxesId })?.unwrap();
-      enqueueSnackbar('Record Deleted Successfully', { variant: 'success' });
+      enqueueSnackbar('Record Deleted Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
       setIsDeleteModalOpen(false);
       setSelectedCheckboxes([]);
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      enqueueSnackbar(errMsg ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 
