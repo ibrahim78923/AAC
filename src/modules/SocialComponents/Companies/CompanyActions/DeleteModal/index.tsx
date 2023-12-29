@@ -1,8 +1,10 @@
 import React from 'react';
 
 import { AlertModals } from '@/components/AlertModals';
+import useCompanies from '../../useCompanies';
 
 const DeleteModal = ({ isDeleteCompany, setIsDeleteCompany }: any) => {
+  const { deleteCompanies } = useCompanies();
   return (
     <>
       <AlertModals
@@ -13,8 +15,8 @@ const DeleteModal = ({ isDeleteCompany, setIsDeleteCompany }: any) => {
         submitBtnText="OK, Delete"
         open={isDeleteCompany}
         handleClose={() => setIsDeleteCompany(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
+        handleSubmitBtn={() => {
+          deleteCompanies({});
         }}
       />
     </>

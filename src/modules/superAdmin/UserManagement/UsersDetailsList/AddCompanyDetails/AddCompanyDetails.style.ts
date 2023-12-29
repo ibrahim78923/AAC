@@ -8,6 +8,7 @@ export const styles = {
         '.MuiFormControlLabel-root': {
           display: 'flex',
           flexDirection: 'column',
+          textAlign: 'center',
           position: 'relative',
           '.MuiButtonBase-root': {
             position: 'absolute',

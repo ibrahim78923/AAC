@@ -34,8 +34,12 @@ const useUserManagement = () => {
     organization: '',
     createdDate: '',
   });
+  const [datePickerVal, setDatePickerVal] = useState(new Date());
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const initialTab = 0;
+  const tabOne = 1;
+  const tabTwo = 2;
 
   // imports users API's
   const {
@@ -124,6 +128,11 @@ const useUserManagement = () => {
     page,
     setPage,
     organizations,
+    initialTab,
+    tabTwo,
+    tabOne,
+    datePickerVal,
+    setDatePickerVal,
   };
 };
 

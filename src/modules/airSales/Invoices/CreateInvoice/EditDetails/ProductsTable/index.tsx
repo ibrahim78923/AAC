@@ -35,10 +35,9 @@ const ProductsTable = () => {
   const theme = useTheme();
   const { isDeleteModal, setIsDeleteModal, isDrawerOpen, setIsDrawerOpen } =
     useInvoices();
-  const getTableColumns = productsTableColumns(
-    setIsDeleteModal,
-    setIsDrawerOpen,
-  );
+  const getTableColumns = productsTableColumns();
+  // setIsDeleteModal,
+  // setIsDrawerOpen,
 
   return (
     <Box my={3}>
@@ -49,7 +48,12 @@ const ProductsTable = () => {
         <Grid item xs={12} sm={7} lg={8} xl={9}>
           <TextareaAutosize
             placeholder="Comments"
-            style={{ width: '100%', height: '203px', padding: '16px' }}
+            style={{
+              width: '100%',
+              height: '203px',
+              padding: '16px',
+              fontSize: '14px',
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={5} lg={4} xl={3}>
@@ -152,7 +156,7 @@ const ProductsTable = () => {
                 padding: '14px 20px',
                 display: 'flex',
                 justifyContent: 'space-between',
-                backgroundColor: '#E5E7EB',
+                backgroundColor: `${theme?.palette?.grey[700]}`,
               }}
             >
               <Typography variant="h5" fontWeight={500}>
@@ -182,7 +186,9 @@ const ProductsTable = () => {
             //  onChange={handleChange}
             endAdornment={
               <InputAdornment position="end">
-                <ArrowDownIcon sx={{ color: '#6B7280' }} />
+                <ArrowDownIcon
+                  sx={{ color: `${theme?.palette?.custom?.main}` }}
+                />
               </InputAdornment>
             }
           >
@@ -193,18 +199,20 @@ const ProductsTable = () => {
         </Grid>
       </Grid>
 
-      <Divider sx={{ border: '1px solid #E5E7EB', my: 2 }} />
+      <Divider
+        sx={{ border: `1px solid ${theme?.palette?.grey[700]}`, my: 2 }}
+      />
       <Grid container>
         <Grid item lg={6}>
           <Button
             variant="outlined"
             className="medium"
             sx={{
-              border: '1px solid #D1D5DB',
-              color: '#6B7280',
+              border: `1px solid ${theme?.palette?.grey[100]}`,
+              color: `${theme?.palette?.custom?.main}`,
               '&:hover': {
-                border: '1px solid #D1D5DB',
-                color: '#6B7280',
+                border: `1px solid ${theme?.palette?.grey[100]}`,
+                color: `${theme?.palette?.custom?.main}`,
               },
             }}
           >
@@ -222,11 +230,11 @@ const ProductsTable = () => {
               variant="outlined"
               className="medium"
               sx={{
-                border: '1px solid #D1D5DB',
-                color: '#6B7280',
+                border: `1px solid ${theme?.palette?.grey[100]}`,
+                color: `${theme?.palette?.custom?.main}`,
                 '&:hover': {
-                  border: '1px solid #D1D5DB',
-                  color: '#6B7280',
+                  border: `1px solid ${theme?.palette?.grey[100]}`,
+                  color: `${theme?.palette?.custom?.main}`,
                 },
               }}
             >
@@ -241,7 +249,7 @@ const ProductsTable = () => {
       {/* delete modal */}
       {isDeleteModal && (
         <AlertModals
-          message="You're about to delete all record. Detailed records can't be restored after 90 days."
+          message="You're about to delete all record. Deleted records can't be restored after 90 days."
           type="delete"
           open={isDeleteModal}
           handleClose={() => setIsDeleteModal(false)}

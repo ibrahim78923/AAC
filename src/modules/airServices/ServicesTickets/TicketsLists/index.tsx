@@ -18,7 +18,6 @@ export const TicketsLists = () => {
     ticketsActionDropdown,
     lazyGetTicketsStatus,
     ticketsListsColumnPersist,
-    search,
     setSearch,
     setPage,
     getTicketsListDataExport,
@@ -48,7 +47,6 @@ export const TicketsLists = () => {
       <br />
       <TicketsListSubHeader
         disabledActionButton={!!!selectedTicketList?.length}
-        search={search}
         setSearch={setSearch}
         onFilterClick={() =>
           setTicketAction?.(TICKETS_ACTION_CONSTANTS?.FILTER_DATA)

@@ -1,10 +1,7 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import {
-  associatesListsData,
-  associatesListsColumnFunction,
-} from './AssociatesList.data';
+import { associatesListsColumnFunction } from './AssociatesList.data';
 import { useAssociatesLists } from './useAssociatesList';
 import { AddAssociationsDrawer } from '../AddAssociationsDrawer';
 
@@ -19,6 +16,13 @@ export const AssociatesLists = () => {
     openDrawer,
     setOpenDrawer,
     theme,
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    setPage,
+    setPageLimit,
   } = useAssociatesLists();
 
   return (
@@ -33,7 +37,19 @@ export const AssociatesLists = () => {
       <br />
       <TanstackTable
         columns={associatesListsColumnFunction(setDeleteModal, theme)}
-        data={associatesListsData}
+        data={data?.data?.tickets}
+        isPagination
+        isSuccess={isSuccess}
+        isError={isError}
+        isFetching={isFetching}
+        isLoading={isLoading}
+        currentPage={data?.data?.meta?.page}
+        count={data?.data?.meta?.pages}
+        pageLimit={data?.data?.meta?.limit}
+        totalRecords={data?.data?.meta?.total}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
       />
       <AlertModals
         open={deleteModal}

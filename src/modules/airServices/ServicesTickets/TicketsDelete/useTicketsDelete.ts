@@ -13,7 +13,7 @@ export const useTicketDelete = (props: any) => {
   const deleteTicket = async () => {
     const deleteParams = new URLSearchParams();
     selectedTicketList?.forEach(
-      (ticketId: any) => deleteParams?.append('ids', ticketId),
+      (ticketId: any) => deleteParams?.append('Ids', ticketId),
     );
     const deleteTicketsParameter = {
       queryParams: deleteParams,

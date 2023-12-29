@@ -1,11 +1,11 @@
-import React from 'react';
+// import React from 'react';
 
 import {
   Box,
-  FormControlLabel,
+  // FormControlLabel,
   Grid,
-  Radio,
-  RadioGroup,
+  // Radio,
+  // RadioGroup,
   Typography,
 } from '@mui/material';
 
@@ -13,22 +13,25 @@ import CommonDrawer from '@/components/CommonDrawer';
 import useCreateViewCompany from './useCreateViewCompany';
 
 import { FormProvider } from '@/components/ReactHookForm';
-import { viewCompanyArr } from './CreateViewCompany.data';
+import { createViewArr } from './CreateViewCompany.data';
 
 import { v4 as uuidv4 } from 'uuid';
 
 const CreateViewCompany = (props: any) => {
   const { isCreateView, setIsCreateView } = props;
-  const { methods, theme } = useCreateViewCompany();
+  const { methods, theme, handleSubmit, onSubmit, reset } =
+    useCreateViewCompany();
 
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isCreateView}
         onClose={() => {
+          reset();
           setIsCreateView(false);
         }}
         title="Create View"
+        submitHandler={handleSubmit(onSubmit)}
         okText="Save"
         isOk={true}
         footer={true}
@@ -36,8 +39,20 @@ const CreateViewCompany = (props: any) => {
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
-              {viewCompanyArr?.map((item: any) => (
+              {createViewArr()?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  {item?.componentProps?.heading && (
+                    <Typography variant="h5">
+                      {item?.componentProps?.heading}
+                      <Typography
+                        component="span"
+                        sx={{ color: theme?.palette?.error?.main }}
+                      >
+                        {' '}
+                        *
+                      </Typography>
+                    </Typography>
+                  )}
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
@@ -48,7 +63,7 @@ const CreateViewCompany = (props: any) => {
                   </item.component>
                 </Grid>
               ))}
-              <Grid>
+              {/* <Grid>
                 <Typography
                   sx={{
                     mt: '20px',
@@ -80,7 +95,7 @@ const CreateViewCompany = (props: any) => {
                     label="Everyone"
                   />
                 </RadioGroup>
-              </Grid>
+              </Grid> */}
             </Grid>
           </FormProvider>
         </Box>

@@ -27,7 +27,7 @@ export const CustomizeTicketsColumn = (props: any) => {
       >
         <Typography variant="h5" color="slateblue.main">
           {' '}
-          Selected ({customizeColumn?.length})
+          Selected ({customizeColumn?.length - 2})
         </Typography>
         {ticketsListsColumnPersist?.slice?.(2)?.map((column: any) => (
           <Box

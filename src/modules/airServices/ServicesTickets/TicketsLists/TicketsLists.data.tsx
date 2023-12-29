@@ -98,9 +98,10 @@ export const ticketsActionDropdownFunction = (
 
 export const ticketsListInitialColumns = [
   '_id',
+  'ticketIdNumber',
   'subject',
-  'requester',
-  'assignedTo',
+  'requesterDetails',
+  'agentDetails',
   'state',
   'status',
   'priority',
@@ -108,7 +109,7 @@ export const ticketsListInitialColumns = [
 
 export const ticketsListsData: any = [
   {
-    _id: 3,
+    _id: '658aaf31e7b1a059b6f2ae4d',
     ticketId: ` #SR-917`,
     subject: 'What is wrong with my email',
     requester: { name: 'Leslie Alexander', profileImg: '' },
@@ -125,7 +126,7 @@ export const ticketsListsData: any = [
     plannedEffort: '1 hour',
   },
   {
-    _id: 4,
+    _id: '658bfde764c8bd0f7ee86766',
     ticketId: ` #SR-917`,
     subject: 'What is wrong with my email',
     requester: { name: 'Leslie Alexander', profileImg: '' },
@@ -197,8 +198,8 @@ export const ticketsListsColumnFunction: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?._id,
-      id: '_id',
+      accessorFn: (row: any) => row?.ticketIdNumber,
+      id: 'ticketIdNumber',
       cell: (info: any) => {
         return (
           <Box
@@ -210,9 +211,11 @@ export const ticketsListsColumnFunction: any = (
             <Avatar
               sx={{ bgcolor: theme?.palette?.blue?.main, borderRadius: 1.25 }}
               style={{ width: 25, height: 25 }}
-              alt={info?.row?.original?.department}
+              alt={
+                info?.row?.original?.departmentsDetails?.departmenProfilePicture
+              }
             >
-              {info?.row?.original?.department}
+              {info?.row?.original?.departmentsDetails?.name?.[0]}
             </Avatar>
             <Typography
               sx={{
@@ -229,7 +232,7 @@ export const ticketsListsColumnFunction: any = (
                 });
               }}
             >
-              {info?.row?.original?.ticketId}
+              {info?.getValue()}
             </Typography>
           </Box>
         );
@@ -245,8 +248,8 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.requester,
-      id: 'requester',
+      accessorFn: (row: any) => row?.requesterDetails,
+      id: 'requesterDetails',
       isSortable: true,
       header: 'Requester',
       cell: (info: any) => (
@@ -254,20 +257,23 @@ export const ticketsListsColumnFunction: any = (
           <Avatar
             sx={{ bgcolor: theme?.palette?.blue?.main }}
             style={{ width: 24, height: 24 }}
-            src={info?.row?.original?.requester?.profileImg?.src}
+            src={info?.row?.original?.requesterDetails?.profileImg?.src}
             alt={info?.row?.original?.requester?.name}
           />
-
-          {info?.getValue()?.name}
+          {info?.getValue()?.firstName} {info?.getValue()?.lastName}
         </Box>
       ),
     },
     {
-      accessorFn: (row: any) => row?.assignedTo,
-      id: 'assignedTo',
+      accessorFn: (row: any) => row?.agentDetails,
+      id: 'agentDetails',
       isSortable: true,
       header: 'Assigned to',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <>
+          {info?.getValue()?.firstName} {info?.getValue()?.lastName}
+        </>
+      ),
     },
     {
       accessorFn: (row: any) => row?.state,
@@ -284,18 +290,18 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.priority,
-      id: 'priority',
+      accessorFn: (row: any) => row?.pirority,
+      id: 'pirority',
       isSortable: true,
       header: 'Priority',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.department,
-      id: 'department',
+      accessorFn: (row: any) => row?.departmentsDetails,
+      id: 'departmentsDetails',
       isSortable: true,
       header: 'Department',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue()?.name,
     },
     {
       accessorFn: (row: any) => row?.createdAt,

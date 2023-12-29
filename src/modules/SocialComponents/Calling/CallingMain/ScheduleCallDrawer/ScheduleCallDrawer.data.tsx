@@ -1,6 +1,5 @@
 import {
   RHFDatePicker,
-  RHFSearchableSelect,
   RHFSelect,
   RHFTextField,
   RHFTimePicker,
@@ -9,37 +8,25 @@ import * as Yup from 'yup';
 
 export const dealsCallsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Field is Required'),
-  fromDate: Yup?.string()?.trim()?.required('Field is Required'),
-  toDate: Yup?.string()?.trim()?.required('Field is Required'),
-  fromTime: Yup?.string()?.trim()?.required('Field is Required'),
-  toTime: Yup?.string()?.trim()?.required('Field is Required'),
-  linkDeal: Yup?.string()?.trim()?.required('Field is Required'),
-  callType: Yup?.string()?.trim()?.required('Field is Required'),
-  setReminder: Yup?.string()?.trim()?.required('Field is Required'),
-  outcome: Yup?.string()?.trim()?.required('Field is Required'),
-  callNotes: Yup?.string()?.trim()?.required('Field is Required'),
-  outcomeText: Yup?.string()?.trim()?.required('Field is Required'),
+  callFromDate: Yup?.string()?.required('Field is Required'),
+  callFromTime: Yup?.string()?.required('Field is Required'),
+  callToTime: Yup?.string()?.required('Field is Required'),
+  callToDate: Yup?.string()?.required('Field is Required'),
 });
 
 export const dealsCallsDefaultValues = {
   title: '',
-  fromDate: '',
-  toDate: '',
-  fromTime: '',
-  toTime: '',
-  linkDeal: '',
-  callType: '',
-  setReminder: '',
   outcome: '',
-  callNotes: '',
-  outcomeText: '',
+  callType: '',
 };
 
-export const dealsCallsDataArray = [
+export const dealsCallsDataArray = (DealsListData: any) => [
   {
     componentProps: {
       name: 'title',
       label: 'Title',
+      required: true,
+      placeholder: 'Title',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -47,8 +34,9 @@ export const dealsCallsDataArray = [
   },
   {
     componentProps: {
-      name: 'fromDate',
-      label: 'Form',
+      name: 'callFromDate',
+      label: 'Start Date',
+      required: true,
       fullWidth: true,
     },
     component: RHFDatePicker,
@@ -56,46 +44,51 @@ export const dealsCallsDataArray = [
   },
   {
     componentProps: {
-      name: 'toDate',
-      label: 'To',
+      name: 'callToDate',
+      label: '  End Date',
       fullWidth: true,
+      required: true,
     },
     component: RHFDatePicker,
     md: 6,
   },
   {
     componentProps: {
-      name: 'fromTime',
-      label: 'Form',
+      name: 'callFromTime',
+      label: 'Start Time',
+      fullWidth: true,
+      required: true,
+    },
+    component: RHFTimePicker,
+    md: 6,
+  },
+
+  {
+    componentProps: {
+      name: 'callToTime',
+      label: 'End Time',
+      required: true,
       fullWidth: true,
     },
     component: RHFTimePicker,
     md: 6,
   },
+
   {
     componentProps: {
-      name: 'toTime',
-      label: 'To',
-      fullWidth: true,
-    },
-    component: RHFTimePicker,
-    md: 6,
-  },
-  {
-    componentProps: {
-      name: 'linkDeal',
+      name: 'dealId',
       label: 'Link Deal',
-      isCheckBox: true,
-      options: [
-        { value: 'JohnDoe', label: 'John Doe' },
-        { value: 'Andrew', label: 'Andrew' },
-        { value: 'RichardRobertson', label: 'Richard robertson' },
-        { value: 'Franksten', label: 'Franksten' },
-      ],
+      fullWidth: true,
+      select: true,
     },
-    component: RHFSearchableSelect,
+
+    options: DealsListData,
+
+    component: RHFSelect,
+
     md: 12,
   },
+
   {
     componentProps: {
       name: 'callType',
@@ -104,8 +97,8 @@ export const dealsCallsDataArray = [
       select: true,
     },
     options: [
-      { value: 'Conference call', label: 'Conference call' },
-      { value: 'One-on-One Call', label: 'One-on-One Call' },
+      { value: 'CONFERENCE', label: 'Conference call' },
+      { value: 'ONE_ON_ONE', label: 'One-on-One Call' },
     ],
     component: RHFSelect,
     md: 12,
@@ -130,16 +123,10 @@ export const dealsCallsDataArray = [
 
 export const drawerTitle: any = {
   Add: 'Schedule Call',
-  Edit: 'Edit Schedule Calls',
+  Edit: 'Edit Call',
+  View: 'View Call',
 };
 export const drawerButtonTitle: any = {
-  Add: 'Save',
+  Add: 'Add',
   Edit: 'Edit',
 };
-
-export const options = [
-  { value: 'To-do', label: 'To-do' },
-  { value: 'Follow-up', label: 'Follow-up' },
-  { value: 'Call reminder', label: 'Call reminder' },
-  { value: 'Call ', label: 'Call ' },
-];

@@ -20,7 +20,7 @@ import { NotesAvatarImage } from '@/assets/images';
 import { styles } from './ViewDetails.style';
 import { useGetCompaniesDetailsQuery } from '@/services/commonFeatures/companies';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
 import { useState } from 'react';
 import UploadImageModal from './UploadImageModal';
 import EditDomainModal from './EditDomainModal';
@@ -50,7 +50,7 @@ const ViewDetails = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-            <Link href="/air-sales/deals">
+            <Link href={SOCIAL_COMPONENTS.COMPANIES}>
               <ArrowBackIcon />
             </Link>
             <Box
@@ -115,7 +115,7 @@ const ViewDetails = () => {
               />
               <Box>
                 <Typography variant="body2" sx={{ fontWeight: '600' }}>
-                  Olivia Rhye ( Not found)
+                  {data?.data?.owner?.name}
                 </Typography>
                 <Typography
                   variant="body3"
@@ -133,7 +133,7 @@ const ViewDetails = () => {
                 Email
               </Typography>
               <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                Not found
+                {data?.data?.owner?.email}
               </Typography>
             </Box>
             <Box sx={styles?.salesBox}>
@@ -141,7 +141,7 @@ const ViewDetails = () => {
                 Phone Number
               </Typography>
               <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                Not found
+                {data?.data?.owner?.phoneNumber}
               </Typography>
             </Box>
             <Box sx={styles?.salesBox}>
@@ -236,7 +236,7 @@ const ViewDetails = () => {
               <ActivityLog />
               <Associations />
               <Tasks />
-              <Notes />
+              <Notes companyId={data?.data?._id} />
               <Calls />
               <Meetings />
               <Emails />

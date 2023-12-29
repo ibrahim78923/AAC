@@ -76,8 +76,8 @@ export const useUpsertProductCatalog = () => {
       );
       moveBack?.();
       reset();
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
@@ -102,8 +102,8 @@ export const useUpsertProductCatalog = () => {
       );
       moveBack?.();
       reset();
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }

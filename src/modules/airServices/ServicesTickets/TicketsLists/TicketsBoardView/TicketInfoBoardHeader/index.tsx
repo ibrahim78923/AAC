@@ -4,6 +4,9 @@ import { ticketInfoBoardHeaderColor } from './TicketInfoBoardHeader.data';
 export default function TicketInfoBoardHeader({ title, total }: any) {
   const theme: any = useTheme();
 
+  const formatTotal = (value: number) =>
+    value < 10 ? `0${value}` : `${value}`;
+
   return (
     <Box
       display={'flex'}
@@ -32,7 +35,7 @@ export default function TicketInfoBoardHeader({ title, total }: any) {
         ml={1}
         borderRadius={1}
       >
-        0{total}
+        {formatTotal(total)}
       </Typography>
     </Box>
   );
