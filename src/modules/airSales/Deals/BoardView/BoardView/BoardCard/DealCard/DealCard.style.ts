@@ -5,9 +5,6 @@ export const styles = {
     p: '10px',
     borderRadius: '10px',
     mb: '16px',
-    // '&:not(:first-of-type)': {
-    //   mt: '16px',
-    // },
   }),
   cardHeader: () => ({
     display: 'flex',

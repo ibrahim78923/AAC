@@ -38,10 +38,10 @@ const CustomizeColumns = ({
             <ListItem key={col?.id} disablePadding>
               <ListItemButton
                 className={
-                  checkedColumns?.indexOf(col.id) !== -1 ? 'selected' : ''
+                  checkedColumns?.indexOf(col?.id) !== -1 ? 'selected' : ''
                 }
                 role={undefined}
-                onClick={handleToggleColumns(col.id)}
+                onClick={handleToggleColumns(col?.id)}
                 dense
               >
                 <ListItemIcon>

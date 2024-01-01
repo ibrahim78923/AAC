@@ -10,10 +10,11 @@ const BoardCard: FC<BoardCardI> = ({
   stageDealsNumber,
   stageDealsAmount,
   stageDealsPercent,
+  sx,
   children,
 }) => {
   return (
-    <Box sx={styles?.card}>
+    <Box sx={{ ...styles?.card, ...sx }}>
       <Box sx={styles?.cardHeader}>
         <Box sx={styles?.cardHeaderLeft}>
           <Typography

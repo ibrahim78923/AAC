@@ -7,7 +7,7 @@ export const styles = {
         fontSize: '24px',
         fontWeight: '600',
         lineHeight: '1.25',
-        color: theme.palette.slateBlue.main,
+        color: theme?.palette?.slateBlue?.main,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -22,10 +22,10 @@ export const styles = {
     },
   }),
   btnOutlined: (theme: any) => ({
-    borderColor: theme.palette.custom.dark,
-    color: theme.palette.custom.main,
+    borderColor: theme?.palette?.custom?.dark,
+    color: theme?.palette?.custom?.main,
     '&:hover': {
-      borderColor: theme.palette.custom.dark,
+      borderColor: theme?.palette?.custom?.dark,
     },
   }),
 };

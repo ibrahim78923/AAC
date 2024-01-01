@@ -19,8 +19,8 @@ const FilterQuotes = ({ open, onClose, methods, onFilterSubmit }: any) => {
         <FormProvider methods={methods}>
           <Grid container spacing={4}>
             {dataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item.name}>
-                <item.component {...item.componentProps} size={'small'}>
+              <Grid item xs={12} md={item?.md} key={item?.name}>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
                       <option key={option?.value} value={option?.value}>

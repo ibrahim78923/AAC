@@ -13,20 +13,20 @@ export const quotesColumns = (
     let newSelected: any = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selectedRow, id);
+      newSelected = newSelected?.concat(selectedRow, id);
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selectedRow.slice(1));
-    } else if (selectedIndex === selectedRow.length - 1) {
-      newSelected = newSelected.concat(selectedRow.slice(0, -1));
+      newSelected = newSelected?.concat(selectedRow?.slice(1));
+    } else if (selectedIndex === selectedRow?.length - 1) {
+      newSelected = newSelected?.concat(selectedRow?.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selectedRow.slice(0, selectedIndex),
-        selectedRow.slice(selectedIndex + 1),
+      newSelected = newSelected?.concat(
+        selectedRow?.slice(0, selectedIndex),
+        selectedRow?.slice(selectedIndex + 1),
       );
     }
     setSelectedRow(newSelected);
-    setIsActionsDisabled(newSelected.length === 0);
-    if (newSelected.length === 1) {
+    setIsActionsDisabled(newSelected?.length === 0);
+    if (newSelected?.length === 1) {
       setRowId(newSelected[0]);
     } else {
       setRowId(null);
@@ -133,14 +133,14 @@ export const quotesColumns = (
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT.UI),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.expiryDate,
       id: 'expiryDate',
       isSortable: true,
       header: 'Expiration Date',
-      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT.UI),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
   ];
 };

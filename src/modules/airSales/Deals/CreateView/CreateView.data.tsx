@@ -1,6 +1,7 @@
 import {
   RHFDatePicker,
   RHFRadioGroup,
+  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 
@@ -41,33 +42,33 @@ export const CreateViewData = () => {
         name: 'dealPiplineId',
         label: 'Deal Pipline',
         select: true,
-        defaultValue: 'Select',
       },
       options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
         value: item?._id,
         label: item?.name,
-      })) ?? [{ label: 'Select', value: 'Select' }],
-      component: RHFTextField,
+      })),
+      component: RHFSelect,
     },
     {
       componentProps: {
         name: 'dealOwnerId',
         label: 'Deal Owner',
         select: true,
-        defaultValue: 'Select',
       },
       options: UserListData?.data?.users?.map((item: any) => ({
         value: item?._id,
         label: `${item?.firstName} ${item?.lastName}`,
-      })) ?? [{ label: 'Select', value: 'Select' }],
-      component: RHFTextField,
+      })),
+      component: RHFSelect,
     },
     {
       componentProps: {
         name: 'CloseDate',
         label: 'Close Date',
+        fullWidth: true,
       },
       component: RHFDatePicker,
+      md: 12,
     },
     {
       componentProps: {
@@ -81,14 +82,15 @@ export const CreateViewData = () => {
           value: item?._id,
           label: item?.name,
         }),
-      ) ?? [{ label: 'Select', value: 'Select' }],
-      component: RHFTextField,
+      ),
+      component: RHFSelect,
     },
     {
       componentProps: {
         name: 'sharedWith',
         label: 'Shared With',
         required: true,
+        row: false,
         options: [
           { label: 'Private', value: 'PRIVATE' },
           { label: 'My Teams (worked)', value: 'my teams' },

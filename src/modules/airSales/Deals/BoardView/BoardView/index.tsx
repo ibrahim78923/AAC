@@ -1,96 +1,21 @@
-import { Box } from '@mui/material';
-
-import BoardCard from './BoardCard';
+// import BoardCard from './BoardCard';
 import DealCard from './BoardCard/DealCard';
 
-import { styles } from './BoardView.style';
+// import { styles } from './BoardView.style';
 
 const BoardView = ({
-  handleCheckboxChange,
-  selectedIds,
+  // handleCheckedGrid,
+  // checkedGridView,
   search,
   filterVal,
 }: any) => {
   return (
-    <Box sx={styles?.boardContainer}>
-      <Box sx={styles?.boardRow}>
-        <Box sx={styles?.boardColumn}>
-          <BoardCard
-            dealStage={'New'}
-            stageDealsNumber={2}
-            stageDealsAmount={40}
-            stageDealsPercent={20}
-          >
-            <DealCard
-              handleCheckboxChange={handleCheckboxChange}
-              selectedIds={selectedIds}
-              search={search}
-              filterVal={filterVal}
-            />
-          </BoardCard>
-        </Box>
-
-        <Box sx={styles?.boardColumn}>
-          <BoardCard
-            dealStage={'Follow Up'}
-            stageDealsNumber={2}
-            stageDealsAmount={40}
-            stageDealsPercent={20}
-          >
-            <DealCard
-              handleCheckboxChange={handleCheckboxChange}
-              selectedIds={selectedIds}
-              search={search}
-            />
-          </BoardCard>
-        </Box>
-
-        {/* <Box sx={styles?.boardColumn}>
-          <BoardCard
-            dealStage={'Under Review'}
-            stageDealsNumber={2}
-            stageDealsAmount={40}
-            stageDealsPercent={20}
-          />
-        </Box>
-
-        <Box sx={styles?.boardColumn}>
-          <BoardCard
-            dealStage={'Demo'}
-            stageDealsNumber={2}
-            stageDealsAmount={40}
-            stageDealsPercent={20}
-          />
-        </Box>
-
-        <Box sx={styles?.boardColumn}>
-          <BoardCard
-            dealStage={'Negotiation'}
-            stageDealsNumber={2}
-            stageDealsAmount={40}
-            stageDealsPercent={20}
-          />
-        </Box>
-
-        <Box sx={styles?.boardColumn}>
-          <BoardCard
-            dealStage={'Won'}
-            stageDealsNumber={2}
-            stageDealsAmount={40}
-            stageDealsPercent={20}
-          />
-        </Box>
-
-        <Box sx={styles?.boardColumn}>
-          <BoardCard
-            dealStage={'Lost'}
-            stageDealsNumber={2}
-            stageDealsAmount={40}
-            stageDealsPercent={20}
-          />
-        </Box> */}
-      </Box>
-    </Box>
+    <DealCard
+      // handleCheckedGrid={handleCheckedGrid}
+      // checkedGridView={checkedGridView}
+      search={search}
+      filterVal={filterVal}
+    />
   );
 };
 

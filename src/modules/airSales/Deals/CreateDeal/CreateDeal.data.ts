@@ -1,4 +1,8 @@
-import { RHFDatePicker, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFSelect,
+  RHFSwitchableDatepicker,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 
 import useDealSaleSite from '../useDealSaleSite';
 import { useGetUsersListQuery } from '@/services/airSales/deals';
@@ -13,6 +17,7 @@ export const createDealData = () => {
         name: 'name',
         label: 'Deal Name',
         required: true,
+        placeholder: 'Enter Name',
       },
       component: RHFTextField,
     },
@@ -27,7 +32,7 @@ export const createDealData = () => {
         value: item?._id,
         label: item?.name,
       })) ?? [{ label: '', value: '' }],
-      component: RHFTextField,
+      component: RHFSelect,
     },
     {
       componentProps: {
@@ -41,14 +46,15 @@ export const createDealData = () => {
           value: item?._id,
           label: item?.name,
         }),
-      ) ?? [{ label: '', value: '' }],
-      component: RHFTextField,
+      ),
+      component: RHFSelect,
     },
     {
       title: 'Amount',
       componentProps: {
         name: 'amount',
         label: 'Amount',
+        placeholder: 'Enter Amount',
         type: 'number',
       },
       component: RHFTextField,
@@ -57,8 +63,9 @@ export const createDealData = () => {
       componentProps: {
         name: 'closeDate',
         label: 'Close Date',
+        placeholder: 'Monday, January 30, 2023',
       },
-      component: RHFDatePicker,
+      component: RHFSwitchableDatepicker,
     },
     {
       title: 'Deal Owner',
@@ -71,7 +78,7 @@ export const createDealData = () => {
         value: item?._id,
         label: `${item?.firstName} ${item?.lastName}`,
       })) ?? [{ label: '', value: '' }],
-      component: RHFTextField,
+      component: RHFSelect,
     },
     {
       componentProps: {
@@ -84,7 +91,7 @@ export const createDealData = () => {
         { value: 'Medium', label: 'Medium' },
         { value: 'High', label: 'High' },
       ],
-      component: RHFTextField,
+      component: RHFSelect,
     },
     {
       componentProps: {
@@ -99,7 +106,7 @@ export const createDealData = () => {
           label: 'Orcalo Product: £5/month',
         },
       ],
-      component: RHFTextField,
+      component: RHFSelect,
     },
     {
       componentProps: {
@@ -111,7 +118,7 @@ export const createDealData = () => {
         { value: 'monthly', label: 'monthly' },
         { value: 'quarterly', label: 'quarterly' },
       ],
-      component: RHFTextField,
+      component: RHFSelect,
     },
   ];
 };

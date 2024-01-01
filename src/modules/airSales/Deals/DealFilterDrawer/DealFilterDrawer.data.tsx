@@ -1,4 +1,4 @@
-import { RHFDatePicker, RHFTextField } from '@/components/ReactHookForm';
+import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
 import useDealSaleSite from '../useDealSaleSite';
 import {
   useGetDealsListQuery,
@@ -10,7 +10,7 @@ export const defaultValues = {
   name: '',
   dealOwnerId: '',
   dealStageId: '',
-  closeDate: null,
+  date: null,
 };
 
 export const FilterData = () => {
@@ -22,52 +22,53 @@ export const FilterData = () => {
   return [
     {
       componentProps: {
-        name: 'dealPiplineId',
         label: 'Deal Pipeline',
+        name: 'dealPiplineId',
+        fullWidth: true,
         select: true,
-        // defaultValues: 'Select',
       },
       options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
         value: item?._id,
         label: item?.name,
-      })) ?? [{ label: '', value: '' }],
-      component: RHFTextField,
+      })),
+
+      component: RHFSelect,
+      md: 12,
     },
+
     {
       componentProps: {
         name: 'name',
         label: 'Deal Name',
         select: true,
-        // defaultValues: 'Select',
       },
       options: data?.data?.deals?.map((item: any) => ({
         value: item?.name,
         label: item?.name,
-      })) ?? [{ label: 'Select', value: '' }],
-      component: RHFTextField,
+      })),
+      component: RHFSelect,
     },
     {
       componentProps: {
         name: 'dealOwnerId',
         label: 'Deal Owner',
         select: true,
-        // defaultValues: 'Select',
       },
       options: UserListData?.data?.users?.map((item: any) => {
         return {
           value: item?._id,
           label: `${item?.firstName} ${item?.lastName}`,
         };
-      }) ?? [{ label: '', value: '' }],
-      component: RHFTextField,
+      }),
+      component: RHFSelect,
     },
     {
       componentProps: {
-        name: 'closeDate',
+        name: 'date',
         label: 'Close Date',
         fullWidth: true,
       },
-      component: RHFDatePicker,
+      component: RHFSwitchableDatepicker,
       md: 12,
     },
     {
@@ -75,15 +76,14 @@ export const FilterData = () => {
         name: 'dealStageId',
         label: 'Deal Stage',
         select: true,
-        // defaultValues: 'Select',
       },
       options: DealsLifecycleStageData?.data?.lifecycleStages?.map(
         (item: any) => ({
           value: item?._id,
           label: item?.name,
         }),
-      ) ?? [{ label: '', value: '' }],
-      component: RHFTextField,
+      ),
+      component: RHFSelect,
     },
   ];
 };

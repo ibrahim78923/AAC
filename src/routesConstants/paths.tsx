@@ -57,7 +57,7 @@ export const SOCIAL_FEATURES = {
 export const AIR_SALES = {
   root: AIR_SALES_PAGE,
   QUOTES: path(AIR_SALES_PAGE, '/quotes'),
-  CREATE_QUOTE: path(AIR_SALES_PAGE, '/quotes/create-quote'),
+  CREATE_QUOTES: path(AIR_SALES_PAGE, '/quotes/create-quote'),
   UPDATE_QUOTE: path(AIR_SALES_PAGE, '/quotes/update-quote'),
   VIEW_QUOTE: path(AIR_SALES_PAGE, '/quotes/view-quote'),
   SALES_INVOICES: '/air-sales/invoices',

@@ -16,7 +16,7 @@ const CreateContacts = ({ open, onClose }: any) => {
     lifeCycleStagesData,
     contactStatusData,
     userList,
-  } = useCreateContacts();
+  }: any = useCreateContacts();
 
   return (
     <CommonDrawer

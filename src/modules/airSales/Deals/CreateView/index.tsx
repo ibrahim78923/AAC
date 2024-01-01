@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-import { Grid, MenuItem } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
@@ -62,22 +62,16 @@ const CreateView = ({ open, onClose }: any) => {
       >
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {CreateViewData()?.map((obj: any) => (
-              <Grid item xs={12} key={uuidv4()}>
-                <obj.component
-                  fullWidth
-                  size={'small'}
-                  SelectProps={{ sx: { borderRadius: '8px' } }}
-                  {...obj?.componentProps}
-                >
-                  {obj?.componentProps?.select
-                    ? obj?.options?.map((option: any) => (
-                        <MenuItem key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </MenuItem>
-                      ))
-                    : null}
-                </obj.component>
+            {CreateViewData()?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component {...item?.componentProps} size={'small'}>
+                  {item?.componentProps?.select &&
+                    item?.options?.map((option: any) => (
+                      <option key={uuidv4()} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                </item.component>
               </Grid>
             ))}
           </Grid>

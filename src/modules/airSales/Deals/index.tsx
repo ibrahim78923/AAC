@@ -6,7 +6,6 @@ import CommonTabs from '@/components/Tabs';
 import { AIR_SERVICES } from '@/constants';
 
 import DealCustomize from './DealCustomize';
-import DelasTable from './DealsTable';
 import DealHeader from './DealHeader';
 import DealFilterDrawer from './DealFilterDrawer';
 import ShareMyDine from './ShareMyDine';
@@ -16,7 +15,7 @@ import useDealSaleSite from './useDealSaleSite';
 import DeleteModal from './DealsModalBox/DeleteModal';
 import ExportRecordModal from './DealsModalBox/ExportRecordModal';
 import AssignModalBox from './DealsModalBox/AssignModalBox';
-import { DealsTabs } from './DealsSaleSite.data';
+import { DealsTabs, dealsColumns } from './DealsSaleSite.data';
 import DealsActions from './DealsActions';
 import BoardView from './BoardView/BoardView';
 
@@ -27,6 +26,7 @@ import {
   GridViewIcon,
   RefreshTasksIcon,
 } from '@/assets/icons';
+import TanstackTable from '@/components/Table/TanstackTable';
 // import {
 //   useGetDealsListWithOutParamsQuery,
 //   useGetDealsViewsQuery,
@@ -56,12 +56,9 @@ const Deals = () => {
     handleActions,
     listView,
     handleListViewClick,
-    handleCheckboxChange,
-    selectedIds,
-    handleTableCheckboxChange,
-    selectedTableIds,
-    filterVal,
-    setFilterVal,
+    // handleTableCheckboxChange,
+    // selectedTableIds,
+    // setFilterVal,
     setIsFilter,
     // dealViewsData,
     handleDeleteDeals,
@@ -72,6 +69,14 @@ const Deals = () => {
     getTabValue,
     // tab,
     // setTab,
+    checkedRows,
+    setCheckedRows,
+    getDealsTableList,
+    filterValues,
+    setFilterValues,
+    handleResetFilters,
+    handleCheckedGrid,
+    checkedGridView,
   } = useDealSaleSite();
 
   // const handleTabChange = (_: string, index: number) => {
@@ -125,9 +130,16 @@ const Deals = () => {
   //   setFilterVal(filterVal);
   // };
 
+  const columnsProps = {
+    checkedRows: checkedRows,
+    setCheckedRows: setCheckedRows,
+    dealsData: getDealsTableList,
+  };
+
+  const columnParams = dealsColumns(columnsProps);
+
   return (
     <>
-      {/* <DragAble /> */}
       <DealHeader />
       <CommonTabs
         tabsArray={DealsTabs} //?.concat(tabsArr)
@@ -143,7 +155,7 @@ const Deals = () => {
         }}
         headerChildren={
           <>
-            {selectedTableIds?.length >= 2 ? (
+            {checkedRows?.length >= 2 ? (
               <Button
                 variant="outlined"
                 color="inherit"
@@ -162,9 +174,9 @@ const Deals = () => {
                   'Delete',
                   'View Details',
                 ]}
-                disableActionBtn={selectedTableIds?.length > 0 ? false : true}
+                disableActionBtn={checkedRows?.length > 0 ? false : true}
                 onChange={handleActions}
-                selectedIds={selectedTableIds}
+                selectedIds={checkedRows}
               />
             )}
 
@@ -190,7 +202,7 @@ const Deals = () => {
             </Button>
             <Tooltip title={'Refresh Filter'}>
               <Button
-                onClick={() => setFilterVal('')}
+                onClick={handleResetFilters}
                 variant="outlined"
                 color="inherit"
                 className="small"
@@ -228,27 +240,33 @@ const Deals = () => {
             </ButtonGroup>
           </>
         }
-      ></CommonTabs>
-      {listView === 'listView' ? (
-        <>
-          {/* all deals */}
-          <DelasTable
-            handleTableCheckboxChange={handleTableCheckboxChange}
-            handleSelectAll={() => {}}
-            selectedTableIds={selectedTableIds}
-            filterVal={filterVal}
+      >
+        {listView === 'listView' ? (
+          <>
+            {/* all deals */}
+            <TanstackTable
+              columns={columnParams}
+              data={getDealsTableList?.data?.deals}
+              // totalRecords={getAllCompanies?.data?.meta?.total}
+              // pageLimit={getAllCompanies?.data?.meta?.limit}
+              // onPageChange={(page: any) => setPage(page)}
+              // setPage={setPage}
+              // setPageLimit={setPageLimit}
+              // count={getAllCompanies?.data?.meta?.pages}
+              // isPagination
+              // isLoading={isLoading}
+              // isSuccess={isSuccess}
+            />
+          </>
+        ) : (
+          <BoardView
+            handleCheckedGrid={handleCheckedGrid}
+            checkedGridView={checkedGridView}
             search={search}
-            columns={viewColumns}
           />
-        </>
-      ) : (
-        <BoardView
-          handleCheckboxChange={handleCheckboxChange}
-          selectedIds={selectedIds}
-          search={search}
-          filterVal={filterVal}
-        />
-      )}
+        )}
+      </CommonTabs>
+
       {isOpen && <CreateView open={isOpen} onClose={handleChange} />}
       {isDealCustomize && (
         <DealCustomize
@@ -260,7 +278,8 @@ const Deals = () => {
       )}
       {isFilter && (
         <DealFilterDrawer
-          setFilterVal={setFilterVal}
+          setFilterValues={setFilterValues}
+          filterValues={filterValues}
           setIsFilter={setIsFilter}
           open={isFilter}
           onClose={handleFilter}
@@ -270,7 +289,7 @@ const Deals = () => {
         <ShareMyDine
           open={isShareDine}
           onClose={handleSMD}
-          selectedTableIds={selectedTableIds}
+          selectedTableIds={checkedRows}
         />
       )}
       {isDelete && (
@@ -282,7 +301,7 @@ const Deals = () => {
       )}
       {isAssign && (
         <AssignModalBox
-          seletedId={selectedTableIds}
+          seletedId={checkedRows}
           open={isAssign}
           onClose={handleAssignModal}
         />

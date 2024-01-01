@@ -2,6 +2,7 @@ import { Box, Button, Typography, Stack } from '@mui/material';
 import { useRouter } from 'next/router';
 import { AddCircleSmallIcon, DownloadIcon } from '@/assets/icons';
 import { styles } from './PageHeader.style';
+import { AIR_SALES } from '@/routesConstants/paths';
 
 const PageHeader = () => {
   const router = useRouter();
@@ -23,7 +24,7 @@ const PageHeader = () => {
           variant="contained"
           color="primary"
           startIcon={<AddCircleSmallIcon />}
-          onClick={() => router.push('/air-sales/quotes/create-quote')}
+          onClick={() => router?.push(AIR_SALES?.CREATE_QUOTES)}
         >
           Create Quote
         </Button>

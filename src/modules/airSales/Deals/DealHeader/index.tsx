@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Typography, Box, Button, SvgIcon } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
 
@@ -44,7 +42,6 @@ const DealHeader = () => {
         >
           Import
         </Button>
-        {/* <Box> */}
         <Button
           variant="contained"
           color="primary"
@@ -55,7 +52,6 @@ const DealHeader = () => {
         >
           Create Deal
         </Button>
-        {/* </Box> */}
       </Box>
       <ImportDealsDrawer open={isImportDeal} onClose={handleImportDealOpen} />
       <CreateDeal open={isCreateDeal} onClose={handleCreateDealOpen} />

@@ -8,6 +8,7 @@ import {
   useDeleteDealsMutation,
   useGetDealsActionPreviewQuery,
   useGetDealsLifecycleStageQuery,
+  useGetDealsListQuery,
   // useLazyGetDealsListQuery,
   // useGetDealsListQuery,
   useGetDealsSalesProductQuery,
@@ -32,21 +33,50 @@ const useDealSaleSite = () => {
   const [isAssign, setIsAssign] = useState(false);
   const [exportRecord, setExportRecord] = useState(false);
   const [listView, SetListView] = useState('listView');
+  const [checkedRows, setCheckedRows] = useState<string[]>([]);
+  const [checkedGridView, setCheckedGridView] = useState<string[]>([]);
+
+  const [filterValues, setFilterValues] = useState({
+    dealPiplineId: '',
+    name: '',
+    dealOwnerId: '',
+    dealStageId: '',
+    dateStart: null,
+    dateEnd: null,
+  });
 
   const params = {
     page: 1,
     limit: 10,
     meta: true,
   };
+  const dealsparams: any = {
+    page: 1,
+    limit: 10,
+    search: search ? search : undefined,
+    dealPiplineId: filterValues?.dealPiplineId
+      ? filterValues?.dealPiplineId
+      : undefined,
+    name: filterValues?.name ? filterValues?.name : undefined,
+    dealOwnerId: filterValues?.dealOwnerId
+      ? filterValues?.dealOwnerId
+      : undefined,
+    dealStageId: filterValues?.dealStageId
+      ? filterValues?.dealStageId
+      : undefined,
+    dateStart: filterValues?.dateStart ?? undefined,
+    dateEnd: filterValues?.dateEnd ?? undefined,
+  };
 
   const { data: pipelineData } = useGetDealsSalesProductQuery(params);
 
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
   // const { data: DealsUserListData } = useGetDealsUserListQuery({});
+  const { data: getDealsTableList } = useGetDealsListQuery(dealsparams);
 
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [selectedTableIds, setSelectedTableIds] = useState<string[]>([]);
-  const [filterVal, setFilterVal] = useState({});
+  // const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  // const [selectedTableIds, setSelectedTableIds] = useState<string[]>([]);
+  // const [filterVal, setFilterVal] = useState({});
   const [viewColumns, setViewColumns] = useState([
     'createdBy',
     'name',
@@ -61,8 +91,39 @@ const useDealSaleSite = () => {
     dateEnd: '2023-10-31',
   });
 
+  const handleSelectDealById = (checked: boolean, id: string): void => {
+    if (checked) {
+      setCheckedRows([...checkedRows, id]);
+    } else {
+      setCheckedRows(checkedRows?.filter((_id: any) => _id !== id));
+    }
+  };
+
+  const handleSelectAllDeals = (checked: boolean): void => {
+    setCheckedRows(
+      checked ? getDealsTableList?.data?.deals?.map(({ _id }: any) => _id) : [],
+    );
+  };
+
+  const handleCheckedGrid = (checked: boolean, id: string): void => {
+    if (checked) {
+      setCheckedGridView([...checkedGridView, id]);
+    } else {
+      setCheckedGridView(checkedGridView?.filter((_id: any) => _id !== id));
+    }
+  };
   const tabsArr = dealViewsData?.data?.map((obj: any) => obj?.name);
 
+  const handleResetFilters = () => {
+    setFilterValues({
+      dealPiplineId: '',
+      name: '',
+      dealOwnerId: '',
+      dealStageId: '',
+      dateStart: null,
+      dateEnd: null,
+    });
+  };
   // const dealListApiUrl = dealViewsData?.data?.map((obj: any) => obj?.apiUrl);
 
   // useEffect(() => {
@@ -81,7 +142,7 @@ const useDealSaleSite = () => {
 
   const handleListViewClick = (val: string) => {
     SetListView(val);
-    setSelectedIds([]);
+    setCheckedRows([]);
   };
   const HandleDeleteModal = () => {
     setIsDelete(!isDelete);
@@ -103,19 +164,6 @@ const useDealSaleSite = () => {
   };
   const handleExportRecord = () => {
     setExportRecord(!exportRecord);
-  };
-
-  const handleCheckboxChange = (event: any, id: string) => {
-    const { checked } = event?.target;
-    checked
-      ? setSelectedIds([...selectedIds, id])
-      : setSelectedIds(selectedIds?.filter((ids) => ids !== id));
-  };
-  const handleTableCheckboxChange = (event: any, id: string) => {
-    const { checked } = event?.target;
-    checked
-      ? setSelectedTableIds([...selectedTableIds, id])
-      : setSelectedTableIds(selectedTableIds?.filter((ids) => ids !== id));
   };
 
   const handleActions = (value: string | any) => {
@@ -142,11 +190,11 @@ const useDealSaleSite = () => {
 
   const handleDeleteDeals = async () => {
     try {
-      await deleteDealsMutation({ ids: selectedTableIds.join(',') }).unwrap();
+      await deleteDealsMutation({ ids: checkedRows });
       enqueueSnackbar('Deals deleted successfully', {
         variant: 'success',
       });
-      setSelectedTableIds([]);
+      setCheckedRows([]);
       HandleDeleteModal();
     } catch (error) {
       enqueueSnackbar('Error while deleting deals', {
@@ -180,14 +228,7 @@ const useDealSaleSite = () => {
     handleListViewClick,
     pipelineData,
     DealsLifecycleStageData,
-    // DealsUserListData,
-    handleCheckboxChange,
-    selectedIds,
-    handleTableCheckboxChange,
-    selectedTableIds,
     useGetDealsActionPreviewQuery,
-    filterVal,
-    setFilterVal,
     setIsFilter,
     dealViewsData,
     handleDeleteDeals,
@@ -199,6 +240,16 @@ const useDealSaleSite = () => {
     getTabValue,
     tab,
     setTab,
+    checkedRows,
+    setCheckedRows,
+    getDealsTableList,
+    filterValues,
+    setFilterValues,
+    handleResetFilters,
+    handleSelectAllDeals,
+    handleSelectDealById,
+    handleCheckedGrid,
+    checkedGridView,
   };
 };
 
