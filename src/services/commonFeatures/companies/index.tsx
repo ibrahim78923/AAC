@@ -21,8 +21,8 @@ export const companiesAPI = baseAPI.injectEndpoints({
     }),
 
     deleteCompanies: builder.mutation({
-      query: ({ id }: any) => ({
-        url: `${END_POINTS?.COMPANY}/${id}`,
+      query: ({ ids }: any) => ({
+        url: `${END_POINTS?.COMPANY}/${ids}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['COMPANY'],
