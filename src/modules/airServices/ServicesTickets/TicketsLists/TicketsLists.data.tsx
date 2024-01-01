@@ -176,6 +176,11 @@ const fullName = (firstName: any, lastName: any) => {
   return `${firstName ?? ''} ${lastName ?? ''}`;
 };
 
+const fullNameInitial = (firstName: any, lastName: any) => {
+  if (!!!firstName && !!!lastName) return '-';
+  return `${firstName?.[0] ?? ''} ${lastName?.[0] ?? ''}`;
+};
+
 export const ticketsListsColumnFunction: any = (
   theme: any,
   router: any,
@@ -255,7 +260,7 @@ export const ticketsListsColumnFunction: any = (
             </Avatar>
             <Typography
               sx={{
-                color: theme?.palette?.primary?.main,
+                color: theme?.palette?.custom?.bright,
                 cursor: 'pointer',
               }}
               variant="body2"
@@ -294,8 +299,15 @@ export const ticketsListsColumnFunction: any = (
             sx={{ bgcolor: theme?.palette?.blue?.main }}
             style={{ width: 28, height: 28 }}
             src={info?.row?.original?.requesterDetails?.profileImg?.src}
-          />
-          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)},
+          >
+            <Typography variant="body2" textTransform={'uppercase'}>
+              {fullNameInitial(
+                info?.getValue()?.firstName,
+                info?.getValue()?.lastName,
+              )}
+            </Typography>
+          </Avatar>
+          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
         </Box>
       ),
     },
@@ -314,10 +326,12 @@ export const ticketsListsColumnFunction: any = (
       header: 'State',
       // cell: (info: any) => info?.getValue(), //TODO: integration pending
       cell: (info: any) =>
-        checkStatus?.(
-          new Date(info?.row?.original?.plannedStartDate),
-          new Date(info?.row?.original?.plannedEndDate),
-        ),
+        !!info?.getValue()
+          ? info.getValue()
+          : checkStatus?.(
+              new Date(info?.row?.original?.plannedStartDate),
+              new Date(info?.row?.original?.plannedEndDate),
+            ),
     },
     {
       accessorFn: (row: any) => row?.status,

@@ -1,9 +1,9 @@
 import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useTicketsFilter } from './useTicketsFilter';
 import CommonDrawer from '@/components/CommonDrawer';
+import { useFilterTickets } from './useFilterTickets';
 
-export const TicketsFilter = (props: any) => {
+export const FilterTickets = (props: any) => {
   const { isDrawerOpen } = props;
   const {
     ticketsFilterFormFieldsData,
@@ -11,7 +11,8 @@ export const TicketsFilter = (props: any) => {
     handleSubmit,
     submitTicketFilterForm,
     onClose,
-  } = useTicketsFilter(props);
+    resetTicketFilterForm,
+  } = useFilterTickets(props);
 
   return (
     <>
@@ -24,6 +25,7 @@ export const TicketsFilter = (props: any) => {
         isOk
         cancelText={'Reset'}
         footer
+        cancelBtnHandler={() => resetTicketFilterForm?.()}
       >
         <FormProvider
           methods={methods}
