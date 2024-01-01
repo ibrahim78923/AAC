@@ -19,7 +19,22 @@ const useSignup = () => {
 
   const { handleSubmit, watch, setValue } = methodsSignup;
 
-  // const watchField=watch(['firstName', 'lastName', 'email', 'crn',])
+  const watchField = watch([
+    'firstName',
+    'lastName',
+    'email',
+    'crn',
+    'numberOfEmployees',
+    'phoneNumber',
+  ]);
+
+  const allValuesNotEmpty = () => {
+    const valuesNotEmpty = watchField.every((value) => value.trim() !== '');
+    if (!valuesNotEmpty) {
+      enqueueSnackbar('All Fields are Required', { variant: 'error' });
+    }
+    return valuesNotEmpty;
+  };
 
   const organizationNumber = watch('crn');
   const email = watch('email');
@@ -80,6 +95,7 @@ const useSignup = () => {
     onSubmit,
     handleSubmit,
     isLoading,
+    allValuesNotEmpty,
     methodsSignup,
     productData,
     isVerifiedSuccess,

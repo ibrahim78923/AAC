@@ -2,8 +2,12 @@ import { RHFMultiCheckbox, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required('Required field'),
-  lastName: Yup.string().required('Required field'),
+  firstName: Yup.string()
+    .required('Required field')
+    .matches(/^[a-zA-Z][a-zA-Z0-9]*$/, 'Alphanumeric characters Only'),
+  lastName: Yup.string()
+    .required('Required field')
+    .matches(/^[a-zA-Z][a-zA-Z0-9]*$/, 'Alphanumeric characters only'),
   email: Yup.string().required('Required field'),
   organizationName: Yup.string().required('Required field'),
   crn: Yup.string().required('Required field'),

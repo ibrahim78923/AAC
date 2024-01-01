@@ -93,6 +93,14 @@ const ScheduleCalls = () => {
           </MenuItem>
           <MenuItem
             onClick={() => {
+              setOpenDrawer('Reschedule'), handleCloseAction;
+            }}
+            disabled={selectedCheckboxes?.length > 1}
+          >
+            Reschedule
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
               setIsDeleteModalOpen(true), handleCloseAction;
             }}
           >

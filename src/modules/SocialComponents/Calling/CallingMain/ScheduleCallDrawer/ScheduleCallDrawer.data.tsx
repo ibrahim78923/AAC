@@ -20,7 +20,7 @@ export const dealsCallsDefaultValues = {
   callType: '',
 };
 
-export const dealsCallsDataArray = (DealsListData: any) => [
+export const dealsCallsDataArray = ({ DealsListData, openDrawer }: any) => [
   {
     componentProps: {
       name: 'title',
@@ -28,6 +28,7 @@ export const dealsCallsDataArray = (DealsListData: any) => [
       required: true,
       placeholder: 'Title',
       fullWidth: true,
+      disabled: openDrawer === 'Reschedule',
     },
     component: RHFTextField,
     md: 12,
@@ -37,7 +38,9 @@ export const dealsCallsDataArray = (DealsListData: any) => [
       name: 'callFromDate',
       label: 'Start Date',
       required: true,
+
       fullWidth: true,
+      disabled: openDrawer === 'Edit',
     },
     component: RHFDatePicker,
     md: 6,
@@ -48,6 +51,7 @@ export const dealsCallsDataArray = (DealsListData: any) => [
       label: '  End Date',
       fullWidth: true,
       required: true,
+      disabled: openDrawer === 'Edit',
     },
     component: RHFDatePicker,
     md: 6,
@@ -58,6 +62,7 @@ export const dealsCallsDataArray = (DealsListData: any) => [
       label: 'Start Time',
       fullWidth: true,
       required: true,
+      disabled: openDrawer === 'Edit',
     },
     component: RHFTimePicker,
     md: 6,
@@ -69,6 +74,7 @@ export const dealsCallsDataArray = (DealsListData: any) => [
       label: 'End Time',
       required: true,
       fullWidth: true,
+      disabled: openDrawer === 'Edit',
     },
     component: RHFTimePicker,
     md: 6,
@@ -80,6 +86,7 @@ export const dealsCallsDataArray = (DealsListData: any) => [
       label: 'Link Deal',
       fullWidth: true,
       select: true,
+      disabled: openDrawer === 'Reschedule',
     },
 
     options: DealsListData,
@@ -95,6 +102,7 @@ export const dealsCallsDataArray = (DealsListData: any) => [
       label: 'Select Call Type',
       fullWidth: true,
       select: true,
+      disabled: openDrawer === 'Reschedule',
     },
     options: [
       { value: 'CONFERENCE', label: 'Conference call' },
@@ -109,6 +117,7 @@ export const dealsCallsDataArray = (DealsListData: any) => [
       label: 'Set Reminder',
       fullWidth: true,
       select: true,
+      disabled: openDrawer === 'Reschedule',
     },
     options: [
       { value: '30 minutes before', label: '30 minutes before' },
@@ -124,9 +133,10 @@ export const dealsCallsDataArray = (DealsListData: any) => [
 export const drawerTitle: any = {
   Add: 'Schedule Call',
   Edit: 'Edit Call',
-  View: 'View Call',
+  Reschedule: 'Reschedule Call',
 };
 export const drawerButtonTitle: any = {
   Add: 'Add',
   Edit: 'Edit',
+  Reschedule: 'Update',
 };

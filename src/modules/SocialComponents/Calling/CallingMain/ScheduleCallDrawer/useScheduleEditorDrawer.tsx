@@ -53,7 +53,7 @@ const useScheduleEditorDrawer = ({
     resolver: yupResolver(dealsCallsValidationSchema),
 
     defaultValues: async () => {
-      if (editCallValue && openDrawer === 'Edit') {
+      if (editCallValue && openDrawer !== 'Add') {
         const {
           title,
           status,
@@ -90,22 +90,29 @@ const useScheduleEditorDrawer = ({
   });
   const onClose = () => {
     setOpenDrawer('');
-    openDrawer === 'Edit' && setSelectedCheckboxes([]);
+    openDrawer !== 'Add' && setSelectedCheckboxes([]);
   };
 
   const onSubmit = async (values: any) => {
-    const { callToDate, callToTime, callFromTime, callFromDate, ...rest } =
-      values;
+    const {
+      callToDate,
+      callToTime,
+      callFromTime,
+      callFromDate,
+      status,
+      ...rest
+    } = values;
     const payload = {
       callToDate: dayjs(callToDate)?.format(DATE_FORMAT?.API),
       callToTime: dayjs(callToTime)?.format(TIME_FORMAT?.API),
       callFromTime: dayjs(callFromTime)?.format(TIME_FORMAT?.API),
       callFromDate: dayjs(callFromDate)?.format(DATE_FORMAT?.API),
+      status: openDrawer === 'Reschedule' ? 'Re-Scheduled' : status,
       ...rest,
     };
 
     try {
-      openDrawer === 'Edit'
+      openDrawer !== 'Add'
         ? await updateCalls({
             body: payload,
             id: editCallValue?._id,
