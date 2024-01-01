@@ -39,24 +39,24 @@ const ChatField = () => {
   const boxRef = useRef<any>(null);
   useEffect(() => {
     if (boxRef?.current) {
-      boxRef.current.scrollTop = boxRef.current.scrollHeight;
+      boxRef.current.scrollTop = boxRef?.current?.scrollHeight;
     }
-  }, [chatDataToShow.length > 1]);
+  }, [chatDataToShow?.length > 1]);
 
   useEffect(() => {
     const handleScroll = () => {
       const box = boxRef?.current;
-      if (box.scrollTop === 0) {
-        const newLimit = Math.min(chatMetaInfo.limit + 5, chatMetaInfo.total);
+      if (box?.scrollTop === 0) {
+        const newLimit = Math.min(chatMetaInfo?.limit + 5, chatMetaInfo?.total);
         dispatch(setChatMetaInfo({ ...chatMetaInfo, limit: newLimit }));
       }
     };
 
     const box = boxRef?.current;
-    box.addEventListener('scroll', handleScroll);
+    box?.addEventListener('scroll', handleScroll);
 
     return () => {
-      box.removeEventListener('scroll', handleScroll);
+      box?.removeEventListener('scroll', handleScroll);
     };
   }, [chatMetaInfo]);
 

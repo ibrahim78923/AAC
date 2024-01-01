@@ -15,7 +15,7 @@ export const useChatField = () => {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const chatMode = chatModeState?.chatModeState;
 
-  const filteredMessages = chatMessages.filter(
+  const filteredMessages = chatMessages?.filter(
     (message: any) => message?.content !== '',
   );
 

@@ -158,12 +158,12 @@ const ChatBox = ({
                 <Typography
                   variant="body3"
                   sx={{
-                    color: '#6E7191',
+                    color: theme?.palette.custom?.dim_blue,
                   }}
                 >
                   <ReplyIcon />
                   &nbsp;&nbsp;{item?.userName}replied to{' '}
-                  {item?.parentMessage?.ownerDetail?._id === user._id ? (
+                  {item?.parentMessage?.ownerDetail?._id === user?._id ? (
                     'You'
                   ) : (
                     <>
@@ -190,7 +190,7 @@ const ChatBox = ({
                   <Box>
                     <Typography
                       variant="body3"
-                      sx={{ color: '#6E7191', fontWeight: '500' }}
+                      sx={{ color: theme?.palette?.common, fontWeight: '500' }}
                     >
                       {item?.userName}
                     </Typography>
@@ -297,8 +297,11 @@ const ChatBox = ({
               <Box
                 sx={{ textAlign: `${role === 'sender' ? 'left' : 'right'}` }}
               >
-                <Typography variant="body3" sx={{ color: '#6E7191' }}>
-                  {dayjs(item?.createdAt).format(TIME_FORMAT.UI)}
+                <Typography
+                  variant="body3"
+                  sx={{ color: theme?.palette.custom?.dim_blue }}
+                >
+                  {dayjs(item?.createdAt).format(TIME_FORMAT?.UI)}
                 </Typography>
               </Box>
             </Box>

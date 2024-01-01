@@ -8,13 +8,13 @@ export const styles = {
   chatReply: (theme: any) => {
     return {
       position: 'relative',
-      background: theme.palette.primary.lighter,
+      background: theme?.palette?.primary?.lighter,
       borderRadius: '8px',
       padding: '10px',
       width: '97%',
       margin: '0 auto',
       marginTop: '12px',
-      border: `1px solid ${theme.palette.grey[700]}`,
+      border: `1px solid ${theme?.palette?.grey[700]}`,
     };
   },
 
