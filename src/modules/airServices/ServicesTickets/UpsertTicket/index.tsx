@@ -46,6 +46,7 @@ export const UpsertTicket = (props: any) => {
           </FormProvider>
         </Box>
       )}
+      <br />
     </CommonDrawer>
   );
 };

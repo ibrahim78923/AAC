@@ -22,12 +22,12 @@ export const useSingleProductCatalogDetails = () => {
     try {
       const res = await deleteCatalog(updatedData)?.unwrap();
       setIsDeleteModalOpen?.(false);
+      router?.push(AIR_SERVICES?.PRODUCT_CATALOG);
       enqueueSnackbar(res?.message ?? 'Product Catalog Deleted Successfully!', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      router?.push(AIR_SERVICES?.PRODUCT_CATALOG);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {
+      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something Went Wrong!', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
       setIsDeleteModalOpen?.(false);

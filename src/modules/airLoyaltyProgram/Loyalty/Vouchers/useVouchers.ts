@@ -9,7 +9,6 @@ export const useVouchers = () => {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const theme: any = useTheme();
 
-
   return {
     page,
     setPage,

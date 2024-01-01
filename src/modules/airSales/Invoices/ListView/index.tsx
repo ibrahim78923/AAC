@@ -40,7 +40,6 @@ const ListView = () => {
         <Typography variant="h3">Invoice</Typography>
         <Button
           variant="contained"
-          sx={{ display: 'flex', gap: '10px', fontWeight: '500' }}
           startIcon={<PlusIcon />}
           onClick={() => navigate?.push(AIR_SALES?.SALES_CREATE_INVOICES)}
         >
@@ -109,7 +108,7 @@ const ListView = () => {
         />
       </Box>
       <AlertModals
-        message="You're about to delete all record. Detailed records can't be restored after 90 days."
+        message="You're about to delete all record. Deleted records can't be restored after 90 days."
         type="delete"
         open={isDeleteModal}
         handleClose={() => setIsDeleteModal(false)}

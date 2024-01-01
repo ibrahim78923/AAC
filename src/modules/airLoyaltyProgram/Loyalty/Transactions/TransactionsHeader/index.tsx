@@ -10,11 +10,13 @@ export const TransactionsHeader = () => {
     setIsDrawerOpen,
     isFilterDrawerOpen,
     setIsFilterDrawerOpen,
-    theme
+    theme,
   } = useTransitions();
   return (
     <Box display={'flex'} justifyContent={'space-between'} flexWrap={'wrap'}>
-      <Typography variant="h4"  color={theme?.palette?.slateBlue?.main}>Transactions</Typography>
+      <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
+        Transactions
+      </Typography>
       <Box display={'flex'} gap={1} mt={{ xs: 2, sm: 0 }}>
         <Button
           variant="outlined"

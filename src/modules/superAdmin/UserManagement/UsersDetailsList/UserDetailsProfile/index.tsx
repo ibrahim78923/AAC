@@ -140,7 +140,7 @@ const UserDetailsProfile = (props: any) => {
       >
         <Button variant="outlined">Cancel</Button>
         <Button variant="contained" onClick={handleSubmit(onSubmit)}>
-          Edit
+          Update
         </Button>
       </Grid>
     </FormProvider>

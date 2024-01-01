@@ -1,24 +1,28 @@
 import { RHFMultiCheckbox, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required('Required field'),
-  lastName: Yup.string().required('Required field'),
-  email: Yup.string().required('Required field'),
-  organizationName: Yup.string().required('Required field'),
-  crn: Yup.string().required('Required field'),
-  numberOfEmployees: Yup.string().required('Required field'),
-  phoneNumber: Yup.string().required('Required field'),
-  products: Yup.array().min(1, 'Required field')?.required('Required field'),
-  password: Yup.string()
-    .required('Password is required')
-    .matches(
+export const validationSchema = Yup?.object()?.shape({
+  firstName: Yup?.string()
+    ?.required('Required field')
+    ?.matches(/^[a-zA-Z][a-zA-Z0-9]*$/, 'Alphanumeric characters Only'),
+  lastName: Yup?.string()
+    ?.required('Required field')
+    ?.matches(/^[a-zA-Z][a-zA-Z0-9]*$/, 'Alphanumeric characters only'),
+  email: Yup?.string()?.required('Required field'),
+  organizationName: Yup?.string()?.required('Required field'),
+  crn: Yup?.string()?.required('Required field'),
+  numberOfEmployees: Yup?.string()?.required('Required field'),
+  phoneNumber: Yup?.string()?.required('Required field'),
+  products: Yup?.array()?.min(1, 'Required field')?.required('Required field'),
+  password: Yup?.string()
+    ?.required('Password is required')
+    ?.matches(
       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/,
       'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and be at least 8 characters long',
     ),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), ''], 'Passwords must match')
-    .required('Confirm Password is required'),
+  confirmPassword: Yup?.string()
+    ?.oneOf([Yup?.ref('password'), ''], 'Passwords must match')
+    ?.required('Confirm Password is required'),
 });
 
 export const defaultValues = {
@@ -27,7 +31,7 @@ export const defaultValues = {
   email: '',
   crn: '',
   products: [],
-  enableEmployeeVerification: '',
+  enableEmployeeVerification: false,
   organizationName: '',
   numberOfEmployees: '',
   phoneNumber: '',

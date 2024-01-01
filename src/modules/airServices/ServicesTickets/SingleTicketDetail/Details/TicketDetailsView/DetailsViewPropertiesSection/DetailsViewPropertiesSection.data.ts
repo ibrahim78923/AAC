@@ -20,7 +20,6 @@ export const validationSchema = Yup?.object()?.shape({
   plannedEndDate: Yup?.date(),
   plannedEndTime: Yup?.date(),
   plannedEffort: Yup?.string(),
-  // attachFile: Yup.mixed(),
 });
 
 export const defaultValues = {
@@ -38,7 +37,6 @@ export const defaultValues = {
   plannedEndDate: new Date(), //12
   plannedEndTime: new Date(), //13
   plannedEffort: '', //14
-  // attachFile: null, //15
 };
 export const dataArray = [
   {

@@ -4,13 +4,20 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
 import { useAddNewVendor } from './useAddNewVendor';
 import { newVendorDataArray } from './AddNewVendor.data';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const AddNewVendor = (props: any) => {
   const { isADrawerOpen } = props;
 
-  const { methodsNewVendor, handleSubmit, onSubmit, onClose } =
-    useAddNewVendor(props);
-
+  const {
+    methodsNewVendor,
+    handleSubmit,
+    onSubmit,
+    onClose,
+    isLoading,
+    isFetching,
+  } = useAddNewVendor(props);
+  if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <>
       <CommonDrawer

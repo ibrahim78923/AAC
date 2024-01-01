@@ -5,8 +5,13 @@ import { useDepartmentsHeader } from './useDepartmentsHeader';
 import { DepartmentsFormModal } from '../DepartmentsFormModal';
 
 export const DepartmentsHeader = () => {
-  const { backArrowClick, openAddModal, setOpenAddModal, formProps } =
-    useDepartmentsHeader();
+  const {
+    backArrowClick,
+    openAddModal,
+    setOpenAddModal,
+    formProps,
+    usersList,
+  } = useDepartmentsHeader();
   const { addFormMethod, handleSubmit, submitAddForm } = formProps;
   return (
     <>
@@ -49,6 +54,7 @@ export const DepartmentsHeader = () => {
         open={openAddModal}
         handleClose={setOpenAddModal}
         formTitle="Add Department"
+        usersList={usersList}
       />
     </>
   );

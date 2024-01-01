@@ -19,13 +19,12 @@ export const FilterArray = [
   },
   {
     componentProps: {
-      name: 'companyName',
+      name: 'name',
       label: 'Company Name',
       fullWidth: true,
       select: true,
     },
     options: [
-      { value: '-', label: '-' },
       { value: 'AirApple Cart', label: 'AirApple Cart' },
       { value: 'PhoenixBaker', label: 'PhoenixBaker' },
       { value: 'Foster App', label: 'Foster App' },
@@ -36,13 +35,12 @@ export const FilterArray = [
   },
   {
     componentProps: {
-      name: 'companyRegNo',
+      name: 'crn',
       label: 'Company Registration Number',
       fullWidth: true,
       select: true,
     },
     options: [
-      { value: '-', label: '-' },
       { value: 'AirApple Cart', label: 'AirApple Cart' },
       { value: 'PhoenixBaker', label: 'PhoenixBaker' },
       { value: 'Foster App', label: 'Foster App' },
@@ -53,13 +51,12 @@ export const FilterArray = [
   },
   {
     componentProps: {
-      name: 'companyOwner',
+      name: 'ownerId',
       label: 'Company Owner',
       fullWidth: true,
       select: true,
     },
     options: [
-      { value: '-', label: '-' },
       { value: 'Savannah Shane', label: 'Savannah Shane' },
       { value: 'April Cruitis', label: 'April Cruitis' },
       { value: 'Cameron Williamson', label: 'Cameron Williamson' },
@@ -70,7 +67,7 @@ export const FilterArray = [
   },
   {
     componentProps: {
-      name: 'createdDate',
+      name: 'date',
       label: 'Created Date',
       fullWidth: true,
       placeholder: 'Created Date',

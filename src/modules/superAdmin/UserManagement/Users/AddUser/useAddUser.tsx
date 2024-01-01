@@ -14,7 +14,7 @@ import { SUPER_ADMIN } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import useUserDetailsList from '../../UsersDetailsList/useUserDetailsList';
 
-const useAddUser = (useActionParams: any) => {
+const useAddUser = (useActionParams?: any) => {
   const {
     tabVal,
     organizationId,

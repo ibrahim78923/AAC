@@ -1,15 +1,14 @@
 import { Button, Grid, MenuItem, Popover, Typography } from '@mui/material';
 import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
 import { styles } from '../RelatedTickets.styles';
-import { useRelatedTickets } from '../useRelatedTickets';
 
 export const RelatedTicketsHeader = ({
   isActive,
   setIsDrawerOpen,
   setDrawerType,
+  headerFunctions,
 }: any) => {
   const {
-    enqueueSnackbar,
     handleActionClick,
     actionExportPop,
     actionPop,
@@ -19,7 +18,9 @@ export const RelatedTicketsHeader = ({
     handleActionExportClick,
     handleActionClose,
     openActionExport,
-  } = useRelatedTickets();
+    handleDeleteChildTickets,
+  } = headerFunctions();
+
   return (
     <Grid container spacing={{ sm: 0, xs: 2 }} sx={styles?.headContainer}>
       <Grid
@@ -55,14 +56,7 @@ export const RelatedTicketsHeader = ({
             horizontal: 'left',
           }}
         >
-          <MenuItem
-            sx={{ p: 1 }}
-            onClick={() => {
-              enqueueSnackbar('child ticket deleted successfully', {
-                variant: 'success',
-              });
-            }}
-          >
+          <MenuItem sx={{ p: 1 }} onClick={handleDeleteChildTickets}>
             Delete
           </MenuItem>
           <MenuItem

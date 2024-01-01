@@ -22,6 +22,14 @@ const useUserDetailsList = () => {
     product: '',
     company: '',
   });
+  const [page, setPage] = useState(1);
+
+  const handleEmpListPaginationChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setPage(value);
+  };
 
   const handleCloseDrawer = () => {
     setIsOpenDrawer(false);
@@ -70,6 +78,8 @@ const useUserDetailsList = () => {
     employeeFilter,
     setEmployeeFilter,
     resetFilters,
+    handleEmpListPaginationChange,
+    page,
   };
 };
 export default useUserDetailsList;

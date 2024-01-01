@@ -8,7 +8,7 @@ export const companyColumns: any = [
   {
     accessorFn: (row: any) => row?.Product,
     id: 'product',
-    isSortable: false,
+    isSortable: true,
     header: 'Product',
     cell: (info: any) => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

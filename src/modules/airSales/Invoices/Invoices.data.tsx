@@ -1,8 +1,6 @@
-import { Box, Checkbox, Stack, TextField } from '@mui/material';
-import { RemoveRedEye, Delete } from '@mui/icons-material';
+import { Checkbox, Stack, TextField } from '@mui/material';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
-import { EditYellowBgIcon } from '@/assets/icons';
 import { StatusDropdown } from './InvoicesCommonComponents/StatusDropDown';
 import { QuantityNumber } from './InvoicesCommonComponents/QuantityNumber';
 import { SelectUnit } from './InvoicesCommonComponents/SelectUnit';
@@ -194,100 +192,100 @@ export const invoiceFilterFields = [
 ];
 
 // products table data
-export const productsTableColumns = (
-  setIsDeleteModal: any,
-  setIsDrawerOpen: any,
-) => [
-  {
-    accessorFn: (row: any) => row?.Sr,
-    id: 'Sr',
-    cell: (info: any) => info?.getValue(),
-    header: 'Sr#',
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.productName,
-    id: 'productName',
-    cell: (info: any) => info.getValue(),
-    header: 'Product Name',
-    isSortable: true,
-  },
-  {
-    accessorFn: (row: any) => row?.unitPrice,
-    id: 'unitPrice',
-    isSortable: true,
-    header: 'Unit Price',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.quantity,
-    id: 'quantity',
-    isSortable: true,
-    header: 'Quantity',
-    cell: (info: any) => {
-      return <QuantityNumber data={info} />;
+export const productsTableColumns = () =>
+  // setIsDeleteModal: any,
+  // setIsDrawerOpen: any,
+  [
+    {
+      accessorFn: (row: any) => row?.Sr,
+      id: 'Sr',
+      cell: (info: any) => info?.getValue(),
+      header: 'Sr#',
+      isSortable: false,
     },
-  },
-  {
-    accessorFn: (row: any) => row?.unitDiscount,
-    id: 'unitDiscount',
-    isSortable: true,
-    header: 'Unit Discount',
-    cell: (info: any) => {
-      return (
-        <Stack direction="row" gap={2}>
-          <SelectUnit data={info} />
-          <TextField
-            type="text"
-            size="small"
-            value={20}
-            sx={{ width: '100px' }}
-          />
-        </Stack>
-      );
+    {
+      accessorFn: (row: any) => row?.productName,
+      id: 'productName',
+      cell: (info: any) => info.getValue(),
+      header: 'Product Name',
+      isSortable: true,
     },
-  },
-  {
-    accessorFn: (row: any) => row?.totalPrice,
-    id: 'totalPrice',
-    isSortable: true,
-    header: 'Total Price',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.createdDate,
-    id: 'createdDate',
-    isSortable: true,
-    header: 'Created Date',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.action,
-    id: 'Actions',
-    isSortable: true,
-    header: 'Actions',
-    cell: () => {
-      return (
-        <Stack direction="row" alignItems="center" gap={1}>
-          <RemoveRedEye
-            sx={{ cursor: 'pointer' }}
-            onClick={() => setIsDrawerOpen(true)}
-          />
-          <Box
-            sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-            onClick={() => setIsDrawerOpen(true)}
-          >
-            <EditYellowBgIcon />
-          </Box>
-          <Delete
-            sx={{ cursor: 'pointer', color: '#FF4A4A' }}
-            onClick={() => setIsDeleteModal(true)}
-          />
-        </Stack>
-      );
+    {
+      accessorFn: (row: any) => row?.unitPrice,
+      id: 'unitPrice',
+      isSortable: true,
+      header: 'Unit Price',
+      cell: (info: any) => info?.getValue(),
     },
-  },
-];
+    {
+      accessorFn: (row: any) => row?.quantity,
+      id: 'quantity',
+      isSortable: true,
+      header: 'Quantity',
+      cell: (info: any) => {
+        return <QuantityNumber data={info} />;
+      },
+    },
+    {
+      accessorFn: (row: any) => row?.unitDiscount,
+      id: 'unitDiscount',
+      isSortable: true,
+      header: 'Unit Discount',
+      cell: (info: any) => {
+        return (
+          <Stack direction="row" gap={2}>
+            <SelectUnit data={info} />
+            <TextField
+              type="text"
+              size="small"
+              value={20}
+              sx={{ width: '100px' }}
+            />
+          </Stack>
+        );
+      },
+    },
+    {
+      accessorFn: (row: any) => row?.totalPrice,
+      id: 'totalPrice',
+      isSortable: true,
+      header: 'Total Price',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.createdDate,
+      id: 'createdDate',
+      isSortable: true,
+      header: 'Created Date',
+      cell: (info: any) => info?.getValue(),
+    },
+    // {
+    //   accessorFn: (row: any) => row?.action,
+    //   id: 'Actions',
+    //   isSortable: true,
+    //   header: 'Actions',
+    //   cell: () => {
+    //     return (
+    //       <Stack direction="row" alignItems="center" gap={1}>
+    //         <RemoveRedEye
+    //           sx={{ cursor: 'pointer' }}
+    //           onClick={() => setIsDrawerOpen(true)}
+    //         />
+    //         <Box
+    //           sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+    //           onClick={() => setIsDrawerOpen(true)}
+    //         >
+    //           <EditYellowBgIcon />
+    //         </Box>
+    //         <Delete
+    //           sx={{ cursor: 'pointer', color: '#FF4A4A' }}
+    //           onClick={() => setIsDeleteModal(true)}
+    //         />
+    //       </Stack>
+    //     );
+    //   },
+    // },
+  ];
 
 // products table data
 export const productsTableData: any = [
