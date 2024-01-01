@@ -11,9 +11,8 @@ export const useFilterSalesWorkflow = (props: any) => {
     resolver: yupResolver(FilterSalesWorkflow),
     defaultValues: salesWorkflowsFilterValues,
   });
-  const { handleSubmit, reset } = filterMethod;
+  const { handleSubmit } = filterMethod;
   const onSubmit = () => {
-    reset();
     setIsFilterOpen(false);
   };
   return {

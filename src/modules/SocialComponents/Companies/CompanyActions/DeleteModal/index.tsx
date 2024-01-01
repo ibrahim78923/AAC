@@ -14,7 +14,9 @@ const DeleteModal = ({ isDeleteCompany, setIsDeleteCompany }: any) => {
         type={'delete'}
         submitBtnText="OK, Delete"
         open={isDeleteCompany}
-        handleClose={() => setIsDeleteCompany(false)}
+        handleClose={() =>
+          setIsDeleteCompany({ ...isDeleteCompany, deleteModal: false })
+        }
         handleSubmitBtn={() => {
           deleteCompanies({});
         }}

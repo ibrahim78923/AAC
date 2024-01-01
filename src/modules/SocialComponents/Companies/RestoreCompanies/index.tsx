@@ -37,6 +37,7 @@ const RestoreCompanies = (props: any) => {
   const columnsProps = {
     checkedRows: checkedRows,
     setCheckedRows: setCheckedRows,
+    companiesData: getAllDeletedCompanies,
   };
 
   const columnParams = columns(columnsProps);
@@ -137,14 +138,16 @@ const RestoreCompanies = (props: any) => {
         />
       </Box>
 
-      {isDeleteModal && (
+      {isDeleteModal?.isOpen && (
         <DeleteModal
+          checkedRows={checkedRows}
           isRestoreDelete={isDeleteModal}
           setIsRestoreDelete={setIsDeleteModal}
         />
       )}
-      {isRestoreModal && (
+      {isRestoreModal?.isOpen && (
         <RestoreModal
+          checkedRows={checkedRows}
           isRestoreItem={isRestoreModal}
           setIsRestoreItem={setIsRestoreModal}
         />

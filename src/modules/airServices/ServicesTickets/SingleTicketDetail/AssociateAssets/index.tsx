@@ -1,11 +1,11 @@
 import { AssociatesLists } from './AssociatesLists';
 
 export const AssociateAssets = (props: any) => {
-  const {} = props;
+  const { setTotalAssets } = props;
 
   return (
     <>
-      <AssociatesLists />
+      <AssociatesLists setTotalAssets={setTotalAssets} />
     </>
   );
 };

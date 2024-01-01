@@ -28,7 +28,7 @@ const FilterCompany = ({
       <CommonDrawer
         isDrawerOpen={isFilter}
         onClose={() => {
-          setIsFilter(false);
+          setIsFilter({ ...isFilter, filtersDrawer: false });
         }}
         title="Filters"
         okText="Apply"
@@ -44,7 +44,7 @@ const FilterCompany = ({
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={uuidv4()}>
+                        <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>
                       ))}

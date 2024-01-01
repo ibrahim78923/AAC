@@ -30,6 +30,7 @@ export default function RHFAutocompleteAsync({
     option?._id === newValue?._id,
   renderOption,
   required,
+  endIconSx,
   ...other
 }: any): JSX.Element {
   const { control } = useFormContext();
@@ -153,7 +154,7 @@ export default function RHFAutocompleteAsync({
                         {EndIcon && (
                           <EndIcon
                             onClick={() => endIconClick?.()}
-                            sx={{ cursor: 'pointer' }}
+                            sx={{ cursor: 'pointer', ...endIconSx }}
                           />
                         )}
                         {params?.InputProps?.endAdornment}

@@ -9,9 +9,15 @@ const useRestoreCompanies = () => {
   const theme = useTheme<Theme>();
 
   const [search, setSearch] = useState('');
-  const [isRestoreModal, setIsRestoreModal] = useState(false);
-  const [isDeleteModal, setIsDeleteModal] = useState(false);
-  const [checkedRows, setCheckedRows] = useState();
+  const [isRestoreModal, setIsRestoreModal] = useState({
+    isOpen: false,
+    type: '',
+  });
+  const [isDeleteModal, setIsDeleteModal] = useState({
+    isOpen: false,
+    type: '',
+  });
+  const [checkedRows, setCheckedRows] = useState<string[]>([]);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [datePickerVal, setDatePickerVal] = useState<any>(new Date());

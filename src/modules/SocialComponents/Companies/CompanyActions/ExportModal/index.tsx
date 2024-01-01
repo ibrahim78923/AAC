@@ -38,7 +38,7 @@ const ExportModal = ({ setIsExport, isExport }: any) => {
         open={isExport}
         cancelBtnText="Cancel"
         submitBtnText="Export"
-        handleClose={() => setIsExport(false)}
+        handleClose={() => setIsExport({ ...isExport, exportModal: false })}
         handleSubmit={function (): void {
           throw new Error('Function not implemented.');
         }}

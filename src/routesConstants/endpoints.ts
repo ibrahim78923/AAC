@@ -52,6 +52,7 @@ export const END_POINTS = {
   POST_VENDOR: '/vendors/add-vendors',
   DELETE_PRODUCT_CATALOG: '/product-catalog/delete-product-catalog',
   ADD_LOCATION: '/location/add-location',
+  ADD_CHILD_LOCATION: '/location/add-child-location',
   GET_LOCATION: '/location/get-location',
   PRODUCT_CATALOG_VENDOR_LIST: '/product-catalog/vendor-list',
   ADD_CANNED_RESPONSES: '/canned-responses/add-canned-response',
@@ -68,6 +69,7 @@ export const END_POINTS = {
   POST_COMPANY_ACCOUNT: '/org-company-account',
   VENDOR_DETAIL_OVERVIEW: '/vendors/get-vendor',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
+  DEPARTMENT: '/department',
   DROPDOWN_DEPARTMENT: `/Department/department-list`,
   TICKETS_ASSOCIATES_ASSETS: '/ticket/associate-assets',
   DROPDOWN_VENDORS_LIST: `/vendors/get-vendors`,
@@ -82,7 +84,9 @@ export const END_POINTS = {
   COMPANY: `/companies`,
   DELETED_COMPANIES: '/companies/deleted',
   COMPANY_PREVIEW: '/companies/get-company-preview',
+  RESTORE_COMPANIES: '/companies/restore-action',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
+  PUT_LOCATION: '/location/edit-location',
   DROPDOWN_REQUESTERS: `/requester/requester-list`,
   DROPDOWN_AGENTS: `/requester/requester-list`,
   DROPDOWN_ASSOCIATE_ASSET: `/assets/inventory`,
@@ -93,6 +97,7 @@ export const END_POINTS = {
   REQUESTER_LIST: `/requester/requester-list`,
   SERVICES_CATEGORIES: `/service-catalog/get-category-list`,
   DEPARTMENT_LIST: `/Department/department-list`,
+  TICKETS_DETACH_ASSOCIATES_ASSETS: '/ticket/detach-assets',
 };
 
 export const superAdminBillingInvoices = {

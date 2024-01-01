@@ -2,10 +2,10 @@ import { Grid } from '@mui/material';
 import {
   RHFAutocomplete,
   RHFDatePicker,
+  RHFDateRangePicker,
   RHFRadioGroup,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
-import { WorkflowDateRange } from '../WorkflowDateRange';
 import { useWorkflowSchedule } from './useWorkflowSchedule';
 import {
   radioOptions,
@@ -15,17 +15,21 @@ import {
 } from './WorkflowSchedule.data';
 
 export const WorkflowSchedule = (props: any) => {
-  const { register, setValue } = props;
+  const { register } = props;
   const { selectedSchedule, selectedScheduleRadio, selectedScheduleWeek } =
     useWorkflowSchedule(props);
 
   return (
     <>
-      <Grid item xs={12}>
+      <Grid item lg={5.6} sm={8.6}>
         <RHFRadioGroup
           name="scheduleWorkflow"
           options={radioOptions}
           inputRef={register}
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
         />
       </Grid>
       {selectedScheduleRadio === scheduleTypes?.schedule && (
@@ -75,17 +79,27 @@ export const WorkflowSchedule = (props: any) => {
             )}
           </Grid>
           <Grid item xs={12} md={6.5}>
+            {selectedSchedule === scheduleTypes?.customRange && (
+              <RHFDateRangePicker
+                name="scheduleDateRange"
+                size="small"
+                label="Custom Range"
+              />
+            )}
+          </Grid>
+          <Grid item xs={12} md={6.5}>
             {(selectedSchedule === scheduleTypes?.daily ||
-              selectedScheduleWeek) && (
+              selectedSchedule === scheduleTypes?.schedule ||
+              selectedScheduleWeek ||
+              selectedSchedule === scheduleTypes?.customRange ||
+              selectedSchedule === scheduleTypes?.annually ||
+              selectedSchedule === scheduleTypes?.monthly) && (
               <RHFTimePicker
                 name="scheduleTime"
                 label="Time"
                 size="small"
                 fullWidth
               />
-            )}
-            {selectedSchedule === scheduleTypes?.customRange && (
-              <WorkflowDateRange setValue={setValue} />
             )}
           </Grid>
         </>
