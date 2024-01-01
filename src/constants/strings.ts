@@ -256,7 +256,8 @@ export const CANNED_RESPONSES = {
   DELETE: 'delete',
   EDIT: 'edit',
   MOVE: 'move',
-  SELECT_AGENTS: 'selectAgents',
+  SELECT_AGENTS: 'SELECTED',
+  ALL_AGENTS: 'ALL_AGENTS',
   AGENTS: 'agents',
 };
 

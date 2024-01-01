@@ -7,14 +7,16 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { CloseModalIcon } from '@/assets/icons';
 import { useSelectAgentsModal } from './useSelectAgentsModal';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
-import { userData } from './SelectAgentsModal.data';
-import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
+import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
+import { stringAvatar } from '../AddResponseForm.data';
+import { CANNED_RESPONSES } from '@/constants/strings';
 
 export const SelectAgentsModal = (props: any) => {
   const {
@@ -23,6 +25,8 @@ export const SelectAgentsModal = (props: any) => {
     agents,
     openSelectAgentsModal,
     closeSelectAgentsModal,
+    apiQueryAgents,
+    setValue,
   } = useSelectAgentsModal(props);
   return (
     <>
@@ -32,6 +36,10 @@ export const SelectAgentsModal = (props: any) => {
           onClose={(_event, reason) => {
             if (reason && reason == 'backdropClick') return;
             closeSelectAgentsModal();
+            setValue(
+              CANNED_RESPONSES?.AVAILABLE_FOR,
+              CANNED_RESPONSES?.ALL_AGENTS,
+            );
           }}
           aria-labelledby="responsive-dialog-title"
           PaperProps={{
@@ -61,7 +69,13 @@ export const SelectAgentsModal = (props: any) => {
               <Typography variant="h3">Agents</Typography>
             </Box>
             <Box
-              onClick={closeSelectAgentsModal}
+              onClick={() => {
+                closeSelectAgentsModal();
+                setValue(
+                  CANNED_RESPONSES?.AVAILABLE_FOR,
+                  CANNED_RESPONSES?.ALL_AGENTS,
+                );
+              }}
               sx={{
                 cursor: 'pointer',
               }}
@@ -76,22 +90,40 @@ export const SelectAgentsModal = (props: any) => {
             <DialogContent>
               <Grid container gap={1.4}>
                 <Grid item xs={12}>
-                  <RHFAutocomplete name="agents" options={userData} multiple />
+                  <RHFAutocompleteAsync
+                    name="agents"
+                    size="small"
+                    multiple
+                    placeholder="select"
+                    apiQuery={apiQueryAgents}
+                    getOptionLabel={(option: any) =>
+                      `${option?.firstName} ${option?.lastName}`
+                    }
+                    required
+                  />
                 </Grid>
                 {!!agents?.length && (
                   <Grid item xs={12}>
                     <AvatarGroup
                       max={4}
+                      total={agents?.length}
                       sx={{
                         justifyContent: 'flex-end',
                       }}
                     >
                       {agents?.map((avatar: any) => (
-                        <Avatar
-                          key={avatar?.id}
-                          alt={avatar?.label}
-                          src={avatar?.src?.src}
-                        />
+                        <Tooltip
+                          title={`${avatar?.firstName} ${avatar?.lastName}`}
+                          key={avatar?._id}
+                        >
+                          <Avatar
+                            alt={`${avatar?.firstName} ${avatar?.lastName}`}
+                            src={avatar?.attachments}
+                            {...stringAvatar(
+                              `${avatar?.firstName} ${avatar?.lastName}`,
+                            )}
+                          />
+                        </Tooltip>
                       ))}
                     </AvatarGroup>
                   </Grid>
@@ -101,7 +133,13 @@ export const SelectAgentsModal = (props: any) => {
             <DialogActions sx={{ pt: '0 !important' }}>
               <Box display="flex" justifyContent="flex-end" gap={2}>
                 <LoadingButton
-                  onClick={closeSelectAgentsModal}
+                  onClick={() => {
+                    closeSelectAgentsModal();
+                    setValue(
+                      CANNED_RESPONSES?.AVAILABLE_FOR,
+                      CANNED_RESPONSES?.ALL_AGENTS,
+                    );
+                  }}
                   variant="outlined"
                   color="secondary"
                 >

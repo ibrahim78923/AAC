@@ -75,7 +75,7 @@ export const responsesTableColumns = (
       return (
         <Box>
           {true ? (
-            info?.getValue()
+            info?.getValue()?.replace(/_/g, ' ')
           ) : (
             <AvatarGroup max={4} sx={{ justifyContent: 'flex-end' }}>
               {info

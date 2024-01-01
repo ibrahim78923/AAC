@@ -28,10 +28,11 @@ export const useAddResponseForm = (props: any) => {
     resolver: yupResolver(addResponseValidationSchema),
     defaultValues: addResponseDefaultValues(folderName),
   });
-  const { handleSubmit, watch, reset } = methodsAddResponseForm;
+  const { handleSubmit, watch, reset, setValue } = methodsAddResponseForm;
   const availableForChanged = watch(CANNED_RESPONSES?.AVAILABLE_FOR);
   const closeDrawer = () => {
     setDrawerOpen(false);
+    setAgents([]);
     setSelectedData([]);
     reset();
   };
@@ -42,6 +43,18 @@ export const useAddResponseForm = (props: any) => {
       ([key, value]: any) => upsertResponseFormData?.append(key, value),
     );
     upsertResponseFormData?.append('folderId', cannedResponseId);
+    if (availableForChanged === CANNED_RESPONSES?.SELECT_AGENTS) {
+      if (!!!agents?.length) {
+        enqueueSnackbar('Please select Agents', {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        });
+        return;
+      }
+      upsertResponseFormData?.append(
+        'agents',
+        agents?.map((agent: any) => agent?._id),
+      );
+    }
     const responseParameter = {
       body: upsertResponseFormData,
     };
@@ -80,9 +93,7 @@ export const useAddResponseForm = (props: any) => {
     }
   };
   useEffect(() => {
-    if (
-      watch(CANNED_RESPONSES?.AVAILABLE_FOR) === CANNED_RESPONSES?.SELECT_AGENTS
-    ) {
+    if (availableForChanged === CANNED_RESPONSES?.SELECT_AGENTS) {
       setOpenSelectAgentsModal(true);
     }
   }, [availableForChanged]);
@@ -102,5 +113,7 @@ export const useAddResponseForm = (props: any) => {
     editableObj,
     postResponseStatus,
     patchResponseStatus,
+    availableForChanged,
+    setValue,
   };
 };
