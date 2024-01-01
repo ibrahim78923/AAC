@@ -1,7 +1,11 @@
 import { Box, Checkbox, Avatar, Typography } from '@mui/material';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS, TICKET_STATUS } from '@/constants/strings';
+import {
+  NOTISTACK_VARIANTS,
+  TICKETS_STATE,
+  TICKET_STATUS,
+} from '@/constants/strings';
 import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
@@ -98,17 +102,18 @@ export const ticketsActionDropdownFunction = (
 
 export const ticketsListInitialColumns = [
   '_id',
+  'ticketIdNumber',
   'subject',
-  'requester',
-  'assignedTo',
+  'requesterDetails',
+  'agentDetails',
   'state',
   'status',
-  'priority',
+  'pirority',
 ];
 
 export const ticketsListsData: any = [
   {
-    _id: 3,
+    _id: '658aaf31e7b1a059b6f2ae4d',
     ticketId: ` #SR-917`,
     subject: 'What is wrong with my email',
     requester: { name: 'Leslie Alexander', profileImg: '' },
@@ -125,7 +130,7 @@ export const ticketsListsData: any = [
     plannedEffort: '1 hour',
   },
   {
-    _id: 4,
+    _id: '658bfde764c8bd0f7ee86766',
     ticketId: ` #SR-917`,
     subject: 'What is wrong with my email',
     requester: { name: 'Leslie Alexander', profileImg: '' },
@@ -142,6 +147,34 @@ export const ticketsListsData: any = [
     plannedEffort: '1 hour',
   },
 ];
+
+const TICKET_STATE_CONDITION = {
+  NEW: 2,
+  RESPONSE_DUE: 0,
+};
+
+const checkStatus = (startDate: any, expiryDate: any) => {
+  const currentDate: any = new Date();
+  const startDiff: any = Math?.round(
+    (currentDate - startDate) / (1000 * 60 * 60 * 24),
+  );
+  const expiryDiff = Math?.round(
+    (expiryDate - currentDate) / (1000 * 60 * 60 * 24),
+  );
+
+  if (startDiff <= TICKET_STATE_CONDITION?.NEW) {
+    return TICKETS_STATE?.NEW;
+  } else if (expiryDiff > TICKET_STATE_CONDITION?.RESPONSE_DUE) {
+    return TICKETS_STATE?.RESPONSE_DUE;
+  } else {
+    return TICKETS_STATE?.OVERDUE;
+  }
+};
+
+const fullName = (firstName: any, lastName: any) => {
+  if (!!!firstName && !!!lastName) return 'None';
+  return `${firstName ?? ''} ${lastName ?? ''}`;
+};
 
 export const ticketsListsColumnFunction: any = (
   theme: any,
@@ -197,22 +230,28 @@ export const ticketsListsColumnFunction: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?._id,
-      id: '_id',
+      accessorFn: (row: any) => row?.ticketIdNumber,
+      id: 'ticketIdNumber',
       cell: (info: any) => {
         return (
-          <Box
-            display={'flex'}
-            gap={0.25}
-            flexWrap={'wrap'}
-            alignItems={'center'}
-          >
+          <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
             <Avatar
               sx={{ bgcolor: theme?.palette?.blue?.main, borderRadius: 1.25 }}
               style={{ width: 25, height: 25 }}
-              alt={info?.row?.original?.department}
+              src={
+                info?.row?.original?.departmentsDetails?.departmenProfilePicture
+              }
             >
-              {info?.row?.original?.department}
+              <Typography variant="body2" textTransform={'uppercase'}>
+                {info?.row?.original?.departmentsDetails?.name?.split(
+                  ' ',
+                )?.[0][0] ?? '-'}
+                {
+                  info?.row?.original?.departmentsDetails?.name?.split(
+                    ' ',
+                  )?.[1]?.[0]
+                }
+              </Typography>
             </Avatar>
             <Typography
               sx={{
@@ -229,7 +268,7 @@ export const ticketsListsColumnFunction: any = (
                 });
               }}
             >
-              {info?.row?.original?.ticketId}
+              {info?.getValue()}
             </Typography>
           </Box>
         );
@@ -245,36 +284,40 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.requester,
-      id: 'requester',
+      accessorFn: (row: any) => row?.requesterDetails,
+      id: 'requesterDetails',
       isSortable: true,
       header: 'Requester',
       cell: (info: any) => (
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Avatar
             sx={{ bgcolor: theme?.palette?.blue?.main }}
-            style={{ width: 24, height: 24 }}
-            src={info?.row?.original?.requester?.profileImg?.src}
-            alt={info?.row?.original?.requester?.name}
+            style={{ width: 28, height: 28 }}
+            src={info?.row?.original?.requesterDetails?.profileImg?.src}
           />
-
-          {info?.getValue()?.name}
+          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)},
         </Box>
       ),
     },
     {
-      accessorFn: (row: any) => row?.assignedTo,
-      id: 'assignedTo',
+      accessorFn: (row: any) => row?.agentDetails,
+      id: 'agentDetails',
       isSortable: true,
       header: 'Assigned to',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) =>
+        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
     },
     {
       accessorFn: (row: any) => row?.state,
       id: 'state',
       isSortable: true,
       header: 'State',
-      cell: (info: any) => info?.getValue(),
+      // cell: (info: any) => info?.getValue(), //TODO: integration pending
+      cell: (info: any) =>
+        checkStatus?.(
+          new Date(info?.row?.original?.plannedStartDate),
+          new Date(info?.row?.original?.plannedEndDate),
+        ),
     },
     {
       accessorFn: (row: any) => row?.status,
@@ -284,18 +327,18 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.priority,
-      id: 'priority',
+      accessorFn: (row: any) => row?.pirority,
+      id: 'pirority',
       isSortable: true,
       header: 'Priority',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.department,
-      id: 'department',
+      accessorFn: (row: any) => row?.departmentsDetails,
+      id: 'departmentsDetails',
       isSortable: true,
       header: 'Department',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue()?.name,
     },
     {
       accessorFn: (row: any) => row?.createdAt,
@@ -309,7 +352,8 @@ export const ticketsListsColumnFunction: any = (
       id: 'dueDate',
       isSortable: true,
       header: 'Due Date',
-      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
+      cell: (info: any) =>
+        dayjs(info?.row?.original?.plannedEndDate)?.format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.impact,

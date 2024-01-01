@@ -5,11 +5,16 @@ export const DATE_FORMAT = {
 export const TIME_FORMAT = {
   UI: 'h:mm A',
   API: 'h:mm A',
+  TIME_VALIDATION: 'hh:mm:ss',
 };
 
 export const CALENDAR_FORMAT = {
   UI: 'D MMMM YYYY',
   API: 'YYYY MMMM D',
+};
+
+export const DATE_TIME_FORMAT = {
+  UI: 'dddd, MMMM D, YYYY - HH:mm',
 };
 
 export const SUPER_ADMIN: any = {

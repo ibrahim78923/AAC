@@ -11,10 +11,10 @@ import {
 } from '../ProductCatalog.data';
 
 export const upsertProductCatalogValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Field is Required'),
-  assetType: Yup?.mixed()?.nullable()?.required('Field is Required'),
-  manufacturer: Yup?.string(),
-  status: Yup?.mixed()?.nullable()?.required('Field is Required'),
+  name: Yup?.string()?.trim()?.required('Required'),
+  assetType: Yup?.mixed()?.nullable()?.required('Required'),
+  manufacturer: Yup?.string()?.trim(),
+  status: Yup?.mixed()?.nullable()?.required('Required'),
   modeOfProcurement: Yup?.mixed()?.nullable(),
   description: Yup?.string(),
 });
@@ -23,7 +23,7 @@ export const upsertProductCatalogDefaultValuesFunction = (data?: any) => {
   return {
     name: data?.name ?? '',
     assetType: data?.assetType ?? null,
-    manufacturer: data?.manufacturer ?? '',
+    manufacturer: data?.manufacturer === '--' ? '' : data?.manufacturer ?? '',
     status: data?.status ?? null,
     modeOfProcurement: data?.modeOfProcurement ?? null,
     description: data?.description ?? '',

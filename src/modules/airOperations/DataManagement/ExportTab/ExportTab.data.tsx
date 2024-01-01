@@ -51,7 +51,7 @@ export const exportTabColumnsFunction: any = (
     accessorFn: (row: any) => row?.user,
     id: 'user',
     isSortable: true,
-    header: 'user',
+    header: 'User',
     cell: (info: any) => (
       <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
         <Avatar
@@ -79,7 +79,7 @@ export const exportTabColumnsFunction: any = (
     accessorFn: (row: any) => row?.fileName,
     id: 'fileName',
     isSortable: true,
-    header: 'file Name',
+    header: 'File Name',
     cell: (info: any) => (
       <Typography color="primary.main">{info?.getValue()}</Typography>
     ),
@@ -88,14 +88,14 @@ export const exportTabColumnsFunction: any = (
     accessorFn: (row: any) => row?.product,
     id: 'product',
     isSortable: true,
-    header: 'product',
+    header: 'Product',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.object,
     id: 'object',
     isSortable: true,
-    header: 'object',
+    header: 'Object',
     cell: (info: any) => info?.getValue(),
   },
   {
@@ -109,7 +109,7 @@ export const exportTabColumnsFunction: any = (
     accessorFn: (row: any) => row?.createdDate,
     id: 'createdDate',
     isSortable: true,
-    header: 'created Date',
+    header: 'Created Date',
     cell: (info: any) =>
       info?.getValue()
         ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)

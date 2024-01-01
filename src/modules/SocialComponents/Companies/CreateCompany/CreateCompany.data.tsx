@@ -3,28 +3,28 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const createComapnySchema = Yup?.object()?.shape({
-  domainName: Yup?.string()?.required('Field is Required'),
+  domain: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultCreateCompanyValues = {
-  domainName: '',
-  companyName: '',
-  companyOwner: '',
+  domain: '',
+  name: '',
+  ownerId: '',
   industry: '',
-  companyType: '',
-  noOfEmployees: '',
+  type: '',
+  noOfEmloyee: '',
   totalRevenue: '',
   city: '',
-  postCode: '',
-  companyAddress: '',
+  postalCode: '',
+  address: '',
   description: '',
-  linkdInCompany: '',
+  linkedInUrl: '',
 };
 
 export const dataArray = [
   {
     componentProps: {
-      name: 'domainName',
+      name: 'domain',
       label: 'Company Domain Name (URL)',
       placeholder: 'Enter here',
       required: true,
@@ -36,7 +36,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'companyName',
+      name: 'name',
       label: 'Company Name',
       placeholder: 'Company name',
       fullWidth: true,
@@ -47,15 +47,12 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'companyOwner',
+      name: 'ownerId',
       label: 'Company Owner',
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: '-', label: '-' },
-      { value: 'Savannah Shane', label: 'Savannah Shane' },
-    ],
+    options: [{ value: '655633c2d9d816a1a1cfbeb2', label: 'Savannah Shane' }],
     component: RHFSelect,
     md: 12,
   },
@@ -66,36 +63,30 @@ export const dataArray = [
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: '-', label: '-' },
-      { value: 'Savannah Shane', label: 'Savannah Shane' },
-    ],
+    options: [{ value: 'Savannah Shane', label: 'Savannah Shane' }],
     component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'companyType',
+      name: 'type',
       label: 'Company Type',
       fullWidth: true,
       select: true,
     },
-    options: [
-      { value: '-', label: '-' },
-      { value: 'Savannah Shane', label: 'Savannah Shane' },
-    ],
+    options: [{ value: 'Savannah Shane', label: 'Savannah Shane' }],
     component: RHFSelect,
     md: 12,
   },
   {
-    md: 12,
-    component: RHFTextField,
     componentProps: {
-      name: 'noOfEmployees',
+      name: 'noOfEmloyee',
       label: 'No of Employees',
       placeholder: 'Enter here',
       fullWidth: true,
     },
+    md: 12,
+    component: RHFTextField,
   },
   {
     md: 12,
@@ -121,7 +112,7 @@ export const dataArray = [
     md: 12,
     component: RHFTextField,
     componentProps: {
-      name: 'postCode',
+      name: 'postalCode',
       label: 'Postal Code',
       placeholder: 'Enter here',
       fullWidth: true,
@@ -131,7 +122,7 @@ export const dataArray = [
     md: 12,
     component: RHFTextField,
     componentProps: {
-      name: 'companyAddress',
+      name: 'address',
       label: 'Company Address',
       placeholder: 'Enter here',
       fullWidth: true,
@@ -155,7 +146,7 @@ export const dataArray = [
     md: 12,
     component: RHFTextField,
     componentProps: {
-      name: 'linkdInCompany',
+      name: 'linkedInUrl',
       label: 'LinkdIn Company Page',
       placeholder: 'Enter here',
       fullWidth: true,

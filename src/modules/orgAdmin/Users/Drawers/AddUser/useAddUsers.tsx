@@ -2,12 +2,12 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import useUsers from '../../useUsers';
-import useAddUser from '@/modules/superAdmin/UserManagement/Users/AddUser/useAddUser';
 import { defaultValues, validationSchema } from './AddUser.data';
+import { usePostUserEmployeeMutation } from '@/services/superAdmin/user-management/UserList';
 
 const useAddUsers = (setIsOpenAdduserDrawer: any) => {
   const { user } = useUsers();
-  const { postUserEmployee } = useAddUser();
+  const [postUserEmployee] = usePostUserEmployeeMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),

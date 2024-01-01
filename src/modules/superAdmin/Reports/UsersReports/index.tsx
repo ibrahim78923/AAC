@@ -37,7 +37,7 @@ const UsersReports = () => {
             label="Search Here"
             searchBy={searchBy}
             setSearchBy={setSearchBy}
-            width={240}
+            width={260}
           />
         </Box>
         <Box>

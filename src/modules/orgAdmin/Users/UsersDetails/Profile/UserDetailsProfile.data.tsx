@@ -152,7 +152,7 @@ export const profileFields = [
   },
   {
     componentProps: {
-      label: 'Town/CIty',
+      label: 'Town/City',
       name: 'city',
       placeholder: 'Enter Town/City',
       fullWidth: true,
@@ -204,7 +204,7 @@ export const profileFields = [
     componentProps: {
       label: 'Twitter URL',
       name: 'twitterUrl',
-      placeholder: 'Twitter URL',
+      placeholder: 'Enter Twitter URL',
       fullWidth: true,
     },
     component: RHFTextField,

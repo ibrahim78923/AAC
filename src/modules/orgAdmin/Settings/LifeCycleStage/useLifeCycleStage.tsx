@@ -95,7 +95,7 @@ const useLifeCycleStage = () => {
       ...data,
     };
     try {
-      if (editData) {
+      if (Object?.keys(editData)[0]) {
         await updateSettingLifeCycleStage({
           body: settingLifeCycleStage,
           id: editData?._id,

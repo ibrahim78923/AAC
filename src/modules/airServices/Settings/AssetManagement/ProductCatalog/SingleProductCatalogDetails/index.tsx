@@ -15,10 +15,7 @@ export const SingleProductCatalogDetails = () => {
 
   return (
     <Fragment>
-      <Header
-        dropdownOptions={singleProductDetailActionDropdown}
-        title={'Apple MacBook Air 13'}
-      />
+      <Header dropdownOptions={singleProductDetailActionDropdown} />
 
       <br />
 
