@@ -283,6 +283,7 @@ const UsersDetailsList = () => {
                     isBadge={false}
                     email={profileData?.data?.email}
                     phone={profileData?.data?.phoneNumber}
+                    handleEditProfile={() => setTabVal(1)}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -296,6 +297,7 @@ const UsersDetailsList = () => {
                     <Card sx={{ padding: '0px 24px' }}>
                       <CommonTabs
                         getTabVal={(val: number) => setTabVal(val)}
+                        activeTab={tabVal}
                         searchBarProps={{
                           label: 'Search Here',
                           setSearchBy: setSearch,
