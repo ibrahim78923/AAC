@@ -1,10 +1,11 @@
 import { RHFDatePicker, RHFTextField } from '@/components/ReactHookForm';
 
 import useDealSaleSite from '../useDealSaleSite';
+import { useGetUsersListQuery } from '@/services/airSales/deals';
 
 export const createDealData = () => {
-  const { pipelineData, DealsLifecycleStageData, DealsUserListData } =
-    useDealSaleSite();
+  const { pipelineData, DealsLifecycleStageData } = useDealSaleSite();
+  const { data: UserListData } = useGetUsersListQuery({ role: 'ORG_EMPLOYEE' });
 
   return [
     {
@@ -66,7 +67,7 @@ export const createDealData = () => {
         label: 'Deal Owner',
         select: true,
       },
-      options: DealsUserListData?.data?.useros?.map((item: any) => ({
+      options: UserListData?.data?.users?.map((item: any) => ({
         value: item?._id,
         label: `${item?.firstName} ${item?.lastName}`,
       })) ?? [{ label: '', value: '' }],

@@ -1,31 +1,14 @@
 import { Grid, Box, Alert } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
+// import { useForm } from 'react-hook-form';
+// import { enqueueSnackbar } from 'notistack';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  addCompanyFields,
-  validationSchema,
-  initValues,
-} from './FormAddCompany.data';
+import { dataArray } from './FormAddCompany.data';
+import useFormAddContact from './useFormAddContact';
+import { v4 as uuidv4 } from 'uuid';
 
 const FormAddCompany = ({ open, onClose }: any) => {
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: initValues,
-  });
-  const { handleSubmit } = methods;
-
-  const onSubmit = async (values: any) => {
-    const formData = new FormData();
-
-    formData?.append('profilePicture', values?.profilePicture);
-
-    enqueueSnackbar('Ticket Updated Successfully', {
-      variant: 'success',
-    });
-  };
+  const { onSubmit, handleSubmit, methods } = useFormAddContact();
 
   return (
     <CommonDrawer
@@ -53,10 +36,17 @@ const FormAddCompany = ({ open, onClose }: any) => {
           account&apos;s branding.
         </Alert>
         <FormProvider methods={methods}>
-          <Grid container spacing={'32px'}>
-            {addCompanyFields?.map((item) => (
-              <Grid item xs={12} key={item.id}>
-                <item.component {...item.componentProps} size={'small'} />
+          <Grid container spacing={1}>
+            {dataArray?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component {...item?.componentProps} size={'small'}>
+                  {item?.componentProps?.select &&
+                    item?.options?.map((option: any) => (
+                      <option key={uuidv4()} value={uuidv4()}>
+                        {option?.label}
+                      </option>
+                    ))}
+                </item.component>
               </Grid>
             ))}
           </Grid>

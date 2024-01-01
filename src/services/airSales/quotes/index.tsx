@@ -64,6 +64,17 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       // providesTags: TAG,
     }),
+
+    postCompanies: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.COMPANY,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: ['COMPANY'],
+    }),
   }),
 });
 
@@ -73,6 +84,7 @@ export const {
   useGetQuoteByIdQuery,
   useUpdateQuoteMutation,
   usePostQuoteMutation,
+  usePostCompaniesMutation,
   useDeleteQuotesMutation,
   useGetUserListQuery,
 } = quotesAPI;

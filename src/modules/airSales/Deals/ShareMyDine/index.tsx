@@ -11,33 +11,31 @@ import {
 } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
+import { useGetDealsActionPreviewQuery } from '@/services/airSales/deals';
 
 import {
   AccordianDetailsData,
   ShareAccordianData,
   ShareData,
-} from '../../../../mock/modules/airSales/Deals/ShareMyDine';
+} from './ShareMyDine.data';
 
+import { v4 as uuidv4 } from 'uuid';
 import {
-  MailIcon,
-  CallIcon,
   ActivitiesIcon,
-  CalendarIcon,
-  SaveIcon,
   ArrowBgDownIcon,
+  CalendarIcon,
+  CallIcon,
+  MailIcon,
+  SaveIcon,
 } from '@/assets/icons';
 
 import { styles } from './ShareMyDine.style';
-
-import { v4 as uuidv4 } from 'uuid';
-import { useGetDealsActionPreviewQuery } from '@/services/airSales/deals';
 
 const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
   const theme = useTheme();
   const { data: DealsActionData }: any = useGetDealsActionPreviewQuery({
     id: selectedTableIds[0],
   });
-  // console.log(DealsActionData?.data?.deals, 'DealsActionData');
 
   return (
     <>
@@ -48,7 +46,7 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
         isCancel={false}
         isOk={false}
         okText=""
-        title="ShareMyDine"
+        title={DealsActionData?.data?.name}
       >
         <Box sx={styles?.iconWrap}>
           <MailIcon />

@@ -11,8 +11,9 @@ import {
   // useLazyGetDealsListQuery,
   // useGetDealsListQuery,
   useGetDealsSalesProductQuery,
-  useGetDealsUserListQuery,
+  // useGetDealsUserListQuery,
   useGetDealsViewsQuery,
+  // useGetUsersListQuery,
 } from '@/services/airSales/deals';
 import { enqueueSnackbar } from 'notistack';
 import { AIR_SALES } from '@/routesConstants/paths';
@@ -37,10 +38,12 @@ const useDealSaleSite = () => {
     limit: 10,
     meta: true,
   };
+
   const { data: pipelineData } = useGetDealsSalesProductQuery(params);
 
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
-  const { data: DealsUserListData } = useGetDealsUserListQuery({});
+  // const { data: DealsUserListData } = useGetDealsUserListQuery({});
+
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [selectedTableIds, setSelectedTableIds] = useState<string[]>([]);
   const [filterVal, setFilterVal] = useState({});
@@ -177,7 +180,7 @@ const useDealSaleSite = () => {
     handleListViewClick,
     pipelineData,
     DealsLifecycleStageData,
-    DealsUserListData,
+    // DealsUserListData,
     handleCheckboxChange,
     selectedIds,
     handleTableCheckboxChange,

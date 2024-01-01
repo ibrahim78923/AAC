@@ -1,19 +1,18 @@
 import { Grid, MenuItem } from '@mui/material';
 
-import { useForm } from 'react-hook-form';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import { ScheduleModals } from '@/components/ScheduleModals';
 
 import { v4 as uuidv4 } from 'uuid';
-import { RestoreModalData, defaultValues } from './RestoreAssign.data';
+import { RestoreModalData } from './RestoreAssign.data';
+import useRestoreAssign from './useRestoreAssign';
 
-const AssignModalBox = ({ open, onClose }: any) => {
-  const methods: any = useForm({
-    defaultValues: defaultValues,
-  });
-  const { handleSubmit } = methods;
-  const onSubmit = () => {};
+const AssignModalBox = ({ open, onClose, seletedId }: any) => {
+  const { handleSubmit, onSubmit, methods, UserListData } = useRestoreAssign(
+    seletedId,
+    onClose,
+  );
+
   return (
     <ScheduleModals
       type={'assign'}
@@ -25,7 +24,7 @@ const AssignModalBox = ({ open, onClose }: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
-          {RestoreModalData()?.map((obj: any) => (
+          {RestoreModalData(UserListData)?.map((obj: any) => (
             <Grid item xs={12} key={uuidv4()}>
               <obj.component
                 fullWidth

@@ -1,13 +1,9 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 
-import useDealSaleSite from '../../useDealSaleSite';
-
 export const defaultValues = {
   dealOwnerId: 'select',
 };
-export const RestoreModalData = () => {
-  const { DealsUserListData } = useDealSaleSite();
-
+export const RestoreModalData = (UserListData: any) => {
   return [
     {
       componentProps: {
@@ -16,7 +12,7 @@ export const RestoreModalData = () => {
         select: true,
         defaultValues: 'Select',
       },
-      options: DealsUserListData?.data?.useros?.map((item: any) => {
+      options: UserListData?.data?.users?.map((item: any) => {
         return {
           value: item?._id,
           label: `${item?.firstName} ${item?.lastName}`,

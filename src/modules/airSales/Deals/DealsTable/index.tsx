@@ -42,6 +42,7 @@ const DelasTable = ({
   }
   const { data } = useGetDealsListQuery(params);
   const alwaysViewColumns = ['_id', 'email'];
+
   const dealsColumns: any = [
     {
       accessorFn: (row: any) => row?._id,

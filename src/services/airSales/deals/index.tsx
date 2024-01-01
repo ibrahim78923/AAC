@@ -49,13 +49,13 @@ export const dealsApi = baseAPI.injectEndpoints({
       }),
       providesTags: ['DEALS'],
     }),
-    getDealsUserList: builder.query({
-      query: ({}) => ({
-        url: `${END_POINTS?.DEALS_USER_LIST}`,
-        method: 'GET',
-      }),
-      providesTags: ['DEALS'],
-    }),
+    // getDealsUserList: builder.query({
+    //   query: ({}) => ({
+    //     url: `${END_POINTS?.DEALS_USER_LIST}`,
+    //     method: 'GET',
+    //   }),
+    //   providesTags: ['DEALS'],
+    // }),
     getDealsGridView: builder.query({
       query: (params: any) => ({
         url: `${END_POINTS?.DEALS_GRID_VIEW}`,
@@ -136,6 +136,24 @@ export const dealsApi = baseAPI.injectEndpoints({
       }),
       providesTags: ['DEALS'],
     }),
+    getUsersList: builder.query({
+      query: (params) => ({
+        url: `${END_POINTS?.USERS_LIST_ADMIN}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['DEALS'],
+    }),
+    patchDeals: builder.mutation({
+      query: ({ id, body }: any) => {
+        return {
+          url: `${END_POINTS?.POST_DEALS}/${id}`,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: ['DEALS'],
+    }),
   }),
 });
 
@@ -145,7 +163,7 @@ export const {
   useGetDealsByIdQuery,
   useGetDealsSalesProductQuery,
   useGetDealsLifecycleStageQuery,
-  useGetDealsUserListQuery,
+  // useGetDealsUserListQuery,
   useGetDealsGridViewQuery,
   useGetDealsActionPreviewQuery,
   useGetDealsViewsQuery,
@@ -157,4 +175,6 @@ export const {
   useDeleteDealsMutation,
   useUpdateRestoreDealsMutation,
   useGetDealsListWithOutParamsQuery,
+  useGetUsersListQuery,
+  usePatchDealsMutation,
 } = dealsApi;

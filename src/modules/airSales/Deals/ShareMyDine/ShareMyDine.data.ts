@@ -5,18 +5,29 @@ export const ShareData = (data: any) => {
   return [
     {
       heading: 'Deal Owner',
-      values: `${data?.user?.firstName} ${data?.user?.firstName}`,
+      values: `${data?.user?.firstName ? data.user?.firstName : 'N/A'} ${
+        data?.user?.lastName ? data?.user?.lastName : ''
+      }`,
     },
-    { heading: 'Amount', values: data?.amount },
-    { heading: 'Deal Stage', values: data?.stage?.name },
-    { heading: 'Deal Pipeline', values: data?.pipline?.name },
-    { heading: 'Priority', values: data?.priority },
+    { heading: 'Amount', values: data?.amount ? data?.amount : 'N/A' },
+    {
+      heading: 'Deal Stage',
+      values: data?.stage?.name ? data?.stage?.name : 'N/A',
+    },
+    {
+      heading: 'Deal Pipeline',
+      values: data?.pipline?.name ? data?.pipline?.name : 'N/a',
+    },
+    { heading: 'Priority', values: data?.priority ? data?.priority : 'N/A' },
     {
       heading: 'Close Date',
-      values: dayjs(data?.closeDate)?.format('YYYY/MM/DD'),
+      values: dayjs(data?.closeDate)?.format('YYYY/MM/DD')
+        ? dayjs(data?.closeDate)?.format('YYYY/MM/DD')
+        : 'N/A',
     },
   ];
 };
+
 export const ShareAccordianData = [
   { number: '01', heading: 'Contact' },
   { number: '01', heading: 'Companies' },

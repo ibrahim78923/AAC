@@ -281,7 +281,11 @@ const Deals = () => {
         />
       )}
       {isAssign && (
-        <AssignModalBox open={isAssign} onClose={handleAssignModal} />
+        <AssignModalBox
+          seletedId={selectedTableIds}
+          open={isAssign}
+          onClose={handleAssignModal}
+        />
       )}
       {exportRecord && (
         <ExportRecordModal open={exportRecord} onClose={handleExportRecord} />

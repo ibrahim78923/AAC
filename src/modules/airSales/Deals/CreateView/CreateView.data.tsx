@@ -6,6 +6,7 @@ import {
 
 import useDealSaleSite from '../useDealSaleSite';
 import * as Yup from 'yup';
+import { useGetUsersListQuery } from '@/services/airSales/deals';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
@@ -21,8 +22,9 @@ export const defaultValues = {
 };
 
 export const CreateViewData = () => {
-  const { pipelineData, DealsLifecycleStageData, DealsUserListData } =
-    useDealSaleSite();
+  const { pipelineData, DealsLifecycleStageData } = useDealSaleSite();
+  const { data: UserListData } = useGetUsersListQuery({ role: 'ORG_EMPLOYEE' });
+
   return [
     {
       componentProps: {
@@ -54,7 +56,7 @@ export const CreateViewData = () => {
         select: true,
         defaultValue: 'Select',
       },
-      options: DealsUserListData?.data?.useros?.map((item: any) => ({
+      options: UserListData?.data?.users?.map((item: any) => ({
         value: item?._id,
         label: `${item?.firstName} ${item?.lastName}`,
       })) ?? [{ label: 'Select', value: 'Select' }],
