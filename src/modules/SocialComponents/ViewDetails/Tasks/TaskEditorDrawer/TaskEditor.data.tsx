@@ -13,7 +13,7 @@ export const dealsTasksValidationSchema = Yup?.object()?.shape({
   type: Yup?.string()?.trim()?.required('Field is Required'),
   dueDate: Yup?.string(),
   createTime: Yup?.string(),
-  assignedto: Yup?.string(),
+  assignTo: Yup?.string(),
   priority: Yup?.string()?.trim()?.required('Field is Required'),
   reminder: Yup?.string(),
 });
@@ -24,7 +24,7 @@ export const dealsTasksDefaultValues = {
   type: '',
   dueDate: '',
   createTime: '',
-  assignedto: '',
+  assignTo: '',
   priority: '',
   reminder: '',
 };
@@ -86,7 +86,7 @@ export const dealsTasksDataArray = [
   },
   {
     componentProps: {
-      name: 'assignedto',
+      name: 'assignTo',
       label: 'Assign To',
       select: true,
     },
@@ -122,8 +122,8 @@ export const dealsTasksDataArray = [
     options: [
       { value: 'Today', label: 'Today' },
       { value: 'Tomorrow', label: 'Tomorrow' },
-      { value: 'In 1 business Day', label: 'In 1 business Day' },
-      { value: 'In 2 business Day', label: 'In 2 business Day' },
+      { value: 'in1businessday', label: 'In 1 business Day' },
+      { value: 'in2businessday', label: 'In 2 business Day' },
     ],
     component: RHFSelect,
     md: 12,

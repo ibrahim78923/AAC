@@ -30,7 +30,7 @@ const useTaskEditor = ({
         const {
           name,
           type,
-          assignedto,
+          assignTo,
           dueDate,
           priority,
           note,
@@ -40,7 +40,7 @@ const useTaskEditor = ({
         return {
           name,
           type,
-          assignedto,
+          assignTo,
           dueDate: new Date(dueDate),
           priority,
           note,
@@ -62,24 +62,10 @@ const useTaskEditor = ({
 
     const body = {
       dueDate: DueDate,
-      createTime: CreateTime,
+      time: CreateTime,
       recordId: companyId,
       ...rest,
     };
-
-    // {
-    //   "name": "Title Name",
-    //   "type": "Call",
-    //   "priority": "Title Name",
-    //   "status": "Pending",-------------
-    //   "dealId": "655633c2d9d816a1a1cfbeb2",----------
-    //   "associate": "Companies",-----------
-    //   "assignTo": "652627f809a15759b979dd3a",
-    //   "dueDate": "2023-10-05",
-    //   "time": "00:00",
-    //   "reminder": "Today",---------
-    //   "note": "Content will display here..."------------
-    // }
 
     try {
       openDrawer === 'Edit'
