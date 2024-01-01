@@ -14,7 +14,7 @@ import useUserManagement from '../../useUserManagement';
 
 const UserDetailsProfile = (props: any) => {
   const { userDetails } = props;
-  const { updateUserProfile }: any = useUserManagement();
+  const { updateUsers }: any = useUserManagement();
   const [isToggled, setIsToggled] = useToggle(false);
   const id = userDetails?._id;
 
@@ -54,7 +54,7 @@ const UserDetailsProfile = (props: any) => {
     for (const key of keysToDelete) {
       delete values[key];
     }
-    updateUserProfile({ id, ...values });
+    updateUsers({ id: id, body: values });
   };
 
   return (

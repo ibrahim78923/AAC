@@ -7,7 +7,7 @@ import { useTheme } from '@mui/material';
 import { SUPER_ADMIN } from '@/constants';
 
 import {
-  useUpdateUserProfileMutation,
+  // useUpdateUserProfileMutation,
   usersApi,
 } from '@/services/superAdmin/user-management/users';
 import { enqueueSnackbar } from 'notistack';
@@ -51,7 +51,6 @@ const useUserManagement = () => {
   const { useGetProductsQuery, useGetOrganizationsQuery } = CommonAPIS;
 
   const [updateUsers] = useUpdateUsersMutation();
-  const [updateUserProfile] = useUpdateUserProfileMutation();
   const { data: products } = useGetProductsQuery({});
   const { data: organizations } = useGetOrganizationsQuery({});
   const handleClick = (event: any) => {
@@ -118,7 +117,7 @@ const useUserManagement = () => {
     useGetUsersByIdQuery,
     checkedRows,
     setCheckedRows,
-    updateUserProfile,
+    updateUsers,
     products,
     searchVal,
     setSearchVal,
