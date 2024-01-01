@@ -196,7 +196,7 @@ const UsersDetailsList = () => {
                 message={'No data is available'}
               />
             )}
-            <Box sx={{ maxHeight: `calc(62vh - ${15}px)`, overflow: 'auto' }}>
+            <Box sx={{ height: `calc(62vh - ${15}px)`, overflow: 'auto' }}>
               {empDetail?.map((item: any, index: number) => (
                 <Box
                   className="users-wrapper"
