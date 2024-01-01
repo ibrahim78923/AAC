@@ -158,5 +158,5 @@ export const COMMON_DOCUMENTS = {
   PATCH_DOCUMENT_FOLDER_ID: '/documents/folder',
   PATCH_DOCUMENT_FILE_ID: '/documents/file',
   DELETE_DOCUMENT_FOLDER_ID: '/documents/folder',
-  DELETE_DOCUMENT_FILE_ID: '/documents/file',
+  DELETE_DOCUMENT_FILE_ID: '/documents/files',
 };
