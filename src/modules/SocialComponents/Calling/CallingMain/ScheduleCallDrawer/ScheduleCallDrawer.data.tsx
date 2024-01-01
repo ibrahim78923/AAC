@@ -12,13 +12,13 @@ export const dealsCallsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Field is Required'),
   callFromDate: Yup?.string()?.required('Field is Required'),
   callFromTime: Yup?.string()?.required('Field is Required'),
-  callToDate: Yup.date()
-    .required('End Date is required')
-    .test(
+  callToDate: Yup?.date()
+    ?.required('End Date is required')
+    ?.test(
       'startDateBeforecallToDate',
       'End Date must be after Start Date',
       function (callToDate) {
-        const { callFromDate } = this.parent;
+        const { callFromDate } = this?.parent;
         if (!callFromDate || !callToDate) {
           return true;
         }
@@ -26,19 +26,19 @@ export const dealsCallsValidationSchema = Yup?.object()?.shape({
       },
     ),
 
-  callToTime: Yup.string()
-    .required('End Time is required')
-    .test(
+  callToTime: Yup?.string()
+    ?.required('End Time is required')
+    ?.test(
       'startTimeBeforecallToTime',
       'End Time must be after Start Time',
       function (callToTime) {
-        const { callFromTime } = this.parent;
+        const { callFromTime } = this?.parent;
         if (!callFromTime || !callToTime) {
           return true;
         }
 
         const parseTime = (time) => {
-          const [hours, minutes] = time.split(':');
+          const [hours, minutes] = time?.split(':');
           return new Date(0, 0, 0, hours, minutes);
         };
         return (
