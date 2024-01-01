@@ -233,7 +233,7 @@ const ViewDetails = () => {
           <Box>
             <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
               <Details data={data?.data} />
-              <ActivityLog />
+              <ActivityLog companyId={data?.data?._id} />
               <Associations />
               <Tasks companyId={data?.data?._id} />
               <Notes companyId={data?.data?._id} />

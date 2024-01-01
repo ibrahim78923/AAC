@@ -9,21 +9,35 @@ import { ActivityLogImage } from '@/assets/images';
 import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import { useGetActivityLogQuery } from '@/services/orgAdmin/activity-log';
+import { useGetSubActivityLogQuery } from '@/services/orgAdmin/activity-log';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { isNullOrEmpty } from '@/utils';
 
-const ActivityLog = () => {
+const ActivityLog = ({ companyId }: any) => {
   const { theme } = useNameWithStyledWords();
 
-  const { data } = useGetActivityLogQuery({
-    params: {},
+  const filterPayloadValues = {
+    recordType: 'COMPANY',
+    recordId: companyId,
+  };
+
+  const { data } = useGetSubActivityLogQuery({
+    params: { ...filterPayloadValues },
   });
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Activity Log </Typography>
       <Box sx={styles?.horizontalTabsInnnerBox}>
+        {isNullOrEmpty(data?.data?.activitylogs) && (
+          <Typography
+            variant="h6"
+            sx={{ textAlign: 'center', color: theme?.palette?.error?.main }}
+          >
+            No Activity
+          </Typography>
+        )}
         <Grid container>
           {data?.data?.activitylogs?.map((item: any, index: any) => (
             <Grid item xs={12} key={uuidv4()}>
