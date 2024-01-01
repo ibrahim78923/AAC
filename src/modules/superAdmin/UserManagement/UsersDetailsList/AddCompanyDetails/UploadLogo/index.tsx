@@ -8,8 +8,14 @@ import { UserProfileImage } from '@/assets/images';
 
 import { AddPenIcon } from '@/assets/icons';
 
-const UploadLogo = () => {
-  const { handleChangeImg, onImageError } = useUploadLogo();
+const UploadLogo = (props: any) => {
+  const { companyImg, setCompanyImg } = props;
+
+  const { handleChangeImg, onImageError } = useUploadLogo(
+    companyImg,
+    setCompanyImg,
+  );
+
   return (
     <Box
       className="my-account"

@@ -22,6 +22,7 @@ export const AssociatesLists = (props: any) => {
     setPageLimit,
     deleteTicketsAssociatesAssets,
     setAssetId,
+    router,
   } = useAssociatesLists(props);
 
   return (
@@ -31,11 +32,13 @@ export const AssociatesLists = (props: any) => {
         title={'Associations'}
         addTitle={'Add Associations'}
         handleAction={() => setOpenDrawer(true)}
+        hasEndIcon
+        hasStartIcon={false}
       />
 
       <br />
       <TanstackTable
-        columns={associatesListsColumnFunction(theme, setAssetId)}
+        columns={associatesListsColumnFunction(theme, setAssetId, router)}
         data={
           data?.data?.tickets?.length > 1
             ? data?.data?.tickets
@@ -69,20 +72,19 @@ export const AssociatesLists = (props: any) => {
               ? data?.data?.meta?.total
               : 0
         }
-        // currentPage={data?.data?.meta?.page}
-        // count={data?.data?.meta?.pages}
         pageLimit={data?.data?.meta?.limit}
-        // totalRecords={data?.data?.meta?.total}
         onPageChange={(page: any) => setPage(page)}
         setPage={setPage}
         setPageLimit={setPageLimit}
       />
       <AlertModals
         open={deleteModal}
-        message="Are you sure you want to detach this asset"
+        message="Are you sure you want to detach this asset ?"
         handleClose={() => setDeleteModal(false)}
         handleSubmitBtn={() => deleteTicketsAssociatesAssets?.()}
         type={ALERT_MODALS_TYPE?.DELETE}
+        cancelBtnText="Cancel"
+        submitBtnText="Detach"
       />
       <AddAssociationsDrawer
         open={openDrawer}

@@ -46,7 +46,7 @@ export const useAssociatesLists: any = (props: any) => {
           : 0,
     );
   }, [data]);
-  //TODO: we will use it in integration
+
   const deleteTicketsAssociatesAssets = async () => {
     const deleteTicketsAssociatesAssetsParameter = {
       queryParams: {
@@ -84,5 +84,6 @@ export const useAssociatesLists: any = (props: any) => {
     setPageLimit,
     deleteTicketsAssociatesAssets,
     setAssetId,
+    router,
   };
 };

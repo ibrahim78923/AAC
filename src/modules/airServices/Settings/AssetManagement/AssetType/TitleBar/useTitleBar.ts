@@ -4,31 +4,30 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   validationSchemaAddNewAssetTypes,
-  defaultValues,
+  assetTypesDefaultValues,
 } from '../AddNewAssetTypesModal/AddNewAssetTypesModal.data';
 import { useState } from 'react';
 
 export const useTitleBar = () => {
   const [openEditAssetTypesModal, setEditNewAssetTypesModal] =
     useState<boolean>(false);
-  const editAssetTypesMethods: any = useForm({
+  const methods: any = useForm({
     resolver: yupResolver(validationSchemaAddNewAssetTypes),
-    defaultValues: defaultValues,
+    defaultValues: assetTypesDefaultValues,
   });
 
-  const { handleSubmit, reset } = editAssetTypesMethods;
-  const submitAddForm = async () => {
+  const { handleSubmit, reset } = methods;
+  const submitEditForm = async () => {
     enqueueSnackbar('Asset Type Edit Successfully', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
     reset();
     setEditNewAssetTypesModal(false);
   };
-
+  const handleSubmitEditForm = handleSubmit(submitEditForm);
   return {
-    handleSubmit,
-    editAssetTypesMethods,
-    submitAddForm,
+    methods,
+    handleSubmitEditForm,
     openEditAssetTypesModal,
     setEditNewAssetTypesModal,
   };
