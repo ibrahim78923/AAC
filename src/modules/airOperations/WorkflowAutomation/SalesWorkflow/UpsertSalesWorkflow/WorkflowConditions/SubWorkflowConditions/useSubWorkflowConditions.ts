@@ -1,6 +1,7 @@
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 import { useFieldArray } from 'react-hook-form';
+import { salesValues } from '../../UpsertSalesWorkflow.data';
 
 export const useSubWorkflowConditions = (props: any) => {
   const { control, index, parentField, removeParent } = props;
@@ -22,9 +23,18 @@ export const useSubWorkflowConditions = (props: any) => {
       removeParent(index);
     }
   };
+  const handleAppend = () => {
+    if (fields?.length < 10) {
+      append(salesValues?.workflowConditions?.[0]?.conditions);
+    } else {
+      enqueueSnackbar('Condition limit exceeds', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
   return {
     fields,
-    append,
+    handleAppend,
     handleDeleteClick,
   };
 };

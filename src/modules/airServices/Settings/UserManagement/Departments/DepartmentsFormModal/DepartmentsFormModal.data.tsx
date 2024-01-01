@@ -4,32 +4,30 @@ import {
   RHFDropZone,
   RHFEditor,
   RHFTextField,
-  RHFAutocomplete,
+  RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
 
-const userOptions = ['Nilson Mandela', 'Enee Well', 'Rachel Chris', 'John Max'];
-
 export const departmentFormValidation: any = Yup?.object()?.shape({
-  image: Yup?.mixed(),
+  departmenProfilePicture: Yup?.string(),
   name: Yup?.string(),
-  departmentHead: Yup?.string(),
+  departmentHeadId: Yup?.object(),
   description: Yup?.string(),
   members: Yup?.array(),
 });
 
 export const departmentFormValues: any = {
-  image: '',
+  departmenProfilePicture: '',
   name: '',
-  departmentHead: '',
+  departmentHeadId: null,
   description: '',
   members: [],
 };
 
-export const departmentFormFields: any = [
+export const departmentFormFields: any = (usersList: any) => [
   {
     id: 1,
     componentProps: {
-      name: 'image',
+      name: 'departmenProfilePicture',
       label: 'Image',
     },
     component: RHFDropZone,
@@ -48,11 +46,12 @@ export const departmentFormFields: any = [
     id: 3,
     componentProps: {
       label: 'Department Head',
-      name: 'departmentHead',
+      name: 'departmentHeadId',
+      placeholder: 'Select',
       fullWidth: true,
-      options: userOptions,
+      apiQuery: usersList,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 4,
@@ -78,8 +77,8 @@ export const departmentFormFields: any = [
       name: 'members',
       fullWidth: true,
       multiple: true,
-      options: userOptions,
+      apiQuery: usersList,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
 ];

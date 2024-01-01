@@ -1,4 +1,4 @@
-export const locationlist = [
+export const locationList = [
   {
     id: 1,
     title: 'America',

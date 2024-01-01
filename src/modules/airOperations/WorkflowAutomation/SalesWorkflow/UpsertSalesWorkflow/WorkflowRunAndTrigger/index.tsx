@@ -57,6 +57,7 @@ export const WorkflowRunAndTrigger = (props: any) => {
               name="trigger"
               size="small"
               label="Trigger"
+              required
               options={triggerOptions}
             />
           </Grid>
@@ -65,6 +66,7 @@ export const WorkflowRunAndTrigger = (props: any) => {
               name="andRun"
               size="small"
               label="And Run"
+              required
               options={andRunOptions}
             />
           </Grid>

@@ -10,15 +10,35 @@ import {
 import { addNewLocationDataFields } from './AddNewLocation.data';
 import { useAddNewLocation } from './useAddNewLocation';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { LoadingButton } from '@mui/lab';
 
 const AddNewLocation = () => {
-  const { AddNewLocationMethods, onSubmit, moveToLocationPage } =
-    useAddNewLocation();
+  const {
+    AddNewLocationMethods,
+    onSubmit,
+    moveToLocationPage,
+    locationIsLoading,
+    childLocationIsLoading,
+    locationId,
+    childOnsubmit,
+    editLocationId,
+    editOnSubmit,
+    childEditLocationId,
+    childEditOnSubmit,
+  } = useAddNewLocation();
   return (
     <>
       <FormProvider
         methods={AddNewLocationMethods}
-        onSubmit={AddNewLocationMethods?.handleSubmit(onSubmit)}
+        onSubmit={
+          childEditLocationId
+            ? AddNewLocationMethods?.handleSubmit(childEditOnSubmit)
+            : editLocationId
+            ? AddNewLocationMethods?.handleSubmit(editOnSubmit)
+            : locationId
+            ? AddNewLocationMethods?.handleSubmit(childOnsubmit)
+            : AddNewLocationMethods?.handleSubmit(onSubmit)
+        }
       >
         <Grid container rowSpacing={1.8} columnSpacing={2}>
           <Grid item lg={9}>
@@ -53,9 +73,13 @@ const AddNewLocation = () => {
           >
             Cancel
           </Button>
-          <Button variant="contained" type="submit">
+          <LoadingButton
+            disabled={locationId ? childLocationIsLoading : locationIsLoading}
+            variant="contained"
+            type="submit"
+          >
             Save
-          </Button>
+          </LoadingButton>
         </Box>
       </FormProvider>
     </>
