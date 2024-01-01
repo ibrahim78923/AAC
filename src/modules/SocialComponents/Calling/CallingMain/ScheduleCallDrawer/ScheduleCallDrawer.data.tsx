@@ -4,14 +4,49 @@ import {
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
+import { TIME_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 import * as Yup from 'yup';
 
 export const dealsCallsValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Field is Required'),
   callFromDate: Yup?.string()?.required('Field is Required'),
   callFromTime: Yup?.string()?.required('Field is Required'),
-  callToTime: Yup?.string()?.required('Field is Required'),
-  callToDate: Yup?.string()?.required('Field is Required'),
+  callToDate: Yup.date()
+    .required('End Date is required')
+    .test(
+      'startDateBeforecallToDate',
+      'End Date must be after Start Date',
+      function (callToDate) {
+        const { callFromDate } = this.parent;
+        if (!callFromDate || !callToDate) {
+          return true;
+        }
+        return new Date(callFromDate) < new Date(callToDate);
+      },
+    ),
+
+  callToTime: Yup.string()
+    .required('End Time is required')
+    .test(
+      'startTimeBeforecallToTime',
+      'End Time must be after Start Time',
+      function (callToTime) {
+        const { callFromTime } = this.parent;
+        if (!callFromTime || !callToTime) {
+          return true;
+        }
+
+        const parseTime = (time) => {
+          const [hours, minutes] = time.split(':');
+          return new Date(0, 0, 0, hours, minutes);
+        };
+        return (
+          parseTime(dayjs(callFromTime).format(TIME_FORMAT?.VALIDATION)) <
+          parseTime(dayjs(callToTime).format(TIME_FORMAT?.VALIDATION))
+        );
+      },
+    ),
 });
 
 export const dealsCallsDefaultValues = {
