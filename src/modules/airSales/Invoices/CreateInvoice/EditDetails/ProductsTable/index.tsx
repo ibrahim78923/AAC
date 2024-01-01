@@ -11,6 +11,10 @@ import {
   InputAdornment,
   Button,
   Grid,
+  Divider,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { AddCircleRounded } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
@@ -23,37 +27,20 @@ import {
 import AddProducts from '../AddProducts';
 import { AlertModals } from '@/components/AlertModals';
 import useInvoices from '../../../useInvoices';
-import { PlusIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
+import { ArrowDownIcon } from '@/assets/icons';
 
 const ProductsTable = () => {
   const [isDiscount, setIsDiscount] = useState(false);
   const theme = useTheme();
   const { isDeleteModal, setIsDeleteModal, isDrawerOpen, setIsDrawerOpen } =
     useInvoices();
-  const getTableColumns = productsTableColumns(
-    setIsDeleteModal,
-    setIsDrawerOpen,
-  );
+  const getTableColumns = productsTableColumns();
+  // setIsDeleteModal,
+  // setIsDrawerOpen,
 
   return (
     <Box my={3}>
-      <Stack
-        direction={{ xs: 'column', sm: 'row' }}
-        justifyContent="space-between"
-        my={2}
-        gap={1}
-      >
-        <Typography variant="h5">Products</Typography>
-        <Button
-          variant="contained"
-          sx={{ display: 'flex', gap: '10px' }}
-          startIcon={<PlusIcon />}
-          onClick={() => setIsDrawerOpen(true)}
-        >
-          Add Products
-        </Button>
-      </Stack>
       <Box my={3}>
         <TanstackTable columns={getTableColumns} data={productsTableData} />
       </Box>
@@ -61,7 +48,12 @@ const ProductsTable = () => {
         <Grid item xs={12} sm={7} lg={8} xl={9}>
           <TextareaAutosize
             placeholder="Comments"
-            style={{ width: '100%', height: '203px', padding: '16px' }}
+            style={{
+              width: '100%',
+              height: '203px',
+              padding: '16px',
+              fontSize: '14px',
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={5} lg={4} xl={3}>
@@ -164,7 +156,7 @@ const ProductsTable = () => {
                 padding: '14px 20px',
                 display: 'flex',
                 justifyContent: 'space-between',
-                backgroundColor: '#E5E7EB',
+                backgroundColor: `${theme?.palette?.grey[700]}`,
               }}
             >
               <Typography variant="h5" fontWeight={500}>
@@ -176,12 +168,88 @@ const ProductsTable = () => {
             </CardActions>
           </Card>
         </Grid>
+        <Grid item lg={4} md={4} sm={12} xs={12}>
+          <InputLabel id="demo-simple-select-label">
+            Select Bank Account
+          </InputLabel>
+          <Select
+            sx={{
+              '& .css-2kf82o-MuiSvgIcon-root-MuiSelect-icon': {
+                display: 'none',
+              },
+            }}
+            fullWidth
+            labelId="demo-simple-select-label"
+            // id="demo-simple-select"
+            //  value={age}
+            // label="Age"
+            //  onChange={handleChange}
+            endAdornment={
+              <InputAdornment position="end">
+                <ArrowDownIcon
+                  sx={{ color: `${theme?.palette?.custom?.main}` }}
+                />
+              </InputAdornment>
+            }
+          >
+            <MenuItem value={10}>SCBL 1587 1254 32569 452226</MenuItem>
+            <MenuItem value={20}>SCBL 1587 1254 32569 452226</MenuItem>
+            <MenuItem value={30}>SCBL 1587 1254 32569 452226</MenuItem>
+          </Select>
+        </Grid>
       </Grid>
 
+      <Divider
+        sx={{ border: `1px solid ${theme?.palette?.grey[700]}`, my: 2 }}
+      />
+      <Grid container>
+        <Grid item lg={6}>
+          <Button
+            variant="outlined"
+            className="medium"
+            sx={{
+              border: `1px solid ${theme?.palette?.grey[100]}`,
+              color: `${theme?.palette?.custom?.main}`,
+              '&:hover': {
+                border: `1px solid ${theme?.palette?.grey[100]}`,
+                color: `${theme?.palette?.custom?.main}`,
+              },
+            }}
+          >
+            Back
+          </Button>
+        </Grid>
+        <Grid item lg={6}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="flex-end"
+            gap={1}
+          >
+            <Button
+              variant="outlined"
+              className="medium"
+              sx={{
+                border: `1px solid ${theme?.palette?.grey[100]}`,
+                color: `${theme?.palette?.custom?.main}`,
+                '&:hover': {
+                  border: `1px solid ${theme?.palette?.grey[100]}`,
+                  color: `${theme?.palette?.custom?.main}`,
+                },
+              }}
+            >
+              Cancel
+            </Button>
+            <Button variant="contained" className="medium">
+              Send to Customer
+            </Button>
+          </Stack>
+        </Grid>
+      </Grid>
       {/* delete modal */}
       {isDeleteModal && (
         <AlertModals
-          message="You're about to delete all record. Detailed records can't be restored after 90 days."
+          message="You're about to delete all record. Deleted records can't be restored after 90 days."
           type="delete"
           open={isDeleteModal}
           handleClose={() => setIsDeleteModal(false)}

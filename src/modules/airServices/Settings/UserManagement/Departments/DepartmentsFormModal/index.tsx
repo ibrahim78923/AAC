@@ -5,8 +5,15 @@ import { departmentFormFields } from './DepartmentsFormModal.data';
 import { FormProvider } from '@/components/ReactHookForm';
 
 export const DepartmentsFormModal = (props: any) => {
-  const { methods, handleSubmit, submitForm, open, handleClose, formTitle } =
-    props;
+  const {
+    methods,
+    handleSubmit,
+    submitForm,
+    open,
+    handleClose,
+    formTitle,
+    usersList,
+  } = props;
   return (
     <Dialog
       open={open}
@@ -35,19 +42,15 @@ export const DepartmentsFormModal = (props: any) => {
           onSubmit={handleSubmit(submitForm)}
         >
           <Grid container spacing={2}>
-            {departmentFormFields?.map((item: any) => (
+            {departmentFormFields(usersList)?.map((item: any) => (
               <Grid item key={item?.id} xs={12}>
-                <item.component {...item?.componentProps} size={'small'}>
-                  {item?.componentProps?.options
-                    ? item?.componentProps?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))
-                    : item?.heading
-                    ? item?.heading
-                    : null}
-                </item.component>
+                {item?.heading ? (
+                  <item.component {...item?.componentProps}>
+                    {item?.heading}
+                  </item.component>
+                ) : (
+                  <item.component {...item?.componentProps} size={'small'} />
+                )}
               </Grid>
             ))}
           </Grid>

@@ -1,11 +1,10 @@
-import { Box, Button, Chip, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import { AddCircle, Delete } from '@mui/icons-material';
 import { actionsExecutedFields } from './WorkflowActionExecuted.data';
-import { salesValues } from '../UpsertSalesWorkflow.data';
 import { useWorkflowActionExecuted } from './useWorkflowActionExecuted';
 
 export const WorkflowActionExecuted = () => {
-  const { append, fields, palette, handleDeleteClick } =
+  const { handleAppend, fields, palette, handleDeleteClick } =
     useWorkflowActionExecuted();
   return (
     <Box
@@ -18,7 +17,7 @@ export const WorkflowActionExecuted = () => {
         p={1.5}
         borderBottom={`1px solid ${palette?.custom?.off_white_three}`}
       >
-        When action Should be executed
+        When action should be executed
       </Typography>
       {fields?.map((item, index) => {
         return (
@@ -26,17 +25,13 @@ export const WorkflowActionExecuted = () => {
             {index !== 0 && (
               <Divider
                 sx={{
-                  '&::before, &::after': {
-                    borderColor: palette?.grey?.[700],
-                  },
+                  borderColor: palette?.grey?.[700],
                 }}
-              >
-                <Chip label={'AND'} />
-              </Divider>
+              />
             )}
             <Box display={'flex'} alignItems={'center'} gap={1} pt={1.5}>
               <Grid container spacing={2}>
-                {actionsExecutedFields?.map((item) => (
+                {actionsExecutedFields(index)?.map((item) => (
                   <Grid item xs={12} lg={item?.gridLength} key={item?._id}>
                     <item.component {...item?.componentProps} size="small" />
                   </Grid>
@@ -52,7 +47,7 @@ export const WorkflowActionExecuted = () => {
       })}
       <Box p={1.5}>
         <Button
-          onClick={() => append(salesValues?.actionsExecuted)}
+          onClick={handleAppend}
           color="secondary"
           startIcon={<AddCircle color="action" />}
         >

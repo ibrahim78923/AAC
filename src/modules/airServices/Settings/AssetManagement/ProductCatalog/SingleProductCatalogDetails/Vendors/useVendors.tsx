@@ -24,7 +24,7 @@ export const useVendors = () => {
 
   const [isUpsertModalOpen, setIsUpsertModalOpen] = useState<any>({
     open: false,
-    id: '',
+    data: null,
   });
 
   const getProductCatalogVendorParameter = {
@@ -52,7 +52,7 @@ export const useVendors = () => {
       });
     } catch (error: any) {
       setIsDeleteModalOpen?.({ open: false, id: '' });
-      enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {
+      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something Went Wrong!', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }

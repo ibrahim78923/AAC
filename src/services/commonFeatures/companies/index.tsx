@@ -34,7 +34,7 @@ export const companiesAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: values,
       }),
-      providesTags: ['DEL_COMPANY'],
+      providesTags: ['COMPANY'],
     }),
 
     postCompanies: builder.mutation({
@@ -47,6 +47,32 @@ export const companiesAPI = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['COMPANY'],
     }),
+
+    CompanyUpdate: builder.mutation({
+      query: ({ body, Id }: any) => ({
+        url: `${END_POINTS?.COMPANY}?Id=${Id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['COMPANY'],
+    }),
+
+    getCompanyPreview: builder.query({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.COMPANY_PREVIEW}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['COMPANY'],
+    }),
+
+    restoreCompanies: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.RESTORE_COMPANIES}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['COMPANY'],
+    }),
   }),
 });
 
@@ -56,4 +82,7 @@ export const {
   useDeleteCompaniesMutation,
   usePostCompaniesMutation,
   useGetAllDeletedCompaniesQuery,
+  useCompanyUpdateMutation,
+  useGetCompanyPreviewQuery,
+  useRestoreCompaniesMutation,
 } = companiesAPI;

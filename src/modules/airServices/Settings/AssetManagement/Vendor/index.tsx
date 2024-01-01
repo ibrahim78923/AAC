@@ -4,15 +4,14 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { useVendor } from './useVendor';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
-import ImportAssets from './ImportVendor';
 import AddNewVendor from './AddNewVendor';
+import { EXPORT_TYPE } from '@/constants/strings';
+import { VENDOR_LISTS_ACTION_CONSTANTS } from './Vendor.data';
 
 export const Vendor = () => {
   const {
     router,
     vendorListsColumns,
-    isDrawerOpen,
-    setIsDrawerOpen,
     isADrawerOpen,
     setIsADrawerOpen,
     vendorData,
@@ -23,6 +22,10 @@ export const Vendor = () => {
     setPageLimit,
     setPage,
     setSearch,
+    getNewVendorDataExport,
+    vendorListActionComponent,
+    hasVendorAction,
+    setVendorListAction,
   } = useVendor();
 
   return (
@@ -31,8 +34,12 @@ export const Vendor = () => {
         title={'Vendor'}
         addTitle={'Add New Vendor'}
         hasImport
-        handleImport={() => setIsDrawerOpen(true)}
+        handleImport={() =>
+          setVendorListAction?.(VENDOR_LISTS_ACTION_CONSTANTS?.IMPORT)
+        }
         hasExport
+        handleExcelExport={() => getNewVendorDataExport?.(EXPORT_TYPE?.XLS)}
+        handleCsvExport={() => getNewVendorDataExport?.(EXPORT_TYPE?.CSV)}
         canMovedBack
         moveBack={() => {
           router?.push({
@@ -73,10 +80,10 @@ export const Vendor = () => {
         onPageChange={(page: any) => setPage(page)}
       />
       <Box>
-        <ImportAssets
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
-        />
+        {hasVendorAction &&
+          vendorListActionComponent?.[
+            router?.query?.VendorListAction as string
+          ]}
       </Box>
       <Box>
         <AddNewVendor

@@ -35,28 +35,10 @@ import ActionButton from './ActionButton';
 const Companies = () => {
   const {
     theme,
-    isOpenDrawer,
-    setIsOpenDrawer,
-    isFilter,
-    setIsFilter,
-    isCustomize,
-    setIsCustomize,
+    isOpen,
+    setIsOpen,
     isToggled,
     toggle,
-    isCreateView,
-    setIsCreateView,
-    isPreview,
-    setIsPreview,
-    isReassign,
-    setIsReassign,
-    isExport,
-    setIsExport,
-    isDeleteCompany,
-    setIsDeleteCompany,
-    isMerge,
-    setIsMerge,
-    isImport,
-    setIsImport,
     getAllCompanies,
     setPageLimit,
     setPage,
@@ -66,11 +48,15 @@ const Companies = () => {
     setSearchVal,
     isLoading,
     isSuccess,
+    filterValues,
+    setFilterValues,
+    handleResetFilters,
   } = useCompanies();
 
   const columnsProps = {
     checkedRows: checkedRows,
     setCheckedRows: setCheckedRows,
+    companiesData: getAllCompanies,
   };
 
   const columnParams = columns(columnsProps);
@@ -108,7 +94,7 @@ const Companies = () => {
                   color="inherit"
                   variant="outlined"
                   startIcon={<ImportCompaniesIcon />}
-                  onClick={() => setIsImport(true)}
+                  onClick={() => setIsOpen({ ...isOpen, importDrawer: true })}
                 >
                   Import
                 </Button>
@@ -117,7 +103,7 @@ const Companies = () => {
                   variant="contained"
                   startIcon={<AddCircle />}
                   onClick={() => {
-                    setIsOpenDrawer(true);
+                    setIsOpen({ ...isOpen, createCompanyDrawer: true });
                   }}
                 >
                   Create Company
@@ -129,7 +115,9 @@ const Companies = () => {
               tabsArray={companyTabs}
               isHeader={true}
               addIcon
-              onAddClick={() => setIsCreateView(true)}
+              onAddClick={() =>
+                setIsOpen({ ...isOpen, createViewDrawer: true })
+              }
               searchBarProps={{
                 label: 'Search Here',
                 setSearchBy: setSearchVal,
@@ -140,11 +128,8 @@ const Companies = () => {
                 <>
                   <ActionButton
                     checkedRows={checkedRows}
-                    setIsPreview={setIsPreview}
-                    setIsReassign={setIsReassign}
-                    setIsExport={setIsExport}
-                    setIsDeleteCompany={setIsDeleteCompany}
-                    setIsMerge={setIsMerge}
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
                   />
                   <Button
                     variant="outlined"
@@ -160,7 +145,9 @@ const Companies = () => {
                     className="small"
                     color="inherit"
                     startIcon={<CustomizeIcon />}
-                    onClick={() => setIsCustomize(true)}
+                    onClick={() =>
+                      setIsOpen({ ...isOpen, customizeDrawer: true })
+                    }
                   >
                     Customize
                   </Button>
@@ -169,6 +156,7 @@ const Companies = () => {
                       variant="outlined"
                       className="small"
                       color="inherit"
+                      onClick={handleResetFilters}
                     >
                       <RefreshTasksIcon />
                     </Button>
@@ -178,7 +166,9 @@ const Companies = () => {
                     className="small"
                     color="inherit"
                     startIcon={<FilterIcon />}
-                    onClick={() => setIsFilter(true)}
+                    onClick={() =>
+                      setIsOpen({ ...isOpen, filtersDrawer: true })
+                    }
                   >
                     Filter
                   </Button>
@@ -203,57 +193,74 @@ const Companies = () => {
             </CommonTabs>
           </Box>
 
-          {isOpenDrawer && (
+          {isOpen?.createCompanyDrawer && (
             <CreateCompany
-              isOpenDrawer={isOpenDrawer}
-              setIsOpenDrawer={setIsOpenDrawer}
+              isOpenDrawer={isOpen?.createCompanyDrawer}
+              setIsOpenDrawer={setIsOpen}
             />
           )}
 
-          {isFilter && (
-            <FilterCompany setIsFilter={setIsFilter} isFilter={isFilter} />
+          {isOpen?.filtersDrawer && (
+            <FilterCompany
+              filterValues={filterValues}
+              setFilterValues={setFilterValues}
+              setIsFilter={setIsOpen}
+              isFilter={isOpen?.filtersDrawer}
+            />
           )}
 
-          {isCustomize && (
+          {isOpen?.customizeDrawer && (
             <CustomizeCompany
-              isCustomize={isCustomize}
-              setIsCustomize={setIsCustomize}
+              isCustomize={isOpen?.customizeDrawer}
+              setIsCustomize={setIsOpen}
             />
           )}
 
-          {isCreateView && (
+          {isOpen?.createViewDrawer && (
             <CreateViewCompany
-              isCreateView={isCreateView}
-              setIsCreateView={setIsCreateView}
+              isCreateView={isOpen?.createViewDrawer}
+              setIsCreateView={setIsOpen}
             />
           )}
 
-          {isPreview && (
-            <PreviewDrawer isPreview={isPreview} setIsPreview={setIsPreview} />
+          {isOpen?.previewDrawer && (
+            <PreviewDrawer
+              checkedRows={checkedRows}
+              isPreview={isOpen?.previewDrawer}
+              setIsPreview={setIsOpen}
+            />
           )}
 
-          {isDeleteCompany && (
+          {isOpen?.deleteModal && (
             <DeleteModal
-              isDeleteCompany={isDeleteCompany}
-              setIsDeleteCompany={setIsDeleteCompany}
+              isDeleteCompany={isOpen?.deleteModal}
+              setIsDeleteCompany={setIsOpen}
             />
           )}
 
-          {isReassign && (
+          {isOpen?.reassignModal && (
             <ReassignModal
-              isReassign={isReassign}
-              setIsReassign={setIsReassign}
+              isReassign={isOpen?.reassignModal}
+              setIsReassign={setIsOpen}
             />
           )}
 
-          {isMerge && <MergeModal isMerge={isMerge} setIsMerge={setIsMerge} />}
-
-          {isImport && (
-            <ImportCompanies isImport={isImport} setIsImport={setIsImport} />
+          {isOpen?.mergeModal && (
+            <MergeModal isMerge={isOpen?.mergeModal} setIsMerge={setIsOpen} />
           )}
 
-          {isExport && (
-            <ExportModal isExport={isExport} setIsExport={setIsExport} />
+          {isOpen?.importDrawer && (
+            <ImportCompanies
+              isImport={isOpen?.importDrawer}
+              setIsImport={setIsOpen}
+            />
+          )}
+
+          {isOpen?.exportModal && (
+            <ExportModal
+              isExport={isOpen?.exportModal}
+              setIsExport={setIsOpen}
+            />
           )}
         </>
       )}

@@ -28,7 +28,7 @@ const CreateViewCompany = (props: any) => {
         isDrawerOpen={isCreateView}
         onClose={() => {
           reset();
-          setIsCreateView(false);
+          setIsCreateView({ ...isCreateView, createViewDrawer: false });
         }}
         title="Create View"
         submitHandler={handleSubmit(onSubmit)}
@@ -39,7 +39,7 @@ const CreateViewCompany = (props: any) => {
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
-              {createViewArr?.map((item: any) => (
+              {createViewArr()?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   {item?.componentProps?.heading && (
                     <Typography variant="h5">

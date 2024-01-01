@@ -1,37 +1,57 @@
+import { DATE_TIME_FORMAT } from '@/constants';
 import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 
 export const columns: any = (columnsProps: any) => {
-  const { checkedRows, setCheckedRows } = columnsProps;
+  const { checkedRows, setCheckedRows, companiesData } = columnsProps;
 
-  const handleCheckboxChange = (val: any, rowId: string) => {
-    val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
+  const handleSelectCompaniesById = (checked: boolean, id: string): void => {
+    if (checked) {
+      setCheckedRows([...checkedRows, id]);
+    } else {
+      setCheckedRows(checkedRows?.filter((_id: any) => _id !== id));
+    }
   };
 
+  const handleSelectAllCompanies = (checked: boolean): void => {
+    setCheckedRows(
+      checked ? companiesData?.data?.companies?.map(({ _id }: any) => _id) : [],
+    );
+  };
   return [
     {
-      accessorFn: (row: any) => row?.Id,
+      accessorFn: (row: any) => row?._id,
       id: 'Id',
-      cell: (info: any) => (
+      cell: ({ row: { original } }: any) => (
         <Checkbox
-          color="primary"
-          name={info?.getValue()}
-          defaultChecked={checkedRows === info?.row?.id}
-          onChange={(e: any) => handleCheckboxChange(e, info?.row?.id)}
+          checked={checkedRows?.includes(original?._id)}
+          onChange={({ target }) => {
+            handleSelectCompaniesById(target.checked, original?._id);
+          }}
         />
       ),
-      header: <Checkbox color="primary" name="Id" />,
+      header: (
+        <Checkbox
+          onChange={({ target }) => {
+            handleSelectAllCompanies(target.checked);
+          }}
+          checked={
+            companiesData?.data?.companies?.length &&
+            checkedRows?.length === companiesData?.data?.companies?.length
+          }
+        />
+      ),
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.name,
+      accessorFn: (row: any) => row?.name,
       id: 'name',
       cell: (info: any) => info?.getValue() ?? 'N/A',
       header: 'Company Name',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.deletedBy,
+      accessorFn: (row: any) => row?.owner?.name,
       id: 'deletedBy',
       isSortable: true,
       header: 'Deleted By',
@@ -43,7 +63,7 @@ export const columns: any = (columnsProps: any) => {
       isSortable: true,
       header: 'Time Deleted',
       cell: (info: any) =>
-        dayjs(info?.getValue())?.format('dddd, MMMM D, YYYY - HH:mm') ?? 'N/A',
+        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI) ?? 'N/A',
     },
   ];
 };

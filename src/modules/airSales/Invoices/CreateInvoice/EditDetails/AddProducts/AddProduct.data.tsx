@@ -46,25 +46,26 @@ export const customDefaultValues = {
   description: '',
   unitPrice: '',
   billingFrequency: '',
-  createdDate: '',
-  createdTime: '',
+  createdDate: null,
+  createdTime: null,
 };
 
 export const customFields = [
   {
-    title: 'Product Name',
     componentProps: {
       name: 'name',
+      label: 'Product Name',
       fullWidth: true,
       placeholder: 'Enter here',
+      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
-    title: 'SKU',
     componentProps: {
       name: 'sku',
+      label: 'SKU',
       placeholder: 'Enter here',
       fullWidth: true,
     },
@@ -72,9 +73,9 @@ export const customFields = [
     md: 12,
   },
   {
-    title: 'Category',
     componentProps: {
       name: 'category',
+      label: 'Category',
       fullWidth: true,
       select: true,
     },
@@ -87,9 +88,9 @@ export const customFields = [
     md: 12,
   },
   {
-    title: 'Description',
     componentProps: {
       name: 'description',
+      label: 'Description',
       fullWidth: true,
     },
     component: RHFEditor,
@@ -105,19 +106,20 @@ export const customFields = [
     md: 12,
   },
   {
-    title: 'Unit Price',
     componentProps: {
       name: 'unitPrice',
+      label: 'Unit Price',
       placeholder: 'Enter here',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
-    title: 'Billing Frequency',
     componentProps: {
       name: 'billingFrequency',
+      label: 'Billing Frequency',
       placeholder: 'Blling Frequency',
       fullWidth: true,
       select: true,
@@ -132,9 +134,9 @@ export const customFields = [
     md: 12,
   },
   {
-    title: 'Created Date',
     componentProps: {
       name: 'createdDate',
+      label: 'Created Date',
       placeholder: '01/01/2023',
       fullWidth: true,
     },
@@ -142,9 +144,9 @@ export const customFields = [
     md: 6,
   },
   {
-    title: 'Created Time',
     componentProps: {
       name: 'createdTime',
+      label: 'Created Time',
       placeholder: 'HH:MM',
       fullWidth: true,
     },

@@ -1,16 +1,16 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-const assetStateOptions = ['In Stock', 'In Transit', 'In Use'];
+const assetStateOptions = ['IN_STOCK', 'IN_TRANSIT', 'IN_USE'];
 
 export const addAssetValidationSchema = Yup?.object()?.shape({
-  displayName: Yup?.string()?.trim()?.required('Field is Required'),
-  assetState: Yup?.string()?.required('Field is Required'),
+  displayName: Yup?.string()?.trim()?.required('Required'),
+  state: Yup?.string()?.required('Required'),
 });
 
 export const addAssetDefaultValues = {
   displayName: '',
-  assetState: '',
+  state: '',
 };
 
 export const addAssetDataArray = [
@@ -27,7 +27,7 @@ export const addAssetDataArray = [
   {
     id: 2,
     componentProps: {
-      name: 'assetState',
+      name: 'state',
       label: 'Asset State',
       required: true,
       fullWidth: true,

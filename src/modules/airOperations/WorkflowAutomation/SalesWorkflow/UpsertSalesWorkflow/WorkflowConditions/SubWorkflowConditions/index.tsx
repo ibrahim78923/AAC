@@ -5,12 +5,12 @@ import {
   conditionTypeOptions,
   workflowConditionsDataArray,
 } from '../WorkflowConditions.data';
-import { salesValues } from '../../UpsertSalesWorkflow.data';
 import { useSubWorkflowConditions } from './useSubWorkflowConditions';
 
 export const SubWorkflowConditions = (props: any) => {
   const { moduleType, index, conditionType } = props;
-  const { append, fields, handleDeleteClick } = useSubWorkflowConditions(props);
+  const { handleAppend, fields, handleDeleteClick } =
+    useSubWorkflowConditions(props);
   return (
     <>
       {fields?.map((item, subIndex) => {
@@ -41,16 +41,18 @@ export const SubWorkflowConditions = (props: any) => {
                   ),
                 )}
               </Grid>
-              <DeleteIcon
-                sx={{ color: 'error.main', cursor: 'pointer' }}
-                onClick={() => handleDeleteClick?.(subIndex)}
-              />
+              <Box>
+                <DeleteIcon
+                  sx={{ color: 'error.main', cursor: 'pointer' }}
+                  onClick={() => handleDeleteClick?.(subIndex)}
+                />
+              </Box>
             </Box>
           </Box>
         );
       })}
       <Button
-        onClick={() => append(salesValues?.workflowConditions?.[0]?.conditions)}
+        onClick={handleAppend}
         color="secondary"
         startIcon={<AddCircle color="action" />}
       >

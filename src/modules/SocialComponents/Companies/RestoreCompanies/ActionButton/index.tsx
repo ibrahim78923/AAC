@@ -13,7 +13,7 @@ const ActionButton = (props?: any) => {
         variant="outlined"
         color="inherit"
         onClick={handleClick}
-        disabled={checkedRows === undefined ? true : false}
+        disabled={checkedRows?.length < 1 ? true : false}
         sx={{ width: { sm: '112px', xs: '100%' } }}
       >
         Actions
@@ -33,7 +33,7 @@ const ActionButton = (props?: any) => {
         <MenuItem
           onClick={() => {
             handleClose();
-            setRestoreModal(true);
+            setRestoreModal({ isOpen: true, type: 'ACTIVE' });
           }}
         >
           Restore
@@ -41,7 +41,7 @@ const ActionButton = (props?: any) => {
         <MenuItem
           onClick={() => {
             handleClose();
-            setDeleteModal(true);
+            setDeleteModal({ isOpen: true, type: 'HARD_DELETED' });
           }}
         >
           Delete

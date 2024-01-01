@@ -5,7 +5,7 @@ export const singleProductDetailActionDropdownFunction = (
   router: any,
 ) => [
   {
-    title: 'Edit Catalog',
+    title: 'Edit Product',
     handleClick: (closeMenu: any) => {
       router?.push({
         pathname: AIR_SERVICES?.UPSERT_PRODUCT_CATALOG,

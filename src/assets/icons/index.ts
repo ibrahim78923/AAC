@@ -372,3 +372,4 @@ export { default as DateRangePickerIcon } from './shared/date-range-picker-icon'
 export { default as ImportBoxIcon } from './shared/import-box';
 export { default as ImagePreviewIcon } from './shared/image-preview';
 export { default as ImageUploadIcon } from './shared/image-upload';
+export { default as RecycleBinIcon } from './shared/recycle-bin-icon';

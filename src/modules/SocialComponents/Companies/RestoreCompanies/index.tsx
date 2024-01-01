@@ -37,6 +37,7 @@ const RestoreCompanies = (props: any) => {
   const columnsProps = {
     checkedRows: checkedRows,
     setCheckedRows: setCheckedRows,
+    companiesData: getAllDeletedCompanies,
   };
 
   const columnParams = columns(columnsProps);
@@ -74,7 +75,7 @@ const RestoreCompanies = (props: any) => {
         >
           <Grid item lg={6} md={6} sm={12} xs={12}>
             <Search
-              label="Search here"
+              label="Search by Name"
               width="260px"
               size="small"
               searchBy={filterValues?.search}
@@ -97,6 +98,7 @@ const RestoreCompanies = (props: any) => {
                 setRestoreModal={setIsRestoreModal}
                 setDeleteModal={setIsDeleteModal}
               />
+
               <SwitchableDatepicker
                 renderInput="button"
                 placement="right"
@@ -136,14 +138,16 @@ const RestoreCompanies = (props: any) => {
         />
       </Box>
 
-      {isDeleteModal && (
+      {isDeleteModal?.isOpen && (
         <DeleteModal
+          checkedRows={checkedRows}
           isRestoreDelete={isDeleteModal}
           setIsRestoreDelete={setIsDeleteModal}
         />
       )}
-      {isRestoreModal && (
+      {isRestoreModal?.isOpen && (
         <RestoreModal
+          checkedRows={checkedRows}
           isRestoreItem={isRestoreModal}
           setIsRestoreItem={setIsRestoreModal}
         />

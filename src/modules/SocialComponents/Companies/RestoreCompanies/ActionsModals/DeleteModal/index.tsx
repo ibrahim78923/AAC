@@ -3,8 +3,16 @@ import React from 'react';
 import { AlertModals } from '@/components/AlertModals';
 
 import { AlertModalDeleteIcon } from '@/assets/icons';
+import { useRestoreCompaniesMutation } from '@/services/commonFeatures/companies';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const DeleteModal = ({ isRestoreDelete, setIsRestoreDelete }: any) => {
+const DeleteModal = ({
+  isRestoreDelete,
+  setIsRestoreDelete,
+  checkedRows,
+}: any) => {
+  const [restoreCompanies] = useRestoreCompaniesMutation();
   return (
     <>
       <AlertModals
@@ -16,9 +24,16 @@ const DeleteModal = ({ isRestoreDelete, setIsRestoreDelete }: any) => {
         open={isRestoreDelete}
         cancelBtnText="Cancel"
         submitBtnText="Delete"
-        handleClose={() => setIsRestoreDelete(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
+        handleClose={() => setIsRestoreDelete({ isOpen: false })}
+        handleSubmitBtn={() => {
+          restoreCompanies({
+            id: checkedRows,
+            body: { action: isRestoreDelete?.type },
+          });
+          setIsRestoreDelete({ isOpen: false });
+          enqueueSnackbar(`Company deleted successfully`, {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
         }}
       />
     </>

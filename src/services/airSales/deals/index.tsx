@@ -11,6 +11,14 @@ export const dealsApi = baseAPI.injectEndpoints({
       }),
       providesTags: ['DEALS'],
     }),
+    getDealsAssociations: builder.query({
+      query: () => ({
+        // todo: used this id to impement all view Details cases temporarily
+        url: `${END_POINTS?.DEALS_ASSOCIATION}/${'655b2b2ecd318b576d7d71e8'}`,
+        method: 'GET',
+      }),
+      providesTags: ['DEALS_ASSOCIATION'],
+    }),
 
     getDealsById: builder.query({
       query: () => {
@@ -177,4 +185,5 @@ export const {
   useGetDealsListWithOutParamsQuery,
   useGetUsersListQuery,
   usePatchDealsMutation,
+  useGetDealsAssociationsQuery,
 } = dealsApi;
