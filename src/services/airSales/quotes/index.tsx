@@ -15,7 +15,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
 
     getQuotes: builder.query({
       query: ({ params }) => ({
-        url: END_POINTS?.QUOTES,
+        url: END_POINTS?.QUOTE,
         method: 'GET',
         params: params,
       }),
@@ -24,7 +24,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
 
     getQuoteById: builder.query({
       query: (id: any) => ({
-        url: `${END_POINTS?.QUOTES}/${id}`,
+        url: `${END_POINTS?.QUOTE}/${id}`,
         method: 'GET',
       }),
       providesTags: TAG,
@@ -32,7 +32,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
 
     postQuote: builder.mutation({
       query: ({ body }: any) => ({
-        url: END_POINTS?.QUOTE_CREATE,
+        url: END_POINTS?.QUOTE,
         method: 'POST',
         body: body,
       }),
@@ -41,7 +41,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
 
     updateQuote: builder.mutation({
       query: ({ id, body }: any) => ({
-        url: `${END_POINTS?.QUOTES}/${id}`,
+        url: `${END_POINTS?.QUOTE}/${id}`,
         method: 'PATCH',
         body: body,
       }),
@@ -50,7 +50,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
 
     deleteQuotes: builder.mutation({
       query: (id: any) => ({
-        url: `${END_POINTS?.QUOTES}/${id}`,
+        url: `${END_POINTS?.QUOTE}/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: TAG,

@@ -83,6 +83,12 @@ const useQuotes = () => {
   // Hadle PAGE CHANGE
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
+    setFilterParams((prev) => {
+      return {
+        ...prev,
+        page: newPage,
+      };
+    });
   };
 
   // Refresh

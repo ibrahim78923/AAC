@@ -74,11 +74,11 @@ const Quotes = () => {
 
         <TanstackTable
           columns={getQuotesColumns}
-          data={dataGetQuotes?.data}
+          data={dataGetQuotes?.data?.quotes}
           isLoading={loagingGetQuotes}
           isPagination
-          count={4}
-          totalRecords={26}
+          count={dataGetQuotes?.data?.meta?.pages}
+          totalRecords={dataGetQuotes?.data?.meta?.total}
           onPageChange={handlePageChange}
           setPage={setPage}
           setPageLimit={setPageLimit}
