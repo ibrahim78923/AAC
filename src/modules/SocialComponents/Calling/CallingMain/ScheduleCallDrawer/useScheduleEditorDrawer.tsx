@@ -88,8 +88,10 @@ const useScheduleEditorDrawer = ({
       return dealsCallsDefaultValues;
     },
   });
+  const { handleSubmit, reset } = methodsdealsCalls;
   const onClose = () => {
     setOpenDrawer('');
+    reset();
     openDrawer !== 'Add' && setSelectedCheckboxes([]);
   };
 
@@ -135,7 +137,7 @@ const useScheduleEditorDrawer = ({
       });
     }
   };
-  const { handleSubmit } = methodsdealsCalls;
+
   return {
     handleSubmit,
     onSubmit,
