@@ -42,8 +42,8 @@ export const dealsCallsValidationSchema = Yup?.object()?.shape({
           return new Date(0, 0, 0, hours, minutes);
         };
         return (
-          parseTime(dayjs(callFromTime).format(TIME_FORMAT?.VALIDATION)) <
-          parseTime(dayjs(callToTime).format(TIME_FORMAT?.VALIDATION))
+          parseTime(dayjs(callFromTime)?.format(TIME_FORMAT?.TIME_VALIDATION)) <
+          parseTime(dayjs(callToTime)?.format(TIME_FORMAT?.TIME_VALIDATION))
         );
       },
     ),
