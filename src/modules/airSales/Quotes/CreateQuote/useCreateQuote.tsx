@@ -10,7 +10,6 @@ import {
   usePostQuoteMutation,
 } from '@/services/airSales/quotes';
 import { AIR_SALES } from '@/routesConstants/paths';
-
 const useCreateQuote = () => {
   const router = useRouter();
   const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 20 });
@@ -68,7 +67,7 @@ const useCreateQuote = () => {
     setActiveStep((prev) => prev - 1);
   };
   const handleStepperCancel = () => {
-    router.push(AIR_SALES.QUOTES);
+    router?.push(AIR_SALES?.QUOTES);
   };
 
   const handleOpenFormCreateDeal = () => {
