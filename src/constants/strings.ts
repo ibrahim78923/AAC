@@ -258,6 +258,7 @@ export const CANNED_RESPONSES = {
   MOVE: 'move',
   SELECT_AGENTS: 'SELECTED',
   ALL_AGENTS: 'ALL_AGENTS',
+  MY_SELF: 'MY_SELF',
   AGENTS: 'agents',
 };
 

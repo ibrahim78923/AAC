@@ -12,6 +12,7 @@ import {
   usePostResponseMutation,
 } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { useSearchParams } from 'next/navigation';
+import { getSession } from '@/utils';
 
 export const useAddResponseForm = (props: any) => {
   const { open, setDrawerOpen, folderName, selectedData, setSelectedData } =
@@ -54,6 +55,10 @@ export const useAddResponseForm = (props: any) => {
         'agents',
         agents?.map((agent: any) => agent?._id),
       );
+    }
+    if (availableForChanged === CANNED_RESPONSES?.MY_SELF) {
+      const { user } = getSession();
+      upsertResponseFormData?.append('agents', user?._id);
     }
     const responseParameter = {
       body: upsertResponseFormData,
