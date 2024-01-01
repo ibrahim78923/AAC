@@ -25,7 +25,8 @@ export const getVendorsColumns = (
     id: 'warrantyValidity',
     isSortable: true,
     header: 'Warranty/Validity',
-    cell: (info: any) => `${info?.getValue()}Yrs ${info?.getValue()}Months`,
+    cell: (info: any) =>
+      `${info?.row?.original?.yrs}Yrs  ${info?.getValue()}Months`,
   },
   {
     accessorFn: (row: any) => row?.quantity,
@@ -42,7 +43,7 @@ export const getVendorsColumns = (
       <Box display={'flex'}>
         <Box
           onClick={() => {
-            setIsUpsertModalOpen({ open: true, id: info?.getValue() });
+            setIsUpsertModalOpen({ open: true, data: info?.row?.original });
           }}
           sx={{ cursor: 'pointer' }}
         >

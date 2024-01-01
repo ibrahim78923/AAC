@@ -1,4 +1,5 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import { timeZone } from '@/constants/time-zone';
 import * as Yup from 'yup';
 
 export const accountDetailProfileValidationSchema = Yup?.object()?.shape({
@@ -9,12 +10,12 @@ export const accountDetailProfileValidationSchema = Yup?.object()?.shape({
   lastName: Yup?.string()
     ?.required('Required')
     ?.max(30, 'Last Name up to 30 characters'),
-  workPhoneNumber: Yup?.number(),
-  mobileNumber: Yup?.number(),
+  workPhoneNumber: Yup?.string(),
+  mobileNumber: Yup?.string(),
   companyName: Yup?.string()?.max(100, 'Company Name up to 30 characters'),
   jobTitle: Yup?.string(),
   language: Yup?.string(),
-  timeZone: Yup?.string(),
+  timeZone: Yup?.mixed()?.nullable(),
   facebookURL: Yup?.string(),
   linkedinURL: Yup?.string(),
   twitterURL: Yup?.string(),
@@ -24,22 +25,16 @@ export const accountDetailProfileDefaultValues = {
   firstName: '',
   middleName: '',
   lastName: '',
-  workPhoneNumber: 0,
-  mobileNumber: 0,
+  workPhoneNumber: '',
+  mobileNumber: '',
   companyName: '',
   jobTitle: '',
   language: 'English',
-  timeZone: '',
+  timeZone: null,
   facebookURL: '',
   linkedinURL: '',
   twitterURL: '',
 };
-
-const timeFormatOptions = [
-  '(GMT-04:00) Eastern Time (US)',
-  '(GMT-11:00)  Midway',
-  '(GMT-10:00)  Sweden',
-];
 
 export const profileWorkDataArray = [
   {
@@ -86,7 +81,6 @@ export const profileWorkDataArray = [
     componentProps: {
       name: 'workPhoneNumber',
       label: 'Work Phone Number',
-      type: 'number',
       size: 'small',
       placeholder: 'Phone Number',
     },
@@ -98,7 +92,6 @@ export const profileWorkDataArray = [
     componentProps: {
       name: 'mobileNumber',
       label: 'Mobile Number',
-      type: 'number',
       size: 'small',
       placeholder: '+12 12345',
     },
@@ -152,7 +145,8 @@ export const profileOtherDataArray = [
       type: 'text',
       size: 'small',
       placeholder: '(GMT-11:00) London',
-      options: timeFormatOptions,
+      options: timeZone,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },

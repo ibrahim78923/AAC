@@ -34,6 +34,7 @@ export const AddRewards = () => {
               <Card
                 sx={{
                   display: 'flex',
+                  flexWrap: 'wrap',
                   gap: 2,
                   p: 1,
                   border: `1px solid ${palette?.grey?.[700]}`,
@@ -43,6 +44,7 @@ export const AddRewards = () => {
               >
                 <Box
                   display={'flex'}
+                  flexWrap={'wrap'}
                   alignItems={'center'}
                   justifyContent={'center'}
                   gap={1}

@@ -24,7 +24,7 @@ const CustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
       <CommonDrawer
         isDrawerOpen={isCustomize}
         onClose={() => {
-          setIsCustomize(false);
+          setIsCustomize({ ...isCustomize, customizeDrawer: false });
         }}
         title="Customize Columns"
         okText="Save"

@@ -5,11 +5,16 @@ export const DATE_FORMAT = {
 export const TIME_FORMAT = {
   UI: 'h:mm A',
   API: 'h:mm A',
+  TIME_VALIDATION: 'hh:mm:ss',
 };
 
 export const CALENDAR_FORMAT = {
   UI: 'D MMMM YYYY',
   API: 'YYYY MMMM D',
+};
+
+export const DATE_TIME_FORMAT = {
+  UI: 'dddd, MMMM D, YYYY - HH:mm',
 };
 
 export const SUPER_ADMIN: any = {
@@ -125,12 +130,15 @@ export const AIR_OPERATIONS = {
 
 export const AIR_LOYALTY_PROGRAM = {
   REWARDS: `/air-loyalty-program/loyalty/rewards`,
+  ADD_REWARDS: `/air-loyalty-program/loyalty/rewards/add-rewards`,
   GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards`,
+  SINGLE_DIGITAL_GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards/single-digital-gift-card`,
   DIGITAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/digital/single-digital-detail`,
   PHYSICAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/physical/single-physical-detail`,
   VOUCHERS: `/air-loyalty-program/loyalty/vouchers`,
   VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
 };
 export const SOCIAL_COMPONENTS = {
+  COMPANIES: `/social-components/companies`,
   VIEW_COMPANY_DETAILS: '/social-components/companies/view-details',
 };

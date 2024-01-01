@@ -19,7 +19,7 @@ const CreateCompany = ({ setIsOpenDrawer, isOpenDrawer }: any) => {
       <CommonDrawer
         isDrawerOpen={isOpenDrawer}
         onClose={() => {
-          setIsOpenDrawer(false);
+          setIsOpenDrawer({ ...isOpenDrawer, createCompanyDrawer: false });
           reset();
         }}
         submitHandler={handleSubmit(onSubmit)}

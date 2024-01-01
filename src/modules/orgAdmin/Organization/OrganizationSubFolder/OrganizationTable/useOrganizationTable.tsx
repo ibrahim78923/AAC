@@ -22,6 +22,7 @@ const useOrganizationTable = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [editData, setEditData] = useState<any>({});
+  const [drawerHeading, setDrawerHeading] = useState('Create Company');
   const [isGetRowValues, setIsGetRowValues] = useState<any>([]);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isToggled, toggle] = useToggle(false);
@@ -57,7 +58,7 @@ const useOrganizationTable = () => {
     defaultValues: async () => {
       if (editData) {
         const { accountName, phoneNo, postCode, address } = editData;
-        if (!isNullOrEmpty(Object.keys(editData))) {
+        if (!isNullOrEmpty(Object?.keys(editData))) {
           return {
             accountName,
             phoneNo,
@@ -91,7 +92,7 @@ const useOrganizationTable = () => {
       status: 'Active',
     };
     try {
-      if (editData) {
+      if (Object?.keys(editData)[0]) {
         await updateOrganizationCompany({
           body: organizationData,
           id: editData?._id,
@@ -99,6 +100,7 @@ const useOrganizationTable = () => {
         enqueueSnackbar('Company Updated Successfully', {
           variant: 'success',
         });
+        setIsOpenDrawer(false);
       } else {
         await postOrganization({ body: organizationData }).unwrap();
         enqueueSnackbar('Company Created Successfully', {
@@ -167,6 +169,8 @@ const useOrganizationTable = () => {
     imageHandler,
     setImageHandler,
     editData,
+    drawerHeading,
+    setDrawerHeading,
   };
 };
 

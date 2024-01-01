@@ -2,7 +2,13 @@ import { Box, Divider, Typography } from '@mui/material';
 import { ClosureRulesConditions } from '../ClosureRulesConditions';
 import { useTheme } from '@mui/material';
 
-export const IncidentServicesClosureRule = () => {
+export const IncidentServicesClosureRule = (props: any) => {
+  const {
+    closeIncidentData,
+    resolveIncidentData,
+    serviceCloseData,
+    serviceResolveData,
+  } = props;
   const theme = useTheme();
   return (
     <>
@@ -24,7 +30,10 @@ export const IncidentServicesClosureRule = () => {
             <Typography variant="body1" mb={2} fontWeight={600}>
               Close an Incident only if
             </Typography>
-            <ClosureRulesConditions closeIncident />
+            <ClosureRulesConditions
+              closeIncident
+              closeIncidentData={closeIncidentData}
+            />
           </Box>
           <Divider
             orientation="vertical"
@@ -39,7 +48,10 @@ export const IncidentServicesClosureRule = () => {
             <Typography variant="body1" mb={2} fontWeight={600}>
               Resolve an Incident only if
             </Typography>
-            <ClosureRulesConditions resolveIncident />
+            <ClosureRulesConditions
+              resolveIncident
+              resolveIncidentData={resolveIncidentData}
+            />
           </Box>
         </Box>
       </Box>
@@ -62,7 +74,10 @@ export const IncidentServicesClosureRule = () => {
             <Typography variant="body1" mb={2} fontWeight={600}>
               Resolve an Incident only if
             </Typography>
-            <ClosureRulesConditions serviceResolveIncident />
+            <ClosureRulesConditions
+              serviceResolveIncident
+              serviceResolveData={serviceResolveData}
+            />
           </Box>
           <Divider
             orientation="vertical"
@@ -77,7 +92,10 @@ export const IncidentServicesClosureRule = () => {
             <Typography variant="body1" mb={2} fontWeight={600}>
               Close an Incident only if
             </Typography>
-            <ClosureRulesConditions serviceCloseIncident />
+            <ClosureRulesConditions
+              serviceCloseIncident
+              serviceCloseData={serviceCloseData}
+            />
           </Box>
         </Box>
       </Box>

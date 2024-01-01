@@ -61,7 +61,7 @@ export const addInventoryFields = [
     componentProps: {
       fullWidth: true,
       name: 'assetTag',
-      label: 'Asset tag',
+      label: 'Asset Id',
     },
     md: 6,
   },

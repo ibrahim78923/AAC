@@ -13,6 +13,9 @@ export const options = [
   { value: 'Interested', label: 'Interested' },
   { value: 'Left message', label: 'Left message' },
   { value: 'No response', label: 'No response' },
+  { value: 'No interested', label: 'No interested' },
+  { value: 'No able to reach', label: 'No able to reach' },
+  { value: 'Others', label: 'Others' },
 ];
 
 export const scheduleEmailValidationSchema = Yup?.object()?.shape({});
