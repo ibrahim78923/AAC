@@ -14,7 +14,8 @@ import { useAddAsset } from './useAddAsset';
 export const AddAsset = (props: any) => {
   const { addModalOpen, setAddModalOpen } = props;
 
-  const { methods, handleSubmit, onSubmit } = useAddAsset(setAddModalOpen);
+  const { methods, handleSubmit, onSubmit, postAssociatedAssetStatus } =
+    useAddAsset(setAddModalOpen);
 
   return (
     <Dialog
@@ -52,7 +53,11 @@ export const AddAsset = (props: any) => {
               >
                 Cancel
               </Button>
-              <Button type={'submit'} variant={'contained'}>
+              <Button
+                type={'submit'}
+                variant={'contained'}
+                disabled={postAssociatedAssetStatus?.isLoading}
+              >
                 Save
               </Button>
             </Grid>

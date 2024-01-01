@@ -1,60 +1,72 @@
-import { RHFDatePicker } from '@/components/ReactHookForm';
+import { DATE_TIME_FORMAT } from '@/constants';
 import { Checkbox } from '@mui/material';
+import dayjs from 'dayjs';
 
-export const restoreArr = [
-  {
-    componentProps: {
-      name: 'startDate',
-      label: 'Start Date',
-      fullWidth: true,
-      select: true,
+export const columns: any = (columnsProps: any) => {
+  const { checkedRows, setCheckedRows, companiesData } = columnsProps;
+
+  const handleSelectCompaniesById = (checked: boolean, id: string): void => {
+    if (checked) {
+      setCheckedRows([...checkedRows, id]);
+    } else {
+      setCheckedRows(checkedRows?.filter((_id: any) => _id !== id));
+    }
+  };
+
+  const handleSelectAllCompanies = (checked: boolean): void => {
+    setCheckedRows(
+      checked ? companiesData?.data?.companies?.map(({ _id }: any) => _id) : [],
+    );
+  };
+  return [
+    {
+      accessorFn: (row: any) => row?._id,
+      id: 'Id',
+      cell: ({ row: { original } }: any) => (
+        <Checkbox
+          checked={checkedRows?.includes(original?._id)}
+          onChange={({ target }) => {
+            handleSelectCompaniesById(target.checked, original?._id);
+          }}
+        />
+      ),
+      header: (
+        <Checkbox
+          onChange={({ target }) => {
+            handleSelectAllCompanies(target.checked);
+          }}
+          checked={
+            companiesData?.data?.companies?.length &&
+            checkedRows?.length === companiesData?.data?.companies?.length
+          }
+        />
+      ),
+      isSortable: false,
     },
-    component: RHFDatePicker,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'endDate',
-      label: 'End Date',
-      fullWidth: true,
-      select: true,
+    {
+      accessorFn: (row: any) => row?.name,
+      id: 'name',
+      cell: (info: any) => info?.getValue() ?? 'N/A',
+      header: 'Company Name',
+      isSortable: true,
     },
-    component: RHFDatePicker,
-    md: 12,
-  },
-];
-
-export const columns: any = [
-  {
-    accessorFn: (row: any) => row?.Id,
-    id: 'Id',
-    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
-    header: <Checkbox color="primary" name="Id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row.name,
-    id: 'name',
-    cell: (info: any) => info?.getValue(),
-
-    header: 'Company Name',
-    isSortable: true,
-  },
-  {
-    accessorFn: (row: any) => row?.deletedBy,
-    id: 'deletedBy',
-    isSortable: true,
-    header: 'Deleted By',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.timeDeleted,
-    id: 'timeDeleted',
-    isSortable: true,
-    header: 'Tome Deleted',
-    cell: (info: any) => info?.getValue(),
-  },
-];
+    {
+      accessorFn: (row: any) => row?.owner?.name,
+      id: 'deletedBy',
+      isSortable: true,
+      header: 'Deleted By',
+      cell: (info: any) => info?.getValue() ?? 'N/A',
+    },
+    {
+      accessorFn: (row: any) => row?.createdAt,
+      id: 'timeDeleted',
+      isSortable: true,
+      header: 'Time Deleted',
+      cell: (info: any) =>
+        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI) ?? 'N/A',
+    },
+  ];
+};
 
 export const restoreTableData = [
   {

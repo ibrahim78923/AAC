@@ -40,13 +40,13 @@ export const UpsertProductCatalog = () => {
           ))}
         </Grid>
         <Box
-          mt={2}
+          mt={4}
           display={'flex'}
           alignItems={'center'}
           justifyContent={'space-between'}
         >
           <Box></Box>
-          <Box display={'flex'} gap={2} alignItems={'center'}>
+          <Box display={'flex'} flexWrap={'wrap'} gap={2} alignItems={'center'}>
             <LoadingButton
               variant="outlined"
               type="button"

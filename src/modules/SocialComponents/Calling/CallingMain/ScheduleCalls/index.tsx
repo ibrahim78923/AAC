@@ -28,18 +28,25 @@ const ScheduleCalls = () => {
     isDeleteModalOpen,
   } = useCallingMain();
 
-  const getColumns = columns();
-
-  const { Calls, setPage, setPageLimit, isLoading } = useScheduleCalls();
+  const {
+    Calls,
+    setPage,
+    setPageLimit,
+    isLoading,
+    handleCheckboxChange,
+    selectedCheckboxes,
+    deleteCallsHandler,
+    setSelectedCheckboxes,
+  } = useScheduleCalls({ callingSearch, setIsDeleteModalOpen });
+  const getColumns = columns({ handleCheckboxChange, selectedCheckboxes });
 
   return (
     <>
       <Box
         sx={{
           display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
+          flexDirection: { xs: 'column', sm: 'row' },
           gap: '10px',
-          alignItems: 'center',
           justifyContent: 'space-between',
           px: '24px',
           pb: '10px',
@@ -49,9 +56,7 @@ const ScheduleCalls = () => {
           label={'Search here'}
           searchBy={callingSearch}
           setSearchBy={setCallingSearch}
-          size="small"
         />
-
         <Button
           id="basic-button"
           aria-controls={actionMenuOpenAction ? 'basic-menu' : undefined}
@@ -65,6 +70,7 @@ const ScheduleCalls = () => {
               width: '100%',
             },
           }}
+          disabled={selectedCheckboxes?.length === 0}
         >
           Actions &nbsp; <DownIcon />
         </Button>
@@ -81,6 +87,7 @@ const ScheduleCalls = () => {
             onClick={() => {
               setOpenDrawer('Edit'), handleCloseAction;
             }}
+            disabled={selectedCheckboxes?.length > 1}
           >
             Edit
           </MenuItem>
@@ -108,16 +115,20 @@ const ScheduleCalls = () => {
         isSuccess={true}
         onPageChange={(page: any) => setPage(page)}
       />
-      <ScheduleEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+      {openDrawer && (
+        <ScheduleEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          selectedCheckboxes={selectedCheckboxes}
+          setSelectedCheckboxes={setSelectedCheckboxes}
+        />
+      )}
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
         type="delete"
         open={isDeleteModalOpen}
         handleClose={() => setIsDeleteModalOpen(false)}
-        handleSubmit={() => setIsDeleteModalOpen(false)}
+        handleSubmitBtn={deleteCallsHandler}
       />
     </>
   );
