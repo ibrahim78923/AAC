@@ -4,8 +4,10 @@ const TAG = ['CHAT'];
 export const chatApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUserChats: builder.query({
-      query: ({ activeChatId, params }: any) => ({
-        url: `${SOCIAL_FEATURES_CHAT?.CHAT}${activeChatId}?page=1&limit=100`,
+      query: ({ activeChatId, params, limit }: any) => ({
+        url: `${SOCIAL_FEATURES_CHAT?.CHAT}${activeChatId}?page=1&limit=${
+          limit ?? 50
+        }`,
         method: 'GET',
         params: params,
         headers: {
@@ -25,7 +27,24 @@ export const chatApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    updateChat: builder.mutation({
+      query: ({ id, body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_CHAT?.UPDATE_CHAT}${id}`,
+          method: 'POST',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
-export const { useGetUserChatsQuery, useGetChatsContactsQuery } = chatApi;
+export const {
+  useGetUserChatsQuery,
+  useGetChatsContactsQuery,
+  useUpdateChatMutation,
+} = chatApi;

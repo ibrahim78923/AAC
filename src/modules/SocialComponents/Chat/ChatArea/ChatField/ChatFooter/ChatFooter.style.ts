@@ -7,6 +7,7 @@ export const styles = {
   },
   chatReply: (theme: any) => {
     return {
+      position: 'relative',
       background: theme.palette.primary.lighter,
       borderRadius: '8px',
       padding: '10px',

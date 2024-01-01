@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -21,13 +21,16 @@ import {
 } from '@/assets/icons';
 
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { setChatMessages } from '@/redux/slices/chat/slice';
+import { setActiveReply } from '@/redux/slices/chat/slice';
 
 import { UserDefault } from '@/assets/images';
 import { getSession } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from '../ChatField.style';
+import dayjs from 'dayjs';
+import { TIME_FORMAT } from '@/constants';
+import { enqueueSnackbar } from 'notistack';
 
 const ChatBox = ({
   item,
@@ -58,7 +61,7 @@ const ChatBox = ({
     const isReactionExists = item?.reactions?.some(
       (reaction: any) => reaction?.userId === user?._id,
     );
-
+    // update with socket on
     socket.emit(
       'update-message',
       {
@@ -69,10 +72,66 @@ const ChatBox = ({
           userReaction: emoji,
         },
       },
-      (response: any) => {
-        dispatch(setChatMessages(response?.data));
+      () => {
+        // dispatch(setChatMessages(response?.data));
       },
     );
+  };
+
+  const handelReply = (chatId: any) => {
+    dispatch(
+      setActiveReply({
+        chatId: chatId,
+        content: item?.content,
+      }),
+    );
+  };
+
+  const handelDelete = () => {
+    socket.emit(
+      'update-message',
+      {
+        messageId: item?._id,
+        isDeleted: true,
+      },
+      // (response: any) => {
+      //   console.log('response', response?.data);
+      // },
+    );
+  };
+
+  useEffect(() => {
+    if (role === 'receiver') {
+      if (item?.isRead === false) {
+        socket.emit(
+          'update-message',
+          {
+            messageId: item?._id,
+            isRead: true,
+          },
+          // (response: any) => {
+          //   console.log('response', response?.data);
+          // },
+        );
+      }
+    }
+  }, [item]);
+
+  const divToCopyRef = useRef<any>(null);
+
+  const handleCopyClick = () => {
+    if (divToCopyRef?.current) {
+      const textToCopy = divToCopyRef?.current?.innerText;
+      navigator.clipboard
+        .writeText(textToCopy)
+        .then(() => {
+          enqueueSnackbar('Text successfully copied to clipboard', {
+            variant: 'success',
+          });
+          handleClose();
+        })
+        .catch(() => {});
+    }
   };
 
   return (
@@ -86,45 +145,60 @@ const ChatBox = ({
             alt="avatar"
           />
         </Box>
-        <Box>
-          {chatMode === 'groupChat' && (
-            <>
-              {item?.messageReplyContents ? (
-                <Box sx={styles?.chatReplyReference}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: `${role === 'sender' ? 'flex-end' : 'flex-start'}`,
+          }}
+        >
+          <>
+            {item?.parentMessage?.content ? (
+              <Box sx={styles?.chatReplyReference(role)}>
+                <Typography
+                  variant="body3"
+                  sx={{
+                    color: '#6E7191',
+                  }}
+                >
+                  <ReplyIcon />
+                  &nbsp;&nbsp;{item?.userName}replied to{' '}
+                  {item?.parentMessage?.ownerDetail?._id === user._id ? (
+                    'You'
+                  ) : (
+                    <>
+                      {item?.parentMessage?.ownerDetail?.firstName}&nbsp;
+                      {item?.parentMessage?.ownerDetail?.lastName}
+                    </>
+                  )}
+                </Typography>
+                <Box sx={styles?.chatReplyReferenceContent}>
                   <Typography
                     variant="body3"
                     sx={{
-                      color: '#6E7191',
+                      color: '#9D9D9D',
                     }}
-                  >
-                    <ReplyIcon />
-                    &nbsp;&nbsp;{item?.userName}replied to{' '}
-                    {item?.messageReplyContents?.replyTo}
-                  </Typography>
-                  <Box sx={styles?.chatReplyReferenceContent}>
+                    dangerouslySetInnerHTML={{
+                      __html: item?.parentMessage?.content,
+                    }}
+                  />
+                </Box>
+              </Box>
+            ) : (
+              <>
+                {chatMode === 'groupChat' ? (
+                  <Box>
                     <Typography
                       variant="body3"
-                      sx={{
-                        color: '#9D9D9D',
-                      }}
-                      dangerouslySetInnerHTML={{
-                        __html: item?.messageReplyContents?.messageRefference,
-                      }}
-                    />
+                      sx={{ color: '#6E7191', fontWeight: '500' }}
+                    >
+                      {item?.userName}
+                    </Typography>
                   </Box>
-                </Box>
-              ) : (
-                <Box>
-                  <Typography
-                    variant="body3"
-                    sx={{ color: '#6E7191', fontWeight: '500' }}
-                  >
-                    {item?.userName}
-                  </Typography>
-                </Box>
-              )}
-            </>
-          )}
+                ) : null}
+              </>
+            )}
+          </>
           <Box
             sx={styles?.chatMessageArea(role)}
             onMouseOver={() => setActiveChat(item?._id)}
@@ -134,6 +208,7 @@ const ChatBox = ({
               <Box sx={styles?.chatBoxWrapperInset(theme, role)}>
                 {!item?.attachment?.document && (
                   <Typography
+                    ref={divToCopyRef}
                     variant="body3"
                     dangerouslySetInnerHTML={{
                       __html: item?.content,
@@ -194,17 +269,17 @@ const ChatBox = ({
                     bottom: '0px',
                   }}
                 >
-                  <CharmTickIcon />
+                  <CharmTickIcon isRead={item?.isRead} />
                 </Box>
-                {item?.reactions?.length > 0 && (
+                {item?.reactions?.map((emoji: any) => (
                   <Box
+                    key={uuidv4()}
                     sx={styles?.chatReaction}
                     dangerouslySetInnerHTML={{
-                      // this will update is future due to some pending changes
-                      __html: item?.reactions[0]?.userReaction,
+                      __html: emoji?.userReaction,
                     }}
                   />
-                )}
+                ))}
                 {item?._id === activeChat && (
                   <Box sx={styles?.sendReaction(theme)}>
                     {customEmojis?.map((emoji: any) => (
@@ -219,9 +294,11 @@ const ChatBox = ({
                   </Box>
                 )}
               </Box>
-              <Box sx={{ textAlign: 'right' }}>
+              <Box
+                sx={{ textAlign: `${role === 'sender' ? 'left' : 'right'}` }}
+              >
                 <Typography variant="body3" sx={{ color: '#6E7191' }}>
-                  {item?.timeStamp}
+                  {dayjs(item?.createdAt).format(TIME_FORMAT.UI)}
                 </Typography>
               </Box>
             </Box>
@@ -252,9 +329,11 @@ const ChatBox = ({
                     'aria-labelledby': 'basic-button',
                   }}
                 >
-                  <MenuItem onClick={handleClose}>Reply</MenuItem>
-                  <MenuItem onClick={handleClose}>Delete</MenuItem>
-                  <MenuItem onClick={handleClose}>Copy</MenuItem>
+                  <MenuItem onClick={() => handelReply(item?._id)}>
+                    Reply
+                  </MenuItem>
+                  <MenuItem onClick={handelDelete}>Delete</MenuItem>
+                  <MenuItem onClick={handleCopyClick}>Copy</MenuItem>
                 </Menu>
               )}
             </Box>

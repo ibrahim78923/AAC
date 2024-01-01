@@ -434,28 +434,25 @@ const DashboardLayout = ({ children, window }: any) => {
   if (socket) {
     socket.on('on-status-change', () => {});
     socket.on('add-message', () => {});
+    socket.on('on-new-chat', () => {});
     socket.on('on-message-received', (payload: any) => {
       if (payload?.data) {
         dispatch(setChatMessages(payload?.data));
       }
     });
-    socket.on('update-message', () => {
-      // console.log("update-message", payload)
-    });
+    socket.on('update-message', () => {});
 
-    socket.on('on-message-update', () => {
-      // console.log("on-message-update", payload)
+    socket.on('on-message-update', (payload: any) => {
+      dispatch(setChatMessages(payload?.data));
     });
 
     socket.on('on-typing-start', (payload: any) => {
-      // console.log("on-typing-start", payload)
       dispatch(
         setTypingUserData({
           userName: payload?.typingUserName,
         }),
       );
     });
-
     socket.on('on-typing-stop', () => {
       dispatch(setTypingUserData({}));
     });
