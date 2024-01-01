@@ -1,4 +1,5 @@
 import { PAGINATION } from '@/config';
+import { useTheme } from '@mui/material';
 import { useState } from 'react';
 
 export const useVouchers = () => {
@@ -6,6 +7,7 @@ export const useVouchers = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [addVouchersOpen, setAddVouchersOpen] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const theme: any = useTheme();
 
   return {
     page,
@@ -15,6 +17,7 @@ export const useVouchers = () => {
     addVouchersOpen,
     setAddVouchersOpen,
     filtersOpen,
+    theme,
     setFiltersOpen,
   };
 };

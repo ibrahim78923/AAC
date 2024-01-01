@@ -7,9 +7,9 @@ export const createNewFolderSchema = Yup?.object()?.shape({
     ?.max(30, 'Must not exceed 30 characters'),
   description: Yup?.string(),
 });
-export const upsertFolderDefaultValuesFunction = (data?: any) => {
+export const upsertFolderDefaultValuesFunction: any = (data?: any) => {
   return {
-    folderName: data?.name ?? '',
+    folderName: data?.folderName ?? '',
     description: data?.description ?? '',
   };
 };

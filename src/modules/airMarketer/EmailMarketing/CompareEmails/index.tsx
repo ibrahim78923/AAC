@@ -6,8 +6,10 @@ import { Button, Grid, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { businessEmail, personalEmail } from './CompareEmails.data';
+
 import { useForm } from 'react-hook-form';
+import { AIR_MARKETER } from '@/routesConstants/paths';
+import { businessEmail, personalEmail } from './CompareEmails.data';
 
 const CompareEmails = () => {
   const router = useRouter();
@@ -36,9 +38,7 @@ const CompareEmails = () => {
         />
 
         <Button
-          onClick={() =>
-            router.push('/air-marketer/email-marketing/create-new-email')
-          }
+          onClick={() => router.push(`${AIR_MARKETER?.CREATE_NEW_EMAIL}`)}
           variant="contained"
           className="small"
           style={{ margin: '0px 18px' }}
@@ -51,7 +51,7 @@ const CompareEmails = () => {
         <FormProvider methods={CampaignTask}>
           <Grid container>
             <Grid item xs={6}>
-              <RHFSelect name="personalEmail" label="Email" size="small">
+              <RHFSelect name="businessEmail" label="Email" size="small">
                 {personalEmail?.map((option: any) => (
                   <option key={uuidv4()} value={option?.value}>
                     {option?.label}

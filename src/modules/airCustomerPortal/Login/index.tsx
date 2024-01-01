@@ -17,12 +17,17 @@ import { LoadingButton } from '@mui/lab';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import router from 'next/router';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useState } from 'react';
 
 export const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const method = useForm({
     resolver: yupResolver(loginValidationSchema),
     defaultValues: loginDefaultValues,
   });
+  const handleClickShowPassword = () => {
+    setShowPassword((show) => !show);
+  };
   const onSubmit = () => {
     enqueueSnackbar('Logged in Successfully', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
@@ -42,7 +47,7 @@ export const Login = () => {
       />
       <Grid item md={6} xs={12}>
         <Grid p={7}>
-          <Typography variant="h2">Welcome to Air Applecart</Typography>
+          <Typography variant="h2">Sign In to Air Applecart</Typography>
           <Typography sx={{ py: 1 }} variant="h6" color="grey.900">
             Let’s Get Started!
           </Typography>
@@ -50,13 +55,15 @@ export const Login = () => {
 
         <Grid item md={7} xs={12} mx={{ md: 10, xs: 0 }}>
           <FormProvider methods={method} onSubmit={handleSubmit(onSubmit)}>
-            {loginFormFields?.map((item) => {
-              return (
-                <Grid my={1} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              );
-            })}
+            {loginFormFields(showPassword, handleClickShowPassword)?.map(
+              (item) => {
+                return (
+                  <Grid my={1} key={item?.id}>
+                    <item.component {...item?.componentProps} size={'small'} />
+                  </Grid>
+                );
+              },
+            )}
             <LoadingButton
               sx={{ my: 2 }}
               variant="contained"

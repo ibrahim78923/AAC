@@ -28,7 +28,7 @@ export const PurchaseOrderFilter = (props: any) => {
         <CommonDrawer
           isDrawerOpen={isDrawerOpen}
           onClose={handleReset}
-          okText={'filter'}
+          okText={'Apply'}
           title={'Filter'}
           submitHandler={handleSubmit}
           isOk={true}

@@ -12,15 +12,17 @@ import { dataArray } from './CreateCompany.data';
 import { v4 as uuidv4 } from 'uuid';
 
 const CreateCompany = ({ setIsOpenDrawer, isOpenDrawer }: any) => {
-  const { methods } = useCreateCompany();
+  const { methods, handleSubmit, onSubmit, reset } = useCreateCompany();
 
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isOpenDrawer}
         onClose={() => {
-          setIsOpenDrawer(false);
+          setIsOpenDrawer({ ...isOpenDrawer, createCompanyDrawer: false });
+          reset();
         }}
+        submitHandler={handleSubmit(onSubmit)}
         title="Create Company"
         okText="Add"
         isOk={true}

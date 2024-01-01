@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 export const dealsNotesValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Field is Required'),
   description: Yup?.string()?.trim()?.required('Field is Required'),
-  attachfile: Yup?.string()?.trim()?.required('Field is Required'),
+  attachfile: Yup?.string(),
 });
 
 export const dealsNotesDefaultValues = {
@@ -20,8 +20,9 @@ export const dealsNotesDataArray = [
   {
     componentProps: {
       name: 'title',
-      label: 'Task Name',
+      label: 'Title',
       fullWidth: true,
+      placeholder: 'Title here',
     },
     component: RHFTextField,
     md: 12,

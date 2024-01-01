@@ -17,6 +17,7 @@ import {
 } from '@/assets/icons';
 import Search from '@/components/Search';
 import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const Tasks = () => {
   const {
@@ -102,7 +103,7 @@ const Tasks = () => {
                 Create Task
               </Button>
               <Button
-                onClick={() => router.push('/air-marketer/campaigns/task-card')}
+                onClick={() => router.push(`${AIR_MARKETER?.TASK_CARD}`)}
                 variant="outlined"
                 color="inherit"
                 startIcon={<FilterLinesIcon />}

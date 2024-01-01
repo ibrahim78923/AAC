@@ -50,7 +50,7 @@ export const importTabColumnsFunction: any = (
     accessorFn: (row: any) => row?.user,
     id: 'user',
     isSortable: true,
-    header: 'user',
+    header: 'User',
     cell: (info: any) => (
       <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
         <Avatar
@@ -78,7 +78,7 @@ export const importTabColumnsFunction: any = (
     accessorFn: (row: any) => row?.fileName,
     id: 'fileName',
     isSortable: true,
-    header: 'file Name',
+    header: 'File Name',
     cell: (info: any) => (
       <Typography color="primary.main">{info?.getValue()}</Typography>
     ),
@@ -87,28 +87,28 @@ export const importTabColumnsFunction: any = (
     accessorFn: (row: any) => row?.product,
     id: 'product',
     isSortable: true,
-    header: 'product',
+    header: 'Product',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.object,
     id: 'object',
     isSortable: true,
-    header: 'object',
+    header: 'Object',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.status,
     id: 'status',
     isSortable: true,
-    header: 'status',
+    header: 'Status',
     cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.createdDate,
     id: 'createdDate',
     isSortable: true,
-    header: 'created Date',
+    header: 'Created Date',
     cell: (info: any) =>
       info?.getValue() ? dayjs(info?.getValue())?.format('DD/MM/YYYY') : '---',
   },

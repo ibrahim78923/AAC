@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { CustomerPortalHeader } from '../CustomerPortalHeader';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -69,9 +69,11 @@ export const SignUp = () => {
                 </item.component>
               </Grid>
             ))}
-            <LoadingButton variant="contained" fullWidth type="submit">
-              Next
-            </LoadingButton>
+            <Box mt={2}>
+              <LoadingButton variant="contained" fullWidth type="submit">
+                Next
+              </LoadingButton>
+            </Box>
           </FormProvider>
         </Grid>
       </Grid>

@@ -1,15 +1,15 @@
 import * as Yup from 'yup';
-export const salesSchema = Yup?.object()?.shape({
-  schedule: Yup?.mixed(),
+export const salesSchema: any = Yup?.object()?.shape({
+  schedule: Yup?.string(),
   scheduleMonth: Yup?.date(),
-  scheduleDay: Yup?.mixed(),
+  scheduleDay: Yup?.string(),
   scheduleDate: Yup?.date(),
   scheduleTime: Yup?.date(),
-  scheduleDateRange: Yup?.array(),
+  scheduleDateRange: Yup?.object(),
   scheduleWorkflow: Yup?.string(),
   moduleType: Yup?.string(),
-  trigger: Yup?.string(),
-  andRun: Yup?.string(),
+  trigger: Yup?.string()?.required('Required'),
+  andRun: Yup?.string()?.required('Required'),
   workflowConditions: Yup?.array()?.of(
     Yup?.object()?.shape({
       name: Yup?.string()?.required('Required'),
@@ -17,20 +17,20 @@ export const salesSchema = Yup?.object()?.shape({
       logicGate: Yup?.string(),
       conditions: Yup?.array()?.of(
         Yup?.object()?.shape({
-          condition1: Yup?.string(),
-          condition2: Yup?.string(),
-          condition3: Yup?.string(),
-          condition4: Yup?.string(),
+          condition1: Yup?.string()?.required('Required'),
+          condition2: Yup?.string()?.required('Required'),
+          condition3: Yup?.string()?.required('Required'),
+          condition4: Yup?.string()?.required('Required'),
         }),
       ),
     }),
   ),
   actionsExecuted: Yup?.array()?.of(
     Yup?.object()?.shape({
-      action1: Yup?.string(),
-      action2: Yup?.string(),
-      action3: Yup?.string(),
-      action4: Yup?.string(),
+      action1: Yup?.string()?.required('Required'),
+      action2: Yup?.string()?.required('Required'),
+      action3: Yup?.string()?.required('Required'),
+      action4: Yup?.string()?.required('Required'),
     }),
   ),
 });
@@ -42,7 +42,11 @@ export const salesValues = {
   scheduleDay: '',
   scheduleDate: new Date(),
   scheduleTime: new Date(),
-  scheduleDateRange: [],
+  scheduleDateRange: {
+    startDate: new Date(),
+    endDate: new Date(),
+    key: 'selection',
+  },
   moduleType: 'Deals',
   trigger: '',
   andRun: '',

@@ -7,21 +7,21 @@ export const styles: any = {
       statusValue === TO_DO
         ? theme?.palette?.primary?.main
         : statusValue === IN_PROGRESS
-        ? theme?.palette?.custom?.bright
-        : theme?.palette?.error?.dark
+          ? theme?.palette?.custom?.bright
+          : theme?.palette?.error?.dark
     }`,
     backgroundColor:
       statusValue === TO_DO
         ? theme?.palette?.primary?.lighter
         : statusValue === IN_PROGRESS
-        ? theme?.palette?.custom?.aqua_breeze
-        : theme?.palette?.error?.lighter + 20,
+          ? theme?.palette?.custom?.aqua_breeze
+          : theme?.palette?.error?.lighter + 20,
     color:
       statusValue === TO_DO
         ? theme?.palette?.primary?.main
         : statusValue === IN_PROGRESS
-        ? theme?.palette?.custom?.bright
-        : theme?.palette?.error?.dark,
+          ? theme?.palette?.custom?.bright
+          : theme?.palette?.error?.dark,
     padding: '4px 18px',
     borderRadius: '4px',
     fontWeight: 500,

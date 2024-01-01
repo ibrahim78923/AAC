@@ -17,7 +17,7 @@ export const AddMeetingForm = ({
           methods={methods}
           onSubmit={handleSubmit(submitCreateNewTicket)}
         >
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             {addMeetingDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item?.componentProps} size={'small'}>
@@ -28,17 +28,17 @@ export const AddMeetingForm = ({
                         </option>
                       ))
                     : item?.buttonGroup
-                    ? item?.options?.map((option: any) => (
-                        <ToggleButton
-                          sx={videoConferencingButtons}
-                          key={uuidv4()}
-                          value={option?.value}
-                        >
-                          <Image src={option?.img} alt={option?.value} />
-                          {option?.label}
-                        </ToggleButton>
-                      ))
-                    : null}
+                      ? item?.options?.map((option: any) => (
+                          <ToggleButton
+                            sx={videoConferencingButtons}
+                            key={uuidv4()}
+                            value={option?.value}
+                          >
+                            <Image src={option?.img} alt={option?.value} />
+                            {option?.label}
+                          </ToggleButton>
+                        ))
+                      : null}
                 </item.component>
               </Grid>
             ))}

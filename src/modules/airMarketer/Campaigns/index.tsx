@@ -7,7 +7,6 @@ import ImportIcon from '@/assets/icons/shared/import-icon';
 import Filters from './Filters';
 import { campaignsTabs } from './Campaigns.data';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import Calendar from './Calendar';
 import { useState } from 'react';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -63,7 +62,8 @@ const Campaigns = () => {
         <Box sx={{ padding: '0px 24px' }} mt={1.6}>
           <HorizontalTabs tabsDataArray={campaignsTabs}>
             <Manage />
-            <Calendar />
+            {/* <Calendar /> */}
+            <Manage />
             <Tasks />
           </HorizontalTabs>
         </Box>

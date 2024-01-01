@@ -19,6 +19,7 @@ import ActionButton from './ActionButton';
 
 import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 
 const UserManagement = () => {
   const {
@@ -37,6 +38,11 @@ const UserManagement = () => {
     searchVal,
     setSearchVal,
     resetFilters,
+    initialTab,
+    tabTwo,
+    tabOne,
+    datePickerVal,
+    setDatePickerVal,
   } = useUserManagement();
 
   return (
@@ -56,7 +62,7 @@ const UserManagement = () => {
             sx={{ mt: { md: 0, xs: 1 } }}
             className="small"
             onClick={() =>
-              tabVal === 2
+              tabVal === tabTwo
                 ? handleAddRole()
                 : setIsOpenAddUserDrawer({
                     drawer: true,
@@ -67,11 +73,11 @@ const UserManagement = () => {
             variant="contained"
             startIcon={<PlusIcon />}
           >
-            {tabVal === 0
+            {tabVal === initialTab
               ? 'Add Company Owner'
-              : tabVal === 1
-              ? 'Add Super Admin '
-              : 'Add Role'}
+              : tabVal === tabOne
+                ? 'Add Super Admin '
+                : 'Add Role'}
           </Button>
         </PermissionsGuard>
       </Box>
@@ -84,7 +90,7 @@ const UserManagement = () => {
           <CommonTabs
             getTabVal={(val: number) => setTabVal(val)}
             searchBarProps={{
-              label: 'Search Here',
+              label: 'Search by Name',
               setSearchBy: setSearchVal,
               searchBy: searchVal,
             }}
@@ -111,20 +117,29 @@ const UserManagement = () => {
                     <RefreshTasksIcon />
                   </Button>
                 </Tooltip>
-                <Button
-                  onClick={() => {
-                    setIsOpenFilterDrawer(true);
-                  }}
-                  startIcon={<FilterrIcon />}
-                  sx={{
-                    border: `1px solid ${theme?.palette?.custom?.dark}`,
-                    color: theme?.palette?.custom?.main,
-                    width: '95px',
-                    height: '36px',
-                  }}
-                >
-                  Filter
-                </Button>
+                {tabVal !== tabOne ? (
+                  <Button
+                    onClick={() => {
+                      setIsOpenFilterDrawer(true);
+                    }}
+                    startIcon={<FilterrIcon />}
+                    sx={{
+                      border: `1px solid ${theme?.palette?.custom?.dark}`,
+                      color: theme?.palette?.custom?.main,
+                      width: '95px',
+                      height: '36px',
+                    }}
+                  >
+                    Filter
+                  </Button>
+                ) : (
+                  <SwitchableDatepicker
+                    renderInput="button"
+                    placement="right"
+                    dateValue={datePickerVal}
+                    setDateValue={setDatePickerVal}
+                  />
+                )}
               </>
             }
           >

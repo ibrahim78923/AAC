@@ -76,7 +76,7 @@ export { default as NotesAvatarImage } from './modules/airSales/Deals/notes-avat
 export { default as YellowDotImage } from './shared/yellow-dot.png';
 export { default as EmailMeetingImage } from './modules/airSales/Deals/email-meeting.png';
 export { default as AttendeeAvatarImage } from './modules/airSales/Deals/attendee-avatar.png';
-export { default as DashboardPrototypeImage } from './modules/airServices/dashboard/dashboard-prototype-image.png';
+// export { default as DashboardPrototypeImage } from './modules/airServices/Dashboard/dashboard-prototype-image.png';
 export { default as SmsImage } from '@/assets/images/modules/airServices/Tickets/sms-image.png';
 export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
 export { default as DealReportImage } from './modules/airSales/Reports/reports.png';
@@ -211,15 +211,15 @@ export { default as MockEngagementTabsImage } from './modules/paidAds/engagement
 
 // settings -> performance management leader board
 
-export { default as MostValuableBadgeImage } from './modules/airServices/settings/agentPerformanceManagement/most-valuable-badge-image.png';
-export { default as ChampionBadgeImage } from './modules/airServices/settings/agentPerformanceManagement/champion-badge-image.png';
-export { default as WizardBadgeImage } from './modules/airServices/settings/agentPerformanceManagement/wizard-badge-image.png';
-export { default as SpeedRacerBadgeImage } from './modules/airServices/settings/agentPerformanceManagement/speed-racer-badge-image.png';
-export { default as BeginnerAwardImage } from './modules/airServices/settings/agentPerformanceManagement/beginner-award-image.png';
-export { default as IntermediateAwardImage } from './modules/airServices/settings/agentPerformanceManagement/intermediate-award-image.png';
-export { default as ProfessionalAwardImage } from './modules/airServices/settings/agentPerformanceManagement/professional-award-image.png';
-export { default as MasterAwardImage } from './modules/airServices/settings/agentPerformanceManagement/master-award-image.png';
-export { default as ExpertAwardImage } from './modules/airServices/settings/agentPerformanceManagement/expert-award-image.png';
+export { default as MostValuableBadgeImage } from './modules/airServices/Settings/agentPerformanceManagement/most-valuable-badge-image.png';
+export { default as ChampionBadgeImage } from './modules/airServices/Settings/agentPerformanceManagement/champion-badge-image.png';
+export { default as WizardBadgeImage } from './modules/airServices/Settings/agentPerformanceManagement/wizard-badge-image.png';
+export { default as SpeedRacerBadgeImage } from './modules/airServices/Settings/agentPerformanceManagement/speed-racer-badge-image.png';
+export { default as BeginnerAwardImage } from './modules/airServices/Settings/agentPerformanceManagement/beginner-award-image.png';
+export { default as IntermediateAwardImage } from './modules/airServices/Settings/agentPerformanceManagement/intermediate-award-image.png';
+export { default as ProfessionalAwardImage } from './modules/airServices/Settings/agentPerformanceManagement/professional-award-image.png';
+export { default as MasterAwardImage } from './modules/airServices/Settings/agentPerformanceManagement/master-award-image.png';
+export { default as ExpertAwardImage } from './modules/airServices/Settings/agentPerformanceManagement/expert-award-image.png';
 export { default as BudgetScheduleMockImage } from './modules/paidAds/budget-schedule-mock.png';
 export { default as AudienceMockImage } from './modules/paidAds/audience-mock.png';
 
@@ -247,8 +247,13 @@ export { default as GiftCongratsImage } from './modules/loyaltyProgram/GiftCards
 export { default as GiftScanImage } from './modules/loyaltyProgram/GiftCards/Gift-scan-image.png';
 export { default as VoucherImage } from './shared/voucher-image.png';
 export { default as ExportModalImage } from './shared/export-modal-image.png';
+
+export { default as TaskAvatarImage } from './modules/airMarketer/Campaigns/task-avatar.png';
+export { default as CampaignAvatarImage } from './modules/airMarketer/Campaigns/campaign-avatar.png';
+export { default as YouTubeAvatarImage } from './modules/airMarketer/Campaigns/youtube-avatar.png';
 export { default as CatalogAddImage } from './modules/airCustomerPortal/catalog/catalog-add-image.png';
 
 export { default as GiftCardImage } from './modules/HeaderAndSidebar/gift.png';
 export { default as LoyaltyImage } from './modules/HeaderAndSidebar/loyalty.png';
 export { default as PrepaidImage } from './modules/HeaderAndSidebar/prepaid.png';
+export { default as UserDefault } from './modules/socialComponents/chat/user-default.png';

@@ -1,44 +1,43 @@
-import React from 'react';
-
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-
 import { AlertModals } from '@/components/AlertModals';
-
 import { AssignCommonIcon } from '@/assets/icons';
+import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
+import { useForm } from 'react-hook-form';
+import { v4 as uuidv4 } from 'uuid';
 
 const ReassignModal = ({ isReassign, setIsReassign }: any) => {
-  const [age, setAge] = React.useState('');
+  const methods = useForm();
 
-  const handleChange = (event: any) => {
-    setAge(event.target.value);
-  };
+  const optionsArray = [
+    { value: 'All Industries', label: 'All Industries' },
+    { value: 'Computer Software', label: 'Computer Software' },
+    { value: 'Construction', label: 'Construction' },
+    { value: 'Electronics', label: 'Electronics' },
+  ];
+
   return (
     <AlertModals
       typeImage={<AssignCommonIcon />}
       message={
-        <Box>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Company Owner</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={age}
-              label="Deals Owner"
-              onChange={handleChange}
-            >
-              <MenuItem value={10}>Savannah Shane</MenuItem>
-              <MenuItem value={20}>Phoenix Baker</MenuItem>
-              <MenuItem value={30}>Cameron Waliamson</MenuItem>
-              <MenuItem value={40}>Brooklyn Simmons</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
+        <FormProvider methods={methods}>
+          <RHFSelect
+            name="reassign"
+            label="Company Owner"
+            select={true}
+            size="small"
+          >
+            {optionsArray?.map((item: any) => (
+              <option key={uuidv4()} value={item?.value}>
+                {item?.label}
+              </option>
+            ))}
+          </RHFSelect>
+        </FormProvider>
       }
       type="Assign"
       open={isReassign}
       cancelBtnText="Cancel"
       submitBtnText="Update"
-      handleClose={() => setIsReassign(false)}
+      handleClose={() => setIsReassign({ ...isReassign, reassignModal: false })}
       handleSubmit={function (): void {
         throw new Error('Function not implemented.');
       }}

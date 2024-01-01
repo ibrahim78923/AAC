@@ -1,33 +1,34 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import {
-  createTicketDataArray,
-  createTicketDefaultValues,
-  createTicketValidationSchema,
-} from './CreateRelatedTickets.data';
 import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
-
+import { useCreateRelatedTickets } from './useCreateRelatedTickets';
+import { useEffect } from 'react';
+const timeValues = ['updatedAt', 'createdAt', 'plannedEndDate'];
+const RHFSelectValues = ['requester', 'createdAt', 'plannedEndDate'];
 function CreateRelatedTickets({
   isDrawerOpen,
   setIsDrawerOpen,
   drawerType,
+  data,
 }: any) {
-  const methods: any = useForm({
-    resolver: yupResolver(createTicketValidationSchema),
-    defaultValues: createTicketDefaultValues,
-  });
+  const { methods, submit, createTicketDataArray } = useCreateRelatedTickets(
+    setIsDrawerOpen,
+    data,
+  );
+  useEffect(() => {
+    !!data?.length &&
+      Object?.entries(data?.[0] ?? {})?.map(([key, value]: any) => {
+        if (timeValues?.includes(key)) {
+          return methods?.setValue(key, new Date(value));
+        }
+        if (RHFSelectValues?.includes(key)) {
+          return methods?.setValue(key, { value });
+        }
 
-  const { handleSubmit } = methods;
-
-  const submit = () => {
-    enqueueSnackbar(`child ticket ${drawerType} successfully`, {
-      variant: 'success',
-    });
-  };
+        methods?.setValue(key, value);
+      });
+  }, [data]);
   return (
     <>
       <CommonDrawer
@@ -42,11 +43,14 @@ function CreateRelatedTickets({
         okText={`${drawerType} child ticket`}
       >
         <Box mt={1}>
-          <FormProvider methods={methods} onSubmit={handleSubmit?.(submit)}>
+          <FormProvider
+            methods={methods}
+            onSubmit={methods?.handleSubmit?.(submit)}
+          >
             <Grid container spacing={4}>
               {createTicketDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
                           <option key={uuidv4()} value={option?.value}>

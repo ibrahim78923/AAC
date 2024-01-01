@@ -19,6 +19,7 @@ export const RequestersHeader = ({ selectedRequestorsList }: any) => {
     setIsDrawerOpen,
     requestorsDropdownOptions,
     router,
+    searchValue,
   } = useRequestersHeader();
 
   return (
@@ -46,6 +47,7 @@ export const RequestersHeader = ({ selectedRequestorsList }: any) => {
             label="Search Here"
             width={'16.25rem'}
             setSearchBy={setSearchValue}
+            searchBy={searchValue}
           />
         </Box>
         <Box display={'flex'} gap={1} mt={{ xs: 3 }}>

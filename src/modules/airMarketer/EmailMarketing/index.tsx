@@ -19,6 +19,7 @@ import Filters from './Filters';
 import EmailFolder from './EmailFolder';
 import { ExportButton } from './ExportButton';
 import { useRouter } from 'next/router';
+import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const EmailMarketing = () => {
   const {
@@ -57,16 +58,12 @@ const EmailMarketing = () => {
           variant="outlined"
           className="small"
           color="inherit"
-          onClick={() =>
-            router.push('/air-marketer/email-marketing/compare-email')
-          }
+          onClick={() => router.push(`${AIR_MARKETER?.COMPARE_EMAIL}`)}
         >
           Compare Email
         </Button>
         <Button
-          onClick={() =>
-            router.push('/air-marketer/email-marketing/create-new-email')
-          }
+          onClick={() => router.push(`${AIR_MARKETER?.CREATE_NEW_EMAIL}`)}
           variant="contained"
           className="small"
           style={{ margin: '0px 18px' }}

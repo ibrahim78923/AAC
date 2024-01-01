@@ -1,7 +1,7 @@
 import { AIR_SERVICES } from '@/constants';
 import { Typography } from '@mui/material';
 
-export const PRODUCT_LISTS_ACTION_CONSTANTS = {
+export const VENDOR_LISTS_ACTION_CONSTANTS = {
   IMPORT: 'import',
 };
 export const vendorListsColumnsFunction = (router: any): any => [
@@ -17,11 +17,12 @@ export const vendorListsColumnsFunction = (router: any): any => [
           router?.push({
             pathname: AIR_SERVICES?.VENDOR_DETAIL,
             query: {
-              vendorId: info?.row?.id,
+              vendorId: info?.row?.original?._id,
             },
           })
         }
         sx={{ cursor: 'pointer' }}
+        color="custom.bright"
       >
         {info?.getValue()}
       </Typography>
