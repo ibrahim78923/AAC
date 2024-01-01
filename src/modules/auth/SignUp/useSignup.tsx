@@ -10,6 +10,7 @@ import {
 import { debouncedSearch } from '@/utils';
 import { useGetProductsQuery } from '@/services/superAdmin/billing-invoices';
 import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useSignup = () => {
   const methodsSignup = useForm({
@@ -31,7 +32,9 @@ const useSignup = () => {
   const allValuesNotEmpty = () => {
     const valuesNotEmpty = watchField.every((value) => value.trim() !== '');
     if (!valuesNotEmpty) {
-      enqueueSnackbar('All Fields are Required', { variant: 'error' });
+      enqueueSnackbar('All Fields are Required', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
     return valuesNotEmpty;
   };
