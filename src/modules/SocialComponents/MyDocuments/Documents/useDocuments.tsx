@@ -44,6 +44,7 @@ const useDocuments: any = () => {
       enqueueSnackbar('Company Deleted Successfully', {
         variant: 'success',
       });
+      setIsOpenDelete(false);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong!', { variant: 'error' });
     }
