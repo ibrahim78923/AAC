@@ -39,7 +39,7 @@ const FormAddContact = ({ open, onClose }: any) => {
           <Grid container spacing={'32px'}>
             {addContactFields?.map((item) => (
               <Grid item xs={12} key={item.id}>
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
                       <option key={option?.value} value={option?.value}>

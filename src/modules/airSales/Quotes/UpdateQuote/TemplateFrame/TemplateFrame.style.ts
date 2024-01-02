@@ -4,18 +4,18 @@ export const styles = {
     borderRadius: '6px',
     boxShadow: '0px 2px 32px 0px rgba(0,0,0,0.06)',
   }),
-  header: () => ({
+  header: (theme: any) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     p: '6px',
-    borderBottom: '1px solid #EAEAEA',
+    borderBottom: `1px solid ${theme?.palette?.custom?.light_greyish}`,
     position: 'relative',
   }),
-  headerText: () => ({
+  headerText: (theme: any) => ({
     color: '#5C5C5C',
     fontSize: '14px',
-    bgcolor: '#FAFAFA',
+    bgcolor: theme?.palette?.custom?.white_fifty,
     p: '0 24px',
     height: '32px',
     display: 'flex',
@@ -26,7 +26,7 @@ export const styles = {
     height: '640px',
     overflowY: 'auto',
   }),
-  dots: () => ({
+  dots: (theme: any) => ({
     display: 'flex',
     position: 'absolute',
     height: '12px',
@@ -39,7 +39,7 @@ export const styles = {
       borderRadius: '50%',
       ml: '8px',
       '&:first-of-type': {
-        bgcolor: '#FF5F56',
+        bgcolor: theme?.palette?.custom?.custom_red,
         ml: '0',
       },
       '&:nth-child(2)': {

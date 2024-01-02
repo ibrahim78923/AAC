@@ -92,6 +92,7 @@ const CUSTOM_COLORS = {
   light_lavender_gray: '#EAECF0',
   steel_blue: '#79839E99',
   steel_blue_alpha: '#79839E',
+  light_greyish: '#EAEAEA',
   light_grayish_blue: '#E9EAEF',
   shade_grey: '#1018281A',
   turquoise_Blue: '#4CCFBC',
@@ -115,6 +116,8 @@ const CUSTOM_COLORS = {
   black_pearl: '#14142B',
   error_lighter: 'rgba(255, 74, 74, 0.10)',
   hex_grey: '#e0e0e0',
+  white_fifty: '#FAFAFA',
+  custom_red: '#FF5F56',
 };
 const GRAPH = {
   cyan: 'blue',

@@ -19,8 +19,8 @@ const StepDeal = ({ openCreateDeal, values, methods }: any) => {
           <Grid item xs={5}>
             <Grid container spacing={'22px'}>
               {formArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item.id}>
-                  <item.component {...item.componentProps} size={'small'}>
+                <Grid item xs={12} md={item?.md} key={item?.id}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>

@@ -11,7 +11,7 @@ export const styles = {
     color: '#fff',
   }),
   quoteInfoHolder: (theme: any) => ({
-    bgcolor: theme.palette.grey[100],
+    bgcolor: theme?.palette?.grey[100],
     p: '16px 24px',
   }),
   quoteInfo: () => ({
@@ -22,29 +22,29 @@ export const styles = {
     fontSize: '14px',
     fontWeight: '500',
     lineHeight: '1.42857',
-    color: theme.palette.blue.dull_blue,
+    color: theme?.palette?.blue?.dull_blue,
     mt: '8px',
     '&:first-of-type': {
       mt: '0',
     },
     '& > span': {
-      color: theme.palette.custom.main,
+      color: theme?.palette?.custom?.main,
       fontWeight: '400',
     },
   }),
   buyerInfoTitle: (theme: any) => ({
     fontWeight: '600',
-    color: theme.palette.grey[800],
+    color: theme?.palette?.grey[800],
   }),
   buyerInfoText: (theme: any) => ({
-    color: theme.palette.custom.main,
+    color: theme?.palette?.custom?.main,
     mt: '8px',
     lineHeight: '1.42857',
   }),
 
   voucher: (theme: any) => ({
     p: '16px 24px',
-    bgcolor: theme.palette.grey[100],
+    bgcolor: theme?.palette?.grey[100],
     mt: '16px',
   }),
   vRow: () => ({
@@ -59,24 +59,24 @@ export const styles = {
   vCellLef: (theme: any) => ({
     fontSize: '14px',
     fontWeight: '500',
-    color: theme.palette.blue.dull_blue,
+    color: theme?.palette?.blue?.dull_blue,
     lineHeight: '1.42857',
   }),
   vCellRight: (theme: any) => ({
     fontSize: '14px',
     fontWeight: '600',
-    color: theme.palette.blue.dull_blue,
+    color: theme?.palette?.blue?.dull_blue,
     lineHeight: '1.42857',
   }),
   total: (theme: any) => ({
     fontSize: '16px',
     fontWeight: '600',
-    color: theme.palette.blue.dull_blue,
+    color: theme?.palette?.blue?.dull_blue,
     lineHeight: '1.5',
   }),
   signatureCard: (theme: any) => ({
     p: '16px 24px',
-    bgcolor: theme.palette.grey[100],
+    bgcolor: theme?.palette?.grey[100],
     mt: '16px',
     height: '132px',
     display: 'flex',
@@ -111,7 +111,7 @@ export const styles = {
     color: 'blue.dull_blue',
     width: '95px',
     pt: '7px',
-    borderTop: `1px solid ${theme.palette.grey[700]}`,
+    borderTop: `1px solid ${theme?.palette?.grey[700]}`,
     textAlign: 'center',
   }),
 };

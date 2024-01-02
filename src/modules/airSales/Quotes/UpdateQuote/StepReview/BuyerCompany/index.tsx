@@ -7,7 +7,7 @@ const BuyerCompany = () => {
     <>
       <Box sx={styles?.card}>
         <Box sx={styles?.company}>
-          <Avatar src={AvatarCompanyImage.src} sx={styles?.avatar}>
+          <Avatar src={AvatarCompanyImage?.src} sx={styles?.avatar}>
             OM
           </Avatar>
           <Box>

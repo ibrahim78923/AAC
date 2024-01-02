@@ -7,9 +7,9 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  productName: Yup.string().required('Field is Required'),
-  unitPrice: Yup.string().required('Field is Required'),
+export const validationSchema = Yup?.object()?.shape({
+  productName: Yup?.string()?.required('Field is Required'),
+  unitPrice: Yup?.string()?.required('Field is Required'),
 });
 
 export const initValues = {

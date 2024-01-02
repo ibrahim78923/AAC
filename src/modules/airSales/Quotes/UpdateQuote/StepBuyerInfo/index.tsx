@@ -41,18 +41,18 @@ const StepBuyerInfo = ({
                 </Typography>
                 <Box component="ul" sx={styles?.contactsList}>
                   {buyerContactList?.map((item: any) => (
-                    <Box component="li" sx={styles?.listItem} key={item.id}>
+                    <Box component="li" sx={styles?.listItem} key={item?.id}>
                       <Box sx={styles?.itemIcon}>
                         <Avatar
-                          src={AvatarContactImage.src}
+                          src={AvatarContactImage?.src}
                           sx={styles?.itemAvatar}
                         ></Avatar>
                       </Box>
                       <Box sx={styles?.itemDetail}>
-                        <Box sx={styles?.itemTitle}>{item.owner}</Box>
-                        <Box sx={styles?.itemText}>{item.title}</Box>
-                        <Box sx={styles?.itemText}>{item.email}</Box>
-                        <Box sx={styles?.itemText}>{item.phoneNumber}</Box>
+                        <Box sx={styles?.itemTitle}>{item?.owner}</Box>
+                        <Box sx={styles?.itemText}>{item?.title}</Box>
+                        <Box sx={styles?.itemText}>{item?.email}</Box>
+                        <Box sx={styles?.itemText}>{item?.phoneNumber}</Box>
                       </Box>
                     </Box>
                   ))}
@@ -60,7 +60,7 @@ const StepBuyerInfo = ({
               </Box>
             </>
           )}
-          {dataContacts.length === 0 && (
+          {dataContacts?.length === 0 && (
             <Box sx={styles?.button} onClick={openAddContact}>
               <Box sx={{ mr: '8px', display: 'inline-flex' }}>
                 <ProfileCircleIcon />
@@ -70,25 +70,25 @@ const StepBuyerInfo = ({
           )}
         </Box>
         <Box sx={styles?.companyInformation}>
-          {dataCompanies.length !== 0 ? (
+          {dataCompanies?.length !== 0 ? (
             <Box sx={styles?.contactsCont}>
               <Typography variant="h6" sx={styles?.contactsHeading}>
                 Buyer’s Company
               </Typography>
               <Box component="ul" sx={styles?.contactsList}>
                 {buyerCompanyList?.map((item: any) => (
-                  <Box component="li" sx={styles?.listItem} key={item.id}>
+                  <Box component="li" sx={styles?.listItem} key={item?.id}>
                     <Box sx={styles?.itemIcon}>
                       <Avatar
-                        src={AvatarCompanyImage.src}
+                        src={AvatarCompanyImage?.src}
                         sx={styles?.itemAvatar}
                       ></Avatar>
                     </Box>
                     <Box sx={styles?.itemDetail}>
-                      <Box sx={styles?.itemTitle}>{item.owner}</Box>
-                      <Box sx={styles?.itemText}>{item.title}</Box>
-                      <Box sx={styles?.itemText}>{item.email}</Box>
-                      <Box sx={styles?.itemText}>{item.phoneNumber}</Box>
+                      <Box sx={styles?.itemTitle}>{item?.owner}</Box>
+                      <Box sx={styles?.itemText}>{item?.title}</Box>
+                      <Box sx={styles?.itemText}>{item?.email}</Box>
+                      <Box sx={styles?.itemText}>{item?.phoneNumber}</Box>
                     </Box>
                   </Box>
                 ))}
