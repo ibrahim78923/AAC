@@ -6,13 +6,13 @@ export const styles = {
     height: '616px',
     overflowY: 'auto',
   }),
-  cardHeader: () => ({
+  cardHeader: (theme: any) => ({
     backgroundColor: 'common.white',
     borderRadius: '10px 10px 0 0',
     p: '10px 16px',
     display: 'flex',
     alignItems: 'center',
-    boxShadow: '0px 3px 6px 0px #6B72801A',
+    boxShadow: `0px 3px 6px 0px ${theme?.palette?.grey[1000]}`,
   }),
   cardHeaderLeft: () => ({
     display: 'flex',

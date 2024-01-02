@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 
 import { BoardCardI } from './BoardCard.interface';
 import { styles } from './BoardCard.style';
@@ -13,9 +13,10 @@ const BoardCard: FC<BoardCardI> = ({
   sx,
   children,
 }) => {
+  const theme = useTheme();
   return (
     <Box sx={{ ...styles?.card, ...sx }}>
-      <Box sx={styles?.cardHeader}>
+      <Box sx={styles?.cardHeader(theme)}>
         <Box sx={styles?.cardHeaderLeft}>
           <Typography
             variant="body2"

@@ -70,6 +70,7 @@ const GREY: any = {
   700: '#E5E7EB',
   800: '#1F2937',
   900: '#9CA3AF',
+  1000: '#6B72801A',
 };
 
 const CUSTOM_COLORS = {

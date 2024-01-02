@@ -22,6 +22,7 @@ import useRestore from './useRestore';
 
 import { BackArrIcon, FilterIcon, RefreshTasksIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const Restore = () => {
   const {
@@ -85,7 +86,7 @@ const Restore = () => {
       id: 'deletedAt',
       isSortable: true,
       header: 'Time Deleted',
-      cell: (info: any) => dayjs(info?.getValue()).format('YYYY/MM/DD'),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
   ];
 

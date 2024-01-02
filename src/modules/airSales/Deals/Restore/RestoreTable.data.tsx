@@ -1,3 +1,4 @@
+import { DATE_FORMAT } from '@/constants';
 import { Checkbox } from '@mui/material';
 
 import dayjs from 'dayjs';
@@ -29,6 +30,6 @@ export const RestoreTableColumns: any = [
     id: 'deletedAt',
     isSortable: true,
     header: 'Time Deleted',
-    cell: (info: any) => dayjs(info?.getValue()).format('YYYY/MM/DD'),
+    cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
   },
 ];
