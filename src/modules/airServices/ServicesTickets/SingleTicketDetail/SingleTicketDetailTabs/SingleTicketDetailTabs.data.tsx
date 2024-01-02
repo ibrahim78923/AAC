@@ -7,7 +7,7 @@ export const singleTicketDetailTabsData = (
   `Related Tickets ${
     !!totalRelatedTickets ? `${' '} (${totalRelatedTickets})` : ''
   }`,
-  `Associates Assets ${!!totalAssets ? `${' '} (${totalAssets})` : '(0)'}`,
+  `Associates Assets ${!!totalAssets ? `${' '} (${totalAssets})` : ''}`,
   `Approvals `,
   `Meetings `,
   `Activities `,
