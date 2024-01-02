@@ -15,7 +15,16 @@ import { PlusIcon, ViewCallIcon } from '@/assets/icons';
 import { styles } from './Calls.style';
 
 const Calls = () => {
-  const { openDrawer, setOpenDrawer, theme } = useCalls();
+  const {
+    openDrawer,
+    setOpenDrawer,
+    theme,
+    CompanyCalls,
+    isLoading,
+    isError,
+    setPageLimit,
+    setPage,
+  } = useCalls();
 
   return (
     <Box
@@ -82,10 +91,25 @@ const Calls = () => {
         )}
         {!isNullOrEmpty(TasksTableData) && (
           <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
-            <TanstackTable columns={columns} data={TasksTableData} />
+            <TanstackTable
+              columns={columns}
+              data={CompanyCalls}
+              isLoading={isLoading}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              isPagination
+            />
           </Grid>
         )}
       </Grid>
+      {isError && (
+        <Typography
+          sx={{ textAlign: 'center', color: theme?.palette?.error?.main }}
+        >
+          {' '}
+          something want worng
+        </Typography>
+      )}
 
       <CallsEditorDrawer
         openDrawer={openDrawer}
