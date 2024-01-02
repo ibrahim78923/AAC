@@ -18,6 +18,7 @@ const Tasks = ({ companyId }: any) => {
     selectedCheckboxes,
     setSelectedCheckboxes,
     handleCheckboxChange,
+    isLoading,
   } = useTasks();
   return (
     <Box
@@ -51,6 +52,7 @@ const Tasks = ({ companyId }: any) => {
           <TanstackTable
             columns={columns({ handleCheckboxChange, selectedCheckboxes })}
             data={taskData?.data?.taskmanagements}
+            isLoading={isLoading}
           />
         </Grid>
       </Grid>

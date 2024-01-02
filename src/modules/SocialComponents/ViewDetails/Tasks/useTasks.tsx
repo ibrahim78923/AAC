@@ -7,7 +7,7 @@ const useTasks = () => {
   const theme = useTheme();
   const [openDrawer, setOpenDrawer] = useState('');
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
-  const { data: taskData } = useGetDealsTasksManagementQuery({});
+  const { data: taskData, isLoading } = useGetDealsTasksManagementQuery({});
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -33,6 +33,7 @@ const useTasks = () => {
     selectedCheckboxes,
     setSelectedCheckboxes,
     handleCheckboxChange,
+    isLoading,
   };
 };
 

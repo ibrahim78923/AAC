@@ -28,6 +28,7 @@ const Notes = ({ companyId }: any) => {
     handleCheckboxChange,
     NotesData,
     rowData,
+    isError,
   } = useNotes(companyId);
   const { theme } = useNameWithStyledWords();
 
@@ -61,7 +62,7 @@ const Notes = ({ companyId }: any) => {
               </Box>
             )}
           </Box>
-          {isNullOrEmpty(NotesData?.data?.notes) && (
+          {isNullOrEmpty(NotesData?.data?.notes) && !isError && (
             <Box
               sx={{
                 height: '35vh',
@@ -170,6 +171,14 @@ const Notes = ({ companyId }: any) => {
           </Grid>
         )}
       </Grid>
+      {isError && (
+        <Typography
+          sx={{ textAlign: 'center', color: theme?.palette?.error?.main }}
+        >
+          {' '}
+          something want worng
+        </Typography>
+      )}
 
       <NotesEditorDrawer
         openDrawer={openDrawer}
