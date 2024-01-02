@@ -4,8 +4,8 @@ import * as Yup from 'yup';
 const statusOptions = ['Enabled', 'Disabled', 'Draft'];
 const createdByOptions = ['Jane Cooper', 'Esther Howard'];
 export const filterWorkflowsValidationSchema = Yup?.object()?.shape({
-  status: Yup?.string(),
-  createdBy: Yup?.string(),
+  status: Yup?.string().required('Required'),
+  createdBy: Yup?.string().required('Required'),
 });
 
 export const defaultValues = {
@@ -20,6 +20,7 @@ export const filterWorkflowsDataFields = [
       label: 'Status',
       fullWidth: true,
       required: true,
+      placeholder: 'Select',
       options: statusOptions,
     },
     component: RHFAutocomplete,
@@ -31,6 +32,7 @@ export const filterWorkflowsDataFields = [
       label: 'Created By',
       fullWidth: true,
       required: true,
+      placeholder: 'Select',
       options: createdByOptions,
     },
     component: RHFAutocomplete,
