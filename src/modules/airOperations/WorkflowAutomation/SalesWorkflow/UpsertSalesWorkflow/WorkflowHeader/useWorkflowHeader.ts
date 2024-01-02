@@ -11,7 +11,7 @@ export const useWorkflowHeader = (props: any) => {
   const handleMoveBack = () => push(AIR_OPERATIONS?.WORKFLOW_AUTOMATION);
   const handleCancel = () => push(AIR_OPERATIONS?.SALES_WORKFLOW);
   const handleSaveDefault = () => {
-    enqueueSnackbar('Workflow saved as default successfully', {
+    enqueueSnackbar('Workflow saved as draft successfully', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
   };

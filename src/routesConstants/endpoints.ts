@@ -74,8 +74,10 @@ export const END_POINTS = {
   PRODUCT_CATALOG_DELETE_ASSOCIATED_ASSET: `/product-catalog/delete-associate-asset`,
   PRODUCT_CATALOG_PATCH_VENDOR: `/product-catalog/vendors/edit-vendor`,
   POST_COMPANY_ACCOUNT: '/org-company-account',
+  TASK: '/task',
   VENDOR_DETAIL_OVERVIEW: '/vendors/get-vendor',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
+  GET_SOFTWARE_USER: '/assets/software-users-details',
   DEPARTMENT: '/department',
   DROPDOWN_DEPARTMENT: `/Department/department-list`,
   TICKETS_ASSOCIATES_ASSETS: '/ticket/associate-assets',
@@ -165,6 +167,7 @@ export const ORG_ADMIN = {
   GET_INVOICES: '/org-admin/invoices',
   PRODUCT_PLAN_LIST: '/plan/product-plan-list',
   ACTIVITY_LOG: '/activity-log',
+  ACTIVITY_LOG_SUB: '/activity-log/sub-activities',
 };
 
 export const COMMON_DOCUMENTS = {

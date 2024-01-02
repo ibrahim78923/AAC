@@ -5,6 +5,8 @@ import { Fragment } from 'react';
 import { useGetTicketsQuery } from '@/services/airServices/tickets';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import NoData from '@/components/NoData';
+import { AssociationsImage } from '@/assets/images';
 
 export const TableBoardView = ({
   setTicketAction,
@@ -17,12 +19,16 @@ export const TableBoardView = ({
     { heading: 'Closed', be: 'CLOSED' },
   ];
 
-  const { data, isLoading, isError } = useGetTicketsQuery();
+  const apiDataParameter = { queryParams: {} };
+
+  const { data, isLoading, isError } = useGetTicketsQuery(apiDataParameter);
 
   const ticketViewBoardArray = data?.data?.tickets;
 
   if (isError) return <ApiErrorState />;
   if (isLoading) return <SkeletonTable />;
+  if (!!!data)
+    return <NoData message="No data is available" image={AssociationsImage} />;
 
   return (
     <Grid container spacing={2} overflow={'auto'} flexWrap={'nowrap'}>

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 
 export const useTasksHeader = () => {
@@ -29,7 +28,6 @@ export const useTasksHeader = () => {
     setDeleteModal(false);
     setActionPop(null);
   };
-  const theme = useTheme();
   return {
     actionPop,
     setActionPop,
@@ -43,6 +41,5 @@ export const useTasksHeader = () => {
     deleteModal,
     setDeleteModal,
     submitDeleteModel,
-    theme,
   };
 };

@@ -44,7 +44,6 @@ const UserManagement = () => {
     datePickerVal,
     setDatePickerVal,
   } = useUserManagement();
-
   return (
     <Box
       sx={{ border: '1px solid #EAECF0', p: '24px 0px', borderRadius: '8px' }}
@@ -76,8 +75,8 @@ const UserManagement = () => {
             {tabVal === initialTab
               ? 'Add Company Owner'
               : tabVal === tabOne
-              ? 'Add Super Admin '
-              : 'Add Role'}
+                ? 'Add Super Admin '
+                : 'Add Role'}
           </Button>
         </PermissionsGuard>
       </Box>
@@ -138,6 +137,9 @@ const UserManagement = () => {
                     placement="right"
                     dateValue={datePickerVal}
                     setDateValue={setDatePickerVal}
+                    handleDateSubmit={() => {
+                      setFilterValues({ ...filterValues, date: datePickerVal });
+                    }}
                   />
                 )}
               </>
@@ -152,7 +154,7 @@ const UserManagement = () => {
             <SuperAdminUsers
               checkedRows={checkedRows}
               setCheckedRows={setCheckedRows}
-              filterValues={filterValues}
+              date={filterValues?.date}
               searchVal={searchVal}
             />
             <RolesAndRights />

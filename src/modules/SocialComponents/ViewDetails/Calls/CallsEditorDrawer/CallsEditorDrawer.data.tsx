@@ -8,14 +8,19 @@ import * as Yup from 'yup';
 
 export const dealsCallsValidationSchema = Yup.object().shape({
   title: Yup.string().trim().required('Field is Required'),
-  description: Yup.string().trim().required('Field is Required'),
-  attachfile: Yup.string().trim().required('Field is Required'),
+  startdate: Yup.string(),
+  starttime: Yup.string(),
+  enddate: Yup.string(),
+  endtime: Yup.string(),
+  owner: Yup.string(),
 });
 
 export const dealsCallsDefaultValues = {
   title: '',
-  description: '',
-  attachfile: '',
+  startdate: '',
+  starttime: '',
+  enddate: '',
+  endtime: '',
   owner: '',
 };
 
@@ -25,6 +30,8 @@ export const dealsCallsDataArray = [
       name: 'title',
       label: 'Title',
       fullWidth: true,
+      required: true,
+      placeholder: 'Enter the title of meeting',
     },
     component: RHFTextField,
     md: 12,

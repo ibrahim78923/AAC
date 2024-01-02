@@ -43,14 +43,14 @@ const Members = () => {
                 {item.role === 'admin' ? (
                   <Typography
                     variant="body3"
-                    sx={{ color: theme.palette.primary.main }}
+                    sx={{ color: theme?.palette?.primary?.main }}
                   >
                     Admin
                   </Typography>
                 ) : (
                   <Typography
                     variant="body3"
-                    sx={{ color: theme.palette.error.main }}
+                    sx={{ color: theme?.palette?.error?.main }}
                   >
                     Remove
                   </Typography>

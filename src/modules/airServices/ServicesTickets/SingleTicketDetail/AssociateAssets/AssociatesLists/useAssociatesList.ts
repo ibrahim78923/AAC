@@ -45,6 +45,7 @@ export const useAssociatesLists: any = (props: any) => {
           ? data?.data?.meta?.total
           : 0,
     );
+    return () => setTotalAssets('');
   }, [data]);
 
   const deleteTicketsAssociatesAssets = async () => {

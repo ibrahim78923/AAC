@@ -134,7 +134,20 @@ const useAddUser = (useActionParams?: any) => {
         composite: values?.compositeAddress,
       };
     }
-    delete values['compositeAddress'];
+    const keysToDelete = [
+      'flat',
+      'compositeAddress',
+      'buildingNumber',
+      'buildingName',
+      'city',
+      'country',
+      'streetName',
+    ];
+
+    for (const key of keysToDelete) {
+      delete values[key];
+    }
+
     try {
       isOpenAddUserDrawer?.type === 'add'
         ? (postUsers({ body: values })?.unwrap(),

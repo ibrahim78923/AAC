@@ -1,11 +1,8 @@
 import { Typography } from '@mui/material';
-
 import { RHFMultiCheckbox, RHFSelect } from '@/components/ReactHookForm';
-
 import RHFTextField from '@/components/ReactHookForm/RHFTextField';
-
-import * as Yup from 'yup';
 import useUserManagement from '../../useUserManagement';
+import * as Yup from 'yup';
 
 export const CompanyOwnerValidationSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -18,6 +15,9 @@ export const CompanyOwnerValidationSchema = Yup.object().shape({
     .required('Field is Required')
     .email('Invalid email address'),
   crn: Yup.string()
+    .required('Field is Required')
+    .matches(/^[0-9]+$/, 'Must be a number'),
+  products: Yup.string()
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
   phoneNumber: Yup.string().matches(/^\+\d{1,}$/, 'Invalid phone number'),
@@ -104,7 +104,7 @@ export const addUsersArray = () => {
         name: 'companyName',
         label: 'Company Name',
         required: true,
-        placeholder: 'Enter CRN number',
+        placeholder: 'Enter Company Name',
         fullWidth: true,
       },
       toShow: ['COMPANY_OWNER'],

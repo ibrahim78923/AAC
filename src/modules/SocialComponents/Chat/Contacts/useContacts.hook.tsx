@@ -2,6 +2,7 @@ import { useTheme } from '@mui/material';
 
 import {
   setActiveChatId,
+  setActiveConversationId,
   setActiveParticipant,
   setActiveReceiverId,
   setChatModes,
@@ -15,6 +16,7 @@ export const useContacts = () => {
     dispatch(setChatModes({ chatModeState: newValue }));
     dispatch(setActiveChatId(''));
     dispatch(setActiveReceiverId(''));
+    dispatch(setActiveConversationId(''));
     dispatch(
       setActiveParticipant({
         firstName: '',

@@ -9,9 +9,10 @@ import { DeleteIcon, PinIcon } from '@/assets/icons';
 import { styles } from './ContactsCard.style';
 import { AlertModals } from '@/components/AlertModals';
 import { UserDefault } from '@/assets/images';
-import { useAppDispatch } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   setActiveChatId,
+  setActiveConversationId,
   setActiveParticipant,
   setActiveReceiverId,
 } from '@/redux/slices/chat/slice';
@@ -60,6 +61,7 @@ const ContactsCard = ({
             ?.map((participant: any) => participant?._id),
         ),
       ),
+      dispatch(setActiveConversationId(cardData?.item?.conversationId)),
       dispatch(
         setActiveParticipant({
           firstName: filteredParticipants[0]?.firstName,
@@ -81,10 +83,18 @@ const ContactsCard = ({
     handleManualRefetch();
   };
 
+  const activeConversationId = useAppSelector(
+    (state) => state?.chat?.activeConversationId,
+  );
+
+  const isActiveUser = cardData?.item?.conversationId?.includes(
+    activeConversationId.length ? activeConversationId : null,
+  );
+
   return (
     <>
       <Box
-        sx={styles?.contactsCardMain(isCardHover)}
+        sx={styles?.contactsCardMain(isCardHover, theme, isActiveUser)}
         onMouseOver={() => setIsCardHover(true)}
         onMouseLeave={() => setIsCardHover(false)}
       >
