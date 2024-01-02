@@ -28,13 +28,13 @@ const useUserManagement = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [searchVal, setSearchVal] = useState('');
+  const [datePickerVal, setDatePickerVal] = useState<any>(new Date());
   const [filterValues, setFilterValues] = useState<any>({
     role: '',
     products: '',
     organization: '',
     createdDate: '',
   });
-  const [datePickerVal, setDatePickerVal] = useState(new Date());
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const initialTab = 0;
@@ -89,7 +89,7 @@ const useUserManagement = () => {
       role: '',
       products: '',
       organization: '',
-      createdDate: '',
+      createdDate: null,
     });
   };
 
