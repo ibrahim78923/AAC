@@ -294,6 +294,11 @@ export const ACTIONS_TYPES = {
   EDIT: 'edit',
   CLONE: 'clone',
 };
+export const TASK_STATUS = {
+  TO_DO: 'Todo',
+  IN_PROGRESS: 'In-Progress',
+  DONE: 'Done',
+};
 
 export enum ROLES {
   ORG_REQUESTER = 'ORG_REQUESTER',

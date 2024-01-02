@@ -67,6 +67,7 @@ export const END_POINTS = {
   PRODUCT_CATALOG_DELETE_ASSOCIATED_ASSET: `/product-catalog/delete-associate-asset`,
   PRODUCT_CATALOG_PATCH_VENDOR: `/product-catalog/vendors/edit-vendor`,
   POST_COMPANY_ACCOUNT: '/org-company-account',
+  TASK: '/task',
   VENDOR_DETAIL_OVERVIEW: '/vendors/get-vendor',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
   DEPARTMENT: '/department',

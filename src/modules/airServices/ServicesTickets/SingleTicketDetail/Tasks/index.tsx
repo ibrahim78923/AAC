@@ -1,8 +1,9 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import { tasksTableColumns, tasksTableData } from './Tasks.data';
-import { TaskDrawer } from './TasksDrawers';
 import { useTasks } from './useTasks';
 import { TasksHeader } from './TasksHeader';
+import { AddTaskDrawer } from './TasksDrawers/AddTaskDrawer';
+import { EditTaskDrawer } from './TasksDrawers/EditTaskDrawer';
+import { DetailTaskDrawer } from './TasksDrawers/DetailTaskDrawer';
 
 export const Tasks = () => {
   const {
@@ -11,13 +12,22 @@ export const Tasks = () => {
     isDetailDrawerOpen,
     setIsDetailDrawerOpen,
     activeCheck,
-    setActiveCheck,
     isEditDrawerOpen,
     setIsEditDrawerOpen,
-    theme,
+    tableColumn,
+    tableData,
+    isFetching,
+    isLoading,
+    isError,
+    isSuccess,
+    meta,
+    setPage,
+    setPageLimit,
+    page,
+    pageLimit,
   } = useTasks();
   return (
-    <div>
+    <>
       <TasksHeader
         setIsAddDrawerOpen={setIsAddDrawerOpen}
         activeCheck={activeCheck}
@@ -25,35 +35,39 @@ export const Tasks = () => {
       />
       <br />
       <TanstackTable
-        columns={tasksTableColumns(
-          activeCheck,
-          setActiveCheck,
-          setIsDetailDrawerOpen,
-          theme,
-        )}
-        data={tasksTableData}
+        columns={tableColumn}
+        data={tableData}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        isError={isError}
+        isSuccess={isSuccess}
+        isPagination
+        count={meta?.pages}
+        pageLimit={pageLimit}
+        currentPage={page}
+        totalRecords={meta?.total}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        activeCheck={activeCheck}
       />
-      <TaskDrawer
+      <AddTaskDrawer
         isDrawerOpen={isAddDrawerOpen}
         onClose={setIsAddDrawerOpen}
-        type="add"
       />
-      <TaskDrawer
+      <EditTaskDrawer
         isDrawerOpen={isEditDrawerOpen}
         onClose={setIsEditDrawerOpen}
-        type="edit"
       />
-      <TaskDrawer
+      <DetailTaskDrawer
         isDrawerOpen={isDetailDrawerOpen}
         onClose={setIsDetailDrawerOpen}
         taskDetail={
-          tasksTableData[
-            tasksTableData?.findIndex(
-              (e: any) => e?.taskID === isDetailDrawerOpen,
-            )
+          tableData?.[
+            tableData?.findIndex((e: any) => e?._id === isDetailDrawerOpen)
           ]
         }
       />
-    </div>
+    </>
   );
 };
