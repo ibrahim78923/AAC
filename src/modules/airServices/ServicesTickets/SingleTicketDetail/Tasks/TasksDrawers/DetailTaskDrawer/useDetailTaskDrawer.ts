@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { defaultValues, validationSchema } from './DetailTaskDrawer.data';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { usePatchTaskByIdMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
 
 export const useDetailTaskDrawer = (props: any) => {
   const { isDrawerOpen, taskDetail, onClose } = props;
@@ -13,11 +14,22 @@ export const useDetailTaskDrawer = (props: any) => {
     defaultValues: defaultValues(taskDetail),
   });
   const { handleSubmit, reset } = method;
-  const onSubmitDrawer = () => {
-    enqueueSnackbar('Task updated successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    onClose(false);
+  const [patchMutation] = usePatchTaskByIdMutation();
+  const onSubmitDrawer = async (data: any) => {
+    try {
+      const res: any = await patchMutation({
+        data,
+        id: taskDetail?._id,
+      })?.unwrap();
+      enqueueSnackbar(res?.message ?? 'Task updated successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      onClose(false);
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.error ?? 'An error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
   useEffect(() => {
     reset(defaultValues(taskDetail));

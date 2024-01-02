@@ -12,6 +12,7 @@ export const Tasks = () => {
     isDetailDrawerOpen,
     setIsDetailDrawerOpen,
     activeCheck,
+    setActiveCheck,
     isEditDrawerOpen,
     setIsEditDrawerOpen,
     tableColumn,
@@ -31,6 +32,7 @@ export const Tasks = () => {
       <TasksHeader
         setIsAddDrawerOpen={setIsAddDrawerOpen}
         activeCheck={activeCheck}
+        setActiveCheck={setActiveCheck}
         setIsEditDrawerOpen={setIsEditDrawerOpen}
       />
       <br />
@@ -49,7 +51,6 @@ export const Tasks = () => {
         onPageChange={(page: any) => setPage(page)}
         setPage={setPage}
         setPageLimit={setPageLimit}
-        activeCheck={activeCheck}
       />
       <AddTaskDrawer
         isDrawerOpen={isAddDrawerOpen}
@@ -58,6 +59,8 @@ export const Tasks = () => {
       <EditTaskDrawer
         isDrawerOpen={isEditDrawerOpen}
         onClose={setIsEditDrawerOpen}
+        activeCheck={activeCheck}
+        setActiveCheck={setActiveCheck}
       />
       <DetailTaskDrawer
         isDrawerOpen={isDetailDrawerOpen}

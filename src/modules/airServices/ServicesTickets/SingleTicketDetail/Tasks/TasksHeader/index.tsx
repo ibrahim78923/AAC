@@ -2,13 +2,11 @@ import { Button, Grid, MenuItem, Popover, Typography } from '@mui/material';
 import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
 import { useTasksHeader } from './useTasksHeader';
-import { TasksHeaderI } from './TasksHeader.interface';
 
-export const TasksHeader = (props: TasksHeaderI) => {
-  const { setIsAddDrawerOpen, setIsEditDrawerOpen, activeCheck } = props;
+export const TasksHeader = (props: any) => {
+  const { activeCheck } = props;
   const {
     actionPop,
-    setActionPop,
     openAction,
     handleActionClick,
     handleActionClose,
@@ -19,7 +17,9 @@ export const TasksHeader = (props: TasksHeaderI) => {
     deleteModal,
     setDeleteModal,
     submitDeleteModel,
-  } = useTasksHeader();
+    openEditDrawer,
+    openAddDrawer,
+  } = useTasksHeader(props);
   return (
     <Grid
       container
@@ -67,13 +67,7 @@ export const TasksHeader = (props: TasksHeaderI) => {
             horizontal: 'left',
           }}
         >
-          <MenuItem
-            onClick={() => {
-              setIsEditDrawerOpen(true), setActionPop(null);
-            }}
-          >
-            Edit
-          </MenuItem>
+          <MenuItem onClick={openEditDrawer}>Edit</MenuItem>
           <MenuItem onClick={() => setDeleteModal(true)}>Delete</MenuItem>
           <MenuItem>
             <a onClick={handleActionExportClick}>Export Task</a>
@@ -91,7 +85,7 @@ export const TasksHeader = (props: TasksHeaderI) => {
         </Popover>
         <Button
           variant="contained"
-          onClick={() => setIsAddDrawerOpen(true)}
+          onClick={openAddDrawer}
           startIcon={<CirclePlusIcon />}
         >
           Add New Task

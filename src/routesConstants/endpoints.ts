@@ -110,6 +110,7 @@ export const END_POINTS = {
   SERVICES_CATEGORIES: `/service-catalog/get-category-list`,
   DEPARTMENT_LIST: `/Department/department-list`,
   TICKETS_DETACH_ASSOCIATES_ASSETS: '/ticket/detach-assets',
+  DROPDOWN_AGENTS_LIST: '/dropdown/agents',
 };
 
 export const superAdminBillingInvoices = {
