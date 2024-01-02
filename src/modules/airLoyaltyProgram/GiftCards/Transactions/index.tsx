@@ -1,86 +1,80 @@
-// import { Button } from '@mui/material';
-// import { AddTransactionDrawer } from './AddTransactionDrawer';
-// import { useState } from 'react';
-
-// export const Transactions = () => {
-//   const [openDrawer, setOpenDrawer] = useState(false);
-
-//   return (
-//     <>
-//       <Button onClick={() => setOpenDrawer(true)}>add</Button>
-//       <AddTransactionDrawer
-//         openDrawer={openDrawer}
-//         setOpenDrawer={setOpenDrawer}
-//       />
-//     </>
-//   );
-// };
-
-import { Box, Button } from '@mui/material';
-import { useTransaction } from './useTransaction';
+import { Box, Button, Typography } from '@mui/material';
+import { UserList, transactionTableData } from './Transactions.data';
+import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-import { AddWhiteBgIcon, ExportBlackIcon } from '@/assets/icons';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import { useState } from 'react';
+import {
+  CirclePlusIcon,
+  ExportIcon,
+  FilterLinesIcon,
+  ImportIcon,
+} from '@/assets/icons';
+import { AddTransactionDrawer } from './AddTransactionDrawer';
 
-import { ExportModal } from '@/components/ExportModal';
-
-export const GiftCardTransaction = () => {
-  const {
-    theme,
-    search,
-    setSearch,
-    handleClick,
-    onSubmit,
-    open,
-    setOpen,
-    handleClose,
-  } = useTransaction();
-
+export const Transactions = () => {
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [searchValue, setSearchValue] = useState<string>('');
   return (
-    <Box
-      border={`.1rem solid ${theme?.palette?.grey?.[700]}`}
-      borderRadius={2}
-      p={1.5}
-    >
+    <Box>
       <Box
         display={'flex'}
         justifyContent={'space-between'}
-        alignItems={'center'}
         flexWrap={'wrap'}
-        gap={2}
+        gap={1}
       >
-        <Search
-          label="Search Here"
-          value={search}
-          onChange={(e: any) => setSearch(e?.target?.value)}
-        />
-        <Box display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'}>
-          <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={<FilterListIcon />}
-          >
-            Filter
+        <Typography variant="h3" color="slateBlue.main">
+          Gift Card Transactions
+        </Typography>
+        <Box display={'flex'} flexWrap={'wrap'} gap={2}>
+          <Button variant="outlined" color="inherit" startIcon={<ImportIcon />}>
+            Import
           </Button>
           <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={<ExportBlackIcon />}
-            onClick={handleClick}
+            onClick={() => setOpenDrawer(true)}
+            startIcon={<CirclePlusIcon />}
+            variant="contained"
           >
-            Export
-          </Button>
-          <ExportModal
-            open={open}
-            setOpen={setOpen}
-            onSubmit={onSubmit}
-            handleClose={handleClose}
-          />
-          <Button variant="contained" startIcon={<AddWhiteBgIcon />}>
             Add
           </Button>
         </Box>
       </Box>
+      <br />
+      <Box
+        m={1}
+        display={'flex'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+        flexWrap={'wrap'}
+        gap={1}
+      >
+        <Search
+          label="Search Here"
+          width={'16.25rem'}
+          setSearchBy={setSearchValue}
+          searchBy={searchValue}
+        />
+        <Box display={'flex'} flexWrap={'wrap'} gap={2}>
+          <Button variant="outlined" color="inherit" startIcon={<ExportIcon />}>
+            Export
+          </Button>
+          <Button
+            variant="outlined"
+            color="inherit"
+            startIcon={<FilterLinesIcon />}
+          >
+            Filters
+          </Button>
+        </Box>
+      </Box>
+      <TanstackTable
+        data={transactionTableData}
+        columns={UserList}
+        isPagination={true}
+      />
+      <AddTransactionDrawer
+        openDrawer={openDrawer}
+        setOpenDrawer={setOpenDrawer}
+      />
     </Box>
   );
 };
