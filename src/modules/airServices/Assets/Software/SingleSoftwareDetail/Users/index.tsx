@@ -101,10 +101,10 @@ export const Users = () => {
             selectedActionTitle === 'Allocate'
               ? 'Add Device'
               : selectedActionTitle === 'Deallocate'
-                ? 'Deallocate Contract'
-                : selectedActionTitle === 'Remove'
-                  ? 'Remove User'
-                  : 'Add Device'
+              ? 'Deallocate Contract'
+              : selectedActionTitle === 'Remove'
+              ? 'Remove User'
+              : 'Add Device'
           }
         >
           {selectedActionTitle === 'Allocate' && <UsersAllocate />}
