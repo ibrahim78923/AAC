@@ -163,6 +163,24 @@ export const AIR_SALES_DEALS_PERMISSIONS = {
   Add_Associate_Products: 'view-deal-add-associate-product',
   Edit_Products: 'sale-deal-edit-product',
 };
+
+export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
+  View_Dashboard: 'marketer-sms-marketing-dashboard-view-dashboard',
+  View_SMS_Conversation: 'marketer-sms-marketing-dashboard-view-sms-conversion',
+  View_Schedule_SMS: 'marketer-sms-marketing-dashboard-view-sms-schedule',
+  View_SMS_Contacts: 'marketer-sms-marketing-dashboard-view-sms-contacts',
+  Create_SMS_Broadcast: 'marketer-sms-marketing-sms-broadcast-create',
+  Preview_SMS_Broadcast: 'marketer-sms-marketing-sms-broadcast-preview',
+  Schedule_SMS_Broadcast: 'marketer-sms-marketing-sms-broadcast-schedule',
+  Send_SMS_Broadcast: 'marketer-sms-marketing-sms-broadcast-send',
+  View_SMS_Broadcast: 'marketer-sms-marketing-sms-broadcast-view',
+  Search_and_Filter: 'marketer-sms-marketing-sms-broadcast-search-and-filter',
+  Edit_SMS_Broadcast: 'marketer-sms-marketing-sms-broadcast-edit',
+  Delete_SMS_Broadcast: 'marketer-sms-marketing-sms-broadcast-delete',
+  List_view: 'marketer-sms-marketing-sms-broadcast-list-view',
+  Detail_View: 'marketer-sms-marketing-sms-broadcast-detail-view',
+};
+
 //for display purpose in steppers
 export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = [
   {

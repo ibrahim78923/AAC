@@ -4,7 +4,7 @@ import useCompanies from '../useCompanies';
 import { DeleteIcon } from '@/assets/icons';
 
 const ActionButton = (props?: any) => {
-  const { checkedRows, isOpen, setIsOpen } = props;
+  const { checkedRows, setCheckedRows, isOpen, setIsOpen } = props;
   const { selectedValue, handleClick, handleClose } = useCompanies();
   const { deleteCompanies } = useCompanies();
 
@@ -16,7 +16,10 @@ const ActionButton = (props?: any) => {
           variant="outlined"
           color="inherit"
           startIcon={<DeleteIcon />}
-          onClick={() => deleteCompanies({ ids: checkedRows })}
+          onClick={() => {
+            deleteCompanies({ ids: checkedRows });
+            setCheckedRows([]);
+          }}
         >
           Delete
         </Button>

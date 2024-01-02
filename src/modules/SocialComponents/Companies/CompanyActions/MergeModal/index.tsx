@@ -1,4 +1,4 @@
-import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import { AlertModals } from '@/components/AlertModals';
 
@@ -6,19 +6,14 @@ import { MergeCompaniesIcon } from '@/assets/icons';
 import { CompanyLogoImage } from '@/assets/images';
 import Image from 'next/image';
 import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
+
 import { v4 as uuidv4 } from 'uuid';
 
-const MergeModal = ({ isMerge, setIsMerge }: any) => {
-  const theme = useTheme<Theme>();
-  const methods = useForm();
+import useMergeModal from './useMergeModal';
 
-  const optionsArray = [
-    { value: 'All Industries', label: 'All Industries' },
-    { value: 'Computer Software', label: 'Computer Software' },
-    { value: 'Construction', label: 'Construction' },
-    { value: 'Electronics', label: 'Electronics' },
-  ];
+const MergeModal = ({ isMerge, setIsMerge, checkedRows }: any) => {
+  const { theme, companyDetails, methods, optionsArray } =
+    useMergeModal(checkedRows);
 
   return (
     <AlertModals
@@ -42,7 +37,7 @@ const MergeModal = ({ isMerge, setIsMerge }: any) => {
                       color: `${theme?.palette?.blue?.dull_blue}`,
                     }}
                   >
-                    Share my dine
+                    {companyDetails?.name}
                   </Typography>
                   <Typography
                     variant="subtitle2"
@@ -51,7 +46,7 @@ const MergeModal = ({ isMerge, setIsMerge }: any) => {
                       color: `${theme?.palette?.custom?.light}`,
                     }}
                   >
-                    smd.com
+                    {companyDetails?.domain}
                   </Typography>
                 </Box>
               </Box>
