@@ -70,6 +70,7 @@ export const END_POINTS = {
   TASK: '/task',
   VENDOR_DETAIL_OVERVIEW: '/vendors/get-vendor',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
+  GET_SOFTWARE_USER: '/assets/software-users-details',
   DEPARTMENT: '/department',
   DROPDOWN_DEPARTMENT: `/Department/department-list`,
   TICKETS_ASSOCIATES_ASSETS: '/ticket/associate-assets',
