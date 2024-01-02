@@ -19,7 +19,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { options } from '@/mock/modules/SocialComponents/Chat';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { setChatContacts, setChatMessages } from '@/redux/slices/chat/slice';
+import {
+  setChatContacts,
+  setChatMessages,
+  setChatMessagesLoading,
+  setChatMetaInfo,
+} from '@/redux/slices/chat/slice';
 import { useGetUserChatsQuery } from '@/services/chat';
 import { getSession, isNullOrEmpty } from '@/utils';
 import { styles } from './Chat.style';
@@ -32,17 +37,29 @@ const Chat = () => {
 
   const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
   const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
+
+  const chatMetaInfo = useAppSelector((state) => state?.chat?.chatMetaInfo);
+
   const activeReceiverId = useAppSelector(
     (state) => state?.chat?.activeReceiverId,
   );
 
-  const { data: chatsData, refetch } = useGetUserChatsQuery({
+  const {
+    data: chatsData,
+    refetch,
+    status,
+  } = useGetUserChatsQuery({
     activeChatId: activeChatId,
+    limit: chatMetaInfo?.limit,
   });
 
   const handleManualRefetch = () => {
     refetch();
   };
+
+  useEffect(() => {
+    dispatch(setChatMetaInfo(chatsData?.data?.meta));
+  }, [chatsData]);
 
   useEffect(() => {
     if (chatsData?.data?.messages?.length > 0) {
@@ -51,6 +68,14 @@ const Chat = () => {
       );
     }
   }, [chatsData]);
+
+  useEffect(() => {
+    if (status === 'pending') {
+      dispatch(setChatMessagesLoading(true));
+    } else {
+      dispatch(setChatMessagesLoading(false));
+    }
+  }, [status]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -119,7 +144,7 @@ const Chat = () => {
             ) : (
               <Box
                 sx={{
-                  background: theme.palette.common.white,
+                  background: theme?.palette?.common?.white,
                   width: '100%',
                   height: '80vh',
                   p: 2,

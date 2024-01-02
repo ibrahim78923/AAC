@@ -258,3 +258,4 @@ export { default as GiftCardImage } from './modules/HeaderAndSidebar/gift.png';
 export { default as LoyaltyImage } from './modules/HeaderAndSidebar/loyalty.png';
 export { default as PrepaidImage } from './modules/HeaderAndSidebar/prepaid.png';
 export { default as UserDefault } from './modules/socialComponents/chat/user-default.png';
+export { default as TypingGif } from './modules/socialComponents/chat/typing.gif';
