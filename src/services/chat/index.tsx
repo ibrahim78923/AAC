@@ -31,7 +31,7 @@ export const chatApi = baseAPI.injectEndpoints({
       query: ({ id, body }: any) => {
         return {
           url: `${SOCIAL_FEATURES_CHAT?.UPDATE_CHAT}${id}`,
-          method: 'POST',
+          method: 'PATCH',
           body: body,
           headers: {
             'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',

@@ -4,7 +4,7 @@ export const styles = {
       border: '1px solid #E5E7EB',
       borderLeft: isActiveUser
         ? `5px solid ${theme?.palette?.primary?.main}`
-        : '1px solid #E5E7EB',
+        : `1px solid ${theme?.palette?.grey[700]}`,
       height: '104px',
       padding: `${isCardHover ? '14px 10px 14px 0px' : '14px 10px 14px 32px'}`,
       borderRadius: '8px',

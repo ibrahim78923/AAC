@@ -176,7 +176,7 @@ const ChatBox = ({
                   <Typography
                     variant="body3"
                     sx={{
-                      color: '#9D9D9D',
+                      color: theme?.palette?.custom?.sliver_grey,
                     }}
                     dangerouslySetInnerHTML={{
                       __html: item?.parentMessage?.content,
