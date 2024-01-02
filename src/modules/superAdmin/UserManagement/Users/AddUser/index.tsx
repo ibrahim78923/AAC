@@ -103,7 +103,10 @@ const AddUser = ({
                     {...item.componentProps}
                     size={'small'}
                     disabled={
-                      isOpenAddUserDrawer?.type === 'view' ? true : false
+                      isOpenAddUserDrawer?.type === 'view' ||
+                      item.componentProps.name === 'companyName'
+                        ? true
+                        : false
                     }
                   >
                     {item?.componentProps?.select &&
