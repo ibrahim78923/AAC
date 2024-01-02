@@ -7,10 +7,15 @@ import {
   addExpenseColumnsFunction,
   addExpenseDefaultValues,
   addExpenseValidationSchema,
-  data,
   expenseActionsDropdownFunction,
 } from './Expense.data';
-import { usePostInventoryExpenseMutation } from '@/services/airServices/inventory/expense';
+import {
+  useGetInventoryExpenseQuery,
+  usePostInventoryExpenseMutation,
+} from '@/services/airServices/inventory/expense';
+import { useSearchParams } from 'next/navigation';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { PAGINATION } from '@/config';
 
 export const useExpense = () => {
   const [selectedExpenseList, setSelectedExpenseList] = useState([]);
@@ -21,6 +26,20 @@ export const useExpense = () => {
     useState<boolean>(false);
   const [isDeleteExpenseModalOpen, setIsDeleteExpenseModalOpen] =
     useState<boolean>(false);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const params = {
+    page: page,
+    limit: pageLimit,
+  };
+
+  const searchParams = useSearchParams();
+  const assetId = searchParams.get('inventoryId');
+  const { data, isLoading, isSuccess, isFetching } =
+    useGetInventoryExpenseQuery(params);
+  const expenseData = data?.data?.expenses;
+  const metaData = data?.data?.meta;
 
   const addExpenseMethods: any = useForm({
     resolver: yupResolver(addExpenseValidationSchema),
@@ -34,35 +53,38 @@ export const useExpense = () => {
     setIsAddExpenseModalOpen(false);
     addExpenseMethods?.reset();
   };
-  const [expense] = usePostInventoryExpenseMutation();
+  const [postExpenseTrigger, postExpenseProgress] =
+    usePostInventoryExpenseMutation();
+  const isLoadingExpense = postExpenseProgress?.isLoading;
   const onAddExpenseSubmit = async (data: any) => {
     try {
-      await expense(data);
-      enqueueSnackbar('Expense added successfully!', {
-        variant: 'success',
+      const formData = {
+        ...data,
+        assetId: assetId,
+      };
+      const res: any = await postExpenseTrigger(formData);
+      enqueueSnackbar(res?.data?.message && 'Expense added successfully!', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       addExpenseMethods?.reset();
       setIsAddExpenseModalOpen(false);
-    } catch (e: any) {
-      enqueueSnackbar('Something went wrong!', {
-        variant: 'error',
+    } catch (err: any) {
+      enqueueSnackbar(err?.data?.message ?? 'Something went wrong!', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
 
   const handleActionClick = (ActionType: string) => {
-    // open delete modal on selected action type
     if (ActionType === 'delete') {
       return setIsDeleteExpenseModalOpen(true);
     }
-    // restriction check for multiple update
     if (selectedExpenseList?.length > 1) {
       enqueueSnackbar(`Can't update multiple records`, {
-        variant: 'error',
+        variant: NOTISTACK_VARIANTS?.ERROR,
       });
       return;
     }
-    // set selected record values in expense modal
     Object?.entries(selectedExpenseList?.[0])?.map(
       ([key, value]: any) =>
         addExpenseMethods?.setValue(
@@ -81,17 +103,16 @@ export const useExpense = () => {
     setIsDeleteExpenseModalOpen(false);
     setSelectedExpenseList([]);
     enqueueSnackbar('Record deleted Successfully', {
-      variant: 'success',
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
   };
 
   const expenseColumns = addExpenseColumnsFunction(
-    data,
+    expenseData,
     selectedExpenseList,
     setSelectedExpenseList,
   );
 
-  // expense action dropdown options
   const dropdownOptions = expenseActionsDropdownFunction(handleActionClick);
 
   const addExpenseProps = {
@@ -101,6 +122,7 @@ export const useExpense = () => {
     methods: addExpenseMethods,
     onAddExpenseSubmit,
     handleAddExpenseModal,
+    isLoadingExpense,
   };
 
   const actionProps = {
@@ -130,5 +152,13 @@ export const useExpense = () => {
     dropdownOptions,
     addExpenseProps,
     actionProps,
+    expenseData,
+    isFetching,
+    isSuccess,
+    isLoading,
+    setPageLimit,
+    setPage,
+    pageLimit,
+    metaData,
   };
 };

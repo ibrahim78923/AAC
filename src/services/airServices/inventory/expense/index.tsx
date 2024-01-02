@@ -5,9 +5,10 @@ const { INVENTORY_EXPENSE, GET_INVENTORY_EXPENSE } = END_POINTS;
 export const inventoryExpense = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getInventoryExpense: builder.query({
-      query: () => ({
+      query: (params: any) => ({
         url: `${GET_INVENTORY_EXPENSE}`,
         method: 'GET',
+        params,
       }),
       providesTags: ['INVENTORY_EXPENSE'],
     }),

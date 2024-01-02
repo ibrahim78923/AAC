@@ -2,36 +2,13 @@ import dayjs from 'dayjs';
 import * as yup from 'yup';
 import { Box, Checkbox } from '@mui/material';
 import {
+  RHFAutocomplete,
   RHFDatePicker,
-  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
-export const data: any = [
-  {
-    id: 1,
-    type: 'purchase cost',
-    cost: 1506.325,
-    date: `${new Date()}`,
-  },
-  {
-    id: 2,
-    type: 'maintenance cost',
-    cost: 1506.325,
-    date: `${new Date()}`,
-  },
-];
-
-export const dropdownDummy = [
-  {
-    value: 'Purchase Cost',
-    label: 'purchase cost',
-  },
-  {
-    value: 'maintenance cost',
-    label: 'maintenance cost',
-  },
-];
+export const orderDropdown = ['Purchase Cost', 'maintenance cost'];
 
 export const addExpenseValidationSchema: any = yup?.object()?.shape({
   type: yup?.string()?.required('Required field!'),
@@ -52,11 +29,11 @@ export const addExpenseFormData = [
       name: 'type',
       label: 'Expense Type',
       select: true,
-      options: dropdownDummy,
+      options: orderDropdown,
       required: true,
     },
     gridLength: 12,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
     id: 100,
@@ -83,29 +60,33 @@ export const addExpenseFormData = [
 ];
 
 export const addExpenseColumnsFunction = (
-  expenseList: any,
+  expenseData: any,
   selectedExpenseList: any,
   setSelectedExpenseList: any,
 ) => [
   {
-    accessorFn: (row: any) => row?.id,
-    id: 'id',
+    accessorFn: (row: any) => row?._id,
+    id: '_id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!selectedExpenseList?.find(
-            (item: any) => item?.id === info?.getValue(),
+            (item: any) => item?._id === info?.getValue(),
           )
         }
         onChange={(e: any) => {
           e?.target.checked
             ? setSelectedExpenseList([
                 ...selectedExpenseList,
-                expenseList?.find((item: any) => item?.id === info?.getValue()),
+                expenseData?.find(
+                  (item: any) => item?._id === info?.getValue(),
+                ),
               ])
             : setSelectedExpenseList(
                 selectedExpenseList?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
+                  return item?._id !== info?.getValue();
                 }),
               );
         }}
@@ -115,10 +96,12 @@ export const addExpenseColumnsFunction = (
     ),
     header: (
       <Checkbox
-        checked={selectedExpenseList?.length === expenseList?.length}
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        checked={selectedExpenseList?.length === expenseData?.length}
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedExpenseList([...expenseList])
+            ? setSelectedExpenseList([...expenseData])
             : setSelectedExpenseList([]);
         }}
         color="primary"
