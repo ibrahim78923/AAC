@@ -22,8 +22,8 @@ const StepSignature = ({ values, methods }: any) => {
             <Grid container spacing={4}>
               {signatureFormData?.map((item: any) => {
                 return (
-                  <Grid item xs={12} key={item.id}>
-                    <item.component {...item.componentProps} size={'small'}>
+                  <Grid item xs={12} key={item?.id}>
+                    <item.component {...item?.componentProps} size={'small'}>
                       {item?.componentProps?.select &&
                         item?.options?.map((option: any) => (
                           <option key={option?.value} value={option?.value}>

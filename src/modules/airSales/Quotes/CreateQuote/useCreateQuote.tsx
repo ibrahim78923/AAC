@@ -33,7 +33,7 @@ const useCreateQuote = () => {
         variant: 'success',
       });
       resetAddQuoteForm();
-      router.push({ pathname: AIR_SALES.UPDATE_QUOTE, query: { data: id } });
+      router.push({ pathname: AIR_SALES?.UPDATE_QUOTE, query: { data: id } });
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',

@@ -15,8 +15,8 @@ const StepDetails = ({ values }: any) => {
               return null;
             } else if (index >= 1 && index <= 5) {
               return (
-                <Grid item xs={12} key={item.id}>
-                  <item.component {...item.componentProps} size={'small'}>
+                <Grid item xs={12} key={item?.id}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>

@@ -13,11 +13,11 @@ import StepReview from './StepReview/index';
 import StepSignature from './StepSignature/index';
 import StepYourInfo from './StepYourInfo/index';
 
-export const dealValidationSchema = Yup.object().shape({
-  dealId: Yup.string().required('Field is Required'),
-  template: Yup.string().required('Field is Required'),
-  name: Yup.string().required('Field is Required'),
-  expiryDate: Yup.date().required('Field is Required'),
+export const dealValidationSchema = Yup?.object()?.shape({
+  dealId: Yup?.string()?.required('Field is Required'),
+  template: Yup?.string()?.required('Field is Required'),
+  name: Yup?.string()?.required('Field is Required'),
+  expiryDate: Yup?.date()?.required('Field is Required'),
 });
 
 export const dealInitValues = {

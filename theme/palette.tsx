@@ -118,6 +118,9 @@ const CUSTOM_COLORS = {
   hex_grey: '#e0e0e0',
   white_fifty: '#FAFAFA',
   custom_red: '#FF5F56',
+  alice_blue: '#E6F5FE',
+  super_nova: '#FFBD2E',
+  lime_green: '#27C93F',
 };
 const GRAPH = {
   cyan: 'blue',

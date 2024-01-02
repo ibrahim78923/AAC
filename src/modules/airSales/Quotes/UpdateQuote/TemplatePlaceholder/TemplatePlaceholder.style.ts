@@ -9,7 +9,7 @@ export const styles = {
   text: (theme: any) => ({
     fontSize: '16px',
     fontWeight: '500',
-    color: theme.palette.grey[600],
+    color: theme?.palette?.grey[600],
     mt: '24px',
   }),
 };

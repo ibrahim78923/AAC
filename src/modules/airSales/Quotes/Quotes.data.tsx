@@ -101,7 +101,7 @@ export const quotesColumns = (
       },
     },
     {
-      accessorFn: (row: any) => row.isSubmitted,
+      accessorFn: (row: any) => row?.isSubmitted,
       id: 'isSubmitted',
       isSortable: true,
       header: 'Status',
@@ -140,7 +140,7 @@ export const quotesColumns = (
       id: 'expiryDate',
       isSortable: true,
       header: 'Expiration Date',
-      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
   ];
 };

@@ -74,7 +74,7 @@ const UpdateQuote = () => {
             )}
             <Box sx={{ flex: '1' }}></Box>
             <Stack direction={'row'} spacing={'12px'}>
-              {activeStep !== steps.length - 1 && (
+              {activeStep !== steps?.length - 1 && (
                 <>
                   <Button
                     onClick={handleStepperCancel}

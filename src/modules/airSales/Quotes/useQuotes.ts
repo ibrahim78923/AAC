@@ -112,15 +112,15 @@ const useQuotes = () => {
     const newChecked = [...checkedColumns];
 
     if (currentIndex === -1) {
-      newChecked.push(value);
+      newChecked?.push(value);
     } else {
-      newChecked.splice(currentIndex, 1);
+      newChecked?.splice(currentIndex, 1);
     }
     setcheckedColumns(newChecked);
   };
   const handleApplyColumns = () => {
     customizedColumns.filter((column: any) =>
-      checkedColumns.includes(column.id),
+      checkedColumns.includes(column?.id),
     );
   };
 

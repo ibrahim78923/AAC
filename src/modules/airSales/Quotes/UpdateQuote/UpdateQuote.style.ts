@@ -4,13 +4,13 @@ export const styles = {
     alignItems: 'center',
     pt: '24px',
     mt: '24px',
-    borderTop: `1px solid ${theme.palette.grey[700]}`,
+    borderTop: `1px solid ${theme?.palette?.grey[700]}`,
   }),
   btnBack: (theme: any) => ({
-    borderColor: theme.palette.custom.dark,
-    color: theme.palette.custom.main,
+    borderColor: theme?.palette?.custom?.dark,
+    color: theme?.palette?.custom?.main,
     '&:hover': {
-      borderColor: theme.palette.custom.dark,
+      borderColor: theme?.palette?.custom?.dark,
     },
   }),
 };

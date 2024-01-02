@@ -21,6 +21,7 @@ import {
   initValues,
 } from './DialogSendToCustomer.data';
 import { styles } from './DialogSendToCustomer.style';
+import { AIR_SALES } from '@/routesConstants/paths';
 
 const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
   const router = useRouter();
@@ -35,7 +36,7 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
       variant: 'success',
     });
     onClose();
-    router.push('/air-sales/quotes');
+    router.push(AIR_SALES?.QUOTES);
   };
 
   return (
