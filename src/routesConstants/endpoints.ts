@@ -94,6 +94,11 @@ export const END_POINTS = {
   COMPANY_PREVIEW: '/companies/get-company-preview',
   RESTORE_COMPANIES: '/companies/restore-action',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
+  SERVICE_CATALOG: '/service-catalog/get-category-list',
+  ADD_SERVICE_CATALOG: '/service-catalog/add-category',
+  DELETE_SERVICE: '/service-catalog/delete-service',
+  UPSERT_SERVICES_CATALOG: '/service-catalog/add-service',
+  SERVICE_CATALOG_CATEGORIES: '/service-catalog/get-categories',
   // settings leader board
   LEADER_BOARD_ADD_AWARD_POINTS: `/Leader-Board/add-award-points`,
   LEADER_BOARD_GET_AWARD_POINTS: `/Leader-Board/get-award-points`,
@@ -114,6 +119,7 @@ export const END_POINTS = {
   REQUESTER_LIST: `/requester/requester-list`,
   SERVICES_CATEGORIES: `/service-catalog/get-category-list`,
   DEPARTMENT_LIST: `/Department/department-list`,
+  EDIT_SERVICE_CATALOG: '/service-catalog/update-service',
   TICKETS_DETACH_ASSOCIATES_ASSETS: '/ticket/detach-assets',
   DROPDOWN_AGENTS_LIST: '/dropdown/agents',
 };
