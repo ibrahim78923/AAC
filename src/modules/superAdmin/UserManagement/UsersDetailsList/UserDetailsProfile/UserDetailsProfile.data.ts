@@ -76,7 +76,7 @@ export const profileFields = [
 
   {
     componentProps: {
-      name: 'address',
+      name: 'compositeAddress',
       label: 'Address',
       placeholder: 'Enter Address',
       fullWidth: true,

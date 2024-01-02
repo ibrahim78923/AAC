@@ -56,7 +56,17 @@ export const columns: any = (columnsProps: any) => {
       header: 'Name',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+          <Avatar
+            alt="Remy Sharp"
+            sx={{
+              color: theme?.palette?.grey[600],
+              fontSize: '12px',
+              fontWeight: 500,
+            }}
+          >
+            {info?.row?.original?.firstName?.charAt(0)?.toUpperCase()}{' '}
+            {info?.row?.original?.lastName?.charAt(0)?.toUpperCase()}
+          </Avatar>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>
               {info?.row?.original?.firstName} {info?.row?.original?.lastName}
@@ -80,11 +90,11 @@ export const columns: any = (columnsProps: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.OrganizationName,
+      accessorFn: (row: any) => row?.organization,
       id: 'organizationName',
       isSortable: true,
       header: 'Organization Name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => info?.getValue()?.name ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.Products,

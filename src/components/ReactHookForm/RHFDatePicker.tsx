@@ -4,6 +4,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { DatePicker } from '@mui/x-date-pickers';
 import { Typography } from '@mui/material';
 import CustomLabel from '../CustomLabel';
+import { DateRangePickerIcon } from '@/assets/icons';
 
 // ----------------------------------------------------------------------
 
@@ -11,6 +12,7 @@ export default function RHFDatePicker({
   name,
   label,
   required,
+  openPickerIcon = DateRangePickerIcon,
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -24,8 +26,12 @@ export default function RHFDatePicker({
           <DatePicker
             {...field}
             {...other}
+            slots={{
+              openPickerIcon: openPickerIcon,
+            }}
             slotProps={{
               textField: {
+                ...other?.textFieldProps,
                 helperText: (
                   <Typography
                     component={'span'}

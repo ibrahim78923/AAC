@@ -142,7 +142,7 @@ const useAddUser = (useActionParams?: any) => {
         : pathName === SUPER_ADMIN?.USERS_LIST
         ? (postUserEmployee({ id: organizationId, body: values }),
           setIsOpenAdduserDrawer(false))
-        : updateUsers({ updateUserId, body: values });
+        : updateUsers({ id: updateUserId, body: values });
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });
