@@ -10,7 +10,7 @@ import { useSearchParams } from 'next/navigation';
 export const useResponsesList = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const cannedResponseId: any = searchParams.get('id');
+  const [cannedResponseId, setCannedResponseId] = useState<any>('');
   const [selectedData, setSelectedData] = useState([]);
   const [openAddResponseDrawer, setOpenAddResponseDrawer] = useState(false);
   const [openMoveFolderModal, setOpenMoveFolderModal] = useState(false);
@@ -49,7 +49,9 @@ export const useResponsesList = () => {
     }
   };
   useEffect(() => {
-    getResponsesListListData();
+    if (cannedResponseId) {
+      getResponsesListListData();
+    }
   }, [search, page, pageLimit, cannedResponseId]);
   const handleActionClick = (ActionType: string) => {
     // open delete modal on selected action type
@@ -82,6 +84,11 @@ export const useResponsesList = () => {
     setSelectedData,
     responsesList,
   );
+  useEffect(() => {
+    if (router.isReady) {
+      setCannedResponseId(searchParams.get('id'));
+    }
+  }, [router.isReady]);
   return {
     setOpenMoveFolderModal,
     openMoveFolderModal,

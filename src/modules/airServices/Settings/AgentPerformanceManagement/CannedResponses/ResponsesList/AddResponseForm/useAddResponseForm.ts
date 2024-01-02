@@ -103,6 +103,7 @@ export const useAddResponseForm = (props: any) => {
     }
   }, [availableForChanged]);
   useEffect(() => {
+    setOpenSelectAgentsModal(false);
     reset(addResponseDefaultValues(folderName, editableObj));
   }, [open]);
   return {
