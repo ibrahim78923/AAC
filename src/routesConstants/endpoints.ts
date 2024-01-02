@@ -94,6 +94,11 @@ export const END_POINTS = {
   COMPANY_PREVIEW: '/companies/get-company-preview',
   RESTORE_COMPANIES: '/companies/restore-action',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
+  // settings leader board
+  LEADER_BOARD_ADD_AWARD_POINTS: `/Leader-Board/add-award-points`,
+  LEADER_BOARD_GET_AWARD_POINTS: `/Leader-Board/get-award-points`,
+  LEADER_BOARD_ADD_AGENT_LEVELS: `/Leader-Board/add-agent-levels`,
+  LEADER_BOARD_GET_AGENT_LEVELS: `/Leader-Board/get-agent-levels`,
   GET_ASSET_TYPE: '/asset-type/assset-type-list',
   POST_ASSET_TYPE: '/asset-type',
   PATCH_ASSET_TYPE: '/asset-type/add-child-asset-type',
