@@ -9,8 +9,6 @@ const CreateQuote = () => {
   const {
     createQuoteSteps,
     activeStep,
-    // handleStepNext,
-    // handleStepBack,
     handleStepperCancel,
     isOpenFormCreateDeal,
     handleCloseFormCreateDeal,

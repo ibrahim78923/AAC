@@ -10,39 +10,35 @@ import {
 } from './UpdateQuote.data';
 import {
   useGetDealsQuery,
-  usePostQuoteMutation,
   useGetQuoteByIdQuery,
+  useUpdateQuoteMutation,
 } from '@/services/airSales/quotes';
 import { AIR_SALES } from '@/routesConstants/paths';
 
 const useUpdateQuote = () => {
   const router = useRouter();
-
   const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 100 });
-
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery(router?.query?.data);
 
-  const methodsAddQuote = useForm({
+  const methodsUpdateQuote = useForm({
     resolver: yupResolver(dealValidationSchema),
     defaultValues: dealInitValues,
   });
 
-  const { watch: watchDetail, trigger, handleSubmit } = methodsAddQuote;
+  const { watch: watchDetail, trigger, handleSubmit } = methodsUpdateQuote;
   const detailsValues = watchDetail();
-
-  const singleQuote = dataGetQuoteById?.data['0'];
-
+  const singleQuote = dataGetQuoteById?.data;
   useEffect(() => {
     if (singleQuote) {
       const { dealId, template, name, expiryDate, notes, termsAndConditions } =
         singleQuote;
       const dateObject: any = new Date(expiryDate);
-      methodsAddQuote.setValue('dealId', dealId);
-      methodsAddQuote.setValue('template', template);
-      methodsAddQuote.setValue('name', name);
-      methodsAddQuote.setValue('expiryDate', dateObject);
-      methodsAddQuote.setValue('notes', notes);
-      methodsAddQuote.setValue('termsAndConditions', termsAndConditions);
+      methodsUpdateQuote.setValue('dealId', dealId);
+      methodsUpdateQuote.setValue('template', template);
+      methodsUpdateQuote.setValue('name', name);
+      methodsUpdateQuote.setValue('expiryDate', dateObject);
+      methodsUpdateQuote.setValue('notes', notes);
+      methodsUpdateQuote.setValue('termsAndConditions', termsAndConditions);
     }
   }, [singleQuote]);
 
@@ -54,46 +50,12 @@ const useUpdateQuote = () => {
 
   const handleFormSubmit = handleSubmit(onSubmit);
 
-  // Step add deal / Create Quote
-  const { handleSubmit: handleMethodAddQuote } = methodsAddQuote;
-  const [postAddQuote, { isLoading: loadingAddQuote }] = usePostQuoteMutation();
-  const onSubmitCreateQuote = async (values: any) => {
-    try {
-      await postAddQuote({ body: values })?.unwrap();
-      enqueueSnackbar('Quote added successfully', {
-        variant: 'success',
-      });
-    } catch (error: any) {
-      enqueueSnackbar('An error occured', {
-        variant: 'error',
-      });
-    }
-  };
-  const handleAddQuoteSubmit = handleMethodAddQuote(onSubmitCreateQuote);
-
   const [activeStep, setActiveStep] = useState(1);
   const [isOpenFormCreateDeal, setIsOpenFormCreateDeal] = useState(false);
   const [isOpenFormAddContact, setIsOpenFormAddContact] = useState(false);
   const [isOpenFormAddCompany, setIsOpenFormAddCompany] = useState(false);
   const [isOpenFormCreateProduct, setIsOpenFormCreateProduct] = useState(false);
   const [isOpenDialog, setIsOpenDialog] = useState(false);
-
-  const handleUpdateDetails = async () => {
-    let isValid = false;
-    if (activeStep === 0) {
-      await handleAddQuoteSubmit();
-      const isDealIDValid = await trigger('dealId');
-      const isTemplateValid = await trigger('template');
-      const isNameValid = await trigger('name');
-      const isDateValid = await trigger('expiryDate');
-      isValid = isDealIDValid && isTemplateValid && isNameValid && isDateValid;
-    }
-
-    if (isValid) {
-      setActiveStep((prev) => prev + 1);
-    }
-  };
-
   const handleStepNext = async () => {
     setActiveStep((prev) => prev + 1);
   };
@@ -102,6 +64,40 @@ const useUpdateQuote = () => {
   };
   const handleStepperCancel = () => {
     router.push(AIR_SALES?.QUOTES);
+  };
+
+  // Update Deal & Details
+  const [updateQuote, { isLoading: loadingUpdateQuote }] =
+    useUpdateQuoteMutation();
+  const { handleSubmit: handleMethodUpdateQuote } = methodsUpdateQuote;
+  const onSubmitEditQuote = async (values: any) => {
+    try {
+      await updateQuote({ id: router?.query?.data, body: values })?.unwrap();
+
+      enqueueSnackbar('Deal & Details updated successfully', {
+        variant: 'success',
+      });
+      handleStepNext();
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+  const handleEditQuoteSubmit = handleMethodUpdateQuote(onSubmitEditQuote);
+
+  const handleUpdateDetails = async () => {
+    let isValid = false;
+    if (activeStep === 0) {
+      const isDealIDValid = await trigger('dealId');
+      const isTemplateValid = await trigger('template');
+      const isNameValid = await trigger('name');
+      const isDateValid = await trigger('expiryDate');
+      isValid = isDealIDValid && isTemplateValid && isNameValid && isDateValid;
+      if (isValid) {
+        await handleEditQuoteSubmit();
+      }
+    }
   };
 
   const handleOpenFormCreateDeal = () => {
@@ -147,7 +143,7 @@ const useUpdateQuote = () => {
   return {
     dataGetQuoteById,
     dataGetDeals,
-    methodsAddQuote,
+    methodsUpdateQuote,
     detailsValues,
     activeStep,
     handleStepNext,
@@ -172,7 +168,7 @@ const useUpdateQuote = () => {
     isOpenDialog,
     methodsSignature,
     handleUpdateDetails,
-    loadingAddQuote,
+    loadingUpdateQuote,
   };
 };
 

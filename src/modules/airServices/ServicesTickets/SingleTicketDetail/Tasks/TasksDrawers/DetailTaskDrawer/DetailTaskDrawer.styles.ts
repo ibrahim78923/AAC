@@ -27,21 +27,21 @@ export const styles: any = {
       taskDetailStatus === TO_DO
         ? theme?.palette?.primary?.main
         : taskDetailStatus === IN_PROGRESS
-        ? theme?.palette?.custom?.bright
-        : theme?.palette?.error?.dark
+          ? theme?.palette?.custom?.bright
+          : theme?.palette?.error?.dark
     }`,
     bgcolor:
       taskDetailStatus === TO_DO
         ? theme?.palette?.primary?.lighter
         : taskDetailStatus === IN_PROGRESS
-        ? theme?.palette?.custom?.aqua_breeze
-        : theme?.palette?.error?.lighter,
+          ? theme?.palette?.custom?.aqua_breeze
+          : theme?.palette?.error?.lighter,
     color:
       taskDetailStatus === TO_DO
         ? theme?.palette?.primary?.main
         : taskDetailStatus === IN_PROGRESS
-        ? theme?.palette?.custom?.bright
-        : theme?.palette?.error?.dark,
+          ? theme?.palette?.custom?.bright
+          : theme?.palette?.error?.dark,
     padding: '0px 12px',
     height: 'fit-content',
     fontSize: '14px !important',
@@ -55,21 +55,21 @@ export const styles: any = {
       drawerStatusVal === TO_DO
         ? theme?.palette?.primary?.main
         : drawerStatusVal === IN_PROGRESS
-        ? theme?.palette?.custom?.bright
-        : theme?.palette?.error?.dark
+          ? theme?.palette?.custom?.bright
+          : theme?.palette?.error?.dark
     }`,
     bgcolor:
       drawerStatusVal === TO_DO
         ? theme?.palette?.primary?.lighter
         : drawerStatusVal === IN_PROGRESS
-        ? theme?.palette?.custom?.aqua_breeze
-        : theme?.palette?.error?.lighter,
+          ? theme?.palette?.custom?.aqua_breeze
+          : theme?.palette?.error?.lighter,
     color:
       drawerStatusVal === TO_DO
         ? theme?.palette?.primary?.main
         : drawerStatusVal === IN_PROGRESS
-        ? theme?.palette?.custom?.bright
-        : theme?.palette?.error?.dark,
+          ? theme?.palette?.custom?.bright
+          : theme?.palette?.error?.dark,
     padding: '0px 12px',
     height: 'fit-content',
     fontSize: '14px !important',
@@ -80,21 +80,21 @@ export const styles: any = {
       statusOption === TO_DO
         ? theme?.palette?.primary?.main
         : statusOption === IN_PROGRESS
-        ? theme?.palette?.custom?.bright
-        : theme?.palette?.error?.dark
+          ? theme?.palette?.custom?.bright
+          : theme?.palette?.error?.dark
     }`,
     bgcolor:
       statusOption === TO_DO
         ? theme?.palette?.primary?.lighter
         : statusOption === IN_PROGRESS
-        ? theme?.palette?.custom?.aqua_breeze
-        : theme?.palette?.error?.lighter,
+          ? theme?.palette?.custom?.aqua_breeze
+          : theme?.palette?.error?.lighter,
     color:
       statusOption === TO_DO
         ? theme?.palette?.primary?.main
         : statusOption === IN_PROGRESS
-        ? theme?.palette?.custom?.bright
-        : theme?.palette?.error?.dark,
+          ? theme?.palette?.custom?.bright
+          : theme?.palette?.error?.dark,
     width: 'fit-content',
     borderRadius: '4px',
     m: '10px',
@@ -105,21 +105,21 @@ export const styles: any = {
       statusValue === 'To do'
         ? theme?.palette?.primary?.main
         : statusValue === IN_PROGRESS
-        ? theme?.palette?.custom?.bright
-        : theme?.palette?.error?.dark
+          ? theme?.palette?.custom?.bright
+          : theme?.palette?.error?.dark
     }`,
     backgroundColor:
       statusValue === 'To do'
         ? theme?.palette?.primary?.lighter
         : statusValue === 'In-Progress'
-        ? theme?.palette?.custom?.aqua_breeze
-        : theme?.palette?.error?.lighter,
+          ? theme?.palette?.custom?.aqua_breeze
+          : theme?.palette?.error?.lighter,
     color:
       statusValue === 'To do'
         ? theme?.palette?.primary?.main
         : statusValue === IN_PROGRESS
-        ? theme?.palette?.custom?.bright
-        : theme?.palette?.error?.dark,
+          ? theme?.palette?.custom?.bright
+          : theme?.palette?.error?.dark,
     padding: '8px 18px',
     borderRadius: '4px',
     fontWeight: 500,
