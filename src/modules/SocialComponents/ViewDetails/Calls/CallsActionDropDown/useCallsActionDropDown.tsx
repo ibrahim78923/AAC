@@ -12,10 +12,9 @@ import {
   reAssignCallValidationSchema,
 } from './CallsActionDropDown.data';
 
-const useCallsActionDropdown = ({ setOpenDrawer }: any) => {
+const useCallsActionDropdown = ({ setOpenDrawer, setOpenAlertModal }: any) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [openAlertModal, setOpenAlertModal] = useState('');
   const isMenuOpen = Boolean(anchorEl);
 
   const methodsReassignCall = useForm({
@@ -69,24 +68,18 @@ const useCallsActionDropdown = ({ setOpenDrawer }: any) => {
     handleOpenMenu,
     handleCloseMenu,
     anchorEl,
-    openAlertModal,
-
     handleOpenDeleteAlert,
     handleCloseAlert,
     handleOpenEditDrawer,
     handleOpenViewDrawer,
-
     handleOpenReassignModal,
-
     methodsReassignCall,
     handleReAssignCall,
     onSubmitReassignCall,
-
     handleOutCome,
     onSubmitOutCome,
     methodsOutCome,
     handleOpenOutcomeModal,
-    setOpenAlertModal,
   };
 };
 

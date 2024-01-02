@@ -48,33 +48,24 @@ const useCallsEditorDrawer = ({
       if (editCallValue && openDrawer !== 'Add') {
         const {
           title,
-          status,
           callFromDate,
           callFromTime,
           callToDate,
           callToTime,
-          dealId,
-          callType,
-          setReminder,
           attendees,
           outcome,
           callNotes,
         }: any = editCallValue;
         const currentDate = new Date()?.toJSON()?.slice(0, 10);
-
         return {
           title,
-          status,
           callFromDate: new Date(callFromDate),
           callFromTime: new Date(`${currentDate} ${callFromTime}`),
           callToDate: new Date(callToDate),
           callToTime: new Date(`${currentDate} ${callToTime}`),
-          dealId,
-          callType,
-          setReminder,
-          attendees,
-          outcome,
-          callNotes,
+          attendee: attendees,
+          Outcome: outcome,
+          Notes: callNotes,
         };
       }
       return dealsCallsDefaultValues;

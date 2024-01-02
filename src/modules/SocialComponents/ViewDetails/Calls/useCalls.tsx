@@ -12,6 +12,7 @@ const useCalls = () => {
   const theme = useTheme();
   const [openDrawer, setOpenDrawer] = useState('');
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
+  const [openAlertModal, setOpenAlertModal] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
@@ -41,7 +42,7 @@ const useCalls = () => {
       enqueueSnackbar('Record Deleted Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      // setIsDeleteModalOpen(false);
+      setOpenAlertModal('');
       setSelectedCheckboxes([]);
     } catch (error) {
       const errMsg = error?.data?.message;
@@ -80,6 +81,8 @@ const useCalls = () => {
     setSelectedCheckboxes,
     selectedCheckboxes,
     deleteCallsHandler,
+    openAlertModal,
+    setOpenAlertModal,
   };
 };
 

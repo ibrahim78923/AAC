@@ -28,6 +28,8 @@ const Calls = () => {
     setSelectedCheckboxes,
     selectedCheckboxes,
     deleteCallsHandler,
+    openAlertModal,
+    setOpenAlertModal,
   } = useCalls();
 
   const getColumns = columns({ handleCheckboxChange, selectedCheckboxes });
@@ -67,6 +69,8 @@ const Calls = () => {
                   setOpenDrawer={setOpenDrawer}
                   selectedCheckboxes={selectedCheckboxes}
                   deleteCallsHandler={deleteCallsHandler}
+                  openAlertModal={openAlertModal}
+                  setOpenAlertModal={setOpenAlertModal}
                 />
                 <Button
                   variant="contained"

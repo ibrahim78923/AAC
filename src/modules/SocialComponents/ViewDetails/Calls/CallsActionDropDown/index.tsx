@@ -13,14 +13,19 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 const CallsActionDropdown = (props: any) => {
-  const { setOpenDrawer, selectedCheckboxes, deleteCallsHandler } = props;
+  const {
+    setOpenDrawer,
+    selectedCheckboxes,
+    deleteCallsHandler,
+    openAlertModal,
+    setOpenAlertModal,
+  } = props;
   const {
     theme,
     isMenuOpen,
     anchorEl,
     handleOpenMenu,
     handleCloseMenu,
-    openAlertModal,
     handleOpenEditDrawer,
     handleOpenViewDrawer,
     handleOpenDeleteAlert,
@@ -35,8 +40,11 @@ const CallsActionDropdown = (props: any) => {
     onSubmitOutCome,
     methodsOutCome,
     handleOpenOutcomeModal,
+  } = useCallsActionDropdown({
+    setOpenDrawer,
+    openAlertModal,
     setOpenAlertModal,
-  } = useCallsActionDropdown({ setOpenDrawer });
+  });
 
   return (
     <div>
