@@ -1,12 +1,12 @@
 import { Box, IconButton, Popover, Typography } from '@mui/material';
 import dayjs from 'dayjs';
-import { DateCalendar } from '@mui/x-date-pickers';
 import { PrimaryCalendarIcon } from '@/assets/icons';
 import { Fragment, useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { DateRange } from 'react-date-range';
 
-export const DateFilter = () => {
+export const DateFilter = ({ dateRange, setDateRange }: any) => {
   //Date Popover
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -19,34 +19,36 @@ export const DateFilter = () => {
     setAnchorEl(null);
   };
 
-  // Date Filter Handler
-  const [selectedDate, setSelectedDate] = useState<any>(
-    dayjs(new Date())?.startOf('week'),
-  );
-
   // Date to be displayed
-  const formattedWeekSpan = `${dayjs(selectedDate)?.format('MMM DD')} - ${dayjs(
-    selectedDate,
-  )
-    ?.add(6, 'day')
-    ?.format('MMM DD')}`;
+  const formattedWeekSpan = `${dayjs(dateRange?.[0]?.startDate)?.format('MMM DD')} - ${dayjs(dateRange?.[0]?.endDate)?.format('MMM DD')}`;
 
   // Previous Click
   const handlePrevClick = () => {
-    const newDate = dayjs(selectedDate)?.subtract(1, 'week')?.toDate();
-    const startOfWeek = dayjs(newDate)?.startOf('week')?.format('YYYY-MM-DD');
-    setSelectedDate(startOfWeek);
+    const newDate = dayjs(dateRange?.[0]?.startDate)?.subtract(1, 'week')?.toDate();
+    setDateRange([
+      {
+        startDate: newDate,
+        endDate: dayjs(newDate)?.add(1, 'week')?.toDate(),
+        key: 'selection',
+      },
+    ]);
   };
 
   // Next Click
   const handleNextClick = () => {
-    const newDate = dayjs(selectedDate)?.add(1, 'week')?.toDate();
-    setSelectedDate(newDate);
+    const newDate = dayjs(dateRange?.[0]?.endDate)?.toDate();
+    setDateRange([
+      {
+        startDate: newDate,
+        endDate: dayjs(newDate)?.add(1, 'week')?.toDate(),
+        key: 'selection',
+      },
+    ]);
   };
 
   return (
     <Fragment>
-      <Box display={'flex'} alignItems={'center'}>
+      <Box display={'flex'} alignItems={'center'} pl={1}>
         <Box
           onClick={handleOpen}
           display={'flex'}
@@ -104,10 +106,11 @@ export const DateFilter = () => {
           horizontal: 'left',
         }}
       >
-        <DateCalendar
-          onChange={(date: any) => {
-            setSelectedDate(date);
-          }}
+        <DateRange
+          editableDateInputs={true}
+          moveRangeOnFirstSelection={false}
+          ranges={dateRange}
+          onChange={(item: any) => setDateRange([item?.selection])}
         />
       </Popover>
     </Fragment>

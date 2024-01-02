@@ -18,9 +18,20 @@ import {
 import { styles } from './ChatHeader.style';
 import ChatInfoModal from './ChatInfoModal';
 import ChatDropdown from '../../ChatDropdown';
+import { useAppSelector } from '@/redux/store';
+import { useUpdateChatMutation } from '@/services/chat';
+import { enqueueSnackbar } from 'notistack';
 
 const ChatHeader = ({ chatMode }: any) => {
   const theme = useTheme();
+
+  const activeParticipant = useAppSelector(
+    (state) => state?.chat?.activeParticipant,
+  );
+  const activeConversationId = useAppSelector(
+    (state) => state?.chat?.activeConversationId,
+  );
+
   const [isUserProfile, setIsUserProfile] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
 
@@ -33,18 +44,52 @@ const ChatHeader = ({ chatMode }: any) => {
     setAnchorEl(null);
   };
 
+  const [updateChat] = useUpdateChatMutation();
+
+  // {
+  //   "isArchived": true,
+  //   "isPinned": true,
+  //   "isMuted": true,
+  //   "isDeleted": true,
+  //   "unRead": true,
+  //   "participants": [
+  //     "651bdf53beeb02bc627d6804"
+  //   ],
+  //   "isRemove": true
+  // }
+
+  const updateChatHandler = async (requestType: any) => {
+    const payloadMap: any = {
+      unRead: { isArchived: false },
+      isMuted: { isMuted: true },
+      isArchived: { isArchived: true },
+    };
+    const payload = payloadMap[requestType] || {};
+    try {
+      await updateChat({ body: payload, id: activeConversationId })?.unwrap();
+      enqueueSnackbar('successfully', {
+        variant: 'success',
+      });
+      handleClose();
+    } catch (error: any) {
+      enqueueSnackbar('An error occurred', {
+        variant: 'error',
+      });
+    }
+  };
+
   const menuItemsData = [
     {
       menuLabel: 'Mark as Unread',
-      handler: handleClose,
+      handler: () => updateChatHandler('isRead'),
     },
     {
       menuLabel: 'Mute',
-      handler: handleClose,
+      handler: () => updateChatHandler('isMuted'),
     },
     {
       menuLabel: 'Archive',
-      handler: handleClose,
+      handler: () => updateChatHandler('isArchived'),
     },
     {
       menuLabel: 'Delete Conversation',
@@ -60,9 +105,9 @@ const ChatHeader = ({ chatMode }: any) => {
           <Box>
             <Typography
               variant="h4"
-              sx={{ fontWeight: '600', color: theme?.palette?.common?.white }}
+              sx={{ fontWeight: '500', color: theme?.palette?.common?.white }}
             >
-              Paula Griffin
+              {activeParticipant?.firstName}&nbsp;{activeParticipant?.lastName}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Box sx={styles?.userStatus}></Box>

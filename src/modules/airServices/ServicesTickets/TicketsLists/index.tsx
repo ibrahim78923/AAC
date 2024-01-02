@@ -4,10 +4,7 @@ import { TableBoardView } from './TicketsBoardView';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TicketsListSubHeader } from './TicketsListSubHeader';
 import { EXPORT_TYPE, VIEW_TYPES } from '@/constants/strings';
-import {
-  TICKETS_ACTION_CONSTANTS,
-  ticketsListsData,
-} from './TicketsLists.data';
+import { TICKETS_ACTION_CONSTANTS } from './TicketsLists.data';
 
 export const TicketsLists = () => {
   const {
@@ -18,7 +15,6 @@ export const TicketsLists = () => {
     ticketsActionDropdown,
     lazyGetTicketsStatus,
     ticketsListsColumnPersist,
-    search,
     setSearch,
     setPage,
     getTicketsListDataExport,
@@ -48,7 +44,6 @@ export const TicketsLists = () => {
       <br />
       <TicketsListSubHeader
         disabledActionButton={!!!selectedTicketList?.length}
-        search={search}
         setSearch={setSearch}
         onFilterClick={() =>
           setTicketAction?.(TICKETS_ACTION_CONSTANTS?.FILTER_DATA)
@@ -72,9 +67,7 @@ export const TicketsLists = () => {
               (col: any) => ticketsListsActiveColumn?.includes?.(col?.id),
             ) ?? []
           }
-          ticketListsData={
-            lazyGetTicketsStatus?.data?.data?.tickets ?? ticketsListsData
-          }
+          ticketListsData={lazyGetTicketsStatus?.data?.data?.tickets}
           metaData={lazyGetTicketsStatus}
           setPage={setPage}
           setPageLimit={setPageLimit}

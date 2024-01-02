@@ -9,11 +9,12 @@ import {
   Typography,
 } from '@mui/material';
 import { MoreHoriz, AddCircle } from '@mui/icons-material';
-import { departmentsData } from './DepartmentsDetail.data';
 import { useDepartmentsDetail } from './useDepartmentsDetail';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { DepartmentsFormModal } from '../DepartmentsFormModal';
+import { UsersAvatarRoundedImage } from '@/assets/images';
+import { HrIcon } from '@/assets/icons';
 
 export const DepartmentsDetail = () => {
   const {
@@ -29,13 +30,14 @@ export const DepartmentsDetail = () => {
     openEdit,
     setOpenEdit,
     formProps,
+    departmentData,
   } = useDepartmentsDetail();
   const { editFormMethod, handleSubmit, submitEditForm } = formProps;
   return (
     <>
       <Grid container spacing={2}>
-        {departmentsData?.map((item) => (
-          <Grid item lg={4} md={6} sm={12} key={item?.id}>
+        {departmentData?.map((item: any) => (
+          <Grid item lg={4} md={6} xs={12} key={item?._id}>
             <Box p={2} borderRadius={3} boxShadow={2}>
               <Box
                 display={'flex'}
@@ -43,8 +45,12 @@ export const DepartmentsDetail = () => {
                 alignItems={'center'}
               >
                 <Box display={'flex'} alignItems={'center'} gap={0.5}>
-                  <item.icon />
-                  <Typography variant="h5">{item?.department}</Typography>
+                  {item?.departmenProfilePicture ? (
+                    <item.departmenProfilePicture />
+                  ) : (
+                    <HrIcon />
+                  )}
+                  <Typography variant="h5">{item?.name}</Typography>
                 </Box>
                 <IconButton onClick={handleActionClick}>
                   <MoreHoriz
@@ -73,8 +79,10 @@ export const DepartmentsDetail = () => {
               </Box>
               <Box
                 borderBottom={`1px solid ${theme?.palette?.custom?.off_white_one}`}
-                py={'30px'}
-                mb={1.5}
+                p="30px 0 30px 0"
+                mb={1}
+                overflow="hidden"
+                maxHeight="80px"
               >
                 <Typography variant="body2" sx={{ maxWidth: '80%' }}>
                   {item?.description?.length > 95
@@ -91,8 +99,11 @@ export const DepartmentsDetail = () => {
                     '& .MuiAvatar-root:last-child': { ml: '-6px !important' },
                   }}
                 >
-                  {item?.avatar?.map((ava) => (
-                    <Avatar key={ava?.id} src={ava?.src?.src} />
+                  {item?.members?.map((ava: any) => (
+                    <Avatar
+                      key={ava}
+                      src={ava?.src ?? UsersAvatarRoundedImage?.src}
+                    />
                   ))}
                 </AvatarGroup>
                 <IconButton>

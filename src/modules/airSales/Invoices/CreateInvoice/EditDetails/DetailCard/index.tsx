@@ -9,12 +9,14 @@ import { LogoSharedIcon } from '@/assets/icons';
 import { useTheme } from '@mui/material/styles';
 import { style } from '../EditDetail.style';
 import { v4 as uuidv4 } from 'uuid';
+import ChooseQuotes from '../../ChooseQuotes';
 
 const DetailCard = () => {
   const theme = useTheme();
 
   return (
     <Box>
+      <ChooseQuotes />
       <Box sx={style?.cardDetails} className="air-apple-card">
         <Stack
           gap={2}
@@ -29,7 +31,7 @@ const DetailCard = () => {
               <Stack spacing="5px" key={uuidv4()}>
                 <Typography variant="h5">{item?.label}</Typography>
                 {item?.details?.map((val: any) => (
-                  <Typography key={uuidv4()} variant="body1">
+                  <Typography key={uuidv4()} variant="body3">
                     {val?.title}
                   </Typography>
                 ))}
@@ -41,7 +43,7 @@ const DetailCard = () => {
               <Stack gap="5px" key={uuidv4()}>
                 <Typography variant="h5">{item?.label}</Typography>
                 {item?.details?.map((val: any) => (
-                  <Typography key={uuidv4()} variant="body1">
+                  <Typography key={uuidv4()} variant="body3">
                     {val?.title}
                   </Typography>
                 ))}

@@ -18,6 +18,8 @@ export const WorkflowHeader = (props: any) => {
     openWorkflowModal,
     setOpenWorkflowModal,
     scheduleWorkflow,
+    handleSaveDefault,
+    handleCancel,
   } = useWorkflowHeader(props);
   return (
     <Box>
@@ -38,6 +40,7 @@ export const WorkflowHeader = (props: any) => {
             startIcon={<Cancel color="action" />}
             variant="outlined"
             color="secondary"
+            onClick={handleCancel}
           >
             Cancel
           </LoadingButton>
@@ -46,6 +49,7 @@ export const WorkflowHeader = (props: any) => {
               startIcon={<GrayBookIcon />}
               variant="outlined"
               color="secondary"
+              onClick={handleSaveDefault}
             >
               Save as Default
             </LoadingButton>

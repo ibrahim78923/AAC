@@ -17,11 +17,12 @@ export const useSalesWorkflow = () => {
     selectedSalesWorkflowLists,
     setSelectedSalesWorkflowLists,
   );
+  const { push } = useRouter();
   const salesWorkflowActionDropdown = salesWorkflowActionDropdownDynamic(
     selectedSalesWorkflowLists,
     setDeleteWorkflow,
+    push,
   );
-  const { push } = useRouter();
   const handleBack = () => {
     push({
       pathname: AIR_OPERATIONS?.WORKFLOW_AUTOMATION,

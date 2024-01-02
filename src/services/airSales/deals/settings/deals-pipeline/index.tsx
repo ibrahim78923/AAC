@@ -4,8 +4,8 @@ import { baseAPI } from '@/services/base-api';
 export const DealPipelineAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getDealsPipeline: builder.query({
-      query: ({ query, page, pageLimit }) => ({
-        url: `${END_POINTS?.DEAL_PIPELINE}?page=${page}&limit=${pageLimit}${query}`,
+      query: ({ query, meta }) => ({
+        url: `${END_POINTS?.DEAL_PIPELINE}?meta=${meta}${query}`,
         method: 'GET',
       }),
       providesTags: ['SETTINGS_DEAL_PIPELINE'],

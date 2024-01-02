@@ -1,4 +1,5 @@
 import { AntSwitch } from '@/components/AntSwitch';
+import { AIR_LOYALTY_PROGRAM } from '@/constants';
 import { Typography } from '@mui/material';
 
 export const data: any = [
@@ -91,7 +92,7 @@ export const digitalGiftCardColumnsFunction = (router: any): any => [
         component="span"
         onClick={() =>
           router?.push({
-            pathname: '',
+            pathname: AIR_LOYALTY_PROGRAM?.SINGLE_DIGITAL_GIFT_CARDS,
             query: {
               digitalCardId: info?.row?.id,
             },

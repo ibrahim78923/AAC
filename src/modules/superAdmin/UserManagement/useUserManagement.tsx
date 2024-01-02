@@ -7,7 +7,7 @@ import { useTheme } from '@mui/material';
 import { SUPER_ADMIN } from '@/constants';
 
 import {
-  useUpdateUserProfileMutation,
+  // useUpdateUserProfileMutation,
   usersApi,
 } from '@/services/superAdmin/user-management/users';
 import { enqueueSnackbar } from 'notistack';
@@ -34,8 +34,12 @@ const useUserManagement = () => {
     organization: '',
     createdDate: '',
   });
+  const [datePickerVal, setDatePickerVal] = useState(new Date());
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const initialTab = 0;
+  const tabOne = 1;
+  const tabTwo = 2;
 
   // imports users API's
   const {
@@ -47,7 +51,6 @@ const useUserManagement = () => {
   const { useGetProductsQuery, useGetOrganizationsQuery } = CommonAPIS;
 
   const [updateUsers] = useUpdateUsersMutation();
-  const [updateUserProfile] = useUpdateUserProfileMutation();
   const { data: products } = useGetProductsQuery({});
   const { data: organizations } = useGetOrganizationsQuery({});
   const handleClick = (event: any) => {
@@ -114,7 +117,7 @@ const useUserManagement = () => {
     useGetUsersByIdQuery,
     checkedRows,
     setCheckedRows,
-    updateUserProfile,
+    updateUsers,
     products,
     searchVal,
     setSearchVal,
@@ -124,6 +127,11 @@ const useUserManagement = () => {
     page,
     setPage,
     organizations,
+    initialTab,
+    tabTwo,
+    tabOne,
+    datePickerVal,
+    setDatePickerVal,
   };
 };
 

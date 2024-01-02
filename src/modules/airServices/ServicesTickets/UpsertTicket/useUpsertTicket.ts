@@ -8,15 +8,21 @@ import {
   upsertTicketValidationSchema,
 } from './UpsertTicket.data';
 import { enqueueSnackbar } from 'notistack';
+
+import { useEffect } from 'react';
+import usePath from '@/hooks/usePath';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useGetTicketsByIdQuery,
+  useLazyGetAgentDropdownQuery,
+  useLazyGetAssociateAssetsDropdownQuery,
+  useLazyGetCategoriesDropdownQuery,
+  useLazyGetDepartmentDropdownQuery,
+  useLazyGetRequesterDropdownQuery,
   usePostTicketsMutation,
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
-import { useEffect } from 'react';
-import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
-import usePath from '@/hooks/usePath';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { makeDateTime } from '../ServicesTickets.data';
 
 export const useUpsertTicket = (props: any) => {
   const { setIsDrawerOpen, ticketId, setSelectedTicketList } = props;
@@ -49,23 +55,42 @@ export const useUpsertTicket = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const submitUpsertTicket = async (data: any) => {
-    enqueueSnackbar(`Ticket ${ticketId ? 'Updated' : 'Created'} Successfully`, {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    setSelectedTicketList?.([]);
-    reset();
-    setIsDrawerOpen?.(false);
-    return;
     const upsertTicketFormData = new FormData();
-    Object?.entries?.(data || {})?.forEach(
-      ([key, value]: any) => upsertTicketFormData?.append(key, value),
-    );
+    upsertTicketFormData?.append('requester', data?.requester?._id);
+    upsertTicketFormData?.append('subject', data?.subject);
+    !!data?.description &&
+      upsertTicketFormData?.append('description', data?.description);
+    // !!data?.category?._id &&
+    // upsertTicketFormData?.append('category', data?.category?._id); //TODO: will be used in integration
+    upsertTicketFormData?.append('status', data?.status?._id);
+    upsertTicketFormData?.append('pirority', data?.priority);
+    !!data?.department?._id &&
+      upsertTicketFormData?.append('department', data?.department?._id);
+    !!data?.source && upsertTicketFormData?.append('source', data?.source);
+    !!data?.impact && upsertTicketFormData?.append('impact', data?.impact);
+    !!data?.agent && upsertTicketFormData?.append('agent', data?.agent?._id);
+    (!!data?.plannedEndDate || !!data?.plannedEndTime) &&
+      upsertTicketFormData?.append(
+        'plannedEndDate',
+        makeDateTime(data?.plannedEndDate, data?.plannedEndTime)?.toISOString(),
+      );
+    !!data?.plannedEffort &&
+      upsertTicketFormData?.append('plannedEffort', data?.plannedEffort);
+    (data?.attachFile !== null || typeof data?.attachFile !== 'string') &&
+      upsertTicketFormData?.append('fileUrl', data?.attachFile);
+    !!data?.associatesAssets?.length &&
+      upsertTicketFormData?.append(
+        'associateAssets',
+        data?.associatesAssets?.map((asset: any) => asset?._id),
+      );
+    upsertTicketFormData?.append('moduleType', 'TICKETS');
+    upsertTicketFormData?.append('ticketType', 'INC');
     if (!!ticketId) {
       submitUpdateTicket(upsertTicketFormData);
       return;
     }
     const postTicketParameter = {
-      body: data,
+      body: upsertTicketFormData,
     };
 
     try {
@@ -104,7 +129,7 @@ export const useUpsertTicket = (props: any) => {
     }
   };
   useEffect(() => {
-    reset(() => upsertTicketDefaultValuesFunction(data?.data));
+    reset(() => upsertTicketDefaultValuesFunction(data?.data?.[0]));
   }, [data, reset]);
 
   const onClose = () => {
@@ -118,15 +143,22 @@ export const useUpsertTicket = (props: any) => {
     reset?.();
     setIsDrawerOpen?.(false);
   };
-  const apiQueryOrganizations = useLazyGetOrganizationsQuery();
+
+  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
+  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
+  const apiQueryAgent = useLazyGetAgentDropdownQuery();
+  const apiQueryAssociateAsset = useLazyGetAssociateAssetsDropdownQuery();
+  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
 
   const upsertTicketFormFields = upsertTicketFormFieldsDynamic(
-    apiQueryOrganizations,
-    apiQueryOrganizations,
-    apiQueryOrganizations,
-    apiQueryOrganizations,
+    apiQueryRequester,
+    apiQueryDepartment,
+    apiQueryAgent,
+    apiQueryCategories,
+    apiQueryAssociateAsset,
     router,
   );
+
   return {
     router,
     theme,

@@ -183,3 +183,9 @@ export const LOYALTY_PROGRAM = {
 export const ORG_ADMIN = {
   DASHBOARD_EDIT_PROFILE: '/org-admin/dashboard/edit-profile',
 };
+
+export const SOCIAL_FEATURES_CHAT = {
+  CHAT: 'chat/',
+  CHAT_LIST: 'chat/list/',
+  UPDATE_CHAT: 'chat/',
+};

@@ -1,37 +1,58 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import { data, columns } from './RelatedTickets.data';
 import { useRelatedTickets } from './useRelatedTickets';
 import { RelatedTicketsHeader } from './RelatedTicketsHeader';
 import CreateRelatedTickets from './CreateRelatedTickets';
 
-const RelatedTickets = (props: any) => {
+const RelatedTickets = () => {
   const {
     setIsDrawerOpen,
     isDrawerOpen,
     drawerType,
     setDrawerType,
-    setActive,
-    isActive,
-    theme,
+    selectedChildTickets,
+    relatedTicketsColumns,
+    headerFunctions,
+    page,
+    setPage,
+    metaData,
+    pageLimit,
+    setPageLimit,
   } = useRelatedTickets();
-  const {} = props;
+
   return (
     <div>
       <RelatedTicketsHeader
-        isActive={isActive}
+        isActive={selectedChildTickets}
         setIsDrawerOpen={setIsDrawerOpen}
         setDrawerType={setDrawerType}
+        headerFunctions={headerFunctions}
       />
-      <CreateRelatedTickets
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-        drawerType={drawerType}
-      />
+
+      {isDrawerOpen && (
+        <CreateRelatedTickets
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+          drawerType={drawerType}
+          data={selectedChildTickets}
+        />
+      )}
       <br />
       <TanstackTable
-        data={data}
-        activeCheck={isActive}
-        columns={columns(setIsDrawerOpen, isActive, setActive, theme)}
+        isLoading={metaData?.isLoading}
+        data={metaData?.tickets ?? []}
+        activeCheck={selectedChildTickets}
+        columns={relatedTicketsColumns}
+        isFetching={metaData?.isFetching}
+        isError={metaData?.isError}
+        isSuccess={metaData?.isSuccess}
+        currentPage={page}
+        count={metaData?.data?.meta?.pages}
+        pageLimit={pageLimit}
+        totalRecords={metaData?.data?.meta?.total}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        isPagination
       />
     </div>
   );

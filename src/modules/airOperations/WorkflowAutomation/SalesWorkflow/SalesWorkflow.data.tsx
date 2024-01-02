@@ -1,29 +1,36 @@
 import { Checkbox } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { AntSwitch } from '@/components/AntSwitch';
+import { AIR_OPERATIONS } from '@/constants';
 
 export const salesWorkflowActionDropdownDynamic = (
   selectedSalesWorkflowLists: any,
   setDeleteWorkflow: any,
+  push: any,
 ) => [
   {
     title: 'Edit',
     handleClick: (closeMenu: any) => {
       if (selectedSalesWorkflowLists?.length > 1) {
-        enqueueSnackbar('Please select only one ticket', {
+        enqueueSnackbar('Please select only one workflow', {
           variant: NOTISTACK_VARIANTS?.WARNING,
         });
         closeMenu?.();
         return;
       }
+      push({
+        pathname: AIR_OPERATIONS?.UPSERT_SALES_WORKFLOW,
+      });
       closeMenu?.();
     },
   },
   {
     title: 'Clone',
     handleClick: (closeMenu: any) => {
+      enqueueSnackbar('Workflow clone successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
       closeMenu?.();
     },
   },
@@ -114,8 +121,6 @@ export const salesWorkflowListsColumnDynamic: any = (
                   ),
                 );
           }}
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
           color="primary"
           name={info?.getValue()}
         />
@@ -135,8 +140,6 @@ export const salesWorkflowListsColumnDynamic: any = (
                 )
               : setSelectedSalesWorkflowLists([]);
           }}
-          icon={<CheckboxIcon />}
-          checkedIcon={<CheckboxCheckedIcon />}
           color="primary"
           name="_id"
         />

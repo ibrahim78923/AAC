@@ -4,19 +4,21 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
 import { useAddNewVendor } from './useAddNewVendor';
 import { newVendorDataArray } from './AddNewVendor.data';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const AddNewVendor = (props: any) => {
-  const { isADrawerOpen } = props;
+  const { isADrawerOpen, setIsADrawerOpen } = props;
 
-  const { methodsNewVendor, handleSubmit, onSubmit, onClose } =
+  const { methodsNewVendor, handleSubmit, onSubmit, isLoading } =
     useAddNewVendor(props);
 
+  if (isLoading) return <SkeletonForm />;
   return (
     <>
       <CommonDrawer
         footer={true}
         isDrawerOpen={isADrawerOpen}
-        onClose={() => onClose?.()}
+        onClose={() => setIsADrawerOpen(false)}
         title="New Vendor"
         okText="Save"
         isOk

@@ -11,7 +11,16 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['DEALS_ASSOCIATION'],
     }),
+    getDealsList: builder.query({
+      query: (params?: any) => ({
+        url: `${END_POINTS?.DEALS_LIST_VIEW}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['DEALS'],
+    }),
   }),
 });
 
-export const { useGetDealsAssociationsQuery } = exampleExampleAPI;
+export const { useGetDealsAssociationsQuery, useGetDealsListQuery } =
+  exampleExampleAPI;

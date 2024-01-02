@@ -14,9 +14,18 @@ export default function AddCompanyDetails({
   isOpenDrawer,
   onClose,
   organizationId,
+  setISOpenCompanyDrawer,
 }: any) {
-  const { theme, productsList, methods, handleSubmit, onSubmit } =
-    useAddCompanyDetails(organizationId);
+  const {
+    theme,
+    productsList,
+    methods,
+    handleSubmit,
+    onSubmit,
+    companyImg,
+    setCompanyImg,
+  } = useAddCompanyDetails(organizationId, setISOpenCompanyDrawer);
+
   const [isToggled, setIsToggled] = useToggle(false);
 
   return (
@@ -36,7 +45,10 @@ export default function AddCompanyDetails({
             <Grid item sm={12}>
               <Typography variant="h4">Company Logo</Typography>
               <Box>
-                <UploadLogo />
+                <UploadLogo
+                  companyImg={companyImg}
+                  setCompanyImg={setCompanyImg}
+                />
               </Box>
             </Grid>
             <Grid item sm={12}>

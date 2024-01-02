@@ -20,7 +20,8 @@ export const columns: any = [
         fullWidth
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        label="Age"
+        size="small"
+        defaultValue={10}
         name={info?.getValue()}
       >
         <MenuItem value={10}>Mandatory Fields</MenuItem>

@@ -71,7 +71,7 @@ export const filterContractsFormDataArray = [
   {
     componentProps: {
       name: 'vender',
-      label: 'Vender',
+      label: 'Vendor',
       fullWidth: true,
       select: true,
       placeholder: 'Select Vendor',

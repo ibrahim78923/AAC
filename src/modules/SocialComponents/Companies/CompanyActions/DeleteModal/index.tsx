@@ -1,8 +1,10 @@
 import React from 'react';
 
 import { AlertModals } from '@/components/AlertModals';
+import useCompanies from '../../useCompanies';
 
 const DeleteModal = ({ isDeleteCompany, setIsDeleteCompany }: any) => {
+  const { deleteCompanies } = useCompanies();
   return (
     <>
       <AlertModals
@@ -10,11 +12,13 @@ const DeleteModal = ({ isDeleteCompany, setIsDeleteCompany }: any) => {
           "You're about to delete a record .Deleted record can't be restored after 90days"
         }
         type={'delete'}
-        submitBtnText="Ok, Delete"
+        submitBtnText="OK, Delete"
         open={isDeleteCompany}
-        handleClose={() => setIsDeleteCompany(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
+        handleClose={() =>
+          setIsDeleteCompany({ ...isDeleteCompany, deleteModal: false })
+        }
+        handleSubmitBtn={() => {
+          deleteCompanies({});
         }}
       />
     </>

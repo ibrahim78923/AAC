@@ -30,7 +30,7 @@ const RolesView = ({ roleData }) => {
         onClick={addNewRole}
       >
         <CardContent style={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="h5">Add Role</Typography>
+          <Typography variant="h5">Add New</Typography>
           <Box marginLeft={'auto'} marginTop={'4rem'}>
             <AddRoleIcon />
           </Box>

@@ -31,7 +31,6 @@ import NoData from '@/components/NoData';
 const UsersSidebar = (props: any) => {
   const { setEmployeeDataById } = props;
   const {
-    userStatus,
     setUserStatus,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
@@ -87,7 +86,7 @@ const UsersSidebar = (props: any) => {
         sx={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}
       >
         <Search
-          placeholder="Placeholder"
+          placeholder="Search by Name"
           size="small"
           onChange={(val: any) => setSearchEmployee(val?.target?.value)}
         />
@@ -112,7 +111,7 @@ const UsersSidebar = (props: any) => {
           <FilterSharedIcon />
         </Button>
       </Box>
-      {employeeDetails?.length === 0 && (
+      {employeeDetails === undefined && (
         <NoData
           image={NoAssociationFoundImage}
           message={'No data is available'}
@@ -158,7 +157,6 @@ const UsersSidebar = (props: any) => {
                 </Typography>
                 <StatusBadge
                   defaultValue={item?.status}
-                  value={userStatus}
                   onChange={(e: any) => setUserStatus(e?.target?.value)}
                   options={[
                     {

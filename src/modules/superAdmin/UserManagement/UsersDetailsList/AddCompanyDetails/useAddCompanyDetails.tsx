@@ -8,13 +8,19 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema, defaultValues } from './AddCompanyDetails.data';
 import { userListApi } from '@/services/superAdmin/user-management/UserList';
 import { enqueueSnackbar } from 'notistack';
+import { useState } from 'react';
 
-const useAddCompanyDetails = (organizationId: any) => {
+const useAddCompanyDetails = (
+  organizationId: any,
+  setISOpenCompanyDrawer: any,
+) => {
   const theme = useTheme();
   const { useGetProductsQuery } = CommonAPIS;
   const { usePostCompanyMutation } = userListApi;
   const [postCompany] = usePostCompanyMutation();
   const { data: products } = useGetProductsQuery({});
+  const [companyImg, setCompanyImg] = useState<any>();
+
   const productsList = products?.data?.map((item: any) => ({
     value: item?._id,
     label: (
@@ -35,13 +41,21 @@ const useAddCompanyDetails = (organizationId: any) => {
   const onSubmit = async (values: any) => {
     values.organizationId = organizationId;
     values.address = {
+      flatNumber: values?.flat,
+      buildingName: values?.buildingName,
+      buildingNumber: values?.buildingNumber,
+      streetName: values?.streetName,
+      city: values?.city,
+      country: values?.country,
       composite: values.compositeAddress,
     };
     delete values['compositeAddress'];
-    delete values['products'];
-
+    delete values['flat'];
+    values.isActive = false;
+    values.unit = values.address?.flatNumber;
     try {
       postCompany({ body: values })?.unwrap();
+      setISOpenCompanyDrawer(false);
       enqueueSnackbar('Company Added Successfully', { variant: 'success' });
       reset();
     } catch {
@@ -55,6 +69,8 @@ const useAddCompanyDetails = (organizationId: any) => {
     methods,
     handleSubmit,
     onSubmit,
+    companyImg,
+    setCompanyImg,
   };
 };
 

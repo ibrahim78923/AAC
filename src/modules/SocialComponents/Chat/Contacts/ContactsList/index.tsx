@@ -1,25 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Box, Button, Checkbox } from '@mui/material';
+import { Box, Button, Checkbox, CircularProgress } from '@mui/material';
 
 import ContactsCard from './ContactsCard';
 import Search from '@/components/Search';
 import AddGroupModal from './AddGroupModal';
 import ChatDropdown from '../../ChatDropdown';
+import { AlertModals } from '@/components/AlertModals';
 
 import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
-
-import {
-  chatContactsData,
-  chatGroupsData,
-} from '@/mock/modules/SocialComponents/Chat';
 
 import { styles } from './ContactsList.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import { AlertModals } from '@/components/AlertModals';
+import { useGetChatsContactsQuery } from '@/services/chat';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  setChatContacts,
+  setChatContactsLoading,
+} from '@/redux/slices/chat/slice';
+import { isNullOrEmpty } from '@/utils';
 
-const ContactList = ({ chatMode }: any) => {
+const ContactList = ({ chatMode, handleManualRefetch }: any) => {
+  const dispatch = useAppDispatch();
+
+  const { data: contactsData, status } = useGetChatsContactsQuery({
+    isGroup: chatMode === 'groupChat' ? true : false,
+  });
+
   const [searchContacts, setSearchContacts] = useState('');
   const [isAddGroupModal, setIsAddGroupModal] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -34,8 +42,30 @@ const ContactList = ({ chatMode }: any) => {
     setAnchorEl(null);
   };
 
-  const chatsTypeToShow =
-    chatMode === 'groupChat' ? chatGroupsData : chatContactsData;
+  useEffect(() => {
+    if (chatMode === 'groupChat') {
+      null;
+    } else {
+      if (contactsData?.data?.chats.length > 0) {
+        dispatch(setChatContacts(contactsData?.data?.chats));
+      }
+    }
+  }, [contactsData?.data?.chats]);
+
+  useEffect(() => {
+    if (status === 'pending') {
+      dispatch(setChatContactsLoading(true));
+    } else {
+      dispatch(setChatContactsLoading(false));
+    }
+  }, [status]);
+
+  const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
+  const isChatContactsLoading = useAppSelector(
+    (state) => state?.chat?.isChatContactsLoading,
+  );
+
+  const chatsTypeToShow = chatMode === 'groupChat' ? [] : chatContacts;
 
   const menuItemsData = [
     {
@@ -100,15 +130,28 @@ const ContactList = ({ chatMode }: any) => {
             &nbsp;&nbsp;Create New Group
           </Button>
         )}
-        <Box mt={2}>
-          {chatsTypeToShow?.map((item) => (
-            <ContactsCard
-              key={uuidv4()}
-              cardData={item}
-              selectedValues={selectedValues}
-              setSelectedValues={setSelectedValues}
-            />
-          ))}
+        <Box mt={2} sx={{ overflow: 'scroll', maxHeight: '52vh' }}>
+          {isChatContactsLoading ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <>
+              {!isNullOrEmpty(chatsTypeToShow) ? (
+                chatsTypeToShow?.map((item: any) => (
+                  <ContactsCard
+                    key={uuidv4()}
+                    cardData={{ item }}
+                    selectedValues={selectedValues}
+                    setSelectedValues={setSelectedValues}
+                    handleManualRefetch={handleManualRefetch}
+                  />
+                ))
+              ) : (
+                <Box>No Data Found</Box>
+              )}
+            </>
+          )}
         </Box>
       </Box>
       <AddGroupModal

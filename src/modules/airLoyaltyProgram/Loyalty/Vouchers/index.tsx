@@ -18,6 +18,7 @@ export const Vouchers = () => {
     addVouchersOpen,
     setAddVouchersOpen,
     filtersOpen,
+    theme,
     setFiltersOpen,
   } = useVouchers();
   return (
@@ -43,7 +44,9 @@ export const Vouchers = () => {
         }}
       >
         <Grid item xs={6} className="no-print">
-          <Typography variant="h3">Vouchers</Typography>
+          <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
+            Vouchers
+          </Typography>
         </Grid>
         <Grid
           item

@@ -9,6 +9,7 @@ import {
   Avatar,
   Card,
   Tooltip,
+  Pagination,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -42,6 +43,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/users';
 import NoData from '@/components/NoData';
+import { useSearchParams } from 'next/navigation';
 
 const UsersDetailsList = () => {
   const {
@@ -73,11 +75,16 @@ const UsersDetailsList = () => {
     employeeFilter,
     setEmployeeFilter,
     resetFilters,
+    handleEmpListPaginationChange,
+    page,
   }: any = useUserDetailsList();
 
-  const { userName, organizationId, userId } = navigate.query;
-
+  const { userName, userId } = navigate.query;
+  const organizationId = useSearchParams()?.get('organizationId');
+  const employeeRecordsLimit = 10;
   const empListParams = {
+    page: page,
+    limit: employeeRecordsLimit,
     search: searchEmployee,
     // status:'ACTIVE'
     product: employeeFilter?.product,
@@ -102,7 +109,7 @@ const UsersDetailsList = () => {
               padding: '24px 16px',
               borderRadius: '8px 0px 0px 8px',
               background: theme?.palette?.common?.white,
-              minHeight: `calc(100% - ${0}px)`,
+              minHeight: `calc(89vh - ${15}px)`,
             }}
           >
             <Box
@@ -189,75 +196,87 @@ const UsersDetailsList = () => {
                 message={'No data is available'}
               />
             )}
-            {empDetail?.map((item: any, index: number) => (
-              <Box
-                className="users-wrapper"
-                sx={{
-                  my: 2,
-                  backgroundColor:
-                    isActiveEmp === index ? theme?.palette?.grey[400] : '',
-                  borderRadius: '4px',
-                  padding: '11px 8px',
-                  width: '100%',
-                  cursor: 'pointer',
-                }}
-                key={uuidv4()}
-                onClick={() => {
-                  setEmployeeDataById(item?._id);
-                  setIsActiveEmp(index);
-                }}
-              >
+            <Box sx={{ height: `calc(62vh - ${15}px)`, overflow: 'auto' }}>
+              {empDetail?.map((item: any, index: number) => (
                 <Box
+                  className="users-wrapper"
                   sx={{
-                    display: 'flex',
-                    gap: '10px',
-                    alignItems: 'center',
-                    flexWrap: {
-                      xs: 'wrap',
-                      sm: 'nowrap',
-                      lg: 'wrap',
-                      xl: 'nowrap',
-                    },
+                    my: 2,
+                    backgroundColor:
+                      isActiveEmp === index ? theme?.palette?.grey[400] : '',
+                    borderRadius: '4px',
+                    padding: '11px 8px',
+                    width: '100%',
+                    cursor: 'pointer',
+                  }}
+                  key={uuidv4()}
+                  onClick={() => {
+                    setEmployeeDataById(item?._id);
+                    setIsActiveEmp(index);
                   }}
                 >
-                  <Avatar>
-                    <Image
-                      src={AvatarImage}
-                      alt="Avatar"
-                      width={40}
-                      height={40}
-                    />
-                  </Avatar>
-                  <Box sx={{ width: '100%' }}>
-                    <Box
-                      sx={{ display: 'flex', justifyContent: 'space-between' }}
-                    >
-                      <Typography>
-                        {item?.firstName} {item?.lastName}
-                      </Typography>
-                      <StatusBadge
-                        defaultValue={item?.status}
-                        value={userStatus}
-                        onChange={(e: any) => setUserStatus(e?.target?.value)}
-                        options={[
-                          {
-                            label: 'Active',
-                            value: 'ACTIVE',
-                            color: theme?.palette?.success?.main,
-                          },
-                          {
-                            label: 'Inactive',
-                            value: 'INACTIVE',
-                            color: theme?.palette?.error?.main,
-                          },
-                        ]}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      gap: '10px',
+                      alignItems: 'center',
+                      flexWrap: {
+                        xs: 'wrap',
+                        sm: 'nowrap',
+                        lg: 'wrap',
+                        xl: 'nowrap',
+                      },
+                    }}
+                  >
+                    <Avatar>
+                      <Image
+                        src={AvatarImage}
+                        alt="Avatar"
+                        width={40}
+                        height={40}
                       />
+                    </Avatar>
+                    <Box sx={{ width: '100%' }}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <Typography>
+                          {item?.firstName} {item?.lastName}
+                        </Typography>
+                        <StatusBadge
+                          defaultValue={item?.status}
+                          value={userStatus}
+                          onChange={(e: any) => setUserStatus(e?.target?.value)}
+                          options={[
+                            {
+                              label: 'Active',
+                              value: 'ACTIVE',
+                              color: theme?.palette?.success?.main,
+                            },
+                            {
+                              label: 'Inactive',
+                              value: 'INACTIVE',
+                              color: theme?.palette?.error?.main,
+                            },
+                          ]}
+                        />
+                      </Box>
+                      <Typography>{item?.email}</Typography>
                     </Box>
-                    <Typography>{item?.email}</Typography>
                   </Box>
                 </Box>
-              </Box>
-            ))}
+              ))}
+            </Box>
+            <Pagination
+              count={employeeList?.data?.meta?.pages}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleEmpListPaginationChange}
+              sx={{ display: 'flex', justifyContent: 'flex-end' }}
+            />
           </Box>
         </Grid>
         <Grid item xl={9} lg={8} xs={12}>
@@ -267,7 +286,7 @@ const UsersDetailsList = () => {
                 <Grid item xs={12}>
                   <ProfileCard
                     userName={`${profileData?.data?.firstName} ${profileData?.data?.lastName}`}
-                    role={profileData?.data?.role}
+                    isBadge={false}
                     email={profileData?.data?.email}
                     phone={profileData?.data?.phoneNumber}
                     handleEditProfile={() => setTabVal(1)}
@@ -279,11 +298,13 @@ const UsersDetailsList = () => {
                     sx={{
                       borderRadius: '8px',
                       background: theme?.palette?.common?.white,
+                      minHeight: `calc(68vh - ${15}px)`,
                     }}
                   >
                     <Card sx={{ padding: '0px 24px' }}>
                       <CommonTabs
                         getTabVal={(val: number) => setTabVal(val)}
+                        activeTab={tabVal}
                         searchBarProps={{
                           label: 'Search Here',
                           setSearchBy: setSearch,
@@ -330,14 +351,14 @@ const UsersDetailsList = () => {
           </Grid>
         </Grid>
       </Grid>
-      {/* {isOpenAddAccountDrawer && ( */}
-      <AddAccountDrawer
-        isOpen={isOpenAddAccountDrawer}
-        setIsOpen={setIsOpenAddAccountDrawer}
-        organizationId={organizationId}
-        userId={userId}
-      />
-      {/* )} */}
+      {isOpenAddAccountDrawer && (
+        <AddAccountDrawer
+          isOpen={isOpenAddAccountDrawer}
+          setIsOpen={setIsOpenAddAccountDrawer}
+          organizationId={organizationId}
+          userId={userId}
+        />
+      )}
       {isOpenDrawer && (
         <Filter
           isOpenDrawer={isOpenDrawer}
@@ -351,6 +372,7 @@ const UsersDetailsList = () => {
           isOpenDrawer={isOpenAddCompanyDrawer}
           onClose={handleCloseAddCompanyDrawer}
           organizationId={organizationId}
+          setISOpenCompanyDrawer={setISOpenCompanyDrawer}
         />
       )}
       {isOpenAdduserDrawer && (
@@ -358,6 +380,7 @@ const UsersDetailsList = () => {
           isOpenDrawer={isOpenAdduserDrawer}
           onClose={handleAddUserDrawer}
           organizationId={organizationId}
+          setIsOpenAdduserDrawer={setIsOpenAdduserDrawer}
         />
       )}
     </Box>

@@ -30,7 +30,7 @@ const Members = () => {
             <AddMembers setIsAddMembers={setIsAddMembers} />
           </Box>
         )}
-        <Box sx={{ height: '380px', overflow: 'scroll' }}>
+        <Box sx={{ height: '262px', overflow: 'scroll' }}>
           {groupMembers.slice(0, 5).map((item: any) => (
             <Box sx={styles.boxMemberCard} key={uuidv4()}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -43,14 +43,14 @@ const Members = () => {
                 {item.role === 'admin' ? (
                   <Typography
                     variant="body3"
-                    sx={{ color: theme.palette.primary.main }}
+                    sx={{ color: theme?.palette?.primary?.main }}
                   >
                     Admin
                   </Typography>
                 ) : (
                   <Typography
                     variant="body3"
-                    sx={{ color: theme.palette.error.main }}
+                    sx={{ color: theme?.palette?.error?.main }}
                   >
                     Remove
                   </Typography>

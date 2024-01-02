@@ -1,36 +1,59 @@
 import { Box, Button, Grid, InputAdornment, Typography } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
 import {
   profileFields,
   profileValidationSchema,
 } from './UserDetailsProfile.data';
-
 import { useForm } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-
 import { v4 as uuidv4 } from 'uuid';
 import useToggle from '@/hooks/useToggle';
-import { EraserIcon } from '@/assets/icons';
+import { EditInputIcon, RevertIcon } from '@/assets/icons';
 import useUserManagement from '../../useUserManagement';
 
 const UserDetailsProfile = (props: any) => {
   const { userDetails } = props;
-  const { updateUserProfile }: any = useUserManagement();
+  const { updateUsers }: any = useUserManagement();
   const [isToggled, setIsToggled] = useToggle(false);
   const id = userDetails?._id;
 
+  const userProfileDefaultValues = {
+    ...userDetails,
+    compositeAddress: userDetails?.address?.composite
+      ? userDetails?.address?.composite
+      : `Flat # ${userDetails?.address?.flatNumber}, building # ${userDetails?.address?.buildingNumber} ,
+    ${userDetails?.address?.buildingName}, street # ${userDetails?.address?.streetName},${userDetails?.address?.city}, ${userDetails?.address?.country} `,
+    flat: userDetails?.address?.flatNumber ?? '',
+    city: userDetails?.address?.city ?? '',
+    country: userDetails?.address?.country ?? '',
+    buildingName: userDetails?.address?.buildingName ?? '',
+    buildingNumber: userDetails?.address?.buildingNumber ?? '',
+    streetName: userDetails?.address?.streetName ?? '',
+  };
+
   const methods: any = useForm({
     resolver: yupResolver(profileValidationSchema),
-    defaultValues: userDetails,
+    defaultValues: userProfileDefaultValues,
   });
 
   const { handleSubmit } = methods;
 
   const onSubmit = async (values: any) => {
+    if (isToggled) {
+      values.address = {
+        flatNumber: values.flat,
+        buildingName: values?.buildingName,
+        buildingNumber: values?.buildingNumber,
+        streetName: values?.streetName,
+        city: values?.city,
+        country: values?.country,
+      };
+    } else {
+      values.address = {
+        composite: values?.compositeAddress,
+      };
+    }
+
     const keysToDelete = [
       '_id',
       'products',
@@ -40,12 +63,21 @@ const UserDetailsProfile = (props: any) => {
       'createdBy',
       'updatedAt',
       'status',
+      'flat',
+      'compositeAddress',
+      'buildingNumber',
+      'buildingName',
+      'city',
+      'country',
+      'streetName',
+      'linkedInUrl',
+      'departmentId',
     ];
 
     for (const key of keysToDelete) {
       delete values[key];
     }
-    updateUserProfile({ id, ...values });
+    updateUsers({ id: id, body: values });
   };
 
   return (
@@ -61,7 +93,7 @@ const UserDetailsProfile = (props: any) => {
                 </Typography>
               )}
               {/* for address fileds */}
-              {item?.componentProps?.name === 'address' && (
+              {item?.componentProps?.name === 'compositeAddress' && (
                 <Box
                   sx={{
                     backgroundColor: '',
@@ -72,7 +104,7 @@ const UserDetailsProfile = (props: any) => {
                   <InputAdornment
                     sx={{
                       position: 'absolute',
-                      top: 45,
+                      top: 50,
                       right: 15,
                       zIndex: 9999,
                     }}
@@ -89,19 +121,30 @@ const UserDetailsProfile = (props: any) => {
                         sx={{ cursor: 'pointer' }}
                         onClick={() => setIsToggled(false)}
                       >
-                        <EraserIcon />
+                        <EditInputIcon />
                       </Box>
-                      <BorderColorIcon
+                      <Box
+                        sx={{ cursor: 'pointer' }}
                         onClick={() => setIsToggled(true)}
-                        sx={{ cursor: 'pointer', fontSize: '20px' }}
-                      />
+                      >
+                        <RevertIcon />
+                      </Box>
                     </Box>
                   </InputAdornment>
                 </Box>
               )}
 
               {!item?.toShow?.includes('address') && (
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component
+                  {...item.componentProps}
+                  size={'small'}
+                  disabled={
+                    isToggled &&
+                    item?.componentProps?.name === 'compositeAddress'
+                      ? true
+                      : false
+                  }
+                >
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
                       <option key={uuidv4()} value={option?.value}>
@@ -131,7 +174,7 @@ const UserDetailsProfile = (props: any) => {
       >
         <Button variant="outlined">Cancel</Button>
         <Button variant="contained" onClick={handleSubmit(onSubmit)}>
-          Edit
+          Update
         </Button>
       </Grid>
     </FormProvider>
