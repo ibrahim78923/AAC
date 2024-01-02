@@ -135,6 +135,7 @@ export const dataArray = (_: any, selectProductSuite: any) => {
       component: RHFSelect,
       md: 6,
     },
+
     {
       id: 3,
       componentProps: {
