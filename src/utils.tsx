@@ -1,4 +1,5 @@
 import debounce from 'lodash.debounce';
+import jwtDecode from 'jwt-decode';
 
 export function isNullOrEmpty(
   value: string | null | undefined | unknown[] | Record<string, unknown>,
@@ -21,6 +22,16 @@ export function isNullOrEmpty(
 
   return false;
 }
+
+const isTokenValidationCheck = (accessToken: string) => {
+  if (!accessToken) {
+    return false;
+  }
+  const decoded: any = jwtDecode(accessToken);
+  const currentTime = Date.now() / 1000;
+
+  return decoded.exp > currentTime;
+};
 
 //=====debounce search
 
@@ -49,4 +60,4 @@ const setSession = (userData: any) => {
   }
 };
 
-export { getSession, setSession };
+export { getSession, setSession, isTokenValidationCheck };

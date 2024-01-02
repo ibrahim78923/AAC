@@ -6,7 +6,7 @@ import {
 import { setAuthTokens } from '@/redux/slices/auth/slice';
 import { useAppDispatch } from '@/redux/store';
 
-import { getSession, setSession } from '@/utils';
+import { getSession, isTokenValidationCheck, setSession } from '@/utils';
 
 import { createContext, useEffect, useReducer, ReactNode } from 'react';
 
@@ -99,7 +99,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
           getSession();
 
         //TODO: if (authToken && isValidToken(authToken)) {
-        if (accessToken) {
+        if (accessToken && isTokenValidationCheck(accessToken)) {
           //TODO: removed line after permissons api
           permissions();
 
