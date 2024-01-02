@@ -97,7 +97,9 @@ const UsersDetailsList = () => {
   const empDetail = employeeList?.data?.users;
 
   const { data: profileData } = useGetUsersByIdQuery(
-    employeeDataById ? employeeDataById : employeeList?.data?.users[0]?._id,
+    employeeDataById
+      ? employeeDataById
+      : employeeList?.data?.users && employeeList?.data?.users[0]?._id,
   );
 
   return (
