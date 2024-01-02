@@ -29,7 +29,6 @@ const AddUser = ({
 
   const { pathName, methods, handleSubmit, onSubmit, userDetail, tabTitle } =
     useAddUser(useActionParams);
-
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}

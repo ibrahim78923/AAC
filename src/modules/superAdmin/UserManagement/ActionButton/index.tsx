@@ -14,7 +14,6 @@ const ActionButton = (props?: any) => {
     useGetUsersByIdQuery,
   } = useUserManagement();
   const { data } = useGetUsersByIdQuery(checkedRows);
-
   return (
     <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
       <Button
@@ -33,6 +32,11 @@ const ActionButton = (props?: any) => {
         anchorEl={selectedValue}
         open={Boolean(selectedValue)}
         onClose={handleClose}
+        sx={{
+          '.MuiPopover-paper': {
+            minWidth: '115px',
+          },
+        }}
       >
         {tabVal === 0 && (
           <MenuItem onClick={() => handleUsersList(data?.data)}>

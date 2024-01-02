@@ -1,5 +1,4 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import { superAdminColumns } from '../Users.data';
 import useUserManagement from '../../useUserManagement';
 
