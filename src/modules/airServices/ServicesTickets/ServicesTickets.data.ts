@@ -11,7 +11,7 @@ export const ticketStatusOptions = [
     label: TICKET_STATUS?.OPEN,
   },
   {
-    _id: TICKET_STATUS?.OPEN,
+    _id: TICKET_STATUS?.PENDING,
     label: TICKET_STATUS?.PENDING,
   },
   {
