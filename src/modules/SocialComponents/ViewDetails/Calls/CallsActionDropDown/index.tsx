@@ -13,7 +13,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 const CallsActionDropdown = (props: any) => {
-  const { setOpenDrawer } = props;
+  const { setOpenDrawer, selectedCheckboxes, deleteCallsHandler } = props;
   const {
     theme,
     isMenuOpen,
@@ -35,6 +35,7 @@ const CallsActionDropdown = (props: any) => {
     onSubmitOutCome,
     methodsOutCome,
     handleOpenOutcomeModal,
+    setOpenAlertModal,
   } = useCallsActionDropdown({ setOpenDrawer });
 
   return (
@@ -51,6 +52,7 @@ const CallsActionDropdown = (props: any) => {
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
+        disabled={selectedCheckboxes?.length === 0}
       >
         Action
       </Button>
@@ -76,8 +78,8 @@ const CallsActionDropdown = (props: any) => {
         }
         type={'delete'}
         open={Boolean(openAlertModal)}
-        handleClose={handleCloseAlert}
-        handleSubmit={handleCloseAlert}
+        handleClose={() => setOpenAlertModal('')}
+        handleSubmitBtn={deleteCallsHandler}
       />
 
       <ScheduleModals

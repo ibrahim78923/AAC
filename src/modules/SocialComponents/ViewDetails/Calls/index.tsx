@@ -24,7 +24,13 @@ const Calls = () => {
     isError,
     setPageLimit,
     setPage,
+    handleCheckboxChange,
+    setSelectedCheckboxes,
+    selectedCheckboxes,
+    deleteCallsHandler,
   } = useCalls();
+
+  const getColumns = columns({ handleCheckboxChange, selectedCheckboxes });
 
   return (
     <Box
@@ -57,7 +63,11 @@ const Calls = () => {
                   alignItems: 'center',
                 }}
               >
-                <CallsActionDropdown setOpenDrawer={setOpenDrawer} />
+                <CallsActionDropdown
+                  setOpenDrawer={setOpenDrawer}
+                  selectedCheckboxes={selectedCheckboxes}
+                  deleteCallsHandler={deleteCallsHandler}
+                />
                 <Button
                   variant="contained"
                   sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
@@ -92,8 +102,8 @@ const Calls = () => {
         {!isNullOrEmpty(TasksTableData) && (
           <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
             <TanstackTable
-              columns={columns}
-              data={CompanyCalls}
+              columns={getColumns}
+              data={CompanyCalls?.data?.schedulecalls}
               isLoading={isLoading}
               setPage={setPage}
               setPageLimit={setPageLimit}
@@ -114,6 +124,8 @@ const Calls = () => {
       <CallsEditorDrawer
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
+        setSelectedCheckboxes={setSelectedCheckboxes}
+        selectedCheckboxes={selectedCheckboxes}
       />
     </Box>
   );

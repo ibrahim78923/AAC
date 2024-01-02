@@ -38,7 +38,7 @@ export const dealsCallsDataArray = [
   },
   {
     componentProps: {
-      name: 'startdate',
+      name: 'callFromDate',
       label: 'Start Date',
       fullWidth: true,
     },
@@ -47,7 +47,7 @@ export const dealsCallsDataArray = [
   },
   {
     componentProps: {
-      name: 'starttime',
+      name: 'callFromTime',
       label: 'Start Time',
       fullWidth: true,
     },
@@ -56,7 +56,7 @@ export const dealsCallsDataArray = [
   },
   {
     componentProps: {
-      name: 'enddate',
+      name: 'callToDate',
       label: '  End Date',
       fullWidth: true,
     },
@@ -65,7 +65,7 @@ export const dealsCallsDataArray = [
   },
   {
     componentProps: {
-      name: 'endtime',
+      name: 'callToTime',
       label: 'End Time',
       fullWidth: true,
     },
@@ -90,6 +90,13 @@ export const dealsCallsDataArray = [
 
     md: 12,
   },
+];
+export const options = [
+  { value: 'Interested', label: 'Interested' },
+  { value: 'Left message', label: 'Left message' },
+  { value: 'No response', label: 'No response' },
+  { value: 'Not interested', label: 'Not interested' },
+  { value: 'Not able to reach', label: 'Not able to reach' },
 ];
 
 export const drawerTitle: any = {

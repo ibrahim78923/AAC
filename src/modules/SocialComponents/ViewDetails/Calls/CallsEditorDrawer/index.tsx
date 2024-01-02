@@ -15,18 +15,27 @@ import {
   dealsCallsDataArray,
   drawerButtonTitle,
   drawerTitle,
+  options,
 } from './CallsEditorDrawer.data';
 
 import { avatarGroupMockData } from '@/modules/superAdmin/PlanManagement/PlanManagement.data';
-import { options } from '../../Emails/EmailEditorDrawer/EmailEditorDrawer.data';
-
-import { AttendeeAvatarImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
 
 const CallsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
-  const { handleSubmit, onSubmit, methodsdealsCalls } = useCallsEditorDrawer();
+  const {
+    openDrawer,
+    setOpenDrawer,
+    setSelectedCheckboxes,
+    selectedCheckboxes,
+  } = props;
+  const { handleSubmit, onSubmit, methodsdealsCalls, EmployeeData } =
+    useCallsEditorDrawer({
+      openDrawer,
+      setOpenDrawer,
+      setSelectedCheckboxes,
+      selectedCheckboxes,
+    });
 
   return (
     <div>
@@ -67,23 +76,7 @@ const CallsEditorDrawer = (props: any) => {
                   size="small"
                   label="Attendees"
                   name="attendee"
-                  options={[
-                    {
-                      value: 'Guy Hawkins',
-                      label: 'Guy Hawkins',
-                      image: AttendeeAvatarImage,
-                    },
-                    {
-                      value: 'Jacob Jones',
-                      label: 'Jacob Jones',
-                      image: AttendeeAvatarImage,
-                    },
-                    {
-                      value: 'Courtney Henry',
-                      label: 'Courtney Henry',
-                      image: AttendeeAvatarImage,
-                    },
-                  ]}
+                  options={EmployeeData}
                 />
               </Grid>
               <Grid item xs={12} md={4}>

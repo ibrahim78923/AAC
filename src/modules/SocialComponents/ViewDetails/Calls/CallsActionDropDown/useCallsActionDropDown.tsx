@@ -86,6 +86,7 @@ const useCallsActionDropdown = ({ setOpenDrawer }: any) => {
     onSubmitOutCome,
     methodsOutCome,
     handleOpenOutcomeModal,
+    setOpenAlertModal,
   };
 };
 
