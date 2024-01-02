@@ -225,3 +225,8 @@ export const dataArray = (_: any, selectProductSuite: any) => {
     },
   ];
 };
+
+export const selectProductSuites = {
+  crm: 'CRM',
+  planTypeId: 'planTypeId',
+};

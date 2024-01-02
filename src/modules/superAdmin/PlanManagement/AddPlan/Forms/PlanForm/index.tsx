@@ -9,6 +9,7 @@ import { isNullOrEmpty } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
 
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
+import { selectProductSuites } from './PlanForm.data';
 
 const AddPlanForm = ({ handleSubmit, methods }: any) => {
   const {
@@ -22,8 +23,8 @@ const AddPlanForm = ({ handleSubmit, methods }: any) => {
       <Grid container spacing={5} sx={{ position: 'relative' }}>
         {formDefaultValuesFunction?.map((item: any) => (
           <Grid item xs={12} md={item?.md} key={uuidv4()}>
-            {item?.componentProps.name == 'planTypeId' &&
-              selectProductSuite === 'CRM' && (
+            {item?.componentProps.name == selectProductSuites?.planTypeId &&
+              selectProductSuite === selectProductSuites?.crm && (
                 <RHFTextField
                   name="name"
                   label="Name"
