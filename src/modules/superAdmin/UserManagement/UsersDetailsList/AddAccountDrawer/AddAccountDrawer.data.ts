@@ -45,7 +45,7 @@ export const AddAccountArray = (companyAccounts: any, companyRoles: any) => {
         fullWidth: true,
         select: true,
       },
-      options: companyRoles?.data.companyaccountroles?.map((item: any) => ({
+      options: companyRoles?.data?.map((item: any) => ({
         value: item?._id,
         label: item?.name,
       })),

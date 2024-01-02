@@ -1,10 +1,11 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import { superAdminColumns } from '../Users.data';
 import useUserManagement from '../../useUserManagement';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 const Admin = (props: any) => {
-  const { checkedRows, setCheckedRows, filterValues, searchVal } = props;
+  const { checkedRows, setCheckedRows, date, searchVal } = props;
   const {
     useGetUsersQuery,
     handleUserSwitchChange,
@@ -12,14 +13,16 @@ const Admin = (props: any) => {
     setPageLimit,
     page,
     setPage,
+    initialTab,
   } = useUserManagement();
   const params = {
     page: page,
     limit: pageLimit,
-    role: 'SUPER_ADMIN',
     search: searchVal ?? '',
-    products: filterValues?.products ?? '',
-    // organization: filterValues?.organization ?? ''
+    role: 'SUPER_ADMIN',
+    createdAt: date
+      ? dayjs(date[initialTab]).format(DATE_FORMAT?.API)
+      : undefined,
   };
   const { data, isSuccess, isLoading } = useGetUsersQuery(params);
   const columnsProps = {
