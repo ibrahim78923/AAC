@@ -7,11 +7,11 @@ import { useHeader } from './useHeader';
 const Header = () => {
   const {
     router,
-    handleSubmit,
-    addNewAssetTypesMethods,
-    submitAddForm,
+    handleSubmitAddForm,
+    methods,
     openAddNewAssetTypesModal,
     setOpenAddNewAssetTypesModal,
+    isLoading,
   } = useHeader();
   return (
     <>
@@ -47,9 +47,9 @@ const Header = () => {
         <AddNewAssetTypesModal
           open={openAddNewAssetTypesModal}
           handleClose={setOpenAddNewAssetTypesModal}
-          methods={addNewAssetTypesMethods}
-          submitForm={submitAddForm}
-          handleSubmit={handleSubmit}
+          methods={methods}
+          handleSubmit={handleSubmitAddForm}
+          isLoading={isLoading}
           modalTitle="Add New Asset Type"
         />
       </Box>

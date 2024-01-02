@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import { ReceiveHeader } from './ReceiveHeader';
 import TanstackTable from '@/components/Table/TanstackTable';
+import { ReceiveHeader } from './ReceiveHeader';
 import { ReceiveTableData, singleReceiveDetailsColumns } from './Receive.data';
 
 export const Receive = () => {

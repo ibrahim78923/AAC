@@ -13,6 +13,25 @@ import {
   ticketsTypeOptions,
 } from '../ServicesTickets.data';
 
+export const sendIdOptions = [
+  'ticketType',
+  'department',
+  'requester',
+  'agent',
+  'department',
+  'category',
+];
+export const neglectKeysInLoop = [
+  'plannedEndDate',
+  'plannedEndTime',
+  'dueByDate',
+  'dueByTime',
+  'plannedStartDate',
+  'plannedStartTime',
+  'category',
+  'department',
+];
+
 export const ticketsFilterFormFieldsDefaultValues = (data?: any) => {
   return {
     ticketType: data?.ticketType ?? null,
@@ -21,11 +40,10 @@ export const ticketsFilterFormFieldsDefaultValues = (data?: any) => {
     status: data?.status ?? null,
     agent: data?.agent ?? null,
     requester: data?.requester ?? null,
-    department: data?.department ?? null,
     priority: data?.priority ?? null,
     impact: data?.impact ?? null,
     category: data?.category ?? null,
-    source: data?.source ?? null,
+    typeSource: data?.typeSource ?? null,
     plannedStartDate:
       typeof data?.plannedStartDate === 'object'
         ? new Date(data?.plannedStartDate)
@@ -43,16 +61,20 @@ export const ticketsFilterFormFieldsDefaultValues = (data?: any) => {
         ? new Date(data?.plannedEndTime)
         : null,
     dueByDate:
-      typeof data?.dueByDate === 'object' ? new Date(data?.dueByDate) : null,
+      typeof data?.plannedEndDate === 'object'
+        ? new Date(data?.dueByDate)
+        : null,
     dueByTime:
-      typeof data?.dueByTime === 'object' ? new Date(data?.dueByTime) : null,
+      typeof data?.plannedEndTime === 'object'
+        ? new Date(data?.dueByTime)
+        : null,
   };
 };
 export const ticketsFilterFormFieldsDataFunction = (
   apiQueryRequester?: any,
-  apiQueryDepartment?: any,
   apiQueryAgent?: any,
   apiQueryCategory?: any,
+  apiQueryDepartment?: any,
 ) => [
   {
     id: 1,
@@ -62,6 +84,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Ticket type',
       placeholder: 'All Tickets',
       options: ticketsTypeOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -82,6 +105,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Status',
       placeholder: 'Status',
       options: ticketStatusOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -116,11 +140,11 @@ export const ticketsFilterFormFieldsDataFunction = (
   {
     id: 6,
     componentProps: {
-      fullWidth: true,
       name: 'department',
       label: 'Department',
-      placeholder: 'Choose Department',
+      fullWidth: true,
       apiQuery: apiQueryDepartment,
+      placeholder: 'Choose Department',
     },
     component: RHFAutocompleteAsync,
   },
@@ -157,6 +181,17 @@ export const ticketsFilterFormFieldsDataFunction = (
       getOptionLabel: (option: any) => option?.categoryName,
     },
     component: RHFAutocompleteAsync,
+  },
+  {
+    id: 16,
+    componentProps: {
+      fullWidth: true,
+      name: 'typeSource',
+      label: 'Source',
+      placeholder: 'Choose Source',
+      options: ticketSourceOptions,
+    },
+    component: RHFAutocomplete,
   },
   {
     id: 10,
@@ -202,7 +237,7 @@ export const ticketsFilterFormFieldsDataFunction = (
     id: 14,
     componentProps: {
       fullWidth: true,
-      name: 'dueByDate',
+      name: 'plannedEndDate',
       label: 'Due By',
     },
     gridLength: 7.5,
@@ -212,21 +247,10 @@ export const ticketsFilterFormFieldsDataFunction = (
     id: 15,
     componentProps: {
       fullWidth: true,
-      name: 'dueByTime',
+      name: 'plannedEndTime',
       label: '\u00a0\u00a0',
     },
     gridLength: 4.5,
     component: RHFTimePicker,
-  },
-  {
-    id: 16,
-    componentProps: {
-      fullWidth: true,
-      name: 'typeSource',
-      label: 'Source',
-      placeholder: 'Choose Source',
-      options: ticketSourceOptions,
-    },
-    component: RHFAutocomplete,
   },
 ];

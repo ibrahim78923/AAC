@@ -58,25 +58,28 @@ const ScheduleEditorDrawer = (props: any) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={2}>
-              {dealsCallsDataArray(DealsListData)?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
+              {dealsCallsDataArray({ DealsListData, openDrawer })?.map(
+                (item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component {...item.componentProps} size={'small'}>
+                      {item?.componentProps?.select
+                        ? item?.options?.map((option: any) => (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.label}
+                            </option>
+                          ))
+                        : null}
+                    </item.component>
+                  </Grid>
+                ),
+              )}
 
               <Grid item xs={12} md={8}>
                 <RHFMultiSearchableSelect
                   size="small"
                   label="Attendees"
                   name="attendees"
+                  disabled={openDrawer === 'Reschedule'}
                   options={EmployeeData}
                   placeholder="Select Option"
                 />
@@ -87,7 +90,12 @@ const ScheduleEditorDrawer = (props: any) => {
                 </Box>
               </Grid>
               <Grid item xs={12}>
-                <RHFSelect name="outcome" label="Outcomes" size="small">
+                <RHFSelect
+                  name="outcome"
+                  label="Outcomes"
+                  disabled={openDrawer === 'Reschedule'}
+                  size="small"
+                >
                   {options?.map((option: any) => (
                     <option key={uuidv4()} value={option?.value}>
                       {option?.label}
@@ -96,7 +104,11 @@ const ScheduleEditorDrawer = (props: any) => {
                 </RHFSelect>
               </Grid>
               <Grid item xs={12}>
-                <RHFEditor label="Calling Notes" name="callNotes" />
+                <RHFEditor
+                  label="Calling Notes"
+                  name="callNotes"
+                  disabled={openDrawer === 'Reschedule'}
+                />
               </Grid>
             </Grid>
           </FormProvider>
