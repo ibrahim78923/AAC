@@ -527,7 +527,7 @@ export const SalesRoutes: any = [
 
 export const LowerSuperAdminRoutes = [
   {
-    label: 'Setting',
+    label: 'Settings',
     icon: SettingImage,
     role: 'super-admin',
     key: '/super-admin/settings',
@@ -584,7 +584,7 @@ export const LowerSuperAdminRoutes = [
 
 export const LowerOrgAdminRoutes = [
   {
-    label: 'Setting',
+    label: 'Settings',
     icon: SettingImage,
     role: 'org-admin',
     key: '/org-admin/settings',
