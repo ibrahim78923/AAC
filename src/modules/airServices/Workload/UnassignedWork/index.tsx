@@ -16,11 +16,7 @@ export const UnassignedWork = () => {
 
   return (
     <Fragment>
-      <Button
-        variant={'contained'}
-        sx={{ mx: 2 }}
-        onClick={() => setOpenDrawer(true)}
-      >
+      <Button variant={'contained'} onClick={() => setOpenDrawer(true)}>
         Unassigned Work
       </Button>
 

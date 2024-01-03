@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -103,6 +103,15 @@ const Folders = () => {
     isOpenFile,
     setIsOpenFile,
   } = useFolder();
+  const [sendData, setSendData] = useState(null);
+
+  useEffect(() => {
+    if (isGetRowValues?.length === 1) {
+      setSendData(
+        imageData?.find((img: any) => img?._id === isGetRowValues.at(0)),
+      );
+    }
+  }, [isGetRowValues]);
 
   return (
     <>
@@ -826,6 +835,7 @@ const Folders = () => {
         setIsPdfOpen={setIsPdfOpen}
         handlePdfOpen={handlePdfOpen}
         handlePdfClose={handlePdfClose}
+        sendData={sendData}
       />
       <CommonModal
         open={isImage}

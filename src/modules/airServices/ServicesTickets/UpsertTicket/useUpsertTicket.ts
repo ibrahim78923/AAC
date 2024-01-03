@@ -60,8 +60,8 @@ export const useUpsertTicket = (props: any) => {
     upsertTicketFormData?.append('subject', data?.subject);
     !!data?.description &&
       upsertTicketFormData?.append('description', data?.description);
-    // !!data?.category?._id &&
-    // upsertTicketFormData?.append('category', data?.category?._id); //TODO: will be used in integration
+    !!data?.category?._id &&
+      upsertTicketFormData?.append('category', data?.category?._id);
     upsertTicketFormData?.append('status', data?.status?._id);
     upsertTicketFormData?.append('pirority', data?.priority);
     !!data?.department?._id &&
@@ -76,7 +76,8 @@ export const useUpsertTicket = (props: any) => {
       );
     !!data?.plannedEffort &&
       upsertTicketFormData?.append('plannedEffort', data?.plannedEffort);
-    (data?.attachFile !== null || typeof data?.attachFile !== 'string') &&
+    data?.attachFile !== null &&
+      typeof data?.attachFile !== 'string' &&
       upsertTicketFormData?.append('fileUrl', data?.attachFile);
     !!data?.associatesAssets?.length &&
       upsertTicketFormData?.append(

@@ -7,10 +7,14 @@ import { useState } from 'react';
 import { ExportIcon, FilterLinesIcon } from '@/assets/icons';
 import { AntSwitch } from '@/components/AntSwitch';
 import { SettlementsFilterDrawer } from './SettlementsFilterDrawer';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { ExportModal } from '@/components/ExportModal';
+import { enqueueSnackbar } from 'notistack';
 
 export const Settlements = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   return (
     <Box>
       <Box
@@ -58,9 +62,25 @@ export const Settlements = () => {
           >
             Filters
           </Button>
-          <Button variant="outlined" color="inherit" startIcon={<ExportIcon />}>
+          <Button
+            variant="outlined"
+            color="inherit"
+            startIcon={<ExportIcon />}
+            sx={{ borderRadius: '0.5rem' }}
+            onClick={() => setOpenModal(true)}
+          >
             Export
           </Button>
+          <ExportModal
+            open={openModal}
+            handleClose={() => setOpenModal(false)}
+            onSubmit={() => {
+              enqueueSnackbar('Export Successfully', {
+                variant: NOTISTACK_VARIANTS?.SUCCESS,
+              });
+              setOpenModal(false);
+            }}
+          />
         </Box>
       </Box>
       <Box mt={2}>

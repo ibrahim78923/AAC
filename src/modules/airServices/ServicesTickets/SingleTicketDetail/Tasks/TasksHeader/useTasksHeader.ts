@@ -1,8 +1,14 @@
 import { useState } from 'react';
-import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-export const useTasksHeader = () => {
+export const useTasksHeader = (props: any) => {
+  const {
+    activeCheck,
+    setIsEditDrawerOpen,
+    setIsAddDrawerOpen,
+    setActiveCheck,
+  } = props;
   const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
   const [actionExportPop, setActionExportPop] =
     useState<HTMLButtonElement | null>(null);
@@ -29,10 +35,22 @@ export const useTasksHeader = () => {
     setDeleteModal(false);
     setActionPop(null);
   };
-  const theme = useTheme();
+  const openEditDrawer = () => {
+    if (activeCheck?.length > 1) {
+      enqueueSnackbar('Cannot edit multiple tasks', {
+        variant: NOTISTACK_VARIANTS?.WARNING,
+      });
+    } else {
+      setIsEditDrawerOpen(true);
+      setActionPop(null);
+    }
+  };
+  const openAddDrawer = () => {
+    setActiveCheck([]);
+    setIsAddDrawerOpen(true);
+  };
   return {
     actionPop,
-    setActionPop,
     openAction,
     handleActionClick,
     handleActionClose,
@@ -43,6 +61,7 @@ export const useTasksHeader = () => {
     deleteModal,
     setDeleteModal,
     submitDeleteModel,
-    theme,
+    openEditDrawer,
+    openAddDrawer,
   };
 };

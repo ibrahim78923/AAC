@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
-import { UserList, allTableData } from './All.data';
+import { UserList, allTableData } from './All.rewards.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { useState } from 'react';
 
-export const All = () => {
+export const AllRewards = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   return (
     <Box>

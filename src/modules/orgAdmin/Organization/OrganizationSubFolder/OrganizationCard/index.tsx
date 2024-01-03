@@ -75,7 +75,7 @@ const OrganizationCard = () => {
             </Box>
           </center>
           <FormProvider methods={methods}>
-            <Grid container spacing={4} sx={{ paddingTop: '1rem' }}>
+            <Grid container spacing={1} sx={{ paddingTop: '1rem' }}>
               {dataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>

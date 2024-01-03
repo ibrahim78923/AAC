@@ -18,18 +18,21 @@ import {
 import { styles } from './ChatHeader.style';
 import ChatInfoModal from './ChatInfoModal';
 import ChatDropdown from '../../ChatDropdown';
-import { useAppSelector } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useUpdateChatMutation } from '@/services/chat';
 import { enqueueSnackbar } from 'notistack';
+import { setActiveConversation } from '@/redux/slices/chat/slice';
 
 const ChatHeader = ({ chatMode }: any) => {
   const theme = useTheme();
 
+  const dispatch = useAppDispatch();
+
   const activeParticipant = useAppSelector(
     (state) => state?.chat?.activeParticipant,
   );
-  const activeConversationId = useAppSelector(
-    (state) => state?.chat?.activeConversationId,
+  const activeConversation = useAppSelector(
+    (state) => state?.chat?.activeConversation,
   );
 
   const [isUserProfile, setIsUserProfile] = useState(false);
@@ -45,32 +48,32 @@ const ChatHeader = ({ chatMode }: any) => {
   };
 
   const [updateChat] = useUpdateChatMutation();
-
-  // {
-  //   "isArchived": true,
-  //   "isPinned": true,
-  //   "isMuted": true,
-  //   "isDeleted": true,
-  //   "unRead": true,
-  //   "participants": [
-  //     "651bdf53beeb02bc627d6804"
-  //   ],
-  //   "isRemove": true
-  // }
-
   const updateChatHandler = async (requestType: any) => {
     const payloadMap: any = {
-      unRead: { isArchived: false },
-      isMuted: { isMuted: true },
-      isArchived: { isArchived: true },
+      unRead: { unRead: !activeConversation?.unRead },
+      isMuted: { isMuted: !activeConversation?.isMuted },
+      isArchived: { isArchived: !activeConversation?.isArchived },
     };
     const payload = payloadMap[requestType] || {};
     try {
-      await updateChat({ body: payload, id: activeConversationId })?.unwrap();
+      const response = await updateChat({
+        body: payload,
+        id: activeConversation?.conversationId,
+      })?.unwrap();
       enqueueSnackbar('successfully', {
         variant: 'success',
       });
-      handleClose();
+
+      dispatch(
+        setActiveConversation({
+          ...activeConversation,
+          isDeleted: response?.data?.isDeleted,
+          isArchived: response?.data?.isArchived,
+          isMuted: response?.data?.isMuted,
+          unRead: response?.data?.unRead,
+        }),
+      ),
+        handleClose();
     } catch (error: any) {
       enqueueSnackbar('An error occurred', {
         variant: 'error',
@@ -80,15 +83,15 @@ const ChatHeader = ({ chatMode }: any) => {
 
   const menuItemsData = [
     {
-      menuLabel: 'Mark as Unread',
-      handler: () => updateChatHandler('isRead'),
+      menuLabel: activeConversation?.unRead ? 'Mark as Read' : 'Mark as Unread',
+      handler: () => updateChatHandler('unRead'),
     },
     {
-      menuLabel: 'Mute',
+      menuLabel: activeConversation?.isMuted ? 'Un Mute' : 'Mute',
       handler: () => updateChatHandler('isMuted'),
     },
     {
-      menuLabel: 'Archive',
+      menuLabel: activeConversation?.isArchived ? 'Un Archive' : 'Archive',
       handler: () => updateChatHandler('isArchived'),
     },
     {
