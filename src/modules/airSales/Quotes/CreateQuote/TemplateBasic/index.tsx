@@ -65,8 +65,8 @@ const TemplateBasic = ({ values }: any) => {
           {createQuoteFormFields?.map((item: any, index) => {
             if (index === 6) {
               return (
-                <Grid item xs={12} key={item.id}>
-                  <item.component {...item.componentProps} size={'small'}>
+                <Grid item xs={12} key={item?.id}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>
@@ -106,7 +106,7 @@ const TemplateBasic = ({ values }: any) => {
           <Box sx={styles?.total}>£0.00</Box>
         </Box>
       </Box>
-      {values?.signature === 'Include Space for a written signature' && (
+      {values?.signature === 'includeSignature' && (
         <Box sx={styles?.signatureCard}>
           <Box sx={styles?.signatureBox}>
             <Box sx={styles?.signatureSpace}>signature here...</Box>
