@@ -1,33 +1,29 @@
-import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider } from 'react-hook-form';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { enqueueSnackbar } from 'notistack';
-import { userSelectOption, userSelectData } from './UsersAdd.data';
+import { addUserData } from './UsersAdd.data';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { RHFAutocomplete } from '@/components/ReactHookForm';
+import useUsersAdd from './useUsersAdd';
+import { LoadingButton } from '@mui/lab';
 
 export const UsersAdd = () => {
-  const [isModalOpen, setModalOpen] = useState(false);
-  const methods = useForm();
-
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    openModal,
+    closeModal,
+    isModalOpen,
+  } = useUsersAdd();
   return (
-    <FormProvider {...methods}>
+    <FormProvider {...methods} onSubmit={handleSubmit(onSubmit)}>
       <Box>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -54,37 +50,29 @@ export const UsersAdd = () => {
           </DialogTitle>
         </Box>
         <DialogContent>
-          <RHFAutocomplete
-            name="selectedUser"
-            options={userSelectOption}
-            placeholder="Select User"
-            label="User"
-            required
-          />
-
-          <RHFAutocomplete
-            name="selectedContract"
-            options={userSelectData}
-            placeholder="Select Contract"
-            label="Contract"
-          />
+          <Grid container spacing={2}>
+            {addUserData?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?.id}>
+                <item.component {...item?.componentProps} size={'small'} />
+              </Grid>
+            ))}
+          </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeModal} color="secondary" variant={'outlined'}>
+          <LoadingButton
+            onClick={closeModal}
+            color="secondary"
+            variant={'outlined'}
+          >
             Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              enqueueSnackbar('Add successfully', {
-                variant: 'success',
-              });
-              setModalOpen(false);
-            }}
+          </LoadingButton>
+          <LoadingButton
+            onClick={handleSubmit(onSubmit)}
             color="primary"
             variant={'contained'}
           >
             Add
-          </Button>
+          </LoadingButton>
         </DialogActions>
       </Dialog>
     </FormProvider>

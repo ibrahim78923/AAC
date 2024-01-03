@@ -9,15 +9,20 @@ import { DeleteIcon, PinIcon } from '@/assets/icons';
 import { styles } from './ContactsCard.style';
 import { AlertModals } from '@/components/AlertModals';
 import { UserDefault } from '@/assets/images';
-import { useAppDispatch } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   setActiveChatId,
+  setActiveConversation,
   setActiveParticipant,
   setActiveReceiverId,
+  setChatContacts,
+  setChatMessages,
 } from '@/redux/slices/chat/slice';
 import { getSession } from '@/utils';
 import dayjs from 'dayjs';
 import { TIME_FORMAT } from '@/constants';
+import { enqueueSnackbar } from 'notistack';
+import { useUpdateChatMutation } from '@/services/chat';
 
 const ContactsCard = ({
   cardData,
@@ -51,8 +56,39 @@ const ContactsCard = ({
     }
   };
 
+  const [updateChat] = useUpdateChatMutation();
+  const updateChatHandler = async (requestType: any) => {
+    const payloadMap: any = {
+      isPinned: { isPinned: !cardData?.item?.isPinned },
+      isDeleted: { isDeleted: !cardData?.item?.isDeleted },
+    };
+    const payload = payloadMap[requestType] || {};
+    try {
+      const response = await updateChat({
+        body: payload,
+        id: cardData?.item?.conversationId,
+      })?.unwrap();
+      enqueueSnackbar('successfully', {
+        variant: 'success',
+      });
+
+      dispatch(
+        setChatContacts({
+          ...cardData?.item,
+          isDeleted: response?.data?.isDeleted,
+          isPinned: response?.data?.isPinned,
+        }),
+      );
+    } catch (error: any) {
+      enqueueSnackbar('An error occurred', {
+        variant: 'error',
+      });
+    }
+  };
+
   const handleCurrentUserSelect = () => {
-    dispatch(setActiveChatId(cardData?.item?._id)),
+    dispatch(setChatMessages([])),
+      dispatch(setActiveChatId(cardData?.item?._id)),
       dispatch(
         setActiveReceiverId(
           cardData?.item?.participants
@@ -60,6 +96,7 @@ const ContactsCard = ({
             ?.map((participant: any) => participant?._id),
         ),
       ),
+      dispatch(setActiveConversation(cardData?.item)),
       dispatch(
         setActiveParticipant({
           firstName: filteredParticipants[0]?.firstName,
@@ -81,10 +118,20 @@ const ContactsCard = ({
     handleManualRefetch();
   };
 
+  const activeConversation = useAppSelector(
+    (state) => state?.chat?.activeConversation,
+  );
+
+  const isActiveUser = cardData?.item?.conversationId?.includes(
+    activeConversation?.conversationId?.length
+      ? activeConversation?.conversationId
+      : null,
+  );
+
   return (
     <>
       <Box
-        sx={styles?.contactsCardMain(isCardHover)}
+        sx={styles?.contactsCardMain(isCardHover, theme, isActiveUser)}
         onMouseOver={() => setIsCardHover(true)}
         onMouseLeave={() => setIsCardHover(false)}
       >
@@ -136,15 +183,27 @@ const ContactsCard = ({
               }}
             >
               <Box></Box>
-              {/* <Box sx={styles?.chatNotification}>12</Box> */}
-              {isCardHover && (
-                <Box sx={{ display: 'flex', gap: '10px' }}>
+
+              <Box sx={{ display: 'flex', gap: '10px' }}>
+                {isCardHover && (
                   <Box onClick={() => setIsDeleteModal(true)}>
                     <DeleteIcon />
                   </Box>
-                  <PinIcon />
-                </Box>
-              )}
+                )}
+                {cardData?.item?.isPinned ? (
+                  <Box onClick={() => updateChatHandler('isPinned')}>
+                    <PinIcon color={theme?.palette?.warning?.main} />
+                  </Box>
+                ) : (
+                  <>
+                    {isCardHover && (
+                      <Box onClick={() => updateChatHandler('isPinned')}>
+                        <PinIcon color={theme?.palette?.custom?.main} />
+                      </Box>
+                    )}
+                  </>
+                )}
+              </Box>
             </Box>
           </Box>
           <Box

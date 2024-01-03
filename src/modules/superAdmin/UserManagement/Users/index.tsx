@@ -2,6 +2,8 @@ import TanstackTable from '@/components/Table/TanstackTable';
 
 import { columns } from './Users.data';
 import useUserManagement from '../useUserManagement';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const Users = (props: any) => {
   const { checkedRows, setCheckedRows, filterValues, searchVal } = props;
@@ -20,7 +22,10 @@ const Users = (props: any) => {
     role: 'ORG_ADMIN',
     search: searchVal ?? '',
     products: filterValues?.products ?? '',
-    // organization: filterValues?.organization ?? ''
+    // organization: filterValues?.organization ?? '',
+    createdAt: filterValues?.createdDate
+      ? dayjs(filterValues?.createdDate).format(DATE_FORMAT?.API)
+      : undefined,
   };
   const { data, isLoading, isSuccess } = useGetUsersQuery(params);
   const columnsProps = {

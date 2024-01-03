@@ -37,15 +37,19 @@ const CallsEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <Box sx={{ pt: 2 }}>
-          <FormProvider
-            methods={methodsdealsCalls}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodsdealsCalls}>
             <Grid container spacing={5}>
               {dealsCallsDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={uuidv4()}
+                  sx={{ paddingTop: '25px !important' }}
+                >
                   <item.component {...item.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
@@ -86,7 +90,7 @@ const CallsEditorDrawer = (props: any) => {
                 <AppAvatarGroup data={avatarGroupMockData} />
               </Grid>
               <Grid item xs={12}>
-                <RHFSelect name="template" label="Template" size="small">
+                <RHFSelect name="Outcome" label="Outcome" size="small">
                   {options?.map((option: any) => (
                     <option key={uuidv4()} value={option?.value}>
                       {option?.label}
@@ -95,7 +99,7 @@ const CallsEditorDrawer = (props: any) => {
                 </RHFSelect>
               </Grid>
               <Grid item xs={12}>
-                <RHFEditor label="Meeting Notes" name="meeeting_notes" />
+                <RHFEditor label="Notes" name="Notes" />
               </Grid>
             </Grid>
           </FormProvider>

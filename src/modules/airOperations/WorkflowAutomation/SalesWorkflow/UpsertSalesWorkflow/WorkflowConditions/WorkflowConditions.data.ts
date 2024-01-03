@@ -20,6 +20,7 @@ export const workflowConditionsGroupDataArray = (index: any) => [
       name: `workflowConditions.${index}.name`,
       label: 'Add group name',
       size: 'small',
+      required: true,
       placeholder: 'Name here',
     },
     component: RHFTextField,
@@ -48,7 +49,7 @@ export const workflowConditionsDataArray = (
       _id: 4576,
       gridLength: 3,
       componentProps: {
-        name: `workflowConditions.${index}.nestedArray.${subIndex}.condition1`,
+        name: `workflowConditions.${index}.conditions.${subIndex}.condition1`,
         size: 'small',
         placeholder: handlePlaceholder(),
       },
@@ -58,7 +59,7 @@ export const workflowConditionsDataArray = (
       _id: 5465,
       gridLength: 3,
       componentProps: {
-        name: `workflowConditions.${index}.nestedArray.${subIndex}.condition2`,
+        name: `workflowConditions.${index}.conditions.${subIndex}.condition2`,
         size: 'small',
         placeholder: 'Select',
         options: conditionOptions,
@@ -69,7 +70,7 @@ export const workflowConditionsDataArray = (
       _id: 3456,
       gridLength: 3,
       componentProps: {
-        name: `workflowConditions.${index}.nestedArray.${subIndex}.condition3`,
+        name: `workflowConditions.${index}.conditions.${subIndex}.condition3`,
         size: 'small',
         placeholder: 'Select',
         options: conditionOptions,
@@ -80,7 +81,7 @@ export const workflowConditionsDataArray = (
       _id: 2545,
       gridLength: 3,
       componentProps: {
-        name: `workflowConditions.${index}.nestedArray.${subIndex}.condition4`,
+        name: `workflowConditions.${index}.conditions.${subIndex}.condition4`,
         size: 'small',
         placeholder: 'Type Here',
       },

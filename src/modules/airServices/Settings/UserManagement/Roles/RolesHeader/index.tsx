@@ -3,12 +3,12 @@ import { Box, Typography } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useRoles } from '../useRoles';
 
 export const RolesHeader = () => {
   const router = useRouter();
-  const [searchValue, setSearchValue] = useState<string>('');
 
+  const { setSearchValue } = useRoles();
   return (
     <Box>
       <Box display={'flex'} alignItems={'center'} gap={2}>
@@ -28,7 +28,6 @@ export const RolesHeader = () => {
               label="Search Here"
               width={'16.25rem'}
               setSearchBy={setSearchValue}
-              searchBy={searchValue}
             />
           </Box>
         </Box>

@@ -37,7 +37,7 @@ export const AssociatedAssets = () => {
       </Box>
 
       <TanstackTable
-        data={data?.data?.productcatalogs?.[0]?.associatedAssets}
+        data={data?.data?.productcatalogs}
         columns={associatedAssetsColumns}
         isPagination
         currentPage={data?.data?.meta?.page}

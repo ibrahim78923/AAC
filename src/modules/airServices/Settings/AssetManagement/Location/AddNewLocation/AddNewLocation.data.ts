@@ -12,12 +12,24 @@ export const validationSchemaAddNewLocation: any = yup?.object()?.shape({
   phone: yup?.string()?.required('Required'),
 });
 
-export const defaultValues = {
-  locationName: '',
-  parentLocation: '',
-  contactName: '',
-  email: '',
-  phone: '',
+export const locationDefaultValues = ({
+  editDataArray,
+  parentLocationName,
+  childEditDataArray,
+}: any) => {
+  return {
+    locationName:
+      childEditDataArray?.locationName ?? editDataArray?.locationName ?? '',
+    parentLocation:
+      childEditDataArray?.parentLocation ??
+      editDataArray?.parentLocation ??
+      parentLocationName ??
+      null,
+    contactName:
+      childEditDataArray?.contactName ?? editDataArray?.contactName ?? '',
+    email: childEditDataArray?.email ?? editDataArray?.email ?? '',
+    phone: childEditDataArray?.phone ?? editDataArray?.phone ?? '',
+  };
 };
 
 export const addNewLocationDataFields = [

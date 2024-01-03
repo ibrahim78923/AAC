@@ -32,6 +32,7 @@ export const Teams = () => {
           okText={'Save'}
         />
         <AgentConversionDelete
+          message={'Are you sure you want to delete this Team?'}
           open={deleteModal}
           handleClose={() => {
             setDeleteModal(false);

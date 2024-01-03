@@ -2,14 +2,22 @@ import React, { useEffect, useState } from 'react';
 
 import { Theme, useTheme } from '@mui/material';
 import {
+  useDeleteFilesMutation,
   useDeleteFoldersMutation,
+  useGetDocumentFileQuery,
   useGetDocumentFolderQuery,
+  usePostDocumentFilesMutation,
   usePostDocumentFolderMutation,
   useUpdateFolderMutation,
 } from '@/services/commonFeatures/documents';
 import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { validationSchema } from './Folder.data';
+import {
+  ImageUploadSchema,
+  columns,
+  defaultValuesImage,
+  validationSchema,
+} from './Folder.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { isNullOrEmpty } from '@/utils';
 import { enqueueSnackbar } from 'notistack';
@@ -30,22 +38,53 @@ const useFolder: any = () => {
   const [isLinkOpen, setIsLinkOpen] = useState(false);
   const [isCreateLinkOpen, setIsCreateLinkOpen] = useState(false);
   const [isImage, setIsImage] = useState(false);
+  const [isGetRowValues, setIsGetRowValues] = useState<any>([]);
+  const [isChecked, setIsChecked] = useState(false);
+  const [isOpenFile, setIsOpenFile] = useState(false);
   const open = Boolean(anchorEl);
   const [postDocumentFolder] = usePostDocumentFolderMutation();
+  const [postDocumentFiles] = usePostDocumentFilesMutation();
   const [updateFolder] = useUpdateFolderMutation();
   const [deleteFolders] = useDeleteFoldersMutation();
+  const [deleteFiles] = useDeleteFilesMutation();
   const openSide = Boolean(anchorElSide);
 
   const searchParams = useSearchParams();
 
-  const parentFolderId = searchParams?.get('folder');
-  const parentFolderName = searchParams?.get('name');
+  const parentFolderId: any = searchParams?.get('folder');
+  const parentFolderName: any = searchParams?.get('name');
 
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetDocumentFolderQuery({ parentFolderId });
 
+  const { data: image } = useGetDocumentFileQuery({ folderId: parentFolderId });
   const handlePdfOpen = () => setIsPdfOpen(true);
   const handlePdfClose = () => setIsPdfOpen(false);
+
+  const addFile = useForm({
+    resolver: yupResolver(ImageUploadSchema),
+    defaultValues: defaultValuesImage,
+  });
+
+  const { watch: watchFile } = addFile;
+
+  const onSubmitImage = async () => {
+    const file = watchFile('file');
+    const body = {
+      name: parentFolderName,
+      folderId: parentFolderId,
+      file: file,
+    };
+    try {
+      await postDocumentFiles(body).unwrap();
+      setIsImage(false);
+      enqueueSnackbar('Document Upload Successfully', {
+        variant: 'success',
+      });
+    } catch (error) {
+      enqueueSnackbar('Error occurred', { variant: 'error' });
+    }
+  };
 
   const deleteUserFolders = async () => {
     try {
@@ -55,6 +94,22 @@ const useFolder: any = () => {
       enqueueSnackbar('Folder Deleted Successfully', {
         variant: 'success',
       });
+      setIsOpenDelete(false);
+    } catch (error: any) {
+      enqueueSnackbar(error?.message, { variant: 'error' });
+      setIsOpenDelete(false);
+    }
+  };
+
+  const deleteUserFiles = async () => {
+    try {
+      await deleteFiles({
+        ids: isGetRowValues?.map((id: any) => `ids=${id}`)?.join('&'),
+      }).unwrap();
+      enqueueSnackbar('File Deleted Successfully', {
+        variant: 'success',
+      });
+      setIsOpenFile(false);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong!', { variant: 'error' });
     }
@@ -127,8 +182,21 @@ const useFolder: any = () => {
     setAnchorElSide(null);
   };
 
+  const getRowValues = columns(
+    setIsGetRowValues,
+    setIsChecked,
+    isChecked,
+    isGetRowValues,
+  );
+
   return {
     documentSubData: data?.data,
+    imageData: image?.data?.files || [],
+    getRowValues,
+    setIsGetRowValues,
+    setIsChecked,
+    isChecked,
+    isGetRowValues,
     isLoading,
     isError,
     isFetching,
@@ -176,6 +244,11 @@ const useFolder: any = () => {
     deleteUserFolders,
     setIsImage,
     isImage,
+    onSubmitImage,
+    addFile,
+    deleteUserFiles,
+    isOpenFile,
+    setIsOpenFile,
   };
 };
 

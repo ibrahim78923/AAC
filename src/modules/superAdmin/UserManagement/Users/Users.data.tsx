@@ -10,7 +10,6 @@ import {
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import { SwitchBtn } from '@/components/SwitchButton';
-import { AvatarImage } from '@/assets/images';
 import { style } from './Users.style';
 import useUserManagement from '../useUserManagement';
 import dayjs from 'dayjs';
@@ -56,7 +55,17 @@ export const columns: any = (columnsProps: any) => {
       header: 'Name',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+          <Avatar
+            alt="Remy Sharp"
+            sx={{
+              color: theme?.palette?.grey[600],
+              fontSize: '12px',
+              fontWeight: 500,
+            }}
+          >
+            {info?.row?.original?.firstName?.charAt(0)?.toUpperCase()}
+            {info?.row?.original?.lastName?.charAt(0)?.toUpperCase()}
+          </Avatar>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>
               {info?.row?.original?.firstName} {info?.row?.original?.lastName}
@@ -80,11 +89,11 @@ export const columns: any = (columnsProps: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.OrganizationName,
+      accessorFn: (row: any) => row?.organization,
       id: 'organizationName',
       isSortable: true,
       header: 'Organization Name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => info?.getValue()?.name ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.Products,
@@ -141,7 +150,7 @@ export const columns: any = (columnsProps: any) => {
 
 export const superAdminColumns: any = (columnsProps: any) => {
   const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
-
+  const theme = useTheme();
   const handleCheckboxChange = (val: any, rowId: string) => {
     val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
   };
@@ -177,7 +186,17 @@ export const superAdminColumns: any = (columnsProps: any) => {
       header: 'Name',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+          <Avatar
+            alt="Remy Sharp"
+            sx={{
+              color: theme?.palette?.grey[600],
+              fontSize: '12px',
+              fontWeight: 500,
+            }}
+          >
+            {info?.row?.original?.firstName?.charAt(0)?.toUpperCase()}
+            {info?.row?.original?.lastName?.charAt(0)?.toUpperCase()}
+          </Avatar>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>
               {info?.row?.original?.firstName} {info?.row?.original?.lastName}

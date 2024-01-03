@@ -19,7 +19,7 @@ export const UsersFilter = () => {
     defaultValues: userDefaultValues,
   });
 
-  const [isFilterOpen, setIsFilterOpen] = React.useState(false);
+  const [isFilterOpen, setIsFilterOpen] = React?.useState(false);
 
   const openFilterDrawer = () => {
     setIsFilterOpen(true);

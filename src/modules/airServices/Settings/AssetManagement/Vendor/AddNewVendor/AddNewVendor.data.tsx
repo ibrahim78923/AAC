@@ -14,7 +14,16 @@ export const newVendorValidationSchema = Yup?.object()?.shape({
   city: Yup?.string(),
   zipCode: Yup?.string(),
 });
-
+export const newVendorDefaultValuesFunction = (data?: any) => {
+  return {
+    name: data?.name ?? '',
+    assetType: data?.assetType ?? null,
+    manufacturer: data?.manufacturer === '--' ? '' : data?.manufacturer ?? '',
+    status: data?.status ?? null,
+    modeOfProcurement: data?.modeOfProcurement ?? null,
+    description: data?.description ?? '',
+  };
+};
 export const newVendorDefaultValues = {
   name: '',
   contactName: '',

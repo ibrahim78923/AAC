@@ -126,7 +126,7 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data;
+        if (response) return response?.data?.servicecategories;
       },
       providesTags: [TAG_SIX],
     }),

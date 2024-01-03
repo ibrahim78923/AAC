@@ -45,8 +45,9 @@ export const useAssociatesLists: any = (props: any) => {
         ? data?.data?.meta?.total
         : 0,
     );
+    return () => setTotalAssets('');
   }, [data]);
-  //TODO: we will use it in integration
+
   const deleteTicketsAssociatesAssets = async () => {
     const deleteTicketsAssociatesAssetsParameter = {
       queryParams: {
@@ -84,5 +85,6 @@ export const useAssociatesLists: any = (props: any) => {
     setPageLimit,
     deleteTicketsAssociatesAssets,
     setAssetId,
+    router,
   };
 };

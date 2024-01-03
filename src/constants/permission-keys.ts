@@ -32,6 +32,17 @@ export const SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS = {
   ACTIVE_INACTIVE_ROLES: 'active-inactive-roles',
 };
 
+export const SUPER_ADMIN_REPORTS_PERMISSIONS = {
+  view_invoice_report: 'view-invoice-report',
+  view_user_report: 'view-user-report',
+};
+
+export const AIR_MARKETER_COMPARE_POSTS_PERMISSIONS = {
+  Add_post: 'marketer-social-marketing-compare-social-post-add-post',
+  View_compare_posts:
+    'marketer-social-marketing-compare-social-post-view-compare-post',
+};
+
 export const ORG_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
   ADD_USER: 'org-add-user',
   USER_SEARCH_AND_FILTER: 'org-user-search-and-filter',
