@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 import { Theme, useTheme } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { validationSchema } from './RolesRight.data';
+// import { useForm } from 'react-hook-form';
+// import { yupResolver } from '@hookform/resolvers/yup';
+// import { validationSchema } from './RolesRight.data';
 import { useRouter } from 'next/router';
 import { rolesAndRightsAPI } from '@/services/orgAdmin/roles-and-rights';
 import { PAGINATION } from '@/config';
@@ -17,7 +17,7 @@ const useRoleAndRight: any = () => {
     type: '',
   });
   const [selectedValue, setSelectedValue] = useState(null);
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
+  // const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [expanded, setExpanded] = React.useState(false);
   const [checkedRows, setCheckedRows] = useState();
 
@@ -37,8 +37,11 @@ const useRoleAndRight: any = () => {
     search: filterValues?.search ?? undefined,
   };
 
-  const { data: getPermissions } =
-    useGetPermissionsRolesQuery(permissionParams);
+  const {
+    data: getPermissions,
+    isLoading,
+    isSuccess,
+  } = useGetPermissionsRolesQuery(permissionParams);
 
   const handleChange = () => {
     setExpanded(!expanded);
@@ -56,17 +59,17 @@ const useRoleAndRight: any = () => {
     setIsDraweropen({ isToggle: false, type: '' });
   };
 
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-  });
+  // const methods: any = useForm({
+  //   resolver: yupResolver(validationSchema),
+  // });
 
   return {
     handleCloseDrawer,
     setIsDraweropen,
-    setIsOpenDelete,
+    // setIsOpenDelete,
     setCheckedRows,
     selectedValue,
-    isOpenDelete,
+    // isOpenDelete,
     handleChange,
     isDraweropen,
     setExpanded,
@@ -75,7 +78,7 @@ const useRoleAndRight: any = () => {
     checkedRows,
     expanded,
     navigate,
-    methods,
+    // methods,
     theme,
     open,
     getPermissions,
@@ -85,6 +88,8 @@ const useRoleAndRight: any = () => {
     setPageLimit,
     filterValues,
     setFilterValues,
+    isLoading,
+    isSuccess,
   };
 };
 
