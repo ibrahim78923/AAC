@@ -153,7 +153,7 @@ const UserManagement = () => {
             />
             <SuperAdminUsers
               checkedRows={selectedRow}
-              setSelectedRow={setSelectedRow}
+              setCheckedRows={setSelectedRow}
               date={filterValues?.date}
               searchVal={searchVal}
             />
