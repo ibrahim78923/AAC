@@ -33,8 +33,8 @@ const UserManagement = () => {
     filterValues,
     setFilterValues,
     handleAddRole,
-    checkedRows,
-    setCheckedRows,
+    selectedRow,
+    setSelectedRow,
     searchVal,
     setSearchVal,
     resetFilters,
@@ -44,7 +44,6 @@ const UserManagement = () => {
     datePickerVal,
     setDatePickerVal,
   } = useUserManagement();
-
   return (
     <Box
       sx={{ border: '1px solid #EAECF0', p: '24px 0px', borderRadius: '8px' }}
@@ -103,7 +102,7 @@ const UserManagement = () => {
             headerChildren={
               <>
                 <ActionButton
-                  checkedRows={checkedRows}
+                  checkedRows={selectedRow?.selectedValue}
                   tabVal={tabVal}
                   setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
                 />
@@ -138,21 +137,24 @@ const UserManagement = () => {
                     placement="right"
                     dateValue={datePickerVal}
                     setDateValue={setDatePickerVal}
+                    handleDateSubmit={() => {
+                      setFilterValues({ ...filterValues, date: datePickerVal });
+                    }}
                   />
                 )}
               </>
             }
           >
             <Users
-              checkedRows={checkedRows}
-              setCheckedRows={setCheckedRows}
+              checkedRows={selectedRow}
+              setCheckedRows={setSelectedRow}
               filterValues={filterValues}
               searchVal={searchVal}
             />
             <SuperAdminUsers
-              checkedRows={checkedRows}
-              setCheckedRows={setCheckedRows}
-              filterValues={filterValues}
+              checkedRows={selectedRow}
+              setCheckedRows={setSelectedRow}
+              date={filterValues?.date}
               searchVal={searchVal}
             />
             <RolesAndRights />

@@ -153,7 +153,7 @@ const TICKET_STATE_CONDITION = {
   RESPONSE_DUE: 0,
 };
 
-const checkStatus = (startDate: any, expiryDate: any) => {
+export const checkStatus = (startDate: any, expiryDate: any) => {
   const currentDate: any = new Date();
   const startDiff: any = Math?.round(
     (currentDate - startDate) / (1000 * 60 * 60 * 24),
@@ -174,6 +174,11 @@ const checkStatus = (startDate: any, expiryDate: any) => {
 const fullName = (firstName: any, lastName: any) => {
   if (!!!firstName && !!!lastName) return 'None';
   return `${firstName ?? ''} ${lastName ?? ''}`;
+};
+
+const fullNameInitial = (firstName: any, lastName: any) => {
+  if (!!!firstName && !!!lastName) return '-';
+  return `${firstName?.[0] ?? ''} ${lastName?.[0] ?? ''}`;
 };
 
 export const ticketsListsColumnFunction: any = (
@@ -234,7 +239,12 @@ export const ticketsListsColumnFunction: any = (
       id: 'ticketIdNumber',
       cell: (info: any) => {
         return (
-          <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
+          <Box
+            display={'flex'}
+            gap={1.5}
+            flexWrap={'wrap'}
+            alignItems={'center'}
+          >
             <Avatar
               sx={{ bgcolor: theme?.palette?.blue?.main, borderRadius: 1.25 }}
               style={{ width: 25, height: 25 }}
@@ -255,7 +265,7 @@ export const ticketsListsColumnFunction: any = (
             </Avatar>
             <Typography
               sx={{
-                color: theme?.palette?.primary?.main,
+                color: theme?.palette?.custom?.bright,
                 cursor: 'pointer',
               }}
               variant="body2"
@@ -294,8 +304,15 @@ export const ticketsListsColumnFunction: any = (
             sx={{ bgcolor: theme?.palette?.blue?.main }}
             style={{ width: 28, height: 28 }}
             src={info?.row?.original?.requesterDetails?.profileImg?.src}
-          />
-          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)},
+          >
+            <Typography variant="body2" textTransform={'uppercase'}>
+              {fullNameInitial(
+                info?.getValue()?.firstName,
+                info?.getValue()?.lastName,
+              )}
+            </Typography>
+          </Avatar>
+          {fullName(info?.getValue()?.firstName, info?.getValue()?.lastName)}
         </Box>
       ),
     },
@@ -312,12 +329,7 @@ export const ticketsListsColumnFunction: any = (
       id: 'state',
       isSortable: true,
       header: 'State',
-      // cell: (info: any) => info?.getValue(), //TODO: integration pending
-      cell: (info: any) =>
-        checkStatus?.(
-          new Date(info?.row?.original?.plannedStartDate),
-          new Date(info?.row?.original?.plannedEndDate),
-        ),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.status,

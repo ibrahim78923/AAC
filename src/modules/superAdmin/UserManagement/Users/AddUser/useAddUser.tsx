@@ -82,7 +82,7 @@ const useAddUser = (useActionParams?: any) => {
 
   // setValue of address values
   useEffect(() => {
-    setValue('compositeAddress', addressValues);
+    setValue('compositeAddress', addressValues?.trim());
   }, [addressValues]);
 
   // watch crn number from values
@@ -134,7 +134,20 @@ const useAddUser = (useActionParams?: any) => {
         composite: values?.compositeAddress,
       };
     }
-    delete values['compositeAddress'];
+    const keysToDelete = [
+      'flat',
+      'compositeAddress',
+      'buildingNumber',
+      'buildingName',
+      'city',
+      'country',
+      'streetName',
+    ];
+
+    for (const key of keysToDelete) {
+      delete values[key];
+    }
+
     try {
       isOpenAddUserDrawer?.type === 'add'
         ? (postUsers({ body: values })?.unwrap(),
@@ -142,7 +155,7 @@ const useAddUser = (useActionParams?: any) => {
         : pathName === SUPER_ADMIN?.USERS_LIST
         ? (postUserEmployee({ id: organizationId, body: values }),
           setIsOpenAdduserDrawer(false))
-        : updateUsers({ updateUserId, body: values });
+        : updateUsers({ id: updateUserId, body: values });
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });

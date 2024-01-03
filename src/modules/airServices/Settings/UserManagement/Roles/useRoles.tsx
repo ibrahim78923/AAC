@@ -13,6 +13,7 @@ import { enqueueSnackbar } from 'notistack';
 export const useRoles = () => {
   const theme = useTheme();
   const [checkboxState, setCheckboxState] = useState({});
+  const [searchValue, setSearchValue] = useState<string>('');
   const router = useRouter();
   const [rolesMenu, setRolesMenu] = useState<null | HTMLElement>(null);
   const [isRoleDeleteModalOpen, setIsRoleDeleteModalOpen] = useState(false);
@@ -84,5 +85,7 @@ export const useRoles = () => {
     roleEditClickHandler,
     roleEdit,
     handleMenuOptionClick,
+    setSearchValue,
+    searchValue,
   };
 };

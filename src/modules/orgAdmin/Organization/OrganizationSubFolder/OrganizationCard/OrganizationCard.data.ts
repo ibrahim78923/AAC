@@ -1,5 +1,4 @@
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
-import Search from '@/components/Search';
 
 import * as Yup from 'yup';
 
@@ -44,6 +43,16 @@ export const dataArray = [
   },
   {
     componentProps: {
+      name: 'email',
+      label: 'Email',
+      fullWidth: true,
+      select: false,
+    },
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
       name: 'phoneNo',
       label: 'Phone No',
       fullWidth: true,
@@ -58,7 +67,7 @@ export const dataArray = [
       label: 'Post Code',
       fullWidth: true,
     },
-    component: Search,
+    component: RHFTextField,
     md: 12,
   },
   {

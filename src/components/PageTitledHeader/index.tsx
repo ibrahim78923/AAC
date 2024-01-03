@@ -14,6 +14,8 @@ export const PageTitledHeader = ({
   moveBack,
   canMovedBack,
   handleImport,
+  hasStartIcon = true,
+  hasEndIcon = false,
 }: any) => {
   const theme: any = useTheme();
 
@@ -64,7 +66,8 @@ export const PageTitledHeader = ({
           {!!addTitle?.length && (
             <Button
               variant="contained"
-              startIcon={<PlusSharedColorIcon />}
+              startIcon={hasStartIcon && <PlusSharedColorIcon />}
+              endIcon={hasEndIcon && <PlusSharedColorIcon />}
               onClick={handleAction}
             >
               {addTitle}

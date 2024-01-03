@@ -1,6 +1,6 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import { All } from './All';
+import { AllRewards } from './AllRewards';
 import { Physical } from './Physical';
 import { Digital } from './Digital';
 import { singleRewardsTab } from './Rewards.data';
@@ -19,7 +19,7 @@ export const Rewards = () => {
         }}
       />
       <HorizontalTabs tabsDataArray={singleRewardsTab}>
-        <All />
+        <AllRewards />
         <Physical />
         <Digital />
       </HorizontalTabs>

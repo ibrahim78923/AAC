@@ -6,10 +6,22 @@ import {
 } from '@/constants/strings';
 
 export const ticketStatusOptions = [
-  TICKET_STATUS?.OPEN,
-  TICKET_STATUS?.PENDING,
-  TICKET_STATUS?.RESOLVED,
-  TICKET_STATUS?.CLOSED,
+  {
+    _id: TICKET_STATUS?.OPEN,
+    label: TICKET_STATUS?.OPEN,
+  },
+  {
+    _id: TICKET_STATUS?.PENDING,
+    label: TICKET_STATUS?.PENDING,
+  },
+  {
+    _id: TICKET_STATUS?.RESOLVED,
+    label: TICKET_STATUS?.RESOLVED,
+  },
+  {
+    _id: TICKET_STATUS?.CLOSED,
+    label: TICKET_STATUS?.CLOSED,
+  },
 ];
 
 export const ticketPriorityOptions = [
@@ -25,7 +37,7 @@ export const ticketImpactOptions = [
   TICKET_IMPACT?.HIGH,
 ];
 
-export const ticketSourceOptions = ['Phone', 'Email', 'Portal', 'Chat'];
+export const ticketSourceOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
 
 //TODO: we will use if BE added these.
 // export const ticketsTypeOptions = [
@@ -44,6 +56,22 @@ export const ticketSourceOptions = ['Phone', 'Email', 'Portal', 'Chat'];
 // ];
 
 export const ticketsTypeOptions = [
-  TICKET_TYPES?.INCIDENTS,
-  TICKET_TYPES?.SERVICE_REQUEST,
+  {
+    _id: 'INC',
+    label: TICKET_TYPES?.INCIDENTS,
+  },
+  {
+    _id: 'SR',
+    label: TICKET_TYPES?.SERVICE_REQUEST,
+  },
 ];
+
+export const makeDateTime = (date: any, time: any) => {
+  const hour = time?.getHours() ?? date?.getHours();
+  const minutes = time?.getMinutes() ?? date?.getMinutes();
+  const year = date?.getFullYear() ?? time?.getFullYear();
+  const month = date?.getMonth() ?? time?.getMonth();
+  const day = date?.getDate() ?? time?.getDate();
+  const combined: any = new Date(year, month, day, hour, minutes, 0);
+  return combined;
+};

@@ -135,6 +135,7 @@ export const dataArray = (_: any, selectProductSuite: any) => {
       component: RHFSelect,
       md: 6,
     },
+
     {
       id: 3,
       componentProps: {
@@ -223,4 +224,9 @@ export const dataArray = (_: any, selectProductSuite: any) => {
       md: 6,
     },
   ];
+};
+
+export const selectProductSuites = {
+  crm: 'CRM',
+  planTypeId: 'planTypeId',
 };

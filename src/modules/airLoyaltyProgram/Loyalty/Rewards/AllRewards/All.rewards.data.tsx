@@ -1,6 +1,5 @@
 import { Avatar, Box, Chip, Typography } from '@mui/material';
 import { AvatarImage } from '@/assets/images';
-// import { DotsBoldIcon, BlueDotIcon } from '@/assets/icons';
 import { Circle } from '@mui/icons-material';
 
 export const allTableData = [

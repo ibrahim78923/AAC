@@ -1,17 +1,15 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { TasksDrawersForm } from '../TasksDrawersForm';
-import { AddTaskDrawerI } from './AddTaskDrawer.interface';
 import { useAddTaskDrawer } from './useAddTaskDrawer';
 
-export const AddTaskDrawer: React.FC<AddTaskDrawerI> = ({
-  isDrawerOpen,
-  onClose,
-}) => {
+export const AddTaskDrawer = (props: any) => {
+  const { isDrawerOpen, onClose } = props;
   const {
     drawerSubmitHandler,
     methodsCreateNewTicketForm,
-    submitCreateNewTicket,
-  } = useAddTaskDrawer();
+    departmentDropdown,
+    userDropdown,
+  } = useAddTaskDrawer(props);
   return (
     <>
       <CommonDrawer
@@ -26,9 +24,10 @@ export const AddTaskDrawer: React.FC<AddTaskDrawerI> = ({
         okText="Add Task"
       >
         <TasksDrawersForm
-          submitTicket={submitCreateNewTicket}
           methods={methodsCreateNewTicketForm}
-          handleSubmit={methodsCreateNewTicketForm.handleSubmit}
+          handleSubmit={drawerSubmitHandler}
+          departmentDropdown={departmentDropdown}
+          userDropdown={userDropdown}
         />
       </CommonDrawer>
     </>

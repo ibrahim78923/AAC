@@ -7,18 +7,45 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
+import { usePatchServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
+
 const useChangeStatus = (prop: any) => {
-  const { openStatus, setOpenStatus } = prop;
+  const { openStatus, setOpenStatus, id } = prop;
+
+  const [patchServiceCatalogTrigger] = usePatchServiceCatalogMutation();
   const methodChangeStatus = useForm({
     resolver: yupResolver(changeStatusValidationSchema),
     defaultValues: changeStatusDefaultValues,
   });
   const { handleSubmit } = methodChangeStatus;
-  const onSubmit = () => {
+  const onSubmit = async (data: any) => {
+    const moveToCategoryData = new FormData();
+
+    // moveToCategoryData.append('serviceCategory', data?.category?._id);
+    moveToCategoryData.append('id', id?.selectedCheckboxes?.[0]);
+    moveToCategoryData.append('status', data?.status);
+
+    const body = moveToCategoryData;
+
+    const patchServiceCatalogParameter = { body };
+    try {
+      const response = await patchServiceCatalogTrigger(
+        patchServiceCatalogParameter,
+      )?.unwrap();
+
+      enqueueSnackbar(
+        response?.message ?? 'ServiceCatalog Created Successfully!',
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+
     setOpenStatus(false);
-    enqueueSnackbar('Service Change Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
   };
 
   return {

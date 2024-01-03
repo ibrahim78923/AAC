@@ -44,16 +44,16 @@ export const usersApi: any = baseAPI.injectEndpoints({
       invalidatesTags: ['USERS'],
     }),
 
-    updateUserProfile: builder.mutation({
-      query: ({ id, ...values }: any) => {
-        return {
-          url: `${END_POINTS?.ADD_USER}/${id}`,
-          method: 'PATCH',
-          params: values,
-        };
-      },
-      invalidatesTags: ['USERS'],
-    }),
+    // updateUserProfile: builder.mutation({
+    //   query: ({ id, ...values }: any) => {
+    //     return {
+    //       url: `${END_POINTS?.ADD_USER}/${id}`,
+    //       method: 'PATCH',
+    //       params: values,
+    //     };
+    //   },
+    //   invalidatesTags: ['USERS'],
+    // }),
 
     deleteUsers: builder.mutation({
       query: ({ id }: any) => ({
@@ -71,5 +71,5 @@ export const {
   useGetUsersQuery,
   useDeleteUsersMutation,
   useGetUsersByIdQuery,
-  useUpdateUserProfileMutation,
+  // useUpdateUserProfileMutation,
 } = usersApi;

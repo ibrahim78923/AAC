@@ -5,9 +5,8 @@ import AddNewAssetTypesModal from '../AddNewAssetTypesModal';
 import { useTitleBar } from './useTitleBar';
 const TitleBar = (props?: any) => {
   const {
-    handleSubmit,
-    editAssetTypesMethods,
-    submitAddForm,
+    methods,
+    handleSubmitEditForm,
     openEditAssetTypesModal,
     setEditNewAssetTypesModal,
   } = useTitleBar();
@@ -57,9 +56,8 @@ const TitleBar = (props?: any) => {
         <AddNewAssetTypesModal
           open={openEditAssetTypesModal}
           handleClose={setEditNewAssetTypesModal}
-          methods={editAssetTypesMethods}
-          submitForm={submitAddForm}
-          handleSubmit={handleSubmit}
+          methods={methods}
+          handleSubmit={handleSubmitEditForm}
           modalTitle="Edit Asset Types"
         />
       </Box>
