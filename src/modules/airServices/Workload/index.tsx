@@ -70,7 +70,16 @@ export const Workload = () => {
             >
               <Profile />
             </Grid>
-            <Grid item xs={12} lg={5} textAlign={{ xs: 'center', lg: 'end' }}>
+            <Grid
+              item
+              xs={12}
+              lg={5}
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'flex-end'}
+              flexWrap={'wrap'}
+              gap={2}
+            >
               <ManageWorkload />
 
               <UnassignedWork />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Image from 'next/image';
 
@@ -14,21 +14,22 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  Theme,
   Typography,
-  useTheme,
 } from '@mui/material';
 
 import { TransitionProps } from '@mui/material/transitions';
 
 import { Close } from '@mui/icons-material';
 
-import { generatePDF, pdfViewData } from './PreviewPdf.data';
+import { generatePDF } from './PreviewPdf.data';
 import { enqueueSnackbar } from 'notistack';
 
 import { DummyDesktopImage, LogoImage } from '@/assets/images';
 
-import { v4 as uuidv4 } from 'uuid';
+import usePreiewPdf from './usePreiewPdf';
+import { IMG_URL } from '@/config';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -39,9 +40,8 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const PreviewPdf = ({ handlePdfClose, isPdfOpen }: any) => {
-  const theme = useTheme<Theme>();
-  const [isShow, setIsShow] = useState(false);
+const PreviewPdf = ({ handlePdfClose, isPdfOpen, sendData }: any) => {
+  const { theme, isShow, setIsShow, handleSetHide } = usePreiewPdf();
 
   const pdfViewer = () => {
     setIsShow(true);
@@ -50,10 +50,6 @@ const PreviewPdf = ({ handlePdfClose, isPdfOpen }: any) => {
     enqueueSnackbar('Pdf Download Successfully', {
       variant: 'success',
     });
-  };
-
-  const handleSetHide = () => {
-    setIsShow(false);
   };
 
   return (
@@ -79,7 +75,7 @@ const PreviewPdf = ({ handlePdfClose, isPdfOpen }: any) => {
             <Typography variant="h5">Air Applecart</Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <Button variant="contained" onClick={pdfViewer}>
+            <Button variant="contained" onClick={pdfViewer} className="small">
               Download Document
             </Button>
             <Close onClick={handlePdfClose} sx={{ cursor: 'pointer' }} />
@@ -105,9 +101,9 @@ const PreviewPdf = ({ handlePdfClose, isPdfOpen }: any) => {
             >
               <Table>
                 <TableBody>
-                  {pdfViewData?.map((item) => {
-                    return (
-                      <TableRow key={uuidv4()}>
+                  {sendData && (
+                    <>
+                      <TableRow>
                         <TableCell
                           sx={{
                             borderRight: `1px solid ${theme?.palette?.grey[700]}`,
@@ -117,70 +113,163 @@ const PreviewPdf = ({ handlePdfClose, isPdfOpen }: any) => {
                             fontWeight: 400,
                           }}
                         >
-                          {item?.firstCell}
+                          Name
                         </TableCell>
-                        {item?.dots === true ? (
-                          <TableCell
-                            sx={{
-                              borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
-                              color: `${theme?.palette?.slateBlue?.main}`,
-                              fontSize: '14px',
-                              fontWeight: 600,
-                            }}
-                          >
-                            {item?.secondCell?.map((items) => {
-                              return (
-                                <Box
-                                  key={uuidv4()}
-                                  sx={{ paddingLeft: '1rem' }}
-                                >
-                                  <ul>
-                                    <li>{items?.list}</li>
-                                  </ul>
-                                </Box>
-                              );
-                            })}
-                          </TableCell>
-                        ) : (
-                          <TableCell
-                            sx={{
-                              borderRight: `1px solid ${theme?.palette?.grey[700]}`,
-                              borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
-                              color: `${theme?.palette?.slateBlue?.main}`,
-                              fontSize: '14px',
-                              fontWeight: 600,
-                            }}
-                          >
-                            {item?.thirdCell}
-                          </TableCell>
-                        )}
+                        <TableCell
+                          sx={{
+                            borderRight: `1px solid ${theme?.palette?.grey[700]}`,
+                            borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
+                            color: `${theme?.palette?.slateBlue?.main}`,
+                            fontSize: '14px',
+                            fontWeight: 600,
+                            textTransform: 'capitalize',
+                          }}
+                        >
+                          {sendData?.name}
+                        </TableCell>
                       </TableRow>
-                    );
-                  })}
+                      <TableRow>
+                        <TableCell
+                          sx={{
+                            borderRight: `1px solid ${theme?.palette?.grey[700]}`,
+                            borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
+                            color: `${theme?.palette?.slateBlue?.main}`,
+                            fontSize: '14px',
+                            fontWeight: 400,
+                          }}
+                        >
+                          Created Date
+                        </TableCell>
+
+                        <TableCell
+                          sx={{
+                            borderRight: `1px solid ${theme?.palette?.grey[700]}`,
+                            borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
+                            color: `${theme?.palette?.slateBlue?.main}`,
+                            fontSize: '14px',
+                            fontWeight: 600,
+                          }}
+                        >
+                          {dayjs(sendData?.createdAt).format(DATE_FORMAT.API)}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell
+                          sx={{
+                            borderRight: `1px solid ${theme?.palette?.grey[700]}`,
+                            borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
+                            color: `${theme?.palette?.slateBlue?.main}`,
+                            fontSize: '14px',
+                            fontWeight: 400,
+                          }}
+                        >
+                          Prepared by
+                        </TableCell>
+
+                        <TableCell
+                          sx={{
+                            borderRight: `1px solid ${theme?.palette?.grey[700]}`,
+                            borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
+                            color: `${theme?.palette?.slateBlue?.main}`,
+                            fontSize: '14px',
+                            fontWeight: 600,
+                          }}
+                        >
+                          {sendData?.createdBy?.firstName}{' '}
+                          {sendData?.createdBy?.lastName}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell
+                          sx={{
+                            borderRight: `1px solid ${theme?.palette?.grey[700]}`,
+                            borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
+                            color: `${theme?.palette?.slateBlue?.main}`,
+                            fontSize: '14px',
+                            fontWeight: 400,
+                          }}
+                        >
+                          Shared Links
+                        </TableCell>
+
+                        <TableCell
+                          sx={{
+                            borderRight: `1px solid ${theme?.palette?.grey[700]}`,
+                            borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
+                            color: `${theme?.palette?.slateBlue?.main}`,
+                            fontSize: '14px',
+                            fontWeight: 600,
+                          }}
+                        >
+                          {sendData?.sharedLinks}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell
+                          sx={{
+                            borderRight: `1px solid ${theme?.palette?.grey[700]}`,
+                            borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
+                            color: `${theme?.palette?.slateBlue?.main}`,
+                            fontSize: '14px',
+                            fontWeight: 400,
+                          }}
+                        >
+                          Read Counts
+                        </TableCell>
+
+                        <TableCell
+                          sx={{
+                            borderRight: `1px solid ${theme?.palette?.grey[700]}`,
+                            borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
+                            color: `${theme?.palette?.slateBlue?.main}`,
+                            fontSize: '14px',
+                            fontWeight: 600,
+                          }}
+                        >
+                          {sendData?.readsCount}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell
+                          sx={{
+                            borderRight: `1px solid ${theme?.palette?.grey[700]}`,
+                            borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
+                            color: `${theme?.palette?.slateBlue?.main}`,
+                            fontSize: '14px',
+                            fontWeight: 400,
+                          }}
+                        >
+                          File Type
+                        </TableCell>
+                        <TableCell
+                          sx={{
+                            borderRight: `1px solid ${theme?.palette?.grey[700]}`,
+                            borderBottom: `1px solid ${theme?.palette?.grey[700]}`,
+                            color: `${theme?.palette?.slateBlue?.main}`,
+                            fontSize: '14px',
+                            fontWeight: 600,
+                            textTransform: 'capitalize',
+                          }}
+                        >
+                          {sendData?.media?.mimetype}
+                        </TableCell>
+                      </TableRow>
+                    </>
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>
             <Box sx={{ marginTop: '0.5rem' }}>
-              <Typography
-                variant="h6"
-                sx={{ color: `${theme?.palette?.grey[800]}`, fontWeight: 600 }}
-              >
-                Overview
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{
-                  color: `${theme?.palette?.slateBlue?.light}`,
-                  fontWeight: 400,
-                  marginY: '1rem',
-                }}
-              >
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industrys standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of
-                type and scrambled it to make a type specimen book.
-              </Typography>
-              <Image src={DummyDesktopImage} alt="Image Missing" />
+              <Image
+                src={
+                  IMG_URL && sendData?.media?.url
+                    ? `${IMG_URL} ${sendData.media.url}`
+                    : DummyDesktopImage
+                }
+                width={250}
+                height={250}
+                alt="Image Missing"
+              />
             </Box>
           </DialogContent>
         </div>

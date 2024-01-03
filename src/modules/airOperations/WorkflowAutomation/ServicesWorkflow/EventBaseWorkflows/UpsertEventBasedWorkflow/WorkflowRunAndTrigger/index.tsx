@@ -99,7 +99,7 @@ export const WorkflowRunAndTrigger = (props: any) => {
                   />
                 </Grid>
                 <Grid item mt={4}>
-                  {fields?.length !== 1 && (
+                  {index > 0 && (
                     <Delete
                       onClick={() => remove(index)}
                       sx={{ color: 'error.main', cursor: 'pointer' }}

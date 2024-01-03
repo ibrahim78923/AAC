@@ -1,13 +1,8 @@
 import * as Yup from 'yup';
 export const moveToCategoryValidationSchema = Yup?.object()?.shape({
-  category: Yup?.string(),
+  category: Yup?.mixed()?.nullable(),
 });
 export const moveToCategoryDefaultValues = {
-  category: '',
+  category: null,
 };
-export const moveToCategoryOption = [
-  {
-    value: 'hardWareProvisioning',
-    label: 'HardWare Provisioning',
-  },
-];
+export const moveToCategoryOption = ['HardWare Provisioning'];

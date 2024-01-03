@@ -97,7 +97,9 @@ const UsersDetailsList = () => {
   const empDetail = employeeList?.data?.users;
 
   const { data: profileData } = useGetUsersByIdQuery(
-    employeeDataById ? employeeDataById : employeeList?.data?.users[0]?._id,
+    employeeDataById
+      ? employeeDataById
+      : employeeList?.data?.users && employeeList?.data?.users[0]?._id,
   );
 
   return (
@@ -281,7 +283,7 @@ const UsersDetailsList = () => {
         </Grid>
         <Grid item xl={9} lg={8} xs={12}>
           <Grid container spacing={2}>
-            {empDetail?.length > 0 && (
+            {empDetail?.length > 0 ? (
               <>
                 <Grid item xs={12}>
                   <ProfileCard
@@ -298,7 +300,7 @@ const UsersDetailsList = () => {
                     sx={{
                       borderRadius: '8px',
                       background: theme?.palette?.common?.white,
-                      minHeight: `calc(68vh - ${15}px)`,
+                      maxHeight: `calc(68vh - ${15}px)`,
                     }}
                   >
                     <Card sx={{ padding: '0px 24px' }}>
@@ -339,14 +341,11 @@ const UsersDetailsList = () => {
                   </Box>
                 </Grid>{' '}
               </>
-            )}
-            {empDetail?.length === 0 && (
-              <Grid item xs={12} mt={10}>
-                <NoData
-                  image={NoAssociationFoundImage}
-                  message={'No data is available'}
-                />
-              </Grid>
+            ) : (
+              <NoData
+                image={NoAssociationFoundImage}
+                message={'No data is available'}
+              />
             )}
           </Grid>
         </Grid>

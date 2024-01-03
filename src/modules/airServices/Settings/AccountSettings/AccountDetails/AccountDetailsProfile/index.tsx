@@ -40,11 +40,11 @@ export const AccountDetailsProfile = () => {
         ))}
       </Grid>
       <Box display={'flex'} justifyContent={'end'} gap={1}>
+        <Button variant="outlined" color={'inherit'} onClick={() => reset()}>
+          cancel
+        </Button>
         <Button variant="contained" type="submit">
           Update
-        </Button>
-        <Button variant="outlined" onClick={() => reset()}>
-          cancel
         </Button>
       </Box>
     </FormProvider>

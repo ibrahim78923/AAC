@@ -24,7 +24,7 @@ const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 export const upsertTicketValidationSchema = Yup?.object()?.shape({
   requester: Yup?.mixed()?.nullable()?.required('Required'),
   subject: Yup?.string()?.trim()?.required('Required'),
-  description: Yup?.string(),
+  description: Yup?.string()?.trim()?.required('Required'),
   category: Yup?.mixed()?.nullable(),
   status: Yup?.mixed()?.nullable()?.required('Required'),
   priority: Yup?.mixed()?.nullable()?.required('Required'),
@@ -134,6 +134,7 @@ export const upsertTicketFormFieldsDynamic = (
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      required: true,
       style: { height: '250px' },
     },
     component: RHFEditor,
