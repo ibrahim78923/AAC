@@ -99,9 +99,12 @@ const useCallsEditorDrawer = ({
       callToTime: dayjs(callToTime)?.format(TIME_FORMAT?.API),
       callFromTime: dayjs(callFromTime)?.format(TIME_FORMAT?.API),
       callFromDate: dayjs(callFromDate)?.format(DATE_FORMAT?.API),
-      recordType: 'companies',
-      recordId: companyId,
     };
+
+    if (openDrawer === 'Add') {
+      payload.recordType = 'companies';
+      payload.recordId = companyId;
+    }
 
     try {
       openDrawer !== 'Add'

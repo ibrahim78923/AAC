@@ -252,7 +252,7 @@ const ViewDetails = () => {
               <Details data={data?.data} />
               <ActivityLog companyId={data?.data?._id} />
               <Associations />
-              <Tasks companyId={data?.data?._id} />
+              <Tasks />
               <Notes companyId={data?.data?._id} />
               <Calls companyId={data?.data?._id} />
               <Meetings />

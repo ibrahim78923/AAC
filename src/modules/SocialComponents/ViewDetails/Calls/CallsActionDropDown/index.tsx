@@ -44,6 +44,7 @@ const CallsActionDropdown = (props: any) => {
     setOpenDrawer,
     openAlertModal,
     setOpenAlertModal,
+    selectedCheckboxes,
   });
 
   return (
@@ -98,7 +99,7 @@ const CallsActionDropdown = (props: any) => {
         type={'outcome'}
         open={openAlertModal === 'outcome'}
         handleClose={handleCloseAlert}
-        handleSubmit={handleCloseAlert}
+        handleSubmit={handleOutCome(onSubmitOutCome)}
         isFooter={true}
       >
         <FormProvider
@@ -131,13 +132,10 @@ const CallsActionDropdown = (props: any) => {
         type={'reschedule'}
         open={openAlertModal === 'reschedule'}
         handleClose={handleCloseAlert}
-        handleSubmit={handleCloseAlert}
+        handleSubmit={handleReAssignCall(onSubmitReassignCall)}
         isFooter={true}
       >
-        <FormProvider
-          methods={methodsReassignCall}
-          onSubmit={handleReAssignCall(onSubmitReassignCall)}
-        >
+        <FormProvider methods={methodsReassignCall}>
           <Grid container spacing={3}>
             {reAssignCallDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
