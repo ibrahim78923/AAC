@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, Checkbox, Theme, Typography, useTheme } from '@mui/material';
+import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
@@ -93,7 +93,7 @@ const taskCardViewData: any = [
 ];
 
 const TaskViewCard = ({}: any) => {
-  const theme = useTheme<Theme>();
+  const theme = useTheme();
   const [taskCardData, setTaskCardData] = useState<any[]>([]);
 
   useEffect(() => {
@@ -142,7 +142,7 @@ const TaskViewCard = ({}: any) => {
                 <Box ref={provided?.innerRef} {...provided?.droppableProps}>
                   <Box
                     sx={{
-                      boxShadow: '0px 3px 6px 0px #6B72801A',
+                      boxShadow: `0px 3px 6px 0px ${theme?.palette?.custom?.custom_shadow}`,
                       borderRadius: '10px 10px 0px 0px',
                       padding: '8px',
                     }}

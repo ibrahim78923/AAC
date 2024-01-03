@@ -18,6 +18,7 @@ import {
 } from '@/services/airSales/deals';
 import { enqueueSnackbar } from 'notistack';
 import { AIR_SALES } from '@/routesConstants/paths';
+import { PAGINATION } from '@/config';
 
 const useDealSaleSite = () => {
   const router = useRouter();
@@ -35,6 +36,8 @@ const useDealSaleSite = () => {
   const [listView, SetListView] = useState('listView');
   const [checkedRows, setCheckedRows] = useState<string[]>([]);
   const [checkedGridView, setCheckedGridView] = useState<string[]>([]);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
   const [filterValues, setFilterValues] = useState({
     dealPiplineId: '',
@@ -46,13 +49,12 @@ const useDealSaleSite = () => {
   });
 
   const params = {
-    page: 1,
-    limit: 10,
     meta: true,
   };
+
   const dealsparams: any = {
-    page: 1,
-    limit: 10,
+    page: page,
+    limit: pageLimit,
     search: search ? search : undefined,
     dealPiplineId: filterValues?.dealPiplineId
       ? filterValues?.dealPiplineId
@@ -72,7 +74,11 @@ const useDealSaleSite = () => {
 
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
   // const { data: DealsUserListData } = useGetDealsUserListQuery({});
-  const { data: getDealsTableList } = useGetDealsListQuery(dealsparams);
+  const {
+    data: getDealsTableList,
+    isLoading,
+    isSuccess,
+  } = useGetDealsListQuery(dealsparams);
 
   // const [selectedIds, setSelectedIds] = useState<string[]>([]);
   // const [selectedTableIds, setSelectedTableIds] = useState<string[]>([]);
@@ -87,8 +93,8 @@ const useDealSaleSite = () => {
   ]);
   const [tabData, setTabData] = useState<any>('');
   const { data: dealViewsData } = useGetDealsViewsQuery({
-    dateStart: '2023-10-01',
-    dateEnd: '2023-10-31',
+    // dateStart: '2023-10-01', // use in future dynamicaly values
+    // dateEnd: '2023-10-31',
   });
 
   const handleSelectDealById = (checked: boolean, id: string): void => {
@@ -250,6 +256,12 @@ const useDealSaleSite = () => {
     handleSelectDealById,
     handleCheckedGrid,
     checkedGridView,
+    setPage,
+    page,
+    setPageLimit,
+    pageLimit,
+    isLoading,
+    isSuccess,
   };
 };
 

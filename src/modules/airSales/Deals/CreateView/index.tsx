@@ -17,6 +17,8 @@ import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
+import { AIR_SALES } from '@/routesConstants/paths';
+import { DATE_FORMAT } from '@/constants';
 
 const CreateView = ({ open, onClose }: any) => {
   const methods: any = useForm({
@@ -28,13 +30,13 @@ const CreateView = ({ open, onClose }: any) => {
 
   const onSubmit = (values: any) => {
     // values.sharedWith;
-    values.apiUrl = `/deals/get-deals-list-view?dateStart=${dayjs()?.format(
-      'YYYY-MM-DD',
-    )}&dateEnd=${dayjs(values?.CloseDate)?.format('YYYY-MM-DD')}`;
+    values.apiUrl = `${AIR_SALES?.DEAL_LIST_VIEW}?dateStart=${dayjs()?.format(
+      DATE_FORMAT?.API,
+    )}&dateEnd=${dayjs(values?.CloseDate)?.format(DATE_FORMAT?.API)}`;
     const obj = {
       name: values?.name,
       apiUrl: values?.apiUrl,
-      sharedWith: values.sharedWith,
+      sharedWith: values?.sharedWith,
     };
     try {
       createView({ body: obj })?.unwrap();

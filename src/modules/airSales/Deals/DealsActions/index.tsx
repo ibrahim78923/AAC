@@ -6,9 +6,10 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { DealsActionInterfacePropsI } from './Actions.interface';
 
 const DealsActions = ({
-  disableActionBtn,
+  // disableActionBtn,
   onChange,
   menuItem = [],
+  checkedAll,
 }: DealsActionInterfacePropsI) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
@@ -30,7 +31,7 @@ const DealsActions = ({
         className="small"
         endIcon={<ArrowDropDownIcon />}
         onClick={handleClick}
-        disabled={disableActionBtn}
+        disabled={checkedAll?.length < 1 ? true : false}
         classes={{ outlined: 'outlined_btn' }}
         sx={{ width: { xs: '100%', sm: '100px' } }}
       >

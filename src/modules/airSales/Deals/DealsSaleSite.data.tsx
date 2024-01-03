@@ -1,3 +1,4 @@
+import { DATE_FORMAT } from '@/constants';
 import { Avatar, Box, Checkbox, Typography, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 
@@ -28,14 +29,14 @@ export const dealsColumns: any = (columnsProps: any) => {
         <Checkbox
           checked={checkedRows?.includes(original?._id)}
           onChange={({ target }) => {
-            handleSelectDealById(target.checked, original?._id);
+            handleSelectDealById(target?.checked, original?._id);
           }}
         />
       ),
       header: (
         <Checkbox
           onChange={({ target }) => {
-            handleSelectAllDeals(target.checked);
+            handleSelectAllDeals(target?.checked);
           }}
           checked={
             dealsData?.data?.deals?.length &&
@@ -89,7 +90,7 @@ export const dealsColumns: any = (columnsProps: any) => {
       isSortable: true,
       header: 'Close Date',
       cell: ({ getValue }: any) =>
-        dayjs(getValue())?.format('YYYY/MM/DD') ?? 'N/A',
+        dayjs(getValue())?.format(DATE_FORMAT?.UI) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.amount,

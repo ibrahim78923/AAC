@@ -18,6 +18,7 @@ import {
 import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
 
 const useCreateContacts = () => {
+  const userRole = 'ORG_ADMIN';
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
 
   const { data: ContactsStatus } = useGetContactsStatusQuery({});
@@ -26,7 +27,7 @@ const useCreateContacts = () => {
 
   const [createAssociation] = useCreateAssociationMutation();
 
-  const { data: userList } = useGetUsersQuery({ role: 'ORG_ADMIN' });
+  const { data: userList } = useGetUsersQuery({ role: userRole });
 
   const contactStatusData = ContactsStatus?.data?.conatactStatus?.map(
     (lifecycle: any) => ({ value: lifecycle?._id, label: lifecycle?.name }),

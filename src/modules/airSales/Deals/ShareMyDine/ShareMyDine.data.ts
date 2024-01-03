@@ -1,4 +1,5 @@
 import { UserAvatarImage } from '@/assets/images';
+import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
 export const ShareData = (data: any) => {
@@ -21,8 +22,8 @@ export const ShareData = (data: any) => {
     { heading: 'Priority', values: data?.priority ? data?.priority : 'N/A' },
     {
       heading: 'Close Date',
-      values: dayjs(data?.closeDate)?.format('YYYY/MM/DD')
-        ? dayjs(data?.closeDate)?.format('YYYY/MM/DD')
+      values: dayjs(data?.closeDate)?.format(DATE_FORMAT?.UI)
+        ? dayjs(data?.closeDate)?.format(DATE_FORMAT?.UI)
         : 'N/A',
     },
   ];

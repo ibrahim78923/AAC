@@ -122,6 +122,8 @@ const CUSTOM_COLORS = {
   alice_blue: '#E6F5FE',
   super_nova: '#FFBD2E',
   lime_green: '#27C93F',
+  custom_shadow: '#6B72801A',
+  accordian_color: '#f1f1f17a',
 };
 const GRAPH = {
   cyan: 'blue',

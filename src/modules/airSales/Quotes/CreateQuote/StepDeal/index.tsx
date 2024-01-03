@@ -28,7 +28,7 @@ const StepDeal = ({ openCreateDeal, values, methods }: any) => {
                       ))}
                   </item.component>
                   {item?.componentProps?.name === 'dealId' && (
-                    <Typography variant="body2" sx={styles.selectDealHelp}>
+                    <Typography variant="body2" sx={styles?.selectDealHelp}>
                       Once a deal is linked to a quote in this wizard, any
                       alterations you make will impact the attributes of the
                       chosen deal

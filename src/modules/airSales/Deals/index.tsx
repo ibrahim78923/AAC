@@ -77,8 +77,13 @@ const Deals = () => {
     handleResetFilters,
     handleCheckedGrid,
     checkedGridView,
+    setPage,
+    setPageLimit,
+    isLoading,
+    isSuccess,
   } = useDealSaleSite();
 
+  // use this code in future for tabs apis
   // const handleTabChange = (_: string, index: number) => {
   //   if (index > 0) {
   //     const dealView = dealViewsData?.data?.[index - 1];
@@ -247,15 +252,15 @@ const Deals = () => {
             <TanstackTable
               columns={columnParams}
               data={getDealsTableList?.data?.deals}
-              // totalRecords={getAllCompanies?.data?.meta?.total}
-              // pageLimit={getAllCompanies?.data?.meta?.limit}
-              // onPageChange={(page: any) => setPage(page)}
-              // setPage={setPage}
-              // setPageLimit={setPageLimit}
-              // count={getAllCompanies?.data?.meta?.pages}
-              // isPagination
-              // isLoading={isLoading}
-              // isSuccess={isSuccess}
+              totalRecords={getDealsTableList?.data?.meta?.total}
+              pageLimit={getDealsTableList?.data?.meta?.limit}
+              onPageChange={(page: any) => setPage(page)}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              count={getDealsTableList?.data?.meta?.pages}
+              isPagination
+              isLoading={isLoading}
+              isSuccess={isSuccess}
             />
           </>
         ) : (

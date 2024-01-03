@@ -20,15 +20,15 @@ export const dealsApi = baseAPI.injectEndpoints({
       providesTags: ['DEALS_ASSOCIATION'],
     }),
 
-    getDealsById: builder.query({
-      query: () => {
-        return {
-          url: ``,
-          method: 'GET',
-        };
-      },
-      providesTags: ['DEALS'],
-    }),
+    // getDealsById: builder.query({
+    //   query: () => {
+    //     return {
+    //       url: ``,
+    //       method: 'GET',
+    //     };
+    //   },
+    //   providesTags: ['DEALS'],
+    // }),
 
     postDeals: builder.mutation({
       query: ({ body }: any) => {
@@ -168,7 +168,7 @@ export const dealsApi = baseAPI.injectEndpoints({
 export const {
   useGetDealsListQuery,
   useLazyGetDealsListQuery,
-  useGetDealsByIdQuery,
+  // useGetDealsByIdQuery,
   useGetDealsSalesProductQuery,
   useGetDealsLifecycleStageQuery,
   // useGetDealsUserListQuery,

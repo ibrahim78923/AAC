@@ -3,4 +3,5 @@ export interface DealsActionInterfacePropsI {
   disableActionBtn?: boolean;
   menuItem?: string[];
   selectedIds?: any;
+  checkedAll?: any;
 }

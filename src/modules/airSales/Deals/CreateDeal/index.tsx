@@ -19,7 +19,7 @@ const CreateDeal = ({ open, onClose }: any) => {
   const { handleSubmit } = methods;
 
   const onSubmit = async (values: any) => {
-    values.addLineItemId = '6538bb480b3f9e9d83d4a2ce';
+    values.addLineItemId = '6538bb480b3f9e9d83d4a2ce'; // need get api for addLineItem but missing this api so i am using static id
     values.closeDate = dayjs(values.closeDate)?.toISOString();
     try {
       await postDeals({ body: values })?.unwrap();

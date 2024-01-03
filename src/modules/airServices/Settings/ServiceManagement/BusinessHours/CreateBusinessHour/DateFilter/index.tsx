@@ -5,6 +5,7 @@ import { Fragment, useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { DateRange } from 'react-date-range';
+import { DATE_MONTH_FORMAT } from '@/constants';
 
 export const DateFilter = ({ dateRange, setDateRange }: any) => {
   //Date Popover
@@ -21,8 +22,8 @@ export const DateFilter = ({ dateRange, setDateRange }: any) => {
 
   // Date to be displayed
   const formattedWeekSpan = `${dayjs(dateRange?.[0]?.startDate)?.format(
-    'MMM DD',
-  )} - ${dayjs(dateRange?.[0]?.endDate)?.format('MMM DD')}`;
+    DATE_MONTH_FORMAT?.API,
+  )} - ${dayjs(dateRange?.[0]?.endDate)?.format(DATE_MONTH_FORMAT?.API)}`;
 
   // Previous Click
   const handlePrevClick = () => {

@@ -7,7 +7,8 @@ import { defaultValues } from './RestoreAssign.data';
 import { enqueueSnackbar } from 'notistack';
 
 const useRestoreAssign = (seletedId: any, onClose: any) => {
-  const { data: UserListData } = useGetUsersListQuery({ role: 'ORG_EMPLOYEE' });
+  const userRole = 'ORG_EMPLOYEE';
+  const { data: UserListData } = useGetUsersListQuery({ role: userRole });
   const [updatedAssignDeal] = usePatchDealsMutation();
 
   const methods: any = useForm({

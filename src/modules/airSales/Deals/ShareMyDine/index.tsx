@@ -56,7 +56,7 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
           <SaveIcon />
         </Box>
         <Box sx={{ marginTop: '40px' }}>
-          {ShareData(DealsActionData?.data).map((item: any) => (
+          {ShareData(DealsActionData?.data)?.map((item: any) => (
             <Box key={uuidv4()} sx={styles?.heading}>
               <Typography
                 sx={{

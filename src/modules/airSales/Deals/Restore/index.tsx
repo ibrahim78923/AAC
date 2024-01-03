@@ -1,13 +1,6 @@
 import Link from 'next/link';
 
-import {
-  Box,
-  Button,
-  Paper,
-  Typography,
-  Checkbox,
-  Tooltip,
-} from '@mui/material';
+import { Box, Button, Paper, Typography, Tooltip } from '@mui/material';
 
 import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
@@ -21,8 +14,7 @@ import DealsActions from '../DealsActions';
 import useRestore from './useRestore';
 
 import { BackArrIcon, FilterIcon, RefreshTasksIcon } from '@/assets/icons';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { RestoreTableColumns } from './RestoreTable.data';
 
 const Restore = () => {
   const {
@@ -37,58 +29,22 @@ const Restore = () => {
     theme,
     handleActions,
     restoeDealData,
-    handleCheckAll,
-    handleSingleChecked,
+    // handleCheckAll,
+    // handleSingleChecked,
     checkedAll,
     handlePermanantDeleteRetore,
     setRestoreFilter,
     setIsRestoreFilterDrawer,
+    setCheckedAll,
   } = useRestore();
 
-  const RestoreTableColumns: any = [
-    {
-      accessorFn: (row: any) => row?._id,
-      id: '_id',
-      cell: (info: any) => (
-        <Checkbox
-          color="primary"
-          name={info?.getValue()}
-          checked={checkedAll?.includes(info?.row?.original?._id)}
-          onChange={(event) => handleSingleChecked(event, info)}
-        />
-      ),
-      header: (
-        <Checkbox
-          color="primary"
-          name="id"
-          checked={checkedAll.length === restoeDealData?.data?.deals?.length}
-          onChange={handleCheckAll}
-        />
-      ),
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row?.name,
-      id: 'name',
-      isSortable: true,
-      header: 'Deal Name',
-      cell: (info: any) => info?.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row?.deletedBy?.name,
-      id: 'deletedby',
-      isSortable: true,
-      header: 'Deleted By',
-      cell: (info: any) => info?.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row?.deletedAt,
-      id: 'deletedAt',
-      isSortable: true,
-      header: 'Time Deleted',
-      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
-    },
-  ];
+  const columnsProps = {
+    checkedAll: checkedAll,
+    setCheckedAll: setCheckedAll,
+    restoeDealData: restoeDealData,
+  };
+
+  const columnParams = RestoreTableColumns(columnsProps);
 
   return (
     <Box>
@@ -191,6 +147,7 @@ const Restore = () => {
             menuItem={['Restore', 'Delete']}
             disableActionBtn={checkedAll.length > 0 ? false : true}
             onChange={handleActions}
+            checkedAll={checkedAll}
           />
           <Tooltip title={'Refresh Filter'}>
             <Button variant="outlined" color="inherit" className="small">
@@ -210,7 +167,7 @@ const Restore = () => {
       </Box>
       <Paper sx={{ mb: 2 }}>
         <TanstackTable
-          columns={RestoreTableColumns}
+          columns={columnParams}
           data={restoeDealData?.data?.deals}
         />
         <CustomPagination

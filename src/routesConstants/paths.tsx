@@ -66,6 +66,7 @@ export const AIR_SALES = {
   DEAL: '/air-sales/deals',
   CONTACTS: '/air-sales/contacts/view-details',
   VIEW_DETAILS: '/air-sales/deals/view-details',
+  DEAL_LIST_VIEW: '/deals/get-deals-list-view',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {

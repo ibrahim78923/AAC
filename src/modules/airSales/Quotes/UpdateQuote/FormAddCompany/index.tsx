@@ -1,4 +1,4 @@
-import { Grid, Box, Alert } from '@mui/material';
+import { Grid, Box, Alert, useTheme } from '@mui/material';
 // import { useForm } from 'react-hook-form';
 // import { enqueueSnackbar } from 'notistack';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -8,6 +8,7 @@ import useFormAddContact from './useFormAddContact';
 import { v4 as uuidv4 } from 'uuid';
 
 const FormAddCompany = ({ open, onClose }: any) => {
+  const theme = useTheme();
   const { onSubmit, handleSubmit, methods } = useFormAddContact();
 
   return (
@@ -25,8 +26,8 @@ const FormAddCompany = ({ open, onClose }: any) => {
         <Alert
           severity="info"
           sx={{
-            bgcolor: '#E6F5FE',
-            color: '#374151',
+            bgcolor: theme?.palette?.custom?.alice_blue,
+            color: theme?.palette?.slateBlue['main'],
             fontSize: '14px',
             mb: '24px',
           }}

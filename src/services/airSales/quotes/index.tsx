@@ -6,7 +6,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getDeals: builder.query({
       query: ({ params }) => ({
-        url: '/deals/get-deals-list-view',
+        url: `${END_POINTS?.DEALS_LIST_VIEW}`,
         method: 'GET',
         params: params,
       }),

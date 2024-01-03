@@ -39,7 +39,7 @@ export default function RHFSearchableSelect({
 
   const filteredOptions = options?.filter(
     (option: any) =>
-      option?.label?.toLowerCase().includes(searchTerm.toLowerCase()),
+      option?.label?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
   );
 
   return (
