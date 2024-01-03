@@ -5,9 +5,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import { Checkbox, Typography } from '@mui/material';
-import { agentVisibility, requestorVisibility } from './VisibilityAction.data';
+import { Box, Checkbox, Stack, Typography } from '@mui/material';
+// import { apiQueryAgent, [] } from './VisibilityAction.data';
 import useVisibilityAction from './useVisibilityAction';
+import { LoadingButton } from '@mui/lab';
 
 export const VisibilityAction = (props: any) => {
   const { openVisibilityE1, handleCloseVisibility, anchorEl } = props;
@@ -17,7 +18,10 @@ export const VisibilityAction = (props: any) => {
     setSelectedAgentCheckboxes,
     selectedRequestorCheckboxes,
     setSelectedRequestorCheckboxes,
-  } = useVisibilityAction();
+    handleSubmit,
+    apiQueryAgent,
+    apiQueryRequester,
+  } = useVisibilityAction(props);
 
   return (
     <Menu
@@ -31,7 +35,7 @@ export const VisibilityAction = (props: any) => {
       sx={{
         position: 'fixed',
         left: -160,
-        top: 90,
+        top: 70,
       }}
     >
       <Accordion key="agent-accordion">
@@ -42,17 +46,24 @@ export const VisibilityAction = (props: any) => {
         >
           <Typography>Agent Visibility</Typography>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails
+          sx={{
+            mr: '4rem',
+            overflow: 'auto !important',
+            minHeight: '150px',
+            maxHeight: '150px',
+          }}
+        >
           <Typography>
             <Checkbox
               sx={{ ml: '1rem' }}
               checked={
-                agentVisibility?.length === selectedAgentCheckboxes?.length
+                apiQueryAgent?.data?.length === selectedAgentCheckboxes?.length
               }
               onChange={(e: any) => {
                 e?.target?.checked
                   ? setSelectedAgentCheckboxes(
-                      agentVisibility?.map((agent: any) => agent?.id),
+                      apiQueryAgent?.data?.map((agent: any) => agent?._id),
                     )
                   : setSelectedAgentCheckboxes([]);
               }}
@@ -61,31 +72,45 @@ export const VisibilityAction = (props: any) => {
             />
             Select All
           </Typography>
-          {agentVisibility?.map((agent) => (
-            <MenuItem key={agent?.id}>
+          {apiQueryAgent?.data?.map((agent: any) => (
+            <MenuItem key={agent?._id}>
               <Checkbox
                 checked={
                   !!selectedAgentCheckboxes?.find(
-                    (item: any) => item === agent?.id,
+                    (item: any) => item === agent?._id,
                   )
                 }
                 onChange={(e: any) => {
                   e?.target?.checked
                     ? setSelectedAgentCheckboxes([
                         ...selectedAgentCheckboxes,
-                        agent?.id,
+                        agent?._id,
                       ])
                     : setSelectedAgentCheckboxes(
                         selectedAgentCheckboxes?.filter(
-                          (item: any) => item !== agent?.id,
+                          (item: any) => item !== agent?._id,
                         ),
                       );
                 }}
               />
-              <Typography>{agent?.name}</Typography>
+              <Typography>
+                {agent?.firstName}
+                {agent?.lastName}
+              </Typography>
             </MenuItem>
           ))}
         </AccordionDetails>
+        <Stack direction="row" justifyContent="flex-end" sx={{ px: 4 }}>
+          <Box>
+            <LoadingButton
+              variant="contained"
+              size="small"
+              onClick={handleSubmit}
+            >
+              save
+            </LoadingButton>
+          </Box>
+        </Stack>
       </Accordion>
       <Accordion key="requestor-accordion">
         <AccordionSummary
@@ -95,19 +120,26 @@ export const VisibilityAction = (props: any) => {
         >
           <Typography>Requestor Visibility</Typography>
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails
+          sx={{
+            mr: '4rem',
+            overflow: 'auto !important',
+            minHeight: '150px',
+            maxHeight: '150px',
+          }}
+        >
           <Typography>
             <Checkbox
               sx={{ ml: '1rem' }}
               checked={
-                requestorVisibility?.length ===
+                apiQueryRequester?.data?.length ===
                 selectedRequestorCheckboxes?.length
               }
               onChange={(e: any) => {
                 e?.target?.checked
                   ? setSelectedRequestorCheckboxes(
-                      requestorVisibility?.map(
-                        (requestor: any) => requestor?.id,
+                      apiQueryRequester?.data?.map(
+                        (requestor: any) => requestor?._id,
                       ),
                     )
                   : setSelectedRequestorCheckboxes([]);
@@ -117,31 +149,46 @@ export const VisibilityAction = (props: any) => {
             />
             Select All
           </Typography>
-          {requestorVisibility?.map((requestor) => (
-            <MenuItem key={requestor?.id}>
+          {apiQueryRequester?.data?.map((requestor: any) => (
+            <MenuItem key={requestor?._id}>
               <Checkbox
                 checked={
                   !!selectedRequestorCheckboxes?.find(
-                    (item: any) => item === requestor?.id,
+                    (item: any) => item === requestor?._id,
                   )
                 }
                 onChange={(e: any) => {
                   e?.target?.checked
                     ? setSelectedRequestorCheckboxes([
                         ...selectedRequestorCheckboxes,
-                        requestor?.id,
+                        requestor?._id,
                       ])
                     : setSelectedRequestorCheckboxes(
                         selectedRequestorCheckboxes?.filter(
-                          (item: any) => item !== requestor?.id,
+                          (item: any) => item !== requestor?._id,
                         ),
                       );
                 }}
               />
-              <Typography>{requestor?.name}</Typography>
+              <Typography>
+                {requestor?.firstName}
+                {requestor?.lastName}
+              </Typography>
             </MenuItem>
           ))}
         </AccordionDetails>
+        <Stack direction="row" justifyContent="flex-end" sx={{ px: 4, py: 2 }}>
+          <Box>
+            <LoadingButton
+              variant="contained"
+              size="small"
+              type="button"
+              onClick={handleSubmit}
+            >
+              save
+            </LoadingButton>
+          </Box>
+        </Stack>
       </Accordion>
     </Menu>
   );

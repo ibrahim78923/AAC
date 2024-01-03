@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { ArrowDropDownIcon } from '@mui/x-date-pickers';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { VisibilityAction } from './VisibilityAction';
-export const ServicesAction = () => {
+export const ServicesAction = (props: any) => {
   const {
     deleteModalOpen,
     setDeleteModalOpen,
@@ -30,7 +30,9 @@ export const ServicesAction = () => {
     handleClickVisibility,
     handleCloseVisibility,
     handleVisibility,
-  } = useServicesAction();
+    setAnchorEl,
+    isDisabled,
+  } = useServicesAction(props);
 
   return (
     <>
@@ -48,6 +50,7 @@ export const ServicesAction = () => {
           aria-haspopup="true"
           aria-expanded={openMenu ? 'true' : undefined}
           onClick={handleClickMenu}
+          disabled={isDisabled}
           endIcon={<ArrowDropDownIcon />}
           color="secondary"
           sx={{ textTransform: 'capitalize' }}
@@ -84,6 +87,8 @@ export const ServicesAction = () => {
               handleClickVisibility={handleClickVisibility}
               handleCloseVisibility={handleCloseVisibility}
               anchorEl={anchorEl}
+              setAnchorEl={setAnchorEl}
+              id={props}
             />
           )}
         </Box>
@@ -98,9 +103,13 @@ export const ServicesAction = () => {
           message="Are you sure you want to delete this field ?"
         />
       )}
-      {open && <MoveToCategory open={open} setOpen={setOpen} />}
+      {open && <MoveToCategory open={open} setOpen={setOpen} id={props} />}
       {openStatus && (
-        <ChangeStatus openStatus={openStatus} setOpenStatus={setOpenStatus} />
+        <ChangeStatus
+          openStatus={openStatus}
+          setOpenStatus={setOpenStatus}
+          id={props}
+        />
       )}
     </>
   );

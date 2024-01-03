@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Box, Button, Menu, MenuItem, Stack } from '@mui/material';
+import { Box, Button, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
 import Search from '@/components/Search';
 import {
   CustomizeIcon,
@@ -12,12 +12,15 @@ import { TableToolbarI } from './TableToolbar.interface';
 import { styles } from './TableToolbar.style';
 
 const TableToolbar: FC<TableToolbarI> = ({
+  setSearchValue,
   handleFilters,
   handleCustomizeColumns,
   handleResetFilters,
   handleEditQuote,
   handleViewQuote,
   handleOpenDeleteQuote,
+  isActionsDisabled,
+  rowId,
 }) => {
   const {
     actionsEl,
@@ -29,7 +32,12 @@ const TableToolbar: FC<TableToolbarI> = ({
   return (
     <Box sx={styles?.tableToolbar}>
       <Box>
-        <Search size="small" />
+        <Search
+          setSearchBy={setSearchValue}
+          label="Search Here"
+          size="small"
+          width={'100%'}
+        />
       </Box>
       <Stack direction={'row'} spacing={'8px'}>
         <Box>
@@ -38,6 +46,7 @@ const TableToolbar: FC<TableToolbarI> = ({
             sx={styles?.actionButton}
             endIcon={<DropdownIcon />}
             onClick={handleActionsDropdown}
+            disabled={isActionsDisabled}
           >
             Actions
           </Button>
@@ -59,18 +68,27 @@ const TableToolbar: FC<TableToolbarI> = ({
               },
             }}
           >
-            <MenuItem onClick={handleEditQuote}>Edit</MenuItem>
-            <MenuItem onClick={handleViewQuote}>View</MenuItem>
+            <MenuItem disabled={!rowId} onClick={handleEditQuote}>
+              Edit
+            </MenuItem>
+            <MenuItem disabled={!rowId} onClick={handleViewQuote}>
+              View
+            </MenuItem>
             <MenuItem onClick={handleOpenDeleteQuote}>Delete</MenuItem>
           </Menu>
         </Box>
-        <Button
-          className="small"
-          sx={styles?.actionButton}
-          onClick={handleResetFilters}
-        >
-          <RefreshSharedIcon />
-        </Button>
+
+        <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+          <Button
+            variant="outlined"
+            color="inherit"
+            className="small"
+            onClick={handleResetFilters}
+          >
+            <RefreshSharedIcon />
+          </Button>
+        </Tooltip>
+
         <Button
           className="small"
           sx={styles?.actionButton}

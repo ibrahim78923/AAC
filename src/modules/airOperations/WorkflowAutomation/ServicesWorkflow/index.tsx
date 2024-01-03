@@ -42,7 +42,8 @@ export const ServicesWorkflow = () => {
               <Grid
                 key={uuidv4()}
                 item
-                md={3.7}
+                xl={3.7}
+                md={5.5}
                 p={2}
                 display={'flex'}
                 justifyContent={'center'}
@@ -64,7 +65,10 @@ export const ServicesWorkflow = () => {
                 <Typography variant="h5" py={1}>
                   {item?.title}
                 </Typography>
-                <Typography textAlign={'center'} height={90}>
+                <Typography
+                  textAlign={'center'}
+                  height={{ lg: 100, md: 150, xs: 140 }}
+                >
                   {item?.description}
                 </Typography>
                 <Box

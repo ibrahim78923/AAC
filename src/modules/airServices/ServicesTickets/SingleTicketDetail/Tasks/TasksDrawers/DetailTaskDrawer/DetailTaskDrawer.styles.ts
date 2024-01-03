@@ -1,12 +1,10 @@
-const TO_DO = 'To do';
-const IN_PROGRESS = 'In-Progress';
-
+import { TASK_STATUS } from '@/constants/strings';
 export const styles: any = {
-  detailDrawerTitel: (theme: any) => ({
+  detailDrawerTitle: (theme: any) => ({
     color: theme?.palette?.grey[600],
     fontWeight: 600,
   }),
-  detailDrawerWorspace: (theme: any) => ({
+  detailDrawerWorkspace: (theme: any) => ({
     bgcolor: theme?.palette?.blue?.main,
     color: theme?.palette?.common?.white,
     borderRadius: '5px',
@@ -19,108 +17,42 @@ export const styles: any = {
     marginRight: '8px',
   },
   detailDrawerGridCenter: { display: 'flex', alignItems: 'center' },
-  taskDetailStyle: (taskDetailStatus: any, theme: any) => ({
+  statusFieldStyle: {
     position: 'absolute',
-    top: 30,
+    top: 26,
     right: '4.5rem',
-    border: `1px solid ${
-      taskDetailStatus === TO_DO
-        ? theme?.palette?.primary?.main
-        : taskDetailStatus === IN_PROGRESS
-          ? theme?.palette?.custom?.bright
-          : theme?.palette?.error?.dark
-    }`,
-    bgcolor:
-      taskDetailStatus === TO_DO
-        ? theme?.palette?.primary?.lighter
-        : taskDetailStatus === IN_PROGRESS
-          ? theme?.palette?.custom?.aqua_breeze
-          : theme?.palette?.error?.lighter,
-    color:
-      taskDetailStatus === TO_DO
-        ? theme?.palette?.primary?.main
-        : taskDetailStatus === IN_PROGRESS
-          ? theme?.palette?.custom?.bright
-          : theme?.palette?.error?.dark,
-    padding: '0px 12px',
-    height: 'fit-content',
-    fontSize: '14px !important',
-    fontWeight: 500,
-  }),
-  valStyle: (drawerStatusVal: any, theme: any) => ({
-    position: 'absolute',
-    top: 30,
-    right: '4.5rem',
-    border: `1px solid ${
-      drawerStatusVal === TO_DO
-        ? theme?.palette?.primary?.main
-        : drawerStatusVal === IN_PROGRESS
-          ? theme?.palette?.custom?.bright
-          : theme?.palette?.error?.dark
-    }`,
-    bgcolor:
-      drawerStatusVal === TO_DO
-        ? theme?.palette?.primary?.lighter
-        : drawerStatusVal === IN_PROGRESS
-          ? theme?.palette?.custom?.aqua_breeze
-          : theme?.palette?.error?.lighter,
-    color:
-      drawerStatusVal === TO_DO
-        ? theme?.palette?.primary?.main
-        : drawerStatusVal === IN_PROGRESS
-          ? theme?.palette?.custom?.bright
-          : theme?.palette?.error?.dark,
-    padding: '0px 12px',
-    height: 'fit-content',
-    fontSize: '14px !important',
-    fontWeight: 500,
-  }),
-  statusOptionStyle: (statusOption: any, theme: any) => ({
-    border: `1px solid ${
-      statusOption === TO_DO
-        ? theme?.palette?.primary?.main
-        : statusOption === IN_PROGRESS
-          ? theme?.palette?.custom?.bright
-          : theme?.palette?.error?.dark
-    }`,
-    bgcolor:
-      statusOption === TO_DO
-        ? theme?.palette?.primary?.lighter
-        : statusOption === IN_PROGRESS
-          ? theme?.palette?.custom?.aqua_breeze
-          : theme?.palette?.error?.lighter,
-    color:
-      statusOption === TO_DO
-        ? theme?.palette?.primary?.main
-        : statusOption === IN_PROGRESS
-          ? theme?.palette?.custom?.bright
-          : theme?.palette?.error?.dark,
-    width: 'fit-content',
-    borderRadius: '4px',
-    m: '10px',
-    p: '2px 14px',
-  }),
+    width: '35%',
+    '& .MuiInputBase-input': {
+      p: '0 0 0 8px !important',
+    },
+  },
   tableStatusStyle: (statusValue: any, theme: any) => ({
     border: `1px solid ${
-      statusValue === 'To do'
+      statusValue === TASK_STATUS?.TO_DO
         ? theme?.palette?.primary?.main
-        : statusValue === IN_PROGRESS
+        : statusValue === TASK_STATUS?.IN_PROGRESS
           ? theme?.palette?.custom?.bright
-          : theme?.palette?.error?.dark
+          : statusValue === TASK_STATUS?.DONE
+            ? theme?.palette?.error?.dark
+            : null
     }`,
     backgroundColor:
-      statusValue === 'To do'
+      statusValue === TASK_STATUS?.TO_DO
         ? theme?.palette?.primary?.lighter
-        : statusValue === 'In-Progress'
+        : statusValue === TASK_STATUS?.IN_PROGRESS
           ? theme?.palette?.custom?.aqua_breeze
-          : theme?.palette?.error?.lighter,
+          : statusValue === TASK_STATUS?.DONE
+            ? theme?.palette?.error?.lighter + 40
+            : null,
     color:
-      statusValue === 'To do'
+      statusValue === TASK_STATUS?.TO_DO
         ? theme?.palette?.primary?.main
-        : statusValue === IN_PROGRESS
+        : statusValue === TASK_STATUS?.IN_PROGRESS
           ? theme?.palette?.custom?.bright
-          : theme?.palette?.error?.dark,
-    padding: '8px 18px',
+          : statusValue === TASK_STATUS?.DONE
+            ? theme?.palette?.error?.dark
+            : null,
+    padding: '2px 14px',
     borderRadius: '4px',
     fontWeight: 500,
   }),

@@ -22,7 +22,7 @@ export const UpsertTicket = (props: any) => {
       isDrawerOpen={isDrawerOpen}
       onClose={() => onClose?.()}
       okText={!!ticketId ? 'Update' : 'Submit'}
-      title={!!ticketId ? 'Edit Ticket' : 'Create New Ticket'}
+      title={!!ticketId ? 'Edit Ticket' : 'Create Ticket'}
       submitHandler={() => handleSubmit(submitUpsertTicket)()}
       isOk
       cancelText={'Cancel'}

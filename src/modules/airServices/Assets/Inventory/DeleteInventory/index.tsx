@@ -13,6 +13,7 @@ export const DeleteInventory = (props: any) => {
       open={deleteModalOpen}
       handleClose={() => setDeleteModalOpen?.(false)}
       handleSubmitBtn={() => deleteInventory?.()}
+      cancelBtnText="Cancel"
     />
   );
 };

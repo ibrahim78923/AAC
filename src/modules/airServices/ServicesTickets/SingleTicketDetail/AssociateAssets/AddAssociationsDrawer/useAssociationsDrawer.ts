@@ -68,7 +68,7 @@ export const useAssociationsDrawer = (props: any) => {
       const response = await postTicketsAssociatesAssetsTrigger(
         postTicketsAssociatesAssetsParameter,
       )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Asset associated successfully', {
+      enqueueSnackbar('Associate assets successfully' ?? response?.message, {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       closeAssetsAssociate?.();

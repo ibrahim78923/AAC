@@ -38,6 +38,7 @@ const MeetingsHeader = ({ selectedMeetingsList }: any) => {
             color="secondary"
             variant="outlined"
             startIcon={<FilterSharedIcon />}
+            onClick={() => setIsDrawerOpen?.(true)}
           >
             Filter
           </Button>

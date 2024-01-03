@@ -1,3 +1,4 @@
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
 import { ASSET_IMPACT, ASSET_TYPE, TIME_PERIODS } from '@/constants/strings';
 import { Checkbox, Typography } from '@mui/material';
@@ -52,6 +53,7 @@ export const inventoryListsInitialColumns = [
   'UsedBy',
   'departmentId',
   'impact',
+  'assetLifeExpireOn',
 ];
 
 export const INVENTORY_LIST_ACTIONS = {
@@ -72,6 +74,8 @@ export const inventoryListsColumnsFunction: any = (
     id: '_id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!selectedInventoryLists?.find(
             (item: any) => item === info?.getValue(),
@@ -95,6 +99,8 @@ export const inventoryListsColumnsFunction: any = (
     ),
     header: (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={selectedInventoryLists?.length === inventoryLists?.length}
         onChange={(e: any) => {
           e?.target?.checked
@@ -165,6 +171,13 @@ export const inventoryListsColumnsFunction: any = (
     id: 'impact',
     isSortable: true,
     header: 'Impact',
+    cell: (info: any) => info?.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row?.assetLifeExpireOn,
+    id: 'assetLifeExpireOn',
+    isSortable: true,
+    header: 'Asset life expire on',
     cell: (info: any) => info?.getValue(),
   },
 ];

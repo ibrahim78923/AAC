@@ -10,7 +10,6 @@ import {
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import { SwitchBtn } from '@/components/SwitchButton';
-import { AvatarImage } from '@/assets/images';
 import { style } from './Users.style';
 import useUserManagement from '../useUserManagement';
 import dayjs from 'dayjs';
@@ -19,11 +18,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { DATE_FORMAT } from '@/constants';
 
 export const columns: any = (columnsProps: any) => {
-  const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
+  const { handleUserSwitchChange, checkedRows, handleCheckboxChange } =
+    columnsProps;
   const theme = useTheme();
-  const handleCheckboxChange = (val: any, rowId: string) => {
-    val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
-  };
 
   return [
     {
@@ -64,7 +61,7 @@ export const columns: any = (columnsProps: any) => {
               fontWeight: 500,
             }}
           >
-            {info?.row?.original?.firstName?.charAt(0)?.toUpperCase()}{' '}
+            {info?.row?.original?.firstName?.charAt(0)?.toUpperCase()}
             {info?.row?.original?.lastName?.charAt(0)?.toUpperCase()}
           </Avatar>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -150,11 +147,9 @@ export const columns: any = (columnsProps: any) => {
 };
 
 export const superAdminColumns: any = (columnsProps: any) => {
-  const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
-
-  const handleCheckboxChange = (val: any, rowId: string) => {
-    val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
-  };
+  const { handleUserSwitchChange, checkedRows, handleCheckboxChange } =
+    columnsProps;
+  const theme = useTheme();
 
   return [
     {
@@ -187,7 +182,17 @@ export const superAdminColumns: any = (columnsProps: any) => {
       header: 'Name',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+          <Avatar
+            alt="Remy Sharp"
+            sx={{
+              color: theme?.palette?.grey[600],
+              fontSize: '12px',
+              fontWeight: 500,
+            }}
+          >
+            {info?.row?.original?.firstName?.charAt(0)?.toUpperCase()}
+            {info?.row?.original?.lastName?.charAt(0)?.toUpperCase()}
+          </Avatar>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>
               {info?.row?.original?.firstName} {info?.row?.original?.lastName}

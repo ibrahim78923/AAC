@@ -9,11 +9,36 @@ import { Typography } from '@mui/material';
 import * as yup from 'yup';
 
 export const awardPointsSchema = yup?.object()?.shape({
-  fast: yup.number().positive(),
-  onTime: yup.number().positive(),
-  late: yup.number().positive(),
-  firstCallResolution: yup.number().positive(),
-  happyCustomer: yup.number().positive(),
+  fast: yup
+    .number()
+    .positive('Positive number required')
+    .required('Required field')
+    .typeError('Positive number required'),
+  onTime: yup
+    .number()
+    .positive('Positive number required')
+    .required('Required field')
+    .typeError('Positive number required'),
+  late: yup
+    .number()
+    .positive('Positive number required')
+    .required('Required field')
+    .typeError('Positive number required'),
+  firstCallResolution: yup
+    .number()
+    .positive('Positive number required')
+    .required('Required field')
+    .typeError('Positive number required'),
+  happyCustomer: yup
+    .number()
+    .positive('Positive number required')
+    .required('Required field')
+    .typeError('Positive number required'),
+  unHappyCustomer: yup
+    .number()
+    .positive('Positive number required')
+    .required('Required field')
+    .typeError('Positive number required'),
 });
 
 export const awardFormDefaultValue = {
@@ -22,6 +47,7 @@ export const awardFormDefaultValue = {
   late: 0,
   firstCallResolution: 0,
   happyCustomer: 0,
+  unHappyCustomer: 0,
 };
 
 export const agentResolveTicketData = [
@@ -94,6 +120,17 @@ export const agentResolveTicketData = [
       fullWidth: true,
       name: 'happyCustomer',
       label: 'happy Customer',
+    },
+  },
+  {
+    id: 2,
+    component: RHFTextField,
+    md: 3,
+    componentProps: {
+      type: 'number',
+      fullWidth: true,
+      name: 'unHappyCustomer',
+      label: 'Unhappy Customer',
     },
   },
 ];

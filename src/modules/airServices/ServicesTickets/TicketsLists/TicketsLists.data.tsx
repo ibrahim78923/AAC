@@ -153,7 +153,7 @@ const TICKET_STATE_CONDITION = {
   RESPONSE_DUE: 0,
 };
 
-const checkStatus = (startDate: any, expiryDate: any) => {
+export const checkStatus = (startDate: any, expiryDate: any) => {
   const currentDate: any = new Date();
   const startDiff: any = Math?.round(
     (currentDate - startDate) / (1000 * 60 * 60 * 24),
@@ -239,7 +239,12 @@ export const ticketsListsColumnFunction: any = (
       id: 'ticketIdNumber',
       cell: (info: any) => {
         return (
-          <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
+          <Box
+            display={'flex'}
+            gap={1.5}
+            flexWrap={'wrap'}
+            alignItems={'center'}
+          >
             <Avatar
               sx={{ bgcolor: theme?.palette?.blue?.main, borderRadius: 1.25 }}
               style={{ width: 25, height: 25 }}
@@ -324,14 +329,7 @@ export const ticketsListsColumnFunction: any = (
       id: 'state',
       isSortable: true,
       header: 'State',
-      // cell: (info: any) => info?.getValue(), //TODO: integration pending
-      cell: (info: any) =>
-        !!info?.getValue()
-          ? info.getValue()
-          : checkStatus?.(
-              new Date(info?.row?.original?.plannedStartDate),
-              new Date(info?.row?.original?.plannedEndDate),
-            ),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.status,

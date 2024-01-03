@@ -10,6 +10,7 @@ const AUTH_ROOT_PAGE = '/auth';
 const DASHBOARD_ROOT_PAGE = '/dashboard';
 const SOCIAL_ROOT_PAGE = '/social-components';
 const AIR_SOCIAL_PAGE = '/air-social';
+const AIR_SALES_PAGE = '/air-sales';
 
 // ======================================================================
 
@@ -59,11 +60,18 @@ export const AIR_SOCIAL = {
 };
 
 export const AIR_SALES = {
+  root: AIR_SALES_PAGE,
+  QUOTES: path(AIR_SALES_PAGE, '/quotes'),
+  CREATE_QUOTES: path(AIR_SALES_PAGE, '/quotes/create-quote'),
+  UPDATE_QUOTE: path(AIR_SALES_PAGE, '/quotes/update-quote'),
+  VIEW_QUOTE: path(AIR_SALES_PAGE, '/quotes/view-quote'),
   SALES_INVOICES: '/air-sales/invoices',
   SALES_VIEW_INVOICES: '/air-sales/invoices/view-invoices',
   SALES_CREATE_INVOICES: '/air-sales/invoices/create-invoices',
-  DEAL: ' /air-sales/deals',
+  DEAL: '/air-sales/deals',
   CONTACTS: '/air-sales/contacts/view-details',
+  VIEW_DETAILS: '/air-sales/deals/view-details',
+  DEAL_LIST_VIEW: '/deals/get-deals-list-view',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
@@ -192,4 +200,5 @@ export const ORG_ADMIN = {
 export const SOCIAL_FEATURES_CHAT = {
   CHAT: 'chat/',
   CHAT_LIST: 'chat/list/',
+  UPDATE_CHAT: 'chat/',
 };
