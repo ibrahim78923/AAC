@@ -42,6 +42,24 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
     setAnchorEl(null);
   };
 
+  const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
+  const isChatContactsLoading = useAppSelector(
+    (state) => state?.chat?.isChatContactsLoading,
+  );
+
+  const chatsTypeToShow = chatMode === 'groupChat' ? [] : chatContacts;
+
+  const handleSelectAll = () => {
+    if (selectedValues.length === chatsTypeToShow?.length) {
+      // If all checkboxes are already selected, unselect all
+      setSelectedValues([]);
+    } else {
+      // If some or none are selected, select all
+      const allIds = chatsTypeToShow.map((item: any) => item?._id);
+      setSelectedValues(allIds);
+    }
+  };
+
   useEffect(() => {
     if (chatMode === 'groupChat') {
       null;
@@ -59,13 +77,6 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
       dispatch(setChatContactsLoading(false));
     }
   }, [status]);
-
-  const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
-  const isChatContactsLoading = useAppSelector(
-    (state) => state?.chat?.isChatContactsLoading,
-  );
-
-  const chatsTypeToShow = chatMode === 'groupChat' ? [] : chatContacts;
 
   const menuItemsData = [
     {
@@ -95,7 +106,13 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
       <Box sx={styles?.wrapperContactList}>
         <Box sx={styles?.contactListHeader}>
           <Box sx={{ display: 'flex' }}>
-            <Checkbox checked={false} />
+            <Checkbox
+              onClick={handleSelectAll}
+              checked={
+                chatsTypeToShow?.length > 0 &&
+                chatsTypeToShow?.length === selectedValues?.length
+              }
+            />
             <Search
               label={'Search here'}
               searchBy={searchContacts}

@@ -207,13 +207,21 @@ const ChatBox = ({
             <Box>
               <Box sx={styles?.chatBoxWrapperInset(theme, role)}>
                 {!item?.attachment?.document && (
-                  <Typography
-                    ref={divToCopyRef}
-                    variant="body3"
-                    dangerouslySetInnerHTML={{
-                      __html: item?.content,
-                    }}
-                  />
+                  <>
+                    {!item?.isDeleted ? (
+                      <Typography
+                        ref={divToCopyRef}
+                        variant="body3"
+                        dangerouslySetInnerHTML={{
+                          __html: item?.content,
+                        }}
+                      />
+                    ) : (
+                      <Typography variant="body3">
+                        <em>This message was deleted</em>
+                      </Typography>
+                    )}
+                  </>
                 )}
                 {item?.attachment?.images && (
                   <Box key={uuidv4()} sx={{ width: '16vw' }}>
@@ -312,16 +320,18 @@ const ChatBox = ({
                 marginBottom: '20px',
               }}
             >
-              <Button
-                sx={styles?.unStyledButton}
-                id="basic-button"
-                aria-controls={open ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={handleClick}
-              >
-                <ThreeDotsIcon color={theme?.palette?.custom?.grayish_blue} />
-              </Button>
+              {!item?.isDeleted && (
+                <Button
+                  sx={styles?.unStyledButton}
+                  id="basic-button"
+                  aria-controls={open ? 'basic-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  onClick={handleClick}
+                >
+                  <ThreeDotsIcon color={theme?.palette?.custom?.grayish_blue} />
+                </Button>
+              )}
               {item?._id === activeChat && (
                 <Menu
                   id="basic-menu"
