@@ -93,6 +93,7 @@ export const END_POINTS = {
   DELETED_COMPANIES: '/companies/deleted',
   COMPANY_PREVIEW: '/companies/get-company-preview',
   RESTORE_COMPANIES: '/companies/restore-action',
+  MERGE_COMPANIES: '/companies/merge-company',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
   SERVICE_CATALOG: '/service-catalog/get-category-list',
   ADD_SERVICE_CATALOG: '/service-catalog/add-category',
