@@ -73,6 +73,15 @@ export const companiesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['COMPANY'],
     }),
+
+    mergeCompanies: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.MERGE_COMPANIES}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['COMPANY'],
+    }),
   }),
 });
 
@@ -85,4 +94,5 @@ export const {
   useCompanyUpdateMutation,
   useGetCompanyPreviewQuery,
   useRestoreCompaniesMutation,
+  useMergeCompaniesMutation,
 } = companiesAPI;

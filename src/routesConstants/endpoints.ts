@@ -83,6 +83,7 @@ export const END_POINTS = {
   DELETED_COMPANIES: '/companies/deleted',
   COMPANY_PREVIEW: '/companies/get-company-preview',
   RESTORE_COMPANIES: '/companies/restore-action',
+  MERGE_COMPANIES: '/companies/merge-company',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
   DROPDOWN_REQUESTERS: `/requester/requester-list`,
   DROPDOWN_AGENTS: `/requester/requester-list`,

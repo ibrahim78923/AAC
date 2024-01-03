@@ -11,19 +11,14 @@ const useMergeModal = (checkedRows: any) => {
   const companyDetails = getCompaniesDetails?.data;
 
   const methods = useForm();
-
-  const optionsArray = [
-    { value: 'All Industries', label: 'All Industries' },
-    { value: 'Computer Software', label: 'Computer Software' },
-    { value: 'Construction', label: 'Construction' },
-    { value: 'Electronics', label: 'Electronics' },
-  ];
+  const { watch } = methods;
+  const seletedCompany = watch('mergeCompanies');
 
   return {
     theme,
     companyDetails,
     methods,
-    optionsArray,
+    seletedCompany,
   };
 };
 
