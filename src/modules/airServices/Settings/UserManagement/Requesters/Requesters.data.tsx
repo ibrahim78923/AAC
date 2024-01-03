@@ -1,5 +1,5 @@
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
-import { REQUESTERS_STATUS } from '@/constants/strings';
+import { REQUESTORS_STATUS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { ProfileImage } from '@/assets/images';
@@ -118,12 +118,12 @@ export const requestersList: any = (
             textTransform: 'lowercase',
             cursor: 'pointer',
             textDecoration:
-              info?.row?.original?.status === REQUESTERS_STATUS?.INACTIVE
+              info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE
                 ? 'underline'
                 : 'none',
           }}
           onClick={() =>
-            info?.row?.original?.status === REQUESTERS_STATUS?.INACTIVE &&
+            info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE &&
             router?.push(`mailto:${info?.getValue()}`)
           }
         >
@@ -140,11 +140,11 @@ export const requestersList: any = (
     cell: (info: any) => {
       const status = info?.getValue();
       const color =
-        status === REQUESTERS_STATUS?.ACTIVE
+        status === REQUESTORS_STATUS?.ACTIVE
           ? theme?.palette?.success?.main
-          : status === REQUESTERS_STATUS?.INACTIVE
-            ? theme?.palette?.warning?.main
-            : '';
+          : status === REQUESTORS_STATUS?.INACTIVE
+          ? theme?.palette?.warning?.main
+          : '';
 
       return (
         <Typography

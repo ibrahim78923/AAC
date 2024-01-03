@@ -241,7 +241,7 @@ export const SETTINGS_ADD_ROLE = {
   EDIT: 'Edit',
   DELETE: 'Delete',
 };
-export const REQUESTERS_STATUS = {
+export const REQUESTORS_STATUS = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
 };
