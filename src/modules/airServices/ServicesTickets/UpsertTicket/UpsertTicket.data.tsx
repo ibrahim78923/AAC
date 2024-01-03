@@ -17,6 +17,7 @@ import {
 } from '../ServicesTickets.data';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { Box, Typography } from '@mui/material';
 
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
@@ -33,7 +34,7 @@ export const upsertTicketValidationSchema = Yup?.object()?.shape({
   agent: Yup?.mixed()?.nullable(),
   plannedStartDate: Yup?.date(),
   plannedStartTime: Yup?.date()?.nullable(),
-  plannedEndDate: Yup?.date(),
+  plannedEndDate: Yup?.date()?.nullable(),
   plannedEndTime: Yup?.date()?.nullable(),
   plannedEffort: Yup?.string()?.trim(),
   associatesAssets: Yup?.mixed()?.nullable(),
@@ -71,8 +72,11 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     plannedStartTime:
       typeof data?.plannedStartDate === 'string'
         ? new Date(data?.plannedStartDate)
+        : new Date(),
+    plannedEndDate:
+      typeof data?.plannedStartDate === 'string'
+        ? new Date(data?.plannedEndDate)
         : null,
-    plannedEndDate: new Date(data?.plannedEndDate ?? todayDate),
     plannedEndTime:
       typeof data?.plannedEndDate === 'string'
         ? new Date(data?.plannedEndDate)
@@ -80,7 +84,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     plannedEffort: data?.plannedEffort ?? '',
     associatesAssets: !!data?.associateAssets?.length
       ? data?.associateAssets?.map((asset: any) => ({
-          name: asset?.name ?? asset,
+          name: asset?.displayName ?? asset,
           _id: asset?._id ?? asset,
         }))
       : [],
@@ -96,6 +100,7 @@ export const upsertTicketFormFieldsDynamic = (
   router?: any,
 ) => [
   {
+    id: 1,
     componentProps: {
       name: 'requester',
       label: 'Requester',
@@ -114,6 +119,7 @@ export const upsertTicketFormFieldsDynamic = (
     component: RHFAutocompleteAsync,
   },
   {
+    id: 2,
     componentProps: {
       name: 'subject',
       label: 'Subject',
@@ -123,6 +129,7 @@ export const upsertTicketFormFieldsDynamic = (
     component: RHFTextField,
   },
   {
+    id: 3,
     componentProps: {
       name: 'description',
       label: 'Description',
@@ -132,6 +139,7 @@ export const upsertTicketFormFieldsDynamic = (
     component: RHFEditor,
   },
   {
+    id: 4,
     componentProps: {
       name: 'category',
       label: 'Category',
@@ -143,6 +151,7 @@ export const upsertTicketFormFieldsDynamic = (
     component: RHFAutocompleteAsync,
   },
   {
+    id: 5,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -150,10 +159,12 @@ export const upsertTicketFormFieldsDynamic = (
       required: true,
       placeholder: 'Choose Status',
       options: ticketStatusOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
   {
+    id: 6,
     componentProps: {
       name: 'priority',
       label: 'Priority',
@@ -165,6 +176,7 @@ export const upsertTicketFormFieldsDynamic = (
     component: RHFAutocomplete,
   },
   {
+    id: 7,
     componentProps: {
       name: 'department',
       label: 'Department',
@@ -175,6 +187,7 @@ export const upsertTicketFormFieldsDynamic = (
     component: RHFAutocompleteAsync,
   },
   {
+    id: 8,
     componentProps: {
       name: 'source',
       label: 'Source',
@@ -185,6 +198,7 @@ export const upsertTicketFormFieldsDynamic = (
     component: RHFAutocomplete,
   },
   {
+    id: 9,
     componentProps: {
       name: 'impact',
       label: 'Impact',
@@ -195,6 +209,7 @@ export const upsertTicketFormFieldsDynamic = (
     component: RHFAutocomplete,
   },
   {
+    id: 10,
     componentProps: {
       name: 'agent',
       label: 'Agent',
@@ -208,33 +223,41 @@ export const upsertTicketFormFieldsDynamic = (
     component: RHFAutocompleteAsync,
   },
   {
+    id: 11,
     componentProps: {
       name: 'plannedStartDate',
       label: 'Planned Start Date',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFDatePicker,
     md: 7.5,
   },
   {
+    id: 12,
     componentProps: {
       name: 'plannedStartTime',
       label: '\u00a0\u00a0',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFTimePicker,
     md: 4.5,
   },
   {
+    id: 13,
     componentProps: {
       name: 'plannedEndDate',
       label: 'Planned End Date',
       fullWidth: true,
+      disablePast: true,
+      textFieldProps: { readOnly: true },
     },
     component: RHFDatePicker,
     md: 7.5,
   },
   {
+    id: 14,
     componentProps: {
       name: 'plannedEndTime',
       label: '\u00a0\u00a0',
@@ -244,6 +267,7 @@ export const upsertTicketFormFieldsDynamic = (
     md: 4.5,
   },
   {
+    id: 15,
     componentProps: {
       name: 'plannedEffort',
       label: 'Planned Effort',
@@ -254,6 +278,7 @@ export const upsertTicketFormFieldsDynamic = (
     component: RHFTextField,
   },
   {
+    id: 16,
     componentProps: {
       name: 'associatesAssets',
       label: 'Associate Assets',
@@ -262,6 +287,28 @@ export const upsertTicketFormFieldsDynamic = (
       apiQuery: apiQueryAssociateAsset,
       externalParams: { limit: 50 },
       getOptionLabel: (option: any) => option?.displayName,
+      renderOption: (option: any) => (
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          width={'100%'}
+        >
+          <Box>
+            <Typography variant={'body2'} color={'grey.600'} fontWeight={500}>
+              {option?.displayName}
+            </Typography>
+            <Typography variant={'body4'} color={'grey.900'}>
+              {option?.assetType}
+            </Typography>
+          </Box>
+          <Typography variant={'body4'} color={'grey.900'}>
+            EOL:
+            {dayjs(option?.assetLifeExpiry)?.format(DATE_FORMAT?.UI) ??
+              dayjs(new Date())?.format(DATE_FORMAT?.UI)}
+          </Typography>
+        </Box>
+      ),
       placeholder: 'Choose Assets',
       EndIcon: AddCircleIcon,
       endIconSx: { color: 'primary.main' },
@@ -272,10 +319,15 @@ export const upsertTicketFormFieldsDynamic = (
     component: RHFAutocompleteAsync,
   },
   {
+    id: 17,
     componentProps: {
       name: 'attachFile',
       fullWidth: true,
-      fileType: '',
+      fileType: 'PNG or JPG  (max 2.44 MB)',
+      maxSize: 1024 * 1024 * 2.44,
+      accept: {
+        'image/*': ['.png', '.jpg'],
+      },
     },
     component: RHFDropZone,
   },

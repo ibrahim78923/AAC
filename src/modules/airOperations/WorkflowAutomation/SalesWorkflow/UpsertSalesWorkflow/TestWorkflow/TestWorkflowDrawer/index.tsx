@@ -12,6 +12,7 @@ export const TestWorkflowDrawer = (props: any) => {
       title="Test Result For Workflow"
       footer
       isCancel
+      cancelText="Close"
       okText={''}
       isOk={false}
     >

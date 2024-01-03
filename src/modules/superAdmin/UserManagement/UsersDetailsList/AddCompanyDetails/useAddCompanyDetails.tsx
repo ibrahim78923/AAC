@@ -19,7 +19,8 @@ const useAddCompanyDetails = (
   const { usePostCompanyMutation } = userListApi;
   const [postCompany] = usePostCompanyMutation();
   const { data: products } = useGetProductsQuery({});
-  const [selectedImg, setSelectedImg] = useState<any>();
+  const [companyImg, setCompanyImg] = useState<any>();
+
   const productsList = products?.data?.map((item: any) => ({
     value: item?._id,
     label: (
@@ -68,8 +69,8 @@ const useAddCompanyDetails = (
     methods,
     handleSubmit,
     onSubmit,
-    selectedImg,
-    setSelectedImg,
+    companyImg,
+    setCompanyImg,
   };
 };
 

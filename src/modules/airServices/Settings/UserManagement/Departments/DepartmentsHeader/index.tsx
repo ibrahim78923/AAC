@@ -4,7 +4,8 @@ import Search from '@/components/Search';
 import { useDepartmentsHeader } from './useDepartmentsHeader';
 import { DepartmentsFormModal } from '../DepartmentsFormModal';
 
-export const DepartmentsHeader = () => {
+export const DepartmentsHeader = (props: any) => {
+  const { searchBy, setSearchBy } = props;
   const {
     backArrowClick,
     openAddModal,
@@ -37,7 +38,11 @@ export const DepartmentsHeader = () => {
           alignItems={'center'}
           flexWrap={'wrap'}
         >
-          <Search value="" placeholder="Search Here" />
+          <Search
+            placeholder="Search Here"
+            searchBy={searchBy}
+            setSearchBy={setSearchBy}
+          />
           <Button
             startIcon={<PlusSharedColorIcon />}
             variant="contained"

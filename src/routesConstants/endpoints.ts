@@ -67,8 +67,10 @@ export const END_POINTS = {
   PRODUCT_CATALOG_DELETE_ASSOCIATED_ASSET: `/product-catalog/delete-associate-asset`,
   PRODUCT_CATALOG_PATCH_VENDOR: `/product-catalog/vendors/edit-vendor`,
   POST_COMPANY_ACCOUNT: '/org-company-account',
+  TASK: '/task',
   VENDOR_DETAIL_OVERVIEW: '/vendors/get-vendor',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
+  GET_SOFTWARE_USER: '/assets/software-users-details',
   DEPARTMENT: '/department',
   DROPDOWN_DEPARTMENT: `/Department/department-list`,
   TICKETS_ASSOCIATES_ASSETS: '/ticket/associate-assets',
@@ -80,12 +82,32 @@ export const END_POINTS = {
   DEALS_LIST_VIEW: '/deals/get-deals-list-view',
   POST_CLOSURE_ROLE: '/Closure-Rules/add-closure-rules',
   GET_BUSINESS_HOUR: `/business-hour/list`,
+  BUSINESS_HOUR: `/business-hour`,
   DELETE_BUSINESS_HOUR: `/business-hour/delete-business-hour`,
+  ADD_BUSINESS_HOUR: `/business-hour/add-business-hours`,
+  UPDATE_BUSINESS_HOUR: `/business-hour/update-business-hours`,
+  GET_HOLIDAYS: `/business-hour/holidays`,
+  ADD_HOLIDAY: `/business-hour/add-holiday`,
+  DELETE_HOLIDAY: `/business-hour/delete-holiday`,
   COMPANY: `/companies`,
   DELETED_COMPANIES: '/companies/deleted',
   COMPANY_PREVIEW: '/companies/get-company-preview',
   RESTORE_COMPANIES: '/companies/restore-action',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
+  SERVICE_CATALOG: '/service-catalog/get-category-list',
+  ADD_SERVICE_CATALOG: '/service-catalog/add-category',
+  DELETE_SERVICE: '/service-catalog/delete-service',
+  UPSERT_SERVICES_CATALOG: '/service-catalog/add-service',
+  SERVICE_CATALOG_CATEGORIES: '/service-catalog/get-categories',
+  // settings leader board
+  LEADER_BOARD_ADD_AWARD_POINTS: `/Leader-Board/add-award-points`,
+  LEADER_BOARD_GET_AWARD_POINTS: `/Leader-Board/get-award-points`,
+  LEADER_BOARD_ADD_AGENT_LEVELS: `/Leader-Board/add-agent-levels`,
+  LEADER_BOARD_GET_AGENT_LEVELS: `/Leader-Board/get-agent-levels`,
+  GET_ASSET_TYPE: '/asset-type/assset-type-list',
+  POST_ASSET_TYPE: '/asset-type',
+  PATCH_ASSET_TYPE: '/asset-type/add-child-asset-type',
+  EDIT_ASSET_TYPE: '/asset-type/edit-assset-type',
   PUT_LOCATION: '/location/edit-location',
   DROPDOWN_REQUESTERS: `/requester/requester-list`,
   DROPDOWN_AGENTS: `/requester/requester-list`,
@@ -97,7 +119,9 @@ export const END_POINTS = {
   REQUESTER_LIST: `/requester/requester-list`,
   SERVICES_CATEGORIES: `/service-catalog/get-category-list`,
   DEPARTMENT_LIST: `/Department/department-list`,
+  EDIT_SERVICE_CATALOG: '/service-catalog/update-service',
   TICKETS_DETACH_ASSOCIATES_ASSETS: '/ticket/detach-assets',
+  DROPDOWN_AGENTS_LIST: '/dropdown/agents',
 };
 
 export const superAdminBillingInvoices = {
@@ -148,6 +172,7 @@ export const ORG_ADMIN = {
   GET_INVOICES: '/org-admin/invoices',
   PRODUCT_PLAN_LIST: '/plan/product-plan-list',
   ACTIVITY_LOG: '/activity-log',
+  ACTIVITY_LOG_SUB: '/activity-log/sub-activities',
 };
 
 export const COMMON_DOCUMENTS = {
@@ -158,5 +183,5 @@ export const COMMON_DOCUMENTS = {
   PATCH_DOCUMENT_FOLDER_ID: '/documents/folder',
   PATCH_DOCUMENT_FILE_ID: '/documents/file',
   DELETE_DOCUMENT_FOLDER_ID: '/documents/folder',
-  DELETE_DOCUMENT_FILE_ID: '/documents/file',
+  DELETE_DOCUMENT_FILE_ID: '/documents/files',
 };

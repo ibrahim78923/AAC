@@ -1,9 +1,6 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import {
-  ticketsFilterFormFieldsDataFunction,
-  ticketsFilterFormFieldsDefaultValues,
-} from './TicketsFilter.data';
+
 import { useForm } from 'react-hook-form';
 import usePath from '@/hooks/usePath';
 import {
@@ -12,8 +9,12 @@ import {
   useLazyGetDepartmentDropdownQuery,
   useLazyGetRequesterDropdownQuery,
 } from '@/services/airServices/tickets';
+import {
+  ticketsFilterFormFieldsDataFunction,
+  ticketsFilterFormFieldsDefaultValues,
+} from './FilterTickets.data';
 
-export const useTicketsFilter = (props: any) => {
+export const useFilterTickets = (props: any) => {
   const { setIsDrawerOpen, setFilterTicketLists, filterTicketLists } = props;
   const router = useRouter();
   const theme: any = useTheme();
@@ -26,8 +27,6 @@ export const useTicketsFilter = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const submitTicketFilterForm = async (data: any) => {
-    onClose();
-    return;
     const ticketsFiltered: any = Object?.entries(data || {})
       ?.filter(
         ([, value]: any) => value !== undefined && value != '' && value != null,
@@ -42,6 +41,9 @@ export const useTicketsFilter = (props: any) => {
   };
 
   const resetTicketFilterForm = async () => {
+    if (!!Object?.keys(filterTicketLists)?.length) {
+      setFilterTicketLists({});
+    }
     reset();
     setIsDrawerOpen?.(false);
   };
@@ -57,16 +59,16 @@ export const useTicketsFilter = (props: any) => {
     setIsDrawerOpen?.(false);
   };
 
-  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
   const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
+  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
 
   const ticketsFilterFormFieldsData = ticketsFilterFormFieldsDataFunction(
     apiQueryRequester,
-    apiQueryDepartment,
     apiQueryAgent,
     apiQueryCategories,
+    apiQueryDepartment,
   );
 
   return {
