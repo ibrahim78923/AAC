@@ -22,7 +22,7 @@ const StatusBadge = (props: BadgeStatusI) => {
           value === 'ACTIVE' || value === 'open'
             ? theme?.palette?.success?.main
             : theme?.palette?.error?.main,
-        ...styles.select(value, defaultValue, theme),
+        ...styles.select(value, theme),
       }}
       id="demo-simple-select"
       value={value}
