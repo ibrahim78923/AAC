@@ -7,16 +7,14 @@ export const GiftCardsDetailsHeader = () => {
   const router = useRouter();
   return (
     <Box>
-      <Box>
-        <PageTitledHeader
-          title={'TVKP12345'}
-          addTitle={'Add Transaction'}
-          canMovedBack
-          moveBack={() => {
-            router?.push(AIR_LOYALTY_PROGRAM?.GIFT_CARDS);
-          }}
-        />
-      </Box>
+      <PageTitledHeader
+        title={'TVKP12345'}
+        addTitle={'Add Transaction'}
+        canMovedBack
+        moveBack={() => {
+          router?.push(AIR_LOYALTY_PROGRAM?.GIFT_CARDS);
+        }}
+      />
     </Box>
   );
 };

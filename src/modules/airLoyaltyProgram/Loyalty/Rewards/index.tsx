@@ -15,7 +15,7 @@ export const Rewards = () => {
         title="Rewards"
         addTitle="Add"
         handleAction={() => {
-          router.push(AIR_LOYALTY_PROGRAM?.ADD_REWARDS);
+          router?.push(AIR_LOYALTY_PROGRAM?.ADD_REWARDS);
         }}
       />
       <HorizontalTabs tabsDataArray={singleRewardsTab}>
