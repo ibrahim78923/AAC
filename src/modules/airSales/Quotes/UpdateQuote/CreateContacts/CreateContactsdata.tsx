@@ -4,7 +4,6 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import useDealSaleSite from '@/modules/airSales/Deals/useDealSaleSite';
 import * as Yup from 'yup';
 // import useCreateContacts from './useCreateContacts';
 // Define your Yup validation schema
@@ -53,12 +52,10 @@ export const contactsDefaultValues = {
   dateOfBirth: null,
 };
 export const contactsDataArray = (
-  // lifeCycleStagesData: any,
   contactStatusData: any,
+  lifeCycleStagesData: any,
   userList: any,
 ) => {
-  const { DealsLifecycleStageData } = useDealSaleSite();
-
   return [
     {
       componentProps: {
@@ -167,12 +164,7 @@ export const contactsDataArray = (
         label: 'Lifecycle Stage',
         select: true,
       },
-      options: DealsLifecycleStageData?.data?.lifecycleStages?.map(
-        (item: any) => ({
-          value: item?._id,
-          label: item?.name,
-        }),
-      ) ?? [{ label: 'Select', value: 'Select' }],
+      options: lifeCycleStagesData,
       md: 12,
       component: RHFSelect,
     },

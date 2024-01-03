@@ -21,7 +21,7 @@ const useCreateContacts = () => {
   const userRole = 'ORG_ADMIN';
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
 
-  const { data: ContactsStatus } = useGetContactsStatusQuery({});
+  const { data: contactsStatus } = useGetContactsStatusQuery({});
 
   const [postContacts] = usePostContactsMutation();
 
@@ -29,8 +29,8 @@ const useCreateContacts = () => {
 
   const { data: userList } = useGetUsersQuery({ role: userRole });
 
-  const contactStatusData = ContactsStatus?.data?.conatactStatus?.map(
-    (lifecycle: any) => ({ value: lifecycle?._id, label: lifecycle?.name }),
+  const contactStatusData = contactsStatus?.data?.conatactStatus?.map(
+    (status: any) => ({ value: status?._id, label: status?.name }),
   );
 
   const lifeCycleStagesData = lifeCycleStages?.data?.lifecycleStages?.map(
@@ -99,6 +99,7 @@ const useCreateContacts = () => {
     contactStatusData,
     onCloseHandler,
     userList,
+    contactsStatus,
   };
 };
 

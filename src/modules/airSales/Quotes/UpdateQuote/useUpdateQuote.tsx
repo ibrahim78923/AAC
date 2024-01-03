@@ -28,6 +28,7 @@ const useUpdateQuote = () => {
   const { watch: watchDetail, trigger, handleSubmit } = methodsUpdateQuote;
   const detailsValues = watchDetail();
   const singleQuote = dataGetQuoteById?.data;
+
   useEffect(() => {
     if (singleQuote) {
       const { dealId, template, name, expiryDate, notes, termsAndConditions } =
