@@ -10,9 +10,11 @@ import { createDealData } from './CreateDeal.data';
 import { v4 as uuidv4 } from 'uuid';
 
 import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const CreateDeal = ({ open, onClose }: any) => {
   const [postDeals] = usePostDealsMutation();
+  const startDate = 0;
 
   const methods = useForm({});
 
@@ -20,7 +22,9 @@ const CreateDeal = ({ open, onClose }: any) => {
 
   const onSubmit = async (values: any) => {
     values.addLineItemId = '6538bb480b3f9e9d83d4a2ce'; // need get api for addLineItem but missing this api so i am using static id
-    values.closeDate = dayjs(values.closeDate)?.toISOString();
+    values.closeDate = dayjs(values?.closeDate[startDate])?.format(
+      DATE_FORMAT?.API,
+    );
     try {
       await postDeals({ body: values })?.unwrap();
     } catch (error) {}

@@ -8,8 +8,9 @@ import useDealSaleSite from '../useDealSaleSite';
 import { useGetUsersListQuery } from '@/services/airSales/deals';
 
 export const createDealData = () => {
+  const userRole = 'ORG_EMPLOYEE';
   const { pipelineData, DealsLifecycleStageData } = useDealSaleSite();
-  const { data: UserListData } = useGetUsersListQuery({ role: 'ORG_EMPLOYEE' });
+  const { data: UserListData } = useGetUsersListQuery({ role: userRole });
 
   return [
     {
