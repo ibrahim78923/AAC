@@ -33,8 +33,8 @@ const UserManagement = () => {
     filterValues,
     setFilterValues,
     handleAddRole,
-    checkedRows,
-    setCheckedRows,
+    selectedRow,
+    setSelectedRow,
     searchVal,
     setSearchVal,
     resetFilters,
@@ -102,7 +102,7 @@ const UserManagement = () => {
             headerChildren={
               <>
                 <ActionButton
-                  checkedRows={checkedRows}
+                  checkedRows={selectedRow?.selectedValue}
                   tabVal={tabVal}
                   setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
                 />
@@ -146,14 +146,14 @@ const UserManagement = () => {
             }
           >
             <Users
-              checkedRows={checkedRows}
-              setCheckedRows={setCheckedRows}
+              checkedRows={selectedRow}
+              setCheckedRows={setSelectedRow}
               filterValues={filterValues}
               searchVal={searchVal}
             />
             <SuperAdminUsers
-              checkedRows={checkedRows}
-              setCheckedRows={setCheckedRows}
+              checkedRows={selectedRow}
+              setSelectedRow={setSelectedRow}
               date={filterValues?.date}
               searchVal={searchVal}
             />

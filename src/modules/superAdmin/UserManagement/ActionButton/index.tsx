@@ -22,7 +22,7 @@ const ActionButton = (props?: any) => {
         variant="outlined"
         color="inherit"
         onClick={handleClick}
-        disabled={checkedRows === undefined ? true : false}
+        disabled={checkedRows === null ? true : false}
         sx={{ width: { sm: '112px', xs: '100%' } }}
       >
         Actions

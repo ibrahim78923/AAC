@@ -24,7 +24,10 @@ const useUserManagement = () => {
   });
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   const [userType, setUserType] = useState();
-  const [checkedRows, setCheckedRows] = useState<any>();
+  const [selectedRow, setSelectedRow] = useState<any>({
+    page: PAGINATION?.CURRENT_PAGE,
+    selectedValue: null,
+  });
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [searchVal, setSearchVal] = useState('');
@@ -35,7 +38,6 @@ const useUserManagement = () => {
     organization: '',
     createdDate: '',
   });
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const initialTab = 0;
   const tabOne = 1;
@@ -115,8 +117,8 @@ const useUserManagement = () => {
     useGetCompaniesCRNQuery,
     handleUserSwitchChange,
     useGetUsersByIdQuery,
-    checkedRows,
-    setCheckedRows,
+    selectedRow,
+    setSelectedRow,
     updateUsers,
     products,
     searchVal,
@@ -124,8 +126,6 @@ const useUserManagement = () => {
     resetFilters,
     pageLimit,
     setPageLimit,
-    page,
-    setPage,
     organizations,
     initialTab,
     tabTwo,
