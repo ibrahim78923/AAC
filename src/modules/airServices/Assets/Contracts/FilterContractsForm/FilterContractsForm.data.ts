@@ -1,5 +1,4 @@
 import { RHFAutocomplete } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
 
 const contractTypeOptions = [
   'All',
@@ -31,13 +30,6 @@ const expiryOptions = [
   'Next Month',
 ];
 
-export const filterContractsFormValidationSchema = Yup?.object()?.shape({
-  type: Yup?.string(),
-  status: Yup?.string(),
-  vender: Yup?.string(),
-  expiry: Yup?.string(),
-});
-
 export const defaultValues = {
   type: '',
   status: '',
@@ -47,45 +39,45 @@ export const defaultValues = {
 
 export const filterContractsFormDataArray = [
   {
+    id: 1,
     componentProps: {
       name: 'type',
       label: 'Contract Type',
       fullWidth: true,
       placeholder: 'All Assets',
-      select: true,
       options: contractTypeOptions,
     },
     component: RHFAutocomplete,
   },
   {
+    id: 2,
     componentProps: {
       name: 'status',
       label: 'Contract Status',
       placeholder: 'Any',
       fullWidth: true,
-      select: true,
       options: contractStatusOptions,
     },
     component: RHFAutocomplete,
   },
   {
+    id: 3,
     componentProps: {
       name: 'vender',
       label: 'Vendor',
       fullWidth: true,
-      select: true,
       placeholder: 'Select Vendor',
       options: vendorOptions,
     },
     component: RHFAutocomplete,
   },
   {
+    id: 4,
     componentProps: {
       name: 'expiry',
       label: 'Expiry',
       fullWidth: true,
       placeholder: 'Select Expiry',
-      select: true,
       options: expiryOptions,
     },
     component: RHFAutocomplete,

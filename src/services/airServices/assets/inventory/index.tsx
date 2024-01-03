@@ -19,7 +19,7 @@ export const inventoryAPI: any = baseAPI?.injectEndpoints({
         url: `${END_POINTS?.ASSETS_INVENTORY}`,
         method: 'GET',
         params: apiDataParameter?.queryParams,
-        responseHandler: (response: { text: () => any }) => response?.text(),
+        responseHandler: (response: any) => response?.blob(),
       }),
       providesTags: [TAG],
     }),

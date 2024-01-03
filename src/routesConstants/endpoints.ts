@@ -121,6 +121,10 @@ export const END_POINTS = {
   DEPARTMENT_LIST: `/Department/department-list`,
   EDIT_SERVICE_CATALOG: '/service-catalog/update-service',
   TICKETS_DETACH_ASSOCIATES_ASSETS: '/ticket/detach-assets',
+  GET_ASSETS_CONTRACT: '/contract/get-contracts',
+  ASSETS_CONTRACT: '/contract',
+  VENDOR_DROPDOWN: '/vendors/get-vendors',
+  CONTRACT_TYPE_DROPDOWN: '/contract-type',
   DROPDOWN_AGENTS_LIST: '/dropdown/agents',
 };
 

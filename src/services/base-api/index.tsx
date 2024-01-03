@@ -45,6 +45,9 @@ export const TAGS = [
   'ASSET_TYPE',
   'DROPDOWN_ASSOCIATE_ASSET',
   'DROPDOWN_CATEGORIES',
+  'ASSETS_CONTRACT',
+  'CONTRACT_TYPE_DROPDOWN',
+  'VENDOR_DROPDOWN',
 ];
 
 const baseQuery = fetchBaseQuery({
