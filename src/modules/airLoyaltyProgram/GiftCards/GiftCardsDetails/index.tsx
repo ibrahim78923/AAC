@@ -2,10 +2,10 @@ import { Box, Button } from '@mui/material';
 
 import { GiftCardsDetailsHeader } from './GiftCardsDetailsHeader';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { rulesColumns, rulesList } from './GiftCardDetails.data';
 import { ExportButton } from '@/components/ExportButton';
 
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { rulesColumns, rulesList } from './GiftCardDetails.data';
 
 export const GiftCardsDetails = () => {
   return (
