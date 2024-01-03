@@ -11,7 +11,7 @@ import { useChatField } from './useChatField.hook';
 
 import { getSession, isNullOrEmpty } from '@/utils';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 
 import { setChatMetaInfo } from '@/redux/slices/chat/slice';
@@ -28,7 +28,10 @@ const ChatField = () => {
 
   const dispatch = useAppDispatch();
 
+  const [changeScroll, setChangeScroll] = useState<any>();
+
   const chatMetaInfo = useAppSelector((state) => state?.chat?.chatMetaInfo);
+  const changeChat = useAppSelector((state) => state?.chat?.changeChat);
   const isChatMessagesLoading = useAppSelector(
     (state) => state?.chat?.isChatMessagesLoading,
   );
@@ -41,7 +44,7 @@ const ChatField = () => {
     if (boxRef?.current) {
       boxRef.current.scrollTop = boxRef?.current?.scrollHeight;
     }
-  }, [chatDataToShow?.length > 1]);
+  }, [chatDataToShow?.length > 1, changeChat]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,10 +54,8 @@ const ChatField = () => {
         dispatch(setChatMetaInfo({ ...chatMetaInfo, limit: newLimit }));
       }
     };
-
     const box = boxRef?.current;
     box?.addEventListener('scroll', handleScroll);
-
     return () => {
       box?.removeEventListener('scroll', handleScroll);
     };
@@ -118,8 +119,10 @@ const ChatField = () => {
               })}
         </Box>
       </Box>
-
-      <ChatFooter />
+      <ChatFooter
+        setChangeScroll={setChangeScroll}
+        changeScroll={changeScroll}
+      />
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
         type="delete"
