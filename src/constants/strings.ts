@@ -265,6 +265,9 @@ export const ROLES_ACTION_CONSTANTS = {
   VIEW: 'View',
   DELETE: 'Delete',
   ADD_NEW_ROLE: 'Add New Role',
+  SAVE: 'Save',
+  ADD: 'Add',
+  VIEW_ID: 'Id',
 };
 export const ROLES_ACTION_CONSTANTS_DRAWER_ACTION = {
   ADD_ROLE: 'Add Roles',
