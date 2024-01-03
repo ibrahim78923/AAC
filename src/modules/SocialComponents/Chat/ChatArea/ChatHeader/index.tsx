@@ -67,10 +67,10 @@ const ChatHeader = ({ chatMode }: any) => {
       dispatch(
         setActiveConversation({
           ...activeConversation,
-          isDeleted: response.data.isDeleted,
-          isArchived: response.data.isArchived,
-          isMuted: response.data.isMuted,
-          unRead: response.data.unRead,
+          isDeleted: response?.data?.isDeleted,
+          isArchived: response?.data?.isArchived,
+          isMuted: response?.data?.isMuted,
+          unRead: response?.data?.unRead,
         }),
       ),
         handleClose();

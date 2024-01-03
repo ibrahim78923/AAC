@@ -50,13 +50,11 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   const chatsTypeToShow = chatMode === 'groupChat' ? [] : chatContacts;
 
   const handleSelectAll = () => {
-    if (selectedValues.length === chatsTypeToShow?.length) {
-      // If all checkboxes are already selected, unselect all
+    if (selectedValues?.length === chatsTypeToShow?.length) {
       setSelectedValues([]);
     } else {
-      // If some or none are selected, select all
-      const allIds = chatsTypeToShow.map((item: any) => item?._id);
-      setSelectedValues(allIds);
+      const result = chatsTypeToShow?.map((item: any) => item?._id);
+      setSelectedValues(result);
     }
   };
 

@@ -75,8 +75,8 @@ const ContactsCard = ({
       dispatch(
         setChatContacts({
           ...cardData?.item,
-          isDeleted: response.data.isDeleted,
-          isPinned: response.data.isPinned,
+          isDeleted: response?.data?.isDeleted,
+          isPinned: response?.data?.isPinned,
         }),
       );
     } catch (error: any) {
@@ -192,13 +192,13 @@ const ContactsCard = ({
                 )}
                 {cardData?.item?.isPinned ? (
                   <Box onClick={() => updateChatHandler('isPinned')}>
-                    <PinIcon color="#FFC20E" />
+                    <PinIcon color={theme?.palette?.warning?.main} />
                   </Box>
                 ) : (
                   <>
                     {isCardHover && (
                       <Box onClick={() => updateChatHandler('isPinned')}>
-                        <PinIcon color="#6B7280" />
+                        <PinIcon color={theme?.palette?.custom?.main} />
                       </Box>
                     )}
                   </>
