@@ -30,6 +30,7 @@ export const TAGS = [
   'LOCATION',
   'VENDOR_LIST',
   'PRODUCT_CATALOG',
+  'AGENTS',
   'TASK',
   'CANNED_RESPONSES',
   'BUSINESS_HOUR',

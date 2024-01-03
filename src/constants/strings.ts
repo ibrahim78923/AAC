@@ -294,6 +294,10 @@ export const ACTIONS_TYPES = {
   EDIT: 'edit',
   CLONE: 'clone',
 };
+export const AGENTS = {
+  INVITE_AGENT: 'Invite Agent',
+  UPDATE_AGENT: 'Update Agent',
+};
 export const SOFTWARE_USER_ACTIONS_TYPES = {
   ALLOCATE: 'Allocate',
   DEALLOCATE: 'Deallocate',
