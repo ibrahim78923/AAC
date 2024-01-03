@@ -52,7 +52,7 @@ const CallsEditorDrawer = (props: any) => {
       <Box sx={{ pt: 2 }}>
         <FormProvider methods={methodsdealsCalls}>
           <Grid container spacing={5}>
-            {dealsCallsDataArray?.map((item: any) => (
+            {dealsCallsDataArray(openDrawer)?.map((item: any) => (
               <Grid
                 item
                 xs={12}
@@ -78,13 +78,19 @@ const CallsEditorDrawer = (props: any) => {
                 label="Attendees"
                 name="attendee"
                 options={EmployeeData}
+                disabled={openDrawer === 'View'}
               />
             </Grid>
             <Grid item xs={12} md={4}>
               <AppAvatarGroup data={avatarGroupMockData} />
             </Grid>
             <Grid item xs={12} sx={{ paddingTop: '25px !important' }}>
-              <RHFSelect name="Outcome" label="Outcome" size="small">
+              <RHFSelect
+                name="Outcome"
+                label="Outcome"
+                size="small"
+                disabled={openDrawer === 'View'}
+              >
                 {options?.map((option: any) => (
                   <option key={uuidv4()} value={option?.value}>
                     {option?.label}
@@ -93,7 +99,11 @@ const CallsEditorDrawer = (props: any) => {
               </RHFSelect>
             </Grid>
             <Grid item xs={12}>
-              <RHFEditor label="Notes" name="Notes" />
+              <RHFEditor
+                label="Notes"
+                name="Notes"
+                disabled={openDrawer === 'View'}
+              />
             </Grid>
           </Grid>
         </FormProvider>
