@@ -14,14 +14,9 @@ export const SignUpDefaultValues = {
 };
 
 export const SignUpValidationSchema: any = Yup?.object()?.shape({
-  firstName: Yup?.string()
-    ?.required('Required')
-    ?.max(30, 'character must not be greater then 30'),
-  lastName: Yup?.string()?.max(30, 'character must not be greater then 30'),
-  email: Yup?.string()
-    ?.required('Required')
-    ?.email('invalid email')
-    ?.max(100, 'character must not be greater then 30'),
+  firstName: Yup?.string()?.required('Required')?.max(30),
+  lastName: Yup?.string()?.max(30),
+  email: Yup?.string()?.required('Required')?.max(100)?.email('invalid email'),
 });
 
 export const SignUpFormFields = [
