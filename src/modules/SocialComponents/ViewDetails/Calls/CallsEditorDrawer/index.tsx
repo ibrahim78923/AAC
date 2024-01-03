@@ -40,67 +40,65 @@ const CallsEditorDrawer = (props: any) => {
     });
 
   return (
-    <div>
-      <CommonDrawer
-        isDrawerOpen={openDrawer}
-        onClose={() => setOpenDrawer('')}
-        title={drawerTitle[openDrawer]}
-        okText={drawerButtonTitle[openDrawer]}
-        isOk={true}
-        footer={openDrawer === 'View' ? false : true}
-        submitHandler={handleSubmit(onSubmit)}
-      >
-        <Box sx={{ pt: 2 }}>
-          <FormProvider methods={methodsdealsCalls}>
-            <Grid container spacing={5}>
-              {dealsCallsDataArray?.map((item: any) => (
-                <Grid
-                  item
-                  xs={12}
-                  md={item?.md}
-                  key={uuidv4()}
-                  sx={{ paddingTop: '25px !important' }}
-                >
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
+    <CommonDrawer
+      isDrawerOpen={openDrawer}
+      onClose={() => setOpenDrawer('')}
+      title={drawerTitle[openDrawer]}
+      okText={drawerButtonTitle[openDrawer]}
+      isOk={true}
+      footer={openDrawer === 'View' ? false : true}
+      submitHandler={handleSubmit(onSubmit)}
+    >
+      <Box sx={{ pt: 2 }}>
+        <FormProvider methods={methodsdealsCalls}>
+          <Grid container spacing={5}>
+            {dealsCallsDataArray?.map((item: any) => (
+              <Grid
+                item
+                xs={12}
+                md={item?.md}
+                key={uuidv4()}
+                sx={{ paddingTop: '25px !important' }}
+              >
+                <item.component {...item.componentProps} size={'small'}>
+                  {item?.componentProps?.select
+                    ? item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))
+                    : null}
+                </item.component>
+              </Grid>
+            ))}
 
-              <Grid item xs={12} md={8} sx={{ paddingTop: '25px !important' }}>
-                <RHFMultiSearchableSelect
-                  size="small"
-                  label="Attendees"
-                  name="attendee"
-                  options={EmployeeData}
-                />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <AppAvatarGroup data={avatarGroupMockData} />
-              </Grid>
-              <Grid item xs={12} sx={{ paddingTop: '25px !important' }}>
-                <RHFSelect name="Outcome" label="Outcome" size="small">
-                  {options?.map((option: any) => (
-                    <option key={uuidv4()} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-                </RHFSelect>
-              </Grid>
-              <Grid item xs={12}>
-                <RHFEditor label="Notes" name="Notes" />
-              </Grid>
+            <Grid item xs={12} md={8} sx={{ paddingTop: '25px !important' }}>
+              <RHFMultiSearchableSelect
+                size="small"
+                label="Attendees"
+                name="attendee"
+                options={EmployeeData}
+              />
             </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
-    </div>
+            <Grid item xs={12} md={4}>
+              <AppAvatarGroup data={avatarGroupMockData} />
+            </Grid>
+            <Grid item xs={12} sx={{ paddingTop: '25px !important' }}>
+              <RHFSelect name="Outcome" label="Outcome" size="small">
+                {options?.map((option: any) => (
+                  <option key={uuidv4()} value={option?.value}>
+                    {option?.label}
+                  </option>
+                ))}
+              </RHFSelect>
+            </Grid>
+            <Grid item xs={12}>
+              <RHFEditor label="Notes" name="Notes" />
+            </Grid>
+          </Grid>
+        </FormProvider>
+      </Box>
+    </CommonDrawer>
   );
 };
 

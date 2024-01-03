@@ -74,10 +74,30 @@ const CallsActionDropdown = (props: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleOpenViewDrawer}>View</MenuItem>
-        <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
-        <MenuItem onClick={handleOpenReassignModal}>Reschedule</MenuItem>
-        <MenuItem onClick={handleOpenOutcomeModal}>Add outcomes</MenuItem>
+        <MenuItem
+          onClick={handleOpenViewDrawer}
+          disabled={selectedCheckboxes?.length > 1}
+        >
+          View
+        </MenuItem>
+        <MenuItem
+          onClick={handleOpenEditDrawer}
+          disabled={selectedCheckboxes?.length > 1}
+        >
+          Edit
+        </MenuItem>
+        <MenuItem
+          onClick={handleOpenReassignModal}
+          disabled={selectedCheckboxes?.length > 1}
+        >
+          Reschedule
+        </MenuItem>
+        <MenuItem
+          onClick={handleOpenOutcomeModal}
+          disabled={selectedCheckboxes?.length > 1}
+        >
+          Add outcomes
+        </MenuItem>
         <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
       </Menu>
 
