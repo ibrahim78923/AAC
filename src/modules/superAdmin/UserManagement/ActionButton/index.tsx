@@ -13,6 +13,7 @@ const ActionButton = (props?: any) => {
     isOpenAddUserDrawer,
     useGetUsersByIdQuery,
   } = useUserManagement();
+
   const { data } = useGetUsersByIdQuery(checkedRows);
 
   return (

@@ -79,7 +79,10 @@ const useUserManagement = () => {
   };
 
   const handleUserSwitchChange = (e: any, id: any) => {
-    const status = e?.target?.checked ? 'ACTIVE' : 'INACTIVE';
+    const status =
+      e?.target?.checked || e?.target?.value === 'ACTIVE'
+        ? 'ACTIVE'
+        : 'INACTIVE';
     updateUsers({ id, body: { status: status } });
     enqueueSnackbar('User updated successfully', {
       variant: 'success',
