@@ -14,6 +14,6 @@ export const useTransitions = () => {
     setIsDrawerOpen,
     isFilterDrawerOpen,
     setIsFilterDrawerOpen,
-    theme,
+    theme
   };
 };
