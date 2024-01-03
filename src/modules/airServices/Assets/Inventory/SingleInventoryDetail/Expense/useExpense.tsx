@@ -9,13 +9,13 @@ import {
   addExpenseValidationSchema,
   expenseActionsDropdownFunction,
 } from './Expense.data';
-import {
-  useGetInventoryExpenseQuery,
-  usePostInventoryExpenseMutation,
-} from '@/services/airServices/inventory/expense';
 import { useSearchParams } from 'next/navigation';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { PAGINATION } from '@/config';
+import {
+  useGetInventoryExpenseQuery,
+  usePostInventoryExpenseMutation,
+} from '@/services/airServices/assets/inventory/single-inventory-details/expense';
 
 export const useExpense = () => {
   const [selectedExpenseList, setSelectedExpenseList] = useState([]);
