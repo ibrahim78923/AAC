@@ -254,7 +254,7 @@ const ViewDetails = () => {
               <Associations />
               <Tasks companyId={data?.data?._id} />
               <Notes companyId={data?.data?._id} />
-              <Calls />
+              <Calls companyId={data?.data?._id} />
               <Meetings />
               <Emails />
             </HorizontalTabs>

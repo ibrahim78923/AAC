@@ -31,7 +31,8 @@ export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
     },
 
     {
-      accessorFn: (row: any) => row?.taskname,
+      accessorFn: (row: any) =>
+        `${row?.records?.ownerData?.firstName} ${row?.records?.ownerData?.lastName}`,
       id: 'Owner',
       isSortable: true,
       header: 'Owner',

@@ -3,12 +3,13 @@ import { useTheme } from '@mui/material';
 import {
   useDeleteCallsMutation,
   useGetCallsQuery,
+  useGetCallsWidgetQuery,
 } from '@/services/commonFeatures/calling';
 import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const useCalls = () => {
+const useCalls = ({ companyId }: any) => {
   const theme = useTheme();
   const [openDrawer, setOpenDrawer] = useState('');
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
@@ -16,7 +17,12 @@ const useCalls = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
-  const query = '&';
+  const compId = companyId;
+  const recordType = 'companies';
+  const paramsObj: any = {};
+  if (compId) paramsObj['recordId'] = compId;
+  if (recordType) paramsObj['recordType'] = recordType;
+  const query = '&' + new URLSearchParams(paramsObj)?.toString();
 
   const {
     data: CompanyCalls,
@@ -27,6 +33,14 @@ const useCalls = () => {
     pageLimit,
     query,
   });
+
+  const { data: CallsWidgetData } = useGetCallsWidgetQuery({ query });
+
+  const WidgetData: Record<string, number> = {
+    All: CallsWidgetData?.data[0]?.totalRecords,
+    Upcoming: CallsWidgetData?.data[0]?.upComingCount,
+    Completed: CallsWidgetData?.data[0]?.completedCount,
+  };
 
   const [deleteCalls] = useDeleteCallsMutation();
 
@@ -83,6 +97,7 @@ const useCalls = () => {
     deleteCallsHandler,
     openAlertModal,
     setOpenAlertModal,
+    WidgetData,
   };
 };
 

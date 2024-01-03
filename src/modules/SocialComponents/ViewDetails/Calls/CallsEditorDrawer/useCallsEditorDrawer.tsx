@@ -22,6 +22,7 @@ const useCallsEditorDrawer = ({
   setOpenDrawer,
   setSelectedCheckboxes,
   selectedCheckboxes,
+  companyId,
 }: any) => {
   const { user } = getSession();
   const [postCalls] = usePostCallsMutation();
@@ -98,7 +99,8 @@ const useCallsEditorDrawer = ({
       callToTime: dayjs(callToTime)?.format(TIME_FORMAT?.API),
       callFromTime: dayjs(callFromTime)?.format(TIME_FORMAT?.API),
       callFromDate: dayjs(callFromDate)?.format(DATE_FORMAT?.API),
-      // status: openDrawer === 'Reschedule' ? 'Re-Scheduled' : status,
+      recordType: 'companies',
+      recordId: companyId,
     };
 
     try {

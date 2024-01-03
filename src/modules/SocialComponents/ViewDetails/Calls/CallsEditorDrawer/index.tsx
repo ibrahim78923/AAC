@@ -28,6 +28,7 @@ const CallsEditorDrawer = (props: any) => {
     setOpenDrawer,
     setSelectedCheckboxes,
     selectedCheckboxes,
+    companyId,
   } = props;
   const { handleSubmit, onSubmit, methodsdealsCalls, EmployeeData } =
     useCallsEditorDrawer({
@@ -35,6 +36,7 @@ const CallsEditorDrawer = (props: any) => {
       setOpenDrawer,
       setSelectedCheckboxes,
       selectedCheckboxes,
+      companyId,
     });
 
   return (
@@ -71,7 +73,7 @@ const CallsEditorDrawer = (props: any) => {
                 </Grid>
               ))}
 
-              <Grid item xs={12} md={8}>
+              <Grid item xs={12} md={8} sx={{ paddingTop: '25px !important' }}>
                 <RHFMultiSearchableSelect
                   size="small"
                   label="Attendees"
@@ -82,7 +84,7 @@ const CallsEditorDrawer = (props: any) => {
               <Grid item xs={12} md={4}>
                 <AppAvatarGroup data={avatarGroupMockData} />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sx={{ paddingTop: '25px !important' }}>
                 <RHFSelect name="Outcome" label="Outcome" size="small">
                   {options?.map((option: any) => (
                     <option key={uuidv4()} value={option?.value}>

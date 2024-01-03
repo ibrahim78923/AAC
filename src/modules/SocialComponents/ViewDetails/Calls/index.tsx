@@ -8,13 +8,13 @@ import { isNullOrEmpty } from '@/utils';
 import useCalls from './useCalls';
 
 import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
-import { callsDetails, callsStatusColor, columns } from './Calls.data';
+import { callsStatusColor, columns } from './Calls.data';
 
 import { PlusIcon, ViewCallIcon } from '@/assets/icons';
 
 import { styles } from './Calls.style';
 
-const Calls = () => {
+const Calls = ({ companyId }: any) => {
   const {
     openDrawer,
     setOpenDrawer,
@@ -30,7 +30,8 @@ const Calls = () => {
     deleteCallsHandler,
     openAlertModal,
     setOpenAlertModal,
-  } = useCalls();
+    WidgetData,
+  } = useCalls({ companyId });
 
   const getColumns = columns({ handleCheckboxChange, selectedCheckboxes });
 
@@ -43,7 +44,7 @@ const Calls = () => {
       }}
     >
       <Grid container spacing={3} sx={{ marginBottom: '25px' }}>
-        {Object?.entries(callsDetails).map(([key, value]) => (
+        {Object?.entries(WidgetData).map(([key, value]) => (
           <Grid item md={4} xs={12} key={key}>
             <Box sx={styles?.callStatusBox(callsStatusColor, key)}>
               <Typography variant="body2">{key}</Typography>
@@ -103,7 +104,7 @@ const Calls = () => {
             </Box>
           </Grid>
         )}
-        {!isNullOrEmpty(TasksTableData) && (
+        {!isNullOrEmpty(TasksTableData) && !isError && (
           <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
             <TanstackTable
               columns={getColumns}
@@ -130,6 +131,7 @@ const Calls = () => {
         setOpenDrawer={setOpenDrawer}
         setSelectedCheckboxes={setSelectedCheckboxes}
         selectedCheckboxes={selectedCheckboxes}
+        companyId={companyId}
       />
     </Box>
   );
