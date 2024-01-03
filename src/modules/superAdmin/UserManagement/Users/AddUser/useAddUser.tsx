@@ -82,7 +82,7 @@ const useAddUser = (useActionParams?: any) => {
 
   // setValue of address values
   useEffect(() => {
-    setValue('compositeAddress', addressValues);
+    setValue('compositeAddress', addressValues?.trim());
   }, [addressValues]);
 
   // watch crn number from values

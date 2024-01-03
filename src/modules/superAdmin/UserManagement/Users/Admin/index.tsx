@@ -11,12 +11,10 @@ const Admin = (props: any) => {
     handleUserSwitchChange,
     pageLimit,
     setPageLimit,
-    page,
-    setPage,
     initialTab,
   } = useUserManagement();
   const params = {
-    page: page,
+    page: checkedRows?.page,
     limit: pageLimit,
     search: searchVal ?? '',
     role: 'SUPER_ADMIN',
@@ -25,10 +23,16 @@ const Admin = (props: any) => {
       : undefined,
   };
   const { data, isSuccess, isLoading } = useGetUsersQuery(params);
+
+  const handleCheckboxChange = (val: any, rowId: string) => {
+    const newCheckedRows = val?.target?.checked ? rowId : null;
+    setCheckedRows({ ...checkedRows, selectedValue: newCheckedRows });
+  };
+
   const columnsProps = {
     handleUserSwitchChange: handleUserSwitchChange,
-    checkedRows: checkedRows,
-    setCheckedRows: setCheckedRows,
+    checkedRows: checkedRows?.selectedValue,
+    handleCheckboxChange: handleCheckboxChange,
   };
   const columnParams = superAdminColumns(columnsProps);
 
@@ -37,8 +41,10 @@ const Admin = (props: any) => {
       <TanstackTable
         columns={columnParams}
         data={data?.data?.users}
-        onPageChange={(page: any) => setPage(page)}
-        setPage={setPage}
+        onPageChange={(page: any) =>
+          setCheckedRows({ ...checkedRows, page: page })
+        }
+        setPage={setCheckedRows}
         setPageLimit={setPageLimit}
         count={data?.data?.meta?.pages}
         isPagination
