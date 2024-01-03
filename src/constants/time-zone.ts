@@ -335,5 +335,4 @@ export const timeZone = [
     value: 'America/Grenada',
     label: '(GMT-04:00) Grenada',
   },
-
 ];

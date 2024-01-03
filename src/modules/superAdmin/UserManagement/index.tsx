@@ -76,8 +76,8 @@ const UserManagement = () => {
             {tabVal === initialTab
               ? 'Add Company Owner'
               : tabVal === tabOne
-              ? 'Add Super Admin '
-              : 'Add Role'}
+                ? 'Add Super Admin '
+                : 'Add Role'}
           </Button>
         </PermissionsGuard>
       </Box>

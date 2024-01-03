@@ -9,6 +9,7 @@ function path(root: string, sublink: string) {
 const AUTH_ROOT_PAGE = '/auth';
 const DASHBOARD_ROOT_PAGE = '/dashboard';
 const SOCIAL_ROOT_PAGE = '/social-components';
+const AIR_SOCIAL_PAGE = '/air-social';
 
 // ======================================================================
 
@@ -51,6 +52,10 @@ export const SUPER_ADMIN_SETTINGS: any = {
 
 export const SOCIAL_FEATURES = {
   calls: path(SOCIAL_ROOT_PAGE, '/calling/call'),
+};
+
+export const AIR_SOCIAL = {
+  CONTACTS: `${AIR_SOCIAL_PAGE}/contacts`,
 };
 
 export const AIR_SALES = {

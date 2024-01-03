@@ -165,8 +165,8 @@ export const requestorsList: any = (
         activationStatus === REQUESTORS_STATUS?.ACTIVE
           ? theme?.palette?.success?.main
           : activationStatus === REQUESTORS_STATUS?.INACTIVE
-          ? theme?.palette?.warning?.main
-          : '';
+            ? theme?.palette?.warning?.main
+            : '';
 
       return (
         <Typography
