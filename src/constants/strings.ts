@@ -241,9 +241,9 @@ export const SETTINGS_ADD_ROLE = {
   EDIT: 'Edit',
   DELETE: 'Delete',
 };
-export const REQUESTORS_STATUS = {
-  ACTIVE: 'Active',
-  INACTIVE: 'Inactive',
+export const REQUESTERS_STATUS = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
 };
 export const REQUESTORS_ASSIGNED_STATUS = {
   OPEN: 'Open',
