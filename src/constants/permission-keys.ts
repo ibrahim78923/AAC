@@ -176,20 +176,20 @@ export const AIR_SALES_DEALS_PERMISSIONS = {
 };
 
 export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
-  View_Dashboard: 'marketer-sms-marketing-dashboard-view-dashboard',
-  View_SMS_Conversation: 'marketer-sms-marketing-dashboard-view-sms-conversion',
-  View_Schedule_SMS: 'marketer-sms-marketing-dashboard-view-sms-schedule',
-  View_SMS_Contacts: 'marketer-sms-marketing-dashboard-view-sms-contacts',
-  Create_SMS_Broadcast: 'marketer-sms-marketing-sms-broadcast-create',
-  Preview_SMS_Broadcast: 'marketer-sms-marketing-sms-broadcast-preview',
-  Schedule_SMS_Broadcast: 'marketer-sms-marketing-sms-broadcast-schedule',
-  Send_SMS_Broadcast: 'marketer-sms-marketing-sms-broadcast-send',
-  View_SMS_Broadcast: 'marketer-sms-marketing-sms-broadcast-view',
-  Search_and_Filter: 'marketer-sms-marketing-sms-broadcast-search-and-filter',
-  Edit_SMS_Broadcast: 'marketer-sms-marketing-sms-broadcast-edit',
-  Delete_SMS_Broadcast: 'marketer-sms-marketing-sms-broadcast-delete',
-  List_view: 'marketer-sms-marketing-sms-broadcast-list-view',
-  Detail_View: 'marketer-sms-marketing-sms-broadcast-detail-view',
+  VIEW_DASHBOARD: 'marketer-sms-marketing-dashboard-view-dashboard',
+  VIEW_SMS_CONVERSATION: 'marketer-sms-marketing-dashboard-view-sms-conversion',
+  VIEW_SCHEDULE_SMS: 'marketer-sms-marketing-dashboard-view-sms-schedule',
+  VIEW_SMS_CONTACTS: 'marketer-sms-marketing-dashboard-view-sms-contacts',
+  CREATE_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-create',
+  PREVIEW_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-preview',
+  SCHEDULE_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-schedule',
+  SEND_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-send',
+  VIEW_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-view',
+  SEARCH_AND_FILTER: 'marketer-sms-marketing-sms-broadcast-search-and-filter',
+  EDIT_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-edit',
+  DELETE_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-delete',
+  LIST_VIEW: 'marketer-sms-marketing-sms-broadcast-list-view',
+  DETAIL_VIEW: 'marketer-sms-marketing-sms-broadcast-detail-view',
 };
 
 //for display purpose in steppers
