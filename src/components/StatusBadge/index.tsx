@@ -9,7 +9,6 @@ import { v4 as uuidv4 } from 'uuid';
 const StatusBadge = (props: BadgeStatusI) => {
   const { options = undefined, onChange, value, defaultValue } = props;
   const theme = useTheme();
-
   return (
     <Select
       IconComponent={KeyboardArrowDown}
@@ -23,7 +22,7 @@ const StatusBadge = (props: BadgeStatusI) => {
           value === 'ACTIVE' || value === 'open'
             ? theme?.palette?.success?.main
             : theme?.palette?.error?.main,
-        ...styles.select(value, defaultValue, theme),
+        ...styles.select(value, theme),
       }}
       id="demo-simple-select"
       value={value}

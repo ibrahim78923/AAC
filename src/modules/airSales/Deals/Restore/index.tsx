@@ -1,27 +1,25 @@
 import Link from 'next/link';
 
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Box, Button, Paper, Typography, Tooltip } from '@mui/material';
 
 import TanstackTable from '@/components/Table/TanstackTable';
 import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
-
-import { RestoreTableData } from '@/mock/modules/airSales/Deals/Restore';
+import { AIR_SALES } from '@/routesConstants/paths';
 
 import RestoreFilterDrawer from './RestoreFilterDrawer';
 import RestoreDeleteModal from './RestoreDeleteModal';
 import RestoreDealModal from './RestoreDealModal';
 import DealsActions from '../DealsActions';
-
 import useRestore from './useRestore';
-import { RestoreTableColumns } from './RestoreTable.data';
 
-import { BackArrIcon, FilterIcon } from '@/assets/icons';
+import { BackArrIcon, FilterIcon, RefreshTasksIcon } from '@/assets/icons';
+import { RestoreTableColumns } from './RestoreTable.data';
 
 const Restore = () => {
   const {
     handleRestoreFilter,
-    isRestoreFilter,
+    IsRestoreFilterDrawer,
     setSearch,
     search,
     handlePermanantDelete,
@@ -30,7 +28,23 @@ const Restore = () => {
     IsRestoreDealModal,
     theme,
     handleActions,
+    restoeDealData,
+    // handleCheckAll,
+    // handleSingleChecked,
+    checkedAll,
+    handlePermanantDeleteRetore,
+    setRestoreFilter,
+    setIsRestoreFilterDrawer,
+    setCheckedAll,
   } = useRestore();
+
+  const columnsProps = {
+    checkedAll: checkedAll,
+    setCheckedAll: setCheckedAll,
+    restoeDealData: restoeDealData,
+  };
+
+  const columnParams = RestoreTableColumns(columnsProps);
 
   return (
     <Box>
@@ -43,17 +57,21 @@ const Restore = () => {
           justifyContent: 'space-between',
         }}
       >
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-          <Link href={'/air-sales/deals'}>
-            <BackArrIcon />
-          </Link>
-          <Box>
+        <Box>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+            <Box sx={{ mt: '5px' }}>
+              <Link href={AIR_SALES?.DEAL}>
+                <BackArrIcon />
+              </Link>
+            </Box>
             <Typography
               variant="subtitle1"
               sx={{ colors: theme?.palette?.grey[600] }}
             >
               Restore Deals
             </Typography>
+          </Box>
+          <Box>
             <Typography
               variant="body2"
               sx={{ color: theme?.palette?.custom['main'] }}
@@ -63,18 +81,40 @@ const Restore = () => {
           </Box>
         </Box>
 
-        <RestoreFilterDrawer
-          open={isRestoreFilter}
-          onClose={handleRestoreFilter}
-        />
-        <RestoreDeleteModal
-          open={isPermanantlyDel}
-          onClose={handlePermanantDelete}
-        />
-        <RestoreDealModal
-          open={IsRestoreDealModal}
-          onClose={handleResDealModal}
-        />
+        {IsRestoreFilterDrawer && (
+          <RestoreFilterDrawer
+            open={IsRestoreFilterDrawer}
+            onClose={handleRestoreFilter}
+            setRestoreFilter={setRestoreFilter}
+            setIsRestoreFilterDrawer={setIsRestoreFilterDrawer}
+          />
+        )}
+
+        {isPermanantlyDel && (
+          <RestoreDeleteModal
+            open={isPermanantlyDel}
+            onClose={handlePermanantDelete}
+            handlePermanantDeleteRetore={() =>
+              handlePermanantDeleteRetore(
+                'HARD_DELETED',
+                'Deal deleted successfully',
+              )
+            }
+          />
+        )}
+
+        {IsRestoreDealModal && (
+          <RestoreDealModal
+            open={IsRestoreDealModal}
+            onClose={handleResDealModal}
+            handlePermanantDeleteRetore={() =>
+              handlePermanantDeleteRetore(
+                'ACTIVE',
+                'Deal restored successfully',
+              )
+            }
+          />
+        )}
       </Box>
 
       <Box
@@ -105,22 +145,31 @@ const Restore = () => {
         >
           <DealsActions
             menuItem={['Restore', 'Delete']}
-            disableActionBtn={false}
+            disableActionBtn={checkedAll.length > 0 ? false : true}
             onChange={handleActions}
+            checkedAll={checkedAll}
           />
+          <Tooltip title={'Refresh Filter'}>
+            <Button variant="outlined" color="inherit" className="small">
+              <RefreshTasksIcon />
+            </Button>
+          </Tooltip>
           <Button
             startIcon={<FilterIcon />}
             variant="outlined"
-            sx={{ height: '35px', color: theme?.palette?.custom['main'] }}
+            color="inherit"
+            className="small"
             onClick={handleRestoreFilter}
           >
-            {' '}
             Filter
           </Button>
         </Box>
       </Box>
       <Paper sx={{ mb: 2 }}>
-        <TanstackTable columns={RestoreTableColumns} data={RestoreTableData} />
+        <TanstackTable
+          columns={columnParams}
+          data={restoeDealData?.data?.deals}
+        />
         <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}

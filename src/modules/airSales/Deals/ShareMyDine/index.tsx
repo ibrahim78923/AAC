@@ -11,37 +11,42 @@ import {
 } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
+import { useGetDealsActionPreviewQuery } from '@/services/airSales/deals';
 
 import {
   AccordianDetailsData,
   ShareAccordianData,
   ShareData,
-} from '../../../../mock/modules/airSales/Deals/ShareMyDine';
+} from './ShareMyDine.data';
 
+import { v4 as uuidv4 } from 'uuid';
 import {
-  MailIcon,
-  CallIcon,
   ActivitiesIcon,
-  CalendarIcon,
-  SaveIcon,
   ArrowBgDownIcon,
+  CalendarIcon,
+  CallIcon,
+  MailIcon,
+  SaveIcon,
 } from '@/assets/icons';
 
 import { styles } from './ShareMyDine.style';
 
-import { v4 as uuidv4 } from 'uuid';
-
-const ShareMyDine = ({ open, onClose }: any) => {
+const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
   const theme = useTheme();
+  const { data: DealsActionData }: any = useGetDealsActionPreviewQuery({
+    id: selectedTableIds[0],
+  });
+
   return (
     <>
       <CommonDrawer
         isDrawerOpen={open}
         onClose={onClose}
         footer
-        isOk
-        okText="Submit"
-        title="ShareMyDine"
+        isCancel={false}
+        isOk={false}
+        okText=""
+        title={DealsActionData?.data?.name}
       >
         <Box sx={styles?.iconWrap}>
           <MailIcon />
@@ -51,11 +56,11 @@ const ShareMyDine = ({ open, onClose }: any) => {
           <SaveIcon />
         </Box>
         <Box sx={{ marginTop: '40px' }}>
-          {ShareData?.map((item: any) => (
+          {ShareData(DealsActionData?.data)?.map((item: any) => (
             <Box key={uuidv4()} sx={styles?.heading}>
               <Typography
                 sx={{
-                  fontSize: '14x',
+                  fontSize: '14px',
                   fontWeight: 400,
                   color: theme?.palette?.custom['main'],
                 }}
@@ -112,10 +117,10 @@ const ShareMyDine = ({ open, onClose }: any) => {
                       >
                         <Stack>
                           <Typography sx={styles?.accordianText(theme)}>
-                            {data?.name}
+                            {data?.name ?? 'N/A'}
                           </Typography>
                           <Typography sx={styles?.accordianEmail(theme)}>
-                            {data?.email}
+                            {data?.email ?? 'N/A'}
                           </Typography>
                         </Stack>
                         <Typography
@@ -125,7 +130,7 @@ const ShareMyDine = ({ open, onClose }: any) => {
                             fontWeight: 500,
                           }}
                         >
-                          {data?.number}
+                          {data?.number ?? 'N/A'}
                         </Typography>
                       </Stack>
                     </Stack>

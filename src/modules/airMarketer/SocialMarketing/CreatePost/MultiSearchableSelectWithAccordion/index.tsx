@@ -10,6 +10,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  useTheme,
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { ArrowDownIcon } from '@/assets/icons';
@@ -28,6 +29,7 @@ export default function RHFMultiSearchableSelectWithAccordion({
   setIsDropdownClose,
   ...other
 }: any) {
+  const theme = useTheme();
   const { control } = useFormContext();
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -172,7 +174,8 @@ export default function RHFMultiSearchableSelectWithAccordion({
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                         sx={{
-                          backgroundColor: '#f1f1f17a',
+                          backgroundColor:
+                            theme?.palette?.custom?.accordian_color,
                           borderRadius: '5px',
                           display: 'flex',
                           marginBottom: '5px',
@@ -217,10 +220,11 @@ export default function RHFMultiSearchableSelectWithAccordion({
                               backgroundColor: isCheckBox
                                 ? 'transparent'
                                 : selectedValues?.includes(option?.value)
-                                ? '#e0e0e0'
-                                : 'transparent',
+                                  ? theme?.palette?.custom?.hex_grey
+                                  : 'transparent',
                               '&:hover': {
-                                backgroundColor: '#e0e0e0',
+                                backgroundColor:
+                                  theme?.palette?.custom?.hex_grey,
                               },
                             }}
                           >
@@ -259,9 +263,9 @@ export default function RHFMultiSearchableSelectWithAccordion({
                   key={uuidv4()}
                   sx={{
                     width: 'fit-content',
-                    background: '#F3F4F6',
+                    background: theme?.palette?.grey[400],
                     borderRadius: '20px',
-                    color: '#6E7191',
+                    color: theme?.palette?.custom?.dim_blue,
                     padding: '1px 8px',
                     display: 'flex',
                     marginRight: '10px',

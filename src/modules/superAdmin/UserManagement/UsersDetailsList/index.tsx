@@ -44,6 +44,7 @@ import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/U
 import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/users';
 import NoData from '@/components/NoData';
 import { useSearchParams } from 'next/navigation';
+import useUserManagement from '../useUserManagement';
 
 const UsersDetailsList = () => {
   const {
@@ -56,8 +57,6 @@ const UsersDetailsList = () => {
     handleAddUserDrawer,
     isOpenAdduserDrawer,
     setIsOpenAdduserDrawer,
-    userStatus,
-    setUserStatus,
     isOpenAddAccountDrawer,
     setIsOpenAddAccountDrawer,
     search,
@@ -78,7 +77,7 @@ const UsersDetailsList = () => {
     handleEmpListPaginationChange,
     page,
   }: any = useUserDetailsList();
-
+  const { handleUserSwitchChange } = useUserManagement();
   const { userName, userId } = navigate.query;
   const organizationId = useSearchParams()?.get('organizationId');
   const employeeRecordsLimit = 10;
@@ -250,8 +249,10 @@ const UsersDetailsList = () => {
                         </Typography>
                         <StatusBadge
                           defaultValue={item?.status}
-                          value={userStatus}
-                          onChange={(e: any) => setUserStatus(e?.target?.value)}
+                          value={item?.status}
+                          onChange={(e: any) =>
+                            handleUserSwitchChange(e, item?._id)
+                          }
                           options={[
                             {
                               label: 'Active',

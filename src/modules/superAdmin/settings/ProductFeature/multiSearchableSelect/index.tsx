@@ -175,8 +175,8 @@ export default function MultiSearchableSelect({
                   backgroundColor: isCheckBox
                     ? 'transparent'
                     : selectedValues?.includes(option?.value)
-                    ? '#e0e0e0'
-                    : 'transparent',
+                      ? '#e0e0e0'
+                      : 'transparent',
                   '&:hover': {
                     backgroundColor: '#e0e0e0',
                   },

@@ -1,4 +1,4 @@
-const ImportBoxIcon = ({ color = '#1F305D' }: any) => {
+const ImportBoxIcon = ({ color }: any) => {
   return (
     <svg
       width="29"

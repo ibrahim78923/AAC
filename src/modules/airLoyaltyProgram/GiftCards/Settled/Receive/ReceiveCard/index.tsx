@@ -17,6 +17,7 @@ export const ReceiveCard = ({ values }: any) => {
           borderRadius: '14px',
           p: 1.5,
           gap: 1,
+          minWidth: '250px',
         }}
       >
         <Box

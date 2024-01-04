@@ -16,7 +16,7 @@ export const SignUpDefaultValues = {
 export const SignUpValidationSchema: any = Yup?.object()?.shape({
   firstName: Yup?.string()?.required('Required')?.max(30),
   lastName: Yup?.string()?.max(30),
-  email: Yup?.string()?.required('Required')?.max(100),
+  email: Yup?.string()?.required('Required')?.max(100)?.email('invalid email'),
 });
 
 export const SignUpFormFields = [

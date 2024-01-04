@@ -1,40 +1,40 @@
-export const profileInformation = [
+export const profileInformation = (profileData: any) => [
   {
-    id: 1,
-    title: 'Rachel Chris',
-    description: 'Joined on Sun, 5 Mar 9:41 PM',
+    id: profileData?._id,
+    title: profileData?.firstName,
+    description: profileData?.createdAt,
   },
   {
-    id: 2,
+    id: profileData?._id,
     title: 'Email',
-    detail: 'rachelrussel@gmail.com',
+    detail: profileData?.email,
   },
   {
-    id: 3,
+    id: profileData?._id,
     title: 'Phone Number',
-    detail: '+920635985245',
+    detail: profileData?.phoneNumber,
   },
 ];
 
-export const profileRole = [
+export const profileRole = (profileData: any) => [
   {
-    id: 1,
+    id: profileData?._id,
     title: 'Department',
     detail: 'IT',
   },
   {
-    id: 2,
+    id: profileData?._id,
     title: 'Role',
-    detail: 'IT Manager',
+    detail: profileData?.role,
   },
   {
-    id: 3,
+    id: profileData?._id,
     title: 'Title',
     detail: 'Mr.',
   },
   {
-    id: 4,
+    id: profileData?._id,
     title: 'Mobile Phone',
-    detail: '+92345226896',
+    detail: profileData?.phoneNumber,
   },
 ];

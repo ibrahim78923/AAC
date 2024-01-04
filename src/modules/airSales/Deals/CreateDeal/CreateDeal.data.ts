@@ -1,117 +1,125 @@
-import { RHFDatePicker, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFSelect,
+  RHFSwitchableDatepicker,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 
-export const createDealData = [
-  {
-    title: 'Deal Name',
-    componentProps: {
-      name: 'DealName',
-      label: 'Enter Name',
+import useDealSaleSite from '../useDealSaleSite';
+import { useGetUsersListQuery } from '@/services/airSales/deals';
+
+export const createDealData = () => {
+  const userRole = 'ORG_EMPLOYEE';
+  const { pipelineData, DealsLifecycleStageData } = useDealSaleSite();
+  const { data: UserListData } = useGetUsersListQuery({ role: userRole });
+
+  return [
+    {
+      componentProps: {
+        name: 'name',
+        label: 'Deal Name',
+        required: true,
+        placeholder: 'Enter Name',
+      },
+      component: RHFTextField,
     },
-    component: RHFTextField,
-  },
-  {
-    title: 'Deal Pipeline',
-    componentProps: {
-      name: 'DealPipline',
-      label: 'Select',
-      select: true,
+    {
+      componentProps: {
+        name: 'dealPiplineId',
+        label: 'Deal Pipeline',
+        select: true,
+        required: true,
+      },
+      options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })) ?? [{ label: '', value: '' }],
+      component: RHFSelect,
     },
-    options: [
-      { value: 'Registering Pipeline', label: 'Registering Pipeline' },
-      { value: 'Sales Pipeline', label: 'Sales Pipeline' },
-      { value: 'Recruitment Pipeline', label: 'Recruitment Pipeline' },
-      { value: 'Test Pipeline', label: 'Test Pipeline' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    title: 'Deal Stage',
-    componentProps: {
-      name: 'DealStage',
-      label: 'Select',
-      select: true,
+    {
+      componentProps: {
+        name: 'dealStageId',
+        label: 'Deal Stage',
+        select: true,
+        required: true,
+      },
+      options: DealsLifecycleStageData?.data?.lifecycleStages?.map(
+        (item: any) => ({
+          value: item?._id,
+          label: item?.name,
+        }),
+      ),
+      component: RHFSelect,
     },
-    options: [
-      { value: 'New', label: 'New' },
-      { value: 'Follow Up', label: 'Follow Up' },
-      { value: 'Under Review', label: 'Under Review' },
-      { value: 'Demo', label: 'Demo' },
-      { value: 'Negotiation', label: 'Negotiation' },
-      { value: 'Won', label: 'Won' },
-      { value: 'Lost', label: 'Lost' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    title: 'Amount',
-    componentProps: {
-      name: 'amount',
-      label: 'Enter Amount',
-      type: 'number',
+    {
+      title: 'Amount',
+      componentProps: {
+        name: 'amount',
+        label: 'Amount',
+        placeholder: 'Enter Amount',
+        type: 'number',
+      },
+      component: RHFTextField,
     },
-    component: RHFTextField,
-  },
-  {
-    title: 'Close Date',
-    componentProps: {
-      name: 'CloseDate',
-      label: 'Select',
+    {
+      componentProps: {
+        name: 'closeDate',
+        label: 'Close Date',
+        placeholder: 'Monday, January 30, 2023',
+      },
+      component: RHFSwitchableDatepicker,
     },
-    component: RHFDatePicker,
-  },
-  {
-    title: 'Deal Owner',
-    componentProps: {
-      name: 'DealOwner',
-      label: 'Select',
-      select: true,
+    {
+      title: 'Deal Owner',
+      componentProps: {
+        name: 'dealOwnerId',
+        label: 'Deal Owner',
+        select: true,
+      },
+      options: UserListData?.data?.users?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })) ?? [{ label: '', value: '' }],
+      component: RHFSelect,
     },
-    options: [
-      { value: 'Dianne Russell', label: 'Dianne Russell' },
-      { value: 'Phoenix Baker', label: 'Phoenix Baker' },
-      { value: 'Lesile Alexander', label: 'Lesile Alexander' },
-      { value: 'Marvin McKinney', label: 'Marvin McKinney' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    title: 'Priority',
-    componentProps: {
-      name: 'priority',
-      label: 'Select',
-      select: true,
+    {
+      componentProps: {
+        name: 'priority',
+        label: 'Priority',
+        select: true,
+      },
+      options: [
+        { value: 'Low', label: 'Low' },
+        { value: 'Medium', label: 'Medium' },
+        { value: 'High', label: 'High' },
+      ],
+      component: RHFSelect,
     },
-    options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    title: 'Add Line Item',
-    componentProps: {
-      name: 'lineItem',
-      label: 'Select',
-      select: true,
+    {
+      componentProps: {
+        name: 'addLineItemId',
+        label: 'Add Line Item',
+        select: true,
+      },
+      options: [
+        { value: 'Sample Product: £20', label: 'Sample Product: £20' },
+        {
+          value: 'Orcalo Product: £5/month',
+          label: 'Orcalo Product: £5/month',
+        },
+      ],
+      component: RHFSelect,
     },
-    options: [
-      { value: 'Sample Product: £20', label: 'Sample Product: £20' },
-      { value: 'Orcalo Product: £5/month', label: 'Orcalo Product: £5/month' },
-    ],
-    component: RHFTextField,
-  },
-  {
-    title: 'Billing Frequency',
-    componentProps: {
-      name: 'billingFrequency',
-      label: 'Select',
-      select: true,
+    {
+      componentProps: {
+        name: 'billingFrequency',
+        label: 'Billing Frequency',
+        select: true,
+      },
+      options: [
+        { value: 'monthly', label: 'monthly' },
+        { value: 'quarterly', label: 'quarterly' },
+      ],
+      component: RHFSelect,
     },
-    options: [
-      { value: 'Monthly', label: 'Monthly' },
-      { value: 'Quarterly', label: 'Quarterly' },
-    ],
-    component: RHFTextField,
-  },
-];
+  ];
+};
