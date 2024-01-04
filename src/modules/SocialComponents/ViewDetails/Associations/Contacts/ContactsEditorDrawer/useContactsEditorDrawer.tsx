@@ -13,8 +13,10 @@ const useContactsEditorDrawer = () => {
     defaultValues: contactsDefaultValues,
   });
 
-  const onSubmit = () => {};
   const { handleSubmit } = methodscontacts;
+
+  const onSubmit = () => {};
+
   return { handleSubmit, onSubmit, methodscontacts };
 };
 

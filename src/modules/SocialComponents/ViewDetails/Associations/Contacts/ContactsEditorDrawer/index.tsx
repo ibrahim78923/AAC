@@ -26,14 +26,12 @@ const ContactsEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <Box sx={{ pt: 2 }}>
-          <FormProvider
-            methods={methodscontacts}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodscontacts}>
             <Grid container spacing={4}>
-              {contactsDataArray?.map((item: any) => (
+              {contactsDataArray(openDrawer)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
