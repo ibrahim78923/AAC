@@ -3,37 +3,78 @@ import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { requestorsDropdown, requestorsList } from '../Requestors.data';
+import { requestersDropdown } from '../Requesters.data';
+import {
+  useDeleteRequesterMutation,
+  usePostAddRequesterMutation,
+} from '@/services/airServices/settings/user-management';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  upsertRequestersDefaultValues,
+  upsertRequestersValidationSchema,
+} from '../UpsertRequesters/UpsertRequesters.data';
 
-export const useRequestersHeader = () => {
+export const useRequestersHeader = (props: any) => {
+  const { selectedRequestersList, setSelectedRequestersList } = props;
   const [searchValue, setSearchValue] = useState<string>('');
   const theme = useTheme();
   const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [selectedRequestorsList, setSelectedRequestorsList] = useState<any>([]);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [warningModal, setWarningModal] = useState<boolean>(false);
-  const requestorsListColumn = requestorsList(
-    selectedRequestorsList,
-    setSelectedRequestorsList,
-    theme,
-    router,
-  );
-  const requestorsDropdownOptions = requestorsDropdown(
+  const [deleteRequester] = useDeleteRequesterMutation();
+
+  const requestorsDropdownOptions = requestersDropdown(
     setDeleteModal,
     setWarningModal,
   );
-  const submitDeleteModal = () => {
-    enqueueSnackbar('Delete Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
+  const deleteIds = selectedRequestersList?.map((list: any) => list?._id);
+  const submitDeleteModal = async () => {
+    const response: any = await deleteRequester({
+      ids: deleteIds,
     });
-    setDeleteModal(false);
+    try {
+      response;
+      enqueueSnackbar(response?.data?.message && 'Delete Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      setSelectedRequestersList([]);
+    } catch (err: any) {
+      enqueueSnackbar(!response?.data?.message && `Error Occurs`, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
+
   const submitWarningModal = () => {
     enqueueSnackbar('Warning', {
       variant: NOTISTACK_VARIANTS?.WARNING,
     });
     setWarningModal(false);
+  };
+
+  const methods: any = useForm({
+    resolver: yupResolver(upsertRequestersValidationSchema),
+    defaultValues: upsertRequestersDefaultValues(null),
+  });
+  const { handleSubmit, reset } = methods;
+
+  const [addRequester] = usePostAddRequesterMutation();
+
+  const submit = async (data: any) => {
+    try {
+      await addRequester({ ...data, role: 'ORG_REQUESTER' });
+      enqueueSnackbar('Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      reset();
+      setIsDrawerOpen(false);
+    } catch (error: any) {
+      enqueueSnackbar(error?.error?.message ?? 'Error', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
   return {
@@ -42,8 +83,6 @@ export const useRequestersHeader = () => {
     theme,
     isDrawerOpen,
     setIsDrawerOpen,
-    selectedRequestorsList,
-    setSelectedRequestorsList,
     deleteModal,
     setDeleteModal,
     warningModal,
@@ -52,6 +91,8 @@ export const useRequestersHeader = () => {
     submitDeleteModal,
     requestorsDropdownOptions,
     router,
-    requestorsListColumn,
+    methods,
+    handleSubmit,
+    submit,
   };
 };

@@ -1,96 +1,83 @@
 import { useForm } from 'react-hook-form';
 
-import {
-  FormControlLabel,
-  Grid,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
-import { CreateViewData } from './CreateView.data';
+import {
+  CreateViewData,
+  defaultValues,
+  validationSchema,
+} from './CreateView.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
+import { useCreateViewDealsMutation } from '@/services/airSales/deals';
 
 import { v4 as uuidv4 } from 'uuid';
+import dayjs from 'dayjs';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { enqueueSnackbar } from 'notistack';
+import { AIR_SALES } from '@/routesConstants/paths';
+import { DATE_FORMAT } from '@/constants';
 
 const CreateView = ({ open, onClose }: any) => {
-  const methods = useForm({});
-  const theme = useTheme();
+  const methods: any = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: defaultValues,
+  });
+  const [createView] = useCreateViewDealsMutation();
+  const { handleSubmit } = methods;
+
+  const onSubmit = (values: any) => {
+    // values.sharedWith;
+    values.apiUrl = `${AIR_SALES?.DEAL_LIST_VIEW}?dateStart=${dayjs()?.format(
+      DATE_FORMAT?.API,
+    )}&dateEnd=${dayjs(values?.CloseDate)?.format(DATE_FORMAT?.API)}`;
+    const obj = {
+      name: values?.name,
+      apiUrl: values?.apiUrl,
+      sharedWith: values?.sharedWith,
+    };
+    try {
+      createView({ body: obj })?.unwrap();
+      enqueueSnackbar('Deal created successfully', {
+        variant: 'success',
+      });
+      onClose();
+    } catch (error) {
+      enqueueSnackbar('Error while creating deal', {
+        variant: 'error',
+      });
+    }
+  };
   return (
     <>
       <CommonDrawer
         isDrawerOpen={open}
         onClose={onClose}
         isOk
-        submitHandler={onClose}
-        okText="Submit"
+        submitHandler={handleSubmit(onSubmit)}
+        okText="Save"
+        cancelText="Cancel"
         title="Create View"
+        footer
       >
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {CreateViewData?.map((obj) => (
-              <Grid item xs={12} key={uuidv4()}>
-                <Typography
-                  sx={{
-                    colors: theme?.palette?.grey[600],
-                    fontWeight: '500',
-                    fontSize: '14px',
-                  }}
-                ></Typography>
-                <obj.component
-                  fullWidth
-                  size={'small'}
-                  SelectProps={{ sx: { borderRadius: '8px' } }}
-                  {...obj.componentProps}
-                >
-                  {obj?.componentProps?.select
-                    ? obj?.options?.map((option) => (
-                        <MenuItem key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </MenuItem>
-                      ))
-                    : null}
-                </obj.component>
+            {CreateViewData()?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component {...item?.componentProps} size={'small'}>
+                  {item?.componentProps?.select &&
+                    item?.options?.map((option: any) => (
+                      <option key={uuidv4()} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                </item.component>
               </Grid>
             ))}
           </Grid>
         </FormProvider>
-        <Typography
-          sx={{
-            mt: '20px',
-            color: theme?.palette?.slateBlue['main'],
-            fontSize: '18px',
-            fontWeight: 600,
-          }}
-        >
-          Shared with
-        </Typography>
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          defaultValue="female"
-          name="radio-buttons-group"
-        >
-          <FormControlLabel
-            value="female"
-            control={<Radio />}
-            label="Private"
-          />
-          <FormControlLabel
-            value="male"
-            control={<Radio />}
-            label="My Teams (test)"
-          />
-          <FormControlLabel
-            value="other"
-            control={<Radio />}
-            label="Everyone"
-          />
-        </RadioGroup>
       </CommonDrawer>
     </>
   );

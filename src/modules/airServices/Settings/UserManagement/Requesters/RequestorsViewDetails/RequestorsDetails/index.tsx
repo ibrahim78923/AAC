@@ -15,12 +15,21 @@ import {
   requestorAssignedData,
   requestorsAssigned,
 } from '../../RequestorsAssignedDetails/RequestorsAssignedDetails.data';
-import { useRequestors } from '../../useRequestors';
+import { useRequesters } from '../../useRequesters';
 import { profileInformation, profileRole } from './RequestorsDetails.data';
 import { ProfileImage } from '@/assets/images';
 
 export const RequestorsDetails = () => {
-  const { theme, router, isDrawerOpen, setIsDrawerOpen } = useRequestors();
+  const {
+    theme,
+    router,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    profileData,
+    handleSubmit,
+    submit,
+    methods,
+  } = useRequesters();
   return (
     <>
       <Box display={'flex'} alignItems={'center'} gap={2} mb={3}>
@@ -51,10 +60,17 @@ export const RequestorsDetails = () => {
           justifyContent={{ lg: 'start', xs: 'center' }}
           mb={{ lg: 0, md: 3 }}
         >
-          <Avatar
-            sx={{ height: '9.125rem', width: '9.125rem' }}
-            src={ProfileImage?.src}
-          />
+          {profileData && profileData.length > 0 ? (
+            <Avatar
+              sx={{ height: '9.125rem', width: '9.125rem' }}
+              src={profileData[0]?.avatar || ProfileImage?.src}
+            />
+          ) : (
+            <Avatar
+              sx={{ height: '9.125rem', width: '9.125rem' }}
+              src={ProfileImage?.src}
+            />
+          )}
           <Box
             display={{ lg: 'none', md: 'flex' }}
             justifyContent={'flex-end'}
@@ -79,7 +95,7 @@ export const RequestorsDetails = () => {
             xs: 'none',
           }}
         >
-          {profileInformation?.map((item) => (
+          {profileInformation(profileData[0])?.map((item) => (
             <Grid container spacing={{ sm: 4, xs: 1 }} key={item?.id}>
               <Grid item md={5} xs={12}>
                 <Typography variant="body4" noWrap>
@@ -109,7 +125,7 @@ export const RequestorsDetails = () => {
           gap={3}
           ml={{ lg: 4, xs: 0 }}
         >
-          {profileRole?.map((item) => (
+          {profileRole(profileData[0])?.map((item) => (
             <Grid container spacing={{ sm: 4, xs: 1 }} key={item?.id}>
               <Grid item md={5} xs={12}>
                 <Typography variant="body3" noWrap>
@@ -170,6 +186,8 @@ export const RequestorsDetails = () => {
         setIsDrawerOpen={setIsDrawerOpen}
         title={'Edit Requestor'}
         okText={'Update'}
+        submitHandler={handleSubmit(submit)}
+        methods={methods}
       />
     </>
   );

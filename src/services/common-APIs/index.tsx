@@ -34,7 +34,14 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['USERS'],
     }),
-
+    getDepartment: builder.query({
+      query: (params: any) => ({
+        url: END_POINTS?.GET_DEPARTMENT,
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['DEPARTMENT'],
+    }),
     getCompanyContacts: builder.query({
       query: (params: any) => ({
         url: END_POINTS?.CONTACTS,
@@ -51,5 +58,6 @@ export const {
   useGetOrganizationsQuery,
   useGetCompanyAccountsQuery,
   useGetCompanyAccountsRolesQuery,
+  useGetDepartmentQuery,
   useGetCompanyContactsQuery,
 } = CommonAPIS;
