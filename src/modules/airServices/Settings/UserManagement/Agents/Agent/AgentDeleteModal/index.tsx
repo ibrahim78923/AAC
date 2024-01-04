@@ -1,14 +1,14 @@
 import { AlertModals } from '@/components/AlertModals';
 
 export const AgentDeleteModal = ({ deleteAgentProps }: any) => {
-  const { openDeleteModel, setOpenDeleteModel, handleDelete } =
+  const { openDeleteModal, setOpenDeleteModal, handleDelete } =
     deleteAgentProps;
 
   return (
     <AlertModals
       type="delete"
-      open={openDeleteModel}
-      handleClose={() => setOpenDeleteModel?.(false)}
+      open={openDeleteModal}
+      handleClose={() => setOpenDeleteModal?.(false)}
       handleSubmitBtn={handleDelete}
       message="Are you sure want to delete this record?"
     />

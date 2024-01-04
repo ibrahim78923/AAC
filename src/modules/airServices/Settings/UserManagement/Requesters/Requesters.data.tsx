@@ -1,10 +1,10 @@
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
-import { RequestorsListI } from './Requestors.interface';
-import { AnnouncementAvatarImage } from '@/assets/images';
 import { REQUESTORS_STATUS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { ProfileImage } from '@/assets/images';
 
-export const requestorsDropdown = (
+export const requestersDropdown = (
   setDeleteModal: any,
   setWarningModal: any,
 ) => [
@@ -24,59 +24,36 @@ export const requestorsDropdown = (
   },
 ];
 
-export const requestorListData: RequestorsListI[] = [
-  {
-    id: 1,
-    name: `Enee Well`,
-    email: `eneeewell@gmail.com`,
-    activationStatus: REQUESTORS_STATUS?.ACTIVE,
-    jobTitle: 'Senior HR Executive',
-    icon: AnnouncementAvatarImage,
-  },
-  {
-    id: 2,
-    name: `Nilson Mandela`,
-    email: 'nilsonmadela@gmail.com',
-    activationStatus: REQUESTORS_STATUS?.INACTIVE,
-    jobTitle: 'Junior Admin',
-    icon: AnnouncementAvatarImage,
-  },
-  {
-    id: 3,
-    name: `Nilson Mandela`,
-    email: 'nilsonmadela@gmail.com',
-    activationStatus: REQUESTORS_STATUS?.INACTIVE,
-    jobTitle: 'IT Support',
-    icon: AnnouncementAvatarImage,
-  },
-];
-export const requestorsList: any = (
-  selectedRequestorsList: any,
-  setSelectedRequestorsList: any,
+export const requestersList: any = (
+  selectedRequestersList: any,
+  setSelectedRequestersList: any,
   theme: any,
   router: any,
+  tableListData: any,
 ) => [
   {
-    accessorFn: (row: any) => row?.id,
-    id: 'id',
+    accessorFn: (row: any) => row?._id,
+    id: '_id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          !!selectedRequestorsList?.find(
-            (item: any) => item?.id === info?.getValue(),
+          !!selectedRequestersList?.find(
+            (item: any) => item?._id === info?.getValue(),
           )
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedRequestorsList([
-                ...selectedRequestorsList,
-                requestorListData?.find(
-                  (item: any) => item?.id === info?.getValue(),
+            ? setSelectedRequestersList([
+                ...selectedRequestersList,
+                tableListData?.find(
+                  (item: any) => item?._id === info?.getValue(),
                 ),
               ])
-            : setSelectedRequestorsList(
-                selectedRequestorsList?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
+            : setSelectedRequestersList(
+                selectedRequestersList?.filter((item: any) => {
+                  return item?._id !== info?.getValue();
                 }),
               );
         }}
@@ -86,29 +63,31 @@ export const requestorsList: any = (
     ),
     header: (
       <Checkbox
-        checked={selectedRequestorsList?.length === requestorListData?.length}
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        checked={selectedRequestersList?.length === tableListData?.length}
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedRequestorsList([...requestorListData])
-            : setSelectedRequestorsList([]);
+            ? setSelectedRequestersList([...tableListData])
+            : setSelectedRequestersList([]);
         }}
         color="primary"
-        name="id"
+        name="_id"
       />
     ),
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.name,
-    id: 'name',
+    accessorFn: (row: any) => row?.fullName,
+    id: 'fullName',
     header: 'Name',
     isSortable: true,
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} gap={1}>
         <Avatar
-          src={info?.row?.original?.icon?.src}
+          src={info?.row?.original?.icon?.src || ProfileImage}
           alt={info?.row?.original?.icon?.name}
-        />{' '}
+        />
         <Typography
           sx={{
             color: 'blue.main',
@@ -117,7 +96,7 @@ export const requestorsList: any = (
           onClick={() =>
             router?.push({
               pathname: AIR_SERVICES?.SINGLE_REQUESTERS_DETAILS,
-              query: { id: info?.row?.original?.id },
+              query: { _id: info?.row?.original?._id },
             })
           }
         >
@@ -131,6 +110,7 @@ export const requestorsList: any = (
     id: 'email',
     isSortable: true,
     header: 'Email',
+
     cell: (info: any) => {
       return (
         <Typography
@@ -138,14 +118,12 @@ export const requestorsList: any = (
             textTransform: 'lowercase',
             cursor: 'pointer',
             textDecoration:
-              info?.row?.original?.activationStatus ===
-              REQUESTORS_STATUS?.INACTIVE
+              info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE
                 ? 'underline'
                 : 'none',
           }}
           onClick={() =>
-            info?.row?.original?.activationStatus ===
-              REQUESTORS_STATUS?.INACTIVE &&
+            info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE &&
             router?.push(`mailto:${info?.getValue()}`)
           }
         >
@@ -155,16 +133,16 @@ export const requestorsList: any = (
     },
   },
   {
-    accessorFn: (row: any) => row?.activationStatus,
-    id: 'activationStatus',
+    accessorFn: (row: any) => row?.status,
+    id: 'status',
     isSortable: true,
     header: 'Activation Status',
     cell: (info: any) => {
-      const activationStatus = info?.getValue();
+      const status = info?.getValue();
       const color =
-        activationStatus === REQUESTORS_STATUS?.ACTIVE
+        status === REQUESTORS_STATUS?.ACTIVE
           ? theme?.palette?.success?.main
-          : activationStatus === REQUESTORS_STATUS?.INACTIVE
+          : status === REQUESTORS_STATUS?.INACTIVE
             ? theme?.palette?.warning?.main
             : '';
 
@@ -175,14 +153,14 @@ export const requestorsList: any = (
             width: 'fit-content',
           }}
         >
-          {activationStatus}
+          {status}
         </Typography>
       );
     },
   },
   {
-    accessorFn: (row: any) => row?.jobTitle,
-    id: 'jobTitle',
+    accessorFn: (row: any) => row?.role,
+    id: 'role',
     isSortable: true,
     header: 'Job Title',
     cell: (info: any) => info?.getValue(),
