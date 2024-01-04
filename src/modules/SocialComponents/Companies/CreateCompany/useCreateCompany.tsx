@@ -11,9 +11,10 @@ import { companiesAPI } from '@/services/commonFeatures/companies';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const useCreateCompany = () => {
+const useCreateCompany = (setIsOpenDrawer?: any) => {
   const { usePostCompaniesMutation } = companiesAPI;
   const { user } = getSession();
+
   const params = {
     page: 1,
     limit: 10,
@@ -32,17 +33,29 @@ const useCreateCompany = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
-    if (values) {
+    try {
       postCompanies({ body: values });
       enqueueSnackbar(`Company Created Successfully`, {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
+      setIsOpenDrawer(false);
       reset();
-    } else {
+    } catch (error) {
       enqueueSnackbar(`Something went wrong`, {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
+    // if (values) {
+    //   postCompanies({ body: values });
+    //   enqueueSnackbar(`Company Created Successfully`, {
+    //     variant: NOTISTACK_VARIANTS?.SUCCESS,
+    //   });
+    //   reset();
+    // } else {
+    //   enqueueSnackbar(`Something went wrong`, {
+    //     variant: NOTISTACK_VARIANTS?.ERROR,
+    //   });
+    // }
   };
 
   return {

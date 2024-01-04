@@ -77,7 +77,7 @@ export const companiesAPI = baseAPI.injectEndpoints({
     mergeCompanies: builder.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.MERGE_COMPANIES}`,
-        method: 'PATCH',
+        method: 'POST',
         body: body,
       }),
       invalidatesTags: ['COMPANY'],
