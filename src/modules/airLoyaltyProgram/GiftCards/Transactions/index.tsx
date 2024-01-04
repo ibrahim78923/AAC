@@ -10,10 +10,14 @@ import {
   ImportIcon,
 } from '@/assets/icons';
 import { AddTransactionDrawer } from './AddTransactionDrawer';
+import { ExportModal } from '@/components/ExportModal';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { enqueueSnackbar } from 'notistack';
 
 export const Transactions = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [searchValue, setSearchValue] = useState<string>('');
+  const [openModal, setOpenModal] = useState(false);
   return (
     <Box>
       <Box
@@ -54,7 +58,13 @@ export const Transactions = () => {
           searchBy={searchValue}
         />
         <Box display={'flex'} flexWrap={'wrap'} gap={2}>
-          <Button variant="outlined" color="inherit" startIcon={<ExportIcon />}>
+          <Button
+            variant="outlined"
+            color="inherit"
+            startIcon={<ExportIcon />}
+            sx={{ borderRadius: '0.5rem' }}
+            onClick={() => setOpenModal(true)}
+          >
             Export
           </Button>
           <Button
@@ -64,6 +74,16 @@ export const Transactions = () => {
           >
             Filters
           </Button>
+          <ExportModal
+            open={openModal}
+            handleClose={() => setOpenModal(false)}
+            onSubmit={() => {
+              enqueueSnackbar('Export Successfully', {
+                variant: NOTISTACK_VARIANTS?.SUCCESS,
+              });
+              setOpenModal(false);
+            }}
+          />
         </Box>
       </Box>
       <TanstackTable
