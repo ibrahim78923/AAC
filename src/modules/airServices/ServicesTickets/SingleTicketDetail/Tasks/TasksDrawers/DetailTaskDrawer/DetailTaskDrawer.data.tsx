@@ -1,18 +1,22 @@
+import { Typography } from '@mui/material';
+import * as Yup from 'yup';
+import dayjs from 'dayjs';
 import { AvatarImage } from '@/assets/images';
 import { styles } from './DetailTaskDrawer.styles';
-import { Typography } from '@mui/material';
 
 export const drawerDetail: any = (taskDetail: any, theme: any) => [
   {
     id: 1,
     title: 'Workspace',
-    workspace: taskDetail?.workspace,
-    details: taskDetail?.workspace,
+    workspace: taskDetail?.departmentData?.name,
+    details: taskDetail?.departmentData?.name,
   },
   {
     id: 2,
     title: 'Assign to',
-    details: taskDetail?.assignedTo,
+    details: taskDetail?.assignedUser
+      ? `${taskDetail?.assignedUser?.firstName} ${taskDetail?.assignedUser?.lastName}`
+      : null,
     profile: AvatarImage,
   },
   {
@@ -33,22 +37,26 @@ export const drawerDetail: any = (taskDetail: any, theme: any) => [
   {
     id: 4,
     title: 'Notify before',
-    details: taskDetail?.notifyBefore,
+    details: taskDetail?.notifyBefore
+      ? `${taskDetail?.notifyBefore} minutes`
+      : null,
   },
   {
     id: 5,
     title: 'Due Date',
-    details: taskDetail?.dueDate,
+    details: `${dayjs(taskDetail?.endDate)?.format(
+      'dddd, DD MMM YYYY hh:mm A',
+    )}`,
   },
   {
     id: 6,
     title: 'Planned Start Date',
-    details: taskDetail?.plannedStartDate,
+    details: `${dayjs(taskDetail?.startDate)?.format('dddd, DD MMM YYYY')}`,
   },
   {
     id: 7,
     title: 'Planned End Date',
-    details: taskDetail?.dueDate,
+    details: `${dayjs(taskDetail?.endDate)?.format('dddd, DD MMM YYYY')}`,
   },
   {
     id: 8,
@@ -56,3 +64,14 @@ export const drawerDetail: any = (taskDetail: any, theme: any) => [
     details: taskDetail?.plannedEffort,
   },
 ];
+export const statusOptions = ['Todo', 'In-Progress', 'Done'];
+export const validationSchema: any = Yup?.object()?.shape({
+  status: Yup?.string(),
+  comments: Yup?.string(),
+});
+export const defaultValues = (data: any) => {
+  return {
+    status: data?.status ?? '',
+    comments: data?.comments ?? '',
+  };
+};

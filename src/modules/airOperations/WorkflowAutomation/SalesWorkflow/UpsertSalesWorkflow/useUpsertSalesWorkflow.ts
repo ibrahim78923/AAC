@@ -4,8 +4,10 @@ import { salesSchema, salesValues } from './UpsertSalesWorkflow.data';
 import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useRouter } from 'next/router';
 
 export const useUpsertSalesWorkflow = () => {
+  const { back } = useRouter();
   const salesMethod = useForm({
     defaultValues: salesValues,
     resolver: yupResolver(salesSchema),
@@ -17,6 +19,7 @@ export const useUpsertSalesWorkflow = () => {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
     reset();
+    back();
   };
   const { palette } = useTheme();
   const moduleType = watch('moduleType');

@@ -54,11 +54,12 @@ export const styles = {
       alignItems: 'flex-end',
     };
   },
-  chatReplyReference: () => {
+  chatReplyReference: (role: any) => {
     return {
       width: '85%',
-      paddingLeft: '20px',
-      marginTop: '-60px',
+      paddingLeft: role === 'sender' ? '0px' : '20px',
+      paddingRight: role === 'sender' ? '20px' : '0px',
+      // marginTop: '-60px',
     };
   },
   chatReplyReferenceContent: () => {

@@ -1,6 +1,6 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
-import { All } from './All';
+import { AllRewards } from './AllRewards';
 import { Physical } from './Physical';
 import { Digital } from './Digital';
 import { singleRewardsTab } from './Rewards.data';
@@ -15,11 +15,11 @@ export const Rewards = () => {
         title="Rewards"
         addTitle="Add"
         handleAction={() => {
-          router.push(AIR_LOYALTY_PROGRAM?.ADD_REWARDS);
+          router?.push(AIR_LOYALTY_PROGRAM?.ADD_REWARDS);
         }}
       />
       <HorizontalTabs tabsDataArray={singleRewardsTab}>
-        <All />
+        <AllRewards />
         <Physical />
         <Digital />
       </HorizontalTabs>

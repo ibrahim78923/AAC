@@ -10,12 +10,11 @@ export const dataArray = [
     md: 12,
     component: RHFSelect,
     options: [
-      { value: 'All', label: 'All' },
-      { value: 'Draft', label: 'Draft' },
-      { value: 'Published', label: 'Published' },
+      { value: 'draft', label: 'Draft' },
+      { value: 'published', label: 'Published' },
     ],
     componentProps: {
-      name: 'quoteStatus',
+      name: 'status',
       label: 'Quote Status',
       fullWidth: true,
       select: true,

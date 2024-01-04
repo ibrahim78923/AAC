@@ -109,8 +109,8 @@ export default function RHFAutocompleteAsync({
                       checked={selected}
                     />
                   )}
-                  {renderOption && renderOption(option)}
-                  {getOptionLabel(option)}
+                  {renderOption ? renderOption(option) : getOptionLabel(option)}
+                  {/* {getOptionLabel(option)} */}
                 </li>
               );
             }}

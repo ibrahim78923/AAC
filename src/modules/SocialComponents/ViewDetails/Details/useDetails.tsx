@@ -9,6 +9,8 @@ import { useCompanyUpdateMutation } from '@/services/commonFeatures/companies';
 import { enqueueSnackbar } from 'notistack';
 import { useGetLifeCycleQuery } from '@/services/commonFeatures/contacts';
 import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const useDetails = (data: any) => {
   const theme = useTheme();
@@ -109,13 +111,18 @@ const useDetails = (data: any) => {
       ownerId: values?.CompanyOwner,
       industry: values?.Industry,
       type: values?.CompanyType,
-      noOfEmloyee: values?.NumberOfEmployees,
-      totalRevenue: values?.AnnualRevenue,
+      noOfEmloyee: parseInt(values?.NumberOfEmployees),
+      totalRevenue: parseInt(values?.AnnualRevenue),
       city: values?.City,
       postalCode: values?.PostalCode,
       address: values?.Address,
       description: values?.description,
       linkedInUrl: values?.LinkedInCompanyPage,
+      phone: values?.PhoneNumber,
+      crn: values?.CompanyRegistrationNumber,
+      lifeCyleId: values?.LifeCycleStage,
+      joiningDate: dayjs(values?.CreatedDate)?.format(DATE_FORMAT?.API),
+      isDeleted: 'ACTIVE',
     };
 
     try {

@@ -12,9 +12,6 @@ export const columns: any = (columnsProps: any) => {
 
   const { checkedRows, setCheckedRows, companiesData } = columnsProps;
 
-  // const handleCheckboxChange = (val: any, rowId: string) => {
-  //   val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
-  // };
   const handleSelectCompaniesById = (checked: boolean, id: string): void => {
     if (checked) {
       setCheckedRows([...checkedRows, id]);
@@ -54,22 +51,6 @@ export const columns: any = (columnsProps: any) => {
       ),
       isSortable: false,
     },
-    // {
-    //   accessorFn: (row: any) => row?.Id,
-    //   id: 'Id',
-    //   cell: (info: any) => (
-    //     <Checkbox
-    //       color="primary"
-    //       name={info?.getValue()}
-    //       defaultChecked={checkedRows === info?.row?.original?._id}
-    //       onChange={(e: any) =>
-    //         handleCheckboxChange(e, info?.row?.original?._id)
-    //       }
-    //     />
-    //   ),
-    //   header: <Checkbox color="primary" name="Id" />,
-    //   isSortable: false,
-    // },
     {
       accessorFn: (row: any) => row?.owner,
       id: 'owner',
@@ -100,7 +81,7 @@ export const columns: any = (columnsProps: any) => {
           onClick={() => {
             navigate?.push({
               pathname: SOCIAL_COMPONENTS?.VIEW_COMPANY_DETAILS,
-              query: checkedRows,
+              query: { id: info?.row?.original?._id },
             });
           }}
         >

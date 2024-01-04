@@ -3,6 +3,8 @@ import Search from '@/components/Search';
 import CommonModal from '@/components/CommonModal';
 import { useComparePost } from '../useComparePost';
 import PostCards from './PostCards';
+import SwitchableDatepicker from '@/components/SwitchableDatepicker';
+import { useState } from 'react';
 
 const SelectPostModal = (props: any) => {
   const {
@@ -14,6 +16,7 @@ const SelectPostModal = (props: any) => {
     post,
   } = props;
   const { searchBy, setSearchBy } = useComparePost();
+  const [datePickerVal, setDatePickerVal] = useState();
 
   return (
     <Box>
@@ -41,7 +44,12 @@ const SelectPostModal = (props: any) => {
                 size="small"
               />
               <Box display="flex" alignItems="center" gap={1}>
-                <Button variant="outlined">Date</Button>
+                <SwitchableDatepicker
+                  renderInput="button"
+                  placement="right"
+                  dateValue={datePickerVal}
+                  setDateValue={setDatePickerVal}
+                />
                 <Button variant="outlined">Filter</Button>
               </Box>
             </Box>

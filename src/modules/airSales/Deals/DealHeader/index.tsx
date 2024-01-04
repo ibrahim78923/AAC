@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Typography, Box, Button, SvgIcon } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
 
@@ -36,22 +34,24 @@ const DealHeader = () => {
       <Box sx={styles?.HeaderChildStyle}>
         <Button
           variant="outlined"
+          sx={{ height: '35px', width: { xs: '100%', sm: '100px' } }}
+          color="inherit"
+          className="small"
           onClick={handleImportDealOpen}
           startIcon={<ImportIcon />}
-          sx={{ height: '35px' }}
         >
           Import
         </Button>
-        <Box>
-          <Button
-            variant="contained"
-            onClick={handleCreateDealOpen}
-            startIcon={<AddCircle />}
-            sx={{ height: '35px' }}
-          >
-            Create Deal
-          </Button>
-        </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          className="small"
+          onClick={handleCreateDealOpen}
+          startIcon={<AddCircle />}
+          sx={{ height: '35px', width: { xs: '100%', sm: '140px' } }}
+        >
+          Create Deal
+        </Button>
       </Box>
       <ImportDealsDrawer open={isImportDeal} onClose={handleImportDealOpen} />
       <CreateDeal open={isCreateDeal} onClose={handleCreateDealOpen} />

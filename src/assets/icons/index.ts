@@ -59,7 +59,6 @@ export { default as CheckboxCheckedIcon } from './shared/checkbox-checked-icon';
 export { default as ExportIcon } from './shared/export-icon';
 export { default as ExportShared } from './shared/export-icon';
 export { default as CustomizeIcon } from './shared/customize-icon';
-
 export { default as ViewDetailAvaterIcon } from './modules/airServices/Tickets/view-detail-avatar-icon';
 export { default as ViewDetailSharedIcon } from './modules/airServices/Tickets/view-detail-shared-icon';
 export { default as ViewDetailVuesaxIcon } from './modules/airServices/Tickets/view-details-vuesax-icon';
@@ -322,7 +321,6 @@ export { default as StyleFormIcon } from './shared/style-form';
 export { default as PageIcon } from './shared/Page';
 export { default as MobileFormIcon } from './shared/mobile-icon';
 export { default as MonitorIcon } from './shared/monitor';
-
 export { default as ExportDownloadIcon } from './shared/export-download';
 export { default as ExportModalIcon } from './shared/export-modal-icon';
 export { default as ClockWithBagIcon } from './shared/clock-with-bag-icon';
@@ -349,7 +347,6 @@ export { default as IncTicketIcon } from './shared/inc-ticket-icon';
 
 export { default as FacebookSquareIcon } from './modules/paidAds/facebook-square';
 export { default as LinkedInSquareIcon } from './modules/paidAds/linkedin-square';
-
 export { default as TextIcon } from './modules/airMarketer/LeadCapture/text';
 export { default as ImageIcon } from './modules/airMarketer/LeadCapture/image';
 export { default as SpaceIcon } from './modules/airMarketer/LeadCapture/space';
@@ -362,7 +359,6 @@ export { default as GrayBookIcon } from './shared/grey-book';
 export { default as BlueInfoIcon } from './shared/bule-info';
 export { default as SalesWorkflowIcon } from './modules/airOperations/workflowAutomation/sales-workflow-icon';
 export { default as ServiceWorkflowIcon } from './modules/airOperations/workflowAutomation/service-workflow-icon';
-
 export { default as DocumentDownloadIcon } from './modules/airMarketer/EmailReports/document-download';
 export { default as SmileIcon } from './modules/airMarketer/EmailMarketing/smile-emoji-icon';
 

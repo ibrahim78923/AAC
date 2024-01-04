@@ -6,7 +6,7 @@ export const validationSchemaAddNewAssetTypes = Yup?.object()?.shape({
   description: Yup?.string(),
 });
 
-export const defaultValues = {
+export const assetTypesDefaultValues = {
   name: '',
   description: '',
 };
@@ -17,7 +17,7 @@ export const addNewAssetTypesModalField = [
     componentProps: {
       name: 'name',
       fullWidth: true,
-      // placeholder: 'Enter Your Name',
+      placeholder: 'Enter Your Name',
       label: 'Name',
       required: true,
     },

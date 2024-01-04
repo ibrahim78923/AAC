@@ -1,13 +1,28 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { agentResolveTicketData, receivingAwardData } from './AwardPoints.data';
 import { useAwardPoints } from './useAwardPoints';
 import AwardCard from './AwardCard';
+import { useEffect } from 'react';
 
 const AwardPoints = () => {
-  const { awardPointsMethod, awardCardBorderColors } = useAwardPoints();
+  const {
+    awardPointsMethod,
+    awardCardBorderColors,
+    handleSubmit,
+    handleSetValues,
+    awardPoints,
+  } = useAwardPoints();
+
+  useEffect(() => {
+    handleSetValues();
+  }, [awardPoints]);
+
   return (
-    <FormProvider methods={awardPointsMethod}>
+    <FormProvider
+      methods={awardPointsMethod}
+      onSubmit={awardPointsMethod?.handleSubmit?.(handleSubmit)}
+    >
       <Box
         sx={{
           display: 'flex',
@@ -35,7 +50,11 @@ const AwardPoints = () => {
               key={item?.id}
             >
               <Box>
-                <item.component {...item?.componentProps} size={'small'} />
+                <item.component
+                  {...item?.componentProps}
+                  size={'small'}
+                  sx={{ maxWidth: 204 }}
+                />
               </Box>
               {item?.component?.name === 'RHFTextField' && (
                 <Typography component="span" pb={1}>
@@ -61,6 +80,11 @@ const AwardPoints = () => {
           ))}
         </Grid>
       </Box>
+      <Grid container xs={12} xl={9} sx={{ justifyContent: 'flex-end', mt: 2 }}>
+        <Button type="submit" variant="contained">
+          Save
+        </Button>
+      </Grid>
     </FormProvider>
   );
 };

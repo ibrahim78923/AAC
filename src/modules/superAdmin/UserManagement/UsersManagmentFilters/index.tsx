@@ -56,6 +56,7 @@ const UsersManagementFilters = (props: any) => {
       products: values?.products,
       role: values?.role,
       organization: values?.organization,
+      createdDate: values.createdDate,
     });
     setIsOpen(false);
   };

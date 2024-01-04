@@ -12,7 +12,7 @@ const vouchersRadioGroupOptions = [
   },
   {
     value: 'limitedVouchers',
-    labelOne: 'Limited vouchers',
+    labelOne: 'Limited number of vouchers',
     labelTwo: 'for this promotion',
   },
 ];

@@ -4,9 +4,15 @@ import Search from '@/components/Search';
 import { useDepartmentsHeader } from './useDepartmentsHeader';
 import { DepartmentsFormModal } from '../DepartmentsFormModal';
 
-export const DepartmentsHeader = () => {
-  const { backArrowClick, openAddModal, setOpenAddModal, formProps } =
-    useDepartmentsHeader();
+export const DepartmentsHeader = (props: any) => {
+  const { searchBy, setSearchBy } = props;
+  const {
+    backArrowClick,
+    openAddModal,
+    setOpenAddModal,
+    formProps,
+    usersList,
+  } = useDepartmentsHeader();
   const { addFormMethod, handleSubmit, submitAddForm } = formProps;
   return (
     <>
@@ -32,7 +38,11 @@ export const DepartmentsHeader = () => {
           alignItems={'center'}
           flexWrap={'wrap'}
         >
-          <Search value="" placeholder="Search Here" />
+          <Search
+            placeholder="Search Here"
+            searchBy={searchBy}
+            setSearchBy={setSearchBy}
+          />
           <Button
             startIcon={<PlusSharedColorIcon />}
             variant="contained"
@@ -49,6 +59,7 @@ export const DepartmentsHeader = () => {
         open={openAddModal}
         handleClose={setOpenAddModal}
         formTitle="Add Department"
+        usersList={usersList}
       />
     </>
   );
