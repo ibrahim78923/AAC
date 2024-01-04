@@ -215,7 +215,7 @@ export const styles = {
           fontSize: '12px',
           fontWeight: '400',
           margin: '0',
-          '&:nth-child(n+5):not(:nth-last-of-type(-n+4))': {
+          '&:nth-of-type(n+5):not(:nth-last-of-type(-n+4))': {
             my: '42px',
           },
           '&:hover': {

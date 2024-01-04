@@ -1,9 +1,10 @@
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
-import { useAgentConversionDelete } from './useAgentConversionDelete';
-
-export const AgentConversionDelete = ({ open, handleClose }: any) => {
-  const { submitDeleteModal } = useAgentConversionDelete();
+export const AgentConversionDelete = ({
+  open,
+  handleClose,
+  submitDeleteModal,
+}: any) => {
   return (
     <AlertModals
       type={ALERT_MODALS_TYPE?.DELETE}

@@ -2,15 +2,19 @@ import { AlertModals } from '@/components/AlertModals';
 
 import { AlertModalDeleteIcon } from '@/assets/icons';
 
-const RestoreDeleteModal = ({ open, onClose, handlePermanantDelete }: any) => {
+const RestoreDeleteModal = ({
+  open,
+  onClose,
+  handlePermanantDeleteRetore,
+}: any) => {
   return (
     <AlertModals
       typeImage={<AlertModalDeleteIcon />}
       message="You're about to delete a Record Permanently. This action can’t be undone"
-      type="Permanantly Delete"
+      type="Permanently Delete"
       open={open}
       handleClose={onClose}
-      handleSubmit={handlePermanantDelete}
+      handleSubmitBtn={handlePermanantDeleteRetore}
     ></AlertModals>
   );
 };

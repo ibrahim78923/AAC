@@ -1,4 +1,4 @@
-import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import { AlertModals } from '@/components/AlertModals';
 
@@ -6,19 +6,19 @@ import { MergeCompaniesIcon } from '@/assets/icons';
 import { CompanyLogoImage } from '@/assets/images';
 import Image from 'next/image';
 import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
+
 import { v4 as uuidv4 } from 'uuid';
 
-const MergeModal = ({ isMerge, setIsMerge }: any) => {
-  const theme = useTheme<Theme>();
-  const methods = useForm();
+import useMergeModal from './useMergeModal';
+import useCompanies from '../../useCompanies';
+import { useMergeCompaniesMutation } from '@/services/commonFeatures/companies';
 
-  const optionsArray = [
-    { value: 'All Industries', label: 'All Industries' },
-    { value: 'Computer Software', label: 'Computer Software' },
-    { value: 'Construction', label: 'Construction' },
-    { value: 'Electronics', label: 'Electronics' },
-  ];
+const MergeModal = ({ isMerge, setIsMerge, checkedRows }: any) => {
+  const { theme, companyDetails, methods, seletedCompany } =
+    useMergeModal(checkedRows);
+  const { getAllCompanies } = useCompanies();
+  const companiesDropdown = getAllCompanies?.data?.companies;
+  const [mergeCompanies] = useMergeCompaniesMutation();
 
   return (
     <AlertModals
@@ -42,7 +42,7 @@ const MergeModal = ({ isMerge, setIsMerge }: any) => {
                       color: `${theme?.palette?.blue?.dull_blue}`,
                     }}
                   >
-                    Share my dine
+                    {companyDetails?.name}
                   </Typography>
                   <Typography
                     variant="subtitle2"
@@ -51,7 +51,7 @@ const MergeModal = ({ isMerge, setIsMerge }: any) => {
                       color: `${theme?.palette?.custom?.light}`,
                     }}
                   >
-                    smd.com
+                    {companyDetails?.domain}
                   </Typography>
                 </Box>
               </Box>
@@ -59,9 +59,9 @@ const MergeModal = ({ isMerge, setIsMerge }: any) => {
             <Grid item lg={6}>
               <FormProvider methods={methods}>
                 <RHFSelect name="mergeCompanies" select={true} size="small">
-                  {optionsArray?.map((item: any) => (
-                    <option key={uuidv4()} value={item?.value}>
-                      {item?.label}
+                  {companiesDropdown?.map((item: any) => (
+                    <option key={uuidv4()} value={item?._id}>
+                      {item?.name}
                     </option>
                   ))}
                 </RHFSelect>
@@ -75,8 +75,11 @@ const MergeModal = ({ isMerge, setIsMerge }: any) => {
       cancelBtnText="Cancel"
       submitBtnText="Merge"
       handleClose={() => setIsMerge({ ...isMerge, mergeModal: false })}
-      handleSubmit={function (): void {
-        throw new Error('Function not implemented.');
+      handleSubmitBtn={() => {
+        mergeCompanies({
+          primaryCompany: companyDetails?._id,
+          secondaryCompany: seletedCompany,
+        });
       }}
     />
   );

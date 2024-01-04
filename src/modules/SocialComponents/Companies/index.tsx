@@ -128,6 +128,7 @@ const Companies = () => {
                 <>
                   <ActionButton
                     checkedRows={checkedRows}
+                    setCheckedRows={setCheckedRows}
                     isOpen={isOpen}
                     setIsOpen={setIsOpen}
                   />
@@ -246,7 +247,11 @@ const Companies = () => {
           )}
 
           {isOpen?.mergeModal && (
-            <MergeModal isMerge={isOpen?.mergeModal} setIsMerge={setIsOpen} />
+            <MergeModal
+              isMerge={isOpen?.mergeModal}
+              setIsMerge={setIsOpen}
+              checkedRows={checkedRows}
+            />
           )}
 
           {isOpen?.importDrawer && (

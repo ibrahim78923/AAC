@@ -7,99 +7,129 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  selectDeal: Yup.string().required('Field is Required'),
-  quoteTemplate: Yup.string().required('Field is Required'),
-  quoteName: Yup.string().required('Field is Required'),
-  quoteExpiration: Yup.date().required('Field is Required'),
+export const dealValidationSchema = Yup?.object()?.shape({
+  dealId: Yup?.string()?.required('Field is Required'),
+  template: Yup?.string()?.required('Field is Required'),
+  name: Yup?.string()?.required('Field is Required'),
+  expiryDate: Yup?.date()?.required('Field is Required'),
 });
 
-export const initValues = {
-  selectDeal: '',
-  quoteTemplate: '',
-  quoteName: '',
-  quoteExpiration: null,
-  quoteNotes: '',
-  quoteTerms: '',
-  templateComment: '',
-  signature: 'No Signature',
+export const dealInitValues = {
+  dealId: '',
+  template: '',
+  name: '',
+  expiryDate: null,
+  notes: '',
+  termsAndConditions: '',
 };
 
-export const createQuoteFormFields = [
+export const dealFormData = (dealsData: any, openCreateDeal: any) => {
+  return [
+    {
+      md: 12,
+      component: RHFSearchableSelect,
+      componentProps: {
+        name: 'dealId',
+        label: 'Select Deal',
+        required: true,
+        fullWidth: true,
+        options: dealsData?.map((deal: any) => {
+          return { value: deal?._id, label: deal?.name };
+        }),
+        isFooter: true,
+        footerText: 'Create New Deal',
+        footerActionHandler: openCreateDeal,
+      },
+    },
+    {
+      id: 'template',
+      component: RHFSelect,
+      componentProps: {
+        name: 'template',
+        label: 'Select Quote template',
+        fullWidth: true,
+        select: true,
+        placeholder: 'Select',
+        required: true,
+      },
+      options: [
+        { value: 'Basic', label: 'Basic' },
+        { value: 'Original', label: 'Original' },
+      ],
+    },
+    {
+      id: 'name',
+      component: RHFTextField,
+      componentProps: {
+        name: 'name',
+        label: 'Quote Name',
+        fullWidth: true,
+        placeholder: 'New quote',
+        required: true,
+      },
+    },
+    {
+      id: 'expiryDate',
+      component: RHFDatePicker,
+      componentProps: {
+        name: 'expiryDate',
+        label: 'Quote Expiration Date',
+        fullWidth: true,
+        placeholder: 'Select',
+        required: true,
+      },
+    },
+    {
+      id: 'notes',
+      component: RHFTextField,
+      componentProps: {
+        name: 'notes',
+        label: 'Notes',
+        fullWidth: true,
+        multiline: true,
+        rows: 3,
+        placeholder: 'Enter notes you like to show buyer.',
+      },
+    },
+    {
+      id: 'termsAndConditions',
+      component: RHFTextField,
+      componentProps: {
+        name: 'termsAndConditions',
+        label: 'Terms and Condition for purchase',
+        fullWidth: true,
+        multiline: true,
+        rows: 3,
+        placeholder: 'Enter details',
+      },
+    },
+  ];
+};
+
+export const signatureInitValues = {
+  signature: 'noSignature',
+};
+
+export const signatureFormData = [
   {
-    id: 'selectDeal',
-    component: RHFSearchableSelect,
+    id: 'signature',
+    component: RHFRadioGroup,
     componentProps: {
-      name: 'selectDeal',
-      label: 'Select Deal*',
+      name: 'signature',
       fullWidth: true,
       options: [
-        { value: 'deal1', label: 'Deal Name 1' },
-        { value: 'deal2', label: 'Deal Name 2' },
+        { value: 'noSignature', label: 'No Signature' },
+        {
+          value: 'includeSignature',
+          label: 'Include Space for a written signature',
+        },
       ],
-      isFooter: true,
-      footerText: 'Create New Deal',
+      row: false,
     },
   },
-  {
-    id: 'quoteTemplate',
-    component: RHFSelect,
-    componentProps: {
-      name: 'quoteTemplate',
-      label: 'Select Quote template*',
-      fullWidth: true,
-      select: true,
-      placeholder: 'Select',
-    },
-    options: [
-      { value: 'basic', label: 'Basic' },
-      { value: 'original', label: 'Original' },
-    ],
-  },
-  {
-    id: 'quoteName',
-    component: RHFTextField,
-    componentProps: {
-      name: 'quoteName',
-      label: 'Quote Name*',
-      fullWidth: true,
-      placeholder: 'New quote',
-    },
-  },
-  {
-    id: 'quoteExpiration',
-    component: RHFDatePicker,
-    componentProps: {
-      name: 'quoteExpiration',
-      label: 'Quote Expiration Date*',
-      fullWidth: true,
-      placeholder: 'Select',
-    },
-  },
-  {
-    id: 'quoteNotes',
-    component: RHFTextField,
-    componentProps: {
-      name: 'quoteNotes',
-      label: 'Notes',
-      fullWidth: true,
-      multiline: true,
-      rows: 3,
-      placeholder: 'Enter notes you like to show buyer.',
-    },
-  },
-  {
-    id: 'quoteTerms',
-    component: RHFTextField,
-    componentProps: {
-      name: 'quoteTerms',
-      label: 'Terms and Condition for purchase',
-      fullWidth: true,
-      multiline: true,
-      rows: 3,
-      placeholder: 'Enter details',
-    },
-  },
+];
+
+export const createQuoteFormFields = [
   {
     id: 'templateComment',
     component: RHFTextField,
@@ -109,22 +139,6 @@ export const createQuoteFormFields = [
       placeholder: 'Write comment here...',
       multiline: true,
       rows: 3,
-    },
-  },
-  {
-    id: 'signature',
-    component: RHFRadioGroup,
-    componentProps: {
-      name: 'signature',
-      fullWidth: true,
-      options: [
-        { value: 'No Signature', label: 'No Signature' },
-        {
-          value: 'Include Space for a written signature',
-          label: 'Include Space for a written signature',
-        },
-      ],
-      row: false,
     },
   },
 ];
