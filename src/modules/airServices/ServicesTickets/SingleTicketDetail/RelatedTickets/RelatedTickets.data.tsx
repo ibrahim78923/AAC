@@ -112,10 +112,10 @@ export const columnsFunction: any = (
         status === 'OPEN'
           ? theme?.palette?.info?.main
           : status === 'PENDING'
-            ? theme?.palette?.warning?.main
-            : status === 'RESOLVED'
-              ? theme?.palette?.success?.main
-              : theme?.palette?.error?.main;
+          ? theme?.palette?.warning?.main
+          : status === 'RESOLVED'
+          ? theme?.palette?.success?.main
+          : theme?.palette?.error?.main;
       return (
         <Typography
           sx={{

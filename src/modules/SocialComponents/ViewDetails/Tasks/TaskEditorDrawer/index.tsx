@@ -20,14 +20,12 @@ const TaskEditorDrawer = (props: any) => {
     setOpenDrawer,
     selectedCheckboxes,
     setSelectedCheckboxes,
-    companyId,
   } = props;
   const { handleSubmit, onSubmit, methodsdealsTasks } = useTaskEditor({
     selectedCheckboxes,
     openDrawer,
     setOpenDrawer,
     setSelectedCheckboxes,
-    companyId,
   });
 
   return (

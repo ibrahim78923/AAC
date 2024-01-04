@@ -37,7 +37,7 @@ const NotesEditorDrawer = (props: any) => {
         <Box sx={{ pt: 2 }}>
           <FormProvider methods={methods}>
             <Grid container spacing={4}>
-              {dealsNotesDataArray?.map((item: any) => (
+              {dealsNotesDataArray(openDrawer)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component
                     {...item?.componentProps}
