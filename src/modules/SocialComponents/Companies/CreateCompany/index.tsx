@@ -12,7 +12,8 @@ import { dataArray } from './CreateCompany.data';
 import { v4 as uuidv4 } from 'uuid';
 
 const CreateCompany = ({ setIsOpenDrawer, isOpenDrawer }: any) => {
-  const { methods, handleSubmit, onSubmit, reset } = useCreateCompany();
+  const { methods, handleSubmit, onSubmit, reset } =
+    useCreateCompany(setIsOpenDrawer);
 
   return (
     <>
