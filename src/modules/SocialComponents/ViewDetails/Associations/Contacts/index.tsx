@@ -8,7 +8,6 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import useContacts from './useContacts';
 
 import { columns } from './Contacts.data';
-import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { PlusIcon } from '@/assets/icons';
 
@@ -24,6 +23,7 @@ const Contacts = () => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
+    data,
   } = useContacts();
 
   return (
@@ -70,7 +70,7 @@ const Contacts = () => {
         <Grid item xs={12}>
           <TanstackTable
             columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={TasksTableData}
+            data={data?.data?.contacts}
           />
         </Grid>
       </Grid>

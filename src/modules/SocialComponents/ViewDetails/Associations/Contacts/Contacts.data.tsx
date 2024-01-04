@@ -14,9 +14,9 @@ export const columns: any = ({
 }) => {
   return [
     {
-      accessorFn: (row: any) => row?.taskno,
+      accessorFn: (row: any) => row?.id,
       id: 'contact_id',
-      cell: (info: any) => <Box>{info?.row?.original?.taskno}</Box>,
+      cell: (info: any) => <Box>{info?.row?.original?._id}</Box>,
       header: 'Contact ID',
       isSortable: false,
     },
@@ -31,11 +31,11 @@ export const columns: any = ({
           <Image src={NotesAvatarImage} width={40} height={40} alt="avatar" />
           <Box>
             <Typography variant="body3" sx={{ color: '#111827' }}>
-              {info?.row?.original?.taskno}
+              {info?.row?.original?.firstName} {info?.row?.original?.lastName}
             </Typography>
             <br />
             <Typography variant="body3">
-              {info?.row?.original?.taskname}
+              {info?.row?.original?.email}
             </Typography>
           </Box>
         </Box>
@@ -43,14 +43,14 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row?.duedate,
+      accessorFn: (row: any) => row?.phoneNumber,
       id: 'phonenumber',
       isSortable: true,
       header: 'Phone Number',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.duedate,
+      accessorFn: (row: any) => row?.jobTitle,
       id: 'jobtitle',
       isSortable: true,
       header: 'Job Title ',
