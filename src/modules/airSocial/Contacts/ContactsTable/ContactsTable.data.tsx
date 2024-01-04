@@ -16,13 +16,13 @@ export const ContactsColumns = (
     let newSelected: any = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selectedRow, id);
+      newSelected = newSelected?.concat(selectedRow, id);
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selectedRow.slice(1));
-    } else if (selectedIndex === selectedRow.length - 1) {
-      newSelected = newSelected.concat(selectedRow.slice(0, -1));
+      newSelected = newSelected?.concat(selectedRow.slice(1));
+    } else if (selectedIndex === selectedRow?.length - 1) {
+      newSelected = newSelected?.concat(selectedRow.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
+      newSelected = newSelected?.concat(
         selectedRow.slice(0, selectedIndex),
         selectedRow.slice(selectedIndex + 1),
       );
