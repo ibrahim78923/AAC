@@ -62,6 +62,7 @@ export const columns: any = (columnsProps: any) => {
   const handleCheckboxChange = (val: any, rowId: string) => {
     val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
   };
+
   return [
     {
       accessorFn: (row: any) => row?.Id,
@@ -70,8 +71,10 @@ export const columns: any = (columnsProps: any) => {
         <Checkbox
           color="primary"
           name={info?.getValue()}
-          defaultChecked={checkedRows === info?.row?.id}
-          onChange={(e: any) => handleCheckboxChange(e, info?.row?.id)}
+          defaultChecked={checkedRows === info?.row?.original?._id}
+          onChange={(e: any) =>
+            handleCheckboxChange(e, info?.row?.original?._id)
+          }
         />
       ),
       header: <Checkbox disabled color="primary" name="Id" />,

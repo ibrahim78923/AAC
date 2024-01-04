@@ -7,14 +7,17 @@ import { Theme, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { rolesAndRightsAPI } from '@/services/orgAdmin/roles-and-rights';
 import { PAGINATION } from '@/config';
+// import { getSession } from '@/utils';
 
 const useRoleAndRight: any = () => {
+  // const { user } = getSession();
   const theme = useTheme<Theme>();
   const navigate = useRouter();
 
   const [isDraweropen, setIsDraweropen] = useState({
     isToggle: false,
     type: '',
+    id: '',
   });
   const [selectedValue, setSelectedValue] = useState(null);
   // const [isOpenDelete, setIsOpenDelete] = useState(false);
@@ -28,12 +31,17 @@ const useRoleAndRight: any = () => {
   });
 
   const { useGetPermissionsRolesQuery } = rolesAndRightsAPI;
+  // org id  =  65952bbf6d2c26398e492e42
+  // const comapnyAccountid = user?.account?.company?._id;
+  // 65952ce22676367b22c905ae
+  // const currentProductId = user?.product?._id;
+  //6553145fe330587844cbc672
 
   const permissionParams = {
     page: page,
     limit: pageLimit,
-    organizationCompanyAccountId: '655d896c16999d346fa1b7d1',
-    productId: '6541cbb46e917be584ed1a31',
+    organizationCompanyAccountId: '65952ce22676367b22c905ae',
+    productId: '6553145fe330587844cbc672',
     search: filterValues?.search ?? undefined,
   };
 
@@ -56,7 +64,7 @@ const useRoleAndRight: any = () => {
   };
 
   const handleCloseDrawer = () => {
-    setIsDraweropen({ isToggle: false, type: '' });
+    setIsDraweropen({ isToggle: false, type: '', id: '' });
   };
 
   // const methods: any = useForm({

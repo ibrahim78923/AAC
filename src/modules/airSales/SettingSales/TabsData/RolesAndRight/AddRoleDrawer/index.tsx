@@ -9,6 +9,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 const AddRoleDrawer = (props: any) => {
   const { methods, theme } = useAddRoleDrawer();
   const { isDrawerOpen, onClose, getPermissionsData } = props;
+
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen?.isToggle}
