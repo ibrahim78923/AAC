@@ -57,6 +57,7 @@ export const TAGS = [
   'ASSETS_CONTRACT',
   'CONTRACT_TYPE_DROPDOWN',
   'VENDOR_DROPDOWN',
+  'ASSETS_INVENTORY_SOFTWARE',
 ];
 
 const baseQuery = fetchBaseQuery({
