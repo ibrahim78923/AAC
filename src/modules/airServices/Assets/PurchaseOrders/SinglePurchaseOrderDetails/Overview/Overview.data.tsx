@@ -1,19 +1,22 @@
 import { Typography } from '@mui/material';
 
-export const overviewData = [
+export const overviewData = (purchaseOrderData: any) => [
   {
     id: '1',
     heading: 'Purchase Details',
     detailsData: [
       { name: 'Vendor', detail: 'Dell' },
-      { name: 'Details', detail: 'Dell monitor' },
-      { name: 'Currency', detail: 'Pound' },
+      { name: 'Details', detail: purchaseOrderData?.orderName },
+      { name: 'Currency', detail: purchaseOrderData?.currency },
       { name: 'Department', detail: '--' },
-      { name: 'Expected delivery date', detail: '28 Mar, 2023' },
+      {
+        name: 'Expected delivery date',
+        detail: purchaseOrderData?.expectedDeliveryDate,
+      },
       { name: 'Location', detail: 'Street no 22' },
       {
         name: 'Terms and conditions',
-        detail: 'I agree all the terms and conditions',
+        detail: purchaseOrderData?.termAndCondition,
       },
     ],
   },
@@ -68,26 +71,26 @@ export const overviewTableColumns: any = (
       accessorFn: (row: any) => row?.invoice,
       id: 'invoice',
       header: 'Invoice',
-      cell: (info: any) => (
+      cell: () => (
         <Typography
           sx={{ cursor: 'pointer', color: theme?.palette?.primary?.main }}
           onClick={() => setOpenOverviewModal(true)}
         >
-          {info?.getValue()}
+          PDF
         </Typography>
       ),
     },
   ];
 };
-export const overviewListData: any = [
-  {
-    Id: 1,
-    itemName: `Andrea`,
-    description: 'Per Unit',
-    costPerItem: '30',
-    quantity: '2',
-    taxRate: '0',
-    total: '60',
-    invoice: 'pdf',
-  },
-];
+// export const overviewListData: any = [
+//   {
+//     Id: 1,
+//     itemName: `Andrea`,
+//     description: 'Per Unit',
+//     costPerItem: '30',
+//     quantity: '2',
+//     taxRate: '0',
+//     total: '60',
+//     invoice: 'pdf',
+//   },
+// ];

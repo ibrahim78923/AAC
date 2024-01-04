@@ -56,6 +56,7 @@ export const TAGS = [
   'ASSETS_CONTRACT',
   'CONTRACT_TYPE_DROPDOWN',
   'VENDOR_DROPDOWN',
+  'PURCHASE_ORDER_OVERVIEW',
 ];
 
 const baseQuery = fetchBaseQuery({
