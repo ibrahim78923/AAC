@@ -102,5 +102,6 @@ export const useContracts = () => {
     setSelectedContractList,
     getContractListData,
     setContractFilterLists,
+    contractFilterLists,
   };
 };
