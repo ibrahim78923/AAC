@@ -28,8 +28,8 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { SETTINGS_ADD_ROLE } from '@/constants/strings';
 
-const renderCheckboxes = (options) => {
-  return options?.map((option) => (
+const renderCheckboxes = (options: any) => {
+  return options?.map((option: any) => (
     <Box key={option?.name} marginLeft={2}>
       <RHFCheckbox name={option?.name} label={option?.label} />
     </Box>
@@ -88,8 +88,11 @@ const UpsertRoles = () => {
               ))}
             </Grid>
           </Box>
+          <Grid xs={12}>
+            <Typography variant="h5">Permissions</Typography>
+          </Grid>
           <Grid item xs={12} md={10}>
-            {Object?.entries(RolesAccordionsTicketsData)?.map(
+            {(Object?.entries(RolesAccordionsTicketsData ?? {}) ?? []).map(
               ([title, data]) => (
                 <Accordion
                   key={title}

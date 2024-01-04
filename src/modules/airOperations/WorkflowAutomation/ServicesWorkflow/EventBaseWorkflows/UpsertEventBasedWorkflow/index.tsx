@@ -24,7 +24,7 @@ export const UpsertEventBasedWorkflow = () => {
         methods={salesMethod}
         onSubmit={handleSubmit(handleFormSubmit)}
       >
-        <WorkflowHeader watch={watch} />
+        <WorkflowHeader />
         <Grid container spacing={2}>
           {EventBasedWorkflowDataArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.id}>

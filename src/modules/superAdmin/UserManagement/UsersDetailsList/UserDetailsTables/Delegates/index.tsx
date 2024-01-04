@@ -17,7 +17,12 @@ import { FilterrIcon } from '@/assets/icons';
 const Delegates = () => {
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   return (
-    <>
+    <Box
+      sx={{
+        maxHeight: `calc(50vh - ${15}px)`,
+        overflow: 'auto',
+      }}
+    >
       <Box sx={{ margin: '16px 24px' }}>
         <Grid container spacing={2}>
           <Grid item lg={4} xs={12}>
@@ -68,7 +73,7 @@ const Delegates = () => {
           setIsOpen={setIsOpenFilterDrawer}
         />
       )}
-    </>
+    </Box>
   );
 };
 

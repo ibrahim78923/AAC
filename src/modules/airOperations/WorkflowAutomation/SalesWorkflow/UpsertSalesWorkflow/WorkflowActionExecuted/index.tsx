@@ -51,7 +51,7 @@ export const WorkflowActionExecuted = () => {
           color="secondary"
           startIcon={<AddCircle color="action" />}
         >
-          Add Condition
+          Add Action
         </Button>
       </Box>
     </Box>

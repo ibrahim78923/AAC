@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { FormProvider } from '@/components/ReactHookForm';
 import { upsertRolesData } from '../UpsertRoleAndRightForm/UpsertRoleAndRightForm.data';
 import RolesAndRightFormAccordion from '../RolesAndRightFormAccordion';
+
 const RolesAndRightTable = () => {
   const {
     selectedRolesList,
@@ -32,6 +33,10 @@ const RolesAndRightTable = () => {
     currentActionType,
   } = useRolesAndRightTable();
 
+  const filteredUpsertRolesData = upsertRolesData.filter((item) =>
+    item.visible(currentActionType),
+  );
+
   return (
     <>
       <Box
@@ -40,7 +45,7 @@ const RolesAndRightTable = () => {
         justifyContent={'space-between'}
         marginTop={2}
       >
-        <Typography variant="h3">Roles And Rights</Typography>
+        <Typography variant="h3">Roles and Rights</Typography>
         <Button
           variant="contained"
           startIcon={<PlusSharedColorIcon />}
@@ -62,7 +67,7 @@ const RolesAndRightTable = () => {
         <Box>
           <Search
             value={searchValue}
-            label="search"
+            label="Search Here"
             width="100%"
             setSearchBy={setSearchValue}
             onChange={(e: any) => setSearchValue(e?.target?.value)}
@@ -91,17 +96,24 @@ const RolesAndRightTable = () => {
               ? 'Add New Role'
               : 'User Role'
           }
-          okText={'Add'}
+          okText={
+            currentActionType === ROLES_ACTION_CONSTANTS?.EDIT
+              ? 'Edit'
+              : currentActionType === ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE ||
+                currentActionType === ROLES_ACTION_CONSTANTS?.VIEW
+              ? 'Save'
+              : 'Add'
+          }
           isOk
-          isDisabled={currentActionType === ROLES_ACTION_CONSTANTS?.VIEW}
+          isDisabled={currentActionType === ROLES_ACTION_CONSTANTS?.SAVE}
           cancelText={'Cancel'}
           footer
           submitHandler={handleSubmit(onSubmit)}
         >
-          <Box mt={1}>
+          <Box>
             <FormProvider methods={rolesMethods}>
-              <Grid container spacing={4}>
-                {upsertRolesData?.map((item: any) => (
+              <Grid container spacing={1}>
+                {filteredUpsertRolesData.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component {...item?.componentProps} size={'small'}>
                       {item?.componentProps?.select &&
@@ -119,7 +131,7 @@ const RolesAndRightTable = () => {
           </Box>
         </CommonDrawer>
         <AlertModals
-          message="Are you sure you want to delete Role"
+          message="Do you want to delete this role"
           type={ALERT_MODALS_TYPE?.WARNING}
           open={openDeleteModel}
           typeImage={<ErrorIcon sx={{ color: 'warning.main' }} />}

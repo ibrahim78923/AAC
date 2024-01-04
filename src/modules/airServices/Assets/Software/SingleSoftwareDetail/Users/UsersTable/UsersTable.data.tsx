@@ -7,17 +7,17 @@ export const usersTableColumns = (
   usersMainData: any,
 ) => [
   {
-    accessorFn: (row: any) => row?.id,
-    id: 'id',
+    accessorFn: (row: any) => row?.data?.details,
+    id: 'details',
     cell: (info: any) => (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          !!usersData?.find((item: any) => item?.id === info?.getValue())
+          !!usersData?.find((item: any) => item?.id === info?.getValue()?._id)
         }
         onChange={(e) => {
-          const selectedId = info?.getValue();
+          const selectedId = info?.getValue()?._id;
           if (e?.target?.checked) {
             setUsersData([
               ...usersData,
@@ -30,7 +30,7 @@ export const usersTableColumns = (
           }
         }}
         color="primary"
-        name={info?.getValue()}
+        name={info?.getValue()?._id}
       />
     ),
     header: (
@@ -52,84 +52,63 @@ export const usersTableColumns = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.username,
+    accessorFn: (row: any) => row?.data?.details,
     id: 'Name',
-    cell: (info: any) => <Box fontWeight={700}>{info?.getValue()}</Box>,
+    cell: (info: any) => (
+      <Box fontWeight={700}>
+        {`${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`}
+      </Box>
+    ),
     header: 'Name',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row?.department,
+    accessorFn: (row: any) => row?.data?.department,
     id: 'Department',
     cell: (info: any) => info?.getValue(),
     header: 'Department',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row?.source,
+    accessorFn: (row: any) => row?.data?.source,
     id: 'Source',
     isSortable: true,
     header: 'Source',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.usage,
+    accessorFn: (row: any) => row?.data?.usage,
     id: 'Usage',
     isSortable: true,
     header: 'Usage',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.firstseen,
+    accessorFn: (row: any) => row?.data?.firstseen,
     id: 'First Seen',
     isSortable: true,
     header: 'First Seen',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.lastseen,
+    accessorFn: (row: any) => row?.data?.lastseen,
     id: 'Last Seen',
     isSortable: true,
     header: 'Last Seen',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.assigneddate,
+    accessorFn: (row: any) => row?.data?.assigneddate,
     id: 'Assigned Date',
     isSortable: true,
     header: 'Assigned Date',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.contract,
+    accessorFn: (row: any) => row?.data?.contract,
     id: 'Contract',
     isSortable: true,
     header: 'Contract',
     cell: (info: any) => info?.getValue(),
-  },
-];
-
-export const usersTableData: any = [
-  {
-    id: '1',
-    username: 'Andrea',
-    department: '-',
-    source: '-',
-    usage: '10',
-    firstseen: '22 Mar, 2023',
-    lastseen: '22 Mar, 2023',
-    assigneddate: '22 Mar, 2023',
-    contract: 'Freshservice Trial License',
-  },
-  {
-    id: '2',
-    username: 'Andrea',
-    department: '-',
-    source: '-',
-    usage: '10',
-    firstseen: '22 Mar, 2023',
-    lastseen: '22 Mar, 2023',
-    assigneddate: '22 Mar, 2023',
-    contract: 'Freshservice Trial License',
   },
 ];

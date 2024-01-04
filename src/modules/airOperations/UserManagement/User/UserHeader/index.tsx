@@ -49,6 +49,7 @@ export const UserHeader = ({ selectedUserList }: any) => {
           okText={'Add'}
         />
         <AgentConversionDelete
+          message={'Are you sure you want to delete this User?'}
           open={deleteModal}
           handleClose={() => {
             setDeleteModal(false);

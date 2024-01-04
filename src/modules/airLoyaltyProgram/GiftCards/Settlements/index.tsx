@@ -6,11 +6,9 @@ import Search from '@/components/Search';
 import { useState } from 'react';
 import { ExportIcon, FilterLinesIcon } from '@/assets/icons';
 import { AntSwitch } from '@/components/AntSwitch';
-import { SettlementsFilterDrawer } from './SettlementsFilterDrawer';
 
 export const Settlements = () => {
   const [searchValue, setSearchValue] = useState<string>('');
-  const [drawerOpen, setDrawerOpen] = useState(false);
   return (
     <Box>
       <Box
@@ -53,8 +51,6 @@ export const Settlements = () => {
             variant="outlined"
             color="inherit"
             startIcon={<FilterLinesIcon />}
-            sx={{ borderRadius: '0.5rem' }}
-            onClick={() => setDrawerOpen(true)}
           >
             Filters
           </Button>
@@ -70,10 +66,6 @@ export const Settlements = () => {
           isPagination
         />
       </Box>
-      <SettlementsFilterDrawer
-        drawerOpen={drawerOpen}
-        setDrawerOpen={setDrawerOpen}
-      />
     </Box>
   );
 };

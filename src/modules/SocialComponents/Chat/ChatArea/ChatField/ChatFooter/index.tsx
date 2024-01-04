@@ -33,7 +33,7 @@ import { TypingGif, UserDefault } from '@/assets/images';
 
 import { getSession } from '@/utils';
 
-const ChatFooter = () => {
+const ChatFooter = ({ setChangeScroll }: any) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
@@ -74,9 +74,10 @@ const ChatFooter = () => {
       socket.emit(
         'add-message',
         activeReply?.content ? addMessageReplyPayload : addMessagePayload,
-        () => {
+        (response: any) => {
           setMessageText('');
           dispatch(setActiveReply({}));
+          setChangeScroll(response?.data);
         },
       );
     } else {
@@ -88,6 +89,7 @@ const ChatFooter = () => {
         },
         (response: any) => {
           setMessageText('');
+          setChangeScroll(response?.data);
           dispatch(
             setUpdateChatContacts({
               ownerId: response?.data?.ownerId,

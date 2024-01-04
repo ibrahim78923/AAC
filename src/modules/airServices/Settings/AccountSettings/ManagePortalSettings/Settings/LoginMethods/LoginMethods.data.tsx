@@ -102,8 +102,9 @@ export const loginMethodsDataArray = [
       type: 'text',
       size: 'small',
       placeholder: 'Select Admin',
+      options: ['BE1'],
     },
-    component: RHFTextField,
+    component: RHFAutocomplete,
   },
 ];
 

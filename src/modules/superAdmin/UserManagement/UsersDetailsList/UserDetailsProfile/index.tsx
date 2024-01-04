@@ -82,101 +82,113 @@ const UserDetailsProfile = (props: any) => {
 
   return (
     <FormProvider methods={methods}>
-      <Typography variant="h5">Personal Details</Typography>
-      <Grid container spacing={2} sx={{ mt: '5px' }}>
-        {profileFields?.map((item: any) => {
-          return (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
-              {item?.componentProps?.heading && (
-                <Typography variant="h5">
-                  {item?.componentProps?.heading}
-                </Typography>
-              )}
-              {/* for address fileds */}
-              {item?.componentProps?.name === 'compositeAddress' && (
-                <Box
-                  sx={{
-                    backgroundColor: '',
-                    position: 'relative',
-                    right: 0,
-                  }}
-                >
-                  <InputAdornment
+      <Box
+        sx={{
+          maxHeight: `calc(50vh - ${15}px)`,
+          overflow: 'auto',
+        }}
+      >
+        <Typography variant="h5">Personal Details</Typography>
+        <Grid container spacing={2} sx={{ mt: '5px' }}>
+          {profileFields?.map((item: any) => {
+            return (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                {item?.componentProps?.heading && (
+                  <Typography variant="h5">
+                    {item?.componentProps?.heading}
+                  </Typography>
+                )}
+                {/* for address fileds */}
+                {item?.componentProps?.name === 'compositeAddress' && (
+                  <Box
                     sx={{
-                      position: 'absolute',
-                      top: 50,
-                      right: 15,
-                      zIndex: 9999,
+                      backgroundColor: '',
+                      position: 'relative',
+                      right: 0,
                     }}
-                    position="end"
                   >
-                    <Box
+                    <InputAdornment
                       sx={{
-                        display: 'flex',
-                        gap: '10px',
-                        alignItems: 'center',
+                        position: 'absolute',
+                        top: 50,
+                        right: 15,
+                        zIndex: 9999,
                       }}
+                      position="end"
                     >
                       <Box
-                        sx={{ cursor: 'pointer' }}
-                        onClick={() => setIsToggled(false)}
+                        sx={{
+                          display: 'flex',
+                          gap: '10px',
+                          alignItems: 'center',
+                        }}
                       >
-                        <EditInputIcon />
+                        <Box
+                          sx={{ cursor: 'pointer' }}
+                          onClick={() => setIsToggled(false)}
+                        >
+                          <EditInputIcon />
+                        </Box>
+                        <Box
+                          sx={{ cursor: 'pointer' }}
+                          onClick={() => setIsToggled(true)}
+                        >
+                          <RevertIcon />
+                        </Box>
                       </Box>
-                      <Box
-                        sx={{ cursor: 'pointer' }}
-                        onClick={() => setIsToggled(true)}
-                      >
-                        <RevertIcon />
-                      </Box>
-                    </Box>
-                  </InputAdornment>
-                </Box>
-              )}
+                    </InputAdornment>
+                  </Box>
+                )}
 
-              {!item?.toShow?.includes('address') && (
-                <item.component
-                  {...item.componentProps}
-                  size={'small'}
-                  disabled={
-                    isToggled &&
-                    item?.componentProps?.name === 'compositeAddress'
-                      ? true
-                      : false
-                  }
-                >
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
-              )}
-              {isToggled && item?.toShow?.includes('address') && (
-                <item.component {...item.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
-              )}
-            </Grid>
-          );
-        })}
-      </Grid>
-      <Grid
-        item
-        lg={12}
-        sx={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', my: 2 }}
-      >
-        <Button variant="outlined">Cancel</Button>
-        <Button variant="contained" onClick={handleSubmit(onSubmit)}>
-          Update
-        </Button>
-      </Grid>
+                {!item?.toShow?.includes('address') && (
+                  <item.component
+                    {...item.componentProps}
+                    size={'small'}
+                    disabled={
+                      isToggled &&
+                      item?.componentProps?.name === 'compositeAddress'
+                        ? true
+                        : false
+                    }
+                  >
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={uuidv4()} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                )}
+                {isToggled && item?.toShow?.includes('address') && (
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={uuidv4()} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                )}
+              </Grid>
+            );
+          })}
+        </Grid>
+        <Grid
+          item
+          lg={12}
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            gap: '10px',
+            my: 2,
+          }}
+        >
+          <Button variant="outlined">Cancel</Button>
+          <Button variant="contained" onClick={handleSubmit(onSubmit)}>
+            Update
+          </Button>
+        </Grid>
+      </Box>
     </FormProvider>
   );
 };

@@ -5,12 +5,12 @@ export const styles = {
     alignItems: 'center',
     p: '16px 24px',
   }),
-  pageHeaderTitle: () => ({
-    color: '#1F2937',
+  pageHeaderTitle: (theme: any) => ({
+    color: theme?.palette?.grey[800],
   }),
   actionButton: (theme: any) => ({
-    border: `1px solid ${theme.palette.grey[0]}`,
-    color: theme.palette.custom.main,
+    border: `1px solid ${theme?.palette?.grey[0]}`,
+    color: theme?.palette?.custom?.main,
     fontSize: '14px',
     fontWeight: '500',
     p: '6px 18px',

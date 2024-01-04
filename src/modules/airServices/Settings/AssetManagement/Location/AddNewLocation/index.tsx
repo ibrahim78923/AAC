@@ -34,10 +34,10 @@ const AddNewLocation = () => {
           childEditLocationId
             ? AddNewLocationMethods?.handleSubmit(childEditOnSubmit)
             : editLocationId
-              ? AddNewLocationMethods?.handleSubmit(editOnSubmit)
-              : locationId
-                ? AddNewLocationMethods?.handleSubmit(childOnsubmit)
-                : AddNewLocationMethods?.handleSubmit(onSubmit)
+            ? AddNewLocationMethods?.handleSubmit(editOnSubmit)
+            : locationId
+            ? AddNewLocationMethods?.handleSubmit(childOnsubmit)
+            : AddNewLocationMethods?.handleSubmit(onSubmit)
         }
       >
         <Grid container rowSpacing={1.8} columnSpacing={2}>

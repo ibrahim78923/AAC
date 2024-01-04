@@ -90,14 +90,14 @@ export const associatesListsColumnFunction: any = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.associateAssetsDetails?.usedBy,
-      id: 'associateAssetsDetails.usedBy',
+      accessorFn: (row: any) => row?.associateAssetsDetails?.users,
+      id: 'associateAssetsDetails.users',
       isSortable: true,
       header: 'Used By',
       cell: (info: any) =>
         fullName(
-          info?.row?.original?.user?.firstName,
-          info?.row?.original?.user?.lastName,
+          info?.getValue()?.[0]?.firstName,
+          info?.getValue()?.[0]?.lastName,
         ),
     },
     {
@@ -111,10 +111,13 @@ export const associatesListsColumnFunction: any = (
             icon={
               <FiberManualRecordIcon
                 color={styleFunction?.[info?.getValue()]?.color}
-                sx={{ color: styleFunction?.[info?.getValue()]?.color }}
+                sx={{
+                  color: styleFunction?.[info?.getValue()]?.color,
+                  fontSize: '14px',
+                }}
               />
             }
-            size="small"
+            // size="small"
             label={info?.getValue()}
             sx={{
               color: theme?.palette?.common?.black,

@@ -23,6 +23,7 @@ import {
 import Header from './Header';
 
 import {
+  setChangeChat,
   setChatMessages,
   setSocketConnection,
   setTypingUserData,
@@ -438,6 +439,7 @@ const DashboardLayout = ({ children, window }: any) => {
     socket.on('on-message-received', (payload: any) => {
       if (payload?.data) {
         dispatch(setChatMessages(payload?.data));
+        dispatch(setChangeChat(payload?.data));
       }
     });
     socket.on('update-message', () => {});
