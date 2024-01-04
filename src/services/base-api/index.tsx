@@ -40,6 +40,7 @@ export const TAGS = [
   'ASSET_TYPE',
   'DROPDOWN_ASSOCIATE_ASSET',
   'DROPDOWN_CATEGORIES',
+  'INVOICE',
 ];
 
 const baseQuery = fetchBaseQuery({
