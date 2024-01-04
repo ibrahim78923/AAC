@@ -51,8 +51,8 @@ export const UpsertContract = () => {
                           </option>
                         ))
                       : item?.heading
-                        ? item?.heading
-                        : null}
+                      ? item?.heading
+                      : null}
                   </item.component>
                 </Grid>
               ))}

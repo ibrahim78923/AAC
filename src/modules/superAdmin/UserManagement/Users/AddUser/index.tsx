@@ -37,8 +37,8 @@ const AddUser = ({
         isOpenAddUserDrawer?.type === 'view'
           ? userDetail?.firstName
           : isOpenAddUserDrawer?.type === 'edit'
-            ? 'Edit User'
-            : 'Add User'
+          ? 'Edit User'
+          : 'Add User'
       }
       okText={isOpenAddUserDrawer?.type === 'edit' ? 'Update User' : 'Add'}
       isOk={isOpenAddUserDrawer?.type === 'view' ? false : true}
@@ -104,7 +104,9 @@ const AddUser = ({
                     size={'small'}
                     disabled={
                       isOpenAddUserDrawer?.type === 'view' ||
-                      item.componentProps.name === 'companyName'
+                      item.componentProps.name === 'companyName' ||
+                      (isOpenAddUserDrawer?.type === 'edit' &&
+                        item.componentProps.name === 'crn')
                         ? true
                         : false
                     }

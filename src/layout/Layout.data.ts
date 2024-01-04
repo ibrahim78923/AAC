@@ -47,6 +47,7 @@ import {
   AIR_MARKETER,
   AIR_OPERATION,
   LOYALTY_PROGRAM,
+  AIR_SOCIAL,
 } from '@/routesConstants/paths';
 
 type MenuItemI = {
@@ -746,7 +747,7 @@ export const QuickLinkData = [
   {
     key: '2',
     icon: ContactImage,
-    path: '',
+    path: AIR_SOCIAL?.CONTACTS,
   },
   {
     key: '3',

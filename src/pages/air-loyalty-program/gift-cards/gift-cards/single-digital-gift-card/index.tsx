@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import { GiftCardsDetails } from '@/modules/airLoyaltyProgram/GiftCards/GiftCardsDetails';
+import { GiftCardsDetails } from '@/modules/airLoyaltyProgram/GiftCards/GiftCards/GiftCardsDetails';
 
 const SingleDigitalGiftCardsPage = () => <GiftCardsDetails />;
 

@@ -15,8 +15,8 @@ const TransformResponse = (response: any) =>
       item?.status?.toLowerCase() === COMPLETED
         ? styles?.completed
         : item?.status?.toLowerCase()?.replace(/\s/g, '') === IN_PROGRESS
-          ? styles?.inprogress
-          : styles?.toDo,
+        ? styles?.inprogress
+        : styles?.toDo,
     extendedProps: {
       status: item?.status,
       img: item?.img,
