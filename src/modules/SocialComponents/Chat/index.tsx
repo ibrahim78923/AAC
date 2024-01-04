@@ -30,14 +30,16 @@ import { getSession, isNullOrEmpty } from '@/utils';
 import { styles } from './Chat.style';
 
 const Chat = () => {
-  const dispatch = useAppDispatch();
+  const dispatch: any = useAppDispatch();
 
   const theme = useTheme();
   const socket = useAppSelector((state) => state?.chat?.socket);
 
   const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
   const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
-
+  const chatModeState = useAppSelector(
+    (state: any) => state?.chat?.chatModeState?.chatModeState,
+  );
   const chatMetaInfo = useAppSelector((state) => state?.chat?.chatMetaInfo);
 
   const activeReceiverId = useAppSelector(
@@ -158,23 +160,25 @@ const Chat = () => {
         </Grid>
       </Grid>
 
-      <Button
-        style={{
-          position: 'absolute',
-          right: '-10px',
-          bottom: '-18px',
-          cursor: 'grab',
-          padding: '0px',
-          width: 'fit-content',
-          minWidth: 'fit-content',
-          height: 'fit-content',
-          borderRadius: '50%',
-        }}
-        aria-describedby={id}
-        onClick={handleClick}
-      >
-        <PlusIcon width={55} color={theme?.palette?.primary?.main} />
-      </Button>
+      {chatModeState === 'personalChat' && (
+        <Button
+          style={{
+            position: 'absolute',
+            right: '-10px',
+            bottom: '-18px',
+            cursor: 'grab',
+            padding: '0px',
+            width: 'fit-content',
+            minWidth: 'fit-content',
+            height: 'fit-content',
+            borderRadius: '50%',
+          }}
+          aria-describedby={id}
+          onClick={handleClick}
+        >
+          <PlusIcon width={55} color={theme?.palette?.primary?.main} />
+        </Button>
+      )}
       <Popover
         id={id}
         open={open}

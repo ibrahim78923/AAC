@@ -120,6 +120,27 @@ const ChatFooter = ({ setChangeScroll }: any) => {
     socket.emit('stop-typing', checkTypingPayload);
   };
 
+  // const [filesDisp, setFilesDisp] = useState<any>([]);
+
+  const handleImage = async (e: any) => {
+    alert('called');
+    if (e.target.files.length) {
+      const formData = new FormData();
+      formData.append('file', e.target.files[0]);
+      try {
+        // setIsloading(true);
+        // const response = await apiPostRequestForChat(
+        //   endpoints.chatMediaUpload,
+        //   formData
+        // );
+        // sendDocument(response.data.data);
+        // setIsloading(false);
+      } catch (error) {
+        // setIsloading(false);
+      }
+    }
+  };
+
   const typingUserData = useAppSelector((state) => state?.chat?.typingUserData);
 
   return (
@@ -179,7 +200,17 @@ const ChatFooter = ({ setChangeScroll }: any) => {
 
         <Box sx={styles?.chatFooter}>
           <Button sx={styles?.unStyledButton}>
-            <AttachmentIcon />
+            <input
+              hidden
+              type="file"
+              id="upload-button"
+              accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+                            text/plain, application/pdf, image/*"
+              onChange={(e: any) => handleImage(e)}
+            />
+            <label htmlFor="upload-button">
+              <AttachmentIcon />
+            </label>
           </Button>
           <TextField
             placeholder="Write message"

@@ -132,6 +132,7 @@ const ContactsCard = ({
     <>
       <Box
         sx={styles?.contactsCardMain(isCardHover, theme, isActiveUser)}
+        style={{ position: 'relative' }}
         onMouseOver={() => setIsCardHover(true)}
         onMouseLeave={() => setIsCardHover(false)}
       >
@@ -147,7 +148,7 @@ const ContactsCard = ({
             }
           />
         )}
-        <Box sx={{ width: '100%' }}>
+        <Box style={{ width: '100%' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Box
               sx={{
@@ -174,37 +175,43 @@ const ContactsCard = ({
                   {filteredParticipants[0]?.lastName}
                 </Typography>
               </Box>
+              {/* <Box sx={styles?.chatNotification}>1</Box> */}
             </Box>
+
             <Box
               sx={{
                 display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
+                gap: '10px',
+                position: 'absolute',
+                right: '10px',
               }}
             >
-              <Box></Box>
-
-              <Box sx={{ display: 'flex', gap: '10px' }}>
-                {isCardHover && (
-                  <Box onClick={() => setIsDeleteModal(true)}>
-                    <DeleteIcon />
-                  </Box>
-                )}
-                {cardData?.item?.isPinned ? (
-                  <Box onClick={() => updateChatHandler('isPinned')}>
-                    <PinIcon color={theme?.palette?.warning?.main} />
-                  </Box>
-                ) : (
-                  <>
-                    {isCardHover && (
-                      <Box onClick={() => updateChatHandler('isPinned')}>
-                        <PinIcon color={theme?.palette?.custom?.main} />
-                      </Box>
-                    )}
-                  </>
-                )}
-              </Box>
+              {isCardHover && (
+                <Box
+                  onClick={() => setIsDeleteModal(true)}
+                  sx={{ cursor: 'pointer' }}
+                >
+                  <DeleteIcon />
+                </Box>
+              )}
+              {cardData?.item?.isPinned ? (
+                <Box
+                  onClick={() => updateChatHandler('isPinned')}
+                  sx={{ cursor: 'pointer' }}
+                >
+                  <PinIcon color={theme?.palette?.warning?.main} />
+                </Box>
+              ) : (
+                <>
+                  {isCardHover && (
+                    <Box onClick={() => updateChatHandler('isPinned')}>
+                      <PinIcon color={theme?.palette?.custom?.main} />
+                    </Box>
+                  )}
+                </>
+              )}
             </Box>
+            {/* </Box> */}
           </Box>
           <Box
             sx={{

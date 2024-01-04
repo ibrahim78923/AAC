@@ -22,10 +22,28 @@ import {
 import { isNullOrEmpty } from '@/utils';
 
 const ContactList = ({ chatMode, handleManualRefetch }: any) => {
+  const [isDeletedFilter, setIsDeletedFilter] = useState(false);
+  const [unReadFilter, setUnReadFilter] = useState(false);
+  const [isMutedFilter, setIsMutedFilter] = useState(false);
+  const [isPinnedFilter, setIsPinnedFilter] = useState(false);
+  const [isArchivedFilter, setIsArchivedFilter] = useState(false);
+
   const dispatch = useAppDispatch();
+  // isDeleted=false&unRead=false&isMuted=false&isPinned=false&isArchived=true
+  const paramsObj: any = {};
+  paramsObj['isDeleted'] = isDeletedFilter;
+  paramsObj['unRead'] = unReadFilter;
+  paramsObj['isMuted'] = isMutedFilter;
+  paramsObj['isPinned'] = isPinnedFilter;
+  paramsObj['isArchived'] = isArchivedFilter;
+  const queryParams = Object.entries(paramsObj)
+    .map(([key, value]: any) => `${key}=${encodeURIComponent(value)}`)
+    .join('&');
+  const query = `&${queryParams}`;
 
   const { data: contactsData, status } = useGetChatsContactsQuery({
     isGroup: chatMode === 'groupChat' ? true : false,
+    query,
   });
 
   const [searchContacts, setSearchContacts] = useState('');
@@ -57,6 +75,13 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
       setSelectedValues(result);
     }
   };
+  const showAllRecordsHandler = () => {
+    setIsArchivedFilter(false);
+    setIsPinnedFilter(false);
+    setIsMutedFilter(false);
+    setUnReadFilter(false);
+    setIsDeletedFilter(false);
+  };
 
   useEffect(() => {
     if (chatMode === 'groupChat') {
@@ -78,24 +103,48 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
 
   const menuItemsData = [
     {
+      menuLabel: 'All',
+      handler: showAllRecordsHandler,
+    },
+    {
       menuLabel: 'Pinned',
-      handler: handleClose,
+      handler: () => {
+        showAllRecordsHandler();
+        setIsPinnedFilter(true);
+        handleClose();
+      },
     },
     {
       menuLabel: 'Archived',
-      handler: handleClose,
+      handler: () => {
+        showAllRecordsHandler();
+        setIsArchivedFilter(true);
+        handleClose();
+      },
     },
     {
       menuLabel: 'Deleted',
-      handler: handleClose,
+      handler: () => {
+        showAllRecordsHandler();
+        setIsDeletedFilter(true);
+        handleClose();
+      },
     },
     {
       menuLabel: 'Mark as unread',
-      handler: handleClose,
+      handler: () => {
+        showAllRecordsHandler();
+        setUnReadFilter(true);
+        handleClose();
+      },
     },
     {
       menuLabel: 'Muted',
-      handler: handleClose,
+      handler: () => {
+        showAllRecordsHandler();
+        setIsMutedFilter(true);
+        handleClose();
+      },
     },
   ];
 
