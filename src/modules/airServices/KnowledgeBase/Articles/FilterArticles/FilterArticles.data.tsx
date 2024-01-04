@@ -1,19 +1,18 @@
-import { RHFSelect } from '@/components/ReactHookForm';
+import { RHFAutocomplete } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const filterArticlesValidationSchema = Yup?.object()?.shape({
   status: Yup?.string(),
-  author: Yup?.string(),
+  authorId: Yup?.string(),
 });
 
 export const filterArticlesDataDefaultValues = {
   status: '',
-  author: '',
+  // authorId: '',
 };
-const statusOption = [
-  { value: 'Drafts', label: 'Drafts' },
-  { value: 'Published', label: 'Published' },
-];
+
+const statusOption = ['DRAFT', 'PUBLISHED'];
+
 const authorOption = [
   { value: 'Alee', label: 'Alee' },
   { value: 'David', label: 'David' },
@@ -25,29 +24,28 @@ const authorOption = [
 ];
 export const filterArticlesData = [
   {
+    id: '1',
     componentProps: {
       name: 'status',
       label: 'Status',
+      size: 'small',
+      placeholder: 'Select',
       fullWidth: true,
-      select: true,
+      options: statusOption,
     },
-
-    options: statusOption,
-
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
     componentProps: {
-      name: 'author',
+      name: 'authorId',
       label: 'Author',
+      size: 'small',
+      placeholder: 'Select',
       fullWidth: true,
-      select: true,
+      options: authorOption,
     },
-
-    options: authorOption,
-
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
 ];
