@@ -24,6 +24,7 @@ import { DATE_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
 import { useState } from 'react';
 import UploadImageModal from './UploadImageModal';
 import EditDomainModal from './EditDomainModal';
+import { useRouter } from 'next/router';
 
 const ViewDetails = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -31,8 +32,10 @@ const ViewDetails = () => {
   const [isEditDomainOpen, setIsEditDomainOpen] = useState(false);
 
   const theme = useTheme();
+  const navigate = useRouter();
+  const { query } = navigate;
   const { data } = useGetCompaniesDetailsQuery({
-    Id: '658161e8bc12c9e948cb0d21',
+    Id: query?.id,
   });
 
   const date = new Date(data?.data?.createdAt);

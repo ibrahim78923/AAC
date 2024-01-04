@@ -50,7 +50,7 @@ export const companiesAPI = baseAPI.injectEndpoints({
 
     CompanyUpdate: builder.mutation({
       query: ({ body, Id }: any) => ({
-        url: `${END_POINTS?.COMPANY}?Id=${Id}`,
+        url: `${END_POINTS?.COMPANY}/${Id}`,
         method: 'PATCH',
         body: body,
       }),

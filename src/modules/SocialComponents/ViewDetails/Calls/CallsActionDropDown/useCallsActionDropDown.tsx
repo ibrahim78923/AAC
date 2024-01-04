@@ -21,15 +21,30 @@ const useCallsActionDropdown = ({
   setOpenDrawer,
   setOpenAlertModal,
   selectedCheckboxes,
+  openAlertModal,
 }: any) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
+  const editCallValue = selectedCheckboxes && selectedCheckboxes[0];
   const [updateCalls] = useUpdateCallsMutation();
 
   const methodsReassignCall = useForm({
     resolver: yupResolver(reAssignCallValidationSchema),
-    defaultValues: reAssignCallDefaultValues,
+    defaultValues: async () => {
+      if (editCallValue && openAlertModal === 'reschedule') {
+        const { callFromDate, callFromTime, callToDate, callToTime }: any =
+          editCallValue;
+        const currentDate = new Date()?.toJSON()?.slice(0, 10);
+        return {
+          callFromDate: new Date(callFromDate),
+          callFromTime: new Date(`${currentDate} ${callFromTime}`),
+          callToDate: new Date(callToDate),
+          callToTime: new Date(`${currentDate} ${callToTime}`),
+        };
+      }
+      return reAssignCallDefaultValues;
+    },
   });
 
   const onSubmitReassignCall = async (values: any) => {
@@ -64,7 +79,16 @@ const useCallsActionDropdown = ({
 
   const methodsOutCome = useForm({
     resolver: yupResolver(outcomesValidationSchema),
-    defaultValues: outcomesDefaultValues,
+    defaultValues: async () => {
+      if (editCallValue && openAlertModal === 'outcome') {
+        const { outcome, callNotes }: any = editCallValue;
+        return {
+          outcome,
+          callNotes,
+        };
+      }
+      return outcomesDefaultValues;
+    },
   });
 
   const onSubmitOutCome = async (values: any) => {

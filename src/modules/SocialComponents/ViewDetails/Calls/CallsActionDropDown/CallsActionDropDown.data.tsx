@@ -8,10 +8,10 @@ import {
 import * as Yup from 'yup';
 
 export const reAssignCallValidationSchema = Yup?.object()?.shape({
-  callFromDate: Yup?.string()?.trim()?.required('Field is Required'),
-  callFromTime: Yup?.string()?.trim()?.required('Field is Required'),
-  callToDate: Yup?.string()?.trim()?.required('Field is Required'),
-  callToTime: Yup?.string()?.trim()?.required('Field is Required'),
+  callFromDate: Yup?.string(),
+  callFromTime: Yup?.string(),
+  callToDate: Yup?.string(),
+  callToTime: Yup?.string(),
 });
 
 export const reAssignCallDefaultValues = {
