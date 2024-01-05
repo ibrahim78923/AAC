@@ -39,7 +39,7 @@ const UsersDetails = (props: any) => {
             userName={`${profileData?.data?.firstName ?? 'N/A'} ${
               profileData?.data?.lastName ?? ''
             }`}
-            role={profileData?.data?.role?.toLowerCase()?.replace('_', ' ')}
+            isBadge={false}
             email={profileData?.data?.email}
             phone={profileData?.data?.phoneNumber}
             handleEditProfile={() => setTabVal(1)}
