@@ -42,8 +42,8 @@ export const UpsertInventory = () => {
                               ),
                             )
                           : form?.heading
-                          ? form?.heading
-                          : null}
+                            ? form?.heading
+                            : null}
                       </form.component>
                     </Grid>
                   ))}

@@ -4,32 +4,16 @@ import CommonDrawer from '@/components/CommonDrawer';
 
 import { FilterData } from './ContactsFilterDrawer.data';
 import { v4 as uuidv4 } from 'uuid';
-import { useGetOrganizationUsersQuery } from '@/services/dropdowns';
-import useAuth from '@/hooks/useAuth';
-import {
-  useGetLifeCycleQuery,
-  useGetContactsStatusQuery,
-} from '@/services/commonFeatures/contacts';
+import useFilterDrawer from './useFilterDrawer';
 
 const ContactsFilterDrawer = ({ open, onClose, onSubmit, methods }: any) => {
-  const { user }: any = useAuth();
-  const { data: dataOrgUsers } = useGetOrganizationUsersQuery(
-    user?.organization?._id,
-  );
-  const { data: dataLifeCycle } = useGetLifeCycleQuery({});
-  const { data: dataContactStatus } = useGetContactsStatusQuery({});
+  const { contactOwnerData, lifeCycleStagesData, contactStatusData } =
+    useFilterDrawer();
 
-  const contactOwners = dataOrgUsers ? dataOrgUsers?.data?.users : [];
-  const lifeCycleStages = dataLifeCycle
-    ? dataLifeCycle?.data?.lifecycleStages
-    : [];
-  const contactStatuses = dataContactStatus
-    ? dataContactStatus?.data?.conatactStatus
-    : [];
   const formFields = FilterData(
-    contactOwners,
-    lifeCycleStages,
-    contactStatuses,
+    contactOwnerData,
+    lifeCycleStagesData,
+    contactStatusData,
   );
 
   return (
