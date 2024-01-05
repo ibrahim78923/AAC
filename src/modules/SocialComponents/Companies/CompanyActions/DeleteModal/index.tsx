@@ -9,6 +9,7 @@ const DeleteModal = ({
   isDeleteCompany,
   setIsDeleteCompany,
   checkedRows,
+  setCheckedRows,
 }: any) => {
   const { deleteCompanies } = useCompanies();
   return (
@@ -26,6 +27,7 @@ const DeleteModal = ({
         handleSubmitBtn={() => {
           deleteCompanies({ ids: checkedRows });
           setIsDeleteCompany({ deleteModal: false });
+          setCheckedRows([]);
           enqueueSnackbar(`Company deleted successfully`, {
             variant: NOTISTACK_VARIANTS?.SUCCESS,
           });

@@ -10,7 +10,6 @@ import {
   Typography,
   Button,
   useTheme,
-  Theme,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -31,12 +30,10 @@ export default function MultiSearchableSelect({
   ...other
 }: any) {
   const [searchTerm, setSearchTerm] = useState('');
-  const theme = useTheme<Theme>();
-
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
+  const theme = useTheme();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };

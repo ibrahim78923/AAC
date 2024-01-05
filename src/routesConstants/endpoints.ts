@@ -144,12 +144,17 @@ export const END_POINTS = {
   DEPARTMENT_LIST: `/Department/department-list`,
   EDIT_SERVICE_CATALOG: '/service-catalog/update-service',
   TICKETS_DETACH_ASSOCIATES_ASSETS: '/ticket/detach-assets',
+  CALL_WIDGET: `/calls/get-scheduled-call-widget`,
   GET_AGENT_REQUESTER: '/agent/agent-requester-list',
   GET_ASSETS_CONTRACT: '/contract/get-contracts',
   ASSETS_CONTRACT: '/contract',
   VENDOR_DROPDOWN: '/vendors/get-vendors',
   CONTRACT_TYPE_DROPDOWN: '/contract-type',
   DROPDOWN_AGENTS_LIST: '/dropdown/agents',
+  DROPDOWN_LOCATION: '/location/get-location',
+  DROPDOWN_USERS: '',
+  ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
+  DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
 };
 
 export const superAdminBillingInvoices = {
