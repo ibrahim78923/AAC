@@ -118,10 +118,11 @@ const useDetails = (data: any) => {
       address: values?.Address,
       description: values?.description,
       linkedInUrl: values?.LinkedInCompanyPage,
-      Phone: values?.PhoneNumber,
+      phone: values?.PhoneNumber,
       crn: values?.CompanyRegistrationNumber,
       lifeCyleId: values?.LifeCycleStage,
       joiningDate: dayjs(values?.CreatedDate)?.format(DATE_FORMAT?.API),
+      isDeleted: 'ACTIVE',
     };
 
     try {

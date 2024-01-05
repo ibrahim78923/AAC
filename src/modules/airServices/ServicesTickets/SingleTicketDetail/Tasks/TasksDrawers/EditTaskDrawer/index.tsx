@@ -1,13 +1,14 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { TasksDrawersForm } from '../TasksDrawersForm';
-import { EditTaskDrawerI } from './EditTaskDrawer.interface';
 import { useEditTaskDrawer } from './useEditTaskDrawer';
-export const EditTaskDrawer: React.FC<EditTaskDrawerI> = ({
-  isDrawerOpen,
-  onClose,
-}) => {
-  const { drawerSubmitHandler, methodsEditTicketForm, submitEditTicket } =
-    useEditTaskDrawer();
+export const EditTaskDrawer = (props: any) => {
+  const { isDrawerOpen, onClose } = props;
+  const {
+    drawerSubmitHandler,
+    methodsEditTicketForm,
+    departmentDropdown,
+    userDropdown,
+  } = useEditTaskDrawer(props);
   return (
     <>
       <CommonDrawer
@@ -22,9 +23,10 @@ export const EditTaskDrawer: React.FC<EditTaskDrawerI> = ({
         okText="Update"
       >
         <TasksDrawersForm
-          submitTicket={submitEditTicket}
           methods={methodsEditTicketForm}
-          handleSubmit={methodsEditTicketForm?.handleSubmit}
+          handleSubmit={drawerSubmitHandler}
+          departmentDropdown={departmentDropdown}
+          userDropdown={userDropdown}
         />
       </CommonDrawer>
     </>

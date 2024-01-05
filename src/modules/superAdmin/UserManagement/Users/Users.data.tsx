@@ -18,11 +18,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { DATE_FORMAT } from '@/constants';
 
 export const columns: any = (columnsProps: any) => {
-  const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
+  const { handleUserSwitchChange, checkedRows, handleCheckboxChange } =
+    columnsProps;
   const theme = useTheme();
-  const handleCheckboxChange = (val: any, rowId: string) => {
-    val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
-  };
 
   return [
     {
@@ -149,11 +147,9 @@ export const columns: any = (columnsProps: any) => {
 };
 
 export const superAdminColumns: any = (columnsProps: any) => {
-  const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
+  const { handleUserSwitchChange, checkedRows, handleCheckboxChange } =
+    columnsProps;
   const theme = useTheme();
-  const handleCheckboxChange = (val: any, rowId: string) => {
-    val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
-  };
 
   return [
     {

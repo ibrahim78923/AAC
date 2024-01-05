@@ -2,16 +2,20 @@ import { AlertModals } from '@/components/AlertModals';
 
 import { RestoreDealsIcon } from '@/assets/icons';
 
-const RestoreDealModal = ({ open, onClose, handlePermanantDelete }: any) => {
+const RestoreDealModal = ({
+  open,
+  onClose,
+  handlePermanantDeleteRetore,
+}: any) => {
   return (
     <>
       <AlertModals
         typeImage={<RestoreDealsIcon />}
-        message="You're about to delete a record. Deleted records can't be restored after 90 days."
-        type="delete"
+        message="You are about to restore record"
+        type="restore"
         open={open}
         handleClose={onClose}
-        handleSubmit={handlePermanantDelete}
+        handleSubmitBtn={handlePermanantDeleteRetore}
       />
     </>
   );

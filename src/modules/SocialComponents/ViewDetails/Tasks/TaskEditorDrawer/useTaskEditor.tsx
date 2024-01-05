@@ -19,7 +19,6 @@ const useTaskEditor = ({
   openDrawer,
   setOpenDrawer,
   setSelectedCheckboxes,
-  companyId,
 }: any) => {
   const editCheckBoxes = selectedCheckboxes && selectedCheckboxes[0];
 
@@ -63,7 +62,6 @@ const useTaskEditor = ({
     const body = {
       dueDate: DueDate,
       time: CreateTime,
-      recordId: companyId,
       ...rest,
     };
 

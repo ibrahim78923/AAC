@@ -1,3 +1,4 @@
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
 import { ASSET_IMPACT, ASSET_TYPE, TIME_PERIODS } from '@/constants/strings';
 import { Checkbox, Typography } from '@mui/material';
@@ -21,27 +22,78 @@ export const assetTypeOptions = [
 ];
 
 export const dateOptions = [
-  TIME_PERIODS?.NONE,
-  TIME_PERIODS?.ALL_TIME,
-  TIME_PERIODS?.TODAY,
-  TIME_PERIODS?.YESTERDAY,
-  TIME_PERIODS?.PREVIOUS_WEEK,
-  TIME_PERIODS?.PREVIOUS_MONTH,
+  {
+    _id: TIME_PERIODS?.NONE,
+    label: TIME_PERIODS?.NONE,
+  },
+  {
+    _id: TIME_PERIODS?.ALL_TIME,
+    label: TIME_PERIODS?.ALL_TIME,
+  },
+  {
+    _id: TIME_PERIODS?.TODAY,
+    label: TIME_PERIODS?.TODAY,
+  },
+  {
+    _id: TIME_PERIODS?.YESTERDAY,
+    label: TIME_PERIODS?.YESTERDAY,
+  },
+  {
+    _id: TIME_PERIODS?.PREVIOUS_WEEK,
+    label: TIME_PERIODS?.PREVIOUS_WEEK,
+  },
+  {
+    _id: TIME_PERIODS?.PREVIOUS_MONTH,
+    label: TIME_PERIODS?.PREVIOUS_MONTH,
+  },
 ];
 export const assetLifeExpiryOptions = [
-  TIME_PERIODS?.NONE,
-  TIME_PERIODS?.ALL_TIME,
-  TIME_PERIODS?.TODAY,
-  TIME_PERIODS?.YESTERDAY,
-  TIME_PERIODS?.PREVIOUS_WEEK,
-  TIME_PERIODS?.PREVIOUS_MONTH,
-  TIME_PERIODS?.NEXT_WEEK,
-  TIME_PERIODS?.NEXT_MONTH,
+  {
+    _id: TIME_PERIODS?.NONE,
+    label: TIME_PERIODS?.NONE,
+  },
+  {
+    _id: TIME_PERIODS?.ALL_TIME,
+    label: TIME_PERIODS?.ALL_TIME,
+  },
+  {
+    _id: TIME_PERIODS?.TODAY,
+    label: TIME_PERIODS?.TODAY,
+  },
+  {
+    _id: TIME_PERIODS?.YESTERDAY,
+    label: TIME_PERIODS?.YESTERDAY,
+  },
+  {
+    _id: TIME_PERIODS?.PREVIOUS_WEEK,
+    label: TIME_PERIODS?.PREVIOUS_WEEK,
+  },
+  {
+    _id: TIME_PERIODS?.PREVIOUS_MONTH,
+    label: TIME_PERIODS?.PREVIOUS_MONTH,
+  },
+  {
+    _id: TIME_PERIODS?.NEXT_WEEK,
+    label: TIME_PERIODS?.NEXT_WEEK,
+  },
+  {
+    _id: TIME_PERIODS?.NEXT_MONTH,
+    label: TIME_PERIODS?.NEXT_MONTH,
+  },
 ];
 export const assetsImpactOptions = [
-  ASSET_IMPACT?.LOW,
-  ASSET_IMPACT?.MEDIUM,
-  ASSET_IMPACT?.HIGH,
+  {
+    _id: ASSET_IMPACT?.LOW,
+    label: ASSET_IMPACT?.LOW,
+  },
+  {
+    _id: ASSET_IMPACT?.MEDIUM,
+    label: ASSET_IMPACT?.MEDIUM,
+  },
+  {
+    _id: ASSET_IMPACT?.HIGH,
+    label: ASSET_IMPACT?.HIGH,
+  },
 ];
 
 export const inventoryListsInitialColumns = [
@@ -52,6 +104,7 @@ export const inventoryListsInitialColumns = [
   'UsedBy',
   'departmentId',
   'impact',
+  'assetLifeExpireOn',
 ];
 
 export const INVENTORY_LIST_ACTIONS = {
@@ -64,7 +117,7 @@ export const INVENTORY_LIST_ACTIONS = {
 export const inventoryListsColumnsFunction: any = (
   selectedInventoryLists: any,
   setSelectedInventoryLists: any,
-  inventoryLists: any = inventoryListsData,
+  inventoryLists: any,
   router: any,
 ): any => [
   {
@@ -72,6 +125,8 @@ export const inventoryListsColumnsFunction: any = (
     id: '_id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!selectedInventoryLists?.find(
             (item: any) => item === info?.getValue(),
@@ -95,7 +150,13 @@ export const inventoryListsColumnsFunction: any = (
     ),
     header: (
       <Checkbox
-        checked={selectedInventoryLists?.length === inventoryLists?.length}
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        checked={
+          inventoryLists?.length
+            ? selectedInventoryLists?.length === inventoryLists?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedInventoryLists(
@@ -165,6 +226,13 @@ export const inventoryListsColumnsFunction: any = (
     id: 'impact',
     isSortable: true,
     header: 'Impact',
+    cell: (info: any) => info?.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row?.assetLifeExpireOn,
+    id: 'assetLifeExpireOn',
+    isSortable: true,
+    header: 'Asset life expire on',
     cell: (info: any) => info?.getValue(),
   },
 ];

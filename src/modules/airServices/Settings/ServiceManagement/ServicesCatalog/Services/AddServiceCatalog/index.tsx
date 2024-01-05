@@ -21,7 +21,7 @@ export const AddServiceCatalog = (prop: any) => {
     <Fragment>
       <Dialog
         onClose={handleClose}
-        onSubmit={onSubmit}
+        // onSubmit={onSubmit}
         aria-labelledby="customized-dialog-title"
         open={open}
         fullWidth

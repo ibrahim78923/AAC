@@ -1,20 +1,20 @@
 import { useState } from 'react';
 
-import { Popover, Button, MenuItem } from '@mui/material';
+import { Popover, Button, MenuItem, useTheme, Box } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { DealsActionInterfacePropsI } from './Actions.interface';
-import { styles } from './ActionBtn.style';
 
 const DealsActions = ({
-  disableActionBtn,
+  // disableActionBtn,
   onChange,
   menuItem = [],
+  checkedAll,
 }: DealsActionInterfacePropsI) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-  // const menuItem = ;
+  const theme = useTheme();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
@@ -24,13 +24,16 @@ const DealsActions = ({
     setAnchorEl(null);
   };
   return (
-    <div>
+    <Box sx={{ width: { xs: '100%', sm: '100px' } }}>
       <Button
+        variant="outlined"
+        color="inherit"
+        className="small"
         endIcon={<ArrowDropDownIcon />}
         onClick={handleClick}
-        disabled={disableActionBtn}
+        disabled={checkedAll?.length < 1 ? true : false}
         classes={{ outlined: 'outlined_btn' }}
-        sx={styles?.ActionBtn}
+        sx={{ width: { xs: '100%', sm: '100px' } }}
       >
         Actions
       </Button>
@@ -48,8 +51,13 @@ const DealsActions = ({
           horizontal: 'center',
         }}
       >
-        {menuItem?.map((item) => (
+        {menuItem?.map((item: any) => (
           <MenuItem
+            sx={{
+              fontSize: '16px',
+              fontWeight: 400,
+              color: theme?.palette?.grey[600],
+            }}
             value={item}
             key={item}
             onClick={() => {
@@ -61,7 +69,7 @@ const DealsActions = ({
           </MenuItem>
         ))}
       </Popover>
-    </div>
+    </Box>
   );
 };
 

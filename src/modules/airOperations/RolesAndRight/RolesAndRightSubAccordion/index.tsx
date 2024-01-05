@@ -8,12 +8,12 @@ import {
 } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import useRoleAndRight from '@/modules/airSales/SettingSales/TabsData/RolesAndRight/useRoleAndRight';
 import { ROLES_ACCORDION_DETAILS } from '@/constants/strings';
+import useRolesAndRight from '../useRolesAndRight';
 
 const RolesAndRightSubAccordion = ({ sectionData }: any) => {
   const { theme, expandedRoleAccordion, handleChangeExpandAccordion } =
-    useRoleAndRight();
+    useRolesAndRight();
   const specificItem = sectionData?.data?.find(
     (item: any) => item?.componentProps?.name === ROLES_ACCORDION_DETAILS?.ALL,
   );
@@ -42,26 +42,31 @@ const RolesAndRightSubAccordion = ({ sectionData }: any) => {
         }}
       >
         <AccordionSummary
-          sx={{ bg: 'transparent', display: 'flex', alignItems: 'center' }}
+          sx={{
+            bg: 'transparent',
+            display: 'flex',
+            justifyContent: 'space-Between',
+          }}
         >
           <Typography variant="h6" color={theme?.palette?.grey?.[600]}>
             {expandedRoleAccordion ? (
               <ArrowForwardIosSharpIcon
-                style={{ fontSize: '1rem', transform: 'rotate(90deg)' }}
+                style={{ fontSize: '0.85rem', transform: 'rotate(90deg)' }}
               />
             ) : (
-              <ArrowForwardIosSharpIcon style={{ fontSize: '1rem' }} />
+              <ArrowForwardIosSharpIcon
+                style={{ fontSize: '0.85rem', transform: 'rotate(0deg)' }}
+              />
             )}
-            <span style={{ marginRight: '8px' }}></span>
+            <span style={{ marginRight: '0.8rem' }}></span>
             {sectionData?.title} Details
           </Typography>
+          {specificItem && expandedRoleAccordion && (
+            <span style={{ marginLeft: 'auto', marginTop: '-5px' }}>
+              <specificItem.component {...specificItem?.componentProps} />
+            </span>
+          )}
         </AccordionSummary>
-
-        {specificItem && (
-          <Grid item xs={12}>
-            <specificItem.component {...specificItem?.componentProps} />
-          </Grid>
-        )}
 
         <AccordionDetails>
           <Grid container>

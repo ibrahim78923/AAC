@@ -12,8 +12,8 @@ export const Header = (props: any) => {
         gap={1}
         flexWrap={'wrap'}
       >
-        <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
-          Rules and tiers
+        <Typography variant="h3" color={theme?.palette?.slateBlue?.main}>
+          Tiers and Rules
         </Typography>
         <Box display={'flex'} gap={2} flexWrap={'wrap'}>
           <Button variant="contained" onClick={() => upsertRulesHandler?.()}>

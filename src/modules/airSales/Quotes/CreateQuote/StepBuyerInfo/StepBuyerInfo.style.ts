@@ -5,26 +5,26 @@ export const styles = {
     alignItems: 'center',
   }),
   buyerInfoTitle: (theme: any) => ({
-    color: theme.palette.slateBlue.main,
+    color: theme?.palette?.slateBlue?.main,
   }),
   btnAddMore: (theme: any) => ({
-    color: theme.palette.custom.main,
-    borderColor: theme.palette.custom.dark,
+    color: theme?.palette?.custom?.main,
+    borderColor: theme?.palette?.custom?.dark,
     fontWeight: '500',
     '&:hover': {
-      color: theme.palette.custom.main,
-      borderColor: theme.palette.custom.dark,
+      color: theme?.palette?.custom?.main,
+      borderColor: theme?.palette?.custom?.dark,
     },
   }),
   buyerInfoPara: (theme: any) => ({
-    color: theme.palette.custom.grayish_blue,
+    color: theme?.palette?.custom?.grayish_blue,
     mt: '10px',
   }),
   contactsCont: () => ({
     mt: '24px',
   }),
   contactsHeading: (theme: any) => ({
-    color: theme.palette.slateBlue.main,
+    color: theme?.palette?.slateBlue?.main,
     fontWeight: '600',
   }),
   contactsList: () => ({
@@ -33,8 +33,8 @@ export const styles = {
     m: '0',
   }),
   listItem: (theme: any) => ({
-    border: `1px solid ${theme.palette.grey[700]}`,
-    color: theme.palette.slateBlue.main,
+    border: `1px solid ${theme?.palette?.grey[700]}`,
+    color: theme?.palette?.slateBlue?.main,
     borderRadius: '8px',
     p: '16px',
     maxWidth: '352px',
@@ -58,20 +58,20 @@ export const styles = {
     fontSize: '18px',
     fontWeight: '500',
     lineHeight: '1.555556',
-    color: theme.palette.slateBlue.main,
+    color: theme?.palette?.slateBlue?.main,
   }),
   itemText: (theme: any) => ({
     fontSize: '12px',
     fontWeight: '400',
     lineHeight: '1.5',
-    color: theme.palette.custom.main,
+    color: theme?.palette?.custom?.main,
     '&:not(:first-of-type)': {
       marginTop: '8px',
     },
   }),
   button: (theme: any) => ({
-    border: `1px solid ${theme.palette.grey[700]}`,
-    color: theme.palette.slateBlue.main,
+    border: `1px solid ${theme?.palette?.grey[700]}`,
+    color: theme?.palette?.slateBlue?.main,
     borderRadius: '8px',
     height: '80px',
     width: '306px',

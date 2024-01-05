@@ -2,6 +2,9 @@ export const DATE_FORMAT = {
   UI: 'MM/DD/YYYY',
   API: 'YYYY-MM-DD',
 };
+export const DATE_MONTH_FORMAT = {
+  API: 'MMM DD',
+};
 export const TIME_FORMAT = {
   UI: 'h:mm A',
   API: 'h:mm A',

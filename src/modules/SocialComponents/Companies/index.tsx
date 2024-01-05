@@ -128,6 +128,7 @@ const Companies = () => {
                 <>
                   <ActionButton
                     checkedRows={checkedRows}
+                    setCheckedRows={setCheckedRows}
                     isOpen={isOpen}
                     setIsOpen={setIsOpen}
                   />
@@ -233,6 +234,8 @@ const Companies = () => {
 
           {isOpen?.deleteModal && (
             <DeleteModal
+              setCheckedRows={setCheckedRows}
+              checkedRows={checkedRows}
               isDeleteCompany={isOpen?.deleteModal}
               setIsDeleteCompany={setIsOpen}
             />
@@ -242,11 +245,18 @@ const Companies = () => {
             <ReassignModal
               isReassign={isOpen?.reassignModal}
               setIsReassign={setIsOpen}
+              setCheckedRows={setCheckedRows}
+              checkedRows={checkedRows}
             />
           )}
 
           {isOpen?.mergeModal && (
-            <MergeModal isMerge={isOpen?.mergeModal} setIsMerge={setIsOpen} />
+            <MergeModal
+              isMerge={isOpen?.mergeModal}
+              setIsMerge={setIsOpen}
+              checkedRows={checkedRows}
+              setCheckedRows={setCheckedRows}
+            />
           )}
 
           {isOpen?.importDrawer && (
