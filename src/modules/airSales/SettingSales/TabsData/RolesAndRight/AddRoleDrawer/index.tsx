@@ -7,8 +7,9 @@ import PermissionsAccordion from '../PermissionsAccordion';
 import { FormProvider } from '@/components/ReactHookForm';
 
 const AddRoleDrawer = (props: any) => {
-  const { methods, theme } = useAddRoleDrawer();
   const { isDrawerOpen, onClose, getPermissionsData } = props;
+  const { methods, theme, onSubmit, handleSubmit } =
+    useAddRoleDrawer(isDrawerOpen);
 
   return (
     <CommonDrawer
@@ -22,6 +23,7 @@ const AddRoleDrawer = (props: any) => {
           : false
       }
       isOk={true}
+      submitHandler={handleSubmit(onSubmit)}
     >
       <Box sx={{ paddingTop: '1rem' }}>
         <FormProvider methods={methods}>

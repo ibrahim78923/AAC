@@ -18,6 +18,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const PermissionsAccordion = (props: any) => {
   const { permissionsData } = props;
+
+  // console.log(permissionsData, 'accordion data');
   const {
     theme,
     // commented for future use
@@ -68,7 +70,7 @@ const PermissionsAccordion = (props: any) => {
                 </Box>
               </AccordionSummary>
               <AccordionDetails>
-                <DashboardAccordion subModules={item?.subModules} />
+                <DashboardAccordion subModules={item?.subModule} />
               </AccordionDetails>
             </Accordion>
           )),

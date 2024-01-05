@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-
 import { Theme, useTheme } from '@mui/material';
-// import { useForm } from 'react-hook-form';
-// import { yupResolver } from '@hookform/resolvers/yup';
-// import { validationSchema } from './RolesRight.data';
 import { useRouter } from 'next/router';
-import { rolesAndRightsAPI } from '@/services/orgAdmin/roles-and-rights';
 import { PAGINATION } from '@/config';
+import { airSalesRolesAndRightsAPI } from '@/services/airSales/roles-and-rights';
 // import { getSession } from '@/utils';
 
 const useRoleAndRight: any = () => {
@@ -14,23 +10,23 @@ const useRoleAndRight: any = () => {
   const theme = useTheme<Theme>();
   const navigate = useRouter();
 
-  const [isDraweropen, setIsDraweropen] = useState({
-    isToggle: false,
-    type: '',
-    id: '',
-  });
-  const [selectedValue, setSelectedValue] = useState(null);
-  // const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [expanded, setExpanded] = React.useState(false);
+  const [selectedValue, setSelectedValue] = useState(null);
   const [checkedRows, setCheckedRows] = useState();
-
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [filterValues, setFilterValues] = useState({
     search: '',
   });
+  const [isDraweropen, setIsDraweropen] = useState({
+    isToggle: false,
+    type: '',
+    id: '',
+  });
 
-  const { useGetPermissionsRolesQuery } = rolesAndRightsAPI;
+  // const [isOpenDelete, setIsOpenDelete] = useState(false);
+
+  const { useGetPermissionsRolesQuery } = airSalesRolesAndRightsAPI;
   // org id  =  65952bbf6d2c26398e492e42
   // const comapnyAccountid = user?.account?.company?._id;
   // 65952ce22676367b22c905ae
@@ -67,17 +63,11 @@ const useRoleAndRight: any = () => {
     setIsDraweropen({ isToggle: false, type: '', id: '' });
   };
 
-  // const methods: any = useForm({
-  //   resolver: yupResolver(validationSchema),
-  // });
-
   return {
     handleCloseDrawer,
     setIsDraweropen,
-    // setIsOpenDelete,
     setCheckedRows,
     selectedValue,
-    // isOpenDelete,
     handleChange,
     isDraweropen,
     setExpanded,
@@ -86,7 +76,6 @@ const useRoleAndRight: any = () => {
     checkedRows,
     expanded,
     navigate,
-    // methods,
     theme,
     open,
     getPermissions,
