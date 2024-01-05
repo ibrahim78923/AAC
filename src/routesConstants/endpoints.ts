@@ -218,3 +218,9 @@ export const COMMON_DOCUMENTS = {
   DELETE_DOCUMENT_FOLDER_ID: '/documents/folder',
   DELETE_DOCUMENT_FILE_ID: '/documents/files',
 };
+
+export const INVOICE = {
+  GET_INVOICE_QUOTE: '/quote-invoice',
+  POST_INVOICE_QUOTE: '/quote-invoice',
+  GET_INVOICE_QUOTE_LIST: '/quote',
+};

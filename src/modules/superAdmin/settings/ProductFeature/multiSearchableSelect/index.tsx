@@ -30,7 +30,6 @@ export default function MultiSearchableSelect({
   ...other
 }: any) {
   const [searchTerm, setSearchTerm] = useState('');
-
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -176,10 +175,10 @@ export default function MultiSearchableSelect({
                   backgroundColor: isCheckBox
                     ? 'transparent'
                     : selectedValues?.includes(option?.value)
-                      ? theme?.palette?.custom?.hex_grey
-                      : 'transparent',
+                    ? `${theme?.palette?.custom?.hex_grey}`
+                    : 'transparent',
                   '&:hover': {
-                    backgroundColor: theme?.palette?.custom?.hex_grey,
+                    backgroundColor: `${theme?.palette?.custom?.hex_grey}`,
                   },
                 }}
               >
