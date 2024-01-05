@@ -40,14 +40,29 @@ const ProfileCard = (props: CardPropsI) => {
         }}
       >
         <Box sx={styles?.imgWrapper}>
-          <Box
-            className="edit-Icon"
-            sx={styles?.editIcon}
-            onClick={handleEditImage}
-          >
-            <EditIcon />
-          </Box>
-          <Image className="user_profile" alt="user_profile" src={src} />
+          <label htmlFor="upload-button">
+            <Box
+              className="edit-Icon"
+              sx={styles?.editIcon}
+              onClick={handleEditImage}
+            >
+              <EditIcon />
+            </Box>
+            <Image
+              className="user_profile"
+              alt="user_profile"
+              src={src}
+              width={100}
+              height={100}
+            />
+            <input
+              type="file"
+              id="upload-button"
+              style={{ display: 'none' }}
+              accept="image/png, image/gif, image/jpeg, image/webp"
+              // onChange={handleChangeImg}
+            />
+          </label>
         </Box>
         <Box pl={{ xs: 0, sm: 2 }}>
           <Typography

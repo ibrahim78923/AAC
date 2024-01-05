@@ -15,6 +15,7 @@ import useUsersDetails from './useUsersDetails';
 import { AddCircle } from '@mui/icons-material';
 import useUsers from '../useUsers';
 import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/users';
+import { IMG_URL } from '@/config';
 
 const UsersDetails = (props: any) => {
   const { employeeDataById } = props;
@@ -43,6 +44,11 @@ const UsersDetails = (props: any) => {
             email={profileData?.data?.email}
             phone={profileData?.data?.phoneNumber}
             handleEditProfile={() => setTabVal(1)}
+            src={`${
+              profileData?.data?.avatar
+                ? `${IMG_URL}${profileData?.data?.avatar?.url}`
+                : ''
+            }`}
           />
         </Grid>
         <Grid item xs={12}>
