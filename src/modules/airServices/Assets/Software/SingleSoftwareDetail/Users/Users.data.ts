@@ -1,3 +1,4 @@
+import { SOFTWARE_USER_ACTIONS_TYPES } from '@/constants/strings';
 import { UserActionI } from './Users.interface';
 
 export const userDropdown = (
@@ -6,24 +7,27 @@ export const userDropdown = (
 ): UserActionI[] => {
   return [
     {
-      title: 'Allocate',
-      handleClick: () => {
-        userActionClickHandler('Allocate');
+      title: SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE,
+      handleClick: (closeMenu) => {
+        userActionClickHandler(SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE);
         setActionModalOpen(true);
+        closeMenu?.();
       },
     },
     {
-      title: 'Deallocate',
-      handleClick: () => {
-        userActionClickHandler('Deallocate');
+      title: SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE,
+      handleClick: (closeMenu) => {
+        userActionClickHandler(SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE);
         setActionModalOpen(true);
+        closeMenu?.();
       },
     },
     {
-      title: 'Remove',
-      handleClick: () => {
-        userActionClickHandler('Remove');
+      title: SOFTWARE_USER_ACTIONS_TYPES?.REMOVE,
+      handleClick: (closeMenu) => {
+        userActionClickHandler(SOFTWARE_USER_ACTIONS_TYPES?.REMOVE);
         setActionModalOpen(true);
+        closeMenu?.();
       },
     },
   ];

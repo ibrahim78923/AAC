@@ -5,7 +5,8 @@ interface ChatStateI {
   chatMessages: any;
   chatContacts: any;
   activeChatId: any;
-  activeConversationId: any;
+  activeConversation: any;
+  changeChat: any;
   activeReceiverId: any;
   isNewChat: any;
   socket: any;
@@ -24,7 +25,8 @@ const initialState: ChatStateI = {
   chatMessages: [],
   chatContacts: [],
   activeChatId: '',
-  activeConversationId: '',
+  activeConversation: '',
+  changeChat: '',
   activeReceiverId: '',
   isNewChat: false,
   socket: {},
@@ -101,8 +103,8 @@ const chatSlice = createSlice({
     setActiveReceiverId(state, action) {
       state.activeReceiverId = action?.payload;
     },
-    setActiveConversationId(state, action) {
-      state.activeConversationId = action?.payload;
+    setActiveConversation(state, action) {
+      state.activeConversation = action?.payload;
     },
     setIsNewChat(state, action) {
       state.isNewChat = action?.payload;
@@ -134,6 +136,9 @@ const chatSlice = createSlice({
     setChatContactsLoading(state, action) {
       state.isChatContactsLoading = action?.payload;
     },
+    setChangeChat(state, action) {
+      state.changeChat = action?.payload;
+    },
   },
 });
 export const {
@@ -144,7 +149,7 @@ export const {
   setUpdateChatContacts,
   setActiveChatId,
   setActiveReceiverId,
-  setActiveConversationId,
+  setActiveConversation,
   setSocketConnection,
   setIsNewChat,
   setMessageStatus,
@@ -154,5 +159,6 @@ export const {
   setChatMetaInfo,
   setChatMessagesLoading,
   setChatContactsLoading,
+  setChangeChat,
 } = chatSlice.actions;
 export default chatSlice.reducer;

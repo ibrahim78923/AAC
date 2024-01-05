@@ -2,9 +2,13 @@ import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useGetAgentRequesterQuery } from '@/services/airServices/settings/user-management/agents';
 
 export const useAgentRequest = () => {
   const [openRejectedModal, setOpenRejectedModal] = useState<boolean>(false);
+  const params = {};
+  const { data } = useGetAgentRequesterQuery(params);
+  const requesterData = data?.data;
 
   const handleOpenModal = () => {
     setOpenRejectedModal(true);
@@ -22,5 +26,6 @@ export const useAgentRequest = () => {
     openRejectedModal,
     setOpenRejectedModal,
     handleOpenModal,
+    requesterData,
   };
 };

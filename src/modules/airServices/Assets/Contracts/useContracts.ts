@@ -1,56 +1,107 @@
 import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
-import { useEffect, useState } from 'react';
-import { data, softwareListsColumnsFunction } from './Contracts.data';
+import { useState } from 'react';
+import { data, contractsListsColumnsFunction } from './Contracts.data';
+import { EXPORT_FILE_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { downloadFile } from '@/utils/file';
+import {
+  useLazyGetContractQuery,
+  useLazyGetExportContractQuery,
+} from '@/services/airServices/assets/contracts';
+import { PAGINATION } from '@/config';
 
-export function useContracts() {
-  const [contractsData, setContractsData] = useState([]);
+export const useContracts = () => {
+  const [selectedContractList, setSelectedContractList] = useState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [openModel, setOpenModel] = useState<boolean>(false);
-  const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const router = useRouter();
+  const [contractFilterLists, setContractFilterLists] = useState({});
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState('');
+  const getContractParam = new URLSearchParams();
+
+  Object?.entries(contractFilterLists || {})?.forEach(
+    ([key, value]: any) => getContractParam?.append(key, value),
+  );
+  getContractParam?.append('page', page + '');
+  getContractParam?.append('limit', pageLimit + '');
+  getContractParam?.append('search', search);
+  const getContractParameter = {
+    queryParams: getContractParam,
+  };
+
+  const [lazyGetContractTrigger, lazyGetContractStatus] =
+    useLazyGetContractQuery();
+
+  const [lazyGetExportContractTrigger] = useLazyGetExportContractQuery();
+
+  const getContractListData = async () => {
+    try {
+      await lazyGetContractTrigger(getContractParameter)?.unwrap();
+      setSelectedContractList([]);
+    } catch (error: any) {}
+  };
+
+  const getContractListDataExport = async (type: any) => {
+    const exportContractParams = new URLSearchParams();
+
+    exportContractParams?.append('exportType', type);
+
+    const getContractExportParameter = {
+      queryParams: exportContractParams,
+    };
+
+    try {
+      const response: any = await lazyGetExportContractTrigger(
+        getContractExportParameter,
+      )?.unwrap();
+      downloadFile(response, 'ContractLists', EXPORT_FILE_TYPE?.[type]);
+      enqueueSnackbar(
+        response?.data?.message ?? ' Contract Exported successfully',
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message ?? ' Contract not exported', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
+  // useEffect(() => {
+  //   getContractListData();
+  // }, [search, page, pageLimit, contractFilterLists]);
+
   const handleAddNewContractClick = () => {
     router?.push({
       pathname: AIR_SERVICES?.UPSERT_CONTRACT,
     });
   };
-  useEffect(() => {}, []);
-  const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setActionPop(event?.currentTarget);
-  };
-  const softwareListsColumns = softwareListsColumnsFunction(
-    contractsData,
-    setContractsData,
+  const contractListsColumns = contractsListsColumnsFunction(
+    selectedContractList,
+    setSelectedContractList,
     data,
     router,
   );
-  const handleActionClose = () => {
-    setActionPop(null);
-  };
-  const openAction = Boolean(actionPop);
-  const handleSubmitModel = () => {
-    enqueueSnackbar('Delete successfully', {
-      variant: 'error',
-      autoHideDuration: 3000,
-    });
-    setOpenModel(false);
-  };
   return {
-    contractsData,
-    setContractsData,
     isDrawerOpen,
     setIsDrawerOpen,
-    openModel,
-    setOpenModel,
-    actionPop,
-    setActionPop,
+    setIsDeleteModalOpen,
+    isDeleteModalOpen,
     handleAddNewContractClick,
-    handleActionClick,
-    handleActionClose,
-    openAction,
-    handleSubmitModel,
-    router,
-    softwareListsColumns,
+    contractListsColumns,
+    getContractListDataExport,
+    lazyGetContractStatus,
+    setPage,
+    setPageLimit,
+    setSearch,
+    selectedContractList,
+    setSelectedContractList,
+    getContractListData,
+    setContractFilterLists,
+    contractFilterLists,
   };
-}
+};

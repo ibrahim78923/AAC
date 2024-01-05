@@ -44,6 +44,7 @@ import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/U
 import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/users';
 import NoData from '@/components/NoData';
 import { useSearchParams } from 'next/navigation';
+import useUserManagement from '../useUserManagement';
 
 const UsersDetailsList = () => {
   const {
@@ -56,8 +57,6 @@ const UsersDetailsList = () => {
     handleAddUserDrawer,
     isOpenAdduserDrawer,
     setIsOpenAdduserDrawer,
-    userStatus,
-    setUserStatus,
     isOpenAddAccountDrawer,
     setIsOpenAddAccountDrawer,
     search,
@@ -79,8 +78,11 @@ const UsersDetailsList = () => {
     page,
   }: any = useUserDetailsList();
 
+  const { handleUserSwitchChange } = useUserManagement();
+
   const { userName, userId } = navigate.query;
   const organizationId = useSearchParams()?.get('organizationId');
+
   const employeeRecordsLimit = 10;
   const empListParams = {
     page: page,
@@ -97,7 +99,9 @@ const UsersDetailsList = () => {
   const empDetail = employeeList?.data?.users;
 
   const { data: profileData } = useGetUsersByIdQuery(
-    employeeDataById ? employeeDataById : employeeList?.data?.users[0]?._id,
+    employeeDataById
+      ? employeeDataById
+      : employeeList?.data?.users && employeeList?.data?.users[0]?._id,
   );
 
   return (
@@ -248,8 +252,10 @@ const UsersDetailsList = () => {
                         </Typography>
                         <StatusBadge
                           defaultValue={item?.status}
-                          value={userStatus}
-                          onChange={(e: any) => setUserStatus(e?.target?.value)}
+                          value={item?.status}
+                          onChange={(e: any) =>
+                            handleUserSwitchChange(e, item?._id)
+                          }
                           options={[
                             {
                               label: 'Active',
@@ -281,7 +287,7 @@ const UsersDetailsList = () => {
         </Grid>
         <Grid item xl={9} lg={8} xs={12}>
           <Grid container spacing={2}>
-            {empDetail?.length > 0 && (
+            {empDetail?.length > 0 ? (
               <>
                 <Grid item xs={12}>
                   <ProfileCard
@@ -298,7 +304,7 @@ const UsersDetailsList = () => {
                     sx={{
                       borderRadius: '8px',
                       background: theme?.palette?.common?.white,
-                      minHeight: `calc(68vh - ${15}px)`,
+                      maxHeight: `calc(68vh - ${15}px)`,
                     }}
                   >
                     <Card sx={{ padding: '0px 24px' }}>
@@ -339,14 +345,11 @@ const UsersDetailsList = () => {
                   </Box>
                 </Grid>{' '}
               </>
-            )}
-            {empDetail?.length === 0 && (
-              <Grid item xs={12} mt={10}>
-                <NoData
-                  image={NoAssociationFoundImage}
-                  message={'No data is available'}
-                />
-              </Grid>
+            ) : (
+              <NoData
+                image={NoAssociationFoundImage}
+                message={'No data is available'}
+              />
             )}
           </Grid>
         </Grid>

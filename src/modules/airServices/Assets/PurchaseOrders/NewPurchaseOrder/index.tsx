@@ -16,6 +16,8 @@ const NewPurchaseOrder = () => {
 
   const router = useRouter();
 
+  const { purchaseOrderId } = router?.query;
+
   return (
     <Box>
       <Box sx={{ ...mainWrapper }}>
@@ -27,7 +29,7 @@ const NewPurchaseOrder = () => {
             <ArrowLeftIcon />
           </Box>
           <Typography variant="h4" sx={mainHeading}>
-            New Purchase Order
+            {purchaseOrderId ? 'Edit' : 'New'} Purchase Order
           </Typography>
         </Box>
         <FormProvider

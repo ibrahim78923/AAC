@@ -20,9 +20,11 @@ import { downloadFile } from '@/utils/file';
 import usePath from '@/hooks/usePath';
 import { DeleteInventory } from './DeleteInventory';
 import { ImportInventory } from './ImportInventory';
+import { useTheme } from '@mui/material';
 
 export const useInventory = () => {
   const { makePath } = usePath();
+  const theme = useTheme();
   const [hasInventoryAction, setHasInventoryAction] = useState(false);
   const [selectedInventoryLists, setSelectedInventoryLists] = useState([]);
   const [inventoryListsColumns, setInventoryListsColumns] = useState(
@@ -47,7 +49,7 @@ export const useInventory = () => {
   const getInventoryParam = new URLSearchParams();
 
   Object?.entries(inventoryFilterLists || {})?.forEach(
-    ([key, value]: any) => getInventoryParam?.append(key, value),
+    ([key, value]: any) => getInventoryParam?.append(key, value?._id),
   );
   getInventoryParam?.append('page', page + '');
   getInventoryParam?.append('limit', pageLimit + '');
@@ -57,33 +59,24 @@ export const useInventory = () => {
   };
 
   const [lazyGetInventoryTrigger, lazyGetInventoryStatus] =
-    useLazyGetInventoryQuery();
+    useLazyGetInventoryQuery<any>();
 
   const [lazyGetExportInventoryTrigger] = useLazyGetExportInventoryQuery();
 
   const getInventoryListData = async () => {
     try {
-      const response = await lazyGetInventoryTrigger(
-        getInventoryParameter,
-      )?.unwrap();
+      await lazyGetInventoryTrigger(getInventoryParameter)?.unwrap();
       setSelectedInventoryLists([]);
-      enqueueSnackbar(
-        response?.message ?? ' inventory Retrieved successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
-    } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Error', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-    }
+    } catch (error: any) {}
   };
 
   const getInventoryListDataExport = async (type: any) => {
     const exportInventoryParams = new URLSearchParams();
 
     exportInventoryParams?.append('exportType', type);
+    exportInventoryParams?.append('page', page + '');
+    exportInventoryParams?.append('limit', pageLimit + '');
+    exportInventoryParams?.append('search', search);
 
     const getInventoryExportParameter = {
       queryParams: exportInventoryParams,
@@ -94,21 +87,18 @@ export const useInventory = () => {
         getInventoryExportParameter,
       )?.unwrap();
       downloadFile(response, 'InventoryLists', EXPORT_FILE_TYPE?.[type]);
-      enqueueSnackbar(
-        response?.data?.message ?? ' Inventory Exported successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      enqueueSnackbar('File Exported successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? ' Inventory not exported', {
+      enqueueSnackbar('File not exported', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
-  // useEffect(() => {
-  //   getInventoryListData();
-  // }, [search, page, pageLimit, inventoryFilterLists]);
+  useEffect(() => {
+    getInventoryListData();
+  }, [search, page, pageLimit, inventoryFilterLists]);
 
   const handleAddInventory = () => {
     router?.push(AIR_SERVICES?.UPSERT_INVENTORY);
@@ -117,7 +107,7 @@ export const useInventory = () => {
   const inventoryListsColumnsPersist = inventoryListsColumnsFunction(
     selectedInventoryLists,
     setSelectedInventoryLists,
-    lazyGetInventoryStatus?.data?.data?.result,
+    lazyGetInventoryStatus?.data?.data?.inventories,
     router,
   );
 
@@ -185,5 +175,6 @@ export const useInventory = () => {
     setSearch,
     inventoryListsColumnsPersist,
     getInventoryListData,
+    theme,
   };
 };

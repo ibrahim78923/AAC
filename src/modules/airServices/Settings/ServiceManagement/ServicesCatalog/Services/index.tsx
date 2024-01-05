@@ -8,19 +8,21 @@ import {
   useTheme,
 } from '@mui/material';
 import React from 'react';
+import FolderIcon from '@mui/icons-material/Folder';
 
-import CheckIcon from '@mui/icons-material/Check';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
-import { services } from './Services.data';
+
 import Image from 'next/image';
 import { CirclePlusIcon } from '@/assets/icons';
 import { AddServiceCatalog } from './AddServiceCatalog';
 import useServices from './useServices';
 import { ServicesAction } from './ServicesAction';
-import { CatalogAddImage } from '@/assets/images';
+import { CatalogAddImage, NoAssociationFoundImage } from '@/assets/images';
+import NoData from '@/components/NoData';
+import CustomPagination from '@/components/CustomPagination';
 const Services = () => {
   const router = useRouter();
   const theme = useTheme();
@@ -28,9 +30,14 @@ const Services = () => {
     results,
     selectedCheckboxes,
     setSelectedCheckboxes,
+    isAnyCheckboxSelected,
     open,
     setOpen,
     handleClickOpen,
+    categories,
+    setPageLimit,
+    setPage,
+    handlePageChange,
   } = useServices();
 
   return (
@@ -41,13 +48,14 @@ const Services = () => {
         alignItems={'center'}
         flexWrap={'wrap'}
         gap={2}
-        mb={2}
+        mb={4}
       >
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
           <ArrowBackIcon
             onClick={() => {
-              const isMatch = services?.some(
-                (service) => service?.title === router?.query?.subQuery,
+              const isMatch = categories?.some(
+                (service: any) =>
+                  service?.categoryName === router?.query?.categoryName,
               );
 
               if (isMatch) {
@@ -60,10 +68,12 @@ const Services = () => {
           <Typography variant="h3">Service Management</Typography>
           <ArrowForwardIosIcon fontSize="small" />
           <Typography variant="h3">Service Catalog</Typography>
-          {router?.query?.subQuery && (
+          {router?.query?.categoryName && (
             <>
               <ArrowForwardIosIcon fontSize="small" />
-              <Typography variant="h3">{router?.query?.subQuery}</Typography>
+              <Typography variant="h3">
+                {router?.query?.categoryName}
+              </Typography>
             </>
           )}
         </Box>
@@ -78,7 +88,7 @@ const Services = () => {
         </Box>
       </Box>
       <Divider />
-      <Grid container spacing={2}>
+      <Grid container spacing={2} mb={4}>
         <Grid
           item
           xs={12}
@@ -91,6 +101,7 @@ const Services = () => {
           sx={{ cursor: 'pointer' }}
         >
           <Box
+            minHeight={'260px'}
             alignItems={'center'}
             display={'flex'}
             justifyContent={'center'}
@@ -107,14 +118,18 @@ const Services = () => {
           </Box>
           <AddServiceCatalog open={open} setOpen={setOpen} />
         </Grid>
-        {services?.map((service) => (
+        {categories?.map((service: any) => (
           <Grid item xs={12} md={6} lg={3} key={service?.id}>
             <Box
+              maxHeight={'300px'}
+              minHeight={'300px'}
+              overflow={'scroll'}
               onClick={() => {
                 router.push({
                   pathname: AIR_SERVICES?.SERVICE_CATALOG_SETTINGS,
                   query: {
-                    subQuery: service?.title,
+                    categoryId: service?._id,
+                    categoryName: service?.categoryName,
                   },
                 });
               }}
@@ -123,12 +138,12 @@ const Services = () => {
               mt={2}
               sx={{ cursor: 'pointer' }}
               bgcolor={
-                router?.query?.subQuery === service?.title
+                router?.query?.categoryId === service?._id
                   ? `${theme?.palette?.primary?.light}`
                   : ''
               }
               border={
-                router?.query?.subQuery === service?.title
+                router?.query?.categoryId === service?._id
                   ? `1px solid ${theme?.palette?.primary?.main}`
                   : `1px solid ${theme?.palette?.primary?.light}`
               }
@@ -139,15 +154,10 @@ const Services = () => {
                 justifyContent={'center'}
                 mt={2}
               >
-                <Image
-                  src={service?.image}
-                  height={60}
-                  width={60}
-                  alt={`Service ${service?.id} Image`}
-                />
+                <FolderIcon color="primary" fontSize="large" />
               </Box>
               <Typography variant="h5" mt={1}>
-                {service?.title}
+                {service?.categoryName}
               </Typography>
               <Box
                 alignItems={'center'}
@@ -170,6 +180,16 @@ const Services = () => {
           </Grid>
         ))}
       </Grid>
+      <CustomPagination
+        count={categories?.meta?.count}
+        pageLimit={categories?.meta?.pageLimit}
+        rowsPerPageOptions={categories?.meta?.rowsPerPageOptions}
+        currentPage={categories?.meta?.currentPage}
+        totalRecords={categories?.meta?.totalRecords}
+        onPageChange={handlePageChange}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+      />
       <Box
         display={'flex'}
         justifyContent={'space-between'}
@@ -194,119 +214,145 @@ const Services = () => {
               onChange={(e: any) => {
                 e?.target?.checked
                   ? setSelectedCheckboxes(
-                      results?.map((result: any) => result?.id),
+                      results?.map((result: any) => result?._id),
                     )
                   : setSelectedCheckboxes([]);
               }}
               color="primary"
               name="_id"
             />
+
             <Typography variant="h6"> Select All</Typography>
-          </Box>
-          <Box display={'flex'} alignItems={'center'} mr={2}>
-            <CheckIcon color="primary" />
           </Box>
         </Box>
         <Box mt={6}>
-          <ServicesAction />
+          {selectedCheckboxes && (
+            <ServicesAction
+              selectedCheckboxes={selectedCheckboxes}
+              setSelectedCheckboxes={setSelectedCheckboxes}
+              isDisabled={!isAnyCheckboxSelected()}
+            />
+          )}
         </Box>
       </Box>
-      <Grid container spacing={2} mt={2}>
-        {results?.map((result: any) => (
-          <Grid item xs={12} md={6} lg={4} key={result?.id}>
-            <Box
-              borderRadius={2}
-              border={'0.2rem solid'}
-              borderColor={'primary.lighter'}
-              textAlign="center"
-              mt={2}
-              sx={{ cursor: 'pointer' }}
-            >
+      <Grid container spacing={2} mt={2} mb={8}>
+        {!!results?.length ? (
+          results?.map((result: any) => (
+            <Grid item xs={12} md={6} lg={4} key={result?.id}>
               <Box
-                alignItems={'center'}
-                display={'flex'}
-                flexWrap={'wrap'}
+                maxHeight={'300px'}
+                minHeight={'300px'}
+                overflow={'scroll'}
+                borderRadius={2}
+                border={'0.2rem solid'}
+                borderColor={'primary.lighter'}
+                textAlign="center"
                 mt={2}
+                sx={{ cursor: 'pointer' }}
               >
-                <Box display={'flex'} alignItems={'center'} mr={2}>
-                  <Checkbox
-                    checked={
-                      !!selectedCheckboxes?.find(
-                        (item: any) => item === result?.id,
-                      )
-                    }
-                    onChange={(e: any) => {
-                      e?.target?.checked
-                        ? setSelectedCheckboxes([
-                            ...selectedCheckboxes,
-                            result?.id,
-                          ])
-                        : setSelectedCheckboxes(
-                            selectedCheckboxes?.filter(
-                              (item: any) => item !== result?.id,
-                            ),
-                          );
-                    }}
-                  />
-                </Box>
-                <Image
-                  src={result?.image}
-                  height={60}
-                  width={60}
-                  alt={`result ${result?.id} Image`}
-                />
-              </Box>
-              <Box alignItems={'center'} display={'flex'}>
-                <Typography
-                  variant="h5"
-                  align="center"
-                  gutterBottom
-                  ml={6.5}
-                  mr={1}
+                <Box
+                  alignItems={'center'}
+                  display={'flex'}
+                  flexWrap={'wrap'}
                   mt={2}
                 >
-                  {result?.title}
-                </Typography>
+                  <Box display={'flex'} alignItems={'center'} mr={2}>
+                    <Checkbox
+                      checked={
+                        !!selectedCheckboxes?.find(
+                          (item: any) => item === result?._id,
+                        )
+                      }
+                      onChange={(e: any) => {
+                        e?.target?.checked
+                          ? setSelectedCheckboxes([
+                              ...selectedCheckboxes,
+                              result?._id,
+                            ])
+                          : setSelectedCheckboxes(
+                              selectedCheckboxes?.filter(
+                                (item: any) => item !== result?._id,
+                              ),
+                            );
+                      }}
+                    />
+                  </Box>
+                  <Image
+                    src={result?.image}
+                    height={60}
+                    width={60}
+                    alt={`result ${result?._id} Image`}
+                  />
+                </Box>
+                <Box alignItems={'center'} display={'flex'}>
+                  <Typography
+                    variant="h5"
+                    align="center"
+                    gutterBottom
+                    ml={6.5}
+                    mr={1}
+                    mt={2}
+                  >
+                    {result?.itemName}
+                  </Typography>
+                </Box>
+                <Box alignItems={'center'} display={'flex'}>
+                  <Typography
+                    variant="body2"
+                    align="center"
+                    gutterBottom
+                    ml={6.5}
+                    mr={1}
+                  >
+                    cost
+                    {result?.cost && `: ${result?.cost}`}
+                  </Typography>
+                </Box>
+                <Box alignItems={'center'} display={'flex'}>
+                  <Typography
+                    variant="body2"
+                    align="center"
+                    gutterBottom
+                    mr={1}
+                    ml={6.5}
+                  >
+                    EstimatedDelivery
+                    {result?.estimatedDelivery &&
+                      `: ${result?.estimatedDelivery}`}
+                  </Typography>
+                </Box>
+                <Box alignItems={'center'} display={'flex'}>
+                  <Typography
+                    variant="body3"
+                    align="center"
+                    gutterBottom
+                    mr={1}
+                    ml={6.5}
+                  >
+                    Description
+                    {result?.description && `: ${result?.description}`}
+                  </Typography>
+                </Box>
+                <Box alignItems={'center'} display={'flex'}>
+                  <Typography
+                    variant="body3"
+                    align="center"
+                    gutterBottom
+                    mr={1}
+                    ml={6.5}
+                  >
+                    Status
+                    {result?.status && `: ${result?.status}`}
+                  </Typography>
+                </Box>
               </Box>
-              <Box alignItems={'center'} display={'flex'}>
-                <Typography
-                  variant="body2"
-                  align="center"
-                  gutterBottom
-                  ml={6.5}
-                  mr={1}
-                >
-                  User Type
-                  {result?.userType && `: ${result?.userType}`}
-                </Typography>
-              </Box>
-              <Box alignItems={'center'} display={'flex'}>
-                <Typography
-                  variant="body2"
-                  align="center"
-                  gutterBottom
-                  mr={1}
-                  ml={6.5}
-                >
-                  Status
-                  {result?.status && `: ${result?.status}`}
-                </Typography>
-              </Box>
-              <Box alignItems={'center'} display={'flex'}>
-                <Typography
-                  variant="body3"
-                  align="center"
-                  gutterBottom
-                  mr={1}
-                  ml={6.5}
-                >
-                  Category Name
-                  {result?.categoryName && `: ${result?.categoryName}`}
-                </Typography>
-              </Box>
-            </Box>
-          </Grid>
-        ))}
+            </Grid>
+          ))
+        ) : (
+          <>
+            <NoData image={NoAssociationFoundImage} message={'no Data Found'} />
+          </>
+        )}
       </Grid>
     </>
   );

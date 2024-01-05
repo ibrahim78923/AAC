@@ -20,11 +20,15 @@ export const DateFilter = ({ dateRange, setDateRange }: any) => {
   };
 
   // Date to be displayed
-  const formattedWeekSpan = `${dayjs(dateRange?.[0]?.startDate)?.format('MMM DD')} - ${dayjs(dateRange?.[0]?.endDate)?.format('MMM DD')}`;
+  const formattedWeekSpan = `${dayjs(dateRange?.[0]?.startDate)?.format(
+    'MMM DD',
+  )} - ${dayjs(dateRange?.[0]?.endDate)?.format('MMM DD')}`;
 
   // Previous Click
   const handlePrevClick = () => {
-    const newDate = dayjs(dateRange?.[0]?.startDate)?.subtract(1, 'week')?.toDate();
+    const newDate = dayjs(dateRange?.[0]?.startDate)
+      ?.subtract(1, 'week')
+      ?.toDate();
     setDateRange([
       {
         startDate: newDate,

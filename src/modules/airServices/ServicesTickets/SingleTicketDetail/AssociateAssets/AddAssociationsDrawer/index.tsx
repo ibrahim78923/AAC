@@ -19,6 +19,7 @@ export const AddAssociationsDrawer = (props: any) => {
     closeAssetsAssociate,
     setSearch,
     selectedAssetToAssociateList,
+    postTicketsAssociatesAssetsStatus,
   } = useAssociationsDrawer(props);
 
   return (
@@ -30,7 +31,10 @@ export const AddAssociationsDrawer = (props: any) => {
       isOk
       footer
       okText="Associate"
-      isDisabled={!!!selectedAssetToAssociateList?.length}
+      isDisabled={
+        !!!selectedAssetToAssociateList?.length ||
+        postTicketsAssociatesAssetsStatus?.isLoading
+      }
     >
       <Search label="Search Here" width="100%" setSearchBy={setSearch} />
       <Box mt={2}> </Box>
