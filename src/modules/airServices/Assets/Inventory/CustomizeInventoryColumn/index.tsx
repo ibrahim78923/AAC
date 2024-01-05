@@ -6,11 +6,13 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   Grid,
   Typography,
 } from '@mui/material';
 import { useCustomizeInventoryColumn } from './useCustomizeInventoryColumn';
 import { inventoryListsInitialColumns } from '../Inventory.data';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 export const CustomizeInventoryColumn = (props: any) => {
   const { isCustomizeModalOpen, inventoryListsColumnsPersist } = props;
@@ -36,11 +38,13 @@ export const CustomizeInventoryColumn = (props: any) => {
           gap={1}
           flexWrap={'wrap'}
         >
-          <Typography variant="formTopHeading" color="secondary">
+          <Typography variant="formTopHeading" color="grey.800">
             Select Fields
           </Typography>
           <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
             <Checkbox
+              icon={<CheckboxIcon />}
+              checkedIcon={<CheckboxCheckedIcon />}
               color="primary"
               name={'apply all'}
               checked={
@@ -48,16 +52,20 @@ export const CustomizeInventoryColumn = (props: any) => {
               }
               onChange={(e: any): any => applyAllCheckboxHandler?.(e)}
             ></Checkbox>
-            <Typography variant="h6" color="secondary">
+            <Typography
+              variant="caption"
+              fontWeight={400}
+              color="slateBlue.main"
+            >
               Apply All
             </Typography>
           </Box>
         </Box>
       </DialogTitle>
-      <hr style={{ marginTop: '1rem' }} />
+      <Divider sx={{ marginY: 1 }}></Divider>
       <DialogContent>
         <Grid container>
-          {inventoryListsColumnsPersist?.slice?.(1)?.map((column: any) => (
+          {inventoryListsColumnsPersist?.slice?.(3)?.map((column: any) => (
             <Grid item xs={12} sm={6} key={column?.id}>
               <Box
                 display={'flex'}
@@ -66,12 +74,18 @@ export const CustomizeInventoryColumn = (props: any) => {
                 flexWrap={'wrap'}
               >
                 <Checkbox
+                  icon={<CheckboxIcon />}
+                  checkedIcon={<CheckboxCheckedIcon />}
                   color="primary"
                   name={column?.id}
                   checked={customizeColumn?.includes(column?.id)}
                   onChange={(e: any): any => checkboxHandler?.(e, column)}
                 />
-                <Typography variant="h5" fontWeight={500} color="secondary">
+                <Typography
+                  variant="caption"
+                  fontWeight={400}
+                  color="slateBlue.main"
+                >
                   {column?.header}
                 </Typography>
               </Box>
@@ -79,7 +93,7 @@ export const CustomizeInventoryColumn = (props: any) => {
           ))}
         </Grid>
       </DialogContent>
-      <hr />
+      <Divider sx={{ marginY: 1 }}></Divider>
       <DialogActions>
         <Button
           variant="outlined"

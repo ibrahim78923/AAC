@@ -40,12 +40,6 @@ export const useTasks = () => {
       });
     }
   };
-  if (tableData && tableData.length === 0) {
-    enqueueSnackbar('No task available', {
-      variant: NOTISTACK_VARIANTS?.INFO,
-      autoHideDuration: 2000,
-    });
-  }
   useEffect(() => {
     getTaskListData();
   }, [page, pageLimit]);

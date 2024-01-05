@@ -1,13 +1,19 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { filterContractsFormDataArray } from './FilterContractsForm.data';
+
 import { useFilterContractsForm } from './useFilterContractsForm';
 
 const FilterContractsForm = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
 
-  const { methods, handleSubmit, onSubmit } = useFilterContractsForm(props);
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    resetContractFilterForm,
+    contractsFilterFormFields,
+  } = useFilterContractsForm(props);
 
   return (
     <CommonDrawer
@@ -16,13 +22,15 @@ const FilterContractsForm = (props: any) => {
       onClose={() => setIsDrawerOpen(false)}
       title="Filters"
       okText="Apply"
+      cancelText="Reset"
       isOk
       submitHandler={handleSubmit(onSubmit)}
+      cancelBtnHandler={() => resetContractFilterForm?.()}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {filterContractsFormDataArray?.map((item: any) => (
+            {contractsFilterFormFields?.map((item: any) => (
               <Grid item xs={12} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>

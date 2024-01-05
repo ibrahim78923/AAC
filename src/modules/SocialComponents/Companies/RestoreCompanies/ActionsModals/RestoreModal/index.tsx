@@ -8,6 +8,7 @@ const RestoreModal = ({
   isRestoreItem,
   setIsRestoreItem,
   checkedRows,
+  setCheckedRows,
 }: any) => {
   const [restoreCompanies] = useRestoreCompaniesMutation();
 
@@ -26,6 +27,7 @@ const RestoreModal = ({
             id: checkedRows,
             body: { action: isRestoreItem?.type },
           });
+          setCheckedRows([]);
           setIsRestoreItem({ isOpen: false });
           enqueueSnackbar(`Company restored successfully`, {
             variant: NOTISTACK_VARIANTS?.SUCCESS,

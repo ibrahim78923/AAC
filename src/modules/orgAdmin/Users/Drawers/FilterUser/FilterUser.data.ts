@@ -37,14 +37,14 @@ export const usersFilterArray = () => {
     },
     {
       componentProps: {
-        label: 'User',
-        name: 'user',
+        label: 'Status',
+        name: 'status',
         fullWidth: true,
         select: true,
       },
       options: [
-        { value: 'lesilie', label: 'Lesilie Alexander' },
-        { value: 'jermon', label: 'jerome Bell' },
+        { value: 'ACTIVE', label: 'Active' },
+        { value: 'INACTIVE', label: 'InActive' },
       ],
       component: RHFSelect,
       md: 12,

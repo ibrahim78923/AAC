@@ -234,6 +234,8 @@ const Companies = () => {
 
           {isOpen?.deleteModal && (
             <DeleteModal
+              setCheckedRows={setCheckedRows}
+              checkedRows={checkedRows}
               isDeleteCompany={isOpen?.deleteModal}
               setIsDeleteCompany={setIsOpen}
             />
@@ -243,6 +245,8 @@ const Companies = () => {
             <ReassignModal
               isReassign={isOpen?.reassignModal}
               setIsReassign={setIsOpen}
+              setCheckedRows={setCheckedRows}
+              checkedRows={checkedRows}
             />
           )}
 
@@ -251,6 +255,7 @@ const Companies = () => {
               isMerge={isOpen?.mergeModal}
               setIsMerge={setIsOpen}
               checkedRows={checkedRows}
+              setCheckedRows={setCheckedRows}
             />
           )}
 
