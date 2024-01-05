@@ -245,6 +245,8 @@ const Companies = () => {
             <ReassignModal
               isReassign={isOpen?.reassignModal}
               setIsReassign={setIsOpen}
+              setCheckedRows={setCheckedRows}
+              checkedRows={checkedRows}
             />
           )}
 
