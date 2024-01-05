@@ -15,8 +15,8 @@ export const inventoryFilterFormDefaultValues = (data: any) => {
     usedBy: data?.usedBy ?? null,
     department: data?.department ?? null,
     locations: data?.locations ?? null,
-    createdDate: data?.createdDate ?? null,
-    updatedDate: data?.updatedDate ?? null,
+    createdAt: data?.createdAt ?? null,
+    updatedAt: data?.updatedAt ?? null,
     impact: data?.impact ?? null,
     createdBy: data?.createdBy ?? null,
     assetLifeExpiry: data?.assetLifeExpiry ?? null,
@@ -78,7 +78,7 @@ export const inventoryFilterFormFieldsDataFunction = (
     id: 5,
     componentProps: {
       fullWidth: true,
-      name: 'createdDate',
+      name: 'createdAt',
       label: 'Created Date',
       placeholder: 'Select a time period',
       select: true,
@@ -91,7 +91,7 @@ export const inventoryFilterFormFieldsDataFunction = (
     id: 6,
     componentProps: {
       fullWidth: true,
-      name: 'updatedDate',
+      name: 'updatedAt',
       label: 'Updated Date',
       placeholder: 'Select a time period',
       select: true,

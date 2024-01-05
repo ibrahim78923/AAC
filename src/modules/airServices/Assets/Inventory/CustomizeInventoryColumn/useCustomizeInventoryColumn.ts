@@ -42,7 +42,7 @@ export const useCustomizeInventoryColumn = (props: any) => {
   const applyAllCheckboxHandler = (e: any) => {
     e?.target?.checked
       ? setCustomizeColumn(inventoryListsInitialColumns)
-      : setCustomizeColumn([]);
+      : setCustomizeColumn(['_id', 'displayName', 'assetType']);
   };
 
   return {
