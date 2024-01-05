@@ -1,5 +1,4 @@
 import { Box, Card, Grid, Typography } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 import { agentRequestData } from './AgentRequest.data';
 import { styles } from './AgentRequest.style';
 import Image from 'next/image';
@@ -20,7 +19,7 @@ const AgentRequest = () => {
       <Grid container spacing={2}>
         {agentRequestData?.map((item: any) => {
           return (
-            <Grid item xs={12} sm={6} md={4} xl={3} key={uuidv4()}>
+            <Grid item xs={12} sm={6} md={4} xl={3} key={item?._id}>
               <Card sx={styles?.cardStyling}>
                 <Box
                   border={`2px solid ${theme?.palette?.secondary?.main}`}

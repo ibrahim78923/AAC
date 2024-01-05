@@ -2,8 +2,14 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'AGENTS';
-const { GET_AGENT, ADD_AGENT, DELETE_AGENT, EDIT_AGENT, GET_AGENT_REQUESTER } =
-  END_POINTS;
+const {
+  GET_AGENT,
+  ADD_AGENT,
+  DELETE_AGENT,
+  EDIT_AGENT,
+  GET_AGENT_REQUESTER,
+  AGENT_REJECT_REQUEST,
+} = END_POINTS;
 export const agentsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getAgents: builder.query({
@@ -37,6 +43,14 @@ export const agentsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    patchRejectRequest: builder.mutation({
+      query: ({ id, body }) => ({
+        url: `${AGENT_REJECT_REQUEST}/${id}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
     deleteAgent: builder?.mutation({
       query: (body: any) => ({
         url: `${DELETE_AGENT}`,
@@ -54,4 +68,5 @@ export const {
   useDeleteAgentMutation,
   usePatchAgentMutation,
   useGetAgentRequesterQuery,
+  useLazyGetAgentRequesterQuery,
 } = agentsAPI;
