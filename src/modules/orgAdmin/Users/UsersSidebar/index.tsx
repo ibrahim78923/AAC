@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 import {
   Avatar,
   Box,
@@ -22,13 +20,14 @@ import AddUser from '../Drawers/AddUser';
 
 import useUsersSidebar from './useUsersSidebar';
 
-import { AvatarImage, NoAssociationFoundImage } from '@/assets/images';
+import { NoAssociationFoundImage } from '@/assets/images';
 
 import { AddCircle } from '@mui/icons-material';
 import useUsers from '../useUsers';
 import { v4 as uuidv4 } from 'uuid';
 import NoData from '@/components/NoData';
 import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManagement';
+import { IMG_URL } from '@/config';
 
 const UsersSidebar = (props: any) => {
   const { setEmployeeDataById } = props;
@@ -117,7 +116,7 @@ const UsersSidebar = (props: any) => {
           <FilterSharedIcon />
         </Button>
       </Box>
-      {employeeDetails === undefined && (
+      {(employeeDetails === undefined || employeeDetails?.length < 1) && (
         <NoData
           image={NoAssociationFoundImage}
           message={'No data is available'}
@@ -155,8 +154,17 @@ const UsersSidebar = (props: any) => {
                 },
               }}
             >
-              <Avatar>
-                <Image src={AvatarImage} alt="Avatar" width={40} height={40} />
+              <Avatar
+                sx={{
+                  color: theme?.palette?.grey[600],
+                  fontSize: '16px',
+                  fontWeight: 500,
+                }}
+                src={item?.avatar && `${IMG_URL}${item?.avatar?.url}`}
+              >
+                {`${item?.firstName?.charAt(0)?.toUpperCase()}${item?.lastName
+                  ?.charAt(0)
+                  ?.toUpperCase()}`}
               </Avatar>
               <Box sx={{ width: '100%' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>

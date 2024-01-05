@@ -9,7 +9,7 @@ const useUsers = () => {
   const [employeeFilter, setEmployeeFilter] = useState({
     product: '',
     company: '',
-    user: '',
+    status: '',
   });
 
   const [page, setPage] = useState(1);
@@ -21,7 +21,7 @@ const useUsers = () => {
     search: searchEmployee,
     product: employeeFilter?.product,
     company: employeeFilter?.company,
-    // status: employeeFilter?.status
+    status: employeeFilter?.status ? employeeFilter?.status : 'INACTIVE',
   };
 
   const { data: employeeList } = useGetEmployeeListQuery({
@@ -42,7 +42,7 @@ const useUsers = () => {
     setEmployeeFilter({
       product: '',
       company: '',
-      user: '',
+      status: '',
     });
   };
 

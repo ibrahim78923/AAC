@@ -24,8 +24,9 @@ export const styles = {
       color: theme.palette.success.main,
     };
   },
-  imgWrapper: {
+  imgWrapper: (theme: any) => ({
     position: 'relative',
+    color: theme?.grey[500],
     borderRadius: '21px',
     overflow: 'hidden',
     height: 120,
@@ -34,25 +35,16 @@ export const styles = {
       objectFit: 'cover',
       heigth: '100%',
       width: '100%',
+      backgroundColor: 'balck',
     },
-    '&:hover': {
-      '& .edit-Icon': {
-        display: 'flex',
-      },
-    },
-  },
+  }),
   editIcon: {
-    transition: 'all 0.2s linear',
-    justifyContent: 'center',
-    background: '#79839E99',
     position: 'absolute',
-    alignItems: 'center',
-    cursor: 'pointer',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     display: 'none',
-    height: '100%',
-    width: '100%',
-    left: 0,
-    top: 0,
+    cursor: 'pointer',
   },
   iconWrapper: (theme: any) => {
     return {
