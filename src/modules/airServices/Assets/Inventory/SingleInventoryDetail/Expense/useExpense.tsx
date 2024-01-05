@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
@@ -13,7 +13,9 @@ import { useSearchParams } from 'next/navigation';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { PAGINATION } from '@/config';
 import {
+  useDeleteInventoryExpenseMutation,
   useGetInventoryExpenseQuery,
+  usePatchInventoryExpenseMutation,
   usePostInventoryExpenseMutation,
 } from '@/services/airServices/assets/inventory/single-inventory-details/expense';
 
@@ -33,7 +35,8 @@ export const useExpense = () => {
     page: page,
     limit: pageLimit,
   };
-
+  const EXPENSE_DELETE = 'delete';
+  const UPDATE_EXPENSE = 'Add New Expense';
   const searchParams = useSearchParams();
   const assetId = searchParams.get('inventoryId');
   const { data, isLoading, isSuccess, isFetching } =
@@ -43,8 +46,14 @@ export const useExpense = () => {
 
   const addExpenseMethods: any = useForm({
     resolver: yupResolver(addExpenseValidationSchema),
-    defaultValues: addExpenseDefaultValues,
+    defaultValues: addExpenseDefaultValues(selectedExpenseList),
   });
+  const { reset } = addExpenseMethods;
+  useEffect(() => {
+    reset(addExpenseDefaultValues(selectedExpenseList));
+  }, [selectedExpenseList, reset]);
+
+  const expenseId = selectedExpenseList.map((expense: any) => expense?._id);
   const handleAddExpenseModal = (isOpen?: boolean) => {
     if (isOpen) {
       setAddExpenseModalTitle('Add New Expense');
@@ -55,28 +64,49 @@ export const useExpense = () => {
   };
   const [postExpenseTrigger, postExpenseProgress] =
     usePostInventoryExpenseMutation();
+  const [patchExpenseTrigger] = usePatchInventoryExpenseMutation();
   const isLoadingExpense = postExpenseProgress?.isLoading;
   const onAddExpenseSubmit = async (data: any) => {
-    try {
-      const formData = {
-        ...data,
-        assetId: assetId,
-      };
-      const res: any = await postExpenseTrigger(formData);
-      enqueueSnackbar(res?.data?.message && 'Expense added successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      addExpenseMethods?.reset();
-      setIsAddExpenseModalOpen(false);
-    } catch (err: any) {
-      enqueueSnackbar(err?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+    if (addExpenseModalTitle === UPDATE_EXPENSE) {
+      try {
+        const formData = {
+          ...data,
+          assetId: assetId,
+        };
+        const res: any = await postExpenseTrigger(formData);
+        enqueueSnackbar(res?.data?.message && 'Expense added successfully!', {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        });
+        reset();
+        setIsAddExpenseModalOpen(false);
+      } catch (err: any) {
+        enqueueSnackbar(err?.data?.message ?? 'Something went wrong!', {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        });
+      }
+    } else {
+      try {
+        const formData = {
+          id: expenseId,
+          assetId: assetId,
+        };
+        const res: any = await patchExpenseTrigger(formData);
+        enqueueSnackbar(res?.data?.message && 'Expense update successfully!', {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        });
+        reset();
+        setIsAddExpenseModalOpen(false);
+        setSelectedExpenseList([]);
+      } catch (err: any) {
+        enqueueSnackbar(err?.data?.message ?? 'Something went wrong!', {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        });
+      }
     }
   };
 
   const handleActionClick = (ActionType: string) => {
-    if (ActionType === 'delete') {
+    if (ActionType === EXPENSE_DELETE) {
       return setIsDeleteExpenseModalOpen(true);
     }
     if (selectedExpenseList?.length > 1) {
@@ -99,12 +129,20 @@ export const useExpense = () => {
     setAddExpenseModalTitle('Update Expense');
     setIsAddExpenseModalOpen(true);
   };
-  const handleDelete = () => {
-    setIsDeleteExpenseModalOpen(false);
-    setSelectedExpenseList([]);
-    enqueueSnackbar('Record deleted Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+  const [deleteExpense] = useDeleteInventoryExpenseMutation();
+  const handleDelete = async () => {
+    try {
+      const res: any = await deleteExpense({ ids: expenseId });
+      enqueueSnackbar(res?.data?.message && 'Record deleted Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      setIsDeleteExpenseModalOpen(false);
+      setSelectedExpenseList([]);
+    } catch (err: any) {
+      enqueueSnackbar(err?.data?.message ?? 'Something went wrong!', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
   const expenseColumns = addExpenseColumnsFunction(

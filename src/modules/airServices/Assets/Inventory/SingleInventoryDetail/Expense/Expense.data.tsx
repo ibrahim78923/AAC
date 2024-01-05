@@ -15,10 +15,14 @@ export const addExpenseValidationSchema: any = yup?.object()?.shape({
   cost: yup?.string()?.required('Required field!'),
 });
 
-export const addExpenseDefaultValues = {
-  type: '',
-  cost: '',
-  date: new Date(),
+export const addExpenseDefaultValues = (selectedExpenseList: any) => {
+  const expenseUpdateData = selectedExpenseList[0];
+
+  return {
+    type: expenseUpdateData?.type ?? '',
+    cost: expenseUpdateData?.cost ?? '',
+    date: expenseUpdateData?.date ?? new Date(),
+  };
 };
 
 export const addExpenseFormData = [
@@ -139,14 +143,16 @@ export const addExpenseColumnsFunction = (
 export const expenseActionsDropdownFunction = (handleActionClick: any) => [
   {
     title: 'Edit',
-    handleClick: () => {
+    handleClick: (close: any) => {
       handleActionClick('edit');
+      close?.(false);
     },
   },
   {
     title: 'Delete',
-    handleClick: () => {
+    handleClick: (close: any) => {
       handleActionClick?.('delete');
+      close?.(false);
     },
   },
 ];

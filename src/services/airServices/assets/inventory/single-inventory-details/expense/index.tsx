@@ -1,7 +1,13 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const { INVENTORY_EXPENSE, GET_INVENTORY_EXPENSE } = END_POINTS;
+const {
+  INVENTORY_EXPENSE,
+  GET_INVENTORY_EXPENSE,
+  PATCH_INVENTORY_EXPENSE,
+  DELETE_INVENTORY_EXPENSE,
+} = END_POINTS;
+const TAG = 'INVENTORY_EXPENSE';
 export const inventoryExpense = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getInventoryExpense: builder.query({
@@ -10,7 +16,7 @@ export const inventoryExpense = baseAPI.injectEndpoints({
         method: 'GET',
         params,
       }),
-      providesTags: ['INVENTORY_EXPENSE'],
+      providesTags: [TAG],
     }),
     postInventoryExpense: builder.mutation({
       query: (body: any) => ({
@@ -18,10 +24,30 @@ export const inventoryExpense = baseAPI.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['INVENTORY_EXPENSE'],
+      invalidatesTags: [TAG],
+    }),
+    patchInventoryExpense: builder.mutation({
+      query: (body: any) => ({
+        url: `${PATCH_INVENTORY_EXPENSE}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    deleteInventoryExpense: builder.mutation({
+      query: (params: any) => ({
+        url: `${DELETE_INVENTORY_EXPENSE}`,
+        method: 'DELETE',
+        params,
+      }),
+      invalidatesTags: [TAG],
     }),
   }),
 });
 
-export const { usePostInventoryExpenseMutation, useGetInventoryExpenseQuery } =
-  inventoryExpense;
+export const {
+  usePostInventoryExpenseMutation,
+  useGetInventoryExpenseQuery,
+  usePatchInventoryExpenseMutation,
+  useDeleteInventoryExpenseMutation,
+} = inventoryExpense;
