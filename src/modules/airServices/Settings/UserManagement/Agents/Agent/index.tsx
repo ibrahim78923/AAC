@@ -2,12 +2,11 @@ import { FilterSharedIcon, PlusSharedColorIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { Box, Button } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { useAgent } from './useAgent';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { agentListData } from './Agent.data';
 import AgentFilter from './AgentFilter';
 import { InviteAgentModel } from './InviteAgentModal';
 import { AgentDeleteModal } from './AgentDeleteModal';
+import { useAgent } from './useAgent';
 
 const Agent = () => {
   const {
@@ -24,6 +23,15 @@ const Agent = () => {
     setEditAgentModalTitle,
     editAgentModalTitle,
     handleAddAgentModal,
+    processedAgentListData,
+    isFetching,
+    isSuccess,
+    isLoading,
+    setPageLimit,
+    setPage,
+    pageLimit,
+    metaData,
+    setSelectedAgentList,
   } = useAgent();
   return (
     <>
@@ -59,7 +67,10 @@ const Agent = () => {
           <Button
             variant="contained"
             startIcon={<PlusSharedColorIcon />}
-            onClick={() => handleAddAgentModal?.(true)}
+            onClick={() => {
+              handleAddAgentModal?.(true);
+              setSelectedAgentList([]);
+            }}
           >
             Invite Agents
           </Button>
@@ -67,9 +78,19 @@ const Agent = () => {
       </Box>
       <Box m={'0.5rem 0 0.5rem 0'}>
         <TanstackTable
-          data={agentListData}
+          data={processedAgentListData}
           columns={agentListsColumns}
           isPagination
+          isFetching={isFetching}
+          isSuccess={isSuccess}
+          isLoading={isLoading}
+          setPageLimit={setPageLimit}
+          setPage={setPage}
+          count={metaData?.pages}
+          totalRecords={metaData?.total}
+          onPageChange={(page: any) => setPage(page)}
+          currentPage={metaData?.page}
+          pageLimit={pageLimit}
         />
       </Box>
       <Box>
@@ -78,8 +99,10 @@ const Agent = () => {
           setEditAgentModalTitle={setEditAgentModalTitle}
           editAgentModalTitle={editAgentModalTitle}
           handleAddAgentModal={handleAddAgentModal}
+          selectedAgentList={selectedAgentList}
+          setSelectedAgentList={setSelectedAgentList}
         />
-        {deleteAgentProps?.openDeleteModel && (
+        {deleteAgentProps?.openDeleteModal && (
           <AgentDeleteModal deleteAgentProps={deleteAgentProps} />
         )}
       </Box>

@@ -2,10 +2,13 @@ import { Box, Button, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import useCompanies from '../useCompanies';
 import { DeleteIcon } from '@/assets/icons';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const ActionButton = (props?: any) => {
-  const { checkedRows, isOpen, setIsOpen } = props;
+  const { checkedRows, setCheckedRows, isOpen, setIsOpen } = props;
   const { selectedValue, handleClick, handleClose } = useCompanies();
+  const { deleteCompanies } = useCompanies();
 
   return (
     <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
@@ -15,6 +18,13 @@ const ActionButton = (props?: any) => {
           variant="outlined"
           color="inherit"
           startIcon={<DeleteIcon />}
+          onClick={() => {
+            deleteCompanies({ ids: checkedRows });
+            setCheckedRows([]);
+            enqueueSnackbar(`Companies deleted successfully`, {
+              variant: NOTISTACK_VARIANTS?.SUCCESS,
+            });
+          }}
         >
           Delete
         </Button>

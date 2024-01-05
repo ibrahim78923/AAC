@@ -8,31 +8,31 @@ import {
 import * as Yup from 'yup';
 
 export const dealsTasksValidationSchema = Yup?.object()?.shape({
-  taskname: Yup?.string()?.trim()?.required('Field is Required'),
-  Description: Yup?.string()?.trim()?.required('Field is Required'),
-  tasktype: Yup?.string()?.trim()?.required('Field is Required'),
-  dueDate: Yup?.string()?.trim()?.required('Field is Required'),
-  createTime: Yup?.string()?.trim()?.required('Field is Required'),
-  assignedto: Yup?.string()?.trim()?.required('Field is Required'),
+  name: Yup?.string()?.trim()?.required('Field is Required'),
+  note: Yup?.string(),
+  type: Yup?.string()?.trim()?.required('Field is Required'),
+  dueDate: Yup?.string(),
+  createTime: Yup?.string(),
+  assignTo: Yup?.string(),
   priority: Yup?.string()?.trim()?.required('Field is Required'),
-  NotifyBefore: Yup?.string()?.trim()?.required('Field is Required'),
+  reminder: Yup?.string(),
 });
 
 export const dealsTasksDefaultValues = {
-  taskname: '',
-  Description: '',
-  tasktype: '',
+  name: '',
+  note: '',
+  type: '',
   dueDate: '',
   createTime: '',
-  assignedto: '',
+  assignTo: '',
   priority: '',
-  NotifyBefore: '',
+  reminder: '',
 };
 
 export const dealsTasksDataArray = [
   {
     componentProps: {
-      name: 'taskname',
+      name: 'name',
       label: 'Title',
       fullWidth: true,
       required: true,
@@ -43,7 +43,7 @@ export const dealsTasksDataArray = [
   },
   {
     componentProps: {
-      name: 'Description',
+      name: 'note',
       label: 'Description',
       fullWidth: true,
     },
@@ -52,7 +52,7 @@ export const dealsTasksDataArray = [
   },
   {
     componentProps: {
-      name: 'tasktype',
+      name: 'type',
       label: 'Task Type',
       select: true,
       required: true,
@@ -61,6 +61,7 @@ export const dealsTasksDataArray = [
       { value: 'To-do', label: 'To-do' },
       { value: 'Follow-up', label: 'Follow-up' },
       { value: 'Call reminder', label: 'Call reminder' },
+      { value: 'Email', label: 'Email' },
     ],
     component: RHFSelect,
     md: 12,
@@ -85,14 +86,14 @@ export const dealsTasksDataArray = [
   },
   {
     componentProps: {
-      name: 'assignedto',
+      name: 'assignTo',
       label: 'Assign To',
       select: true,
     },
     options: [
-      { value: 'John Doe', label: 'John Doe' },
-      { value: 'Alfa Bravo', label: 'Alfa Bravo' },
-      { value: 'John Charlie', label: 'John Charlie' },
+      { value: '65782638da7b3457092af1dd', label: 'John Doe' },
+      { value: '65782638da7b3457092af1dd', label: 'Alfa Bravo' },
+      { value: '65782638da7b3457092af1dd', label: 'John Charlie' },
     ],
     component: RHFSelect,
     md: 12,
@@ -102,6 +103,7 @@ export const dealsTasksDataArray = [
       name: 'priority',
       label: 'Priority',
       select: true,
+      required: true,
     },
     options: [
       { value: '-', label: '-' },
@@ -113,15 +115,15 @@ export const dealsTasksDataArray = [
   },
   {
     componentProps: {
-      name: 'NotifyBefore',
+      name: 'reminder',
       label: 'Notify Before',
       select: true,
     },
     options: [
       { value: 'Today', label: 'Today' },
       { value: 'Tomorrow', label: 'Tomorrow' },
-      { value: 'In 1 business Day', label: 'In 1 business Day' },
-      { value: 'In 2 business Day', label: 'In 2 business Day' },
+      { value: 'in1businessday', label: 'In 1 business Day' },
+      { value: 'in2businessday', label: 'In 2 business Day' },
     ],
     component: RHFSelect,
     md: 12,

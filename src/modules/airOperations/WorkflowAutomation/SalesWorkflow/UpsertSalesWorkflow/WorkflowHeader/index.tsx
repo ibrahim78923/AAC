@@ -51,7 +51,7 @@ export const WorkflowHeader = (props: any) => {
               color="secondary"
               onClick={handleSaveDefault}
             >
-              Save as Default
+              Save as Draft
             </LoadingButton>
           )}
           <LoadingButton

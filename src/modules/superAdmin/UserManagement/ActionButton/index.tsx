@@ -13,6 +13,7 @@ const ActionButton = (props?: any) => {
     isOpenAddUserDrawer,
     useGetUsersByIdQuery,
   } = useUserManagement();
+
   const { data } = useGetUsersByIdQuery(checkedRows);
 
   return (
@@ -22,7 +23,7 @@ const ActionButton = (props?: any) => {
         variant="outlined"
         color="inherit"
         onClick={handleClick}
-        disabled={checkedRows === undefined ? true : false}
+        disabled={checkedRows === null ? true : false}
         sx={{ width: { sm: '112px', xs: '100%' } }}
       >
         Actions
@@ -33,6 +34,11 @@ const ActionButton = (props?: any) => {
         anchorEl={selectedValue}
         open={Boolean(selectedValue)}
         onClose={handleClose}
+        sx={{
+          '.MuiPopover-paper': {
+            minWidth: '115px',
+          },
+        }}
       >
         {tabVal === 0 && (
           <MenuItem onClick={() => handleUsersList(data?.data)}>

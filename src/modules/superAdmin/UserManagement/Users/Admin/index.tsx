@@ -1,31 +1,38 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import { superAdminColumns } from '../Users.data';
 import useUserManagement from '../../useUserManagement';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 const Admin = (props: any) => {
-  const { checkedRows, setCheckedRows, filterValues, searchVal } = props;
+  const { checkedRows, setCheckedRows, date, searchVal } = props;
   const {
     useGetUsersQuery,
     handleUserSwitchChange,
     pageLimit,
     setPageLimit,
-    page,
-    setPage,
+    initialTab,
   } = useUserManagement();
   const params = {
-    page: page,
+    page: checkedRows?.page,
     limit: pageLimit,
-    role: 'SUPER_ADMIN',
     search: searchVal ?? '',
-    products: filterValues?.products ?? '',
-    // organization: filterValues?.organization ?? ''
+    role: 'SUPER_ADMIN',
+    createdAt: date
+      ? dayjs(date[initialTab]).format(DATE_FORMAT?.API)
+      : undefined,
   };
   const { data, isSuccess, isLoading } = useGetUsersQuery(params);
+
+  const handleCheckboxChange = (val: any, rowId: string) => {
+    const newCheckedRows = val?.target?.checked ? rowId : null;
+    setCheckedRows({ ...checkedRows, selectedValue: newCheckedRows });
+  };
+
   const columnsProps = {
     handleUserSwitchChange: handleUserSwitchChange,
-    checkedRows: checkedRows,
-    setCheckedRows: setCheckedRows,
+    checkedRows: checkedRows?.selectedValue,
+    handleCheckboxChange: handleCheckboxChange,
   };
   const columnParams = superAdminColumns(columnsProps);
 
@@ -34,8 +41,10 @@ const Admin = (props: any) => {
       <TanstackTable
         columns={columnParams}
         data={data?.data?.users}
-        onPageChange={(page: any) => setPage(page)}
-        setPage={setPage}
+        onPageChange={(page: any) =>
+          setCheckedRows({ ...checkedRows, page: page })
+        }
+        setPage={setCheckedRows}
         setPageLimit={setPageLimit}
         count={data?.data?.meta?.pages}
         isPagination

@@ -26,15 +26,14 @@ const useScheduleEditorDrawer = ({
 }: any) => {
   const { user } = getSession();
   const { data: deals } = useGetDealsListQuery({});
+  const [postCalls] = usePostCallsMutation();
+  const [updateCalls] = useUpdateCallsMutation();
   const editCallValue = selectedCheckboxes && selectedCheckboxes[0];
 
   const { data: employeeList } = useGetEmployeeListQuery({
     orgId: user?.organization?._id,
   });
   const { data: ContactListData } = useGetContactsQuery({});
-
-  const [postCalls] = usePostCallsMutation();
-  const [updateCalls] = useUpdateCallsMutation();
 
   const EmployeeList = ContactListData?.data?.contacts?.concat(
     employeeList?.data?.users,

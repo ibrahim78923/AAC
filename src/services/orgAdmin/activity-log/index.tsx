@@ -11,7 +11,16 @@ export const ActivityLogAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getSubActivityLog: builder.query({
+      query: ({ params }) => ({
+        url: `${ORG_ADMIN.ACTIVITY_LOG_SUB}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
-export const { useGetActivityLogQuery } = ActivityLogAPI;
+export const { useGetActivityLogQuery, useGetSubActivityLogQuery } =
+  ActivityLogAPI;

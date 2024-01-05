@@ -131,7 +131,11 @@ const TanstackTable = (props: any) => {
             ) : (
               !!!table?.getRowModel()?.rows?.length &&
               isSuccess && (
-                <NoData image={noDataTableImage} message={noDataTableText} />
+                <NoData
+                  image={noDataTableImage}
+                  message={noDataTableText}
+                  height="40vh"
+                />
               )
             )}
           </TableContainer>

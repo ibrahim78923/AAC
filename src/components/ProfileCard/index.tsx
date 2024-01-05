@@ -1,6 +1,4 @@
-import Image from 'next/image';
-
-import { Box, Typography, Button, useTheme } from '@mui/material';
+import { Box, Typography, Button, useTheme, Avatar } from '@mui/material';
 
 import CardPropsI from './ProfileCard.interface';
 
@@ -13,13 +11,11 @@ import {
   EditColoredIcon,
 } from '@/assets/icons';
 
-import { UserProfileImage } from '@/assets/images';
-
 const ProfileCard = (props: CardPropsI) => {
   const theme = useTheme();
 
   const {
-    src = UserProfileImage,
+    src,
     userName = 'John Doe',
     role = 'Org Admin',
     email = 'Johndoe@gmail.com',
@@ -39,15 +35,37 @@ const ProfileCard = (props: CardPropsI) => {
           flexDirection: { xs: 'column', sm: 'row' },
         }}
       >
-        <Box sx={styles?.imgWrapper}>
-          <Box
-            className="edit-Icon"
-            sx={styles?.editIcon}
-            onClick={handleEditImage}
-          >
-            <EditIcon />
-          </Box>
-          <Image className="user_profile" alt="user_profile" src={src} />
+        <Box
+          sx={{
+            position: 'relative',
+            '&:hover .edit-Icon': {
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              height: 120,
+              width: 120,
+              borderRadius: '21px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+          }}
+        >
+          <label htmlFor="upload-button">
+            <Avatar src={src} sx={styles?.imgWrapper(theme?.palette)} />
+            <Box
+              className="edit-Icon"
+              sx={styles?.editIcon}
+              onClick={handleEditImage}
+            >
+              <EditIcon />
+            </Box>
+            <input
+              type="file"
+              id="upload-button"
+              style={{ display: 'none' }}
+              accept="image/png, image/gif, image/jpeg, image/webp"
+              // onChange={handleChangeImg}
+            />
+          </label>
         </Box>
         <Box pl={{ xs: 0, sm: 2 }}>
           <Typography

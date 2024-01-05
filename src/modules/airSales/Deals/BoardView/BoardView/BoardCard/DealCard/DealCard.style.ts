@@ -4,9 +4,7 @@ export const styles = {
     border: `1px solid ${theme?.palette?.grey[700]}`,
     p: '10px',
     borderRadius: '10px',
-    '&:not(:first-of-type)': {
-      mt: '16px',
-    },
+    mb: '16px',
   }),
   cardHeader: () => ({
     display: 'flex',

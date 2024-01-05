@@ -29,7 +29,6 @@ const AddUser = ({
 
   const { pathName, methods, handleSubmit, onSubmit, userDetail, tabTitle } =
     useAddUser(useActionParams);
-
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
@@ -104,7 +103,12 @@ const AddUser = ({
                     {...item.componentProps}
                     size={'small'}
                     disabled={
-                      isOpenAddUserDrawer?.type === 'view' ? true : false
+                      isOpenAddUserDrawer?.type === 'view' ||
+                      item.componentProps.name === 'companyName' ||
+                      (isOpenAddUserDrawer?.type === 'edit' &&
+                        item.componentProps.name === 'crn')
+                        ? true
+                        : false
                     }
                   >
                     {item?.componentProps?.select &&

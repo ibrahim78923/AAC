@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -10,13 +9,19 @@ import {
 } from '@mui/material';
 import { CloseModalIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
-import { agentFieldsData } from './InviteAgentModal.data';
 import { useInviteAgentModal } from './useInviteAgentModal';
+import { agentFieldsData } from './InviteAgentModal.data';
+import { LoadingButton } from '@mui/lab';
 
 export const InviteAgentModel = (props: any) => {
   const { isAgentModalOpen, editAgentModalTitle } = props;
-  const { inviteAgentMethods, onSubmit, handleAddAgentModal } =
-    useInviteAgentModal(props);
+  const {
+    inviteAgentMethods,
+    handleSubmitAgent,
+    handleAddAgentModal,
+    departmentData,
+    isLoading,
+  } = useInviteAgentModal(props);
 
   return (
     <>
@@ -32,48 +37,60 @@ export const InviteAgentModel = (props: any) => {
             },
           }}
         >
-          <DialogTitle
-            display={'flex'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-            pb={2.4}
+          <FormProvider
+            methods={inviteAgentMethods}
+            onSubmit={handleSubmitAgent}
           >
-            <Typography variant="h4" color="primary?.main">
-              {editAgentModalTitle}
-            </Typography>
-            <IconButton
-              onClick={() => handleAddAgentModal?.()}
-              sx={{ cursor: 'pointer' }}
+            <DialogTitle
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              pb={2.4}
             >
-              <CloseModalIcon />
-            </IconButton>
-          </DialogTitle>
-          <DialogContent sx={{ mt: 2 }}>
-            <FormProvider
-              methods={inviteAgentMethods}
-              onSubmit={inviteAgentMethods?.handleSubmit?.(onSubmit)}
-            >
-              <Grid container gap={2.4}>
-                {agentFieldsData?.map((form: any) => (
-                  <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                    <form.component {...form?.componentProps} size="small" />
-                  </Grid>
-                ))}
-              </Grid>
-            </FormProvider>
-            <Box display={'flex'} justifyContent={'flex-end'} gap={2} mt={0.5}>
-              <Button
+              <Typography variant="h4" color="primary?.main">
+                {editAgentModalTitle}
+              </Typography>
+              <IconButton
                 onClick={() => handleAddAgentModal?.()}
-                variant="outlined"
-                color="secondary"
+                sx={{ cursor: 'pointer' }}
               >
-                Cancel
-              </Button>
-              <Button type="submit" variant="contained">
-                Save
-              </Button>
-            </Box>
-          </DialogContent>
+                <CloseModalIcon />
+              </IconButton>
+            </DialogTitle>
+            <DialogContent sx={{ mt: 2 }}>
+              <Grid container gap={2.4}>
+                {agentFieldsData(editAgentModalTitle, departmentData)?.map(
+                  (form: any) => (
+                    <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                      <form.component {...form?.componentProps} size="small" />
+                    </Grid>
+                  ),
+                )}
+              </Grid>
+              <Box
+                display={'flex'}
+                justifyContent={'flex-end'}
+                gap={2}
+                mt={0.5}
+              >
+                <LoadingButton
+                  onClick={() => handleAddAgentModal?.()}
+                  variant="outlined"
+                  color="secondary"
+                  disabled={isLoading}
+                >
+                  Cancel
+                </LoadingButton>
+                <LoadingButton
+                  type="submit"
+                  variant="contained"
+                  disabled={isLoading}
+                >
+                  Save
+                </LoadingButton>
+              </Box>
+            </DialogContent>
+          </FormProvider>
         </Dialog>
       )}
     </>

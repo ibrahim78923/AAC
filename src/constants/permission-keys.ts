@@ -32,6 +32,17 @@ export const SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS = {
   ACTIVE_INACTIVE_ROLES: 'active-inactive-roles',
 };
 
+export const SUPER_ADMIN_REPORTS_PERMISSIONS = {
+  view_invoice_report: 'view-invoice-report',
+  view_user_report: 'view-user-report',
+};
+
+export const AIR_MARKETER_COMPARE_POSTS_PERMISSIONS = {
+  Add_post: 'marketer-social-marketing-compare-social-post-add-post',
+  View_compare_posts:
+    'marketer-social-marketing-compare-social-post-view-compare-post',
+};
+
 export const ORG_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
   ADD_USER: 'org-add-user',
   USER_SEARCH_AND_FILTER: 'org-user-search-and-filter',
@@ -162,6 +173,23 @@ export const AIR_SALES_DEALS_PERMISSIONS = {
   REMOVE_COMPANIES: 'sale-deal-remove-company',
   ADD_ASSOCIATE_PRODUCTS: 'view-deal-add-associate-product',
   EDIT_PRODUCTS: 'sale-deal-edit-product',
+};
+
+export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
+  VIEW_DASHBOARD: 'marketer-sms-marketing-dashboard-view-dashboard',
+  VIEW_SMS_CONVERSATION: 'marketer-sms-marketing-dashboard-view-sms-conversion',
+  VIEW_SCHEDULE_SMS: 'marketer-sms-marketing-dashboard-view-sms-schedule',
+  VIEW_SMS_CONTACTS: 'marketer-sms-marketing-dashboard-view-sms-contacts',
+  CREATE_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-create',
+  PREVIEW_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-preview',
+  SCHEDULE_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-schedule',
+  SEND_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-send',
+  VIEW_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-view',
+  SEARCH_AND_FILTER: 'marketer-sms-marketing-sms-broadcast-search-and-filter',
+  EDIT_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-edit',
+  DELETE_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-delete',
+  LIST_VIEW: 'marketer-sms-marketing-sms-broadcast-list-view',
+  DETAIL_VIEW: 'marketer-sms-marketing-sms-broadcast-detail-view',
 };
 
 //for display purpose in steppers

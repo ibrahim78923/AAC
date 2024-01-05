@@ -45,6 +45,7 @@ export const userListApi = baseAPI.injectEndpoints({
           url: END_POINTS?.POST_COMPANY_ACCOUNT,
           method: 'POST',
           body: body,
+          // headers: { 'Content-Type': 'multipart/form-data' },
         };
       },
       invalidatesTags: ['USERS'],

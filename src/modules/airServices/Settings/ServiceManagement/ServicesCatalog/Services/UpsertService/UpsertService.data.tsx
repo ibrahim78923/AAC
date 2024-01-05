@@ -8,67 +8,67 @@ import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 export const upsertServiceValidationSchema = Yup?.object()?.shape({
   itemName: Yup?.string()?.required(),
-  cast: Yup?.string(),
-  serviceCategories: Yup?.string()?.required(),
+  cost: Yup?.number(),
+  serviceCategory: Yup?.string()?.required(),
   estimatedDelivery: Yup?.string(),
   description: Yup?.string(),
-  accessDashboard: Yup?.string(),
-  selectAssetsCategories: Yup?.string()?.when('accessDashboard', {
+  assetType: Yup?.string(),
+  selectAssetsCategories: Yup?.string()?.when('assetType', {
     is: (value: any) => value === 'HardWare/Consumable',
     then: (schema: any) => schema?.required(),
     otherwise: (schema) => schema,
   }),
-  chooseSoftware: Yup?.string()?.when('accessDashboard', {
+  software: Yup?.string()?.when('assetType', {
     is: (value: any) => value === 'software',
     then: (schema: any) => schema?.required(),
     otherwise: (schema) => schema,
   }),
-  agentVisibility: Yup?.string()?.when('accessDashboard', {
+  agentVisibilty: Yup?.string()?.when('assetType', {
     is: (value: any) => value === 'software',
     then: (schema: any) => schema?.required(),
     otherwise: (schema) => schema,
   }),
-  requestedFor: Yup?.string()?.when('accessDashboard', {
+  requestedFor: Yup?.string()?.when('assetType', {
     is: (value: any) => value === 'software',
     then: (schema: any) => schema?.required(),
     otherwise: (schema) => schema,
   }),
-  serviceCategory: Yup?.string()?.when('accessDashboard', {
+  serviceCategorys: Yup?.string()?.when('assetType', {
     is: (value: any) => value === 'software',
     then: (schema: any) => schema?.required(),
     otherwise: (schema) => schema,
   }),
-  selectAgentVisibility: Yup?.string()?.when('accessDashboard', {
+  selectAgentVisibility: Yup?.string()?.when('assetType', {
     is: (value: any) => value === 'HardWare/Consumable',
     then: (schema: any) => schema?.required(),
     otherwise: (schema) => schema,
   }),
-  selectProduct: Yup?.string()?.when('accessDashboard', {
+  product: Yup?.string()?.when('assetType', {
     is: (value: any) => value === 'HardWare/Consumable',
     then: (schema: any) => schema?.required(),
     otherwise: (schema) => schema,
   }),
-  requesterVisibility: Yup?.string()?.when('accessDashboard', {
+  requesterVisibilty: Yup?.string()?.when('assetType', {
     is: (value: any) => value === 'HardWare/Consumable',
     then: (schema: any) => schema?.required(),
     otherwise: (schema) => schema,
   }),
 });
 export const upsertServiceDefaultValues = {
-  published: '',
-  cast: '',
-  serviceCategories: '',
+  itemName: '',
+  cost: '',
+  serviceCategory: '',
   estimatedDelivery: '',
   description: '',
-  accessDashboard: 'HardWare/Consumable',
+  assetType: 'HardWare/Consumable',
   selectAssetsCategories: '',
-  chooseSoftware: '',
-  agentVisibility: '',
+  software: '',
+  agentVisibilty: '',
   requestedFor: '',
-  serviceCategory: '',
+  serviceCategorys: '',
   selectAgentVisibility: '',
-  selectProduct: '',
-  requesterVisibility: '',
+  product: '',
+  requesterVisibilty: '',
 };
 export const serviceCategoriesOptions = ['Software Solutions'];
 export const softwareCategories = ['Microsoft Office 360', 'Excel'];
@@ -80,7 +80,7 @@ export const assetsHardwareCategoriesOptions = [
 ];
 export const agentVisibilityCategories = ['All Agents', 'Agent Groups'];
 export const productHardwareCategories = ['Disk', 'Data Center'];
-export const requesterVisibilityCategories = [
+export const requesterVisibiltyCategories = [
   'All Requesters',
   'Requestor Groups',
 ];
@@ -99,8 +99,8 @@ export const upsertServiceData = [
   {
     id: 2,
     componentProps: {
-      name: 'cast',
-      label: 'Cast',
+      name: 'cost',
+      label: 'Cost',
     },
     component: RHFTextField,
     md: 6,
@@ -108,7 +108,7 @@ export const upsertServiceData = [
   {
     id: 3,
     componentProps: {
-      name: 'serviceCategories',
+      name: 'serviceCategory',
       label: 'Service Categories',
       placeholder: 'Software Solutions',
       required: true,
@@ -144,7 +144,7 @@ export const upsertServiceData = [
   {
     id: 6,
     componentProps: {
-      name: 'uploadImage',
+      name: 'fileUrl',
       label: '',
     },
     component: RHFDropZone,
@@ -165,7 +165,7 @@ export const upsertServiceData = [
   {
     id: 8,
     componentProps: {
-      name: 'accessDashboard',
+      name: 'assetType',
       options: [
         {
           label: (
@@ -214,7 +214,7 @@ export const categoriesOfServices = [
   {
     id: 10,
     componentProps: {
-      name: 'chooseSoftware',
+      name: 'software',
       label: 'Choose Software',
       placeholder: 'Choose',
       required: true,
@@ -228,7 +228,7 @@ export const categoriesOfServices = [
   {
     id: 11,
     componentProps: {
-      name: 'agentVisibility',
+      name: 'agentVisibilty',
       label: 'Agent Visibility',
       placeholder: 'All Agent',
       required: true,
@@ -247,7 +247,7 @@ export const categoriesOfServices = [
       placeholder: 'Select department',
       required: true,
       select: true,
-      options: requesterVisibilityCategories,
+      options: requesterVisibiltyCategories,
     },
     text: 'software',
     component: RHFAutocomplete,
@@ -256,7 +256,7 @@ export const categoriesOfServices = [
   {
     id: 13,
     componentProps: {
-      name: 'serviceCategory',
+      name: 'serviceCategorys',
       label: 'Service Category',
       placeholder: 'Software Solution',
       required: true,
@@ -284,7 +284,7 @@ export const categoriesOfServices = [
   {
     id: 15,
     componentProps: {
-      name: 'selectProduct',
+      name: 'product',
       label: 'Select Product',
       placeholder: 'Choose',
       required: true,
@@ -298,12 +298,12 @@ export const categoriesOfServices = [
   {
     id: 16,
     componentProps: {
-      name: 'requesterVisibility',
+      name: 'requesterVisibilty',
       label: 'Requester Visibility',
       placeholder: 'All Requester',
       required: true,
       select: true,
-      options: requesterVisibilityCategories,
+      options: requesterVisibiltyCategories,
     },
     text: 'HardWare/Consumable',
     component: RHFAutocomplete,

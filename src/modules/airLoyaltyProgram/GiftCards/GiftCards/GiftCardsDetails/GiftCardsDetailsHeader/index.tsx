@@ -12,7 +12,7 @@ export const GiftCardsDetailsHeader = () => {
         addTitle={'Add Transaction'}
         canMovedBack
         moveBack={() => {
-          router.push(AIR_LOYALTY_PROGRAM?.GIFT_CARDS);
+          router?.push(AIR_LOYALTY_PROGRAM?.GIFT_CARDS);
         }}
       />
     </Box>

@@ -22,6 +22,7 @@ import {
   usePostTicketsMutation,
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
+import { makeDateTime } from '../ServicesTickets.data';
 
 export const useUpsertTicket = (props: any) => {
   const { setIsDrawerOpen, ticketId, setSelectedTicketList } = props;
@@ -54,39 +55,29 @@ export const useUpsertTicket = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const submitUpsertTicket = async (data: any) => {
-    enqueueSnackbar(`Ticket ${ticketId ? 'Updated' : 'Created'} Successfully`, {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    setSelectedTicketList?.([]);
-    reset();
-    setIsDrawerOpen?.(false);
-    return;
     const upsertTicketFormData = new FormData();
-    !!data?.requester &&
-      upsertTicketFormData?.append('requester', data?.requester?._id);
+    upsertTicketFormData?.append('requester', data?.requester?._id);
     upsertTicketFormData?.append('subject', data?.subject);
     !!data?.description &&
       upsertTicketFormData?.append('description', data?.description);
     !!data?.category?._id &&
       upsertTicketFormData?.append('category', data?.category?._id);
-    upsertTicketFormData?.append('status', data?.status);
+    upsertTicketFormData?.append('status', data?.status?._id);
     upsertTicketFormData?.append('pirority', data?.priority);
     !!data?.department?._id &&
       upsertTicketFormData?.append('department', data?.department?._id);
     !!data?.source && upsertTicketFormData?.append('source', data?.source);
     !!data?.impact && upsertTicketFormData?.append('impact', data?.impact);
     !!data?.agent && upsertTicketFormData?.append('agent', data?.agent?._id);
-    // upsertTicketFormData?.append('plannedStartDate',!!data?.plannedStartTime ? data?.plannedStartTime : new Date(data?.plannedStartDate)?.toString())
-    upsertTicketFormData?.append(
-      'plannedEndDate',
-      !!data?.plannedEndTime
-        ? new Date(data?.plannedEndTime)?.toISOString()
-        : new Date(data?.plannedEndDate)?.toISOString(),
-    );
+    (!!data?.plannedEndDate || !!data?.plannedEndTime) &&
+      upsertTicketFormData?.append(
+        'plannedEndDate',
+        makeDateTime(data?.plannedEndDate, data?.plannedEndTime)?.toISOString(),
+      );
     !!data?.plannedEffort &&
       upsertTicketFormData?.append('plannedEffort', data?.plannedEffort);
-    data?.attachFile === null &&
-      typeof data?.attachFile === 'string' &&
+    data?.attachFile !== null &&
+      typeof data?.attachFile !== 'string' &&
       upsertTicketFormData?.append('fileUrl', data?.attachFile);
     !!data?.associatesAssets?.length &&
       upsertTicketFormData?.append(
@@ -99,7 +90,6 @@ export const useUpsertTicket = (props: any) => {
       submitUpdateTicket(upsertTicketFormData);
       return;
     }
-    // return;
     const postTicketParameter = {
       body: upsertTicketFormData,
     };

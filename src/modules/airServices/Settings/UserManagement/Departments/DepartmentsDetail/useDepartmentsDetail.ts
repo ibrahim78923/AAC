@@ -8,11 +8,15 @@ import {
   departmentFormValidation,
   departmentFormValues,
 } from '../DepartmentsFormModal/DepartmentsFormModal.data';
+import { useGetDepartmentQuery } from '@/services/airServices/settings/user-management/departments';
 
 export const useDepartmentsDetail = () => {
   const [actionPop, setActionPop] = useState<HTMLElement | null>(null);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
+  const { data } = useGetDepartmentQuery(null);
+  const departmentData = data?.data?.departments;
+
   const handleActionClick = (event: React.MouseEvent<HTMLElement>) => {
     setActionPop(event?.currentTarget);
   };
@@ -57,5 +61,6 @@ export const useDepartmentsDetail = () => {
     openEdit,
     setOpenEdit,
     formProps,
+    departmentData,
   };
 };

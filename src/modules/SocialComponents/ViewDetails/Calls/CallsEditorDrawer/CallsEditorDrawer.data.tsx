@@ -8,81 +8,103 @@ import * as Yup from 'yup';
 
 export const dealsCallsValidationSchema = Yup.object().shape({
   title: Yup.string().trim().required('Field is Required'),
-  description: Yup.string().trim().required('Field is Required'),
-  attachfile: Yup.string().trim().required('Field is Required'),
+  startdate: Yup.string(),
+  starttime: Yup.string(),
+  enddate: Yup.string(),
+  endtime: Yup.string(),
+  owner: Yup.string(),
 });
 
 export const dealsCallsDefaultValues = {
   title: '',
-  description: '',
-  attachfile: '',
+  startdate: '',
+  starttime: '',
+  enddate: '',
+  endtime: '',
   owner: '',
 };
 
-export const dealsCallsDataArray = [
-  {
-    componentProps: {
-      name: 'title',
-      label: 'Title',
-      fullWidth: true,
+export const dealsCallsDataArray = (openDrawer: any) => {
+  return [
+    {
+      componentProps: {
+        name: 'title',
+        label: 'Title',
+        fullWidth: true,
+        required: true,
+        placeholder: 'Enter the title of meeting',
+        disabled: openDrawer === 'View',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'startdate',
-      label: 'Start Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'callFromDate',
+        label: 'Start Date',
+        fullWidth: true,
+        disabled: openDrawer === 'View',
+      },
+      component: RHFDatePicker,
+      md: 6,
     },
-    component: RHFDatePicker,
-    md: 6,
-  },
-  {
-    componentProps: {
-      name: 'starttime',
-      label: 'Start Time',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'callFromTime',
+        label: 'Start Time',
+        fullWidth: true,
+        disabled: openDrawer === 'View',
+      },
+      component: RHFTimePicker,
+      md: 6,
     },
-    component: RHFTimePicker,
-    md: 6,
-  },
-  {
-    componentProps: {
-      name: 'enddate',
-      label: '  End Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'callToDate',
+        label: '  End Date',
+        fullWidth: true,
+        disabled: openDrawer === 'View',
+      },
+      component: RHFDatePicker,
+      md: 6,
     },
-    component: RHFDatePicker,
-    md: 6,
-  },
-  {
-    componentProps: {
-      name: 'endtime',
-      label: 'End Time',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'callToTime',
+        label: 'End Time',
+        fullWidth: true,
+        disabled: openDrawer === 'View',
+      },
+      component: RHFTimePicker,
+      md: 6,
     },
-    component: RHFTimePicker,
-    md: 6,
-  },
-  {
-    componentProps: {
-      name: 'owner',
-      label: 'Owner',
-      fullWidth: true,
-      select: true,
-    },
+    {
+      componentProps: {
+        name: 'owner',
+        label: 'Owner',
+        fullWidth: true,
+        select: true,
+        disabled: openDrawer === 'View',
+      },
 
-    options: [
-      { value: 'Guy Hawkins', label: 'Guy Hawkins' },
-      { value: 'Jacob Jones', label: 'Jacob Jones' },
-      { value: 'Courtney Henry', label: 'Courtney Henry' },
-    ],
+      options: [
+        { value: 'Guy Hawkins', label: 'Guy Hawkins' },
+        { value: 'Jacob Jones', label: 'Jacob Jones' },
+        { value: 'Courtney Henry', label: 'Courtney Henry' },
+      ],
 
-    component: RHFSelect,
+      component: RHFSelect,
 
-    md: 12,
-  },
+      md: 12,
+    },
+  ];
+};
+export const options = [
+  { value: 'Interested', label: 'Interested' },
+  { value: 'Left message', label: 'Left message' },
+  { value: 'No response', label: 'No response' },
+  { value: 'Not interested', label: 'Not interested' },
+  { value: 'Not able to reach', label: 'Not able to reach' },
 ];
 
 export const drawerTitle: any = {

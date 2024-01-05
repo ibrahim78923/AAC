@@ -1,69 +1,32 @@
-import React, { useState } from 'react';
 import UsersTable from './UsersTable';
 import { Box, Button, Divider } from '@mui/material';
-import CustomPagination from '@/components/CustomPagination';
 import { UsersAdd } from './UsersAdd';
 import { UsersFilter } from './UsersFilter';
 import { userDropdown } from './Users.data';
 import Search from '@/components/Search';
-import { enqueueSnackbar } from 'notistack';
-import ConversationModel from '@/components/Model/CoversationModel';
-
 import { ExportButton } from '@/components/ExportButton';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import UsersRemove from './UsersRemove';
 import UsersAllocate from './UsersAllocate';
 import UsersDeallocate from './UsersDeallocate';
+import useUsers from './useUsers';
+import UserActionModal from './UserActionModal';
+import { EXPORT_TYPE, SOFTWARE_USER_ACTIONS_TYPES } from '@/constants/strings';
 
 export const Users = () => {
-  const [usersData, setUsersData] = useState([]);
-  const [actionModalOpen, setActionModalOpen] = useState(false);
-  const [selectedActionTitle, setSelectedActionTitle] = useState(null);
-
-  const userActionClickHandler = (title: any) => {
-    setSelectedActionTitle(title);
-    setActionModalOpen(true);
-  };
-
-  const userActionDropdownCloseHandler = () => {
-    setActionModalOpen(false);
-  };
-
-  const excelExportHandler = () => {
-    enqueueSnackbar('Excel File Download Successfully', {
-      variant: 'success',
-    });
-  };
-
-  const csvExportHandler = () => {
-    enqueueSnackbar('CSV File Download Successfully', {
-      variant: 'success',
-    });
-  };
-  const actionClickHandler = (selectedActionTitle: any) => {
-    switch (selectedActionTitle) {
-      case 'Allocate':
-        enqueueSnackbar('Contract Allocated Successfully', {
-          variant: 'success',
-        });
-        break;
-      case 'Deallocate':
-        enqueueSnackbar('Contract Deallocated Successfullyy', {
-          variant: 'success',
-        });
-        break;
-      case 'Remove':
-        enqueueSnackbar('User Removed Successfully', {
-          variant: 'success',
-        });
-        break;
-      default:
-        '';
-    }
-
-    userActionDropdownCloseHandler();
-  };
-
+  const {
+    setActionModalOpen,
+    userActionClickHandler,
+    csvExportHandler,
+    excelExportHandler,
+    usersData,
+    actionModalOpen,
+    userActionDropdownCloseHandler,
+    selectedActionTitle,
+    actionClickHandler,
+    handleExportTypeClick,
+    setSearch,
+  } = useUsers();
   return (
     <>
       <Box
@@ -74,7 +37,7 @@ export const Users = () => {
         gap={2}
       >
         <Box>
-          <Search label="Search Here" searchBy="" setSearchBy="" />
+          <Search label="Search" setSearchBy={setSearch} />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <SingleDropdownButton
@@ -87,30 +50,49 @@ export const Users = () => {
 
           <UsersAdd />
           <ExportButton
-            handleCsvExport={csvExportHandler}
-            handleExcelExport={excelExportHandler}
+            handleCsvExport={() => {
+              handleExportTypeClick(EXPORT_TYPE?.CSV);
+              csvExportHandler();
+            }}
+            handleExcelExport={() => {
+              handleExportTypeClick(EXPORT_TYPE?.XLS);
+              excelExportHandler();
+            }}
           />
           <UsersFilter />
         </Box>
       </Box>
       {actionModalOpen && (
-        <ConversationModel
+        <UserActionModal
           handleClose={userActionDropdownCloseHandler}
-          open={actionModalOpen}
+          open={
+            actionModalOpen &&
+            (selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE ||
+              ((selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE ||
+                selectedActionTitle ===
+                  SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE) &&
+                usersData?.length <= 1))
+          }
           selectedItem={
-            selectedActionTitle === 'Allocate'
+            selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE
               ? 'Add Device'
-              : selectedActionTitle === 'Deallocate'
-              ? 'Deallocate Contract'
-              : selectedActionTitle === 'Remove'
-              ? 'Remove User'
+              : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE
+              ? 'Deallocate Contract '
+              : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
+              ? 'Remove Contract'
               : 'Add Device'
           }
         >
-          {selectedActionTitle === 'Allocate' && <UsersAllocate />}
-          {selectedActionTitle === 'Deallocate' && <UsersDeallocate />}
-          {selectedActionTitle === 'Remove' && <UsersRemove />}
-          {selectedActionTitle === 'Allocate' && (
+          {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (
+            <UsersAllocate />
+          )}
+          {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE && (
+            <UsersDeallocate />
+          )}
+          {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE && (
+            <UsersRemove />
+          )}
+          {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (
             <Box sx={{ mt: 2 }}>
               <Divider />
             </Box>
@@ -136,17 +118,12 @@ export const Users = () => {
               Yes
             </Button>
           </Box>
-        </ConversationModel>
+        </UserActionModal>
       )}
 
       <br />
-      <UsersTable usersData={usersData} setUsersData={setUsersData} />
+      <UsersTable />
       <br />
-      <CustomPagination
-        count={1}
-        rowsPerPageOptions={[1, 2]}
-        entriePages={10}
-      />
     </>
   );
 };

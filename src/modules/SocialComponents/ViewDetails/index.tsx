@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { Box, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Skeleton, Typography, useTheme } from '@mui/material';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import Details from './Details';
 import ActivityLog from './ActivityLog';
@@ -24,6 +24,7 @@ import { DATE_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
 import { useState } from 'react';
 import UploadImageModal from './UploadImageModal';
 import EditDomainModal from './EditDomainModal';
+import { useRouter } from 'next/router';
 
 const ViewDetails = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -31,8 +32,10 @@ const ViewDetails = () => {
   const [isEditDomainOpen, setIsEditDomainOpen] = useState(false);
 
   const theme = useTheme();
+  const navigate = useRouter();
+  const { query } = navigate;
   const { data } = useGetCompaniesDetailsQuery({
-    Id: '658161e8bc12c9e948cb0d21',
+    Id: query?.id,
   });
 
   const date = new Date(data?.data?.createdAt);
@@ -53,191 +56,208 @@ const ViewDetails = () => {
             <Link href={SOCIAL_COMPONENTS.COMPANIES}>
               <ArrowBackIcon />
             </Link>
-            <Box
-              sx={{
-                cursor: 'pointer',
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                '&:hover': {
-                  opacity: 0.4,
-                },
-              }}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              onClick={() => setIsUploadImageOpen(true)}
-            >
-              <Image
-                src={NotesAvatarImage}
-                width={50}
-                height={50}
-                alt="companyLogo"
-              />
-              {isHovered && (
-                <Box sx={{ position: 'absolute' }}>
-                  {' '}
-                  <EditFormIcon />{' '}
-                </Box>
-              )}
-            </Box>
-            <Box>
-              <Typography variant="h4">{data?.data?.name}</Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: theme?.palette?.custom?.main,
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                {data?.data?.domain}
+            {data ? (
+              <>
                 <Box
-                  sx={{ marginLeft: '5px', cursor: 'pointer' }}
-                  onClick={() => setIsEditDomainOpen(true)}
+                  sx={{
+                    cursor: 'pointer',
+                    position: 'relative',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    '&:hover': {
+                      opacity: 0.4,
+                    },
+                  }}
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                  onClick={() => setIsUploadImageOpen(true)}
                 >
-                  {' '}
-                  <EditFormIcon />
+                  <Image
+                    src={NotesAvatarImage}
+                    width={50}
+                    height={50}
+                    alt="companyLogo"
+                  />
+                  {isHovered && (
+                    <Box sx={{ position: 'absolute' }}>
+                      {' '}
+                      <EditFormIcon />{' '}
+                    </Box>
+                  )}
                 </Box>
-              </Typography>
-            </Box>
+                <Box>
+                  <Typography variant="h4">{data?.data?.name}</Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: theme?.palette?.custom?.main,
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    {data?.data?.domain}
+                    <Box
+                      sx={{ marginLeft: '5px', cursor: 'pointer' }}
+                      onClick={() => setIsEditDomainOpen(true)}
+                    >
+                      {' '}
+                      <EditFormIcon />
+                    </Box>
+                  </Typography>
+                </Box>
+              </>
+            ) : (
+              <Skeleton variant="circular" width={50} height={50} />
+            )}
           </Box>
         </Grid>
 
-        <Grid item xs={12} sm={6} lg={3}>
-          <Box sx={styles.detailsBox}>
-            <Box sx={{ display: 'flex', gap: 1, marginBottom: '7px' }}>
-              <Image
-                src={NotesAvatarImage}
-                width={40}
-                height={40}
-                alt="NotesAvatarImage"
-              />
-              <Box>
-                <Typography variant="body2" sx={{ fontWeight: '600' }}>
-                  {data?.data?.owner?.name}
-                </Typography>
-                <Typography
-                  variant="body3"
-                  sx={{ color: theme?.palette?.custom?.main }}
-                >
-                  Created on{' '}
-                  {dayjs(data?.data?.createdAt)?.format(DATE_FORMAT?.UI)},{' '}
-                  {formattedTime}
-                </Typography>
+        {data ? (
+          <>
+            <Grid item xs={12} sm={6} lg={3}>
+              <Box sx={styles.detailsBox}>
+                <Box sx={{ display: 'flex', gap: 1, marginBottom: '7px' }}>
+                  <Image
+                    src={NotesAvatarImage}
+                    width={40}
+                    height={40}
+                    alt="NotesAvatarImage"
+                  />
+                  <Box>
+                    <Typography variant="body2" sx={{ fontWeight: '600' }}>
+                      {data?.data?.owner?.name}
+                    </Typography>
+                    <Typography
+                      variant="body3"
+                      sx={{ color: theme?.palette?.custom?.main }}
+                    >
+                      Created on{' '}
+                      {dayjs(data?.data?.createdAt)?.format(DATE_FORMAT?.UI)},{' '}
+                      {formattedTime}
+                    </Typography>
+                  </Box>
+                </Box>
+                <hr style={styles?.salesBox} />
+                <Box sx={styles?.salesBox}>
+                  <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                    Email
+                  </Typography>
+                  <Typography variant="body3" sx={styles?.salesHeading(theme)}>
+                    {data?.data?.owner?.email}
+                  </Typography>
+                </Box>
+                <Box sx={styles?.salesBox}>
+                  <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                    Phone Number
+                  </Typography>
+                  <Typography variant="body3" sx={styles?.salesHeading(theme)}>
+                    {data?.data?.owner?.phoneNumber}
+                  </Typography>
+                </Box>
+                <Box sx={styles?.salesBox}>
+                  <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                    Company Type
+                  </Typography>
+                  <Typography variant="body3" sx={styles?.salesPriority(theme)}>
+                    {data?.data?.type}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-            <hr style={styles?.salesBox} />
-            <Box sx={styles?.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Email
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                {data?.data?.owner?.email}
-              </Typography>
-            </Box>
-            <Box sx={styles?.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Phone Number
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                {data?.data?.owner?.phoneNumber}
-              </Typography>
-            </Box>
-            <Box sx={styles?.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Company Type
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesPriority(theme)}>
-                {data?.data?.type}
-              </Typography>
-            </Box>
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
-          <Box sx={styles.detailsBox}>
-            <Typography variant="body2" sx={{ fontWeight: 600 }}>
-              Products
-            </Typography>
-            <Box sx={styles?.noproductBox}>
-              <Typography
-                variant="body3"
-                sx={{ color: theme?.palette?.grey[900] }}
-              >
-                No products to show
-              </Typography>
-            </Box>
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
-          <Box sx={styles.detailsBox}>
-            <Typography variant="body2" sx={{ fontWeight: 600 }}>
-              Upcoming Meetings
-            </Typography>
-            <Box sx={styles?.noproductBox}>
-              <Typography
-                variant="body3"
-                sx={{ color: theme?.palette?.grey[900] }}
-              >
-                No Meeting Found
-              </Typography>
-            </Box>
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={6} lg={3}>
-          <Box sx={styles.detailsBox}>
-            <Box sx={styles.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Company Type
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesPriority(theme)}>
-                {data?.data?.type}
-              </Typography>
-            </Box>
-            <Box sx={styles.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                No of Employees
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                {data?.data?.noOfEmloyee}
-              </Typography>
-            </Box>
-            <Box sx={styles.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Total Revenue
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                £ {data?.data?.totalRevenue}
-              </Typography>
-            </Box>
-            <Box sx={styles.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                LinkedIn
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                Not found
-              </Typography>
-            </Box>
-            <Box sx={styles.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Address
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                {data?.data?.address}
-              </Typography>
-            </Box>
-          </Box>
-        </Grid>
+            </Grid>
+            <Grid item xs={12} sm={6} lg={3}>
+              <Box sx={styles.detailsBox}>
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                  Products
+                </Typography>
+                <Box sx={styles?.noproductBox}>
+                  <Typography
+                    variant="body3"
+                    sx={{ color: theme?.palette?.grey[900] }}
+                  >
+                    No products to show
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6} lg={3}>
+              <Box sx={styles.detailsBox}>
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                  Upcoming Meetings
+                </Typography>
+                <Box sx={styles?.noproductBox}>
+                  <Typography
+                    variant="body3"
+                    sx={{ color: theme?.palette?.grey[900] }}
+                  >
+                    No Meeting Found
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6} lg={3}>
+              <Box sx={styles.detailsBox}>
+                <Box sx={styles.salesBox}>
+                  <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                    Company Type
+                  </Typography>
+                  <Typography variant="body3" sx={styles?.salesPriority(theme)}>
+                    {data?.data?.type}
+                  </Typography>
+                </Box>
+                <Box sx={styles.salesBox}>
+                  <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                    No of Employees
+                  </Typography>
+                  <Typography variant="body3" sx={styles?.salesHeading(theme)}>
+                    {data?.data?.noOfEmloyee}
+                  </Typography>
+                </Box>
+                <Box sx={styles.salesBox}>
+                  <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                    Total Revenue
+                  </Typography>
+                  <Typography variant="body3" sx={styles?.salesHeading(theme)}>
+                    £ {data?.data?.totalRevenue}
+                  </Typography>
+                </Box>
+                <Box sx={styles.salesBox}>
+                  <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                    LinkedIn
+                  </Typography>
+                  <Typography variant="body3" sx={styles?.salesHeading(theme)}>
+                    Not found
+                  </Typography>
+                </Box>
+                <Box sx={styles.salesBox}>
+                  <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                    Address
+                  </Typography>
+                  <Typography variant="body3" sx={styles?.salesHeading(theme)}>
+                    {data?.data?.address}
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+          </>
+        ) : (
+          <Skeleton
+            variant="rectangular"
+            width={210}
+            height={60}
+            sx={{ marginTop: '20px' }}
+          />
+        )}
 
         <Grid item xs={12}>
           <Box>
             <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
               <Details data={data?.data} />
-              <ActivityLog />
+              <ActivityLog companyId={data?.data?._id} />
               <Associations />
               <Tasks />
               <Notes companyId={data?.data?._id} />
-              <Calls />
+              <Calls companyId={data?.data?._id} />
               <Meetings />
               <Emails />
             </HorizontalTabs>

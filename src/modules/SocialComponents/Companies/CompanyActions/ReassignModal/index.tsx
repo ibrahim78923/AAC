@@ -1,18 +1,20 @@
 import { AlertModals } from '@/components/AlertModals';
 import { AssignCommonIcon } from '@/assets/icons';
 import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
+import useReassignModal from './useReassignModal';
+import { useChangeCompanyOwnerMutation } from '@/services/commonFeatures/companies';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const ReassignModal = ({ isReassign, setIsReassign }: any) => {
-  const methods = useForm();
-
-  const optionsArray = [
-    { value: 'All Industries', label: 'All Industries' },
-    { value: 'Computer Software', label: 'Computer Software' },
-    { value: 'Construction', label: 'Construction' },
-    { value: 'Electronics', label: 'Electronics' },
-  ];
+const ReassignModal = ({
+  isReassign,
+  setIsReassign,
+  checkedRows,
+  setCheckedRows,
+}: any) => {
+  const { methods, seletedContact, getCompanyContacts } = useReassignModal();
+  const [changeCompanyOwner] = useChangeCompanyOwnerMutation();
 
   return (
     <AlertModals
@@ -20,14 +22,14 @@ const ReassignModal = ({ isReassign, setIsReassign }: any) => {
       message={
         <FormProvider methods={methods}>
           <RHFSelect
-            name="reassign"
+            name="companyOwner"
             label="Company Owner"
             select={true}
             size="small"
           >
-            {optionsArray?.map((item: any) => (
-              <option key={uuidv4()} value={item?.value}>
-                {item?.label}
+            {getCompanyContacts?.data?.contacts?.map((item: any) => (
+              <option key={uuidv4()} value={item?._id}>
+                {`${item?.firstName} ${item?.lastName}`}
               </option>
             ))}
           </RHFSelect>
@@ -38,8 +40,21 @@ const ReassignModal = ({ isReassign, setIsReassign }: any) => {
       cancelBtnText="Cancel"
       submitBtnText="Update"
       handleClose={() => setIsReassign({ ...isReassign, reassignModal: false })}
-      handleSubmit={function (): void {
-        throw new Error('Function not implemented.');
+      handleSubmitBtn={() => {
+        if (checkedRows != null && seletedContact != null) {
+          changeCompanyOwner({
+            body: { id: checkedRows, ownerId: seletedContact },
+          });
+          setIsReassign({ reassignModal: false });
+          setCheckedRows([]);
+          enqueueSnackbar(`New owner has been assigned`, {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
+        } else {
+          enqueueSnackbar(`Please select company owner`, {
+            variant: NOTISTACK_VARIANTS?.ERROR,
+          });
+        }
       }}
     />
   );
