@@ -17,10 +17,10 @@ const useFilterCompany = ({
   const onSubmit = async (values: any) => {
     const { date } = values;
 
-    const dateStart = date?.[startedDate]
+    const dateStarted = date?.[startedDate]
       ? dayjs(date[startedDate])?.format(DATE_FORMAT?.API)
       : null;
-    const dateEnd = date?.[endedDate]
+    const dateEnded = date?.[endedDate]
       ? dayjs(date[endedDate])?.format(DATE_FORMAT?.API)
       : null;
 
@@ -30,8 +30,8 @@ const useFilterCompany = ({
       name: values?.name,
       crn: values?.crn,
       ownerId: values?.ownerId,
-      dateStart: dateStart,
-      dateEnd: dateEnd,
+      dateStart: dateStarted,
+      dateEnd: dateEnded,
     });
 
     setIsFilter(false);

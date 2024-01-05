@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { EXPORT_FILE_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useDeleteTaskMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
+import { downloadFile } from '@/utils/file';
 
 export const useTasksHeader = (props: any) => {
   const {
@@ -20,20 +22,68 @@ export const useTasksHeader = (props: any) => {
     setActionPop(null);
   };
   const openAction = Boolean(actionPop);
-
   const handleActionExportClick = (event: any) => {
     setActionExportPop(event?.currentTarget);
   };
-  const handleActionExportClose = () => {
+  const handleActionExportClose = (event: React.MouseEvent<HTMLElement>) => {
+    event?.stopPropagation();
     setActionExportPop(null);
   };
   const openActionExport = Boolean(actionExportPop);
+  const [deleteTaskApi] = useDeleteTaskMutation();
   const submitDeleteModel = async () => {
-    enqueueSnackbar('Task Delete Successfully', {
-      variant: 'error',
-    });
-    setDeleteModal(false);
-    setActionPop(null);
+    const deleteParams = new URLSearchParams();
+    activeCheck?.forEach((task: any) => deleteParams?.append('ids', task?._id));
+    try {
+      const res: any = await deleteTaskApi(deleteParams);
+      enqueueSnackbar(res?.data?.message && 'Task Delete Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      setDeleteModal(false);
+      setActionPop(null);
+      setActiveCheck([]);
+    } catch (error: any) {
+      enqueueSnackbar(error?.error?.message ?? 'An error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+  const excelExportHandler = async () => {
+    try {
+      const file: any = await downloadFile(
+        activeCheck || [],
+        'excel-export.xlsx',
+        EXPORT_FILE_TYPE?.XLS,
+      );
+      enqueueSnackbar(file?.data?.message ?? 'XLS File Download successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      setActionPop(null);
+      setActionExportPop(null);
+    } catch (error: any) {
+      enqueueSnackbar(error?.error?.message ?? 'Error exporting XLS file ', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
+  const csvExportHandler = async () => {
+    try {
+      const file: any = await downloadFile(
+        activeCheck || [],
+        'csv-export.csv',
+        EXPORT_FILE_TYPE?.CSV,
+      );
+      enqueueSnackbar(file?.data?.message ?? 'CSV File Download Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      setActionPop(null);
+      setActionExportPop(null);
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message ?? 'Error exporting CSV file', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
   const openEditDrawer = () => {
     if (activeCheck?.length > 1) {
@@ -63,5 +113,7 @@ export const useTasksHeader = (props: any) => {
     submitDeleteModel,
     openEditDrawer,
     openAddDrawer,
+    excelExportHandler,
+    csvExportHandler,
   };
 };

@@ -50,7 +50,7 @@ export const companiesAPI = baseAPI.injectEndpoints({
 
     CompanyUpdate: builder.mutation({
       query: ({ body, Id }: any) => ({
-        url: `${END_POINTS?.COMPANY}?Id=${Id}`,
+        url: `${END_POINTS?.COMPANY}/${Id}`,
         method: 'PATCH',
         body: body,
       }),
@@ -77,7 +77,7 @@ export const companiesAPI = baseAPI.injectEndpoints({
     mergeCompanies: builder.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.MERGE_COMPANIES}`,
-        method: 'PATCH',
+        method: 'POST',
         body: body,
       }),
       invalidatesTags: ['COMPANY'],
