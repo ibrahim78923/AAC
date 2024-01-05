@@ -24,7 +24,7 @@ const FilterUser = ({
       ...employeeFilter,
       product: values?.product,
       company: values?.company,
-      user: values?.user,
+      status: values?.status,
     });
   };
 

@@ -110,7 +110,26 @@ export const columns: any = (columnsProps: any) => {
       id: 'domainName',
       isSortable: true,
       header: 'Domain Name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => {
+        const url = info?.getValue();
+        // Check if the URL starts with http:// or https://
+        const isExternal = /^https?:\/\//?.test(url);
+        // If not, prepend "https://"
+        const fullUrl = isExternal ? url : `https://${url}`;
+        return (
+          <a
+            href={fullUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: theme?.palette?.blue?.link_blue,
+              textDecoration: 'underline',
+            }}
+          >
+            {url ?? 'N/A'}
+          </a>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.crn,

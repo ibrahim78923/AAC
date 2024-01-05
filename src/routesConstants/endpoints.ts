@@ -87,6 +87,7 @@ export const END_POINTS = {
   TASK: '/task',
   VENDOR_DETAIL_OVERVIEW: '/vendors/get-vendor',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
+  TICKET_DETAILS: '/ticket',
   REQUESTER_LIST: `/requester/requester-list`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
   DEPARTMENT: '/department',
@@ -111,6 +112,7 @@ export const END_POINTS = {
   COMPANY_PREVIEW: '/companies/get-company-preview',
   RESTORE_COMPANIES: '/companies/restore-action',
   MERGE_COMPANIES: '/companies/merge-company',
+  REASSIGN_COMPANY_OWNER: '/companies/change-company-owner',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
   GET_DEPARTMENT: '/Department/department-list',
   DELETE_REQUESTER: '/requester/delete-requester',
@@ -151,6 +153,10 @@ export const END_POINTS = {
   VENDOR_DROPDOWN: '/vendors/get-vendors',
   CONTRACT_TYPE_DROPDOWN: '/contract-type',
   DROPDOWN_AGENTS_LIST: '/dropdown/agents',
+  DROPDOWN_LOCATION: '/location/get-location',
+  DROPDOWN_USERS: '',
+  ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
+  DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
 };
 
 export const superAdminBillingInvoices = {
@@ -213,4 +219,10 @@ export const COMMON_DOCUMENTS = {
   PATCH_DOCUMENT_FILE_ID: '/documents/file',
   DELETE_DOCUMENT_FOLDER_ID: '/documents/folder',
   DELETE_DOCUMENT_FILE_ID: '/documents/files',
+};
+
+export const INVOICE = {
+  GET_INVOICE_QUOTE: '/quote-invoice',
+  POST_INVOICE_QUOTE: '/quote-invoice',
+  GET_INVOICE_QUOTE_LIST: '/quote',
 };

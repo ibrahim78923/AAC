@@ -11,6 +11,7 @@ const DeleteModal = ({
   isRestoreDelete,
   setIsRestoreDelete,
   checkedRows,
+  setCheckedRows,
 }: any) => {
   const [restoreCompanies] = useRestoreCompaniesMutation();
   return (
@@ -31,6 +32,7 @@ const DeleteModal = ({
             body: { action: isRestoreDelete?.type },
           });
           setIsRestoreDelete({ isOpen: false });
+          setCheckedRows([]);
           enqueueSnackbar(`Company deleted successfully`, {
             variant: NOTISTACK_VARIANTS?.SUCCESS,
           });

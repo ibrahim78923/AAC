@@ -4,7 +4,7 @@ import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const DeleteInventory = (props: any) => {
   const { deleteModalOpen, setDeleteModalOpen } = props;
-  const { deleteInventory } = useDeleteInventory(props);
+  const { deleteInventory, deleteInventoryStatus } = useDeleteInventory(props);
 
   return (
     <AlertModals
@@ -14,6 +14,8 @@ export const DeleteInventory = (props: any) => {
       handleClose={() => setDeleteModalOpen?.(false)}
       handleSubmitBtn={() => deleteInventory?.()}
       cancelBtnText="Cancel"
+      loading={deleteInventoryStatus?.isLoading}
+      disableCancelBtn={deleteInventoryStatus?.isLoading}
     />
   );
 };

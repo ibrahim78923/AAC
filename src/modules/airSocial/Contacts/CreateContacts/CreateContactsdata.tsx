@@ -51,11 +51,13 @@ export const contactsDefaultValues = {
   dateOfBirth: null,
 };
 export const contactsDataArray = (
+  contactOwnerData: any,
   lifeCycleStagesData: any,
   contactStatusData: any,
 ) => {
   return [
     {
+      id: 'email',
       componentProps: {
         name: 'email',
         label: 'Email',
@@ -65,6 +67,7 @@ export const contactsDataArray = (
       component: RHFTextField,
     },
     {
+      id: 'profilePicture',
       componentProps: {
         name: 'profilePicture',
         label: 'Profile Picture',
@@ -75,6 +78,7 @@ export const contactsDataArray = (
       component: RHFDropZone,
     },
     {
+      id: 'firstName',
       componentProps: {
         name: 'firstName',
         label: 'First Name',
@@ -84,6 +88,7 @@ export const contactsDataArray = (
       component: RHFTextField,
     },
     {
+      id: 'lastName',
       title: 'Last Name',
       componentProps: {
         name: 'lastName',
@@ -95,6 +100,7 @@ export const contactsDataArray = (
       component: RHFTextField,
     },
     {
+      id: 'address',
       componentProps: {
         name: 'address',
         label: 'Address',
@@ -104,6 +110,7 @@ export const contactsDataArray = (
       component: RHFTextField,
     },
     {
+      id: 'dateOfBirth',
       componentProps: {
         name: 'dateOfBirth',
         label: 'Date Of Birth',
@@ -113,6 +120,7 @@ export const contactsDataArray = (
       component: RHFDatePicker,
     },
     {
+      id: 'phoneNumber',
       title: 'Phone Number',
       componentProps: {
         name: 'phoneNumber',
@@ -124,6 +132,7 @@ export const contactsDataArray = (
       component: RHFTextField,
     },
     {
+      id: 'whatsAppNumber',
       componentProps: {
         name: 'whatsAppNumber',
         label: 'WhatsApp Number',
@@ -134,22 +143,19 @@ export const contactsDataArray = (
       component: RHFTextField,
     },
     {
+      id: 'contactOwner',
       title: 'Contact Owner',
       componentProps: {
         name: 'contactOwner',
         label: 'Contact Owner',
         select: true,
-        options: [
-          { value: 'savanahShane', label: 'Savanah Shane' },
-          { value: 'phoenixBaker', label: 'Phoenix Baker' },
-          { value: 'cameronWilliamson', label: 'Cameron Williamson' },
-          { value: 'brooklynSimmons', label: 'Brooklyn Simmons' },
-        ],
       },
+      options: contactOwnerData,
       md: 12,
       component: RHFSelect,
     },
     {
+      id: 'jobTitle',
       componentProps: {
         name: 'jobTitle',
         label: 'Job Title',
@@ -159,6 +165,7 @@ export const contactsDataArray = (
       component: RHFTextField,
     },
     {
+      id: 'lifeCycleStageId',
       title: 'Lifecycle Stage',
       componentProps: {
         name: 'lifeCycleStageId',
@@ -170,6 +177,7 @@ export const contactsDataArray = (
       component: RHFSelect,
     },
     {
+      id: 'statusId',
       componentProps: {
         name: 'statusId',
         label: 'Status',
@@ -180,6 +188,7 @@ export const contactsDataArray = (
       component: RHFSelect,
     },
     {
+      id: 'dateOfJoining',
       title: 'Date of Joining',
       componentProps: {
         name: 'dateOfJoining',

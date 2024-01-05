@@ -9,17 +9,17 @@ const jobTitleOptions = [
 
 export const upsertTransactionsValidationSchema: any = Yup?.object()?.shape({
   email: Yup?.string(),
-  shop: Yup?.string(),
-  type: Yup?.string(),
-  channel: Yup?.string(),
+  shop: Yup?.mixed(),
+  type: Yup?.mixed(),
+  channel: Yup?.mixed(),
   points: Yup?.string(),
 });
 
 export const upsertTransactionsDefaultValues: any = {
   email: '',
-  shop: '',
-  type: '',
-  channel: '',
+  shop: null,
+  type: null,
+  channel: null,
   points: '',
 };
 
@@ -29,7 +29,7 @@ export const upsertTransactionsArray = [
     componentProps: {
       name: 'email',
       label: 'Email',
-      placeholder: 'usman@orcalo.co.uk',
+      placeholder: 'Enter email',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -40,7 +40,7 @@ export const upsertTransactionsArray = [
     componentProps: {
       name: 'shop',
       label: 'Shop',
-      placeholder: 'ABC',
+      placeholder: 'Select',
       fullWidth: true,
       options: jobTitleOptions,
       getOptionLabel: (option: any) => option?.label,
@@ -53,7 +53,7 @@ export const upsertTransactionsArray = [
     componentProps: {
       name: 'type',
       label: 'Type',
-      placeholder: 'ABC',
+      placeholder: 'Select',
       fullWidth: true,
       options: jobTitleOptions,
       getOptionLabel: (option: any) => option?.label,
@@ -67,7 +67,7 @@ export const upsertTransactionsArray = [
     componentProps: {
       name: 'channel',
       label: 'Channel',
-      placeholder: 'ABC',
+      placeholder: 'Select',
       fullWidth: true,
       options: jobTitleOptions,
       getOptionLabel: (option: any) => option?.label,
@@ -80,7 +80,7 @@ export const upsertTransactionsArray = [
     componentProps: {
       name: 'points',
       label: 'Points',
-      placeholder: '33',
+      placeholder: 'Enter',
       fullWidth: true,
     },
     component: RHFTextField,
