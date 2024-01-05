@@ -1,63 +1,68 @@
 import NoData from '@/components/NoData';
 import { Box, Button, useTheme } from '@mui/material';
 import { AddCircleIcon } from '@/assets/icons';
-import { useState } from 'react';
 import { AssociationsDrawer } from './AssociationsDrawer';
 import { SingleAssociationsTicket } from './SingleAssociationsTicket';
-import { associationsTicketData } from './Associations.data';
 import { NoAssociationFoundImage } from '@/assets/images';
-import { v4 as uuidv4 } from 'uuid';
+import { useAssociations } from './useAssociations';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const Associations = () => {
   const theme: any = useTheme();
-  const [openDrawer, setOpenDrawer] = useState<any>(false);
-
+  const { associationsList, openDrawer, setOpenDrawer, isLoading } =
+    useAssociations();
   return (
     <>
-      {associationsTicketData?.length === 0 ? (
-        <>
-          <NoData
-            image={NoAssociationFoundImage}
-            message={
-              'Make approved purchases by sending the order to your stakeholders for approval'
-            }
-          >
-            <Button
-              sx={{
-                marginRight: '12px',
-                backgroundColor: theme?.palette?.primary?.light,
-                color: theme?.palette?.primary?.main,
-              }}
-              variant="outlined"
-              startIcon={<AddCircleIcon />}
-              onClick={() => setOpenDrawer(true)}
+      <Box>
+        {isLoading ? (
+          <SkeletonTable />
+        ) : associationsList?.length === 0 ? (
+          <>
+            <NoData
+              image={NoAssociationFoundImage}
+              message={
+                'Make approved purchases by sending the order to your stakeholders for approval'
+              }
             >
-              Associate
-            </Button>
-          </NoData>
-        </>
-      ) : (
-        <>
-          <Box display={'flex'} justifyContent={'end'} marginBottom={'1rem'}>
-            <Button
-              sx={{
-                marginRight: '12px',
-                backgroundColor: theme?.palette?.primary?.light,
-                color: theme?.palette?.primary?.main,
-              }}
-              onClick={() => setOpenDrawer(true)}
-              variant="outlined"
-              startIcon={<AddCircleIcon />}
-            >
-              Associate
-            </Button>
-          </Box>
-          {associationsTicketData?.map((item: any) => (
-            <SingleAssociationsTicket key={uuidv4()} associationsItem={item} />
-          ))}
-        </>
-      )}
-
+              <Button
+                sx={{
+                  marginRight: '12px',
+                  backgroundColor: theme?.palette?.primary?.light,
+                  color: theme?.palette?.primary?.main,
+                }}
+                variant="outlined"
+                startIcon={<AddCircleIcon />}
+                onClick={() => setOpenDrawer(true)}
+              >
+                Associate
+              </Button>
+            </NoData>
+          </>
+        ) : (
+          <>
+            <Box display={'flex'} justifyContent={'end'} marginBottom={'1rem'}>
+              <Button
+                sx={{
+                  marginRight: '12px',
+                  backgroundColor: theme?.palette?.primary?.light,
+                  color: theme?.palette?.primary?.main,
+                }}
+                onClick={() => setOpenDrawer(true)}
+                variant="outlined"
+                startIcon={<AddCircleIcon />}
+              >
+                Associate
+              </Button>
+            </Box>
+            {associationsList?.map((item: any) => (
+              <SingleAssociationsTicket
+                key={item?._id}
+                associationsItem={item}
+              />
+            ))}
+          </>
+        )}
+      </Box>
       <AssociationsDrawer
         open={openDrawer}
         setDrawerOpen={() => setOpenDrawer(false)}
