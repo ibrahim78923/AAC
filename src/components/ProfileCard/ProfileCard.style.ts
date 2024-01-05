@@ -35,7 +35,7 @@ export const styles = {
       objectFit: 'cover',
       heigth: '100%',
       width: '100%',
-      backgroundColor: 'balck',
+      backgroundColor: 'black',
     },
   }),
   editIcon: {
