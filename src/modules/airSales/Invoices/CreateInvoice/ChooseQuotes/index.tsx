@@ -9,7 +9,6 @@ const ChooseQuotes = () => {
     control,
     formState: { errors },
   } = useForm();
-
   return (
     <Box my={2} className="stepper-content">
       <Grid container>

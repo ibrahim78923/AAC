@@ -28,4 +28,4 @@ export const invoiceAPI = baseAPI.injectEndpoints({
   }),
 });
 
-export const { useGetInvoiceQoutesListQuery } = invoiceAPI;
+export const { useGetInvoiceQoutesListQuery, useGetInvoiceQuery } = invoiceAPI;

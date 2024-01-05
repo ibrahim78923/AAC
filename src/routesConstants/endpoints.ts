@@ -215,7 +215,7 @@ export const COMMON_DOCUMENTS = {
 };
 
 export const INVOICE = {
-  GET_INVOICE_QUOTE: '',
-  POST_INVOICE_QUOTE: '',
+  GET_INVOICE_QUOTE: '/quote-invoice',
+  POST_INVOICE_QUOTE: '/quote-invoice',
   GET_INVOICE_QUOTE_LIST: '/quote',
 };
