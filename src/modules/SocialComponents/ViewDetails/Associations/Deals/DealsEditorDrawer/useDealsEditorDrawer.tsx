@@ -5,9 +5,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   productsDefaultValues,
   productsValidationSchema,
-} from './ProductEditorDrawer.data';
+} from './DealsEditorDrawer.data';
 
-const useProductsEditorDrawer = () => {
+const useDealsEditorDrawer = () => {
   const [searchProduct, setSearchProduct] = useState('');
   const methodsProducts = useForm({
     resolver: yupResolver(productsValidationSchema),
@@ -27,4 +27,4 @@ const useProductsEditorDrawer = () => {
   };
 };
 
-export default useProductsEditorDrawer;
+export default useDealsEditorDrawer;

@@ -11,9 +11,9 @@ export const columns: any = ({
   return [
     {
       accessorFn: (row: any) => row?.name,
-      id: 'product_name',
+      id: 'Deals_name',
       cell: (info: any) => info?.getValue(),
-      header: 'Product Name',
+      header: 'Deals Name',
       isSortable: true,
     },
 
@@ -21,7 +21,7 @@ export const columns: any = ({
       accessorFn: (row: any) => row?.quantity,
       id: 'quantity',
       isSortable: true,
-      header: 'Quantity',
+      header: 'Phone Number',
       cell: (info: any) => info?.getValue(),
     },
 
@@ -29,7 +29,14 @@ export const columns: any = ({
       accessorFn: (row: any) => row?.amount,
       id: 'phonenumber',
       isSortable: true,
-      header: 'Amount',
+      header: 'Deals Owner',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.amount,
+      id: 'phonenumber',
+      isSortable: true,
+      header: 'Deal Stage',
       cell: (info: any) => info?.getValue(),
     },
 

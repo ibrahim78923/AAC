@@ -1,29 +1,28 @@
 import { Box, Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
-
 import { FormProvider, RHFRadioGroup } from '@/components/ReactHookForm';
-
-import { v4 as uuidv4 } from 'uuid';
-
-import {
-  companiesDataArray,
-  drawerButtonTitle,
-  drawerTitle,
-} from './CompaniesEditorDrawer.data';
-import useCompaniesEditorDrawer from './useCompaniesEditorDrawer';
 import Search from '@/components/Search';
 
-const CompaniesEditorDrawer = (props: any) => {
+import useDealsEditorDrawer from './useDealsEditorDrawer';
+
+import { v4 as uuidv4 } from 'uuid';
+import {
+  drawerButtonTitle,
+  drawerTitle,
+  productsDataArray,
+} from './DealsEditorDrawer.data';
+
+const DealsEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;
   const {
     handleSubmit,
     onSubmit,
-    methodsCompanies,
+    methodsProducts,
+    watchProductstatus,
     searchProduct,
     setSearchProduct,
-    watchProducts,
-  } = useCompaniesEditorDrawer();
+  } = useDealsEditorDrawer();
 
   return (
     <div>
@@ -37,19 +36,19 @@ const CompaniesEditorDrawer = (props: any) => {
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider
-            methods={methodsCompanies}
+            methods={methodsProducts}
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 <RHFRadioGroup
-                  options={['New Company', 'Existing Company']}
-                  name={'companieStatus'}
-                  label={false}
+                  options={['Custom Line Item', 'Existing Products']}
+                  name={'productStatus'}
+                  label={''}
                 />
               </Grid>
-              {watchProducts[0] === 'New Company' ? (
-                companiesDataArray?.map((item: any) => (
+              {watchProductstatus[0] === 'Custom Line Item' ? (
+                productsDataArray?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component {...item?.componentProps} size={'small'}>
                       {item?.componentProps?.select
@@ -67,7 +66,7 @@ const CompaniesEditorDrawer = (props: any) => {
                   <Search
                     searchBy={searchProduct}
                     setSearchBy={setSearchProduct}
-                    label="Search Companies"
+                    label="Search Products"
                     size="medium"
                     fullWidth
                   />
@@ -81,4 +80,4 @@ const CompaniesEditorDrawer = (props: any) => {
   );
 };
 
-export default CompaniesEditorDrawer;
+export default DealsEditorDrawer;
