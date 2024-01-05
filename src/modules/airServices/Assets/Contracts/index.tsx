@@ -26,6 +26,8 @@ const Contracts = () => {
     setSearch,
     selectedContractList,
     setSelectedContractList,
+    contractFilterLists,
+    setContractFilterLists,
   }: any = useContracts();
   return (
     <>
@@ -99,6 +101,8 @@ const Contracts = () => {
         <ContractsDrawerForm
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
+          contractFilterLists={contractFilterLists}
+          setContractFilterLists={setContractFilterLists}
         />
       )}
     </>

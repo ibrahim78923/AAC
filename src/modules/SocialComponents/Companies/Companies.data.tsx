@@ -81,7 +81,7 @@ export const columns: any = (columnsProps: any) => {
           onClick={() => {
             navigate?.push({
               pathname: SOCIAL_COMPONENTS?.VIEW_COMPANY_DETAILS,
-              query: checkedRows,
+              query: { id: info?.row?.original?._id },
             });
           }}
         >
