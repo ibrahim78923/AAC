@@ -1,23 +1,22 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { ArrowLeftIcon } from '@/assets/icons';
-import { newPurchaseFieldsFunction } from './NewPurchaseOrder.data';
 import useNewPurchaseOrder from './useNewPurchaseOrder';
 import ItemsDetails from './ItemsDetails';
 import { styles } from './NewPurchaseOrder.style';
-import { v4 as uuidv4 } from 'uuid';
-import { useRouter } from 'next/router';
 
 const NewPurchaseOrder = () => {
-  const { methods, submit, handlePageBack, vendor, handleVenderSelect } =
-    useNewPurchaseOrder();
+  const {
+    methods,
+    submit,
+    handlePageBack,
+    vendor,
+    newPurchaseFields,
+    purchaseOrderId,
+    router,
+  } = useNewPurchaseOrder();
+
   const { flexBetween, mainWrapper, mainHeading, subHeading } = styles();
-  const newPurchaseFields = newPurchaseFieldsFunction(handleVenderSelect);
-
-  const router = useRouter();
-
-  const { purchaseOrderId } = router?.query;
-
   return (
     <Box>
       <Box sx={{ ...mainWrapper }}>
@@ -50,11 +49,11 @@ const NewPurchaseOrder = () => {
               mt={-1}
             >
               {newPurchaseFields?.map((form: any) => (
-                <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
+                <Grid item xs={12} md={form?.gridLength} key={form?.id}>
                   <form.component {...form?.componentProps} size="small">
                     {form?.componentProps?.select
                       ? form?.componentProps?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
+                          <option key={option?.value} value={option?.value}>
                             {option?.label}
                           </option>
                         ))

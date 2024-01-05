@@ -1,61 +1,14 @@
 import * as yup from 'yup';
 import {
   RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
-  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 
 export const dropdownDummy = ['Option 1', 'Option 2'];
 
 export const currencyOptions = ['Pound', 'Dollars'];
-
-const ticketsTypeOptions = [
-  {
-    value: 'search',
-    label: 'Search',
-  },
-  {
-    value: 'All Tickets',
-    label: 'All Tickets',
-  },
-  {
-    value: 'Urgent and High Priority',
-    label: 'Urgent and High Priority',
-  },
-  {
-    value: 'My Open and Pending Tickets',
-    label: 'My Open and Pending Tickets',
-  },
-  {
-    value: 'Spam',
-    label: 'Spam',
-  },
-  {
-    value: 'New & My Open Tickets',
-    label: 'New & My Open Tickets',
-  },
-  {
-    value: 'All Unresolved Tickets',
-    label: 'All Unresolved Tickets',
-  },
-  {
-    value: 'Incidents',
-    label: 'Incidents',
-  },
-  {
-    value: 'Service Requests',
-    label: 'Service Requests',
-  },
-  {
-    value: 'Tickets I Requested',
-    label: 'Tickets I Requested',
-  },
-  {
-    value: 'Shared with me',
-    label: 'Shared with me',
-  },
-];
 
 // form validation schema
 export const validationSchema: any = yup?.object()?.shape({
@@ -75,15 +28,18 @@ export const validationSchema: any = yup?.object()?.shape({
 export const defaultValues = {
   orderName: '',
   orderNumber: 0,
-  vendor: '',
+  vendor: null,
   currency: '',
-  department: '',
+  department: null,
   deliverDate: null,
-  location: '',
+  location: null,
   termsAndConditions: '',
 };
 
 export const newPurchaseFieldsFunction = (
+  departmentApiQuery: any,
+  locationApiQuery: any,
+  vendorApiQuery: any,
   handleVenderSelect?: (e: string) => void,
 ) => [
   {
@@ -111,14 +67,15 @@ export const newPurchaseFieldsFunction = (
   },
   {
     id: 3,
-    component: RHFSelect,
+    component: RHFAutocompleteAsync,
     gridLength: 6,
     componentProps: {
       fullWidth: true,
       name: 'vendor',
       label: 'Vendor',
-      select: true,
-      options: ticketsTypeOptions,
+      placeholder: 'Select Location',
+      apiQuery: vendorApiQuery,
+      externalParams: { meta: false, limit: 50 },
       required: true,
       onChange: handleVenderSelect,
     },
@@ -143,12 +100,11 @@ export const newPurchaseFieldsFunction = (
       fullWidth: true,
       name: 'department',
       label: 'Department',
-      select: true,
-      options: dropdownDummy,
+      apiQuery: departmentApiQuery,
       placeholder: 'Select Department',
     },
     gridLength: 6,
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 6,
@@ -167,12 +123,11 @@ export const newPurchaseFieldsFunction = (
       fullWidth: true,
       name: 'location',
       label: 'Location',
-      select: true,
-      options: dropdownDummy,
+      apiQuery: locationApiQuery,
       placeholder: 'Select Location',
     },
     gridLength: 6,
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 8,
