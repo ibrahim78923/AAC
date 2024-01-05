@@ -27,8 +27,9 @@ const useFilterCompany = ({
     setFilterValues({
       ...filterValues,
       industry: values?.industry,
-      name: values?.name,
-      crn: values?.crn,
+      // commented for future use
+      // name: values?.name,
+      // crn: values?.crn,
       ownerId: values?.ownerId,
       dateStart: dateStarted,
       dateEnd: dateEnded,

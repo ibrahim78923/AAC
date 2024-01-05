@@ -111,6 +111,7 @@ export const END_POINTS = {
   COMPANY_PREVIEW: '/companies/get-company-preview',
   RESTORE_COMPANIES: '/companies/restore-action',
   MERGE_COMPANIES: '/companies/merge-company',
+  REASSIGN_COMPANY_OWNER: '/companies/change-company-owner',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
   GET_DEPARTMENT: '/Department/department-list',
   DELETE_REQUESTER: '/requester/delete-requester',
