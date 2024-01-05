@@ -7,6 +7,7 @@ import {
   useGetLifeCycleQuery,
   usePostContactsMutation,
 } from '@/services/commonFeatures/contacts';
+import { useGetOrganizationUsersQuery } from '@/services/dropdowns';
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
@@ -15,8 +16,15 @@ import {
   contactsDefaultValues,
   contactsValidationSchema,
 } from './CreateContactsdata';
+import useAuth from '@/hooks/useAuth';
 
 const useCreateContacts = () => {
+  const { user }: any = useAuth();
+
+  const { data: ContactOwners } = useGetOrganizationUsersQuery(
+    user?.organization?._id,
+  );
+
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
 
   const { data: ContactsStatus } = useGetContactsStatusQuery({});
@@ -24,6 +32,11 @@ const useCreateContacts = () => {
   const [postContacts] = usePostContactsMutation();
 
   const [createAssociation] = useCreateAssociationMutation();
+
+  const contactOwnerData = ContactOwners?.data?.users?.map((user: any) => ({
+    value: user?._id,
+    label: `${user?.firstName} ${user?.lastName}`,
+  }));
 
   const contactStatusData = ContactsStatus?.data?.conatactStatus?.map(
     (lifecycle: any) => ({ value: lifecycle?._id, label: lifecycle?.name }),
@@ -40,7 +53,9 @@ const useCreateContacts = () => {
     },
   });
 
-  const onSubmit = async (values: any) => {
+  const { handleSubmit, reset } = methodscontacts;
+
+  const onSubmit = async (values: any, closeDrawer: any) => {
     const formData = new FormData();
     formData?.append('profilePicture', values?.profilePicture);
     formData?.append('email', values?.email);
@@ -62,39 +77,30 @@ const useCreateContacts = () => {
     );
 
     try {
-      const response = await postContacts({ body: formData })?.unwrap();
+      const contactResponse = await postContacts({ body: formData })?.unwrap();
+      const associationResponse = await createAssociation({
+        body: { contactId: contactResponse?.data?._id },
+      })?.unwrap();
 
-      if (response?.data) {
-        try {
-          await createAssociation({
-            body: {
-              contactId: response?.data?._id,
-            },
-          }).unwrap();
-
-          onCloseHandler();
-        } catch (error: any) {
-          const errMsg = error?.data?.message;
-          enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
-        }
+      if (contactResponse?.data && associationResponse?.data) {
+        closeDrawer();
+        reset();
+        enqueueSnackbar('Success message', { variant: 'success' });
       }
     } catch (error: any) {
       const errMsg = error?.data?.message;
       enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
     }
   };
+  const submitCreateContact = (closeDrawer: any) =>
+    handleSubmit((values) => onSubmit(values, closeDrawer));
 
-  const onCloseHandler = () => {
-    reset();
-  };
-  const { handleSubmit, reset } = methodscontacts;
   return {
-    handleSubmit,
-    onSubmit,
+    submitCreateContact,
     methodscontacts,
+    contactOwnerData,
     lifeCycleStagesData,
     contactStatusData,
-    onCloseHandler,
   };
 };
 
