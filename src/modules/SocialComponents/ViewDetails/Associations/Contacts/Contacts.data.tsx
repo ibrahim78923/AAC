@@ -8,9 +8,11 @@ import { NotesAvatarImage } from '@/assets/images';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
+  setContactRecord,
 }: {
   setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
   setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
+  setContactRecord: any;
 }) => {
   return [
     {
@@ -62,15 +64,30 @@ export const columns: any = ({
       id: 'assignedTo',
       isSortable: false,
       header: 'Actions',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('View')}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              setOpenDrawer('View'), setContactRecord(info?.row?.original);
+            }}
+          >
             <ViewEyeIcon />
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('Edit')}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              setOpenDrawer('Edit'), setContactRecord(info?.row?.original);
+            }}
+          >
             <EditPenIcon />
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setIsOpenAlert(true)}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              setIsOpenAlert(true), setContactRecord(info?.row?.original);
+            }}
+          >
             <DeleteCrossIcon />
           </Box>
         </Box>

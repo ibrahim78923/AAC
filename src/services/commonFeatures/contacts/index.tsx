@@ -43,6 +43,13 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['ContactsStatus'],
     }),
+    deleteContact: builder.mutation({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.CONTACTS}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['CONTACTS'],
+    }),
   }),
 });
 
@@ -52,4 +59,5 @@ export const {
   useGetLifeCycleQuery,
   usePostContactsMutation,
   useUpdateContactsMutation,
+  useDeleteContactMutation,
 } = exampleExampleAPI;

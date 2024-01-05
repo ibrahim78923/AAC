@@ -1,177 +1,214 @@
 import {
-  RHFCheckbox,
   RHFDatePicker,
   RHFDropZone,
   RHFSelect,
   RHFTextField,
-  RHFTimePicker,
 } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
 export const contactsValidationSchema = Yup?.object()?.shape({
-  email: Yup?.string()?.trim()?.required('Field is Required'),
-  profilephoto: Yup?.string(),
-  name: Yup?.string()?.trim()?.required('Field is Required'),
-  contactowner: Yup?.string()?.trim()?.required('Field is Required'),
-  phoneNumber: Yup?.string()?.trim()?.required('Field is Required'),
-  jobtitle: Yup?.string()?.trim()?.required('Field is Required'),
-  lifeCycleStage: Yup?.string(),
-  status: Yup?.string(),
-  dateOfOpening: Yup?.string(),
-  joiningTime: Yup?.string(),
-  addAnotherContact: Yup?.string(),
+  email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
+  profilePicture: Yup?.string(),
+  firstName: Yup?.string()
+    ?.trim()
+    ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
+    ?.required('Required Field'),
+  lastName: Yup?.string()
+    ?.trim()
+    ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
+    ?.required('Required Field'),
+  address: Yup?.string()?.trim()?.required('Required Field'),
+  phoneNumber: Yup?.string()
+    ?.matches(/^[0-9]*$/, 'must be a number')
+    ?.min(10, 'Mininum 10 characters')
+    ?.required('Required field'),
+  whatsAppNumber: Yup?.string()
+    ?.matches(/^[0-9]*$/, 'must be a number')
+    ?.min(10, 'Mininum 10 characters')
+    ?.required('Required field'),
+  lifeCycleStageId: Yup?.string()?.trim()?.required('Required Field'),
+  contactOwner: Yup?.string(),
+  statusId: Yup?.string()?.trim()?.required('Required Field'),
+  jobTitle: Yup?.string()?.trim()?.required('Required Field'),
+  dateOfJoining: Yup?.string()?.nullable()?.required('Required Field'),
+  dateOfBirth: Yup?.string()?.nullable()?.required('Required Field'),
 });
 
 export const contactsDefaultValues = {
   email: '',
-  profilephoto: '',
-  name: '',
-  contactowner: '',
-  phoneNumber: '',
-  jobtitle: '',
-  lifeCycleStage: '',
-  status: '',
-  dateOfOpening: '',
-  joiningTime: '',
-  addAnotherContact: '',
+  profilePicture: '',
+  firstName: '',
+  lastName: '',
+  address: '',
+  jobTitle: '',
+  phoneNumber: null,
+  whatsAppNumber: null,
+  lifeCycleStageId: '',
+  contactOwner: '',
+  statusId: '',
+  dateOfJoining: null,
+  dateOfBirth: null,
 };
 
-export const contactsDataArray = (openDrawer: any) => {
+export const contactsDataArray = (
+  openDrawer: any,
+  lifeCycleStagesData: any,
+  contactStatusData: any,
+) => {
   return [
     {
+      title: 'Email',
       componentProps: {
         name: 'email',
-        label: 'Email',
-        fullWidth: true,
-        required: true,
+        label: 'Enter Email',
         placeholder: 'Enter Email',
+        required: true,
         disabled: openDrawer === 'View',
       },
-      component: RHFTextField,
       md: 12,
+      component: RHFTextField,
     },
     {
+      title: 'Profile Pictures',
       componentProps: {
-        name: 'profilephoto',
-        label: 'Profile Photo',
-        fullWidth: true,
+        name: 'profilePicture',
+        label: 'Profile Picture',
+
+        select: false,
         disabled: openDrawer === 'View',
       },
+      md: 12,
       component: RHFDropZone,
-      md: 12,
     },
     {
+      title: 'First Name',
       componentProps: {
-        name: 'name',
-        label: 'Name',
-        fullWidth: true,
+        name: 'firstName',
+        label: 'Enter First Name',
+        placeholder: 'Enter First Name',
         required: true,
-        placeholder: 'Enter Name',
         disabled: openDrawer === 'View',
       },
+      md: 12,
       component: RHFTextField,
+    },
+    {
+      title: 'Last Name',
+      componentProps: {
+        name: 'lastName',
+        label: ' Enter Last Name',
+        placeholder: 'Enter Last Name',
+        required: true,
+        type: 'text',
+        disabled: openDrawer === 'View',
+      },
       md: 12,
+      component: RHFTextField,
+    },
+    {
+      title: 'Address',
+      componentProps: {
+        name: 'address',
+        label: 'Enter Address',
+        placeholder: 'Enter Address',
+        disabled: openDrawer === 'View',
+      },
+      md: 12,
+      component: RHFTextField,
     },
     {
       componentProps: {
-        name: 'contactowner',
-        label: 'Contact Owner',
-        select: true,
-        required: true,
+        name: 'dateOfBirth',
+        label: 'Date Of Birth',
+        fullWidth: true,
         disabled: openDrawer === 'View',
       },
-      options: [
-        { value: 'Guy   Hawkins', label: 'Guy  Hawkins' },
-        { value: 'Jacob Jones', label: 'Jacob Jones' },
-        { value: 'Courtney Henry', label: 'Courtney Henry' },
-      ],
-      component: RHFSelect,
       md: 12,
+      component: RHFDatePicker,
     },
     {
+      title: 'Phone Number',
       componentProps: {
         name: 'phoneNumber',
         label: 'Phone Number',
-        fullWidth: true,
-        required: true,
-        placeholder: 'Enter Phone Number',
+        type: 'number',
         disabled: openDrawer === 'View',
+        placeholder: 'Enter Number',
+        required: true,
       },
-      component: RHFTextField,
       md: 12,
+      component: RHFTextField,
+    },
+    {
+      title: 'WhatsApp Number',
+      componentProps: {
+        name: 'whatsAppNumber',
+        label: 'WhatsApp Number',
+        type: 'number',
+        disabled: openDrawer === 'View',
+        placeholder: 'Enter Number',
+        required: true,
+      },
+      md: 12,
+      component: RHFTextField,
+    },
+    {
+      title: 'Contact Owner',
+      componentProps: {
+        name: 'contactOwner',
+        label: 'Contact Owner',
+        disabled: openDrawer === 'View',
+        select: true,
+        options: [],
+      },
+      md: 12,
+      component: RHFSelect,
     },
     {
       componentProps: {
-        name: 'jobtitle',
+        name: 'jobTitle',
         label: 'Job Title',
-        fullWidth: true,
-        required: true,
+        disabled: openDrawer === 'View',
         placeholder: 'Enter Job Title',
-        disabled: openDrawer === 'View',
+        required: true,
       },
+      md: 12,
       component: RHFTextField,
-      md: 12,
     },
     {
+      title: 'Lifecycle Stage',
       componentProps: {
-        name: 'lifeCycleStage',
-        label: 'Life Cycle Stage',
-        select: true,
+        name: 'lifeCycleStageId',
+        label: 'Lifecycle Stage',
         disabled: openDrawer === 'View',
+        select: true,
       },
-      options: [
-        { value: 'Lead', label: 'Lead' },
-        { value: 'Sale Qualified Lead', label: 'Sale Qualified Lead' },
-        { value: 'Customer', label: 'Customer' },
-      ],
-      component: RHFSelect,
+      options: lifeCycleStagesData,
       md: 12,
+      component: RHFSelect,
     },
     {
       componentProps: {
-        name: 'status',
+        name: 'statusId',
         label: 'Status',
+        disabled: openDrawer === 'View',
         select: true,
-        disabled: openDrawer === 'View',
       },
-      options: [
-        { value: 'New', label: 'New' },
-        { value: 'Open', label: 'Open' },
-        { value: 'Inprogress', label: 'Inprogress' },
-      ],
+      options: contactStatusData,
+      md: 12,
       component: RHFSelect,
-      md: 12,
     },
     {
+      title: 'Date of Joining',
       componentProps: {
-        name: 'dateOfOpening',
-        label: 'Date of Opening',
-        fullWidth: true,
+        name: 'dateOfJoining',
         disabled: openDrawer === 'View',
+        label: 'Date of Joining',
+        fullWidth: true,
       },
+      md: 12,
       component: RHFDatePicker,
-      md: 8,
-    },
-    {
-      componentProps: {
-        name: 'joiningTime',
-        label: 'Joining Time ',
-        fullWidth: true,
-        disabled: openDrawer === 'View',
-      },
-      component: RHFTimePicker,
-      md: 4,
-    },
-    {
-      componentProps: {
-        name: 'addAnotherContact',
-        label: 'Add Another Contact',
-        fullWidth: true,
-        disabled: openDrawer === 'View',
-      },
-      component: RHFCheckbox,
-      md: 12,
     },
   ];
 };

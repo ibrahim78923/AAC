@@ -24,6 +24,12 @@ const Contacts = () => {
     setOpenDrawer,
     handleCloseAlert,
     data,
+    isLoading,
+    setPageLimit,
+    setPage,
+    contactRecord,
+    setContactRecord,
+    deleteContactHandler,
   } = useContacts();
 
   return (
@@ -69,21 +75,30 @@ const Contacts = () => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
+            columns={columns({
+              setOpenDrawer,
+              setIsOpenAlert,
+              setContactRecord,
+            })}
             data={data?.data?.contacts}
+            isLoading={isLoading}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            isPagination
           />
         </Grid>
       </Grid>
       <ContactsEditorDrawer
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
+        contactRecord={contactRecord}
       />
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}
-        handleSubmit={() => {}}
+        handleSubmitBtn={deleteContactHandler}
       />
     </Box>
   );
