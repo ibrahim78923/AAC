@@ -146,23 +146,24 @@ export const SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS = {
 };
 
 export const AIR_SALES_DEALS_PERMISSIONS = {
-  Update_Info: 'sale-update-info',
-  View_Activity_Log: 'sale-deal-activity-log',
-  Add_Associate_Contacts: 'sale-deal-add-associate-contact',
-  Edit_Contacts: 'sale-deal-edit-contact',
-  View_Contacts: 'sale-deal-view-contact',
-  Remove_Contacts: 'sale-deal-remove-conatct',
-  Add_Associate_Tickets: 'sale-deal-add-associate-ticket',
-  Edit_Tickets: 'sale-deal-edit-ticket',
-  View_Tickets: 'sale-deal-view-ticket',
-  Remove_Tickets: 'sale-deal-remove-ticket',
-  Add_Associate_Companies: 'sale-deal-add-associate-company',
-  Edit_Companies: 'sale-deal-edit-comapny',
-  View_Companies: 'sale-deal-view-company',
-  Remove_Companies: 'sale-deal-remove-company',
-  Add_Associate_Products: 'view-deal-add-associate-product',
-  Edit_Products: 'sale-deal-edit-product',
+  UPDATE_INFO: 'sale-update-info',
+  VIEW_ACTIVITY_LOG: 'sale-deal-activity-log',
+  ADD_ASSOCIATE_CONTACTS: 'sale-deal-add-associate-contact',
+  EDIT_CONTACTS: 'sale-deal-edit-contact',
+  VIEW_CONTACTS: 'sale-deal-view-contact',
+  REMOVE_CONTACTS: 'sale-deal-remove-conatct',
+  ADD_ASSOCIATE_TICKETS: 'sale-deal-add-associate-ticket',
+  EDIT_TICKETS: 'sale-deal-edit-ticket',
+  VIEW_TICKETS: 'sale-deal-view-ticket',
+  REMOVE_TICKETS: 'sale-deal-remove-ticket',
+  ADD_ASSOCIATE_COMPANIES: 'sale-deal-add-associate-company',
+  EDIT_COMPANIES: 'sale-deal-edit-comapny',
+  VIEW_COMPANIES: 'sale-deal-view-company',
+  REMOVE_COMPANIES: 'sale-deal-remove-company',
+  ADD_ASSOCIATE_PRODUCTS: 'view-deal-add-associate-product',
+  EDIT_PRODUCTS: 'sale-deal-edit-product',
 };
+
 //for display purpose in steppers
 export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = [
   {

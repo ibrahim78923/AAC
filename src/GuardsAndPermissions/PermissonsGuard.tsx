@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
 
-import useAuth from '../hooks/useAuth';
+import PermissionDenied from '@/components/PermisisonDenied';
+import { getActivePermissionsSession } from '@/utils';
 
 const useCurrentPermissions = () => {
-  const { permissions: currentPermissions }: any = useAuth();
-
-  return currentPermissions;
+  const permissions = getActivePermissionsSession();
+  return permissions;
 };
 
 function checkPermissions(permissions: any, modulePermissions: any) {
@@ -30,12 +30,7 @@ export default function PermissionsGuard({
   permissions: any;
 }) {
   const currentPermissions = useCurrentPermissions();
-
   const permissionsCheck = checkPermissions(currentPermissions, permissions);
 
-  if (permissionsCheck) {
-    return <>{children}</>;
-  }
-
-  return <>Permission Denied</>;
+  return permissionsCheck ? <>{children}</> : <PermissionDenied />;
 }

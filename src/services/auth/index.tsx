@@ -59,6 +59,29 @@ export const authAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['companies'],
     }),
+    getAuthAccounts: builder.query({
+      query: () => ({
+        url: `${END_POINTS?.AUTH_ACCOUNTS}`,
+        method: 'GET',
+      }),
+      providesTags: ['companies'],
+    }),
+
+    postAuthAccountSelect: builder.mutation({
+      query: (payload: any) => ({
+        url: END_POINTS?.AUTH_ACCOUNTS_SELECT,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
+
+    getAuthMyAccount: builder.query({
+      query: () => ({
+        url: `${END_POINTS?.AUTH_MY_ACCOUNT}`,
+        method: 'GET',
+      }),
+      providesTags: ['companies'],
+    }),
   }),
 });
 
@@ -70,5 +93,8 @@ export const {
   useLogoutMutation,
   useGetPermissionsQuery,
   useGetAuthCompaniesQuery,
+  useGetAuthAccountsQuery,
+  usePostAuthAccountSelectMutation,
+  useGetAuthMyAccountQuery,
   useAuthCompanyVerificationMutation,
 } = authAPI;

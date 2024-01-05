@@ -6,5 +6,5 @@ const SalesDashboardPage = () => {
 };
 export default SalesDashboardPage;
 SalesDashboardPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return <Layout permissions={[]}>{page}</Layout>;
 };

@@ -47,53 +47,49 @@ import { styles } from './Layout.style';
 
 const drawerWidth = 230;
 
-const array = [
-  {
-    email: 'mubashir.yusuf@ceative.co.uk',
-    role: 'SUPER_ADMIN',
-  },
-  {
-    email: 'azeem.aslam@ceative.co.uk',
-    role: 'AIR_SALES',
-  },
-  {
-    email: 'airmarketerapplecart@yopmail.com',
-    role: 'AIR_MARKETER',
-  },
-  {
-    email: 'orgadminairapplecard@yopmail.com',
-    role: 'ORG_ADMIN',
-  },
-  {
-    email: 'wan@yopmail.com',
-    role: 'AIR_SERVICES',
-  },
-  {
-    email: 'operations@example.com',
-    role: 'AIR_OPERATIONS',
-  },
-  {
-    email: 'loyalty@example.com',
-    role: 'LOYALTY_PROGRAM',
-  },
-  {
-    email: 'customer@example.com',
-    role: 'CUSTOMER_PORTAL',
-  },
-];
+// const array = [
+//   {
+//     email: 'mubashir.yusuf@ceative.co.uk',
+//     role: 'SUPER_ADMIN',
+//   },
+//   {
+//     email: 'azeem.aslam@ceative.co.uk',
+//     role: 'AIR_SALES',
+//   },
+//   {
+//     email: 'airmarketerapplecart@yopmail.com',
+//     role: 'AIR_MARKETER',
+//   },
+//   {
+//     email: 'orgadminairapplecard@yopmail.com',
+//     role: 'ORG_ADMIN',
+//   },
+//   {
+//     email: 'wan@yopmail.com',
+//     role: 'AIR_SERVICES',
+//   },
+//   {
+//     email: 'operations@example.com',
+//     role: 'AIR_OPERATIONS',
+//   },
+//   {
+//     email: 'loyalty@example.com',
+//     role: 'LOYALTY_PROGRAM',
+//   },
+//   {
+//     email: 'customer@example.com',
+//     role: 'CUSTOMER_PORTAL',
+//   },
+// ];
 
 const DashboardLayout = ({ children, window }: any) => {
   const theme = useTheme();
 
+  const { product }: any = useAuth();
+
   const router = useRouter();
 
-  const { user }: { user: any } = getSession();
-  const findRoleByEmail = ({ user, array }: any) => {
-    return array?.find((skill: any) => skill?.email === user?.email);
-  };
-
-  const findEmail: any = findRoleByEmail({ user, array });
-  const findEmailRole = findEmail ? findEmail?.role : 'ORG_ADMIN';
+  const findEmailRole = product?.name ?? 'Super Admin';
 
   const routes = getRoutes(findEmailRole);
 
@@ -127,12 +123,13 @@ const DashboardLayout = ({ children, window }: any) => {
             <Typography variant="h5">Air Applecart</Typography>
             <Typography
               sx={{
-                fontSize: '10px',
+                fontSize: '11px',
                 fontWeight: 800,
                 color: theme?.palette?.primary?.main,
+                textTransform: 'uppercase',
               }}
             >
-              {findEmailRole?.replaceAll('_', ' ')}
+              {findEmailRole}
             </Typography>
           </Box>
         </Box>

@@ -59,5 +59,41 @@ const setSession = (userData: any) => {
     // delete axios.defaults.headers.common.Authorization;
   }
 };
+const setActiveProductSession = (product: any) => {
+  if (product) {
+    localStorage.setItem('ActiveProduct', JSON.stringify(product));
+  } else {
+    localStorage.removeItem('ActiveProduct');
+  }
+};
 
-export { getSession, setSession, isTokenValidationCheck };
+const getActiveProductSession = () => {
+  const sessionJSON = window?.localStorage?.getItem('ActiveProduct');
+
+  if (sessionJSON) return JSON.parse(sessionJSON);
+  return {};
+};
+
+const setActivePermissionsSession = ({ permissions }: any) => {
+  if (permissions) {
+    localStorage.setItem('ActivePermissions', JSON.stringify(permissions));
+  } else {
+    localStorage.removeItem('ActivePermissions');
+  }
+};
+const getActivePermissionsSession = () => {
+  const sessionJSON = window?.localStorage?.getItem('ActivePermissions');
+
+  if (sessionJSON) return JSON.parse(sessionJSON);
+  return {};
+};
+
+export {
+  getSession,
+  setSession,
+  isTokenValidationCheck,
+  setActiveProductSession,
+  getActiveProductSession,
+  setActivePermissionsSession,
+  getActivePermissionsSession,
+};

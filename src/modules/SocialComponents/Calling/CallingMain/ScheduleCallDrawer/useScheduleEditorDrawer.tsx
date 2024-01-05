@@ -61,7 +61,7 @@ const useScheduleEditorDrawer = ({
           callFromTime,
           callToDate,
           callToTime,
-          dealId,
+          recordId,
           callType,
           setReminder,
           attendees,
@@ -77,7 +77,7 @@ const useScheduleEditorDrawer = ({
           callFromTime: new Date(`${currentDate} ${callFromTime}`),
           callToDate: new Date(callToDate),
           callToTime: new Date(`${currentDate} ${callToTime}`),
-          dealId,
+          recordId,
           callType,
           setReminder,
           attendees,
@@ -110,6 +110,7 @@ const useScheduleEditorDrawer = ({
       callFromTime: dayjs(callFromTime)?.format(TIME_FORMAT?.API),
       callFromDate: dayjs(callFromDate)?.format(DATE_FORMAT?.API),
       status: openDrawer === 'Reschedule' ? 'Re-Scheduled' : status,
+      recordType: 'deals',
       ...rest,
     };
 

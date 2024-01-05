@@ -98,6 +98,9 @@ export const END_POINTS = {
   SERVICES_CATEGORIES: `/service-catalog/get-category-list`,
   DEPARTMENT_LIST: `/Department/department-list`,
   TICKETS_DETACH_ASSOCIATES_ASSETS: '/ticket/detach-assets',
+  AUTH_ACCOUNTS: '/auth/accounts',
+  AUTH_ACCOUNTS_SELECT: '/auth/accounts/select',
+  AUTH_MY_ACCOUNT: '/auth/me',
 };
 
 export const superAdminBillingInvoices = {

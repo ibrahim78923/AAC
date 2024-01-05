@@ -484,7 +484,7 @@ export const SalesRoutes: any = [
     icon: UserManagementImage,
     label: 'Deals',
     role: 'AIR_SALES',
-    permissions: [],
+    permissions: Permissions?.AIR_SALES_DEALS,
   },
 
   {
@@ -776,14 +776,14 @@ export const QuickLinkData = [
 ];
 
 const ROLES_ROUTES: any = {
-  SUPER_ADMIN: SuperAdminRoutes,
-  AIR_SALES: SalesRoutes,
-  AIR_SERVICES: ServicesRoutes,
-  ORG_ADMIN: OrgAdminRoutes,
-  CUSTOMER_PORTAL: CustomerPortalRoutes,
-  AIR_OPERATIONS: AirOperationsRoutes,
-  AIR_MARKETER: AirMarketingRoutes,
-  LOYALTY_PROGRAM: LoyaltyProgramsRoutes,
+  'Super Admin': SuperAdminRoutes,
+  'Air Sales': SalesRoutes,
+  'Air Services': ServicesRoutes,
+  'Org Admin': OrgAdminRoutes,
+  'Customer Portal': CustomerPortalRoutes,
+  'Air Operations': AirOperationsRoutes,
+  'Air Marketer': AirMarketingRoutes,
+  'Loyalty Program': LoyaltyProgramsRoutes,
 };
 
 export const getRoutes = (role: any) => {
@@ -791,13 +791,13 @@ export const getRoutes = (role: any) => {
 };
 
 const LOWER_ROLES_ROUTES: any = {
-  SUPER_ADMIN: LowerSuperAdminRoutes,
-  AIR_SALES: LowerSalesRoutes,
-  AIR_SERVICES: LowerServicesRoutes,
-  ORG_ADMIN: LowerOrgAdminRoutes,
-  AIR_OPERATIONS: LowerAirOperationRoutes,
-  AIR_MARKETER: LowerAirMarketingRoutes,
-  LOYALTY_PROGRAM: LowerLoyaltyProgramRoutes,
+  'Super Admin': LowerSuperAdminRoutes,
+  'Air Sales': LowerSalesRoutes,
+  'Air Services': LowerServicesRoutes,
+  'Org Admin': LowerOrgAdminRoutes,
+  'Air Operations': LowerAirOperationRoutes,
+  'Air Marketer': LowerAirMarketingRoutes,
+  'Loyalty Program': LowerLoyaltyProgramRoutes,
 };
 
 export const getLowerRoutes = (role: any) => {

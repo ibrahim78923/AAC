@@ -22,12 +22,74 @@ import { CompanyLogoIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
+import { getRoutes } from '@/layout/Layout.data';
+import { useRouter } from 'next/router';
+import {
+  useGetAuthAccountsQuery,
+  usePostAuthAccountSelectMutation,
+} from '@/services/auth';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { enqueueSnackbar } from 'notistack';
+import { useEffect, useState } from 'react';
+import { getActivePermissionsSession } from '@/utils';
+import { IMG_URL } from '@/config';
 
 const ProductSuite = () => {
   const theme = useTheme();
-  const { user } = useAuth();
+  const { setActiveProduct, setPermissions, isPermissions } = useAuth();
+  const router = useRouter();
 
-  const { products }: any = user;
+  const { data: accountsData } = useGetAuthAccountsQuery({});
+  const [PostAuthAccountSelect] = usePostAuthAccountSelectMutation();
+
+  const [selectProduct, setSelectProduct] = useState('');
+
+  const findModulePermissionKey = async (product: any, id: string) => {
+    const payload = { account: id };
+    try {
+      const response = await PostAuthAccountSelect(payload).unwrap();
+      if (response?.data) {
+        setPermissions();
+        setSelectProduct(product);
+      }
+    } catch (error) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+    return false;
+  };
+  const permissions = getActivePermissionsSession();
+
+  useEffect(() => {
+    if (isPermissions && permissions?.length > 0) {
+      const permissionsHandler = () => {
+        const routes = getRoutes(selectProduct);
+        if (routes) {
+          for (const modulePermission of routes) {
+            const componentPermissionsDictionary: any = {};
+            modulePermission.permissions.forEach((value: any) => {
+              componentPermissionsDictionary[value] = true;
+            });
+
+            for (const permission of permissions) {
+              if (componentPermissionsDictionary[permission]) {
+                return router.push(modulePermission.key);
+                // Return the module permission path
+              }
+            }
+          }
+        } else {
+          enqueueSnackbar('NO Permisssion and Product Available', {
+            variant: NOTISTACK_VARIANTS?.ERROR,
+          });
+        }
+      };
+      permissionsHandler();
+    }
+  }, [isPermissions, permissions]);
 
   return (
     <Box
@@ -86,6 +148,83 @@ const ProductSuite = () => {
           },
         }}
       >
+        {accountsData?.data?.map((product: any) => (
+          <Grid item xs={12} sm={6} md={6} lg={3} key={uuidv4()}>
+            <Card
+              className="card-hover-color cursor-pointer"
+              sx={{
+                boxShadow: 'none',
+                borderRadius: '6px',
+                '&:hover': {
+                  transition: '0.3s',
+                  outline: `1.5px solid ${theme?.palette?.primary?.main}`,
+                  boxShadow: '0px 1px 1px -1px',
+                },
+                height: '270px',
+              }}
+            >
+              <CardActionArea
+                disableRipple
+                sx={{
+                  display: 'flex',
+                  color: '#212121',
+                  pt: 4,
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                  '&:hover': {
+                    '.MuiCardActionArea-focusHighlight': {
+                      opacity: '0',
+                    },
+                  },
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  {product?.logo && (
+                    <Image
+                      src={`${IMG_URL}${product?.logo?.url}`}
+                      width={25}
+                      height={25}
+                      alt="product"
+                    />
+                  )}
+                  {/* {`/${product.logo.url}`} */}
+                  <Typography variant="h5" sx={{ marginLeft: '20px' }}>
+                    {product?.name}
+                  </Typography>
+                </Box>
+
+                <CardContent
+                  sx={{
+                    display: 'block',
+                    padding: '0px',
+                    color: theme?.palette?.custom?.main,
+                  }}
+                >
+                  {product?.accounts?.map((account: any) => (
+                    <Box
+                      sx={{
+                        marginTop: '15px',
+                      }}
+                      key={uuidv4()}
+                    >
+                      <Typography
+                        variant="body2"
+                        color="inherit"
+                        onClick={() => {
+                          findModulePermissionKey(product?.name, account?._id);
+                          setActiveProduct(product);
+                        }}
+                      >
+                        {account?.company?.accountName}
+                      </Typography>
+                    </Box>
+                  ))}
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
+        {/* 
         {products?.map((product: any) => (
           <Grid item xs={12} sm={6} md={6} lg={3} key={uuidv4()}>
             <Card
@@ -125,7 +264,7 @@ const ProductSuite = () => {
                       alt="product"
                     />
                   )}
-                  {/* {`/${product.logo.url}`} */}
+                 
                   <Typography variant="h5" sx={{ marginLeft: '20px' }}>
                     {product?.name}
                   </Typography>
@@ -138,6 +277,20 @@ const ProductSuite = () => {
                     color: theme?.palette?.custom?.main,
                   }}
                 >
+
+
+                  <Box
+                    sx={{
+                      marginTop: '15px'
+                    }}
+                    key={uuidv4()}
+                  >
+                    <Typography variant='body2' color='inherit' onClick={() => { findModulePermissionKey(permissions, modulePermissions); setActiveProduct(product) }} >
+
+                      Orcalo Holding
+                    </Typography>
+                  </Box>
+
                   {product?.companyList?.map((company: any) => (
                     <Box
                       sx={{
@@ -154,7 +307,8 @@ const ProductSuite = () => {
               </CardActionArea>
             </Card>
           </Grid>
-        ))}
+        ))} */}
+
         {ProductSuiteCardData?.map((card: any) => (
           <Grid item xs={12} sm={6} md={6} lg={3} key={uuidv4()}>
             <Card
