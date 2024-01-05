@@ -162,12 +162,19 @@ export const dealsApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['DEALS'],
     }),
+    getCustomizeColumn: builder.query({
+      query: (params) => ({
+        url: `${END_POINTS?.DEALS_CUSTOMIZE_COLUMN}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['DEALS'],
+    }),
   }),
 });
 
 export const {
   useGetDealsListQuery,
-  useLazyGetDealsListQuery,
   // useGetDealsByIdQuery,
   useGetDealsSalesProductQuery,
   useGetDealsLifecycleStageQuery,
@@ -186,4 +193,5 @@ export const {
   useGetUsersListQuery,
   usePatchDealsMutation,
   useGetDealsAssociationsQuery,
+  useGetCustomizeColumnQuery,
 } = dealsApi;

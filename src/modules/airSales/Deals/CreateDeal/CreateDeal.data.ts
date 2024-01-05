@@ -4,12 +4,12 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 
-import useDealSaleSite from '../useDealSaleSite';
 import { useGetUsersListQuery } from '@/services/airSales/deals';
+import useDealTab from '../DealTab/useDealTab';
 
 export const createDealData = () => {
   const userRole = 'ORG_EMPLOYEE';
-  const { pipelineData, DealsLifecycleStageData } = useDealSaleSite();
+  const { pipelineData, DealsLifecycleStageData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: userRole });
 
   return [

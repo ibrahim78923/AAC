@@ -150,6 +150,8 @@ export const END_POINTS = {
   VENDOR_DROPDOWN: '/vendors/get-vendors',
   CONTRACT_TYPE_DROPDOWN: '/contract-type',
   DROPDOWN_AGENTS_LIST: '/dropdown/agents',
+  DEALS_CUSTOMIZE_COLUMN: '/customized-columns',
+  COMPANIES_OWNER: '/companies/get-unique-companies-owners',
 };
 
 export const superAdminBillingInvoices = {

@@ -38,12 +38,12 @@ const FormAddCompany = ({ open, onClose }: any) => {
         </Alert>
         <FormProvider methods={methods}>
           <Grid container spacing={1}>
-            {dataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            {dataArray()?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item.name}>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={uuidv4()}>
+                      <option key={uuidv4()} value={option?.value}>
                         {option?.label}
                       </option>
                     ))}

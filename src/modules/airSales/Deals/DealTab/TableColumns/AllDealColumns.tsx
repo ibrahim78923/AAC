@@ -1,53 +1,34 @@
-import { DATE_FORMAT } from '@/constants';
 import { Avatar, Box, Checkbox, Typography, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import React from 'react';
 
-export const DealsTabs = ['All Deals'];
-
-export const dealsColumns: any = (columnsProps: any) => {
+export const AllDealColumns = ({
+  selectedRows,
+  handleSelectSingleCheckBox,
+  handleSelectAllCheckbox,
+  isAllSelected,
+}: {
+  selectedRows: string[];
+  handleSelectSingleCheckBox: (checked: boolean, id: string) => void;
+  handleSelectAllCheckbox: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  isAllSelected: boolean;
+}) => {
   const theme = useTheme();
-  const { checkedRows, setCheckedRows, dealsData } = columnsProps;
-
-  // const keyValueObject: any = {};
-
-  // dealColumns?.forEach((key: any, index: any) => {
-  //   keyValueObject[key] = dealColumns[index]; // You can set a default value if needed
-  // });
-
-  const handleSelectDealById = (checked: boolean, id: string): void => {
-    if (checked) {
-      setCheckedRows([...checkedRows, id]);
-    } else {
-      setCheckedRows(checkedRows?.filter((_id: any) => _id !== id));
-    }
-  };
-  const handleSelectAllDeals = (checked: boolean): void => {
-    setCheckedRows(
-      checked ? dealsData?.data?.deals?.map(({ _id }: any) => _id) : [],
-    );
-  };
   return [
     {
       accessorFn: (row: any) => row?._id,
       id: 'Id',
       cell: ({ row: { original } }: any) => (
         <Checkbox
-          checked={checkedRows?.includes(original?._id)}
+          checked={selectedRows?.includes(original?._id)}
           onChange={({ target }) => {
-            handleSelectDealById(target?.checked, original?._id);
+            handleSelectSingleCheckBox(target?.checked, original?._id);
           }}
         />
       ),
       header: (
-        <Checkbox
-          onChange={({ target }) => {
-            handleSelectAllDeals(target?.checked);
-          }}
-          checked={
-            dealsData?.data?.deals?.length &&
-            checkedRows?.length === dealsData?.data?.deals?.length
-          }
-        />
+        <Checkbox onChange={handleSelectAllCheckbox} checked={isAllSelected} />
       ),
       isSortable: false,
     },

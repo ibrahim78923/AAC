@@ -11,40 +11,20 @@ import { FilterData, defaultValues } from './DealFilterDrawer.data';
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 
-const DealFilterDrawer = ({
-  open,
-  onClose,
-  setIsFilter,
-  setFilterValues,
-  filterValues,
-}: any) => {
+const DealFilterDrawer = ({ open, onClose, handleApply }: any) => {
   const methods: any = useForm({
     defaultValues: defaultValues,
   });
-  const startedDate = 0;
-  const endedDate = 1;
-
   const { handleSubmit } = methods;
-
   const onSubmit = (values: any) => {
-    const { date } = values;
-
-    const dateStart = date?.[startedDate]
-      ? dayjs(date[startedDate])?.format(DATE_FORMAT?.API)
-      : null;
-    const dateEnd = date?.[endedDate]
-      ? dayjs(date[endedDate])?.format(DATE_FORMAT?.API)
-      : null;
-    setFilterValues({
-      ...filterValues,
-      dealPiplineId: values?.dealPiplineId,
-      name: values?.name,
-      dealOwnerId: values?.dealOwnerId,
-      dealStageId: values?.dealStageId,
-      dateStart: dateStart,
-      dateEnd: dateEnd,
-    });
-    setIsFilter(false);
+    const obj = {
+      ...values,
+      dateStart: dayjs().format(DATE_FORMAT?.API),
+      dateEnd: dayjs(values?.date[0]).format(DATE_FORMAT?.API),
+    };
+    delete obj?.date;
+    handleApply(obj);
+    onClose();
   };
 
   return (
