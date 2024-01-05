@@ -22,8 +22,6 @@ import { ElipseImage } from '@/assets/images';
 
 import { EditProfileIcon } from '@/assets/icons';
 
-import { v4 as uuidv4 } from 'uuid';
-
 const Details = () => {
   const {
     methodsDetails,
@@ -83,7 +81,7 @@ const Details = () => {
         >
           <Grid container spacing={4}>
             {detailsDataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Grid item xs={12} md={item?.md} key={item?.id}>
                 <Typography>{item?.label}</Typography>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select

@@ -16,7 +16,7 @@ import Associations from './Associations';
 import { singleUserDealTabsData } from './ViewDetails.data';
 
 import { ArrowBackIcon, RestoreIcon } from '@/assets/icons';
-
+import { AIR_SOCIAL } from '@/routesConstants/paths';
 const ContactViewDetails = () => {
   const theme = useTheme();
   return (
@@ -24,7 +24,7 @@ const ContactViewDetails = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-            <Link href="/air-sales/contacts">
+            <Link href={AIR_SOCIAL?.CONTACTS}>
               <ArrowBackIcon />
             </Link>
             <Box

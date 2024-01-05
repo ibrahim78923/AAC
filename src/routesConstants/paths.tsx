@@ -57,6 +57,9 @@ export const SOCIAL_FEATURES = {
 
 export const AIR_SOCIAL = {
   CONTACTS: `${AIR_SOCIAL_PAGE}/contacts`,
+  CONTACTS_VIEW_DETAILS: `${AIR_SOCIAL_PAGE}/contacts/view-details`,
+  CONTACTS_RESTORE: `${AIR_SOCIAL_PAGE}/contacts/restore`,
+  CONTACTS_IMPORT: `${AIR_SOCIAL_PAGE}/contacts/import`,
 };
 
 export const AIR_SALES = {

@@ -1,6 +1,6 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
-
+const TAG = ['CONTACTS'];
 export const contactsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getContacts: builder.query({
@@ -9,7 +9,14 @@ export const contactsAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['CONTACTS'],
+      providesTags: TAG,
+    }),
+    getContactById: builder.query({
+      query: (id: any) => ({
+        url: `${END_POINTS?.CONTACTS}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
     }),
     postContacts: builder.mutation({
       query: ({ body }: any) => ({
@@ -17,7 +24,7 @@ export const contactsAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: ['CONTACTS'],
+      invalidatesTags: TAG,
     }),
     updateContacts: builder.mutation({
       query: ({ body, contactId }: any) => ({
@@ -25,7 +32,7 @@ export const contactsAPI = baseAPI.injectEndpoints({
         method: 'PATCH',
         body: body,
       }),
-      invalidatesTags: ['CONTACTS'],
+      invalidatesTags: TAG,
     }),
 
     getLifeCycle: builder.query({
@@ -49,6 +56,7 @@ export const contactsAPI = baseAPI.injectEndpoints({
 export const {
   useGetContactsStatusQuery,
   useGetContactsQuery,
+  useGetContactByIdQuery,
   useGetLifeCycleQuery,
   usePostContactsMutation,
   useUpdateContactsMutation,
