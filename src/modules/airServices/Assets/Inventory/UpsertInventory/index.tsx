@@ -1,14 +1,22 @@
 import { useUpsertInventory } from './useUpsertInventory';
 import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
-import { v4 as uuidv4 } from 'uuid';
+
 import { useEffect } from 'react';
-import { addInventoryFields } from './UpsertInventory.data';
+
 import { LoadingButton } from '@mui/lab';
 
 export const UpsertInventory = () => {
-  const { methods, submit, theme, formType, setFormType, query } =
-    useUpsertInventory();
+  const {
+    methods,
+    handleSubmit,
+    theme,
+    formType,
+    setFormType,
+    query,
+    upsertInventoryFormFields,
+    submitUpsertInventory,
+  } = useUpsertInventory();
 
   useEffect(() => {
     setFormType(query?.type);
@@ -16,7 +24,10 @@ export const UpsertInventory = () => {
 
   return (
     <>
-      <FormProvider methods={methods} onSubmit={methods?.handleSubmit(submit)}>
+      <FormProvider
+        methods={methods}
+        onSubmit={handleSubmit(submitUpsertInventory)}
+      >
         <Grid container rowSpacing={1.8} columnSpacing={2}>
           <Grid item lg={9}>
             <Box
@@ -30,20 +41,20 @@ export const UpsertInventory = () => {
               <br />
               <Grid item container xs={12} overflow="scroll">
                 <Grid container rowSpacing={1.8} columnSpacing={3}>
-                  {addInventoryFields?.map((form: any) => (
-                    <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
+                  {upsertInventoryFormFields?.map((form: any) => (
+                    <Grid item xs={12} md={form?.md} key={form.id}>
                       <form.component {...form?.componentProps} size="small">
                         {form?.componentProps?.select
                           ? form?.componentProps?.options?.map(
                               (option: any) => (
-                                <option key={uuidv4()} value={option?.value}>
+                                <option key={form.id} value={option?.value}>
                                   {option?.label}
                                 </option>
                               ),
                             )
                           : form?.heading
-                          ? form?.heading
-                          : null}
+                            ? form?.heading
+                            : null}
                       </form.component>
                     </Grid>
                   ))}

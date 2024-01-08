@@ -1,47 +1,53 @@
-import * as yup from 'yup';
+import * as Yup from 'yup';
 import {
   RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFEditor,
-  RHFSelect,
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
-import { assetTypeOptions } from '../Inventory.data';
-
-export const dropdownDummy = [
-  {
-    value: 'option1',
-    label: 'Option 1',
-  },
-  {
-    value: 'option2',
-    label: 'Option 2',
-  },
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+import { ASSET_IMPACT } from '@/constants/strings';
+export const assetsImpactOptions = [
+  ASSET_IMPACT?.LOW,
+  ASSET_IMPACT?.MEDIUM,
+  ASSET_IMPACT?.HIGH,
 ];
-
-export const validationSchema: any = yup?.object()?.shape({
-  displayName: yup?.string()?.required('Required'),
-  assetType: yup?.string()?.required('Required'),
+const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
+export const UpsertInventoryValidationSchema: any = Yup?.object()?.shape({
+  displayName: Yup?.string()?.trim()?.required('Required'),
+  assetType: Yup?.mixed()?.nullable()?.required('Required'),
+  description: Yup?.string(),
+  impact: Yup?.mixed()?.nullable(),
+  status: Yup?.mixed()?.nullable()?.required('Required'),
+  assetId: Yup?.mixed()?.nullable(),
 });
-
-export const defaultValues = {
-  displayName: '',
-  assetId: '',
-  assetType: '',
-  impact: '',
-  description: '',
-  assetLifeExpireOn: null,
-  location: '',
-  department: '',
-  assignedOnDate: null,
-  assignedOnTime: null,
-  usedBy: '',
-  attachFile: null,
+export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
+  return {
+    displayName: data?.displayName ?? '',
+    assetId: data?.assetId ?? '',
+    assetType: data?.assetType ?? null,
+    impact: data?.impact ?? '',
+    status: data?.status ?? null,
+    assetLifeExpireOn: data?.assetLifeExpireOn ?? null,
+    description: data?.description ?? '',
+    location: data?.location ?? '',
+    assignedOnDate: new Date(data?.assignedOnDate ?? todayDate),
+    assignedOnTime: data?.assignedOnTime ?? '',
+    usedBy: data?.usedBy ?? '',
+    attachFile: data?.attachFile ?? '',
+  };
 };
 
-export const addInventoryFields = [
+export const upsertInventoryFormFieldsDynamic = (
+  apiQueryAssetType: any,
+  apiQueryDepartmentType: any,
+  apiQueryLocationType: any,
+  apiQueryUsedByType: any,
+) => [
   {
     id: 1,
     component: RHFTextField,
@@ -67,37 +73,35 @@ export const addInventoryFields = [
   },
   {
     id: 3,
-    component: RHFSelect,
-    gridLength: 6,
     componentProps: {
-      fullWidth: true,
       name: 'assetType',
-      label: 'Asset type',
-      select: true,
-      options: assetTypeOptions,
+      label: 'Asset Type',
+      fullWidth: true,
       required: true,
+      apiQuery: apiQueryAssetType,
+      externalParams: { meta: false, limit: 50 },
     },
+    component: RHFAutocompleteAsync,
     md: 6,
   },
   {
     id: 4,
-    component: RHFSelect,
-    gridLength: 6,
     componentProps: {
-      fullWidth: true,
       name: 'impact',
       label: 'Impact',
-      select: true,
-      options: dropdownDummy,
+      fullWidth: true,
+      placeholder: 'Choose Impact',
+      options: assetsImpactOptions,
     },
+    component: RHFAutocomplete,
     md: 6,
   },
   {
     id: 5,
     componentProps: {
       fullWidth: true,
-      name: 'departmentId',
-      label: 'Department',
+      name: 'description',
+      label: 'Description',
     },
     gridLength: 12,
     component: RHFEditor,
@@ -111,34 +115,12 @@ export const addInventoryFields = [
       name: 'assetLifeExpireOn',
       label: 'Asset life expire on',
       select: true,
-      options: dropdownDummy,
     },
     md: 6,
   },
+
   {
     id: 7,
-    componentProps: {
-      variant: 'h4',
-    },
-    heading: 'Services Properties',
-    gridLength: 12,
-    component: Typography,
-  },
-  {
-    id: 7,
-    componentProps: {
-      fullWidth: true,
-      name: 'services',
-      label: 'Services',
-      select: true,
-      options: dropdownDummy,
-    },
-    gridLength: 6,
-    md: 6,
-    component: RHFSelect,
-  },
-  {
-    id: 17,
     componentProps: {
       variant: 'h4',
     },
@@ -147,35 +129,34 @@ export const addInventoryFields = [
     component: Typography,
   },
   {
-    id: 7,
+    id: 8,
     componentProps: {
-      fullWidth: true,
-      name: 'locationId',
+      name: 'location',
       label: 'Location',
-      select: true,
-      options: dropdownDummy,
+      fullWidth: true,
+      required: true,
+      apiQuery: apiQueryLocationType,
+      externalParams: { meta: false, limit: 50 },
     },
-    gridLength: 6,
+    component: RHFAutocompleteAsync,
     md: 6,
-    component: RHFSelect,
   },
   {
-    id: 7,
+    id: 9,
     componentProps: {
-      fullWidth: true,
       name: 'department',
       label: 'Department',
-      select: true,
-      options: dropdownDummy,
+      fullWidth: true,
+      required: true,
+      apiQuery: apiQueryDepartmentType,
+      externalParams: { meta: false, limit: 50 },
     },
-    gridLength: 6,
+    component: RHFAutocompleteAsync,
     md: 6,
-    component: RHFSelect,
   },
   {
-    id: 6,
+    id: 10,
     component: RHFDatePicker,
-    gridLength: 3,
     componentProps: {
       fullWidth: true,
       name: 'assignedOnDate',
@@ -184,9 +165,8 @@ export const addInventoryFields = [
     md: 3,
   },
   {
-    id: 6,
+    id: 11,
     component: RHFTimePicker,
-    gridLength: 3,
     componentProps: {
       fullWidth: true,
       name: 'assignedOnTime',
@@ -194,18 +174,18 @@ export const addInventoryFields = [
     },
     md: 3,
   },
+
   {
-    id: 7,
+    id: 9,
     componentProps: {
+      name: 'Used By',
+      label: 'usedBy',
       fullWidth: true,
-      name: 'usedBy',
-      label: 'Used by',
-      select: true,
-      options: dropdownDummy,
-      placeholder: 'Search for User',
+      required: true,
+      apiQuery: apiQueryUsedByType,
+      externalParams: { meta: false, limit: 50 },
     },
-    gridLength: 6,
+    component: RHFAutocompleteAsync,
     md: 6,
-    component: RHFAutocomplete,
   },
 ];
