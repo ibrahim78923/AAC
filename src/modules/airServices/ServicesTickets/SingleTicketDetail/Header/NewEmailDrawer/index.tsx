@@ -31,31 +31,31 @@ export const NewEmailDrawer = (props: any) => {
                       </option>
                     ))
                   : item?.buttonGroup
-                  ? item?.options?.map((option: any) => (
-                      <ToggleButton
-                        sx={{
-                          border: '1.5px solid grey.700 !important',
-                          borderRadius: '8px !important',
-                          p: '10px 16px !important',
-                          color: 'grey.900',
-                          fontSize: '14px',
-                          fontWeight: '400',
-                          gap: '0.3rem',
-                          '&.Mui-selected': {
-                            bgcolor: 'primary.light',
-                            '&:hover': {
+                    ? item?.options?.map((option: any) => (
+                        <ToggleButton
+                          sx={{
+                            border: '1.5px solid grey.700 !important',
+                            borderRadius: '8px !important',
+                            p: '10px 16px !important',
+                            color: 'grey.900',
+                            fontSize: '14px',
+                            fontWeight: '400',
+                            gap: '0.3rem',
+                            '&.Mui-selected': {
                               bgcolor: 'primary.light',
+                              '&:hover': {
+                                bgcolor: 'primary.light',
+                              },
                             },
-                          },
-                        }}
-                        key={item.id}
-                        value={option?.value}
-                      >
-                        <Image src={option?.img} alt={option?.value} />
-                        {option?.label}
-                      </ToggleButton>
-                    ))
-                  : null}
+                          }}
+                          key={item.id}
+                          value={option?.value}
+                        >
+                          <Image src={option?.img} alt={option?.value} />
+                          {option?.label}
+                        </ToggleButton>
+                      ))
+                    : null}
               </item.component>
             </Grid>
           ))}

@@ -7,7 +7,7 @@ import { newVendorDataArray } from './AddNewVendor.data';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const AddNewVendor = (props: any) => {
-  const { isADrawerOpen, setIsADrawerOpen } = props;
+  const { isADrawerOpen, setIsADrawerOpen, update } = props;
 
   const { methodsNewVendor, handleSubmit, onSubmit, isLoading } =
     useAddNewVendor(props);
@@ -19,7 +19,7 @@ const AddNewVendor = (props: any) => {
         footer={true}
         isDrawerOpen={isADrawerOpen}
         onClose={() => setIsADrawerOpen(false)}
-        title="New Vendor"
+        title={update ? 'Edit Vendor' : 'New Vendor'}
         okText="Save"
         isOk
         submitHandler={handleSubmit(onSubmit)}
