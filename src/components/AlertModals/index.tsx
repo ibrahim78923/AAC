@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -21,6 +20,7 @@ export const AlertModals = ({
   cancelBtnText = 'No',
   submitBtnText = 'Yes',
   typeImage,
+  disableCancelBtn,
   loading,
 }: any) => {
   return (
@@ -57,17 +57,18 @@ export const AlertModals = ({
       <DialogActions
         sx={{ '&.MuiDialogActions-root': { padding: '1.5rem !important' } }}
       >
-        <Button
+        <LoadingButton
           variant="outlined"
           color="secondary"
           onClick={() => handleCancelBtn?.()}
+          disabled={disableCancelBtn}
         >
           {cancelBtnText}
-        </Button>
+        </LoadingButton>
         <LoadingButton
-          loading={loading}
           variant="contained"
           onClick={handleSubmitBtn}
+          loading={loading}
         >
           {submitBtnText}
         </LoadingButton>

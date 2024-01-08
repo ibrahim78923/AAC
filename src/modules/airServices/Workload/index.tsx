@@ -129,10 +129,10 @@ export const Workload = () => {
                             COMPLETED
                               ? 'primary'
                               : eventInfo?.event?.extendedProps?.status
-                                  ?.toLowerCase()
-                                  ?.replace(/\s/g, '') === IN_PROGRESS
-                              ? 'warning'
-                              : 'secondary'
+                                    ?.toLowerCase()
+                                    ?.replace(/\s/g, '') === IN_PROGRESS
+                                ? 'warning'
+                                : 'secondary'
                           }
                         />
                         <Typography

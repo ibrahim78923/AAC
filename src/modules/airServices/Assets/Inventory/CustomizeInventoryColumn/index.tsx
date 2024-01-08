@@ -38,7 +38,11 @@ export const CustomizeInventoryColumn = (props: any) => {
           gap={1}
           flexWrap={'wrap'}
         >
-          <Typography variant="formTopHeading" color="grey.800">
+          <Typography
+            variant="formTopHeading"
+            color="grey.800"
+            fontWeight={400}
+          >
             Select Fields
           </Typography>
           <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
