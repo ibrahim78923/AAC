@@ -5,26 +5,20 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './AddRoleDrawer.data';
 import {
   airSalesRolesAndRightsAPI,
-  // useUpdateRoleRightsMutation
+  usePostPermissionRoleMutation,
+  useUpdateRoleRightsMutation,
 } from '@/services/airSales/roles-and-rights';
 
-const useAddRoleDrawer: any = (isDrawerOpen: any) => {
+const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const theme = useTheme<Theme>();
+  const { useLazyGetPermissionsRolesByIdQuery } = airSalesRolesAndRightsAPI;
 
-  // console.log(isDrawerOpen?.id, 'id is')
-
-  const {
-    useLazyGetPermissionsRolesByIdQuery,
-    // usePostPermissionRoleMutation
-  } = airSalesRolesAndRightsAPI;
-
-  // const [postPermissionRole] = usePostPermissionRoleMutation();
+  const [postPermissionRole] = usePostPermissionRoleMutation();
 
   const [trigger, { data: viewPerdetails }] =
     useLazyGetPermissionsRolesByIdQuery();
 
   const roleDefaultValues: any = {
-    // roleId: '',
     name: '',
     description: '',
     permissions: [],
@@ -38,34 +32,44 @@ const useAddRoleDrawer: any = (isDrawerOpen: any) => {
   const { handleSubmit, reset, setValue } = methods;
 
   useEffect(() => {
-    trigger(isDrawerOpen?.id);
-  }, [isDrawerOpen?.id]);
+    trigger(
+      isDrawerOpen?.type === 'add'
+        ? '65952ebafcfe18588f3e23f7'
+        : isDrawerOpen?.id,
+    );
+  }, [isDrawerOpen]);
 
   useEffect(() => {
     const data = viewPerdetails?.data;
     const fieldsToSet: any = {
-      // productId: data?.productDetails?.id,
-      // organizationCompanyAccountId: data?.companyAccountDetails?.id,
-      name: data?.name,
-      description: data?.description,
-      permissions: data?.permissions?.map((item: any) => item?.slug),
+      name: isDrawerOpen?.type === 'add' ? '' : data?.name,
+      description: isDrawerOpen?.type === 'add' ? '' : data?.description,
+      // permissions: data?.permissions?.map((item: any) => item),
     };
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);
     }
   }, [viewPerdetails]);
 
-  // const [updateRoleRights] = useUpdateRoleRightsMutation();
+  const [updateRoleRights] = useUpdateRoleRightsMutation();
 
-  const onSubmit = async () => {
-    // console.log(values, 'values are');
-    reset();
-    // if (query?.type === 'add') {
-    //   values.organizationId = user?.organization?._id;
-    //   postPermissionRole({ body: values });
-    // } else {
-    //   updateRoleRights({ id: roleId, body: values });
-    // }
+  const onSubmit = async (values: any) => {
+    // const organizationId  = user?.organization 65952bbf6d2c26398e492e42
+    // const organizationCompanyAccountId = user?.account?.company?._id; 6597d07959d5ddb8341e316f
+    // const productId = user?.product?._id; 6584ff9b508107024e1e3b14
+
+    if (isDrawerOpen?.type === 'add') {
+      values.organizationId = '65952bbf6d2c26398e492e42';
+      values.organizationCompanyAccountId = '6597d07959d5ddb8341e316f';
+      values.productId = '6584ff9b508107024e1e3b14';
+      values.status = 'ACTIVE';
+      postPermissionRole({ body: values });
+      onClose();
+      reset();
+    } else {
+      updateRoleRights({ id: isDrawerOpen?.id, body: values });
+      onClose();
+    }
   };
 
   return {
@@ -73,6 +77,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any) => {
     methods,
     onSubmit,
     handleSubmit,
+    viewPerdetails,
   };
 };
 

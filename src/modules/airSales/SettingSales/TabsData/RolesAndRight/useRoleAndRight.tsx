@@ -20,24 +20,23 @@ const useRoleAndRight: any = () => {
   });
   const [isDraweropen, setIsDraweropen] = useState({
     isToggle: false,
-    type: '',
+    type: 'add',
     id: '',
   });
 
   // const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   const { useGetPermissionsRolesQuery } = airSalesRolesAndRightsAPI;
-  // org id  =  65952bbf6d2c26398e492e42
-  // const comapnyAccountid = user?.account?.company?._id;
-  // 65952ce22676367b22c905ae
-  // const currentProductId = user?.product?._id;
-  //6553145fe330587844cbc672
+  // const organizationId  = user?.organization 65952bbf6d2c26398e492e42
+  // const organizationCompanyAccountId = user?.account?.company?._id; 6597d07959d5ddb8341e316f
+  // const productId = user?.product?._id; 6584ff9b508107024e1e3b14
 
   const permissionParams = {
     page: page,
     limit: pageLimit,
-    organizationCompanyAccountId: '65952ce22676367b22c905ae',
-    productId: '6553145fe330587844cbc672',
+    organizationCompanyAccountId: '6597d07959d5ddb8341e316f',
+    organizationId: '65952bbf6d2c26398e492e42',
+    productId: '6584ff9b508107024e1e3b14',
     search: filterValues?.search ?? undefined,
   };
 
@@ -66,26 +65,26 @@ const useRoleAndRight: any = () => {
   return {
     handleCloseDrawer,
     setIsDraweropen,
+    setFilterValues,
     setCheckedRows,
+    getPermissions,
     selectedValue,
     handleChange,
     isDraweropen,
+    setPageLimit,
+    filterValues,
     setExpanded,
     handleClick,
     handleClose,
     checkedRows,
+    pageLimit,
+    isLoading,
     expanded,
     navigate,
     theme,
     open,
-    getPermissions,
     page,
     setPage,
-    pageLimit,
-    setPageLimit,
-    filterValues,
-    setFilterValues,
-    isLoading,
     isSuccess,
   };
 };

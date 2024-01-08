@@ -7,9 +7,9 @@ import PermissionsAccordion from '../PermissionsAccordion';
 import { FormProvider } from '@/components/ReactHookForm';
 
 const AddRoleDrawer = (props: any) => {
-  const { isDrawerOpen, onClose, getPermissionsData } = props;
-  const { methods, theme, onSubmit, handleSubmit } =
-    useAddRoleDrawer(isDrawerOpen);
+  const { isDrawerOpen, onClose } = props;
+  const { methods, theme, onSubmit, handleSubmit, viewPerdetails } =
+    useAddRoleDrawer(isDrawerOpen, onClose);
 
   return (
     <CommonDrawer
@@ -52,122 +52,7 @@ const AddRoleDrawer = (props: any) => {
             Permissions
             <span style={{ color: `${theme?.palette?.error?.main}` }}>*</span>
           </Typography>
-          <PermissionsAccordion permissionsData={getPermissionsData} />
-          {/* {permissionArr?.map((item) => {
-                return (
-                  <>
-                    <Grid item xs={12} key={uuidv4()}>
-                      <Accordion
-                        sx={{
-                          '&.MuiAccordion-root': {
-                            borderRadius: '8px',
-                          },
-                          background: `${theme?.palette?.blue?.main}`,
-                          color: `${theme?.palette?.common?.white}`,
-                          marginY: '16px',
-                        }}
-                      >
-                        <AccordionSummary
-                          expandIcon={
-                            <ArrowDropDownIcon sx={{ fontSize: '40px' }} />
-                          }
-                          aria-controls="panel1a-content"
-                          id="panel1a-header"
-                        >
-                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <Switch />
-                            <Typography>{item?.mainTitle}</Typography>
-                          </Box>
-                        </AccordionSummary>
-                        <AccordionDetails
-                          sx={{
-                            background: `${theme?.palette?.common?.white}`,
-                          }}
-                        >
-                          {item?.subModule?.map((items) => {
-                            return (
-                              <>
-                                <Accordion
-                                  key={uuidv4()}
-                                  expanded={expanded}
-                                  onChange={handleChange}
-                                  sx={{
-                                    height: `${expanded ? '200px' : 0}`,
-                                    overflowX: 'scroll',
-                                    '&:hover': {
-                                      background: `${theme?.palette?.grey[100]}`,
-                                    },
-                                  }}
-                                >
-                                  <AccordionSummary
-                                    expandIcon={
-                                      <ChevronRightIcon
-                                        sx={{
-                                          transform: `rotate(${expanded ? '270deg' : '0deg'
-                                            })`,
-                                          transition: (theme) =>
-                                            theme.transitions.create(
-                                              'transform',
-                                              {
-                                                duration:
-                                                  theme.transitions.duration
-                                                    .shortest,
-                                              },
-                                            ),
-                                        }}
-                                      />
-                                    }
-                                    aria-controls="panel1a-content"
-                                    id="panel1a-header"
-                                    sx={{
-                                      flexDirection: 'row-reverse',
-                                      gap: '6px',
-                                    }}
-                                  >
-                                    <Box
-                                      sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                      }}
-                                    >
-                                      <Typography>{items?.subTitle}</Typography>
-                                      <Box
-                                        sx={{
-                                          position: 'absolute',
-                                          right: 0,
-                                        }}
-                                      >
-                                        <FormControlLabel
-                                          control={<Checkbox />}
-                                          label={items?.mainCheck}
-                                        />
-                                      </Box>
-                                    </Box>
-                                  </AccordionSummary>
-                                  <AccordionDetails>
-                                    {items?.fetaures?.map((feature) => {
-                                      return (
-                                        <>
-                                          <FormGroup key={uuidv4()}>
-                                            <FormControlLabel
-                                              control={<Checkbox />}
-                                              label={feature?.label}
-                                            />
-                                          </FormGroup>
-                                        </>
-                                      );
-                                    })}
-                                  </AccordionDetails>
-                                </Accordion>
-                              </>
-                            );
-                          })}
-                        </AccordionDetails>
-                      </Accordion>
-                    </Grid>
-                  </>
-                );
-              })} */}
+          <PermissionsAccordion permissionsData={viewPerdetails} />
         </FormProvider>
       </Box>
     </CommonDrawer>

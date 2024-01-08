@@ -1,39 +1,10 @@
-import {
-  Box,
-  Typography,
-  Button,
-  Grid,
-  // Accordion,
-  // AccordionSummary,
-  // AccordionDetails,
-  // Switch,
-  // Checkbox,
-  // FormGroup,
-  // FormControlLabel,
-  Stack,
-} from '@mui/material';
-
-// import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Box, Typography, Button, Grid, Stack } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-// import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-
-// import { FormProvider } from '@/components/ReactHookForm';
-// import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-
-// import { AlertModals } from '@/components/AlertModals';
-
-import {
-  columns,
-  // dataArray,
-  // permissionArr
-} from './RolesRight.data';
+import { columns } from './RolesRight.data';
 import useRoleAndRight from './useRoleAndRight';
-
-// import { v4 as uuidv4 } from 'uuid';
 import Search from '@/components/Search';
 import ActionButton from './ActionButton';
-// import PermissionsAccordion from './PermissionsAccordion';
 import AddRoleDrawer from './AddRoleDrawer';
 
 const RolesRight = () => {
@@ -44,15 +15,11 @@ const RolesRight = () => {
     setFilterValues,
     setCheckedRows,
     getPermissions,
-    // handleChange,
     isDraweropen,
-    // isOpenDelete,
     filterValues,
     setPageLimit,
     checkedRows,
-    // expanded,
     setPage,
-    // methods,
     theme,
     isLoading,
     isSuccess,
@@ -125,22 +92,10 @@ const RolesRight = () => {
           />
         </Grid>
       </Box>
-
-      {/* {isOpenDelete && (
-        <AlertModals
-          message={'Are you sure you want to delete this role?'}
-          type={'delete'}
-          open={isOpenDelete}
-          handleClose={() => setIsOpenDelete(false)}
-          handleSubmit={function (): void {
-            throw new Error('Function not implemented.');
-          }}
-        />
-      )} */}
-
       {isDraweropen?.isToggle && (
         <AddRoleDrawer
           isDrawerOpen={isDraweropen}
+          setIsDraweropen
           onClose={handleCloseDrawer}
           getPermissionsData={getPermissions}
         />
