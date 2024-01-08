@@ -10,8 +10,8 @@ export const upsertTierValidationSchema = Yup?.object()?.shape({
   tierName: Yup?.string()?.required('Required'),
   tierDescription: Yup?.string()?.required('Required'),
   addLogo: Yup?.mixed()?.nullable(),
-  amount: Yup?.string(),
-  points: Yup?.number(),
+  amount: Yup?.string()?.nullable(),
+  points: Yup?.number()?.nullable(),
 });
 
 export const upsertTierDefaultValues = {
@@ -19,7 +19,7 @@ export const upsertTierDefaultValues = {
   tierDescription: '',
   addLogo: null,
   amount: '',
-  points: 0,
+  points: null,
 };
 
 export const upsertTierDataArray = [
@@ -28,6 +28,7 @@ export const upsertTierDataArray = [
     componentProps: {
       name: 'tierName',
       label: 'Tier Name',
+      placeholder: 'Enter name',
       fullWidth: true,
       required: true,
     },
@@ -38,6 +39,7 @@ export const upsertTierDataArray = [
     componentProps: {
       name: 'tierDescription',
       label: 'Tier Description',
+      placeholder: 'Enter description',
       fullWidth: true,
       required: true,
     },
@@ -91,6 +93,7 @@ export const upsertTierDataArray = [
     componentProps: {
       name: 'points',
       label: 'Points',
+      placeholder: 'Enter',
       type: 'number',
       fullWidth: true,
     },

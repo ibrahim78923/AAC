@@ -8,7 +8,8 @@ export const useDeleteContract = (props: any) => {
     selectedContractList,
     setSelectedContractList,
   } = props;
-  const [deleteContractTrigger] = useDeleteContractMutation();
+  const [deleteContractTrigger, deleteContractStatus] =
+    useDeleteContractMutation();
 
   const deleteContract = async () => {
     const deleteParams = new URLSearchParams();
@@ -41,5 +42,6 @@ export const useDeleteContract = (props: any) => {
 
   return {
     deleteContract,
+    deleteContractStatus,
   };
 };

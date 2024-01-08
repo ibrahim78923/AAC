@@ -83,17 +83,23 @@ const MergeModal = ({
       submitBtnText="Merge"
       handleClose={() => setIsMerge({ ...isMerge, mergeModal: false })}
       handleSubmitBtn={() => {
-        mergeCompanies({
-          body: {
-            primaryCompany: companyDetails?._id,
-            secondaryCompany: seletedCompany,
-          },
-        });
-        setIsMerge({ mergeModal: false });
-        setCheckedRows([]);
-        enqueueSnackbar(`Record has been Merged`, {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        });
+        if (seletedCompany != null) {
+          mergeCompanies({
+            body: {
+              primaryCompany: companyDetails?._id,
+              secondaryCompany: seletedCompany,
+            },
+          });
+          setIsMerge({ mergeModal: false });
+          setCheckedRows([]);
+          enqueueSnackbar(`Record has been Merged`, {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
+        } else {
+          enqueueSnackbar(`Please select a company`, {
+            variant: NOTISTACK_VARIANTS?.ERROR,
+          });
+        }
       }}
     />
   );

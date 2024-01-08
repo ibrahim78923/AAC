@@ -9,16 +9,6 @@ export const FilterData = (
   lifeCycleStages: any,
   contactStatuses: any,
 ) => {
-  const ownerOptions = contactOwners.map(() => {
-    // return {value: user?._id, label: user?.name}
-    return [{ value: '65782dd6406dd444116e1bbd', label: 'mubashir' }];
-  });
-  const stages = lifeCycleStages?.map((stage: any) => {
-    return { value: stage?._id, label: stage?.name };
-  });
-  const statuses = contactStatuses?.map((status: any) => {
-    return { value: status?._id, label: status?.name };
-  });
   return [
     {
       id: 'contactOwnerId',
@@ -27,7 +17,7 @@ export const FilterData = (
         label: 'Contact Owner',
         select: true,
       },
-      options: ownerOptions,
+      options: contactOwners,
       component: RHFTextField,
     },
     {
@@ -37,7 +27,7 @@ export const FilterData = (
         label: 'Lifecycle Stage',
         select: true,
       },
-      options: stages,
+      options: lifeCycleStages,
       component: RHFTextField,
     },
     {
@@ -47,7 +37,7 @@ export const FilterData = (
         label: 'Status',
         select: true,
       },
-      options: statuses,
+      options: contactStatuses,
       component: RHFTextField,
     },
     {
@@ -66,7 +56,7 @@ export const FilterData = (
         placeholder: 'Select create by',
         select: true,
       },
-      options: ownerOptions,
+      options: contactOwners,
       component: RHFTextField,
     },
     {

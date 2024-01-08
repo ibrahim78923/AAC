@@ -77,9 +77,12 @@ const UsersDetailsList = () => {
     handleEmpListPaginationChange,
     page,
   }: any = useUserDetailsList();
+
   const { handleUserSwitchChange } = useUserManagement();
+
   const { userName, userId } = navigate.query;
   const organizationId = useSearchParams()?.get('organizationId');
+
   const employeeRecordsLimit = 10;
   const empListParams = {
     page: page,

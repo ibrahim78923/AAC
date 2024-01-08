@@ -5,8 +5,13 @@ import {
   inventoryFilterFormFieldsDataFunction,
 } from './FilterInventory.data';
 import { useForm } from 'react-hook-form';
-import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
 import usePath from '@/hooks/usePath';
+import {
+  useLazyGetAssetTypeQuery,
+  useLazyGetDepartmentDropdownQuery,
+  useLazyGetLocationsDropdownQuery,
+  useLazyGetUsersDropdownQuery,
+} from '@/services/airServices/assets/inventory';
 
 export const useFilterInventory = (props: any) => {
   const { setIsDrawerOpen, setInventoryFilterLists, inventoryFilterLists } =
@@ -18,19 +23,20 @@ export const useFilterInventory = (props: any) => {
   const methods: any = useForm({
     defaultValues: inventoryFilterFormDefaultValues(inventoryFilterLists),
   });
+
   const { makePath } = usePath();
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
   const submitInventoryFilterForm = async (data: any) => {
     const inventoryFilteredFields: any = Object?.entries(data || {})
       ?.filter(
         ([, value]: any) => value !== undefined && value != '' && value != null,
       )
       ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
-    if (!Object?.keys(inventoryFilteredFields || {})?.length) {
+    if (!Object?.keys(inventoryFilteredFields ?? {})?.length) {
       closeInventoryFilterForm();
       return;
     }
-    setInventoryFilterLists(inventoryFilteredFields);
+    setInventoryFilterLists?.(inventoryFilteredFields);
     closeInventoryFilterForm();
   };
 
@@ -44,12 +50,28 @@ export const useFilterInventory = (props: any) => {
     // reset();
     setIsDrawerOpen?.(false);
   };
-  const apiQueryOrganizations = useLazyGetOrganizationsQuery();
+
+  const resetInventoryFilterForm = async () => {
+    if (!!Object?.keys(inventoryFilterLists)?.length) {
+      setInventoryFilterLists({});
+    }
+    reset();
+    setIsDrawerOpen?.(false);
+  };
+
+  const apiQueryAssetType = useLazyGetAssetTypeQuery();
+  const apiQueryUsers = useLazyGetUsersDropdownQuery();
+  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
+  const apiQueryLocations = useLazyGetLocationsDropdownQuery();
+  const apiQueryUsersCreatedBy = useLazyGetUsersDropdownQuery();
   const inventoryFilterFormFieldsData = inventoryFilterFormFieldsDataFunction(
-    apiQueryOrganizations,
-    apiQueryOrganizations,
-    apiQueryOrganizations,
+    apiQueryDepartment,
+    apiQueryLocations,
+    apiQueryUsers,
+    apiQueryAssetType,
+    apiQueryUsersCreatedBy,
   );
+
   return {
     inventoryFilterFormFieldsData,
     router,
@@ -58,5 +80,6 @@ export const useFilterInventory = (props: any) => {
     submitInventoryFilterForm,
     handleSubmit,
     closeInventoryFilterForm,
+    resetInventoryFilterForm,
   };
 };
