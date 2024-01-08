@@ -48,7 +48,12 @@ export const useContracts = () => {
 
   const getContractListDataExport = async (type: any) => {
     const exportContractParams = new URLSearchParams();
-
+    Object?.entries(contractFilterLists || {})?.forEach(
+      ([key, value]: any) => exportContractParams?.append(key, value?._id),
+    );
+    exportContractParams?.append('page', page + '');
+    exportContractParams?.append('limit', pageLimit + '');
+    exportContractParams?.append('search', search);
     exportContractParams?.append('exportType', type);
 
     const getContractExportParameter = {
@@ -60,14 +65,11 @@ export const useContracts = () => {
         getContractExportParameter,
       )?.unwrap();
       downloadFile(response, 'ContractLists', EXPORT_FILE_TYPE?.[type]);
-      enqueueSnackbar(
-        response?.data?.message ?? ' Contract Exported successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      enqueueSnackbar('File Exported successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? ' Contract not exported', {
+      enqueueSnackbar('File not exported', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
