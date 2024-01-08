@@ -13,8 +13,9 @@ const FilterWorkflow = (props: any) => {
         footer={true}
         isDrawerOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen?.(false)}
-        title="Send for Approvals"
-        okText="Send"
+        title="Filters"
+        okText="Apply"
+        cancelText="Reset"
         isOk
         submitHandler={handleSubmit(onSubmit)}
       >

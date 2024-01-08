@@ -1,8 +1,6 @@
 import * as yup from 'yup';
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import { RHFTextField } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
-
-export const parentLocationOptions = ['America', 'Asia', 'Europe'];
 
 export const validationSchemaAddNewLocation: any = yup?.object()?.shape({
   locationName: yup?.string()?.required('Required'),
@@ -14,17 +12,13 @@ export const validationSchemaAddNewLocation: any = yup?.object()?.shape({
 
 export const locationDefaultValues = ({
   editDataArray,
-  parentLocationName,
   childEditDataArray,
 }: any) => {
   return {
     locationName:
       childEditDataArray?.locationName ?? editDataArray?.locationName ?? '',
     parentLocation:
-      childEditDataArray?.parentLocation ??
-      editDataArray?.parentLocation ??
-      parentLocationName ??
-      null,
+      childEditDataArray?.parentLocation ?? editDataArray?.parentLocation ?? '',
     contactName:
       childEditDataArray?.contactName ?? editDataArray?.contactName ?? '',
     email: childEditDataArray?.email ?? editDataArray?.email ?? '',
@@ -53,9 +47,8 @@ export const addNewLocationDataFields = [
       name: 'parentLocation',
       label: 'Parent Location',
       required: true,
-      options: parentLocationOptions,
     },
-    component: RHFAutocomplete,
+    component: RHFTextField,
     md: 6,
   },
   {
