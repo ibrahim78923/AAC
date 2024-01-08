@@ -19,6 +19,8 @@ const UsersDetails = (props: any) => {
     setIsOpenAddAccountDrawer,
     theme,
     handleChangeImg,
+    searchAccount,
+    setSearchAccount,
   } = useUsersDetails(employeeDataById);
 
   const { data: profileData } = useGetUsersByIdQuery(employeeDataById);
@@ -57,7 +59,11 @@ const UsersDetails = (props: any) => {
                 activeTab={tabValue}
                 getTabVal={(val: number) => setTabVal(val)}
                 tabsArray={['Accounts', 'Profile']}
-                searchBarProps={{ label: 'Search Here' }}
+                searchBarProps={{
+                  label: 'Search Here',
+                  setSearchBy: setSearchAccount,
+                  searchBy: searchAccount,
+                }}
                 headerChildren={
                   <Button
                     className="small"
@@ -70,7 +76,10 @@ const UsersDetails = (props: any) => {
                   </Button>
                 }
               >
-                <Accounts employeeDataById={employeeDataById} />
+                <Accounts
+                  employeeDataById={employeeDataById}
+                  searchAccount={searchAccount}
+                />
                 <Profile profileData={profileData?.data} />
               </CommonTabs>
             </Card>
@@ -79,10 +88,9 @@ const UsersDetails = (props: any) => {
       </Grid>
       {isOpenAddAccountDrawer && (
         <AddAccount
+          employeeDataById={employeeDataById}
           isOpen={isOpenAddAccountDrawer}
-          setIsOpen={() => {
-            setIsOpenAddAccountDrawer(false);
-          }}
+          setIsOpenAddAccountDrawer={setIsOpenAddAccountDrawer}
         />
       )}
     </Box>

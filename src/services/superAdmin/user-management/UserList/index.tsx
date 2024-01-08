@@ -4,9 +4,10 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 export const userListApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUsersAccounts: builder.query({
-      query: (values: any) => ({
-        url: `${END_POINTS?.ORG_ADMIN_EMP_LIST}/${values?.orgId}${END_POINTS?.USER_ACCOUNT}`,
+      query: ({ id, orgId, values }: any) => ({
+        url: `${END_POINTS?.ADD_USER}/${id}${END_POINTS?.ORGANIZATION}/${orgId}${END_POINTS?.USER_ACCOUNT}`,
         method: 'GET',
+        params: values,
       }),
       providesTags: ['USERS'],
     }),
@@ -31,7 +32,7 @@ export const userListApi = baseAPI.injectEndpoints({
     postUsersAccount: builder.mutation({
       query: ({ id, body }: any) => {
         return {
-          url: `${END_POINTS?.ADD_USER_ACCOUNT}/${id}${END_POINTS?.USER_ACCOUNT}`,
+          url: `${END_POINTS?.ORG_ADMIN_EMP_LIST}/${id}${END_POINTS?.USER_ACCOUNT}`,
           method: 'POST',
           body: body,
         };
@@ -54,7 +55,7 @@ export const userListApi = baseAPI.injectEndpoints({
     postUserEmployee: builder.mutation({
       query: ({ id, body }: any) => {
         return {
-          url: `${END_POINTS?.ORG_USER_EMPLOYEE}/${id}`,
+          url: `${END_POINTS?.ORG_ADMIN_EMP_LIST}/${id}`,
           method: 'POST',
           body: body,
         };

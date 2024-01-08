@@ -21,7 +21,7 @@ const useUsers = () => {
     search: searchEmployee,
     product: employeeFilter?.product,
     company: employeeFilter?.company,
-    status: employeeFilter?.status ? employeeFilter?.status : 'INACTIVE',
+    status: employeeFilter?.status ? employeeFilter?.status : undefined,
   };
 
   const { data: employeeList } = useGetEmployeeListQuery({

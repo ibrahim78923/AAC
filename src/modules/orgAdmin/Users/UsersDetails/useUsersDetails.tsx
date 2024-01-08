@@ -8,6 +8,7 @@ const useUsersDetails = (employeeDataById?: any) => {
   const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState(false);
   const { useUpdateUserImgMutation } = userListApi;
   const [updateUserImg] = useUpdateUserImgMutation();
+  const [searchAccount, setSearchAccount] = useState('');
 
   // function for select user image
   const handleChangeImg = (e: any) => {
@@ -25,6 +26,8 @@ const useUsersDetails = (employeeDataById?: any) => {
     setIsOpenAddAccountDrawer,
     theme,
     handleChangeImg,
+    searchAccount,
+    setSearchAccount,
   };
 };
 

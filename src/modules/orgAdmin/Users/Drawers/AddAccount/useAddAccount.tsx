@@ -7,9 +7,14 @@ import {
 } from './AddAccount.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { usePostUsersAccountMutation } from '@/services/superAdmin/user-management/UserList';
 
-const useAddAccount = () => {
+const useAddAccount = (
+  employeeDataById?: any,
+  setIsOpenAddAccountDrawer?: any,
+) => {
   const { user } = useUsers();
+  const [postUsersAccount] = usePostUsersAccountMutation();
   const {
     useGetProductsQuery,
     useGetCompanyAccountsQuery,
@@ -27,10 +32,14 @@ const useAddAccount = () => {
 
   const { handleSubmit, reset, watch } = methods;
   const companyAccountValue = watch('company');
-  const onSubmit = async () => {
+
+  const onSubmit = async (values: any) => {
+    values.user = employeeDataById;
+    postUsersAccount({ id: user?.organization?._id, body: values });
     enqueueSnackbar('User Added Successfully', {
       variant: 'success',
     });
+    setIsOpenAddAccountDrawer(false);
     reset();
   };
 
