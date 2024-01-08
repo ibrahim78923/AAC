@@ -28,6 +28,9 @@ const useNewPurchaseOrders = () => {
     resolver: yupResolver(validationSchema),
     defaultValues,
   });
+  const { watch } = methods;
+  const vendorValue = watch('vendor');
+
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
   const apiQueryLocations = useLazyGetLocationsDropdownQuery();
   const apiQueryVendor: any = useLazyGetVendorDropdownQuery();
@@ -64,6 +67,7 @@ const useNewPurchaseOrders = () => {
     handlePageBack,
     methods,
     vendor,
+    vendorValue,
     submit,
     resetPurchaseOrderFilterForm,
     isNewPurchaseOrder,

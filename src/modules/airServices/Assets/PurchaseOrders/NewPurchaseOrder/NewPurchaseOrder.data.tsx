@@ -34,6 +34,16 @@ export const defaultValues = {
   deliverDate: null,
   location: null,
   termsAndConditions: '',
+  purchaseDetails: [
+    {
+      itemName: null,
+      description: '',
+      quantity: 0,
+      costPerItem: 0,
+      taxRate: 0,
+      total: 0,
+    },
+  ],
 };
 
 export const newPurchaseFieldsFunction = (
@@ -125,6 +135,7 @@ export const newPurchaseFieldsFunction = (
       label: 'Location',
       apiQuery: locationApiQuery,
       placeholder: 'Select Location',
+      getOptionLabel: (option: any) => option?.locationName,
     },
     gridLength: 6,
     component: RHFAutocompleteAsync,

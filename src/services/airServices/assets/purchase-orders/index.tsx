@@ -35,7 +35,7 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
+        if (response) return response?.data;
       },
       providesTags: [TAG_THREE],
     }),

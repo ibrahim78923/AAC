@@ -10,9 +10,9 @@ const NewPurchaseOrder = () => {
     methods,
     submit,
     handlePageBack,
-    vendor,
     newPurchaseFields,
     purchaseOrderId,
+    vendorValue,
     router,
   } = useNewPurchaseOrder();
 
@@ -50,23 +50,15 @@ const NewPurchaseOrder = () => {
             >
               {newPurchaseFields?.map((form: any) => (
                 <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                  <form.component {...form?.componentProps} size="small">
-                    {form?.componentProps?.select
-                      ? form?.componentProps?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </form.component>
+                  <form.component {...form?.componentProps} size="small" />
                 </Grid>
               ))}
             </Grid>
-            {vendor && (
+            {vendorValue && (
               <Grid item xs={12} rowSpacing={2.6} columnSpacing={2}>
                 <Box>
                   <Typography sx={{ ...subHeading }}>Items Details</Typography>
-                  <ItemsDetails />
+                  <ItemsDetails control={methods?.control} />
                 </Box>
               </Grid>
             )}

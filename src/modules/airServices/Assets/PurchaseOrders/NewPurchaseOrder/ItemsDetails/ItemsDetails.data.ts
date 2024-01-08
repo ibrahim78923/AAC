@@ -1,11 +1,75 @@
-export const singleItem = {
-  itemName: '',
-  description: '',
-  costPerItem: null,
-  quantity: null,
-  taxRate: null,
-  total: null,
-};
+import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
+export const newPurchaseProductsFunction = (
+  vendorProductsApiQuery: any,
+  index: number,
+) => [
+  {
+    id: 3,
+    component: RHFAutocompleteAsync,
+    gridLength: 6,
+    componentProps: {
+      fullWidth: true,
+      name: `purchaseDetails.${index}.itemName`,
+      apiQuery: vendorProductsApiQuery,
+      externalParams: { meta: false, limit: 50 },
+      sx: { flex: 3 },
+    },
+  },
+  {
+    id: 8,
+    componentProps: {
+      fullWidth: true,
+      name: `purchaseDetails.${index}.description`,
+      sx: { flex: 3 },
+    },
+    gridLength: 12,
+    component: RHFTextField,
+  },
+  {
+    id: 1,
+    component: RHFTextField,
+    gridLength: 6,
+    componentProps: {
+      fullWidth: true,
+      name: `purchaseDetails.${index}.quantity`,
+      type: 'number',
+      sx: { flex: 1 },
+    },
+  },
+  {
+    id: 2,
+    component: RHFTextField,
+    gridLength: 6,
+    componentProps: {
+      fullWidth: true,
+      name: `purchaseDetails.${index}.costPerItem`,
+      type: 'number',
+      sx: { flex: 1 },
+    },
+  },
+  {
+    id: 12,
+    component: RHFTextField,
+    gridLength: 6,
+    componentProps: {
+      fullWidth: true,
+      name: `purchaseDetails.${index}.taxRate`,
+      type: 'number',
+      sx: { flex: 1 },
+    },
+  },
+  {
+    id: 21,
+    component: RHFTextField,
+    gridLength: 6,
+    componentProps: {
+      fullWidth: true,
+      name: `purchaseDetails.${index}.total`,
+      type: 'number',
+      sx: { flex: 3 },
+    },
+  },
+];
 
 export const itemsDetailsData = [
   {
