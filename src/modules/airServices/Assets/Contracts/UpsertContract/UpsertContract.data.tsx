@@ -319,6 +319,7 @@ export const upsertContractFormFieldsDataFunction = (
       select: true,
       options: contractTypeOptions,
       disabled: isFieldDisable,
+      getOptionLabel: (option: any) => option?.label?.replaceAll?.('_', ' '),
       required: true,
       onChange: (e: any) => {
         setValue?.('type', e?.target?.value);

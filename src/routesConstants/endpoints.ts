@@ -153,6 +153,8 @@ export const END_POINTS = {
   VENDOR_DROPDOWN: '/vendors/get-vendors',
   CONTRACT_TYPE_DROPDOWN: '/contract-type',
   DROPDOWN_AGENTS_LIST: '/dropdown/agents',
+  KNOWLEDGE_BASE_ARTICLES: `/articles`,
+  DROPDOWN_FOLDERS: `/dropdown/folders`,
   PURCHASE_ORDER_ASSOCIATIONS: '/assets/purchaseorderassociate',
   PURCHASE_ORDER_ADD_ASSOCIATIONS: '/assets/add-associate-order',
   PURCHASE_ORDER_DELETE_ASSOCIATIONS: '/assets/delete-associate-order',
@@ -160,6 +162,9 @@ export const END_POINTS = {
   DROPDOWN_USERS: '',
   ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
   DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
+  ADD_CONTRACT: `/contract/add-contract`,
+  EDIT_CONTRACT: `/contract/update`,
+  UPDATE_CONTRACT_STATUS: `/contract/renew-extend`,
 };
 
 export const superAdminBillingInvoices = {

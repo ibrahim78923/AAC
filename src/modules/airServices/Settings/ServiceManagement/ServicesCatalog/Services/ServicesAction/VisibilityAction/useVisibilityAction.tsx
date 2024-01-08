@@ -16,8 +16,6 @@ const useVisibilityAction = (props: any) => {
   const [patchServiceCatalogTrigger] = usePatchServiceCatalogMutation();
   const handleSubmit = async () => {
     const moveToCategoryData = new FormData();
-
-    // moveToCategoryData.append('serviceCategory', data?.category?._id);
     moveToCategoryData.append('id', id?.selectedCheckboxes?.[0]);
     !!selectedAgentCheckboxes?.length &&
       moveToCategoryData.append('agentVisibilty', selectedAgentCheckboxes);
@@ -35,7 +33,7 @@ const useVisibilityAction = (props: any) => {
       )?.unwrap();
 
       enqueueSnackbar(
-        response?.message ?? 'ServiceCatalog Created Successfully!',
+        response?.data?.message ?? 'Service Visibility Updated ',
         {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         },
