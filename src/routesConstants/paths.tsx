@@ -107,6 +107,10 @@ export const AIR_MARKETER = {
   ),
   EMAIL_MARKETING: path(AIR_MARKETING_PAGE, '/email-marketing'),
   EMAIL_TEMPLATES: path(AIR_MARKETING_PAGE, '/email-marketing/email-templates'),
+  CREATE_EMAIL_TEMPLATES: path(
+    AIR_MARKETING_PAGE,
+    '/email-marketing/email-templates/create-template',
+  ),
   EMAIL_FOLDER: path(AIR_MARKETING_PAGE, '/email-marketing/email-folder'),
   EMAIL_REPORTS: path(AIR_MARKETING_PAGE, '/email-marketing/email-reports'),
   SOCIAL_MARKETING: path(AIR_MARKETING_PAGE, '/social-marketing'),
