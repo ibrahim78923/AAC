@@ -80,7 +80,7 @@ const ProductSuite = () => {
             }
           }
         } else {
-          enqueueSnackbar('NO Permisssion and Product Available', {
+          enqueueSnackbar('No Permissions and Product Available', {
             variant: NOTISTACK_VARIANTS?.ERROR,
           });
         }

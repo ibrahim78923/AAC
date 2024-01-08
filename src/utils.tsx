@@ -74,7 +74,7 @@ const getActiveProductSession = () => {
   return {};
 };
 
-const setActivePermissionsSession = ({ permissions }: any) => {
+const setActivePermissionsSession = (permissions: any) => {
   if (permissions) {
     localStorage.setItem('ActivePermissions', JSON.stringify(permissions));
   } else {

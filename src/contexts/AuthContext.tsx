@@ -57,6 +57,8 @@ const handlers = {
     ...state,
     isAuthenticated: false,
     user: null,
+    product: null,
+    isPermissions: false,
   }),
   REGISTER: (state: any, action: any) => {
     const { user } = action.payload;
@@ -78,10 +80,10 @@ const handlers = {
   },
 
   INITIALIZEPERMISSIONS: (state: any, action: any) => {
-    const { isPermissions } = action.payload;
+    const { isPermissions, isAuthenticated } = action.payload;
     return {
       ...state,
-      isAuthenticated: true,
+      isAuthenticated: isAuthenticated,
       isPermissions: isPermissions,
     };
   },
@@ -103,10 +105,9 @@ function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   if (state?.isPermissions) {
-    setActivePermissionsSession({
-      permissions: permissionsData?.data?.account?.role?.permissions,
-    });
-    // refetch()
+    setActivePermissionsSession(
+      permissionsData?.data?.account?.role?.permissions,
+    );
   }
   // const [logoutTrigger] = useLogoutMutation();
 
@@ -199,16 +200,18 @@ function AuthProvider({ children }: { children: ReactNode }) {
     dispatch({
       type: 'INITIALIZEPERMISSIONS',
       payload: {
+        isAuthenticated: true,
         isPermissions: true,
       },
     });
-    state.isPermissions && refetch();
+    state?.isPermissions && refetch();
   };
 
   //TODO:called at the time of  user logout
   const logout = async () => {
     setActiveProductSession(null);
     setSession(null);
+    setActivePermissionsSession(null);
     dispatch({ type: 'LOGOUT' });
     appDispatch({ type: 'auth/logout' });
   };

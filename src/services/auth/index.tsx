@@ -18,10 +18,10 @@ export const authAPI = baseAPI.injectEndpoints({
       }),
     }),
     forgotPassword: builder.mutation({
-      query: (user: string) => ({
+      query: (payload) => ({
         url: END_POINTS.FORGOT_PASSWORD,
         method: 'POST',
-        body: user,
+        body: payload,
       }),
     }),
     resetPassword: builder.mutation({

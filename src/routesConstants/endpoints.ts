@@ -5,7 +5,7 @@ export const END_POINTS = {
   search_company: 'auth/signup',
   get_permissions: '/premissions',
   reset_password: 'auth/resetPassword',
-  forgot_password: 'auth/forgot-password',
+  FORGOT_PASSWORD: 'auth/forgot-password',
   INVENTORY_ACTIVITY: 'assets/inventory',
   WORKLOAD: `/workload/workload-management`,
   INVENTORY_EXPENSE: 'expense/add-expense',

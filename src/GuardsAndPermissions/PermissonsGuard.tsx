@@ -13,10 +13,11 @@ function checkPermissions(permissions: any, modulePermissions: any) {
   modulePermissions?.forEach((value: any) => {
     componentPermissionsDictionary[value] = true;
   });
-
-  for (const permission of permissions) {
-    if (componentPermissionsDictionary[permission]) {
-      return true; // At least one permission is available
+  if (permissions?.length > 0) {
+    for (const permission of permissions) {
+      if (componentPermissionsDictionary[permission]) {
+        return true; // At least one permission is available
+      }
     }
   }
   return false; // None of the permissions are available
@@ -25,12 +26,20 @@ function checkPermissions(permissions: any, modulePermissions: any) {
 export default function PermissionsGuard({
   children,
   permissions,
+  sidebar,
 }: {
   children: ReactNode;
   permissions: any;
+  sidebar?: string;
 }) {
   const currentPermissions = useCurrentPermissions();
   const permissionsCheck = checkPermissions(currentPermissions, permissions);
 
-  return permissionsCheck ? <>{children}</> : <PermissionDenied />;
+  return permissionsCheck ? (
+    <>{children}</>
+  ) : sidebar === 'ItemPermission' ? (
+    ' '
+  ) : (
+    <PermissionDenied />
+  );
 }
