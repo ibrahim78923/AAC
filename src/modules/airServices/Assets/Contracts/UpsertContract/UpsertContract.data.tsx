@@ -1,4 +1,5 @@
 import {
+  RHFAutocomplete,
   RHFDatePicker,
   RHFSelect,
   RHFSwitch,
@@ -177,7 +178,7 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
     ?.ensure()
     ?.when('type', {
       is: (y: any) => y !== CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      then: (schema: any) => schema?.required(),
+      then: (schema: any) => schema?.required('Required'),
       otherwise: (schema) => schema?.notRequired(),
     }),
   cost: Yup?.string(),
@@ -334,12 +335,12 @@ export const upsertContractFormFieldsDataFunction = (
         getValues?.('associateAssets') !== ''
           ? clearError?.('associateAssets')
           : setError?.('associateAssets', {
-              message: 'Associate Asset is Required',
+              message: 'Required',
             });
       },
     },
     md: 6,
-    component: RHFSelect,
+    component: RHFAutocomplete,
   },
   {
     id: 5,
