@@ -1,7 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-export const exampleExampleAPI = baseAPI.injectEndpoints({
+export const contactsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getContacts: builder.query({
       query: ({ params }: any) => ({
@@ -60,4 +60,4 @@ export const {
   usePostContactsMutation,
   useUpdateContactsMutation,
   useDeleteContactMutation,
-} = exampleExampleAPI;
+} = contactsAPI;

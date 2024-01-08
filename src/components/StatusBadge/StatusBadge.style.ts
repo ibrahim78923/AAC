@@ -1,5 +1,5 @@
 export const styles = {
-  select: (value: any, defaultValue: any, theme: any) => {
+  select: (value: any, theme: any) => {
     return {
       borderRadius: '16px',
       height: '22px',

@@ -140,6 +140,7 @@ const RestoreCompanies = (props: any) => {
 
       {isDeleteModal?.isOpen && (
         <DeleteModal
+          setCheckedRows={setCheckedRows}
           checkedRows={checkedRows}
           isRestoreDelete={isDeleteModal}
           setIsRestoreDelete={setIsDeleteModal}
@@ -147,6 +148,7 @@ const RestoreCompanies = (props: any) => {
       )}
       {isRestoreModal?.isOpen && (
         <RestoreModal
+          setCheckedRows={setCheckedRows}
           checkedRows={checkedRows}
           isRestoreItem={isRestoreModal}
           setIsRestoreItem={setIsRestoreModal}

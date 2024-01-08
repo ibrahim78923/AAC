@@ -1,0 +1,18 @@
+export const columnsData = [
+  { title: 'Contact' },
+  { title: 'Address' },
+  { title: 'Date of Birth' },
+  { title: 'Phone Number' },
+  { title: 'Whatsapp Number' },
+  { title: 'Contact Owner' },
+  { title: 'Job Title' },
+  { title: 'Lifecycle Stage' },
+  { title: 'Status' },
+  { title: 'Date of Joining' },
+  { title: 'Created At' },
+  { title: 'Created By' },
+  { title: 'Updated By' },
+  { title: 'Last Activity' },
+  { title: 'Next Activity' },
+  { title: 'Last Connected' },
+];

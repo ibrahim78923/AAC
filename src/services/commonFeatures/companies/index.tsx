@@ -77,7 +77,16 @@ export const companiesAPI = baseAPI.injectEndpoints({
     mergeCompanies: builder.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.MERGE_COMPANIES}`,
-        method: 'PATCH',
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['COMPANY'],
+    }),
+
+    changeCompanyOwner: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.REASSIGN_COMPANY_OWNER}`,
+        method: 'PUT',
         body: body,
       }),
       invalidatesTags: ['COMPANY'],
@@ -95,4 +104,5 @@ export const {
   useGetCompanyPreviewQuery,
   useRestoreCompaniesMutation,
   useMergeCompaniesMutation,
+  useChangeCompanyOwnerMutation,
 } = companiesAPI;

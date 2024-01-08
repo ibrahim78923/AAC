@@ -1,26 +1,13 @@
 import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
-  RHFTextField,
 } from '@/components/ReactHookForm';
 
 import {
   assetLifeExpiryOptions,
-  assetTypeOptions,
   assetsImpactOptions,
   dateOptions,
 } from '../Inventory.data';
-
-export const dropdownDummy = [
-  {
-    value: 'option1',
-    label: 'Option 1',
-  },
-  {
-    value: 'option2',
-    label: 'Option 2',
-  },
-];
 
 export const inventoryFilterFormDefaultValues = (data: any) => {
   return {
@@ -28,28 +15,31 @@ export const inventoryFilterFormDefaultValues = (data: any) => {
     usedBy: data?.usedBy ?? null,
     department: data?.department ?? null,
     locations: data?.locations ?? null,
-    createdDate: data?.createdDate ?? null,
-    updatedDate: data?.updatedDate ?? null,
+    createdAt: data?.createdAt ?? null,
+    updatedAt: data?.updatedAt ?? null,
     impact: data?.impact ?? null,
-    createdBy: data?.createdBy ?? '',
+    createdBy: data?.createdBy ?? null,
     assetLifeExpiry: data?.assetLifeExpiry ?? null,
   };
 };
+
 export const inventoryFilterFormFieldsDataFunction = (
   apiQueryDepartment: any,
   apiQueryLocation: any,
   apiQueryUsedBy: any,
+  apiQueryAssetType: any,
+  apiQueryUsersCreatedBy: any,
 ) => [
   {
     id: 1,
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     componentProps: {
       fullWidth: true,
       name: 'assetType',
       label: 'Asset Type',
-      select: true,
       placeholder: 'All Assets',
-      options: assetTypeOptions,
+      apiQuery: apiQueryAssetType,
+      externalParams: { meta: false, limit: 50 },
     },
   },
   {
@@ -80,6 +70,7 @@ export const inventoryFilterFormFieldsDataFunction = (
       name: 'locations',
       label: 'Locations',
       apiQuery: apiQueryLocation,
+      getOptionLabel: (option: any) => option?.locationName,
     },
     component: RHFAutocompleteAsync,
   },
@@ -87,11 +78,12 @@ export const inventoryFilterFormFieldsDataFunction = (
     id: 5,
     componentProps: {
       fullWidth: true,
-      name: 'createdDate',
+      name: 'createdAt',
       label: 'Created Date',
       placeholder: 'Select a time period',
       select: true,
       options: dateOptions,
+      getOptionLabel: (option: any) => option?.label?.replaceAll?.('_', ' '),
     },
     component: RHFAutocomplete,
   },
@@ -99,11 +91,12 @@ export const inventoryFilterFormFieldsDataFunction = (
     id: 6,
     componentProps: {
       fullWidth: true,
-      name: 'updatedDate',
+      name: 'updatedAt',
       label: 'Updated Date',
       placeholder: 'Select a time period',
       select: true,
       options: dateOptions,
+      getOptionLabel: (option: any) => option?.label?.replaceAll?.('_', ' '),
     },
     component: RHFAutocomplete,
   },
@@ -116,6 +109,7 @@ export const inventoryFilterFormFieldsDataFunction = (
       label: 'Impact',
       select: true,
       options: assetsImpactOptions,
+      getOptionLabel: (option: any) => option?.label?.replaceAll?.('_', ' '),
     },
   },
   {
@@ -124,9 +118,9 @@ export const inventoryFilterFormFieldsDataFunction = (
       fullWidth: true,
       name: 'createdBy',
       label: 'Created By',
+      apiQuery: apiQueryUsersCreatedBy,
     },
-    gridLength: 12,
-    component: RHFTextField,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 9,
@@ -139,6 +133,7 @@ export const inventoryFilterFormFieldsDataFunction = (
       placeholder: 'Select a time period',
       select: true,
       options: assetLifeExpiryOptions,
+      getOptionLabel: (option: any) => option?.label?.replaceAll?.('_', ' '),
     },
   },
 ];

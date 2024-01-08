@@ -68,6 +68,9 @@ export const taskTicketFormFields = (
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      style: {
+        minHeight: 200,
+      },
     },
     component: RHFEditor,
     md: 12,

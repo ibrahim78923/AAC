@@ -12,8 +12,15 @@ import { v4 as uuidv4 } from 'uuid';
 import useMergeModal from './useMergeModal';
 import useCompanies from '../../useCompanies';
 import { useMergeCompaniesMutation } from '@/services/commonFeatures/companies';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const MergeModal = ({ isMerge, setIsMerge, checkedRows }: any) => {
+const MergeModal = ({
+  isMerge,
+  setIsMerge,
+  checkedRows,
+  setCheckedRows,
+}: any) => {
   const { theme, companyDetails, methods, seletedCompany } =
     useMergeModal(checkedRows);
   const { getAllCompanies } = useCompanies();
@@ -76,10 +83,23 @@ const MergeModal = ({ isMerge, setIsMerge, checkedRows }: any) => {
       submitBtnText="Merge"
       handleClose={() => setIsMerge({ ...isMerge, mergeModal: false })}
       handleSubmitBtn={() => {
-        mergeCompanies({
-          primaryCompany: companyDetails?._id,
-          secondaryCompany: seletedCompany,
-        });
+        if (seletedCompany != null) {
+          mergeCompanies({
+            body: {
+              primaryCompany: companyDetails?._id,
+              secondaryCompany: seletedCompany,
+            },
+          });
+          setIsMerge({ mergeModal: false });
+          setCheckedRows([]);
+          enqueueSnackbar(`Record has been Merged`, {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
+        } else {
+          enqueueSnackbar(`Please select a company`, {
+            variant: NOTISTACK_VARIANTS?.ERROR,
+          });
+        }
       }}
     />
   );
