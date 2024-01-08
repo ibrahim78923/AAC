@@ -48,7 +48,7 @@ export const NewEmailDrawer = (props: any) => {
                               },
                             },
                           }}
-                          key={item.id}
+                          key={item?.id}
                           value={option?.value}
                         >
                           <Image src={option?.img} alt={option?.value} />
