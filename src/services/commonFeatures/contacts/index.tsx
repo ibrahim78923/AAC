@@ -26,9 +26,9 @@ export const contactsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
-    updateContacts: builder.mutation({
-      query: ({ body, contactId }: any) => ({
-        url: `${END_POINTS?.CONTACTS}/${contactId}`,
+    updateContact: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.CONTACTS}/${id}`,
         method: 'PATCH',
         body: body,
       }),
@@ -59,5 +59,5 @@ export const {
   useGetContactByIdQuery,
   useGetLifeCycleQuery,
   usePostContactsMutation,
-  useUpdateContactsMutation,
+  useUpdateContactMutation,
 } = contactsAPI;

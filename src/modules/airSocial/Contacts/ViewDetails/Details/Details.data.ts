@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 
 export const detailsValidationSchema = Yup?.object()?.shape({
   email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
-  profilePicture: Yup?.string()?.trim()?.required('Required Field'),
+  // profilePicture: Yup?.string()?.trim()?.required('Required Field'),
   firstName: Yup?.string()
     ?.trim()
     ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
@@ -27,236 +27,152 @@ export const detailsValidationSchema = Yup?.object()?.shape({
     ?.min(10, 'Mininum 10 characters')
     ?.required('Required field'),
   lifeCycleStageId: Yup?.string()?.trim()?.required('Required Field'),
-  // contactOwner: Yup?.string()?.trim()?.required('Required Field'),
+  contactOwnerId: Yup?.string()?.trim()?.required('Required Field'),
   statusId: Yup?.string()?.trim()?.required('Required Field'),
   jobTitle: Yup?.string()?.trim()?.required('Required Field'),
   dateOfJoining: Yup?.date()?.nullable()?.required('Required Field'),
   dateOfBirth: Yup?.date()?.nullable()?.required('Required Field'),
 });
 
-export const detailsDataArray = [
-  {
-    id: 'firstName',
-    label: 'first Name',
-    componentProps: {
-      name: 'firstName',
-      placeholder: 'Ahmed',
-      fullWidth: true,
+export const detailsDataArray = (
+  contactOwnerData: any,
+  lifeCycleStagesData: any,
+  contactStatusData: any,
+) => {
+  return [
+    {
+      id: 'firstName',
+      label: 'first Name',
+      componentProps: {
+        name: 'firstName',
+        placeholder: 'Ahmed',
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    id: 'lastName',
-    label: 'Last Name',
-    componentProps: {
-      name: 'lastName',
-      placeholder: 'Khan',
-      fullWidth: true,
+    {
+      id: 'lastName',
+      label: 'Last Name',
+      componentProps: {
+        name: 'lastName',
+        placeholder: 'Khan',
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    id: 'email',
-    label: 'Email',
-    componentProps: {
-      name: 'email',
-      placeholder: 'Email',
-      fullWidth: true,
+    {
+      id: 'email',
+      label: 'Email',
+      componentProps: {
+        name: 'email',
+        placeholder: 'Email',
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    id: 'address',
-    label: 'Address',
-    componentProps: {
-      name: 'address',
-      placeholder: '7 Park Lane, Birmingham',
+    {
+      id: 'address',
+      label: 'Address',
+      componentProps: {
+        name: 'address',
+        placeholder: '7 Park Lane, Birmingham',
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    id: 'dateOfBirth',
-    label: 'Date of birth',
-    componentProps: {
-      name: 'dateOfBirth',
-      placeholder: '10/04/2023',
-      fullWidth: true,
+    {
+      id: 'dateOfBirth',
+      label: 'Date of birth',
+      componentProps: {
+        name: 'dateOfBirth',
+        placeholder: '10/04/2023',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 4,
     },
-    component: RHFDatePicker,
-    md: 4,
-  },
-  {
-    id: 'contactOwnerId',
-    label: 'Contact Owner',
-    componentProps: {
-      name: 'contactOwnerId',
-      placeholder: 'Ahmed',
-      select: true,
+    {
+      id: 'contactOwnerId',
+      label: 'Contact Owner',
+      componentProps: {
+        name: 'contactOwnerId',
+        placeholder: 'Ahmed',
+        select: true,
+      },
+      options: contactOwnerData,
+      component: RHFSelect,
+      md: 4,
     },
-    options: [
-      { value: 'No owner', label: 'No owner' },
-      { value: 'John Smith', label: 'John Smith' },
-      { value: 'Emma Jhonson', label: 'Emma Jhonson' },
-    ],
-    component: RHFSelect,
-    md: 4,
-  },
-  {
-    id: 'phoneNumber',
-    label: 'Phone Number',
-    componentProps: {
-      name: 'phoneNumber',
-      placeholder: '+44 063556245',
+    {
+      id: 'phoneNumber',
+      label: 'Phone Number',
+      componentProps: {
+        name: 'phoneNumber',
+        placeholder: '+44 063556245',
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    id: 'whatsAppNumber',
-    label: 'WhatsApp Number',
-    componentProps: {
-      name: 'whatsAppNumber',
-      placeholder: '+44 063556245',
-      select: false,
+    {
+      id: 'whatsAppNumber',
+      label: 'WhatsApp Number',
+      componentProps: {
+        name: 'whatsAppNumber',
+        placeholder: '+44 063556245',
+        select: false,
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    id: 'lifeCycleStageId',
-    label: 'Lifecycle Stage ',
-    componentProps: {
-      name: 'lifeCycleStageId',
-      placeholder: 'Lead',
-      select: true,
+    {
+      id: 'lifeCycleStageId',
+      label: 'Lifecycle Stage ',
+      componentProps: {
+        name: 'lifeCycleStageId',
+        placeholder: 'Lead',
+        select: true,
+      },
+      options: lifeCycleStagesData,
+      component: RHFSelect,
+      md: 4,
     },
-    options: [
-      { value: 'Subscriber', label: 'Subscriber' },
-      { value: 'Lead', label: 'Lead' },
-      { value: 'Marketing Qualified Lead', label: 'Marketing Qualified Lead' },
-      { value: 'Sales Qualified Lead', label: 'Sales Qualified Lead' },
-      { value: 'Opportunity', label: 'Opportunity' },
-      { value: 'Customer', label: 'Customer' },
-      { value: 'Other', label: 'Other' },
-    ],
-    component: RHFSelect,
-    md: 4,
-  },
-  {
-    id: 'jobTitle',
-    label: 'Job title',
-    componentProps: {
-      name: 'jobTitle',
-      placeholder: 'Data Scientist',
+    {
+      id: 'jobTitle',
+      label: 'Job title',
+      componentProps: {
+        name: 'jobTitle',
+        placeholder: 'Data Scientist',
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    id: 'statusId',
-    label: 'Status',
-    componentProps: {
-      name: 'statusId',
-      placeholder: 'New',
-      fullWidth: true,
-      select: true,
+    {
+      id: 'statusId',
+      label: 'Status',
+      componentProps: {
+        name: 'statusId',
+        placeholder: 'New',
+        fullWidth: true,
+        select: true,
+      },
+      component: RHFSelect,
+      md: 4,
+      options: contactStatusData,
     },
-    component: RHFSelect,
-    md: 4,
-    options: [
-      { value: 'Subscriber', label: 'Subscriber' },
-      { value: 'Lead', label: 'Lead' },
-      { value: 'Marketing Qualified Lead', label: 'Marketing Qualified Lead' },
-      { value: 'Sales Qualified Lead', label: 'Sales Qualified Lead' },
-      { value: 'Opportunity', label: 'Opportunity' },
-      { value: 'Customer', label: 'Customer' },
-      { value: 'Other', label: 'Other' },
-    ],
-  },
-  {
-    id: 'dateOfJoining',
-    label: 'Date of joining',
-    componentProps: {
-      name: 'dateOfJoining',
-      placeholder: '10/04/2023',
-      select: false,
-      fullWidth: true,
+    {
+      id: 'dateOfJoining',
+      label: 'Date of joining',
+      componentProps: {
+        name: 'dateOfJoining',
+        placeholder: '10/04/2023',
+        select: false,
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 4,
     },
-    component: RHFDatePicker,
-    md: 4,
-  },
-
-  {
-    id: 'createdAt',
-    label: 'Created at',
-    componentProps: {
-      name: 'createdAt',
-      placeholder: 'Created at',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    id: 'createdBy',
-    label: 'Created by',
-    componentProps: {
-      name: 'createdBy',
-      placeholder: 'Created by',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    id: 'updatedAt',
-    label: 'Updated at',
-    componentProps: {
-      name: 'updatedAt',
-      placeholder: 'Updated at',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    label: 'Updated by',
-    componentProps: {
-      name: 'updatedby',
-      placeholder: 'Updated by',
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    label: 'Last Activity',
-    componentProps: {
-      name: 'lastActivity',
-      placeholder: 'Last Activity',
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    label: 'Next ACtivity',
-    componentProps: {
-      name: 'nextActivity',
-      placeholder: 'Next ACtivity',
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    label: 'Last Contacted',
-    componentProps: {
-      name: 'lastContacted',
-      placeholder: 'Last Contacted',
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-];
+  ];
+};
