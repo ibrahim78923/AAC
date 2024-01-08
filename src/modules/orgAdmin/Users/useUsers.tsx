@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getSession } from '@/utils';
 import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 
@@ -30,6 +30,10 @@ const useUsers = () => {
   });
   const employeeDetails = employeeList?.data?.users;
   const employeeMetaData = employeeList?.data?.meta;
+
+  useEffect(() => {
+    setEmployeeDataById(employeeList?.data?.users[0]?._id);
+  }, [employeeList?.data?.users]);
 
   const handleEmpListPaginationChange = (
     event: React.ChangeEvent<unknown>,

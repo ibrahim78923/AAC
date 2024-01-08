@@ -1,5 +1,4 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import { companyColumns } from './Accounts.data';
 import useAccounts from './useAccounts';
 
