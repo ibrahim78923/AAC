@@ -6,8 +6,9 @@ import { TestWorkflow } from '../TestWorkflow';
 import { useWorkflowHeader } from './useWorkflowHeader';
 
 export const WorkflowHeader = () => {
-  const { handleMoveBack, openWorkflowModal, setOpenWorkflowModal } =
+  const { handleMoveBack, openWorkflowModal, setOpenWorkflowModal, action } =
     useWorkflowHeader();
+  const EDIT_WORKFLOW = 'edit';
   return (
     <Box>
       <Box
@@ -18,7 +19,11 @@ export const WorkflowHeader = () => {
         gap={1}
       >
         <PageTitledHeader
-          title={'Create Scheduled Workflow'}
+          title={
+            action === EDIT_WORKFLOW
+              ? 'Edit Scheduled Workflow'
+              : 'Create Scheduled Workflow'
+          }
           canMovedBack
           moveBack={handleMoveBack}
         />
@@ -36,14 +41,14 @@ export const WorkflowHeader = () => {
             variant="outlined"
             color="secondary"
           >
-            Save as Default
+            Save as Draft
           </LoadingButton>
           <LoadingButton
             startIcon={<WhiteBookIcon />}
             variant="contained"
             type="submit"
           >
-            Create
+            {action === EDIT_WORKFLOW ? 'Update' : 'Create'}
           </LoadingButton>
         </Box>
       </Box>
