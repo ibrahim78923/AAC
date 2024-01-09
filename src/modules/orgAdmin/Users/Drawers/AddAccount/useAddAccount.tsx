@@ -35,12 +35,21 @@ const useAddAccount = (
 
   const onSubmit = async (values: any) => {
     values.user = employeeDataById;
-    postUsersAccount({ id: user?.organization?._id, body: values });
-    enqueueSnackbar('User Added Successfully', {
-      variant: 'success',
-    });
-    setIsOpenAddAccountDrawer(false);
-    reset();
+    try {
+      await postUsersAccount({
+        id: user?.organization?._id,
+        body: values,
+      })?.unwrap();
+      enqueueSnackbar('User Added Successfully', {
+        variant: 'success',
+      });
+      setIsOpenAddAccountDrawer(false);
+      reset();
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
   };
 
   const roleParams = {
