@@ -54,7 +54,10 @@ export const Overview = () => {
         />
       </Box>
       <Box m={'1rem 3rem 0 0'}>
-        <OverviewBilling />
+        <OverviewBilling
+          purchaseOrderDetailData={purchaseOrderDetailData}
+          purchaseOrderData={purchaseOrderData}
+        />
       </Box>
       <Box>
         <OverviewModel

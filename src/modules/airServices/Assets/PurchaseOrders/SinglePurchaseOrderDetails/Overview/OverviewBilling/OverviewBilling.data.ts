@@ -1,7 +1,10 @@
-export const modalBillingData = [
-  { label: 'subTotal ($)', value: 144.0 },
-  { label: 'discount (%)', value: 0 },
-  { label: 'Tax rate (%)', value: 0 },
-  { label: 'shipping ($)', value: 0 },
-  { label: 'total ($)', value: 0 },
+export const modalBillingData = ({
+  purchaseOrderDetailData,
+  purchaseOrderData,
+}: any) => [
+  { label: 'subTotal ($)', value: purchaseOrderData?.subTotal },
+  { label: 'discount (%)', value: purchaseOrderDetailData?.discount },
+  { label: 'Tax rate (%)', value: purchaseOrderDetailData?.taxRate },
+  { label: 'shipping ($)', value: purchaseOrderDetailData?.shipping },
+  { label: 'total ($)', value: purchaseOrderData?.subTotal },
 ];

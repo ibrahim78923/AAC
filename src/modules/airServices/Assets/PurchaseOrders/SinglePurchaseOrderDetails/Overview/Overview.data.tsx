@@ -63,7 +63,7 @@ export const overviewTableColumns: any = (
     },
     {
       accessorFn: (row: any) => row?.total,
-      id: 'total',
+      id: 'subTotal',
       header: 'Total ()',
       cell: (info: any) => info?.getValue(),
     },

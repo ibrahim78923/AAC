@@ -10,6 +10,7 @@ export const useOverview = () => {
   const purchaseOrderId = searchParams?.get('purchaseOrderId');
   const { data } = useGetPurchaseOrderOverviewQuery(purchaseOrderId);
   const purchaseOrderData = data?.data;
+
   const purchaseOrderDetailData = data?.data?.purchaseDetails;
 
   return {
