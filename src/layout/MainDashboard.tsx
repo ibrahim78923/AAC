@@ -214,65 +214,65 @@ const DashboardLayout = ({ children, window }: any) => {
                           <List component="div" disablePadding>
                             {link?.textNames?.map((subItem: any) => (
                               <Link href={`${subItem?.key}`} key={uuidv4()}>
-                                <PermissionsGuard
+                                {/* <PermissionsGuard
                                   sidebar="ItemPermission"
                                   permissions={link?.permissions}
-                                >
-                                  <ListItem sx={{ padding: '0px' }}>
-                                    <ListItemButton
-                                      sx={styles?.collapseMenu(
-                                        subItem,
-                                        router,
-                                        theme,
-                                      )}
-                                    >
-                                      <Box sx={styles?.dropdownChildren(theme)}>
-                                        {subItem?.label}
-                                      </Box>
-                                    </ListItemButton>
-                                  </ListItem>
-                                </PermissionsGuard>
+                                > */}
+                                <ListItem sx={{ padding: '0px' }}>
+                                  <ListItemButton
+                                    sx={styles?.collapseMenu(
+                                      subItem,
+                                      router,
+                                      theme,
+                                    )}
+                                  >
+                                    <Box sx={styles?.dropdownChildren(theme)}>
+                                      {subItem?.label}
+                                    </Box>
+                                  </ListItemButton>
+                                </ListItem>
+                                {/* </PermissionsGuard> */}
                               </Link>
                             ))}
                           </List>
                         </Collapse>
                       </>
                     ) : (
-                      <PermissionsGuard
-                        sidebar="ItemPermission"
-                        permissions={link?.permissions}
-                      >
-                        <Link key={uuidv4()} href={`${link?.key}`}>
-                          <ListItem
-                            sx={{ padding: '6px 0px 6px 0px' }}
-                            onClick={() => setDropDownOpen({})}
+                      // <PermissionsGuard
+                      //   sidebar="ItemPermission"
+                      //   permissions={link?.permissions}
+                      // >
+                      <Link key={uuidv4()} href={`${link?.key}`}>
+                        <ListItem
+                          sx={{ padding: '6px 0px 6px 0px' }}
+                          onClick={() => setDropDownOpen({})}
+                        >
+                          <ListItemButton
+                            sx={styles?.mainNavLink(
+                              pathNameKey,
+                              routerPathName,
+                              theme,
+                            )}
                           >
-                            <ListItemButton
-                              sx={styles?.mainNavLink(
-                                pathNameKey,
-                                routerPathName,
-                                theme,
-                              )}
+                            <ListItemIcon
+                              sx={{ minWidth: 20, marginRight: '10px' }}
                             >
-                              <ListItemIcon
-                                sx={{ minWidth: 20, marginRight: '10px' }}
-                              >
-                                <Image
-                                  src={link?.icon}
-                                  alt={link?.icon}
-                                  style={{
-                                    opacity:
-                                      routerPathName === pathNameKey
-                                        ? '1'
-                                        : '0.4',
-                                  }}
-                                />
-                              </ListItemIcon>
-                              {link?.label}
-                            </ListItemButton>
-                          </ListItem>
-                        </Link>
-                      </PermissionsGuard>
+                              <Image
+                                src={link?.icon}
+                                alt={link?.icon}
+                                style={{
+                                  opacity:
+                                    routerPathName === pathNameKey
+                                      ? '1'
+                                      : '0.4',
+                                }}
+                              />
+                            </ListItemIcon>
+                            {link?.label}
+                          </ListItemButton>
+                        </ListItem>
+                      </Link>
+                      // </PermissionsGuard>
                     )}
                   </div>
                 );
@@ -293,49 +293,49 @@ const DashboardLayout = ({ children, window }: any) => {
                   <div key={uuidv4()}>
                     {link?.textNames ? (
                       <>
-                        <PermissionsGuard
+                        {/* <PermissionsGuard
                           sidebar="ItemPermission"
                           permissions={link?.permissions}
-                        >
-                          <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
-                            <ListItemButton
-                              sx={styles?.LowerNavLink(
-                                lowerPathNameKey,
-                                routerPathName,
-                                dropDownOpen[link?.key],
-                                theme,
-                              )}
-                              onClick={() => toggleDropDown(link?.key)}
-                            >
-                              <ListItemIcon sx={{ minWidth: 20 }}>
-                                <Image
-                                  src={link?.icon}
-                                  alt="icons"
-                                  style={{
-                                    opacity:
-                                      routerPathName === lowerPathNameKey ||
-                                      dropDownOpen[link?.key]
-                                        ? '1'
-                                        : '0.4',
-                                  }}
-                                />
-                              </ListItemIcon>
-
-                              {link.label}
-                              <Box sx={{ paddingLeft: '20px' }}>
-                                <Image
-                                  src={
+                        > */}
+                        <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                          <ListItemButton
+                            sx={styles?.LowerNavLink(
+                              lowerPathNameKey,
+                              routerPathName,
+                              dropDownOpen[link?.key],
+                              theme,
+                            )}
+                            onClick={() => toggleDropDown(link?.key)}
+                          >
+                            <ListItemIcon sx={{ minWidth: 20 }}>
+                              <Image
+                                src={link?.icon}
+                                alt="icons"
+                                style={{
+                                  opacity:
                                     routerPathName === lowerPathNameKey ||
-                                    dropDownOpen[link.key]
-                                      ? ArrowUpImage
-                                      : ArrowDownImage
-                                  }
-                                  alt="Avatar"
-                                />
-                              </Box>
-                            </ListItemButton>
-                          </ListItem>
-                        </PermissionsGuard>
+                                    dropDownOpen[link?.key]
+                                      ? '1'
+                                      : '0.4',
+                                }}
+                              />
+                            </ListItemIcon>
+
+                            {link.label}
+                            <Box sx={{ paddingLeft: '20px' }}>
+                              <Image
+                                src={
+                                  routerPathName === lowerPathNameKey ||
+                                  dropDownOpen[link.key]
+                                    ? ArrowUpImage
+                                    : ArrowDownImage
+                                }
+                                alt="Avatar"
+                              />
+                            </Box>
+                          </ListItemButton>
+                        </ListItem>
+                        {/* </PermissionsGuard> */}
                         <Collapse
                           in={
                             dropDownOpen[link?.key] ||
@@ -347,57 +347,57 @@ const DashboardLayout = ({ children, window }: any) => {
                           <List component="div" disablePadding>
                             {link?.textNames?.map((subItem: any) => (
                               <Link href={`${subItem?.key}`} key={uuidv4()}>
-                                <PermissionsGuard
+                                {/* <PermissionsGuard
                                   sidebar="ItemPermission"
                                   permissions={link?.permissions}
-                                >
-                                  <ListItem sx={{ padding: '0px' }}>
-                                    <ListItemButton
-                                      sx={styles?.collapseMenu(
-                                        subItem,
-                                        router,
-                                        theme,
-                                      )}
-                                    >
-                                      <Box sx={styles?.dropdownChildren(theme)}>
-                                        {subItem?.label}
-                                      </Box>
-                                    </ListItemButton>
-                                  </ListItem>
-                                </PermissionsGuard>
+                                > */}
+                                <ListItem sx={{ padding: '0px' }}>
+                                  <ListItemButton
+                                    sx={styles?.collapseMenu(
+                                      subItem,
+                                      router,
+                                      theme,
+                                    )}
+                                  >
+                                    <Box sx={styles?.dropdownChildren(theme)}>
+                                      {subItem?.label}
+                                    </Box>
+                                  </ListItemButton>
+                                </ListItem>
+                                {/* </PermissionsGuard> */}
                               </Link>
                             ))}
                           </List>
                         </Collapse>
                       </>
                     ) : (
-                      <PermissionsGuard
-                        sidebar="ItemPermission"
-                        permissions={link?.permissions}
-                      >
-                        <Link key={uuidv4()} href={`${link?.key}`}>
-                          <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
-                            <ListItemButton
-                              sx={styles?.mainNavLink(link, router, theme)}
-                            >
-                              <ListItemIcon sx={{ minWidth: 20 }}>
-                                <Image
-                                  src={link?.icon}
-                                  alt={link?.icon}
-                                  style={{
-                                    opacity: router?.pathname?.includes(
-                                      `${link?.key}`,
-                                    )
-                                      ? '1'
-                                      : '0.4',
-                                  }}
-                                />
-                              </ListItemIcon>
-                              {link?.label}
-                            </ListItemButton>
-                          </ListItem>
-                        </Link>
-                      </PermissionsGuard>
+                      // <PermissionsGuard
+                      //   sidebar="ItemPermission"
+                      //   permissions={link?.permissions}
+                      // >
+                      <Link key={uuidv4()} href={`${link?.key}`}>
+                        <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
+                          <ListItemButton
+                            sx={styles?.mainNavLink(link, router, theme)}
+                          >
+                            <ListItemIcon sx={{ minWidth: 20 }}>
+                              <Image
+                                src={link?.icon}
+                                alt={link?.icon}
+                                style={{
+                                  opacity: router?.pathname?.includes(
+                                    `${link?.key}`,
+                                  )
+                                    ? '1'
+                                    : '0.4',
+                                }}
+                              />
+                            </ListItemIcon>
+                            {link?.label}
+                          </ListItemButton>
+                        </ListItem>
+                      </Link>
+                      /* </PermissionsGuard> */
                     )}
 
                     <ListItem

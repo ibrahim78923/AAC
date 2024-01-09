@@ -81,6 +81,7 @@ const setActivePermissionsSession = (permissions: any) => {
     localStorage.removeItem('ActivePermissions');
   }
 };
+
 const getActivePermissionsSession = () => {
   const sessionJSON = window?.localStorage?.getItem('ActivePermissions');
 
