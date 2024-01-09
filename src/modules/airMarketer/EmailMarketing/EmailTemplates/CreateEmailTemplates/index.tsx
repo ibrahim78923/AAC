@@ -9,8 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import useCreateForm from './useCreateTemplatesForm';
 
 const CreateTemplatesForm = () => {
-  const { addField, dynamicFields, deleteField, setDynamicFields, theme } =
-    useCreateForm();
+  const { addField, dynamicFields, deleteField, theme } = useCreateForm();
 
   return (
     <Grid sx={styles.mainDiv}>
@@ -26,11 +25,7 @@ const CreateTemplatesForm = () => {
       <Grid container>
         <Grid item xs={12} md={6} lg={8}>
           <Box sx={{ width: '94%', margin: 'auto' }}>
-            <InnerTab
-              dynamicFields={dynamicFields}
-              deleteField={deleteField}
-              setDynamicFields={setDynamicFields}
-            />
+            <InnerTab dynamicFields={dynamicFields} deleteField={deleteField} />
           </Box>
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
@@ -45,7 +40,7 @@ const CreateTemplatesForm = () => {
                 padding={'12px'}
                 sx={styles.customField}
                 key={uuidv4()}
-                onClick={() => addField(item?.type, item?.name)}
+                onClick={() => addField(item?.type)}
               >
                 {item?.drag}
                 <Box
@@ -88,7 +83,7 @@ const CreateTemplatesForm = () => {
                 padding={'12px'}
                 sx={styles.customField}
                 key={uuidv4()}
-                onClick={() => addField(item?.type, item?.name)}
+                onClick={() => addField(item?.type)}
               >
                 {item?.drag}
                 <Box
@@ -103,7 +98,7 @@ const CreateTemplatesForm = () => {
                     <>
                       <Box
                         sx={{
-                          background: '#D9D9D9',
+                          background: theme?.palette?.custom?.light_gray_color,
                           width: '25%',
                           height: '20px',
                         }}
@@ -112,7 +107,7 @@ const CreateTemplatesForm = () => {
                       </Box>
                       <Box
                         sx={{
-                          background: '#D9D9D9',
+                          background: theme?.palette?.custom?.light_gray_color,
                           width: '75%',
                           height: '20px',
                           marginLeft: '2px',
@@ -126,7 +121,7 @@ const CreateTemplatesForm = () => {
                       <Box
                         key={uuidv4()}
                         sx={{
-                          background: '#D9D9D9',
+                          background: theme?.palette?.custom?.light_gray_color,
                           width:
                             index === 0 ? '100%' : index === 1 ? '50%' : '33%',
                           height: '20px',
@@ -136,7 +131,6 @@ const CreateTemplatesForm = () => {
                     ))
                   )}
                 </Box>
-                {/* {item?.icon} */}
                 <Typography
                   variant="h6"
                   sx={{ color: theme?.palette?.secondary?.main }}

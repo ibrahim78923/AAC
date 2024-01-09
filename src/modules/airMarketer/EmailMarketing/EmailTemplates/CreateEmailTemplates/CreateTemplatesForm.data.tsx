@@ -11,19 +11,19 @@ import {
 } from '@/assets/icons';
 
 export const dynamicallyFormValidationSchema = Yup.object().shape({
-  email: Yup?.string(),
+  Editor: Yup?.string(),
 });
 
 export const dynamicallyFormDefaultValues = {
-  email: '',
+  Editor: '',
 };
 
 export const dynamicallyFormArray = [];
 
 export const sideBarMenuArray = [
   {
-    name: 'Text',
-    type: 'Text',
+    name: 'Editor',
+    type: 'Editor',
     icon: <EmailTextIcon />,
     drag: <EmailDragIcon />,
     paragraph: 'Single line multiline last area',

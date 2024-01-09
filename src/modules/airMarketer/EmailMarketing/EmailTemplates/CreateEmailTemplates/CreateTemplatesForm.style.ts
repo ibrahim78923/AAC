@@ -1,7 +1,7 @@
 export const styles = {
   subDiv: {
     backgroundColor: 'white',
-    height: '60vh',
+    minHeight: '60vh',
     width: '100%',
     boxShadow: '0px 0px 10px -2px rgba(0, 0, 0, 0.19);',
     borderRadius: '8px',
