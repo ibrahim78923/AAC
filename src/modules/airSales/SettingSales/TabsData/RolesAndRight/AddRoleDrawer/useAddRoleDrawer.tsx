@@ -33,9 +33,9 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
 
   useEffect(() => {
     trigger(
-      isDrawerOpen?.type === 'add'
-        ? '65952ebafcfe18588f3e23f7'
-        : isDrawerOpen?.id,
+      isDrawerOpen?.type === 'view'
+        ? isDrawerOpen?.id
+        : '65952ebafcfe18588f3e23f7',
     );
   }, [isDrawerOpen]);
 

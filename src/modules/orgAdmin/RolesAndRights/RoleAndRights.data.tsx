@@ -18,6 +18,14 @@ export const columns: any = (columnsProps: any) => {
     val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
   };
 
+  const convertObjectIdToNumber = (mongodbId: string): any => {
+    // Convert hexadecimal to decimal
+    const decimalId = parseInt(mongodbId, 16);
+    // Take modulo with a large prime number to get a unique five-digit number
+    const uniqueFiveDigitNumber = decimalId % 99991; // 99991 is a prime number
+    return uniqueFiveDigitNumber;
+  };
+
   return [
     {
       accessorFn: (row: any) => row?.organizationId,
@@ -38,7 +46,7 @@ export const columns: any = (columnsProps: any) => {
     {
       accessorFn: (row: any) => row?._id,
       id: '_id',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => convertObjectIdToNumber(info?.getValue()) ?? 'N/A',
       header: 'Role ID',
       isSortable: true,
     },
