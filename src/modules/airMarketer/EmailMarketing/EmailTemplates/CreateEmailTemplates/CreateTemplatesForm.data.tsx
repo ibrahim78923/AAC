@@ -33,7 +33,7 @@ export const sideBarMenuArray = [
     type: 'Button',
     icon: <EmailButtonIcon />,
     drag: <EmailDragIcon />,
-    paragraph: 'Add Divider',
+    paragraph: 'Select Date from DatePicker',
   },
   {
     name: 'Image',
@@ -43,15 +43,8 @@ export const sideBarMenuArray = [
     paragraph: 'Add a paragraph',
   },
   {
-    name: 'Input Field',
-    type: 'Input',
-    icon: <EmailButtonIcon />,
-    drag: <EmailDragIcon />,
-    paragraph: 'Select Date from DatePicker',
-  },
-  {
-    name: 'Spacing',
-    type: 'Spacing',
+    name: 'Social',
+    type: 'Social',
     icon: <EmailSocialIcon />,
     drag: <EmailDragIcon />,
     paragraph: 'Add dropdown list',
@@ -68,32 +61,32 @@ export const sideBarMenuArray = [
     type: 'Divider',
     icon: <EmailDividerIcon />,
     drag: <EmailDragIcon />,
-    paragraph: 'Attached your files',
+    paragraph: 'Add Divider',
   },
 ];
 
 export const customersAttributesArray = [
   {
     name: '1',
-    type: 'Input',
+    type: 'layout1',
     icon: <InputIcon />,
     drag: <EmailDragIcon />,
   },
   {
     name: '2',
-    type: 'Input',
+    type: 'layout2',
     icon: <InputIcon />,
     drag: <EmailDragIcon />,
   },
   {
     name: '2',
-    type: 'Input',
+    type: 'layout3',
     icon: <InputIcon />,
     drag: <EmailDragIcon />,
   },
   {
     name: '1/3:2/3',
-    type: 'DatePicker',
+    type: 'layout4',
     icon: <InputIcon />,
     drag: <EmailDragIcon />,
   },

@@ -1,6 +1,5 @@
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+import { Box, Divider, Grid, Typography } from '@mui/material';
 import { styles } from './CreateTemplatesForm.style';
-import { BackArrowIcon } from '@/assets/icons';
 import InnerTab from './InnerTab';
 import {
   customersAttributesArray,
@@ -8,31 +7,19 @@ import {
 } from './CreateTemplatesForm.data';
 import { v4 as uuidv4 } from 'uuid';
 import useCreateForm from './useCreateTemplatesForm';
-import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const CreateTemplatesForm = () => {
-  const {
-    router,
-    addField,
-    dynamicFields,
-    deleteField,
-    setDynamicFields,
-    theme,
-  } = useCreateForm();
+  const { addField, dynamicFields, deleteField, setDynamicFields, theme } =
+    useCreateForm();
 
   return (
     <Grid sx={styles.mainDiv}>
       <Grid container sx={styles.headerBar}>
-        <Grid item xs={12} md={4} lg={3}>
-          <Button
-            className="small"
-            sx={{ color: '#374151', marginRight: '20px', fontWeight: '500' }}
-            startIcon={<BackArrowIcon />}
-            onClick={() => router?.push(AIR_MARKETER.EMAIL_TEMPLATES)}
-          >
+        <Grid item xs={12} md={8} lg={12}>
+          <Typography>
             {' '}
-            Arrow
-          </Button>
+            GiftCard | Loyalty Token | Credits | Voucher{' '}
+          </Typography>
         </Grid>
       </Grid>
 
@@ -93,7 +80,7 @@ const CreateTemplatesForm = () => {
               Layouts
             </Typography>
 
-            {customersAttributesArray?.map((item: any) => (
+            {customersAttributesArray?.map((item: any, index: any) => (
               <Box
                 display={'flex'}
                 alignItems={'center'}
@@ -111,7 +98,45 @@ const CreateTemplatesForm = () => {
                     background: theme?.palette?.custom?.off_white_one,
                   }}
                 ></Box>
-                {item?.icon}
+                <Box sx={styles?.iconBoxStyling}>
+                  {index === 3 ? (
+                    <>
+                      <Box
+                        sx={{
+                          background: '#D9D9D9',
+                          width: '25%',
+                          height: '20px',
+                        }}
+                      >
+                        {' '}
+                      </Box>
+                      <Box
+                        sx={{
+                          background: '#D9D9D9',
+                          width: '75%',
+                          height: '20px',
+                          marginLeft: '2px',
+                        }}
+                      >
+                        {' '}
+                      </Box>
+                    </>
+                  ) : (
+                    Array.from({ length: index + 1 }).map(() => (
+                      <Box
+                        key={uuidv4()}
+                        sx={{
+                          background: '#D9D9D9',
+                          width:
+                            index === 0 ? '100%' : index === 1 ? '50%' : '33%',
+                          height: '20px',
+                          marginLeft: index !== 0 ? '2px' : '0',
+                        }}
+                      ></Box>
+                    ))
+                  )}
+                </Box>
+                {/* {item?.icon} */}
                 <Typography
                   variant="h6"
                   sx={{ color: theme?.palette?.secondary?.main }}

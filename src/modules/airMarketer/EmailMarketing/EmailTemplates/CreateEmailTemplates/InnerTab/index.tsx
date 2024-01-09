@@ -18,10 +18,12 @@ import {
   dynamicallyFormValidationSchema,
 } from '../CreateTemplatesForm.data';
 import { useState } from 'react';
-import { DeleteIcon, DragSharedIcon } from '@/assets/icons';
+import { BackArrowIcon, DeleteIcon, DragSharedIcon } from '@/assets/icons';
 import { isNullOrEmpty } from '@/utils';
 
 import dynamic from 'next/dynamic';
+import { AIR_MARKETER } from '@/routesConstants/paths';
+import { useRouter } from 'next/router';
 
 const CustomEditor = dynamic(
   () => {
@@ -32,6 +34,7 @@ const CustomEditor = dynamic(
 
 const InnerTab = ({ dynamicFields, deleteField, setDynamicFields }: any) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const router = useRouter();
   const theme = useTheme<Theme>();
   const dynamicallyFormForm = useForm({
     resolver: yupResolver(dynamicallyFormValidationSchema),
@@ -71,106 +74,153 @@ const InnerTab = ({ dynamicFields, deleteField, setDynamicFields }: any) => {
 
   return (
     <Box sx={styles?.subDiv}>
-      <Box sx={styles?.innerBox}>
-        {isNullOrEmpty(dynamicFields) && (
-          <Typography variant="body2" sx={{ textAlign: 'center' }}>
+      <Grid container sx={styles.headerBar}>
+        <Grid item xs={12} md={4} lg={6}>
+          <Box display={'flex'} alignContent={'center'}>
+            <Button
+              className="small"
+              sx={{ color: '#374151', fontWeight: '500' }}
+              startIcon={<BackArrowIcon />}
+              onClick={() => router?.push(AIR_MARKETER.EMAIL_TEMPLATES)}
+            ></Button>
+            <Typography variant="h5"> Employee Email</Typography>
+          </Box>
+        </Grid>
+        <Grid
+          item
+          lg={6}
+          xs={12}
+          sx={{ paddingTop: '0px !important', textAlign: 'end' }}
+        >
+          <Button
+            variant="outlined"
+            className="small"
+            sx={{ marginLeft: '15px' }}
+          >
+            Preview
+          </Button>
+          <Button
+            variant="contained"
+            className="small"
+            sx={{ marginLeft: '15px' }}
+          >
+            Save
+          </Button>
+        </Grid>
+      </Grid>
+      {isNullOrEmpty(dynamicFields) && (
+        <Box
+          sx={{
+            border: '3px dotted #b9b9b9',
+            marginTop: '60px',
+            padding: '50px',
+            borderRadius: '5px',
+          }}
+        >
+          <Typography
+            variant="body2"
+            sx={{
+              textAlign: 'center',
+              color: theme?.palette?.custom?.dark_grey,
+            }}
+          >
             Please Create your Form from side bar menu selection.
           </Typography>
-        )}
-        <FormProvider
-          methods={dynamicallyFormForm}
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <Grid container spacing={4} sx={{ marginTop: '-20px' }}>
-            {dynamicFields?.map((item: any, index: any) => (
-              <Grid
-                item
-                xs={12}
-                md={item?.md}
-                key={uuidv4()}
-                sx={{
-                  padding: '30px !important',
-                  marginLeft: '40px !important',
-                  position: 'relative',
-                  cursor: 'pointer',
-                  border: `1px solid ${
-                    hoveredIndex === index
-                      ? theme?.palette?.primary?.main
-                      : 'white'
-                  }`,
-                  borderRadius: '5px',
-                }}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              >
-                {hoveredIndex === index && (
-                  <Box sx={styles?.hoverEffect}>
-                    <DragSharedIcon />
-                    <Box
-                      onClick={() => {
-                        deleteField(index);
-                      }}
-                    >
-                      {' '}
-                      <DeleteIcon />
-                    </Box>
-                  </Box>
-                )}
-
-                {item?.componentProps?.Text && (
+        </Box>
+      )}
+      <FormProvider
+        methods={dynamicallyFormForm}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Grid container spacing={4} sx={{ marginTop: '-20px' }}>
+          {dynamicFields?.map((item: any, index: any) => (
+            <Grid
+              item
+              xs={12}
+              md={item?.md}
+              key={uuidv4()}
+              sx={{
+                padding: '30px !important',
+                marginLeft: '40px !important',
+                position: 'relative',
+                cursor: 'pointer',
+                border: `1px solid ${
+                  hoveredIndex === index
+                    ? theme?.palette?.primary?.main
+                    : 'white'
+                }`,
+                borderRadius: '5px',
+              }}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+            >
+              {hoveredIndex === index && (
+                <Box sx={styles?.hoverEffect}>
+                  <DragSharedIcon />
                   <Box
-                    onClick={() => handleEditorClick(index)}
-                    sx={{ position: 'relative' }}
+                    onClick={() => {
+                      deleteField(index);
+                    }}
                   >
-                    <Typography
-                      variant="body2"
-                      sx={{ textAlign: 'center' }}
-                      dangerouslySetInnerHTML={{
-                        __html:
-                          item?.componentProps?.paragraphTypography ||
-                          item?.componentProps?.Text,
-                      }}
-                    />
-                    {item?.componentProps.editorOpen && (
-                      <Box
-                        sx={{
-                          position: 'absolute',
-                          top: '50px',
-                          left: 0,
-                          width: '100%',
-                          zIndex: 1,
-                        }}
-                        onClick={(e) => e?.stopPropagation()}
-                      >
-                        <CustomEditor
-                          initialData={item?.componentProps?.Text}
-                          handleEditorChange={handleEditorChange}
-                          index={index}
-                        />
-                      </Box>
-                    )}
+                    {' '}
+                    <DeleteIcon />
                   </Box>
-                )}
-                {item?.componentProps?.button && (
-                  <Button variant="contained">
-                    {item?.componentProps?.text}
-                  </Button>
-                )}
-                {item?.componentProps?.Spacing && <Box></Box>}
-                {item?.componentProps?.Divider && <Divider />}
-                <item.component {...item?.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
-              </Grid>
-            ))}
-          </Grid>
-        </FormProvider>
-      </Box>
+                </Box>
+              )}
+
+              {item?.componentProps?.Text && (
+                <Box
+                  onClick={() => handleEditorClick(index)}
+                  sx={{ position: 'relative' }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{ textAlign: 'center' }}
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        item?.componentProps?.paragraphTypography ||
+                        item?.componentProps?.Text,
+                    }}
+                  />
+                  {item?.componentProps.editorOpen && (
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: '50px',
+                        left: 0,
+                        width: '100%',
+                        zIndex: 1,
+                      }}
+                      onClick={(e) => e?.stopPropagation()}
+                    >
+                      <CustomEditor
+                        initialData={item?.componentProps?.Text}
+                        handleEditorChange={handleEditorChange}
+                        index={index}
+                      />
+                    </Box>
+                  )}
+                </Box>
+              )}
+              {item?.componentProps?.button && (
+                <Button variant="contained">
+                  {item?.componentProps?.text}
+                </Button>
+              )}
+              {item?.componentProps?.Spacing && <Box></Box>}
+              {item?.componentProps?.Divider && <Divider />}
+              <item.component {...item?.componentProps} size={'small'}>
+                {item?.componentProps?.select &&
+                  item?.options?.map((option: any) => (
+                    <option key={uuidv4()} value={option?.value}>
+                      {option?.label}
+                    </option>
+                  ))}
+              </item.component>
+            </Grid>
+          ))}
+        </Grid>
+      </FormProvider>
     </Box>
   );
 };

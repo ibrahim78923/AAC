@@ -1,18 +1,15 @@
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { dynamicallyFormArray } from './CreateTemplatesForm.data';
 import {
   RHFDatePicker,
   RHFDropZone,
   RHFSelect,
-  RHFTextField,
 } from '@/components/ReactHookForm';
 import { Theme, Typography, useTheme } from '@mui/material';
 
 const useCreateTemplatesForm = () => {
   const [dynamicFields, setDynamicFields] = useState([...dynamicallyFormArray]);
   const theme = useTheme<Theme>();
-  const router = useRouter();
 
   const addField = (type: any, label: any) => {
     // Create a mapping function to translate the type to form configuration
@@ -28,18 +25,6 @@ const useCreateTemplatesForm = () => {
             },
             md: 12,
             component: Typography,
-          };
-        case 'Input':
-          return {
-            componentProps: {
-              name: type,
-              label: label,
-              fullWidth: true,
-              placeholder: 'Enter here',
-              required: true,
-            },
-            component: RHFTextField,
-            md: 12,
           };
         case 'Image':
           return {
@@ -71,14 +56,6 @@ const useCreateTemplatesForm = () => {
               button: 'text of button',
             },
             component: 'Button',
-            md: 12,
-          };
-        case 'Spacing':
-          return {
-            componentProps: {
-              Spacing: 'for Spacing',
-            },
-            component: 'Spacing',
             md: 12,
           };
         case 'Divider':
@@ -125,7 +102,6 @@ const useCreateTemplatesForm = () => {
   };
 
   return {
-    router,
     addField,
     dynamicFields,
     deleteField,
