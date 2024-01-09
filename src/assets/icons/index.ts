@@ -36,6 +36,7 @@ export { default as PlusIcon } from './shared/plus-shared';
 export { default as LogoSharedIcon } from './shared/logo-shared';
 export { default as EyeSlashIcon } from './shared/eye-slash';
 export { default as EyeIcon } from './shared/eye';
+export { default as SharedPlusGrayIcon } from './shared/share-plus-gray-icon';
 export { default as TrashIcon } from './shared/trash-icon';
 export { default as verifiedIcon } from './shared/verified';
 export { default as CompanyLogoIcon } from './shared/company-logo';

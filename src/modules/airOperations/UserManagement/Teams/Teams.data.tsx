@@ -1,4 +1,4 @@
-import { Box, Checkbox, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { TeamListI } from './Teams.interface';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 
@@ -36,49 +36,10 @@ export const teamList: any = (
   selectedTeamList: any,
   setSelectedTeamList: any,
   teamListData: any,
+  setIsTeamDrawerOpen: any,
   setIsDrawerOpen: any,
   setDeleteModal: any,
 ) => [
-  {
-    accessorFn: (row: any) => row?.id,
-    id: 'id',
-    cell: (info: any) => (
-      <Checkbox
-        color="primary"
-        name={info?.getValue()}
-        checked={
-          !!selectedTeamList?.find((item: any) => item?.id === info?.getValue())
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedTeamList([
-                ...selectedTeamList,
-                teamListData?.find(
-                  (item: any) => item?.id === info?.getValue(),
-                ),
-              ])
-            : setSelectedTeamList(
-                selectedTeamList?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
-                }),
-              );
-        }}
-      />
-    ),
-    header: (
-      <Checkbox
-        color="primary"
-        name="id"
-        checked={selectedTeamList?.length === teamListData?.length}
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedTeamList([...teamListData])
-            : setSelectedTeamList([]);
-        }}
-      />
-    ),
-    isSortable: false,
-  },
   {
     accessorFn: (row: any) => row?.teamName,
     id: 'teamName',
@@ -104,7 +65,10 @@ export const teamList: any = (
     header: 'Action',
     cell: () => (
       <Box sx={{ display: 'flex', gap: 1 }}>
-        <Box sx={{ cursor: 'pointer' }}>
+        <Box
+          sx={{ cursor: 'pointer' }}
+          onClick={() => setIsTeamDrawerOpen(true)}
+        >
           <ViewEyeIcon />
         </Box>
         <Box sx={{ cursor: 'pointer' }} onClick={() => setIsDrawerOpen(true)}>
