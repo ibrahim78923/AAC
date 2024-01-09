@@ -1,10 +1,15 @@
-export const OverviewData = [
-  { 'Asset Type': 'Laptop' },
-  { Status: 'In Production' },
-  { Manufacture: 'Apple' },
-  { 'Mode of Procurement': 'Both' },
+import { Box } from '@mui/material';
+
+export const OverviewData = (data: any) => [
+  { 'Asset Type': data?.assetType?.name ?? '-' },
+  { Status: data?.status?.replaceAll?.('_', ' ') ?? '-' },
+  { Manufacture: data?.manufacturer },
+  { 'Mode of Procurement': data?.modeOfProcurement ?? '-' },
   {
-    Description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit blanditiis eveniet harum illum vel, distinctio dolores, vitae beatae nesciunt delectus aliquid sunt nam repudiandae sint perspiciatis inventore similique provident cupiditate.',
+    Description: data?.description ? (
+      <Box dangerouslySetInnerHTML={{ __html: data?.description }} />
+    ) : (
+      '-'
+    ),
   },
 ];

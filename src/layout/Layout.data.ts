@@ -47,6 +47,7 @@ import {
   AIR_MARKETER,
   AIR_OPERATION,
   LOYALTY_PROGRAM,
+  AIR_SOCIAL,
 } from '@/routesConstants/paths';
 
 type MenuItemI = {
@@ -104,14 +105,14 @@ export const OrgAdminRoutes: MenuItemI[] = [
     permissions: [],
   },
   {
-    key: '/org-admin/user-management',
+    key: '/org-admin/users',
     icon: UserManagementImage,
     label: 'Users',
     role: 'org-admin',
     permissions: [],
   },
   {
-    key: '/org-admin/plan-management',
+    key: '/org-admin/organization-admin',
     icon: QuotesImage,
     label: 'Organization',
     role: 'org-admin',
@@ -132,7 +133,7 @@ export const OrgAdminRoutes: MenuItemI[] = [
     permissions: [],
   },
   {
-    key: '/org-admin/role-and-rights',
+    key: '/org-admin/roles-and-rights',
     icon: ForecastImage,
     label: 'Role and Rights',
     role: 'org-admin',
@@ -527,7 +528,7 @@ export const SalesRoutes: any = [
 
 export const LowerSuperAdminRoutes = [
   {
-    label: 'Setting',
+    label: 'Settings',
     icon: SettingImage,
     role: 'super-admin',
     key: '/super-admin/settings',
@@ -584,7 +585,7 @@ export const LowerSuperAdminRoutes = [
 
 export const LowerOrgAdminRoutes = [
   {
-    label: 'Setting',
+    label: 'Settings',
     icon: SettingImage,
     role: 'org-admin',
     key: '/org-admin/settings',
@@ -746,7 +747,7 @@ export const QuickLinkData = [
   {
     key: '2',
     icon: ContactImage,
-    path: '',
+    path: AIR_SOCIAL?.CONTACTS,
   },
   {
     key: '3',

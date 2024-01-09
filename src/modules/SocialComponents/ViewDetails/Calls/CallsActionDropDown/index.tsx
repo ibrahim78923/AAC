@@ -13,14 +13,19 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 const CallsActionDropdown = (props: any) => {
-  const { setOpenDrawer } = props;
+  const {
+    setOpenDrawer,
+    selectedCheckboxes,
+    deleteCallsHandler,
+    openAlertModal,
+    setOpenAlertModal,
+  } = props;
   const {
     theme,
     isMenuOpen,
     anchorEl,
     handleOpenMenu,
     handleCloseMenu,
-    openAlertModal,
     handleOpenEditDrawer,
     handleOpenViewDrawer,
     handleOpenDeleteAlert,
@@ -35,7 +40,12 @@ const CallsActionDropdown = (props: any) => {
     onSubmitOutCome,
     methodsOutCome,
     handleOpenOutcomeModal,
-  } = useCallsActionDropdown({ setOpenDrawer });
+  } = useCallsActionDropdown({
+    setOpenDrawer,
+    openAlertModal,
+    setOpenAlertModal,
+    selectedCheckboxes,
+  });
 
   return (
     <div>
@@ -51,6 +61,7 @@ const CallsActionDropdown = (props: any) => {
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
+        disabled={selectedCheckboxes?.length === 0}
       >
         Action
       </Button>
@@ -63,10 +74,30 @@ const CallsActionDropdown = (props: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleOpenViewDrawer}>View</MenuItem>
-        <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
-        <MenuItem onClick={handleOpenReassignModal}>Reschedule</MenuItem>
-        <MenuItem onClick={handleOpenOutcomeModal}>Add outcomes</MenuItem>
+        <MenuItem
+          onClick={handleOpenViewDrawer}
+          disabled={selectedCheckboxes?.length > 1}
+        >
+          View
+        </MenuItem>
+        <MenuItem
+          onClick={handleOpenEditDrawer}
+          disabled={selectedCheckboxes?.length > 1}
+        >
+          Edit
+        </MenuItem>
+        <MenuItem
+          onClick={handleOpenReassignModal}
+          disabled={selectedCheckboxes?.length > 1}
+        >
+          Reschedule
+        </MenuItem>
+        <MenuItem
+          onClick={handleOpenOutcomeModal}
+          disabled={selectedCheckboxes?.length > 1}
+        >
+          Add outcomes
+        </MenuItem>
         <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
       </Menu>
 
@@ -76,8 +107,8 @@ const CallsActionDropdown = (props: any) => {
         }
         type={'delete'}
         open={Boolean(openAlertModal)}
-        handleClose={handleCloseAlert}
-        handleSubmit={handleCloseAlert}
+        handleClose={() => setOpenAlertModal('')}
+        handleSubmitBtn={deleteCallsHandler}
       />
 
       <ScheduleModals
@@ -88,7 +119,7 @@ const CallsActionDropdown = (props: any) => {
         type={'outcome'}
         open={openAlertModal === 'outcome'}
         handleClose={handleCloseAlert}
-        handleSubmit={handleCloseAlert}
+        handleSubmit={handleOutCome(onSubmitOutCome)}
         isFooter={true}
       >
         <FormProvider
@@ -121,13 +152,10 @@ const CallsActionDropdown = (props: any) => {
         type={'reschedule'}
         open={openAlertModal === 'reschedule'}
         handleClose={handleCloseAlert}
-        handleSubmit={handleCloseAlert}
+        handleSubmit={handleReAssignCall(onSubmitReassignCall)}
         isFooter={true}
       >
-        <FormProvider
-          methods={methodsReassignCall}
-          onSubmit={handleReAssignCall(onSubmitReassignCall)}
-        >
+        <FormProvider methods={methodsReassignCall}>
           <Grid container spacing={3}>
             {reAssignCallDataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>

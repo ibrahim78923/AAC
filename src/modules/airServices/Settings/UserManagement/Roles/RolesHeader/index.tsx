@@ -3,10 +3,12 @@ import { Box, Typography } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useRouter } from 'next/router';
+import { useRoles } from '../useRoles';
 
 export const RolesHeader = () => {
   const router = useRouter();
 
+  const { setSearchValue } = useRoles();
   return (
     <Box>
       <Box display={'flex'} alignItems={'center'} gap={2}>
@@ -22,7 +24,11 @@ export const RolesHeader = () => {
             <Typography variant="h3">Roles</Typography>
           </Box>
           <Box>
-            <Search label="Search Here" width={'16.25rem'} setSearchBy={''} />
+            <Search
+              label="Search Here"
+              width={'16.25rem'}
+              setSearchBy={setSearchValue}
+            />
           </Box>
         </Box>
       </Box>

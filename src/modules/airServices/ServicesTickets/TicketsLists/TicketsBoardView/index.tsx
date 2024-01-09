@@ -1,43 +1,61 @@
-import { Grid, Box, useTheme } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 import TicketInfoBoardHeader from './TicketInfoBoardHeader';
 import { TicketInfoCard } from './TicketInfoCard';
 import { Fragment } from 'react';
-import { ticketViewBoardArray } from './TicketsBoardView.data';
+import { useGetTicketsQuery } from '@/services/airServices/tickets';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
+import NoData from '@/components/NoData';
+import { AssociationsImage } from '@/assets/images';
 
 export const TableBoardView = ({
   setTicketAction,
   setSelectedTicketList,
 }: any) => {
-  const theme: any = useTheme();
+  const HEAD_STATUS = [
+    { heading: 'Open', be: 'OPEN' },
+    { heading: 'Resolved', be: 'RESOLVED' },
+    { heading: 'Pending', be: 'PENDING' },
+    { heading: 'Closed', be: 'CLOSED' },
+  ];
 
-  const HEAD_STATUS = ['Open', 'Resolved', 'Pending', 'Closed'];
+  const apiDataParameter = { queryParams: {} };
+
+  const { data, isLoading, isError } = useGetTicketsQuery(apiDataParameter);
+
+  const ticketViewBoardArray = data?.data?.tickets;
+
+  if (isError) return <ApiErrorState />;
+  if (isLoading) return <SkeletonTable />;
+  if (!!!data)
+    return <NoData message="No data is available" image={AssociationsImage} />;
 
   return (
     <Grid container spacing={2} overflow={'auto'} flexWrap={'nowrap'}>
-      {HEAD_STATUS?.map((heading: any) => (
-        <Grid item xs={3} sx={{ minWidth: '400px' }} key={heading}>
-          <TicketInfoBoardHeader title={heading} total={2} />
-          <Box
-            height={'100%'}
-            overflow={'auto'}
-            bgcolor={theme.palette.grey[400]}
-            p={2}
-          >
-            {ticketViewBoardArray?.map(
-              (item: any) =>
-                heading === item?.status && (
-                  <Fragment key={item?._id}>
-                    <TicketInfoCard
-                      details={item}
-                      setTicketAction={setTicketAction}
-                      setSelectedTicketList={setSelectedTicketList}
-                    />
-                  </Fragment>
-                ),
-            )}
-          </Box>
-        </Grid>
-      ))}
+      {HEAD_STATUS?.map((head: any) => {
+        const totalCount =
+          ticketViewBoardArray?.filter((item: any) => head?.be === item?.status)
+            ?.length || 0;
+        return (
+          <Grid item xs={3} sx={{ minWidth: '400px' }} key={head?.heading}>
+            <TicketInfoBoardHeader title={head?.heading} total={totalCount} />
+            <Box height={'100%'} overflow={'auto'} bgcolor={'grey.400'} p={2}>
+              {ticketViewBoardArray?.map(
+                (item: any) =>
+                  head?.be === item?.status && (
+                    <Fragment key={item?._id}>
+                      <TicketInfoCard
+                        details={item}
+                        setTicketAction={setTicketAction}
+                        setSelectedTicketList={setSelectedTicketList}
+                      />
+                    </Fragment>
+                  ),
+              )}
+            </Box>
+          </Grid>
+        );
+      })}
     </Grid>
   );
 };

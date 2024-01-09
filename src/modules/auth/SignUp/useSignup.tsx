@@ -10,6 +10,7 @@ import {
 import { debouncedSearch } from '@/utils';
 import { useGetProductsQuery } from '@/services/superAdmin/billing-invoices';
 import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useSignup = () => {
   const methodsSignup = useForm({
@@ -18,6 +19,25 @@ const useSignup = () => {
   });
 
   const { handleSubmit, watch, setValue } = methodsSignup;
+
+  const watchField = watch([
+    'firstName',
+    'lastName',
+    'email',
+    'crn',
+    'numberOfEmployees',
+    'phoneNumber',
+  ]);
+
+  const allValuesNotEmpty = () => {
+    const valuesNotEmpty = watchField?.every((value) => value?.trim() !== '');
+    if (!valuesNotEmpty) {
+      enqueueSnackbar('All Fields are Required', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+    return valuesNotEmpty;
+  };
 
   const organizationNumber = watch('crn');
   const email = watch('email');
@@ -78,6 +98,7 @@ const useSignup = () => {
     onSubmit,
     handleSubmit,
     isLoading,
+    allValuesNotEmpty,
     methodsSignup,
     productData,
     isVerifiedSuccess,

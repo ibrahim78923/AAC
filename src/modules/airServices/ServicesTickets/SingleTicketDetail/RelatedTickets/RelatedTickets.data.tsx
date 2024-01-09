@@ -1,53 +1,36 @@
 import { Checkbox, Typography } from '@mui/material';
-import { TableDataI } from './RelatedTickets.interface';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
-export const data: TableDataI[] = [
-  {
-    Id: 1,
-    ticketsid: `# SR - 5`,
-    taskname: 'Business Platform debt, docs, refactors and stability',
-    duedate: 'Mar 3, - Mar 26, 2022',
-    assignedto: 'Robert Fox',
-    status: 'Open',
-  },
-  {
-    Id: 2,
-    ticketsid: `# INC - 6`,
-    taskname: ' Search migration modelling',
-    duedate: 'Mar 3, - Mar 26, 2022',
-    assignedto: 'Esther Howard',
-    status: 'Pending',
-  },
-  {
-    Id: 3,
-    ticketsid: `# INC - 7`,
-    taskname: 'Style guide for online app store',
-    duedate: 'Mar 3, - Mar 27, 2022',
-    assignedto: 'Wade Warren',
-    status: 'Resolved',
-  },
-];
-export const columns: any = (
+export const columnsFunction: any = (
+  data: any = [],
   setIsDrawerOpen: any,
-  isActive: any,
-  setActive: any,
+  selectedChildTickets: any = [],
+  setSelectedChildTickets: any,
   theme: any,
 ) => [
   {
-    accessorFn: (row: any) => row?.Id,
-    id: 'Id',
+    accessorFn: (row: any) => row?._id,
+    id: '_id',
     cell: (info: any) => (
       <Checkbox
-        checked={!!isActive?.find((item: any) => item?.Id === info?.getValue())}
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        checked={
+          !!selectedChildTickets?.find(
+            (item: any) => item?._id === info?.getValue(),
+          )
+        }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setActive([
-                ...isActive,
-                data?.find((item: any) => item?.Id === info?.getValue()),
+            ? setSelectedChildTickets([
+                ...selectedChildTickets,
+                data?.find((item: any) => item?._id === info?.getValue()),
               ])
-            : setActive(
-                isActive?.filter((item: any) => {
-                  return item?.Id !== info?.getValue();
+            : setSelectedChildTickets(
+                selectedChildTickets?.filter((item: any) => {
+                  return item?._id !== info?.getValue();
                 }),
               );
         }}
@@ -57,9 +40,13 @@ export const columns: any = (
     ),
     header: (
       <Checkbox
-        checked={isActive?.length === data?.length}
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        checked={selectedChildTickets?.length === data?.length}
         onChange={(e: any) => {
-          e?.target?.checked ? setActive([...data]) : setActive([]);
+          e?.target?.checked
+            ? setSelectedChildTickets([...data])
+            : setSelectedChildTickets([]);
         }}
         color="primary"
         name="Id"
@@ -68,8 +55,8 @@ export const columns: any = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.ticketsid,
-    id: 'ticketsid',
+    accessorFn: (row: any) => row?.ticketIdNumber,
+    id: 'ticketIdNumber',
     header: 'Tickets ID',
     isSortable: true,
     cell: (info: any) => (
@@ -87,25 +74,32 @@ export const columns: any = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.taskname,
-    id: 'taskname',
+    accessorFn: (row: any) => row?.subject,
+    id: 'subject',
     isSortable: true,
     header: 'Task Name',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Typography component={'span'} textTransform={'capitalize'}>
+        {info?.getValue()}
+      </Typography>
+    ),
   },
   {
-    accessorFn: (row: any) => row?.duedate,
-    id: 'duedate',
+    accessorFn: (row: any) => row?.plannedEndDate,
+    id: 'plannedEndDate',
     isSortable: true,
     header: 'Due Date',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      info?.getValue()
+        ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
+        : '---',
   },
   {
     accessorFn: (row: any) => row?.assignedto,
     id: 'assignedto',
     isSortable: true,
     header: 'Assigned To',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -115,13 +109,13 @@ export const columns: any = (
     cell: (info: any) => {
       const status = info?.getValue();
       const color =
-        status === 'Open'
+        status === 'OPEN'
           ? theme?.palette?.info?.main
-          : status === 'Pending'
-          ? theme?.palette?.error?.main
-          : status === 'Resolved'
-          ? theme?.palette?.warning?.main
-          : '';
+          : status === 'PENDING'
+            ? theme?.palette?.warning?.main
+            : status === 'RESOLVED'
+              ? theme?.palette?.success?.main
+              : theme?.palette?.error?.main;
       return (
         <Typography
           sx={{
@@ -131,9 +125,10 @@ export const columns: any = (
             borderRadius: '16px',
             cursor: 'pointer',
             width: 'fit-content',
+            textTransform: 'capitalize',
           }}
         >
-          {status}
+          {status?.toLowerCase()}
         </Typography>
       );
     },

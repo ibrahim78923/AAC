@@ -1,7 +1,9 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-
-const vendorCatalogOptions = ['Dell', 'Freshworks', 'Logitech'];
 
 const warrantyValidityYrsOptions = [
   '1',
@@ -30,32 +32,38 @@ const warrantyValidityMonthsOptions = [
   '11',
 ];
 
-export const upsertVendorValidationSchema = Yup?.object()?.shape({
-  vendorCatalog: Yup?.string()?.required('Required'),
-  price: Yup?.number()?.typeError('Number')?.required('Required'),
+export const upsertVendorValidationSchema: any = Yup?.object()?.shape({
+  vendorCatalog: Yup?.mixed()?.nullable()?.required('Required'),
+  price: Yup?.number()?.typeError('Enter Number')?.required('Required'),
   warrantyValidityYrs: Yup?.string(),
   warrantyValidityMonths: Yup?.string(),
   quantity: Yup?.number(),
 });
 
-export const upsertVendorDefaultValues = {
-  vendorCatalog: '',
-  price: 0,
-  warrantyValidityYrs: '',
-  warrantyValidityMonths: '',
-  quantity: 0,
+export const upsertVendorDefaultValues = (data?: any) => {
+  return {
+    vendorCatalog: !!Object?.keys(data?.vendor ?? {})?.length
+      ? data?.vendor
+      : null,
+    price: data?.price ?? 0,
+    warrantyValidityYrs: data?.yrs ?? '',
+    warrantyValidityMonths: data?.months ?? '',
+    quantity: data?.quantity ?? 0,
+  };
 };
 
-export const upsertVendorDataArray = [
+export const getUpsertVendorDataArray = (apiQueryVendorsList: any) => [
   {
     id: 1,
     componentProps: {
       name: 'vendorCatalog',
       label: 'Vendor Catalog',
       required: true,
-      options: vendorCatalogOptions,
+      placeholder: '---Choose---',
+      apiQuery: apiQueryVendorsList,
+      externalParams: { meta: false, limit: 50 },
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 2,

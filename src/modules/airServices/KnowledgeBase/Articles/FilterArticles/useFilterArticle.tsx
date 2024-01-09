@@ -1,18 +1,17 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
   filterArticlesDataDefaultValues,
-  filterArticlesValidationSchema,
 } from './FilterArticles.data';
 
 export const useFilterArticles = (props: any) => {
-  const { isOpenFilterDrawer, setIsOpenFilterDrawer } = props;
+  const { isOpenFilterDrawer, setIsOpenFilterDrawer, handleFilterValues } =
+    props;
   const methods: any = useForm({
-    resolver: yupResolver(filterArticlesValidationSchema),
     defaultValues: filterArticlesDataDefaultValues,
   });
   const { handleSubmit } = methods;
-  const submitHandler = handleSubmit(() => {
+  const submitHandler = handleSubmit((values: any) => {
+    handleFilterValues(values);
     setIsOpenFilterDrawer(false);
     methods?.reset(filterArticlesDataDefaultValues);
   });

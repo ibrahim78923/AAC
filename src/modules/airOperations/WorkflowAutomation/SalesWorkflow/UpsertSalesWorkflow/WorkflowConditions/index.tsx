@@ -49,8 +49,8 @@ export const WorkflowConditions = (props: any) => {
                 </RHFButtonGroup>
               </Box>
             )}
-            <Box display={'flex'} alignItems={'center'} gap={1} mt={2}>
-              <Box sx={styles?.groupNumber(palette)}>{index + 1}</Box>
+            <Box display={{ sm: 'flex' }} alignItems={'center'} gap={1} mt={2}>
+              <Box sx={styles?.groupNumber(palette)}>0{index + 1}</Box>
               <Grid container spacing={{ md: 2, xs: 0 }}>
                 {workflowConditionsGroupDataArray(index)?.map((item) => (
                   <Grid item xs={12} md={item?.gridLength} key={item?._id}>

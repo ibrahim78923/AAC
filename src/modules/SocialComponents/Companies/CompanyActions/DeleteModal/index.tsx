@@ -1,8 +1,17 @@
 import React from 'react';
 
 import { AlertModals } from '@/components/AlertModals';
+import useCompanies from '../../useCompanies';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const DeleteModal = ({ isDeleteCompany, setIsDeleteCompany }: any) => {
+const DeleteModal = ({
+  isDeleteCompany,
+  setIsDeleteCompany,
+  checkedRows,
+  setCheckedRows,
+}: any) => {
+  const { deleteCompanies } = useCompanies();
   return (
     <>
       <AlertModals
@@ -10,11 +19,18 @@ const DeleteModal = ({ isDeleteCompany, setIsDeleteCompany }: any) => {
           "You're about to delete a record .Deleted record can't be restored after 90days"
         }
         type={'delete'}
-        submitBtnText="Ok, Delete"
+        submitBtnText="OK, Delete"
         open={isDeleteCompany}
-        handleClose={() => setIsDeleteCompany(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
+        handleClose={() =>
+          setIsDeleteCompany({ ...isDeleteCompany, deleteModal: false })
+        }
+        handleSubmitBtn={() => {
+          deleteCompanies({ ids: checkedRows });
+          setIsDeleteCompany({ deleteModal: false });
+          setCheckedRows([]);
+          enqueueSnackbar(`Company deleted successfully`, {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
         }}
       />
     </>

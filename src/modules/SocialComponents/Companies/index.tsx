@@ -1,21 +1,9 @@
-import React from 'react';
-
-import {
-  Box,
-  Button,
-  Grid,
-  Menu,
-  MenuItem,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Grid, Stack, Tooltip, Typography } from '@mui/material';
 
 import { AddCircle } from '@mui/icons-material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import CommonTabs from '@/components/Tabs';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 
 import RestoreCompanies from './RestoreCompanies';
 import CreateCompany from './CreateCompany';
@@ -28,7 +16,7 @@ import useCompanies from './useCompanies';
 
 import {
   CompanyIcon,
-  CutomizeIcon,
+  CustomizeIcon,
   FilterIcon,
   ImportCompaniesIcon,
   RefreshTasksIcon,
@@ -40,41 +28,38 @@ import DeleteModal from './CompanyActions/DeleteModal';
 import ReassignModal from './CompanyActions/ReassignModal';
 import MergeModal from './CompanyActions/MergeModal';
 import ImportCompanies from './ImportCompanies';
-import { companiesTableData } from '@/mock/modules/SocialComponents/Companies';
+
 import ExportModal from './CompanyActions/ExportModal';
+import ActionButton from './ActionButton';
 
 const Companies = () => {
   const {
-    open,
-    anchorEl,
     theme,
-    search,
-    setSearch,
-    isOpenDrawer,
-    setIsOpenDrawer,
-    isFilter,
-    setIsFilter,
-    isCustomize,
-    setIsCustomize,
+    isOpen,
+    setIsOpen,
     isToggled,
     toggle,
-    handleClick,
-    handleClose,
-    isCreateView,
-    setIsCreateView,
-    isPreview,
-    setIsPreview,
-    isReassign,
-    setIsReassign,
-    isExport,
-    setIsExport,
-    isDeleteCompany,
-    setIsDeleteCompany,
-    isMerge,
-    setIsMerge,
-    isImport,
-    setIsImport,
+    getAllCompanies,
+    setPageLimit,
+    setPage,
+    checkedRows,
+    setCheckedRows,
+    searchVal,
+    setSearchVal,
+    isLoading,
+    isSuccess,
+    filterValues,
+    setFilterValues,
+    handleResetFilters,
   } = useCompanies();
+
+  const columnsProps = {
+    checkedRows: checkedRows,
+    setCheckedRows: setCheckedRows,
+    companiesData: getAllCompanies,
+  };
+
+  const columnParams = columns(columnsProps);
 
   return (
     <>
@@ -83,204 +68,210 @@ const Companies = () => {
       ) : (
         <>
           <Box sx={styles?.mainCompanyBox(theme)}>
-            <Grid container>
-              <Grid item lg={6} md={6} sm={6} xs={12}>
-                <Typography
-                  variant="h3"
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    color: `${theme?.palette?.grey[800]}`,
-                  }}
-                >
-                  <CompanyIcon /> Companies
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                lg={6}
-                md={6}
-                sm={6}
-                xs={12}
+            <Stack
+              direction={{ md: 'row', xs: 'column' }}
+              justifyContent="space-between"
+              gap={1}
+            >
+              <Typography
+                variant="h3"
                 sx={{
                   display: 'flex',
-                  justifyContent: 'flex-end',
-                  gap: '1rem',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  color: `${theme?.palette?.grey[800]}`,
                 }}
               >
+                <CompanyIcon /> Companies
+              </Typography>
+              <Box
+                display="flex"
+                gap={1}
+                flexDirection={{ sm: 'row', xs: 'column' }}
+              >
                 <Button
-                  onClick={() => setIsImport(true)}
+                  className="small"
+                  color="inherit"
                   variant="outlined"
-                  sx={styles?.importButton(theme)}
+                  startIcon={<ImportCompaniesIcon />}
+                  onClick={() => setIsOpen({ ...isOpen, importDrawer: true })}
                 >
-                  <ImportCompaniesIcon />
                   Import
                 </Button>
                 <Button
+                  className="small"
                   variant="contained"
+                  startIcon={<AddCircle />}
                   onClick={() => {
-                    setIsOpenDrawer(true);
+                    setIsOpen({ ...isOpen, createCompanyDrawer: true });
                   }}
-                  sx={styles?.createButton(theme)}
                 >
-                  <AddCircle
-                    sx={{
-                      color: `${theme?.palette?.common?.white}`,
-                    }}
-                  />
                   Create Company
                 </Button>
-              </Grid>
-            </Grid>
+              </Box>
+            </Stack>
+
             <CommonTabs
               tabsArray={companyTabs}
               isHeader={true}
               addIcon
-              onAddClick={() => setIsCreateView(true)}
+              onAddClick={() =>
+                setIsOpen({ ...isOpen, createViewDrawer: true })
+              }
               searchBarProps={{
                 label: 'Search Here',
-                setSearchBy: setSearch,
-                searchBy: search,
+                setSearchBy: setSearchVal,
+                searchBy: searchVal,
                 width: '260px',
               }}
               headerChildren={
                 <>
+                  <ActionButton
+                    checkedRows={checkedRows}
+                    setCheckedRows={setCheckedRows}
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                  />
                   <Button
                     variant="outlined"
                     className="small"
-                    sx={styles?.actionButton}
-                    aria-controls={open ? 'basic-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClick}
-                  >
-                    Action
-                    <ArrowDropDownIcon
-                      sx={{ color: `${theme?.palette?.custom?.main}` }}
-                    />
-                  </Button>
-                  <Menu
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                      'aria-labelledby': 'basic-button',
-                    }}
-                  >
-                    <MenuItem
-                      onClick={() => {
-                        handleClose();
-                        setIsPreview(true);
-                      }}
-                    >
-                      Preview
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        handleClose();
-                        setIsReassign(true);
-                      }}
-                    >
-                      Re-assign
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        handleClose();
-                        setIsExport(true);
-                      }}
-                    >
-                      Export
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        handleClose();
-                        setIsDeleteCompany(true);
-                      }}
-                    >
-                      Delete
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        handleClose();
-                        setIsMerge(true);
-                      }}
-                    >
-                      Merge
-                    </MenuItem>
-                  </Menu>
-                  <Button
-                    onClick={() => toggle(true)}
-                    variant="outlined"
-                    sx={styles?.actionButton}
+                    color="inherit"
                     startIcon={<RestoreIcon />}
+                    onClick={() => toggle(true)}
                   >
                     Restore
                   </Button>
-                  <>
-                    <Button
-                      onClick={() => setIsCustomize(true)}
-                      variant="outlined"
-                      sx={styles?.actionButton}
-                    >
-                      <CutomizeIcon /> &nbsp; Customize
-                    </Button>
-                  </>
+                  <Button
+                    variant="outlined"
+                    className="small"
+                    color="inherit"
+                    startIcon={<CustomizeIcon />}
+                    onClick={() =>
+                      setIsOpen({ ...isOpen, customizeDrawer: true })
+                    }
+                  >
+                    Customize
+                  </Button>
                   <Tooltip title={'Refresh Filter'}>
                     <Button
                       variant="outlined"
-                      color="inherit"
                       className="small"
+                      color="inherit"
+                      onClick={handleResetFilters}
                     >
                       <RefreshTasksIcon />
                     </Button>
                   </Tooltip>
                   <Button
                     variant="outlined"
-                    sx={styles?.actionButton}
-                    onClick={() => setIsFilter(true)}
+                    className="small"
+                    color="inherit"
+                    startIcon={<FilterIcon />}
+                    onClick={() =>
+                      setIsOpen({ ...isOpen, filtersDrawer: true })
+                    }
                   >
-                    <FilterIcon />
-                    &nbsp; Filter
+                    Filter
                   </Button>
                 </>
               }
             >
               <Grid item lg={12} md={12} sm={12} xs={12}>
-                <TanstackTable columns={columns} data={companiesTableData} />
-                <CustomPagination
-                  count={1}
-                  rowsPerPageOptions={[1, 2]}
-                  entriePages={1}
+                <TanstackTable
+                  columns={columnParams}
+                  data={getAllCompanies?.data?.companies}
+                  totalRecords={getAllCompanies?.data?.meta?.total}
+                  pageLimit={getAllCompanies?.data?.meta?.limit}
+                  onPageChange={(page: any) => setPage(page)}
+                  setPage={setPage}
+                  setPageLimit={setPageLimit}
+                  count={getAllCompanies?.data?.meta?.pages}
+                  isPagination
+                  isLoading={isLoading}
+                  isSuccess={isSuccess}
                 />
               </Grid>
             </CommonTabs>
           </Box>
-          <CreateCompany
-            isOpenDrawer={isOpenDrawer}
-            setIsOpenDrawer={setIsOpenDrawer}
-          />
-          <FilterCompany setIsFilter={setIsFilter} isFilter={isFilter} />
-          <CustomizeCompany
-            isCustomize={isCustomize}
-            setIsCustomize={setIsCustomize}
-          />
-          <CreateViewCompany
-            isCreateView={isCreateView}
-            setIsCreateView={setIsCreateView}
-          />
-          <PreviewDrawer isPreview={isPreview} setIsPreview={setIsPreview} />
-          <DeleteModal
-            isDeleteCompany={isDeleteCompany}
-            setIsDeleteCompany={setIsDeleteCompany}
-          />
-          <ReassignModal
-            isReassign={isReassign}
-            setIsReassign={setIsReassign}
-          />
-          <MergeModal isMerge={isMerge} setIsMerge={setIsMerge} />
-          <ImportCompanies isImport={isImport} setIsImport={setIsImport} />
-          <ExportModal isExport={isExport} setIsExport={setIsExport} />
+
+          {isOpen?.createCompanyDrawer && (
+            <CreateCompany
+              isOpenDrawer={isOpen?.createCompanyDrawer}
+              setIsOpenDrawer={setIsOpen}
+            />
+          )}
+
+          {isOpen?.filtersDrawer && (
+            <FilterCompany
+              filterValues={filterValues}
+              setFilterValues={setFilterValues}
+              setIsFilter={setIsOpen}
+              isFilter={isOpen?.filtersDrawer}
+            />
+          )}
+
+          {isOpen?.customizeDrawer && (
+            <CustomizeCompany
+              isCustomize={isOpen?.customizeDrawer}
+              setIsCustomize={setIsOpen}
+            />
+          )}
+
+          {isOpen?.createViewDrawer && (
+            <CreateViewCompany
+              isCreateView={isOpen?.createViewDrawer}
+              setIsCreateView={setIsOpen}
+            />
+          )}
+
+          {isOpen?.previewDrawer && (
+            <PreviewDrawer
+              checkedRows={checkedRows}
+              isPreview={isOpen?.previewDrawer}
+              setIsPreview={setIsOpen}
+            />
+          )}
+
+          {isOpen?.deleteModal && (
+            <DeleteModal
+              setCheckedRows={setCheckedRows}
+              checkedRows={checkedRows}
+              isDeleteCompany={isOpen?.deleteModal}
+              setIsDeleteCompany={setIsOpen}
+            />
+          )}
+
+          {isOpen?.reassignModal && (
+            <ReassignModal
+              isReassign={isOpen?.reassignModal}
+              setIsReassign={setIsOpen}
+              setCheckedRows={setCheckedRows}
+              checkedRows={checkedRows}
+            />
+          )}
+
+          {isOpen?.mergeModal && (
+            <MergeModal
+              isMerge={isOpen?.mergeModal}
+              setIsMerge={setIsOpen}
+              checkedRows={checkedRows}
+              setCheckedRows={setCheckedRows}
+            />
+          )}
+
+          {isOpen?.importDrawer && (
+            <ImportCompanies
+              isImport={isOpen?.importDrawer}
+              setIsImport={setIsOpen}
+            />
+          )}
+
+          {isOpen?.exportModal && (
+            <ExportModal
+              isExport={isOpen?.exportModal}
+              setIsExport={setIsOpen}
+            />
+          )}
         </>
       )}
     </>

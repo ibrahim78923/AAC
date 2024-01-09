@@ -1,29 +1,32 @@
-import React from 'react';
-import {
-  Box,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Theme,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import { AlertModals } from '@/components/AlertModals';
 
 import { MergeCompaniesIcon } from '@/assets/icons';
 import { CompanyLogoImage } from '@/assets/images';
 import Image from 'next/image';
+import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
 
-const MergeModal = ({ isMerge, setIsMerge }: any) => {
-  const theme = useTheme<Theme>();
-  const [age, setAge] = React.useState('');
+import { v4 as uuidv4 } from 'uuid';
 
-  const handleChange = (event: any) => {
-    setAge(event.target.value);
-  };
+import useMergeModal from './useMergeModal';
+import useCompanies from '../../useCompanies';
+import { useMergeCompaniesMutation } from '@/services/commonFeatures/companies';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+
+const MergeModal = ({
+  isMerge,
+  setIsMerge,
+  checkedRows,
+  setCheckedRows,
+}: any) => {
+  const { theme, companyDetails, methods, seletedCompany } =
+    useMergeModal(checkedRows);
+  const { getAllCompanies } = useCompanies();
+  const companiesDropdown = getAllCompanies?.data?.companies;
+  const [mergeCompanies] = useMergeCompaniesMutation();
+
   return (
     <AlertModals
       typeImage={<MergeCompaniesIcon />}
@@ -46,7 +49,7 @@ const MergeModal = ({ isMerge, setIsMerge }: any) => {
                       color: `${theme?.palette?.blue?.dull_blue}`,
                     }}
                   >
-                    Share my dine
+                    {companyDetails?.name}
                   </Typography>
                   <Typography
                     variant="subtitle2"
@@ -55,27 +58,21 @@ const MergeModal = ({ isMerge, setIsMerge }: any) => {
                       color: `${theme?.palette?.custom?.light}`,
                     }}
                   >
-                    smd.com
+                    {companyDetails?.domain}
                   </Typography>
                 </Box>
               </Box>
             </Grid>
             <Grid item lg={6}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  Select Company
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={age}
-                  label="Deals Owner"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={10}>OneCare Media (ocm.com)</MenuItem>
-                  <MenuItem value={20}>Udemy (udemy.com)</MenuItem>
-                </Select>
-              </FormControl>
+              <FormProvider methods={methods}>
+                <RHFSelect name="mergeCompanies" select={true} size="small">
+                  {companiesDropdown?.map((item: any) => (
+                    <option key={uuidv4()} value={item?._id}>
+                      {item?.name}
+                    </option>
+                  ))}
+                </RHFSelect>
+              </FormProvider>
             </Grid>
           </Grid>
         </Box>
@@ -83,10 +80,26 @@ const MergeModal = ({ isMerge, setIsMerge }: any) => {
       type="Merge Companies"
       open={isMerge}
       cancelBtnText="Cancel"
-      submitBtnText="Update"
-      handleClose={() => setIsMerge(false)}
-      handleSubmit={function (): void {
-        throw new Error('Function not implemented.');
+      submitBtnText="Merge"
+      handleClose={() => setIsMerge({ ...isMerge, mergeModal: false })}
+      handleSubmitBtn={() => {
+        if (seletedCompany != null) {
+          mergeCompanies({
+            body: {
+              primaryCompany: companyDetails?._id,
+              secondaryCompany: seletedCompany,
+            },
+          });
+          setIsMerge({ mergeModal: false });
+          setCheckedRows([]);
+          enqueueSnackbar(`Record has been Merged`, {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
+        } else {
+          enqueueSnackbar(`Please select a company`, {
+            variant: NOTISTACK_VARIANTS?.ERROR,
+          });
+        }
       }}
     />
   );

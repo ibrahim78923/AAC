@@ -5,25 +5,22 @@ import {
   Typography,
   useTheme,
   Checkbox,
+  Tooltip,
 } from '@mui/material';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import { SwitchBtn } from '@/components/SwitchButton';
-import { AvatarImage } from '@/assets/images';
 import { style } from './Users.style';
 import useUserManagement from '../useUserManagement';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 import { v4 as uuidv4 } from 'uuid';
 import { DATE_FORMAT } from '@/constants';
-import { IMG_URL } from '@/config';
 
 export const columns: any = (columnsProps: any) => {
-  const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
+  const { handleUserSwitchChange, checkedRows, handleCheckboxChange } =
+    columnsProps;
   const theme = useTheme();
-  const handleCheckboxChange = (val: any, rowId: string) => {
-    val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
-  };
 
   return [
     {
@@ -56,7 +53,17 @@ export const columns: any = (columnsProps: any) => {
       header: 'Name',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+          <Avatar
+            alt="Remy Sharp"
+            sx={{
+              color: theme?.palette?.grey[600],
+              fontSize: '12px',
+              fontWeight: 500,
+            }}
+          >
+            {info?.row?.original?.firstName?.charAt(0)?.toUpperCase()}
+            {info?.row?.original?.lastName?.charAt(0)?.toUpperCase()}
+          </Avatar>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>
               {info?.row?.original?.firstName} {info?.row?.original?.lastName}
@@ -80,11 +87,11 @@ export const columns: any = (columnsProps: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.OrganizationName,
+      accessorFn: (row: any) => row?.organization,
       id: 'organizationName',
       isSortable: true,
       header: 'Organization Name',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => info?.getValue()?.name ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.Products,
@@ -94,16 +101,19 @@ export const columns: any = (columnsProps: any) => {
       cell: (info: any) =>
         info?.row?.original?.products?.length ? (
           <AvatarGroup max={4} sx={style?.avatarStyle(theme)}>
-            {info?.row?.original?.products?.map((item: any) => (
-              <Avatar
-                key={uuidv4()}
-                variant="square"
-                alt="product-avatar"
-                src={`${IMG_URL}${item?.logo?.url}`}
-              >
-                {/* {item?.name?.charAt(0, 1)} */}
+            <Tooltip
+              placement="right"
+              title={info?.row?.original?.products?.map((item: any) => (
+                <Typography variant="body3" component="p" key={uuidv4()}>
+                  {item?.name}
+                </Typography>
+              ))}
+              arrow
+            >
+              <Avatar key={uuidv4()} variant="square" alt="product-avatar">
+                {info?.row?.original?.products?.length}
               </Avatar>
-            ))}
+            </Tooltip>
           </AvatarGroup>
         ) : (
           'N/A'
@@ -137,11 +147,9 @@ export const columns: any = (columnsProps: any) => {
 };
 
 export const superAdminColumns: any = (columnsProps: any) => {
-  const { handleUserSwitchChange, checkedRows, setCheckedRows } = columnsProps;
-
-  const handleCheckboxChange = (val: any, rowId: string) => {
-    val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
-  };
+  const { handleUserSwitchChange, checkedRows, handleCheckboxChange } =
+    columnsProps;
+  const theme = useTheme();
 
   return [
     {
@@ -174,7 +182,17 @@ export const superAdminColumns: any = (columnsProps: any) => {
       header: 'Name',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
+          <Avatar
+            alt="Remy Sharp"
+            sx={{
+              color: theme?.palette?.grey[600],
+              fontSize: '12px',
+              fontWeight: 500,
+            }}
+          >
+            {info?.row?.original?.firstName?.charAt(0)?.toUpperCase()}
+            {info?.row?.original?.lastName?.charAt(0)?.toUpperCase()}
+          </Avatar>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography component={'span'}>
               {info?.row?.original?.firstName} {info?.row?.original?.lastName}

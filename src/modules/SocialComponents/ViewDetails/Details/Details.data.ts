@@ -48,204 +48,201 @@ export const detailsDefaultValues = {
   description: '',
 };
 
-export const detailsDataArray = [
-  {
-    componentProps: {
-      name: 'CompanyName',
-      label: 'Company Name',
-      fullWidth: true,
-      placeholder: 'Type Here',
+export const detailsDataArray = ({
+  lifeCycleStagesData,
+  UserListData,
+}: any) => {
+  return [
+    {
+      componentProps: {
+        name: 'CompanyName',
+        label: 'Company Name',
+        fullWidth: true,
+        placeholder: 'Type Here',
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'DomainName',
-      label: 'Domain Name',
-      fullWidth: true,
-      placeholder: 'Type Here',
+    {
+      componentProps: {
+        name: 'DomainName',
+        label: 'Domain Name',
+        fullWidth: true,
+        placeholder: 'Type Here',
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'CompanyRegistrationNumber',
-      label: 'Company Registration Number',
-      fullWidth: true,
-      placeholder: 'Type Here',
+    {
+      componentProps: {
+        name: 'CompanyRegistrationNumber',
+        label: 'Company Registration Number',
+        fullWidth: true,
+        placeholder: 'Type Here',
+        type: 'number',
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'CompanyOwner',
-      label: 'Company Owner',
-      select: true,
+    {
+      componentProps: {
+        name: 'CompanyOwner',
+        label: 'Company Owner',
+        select: true,
+      },
+      options: UserListData,
+      component: RHFSelect,
+      md: 4,
     },
-    options: [
-      { value: 'New Business', label: 'New Business' },
-      { value: 'Existing Business', label: 'Existing Business' },
-    ],
-    component: RHFSelect,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'PhoneNumber',
-      label: 'Phone Number',
-      fullWidth: true,
-      placeholder: 'Type Here',
+    {
+      componentProps: {
+        name: 'PhoneNumber',
+        label: 'Phone Number',
+        fullWidth: true,
+        placeholder: 'Type Here',
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'Industry',
-      label: 'Industry',
-      select: true,
+    {
+      componentProps: {
+        name: 'Industry',
+        label: 'Industry',
+        fullWidth: true,
+        placeholder: 'Type Here',
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    options: [
-      { value: '-', label: '-' },
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-    ],
-    component: RHFSelect,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'CompanyType',
-      label: 'Company Type',
-      select: true,
+    {
+      componentProps: {
+        name: 'CompanyType',
+        label: 'Company Type',
+        select: true,
+      },
+      options: [
+        { value: 'Vendor', label: 'Vendor' },
+        { value: 'Partner', label: 'Partner' },
+        { value: 'Other', label: 'Other' },
+      ],
+      component: RHFSelect,
+      md: 4,
     },
-    options: [
-      { value: 'New', label: 'New' },
-      { value: 'Follow Up', label: 'Follow Up' },
-      { value: 'Under Review', label: 'Under Review' },
-    ],
-    component: RHFSelect,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'NumberOfEmployees',
-      label: 'Number of Employees',
-      fullWidth: true,
-      placeholder: 'Type Here',
+    {
+      componentProps: {
+        name: 'NumberOfEmployees',
+        label: 'Number of Employees',
+        fullWidth: true,
+        placeholder: 'Type Here',
+        type: 'number',
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'AnnualRevenue',
-      label: 'Annual Revenue',
-      fullWidth: true,
-      placeholder: 'Type Here',
+    {
+      componentProps: {
+        name: 'AnnualRevenue',
+        label: 'Annual Revenue',
+        fullWidth: true,
+        placeholder: 'Type Here',
+        type: 'number',
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'City',
-      label: 'City',
-      fullWidth: true,
-      placeholder: 'Type Here',
+    {
+      componentProps: {
+        name: 'City',
+        label: 'City',
+        fullWidth: true,
+        placeholder: 'Type Here',
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'PostalCode',
-      label: 'Postal Code',
-      fullWidth: true,
-      placeholder: 'Type Here',
+    {
+      componentProps: {
+        name: 'PostalCode',
+        label: 'Postal Code',
+        fullWidth: true,
+        placeholder: 'Type Here',
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'LifeCycleStage',
-      label: 'Life Cycle Stage',
-      select: true,
+    {
+      componentProps: {
+        name: 'LifeCycleStage',
+        label: 'Life Cycle Stage',
+        select: true,
+      },
+      options: lifeCycleStagesData,
+      component: RHFSelect,
+      md: 4,
     },
-    options: [
-      { value: 'Jack', label: 'Jack' },
-      { value: 'John Doe', label: 'John Doe' },
-      { value: 'Rachel Stalk', label: 'Rachel Stalk' },
-    ],
-    component: RHFSelect,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'LastActivityDate',
-      label: 'Last Activity Date',
-      fullWidth: true,
-      placeholder: 'Type Here',
+    {
+      componentProps: {
+        name: 'LastActivityDate',
+        label: 'Last Activity Date',
+        fullWidth: true,
+        placeholder: 'Type Here',
+      },
+      component: RHFDatePicker,
+      md: 4,
     },
-    component: RHFDatePicker,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'CreatedDate',
-      label: 'Created Date',
-      fullWidth: true,
-      placeholder: 'Type Here',
+    {
+      componentProps: {
+        name: 'CreatedDate',
+        label: 'Created Date',
+        fullWidth: true,
+        placeholder: 'Type Here',
+      },
+      component: RHFDatePicker,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'time',
-      label: '------',
-      fullWidth: true,
-      placeholder: 'Type Here',
+    {
+      componentProps: {
+        name: 'time',
+        label: 'Time',
+        fullWidth: true,
+        placeholder: 'Type Here',
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'LinkedInCompanyPage',
-      label: 'LinkedIn Company page',
-      fullWidth: true,
-      placeholder: 'Type Here',
+    {
+      componentProps: {
+        name: 'LinkedInCompanyPage',
+        label: 'LinkedIn Company page',
+        fullWidth: true,
+        placeholder: 'Type Here',
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'Address',
-      label: 'Address',
-      fullWidth: true,
-      placeholder: 'Type Here',
-      multiline: true,
-      rows: 4,
+    {
+      componentProps: {
+        name: 'Address',
+        label: 'Address',
+        fullWidth: true,
+        placeholder: 'Type Here',
+        multiline: true,
+        rows: 4,
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'Description',
-      label: 'Description',
-      fullWidth: true,
-      placeholder: 'Type Here',
-      multiline: true,
-      rows: 4,
+    {
+      componentProps: {
+        name: 'description',
+        label: 'Description',
+        fullWidth: true,
+        placeholder: 'Type Here',
+        multiline: true,
+        rows: 4,
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-];
+  ];
+};

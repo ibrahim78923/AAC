@@ -1,7 +1,9 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 import { AddCircleBlackIcon, DesignPenIcon } from '@/assets/icons';
 
 export const Header = ({ showButtons }: any) => {
+  const theme: any = useTheme();
+
   return (
     <Box
       display={'flex'}
@@ -10,7 +12,9 @@ export const Header = ({ showButtons }: any) => {
       mb={3}
     >
       <Box p={1}>
-        <Typography variant="h3">Gift cards</Typography>
+        <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
+          Gift Cards
+        </Typography>
       </Box>
       {showButtons && (
         <Box display={'flex'} gap={1}>

@@ -1,8 +1,15 @@
-import { Box, Chip, Typography, useTheme, Popover } from '@mui/material';
+import {
+  Box,
+  Chip,
+  Typography,
+  useTheme,
+  Popover,
+  Avatar,
+} from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import Image from 'next/image';
-import { AvatarImage } from '@/assets/images';
+// import Image from 'next/image';
+// import { AvatarImage } from '@/assets/images';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import { AlertModals } from '@/components/AlertModals';
 import { Fragment, useState } from 'react';
@@ -13,6 +20,9 @@ import {
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 import { TICKETS_ACTION_CONSTANTS } from '../../TicketsLists.data';
+import dayjs from 'dayjs';
+import { IMG_URL } from '@/config';
+import { pxToRem } from '@/utils/getFontValue';
 
 export const TicketInfoCard = ({
   details,
@@ -28,6 +38,12 @@ export const TicketInfoCard = ({
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
+
+  const truncatedDescription = details?.description
+    ? details?.description.length > 60
+      ? `${details.description.slice(0, 60)}...`
+      : details?.description
+    : '-';
 
   return (
     <Fragment>
@@ -54,27 +70,34 @@ export const TicketInfoCard = ({
             alignItems={'center'}
             gap={1}
           >
-            <Typography
-              variant="body2"
-              bgcolor={'secondary.main'}
-              color={'common.white'}
-              borderRadius={1}
-              px={0.5}
+            <Avatar
+              sx={{
+                bgcolor: theme?.palette?.primary?.main,
+                borderRadius: 1.25,
+              }}
+              style={{ width: 20, height: 20 }}
+              src={`${IMG_URL}${details?.departmentsDetails?.departmenProfilePicture}`}
             >
-              {details?.department}
+              <Typography fontSize={pxToRem(10)} textTransform={'uppercase'}>
+                {details?.departmentsDetails?.name?.slice(0, 2) ?? '-'}
+              </Typography>
+            </Avatar>
+            <Typography
+              variant={'body2'}
+              color={'custom.main'}
+              fontWeight={500}
+            >
+              {details?.ticketIdNumber}
             </Typography>
-            <Typography variant="caption">{details?.ticketId}</Typography>
           </Box>
           <Box display={'flex'} marginBottom={0.5} alignItems={'center'}>
-            {!!details?.ticketAppearance && (
+            {!!details?.state && (
               <Chip
                 size="small"
-                label={details?.ticketAppearance}
+                label={details?.state}
                 sx={{
                   bgcolor: `${theme?.['palette']?.[
-                    `${ticketInfoCardAppearanceColor(
-                      details?.ticketAppearance,
-                    )}`
+                    `${ticketInfoCardAppearanceColor(details?.state)}`
                   ]?.['main']}`,
                   color: theme?.palette?.common?.white,
                 }}
@@ -89,7 +112,12 @@ export const TicketInfoCard = ({
             />
           </Box>
         </Box>
-        <Typography variant="body1">{details?.ticketMessage}</Typography>
+        <Box
+          dangerouslySetInnerHTML={{
+            __html: truncatedDescription,
+          }}
+          fontSize={'14px'}
+        />
         <Box
           display={'flex'}
           alignItems={'center'}
@@ -98,14 +126,14 @@ export const TicketInfoCard = ({
         >
           <Box display={'flex'} gap={2} alignItems={'center'}>
             <Chip
-              label={details?.priority}
+              label={details?.pirority}
               size="small"
               icon={
                 <FiberManualRecordIcon
                   fontSize={'medium'}
                   sx={{
                     fill: `${theme?.['palette']?.[
-                      `${ticketInfoCardPriorityColor(details?.priority)}`
+                      `${ticketInfoCardPriorityColor(details?.pirority)}`
                     ]?.['main']}`,
                   }}
                 />
@@ -114,13 +142,26 @@ export const TicketInfoCard = ({
             <Box display={'flex'} alignItems={'center'} gap={0.2}>
               <AccessTimeFilledIcon
                 sx={{ fill: theme?.palette?.warning?.main }}
+                fontSize={'small'}
               />
-              <Typography variant="body1" color={theme?.palette?.grey?.[900]}>
-                Due in 1 day
+              <Typography
+                variant="body3"
+                color={theme?.palette?.custom?.steel_blue_alpha}
+              >
+                Due in {dayjs(details?.plannedEndDate).diff(dayjs(), 'day')} day
               </Typography>
             </Box>
           </Box>
-          <Image src={AvatarImage} alt="Avatar" />
+          <Avatar
+            sx={{ bgcolor: theme?.palette?.primary?.main }}
+            style={{ width: 20, height: 20 }}
+            src={`${IMG_URL}${details?.requesterDetails?.requesterProfilePicture}`}
+          >
+            <Typography fontSize={pxToRem(10)} textTransform={'uppercase'}>
+              {details?.requesterDetails?.firstName?.[0] ?? '-'}
+              {details?.requesterDetails?.lastName?.[0]}
+            </Typography>
+          </Avatar>
         </Box>
       </Box>
 

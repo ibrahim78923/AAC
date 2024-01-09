@@ -14,7 +14,7 @@ import { SUPER_ADMIN } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import useUserDetailsList from '../../UsersDetailsList/useUserDetailsList';
 
-const useAddUser = (useActionParams: any) => {
+const useAddUser = (useActionParams?: any) => {
   const {
     tabVal,
     organizationId,
@@ -46,8 +46,10 @@ const useAddUser = (useActionParams: any) => {
     ...userDetail,
     crn: userDetail?.organization?.crn,
     companyName: userDetail?.organization?.name,
+    products: userDetail?.products?.map((item: any) => {
+      return item?._id;
+    }),
   };
-
   // for company owner form methods
   const companyOwnerMethods: any = useForm({
     resolver: yupResolver(CompanyOwnerValidationSchema),
@@ -82,7 +84,7 @@ const useAddUser = (useActionParams: any) => {
 
   // setValue of address values
   useEffect(() => {
-    setValue('compositeAddress', addressValues);
+    setValue('compositeAddress', addressValues?.trim());
   }, [addressValues]);
 
   // watch crn number from values
@@ -104,7 +106,6 @@ const useAddUser = (useActionParams: any) => {
 
   //onsubmit function of forms
   const onSubmit = async (values: any) => {
-    delete values['phoneNumber'];
     if (
       pathName === SUPER_ADMIN?.USERMANAGMENT &&
       tabTitle === 'COMPANY_OWNER'
@@ -115,7 +116,6 @@ const useAddUser = (useActionParams: any) => {
       pathName === SUPER_ADMIN?.USERMANAGMENT &&
       tabTitle === 'SUPER_ADMIN'
     ) {
-      delete values['postCode'];
       values.role = 'SUPER_ADMIN';
     } else if (pathName === SUPER_ADMIN?.USERS_LIST) {
       values.role = 'ORG_EMPLOYEE';
@@ -134,15 +134,39 @@ const useAddUser = (useActionParams: any) => {
         composite: values?.compositeAddress,
       };
     }
-    delete values['compositeAddress'];
+    let keysToDelete: any = [
+      'flat',
+      'compositeAddress',
+      'buildingNumber',
+      'buildingName',
+      'city',
+      'country',
+      'streetName',
+    ];
+
+    if (isOpenAddUserDrawer?.type === 'edit') {
+      keysToDelete = keysToDelete.concat(
+        '_id',
+        'crn',
+        'companyName',
+        'products',
+        'role',
+        'organization',
+      );
+    }
+
+    for (const key of keysToDelete) {
+      delete values[key];
+    }
+
     try {
       isOpenAddUserDrawer?.type === 'add'
         ? (postUsers({ body: values })?.unwrap(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
-        ? (postUserEmployee({ id: organizationId, body: values }),
-          setIsOpenAdduserDrawer(false))
-        : updateUsers({ updateUserId, body: values });
+          ? (postUserEmployee({ id: organizationId, body: values }),
+            setIsOpenAdduserDrawer(false))
+          : updateUsers({ id: updateUserId, body: values });
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });

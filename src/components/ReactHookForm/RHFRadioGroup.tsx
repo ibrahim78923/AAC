@@ -16,6 +16,7 @@ export default function RHFRadioGroup({
   name,
   options,
   required,
+  disabled,
   ...other
 }: any) {
   const { control } = useFormContext();
@@ -36,6 +37,7 @@ export default function RHFRadioGroup({
                 value={option?.value}
                 control={<Radio />}
                 label={option?.label}
+                disabled={disabled}
               />
             ))}
           </RadioGroup>

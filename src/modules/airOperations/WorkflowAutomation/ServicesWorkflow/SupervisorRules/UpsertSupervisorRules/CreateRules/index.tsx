@@ -1,22 +1,25 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { CreateRulesDataArray } from './CreateRules.data';
 import { useCreateRules } from './useCreateRules';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { CreateRuleAction } from './CreateRuleAction';
 import CreateRuleConditions from './CreateRuleConditions';
 import { LoadingButton } from '@mui/lab';
+import { CopyIcon, GrayBookIcon, WhiteBookIcon } from '@/assets/icons';
 
 const CreateRules = () => {
   const {
     methods,
     onSubmit,
     handleSubmit,
-    moveBack,
+    handleMoveBack,
     watch,
     register,
     setValue,
+    action,
   } = useCreateRules();
+  const EDIT_WORKFLOW = 'edit';
   return (
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -26,19 +29,37 @@ const CreateRules = () => {
               <ArrowBackIcon
                 sx={{ cursor: 'pointer' }}
                 onClick={() => {
-                  moveBack?.();
+                  handleMoveBack?.();
                 }}
               />
             </IconButton>
-            <Typography variant="h3">Create Supervisor Rules</Typography>
+            <Typography variant="h4">
+              {action === EDIT_WORKFLOW
+                ? 'Edit Supervisor Rules'
+                : 'Create Supervisor Rules'}
+            </Typography>
           </Box>
           <Box display={'flex'} gap={0.5}>
-            <Button variant="outlined" color="secondary">
+            <LoadingButton
+              startIcon={<CopyIcon />}
+              variant="outlined"
+              color="secondary"
+            >
               Test Workflow
-            </Button>
-            <Button variant="outlined">Save as Draft</Button>
-            <LoadingButton variant="contained" type="submit">
-              Create
+            </LoadingButton>
+            <LoadingButton
+              startIcon={<GrayBookIcon />}
+              variant="outlined"
+              color="secondary"
+            >
+              Save as Draft
+            </LoadingButton>
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              startIcon={<WhiteBookIcon />}
+            >
+              {action === EDIT_WORKFLOW ? 'Update' : 'Create'}
             </LoadingButton>
           </Box>
         </Box>

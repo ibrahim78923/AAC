@@ -1,25 +1,29 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import {
-  associatesListsData,
-  associatesListsColumnFunction,
-} from './AssociatesList.data';
+import { associatesListsColumnFunction } from './AssociatesList.data';
 import { useAssociatesLists } from './useAssociatesList';
 import { AddAssociationsDrawer } from '../AddAssociationsDrawer';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
-const DELETE_MESSAGE = 'Are you sure you want to delete this Associate Asset?';
-const MODAL_TYPE = 'delete';
-
-export const AssociatesLists = () => {
+export const AssociatesLists = (props: any) => {
   const {
     deleteModal,
     setDeleteModal,
-    submitDeleteModel,
     openDrawer,
     setOpenDrawer,
     theme,
-  } = useAssociatesLists();
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    setPage,
+    setPageLimit,
+    deleteTicketsAssociatesAssets,
+    setAssetId,
+    router,
+  } = useAssociatesLists(props);
 
   return (
     <>
@@ -28,19 +32,59 @@ export const AssociatesLists = () => {
         title={'Associations'}
         addTitle={'Add Associations'}
         handleAction={() => setOpenDrawer(true)}
+        hasEndIcon
+        hasStartIcon={false}
       />
 
       <br />
       <TanstackTable
-        columns={associatesListsColumnFunction(setDeleteModal, theme)}
-        data={associatesListsData}
+        columns={associatesListsColumnFunction(theme, setAssetId, router)}
+        data={
+          data?.data?.tickets?.length > 1
+            ? data?.data?.tickets
+            : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
+              ? data?.data?.tickets
+              : []
+        }
+        isPagination
+        isSuccess={isSuccess}
+        isError={isError}
+        isFetching={isFetching}
+        isLoading={isLoading}
+        currentPage={
+          data?.data?.tickets?.length > 1
+            ? data?.data?.meta?.page
+            : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
+              ? data?.data?.meta?.page
+              : 0
+        }
+        count={
+          data?.data?.tickets?.length > 1
+            ? data?.data?.meta?.pages
+            : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
+              ? data?.data?.meta?.pages
+              : 0
+        }
+        totalRecords={
+          data?.data?.tickets?.length > 1
+            ? data?.data?.meta?.total
+            : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
+              ? data?.data?.meta?.total
+              : 0
+        }
+        pageLimit={data?.data?.meta?.limit}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
       />
       <AlertModals
         open={deleteModal}
-        message={DELETE_MESSAGE}
+        message="Are you sure you want to detach this asset ?"
         handleClose={() => setDeleteModal(false)}
-        handleSubmit={submitDeleteModel}
-        type={MODAL_TYPE}
+        handleSubmitBtn={() => deleteTicketsAssociatesAssets?.()}
+        type={ALERT_MODALS_TYPE?.DELETE}
+        cancelBtnText="Cancel"
+        submitBtnText="Detach"
       />
       <AddAssociationsDrawer
         open={openDrawer}

@@ -12,7 +12,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 
 const ActionDropdown = (props: any) => {
-  const { setOpenDrawer } = props;
+  const { setOpenDrawer, selectedCheckboxes, setSelectedCheckboxes } = props;
   const {
     theme,
     isMenuOpen,
@@ -28,7 +28,12 @@ const ActionDropdown = (props: any) => {
     handleSubmit,
     onSubmit,
     methodsAssignee,
-  } = useActionDropdown({ setOpenDrawer });
+    handleDeleteHandler,
+  } = useActionDropdown({
+    setOpenDrawer,
+    selectedCheckboxes,
+    setSelectedCheckboxes,
+  });
 
   return (
     <div>
@@ -44,6 +49,7 @@ const ActionDropdown = (props: any) => {
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
+        disabled={selectedCheckboxes?.length === 0}
       >
         Action
       </Button>
@@ -56,8 +62,18 @@ const ActionDropdown = (props: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleOpenViewDrawer}>View</MenuItem>
-        <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
+        <MenuItem
+          onClick={handleOpenViewDrawer}
+          disabled={selectedCheckboxes?.length > 1}
+        >
+          View
+        </MenuItem>
+        <MenuItem
+          onClick={handleOpenEditDrawer}
+          disabled={selectedCheckboxes?.length > 1}
+        >
+          Edit
+        </MenuItem>
         <MenuItem onClick={handleOpenReassignAlert}>Re-assign</MenuItem>
         <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
       </Menu>
@@ -102,7 +118,7 @@ const ActionDropdown = (props: any) => {
         type={'delete'}
         open={openAlertModal === 'Delete'}
         handleClose={handleCloseAlert}
-        handleSubmit={handleCloseAlert}
+        handleSubmitBtn={handleDeleteHandler}
       />
     </div>
   );

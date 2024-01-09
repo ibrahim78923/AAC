@@ -17,8 +17,8 @@ export const Filters = (props: any) => {
       <CommonDrawer
         isDrawerOpen={filtersOpen}
         onClose={() => setFiltersOpen?.(false)}
-        okText={'Create'}
-        title={'Create voucher'}
+        okText={'Apply'}
+        title={'Filter'}
         submitHandler={() => handleSubmit(submitFiltersForm)()}
         isOk
         cancelText={'Cancel'}

@@ -1,10 +1,17 @@
-import React from 'react';
-
 import { AlertModals } from '@/components/AlertModals';
-
 import { AssignCommonIcon } from '@/assets/icons';
+import { useRestoreCompaniesMutation } from '@/services/commonFeatures/companies';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const RestoreModal = ({ isRestoreItem, setIsRestoreItem }: any) => {
+const RestoreModal = ({
+  isRestoreItem,
+  setIsRestoreItem,
+  checkedRows,
+  setCheckedRows,
+}: any) => {
+  const [restoreCompanies] = useRestoreCompaniesMutation();
+
   return (
     <>
       <AlertModals
@@ -14,9 +21,17 @@ const RestoreModal = ({ isRestoreItem, setIsRestoreItem }: any) => {
         open={isRestoreItem}
         cancelBtnText="Cancel"
         submitBtnText="Restore"
-        handleClose={() => setIsRestoreItem(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
+        handleClose={() => setIsRestoreItem({ isOpen: false })}
+        handleSubmitBtn={() => {
+          restoreCompanies({
+            id: checkedRows,
+            body: { action: isRestoreItem?.type },
+          });
+          setCheckedRows([]);
+          setIsRestoreItem({ isOpen: false });
+          enqueueSnackbar(`Company restored successfully`, {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
         }}
       />
     </>

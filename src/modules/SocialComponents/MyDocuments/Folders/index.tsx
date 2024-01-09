@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -37,10 +37,8 @@ import {
 } from '@/assets/icons';
 import { UserRoundImage } from '@/assets/images';
 
-import { documentTableData } from '@/mock/modules/SocialComponents/Documents';
-
 import TanstackTable from '@/components/Table/TanstackTable';
-import { columns, dataArray, toolTipData } from './Folder.data';
+import { dataArray, dataArrayImage, toolTipData } from './Folder.data';
 import useFolder from './useFolder';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -49,7 +47,7 @@ import { styles } from './Folder.style';
 import PreviewPdf from './PreviewPdf';
 import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
-import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import { enqueueSnackbar } from 'notistack';
 
 const Folders = () => {
@@ -96,7 +94,24 @@ const Folders = () => {
     deleteUserFolders,
     setIsImage,
     isImage,
+    onSubmitImage,
+    addFile,
+    imageData,
+    getRowValues,
+    isGetRowValues,
+    deleteUserFiles,
+    isOpenFile,
+    setIsOpenFile,
   } = useFolder();
+  const [sendData, setSendData] = useState(null);
+
+  useEffect(() => {
+    if (isGetRowValues?.length === 1) {
+      setSendData(
+        imageData?.find((img: any) => img?._id === isGetRowValues.at(0)),
+      );
+    }
+  }, [isGetRowValues]);
 
   return (
     <>
@@ -307,7 +322,7 @@ const Folders = () => {
         </Box>
       </CommonDrawer>
       <Grid container spacing={2}>
-        <Grid item lg={3}>
+        <Grid item lg={3} md={4} sm={12} xs={12}>
           <Box
             sx={{
               border: `1px solid ${theme?.palette?.custom?.pale_gray}`,
@@ -444,7 +459,7 @@ const Folders = () => {
                   <>
                     <Box
                       onClick={() => {
-                        setCardBox(item?._id);
+                        setCardBox([item?._id]);
                         setIsEditOpenModal(item);
                       }}
                       sx={{
@@ -453,10 +468,9 @@ const Folders = () => {
                         gap: '1rem',
                         marginY: '4px',
                         cursor: 'pointer',
-                        background:
-                          item?._id === cardBox
-                            ? `${theme?.palette?.grey[400]}`
-                            : `${theme?.palette?.common?.white}`,
+                        background: cardBox?.includes(item?._id)
+                          ? `${theme?.palette?.grey[400]}`
+                          : `${theme?.palette?.common?.white}`,
                         borderRadius: '8px',
                         padding: '8px',
                       }}
@@ -479,7 +493,7 @@ const Folders = () => {
             </Box>
           </Box>
         </Grid>
-        <Grid item lg={9}>
+        <Grid item lg={9} md={8} sm={12} xs={12}>
           <Box
             sx={{
               border: `1px solid ${theme?.palette?.custom?.pale_gray}`,
@@ -548,6 +562,7 @@ const Folders = () => {
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
                     className="small"
+                    disabled={isGetRowValues?.length === 0}
                   >
                     Action
                     <ArrowDropDownIcon
@@ -598,7 +613,7 @@ const Folders = () => {
                     <MenuItem
                       onClick={() => {
                         setAnchorEl(null);
-                        setIsOpenDelete(true);
+                        setIsOpenFile(true);
                       }}
                     >
                       Delete
@@ -630,8 +645,8 @@ const Folders = () => {
               </Grid>
               <Grid item lg={12} md={12} sm={12} xs={12}>
                 <TanstackTable
-                  columns={columns}
-                  data={documentTableData}
+                  columns={getRowValues}
+                  data={imageData}
                   isPagination
                 />
               </Grid>
@@ -808,20 +823,25 @@ const Folders = () => {
         handleClose={() => setIsOpenDelete(false)}
         handleSubmitBtn={deleteUserFolders}
       />
+      <AlertModals
+        message={'Are you sure you want to delete this file?'}
+        type={'delete'}
+        open={isOpenFile}
+        handleClose={() => setIsOpenFile(false)}
+        handleSubmitBtn={deleteUserFiles}
+      />
       <PreviewPdf
         isPdfOpen={isPdfOpen}
         setIsPdfOpen={setIsPdfOpen}
         handlePdfOpen={handlePdfOpen}
         handlePdfClose={handlePdfClose}
+        sendData={sendData}
       />
       <CommonModal
         open={isImage}
         handleCancel={() => setIsImage(false)}
         handleSubmit={() => {
-          setIsImage(false);
-          enqueueSnackbar('Document Upload Successfully', {
-            variant: 'success',
-          });
+          onSubmitImage();
         }}
         title={'Upload Documents'}
         okText={'Upload'}
@@ -829,8 +849,17 @@ const Folders = () => {
         footerFill={false}
         footer={true}
       >
-        <FormProvider methods={FolderAdd}>
-          <RHFDropZone name="logoUrl" />
+        <FormProvider methods={addFile}>
+          <Grid container spacing={4}>
+            {dataArrayImage?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component
+                  {...item.componentProps}
+                  size={'small'}
+                ></item.component>
+              </Grid>
+            ))}
+          </Grid>
         </FormProvider>
       </CommonModal>
     </>

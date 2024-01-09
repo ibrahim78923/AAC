@@ -94,7 +94,10 @@ export const ASSET_IMPACT = {
   MEDIUM: 'medium',
   HIGH: 'high',
 };
-
+export const TICKET_TYPE = {
+  INC: 'INC',
+  SR: 'SR',
+};
 export const ASSET_TYPE = {
   SERVICES: 'services',
   HARDWARE: 'hardware',
@@ -121,7 +124,12 @@ export const AIR_CUSTOMER_PORTAL_TICKET = {
   PROCESSING: 'Processing',
 };
 
-export const NOTISTACK_VARIANTS: any = {
+export const NOTISTACK_VARIANTS: {
+  SUCCESS: 'success';
+  ERROR: 'error';
+  WARNING: 'warning';
+  INFO: 'info';
+} = {
   SUCCESS: 'success',
   ERROR: 'error',
   WARNING: 'warning',
@@ -237,8 +245,8 @@ export const SETTINGS_ADD_ROLE = {
   DELETE: 'Delete',
 };
 export const REQUESTORS_STATUS = {
-  ACTIVE: 'Active',
-  INACTIVE: 'Inactive',
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
 };
 export const REQUESTORS_ASSIGNED_STATUS = {
   OPEN: 'Open',
@@ -260,6 +268,9 @@ export const ROLES_ACTION_CONSTANTS = {
   VIEW: 'View',
   DELETE: 'Delete',
   ADD_NEW_ROLE: 'Add New Role',
+  SAVE: 'Save',
+  ADD: 'Add',
+  VIEW_ID: 'Id',
 };
 export const ROLES_ACTION_CONSTANTS_DRAWER_ACTION = {
   ADD_ROLE: 'Add Roles',
@@ -288,4 +299,33 @@ export const ACTIONS_TYPES = {
   DELETE: 'delete',
   EDIT: 'edit',
   CLONE: 'clone',
+};
+export const AGENTS = {
+  INVITE_AGENT: 'Invite Agent',
+  UPDATE_AGENT: 'Update Agent',
+};
+export const SOFTWARE_USER_ACTIONS_TYPES = {
+  ALLOCATE: 'Allocate',
+  DEALLOCATE: 'Deallocate',
+  REMOVE: 'Remove',
+};
+
+export const SOFTWARE_USER_ACTIONS_CLICK = {
+  CLOSE_MENU: 'closeMenu',
+};
+export const TASK_STATUS = {
+  TO_DO: 'Todo',
+  IN_PROGRESS: 'In-Progress',
+  DONE: 'Done',
+};
+
+export enum ROLES {
+  ORG_REQUESTER = 'ORG_REQUESTER',
+  ORG_AGENT = 'ORG_AGENT',
+}
+
+export const TICKETS_STATE = {
+  NEW: 'New',
+  RESPONSE_DUE: 'Response due',
+  OVERDUE: 'Overdue',
 };

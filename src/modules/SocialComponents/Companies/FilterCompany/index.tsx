@@ -12,29 +12,39 @@ import { FilterArray } from './FilterCompany.data';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const FilterCompany = ({ isFilter, setIsFilter }: any) => {
-  const { methods } = useFilterCompany();
+const FilterCompany = ({
+  isFilter,
+  setIsFilter,
+  filterValues,
+  setFilterValues,
+}: any) => {
+  const { methods, handleSubmit, onSubmit } = useFilterCompany({
+    filterValues,
+    setFilterValues,
+    setIsFilter,
+  });
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isFilter}
         onClose={() => {
-          setIsFilter(false);
+          setIsFilter({ ...isFilter, filtersDrawer: false });
         }}
-        title="Filter"
+        title="Filters"
         okText="Apply"
         isOk={true}
         footer={true}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
-              {FilterArray?.map((item: any) => (
+              {FilterArray()?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={uuidv4()}>
+                        <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>
                       ))}

@@ -1,8 +1,8 @@
 export const singleInventoryDetailTabsData = [
   'Overview',
   'Associations',
-  'Purchase Order',
-  'Contract',
+  'Purchase Orders',
+  'Contracts',
   'Expense',
   'Activity',
   'Software',

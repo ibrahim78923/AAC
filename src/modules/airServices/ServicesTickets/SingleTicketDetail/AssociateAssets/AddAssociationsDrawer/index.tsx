@@ -1,54 +1,59 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import { AddAssociateAssetDrawerPropsI } from './AddAssociationsDrawer.interface';
 import TanstackTable from '@/components/Table/TanstackTable';
-import {
-  drawerTableColumns,
-  drawerTableData,
-} from './AddAssociationsDrawer.data';
 import { useAssociationsDrawer } from './useAssociationsDrawer';
-import { Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import Search from '@/components/Search';
 
-export const AddAssociationsDrawer = ({
-  open,
-  setDrawerOpen,
-}: AddAssociateAssetDrawerPropsI) => {
-  const { drawerData, setDrawerData, theme } = useAssociationsDrawer();
+export const AddAssociationsDrawer = (props: any) => {
+  const { open } = props;
+  const {
+    associateAssetsColumns,
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    setPageLimit,
+    setPage,
+    submitAssetAssociationList,
+    closeAssetsAssociate,
+    setSearch,
+    selectedAssetToAssociateList,
+    postTicketsAssociatesAssetsStatus,
+  } = useAssociationsDrawer(props);
 
   return (
-    <div>
-      <CommonDrawer
-        isDrawerOpen={open}
-        onClose={() => setDrawerOpen(false)}
-        title="Add associations"
-        submitHandler={() => {}}
-        isOk={true}
-        footer={true}
-        okText="Associate"
-      >
-        <Grid container>
-          <Grid item xs={12}>
-            <Search
-              label="Search Here"
-              width="100%"
-              searchBy=""
-              setSearchBy={() => {}}
-              sx={{ width: '100%' }}
-            />
-          </Grid>
-          <Grid item xs={12} mt={'16px'}>
-            <TanstackTable
-              columns={drawerTableColumns(
-                drawerData,
-                setDrawerData,
-                drawerTableData,
-                theme,
-              )}
-              data={drawerTableData}
-            />
-          </Grid>
-        </Grid>
-      </CommonDrawer>
-    </div>
+    <CommonDrawer
+      isDrawerOpen={open}
+      onClose={() => closeAssetsAssociate?.()}
+      title="Add associations"
+      submitHandler={() => submitAssetAssociationList?.()}
+      isOk
+      footer
+      okText="Associate"
+      isDisabled={
+        !!!selectedAssetToAssociateList?.length ||
+        postTicketsAssociatesAssetsStatus?.isLoading
+      }
+    >
+      <Search label="Search Here" width="100%" setSearchBy={setSearch} />
+      <Box mt={2}> </Box>
+      <TanstackTable
+        columns={associateAssetsColumns}
+        data={data?.data?.inventories}
+        isPagination
+        isSuccess={isSuccess}
+        isError={isError}
+        isFetching={isFetching}
+        isLoading={isLoading}
+        currentPage={data?.data?.meta?.page}
+        count={data?.data?.meta?.pages}
+        pageLimit={data?.data?.meta?.limit}
+        totalRecords={data?.data?.meta?.total}
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+      />
+    </CommonDrawer>
   );
 };

@@ -6,7 +6,6 @@ import UploadLogo from './UploadLogo';
 import { styles } from './AddCompanyDetails.style';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { EraserIcon } from '@/assets/icons';
-import { v4 as uuidv4 } from 'uuid';
 import useToggle from '@/hooks/useToggle';
 import useAddCompanyDetails from './useAddCompanyDetails';
 
@@ -16,9 +15,17 @@ export default function AddCompanyDetails({
   organizationId,
   setISOpenCompanyDrawer,
 }: any) {
-  const { theme, productsList, methods, handleSubmit, onSubmit } =
-    useAddCompanyDetails(organizationId, setISOpenCompanyDrawer);
   const [isToggled, setIsToggled] = useToggle(false);
+
+  const {
+    theme,
+    productsList,
+    methods,
+    handleSubmit,
+    onSubmit,
+    companyImg,
+    setCompanyImg,
+  } = useAddCompanyDetails(organizationId, setISOpenCompanyDrawer, isToggled);
 
   return (
     <CommonDrawer
@@ -37,7 +44,10 @@ export default function AddCompanyDetails({
             <Grid item sm={12}>
               <Typography variant="h4">Company Logo</Typography>
               <Box>
-                <UploadLogo />
+                <UploadLogo
+                  companyImg={companyImg}
+                  setCompanyImg={setCompanyImg}
+                />
               </Box>
             </Grid>
             <Grid item sm={12}>
@@ -47,14 +57,23 @@ export default function AddCompanyDetails({
               </Box>
             </Grid>
             {dataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Grid item xs={12} md={item?.md} key={item?.name}>
                 <Typography variant="body2" fontWeight={500}>
                   {item?.title}
                 </Typography>
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component
+                  {...item.componentProps}
+                  size={'small'}
+                  disabled={
+                    isToggled &&
+                    item?.componentProps?.name === 'compositeAddress'
+                      ? true
+                      : false
+                  }
+                >
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
+                      <option key={option?.value} value={option?.value}>
                         {option?.label}
                       </option>
                     ))}
@@ -100,7 +119,7 @@ export default function AddCompanyDetails({
                     <Grid item container spacing={1} mt={1}>
                       {item?.componentProps?.name === 'compositeAddress' &&
                         item?.subData?.map((data: any) => (
-                          <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                          <Grid item xs={12} md={item?.md} key={data?.name}>
                             <data.component
                               {...data.componentProps}
                               size={'small'}
@@ -108,7 +127,7 @@ export default function AddCompanyDetails({
                               {data?.componentProps?.select
                                 ? data?.options?.map((option: any) => (
                                     <option
-                                      key={uuidv4()}
+                                      key={option?.value}
                                       value={option?.value}
                                     >
                                       {option?.label}

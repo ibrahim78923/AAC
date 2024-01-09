@@ -1,35 +1,38 @@
 import { Checkbox, Typography } from '@mui/material';
+import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { styles } from './Tasks.styles';
+import { DATE_FORMAT } from '@/constants';
 
 export const tasksTableColumns: any = (
   activeCheck: any,
   setActiveCheck: any,
   setIsDetailDrawerOpen: any,
   theme: any,
+  tableData: any,
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?.Id,
-      id: 'Id',
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
       cell: (info: any) => (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
           checked={
-            !!activeCheck?.find((item: any) => item?.Id === info?.getValue())
+            !!activeCheck?.find((item: any) => item?._id === info?.getValue())
           }
           onChange={(e: any) => {
             e?.target?.checked
               ? setActiveCheck([
                   ...activeCheck,
-                  tasksTableData?.find(
-                    (item: any) => item?.Id === info?.getValue(),
+                  tableData?.find(
+                    (item: any) => item?._id === info?.getValue(),
                   ),
                 ])
               : setActiveCheck(
                   activeCheck?.filter((item: any) => {
-                    return item?.Id !== info?.getValue();
+                    return item?._id !== info?.getValue();
                   }),
                 );
           }}
@@ -41,20 +44,20 @@ export const tasksTableColumns: any = (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
-          checked={activeCheck?.length === tasksTableData?.length}
+          checked={activeCheck?.length === tableData?.length}
           onChange={(e: any) => {
             e?.target?.checked
-              ? setActiveCheck([...tasksTableData])
+              ? setActiveCheck([...tableData])
               : setActiveCheck([]);
           }}
           color="primary"
-          name="Id"
+          name="_id"
         />
       ),
     },
     {
-      accessorFn: (row: any) => row?.taskID,
-      id: 'TaskID',
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
       cell: (info: any) => (
         <Typography
           variant="body4"
@@ -63,32 +66,38 @@ export const tasksTableColumns: any = (
             setIsDetailDrawerOpen(info?.getValue(), true);
           }}
         >
-          {info?.getValue()}
+          #TSK-{info?.getValue()?.slice(-3)?.toUpperCase()}
         </Typography>
       ),
       header: 'Task ID',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.taskName,
-      id: 'taskName',
+      accessorFn: (row: any) => row?.title,
+      id: 'title',
       isSortable: true,
       header: 'Task Name',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.dueDate,
-      id: 'dueDate',
+      accessorFn: (row: any) => row,
+      id: 'startDate endDate ',
       isSortable: true,
       header: 'Due Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) =>
+        `${dayjs(info?.getValue()?.startDate)?.format('MMM DD')} - ${dayjs(
+          info?.getValue()?.endDate,
+        )?.format(DATE_FORMAT?.UI)}`,
     },
     {
-      accessorFn: (row: any) => row?.assignedTo,
-      id: 'assignedTo',
+      accessorFn: (row: any) => row?.assignedUser,
+      id: 'assignTo',
       isSortable: true,
       header: 'Assigned To',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) =>
+        info?.getValue()
+          ? `${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`
+          : 'Unknown',
     },
     {
       accessorFn: (row: any) => row?.status,

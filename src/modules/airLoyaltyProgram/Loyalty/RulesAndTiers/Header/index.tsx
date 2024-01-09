@@ -1,7 +1,8 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 
 export const Header = (props: any) => {
   const { upsertTiersHandler, upsertRulesHandler } = props;
+  const theme: any = useTheme();
   return (
     <>
       <Box
@@ -11,7 +12,9 @@ export const Header = (props: any) => {
         gap={1}
         flexWrap={'wrap'}
       >
-        <Typography>Rules and tiers</Typography>
+        <Typography variant="h3" color={theme?.palette?.slateBlue?.main}>
+          Tiers and Rules
+        </Typography>
         <Box display={'flex'} gap={2} flexWrap={'wrap'}>
           <Button variant="contained" onClick={() => upsertRulesHandler?.()}>
             Create Rules

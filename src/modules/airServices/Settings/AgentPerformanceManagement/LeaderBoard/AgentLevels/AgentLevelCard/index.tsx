@@ -1,5 +1,6 @@
-import { Box, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
+import { RHFTextField } from '@/components/ReactHookForm';
+import { Box, Typography, useTheme } from '@mui/material';
 
 const AgentLevelCard = (props: any) => {
   const { palette }: any = useTheme();
@@ -25,7 +26,12 @@ const AgentLevelCard = (props: any) => {
         }}
       >
         <Image src={props?.icon} alt={props?.title} width={40} height={36} />
-        <Typography variant="h4" pb={0.6} color={'slateBlue.main'}>
+        <Typography
+          variant="h4"
+          pb={0.6}
+          color={'slateBlue.main'}
+          textTransform={'capitalize'}
+        >
           {props?.title}
         </Typography>
       </Box>
@@ -38,15 +44,9 @@ const AgentLevelCard = (props: any) => {
         >
           After collecting
         </Typography>
-        <Box
-          sx={{
-            border: `1px solid ${palette?.grey?.['0']}`,
-            borderRadius: 1,
-            p: 0.5,
-          }}
-        >
+        <RHFTextField name={props?.title} size="small" sx={{ maxWidth: 204 }}>
           {props?.points}
-        </Box>
+        </RHFTextField>
       </Box>
     </Box>
   );

@@ -1,18 +1,12 @@
-import { Button, Grid, MenuItem, Popover, Typography } from '@mui/material';
+import { Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
 import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
-import { styles } from './TasksHeader.styles';
 import { useTasksHeader } from './useTasksHeader';
-import { TasksHeaderI } from './TasksHeader.interface';
 
-export const TasksHeader = ({
-  setIsAddDrawerOpen,
-  setIsEditDrawerOpen,
-  activeCheck,
-}: TasksHeaderI) => {
+export const TasksHeader = (props: any) => {
+  const { activeCheck } = props;
   const {
     actionPop,
-    setActionPop,
     openAction,
     handleActionClick,
     handleActionClose,
@@ -23,10 +17,19 @@ export const TasksHeader = ({
     deleteModal,
     setDeleteModal,
     submitDeleteModel,
-    theme,
-  } = useTasksHeader();
+    openEditDrawer,
+    openAddDrawer,
+    csvExportHandler,
+    excelExportHandler,
+  } = useTasksHeader(props);
   return (
-    <Grid container spacing={{ sm: 0, xs: 2 }} sx={styles?.headContainer}>
+    <Grid
+      container
+      spacing={{ sm: 0, xs: 2 }}
+      display="flex"
+      alignItems="center"
+      justifyContent="space-between"
+    >
       <Grid
         item
         sm={6}
@@ -36,13 +39,19 @@ export const TasksHeader = ({
           justifyContent: { sm: 'flex-start', xs: 'center' },
         }}
       >
-        <Typography variant="h5" sx={styles?.headText(theme)}>
-          Task
-        </Typography>
+        <Typography variant="h5">Task</Typography>
       </Grid>
-      <Grid sm={6} xs={12} item sx={styles?.btnContainer}>
+      <Grid
+        sm={6}
+        xs={12}
+        item
+        display="flex"
+        gap="20px"
+        justifyContent={{ sm: 'flex-end', xs: 'center' }}
+      >
         <Button
-          sx={styles?.actionBtn(theme)}
+          variant="outlined"
+          color="secondary"
           endIcon={<ActionButtonIcon />}
           disableElevation
           disabled={!!!activeCheck?.length}
@@ -50,41 +59,33 @@ export const TasksHeader = ({
         >
           Action
         </Button>
-        <Popover
+        <Menu
           open={openAction}
           anchorEl={actionPop}
           onClose={handleActionClose}
-          sx={{ mt: '8px' }}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'left',
           }}
         >
-          <MenuItem
-            onClick={() => {
-              setIsEditDrawerOpen(true), setActionPop(null);
-            }}
-          >
-            Edit
-          </MenuItem>
+          <MenuItem onClick={openEditDrawer}>Edit</MenuItem>
           <MenuItem onClick={() => setDeleteModal(true)}>Delete</MenuItem>
-          <MenuItem>
-            <a onClick={handleActionExportClick}>Export Task</a>
-            <Popover
+          <MenuItem onClick={handleActionExportClick}>
+            Export Task
+            <Menu
               open={openActionExport}
               anchorEl={actionExportPop}
               onClose={handleActionExportClose}
-              sx={{ ml: '-12px' }}
               transformOrigin={{ vertical: 'top', horizontal: 'right' }}
             >
-              <MenuItem onClick={() => {}}>CSV</MenuItem>
-              <MenuItem onClick={() => {}}>Excel</MenuItem>
-            </Popover>
+              <MenuItem onClick={csvExportHandler}>CSV</MenuItem>
+              <MenuItem onClick={excelExportHandler}>Excel</MenuItem>
+            </Menu>
           </MenuItem>
-        </Popover>
+        </Menu>
         <Button
-          sx={styles?.addTaskBtn(theme)}
-          onClick={() => setIsAddDrawerOpen(true)}
+          variant="contained"
+          onClick={openAddDrawer}
           startIcon={<CirclePlusIcon />}
         >
           Add New Task
@@ -95,7 +96,7 @@ export const TasksHeader = ({
         message="Are you sure you want to delete this task?"
         open={deleteModal}
         handleClose={() => setDeleteModal(false)}
-        handleSubmit={submitDeleteModel}
+        handleSubmitBtn={submitDeleteModel}
       />
     </Grid>
   );

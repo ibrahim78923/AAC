@@ -7,9 +7,18 @@ import ImportMapColumnsDeal from './ImportColumns';
 import useImportDeal from './useImportDeal';
 
 import { styles } from './ImportDealsDrawer.style';
+import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 
 const ImportDealsDrawer = ({ open, onClose }: any) => {
-  const { handleSubmit, isColumnsSelect, theme, okTitle } = useImportDeal();
+  const {
+    handleSubmit,
+    isColumnsSelect,
+    theme,
+    okTitle,
+    stepOneSubmit,
+    StepOneHandleSubmit,
+    stepOneMethods,
+  } = useImportDeal();
   return (
     <CommonDrawer
       isDrawerOpen={open}
@@ -48,6 +57,12 @@ const ImportDealsDrawer = ({ open, onClose }: any) => {
           >
             Import Deals
           </Typography>
+          <FormProvider
+            methods={stepOneMethods}
+            onSubmit={StepOneHandleSubmit(stepOneSubmit)}
+          >
+            <RHFDropZone name={'multipleFileDropZone'} />
+          </FormProvider>
         </Box>
       ) : (
         <ImportMapColumnsDeal />

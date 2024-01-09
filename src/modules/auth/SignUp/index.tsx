@@ -47,6 +47,7 @@ const SignUp = () => {
     productData,
     isVerifiedSuccess,
     isLoading,
+    allValuesNotEmpty,
   } = useSignup();
 
   const products = productData?.data.map((product: any) => {
@@ -186,6 +187,7 @@ const SignUp = () => {
                             label="Organization Name"
                             placeholder="Enter Organization Name"
                             size="small"
+                            disabled
                           />
                         </Grid>
 
@@ -222,7 +224,9 @@ const SignUp = () => {
                           <Button
                             variant="contained"
                             sx={{ width: '100%' }}
-                            onClick={() => setIsStepComplete(true)}
+                            onClick={() =>
+                              allValuesNotEmpty() && setIsStepComplete(true)
+                            }
                           >
                             Next
                           </Button>

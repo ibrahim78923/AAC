@@ -11,14 +11,37 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['MyDocuments'],
     }),
+    postDocumentFiles: builder.mutation({
+      query: (body) => {
+        const formData = new FormData();
+        formData.append('file', body?.file);
+        formData.append('name', body?.name);
+        formData.append('folderId', body?.folderId);
+        return {
+          url: `${COMMON_DOCUMENTS.POST_DOCUMENTS_FILE}`,
+          method: 'POST',
+          body: formData,
+          formData: true,
+        };
+      },
+      invalidatesTags: ['MyDocuments'],
+    }),
     getDocumentFolder: builder.query({
       query: ({
         organizationId = '',
         parentFolderId = '',
         pages = 1,
         limit = 10,
+        search = '',
       }: any) => ({
-        url: `${COMMON_DOCUMENTS.GET_DOCUMENT_FOLDER}?page=${pages}&limit=${limit}&organizationId=${organizationId}&parentFolderId=${parentFolderId}`,
+        url: `${COMMON_DOCUMENTS.GET_DOCUMENT_FOLDER}?page=${pages}&limit=${limit}&organizationId=${organizationId}&parentFolderId=${parentFolderId}&search=${search}`,
+        method: 'GET',
+      }),
+      providesTags: ['MyDocuments'],
+    }),
+    getDocumentFile: builder.query({
+      query: ({ folderId = '', pages = 1, limit = 10, search = '' }: any) => ({
+        url: `${COMMON_DOCUMENTS.GET_DOCUMENT_FILE}?page=${pages}&limit=${limit}&folderId=${folderId}&search=${search}`,
         method: 'GET',
       }),
       providesTags: ['MyDocuments'],
@@ -38,6 +61,13 @@ export const commonDocumentsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['MyDocuments'],
     }),
+    deleteFiles: builder.mutation({
+      query: ({ ids }) => ({
+        url: `${COMMON_DOCUMENTS.DELETE_DOCUMENT_FILE_ID}?ids=${ids}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['MyDocuments'],
+    }),
   }),
 });
 
@@ -46,4 +76,7 @@ export const {
   useGetDocumentFolderQuery,
   useUpdateFolderMutation,
   useDeleteFoldersMutation,
+  usePostDocumentFilesMutation,
+  useGetDocumentFileQuery,
+  useDeleteFilesMutation,
 } = commonDocumentsAPI;

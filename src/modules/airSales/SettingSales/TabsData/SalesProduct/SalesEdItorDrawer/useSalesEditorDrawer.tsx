@@ -28,7 +28,9 @@ const useSalesEditorDrawer = ({ selectedCheckboxes, isEditMode }: any) => {
           category,
           associate,
           description,
-          createdBy,
+          isActive,
+          fileUrl,
+          // createdBy,
           unitPrice,
           note,
         } = editRowValue;
@@ -39,7 +41,9 @@ const useSalesEditorDrawer = ({ selectedCheckboxes, isEditMode }: any) => {
           category,
           description,
           associate,
-          createdBy: new Date(createdBy),
+          isActive,
+          fileUrl,
+          // createdBy: new Date(createdBy),
           unitPrice,
           note,
         };
@@ -49,13 +53,18 @@ const useSalesEditorDrawer = ({ selectedCheckboxes, isEditMode }: any) => {
   });
   const { handleSubmit } = salesProduct;
   const onSubmit = async (values: any) => {
+    const { fileUrl, ...rest } = values;
+    const payload = {
+      fileUrl: fileUrl?.path,
+      ...rest,
+    };
     try {
       isEditMode
         ? await updateSalesProduct({
-            body: values,
+            body: payload,
             id: editRowValue?._id,
           }).unwrap()
-        : await postSalesProduct({ body: values })?.unwrap();
+        : await postSalesProduct({ body: payload })?.unwrap();
     } catch (error) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
