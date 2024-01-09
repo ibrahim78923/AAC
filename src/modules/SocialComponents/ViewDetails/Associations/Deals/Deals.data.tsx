@@ -18,31 +18,31 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row?.quantity,
-      id: 'quantity',
+      accessorFn: (row: any) => row?.PhoneNumber,
+      id: 'PhoneNumber',
       isSortable: true,
       header: 'Phone Number',
       cell: (info: any) => info?.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row?.amount,
-      id: 'phonenumber',
+      accessorFn: (row: any) => row?.DealsOwner,
+      id: 'DealsOwner',
       isSortable: true,
       header: 'Deals Owner',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.amount,
-      id: 'phonenumber',
+      accessorFn: (row: any) => row?.DealStage,
+      id: 'DealStage',
       isSortable: true,
       header: 'Deal Stage',
       cell: (info: any) => info?.getValue(),
     },
 
     {
-      accessorFn: (row: any) => row?.assignedTo,
-      id: 'assignedTo',
+      accessorFn: (row: any) => row?.Actions,
+      id: 'Actions',
       isSortable: false,
       header: 'Actions',
       cell: () => (
