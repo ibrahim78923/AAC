@@ -10,8 +10,14 @@ import { v4 as uuidv4 } from 'uuid';
 import useCreateForm from './useCreateTemplatesForm';
 
 const CreateTemplatesForm = () => {
-  const { addField, dynamicFields, deleteField, theme } = useCreateForm();
-
+  const {
+    addField,
+    dynamicFields,
+    deleteField,
+    theme,
+    headerValue,
+    setHeaderValue,
+  } = useCreateForm();
   return (
     <Grid sx={styles.mainDiv}>
       <Grid container sx={styles.headerBar}>
@@ -21,6 +27,9 @@ const CreateTemplatesForm = () => {
               display={'flex'}
               alignItems={'center'}
               justifyContent={'center'}
+              onClick={() => {
+                setHeaderValue(item?.name);
+              }}
             >
               <Box sx={styles.headerIcon(theme)}>
                 {item?.icon}
@@ -93,11 +102,14 @@ const CreateTemplatesForm = () => {
               </Box>
             ))}
 
-            <Divider sx={{ marginY: '20px' }} />
-
-            <Typography variant="h5" sx={{ fontWeight: '600' }}>
-              Layouts
-            </Typography>
+            {headerValue === 'GiftCard' && (
+              <Typography
+                variant="h5"
+                sx={{ fontWeight: '600', marginTop: '20px' }}
+              >
+                Layouts
+              </Typography>
+            )}
 
             {customersAttributesArray?.map((item: any, index: any) => (
               <Box

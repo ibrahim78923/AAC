@@ -4,6 +4,7 @@ import { RHFDropZone, RHFEditor } from '@/components/ReactHookForm';
 import { Theme, useTheme } from '@mui/material';
 
 const useCreateTemplatesForm = () => {
+  const [headerValue, setHeaderValue] = useState();
   const [dynamicFields, setDynamicFields] = useState([...dynamicallyFormArray]);
   const theme = useTheme<Theme>();
 
@@ -75,6 +76,8 @@ const useCreateTemplatesForm = () => {
     dynamicFields,
     deleteField,
     theme,
+    headerValue,
+    setHeaderValue,
   };
 };
 

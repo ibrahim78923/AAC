@@ -41,9 +41,10 @@ export const styles = {
   },
   customField: {
     borderRadius: ' 8px',
-    border: '1px solid #E5E7EB',
+    border: '1px solid #FAFAFA',
     marginTop: '25px',
     cursor: 'pointer',
+    boxShadow: '0px 1px 2px 0px rgba(16, 24, 40, 0.05)',
   },
   hoverEffect: {
     position: 'absolute',
