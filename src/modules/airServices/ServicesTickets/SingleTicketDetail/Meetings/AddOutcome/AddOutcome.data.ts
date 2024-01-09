@@ -18,6 +18,7 @@ export const addOutcomeArray = [
       label: 'Add outcome',
       fullWidth: true,
       select: true,
+      required: true,
     },
     options: [
       { value: 'Interested', label: 'Interested' },
@@ -34,6 +35,7 @@ export const addOutcomeArray = [
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      required: true,
     },
     component: RHFEditor,
     md: 12,
