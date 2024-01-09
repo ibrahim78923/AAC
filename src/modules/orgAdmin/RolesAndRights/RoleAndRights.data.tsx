@@ -9,21 +9,13 @@ import { SwitchBtn } from '@/components/SwitchButton';
 import * as Yup from 'yup';
 
 import { CommonAPIS } from '@/services/common-APIs';
-import { getSession } from '@/utils';
+import { convertObjectIdToNumber, getSession } from '@/utils';
 
 export const columns: any = (columnsProps: any) => {
   const { updateStatus, checkedRows, setCheckedRows } = columnsProps;
 
   const handleCheckboxChange = (val: any, rowId: string) => {
     val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
-  };
-
-  const convertObjectIdToNumber = (mongodbId: string): any => {
-    // Convert hexadecimal to decimal
-    const decimalId = parseInt(mongodbId, 16);
-    // Take modulo with a large prime number to get a unique five-digit number
-    const uniqueFiveDigitNumber = decimalId % 99991; // 99991 is a prime number
-    return uniqueFiveDigitNumber;
   };
 
   return [

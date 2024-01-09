@@ -22,6 +22,14 @@ export function isNullOrEmpty(
   return false;
 }
 
+export const convertObjectIdToNumber = (mongodbId: string): any => {
+  // Convert hexadecimal to decimal
+  const decimalId = parseInt(mongodbId, 16);
+  // Take modulo with a large prime number to get a unique five-digit number
+  const uniqueFiveDigitNumber = decimalId % 99991; // 99991 is a prime number
+  return uniqueFiveDigitNumber;
+};
+
 //=====debounce search
 
 const DEBOUNCE_DELAY = 1000;

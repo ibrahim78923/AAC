@@ -1,6 +1,7 @@
 import { Checkbox } from '@mui/material';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { convertObjectIdToNumber } from '@/utils';
 
 // table data starts here
 export const columns: any = (columnsProps: any) => {
@@ -8,14 +9,6 @@ export const columns: any = (columnsProps: any) => {
 
   const handleCheckboxChange = (val: any, rowId: string) => {
     val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
-  };
-
-  const convertObjectIdToNumber = (mongodbId: string): any => {
-    // Convert hexadecimal to decimal
-    const decimalId = parseInt(mongodbId, 16);
-    // Take modulo with a large prime number to get a unique five-digit number
-    const uniqueFiveDigitNumber = decimalId % 99991; // 99991 is a prime number
-    return uniqueFiveDigitNumber;
   };
 
   return [
