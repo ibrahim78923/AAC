@@ -171,9 +171,14 @@ const useAddUser = (useActionParams?: any) => {
           setIsOpenAdduserDrawer(false))
         : await updateUsers({ id: updateUserId, body: values })?.unwrap();
 
-      enqueueSnackbar('User Added Successfully', {
-        variant: 'success',
-      });
+      enqueueSnackbar(
+        `User ${
+          isOpenAddUserDrawer?.type === 'edit' ? 'updated' : 'added'
+        } Successfully`,
+        {
+          variant: 'success',
+        },
+      );
       setIsAddEmployyeDrawer(false);
       reset();
     } catch (error: any) {
