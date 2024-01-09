@@ -6,6 +6,7 @@ import {
   useTheme,
   Theme,
   Divider,
+  Tab,
 } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -18,14 +19,25 @@ import {
   dynamicallyFormValidationSchema,
 } from '../CreateTemplatesForm.data';
 import { useState } from 'react';
-import { BackArrowIcon, DeleteIcon, DragSharedIcon } from '@/assets/icons';
+import {
+  BackArrowIcon,
+  DeleteIcon,
+  DragSharedIcon,
+  LaptopIcon,
+  LaptopWhiteIcon,
+  MobileTabIcon,
+  MobileWhiteIcon,
+} from '@/assets/icons';
 import { isNullOrEmpty } from '@/utils';
 
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { useRouter } from 'next/router';
+import CommonModal from '@/components/CommonModal';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 
 const InnerTab = ({ dynamicFields, deleteField }: any) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
   const router = useRouter();
   const theme = useTheme<Theme>();
   const dynamicallyFormForm = useForm({
@@ -36,6 +48,12 @@ const InnerTab = ({ dynamicFields, deleteField }: any) => {
   const onSubmit = async () => {};
 
   const { handleSubmit } = dynamicallyFormForm;
+
+  const [value, setValue] = useState('laptop');
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
 
   return (
     <Box sx={styles?.subDiv}>
@@ -60,7 +78,12 @@ const InnerTab = ({ dynamicFields, deleteField }: any) => {
           <Button
             variant="outlined"
             className="small"
-            sx={{ marginLeft: '15px' }}
+            sx={{
+              marginLeft: '15px',
+              color: theme?.palette?.custom?.main,
+              border: `1px solid ${theme?.palette?.custom?.dark}`,
+            }}
+            onClick={() => setOpenModal(true)}
           >
             Preview
           </Button>
@@ -152,6 +175,124 @@ const InnerTab = ({ dynamicFields, deleteField }: any) => {
           ))}
         </Grid>
       </FormProvider>
+
+      <CommonModal
+        open={openModal}
+        handleClose={() => setOpenModal(false)}
+        handleCancel={() => setOpenModal(false)}
+        handleSubmit={() => setOpenModal(false)}
+        title="Preview"
+      >
+        <Box sx={{ margin: '20px 0' }}>
+          <Typography>Your Preview will appear here</Typography>
+
+          <TabContext value={value}>
+            <Box>
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example"
+                sx={{
+                  width: 'fit-content',
+                  backgroundColor: '#8DFAEA1F',
+                  borderRadius: '7px',
+                  border: '1px solid #E9EBF0',
+                }}
+              >
+                <Tab
+                  label={
+                    value === 'laptop' ? <LaptopWhiteIcon /> : <LaptopIcon />
+                  }
+                  value="laptop"
+                  sx={{
+                    marginRight: '10px !important',
+                    backgroundColor:
+                      value === 'laptop' && theme?.palette?.primary?.main,
+                    margin: '6px',
+                    borderRadius: '7px',
+                  }}
+                />
+                <Tab
+                  label={
+                    value === 'mobile' ? <MobileWhiteIcon /> : <MobileTabIcon />
+                  }
+                  value="mobile"
+                  sx={{
+                    backgroundColor:
+                      value === 'mobile' && theme?.palette?.primary?.main,
+                    margin: '6px',
+                    borderRadius: '7px',
+                  }}
+                />
+              </TabList>
+            </Box>
+            <TabPanel value="laptop">
+              <Typography
+                variant="body3"
+                sx={{ display: 'block', marginY: '20px' }}
+              >
+                Welcome friend, thank the reader for signing up to your
+                newsletter and welcome them on board, Below your introduction,
+                add a few links to some popular pages or posts on your website
+                to give the reader an idea of what’s to come.
+              </Typography>
+              <Typography
+                variant="body3"
+                sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
+              >
+                1- Showcase your best stories
+              </Typography>
+              <Typography
+                variant="body3"
+                sx={{
+                  color: theme?.palette?.custom?.cadet_color,
+                  display: 'block',
+                }}
+              >
+                Give an overview of an existing blog post or a popular story
+                from a previousNewsletter. Be sure to add link so the reader can
+                learn more.
+              </Typography>
+
+              <Typography
+                variant="body3"
+                sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
+              >
+                2- Showcase your best stories
+              </Typography>
+              <Typography
+                variant="body3"
+                sx={{
+                  color: theme?.palette?.custom?.cadet_color,
+                  display: 'block',
+                }}
+              >
+                Give an overview of an existing blog post or a popular story
+                from a previousNewsletter. Be sure to add link so the reader can
+                learn more.
+              </Typography>
+
+              <Typography
+                variant="body3"
+                sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
+              >
+                3- Showcase your best stories
+              </Typography>
+              <Typography
+                variant="body3"
+                sx={{
+                  color: theme?.palette?.custom?.cadet_color,
+                  display: 'block',
+                }}
+              >
+                Give an overview of an existing blog post or a popular story
+                from a previousNewsletter. Be sure to add link so the reader can
+                learn more.
+              </Typography>
+            </TabPanel>
+            <TabPanel value="mobile">Mobile</TabPanel>
+          </TabContext>
+        </Box>
+      </CommonModal>
     </Box>
   );
 };

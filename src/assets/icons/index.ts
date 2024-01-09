@@ -384,3 +384,7 @@ export { default as GiftCardIconIcon } from './modules/airMarketer/CreateTemplat
 export { default as LoyaltyTokenIcon } from './modules/airMarketer/CreateTemplate/loyaltyToken';
 export { default as CreditsIcon } from './modules/airMarketer/CreateTemplate/credits';
 export { default as VoucherIcon } from './modules/airMarketer/CreateTemplate/voucher';
+export { default as LaptopIcon } from './shared/laptop-icon-tab';
+export { default as MobileTabIcon } from './shared/mobile-icon-tab';
+export { default as LaptopWhiteIcon } from './shared/laptop-white-icon-tab';
+export { default as MobileWhiteIcon } from './shared/mobile-White-icon-tab';
