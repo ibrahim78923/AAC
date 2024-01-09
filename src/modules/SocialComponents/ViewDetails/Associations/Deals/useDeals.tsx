@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 
-const useProducts = () => {
+const useDeals = () => {
   const theme = useTheme();
   const [searchName, setSearchName] = useState('');
   const [openDrawer, setOpenDrawer] = useState('');
@@ -22,4 +22,4 @@ const useProducts = () => {
   };
 };
 
-export default useProducts;
+export default useDeals;

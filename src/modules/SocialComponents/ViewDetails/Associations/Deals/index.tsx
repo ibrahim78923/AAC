@@ -1,20 +1,21 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 
-import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
-import CompaniesEditorDrawer from './CompaniesEditorDrawer';
+
+import Search from '@/components/Search';
+import DealsEditorDrawer from './DealsEditorDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
 
-import useCompanies from './useCompanies';
+import { columns } from './Deals.data';
 
-import { columns } from './Companies.data';
-import { companiesData } from '@/mock/modules/airSales/Deals/ViewDetails';
+import { productsData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
+import useDeals from './useDeals';
 
-const Companies = () => {
+const Deals = () => {
   const {
     theme,
     isOpenAlert,
@@ -24,7 +25,7 @@ const Companies = () => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
-  } = useCompanies();
+  } = useDeals();
 
   return (
     <Box
@@ -40,7 +41,7 @@ const Companies = () => {
             02
           </Typography>
 
-          <Typography variant="subtitle2">Companies</Typography>
+          <Typography variant="subtitle2">Deals</Typography>
         </Grid>
         <Grid item md={8}>
           <Box
@@ -63,18 +64,18 @@ const Companies = () => {
               sx={{ minWidth: '0px', gap: 0.5 }}
               onClick={() => setOpenDrawer('Add')}
             >
-              <PlusIcon /> Add Companies
+              <PlusIcon /> Add Deal
             </Button>
           </Box>
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
             columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={companiesData}
+            data={productsData}
           />
         </Grid>
       </Grid>
-      <CompaniesEditorDrawer
+      <DealsEditorDrawer
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
       />
@@ -89,4 +90,4 @@ const Companies = () => {
   );
 };
 
-export default Companies;
+export default Deals;

@@ -192,6 +192,56 @@ export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
   DETAIL_VIEW: 'marketer-sms-marketing-sms-broadcast-detail-view',
 };
 
+export const AIR_SALES_SETTINGS = {
+  SEARCH_PIPELINE: 'sale-deal-pipeline-search-and-filter',
+  CREATE_PIPELINE: 'sale-create-deal-pipeline',
+  PIPELINE_LIST: 'sale-deal-pipeline-list',
+  EDIT_PIPELINE: 'sale-edit-deal-pipeline',
+  DELETE_PIPELINE: 'sale-delete-deal-pipeline',
+  PRODUCT_LIST: 'sale-setting-product-list',
+  SEARCH_PRODUCT: 'sale-setting-product-search-and-filter',
+  CREATE_PRODUCT: 'sale-setting-create-product',
+  ACTIVATE_DEACTIVATE_PRODUCT: 'sale-setting-active-inactive-product',
+  EDIT_PRODUCT: 'sale-setting-edit-product',
+  DELETE_PRODUCT: 'sale-setting-delete-product',
+  SEARCH_ROLE: 'sale-setting-roles-and-right-search-and-filter',
+  ADD_NEW_ROLE: 'sale-setting-add-new-role',
+  EDIT_ROLE: 'sale-setting-edit-role',
+  VIEW_ROLE: 'sale-setting-view-role',
+  DELETE_ROLE: 'sale-setting-delete-role',
+  USER_LIST: 'sale-setting-user-list',
+  ADD_USER: 'sale-setting-add-user',
+  SEARCH_USER: 'sale-setting-search-and-filter',
+  ACTIVATE_DEACTIVATE_USER: 'sale-setting-active-inactive-user',
+  TEAM_LIST: 'sale-setting-team-list',
+  SEARCH_TEAM: 'sale-setting-teams-search-and-filter',
+  CREATE_TEAM: 'sale-setting-create-team',
+  EDIT_TEAM: 'sale-setting-edit-team',
+  DELETE_TEAM: 'sale-setting-delete-team',
+  VIEW_TEAM: 'sale-setting-view-team',
+  ACTIVATE_DEACTIVATE_EMAIL_NOTIFICATION:
+    'sale-setting-active-inactive-email-notification',
+  ACTIVATE_DEACTIVATE_DEALS_NOTIFICATION:
+    'sale-setting-active-inactive-deals-notification',
+  ACTIVATE_DEACTIVATE_QUOTE_NOTIFICATION:
+    'sale-setting-active-inactive-quote-notification',
+};
+
+export const AIR_MARKETER_SOCIAL_MARKETING_CALENDER = {
+  VIEW_POST: 'marketer-social-marketing-calendar-view-post',
+  FILTER_BY_PLATFORM: 'marketer-social-marketing-calendar-filter-by-platform',
+  FILTER_BY_PROFILE: 'marketer-social-marketing-calendar-filter-by-profile',
+  CREATE_POST: 'marketer-social-marketing-calendar-create-post',
+};
+export const AIR_MARKETER_SMS_MARKETING_TEMPLATES = {
+  CREATE_TEMPLATE: 'marketer-sms-marketing-templates-create',
+  SEARCH_TEMPLATE: 'marketer-sms-marketing-templates-search-and-filter',
+  SAVE_TEMPLATE: 'marketer-sms-marketing-templates-save',
+  EDIT_TEMPLATE: 'marketer-sms-marketing-templates-edit',
+  DELETE_TEMPLATE: 'marketer-sms-marketing-templates-delete',
+  LIST_VIEW: 'marketer-sms-marketing-templates-list-view',
+};
+
 //for display purpose in steppers
 export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = [
   {
