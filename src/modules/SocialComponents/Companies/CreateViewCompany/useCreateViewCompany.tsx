@@ -5,9 +5,12 @@ import {
   createViewDefaultValues,
   createViwValidationSchema,
 } from './CreateViewCompany.data';
+// import { usePostCompaniesViewMutation } from '@/services/commonFeatures/companies';
 
 const useCreateViewCompany = () => {
   const theme = useTheme<Theme>();
+
+  // const [postCompaniesView] = usePostCompaniesViewMutation();
 
   const methods: any = useForm<any>({
     resolver: yupResolver(createViwValidationSchema),
@@ -17,6 +20,7 @@ const useCreateViewCompany = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async () => {
+    // console.log(values, 'values are')
     reset();
   };
 

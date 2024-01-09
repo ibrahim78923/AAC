@@ -91,6 +91,17 @@ export const companiesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['COMPANY'],
     }),
+
+    postCompaniesView: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.COMPANY_VIEWS,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: ['COMPANY'],
+    }),
   }),
 });
 
@@ -105,4 +116,5 @@ export const {
   useRestoreCompaniesMutation,
   useMergeCompaniesMutation,
   useChangeCompanyOwnerMutation,
+  usePostCompaniesViewMutation,
 } = companiesAPI;
