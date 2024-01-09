@@ -4,6 +4,8 @@ import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import { StatusDropdown } from './InvoicesCommonComponents/StatusDropDown';
 import { QuantityNumber } from './InvoicesCommonComponents/QuantityNumber';
 import { SelectUnit } from './InvoicesCommonComponents/SelectUnit';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const cardDetails = [
   {
@@ -199,12 +201,13 @@ export const productsTableColumns = () =>
     {
       accessorFn: (row: any) => row?.Sr,
       id: 'Sr',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) =>
+        info?.row?.index !== undefined ? `${info?.row?.index + 1}` : null,
       header: 'Sr#',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.productName,
+      accessorFn: (row: any) => row?.name,
       id: 'productName',
       cell: (info: any) => info.getValue(),
       header: 'Product Name',
@@ -253,38 +256,12 @@ export const productsTableColumns = () =>
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.createdDate,
-      id: 'createdDate',
+      accessorFn: (row: any) => dayjs(row?.createdAt).format(DATE_FORMAT.API),
+      id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
       cell: (info: any) => info?.getValue(),
     },
-    // {
-    //   accessorFn: (row: any) => row?.action,
-    //   id: 'Actions',
-    //   isSortable: true,
-    //   header: 'Actions',
-    //   cell: () => {
-    //     return (
-    //       <Stack direction="row" alignItems="center" gap={1}>
-    //         <RemoveRedEye
-    //           sx={{ cursor: 'pointer' }}
-    //           onClick={() => setIsDrawerOpen(true)}
-    //         />
-    //         <Box
-    //           sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-    //           onClick={() => setIsDrawerOpen(true)}
-    //         >
-    //           <EditYellowBgIcon />
-    //         </Box>
-    //         <Delete
-    //           sx={{ cursor: 'pointer', color: '#FF4A4A' }}
-    //           onClick={() => setIsDeleteModal(true)}
-    //         />
-    //       </Stack>
-    //     );
-    //   },
-    // },
   ];
 
 // products table data
