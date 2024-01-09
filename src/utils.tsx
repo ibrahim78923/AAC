@@ -22,7 +22,7 @@ export function isNullOrEmpty(
   return false;
 }
 
-export const convertObjectIdToNumber = (mongodbId: string): any => {
+export const convertIdToShortNumber = (mongodbId: string): any => {
   // Convert hexadecimal to decimal
   const decimalId = parseInt(mongodbId, 16);
   // Take modulo with a large prime number to get a unique five-digit number

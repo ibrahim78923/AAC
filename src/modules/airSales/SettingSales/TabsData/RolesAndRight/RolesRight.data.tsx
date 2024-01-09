@@ -1,7 +1,7 @@
 import { Checkbox } from '@mui/material';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
-import { convertObjectIdToNumber } from '@/utils';
+import { convertIdToShortNumber } from '@/utils';
 
 // table data starts here
 export const columns: any = (columnsProps: any) => {
@@ -31,7 +31,7 @@ export const columns: any = (columnsProps: any) => {
     {
       accessorFn: (row: any) => row?._id,
       id: 'roleId',
-      cell: (info: any) => convertObjectIdToNumber(info?.getValue()),
+      cell: (info: any) => convertIdToShortNumber(info?.getValue()),
       header: 'Role ID',
       isSortable: true,
     },
