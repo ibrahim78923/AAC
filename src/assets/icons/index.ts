@@ -380,3 +380,7 @@ export { default as EmailImageIcon } from './modules/airMarketer/CreateTemplate/
 export { default as EmailSocialIcon } from './modules/airMarketer/CreateTemplate/emailSocial';
 export { default as EmailLinkIcon } from './modules/airMarketer/CreateTemplate/emailLink';
 export { default as EmailDividerIcon } from './modules/airMarketer/CreateTemplate/emaildivider';
+export { default as GiftCardIconIcon } from './modules/airMarketer/CreateTemplate/giftCard';
+export { default as LoyaltyTokenIcon } from './modules/airMarketer/CreateTemplate/loyaltyToken';
+export { default as CreditsIcon } from './modules/airMarketer/CreateTemplate/credits';
+export { default as VoucherIcon } from './modules/airMarketer/CreateTemplate/voucher';

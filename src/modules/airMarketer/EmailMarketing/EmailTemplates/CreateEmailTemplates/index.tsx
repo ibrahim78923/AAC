@@ -3,6 +3,7 @@ import { styles } from './CreateTemplatesForm.style';
 import InnerTab from './InnerTab';
 import {
   customersAttributesArray,
+  headerArray,
   sideBarMenuArray,
 } from './CreateTemplatesForm.data';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,12 +15,35 @@ const CreateTemplatesForm = () => {
   return (
     <Grid sx={styles.mainDiv}>
       <Grid container sx={styles.headerBar}>
-        <Grid item xs={12} md={8} lg={12}>
-          <Typography>
-            {' '}
-            GiftCard | Loyalty Token | Credits | Voucher{' '}
-          </Typography>
-        </Grid>
+        {headerArray?.map((item: any, index: any) => (
+          <Grid item xs={6} md={4} lg={2} key={uuidv4()}>
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'center'}
+            >
+              <Box sx={styles.headerIcon(theme)}>
+                {item?.icon}
+                <Typography
+                  variant="body2"
+                  sx={{ marginLeft: '10px', fontWeight: '500' }}
+                >
+                  {item?.name}
+                </Typography>
+              </Box>
+              {/* <Box sx={{ width:"2px", height: "100px", background: theme?.palette?.grey[700] }}></Box> */}
+              <Divider
+                orientation="vertical"
+                variant="middle"
+                flexItem
+                sx={{
+                  border:
+                    index != 3 && `1px solid ${theme?.palette?.grey[700]}`,
+                }}
+              />
+            </Box>
+          </Grid>
+        ))}
       </Grid>
 
       <Grid container>

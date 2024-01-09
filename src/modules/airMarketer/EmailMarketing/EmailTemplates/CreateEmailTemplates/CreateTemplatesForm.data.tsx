@@ -8,6 +8,10 @@ import {
   EmailSocialIcon,
   EmailLinkIcon,
   EmailDividerIcon,
+  GiftCardIconIcon,
+  LoyaltyTokenIcon,
+  CreditsIcon,
+  VoucherIcon,
 } from '@/assets/icons';
 
 export const dynamicallyFormValidationSchema = Yup.object().shape({
@@ -89,5 +93,24 @@ export const customersAttributesArray = [
     type: 'layout4',
     icon: <InputIcon />,
     drag: <EmailDragIcon />,
+  },
+];
+
+export const headerArray = [
+  {
+    name: 'GiftCard',
+    icon: <GiftCardIconIcon />,
+  },
+  {
+    name: 'Loyalty Token',
+    icon: <LoyaltyTokenIcon />,
+  },
+  {
+    name: 'Credits',
+    icon: <CreditsIcon />,
+  },
+  {
+    name: 'Voucher',
+    icon: <VoucherIcon />,
   },
 ];

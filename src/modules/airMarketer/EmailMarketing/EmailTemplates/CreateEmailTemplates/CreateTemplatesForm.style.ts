@@ -14,10 +14,10 @@ export const styles = {
   },
   headerBar: {
     backgroundColor: 'white',
-    height: '80px',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     textAlign: 'center',
+    paddingBottom: '20px',
     '@media (max-width:900px)': {
       height: 'fit-content',
       paddingY: '20px',
@@ -65,5 +65,17 @@ export const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  headerIcon: (theme: any) => {
+    return {
+      cursor: 'pointer',
+      padding: '20px',
+      borderRadius: '4px',
+      marginX: '10px',
+      width: '155x',
+      '&:hover': {
+        background: theme?.palette?.primary?.lighter,
+      },
+    };
   },
 };
