@@ -161,19 +161,23 @@ const useAddUser = (useActionParams?: any) => {
 
     try {
       isOpenAddUserDrawer?.type === 'add'
-        ? (postUsers({ body: values })?.unwrap(),
+        ? (await postUsers({ body: values })?.unwrap(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
-        ? (postUserEmployee({ id: organizationId, body: values }),
+        ? (await postUserEmployee({
+            id: organizationId,
+            body: values,
+          })?.unwrap(),
           setIsOpenAdduserDrawer(false))
-        : updateUsers({ id: updateUserId, body: values });
+        : await updateUsers({ id: updateUserId, body: values })?.unwrap();
+
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });
       setIsAddEmployyeDrawer(false);
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error, {
+      enqueueSnackbar(error?.data?.message, {
         variant: 'error',
       });
     }

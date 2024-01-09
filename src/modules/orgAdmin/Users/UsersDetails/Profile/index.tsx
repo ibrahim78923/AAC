@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import useToggle from '@/hooks/useToggle';
 import { EditInputIcon, RevertIcon } from '@/assets/icons';
 import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManagement';
+import { enqueueSnackbar } from 'notistack';
 
 const UserDetailsProfile = (props: any) => {
   const { profileData } = props;
@@ -77,7 +78,16 @@ const UserDetailsProfile = (props: any) => {
     for (const key of keysToDelete) {
       delete values[key];
     }
-    updateUsers({ id: profileData?._id, body: values });
+    try {
+      await updateUsers({ id: profileData?._id, body: values })?.unwrap();
+      enqueueSnackbar('User updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
   };
 
   return (

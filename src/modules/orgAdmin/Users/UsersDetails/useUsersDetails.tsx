@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { userListApi } from '@/services/superAdmin/user-management/UserList';
+import { enqueueSnackbar } from 'notistack';
 
 const useUsersDetails = (employeeDataById?: any) => {
   const theme = useTheme();
@@ -11,11 +12,20 @@ const useUsersDetails = (employeeDataById?: any) => {
   const [searchAccount, setSearchAccount] = useState('');
 
   // function for select user image
-  const handleChangeImg = (e: any) => {
+  const handleChangeImg = async (e: any) => {
     if (e?.target?.files?.length) {
       const formData = new FormData();
       formData?.append('avatar', e?.target?.files[0]);
-      updateUserImg({ id: employeeDataById, body: formData });
+      try {
+        await updateUserImg({ id: employeeDataById, body: formData })?.unwrap();
+        enqueueSnackbar('Image updated successfully', {
+          variant: 'success',
+        });
+      } catch (error: any) {
+        enqueueSnackbar(error?.data?.message, {
+          variant: 'error',
+        });
+      }
     }
   };
 
