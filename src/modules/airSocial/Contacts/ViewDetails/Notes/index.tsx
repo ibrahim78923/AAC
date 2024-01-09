@@ -17,16 +17,32 @@ import { styles } from '../ViewDetails.style';
 
 import { MessageIcon, PlusSharedIcon } from '@/assets/icons';
 
-import { v4 as uuidv4 } from 'uuid';
+import AddNote from './AddNote';
+import { IMG_URL } from '@/config';
+import dayjs from 'dayjs';
+import ViewNote from './ViewNote';
 
-const Notes = () => {
+const Notes = ({ contactId }: any) => {
   const {
-    openDrawer,
-    setOpenDrawer,
+    methodsAddNote,
+    handleAddNoteSubmit,
+    openDrawerAddNote,
+    handleOpenDrawerAddNote,
+    handleCloseDrawerAddNote,
+    loadingAddNote,
+    dataGetNotes,
     selectedCheckboxes,
     handleCheckboxChange,
+    openDrawerViewNote,
+    handleOpenDrawerViewNote,
+    handleCloseDrawerViewNote,
+    methodsViewNote,
+
+    openDrawer,
+    setOpenDrawer,
   } = useNotes();
-  const { NameWithStyledWords, theme } = useNameWithStyledWords();
+
+  const { theme } = useNameWithStyledWords();
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
@@ -46,11 +62,12 @@ const Notes = () => {
                 <NotesActionDropdown
                   setOpenDrawer={setOpenDrawer}
                   selectedCheckboxes={selectedCheckboxes}
+                  openViewDrawer={handleOpenDrawerViewNote}
                 />
                 <Button
                   variant="contained"
                   className="small"
-                  onClick={() => setOpenDrawer('Add')}
+                  onClick={handleOpenDrawerAddNote}
                 >
                   <PlusSharedIcon /> Add Notes
                 </Button>
@@ -79,12 +96,12 @@ const Notes = () => {
           )}
         </Grid>
 
-        {!isNullOrEmpty(NotesDataArray) && (
+        {!isNullOrEmpty(dataGetNotes?.data?.contactnotes) && (
           <Grid item xs={12} sx={styles?.horizontalTabsInnnerBox}>
-            {NotesDataArray?.map((item) => (
+            {dataGetNotes?.data?.contactnotes?.map((note: any) => (
               <Grid
                 container
-                key={uuidv4()}
+                key={note?._id}
                 sx={{
                   py: 3,
                   px: 1.5,
@@ -108,9 +125,9 @@ const Notes = () => {
                   <Checkbox
                     color="primary"
                     name={'name'}
-                    onChange={(event) => handleCheckboxChange(event, item?.id)}
+                    onChange={(event) => handleCheckboxChange(event, note)}
                     checked={selectedCheckboxes?.some(
-                      (selectedItem) => selectedItem?.id === item?.id,
+                      (selectedItem: any) => selectedItem?._id === note?._id,
                     )}
                   />
                 </Grid>
@@ -125,26 +142,63 @@ const Notes = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Image src={item.image} alt="Avatar" />
+                  <Image
+                    src={`${IMG_URL}${note?.attachment?.url}`}
+                    alt="Avatar"
+                    width={66}
+                    height={66}
+                  />
                 </Grid>
                 <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
-                  <NameWithStyledWords
-                    name={item.title}
-                    customKey="ActivityHead"
-                  />
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: 'primary.main',
+                      fontWeight: '500',
+                    }}
+                  >
+                    {note?.title}{' '}
+                    <Box
+                      component={'span'}
+                      sx={{ color: (theme: any) => theme?.palette?.grey[800] }}
+                    >
+                      Created by
+                    </Box>{' '}
+                    {note?.updatedBy}
+                  </Typography>
+
                   <Typography
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    {item.date}
+                    {dayjs(note?.createdAt).format('D MMMM, YYYY - h:mm A')}
                   </Typography>
-                  <Typography variant="body2">{item?.description}</Typography>
+                  <Typography variant="body2">
+                    <Box
+                      dangerouslySetInnerHTML={{ __html: note?.description }}
+                    />
+                  </Typography>
                 </Grid>
               </Grid>
             ))}
           </Grid>
         )}
       </Grid>
+
+      <AddNote
+        isDrawerOpen={openDrawerAddNote}
+        onClose={handleCloseDrawerAddNote}
+        methods={methodsAddNote}
+        onSubmit={handleAddNoteSubmit(contactId)}
+        isLoading={loadingAddNote}
+      />
+
+      <ViewNote
+        isDrawerOpen={openDrawerViewNote}
+        onClose={handleCloseDrawerViewNote}
+        methods={methodsViewNote}
+        isLoading={loadingAddNote}
+      />
 
       <NotesEditorDrawer
         openDrawer={openDrawer}

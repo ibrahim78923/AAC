@@ -6,7 +6,7 @@ import { AlertModals } from '@/components/AlertModals';
 import useNotesActionDropdown from './useNotesActionDropDown';
 
 const NotesActionDropdown = (props: any) => {
-  const { setOpenDrawer, selectedCheckboxes } = props;
+  const { setOpenDrawer, selectedCheckboxes, openViewDrawer } = props;
   const {
     theme,
     isMenuOpen,
@@ -15,7 +15,6 @@ const NotesActionDropdown = (props: any) => {
     handleCloseMenu,
     isOpenAlertModal,
     handleOpenEditDrawer,
-    handleOpenViewDrawer,
     handleOpenDeleteAlert,
     handleCloseAlert,
   } = useNotesActionDropdown({ setOpenDrawer });
@@ -34,9 +33,7 @@ const NotesActionDropdown = (props: any) => {
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
-        disabled={
-          selectedCheckboxes?.length === 0 || selectedCheckboxes?.length > 1
-        }
+        disabled={selectedCheckboxes?.length === 0}
       >
         Action
       </Button>
@@ -49,8 +46,18 @@ const NotesActionDropdown = (props: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleOpenViewDrawer}>View</MenuItem>
-        <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
+        <MenuItem
+          disabled={selectedCheckboxes?.length > 1}
+          onClick={() => openViewDrawer(selectedCheckboxes[0])}
+        >
+          View
+        </MenuItem>
+        <MenuItem
+          disabled={selectedCheckboxes?.length > 1}
+          onClick={handleOpenEditDrawer}
+        >
+          Edit
+        </MenuItem>
         <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
       </Menu>
 

@@ -14,10 +14,12 @@ import Meetings from './Meetings';
 import Associations from './Associations';
 
 import { singleUserDealTabsData } from './ViewDetails.data';
-
+import { useRouter } from 'next/router';
 import { ArrowBackIcon, RestoreIcon } from '@/assets/icons';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
 const ContactViewDetails = () => {
+  const router = useRouter();
+  const contactId = router?.query?.contactId;
   const theme = useTheme();
   return (
     <Box>
@@ -52,11 +54,11 @@ const ContactViewDetails = () => {
         <Grid item xs={12}>
           <Box>
             <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
-              <Details />
+              <Details contactId={contactId} />
               <ActivityLog />
               <Associations />
               <Tasks />
-              <Notes />
+              <Notes contactId={contactId} />
               <Calls />
               <Meetings />
               <Emails />

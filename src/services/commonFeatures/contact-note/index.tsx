@@ -2,7 +2,7 @@ import { baseAPI } from '@/services/base-api';
 import { END_POINTS } from '@/routesConstants/endpoints';
 
 const TAG = ['CONTACT_NOTE'];
-export const settingsFaqsAPI = baseAPI.injectEndpoints({
+export const contactNoteAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getNotes: builder.query({
       query: ({ params }) => ({
@@ -52,7 +52,7 @@ export const settingsFaqsAPI = baseAPI.injectEndpoints({
 export const {
   useGetNotesQuery,
   useGetNoteByIdQuery,
-  useUpdateNoteMutation,
   usePostNoteMutation,
+  useUpdateNoteMutation,
   useDeleteNoteMutation,
-} = settingsFaqsAPI;
+} = contactNoteAPI;
