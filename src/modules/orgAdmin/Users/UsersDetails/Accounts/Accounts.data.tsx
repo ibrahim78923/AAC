@@ -6,7 +6,7 @@ import { LogoIcon } from '@/assets/icons';
 import Image from 'next/image';
 import { IMG_URL } from '@/config';
 
-export const companyColumns: any = [
+export const companyColumns: any = (handleStatusUpdate: any) => [
   {
     accessorFn: (row: any) => row?.product,
     id: 'product',
@@ -58,7 +58,10 @@ export const companyColumns: any = [
     header: 'Status',
     cell: (info: any) => (
       <SwitchBtn
-        checked={info?.row?.original?.status === 'ACTIVE' ? true : false}
+        defaultChecked={info?.row?.original?.status === 'ACTIVE' ? true : false}
+        handleSwitchChange={(val: any) =>
+          handleStatusUpdate(info?.row?.original?._id, val?.target?.checked)
+        }
       />
     ),
   },

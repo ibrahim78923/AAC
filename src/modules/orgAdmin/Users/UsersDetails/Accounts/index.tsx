@@ -6,8 +6,15 @@ import useUsers from '../../useUsers';
 const Accounts = (props: any) => {
   const { employeeDataById, searchAccount } = props;
   const { user } = useUsers();
-  const { useGetUsersAccountsQuery, page, setPage, pageLimit, setPageLimit } =
-    useAccounts();
+  const {
+    useGetUsersAccountsQuery,
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
+    handleStatusUpdate,
+  } = useAccounts();
+
   const accountsParams = {
     page: page,
     limit: pageLimit,
@@ -25,7 +32,7 @@ const Accounts = (props: any) => {
 
   return (
     <TanstackTable
-      columns={companyColumns}
+      columns={companyColumns(handleStatusUpdate)}
       data={userAccounts?.data?.usercompanyaccounts}
       isPagination
       onPageChange={(page: any) => setPage(page)}
