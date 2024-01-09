@@ -21,6 +21,11 @@ export const chipColor = (chipLabel: string) => {
 };
 
 export const associationsDataArray = [
-  { ticketNo: '#INC-5-test', status: 'Open' },
-  { ticketNo: '#INC-5-test', status: 'InProgress' },
+  {
+    id: 1,
+    displayName: '#INC22',
+    status: 'Open',
+  },
+
+  { id: 2, displayName: '#INC22', status: 'InProgress' },
 ];

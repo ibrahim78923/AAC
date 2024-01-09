@@ -25,13 +25,13 @@ export const styles = () => {
       width: '100%',
       display: 'flex',
       justifyContent: 'space-between',
-      alignItems: "center",
-      flexWrap: "wrap",
+      alignItems: 'center',
+      flexWrap: 'wrap',
       gap: 2,
       position: { xs: 'relative', xl: 'absolute' },
       bottom: 0,
       right: 0,
-      pl: { xl: 2.4 }
+      pl: { xl: 2.4 },
     },
   };
 };
