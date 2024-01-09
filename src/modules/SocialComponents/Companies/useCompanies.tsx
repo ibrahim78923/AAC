@@ -3,10 +3,12 @@ import { Theme, useTheme } from '@mui/material';
 import useToggle from '@/hooks/useToggle';
 import { companiesAPI } from '@/services/commonFeatures/companies';
 import { PAGINATION } from '@/config';
+import { getSession } from '@/utils';
+import { useGetCompanyContactsQuery } from '@/services/common-APIs';
 
 const useCompanies = () => {
+  const { user } = getSession();
   const theme = useTheme<Theme>();
-
   const [isToggled, toggle] = useToggle(false);
   const [checkedRows, setCheckedRows] = useState<string[]>([]);
   const [searchVal, setSearchVal] = useState('');
@@ -58,6 +60,13 @@ const useCompanies = () => {
 
   const [deleteCompanies] = useDeleteCompaniesMutation();
 
+  const params = {
+    page: page,
+    limit: pageLimit,
+    contactOwnerId: user?._id,
+  };
+  const { data: getCompanyContacts } = useGetCompanyContactsQuery(params);
+
   const handleClose = () => {
     setSelectedValue(null);
   };
@@ -99,6 +108,7 @@ const useCompanies = () => {
     handleResetFilters,
     isOpen,
     setIsOpen,
+    getCompanyContacts,
   };
 };
 

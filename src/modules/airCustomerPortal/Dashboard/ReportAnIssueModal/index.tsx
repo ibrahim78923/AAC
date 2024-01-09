@@ -13,21 +13,19 @@ import { reportAnIssueModalFormFields } from './ReportAnIssueModal.data';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styles } from './ReportAnIssueModal.style';
 
-const ReportAnIssueModal = ({
-  openReportAnIssueModal,
-  setOpenReportAnIssueModal,
-}: any) => {
-  const { methods, theme }: any = useReportAnIssueModal();
+const ReportAnIssueModal = (props: any) => {
+  const { openReportAnIssueModal, setOpenReportAnIssueModal } = props;
+  const { methods, handleSubmitIssue } = useReportAnIssueModal(props);
   return (
     <>
-      <FormProvider methods={methods}>
-        <Dialog
-          fullWidth
-          sx={styles?.modalSizing}
-          open={openReportAnIssueModal}
-          onClose={() => setOpenReportAnIssueModal(false)}
-        >
-          <Box width={'100%'} p={'1rem'}>
+      <Dialog
+        fullWidth
+        sx={styles?.modalSizing}
+        open={openReportAnIssueModal}
+        onClose={() => setOpenReportAnIssueModal(false)}
+      >
+        <FormProvider methods={methods} onSubmit={handleSubmitIssue}>
+          <Box p={2}>
             <Box
               display={'flex'}
               justifyContent={'space-between'}
@@ -48,14 +46,7 @@ const ReportAnIssueModal = ({
                     {...item?.componentProps}
                     key={item?.id}
                     size="small"
-                  >
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
+                  />
                 ))}
               </Grid>
             </Grid>
@@ -66,7 +57,7 @@ const ReportAnIssueModal = ({
               mt={1}
               sx={{ cursor: 'pointer' }}
             >
-              <AddCircleIcon color={theme?.palette?.grey?.[600]} />
+              <AddCircleIcon fontSize="small" />
               <Typography variant="body2" fontWeight={600}>
                 Associate Asset
               </Typography>
@@ -85,11 +76,13 @@ const ReportAnIssueModal = ({
               >
                 Cancel
               </Button>
-              <Button variant="contained">Submit</Button>
+              <Button variant="contained" type="submit">
+                Submit
+              </Button>
             </Box>
           </Box>
-        </Dialog>
-      </FormProvider>
+        </FormProvider>
+      </Dialog>
     </>
   );
 };

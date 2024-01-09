@@ -82,7 +82,7 @@ export const contractsFilterFormFieldsDynamic = (
       name: 'type',
       label: 'Contract Type',
       fullWidth: true,
-      placeholder: 'All Assets',
+      placeholder: 'All',
       apiQuery: apiQueryContractType,
       externalParams: { limit: 50 },
     },

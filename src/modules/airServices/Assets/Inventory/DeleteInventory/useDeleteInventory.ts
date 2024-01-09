@@ -10,7 +10,8 @@ export const useDeleteInventory = (props: any) => {
     selectedInventoryLists,
     setSelectedInventoryLists,
   } = props;
-  const [deleteInventoryTrigger] = useDeleteInventoryMutation();
+  const [deleteInventoryTrigger, deleteInventoryStatus] =
+    useDeleteInventoryMutation();
   const router = useRouter();
   const { makePath } = usePath();
   const deleteInventory = async () => {
@@ -52,5 +53,6 @@ export const useDeleteInventory = (props: any) => {
   };
   return {
     deleteInventory,
+    deleteInventoryStatus,
   };
 };

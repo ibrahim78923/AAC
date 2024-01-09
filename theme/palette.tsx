@@ -44,6 +44,7 @@ const BLUE = {
   dark: '#19264a',
   darker: '#162241',
   dull_blue: '#111827',
+  link_blue: '#0072C6',
 };
 const SLATE_BLUE = {
   lighter: '#878d97',
