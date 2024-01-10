@@ -27,7 +27,7 @@ export const Articles = () => {
     theme,
     openFilter,
     setOpenFilter,
-    articlesData,
+    // articlesData,
     isLoading,
     isSuccess,
     isError,
@@ -69,7 +69,7 @@ export const Articles = () => {
                   color={selectedTabColor(tab?._id, selectedArticlesTab, theme)}
                   textTransform={'capitalize'}
                 >
-                  {tab?.folderName}
+                  {tab?.name}
                 </Typography>
               </Box>
             ))}
@@ -105,7 +105,7 @@ export const Articles = () => {
           </Box>
           <br />
           <TanstackTable
-            data={articlesData}
+            data={[]}
             columns={articlesColumns}
             isLoading={isLoading}
             currentPage={page}

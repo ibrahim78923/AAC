@@ -1,4 +1,5 @@
 import {
+  RHFAutocomplete,
   RHFDatePicker,
   RHFSelect,
   RHFSwitch,
@@ -17,16 +18,19 @@ const dropdownDummy = [
 ];
 
 export const defaultValues = {
-  content: '',
-  folder: '',
+  details: '',
+  folder: null,
   tags: '',
   keywords: '',
   needsApproval: false,
   approver: '',
-  reviewDate: new Date(),
+  reviewDate: null,
 };
 
-export const newArticleFieldsFunction = (needApprovals: any) => {
+export const newArticleFieldsFunction = (
+  needApprovals: any,
+  folderOptions: any = [],
+) => {
   const conditionalFields = [
     {
       id: 5,
@@ -58,15 +62,16 @@ export const newArticleFieldsFunction = (needApprovals: any) => {
   const defaultFields = [
     {
       id: 3,
-      component: RHFSelect,
+      component: RHFAutocomplete,
       gridLength: 12,
       componentProps: {
         fullWidth: true,
         name: 'folder',
         label: 'Folder',
-        placeholder: 'Training',
+        placeholder: 'Select',
         select: true,
-        options: dropdownDummy,
+        options: folderOptions,
+        getOptionLabel: (option: any) => option?.label,
         sx: { pb: 1.2 },
       },
     },

@@ -49,13 +49,12 @@ export const useArticles = () => {
     useGetArticlesQuery(queryParams);
   const articlesData =
     data?.data?.articles?.map((article: any) => ({
-      id: article?._id ?? '---',
-      article: article?.details ?? '---',
+      id: article?.id ?? '---',
+      article: article?.article ?? '---',
       status: article?.status?.toLowerCase() ?? '---',
       insertedTickets: article?.insertedTickets ?? '---',
-      author: article?.authorName ?? '---',
-      folder: article?.folder ?? '---',
-      // ...article
+      author: article?.author ?? '---',
+      folder: article?.folder?.name ?? '---',
     })) ?? [];
   const meta = data?.data?.meta;
 
@@ -64,7 +63,7 @@ export const useArticles = () => {
   const { data: folderData } = useGetFoldersQuery({});
 
   const foldersList = [
-    { folderName: 'all', _id: 'all' },
+    { name: 'all', _id: 'all' },
     ...(folderData?.data ?? []),
   ];
 
@@ -80,18 +79,22 @@ export const useArticles = () => {
     }
     setSelectedArticlesTab(tab);
   };
+
   const handleSingleArticleNavigation = (id: string) => {
     push(`${KNOWLEDGE_BASE_VIEW_ARTICLE}?id=${id}`);
   };
+
   const handleEditNavigation = (id: string) => {
     push(`${KNOWLEDGE_BASE_EDIT_ARTICLE}?id=${id}`);
   };
+
   const articlesColumns = articlesColumnsFunction(
     articlesData,
     selectedArticlesData,
     setSelectedArticlesData,
     handleSingleArticleNavigation,
   );
+
   const handleDeleteSubmit = async () => {
     try {
       const deleteArticlesParam = new URLSearchParams();

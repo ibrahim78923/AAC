@@ -1,7 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 const TAG = 'KNOWLEDGE_BASE_ARTICLES';
-const { KNOWLEDGE_BASE_ARTICLES, DROPDOWN_FOLDERS } = END_POINTS;
+const { KNOWLEDGE_BASE_ARTICLES, ARTICLES_FOLDERS, CREATE_FOLDER } = END_POINTS;
 export const articlesAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getArticles: builder.query({
@@ -18,10 +18,10 @@ export const articlesAPI = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
     postArticle: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `${KNOWLEDGE_BASE_ARTICLES}/${id}`,
+      query: (body: any) => ({
+        url: KNOWLEDGE_BASE_ARTICLES,
         method: 'POST',
-        body: body,
+        body,
       }),
       invalidatesTags: [TAG],
     }),
@@ -42,11 +42,16 @@ export const articlesAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     getFolders: builder.query({
-      query: (params: any) => ({
-        url: DROPDOWN_FOLDERS,
-        params,
-      }),
+      query: () => ARTICLES_FOLDERS,
       providesTags: [TAG],
+    }),
+    postFolder: builder.mutation({
+      query: (body: any) => ({
+        url: CREATE_FOLDER,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [TAG],
     }),
   }),
 });
@@ -58,4 +63,5 @@ export const {
   useDeleteArticleMutation,
   useGetArticleByIdQuery,
   useGetFoldersQuery,
+  usePostFolderMutation,
 } = articlesAPI;

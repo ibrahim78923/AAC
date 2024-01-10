@@ -6,7 +6,6 @@ import CustomDropZone from '@/components/CustomDropZone';
 
 import { ArrowLeftIcon } from '@/assets/icons';
 
-import { newArticleFieldsFunction } from './UpsertArticle.data';
 import { useUpsertArticle } from './useUpsertArticle';
 import { styles } from './UpsertArticle.style';
 import CustomTextEditor from '@/components/CustomTextEditor';
@@ -17,6 +16,7 @@ export const UpsertArticle = () => {
     upsertArticleSubmit,
     handlePageBack,
     needApprovals,
+    newArticleFields,
   } = useUpsertArticle();
 
   const {
@@ -26,8 +26,6 @@ export const UpsertArticle = () => {
     formGridWrapper,
     formBtnWrapper,
   } = styles();
-
-  const newArticleFields = newArticleFieldsFunction?.(needApprovals);
 
   return (
     <FormProvider
@@ -61,8 +59,11 @@ export const UpsertArticle = () => {
           </Box>
           <Box pb={1.4}>
             <CustomTextEditor
-              value=""
-              onChange={() => {}}
+              name="details"
+              value={methods?.getValues('details')}
+              onChange={(value: any) => {
+                methods?.setValue('details', value);
+              }}
               style={{ height: '65vh' }}
               placeholder={`Title for article \n Description`}
             />

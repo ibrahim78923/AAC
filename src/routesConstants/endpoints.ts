@@ -155,7 +155,7 @@ export const END_POINTS = {
   CONTRACT_TYPE_DROPDOWN: '/contract-type',
   DROPDOWN_AGENTS_LIST: '/dropdown/agents',
   ASSETS_CONTRACT_DELETE: '/contract/{id}',
-  KNOWLEDGE_BASE_ARTICLES: `/articles`,
+  KNOWLEDGE_BASE_ARTICLES: `/articles/get-all-articles`,
   DROPDOWN_FOLDERS: `/dropdown/folders`,
   DROPDOWN_LOCATION: '/location/get-location',
   DROPDOWN_USERS: '',
@@ -166,6 +166,8 @@ export const END_POINTS = {
   EDIT_CONTRACT: `/contract/update`,
   UPDATE_CONTRACT_STATUS: `/contract/renew-extend`,
   ASSETS_DROPDOWN: '/assets/inventory',
+  CREATE_FOLDER: '/articles/create-folder',
+  ARTICLES_FOLDERS: '/articles/folders',
 };
 
 export const superAdminBillingInvoices = {
