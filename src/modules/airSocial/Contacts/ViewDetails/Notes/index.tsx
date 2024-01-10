@@ -20,6 +20,7 @@ import dayjs from 'dayjs';
 import ViewNote from './ViewNote';
 import EditNote from './EditNote';
 import { AlertModals } from '@/components/AlertModals';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 const Notes = ({ contactId }: any) => {
   const {
@@ -187,7 +188,7 @@ const Notes = ({ contactId }: any) => {
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    {dayjs(note?.createdAt).format('D MMMM, YYYY - h:mm A')}
+                    {dayjs(note?.createdAt).format(DATE_TIME_FORMAT?.DMYhmma)}
                   </Typography>
                   <Typography variant="body2">
                     <Box
