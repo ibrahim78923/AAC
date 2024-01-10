@@ -63,6 +63,7 @@ export const TAGS = [
   'ASSETS_INVENTORY_SOFTWARE',
   'CONTACTS',
   'CONTACT_NOTE',
+  'CONTACT_CALL',
 ];
 
 const baseQuery = fetchBaseQuery({
