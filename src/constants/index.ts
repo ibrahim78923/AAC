@@ -18,6 +18,7 @@ export const CALENDAR_FORMAT = {
 
 export const DATE_TIME_FORMAT = {
   UI: 'dddd, MMMM D, YYYY - HH:mm',
+  DMYhmma: 'D MMMM, YYYY - h:mm A',
 };
 
 export const SUPER_ADMIN: any = {
