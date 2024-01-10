@@ -50,7 +50,7 @@ export const FilterData = () => {
     },
     {
       componentProps: {
-        name: 'dealOwnerId',
+        name: 'ownerId',
         label: 'Deal Owner',
         select: true,
       },

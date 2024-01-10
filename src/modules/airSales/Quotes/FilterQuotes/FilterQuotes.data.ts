@@ -5,7 +5,7 @@ export const defaultValues = {
   createdBy: '',
 };
 
-export const dataArray = () => {
+export const dataArray = (UserListData: any) => {
   return [
     {
       md: 12,
@@ -24,11 +24,10 @@ export const dataArray = () => {
     {
       md: 12,
       component: RHFSelect,
-      options: [
-        { value: 'Darlene Robertson', label: 'Darlene Robertson' },
-        { value: 'Robert Fox', label: 'Robert Fox' },
-        { value: 'Arlene McCoy', label: 'Arlene McCoy' },
-      ],
+      options: UserListData?.data?.users?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })),
       componentProps: {
         name: 'createdBy',
         label: 'Created By',

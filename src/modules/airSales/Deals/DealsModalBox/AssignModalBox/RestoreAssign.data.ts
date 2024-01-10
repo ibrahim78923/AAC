@@ -7,7 +7,7 @@ export const RestoreModalData = (UserListData: any) => {
   return [
     {
       componentProps: {
-        name: 'dealOwnerId',
+        name: 'ownerId',
         label: 'Deal Owner',
         select: true,
         defaultValues: 'Select',
@@ -17,7 +17,7 @@ export const RestoreModalData = (UserListData: any) => {
           value: item?._id,
           label: `${item?.firstName} ${item?.lastName}`,
         };
-      }) ?? [{ label: 'Select', value: 'Select' }],
+      }),
       component: RHFTextField,
     },
   ];

@@ -67,7 +67,6 @@ const DealsTab = () => {
     setViewColumns,
     viewColumns,
   } = useDealTab();
-
   const theme = useTheme();
 
   return (

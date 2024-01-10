@@ -20,7 +20,7 @@ export const styles = {
     return {
       float: 'right',
       cursor: 'pointer',
-      color: theme.palette.grey[900],
+      color: theme?.palette?.grey[900],
     };
   },
 };

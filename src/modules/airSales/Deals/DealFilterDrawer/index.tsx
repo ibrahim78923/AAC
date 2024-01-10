@@ -19,8 +19,12 @@ const DealFilterDrawer = ({ open, onClose, handleApply }: any) => {
   const onSubmit = (values: any) => {
     const obj = {
       ...values,
-      dateStart: dayjs().format(DATE_FORMAT?.API),
-      dateEnd: dayjs(values?.date[0]).format(DATE_FORMAT?.API),
+      dateStart: values?.date
+        ? dayjs(values?.date[0])?.format(DATE_FORMAT?.API)
+        : null,
+      dateEnd: values?.date
+        ? dayjs(values?.date[1])?.format(DATE_FORMAT?.API)
+        : null,
     };
     delete obj?.date;
     handleApply(obj);

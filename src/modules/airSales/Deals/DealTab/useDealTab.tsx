@@ -49,7 +49,6 @@ const useDealTab = () => {
   };
 
   const [value, setValue] = useState(0);
-  // const [dateRange, setDateRange] = useState({});
   const [filters, setFilters] = useState<Filters>(filterValues);
 
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
@@ -93,6 +92,7 @@ const useDealTab = () => {
     setIsAddTabOpen(!isAddTabOpen);
   };
   const handleChange = (tab: any, index: number) => {
+    tab;
     setValue(index);
   };
   const handleSearch = (value: string) => {
@@ -124,7 +124,7 @@ const useDealTab = () => {
 
   const handeApplyFilter = (values: any) => {
     const filteredObj = Object?.fromEntries(
-      Object.entries(values)?.filter(
+      Object?.entries(values)?.filter(
         (value) => value[1] !== '' && value[1] !== null,
       ),
     );
