@@ -22,23 +22,32 @@ export const UpsertInventoryValidationSchema: any = Yup?.object()?.shape({
   assetType: Yup?.mixed()?.nullable()?.required('Required'),
   description: Yup?.string(),
   impact: Yup?.mixed()?.nullable(),
-  status: Yup?.mixed()?.nullable()?.required('Required'),
-  // assetId: Yup?.mixed()?.nullable(),
+  assetId: Yup?.mixed()?.nullable(),
+  assetLifeExpireOn: Yup?.date()?.nullable(),
 });
 export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
   return {
-    displayName: data?.displayName ?? '',
-    // assetId: data?.assetId ?? '',
-    assetType: data?.assetType ?? null,
-    impact: data?.impact ?? '',
-    status: data?.status ?? null,
-    assetLifeExpireOn: data?.assetLifeExpireOn ?? null,
-    description: data?.description ?? '',
-    location: data?.location ?? '',
+    displayName: data?.[0]?.displayName ?? '',
+    assetId: data?.assetId ?? '',
+    assetType: data?.[0]?.assetType ?? null,
+    impact: data?.[0]?.impact ?? '',
+    // assetLifeExpireOn:
+    //   typeof data?.[0]?.assetLifeExpireOn === 'string'
+    //     ? makeDateTime(
+    //         data?.[0]?.assetLifeExpireOn,
+    //         data?.[0]?.assetLifeExpireOn,
+    //       )?.toISOString()
+    //     : null,
+    assetLifeExpireOn:
+      typeof data?.[0]?.assetLifeExpireOn === 'string'
+        ? new Date(data?.[0]?.assetLifeExpireOn)?.toISOString()
+        : null,
+    description: data?.[0]?.description ?? '',
+    location: data?.[0]?.location ?? '',
     assignedOnDate: new Date(data?.assignedOnDate ?? todayDate),
-    assignedOnTime: data?.assignedOnTime ?? '',
-    usedBy: data?.usedBy ?? '',
-    attachFile: data?.attachFile ?? '',
+    assignedOnTime: data?.[0]?.assignedOnTime ?? '',
+    usedBy: data?.[0]?.usedBy ?? '',
+    attachFile: data?.[0]?.attachFile ?? '',
   };
 };
 
@@ -60,17 +69,17 @@ export const upsertInventoryFormFieldsDynamic = (
     },
     md: 6,
   },
-  // {
-  //   id: 2,
-  //   component: RHFTextField,
-  //   gridLength: 6,
-  //   componentProps: {
-  //     fullWidth: true,
-  //     name: 'assetTag',
-  //     label: 'Asset Id',
-  //   },
-  //   md: 6,
-  // },
+  {
+    id: 2,
+    component: RHFTextField,
+    gridLength: 6,
+    componentProps: {
+      fullWidth: true,
+      name: 'assetTag',
+      label: 'Asset Id',
+    },
+    md: 6,
+  },
   {
     id: 3,
     componentProps: {
@@ -109,7 +118,6 @@ export const upsertInventoryFormFieldsDynamic = (
   {
     id: 6,
     component: RHFDatePicker,
-    gridLength: 6,
     componentProps: {
       fullWidth: true,
       name: 'assetLifeExpireOn',
