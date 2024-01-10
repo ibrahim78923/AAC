@@ -1,12 +1,13 @@
 export const styles = {
   subDiv: {
     backgroundColor: 'white',
-    minHeight: '60vh',
     width: '100%',
     boxShadow: '0px 0px 10px -2px rgba(0, 0, 0, 0.19);',
     borderRadius: '8px',
     marginTop: '25px',
     padding: '15px',
+    overflow: 'scroll',
+    height: '70vh',
     '@media (max-width:500px)': {
       width: '100%',
       boxShadow: 'none',
@@ -25,7 +26,7 @@ export const styles = {
   },
   mainDiv: {
     background: '#F7F9FB',
-    height: '100vh',
+    height: '75vh',
     '@media (max-width:700px)': {
       height: 'fit-content',
     },
@@ -35,7 +36,7 @@ export const styles = {
     padding: '20px',
     borderTopLeftRadius: '20px',
     borderBottomLeftRadius: '20px',
-    height: '90vh',
+    height: '70vh',
     overflow: 'scroll',
     marginTop: '25px',
   },

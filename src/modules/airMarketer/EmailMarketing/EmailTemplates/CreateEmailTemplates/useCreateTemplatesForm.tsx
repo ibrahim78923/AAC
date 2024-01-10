@@ -1,10 +1,17 @@
 import { useState } from 'react';
-import { dynamicallyFormArray } from './CreateTemplatesForm.data';
+import {
+  SideBarDefaultValues,
+  SideBarValidationSchema,
+  dynamicallyFormArray,
+} from './CreateTemplatesForm.data';
 import { RHFDropZone, RHFEditor } from '@/components/ReactHookForm';
 import { Theme, useTheme } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const useCreateTemplatesForm = () => {
-  const [headerValue, setHeaderValue] = useState();
+  const [headerValue, setHeaderValue] = useState('');
+  const [alignment, setAlignment] = useState<string | null>('left');
   const [dynamicFields, setDynamicFields] = useState([...dynamicallyFormArray]);
   const theme = useTheme<Theme>();
 
@@ -71,6 +78,21 @@ const useCreateTemplatesForm = () => {
     ]);
   };
 
+  const methodSideBar = useForm({
+    resolver: yupResolver(SideBarValidationSchema),
+    defaultValues: SideBarDefaultValues,
+  });
+
+  const { handleSubmit } = methodSideBar;
+  const onSubmit = async () => {};
+
+  const handleAlignment = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string | null,
+  ) => {
+    setAlignment(newAlignment);
+  };
+
   return {
     addField,
     dynamicFields,
@@ -78,6 +100,11 @@ const useCreateTemplatesForm = () => {
     theme,
     headerValue,
     setHeaderValue,
+    methodSideBar,
+    handleSubmit,
+    onSubmit,
+    alignment,
+    handleAlignment,
   };
 };
 
