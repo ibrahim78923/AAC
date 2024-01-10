@@ -82,7 +82,12 @@ const AddUser = ({ isOpenDrawer, onClose, setIsOpenAdduserDrawer }: any) => {
                 <item.component
                   {...item.componentProps}
                   size={'small'}
-                  disabled={isToggled ? true : false}
+                  disabled={
+                    isToggled &&
+                    item?.componentProps?.name === 'compositeAddress'
+                      ? true
+                      : false
+                  }
                 >
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (

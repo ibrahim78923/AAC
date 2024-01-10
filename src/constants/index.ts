@@ -111,6 +111,8 @@ export const AIR_CUSTOMER_PORTAL = {
   SINGLE_CATALOG_SERVICE_DETAILS: `/air-customer-portal/catalog/detail`,
   CATALOG_SERVICES: '/air-customer-portal/catalog',
   NON_REGISTER_DASHBOARD: '/air-customer-portal/non-register-dashboard',
+  CUSTOMER_PORTAL_DASHBOARD: '/air-customer-portal',
+  APPROVALS: '/air-customer-portal/catalog/approvals',
 };
 
 export const ORG_ADMIN: any = {

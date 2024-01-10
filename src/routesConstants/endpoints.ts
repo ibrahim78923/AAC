@@ -15,12 +15,13 @@ export const END_POINTS = {
   TICKET_BULK_UPDATE: '/ticket/bulk-ticket-update',
   USER_LIST: '/users',
   ADD_USER: '/users',
-  ADD_USER_ACCOUNT: '/users/organization',
+  USER_AVATAR: 'avatar',
   ORG_ADMIN_EMP_LIST: '/users/organization',
-  ORG_USER_EMPLOYEE: '/users/organization',
+  ORGANIZATION: '/organization',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   USER_ACCOUNT: '/account',
   UPDATE_USER_LIST: '/users/edit',
+  ADD_ACCOUNTS: '/super-admin/add-accounts',
   COMPANY_CRN: '/auth/search-company',
   auth_search_company: 'auth/search-company',
   DEALS_LIST_VIEW: '/deals/get-deals-list-view',
@@ -153,6 +154,7 @@ export const END_POINTS = {
   VENDOR_DROPDOWN: '/vendors/get-vendors',
   CONTRACT_TYPE_DROPDOWN: '/contract-type',
   DROPDOWN_AGENTS_LIST: '/dropdown/agents',
+  ASSETS_CONTRACT_DELETE: '/contract/{id}',
   KNOWLEDGE_BASE_ARTICLES: `/articles`,
   DROPDOWN_FOLDERS: `/dropdown/folders`,
   DROPDOWN_LOCATION: '/location/get-location',
@@ -162,6 +164,7 @@ export const END_POINTS = {
   ADD_CONTRACT: `/contract/add-contract`,
   EDIT_CONTRACT: `/contract/update`,
   UPDATE_CONTRACT_STATUS: `/contract/renew-extend`,
+  ASSETS_DROPDOWN: '/assets/inventory',
 };
 
 export const superAdminBillingInvoices = {

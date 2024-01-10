@@ -109,16 +109,22 @@ export const useAddNewLocation = () => {
       },
     };
     try {
-      const res: any = await postLocationTrigger(locationData);
-      enqueueSnackbar(res?.data?.message && 'New Location Added Successfully', {
+      const res: any = await postLocationTrigger(locationData).unwrap();
+      enqueueSnackbar(res?.message && 'Location Added Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       AddNewLocationMethods?.reset?.();
       moveToLocationPage();
+      AddNewLocationMethods?.reset?.();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      enqueueSnackbar(
+        ((Array.isArray(error?.data?.message) && error?.data?.message?.[0]) ||
+          error?.data?.message) ??
+          'Something went wrong!',
+        {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        },
+      );
     }
   };
 

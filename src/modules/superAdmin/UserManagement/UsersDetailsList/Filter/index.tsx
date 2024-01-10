@@ -25,6 +25,7 @@ export default function Filter({
       ...employeeFilter,
       product: values?.product,
       company: values?.company,
+      status: values?.status,
     });
   };
 

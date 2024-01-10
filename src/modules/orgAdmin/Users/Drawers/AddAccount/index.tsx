@@ -10,15 +10,16 @@ import { v4 as uuidv4 } from 'uuid';
 import useAddAccount from './useAddAccount';
 
 const AddAccount = (props: any) => {
-  const { isOpen, setIsOpen } = props;
-  const { handleSubmit, onSubmit, methods, companyRoles } = useAddAccount();
+  const { isOpen, employeeDataById, setIsOpenAddAccountDrawer } = props;
+  const { handleSubmit, onSubmit, methods, companyRoles } = useAddAccount(
+    employeeDataById,
+    setIsOpenAddAccountDrawer,
+  );
 
   return (
     <CommonDrawer
       isDrawerOpen={isOpen}
-      onClose={() => {
-        setIsOpen(false);
-      }}
+      onClose={() => setIsOpenAddAccountDrawer(false)}
       title="Add Account"
       okText="Add"
       isOk={true}

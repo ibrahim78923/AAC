@@ -14,8 +14,14 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 const ContactsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
-  const { handleSubmit, onSubmit, methodscontacts } = useContactsEditorDrawer();
+  const { openDrawer, setOpenDrawer, contactRecord } = props;
+  const {
+    handleSubmit,
+    onSubmit,
+    methodscontacts,
+    lifeCycleStagesData,
+    contactStatusData,
+  } = useContactsEditorDrawer({ openDrawer, contactRecord, setOpenDrawer });
 
   return (
     <div>
@@ -26,6 +32,7 @@ const ContactsEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider
@@ -33,7 +40,11 @@ const ContactsEditorDrawer = (props: any) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={4}>
-              {contactsDataArray?.map((item: any) => (
+              {contactsDataArray(
+                openDrawer,
+                lifeCycleStagesData,
+                contactStatusData,
+              )?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
