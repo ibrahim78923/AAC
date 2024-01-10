@@ -21,6 +21,13 @@ export const DATE_TIME_FORMAT = {
   DMYhmma: 'D MMMM, YYYY - h:mm A',
 };
 
+export const VALIDATION_CONSTANT = {
+  PHONE_NUMBER: {
+    regex: /^\+44[0-9]{10}$/,
+    message: 'Only UK phone number',
+  },
+};
+
 export const SUPER_ADMIN: any = {
   USERMANAGMENT: '/super-admin/user-management',
   ADDROLE: '/super-admin/user-management/add-role',
