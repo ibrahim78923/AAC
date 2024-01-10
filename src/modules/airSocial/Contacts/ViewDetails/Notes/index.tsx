@@ -4,9 +4,6 @@ import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
 
 import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 
-import { NotesDataArray } from '@/mock/modules/airSales/Deals/ViewDetails';
-
-import NotesEditorDrawer from './NotesEditorDrawer';
 import NotesActionDropdown from './NotesActionDropDown';
 
 import useNotes from './useNotes';
@@ -21,9 +18,15 @@ import AddNote from './AddNote';
 import { IMG_URL } from '@/config';
 import dayjs from 'dayjs';
 import ViewNote from './ViewNote';
+import EditNote from './EditNote';
+import { AlertModals } from '@/components/AlertModals';
 
 const Notes = ({ contactId }: any) => {
   const {
+    anchorEl,
+    isMenuOpen,
+    handleOpenMenu,
+    handleCloseMenu,
     methodsAddNote,
     handleAddNoteSubmit,
     openDrawerAddNote,
@@ -37,9 +40,17 @@ const Notes = ({ contactId }: any) => {
     handleOpenDrawerViewNote,
     handleCloseDrawerViewNote,
     methodsViewNote,
-
-    openDrawer,
-    setOpenDrawer,
+    openDrawerEditNote,
+    handleOpenDrawerEditNote,
+    handleCloseDrawerEditNote,
+    methodsEditNote,
+    loadingEditNote,
+    handleEditNoteSubmit,
+    isDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteSubmit,
+    loadingDelete,
   } = useNotes();
 
   const { theme } = useNameWithStyledWords();
@@ -50,7 +61,7 @@ const Notes = ({ contactId }: any) => {
         <Grid item xs={12}>
           <Box sx={styles?.headingSpacingBetween}>
             <Typography variant="h4"> Notes</Typography>
-            {!isNullOrEmpty(NotesDataArray) && (
+            {!isNullOrEmpty(dataGetNotes?.data?.contactnotes) && (
               <Box
                 sx={{
                   gap: 1,
@@ -60,9 +71,14 @@ const Notes = ({ contactId }: any) => {
                 }}
               >
                 <NotesActionDropdown
-                  setOpenDrawer={setOpenDrawer}
+                  anchorEl={anchorEl}
+                  isMenuOpen={isMenuOpen}
+                  handleOpenMenu={handleOpenMenu}
+                  handleCloseMenu={handleCloseMenu}
                   selectedCheckboxes={selectedCheckboxes}
                   openViewDrawer={handleOpenDrawerViewNote}
+                  openEditDrawer={handleOpenDrawerEditNote}
+                  openDeleteAlert={handleOpenModalDelete}
                 />
                 <Button
                   variant="contained"
@@ -74,7 +90,7 @@ const Notes = ({ contactId }: any) => {
               </Box>
             )}
           </Box>
-          {isNullOrEmpty(NotesDataArray) && (
+          {isNullOrEmpty(dataGetNotes?.data?.contactnotes) && (
             <Box
               sx={{
                 height: '35vh',
@@ -200,9 +216,23 @@ const Notes = ({ contactId }: any) => {
         isLoading={loadingAddNote}
       />
 
-      <NotesEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
+      <EditNote
+        isDrawerOpen={openDrawerEditNote}
+        onClose={handleCloseDrawerEditNote}
+        methods={methodsEditNote}
+        isLoading={loadingEditNote}
+        onSubmit={handleEditNoteSubmit(contactId)}
+      />
+
+      <AlertModals
+        message={
+          "You're about to delete a record. Deleted records can't be restored after 90 days."
+        }
+        type={'delete'}
+        open={isDeleteModal}
+        handleClose={handleCloseModalDelete}
+        handleSubmitBtn={handleDeleteSubmit}
+        isLoading={loadingDelete}
       />
     </Box>
   );

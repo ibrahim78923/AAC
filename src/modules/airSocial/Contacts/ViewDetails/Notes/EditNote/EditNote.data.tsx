@@ -7,7 +7,7 @@ import {
 export const editDefaultValues = {
   title: '',
   description: '',
-  attachfile: '',
+  attachment: '',
 };
 
 export const editNoteFields = () => {

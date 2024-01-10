@@ -7,7 +7,7 @@ import {
 export const viewDefaultValues = {
   title: '',
   description: '',
-  attachfile: '',
+  attachment: '',
 };
 
 export const viewNoteFields = () => {

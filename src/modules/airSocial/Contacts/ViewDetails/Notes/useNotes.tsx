@@ -1,15 +1,25 @@
 import { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useTheme } from '@mui/material';
 import {
   useGetNotesQuery,
   usePostNoteMutation,
+  useUpdateNoteMutation,
+  useDeleteNoteMutation,
 } from '@/services/commonFeatures/contact-note';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { addNoteValidationSchema } from './Notes.data';
 import { viewDefaultValues } from './ViewNote/ViewNote.data';
 const useNotes = () => {
+  // Action Dropdown
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const isMenuOpen = Boolean(anchorEl);
+  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event?.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
   // Add Note
   const [postAddNote, { isLoading: loadingAddNote }] = usePostNoteMutation();
   const [openDrawerAddNote, setOpenDrawerAddNote] = useState(false);
@@ -75,12 +85,12 @@ const useNotes = () => {
   const methodsViewNote = useForm({ defaultValues: viewDefaultValues });
   const { reset: resetViewNoteForm } = methodsViewNote;
   const handleOpenDrawerViewNote = (data: any) => {
-    setOpenDrawerViewNote(true);
-
     if (data) {
       methodsViewNote?.setValue('title', data?.title);
       methodsViewNote?.setValue('description', data?.description);
     }
+    handleCloseMenu();
+    setOpenDrawerViewNote(true);
   };
   const handleCloseDrawerViewNote = () => {
     setOpenDrawerViewNote(false);
@@ -88,26 +98,84 @@ const useNotes = () => {
   };
 
   // Update Note
+  const [updateNote, { isLoading: loadingEditNote }] = useUpdateNoteMutation();
   const [openDrawerEditNote, setOpenDrawerEditNote] = useState(false);
-  const methodsEditNote = useForm({ defaultValues: viewDefaultValues });
-  const { reset: resetEditNoteForm } = methodsEditNote;
+  const methodsEditNote = useForm();
+  const { handleSubmit: handleSubmitEditNote, reset: resetEditNoteForm } =
+    methodsEditNote;
   const handleOpenDrawerEditNote = (data: any) => {
-    setOpenDrawerEditNote(true);
-
     if (data) {
-      methodsViewNote?.setValue('title', data?.title);
-      methodsViewNote?.setValue('description', data?.description);
+      methodsEditNote?.setValue('title', data?.title);
+      methodsEditNote?.setValue('description', data?.description);
     }
+    handleCloseMenu();
+    setOpenDrawerEditNote(true);
   };
   const handleCloseDrawerEditNote = () => {
     setOpenDrawerEditNote(false);
     resetEditNoteForm();
   };
 
-  const theme = useTheme();
-  const [openDrawer, setOpenDrawer] = useState('');
+  const onSubmitEditNote = async (values: any, contactId: any) => {
+    const formData = new FormData();
+    formData?.append('contactId', contactId);
+    formData?.append('title', values?.title);
+    formData?.append('description', values?.description);
+    formData?.append('attachment', values?.attachment);
+    try {
+      await updateNote({
+        id: selectedCheckboxes[0]?._id,
+        body: formData,
+      })?.unwrap();
+      handleCloseDrawerEditNote();
+      setSelectedCheckboxes([]);
+      enqueueSnackbar('Note updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
+  const handleEditNoteSubmit = (contactId: any) =>
+    handleSubmitEditNote((values) => onSubmitEditNote(values, contactId));
+
+  // Delete Note
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [deleteNote, { isLoading: loadingDelete }] = useDeleteNoteMutation();
+  const handleOpenModalDelete = () => {
+    handleCloseMenu();
+    setIsDeleteModal(true);
+  };
+  const handleCloseModalDelete = () => {
+    setIsDeleteModal(false);
+  };
+
+  const handleDeleteSubmit = async () => {
+    const items = await selectedCheckboxes
+      ?.map((item: any) => item?._id)
+      .join(',');
+    try {
+      await deleteNote(items)?.unwrap();
+      handleCloseModalDelete();
+      selectedCheckboxes([]);
+      enqueueSnackbar('Contact Note Deleted Successfully.', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
 
   return {
+    anchorEl,
+    isMenuOpen,
+    handleOpenMenu,
+    handleCloseMenu,
     methodsAddNote,
     handleAddNoteSubmit,
     openDrawerAddNote,
@@ -126,10 +194,13 @@ const useNotes = () => {
     handleOpenDrawerEditNote,
     handleCloseDrawerEditNote,
     methodsEditNote,
-
-    openDrawer,
-    setOpenDrawer,
-    theme,
+    loadingEditNote,
+    handleEditNoteSubmit,
+    isDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteSubmit,
+    loadingDelete,
   };
 };
 
