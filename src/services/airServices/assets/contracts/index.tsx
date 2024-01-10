@@ -78,6 +78,17 @@ export const contractAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getDropdownAssets: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.ASSETS_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.inventories;
+      },
+      providesTags: [TAG_THREE],
+    }),
   }),
 });
 
@@ -90,4 +101,5 @@ export const {
   usePostContractMutation,
   usePatchContractMutation,
   usePatchContractStatusMutation,
+  useLazyGetDropdownAssetsQuery,
 } = contractAPI;
