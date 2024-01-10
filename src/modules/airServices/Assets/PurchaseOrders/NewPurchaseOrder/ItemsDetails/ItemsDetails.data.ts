@@ -2,6 +2,7 @@ import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
 export const newPurchaseProductsFunction = (
   vendorProductsApiQuery: any,
   index: number,
+  vendorId: any,
 ) => [
   {
     id: 3,
@@ -9,9 +10,11 @@ export const newPurchaseProductsFunction = (
     gridLength: 6,
     componentProps: {
       fullWidth: true,
+      externalParams: { limit: 50, vendorId: vendorId },
       name: `purchaseDetails.${index}.itemName`,
+      getOptionLabel: (option: any) =>
+        option?.vendorproductcatalogsDetails?.name,
       apiQuery: vendorProductsApiQuery,
-      externalParams: { meta: false, limit: 50 },
       sx: { flex: 3 },
     },
   },

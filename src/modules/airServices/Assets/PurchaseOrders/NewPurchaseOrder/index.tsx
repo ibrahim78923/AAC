@@ -58,7 +58,10 @@ const NewPurchaseOrder = () => {
               <Grid item xs={12} rowSpacing={2.6} columnSpacing={2}>
                 <Box>
                   <Typography sx={{ ...subHeading }}>Items Details</Typography>
-                  <ItemsDetails control={methods?.control} />
+                  <ItemsDetails
+                    control={methods?.control}
+                    vendorId={vendorValue}
+                  />
                 </Box>
               </Grid>
             )}

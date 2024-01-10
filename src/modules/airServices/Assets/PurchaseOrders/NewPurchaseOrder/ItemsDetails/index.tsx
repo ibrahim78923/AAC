@@ -5,12 +5,12 @@ import ItemsDetailsHeader from './ItemDetailsComponents/ItemsDetailsHeader';
 import useItemsDetails from './useItemsDetails';
 import ItemBilling from './ItemDetailsComponents/ItemBilling';
 import { styles } from './ItemsDetails.style';
-import { useLazyGetVendorDropdownQuery } from '@/services/airServices/assets/purchase-orders';
+import { useLazyGetVendorProductsDropdownQuery } from '@/services/airServices/assets/purchase-orders';
 
 const ItemsDetails = (props: any) => {
-  const { fields, append } = useItemsDetails(props);
+  const { fields, append, vendorId } = useItemsDetails(props);
   const { itemsWrapper, flexBetween } = styles();
-  const apiQueryVendor: any = useLazyGetVendorDropdownQuery();
+  const apiQueryVendorProducts: any = useLazyGetVendorProductsDropdownQuery();
   return (
     <>
       <Box width="100%" overflow="scroll">
@@ -18,15 +18,17 @@ const ItemsDetails = (props: any) => {
           <ItemsDetailsHeader />
           {fields?.map((item: any, index: number) => (
             <Box key={item?.id} sx={{ ...flexBetween }}>
-              {newPurchaseProductsFunction(apiQueryVendor, index)?.map(
-                (form: any) => (
-                  <form.component
-                    {...form?.componentProps}
-                    size="small"
-                    key={form?.id}
-                  />
-                ),
-              )}
+              {newPurchaseProductsFunction(
+                apiQueryVendorProducts,
+                index,
+                vendorId?._id,
+              )?.map((form: any) => (
+                <form.component
+                  {...form?.componentProps}
+                  size="small"
+                  key={form?.id}
+                />
+              ))}
             </Box>
           ))}
           <Button

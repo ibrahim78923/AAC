@@ -39,6 +39,17 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_THREE],
     }),
+    getVendorProductsDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.VENDOR_PRODUCT_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.vendorproductcatalogs;
+      },
+      providesTags: [TAG_THREE],
+    }),
   }),
 });
 
@@ -46,4 +57,5 @@ export const {
   useLazyGetDepartmentDropdownQuery,
   useLazyGetLocationsDropdownQuery,
   useLazyGetVendorDropdownQuery,
+  useLazyGetVendorProductsDropdownQuery,
 } = purchaseOrderAPI;
