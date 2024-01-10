@@ -1,6 +1,7 @@
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
+import { useGetExitingTicketsQuery } from '@/services/airServices/inventory/SingleInventoryDetail/Associations';
 
 export const useExistingIncident = ({ onClose }: any) => {
   const [searchBy, setSearchBy] = useState<any>();
@@ -8,6 +9,8 @@ export const useExistingIncident = ({ onClose }: any) => {
   const [checkboxValues, setCheckboxValues] = useState<any>({});
 
   const theme: any = useTheme();
+
+  const { data: existingTicketsData } = useGetExitingTicketsQuery();
 
   // Function to handle checkbox change
   const handleCheckboxChange = (event: any) => {
@@ -30,7 +33,16 @@ export const useExistingIncident = ({ onClose }: any) => {
     });
     onClose(false);
   };
-
+  const filteredTickets = existingTicketsData?.data?.tickets.filter(
+    (ticket: any) => {
+      if (!searchBy) return true;
+      return Object.values(ticket).some(
+        (value) =>
+          typeof value === 'string' &&
+          value.toLowerCase().includes(searchBy.toLowerCase()),
+      );
+    },
+  );
   return {
     handleSubmit,
     searchBy,
@@ -38,5 +50,6 @@ export const useExistingIncident = ({ onClose }: any) => {
     theme,
     checkboxValues,
     handleCheckboxChange,
+    existingTicketsData: { data: { tickets: filteredTickets } },
   };
 };

@@ -56,7 +56,7 @@ export const upsertRolesData = [
     },
 
     component: RHFTextField,
-    visible: (actionType: any) => actionType === ROLES_ACTION_CONSTANTS?.VIEW,
+    visible: (actionType: any) => actionType === ROLES_ACTION_CONSTANTS?.EDIT,
     md: 12,
   },
   {

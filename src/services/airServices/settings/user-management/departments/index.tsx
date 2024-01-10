@@ -6,9 +6,10 @@ const TAG = 'DEPARTMENT';
 export const departmentAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getDepartment: builder?.query({
-      query: () => ({
+      query: (ap: any) => ({
         url: `${END_POINTS?.DEPARTMENT_LIST}`,
         method: 'GET',
+        params: ap?.queryParams,
       }),
       providesTags: [TAG],
     }),
@@ -23,5 +24,5 @@ export const departmentAPI = baseAPI?.injectEndpoints({
   }),
 });
 
-export const { usePostDepartmentMutation, useGetDepartmentQuery } =
+export const { usePostDepartmentMutation, useLazyGetDepartmentQuery } =
   departmentAPI;

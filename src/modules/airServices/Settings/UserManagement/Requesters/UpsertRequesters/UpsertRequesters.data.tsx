@@ -4,20 +4,26 @@ import {
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
+import { VALIDATION_CONSTANT } from '@/constants';
 import { timeZone } from '@/constants/time-zone';
 import * as Yup from 'yup';
 
 export const upsertRequestersValidationSchema: any = Yup?.object()?.shape({
-  email: Yup?.string()?.required('Required'),
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Required')
+    .matches(/@/, 'Email must contain the @ symbol'),
   firstName: Yup?.string()?.required('Required'),
   lastName: Yup?.string()?.required('Required'),
-  jobTitle: Yup?.string(),
+  timezone: Yup?.mixed()?.nullable(),
+  jobTitle: Yup.string().required('Required'),
   phoneNumber: Yup.string()
-    .matches(/^\+[0-9]{11,}$/, 'Invalid phone number')
-    .required('Phone number is required'),
+    .required('Required')
+    .matches(
+      VALIDATION_CONSTANT.PHONE_NUMBER.regex,
+      VALIDATION_CONSTANT.PHONE_NUMBER.message,
+    ),
 });
-
-const jobTitleOptions = ['Senior HR Executive', 'Junior Admin', 'IT Support'];
 
 export const upsertRequestersDefaultValues: any = (profileData: any) => {
   return {
@@ -26,8 +32,8 @@ export const upsertRequestersDefaultValues: any = (profileData: any) => {
     lastName: profileData?.[0]?.lastName ?? '',
     jobTitle: profileData?.[0]?.jobTitle ?? '',
     phoneNumber: profileData?.[0]?.phoneNumber ?? '',
-    plannedStartDate: '',
-    plannedStartTime: '',
+    createdAt: new Date(),
+    updatedAt: new Date(),
     timezone: profileData?.[0]?.timezone ?? '',
   };
 };
@@ -76,10 +82,9 @@ export const upsertRequestersArray = [
       label: 'Job Title',
       fullWidth: true,
       required: true,
-      placeholder: 'Select Job Title',
-      options: jobTitleOptions,
+      placeholder: 'Job Title',
     },
-    component: RHFAutocomplete,
+    component: RHFTextField,
     md: 12,
   },
   {
@@ -89,6 +94,7 @@ export const upsertRequestersArray = [
       label: 'Phone Number',
       fullWidth: true,
       placeholder: 'Phone Number',
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -96,7 +102,7 @@ export const upsertRequestersArray = [
   {
     id: 6,
     componentProps: {
-      name: 'plannedStartDate',
+      name: 'createdAt',
       label: 'Date of Request',
       fullWidth: true,
       disabled: true,
@@ -107,7 +113,7 @@ export const upsertRequestersArray = [
   {
     id: 7,
     componentProps: {
-      name: 'plannedStartTime',
+      name: 'updatedAt',
       label: '\u00a0\u00a0',
       fullWidth: true,
       disabled: true,
@@ -115,7 +121,6 @@ export const upsertRequestersArray = [
     component: RHFTimePicker,
     md: 4,
   },
-
   {
     id: 8,
     componentProps: {
@@ -123,8 +128,7 @@ export const upsertRequestersArray = [
       name: 'timezone',
       label: 'Time Zone',
       placeholder: 'Select Time Zone',
-      options: timeZone,
-      getOptionLabel: (option: any) => option?.label,
+      options: timeZone?.map((timeZone) => timeZone?.label),
     },
     gridLength: 12,
     component: RHFAutocomplete,

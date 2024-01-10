@@ -57,8 +57,7 @@ export const useAddNewVendor = (props: any) => {
       });
     }
 
-    setIsADrawerOpen(false);
-    reset?.();
+    handleClose?.();
   };
 
   const submitUpdateNewVendor = async (data: any) => {
@@ -91,7 +90,10 @@ export const useAddNewVendor = (props: any) => {
     }
     setIsADrawerOpen(false);
   };
-
+  const handleClose = () => {
+    setIsADrawerOpen?.(false);
+    reset?.();
+  };
   return {
     methodsNewVendor,
     newVendorValidationSchema,
@@ -100,5 +102,6 @@ export const useAddNewVendor = (props: any) => {
     onSubmit,
     submitUpdateNewVendor,
     isLoading,
+    handleClose,
   };
 };

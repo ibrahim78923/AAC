@@ -1,9 +1,9 @@
 import {
   RHFAutocompleteAsync,
-  RHFDateTimePicker,
   RHFRadioButtonTwoLabel,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { ExpirationDuration } from './ExpirationDuration';
 const vouchersRadioGroupOptions = [
   {
     value: 'unlimitedVouchers',
@@ -66,7 +66,10 @@ export const addVouchersFormFieldsDefaultValues = (data?: any) => {
     limitAmount: data?.limitAmount ?? '',
     limitVouchers: data?.limitVouchers ?? '',
     limitRedemptions: data?.limitRedemptions ?? '',
-    limitTime: data?.limitTime ?? null,
+    days: data?.limitTime ?? 1,
+    hours: data?.hours ?? 0,
+    minutes: data?.minutes ?? 0,
+    seconds: data?.seconds ?? 0,
   };
 };
 export const addVouchersFormFieldsDataFunction = (apiQueryAgent?: any) => [
@@ -156,14 +159,7 @@ export const addVouchersRadioButtonsFormFields = [
       options: timeRadioGroupOptions,
     },
     component: RHFRadioButtonTwoLabel,
-    conditionalComponentOne: (
-      <RHFDateTimePicker
-        name="limitTime"
-        label="Expiration Duration"
-        size="small"
-        fullWidth
-      />
-    ),
+    conditionalComponentOne: <ExpirationDuration />,
   },
   {
     id: 5,

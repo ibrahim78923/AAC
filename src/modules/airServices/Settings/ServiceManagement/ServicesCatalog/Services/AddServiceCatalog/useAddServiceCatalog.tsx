@@ -21,7 +21,7 @@ const useAddServiceCatalog = (prop: any) => {
       const response = await postServiceCatalogTrigger({
         body: data,
       })?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Service Add Successfully', {
+      enqueueSnackbar(response?.data?.message ?? 'Service Add Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       reset(addServiceCatalogDefaultValues);

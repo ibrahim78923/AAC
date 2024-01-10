@@ -1,7 +1,5 @@
 import { useForm } from 'react-hook-form';
-import {
-  filterArticlesDataDefaultValues,
-} from './FilterArticles.data';
+import { filterArticlesDataDefaultValues } from './FilterArticles.data';
 
 export const useFilterArticles = (props: any) => {
   const { isOpenFilterDrawer, setIsOpenFilterDrawer, handleFilterValues } =

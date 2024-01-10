@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { FilterIcon, FolderGreyIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
 
-import { articlesTabs, data } from './Articles.data';
 import { useArticles } from './useArticles';
 import { styles } from './Articles.style';
 import Search from '@/components/Search';

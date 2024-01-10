@@ -21,7 +21,6 @@ const useChangeStatus = (prop: any) => {
   const onSubmit = async (data: any) => {
     const moveToCategoryData = new FormData();
 
-    // moveToCategoryData.append('serviceCategory', data?.category?._id);
     moveToCategoryData.append('id', id?.selectedCheckboxes?.[0]);
     moveToCategoryData.append('status', data?.status);
 
@@ -33,12 +32,9 @@ const useChangeStatus = (prop: any) => {
         patchServiceCatalogParameter,
       )?.unwrap();
 
-      enqueueSnackbar(
-        response?.message ?? 'ServiceCatalog Created Successfully!',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      enqueueSnackbar(response?.data?.message ?? 'Service Status Updated ', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
     } catch (error) {
       enqueueSnackbar('Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
