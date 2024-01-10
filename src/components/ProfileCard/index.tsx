@@ -24,6 +24,7 @@ const ProfileCard = (props: CardPropsI) => {
     handleEditImage = () => {},
     editBtn = true,
     isBadge = true,
+    handleChangeImg,
   } = props;
 
   return (
@@ -63,7 +64,7 @@ const ProfileCard = (props: CardPropsI) => {
               id="upload-button"
               style={{ display: 'none' }}
               accept="image/png, image/gif, image/jpeg, image/webp"
-              // onChange={handleChangeImg}
+              onChange={(e: any) => handleChangeImg(e)}
             />
           </label>
         </Box>

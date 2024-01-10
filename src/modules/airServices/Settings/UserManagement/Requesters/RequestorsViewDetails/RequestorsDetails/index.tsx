@@ -1,13 +1,6 @@
 import { EditRequestorsIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
-import {
-  Avatar,
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { Avatar, Box, Grid, IconButton, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UpsertRequesters from '../../UpsertRequesters';
@@ -95,24 +88,26 @@ export const RequestorsDetails = () => {
             xs: 'none',
           }}
         >
-          {profileInformation(profileData[0])?.map((item) => (
-            <Grid container spacing={{ sm: 4, xs: 1 }} key={item?.id}>
-              <Grid item md={5} xs={12}>
-                <Typography variant="body4" noWrap>
-                  {item?.title}
-                </Typography>
-                <br />
-                {item?.description && (
-                  <Typography variant="body3" noWrap>
-                    {item?.description}
+          {profileData &&
+            profileData[0] &&
+            profileInformation(profileData[0])?.map((item) => (
+              <Grid container spacing={{ sm: 4, xs: 1 }} key={item?.id}>
+                <Grid item md={5} xs={12}>
+                  <Typography variant="body4" noWrap>
+                    {item?.title}
                   </Typography>
-                )}
+                  <br />
+                  {item?.description && (
+                    <Typography variant="body3" noWrap>
+                      {item?.description}
+                    </Typography>
+                  )}
+                </Grid>
+                <Grid item md={5} xs={12}>
+                  <Typography variant="body4">{item?.detail}</Typography>
+                </Grid>
               </Grid>
-              <Grid item md={5} xs={12}>
-                <Typography variant="body4">{item?.detail}</Typography>
-              </Grid>
-            </Grid>
-          ))}
+            ))}
         </Grid>
         <Grid
           item
@@ -133,12 +128,7 @@ export const RequestorsDetails = () => {
                 </Typography>
               </Grid>
               <Grid item md={5} xs={12}>
-                <Typography
-                  variant="body4"
-                  color={item?.detail?.includes('IT') ? 'primary' : ''}
-                >
-                  {item?.detail}
-                </Typography>
+                <Typography variant="body4">{item?.detail}</Typography>
               </Grid>
             </Grid>
           ))}
@@ -157,20 +147,6 @@ export const RequestorsDetails = () => {
       </Grid>
       <Box py={'18px'}>
         <Typography variant="h3">Associations</Typography>
-      </Box>
-      <Box>
-        <Button variant="outlined" color="primary">
-          Tickets
-        </Button>
-      </Box>
-      <Box py={'1.125rem'}>
-        <Typography variant="h6">Assigned</Typography>
-        <br />
-        <TanstackTable
-          data={requestorAssignedData}
-          columns={requestorsAssigned()}
-          isPagination={true}
-        />
       </Box>
       <Box py={'1.125rem'}>
         <Typography variant="h6">Requested</Typography>

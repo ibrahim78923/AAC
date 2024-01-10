@@ -3,7 +3,7 @@ import { ArrowDropDown } from '@mui/icons-material';
 import useRoleAndRight from '../useRoleAndRight';
 
 const ActionButton = (props?: any) => {
-  const { checkedRows, setIsDraweropen, setIsOpenDelete } = props;
+  const { checkedRows, setIsDraweropen } = props;
   const { selectedValue, handleClick, handleClose } = useRoleAndRight();
 
   return (
@@ -34,7 +34,7 @@ const ActionButton = (props?: any) => {
         <MenuItem
           onClick={() => {
             handleClose();
-            setIsDraweropen({ isToggle: true, type: 'edit' });
+            setIsDraweropen({ isToggle: true, type: 'edit', id: checkedRows });
           }}
         >
           Edit
@@ -43,19 +43,10 @@ const ActionButton = (props?: any) => {
         <MenuItem
           onClick={() => {
             handleClose();
-            setIsDraweropen({ isToggle: true, type: 'view' });
+            setIsDraweropen({ isToggle: true, type: 'view', id: checkedRows });
           }}
         >
           View
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            setIsOpenDelete(true);
-          }}
-        >
-          Delete
         </MenuItem>
       </Menu>
     </Box>

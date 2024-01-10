@@ -59,12 +59,18 @@ export const AddHoliday = (props: any) => {
             <DialogContent>
               <Grid container gap={2.4}>
                 <Grid item xs={12}>
-                  <RHFTextField name="name" label="Holiday Name" size="small" />
+                  <RHFTextField
+                    name="name"
+                    label="Holiday Name"
+                    size="small"
+                    required
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <RHFDatePicker
                     name="date"
                     label="Date"
+                    required
                     size="small"
                     fullWidth={true}
                   />
