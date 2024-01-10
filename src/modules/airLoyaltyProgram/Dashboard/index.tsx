@@ -1,3 +1,9 @@
+import { Widget } from './Widget';
+
 export const Dashboard = () => {
-  return <>Air Loyalty Program Dashboard</>;
+  return (
+    <>
+      <Widget />
+    </>
+  );
 };

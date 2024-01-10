@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const FilterUser = ({
   isOpenDrawer,
-  onClose,
+  setIsOpenFilterDrawer,
   employeeFilter,
   setEmployeeFilter,
 }: any) => {
@@ -24,14 +24,15 @@ const FilterUser = ({
       ...employeeFilter,
       product: values?.product,
       company: values?.company,
-      user: values?.user,
+      status: values?.status,
     });
+    setIsOpenFilterDrawer(false);
   };
 
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
-      onClose={onClose}
+      onClose={() => setIsOpenFilterDrawer(false)}
       title="Filters"
       okText="Apply"
       isOk={true}

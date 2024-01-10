@@ -1,17 +1,15 @@
 import { CirclePlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
-import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
 import { useTeams } from '../useTeams';
 import UpsertTeams from '../UpsertTeams';
 import { AgentConversionDelete } from '../../AgentConversionDelete';
 
-export const TeamsHeader = ({ selectedTeamList }: any) => {
+export const TeamsHeader = () => {
   const {
     setSearchValue,
     isDrawerOpen,
     setIsDrawerOpen,
-    teamDropdownOptions,
     deleteModal,
     setDeleteModal,
   } = useTeams();
@@ -30,11 +28,6 @@ export const TeamsHeader = ({ selectedTeamList }: any) => {
         />
       </Box>
       <Box display={'flex'} gap={1} mt={{ xs: 2, sm: 0 }}>
-        <SingleDropdownButton
-          dropdownName={'Actions'}
-          dropdownOptions={teamDropdownOptions}
-          disabled={!selectedTeamList?.length}
-        />
         <Button
           startIcon={<CirclePlusIcon />}
           variant="contained"

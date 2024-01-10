@@ -44,6 +44,7 @@ const BLUE = {
   dark: '#19264a',
   darker: '#162241',
   dull_blue: '#111827',
+  link_blue: '#0072C6',
 };
 const SLATE_BLUE = {
   lighter: '#878d97',
@@ -125,6 +126,7 @@ const CUSTOM_COLORS = {
   custom_shadow: '#6B72801A',
   accordian_color: '#f1f1f17a',
   sliver_grey: '#9D9D9D',
+  light_green_background: `#F7FCFB`,
 };
 const GRAPH = {
   cyan: 'blue',

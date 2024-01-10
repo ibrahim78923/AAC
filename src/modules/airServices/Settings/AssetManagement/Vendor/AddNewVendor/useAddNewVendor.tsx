@@ -58,6 +58,7 @@ export const useAddNewVendor = (props: any) => {
     }
 
     setIsADrawerOpen(false);
+    reset?.();
   };
 
   const submitUpdateNewVendor = async (data: any) => {
@@ -78,7 +79,7 @@ export const useAddNewVendor = (props: any) => {
         patchNewVendorParameter,
       )?.unwrap();
       enqueueSnackbar(
-        response?.data?.message ?? 'NewVendor Updated Successfully!',
+        response?.data?.message ?? 'Vendor Updated Successfully!',
         {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         },

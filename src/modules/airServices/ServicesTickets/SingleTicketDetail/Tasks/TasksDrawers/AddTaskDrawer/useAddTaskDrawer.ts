@@ -29,6 +29,7 @@ export const useAddTaskDrawer = (props: any) => {
       endDate: data?.endDate?.toISOString(),
       assignTo: data?.assignTo?._id,
       departmentId: data?.departmentId?._id,
+      notifyBefore: data?.notifyBefore?.value,
     };
     try {
       const res = await postTask(params)?.unwrap();
@@ -38,7 +39,7 @@ export const useAddTaskDrawer = (props: any) => {
       methodsCreateNewTicketForm?.reset();
       onClose(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.error?.message ?? '', {
+      enqueueSnackbar(error?.error?.message ?? 'An error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }

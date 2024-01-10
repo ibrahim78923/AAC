@@ -105,7 +105,11 @@ export const articlesColumnsFunction = (
       isSortable: true,
       cell: (info: any) => (
         <Chip
-          label={info?.getValue()}
+          label={
+            <span style={{ textTransform: 'capitalize' }}>
+              {info?.getValue()}
+            </span>
+          }
           size="small"
           sx={{
             backgroundColor: styleFunction?.(info?.getValue())?.bgColor,

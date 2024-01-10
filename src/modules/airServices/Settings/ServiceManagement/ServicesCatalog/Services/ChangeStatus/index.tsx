@@ -60,7 +60,13 @@ export const ChangeStatus = (prop: any) => {
           </DialogContent>
           <Divider />
           <DialogActions>
-            <LoadingButton onClick={handleClose}>cancel</LoadingButton>
+            <LoadingButton
+              color="secondary"
+              variant="outlined"
+              onClick={handleClose}
+            >
+              cancel
+            </LoadingButton>
             <LoadingButton variant="contained" type="submit">
               Save
             </LoadingButton>
