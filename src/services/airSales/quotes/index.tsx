@@ -23,7 +23,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
     }),
 
     getQuoteById: builder.query({
-      query: (id: any) => ({
+      query: ({ id }: any) => ({
         url: `${END_POINTS?.QUOTE}/${id}`,
         method: 'GET',
       }),
@@ -82,6 +82,14 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       // providesTags: TAG,
     }),
+    getUsersList: builder.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.USERS_LIST_ADMIN}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['DEALS'],
+    }),
   }),
 });
 
@@ -95,4 +103,5 @@ export const {
   useDeleteQuotesMutation,
   useGetUserListQuery,
   useGetCompaniesOwnersQuery,
+  useGetUsersListQuery,
 } = quotesAPI;

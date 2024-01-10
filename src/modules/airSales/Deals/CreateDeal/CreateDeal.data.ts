@@ -71,7 +71,7 @@ export const createDealData = () => {
     {
       title: 'Deal Owner',
       componentProps: {
-        name: 'dealOwnerId',
+        name: 'ownerId',
         label: 'Deal Owner',
         select: true,
       },

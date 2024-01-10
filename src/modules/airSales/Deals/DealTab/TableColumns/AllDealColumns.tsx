@@ -14,6 +14,7 @@ export const AllDealColumns = ({
   handleSelectAllCheckbox: (event: React.ChangeEvent<HTMLInputElement>) => void;
   isAllSelected: boolean;
 }) => {
+  // const { activeColumns } = useDealTab();
   const theme = useTheme();
   return [
     {
@@ -37,7 +38,7 @@ export const AllDealColumns = ({
       accessorFn: (row: any) => row?.dealOwner,
       id: 'name',
       isSortable: true,
-      header: 'owner',
+      header: 'Deal Owner',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '5px' }}>
           <Avatar

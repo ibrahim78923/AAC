@@ -70,16 +70,19 @@ const useDealTab = () => {
   const { data: dealCustomzieCol } = useGetCustomizeColumnQuery({
     type: 'deals',
   });
+  const activeColumns = dealCustomzieCol?.data?.columns?.filter(
+    (column: any) => column?.active === true,
+  );
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
   const { data: pipelineData } = useGetDealsSalesProductQuery(params);
 
   const dealListApiUrl = dealViewsData?.data?.map((obj: any) => {
-    const dateStart = obj.apiUrl.match(/dateStart=([^&]*)/)[1];
-    const dateEnd = obj.apiUrl.match(/dateEnd=([^&]*)/)[1];
+    const dateStart = obj?.apiUrl?.match(/dateStart=([^&]*)/)[1];
+    const dateEnd = obj?.apiUrl?.match(/dateEnd=([^&]*)/)[1];
     return { dateStart, dateEnd, name: obj?.name };
   });
 
-  const tabsArray = [{ name: 'All Deals', dateStart: '', dateEnd: '' }].concat(
+  const tabsArray = [{ name: 'All Deals', dateStart: '', dateEnd: '' }]?.concat(
     dealListApiUrl,
   );
 
@@ -120,7 +123,7 @@ const useDealTab = () => {
   };
 
   const handeApplyFilter = (values: any) => {
-    const filteredObj = Object.fromEntries(
+    const filteredObj = Object?.fromEntries(
       Object.entries(values)?.filter(
         (value) => value[1] !== '' && value[1] !== null,
       ),
@@ -175,7 +178,7 @@ const useDealTab = () => {
   const handleSelectAllCheckbox = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const { checked } = event.target;
+    const { checked } = event?.target;
     setSelectedRows(
       checked ? allDealsData?.map((obj: { _id: string }) => obj?._id) : [],
     );
@@ -193,6 +196,38 @@ const useDealTab = () => {
       allDealsData?.length === selectedRows?.length,
     selectedRows,
   });
+
+  // function reorderArrayOfObjects(
+  //   originalArray: any[],
+  //   customColumns: any[],
+  // ): any[] {
+  //   const propertyOrderMap: Record<string, number> = {};
+
+  //   customColumns?.forEach((column) => {
+  //     const properties = column?.attributes?.split(' ');
+  //     properties?.forEach((property: any) => {
+  //       propertyOrderMap[property] = column?.order;
+  //     });
+  //   });
+
+  //   const reorderedArray = originalArray?.map((originalObject) => {
+  //     const sortedProperties = Object?.keys(originalObject)?.sort(
+  //       (a, b) =>
+  //         (propertyOrderMap[a] || Number?.MAX_SAFE_INTEGER) -
+  //         (propertyOrderMap[b] || Number?.MAX_SAFE_INTEGER),
+  //     );
+
+  //     const reorderedObject: any = {};
+  //     sortedProperties?.forEach((property) => {
+  //       reorderedObject[property] = originalObject[property];
+  //     });
+
+  //     return reorderedObject;
+  //   });
+
+  //   return reorderedArray;
+  // }
+
   const dealTableData = {
     columns: allDealsColumns,
     data: allDealsData,
@@ -221,7 +256,6 @@ const useDealTab = () => {
       });
     }
   };
-
   return {
     listView,
     tabsArray,
@@ -258,6 +292,7 @@ const useDealTab = () => {
     DealsLifecycleStageData,
     pipelineData,
     dealCustomzieCol,
+    activeColumns,
   };
 };
 
