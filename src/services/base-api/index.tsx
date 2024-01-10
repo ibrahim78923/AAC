@@ -61,6 +61,8 @@ export const TAGS = [
   'VENDOR_DROPDOWN',
   'ASSETS_CONTRACT_LIST',
   'ASSETS_INVENTORY_SOFTWARE',
+  'CONTACTS',
+  'CONTACT_NOTE',
 ];
 
 const baseQuery = fetchBaseQuery({

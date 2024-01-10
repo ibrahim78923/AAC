@@ -4,9 +4,6 @@ import { Box, Button, Checkbox, Grid, Typography } from '@mui/material';
 
 import useNameWithStyledWords from '@/hooks/useNameStyledWords';
 
-import { NotesDataArray } from '@/mock/modules/airSales/Deals/ViewDetails';
-
-import NotesEditorDrawer from './NotesEditorDrawer';
 import NotesActionDropdown from './NotesActionDropDown';
 
 import useNotes from './useNotes';
@@ -17,16 +14,47 @@ import { styles } from '../ViewDetails.style';
 
 import { MessageIcon, PlusSharedIcon } from '@/assets/icons';
 
-import { v4 as uuidv4 } from 'uuid';
+import AddNote from './AddNote';
+import { IMG_URL } from '@/config';
+import dayjs from 'dayjs';
+import ViewNote from './ViewNote';
+import EditNote from './EditNote';
+import { AlertModals } from '@/components/AlertModals';
+import { DATE_TIME_FORMAT } from '@/constants';
 
-const Notes = () => {
+const Notes = ({ contactId }: any) => {
   const {
-    openDrawer,
-    setOpenDrawer,
+    anchorEl,
+    isMenuOpen,
+    handleOpenMenu,
+    handleCloseMenu,
+    methodsAddNote,
+    handleAddNoteSubmit,
+    openDrawerAddNote,
+    handleOpenDrawerAddNote,
+    handleCloseDrawerAddNote,
+    loadingAddNote,
+    dataGetNotes,
     selectedCheckboxes,
     handleCheckboxChange,
+    openDrawerViewNote,
+    handleOpenDrawerViewNote,
+    handleCloseDrawerViewNote,
+    methodsViewNote,
+    openDrawerEditNote,
+    handleOpenDrawerEditNote,
+    handleCloseDrawerEditNote,
+    methodsEditNote,
+    loadingEditNote,
+    handleEditNoteSubmit,
+    isDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteSubmit,
+    loadingDelete,
   } = useNotes();
-  const { NameWithStyledWords, theme } = useNameWithStyledWords();
+
+  const { theme } = useNameWithStyledWords();
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
@@ -34,7 +62,7 @@ const Notes = () => {
         <Grid item xs={12}>
           <Box sx={styles?.headingSpacingBetween}>
             <Typography variant="h4"> Notes</Typography>
-            {!isNullOrEmpty(NotesDataArray) && (
+            {!isNullOrEmpty(dataGetNotes?.data?.contactnotes) && (
               <Box
                 sx={{
                   gap: 1,
@@ -44,20 +72,26 @@ const Notes = () => {
                 }}
               >
                 <NotesActionDropdown
-                  setOpenDrawer={setOpenDrawer}
+                  anchorEl={anchorEl}
+                  isMenuOpen={isMenuOpen}
+                  handleOpenMenu={handleOpenMenu}
+                  handleCloseMenu={handleCloseMenu}
                   selectedCheckboxes={selectedCheckboxes}
+                  openViewDrawer={handleOpenDrawerViewNote}
+                  openEditDrawer={handleOpenDrawerEditNote}
+                  openDeleteAlert={handleOpenModalDelete}
                 />
                 <Button
                   variant="contained"
                   className="small"
-                  onClick={() => setOpenDrawer('Add')}
+                  onClick={handleOpenDrawerAddNote}
                 >
                   <PlusSharedIcon /> Add Notes
                 </Button>
               </Box>
             )}
           </Box>
-          {isNullOrEmpty(NotesDataArray) && (
+          {isNullOrEmpty(dataGetNotes?.data?.contactnotes) && (
             <Box
               sx={{
                 height: '35vh',
@@ -79,12 +113,12 @@ const Notes = () => {
           )}
         </Grid>
 
-        {!isNullOrEmpty(NotesDataArray) && (
+        {!isNullOrEmpty(dataGetNotes?.data?.contactnotes) && (
           <Grid item xs={12} sx={styles?.horizontalTabsInnnerBox}>
-            {NotesDataArray?.map((item) => (
+            {dataGetNotes?.data?.contactnotes?.map((note: any) => (
               <Grid
                 container
-                key={uuidv4()}
+                key={note?._id}
                 sx={{
                   py: 3,
                   px: 1.5,
@@ -108,9 +142,9 @@ const Notes = () => {
                   <Checkbox
                     color="primary"
                     name={'name'}
-                    onChange={(event) => handleCheckboxChange(event, item?.id)}
+                    onChange={(event) => handleCheckboxChange(event, note)}
                     checked={selectedCheckboxes?.some(
-                      (selectedItem) => selectedItem?.id === item?.id,
+                      (selectedItem: any) => selectedItem?._id === note?._id,
                     )}
                   />
                 </Grid>
@@ -125,20 +159,42 @@ const Notes = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <Image src={item.image} alt="Avatar" />
+                  <Image
+                    src={`${IMG_URL}${note?.attachment?.url}`}
+                    alt="Avatar"
+                    width={66}
+                    height={66}
+                  />
                 </Grid>
                 <Grid item xs={12} lg={10} sm={9} sx={{ gap: 1 }}>
-                  <NameWithStyledWords
-                    name={item.title}
-                    customKey="ActivityHead"
-                  />
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: 'primary.main',
+                      fontWeight: '500',
+                    }}
+                  >
+                    {note?.title}{' '}
+                    <Box
+                      component={'span'}
+                      sx={{ color: (theme: any) => theme?.palette?.grey[800] }}
+                    >
+                      Created by
+                    </Box>{' '}
+                    {note?.updatedBy}
+                  </Typography>
+
                   <Typography
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    {item.date}
+                    {dayjs(note?.createdAt).format(DATE_TIME_FORMAT?.DMYhmma)}
                   </Typography>
-                  <Typography variant="body2">{item?.description}</Typography>
+                  <Typography variant="body2">
+                    <Box
+                      dangerouslySetInnerHTML={{ __html: note?.description }}
+                    />
+                  </Typography>
                 </Grid>
               </Grid>
             ))}
@@ -146,9 +202,38 @@ const Notes = () => {
         )}
       </Grid>
 
-      <NotesEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
+      <AddNote
+        isDrawerOpen={openDrawerAddNote}
+        onClose={handleCloseDrawerAddNote}
+        methods={methodsAddNote}
+        onSubmit={handleAddNoteSubmit(contactId)}
+        isLoading={loadingAddNote}
+      />
+
+      <ViewNote
+        isDrawerOpen={openDrawerViewNote}
+        onClose={handleCloseDrawerViewNote}
+        methods={methodsViewNote}
+        isLoading={loadingAddNote}
+      />
+
+      <EditNote
+        isDrawerOpen={openDrawerEditNote}
+        onClose={handleCloseDrawerEditNote}
+        methods={methodsEditNote}
+        isLoading={loadingEditNote}
+        onSubmit={handleEditNoteSubmit(contactId)}
+      />
+
+      <AlertModals
+        message={
+          "You're about to delete a record. Deleted records can't be restored after 90 days."
+        }
+        type={'delete'}
+        open={isDeleteModal}
+        handleClose={handleCloseModalDelete}
+        handleSubmitBtn={handleDeleteSubmit}
+        isLoading={loadingDelete}
       />
     </Box>
   );
