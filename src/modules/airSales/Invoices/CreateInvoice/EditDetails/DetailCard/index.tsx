@@ -18,7 +18,9 @@ const DetailCard = () => {
   const { user } = useDetailCard();
 
   const calculateDueDate = (invoiceDate: any) => {
-    return dayjs(invoiceDate).add(15, 'day').format(DATE_FORMAT.API);
+    return dayjs(invoiceDate)
+      ?.add(15, 'day')
+      ?.format(DATE_FORMAT?.UI);
   };
 
   return (
@@ -82,7 +84,7 @@ const DetailCard = () => {
               Invoice Date:
             </Typography>
             <Typography variant="body2">
-              {dayjs(user?.createdAt).format(DATE_FORMAT.API)}
+              {dayjs(user?.createdAt)?.format(DATE_FORMAT?.UI)}
             </Typography>
           </Stack>
           <Stack direction="row" gap="3px" key={uuidv4()}>

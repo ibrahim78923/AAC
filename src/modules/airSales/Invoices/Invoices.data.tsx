@@ -256,7 +256,7 @@ export const productsTableColumns = () =>
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => dayjs(row?.createdAt).format(DATE_FORMAT.API),
+      accessorFn: (row: any) => dayjs(row?.createdAt)?.format(DATE_FORMAT?.UI),
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
