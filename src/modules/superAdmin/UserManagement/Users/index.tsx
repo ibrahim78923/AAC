@@ -23,8 +23,8 @@ const Users = (props: any) => {
   const { data, isLoading, isSuccess } = useGetUsersQuery(params);
 
   const handleCheckboxChange = (val: any, rowId: string) => {
-    const newCheckedRows = val?.target?.checked ? rowId : null;
-    setCheckedRows({ ...checkedRows, selectedValue: newCheckedRows });
+    const recordId = val?.target?.checked ? rowId : null;
+    setCheckedRows({ ...checkedRows, selectedValue: recordId });
   };
 
   const columnsProps = {
@@ -40,10 +40,11 @@ const Users = (props: any) => {
         columns={columnParams}
         data={data?.data?.users}
         isPagination
-        onPageChange={(page: any) =>
-          setCheckedRows({ ...checkedRows, page: page })
-        }
-        setPage={setCheckedRows}
+        onPageChange={(page: any) => {
+          setPageLimit(data?.data?.meta?.limit);
+          setCheckedRows({ ...checkedRows, page: page });
+        }}
+        setPage={setCheckedRows?.page}
         setPageLimit={setPageLimit}
         count={data?.data?.meta?.pages}
         pageLimit={data?.data?.meta?.limit}

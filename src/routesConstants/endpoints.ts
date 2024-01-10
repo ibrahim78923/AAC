@@ -15,12 +15,13 @@ export const END_POINTS = {
   TICKET_BULK_UPDATE: '/ticket/bulk-ticket-update',
   USER_LIST: '/users',
   ADD_USER: '/users',
-  ADD_USER_ACCOUNT: '/users/organization',
+  USER_AVATAR: 'avatar',
   ORG_ADMIN_EMP_LIST: '/users/organization',
-  ORG_USER_EMPLOYEE: '/users/organization',
+  ORGANIZATION: '/organization',
   USER_ACCOUNTS_LIST: '/super-admin/accounts-list',
   USER_ACCOUNT: '/account',
   UPDATE_USER_LIST: '/users/edit',
+  ADD_ACCOUNTS: '/super-admin/add-accounts',
   COMPANY_CRN: '/auth/search-company',
   auth_search_company: 'auth/search-company',
   DEALS_LIST_VIEW: '/deals/get-deals-list-view',
@@ -87,6 +88,7 @@ export const END_POINTS = {
   TASK: '/task',
   VENDOR_DETAIL_OVERVIEW: '/vendors/get-vendor',
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
+  TICKET_DETAILS: '/ticket',
   REQUESTER_LIST: `/requester/requester-list`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
   DEPARTMENT: '/department',
@@ -111,6 +113,7 @@ export const END_POINTS = {
   COMPANY_PREVIEW: '/companies/get-company-preview',
   RESTORE_COMPANIES: '/companies/restore-action',
   MERGE_COMPANIES: '/companies/merge-company',
+  REASSIGN_COMPANY_OWNER: '/companies/change-company-owner',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
   GET_DEPARTMENT: '/Department/department-list',
   DELETE_REQUESTER: '/requester/delete-requester',
@@ -144,6 +147,7 @@ export const END_POINTS = {
   DEPARTMENT_LIST: `/Department/department-list`,
   EDIT_SERVICE_CATALOG: '/service-catalog/update-service',
   TICKETS_DETACH_ASSOCIATES_ASSETS: '/ticket/detach-assets',
+  CALL_WIDGET: `/calls/get-scheduled-call-widget`,
   GET_AGENT_REQUESTER: '/agent/agent-requester-list',
   GET_ASSETS_CONTRACT: '/contract/get-contracts',
   ASSETS_CONTRACT: '/contract',
@@ -152,6 +156,16 @@ export const END_POINTS = {
   DROPDOWN_AGENTS_LIST: '/dropdown/agents',
   DEALS_CUSTOMIZE_COLUMN: '/customized-columns',
   COMPANIES_OWNER: '/companies/get-unique-companies-owners',
+  ASSETS_CONTRACT_DELETE: '/contract/{id}',
+  KNOWLEDGE_BASE_ARTICLES: `/articles`,
+  DROPDOWN_FOLDERS: `/dropdown/folders`,
+  DROPDOWN_LOCATION: '/location/get-location',
+  DROPDOWN_USERS: '',
+  ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
+  DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
+  ADD_CONTRACT: `/contract/add-contract`,
+  EDIT_CONTRACT: `/contract/update`,
+  UPDATE_CONTRACT_STATUS: `/contract/renew-extend`,
 };
 
 export const superAdminBillingInvoices = {
@@ -214,4 +228,10 @@ export const COMMON_DOCUMENTS = {
   PATCH_DOCUMENT_FILE_ID: '/documents/file',
   DELETE_DOCUMENT_FOLDER_ID: '/documents/folder',
   DELETE_DOCUMENT_FILE_ID: '/documents/files',
+};
+
+export const INVOICE = {
+  GET_INVOICE_QUOTE: '/quote-invoice',
+  POST_INVOICE_QUOTE: '/quote-invoice',
+  GET_INVOICE_QUOTE_LIST: '/quote',
 };

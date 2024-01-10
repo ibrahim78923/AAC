@@ -77,7 +77,7 @@ export const useTicketsLists: any = () => {
   !!filterTicketLists?.category && getTicketsParam?.append('ticketType', 'SR');
   !!filterTicketLists?.department &&
     getTicketsParam?.append('ticketType', 'SR');
-
+  getTicketsParam?.append('metaData', true + '');
   getTicketsParam?.append('page', page + '');
   getTicketsParam?.append('limit', pageLimit + '');
   getTicketsParam?.append('search', search);
@@ -138,7 +138,7 @@ export const useTicketsLists: any = () => {
       exportTicketsParams?.append('ticketType', 'SR');
     !!filterTicketLists?.department &&
       exportTicketsParams?.append('ticketType', 'SR');
-
+    exportTicketsParams?.append('metaData', true + '');
     exportTicketsParams?.append('exportType', type);
     exportTicketsParams?.append('page', page + '');
     exportTicketsParams?.append('limit', pageLimit + '');

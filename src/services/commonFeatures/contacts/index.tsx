@@ -1,7 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-export const exampleExampleAPI = baseAPI.injectEndpoints({
+export const contactsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getContacts: builder.query({
       query: ({ params }: any) => ({
@@ -43,6 +43,13 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['ContactsStatus'],
     }),
+    deleteContact: builder.mutation({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.CONTACTS}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['CONTACTS'],
+    }),
   }),
 });
 
@@ -52,4 +59,5 @@ export const {
   useGetLifeCycleQuery,
   usePostContactsMutation,
   useUpdateContactsMutation,
-} = exampleExampleAPI;
+  useDeleteContactMutation,
+} = contactsAPI;

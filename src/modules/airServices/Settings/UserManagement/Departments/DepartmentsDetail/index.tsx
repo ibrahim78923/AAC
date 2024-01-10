@@ -9,13 +9,16 @@ import {
   Typography,
 } from '@mui/material';
 import { MoreHoriz, AddCircle } from '@mui/icons-material';
-import { useDepartmentsDetail } from './useDepartmentsDetail';
+import { generateColorFromName } from '@/utils/avatarUtils';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
-import { DepartmentsFormModal } from '../DepartmentsFormModal';
 import { UsersAvatarRoundedImage } from '@/assets/images';
-import { HrIcon } from '@/assets/icons';
+import { useDepartmentsDetail } from './useDepartmentsDetail';
+import { DepartmentsFormModal } from '../DepartmentsFormModal';
+import { DepartmentsHeader } from '../DepartmentsHeader';
+import CustomPagination from '@/components/CustomPagination';
 
+const MAX_WORDS = 95;
 export const DepartmentsDetail = () => {
   const {
     theme,
@@ -31,10 +34,20 @@ export const DepartmentsDetail = () => {
     setOpenEdit,
     formProps,
     departmentData,
+    search,
+    setSearch,
+    departmentMetaData,
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
   } = useDepartmentsDetail();
   const { editFormMethod, handleSubmit, submitEditForm } = formProps;
   return (
     <>
+      <DepartmentsHeader searchBy={search} setSearchBy={setSearch} />
+      <br />
+      <br />
       <Grid container spacing={2}>
         {departmentData?.map((item: any) => (
           <Grid item lg={4} md={6} xs={12} key={item?._id}>
@@ -45,11 +58,17 @@ export const DepartmentsDetail = () => {
                 alignItems={'center'}
               >
                 <Box display={'flex'} alignItems={'center'} gap={0.5}>
-                  {item?.departmenProfilePicture ? (
-                    <item.departmenProfilePicture />
-                  ) : (
-                    <HrIcon />
-                  )}
+                  <Avatar
+                    sx={{
+                      bgcolor: generateColorFromName(item?.name),
+                      width: 25,
+                      height: 25,
+                      fontSize: 14,
+                    }}
+                    variant="rounded"
+                  >
+                    {item?.name?.slice(0, 2)?.toUpperCase()}
+                  </Avatar>
                   <Typography variant="h5">{item?.name}</Typography>
                 </Box>
                 <IconButton onClick={handleActionClick}>
@@ -84,10 +103,18 @@ export const DepartmentsDetail = () => {
                 overflow="hidden"
                 maxHeight="80px"
               >
-                <Typography variant="body2" sx={{ maxWidth: '80%' }}>
-                  {item?.description?.length > 95
-                    ? item?.description?.slice(0, 95) + '....'
-                    : item?.description}
+                <Typography
+                  variant="body2"
+                  sx={{ maxWidth: '80%', height: '20px' }}
+                >
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        item?.description?.length > MAX_WORDS
+                          ? item?.description?.slice(0, MAX_WORDS) + '....'
+                          : item?.description,
+                    }}
+                  ></div>
                 </Typography>
               </Box>
               <Box display={'flex'} alignItems={'center'}>
@@ -114,6 +141,20 @@ export const DepartmentsDetail = () => {
           </Grid>
         ))}
       </Grid>
+      <br />
+      {departmentMetaData && departmentMetaData?.total > 5 && (
+        <Grid item xs={12}>
+          <CustomPagination
+            currentPage={page}
+            count={departmentMetaData?.pages}
+            pageLimit={pageLimit}
+            totalRecords={departmentMetaData?.total}
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+          />
+        </Grid>
+      )}
       <AlertModals
         open={openDelete}
         handleClose={handleDeleteClose}

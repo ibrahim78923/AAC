@@ -44,29 +44,20 @@ export const upsertTicketValidationSchema = Yup?.object()?.shape({
 export const upsertTicketDefaultValuesFunction = (data?: any) => {
   return {
     requester: !!Object?.keys(data?.requesterDetails ?? {})?.length
-      ? {
-          name: `${data?.requesterDetails?.firstName} ${data?.requesterDetails?.firstName}`,
-          _id: data?.requesterDetails?._id,
-        }
+      ? data?.requesterDetails
       : null,
     subject: data?.subject ?? '',
     description: data?.description ?? '',
     category: data?.category ?? null,
-    status: data?.status ?? null,
+    status: data?.status ? { _id: data?.status, label: data?.status } : null,
     priority: data?.pirority ?? null,
     department: !!Object?.keys(data?.departmentDetails ?? {})?.length
-      ? {
-          name: data?.departmentDetails?.name,
-          _id: data?.departmentDetails?._id,
-        }
+      ? data?.departmentDetails
       : null,
     source: data?.source ?? null,
     impact: data?.impact ?? null,
     agent: !!Object?.keys(data?.agentDetails ?? {})?.length
-      ? {
-          name: `${data?.agentDetails?.firstName} ${data?.agentDetails?.firstName}`,
-          _id: data?.agentDetails?._id,
-        }
+      ? data?.agentDetails
       : null,
     plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
     plannedStartTime:
@@ -83,10 +74,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
         : null,
     plannedEffort: data?.plannedEffort ?? '',
     associatesAssets: !!data?.associateAssets?.length
-      ? data?.associateAssets?.map((asset: any) => ({
-          name: asset?.displayName ?? asset,
-          _id: asset?._id ?? asset,
-        }))
+      ? data?.associateAssetsDetails
       : [],
     attachFile: null,
   };

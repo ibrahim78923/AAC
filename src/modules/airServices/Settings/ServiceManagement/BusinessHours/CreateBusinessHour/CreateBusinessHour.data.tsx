@@ -163,7 +163,7 @@ export const businessHourValidationSchema: any = yup?.object()?.shape({
     ?.required('Required')
     ?.min(3, 'At least 3 characters Required')
     ?.max(20, 'Must not exceed 20 characters'),
-  description: yup?.string()?.required('Required'),
+  description: yup?.string(),
   timeZone: yup?.string()?.required('Required'),
   serviceHours: yup?.string()?.required('Required'),
   importHolidays: yup?.string(),

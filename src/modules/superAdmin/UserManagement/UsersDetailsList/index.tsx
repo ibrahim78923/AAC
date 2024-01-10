@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import {
   Box,
   Button,
@@ -34,7 +33,7 @@ import { ArrowBack, AddCircleOutlined } from '@mui/icons-material';
 
 import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 
-import { AvatarImage, NoAssociationFoundImage } from '@/assets/images';
+import { NoAssociationFoundImage } from '@/assets/images';
 import useUserDetailsList from './useUserDetailsList';
 import Filter from './Filter';
 import AddCompanyDetails from './AddCompanyDetails';
@@ -45,6 +44,7 @@ import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/user
 import NoData from '@/components/NoData';
 import { useSearchParams } from 'next/navigation';
 import useUserManagement from '../useUserManagement';
+import { IMG_URL } from '@/config';
 
 const UsersDetailsList = () => {
   const {
@@ -77,17 +77,20 @@ const UsersDetailsList = () => {
     handleEmpListPaginationChange,
     page,
   }: any = useUserDetailsList();
+
   const { handleUserSwitchChange } = useUserManagement();
+
   const { userName, userId } = navigate.query;
   const organizationId = useSearchParams()?.get('organizationId');
+
   const employeeRecordsLimit = 10;
   const empListParams = {
     page: page,
     limit: employeeRecordsLimit,
     search: searchEmployee,
-    // status:'ACTIVE'
     product: employeeFilter?.product,
     company: employeeFilter?.company,
+    status: employeeFilter?.status ? employeeFilter?.status : undefined,
   };
   const { data: employeeList } = useGetEmployeeListQuery({
     orgId: organizationId,
@@ -229,13 +232,13 @@ const UsersDetailsList = () => {
                       },
                     }}
                   >
-                    <Avatar>
-                      <Image
-                        src={AvatarImage}
-                        alt="Avatar"
-                        width={40}
-                        height={40}
-                      />
+                    <Avatar
+                      src={`${IMG_URL}${item?.logo?.url}`}
+                      sx={{ color: theme?.palette?.grey[600], fontWeight: 500 }}
+                    >
+                      {`${item?.firstName?.charAt(0)}${item?.lastName?.charAt(
+                        0,
+                      )}`}
                     </Avatar>
                     <Box sx={{ width: '100%' }}>
                       <Box

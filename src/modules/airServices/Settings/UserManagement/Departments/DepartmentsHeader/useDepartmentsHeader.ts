@@ -33,11 +33,10 @@ export const useDepartmentsHeader = () => {
       departmentHeadId: formData?.departmentHeadId?._id,
       members: formData?.members?.map((value: any) => value?._id),
     };
-    const response: any = await postDepartment({
-      body: modifyData,
-    });
     try {
-      response;
+      const response: any = await postDepartment({
+        body: modifyData,
+      });
       enqueueSnackbar(
         response?.data?.message && 'Department Added Successfully',
         {
@@ -45,8 +44,9 @@ export const useDepartmentsHeader = () => {
         },
       );
       reset();
+      setOpenAddModal(false);
     } catch (error: any) {
-      enqueueSnackbar(!response?.message && 'An error', {
+      enqueueSnackbar(error?.data?.error ?? 'An error', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }

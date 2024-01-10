@@ -104,7 +104,9 @@ const AddUser = ({
                     size={'small'}
                     disabled={
                       isOpenAddUserDrawer?.type === 'view' ||
-                      item.componentProps.name === 'companyName'
+                      item.componentProps.name === 'companyName' ||
+                      (isOpenAddUserDrawer?.type === 'edit' &&
+                        item.componentProps.name === 'crn')
                         ? true
                         : false
                     }

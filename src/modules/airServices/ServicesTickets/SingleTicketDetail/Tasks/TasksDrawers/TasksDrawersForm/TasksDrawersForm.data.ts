@@ -8,7 +8,12 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 
-const notifyBeforeOption = ['5', '10', '15', '30'];
+const notifyBeforeOption = [
+  { value: 5, title: '5 Minutes' },
+  { value: 10, title: '10 Minutes' },
+  { value: 15, title: '15 Minutes' },
+  { value: 30, title: '30 Minutes' },
+];
 const statusOptions = ['Todo', 'In-Progress', 'Done'];
 export const taskTicketFormValidationSchema: any = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
@@ -16,7 +21,7 @@ export const taskTicketFormValidationSchema: any = Yup?.object()?.shape({
   departmentId: Yup?.mixed()?.required('Required'),
   assignTo: Yup?.mixed(),
   status: Yup?.string(),
-  notifyBefore: Yup?.string(),
+  notifyBefore: Yup?.mixed(),
   startDate: Yup?.date(),
   startDateTime: Yup?.date(),
   endDate: Yup?.date(),
@@ -32,9 +37,9 @@ export const taskTicketFormDefaultValues = (data: any) => {
     departmentId: taskData?.departmentData ?? null,
     assignTo: !!Object?.keys(taskData?.assignedUser ?? {})?.length
       ? taskData?.assignedUser
-      : null,
+      : '',
     status: taskData?.status ?? '',
-    notifyBefore: taskData?.notifyBefore ?? null,
+    notifyBefore: taskData?.notifyBefore ?? '',
     startDate: taskData?.startDate ? new Date(taskData?.startDate) : new Date(),
     startDateTime: taskData?.startDateTime
       ? new Date(taskData?.startDateTime)
@@ -68,6 +73,9 @@ export const taskTicketFormFields = (
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      style: {
+        minHeight: 200,
+      },
     },
     component: RHFEditor,
     md: 12,
@@ -119,7 +127,7 @@ export const taskTicketFormFields = (
       placeholder: 'Select',
       fullWidth: true,
       options: notifyBeforeOption,
-      getOptionLabel: (option: any) => option + ' ' + 'Minutes',
+      getOptionLabel: (option: any) => option?.title,
     },
     component: RHFAutocomplete,
     md: 12,
