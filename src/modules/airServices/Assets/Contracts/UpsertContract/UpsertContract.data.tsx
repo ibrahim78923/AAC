@@ -20,7 +20,7 @@ import {
 
 const todayDate = dayjs()?.format('MM/DD/YYYY');
 
-const dropdownDummy = [
+export const dropdownDummy = [
   {
     value: 'option1',
     label: 'Option 1',
