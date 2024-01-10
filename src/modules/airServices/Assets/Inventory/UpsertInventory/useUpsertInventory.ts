@@ -51,7 +51,7 @@ export const useUpsertInventory = () => {
   );
 
   useEffect(() => {
-    reset(() => upsertInventoryFieldsDefaultValuesFunction(data?.data?.[0]));
+    reset(() => upsertInventoryFieldsDefaultValuesFunction(data));
   }, [data, reset]);
   const submitUpsertInventory = async (data: any) => {
     const body = {
@@ -102,7 +102,7 @@ export const useUpsertInventory = () => {
       });
     }
   };
-  const submit = async () => {};
+
   const apiQueryAssetType = useLazyGetAssetTypeQuery();
   const apiQueryDepartmentType = useLazyGetDepartmentDropdownQuery();
   const apiQueryLocationType = useLazyGetLocationsDropdownQuery();
@@ -130,7 +130,6 @@ export const useUpsertInventory = () => {
   };
   return {
     methods,
-    submit,
     query,
     formType,
     setFormType,

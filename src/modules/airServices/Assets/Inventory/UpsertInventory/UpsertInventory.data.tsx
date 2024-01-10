@@ -23,12 +23,12 @@ export const UpsertInventoryValidationSchema: any = Yup?.object()?.shape({
   description: Yup?.string(),
   impact: Yup?.mixed()?.nullable(),
   status: Yup?.mixed()?.nullable()?.required('Required'),
-  assetId: Yup?.mixed()?.nullable(),
+  // assetId: Yup?.mixed()?.nullable(),
 });
 export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
   return {
     displayName: data?.displayName ?? '',
-    assetId: data?.assetId ?? '',
+    // assetId: data?.assetId ?? '',
     assetType: data?.assetType ?? null,
     impact: data?.impact ?? '',
     status: data?.status ?? null,
@@ -60,17 +60,17 @@ export const upsertInventoryFormFieldsDynamic = (
     },
     md: 6,
   },
-  {
-    id: 2,
-    component: RHFTextField,
-    gridLength: 6,
-    componentProps: {
-      fullWidth: true,
-      name: 'assetTag',
-      label: 'Asset Id',
-    },
-    md: 6,
-  },
+  // {
+  //   id: 2,
+  //   component: RHFTextField,
+  //   gridLength: 6,
+  //   componentProps: {
+  //     fullWidth: true,
+  //     name: 'assetTag',
+  //     label: 'Asset Id',
+  //   },
+  //   md: 6,
+  // },
   {
     id: 3,
     componentProps: {
@@ -142,7 +142,7 @@ export const upsertInventoryFormFieldsDynamic = (
     md: 6,
   },
   {
-    id: 9,
+    id: 19,
     componentProps: {
       name: 'department',
       label: 'Department',

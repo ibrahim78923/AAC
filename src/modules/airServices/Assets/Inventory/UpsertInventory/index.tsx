@@ -44,17 +44,7 @@ export const UpsertInventory = () => {
                   {upsertInventoryFormFields?.map((form: any) => (
                     <Grid item xs={12} md={form?.md} key={form.id}>
                       <form.component {...form?.componentProps} size="small">
-                        {form?.componentProps?.select
-                          ? form?.componentProps?.options?.map(
-                              (option: any) => (
-                                <option key={form.id} value={option?.value}>
-                                  {option?.label}
-                                </option>
-                              ),
-                            )
-                          : form?.heading
-                            ? form?.heading
-                            : null}
+                        {form?.heading ? form?.heading : null}
                       </form.component>
                     </Grid>
                   ))}

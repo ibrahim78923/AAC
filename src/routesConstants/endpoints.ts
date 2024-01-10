@@ -157,6 +157,7 @@ export const END_POINTS = {
   DROPDOWN_USERS: '',
   ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
   DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
+  ASSETS_INVENTORY_DETAIL: '/assets/get-inventory-detail',
 };
 
 export const superAdminBillingInvoices = {
