@@ -15,11 +15,6 @@ export const useKnowledgeBase = () => {
       query: { id },
     });
   };
-  const handleKnowledgeBase = () => {
-    router?.push({
-      pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE,
-    });
-  };
 
   const handleButtonClick = (event: any) => {
     setAnchorEl(event?.currentTarget);
@@ -33,7 +28,6 @@ export const useKnowledgeBase = () => {
   };
 
   return {
-    handleKnowledgeBase,
     handleKnowledgeBaseDetail,
     handleButtonClick,
     handleClose,

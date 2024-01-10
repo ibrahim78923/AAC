@@ -119,6 +119,8 @@ export const AIR_CUSTOMER_PORTAL = {
   SINGLE_CATALOG_SERVICE_DETAILS: `/air-customer-portal/catalog/detail`,
   CATALOG_SERVICES: '/air-customer-portal/catalog',
   NON_REGISTER_DASHBOARD: '/air-customer-portal/non-register-dashboard',
+  KNOWLEDGE_BASE_TICKET_DETAIL:
+    '/air-customer-portal/knowledge-base/knowledge-base-detail/knowledge-base-ticket-detail',
   CUSTOMER_PORTAL_DASHBOARD: '/air-customer-portal',
   APPROVALS: '/air-customer-portal/catalog/approvals',
 };
