@@ -84,7 +84,7 @@ const DetailCard = () => {
               Invoice Date:
             </Typography>
             <Typography variant="body2">
-              {dayjs(user?.createdAt)?.format(DATE_FORMAT?.UI)}
+              {dayjs(user?.createdAt).format(DATE_FORMAT?.UI)}
             </Typography>
           </Stack>
           <Stack direction="row" gap="3px" key={uuidv4()}>
