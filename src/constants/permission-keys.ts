@@ -325,7 +325,7 @@ export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = [
   },
 ];
 
-export const SERVICES_ASSETS_INVENTORY_PERMISSIONS = {
+export const AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS = {
   ADD_ASSETS: 'service-add-assets',
   ASSETS_LIST_VIEW: 'service-inventory-asset-list-view',
   IMPORT: 'service-inventory-import',
@@ -353,7 +353,7 @@ export const SERVICES_ASSETS_INVENTORY_PERMISSIONS = {
   VIEW_ATTACHMENTS: 'service-inventory-view-attachments',
 };
 
-export const SERVICES_ASSETS_SOFTWARE_PERMISSIONS = {
+export const AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS = {
   NEW_SOFTWARE: 'service-assets-new-software',
   SOFTWARE_LIST_VIEW: 'service-assets-software-list-view',
   SEARCH_AND_FILTER: 'service-assets-software-search-and-filter',
@@ -363,7 +363,7 @@ export const SERVICES_ASSETS_SOFTWARE_PERMISSIONS = {
   USERS: 'service-assets-software-users',
   CONTRACTS: 'service-assets-software-contracts',
 };
-export const SERVICES_ASSETS_CONTRACTS_PERMISSIONS = {
+export const AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS = {
   ADD_CONTRACT: 'service-assets-add-contract',
   CONTRACTS_LIST_VIEW: 'service-assets-contract-list-view',
   SEARCH_AND_FILTER: 'service-assets-contract-search-and-filter',
@@ -371,10 +371,26 @@ export const SERVICES_ASSETS_CONTRACTS_PERMISSIONS = {
   DELETE_CONTRACTS: 'service-assets-delete-contracts',
   VIEW_TASK_DETAILS: 'service-assets-contracts-view-task-details',
 };
-export const SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS = {
+export const AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS = {
   NEW_PURCAHSE_ORDER: 'service-assets-new-purchase-order',
   PURCAHSE_ORDER_LIST_VIEW: 'service-assets-purchase-order-list-view',
   SEARCH_AND_FILTER: 'service-assets-purchase-order-search-and-filter',
   EXPORT_PURCAHSE_ORDER: 'service-assets-export-purchase-order',
   VIEW_PURCAHSE_ORDER_DETAILS: 'service-assets-view-purchase-order-detail',
+};
+
+export const AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS = {
+  CREATE_ARTICLE: 'service-knowlegde-base-create-article',
+  CREATE_FOLDER: 'service-knowlegde-base-create-folder',
+  ATTACHMENT: 'service-knowlegde-base-create-attachment',
+  SAVE_AS_DRAFT: 'service-knowlegde-base-save-as-draft',
+  PUBLISH_NOW: 'service-knowlegde-base-publish-now',
+};
+
+export const AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS = {
+  SEARCH_AND_FILTER: 'service-knowlegde-base-article-serach-and-filter',
+  ARTICLE_LIST_VIEW: 'service-knowlegde-base-article-list-view',
+  EDIT_ARTICLE: 'service-knowlegde-base-edit-article',
+  DELETE: 'service-knowlegde-base-delete-article',
+  MOVE_FOLDER: 'service-knowlegdebase-move-folder',
 };
