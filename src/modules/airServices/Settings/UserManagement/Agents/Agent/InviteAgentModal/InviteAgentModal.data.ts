@@ -3,13 +3,7 @@ import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { timeZone } from '@/constants/time-zone';
 import { AGENTS } from '@/constants/strings';
 
-export const roleData = [
-  'SUPER_ADMIN',
-  'ORG_ADMIN',
-  'ORG_EMPLOYEE',
-  'ORG_REQUESTER',
-  'ORG_AGENT',
-];
+export const roleData = ['ORG_AGENT'];
 
 export const validationSchemaAgentFields: any = yup?.object()?.shape({
   firstName: yup?.string()?.required('Required'),
