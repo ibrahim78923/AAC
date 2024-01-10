@@ -231,7 +231,7 @@ export const COMMON_DOCUMENTS = {
 };
 
 export const INVOICE = {
-  GET_INVOICE_QUOTE: '/quote-invoice',
+  GET_QUOTE_ID: '/quote',
   POST_INVOICE_QUOTE: '/quote-invoice',
   GET_INVOICE_QUOTE_LIST: '/quote',
 };
