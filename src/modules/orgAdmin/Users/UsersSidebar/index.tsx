@@ -206,9 +206,7 @@ const UsersSidebar = (props: any) => {
           isOpenDrawer={isOpenFilterDrawer}
           employeeFilter={employeeFilter}
           setEmployeeFilter={setEmployeeFilter}
-          onClose={() => {
-            setIsOpenFilterDrawer(false);
-          }}
+          setIsOpenFilterDrawer={setIsOpenFilterDrawer}
         />
       )}
 

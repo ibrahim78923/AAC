@@ -10,7 +10,7 @@ export const useSingleVendorDetails = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isADrawerOpen, setIsADrawerOpen] = useState(false);
   const router = useRouter();
-
+  const update = 'update';
   const { vendorId } = router?.query;
   const [deleteVendor] = useDeleteVendorMutation();
   const singleVendorDetailsActionDropdown =
@@ -27,12 +27,9 @@ export const useSingleVendorDetails = () => {
       const res = await deleteVendor(updatedData)?.unwrap();
       setDeleteModalOpen?.(false);
       router?.push(AIR_SERVICES?.VENDOR_SETTINGS);
-      enqueueSnackbar(
-        res?.data?.message ?? 'Product Catalog Deleted Successfully!',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      enqueueSnackbar(res?.data?.message ?? 'Vendor Deleted Successfully!', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {
         variant: NOTISTACK_VARIANTS?.ERROR,
@@ -47,5 +44,6 @@ export const useSingleVendorDetails = () => {
     handleDeleteBtn,
     isADrawerOpen,
     setIsADrawerOpen,
+    update,
   };
 };

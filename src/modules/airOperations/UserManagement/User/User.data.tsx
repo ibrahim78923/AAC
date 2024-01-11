@@ -1,4 +1,11 @@
-import { Avatar, Box, Checkbox, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Checkbox,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
 import { UserListI } from './User.interface';
 import { AvatarImage } from '@/assets/images';
 import { AntSwitch } from '@/components/AntSwitch';
@@ -132,14 +139,64 @@ export const userList: any = (
     id: 'team',
     isSortable: true,
     header: 'Team',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Select
+        variant="standard"
+        labelId="demo-simple-select-standard-label"
+        id="demo-simple-select-standard"
+        value={info.getValue() || ''}
+        label="Select"
+        name={info.getValue()}
+        sx={{ borderBottom: 'none !important' }}
+      >
+        <MenuItem value="" style={{ borderBottom: 'none !important' }}>
+          <em> {info?.row?.original?.team}</em>
+        </MenuItem>
+        <MenuItem value={info?.row?.original?.team}>
+          {info?.row?.original?.team}
+        </MenuItem>
+        <MenuItem value={info?.row?.original?.team}>
+          {info?.row?.original?.team}
+        </MenuItem>
+        <MenuItem value={info?.row?.original?.team}>
+          {info?.row?.original?.team}
+        </MenuItem>
+      </Select>
+    ),
   },
   {
     accessorFn: (row: any) => row?.role,
     id: 'role',
     isSortable: true,
     header: 'Role',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Select
+        variant="standard"
+        labelId="demo-simple-select-standard-label"
+        id="demo-simple-select-standard"
+        value={info.getValue() || ''}
+        label="Select"
+        name={info.getValue()}
+        sx={{
+          borderBottom: 'none !important',
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderBottom: 'none !important',
+          },
+          '&:focus': {
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderBottom: 'none !important',
+            },
+          },
+        }}
+      >
+        <MenuItem value="">
+          <em>{info?.row?.original?.role}</em>
+        </MenuItem>
+        <MenuItem value={info?.row?.original?.role}>
+          {info?.row?.original?.role}
+        </MenuItem>
+      </Select>
+    ),
   },
   {
     accessorFn: (row: any) => row?.status,

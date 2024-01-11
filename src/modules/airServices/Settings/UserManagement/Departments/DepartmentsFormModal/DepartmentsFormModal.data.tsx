@@ -9,10 +9,10 @@ import {
 
 export const departmentFormValidation: any = Yup?.object()?.shape({
   departmenProfilePicture: Yup?.string(),
-  name: Yup?.string(),
-  departmentHeadId: Yup?.object(),
+  name: Yup?.string()?.required('Required'),
+  departmentHeadId: Yup?.object()?.required('Required'),
   description: Yup?.string(),
-  members: Yup?.array(),
+  members: Yup.array()?.min(1, 'Required'),
 });
 
 export const departmentFormValues: any = {
@@ -29,6 +29,11 @@ export const departmentFormFields: any = (usersList: any) => [
     componentProps: {
       name: 'departmenProfilePicture',
       label: 'Image',
+      fileName: 'Upload File',
+      fileType: 'SVG or PNG (max 2 MB)',
+      accept: {
+        'image/*': ['.png', '.svg'],
+      },
     },
     component: RHFDropZone,
   },
@@ -38,6 +43,7 @@ export const departmentFormFields: any = (usersList: any) => [
       label: 'Name',
       name: 'name',
       fullWidth: true,
+      required: true,
       placeholder: 'Enter Name',
     },
     component: RHFTextField,
@@ -49,6 +55,7 @@ export const departmentFormFields: any = (usersList: any) => [
       name: 'departmentHeadId',
       placeholder: 'Select',
       fullWidth: true,
+      required: true,
       apiQuery: usersList,
     },
     component: RHFAutocompleteAsync,
@@ -76,6 +83,7 @@ export const departmentFormFields: any = (usersList: any) => [
       label: 'Members',
       name: 'members',
       fullWidth: true,
+      required: true,
       multiple: true,
       apiQuery: usersList,
     },

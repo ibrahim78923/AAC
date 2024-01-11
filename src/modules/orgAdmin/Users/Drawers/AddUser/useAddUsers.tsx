@@ -80,14 +80,14 @@ const useAddUser = (useActionParams?: any) => {
     }
 
     try {
-      postUserEmployee({ id: organizationId, body: values });
+      await postUserEmployee({ id: organizationId, body: values })?.unwrap();
       setIsOpenAdduserDrawer(false);
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error, {
+      enqueueSnackbar(error?.data?.message, {
         variant: 'error',
       });
     }

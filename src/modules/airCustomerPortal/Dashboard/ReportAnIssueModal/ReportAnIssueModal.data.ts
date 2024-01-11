@@ -1,29 +1,13 @@
-import {
-  RHFTextField,
-  RHFSelect,
-  RHFDropZone,
-} from '@/components/ReactHookForm';
-import { TICKETS_ISSUES_TYPE } from '@/constants/strings';
+import { RHFTextField, RHFDropZone } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const issueRelated = [
-  {
-    value: TICKETS_ISSUES_TYPE?.SERVICES,
-    label: 'Services',
-  },
-  {
-    value: TICKETS_ISSUES_TYPE?.INCIDENT,
-    label: 'Incident',
-  },
-];
 export const validationSchemaReportAnIssueModal = Yup?.object()?.shape({
-  issueRelatedTo: Yup?.string()?.trim()?.required('Required'),
   requester: Yup?.string()?.trim()?.required('Required'),
   subject: Yup?.string()?.trim()?.required('Required'),
+  description: Yup?.string()?.trim()?.required('Required'),
 });
 
 export const defaultValues = {
-  issueRelatedTo: '',
   requester: '',
   subject: '',
   description: '',
@@ -33,20 +17,21 @@ export const reportAnIssueModalFormFields = [
   {
     id: 1,
     componentProps: {
-      name: 'issueRelatedTo',
-      label: 'Issue Related To',
+      name: 'requester',
+      label: 'Requester',
+      placeholder: 'Enter Name',
       fullWidth: true,
-      select: true,
+      required: true,
     },
-    options: issueRelated,
-    component: RHFSelect,
+    component: RHFTextField,
     md: 12,
   },
   {
     id: 2,
     componentProps: {
-      name: 'requester',
-      label: 'Requester',
+      name: 'subject',
+      label: 'Subject',
+      placeholder: 'Subject',
       fullWidth: true,
       required: true,
     },
@@ -56,23 +41,12 @@ export const reportAnIssueModalFormFields = [
   {
     id: 3,
     componentProps: {
-      name: 'subject',
-      label: 'Subject',
-      fullWidth: true,
-      required: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    id: 4,
-    componentProps: {
       name: 'description',
       label: 'Description',
       fullWidth: true,
       placeholder: 'Description',
       multiline: true,
-      minRows: 5,
+      minRows: 3,
       required: true,
     },
     component: RHFTextField,

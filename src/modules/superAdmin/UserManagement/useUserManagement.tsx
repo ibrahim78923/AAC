@@ -78,15 +78,21 @@ const useUserManagement = () => {
     setSelectedValue(null);
   };
 
-  const handleUserSwitchChange = (e: any, id: any) => {
+  const handleUserSwitchChange = async (e: any, id: any) => {
     const status =
       e?.target?.checked || e?.target?.value === 'ACTIVE'
         ? 'ACTIVE'
         : 'INACTIVE';
-    updateUsers({ id, body: { status: status } });
-    enqueueSnackbar('User updated successfully', {
-      variant: 'success',
-    });
+    try {
+      await updateUsers({ id, body: { status: status } })?.unwrap();
+      enqueueSnackbar('User updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
   };
 
   const resetFilters = () => {

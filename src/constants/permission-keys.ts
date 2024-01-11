@@ -240,6 +240,56 @@ export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
   DETAIL_VIEW: 'marketer-sms-marketing-sms-broadcast-detail-view',
 };
 
+export const AIR_SALES_SETTINGS = {
+  SEARCH_PIPELINE: 'sale-deal-pipeline-search-and-filter',
+  CREATE_PIPELINE: 'sale-create-deal-pipeline',
+  PIPELINE_LIST: 'sale-deal-pipeline-list',
+  EDIT_PIPELINE: 'sale-edit-deal-pipeline',
+  DELETE_PIPELINE: 'sale-delete-deal-pipeline',
+  PRODUCT_LIST: 'sale-setting-product-list',
+  SEARCH_PRODUCT: 'sale-setting-product-search-and-filter',
+  CREATE_PRODUCT: 'sale-setting-create-product',
+  ACTIVATE_DEACTIVATE_PRODUCT: 'sale-setting-active-inactive-product',
+  EDIT_PRODUCT: 'sale-setting-edit-product',
+  DELETE_PRODUCT: 'sale-setting-delete-product',
+  SEARCH_ROLE: 'sale-setting-roles-and-right-search-and-filter',
+  ADD_NEW_ROLE: 'sale-setting-add-new-role',
+  EDIT_ROLE: 'sale-setting-edit-role',
+  VIEW_ROLE: 'sale-setting-view-role',
+  DELETE_ROLE: 'sale-setting-delete-role',
+  USER_LIST: 'sale-setting-user-list',
+  ADD_USER: 'sale-setting-add-user',
+  SEARCH_USER: 'sale-setting-search-and-filter',
+  ACTIVATE_DEACTIVATE_USER: 'sale-setting-active-inactive-user',
+  TEAM_LIST: 'sale-setting-team-list',
+  SEARCH_TEAM: 'sale-setting-teams-search-and-filter',
+  CREATE_TEAM: 'sale-setting-create-team',
+  EDIT_TEAM: 'sale-setting-edit-team',
+  DELETE_TEAM: 'sale-setting-delete-team',
+  VIEW_TEAM: 'sale-setting-view-team',
+  ACTIVATE_DEACTIVATE_EMAIL_NOTIFICATION:
+    'sale-setting-active-inactive-email-notification',
+  ACTIVATE_DEACTIVATE_DEALS_NOTIFICATION:
+    'sale-setting-active-inactive-deals-notification',
+  ACTIVATE_DEACTIVATE_QUOTE_NOTIFICATION:
+    'sale-setting-active-inactive-quote-notification',
+};
+
+export const AIR_MARKETER_SOCIAL_MARKETING_CALENDER = {
+  VIEW_POST: 'marketer-social-marketing-calendar-view-post',
+  FILTER_BY_PLATFORM: 'marketer-social-marketing-calendar-filter-by-platform',
+  FILTER_BY_PROFILE: 'marketer-social-marketing-calendar-filter-by-profile',
+  CREATE_POST: 'marketer-social-marketing-calendar-create-post',
+};
+export const AIR_MARKETER_SMS_MARKETING_TEMPLATES = {
+  CREATE_TEMPLATE: 'marketer-sms-marketing-templates-create',
+  SEARCH_TEMPLATE: 'marketer-sms-marketing-templates-search-and-filter',
+  SAVE_TEMPLATE: 'marketer-sms-marketing-templates-save',
+  EDIT_TEMPLATE: 'marketer-sms-marketing-templates-edit',
+  DELETE_TEMPLATE: 'marketer-sms-marketing-templates-delete',
+  LIST_VIEW: 'marketer-sms-marketing-templates-list-view',
+};
+
 //for display purpose in steppers
 export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = [
   {
@@ -322,3 +372,218 @@ export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS = [
     ],
   },
 ];
+
+export const AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS = {
+  ADD_ASSETS: 'service-add-assets',
+  ASSETS_LIST_VIEW: 'service-inventory-asset-list-view',
+  IMPORT: 'service-inventory-import',
+  EXPORT: 'service-inventory-export',
+  CUSTOMIZED_COLUMN: 'service-inventory-customized-columns',
+  SEARCH_AND_FILTER: 'service-inventory-search-and-filter',
+  DELETE_ASSETS: 'service-inventory-delete-assets',
+  PAGINATION: 'service-inventory-pagination',
+  VIEW_DETAILS: 'service-inventory-view-details',
+  OVERVIEW: 'service-inventory-overview',
+  VIEW_ASSOCIATION: 'service-inventory-view-association',
+  ADD_ASSOCIATION: 'service-inventory-add-association',
+  VIEW_RESPECTIVE_PURCHASE_ORDER:
+    'service-inventory-view-repective-purchase-order',
+  VIEW_RESPECTIVE_CONTRACTS: 'service-inventory-view-respective-contracts',
+  ADD_NEW_EXPENSE: 'service-inventory-add-new-expense',
+  EXPENSE_LIST_VIEW: 'service-inventory-expense-list-view',
+  VIEW_EXPENSE: 'service-inventory-view-expense',
+  EDIT_EXPENSE: 'service-inventory-edit-expense',
+  DELETE_EXPENSE: 'service-inventory-delete-expense',
+  VIEW_ACTIVITIES: 'service-inventory-view-activities',
+  EXPORT_ACTIVITIES: 'service-inventory-export-activities',
+  VIEW_RELATED_SOFTWARES: 'service-inventory-view-related-softwares',
+  DELETE_ATTACHMENTS: 'service-inventory-delete-attachments',
+  VIEW_ATTACHMENTS: 'service-inventory-view-attachments',
+};
+
+export const AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS = {
+  NEW_SOFTWARE: 'service-assets-new-software',
+  SOFTWARE_LIST_VIEW: 'service-assets-software-list-view',
+  SEARCH_AND_FILTER: 'service-assets-software-search-and-filter',
+  VIEW_DETAILS: 'service-assets-sotware-view-details',
+  OVERVIEW: 'service-assets-software-overview',
+  INSTALLATIONS: 'service-assets-software-insatalltions',
+  USERS: 'service-assets-software-users',
+  CONTRACTS: 'service-assets-software-contracts',
+};
+export const AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS = {
+  ADD_CONTRACT: 'service-assets-add-contract',
+  CONTRACTS_LIST_VIEW: 'service-assets-contract-list-view',
+  SEARCH_AND_FILTER: 'service-assets-contract-search-and-filter',
+  EXPORT_CONTRACTS: 'service-assets-export-contract',
+  DELETE_CONTRACTS: 'service-assets-delete-contracts',
+  VIEW_TASK_DETAILS: 'service-assets-contracts-view-task-details',
+};
+export const AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS = {
+  NEW_PURCAHSE_ORDER: 'service-assets-new-purchase-order',
+  PURCAHSE_ORDER_LIST_VIEW: 'service-assets-purchase-order-list-view',
+  SEARCH_AND_FILTER: 'service-assets-purchase-order-search-and-filter',
+  EXPORT_PURCAHSE_ORDER: 'service-assets-export-purchase-order',
+  VIEW_PURCAHSE_ORDER_DETAILS: 'service-assets-view-purchase-order-detail',
+};
+
+export const AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS = {
+  CREATE_ARTICLE: 'service-knowlegde-base-create-article',
+  CREATE_FOLDER: 'service-knowlegde-base-create-folder',
+  ATTACHMENT: 'service-knowlegde-base-create-attachment',
+  SAVE_AS_DRAFT: 'service-knowlegde-base-save-as-draft',
+  PUBLISH_NOW: 'service-knowlegde-base-publish-now',
+};
+
+export const AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS = {
+  SEARCH_AND_FILTER: 'service-knowlegde-base-article-serach-and-filter',
+  ARTICLE_LIST_VIEW: 'service-knowlegde-base-article-list-view',
+  EDIT_ARTICLE: 'service-knowlegde-base-edit-article',
+  DELETE: 'service-knowlegde-base-delete-article',
+  MOVE_FOLDER: 'service-knowlegdebase-move-folder',
+};
+
+export const AIR_SERVICES_WORKLOAD_CALENDER_VIEW_PERMISSIONS = {
+  VIEW_WORKLOAD: 'service-workload-view-work-load',
+  MANAGE_WORKLOAD: 'service-workload-manage-work-load',
+  UNASSIGNED_WORKLOAD: 'service-workload-unassigned-work-load',
+  FILTERS: 'service-workload-filters',
+};
+
+export const AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS = {
+  REPORT_AN_ISSUES: 'service-customer-portal-report-an-issues',
+  SENT_SERVICES_REQUEST: 'service-customer-sent-services-request',
+  REVIEW_TICKETS_STATUS: 'service-customer-review-tickets-status',
+};
+
+export const AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS = {
+  TICKET_LIST: 'service-customer-ticket-list',
+  FILTERS: 'service-customer-filters',
+};
+
+export const AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS = {
+  VIEW_ARTICLES_DIFFERENT_CATEGORY:
+    'service-customer-view-articles-different-category',
+  VIEW_ARTICLES_DETAILS: 'service-customer-view-articles-details',
+};
+export const AIR_CUSTOMER_PORTAL_CATALOG_PERMISSIONS = {
+  VIEW_ALL_CATALOG_SERVICES: 'service-customer-view-all-catalog-services',
+  VIEW_CATALOG_SERVICES_DIFFERENT_TYPES:
+    'service-customer-view-catalog-services-different-types',
+  REQUEST_FOR_CATALOG_SERVICES: 'service-customer-request-for-catalog-services',
+  VIEW_DETAILS_OF_SPECIFIC_SERVICES:
+    'service-customer-view-details-of-specific-services',
+};
+
+export const AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_PERMISSIONS = {
+  VIEW_ACCOUNT_DETAILS: 'service-settings-view-account-details',
+  EDIT_ACCOUNT_DETAILS: 'service-settings-edit-account-details',
+  VIEW_ENABLE_TICKETS_EMAIL_NOTIFICATION:
+    'service-settings-view-enable-tickets-email-notification',
+  VIEW_ENABLE_ASSETS_EMAIL_NOTIFICATION:
+    'service-settings-view-enable-assets-email-notification',
+  VIEW_ENABLE_CONTRACTS_EMAIL_NOTIFICATION:
+    'service-settings-view-enable-contracts-email-notification',
+  VIEW_ENABLE_TASKS_EMAIL_NOTIFICATION:
+    'service-settings-view-enable-tasks-email-notification',
+  VIEW_ENABLE_PURCHASE_ORDER_EMAIL_NOTIFICATION:
+    'service-settings-view-enable-purchase-order-email-notification',
+  VIEW_AND_MANAGE_CUSTOMER_PORTAL_PERSONALIZATION:
+    'service-settings-view-and-manage-customer-portal-personalization',
+  SET_CUSTOMER_PORTAL_PERMISSIONS:
+    'service-settings-set-customer-portal-permissions',
+  SET_CUSTOMER_PORTAL_SETTINGS: 'service-settings-set-customer-portal-settings',
+};
+
+export const AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS = {
+  VIEW_DEPARTMENTS: 'service-settings-view-departments',
+  ADD_DEPARTMENTS: 'service-settings-add-departments',
+  EDIT_DEPARTMENT: 'service-settings-edit-department',
+  DELETE_DEPARTMENT: 'service-settings-delete-department',
+  ADD_MEMBERS_IN_DEPARTMENTS: 'service-settings-add-members-in-departments',
+  VIEW_AGENTS_LIST: 'service-settings-view-agents-list',
+  ADD_NEW_AGENT: 'service-settings-add-new-agent',
+  APPROVE_REJECT_AGENT_REQUEST: 'service-settings-approve-reject-agent-request',
+  EDIT_DELETE_AGENTS: 'service-settings-edit-delete-agents',
+  FILTERS_SEARCH: 'service-settings-filters-search',
+  ADD_REQUESTER: 'service-settings-add-requester',
+  VIEW_REQUESTERS_LIST: 'service-settings-view-requesters-list',
+  DELETE_REQUESTER: 'service-settings-delete-requester',
+  CONVERT_TO_AGENT_REQUESTER: 'service-settings-convert-to-agent-requester',
+  ADD_NEW_DEPARTMENT_FIELDS: 'service-settings-add-new-department-fields',
+  ADD_NEW_FIELDS_FOR_ADDING_USERS:
+    'service-settings-add-new-fields-for-adding-users',
+  ADD_NEW_ROLE: 'service-settings-add-new-role',
+  EDIT_ROLE: 'service-settings-edit-role',
+  DELETE_ROLE: 'service-settings-delete-role',
+  SEARCH_ROLES: 'service-settings-search-roles',
+};
+export const AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS = {
+  ADD_ASSET_TYPES: 'service-settings-add-asset-types',
+  ADD_NEW_FIELDS_FOR_ASSET_FORM:
+    'service-settings-add-new-fields-for-asset-form',
+  ADD_PRODUCT_CATEGORIES: 'service-settings-add-product-categories',
+  VIEW_LIST_OF_PRODUCT_CATEGORIES:
+    'service-settings-view-list-of-product-categories',
+  SEARCH_IMPORT_EXPORT_CATEGORIES:
+    'service-settings-search-import-export-categories',
+  VIEW_PRODUCT_DETAILS: 'service-settings-view-product-details',
+  VIEW_PRODUCT_VENDORS: 'service-settings-view-product-vendors',
+  VIEW_PRODUCT_ASSOCIATION_ASSETS:
+    'service-settings-view-product-association-assets',
+  EDIT_DELETE_PRODUCTS: 'service-settings-edit-delete-products',
+  ADD_NEW_VENDOR: 'service-settings-add-new-vendor',
+  SEARCH_IMPORT_EXPORT_VENDORS: 'service-settings-search-import-export-vendors',
+  VIEW_VENDORS_LIST: 'service-settings-view-vendors-list',
+  VIEW_VENDOR_DETAILS: 'service-settings-view-vendor-details',
+  EDIT_DELETE_VENDORS: 'service-settings-edit-delete-vendors',
+  ADD_NEW_VENDORS_FIELDS: 'service-settings-add-new-vendors-fields',
+  ADD_NEW_SOFTER_FIELDS: 'service-settings-add-new-softer-fields',
+  ADD_CONTRACT_TYPES: 'service-settings-add-contract-types',
+  ADD_NEW_CONTRACTS_FIELDS: 'service-settings-add-new-contracts-fields',
+  ADD_NEW_PURCHASE_ORDER_FIELDS:
+    'service-settings-add-new-purchase-oder-fields',
+  ADD_LOCATION: 'service-settings-add-location',
+  VIEW_EDIT_DELETE_LOCATIONS: 'service-settings-view-edit-delete-locations',
+};
+export const AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS =
+  {
+    VIEW_DEFAULT_CANNED_RESPONSES_FOLDERS:
+      'service-settings-view-default-canned-responses-folders',
+    ADD_CANNED_RESPONSES_FOLDERS:
+      'service-settings-add-canned-responses-folders',
+    EDIT_DELETE_CUSTOM_FOLDERS: 'service-settings-edit-delete-custom-folders',
+    VIEW_RESPONSES_LIST: 'service-settings-view-responses-list',
+    ADD_NEW_RESPONSES_IN_DIFFERENT_FOLDERS:
+      'service-settings-add-new-responses-in-different-folders',
+    SEARCH_EDIT_DELETE_CANNED_RESPONSES:
+      'service-settings-search-edit-delete-canned-responses',
+    VIEW_AND_SET_AWARD_POINTS: 'service-settings-view-and-set-award-points',
+    VIEW_AND_MANAGE_AGENT_LEVELS_POINTS:
+      'service-settings-view-and-manage-agent-levels-points',
+    VIEW_WORKLOAD_LEVELS: 'service-settings-view-workload-levels',
+    VIEW_ROLES_AND_PERMISSIONS: 'service-settings-view-roles-and-permissions',
+    VIEW_CREATE_EDIT_DELETE_WORK_SCHEDULED_FOR_AGENTS:
+      'service-settings-view-create-edit-delete-work-scheduled-for-agents',
+  };
+export const AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS = {
+  VIEW_SERVICES_CATALOG: 'service-settings-view-services-catalog',
+  ADD_NEW_SERVICE: 'service-settings-add-new-service',
+  ADD_SERVICES_CATEGORY: 'service-settings-add-services-category',
+  DELETE_MOVE_CATALOG_SERVICE: 'service-settings-delete-move-catalog-service',
+  CHANGE_STATUS_OF_CATALOG_SERVICES:
+    'service-settings-change-status-of-catalog-services',
+  SET_VISIBILITY_OF_CATALOG_SERVICES:
+    'service-settings-set-visibility-of-catalog-services',
+  VIEW_DETAILS_OF_CATALOG_SERVICE:
+    'service-settings-view-details-of-catalog-service',
+  VIEW_BUSINESS_HOURS: 'service-settings-view-business-hours',
+  ADD_NEW_BUSINESS_HOURS: 'service-settings-addnew-business-hours',
+  EDIT_DELETE_BUSINESS_HOUR: 'service-settings-edit-delete-business-hour',
+  ADD_NEW_FIELDS_FOR_TICKET_AND_THEIR_TASKS:
+    'service-settings-add-new-fields-for-ticket-and-their-tasks',
+  ADD_NEW_FIELDS_FOR_TIME_ENTRIES:
+    'service-settings-add-new-fields-for-time-entries',
+  SET_CLOSURE_RULES_AGAINST_TICKETS:
+    'service-settings-set-closure-rules-against-tickets',
+};

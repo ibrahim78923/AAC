@@ -31,7 +31,6 @@ export const useAddNewLocation = () => {
   }
 
   const locationId = dataArray?._id;
-  const parentLocationName = dataArray?.parentLocation;
   const editLocationId = editDataArray?._id;
   const childEditLocationId = childEditDataArray?._id;
 
@@ -39,7 +38,6 @@ export const useAddNewLocation = () => {
     resolver: yupResolver(validationSchemaAddNewLocation),
     defaultValues: locationDefaultValues({
       editDataArray,
-      parentLocationName,
       childEditDataArray,
     }),
   });
@@ -112,16 +110,22 @@ export const useAddNewLocation = () => {
     };
     try {
       const res: any = await postLocationTrigger(locationData).unwrap();
-      enqueueSnackbar(res?.message ?? 'Location Added Successfully', {
+      enqueueSnackbar(res?.message && 'Location Added Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
+      AddNewLocationMethods?.reset?.();
       moveToLocationPage();
+      AddNewLocationMethods?.reset?.();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      enqueueSnackbar(
+        ((Array.isArray(error?.data?.message) && error?.data?.message?.[0]) ||
+          error?.data?.message) ??
+          'Something went wrong!',
+        {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        },
+      );
     }
-    AddNewLocationMethods?.reset?.();
   };
 
   const editOnSubmit = async (data: any) => {
