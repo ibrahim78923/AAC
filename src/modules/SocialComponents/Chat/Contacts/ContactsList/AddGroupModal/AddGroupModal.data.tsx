@@ -4,7 +4,7 @@ import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 import * as Yup from 'yup';
 export const addGroupValidationSchema = Yup?.object()?.shape({
   groupTitle: Yup?.string()?.trim()?.required('Field is Required'),
-  participant: Yup.array().min(1).required('Field is Required'),
+  participant: Yup?.array()?.min(1)?.required('Field is Required'),
 });
 
 export const addGroupDefaultValues = {
@@ -38,18 +38,16 @@ export const columns = (
   const theme = useTheme();
 
   const handleCheckboxChange = (value: any) => {
-    const index = groupAdmins.indexOf(value);
+    const index = groupAdmins?.indexOf(value);
 
     if (index !== -1) {
       const updatedAdmins = [...groupAdmins];
-      updatedAdmins.splice(index, 1);
+      updatedAdmins?.splice(index, 1);
       setGroupAdmins(updatedAdmins);
     } else {
       setGroupAdmins((prevAdmins: any) => [...prevAdmins, value]);
     }
   };
-  // info.row?.original?.id
-
   return [
     {
       accessorFn: (row: any) => row?.id,
@@ -58,7 +56,7 @@ export const columns = (
         <Checkbox
           color="primary"
           name={info?.getValue()}
-          checked={groupAdmins.includes(info.row?.original?.id)}
+          checked={groupAdmins?.includes(info.row?.original?.id)}
           onChange={() => handleCheckboxChange(info.row?.original?.id)}
         />
       ),

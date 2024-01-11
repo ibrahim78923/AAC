@@ -64,12 +64,12 @@ const ChatFooter = ({ setChangeScroll }: any) => {
   );
 
   const [anchorElAttachment, setAnchorElAttachment] =
-    React.useState<HTMLButtonElement | null>(null);
+    useState<HTMLButtonElement | null>(null);
 
   const handleClickAttachment = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
-    setAnchorElAttachment(event.currentTarget);
+    setAnchorElAttachment(event?.currentTarget);
   };
   const handleCloseAttachment = () => {
     setAnchorElAttachment(null);
@@ -95,7 +95,7 @@ const ChatFooter = ({ setChangeScroll }: any) => {
       content: messageText,
       parentMessage: activeReply?.chatId,
       media: imageToUpload,
-      type: attachmentType ?? 'text',
+      ...(imageToUpload.length > 0 && { type: attachmentType ?? 'text' }),
     };
 
     socket.emit(
@@ -136,8 +136,8 @@ const ChatFooter = ({ setChangeScroll }: any) => {
 
   const handleImage = async (e: any) => {
     const formData = new FormData();
-    for (let i = 0; i < e.target.files.length; i++) {
-      formData.append('media', e.target.files[i]);
+    for (let i = 0; i < e?.target?.files?.length; i++) {
+      formData.append('media', e?.target?.files[i]);
     }
     try {
       const response = await chatAttachmentUpload({
@@ -262,7 +262,7 @@ const ChatFooter = ({ setChangeScroll }: any) => {
                     setAttachmentType('docs');
                   }}
                 >
-                  <DocumentIcon color="#fff" />
+                  <DocumentIcon color={theme?.palette?.common?.white} />
                   &nbsp; Document
                 </label>
               </Box>

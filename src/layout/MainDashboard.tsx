@@ -420,7 +420,7 @@ const DashboardLayout = ({ children, window }: any) => {
   useEffect(() => {
     try {
       if (!socket) {
-        const res: any = io.connect(`${process.env.NEXT_PUBLIC_BASE_URL}`, {
+        const res: any = io.connect(`${process?.env?.NEXT_PUBLIC_BASE_URL}`, {
           auth: (cb) => {
             cb({
               accessToken: accessToken,

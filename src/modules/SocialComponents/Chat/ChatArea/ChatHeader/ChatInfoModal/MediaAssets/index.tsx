@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const groupImagesByDate = (data: any) => {
   const groupedImages: any = {};
-  data.forEach((media: any) => {
+  data?.forEach((media: any) => {
     const date = new Date(media?.updatedAt)?.toLocaleDateString();
 
     if (!groupedImages[date]) {

@@ -6,19 +6,19 @@ import { v4 as uuidv4 } from 'uuid';
 const groupDocumentsByDate = (data: any) => {
   const groupedDocuments: any = {};
 
-  data.forEach((document: any) => {
-    const date = new Date(document.updatedAt).toLocaleDateString();
+  data?.forEach((document: any) => {
+    const date = new Date(document?.updatedAt).toLocaleDateString();
 
     if (!groupedDocuments[date]) {
       groupedDocuments[date] = [];
     }
 
-    if (document.media.length > 0) {
-      groupedDocuments[date] = groupedDocuments[date].concat(document.media);
+    if (document?.media?.length > 0) {
+      groupedDocuments[date] = groupedDocuments[date]?.concat(document?.media);
     }
   });
 
-  const result = Object.keys(groupedDocuments).map((dateGroup) => ({
+  const result = Object?.keys(groupedDocuments)?.map((dateGroup) => ({
     dateGroup,
     documents: groupedDocuments[dateGroup],
   }));
@@ -51,7 +51,7 @@ const DocumentAssets = ({ data }: any) => {
                   <FileJpgIcon />
                   <Box>
                     <Typography variant="body3" sx={{ fontWeight: '500' }}>
-                      {document.orignalName}
+                      {document?.orignalName}
                     </Typography>
                     <Typography sx={{ fontSize: '10px' }}>
                       {data?.createdAt}
@@ -62,7 +62,7 @@ const DocumentAssets = ({ data }: any) => {
                   sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}
                 >
                   <Typography variant="body3" sx={{ fontWeight: '500' }}>
-                    {(document.size / 1024).toFixed(2)} KB
+                    {(document?.size / 1024).toFixed(2)} KB
                   </Typography>
                   <DocumentIcon />
                 </Box>

@@ -304,7 +304,7 @@ const ChatBox = ({
                 >
                   <CharmTickIcon isRead={item?.isRead} />
                 </Box>
-                <Box sx={styles?.chatReactionWrapper}>
+                <Box sx={styles?.chatReactionWrapper(theme)}>
                   {item?.reactions?.map((emoji: any) => (
                     <Box
                       key={uuidv4()}

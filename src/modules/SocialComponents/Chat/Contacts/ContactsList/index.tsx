@@ -36,9 +36,9 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   paramsObj['isMuted'] = isMutedFilter;
   paramsObj['isPinned'] = isPinnedFilter;
   paramsObj['isArchived'] = isArchivedFilter;
-  const queryParams = Object.entries(paramsObj)
-    .map(([key, value]: any) => `${key}=${encodeURIComponent(value)}`)
-    .join('&');
+  const queryParams = Object?.entries(paramsObj)
+    ?.map(([key, value]: any) => `${key}=${encodeURIComponent(value)}`)
+    ?.join('&');
   const query = `&${queryParams}`;
 
   const { data: contactsData, status } = useGetChatsContactsQuery({

@@ -98,7 +98,7 @@ const AddGroupModal = ({
 
   const [selectedImage, setSelectedImage] = useState<any>(null);
   const handleImageChange = (e: any) => {
-    const file = e.target.files[0];
+    const file = e?.target?.files[0];
 
     if (file) {
       setSelectedImage(file);
@@ -126,7 +126,7 @@ const AddGroupModal = ({
         >
           {selectedImage && (
             <div>
-              <Image src={URL.createObjectURL(selectedImage)} alt="Preview" />
+              <Image src={URL?.createObjectURL(selectedImage)} alt="Preview" />
             </div>
           )}
           <Image src={AddRoundedImage} alt="upload" />
