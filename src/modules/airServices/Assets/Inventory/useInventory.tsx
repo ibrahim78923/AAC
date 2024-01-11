@@ -87,7 +87,7 @@ export const useInventory = () => {
         getInventoryExportParameter,
       )?.unwrap();
       downloadFile(response, 'InventoryLists', EXPORT_FILE_TYPE?.[type]);
-      enqueueSnackbar('File Exported successfully', {
+      enqueueSnackbar('File export successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {

@@ -6,8 +6,12 @@ import { useAgentFilter } from './useAgentFilter';
 
 const AgentFilter = (props: any) => {
   const { isAgentFilterDrawerOpen } = props;
-  const { onSubmit, handleCloseDrawer, agentFilterDrawerMethods } =
-    useAgentFilter(props);
+  const {
+    onSubmit,
+    handleCloseDrawer,
+    agentFilterDrawerMethods,
+    departmentData,
+  } = useAgentFilter(props);
   return (
     <>
       <CommonDrawer
@@ -22,7 +26,7 @@ const AgentFilter = (props: any) => {
         <Box mt={1}>
           <FormProvider methods={agentFilterDrawerMethods}>
             <Grid container spacing={3}>
-              {agentFilterFields?.map((form: any) => (
+              {agentFilterFields(departmentData)?.map((form: any) => (
                 <Grid item xs={12} key={form?.id}>
                   <form.component {...form?.componentProps} size="small" />
                 </Grid>

@@ -16,7 +16,7 @@ export const useHeader = () => {
       setDeleteWorkflow(true);
     } else if (actionType === ACTIONS_TYPES?.EDIT) {
       router?.push({
-        pathname: AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW,
+        pathname: AIR_OPERATIONS?.UPSERT_SUPERVISOR_RULES,
         query: {
           action: EDIT_WORKFLOW,
         },

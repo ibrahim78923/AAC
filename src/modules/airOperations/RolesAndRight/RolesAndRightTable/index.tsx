@@ -98,15 +98,14 @@ const RolesAndRightTable = () => {
           }
           okText={
             currentActionType === ROLES_ACTION_CONSTANTS?.EDIT
-              ? 'Edit'
-              : currentActionType === ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE ||
-                  currentActionType === ROLES_ACTION_CONSTANTS?.VIEW
-                ? 'Save'
-                : 'Add'
+              ? 'Save'
+              : currentActionType === ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE
+              ? 'Add'
+              : 'Add'
           }
-          isOk
-          isDisabled={currentActionType === ROLES_ACTION_CONSTANTS?.SAVE}
-          cancelText={'Cancel'}
+          isOk={!(currentActionType === ROLES_ACTION_CONSTANTS?.VIEW)}
+          isCancel={!(currentActionType === ROLES_ACTION_CONSTANTS?.VIEW)}
+          cancelText={'cancel'}
           footer
           submitHandler={handleSubmit(onSubmit)}
         >

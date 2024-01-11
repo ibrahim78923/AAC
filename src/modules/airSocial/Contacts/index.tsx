@@ -6,8 +6,6 @@ import CommonTabs from '@/components/Tabs';
 
 import CreateView from './CreateView';
 
-import { SUPER_ADMIN } from '@/constants';
-
 import { ContactsSaleSite } from './ContactsSaleSite.data';
 import ContactsCustomize from './ContactsCustomize';
 import ContactsFilterDrawer from './ContactsFilterDrawer';
@@ -26,6 +24,7 @@ import {
   RefreshTasksIcon,
   DownIcon,
 } from '@/assets/icons';
+import { AIR_SOCIAL } from '@/routesConstants/paths';
 
 const Contacts = () => {
   const {
@@ -122,7 +121,7 @@ const Contacts = () => {
                 <MenuItem onClick={handleOpenModalDelete}>Delete</MenuItem>
               </Menu>
             </Box>
-            <Link href={SUPER_ADMIN?.AIRSALES_CONTCATS_RESTORE}>
+            <Link href={AIR_SOCIAL?.CONTACTS_RESTORE}>
               <Button
                 variant="outlined"
                 className="small"

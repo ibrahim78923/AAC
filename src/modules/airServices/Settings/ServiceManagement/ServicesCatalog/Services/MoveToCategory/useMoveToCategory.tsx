@@ -32,12 +32,9 @@ const useMoveToCategory = (prop: any) => {
         patchServiceCatalogParameter,
       )?.unwrap();
 
-      enqueueSnackbar(
-        response?.message ?? 'ServiceCatalog Created Successfully!',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      enqueueSnackbar(response?.data?.message ?? 'Service Move Successfully!', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
     } catch (error) {
       enqueueSnackbar('Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,

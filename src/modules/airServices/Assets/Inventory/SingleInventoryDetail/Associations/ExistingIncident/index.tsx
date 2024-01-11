@@ -7,7 +7,7 @@ import {
   Checkbox,
   Chip,
 } from '@mui/material';
-import { checkboxes, chipColor } from './ExistingIncident.data';
+import { chipColor } from './ExistingIncident.data';
 import { v4 as uuidv4 } from 'uuid';
 import { useExistingIncident } from './useExistingIncident';
 
@@ -19,6 +19,7 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
     theme,
     checkboxValues,
     handleCheckboxChange,
+    existingTicketsData,
   } = useExistingIncident({ onClose });
 
   return (
@@ -35,48 +36,53 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
       <Box mt={1}>
         <Search
           label={'Search'}
-          searchBy={searchBy}
-          setSearchBy={setSearchBy}
+          value={searchBy}
+          onChange={(e) => setSearchBy(e.target.value)}
           fullWidth
         />
       </Box>
 
-      {checkboxes?.map((item) => (
-        <Box
-          border={`1px solid ${theme?.palette?.grey?.[400]}`}
-          borderRadius={2}
-          p={1}
-          mt={2}
-          display={'flex'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          key={uuidv4()}
-        >
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={checkboxValues?.[item?.id] || false}
-                  onChange={handleCheckboxChange}
-                  id={item?.id}
+      {existingTicketsData?.data?.tickets &&
+      existingTicketsData.data.tickets.length > 0
+        ? existingTicketsData.data.tickets.map((item: any) => (
+            <Box
+              border={`1px solid ${theme?.palette?.grey?.[400]}`}
+              borderRadius={2}
+              p={1}
+              mt={2}
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              key={uuidv4()}
+            >
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={checkboxValues?.[item?.id] || false}
+                      onChange={handleCheckboxChange}
+                      id={item?.id}
+                    />
+                  }
+                  label={item?.ticketIdNumber}
                 />
-              }
-              label={item?.label}
-            />
-          </FormGroup>
-          <Chip
-            label={item?.status}
-            sx={{
-              bgcolor:
-                theme?.['palette']?.[`${chipColor(item?.status)}`]?.['lighter'],
-              color:
-                item?.status === 'InProgress'
-                  ? 'common.white'
-                  : 'success.darker',
-            }}
-          />
-        </Box>
-      ))}
+              </FormGroup>
+              <Chip
+                label={item?.status}
+                sx={{
+                  bgcolor:
+                    theme?.['palette']?.[`${chipColor(item?.status)}`]?.[
+                      'lighter'
+                    ],
+                  color:
+                    item?.status === 'InProgress'
+                      ? 'common.white'
+                      : 'success.darker',
+                }}
+              />
+            </Box>
+          ))
+        : ''}
     </CommonDrawer>
   );
 };

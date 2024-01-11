@@ -3,19 +3,34 @@ import { Fragment, useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoData from '@/components/NoData';
 import { associationsDataArray, chipColor } from './Associations.data';
-import { v4 as uuidv4 } from 'uuid';
 import { ExistingIncident } from './ExistingIncident';
 import { DialogBox } from './DialogBox';
 import { NewIncident } from './NewIncident';
 import { NoAssociationFoundImage } from '@/assets/images';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { AlertModals } from '@/components/AlertModals';
 
 export const Associations = () => {
   const theme: any = useTheme();
-
   const [openDialog, setOpenDialog] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [openNewIncident, setNewIncident] = useState(false);
   const [openExistingIncident, setExistingIncident] = useState(false);
+  const [hoveredItemId, setHoveredItemId] = useState(null);
 
+  const handleMouseOver = (itemId: any) => {
+    setHoveredItemId(itemId);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredItemId(null);
+  };
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+  };
+  const handleDelete = () => {
+    setIsDeleteModalOpen(true);
+  };
   return (
     <Fragment>
       {associationsDataArray?.length <= 0 ? (
@@ -43,8 +58,9 @@ export const Associations = () => {
               Associate
             </Button>
           </Box>
-          {associationsDataArray?.map((item: any) => (
+          {associationsDataArray.map((item) => (
             <Box
+              key={item.id}
               border={`1px solid ${theme?.palette?.grey?.[400]}`}
               borderLeft={`8px solid ${theme?.['palette']?.[
                 `${chipColor(item?.status)}`
@@ -56,13 +72,26 @@ export const Associations = () => {
               display={'flex'}
               justifyContent={'space-between'}
               alignItems={'center'}
-              key={uuidv4()}
             >
-              <Typography variant="body2" fontWeight={600}>
-                {item?.ticketNo}
-              </Typography>
+              <Box
+                display={'flex'}
+                flexWrap={'wrap'}
+                onMouseOver={() => handleMouseOver(item.id)}
+                onMouseLeave={handleMouseLeave}
+              >
+                {hoveredItemId === item.id && (
+                  <RemoveCircleOutlineIcon
+                    style={{ marginRight: '8px' }}
+                    fontSize="small"
+                    onClick={handleDelete}
+                  />
+                )}
+                <Typography variant="body2" fontWeight={600}>
+                  {item.displayName}
+                </Typography>
+              </Box>
               <Chip
-                label={item?.status}
+                label={item.status}
                 sx={{
                   bgcolor:
                     theme?.['palette']?.[`${chipColor(item?.status)}`]?.[
@@ -75,7 +104,13 @@ export const Associations = () => {
           ))}
         </Fragment>
       )}
-
+      <AlertModals
+        message="Are you sure you want to delete dashboard"
+        type="delete"
+        open={isDeleteModalOpen}
+        handleClose={handleCloseDeleteModal}
+        handleSubmit={handleDelete}
+      />
       <DialogBox
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}

@@ -1,24 +1,19 @@
 import { Button, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-
-import { AlertModals } from '@/components/AlertModals';
-
-import useNotesActionDropdown from './useNotesActionDropDown';
+import { useTheme } from '@mui/material';
 
 const NotesActionDropdown = (props: any) => {
-  const { setOpenDrawer, selectedCheckboxes } = props;
+  const theme = useTheme();
   const {
-    theme,
-    isMenuOpen,
     anchorEl,
+    isMenuOpen,
     handleOpenMenu,
     handleCloseMenu,
-    isOpenAlertModal,
-    handleOpenEditDrawer,
-    handleOpenViewDrawer,
-    handleOpenDeleteAlert,
-    handleCloseAlert,
-  } = useNotesActionDropdown({ setOpenDrawer });
+    selectedCheckboxes,
+    openViewDrawer,
+    openEditDrawer,
+    openDeleteAlert,
+  } = props;
 
   return (
     <div>
@@ -34,9 +29,7 @@ const NotesActionDropdown = (props: any) => {
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
-        disabled={
-          selectedCheckboxes?.length === 0 || selectedCheckboxes?.length > 1
-        }
+        disabled={selectedCheckboxes?.length === 0}
       >
         Action
       </Button>
@@ -49,20 +42,20 @@ const NotesActionDropdown = (props: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleOpenViewDrawer}>View</MenuItem>
-        <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
-        <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+        <MenuItem
+          disabled={selectedCheckboxes?.length > 1}
+          onClick={() => openViewDrawer(selectedCheckboxes[0])}
+        >
+          View
+        </MenuItem>
+        <MenuItem
+          disabled={selectedCheckboxes?.length > 1}
+          onClick={() => openEditDrawer(selectedCheckboxes[0])}
+        >
+          Edit
+        </MenuItem>
+        <MenuItem onClick={openDeleteAlert}>Delete</MenuItem>
       </Menu>
-
-      <AlertModals
-        message={
-          "You're about to delete a record. Deleted records can't be restored after 90 days."
-        }
-        type={'delete'}
-        open={isOpenAlertModal}
-        handleClose={handleCloseAlert}
-        handleSubmit={handleCloseAlert}
-      />
     </div>
   );
 };

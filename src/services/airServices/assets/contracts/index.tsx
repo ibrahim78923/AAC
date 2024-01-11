@@ -39,7 +39,7 @@ export const contractAPI = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
+        if (response) return response?.data?.contracttypes;
       },
       providesTags: [TAG_TWO],
     }),
@@ -50,7 +50,42 @@ export const contractAPI = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_THREE],
+    }),
+    postContract: builder?.mutation({
+      query: (postContractParameter: any) => ({
+        url: `${END_POINTS?.ADD_CONTRACT}`,
+        method: 'POST',
+        body: postContractParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    patchContract: builder?.mutation({
+      query: (patchContractParameter: any) => ({
+        url: `${END_POINTS?.EDIT_CONTRACT}/${patchContractParameter?.pathParam?.id}`,
+        method: 'PATCH',
+        body: patchContractParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    patchContractStatus: builder?.mutation({
+      query: (patchContractStatusParameter: any) => ({
+        url: `${END_POINTS?.UPDATE_CONTRACT_STATUS}/${patchContractStatusParameter?.pathParam?.id}`,
+        method: 'PATCH',
+        body: patchContractStatusParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getDropdownAssets: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.ASSETS_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.inventories;
       },
       providesTags: [TAG_THREE],
     }),
@@ -63,4 +98,8 @@ export const {
   useDeleteContractMutation,
   useLazyGetContractTypeDropdownQuery,
   useLazyGetVendorDropdownQuery,
+  usePostContractMutation,
+  usePatchContractMutation,
+  usePatchContractStatusMutation,
+  useLazyGetDropdownAssetsQuery,
 } = contractAPI;
