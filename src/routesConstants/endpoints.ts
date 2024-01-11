@@ -165,6 +165,7 @@ export const END_POINTS = {
   ADD_CONTRACT: `/contract/add-contract`,
   EDIT_CONTRACT: `/contract/update`,
   UPDATE_CONTRACT_STATUS: `/contract/renew-extend`,
+  GET_INVENTORY_OVERVIEW: `/assets/get-inventory-detail`,
   ASSETS_DROPDOWN: '/assets/inventory',
 };
 
