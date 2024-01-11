@@ -3,16 +3,25 @@ import { Box, Stack, Typography } from '@mui/material';
 import {
   clientDetails,
   cardDetails,
-  invoiceDetail,
 } from '@/mock/modules/airSales/SalesInvoices';
 import { LogoSharedIcon } from '@/assets/icons';
 import { useTheme } from '@mui/material/styles';
 import { style } from '../EditDetail.style';
 import { v4 as uuidv4 } from 'uuid';
 import ChooseQuotes from '../../ChooseQuotes';
+import useDetailCard from './useDetailCard';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '../../../../../../constants/index';
 
 const DetailCard = () => {
   const theme = useTheme();
+  const { user } = useDetailCard();
+
+  const calculateDueDate = (invoiceDate: any) => {
+    return dayjs(invoiceDate)
+      ?.add(15, 'day')
+      ?.format(DATE_FORMAT?.UI);
+  };
 
   return (
     <Box>
@@ -64,14 +73,36 @@ const DetailCard = () => {
           direction={{ xs: 'column', md: 'row' }}
           justifyContent="space-between"
         >
-          {invoiceDetail?.map((item) => (
-            <Stack direction="row" gap="3px" key={uuidv4()}>
-              <Typography variant="body2" fontWeight={500}>
-                {item?.title}:
-              </Typography>
-              <Typography variant="body2">{item?.value}</Typography>
-            </Stack>
-          ))}
+          <Stack direction="row" gap="3px" key={uuidv4()}>
+            <Typography variant="body2" fontWeight={500}>
+              Invoice No:
+            </Typography>
+            <Typography variant="body2">---</Typography>
+          </Stack>
+          <Stack direction="row" gap="3px" key={uuidv4()}>
+            <Typography variant="body2" fontWeight={500}>
+              Invoice Date:
+            </Typography>
+            <Typography variant="body2">
+              {dayjs(user?.createdAt).format(DATE_FORMAT?.UI)}
+            </Typography>
+          </Stack>
+          <Stack direction="row" gap="3px" key={uuidv4()}>
+            <Typography variant="body2" fontWeight={500}>
+              Due Date:
+            </Typography>
+            <Typography variant="body2">
+              {calculateDueDate(user?.createdAt)}
+            </Typography>
+          </Stack>
+          <Stack direction="row" gap="3px" key={uuidv4()}>
+            <Typography variant="body2" fontWeight={500}>
+              Prepared By:
+            </Typography>
+            <Typography variant="body2">
+              {user?.firstName} {user?.lastName}
+            </Typography>
+          </Stack>
         </Stack>
       </Box>
     </Box>

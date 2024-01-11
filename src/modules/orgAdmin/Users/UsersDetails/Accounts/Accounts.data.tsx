@@ -31,14 +31,14 @@ export const companyColumns: any = (handleStatusUpdate: any) => [
     ),
   },
   {
-    accessorFn: (row: any) => row?.company?.name,
+    accessorFn: (row: any) => row?.company?.accountName,
     id: 'company',
     isSortable: true,
     header: 'Company',
     cell: (info: any) => info?.getValue() ?? 'N/A',
   },
   {
-    accessorFn: (row: any) => row?.email,
+    accessorFn: (row: any) => row?.user[0]?.email,
     id: 'email',
     isSortable: true,
     header: 'Email',
@@ -46,7 +46,7 @@ export const companyColumns: any = (handleStatusUpdate: any) => [
   },
   {
     accessorFn: (row: any) => row?.role?.name,
-    id: 'manageRole',
+    id: 'name',
     isSortable: true,
     header: 'Manage Roles',
     cell: (info: any) => info?.getValue(),

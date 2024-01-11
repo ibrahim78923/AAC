@@ -72,6 +72,7 @@ const UserDetailsProfile = (props: any) => {
       'streetName',
       'linkedInUrl',
       'departmentId',
+      'avatar',
     ];
 
     for (const key of keysToDelete) {

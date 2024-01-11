@@ -1,8 +1,8 @@
-import { useGetInvoiceQuery } from '@/services/airSales/invoices';
+import useAuth from '@/hooks/useAuth';
 
 const useDetailCard = () => {
-  const { data } = useGetInvoiceQuery({});
-  return { cardData: data?.data };
+  const { user }: any = useAuth();
+  return { user };
 };
 
 export default useDetailCard;

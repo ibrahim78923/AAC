@@ -161,9 +161,11 @@ export const END_POINTS = {
   DROPDOWN_USERS: '',
   ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
   DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
+  CONTACT_NOTE: '/contact-note/note',
   ADD_CONTRACT: `/contract/add-contract`,
   EDIT_CONTRACT: `/contract/update`,
   UPDATE_CONTRACT_STATUS: `/contract/renew-extend`,
+  ASSETS_DROPDOWN: '/assets/inventory',
 };
 
 export const superAdminBillingInvoices = {
@@ -229,7 +231,7 @@ export const COMMON_DOCUMENTS = {
 };
 
 export const INVOICE = {
-  GET_INVOICE_QUOTE: '/quote-invoice',
+  GET_QUOTE_ID: '/quote',
   POST_INVOICE_QUOTE: '/quote-invoice',
   GET_INVOICE_QUOTE_LIST: '/quote',
 };
