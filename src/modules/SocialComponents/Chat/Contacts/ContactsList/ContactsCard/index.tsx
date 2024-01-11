@@ -43,10 +43,14 @@ const ContactsCard = ({
   const currentUserIndex = cardData?.item?.participants?.findIndex(
     (participant: any) => participant?._id === currentUserId,
   );
-
   const filteredParticipants = cardData?.item?.participants?.filter(
     (participant: any) => participant?._id !== currentUserId,
   );
+
+  const chatMode = useAppSelector(
+    (state) => state?.chat?.chatModeState?.chatModeState,
+  );
+  const constIsModeGroup = chatMode === 'groupChat';
 
   const handleChatSelect = (_id: string) => {
     if (selectedValues.includes(_id)) {
@@ -71,7 +75,6 @@ const ContactsCard = ({
       enqueueSnackbar('successfully', {
         variant: 'success',
       });
-
       dispatch(
         setChatContacts({
           ...cardData?.item,
@@ -85,7 +88,6 @@ const ContactsCard = ({
       });
     }
   };
-
   const handleCurrentUserSelect = () => {
     dispatch(setChatMessages([])),
       dispatch(setActiveChatId(cardData?.item?._id)),
@@ -99,8 +101,12 @@ const ContactsCard = ({
       dispatch(setActiveConversation(cardData?.item)),
       dispatch(
         setActiveParticipant({
-          firstName: filteredParticipants[0]?.firstName,
-          lastName: filteredParticipants[0]?.lastName,
+          firstName: constIsModeGroup
+            ? cardData?.item?.groupName
+            : filteredParticipants[0]?.firstName,
+          lastName: constIsModeGroup ? '' : filteredParticipants[0]?.lastName,
+          email: constIsModeGroup ? '' : filteredParticipants[0]?.email,
+          phone: constIsModeGroup ? '' : filteredParticipants[0]?.phoneNumber,
         }),
       );
   };
@@ -127,7 +133,6 @@ const ContactsCard = ({
       ? activeConversation?.conversationId
       : null,
   );
-
   return (
     <>
       <Box
@@ -171,8 +176,14 @@ const ContactsCard = ({
                   variant="h6"
                   sx={{ fontWeight: '600', whiteSpace: 'nowrap' }}
                 >
-                  {filteredParticipants[0]?.firstName}&nbsp;
-                  {filteredParticipants[0]?.lastName}
+                  {chatMode === 'groupChat' ? (
+                    <>{cardData?.item?.groupName}</>
+                  ) : (
+                    <>
+                      {filteredParticipants[0]?.firstName}&nbsp;
+                      {filteredParticipants[0]?.lastName}
+                    </>
+                  )}
                 </Typography>
               </Box>
               {/* <Box sx={styles?.chatNotification}>1</Box> */}

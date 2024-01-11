@@ -154,6 +154,7 @@ const ChatHeader = ({ chatMode }: any) => {
         isUserProfile={isUserProfile}
         setIsUserProfile={setIsUserProfile}
         chatMode={chatMode}
+        activeParticipant={activeParticipant}
       />
       <AlertModals
         message={'Are you sure you want to delete this Conversation ?'}

@@ -29,7 +29,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   const [isArchivedFilter, setIsArchivedFilter] = useState(false);
 
   const dispatch = useAppDispatch();
-  // isDeleted=false&unRead=false&isMuted=false&isPinned=false&isArchived=true
+
   const paramsObj: any = {};
   paramsObj['isDeleted'] = isDeletedFilter;
   paramsObj['unRead'] = unReadFilter;
@@ -65,7 +65,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
     (state) => state?.chat?.isChatContactsLoading,
   );
 
-  const chatsTypeToShow = chatMode === 'groupChat' ? [] : chatContacts;
+  const chatsTypeToShow = chatContacts;
 
   const handleSelectAll = () => {
     if (selectedValues?.length === chatsTypeToShow?.length) {
@@ -84,14 +84,10 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   };
 
   useEffect(() => {
-    if (chatMode === 'groupChat') {
-      null;
-    } else {
-      if (contactsData?.data?.chats.length > 0) {
-        dispatch(setChatContacts(contactsData?.data?.chats));
-      }
+    if (contactsData?.data?.chats.length > 0) {
+      dispatch(setChatContacts(contactsData?.data?.chats));
     }
-  }, [contactsData?.data?.chats]);
+  }, [contactsData?.data?.chats, chatMode]);
 
   useEffect(() => {
     if (status === 'pending') {

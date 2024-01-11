@@ -31,6 +31,7 @@ import { styles } from '../ChatField.style';
 import dayjs from 'dayjs';
 import { TIME_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
+import { IMG_URL } from '@/config';
 
 const ChatBox = ({
   item,
@@ -223,7 +224,7 @@ const ChatBox = ({
                     )}
                   </>
                 )}
-                {item?.attachment?.images && (
+                {item?.type === 'image' && (
                   <Box key={uuidv4()} sx={{ width: '16vw' }}>
                     <Grid
                       container
@@ -233,42 +234,66 @@ const ChatBox = ({
                         marginBottom: '2px',
                       }}
                     >
-                      {item?.attachment?.images?.map((item: any) => (
+                      {item?.media?.map((item: any) => (
                         <Grid item xs={9} sm={4} md={4} lg={4} key={uuidv4()}>
-                          <Image src={item?.img} height={80} alt="media" />
+                          <Image
+                            src={`${IMG_URL}${item?.url}`}
+                            width={100}
+                            height={80}
+                            style={{ borderRadius: '8px' }}
+                            alt="media"
+                          />
                         </Grid>
                       ))}
                     </Grid>
                   </Box>
                 )}
-                {item?.attachment?.document && (
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                      }}
-                    >
-                      <PaperClipIcon />
-                      <Typography
-                        variant="body3"
-                        sx={{
-                          color: theme?.palette?.error?.main,
-                          fontWeight: '500',
-                        }}
-                      >
-                        {item?.attachment?.document}
-                      </Typography>
-                    </Box>
-                    <DownloadRoundedIcon />
-                  </Box>
+                {!item?.isDeleted && (
+                  <>
+                    {item?.type === 'docs' && (
+                      <Box>
+                        {item?.media?.map((item: any) => (
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                            }}
+                            key={uuidv4()}
+                          >
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '10px',
+                              }}
+                            >
+                              <PaperClipIcon />
+                              <Typography
+                                variant="body3"
+                                sx={{
+                                  color: theme?.palette?.error?.main,
+                                  fontWeight: '500',
+                                }}
+                              >
+                                {item?.orignalName}
+                              </Typography>
+                            </Box>
+                            <a
+                              href={`${IMG_URL}${item?.url}`}
+                              download={`${IMG_URL}${item?.url}`}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <Box sx={{ cursor: 'pointer' }}>
+                                <DownloadRoundedIcon />
+                              </Box>
+                            </a>
+                          </Box>
+                        ))}
+                      </Box>
+                    )}
+                  </>
                 )}
                 <Box
                   sx={{
@@ -279,15 +304,17 @@ const ChatBox = ({
                 >
                   <CharmTickIcon isRead={item?.isRead} />
                 </Box>
-                {item?.reactions?.map((emoji: any) => (
-                  <Box
-                    key={uuidv4()}
-                    sx={styles?.chatReaction}
-                    dangerouslySetInnerHTML={{
-                      __html: emoji?.userReaction,
-                    }}
-                  />
-                ))}
+                <Box sx={styles?.chatReactionWrapper}>
+                  {item?.reactions?.map((emoji: any) => (
+                    <Box
+                      key={uuidv4()}
+                      sx={styles?.chatReaction}
+                      dangerouslySetInnerHTML={{
+                        __html: emoji?.userReaction,
+                      }}
+                    />
+                  ))}
+                </Box>
                 {item?._id === activeChat && (
                   <Box sx={styles?.sendReaction(theme)}>
                     {customEmojis?.map((emoji: any) => (

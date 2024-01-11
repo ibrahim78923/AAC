@@ -20,13 +20,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { options } from '@/mock/modules/SocialComponents/Chat';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
-  setChatContacts,
   setChatMessages,
   setChatMessagesLoading,
   setChatMetaInfo,
 } from '@/redux/slices/chat/slice';
 import { useGetUserChatsQuery } from '@/services/chat';
-import { getSession, isNullOrEmpty } from '@/utils';
+import { isNullOrEmpty } from '@/utils';
 import { styles } from './Chat.style';
 
 const Chat = () => {
@@ -45,6 +44,9 @@ const Chat = () => {
   const activeReceiverId = useAppSelector(
     (state) => state?.chat?.activeReceiverId,
   );
+  const chatMode = useAppSelector(
+    (state) => state?.chat?.chatModeState?.chatModeState,
+  );
 
   const {
     data: chatsData,
@@ -53,6 +55,7 @@ const Chat = () => {
   } = useGetUserChatsQuery({
     activeChatId: activeChatId,
     limit: chatMetaInfo?.limit,
+    isGroup: chatMode === 'groupChat' ? true : false,
   });
 
   const handleManualRefetch = () => {
@@ -94,9 +97,6 @@ const Chat = () => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const { user }: { accessToken: string; refreshToken: string; user: any } =
-    getSession();
-
   const handelNewUserChat = (item: any) => {
     socket.emit(
       'add-message',
@@ -104,28 +104,7 @@ const Chat = () => {
         receiverId: item?.id,
         content: '',
       },
-      (response: any) => {
-        if (response?.data?.chatId) {
-          dispatch(
-            setChatContacts({
-              _id: response?.data?.chatId,
-              ownerId: user?._id, // Current user id
-              participants: [
-                {
-                  _id: user?._id,
-                  firstName: user?.firstName,
-                  lastName: user?.lastName,
-                },
-                {
-                  _id: item?.id,
-                  firstName: item?.firstName,
-                  lastName: item?.lastName,
-                },
-              ],
-            }),
-          );
-        }
-      },
+      () => {},
     );
   };
 
@@ -160,7 +139,7 @@ const Chat = () => {
         </Grid>
       </Grid>
 
-      {chatModeState === 'personalChat' && (
+      {chatModeState === 'groupChat' ? null : (
         <Button
           style={{
             position: 'absolute',

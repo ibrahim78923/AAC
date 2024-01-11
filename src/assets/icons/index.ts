@@ -377,3 +377,4 @@ export { default as ImportBoxIcon } from './shared/import-box';
 export { default as ImagePreviewIcon } from './shared/image-preview';
 export { default as ImageUploadIcon } from './shared/image-upload';
 export { default as RecycleBinIcon } from './shared/recycle-bin-icon';
+export { default as ImageIconAttachment } from './modules/SocialComponents/Chat/imageIcon';
