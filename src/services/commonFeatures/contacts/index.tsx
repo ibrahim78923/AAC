@@ -50,12 +50,22 @@ export const contactsAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['ContactsStatus'],
     }),
+
     deleteContact: builder.mutation({
       query: ({ id }: any) => ({
         url: `${END_POINTS?.CONTACTS}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['CONTACTS'],
+      invalidatesTags: TAG,
+    }),
+
+    getDeletedContacts: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACT_RESTORE,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
     }),
   }),
 });
@@ -68,4 +78,5 @@ export const {
   usePostContactsMutation,
   useUpdateContactMutation,
   useDeleteContactMutation,
+  useGetDeletedContactsQuery,
 } = contactsAPI;

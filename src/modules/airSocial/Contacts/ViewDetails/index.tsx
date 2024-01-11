@@ -54,7 +54,7 @@ const ContactViewDetails = () => {
         <Grid item xs={12}>
           <Box>
             <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
-              <Details contactId={contactId} />
+              <Details />
               <ActivityLog />
               <Associations />
               <Tasks />

@@ -1,26 +1,13 @@
-import { useState } from 'react';
-
 import { Popover, Button, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-import { ContactsActionInterfacePropsI } from './Actions.interface';
-
 const ContactsActions = ({
+  anchorEl,
+  actionMenuOpen,
+  handleActionsMenuClick,
+  handleActionsMenuClose,
   disableActionBtn,
-  onChange,
-  menuItem = [],
-}: ContactsActionInterfacePropsI) => {
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event?.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+}: any) => {
   return (
     <div>
       <Button
@@ -28,17 +15,16 @@ const ContactsActions = ({
         className="small"
         color="inherit"
         endIcon={<ArrowDropDownIcon />}
-        onClick={handleClick}
+        onClick={handleActionsMenuClick}
         disabled={disableActionBtn}
         classes={{ outlined: 'outlined_btn' }}
       >
         Actions
       </Button>
       <Popover
-        id={id}
-        open={open}
+        open={actionMenuOpen}
         anchorEl={anchorEl}
-        onClose={handleClose}
+        onClose={handleActionsMenuClose}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'center',
@@ -48,18 +34,8 @@ const ContactsActions = ({
           horizontal: 'center',
         }}
       >
-        {menuItem?.map((item) => (
-          <MenuItem
-            value={item}
-            key={item}
-            onClick={() => {
-              onChange(item);
-              handleClose();
-            }}
-          >
-            {item}
-          </MenuItem>
-        ))}
+        <MenuItem>Restore</MenuItem>
+        <MenuItem>Delete</MenuItem>
       </Popover>
     </div>
   );
