@@ -37,7 +37,7 @@ const CreateTemplatesForm = () => {
     handleAlignment,
   } = useCreateForm();
   return (
-    <Grid sx={styles.mainDiv}>
+    <Grid sx={styles.mainDiv(theme)}>
       <Grid container sx={styles.headerBar}>
         {headerArray?.map((item: any, index: any) => (
           <Grid item xs={6} md={4} lg={2} key={uuidv4()}>
@@ -188,7 +188,7 @@ const CreateTemplatesForm = () => {
                     alignItems={'center'}
                     gap={'10px'}
                     padding={'12px'}
-                    sx={styles.customField}
+                    sx={styles.customField(theme)}
                     key={uuidv4()}
                     onClick={() => addField(item?.type)}
                   >
@@ -200,7 +200,7 @@ const CreateTemplatesForm = () => {
                         background: theme?.palette?.custom?.off_white_one,
                       }}
                     ></Box>
-                    <Box sx={styles?.iconBoxStyling}>{item?.icon}</Box>
+                    <Box sx={styles?.iconBoxStyling(theme)}>{item?.icon}</Box>
                     <Box>
                       <Typography
                         variant="h6"
@@ -232,7 +232,7 @@ const CreateTemplatesForm = () => {
                     alignItems={'center'}
                     gap={'10px'}
                     padding={'12px'}
-                    sx={styles.customField}
+                    sx={styles.customField(theme)}
                     key={uuidv4()}
                     onClick={() => addField(item?.type)}
                   >
@@ -244,7 +244,7 @@ const CreateTemplatesForm = () => {
                         background: theme?.palette?.custom?.off_white_one,
                       }}
                     ></Box>
-                    <Box sx={styles?.iconBoxStyling}>
+                    <Box sx={styles?.iconBoxStyling(theme)}>
                       {index === 3 ? (
                         <>
                           <Box

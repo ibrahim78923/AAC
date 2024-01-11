@@ -69,7 +69,6 @@ const InnerTab = ({ dynamicFields, deleteField }: any) => {
           <Box display={'flex'} alignContent={'center'}>
             <Button
               className="small"
-              sx={{ color: '#374151', fontWeight: '500' }}
               startIcon={<BackArrowIcon />}
               onClick={() => router?.push(AIR_MARKETER.EMAIL_TEMPLATES)}
             ></Button>
@@ -274,7 +273,7 @@ const InnerTab = ({ dynamicFields, deleteField }: any) => {
           backgroundColor: '#00000038 !important',
         }}
       >
-        <Box sx={styles?.parentBox}>
+        <Box sx={styles?.parentBox(theme)}>
           <Box
             sx={{
               marginBottom: '20px',
@@ -303,9 +302,9 @@ const InnerTab = ({ dynamicFields, deleteField }: any) => {
                 aria-label="lab API tabs example"
                 sx={{
                   width: 'fit-content',
-                  backgroundColor: '#8DFAEA1F',
+                  backgroundColor: theme?.palette?.primary?.lighter,
                   borderRadius: '7px',
-                  border: '1px solid #E9EBF0',
+                  border: `1px solid  ${theme?.palette?.grey[300]}`,
                   margin: 'auto',
                   marginBottom: '10px',
                 }}
@@ -374,7 +373,12 @@ const InnerTab = ({ dynamicFields, deleteField }: any) => {
                     </Typography>
                   </Box>
                 </Box>
-                <Box sx={{ padding: '20px', backgroundColor: '#F9FAFB' }}>
+                <Box
+                  sx={{
+                    padding: '20px',
+                    backgroundColor: theme?.palette?.grey[100],
+                  }}
+                >
                   <Typography
                     variant="body3"
                     sx={{ display: 'block', marginBottom: '15px' }}
@@ -454,12 +458,15 @@ const InnerTab = ({ dynamicFields, deleteField }: any) => {
                   <Typography variant="body3">
                     {' '}
                     Go to my account{' '}
-                    <Link href="/" style={{ color: '#D1D5DB' }}>
+                    <Link href="/" style={{ color: theme?.palette?.grey[0] }}>
                       Wellness.thyrocare.com
                     </Link>
                   </Typography>
                   <Divider
-                    sx={{ border: '1px solid #000000', marginY: '15px' }}
+                    sx={{
+                      border: `1px solid ${theme?.palette?.common?.black}`,
+                      marginY: '15px',
+                    }}
                   />
                   <Image src={LogoImage} alt="logo" />
                   <Typography

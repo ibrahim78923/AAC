@@ -24,12 +24,14 @@ export const styles = {
       paddingY: '20px',
     },
   },
-  mainDiv: {
-    background: '#F7F9FB',
-    height: '75vh',
-    '@media (max-width:700px)': {
-      height: 'fit-content',
-    },
+  mainDiv: (theme: any) => {
+    return {
+      background: theme?.palette?.custom?.pale_grayish_blue,
+      height: '75vh',
+      '@media (max-width:700px)': {
+        height: 'fit-content',
+      },
+    };
   },
   formSideBar: {
     backgroundColor: 'white',
@@ -40,12 +42,14 @@ export const styles = {
     overflow: 'scroll',
     marginTop: '25px',
   },
-  customField: {
-    borderRadius: ' 8px',
-    border: '1px solid #FAFAFA',
-    marginTop: '25px',
-    cursor: 'pointer',
-    boxShadow: '0px 1px 2px 0px rgba(16, 24, 40, 0.05)',
+  customField: (theme: any) => {
+    return {
+      borderRadius: ' 8px',
+      border: ` 1px solid ${theme?.palette?.custom?.white_fifty}`,
+      marginTop: '25px',
+      cursor: 'pointer',
+      boxShadow: '0px 1px 2px 0px rgba(16, 24, 40, 0.05)',
+    };
   },
   hoverEffect: {
     position: 'absolute',
@@ -58,15 +62,17 @@ export const styles = {
     width: '100%',
     padding: '10px',
   },
-  iconBoxStyling: {
-    background: '#e5e7eb4d',
-    padding: '5px',
-    borderRadius: '4px',
-    height: '36px',
-    width: '36px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+  iconBoxStyling: (theme: any) => {
+    return {
+      background: theme?.palette?.custom?.light_grey_bg,
+      padding: '5px',
+      borderRadius: '4px',
+      height: '36px',
+      width: '36px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    };
   },
   headerIcon: (theme: any) => {
     return {
@@ -80,20 +86,22 @@ export const styles = {
       },
     };
   },
-  parentBox: {
-    position: 'absolute' as const,
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '50vw',
-    bgcolor: '#fff',
-    p: 2,
-    borderRadius: '20px',
-    '@media (max-width:1200px)': {
-      width: '60vw',
-    },
-    '@media (max-width:581px)': {
-      width: '90vw',
-    },
+  parentBox: (theme: any) => {
+    return {
+      position: 'absolute' as const,
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '50vw',
+      backgroundColor: theme?.palette?.common?.white,
+      p: 2,
+      borderRadius: '20px',
+      '@media (max-width:1200px)': {
+        width: '60vw',
+      },
+      '@media (max-width:581px)': {
+        width: '90vw',
+      },
+    };
   },
 };
