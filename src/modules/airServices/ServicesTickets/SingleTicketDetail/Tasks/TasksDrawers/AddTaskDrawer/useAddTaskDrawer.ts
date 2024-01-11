@@ -33,7 +33,7 @@ export const useAddTaskDrawer = (props: any) => {
     };
     try {
       const res = await postTask(params)?.unwrap();
-      enqueueSnackbar(res?.message ?? 'Task add successfully', {
+      enqueueSnackbar(res?.message && 'Task Created Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       methodsCreateNewTicketForm?.reset();
@@ -47,6 +47,10 @@ export const useAddTaskDrawer = (props: any) => {
   const drawerSubmitHandler = () => {
     methodsCreateNewTicketForm?.handleSubmit(submitCreateNewTicket)();
   };
+  const handleClose = () => {
+    onClose(false);
+    methodsCreateNewTicketForm?.reset();
+  };
   const departmentDropdown = useLazyGetDepartmentDropdownListQuery();
   const userDropdown = useLazyGetAgentsDropdownListQuery();
   return {
@@ -54,5 +58,6 @@ export const useAddTaskDrawer = (props: any) => {
     drawerSubmitHandler,
     departmentDropdown,
     userDropdown,
+    handleClose,
   };
 };

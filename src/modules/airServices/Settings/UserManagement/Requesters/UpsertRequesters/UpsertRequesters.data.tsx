@@ -12,7 +12,7 @@ export const upsertRequestersValidationSchema: any = Yup?.object()?.shape({
   email: Yup.string()
     .email('Invalid email address')
     .required('Required')
-    .matches(/@/, 'Email must contain the @ symbol'),
+    .matches(/@/, 'Email must contain the @ symbol and Email not exist'),
   firstName: Yup?.string()?.required('Required'),
   lastName: Yup?.string()?.required('Required'),
   timezone: Yup?.mixed()?.nullable(),
@@ -34,7 +34,7 @@ export const upsertRequestersDefaultValues: any = (profileData: any) => {
     phoneNumber: profileData?.[0]?.phoneNumber ?? '',
     createdAt: new Date(),
     updatedAt: new Date(),
-    timezone: profileData?.[0]?.timezone ?? '',
+    timezone: profileData?.[0]?.timezone ?? null,
   };
 };
 
