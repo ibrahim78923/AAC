@@ -137,6 +137,7 @@ export const useInventory = () => {
         setDeleteModalOpen={setHasInventoryAction}
         selectedInventoryLists={selectedInventoryLists}
         setSelectedInventoryLists={setSelectedInventoryLists}
+        setPage={setPage}
       />
     ),
     [INVENTORY_LIST_ACTIONS?.IMPORT]: (
