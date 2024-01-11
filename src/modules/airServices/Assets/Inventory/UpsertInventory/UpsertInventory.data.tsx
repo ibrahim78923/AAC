@@ -11,6 +11,7 @@ import { Typography } from '@mui/material';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { ASSET_IMPACT } from '@/constants/strings';
+
 export const assetsImpactOptions = [
   ASSET_IMPACT?.LOW,
   ASSET_IMPACT?.MEDIUM,
@@ -23,14 +24,15 @@ export const UpsertInventoryValidationSchema: any = Yup?.object()?.shape({
   description: Yup?.string(),
   impact: Yup?.mixed()?.nullable(),
   assetId: Yup?.mixed()?.nullable(),
-  assetLifeExpireOn: Yup?.date()?.nullable(),
+  assetLifeExpiry: Yup?.date()?.nullable(),
+  usedBy: Yup?.mixed()?.nullable(),
 });
 export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
   return {
-    displayName: data?.[0]?.displayName ?? '',
+    displayName: data?.displayName ?? '',
     assetId: data?.assetId ?? '',
-    assetType: data?.[0]?.assetType ?? null,
-    impact: data?.[0]?.impact ?? '',
+    assetType: data?.assetType ?? null,
+    impact: data?.impact ?? '',
     // assetLifeExpireOn:
     //   typeof data?.[0]?.assetLifeExpireOn === 'string'
     //     ? makeDateTime(
@@ -38,16 +40,16 @@ export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
     //         data?.[0]?.assetLifeExpireOn,
     //       )?.toISOString()
     //     : null,
-    assetLifeExpireOn:
-      typeof data?.[0]?.assetLifeExpireOn === 'string'
-        ? new Date(data?.[0]?.assetLifeExpireOn)?.toISOString()
+    assetLifeExpiry:
+      typeof data?.assetLifeExpiry === 'string'
+        ? new Date(data?.assetLifeExpiry)?.toISOString()
         : null,
-    description: data?.[0]?.description ?? '',
-    location: data?.[0]?.location ?? '',
+    description: data?.description ?? '',
+    location: data?.location ?? '',
     assignedOnDate: new Date(data?.assignedOnDate ?? todayDate),
-    assignedOnTime: data?.[0]?.assignedOnTime ?? '',
-    usedBy: data?.[0]?.usedBy ?? '',
-    attachFile: data?.[0]?.attachFile ?? '',
+    assignedOnTime: data?.assignedOnTime ?? '',
+    usedBy: data?.usedBy ?? null,
+    attachFile: data?.attachFile ?? '',
   };
 };
 
@@ -120,13 +122,27 @@ export const upsertInventoryFormFieldsDynamic = (
     component: RHFDatePicker,
     componentProps: {
       fullWidth: true,
-      name: 'assetLifeExpireOn',
+      name: 'assetLifeExpiry',
       label: 'Asset life expire on',
       select: true,
     },
     md: 6,
   },
-
+  // {
+  //   id: 9,
+  //   component: RHFAutocomplete,
+  //   gridLength: 12,
+  //   componentProps: {
+  //     fullWidth: true,
+  //     name: 'assetLifeExpiry',
+  //     label: 'Asset Life Expire On',
+  //     placeholder: 'Select a time period',
+  //     select: true,
+  //     options: assetLifeExpiryOptions,
+  //     getOptionLabel: (option: any) => option?.label?.replaceAll?.('_', ' '),
+  //   },
+  //   md: 6,
+  // },
   {
     id: 7,
     componentProps: {
@@ -144,7 +160,8 @@ export const upsertInventoryFormFieldsDynamic = (
       fullWidth: true,
       required: true,
       apiQuery: apiQueryLocationType,
-      externalParams: { meta: false, limit: 50 },
+      // externalParams: { meta: false, limit: 50 },
+      getOptionLabel: (option: any) => option?.locationName,
     },
     component: RHFAutocompleteAsync,
     md: 6,
@@ -157,7 +174,8 @@ export const upsertInventoryFormFieldsDynamic = (
       fullWidth: true,
       required: true,
       apiQuery: apiQueryDepartmentType,
-      externalParams: { meta: false, limit: 50 },
+      // externalParams: { meta: false, limit: 50 },
+      // getOptionLabel: (option: any) => option?.departmentName,
     },
     component: RHFAutocompleteAsync,
     md: 6,
@@ -186,12 +204,11 @@ export const upsertInventoryFormFieldsDynamic = (
   {
     id: 9,
     componentProps: {
-      name: 'Used By',
-      label: 'usedBy',
       fullWidth: true,
-      required: true,
+      name: 'usedBy',
+      label: 'Used By',
+      placeholder: 'Name or Email',
       apiQuery: apiQueryUsedByType,
-      externalParams: { meta: false, limit: 50 },
     },
     component: RHFAutocompleteAsync,
     md: 6,

@@ -49,9 +49,6 @@ export const useUpsertInventory = () => {
     },
   );
 
-  useEffect(() => {
-    reset(() => upsertInventoryFieldsDefaultValuesFunction(data));
-  }, [data, reset]);
   const submitUpsertInventory = async (data: any) => {
     const inventoryDetailsData = new FormData();
     inventoryDetailsData.append('displayName', data?.displayName);
@@ -88,6 +85,9 @@ export const useUpsertInventory = () => {
       });
     }
   };
+  useEffect(() => {
+    reset(() => upsertInventoryFieldsDefaultValuesFunction(data));
+  }, [data, reset]);
   const submitUpdateInventory = async (data: any) => {
     const patchProductCatalogParameter = {
       body: {
