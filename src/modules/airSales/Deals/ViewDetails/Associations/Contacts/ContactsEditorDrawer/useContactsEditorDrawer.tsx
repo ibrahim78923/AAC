@@ -16,6 +16,7 @@ import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { DATE_FORMAT } from '@/constants';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useContactsEditorDrawer = ({
   openDrawer,
@@ -92,10 +93,9 @@ const useContactsEditorDrawer = ({
     formData.append('lifeCycleStageId', values?.lifeCycleStageId);
     formData.append('statusId', values?.statusId);
     formData.append(
-      'dataOfJoinig',
-      dayjs(values?.dataOfJoinig)?.format(DATE_FORMAT?.API),
+      'dateOfJoinig',
+      dayjs(values?.dataOfJoining)?.format(DATE_FORMAT?.API),
     );
-    formData.append('title', values?.title);
 
     try {
       const response =
@@ -120,18 +120,24 @@ const useContactsEditorDrawer = ({
               openDrawer === 'Edit' ? 'Updated' : 'Added'
             } Successfully`,
             {
-              variant: 'success',
+              variant: NOTISTACK_VARIANTS?.SUCCESS,
             },
           );
           onCloseHandler();
         } catch (error: any) {
           const errMsg = error?.data?.message;
-          enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+          const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+          enqueueSnackbar(errMessage ?? 'Error occurred', {
+            variant: NOTISTACK_VARIANTS?.ERROR,
+          });
         }
       }
     } catch (error) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 

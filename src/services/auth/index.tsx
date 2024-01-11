@@ -31,6 +31,13 @@ export const authAPI = baseAPI.injectEndpoints({
         body: user,
       }),
     }),
+    changePassword: builder.mutation({
+      query: (payload: any) => ({
+        url: END_POINTS?.CHANGE_PASSWORD,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
 
     authCompanyVerification: builder.mutation({
       query: ({ email }: any) => ({
@@ -97,4 +104,5 @@ export const {
   usePostAuthAccountSelectMutation,
   useGetAuthMyAccountQuery,
   useAuthCompanyVerificationMutation,
+  useChangePasswordMutation,
 } = authAPI;
