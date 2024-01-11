@@ -8,6 +8,7 @@ import {
   Divider,
   Tab,
   Modal,
+  TextField,
 } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -45,7 +46,9 @@ import { LogoImage } from '@/assets/images';
 
 const InnerTab = ({ dynamicFields, deleteField }: any) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [EmailField, setEmailField] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [value, setValue] = useState('laptop');
   const router = useRouter();
   const theme = useTheme<Theme>();
   const dynamicallyFormForm = useForm({
@@ -54,11 +57,7 @@ const InnerTab = ({ dynamicFields, deleteField }: any) => {
   });
 
   const onSubmit = async () => {};
-
   const { handleSubmit } = dynamicallyFormForm;
-
-  const [value, setValue] = useState('laptop');
-
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -99,11 +98,93 @@ const InnerTab = ({ dynamicFields, deleteField }: any) => {
             variant="contained"
             className="small"
             sx={{ marginLeft: '15px' }}
+            onClick={() =>
+              EmailField
+                ? router?.push(AIR_MARKETER.EMAIL_TEMPLATES)
+                : setEmailField(true)
+            }
           >
-            Save
+            Save {EmailField && 'and Send'}
           </Button>
         </Grid>
       </Grid>
+      {EmailField && (
+        <Grid container>
+          <Grid item xs={12} md={4} lg={6}>
+            <Typography>From:</Typography>
+            <TextField
+              placeholder="example@email.com"
+              fullWidth
+              sx={{
+                marginBottom: '10px',
+                '& input': {
+                  height: '11px',
+                },
+              }}
+              label=""
+            />
+          </Grid>
+          <Grid item xs={12} md={4} lg={6}></Grid>
+          <Grid item xs={12} md={4} lg={6}>
+            <Typography>To:</Typography>
+            <TextField
+              placeholder="example@email.com"
+              fullWidth
+              sx={{
+                marginBottom: '10px',
+                '& input': {
+                  height: '11px',
+                },
+              }}
+              label=""
+            />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={4}
+            lg={6}
+            display={'flex'}
+            justifyContent={'end'}
+            alignItems={'center'}
+          >
+            <Button
+              variant="outlined"
+              sx={{
+                color: theme?.palette?.custom?.main,
+                border: `1px solid ${theme?.palette?.custom?.dark}`,
+              }}
+            >
+              BCC{' '}
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{
+                marginLeft: '15px',
+                color: theme?.palette?.custom?.main,
+                border: `1px solid ${theme?.palette?.custom?.dark}`,
+              }}
+            >
+              CC
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={4} lg={6}>
+            <Typography>Subjct:</Typography>
+            <TextField
+              placeholder="Subjct"
+              fullWidth
+              sx={{
+                marginBottom: '10px',
+                '& input': {
+                  height: '11px',
+                },
+              }}
+              label=""
+            />
+          </Grid>
+          <Grid item xs={12} md={4} lg={6}></Grid>
+        </Grid>
+      )}
       {isNullOrEmpty(dynamicFields) && (
         <Box
           sx={{

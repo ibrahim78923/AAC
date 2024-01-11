@@ -117,14 +117,27 @@ const EmailTemplates = () => {
                       'aria-labelledby': 'basic-button',
                     }}
                   >
-                    <MenuItem>Edit</MenuItem>
+                    <MenuItem
+                      onClick={() =>
+                        router.push(`${AIR_MARKETER?.CREATE_EMAIL_TEMPLATES}`)
+                      }
+                    >
+                      Edit
+                    </MenuItem>
 
                     <MenuItem sx={{ color: 'red' }}>Delete</MenuItem>
                   </Menu>
                 </Stack>
               </CardContent>
               <CardActions>
-                <Button className="small" fullWidth variant="contained">
+                <Button
+                  className="small"
+                  fullWidth
+                  variant="contained"
+                  onClick={() =>
+                    router.push(`${AIR_MARKETER?.CREATE_EMAIL_TEMPLATES}`)
+                  }
+                >
                   <Typography variant="body3" fontWeight={400}>
                     Use this Template
                   </Typography>
