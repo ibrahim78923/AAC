@@ -86,7 +86,7 @@ export const inventoryAPI = baseAPI?.injectEndpoints({
     }),
     getUsersDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_LOCATION}`,
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
         method: 'GET',
         params,
       }),

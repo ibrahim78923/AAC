@@ -118,6 +118,7 @@ export const useInventory = () => {
         setIsDrawerOpen={setHasInventoryAction}
         setInventoryFilterLists={setInventoryFilterLists}
         inventoryFilterLists={inventoryFilterLists}
+        setPage={setPage}
       />
     ),
     [INVENTORY_LIST_ACTIONS?.CUSTOMIZE_COLUMN]: (
