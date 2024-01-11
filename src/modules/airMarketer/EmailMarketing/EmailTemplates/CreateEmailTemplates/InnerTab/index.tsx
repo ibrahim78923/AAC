@@ -7,6 +7,7 @@ import {
   Theme,
   Divider,
   Tab,
+  Modal,
 } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -21,19 +22,26 @@ import {
 import { useState } from 'react';
 import {
   BackArrowIcon,
+  CloseDrawerIcon,
   DeleteIcon,
   DragSharedIcon,
+  FacebookTemplateIcon,
+  InstagramTemplateIcon,
   LaptopIcon,
   LaptopWhiteIcon,
+  LinkedinTemplateIcon,
   MobileTabIcon,
   MobileWhiteIcon,
+  TwitterTemplateIcon,
 } from '@/assets/icons';
 import { isNullOrEmpty } from '@/utils';
 
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { useRouter } from 'next/router';
-import CommonModal from '@/components/CommonModal';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
+import Link from 'next/link';
+import Image from 'next/image';
+import { LogoImage } from '@/assets/images';
 
 const InnerTab = ({ dynamicFields, deleteField }: any) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -176,15 +184,36 @@ const InnerTab = ({ dynamicFields, deleteField }: any) => {
         </Grid>
       </FormProvider>
 
-      <CommonModal
+      <Modal
         open={openModal}
-        handleClose={() => setOpenModal(false)}
-        handleCancel={() => setOpenModal(false)}
-        handleSubmit={() => setOpenModal(false)}
-        title="Preview"
+        onClose={() => setOpenModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{
+          backgroundColor: '#00000038 !important',
+        }}
       >
-        <Box sx={{ margin: '20px 0' }}>
-          <Typography>Your Preview will appear here</Typography>
+        <Box sx={styles?.parentBox}>
+          <Box
+            sx={{
+              marginBottom: '20px',
+              display: 'flex',
+              gap: 1,
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Box>
+              <Typography variant="h5">Preview</Typography>
+              <Typography>Your Preview will appear here</Typography>
+            </Box>
+            <Box
+              onClick={() => setOpenModal(false)}
+              sx={{ width: '30px', height: '40px', cursor: 'pointer' }}
+            >
+              <CloseDrawerIcon />
+            </Box>
+          </Box>
 
           <TabContext value={value}>
             <Box>
@@ -196,6 +225,8 @@ const InnerTab = ({ dynamicFields, deleteField }: any) => {
                   backgroundColor: '#8DFAEA1F',
                   borderRadius: '7px',
                   border: '1px solid #E9EBF0',
+                  margin: 'auto',
+                  marginBottom: '10px',
                 }}
               >
                 <Tab
@@ -226,73 +257,408 @@ const InnerTab = ({ dynamicFields, deleteField }: any) => {
               </TabList>
             </Box>
             <TabPanel value="laptop">
-              <Typography
-                variant="body3"
-                sx={{ display: 'block', marginY: '20px' }}
-              >
-                Welcome friend, thank the reader for signing up to your
-                newsletter and welcome them on board, Below your introduction,
-                add a few links to some popular pages or posts on your website
-                to give the reader an idea of what’s to come.
-              </Typography>
-              <Typography
-                variant="body3"
-                sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
-              >
-                1- Showcase your best stories
-              </Typography>
-              <Typography
-                variant="body3"
-                sx={{
-                  color: theme?.palette?.custom?.cadet_color,
-                  display: 'block',
-                }}
-              >
-                Give an overview of an existing blog post or a popular story
-                from a previousNewsletter. Be sure to add link so the reader can
-                learn more.
-              </Typography>
+              <Box sx={{ padding: '20px' }}>
+                <Box
+                  display={'flex'}
+                  alignItems={'center'}
+                  sx={{ marginBottom: '15px' }}
+                >
+                  <Image
+                    src={LogoImage}
+                    alt="logo"
+                    style={{
+                      marginRight: '15px',
+                      borderRadius: '25px',
+                      border: '1px solid black',
+                    }}
+                  />
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        color: theme?.palette?.custom?.text_slate_blue,
+                        fontWeight: '700',
+                      }}
+                    >
+                      NatureFreek
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: theme?.palette?.custom?.main,
+                        fontWeight: '500',
+                      }}
+                    >
+                      5 min
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ padding: '20px', backgroundColor: '#F9FAFB' }}>
+                  <Typography
+                    variant="body3"
+                    sx={{ display: 'block', marginBottom: '15px' }}
+                  >
+                    Welcome friend, thank the reader for signing up to your
+                    newsletter and welcome them on board, Below your
+                    introduction, add a few links to some popular pages or posts
+                    on your website to give the reader an idea of what’s to
+                    come.
+                  </Typography>
+                  <Typography
+                    variant="body3"
+                    sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
+                  >
+                    1- Showcase your best stories
+                  </Typography>
+                  <Typography
+                    variant="body3"
+                    sx={{
+                      color: theme?.palette?.custom?.cadet_color,
+                      display: 'block',
+                    }}
+                  >
+                    Give an overview of an existing blog post or a popular story
+                    from a previousNewsletter. Be sure to add link so the reader
+                    can learn more.
+                  </Typography>
 
-              <Typography
-                variant="body3"
-                sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
-              >
-                2- Showcase your best stories
-              </Typography>
-              <Typography
-                variant="body3"
-                sx={{
-                  color: theme?.palette?.custom?.cadet_color,
-                  display: 'block',
-                }}
-              >
-                Give an overview of an existing blog post or a popular story
-                from a previousNewsletter. Be sure to add link so the reader can
-                learn more.
-              </Typography>
+                  <Typography
+                    variant="body3"
+                    sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
+                  >
+                    2- Showcase your best stories
+                  </Typography>
+                  <Typography
+                    variant="body3"
+                    sx={{
+                      color: theme?.palette?.custom?.cadet_color,
+                      display: 'block',
+                    }}
+                  >
+                    Give an overview of an existing blog post or a popular story
+                    from a previousNewsletter. Be sure to add link so the reader
+                    can learn more.
+                  </Typography>
 
-              <Typography
-                variant="body3"
-                sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
-              >
-                3- Showcase your best stories
-              </Typography>
-              <Typography
-                variant="body3"
-                sx={{
-                  color: theme?.palette?.custom?.cadet_color,
-                  display: 'block',
-                }}
-              >
-                Give an overview of an existing blog post or a popular story
-                from a previousNewsletter. Be sure to add link so the reader can
-                learn more.
-              </Typography>
+                  <Typography
+                    variant="body3"
+                    sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
+                  >
+                    3- Showcase your best stories
+                  </Typography>
+                  <Typography
+                    variant="body3"
+                    sx={{
+                      color: theme?.palette?.custom?.cadet_color,
+                      display: 'block',
+                    }}
+                  >
+                    Give an overview of an existing blog post or a popular story
+                    from a previousNewsletter. Be sure to add link so the reader
+                    can learn more.
+                  </Typography>
+
+                  <Typography
+                    variant="body3"
+                    sx={{
+                      color: theme?.palette?.blue?.main,
+                      display: 'block',
+                      marginY: '15px',
+                    }}
+                  >
+                    Welcome friend, thank the reader for signing up to your
+                    newsletter and welcome them on board, Below your
+                    introduction, add a few links.
+                  </Typography>
+                  <Typography variant="body3">
+                    {' '}
+                    Go to my account{' '}
+                    <Link href="/" style={{ color: '#D1D5DB' }}>
+                      Wellness.thyrocare.com
+                    </Link>
+                  </Typography>
+                  <Divider
+                    sx={{ border: '1px solid #000000', marginY: '15px' }}
+                  />
+                  <Image src={LogoImage} alt="logo" />
+                  <Typography
+                    variant="body2"
+                    sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
+                  >
+                    Thanks,
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
+                  >
+                    Best Regards,
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
+                  >
+                    Hycholic.ltd
+                  </Typography>
+                  <Box
+                    display={'flex'}
+                    alignItems={'center'}
+                    sx={{ marginTop: '10px' }}
+                  >
+                    <Box
+                      display={'flex'}
+                      justifyContent={'center'}
+                      alignItems={'center'}
+                      sx={{
+                        backgroundColor: theme?.palette?.primary?.main,
+                        borderRadius: '20px',
+                        padding: '5px',
+                        width: '24px',
+                        height: '24px',
+                      }}
+                    >
+                      <FacebookTemplateIcon />
+                    </Box>
+                    <Box
+                      display={'flex'}
+                      justifyContent={'center'}
+                      alignItems={'center'}
+                      sx={{
+                        backgroundColor: theme?.palette?.primary?.main,
+                        borderRadius: '20px',
+                        padding: '5px',
+                        width: '24px',
+                        height: '24px',
+                        marginLeft: '6px',
+                      }}
+                    >
+                      <InstagramTemplateIcon />
+                    </Box>
+                    <Box
+                      display={'flex'}
+                      justifyContent={'center'}
+                      alignItems={'center'}
+                      sx={{
+                        backgroundColor: theme?.palette?.primary?.main,
+                        borderRadius: '20px',
+                        padding: '5px',
+                        width: '24px',
+                        height: '24px',
+                        marginLeft: '6px',
+                      }}
+                    >
+                      <LinkedinTemplateIcon />
+                    </Box>
+                    <Box
+                      display={'flex'}
+                      justifyContent={'center'}
+                      alignItems={'center'}
+                      sx={{
+                        backgroundColor: theme?.palette?.primary?.main,
+                        borderRadius: '20px',
+                        padding: '5px',
+                        width: '24px',
+                        height: '24px',
+                        marginLeft: '6px',
+                      }}
+                    >
+                      <TwitterTemplateIcon />
+                    </Box>
+                  </Box>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Button variant="contained" className="small">
+                      Click here to continue
+                    </Button>{' '}
+                  </Box>
+                </Box>
+              </Box>
             </TabPanel>
-            <TabPanel value="mobile">Mobile</TabPanel>
+            <TabPanel value="mobile">
+              <Box
+                sx={{
+                  padding: '20px',
+                  width: '50%',
+                  margin: 'auto',
+                  border: '10px solid black',
+                  borderRadius: '20px',
+                }}
+              >
+                <Box
+                  display={'flex'}
+                  alignItems={'center'}
+                  sx={{ marginBottom: '15px' }}
+                >
+                  <Image
+                    src={LogoImage}
+                    alt="logo"
+                    style={{
+                      marginRight: '15px',
+                      borderRadius: '25px',
+                      border: '1px solid black',
+                    }}
+                  />
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        color: theme?.palette?.custom?.text_slate_blue,
+                        fontWeight: '700',
+                      }}
+                    >
+                      NatureFreek
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: theme?.palette?.custom?.main,
+                        fontWeight: '500',
+                      }}
+                    >
+                      5 min
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box>
+                  <Typography
+                    variant="body3"
+                    sx={{ display: 'block', marginBottom: '15px' }}
+                  >
+                    Welcome friend, thank the reader for signing up to your
+                    newsletter and welcome them on board, Below your
+                    introduction, add a few links to some popular pages or posts
+                    on your website to give the reader an idea of what’s to
+                    come.
+                  </Typography>
+                  <Typography
+                    variant="body3"
+                    sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
+                  >
+                    1- Showcase your best stories
+                  </Typography>
+                  <Typography
+                    variant="body3"
+                    sx={{
+                      color: theme?.palette?.custom?.cadet_color,
+                      display: 'block',
+                    }}
+                  >
+                    Give an overview of an existing blog post or a popular story
+                    from a previousNewsletter. Be sure to add link so the reader
+                    can learn more.
+                  </Typography>
+
+                  <Typography
+                    variant="body3"
+                    sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
+                  >
+                    2- Showcase your best stories
+                  </Typography>
+                  <Typography
+                    variant="body3"
+                    sx={{
+                      color: theme?.palette?.custom?.cadet_color,
+                      display: 'block',
+                    }}
+                  >
+                    Give an overview of an existing blog post or a popular story
+                    from a previousNewsletter. Be sure to add link so the reader
+                    can learn more.
+                  </Typography>
+
+                  <Image src={LogoImage} alt="logo" />
+                  <Typography
+                    variant="body2"
+                    sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
+                  >
+                    Thanks,
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
+                  >
+                    Best Regards,
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: theme?.palette?.blue?.main, display: 'block' }}
+                  >
+                    Hycholic.ltd
+                  </Typography>
+                  <Box
+                    display={'flex'}
+                    alignItems={'center'}
+                    sx={{ marginTop: '10px' }}
+                  >
+                    <Box
+                      display={'flex'}
+                      justifyContent={'center'}
+                      alignItems={'center'}
+                      sx={{
+                        backgroundColor: theme?.palette?.primary?.main,
+                        borderRadius: '20px',
+                        padding: '5px',
+                        width: '24px',
+                        height: '24px',
+                      }}
+                    >
+                      <FacebookTemplateIcon />
+                    </Box>
+                    <Box
+                      display={'flex'}
+                      justifyContent={'center'}
+                      alignItems={'center'}
+                      sx={{
+                        backgroundColor: theme?.palette?.primary?.main,
+                        borderRadius: '20px',
+                        padding: '5px',
+                        width: '24px',
+                        height: '24px',
+                        marginLeft: '6px',
+                      }}
+                    >
+                      <InstagramTemplateIcon />
+                    </Box>
+                    <Box
+                      display={'flex'}
+                      justifyContent={'center'}
+                      alignItems={'center'}
+                      sx={{
+                        backgroundColor: theme?.palette?.primary?.main,
+                        borderRadius: '20px',
+                        padding: '5px',
+                        width: '24px',
+                        height: '24px',
+                        marginLeft: '6px',
+                      }}
+                    >
+                      <LinkedinTemplateIcon />
+                    </Box>
+                    <Box
+                      display={'flex'}
+                      justifyContent={'center'}
+                      alignItems={'center'}
+                      sx={{
+                        backgroundColor: theme?.palette?.primary?.main,
+                        borderRadius: '20px',
+                        padding: '5px',
+                        width: '24px',
+                        height: '24px',
+                        marginLeft: '6px',
+                      }}
+                    >
+                      <TwitterTemplateIcon />
+                    </Box>
+                  </Box>
+                  <Box sx={{ textAlign: 'center', marginTop: '10px' }}>
+                    <Button variant="contained" className="small">
+                      Click here to continue
+                    </Button>{' '}
+                  </Box>
+                </Box>
+              </Box>
+            </TabPanel>
           </TabContext>
         </Box>
-      </CommonModal>
+      </Modal>
     </Box>
   );
 };

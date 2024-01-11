@@ -388,3 +388,7 @@ export { default as LaptopIcon } from './shared/laptop-icon-tab';
 export { default as MobileTabIcon } from './shared/mobile-icon-tab';
 export { default as LaptopWhiteIcon } from './shared/laptop-white-icon-tab';
 export { default as MobileWhiteIcon } from './shared/mobile-White-icon-tab';
+export { default as FacebookTemplateIcon } from './modules/airMarketer/CreateTemplate/facebook';
+export { default as InstagramTemplateIcon } from './modules/airMarketer/CreateTemplate/instagram';
+export { default as LinkedinTemplateIcon } from './modules/airMarketer/CreateTemplate/linkedin';
+export { default as TwitterTemplateIcon } from './modules/airMarketer/CreateTemplate/twitter';
