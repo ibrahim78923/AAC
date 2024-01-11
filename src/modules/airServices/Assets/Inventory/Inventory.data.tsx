@@ -74,11 +74,11 @@ export const assetLifeExpiryOptions = [
     label: TIME_PERIODS?.PREVIOUS_MONTH,
   },
   {
-    _id: TIME_PERIODS?.NEXT_WEEK,
+    _id: TIME_PERIODS?.PREVIOUS_WEEK,
     label: TIME_PERIODS?.NEXT_WEEK,
   },
   {
-    _id: TIME_PERIODS?.NEXT_MONTH,
+    _id: TIME_PERIODS?.PREVIOUS_MONTH,
     label: TIME_PERIODS?.NEXT_MONTH,
   },
 ];
