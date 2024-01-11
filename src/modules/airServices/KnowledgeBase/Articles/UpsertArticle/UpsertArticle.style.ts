@@ -24,11 +24,14 @@ export const styles = () => {
     formBtnWrapper: {
       width: '100%',
       display: 'flex',
-      justifyContent: 'flex-end',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flexWrap: 'wrap',
       gap: 2,
-      position: 'absolute',
+      position: { xs: 'relative', xl: 'absolute' },
       bottom: 0,
       right: 0,
+      pl: { xl: 2.4 },
     },
   };
 };

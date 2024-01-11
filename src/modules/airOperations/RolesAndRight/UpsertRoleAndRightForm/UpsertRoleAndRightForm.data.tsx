@@ -1,8 +1,15 @@
-import { RHFCheckbox, RHFEditor, RHFSelect } from '@/components/ReactHookForm';
+import {
+  RHFCheckbox,
+  RHFEditor,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
+import { ROLES_ACTION_CONSTANTS } from '@/constants/strings';
 import * as Yup from 'yup';
 
 export const rolesFormValidationSchema = Yup?.object()?.shape({
-  rolesName: Yup?.string()?.required('required'),
+  rolesId: Yup?.string()?.trim()?.notRequired(),
+  rolesName: Yup?.string()?.required('Required'),
   description: Yup?.string()?.nullable(),
   all: Yup?.string()?.trim()?.notRequired(),
   url: Yup?.string()?.trim()?.notRequired(),
@@ -16,6 +23,7 @@ export const rolesFormValidationSchema = Yup?.object()?.shape({
 
 export const rolesFormDefaultValues = {
   rolesName: '',
+  rolesId: '',
   description: '',
   all: '',
   url: '',
@@ -38,6 +46,20 @@ export const rolesUserDropdown = [
 ];
 export const upsertRolesData = [
   {
+    id: 15747,
+    componentProps: {
+      name: 'rolesId',
+      label: 'Id',
+      fullWidth: true,
+      disabled: true,
+      placeholder: '123',
+    },
+
+    component: RHFTextField,
+    visible: (actionType: any) => actionType === ROLES_ACTION_CONSTANTS?.EDIT,
+    md: 12,
+  },
+  {
     id: 1,
     component: RHFSelect,
     gridLength: 6,
@@ -49,7 +71,7 @@ export const upsertRolesData = [
       required: true,
     },
     options: rolesUserDropdown,
-    md: 12,
+    visible: () => true,
   },
   {
     id: 2,
@@ -62,7 +84,7 @@ export const upsertRolesData = [
     },
     component: RHFEditor,
     md: 12,
-    mb: 2,
+    visible: () => true,
   },
 ];
 

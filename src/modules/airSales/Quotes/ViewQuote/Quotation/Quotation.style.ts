@@ -1,6 +1,6 @@
 export const styles = {
   box: (theme: any) => ({
-    border: `1px solid ${theme.palette.grey[700]}`,
+    border: `1px solid ${theme?.palette?.grey[700]}`,
     borderRadius: '8px',
     padding: '12px',
     mt: '16px',
@@ -12,12 +12,12 @@ export const styles = {
     mb: '10px',
   }),
   bHead: (theme: any) => ({
-    color: theme.palette.blue.dull_blue,
+    color: theme?.palette?.blue?.dull_blue,
     fontSize: '14px',
     fontWeight: '500',
   }),
   bCell: (theme: any) => ({
-    color: theme.palette.custom.main,
+    color: theme?.palette?.custom?.main,
     fontSize: '14px',
     fontWeight: '400',
   }),
@@ -58,9 +58,9 @@ export const styles = {
     fontSize: '12px',
     fontWeight: '400',
     lineHeight: '1.5',
-    color: theme.palette.blue.dull_blue,
+    color: theme?.palette?.blue?.dull_blue,
     width: '130px',
     pt: '4px',
-    borderTop: `1px solid ${theme.palette.grey[700]}`,
+    borderTop: `1px solid ${theme?.palette?.grey[700]}`,
   }),
 };

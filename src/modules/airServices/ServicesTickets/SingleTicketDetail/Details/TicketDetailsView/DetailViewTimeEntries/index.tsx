@@ -5,9 +5,16 @@ import { Button } from '@mui/material';
 import { CirclePlusIcon, ViewDetailVuesaxIcon } from '@/assets/icons';
 import { styles } from './DetailViewTimeEntries.style';
 import { DetailTicketDrawer } from './DetailTicketDrawer';
+import Image from 'next/image';
+import { VuesaxErrorImage } from '@/assets/images';
 
 const DetailViewTimeEntries = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [isIconVisible, setIsIconVisible] = useState(true);
+
+  const toggleView = () => {
+    setIsIconVisible(!isIconVisible);
+  };
   return (
     <>
       <Box borderRadius={2} border={1} borderColor={'custom.off_white_three'}>
@@ -23,8 +30,17 @@ const DetailViewTimeEntries = () => {
             </Typography>
           </Box>
           <Box sx={styles?.timeEnterInnerGrid}>
-            <Box sx={styles?.iconBoxStyling}>
-              <ViewDetailVuesaxIcon />
+            <Box sx={styles?.iconBoxStyling} onClick={toggleView}>
+              {isIconVisible ? (
+                <ViewDetailVuesaxIcon />
+              ) : (
+                <Image
+                  src={VuesaxErrorImage}
+                  alt={'VuesaxErrorImage'}
+                  height={24}
+                  width={24}
+                />
+              )}
             </Box>
             <Box sx={styles?.iconBoxTimerStyling}>
               <DetailTimePicker />

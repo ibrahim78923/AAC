@@ -94,7 +94,10 @@ export const ASSET_IMPACT = {
   MEDIUM: 'medium',
   HIGH: 'high',
 };
-
+export const TICKET_TYPE = {
+  INC: 'INC',
+  SR: 'SR',
+};
 export const ASSET_TYPE = {
   SERVICES: 'services',
   HARDWARE: 'hardware',
@@ -242,8 +245,8 @@ export const SETTINGS_ADD_ROLE = {
   DELETE: 'Delete',
 };
 export const REQUESTORS_STATUS = {
-  ACTIVE: 'Active',
-  INACTIVE: 'Inactive',
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
 };
 export const REQUESTORS_ASSIGNED_STATUS = {
   OPEN: 'Open',
@@ -265,6 +268,9 @@ export const ROLES_ACTION_CONSTANTS = {
   VIEW: 'View',
   DELETE: 'Delete',
   ADD_NEW_ROLE: 'Add New Role',
+  SAVE: 'Save',
+  ADD: 'Add',
+  VIEW_ID: 'Id',
 };
 export const ROLES_ACTION_CONSTANTS_DRAWER_ACTION = {
   ADD_ROLE: 'Add Roles',
@@ -293,6 +299,10 @@ export const ACTIONS_TYPES = {
   DELETE: 'delete',
   EDIT: 'edit',
   CLONE: 'clone',
+};
+export const AGENTS = {
+  INVITE_AGENT: 'Invite Agent',
+  UPDATE_AGENT: 'Update Agent',
 };
 export const SOFTWARE_USER_ACTIONS_TYPES = {
   ALLOCATE: 'Allocate',

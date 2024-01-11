@@ -11,6 +11,7 @@ export const SingleContractDetails = () => {
     setDeleteModalOpen,
     terminateModalOpen,
     setTerminateModalOpen,
+    handleDeleteBtn,
   } = useSingleContractDetails();
   return (
     <>
@@ -37,12 +38,12 @@ export const SingleContractDetails = () => {
           type="delete"
           open={deleteModalOpen}
           handleClose={() => setDeleteModalOpen(false)}
-          handleSubmitBtn={() => {
-            setDeleteModalOpen(false);
-            enqueueSnackbar('Contract deleted Successfully', {
-              variant: 'success',
-            });
-          }}
+          handleSubmitBtn={handleDeleteBtn}
+          // setDeleteModalOpen(false);
+          // enqueueSnackbar('Contract deleted Successfully', {
+          //   variant: 'success',
+          // });
+          // }
           message="Are you sure  want to delete this Contract ?"
         />
       )}

@@ -1,5 +1,4 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import { columns } from './Users.data';
 import useUserManagement from '../useUserManagement';
 import dayjs from 'dayjs';
@@ -7,17 +6,11 @@ import { DATE_FORMAT } from '@/constants';
 
 const Users = (props: any) => {
   const { checkedRows, setCheckedRows, filterValues, searchVal } = props;
-  const {
-    useGetUsersQuery,
-    handleUserSwitchChange,
-    pageLimit,
-    setPageLimit,
-    page,
-    setPage,
-  } = useUserManagement();
+  const { useGetUsersQuery, handleUserSwitchChange, pageLimit, setPageLimit } =
+    useUserManagement();
 
   const params = {
-    page: page,
+    page: checkedRows?.page,
     limit: pageLimit,
     role: 'ORG_ADMIN',
     search: searchVal ?? '',
@@ -28,10 +21,16 @@ const Users = (props: any) => {
       : undefined,
   };
   const { data, isLoading, isSuccess } = useGetUsersQuery(params);
+
+  const handleCheckboxChange = (val: any, rowId: string) => {
+    const recordId = val?.target?.checked ? rowId : null;
+    setCheckedRows({ ...checkedRows, selectedValue: recordId });
+  };
+
   const columnsProps = {
     handleUserSwitchChange: handleUserSwitchChange,
-    checkedRows: checkedRows,
-    setCheckedRows: setCheckedRows,
+    checkedRows: checkedRows?.selectedValue,
+    handleCheckboxChange: handleCheckboxChange,
   };
   const columnParams = columns(columnsProps);
 
@@ -41,8 +40,11 @@ const Users = (props: any) => {
         columns={columnParams}
         data={data?.data?.users}
         isPagination
-        onPageChange={(page: any) => setPage(page)}
-        setPage={setPage}
+        onPageChange={(page: any) => {
+          setPageLimit(data?.data?.meta?.limit);
+          setCheckedRows({ ...checkedRows, page: page });
+        }}
+        setPage={setCheckedRows?.page}
         setPageLimit={setPageLimit}
         count={data?.data?.meta?.pages}
         pageLimit={data?.data?.meta?.limit}

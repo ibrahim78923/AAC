@@ -9,6 +9,8 @@ function path(root: string, sublink: string) {
 const AUTH_ROOT_PAGE = '/auth';
 const DASHBOARD_ROOT_PAGE = '/dashboard';
 const SOCIAL_ROOT_PAGE = '/social-components';
+const AIR_SOCIAL_PAGE = '/air-social';
+const AIR_SALES_PAGE = '/air-sales';
 
 // ======================================================================
 
@@ -53,12 +55,26 @@ export const SOCIAL_FEATURES = {
   calls: path(SOCIAL_ROOT_PAGE, '/calling/call'),
 };
 
+export const AIR_SOCIAL = {
+  CONTACTS: `${AIR_SOCIAL_PAGE}/contacts`,
+  CONTACTS_VIEW_DETAILS: `${AIR_SOCIAL_PAGE}/contacts/view-details`,
+  CONTACTS_RESTORE: `${AIR_SOCIAL_PAGE}/contacts/restore`,
+  CONTACTS_IMPORT: `${AIR_SOCIAL_PAGE}/contacts/import`,
+};
+
 export const AIR_SALES = {
+  root: AIR_SALES_PAGE,
+  QUOTES: path(AIR_SALES_PAGE, '/quotes'),
+  CREATE_QUOTES: path(AIR_SALES_PAGE, '/quotes/create-quote'),
+  UPDATE_QUOTE: path(AIR_SALES_PAGE, '/quotes/update-quote'),
+  VIEW_QUOTE: path(AIR_SALES_PAGE, '/quotes/view-quote'),
   SALES_INVOICES: '/air-sales/invoices',
   SALES_VIEW_INVOICES: '/air-sales/invoices/view-invoices',
   SALES_CREATE_INVOICES: '/air-sales/invoices/create-invoices',
-  DEAL: ' /air-sales/deals',
+  DEAL: '/air-sales/deals',
   CONTACTS: '/air-sales/contacts/view-details',
+  VIEW_DETAILS: '/air-sales/deals/view-details',
+  DEAL_LIST_VIEW: '/deals/get-deals-list-view',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
@@ -94,6 +110,10 @@ export const AIR_MARKETER = {
   ),
   EMAIL_MARKETING: path(AIR_MARKETING_PAGE, '/email-marketing'),
   EMAIL_TEMPLATES: path(AIR_MARKETING_PAGE, '/email-marketing/email-templates'),
+  CREATE_EMAIL_TEMPLATES: path(
+    AIR_MARKETING_PAGE,
+    '/email-marketing/email-templates/create-template',
+  ),
   EMAIL_FOLDER: path(AIR_MARKETING_PAGE, '/email-marketing/email-folder'),
   EMAIL_REPORTS: path(AIR_MARKETING_PAGE, '/email-marketing/email-reports'),
   SOCIAL_MARKETING: path(AIR_MARKETING_PAGE, '/social-marketing'),

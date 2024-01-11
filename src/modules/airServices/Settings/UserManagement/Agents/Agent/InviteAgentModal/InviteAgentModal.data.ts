@@ -1,34 +1,38 @@
 import * as yup from 'yup';
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { timeZone } from '@/constants/time-zone';
+import { AGENTS } from '@/constants/strings';
 
-export const departmentData = [
-  'The Designer Team',
-  'Developers Team',
-  'Handlers',
-];
-export const roleData = ['Account Admin', 'Department Head', 'HR Admin'];
+export const roleData = ['ORG_AGENT'];
 
 export const validationSchemaAgentFields: any = yup?.object()?.shape({
-  firstName: yup?.string(),
-  lastName: yup?.string(),
-  email: yup?.string(),
-  phoneNumber: yup?.string(),
-  department: yup?.string()?.required('Required field!'),
-  role: yup?.string(),
-  timezone: yup?.string(),
+  firstName: yup?.string()?.required('Required'),
+  lastName: yup?.string()?.required('Required'),
+  email: yup?.string()?.required('Required'),
+  phoneNumber: yup?.string()?.required('Required'),
+  departmentId: yup?.string()?.required('Required'),
+  role: yup?.string()?.required('Required'),
+  timezone: yup?.string()?.required('Required'),
 });
 
-export const defaultValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  department: '',
-  role: '',
-  timezone: '',
+export const defaultValues = (selectedAgentList: any) => {
+  const updateData = selectedAgentList[0];
+
+  return {
+    firstName: updateData?.firstName ?? '',
+    lastName: updateData?.lastName ?? '',
+    email: updateData?.email ?? '',
+    phoneNumber: updateData?.phoneNumber ?? '',
+    departmentId: updateData?.departmentData?.name ?? '',
+    role: updateData?.role ?? '',
+    timezone: updateData?.timezone ?? '',
+  };
 };
 
-export const agentFieldsData = [
+export const agentFieldsData = (
+  editAgentModalTitle: any,
+  departmentData: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -36,6 +40,7 @@ export const agentFieldsData = [
       fullWidth: true,
       placeholder: 'First Name',
       label: 'First Name',
+      required: true,
     },
     gridLength: 5.6,
     component: RHFTextField,
@@ -47,6 +52,7 @@ export const agentFieldsData = [
       fullWidth: true,
       placeholder: 'Last Name',
       label: 'Last Name',
+      required: true,
     },
     gridLength: 5.6,
     component: RHFTextField,
@@ -56,8 +62,10 @@ export const agentFieldsData = [
     componentProps: {
       name: 'email',
       fullWidth: true,
+      disabled: editAgentModalTitle === AGENTS?.UPDATE_AGENT,
       placeholder: 'Email',
       label: 'Email',
+      required: true,
     },
     gridLength: 12,
     component: RHFTextField,
@@ -69,6 +77,7 @@ export const agentFieldsData = [
       fullWidth: true,
       placeholder: 'Phone Number',
       label: 'Phone Number',
+      required: true,
     },
     gridLength: 12,
     component: RHFTextField,
@@ -77,10 +86,10 @@ export const agentFieldsData = [
     id: 5,
     componentProps: {
       fullWidth: true,
-      name: 'department',
+      name: 'departmentId',
       label: 'Department',
       placeholder: 'Select Department',
-      options: departmentData,
+      options: departmentData?.map((item: any) => item?.name),
       required: true,
     },
     gridLength: 12,
@@ -94,6 +103,7 @@ export const agentFieldsData = [
       label: 'Role',
       placeholder: 'Select Role',
       options: roleData,
+      required: true,
     },
     gridLength: 12,
     component: RHFAutocomplete,
@@ -102,11 +112,11 @@ export const agentFieldsData = [
     id: 7,
     componentProps: {
       fullWidth: true,
-      name: 'timeZone',
+      name: 'timezone',
       label: 'Time Zone',
       placeholder: 'Select Time Zone',
-      options: timeZone,
-      getOptionLabel: (option: any) => option?.label,
+      required: true,
+      options: timeZone?.map((timeZone) => timeZone?.label),
     },
     gridLength: 12,
     component: RHFAutocomplete,

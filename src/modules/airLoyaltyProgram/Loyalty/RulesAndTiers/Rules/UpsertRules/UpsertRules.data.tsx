@@ -36,20 +36,28 @@ export const upsertRulesFormValidationSchema = Yup?.object()?.shape(
   {
     attribute: Yup?.string(),
     description: Yup?.string()?.trim()?.max(100, 'maximum 100 characters only'),
-    discount: Yup?.string()?.when(['attribute', 'awardPoints'], {
-      is: (attribute: any, awardPoints: any) =>
-        !validationAttributes?.includes(attribute) && awardPoints === '',
-      then: (schema: any) =>
-        schema?.required('Either discount or award point or both are required'),
-      otherwise: (schema) => schema?.notRequired(),
-    }),
-    awardPoints: Yup?.string()?.when(['attribute', 'discount'], {
-      is: (attribute: any, discount: any) =>
-        !validationAttributes?.includes(attribute) && discount === '',
-      then: (schema: any) =>
-        schema?.required('Either discount or award point or both are required'),
-      otherwise: (schema) => schema?.notRequired(),
-    }),
+    discount: Yup?.string()
+      ?.nullable()
+      ?.when(['attribute', 'awardPoints'], {
+        is: (attribute: any, awardPoints: any) =>
+          !validationAttributes?.includes(attribute) && awardPoints === '',
+        // then: (schema: any) =>
+        //   schema?.required(
+        //     'Either discount or award point or both are required',
+        //   ),
+        otherwise: (schema) => schema?.notRequired(),
+      }),
+    awardPoints: Yup?.string()
+      ?.nullable()
+      ?.when(['attribute', 'discount'], {
+        is: (attribute: any, discount: any) =>
+          !validationAttributes?.includes(attribute) && discount === '',
+        // then: (schema: any) =>
+        //   schema?.required(
+        //     'Either discount or award point or both are required',
+        //   ),
+        otherwise: (schema) => schema?.notRequired(),
+      }),
     percentageOff: Yup?.string()?.when(['attribute', 'flatOff'], {
       is: (attribute: any, flatOff: any) =>
         attribute === RULES_ATTRIBUTES?.MONEY_OFF && flatOff === '',
@@ -116,7 +124,7 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
     componentProps: {
       name: 'percentageOff',
       label: 'Percentage Off',
-      placeholder: '',
+      placeholder: 'Enter percentage off',
       onChange: (e: any) => onChangeCustom?.(e, 'percentageOff', 'flatOff'),
     },
     attributeType: [RULES_ATTRIBUTES?.MONEY_OFF],
@@ -128,7 +136,7 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
     componentProps: {
       name: 'flatOff',
       label: 'Flat off (on entire purchase)',
-      placeholder: '',
+      placeholder: 'Enter flat off',
       onChange: (e: any) => onChangeCustom?.(e, 'flatOff', 'percentageOff'),
     },
     attributeType: [RULES_ATTRIBUTES?.MONEY_OFF],
@@ -153,7 +161,7 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
       label: RULES_ATTRIBUTES?.FREE_SHIPPING
         ? 'Add purchase amount'
         : 'Add Amount',
-      placeholder: 'operator',
+      placeholder: 'Enter operator',
       options: amountOperatorOption,
     },
     attributeType: [
@@ -171,7 +179,7 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
     componentProps: {
       name: 'amount',
       label: '\u00a0\u00a0',
-      placeholder: '00',
+      placeholder: 'Enter amount',
       type: 'number',
     },
     attributeType: [
@@ -188,7 +196,7 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
     componentProps: {
       name: 'shippingFee',
       label: 'Shipping fee',
-      placeholder: '',
+      placeholder: 'Enter shipping fee',
     },
     attributeType: [RULES_ATTRIBUTES?.FREE_SHIPPING],
     component: RHFTextField,
@@ -210,7 +218,7 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
     componentProps: {
       name: 'discount',
       label: 'Give discount',
-      placeholder: '',
+      placeholder: 'Enter discount',
       onChange: (e: any) => onChangeCustom?.(e, 'discount', 'awardPoints'),
     },
     attributeType: [
@@ -229,7 +237,7 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
     componentProps: {
       name: 'awardPoints',
       label: 'Award points',
-      placeholder: '',
+      placeholder: 'Enter award points',
       onChange: (e: any) => onChangeCustom?.(e, 'awardPoints', 'discount'),
     },
     attributeType: [
@@ -268,7 +276,7 @@ export const upsertRulesFormFieldsDynamic = (onChangeCustom: any) => [
     componentProps: {
       name: 'description',
       label: 'Description',
-      placeholder: 'Placeholder',
+      placeholder: 'Enter description',
       multiline: true,
       minRows: 4,
     },

@@ -2,6 +2,9 @@ export const DATE_FORMAT = {
   UI: 'MM/DD/YYYY',
   API: 'YYYY-MM-DD',
 };
+export const DATE_MONTH_FORMAT = {
+  API: 'MMM DD',
+};
 export const TIME_FORMAT = {
   UI: 'h:mm A',
   API: 'h:mm A',
@@ -15,6 +18,14 @@ export const CALENDAR_FORMAT = {
 
 export const DATE_TIME_FORMAT = {
   UI: 'dddd, MMMM D, YYYY - HH:mm',
+  DMYhmma: 'D MMMM, YYYY - h:mm A',
+};
+
+export const VALIDATION_CONSTANT = {
+  PHONE_NUMBER: {
+    regex: /^\+44[0-9]{10}$/,
+    message: 'Only UK phone number',
+  },
 };
 
 export const SUPER_ADMIN: any = {
@@ -108,6 +119,10 @@ export const AIR_CUSTOMER_PORTAL = {
   SINGLE_CATALOG_SERVICE_DETAILS: `/air-customer-portal/catalog/detail`,
   CATALOG_SERVICES: '/air-customer-portal/catalog',
   NON_REGISTER_DASHBOARD: '/air-customer-portal/non-register-dashboard',
+  KNOWLEDGE_BASE_TICKET_DETAIL:
+    '/air-customer-portal/knowledge-base/knowledge-base-detail/knowledge-base-ticket-detail',
+  CUSTOMER_PORTAL_DASHBOARD: '/air-customer-portal',
+  APPROVALS: '/air-customer-portal/catalog/approvals',
 };
 
 export const ORG_ADMIN: any = {

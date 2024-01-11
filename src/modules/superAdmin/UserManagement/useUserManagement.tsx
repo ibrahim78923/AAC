@@ -24,7 +24,10 @@ const useUserManagement = () => {
   });
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   const [userType, setUserType] = useState();
-  const [checkedRows, setCheckedRows] = useState<any>();
+  const [selectedRow, setSelectedRow] = useState<any>({
+    page: PAGINATION?.CURRENT_PAGE,
+    selectedValue: null,
+  });
   const [selectedValue, setSelectedValue] = useState(null);
   const [tabVal, setTabVal] = useState<number>(0);
   const [searchVal, setSearchVal] = useState('');
@@ -35,7 +38,6 @@ const useUserManagement = () => {
     organization: '',
     createdDate: '',
   });
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const initialTab = 0;
   const tabOne = 1;
@@ -76,12 +78,21 @@ const useUserManagement = () => {
     setSelectedValue(null);
   };
 
-  const handleUserSwitchChange = (e: any, id: any) => {
-    const status = e?.target?.checked ? 'ACTIVE' : 'INACTIVE';
-    updateUsers({ id, body: { status: status } });
-    enqueueSnackbar('User updated successfully', {
-      variant: 'success',
-    });
+  const handleUserSwitchChange = async (e: any, id: any) => {
+    const status =
+      e?.target?.checked || e?.target?.value === 'ACTIVE'
+        ? 'ACTIVE'
+        : 'INACTIVE';
+    try {
+      await updateUsers({ id, body: { status: status } })?.unwrap();
+      enqueueSnackbar('User updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
   };
 
   const resetFilters = () => {
@@ -115,8 +126,8 @@ const useUserManagement = () => {
     useGetCompaniesCRNQuery,
     handleUserSwitchChange,
     useGetUsersByIdQuery,
-    checkedRows,
-    setCheckedRows,
+    selectedRow,
+    setSelectedRow,
     updateUsers,
     products,
     searchVal,
@@ -124,8 +135,6 @@ const useUserManagement = () => {
     resetFilters,
     pageLimit,
     setPageLimit,
-    page,
-    setPage,
     organizations,
     initialTab,
     tabTwo,

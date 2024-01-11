@@ -16,8 +16,9 @@ const FilterArticles = (props: any) => {
         setIsOpenFilterDrawer(false);
       }}
       submitHandler={submitHandler}
-      title={'Filter'}
+      title={'Filters'}
       okText={'Apply'}
+      cancelText="Reset"
       isOk={true}
       footer={true}
     >

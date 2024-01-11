@@ -9,6 +9,7 @@ import {
   Checkbox,
   Typography,
   Button,
+  useTheme,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -29,11 +30,10 @@ export default function MultiSearchableSelect({
   ...other
 }: any) {
   const [searchTerm, setSearchTerm] = useState('');
-
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
+  const theme = useTheme();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
@@ -175,10 +175,10 @@ export default function MultiSearchableSelect({
                   backgroundColor: isCheckBox
                     ? 'transparent'
                     : selectedValues?.includes(option?.value)
-                    ? '#e0e0e0'
+                    ? `${theme?.palette?.custom?.hex_grey}`
                     : 'transparent',
                   '&:hover': {
-                    backgroundColor: '#e0e0e0',
+                    backgroundColor: `${theme?.palette?.custom?.hex_grey}`,
                   },
                 }}
               >

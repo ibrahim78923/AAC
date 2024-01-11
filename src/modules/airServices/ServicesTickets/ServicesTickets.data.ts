@@ -2,6 +2,7 @@ import {
   TICKET_IMPACT,
   TICKET_PRIORITY,
   TICKET_STATUS,
+  TICKET_TYPE,
   TICKET_TYPES,
 } from '@/constants/strings';
 
@@ -23,7 +24,13 @@ export const ticketStatusOptions = [
     label: TICKET_STATUS?.CLOSED,
   },
 ];
-
+export const ticketDetailsStatusOptions = [
+  TICKET_STATUS?.OPEN,
+  TICKET_STATUS?.CLOSED,
+  TICKET_STATUS?.PENDING,
+  TICKET_STATUS?.RESOLVED,
+  TICKET_STATUS?.SPAM,
+];
 export const ticketPriorityOptions = [
   TICKET_PRIORITY?.LOW,
   TICKET_PRIORITY?.MEDIUM,
@@ -36,7 +43,7 @@ export const ticketImpactOptions = [
   TICKET_IMPACT?.MEDIUM,
   TICKET_IMPACT?.HIGH,
 ];
-
+export const ticketTypeOptions = [TICKET_TYPE.INC, TICKET_TYPE.SR];
 export const ticketSourceOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
 
 //TODO: we will use if BE added these.

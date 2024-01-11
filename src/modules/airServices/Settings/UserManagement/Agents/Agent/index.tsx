@@ -2,12 +2,11 @@ import { FilterSharedIcon, PlusSharedColorIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { Box, Button } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { useAgent } from './useAgent';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { agentListData } from './Agent.data';
 import AgentFilter from './AgentFilter';
 import { InviteAgentModel } from './InviteAgentModal';
 import { AgentDeleteModal } from './AgentDeleteModal';
+import { useAgent } from './useAgent';
 
 const Agent = () => {
   const {
@@ -15,7 +14,6 @@ const Agent = () => {
     agentListsColumns,
     dropdownOptions,
     setSearchValue,
-    searchValue,
     deleteAgentProps,
     handleOpenDrawer,
     isAgentFilterDrawerOpen,
@@ -24,6 +22,16 @@ const Agent = () => {
     setEditAgentModalTitle,
     editAgentModalTitle,
     handleAddAgentModal,
+    processedAgentListData,
+    isFetching,
+    isSuccess,
+    isLoading,
+    setPageLimit,
+    setPage,
+    pageLimit,
+    metaData,
+    setSelectedAgentList,
+    setFilterAgentData,
   } = useAgent();
   return (
     <>
@@ -35,13 +43,7 @@ const Agent = () => {
         gap={1.5}
       >
         <Box>
-          <Search
-            value={searchValue}
-            label="search"
-            width="100%"
-            setSearchBy={setSearchValue}
-            onChange={(e: any) => setSearchValue(e?.target?.value)}
-          />
+          <Search label="Search Here" setSearchBy={setSearchValue} />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
           <Button
@@ -59,7 +61,10 @@ const Agent = () => {
           <Button
             variant="contained"
             startIcon={<PlusSharedColorIcon />}
-            onClick={() => handleAddAgentModal?.(true)}
+            onClick={() => {
+              handleAddAgentModal?.(true);
+              setSelectedAgentList([]);
+            }}
           >
             Invite Agents
           </Button>
@@ -67,9 +72,19 @@ const Agent = () => {
       </Box>
       <Box m={'0.5rem 0 0.5rem 0'}>
         <TanstackTable
-          data={agentListData}
+          data={processedAgentListData}
           columns={agentListsColumns}
           isPagination
+          isFetching={isFetching}
+          isSuccess={isSuccess}
+          isLoading={isLoading}
+          setPageLimit={setPageLimit}
+          setPage={setPage}
+          count={metaData?.pages}
+          totalRecords={metaData?.total}
+          onPageChange={(page: any) => setPage(page)}
+          currentPage={metaData?.page}
+          pageLimit={pageLimit}
         />
       </Box>
       <Box>
@@ -78,14 +93,17 @@ const Agent = () => {
           setEditAgentModalTitle={setEditAgentModalTitle}
           editAgentModalTitle={editAgentModalTitle}
           handleAddAgentModal={handleAddAgentModal}
+          selectedAgentList={selectedAgentList}
+          setSelectedAgentList={setSelectedAgentList}
         />
-        {deleteAgentProps?.openDeleteModel && (
+        {deleteAgentProps?.openDeleteModal && (
           <AgentDeleteModal deleteAgentProps={deleteAgentProps} />
         )}
       </Box>
       <AgentFilter
         isAgentFilterDrawerOpen={isAgentFilterDrawerOpen}
         setAgentFilterDrawerOpen={setAgentFilterDrawerOpen}
+        setFilterAgentData={setFilterAgentData}
       />
     </>
   );

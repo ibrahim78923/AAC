@@ -13,7 +13,7 @@ export const Header = ({ showButtons }: any) => {
     >
       <Box p={1}>
         <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
-          Gift cards
+          Gift Cards
         </Typography>
       </Box>
       {showButtons && (

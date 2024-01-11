@@ -7,10 +7,10 @@ export const styles = {
       borderRadius: '8px',
       p: '10px 16px',
       height: '44px',
-      border: `1.5px solid ${theme.palette.grey[700]}`,
+      border: `1.5px solid ${theme?.palette?.grey[700]}`,
       '&.selected': {
-        bgcolor: theme.palette.grey[100],
-        borderColor: theme.palette.grey[100],
+        bgcolor: theme?.palette?.grey[100],
+        borderColor: theme?.palette?.grey[100],
       },
     },
     '& .MuiListItemIcon-root': {

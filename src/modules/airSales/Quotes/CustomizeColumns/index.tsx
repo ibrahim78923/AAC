@@ -8,12 +8,16 @@ import {
 } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { DragSharedIcon } from '@/assets/icons';
-import useQuotes from '../useQuotes';
 import { styles } from './CustomizeColumns.style';
 
-const CustomizeColumns = ({ open, onClose, columns, onSubmit }: any) => {
-  const { colsChecked, handleToggleColumns } = useQuotes();
-
+const CustomizeColumns = ({
+  open,
+  onClose,
+  columns,
+  checkedColumns,
+  handleToggleColumns,
+  onSubmit,
+}: any) => {
   return (
     <CommonDrawer
       isDrawerOpen={open}
@@ -33,9 +37,11 @@ const CustomizeColumns = ({ open, onClose, columns, onSubmit }: any) => {
           return (
             <ListItem key={col?.id} disablePadding>
               <ListItemButton
-                className={colsChecked.indexOf(col.id) !== -1 ? 'selected' : ''}
+                className={
+                  checkedColumns?.indexOf(col?.id) !== -1 ? 'selected' : ''
+                }
                 role={undefined}
-                onClick={handleToggleColumns(col.id)}
+                onClick={handleToggleColumns(col?.id)}
                 dense
               >
                 <ListItemIcon>
@@ -44,7 +50,7 @@ const CustomizeColumns = ({ open, onClose, columns, onSubmit }: any) => {
                 <ListItemText primary={col?.header} />
                 <Checkbox
                   edge="start"
-                  checked={colsChecked.indexOf(col?.id) !== -1}
+                  checked={checkedColumns?.indexOf(col?.id) !== -1}
                   tabIndex={-1}
                   disableRipple
                 />

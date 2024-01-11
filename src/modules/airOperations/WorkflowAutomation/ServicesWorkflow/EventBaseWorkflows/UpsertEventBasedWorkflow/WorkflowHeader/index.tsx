@@ -41,14 +41,14 @@ export const WorkflowHeader = () => {
             variant="outlined"
             color="secondary"
           >
-            Save as Default
+            Save as Draft
           </LoadingButton>
           <LoadingButton
             startIcon={<WhiteBookIcon />}
             variant="contained"
             type="submit"
           >
-            {action === EDIT_WORKFLOW ? 'Edit' : 'Create'}
+            {action === EDIT_WORKFLOW ? 'Update' : 'Create'}
           </LoadingButton>
         </Box>
       </Box>

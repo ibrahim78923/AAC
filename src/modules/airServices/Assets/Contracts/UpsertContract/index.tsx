@@ -1,7 +1,6 @@
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useUpsertContract } from './useUpsertContract';
 import { Box, Grid } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
 
 export const UpsertContract = () => {
@@ -42,17 +41,9 @@ export const UpsertContract = () => {
           >
             <Grid container spacing={4}>
               {upsertContractFormFieldsData?.map((item: any) => (
-                <Grid item xs={12} lg={item?.md} key={uuidv4()}>
+                <Grid item xs={12} lg={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.componentProps?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : item?.heading
-                      ? item?.heading
-                      : null}
+                    {item?.heading ? item?.heading : null}
                   </item.component>
                 </Grid>
               ))}
@@ -60,7 +51,7 @@ export const UpsertContract = () => {
           </Grid>
           <Grid item xs={12} md={0.5}></Grid>
           <Grid item xs={12} md={4} mt={{ xs: 1, md: 0 }} mb={1}>
-            <RHFDropZone name="attachment" />
+            <RHFDropZone name="attachFile" />
           </Grid>
         </Grid>
         <br />
