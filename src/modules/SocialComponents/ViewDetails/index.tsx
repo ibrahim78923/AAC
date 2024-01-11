@@ -34,7 +34,7 @@ const ViewDetails = () => {
   const theme = useTheme();
   const navigate = useRouter();
   const { query } = navigate;
-  const { data } = useGetCompaniesDetailsQuery({
+  const { data, isLoading } = useGetCompaniesDetailsQuery({
     Id: query?.id,
   });
 
@@ -252,7 +252,7 @@ const ViewDetails = () => {
         <Grid item xs={12}>
           <Box>
             <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
-              <Details data={data?.data} />
+              <Details data={data?.data} isLoading={isLoading} />
               <ActivityLog companyId={data?.data?._id} />
               <Associations />
               <Tasks />
