@@ -161,6 +161,7 @@ export const END_POINTS = {
   DROPDOWN_USERS: '/dropdown/all-users',
   ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
   DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
+  ASSETS_INVENTORY_DETAIL: '/assets/get-inventory-detail',
   CONTACT_NOTE: '/contact-note/note',
   ADD_CONTRACT: `/contract/add-contract`,
   EDIT_CONTRACT: `/contract/update`,
