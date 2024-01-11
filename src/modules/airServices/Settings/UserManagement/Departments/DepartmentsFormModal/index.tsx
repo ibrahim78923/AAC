@@ -5,19 +5,12 @@ import { departmentFormFields } from './DepartmentsFormModal.data';
 import { FormProvider } from '@/components/ReactHookForm';
 
 export const DepartmentsFormModal = (props: any) => {
-  const {
-    methods,
-    handleSubmit,
-    submitForm,
-    open,
-    handleClose,
-    formTitle,
-    usersList,
-  } = props;
+  const { methods, handleSubmit, open, handleClose, formTitle, userList } =
+    props;
   return (
     <Dialog
       open={open}
-      onClose={() => handleClose(false)}
+      onClose={handleClose}
       sx={{
         '& .MuiDialog-container': {
           '& .MuiPaper-root': {
@@ -32,17 +25,17 @@ export const DepartmentsFormModal = (props: any) => {
           <Box>
             <Typography variant="h4">{formTitle}</Typography>
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => handleClose(false)}>
+          <Box sx={{ cursor: 'pointer' }} onClick={handleClose}>
             <CloseIcon color="secondary" />
           </Box>
         </Box>
         <FormProvider
           style={{ marginTop: '1.5rem' }}
           methods={methods}
-          onSubmit={handleSubmit(submitForm)}
+          onSubmit={handleSubmit}
         >
           <Grid container spacing={2}>
-            {departmentFormFields(usersList)?.map((item: any) => (
+            {departmentFormFields(userList, userList)?.map((item: any) => (
               <Grid item key={item?.id} xs={12}>
                 {item?.heading ? (
                   <item.component {...item?.componentProps}>
@@ -55,11 +48,7 @@ export const DepartmentsFormModal = (props: any) => {
             ))}
           </Grid>
           <Grid item display={'flex'} mt={2} gap={1} justifyContent={'end'}>
-            <Button
-              variant="outlined"
-              color="inherit"
-              onClick={() => handleClose(false)}
-            >
+            <Button variant="outlined" color="inherit" onClick={handleClose}>
               Cancel
             </Button>
             <LoadingButton variant="contained" type="submit">
