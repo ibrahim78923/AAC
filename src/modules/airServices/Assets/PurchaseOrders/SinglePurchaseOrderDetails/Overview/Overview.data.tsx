@@ -2,21 +2,27 @@ import { Typography } from '@mui/material';
 
 export const overviewData = (purchaseOrderData: any) => [
   {
-    id: '1',
+    id: purchaseOrderData?._id,
     heading: 'Purchase Details',
     detailsData: [
-      { name: 'Vendor', detail: 'Dell' },
-      { name: 'Details', detail: purchaseOrderData?.orderName },
-      { name: 'Currency', detail: purchaseOrderData?.currency },
-      { name: 'Department', detail: '--' },
+      { name: 'Vendor', detail: 'Dell' ?? '---' },
+      { name: 'Details', detail: purchaseOrderData?.orderName ?? '---' },
+      { name: 'Currency', detail: purchaseOrderData?.currency ?? '---' },
+      {
+        name: 'Department',
+        detail: purchaseOrderData?.departmentDetails?.name ?? '---',
+      },
       {
         name: 'Expected delivery date',
-        detail: purchaseOrderData?.expectedDeliveryDate,
+        detail: purchaseOrderData?.expectedDeliveryDate ?? '---',
       },
-      { name: 'Location', detail: 'Street no 22' },
+      {
+        name: 'Location',
+        detail: purchaseOrderData?.locationDetails?.locationName ?? '---',
+      },
       {
         name: 'Terms and conditions',
-        detail: purchaseOrderData?.termAndCondition,
+        detail: purchaseOrderData?.termAndCondition ?? '---',
       },
     ],
   },
@@ -24,6 +30,7 @@ export const overviewData = (purchaseOrderData: any) => [
 
 export const overviewTableColumns: any = (
   setOpenOverviewModal: any,
+  purchaseOrderData: any,
   theme: any,
 ) => {
   return [
@@ -62,10 +69,10 @@ export const overviewTableColumns: any = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.total,
+      accessorFn: (row: any) => row?.subTotal,
       id: 'subTotal',
       header: 'Total ()',
-      cell: (info: any) => info?.getValue(),
+      cell: () => <Typography>{purchaseOrderData?.subTotal}</Typography>,
     },
     {
       accessorFn: (row: any) => row?.invoice,
@@ -82,15 +89,3 @@ export const overviewTableColumns: any = (
     },
   ];
 };
-// export const overviewListData: any = [
-//   {
-//     Id: 1,
-//     itemName: `Andrea`,
-//     description: 'Per Unit',
-//     costPerItem: '30',
-//     quantity: '2',
-//     taxRate: '0',
-//     total: '60',
-//     invoice: 'pdf',
-//   },
-// ];

@@ -6,6 +6,8 @@ const OverviewBilling = ({
   purchaseOrderDetailData,
   purchaseOrderData,
 }: any) => {
+  const purchaseOrderDetail = purchaseOrderDetailData?.[0];
+
   return (
     <Box
       sx={{
@@ -14,12 +16,11 @@ const OverviewBilling = ({
         flexDirection: 'column',
       }}
     >
-      {modalBillingData({ purchaseOrderDetailData, purchaseOrderData })?.map(
+      {modalBillingData({ purchaseOrderDetail, purchaseOrderData })?.map(
         (item: any) => {
           const totalItem = [
-            purchaseOrderDetailData?.[0]?.label,
-            purchaseOrderDetailData?.[purchaseOrderDetailData?.length - 1]
-              ?.label,
+            purchaseOrderDetail?.[0]?.label,
+            purchaseOrderDetail?.[purchaseOrderDetail?.length - 1]?.label,
           ];
           return (
             <Grid

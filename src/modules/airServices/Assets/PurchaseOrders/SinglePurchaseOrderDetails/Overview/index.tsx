@@ -50,7 +50,11 @@ export const Overview = () => {
         </Typography>
         <TanstackTable
           data={purchaseOrderDetailData}
-          columns={overviewTableColumns(setOpenOverviewModal, theme)}
+          columns={overviewTableColumns(
+            setOpenOverviewModal,
+            purchaseOrderData,
+            theme,
+          )}
         />
       </Box>
       <Box m={'1rem 3rem 0 0'}>
