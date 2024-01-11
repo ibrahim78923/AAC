@@ -101,12 +101,11 @@ export const useRequesters = () => {
       });
     }
     handleClose?.();
-   
   };
-  const handleClose=()=>{
+  const handleClose = () => {
     setIsDrawerOpen(false);
     reset?.();
-  }
+  };
   return {
     theme,
     isDrawerOpen,
@@ -134,6 +133,6 @@ export const useRequesters = () => {
     methods,
     handleSubmit,
     submit,
-    handleClose
+    handleClose,
   };
 };

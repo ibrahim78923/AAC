@@ -22,7 +22,7 @@ export const RequestersHeader = (props: any) => {
     handleSubmit,
     submit,
     methods,
-    handleClose
+    handleClose,
   } = useRequestersHeader(props);
 
   return (

@@ -168,6 +168,8 @@ export const END_POINTS = {
   UPDATE_CONTRACT_STATUS: `/contract/renew-extend`,
   GET_INVENTORY_OVERVIEW: `/assets/get-inventory-detail`,
   ASSETS_DROPDOWN: '/assets/inventory',
+  ASSETS_INVENTORY_PURCHASE_ORDER: '/assets/inventory-purchase-order-list',
+  ASSETS_INVENTORY_CONTRACTS: '/assets/inventory-contract-list',
   DEPARTMENT_UPDATE: '/department/update',
   DEPARTMENT_DELETE: '/department/delete-department',
 };

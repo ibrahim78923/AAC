@@ -11,7 +11,7 @@ export const Software = () => {
     openDeleteModal,
     setOpenDeleteModal,
     handleDelete,
-    setDelateSoftware,
+    setDelateRecord,
   } = useSoftware();
   return (
     <>
@@ -25,8 +25,8 @@ export const Software = () => {
                 openDeleteModal={openDeleteModal}
                 setOpenDeleteModal={setOpenDeleteModal}
                 handleDelete={handleDelete}
-                setDelateSoftware={setDelateSoftware}
-                delateSoftwareId={singleSoftware?.inventorySoftwares?._id}
+                setDelateRecord={setDelateRecord}
+                deletedRecordId={singleSoftware?.inventorySoftwares?._id}
                 heading={singleSoftware?.inventorySoftwares?.name}
                 status={singleSoftware?.inventorySoftwares?.status}
                 key={singleSoftware?.inventorySoftwares?._id}

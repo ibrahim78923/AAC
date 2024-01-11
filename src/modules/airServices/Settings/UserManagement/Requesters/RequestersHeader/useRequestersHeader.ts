@@ -88,10 +88,10 @@ export const useRequestersHeader = (props: any) => {
     }
     handleClose?.();
   };
-  const handleClose=()=>{
+  const handleClose = () => {
     setIsDrawerOpen(false);
     reset?.();
-  }
+  };
 
   return {
     searchValue,
@@ -110,6 +110,6 @@ export const useRequestersHeader = (props: any) => {
     methods,
     handleSubmit,
     submit,
-    handleClose
+    handleClose,
   };
 };

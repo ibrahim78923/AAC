@@ -22,7 +22,7 @@ export const RequestorsDetails = () => {
     handleSubmit,
     submit,
     methods,
-    handleClose
+    handleClose,
   } = useRequesters();
   return (
     <>

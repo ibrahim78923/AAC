@@ -10,7 +10,7 @@ function UpsertRequesters({
   okText,
   submitHandler,
   methods,
-  handleClose
+  handleClose,
 }: any) {
   return (
     <>
