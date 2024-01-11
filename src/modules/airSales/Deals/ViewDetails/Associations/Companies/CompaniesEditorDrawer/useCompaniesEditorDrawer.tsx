@@ -11,12 +11,13 @@ import { usePostCompaniesMutation } from '@/services/commonFeatures/companies';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
+import { PAGINATION } from '@/config';
 
 const useCompaniesEditorDrawer = (openDrawer: any) => {
   const { user } = getSession();
   const params = {
-    page: 1,
-    limit: 10,
+    page: PAGINATION?.PAGE_COUNT,
+    limit: PAGINATION?.PAGE_LIMIT,
     contactOwnerId: user?._id,
   };
 
