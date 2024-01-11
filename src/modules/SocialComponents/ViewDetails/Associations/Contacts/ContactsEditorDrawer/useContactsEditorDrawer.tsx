@@ -10,7 +10,7 @@ import {
   useGetContactsStatusQuery,
   useGetLifeCycleQuery,
   usePostContactsMutation,
-  useUpdateContactsMutation,
+  useUpdateContactMutation,
 } from '@/services/commonFeatures/contacts';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
@@ -22,7 +22,7 @@ const useContactsEditorDrawer = ({
   setOpenDrawer,
 }: any) => {
   const [postContacts] = usePostContactsMutation();
-  const [updateContacts] = useUpdateContactsMutation();
+  const [updateContacts] = useUpdateContactMutation();
 
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
 
