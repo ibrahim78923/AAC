@@ -78,7 +78,7 @@ export const UpsertInventory = () => {
             </Box>
           </Grid>
           <Grid item lg={3} sx={{ display: { xs: 'none', lg: 'block' } }}>
-            <RHFDropZone name="file" />
+            <RHFDropZone name="attachFile" />
           </Grid>
         </Grid>
       </FormProvider>

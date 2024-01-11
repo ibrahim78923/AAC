@@ -26,28 +26,25 @@ export const UpsertInventoryValidationSchema: any = Yup?.object()?.shape({
   assetId: Yup?.mixed()?.nullable(),
   assetLifeExpiry: Yup?.date()?.nullable(),
   usedBy: Yup?.mixed()?.nullable(),
+  assignedOnTime: Yup?.date()?.nullable(),
+  assignedOnDate: Yup?.date()?.nullable(),
 });
 export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
   return {
     displayName: data?.displayName ?? '',
-    assetId: data?.assetId ?? '',
     assetType: data?.assetType ?? null,
     impact: data?.impact ?? '',
-    // assetLifeExpireOn:
-    //   typeof data?.[0]?.assetLifeExpireOn === 'string'
-    //     ? makeDateTime(
-    //         data?.[0]?.assetLifeExpireOn,
-    //         data?.[0]?.assetLifeExpireOn,
-    //       )?.toISOString()
-    //     : null,
     assetLifeExpiry:
       typeof data?.assetLifeExpiry === 'string'
-        ? new Date(data?.assetLifeExpiry)?.toISOString()
-        : null,
+        ? new Date(data?.assetLifeExpiry ?? todayDate)
+        : new Date(),
     description: data?.description ?? '',
-    location: data?.location ?? '',
+    location: data?.location ?? null,
     assignedOnDate: new Date(data?.assignedOnDate ?? todayDate),
-    assignedOnTime: data?.assignedOnTime ?? '',
+    assignedOnTime:
+      typeof data?.assignedOnTime === 'string'
+        ? new Date(data?.assignedOnTime)
+        : null,
     usedBy: data?.usedBy ?? null,
     attachFile: data?.attachFile ?? '',
   };
@@ -71,17 +68,7 @@ export const upsertInventoryFormFieldsDynamic = (
     },
     md: 6,
   },
-  {
-    id: 2,
-    component: RHFTextField,
-    gridLength: 6,
-    componentProps: {
-      fullWidth: true,
-      name: 'assetTag',
-      label: 'Asset Id',
-    },
-    md: 6,
-  },
+
   {
     id: 3,
     componentProps: {
@@ -128,21 +115,6 @@ export const upsertInventoryFormFieldsDynamic = (
     },
     md: 6,
   },
-  // {
-  //   id: 9,
-  //   component: RHFAutocomplete,
-  //   gridLength: 12,
-  //   componentProps: {
-  //     fullWidth: true,
-  //     name: 'assetLifeExpiry',
-  //     label: 'Asset Life Expire On',
-  //     placeholder: 'Select a time period',
-  //     select: true,
-  //     options: assetLifeExpiryOptions,
-  //     getOptionLabel: (option: any) => option?.label?.replaceAll?.('_', ' '),
-  //   },
-  //   md: 6,
-  // },
   {
     id: 7,
     componentProps: {
@@ -160,7 +132,7 @@ export const upsertInventoryFormFieldsDynamic = (
       fullWidth: true,
       required: true,
       apiQuery: apiQueryLocationType,
-      // externalParams: { meta: false, limit: 50 },
+
       getOptionLabel: (option: any) => option?.locationName,
     },
     component: RHFAutocompleteAsync,
@@ -174,8 +146,6 @@ export const upsertInventoryFormFieldsDynamic = (
       fullWidth: true,
       required: true,
       apiQuery: apiQueryDepartmentType,
-      // externalParams: { meta: false, limit: 50 },
-      // getOptionLabel: (option: any) => option?.departmentName,
     },
     component: RHFAutocompleteAsync,
     md: 6,
@@ -190,17 +160,17 @@ export const upsertInventoryFormFieldsDynamic = (
     },
     md: 3,
   },
+
   {
-    id: 11,
-    component: RHFTimePicker,
+    id: 12,
     componentProps: {
-      fullWidth: true,
       name: 'assignedOnTime',
       label: '\u00a0\u00a0',
+      fullWidth: true,
     },
+    component: RHFTimePicker,
     md: 3,
   },
-
   {
     id: 9,
     componentProps: {
@@ -209,6 +179,8 @@ export const upsertInventoryFormFieldsDynamic = (
       label: 'Used By',
       placeholder: 'Name or Email',
       apiQuery: apiQueryUsedByType,
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option.lastName}`,
     },
     component: RHFAutocompleteAsync,
     md: 6,

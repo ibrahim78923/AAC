@@ -19,6 +19,8 @@ import {
 } from '@/services/airServices/assets/inventory';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { makeDateTime } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
+import { AIR_SERVICES } from '@/constants';
 
 export const useUpsertInventory = () => {
   const { query }: any = useRouter();
@@ -52,15 +54,21 @@ export const useUpsertInventory = () => {
   const submitUpsertInventory = async (data: any) => {
     const inventoryDetailsData = new FormData();
     inventoryDetailsData.append('displayName', data?.displayName);
-    inventoryDetailsData.append('assetType', data?.assetType);
+    inventoryDetailsData.append('assetType', data?.assetType?._id);
     inventoryDetailsData.append('impact', data?.impact);
     inventoryDetailsData.append('description', data?.description);
-    inventoryDetailsData.append('assetLifeExpiry', data?.assetLifeExpiry);
-    inventoryDetailsData.append('locationId', data?.locationId);
-    inventoryDetailsData.append('departmentId', data?.departmentId);
-    inventoryDetailsData.append('usedBy', data?.usedBy);
-    inventoryDetailsData.append('assignedOn', data?.assignedOn);
-    inventoryDetailsData.append('attachment', data?.attachment);
+    inventoryDetailsData.append(
+      'assetLifeExpiry',
+      data?.assetLifeExpiry?.toISOString(),
+    );
+    inventoryDetailsData.append('locationId', data?.location?._id);
+    inventoryDetailsData.append('departmentId', data?.department?._id);
+    inventoryDetailsData.append('usedBy', data?.usedBy?._id);
+    inventoryDetailsData.append(
+      'assignedOn',
+      makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
+    );
+    inventoryDetailsData.append('attachment', data?.attachFile);
     const body = inventoryDetailsData;
     if (!!inventoryId) {
       submitUpdateInventory(body);
@@ -74,10 +82,11 @@ export const useUpsertInventory = () => {
       const response = await postAddToInventoryTrigger(
         postInventoryParameter,
       )?.unwrap();
+
       enqueueSnackbar(response?.message ?? 'Inventory Added Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      // moveBack?.();
+      moveBack?.();
       reset();
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
@@ -102,7 +111,7 @@ export const useUpsertInventory = () => {
       enqueueSnackbar(response?.message ?? 'Inventory Created Successfully!', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      // moveBack?.();
+      moveBack?.();
       reset();
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
@@ -122,20 +131,20 @@ export const useUpsertInventory = () => {
     apiQueryUsedByType,
   );
 
-  // const moveBack = () => {
-  //   if (!!inventoryId) {
-  //     router?.push({
-  //       pathname: AIR_SERVICES?.ASSETS_INVENTORY,
-  //       query: {
-  //         ...router?.query,
-  //       },
-  //     });
-  //     return;
-  //   }
-  //   router?.push({
-  //     pathname: AIR_SERVICES?.ASSETS_INVENTORY,
-  //   });
-  // };
+  const moveBack = () => {
+    if (!!inventoryId) {
+      router?.push({
+        pathname: AIR_SERVICES?.ASSETS_INVENTORY,
+        query: {
+          ...router?.query,
+        },
+      });
+      return;
+    }
+    router?.push({
+      pathname: AIR_SERVICES?.ASSETS_INVENTORY,
+    });
+  };
   const submit = () => {};
   return {
     methods,
