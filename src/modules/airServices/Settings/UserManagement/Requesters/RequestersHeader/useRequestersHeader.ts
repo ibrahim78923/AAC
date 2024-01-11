@@ -74,20 +74,24 @@ export const useRequestersHeader = (props: any) => {
         timezone: data?.timezone,
       };
       await addRequester({ ...payload, role: ROLES?.ORG_REQUESTER }).unwrap();
-      enqueueSnackbar('Single Requesters Added Successfully', {
+      enqueueSnackbar(' Requesters Added Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      reset();
       setIsDrawerOpen(false);
     } catch (error: any) {
       const errorMessage =
-        error?.response?.data?.message?.[0] || 'Something went wrong!';
+        error?.response?.data?.message?.[0] || 'Email Already Exists!';
 
       enqueueSnackbar(errorMessage, {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
+    handleClose?.();
   };
+  const handleClose=()=>{
+    setIsDrawerOpen(false);
+    reset?.();
+  }
 
   return {
     searchValue,
@@ -106,5 +110,6 @@ export const useRequestersHeader = (props: any) => {
     methods,
     handleSubmit,
     submit,
+    handleClose
   };
 };

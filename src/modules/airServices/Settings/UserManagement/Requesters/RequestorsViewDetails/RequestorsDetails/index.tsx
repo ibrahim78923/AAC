@@ -22,6 +22,7 @@ export const RequestorsDetails = () => {
     handleSubmit,
     submit,
     methods,
+    handleClose
   } = useRequesters();
   return (
     <>
@@ -164,6 +165,7 @@ export const RequestorsDetails = () => {
         okText={'Update'}
         submitHandler={handleSubmit(submit)}
         methods={methods}
+        handleClose={handleClose}
       />
     </>
   );

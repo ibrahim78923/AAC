@@ -6,19 +6,17 @@ import { nanoid } from '@reduxjs/toolkit';
 
 function UpsertRequesters({
   isDrawerOpen,
-  setIsDrawerOpen,
   title,
   okText,
   submitHandler,
   methods,
+  handleClose
 }: any) {
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
-        onClose={() => {
-          setIsDrawerOpen(false);
-        }}
+        onClose={handleClose}
         title={title}
         submitHandler={submitHandler}
         footer={true}

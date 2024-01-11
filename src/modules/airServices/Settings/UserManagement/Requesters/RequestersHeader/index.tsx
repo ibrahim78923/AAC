@@ -22,6 +22,7 @@ export const RequestersHeader = (props: any) => {
     handleSubmit,
     submit,
     methods,
+    handleClose
   } = useRequestersHeader(props);
 
   return (
@@ -67,6 +68,7 @@ export const RequestersHeader = (props: any) => {
             okText={'Submit'}
             submitHandler={handleSubmit(submit)}
             methods={methods}
+            handleClose={handleClose}
           />
           <AgentConversionDelete
             open={deleteModal}
