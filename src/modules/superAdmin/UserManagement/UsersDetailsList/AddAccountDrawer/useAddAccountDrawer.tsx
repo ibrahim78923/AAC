@@ -22,14 +22,14 @@ const useAddAccountDrawer = (props: any) => {
   const onSubmit = async (values: any) => {
     values.user = userId;
     try {
-      postUsersAccount({ id: organizationId, body: values });
+      await postUsersAccount({ id: organizationId, body: values })?.unwrap();
       setIsOpen(false);
       enqueueSnackbar('User Added Successfully', {
         variant: 'success',
       });
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error?.message, {
+      enqueueSnackbar(error?.data?.message, {
         variant: 'error',
       });
     }
@@ -42,6 +42,7 @@ const useAddAccountDrawer = (props: any) => {
   });
   const params = { organizationCompanyAccountId: organizationValue };
   const { data: companyRoles } = useGetCompanyAccountsRolesQuery(params);
+
   return {
     handleSubmit,
     onSubmit,
