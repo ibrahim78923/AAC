@@ -1,47 +1,63 @@
 import {
-  RHFCheckbox,
   RHFDropZone,
   RHFEditor,
   RHFSelect,
+  RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const productsValidationSchema = Yup?.object()?.shape({
-  productName: Yup?.string()?.trim()?.required('Field is Required'),
-  unitPrice: Yup?.string()?.trim()?.required('Field is Required'),
+  name: Yup?.string()?.required('Field is Required'),
+  sku: Yup?.string(),
+  purchasePrice: Yup?.number()?.required('Field is Required'),
+  category: Yup?.string(),
+  description: Yup?.string(),
+  unitPrice: Yup?.number()?.required('Field is Required'),
 });
 
 export const productsDefaultValues = {
-  productStatus: 'customLineItem',
-  productName: '',
+  name: '',
   sku: '',
-  description: '',
+  purchasePrice: null,
   category: '',
-  activeProducts: '',
-  unitPrice: '',
-  attachfile: '',
+  description: '',
+  unitPrice: null,
+  file: '',
+  isActive: false,
+  // upload: '',
 };
 
 export const productsDataArray = [
   {
     componentProps: {
-      name: 'productName',
-      placeholder: 'Product Name',
+      name: 'name',
       label: 'Product Name',
-      required: true,
-
       fullWidth: true,
+      placeholder: 'Enter here',
+      required: true,
     },
     component: RHFTextField,
     md: 12,
   },
-
   {
     componentProps: {
       name: 'sku',
-      placeholder: 'SKU',
       label: 'SKU',
       fullWidth: true,
+      select: false,
+      placeholder: 'Enter here',
+    },
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'purchasePrice',
+      label: 'Purchase Price',
+      fullWidth: true,
+      placeholder: 'Enter here',
+      required: true,
+      type: 'number',
     },
     component: RHFTextField,
     md: 12,
@@ -49,28 +65,20 @@ export const productsDataArray = [
   {
     componentProps: {
       name: 'category',
-      placeholder: '',
       label: 'Category',
+      fullWidth: true,
       select: true,
     },
     options: [
-      {
-        value: 'Inventory',
-        label: 'Inventory',
-      },
-      {
-        value: 'Non-Inventory',
-        label: 'Non-Inventory',
-      },
-      {
-        value: 'Service',
-        label: 'Service',
-      },
+      { value: 'all', label: 'All' },
+      { value: 'copyUrl', label: 'Copy URL' },
+      { value: 'createDashboard', label: 'Create Dashboard' },
+      { value: 'updateDashboard', label: 'Update Dashboard' },
+      { value: 'view-dashboard', label: 'View Dashboard' },
     ],
     component: RHFSelect,
     md: 12,
   },
-
   {
     componentProps: {
       name: 'description',
@@ -82,31 +90,29 @@ export const productsDataArray = [
   },
   {
     componentProps: {
-      name: 'activeProducts',
-
-      label: 'Active Products',
-      fullWidth: true,
-    },
-    component: RHFCheckbox,
-    md: 12,
-  },
-  {
-    componentProps: {
       name: 'unitPrice',
-      placeholder: 'Price',
-      required: true,
-      label: 'Unit Price (£) ',
+      label: 'Unit Price (£)',
       fullWidth: true,
+      placeholder: 'Enter here',
+      required: true,
+      type: 'number',
     },
     component: RHFTextField,
     md: 12,
   },
-
+  {
+    id: 13,
+    componentProps: {
+      name: 'isActive',
+      label: 'Active Product',
+    },
+    component: RHFSwitch,
+    md: 12,
+  },
   {
     componentProps: {
-      name: 'attachFile',
-      placeholder: '',
-      label: '',
+      name: 'file',
+      label: 'Upload',
       fullWidth: true,
     },
     component: RHFDropZone,
