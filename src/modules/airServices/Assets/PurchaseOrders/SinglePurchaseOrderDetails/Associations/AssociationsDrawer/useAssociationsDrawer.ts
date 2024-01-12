@@ -19,7 +19,7 @@ export const useAssociationsDrawer = (props: AssociationsDrawerPropsI) => {
     useLazyGetTicketsQuery();
   const [postAssociationTrigger, postAssociationStatus] =
     usePostAssociationsMutation();
-  const tickets = lazyGetTicketsStatus?.data?.data?.tickets;
+  const tickets = lazyGetTicketsStatus?.data?.data;
   const metaData = lazyGetTicketsStatus?.data?.data?.meta;
   const getValueTicketsListData = async () => {
     const getTicketsParam = new URLSearchParams();

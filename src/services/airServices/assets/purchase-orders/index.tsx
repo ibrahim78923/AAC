@@ -70,6 +70,12 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
         body: patchPurchaseOrderParameter?.body,
       }),
     }),
+    deletePurchaseOrder: builder?.mutation({
+      query: (id: any) => ({
+        url: `${END_POINTS?.PURCHASE_ORDER}/${id}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
@@ -81,4 +87,5 @@ export const {
   usePostPurchaseOrderMutation,
   usePatchPurchaseOrderMutation,
   useGetPurchaseOrderByIdQuery,
+  useDeletePurchaseOrderMutation,
 } = purchaseOrderAPI;
