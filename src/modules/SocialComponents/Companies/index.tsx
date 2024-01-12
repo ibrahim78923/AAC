@@ -1,69 +1,71 @@
-import { Box, Button, Grid, Stack, Tooltip, Typography } from '@mui/material';
+// import { Box, Button, Grid, Stack, Tooltip, Typography } from '@mui/material';
 
-import { AddCircle } from '@mui/icons-material';
+// import { AddCircle } from '@mui/icons-material';
 
-import CommonTabs from '@/components/Tabs';
-import TanstackTable from '@/components/Table/TanstackTable';
+// import CommonTabs from '@/components/Tabs';
+// import TanstackTable from '@/components/Table/TanstackTable';
 
-import RestoreCompanies from './RestoreCompanies';
-import CreateCompany from './CreateCompany';
-import FilterCompany from './FilterCompany';
-import CustomizeCompany from './CustomizeCompany';
+// import RestoreCompanies from './RestoreCompanies';
+// import CreateCompany from './CreateCompany';
+// import FilterCompany from './FilterCompany';
+// import CustomizeCompany from './CustomizeCompany';
 
-import { columns, companyTabs } from './Companies.data';
-import { styles } from './Companies.style';
-import useCompanies from './useCompanies';
+// import { columns, companyTabs } from './Companies.data';
+// import { styles } from './Companies.style';
+// import useCompanies from './useCompanies';
 
-import {
-  CompanyIcon,
-  CustomizeIcon,
-  FilterIcon,
-  ImportCompaniesIcon,
-  RefreshTasksIcon,
-  RestoreIcon,
-} from '@/assets/icons';
-import CreateViewCompany from './CreateViewCompany';
-import PreviewDrawer from './CompanyActions/PreviewDrawer';
-import DeleteModal from './CompanyActions/DeleteModal';
-import ReassignModal from './CompanyActions/ReassignModal';
-import MergeModal from './CompanyActions/MergeModal';
-import ImportCompanies from './ImportCompanies';
+// import {
+//   CompanyIcon,
+//   CustomizeIcon,
+//   FilterIcon,
+//   ImportCompaniesIcon,
+//   RefreshTasksIcon,
+//   RestoreIcon,
+// } from '@/assets/icons';
+// import CreateViewCompany from './CreateViewCompany';
+// import PreviewDrawer from './CompanyActions/PreviewDrawer';
+// import DeleteModal from './CompanyActions/DeleteModal';
+// import ReassignModal from './CompanyActions/ReassignModal';
+// import MergeModal from './CompanyActions/MergeModal';
+// import ImportCompanies from './ImportCompanies';
 
-import ExportModal from './CompanyActions/ExportModal';
-import ActionButton from './ActionButton';
+// import ExportModal from './CompanyActions/ExportModal';
+// import ActionButton from './ActionButton';
+import CompanyTabs from './CompanyTabs';
 
 const Companies = () => {
-  const {
-    theme,
-    isOpen,
-    setIsOpen,
-    isToggled,
-    toggle,
-    getAllCompanies,
-    setPageLimit,
-    setPage,
-    checkedRows,
-    setCheckedRows,
-    searchVal,
-    setSearchVal,
-    isLoading,
-    isSuccess,
-    filterValues,
-    setFilterValues,
-    handleResetFilters,
-  } = useCompanies();
+  // const {
+  //   theme,
+  //   isOpen,
+  //   setIsOpen,
+  //   isToggled,
+  //   toggle,
+  //   getAllCompanies,
+  //   setPageLimit,
+  //   setPage,
+  //   checkedRows,
+  //   setCheckedRows,
+  //   searchVal,
+  //   setSearchVal,
+  //   isLoading,
+  //   isSuccess,
+  //   filterValues,
+  //   setFilterValues,
+  //   handleResetFilters,
+  // } = useCompanies();
 
-  const columnsProps = {
-    checkedRows: checkedRows,
-    setCheckedRows: setCheckedRows,
-    companiesData: getAllCompanies,
-  };
+  // const columnsProps = {
+  //   checkedRows: checkedRows,
+  //   setCheckedRows: setCheckedRows,
+  //   companiesData: getAllCompanies,
+  // };
 
-  const columnParams = columns(columnsProps);
+  // const columnParams = columns(columnsProps);
 
   return (
     <>
-      {isToggled ? (
+      <CompanyTabs />
+      {/* {isToggled ? (
         <RestoreCompanies toggle={toggle} />
       ) : (
         <>
@@ -273,7 +275,7 @@ const Companies = () => {
             />
           )}
         </>
-      )}
+      )} */}
     </>
   );
 };

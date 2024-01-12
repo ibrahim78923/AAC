@@ -93,9 +93,9 @@ export const createViewArr = () => {
         defaultValue: 'all',
         row: false,
         options: [
-          { value: 'private', label: 'Private' },
-          { value: 'myTeam', label: 'My Team (test)' },
-          { value: 'everyone', label: 'Everyone' },
+          { value: 'PRIVATE', label: 'Private' },
+          { value: 'TEAM', label: 'My Team (test)' },
+          { value: 'EVERYONE', label: 'Everyone' },
         ],
       },
       component: RHFRadioGroup,

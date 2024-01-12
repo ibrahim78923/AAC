@@ -113,6 +113,7 @@ export const END_POINTS = {
   MERGE_COMPANIES: '/companies/merge-company',
   REASSIGN_COMPANY_OWNER: '/companies/change-company-owner',
   COMPANY_VIEWS: '/company-views',
+  CUSTOMIZE_COLUMNS: '/customized-columns',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
   GET_DEPARTMENT: '/Department/department-list',
   DELETE_REQUESTER: '/requester/delete-requester',
