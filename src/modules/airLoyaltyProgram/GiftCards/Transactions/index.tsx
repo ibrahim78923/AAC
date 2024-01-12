@@ -7,13 +7,13 @@ import {
   CirclePlusIcon,
   ExportIcon,
   FilterLinesIcon,
-  ImportIcon,
 } from '@/assets/icons';
 import { TransactionFilterDrawer } from './TransactionFilterDrawer';
 import { AddTransactionDrawer } from './AddTransactionDrawer';
 import { ExportModal } from '@/components/ExportModal';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
+import ImportModal from './TransactionImportDrawer';
 
 export const Transactions = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -32,9 +32,7 @@ export const Transactions = () => {
           Gift Card Transactions
         </Typography>
         <Box display={'flex'} flexWrap={'wrap'} gap={2}>
-          <Button variant="outlined" color="inherit" startIcon={<ImportIcon />}>
-            Import
-          </Button>
+          <ImportModal />
           <Button
             onClick={() => setOpenDrawer1(true)}
             startIcon={<CirclePlusIcon />}

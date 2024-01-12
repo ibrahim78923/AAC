@@ -42,6 +42,17 @@ export const TICKET_IMPACT = {
   MEDIUM: 'MEDIUM',
   HIGH: 'HIGH',
 };
+export const IMPORT_ACTIONS = {
+  CANCEL: 'CANCEL',
+  NEXT: 'NEXT',
+  BACK: 'BACK',
+  IMPORT: 'IMPORT',
+};
+export const IMPORT_ACTIONS_STEPS = {
+  STEP_ONE: 0,
+  STEP_TWO: 1,
+  STEP_THREE: 2,
+};
 
 export const TICKET_APPROVALS = {
   RECEIVED: 'RECEIVED',
