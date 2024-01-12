@@ -9,11 +9,11 @@ import {
   addInventoryDefaultValuesFunction,
   addToInventoryItemStatusDefaultValuesFunction,
 } from './AddToInventory.data';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import {
   useGetAddToPurchaseOrderByIdQuery,
-  useLazyGetAssociateAssetsDropdownQuery,
+  useGetAllAssetsListQuery,
   useLazyGetDepartmentDropdownQuery,
   useLazyGetLocationsDropdownQuery,
   usePatchAddToPurchaseOrderMutation,
@@ -24,7 +24,7 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export default function useAddToInventoryDrawer(props: any) {
   // const router = useRouter();
-
+  const [search, setSearch] = useState('');
   const purchaseOrderId = '65a115b847cea622057735dc';
   const { setIsADrawerOpen } = props;
   const [postPurchaseOrderTrigger] = usePostPurchaseOrderMutation();
@@ -40,7 +40,7 @@ export default function useAddToInventoryDrawer(props: any) {
     defaultValues: addInventoryDefaultValuesFunction(),
   });
 
-  const { handleSubmit: handleSubmitYes, reset } = methodsYes;
+  const { handleSubmit: handleSubmitYes } = methodsYes;
 
   const methodsNo: any = useForm({
     resolver: yupResolver(addInventoryValidationSchemaUpdate),
@@ -69,9 +69,7 @@ export default function useAddToInventoryDrawer(props: any) {
   const handleRadioChange = (event: { target: { value: string } }) => {
     setToShow(event?.target?.value === 'Add New');
   };
-  useEffect(() => {
-    reset(() => addInventoryDefaultValuesFunction(data));
-  }, [data, reset]);
+
   const submitHandlerYes = handleSubmitYes(async (data: any) => {
     const { department, location, ...otherData } = data;
     const postPurchaseOrderParameter = {
@@ -131,7 +129,7 @@ export default function useAddToInventoryDrawer(props: any) {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
-    // methodsNo?.reset(addInventoryDefaultValuesOneUpdate);
+    methodsNo?.reset();
   });
   const submitHandlerTwo = handleSubmitTwo(() => {
     enqueueSnackbar('item added to inventory Successfully', {
@@ -141,18 +139,16 @@ export default function useAddToInventoryDrawer(props: any) {
     setBoolVariable(true);
     methodsTwo?.reset();
   });
-
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
   const apiQueryLocations = useLazyGetLocationsDropdownQuery();
-
-  const apiQueryAssociateAsset = useLazyGetAssociateAssetsDropdownQuery();
+  const param = {};
+  const { data: allAssetsData } = useGetAllAssetsListQuery({ param });
 
   const addToInventoryItemAddedFormFieldsData =
     addToInventoryItemAddedFormFieldsDataFunction(
       apiQueryDepartment,
       apiQueryLocations,
       // apiQueryAllAssets,
-      apiQueryAssociateAsset,
     );
   const filteredYes = addToInventoryItemAddedFormFieldsData?.filter(
     (item: any) => {
@@ -186,5 +182,8 @@ export default function useAddToInventoryDrawer(props: any) {
     isLoading,
     isFetching,
     isError,
+    search,
+    setSearch,
+    allAssetsData,
   };
 }

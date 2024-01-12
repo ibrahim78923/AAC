@@ -202,23 +202,11 @@ export const AddToInventory = (props: any) => {
                         />
                       </Grid>
                     ))
-                  : filteredNo?.map(
-                      (item: any) =>
-                        item?.component && (
-                          <Grid
-                            item
-                            xs={12}
-                            md={item?.md}
-                            key={item?.id}
-                            mt={2}
-                          >
-                            <item.component
-                              {...item?.componentProps}
-                              size={'small'}
-                            />
-                          </Grid>
-                        ),
-                    )}
+                  : filteredNo?.map((item: any) => (
+                      <Grid item xs={12} md={item?.md} key={item?.id}>
+                        {item?.display}
+                      </Grid>
+                    ))}
               </Grid>
             </FormProvider>
           </Grid>

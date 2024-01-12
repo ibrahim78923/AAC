@@ -6,11 +6,7 @@ import {
 import * as Yup from 'yup';
 
 import { ASSET_IMPACT } from '@/constants/strings';
-import { Box, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 
-import { DATE_FORMAT } from '@/constants';
-import { AddCircleIcon } from '@/assets/icons';
 export const assetsImpactOptions = [
   ASSET_IMPACT?.LOW,
   ASSET_IMPACT?.MEDIUM,
@@ -39,7 +35,7 @@ export const addInventoryDefaultValuesFunction = (data?: any) => {
 };
 
 export const addInventoryDefaultValuesOneUpdate = {
-  allAssets: null,
+  // allAssets: null,
 };
 export const addToInventoryItemStatusDefaultValuesFunction = () => {
   return {
@@ -52,51 +48,8 @@ export const addToInventoryItemStatusDefaultValuesFunction = () => {
 export const addToInventoryItemAddedFormFieldsDataFunction = (
   apiQueryDepartment: any,
   apiQueryLocations: any,
-  apiQueryAssociateAsset: any,
+  // apiQueryAssociateAsset: any,
 ) => [
-  {
-    id: 16,
-    toShow: 'No',
-    componentProps: {
-      name: 'allAssets',
-      label: 'Associate Assets',
-      fullWidth: true,
-      multiple: true,
-      apiQuery: apiQueryAssociateAsset,
-      externalParams: { limit: 50 },
-      getOptionLabel: (option: any) => option?.displayName,
-      renderOption: (option: any) => (
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          width={'100%'}
-        >
-          <Box>
-            <Typography variant={'body2'} color={'grey.600'} fontWeight={500}>
-              {option?.displayName}
-            </Typography>
-            <Typography variant={'body4'} color={'grey.900'}>
-              {option?.assetType}
-            </Typography>
-          </Box>
-          <Typography variant={'body4'} color={'grey.900'}>
-            EOL:
-            {dayjs(option?.assetLifeExpiry)?.format(DATE_FORMAT?.UI) ??
-              dayjs(new Date())?.format(DATE_FORMAT?.UI)}
-          </Typography>
-        </Box>
-      ),
-      placeholder: 'Choose Assets',
-      EndIcon: AddCircleIcon,
-      endIconSx: { color: 'primary.main' },
-      endIconClick: () => {
-        // router?.push(AIR_SERVICES?.UPSERT_INVENTORY);
-      },
-    },
-
-    component: RHFAutocompleteAsync,
-  },
   {
     id: 1,
     componentProps: {
