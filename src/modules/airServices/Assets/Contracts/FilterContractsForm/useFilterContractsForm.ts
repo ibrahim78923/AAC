@@ -9,8 +9,12 @@ import {
 } from '@/services/airServices/assets/contracts';
 
 export const useFilterContractsForm = (props: any) => {
-  const { setIsDrawerOpen, setContractFilterLists, contractFilterLists } =
-    props;
+  const {
+    setIsDrawerOpen,
+    setContractFilterLists,
+    contractFilterLists,
+    setPage,
+  } = props;
 
   const methods = useForm({
     defaultValues: contractsFilterFormDefaultValues(contractFilterLists),
@@ -25,15 +29,17 @@ export const useFilterContractsForm = (props: any) => {
       )
       ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
     if (!Object?.keys(contractFilteredFields || {})?.length) {
+      setContractFilterLists(contractFilteredFields);
       closeInventoryFilterForm();
       return;
     }
+    setPage(1);
     setContractFilterLists(contractFilteredFields);
     closeInventoryFilterForm();
     setIsDrawerOpen(false);
   };
   const closeInventoryFilterForm = () => {
-    // reset();
+    reset();
     setIsDrawerOpen?.(false);
   };
 

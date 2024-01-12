@@ -29,22 +29,27 @@ export const useAddTaskDrawer = (props: any) => {
       endDate: data?.endDate?.toISOString(),
       assignTo: data?.assignTo?._id,
       departmentId: data?.departmentId?._id,
+      notifyBefore: data?.notifyBefore?.value,
     };
     try {
       const res = await postTask(params)?.unwrap();
-      enqueueSnackbar(res?.message ?? 'Task add successfully', {
+      enqueueSnackbar(res?.message && 'Task Created Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       methodsCreateNewTicketForm?.reset();
       onClose(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.error?.message ?? '', {
+      enqueueSnackbar(error?.error?.message ?? 'An error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
   const drawerSubmitHandler = () => {
     methodsCreateNewTicketForm?.handleSubmit(submitCreateNewTicket)();
+  };
+  const handleClose = () => {
+    onClose(false);
+    methodsCreateNewTicketForm?.reset();
   };
   const departmentDropdown = useLazyGetDepartmentDropdownListQuery();
   const userDropdown = useLazyGetAgentsDropdownListQuery();
@@ -53,5 +58,6 @@ export const useAddTaskDrawer = (props: any) => {
     drawerSubmitHandler,
     departmentDropdown,
     userDropdown,
+    handleClose,
   };
 };

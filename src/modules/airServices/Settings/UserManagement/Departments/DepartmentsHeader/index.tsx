@@ -5,15 +5,9 @@ import { useDepartmentsHeader } from './useDepartmentsHeader';
 import { DepartmentsFormModal } from '../DepartmentsFormModal';
 
 export const DepartmentsHeader = (props: any) => {
-  const { searchBy, setSearchBy } = props;
-  const {
-    backArrowClick,
-    openAddModal,
-    setOpenAddModal,
-    formProps,
-    usersList,
-  } = useDepartmentsHeader();
-  const { addFormMethod, handleSubmit, submitAddForm } = formProps;
+  const { searchBy, setSearchBy, openAddModal, setOpenAddModal } = props;
+  const { backArrowClick, formSubmit, userList, addFormMethod, handleClose } =
+    useDepartmentsHeader(props);
   return (
     <>
       <Grid
@@ -54,12 +48,11 @@ export const DepartmentsHeader = (props: any) => {
       </Grid>
       <DepartmentsFormModal
         methods={addFormMethod}
-        handleSubmit={handleSubmit}
-        submitForm={submitAddForm}
+        handleSubmit={formSubmit}
         open={openAddModal}
-        handleClose={setOpenAddModal}
+        handleClose={handleClose}
         formTitle="Add Department"
-        usersList={usersList}
+        userList={userList}
       />
     </>
   );

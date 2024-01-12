@@ -6,9 +6,10 @@ const TAG = 'DEPARTMENT';
 export const departmentAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getDepartment: builder?.query({
-      query: () => ({
+      query: (ap: any) => ({
         url: `${END_POINTS?.DEPARTMENT_LIST}`,
         method: 'GET',
+        params: ap?.queryParams,
       }),
       providesTags: [TAG],
     }),
@@ -20,8 +21,28 @@ export const departmentAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    updateDepartment: builder.mutation({
+      query: ({ body, id }) => ({
+        url: `${END_POINTS?.DEPARTMENT_UPDATE}/${id}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    deleteDepartment: builder?.mutation({
+      query: (params: any) => ({
+        url: `${END_POINTS?.DEPARTMENT_DELETE}`,
+        method: 'DELETE',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
-export const { usePostDepartmentMutation, useGetDepartmentQuery } =
-  departmentAPI;
+export const {
+  usePostDepartmentMutation,
+  useLazyGetDepartmentQuery,
+  useUpdateDepartmentMutation,
+  useDeleteDepartmentMutation,
+} = departmentAPI;

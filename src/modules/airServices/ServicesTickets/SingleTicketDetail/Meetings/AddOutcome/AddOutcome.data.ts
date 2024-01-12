@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 
 export const addOutcomeValidation = Yup?.object()?.shape({
   addOutcome: Yup?.string()?.required('Field is Required'),
-  description: Yup?.string()?.trim()?.required('Field is Required'),
+  description: Yup?.string()?.trim(),
 });
 
 export const addOutcomeDefaultValues = {
@@ -17,7 +17,9 @@ export const addOutcomeArray = [
       name: 'addOutcome',
       label: 'Add outcome',
       fullWidth: true,
+      required: true,
       select: true,
+      required: true,
     },
     options: [
       { value: 'Interested', label: 'Interested' },
@@ -34,6 +36,7 @@ export const addOutcomeArray = [
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      required: true,
     },
     component: RHFEditor,
     md: 12,

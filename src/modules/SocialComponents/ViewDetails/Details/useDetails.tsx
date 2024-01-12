@@ -35,9 +35,9 @@ const useDetails = (data: any) => {
   const rowApiValues = {
     CompanyName: data?.name,
     DomainName: data?.domain,
-    CompanyRegistrationNumber: data?.CRN,
+    crn: data?.crn,
     CompanyOwner: data?.ownerId,
-    PhoneNumber: data?.owner?.phoneNumber,
+    PhoneNumber: data?.phone,
     Industry: data?.industry,
     CompanyType: data?.type,
     NumberOfEmployees: data?.noOfEmloyee,
@@ -62,7 +62,7 @@ const useDetails = (data: any) => {
         const {
           CompanyName,
           DomainName,
-          CompanyRegistrationNumber,
+          crn,
           CompanyOwner,
           PhoneNumber,
           Industry,
@@ -82,7 +82,7 @@ const useDetails = (data: any) => {
         return {
           CompanyName,
           DomainName,
-          CompanyRegistrationNumber,
+          crn,
           CompanyOwner,
           PhoneNumber,
           Industry,
@@ -131,7 +131,7 @@ const useDetails = (data: any) => {
         Id: data?._id,
       }).unwrap();
 
-      enqueueSnackbar(`plan updated Successfully`, { variant: 'success' });
+      enqueueSnackbar(`company updated Successfully`, { variant: 'success' });
     } catch (error) {
       enqueueSnackbar('Some thing went wrong', {
         variant: 'error',

@@ -77,7 +77,7 @@ export const useTicketsLists: any = () => {
   !!filterTicketLists?.category && getTicketsParam?.append('ticketType', 'SR');
   !!filterTicketLists?.department &&
     getTicketsParam?.append('ticketType', 'SR');
-
+  getTicketsParam?.append('metaData', true + '');
   getTicketsParam?.append('page', page + '');
   getTicketsParam?.append('limit', pageLimit + '');
   getTicketsParam?.append('search', search);
@@ -138,7 +138,7 @@ export const useTicketsLists: any = () => {
       exportTicketsParams?.append('ticketType', 'SR');
     !!filterTicketLists?.department &&
       exportTicketsParams?.append('ticketType', 'SR');
-
+    exportTicketsParams?.append('metaData', true + '');
     exportTicketsParams?.append('exportType', type);
     exportTicketsParams?.append('page', page + '');
     exportTicketsParams?.append('limit', pageLimit + '');
@@ -236,6 +236,7 @@ export const useTicketsLists: any = () => {
         isDrawerOpen={hasTicketAction}
         setFilterTicketLists={setFilterTicketLists}
         filterTicketLists={filterTicketLists}
+        setPage={setPage}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET]: (
@@ -243,6 +244,7 @@ export const useTicketsLists: any = () => {
         setIsDrawerOpen={setHasTicketAction}
         isDrawerOpen={hasTicketAction}
         setSelectedTicketList={setSelectedTicketList}
+        setFilterTicketLists={setFilterTicketLists}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.EDIT_TICKET]: (
@@ -251,6 +253,7 @@ export const useTicketsLists: any = () => {
         isDrawerOpen={hasTicketAction}
         ticketId={selectedTicketList?.[0]}
         setSelectedTicketList={setSelectedTicketList}
+        setFilterTicketLists={setFilterTicketLists}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA]: (
@@ -287,6 +290,7 @@ export const useTicketsLists: any = () => {
         setDeleteModalOpen={setHasTicketAction}
         selectedTicketList={selectedTicketList}
         setSelectedTicketList={setSelectedTicketList}
+        setPage={setPage}
       />
     ),
   };

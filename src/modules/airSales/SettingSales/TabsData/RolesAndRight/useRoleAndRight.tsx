@@ -1,44 +1,50 @@
 import React, { useState } from 'react';
-
 import { Theme, useTheme } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { validationSchema } from './RolesRight.data';
 import { useRouter } from 'next/router';
-import { rolesAndRightsAPI } from '@/services/orgAdmin/roles-and-rights';
 import { PAGINATION } from '@/config';
+import { airSalesRolesAndRightsAPI } from '@/services/airSales/roles-and-rights';
+// import { getSession } from '@/utils';
 
 const useRoleAndRight: any = () => {
+  // const { user } = getSession();
   const theme = useTheme<Theme>();
   const navigate = useRouter();
 
-  const [isDraweropen, setIsDraweropen] = useState({
-    isToggle: false,
-    type: '',
-  });
-  const [selectedValue, setSelectedValue] = useState(null);
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [expanded, setExpanded] = React.useState(false);
+  const [selectedValue, setSelectedValue] = useState(null);
   const [checkedRows, setCheckedRows] = useState();
-
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [filterValues, setFilterValues] = useState({
     search: '',
   });
+  const [isDraweropen, setIsDraweropen] = useState({
+    isToggle: false,
+    type: 'add',
+    id: '',
+  });
 
-  const { useGetPermissionsRolesQuery } = rolesAndRightsAPI;
+  // const [isOpenDelete, setIsOpenDelete] = useState(false);
+
+  const { useGetPermissionsRolesQuery } = airSalesRolesAndRightsAPI;
+  // const organizationId  = user?.organization 65952bbf6d2c26398e492e42
+  // const organizationCompanyAccountId = user?.account?.company?._id; 6597d07959d5ddb8341e316f
+  // const productId = user?.product?._id; 6584ff9b508107024e1e3b14
 
   const permissionParams = {
     page: page,
     limit: pageLimit,
-    organizationCompanyAccountId: '655d896c16999d346fa1b7d1',
-    productId: '6541cbb46e917be584ed1a31',
+    organizationCompanyAccountId: '6597d07959d5ddb8341e316f',
+    organizationId: '65952bbf6d2c26398e492e42',
+    productId: '6584ff9b508107024e1e3b14',
     search: filterValues?.search ?? undefined,
   };
 
-  const { data: getPermissions } =
-    useGetPermissionsRolesQuery(permissionParams);
+  const {
+    data: getPermissions,
+    isLoading,
+    isSuccess,
+  } = useGetPermissionsRolesQuery(permissionParams);
 
   const handleChange = () => {
     setExpanded(!expanded);
@@ -53,38 +59,33 @@ const useRoleAndRight: any = () => {
   };
 
   const handleCloseDrawer = () => {
-    setIsDraweropen({ isToggle: false, type: '' });
+    setIsDraweropen({ isToggle: false, type: '', id: '' });
   };
-
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-  });
 
   return {
     handleCloseDrawer,
     setIsDraweropen,
-    setIsOpenDelete,
+    setFilterValues,
     setCheckedRows,
+    getPermissions,
     selectedValue,
-    isOpenDelete,
     handleChange,
     isDraweropen,
+    setPageLimit,
+    filterValues,
     setExpanded,
     handleClick,
     handleClose,
     checkedRows,
+    pageLimit,
+    isLoading,
     expanded,
     navigate,
-    methods,
     theme,
     open,
-    getPermissions,
     page,
     setPage,
-    pageLimit,
-    setPageLimit,
-    filterValues,
-    setFilterValues,
+    isSuccess,
   };
 };
 

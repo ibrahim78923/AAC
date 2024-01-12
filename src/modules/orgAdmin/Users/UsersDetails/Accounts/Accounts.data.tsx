@@ -3,39 +3,50 @@ import { Box, Typography } from '@mui/material';
 import { SwitchBtn } from '@/components/SwitchButton';
 
 import { LogoIcon } from '@/assets/icons';
+import Image from 'next/image';
+import { IMG_URL } from '@/config';
 
-export const companyColumns: any = [
+export const companyColumns: any = (handleStatusUpdate: any) => [
   {
-    accessorFn: (row: any) => row?.Product,
+    accessorFn: (row: any) => row?.product,
     id: 'product',
     isSortable: true,
     header: 'Product',
     cell: (info: any) => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <LogoIcon />
+        {info?.getValue()?.logo ? (
+          <Image
+            src={`${IMG_URL}${info?.getValue()?.logo?.url}`}
+            alt="product img missing"
+            width={30}
+            height={38}
+          />
+        ) : (
+          <LogoIcon />
+        )}
         <Typography sx={{ fontSize: '12px' }}>
-          {info?.row?.original?.product?.name}
+          {info?.getValue()?.name}
         </Typography>
       </Box>
     ),
   },
   {
-    accessorFn: (row: any) => row?.Company,
+    accessorFn: (row: any) => row?.company?.accountName,
     id: 'company',
     isSortable: true,
     header: 'Company',
     cell: (info: any) => info?.getValue() ?? 'N/A',
   },
   {
-    accessorFn: (row: any) => row?.email,
+    accessorFn: (row: any) => row?.user[0]?.email,
     id: 'email',
     isSortable: true,
     header: 'Email',
     cell: (info: any) => info?.getValue() ?? 'N/A',
   },
   {
-    accessorFn: (row: any) => row?.manageRole,
-    id: 'manageRole',
+    accessorFn: (row: any) => row?.role?.name,
+    id: 'name',
     isSortable: true,
     header: 'Manage Roles',
     cell: (info: any) => info?.getValue(),
@@ -47,7 +58,10 @@ export const companyColumns: any = [
     header: 'Status',
     cell: (info: any) => (
       <SwitchBtn
-        checked={info?.row?.original?.status === 'ACTIVE' ? true : false}
+        defaultChecked={info?.row?.original?.status === 'ACTIVE' ? true : false}
+        handleSwitchChange={(val: any) =>
+          handleStatusUpdate(info?.row?.original?._id, val?.target?.checked)
+        }
       />
     ),
   },

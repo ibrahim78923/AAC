@@ -31,7 +31,7 @@ const DashboardAccordion = ({ subModules }: any) => {
                   label: item?.name,
                   value: item?.slug,
                 }))}
-                GridView={3}
+                GridView={12}
               />
             </Grid>
           </AccordionDetails>
