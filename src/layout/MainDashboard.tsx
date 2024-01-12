@@ -453,10 +453,10 @@ const DashboardLayout = ({ children, window }: any) => {
     socket.on(CHAT_SOCKETS?.ON_NEW_CHAT, (payload: any) => {
       dispatch(setChatContacts(payload));
     });
-    socket.on(CHAT_SOCKETS?.SOCKET_ERROR_OCCURED, (payload: any) => {
-      enqueueSnackbar(payload?.message, {
-        variant: 'error',
-      });
+    socket.on(CHAT_SOCKETS?.SOCKET_ERROR_OCCURED, () => {
+      // enqueueSnackbar(payload?.message, {
+      //   variant: 'error',
+      // });
     });
     socket.on(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, (payload: any) => {
       if (payload?.data) {

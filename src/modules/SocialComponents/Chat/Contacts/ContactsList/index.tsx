@@ -84,7 +84,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   };
 
   useEffect(() => {
-    if (contactsData?.data?.chats?.length > 0) {
+    if (contactsData?.data?.chats) {
       dispatch(setChatContacts(contactsData?.data?.chats));
     }
   }, [contactsData?.data?.chats, chatMode]);

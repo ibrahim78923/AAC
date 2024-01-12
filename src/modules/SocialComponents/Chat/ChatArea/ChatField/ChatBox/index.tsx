@@ -57,6 +57,7 @@ const ChatBox = ({
   const dispatch = useAppDispatch();
 
   const socket = useAppSelector((state) => state?.chat?.socket);
+  // const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
 
   const handelSendReaction = (emoji: any, item: any) => {
     const isReactionExists = item?.reactions?.some(
@@ -101,6 +102,7 @@ const ChatBox = ({
         socket.emit('update-message', {
           messageId: item?._id,
           isRead: true,
+          // groupId: activeChatId
         });
       }
     }
