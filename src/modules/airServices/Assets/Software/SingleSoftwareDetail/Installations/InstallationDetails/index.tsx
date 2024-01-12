@@ -25,6 +25,7 @@ export const InstallationDetails = () => {
     <>
       <InstallationHeader
         activeCheck={activeCheck}
+        setActiveCheck={setActiveCheck}
         searchBy={searchBy}
         setSearchBy={setSearchBy}
         getInstallationListDataExport={getInstallationListDataExport}

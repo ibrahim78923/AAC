@@ -2,9 +2,29 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'SOFTWARE_INSTALLATION';
+const TAG_ONE = 'DROPDOWN_ASSETS';
 
-export const InstallationAPI = baseAPI?.injectEndpoints({
-  endpoints: (builder: any) => ({
+export const installationAPI = baseAPI?.injectEndpoints({
+  endpoints: (builder) => ({
+    postInstallation: builder?.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.ADD_SOFTWARE_INSTALLATION}/${id}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getAssetsDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_ASSETS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_ONE],
+    }),
     getInstallationById: builder?.query({
       query: (params: any) => ({
         url: `${END_POINTS?.SOFTWARE_INSTALLATION}`,
@@ -22,9 +42,20 @@ export const InstallationAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    removeInstallation: builder?.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.REMOVE_SOFTWARE_INSTALLATION}/${id}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 export const {
   useLazyGetInstallationByIdQuery,
   useLazyGetExportInstallationQuery,
-} = InstallationAPI;
+  useLazyGetAssetsDropdownQuery,
+  usePostInstallationMutation,
+  useRemoveInstallationMutation,
+} = installationAPI;

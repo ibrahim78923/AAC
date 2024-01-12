@@ -4,16 +4,20 @@ import { AlertModals } from '@/components/AlertModals';
 import { ExportButton } from '@/components/ExportButton';
 import AddDevice from '../../AddDevice';
 import { useInstallationHeader } from './useInstallationHeader';
-import { EXPORT_TYPE } from '@/constants/strings';
+import { ALERT_MODALS_TYPE, EXPORT_TYPE } from '@/constants/strings';
 
 const DELETE_MESSAGE = 'Are you sure you want to delete selected Device?';
-const MODAL_TYPE = 'delete';
 
 export const InstallationHeader = (props: any) => {
   const { activeCheck, searchBy, setSearchBy, getInstallationListDataExport } =
     props;
-  const { deleteModal, setDeleteModal, submitDeleteModel } =
-    useInstallationHeader();
+  const {
+    deleteModal,
+    setDeleteModal,
+    submitDeleteModel,
+    isLoading,
+    handleOpenDelete,
+  } = useInstallationHeader(props);
   return (
     <>
       <Box
@@ -35,7 +39,7 @@ export const InstallationHeader = (props: any) => {
             color="secondary"
             variant="outlined"
             disabled={!!!activeCheck?.length}
-            onClick={() => setDeleteModal(true)}
+            onClick={handleOpenDelete}
           >
             Remove Device
           </Button>
@@ -44,7 +48,7 @@ export const InstallationHeader = (props: any) => {
               getInstallationListDataExport(EXPORT_TYPE?.CSV)
             }
             handleExcelExport={() =>
-              getInstallationListDataExport(EXPORT_TYPE?.CSV)
+              getInstallationListDataExport(EXPORT_TYPE?.XLS)
             }
           />
           <AddDevice />
@@ -54,8 +58,9 @@ export const InstallationHeader = (props: any) => {
         open={deleteModal}
         message={DELETE_MESSAGE}
         handleClose={() => setDeleteModal(false)}
-        handleSubmit={submitDeleteModel}
-        type={MODAL_TYPE}
+        handleSubmitBtn={submitDeleteModel}
+        type={ALERT_MODALS_TYPE?.DELETE}
+        loading={isLoading}
       />
     </>
   );
