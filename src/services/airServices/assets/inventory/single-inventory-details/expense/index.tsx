@@ -35,11 +35,13 @@ export const inventoryExpense = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     deleteInventoryExpense: builder.mutation({
-      query: (params: any) => ({
-        url: `${DELETE_INVENTORY_EXPENSE}`,
-        method: 'DELETE',
-        params,
-      }),
+      query: (params: any) => {
+        const deleteId = params?.ids.join('&ids=');
+        return {
+          url: `${DELETE_INVENTORY_EXPENSE}/{ids}?ids=${deleteId}`,
+          method: 'DELETE',
+        };
+      },
       invalidatesTags: [TAG],
     }),
   }),

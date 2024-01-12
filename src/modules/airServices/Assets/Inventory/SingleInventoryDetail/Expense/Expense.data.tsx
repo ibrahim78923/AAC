@@ -7,8 +7,12 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { EXPENSE_TYPE } from '@/constants/strings';
 
-export const orderDropdown = ['Purchase Cost', 'maintenance cost'];
+export const expenseTypeDropdown = [
+  EXPENSE_TYPE?.PURCHASE,
+  EXPENSE_TYPE?.MAINTENANCE,
+];
 
 export const addExpenseValidationSchema: any = yup?.object()?.shape({
   type: yup?.string()?.required('Required field!'),
@@ -32,8 +36,9 @@ export const addExpenseFormData = [
       fullWidth: true,
       name: 'type',
       label: 'Expense Type',
+      placeholder: 'Expense Type',
       select: true,
-      options: orderDropdown,
+      options: expenseTypeDropdown,
       required: true,
     },
     gridLength: 12,

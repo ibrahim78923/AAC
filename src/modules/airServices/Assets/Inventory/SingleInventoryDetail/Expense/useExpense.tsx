@@ -9,7 +9,6 @@ import {
   addExpenseValidationSchema,
   expenseActionsDropdownFunction,
 } from './Expense.data';
-import { useSearchParams } from 'next/navigation';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { PAGINATION } from '@/config';
 import {
@@ -18,6 +17,7 @@ import {
   usePatchInventoryExpenseMutation,
   usePostInventoryExpenseMutation,
 } from '@/services/airServices/assets/inventory/single-inventory-details/expense';
+import { useRouter } from 'next/router';
 
 export const useExpense = () => {
   const [selectedExpenseList, setSelectedExpenseList] = useState([]);
@@ -30,18 +30,20 @@ export const useExpense = () => {
     useState<boolean>(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-
+  const router = useRouter();
+  const assetId = router.query.inventoryId;
   const params = {
+    assetId,
     page: page,
     limit: pageLimit,
   };
   const EXPENSE_DELETE = 'delete';
   const UPDATE_EXPENSE = 'Add New Expense';
-  const searchParams = useSearchParams();
-  const assetId = searchParams.get('inventoryId');
+
   const { data, isLoading, isSuccess, isFetching } =
     useGetInventoryExpenseQuery(params);
   const expenseData = data?.data?.expenses;
+
   const metaData = data?.data?.meta;
 
   const addExpenseMethods: any = useForm({
