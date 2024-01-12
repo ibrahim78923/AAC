@@ -30,6 +30,7 @@ export const AddToInventory = (props: any) => {
     handleRadioChange,
     toShow,
     setToShow,
+    purchaseOrderDetail,
   } = useAddToInventoryDrawer(props);
 
   return (
@@ -89,9 +90,12 @@ export const AddToInventory = (props: any) => {
                 alt="item Status"
               />
               <Box display={'flex'} flexDirection={'column'} marginLeft={0.5}>
-                <Typography variant="h6">Item Status</Typography>
+                <Typography variant="h6">Status</Typography>
                 <Chip
-                  label="Received"
+                  label={
+                    purchaseOrderDetail?.status &&
+                    `: ${purchaseOrderDetail?.status}`
+                  }
                   color="primary"
                   variant="outlined"
                   sx={{ mt: '0.5rem' }}
@@ -118,7 +122,7 @@ export const AddToInventory = (props: any) => {
             >
               <Typography variant="h5">Items added to inventory</Typography>
               <Typography variant="body1" mt={1} ml={1}>
-                2
+                {purchaseOrderDetail?.purchaseDetails?.[0]?.quantity}
               </Typography>
             </Grid>
             <Divider />
@@ -191,44 +195,27 @@ export const AddToInventory = (props: any) => {
               <Grid container spacing={2}>
                 {toShow === true
                   ? filteredYes?.map((item: any) => (
-                      <Grid item xs={4} md={item?.md} key={uuidv4()}>
-                        {item?.component && (
-                          <item.component
-                            {...item?.componentProps}
-                            size={'small'}
-                          >
-                            {item?.componentProps?.select
-                              ? item?.options?.map((option: any) => (
-                                  <option key={uuidv4()} value={option?.value}>
-                                    {option?.label}
-                                  </option>
-                                ))
-                              : null}
-                          </item.component>
-                        )}
+                      <Grid item xs={12} md={item?.md} key={item?.id}>
+                        <item.component
+                          {...item?.componentProps}
+                          size="small"
+                        />
                       </Grid>
                     ))
                   : filteredNo?.map(
                       (item: any) =>
                         item?.component && (
-                          <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                            {item?.componentProps?.select ? (
-                              <item.component
-                                {...item?.componentProps}
-                                size="small"
-                              >
-                                {item?.options?.map((option: any) => (
-                                  <option key={uuidv4()} value={option?.value}>
-                                    {option?.label}
-                                  </option>
-                                ))}
-                              </item.component>
-                            ) : (
-                              <item.component
-                                {...item?.componentProps}
-                                size="small"
-                              />
-                            )}
+                          <Grid
+                            item
+                            xs={12}
+                            md={item?.md}
+                            key={item?.id}
+                            mt={2}
+                          >
+                            <item.component
+                              {...item?.componentProps}
+                              size="small"
+                            />
                           </Grid>
                         ),
                     )}

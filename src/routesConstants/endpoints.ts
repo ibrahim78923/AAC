@@ -159,6 +159,7 @@ export const END_POINTS = {
   DROPDOWN_FOLDERS: `/dropdown/folders`,
   DROPDOWN_LOCATION: '/location/get-location',
   DROPDOWN_USERS: '/dropdown/all-users',
+  DROPDOWN_ALL_ASSETS: '/dropdown/all-assets',
   ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
   DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
   ASSETS_INVENTORY_DETAIL: '/assets/get-inventory-detail',
@@ -172,6 +173,9 @@ export const END_POINTS = {
   ASSETS_INVENTORY_CONTRACTS: '/assets/inventory-contract-list',
   DEPARTMENT_UPDATE: '/department/update',
   DEPARTMENT_DELETE: '/department/delete-department',
+  ASSETS_PURCHASEORDER_DETAIL: '/assets/purchaseorder',
+  ASSETS_PURCHASEORDER: '/assets/purchase_order_inventory',
+  EDIT_NEW_PURCHASEORDER: '/assets/update_purchase_order_inventory',
 };
 
 export const superAdminBillingInvoices = {

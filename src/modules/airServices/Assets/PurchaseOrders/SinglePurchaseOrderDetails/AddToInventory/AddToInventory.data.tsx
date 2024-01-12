@@ -1,75 +1,63 @@
 import {
-  RHFRadioGroup,
-  RHFSelect,
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+
+import { ASSET_IMPACT } from '@/constants/strings';
+import { Box, Typography } from '@mui/material';
+import dayjs from 'dayjs';
+
+import { DATE_FORMAT } from '@/constants';
+import { AddCircleIcon } from '@/assets/icons';
+export const assetsImpactOptions = [
+  ASSET_IMPACT?.LOW,
+  ASSET_IMPACT?.MEDIUM,
+  ASSET_IMPACT?.HIGH,
+];
 export const addInventoryValidationSchemaOne = Yup?.object()?.shape({
-  description: Yup?.string()?.required('Field is Required'),
-  assetnameprefix: Yup?.string()?.required('Field is Required'),
-  location: Yup?.string(),
-  acquisitionDate: Yup?.string(),
-  assetstate: Yup?.string()?.required('Field is Required'),
+  // description: Yup?.string()?.required('Field is Required'),
+  displayName: Yup?.string()?.required('Field is Required'),
+  impact: Yup?.string(),
 });
 export const addInventoryValidationSchemaUpdate = Yup?.object()?.shape({
-  updateExisting: Yup?.string()?.required('Field is Required'),
-  dellMonitor: Yup?.boolean(),
-  mouse: Yup?.boolean(),
-  lcd: Yup?.boolean(),
+  allAssets: Yup?.mixed()?.nullable(),
 });
 export const addToInventoryItemStatusValidationSchema = Yup?.object()?.shape({
   assetName: Yup?.string()?.required('Field is Required'),
   serialNumber: Yup?.string(),
   assetTag: Yup?.string(),
 });
-
-export const addInventoryDefaultValuesOne = {
-  description: '',
-  assetnameprefix: '',
-  location: '',
-  acquisitionDate: '',
-  assetstate: '',
+export const addInventoryDefaultValuesFunction = (data?: any) => {
+  return {
+    displayName: data?.displayName ?? '',
+    impact: data?.impact ?? '',
+    location: data?.location?._id ?? '',
+    department: data?.department?._id ?? '',
+  };
 };
 
 export const addInventoryDefaultValuesOneUpdate = {
-  updateExisting: '',
-  dellMonitor: false,
-  mouse: false,
-  lcd: false,
+  allAssets: '',
 };
-export const addToInventoryItemStatusDefaultValues = {
-  assetName: '',
-  serialNumber: '',
-  assetTag: '',
+export const addToInventoryItemStatusDefaultValuesFunction = () => {
+  return {
+    assetName: '',
+    serialNumber: '',
+    assetTag: '',
+  };
 };
 
-const locationOptions = [
+export const addToInventoryItemAddedFormFieldsDataFunction = (
+  apiQueryDepartment: any,
+  apiQueryLocations: any,
+  apiQueryAssociateAsset: any,
+) => [
   {
-    value: 'afghanistan',
-    label: 'Afghanistan',
-  },
-  {
-    value: 'alandIslands',
-    label: 'Aland Islands',
-  },
-  {
-    value: 'albania',
-    label: 'Albania',
-  },
-  {
-    value: 'American Samoa',
-    label: 'American Samoa',
-  },
-];
-const updatingOptions = [
-  { label: 'LCD', value: 'lcd' },
-  { label: 'Dell Monitor', value: 'dellMonitor' },
-  { label: 'Mouse', value: 'mouse' },
-];
-export const addToInventoryItemAdded = [
-  {
+    id: 1,
     componentProps: {
-      name: 'assetnameprefix',
+      name: 'displayName',
       label: 'Asset Name Prefix',
       fullWidth: true,
     },
@@ -78,47 +66,81 @@ export const addToInventoryItemAdded = [
     md: 12,
   },
   {
+    id: 2,
     componentProps: {
+      name: 'impact',
+      label: 'Impact',
+      fullWidth: true,
+      placeholder: 'Choose Impact',
+      options: assetsImpactOptions,
+    },
+    toShow: 'Yes',
+    component: RHFAutocomplete,
+    md: 12,
+  },
+  {
+    id: 3,
+    componentProps: {
+      fullWidth: true,
+      name: 'department',
+      label: 'Department',
+      placeholder: 'Select department',
+      apiQuery: apiQueryDepartment,
+    },
+    toShow: 'Yes',
+    component: RHFAutocompleteAsync,
+  },
+  {
+    id: 4,
+    componentProps: {
+      fullWidth: true,
       name: 'location',
-      label: 'Location',
-      fullWidth: true,
-      select: true,
-    },
-    options: locationOptions,
-    toShow: 'Yes',
-    component: RHFSelect,
-    md: 12,
-  },
-
-  {
-    componentProps: {
-      name: 'acquisitionDate',
-      label: 'Acquisition Date',
+      label: 'Locations',
+      placeholder: 'Select location',
+      apiQuery: apiQueryLocations,
+      getOptionLabel: (option: any) => option?.locationName,
     },
     toShow: 'Yes',
-    component: RHFTextField,
-    md: 12,
+    component: RHFAutocompleteAsync,
   },
   {
+    id: 16,
     componentProps: {
-      name: 'assetstate',
-      label: 'Asset state',
+      name: 'allAssets',
+      label: 'All Assets',
       fullWidth: true,
-    },
-    toShow: 'Yes',
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'updateExisting',
-      fullWidth: true,
-      row: false,
-      options: updatingOptions,
+      multiple: true,
+      apiQuery: apiQueryAssociateAsset,
+      externalParams: { limit: 50 },
+      getOptionLabel: (option: any) => option?.displayName,
+      renderOption: (option: any) => (
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          width={'100%'}
+        >
+          <Box>
+            <Typography variant={'body2'} color={'grey.600'} fontWeight={500}>
+              {option?.displayName}
+            </Typography>
+            <Typography variant={'body4'} color={'grey.900'}>
+              {option?.assetType}
+            </Typography>
+          </Box>
+          <Typography variant={'body4'} color={'grey.900'}>
+            EOL:
+            {dayjs(option?.assetLifeExpiry)?.format(DATE_FORMAT?.UI) ??
+              dayjs(new Date())?.format(DATE_FORMAT?.UI)}
+          </Typography>
+        </Box>
+      ),
+      placeholder: 'Choose Assets',
+      EndIcon: AddCircleIcon,
+      endIconSx: { color: 'primary.main' },
     },
     toShow: 'No',
-    component: RHFRadioGroup,
-    md: 12,
+    component: RHFAutocompleteAsync,
   },
 ];
 

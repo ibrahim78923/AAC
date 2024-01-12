@@ -66,6 +66,8 @@ export const TAGS = [
   'CONTACT_NOTE',
   'ASSETS_INVENTORY_PURCHASE_ORDER',
   'ASSETS_INVENTORY_CONTRACTS',
+  'DROPDOWN_ALL_ASSETS',
+  'ASSETS_PURCHASEORDER',
 ];
 
 const baseQuery = fetchBaseQuery({
