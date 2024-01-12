@@ -33,13 +33,13 @@ export const addInventoryDefaultValuesFunction = (data?: any) => {
   return {
     displayName: data?.displayName ?? '',
     impact: data?.impact ?? '',
-    location: data?.location?._id ?? '',
-    department: data?.department?._id ?? '',
+    location: data?.location?._id ?? null,
+    department: data?.department?._id ?? null,
   };
 };
 
 export const addInventoryDefaultValuesOneUpdate = {
-  allAssets: '',
+  allAssets: null,
 };
 export const addToInventoryItemStatusDefaultValuesFunction = () => {
   return {
@@ -54,6 +54,49 @@ export const addToInventoryItemAddedFormFieldsDataFunction = (
   apiQueryLocations: any,
   apiQueryAssociateAsset: any,
 ) => [
+  {
+    id: 16,
+    toShow: 'No',
+    componentProps: {
+      name: 'allAssets',
+      label: 'Associate Assets',
+      fullWidth: true,
+      multiple: true,
+      apiQuery: apiQueryAssociateAsset,
+      externalParams: { limit: 50 },
+      getOptionLabel: (option: any) => option?.displayName,
+      renderOption: (option: any) => (
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          width={'100%'}
+        >
+          <Box>
+            <Typography variant={'body2'} color={'grey.600'} fontWeight={500}>
+              {option?.displayName}
+            </Typography>
+            <Typography variant={'body4'} color={'grey.900'}>
+              {option?.assetType}
+            </Typography>
+          </Box>
+          <Typography variant={'body4'} color={'grey.900'}>
+            EOL:
+            {dayjs(option?.assetLifeExpiry)?.format(DATE_FORMAT?.UI) ??
+              dayjs(new Date())?.format(DATE_FORMAT?.UI)}
+          </Typography>
+        </Box>
+      ),
+      placeholder: 'Choose Assets',
+      EndIcon: AddCircleIcon,
+      endIconSx: { color: 'primary.main' },
+      endIconClick: () => {
+        // router?.push(AIR_SERVICES?.UPSERT_INVENTORY);
+      },
+    },
+
+    component: RHFAutocompleteAsync,
+  },
   {
     id: 1,
     componentProps: {
@@ -101,45 +144,6 @@ export const addToInventoryItemAddedFormFieldsDataFunction = (
       getOptionLabel: (option: any) => option?.locationName,
     },
     toShow: 'Yes',
-    component: RHFAutocompleteAsync,
-  },
-  {
-    id: 16,
-    componentProps: {
-      name: 'allAssets',
-      label: 'All Assets',
-      fullWidth: true,
-      multiple: true,
-      apiQuery: apiQueryAssociateAsset,
-      externalParams: { limit: 50 },
-      getOptionLabel: (option: any) => option?.displayName,
-      renderOption: (option: any) => (
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-          width={'100%'}
-        >
-          <Box>
-            <Typography variant={'body2'} color={'grey.600'} fontWeight={500}>
-              {option?.displayName}
-            </Typography>
-            <Typography variant={'body4'} color={'grey.900'}>
-              {option?.assetType}
-            </Typography>
-          </Box>
-          <Typography variant={'body4'} color={'grey.900'}>
-            EOL:
-            {dayjs(option?.assetLifeExpiry)?.format(DATE_FORMAT?.UI) ??
-              dayjs(new Date())?.format(DATE_FORMAT?.UI)}
-          </Typography>
-        </Box>
-      ),
-      placeholder: 'Choose Assets',
-      EndIcon: AddCircleIcon,
-      endIconSx: { color: 'primary.main' },
-    },
-    toShow: 'No',
     component: RHFAutocompleteAsync,
   },
 ];

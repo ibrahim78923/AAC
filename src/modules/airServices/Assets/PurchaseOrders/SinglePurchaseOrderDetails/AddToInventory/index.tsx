@@ -214,7 +214,7 @@ export const AddToInventory = (props: any) => {
                           >
                             <item.component
                               {...item?.componentProps}
-                              size="small"
+                              size={'small'}
                             />
                           </Grid>
                         ),

@@ -131,7 +131,7 @@ export default function useAddToInventoryDrawer(props: any) {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
-    methodsNo?.reset(addInventoryDefaultValuesOneUpdate);
+    // methodsNo?.reset(addInventoryDefaultValuesOneUpdate);
   });
   const submitHandlerTwo = handleSubmitTwo(() => {
     enqueueSnackbar('item added to inventory Successfully', {
