@@ -18,6 +18,20 @@ export const styles = {
     };
   },
 
+  customButtons: (theme: any) => {
+    return {
+      backgroundColor: theme?.palette?.primary?.main,
+      padding: '9px 20px',
+      margin: '0 auto',
+      marginTop: '12px',
+      display: 'flex',
+      alignItems: 'center',
+      borderRadius: '8px',
+      color: theme.palette?.common?.white,
+      fontSize: '14px',
+    };
+  },
+
   chatFooter: () => {
     return {
       height: '57px',

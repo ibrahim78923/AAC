@@ -7,7 +7,7 @@ import CustomTextEditor from '../CustomTextEditor';
 
 // ----------------------------------------------------------------------
 
-export default function RHFEditor({ name, required, ...other }: any) {
+export default function RHFEditor({ name, required, disabled, ...other }: any) {
   const { control } = useFormContext();
 
   return (
@@ -25,6 +25,7 @@ export default function RHFEditor({ name, required, ...other }: any) {
             value={field?.value}
             onChange={field?.onChange}
             error={!!error}
+            readOnly={disabled}
             {...other}
           />
           <FormHelperText

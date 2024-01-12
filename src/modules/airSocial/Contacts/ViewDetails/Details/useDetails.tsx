@@ -19,8 +19,6 @@ import useAuth from '@/hooks/useAuth';
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-// import { DATE_FORMAT } from '@/constants';
-// import dayjs from 'dayjs';
 
 const useDetails = () => {
   const router = useRouter();

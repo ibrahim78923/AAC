@@ -158,9 +158,10 @@ export const END_POINTS = {
   KNOWLEDGE_BASE_ARTICLES: `/articles`,
   DROPDOWN_FOLDERS: `/dropdown/folders`,
   DROPDOWN_LOCATION: '/location/get-location',
-  DROPDOWN_USERS: '',
+  DROPDOWN_USERS: '/dropdown/all-users',
   ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
   DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
+  ASSETS_INVENTORY_DETAIL: '/assets/get-inventory-detail',
   CONTACT_NOTE: '/contact-note/note',
   CONTACT_CALL: `/contact-call/call`,
   ADD_CONTRACT: `/contract/add-contract`,
@@ -169,6 +170,12 @@ export const END_POINTS = {
   DELETED_CONTACT_LIST: `/contact/contact-deleted-list`,
   CONTACT_RESTORE: `/contact/restore`,
   CONTACT_DELETE_PERMANENT: `/contact/permanent`,
+  GET_INVENTORY_OVERVIEW: `/assets/get-inventory-detail`,
+  ASSETS_DROPDOWN: '/assets/inventory',
+  ASSETS_INVENTORY_PURCHASE_ORDER: '/assets/inventory-purchase-order-list',
+  ASSETS_INVENTORY_CONTRACTS: '/assets/inventory-contract-list',
+  DEPARTMENT_UPDATE: '/department/update',
+  DEPARTMENT_DELETE: '/department/delete-department',
 };
 
 export const superAdminBillingInvoices = {
@@ -234,7 +241,7 @@ export const COMMON_DOCUMENTS = {
 };
 
 export const INVOICE = {
-  GET_INVOICE_QUOTE: '/quote-invoice',
+  GET_QUOTE_ID: '/quote',
   POST_INVOICE_QUOTE: '/quote-invoice',
   GET_INVOICE_QUOTE_LIST: '/quote',
 };

@@ -1,7 +1,8 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { ASSET_IMPACT, ASSET_TYPE, TIME_PERIODS } from '@/constants/strings';
 import { Checkbox, Typography } from '@mui/material';
+import dayjs from 'dayjs';
 
 export const inventoryListsData: any = [
   {
@@ -73,11 +74,11 @@ export const assetLifeExpiryOptions = [
     label: TIME_PERIODS?.PREVIOUS_MONTH,
   },
   {
-    _id: TIME_PERIODS?.NEXT_WEEK,
+    _id: TIME_PERIODS?.PREVIOUS_WEEK,
     label: TIME_PERIODS?.NEXT_WEEK,
   },
   {
-    _id: TIME_PERIODS?.NEXT_MONTH,
+    _id: TIME_PERIODS?.PREVIOUS_MONTH,
     label: TIME_PERIODS?.NEXT_MONTH,
   },
 ];
@@ -194,32 +195,35 @@ export const inventoryListsColumnsFunction: any = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.assetType,
+    accessorFn: (row: any) => row?.assetTypeDetails,
     id: 'assetType',
     header: 'Asset Type',
     isSortable: true,
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue()?.name,
   },
   {
-    accessorFn: (row: any) => row?.locationId,
+    accessorFn: (row: any) => row?.locationDetails,
     id: 'locationId',
     isSortable: true,
     header: 'Location',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue()?.locationName,
   },
   {
-    accessorFn: (row: any) => row?.UsedBy,
+    accessorFn: (row: any) => row?.userDetails,
     id: 'UsedBy',
     isSortable: true,
     header: 'Used By',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      `${info?.getValue()?.firstName ?? ''} ${
+        info?.getValue()?.lastName ?? ''
+      }`,
   },
   {
-    accessorFn: (row: any) => row?.departmentId,
+    accessorFn: (row: any) => row?.departmentDetails,
     id: 'departmentId',
     isSortable: true,
     header: 'Department',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue()?.name,
   },
   {
     accessorFn: (row: any) => row?.impact,
@@ -229,10 +233,10 @@ export const inventoryListsColumnsFunction: any = (
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.assetLifeExpireOn,
+    accessorFn: (row: any) => row?.assetLifeExpiry,
     id: 'assetLifeExpireOn',
     isSortable: true,
     header: 'Asset life expire on',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
   },
 ];

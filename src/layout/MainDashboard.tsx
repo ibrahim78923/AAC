@@ -24,6 +24,7 @@ import Header from './Header';
 
 import {
   setChangeChat,
+  setChatContacts,
   setChatMessages,
   setSocketConnection,
   setTypingUserData,
@@ -45,6 +46,8 @@ import useAuth from '@/hooks/useAuth';
 
 import * as io from 'socket.io-client';
 import { styles } from './Layout.style';
+import { enqueueSnackbar } from 'notistack';
+import { CHAT_SOCKETS } from '@/routesConstants/paths';
 
 const drawerWidth = 230;
 
@@ -416,46 +419,64 @@ const DashboardLayout = ({ children, window }: any) => {
 
   const [socket, setSocket] = useState<any>();
   useEffect(() => {
-    if (!socket) {
-      const res: any = io.connect(`${process.env.NEXT_PUBLIC_BASE_URL}`, {
-        auth: (cb) => {
-          cb({
-            accessToken: accessToken,
-          });
-        },
-        extraHeaders: {
-          'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
-        },
+    try {
+      if (!socket) {
+        const res: any = io.connect(`${process?.env?.NEXT_PUBLIC_BASE_URL}`, {
+          auth: (cb) => {
+            cb({
+              accessToken: accessToken,
+            });
+          },
+          extraHeaders: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        });
+
+        setSocket(res);
+        dispatch(setSocketConnection({ isConnected: true, socket: res }));
+      }
+    } catch (err: any) {
+      enqueueSnackbar(err?.message, {
+        variant: 'error',
       });
-      setSocket(res);
-      dispatch(setSocketConnection({ isConnected: true, socket: res }));
     }
-  }, []);
+  }, [socket]);
 
   if (socket) {
-    socket.on('on-status-change', () => {});
-    socket.on('add-message', () => {});
-    socket.on('on-new-chat', () => {});
-    socket.on('on-message-received', (payload: any) => {
+    socket.on(CHAT_SOCKETS?.ON_STATUS_CHANGE, () => {});
+
+    socket.on(CHAT_SOCKETS?.ON_GROUP_CREATE, (payload: any) => {
+      dispatch(setChatContacts(payload));
+    });
+    socket.on(CHAT_SOCKETS?.ADD_MESSAGE, () => {});
+
+    socket.on(CHAT_SOCKETS?.ON_NEW_CHAT, (payload: any) => {
+      dispatch(setChatContacts(payload));
+    });
+    socket.on(CHAT_SOCKETS?.SOCKET_ERROR_OCCURED, (payload: any) => {
+      enqueueSnackbar(payload?.message, {
+        variant: 'error',
+      });
+    });
+    socket.on(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, (payload: any) => {
       if (payload?.data) {
         dispatch(setChatMessages(payload?.data));
         dispatch(setChangeChat(payload?.data));
       }
     });
-    socket.on('update-message', () => {});
-
+    socket.on(CHAT_SOCKETS?.UPDATE_MESSAGE, () => {});
     socket.on('on-message-update', (payload: any) => {
       dispatch(setChatMessages(payload?.data));
     });
 
-    socket.on('on-typing-start', (payload: any) => {
+    socket.on(CHAT_SOCKETS?.ON_TYPING_START, (payload: any) => {
       dispatch(
         setTypingUserData({
           userName: payload?.typingUserName,
         }),
       );
     });
-    socket.on('on-typing-stop', () => {
+    socket.on(CHAT_SOCKETS?.ON_TYPING_STOP, () => {
       dispatch(setTypingUserData({}));
     });
   }
