@@ -81,7 +81,7 @@ const UsersDetailsList = () => {
 
   const { handleUserSwitchChange } = useUserManagement();
 
-  const { userName, userId } = navigate.query;
+  const { userName } = navigate.query;
   const organizationId = useSearchParams()?.get('organizationId');
 
   const employeeRecordsLimit = 10;
@@ -378,7 +378,7 @@ const UsersDetailsList = () => {
           isOpen={isOpenAddAccountDrawer}
           setIsOpen={setIsOpenAddAccountDrawer}
           organizationId={organizationId}
-          userId={userId}
+          userId={employeeDataById}
         />
       )}
       {isOpenDrawer && (
