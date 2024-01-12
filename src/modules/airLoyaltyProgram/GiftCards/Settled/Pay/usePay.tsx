@@ -3,7 +3,7 @@ import { payTabelData } from './Pay.data';
 import { useTheme } from '@mui/material';
 
 export const usePay = () => {
-  const [hideZeroPrice] = useState(false);
+  const [hideZeroPrice, setHideZeroPrice] = useState(false);
   const { palette } = useTheme();
   const shouldHideColumn = (columnName: string) => {
     return (
@@ -14,5 +14,8 @@ export const usePay = () => {
       )
     );
   };
-  return { palette, shouldHideColumn, hideZeroPrice };
+  const toggleHideZeroPrice = () => {
+    setHideZeroPrice(!hideZeroPrice);
+  };
+  return { palette, shouldHideColumn, hideZeroPrice, toggleHideZeroPrice };
 };

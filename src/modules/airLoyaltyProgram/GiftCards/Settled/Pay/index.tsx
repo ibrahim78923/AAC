@@ -5,7 +5,8 @@ import { PayCard } from './PayCard';
 import { usePay } from './usePay';
 
 export const Pay = () => {
-  const { palette, shouldHideColumn, hideZeroPrice } = usePay();
+  const { palette, shouldHideColumn, hideZeroPrice, toggleHideZeroPrice } =
+    usePay();
 
   return (
     <Box
@@ -13,7 +14,10 @@ export const Pay = () => {
       border={`1px solid ${palette?.custom?.off_white_three}`}
       borderRadius={3}
     >
-      <PayHeader />
+      <PayHeader
+        show={hideZeroPrice}
+        toggleHideZeroPrice={toggleHideZeroPrice}
+      />
       <Grid
         container
         overflow={'auto'}
