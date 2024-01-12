@@ -136,12 +136,12 @@ const useAddUser = (useActionParams?: any) => {
     }
     let keysToDelete: any = [
       'flat',
-      'compositeAddress',
       'buildingNumber',
       'buildingName',
       'city',
       'country',
       'streetName',
+      'compositeAddress',
     ];
 
     if (isOpenAddUserDrawer?.type === 'edit') {
@@ -161,7 +161,7 @@ const useAddUser = (useActionParams?: any) => {
 
     try {
       isOpenAddUserDrawer?.type === 'add'
-        ? (postUsers({ body: values })?.unwrap(),
+        ? (await postUsers({ body: values })?.unwrap(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
           ? (postUserEmployee({ id: organizationId, body: values }),
@@ -173,7 +173,7 @@ const useAddUser = (useActionParams?: any) => {
       setIsAddEmployyeDrawer(false);
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error, {
+      enqueueSnackbar(error?.data?.message, {
         variant: 'error',
       });
     }

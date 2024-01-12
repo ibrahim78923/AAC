@@ -86,7 +86,7 @@ export const inventoryAPI = baseAPI?.injectEndpoints({
     }),
     getUsersDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_LOCATION}`,
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
         method: 'GET',
         params,
       }),
@@ -94,6 +94,21 @@ export const inventoryAPI = baseAPI?.injectEndpoints({
         if (response) return response?.data;
       },
       providesTags: [TAG_FOUR],
+    }),
+    getAddToInventoryById: builder?.query({
+      query: (getSingleAddToInventoryParameter: any) => ({
+        url: `${END_POINTS?.ASSETS_INVENTORY_DETAIL}/${getSingleAddToInventoryParameter?.pathParam?.inventoryId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
+    patchAddToInventory: builder?.mutation({
+      query: (putAddToInventoryParameter: any) => ({
+        url: `${END_POINTS?.ASSETS_INVENTORY}/${putAddToInventoryParameter?.pathParam?.inventoryId}`,
+        method: 'PATCH',
+        body: putAddToInventoryParameter?.body,
+      }),
+      invalidatesTags: [TAG],
     }),
   }),
 });
@@ -109,4 +124,6 @@ export const {
   useLazyGetUsersDropdownQuery,
   useLazyGetDepartmentDropdownQuery,
   useLazyGetLocationsDropdownQuery,
+  usePatchAddToInventoryMutation,
+  useGetAddToInventoryByIdQuery,
 } = inventoryAPI;

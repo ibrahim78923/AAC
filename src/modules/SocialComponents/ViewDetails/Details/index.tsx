@@ -18,7 +18,7 @@ import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const Details = ({ data }: any) => {
+const Details = ({ data, isLoading }: any) => {
   const {
     theme,
     methodsDetails,
@@ -30,7 +30,7 @@ const Details = ({ data }: any) => {
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Details</Typography>
-      {data ? (
+      {data || !isLoading ? (
         <Box sx={styles?.horizontalTabsInnnerBox}>
           <FormProvider
             methods={methodsDetails}
@@ -86,7 +86,7 @@ const Details = ({ data }: any) => {
         <Skeleton
           variant="rectangular"
           width={'100%'}
-          height={50}
+          height={500}
           sx={{ marginTop: '20px' }}
         />
       )}

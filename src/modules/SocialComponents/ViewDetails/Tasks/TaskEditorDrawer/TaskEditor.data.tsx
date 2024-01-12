@@ -58,9 +58,8 @@ export const dealsTasksDataArray = [
       required: true,
     },
     options: [
-      { value: 'To-do', label: 'To-do' },
-      { value: 'Follow-up', label: 'Follow-up' },
-      { value: 'Call reminder', label: 'Call reminder' },
+      { value: 'Call', label: 'Call' },
+      { value: 'Company', label: 'Company' },
       { value: 'Email', label: 'Email' },
     ],
     component: RHFSelect,

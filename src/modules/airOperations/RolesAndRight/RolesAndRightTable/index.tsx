@@ -104,9 +104,9 @@ const RolesAndRightTable = () => {
                 ? 'Save'
                 : 'Add'
           }
-          isOk
-          isDisabled={currentActionType === ROLES_ACTION_CONSTANTS?.SAVE}
-          cancelText={'Cancel'}
+          isOk={!(currentActionType === ROLES_ACTION_CONSTANTS?.VIEW)}
+          isCancel={!(currentActionType === ROLES_ACTION_CONSTANTS?.VIEW)}
+          cancelText={'cancel'}
           footer
           submitHandler={handleSubmit(onSubmit)}
         >

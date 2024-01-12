@@ -7,7 +7,6 @@ import { useTheme } from '@mui/material';
 const useUserDetailsList = () => {
   const theme = useTheme();
   const navigate = useRouter();
-  const [search, setSearch] = useState('');
   const [searchEmployee, setSearchEmployee] = useState('');
   const [tabVal, setTabVal] = useState<number>();
   const [userStatus, setUserStatus] = useState();
@@ -17,6 +16,7 @@ const useUserDetailsList = () => {
   const [isOpenAdduserDrawer, setIsOpenAdduserDrawer] = useState(false);
   const [employeeDataById, setEmployeeDataById] = useState();
   const [isActiveEmp, setIsActiveEmp] = useState(0);
+  const [searchAccount, setSearchAccount] = useState();
   const [employeeFilter, setEmployeeFilter] = useState({
     status: '',
     product: '',
@@ -29,10 +29,6 @@ const useUserDetailsList = () => {
     value: number,
   ) => {
     setPage(value);
-  };
-
-  const handleCloseDrawer = () => {
-    setIsOpenDrawer(false);
   };
   const handleCloseAddCompanyDrawer = () => {
     setISOpenCompanyDrawer(false);
@@ -50,7 +46,6 @@ const useUserDetailsList = () => {
   };
 
   return {
-    handleCloseDrawer,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenAddCompanyDrawer,
@@ -63,8 +58,6 @@ const useUserDetailsList = () => {
     setUserStatus,
     isOpenAddAccountDrawer,
     setIsOpenAddAccountDrawer,
-    search,
-    setSearch,
     tabVal,
     setTabVal,
     theme,
@@ -73,6 +66,8 @@ const useUserDetailsList = () => {
     setEmployeeDataById,
     isActiveEmp,
     setIsActiveEmp,
+    searchAccount,
+    setSearchAccount,
     searchEmployee,
     setSearchEmployee,
     employeeFilter,

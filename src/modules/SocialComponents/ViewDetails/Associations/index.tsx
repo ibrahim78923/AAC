@@ -2,11 +2,9 @@ import { Box, Grid, Typography } from '@mui/material';
 
 import { styles } from '../ViewDetails.style';
 import Attachments from './Attachments';
-import Companies from './Companies';
 import Tickets from './Tickets';
 import Contacts from './Contacts';
-import Products from './Products';
-import Quotes from './Quotes';
+import Deals from './Deals';
 
 const Associations = () => {
   return (
@@ -21,13 +19,7 @@ const Associations = () => {
             <Tickets />
           </Grid>
           <Grid item xs={12}>
-            <Companies />
-          </Grid>
-          <Grid item xs={12}>
-            <Products />
-          </Grid>
-          <Grid item xs={12}>
-            <Quotes />
+            <Deals />
           </Grid>
           <Grid item xs={12}>
             <Attachments />

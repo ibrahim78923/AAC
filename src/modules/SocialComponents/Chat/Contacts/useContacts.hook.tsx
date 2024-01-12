@@ -5,6 +5,8 @@ import {
   setActiveConversation,
   setActiveParticipant,
   setActiveReceiverId,
+  setChatContacts,
+  setChatMessages,
   setChatModes,
 } from '@/redux/slices/chat/slice';
 import { useAppSelector } from '@/redux/store';
@@ -17,10 +19,14 @@ export const useContacts = () => {
     dispatch(setActiveChatId(''));
     dispatch(setActiveReceiverId(''));
     dispatch(setActiveConversation({}));
+    dispatch(setChatMessages([]));
+    dispatch(setChatContacts([]));
     dispatch(
       setActiveParticipant({
         firstName: '',
         lastName: '',
+        email: '',
+        phone: '',
       }),
     );
   };

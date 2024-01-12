@@ -37,7 +37,7 @@ export const useServicesAction = (props: any) => {
       const res = await deleteServiceCatalog(updatedData)?.unwrap();
       setSelectedCheckboxes?.([]);
       setDeleteModalOpen?.(false);
-      enqueueSnackbar(res?.message ?? 'Product Catalog Deleted Successfully!', {
+      enqueueSnackbar(res?.message ?? 'Service Deleted Successfully!', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {

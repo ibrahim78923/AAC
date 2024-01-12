@@ -1,7 +1,7 @@
 export const profileInformation = (profileData: any) => [
   {
     id: profileData?._id,
-    title: profileData?.firstName,
+    title: `${profileData?.firstName} ${profileData?.lastName}`,
     description: profileData?.createdAt,
   },
   {
@@ -15,26 +15,16 @@ export const profileInformation = (profileData: any) => [
     detail: profileData?.phoneNumber,
   },
 ];
-
-export const profileRole = (profileData: any) => [
-  {
-    id: profileData?._id,
-    title: 'Department',
-    detail: 'IT',
-  },
-  {
-    id: profileData?._id,
-    title: 'Role',
-    detail: profileData?.role,
-  },
-  {
-    id: profileData?._id,
-    title: 'Title',
-    detail: 'Mr.',
-  },
-  {
-    id: profileData?._id,
-    title: 'Mobile Phone',
-    detail: profileData?.phoneNumber,
-  },
-];
+export const profileRole = (profileData: any) => {
+  if (profileData) {
+    return [
+      {
+        id: profileData?._id,
+        title: 'Title',
+        detail: 'Mr.',
+      },
+    ];
+  } else {
+    return [];
+  }
+};

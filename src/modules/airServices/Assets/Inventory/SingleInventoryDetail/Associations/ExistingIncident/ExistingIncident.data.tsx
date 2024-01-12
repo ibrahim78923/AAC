@@ -1,6 +1,8 @@
 export const chipColor = (chipLabel: string) => {
-  const Open = 'Open';
-  const InProgress = 'InProgress';
+  const Open = 'OPEN';
+  const InProgress = 'warning';
+  const pending = 'PENDING';
+  const resolved = 'RESOLVED';
 
   let color;
 
@@ -12,7 +14,12 @@ export const chipColor = (chipLabel: string) => {
     case InProgress:
       color = 'warning';
       break;
-
+    case resolved:
+      color = 'success';
+      break;
+    case pending:
+      color = 'warning';
+      break;
     default:
       color = 'error';
       break;
