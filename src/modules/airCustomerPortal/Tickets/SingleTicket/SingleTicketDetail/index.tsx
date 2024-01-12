@@ -46,7 +46,7 @@ export const SingleTicketDetail = ({
                 ? AIR_CUSTOMER_PORTAL_TICKET?.CLOSED
                 : AIR_CUSTOMER_PORTAL_TICKET?.PROCESSING
             }
-            sx={{ backgroundColor: 'custom.bright' }}
+            sx={{ backgroundColor: 'custom.bright', color: 'white' }}
           />
         </Box>
       </Box>
