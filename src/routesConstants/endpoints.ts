@@ -150,6 +150,8 @@ export const END_POINTS = {
   DEPARTMENT_LIST: `/Department/department-list`,
   EDIT_SERVICE_CATALOG: '/service-catalog/update-service',
   TICKETS_DETACH_ASSOCIATES_ASSETS: '/ticket/detach-assets',
+  ASSETS_SOFTWARE: '/assets/get-software',
+  SOFTWARE_ASSIGN_CATEGORY: '/assets/assign-category',
   GET_PRODUCT_VENDOR_DROPDOWN: '/product-catalog/list',
   CALL_WIDGET: `/calls/get-scheduled-call-widget`,
   GET_AGENT_REQUESTER: '/agent/agent-requester-list',
