@@ -5,11 +5,11 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import RestoreFilterDrawer from './RestoreFilterDrawer';
 import RestoreDeleteModal from './RestoreDeleteModal';
 import useRestore from './useRestore';
-import RestoreAssignModalBox from './RestoreAssignModalBox';
 import ContactsActions from '../ContactsActions';
 import { BackArrIcon, FilterIcon } from '@/assets/icons';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
 import { restoreTableColumns } from './RestoreTable.data';
+import RestoreModal from './RestoreModal';
 
 const Restore = () => {
   const {
@@ -36,11 +36,14 @@ const Restore = () => {
     isActionsDisabled,
     setRowId,
     // rowId,
-
-    handlePermanantDelete,
-    handleResDealModal,
-    isPermanantlyDel,
-    IsRestoreDealModal,
+    isDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteContact,
+    isRestoreModal,
+    handleOpenModalRestore,
+    handleSubmitRestoreContact,
+    handleCloseModalRestore,
     theme,
   } = useRestore();
 
@@ -113,6 +116,8 @@ const Restore = () => {
             handleActionsMenuClick={handleActionsMenuClick}
             handleActionsMenuClose={handleActionsMenuClose}
             disableActionBtn={isActionsDisabled}
+            openDelete={handleOpenModalDelete}
+            openRestoreModal={handleOpenModalRestore}
           />
           <Button
             startIcon={<FilterIcon />}
@@ -147,12 +152,15 @@ const Restore = () => {
         handleSubmit={handleFiltersSubmit}
       />
       <RestoreDeleteModal
-        open={isPermanantlyDel}
-        onClose={handlePermanantDelete}
+        open={isDeleteModal}
+        onClose={handleCloseModalDelete}
+        handlePermanantDelete={handleDeleteContact}
       />
-      <RestoreAssignModalBox
-        open={IsRestoreDealModal}
-        onClose={handleResDealModal}
+
+      <RestoreModal
+        open={isRestoreModal}
+        onClose={handleCloseModalRestore}
+        handleSubmit={handleSubmitRestoreContact}
       />
     </>
   );

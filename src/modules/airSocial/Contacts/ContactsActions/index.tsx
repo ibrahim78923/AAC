@@ -7,6 +7,8 @@ const ContactsActions = ({
   handleActionsMenuClick,
   handleActionsMenuClose,
   disableActionBtn,
+  openDelete,
+  openRestoreModal,
 }: any) => {
   return (
     <div>
@@ -34,8 +36,8 @@ const ContactsActions = ({
           horizontal: 'center',
         }}
       >
-        <MenuItem>Restore</MenuItem>
-        <MenuItem>Delete</MenuItem>
+        <MenuItem onClick={openRestoreModal}>Restore</MenuItem>
+        <MenuItem onClick={openDelete}>Delete</MenuItem>
       </Popover>
     </div>
   );

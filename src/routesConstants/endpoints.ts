@@ -166,7 +166,9 @@ export const END_POINTS = {
   ADD_CONTRACT: `/contract/add-contract`,
   EDIT_CONTRACT: `/contract/update`,
   UPDATE_CONTRACT_STATUS: `/contract/renew-extend`,
-  CONTACT_RESTORE: `/contact/contact-deleted-list`,
+  DELETED_CONTACT_LIST: `/contact/contact-deleted-list`,
+  CONTACT_RESTORE: `/contact/restore`,
+  CONTACT_DELETE_PERMANENT: `/contact/permanent`,
 };
 
 export const superAdminBillingInvoices = {

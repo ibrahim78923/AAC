@@ -25,8 +25,10 @@ import {
   DownIcon,
 } from '@/assets/icons';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
+import { useRouter } from 'next/router';
 
 const Contacts = () => {
+  const router = useRouter();
   const {
     anchorEl,
     actionMenuOpen,
@@ -54,6 +56,7 @@ const Contacts = () => {
     openModalDelete,
     handleOpenModalDelete,
     handleCloseModalDelete,
+    handleDeleteContact,
     isReAssign,
     handleOpenModalReAssign,
     handleCloseModalReAssign,
@@ -115,6 +118,17 @@ const Contacts = () => {
                   },
                 }}
               >
+                <MenuItem
+                  disabled={!rowId}
+                  onClick={() =>
+                    router.push({
+                      pathname: AIR_SOCIAL?.CONTACTS_VIEW_DETAILS,
+                      query: { contactId: rowId },
+                    })
+                  }
+                >
+                  View Details
+                </MenuItem>
                 <MenuItem disabled={!rowId} onClick={handleOpenModalReAssign}>
                   Re-assign
                 </MenuItem>
@@ -193,7 +207,11 @@ const Contacts = () => {
         methods={methodsFilter}
         onSubmit={handleFiltersSubmit}
       />
-      <DeleteModal open={openModalDelete} onClose={handleCloseModalDelete} />
+      <DeleteModal
+        open={openModalDelete}
+        onClose={handleCloseModalDelete}
+        handleSubmit={handleDeleteContact}
+      />
       <AssignModalBox open={isReAssign} onClose={handleCloseModalReAssign} />
       <ExportModal open={openModalExport} onClose={handleCloseModalExport} />
     </>

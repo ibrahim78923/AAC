@@ -3,9 +3,14 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
-import { useGetDeletedContactsQuery } from '@/services/commonFeatures/contacts';
+import {
+  useGetDeletedContactsQuery,
+  useRestoreContactMutation,
+  useDeleteContactPermanentMutation,
+} from '@/services/commonFeatures/contacts';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { enqueueSnackbar } from 'notistack';
 
 const useRestore = () => {
   const [selectedRow, setSelectedRow]: any = useState([]);
@@ -97,6 +102,66 @@ const useRestore = () => {
     });
   };
 
+  // Delete Contacts Permanent
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [deleteContact, { isLoading: loadingDelete }] =
+    useDeleteContactPermanentMutation();
+  const handleOpenModalDelete = () => {
+    handleActionsMenuClose();
+    setIsDeleteModal(true);
+  };
+  const handleCloseModalDelete = () => {
+    setIsDeleteModal(false);
+  };
+
+  const handleDeleteContact = async () => {
+    const contactIds = await selectedRow;
+    try {
+      await deleteContact({ contactIds })?.unwrap();
+      handleCloseModalDelete();
+      setSelectedRow([]);
+      enqueueSnackbar('Contact has been permanently deleted.', {
+        variant: 'success',
+      });
+      setIsActionsDisabled(true);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
+  // Restore Contacts
+  const [isRestoreModal, setIsRestoreModal] = useState(false);
+  const [restoreContacts, { isLoading: loadingRestore }] =
+    useRestoreContactMutation();
+
+  const handleOpenModalRestore = () => {
+    handleActionsMenuClose();
+    setIsRestoreModal(true);
+  };
+  const handleCloseModalRestore = () => {
+    setIsRestoreModal(false);
+  };
+
+  const handleSubmitRestoreContact = async () => {
+    const contactIds = await selectedRow;
+    try {
+      await restoreContacts({ contactIds })?.unwrap();
+
+      handleCloseModalRestore();
+      setSelectedRow([]);
+      enqueueSnackbar('Record has been restored.', {
+        variant: 'success',
+      });
+      setIsActionsDisabled(true);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
   const theme = useTheme();
   const [isRestoreFilter, setIsRestoreFilter] = useState(false);
   const [search, setSearch] = useState('');
@@ -149,6 +214,16 @@ const useRestore = () => {
     isActionsDisabled,
     setRowId,
     rowId,
+    isDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteContact,
+    loadingDelete,
+    isRestoreModal,
+    handleOpenModalRestore,
+    handleSubmitRestoreContact,
+    handleCloseModalRestore,
+    loadingRestore,
 
     isRestoreFilter,
     handleRestoreFilter,

@@ -26,6 +26,7 @@ export const contactsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
     updateContact: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `${END_POINTS?.CONTACTS}/${id}`,
@@ -52,20 +53,39 @@ export const contactsAPI = baseAPI.injectEndpoints({
     }),
 
     deleteContact: builder.mutation({
-      query: ({ id }: any) => ({
-        url: `${END_POINTS?.CONTACTS}/${id}`,
+      query: ({ contactIds }: any) => ({
+        url: `${END_POINTS?.CONTACTS}`,
         method: 'DELETE',
+        body: { contactIds },
       }),
       invalidatesTags: TAG,
     }),
 
     getDeletedContacts: builder.query({
       query: ({ params }: any) => ({
-        url: END_POINTS?.CONTACT_RESTORE,
+        url: END_POINTS?.DELETED_CONTACT_LIST,
         method: 'GET',
         params: params,
       }),
       providesTags: TAG,
+    }),
+
+    restoreContact: builder.mutation({
+      query: ({ contactIds }: any) => ({
+        url: `${END_POINTS?.CONTACT_RESTORE}`,
+        method: 'PATCH',
+        body: { contactIds },
+      }),
+      invalidatesTags: TAG,
+    }),
+
+    deleteContactPermanent: builder.mutation({
+      query: ({ contactIds }: any) => ({
+        url: `${END_POINTS?.CONTACT_DELETE_PERMANENT}`,
+        method: 'DELETE',
+        body: { contactIds },
+      }),
+      invalidatesTags: TAG,
     }),
   }),
 });
@@ -79,4 +99,6 @@ export const {
   useUpdateContactMutation,
   useDeleteContactMutation,
   useGetDeletedContactsQuery,
+  useRestoreContactMutation,
+  useDeleteContactPermanentMutation,
 } = contactsAPI;

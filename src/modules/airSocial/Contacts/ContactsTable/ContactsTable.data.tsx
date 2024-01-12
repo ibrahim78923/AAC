@@ -1,9 +1,9 @@
-import Link from 'next/link';
-
-import { Checkbox } from '@mui/material';
+import { useRouter } from 'next/router';
+import { Avatar, Box, Checkbox } from '@mui/material';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
+import { IMG_URL } from '@/config';
 
 export const ContactsColumns = (
   selectedRow: any,
@@ -11,6 +11,7 @@ export const ContactsColumns = (
   setIsActionsDisabled: (value: boolean) => void,
   setRowId: any,
 ) => {
+  const router = useRouter();
   const handleRowClick = (id: any) => {
     const selectedIndex = selectedRow?.indexOf(id);
     let newSelected: any = [];
@@ -93,19 +94,56 @@ export const ContactsColumns = (
       isSortable: true,
       cell: (info: any) => {
         const contactId = info?.row?.original?._id;
-
+        const firstChar = info?.cell?.row?.original?.firstName?.charAt(0);
+        const imgUrl = info?.cell?.row?.original?.profilePicture?.url;
+        const email = info?.cell?.row?.original?.email;
         return (
-          <Link
-            href={{
-              pathname: `${AIR_SOCIAL?.CONTACTS_VIEW_DETAILS}`,
-              query: { contactId: contactId },
+          <Box
+            onClick={() =>
+              router.push({
+                pathname: AIR_SOCIAL?.CONTACTS_VIEW_DETAILS,
+                query: { contactId: contactId },
+              })
+            }
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              cursor: 'pointer',
             }}
-            as={`${AIR_SOCIAL?.CONTACTS_VIEW_DETAILS}`}
           >
-            {info?.getValue()}
-          </Link>
+            <Avatar
+              sx={{
+                bgcolor: 'primary.main',
+                textTransform: 'uppercase',
+                mr: '6px',
+              }}
+              alt={info?.getValue()}
+              src={`${IMG_URL}${imgUrl}`}
+            >
+              {firstChar}
+            </Avatar>
+            <Box>
+              <Box sx={{ color: 'blue.dull_blue' }}>{info?.getValue()}</Box>
+              <Box sx={{ fontSize: '12px' }}>{email}</Box>
+            </Box>
+          </Box>
         );
       },
+      // cell: (info: any) => {
+      //   const contactId = info?.row?.original?._id;
+
+      //   return (
+      //     <Link
+      //       href={{
+      //         pathname: `${AIR_SOCIAL?.CONTACTS_VIEW_DETAILS}`,
+      //         query: { contactId: contactId },
+      //       }}
+      //       as={`${AIR_SOCIAL?.CONTACTS_VIEW_DETAILS}`}
+      //     >
+      //       {info?.getValue()}
+      //     </Link>
+      //   );
+      // },
     },
     {
       accessorFn: (row: any) => row?.email,
