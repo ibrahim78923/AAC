@@ -76,10 +76,12 @@ const Tickets = () => {
           />
         </Grid>
       </Grid>
-      <TicketsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+      {openDrawer && (
+        <TicketsEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+        />
+      )}
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
         type={'delete'}
