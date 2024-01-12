@@ -27,6 +27,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import { isNullOrEmpty } from '@/utils';
 import { participantsDataSelect } from '@/mock/modules/SocialComponents/Chat';
+import { enqueueSnackbar } from 'notistack';
+import { useCreateNewGroupMutation } from '@/services/chat';
 
 const AddGroupModal = ({
   isAddGroupModal,
@@ -44,10 +46,10 @@ const AddGroupModal = ({
   const participantIds = watch('participant');
 
   const [participantsIdsValues, setParticipantsIdsValues] = useState<any>();
+  const [groupAdmins, setGroupAdmins] = useState<any>([]);
+  const [imageToUpload, setImageToUpload] = useState<any>();
 
-  const onSubmit = () => {
-    setIsAddGroupModal(false);
-  };
+  const [createNewGroup] = useCreateNewGroupMutation();
 
   const handleRemoveParticipant = (id: any) => {
     const updatedParticipantsIds = participantsIdsValues?.filter(
@@ -56,7 +58,11 @@ const AddGroupModal = ({
     setParticipantsIdsValues(updatedParticipantsIds);
   };
 
-  const getColumns = columns(handleRemoveParticipant);
+  const getColumns = columns(
+    handleRemoveParticipant,
+    groupAdmins,
+    setGroupAdmins,
+  );
 
   const filteredParticipants = participantsDataSelect
     ?.filter(
@@ -70,6 +76,33 @@ const AddGroupModal = ({
   useEffect(() => {
     setParticipantsIdsValues(participantIds);
   }, [participantIds]);
+
+  const onSubmit = async (values: any) => {
+    const payloadMap: any = {
+      participants: participantsIdsValues,
+      groupAdmins: groupAdmins,
+      groupName: values?.groupTitle,
+      groupImage: imageToUpload,
+    };
+    try {
+      await createNewGroup({
+        body: payloadMap,
+      })?.unwrap();
+      enqueueSnackbar('successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occurred', {
+        variant: 'error',
+      });
+    }
+  };
+
+  const handleImageChange = (e: any) => {
+    const formData = new FormData();
+    formData.append('media', e?.target?.files[0]);
+    setImageToUpload(formData);
+  };
 
   return (
     <CommonModal
@@ -92,6 +125,11 @@ const AddGroupModal = ({
         >
           <Image src={AddRoundedImage} alt="upload" />
           <Typography variant="h6">Add Photo</Typography>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e: any) => handleImageChange(e)}
+          />
         </Box>
         <br />
         <FormProvider

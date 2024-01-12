@@ -401,3 +401,4 @@ export { default as TicketsDynamicIcon } from './modules/airLoyaltyProgram/Dashb
 export { default as UserDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/user-dynamic-icon';
 export { default as AddToCartMoneyDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/add-to-cart-money-dynamic-icon';
 export { default as TransactionDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/transaction-dynamic-icon';
+export { default as ImageIconAttachment } from './modules/SocialComponents/Chat/imageIcon';
