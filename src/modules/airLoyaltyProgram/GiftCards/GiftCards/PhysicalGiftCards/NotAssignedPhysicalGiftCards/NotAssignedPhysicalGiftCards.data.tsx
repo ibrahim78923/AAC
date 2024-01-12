@@ -1,4 +1,8 @@
-import { DocumentIcon } from '@/assets/icons';
+import {
+  CheckboxCheckedIcon,
+  CheckboxIcon,
+  DocumentIcon,
+} from '@/assets/icons';
 import { Box, Checkbox, Typography } from '@mui/material';
 
 export const data: any = [
@@ -56,6 +60,8 @@ export const notAssignedPhysicalGiftCardColumnsFunction = (
     id: 'id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!notAssignedPhysicalGiftCardData?.find(
             (item: any) => item?.id === info?.getValue(),
@@ -81,6 +87,8 @@ export const notAssignedPhysicalGiftCardColumnsFunction = (
     ),
     header: (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           notAssignedPhysicalGiftCardData?.length ===
           notAssignedPhysicaldata?.length
