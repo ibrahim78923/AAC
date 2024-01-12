@@ -53,6 +53,7 @@ const ChatHeader = ({ chatMode }: any) => {
       unRead: { unRead: !activeConversation?.unRead },
       isMuted: { isMuted: !activeConversation?.isMuted },
       isArchived: { isArchived: !activeConversation?.isArchived },
+      isDeleted: { isArchived: !activeConversation?.isDeleted },
     };
     const payload = payloadMap[requestType] || {};
     try {
@@ -161,7 +162,10 @@ const ChatHeader = ({ chatMode }: any) => {
         type="delete"
         open={isDeleteModal}
         handleClose={() => setIsDeleteModal(false)}
-        handleSubmit={() => setIsDeleteModal(false)}
+        handleSubmit={() => {
+          setIsDeleteModal(false);
+          updateChatHandler('isDeleted');
+        }}
       />
     </>
   );

@@ -1,5 +1,7 @@
 import { DocumentIcon, FileJpgIcon } from '@/assets/icons';
+import { DATE_FORMAT } from '@/constants';
 import { Box, Typography } from '@mui/material';
+import dayjs from 'dayjs';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -54,7 +56,7 @@ const DocumentAssets = ({ data }: any) => {
                       {document?.orignalName}
                     </Typography>
                     <Typography sx={{ fontSize: '10px' }}>
-                      {data?.createdAt}
+                      {dayjs(data?.createdAt).format(DATE_FORMAT.UI)}
                     </Typography>
                   </Box>
                 </Box>

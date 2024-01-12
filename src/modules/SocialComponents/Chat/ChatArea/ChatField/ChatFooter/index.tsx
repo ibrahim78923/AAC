@@ -32,7 +32,6 @@ import { TypingGif, UserDefault } from '@/assets/images';
 
 import { getSession } from '@/utils';
 import { useChatAttachmentUploadMutation } from '@/services/chat';
-import { enqueueSnackbar } from 'notistack';
 
 const ChatFooter = ({ setChangeScroll }: any) => {
   const theme = useTheme();
@@ -144,11 +143,7 @@ const ChatFooter = ({ setChangeScroll }: any) => {
         media: formData,
       })?.unwrap();
       setImageToUpload(response?.data);
-    } catch (error: any) {
-      enqueueSnackbar(error?.message, {
-        variant: 'error',
-      });
-    }
+    } catch (error: any) {}
   };
 
   const typingUserData = useAppSelector((state) => state?.chat?.typingUserData);

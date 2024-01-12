@@ -47,6 +47,7 @@ const AddGroupModal = ({
 
   const [participantsIdsValues, setParticipantsIdsValues] = useState<any>();
   const [groupAdmins, setGroupAdmins] = useState<any>([]);
+  const [imageToUpload, setImageToUpload] = useState<any>();
 
   const [createNewGroup] = useCreateNewGroupMutation();
 
@@ -81,6 +82,7 @@ const AddGroupModal = ({
       participants: participantsIdsValues,
       groupAdmins: groupAdmins,
       groupName: values?.groupTitle,
+      groupImage: imageToUpload,
     };
     try {
       await createNewGroup({
@@ -96,13 +98,10 @@ const AddGroupModal = ({
     }
   };
 
-  const [selectedImage, setSelectedImage] = useState<any>(null);
   const handleImageChange = (e: any) => {
-    const file = e?.target?.files[0];
-
-    if (file) {
-      setSelectedImage(file);
-    }
+    const formData = new FormData();
+    formData.append('media', e?.target?.files[0]);
+    setImageToUpload(formData);
   };
 
   return (
@@ -124,14 +123,13 @@ const AddGroupModal = ({
             gap: '10px',
           }}
         >
-          {selectedImage && (
-            <div>
-              <Image src={URL?.createObjectURL(selectedImage)} alt="Preview" />
-            </div>
-          )}
           <Image src={AddRoundedImage} alt="upload" />
           <Typography variant="h6">Add Photo</Typography>
-          <input type="file" accept="image/*" onChange={handleImageChange} />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e: any) => handleImageChange(e)}
+          />
         </Box>
         <br />
         <FormProvider

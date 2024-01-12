@@ -89,31 +89,19 @@ const ChatBox = ({
   };
 
   const handelDelete = () => {
-    socket.emit(
-      'update-message',
-      {
-        messageId: item?._id,
-        isDeleted: true,
-      },
-      // (response: any) => {
-      //   console.log('response', response?.data);
-      // },
-    );
+    socket.emit('update-message', {
+      messageId: item?._id,
+      isDeleted: true,
+    });
   };
 
   useEffect(() => {
     if (role === 'receiver') {
       if (item?.isRead === false) {
-        socket.emit(
-          'update-message',
-          {
-            messageId: item?._id,
-            isRead: true,
-          },
-          // (response: any) => {
-          //   console.log('response', response?.data);
-          // },
-        );
+        socket.emit('update-message', {
+          messageId: item?._id,
+          isRead: true,
+        });
       }
     }
   }, [item]);

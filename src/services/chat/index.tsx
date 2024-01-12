@@ -69,7 +69,7 @@ export const chatApi = baseAPI.injectEndpoints({
     createNewGroup: builder.mutation({
       query: ({ body }: any) => {
         return {
-          url: `chat/create-group`,
+          url: `${SOCIAL_FEATURES_CHAT?.CREATE_GROUP}`,
           method: 'POST',
           body: body,
           headers: {

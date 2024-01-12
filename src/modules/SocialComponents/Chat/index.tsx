@@ -27,6 +27,7 @@ import {
 import { useGetUserChatsQuery } from '@/services/chat';
 import { isNullOrEmpty } from '@/utils';
 import { styles } from './Chat.style';
+import { enqueueSnackbar } from 'notistack';
 
 const Chat = () => {
   const dispatch: any = useAppDispatch();
@@ -104,7 +105,14 @@ const Chat = () => {
         receiverId: item?.id,
         content: '',
       },
-      () => {},
+      (response: any) => {
+        if (response) {
+          handleClose();
+          enqueueSnackbar('New chat created', {
+            variant: 'success',
+          });
+        }
+      },
     );
   };
 
