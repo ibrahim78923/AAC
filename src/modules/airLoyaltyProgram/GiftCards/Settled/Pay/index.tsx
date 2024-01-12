@@ -20,7 +20,7 @@ export const Pay = () => {
         flexWrap={'nowrap'}
         border={`1px solid ${palette?.custom?.off_white_three}`}
       >
-        {Header.map(
+        {Header?.map(
           (header) =>
             !shouldHideColumn(header) && (
               <Grid
@@ -47,7 +47,7 @@ export const Pay = () => {
                   p={1}
                 >
                   {payTabelData?.map((item) =>
-                    item.value.receive === header ? (
+                    item?.value?.receive === header ? (
                       <Grid item xs={12} key={item?.id}>
                         {(!hideZeroPrice ||
                           (hideZeroPrice && item?.value?.price > 0)) && (

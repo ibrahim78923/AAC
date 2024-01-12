@@ -1,6 +1,5 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider, RHFDateRangePicker } from '@/components/ReactHookForm';
-import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 export const PayFilterDrawer = (props: any) => {
@@ -15,24 +14,18 @@ export const PayFilterDrawer = (props: any) => {
     },
   });
   return (
-    <Box>
-      <CommonDrawer
-        title="AddFilter"
-        isOk
-        cancelText={'Cancel'}
-        footer
-        isDrawerOpen={openDrawer}
-        onClose={() => setOpenDrawer(false)}
-        okText={'Apply'}
-      >
-        <FormProvider methods={methods}>
-          <RHFDateRangePicker
-            name="datePicker"
-            label="Date Range"
-            size="small"
-          />
-        </FormProvider>
-      </CommonDrawer>
-    </Box>
+    <CommonDrawer
+      title="AddFilter"
+      isOk
+      cancelText={'Cancel'}
+      footer
+      isDrawerOpen={openDrawer}
+      onClose={() => setOpenDrawer(false)}
+      okText={'Apply'}
+    >
+      <FormProvider methods={methods}>
+        <RHFDateRangePicker name="datePicker" label="Date Range" size="small" />
+      </FormProvider>
+    </CommonDrawer>
   );
 };

@@ -8,9 +8,9 @@ export const usePay = () => {
   const shouldHideColumn = (columnName: string) => {
     return (
       hideZeroPrice &&
-      payTabelData.every(
+      payTabelData?.every(
         (item: any) =>
-          item.value.receive !== columnName || item.value.price <= 0,
+          item?.value?.receive !== columnName || item?.value?.price <= 0,
       )
     );
   };
