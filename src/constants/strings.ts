@@ -340,3 +340,7 @@ export const TICKETS_STATE = {
   RESPONSE_DUE: 'Response due',
   OVERDUE: 'Overdue',
 };
+export const ROLE = {
+  ORG_REQUESTER: 'ORG_REQUESTER',
+  ORG_AGENT: 'ORG_AGENT',
+};
