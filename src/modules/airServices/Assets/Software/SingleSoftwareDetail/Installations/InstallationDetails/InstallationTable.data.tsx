@@ -1,32 +1,35 @@
 import { Checkbox } from '@mui/material';
+import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { CALENDAR_FORMAT } from '@/constants';
 
 export const installationTableColumns: any = (
+  installationData: any,
   activeCheck: any,
   setActiveCheck: any,
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?.Id,
-      id: 'Id',
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
       cell: (info: any) => (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
           checked={
-            !!activeCheck?.find((item: any) => item?.Id === info?.getValue())
+            !!activeCheck?.find((item: any) => item?._id === info?.getValue())
           }
           onChange={(e: any) => {
             e?.target?.checked
               ? setActiveCheck([
                   ...activeCheck,
-                  installationTableData?.find(
-                    (item: any) => item?.Id === info?.getValue(),
+                  installationData?.find(
+                    (item: any) => item?._id === info?.getValue(),
                   ),
                 ])
               : setActiveCheck(
                   activeCheck?.filter((item: any) => {
-                    return item?.Id !== info?.getValue();
+                    return item?._id !== info?.getValue();
                   }),
                 );
           }}
@@ -38,20 +41,20 @@ export const installationTableColumns: any = (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
-          checked={activeCheck?.length === installationTableData?.length}
+          checked={activeCheck?.length === installationData?.length}
           onChange={(e: any) => {
             e?.target?.checked
-              ? setActiveCheck([...installationTableData])
+              ? setActiveCheck([...installationData])
               : setActiveCheck([]);
           }}
           color="primary"
-          name="Id"
+          name="_id"
         />
       ),
     },
     {
-      accessorFn: (row: any) => row?.installationMachine,
-      id: 'installationMachine',
+      accessorFn: (row: any) => row?.displayName,
+      id: 'displayName',
       cell: (info: any) => info?.getValue(),
       header: 'Installation Machine',
     },
@@ -59,43 +62,28 @@ export const installationTableColumns: any = (
       accessorFn: (row: any) => row?.version,
       id: 'version',
       header: 'Version',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '__',
     },
     {
-      accessorFn: (row: any) => row?.user,
-      id: 'user',
+      accessorFn: (row: any) => row?.userDetail,
+      id: 'userDetail',
       header: 'User',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        const user = info?.getValue();
+        return user ? `${user?.firstName} ${user?.lastName}` : '__';
+      },
     },
     {
-      accessorFn: (row: any) => row?.department,
-      id: 'department',
+      accessorFn: (row: any) => row?.departmentDetail?.name,
+      id: 'departmentDetail',
       header: 'Department',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '__',
     },
     {
       accessorFn: (row: any) => row?.installationDate,
       id: 'installationDate',
       header: 'Installation Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
     },
   ];
 };
-export const installationTableData: any = [
-  {
-    Id: 1,
-    installationMachine: `Andrea`,
-    version: '--',
-    user: 'Andrea',
-    department: '--',
-    installationDate: '--',
-  },
-  {
-    Id: 2,
-    installationMachine: `Jack`,
-    version: '--',
-    user: 'Jack',
-    department: '--',
-    installationDate: '--',
-  },
-];

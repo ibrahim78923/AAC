@@ -7,15 +7,17 @@ import {
   CirclePlusIcon,
   ExportIcon,
   FilterLinesIcon,
-  ImportIcon,
 } from '@/assets/icons';
+import { TransactionFilterDrawer } from './TransactionFilterDrawer';
 import { AddTransactionDrawer } from './AddTransactionDrawer';
 import { ExportModal } from '@/components/ExportModal';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
+import ImportModal from './TransactionImportDrawer';
 
 export const Transactions = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [openDrawer1, setOpenDrawer1] = useState(false);
   const [searchValue, setSearchValue] = useState<string>('');
   const [openModal, setOpenModal] = useState(false);
   return (
@@ -30,11 +32,9 @@ export const Transactions = () => {
           Gift Card Transactions
         </Typography>
         <Box display={'flex'} flexWrap={'wrap'} gap={2}>
-          <Button variant="outlined" color="inherit" startIcon={<ImportIcon />}>
-            Import
-          </Button>
+          <ImportModal />
           <Button
-            onClick={() => setOpenDrawer(true)}
+            onClick={() => setOpenDrawer1(true)}
             startIcon={<CirclePlusIcon />}
             variant="contained"
           >
@@ -71,6 +71,7 @@ export const Transactions = () => {
             variant="outlined"
             color="inherit"
             startIcon={<FilterLinesIcon />}
+            onClick={() => setOpenDrawer(true)}
           >
             Filters
           </Button>
@@ -92,6 +93,10 @@ export const Transactions = () => {
         isPagination={true}
       />
       <AddTransactionDrawer
+        openDrawer={openDrawer1}
+        setOpenDrawer={setOpenDrawer1}
+      />
+      <TransactionFilterDrawer
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
       />
