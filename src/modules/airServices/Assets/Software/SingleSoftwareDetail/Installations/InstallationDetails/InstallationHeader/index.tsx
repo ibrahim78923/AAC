@@ -4,12 +4,15 @@ import { AlertModals } from '@/components/AlertModals';
 import { ExportButton } from '@/components/ExportButton';
 import AddDevice from '../../AddDevice';
 import { useInstallationHeader } from './useInstallationHeader';
+import { EXPORT_TYPE } from '@/constants/strings';
 
 const DELETE_MESSAGE = 'Are you sure you want to delete selected Device?';
 const MODAL_TYPE = 'delete';
 
-export const InstallationHeader = ({ activeCheck }: any) => {
-  const { deleteModal, setDeleteModal, submitDeleteModel, handleMenuExport } =
+export const InstallationHeader = (props: any) => {
+  const { activeCheck, searchBy, setSearchBy, getInstallationListDataExport } =
+    props;
+  const { deleteModal, setDeleteModal, submitDeleteModel } =
     useInstallationHeader();
   return (
     <>
@@ -21,7 +24,11 @@ export const InstallationHeader = ({ activeCheck }: any) => {
         gap={2}
       >
         <Box>
-          <Search label="Search" searchBy="" setSearchBy="" />
+          <Search
+            label="Search"
+            searchBy={searchBy}
+            setSearchBy={setSearchBy}
+          />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <Button
@@ -33,8 +40,12 @@ export const InstallationHeader = ({ activeCheck }: any) => {
             Remove Device
           </Button>
           <ExportButton
-            handleCsvExport={handleMenuExport}
-            handleExcelExport={handleMenuExport}
+            handleCsvExport={() =>
+              getInstallationListDataExport(EXPORT_TYPE?.CSV)
+            }
+            handleExcelExport={() =>
+              getInstallationListDataExport(EXPORT_TYPE?.CSV)
+            }
           />
           <AddDevice />
         </Box>
