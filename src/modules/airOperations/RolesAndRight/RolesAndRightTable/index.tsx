@@ -98,10 +98,9 @@ const RolesAndRightTable = () => {
           }
           okText={
             currentActionType === ROLES_ACTION_CONSTANTS?.EDIT
-              ? 'Edit'
-              : currentActionType === ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE ||
-                  currentActionType === ROLES_ACTION_CONSTANTS?.VIEW
-                ? 'Save'
+              ? 'Save'
+              : currentActionType === ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE
+                ? 'Add'
                 : 'Add'
           }
           isOk={!(currentActionType === ROLES_ACTION_CONSTANTS?.VIEW)}

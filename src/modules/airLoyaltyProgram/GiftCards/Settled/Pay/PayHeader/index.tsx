@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { ExportModal } from '@/components/ExportModal';
@@ -6,11 +6,11 @@ import { ExportIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { PayFilterDrawer } from '../PayFilterDrawer';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-export const PayHeader = () => {
+export const PayHeader = ({ show, toggleHideZeroPrice }: any) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-
   return (
     <>
       <Box
@@ -24,6 +24,11 @@ export const PayHeader = () => {
       >
         <Typography variant="h4">Shops</Typography>
         <Box display={'flex'} alignItems={'center'} gap={1}>
+          <Tooltip title="Hide unused shops & widgets">
+            <IconButton onClick={() => toggleHideZeroPrice()}>
+              {show ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </Tooltip>
           <Button
             variant="outlined"
             color="inherit"
