@@ -6,8 +6,6 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 
-export const dropdownDummy = ['Option 1', 'Option 2'];
-
 export const currencyOptions = ['Pound', 'Dollars'];
 
 // form validation schema
@@ -17,24 +15,30 @@ export const validationSchema: any = yup?.object()?.shape({
     ?.number()
     ?.typeError('Must be a Number')
     ?.required('Required'),
-  vendor: yup?.string()?.required('Required'),
+  vendor: yup?.object()?.required('Required'),
   currency: yup?.string()?.required('Required'),
-  department: yup?.string(),
-  deliverDate: yup?.date()?.required('Required'),
-  location: yup?.string(),
-  termsAndConditions: yup?.string(),
+  department: yup?.object()?.nullable(),
+  expectedDeliveryDate: yup?.date()?.required('Required'),
+  location: yup?.object()?.nullable(),
+  termAndCondition: yup?.string(),
 });
 
-export const defaultValues = {
-  orderName: '',
-  orderNumber: 0,
-  vendor: null,
-  currency: '',
-  department: null,
-  deliverDate: null,
-  location: null,
-  termsAndConditions: '',
-  purchaseDetails: [
+export const defaultValues = (data?: any) => ({
+  orderName: data?.orderName ?? '',
+  orderNumber: data?.orderNumber ?? 0,
+  vendor: data?.vendor ?? null,
+  currency: data?.currency ?? '',
+  department: data?.department ?? null,
+  expectedDeliveryDate: new Date(data?.expectedDeliveryDate) ?? null,
+  location: data?.location ?? null,
+  termAndCondition: data?.termAndCondition ?? '',
+  subTotal: data?.subTotal ?? 0,
+  taxRatio: data?.taxRatio ?? 0,
+  shipping: data?.shipping ?? 0,
+  discount: data?.discount ?? 0,
+  total: data?.total ?? 0,
+  status: data?.status ?? 'ORDERED',
+  purchaseDetails: data?.purchaseDetails ?? [
     {
       itemName: null,
       description: '',
@@ -44,13 +48,12 @@ export const defaultValues = {
       total: 0,
     },
   ],
-};
+});
 
 export const newPurchaseFieldsFunction = (
   departmentApiQuery: any,
   locationApiQuery: any,
   vendorApiQuery: any,
-  handleVenderSelect?: (e: string) => void,
 ) => [
   {
     id: 1,
@@ -72,6 +75,11 @@ export const newPurchaseFieldsFunction = (
       name: 'orderNumber',
       label: 'Order Number',
       required: true,
+      InputProps: {
+        inputProps: {
+          min: 0,
+        },
+      },
       type: 'number',
     },
   },
@@ -87,7 +95,6 @@ export const newPurchaseFieldsFunction = (
       apiQuery: vendorApiQuery,
       externalParams: { meta: false, limit: 50 },
       required: true,
-      onChange: handleVenderSelect,
     },
   },
   {
@@ -123,7 +130,8 @@ export const newPurchaseFieldsFunction = (
     componentProps: {
       fullWidth: true,
       required: true,
-      name: 'deliverDate',
+      disablePast: true,
+      name: 'expectedDeliveryDate',
       label: 'Expected delivery date',
     },
   },
@@ -144,7 +152,7 @@ export const newPurchaseFieldsFunction = (
     id: 8,
     componentProps: {
       fullWidth: true,
-      name: 'termsAndConditions',
+      name: 'termAndCondition',
       label: 'Terms and Conditions',
       multiline: true,
       minRows: 3,
@@ -154,69 +162,6 @@ export const newPurchaseFieldsFunction = (
     component: RHFTextField,
   },
 ];
-
-export const data: any = [
-  {
-    id: 1,
-    itemName: 'PO-1',
-    description: 'Dell Laptop',
-    costPerItem: 'Dell',
-    quantity: '30 Mar, 2023',
-    taxRate: 'Received',
-    total: '1200',
-  },
-  {
-    id: 2,
-    itemName: 'PO-1',
-    description: 'Dell Laptop',
-    costPerItem: 'Dell',
-    quantity: '30 Mar, 2023',
-    taxRate: 'Received',
-    total: '1200',
-  },
-];
-
-export const columns = (): any => [
-  {
-    accessorFn: (row: any) => row?.itemName,
-    id: 'OrderNumber',
-    header: 'Order Number',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.description,
-    id: 'description',
-    header: 'Order Name',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.costPerItem,
-    id: 'Vendor',
-    header: 'Vendor',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.quantity,
-    id: 'quantity',
-    header: 'Expected Delivery Date',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.taxRate,
-    id: 'taxRate',
-    header: 'Status',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.total,
-    id: 'Total Cost (£)',
-    header: 'Total Cost (£)',
-    cell: (info: any) => {
-      info?.getValue();
-    },
-  },
-];
-
 export const itemsDetailsList = [
   { label: 'item name', value: 'itemName' },
   { label: 'description', value: 'description' },

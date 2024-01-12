@@ -1,7 +1,7 @@
 import { useFieldArray } from 'react-hook-form';
 
 const useItemsDetails = (props: any) => {
-  const { control, vendorId } = props;
+  const { control, vendorId, watch } = props;
   const { fields, append } = useFieldArray({
     control,
     name: 'purchaseDetails',
@@ -11,6 +11,7 @@ const useItemsDetails = (props: any) => {
     fields,
     append,
     vendorId,
+    watch,
   };
 };
 export default useItemsDetails;

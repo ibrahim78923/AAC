@@ -50,6 +50,26 @@ export const purchaseOrderAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_THREE],
     }),
+    getPurchaseOrderById: builder?.query({
+      query: (purchaseOrderId: any) => ({
+        url: `${END_POINTS?.PURCHASE_ORDER}/${purchaseOrderId}`,
+        method: 'GET',
+      }),
+    }),
+    postPurchaseOrder: builder?.mutation({
+      query: (postPurchaseOrderParameter: any) => ({
+        url: `${END_POINTS?.PURCHASE_ORDER}`,
+        method: 'POST',
+        body: postPurchaseOrderParameter?.body,
+      }),
+    }),
+    patchPurchaseOrder: builder?.mutation({
+      query: (patchPurchaseOrderParameter: any) => ({
+        url: `${END_POINTS?.PURCHASE_ORDER}`,
+        method: 'PATCH',
+        body: patchPurchaseOrderParameter?.body,
+      }),
+    }),
   }),
 });
 
@@ -58,4 +78,7 @@ export const {
   useLazyGetLocationsDropdownQuery,
   useLazyGetVendorDropdownQuery,
   useLazyGetVendorProductsDropdownQuery,
+  usePostPurchaseOrderMutation,
+  usePatchPurchaseOrderMutation,
+  useGetPurchaseOrderByIdQuery,
 } = purchaseOrderAPI;

@@ -4,7 +4,6 @@ import {
 } from '../../../NewPurchaseOrder.data';
 import { Box, Typography } from '@mui/material';
 import { styles } from '../../ItemsDetails.style';
-import { v4 as uuidv4 } from 'uuid';
 
 const ItemsDetailsHeader = () => {
   const { flexBetween, headItemWrapper, headItem } = styles();
@@ -12,7 +11,7 @@ const ItemsDetailsHeader = () => {
     <Box sx={{ ...flexBetween, ...headItemWrapper }}>
       {itemsDetailsList?.map((headerItem) => (
         <Typography
-          key={uuidv4()}
+          key={headerItem?.value}
           sx={{
             ...headItem,
             flex: itemsDetailsSubList?.includes(headerItem?.value) ? 3 : 1,

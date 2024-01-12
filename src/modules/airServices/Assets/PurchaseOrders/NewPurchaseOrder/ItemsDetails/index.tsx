@@ -1,16 +1,14 @@
 import { Button, Divider, Box } from '@mui/material';
 import { GrayPlusIcon } from '@/assets/icons';
-import { newPurchaseProductsFunction } from './ItemsDetails.data';
 import ItemsDetailsHeader from './ItemDetailsComponents/ItemsDetailsHeader';
 import useItemsDetails from './useItemsDetails';
 import ItemBilling from './ItemDetailsComponents/ItemBilling';
 import { styles } from './ItemsDetails.style';
-import { useLazyGetVendorProductsDropdownQuery } from '@/services/airServices/assets/purchase-orders';
+import { ItemDetail } from './ItemDetailsComponents/ItemDetail';
 
 const ItemsDetails = (props: any) => {
-  const { fields, append, vendorId } = useItemsDetails(props);
+  const { fields, append, vendorId, watch } = useItemsDetails(props);
   const { itemsWrapper, flexBetween } = styles();
-  const apiQueryVendorProducts: any = useLazyGetVendorProductsDropdownQuery();
   return (
     <>
       <Box width="100%" overflow="scroll">
@@ -18,17 +16,7 @@ const ItemsDetails = (props: any) => {
           <ItemsDetailsHeader />
           {fields?.map((item: any, index: number) => (
             <Box key={item?.id} sx={{ ...flexBetween }}>
-              {newPurchaseProductsFunction(
-                apiQueryVendorProducts,
-                index,
-                vendorId?._id,
-              )?.map((form: any) => (
-                <form.component
-                  {...form?.componentProps}
-                  size="small"
-                  key={form?.id}
-                />
-              ))}
+              <ItemDetail index={index} vendorId={vendorId} watch={watch} />
             </Box>
           ))}
           <Button
@@ -51,7 +39,7 @@ const ItemsDetails = (props: any) => {
         </Box>
       </Box>
       <Divider />
-      <ItemBilling />
+      <ItemBilling watch={watch} />
     </>
   );
 };

@@ -1,9 +1,10 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { ArrowLeftIcon } from '@/assets/icons';
 import useNewPurchaseOrder from './useNewPurchaseOrder';
 import ItemsDetails from './ItemsDetails';
 import { styles } from './NewPurchaseOrder.style';
+import { LoadingButton } from '@mui/lab';
 
 const NewPurchaseOrder = () => {
   const {
@@ -14,6 +15,8 @@ const NewPurchaseOrder = () => {
     purchaseOrderId,
     vendorValue,
     router,
+    loadingStatus,
+    watch,
   } = useNewPurchaseOrder();
 
   const { flexBetween, mainWrapper, mainHeading, subHeading } = styles();
@@ -61,22 +64,27 @@ const NewPurchaseOrder = () => {
                   <ItemsDetails
                     control={methods?.control}
                     vendorId={vendorValue}
+                    watch={watch}
                   />
                 </Box>
               </Grid>
             )}
           </Grid>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-            <Button
+            <LoadingButton
               onClick={() => methods?.reset()}
               variant="outlined"
               color="secondary"
             >
               Cancel
-            </Button>
-            <Button type="submit" variant="contained">
+            </LoadingButton>
+            <LoadingButton
+              loading={loadingStatus}
+              type="submit"
+              variant="contained"
+            >
               {router?.query?.purchaseOrderId ? 'Update' : 'Save'}
-            </Button>
+            </LoadingButton>
           </Box>
         </FormProvider>
       </Box>

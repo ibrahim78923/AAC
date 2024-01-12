@@ -1,4 +1,6 @@
 import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
+import { AIR_SERVICES } from '@/constants';
+import Link from 'next/link';
 export const newPurchaseProductsFunction = (
   vendorProductsApiQuery: any,
   index: number,
@@ -16,6 +18,13 @@ export const newPurchaseProductsFunction = (
         option?.vendorproductcatalogsDetails?.name,
       apiQuery: vendorProductsApiQuery,
       sx: { flex: 3 },
+      noOptionsCase: (
+        <>
+          <Link href={AIR_SERVICES?.UPSERT_PRODUCT_CATALOG}>
+            Please Add Products First
+          </Link>
+        </>
+      ),
     },
   },
   {
@@ -29,17 +38,6 @@ export const newPurchaseProductsFunction = (
     component: RHFTextField,
   },
   {
-    id: 1,
-    component: RHFTextField,
-    gridLength: 6,
-    componentProps: {
-      fullWidth: true,
-      name: `purchaseDetails.${index}.quantity`,
-      type: 'number',
-      sx: { flex: 1 },
-    },
-  },
-  {
     id: 2,
     component: RHFTextField,
     gridLength: 6,
@@ -47,6 +45,27 @@ export const newPurchaseProductsFunction = (
       fullWidth: true,
       name: `purchaseDetails.${index}.costPerItem`,
       type: 'number',
+      InputProps: {
+        inputProps: {
+          min: 0,
+        },
+      },
+      sx: { flex: 1 },
+    },
+  },
+  {
+    id: 1,
+    component: RHFTextField,
+    gridLength: 6,
+    componentProps: {
+      fullWidth: true,
+      name: `purchaseDetails.${index}.quantity`,
+      type: 'number',
+      InputProps: {
+        inputProps: {
+          min: 0,
+        },
+      },
       sx: { flex: 1 },
     },
   },
@@ -57,6 +76,12 @@ export const newPurchaseProductsFunction = (
     componentProps: {
       fullWidth: true,
       name: `purchaseDetails.${index}.taxRate`,
+      InputProps: {
+        inputProps: {
+          max: 100,
+          min: 0,
+        },
+      },
       type: 'number',
       sx: { flex: 1 },
     },
@@ -68,59 +93,22 @@ export const newPurchaseProductsFunction = (
     componentProps: {
       fullWidth: true,
       name: `purchaseDetails.${index}.total`,
+      disabled: true,
+      InputProps: {
+        inputProps: {
+          min: 0,
+        },
+      },
       type: 'number',
       sx: { flex: 3 },
     },
   },
 ];
 
-export const itemsDetailsData = [
-  {
-    itemName: 'Dell ',
-    description: ' dell product',
-    costPerItem: 200,
-    quantity: 12,
-    taxRate: 17,
-    total: 2400,
-  },
-  {
-    itemName: 'Dell 2',
-    description: ' dell product',
-    costPerItem: 200,
-    quantity: 12,
-    taxRate: 17,
-    total: 2400,
-  },
-  {
-    itemName: 'Dell 3',
-    description: ' dell product',
-    costPerItem: 200,
-    quantity: 12,
-    taxRate: 17,
-    total: 2400,
-  },
-  {
-    itemName: 'Dell 4',
-    description: ' dell product',
-    costPerItem: 200,
-    quantity: 12,
-    taxRate: 17,
-    total: 2400,
-  },
-  {
-    itemName: 'Dell 5',
-    description: ' dell product',
-    costPerItem: 200,
-    quantity: 12,
-    taxRate: 17,
-    total: 2400,
-  },
-];
-
 export const billingData = [
-  { label: 'subTotal ($)', value: 144.0 },
-  { label: 'discount (%)', value: 0 },
-  { label: 'Tax rate (%)', value: 0 },
-  { label: 'shipping ($)', value: 0 },
-  { label: 'total ($)', value: 0 },
+  { label: 'subTotal ($)', name: 'subTotal' },
+  { label: 'discount (%)', name: 'discount' },
+  { label: 'Tax rate (%)', name: 'taxRatio' },
+  { label: 'shipping ($)', name: 'shipping' },
+  { label: 'total ($)', name: 'total' },
 ];
