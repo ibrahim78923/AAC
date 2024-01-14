@@ -79,22 +79,6 @@ const ChatField = () => {
             <CircularProgress />
           </Box>
         )}
-        {/* <Box>
-            <Box sx={styles?.timeSlot(theme)}>
-              <Typography
-                variant="h6"
-                sx={{ color: theme?.palette?.custom?.grayish_blue }}
-              >
-                Sep 09
-              </Typography>
-            </Box>
-            <Divider
-              sx={{
-                borderColor: theme?.palette?.grey[700],
-                marginTop: '-14px',
-              }}
-            />
-          </Box> */}
         <Box sx={{ paddingTop: '30px' }}>
           {!isNullOrEmpty(chatsData) &&
             chatDataToShow &&

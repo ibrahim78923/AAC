@@ -161,15 +161,21 @@ export const END_POINTS = {
   KNOWLEDGE_BASE_ARTICLES: `/articles`,
   DROPDOWN_FOLDERS: `/dropdown/folders`,
   DROPDOWN_LOCATION: '/location/get-location',
-  DROPDOWN_USERS: '',
+  DROPDOWN_USERS: '/dropdown/all-users',
   ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
   DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
   CHANGE_PASSWORD: '/auth/change-password',
+  ASSETS_INVENTORY_DETAIL: '/assets/get-inventory-detail',
   CONTACT_NOTE: '/contact-note/note',
   ADD_CONTRACT: `/contract/add-contract`,
   EDIT_CONTRACT: `/contract/update`,
   UPDATE_CONTRACT_STATUS: `/contract/renew-extend`,
+  GET_INVENTORY_OVERVIEW: `/assets/get-inventory-detail`,
   ASSETS_DROPDOWN: '/assets/inventory',
+  ASSETS_INVENTORY_PURCHASE_ORDER: '/assets/inventory-purchase-order-list',
+  ASSETS_INVENTORY_CONTRACTS: '/assets/inventory-contract-list',
+  DEPARTMENT_UPDATE: '/department/update',
+  DEPARTMENT_DELETE: '/department/delete-department',
 };
 
 export const superAdminBillingInvoices = {
