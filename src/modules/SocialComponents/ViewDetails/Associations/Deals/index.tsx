@@ -75,10 +75,12 @@ const Deals = () => {
           />
         </Grid>
       </Grid>
-      <DealsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+      {openDrawer && (
+        <DealsEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+        />
+      )}
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
         type={'delete'}
