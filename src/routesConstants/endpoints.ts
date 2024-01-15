@@ -187,6 +187,8 @@ export const END_POINTS = {
   DEPARTMENT_DELETE: '/department/delete-department',
   VENDOR_PRODUCT_DROPDOWN: `/product-catalog/vendor-product-list`,
   PURCHASE_ORDER: `/assets/purchaseorder`,
+  DROPDOWN_SOFTWARE: `/assets/get-software`,
+  DROPDOWN_ALL_AGENTS: '/dropdown/agents',
 };
 
 export const superAdminBillingInvoices = {
