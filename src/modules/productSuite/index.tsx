@@ -36,24 +36,26 @@ import { IMG_URL } from '@/config';
 
 const ProductSuite = () => {
   const theme = useTheme();
-  const {
-    setActiveProduct,
-    setPermissions,
-    isPermissions,
-    activePermissionsCheck,
-  } = useAuth();
+  const { setActiveProduct, setPermissions, isPermissions } = useAuth();
   const router = useRouter();
   const { data: accountsData } = useGetAuthAccountsQuery({});
   const [PostAuthAccountSelect] = usePostAuthAccountSelectMutation();
-  const [selectProduct, setSelectProduct] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState<any>([]);
 
   const findModulePermissionKey = async (product: any, id: string) => {
     const payload = { account: id };
     try {
       const response = await PostAuthAccountSelect(payload)?.unwrap();
-      if (response?.data) {
+
+      const routes = getRoutes(product);
+
+      if (response?.data && routes) {
         setPermissions();
-        setSelectProduct(product);
+        setSelectedProduct(routes);
+      } else {
+        enqueueSnackbar('No Permissions and Product Available', {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        });
       }
     } catch (error) {
       const errMsg = error?.data?.message;
@@ -70,26 +72,18 @@ const ProductSuite = () => {
   useEffect(() => {
     if (isPermissions && permissions?.length > 0) {
       const permissionsHandler = () => {
-        const routes = getRoutes(selectProduct);
-        activePermissionsCheck();
-        if (routes) {
-          for (const modulePermission of routes) {
-            const componentPermissionsDictionary: any = {};
-            modulePermission?.permissions?.forEach((value: any) => {
-              componentPermissionsDictionary[value] = true;
-            });
+        for (const modulePermission of selectedProduct) {
+          const componentPermissionsDictionary: any = {};
+          modulePermission?.permissions?.forEach((value: any) => {
+            componentPermissionsDictionary[value] = true;
+          });
 
-            for (const permission of permissions) {
-              if (componentPermissionsDictionary[permission]) {
-                return router?.push(modulePermission?.key);
-                // Return the module permission path
-              }
+          for (const permission of permissions) {
+            if (componentPermissionsDictionary[permission]) {
+              return router?.push(modulePermission?.key);
+              // Return the module permission path
             }
           }
-        } else {
-          enqueueSnackbar('No Permissions and Product Available', {
-            variant: NOTISTACK_VARIANTS?.ERROR,
-          });
         }
       };
       permissionsHandler();

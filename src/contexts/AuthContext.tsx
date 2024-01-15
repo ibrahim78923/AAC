@@ -31,7 +31,6 @@ const AuthContext = createContext({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setActiveProduct: (res: any) => Promise.resolve(),
   setPermissions: () => Promise.resolve(),
-  activePermissionsCheck: () => Promise.resolve(),
 });
 
 //TODO:second step make methods for reducers this will be used globally
@@ -197,17 +196,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const activePermissionsCheck = () => {
-    dispatch({
-      type: 'INITIALIZEPERMISSIONS',
-      payload: {
-        isAuthenticated: true,
-        isPermissions: false,
-      },
-    });
-  };
-
-  const setPermissions = async () => {
+  const setPermissions = () => {
     dispatch({
       type: 'INITIALIZEPERMISSIONS',
       payload: {
@@ -236,7 +225,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
         logout,
         setActiveProduct,
         setPermissions,
-        activePermissionsCheck,
       }}
     >
       {children}

@@ -25,6 +25,7 @@ const AddNewLocation = () => {
     editOnSubmit,
     childEditLocationId,
     childEditOnSubmit,
+    handleCancel,
   } = useAddNewLocation();
   return (
     <>
@@ -66,11 +67,7 @@ const AddNewLocation = () => {
         </Grid>
         <Divider sx={{ py: '0.5rem', mt: '2rem' }} />
         <Box display={'flex'} justifyContent={'flex-end'} pt={2} gap={1} mr={2}>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => AddNewLocationMethods?.reset?.()}
-          >
+          <Button variant="outlined" color="secondary" onClick={handleCancel}>
             Cancel
           </Button>
           <LoadingButton

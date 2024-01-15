@@ -1,17 +1,19 @@
-import CommonModal from '@/components/CommonModal';
-import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
-import { Box, Button, Divider } from '@mui/material';
+import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { Box, Button, Dialog, Divider, Typography } from '@mui/material';
 import { GrayPlusIcon } from '@/assets/icons';
 import { useAddDevice } from './useAddDevice';
+import { Close } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
 
 const AddDevice = () => {
   const {
     handleAddDevice,
     addDeviceMethods: methods,
     isAddDeviceModalOpen,
-    setIsAddDeviceModalOpen,
+    handleCloseModal,
     onAddDeviceSubmit,
-    addDeviceOptionsList: options,
+    devicesQuery,
+    isLoading,
   } = useAddDevice();
 
   return (
@@ -25,31 +27,41 @@ const AddDevice = () => {
         Add Device
       </Button>
       {isAddDeviceModalOpen && (
-        <CommonModal
+        <Dialog
           open={isAddDeviceModalOpen}
-          handleClose={() => setIsAddDeviceModalOpen(false)}
-          handleSubmit={methods?.handleSubmit(onAddDeviceSubmit)}
-          title="Add Device"
-          okText="add"
-          footerFill={'auto'}
+          onClose={handleCloseModal}
+          sx={{
+            '& .MuiDialog-container': {
+              '& .MuiPaper-root': {
+                p: 2,
+                borderRadius: 5,
+              },
+            },
+          }}
+          fullWidth
         >
+          <Box display="flex" justifyContent="space-between" mb={2}>
+            <Typography variant="h3">Add Device</Typography>
+            <Close
+              color="secondary"
+              sx={{ cursor: 'pointer' }}
+              onClick={handleCloseModal}
+            />
+          </Box>
           <FormProvider
             methods={methods}
             onSubmit={methods?.handleSubmit(onAddDeviceSubmit)}
           >
-            <RHFSelect
+            <RHFAutocompleteAsync
               name="device"
               placeholder="Search or add category"
               size="small"
               label="Device"
-            >
-              {options?.map(({ value, label }: any) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </RHFSelect>
-            <Divider sx={{ mt: 2, mb: 3 }} />
+              required={true}
+              apiQuery={devicesQuery}
+              getOptionLabel={(option: any) => option?.displayName}
+            />
+            <Divider sx={{ my: 2 }} />
             <Box
               sx={{
                 display: 'flex',
@@ -58,18 +70,22 @@ const AddDevice = () => {
               }}
             >
               <Button
-                onClick={() => methods?.reset()}
+                onClick={handleCloseModal}
                 variant="outlined"
                 color="secondary"
               >
                 Cancel
               </Button>
-              <Button type="submit" variant="contained">
-                save
-              </Button>
+              <LoadingButton
+                loading={isLoading}
+                type="submit"
+                variant="contained"
+              >
+                Add
+              </LoadingButton>
             </Box>
           </FormProvider>
-        </CommonModal>
+        </Dialog>
       )}
     </>
   );
