@@ -36,7 +36,12 @@ import { IMG_URL } from '@/config';
 
 const ProductSuite = () => {
   const theme = useTheme();
-  const { setActiveProduct, setPermissions, isPermissions } = useAuth();
+  const {
+    setActiveProduct,
+    setPermissions,
+    isPermissions,
+    activePermissionsCheck,
+  } = useAuth();
   const router = useRouter();
   const { data: accountsData } = useGetAuthAccountsQuery({});
   const [PostAuthAccountSelect] = usePostAuthAccountSelectMutation();
@@ -59,12 +64,14 @@ const ProductSuite = () => {
     }
     return false;
   };
+
   const permissions = getActivePermissionsSession();
 
   useEffect(() => {
     if (isPermissions && permissions?.length > 0) {
       const permissionsHandler = () => {
         const routes = getRoutes(selectProduct);
+        activePermissionsCheck();
         if (routes) {
           for (const modulePermission of routes) {
             const componentPermissionsDictionary: any = {};
