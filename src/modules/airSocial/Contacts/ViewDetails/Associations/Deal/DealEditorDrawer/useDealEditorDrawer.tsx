@@ -5,9 +5,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   productsDefaultValues,
   productsValidationSchema,
-} from './ProductEditorDrawer.data';
+} from './DealEditorDrawer.data';
 
 const useProductsEditorDrawer = () => {
+  const [dealType, setDealType] = useState('newDeal');
+
+  const handleChangeDealType = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDealType((event.target as HTMLInputElement).value);
+  };
+
   const [searchProduct, setSearchProduct] = useState('');
   const methodsProducts = useForm({
     resolver: yupResolver(productsValidationSchema),
@@ -15,14 +21,14 @@ const useProductsEditorDrawer = () => {
   });
 
   const onSubmit = () => {};
-  const { handleSubmit, watch } = methodsProducts;
+  const { handleSubmit } = methodsProducts;
 
-  const watchProductstatus = watch(['productStatus']);
   return {
+    dealType,
+    handleChangeDealType,
     handleSubmit,
     onSubmit,
     methodsProducts,
-    watchProductstatus,
     searchProduct,
     setSearchProduct,
   };

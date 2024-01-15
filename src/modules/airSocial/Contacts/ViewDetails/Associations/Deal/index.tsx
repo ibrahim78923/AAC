@@ -4,24 +4,31 @@ import { AlertModals } from '@/components/AlertModals';
 
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { productsData } from '@/mock/modules/airSales/Contacts/ViewDetails';
-
-import ProductEditorDrawer from './ProductEditorDrawer';
-import useProducts from './useProducts';
-import { columns } from './Products.data';
+import DealEditorDrawer from './DealEditorDrawer';
+import useDeal from './useDeal';
+import { columns } from './Deal.data';
 import { styles } from '../Associations.style';
 
-const Deal = () => {
+const Deal = ({ contactId }: any) => {
   const {
-    theme,
-    isOpenAlert,
-    setIsOpenAlert,
-    searchName,
-    setSearchName,
+    // setPage,
+    // setPageLimit,
+    searchValue,
+    setSearchValue,
+    // loadingDeals,
+    dataGetDeals,
+    drawerTitle,
     openDrawer,
-    setOpenDrawer,
+    handleOpenDrawer,
+    handleCloseDrawer,
+    isOpenAlert,
+    handleOpenAlert,
     handleCloseAlert,
-  } = useProducts();
+
+    theme,
+  } = useDeal(contactId);
+
+  const tableColumns = columns(handleOpenDrawer, handleOpenAlert);
 
   return (
     <Box
@@ -49,8 +56,8 @@ const Deal = () => {
             }}
           >
             <Search
-              searchBy={searchName}
-              setSearchBy={setSearchName}
+              searchBy={searchValue}
+              setSearchBy={setSearchValue}
               label="Search By Name"
               size="small"
             />
@@ -58,14 +65,15 @@ const Deal = () => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={productsData}
+            columns={tableColumns}
+            data={dataGetDeals?.data?.deals}
           />
         </Grid>
       </Grid>
-      <ProductEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
+      <DealEditorDrawer
+        title={drawerTitle}
+        isOpen={openDrawer}
+        onClose={handleCloseDrawer}
       />
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}

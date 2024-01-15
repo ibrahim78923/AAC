@@ -56,7 +56,7 @@ const ContactViewDetails = () => {
             <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
               <Details />
               <ActivityLog />
-              <Associations />
+              <Associations contactId={contactId} />
               <Tasks />
               <Notes contactId={contactId} />
               <Calls />

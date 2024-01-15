@@ -22,10 +22,11 @@ export const productsDefaultValues = {
   attachfile: '',
 };
 
-export const productsDataArray = [
+export const dealDataArray = [
   {
+    id: 'name',
     componentProps: {
-      name: 'DealName',
+      name: 'name',
       label: 'Deal Name',
       fullWidth: true,
     },
@@ -34,8 +35,9 @@ export const productsDataArray = [
   },
 
   {
+    id: 'dealPiplineId',
     componentProps: {
-      name: 'DealPipeLine',
+      name: 'dealPiplineId',
       label: 'Deal PipeLine',
       fullWidth: true,
     },
@@ -48,8 +50,9 @@ export const productsDataArray = [
     md: 12,
   },
   {
+    id: 'dealStageId',
     componentProps: {
-      name: 'DealStage',
+      name: 'dealStageId',
       label: 'Deal Stage',
       select: true,
     },
@@ -63,8 +66,9 @@ export const productsDataArray = [
   },
 
   {
+    id: 'amount',
     componentProps: {
-      name: 'Amount',
+      name: 'amount',
       label: 'Amount',
       fullWidth: true,
     },
@@ -72,8 +76,9 @@ export const productsDataArray = [
     md: 12,
   },
   {
+    id: 'closeDate',
     componentProps: {
-      name: 'CloseDate',
+      name: 'closeDate',
       label: 'Close Date',
       fullWidth: true,
     },
@@ -81,8 +86,9 @@ export const productsDataArray = [
     md: 12,
   },
   {
+    id: 'ownerId',
     componentProps: {
-      name: 'Deal Owner',
+      name: 'ownerId',
       label: 'Deal Owner',
       fullWidth: true,
     },
@@ -91,8 +97,9 @@ export const productsDataArray = [
   },
 
   {
+    id: 'priority',
     componentProps: {
-      name: 'Priority',
+      name: 'priority',
       label: 'Priority',
       fullWidth: true,
     },
@@ -100,8 +107,9 @@ export const productsDataArray = [
     md: 12,
   },
   {
+    id: 'addLineItemId',
     componentProps: {
-      name: 'AddLineItem',
+      name: 'addLineItemId',
       label: 'Add Line Item',
       fullWidth: true,
     },
@@ -109,13 +117,3 @@ export const productsDataArray = [
     md: 12,
   },
 ];
-
-export const drawerTitle: any = {
-  Add: 'Add products',
-  Edit: 'Edit products',
-  View: 'View products',
-};
-export const drawerButtonTitle: any = {
-  Add: 'Add',
-  Edit: 'Edit',
-};

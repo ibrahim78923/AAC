@@ -36,6 +36,15 @@ export const contactsAPI = baseAPI.injectEndpoints({
       invalidatesTags: TAG,
     }),
 
+    getContactAssociations: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACT_ASSOCIATIONS,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
     getLifeCycle: builder.query({
       query: () => ({
         url: `${END_POINTS?.LIFECYCLE_STAGES}?page=1&limit=10`,
@@ -94,6 +103,7 @@ export const {
   useGetContactsStatusQuery,
   useGetContactsQuery,
   useGetContactByIdQuery,
+  useGetContactAssociationsQuery,
   useGetLifeCycleQuery,
   usePostContactsMutation,
   useUpdateContactMutation,
