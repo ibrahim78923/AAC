@@ -251,6 +251,7 @@ export const upsertTicketFormFieldsDynamic = (
       name: 'plannedEndTime',
       label: '\u00a0\u00a0',
       fullWidth: true,
+      textFieldProps: { readOnly: true },
     },
     component: RHFTimePicker,
     md: 4.5,

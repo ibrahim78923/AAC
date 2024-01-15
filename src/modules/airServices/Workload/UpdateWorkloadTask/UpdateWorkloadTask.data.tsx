@@ -12,11 +12,11 @@ import * as Yup from 'yup';
 const statusOptions = ['Todo', 'In-Progress', 'Done'];
 
 export const validationSchema: any = Yup?.object()?.shape({
-  title: Yup?.string(), //1
-  description: Yup?.string(), //2
-  department: Yup?.mixed()?.nullable(), //3
+  title: Yup?.string()?.trim()?.required('Required'), //1
+  description: Yup?.string()?.trim()?.required('Required'), //2
+  department: Yup?.mixed()?.nullable()?.required('Required'), //3
   assignTo: Yup?.mixed()?.nullable(), //4
-  status: Yup.string(), //5
+  status: Yup.string()?.required('Required'), //5
   startDate: Yup?.date(), //6
   startDateTime: Yup?.date(), //7
   endDate: Yup?.date(), //8
@@ -35,12 +35,10 @@ export const getWorkloadDefaultValues = (data?: any) => {
       ? data?.assignedUser
       : null, //4
     status: data?.status ?? '', //5
-    startDate: data?.startDate ? new Date(data?.startDate) : new Date(), //6
-    startDateTime: data?.startDateTime
-      ? new Date(data?.startDateTime)
-      : new Date(), //7
-    endDate: data?.endDate ? new Date(data?.endDate) : new Date(), //8
-    endDateTime: data?.endDateTime ? new Date(data?.endDateTime) : new Date(), //9
+    startDate: data?.startDate ? new Date(data?.startDate) : null, //6
+    startDateTime: data?.startDateTime ? new Date(data?.startDateTime) : null, //7
+    endDate: data?.endDate ? new Date(data?.endDate) : null, //8
+    endDateTime: data?.endDateTime ? new Date(data?.endDateTime) : null, //9
     plannedEffort: data?.plannedEffort ?? '', //10
   };
 };
@@ -65,6 +63,7 @@ export const getWorkloadDataArray = ({
       componentProps: {
         name: 'description',
         label: 'Description',
+        required: true,
         style: { height: pxToRem(250) },
       },
       component: RHFEditor,
@@ -99,6 +98,7 @@ export const getWorkloadDataArray = ({
         name: 'status',
         label: 'Status',
         placeholder: 'Select',
+        required: true,
         fullWidth: true,
         options: statusOptions,
       },
@@ -110,6 +110,7 @@ export const getWorkloadDataArray = ({
         name: 'startDate',
         label: 'Planned Start Date',
         fullWidth: true,
+        disabled: true,
       },
       component: RHFDatePicker,
       md: 8,
@@ -120,6 +121,7 @@ export const getWorkloadDataArray = ({
         name: 'startDateTime',
         label: '\u00a0',
         fullWidth: true,
+        disabled: true,
       },
       component: RHFTimePicker,
       md: 4,
@@ -130,6 +132,8 @@ export const getWorkloadDataArray = ({
         name: 'endDate',
         label: 'Planned End Date',
         fullWidth: true,
+        disablePast: true,
+        textFieldProps: { readOnly: true },
       },
       component: RHFDatePicker,
       md: 8,
@@ -138,8 +142,9 @@ export const getWorkloadDataArray = ({
       id: 9,
       componentProps: {
         name: 'endDateTime',
-        label: '\u00a0',
+        label: '\u00a0\u00a0',
         fullWidth: true,
+        textFieldProps: { readOnly: true },
       },
       component: RHFTimePicker,
       md: 4,
