@@ -17,7 +17,7 @@ export const useSingleAssociationsTicket = (props: any) => {
     const deleteAssociationParameter = {
       ticketId: associationsItem?._id,
       body: {
-        associateOrderId: purchaseOrderId ?? '6596d4bc33a332bd5054642e',
+        associateOrderId: purchaseOrderId,
       },
     };
     try {
