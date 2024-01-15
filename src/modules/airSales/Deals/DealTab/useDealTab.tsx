@@ -6,7 +6,7 @@ import {
   useGetDealsSalesProductQuery,
   useGetDealsViewsQuery,
 } from '@/services/airSales/deals';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { AllDealColumns } from './TableColumns/AllDealColumns';
 import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
@@ -69,6 +69,7 @@ const useDealTab = () => {
   const { data: dealCustomzieCol } = useGetCustomizeColumnQuery({
     type: 'deals',
   });
+
   const activeColumns = dealCustomzieCol?.data?.columns?.filter(
     (column: any) => column?.active === true,
   );
@@ -175,10 +176,7 @@ const useDealTab = () => {
     }
   };
   const allDealsData = getDealsTableList?.data?.deals;
-  const handleSelectAllCheckbox = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const { checked } = event?.target;
+  const handleSelectAllCheckbox = (checked: any) => {
     setSelectedRows(
       checked ? allDealsData?.map((obj: { _id: string }) => obj?._id) : [],
     );
@@ -195,6 +193,7 @@ const useDealTab = () => {
       allDealsData?.length !== 0 &&
       allDealsData?.length === selectedRows?.length,
     selectedRows,
+    activeColumns,
   });
 
   // function reorderArrayOfObjects(

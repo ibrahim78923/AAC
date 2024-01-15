@@ -170,6 +170,16 @@ export const dealsApi = baseAPI.injectEndpoints({
       }),
       providesTags: ['DEALS'],
     }),
+    updatedGridDeals: builder.mutation({
+      query: ({ body, id }: any) => {
+        return {
+          url: `${END_POINTS?.POST_DEALS}/${id}`,
+          method: 'PATCH',
+          body,
+        };
+      },
+      invalidatesTags: ['DEALS'],
+    }),
   }),
 });
 
@@ -194,4 +204,5 @@ export const {
   usePatchDealsMutation,
   useGetDealsAssociationsQuery,
   useGetCustomizeColumnQuery,
+  useUpdatedGridDealsMutation,
 } = dealsApi;

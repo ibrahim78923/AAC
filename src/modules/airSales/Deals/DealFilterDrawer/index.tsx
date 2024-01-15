@@ -16,6 +16,7 @@ const DealFilterDrawer = ({ open, onClose, handleApply }: any) => {
     defaultValues: defaultValues,
   });
   const { handleSubmit } = methods;
+
   const onSubmit = (values: any) => {
     const obj = {
       ...values,

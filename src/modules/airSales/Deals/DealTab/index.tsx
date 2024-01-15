@@ -71,6 +71,45 @@ const DealsTab = () => {
 
   return (
     <Box sx={styles?.tabWrapper}>
+      <Box
+        className="tabs-container"
+        sx={{
+          mt: '20px',
+          borderBottom: 1,
+          borderColor: theme?.palette?.custom?.off_white_three,
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+      >
+        <Tabs
+          variant="scrollable"
+          defaultValue={value}
+          value={value}
+          onChange={handleChange}
+          aria-label="common tabs"
+        >
+          {tabsArray?.map((tab: any, index: number) => (
+            <Tab
+              sx={{
+                '&.Mui-selected': {
+                  color: theme?.palette?.custom?.turquoise_Blue,
+                },
+              }}
+              classes={{ textColorPrimary: 'text-primary-my' }}
+              disableRipple
+              key={uuidv4()}
+              label={tab?.name}
+              id={`simple-tab-${index}`}
+              aria-controls={`simple-tabpanel-${index}`}
+              onClick={() => handleTabChange(tab)}
+            />
+          ))}
+        </Tabs>
+        <Box sx={{ ml: '50px' }}>
+          <AddCircleIcon onClick={handleAddTab} sx={styles?.addIcon(theme)} />
+        </Box>
+      </Box>
       <Box sx={style?.headerWrapper}>
         <Search setSearchBy={handleSearch} placeholder="Search Here" />
         <Box sx={style?.headerChild}>
@@ -158,46 +197,6 @@ const DealsTab = () => {
           </ButtonGroup>
         </Box>
       </Box>
-
-      <Box
-        className="tabs-container"
-        sx={{
-          mt: '20px',
-          borderBottom: 1,
-          borderColor: theme?.palette?.custom?.off_white_three,
-          display: 'flex',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-        }}
-      >
-        <Tabs
-          variant="scrollable"
-          defaultValue={value}
-          value={value}
-          onChange={handleChange}
-          aria-label="common tabs"
-        >
-          {tabsArray?.map((tab: any, index: number) => (
-            <Tab
-              sx={{
-                '&.Mui-selected': {
-                  color: theme?.palette?.custom?.turquoise_Blue,
-                },
-              }}
-              classes={{ textColorPrimary: 'text-primary-my' }}
-              disableRipple
-              key={uuidv4()}
-              label={tab?.name}
-              id={`simple-tab-${index}`}
-              aria-controls={`simple-tabpanel-${index}`}
-              onClick={() => handleTabChange(tab)}
-            />
-          ))}
-        </Tabs>
-        <Box sx={{ ml: '50px' }}>
-          <AddCircleIcon onClick={handleAddTab} sx={styles?.addIcon(theme)} />
-        </Box>
-      </Box>
       {listView === 'listView' ? (
         <TanstackTable {...dealTableData} />
       ) : (
@@ -256,7 +255,7 @@ export default DealsTab;
 
 const style = {
   headerWrapper: {
-    padding: '18px 0px 0px',
+    padding: '18px  0px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
