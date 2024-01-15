@@ -2,13 +2,12 @@ import { Typography, Box } from '@mui/material';
 import React from 'react';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
+import { useHeader } from './useHeader';
 
 export const Header = (props: any) => {
   const { dropdownOptions } = props;
-  const router = useRouter();
-
+  const { singleVendorName, router } = useHeader();
   return (
     <>
       <Box
@@ -27,7 +26,7 @@ export const Header = (props: any) => {
               });
             }}
           />
-          <Typography variant="h5">Single Vendor Detail</Typography>
+          <Typography variant="h5">{singleVendorName}</Typography>
         </Box>
         <Box>
           <SingleDropdownButton dropdownOptions={dropdownOptions} />

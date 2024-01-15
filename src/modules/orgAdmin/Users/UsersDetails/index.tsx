@@ -21,7 +21,7 @@ const UsersDetails = (props: any) => {
     handleChangeImg,
     searchAccount,
     setSearchAccount,
-  } = useUsersDetails(employeeDataById);
+  } = useUsersDetails();
 
   const { data: profileData } = useGetUsersByIdQuery(employeeDataById);
 
@@ -42,7 +42,7 @@ const UsersDetails = (props: any) => {
                 ? `${IMG_URL}${profileData?.data?.avatar?.url}`
                 : ''
             }`}
-            handleChangeImg={handleChangeImg}
+            handleChangeImg={(e: any) => handleChangeImg(e, employeeDataById)}
           />
         </Grid>
         <Grid item xs={12}>

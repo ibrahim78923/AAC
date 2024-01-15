@@ -28,6 +28,7 @@ export const useEditTaskDrawer = (props: any) => {
         endDate: data?.endDate?.toISOString(),
         assignTo: data?.assignTo?._id,
         departmentId: data?.departmentId?._id,
+        notifyBefore: data?.notifyBefore?.value,
       },
       id: activeCheck?.[0]?._id,
     };

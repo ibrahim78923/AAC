@@ -20,7 +20,7 @@ export const taskTicketFormValidationSchema: any = Yup?.object()?.shape({
   description: Yup?.string(),
   departmentId: Yup?.mixed()?.required('Required'),
   assignTo: Yup?.mixed(),
-  status: Yup?.string(),
+  status: Yup?.string()?.required('Required'),
   notifyBefore: Yup?.mixed(),
   startDate: Yup?.date(),
   startDateTime: Yup?.date(),
@@ -102,7 +102,9 @@ export const taskTicketFormFields = (
       placeholder: 'Select',
       apiQuery: userDropdown,
       getOptionLabel: (option: any) =>
-        option?.firstName + ' ' + option?.lastName,
+        option?.firstName || option?.lastName
+          ? option?.firstName + ' ' + option?.lastName
+          : '',
     },
     component: RHFAutocompleteAsync,
     md: 12,
@@ -114,6 +116,7 @@ export const taskTicketFormFields = (
       label: 'Status',
       placeholder: 'Select',
       fullWidth: true,
+      required: true,
       options: statusOptions,
     },
     component: RHFAutocomplete,
@@ -127,7 +130,8 @@ export const taskTicketFormFields = (
       placeholder: 'Select',
       fullWidth: true,
       options: notifyBeforeOption,
-      getOptionLabel: (option: any) => option?.title,
+      getOptionLabel: (option: any) =>
+        option?.title ? option?.title : option ? option + ' ' + 'Minutes' : '',
     },
     component: RHFAutocomplete,
     md: 12,

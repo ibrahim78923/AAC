@@ -10,30 +10,35 @@ import {
 export const departmentFormValidation: any = Yup?.object()?.shape({
   departmenProfilePicture: Yup?.string(),
   name: Yup?.string()?.required('Required'),
-  departmentHeadId: Yup?.object()?.required('Required'),
+  departmentHeadId: Yup?.mixed()?.required('Required'),
   description: Yup?.string(),
-  members: Yup.array()?.min(1, 'Required'),
+  members: Yup?.array()?.min(1, 'Required'),
 });
 
-export const departmentFormValues: any = {
-  departmenProfilePicture: '',
-  name: '',
-  departmentHeadId: null,
-  description: '',
-  members: [],
+export const departmentFormValues: any = (data: any) => {
+  return {
+    departmenProfilePicture: data?.departmenProfilePicture ?? '',
+    name: data?.name ?? '',
+    departmentHeadId: data?.departmentHeadId ?? null,
+    description: data?.description ?? '',
+    members: data?.members ?? [],
+  };
 };
 
-export const departmentFormFields: any = (usersList: any) => [
+export const departmentFormFields: any = (
+  userList: any,
+  userListMember: any,
+) => [
   {
     id: 1,
     componentProps: {
       name: 'departmenProfilePicture',
       label: 'Image',
-      fileName: 'Upload File',
-      fileType: 'SVG or PNG (max 2 MB)',
       accept: {
-        'image/*': ['.png', '.svg'],
+        'image/*': ['.png', '.jpg', '.svg'],
       },
+      fileName: 'Upload File',
+      fileType: 'SVG, PNG or JPG (max 2 MB)',
     },
     component: RHFDropZone,
   },
@@ -43,8 +48,8 @@ export const departmentFormFields: any = (usersList: any) => [
       label: 'Name',
       name: 'name',
       fullWidth: true,
-      required: true,
       placeholder: 'Enter Name',
+      required: true,
     },
     component: RHFTextField,
   },
@@ -55,8 +60,10 @@ export const departmentFormFields: any = (usersList: any) => [
       name: 'departmentHeadId',
       placeholder: 'Select',
       fullWidth: true,
+      apiQuery: userList,
+      getOptionLabel: (option: any) =>
+        option?.firstName + ' ' + option?.lastName,
       required: true,
-      apiQuery: usersList,
     },
     component: RHFAutocompleteAsync,
   },
@@ -83,9 +90,11 @@ export const departmentFormFields: any = (usersList: any) => [
       label: 'Members',
       name: 'members',
       fullWidth: true,
-      required: true,
       multiple: true,
-      apiQuery: usersList,
+      apiQuery: userListMember,
+      getOptionLabel: (option: any) =>
+        option?.firstName + ' ' + option?.lastName,
+      required: true,
     },
     component: RHFAutocompleteAsync,
   },

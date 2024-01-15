@@ -104,6 +104,7 @@ export const AIR_SERVICES = {
   UPSERT_SERVICE:
     '/air-services/settings/service-management/services-catalog/upsert-service',
   SERVICE_CATALOG: '/air-services/settings/service-management/services-catalog',
+  UPSERT_SOFTWARE_CONTRACT: `/air-services/assets/software/detail/create-contract`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {
@@ -147,11 +148,13 @@ export const AIR_LOYALTY_PROGRAM = {
   REWARDS: `/air-loyalty-program/loyalty/rewards`,
   ADD_REWARDS: `/air-loyalty-program/loyalty/rewards/add-rewards`,
   GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards`,
-  SINGLE_DIGITAL_GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards/single-digital-gift-card`,
+  SINGLE_GIFT_CARD_TRANSACTION_DETAIL: `/air-loyalty-program/gift-cards/gift-cards/transaction-details`,
   DIGITAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/digital/single-digital-detail`,
   PHYSICAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/physical/single-physical-detail`,
   VOUCHERS: `/air-loyalty-program/loyalty/vouchers`,
   VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
+  PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design`,
+  EDIT_PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design/edit`,
 };
 export const SOCIAL_COMPONENTS = {
   COMPANIES: `/social-components/companies`,
