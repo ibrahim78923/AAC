@@ -37,7 +37,7 @@ export const useCreateBusinessHour = () => {
   const [dateRange, setDateRange] = useState<any>([
     {
       startDate: new Date('2022-01-01'),
-      endDate: new Date('2025-01-01'),
+      endDate: new Date(),
       key: 'selection',
     },
   ]);
@@ -117,10 +117,8 @@ export const useCreateBusinessHour = () => {
       return;
     }
     try {
-      const response = await postBusinessHourTrigger(
-        postBusinessHourParameter,
-      )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Business Hour Added Successfully', {
+      await postBusinessHourTrigger(postBusinessHourParameter)?.unwrap();
+      enqueueSnackbar('Business Hour Created Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       router?.push(AIR_SERVICES?.BUSINESS_HOURS_SETTINGS);
@@ -136,15 +134,10 @@ export const useCreateBusinessHour = () => {
       body: { ...data, id: businessHourId },
     };
     try {
-      const response = await patchBusinessHourTrigger(
-        patchBusinessHourParameter,
-      )?.unwrap();
-      enqueueSnackbar(
-        response?.message ?? 'Business Hour Updated Successfully!',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      await patchBusinessHourTrigger(patchBusinessHourParameter)?.unwrap();
+      enqueueSnackbar('Business Hour Updated Successfully!', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
       router?.push(AIR_SERVICES?.BUSINESS_HOURS_SETTINGS);
       reset();
     } catch (error) {
