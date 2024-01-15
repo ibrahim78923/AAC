@@ -23,13 +23,11 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
 import { useState } from 'react';
 import UploadImageModal from './UploadImageModal';
-import EditDomainModal from './EditDomainModal';
 import { useRouter } from 'next/router';
 
 const ViewDetails = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isUploadImageOpen, setIsUploadImageOpen] = useState(false);
-  const [isEditDomainOpen, setIsEditDomainOpen] = useState(false);
 
   const theme = useTheme();
   const navigate = useRouter();
@@ -97,13 +95,6 @@ const ViewDetails = () => {
                     }}
                   >
                     {data?.data?.domain}
-                    <Box
-                      sx={{ marginLeft: '5px', cursor: 'pointer' }}
-                      onClick={() => setIsEditDomainOpen(true)}
-                    >
-                      {' '}
-                      <EditFormIcon />
-                    </Box>
                   </Typography>
                 </Box>
               </>
@@ -268,10 +259,6 @@ const ViewDetails = () => {
       <UploadImageModal
         isUploadImageOpen={isUploadImageOpen}
         setIsUploadImageOpen={setIsUploadImageOpen}
-      />
-      <EditDomainModal
-        isEditDomainOpen={isEditDomainOpen}
-        setIsEditDomainOpen={setIsEditDomainOpen}
       />
     </Box>
   );
