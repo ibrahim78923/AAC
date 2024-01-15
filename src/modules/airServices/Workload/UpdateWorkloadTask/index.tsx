@@ -34,7 +34,7 @@ export const UpdateWorkloadTask = ({
                 <item.component
                   {...item?.componentProps}
                   size={'small'}
-                  disabled={!edit}
+                  disabled={item?.componentProps?.disabled || !edit}
                 />
               </Grid>
             ))}
