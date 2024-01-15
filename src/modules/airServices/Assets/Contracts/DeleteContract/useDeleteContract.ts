@@ -26,13 +26,13 @@ export const useDeleteContract = (props: any) => {
     try {
       await deleteContractTrigger(deleteContractParameter)?.unwrap();
       setSelectedContractList([]);
-      enqueueSnackbar('Record delete successfully', {
+      enqueueSnackbar('Contract delete successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       setPage?.(1);
       setIsDeleteModalOpen?.(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Record not delete', {
+      enqueueSnackbar(error?.data?.message ?? 'Contract not delete', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
       setSelectedContractList([]);
