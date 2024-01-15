@@ -9,33 +9,37 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const Associations = () => {
   const theme: any = useTheme();
-  const { associationsList, openDrawer, setOpenDrawer, isLoading } =
+  const { associationsList, openDrawer, setOpenDrawer, isLoading, isError } =
     useAssociations();
   return (
     <>
       <Box>
         {isLoading ? (
           <SkeletonTable />
-        ) : associationsList?.length === 0 ? (
+        ) : associationsList?.length === 0 || !!!associationsList ? (
           <>
             <NoData
               image={NoAssociationFoundImage}
               message={
-                'Make approved purchases by sending the order to your stakeholders for approval'
+                isError
+                  ? 'Something went wrong'
+                  : 'Make approved purchases by sending the order to your stakeholders for approval'
               }
             >
-              <Button
-                sx={{
-                  marginRight: '12px',
-                  backgroundColor: theme?.palette?.primary?.light,
-                  color: theme?.palette?.primary?.main,
-                }}
-                variant="outlined"
-                startIcon={<AddCircleIcon />}
-                onClick={() => setOpenDrawer(true)}
-              >
-                Associate
-              </Button>
+              {!isError && (
+                <Button
+                  sx={{
+                    marginRight: '12px',
+                    backgroundColor: theme?.palette?.primary?.light,
+                    color: theme?.palette?.primary?.main,
+                  }}
+                  variant="outlined"
+                  startIcon={<AddCircleIcon />}
+                  onClick={() => setOpenDrawer(true)}
+                >
+                  Associate
+                </Button>
+              )}
             </NoData>
           </>
         ) : (

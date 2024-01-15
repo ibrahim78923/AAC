@@ -6,7 +6,7 @@ export const useAssociations = () => {
   const searchParams = useSearchParams();
   const purchaseOrderId = searchParams.get('id');
   const [openDrawer, setOpenDrawer] = useState<any>(false);
-  const { data, isLoading } = useGetAssociationsQuery(purchaseOrderId);
+  const { data, isLoading, isError } = useGetAssociationsQuery(purchaseOrderId);
   const associationsList = data?.data;
-  return { associationsList, openDrawer, setOpenDrawer, isLoading };
+  return { associationsList, openDrawer, setOpenDrawer, isLoading, isError };
 };

@@ -74,8 +74,8 @@ const useNewPurchaseOrders = () => {
       });
       reset();
       handlePageBack();
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
