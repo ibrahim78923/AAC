@@ -186,9 +186,12 @@ const ContactsCard = ({
                   )}
                 </Typography>
               </Box>
-              {/* <Box sx={styles?.chatNotification}>1</Box> */}
+              {cardData?.item?.unReadMessagesCount > 0 && (
+                <Box sx={styles?.chatNotification}>
+                  {cardData?.item?.unReadMessagesCount}
+                </Box>
+              )}
             </Box>
-
             <Box
               sx={{
                 display: 'flex',

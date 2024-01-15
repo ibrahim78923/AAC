@@ -128,14 +128,19 @@ const AddGroupModal = ({
             gap: '10px',
           }}
         >
-          <Image src={AddRoundedImage} alt="upload" />
-          <Typography variant="h6">Add Photo</Typography>
           <input
+            hidden={true}
+            id="upload-group-image"
             type="file"
             accept="image/*"
             onChange={(e: any) => handleImageChange(e)}
           />
+          <Image src={AddRoundedImage} alt="upload" />
+          <label htmlFor="upload-group-image">
+            <Typography variant="h6">Add Photo</Typography>
+          </label>
         </Box>
+
         <br />
         <FormProvider
           methods={methodsAddGroup}

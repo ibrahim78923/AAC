@@ -57,7 +57,7 @@ const ChatBox = ({
   const dispatch = useAppDispatch();
 
   const socket = useAppSelector((state) => state?.chat?.socket);
-  // const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
+  const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
 
   const handelSendReaction = (emoji: any, item: any) => {
     const isReactionExists = item?.reactions?.some(
@@ -80,6 +80,7 @@ const ChatBox = ({
     );
   };
 
+  //Reply message to user
   const handelReply = (chatId: any) => {
     dispatch(
       setActiveReply({
@@ -89,6 +90,7 @@ const ChatBox = ({
     );
   };
 
+  //Delete message from chat
   const handelDelete = () => {
     socket.emit('update-message', {
       messageId: item?._id,
@@ -96,13 +98,14 @@ const ChatBox = ({
     });
   };
 
+  // Read message functionality from socket
   useEffect(() => {
     if (role === 'receiver') {
       if (item?.isRead === false) {
         socket.emit('update-message', {
           messageId: item?._id,
           isRead: true,
-          // groupId: activeChatId
+          groupId: activeChatId,
         });
       }
     }
@@ -178,14 +181,22 @@ const ChatBox = ({
             ) : (
               <>
                 {chatMode === 'groupChat' ? (
-                  <Box>
-                    <Typography
-                      variant="body3"
-                      sx={{ color: theme?.palette?.common, fontWeight: '500' }}
-                    >
-                      {item?.userName}
-                    </Typography>
-                  </Box>
+                  <>
+                    {role === 'receiver' && (
+                      <Box>
+                        <Typography
+                          variant="body3"
+                          sx={{
+                            color: theme?.palette?.common,
+                            fontWeight: '500',
+                          }}
+                        >
+                          {item?.ownerDetail?.firstName}&nbsp;
+                          {item?.ownerDetail?.lastName}
+                        </Typography>
+                      </Box>
+                    )}
+                  </>
                 ) : null}
               </>
             )}
