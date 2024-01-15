@@ -1,4 +1,8 @@
-import { DocumentIcon } from '@/assets/icons';
+import {
+  CheckboxCheckedIcon,
+  CheckboxIcon,
+  DocumentIcon,
+} from '@/assets/icons';
 import { AntSwitch } from '@/components/AntSwitch';
 import { Checkbox, Typography } from '@mui/material';
 
@@ -81,6 +85,8 @@ export const assignedPhysicalGiftCardColumnsFunction = (
     id: 'id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!assignedPhysicalGiftCardData?.find(
             (item: any) => item?.id === info?.getValue(),
@@ -106,6 +112,8 @@ export const assignedPhysicalGiftCardColumnsFunction = (
     ),
     header: (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           assignedPhysicalGiftCardData?.length === assignedPhysicaldata?.length
         }

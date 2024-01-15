@@ -4,10 +4,10 @@ import { Typography } from '@mui/material';
 
 export const validationSchemaAddNewLocation: any = yup?.object()?.shape({
   locationName: yup?.string()?.required('Required'),
-  parentLocation: yup?.string()?.required('Required'),
-  contactName: yup?.string()?.required('Required'),
-  email: yup?.string()?.required('Required'),
-  phone: yup?.string()?.required('Required'),
+  parentLocation: yup?.string(),
+  contactName: yup?.string(),
+  email: yup?.string(),
+  phone: yup?.string(),
 });
 
 export const locationDefaultValues = ({
@@ -46,7 +46,6 @@ export const addNewLocationDataFields = [
       fullWidth: true,
       name: 'parentLocation',
       label: 'Parent Location',
-      required: true,
     },
     component: RHFTextField,
     md: 6,
@@ -57,7 +56,6 @@ export const addNewLocationDataFields = [
       fullWidth: true,
       name: 'contactName',
       label: 'Contact Name',
-      required: true,
     },
     component: RHFTextField,
     gridLength: 6,
@@ -70,7 +68,6 @@ export const addNewLocationDataFields = [
       fullWidth: true,
       name: 'email',
       label: 'Email',
-      required: true,
     },
     component: RHFTextField,
     md: 6,
@@ -81,7 +78,6 @@ export const addNewLocationDataFields = [
       fullWidth: true,
       name: 'phone',
       label: 'Phone',
-      required: true,
     },
     component: RHFTextField,
     gridLength: 6,
