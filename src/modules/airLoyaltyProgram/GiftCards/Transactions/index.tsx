@@ -3,11 +3,7 @@ import { UserList, transactionTableData } from './Transactions.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { useState } from 'react';
-import {
-  CirclePlusIcon,
-  ExportIcon,
-  FilterLinesIcon,
-} from '@/assets/icons';
+import { CirclePlusIcon, ExportIcon, FilterLinesIcon } from '@/assets/icons';
 import { TransactionFilterDrawer } from './TransactionFilterDrawer';
 import { AddTransactionDrawer } from './AddTransactionDrawer';
 import { ExportModal } from '@/components/ExportModal';

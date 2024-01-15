@@ -182,6 +182,8 @@ export const END_POINTS = {
   ASSETS_INVENTORY_CONTRACTS: '/assets/inventory-contract-list',
   DEPARTMENT_UPDATE: '/department/update',
   DEPARTMENT_DELETE: '/department/delete-department',
+  DROPDOWN_SOFTWARE: `/assets/get-software`,
+  DROPDOWN_ALL_AGENTS: '/dropdown/agents',
 };
 
 export const superAdminBillingInvoices = {

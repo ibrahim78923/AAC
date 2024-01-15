@@ -261,3 +261,4 @@ export { default as PrepaidImage } from './modules/HeaderAndSidebar/prepaid.png'
 export { default as VuesaxErrorImage } from './modules/airServices/Tickets/vuesax-error-image.png';
 export { default as UserDefault } from './modules/socialComponents/chat/user-default.png';
 export { default as TypingGif } from './modules/socialComponents/chat/typing.gif';
+export { default as PhysicalCardSmallImage } from './modules/loyaltyProgram/GiftCards/physical-card-small-image.png';

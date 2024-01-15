@@ -4,6 +4,7 @@ import {
   DocumentIcon,
 } from '@/assets/icons';
 import { AntSwitch } from '@/components/AntSwitch';
+import { AIR_LOYALTY_PROGRAM } from '@/constants';
 import { Checkbox, Typography } from '@mui/material';
 
 export const data: any = [
@@ -139,9 +140,11 @@ export const assignedPhysicalGiftCardColumnsFunction = (
         component="span"
         onClick={() =>
           router?.push({
-            pathname: '',
+            pathname: AIR_LOYALTY_PROGRAM?.SINGLE_GIFT_CARD_TRANSACTION_DETAIL,
             query: {
-              assignedId: info?.row?.id,
+              giftCardId: info?.row?.id,
+              type: 'physical',
+              category: 'assigned',
             },
           })
         }
