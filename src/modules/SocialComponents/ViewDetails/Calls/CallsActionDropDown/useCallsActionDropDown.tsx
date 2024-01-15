@@ -29,6 +29,35 @@ const useCallsActionDropdown = ({
   const editCallValue = selectedCheckboxes && selectedCheckboxes[0];
   const [updateCalls] = useUpdateCallsMutation();
 
+  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event?.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOpenEditDrawer = () => {
+    setOpenDrawer('Edit');
+    handleCloseMenu();
+  };
+  const handleOpenViewDrawer = () => {
+    setOpenDrawer('View');
+    handleCloseMenu();
+  };
+
+  const handleOpenDeleteAlert = () => {
+    setOpenAlertModal('Delete');
+  };
+  const handleCloseAlert = () => {
+    setOpenAlertModal('');
+  };
+  const handleOpenReassignModal = () => {
+    setOpenAlertModal('reschedule');
+  };
+  const handleOpenOutcomeModal = () => {
+    setOpenAlertModal('outcome');
+  };
+
   const methodsReassignCall = useForm({
     resolver: yupResolver(reAssignCallValidationSchema),
     defaultValues: async () => {
@@ -104,7 +133,7 @@ const useCallsActionDropdown = ({
         id: selectedCheckboxes[0]?._id,
       })?.unwrap();
 
-      enqueueSnackbar(`Outcomes Added Successfully`, {
+      enqueueSnackbar(`Outcomes Updated Successfully`, {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       setOpenAlertModal('');
@@ -118,35 +147,6 @@ const useCallsActionDropdown = ({
   };
 
   const { handleSubmit: handleOutCome } = methodsOutCome;
-
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event?.currentTarget);
-  };
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
-
-  const handleOpenEditDrawer = () => {
-    setOpenDrawer('Edit');
-    handleCloseMenu();
-  };
-  const handleOpenViewDrawer = () => {
-    setOpenDrawer('View');
-    handleCloseMenu();
-  };
-
-  const handleOpenDeleteAlert = () => {
-    setOpenAlertModal('Delete');
-  };
-  const handleCloseAlert = () => {
-    setOpenAlertModal('');
-  };
-  const handleOpenReassignModal = () => {
-    setOpenAlertModal('reschedule');
-  };
-  const handleOpenOutcomeModal = () => {
-    setOpenAlertModal('outcome');
-  };
 
   return {
     theme,

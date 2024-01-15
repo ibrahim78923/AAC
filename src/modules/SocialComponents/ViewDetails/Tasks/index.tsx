@@ -10,7 +10,7 @@ import { columns } from './Tasks.data';
 
 import { PlusIcon } from '@/assets/icons';
 
-const Tasks = () => {
+const Tasks = ({ companyId }: any) => {
   const {
     openDrawer,
     setOpenDrawer,
@@ -56,13 +56,15 @@ const Tasks = () => {
           />
         </Grid>
       </Grid>
-
-      <TaskEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-        selectedCheckboxes={selectedCheckboxes}
-        setSelectedCheckboxes={setSelectedCheckboxes}
-      />
+      {openDrawer && (
+        <TaskEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          selectedCheckboxes={selectedCheckboxes}
+          setSelectedCheckboxes={setSelectedCheckboxes}
+          companyId={companyId}
+        />
+      )}
     </Box>
   );
 };

@@ -72,7 +72,6 @@ const useUserManagement = () => {
       query: {
         userName: `${data?.firstName} ${data?.lastName}`,
         organizationId: data?.organization?._id,
-        userId: data?._id,
       },
     });
     setSelectedValue(null);

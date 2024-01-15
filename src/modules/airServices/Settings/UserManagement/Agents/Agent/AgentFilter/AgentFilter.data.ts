@@ -1,8 +1,9 @@
 import { RHFAutocomplete } from '@/components/ReactHookForm';
+import { ROLE } from '@/constants/strings';
 
 import * as Yup from 'yup';
 
-const roleOptions = ['ORG_AGENT'];
+const roleOptions = [ROLE?.ORG_AGENT];
 
 export const validationSchemaAgentFilterFields = Yup?.object()?.shape({
   department: Yup?.string(),

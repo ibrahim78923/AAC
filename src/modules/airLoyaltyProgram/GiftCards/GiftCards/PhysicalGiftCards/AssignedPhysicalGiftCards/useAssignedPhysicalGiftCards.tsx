@@ -13,22 +13,22 @@ export const useAssignedPhysicalGiftCards = () => {
   const [search, setSearch] = useState('');
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [isDrawerOpen, setIsADrawerOpen] = useState();
-  const handleClick = () => {
-    setOpen(true);
-  };
+  const [isDrawerOpen, setIsADrawerOpen] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const onSubmit = () => {
+  const handleFileExportSubmit = (type: any) => {
+    if (!!!type) {
+      setOpen(false);
+      return;
+    }
     setOpen(false);
     enqueueSnackbar('File Exported Successfully', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
   };
-
   const assignedPhysicalGiftCardColumns =
     assignedPhysicalGiftCardColumnsFunction(
       router,
@@ -43,12 +43,11 @@ export const useAssignedPhysicalGiftCards = () => {
     data,
     search,
     setSearch,
-    handleClick,
-    onSubmit,
     open,
     setOpen,
     handleClose,
     isDrawerOpen,
     setIsADrawerOpen,
+    handleFileExportSubmit,
   };
 };

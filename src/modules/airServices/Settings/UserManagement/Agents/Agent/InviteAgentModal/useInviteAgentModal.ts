@@ -7,11 +7,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import { AGENTS, NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
+  useLazyGetDepartmentDropdownListQuery,
   usePatchAgentMutation,
   usePostAddAgentMutation,
 } from '@/services/airServices/settings/user-management/agents';
 import { useEffect } from 'react';
-import { useGetDepartmentQuery } from '@/services/common-APIs';
 
 export const useInviteAgentModal = (props: any) => {
   const { handleAddAgentModal, selectedAgentList, editAgentModalTitle } = props;
@@ -25,23 +25,19 @@ export const useInviteAgentModal = (props: any) => {
     reset(defaultValues(selectedAgentList));
   }, [selectedAgentList, reset]);
 
-  const { data } = useGetDepartmentQuery(null);
-  const departmentData = data?.data?.departments;
+  const departmentDropdown = useLazyGetDepartmentDropdownListQuery();
 
   const [postAgentTrigger, postAgentProgress] = usePostAddAgentMutation();
   const isLoading = postAgentProgress?.isLoading;
   const handleFormSubmit = async (formData: any) => {
     if (editAgentModalTitle === AGENTS?.INVITE_AGENT) {
       try {
-        const department = departmentData?.find(
-          (item: any) => item?.name === formData?.departmentId,
-        );
         const res: any = await postAgentTrigger({
           firstName: formData?.firstName ?? '',
           lastName: formData?.lastName ?? '',
           phoneNumber: formData?.phoneNumber ?? '',
           email: formData?.email ?? '',
-          departmentId: department?._id ?? '',
+          departmentId: formData?.departmentId?._id ?? '',
           role: formData?.role ?? '',
           timezone: formData?.timezone ?? '',
         });
@@ -61,16 +57,13 @@ export const useInviteAgentModal = (props: any) => {
     } else {
       try {
         const agentId = selectedAgentList.map((agent: any) => agent?._id);
-        const department = departmentData?.find(
-          (item: any) => item?.name === formData?.departmentId,
-        );
         const res: any = await agentUpdate({
           id: agentId,
           body: {
             firstName: formData?.firstName ?? '',
             lastName: formData?.lastName ?? '',
             phoneNumber: formData?.phoneNumber ?? '',
-            departmentId: department?._id ?? '',
+            departmentId: formData?.departmentId?._id ?? '',
             role: formData?.role ?? '',
             timezone: formData?.timezone ?? '',
           },
@@ -94,7 +87,7 @@ export const useInviteAgentModal = (props: any) => {
     inviteAgentMethods,
     handleAddAgentModal,
     handleSubmitAgent,
-    departmentData,
     isLoading,
+    departmentDropdown,
   };
 };

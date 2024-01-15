@@ -8,6 +8,7 @@ import {
 } from '@/constants/strings';
 import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 
 const todayDate = dayjs()?.format('MM/DD/YYYY');
 
@@ -169,16 +170,6 @@ export const checkStatus = (startDate: any, expiryDate: any) => {
   } else {
     return TICKETS_STATE?.OVERDUE;
   }
-};
-
-const fullName = (firstName: any, lastName: any) => {
-  if (!!!firstName && !!!lastName) return 'None';
-  return `${firstName ?? ''} ${lastName ?? ''}`;
-};
-
-const fullNameInitial = (firstName: any, lastName: any) => {
-  if (!!!firstName && !!!lastName) return '-';
-  return `${firstName?.[0] ?? ''} ${lastName?.[0] ?? ''}`;
 };
 
 export const ticketsListsColumnFunction: any = (

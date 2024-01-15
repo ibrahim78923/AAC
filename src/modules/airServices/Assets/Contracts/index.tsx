@@ -108,6 +108,7 @@ const Contracts = () => {
           isDeleteModalOpen={isDeleteModalOpen}
           selectedContractList={selectedContractList}
           setSelectedContractList={setSelectedContractList}
+          setPage={setPage}
         />
       )}
       {isDrawerOpen && (
@@ -116,6 +117,7 @@ const Contracts = () => {
           setIsDrawerOpen={setIsDrawerOpen}
           contractFilterLists={contractFilterLists}
           setContractFilterLists={setContractFilterLists}
+          setPage={setPage}
         />
       )}
     </>

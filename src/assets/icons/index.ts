@@ -374,6 +374,7 @@ export { default as ImportBoxIcon } from './shared/import-box';
 export { default as ImagePreviewIcon } from './shared/image-preview';
 export { default as ImageUploadIcon } from './shared/image-upload';
 export { default as RecycleBinIcon } from './shared/recycle-bin-icon';
+export { default as PayBoxIcon } from './shared/pay-box-icon';
 export { default as EmailTextIcon } from './modules/airMarketer/CreateTemplate/emailText';
 export { default as EmailDragIcon } from './modules/airMarketer/CreateTemplate/emailDrag';
 export { default as EmailButtonIcon } from './modules/airMarketer/CreateTemplate/emailButton';
@@ -401,3 +402,4 @@ export { default as TicketsDynamicIcon } from './modules/airLoyaltyProgram/Dashb
 export { default as UserDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/user-dynamic-icon';
 export { default as AddToCartMoneyDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/add-to-cart-money-dynamic-icon';
 export { default as TransactionDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/transaction-dynamic-icon';
+export { default as ImageIconAttachment } from './modules/SocialComponents/Chat/imageIcon';

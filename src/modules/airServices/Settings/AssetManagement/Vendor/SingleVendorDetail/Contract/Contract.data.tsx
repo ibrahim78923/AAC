@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Chip, Typography } from '@mui/material';
 
 export const data: any = [
   {
@@ -34,15 +34,14 @@ export const columns = (): any => [
     isSortable: true,
     header: 'Status',
     cell: (info: any) => (
-      <Box
-        color="success.main"
-        borderRadius={3}
-        width={'4rem'}
-        textAlign={'center'}
-        sx={{ backgroundColor: 'success.lighter' }}
-      >
-        {info?.getValue()}
-      </Box>
+      <Chip
+        sx={{
+          bgcolor:
+            info?.getValue() === 'Active' ? 'success.lighter' : 'error.lighter',
+          color: info?.getValue() === 'Active' ? 'success.main' : 'error.main',
+        }}
+        label={info?.getValue()}
+      />
     ),
   },
   {

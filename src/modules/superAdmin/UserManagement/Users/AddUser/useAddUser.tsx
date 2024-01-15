@@ -136,12 +136,12 @@ const useAddUser = (useActionParams?: any) => {
     }
     let keysToDelete: any = [
       'flat',
-      'compositeAddress',
       'buildingNumber',
       'buildingName',
       'city',
       'country',
       'streetName',
+      'compositeAddress',
     ];
 
     if (isOpenAddUserDrawer?.type === 'edit') {

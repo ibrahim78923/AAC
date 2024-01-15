@@ -125,14 +125,15 @@ const Calls = ({ companyId }: any) => {
           something want worng
         </Typography>
       )}
-
-      <CallsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-        setSelectedCheckboxes={setSelectedCheckboxes}
-        selectedCheckboxes={selectedCheckboxes}
-        companyId={companyId}
-      />
+      {openDrawer && (
+        <CallsEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          setSelectedCheckboxes={setSelectedCheckboxes}
+          selectedCheckboxes={selectedCheckboxes}
+          companyId={companyId}
+        />
+      )}
     </Box>
   );
 };
