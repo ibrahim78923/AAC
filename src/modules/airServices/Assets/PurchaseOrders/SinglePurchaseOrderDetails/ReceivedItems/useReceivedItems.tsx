@@ -1,37 +1,95 @@
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
-import { data } from './ReceivedItems.data';
+import {
+  useGetAddToPurchaseOrderByIdQuery,
+  usePatchAddToItemMutation,
+} from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { receivedItemsColumns } from './ReceivedItems.data';
 
 export const useReceivedItems = (props: any) => {
-  let booVariable: boolean;
+  const [receivedAmount, setReceivedAmount] = useState<string>('');
+  const purchaseOrderId = '65a115b847cea622057735dc';
+  const [patchAddToItemTrigger] = usePatchAddToItemMutation();
   const [errorOccurred, setErrorOccurred] = useState(false);
-  const { isDrawerOpen, setIsDrawerOpen } = props;
-  const showSnackbar = (boolValue: boolean) => {
-    if (boolValue) {
-      const message = 'Purchase Order items count update successfully';
-      const variant = 'success';
-      enqueueSnackbar(message, {
-        variant: variant,
-      });
-      setIsDrawerOpen(false);
-    }
+  const { setIsDrawerOpen } = props;
+  let booVariable: boolean;
+  const columns = receivedItemsColumns(setReceivedAmount, receivedAmount);
+
+  const getSingleAddToPurchaseOrderParameter = {
+    pathParam: {
+      purchaseOrderId,
+    },
   };
-  const submitHandler = () => {
-    data?.forEach((item) => {
-      if (item?.Id === item?.Id && item?.received < item?.pending) {
-        booVariable = true;
-      } else {
-        setErrorOccurred(true);
+
+  const { data } = useGetAddToPurchaseOrderByIdQuery(
+    getSingleAddToPurchaseOrderParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!purchaseOrderId,
+    },
+  );
+  const purchaseOrderDetail = data?.data?.purchaseDetails;
+
+  const submitHandler = async () => {
+    const updatedPurchaseOrderDetail = purchaseOrderDetail.map((item: any) => ({
+      ...item,
+      received: receivedAmount,
+    }));
+    const putAddToItemParameter = {
+      body: updatedPurchaseOrderDetail,
+      pathParam: {
+        id: purchaseOrderId,
+      },
+    };
+
+    try {
+      await patchAddToItemTrigger(putAddToItemParameter)?.unwrap();
+
+      updatedPurchaseOrderDetail?.forEach((item: any) => {
+        if (item?._id === item?._id && item?.received > item?.quantity) {
+          booVariable = true;
+        } else {
+          setErrorOccurred(true);
+          setIsDrawerOpen(false);
+        }
+      });
+      if (booVariable) {
+        const message = 'Purchase Order items count update successfully';
+        const variant = 'success';
+        enqueueSnackbar(message, {
+          variant: variant,
+        });
+        setIsDrawerOpen(false);
       }
-    });
+    } catch (error) {
+      updatedPurchaseOrderDetail?.forEach((item: any) => {
+        if (item?._id === item?._id && item?.received < item?.quantity) {
+          booVariable = true;
+        } else {
+          setErrorOccurred(true);
+          setIsDrawerOpen(false);
+        }
+      });
+      if (booVariable) {
+        const message = 'Purchase Order items count update successfully';
+        const variant = 'success';
+        enqueueSnackbar(message, {
+          variant: variant,
+        });
+        setIsDrawerOpen(false);
+      }
+      enqueueSnackbar('Something went wrong', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
     setIsDrawerOpen(false);
-    showSnackbar(booVariable);
   };
 
   return {
     errorOccurred,
     submitHandler,
-    isDrawerOpen,
-    setIsDrawerOpen,
+    purchaseOrderDetail,
+    columns,
   };
 };

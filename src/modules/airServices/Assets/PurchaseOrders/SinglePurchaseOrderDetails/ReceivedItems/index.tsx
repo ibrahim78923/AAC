@@ -1,14 +1,16 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
 import React from 'react';
-import { columns, data } from './ReceivedItems.data';
 
 import { Alert } from '@mui/material';
 import { useReceivedItems } from './useReceivedItems';
 
 export const ReceivedItems = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
-  const { errorOccurred, submitHandler } = useReceivedItems(props);
+
+  const { errorOccurred, submitHandler, purchaseOrderDetail, columns } =
+    useReceivedItems(props);
+
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
@@ -28,7 +30,7 @@ export const ReceivedItems = (props: any) => {
             quantity
           </Alert>
         )}
-        <TanstackTable data={data} columns={columns(setIsDrawerOpen)} />
+        <TanstackTable data={purchaseOrderDetail} columns={columns} />
       </>
     </CommonDrawer>
   );

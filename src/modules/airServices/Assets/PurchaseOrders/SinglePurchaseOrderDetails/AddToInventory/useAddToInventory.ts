@@ -143,12 +143,11 @@ export default function useAddToInventoryDrawer(props: any) {
   const apiQueryLocations = useLazyGetLocationsDropdownQuery();
   const param = {};
   const { data: allAssetsData } = useGetAllAssetsListQuery({ param });
-
+  const updateDate = allAssetsData?.data;
   const addToInventoryItemAddedFormFieldsData =
     addToInventoryItemAddedFormFieldsDataFunction(
       apiQueryDepartment,
       apiQueryLocations,
-      // apiQueryAllAssets,
     );
   const filteredYes = addToInventoryItemAddedFormFieldsData?.filter(
     (item: any) => {
@@ -185,5 +184,6 @@ export default function useAddToInventoryDrawer(props: any) {
     search,
     setSearch,
     allAssetsData,
+    updateDate,
   };
 }

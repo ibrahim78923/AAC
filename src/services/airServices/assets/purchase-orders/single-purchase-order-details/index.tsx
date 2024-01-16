@@ -2,6 +2,7 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'ASSETS_PURCHASEORDER';
+const TAG_FIVE = 'ASSETS_ITEM_ADDED';
 const TAG_FOUR = 'DROPDOWN_DEPARTMENT';
 const TAG_TWO = 'DROPDOWN_ALL_ASSETS';
 export const singlePurchaseOrderAPI = baseAPI?.injectEndpoints({
@@ -69,6 +70,14 @@ export const singlePurchaseOrderAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    patchAddToItem: builder?.mutation({
+      query: (putAddToItemParameter: any) => ({
+        url: `${END_POINTS?.EDIT_NEW_ITEM}/${putAddToItemParameter?.pathParam?.id}`,
+        method: 'PATCH',
+        body: putAddToItemParameter?.body,
+      }),
+      invalidatesTags: [TAG_FIVE],
+    }),
   }),
 });
 
@@ -80,4 +89,5 @@ export const {
   useGetAddToPurchaseOrderByIdQuery,
   useGetAllAssetsListQuery,
   usePatchAddToPurchaseOrderMutation,
+  usePatchAddToItemMutation,
 } = singlePurchaseOrderAPI;

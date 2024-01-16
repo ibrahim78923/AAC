@@ -188,6 +188,7 @@ export const END_POINTS = {
   EDIT_NEW_PURCHASEORDER: '/assets/update_purchase_order_inventory',
   DROPDOWN_SOFTWARE: `/assets/get-software`,
   DROPDOWN_ALL_AGENTS: '/dropdown/agents',
+  EDIT_NEW_ITEM: '/assets/purchaseorder',
 };
 
 export const superAdminBillingInvoices = {

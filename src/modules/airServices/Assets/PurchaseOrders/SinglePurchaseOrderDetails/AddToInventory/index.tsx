@@ -5,7 +5,16 @@ import {
 } from '@/assets/images';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
-import { Box, Chip, Divider, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  Divider,
+  FormControl,
+  Grid,
+  Typography,
+} from '@mui/material';
 import Image from 'next/image';
 import { addToInventoryItemStatus } from './AddToInventory.data';
 import * as React from 'react';
@@ -23,7 +32,6 @@ export const AddToInventory = (props: any) => {
     methodsYes,
     boolVariable,
     filteredYes,
-    filteredNo,
     submitHandlerTwo,
     submitHandlerNo,
     submitHandlerYes,
@@ -31,6 +39,7 @@ export const AddToInventory = (props: any) => {
     toShow,
     setToShow,
     purchaseOrderDetail,
+    updateDate,
   } = useAddToInventoryDrawer(props);
 
   return (
@@ -193,20 +202,41 @@ export const AddToInventory = (props: any) => {
               onSubmit={toShow === true ? submitHandlerYes : submitHandlerNo}
             >
               <Grid container spacing={2}>
-                {toShow === true
-                  ? filteredYes?.map((item: any) => (
-                      <Grid item xs={12} md={item?.md} key={item?.id}>
-                        <item.component
-                          {...item?.componentProps}
-                          size="small"
-                        />
-                      </Grid>
-                    ))
-                  : filteredNo?.map((item: any) => (
-                      <Grid item xs={12} md={item?.md} key={item?.id}>
-                        {item?.display}
-                      </Grid>
+                {toShow === true ? (
+                  filteredYes?.map((item: any) => (
+                    <Grid item xs={12} md={item?.md} key={item?.id}>
+                      <item.component {...item?.componentProps} size="small" />
+                    </Grid>
+                  ))
+                ) : (
+                  <Grid
+                    item
+                    xs={12}
+                    mt={2}
+                    sx={{ maxHeight: '300px', overflowY: 'auto' }}
+                  >
+                    {updateDate.map((asset: any) => (
+                      <Card key={asset?._id}>
+                        <CardContent>
+                          <FormControl component="fieldset">
+                            <RadioGroup
+                              row
+                              aria-label="asset-radio-group"
+                              name="asset-radio-group"
+                              value={asset?._id?.toString()}
+                            >
+                              <FormControlLabel
+                                value={asset?._id?.toString()}
+                                control={<Radio />}
+                                label={asset.displayName}
+                              />
+                            </RadioGroup>
+                          </FormControl>
+                        </CardContent>
+                      </Card>
                     ))}
+                  </Grid>
+                )}
               </Grid>
             </FormProvider>
           </Grid>
