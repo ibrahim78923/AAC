@@ -3,6 +3,12 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts';
+import { useForm } from 'react-hook-form';
+import {
+  productsDefaultValues,
+  productsValidationSchema,
+} from './DealEditorDrawer/DealEditorDrawer.data';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const useDeal = (contactId: any) => {
   // Get Association Tickets
@@ -29,10 +35,27 @@ const useDeal = (contactId: any) => {
     });
 
   // Drawer Edit
+  const methodsEditDeal = useForm({
+    resolver: yupResolver(productsValidationSchema),
+    defaultValues: productsDefaultValues,
+  });
   const [drawerTitle, setDrawerTitle] = useState('View');
   const [openDrawer, setOpenDrawer] = useState(false);
-  const handleOpenDrawer = (title: string) => {
+  const [isDisabledFields, setIsDisabledFields] = useState(true);
+  const handleOpenDrawer = (title: string, data: any) => {
+    const flag = title === 'View';
     setDrawerTitle(title);
+    setIsDisabledFields(flag);
+    if (data) {
+      methodsEditDeal.setValue('name', data?.name);
+      methodsEditDeal.setValue('dealPiplineId', data?.dealPiplineId);
+      methodsEditDeal.setValue('dealStageId', data?.dealStageId);
+      methodsEditDeal.setValue('amount', data?.amount);
+      methodsEditDeal.setValue('closeDate', new Date(data?.closeDate));
+      methodsEditDeal.setValue('ownerId', data?.ownerId);
+      methodsEditDeal.setValue('priority', data?.priority);
+      methodsEditDeal.setValue('addLineItemId', data?.addLineItemId);
+    }
     setOpenDrawer(true);
   };
   const handleCloseDrawer = () => {
@@ -65,6 +88,8 @@ const useDeal = (contactId: any) => {
     openDrawer,
     handleOpenDrawer,
     handleCloseDrawer,
+    methodsEditDeal,
+    isDisabledFields,
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,

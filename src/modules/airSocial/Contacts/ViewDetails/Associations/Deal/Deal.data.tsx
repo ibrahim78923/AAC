@@ -1,11 +1,8 @@
-import { Box, MenuItem, Select } from '@mui/material';
-
-import useDeal from './useDeal';
-
+import { Box } from '@mui/material';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
-  const { selectStage, setSelectStage, selectPipline, setSelectPipline } =
-    useDeal('65a0d031282eeec22734c2ef');
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -20,22 +17,7 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
       id: 'dealStageId',
       isSortable: true,
       header: 'Stage',
-      cell: () => (
-        <Select
-          value={selectStage}
-          fullWidth
-          size="small"
-          onChange={(e) => {
-            setSelectStage(e?.target?.value);
-          }}
-        >
-          <MenuItem value="val1" selected>
-            value1
-          </MenuItem>
-          <MenuItem value="val2">value2</MenuItem>
-          <MenuItem value="val3">value3</MenuItem>
-        </Select>
-      ),
+      cell: (info: any) => info?.getValue(),
     },
 
     {
@@ -43,29 +25,14 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
       id: 'dealPiplineId',
       isSortable: true,
       header: 'Pipeline',
-      cell: () => (
-        <Select
-          value={selectPipline}
-          fullWidth
-          size="small"
-          onChange={(e) => {
-            setSelectPipline(e?.target?.value);
-          }}
-        >
-          <MenuItem value="val1" selected>
-            value1
-          </MenuItem>
-          <MenuItem value="val2">value2</MenuItem>
-          <MenuItem value="val3">value3</MenuItem>
-        </Select>
-      ),
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.closeDate,
       id: 'closeDate',
       isSortable: true,
       header: 'CloseDate',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.ownerId,
@@ -86,25 +53,31 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
       id: '_id',
       isSortable: false,
       header: 'Actions',
-      cell: () => (
-        <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => handleOpenDrawer('View')}
-          >
-            <ViewEyeIcon />
+      cell: (info: any) => {
+        const rowData = info?.row?.original;
+        return (
+          <Box sx={{ display: 'flex', gap: 0.5 }}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => handleOpenDrawer('View', rowData)}
+            >
+              <ViewEyeIcon />
+            </Box>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => handleOpenDrawer('Edit', rowData)}
+            >
+              <EditPenIcon />
+            </Box>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => handleOpenAlert(true)}
+            >
+              <DeleteCrossIcon />
+            </Box>
           </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => handleOpenDrawer('Edit')}
-          >
-            <EditPenIcon />
-          </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => handleOpenAlert(true)}>
-            <DeleteCrossIcon />
-          </Box>
-        </Box>
-      ),
+        );
+      },
     },
   ];
 };

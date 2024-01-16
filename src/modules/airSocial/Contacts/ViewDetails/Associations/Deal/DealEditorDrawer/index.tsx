@@ -8,17 +8,24 @@ import useDealEditorDrawer from './useDealEditorDrawer';
 
 import { dealDataArray } from './DealEditorDrawer.data';
 
-import { v4 as uuidv4 } from 'uuid';
-
 const DealEditorDrawer = (props: any) => {
-  const { isOpen, onClose, title } = props;
+  const { isOpen, onClose, title, methods, isDisabledFields } = props;
   const {
+    dealStagesData,
+    dealPipelineData,
+    dealOwnersData,
+    addLineItemsData,
     // dealType,
     // handleChangeDealType,
-    handleSubmit,
-    onSubmit,
-    methodsProducts,
   } = useDealEditorDrawer();
+
+  const formFields = dealDataArray(
+    dealPipelineData,
+    dealStagesData,
+    dealOwnersData,
+    addLineItemsData,
+    isDisabledFields,
+  );
 
   return (
     <CommonDrawer
@@ -38,13 +45,10 @@ const DealEditorDrawer = (props: any) => {
             </RadioGroup>
           </Grid> */}
         </Grid>
-        <FormProvider
-          methods={methodsProducts}
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <FormProvider methods={methods}>
           <Grid container spacing={'22px'}>
-            {dealDataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            {formFields?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (

@@ -21,6 +21,8 @@ const Deal = ({ contactId }: any) => {
     openDrawer,
     handleOpenDrawer,
     handleCloseDrawer,
+    methodsEditDeal,
+    isDisabledFields,
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,
@@ -74,6 +76,8 @@ const Deal = ({ contactId }: any) => {
         title={drawerTitle}
         isOpen={openDrawer}
         onClose={handleCloseDrawer}
+        methods={methodsEditDeal}
+        isDisabledFields={isDisabledFields}
       />
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}

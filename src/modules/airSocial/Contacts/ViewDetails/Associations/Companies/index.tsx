@@ -13,17 +13,21 @@ import { companiesData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { styles } from '../Associations.style';
 
-const Companies = () => {
+const Companies = ({ contactId }: any) => {
   const {
     theme,
-    isOpenAlert,
-    setIsOpenAlert,
-    searchName,
-    setSearchName,
+    searchValue,
+    setSearchValue,
     openDrawer,
-    setOpenDrawer,
+    handleOpenDrawer,
+    handleCloseDrawer,
+    methodsView,
+    isOpenAlert,
+    handleOpenAlert,
     handleCloseAlert,
-  } = useCompanies();
+  } = useCompanies(contactId);
+
+  const tableColumns = columns(handleOpenDrawer, handleOpenAlert);
 
   return (
     <Box
@@ -50,9 +54,10 @@ const Companies = () => {
               flexDirection: { xs: 'column', sm: 'row' },
             }}
           >
+            , ,
             <Search
-              searchBy={searchName}
-              setSearchBy={setSearchName}
+              searchBy={searchValue}
+              setSearchBy={setSearchValue}
               label="Search By Name"
               size="small"
             />
@@ -60,14 +65,16 @@ const Companies = () => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
+            columns={tableColumns}
+            // data={dataGetCompanies?.data?.companies}
             data={companiesData}
           />
         </Grid>
       </Grid>
       <CompaniesEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
+        isOpen={openDrawer}
+        onClose={handleCloseDrawer}
+        methods={methodsView}
       />
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}

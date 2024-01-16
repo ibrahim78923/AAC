@@ -11,7 +11,7 @@ import {
   useGetDealsListQuery,
   // useLazyGetDealsListQuery,
   // useGetDealsListQuery,
-  useGetDealsSalesProductQuery,
+  useGetDealPipeLineQuery,
   // useGetDealsUserListQuery,
   useGetDealsViewsQuery,
   // useGetUsersListQuery,
@@ -70,7 +70,7 @@ const useDealSaleSite = () => {
     dateEnd: filterValues?.dateEnd ?? undefined,
   };
 
-  const { data: pipelineData } = useGetDealsSalesProductQuery(params);
+  const { data: pipelineData } = useGetDealPipeLineQuery(params);
 
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
   // const { data: DealsUserListData } = useGetDealsUserListQuery({});
