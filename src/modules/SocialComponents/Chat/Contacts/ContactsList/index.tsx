@@ -192,11 +192,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
         )}
         <Box mt={2} sx={{ overflow: 'scroll', maxHeight: '52vh' }}>
           {isChatContactsLoading ? (
-            <>
-              {[1, 2, 3].map((index) => (
-                <SkeletonBox key={index} />
-              ))}
-            </>
+            <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
           ) : (
             <>
               {!isNullOrEmpty(chatsTypeToShow) ? (

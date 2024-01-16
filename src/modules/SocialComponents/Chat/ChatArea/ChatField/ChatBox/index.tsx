@@ -58,7 +58,7 @@ const ChatBox = ({
 
   const socket = useAppSelector((state) => state?.chat?.socket);
   const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
-  const activeChatState = useAppSelector((state) => state?.chat.activeChat);
+  const activeChatState = useAppSelector((state) => state?.chat?.activeChat);
 
   const handelSendReaction = (emoji: any, item: any) => {
     const isReactionExists = item?.reactions?.some(

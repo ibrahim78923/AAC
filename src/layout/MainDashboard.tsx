@@ -463,7 +463,7 @@ const DashboardLayout = ({ children, window }: any) => {
       if (!activeChatId === payload?.data?.chatId) {
         if (payload?.data) {
           const currentData = chatContacts.find(
-            (ele: any) => ele._id === payload?.data?.chatId,
+            (ele: any) => ele?._id === payload?.data?.chatId,
           );
           dispatch(
             setChatContacts({
