@@ -32,6 +32,7 @@ import dayjs from 'dayjs';
 import { TIME_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { IMG_URL } from '@/config';
+import { CHAT_SOCKETS_EMIT } from '@/routesConstants/paths';
 
 const ChatBox = ({
   item,
@@ -93,7 +94,7 @@ const ChatBox = ({
 
   //Delete message from chat
   const handelDelete = () => {
-    socket.emit('update-message', {
+    socket.emit(CHAT_SOCKETS_EMIT.UPDATE_MESSAGE, {
       messageId: item?._id,
       isDeleted: true,
     });
@@ -103,7 +104,7 @@ const ChatBox = ({
   useEffect(() => {
     if (role === 'receiver') {
       if (item?.isRead === false) {
-        socket.emit('update-message', {
+        socket.emit(CHAT_SOCKETS_EMIT.UPDATE_MESSAGE, {
           messageId: item?._id,
           isRead: true,
           groupId: activeChatId,
