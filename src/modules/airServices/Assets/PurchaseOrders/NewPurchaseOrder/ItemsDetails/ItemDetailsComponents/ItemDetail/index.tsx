@@ -10,6 +10,7 @@ export const ItemDetail = ({ index, vendorId, watch }: any) => {
   const taxRate = watch(`purchaseDetails.${index}.taxRate`);
   useEffect(() => {
     const price = watch(`purchaseDetails.${index}.costPerItem`);
+    //calculating total after tax and multiplying by quantity
     const totalPrice = price * (1 + taxRate / 100) * itemQuantity;
     setValue(`purchaseDetails.${index}.total`, totalPrice?.toFixed(2));
   }, [itemQuantity, taxRate]);

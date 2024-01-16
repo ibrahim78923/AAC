@@ -20,6 +20,7 @@ const ItemBilling = ({ watch }: any) => {
     );
   }, [items?.reduce((n: any, { total }: any) => n + Number(total), 0)]);
   useEffect(() => {
+    //calculating total after tax and multiplying by subtotal of items
     let total = subTotal * (1 + taxRatio / 100);
     total = total - total * (discount / 100);
     setValue(`total`, total + shipping);

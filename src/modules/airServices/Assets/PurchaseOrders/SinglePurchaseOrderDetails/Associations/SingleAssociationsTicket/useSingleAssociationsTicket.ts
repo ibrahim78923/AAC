@@ -21,15 +21,10 @@ export const useSingleAssociationsTicket = (props: any) => {
       },
     };
     try {
-      const response = await deleteAssociationTrigger(
-        deleteAssociationParameter,
-      )?.unwrap();
-      enqueueSnackbar(
-        response?.message ?? 'Service request disassociate successfully!',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      await deleteAssociationTrigger(deleteAssociationParameter)?.unwrap();
+      enqueueSnackbar('Service request disassociate successfully!', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
       setDisassociateModal(false);
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message ?? 'Something went wrong', {

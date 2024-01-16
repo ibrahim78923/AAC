@@ -51,10 +51,8 @@ export const useAssociationsDrawer = (props: AssociationsDrawerPropsI) => {
       },
     };
     try {
-      const response = await postAssociationTrigger(
-        postAssociationParameter,
-      )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Tickets Associated Successfully!', {
+      await postAssociationTrigger(postAssociationParameter)?.unwrap();
+      enqueueSnackbar('Tickets Associated Successfully!', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       setSelectedTicketList([]);
