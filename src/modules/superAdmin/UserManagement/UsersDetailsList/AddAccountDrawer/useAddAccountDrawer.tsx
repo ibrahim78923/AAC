@@ -8,7 +8,7 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { CommonAPIS } from '@/services/common-APIs';
 
-const useAddAccountDrawer = (props: any) => {
+const useAddAccountDrawer = (props?: any) => {
   const { userId, organizationId, setIsOpen } = props;
   const [postUsersAccount] = usePostUsersAccountMutation();
   const methods: any = useForm({

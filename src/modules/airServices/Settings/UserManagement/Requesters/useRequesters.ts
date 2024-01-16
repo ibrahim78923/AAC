@@ -94,15 +94,18 @@ export const useRequesters = () => {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         },
       );
-      reset();
       setIsDrawerOpen(false);
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
+    handleClose?.();
   };
-
+  const handleClose = () => {
+    setIsDrawerOpen(false);
+    reset?.();
+  };
   return {
     theme,
     isDrawerOpen,
@@ -130,5 +133,6 @@ export const useRequesters = () => {
     methods,
     handleSubmit,
     submit,
+    handleClose,
   };
 };

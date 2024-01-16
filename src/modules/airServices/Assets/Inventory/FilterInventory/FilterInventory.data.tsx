@@ -13,8 +13,8 @@ export const inventoryFilterFormDefaultValues = (data: any) => {
   return {
     assetType: data?.assetType ?? null,
     usedBy: data?.usedBy ?? null,
-    department: data?.department ?? null,
-    locations: data?.locations ?? null,
+    departmentId: data?.departmentId ?? null,
+    locationId: data?.locationId ?? null,
     createdAt: data?.createdAt ?? null,
     updatedAt: data?.updatedAt ?? null,
     impact: data?.impact ?? null,
@@ -50,6 +50,8 @@ export const inventoryFilterFormFieldsDataFunction = (
       label: 'Used By',
       placeholder: 'Name or Email',
       apiQuery: apiQueryUsedBy,
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option.lastName}`,
     },
     component: RHFAutocompleteAsync,
   },
@@ -57,7 +59,7 @@ export const inventoryFilterFormFieldsDataFunction = (
     id: 3,
     componentProps: {
       fullWidth: true,
-      name: 'department',
+      name: 'departmentId',
       label: 'Department',
       placeholder: 'Select department',
       apiQuery: apiQueryDepartment,
@@ -68,7 +70,7 @@ export const inventoryFilterFormFieldsDataFunction = (
     id: 4,
     componentProps: {
       fullWidth: true,
-      name: 'locations',
+      name: 'locationId',
       label: 'Locations',
       placeholder: 'Select location',
       apiQuery: apiQueryLocation,
@@ -124,6 +126,8 @@ export const inventoryFilterFormFieldsDataFunction = (
       label: 'Created By',
       apiQuery: apiQueryUsersCreatedBy,
       placeholder: 'Select user',
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option.lastName}`,
     },
     component: RHFAutocompleteAsync,
   },

@@ -17,7 +17,7 @@ import {
 
 export const useAddNewLocation = () => {
   const router = useRouter();
-  const { data, editData, childEditData } = router.query;
+  const { data, editData, childEditData }: any = router.query;
 
   let dataArray, editDataArray, childEditDataArray;
   try {
@@ -197,6 +197,10 @@ export const useAddNewLocation = () => {
     }
     AddNewLocationMethods?.reset?.();
   };
+  const handleCancel = () => {
+    AddNewLocationMethods?.reset?.();
+    moveToLocationPage();
+  };
 
   return {
     AddNewLocationMethods,
@@ -210,5 +214,6 @@ export const useAddNewLocation = () => {
     editLocationId,
     childEditLocationId,
     childEditOnSubmit,
+    handleCancel,
   };
 };

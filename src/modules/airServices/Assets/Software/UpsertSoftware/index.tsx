@@ -1,46 +1,27 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { upsertSoftwareFormFields } from './UpsertSoftware.data';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
-import { useUpsertSoftware } from './useUpsertSoftware';
 
 export const UpsertSoftware = (props: any) => {
-  const { isDrawerOpen, onClose } = props;
-  const { methods, handleSubmit, submitUpsertSoftwareForm } =
-    useUpsertSoftware(props);
-
+  const { isDrawerOpen, onClose, methods, submitForm, title } = props;
   return (
     <div>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
-        onClose={() => onClose(false)}
+        onClose={onClose}
         isOk
         okText="Save"
         footer
-        title="New Software"
-        submitHandler={() => {
-          methods?.handleSubmit(submitUpsertSoftwareForm)();
-        }}
+        title={title}
+        submitHandler={submitForm}
       >
         <Box mt={1}>
-          <FormProvider
-            methods={methods}
-            onSubmit={handleSubmit(submitUpsertSoftwareForm)}
-          >
+          <FormProvider methods={methods} onSubmit={submitForm}>
             <Grid container spacing={1}>
-              {upsertSoftwareFormFields?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
+              {upsertSoftwareFormFields()?.map((item: any) => (
+                <Grid item xs={12} key={item?.id}>
+                  <item.component {...item?.componentProps} size={'small'} />
                 </Grid>
               ))}
             </Grid>
