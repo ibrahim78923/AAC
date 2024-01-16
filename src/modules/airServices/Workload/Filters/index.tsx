@@ -4,12 +4,10 @@ import {
   AccordionSummary,
   Box,
   Button,
-  Checkbox,
-  FormControlLabel,
   Popover,
   Typography,
 } from '@mui/material';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { FilterSharedIcon } from '@/assets/icons';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
@@ -28,43 +26,11 @@ export const Filters = () => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  // First Accordion Management
-  const [checked, setChecked] = useState([true, false]);
-
-  const handleChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked([event?.target?.checked, event?.target?.checked]);
-  };
-
-  const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked([event?.target?.checked, checked?.[1]]);
-  };
-
-  const handleChange3 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked([checked?.[0], event?.target?.checked]);
-  };
-
-  const children = (
-    <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
-      <FormControlLabel
-        label="Tasks"
-        control={<Checkbox checked={checked?.[0]} onChange={handleChange2} />}
-      />
-      <FormControlLabel
-        label="Tickets"
-        control={<Checkbox checked={checked?.[1]} onChange={handleChange3} />}
-      />
-    </Box>
-  );
-
-  const handleApply = () => {
-    handleClose();
-  };
-
   return (
-    <Fragment>
+    <>
       <Button
         variant={'outlined'}
-        color={'secondary'}
+        color={'inherit'}
         aria-describedby={id}
         onClick={handleClick}
         startIcon={<FilterSharedIcon />}
@@ -89,52 +55,16 @@ export const Filters = () => {
         <Box width={250} p={1}>
           <Accordion>
             <AccordionSummary
-              sx={{ flexDirection: 'row-reverse', p: 0 }}
-              expandIcon={<ArrowDropDownIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography variant="body2">Filter by type</Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ py: 0, mt: -1 }}>
-              <FormControlLabel
-                label="All"
-                control={
-                  <Checkbox
-                    checked={checked?.[0] && checked?.[1]}
-                    indeterminate={checked?.[0] !== checked?.[1]}
-                    onChange={handleChange1}
-                  />
-                }
-              />
-              {children}
-            </AccordionDetails>
-            <Box textAlign={'end'}>
-              <Button
-                variant={'outlined'}
-                color={'secondary'}
-                type={'button'}
-                sx={{ mr: 1 }}
-              >
-                Reset
-              </Button>
-              <Button
-                variant={'contained'}
-                type={'submit'}
-                onClick={handleApply}
-              >
-                Apply
-              </Button>
-            </Box>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary
-              sx={{ flexDirection: 'row-reverse', p: 0 }}
+              sx={{
+                flexDirection: 'row-reverse',
+                p: 0,
+                '& > :first-child': { variant: 'body2' },
+              }}
               expandIcon={<ArrowDropDownIcon />}
               aria-controls="panel2a-content"
               id="panel2a-header"
             >
-              <Typography variant="body2">Workload count</Typography>
+              <Typography>Workload count</Typography>
             </AccordionSummary>
             <AccordionDetails sx={{ py: 0, mt: -1 }}>
               <Button color={'secondary'} sx={{ fontWeight: 400 }}>
@@ -150,6 +80,6 @@ export const Filters = () => {
           </Accordion>
         </Box>
       </Popover>
-    </Fragment>
+    </>
   );
 };

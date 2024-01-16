@@ -52,7 +52,11 @@ export const contractsListsColumnsFunction = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={selectedContractList?.length === mainContractsData?.length}
+        checked={
+          mainContractsData?.length
+            ? selectedContractList?.length === mainContractsData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedContractList(
