@@ -26,14 +26,6 @@ const useFilterCompany = ({
         ? dayjs(date[endedDate])?.format(DATE_FORMAT?.API)
         : null,
     };
-
-    // const dateStarted = date?.[startedDate]
-    //   ? dayjs(date[startedDate])?.format(DATE_FORMAT?.API)
-    //   : null;
-    // const dateEnded = date?.[endedDate]
-    //   ? dayjs(date[endedDate])?.format(DATE_FORMAT?.API)
-    //   : null;
-
     const filteredObj = Object?.fromEntries(
       Object?.entries(obj)?.filter(
         (value) => value[1] !== '' && value[1] !== null,
@@ -43,10 +35,6 @@ const useFilterCompany = ({
     setFilterValues({
       ...filterValues,
       ...filteredObj,
-      // industry: values?.industry,
-      // ownerId: values?.ownerId,
-      // dateStart: dateStarted,
-      // dateEnd: dateEnded,
     });
 
     setIsFilter(false);

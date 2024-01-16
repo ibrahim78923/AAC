@@ -119,14 +119,13 @@ export const companiesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['COMPANY'],
     }),
-
-    updateCustomizeColumns: builder.mutation({
+    putCustomizedColumns: builder.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'PUT',
-        body: body,
+        body,
       }),
-      invalidatesTags: ['COMPANY'],
+      invalidatesTags: ['COMPANY', 'CUSTOMIZE'],
     }),
   }),
 });
@@ -145,5 +144,5 @@ export const {
   usePostCompaniesViewMutation,
   useGetCustomizeColumnsQuery,
   useGetCompaniesViewsQuery,
-  useUpdateCustomizeColumnsMutation,
+  usePutCustomizedColumnsMutation,
 } = companiesAPI;

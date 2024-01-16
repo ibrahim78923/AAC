@@ -1,30 +1,20 @@
-import React from 'react';
-
-import {
-  Box,
-  Grid,
-  // Theme,
-  // Typography,
-  // useTheme,
-} from '@mui/material';
-
+import { Box, Checkbox, FormControlLabel, Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
-
-import { FormProvider } from '@/components/ReactHookForm';
-
-import ColumnsWrapper from '@/modules/airSales/Deals/DealCustomize/CoumnsWrapper';
-
 import useCustomizeCompany from './useCustomizeCompany';
-
-// import { CustomizeArr } from './CustomizeCompany.data';
-
 import { v4 as uuidv4 } from 'uuid';
-// import { AddCircle } from '@mui/icons-material';
+import { DragIcon } from '@/assets/icons';
+import { styles } from './CustomizeCompany.styles';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 const CustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
-  const { methods, columnsData, handleSubmit, onSubmit } =
-    useCustomizeCompany();
-  // const theme = useTheme<Theme>();
+  const {
+    handleChackboxChange,
+    handleUpdateColumns,
+    onDragEnd,
+    selected,
+    order,
+    theme,
+  } = useCustomizeCompany({ setIsCustomize, isCustomize });
 
   return (
     <>
@@ -35,44 +25,114 @@ const CustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
         }}
         title="Customize Columns"
         okText="Save"
-        submitHandler={handleSubmit(onSubmit)}
+        submitHandler={handleUpdateColumns}
         isOk={true}
         footer={true}
       >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={methods}>
-            <Grid container>
-              {columnsData?.map((col: any) => {
-                return (
-                  <Grid item lg={12} key={uuidv4()}>
-                    <ColumnsWrapper
-                      title={col?.slug}
-                      checkboxProps={{
-                        name: col?.attributes,
-                        onChange: () => {},
-                        defaultChecked: col?.active,
-                      }}
-                    />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </FormProvider>
-          {/* commented for future use  */}
-          {/* <Typography
-            variant="body2"
-            sx={{
-              color: `${theme?.palette?.slateBlue?.main}`,
-              fontWeight: 500,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              paddingLeft: '8px',
-            }}
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable
+            key={uuidv4()}
+            droppableId={`columnWrapper`}
+            direction="vertical"
           >
-            <AddCircle /> Add Columns
-          </Typography> */}
-        </Box>
+            {(provided) => (
+              <Box
+                sx={{ userSelect: 'none', width: '100%' }}
+                ref={provided?.innerRef}
+                {...provided?.droppableProps}
+              >
+                <Box sx={{ paddingTop: '1rem', width: '100%' }}>
+                  <Grid container>
+                    {order?.map((col: any, i: number) => (
+                      <Draggable
+                        key={uuidv4()}
+                        draggableId={col?.slug}
+                        index={i}
+                      >
+                        {(provided) => (
+                          <Box
+                            ref={provided?.innerRef}
+                            {...provided?.draggableProps}
+                            {...provided?.dragHandleProps}
+                            sx={{
+                              cursor: 'grabbing',
+                              width: '100%',
+                            }}
+                          >
+                            <Grid item xs={12} key={uuidv4()}>
+                              <Box
+                                sx={{
+                                  ...styles?.column(
+                                    theme?.palette,
+                                    col?.active,
+                                  ),
+                                  width: '100%',
+                                }}
+                              >
+                                <Box
+                                  sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 2,
+                                    flex: 1,
+                                  }}
+                                >
+                                  <DragIcon />
+                                  <FormControlLabel
+                                    key={uuidv4()}
+                                    checked={selected?.includes(col?.slug)}
+                                    classes={{
+                                      root: '_root',
+                                      label: '_label',
+                                    }}
+                                    name={col?.attributes}
+                                    onChange={({ target }: any) =>
+                                      handleChackboxChange(
+                                        target.checked,
+                                        col,
+                                        i,
+                                      )
+                                    }
+                                    control={<Checkbox />}
+                                    label={col?.slug}
+                                  />
+                                </Box>
+                              </Box>
+                            </Grid>
+                          </Box>
+                        )}
+                      </Draggable>
+                    ))}
+                  </Grid>
+                </Box>
+              </Box>
+            )}
+          </Droppable>
+        </DragDropContext>
+        {/* <Box sx={{ paddingTop: '1rem' }}>
+          <Grid container>
+            {columnsData?.map((col: any, i: number) => {
+              return (
+                <Grid item xs={12} key={uuidv4()}>
+                  <Box sx={styles?.column(theme?.palette, col?.active)}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
+                      <DragIcon />
+                      <FormControlLabel
+                        key={uuidv4()}
+                        checked={selected?.includes(col?.slug)}
+                        classes={{ root: '_root', label: '_label' }}
+                        name={col?.attributes}
+                        onChange={({ target }: any) => handleChackboxChange(target.checked, col, i)}
+                        control={<Checkbox />}
+                        label={col?.slug}
+                      />
+                    </Box>
+                  </Box>
+                </Grid>
+              )
+            })}
+          </Grid>
+        </Box> */}
       </CommonDrawer>
     </>
   );

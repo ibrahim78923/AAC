@@ -31,10 +31,10 @@ import { styles } from '../Companies.style';
 import CreateCompany from '../CreateCompany';
 import FilterCompany from '../FilterCompany';
 import CustomizeCompany from '../CustomizeCompany';
-import useCompanyTabs from './useCompantTabs';
 import { columns } from '../Companies.data';
 import { v4 as uuidv4 } from 'uuid';
 import Search from '@/components/Search';
+import useCompanies from '../useCompanies';
 
 const CompanyTabs = () => {
   const {
@@ -61,7 +61,7 @@ const CompanyTabs = () => {
     handleSearch,
     handleApplyFilter,
     activeColumns,
-  } = useCompanyTabs();
+  } = useCompanies();
 
   const columnsProps = {
     checkedRows: checkedRows,
