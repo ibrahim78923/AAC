@@ -14,11 +14,12 @@ import { PlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { invoicesTableColumns, invoicesTableData } from '../Invoices.data';
+import { invoicesTableColumns } from '../Invoices.data';
 import useListView from './useListView';
 import { AlertModals } from '@/components/AlertModals';
 import { AIR_SALES } from '@/routesConstants/paths';
 import RefreshIcon from '@/assets/icons/modules/airSales/Tasks/refresh';
+import { useGetInvoiceQuery } from '@/services/airSales/invoices';
 
 const ListView = () => {
   const navigate = useRouter();
@@ -34,6 +35,8 @@ const ListView = () => {
     handleClick,
   } = useListView();
 
+  const { data: InvoiceData } = useGetInvoiceQuery({});
+
   return (
     <>
       <Stack direction="row" justifyContent="space-between">
@@ -42,6 +45,7 @@ const ListView = () => {
           variant="contained"
           startIcon={<PlusIcon />}
           onClick={() => navigate?.push(AIR_SALES?.SALES_CREATE_INVOICES)}
+          className="small"
         >
           Create Invoice
         </Button>
@@ -99,7 +103,7 @@ const ListView = () => {
       <Box sx={{ marginTop: '15px' }}>
         <TanstackTable
           columns={invoicesTableColumns}
-          data={invoicesTableData}
+          data={InvoiceData?.data?.quoteinvoices}
         />
         <CustomPagination
           count={1}
