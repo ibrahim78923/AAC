@@ -83,7 +83,7 @@ export const useCreateBusinessHour = () => {
   const onSubmitRequest = handleSubmit(async (data: any) => {
     if (!holidaysData?.length) {
       enqueueSnackbar('Please Import or Add Holidays Before Submitting', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
+        variant: NOTISTACK_VARIANTS?.WARNING,
       });
       return;
     }
