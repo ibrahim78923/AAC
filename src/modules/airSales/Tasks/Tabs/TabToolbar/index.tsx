@@ -7,11 +7,9 @@ import ListGridViewBtn from '../../ListGridViewBtn';
 import { RefreshTasksIcon } from '@/assets/icons';
 import { FilterWrapperI } from './TabToolbar.Interface';
 import { styles } from './TabToobar.style';
-import CreateTask from '../../CreateTask';
 import { MenuItems } from '../../ActionBtn/ActionBtn.data';
 
 const TabToolbar = ({
-  handleToggler = () => {},
   handleRefreshList = () => {},
   disableActionBtn,
 }: FilterWrapperI) => {
@@ -47,13 +45,13 @@ const TabToolbar = ({
             onChange={handleActionBtn}
             menuItems={MenuItems}
             title="Actions"
+            variant="outlined"
           />
           <EditColumn />
           <FilterComp />
-          <ListGridViewBtn onClick={handleToggler} />
+          <ListGridViewBtn />
         </Box>
       </Box>
-      {isEditAction && <CreateTask title={'Edit Task'} />}
     </>
   );
 };

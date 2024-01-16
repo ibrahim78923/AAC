@@ -7,7 +7,7 @@ import { styles } from './ActionBtn.style';
 const ActionBtn = ({
   disableActionBtn,
   onChange,
-  variant = 'outlined',
+  variant,
   menuItems,
   title = 'Actions',
 }: TaskInterfacePropsI) => {
