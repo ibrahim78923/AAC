@@ -2,12 +2,11 @@ import { Box, IconButton, Popover, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { DateCalendar } from '@mui/x-date-pickers';
 import { PrimaryCalendarIcon } from '@/assets/icons';
-import { Fragment, useState } from 'react';
+import { useMemo, useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-export const DateFilter = ({ setDateCalendar }: any) => {
-  //Date Popover
+export const DateFilter = ({ setDateCalendar, dateCalendar }: any) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -19,35 +18,26 @@ export const DateFilter = ({ setDateCalendar }: any) => {
     setAnchorEl(null);
   };
 
-  // Date Filter Handler
-  const [selectedDate, setSelectedDate] = useState<any>(
-    dayjs(new Date())?.startOf('week'),
-  );
+  const formattedWeekSpan = useMemo(() => {
+    return `${dayjs(dateCalendar)?.startOf('week')?.format('MMM DD')} - ${dayjs(
+      dateCalendar,
+    )
+      ?.endOf('week')
+      ?.format('MMM DD')}`;
+  }, [dateCalendar]);
 
-  // Date to be displayed
-  const formattedWeekSpan = `${dayjs(selectedDate)?.format('MMM DD')} - ${dayjs(
-    selectedDate,
-  )
-    ?.add(6, 'day')
-    ?.format('MMM DD')}`;
-
-  // Previous Click
-  const handlePrevClick = () => {
-    const newDate = dayjs(selectedDate)?.subtract(1, 'week')?.toDate();
-    const startOfWeek = dayjs(newDate)?.startOf('week')?.format('YYYY-MM-DD');
-    setSelectedDate(startOfWeek);
-    setDateCalendar(newDate);
+  const prevButtonClickHandler = () => {
+    setDateCalendar(dayjs(dateCalendar)?.subtract(1, 'week')?.toISOString());
   };
 
-  // Next Click
-  const handleNextClick = () => {
-    const newDate = dayjs(selectedDate)?.add(1, 'week')?.toDate();
-    setSelectedDate(newDate);
-    setDateCalendar(newDate);
+  const nextButtonClickHandler = () => {
+    setDateCalendar(
+      dayjs(dateCalendar)?.add(1, 'week')?.startOf('week')?.toISOString(),
+    );
   };
 
   return (
-    <Fragment>
+    <>
       <Box display={'flex'} alignItems={'center'}>
         <Box
           onClick={handleOpen}
@@ -70,7 +60,7 @@ export const DateFilter = ({ setDateCalendar }: any) => {
             pl: 1,
             ':hover': { bgcolor: 'primary.main' },
           }}
-          onClick={handlePrevClick}
+          onClick={prevButtonClickHandler}
         >
           <ArrowBackIosIcon
             sx={{ color: 'common.white', fontSize: '0.8rem' }}
@@ -86,7 +76,7 @@ export const DateFilter = ({ setDateCalendar }: any) => {
             pr: 0.7,
             ':hover': { bgcolor: 'primary.main' },
           }}
-          onClick={handleNextClick}
+          onClick={nextButtonClickHandler}
         >
           <ArrowForwardIosIcon
             sx={{ color: 'common.white', fontSize: '0.8rem' }}
@@ -109,10 +99,9 @@ export const DateFilter = ({ setDateCalendar }: any) => {
         <DateCalendar
           onChange={(date: any) => {
             setDateCalendar(date);
-            setSelectedDate(date);
           }}
         />
       </Popover>
-    </Fragment>
+    </>
   );
 };

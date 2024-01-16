@@ -2,6 +2,8 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'ASSETS_SOFTWARE';
+const TAG_ONE = 'DROPDOWN_AGENT_LIST';
+const TAG_TWO = 'GET_SOFTWARE_DETAIL';
 
 export const assetsSoftwareAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
@@ -36,6 +38,44 @@ export const assetsSoftwareAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
+    postSoftware: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.ADD_SOFTWARE}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    putSoftware: builder?.mutation({
+      query: (params: any) => ({
+        url: `${END_POINTS?.EDIT_SOFTWARE}/${params?.id}`,
+        method: 'PUT',
+        body: params?.body,
+      }),
+      invalidatesTags: [TAG],
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
+    getAgentsDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_AGENTS_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_ONE],
+    }),
+    getSoftwareById: builder?.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_SOFTWARE_DETAIL}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG_TWO],
+    }),
   }),
 });
 
@@ -43,4 +83,8 @@ export const {
   useGetAssetsSoftwareQuery,
   useLazyGetCategoriesDropdownQuery,
   usePutSoftwareAssignCategoryMutation,
+  usePostSoftwareMutation,
+  useLazyGetAgentsDropdownQuery,
+  usePutSoftwareMutation,
+  useLazyGetSoftwareByIdQuery,
 } = assetsSoftwareAPI;
