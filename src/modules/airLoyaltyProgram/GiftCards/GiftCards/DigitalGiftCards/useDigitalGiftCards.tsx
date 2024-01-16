@@ -10,21 +10,24 @@ export const useDigitalGiftCards = (setShowButtons: any) => {
   const router = useRouter();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
+  const [openFilter, setOpenFilter] = useState(false);
+  const [addDigitalCard, setAddDigitalCard] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const onSubmit = () => {
+  const handleFileExportSubmit = (type: any) => {
+    if (!!!type) {
+      setOpen(false);
+      return;
+    }
     setOpen(false);
     enqueueSnackbar('File Exported Successfully', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
   };
+
   useEffect(() => {
     setShowButtons(false);
   }, []);
@@ -38,10 +41,13 @@ export const useDigitalGiftCards = (setShowButtons: any) => {
     data,
     search,
     setSearch,
-    handleClick,
-    onSubmit,
+    handleFileExportSubmit,
     open,
     setOpen,
     handleClose,
+    openFilter,
+    setOpenFilter,
+    addDigitalCard,
+    setAddDigitalCard,
   };
 };

@@ -11,9 +11,9 @@ export const invoiceAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['INVOICE'],
     }),
-    getInvoice: builder.query({
-      query: ({ pages = 1, limit = 10, search = '' }: any) => ({
-        url: `${INVOICE.GET_INVOICE_QUOTE}?page=${pages}&limit=${limit}&search=${search}`,
+    getInvoiceId: builder.query({
+      query: ({ id = '' }: any) => ({
+        url: `${INVOICE.GET_QUOTE_ID}/${id}`,
         method: 'GET',
       }),
       providesTags: ['INVOICE'],
@@ -28,4 +28,5 @@ export const invoiceAPI = baseAPI.injectEndpoints({
   }),
 });
 
-export const { useGetInvoiceQoutesListQuery, useGetInvoiceQuery } = invoiceAPI;
+export const { useGetInvoiceQoutesListQuery, useGetInvoiceIdQuery } =
+  invoiceAPI;

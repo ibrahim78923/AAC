@@ -30,14 +30,26 @@ import { UserProfileAvatarImage } from '@/assets/images';
 import { styles } from './ChatInfoModal.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import { useAppSelector } from '@/redux/store';
+import { useGetUserChatsInfoQuery } from '@/services/chat';
 
 const ChatInfoModal = ({
   isUserProfile,
   setIsUserProfile,
   chatMode,
+  activeParticipant,
 }: ChatInfoModalPropsI) => {
   const theme = useTheme();
-  const [toggleSwitchActive, setToggleSwitchActive] = useState('media');
+  const [toggleSwitchActive, setToggleSwitchActive] = useState('image');
+  const activeChatId = useAppSelector(
+    (state: any) => state?.chat?.activeChatId,
+  );
+  const { data: chatsData } = useGetUserChatsInfoQuery({
+    activeChatId: activeChatId,
+    limit: '100',
+    isGroup: chatMode === 'groupChat' ? true : false,
+    mediaType: toggleSwitchActive,
+  });
 
   const handleSelection = (_: any, newValue: any) => {
     if (newValue !== null) {
@@ -85,10 +97,10 @@ const ChatInfoModal = ({
           ) : (
             <>
               <Typography variant="body3" sx={{ fontWeight: '500' }}>
-                Phone: (+312) 123456789
+                Phone: {activeParticipant?.phone}
               </Typography>
               <Typography variant="body3" sx={{ fontWeight: '500' }}>
-                Email: info@aritablecart.com
+                Email: {activeParticipant?.email}
               </Typography>
             </>
           )}
@@ -116,8 +128,12 @@ const ChatInfoModal = ({
           </ToggleButtonGroup>
         </Box>
         <Box>
-          {toggleSwitchActive === 'media' && <MediaAssets />}
-          {toggleSwitchActive === 'docs' && <DocumentAssets />}
+          {toggleSwitchActive === 'image' && (
+            <MediaAssets data={chatsData?.data?.messages} />
+          )}
+          {toggleSwitchActive === 'docs' && (
+            <DocumentAssets data={chatsData?.data?.messages} />
+          )}
           {toggleSwitchActive === 'link' && <LinksAssets />}
           {toggleSwitchActive === 'members' && <Members />}
         </Box>

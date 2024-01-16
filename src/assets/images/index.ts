@@ -76,6 +76,7 @@ export { default as NotesAvatarImage } from './modules/airSales/Deals/notes-avat
 export { default as YellowDotImage } from './shared/yellow-dot.png';
 export { default as EmailMeetingImage } from './modules/airSales/Deals/email-meeting.png';
 export { default as AttendeeAvatarImage } from './modules/airSales/Deals/attendee-avatar.png';
+
 export { default as DashboardMockImage } from './modules/airServices/Dashboard/dashboard-mock-image.png';
 export { default as DashboardPrototypeImage } from './modules/airSales/Deals/email-meeting.png';
 export { default as SmsImage } from '@/assets/images/modules/airServices/Tickets/sms-image.png';
@@ -260,3 +261,4 @@ export { default as PrepaidImage } from './modules/HeaderAndSidebar/prepaid.png'
 export { default as VuesaxErrorImage } from './modules/airServices/Tickets/vuesax-error-image.png';
 export { default as UserDefault } from './modules/socialComponents/chat/user-default.png';
 export { default as TypingGif } from './modules/socialComponents/chat/typing.gif';
+export { default as PhysicalCardSmallImage } from './modules/loyaltyProgram/GiftCards/physical-card-small-image.png';

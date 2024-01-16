@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 export const detailsValidationSchema = Yup?.object()?.shape({
   CompanyName: Yup?.string()?.trim()?.required('Field is Required'),
   DomainName: Yup?.string(),
-  CompanyRegistrationNumber: Yup?.string(),
+  crn: Yup?.string(),
   CompanyOwner: Yup?.string(),
   PhoneNumber: Yup?.string(),
   Industry: Yup?.string(),
@@ -30,7 +30,7 @@ export const detailsValidationSchema = Yup?.object()?.shape({
 export const detailsDefaultValues = {
   CompanyName: '',
   DomainName: '',
-  CompanyRegistrationNumber: '',
+  crn: '',
   CompanyOwner: '',
   PhoneNumber: '',
   Industry: '',
@@ -75,7 +75,7 @@ export const detailsDataArray = ({
     },
     {
       componentProps: {
-        name: 'CompanyRegistrationNumber',
+        name: 'crn',
         label: 'Company Registration Number',
         fullWidth: true,
         placeholder: 'Type Here',

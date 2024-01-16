@@ -88,11 +88,13 @@ const Contacts = () => {
           />
         </Grid>
       </Grid>
-      <ContactsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-        contactRecord={contactRecord}
-      />
+      {openDrawer && (
+        <ContactsEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          contactRecord={contactRecord}
+        />
+      )}
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
         type={'delete'}

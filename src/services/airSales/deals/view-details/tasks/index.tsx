@@ -31,7 +31,7 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
     }),
     deleteDealsTasksManagement: builder.mutation({
       query: ({ id }: any) => ({
-        url: `${END_POINTS?.TASK_MANAGEMENT}/${id}`,
+        url: `${END_POINTS?.TASK_MANAGEMENT}/{id}?ids=${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['DEALS_TASK_MANAGEMENT'],

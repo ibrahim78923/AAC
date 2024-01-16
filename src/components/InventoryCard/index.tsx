@@ -12,13 +12,13 @@ export const InventoryCard = ({
   openDeleteModal,
   setOpenDeleteModal,
   handleDelete,
-  setDelateSoftware,
-  delateSoftwareId,
+  setDelateRecord,
+  deletedRecordId,
 }: CardPropsI) => {
   const theme: any = useTheme();
   const [showIcon, setShowIcon] = useState(false);
   const handleDeleteIcon = () => {
-    setDelateSoftware(delateSoftwareId);
+    setDelateRecord(deletedRecordId);
     setOpenDeleteModal(true);
   };
   return (

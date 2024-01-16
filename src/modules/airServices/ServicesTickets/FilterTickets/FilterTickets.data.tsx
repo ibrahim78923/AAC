@@ -20,6 +20,7 @@ export const sendIdOptions = [
   'agent',
   'department',
   'category',
+  'status',
 ];
 export const neglectKeysInLoop = [
   'plannedEndDate',

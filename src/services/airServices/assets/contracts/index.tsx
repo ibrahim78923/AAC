@@ -4,6 +4,8 @@ import { baseAPI } from '@/services/base-api';
 const TAG = 'ASSETS_CONTRACT';
 const TAG_TWO = 'CONTRACT_TYPE_DROPDOWN';
 const TAG_THREE = 'VENDOR_DROPDOWN';
+const TAG_FOUR = 'USERS_DROPDOWN';
+const TAG_FIVE = 'SOFTWARE_DROPDOWN';
 
 export const contractAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
@@ -78,6 +80,50 @@ export const contractAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getDropdownAssets: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.ASSETS_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.inventories;
+      },
+      providesTags: [TAG_THREE],
+    }),
+    getUsersDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getAgentsDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_ALL_AGENTS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getSoftwareDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_SOFTWARE}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.assetssoftwares;
+      },
+      providesTags: [TAG_FIVE],
+    }),
   }),
 });
 
@@ -90,4 +136,8 @@ export const {
   usePostContractMutation,
   usePatchContractMutation,
   usePatchContractStatusMutation,
+  useLazyGetDropdownAssetsQuery,
+  useLazyGetUsersDropdownQuery,
+  useLazyGetSoftwareDropdownQuery,
+  useLazyGetAgentsDropdownQuery,
 } = contractAPI;

@@ -9,6 +9,7 @@ export const useDeleteInventory = (props: any) => {
     setDeleteModalOpen,
     selectedInventoryLists,
     setSelectedInventoryLists,
+    setPage,
   } = props;
   const [deleteInventoryTrigger, deleteInventoryStatus] =
     useDeleteInventoryMutation();
@@ -34,6 +35,7 @@ export const useDeleteInventory = (props: any) => {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       setSelectedInventoryLists([]);
+      setPage(1);
       closeTicketsDeleteModal?.();
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {

@@ -7,9 +7,9 @@ import { newVendorDataArray } from './AddNewVendor.data';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const AddNewVendor = (props: any) => {
-  const { isADrawerOpen, setIsADrawerOpen, update } = props;
+  const { isADrawerOpen, update } = props;
 
-  const { methodsNewVendor, handleSubmit, onSubmit, isLoading } =
+  const { methodsNewVendor, handleSubmit, onSubmit, isLoading, handleClose } =
     useAddNewVendor(props);
 
   if (isLoading) return <SkeletonForm />;
@@ -18,7 +18,7 @@ const AddNewVendor = (props: any) => {
       <CommonDrawer
         footer={true}
         isDrawerOpen={isADrawerOpen}
-        onClose={() => setIsADrawerOpen(false)}
+        onClose={handleClose}
         title={update ? 'Edit Vendor' : 'New Vendor'}
         okText="Save"
         isOk
