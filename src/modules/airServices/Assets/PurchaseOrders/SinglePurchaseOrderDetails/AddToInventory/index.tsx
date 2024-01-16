@@ -16,18 +16,17 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
-import { addToInventoryItemStatus } from './AddToInventory.data';
 import * as React from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import useAddToInventoryDrawer from './useAddToInventory';
-import { v4 as uuidv4 } from 'uuid';
+
+import TanstackTable from '@/components/Table/TanstackTable';
 
 export const AddToInventory = (props: any) => {
   const { isADrawerOpen, setIsADrawerOpen } = props;
   const {
-    methodsTwo,
     methodsNo,
     methodsYes,
     boolVariable,
@@ -40,8 +39,11 @@ export const AddToInventory = (props: any) => {
     setToShow,
     purchaseOrderDetail,
     updateDate,
+    handleRadioValueChange,
+    selectedAssetId,
+    columns,
+    purchaseDetail,
   } = useAddToInventoryDrawer(props);
-
   return (
     <CommonDrawer
       isDrawerOpen={isADrawerOpen}
@@ -223,7 +225,8 @@ export const AddToInventory = (props: any) => {
                               row
                               aria-label="asset-radio-group"
                               name="asset-radio-group"
-                              value={asset?._id?.toString()}
+                              value={selectedAssetId}
+                              onChange={handleRadioValueChange}
                             >
                               <FormControlLabel
                                 value={asset?._id?.toString()}
@@ -273,20 +276,7 @@ export const AddToInventory = (props: any) => {
                 />
               </Box>
             </Grid>
-            <Grid item xs={12}>
-              <FormProvider methods={methodsTwo} onSubmit={submitHandlerTwo}>
-                <Grid container spacing={2}>
-                  {addToInventoryItemStatus?.map((item: any) => (
-                    <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                      <item.component
-                        {...item?.componentProps}
-                        size={'small'}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
-              </FormProvider>
-            </Grid>
+            <TanstackTable data={purchaseDetail} columns={columns} />
           </Grid>
         </>
       )}

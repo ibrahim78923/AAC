@@ -68,22 +68,24 @@ export const useReceivedItems = (props: any) => {
           booVariable = true;
         } else {
           setErrorOccurred(true);
-          setIsDrawerOpen(false);
+          setIsDrawerOpen(true);
+          setReceivedAmount('');
         }
       });
       if (booVariable) {
+        setErrorOccurred(false);
         const message = 'Purchase Order items count update successfully';
         const variant = 'success';
         enqueueSnackbar(message, {
           variant: variant,
         });
         setIsDrawerOpen(false);
+        setReceivedAmount('');
       }
       enqueueSnackbar('Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
-    setIsDrawerOpen(false);
   };
 
   return {

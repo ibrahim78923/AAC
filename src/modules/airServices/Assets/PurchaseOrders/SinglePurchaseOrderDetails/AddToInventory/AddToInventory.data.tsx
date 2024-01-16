@@ -6,6 +6,7 @@ import {
 import * as Yup from 'yup';
 
 import { ASSET_IMPACT } from '@/constants/strings';
+import { TextField } from '@mui/material';
 
 export const assetsImpactOptions = [
   ASSET_IMPACT?.LOW,
@@ -101,38 +102,54 @@ export const addToInventoryItemAddedFormFieldsDataFunction = (
   },
 ];
 
-export const addToInventoryItemStatus = [
+export const purchasedOrderColumns: any = () => [
   {
-    componentProps: {
-      name: 'assetName',
-      label: 'Asset_Name',
-      fullWidth: true,
-      select: false,
-    },
-
-    component: RHFTextField,
-    md: 12,
+    accessorFn: (row: any) => row?.displayName,
+    id: 'displayName',
+    header: 'Item Name',
+    cell: (info: any) => (
+      <TextField
+        value={info?.getValue()}
+        // onChange={(e) => setReceivedAmount(e.target.value)}
+        size="medium"
+      />
+    ),
   },
   {
-    componentProps: {
-      name: 'serialNumber',
-      label: 'Serial Number',
-      fullWidth: true,
-      select: false,
-    },
+    accessorFn: (row: any) => row?.impact,
+    id: 'impact',
+    header: 'Impact',
+    cell: (info: any) => (
+      <TextField
+        value={info?.getValue()}
+        // onChange={(e) => setReceivedAmount(e.target.value)}
+        size="medium"
+      />
+    ),
+  },
 
-    component: RHFTextField,
-    md: 12,
+  {
+    accessorFn: (row: any) => row?.department?.name,
+    id: 'department',
+    header: 'Department',
+    cell: (info: any) => (
+      <TextField
+        value={info?.getValue()}
+        // onChange={(e) => setReceivedAmount(e.target.value)}
+        size="medium"
+      />
+    ),
   },
   {
-    componentProps: {
-      name: 'assetTag',
-      label: 'Asset Tag',
-      fullWidth: true,
-      select: false,
-    },
-
-    component: RHFTextField,
-    md: 12,
+    accessorFn: (row: any) => row?.location?.locationName,
+    id: 'location',
+    header: 'Location',
+    cell: (info: any) => (
+      <TextField
+        value={info?.getValue()}
+        // onChange={(e) => setReceivedAmount(e.target.value)}
+        size="medium"
+      />
+    ),
   },
 ];

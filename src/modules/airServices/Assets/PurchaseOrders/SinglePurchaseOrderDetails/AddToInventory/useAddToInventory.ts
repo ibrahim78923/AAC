@@ -8,6 +8,7 @@ import {
   addToInventoryItemAddedFormFieldsDataFunction,
   addInventoryDefaultValuesFunction,
   addToInventoryItemStatusDefaultValuesFunction,
+  purchasedOrderColumns,
 } from './AddToInventory.data';
 import { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
@@ -23,12 +24,19 @@ import {
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export default function useAddToInventoryDrawer(props: any) {
+  const [selectedAssetId, setSelectedAssetId] = useState(null);
+
+  const handleRadioValueChange = (event: any) => {
+    setSelectedAssetId(event.target.value);
+  };
   // const router = useRouter();
   const [search, setSearch] = useState('');
-  const purchaseOrderId = '65a115b847cea622057735dc';
+  const purchaseOrderId = '65a6894638ae3159b3246b1f';
   const { setIsADrawerOpen } = props;
   const [postPurchaseOrderTrigger] = usePostPurchaseOrderMutation();
   const [patchNewVendorTrigger] = usePatchAddToPurchaseOrderMutation();
+
+  const columns = purchasedOrderColumns();
   const methodsTwo: any = useForm({
     resolver: yupResolver(addToInventoryItemStatusValidationSchema),
     defaultValues: addToInventoryItemStatusDefaultValuesFunction(),
@@ -51,7 +59,7 @@ export default function useAddToInventoryDrawer(props: any) {
 
   const [boolVariable, setBoolVariable] = useState(true);
   const [toShow, setToShow] = useState(true);
-
+  const [purchaseDetail, setPurchaseDetail]: any = useState([]);
   const getSingleAddToPurchaseOrderParameter = {
     pathParam: {
       purchaseOrderId,
@@ -72,6 +80,7 @@ export default function useAddToInventoryDrawer(props: any) {
 
   const submitHandlerYes = handleSubmitYes(async (data: any) => {
     const { department, location, ...otherData } = data;
+    setPurchaseDetail([data]);
     const postPurchaseOrderParameter = {
       body: {
         departmentId: department?._id,
@@ -100,18 +109,13 @@ export default function useAddToInventoryDrawer(props: any) {
     methodsYes?.reset();
   });
 
-  const submitHandlerNo = handleSubmitNo(async (data: any) => {
-    const updateData: any = {};
-    for (const key in addInventoryDefaultValuesOneUpdate) {
-      if (data?.[key] !== undefined) {
-        updateData[key] = data?.[key];
-      }
-    }
+  const submitHandlerNo = handleSubmitNo(async () => {
+    // const updateData: any = selectedAssetId;
     const putAddToPurchaseOrderParameter = {
       body: {
         purchaseOrderId: purchaseOrderId,
         inventoryId: inventoryId,
-        // ...updateData,
+        // updateData,
       },
     };
     try {
@@ -185,5 +189,10 @@ export default function useAddToInventoryDrawer(props: any) {
     setSearch,
     allAssetsData,
     updateDate,
+    handleRadioValueChange,
+    selectedAssetId,
+    setSelectedAssetId,
+    columns,
+    purchaseDetail,
   };
 }
