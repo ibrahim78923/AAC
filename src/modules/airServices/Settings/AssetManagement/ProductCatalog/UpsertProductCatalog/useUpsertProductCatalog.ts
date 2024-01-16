@@ -8,7 +8,7 @@ import {
   upsertProductCatalogValidationSchema,
 } from './UpsertProductCatalog.data';
 import { enqueueSnackbar } from 'notistack';
-import { MODE_OF_PROCUREMENT, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
 import {
   useGetProductCatalogByIdQuery,
@@ -55,10 +55,6 @@ export const useUpsertProductCatalog = () => {
     const body = {
       ...data,
       assetType: data?.assetType?._id,
-      manufacturer: !!data?.manufacturer ? data?.manufacturer : '--',
-      modeOfProcurement: !!data?.modeOfProcurement
-        ? data?.modeOfProcurement
-        : MODE_OF_PROCUREMENT?.BUY,
     };
     if (!!productCatalogId) {
       submitUpdateProductCatalog(body);

@@ -7,8 +7,10 @@ export const useDeleteContract = (props: any) => {
     setIsDeleteModalOpen,
     selectedContractList,
     setSelectedContractList,
+    setPage,
   } = props;
-  const [deleteContractTrigger] = useDeleteContractMutation();
+  const [deleteContractTrigger, deleteContractStatus] =
+    useDeleteContractMutation();
 
   const deleteContract = async () => {
     const deleteParams = new URLSearchParams();
@@ -22,16 +24,15 @@ export const useDeleteContract = (props: any) => {
     };
 
     try {
-      const response: any = await deleteContractTrigger(
-        deleteContractParameter,
-      )?.unwrap();
+      await deleteContractTrigger(deleteContractParameter)?.unwrap();
       setSelectedContractList([]);
-      enqueueSnackbar(response?.message ?? 'Record delete successfully', {
+      enqueueSnackbar('Contract delete successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
+      setPage?.(1);
       setIsDeleteModalOpen?.(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Record not delete', {
+      enqueueSnackbar(error?.data?.message ?? 'Contract not delete', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
       setSelectedContractList([]);
@@ -41,5 +42,6 @@ export const useDeleteContract = (props: any) => {
 
   return {
     deleteContract,
+    deleteContractStatus,
   };
 };

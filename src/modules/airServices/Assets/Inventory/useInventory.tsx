@@ -87,7 +87,7 @@ export const useInventory = () => {
         getInventoryExportParameter,
       )?.unwrap();
       downloadFile(response, 'InventoryLists', EXPORT_FILE_TYPE?.[type]);
-      enqueueSnackbar('File Exported successfully', {
+      enqueueSnackbar('File export successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {
@@ -118,6 +118,7 @@ export const useInventory = () => {
         setIsDrawerOpen={setHasInventoryAction}
         setInventoryFilterLists={setInventoryFilterLists}
         inventoryFilterLists={inventoryFilterLists}
+        setPage={setPage}
       />
     ),
     [INVENTORY_LIST_ACTIONS?.CUSTOMIZE_COLUMN]: (
@@ -136,6 +137,7 @@ export const useInventory = () => {
         setDeleteModalOpen={setHasInventoryAction}
         selectedInventoryLists={selectedInventoryLists}
         setSelectedInventoryLists={setSelectedInventoryLists}
+        setPage={setPage}
       />
     ),
     [INVENTORY_LIST_ACTIONS?.IMPORT]: (

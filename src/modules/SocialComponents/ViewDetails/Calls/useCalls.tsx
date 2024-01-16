@@ -37,9 +37,9 @@ const useCalls = ({ companyId }: any) => {
   const { data: CallsWidgetData } = useGetCallsWidgetQuery({ query });
 
   const WidgetData: Record<string, number> = {
-    All: CallsWidgetData?.data[0]?.totalRecords,
-    Upcoming: CallsWidgetData?.data[0]?.upComingCount,
-    Completed: CallsWidgetData?.data[0]?.completedCount,
+    All: CallsWidgetData?.data?.totalRecords,
+    Upcoming: CallsWidgetData?.data?.upComingCount,
+    Completed: CallsWidgetData?.data?.completedCount,
   };
 
   const [deleteCalls] = useDeleteCallsMutation();

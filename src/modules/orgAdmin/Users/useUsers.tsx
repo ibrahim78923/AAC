@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getSession } from '@/utils';
 import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 
@@ -9,27 +9,44 @@ const useUsers = () => {
   const [employeeFilter, setEmployeeFilter] = useState({
     product: '',
     company: '',
-    user: '',
+    status: '',
   });
+
+  const [page, setPage] = useState(1);
+  const employeeRecordsLimit = 10;
+
   const empListParams = {
-    page: 1,
-    limit: 10,
+    page: page,
+    limit: employeeRecordsLimit,
     search: searchEmployee,
     product: employeeFilter?.product,
     company: employeeFilter?.company,
-    // user: employeeFilter?.user
+    status: employeeFilter?.status ? employeeFilter?.status : undefined,
   };
+
   const { data: employeeList } = useGetEmployeeListQuery({
     orgId: user?.organization?._id,
     values: empListParams,
   });
   const employeeDetails = employeeList?.data?.users;
+  const employeeMetaData = employeeList?.data?.meta;
+
+  useEffect(() => {
+    setEmployeeDataById(employeeList?.data?.users[0]?._id);
+  }, [employeeList?.data?.users]);
+
+  const handleEmpListPaginationChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setPage(value);
+  };
 
   const resetFilter = () => {
     setEmployeeFilter({
       product: '',
       company: '',
-      user: '',
+      status: '',
     });
   };
 
@@ -38,12 +55,14 @@ const useUsers = () => {
     employeeList,
     employeeFilter,
     setEmployeeFilter,
+    handleEmpListPaginationChange,
     searchEmployee,
     setSearchEmployee,
     employeeDetails,
     employeeDataById,
     setEmployeeDataById,
     resetFilter,
+    employeeMetaData,
   };
 };
 

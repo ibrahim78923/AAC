@@ -1,35 +1,32 @@
 import * as yup from 'yup';
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import { timeZone } from '@/constants/time-zone';
-import { AGENTS } from '@/constants/strings';
+import { AGENTS, ROLE } from '@/constants/strings';
 
-export const roleData = [
-  'SUPER_ADMIN',
-  'ORG_ADMIN',
-  'ORG_EMPLOYEE',
-  'ORG_REQUESTER',
-  'ORG_AGENT',
-];
+const roleOptions = [ROLE?.ORG_AGENT];
 
 export const validationSchemaAgentFields: any = yup?.object()?.shape({
   firstName: yup?.string()?.required('Required'),
   lastName: yup?.string()?.required('Required'),
   email: yup?.string()?.required('Required'),
   phoneNumber: yup?.string()?.required('Required'),
-  departmentId: yup?.string()?.required('Required'),
+  departmentId: yup?.mixed()?.required('Required'),
   role: yup?.string()?.required('Required'),
   timezone: yup?.string()?.required('Required'),
 });
 
 export const defaultValues = (selectedAgentList: any) => {
-  const updateData = selectedAgentList[0];
-
+  const updateData = selectedAgentList?.[0];
   return {
     firstName: updateData?.firstName ?? '',
     lastName: updateData?.lastName ?? '',
     email: updateData?.email ?? '',
     phoneNumber: updateData?.phoneNumber ?? '',
-    departmentId: updateData?.departmentData?.name ?? '',
+    departmentId: updateData?.departmentData ?? null,
     role: updateData?.role ?? '',
     timezone: updateData?.timezone ?? '',
   };
@@ -37,7 +34,7 @@ export const defaultValues = (selectedAgentList: any) => {
 
 export const agentFieldsData = (
   editAgentModalTitle: any,
-  departmentData: any,
+  departmentDropdown: any,
 ) => [
   {
     id: 1,
@@ -95,11 +92,11 @@ export const agentFieldsData = (
       name: 'departmentId',
       label: 'Department',
       placeholder: 'Select Department',
-      options: departmentData?.map((item: any) => item?.name),
+      apiQuery: departmentDropdown,
       required: true,
     },
     gridLength: 12,
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 6,
@@ -108,7 +105,7 @@ export const agentFieldsData = (
       name: 'role',
       label: 'Role',
       placeholder: 'Select Role',
-      options: roleData,
+      options: roleOptions,
       required: true,
     },
     gridLength: 12,

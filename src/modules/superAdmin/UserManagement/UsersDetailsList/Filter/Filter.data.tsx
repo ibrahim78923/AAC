@@ -22,20 +22,6 @@ export const dataArray = () => {
 
   return [
     {
-      title: 'Status',
-      componentProps: {
-        name: 'status',
-        fullWidth: true,
-        select: true,
-      },
-      options: [
-        { value: 'ACTIVE', label: 'Active' },
-        { value: 'INACTIVE', label: 'In Active' },
-      ],
-      component: RHFSelect,
-      md: 12,
-    },
-    {
       title: 'Product',
       componentProps: {
         name: 'product',
@@ -60,6 +46,20 @@ export const dataArray = () => {
         value: item?._id,
         label: item?.name,
       })),
+      component: RHFSelect,
+      md: 12,
+    },
+    {
+      title: 'Status',
+      componentProps: {
+        name: 'status',
+        fullWidth: true,
+        select: true,
+      },
+      options: [
+        { value: 'ACTIVE', label: 'Active' },
+        { value: 'INACTIVE', label: 'Inactive' },
+      ],
       component: RHFSelect,
       md: 12,
     },

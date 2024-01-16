@@ -1,14 +1,27 @@
 import { Avatar, Box, Menu, Tooltip, Typography } from '@mui/material';
 import { Fragment, useState, useEffect } from 'react';
-import { profileAvatars } from './Profile.data';
-import { v4 as uuidv4 } from 'uuid';
+import { useLazyGetAssignToQuery } from '@/services/airServices/workload';
+import { IMG_URL } from '@/config';
+import Search from '@/components/Search';
+import { debounce } from 'lodash';
 
-export const Profile = () => {
+export const Profile = ({ selected, setSelected }: any) => {
   const [users, setUsers] = useState<any>([]);
   const [usersExtra, setUsersExtra] = useState<any>([]);
-  const [selected, setSelected] = useState<any>(null);
   const [showExtras, setShowExtras] = useState<any>(false);
   const [anchorEl, setAnchorEl] = useState<any>(null);
+
+  const [searchBy, setSearchBy] = useState('');
+
+  const [trigger, { data, isError }] = useLazyGetAssignToQuery();
+
+  useEffect(() => {
+    trigger?.({ params: { search: searchBy } });
+  }, [searchBy]);
+
+  const debouncedSearch = debounce((value: any) => {
+    setSearchBy(value);
+  }, 300);
 
   const addToArray = (user: any) => {
     setSelected(user);
@@ -24,9 +37,11 @@ export const Profile = () => {
   };
 
   useEffect(() => {
-    setUsers(profileAvatars?.slice(0, MAX_LIMIT));
-    setUsersExtra(profileAvatars?.slice(MAX_LIMIT, profileAvatars?.length));
-  }, [profileAvatars]);
+    setUsers(data?.slice(0, MAX_LIMIT));
+    setUsersExtra(data?.slice(MAX_LIMIT, data?.length));
+  }, [data]);
+
+  if (isError) return <Typography>Something Went Wrong</Typography>;
 
   return (
     <Fragment>
@@ -37,6 +52,10 @@ export const Profile = () => {
           borderRadius: 2,
           cursor: 'pointer',
           border: selected ? 0 : 3,
+          fontSize: '12px',
+          width: 38,
+          height: 38,
+          fontWeight: 500,
         }}
         onClick={() => {
           setSelected(null);
@@ -45,23 +64,36 @@ export const Profile = () => {
         All
       </Avatar>
 
-      {users?.map((item: any) => (
-        <Tooltip title={item?.name} key={uuidv4()}>
-          <Avatar
-            sx={{
-              borderRadius: 2,
-              mx: 0.2,
-              color: 'primary.main',
-              cursor: 'pointer',
-              border: selected === item ? 3 : 0,
-            }}
-            src={item?.img?.src}
-            onClick={() => addToArray?.(item)}
-          />
-        </Tooltip>
+      {users?.map((item: any, index: number) => (
+        <Fragment key={item?._id}>
+          {index < MAX_LIMIT && (
+            <Tooltip title={item?.firstName + ' ' + item?.lastName}>
+              <Avatar
+                sx={{
+                  bgcolor: 'primary.lighter',
+                  color: 'primary.main',
+                  borderRadius: 2,
+                  cursor: 'pointer',
+                  border: selected === item ? 3 : 0,
+                  fontSize: '12px',
+                  width: 38,
+                  height: 38,
+                  fontWeight: 500,
+                  mx: 0.2,
+                  textTransform: 'capitalize',
+                }}
+                src={`${IMG_URL}${item?.img}`}
+                onClick={() => addToArray?.(item)}
+              >
+                {item?.firstName?.[0] ?? '-'}
+                {item?.lastName?.[0]}
+              </Avatar>
+            </Tooltip>
+          )}
+        </Fragment>
       ))}
 
-      {usersExtra?.length > 0 && (
+      {usersExtra?.length && (
         <Tooltip title="Show Remaining">
           <Avatar
             sx={{
@@ -69,6 +101,10 @@ export const Profile = () => {
               color: 'primary.main',
               borderRadius: 2,
               cursor: 'pointer',
+              fontSize: '12px',
+              width: 38,
+              height: 38,
+              fontWeight: 500,
             }}
             onClick={(event: any) => {
               setAnchorEl(event?.currentTarget);
@@ -96,9 +132,13 @@ export const Profile = () => {
           }}
         >
           <Box width={250}>
+            <Search
+              setSearchBy={(value: any) => debouncedSearch(value)}
+              width={'100%'}
+            />
             {usersExtra?.map((item: any) => (
               <Box
-                key={uuidv4()}
+                key={item?._id}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -108,19 +148,33 @@ export const Profile = () => {
                   p: 1,
                   ':hover': { bgcolor: 'primary.lighter' },
                 }}
-                onClick={() => addToArray?.(item)}
+                onClick={() => {
+                  addToArray?.(item);
+                  handleClose?.();
+                }}
               >
                 <Avatar
                   sx={{
-                    borderRadius: 2,
-                    mx: 0.2,
+                    bgcolor: 'primary.lighter',
                     color: 'primary.main',
+                    borderRadius: 2,
                     cursor: 'pointer',
                     border: selected === item ? 3 : 0,
+                    fontSize: '12px',
+                    width: 38,
+                    height: 38,
+                    fontWeight: 500,
+                    mx: 0.2,
+                    textTransform: 'capitalize',
                   }}
-                  src={item?.img?.src}
-                />
-                <Typography variant={'body1'}>{item?.name}</Typography>
+                  src={`${IMG_URL}${item?.img}`}
+                >
+                  {item?.firstName?.[0] ?? '-'}
+                  {item?.lastName?.[0]}
+                </Avatar>
+                <Typography variant={'body1'}>
+                  {item?.firstName} {item?.lastName}
+                </Typography>
               </Box>
             ))}
           </Box>

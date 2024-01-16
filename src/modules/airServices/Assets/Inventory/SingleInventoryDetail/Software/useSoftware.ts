@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 export const useSoftware = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [deleteSoftware, setDelateSoftware] = useState();
+  const [deleteRecord, setDelateRecord] = useState();
   const router = useRouter();
   const { data, isLoading } = useGetInventorySoftwareQuery(
     router?.query?.inventoryId,
@@ -19,7 +19,7 @@ export const useSoftware = () => {
 
   const handleDelete = async () => {
     try {
-      const res: any = await deleteInventorySoftware(deleteSoftware);
+      const res: any = await deleteInventorySoftware(deleteRecord);
       enqueueSnackbar(res?.message ?? 'Record deleted Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
@@ -37,6 +37,6 @@ export const useSoftware = () => {
     openDeleteModal,
     setOpenDeleteModal,
     handleDelete,
-    setDelateSoftware,
+    setDelateRecord,
   };
 };

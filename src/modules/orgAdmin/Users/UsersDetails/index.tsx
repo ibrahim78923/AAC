@@ -1,35 +1,29 @@
 import { Box, Button, Card, Grid } from '@mui/material';
-
 import ProfileCard from '@/components/ProfileCard';
-
 import CommonTabs from '@/components/Tabs';
-
 import Accounts from './Accounts';
-
 import Profile from './Profile';
-
 import AddAccount from '../Drawers/AddAccount';
-
 import useUsersDetails from './useUsersDetails';
-
 import { AddCircle } from '@mui/icons-material';
-import useUsers from '../useUsers';
 import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/users';
+import { IMG_URL } from '@/config';
 
 const UsersDetails = (props: any) => {
   const { employeeDataById } = props;
+
   const {
     tabValue,
     setTabVal,
     isOpenAddAccountDrawer,
     setIsOpenAddAccountDrawer,
     theme,
+    handleChangeImg,
+    searchAccount,
+    setSearchAccount,
   } = useUsersDetails();
-  const { employeeList } = useUsers();
 
-  const { data: profileData } = useGetUsersByIdQuery(
-    employeeDataById ? employeeDataById : employeeList?.data?.users[0]?._id,
-  );
+  const { data: profileData } = useGetUsersByIdQuery(employeeDataById);
 
   return (
     <Box>
@@ -39,10 +33,16 @@ const UsersDetails = (props: any) => {
             userName={`${profileData?.data?.firstName ?? 'N/A'} ${
               profileData?.data?.lastName ?? ''
             }`}
-            role={profileData?.data?.role?.toLowerCase()?.replace('_', ' ')}
+            isBadge={false}
             email={profileData?.data?.email}
             phone={profileData?.data?.phoneNumber}
             handleEditProfile={() => setTabVal(1)}
+            src={`${
+              profileData?.data?.avatar
+                ? `${IMG_URL}${profileData?.data?.avatar?.url}`
+                : ''
+            }`}
+            handleChangeImg={(e: any) => handleChangeImg(e, employeeDataById)}
           />
         </Grid>
         <Grid item xs={12}>
@@ -59,7 +59,11 @@ const UsersDetails = (props: any) => {
                 activeTab={tabValue}
                 getTabVal={(val: number) => setTabVal(val)}
                 tabsArray={['Accounts', 'Profile']}
-                searchBarProps={{ label: 'Search Here' }}
+                searchBarProps={{
+                  label: 'Search Here',
+                  setSearchBy: setSearchAccount,
+                  searchBy: searchAccount,
+                }}
                 headerChildren={
                   <Button
                     className="small"
@@ -72,7 +76,10 @@ const UsersDetails = (props: any) => {
                   </Button>
                 }
               >
-                <Accounts employeeDataById={employeeDataById} />
+                <Accounts
+                  employeeDataById={employeeDataById}
+                  searchAccount={searchAccount}
+                />
                 <Profile profileData={profileData?.data} />
               </CommonTabs>
             </Card>
@@ -81,10 +88,9 @@ const UsersDetails = (props: any) => {
       </Grid>
       {isOpenAddAccountDrawer && (
         <AddAccount
+          employeeDataById={employeeDataById}
           isOpen={isOpenAddAccountDrawer}
-          setIsOpen={() => {
-            setIsOpenAddAccountDrawer(false);
-          }}
+          setIsOpenAddAccountDrawer={setIsOpenAddAccountDrawer}
         />
       )}
     </Box>

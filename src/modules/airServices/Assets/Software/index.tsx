@@ -1,27 +1,43 @@
 import { Box, Button } from '@mui/material';
-import { useState } from 'react';
-import { data, columns } from './Software.data';
+import { columns } from './Software.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { FilterSharedIcon } from '@/assets/icons';
-import { useTheme } from '@emotion/react';
-import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
-import useManage from '@/modules/airSales/Dashboard/Manage/useManage';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 import SoftwareFilter from './SoftwareFilter';
-import { UpsertSoftware } from './UpsertSoftware';
-import { useRouter } from 'next/router';
-import CustomPagination from '@/components/CustomPagination';
 import { SoftwareAssignCategory } from './SoftwareAssignCategory';
+import { UpsertSoftware } from './UpsertSoftware';
+import { useSoftware } from './useSoftware';
 
 function Software() {
-  const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
-  const [softwareData, setSoftwareData] = useState([]);
-  const [openAssignModal, setOpenAssignModal] = useState(false);
-  const [searchValue, SetSearchValue] = useState<string>('');
-
-  const theme: any = useTheme();
-  const router = useRouter();
-  const { setIsOpenFilterDrawer, isOpenFilterDrawer } = useManage();
+  const {
+    router,
+    isError,
+    isLoading,
+    isSuccess,
+    isFetching,
+    assetsSoftwares,
+    isAddDrawerOpen,
+    setIsAddDrawerOpen,
+    softwareData,
+    setSoftwareData,
+    openAssignModal,
+    setOpenAssignModal,
+    searchValue,
+    setSearchValue,
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
+    handlePageChange,
+    paginationData,
+    setFilterValues,
+    isOpenFilterDrawer,
+    setIsOpenFilterDrawer,
+    submitForm,
+    methods,
+    handleClose,
+  } = useSoftware();
 
   return (
     <>
@@ -39,10 +55,10 @@ function Software() {
       >
         <Box>
           <Search
-            label="Search Here"
+            label="search"
             width="100%"
             searchBy={searchValue}
-            setSearchBy={SetSearchValue}
+            setSearchBy={setSearchValue}
           />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
@@ -69,20 +85,33 @@ function Software() {
       <br />
       <Box>
         <TanstackTable
-          data={data}
-          columns={columns(softwareData, setSoftwareData, data, theme, router)}
-        />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+          isError={isError}
+          isSuccess={isSuccess}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          data={assetsSoftwares}
+          columns={columns(
+            softwareData,
+            setSoftwareData,
+            assetsSoftwares,
+            router,
+          )}
+          isPagination
+          count={paginationData?.pages}
+          totalRecords={paginationData?.total}
+          pageLimit={pageLimit}
+          currentPage={page}
+          onPageChange={handlePageChange}
+          setPageLimit={setPageLimit}
+          setPage={setPage}
         />
       </Box>
 
       {isOpenFilterDrawer && (
         <SoftwareFilter
           isOpenDrawer={isOpenFilterDrawer}
-          onClose={() => setIsOpenFilterDrawer(false)}
+          setIsOpenFilterDrawer={setIsOpenFilterDrawer}
+          setFilterValues={setFilterValues}
         />
       )}
 
@@ -93,7 +122,10 @@ function Software() {
       />
       <UpsertSoftware
         isDrawerOpen={isAddDrawerOpen}
-        onClose={setIsAddDrawerOpen}
+        onClose={handleClose}
+        submitForm={submitForm}
+        methods={methods}
+        title="New Software"
       />
     </>
   );

@@ -11,6 +11,7 @@ import useAssociations from './useAssociations';
 
 const Associations = () => {
   const { assocaitionData } = useAssociations();
+
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Associations </Typography>

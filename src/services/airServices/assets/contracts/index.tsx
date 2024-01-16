@@ -4,6 +4,8 @@ import { baseAPI } from '@/services/base-api';
 const TAG = 'ASSETS_CONTRACT';
 const TAG_TWO = 'CONTRACT_TYPE_DROPDOWN';
 const TAG_THREE = 'VENDOR_DROPDOWN';
+const TAG_FOUR = 'USERS_DROPDOWN';
+const TAG_FIVE = 'SOFTWARE_DROPDOWN';
 
 export const contractAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
@@ -39,7 +41,7 @@ export const contractAPI = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
+        if (response) return response?.data?.contracttypes;
       },
       providesTags: [TAG_TWO],
     }),
@@ -50,9 +52,77 @@ export const contractAPI = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.users;
+        if (response) return response?.data;
       },
       providesTags: [TAG_THREE],
+    }),
+    postContract: builder?.mutation({
+      query: (postContractParameter: any) => ({
+        url: `${END_POINTS?.ADD_CONTRACT}`,
+        method: 'POST',
+        body: postContractParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    patchContract: builder?.mutation({
+      query: (patchContractParameter: any) => ({
+        url: `${END_POINTS?.EDIT_CONTRACT}/${patchContractParameter?.pathParam?.id}`,
+        method: 'PATCH',
+        body: patchContractParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    patchContractStatus: builder?.mutation({
+      query: (patchContractStatusParameter: any) => ({
+        url: `${END_POINTS?.UPDATE_CONTRACT_STATUS}/${patchContractStatusParameter?.pathParam?.id}`,
+        method: 'PATCH',
+        body: patchContractStatusParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getDropdownAssets: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.ASSETS_DROPDOWN}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.inventories;
+      },
+      providesTags: [TAG_THREE],
+    }),
+    getUsersDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getAgentsDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_ALL_AGENTS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getSoftwareDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_SOFTWARE}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.assetssoftwares;
+      },
+      providesTags: [TAG_FIVE],
     }),
   }),
 });
@@ -63,4 +133,11 @@ export const {
   useDeleteContractMutation,
   useLazyGetContractTypeDropdownQuery,
   useLazyGetVendorDropdownQuery,
+  usePostContractMutation,
+  usePatchContractMutation,
+  usePatchContractStatusMutation,
+  useLazyGetDropdownAssetsQuery,
+  useLazyGetUsersDropdownQuery,
+  useLazyGetSoftwareDropdownQuery,
+  useLazyGetAgentsDropdownQuery,
 } = contractAPI;

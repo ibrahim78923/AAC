@@ -25,7 +25,12 @@ import {
 import { makeDateTime } from '../ServicesTickets.data';
 
 export const useUpsertTicket = (props: any) => {
-  const { setIsDrawerOpen, ticketId, setSelectedTicketList } = props;
+  const {
+    setIsDrawerOpen,
+    ticketId,
+    setSelectedTicketList,
+    setFilterTicketLists,
+  } = props;
 
   const router = useRouter();
   const theme: any = useTheme();
@@ -55,6 +60,8 @@ export const useUpsertTicket = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const submitUpsertTicket = async (data: any) => {
+    setFilterTicketLists({});
+
     const upsertTicketFormData = new FormData();
     upsertTicketFormData?.append('requester', data?.requester?._id);
     upsertTicketFormData?.append('subject', data?.subject);

@@ -9,8 +9,6 @@ import useTickets from './useTickets';
 
 import { columns } from './Tickets.data';
 
-import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
-
 import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
@@ -25,6 +23,8 @@ const Tickets = () => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
+    data,
+    isLoading,
   } = useTickets();
 
   return (
@@ -38,7 +38,7 @@ const Tickets = () => {
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
           <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
+            {data?.data?.meta?.total}
           </Typography>
 
           <Typography variant="subtitle2">Tickets</Typography>
@@ -71,14 +71,17 @@ const Tickets = () => {
         <Grid item xs={12}>
           <TanstackTable
             columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={TasksTableData}
+            data={data?.data?.tickets}
+            isLoading={isLoading}
           />
         </Grid>
       </Grid>
-      <TicketsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+      {openDrawer && (
+        <TicketsEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+        />
+      )}
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
         type={'delete'}

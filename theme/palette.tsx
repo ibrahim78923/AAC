@@ -126,6 +126,10 @@ const CUSTOM_COLORS = {
   custom_shadow: '#6B72801A',
   accordian_color: '#f1f1f17a',
   sliver_grey: '#9D9D9D',
+  light_gray_color: '#D9D9D9',
+  light_green_background: `#F7FCFB`,
+  light_grey_bg: '#e5e7eb4d',
+  cloud_white: '#F9F9F9',
 };
 const GRAPH = {
   cyan: 'blue',

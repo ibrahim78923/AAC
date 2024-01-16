@@ -4,90 +4,112 @@ import {
   Box,
   Grid,
   IconButton,
-  Menu,
-  MenuItem,
   Typography,
 } from '@mui/material';
-import { MoreHoriz, AddCircle } from '@mui/icons-material';
-import { useDepartmentsDetail } from './useDepartmentsDetail';
+import { AddCircle } from '@mui/icons-material';
+import { generateColorFromName } from '@/utils/avatarUtils';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
-import { DepartmentsFormModal } from '../DepartmentsFormModal';
 import { UsersAvatarRoundedImage } from '@/assets/images';
-import { HrIcon } from '@/assets/icons';
+import { useDepartmentsDetail } from './useDepartmentsDetail';
+import { DepartmentsFormModal } from '../DepartmentsFormModal';
+import { DepartmentsHeader } from '../DepartmentsHeader';
+import CustomPagination from '@/components/CustomPagination';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { DepartmentMenu } from './DepartmentMenu';
 
+const MAX_WORDS = 95;
 export const DepartmentsDetail = () => {
   const {
     theme,
-    actionPop,
-    handleActionClick,
-    handleActionClose,
-    openAction,
     openDelete,
     setOpenDelete,
     handleDeleteClose,
     handleDeleteSubmit,
     openEdit,
     setOpenEdit,
-    formProps,
     departmentData,
+    search,
+    setSearch,
+    departmentMetaData,
+    page,
+    setPage,
+    pageLimit,
+    setPageLimit,
+    openAddModal,
+    setOpenAddModal,
+    submitForm,
+    userList,
+    editFormMethod,
+    handleClose,
   } = useDepartmentsDetail();
-  const { editFormMethod, handleSubmit, submitEditForm } = formProps;
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   return (
     <>
+      <DepartmentsHeader
+        searchBy={search}
+        setSearchBy={setSearch}
+        openAddModal={openAddModal}
+        setOpenAddModal={setOpenAddModal}
+      />
+      <br />
+      <br />
       <Grid container spacing={2}>
         {departmentData?.map((item: any) => (
-          <Grid item lg={4} md={6} xs={12} key={item?._id}>
-            <Box p={2} borderRadius={3} boxShadow={2}>
+          <Grid item xl={4} md={6} xs={12} key={item?._id}>
+            <Box
+              p={2}
+              borderRadius={3}
+              boxShadow={2}
+              sx={{
+                minHeight: isSmallScreen ? '200px' : '250px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+              }}
+            >
               <Box
                 display={'flex'}
                 justifyContent={'space-between'}
                 alignItems={'center'}
               >
                 <Box display={'flex'} alignItems={'center'} gap={0.5}>
-                  {item?.departmenProfilePicture ? (
-                    <item.departmenProfilePicture />
-                  ) : (
-                    <HrIcon />
-                  )}
+                  <Avatar
+                    sx={{
+                      bgcolor: generateColorFromName(item?.name),
+                      width: 25,
+                      height: 25,
+                      fontSize: 14,
+                    }}
+                    variant="rounded"
+                  >
+                    {item?.name?.slice(0, 2)?.toUpperCase()}
+                  </Avatar>
                   <Typography variant="h5">{item?.name}</Typography>
                 </Box>
-                <IconButton onClick={handleActionClick}>
-                  <MoreHoriz
-                    sx={{ color: theme?.palette?.secondary?.lighter }}
-                    fontSize="large"
-                  />
-                </IconButton>
-                <Menu
-                  open={openAction}
-                  anchorEl={actionPop}
-                  onClose={handleActionClose}
-                  sx={{
-                    '& .MuiPaper-root': {
-                      boxShadow: 2,
-                      width: '7%',
-                      borderRadius: 2,
-                    },
-                  }}
-                  transformOrigin={{ vertical: 10, horizontal: 100 }}
-                >
-                  <MenuItem onClick={() => setOpenEdit(true)}>Edit</MenuItem>
-                  <MenuItem onClick={() => setOpenDelete(true)}>
-                    Delete
-                  </MenuItem>
-                </Menu>
+                <DepartmentMenu
+                  setOpenEdit={setOpenEdit}
+                  setOpenDelete={setOpenDelete}
+                  itemData={item}
+                />
               </Box>
               <Box
                 borderBottom={`1px solid ${theme?.palette?.custom?.off_white_one}`}
                 p="30px 0 30px 0"
                 mb={1}
                 overflow="hidden"
-                maxHeight="80px"
+                height="100px"
+                width="90%"
               >
-                <Typography variant="body2" sx={{ maxWidth: '80%' }}>
-                  {item?.description?.length > 95
-                    ? item?.description?.slice(0, 95) + '....'
-                    : item?.description}
+                <Typography variant="body2">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        item?.description?.length > MAX_WORDS
+                          ? item?.description?.slice(0, MAX_WORDS) + '....'
+                          : item?.description,
+                    }}
+                  ></div>
                 </Typography>
               </Box>
               <Box display={'flex'} alignItems={'center'}>
@@ -106,7 +128,7 @@ export const DepartmentsDetail = () => {
                     />
                   ))}
                 </AvatarGroup>
-                <IconButton>
+                <IconButton onClick={() => setOpenAddModal(true)}>
                   <AddCircle color="primary" />
                 </IconButton>
               </Box>
@@ -114,8 +136,22 @@ export const DepartmentsDetail = () => {
           </Grid>
         ))}
       </Grid>
+      <br />
+      {departmentMetaData && departmentMetaData?.total > 5 && (
+        <Grid item xs={12}>
+          <CustomPagination
+            currentPage={page}
+            count={departmentMetaData?.pages}
+            pageLimit={pageLimit}
+            totalRecords={departmentMetaData?.total}
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+          />
+        </Grid>
+      )}
       <AlertModals
-        open={openDelete}
+        open={openDelete?.val}
         handleClose={handleDeleteClose}
         handleSubmitBtn={handleDeleteSubmit}
         message="Are you sure you want to delete this Department?"
@@ -123,11 +159,11 @@ export const DepartmentsDetail = () => {
       />
       <DepartmentsFormModal
         formTitle="Edit Department"
-        open={openEdit}
-        handleClose={setOpenEdit}
+        open={openEdit?.val}
+        handleClose={handleClose}
         methods={editFormMethod}
-        handleSubmit={handleSubmit}
-        submitForm={submitEditForm}
+        handleSubmit={submitForm}
+        userList={userList}
       />
     </>
   );

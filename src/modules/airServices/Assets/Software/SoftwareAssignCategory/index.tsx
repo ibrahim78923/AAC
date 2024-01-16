@@ -1,15 +1,12 @@
 import { Box, Button, Dialog, Grid, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { FormProvider } from '@/components/ReactHookForm';
-import { assignCategoryField } from './SoftwareAssignCategory.data';
 import { useSoftwareAssignCategory } from './useSoftwareAssignCategory';
 
-export const SoftwareAssignCategory = ({
-  openAssignModal,
-  setOpenAssignModal,
-}: any) => {
-  const { onSubmit, handleSubmit, methods } =
-    useSoftwareAssignCategory(setOpenAssignModal);
+export const SoftwareAssignCategory = (params: any) => {
+  const { openAssignModal, setOpenAssignModal, selectedSoftware } = params;
+  const { onSubmit, handleSubmit, methods, assignCategoryField } =
+    useSoftwareAssignCategory(params);
 
   return (
     <Dialog open={openAssignModal} onClose={() => setOpenAssignModal(false)}>
@@ -28,11 +25,15 @@ export const SoftwareAssignCategory = ({
                 onClick={() => setOpenAssignModal(false)}
               />
             </Grid>
-            {assignCategoryField?.map((item: any) => (
-              <Grid item xs={12} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
+            {selectedSoftware && (
+              <>
+                {assignCategoryField?.map((item: any) => (
+                  <Grid item xs={12} key={item?.id}>
+                    <item.component {...item?.componentProps} size={'small'} />
+                  </Grid>
+                ))}
+              </>
+            )}
             <Grid
               item
               xs={12}
