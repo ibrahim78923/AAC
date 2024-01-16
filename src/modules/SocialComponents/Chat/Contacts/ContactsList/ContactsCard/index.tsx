@@ -11,6 +11,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { UserDefault } from '@/assets/images';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
+  setActiveChat,
   setActiveChatId,
   setActiveConversation,
   setActiveParticipant,
@@ -91,6 +92,7 @@ const ContactsCard = ({
   const handleCurrentUserSelect = () => {
     dispatch(setChatMessages([])),
       dispatch(setActiveChatId(cardData?.item?._id)),
+      dispatch(setActiveChat(cardData?.item)),
       dispatch(
         setActiveReceiverId(
           cardData?.item?.participants

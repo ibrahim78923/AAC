@@ -21,7 +21,7 @@ import {
 } from '@/assets/icons';
 
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { setActiveReply } from '@/redux/slices/chat/slice';
+import { setActiveReply, setChatContacts } from '@/redux/slices/chat/slice';
 
 import { UserDefault } from '@/assets/images';
 import { getSession } from '@/utils';
@@ -58,6 +58,7 @@ const ChatBox = ({
 
   const socket = useAppSelector((state) => state?.chat?.socket);
   const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
+  const activeChatState = useAppSelector((state) => state?.chat.activeChat);
 
   const handelSendReaction = (emoji: any, item: any) => {
     const isReactionExists = item?.reactions?.some(
@@ -109,6 +110,15 @@ const ChatBox = ({
         });
       }
     }
+  }, [item]);
+
+  useEffect(() => {
+    dispatch(
+      setChatContacts({
+        ...activeChatState,
+        unReadMessagesCount: '',
+      }),
+    );
   }, [item]);
 
   const divToCopyRef = useRef<any>(null);
@@ -186,8 +196,8 @@ const ChatBox = ({
                       <Box>
                         <Typography
                           variant="body3"
+                          color={theme?.palette?.common?.black}
                           sx={{
-                            color: theme?.palette?.common,
                             fontWeight: '500',
                           }}
                         >

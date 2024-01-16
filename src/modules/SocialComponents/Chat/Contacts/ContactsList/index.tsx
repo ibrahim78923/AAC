@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, Button, Checkbox, CircularProgress } from '@mui/material';
+import { Box, Button, Checkbox, Skeleton } from '@mui/material';
 
 import ContactsCard from './ContactsCard';
 import Search from '@/components/Search';
@@ -192,9 +192,11 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
         )}
         <Box mt={2} sx={{ overflow: 'scroll', maxHeight: '52vh' }}>
           {isChatContactsLoading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-              <CircularProgress />
-            </Box>
+            <>
+              {[1, 2, 3].map((index) => (
+                <SkeletonBox key={index} />
+              ))}
+            </>
           ) : (
             <>
               {!isNullOrEmpty(chatsTypeToShow) ? (
@@ -229,4 +231,26 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   );
 };
 
+const SkeletonBox = () => {
+  return (
+    <Box sx={{ mb: 4, padding: '0px 35px' }}>
+      <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+        <Skeleton variant="circular" width={40} height={40} />
+        <Skeleton variant="rectangular" width={250} height={30} />
+      </Box>
+      <Skeleton
+        variant="rectangular"
+        width={230}
+        height={15}
+        sx={{ ml: 1, mt: 1 }}
+      />
+      <Skeleton
+        variant="rectangular"
+        width={230}
+        height={15}
+        sx={{ ml: 1, mt: 1 }}
+      />
+    </Box>
+  );
+};
 export default ContactList;
