@@ -2,6 +2,7 @@ import { Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
 import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
 import { useTasksHeader } from './useTasksHeader';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const TasksHeader = (props: any) => {
   const { activeCheck } = props;
@@ -21,6 +22,7 @@ export const TasksHeader = (props: any) => {
     openAddDrawer,
     csvExportHandler,
     excelExportHandler,
+    isLoading,
   } = useTasksHeader(props);
   return (
     <Grid
@@ -92,11 +94,12 @@ export const TasksHeader = (props: any) => {
         </Button>
       </Grid>
       <AlertModals
-        type="delete"
+        type={ALERT_MODALS_TYPE?.DELETE}
         message="Are you sure you want to delete this task?"
         open={deleteModal}
         handleClose={() => setDeleteModal(false)}
         handleSubmitBtn={submitDeleteModel}
+        loading={isLoading}
       />
     </Grid>
   );
