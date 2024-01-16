@@ -91,6 +91,42 @@ export const companiesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['COMPANY'],
     }),
+
+    postCompaniesView: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.COMPANY_VIEWS,
+          method: 'POST',
+          body,
+        };
+      },
+      invalidatesTags: ['COMPANY'],
+    }),
+
+    getCompaniesViews: builder.query({
+      query: () => ({
+        url: `${END_POINTS?.COMPANY_VIEWS}`,
+        method: 'GET',
+      }),
+      providesTags: ['COMPANY'],
+    }),
+
+    getCustomizeColumns: builder.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['COMPANY'],
+    }),
+    putCustomizedColumns: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['COMPANY', 'CUSTOMIZE'],
+    }),
   }),
 });
 
@@ -105,4 +141,8 @@ export const {
   useRestoreCompaniesMutation,
   useMergeCompaniesMutation,
   useChangeCompanyOwnerMutation,
+  usePostCompaniesViewMutation,
+  useGetCustomizeColumnsQuery,
+  useGetCompaniesViewsQuery,
+  usePutCustomizedColumnsMutation,
 } = companiesAPI;

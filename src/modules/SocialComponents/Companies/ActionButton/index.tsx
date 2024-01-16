@@ -1,14 +1,14 @@
 import { Box, Button, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-import useCompanies from '../useCompanies';
 import { DeleteIcon } from '@/assets/icons';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import useCompanies from '../useCompanies';
 
 const ActionButton = (props?: any) => {
   const { checkedRows, setCheckedRows, isOpen, setIsOpen } = props;
-  const { selectedValue, handleClick, handleClose } = useCompanies();
-  const { deleteCompanies } = useCompanies();
+  const { selectedValue, handleClick, handleClose, deleteCompanies } =
+    useCompanies();
 
   return (
     <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
