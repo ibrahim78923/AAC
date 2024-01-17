@@ -114,6 +114,8 @@ export const END_POINTS = {
   RESTORE_COMPANIES: '/companies/restore-action',
   MERGE_COMPANIES: '/companies/merge-company',
   REASSIGN_COMPANY_OWNER: '/companies/change-company-owner',
+  COMPANY_VIEWS: '/company-views',
+  CUSTOMIZE_COLUMNS: '/customized-columns',
   DROPDOWN_ACCOUNTS_ROLE: '/dropdown/company-accounts-roles',
   GET_PRODUCT_VENDOR_LIST: '/product-catalog/vendor-product-list',
   POST_PRODUCT_VENDOR: '/product-catalog/add-vendor',

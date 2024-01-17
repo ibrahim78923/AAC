@@ -53,6 +53,7 @@ const Chat = () => {
     data: chatsData,
     refetch,
     status,
+    isError,
   } = useGetUserChatsQuery({
     activeChatId: activeChatId,
     limit: chatMetaInfo?.limit,
@@ -129,7 +130,7 @@ const Chat = () => {
         <Grid item xs={12} sm={12} md={12} lg={8.5}>
           <Box sx={styles?.rightWrapper}>
             {activeReceiverId ? (
-              <ChatArea />
+              <ChatArea isError={isError} />
             ) : (
               <Box
                 sx={{
