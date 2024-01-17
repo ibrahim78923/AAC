@@ -180,6 +180,14 @@ export const dealsApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['DEALS'],
     }),
+    putCustomizedColumns: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.DEALS_CUSTOMIZE_COLUMN}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['DEALS', 'CUSTOMIZE'],
+    }),
   }),
 });
 
@@ -205,4 +213,5 @@ export const {
   useGetDealsAssociationsQuery,
   useGetCustomizeColumnQuery,
   useUpdatedGridDealsMutation,
+  usePutCustomizedColumnsMutation,
 } = dealsApi;

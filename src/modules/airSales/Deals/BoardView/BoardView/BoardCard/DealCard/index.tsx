@@ -8,11 +8,24 @@ import BoardCard from '..';
 import {
   useGetDealsGridViewQuery,
   // useUpdatedGridDealsMutation,
+  // useUpdatedGridDealsMutation,
 } from '@/services/airSales/deals';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import {
+  AccociatedCompanyIcon,
+  AccociatedContactIcon,
+  DealPhoneIcon,
+  EmailDealsIcon,
+  MeetingDealsIcon,
+  NotesDealsIcon,
+  TaskDealsIcon,
+} from '@/assets/icons';
+import Link from 'next/link';
+// import { useRouter } from 'next/router';
 
 const TaskViewCard = ({}: any) => {
+  // const route = useRouter();
   const { data: dealsGridViewData } = useGetDealsGridViewQuery({});
   // const [updatedGridDeals] = useUpdatedGridDealsMutation();
   // console.log(dealsGridViewData?.data, 'dealsGridViewData');
@@ -36,25 +49,31 @@ const TaskViewCard = ({}: any) => {
 
   // console.log(taskCardData, 'taskCardData');
 
+  const [order, setOrder] = useState(tasCardData);
+
   const onDragEnd = (result: any) => {
     if (!result?.destination) return;
-    const sourceIndex = result?.source?.index;
-    const destinationIndex = result?.destination?.index;
-    const newTaskCardData = [...taskCardData];
-    const [draggedItem] = newTaskCardData?.splice(sourceIndex, 1);
-    newTaskCardData?.splice(destinationIndex, 0, draggedItem);
-    setTaskCardData(newTaskCardData);
-    // console.log('newTaskCardDatanewTaskCardData', draggedItem);
-    // const indexOfBanana = taskCardData.indexOf(sourceIndex);
-    // draggedItem?.cardData[destinationIndex],
-    // );
-
-    // console.log('indexOfBananaindexana', taskCardData, indexOfBanana);
-    // const body={
-    //   dealStageId:
-    // }
-    // updatedGridDeals()
+    const items = Array?.from(order);
+    const [reOrderItem] = items?.splice(result?.source?.index, 1);
+    items.splice(result?.destination?.index, 0, reOrderItem);
+    setOrder(items);
   };
+
+  // const updateOrderOnServer = async () => {
+  //   try {
+  //     await updatedGridDeals({
+  //       // body: {},
+  //     });
+  //   } catch (error) {
+  //     console.error('Error updating order:', error);
+  //   }
+  // };
+
+  // console.log('indexOfBananaindexana', taskCardData, indexOfBanana);
+  // const body={
+  //   dealStageId:
+  // }
+  // updatedGridDeals()
 
   return (
     <Box
@@ -206,6 +225,59 @@ const TaskViewCard = ({}: any) => {
                               >
                                 {items?.priority}
                               </Typography>
+                            </Box>
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                gap: 4,
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  justifyContent: 'space-between',
+                                  gap: 1,
+                                }}
+                              >
+                                <Link
+                                  href={`/air-sales/deals/view-details?tab-value=7`}
+                                >
+                                  <EmailDealsIcon />
+                                </Link>
+                                <Link
+                                  href={`/air-sales/deals/view-details?tab-value=5`}
+                                >
+                                  <DealPhoneIcon />
+                                </Link>
+                                <Link
+                                  href={`/air-sales/deals/view-details?tab-value=6`}
+                                >
+                                  <MeetingDealsIcon />
+                                </Link>
+                                <Link
+                                  href={`/air-sales/deals/view-details?tab-value=4`}
+                                >
+                                  <NotesDealsIcon />
+                                </Link>
+                                <Link
+                                  href={`/air-sales/deals/view-details?tab-value=3`}
+                                >
+                                  <TaskDealsIcon />
+                                </Link>
+                              </Box>
+                              <Box sx={{ display: 'flex' }}>
+                                <Link
+                                  href={`/air-sales/deals/view-details?tab-value=2`}
+                                >
+                                  <AccociatedContactIcon />
+                                </Link>
+                                <Link
+                                  href={`/air-sales/deals/view-details?tab-value=2&section-id=companies`}
+                                >
+                                  <AccociatedCompanyIcon />
+                                </Link>
+                              </Box>
                             </Box>
                           </Box>
                         )}
