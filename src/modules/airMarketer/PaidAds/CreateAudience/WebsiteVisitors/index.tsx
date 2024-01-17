@@ -31,7 +31,11 @@ const WebsiteVisitors = ({
       submitHandler={() => {}}
       cancelText={'cancel'}
       footer
-      headerIcon={<BackArrIcon />}
+      headerIcon={
+        <Box onClick={onClose} sx={{ cursor: 'pointer' }}>
+          <BackArrIcon />
+        </Box>
+      }
       footerActionText=""
       onFooterActionSubmit={() => {}}
       isOk
