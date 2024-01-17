@@ -57,7 +57,7 @@ export const useCreateBusinessHour = () => {
     enqueueSnackbar(
       'Importing can cause loss of Added or Deleted Holidays Data',
       {
-        variant: NOTISTACK_VARIANTS?.ERROR,
+        variant: NOTISTACK_VARIANTS?.WARNING,
       },
     );
     const getHolidaysParam = new URLSearchParams();
