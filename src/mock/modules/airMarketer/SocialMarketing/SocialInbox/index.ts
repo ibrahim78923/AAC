@@ -161,7 +161,7 @@ export const userProfile = {
       value: '755',
     },
     {
-      label: 'Shares',
+      label: 'Private Messages',
       value: '78',
     },
   ],
