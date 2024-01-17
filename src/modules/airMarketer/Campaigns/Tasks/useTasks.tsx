@@ -7,25 +7,35 @@ const useTasks = () => {
   const [isOpenDeleteDrawer, setIsOpenDeleteDrawer] = useState(false);
   const [isOpenChangeStatus, setIsOpenChangeStatus] = useState(false);
   const [isTaskCreate, setTaskCreate] = useState('');
+  const [isListView, setIsListView] = useState('listView');
+  const [searchValue, setSearchValue] = useState('');
   const theme = useTheme();
   const actionMenuOpen = Boolean(anchorEl);
 
   const handleTaskDrawer = () => {
     setIsOpenEditTaskDrawer(true);
   };
+
   const handleDeleteModal = () => {
     setIsOpenDeleteDrawer(true);
   };
+
   const handleChangeStatus = () => {
     setIsOpenChangeStatus(true);
   };
+
   const handleActionsMenuClose = () => {
     setAnchorEl(null);
   };
+
   const handleActionsMenuClick = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     setAnchorEl(event?.currentTarget);
+  };
+
+  const handleListViewClick = (val: string) => {
+    setIsListView(val);
   };
 
   return {
@@ -46,6 +56,10 @@ const useTasks = () => {
     isTaskCreate,
     isOpenChangeStatus,
     setIsOpenChangeStatus,
+    handleListViewClick,
+    isListView,
+    searchValue,
+    setSearchValue,
   };
 };
 export default useTasks;

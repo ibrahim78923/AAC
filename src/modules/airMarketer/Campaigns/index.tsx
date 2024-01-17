@@ -15,6 +15,7 @@ import { AddCircle } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 
 import { v4 as uuidv4 } from 'uuid';
+import Calendar from './Calendar';
 
 const Campaigns = () => {
   const { isOpenFilter, setIsOpenFilter, theme } = useCampaigns();
@@ -66,8 +67,7 @@ const Campaigns = () => {
         <Box sx={{ padding: '0px 24px' }} mt={1.6}>
           <HorizontalTabs tabsDataArray={campaignsTabs}>
             <Manage />
-            {/* <Calendar /> */}
-            <Manage />
+            <Calendar />
             <Tasks />
           </HorizontalTabs>
         </Box>

@@ -1,4 +1,4 @@
-import { Box, Button, Menu, MenuItem, Stack } from '@mui/material';
+import { Box, Button, ButtonGroup, Menu, MenuItem, Stack } from '@mui/material';
 
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
@@ -13,12 +13,12 @@ import {
   AlertModalDeleteIcon,
   ArrowDownDarkIcon,
   DownIcon,
-  FilterLinesIcon,
-  FilterrIcon,
+  GridViewIcon,
+  ListViewIcon,
 } from '@/assets/icons';
 import Search from '@/components/Search';
-import { useRouter } from 'next/router';
-import { AIR_MARKETER } from '@/routesConstants/paths';
+
+import TaskViewCard from './TaskCardView';
 
 const Tasks = () => {
   const {
@@ -37,8 +37,12 @@ const Tasks = () => {
     handleChangeStatus,
     isOpenChangeStatus,
     setIsOpenChangeStatus,
+    handleListViewClick,
+    isListView,
+    searchValue,
+    setSearchValue,
   } = useTasks();
-  const router = useRouter();
+
   return (
     <>
       <Box
@@ -49,7 +53,12 @@ const Tasks = () => {
         gap={1}
         mb={2}
       >
-        <Search label="Search Here" size="small" />
+        <Search
+          label="Search Here"
+          size="small"
+          searchBy={searchValue}
+          setSearchBy={setSearchValue}
+        />
 
         <Stack
           display={{ md: 'flex' }}
@@ -103,21 +112,31 @@ const Tasks = () => {
           >
             Create Task
           </Button>
-          <Button
-            onClick={() => router.push(`${AIR_MARKETER?.TASK_CARD}`)}
+          <ButtonGroup
             variant="outlined"
             color="inherit"
-            className="small"
+            aria-label="outlined button group"
           >
-            <FilterLinesIcon />
-          </Button>
-          <Button variant="outlined" color="inherit" className="small">
-            <FilterrIcon />
-          </Button>
+            <Button
+              className="small"
+              onClick={() => handleListViewClick('listView')}
+            >
+              <ListViewIcon />
+            </Button>
+            <Button
+              onClick={() => handleListViewClick('gridView')}
+              className="small"
+            >
+              <GridViewIcon />
+            </Button>
+          </ButtonGroup>
         </Stack>
       </Box>
-
-      <TanstackTable columns={columns} data={tableData} isPagination />
+      {isListView === 'listView' ? (
+        <TanstackTable columns={columns} data={tableData} isPagination />
+      ) : (
+        <TaskViewCard />
+      )}
 
       {isOpenEditTaskDrawer && (
         <EditTask
@@ -135,7 +154,6 @@ const Tasks = () => {
           handleSubmit={() => setIsOpenDeleteDrawer(false)}
         />
       )}
-
       {isOpenChangeStatus && (
         <AlertModals
           message={
@@ -151,7 +169,7 @@ const Tasks = () => {
                   Pending
                 </Button>
                 <Button variant="outlined" color="inherit">
-                  Complete
+                  Completed
                 </Button>
               </Stack>
             </>

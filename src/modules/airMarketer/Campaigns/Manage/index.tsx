@@ -1,7 +1,14 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { columns, data } from './Manage.data';
-import { Box, Button, Stack, Tooltip, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Stack,
+  Tooltip,
+  useTheme,
+} from '@mui/material';
 import ActionButton from '../ActionButton';
 import {
   BookMarkDarkIcon,
@@ -118,8 +125,11 @@ const Manage = () => {
         </Stack>
       </Box>
 
-      <Box
+      <ButtonGroup
+        variant="outlined"
+        aria-label="outlined button group"
         sx={{
+          flexWrap: 'wrap',
           paddingBottom: '15px',
           paddingTop: '28px',
           width: { sm: '100%' },
@@ -137,7 +147,7 @@ const Manage = () => {
         <Button variant="outlined" color="inherit" className="small">
           Matt Anderson first view
         </Button>
-      </Box>
+      </ButtonGroup>
 
       <TanstackTable columns={columns} data={data} isPagination />
 

@@ -36,7 +36,7 @@ const ActionButton = () => {
         variant="outlined"
         color="inherit"
         sx={{
-          width: '112px',
+          width: { sm: '112px', xs: '100%' },
         }}
       >
         Actions
