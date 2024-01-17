@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useTheme } from '@mui/material';
+import { useMediaQuery, useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
@@ -57,7 +57,8 @@ export const useDepartmentsDetail = () => {
   useEffect(() => {
     reset(openEdit?.item);
   }, [openEdit?.val]);
-  const [updateDepartment] = useUpdateDepartmentMutation();
+  const [updateDepartment, { isLoading: updateIsLoading }] =
+    useUpdateDepartmentMutation();
   const submitEditForm = async (formData: any) => {
     const modifyData = {
       id: openEdit?.item?._id,
@@ -73,7 +74,7 @@ export const useDepartmentsDetail = () => {
     });
     try {
       enqueueSnackbar(
-        response?.data?.message && 'Department Edit Successfully',
+        response?.data?.message && 'Department Updated Successfully',
         {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         },
@@ -92,14 +93,15 @@ export const useDepartmentsDetail = () => {
     reset(departmentFormValues(openEdit?.item));
   };
   const userList = useLazyGetAgentsDropdownListQuery();
-  const [deleteDepartmentTrigger] = useDeleteDepartmentMutation();
+  const [deleteDepartmentTrigger, { isLoading }] =
+    useDeleteDepartmentMutation();
   const deleteParams = new URLSearchParams();
   deleteParams?.append('id', openDelete?.item?._id);
   const handleDeleteSubmit = async () => {
     try {
       const response: any = await deleteDepartmentTrigger(deleteParams);
       enqueueSnackbar(
-        response?.data?.message && 'Department delete successfully',
+        response?.data?.message && 'Department Delete Successfully',
         {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         },
@@ -112,6 +114,7 @@ export const useDepartmentsDetail = () => {
     }
   };
   const theme: any = useTheme();
+  const isSmallScreen = useMediaQuery(theme?.breakpoints?.down('sm'));
   return {
     theme,
     openDelete,
@@ -134,5 +137,8 @@ export const useDepartmentsDetail = () => {
     userList,
     editFormMethod,
     handleClose,
+    isSmallScreen,
+    isLoading,
+    updateIsLoading,
   };
 };

@@ -8,6 +8,7 @@ export const EditTaskDrawer = (props: any) => {
     methodsEditTicketForm,
     departmentDropdown,
     userDropdown,
+    isLoading,
   } = useEditTaskDrawer(props);
   return (
     <>
@@ -21,6 +22,7 @@ export const EditTaskDrawer = (props: any) => {
         footer={true}
         isOk={true}
         okText="Update"
+        isLoading={isLoading}
       >
         <TasksDrawersForm
           methods={methodsEditTicketForm}
