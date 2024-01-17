@@ -8,13 +8,19 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { receivedItemsColumns } from './ReceivedItems.data';
 
 export const useReceivedItems = (props: any) => {
-  const [receivedAmount, setReceivedAmount] = useState<string>('');
+  const [receivedAmounts, setReceivedAmounts] = useState<any>({});
+
+  // const handleInputChange = (event: any, rowId: any) => {
+  //   setReceivedAmounts((prevAmounts: any) => ({
+  //     ...prevAmounts,
+  //     [rowId]: event.target.value,
+  //   }));
+  // };
   const purchaseOrderId = '65a115b847cea622057735dc';
   const [patchAddToItemTrigger] = usePatchAddToItemMutation();
   const [errorOccurred, setErrorOccurred] = useState(false);
   const { setIsDrawerOpen } = props;
   let booVariable: boolean;
-  const columns = receivedItemsColumns(setReceivedAmount, receivedAmount);
 
   const getSingleAddToPurchaseOrderParameter = {
     pathParam: {
@@ -69,7 +75,7 @@ export const useReceivedItems = (props: any) => {
         } else {
           setErrorOccurred(true);
           setIsDrawerOpen(true);
-          setReceivedAmount('');
+          // setReceivedAmount(0);
         }
       });
       if (booVariable) {
@@ -80,7 +86,7 @@ export const useReceivedItems = (props: any) => {
           variant: variant,
         });
         setIsDrawerOpen(false);
-        setReceivedAmount('');
+        //setReceivedAmount(0);
       }
       enqueueSnackbar('Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
@@ -88,10 +94,14 @@ export const useReceivedItems = (props: any) => {
     }
   };
 
+  const columns = receivedItemsColumns();
+
   return {
     errorOccurred,
     submitHandler,
     purchaseOrderDetail,
     columns,
+    receivedAmounts,
+    setReceivedAmounts,
   };
 };

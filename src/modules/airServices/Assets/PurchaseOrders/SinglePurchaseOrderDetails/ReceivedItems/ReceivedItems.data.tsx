@@ -1,9 +1,6 @@
-import TextField from '@mui/material/TextField';
-
-export const receivedItemsColumns: any = (
-  setReceivedAmount: any,
-  receivedAmount: any,
-) => [
+// import { TextField } from '@mui/material';
+import Text from './text';
+export const receivedItemsColumns: any = () => [
   {
     accessorFn: (row: any) => row?.itemName,
     id: 'itemName',
@@ -14,14 +11,7 @@ export const receivedItemsColumns: any = (
     accessorFn: (row: any) => row?.received,
     id: 'received',
     header: 'Received',
-    cell: () => (
-      <TextField
-        value={receivedAmount}
-        onChange={(e) => setReceivedAmount(e.target.value)}
-        type="number"
-        size="small"
-      />
-    ),
+    cell: (info: any) => <Text value={info?.row?.original?._id} />,
   },
 
   {
