@@ -45,17 +45,6 @@ const useCreateCompany = (setIsOpenDrawer?: any) => {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
-    // if (values) {
-    //   postCompanies({ body: values });
-    //   enqueueSnackbar(`Company Created Successfully`, {
-    //     variant: NOTISTACK_VARIANTS?.SUCCESS,
-    //   });
-    //   reset();
-    // } else {
-    //   enqueueSnackbar(`Something went wrong`, {
-    //     variant: NOTISTACK_VARIANTS?.ERROR,
-    //   });
-    // }
   };
 
   return {

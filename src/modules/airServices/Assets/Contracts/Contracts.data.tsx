@@ -52,7 +52,11 @@ export const contractsListsColumnsFunction = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={selectedContractList?.length === mainContractsData?.length}
+        checked={
+          mainContractsData?.length
+            ? selectedContractList?.length === mainContractsData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedContractList(
@@ -104,18 +108,18 @@ export const contractsListsColumnsFunction = (
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.statusRenewExtend,
+    accessorFn: (row: any) => row?.renewalStatus,
     id: 'statusRenewExtend',
     isSortable: false,
     header: 'Renewal Status',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '--',
   },
   {
     accessorFn: (row: any) => row?.contractNumber,
     id: 'contractNumber',
     isSortable: false,
     header: 'Contract Number',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '--',
   },
   {
     accessorFn: (row: any) => row?.vendor,

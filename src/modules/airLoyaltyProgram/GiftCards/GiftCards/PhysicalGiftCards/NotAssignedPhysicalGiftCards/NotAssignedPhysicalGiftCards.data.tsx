@@ -3,6 +3,7 @@ import {
   CheckboxIcon,
   DocumentIcon,
 } from '@/assets/icons';
+import { AIR_LOYALTY_PROGRAM } from '@/constants';
 import { Box, Checkbox, Typography } from '@mui/material';
 
 export const data: any = [
@@ -54,6 +55,7 @@ export const notAssignedPhysicalGiftCardColumnsFunction = (
   notAssignedPhysicalGiftCardData: any,
   setNotAssignedPhysicalGiftCardData: any,
   notAssignedPhysicaldata: any,
+  setAssignedTo: any,
 ): any => [
   {
     accessorFn: (row: any) => row?.id,
@@ -111,7 +113,22 @@ export const notAssignedPhysicalGiftCardColumnsFunction = (
     isSortable: true,
     header: 'Card Number',
     cell: (info: any) => (
-      <Typography color={'black'}>{info?.getValue()}</Typography>
+      <Typography
+        color={'black'}
+        sx={{ cursor: 'pointer' }}
+        onClick={() =>
+          router?.push({
+            pathname: AIR_LOYALTY_PROGRAM?.SINGLE_GIFT_CARD_TRANSACTION_DETAIL,
+            query: {
+              giftCardId: info?.row?.id,
+              type: 'physical',
+              category: 'unassigned',
+            },
+          })
+        }
+      >
+        {info?.getValue()}
+      </Typography>
     ),
   },
   {
@@ -137,14 +154,7 @@ export const notAssignedPhysicalGiftCardColumnsFunction = (
       <Box display={'flex'} justifyContent={'space-between'}>
         <DocumentIcon />
         <Typography
-          onClick={() =>
-            router?.push({
-              pathname: '',
-              query: {
-                notAssignedId: info?.row?.id,
-              },
-            })
-          }
+          onClick={() => setAssignedTo(true)}
           sx={{ cursor: 'pointer' }}
           color={'primary'}
         >

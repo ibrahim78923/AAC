@@ -11,6 +11,8 @@ export const UpsertContract = () => {
     theme,
     upsertContractFormFieldsData,
     handleCancelBtn,
+    postContractStatus,
+    putContractStatus,
   } = useUpsertContract();
 
   return (
@@ -51,7 +53,15 @@ export const UpsertContract = () => {
           </Grid>
           <Grid item xs={12} md={0.5}></Grid>
           <Grid item xs={12} md={4} mt={{ xs: 1, md: 0 }} mb={1}>
-            <RHFDropZone name="attachFile" />
+            <RHFDropZone
+              name="attachFile"
+              fullWidth={true}
+              fileType={'PNG or JPG  (max 2.44 MB)'}
+              maxSize={1024 * 1024 * 2.44}
+              accept={{
+                'image/*': ['.png', '.jpg'],
+              }}
+            />
           </Grid>
         </Grid>
         <br />
@@ -69,10 +79,21 @@ export const UpsertContract = () => {
                   type="button"
                   color="secondary"
                   onClick={() => handleCancelBtn?.()}
+                  disabled={
+                    postContractStatus?.isLoading ||
+                    putContractStatus?.isLoading
+                  }
                 >
                   Cancel
                 </LoadingButton>
-                <LoadingButton variant="contained" type="submit">
+                <LoadingButton
+                  loading={
+                    postContractStatus?.isLoading ||
+                    putContractStatus?.isLoading
+                  }
+                  variant="contained"
+                  type="submit"
+                >
                   Save
                 </LoadingButton>
               </Box>

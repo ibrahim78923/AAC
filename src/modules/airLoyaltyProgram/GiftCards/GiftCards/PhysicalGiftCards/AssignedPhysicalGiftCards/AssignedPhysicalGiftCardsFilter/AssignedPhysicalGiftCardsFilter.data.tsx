@@ -8,62 +8,53 @@ export const assignedPhysicalGiftFilterValidationSchema = Yup?.object()?.shape({
   maximumCurrentAmount: Yup?.string(),
 });
 
-export const assignedPhysicalGiftFilterDefaultValues = {
-  minimumCurrentAmount: '',
-  active: '',
-  upgradeAble: '',
-  maximumCurrentAmount: '',
+export const assignedPhysicalGiftFilterDefaultValues = (data?: any) => {
+  return {
+    minAmount: data?.minAmount ?? '',
+    maxAmount: data?.maxAmount ?? '',
+    active: data?.active ?? null,
+    upgradeable: data?.upgradeable ?? null,
+  };
 };
 
-const activeStatus = ['Yes', 'No'];
-const upgradeAbleStatus = ['Yes', 'No'];
+const optionsActive = ['Yes', 'No'];
+const optionsUpgradeable = ['Yes', 'No'];
 export const assignedPhysicalGiftFilterDataArray = [
   {
     id: 1,
     componentProps: {
-      name: 'maximumCurrentAmount',
-      label: 'Maximum Current Amount',
-      fullWidth: true,
+      name: 'minAmount',
+      label: 'Minimum current amount',
+      placeholder: 'Enter Minimum Amount',
     },
-
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 2,
     componentProps: {
-      name: 'minimumCurrentAmount',
-      label: 'Minimum Current Amount',
-      fullWidth: true,
+      name: 'maxAmount',
+      label: 'Maximum current amount',
+      placeholder: 'Enter Maximum Amount',
     },
-
     component: RHFTextField,
-    md: 12,
   },
   {
     id: 3,
     componentProps: {
       name: 'active',
       label: 'Active',
-      type: 'text',
-      size: 'small',
+      options: optionsActive,
       placeholder: 'Yes',
-      fullWidth: true,
-      options: activeStatus,
     },
     component: RHFAutocomplete,
   },
-
   {
     id: 4,
     componentProps: {
-      name: 'upgradeAble',
-      label: 'UpgradeAble',
-      type: 'text',
-      size: 'small',
+      name: 'upgradeable',
+      label: 'Upgradeable',
+      options: optionsUpgradeable,
       placeholder: 'Yes',
-      fullWidth: true,
-      options: upgradeAbleStatus,
     },
     component: RHFAutocomplete,
   },

@@ -14,7 +14,7 @@ export const useDetailTaskDrawer = (props: any) => {
     defaultValues: defaultValues(taskDetail),
   });
   const { handleSubmit, reset } = method;
-  const [patchMutation] = usePatchTaskByIdMutation();
+  const [patchMutation, { isLoading }] = usePatchTaskByIdMutation();
   const onSubmitDrawer = async (data: any) => {
     try {
       const res: any = await patchMutation({
@@ -40,5 +40,6 @@ export const useDetailTaskDrawer = (props: any) => {
     handleSubmit,
     onSubmitDrawer,
     theme,
+    isLoading,
   };
 };

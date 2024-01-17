@@ -1,6 +1,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useGetAssetsSoftwareQuery } from '@/services/airServices/assets/software';
+import {
+  useGetAssetsSoftwareQuery,
+  usePostSoftwareMutation,
+} from '@/services/airServices/assets/software';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  upsertSoftwareFormDefaultValues,
+  upsertSoftwareFormValidationSchema,
+} from './UpsertSoftware/UpsertSoftware.data';
 
 export const useSoftware = () => {
   const router = useRouter();
@@ -14,12 +25,13 @@ export const useSoftware = () => {
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(10);
 
-  const { data, isLoading, isError, isSuccess } = useGetAssetsSoftwareQuery({
-    page,
-    limit: pageLimit,
-    search: searchValue,
-    ...filterValues,
-  });
+  const { data, isLoading, isError, isSuccess, isFetching } =
+    useGetAssetsSoftwareQuery({
+      page,
+      limit: pageLimit,
+      search: searchValue,
+      ...filterValues,
+    });
 
   const handlePageChange = (page: number) => {
     setPage(page);
@@ -41,7 +53,46 @@ export const useSoftware = () => {
     })) || [];
 
   const paginationData = data?.data?.meta;
-
+  const methods = useForm({
+    resolver: yupResolver(upsertSoftwareFormValidationSchema),
+    defaultValues: upsertSoftwareFormDefaultValues(null),
+  });
+  const { handleSubmit, reset } = methods;
+  const [postSoftware] = usePostSoftwareMutation();
+  const submitUpsertSoftwareForm = async (formData: any) => {
+    const modifiedData = {
+      name: formData?.name,
+      details: {
+        description: formData?.description,
+        publisher: formData?.publisher,
+        category: formData?.category,
+        managedBy: formData?.managedBy?._id,
+      },
+      status: formData?.status,
+      type: formData?.type,
+    };
+    try {
+      const response: any = await postSoftware(modifiedData);
+      enqueueSnackbar(
+        response?.data?.message && 'Software Created Successfully',
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+          autoHideDuration: 1000,
+        },
+      );
+      reset();
+      setIsAddDrawerOpen(false);
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.error ?? 'An error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+  const handleClose = () => {
+    reset();
+    setIsAddDrawerOpen(false);
+  };
+  const submitForm = handleSubmit(submitUpsertSoftwareForm);
   return {
     router,
     assetsSoftwares,
@@ -58,6 +109,7 @@ export const useSoftware = () => {
     isLoading,
     isError,
     isSuccess,
+    isFetching,
     setPageLimit,
     paginationData,
     pageLimit,
@@ -65,5 +117,8 @@ export const useSoftware = () => {
     setFilterValues,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
+    submitForm,
+    methods,
+    handleClose,
   };
 };

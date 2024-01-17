@@ -223,3 +223,6 @@ export const CHAT_SOCKETS = {
   ON_TYPING_START: 'on-typing-start',
   ON_TYPING_STOP: 'on-typing-stop',
 };
+export const CHAT_SOCKETS_EMIT = {
+  UPDATE_MESSAGE: 'update-message',
+};

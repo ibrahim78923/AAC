@@ -15,7 +15,6 @@ import { useDepartmentsDetail } from './useDepartmentsDetail';
 import { DepartmentsFormModal } from '../DepartmentsFormModal';
 import { DepartmentsHeader } from '../DepartmentsHeader';
 import CustomPagination from '@/components/CustomPagination';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { DepartmentMenu } from './DepartmentMenu';
 
 const MAX_WORDS = 95;
@@ -42,8 +41,10 @@ export const DepartmentsDetail = () => {
     userList,
     editFormMethod,
     handleClose,
+    isLoading,
+    updateIsLoading,
+    isSmallScreen,
   } = useDepartmentsDetail();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   return (
     <>
       <DepartmentsHeader
@@ -156,6 +157,7 @@ export const DepartmentsDetail = () => {
         handleSubmitBtn={handleDeleteSubmit}
         message="Are you sure you want to delete this Department?"
         type={ALERT_MODALS_TYPE?.DELETE}
+        loading={isLoading}
       />
       <DepartmentsFormModal
         formTitle="Edit Department"
@@ -164,6 +166,7 @@ export const DepartmentsDetail = () => {
         methods={editFormMethod}
         handleSubmit={submitForm}
         userList={userList}
+        isLoading={updateIsLoading}
       />
     </>
   );
