@@ -1,6 +1,5 @@
 import { Box, Divider, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { v4 as uuidv4 } from 'uuid';
 import FiberManualRecordSharpIcon from '@mui/icons-material/FiberManualRecordSharp';
 import { ArrowLeftIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
@@ -49,7 +48,7 @@ export const ViewArticlesDetail = () => {
               {sideData?.map((item: any) => (
                 <Grid
                   container
-                  key={uuidv4()}
+                  key={item?._id}
                   flexDirection={'column'}
                   spacing={1.5}
                   mt={2}
@@ -62,7 +61,7 @@ export const ViewArticlesDetail = () => {
                   {item?.details?.map((ele: any) => (
                     <Grid
                       item
-                      key={uuidv4()}
+                      key={ele?._id}
                       display={'flex'}
                       justifyContent={'space-between'}
                       alignItems={'center'}
@@ -85,7 +84,7 @@ export const ViewArticlesDetail = () => {
                     <Grid item display={'flex'} flexWrap={'wrap'} gap={1}>
                       {item?.keyword?.map((i: any) => (
                         <Typography
-                          key={uuidv4()}
+                          key={i?._id}
                           variant="body2"
                           sx={styles?.keywordStyle(theme)}
                         >

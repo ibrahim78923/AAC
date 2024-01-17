@@ -28,7 +28,6 @@ export const useArticles = () => {
   const [search, setSearch] = useState('');
 
   const [filterValues, setFilterValues] = useState<any>({});
-
   const [queryParams, setQueryParams] = useState<any>({
     page,
     limit: pageLimit,
@@ -48,17 +47,24 @@ export const useArticles = () => {
   const { data, isLoading, isSuccess, isError, isFetching }: any =
     useGetArticlesQuery(queryParams);
   const articlesData =
-    data?.data?.articles?.map((article: any) => ({
-      id: article?.id ?? '---',
-      article: article?.article ?? '---',
-      status: article?.status?.toLowerCase() ?? '---',
-      insertedTickets: article?.insertedTickets ?? '---',
-      author: article?.author ?? '---',
-      folder: article?.folder?.name ?? '---',
-    })) ?? [];
+    data?.data?.articles?.map((article: any) => {
+      const detailsArray = article?.details?.split(/\s+/);
+      const shortenedDetails = detailsArray?.slice(0, 5)?.join(' ');
+
+      return {
+        _id: article?._id ?? '---',
+        article: article?.details ?? '---',
+        status: article?.status?.toLowerCase() ?? '---',
+        insertedTickets: article?.insertedTickets ?? '---',
+        author: article?.author
+          ? `${article.author.firstName} ${article.author.lastName}`
+          : '---',
+        folder: article?.folder?.name ?? '---',
+        name: shortenedDetails ?? '---',
+      };
+    }) ?? [];
   const meta = data?.data?.meta;
 
-  // article delete
   const [deleteArticleMethod] = useDeleteArticleMutation();
   const { data: folderData } = useGetFoldersQuery({});
 
@@ -85,7 +91,10 @@ export const useArticles = () => {
   };
 
   const handleEditNavigation = (id: string) => {
-    push(`${KNOWLEDGE_BASE_EDIT_ARTICLE}?id=${id}`);
+    push({
+      pathname: KNOWLEDGE_BASE_EDIT_ARTICLE,
+      query: { id: id },
+    });
   };
 
   const articlesColumns = articlesColumnsFunction(
@@ -99,11 +108,11 @@ export const useArticles = () => {
     try {
       const deleteArticlesParam = new URLSearchParams();
       selectedArticlesData?.forEach(
-        ({ id }: any) => deleteArticlesParam?.append('ids', id),
+        ({ _id }: any) => deleteArticlesParam?.append('ids', _id),
       );
-      await deleteArticleMethod(deleteArticlesParam)?.unwrap();
+      const res: any = await deleteArticleMethod(deleteArticlesParam)?.unwrap();
       setOpenDeleteModal(false);
-      enqueueSnackbar('Article deleted successfully', {
+      enqueueSnackbar(res?.message && 'Article deleted successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {
@@ -117,6 +126,7 @@ export const useArticles = () => {
     setOpenDeleteModal,
     setMoveFolderModal,
     handleEditNavigation,
+    selectedArticlesData,
   );
 
   return {

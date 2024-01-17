@@ -1,18 +1,14 @@
-import { v4 as uuidv4 } from 'uuid';
 import { Box, Button, Grid, Typography } from '@mui/material';
-
 import { FormProvider } from '@/components/ReactHookForm';
 import CustomDropZone from '@/components/CustomDropZone';
-
 import { ArrowLeftIcon } from '@/assets/icons';
-
 import { useUpsertArticle } from './useUpsertArticle';
 import { styles } from './UpsertArticle.style';
 import CustomTextEditor from '@/components/CustomTextEditor';
 
 export const UpsertArticle = () => {
   const {
-    upsertArticleMethods: methods,
+    articleMethods: methods,
     upsertArticleSubmit,
     handlePageBack,
     needApprovals,
@@ -78,16 +74,8 @@ export const UpsertArticle = () => {
           sx={{ ...formGridWrapper }}
         >
           {newArticleFields?.map((form: any) => (
-            <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
-              <form.component {...form?.componentProps} size="small">
-                {form?.componentProps?.select
-                  ? form?.componentProps?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))
-                  : null}
-              </form.component>
+            <Grid item xs={12} md={form?.gridLength} key={form?._id}>
+              <form.component {...form?.componentProps} size="small" />
             </Grid>
           ))}
           <Grid item width="100%" xs={12} minHeight={44}>

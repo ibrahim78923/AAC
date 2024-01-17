@@ -1,14 +1,9 @@
-import { v4 as uuidv4 } from 'uuid';
 import { Box, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { FormProvider } from '@/components/ReactHookForm';
+import { FormProvider, RHFEditor } from '@/components/ReactHookForm';
 import CustomDropZone from '@/components/CustomDropZone';
-import CustomTextEditor from '@/components/CustomTextEditor';
 import { ArrowLeftIcon } from '@/assets/icons';
-import {
-  editArticleFieldsFunction,
-  articleEditorData,
-} from './EditArticle.data';
+import { editArticleFieldsFunction } from './EditArticle.data';
 import { useEditArticle } from './useEditArticle';
 import { styles } from './EditArticle.style';
 
@@ -18,6 +13,7 @@ export const EditArticle = () => {
     editArticleSubmit,
     handlePageBack,
     needApprovals,
+    folderOptions,
     theme,
   } = useEditArticle();
   const {
@@ -27,7 +23,10 @@ export const EditArticle = () => {
     formGridWrapper,
     formBtnWrapper,
   } = styles(theme);
-  const newArticleFields = editArticleFieldsFunction?.(needApprovals);
+  const newArticleFields = editArticleFieldsFunction?.(
+    needApprovals,
+    folderOptions,
+  );
 
   return (
     <FormProvider
@@ -60,22 +59,14 @@ export const EditArticle = () => {
             </Typography>
           </Box>
           <Box pb={1.4}>
-            <CustomTextEditor value={articleEditorData} onChange={() => {}} />
+            <RHFEditor name="details" style={{ minHeight: 500 }} />
           </Box>
           <CustomDropZone name="file" />
         </Grid>
         <Grid item xs={12} lg={3} position={'relative'} sx={formGridWrapper}>
           {newArticleFields?.map((form: any) => (
-            <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
-              <form.component {...form?.componentProps} size="small">
-                {form?.componentProps?.select
-                  ? form?.componentProps?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))
-                  : null}
-              </form.component>
+            <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+              <form.component {...form?.componentProps} size="small" />
             </Grid>
           ))}
           <Grid item width="100%" xs={12} minHeight={44}>

@@ -1,49 +1,41 @@
 import {
   RHFAutocomplete,
   RHFDatePicker,
-  RHFSelect,
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
 
-const dropdownDummy = [
-  {
-    value: 'option1',
-    label: 'Option 1',
-  },
-  {
-    value: 'option2',
-    label: 'Option 2',
-  },
-];
+const dropdownDummy = ['Option 1', 'Option 2'];
 
-export const defaultValues = {
-  details: '',
-  folder: null,
-  tags: '',
-  keywords: '',
-  needsApproval: false,
-  approver: '',
-  reviewDate: null,
+export const defaultValues = (articleData: any) => {
+  return {
+    folder: articleData?.folder?.name ?? null,
+    details: articleData?.details,
+    tags: articleData?.tags ?? '',
+    keywords: articleData?.keywords ?? '',
+    needsApproval: articleData?.isApprovel ?? '',
+    approver: null,
+    reviewDate: new Date(),
+  };
 };
 
-export const newArticleFieldsFunction = (
+export const articleFieldsFunction = (
   needApprovals: any,
-  folderOptions: any = [],
+  folderOptions: any,
 ) => {
   const conditionalFields = [
     {
-      id: 5,
+      id: 1,
       componentProps: {
         fullWidth: true,
         name: 'approver',
         label: 'Approver',
-        select: true,
+        placeholder: 'Select',
         options: dropdownDummy,
         sx: { pb: 1.2 },
       },
       gridLength: 12,
-      component: RHFSelect,
+      component: RHFAutocomplete,
     },
     {
       id: 6,
@@ -53,8 +45,6 @@ export const newArticleFieldsFunction = (
         fullWidth: true,
         name: 'reviewDate',
         label: 'Review Date',
-        select: true,
-        options: dropdownDummy,
         sx: { pb: 1.2 },
       },
     },
@@ -69,7 +59,6 @@ export const newArticleFieldsFunction = (
         name: 'folder',
         label: 'Folder',
         placeholder: 'Select',
-        select: true,
         options: folderOptions,
         getOptionLabel: (option: any) => option?.label,
         sx: { pb: 1.2 },
@@ -81,14 +70,14 @@ export const newArticleFieldsFunction = (
         fullWidth: true,
         name: 'tags',
         label: 'Tags',
-        placeholder: '#example',
+        placeholder: 'Tags',
         sx: { pb: 1.2 },
       },
       gridLength: 12,
       component: RHFTextField,
     },
     {
-      id: 8,
+      id: 2,
       componentProps: {
         fullWidth: true,
         name: 'keywords',

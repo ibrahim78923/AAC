@@ -1,24 +1,6 @@
 import { Checkbox, Chip } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
-export const data: any = [
-  {
-    id: 1,
-    article: 'Time management',
-    status: 'published',
-    insertedTickets: 'sharemydine',
-    author: 'alice',
-    folder: 'tech support',
-  },
-  {
-    id: 2,
-    article: 'Time management',
-    status: 'draft',
-    insertedTickets: 'sharemydine',
-    author: 'alice',
-    folder: 'tech support',
-  },
-];
 const bgColor: any = {
   published: 'blue.main',
   draft: 'grey.400',
@@ -40,7 +22,7 @@ export const articlesColumnsFunction = (
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?.id,
+      accessorFn: (row: any) => row?._id,
       id: 'id',
       cell: (info: any) => (
         <Checkbox
@@ -48,7 +30,7 @@ export const articlesColumnsFunction = (
           checkedIcon={<CheckboxCheckedIcon />}
           checked={
             !!selectedArticlesData?.find(
-              (item: any) => item?.id === info?.getValue(),
+              (item: any) => item?._id === info?.getValue(),
             )
           }
           onChange={(e: any) => {
@@ -56,12 +38,12 @@ export const articlesColumnsFunction = (
               ? setSelectedArticlesData([
                   ...selectedArticlesData,
                   articlesList?.find(
-                    (item: any) => item?.id === info?.getValue(),
+                    (item: any) => item?._id === info?.getValue(),
                   ),
                 ])
               : setSelectedArticlesData(
                   selectedArticlesData?.filter((item: any) => {
-                    return item?.id !== info?.getValue();
+                    return item?._id !== info?.getValue();
                   }),
                 );
           }}
@@ -85,13 +67,13 @@ export const articlesColumnsFunction = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.article,
+      accessorFn: (row: any) => row?.name,
       id: 'article',
       isSortable: true,
       header: <span>Article</span>,
       cell: (info: any) => (
         <span
-          onClick={() => handleSingleArticleNavigation(info?.row?.id)}
+          onClick={() => handleSingleArticleNavigation(info?.row?._id)}
           style={{ cursor: 'pointer', fontWeight: 600 }}
         >
           {info?.getValue()}
@@ -119,7 +101,7 @@ export const articlesColumnsFunction = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.insertedTickets,
+      accessorFn: (row: any) => row?.insertedTicket,
       id: 'insertedTickets',
       isSortable: true,
       header: <span>Inserted Tickets</span>,
@@ -142,24 +124,16 @@ export const articlesColumnsFunction = (
   ];
 };
 
-export const articlesTabs = [
-  'all',
-  'training',
-  'compliances',
-  'hardware',
-  'software',
-  'payments',
-];
-
 export const actionBtnData = (
   setOpenDeleteModal: any,
   setMoveFolderModal: any,
   handleEditNavigation: any,
+  selectedArticlesData: any,
 ) => [
   {
     title: 'Edit',
     handleClick: (popClose: any) => {
-      handleEditNavigation();
+      handleEditNavigation(selectedArticlesData?.[0]?._id);
       popClose();
     },
   },

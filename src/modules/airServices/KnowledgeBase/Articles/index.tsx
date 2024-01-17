@@ -1,6 +1,4 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
-
 import { FilterIcon, FolderGreyIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useArticles } from './useArticles';
@@ -26,7 +24,7 @@ export const Articles = () => {
     theme,
     openFilter,
     setOpenFilter,
-    // articlesData,
+    articlesData,
     isLoading,
     isSuccess,
     isError,
@@ -57,7 +55,7 @@ export const Articles = () => {
           >
             {foldersList?.map((tab: any) => (
               <Box
-                key={uuidv4()}
+                key={tab?._id}
                 sx={{ ...tabWrapper(tab, selectedArticlesTab, theme) }}
                 onClick={() => handleSelectedArticlesTab(tab?._id)}
               >
@@ -104,7 +102,7 @@ export const Articles = () => {
           </Box>
           <br />
           <TanstackTable
-            data={[]}
+            data={articlesData}
             columns={articlesColumns}
             isLoading={isLoading}
             currentPage={page}

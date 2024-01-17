@@ -1,5 +1,4 @@
 import { Box, Dialog, Grid, Typography } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 import { LoadingButton } from '@mui/lab';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModalCloseIcon } from '@/assets/icons';
@@ -33,16 +32,8 @@ export const MoveFolderModal = ({
           >
             <Grid container spacing={1}>
               {moveFolderFields?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
+                <Grid item xs={12} md={item?.md} key={item?._id}>
+                  <item.component {...item?.componentProps} size={'small'} />
                 </Grid>
               ))}
             </Grid>

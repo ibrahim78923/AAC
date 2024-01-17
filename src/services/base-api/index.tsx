@@ -72,6 +72,7 @@ export const TAGS = [
   'USERS_DROPDOWN',
   'SOFTWARE_DROPDOWN',
   'DROPDOWN_ASSETS',
+  'KNOWLEDGE_BASE_ARTICLES',
 ];
 
 const baseQuery = fetchBaseQuery({

@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { defaultValues, newArticleFieldsFunction } from './UpsertArticle.data';
+import { defaultValues, articleFieldsFunction } from './UpsertArticle.data';
 import { useRouter } from 'next/router';
-
 import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
 import {
+  useGetArticleByIdQuery,
   useGetFoldersQuery,
   usePostArticleMutation,
 } from '@/services/airServices/assets/knowledge-base/articles';
@@ -14,10 +14,10 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 const { KNOWLEDGE_BASE } = AIR_SERVICES;
 
 export const useUpsertArticle = () => {
-  const { push } = useRouter();
-
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
+  const { push, query } = useRouter();
+  const articleId = query?.id;
+  const { data } = useGetArticleByIdQuery(articleId);
+  const articleData = data?.data;
   const { data: folderData } = useGetFoldersQuery({});
   const folderOptions =
     folderData?.data?.map?.((folder: any) => ({
@@ -25,11 +25,14 @@ export const useUpsertArticle = () => {
       label: folder?.name,
     })) ?? [];
 
-  const upsertArticleMethods = useForm({
-    defaultValues,
+  const articleMethods = useForm({
+    defaultValues: defaultValues(articleData),
   });
+  useEffect(() => {
+    articleMethods?.reset(defaultValues(articleData));
+  }, [articleId, data]);
 
-  const needApprovals = upsertArticleMethods?.watch('needsApproval');
+  const needApprovals = articleMethods?.watch('needsApproval');
 
   const handlePayloadFormat = (data: any) => {
     const formattedPayload: any = {};
@@ -48,7 +51,7 @@ export const useUpsertArticle = () => {
   const [postArticle] = usePostArticleMutation();
 
   const upsertArticleSubmit = async () => {
-    const data: any = upsertArticleMethods.getValues();
+    const data: any = articleMethods.getValues();
     const payload = handlePayloadFormat(data);
 
     const formData = new FormData();
@@ -77,7 +80,7 @@ export const useUpsertArticle = () => {
     }
   };
 
-  const newArticleFields = newArticleFieldsFunction?.(
+  const newArticleFields = articleFieldsFunction?.(
     needApprovals,
     folderOptions,
   );
@@ -87,10 +90,8 @@ export const useUpsertArticle = () => {
   };
 
   return {
-    isDrawerOpen,
-    setIsDrawerOpen,
     handlePageBack,
-    upsertArticleMethods,
+    articleMethods,
     needApprovals,
     upsertArticleSubmit,
     newArticleFields,
