@@ -62,8 +62,26 @@ const EngagementAdsStepper = () => {
                         ? item?.isNewAdFields?.includes(isNewAd)
                         : item) && (
                         <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                          <Typography variant={item?.componentProps?.varient}>
+                          <Typography
+                            variant={item?.componentProps?.varient}
+                            fontWeight={500}
+                            color={
+                              item?.componentProps?.heading === 'Age Range'
+                                ? theme?.palette?.grey[600]
+                                : theme?.palette?.blue?.dull_blue
+                            }
+                          >
                             {item?.componentProps?.heading}
+                            {(item?.componentProps?.heading === 'Age Range' ||
+                              item?.componentProps?.heading ===
+                                'Ad Creative') && (
+                              <Typography
+                                component="span"
+                                color={theme?.palette?.error?.main}
+                              >
+                                *
+                              </Typography>
+                            )}
                           </Typography>
                           <item.component
                             {...item?.componentProps}
@@ -149,8 +167,8 @@ const EngagementAdsStepper = () => {
                     <Grid item xs={12} md={8}>
                       <Typography variant="h6">Ad to ads audience</Typography>
                       <Typography variant="body3">
-                        When a contact interacts with this ad, they willbe added
-                        to this audience
+                        When a contact interacts with this ad, they will be
+                        added to this audience
                       </Typography>
                       <Button
                         variant="contained"

@@ -134,7 +134,17 @@ const CreatePost = () => {
           </Box>
 
           <Divider sx={{ marginTop: '80px' }} />
-          <Box sx={{ display: 'flex', justifyContent: 'end', marginY: '20px' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'end',
+              marginY: '20px',
+              '@media (max-width:550px)': {
+                display: 'grid',
+                gap: '15px',
+              },
+            }}
+          >
             <Button
               variant="outlined"
               sx={{ backgroundColor: '#D7F4F0' }}
@@ -145,18 +155,18 @@ const CreatePost = () => {
             <Button
               variant="outlined"
               sx={{
-                marginLeft: '10px',
+                marginLeft: { sm: '10px', xs: '0px' },
                 backgroundColor: 'white',
                 border: '1px solid #D1D5DB',
                 color: '#6B7280',
               }}
               startIcon={<CreatePostCalendaIcon />}
             >
-              Schedulel
+              Schedule
             </Button>
             <Button
               variant="contained"
-              sx={{ marginLeft: '10px' }}
+              sx={{ marginLeft: { sm: '10px', xs: '0px' } }}
               endIcon={<ArrowDropDownIcon />}
               onClick={() => router.push(`${airMarketingCalendar?.calendar}`)}
             >

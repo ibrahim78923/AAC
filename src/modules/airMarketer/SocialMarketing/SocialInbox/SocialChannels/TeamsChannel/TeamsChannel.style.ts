@@ -8,6 +8,7 @@ export const styles = {
     width: '100%',
     alignItems: 'center',
     margin: '20px 0px',
+    overflowY: 'scroll',
   },
   subChannelBox: {
     borderRadius: '20px',

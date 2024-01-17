@@ -10,6 +10,7 @@ export const AddTaskDrawer = (props: any) => {
     departmentDropdown,
     userDropdown,
     handleClose,
+    isLoading,
   } = useAddTaskDrawer(props);
   return (
     <>
@@ -21,6 +22,7 @@ export const AddTaskDrawer = (props: any) => {
         footer={true}
         isOk={true}
         okText="Add Task"
+        isLoading={isLoading}
       >
         <TasksDrawersForm
           methods={methodsCreateNewTicketForm}
