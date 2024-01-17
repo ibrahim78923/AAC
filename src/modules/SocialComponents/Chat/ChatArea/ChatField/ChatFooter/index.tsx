@@ -9,6 +9,7 @@ import {
   TextField,
   Popover,
   Typography,
+  CircularProgress,
 } from '@mui/material';
 
 import EmojiPickerComponent from './EmojiPicker';
@@ -131,9 +132,11 @@ const ChatFooter = ({ setChangeScroll }: any) => {
     socket.emit('stop-typing', checkTypingPayload);
   };
 
-  const [chatAttachmentUpload] = useChatAttachmentUploadMutation();
+  const [chatAttachmentUpload, { isLoading }] =
+    useChatAttachmentUploadMutation();
 
   const handleImage = async (e: any) => {
+    handleCloseAttachment();
     const formData = new FormData();
     for (let i = 0; i < e?.target?.files?.length; i++) {
       formData.append('media', e?.target?.files[i]);
@@ -204,13 +207,17 @@ const ChatFooter = ({ setChangeScroll }: any) => {
         )}
 
         <Box sx={styles?.chatFooter}>
-          <Button
-            sx={styles?.unStyledButton}
-            aria-describedby={idOpen}
-            onClick={handleClickAttachment}
-          >
-            <AttachmentIcon />
-          </Button>
+          {isLoading ? (
+            <CircularProgress color="success" />
+          ) : (
+            <Button
+              sx={styles?.unStyledButton}
+              aria-describedby={idOpen}
+              onClick={handleClickAttachment}
+            >
+              <AttachmentIcon />
+            </Button>
+          )}
 
           <Popover
             id={idOpen}
