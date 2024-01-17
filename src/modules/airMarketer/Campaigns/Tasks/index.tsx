@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Menu, MenuItem, Stack } from '@mui/material';
 
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
@@ -11,6 +11,7 @@ import { tableData } from '@/mock/modules/airMarketer/Campaigns/Tasks';
 
 import {
   AlertModalDeleteIcon,
+  ArrowDownDarkIcon,
   DownIcon,
   FilterLinesIcon,
   FilterrIcon,
@@ -33,93 +34,87 @@ const Tasks = () => {
     handleDeleteModal,
     setIsOpenDeleteDrawer,
     setTaskCreate,
+    handleChangeStatus,
+    isOpenChangeStatus,
+    setIsOpenChangeStatus,
   } = useTasks();
   const router = useRouter();
   return (
     <>
-      <Box sx={{ paddingTop: '10px' }}>
-        <Grid container>
-          <Grid item md={12} lg={5} mb={3}>
-            <Search label="Search Here" width="260px" />
-          </Grid>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        flexDirection={{ md: 'row', xs: 'column' }}
+        flexWrap="wrap"
+        gap={1}
+        mb={2}
+      >
+        <Search label="Search Here" size="small" />
 
-          <Grid
-            item
-            lg={7}
-            md={12}
-            sm={12}
-            sx={{ display: { lg: 'flex' }, justifyContent: { lg: 'end' } }}
-            mb={3}
+        <Stack
+          display={{ md: 'flex' }}
+          direction={{ sm: 'row' }}
+          flexWrap="wrap"
+          gap={1}
+        >
+          <Box>
+            <Button
+              id="basic-button"
+              aria-controls={'basic-menu'}
+              aria-haspopup="true"
+              aria-expanded={'true'}
+              className="small"
+              variant="outlined"
+              color="inherit"
+              onClick={handleActionsMenuClick}
+              sx={{
+                width: { sm: '112px', xs: '100%' },
+                height: '36px',
+              }}
+            >
+              Actions &nbsp; <DownIcon />
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={actionMenuOpen}
+              onClose={handleActionsMenuClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem onClick={handleTaskDrawer}>Edit</MenuItem>
+              <MenuItem onClick={handleChangeStatus}>Change Status</MenuItem>
+              <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
+            </Menu>
+          </Box>
+          <Button
+            onClick={() => {
+              handleTaskDrawer(), setTaskCreate('Create Task');
+            }}
+            startIcon={<ArrowDownDarkIcon />}
+            className="small"
+            sx={{
+              border: `1px solid ${theme?.palette?.custom?.dark}`,
+              color: theme?.palette?.custom?.main,
+              width: { sm: '130px', xs: '100%' },
+              height: '36px',
+            }}
           >
-            <Box sx={{ display: { lg: 'flex' }, marginTop: '8px' }}>
-              <Box>
-                <Button
-                  id="basic-button"
-                  aria-controls={'basic-menu'}
-                  aria-haspopup="true"
-                  aria-expanded={'true'}
-                  className="small"
-                  variant="outlined"
-                  color="inherit"
-                  onClick={handleActionsMenuClick}
-                  sx={{
-                    color: theme?.palette?.grey[500],
-                    border: `1.5px solid ${theme?.palette?.custom?.border_grayish_blue}`,
-                    '@media (max-width:581px)': {
-                      width: '100%',
-                    },
-                  }}
-                >
-                  Actions &nbsp; <DownIcon />
-                </Button>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={actionMenuOpen}
-                  onClose={handleActionsMenuClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                >
-                  <MenuItem onClick={handleTaskDrawer}>Edit</MenuItem>
-
-                  <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
-                </Menu>
-              </Box>
-              <Button
-                onClick={() => {
-                  handleTaskDrawer(), setTaskCreate('Create Task');
-                }}
-                startIcon={<FilterrIcon />}
-                className="small"
-                sx={{
-                  border: `1px solid ${theme?.palette?.custom?.dark}`,
-                  color: theme?.palette?.custom?.main,
-                  width: '130px',
-                  height: '36px',
-                  marginLeft: '8px',
-                }}
-              >
-                Create Task
-              </Button>
-              <Button
-                onClick={() => router.push(`${AIR_MARKETER?.TASK_CARD}`)}
-                variant="outlined"
-                color="inherit"
-                startIcon={<FilterLinesIcon />}
-                className="small"
-                style={{ marginLeft: '8px' }}
-              ></Button>
-              <Button
-                variant="outlined"
-                startIcon={<FilterrIcon />}
-                color="inherit"
-                className="small"
-                style={{ marginLeft: '8px' }}
-              ></Button>
-            </Box>
-          </Grid>
-        </Grid>
+            Create Task
+          </Button>
+          <Button
+            onClick={() => router.push(`${AIR_MARKETER?.TASK_CARD}`)}
+            variant="outlined"
+            color="inherit"
+            className="small"
+          >
+            <FilterLinesIcon />
+          </Button>
+          <Button variant="outlined" color="inherit" className="small">
+            <FilterrIcon />
+          </Button>
+        </Stack>
       </Box>
 
       <TanstackTable columns={columns} data={tableData} isPagination />
@@ -132,12 +127,39 @@ const Tasks = () => {
       )}
       {isOpenDeleteDrawer && (
         <AlertModals
-          message="Are you sure you want to delete this broadcast?"
-          type="Delete SMS Broadcast"
+          message="You're about to delete a record. Are you sure?"
+          type="Delete"
           typeImage={<AlertModalDeleteIcon />}
           open={isOpenDeleteDrawer}
           handleClose={() => setIsOpenDeleteDrawer(false)}
           handleSubmit={() => setIsOpenDeleteDrawer(false)}
+        />
+      )}
+
+      {isOpenChangeStatus && (
+        <AlertModals
+          message={
+            <>
+              <Stack
+                justifyContent={'center'}
+                display="flex"
+                direction="row"
+                gap={2}
+              >
+                <Button variant="contained">Inprogress</Button>
+                <Button variant="outlined" color="inherit">
+                  Pending
+                </Button>
+                <Button variant="outlined" color="inherit">
+                  Complete
+                </Button>
+              </Stack>
+            </>
+          }
+          type="Change Status"
+          open={isOpenChangeStatus}
+          handleClose={() => setIsOpenChangeStatus(false)}
+          footer={false}
         />
       )}
     </>

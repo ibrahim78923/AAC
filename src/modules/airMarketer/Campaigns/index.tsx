@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import Manage from './Manage';
 import useCampaigns from './useCampaigns';
 import { PlusIcon } from '@/assets/icons';
@@ -30,19 +30,22 @@ const Campaigns = () => {
           borderRadius: '8px',
         }}
       >
-        <Box
+        <Stack
+          display="flex"
+          direction={{ md: 'row' }}
           justifyContent="space-between"
-          alignItems="center"
-          sx={{ padding: '0px 24px', display: { md: 'flex' } }}
+          sx={{ padding: '0px 24px' }}
         >
-          <Typography variant="h4">Campaigns</Typography>
+          <Typography variant="h4" mb={1}>
+            Campaigns
+          </Typography>
 
-          <Box>
+          <Box display="flex" flexWrap="wrap" gap={1}>
             <Button
               variant="outlined"
               className="small"
               color="inherit"
-              sx={{ mr: 1, mt: 0.2 }}
+              sx={{ width: { sm: '200px', xs: '100%' } }}
               startIcon={<ImportIcon />}
               onClick={() => setIsCompare(true)}
             >
@@ -53,11 +56,12 @@ const Campaigns = () => {
               className="small"
               startIcon={<PlusIcon />}
               onClick={() => setIsCreateTask(true)}
+              sx={{ width: { sm: '200px', xs: '100%' } }}
             >
               Create campaigns
             </Button>
           </Box>
-        </Box>
+        </Stack>
 
         <Box sx={{ padding: '0px 24px' }} mt={1.6}>
           <HorizontalTabs tabsDataArray={campaignsTabs}>

@@ -1,4 +1,4 @@
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -41,9 +41,14 @@ export default function EditTask({
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
-          <Grid container spacing={4}>
-            {dataArray?.map((item: any) => (
+          <Grid container spacing={2}>
+            {dataArray()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                {item?.componentProps?.heading && (
+                  <Typography variant={item?.variant}>
+                    {item?.componentProps?.heading}
+                  </Typography>
+                )}
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (

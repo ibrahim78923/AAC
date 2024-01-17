@@ -64,8 +64,8 @@ const ActionButton = () => {
 
       {isAllViewActionsModal?.isDelete && (
         <AlertModals
-          message="Are you sure you want to delete this broadcast?"
-          type="Delete SMS Broadcast"
+          message="Are you sure you want to delete"
+          type="Delete"
           typeImage={<AlertModalDeleteIcon />}
           open={isAllViewActionsModal?.isDelete}
           handleClose={() => handleCloseModal('isDelete')}

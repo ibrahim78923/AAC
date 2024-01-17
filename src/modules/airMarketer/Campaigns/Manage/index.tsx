@@ -1,16 +1,20 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-
 import { columns, data } from './Manage.data';
-import { Box, Button, Grid, Tooltip, useTheme } from '@mui/material';
-
+import { Box, Button, Stack, Tooltip, useTheme } from '@mui/material';
 import ActionButton from '../ActionButton';
-import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
+import {
+  BookMarkDarkIcon,
+  CustomizeIcon,
+  FilterrIcon,
+  RefreshTasksIcon,
+} from '@/assets/icons';
 import useCampaigns from '../useCampaigns';
 import Filters from '../Filters';
 import SaveNewViewDrawer from '../SaveNewViewDrawer';
 import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import EditColumns from '../EditColumns';
 
 const Manage = () => {
   const theme = useTheme();
@@ -25,80 +29,102 @@ const Manage = () => {
   const router = useRouter();
   return (
     <>
-      <Box>
-        <Grid container>
-          <Grid item md={12} lg={5}>
-            <Search label="Search Here" width="260px" size="small" />
-          </Grid>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        flexDirection={{ md: 'row', xs: 'column' }}
+        flexWrap="wrap"
+        gap={1}
+      >
+        <Search label="Search Here" size="small" />
 
-          <Grid
-            item
-            lg={7}
-            md={12}
-            sm={12}
-            sx={{ display: { lg: 'flex' }, justifyContent: { lg: 'end' } }}
+        <Stack
+          display={{ md: 'flex' }}
+          direction={{ sm: 'row' }}
+          flexWrap="wrap"
+          gap={1}
+        >
+          <ActionButton />
+
+          <Button
+            onClick={() => router?.push(AIR_MARKETER?.ALL_VIEW)}
+            startIcon={<BookMarkDarkIcon />}
+            className="small"
+            sx={{
+              border: `1px solid ${theme?.palette?.custom?.dark}`,
+              color: theme?.palette?.custom?.main,
+              width: { sm: '130px', xs: '100%' },
+              height: '36px',
+            }}
           >
-            <Box sx={{ display: { lg: 'flex' }, marginTop: '8px' }}>
-              <ActionButton />
-              <Button
-                startIcon={<FilterrIcon />}
-                onClick={handleOpenFilter}
-                sx={{
-                  border: `1px solid ${theme?.palette?.custom?.dark}`,
-                  color: theme?.palette?.custom?.main,
-                  width: '95px',
-                  height: '36px',
-                  marginLeft: '8px',
-                }}
-              >
-                Filter
-              </Button>
-              <Tooltip title={'Refresh Filter'}>
-                <Button
-                  sx={{ marginLeft: '8px' }}
-                  variant="outlined"
-                  color="inherit"
-                  className="small"
-                >
-                  <RefreshTasksIcon />
-                </Button>
-              </Tooltip>
-              <Button
-                onClick={handleSaveView}
-                startIcon={<FilterrIcon />}
-                className="samll"
-                variant="outlined"
-                color="inherit"
-                sx={{
-                  border: `1px solid ${theme?.palette?.custom?.dark}`,
-                  color: theme?.palette?.custom?.main,
-                  width: '130px',
-                  height: '36px',
-                  marginLeft: '8px',
-                }}
-              >
-                Save View
-              </Button>
+            See All Views
+          </Button>
 
-              <Button
-                onClick={() => router?.push(AIR_MARKETER?.ALL_VIEW)}
-                startIcon={<FilterrIcon />}
-                className="small"
-                sx={{
-                  border: `1px solid ${theme?.palette?.custom?.dark}`,
-                  color: theme?.palette?.custom?.main,
-                  width: '130px',
-                  height: '36px',
-                  marginLeft: '8px',
-                }}
-              >
-                See All Views
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
+          <Button
+            variant="outlined"
+            className="small"
+            color="inherit"
+            sx={{ width: { xs: '100%', sm: '132px' } }}
+            startIcon={<CustomizeIcon />}
+            onClick={() => {
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isEditColumns: true,
+              });
+            }}
+          >
+            Customize
+          </Button>
+
+          <Button
+            onClick={handleSaveView}
+            startIcon={<BookMarkDarkIcon />}
+            className="samll"
+            variant="outlined"
+            color="inherit"
+            sx={{
+              border: `1px solid ${theme?.palette?.custom?.dark}`,
+              color: theme?.palette?.custom?.main,
+              width: { sm: '130px', xs: '100%' },
+              height: '36px',
+            }}
+          >
+            Save View
+          </Button>
+
+          <Tooltip title={'Refresh Filter'}>
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              sx={{ width: { sm: '54px', xs: '100%' } }}
+            >
+              <RefreshTasksIcon />
+            </Button>
+          </Tooltip>
+
+          <Button
+            startIcon={<FilterrIcon />}
+            onClick={handleOpenFilter}
+            sx={{
+              border: `1px solid ${theme?.palette?.custom?.dark}`,
+              color: theme?.palette?.custom?.main,
+              width: { sm: '95px', xs: '100%' },
+              height: '36px',
+            }}
+          >
+            Filter
+          </Button>
+        </Stack>
       </Box>
-      <Box style={{ paddingBottom: '15px', paddingTop: '28px' }}>
+
+      <Box
+        sx={{
+          paddingBottom: '15px',
+          paddingTop: '28px',
+          width: { sm: '100%' },
+        }}
+      >
         <Button variant="outlined" color="inherit" className="small">
           All Campaigns
         </Button>
@@ -112,6 +138,7 @@ const Manage = () => {
           Matt Anderson first view
         </Button>
       </Box>
+
       <TanstackTable columns={columns} data={data} isPagination />
 
       {isOpenFilter && (
@@ -120,6 +147,7 @@ const Manage = () => {
           onClose={() => setIsOpenFilter(false)}
         />
       )}
+
       {actionsModalDetails?.isSaveView && (
         <SaveNewViewDrawer
           isOpenDrawer={actionsModalDetails?.isSaveView}
@@ -127,6 +155,18 @@ const Manage = () => {
             setActionsModalDetails({
               ...actionsModalDetails,
               isSaveView: false,
+            })
+          }
+        />
+      )}
+
+      {actionsModalDetails?.isEditColumns && (
+        <EditColumns
+          open={actionsModalDetails?.isEditColumns}
+          onClose={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isEditColumns: false,
             })
           }
         />
