@@ -5,9 +5,10 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import { Checkbox } from '@mui/material';
-import { useTask } from './useTask';
 import * as Yup from 'yup';
 import SearchableTabsSelect from '@/modules/airSales/Tasks/searchableTabsSelect/SearchableTabsSelect';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setSelectedTaskIds } from '@/redux/slices/taskManagement/taskManagementSlice';
 
 export const filterDefaultValues = {
   assignee: '',
@@ -273,13 +274,19 @@ export const createTaskData = [
 ];
 
 export const TasksData = () => {
-  const { setActiveRecordsId, activeRecordsId } = useTask();
+  const dispatch: any = useAppDispatch();
+
+  const selectedTaskIds = useAppSelector(
+    (state: any) => state?.task?.selectedTaskIds,
+  );
 
   const handleClick = (itemId: any) => {
-    if (activeRecordsId.includes(itemId)) {
-      setActiveRecordsId(activeRecordsId?.filter((id: any) => id !== itemId));
+    if (selectedTaskIds.includes(itemId)) {
+      dispatch(
+        setSelectedTaskIds(selectedTaskIds?.filter((id: any) => id !== itemId)),
+      );
     } else {
-      setActiveRecordsId([...activeRecordsId, itemId]);
+      dispatch(setSelectedTaskIds([...selectedTaskIds, itemId]));
     }
   };
 
@@ -289,7 +296,7 @@ export const TasksData = () => {
       id: '_id',
       cell: (info: any) => (
         <Checkbox
-          checked={activeRecordsId?.includes(info?.row?.original?._id)}
+          checked={selectedTaskIds?.includes(info?.row?.original?._id)}
           color="primary"
           name={info?.getValue()}
           onClick={() => handleClick(info?.row?.original?._id)}

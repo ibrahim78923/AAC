@@ -16,7 +16,6 @@ export const useTask = () => {
 
   const [tabsValue, setTabsValue] = useState('');
   const [assignTo, setAssignTo] = useState('');
-  const [activeRecordsId, setActiveRecordsId] = useState<any>([]);
 
   const handleNextStep = () =>
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -104,7 +103,5 @@ export const useTask = () => {
     setTabsValue,
     setAssignTo,
     status,
-    setActiveRecordsId,
-    activeRecordsId,
   };
 };

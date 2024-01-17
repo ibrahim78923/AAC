@@ -8,11 +8,9 @@ import { RefreshTasksIcon } from '@/assets/icons';
 import { FilterWrapperI } from './TabToolbar.Interface';
 import { styles } from './TabToobar.style';
 import { MenuItems } from '../../ActionBtn/ActionBtn.data';
+import { useAppSelector } from '@/redux/store';
 
-const TabToolbar = ({
-  handleRefreshList = () => {},
-  disableActionBtn,
-}: FilterWrapperI) => {
+const TabToolbar = ({ handleRefreshList = () => {} }: FilterWrapperI) => {
   const [isEditAction, setIsEditAction] = useState(false);
 
   const handleActionBtn = (item: any) => {
@@ -20,6 +18,10 @@ const TabToolbar = ({
       setIsEditAction(!isEditAction);
     }
   };
+
+  const selectedTaskIds = useAppSelector(
+    (state: any) => state?.task?.selectedTaskIds,
+  );
 
   return (
     <>
@@ -41,7 +43,7 @@ const TabToolbar = ({
             </Button>
           </Tooltip>
           <ActionBtn
-            disableActionBtn={disableActionBtn}
+            disableActionBtn={selectedTaskIds.length > 0 ? false : true}
             onChange={handleActionBtn}
             menuItems={MenuItems}
             title="Actions"

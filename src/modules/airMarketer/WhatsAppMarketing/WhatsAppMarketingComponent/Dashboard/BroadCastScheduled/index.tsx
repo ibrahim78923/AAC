@@ -28,7 +28,19 @@ const ScheduledSMS = () => {
         <Typography variant="h4" sx={styles?.heading(theme)}>
           Broadcast Schedule
         </Typography>
-        <Button variant="contained">View All</Button>
+        <Button
+          variant="contained"
+          sx={{
+            background: theme?.palette?.primary?.light,
+            color: theme?.palette?.primary?.main,
+            '&:hover': {
+              background: theme?.palette?.primary?.main,
+              color: theme?.palette?.common?.white,
+            },
+          }}
+        >
+          View All
+        </Button>
       </Box>
       <Box className="cardWrapper">
         {scheduledSmsArray?.map((item: any) => {
@@ -124,12 +136,12 @@ const CardHeader = ({ item, statusTag }: any) => {
         open={open}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'top',
+          vertical: 'bottom',
           horizontal: 'left',
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'left',
+          horizontal: 'center',
         }}
       >
         <MenuItem onClick={handleClose}>Edit</MenuItem>
