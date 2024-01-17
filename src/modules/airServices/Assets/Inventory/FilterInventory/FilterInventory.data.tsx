@@ -137,8 +137,7 @@ export const inventoryFilterFormFieldsDataFunction = (
     gridLength: 12,
     componentProps: {
       fullWidth: true,
-      // name: 'assetLifeExpiry',
-      name: 'createdAt',
+      name: 'assetLifeExpiry',
       label: 'Asset Life Expire On',
       placeholder: 'Select a time period',
       select: true,

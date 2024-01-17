@@ -1,25 +1,51 @@
-import { Box, Button, Chip, Menu, MenuItem, Typography } from '@mui/material';
+import { Button, Menu, MenuItem, Typography } from '@mui/material';
 import { Fragment, useState } from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { manageWorkLoadOptions } from './ManageWorkload.data';
-import { v4 as uuidv4 } from 'uuid';
+import WorkloadDrawer from '../WorkloadDrawer/WorkloadDrawer';
+import { useGetWorkloadQuery } from '@/services/airServices/workload';
+import { workloadDefaultDateRange } from '../Workload.data';
 
 export const ManageWorkload = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [manage, setManage] = useState<any>();
+
   const open = Boolean(anchorEl);
+
+  const [dateRange, setDateRange] = useState<any>(workloadDefaultDateRange);
+
+  const { data } = useGetWorkloadQuery(
+    {
+      manage: manage,
+      startDate: dateRange?.[0]?.startDate?.toISOString(),
+      // TODO: Will be catered in integration
+      // endDate: dateRange?.[0]?.endDate?.toISOString(),
+    },
+    { skip: !openDrawer, refetchOnMountOrArgChange: true },
+  );
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event?.currentTarget);
   };
 
+  const handleMenuItemClick = (value: any) => {
+    setManage(value);
+    setOpenDrawer(true);
+    setAnchorEl(null);
+  };
+
+  const manageWorkLoadOptions = [
+    { label: 'All', value: undefined },
+    { label: 'Planned', value: 'PLANNED' },
+    { label: 'UnPlanned', value: 'UNPLANNED' },
+    { label: 'Delayed', value: 'DELAYED' },
+  ];
+
   return (
     <Fragment>
       <Button
         variant={'outlined'}
-        color={'secondary'}
-        aria-controls={open ? 'workload' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+        color={'inherit'}
         onClick={handleClick}
         endIcon={<ArrowDropDownIcon />}
       >
@@ -32,11 +58,12 @@ export const ManageWorkload = () => {
         anchorEl={anchorEl}
         open={open}
         onClose={() => setAnchorEl(null)}
+        aria-controls={open ? 'workload' : undefined}
       >
         {manageWorkLoadOptions?.map((item: any) => (
           <MenuItem
-            key={uuidv4()}
-            onClick={() => item?.handleClick?.()}
+            key={item?.label}
+            onClick={() => handleMenuItemClick?.(item?.value)}
             sx={{
               '&.MuiMenuItem-root': {
                 marginBottom: { md: 0.5 },
@@ -45,20 +72,24 @@ export const ManageWorkload = () => {
               },
             }}
           >
-            <Box
-              display={'flex'}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-              width={'100%'}
-            >
-              <Typography variant="body2" fontWeight={500}>
-                {item?.title}
-              </Typography>
-              <Chip label={item?.count} color={'primary'} />
-            </Box>
+            <Typography variant="body2" fontWeight={500}>
+              {item?.label}
+            </Typography>
           </MenuItem>
         ))}
       </Menu>
+
+      {openDrawer && (
+        <WorkloadDrawer
+          dataArray={data}
+          setOpenDrawer={setOpenDrawer}
+          openDrawer={openDrawer}
+          dateRange={dateRange}
+          state={manage}
+          onChangeDateHandler={(item: any) => setDateRange([item?.selection])}
+          setDateRange={setDateRange}
+        />
+      )}
     </Fragment>
   );
 };

@@ -4,6 +4,7 @@ import Search from '@/components/Search';
 import { ExportBlackIcon } from '@/assets/icons';
 import { useNotAssignedPhysicalGiftCards } from './useNotAssignedPhysicalGiftCards';
 import { ExportModal } from '@/components/ExportModal';
+import { AssignedPhysicalGiftCard } from './AssignedPhysicalGiftCard';
 
 export const NotAssignedPhysicalGiftCards = () => {
   const {
@@ -11,11 +12,12 @@ export const NotAssignedPhysicalGiftCards = () => {
     data,
     setSearch,
     search,
-    handleClick,
-    onSubmit,
+    handleFileExportSubmit,
     open,
     setOpen,
     handleClose,
+    assignedTo,
+    setAssignedTo,
   } = useNotAssignedPhysicalGiftCards();
 
   return (
@@ -36,7 +38,7 @@ export const NotAssignedPhysicalGiftCards = () => {
           variant="outlined"
           color="secondary"
           startIcon={<ExportBlackIcon />}
-          onClick={handleClick}
+          onClick={() => setOpen(true)}
         >
           Export
         </Button>
@@ -49,9 +51,12 @@ export const NotAssignedPhysicalGiftCards = () => {
       />
       <ExportModal
         open={open}
-        setOpen={setOpen}
-        onSubmit={onSubmit}
+        onSubmit={(exportType: any) => handleFileExportSubmit?.(exportType)}
         handleClose={handleClose}
+      />
+      <AssignedPhysicalGiftCard
+        assignedTo={assignedTo}
+        setAssignedTo={setAssignedTo}
       />
     </>
   );

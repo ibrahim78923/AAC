@@ -1,4 +1,5 @@
 import { Avatar, Box, Checkbox } from '@mui/material';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 export const agentActionsDropdown = (handleActionClick: any) => [
   {
@@ -26,6 +27,8 @@ export const agentsListsColumnsFunction = (
     id: 'id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!selectedAgentList?.find(
             (item: any) => item?._id === info?.getValue(),
@@ -51,6 +54,8 @@ export const agentsListsColumnsFunction = (
     ),
     header: (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={selectedAgentList?.length === processedAgentListData?.length}
         onChange={(e: any) => {
           e?.target?.checked

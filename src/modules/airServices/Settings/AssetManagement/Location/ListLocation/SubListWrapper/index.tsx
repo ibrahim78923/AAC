@@ -20,8 +20,6 @@ export const SubListWrapper = ({ children, data }: any) => {
         <Button
           variant="outlined"
           color="secondary"
-          sx={{ mr: 5 }}
-          startIcon={<AddBox />}
           onClick={() =>
             router?.push({
               pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
@@ -31,7 +29,7 @@ export const SubListWrapper = ({ children, data }: any) => {
             })
           }
         >
-          Add City
+          <AddBox />
         </Button>
       </Box>
     </Box>

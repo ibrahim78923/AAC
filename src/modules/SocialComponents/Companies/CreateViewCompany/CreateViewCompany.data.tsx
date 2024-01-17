@@ -1,5 +1,4 @@
 import {
-  // RHFDatePicker,
   RHFRadioGroup,
   RHFSelect,
   RHFSwitchableDatepicker,
@@ -8,6 +7,7 @@ import {
 import { Typography, useTheme } from '@mui/material';
 
 import * as Yup from 'yup';
+import useCreateCompany from '../CreateCompany/useCreateCompany';
 
 export const createViwValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
@@ -22,6 +22,7 @@ export const createViewDefaultValues = {
 
 export const createViewArr = () => {
   const theme = useTheme();
+  const { getCompanyContacts } = useCreateCompany();
   return [
     {
       componentProps: {
@@ -42,6 +43,12 @@ export const createViewArr = () => {
         fullWidth: true,
         select: true,
       },
+      options: [
+        { value: 'computerSoftware', label: 'Computer software' },
+        { value: 'computerServices', label: 'Computer Services' },
+        { value: 'construction', label: 'Construction' },
+        { value: 'none', label: 'None' },
+      ],
       component: RHFSelect,
       md: 12,
     },
@@ -52,6 +59,10 @@ export const createViewArr = () => {
         fullWidth: true,
         select: true,
       },
+      options: getCompanyContacts?.data?.contacts?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })),
       component: RHFSelect,
       md: 12,
     },
@@ -77,14 +88,14 @@ export const createViewArr = () => {
     },
     {
       componentProps: {
-        name: 'sharedwithRadio',
+        name: 'sharedWith',
         fullWidth: true,
         defaultValue: 'all',
         row: false,
         options: [
-          { value: 'private', label: 'Private' },
-          { value: 'myTeam', label: 'My Team (test)' },
-          { value: 'everyone', label: 'Everyone' },
+          { value: 'PRIVATE', label: 'Private' },
+          { value: 'TEAM', label: 'My Team (test)' },
+          { value: 'EVERYONE', label: 'Everyone' },
         ],
       },
       component: RHFRadioGroup,

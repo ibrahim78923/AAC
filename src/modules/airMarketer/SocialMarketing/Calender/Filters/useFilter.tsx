@@ -42,6 +42,9 @@ const useFilter = () => {
   const handleProfilesCloseMenuOptions = () => {
     setProfilesAnchorEl(null);
   };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return {
     handleClickActions,
@@ -62,6 +65,7 @@ const useFilter = () => {
     handleProfilesClickActions,
     profilesAnchorEl,
     openDropDownprofiles,
+    handleClose,
   };
 };
 

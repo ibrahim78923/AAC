@@ -1,6 +1,7 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { ASSET_IMPACT, ASSET_TYPE, TIME_PERIODS } from '@/constants/strings';
+import { fullName } from '@/utils/avatarUtils';
 import { Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
@@ -74,11 +75,11 @@ export const assetLifeExpiryOptions = [
     label: TIME_PERIODS?.PREVIOUS_MONTH,
   },
   {
-    _id: TIME_PERIODS?.PREVIOUS_WEEK,
+    _id: TIME_PERIODS?.NEXT_WEEK,
     label: TIME_PERIODS?.NEXT_WEEK,
   },
   {
-    _id: TIME_PERIODS?.PREVIOUS_MONTH,
+    _id: TIME_PERIODS?.NEXT_MONTH,
     label: TIME_PERIODS?.NEXT_MONTH,
   },
 ];
@@ -199,14 +200,14 @@ export const inventoryListsColumnsFunction: any = (
     id: 'assetType',
     header: 'Asset Type',
     isSortable: true,
-    cell: (info: any) => info?.getValue()?.name,
+    cell: (info: any) => info?.getValue()?.name ?? '--',
   },
   {
     accessorFn: (row: any) => row?.locationDetails,
     id: 'locationId',
     isSortable: true,
     header: 'Location',
-    cell: (info: any) => info?.getValue()?.locationName,
+    cell: (info: any) => info?.getValue()?.locationName ?? '--',
   },
   {
     accessorFn: (row: any) => row?.userDetails,
@@ -214,16 +215,14 @@ export const inventoryListsColumnsFunction: any = (
     isSortable: true,
     header: 'Used By',
     cell: (info: any) =>
-      `${info?.getValue()?.firstName ?? ''} ${
-        info?.getValue()?.lastName ?? ''
-      }`,
+      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
   },
   {
     accessorFn: (row: any) => row?.departmentDetails,
     id: 'departmentId',
     isSortable: true,
     header: 'Department',
-    cell: (info: any) => info?.getValue()?.name,
+    cell: (info: any) => info?.getValue()?.name ?? '--',
   },
   {
     accessorFn: (row: any) => row?.impact,

@@ -19,7 +19,7 @@ export const useEditTaskDrawer = (props: any) => {
     resolver: yupResolver(taskTicketFormValidationSchema),
     defaultValues: taskTicketFormDefaultValues(activeCheck),
   });
-  const [patchMutation] = usePatchTaskByIdMutation();
+  const [patchMutation, { isLoading }] = usePatchTaskByIdMutation();
   const submitEditTicket = async (data: any) => {
     const editData = {
       data: {
@@ -58,5 +58,6 @@ export const useEditTaskDrawer = (props: any) => {
     drawerSubmitHandler,
     departmentDropdown,
     userDropdown,
+    isLoading,
   };
 };
