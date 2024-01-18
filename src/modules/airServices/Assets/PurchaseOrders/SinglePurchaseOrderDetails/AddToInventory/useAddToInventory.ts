@@ -47,7 +47,7 @@ export default function useAddToInventoryDrawer(props: any) {
 
   const methodsNo = useForm<any>({
     resolver: yupResolver(addInventoryValidationSchemaUpdate),
-    defaultValues: addInventoryDefaultValuesOneUpdate,
+    // defaultValues,
   });
   const { handleSubmit: handleSubmitNo } = methodsNo;
   const onSubmit = async () => {};
