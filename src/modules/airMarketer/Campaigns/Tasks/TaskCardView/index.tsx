@@ -51,7 +51,6 @@ const TaskViewCard = () => {
               sx={{
                 border: `1px solid ${theme?.palette?.grey[700]}`,
                 borderRadius: '10px',
-                width: '282px',
               }}
             >
               <Droppable
@@ -60,7 +59,11 @@ const TaskViewCard = () => {
                 direction="vertical"
               >
                 {(provided) => (
-                  <Box ref={provided?.innerRef} {...provided?.droppableProps}>
+                  <Box
+                    ref={provided?.innerRef}
+                    {...provided?.droppableProps}
+                    sx={{ width: '282px' }}
+                  >
                     <Box
                       sx={{
                         boxShadow: '0px 3px 6px 0px #6B72801A',
