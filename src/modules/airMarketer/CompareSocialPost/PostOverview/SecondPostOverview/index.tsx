@@ -17,7 +17,7 @@ const SecondPostOverview = ({ postData }: any) => {
   return (
     <Box>
       <Typography variant="body4" fontWeight={600}>
-        Compaign
+        Campaign
       </Typography>
       <Box>
         <Typography

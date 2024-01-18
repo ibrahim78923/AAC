@@ -94,14 +94,26 @@ const CreatePost = () => {
               <Box sx={{ marginLeft: '10px' }}>
                 <Skeleton
                   variant="rounded"
-                  sx={{ marginTop: '10px', bgcolor: '#EBECF1' }}
-                  width={200}
+                  sx={{
+                    marginTop: '10px',
+                    bgcolor: '#EBECF1',
+                    width: '200px',
+                    '@media (max-width: 500px)': {
+                      width: '90px',
+                    },
+                  }}
                   height={10}
                 />
                 <Skeleton
                   variant="rounded"
-                  sx={{ marginTop: '10px', bgcolor: '#EBECF1' }}
-                  width={94}
+                  sx={{
+                    marginTop: '10px',
+                    bgcolor: '#EBECF1',
+                    width: '94px',
+                    '@media (max-width: 500px)': {
+                      width: '60px',
+                    },
+                  }}
                   height={10}
                 />
               </Box>
@@ -109,20 +121,38 @@ const CreatePost = () => {
 
             <Skeleton
               variant="rounded"
-              sx={{ marginTop: '20px', bgcolor: '#EBECF1' }}
-              width={443}
+              sx={{
+                marginTop: '20px',
+                bgcolor: '#EBECF1',
+                width: '443px',
+                '@media (max-width: 500px)': {
+                  width: '140px',
+                },
+              }}
               height={10}
             />
             <Skeleton
               variant="rounded"
-              sx={{ marginTop: '10px', bgcolor: '#EBECF1' }}
-              width={348}
+              sx={{
+                marginTop: '10px',
+                bgcolor: '#EBECF1',
+                width: '348px',
+                '@media (max-width: 500px)': {
+                  width: '100px',
+                },
+              }}
               height={10}
             />
             <Skeleton
               variant="rounded"
-              sx={{ marginTop: '10px', bgcolor: '#EBECF1' }}
-              width={280}
+              sx={{
+                marginTop: '10px',
+                bgcolor: '#EBECF1',
+                width: '280px',
+                '@media (max-width: 500px)': {
+                  width: '70px',
+                },
+              }}
               height={10}
             />
 

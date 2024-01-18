@@ -61,7 +61,7 @@ const CompareSocialPost = () => {
                   Post
                 </Typography>
                 <Box
-                  sx={style?.postCompareBox(theme?.palette)}
+                  sx={style?.postCompareBox(theme?.palette, firstPostLength)}
                   mt={1}
                   onClick={() => {
                     setIsSelectPostModal(true);
@@ -100,7 +100,7 @@ const CompareSocialPost = () => {
                   Post
                 </Typography>
                 <Box
-                  sx={style?.postCompareBox(theme?.palette)}
+                  sx={style?.postCompareBox(theme?.palette, firstPostLength)}
                   mt={1}
                   onClick={() => {
                     setIsSelectPostModal(true);
@@ -149,7 +149,7 @@ const CompareSocialPost = () => {
       {isOverView && (
         <Box mt={4}>
           <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
-            OverView
+            Overview
           </Typography>
           <Grid container>
             <Grid item xs={12} md={3.5}>
