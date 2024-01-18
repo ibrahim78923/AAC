@@ -167,6 +167,9 @@ export const END_POINTS = {
   ASSETS_CONTRACT_DELETE: '/contract/{id}',
   KNOWLEDGE_BASE_ARTICLES: `/articles`,
   DROPDOWN_FOLDERS: `/dropdown/folders`,
+  PURCHASE_ORDER_ASSOCIATIONS: '/assets/purchaseorderassociate',
+  PURCHASE_ORDER_ADD_ASSOCIATIONS: '/assets/add-associate-order',
+  PURCHASE_ORDER_DELETE_ASSOCIATIONS: '/assets/delete-associate-order',
   DROPDOWN_LOCATION: '/location/get-location',
   DROPDOWN_USERS: '/dropdown/all-users',
   ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
@@ -189,6 +192,8 @@ export const END_POINTS = {
   ASSETS_INVENTORY_CONTRACTS: '/assets/inventory-contract-list',
   DEPARTMENT_UPDATE: '/department/update',
   DEPARTMENT_DELETE: '/department/delete-department',
+  VENDOR_PRODUCT_DROPDOWN: `/product-catalog/vendor-product-list`,
+  PURCHASE_ORDER: `/assets/purchaseorder`,
   DROPDOWN_SOFTWARE: `/assets/get-software`,
   DROPDOWN_ALL_AGENTS: '/dropdown/agents',
 };
