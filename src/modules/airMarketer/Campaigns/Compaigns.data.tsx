@@ -16,6 +16,7 @@ export const campaignArray = [
     componentProps: {
       name: 'taskName',
       label: 'Task Name',
+      placeholder: 'John Allen',
       fullWidth: true,
       select: false,
     },
