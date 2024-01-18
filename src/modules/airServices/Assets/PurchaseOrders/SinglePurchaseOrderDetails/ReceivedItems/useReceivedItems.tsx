@@ -5,17 +5,9 @@ import {
   usePatchAddToItemMutation,
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { receivedItemsColumns } from './ReceivedItems.data';
+import { useForm } from 'react-hook-form';
 
 export const useReceivedItems = (props: any) => {
-  const [receivedAmounts, setReceivedAmounts] = useState<any>({});
-
-  // const handleInputChange = (event: any, rowId: any) => {
-  //   setReceivedAmounts((prevAmounts: any) => ({
-  //     ...prevAmounts,
-  //     [rowId]: event.target.value,
-  //   }));
-  // };
   const purchaseOrderId = '65a115b847cea622057735dc';
   const [patchAddToItemTrigger] = usePatchAddToItemMutation();
   const [errorOccurred, setErrorOccurred] = useState(false);
@@ -40,7 +32,7 @@ export const useReceivedItems = (props: any) => {
   const submitHandler = async () => {
     const updatedPurchaseOrderDetail = purchaseOrderDetail.map((item: any) => ({
       ...item,
-      received: receivedAmount,
+      // received: receivedAmounts,
     }));
     const putAddToItemParameter = {
       body: updatedPurchaseOrderDetail,
@@ -93,15 +85,11 @@ export const useReceivedItems = (props: any) => {
       });
     }
   };
-
-  const columns = receivedItemsColumns();
-
+  const { control } = useForm();
   return {
     errorOccurred,
     submitHandler,
     purchaseOrderDetail,
-    columns,
-    receivedAmounts,
-    setReceivedAmounts,
+    control,
   };
 };

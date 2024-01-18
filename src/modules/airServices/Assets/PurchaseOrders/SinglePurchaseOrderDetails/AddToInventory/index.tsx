@@ -22,7 +22,19 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import useAddToInventoryDrawer from './useAddToInventory';
 
-import TanstackTable from '@/components/Table/TanstackTable';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material';
+import {
+  itemDetailColumns,
+  purchaseDetailFormFieldsFunction,
+} from './AddToInventory.data';
+import { useFieldArray } from 'react-hook-form';
 
 export const AddToInventory = (props: any) => {
   const { isADrawerOpen, setIsADrawerOpen } = props;
@@ -41,9 +53,15 @@ export const AddToInventory = (props: any) => {
     updateDate,
     handleRadioValueChange,
     selectedAssetId,
-    columns,
-    purchaseDetail,
+    apiQueryDepartment,
+    methodsTwo,
+    apiQueryLocations,
   } = useAddToInventoryDrawer(props);
+
+  const { fields } = useFieldArray({
+    control: methodsTwo?.control,
+    name: 'test',
+  });
   return (
     <CommonDrawer
       isDrawerOpen={isADrawerOpen}
@@ -276,7 +294,45 @@ export const AddToInventory = (props: any) => {
                 />
               </Box>
             </Grid>
-            <TanstackTable data={purchaseDetail} columns={columns} />
+            <Grid
+              display={'flex'}
+              flexDirection={'row'}
+              justifyContent={'center'}
+            >
+              <FormProvider methods={methodsTwo} onsubmit={submitHandlerTwo}>
+                {' '}
+                <TableContainer>
+                  <Table sx={{ minWidth: '800px' }}>
+                    <TableHead>
+                      <TableRow>
+                        {itemDetailColumns?.map((column: any) => (
+                          <TableCell key={column}>{column}</TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {fields?.map((item: any, index: any) => {
+                        return (
+                          <TableRow key={item?.id}>
+                            {purchaseDetailFormFieldsFunction?.(
+                              methodsTwo?.control,
+                              'test',
+                              index,
+                              apiQueryLocations,
+                              apiQueryDepartment,
+                            )?.map((singleField: any) => (
+                              <TableCell key={item?.id}>
+                                {singleField?.data}
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </FormProvider>
+            </Grid>
           </Grid>
         </>
       )}

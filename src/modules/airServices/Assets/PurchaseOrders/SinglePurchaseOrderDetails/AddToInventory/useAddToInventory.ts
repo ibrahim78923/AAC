@@ -1,14 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
-  addToInventoryItemStatusValidationSchema,
-  addInventoryDefaultValuesOneUpdate,
+  // addInventoryDefaultValuesOneUpdate,
   addInventoryValidationSchemaOne,
   addInventoryValidationSchemaUpdate,
   addToInventoryItemAddedFormFieldsDataFunction,
   addInventoryDefaultValuesFunction,
   addToInventoryItemStatusDefaultValuesFunction,
-  purchasedOrderColumns,
 } from './AddToInventory.data';
 import { useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
@@ -36,21 +34,18 @@ export default function useAddToInventoryDrawer(props: any) {
   const [postPurchaseOrderTrigger] = usePostPurchaseOrderMutation();
   const [patchNewVendorTrigger] = usePatchAddToPurchaseOrderMutation();
 
-  const columns = purchasedOrderColumns();
-  const methodsTwo: any = useForm({
-    resolver: yupResolver(addToInventoryItemStatusValidationSchema),
+  const methodsTwo = useForm({
     defaultValues: addToInventoryItemStatusDefaultValuesFunction(),
   });
-
-  const { handleSubmit: handleSubmitTwo } = methodsTwo;
-  const methodsYes: any = useForm({
+  const { handleSubmit: handleSubmitTwo, reset: resetTwo } = methodsTwo;
+  const methodsYes = useForm<any>({
     resolver: yupResolver(addInventoryValidationSchemaOne),
     defaultValues: addInventoryDefaultValuesFunction(),
   });
 
   const { handleSubmit: handleSubmitYes } = methodsYes;
 
-  const methodsNo: any = useForm({
+  const methodsNo = useForm<any>({
     resolver: yupResolver(addInventoryValidationSchemaUpdate),
     defaultValues: addInventoryDefaultValuesOneUpdate,
   });
@@ -59,7 +54,6 @@ export default function useAddToInventoryDrawer(props: any) {
 
   const [boolVariable, setBoolVariable] = useState(true);
   const [toShow, setToShow] = useState(true);
-  const [purchaseDetail, setPurchaseDetail]: any = useState([]);
   const getSingleAddToPurchaseOrderParameter = {
     pathParam: {
       purchaseOrderId,
@@ -78,33 +72,18 @@ export default function useAddToInventoryDrawer(props: any) {
     setToShow(event?.target?.value === 'Add New');
   };
 
-  const submitHandlerYes = handleSubmitYes(async (data: any) => {
-    const { department, location, ...otherData } = data;
-    setPurchaseDetail([data]);
-    const postPurchaseOrderParameter = {
-      body: {
-        departmentId: department?._id,
-        locationId: location?._id,
-        purchaseOrderIds: purchaseOrderId,
-        ...otherData,
-      },
+  const submitHandlerYes = handleSubmitYes((data: any) => {
+    const tableData: any = {
+      displayName: data?.displayName,
+      impact: data?.impact,
+      location: data?.location,
+      department: data?.department,
     };
-
-    try {
-      const response = await postPurchaseOrderTrigger(
-        postPurchaseOrderParameter,
-      )?.unwrap();
-      enqueueSnackbar(
-        response?.message ?? 'item added to inventory Successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-    }
+    const dataArray: any = Array.from(
+      { length: data?.description },
+      () => tableData,
+    );
+    resetTwo({ test: dataArray });
     setBoolVariable(false);
     methodsYes?.reset();
   });
@@ -135,10 +114,34 @@ export default function useAddToInventoryDrawer(props: any) {
     }
     methodsNo?.reset();
   });
-  const submitHandlerTwo = handleSubmitTwo(() => {
-    enqueueSnackbar('item added to inventory Successfully', {
-      variant: 'success',
-    });
+  const submitHandlerTwo = handleSubmitTwo(async (data: any) => {
+    const { department, location, ...otherData } = data;
+
+    const postPurchaseOrderParameter = {
+      body: {
+        departmentId: department?._id,
+        locationId: location?._id,
+        purchaseOrderIds: purchaseOrderId,
+        ...otherData,
+      },
+    };
+
+    try {
+      const response: any = await postPurchaseOrderTrigger(
+        postPurchaseOrderParameter,
+      )?.unwrap();
+      enqueueSnackbar(
+        response?.message ?? 'item added to inventory Successfully',
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+
     setIsADrawerOpen(false);
     setBoolVariable(true);
     methodsTwo?.reset();
@@ -192,7 +195,7 @@ export default function useAddToInventoryDrawer(props: any) {
     handleRadioValueChange,
     selectedAssetId,
     setSelectedAssetId,
-    columns,
-    purchaseDetail,
+    apiQueryLocations,
+    apiQueryDepartment,
   };
 }
