@@ -1,11 +1,19 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Box, Typography, useTheme } from '@mui/material';
 import CustomBox from './CustomBox';
 import { styles } from './Insight.style';
 
+import useInsightCard from './useInsite';
+
 const Insights = () => {
   const { activity, dateRange, activityReportDate } = styles(useTheme());
+  const { chartOptions, chartData } = useInsightCard();
+  const ReactApexChart = dynamic(() => import('react-apexcharts'), {
+    ssr: false,
+  });
+
   return (
     <Box>
       <Typography sx={activity}>
@@ -37,6 +45,15 @@ const Insights = () => {
       <Typography sx={activityReportDate}>
         Date Range: From 22-03-2023 to 25-03-2023 | Frequency: Daily
       </Typography>
+
+      <Box mt={2}>
+        <ReactApexChart
+          options={chartOptions}
+          series={[{ data: chartData }]}
+          type="bar"
+          height={450}
+        />
+      </Box>
     </Box>
   );
 };

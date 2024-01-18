@@ -1,4 +1,4 @@
-import { Box, Button, Typography, Stack } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { AddCircleSmallIcon, DownloadIcon } from '@/assets/icons';
 import { styles } from './PageHeader.style';
@@ -11,7 +11,7 @@ const PageHeader = () => {
       <Typography variant="h4" sx={styles?.pageHeaderTitle}>
         Quotes
       </Typography>
-      <Stack direction="row" spacing={'12px'}>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '18px' }}>
         <Button
           className="small"
           sx={styles?.actionButton}
@@ -28,7 +28,7 @@ const PageHeader = () => {
         >
           Create Quote
         </Button>
-      </Stack>
+      </Box>
     </Box>
   );
 };
