@@ -29,7 +29,6 @@ const Tasks = () => {
     handleActionsMenuClick,
     isOpenEditTaskDrawer,
     setIsOpenEditTaskDrawer,
-    handleTaskDrawer,
     isOpenDeleteDrawer,
     handleDeleteModal,
     setIsOpenDeleteDrawer,
@@ -92,14 +91,21 @@ const Tasks = () => {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem onClick={handleTaskDrawer}>Edit</MenuItem>
+              <MenuItem
+                onClick={() =>
+                  setIsOpenEditTaskDrawer({ isToggle: true, type: 'edit' })
+                }
+              >
+                Edit
+              </MenuItem>
               <MenuItem onClick={handleChangeStatus}>Change Status</MenuItem>
               <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
             </Menu>
           </Box>
           <Button
             onClick={() => {
-              handleTaskDrawer(), setTaskCreate('Create Task');
+              setIsOpenEditTaskDrawer({ isToggle: true, type: 'create' }),
+                setTaskCreate('Create Task');
             }}
             startIcon={<ArrowDownDarkIcon />}
             className="small"
@@ -138,10 +144,13 @@ const Tasks = () => {
         <TaskViewCard />
       )}
 
-      {isOpenEditTaskDrawer && (
+      {isOpenEditTaskDrawer?.isToggle && (
         <EditTask
           isOpenDrawer={isOpenEditTaskDrawer}
-          onClose={() => setIsOpenEditTaskDrawer(false)}
+          setIsOpenEditTaskDrawer={setIsOpenEditTaskDrawer}
+          onClose={() => {
+            setIsOpenEditTaskDrawer({ isToggle: false, type: '' });
+          }}
         />
       )}
       {isOpenDeleteDrawer && (

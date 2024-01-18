@@ -11,8 +11,8 @@ import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function EditTask({
-  isOpenDrawer,
   onClose,
+  isOpenDrawer,
   initialValueProps = defaultValues,
 }: any) {
   const methods: any = useForm({
@@ -30,10 +30,10 @@ export default function EditTask({
 
   return (
     <CommonDrawer
-      isDrawerOpen={isOpenDrawer}
+      isDrawerOpen={isOpenDrawer?.isToggle}
       onClose={() => onClose(false)}
-      title={'Create Task'}
-      okText={'Update'}
+      title={isOpenDrawer?.type === 'create' ? 'Create Task' : 'Edit Task'}
+      okText={isOpenDrawer?.type === 'create' ? 'Create' : 'Update'}
       isOk
       cancelText={'Cancel'}
       footer

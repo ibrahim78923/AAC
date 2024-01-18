@@ -3,7 +3,10 @@ import { useState } from 'react';
 
 const useTasks = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [isOpenEditTaskDrawer, setIsOpenEditTaskDrawer] = useState(false);
+  const [isOpenEditTaskDrawer, setIsOpenEditTaskDrawer] = useState({
+    isToggle: false,
+    type: '',
+  });
   const [isOpenDeleteDrawer, setIsOpenDeleteDrawer] = useState(false);
   const [isOpenChangeStatus, setIsOpenChangeStatus] = useState(false);
   const [isTaskCreate, setTaskCreate] = useState('');
@@ -11,10 +14,6 @@ const useTasks = () => {
   const [searchValue, setSearchValue] = useState('');
   const theme = useTheme();
   const actionMenuOpen = Boolean(anchorEl);
-
-  const handleTaskDrawer = () => {
-    setIsOpenEditTaskDrawer(true);
-  };
 
   const handleDeleteModal = () => {
     setIsOpenDeleteDrawer(true);
@@ -47,7 +46,6 @@ const useTasks = () => {
     handleActionsMenuClick,
     isOpenEditTaskDrawer,
     setIsOpenEditTaskDrawer,
-    handleTaskDrawer,
     isOpenDeleteDrawer,
     handleDeleteModal,
     setIsOpenDeleteDrawer,
