@@ -234,7 +234,12 @@ const SocialPost = ({ postType }: any) => {
             </Typography>
 
             <Box
-              sx={{ display: 'flex', gap: '15px', justifyContent: 'center' }}
+              sx={{
+                display: 'flex',
+                gap: '20px',
+                justifyContent: 'center',
+                marginY: '10px',
+              }}
             >
               <Box sx={styles?.userProfiles}>
                 <Image
@@ -275,23 +280,28 @@ const SocialPost = ({ postType }: any) => {
             </Box>
 
             <Box sx={{ display: 'flex', gap: '20px' }}>
-              {activeUserProfile?.stats?.map((stat: any) => (
-                <Box key={uuidv4()}>
-                  <Typography
-                    variant="h5"
-                    sx={styles?.profileStats}
-                    color={theme?.palette?.grey[600]}
-                  >
-                    {stat?.value}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={styles?.profileStats}
-                    color={theme?.palette?.grey[600]}
-                  >
-                    {stat?.label}
-                  </Typography>
-                </Box>
+              {activeUserProfile?.stats?.map((stat: any, index: any) => (
+                <>
+                  <Box key={uuidv4()}>
+                    <Typography
+                      variant="h5"
+                      sx={styles?.profileStats}
+                      color={theme?.palette?.grey[600]}
+                    >
+                      {stat?.value}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={styles?.profileStats}
+                      color={theme?.palette?.grey[600]}
+                    >
+                      {stat?.label}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{ borderRight: index != 2 && '1px solid #EBECF1' }}
+                  ></Box>
+                </>
               ))}
             </Box>
           </Box>
@@ -306,7 +316,7 @@ const PostRedirect = ({ label }: any) => {
   return (
     <Typography
       variant="body2"
-      sx={{ display: 'flex', gap: '6px' }}
+      sx={{ display: 'flex', gap: '6px', alignItems: 'center' }}
       color={theme?.palette?.grey[600]}
     >
       <ViewExpandedIcon /> View On

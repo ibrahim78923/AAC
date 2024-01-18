@@ -5,8 +5,15 @@ import { departmentFormFields } from './DepartmentsFormModal.data';
 import { FormProvider } from '@/components/ReactHookForm';
 
 export const DepartmentsFormModal = (props: any) => {
-  const { methods, handleSubmit, open, handleClose, formTitle, userList } =
-    props;
+  const {
+    methods,
+    handleSubmit,
+    open,
+    handleClose,
+    formTitle,
+    userList,
+    isLoading,
+  } = props;
   return (
     <Dialog
       open={open}
@@ -51,7 +58,11 @@ export const DepartmentsFormModal = (props: any) => {
             <Button variant="outlined" color="inherit" onClick={handleClose}>
               Cancel
             </Button>
-            <LoadingButton variant="contained" type="submit">
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={isLoading}
+            >
               Save
             </LoadingButton>
           </Grid>

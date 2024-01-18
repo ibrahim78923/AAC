@@ -30,7 +30,7 @@ export const useTasksHeader = (props: any) => {
     setActionExportPop(null);
   };
   const openActionExport = Boolean(actionExportPop);
-  const [deleteTaskApi] = useDeleteTaskMutation();
+  const [deleteTaskApi, { isLoading }] = useDeleteTaskMutation();
   const submitDeleteModel = async () => {
     const deleteParams = new URLSearchParams();
     activeCheck?.forEach((task: any) => deleteParams?.append('ids', task?._id));
@@ -115,5 +115,6 @@ export const useTasksHeader = (props: any) => {
     openAddDrawer,
     excelExportHandler,
     csvExportHandler,
+    isLoading,
   };
 };
