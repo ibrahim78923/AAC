@@ -9,12 +9,18 @@ export const useTasksHeader = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [deleteWorkflow, setDeleteWorkflow] = useState(false);
+  const EDIT_WORKFLOW = 'edit';
 
   const handleActionClick = (actionType: string) => {
     if (actionType === ACTIONS_TYPES?.DELETE) {
       setDeleteWorkflow(true);
     } else if (actionType === ACTIONS_TYPES?.EDIT) {
-      router?.push(AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW);
+      router?.push({
+        pathname: AIR_OPERATIONS?.UPSERT_SCHEDULE_WORKFLOW,
+        query: {
+          action: EDIT_WORKFLOW,
+        },
+      });
     }
   };
   const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);

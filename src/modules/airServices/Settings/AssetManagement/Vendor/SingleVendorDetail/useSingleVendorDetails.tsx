@@ -4,12 +4,13 @@ import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useDeleteVendorMutation } from '@/services/airServices/settings/asset-management/vendor';
+import { AIR_SERVICES } from '@/constants';
 
 export const useSingleVendorDetails = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isADrawerOpen, setIsADrawerOpen] = useState(false);
   const router = useRouter();
-
+  const update = 'update';
   const { vendorId } = router?.query;
   const [deleteVendor] = useDeleteVendorMutation();
   const singleVendorDetailsActionDropdown =
@@ -21,10 +22,12 @@ export const useSingleVendorDetails = () => {
 
   const handleDeleteBtn = async () => {
     const updatedData = { queryParams: { id: vendorId } };
+
     try {
       const res = await deleteVendor(updatedData)?.unwrap();
       setDeleteModalOpen?.(false);
-      enqueueSnackbar(res?.message ?? 'Product Catalog Deleted Successfully!', {
+      router?.push(AIR_SERVICES?.VENDOR_SETTINGS);
+      enqueueSnackbar(res?.data?.message ?? 'Vendor Deleted Successfully!', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {
@@ -41,5 +44,6 @@ export const useSingleVendorDetails = () => {
     handleDeleteBtn,
     isADrawerOpen,
     setIsADrawerOpen,
+    update,
   };
 };

@@ -21,7 +21,6 @@ export const AddServiceCatalog = (prop: any) => {
     <Fragment>
       <Dialog
         onClose={handleClose}
-        onSubmit={onSubmit}
         aria-labelledby="customized-dialog-title"
         open={open}
         fullWidth
@@ -45,7 +44,13 @@ export const AddServiceCatalog = (prop: any) => {
             </Grid>
           </DialogContent>
           <DialogActions>
-            <LoadingButton onClick={handleClose}>cancel</LoadingButton>
+            <LoadingButton
+              color="secondary"
+              variant="outlined"
+              onClick={handleClose}
+            >
+              cancel
+            </LoadingButton>
             <LoadingButton variant="contained" type="submit">
               Create
             </LoadingButton>

@@ -54,11 +54,12 @@ export const styles = {
       alignItems: 'flex-end',
     };
   },
-  chatReplyReference: () => {
+  chatReplyReference: (role: any) => {
     return {
       width: '85%',
-      paddingLeft: '20px',
-      marginTop: '-60px',
+      paddingLeft: role === 'sender' ? '0px' : '20px',
+      paddingRight: role === 'sender' ? '20px' : '0px',
+      // marginTop: '-60px',
     };
   },
   chatReplyReferenceContent: () => {
@@ -70,15 +71,20 @@ export const styles = {
     };
   },
 
-  chatReaction: () => {
+  chatReactionWrapper: (theme: any) => {
     return {
-      background: '#F9F9F9',
-      width: '30px',
-      height: '30px',
-      borderRadius: '50%',
+      background: theme?.palette?.custom?.cloud_white,
+      display: 'flex',
       position: 'absolute',
       right: '25px',
       top: '-15px',
+      borderRadius: '30px',
+    };
+  },
+  chatReaction: () => {
+    return {
+      width: '30px',
+      height: '30px',
       color: 'red',
       display: 'flex',
       alignItems: 'center',

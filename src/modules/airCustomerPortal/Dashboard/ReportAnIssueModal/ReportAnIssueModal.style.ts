@@ -3,7 +3,7 @@ export const styles = {
     '& .MuiDialog-container': {
       '& .MuiPaper-root': {
         width: '100%',
-        maxWidth: '736px',
+        maxWidth: '700px',
       },
     },
   },

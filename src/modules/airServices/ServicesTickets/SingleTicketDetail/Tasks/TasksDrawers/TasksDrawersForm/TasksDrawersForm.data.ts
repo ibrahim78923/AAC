@@ -1,45 +1,62 @@
+import * as Yup from 'yup';
 import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFEditor,
-  RHFSelect,
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
 
-export const taskTicketFormValidationSchema = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Field is Required'),
-  description: Yup?.string(),
-  department: Yup?.string()?.required('Field is Required'),
-  assignTo: Yup?.string(),
-  status: Yup?.string(),
-  notifyBefore: Yup?.string(),
-  plannedStartDate: Yup?.date(),
-  plannedStartTime: Yup?.date(),
-  plannedEndDate: Yup?.date(),
-  plannedEndTime: Yup?.date(),
+const notifyBeforeOption = [
+  { value: 5, title: '5 Minutes' },
+  { value: 10, title: '10 Minutes' },
+  { value: 15, title: '15 Minutes' },
+  { value: 30, title: '30 Minutes' },
+];
+const statusOptions = ['Todo', 'In-Progress', 'Done'];
+export const taskTicketFormValidationSchema: any = Yup?.object()?.shape({
+  title: Yup?.string()?.trim()?.required('Required'),
+  description: Yup?.string()?.trim()?.required('Required'),
+  departmentId: Yup?.mixed()?.required('Required'),
+  status: Yup?.string()?.required('Required'),
+  startDate: Yup?.date(),
+  startDateTime: Yup?.date(),
+  endDate: Yup?.date(),
+  endDateTime: Yup?.date(),
   plannedEffort: Yup?.string(),
 });
 
-export const taskTicketFormDefaultValues = {
-  title: '', //1
-  description: '', //2
-  department: '', //3
-  assignTo: '', //4
-  status: '', //5
-  notifyBefore: '', //6
-  plannedStartDate: new Date(), //7
-  plannedStartTime: new Date(), //8
-  plannedEndDate: new Date(), //9
-  plannedEndTime: new Date(), //10
-  plannedEffort: '', //11
+export const taskTicketFormDefaultValues = (data: any) => {
+  const taskData = data?.[0];
+  return {
+    title: taskData?.title ?? '',
+    description: taskData?.description ?? '',
+    departmentId: taskData?.departmentData ?? null,
+    assignTo: !!Object?.keys(taskData?.assignedUser ?? {})?.length
+      ? taskData?.assignedUser
+      : '',
+    status: taskData?.status ?? '',
+    notifyBefore: taskData?.notifyBefore ?? '',
+    startDate: taskData?.startDate ? new Date(taskData?.startDate) : new Date(),
+    startDateTime: taskData?.startDateTime
+      ? new Date(taskData?.startDateTime)
+      : new Date(),
+    endDate: taskData?.endDate ? new Date(taskData?.endDate) : null,
+    endDateTime: taskData?.endDateTime ? new Date(taskData?.endDateTime) : null,
+    plannedEffort: taskData?.plannedEffort ?? '',
+  };
 };
-
-export const taskTicketFormFields = [
+export const taskTicketFormFields = (
+  departmentDropdown: any,
+  userDropdown: any,
+) => [
   {
+    id: 1,
     componentProps: {
       name: 'title',
       label: 'Title',
+      placeholder: 'Title',
       fullWidth: true,
       required: true,
     },
@@ -47,117 +64,127 @@ export const taskTicketFormFields = [
     md: 12,
   },
   {
+    id: 2,
     componentProps: {
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      required: true,
+      style: {
+        minHeight: 200,
+      },
     },
     component: RHFEditor,
     md: 12,
   },
   {
+    id: 3,
     componentProps: {
-      name: 'department',
+      name: 'departmentId',
       label: 'Department',
       fullWidth: true,
-      select: true,
       required: true,
+      placeholder: 'Chose department',
+      externalParams: { limit: 50 },
+      apiQuery: departmentDropdown,
     },
-    options: [
-      { value: 'IT', label: 'IT' },
-      { value: 'HR', label: 'HR' },
-      { value: 'Finance', label: 'Finance' },
-    ],
-    component: RHFSelect,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
+    id: 4,
     componentProps: {
       name: 'assignTo',
       label: 'Assign To',
       fullWidth: true,
-      select: true,
+      placeholder: 'Select',
+      apiQuery: userDropdown,
+      getOptionLabel: (option: any) =>
+        option?.firstName || option?.lastName
+          ? option?.firstName + ' ' + option?.lastName
+          : '',
     },
-    options: [
-      { value: 'Cameron Williamson', label: 'Cameron Williamson' },
-      { value: 'Cameron Williamson', label: 'Cameron Williamson' },
-      { value: 'Cameron Williamson', label: 'Cameron Williamson' },
-      { value: 'Cameron Williamson', label: 'Cameron Williamson' },
-    ],
-    component: RHFSelect,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
+    id: 5,
     componentProps: {
       name: 'status',
       label: 'Status',
+      placeholder: 'Select',
       fullWidth: true,
-      select: true,
+      required: true,
+      options: statusOptions,
     },
-    options: [
-      { value: 'Active', label: 'Active' },
-      { value: 'Inactive', label: 'Inactive' },
-    ],
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
+    id: 6,
     componentProps: {
       name: 'notifyBefore',
       label: 'Notify Before',
+      placeholder: 'Select',
       fullWidth: true,
-      select: true,
+      options: notifyBeforeOption,
+      getOptionLabel: (option: any) =>
+        option?.title ? option?.title : option ? option + ' ' + 'Minutes' : '',
     },
-    options: [
-      { value: '5 Minutes', label: '5 Minutes' },
-      { value: '10 Minutes', label: '10 Minutes' },
-      { value: '15 Minutes', label: '15 Minutes' },
-      { value: '30 Minutes', label: '30 Minutes' },
-      { value: 'Never', label: 'Never' },
-    ],
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
+    id: 7,
     componentProps: {
-      name: 'plannedStartDate',
+      name: 'startDate',
       label: 'Planned Start Date',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFDatePicker,
     md: 8,
   },
   {
+    id: 8,
     componentProps: {
-      name: 'plannedStartTime',
+      name: 'startDateTime',
       label: '\u00a0',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFTimePicker,
     md: 4,
   },
   {
+    id: 9,
     componentProps: {
-      name: 'plannedEndDate',
+      name: 'endDate',
       label: 'Planned End Date',
       fullWidth: true,
+      disablePast: true,
+      textFieldProps: { readOnly: true },
     },
     component: RHFDatePicker,
     md: 8,
   },
   {
+    id: 10,
     componentProps: {
-      name: 'plannedEndTime',
+      name: 'endDateTime',
       label: '\u00a0',
       fullWidth: true,
+      textFieldProps: { readOnly: true },
     },
     component: RHFTimePicker,
     md: 4,
   },
   {
+    id: 11,
     componentProps: {
       name: 'plannedEffort',
       label: 'Planned Effort',
+      placeholder: 'Eg: 1h10m',
       fullWidth: true,
     },
     component: RHFTextField,

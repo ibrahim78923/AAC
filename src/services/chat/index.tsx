@@ -4,8 +4,23 @@ const TAG = ['CHAT'];
 export const chatApi = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getUserChats: builder.query({
-      query: ({ activeChatId, params }: any) => ({
-        url: `${SOCIAL_FEATURES_CHAT?.CHAT}${activeChatId}?page=1&limit=100`,
+      query: ({ activeChatId, params, limit, isGroup }: any) => ({
+        url: `${SOCIAL_FEATURES_CHAT?.CHAT}${activeChatId}?page=1&limit=${
+          limit ?? 1000
+        }&isGroup=${isGroup}`,
+        method: 'GET',
+        params: params,
+        headers: {
+          'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+        },
+      }),
+      providesTags: TAG,
+    }),
+    getUserChatsInfo: builder.query({
+      query: ({ activeChatId, params, limit, isGroup, mediaType }: any) => ({
+        url: `${SOCIAL_FEATURES_CHAT?.CHAT}${activeChatId}?page=1&limit=${
+          limit ?? 1000
+        }&isGroup=${isGroup}&mediaType=${mediaType}`,
         method: 'GET',
         params: params,
         headers: {
@@ -15,8 +30,8 @@ export const chatApi = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
     getChatsContacts: builder.query({
-      query: ({ params, isGroup }: any) => ({
-        url: `${SOCIAL_FEATURES_CHAT?.CHAT_LIST}?page=1&limit=10&isGroup=${isGroup}`,
+      query: ({ params, isGroup, query }: any) => ({
+        url: `${SOCIAL_FEATURES_CHAT?.CHAT_LIST}?page=1&limit=10&isGroup=${isGroup}${query}`,
         method: 'GET',
         params: params,
         headers: {
@@ -25,7 +40,53 @@ export const chatApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    updateChat: builder.mutation({
+      query: ({ id, body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_CHAT?.UPDATE_CHAT}${id}`,
+          method: 'PATCH',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+    chatAttachmentUpload: builder.mutation({
+      query: ({ media }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_CHAT?.UPLOAD_ATTACHMENT_CHAT}`,
+          method: 'POST',
+          body: media,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+    createNewGroup: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: `${SOCIAL_FEATURES_CHAT?.CREATE_GROUP}`,
+          method: 'POST',
+          body: body,
+          headers: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        };
+      },
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
-export const { useGetUserChatsQuery, useGetChatsContactsQuery } = chatApi;
+export const {
+  useGetUserChatsQuery,
+  useGetChatsContactsQuery,
+  useUpdateChatMutation,
+  useCreateNewGroupMutation,
+  useChatAttachmentUploadMutation,
+  useGetUserChatsInfoQuery,
+} = chatApi;

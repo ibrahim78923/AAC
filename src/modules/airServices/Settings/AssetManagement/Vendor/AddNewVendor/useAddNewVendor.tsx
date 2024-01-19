@@ -8,11 +8,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useGetVendorsByIdQuery,
-  useLazyGetVendorsByIdQuery,
   usePatchNewVendorMutation,
   usePostNewVendorMutation,
 } from '@/services/airServices/settings/asset-management/vendor';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export const useAddNewVendor = (props: any) => {
   const router = useRouter();
@@ -20,38 +20,21 @@ export const useAddNewVendor = (props: any) => {
   const { setIsADrawerOpen } = props;
   const [postNewVendorTrigger] = usePostNewVendorMutation();
   const [patchNewVendorTrigger] = usePatchNewVendorMutation();
-  const [getVendorsById] = useLazyGetVendorsByIdQuery();
-  const getDefaultValues = async () => {
-    try {
-      const response = await getVendorsById({
-        params: {
-          id: vendorId,
-        },
-      })?.unwrap();
+  const { data: vinData, isLoading } = useGetVendorsByIdQuery({
+    params: {
+      id: vendorId,
+    },
+  });
 
-      return response.data;
-    } catch (error) {
-      return newVendorDefaultValues;
-    }
-  };
   const methodsNewVendor: any = useForm<any>({
     resolver: yupResolver(newVendorValidationSchema),
-    defaultValues: getDefaultValues,
+    defaultValues: newVendorDefaultValues,
   });
-  const getSingleVendorParameter = {
-    pathParam: {
-      vendorId,
-    },
-  };
 
-  const { data, isLoading, isFetching } = useGetVendorsByIdQuery(
-    getSingleVendorParameter,
-    {
-      refetchOnMountOrArgChange: true,
-      skip: !!!vendorId,
-    },
-  );
   const { handleSubmit, reset } = methodsNewVendor;
+  useEffect(() => {
+    reset(() => vinData?.data);
+  }, [vinData]);
   const onSubmit = async (data: any) => {
     const body = {
       ...data,
@@ -64,7 +47,7 @@ export const useAddNewVendor = (props: any) => {
     try {
       const response = await postNewVendorTrigger({ body })?.unwrap();
 
-      enqueueSnackbar(response?.message ?? 'Vendor Added Successfully', {
+      enqueueSnackbar(response?.data?.message ?? 'Vendor Added Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       reset(newVendorDefaultValues);
@@ -74,7 +57,7 @@ export const useAddNewVendor = (props: any) => {
       });
     }
 
-    setIsADrawerOpen(false);
+    handleClose?.();
   };
 
   const submitUpdateNewVendor = async (data: any) => {
@@ -94,9 +77,12 @@ export const useAddNewVendor = (props: any) => {
       const response = await patchNewVendorTrigger(
         patchNewVendorParameter,
       )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'NewVendor Updated Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      enqueueSnackbar(
+        response?.data?.message ?? 'Vendor Updated Successfully!',
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
@@ -104,8 +90,9 @@ export const useAddNewVendor = (props: any) => {
     }
     setIsADrawerOpen(false);
   };
-  const onClose = () => {
+  const handleClose = () => {
     setIsADrawerOpen?.(false);
+    reset?.();
   };
   return {
     methodsNewVendor,
@@ -113,10 +100,8 @@ export const useAddNewVendor = (props: any) => {
     newVendorDefaultValues,
     handleSubmit,
     onSubmit,
-    onClose,
     submitUpdateNewVendor,
-    data,
     isLoading,
-    isFetching,
+    handleClose,
   };
 };

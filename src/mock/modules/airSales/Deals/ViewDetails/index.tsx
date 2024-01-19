@@ -135,14 +135,16 @@ export const productsData: any = [
   {
     Id: 1,
     name: `# PBR - 5`,
-    quantity: 1,
-    amount: '$42',
+    PhoneNumber: '030012345',
+    DealsOwner: 'Ali haasan',
+    DealStage: '$42',
   },
   {
     Id: 2,
     name: ` # PBR - 52`,
-    quantity: 2,
-    amount: '$40',
+    PhoneNumber: '030012345',
+    DealsOwner: 'Ali haasan',
+    DealStage: '$40',
   },
 ];
 

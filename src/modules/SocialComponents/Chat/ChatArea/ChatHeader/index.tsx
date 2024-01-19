@@ -18,13 +18,21 @@ import {
 import { styles } from './ChatHeader.style';
 import ChatInfoModal from './ChatInfoModal';
 import ChatDropdown from '../../ChatDropdown';
-import { useAppSelector } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { useUpdateChatMutation } from '@/services/chat';
+import { enqueueSnackbar } from 'notistack';
+import { setActiveConversation } from '@/redux/slices/chat/slice';
 
 const ChatHeader = ({ chatMode }: any) => {
   const theme = useTheme();
 
+  const dispatch = useAppDispatch();
+
   const activeParticipant = useAppSelector(
     (state) => state?.chat?.activeParticipant,
+  );
+  const activeConversation = useAppSelector(
+    (state) => state?.chat?.activeConversation,
   );
 
   const [isUserProfile, setIsUserProfile] = useState(false);
@@ -39,18 +47,53 @@ const ChatHeader = ({ chatMode }: any) => {
     setAnchorEl(null);
   };
 
+  const [updateChat] = useUpdateChatMutation();
+  const updateChatHandler = async (requestType: any) => {
+    const payloadMap: any = {
+      unRead: { unRead: !activeConversation?.unRead },
+      isMuted: { isMuted: !activeConversation?.isMuted },
+      isArchived: { isArchived: !activeConversation?.isArchived },
+      isDeleted: { isArchived: !activeConversation?.isDeleted },
+    };
+    const payload = payloadMap[requestType] || {};
+    try {
+      const response = await updateChat({
+        body: payload,
+        id: activeConversation?.conversationId,
+      })?.unwrap();
+      enqueueSnackbar('successfully', {
+        variant: 'success',
+      });
+
+      dispatch(
+        setActiveConversation({
+          ...activeConversation,
+          isDeleted: response?.data?.isDeleted,
+          isArchived: response?.data?.isArchived,
+          isMuted: response?.data?.isMuted,
+          unRead: response?.data?.unRead,
+        }),
+      ),
+        handleClose();
+    } catch (error: any) {
+      enqueueSnackbar('An error occurred', {
+        variant: 'error',
+      });
+    }
+  };
+
   const menuItemsData = [
     {
-      menuLabel: 'Mark as Unread',
-      handler: handleClose,
+      menuLabel: activeConversation?.unRead ? 'Mark as Read' : 'Mark as Unread',
+      handler: () => updateChatHandler('unRead'),
     },
     {
-      menuLabel: 'Mute',
-      handler: handleClose,
+      menuLabel: activeConversation?.isMuted ? 'Un Mute' : 'Mute',
+      handler: () => updateChatHandler('isMuted'),
     },
     {
-      menuLabel: 'Archive',
-      handler: handleClose,
+      menuLabel: activeConversation?.isArchived ? 'Un Archive' : 'Archive',
+      handler: () => updateChatHandler('isArchived'),
     },
     {
       menuLabel: 'Delete Conversation',
@@ -112,13 +155,17 @@ const ChatHeader = ({ chatMode }: any) => {
         isUserProfile={isUserProfile}
         setIsUserProfile={setIsUserProfile}
         chatMode={chatMode}
+        activeParticipant={activeParticipant}
       />
       <AlertModals
         message={'Are you sure you want to delete this Conversation ?'}
         type="delete"
         open={isDeleteModal}
         handleClose={() => setIsDeleteModal(false)}
-        handleSubmit={() => setIsDeleteModal(false)}
+        handleSubmit={() => {
+          setIsDeleteModal(false);
+          updateChatHandler('isDeleted');
+        }}
       />
     </>
   );

@@ -35,7 +35,7 @@ export const UpsertAsset = (props: any) => {
         mb={1}
       >
         <Typography variant={'h3'}>
-          {isUpsertModalOpen?.id ? 'Update' : 'Add'} Vendor
+          {isUpsertModalOpen?.data ? 'Update' : 'Add'} Vendor
         </Typography>
         <CloseIcon
           sx={{ cursor: 'pointer' }}
@@ -69,7 +69,7 @@ export const UpsertAsset = (props: any) => {
                   postVendorStatus?.isLoading || patchVendorStatus?.isLoading
                 }
               >
-                {isUpsertModalOpen?.id ? 'Update' : 'Save'}
+                {isUpsertModalOpen?.data ? 'Update' : 'Save'}
               </Button>
             </Grid>
           </Grid>

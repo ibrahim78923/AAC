@@ -2,7 +2,6 @@ import { AlertModalCloseIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
 import {
   Box,
-  Button,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -12,34 +11,33 @@ import {
   Typography,
 } from '@mui/material';
 import { addNewAssetTypesModalField } from './AddNewAssetTypesModal.data';
+import { LoadingButton } from '@mui/lab';
 
 const AddNewAssetTypesModal = (props: any) => {
-  const { open, handleClose, methods, submitForm, modalTitle } = props;
+  const { open, handleClose, methods, modalTitle, handleSubmit, isLoading } =
+    props;
   return (
     <>
       <Dialog fullWidth open={open} onClose={() => handleClose?.(false)}>
-        <Box width={'100%'}>
-          <DialogTitle>
-            <Box
-              display={'flex'}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-              mb={1}
-            >
-              <Typography variant="h4">{modalTitle}</Typography>
-              <IconButton
-                onClick={() => handleClose?.(false)}
-                style={{ cursor: 'pointer' }}
+        <FormProvider methods={methods} onSubmit={handleSubmit}>
+          <Box width={'100%'}>
+            <DialogTitle>
+              <Box
+                display={'flex'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
+                mb={1}
               >
-                <AlertModalCloseIcon />
-              </IconButton>
-            </Box>
-          </DialogTitle>
-          <DialogContent>
-            <FormProvider
-              methods={methods}
-              onSubmit={methods?.handleSubmit?.(submitForm)}
-            >
+                <Typography variant="h4">{modalTitle}</Typography>
+                <IconButton
+                  onClick={() => handleClose?.(false)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <AlertModalCloseIcon />
+                </IconButton>
+              </Box>
+            </DialogTitle>
+            <DialogContent>
               <Grid container spacing={2}>
                 {addNewAssetTypesModalField?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={item?.id}>
@@ -47,22 +45,27 @@ const AddNewAssetTypesModal = (props: any) => {
                   </Grid>
                 ))}
               </Grid>
-            </FormProvider>
-            <Divider />
-            <Box display={'flex'} justifyContent={'flex-end'} gap={1} pt={1}>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => handleClose?.(false)}
-              >
-                Close
-              </Button>
-              <Button variant="contained" type="submit">
-                Save
-              </Button>
-            </Box>
-          </DialogContent>
-        </Box>
+              <Divider />
+              <Box display={'flex'} justifyContent={'flex-end'} gap={1} pt={1}>
+                <LoadingButton
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => handleClose?.(false)}
+                  disabled={isLoading}
+                >
+                  Close
+                </LoadingButton>
+                <LoadingButton
+                  variant="contained"
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  Save
+                </LoadingButton>
+              </Box>
+            </DialogContent>
+          </Box>
+        </FormProvider>
       </Dialog>
     </>
   );

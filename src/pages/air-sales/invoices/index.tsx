@@ -1,8 +1,8 @@
 import Layout from '@/layout';
-import Invoices from '@/modules/airSales/Invoices';
+import ListView from '@/modules/airSales/Invoices/ListView';
 
 const SalesInvoicesPage = () => {
-  return <Invoices />;
+  return <ListView />;
 };
 
 export default SalesInvoicesPage;

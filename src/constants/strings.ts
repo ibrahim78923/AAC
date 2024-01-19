@@ -1,7 +1,7 @@
 export const BILLING_CYCLE = {
   MONTHLY: 'MONTHLY',
   QUARTERLY: 'QUARTERLY',
-  ANNUAL: 'ANNUAL',
+  ANNUAL: 'YEARLY',
   HALF_YEARLY: 'HALF_YEARLY',
   ONE_TIME: 'ONE_TIME',
 };
@@ -42,6 +42,17 @@ export const TICKET_IMPACT = {
   MEDIUM: 'MEDIUM',
   HIGH: 'HIGH',
 };
+export const IMPORT_ACTIONS = {
+  CANCEL: 'CANCEL',
+  NEXT: 'NEXT',
+  BACK: 'BACK',
+  IMPORT: 'IMPORT',
+};
+export const IMPORT_ACTIONS_STEPS = {
+  STEP_ONE: 0,
+  STEP_TWO: 1,
+  STEP_THREE: 2,
+};
 
 export const TICKET_APPROVALS = {
   RECEIVED: 'RECEIVED',
@@ -54,7 +65,7 @@ export const TICKET_APPROVALS = {
 export const CONTRACT_TYPES = {
   LEASE: 'LEASE',
   MAINTENANCE: 'MAINTENANCE',
-  SOFTWARE_LICENSE: 'SOFTWARE_LICENSE',
+  SOFTWARE_LICENSE: 'SOFTWARE_LICENCE',
   WARRANTY: 'WARRANTY',
 };
 
@@ -95,6 +106,10 @@ export const ASSET_IMPACT = {
   HIGH: 'high',
 };
 
+export const TICKET_TYPE = {
+  INC: 'INC',
+  SR: 'SR',
+};
 export const ASSET_TYPE = {
   SERVICES: 'services',
   HARDWARE: 'hardware',
@@ -242,8 +257,8 @@ export const SETTINGS_ADD_ROLE = {
   DELETE: 'Delete',
 };
 export const REQUESTORS_STATUS = {
-  ACTIVE: 'Active',
-  INACTIVE: 'Inactive',
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
 };
 export const REQUESTORS_ASSIGNED_STATUS = {
   OPEN: 'Open',
@@ -265,6 +280,9 @@ export const ROLES_ACTION_CONSTANTS = {
   VIEW: 'View',
   DELETE: 'Delete',
   ADD_NEW_ROLE: 'Add New Role',
+  SAVE: 'Save',
+  ADD: 'Add',
+  VIEW_ID: 'Id',
 };
 export const ROLES_ACTION_CONSTANTS_DRAWER_ACTION = {
   ADD_ROLE: 'Add Roles',
@@ -294,6 +312,24 @@ export const ACTIONS_TYPES = {
   EDIT: 'edit',
   CLONE: 'clone',
 };
+export const AGENTS = {
+  INVITE_AGENT: 'Invite Agent',
+  UPDATE_AGENT: 'Update Agent',
+};
+export const SOFTWARE_USER_ACTIONS_TYPES = {
+  ALLOCATE: 'Allocate',
+  DEALLOCATE: 'Deallocate',
+  REMOVE: 'Remove',
+};
+
+export const SOFTWARE_USER_ACTIONS_CLICK = {
+  CLOSE_MENU: 'closeMenu',
+};
+export const TASK_STATUS = {
+  TO_DO: 'Todo',
+  IN_PROGRESS: 'In-Progress',
+  DONE: 'Done',
+};
 
 export enum ROLES {
   ORG_REQUESTER = 'ORG_REQUESTER',
@@ -304,4 +340,8 @@ export const TICKETS_STATE = {
   NEW: 'New',
   RESPONSE_DUE: 'Response due',
   OVERDUE: 'Overdue',
+};
+export const ROLE = {
+  ORG_REQUESTER: 'ORG_REQUESTER',
+  ORG_AGENT: 'ORG_AGENT',
 };

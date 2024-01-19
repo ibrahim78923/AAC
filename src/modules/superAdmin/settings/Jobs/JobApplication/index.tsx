@@ -1,10 +1,10 @@
 import React from 'react';
-import { Box, useTheme, Button, Grid } from '@mui/material';
+import { Box, useTheme, Button, Grid, Tooltip } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { FormProvider } from '@/components/ReactHookForm';
-import { FilterSharedIcon } from '@/assets/icons';
+import { FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import { columns, getFiltersDataArray } from './JobApplication.data';
 import { styles } from './JobsApplication.styles';
 import { v4 as uuidv4 } from 'uuid';
@@ -15,6 +15,7 @@ const JobApplication = () => {
     data,
     isLoading,
     setSearchValue,
+    handleRefresh,
     openDrawerFilter,
     handleOpenFilters,
     handleCloseFilters,
@@ -29,30 +30,25 @@ const JobApplication = () => {
 
   return (
     <Box>
-      <Box
-        mt={2}
-        mb={3}
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          gap: '10px',
-          padding: '0px 24px',
-        }}
-      >
-        <Search
-          setSearchBy={setSearchValue}
-          label="Search Here"
-          size="small"
-          width={'260px'}
-        />
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-          }}
-        >
+      <Box sx={styles?.filterBar}>
+        <Box sx={styles?.search}>
+          <Search
+            setSearchBy={setSearchValue}
+            label="Search Here"
+            size="small"
+            width={'100%'}
+          />
+        </Box>
+        <Box sx={styles?.filterButtons}>
+          <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+            <Button
+              sx={styles?.refreshButton}
+              className="small"
+              onClick={handleRefresh}
+            >
+              <RefreshSharedIcon />
+            </Button>
+          </Tooltip>
           <Button
             sx={styles?.filterButton}
             className="small"

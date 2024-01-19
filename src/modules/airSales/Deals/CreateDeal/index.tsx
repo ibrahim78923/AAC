@@ -1,17 +1,35 @@
 import { useForm } from 'react-hook-form';
 
-import { Grid, MenuItem, Typography, useTheme } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
+import { usePostDealsMutation } from '@/services/airSales/deals';
 
 import { createDealData } from './CreateDeal.data';
-
 import { v4 as uuidv4 } from 'uuid';
 
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+
 const CreateDeal = ({ open, onClose }: any) => {
+  const [postDeals] = usePostDealsMutation();
+  const startDate = 0;
+
   const methods = useForm({});
-  const theme = useTheme();
+
+  const { handleSubmit } = methods;
+
+  const onSubmit = async (values: any) => {
+    values.addLineItemId = '6538bb480b3f9e9d83d4a2ce'; // need get api for addLineItem but missing this api so i am using static id
+    values.closeDate = dayjs(values?.closeDate[startDate])?.format(
+      DATE_FORMAT?.API,
+    );
+    try {
+      await postDeals({ body: values })?.unwrap();
+    } catch (error) {}
+    onClose();
+  };
 
   return (
     <CommonDrawer
@@ -21,34 +39,20 @@ const CreateDeal = ({ open, onClose }: any) => {
       footer
       okText="Create"
       isOk
+      submitHandler={handleSubmit(onSubmit)}
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={2} gap={'7px'}>
-          {createDealData?.map((obj) => (
-            <Grid item xs={12} key={uuidv4()}>
-              <Typography
-                sx={{
-                  colors: theme?.palette?.grey[600],
-                  fontWeight: 500,
-                  fontSize: '14px',
-                }}
-              >
-                {obj.title}
-              </Typography>
-              <obj.component
-                fullWidth
-                size={'small'}
-                SelectProps={{ sx: { borderRadius: '8px' } }}
-                {...obj?.componentProps}
-              >
-                {obj?.componentProps?.select
-                  ? obj?.options?.map((option) => (
-                      <MenuItem key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </MenuItem>
-                    ))
-                  : null}
-              </obj.component>
+        <Grid container spacing={1}>
+          {createDealData()?.map((item: any) => (
+            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <item.component {...item?.componentProps} size={'small'}>
+                {item?.componentProps?.select &&
+                  item?.options?.map((option: any) => (
+                    <option key={uuidv4()} value={option?.value}>
+                      {option?.label}
+                    </option>
+                  ))}
+              </item.component>
             </Grid>
           ))}
         </Grid>

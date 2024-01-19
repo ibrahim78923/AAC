@@ -1,8 +1,11 @@
 import { Box, Button, Typography, useTheme } from '@mui/material';
 import { AddCircleBlackIcon, DesignPenIcon } from '@/assets/icons';
+import { useRouter } from 'next/router';
+import { AIR_LOYALTY_PROGRAM } from '@/constants';
 
-export const Header = ({ showButtons }: any) => {
+export const Header = ({ showButtons, setAddPhysicalCard }: any) => {
   const theme: any = useTheme();
+  const router = useRouter();
 
   return (
     <Box
@@ -13,7 +16,7 @@ export const Header = ({ showButtons }: any) => {
     >
       <Box p={1}>
         <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
-          Gift cards
+          Gift Cards
         </Typography>
       </Box>
       {showButtons && (
@@ -22,6 +25,7 @@ export const Header = ({ showButtons }: any) => {
             size="small"
             variant="outlined"
             color="secondary"
+            onClick={() => setAddPhysicalCard(true)}
             startIcon={<AddCircleBlackIcon />}
           >
             Add
@@ -30,6 +34,11 @@ export const Header = ({ showButtons }: any) => {
             size="small"
             variant="contained"
             startIcon={<DesignPenIcon />}
+            onClick={() => {
+              router?.push({
+                pathname: AIR_LOYALTY_PROGRAM?.PHYSICAL_GIFT_CARD_DESIGN,
+              });
+            }}
           >
             Design card
           </Button>

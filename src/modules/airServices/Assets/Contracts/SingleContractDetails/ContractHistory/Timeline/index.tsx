@@ -9,7 +9,7 @@ export const Timeline = ({ data }: any) => {
       <Box display={'flex'} flexWrap={'wrap'} gap={1.25}>
         <Typography variant="body3" sx={{ flex: 0.15 }} pt={1}>
           {' '}
-          {data?.date}
+          {data?.name}
         </Typography>
         <Box>
           <IconButton
@@ -28,7 +28,7 @@ export const Timeline = ({ data }: any) => {
             color="primary"
             marginRight={0.3}
           >
-            {data?.status}
+            {data?.name}
           </Typography>
           <Typography variant="body2" fontWeight={600}>
             {data?.description}
@@ -51,7 +51,7 @@ export const Timeline = ({ data }: any) => {
                 },
               }}
             >
-              Cost: {data?.cost}
+              Cost: {data?.name}
             </Button>
             <Button
               size="small"
@@ -65,7 +65,7 @@ export const Timeline = ({ data }: any) => {
                 },
               }}
             >
-              createdBy : {data?.createdBy}
+              createdBy : {data?.name}
             </Button>
           </Box>
         </Box>

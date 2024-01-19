@@ -5,6 +5,9 @@ interface ChatStateI {
   chatMessages: any;
   chatContacts: any;
   activeChatId: any;
+  activeChat: any;
+  activeConversation: any;
+  changeChat: any;
   activeReceiverId: any;
   isNewChat: any;
   socket: any;
@@ -12,6 +15,10 @@ interface ChatStateI {
   messageStatus: boolean;
   activeParticipant: any;
   typingUserData: any;
+  activeReply: any;
+  chatMetaInfo: any;
+  isChatMessagesLoading: any;
+  isChatContactsLoading: any;
 }
 
 const initialState: ChatStateI = {
@@ -19,6 +26,9 @@ const initialState: ChatStateI = {
   chatMessages: [],
   chatContacts: [],
   activeChatId: '',
+  activeChat: {},
+  activeConversation: '',
+  changeChat: '',
   activeReceiverId: '',
   isNewChat: false,
   socket: {},
@@ -26,6 +36,10 @@ const initialState: ChatStateI = {
   messageStatus: false,
   activeParticipant: {},
   typingUserData: {},
+  activeReply: {},
+  chatMetaInfo: {},
+  isChatMessagesLoading: false,
+  isChatContactsLoading: false,
 };
 
 const chatSlice = createSlice({
@@ -41,6 +55,7 @@ const chatSlice = createSlice({
     setChatMessages(state, action) {
       if (Array.isArray(action?.payload)) {
         state.chatMessages = action?.payload;
+        // state.chatMessages = [...state.chatMessages,...action?.payload];
       } else {
         const existingMessageIndex = state?.chatMessages?.findIndex(
           (message: any) => message?._id === action?.payload?._id,
@@ -87,8 +102,14 @@ const chatSlice = createSlice({
     setActiveChatId(state, action) {
       state.activeChatId = action?.payload;
     },
+    setActiveChat(state, action) {
+      state.activeChat = action?.payload;
+    },
     setActiveReceiverId(state, action) {
       state.activeReceiverId = action?.payload;
+    },
+    setActiveConversation(state, action) {
+      state.activeConversation = action?.payload;
     },
     setIsNewChat(state, action) {
       state.isNewChat = action?.payload;
@@ -108,6 +129,21 @@ const chatSlice = createSlice({
     setTypingUserData(state, action) {
       state.typingUserData = action?.payload;
     },
+    setActiveReply(state, action) {
+      state.activeReply = action?.payload;
+    },
+    setChatMetaInfo(state, action) {
+      state.chatMetaInfo = action?.payload;
+    },
+    setChatMessagesLoading(state, action) {
+      state.isChatMessagesLoading = action?.payload;
+    },
+    setChatContactsLoading(state, action) {
+      state.isChatContactsLoading = action?.payload;
+    },
+    setChangeChat(state, action) {
+      state.changeChat = action?.payload;
+    },
   },
 });
 export const {
@@ -117,11 +153,18 @@ export const {
   setChatContacts,
   setUpdateChatContacts,
   setActiveChatId,
+  setActiveChat,
   setActiveReceiverId,
+  setActiveConversation,
   setSocketConnection,
   setIsNewChat,
   setMessageStatus,
   setActiveParticipant,
   setTypingUserData,
+  setActiveReply,
+  setChatMetaInfo,
+  setChatMessagesLoading,
+  setChatContactsLoading,
+  setChangeChat,
 } = chatSlice.actions;
 export default chatSlice.reducer;

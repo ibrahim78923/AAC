@@ -33,11 +33,19 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['CALLS'],
     }),
+    getCallsWidget: builder?.query({
+      query: ({ query }: any) => ({
+        url: `${END_POINTS?.CALL_WIDGET}?${query}`,
+        method: 'GET',
+      }),
+      providesTags: ['CALLS'],
+    }),
   }),
 });
 
 export const {
   useGetCallsQuery,
+  useGetCallsWidgetQuery,
   usePostCallsMutation,
   useUpdateCallsMutation,
   useDeleteCallsMutation,

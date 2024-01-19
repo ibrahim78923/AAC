@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import {
   Box,
   Button,
@@ -34,8 +33,9 @@ import { ArrowBack, AddCircleOutlined } from '@mui/icons-material';
 
 import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 
-import { AvatarImage, NoAssociationFoundImage } from '@/assets/images';
+import { NoAssociationFoundImage } from '@/assets/images';
 import useUserDetailsList from './useUserDetailsList';
+import useOrgUserDetailsList from '@/modules/orgAdmin/Users/UsersDetails/useUsersDetails';
 import Filter from './Filter';
 import AddCompanyDetails from './AddCompanyDetails';
 import StatusBadge from '@/components/StatusBadge';
@@ -44,10 +44,12 @@ import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/U
 import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/users';
 import NoData from '@/components/NoData';
 import { useSearchParams } from 'next/navigation';
+import useUserManagement from '../useUserManagement';
+import { IMG_URL } from '@/config';
+import { useEffect } from 'react';
 
 const UsersDetailsList = () => {
   const {
-    handleCloseDrawer,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenAddCompanyDrawer,
@@ -56,12 +58,8 @@ const UsersDetailsList = () => {
     handleAddUserDrawer,
     isOpenAdduserDrawer,
     setIsOpenAdduserDrawer,
-    userStatus,
-    setUserStatus,
     isOpenAddAccountDrawer,
     setIsOpenAddAccountDrawer,
-    search,
-    setSearch,
     tabVal,
     setTabVal,
     theme,
@@ -77,18 +75,24 @@ const UsersDetailsList = () => {
     resetFilters,
     handleEmpListPaginationChange,
     page,
+    searchAccount,
+    setSearchAccount,
   }: any = useUserDetailsList();
 
-  const { userName, userId } = navigate.query;
+  const { handleUserSwitchChange } = useUserManagement();
+
+  const { userName } = navigate.query;
   const organizationId = useSearchParams()?.get('organizationId');
+
+  const employeeRecordsLimit = 10;
 
   const empListParams = {
     page: page,
-    limit: 5,
+    limit: employeeRecordsLimit,
     search: searchEmployee,
-    // status:'ACTIVE'
     product: employeeFilter?.product,
     company: employeeFilter?.company,
+    status: employeeFilter?.status ? employeeFilter?.status : undefined,
   };
   const { data: employeeList } = useGetEmployeeListQuery({
     orgId: organizationId,
@@ -97,8 +101,15 @@ const UsersDetailsList = () => {
   const empDetail = employeeList?.data?.users;
 
   const { data: profileData } = useGetUsersByIdQuery(
-    employeeDataById ? employeeDataById : employeeList?.data?.users[0]?._id,
+    employeeDataById
+      ? employeeDataById
+      : employeeList?.data?.users && employeeList?.data?.users[0]?._id,
   );
+  useEffect(() => {
+    setEmployeeDataById(employeeList?.data?.users[0]?._id);
+  }, [employeeList]);
+
+  const { handleChangeImg } = useOrgUserDetailsList();
 
   return (
     <Box>
@@ -109,7 +120,7 @@ const UsersDetailsList = () => {
               padding: '24px 16px',
               borderRadius: '8px 0px 0px 8px',
               background: theme?.palette?.common?.white,
-              minHeight: `calc(100% - ${0}px)`,
+              minHeight: `calc(89vh - ${15}px)`,
             }}
           >
             <Box
@@ -196,86 +207,94 @@ const UsersDetailsList = () => {
                 message={'No data is available'}
               />
             )}
-            {empDetail?.map((item: any, index: number) => (
-              <Box
-                className="users-wrapper"
-                sx={{
-                  my: 2,
-                  backgroundColor:
-                    isActiveEmp === index ? theme?.palette?.grey[400] : '',
-                  borderRadius: '4px',
-                  padding: '11px 8px',
-                  width: '100%',
-                  cursor: 'pointer',
-                }}
-                key={uuidv4()}
-                onClick={() => {
-                  setEmployeeDataById(item?._id);
-                  setIsActiveEmp(index);
-                }}
-              >
+            <Box sx={{ height: `calc(62vh - ${15}px)`, overflow: 'auto' }}>
+              {empDetail?.map((item: any, index: number) => (
                 <Box
+                  className="users-wrapper"
                   sx={{
-                    display: 'flex',
-                    gap: '10px',
-                    alignItems: 'center',
-                    flexWrap: {
-                      xs: 'wrap',
-                      sm: 'nowrap',
-                      lg: 'wrap',
-                      xl: 'nowrap',
-                    },
+                    my: 2,
+                    backgroundColor:
+                      isActiveEmp === index ? theme?.palette?.grey[400] : '',
+                    borderRadius: '4px',
+                    padding: '11px 8px',
+                    width: '100%',
+                    cursor: 'pointer',
+                  }}
+                  key={uuidv4()}
+                  onClick={() => {
+                    setEmployeeDataById(item?._id);
+                    setIsActiveEmp(index);
                   }}
                 >
-                  <Avatar>
-                    <Image
-                      src={AvatarImage}
-                      alt="Avatar"
-                      width={40}
-                      height={40}
-                    />
-                  </Avatar>
-                  <Box sx={{ width: '100%' }}>
-                    <Box
-                      sx={{ display: 'flex', justifyContent: 'space-between' }}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      gap: '10px',
+                      alignItems: 'center',
+                      flexWrap: {
+                        xs: 'wrap',
+                        sm: 'nowrap',
+                        lg: 'wrap',
+                        xl: 'nowrap',
+                      },
+                    }}
+                  >
+                    <Avatar
+                      src={`${IMG_URL}${item?.avatar?.url}`}
+                      sx={{ color: theme?.palette?.grey[600], fontWeight: 500 }}
                     >
-                      <Typography>
-                        {item?.firstName} {item?.lastName}
-                      </Typography>
-                      <StatusBadge
-                        defaultValue={item?.status}
-                        value={userStatus}
-                        onChange={(e: any) => setUserStatus(e?.target?.value)}
-                        options={[
-                          {
-                            label: 'Active',
-                            value: 'ACTIVE',
-                            color: theme?.palette?.success?.main,
-                          },
-                          {
-                            label: 'Inactive',
-                            value: 'INACTIVE',
-                            color: theme?.palette?.error?.main,
-                          },
-                        ]}
-                      />
+                      {`${item?.firstName?.charAt(0)}${item?.lastName?.charAt(
+                        0,
+                      )}`}
+                    </Avatar>
+                    <Box sx={{ width: '100%' }}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <Typography>
+                          {item?.firstName} {item?.lastName}
+                        </Typography>
+                        <StatusBadge
+                          defaultValue={item?.status}
+                          value={item?.status}
+                          onChange={(e: any) =>
+                            handleUserSwitchChange(e, item?._id)
+                          }
+                          options={[
+                            {
+                              label: 'Active',
+                              value: 'ACTIVE',
+                              color: theme?.palette?.success?.main,
+                            },
+                            {
+                              label: 'Inactive',
+                              value: 'INACTIVE',
+                              color: theme?.palette?.error?.main,
+                            },
+                          ]}
+                        />
+                      </Box>
+                      <Typography>{item?.email}</Typography>
                     </Box>
-                    <Typography>{item?.email}</Typography>
                   </Box>
                 </Box>
-              </Box>
-            ))}
+              ))}
+            </Box>
             <Pagination
               count={employeeList?.data?.meta?.pages}
               variant="outlined"
               shape="rounded"
               onChange={handleEmpListPaginationChange}
+              sx={{ display: 'flex', justifyContent: 'flex-end' }}
             />
           </Box>
         </Grid>
         <Grid item xl={9} lg={8} xs={12}>
           <Grid container spacing={2}>
-            {empDetail?.length > 0 && (
+            {empDetail?.length > 0 ? (
               <>
                 <Grid item xs={12}>
                   <ProfileCard
@@ -283,6 +302,15 @@ const UsersDetailsList = () => {
                     isBadge={false}
                     email={profileData?.data?.email}
                     phone={profileData?.data?.phoneNumber}
+                    handleEditProfile={() => setTabVal(1)}
+                    src={`${
+                      profileData?.data?.avatar
+                        ? `${IMG_URL}${profileData?.data?.avatar?.url}`
+                        : ''
+                    }`}
+                    handleChangeImg={(e: any) =>
+                      handleChangeImg(e, employeeDataById)
+                    }
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -291,15 +319,17 @@ const UsersDetailsList = () => {
                     sx={{
                       borderRadius: '8px',
                       background: theme?.palette?.common?.white,
+                      maxHeight: `calc(68vh - ${15}px)`,
                     }}
                   >
                     <Card sx={{ padding: '0px 24px' }}>
                       <CommonTabs
                         getTabVal={(val: number) => setTabVal(val)}
+                        activeTab={tabVal}
                         searchBarProps={{
                           label: 'Search Here',
-                          setSearchBy: setSearch,
-                          searchBy: search,
+                          setSearchBy: setSearchAccount,
+                          searchBy: searchAccount,
                         }}
                         isHeader={tabVal === 0 ? true : false}
                         tabsArray={['Company Accounts', 'Profile', 'Delegates']}
@@ -322,7 +352,11 @@ const UsersDetailsList = () => {
                           </>
                         }
                       >
-                        <CompanyAccounts organizationId={organizationId} />
+                        <CompanyAccounts
+                          organizationId={organizationId}
+                          employeeDataById={employeeDataById}
+                          searchAccount={searchAccount}
+                        />
                         <UserDetailsProfile userDetails={profileData?.data} />
                         <Delegates />
                       </CommonTabs>
@@ -330,14 +364,11 @@ const UsersDetailsList = () => {
                   </Box>
                 </Grid>{' '}
               </>
-            )}
-            {empDetail?.length === 0 && (
-              <Grid item xs={12} mt={10}>
-                <NoData
-                  image={NoAssociationFoundImage}
-                  message={'No data is available'}
-                />
-              </Grid>
+            ) : (
+              <NoData
+                image={NoAssociationFoundImage}
+                message={'No data is available'}
+              />
             )}
           </Grid>
         </Grid>
@@ -347,13 +378,13 @@ const UsersDetailsList = () => {
           isOpen={isOpenAddAccountDrawer}
           setIsOpen={setIsOpenAddAccountDrawer}
           organizationId={organizationId}
-          userId={userId}
+          userId={employeeDataById}
         />
       )}
       {isOpenDrawer && (
         <Filter
           isOpenDrawer={isOpenDrawer}
-          onClose={handleCloseDrawer}
+          setIsOpenDrawer={setIsOpenDrawer}
           employeeFilter={employeeFilter}
           setEmployeeFilter={setEmployeeFilter}
         />

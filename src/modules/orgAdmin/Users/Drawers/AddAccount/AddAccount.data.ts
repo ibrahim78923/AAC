@@ -9,7 +9,7 @@ export const AddAccountArray = (companyRoles: any) => {
     {
       componentProps: {
         label: 'Products',
-        name: 'products',
+        name: 'product',
         fullWidth: true,
         select: true,
         required: true,
@@ -41,7 +41,7 @@ export const AddAccountArray = (companyRoles: any) => {
     {
       componentProps: {
         label: 'Manage Role',
-        name: 'manageRole',
+        name: 'role',
         fullWidth: true,
         select: true,
         required: true,
@@ -71,15 +71,15 @@ export const AddAccountArray = (companyRoles: any) => {
   ];
 };
 export const AddAccountValidationSchema = Yup.object().shape({
-  products: Yup.string().required('Field is Required'),
+  product: Yup.string().required('Field is Required'),
   company: Yup.string().required('Field is Required'),
-  manageRole: Yup.string().required('Field is Required'),
+  role: Yup.string().required('Field is Required'),
   status: Yup.string().required('Field is Required'),
 });
 
 export const AddAccountDefaultValues = {
-  products: '',
+  product: '',
   company: '',
-  manageRole: '',
+  role: '',
   status: '',
 };

@@ -23,11 +23,15 @@ export const Settings = () => {
           <br />
           <LoginMethods timeOut={timeOut} />
           <Box display={'flex'} justifyContent={'end'} gap={1}>
+            <Button
+              variant="outlined"
+              color={'inherit'}
+              onClick={() => reset()}
+            >
+              cancel
+            </Button>
             <Button variant="contained" type="submit">
               Save
-            </Button>
-            <Button variant="outlined" onClick={() => reset()}>
-              cancel
             </Button>
           </Box>
         </FormProvider>

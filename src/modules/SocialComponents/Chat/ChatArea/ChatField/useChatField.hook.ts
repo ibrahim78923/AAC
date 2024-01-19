@@ -15,7 +15,11 @@ export const useChatField = () => {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const chatMode = chatModeState?.chatModeState;
 
-  const chatDataToShow = chatMode === 'groupChat' ? [] : chatMessages;
+  const filteredMessages = chatMessages?.filter(
+    (message: any) => message?.content !== '',
+  );
+
+  const chatDataToShow = filteredMessages;
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);

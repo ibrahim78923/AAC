@@ -6,6 +6,7 @@ import {
   Grid,
   ToggleButton,
   ToggleButtonGroup,
+  Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
 import { FilterSharedIcon } from '@/assets/icons';
@@ -35,6 +36,9 @@ const SocialInbox = () => {
       <Grid container spacing={3}>
         <Grid item xs={12} md={4}>
           <Box sx={styles?.mainWrapperBox}>
+            <Typography variant="h3" sx={{ marginBottom: '20px' }}>
+              Social Inbox
+            </Typography>
             <Box sx={styles?.wrapperBox}>
               <ToggleButtonGroup
                 value={socialModeState}

@@ -1,36 +1,43 @@
 import { Button } from '@mui/material';
 import { Fragment, useState } from 'react';
-import { unassignedWorkDataArray } from './UnassignedWork.data';
 import WorkloadDrawer from '../WorkloadDrawer/WorkloadDrawer';
+import { useGetWorkloadQuery } from '@/services/airServices/workload';
+import { workloadDefaultDateRange } from '../Workload.data';
 
 export const UnassignedWork = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
 
-  const [dateRange, setDateRange] = useState<any>([
+  const UNPLANNED = 'UNPLANNED';
+
+  const [dateRange, setDateRange] = useState<any>(workloadDefaultDateRange);
+
+  const { data } = useGetWorkloadQuery(
     {
-      startDate: new Date(),
-      endDate: null,
-      key: 'selection',
+      manage: UNPLANNED,
+      startDate: dateRange?.[0]?.startDate?.toISOString(),
+      // TODO: Will be catered in integration
+      // endDate: dateRange?.[0]?.endDate?.toISOString(),
     },
-  ]);
+    { skip: !openDrawer, refetchOnMountOrArgChange: true },
+  );
 
   return (
     <Fragment>
-      <Button
-        variant={'contained'}
-        sx={{ mx: 2 }}
-        onClick={() => setOpenDrawer(true)}
-      >
+      <Button variant={'contained'} onClick={() => setOpenDrawer(true)}>
         Unassigned Work
       </Button>
 
-      <WorkloadDrawer
-        dataArray={unassignedWorkDataArray}
-        setOpenDrawer={setOpenDrawer}
-        openDrawer={openDrawer}
-        setDateRange={setDateRange}
-        dateRange={dateRange}
-      />
+      {openDrawer && (
+        <WorkloadDrawer
+          dataArray={data}
+          setOpenDrawer={setOpenDrawer}
+          openDrawer={openDrawer}
+          onChangeDateHandler={(item: any) => setDateRange([item?.selection])}
+          dateRange={dateRange}
+          state={UNPLANNED}
+          setDateRange={setDateRange}
+        />
+      )}
     </Fragment>
   );
 };

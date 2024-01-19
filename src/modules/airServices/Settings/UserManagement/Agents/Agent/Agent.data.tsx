@@ -1,10 +1,12 @@
 import { Avatar, Box, Checkbox } from '@mui/material';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 export const agentActionsDropdown = (handleActionClick: any) => [
   {
     title: 'Edit',
-    handleClick: () => {
+    handleClick: (close: any) => {
       handleActionClick('edit');
+      close?.(false);
     },
   },
   {
@@ -15,48 +17,34 @@ export const agentActionsDropdown = (handleActionClick: any) => [
   },
 ];
 
-export const agentListData: any = [
-  {
-    id: 1,
-    agentName: 'Enee Well',
-    email: 'eneeewell@gmail.com',
-    department: 'IT',
-    role: 'IT Agent',
-  },
-  {
-    id: 2,
-    agentName: 'Nilson Mandela',
-    email: 'nilsonmadela@gmail.com',
-    department: 'Customer success',
-    role: 'Customer Support Agent',
-  },
-];
 export const agentsListsColumnsFunction = (
   selectedAgentList: any,
   setSelectedAgentList: any,
-  listData: any,
+  processedAgentListData: any,
 ): any => [
   {
-    accessorFn: (row: any) => row?.id,
+    accessorFn: (row: any) => row?._id,
     id: 'id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!selectedAgentList?.find(
-            (item: any) => item?.id === info?.getValue(),
+            (item: any) => item?._id === info?.getValue(),
           )
         }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedAgentList([
                 ...selectedAgentList,
-                agentListData?.find(
-                  (item: any) => item?.id === info?.getValue(),
+                processedAgentListData?.find(
+                  (item: any) => item?._id === info?.getValue(),
                 ),
               ])
             : setSelectedAgentList(
                 selectedAgentList?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
+                  return item?._id !== info?.getValue();
                 }),
               );
         }}
@@ -66,10 +54,12 @@ export const agentsListsColumnsFunction = (
     ),
     header: (
       <Checkbox
-        checked={selectedAgentList?.length === listData?.length}
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        checked={selectedAgentList?.length === processedAgentListData?.length}
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedAgentList([...listData])
+            ? setSelectedAgentList([...processedAgentListData])
             : setSelectedAgentList([]);
         }}
         color="primary"
@@ -79,8 +69,8 @@ export const agentsListsColumnsFunction = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.agentName,
-    id: 'agentName',
+    accessorFn: (row: any) => row?.fullName,
+    id: 'fullName',
     isSortable: true,
     header: 'Name',
     cell: (info: any) => (
@@ -98,8 +88,8 @@ export const agentsListsColumnsFunction = (
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.department,
-    id: 'department',
+    accessorFn: (row: any) => row?.departmentData?.name,
+    id: 'name',
     isSortable: true,
     header: 'Department',
     cell: (info: any) => info?.getValue(),

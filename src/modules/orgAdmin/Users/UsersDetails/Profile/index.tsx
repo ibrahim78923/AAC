@@ -9,14 +9,26 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 import useToggle from '@/hooks/useToggle';
 import { EditInputIcon, RevertIcon } from '@/assets/icons';
+import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManagement';
+import { enqueueSnackbar } from 'notistack';
 
 const UserDetailsProfile = (props: any) => {
   const { profileData } = props;
   const [isToggled, setIsToggled] = useToggle(false);
+  const { updateUsers }: any = useUserManagement();
 
   const profileDefaulValues = {
     ...profileData,
-    address: profileData?.address?.composite,
+    address: profileData?.address?.composite
+      ? profileData?.address?.composite
+      : `Flat # ${profileData?.address?.flatNumber}, building # ${profileData?.address?.buildingNumber} ,
+      ${profileData?.address?.buildingName}, street # ${profileData?.address?.streetName},${profileData?.address?.city}, ${profileData?.address?.country} `,
+    flat: profileData?.address?.flatNumber ?? '',
+    city: profileData?.address?.city ?? '',
+    country: profileData?.address?.country ?? '',
+    buildingName: profileData?.address?.buildingName ?? '',
+    buildingNumber: profileData?.address?.buildingNumber ?? '',
+    streetName: profileData?.address?.streetName ?? '',
   };
 
   const methods: any = useForm({
@@ -26,8 +38,56 @@ const UserDetailsProfile = (props: any) => {
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
-    alert('profile');
+  const onSubmit = async (values: any) => {
+    if (isToggled) {
+      values.address = {
+        flatNumber: values.flat,
+        buildingName: values?.buildingName,
+        buildingNumber: values?.buildingNumber,
+        streetName: values?.streetName,
+        city: values?.city,
+        country: values?.country,
+      };
+    } else {
+      values.address = {
+        composite: values?.compositeAddress,
+      };
+    }
+
+    const keysToDelete = [
+      '_id',
+      'products',
+      'role',
+      'organization',
+      'createdAt',
+      'createdBy',
+      'updatedAt',
+      'status',
+      'flat',
+      'compositeAddress',
+      'buildingNumber',
+      'buildingName',
+      'city',
+      'country',
+      'streetName',
+      'linkedInUrl',
+      'departmentId',
+      'avatar',
+    ];
+
+    for (const key of keysToDelete) {
+      delete values[key];
+    }
+    try {
+      await updateUsers({ id: profileData?._id, body: values })?.unwrap();
+      enqueueSnackbar('User updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
   };
 
   return (

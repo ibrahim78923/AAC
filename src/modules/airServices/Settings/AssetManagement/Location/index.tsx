@@ -1,12 +1,12 @@
 import { Header } from './Header';
-import { SingleListLocation } from './SingleListLocation/Index';
+import { ListLocation } from './ListLocation/Index';
 
 export const Location = () => {
   return (
     <>
       <Header />
       <br />
-      <SingleListLocation />
+      <ListLocation />
     </>
   );
 };

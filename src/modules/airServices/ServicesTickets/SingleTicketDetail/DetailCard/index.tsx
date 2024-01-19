@@ -1,10 +1,12 @@
 import { ViewDetailDocumentTextIcon } from '@/assets/icons';
-import { AvatarImage } from '@/assets/images';
-import { Avatar, Box, Chip, Grid, Typography, useTheme } from '@mui/material';
-import Image from 'next/image';
 
-export const DetailCard = (props: any) => {
-  const { detail } = props;
+import { Avatar, Box, Chip, Grid, Typography, useTheme } from '@mui/material';
+
+import { useDetailsCard } from './useDetailCard';
+
+export const DetailCard = () => {
+  const { data: detail } = useDetailsCard();
+
   const theme = useTheme();
   return (
     <Box
@@ -36,11 +38,16 @@ export const DetailCard = (props: any) => {
               gap={1}
               marginBottom={1.5}
             >
-              <Image src={AvatarImage} alt="Avatar" />
+              <Avatar
+                sx={{ bgcolor: theme?.palette?.blue?.main }}
+                style={{ width: 28, height: 28 }}
+                src={detail?.data[0]?.requesterDetails?.profileImg?.src}
+              />
               <div>
                 <Typography variant="body2" fontWeight={600}>
                   {' '}
-                  {detail?.name || 'Sophia Baxtar'}
+                  {detail?.data[0]?.requesterDetails?.firstName}{' '}
+                  {detail?.data[0]?.requesterDetails?.lastName}
                 </Typography>
               </div>
             </Box>
@@ -54,7 +61,7 @@ export const DetailCard = (props: any) => {
                 Email:
               </Typography>
               <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-                {detail?.email || 'sophiebaxterl@gmail.com'}
+                {detail?.data[0]?.requesterDetails?.email}
               </Typography>
             </Box>
             <Box
@@ -67,7 +74,7 @@ export const DetailCard = (props: any) => {
                 Created on:
               </Typography>
               <Typography variant="body2">
-                {detail?.createdOn ?? 'Sun, 5 Mar 9:41 PM'}
+                {detail?.data[0]?.requesterDetails?.createdAt}
               </Typography>
             </Box>
           </Box>
@@ -90,9 +97,7 @@ export const DetailCard = (props: any) => {
               Description:
             </Typography>
             <Typography variant="body2" sx={{ flex: '1' }}>
-              {detail?.description ??
-                ` Hi Team, I have been unable to send any emails since this morning.
-              What’s going on? Regards, Andrea`}
+              {detail?.data[0]?.description}
             </Typography>
           </Box>
           <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
@@ -131,7 +136,7 @@ export const DetailCard = (props: any) => {
               Status:
             </Typography>
             <Chip
-              label={detail?.status ?? 'Open'}
+              label={detail?.data[0]?.requesterDetails?.status}
               variant="outlined"
               size="small"
               color="primary"
@@ -147,7 +152,7 @@ export const DetailCard = (props: any) => {
               Due by:
             </Typography>
             <Typography variant="body2">
-              {detail?.dueBy ?? 'Tue, 14 Mar 10:00 AM'}
+              {detail?.data[0]?.plannedEndDate}
             </Typography>
           </Box>
           <Box

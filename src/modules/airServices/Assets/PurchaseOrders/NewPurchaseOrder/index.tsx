@@ -1,21 +1,25 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { ArrowLeftIcon } from '@/assets/icons';
-import { newPurchaseFieldsFunction } from './NewPurchaseOrder.data';
 import useNewPurchaseOrder from './useNewPurchaseOrder';
 import ItemsDetails from './ItemsDetails';
 import { styles } from './NewPurchaseOrder.style';
-import { v4 as uuidv4 } from 'uuid';
-import { useRouter } from 'next/router';
+import { LoadingButton } from '@mui/lab';
 
 const NewPurchaseOrder = () => {
-  const { methods, submit, handlePageBack, vendor, handleVenderSelect } =
-    useNewPurchaseOrder();
+  const {
+    methods,
+    submit,
+    handlePageBack,
+    newPurchaseFields,
+    purchaseOrderId,
+    vendorValue,
+    router,
+    loadingStatus,
+    watch,
+  } = useNewPurchaseOrder();
+
   const { flexBetween, mainWrapper, mainHeading, subHeading } = styles();
-  const newPurchaseFields = newPurchaseFieldsFunction(handleVenderSelect);
-
-  const router = useRouter();
-
   return (
     <Box>
       <Box sx={{ ...mainWrapper }}>
@@ -27,7 +31,7 @@ const NewPurchaseOrder = () => {
             <ArrowLeftIcon />
           </Box>
           <Typography variant="h4" sx={mainHeading}>
-            New Purchase Order
+            {purchaseOrderId ? 'Edit' : 'New'} Purchase Order
           </Typography>
         </Box>
         <FormProvider
@@ -48,39 +52,39 @@ const NewPurchaseOrder = () => {
               mt={-1}
             >
               {newPurchaseFields?.map((form: any) => (
-                <Grid item xs={12} md={form?.gridLength} key={uuidv4()}>
-                  <form.component {...form?.componentProps} size="small">
-                    {form?.componentProps?.select
-                      ? form?.componentProps?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </form.component>
+                <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                  <form.component {...form?.componentProps} size="small" />
                 </Grid>
               ))}
             </Grid>
-            {vendor && (
+            {vendorValue && (
               <Grid item xs={12} rowSpacing={2.6} columnSpacing={2}>
                 <Box>
                   <Typography sx={{ ...subHeading }}>Items Details</Typography>
-                  <ItemsDetails />
+                  <ItemsDetails
+                    control={methods?.control}
+                    vendorId={vendorValue}
+                    watch={watch}
+                  />
                 </Box>
               </Grid>
             )}
           </Grid>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-            <Button
+            <LoadingButton
               onClick={() => methods?.reset()}
               variant="outlined"
               color="secondary"
             >
               Cancel
-            </Button>
-            <Button type="submit" variant="contained">
+            </LoadingButton>
+            <LoadingButton
+              loading={loadingStatus}
+              type="submit"
+              variant="contained"
+            >
               {router?.query?.purchaseOrderId ? 'Update' : 'Save'}
-            </Button>
+            </LoadingButton>
           </Box>
         </FormProvider>
       </Box>

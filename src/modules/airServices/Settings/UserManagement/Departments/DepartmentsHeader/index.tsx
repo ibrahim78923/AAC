@@ -4,10 +4,16 @@ import Search from '@/components/Search';
 import { useDepartmentsHeader } from './useDepartmentsHeader';
 import { DepartmentsFormModal } from '../DepartmentsFormModal';
 
-export const DepartmentsHeader = () => {
-  const { backArrowClick, openAddModal, setOpenAddModal, formProps } =
-    useDepartmentsHeader();
-  const { addFormMethod, handleSubmit, submitAddForm } = formProps;
+export const DepartmentsHeader = (props: any) => {
+  const { searchBy, setSearchBy, openAddModal, setOpenAddModal } = props;
+  const {
+    backArrowClick,
+    formSubmit,
+    userList,
+    addFormMethod,
+    handleClose,
+    isLoading,
+  } = useDepartmentsHeader(props);
   return (
     <>
       <Grid
@@ -32,7 +38,11 @@ export const DepartmentsHeader = () => {
           alignItems={'center'}
           flexWrap={'wrap'}
         >
-          <Search value="" placeholder="Search Here" />
+          <Search
+            placeholder="Search Here"
+            searchBy={searchBy}
+            setSearchBy={setSearchBy}
+          />
           <Button
             startIcon={<PlusSharedColorIcon />}
             variant="contained"
@@ -44,11 +54,12 @@ export const DepartmentsHeader = () => {
       </Grid>
       <DepartmentsFormModal
         methods={addFormMethod}
-        handleSubmit={handleSubmit}
-        submitForm={submitAddForm}
+        handleSubmit={formSubmit}
         open={openAddModal}
-        handleClose={setOpenAddModal}
+        handleClose={handleClose}
         formTitle="Add Department"
+        userList={userList}
+        isLoading={isLoading}
       />
     </>
   );

@@ -4,46 +4,57 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import StepDeal from './StepDeal';
-import StepDetails from './StepDetails';
-import StepBuyerInfo from './StepBuyerInfo';
-import StepYourInfo from './StepYourInfo';
-import StepSignature from './StepSignature';
-import StepLineItems from './StepLineItems';
-import StepReview from './StepReview';
-import { initValues, validationSchema } from './CreateQuote.data';
-
+import { dealInitValues, dealValidationSchema } from './CreateQuote.data';
+import {
+  useGetDealsQuery,
+  usePostQuoteMutation,
+} from '@/services/airSales/quotes';
+import { AIR_SALES } from '@/routesConstants/paths';
 const useCreateQuote = () => {
   const router = useRouter();
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: initValues,
+  const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 20 });
+  const methodsAddQuote = useForm({
+    resolver: yupResolver(dealValidationSchema),
+    defaultValues: dealInitValues,
   });
-  const { watch, trigger, handleSubmit } = methods;
-  const onSubmit = async () => {
-    enqueueSnackbar('Form Submitted', {
-      variant: 'success',
-    });
-  };
-
-  const handleFormSubmit = handleSubmit(onSubmit);
-
+  const { watch, trigger } = methodsAddQuote;
   const watchFields = watch();
+
+  // Step add deal / Create Quote
+  const { handleSubmit: handleMethodAddQuote, reset: resetAddQuoteForm } =
+    methodsAddQuote;
+
+  const [postAddQuote, { isLoading: loadingAddQuote }] = usePostQuoteMutation();
+  const onSubmitCreateQuote = async (values: any) => {
+    try {
+      const response = await postAddQuote({ body: values })?.unwrap();
+      const id = response?.data?._id;
+      enqueueSnackbar('Quote added successfully', {
+        variant: 'success',
+      });
+      resetAddQuoteForm();
+      router.push({ pathname: AIR_SALES?.UPDATE_QUOTE, query: { data: id } });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+  const handleAddQuoteSubmit = handleMethodAddQuote(onSubmitCreateQuote);
+
   const [activeStep, setActiveStep] = useState(0);
   const [isOpenFormCreateDeal, setIsOpenFormCreateDeal] = useState(false);
-  const [isOpenFormAddContact, setIsOpenFormAddContact] = useState(false);
-  const [isOpenFormAddCompany, setIsOpenFormAddCompany] = useState(false);
-  const [isOpenFormCreateProduct, setIsOpenFormCreateProduct] = useState(false);
-  const [isOpenDialog, setIsOpenDialog] = useState(false);
 
   const handleStepNext = async () => {
     let isValid = false;
     if (activeStep === 0) {
-      isValid = await trigger('selectDeal');
+      await handleAddQuoteSubmit();
+      const isDealIDValid = await trigger('dealId');
+      const isTemplateValid = await trigger('template');
+      const isNameValid = await trigger('name');
+      const isDateValid = await trigger('expiryDate');
+      isValid = isDealIDValid && isTemplateValid && isNameValid && isDateValid;
     } else if (activeStep === 1) {
-      const isTemplateValid = await trigger('quoteTemplate');
-      const isNameValid = await trigger('quoteName');
-      const isDateValid = await trigger('quoteExpiration');
-      isValid = isTemplateValid && isNameValid && isDateValid;
     } else {
       isValid = true;
     }
@@ -56,7 +67,7 @@ const useCreateQuote = () => {
     setActiveStep((prev) => prev - 1);
   };
   const handleStepperCancel = () => {
-    router.push('/air-sales/quotes');
+    router?.push(AIR_SALES?.QUOTES);
   };
 
   const handleOpenFormCreateDeal = () => {
@@ -66,103 +77,59 @@ const useCreateQuote = () => {
     setIsOpenFormCreateDeal(false);
   };
 
-  const handleOpenFormAddContact = () => {
-    setIsOpenFormAddContact(true);
-  };
-  const handleCloseFormAddContact = () => {
-    setIsOpenFormAddContact(false);
-  };
-
-  const handleOpenFormAddCompany = () => {
-    setIsOpenFormAddCompany(true);
-  };
-  const handleCloseFormAddCompany = () => {
-    setIsOpenFormAddCompany(false);
-  };
-
-  const handleOpenFormCreateProduct = () => {
-    setIsOpenFormCreateProduct(true);
-  };
-  const handleCloseFormCreateProduct = () => {
-    setIsOpenFormCreateProduct(false);
-  };
-
-  const handleOpenDialog = () => {
-    setIsOpenDialog(true);
-  };
-  const handleCloseDialog = () => {
-    setIsOpenDialog(false);
-  };
-
   const createQuoteSteps = [
     {
       key: 'deal',
-      label: 'Deal',
-      component: <StepDeal openCreateDeal={handleOpenFormCreateDeal} />,
-    },
-    {
-      key: 'details',
-      label: 'Details',
-      component: <StepDetails values={watchFields} />,
-    },
-    {
-      key: 'buyerInfo',
-      label: 'Buyer Info',
+      label: 'Deal & Details',
       component: (
-        <StepBuyerInfo
-          openAddContact={handleOpenFormAddContact}
-          openAddCompany={handleOpenFormAddCompany}
+        <StepDeal
+          openCreateDeal={handleOpenFormCreateDeal}
+          values={watchFields}
+          methods={methodsAddQuote}
         />
       ),
     },
     {
+      key: 'buyerInfo',
+      label: 'Buyer Info',
+      component: <>Buyer Info</>,
+    },
+    {
       key: 'yourInfo',
       label: 'Your Info',
-      component: <StepYourInfo />,
+      component: <>Your Info</>,
     },
     {
       key: 'lineItems',
       label: 'Line Items',
-      component: (
-        <StepLineItems openCreateProduct={handleOpenFormCreateProduct} />
-      ),
+      component: <>Line Items</>,
     },
     {
       key: 'signature',
       label: 'Signature',
-      component: <StepSignature values={watchFields} />,
+      component: <>Signature</>,
     },
     {
       key: 'review',
       label: 'Review',
-      component: <StepReview />,
+      component: <>Review</>,
     },
   ];
 
   return {
-    methods,
+    dataGetDeals,
+    methodsAddQuote,
     createQuoteSteps,
     activeStep,
     handleStepNext,
     handleStepBack,
     handleStepperCancel,
-    handleFormSubmit,
+    handleAddQuoteSubmit,
     isOpenFormCreateDeal,
     setIsOpenFormCreateDeal,
     handleOpenFormCreateDeal,
     handleCloseFormCreateDeal,
-    isOpenFormAddContact,
-    handleOpenFormAddContact,
-    handleCloseFormAddContact,
-    isOpenFormAddCompany,
-    handleOpenFormAddCompany,
-    handleCloseFormAddCompany,
-    isOpenFormCreateProduct,
-    handleOpenFormCreateProduct,
-    handleCloseFormCreateProduct,
-    handleOpenDialog,
-    handleCloseDialog,
-    isOpenDialog,
+    loadingAddQuote,
   };
 };
 

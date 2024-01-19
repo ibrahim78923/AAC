@@ -4,6 +4,11 @@ import {
   singlePurchaseDetailActionDropdownFunction,
   singlePurchaseDetailStatusDropdownFunction,
 } from './SinglePurchaseDetail.data';
+import { enqueueSnackbar } from 'notistack';
+import { AIR_SERVICES } from '@/constants';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useDeletePurchaseOrderMutation } from '@/services/airServices/assets/purchase-orders';
+import { useSearchParams } from 'next/navigation';
 
 export const useSinglePurchaseDetail = () => {
   const router = useRouter();
@@ -16,6 +21,27 @@ export const useSinglePurchaseDetail = () => {
     singlePurchaseDetailActionDropdownFunction(setIsDeleteModalOpen, router);
   const singlePurchaseDetailStatusDropdown =
     singlePurchaseDetailStatusDropdownFunction();
+  const searchParams = useSearchParams();
+  const purchaseOrderId: any = searchParams.get('purchaseOrderId');
+  const [deletePurchaseOrderTrigger, { isLoading }] =
+    useDeletePurchaseOrderMutation();
+  const deletePurchaseOrder = async () => {
+    try {
+      await deletePurchaseOrderTrigger(purchaseOrderId)?.unwrap();
+      enqueueSnackbar('Purchase Order deleted successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      setIsDeleteModalOpen(false);
+      router?.push(AIR_SERVICES?.PURCHASE_ORDER);
+    } catch (error: any) {
+      enqueueSnackbar(
+        error?.data?.message?.error ?? 'Purchase Order not deleted',
+        {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        },
+      );
+    }
+  };
   return {
     singlePurchaseDetailActionDropdown,
     isDeleteModalOpen,
@@ -25,5 +51,7 @@ export const useSinglePurchaseDetail = () => {
     isADrawerOpen,
     setIsADrawerOpen,
     singlePurchaseDetailStatusDropdown,
+    deletePurchaseOrder,
+    isLoading,
   };
 };

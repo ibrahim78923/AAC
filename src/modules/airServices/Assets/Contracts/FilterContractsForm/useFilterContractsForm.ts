@@ -1,30 +1,64 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
-  filterContractsFormValidationSchema,
-  defaultValues,
+  contractsFilterFormDefaultValues,
+  contractsFilterFormFieldsDynamic,
 } from './FilterContractsForm.data';
-import { enqueueSnackbar } from 'notistack';
+import { useLazyGetVendorDropdownQuery } from '@/services/airServices/assets/contracts';
 
 export const useFilterContractsForm = (props: any) => {
-  const { setIsDrawerOpen } = props;
+  const {
+    setIsDrawerOpen,
+    setContractFilterLists,
+    contractFilterLists,
+    setPage,
+  } = props;
 
   const methods = useForm({
-    resolver: yupResolver(filterContractsFormValidationSchema),
-    defaultValues,
+    defaultValues: contractsFilterFormDefaultValues(contractFilterLists),
   });
-  const { handleSubmit } = methods;
-  const onSubmit = async () => {
-    enqueueSnackbar('Save Successfully', {
-      variant: 'success',
-    });
+
+  const { handleSubmit, reset } = methods;
+
+  const onSubmit = async (data: any) => {
+    const contractFilteredFields: any = Object?.entries(data || {})
+      ?.filter(
+        ([, value]: any) =>
+          value !== undefined &&
+          value != '' &&
+          value != null &&
+          value?._id !== 'All',
+      )
+      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+    if (!Object?.keys(contractFilteredFields || {})?.length) {
+      setContractFilterLists(contractFilteredFields);
+      closeInventoryFilterForm();
+      return;
+    }
+    setPage(1);
+    setContractFilterLists(contractFilteredFields);
+    closeInventoryFilterForm();
     setIsDrawerOpen(false);
   };
+  const closeInventoryFilterForm = () => {
+    reset();
+    setIsDrawerOpen?.(false);
+  };
+
+  const resetContractFilterForm = async () => {
+    if (!!Object?.keys(contractFilterLists)?.length) {
+      setContractFilterLists({});
+    }
+    reset();
+    setIsDrawerOpen?.(false);
+  };
+  const apiQueryVendor = useLazyGetVendorDropdownQuery();
+  const contractsFilterFormFields =
+    contractsFilterFormFieldsDynamic(apiQueryVendor);
   return {
     methods,
-    filterContractsFormValidationSchema,
-    defaultValues,
     handleSubmit,
     onSubmit,
+    resetContractFilterForm,
+    contractsFilterFormFields,
   };
 };

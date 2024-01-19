@@ -8,46 +8,34 @@ import {
 import * as Yup from 'yup';
 
 export const reAssignCallValidationSchema = Yup?.object()?.shape({
-  reschedule: Yup?.string()?.trim()?.required('Field is Required'),
-  date: Yup?.string()?.trim()?.required('Field is Required'),
-  time: Yup?.string()?.trim()?.required('Field is Required'),
+  callFromDate: Yup?.string(),
+  callFromTime: Yup?.string(),
+  callToDate: Yup?.string(),
+  callToTime: Yup?.string(),
 });
 
 export const reAssignCallDefaultValues = {
-  reschedule: '',
-  date: '',
-  time: '',
+  callFromDate: '',
+  callFromTime: '',
+  callToDate: '',
+  callToTime: '',
 };
 
 export const outcomesValidationSchema = Yup?.object()?.shape({
-  addoutcome: Yup?.string()?.trim()?.required('Field is Required'),
-  description: Yup?.string()?.trim()?.required('Field is Required'),
+  outcome: Yup?.string()?.trim()?.required('Field is Required'),
+  callNotes: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const outcomesDefaultValues = {
-  addoutcome: '',
-  description: '',
+  outcome: '',
+  callNotes: '',
 };
 
 export const reAssignCallDataArray = [
   {
     componentProps: {
-      name: 'reschedule',
-      label: 'Reschedule',
-      select: true,
-    },
-    options: [
-      { value: 'To-do', label: 'To-do' },
-      { value: 'Follow-up', label: 'Follow-up' },
-      { value: 'Call reminder', label: 'Call reminder' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'date',
-      label: 'Date',
+      name: 'callFromDate',
+      label: 'Start Date',
       fullWidth: true,
     },
     component: RHFDatePicker,
@@ -55,8 +43,26 @@ export const reAssignCallDataArray = [
   },
   {
     componentProps: {
-      name: 'time',
-      label: 'Time',
+      name: 'callFromTime',
+      label: 'Start Time',
+      fullWidth: true,
+    },
+    component: RHFTimePicker,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'callToDate',
+      label: '  End Date',
+      fullWidth: true,
+    },
+    component: RHFDatePicker,
+    md: 6,
+  },
+  {
+    componentProps: {
+      name: 'callToTime',
+      label: 'End Time',
       fullWidth: true,
     },
     component: RHFTimePicker,
@@ -67,21 +73,23 @@ export const reAssignCallDataArray = [
 export const outcomesDataArray = [
   {
     componentProps: {
-      name: 'addoutcome',
+      name: 'outcome',
       label: 'Add Outcome',
       select: true,
     },
     options: [
-      { value: 'To-do', label: 'To-do' },
-      { value: 'Follow-up', label: 'Follow-up' },
-      { value: 'Call reminder', label: 'Call reminder' },
+      { value: 'Interested', label: 'Interested' },
+      { value: 'Left message', label: 'Left message' },
+      { value: 'No response', label: 'No response' },
+      { value: 'Not interested', label: 'Not interested' },
+      { value: 'Not able to reach', label: 'Not able to reach' },
     ],
     component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'description',
+      name: 'callNotes',
       label: 'Description',
       fullWidth: true,
     },

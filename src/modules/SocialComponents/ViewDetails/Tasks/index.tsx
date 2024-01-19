@@ -4,16 +4,22 @@ import TaskEditorDrawer from './TaskEditorDrawer';
 import ActionDropdown from './ActionDropdown';
 import TanstackTable from '@/components/Table/TanstackTable';
 
-import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
-
 import useTasks from './useTasks';
 
 import { columns } from './Tasks.data';
 
 import { PlusIcon } from '@/assets/icons';
 
-const Tasks = () => {
-  const { openDrawer, setOpenDrawer } = useTasks();
+const Tasks = ({ companyId }: any) => {
+  const {
+    openDrawer,
+    setOpenDrawer,
+    taskData,
+    selectedCheckboxes,
+    setSelectedCheckboxes,
+    handleCheckboxChange,
+    isLoading,
+  } = useTasks();
   return (
     <Box
       sx={{
@@ -27,7 +33,11 @@ const Tasks = () => {
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="h4"> Tasks</Typography>
             <Box sx={{ gap: 1, display: 'flex' }}>
-              <ActionDropdown setOpenDrawer={setOpenDrawer} />
+              <ActionDropdown
+                setOpenDrawer={setOpenDrawer}
+                selectedCheckboxes={selectedCheckboxes}
+                setSelectedCheckboxes={setSelectedCheckboxes}
+              />
               <Button
                 variant="contained"
                 sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
@@ -39,11 +49,22 @@ const Tasks = () => {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <TanstackTable columns={columns} data={TasksTableData} />
+          <TanstackTable
+            columns={columns({ handleCheckboxChange, selectedCheckboxes })}
+            data={taskData?.data?.taskmanagements}
+            isLoading={isLoading}
+          />
         </Grid>
       </Grid>
-
-      <TaskEditorDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
+      {openDrawer && (
+        <TaskEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          selectedCheckboxes={selectedCheckboxes}
+          setSelectedCheckboxes={setSelectedCheckboxes}
+          companyId={companyId}
+        />
+      )}
     </Box>
   );
 };

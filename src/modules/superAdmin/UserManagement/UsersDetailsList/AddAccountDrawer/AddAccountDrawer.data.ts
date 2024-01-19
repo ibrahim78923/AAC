@@ -45,7 +45,7 @@ export const AddAccountArray = (companyAccounts: any, companyRoles: any) => {
         fullWidth: true,
         select: true,
       },
-      options: companyRoles?.data.companyaccountroles?.map((item: any) => ({
+      options: companyRoles?.data?.map((item: any) => ({
         value: item?._id,
         label: item?.name,
       })),
@@ -61,8 +61,8 @@ export const AddAccountArray = (companyAccounts: any, companyRoles: any) => {
         select: true,
       },
       options: [
-        { value: 'active', label: 'Active' },
-        { value: 'inactive', label: 'Inactive' },
+        { value: 'ACTIVE', label: 'Active' },
+        { value: 'INACTIVE', label: 'Inactive' },
       ],
       component: RHFSelect,
       md: 6,

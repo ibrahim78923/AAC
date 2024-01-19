@@ -1,16 +1,16 @@
 import Search from '@/components/Search';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { CirclePlusIcon } from '@/assets/icons';
-import { AIR_SERVICES } from '@/constants';
 import UpsertRequesters from '../UpsertRequesters';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AgentConversionDelete } from '../AgentConversionDelete';
 import { AgentConversionWarning } from '../AgentConversionWarning';
 import { useRequestersHeader } from './useRequestersHeader';
-export const RequestersHeader = ({ selectedRequestorsList }: any) => {
+export const RequestersHeader = (props: any) => {
+  const { selectedRequestersList } = props;
   const {
     setSearchValue,
+    searchValue,
     deleteModal,
     setDeleteModal,
     warningModal,
@@ -18,31 +18,22 @@ export const RequestersHeader = ({ selectedRequestorsList }: any) => {
     isDrawerOpen,
     setIsDrawerOpen,
     requestorsDropdownOptions,
-    router,
-    searchValue,
-  } = useRequestersHeader();
+    submitDeleteModal,
+    handleSubmit,
+    submit,
+    methods,
+    handleClose,
+  } = useRequestersHeader(props);
 
   return (
     <Box>
-      <Box display={'flex'} alignItems={'center'} gap={2}>
-        <Box sx={{ cursor: 'pointer' }}>
-          <ArrowBackIcon
-            onClick={() =>
-              router?.push({ pathname: AIR_SERVICES?.USER_MANAGEMENT })
-            }
-          />
-        </Box>
-        <Box mb={1}>
-          <Typography variant="h3">Requesters</Typography>
-        </Box>
-      </Box>
       <Box
         mt={3}
         display={'flex'}
         justifyContent={'space-between'}
-        flexDirection={{ xs: 'column', sm: 'column', md: 'row' }}
+        flexWrap={'wrap'}
       >
-        <Box>
+        <Box ml={{ md: 2, xs: 3 }}>
           <Search
             label="Search Here"
             width={'16.25rem'}
@@ -50,16 +41,23 @@ export const RequestersHeader = ({ selectedRequestorsList }: any) => {
             searchBy={searchValue}
           />
         </Box>
-        <Box display={'flex'} gap={1} mt={{ xs: 3 }}>
+        <Box
+          display={'flex'}
+          gap={1}
+          mt={{ xs: 3, md: 0, sm: 0 }}
+          mr={{ md: 2, xs: 1 }}
+          ml={{ xs: 0.8 }}
+        >
           <SingleDropdownButton
             dropdownName={'Actions'}
             dropdownOptions={requestorsDropdownOptions}
-            disabled={!!!selectedRequestorsList?.length}
+            disabled={!selectedRequestersList?.length}
           />
           <Button
             startIcon={<CirclePlusIcon />}
             variant="contained"
             onClick={() => setIsDrawerOpen(true)}
+            sx={{ whiteSpace: 'nowrap' }}
           >
             Add Requestors
           </Button>
@@ -68,12 +66,16 @@ export const RequestersHeader = ({ selectedRequestorsList }: any) => {
             setIsDrawerOpen={setIsDrawerOpen}
             title={'Add Requestor'}
             okText={'Submit'}
+            submitHandler={handleSubmit(submit)}
+            methods={methods}
+            handleClose={handleClose}
           />
           <AgentConversionDelete
             open={deleteModal}
             handleClose={() => {
               setDeleteModal(false);
             }}
+            submitDeleteModal={submitDeleteModal}
           />
           <AgentConversionWarning
             open={warningModal}

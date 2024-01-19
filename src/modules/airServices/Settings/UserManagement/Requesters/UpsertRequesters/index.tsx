@@ -2,25 +2,23 @@ import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { upsertRequestersArray } from './UpsertRequesters.data';
 import CommonDrawer from '@/components/CommonDrawer';
-import { useUpsertRequesters } from './useUpsertRequesters';
+import { nanoid } from '@reduxjs/toolkit';
 
 function UpsertRequesters({
   isDrawerOpen,
-  setIsDrawerOpen,
   title,
   okText,
+  submitHandler,
+  methods,
+  handleClose,
 }: any) {
-  const { methods, handleSubmit, submit } = useUpsertRequesters();
-
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
-        onClose={() => {
-          setIsDrawerOpen(false);
-        }}
+        onClose={handleClose}
         title={title}
-        submitHandler={() => handleSubmit(submit)()}
+        submitHandler={submitHandler}
         footer={true}
         isOk={true}
         okText={okText}
@@ -29,7 +27,7 @@ function UpsertRequesters({
           <FormProvider methods={methods}>
             <Grid container spacing={4}>
               {upsertRequestersArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
+                <Grid item xs={12} md={item?.md} key={nanoid()}>
                   <item.component {...item.componentProps} size={'small'} />
                 </Grid>
               ))}

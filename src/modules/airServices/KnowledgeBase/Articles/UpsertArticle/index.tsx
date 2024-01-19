@@ -90,11 +90,23 @@ export const UpsertArticle = () => {
             </Grid>
           ))}
           <Grid item width="100%" xs={12} minHeight={44}>
-            <Box sx={{ ...formBtnWrapper }}>
-              <Button onClick={() => methods?.reset?.()} variant="outlined">
+            <Box
+              sx={{
+                ...formBtnWrapper,
+              }}
+            >
+              <Button
+                sx={{ flex: 1, minWidth: '120px', whiteSpace: 'nowrap' }}
+                onClick={() => methods?.reset?.()}
+                variant="outlined"
+              >
                 Save as Draft
               </Button>
-              <Button type="submit" variant="contained">
+              <Button
+                sx={{ flex: 1, minWidth: '120px', whiteSpace: 'nowrap' }}
+                type="submit"
+                variant="contained"
+              >
                 {needApprovals ? 'Send For Approval' : 'Publish Now'}
               </Button>
             </Box>

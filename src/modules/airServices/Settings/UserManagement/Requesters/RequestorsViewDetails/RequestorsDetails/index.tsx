@@ -1,13 +1,6 @@
 import { EditRequestorsIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
-import {
-  Avatar,
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { Avatar, Box, Grid, IconButton, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UpsertRequesters from '../../UpsertRequesters';
@@ -15,12 +8,22 @@ import {
   requestorAssignedData,
   requestorsAssigned,
 } from '../../RequestorsAssignedDetails/RequestorsAssignedDetails.data';
-import { useRequestors } from '../../useRequestors';
+import { useRequesters } from '../../useRequesters';
 import { profileInformation, profileRole } from './RequestorsDetails.data';
 import { ProfileImage } from '@/assets/images';
 
 export const RequestorsDetails = () => {
-  const { theme, router, isDrawerOpen, setIsDrawerOpen } = useRequestors();
+  const {
+    theme,
+    router,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    profileData,
+    handleSubmit,
+    submit,
+    methods,
+    handleClose,
+  } = useRequesters();
   return (
     <>
       <Box display={'flex'} alignItems={'center'} gap={2} mb={3}>
@@ -51,10 +54,17 @@ export const RequestorsDetails = () => {
           justifyContent={{ lg: 'start', xs: 'center' }}
           mb={{ lg: 0, md: 3 }}
         >
-          <Avatar
-            sx={{ height: '9.125rem', width: '9.125rem' }}
-            src={ProfileImage?.src}
-          />
+          {profileData && profileData.length > 0 ? (
+            <Avatar
+              sx={{ height: '9.125rem', width: '9.125rem' }}
+              src={profileData[0]?.avatar || ProfileImage?.src}
+            />
+          ) : (
+            <Avatar
+              sx={{ height: '9.125rem', width: '9.125rem' }}
+              src={ProfileImage?.src}
+            />
+          )}
           <Box
             display={{ lg: 'none', md: 'flex' }}
             justifyContent={'flex-end'}
@@ -79,24 +89,26 @@ export const RequestorsDetails = () => {
             xs: 'none',
           }}
         >
-          {profileInformation?.map((item) => (
-            <Grid container spacing={{ sm: 4, xs: 1 }} key={item?.id}>
-              <Grid item md={5} xs={12}>
-                <Typography variant="body4" noWrap>
-                  {item?.title}
-                </Typography>
-                <br />
-                {item?.description && (
-                  <Typography variant="body3" noWrap>
-                    {item?.description}
+          {profileData &&
+            profileData[0] &&
+            profileInformation(profileData[0])?.map((item) => (
+              <Grid container spacing={{ sm: 4, xs: 1 }} key={item?.id}>
+                <Grid item md={5} xs={12}>
+                  <Typography variant="body4" noWrap>
+                    {item?.title}
                   </Typography>
-                )}
+                  <br />
+                  {item?.description && (
+                    <Typography variant="body3" noWrap>
+                      {item?.description}
+                    </Typography>
+                  )}
+                </Grid>
+                <Grid item md={5} xs={12}>
+                  <Typography variant="body4">{item?.detail}</Typography>
+                </Grid>
               </Grid>
-              <Grid item md={5} xs={12}>
-                <Typography variant="body4">{item?.detail}</Typography>
-              </Grid>
-            </Grid>
-          ))}
+            ))}
         </Grid>
         <Grid
           item
@@ -109,7 +121,7 @@ export const RequestorsDetails = () => {
           gap={3}
           ml={{ lg: 4, xs: 0 }}
         >
-          {profileRole?.map((item) => (
+          {profileRole(profileData[0])?.map((item) => (
             <Grid container spacing={{ sm: 4, xs: 1 }} key={item?.id}>
               <Grid item md={5} xs={12}>
                 <Typography variant="body3" noWrap>
@@ -117,12 +129,7 @@ export const RequestorsDetails = () => {
                 </Typography>
               </Grid>
               <Grid item md={5} xs={12}>
-                <Typography
-                  variant="body4"
-                  color={item?.detail?.includes('IT') ? 'primary' : ''}
-                >
-                  {item?.detail}
-                </Typography>
+                <Typography variant="body4">{item?.detail}</Typography>
               </Grid>
             </Grid>
           ))}
@@ -142,20 +149,6 @@ export const RequestorsDetails = () => {
       <Box py={'18px'}>
         <Typography variant="h3">Associations</Typography>
       </Box>
-      <Box>
-        <Button variant="outlined" color="primary">
-          Tickets
-        </Button>
-      </Box>
-      <Box py={'1.125rem'}>
-        <Typography variant="h6">Assigned</Typography>
-        <br />
-        <TanstackTable
-          data={requestorAssignedData}
-          columns={requestorsAssigned()}
-          isPagination={true}
-        />
-      </Box>
       <Box py={'1.125rem'}>
         <Typography variant="h6">Requested</Typography>
         <br />
@@ -170,6 +163,9 @@ export const RequestorsDetails = () => {
         setIsDrawerOpen={setIsDrawerOpen}
         title={'Edit Requestor'}
         okText={'Update'}
+        submitHandler={handleSubmit(submit)}
+        methods={methods}
+        handleClose={handleClose}
       />
     </>
   );
