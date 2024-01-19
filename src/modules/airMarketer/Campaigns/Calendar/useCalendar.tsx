@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import { Box, Theme, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { airMarketingCalendar } from '@/routesConstants/paths';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { CALENDAR_FORMAT } from '@/constants';
 
 const useCalendar = () => {
@@ -18,9 +17,6 @@ const useCalendar = () => {
   const theme = useTheme<Theme>();
 
   const router = useRouter();
-  const calendarDateClick = () => {
-    router?.push(`${airMarketingCalendar?.create_post}`);
-  };
 
   const eventContentHandler = (eventInfo: any) => {
     const event = eventInfo?.event?._def;
@@ -38,16 +34,16 @@ const useCalendar = () => {
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <Image
+            {/* <Image
               src={event?.extendedProps?.SocailMedia.src}
               alt="dd"
               width={16}
               height={16}
-            />
+            /> */}
             <Typography
               variant="body4"
               sx={{
-                color: eventInfo?.textColor || '#D74646',
+                color: 'white',
                 whiteSpace: 'initial',
                 fontWeight: '600',
               }}
@@ -99,7 +95,6 @@ const useCalendar = () => {
     calendarDate,
     handlePrevClick,
     handleNextClick,
-    calendarDateClick,
     router,
     handleEventClick,
     isModalOpen,
