@@ -4,8 +4,8 @@ import { baseAPI } from '@/services/base-api';
 const TAG_TWO = 'LOCATION';
 const TAG_THREE = 'VENDOR_DROPDOWN';
 const TAG_FOUR = 'DROPDOWN_DEPARTMENT';
-export const purchaseOrderAPI = baseAPI?.injectEndpoints({
-  endpoints: (builder) => ({
+export const purchaseOrderAPI = baseAPI.injectEndpoints({
+  endpoints: (builder: any) => ({
     getDepartmentDropdown: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,

@@ -1,119 +1,110 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-  RHFTextField,
-} from '@/components/ReactHookForm';
-import { useLazyGetAgentsDropdownQuery } from '@/services/airServices/assets/software';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 const statusOptions = [
-  'Restricted',
-  'Ignored',
-  'Managed',
-  'Disabled',
-  'InReview',
+  { value: 'Restricted', label: 'Restricted' },
+  { value: 'Ignored', label: 'Ignored' },
+  { value: 'Managed', label: 'Managed' },
+  { value: 'Disabled', label: 'Disabled' },
+  { value: 'In Review', label: 'In Review' },
 ];
-const typeOptions = ['Desktop', 'Saas', 'Mobile'];
+const typeOptions = [
+  { value: 'Desktop', label: 'Desktop' },
+  { value: 'SaaS', label: 'SaaS' },
+  { value: 'Mobile', label: 'Mobile' },
+];
 
-export const upsertSoftwareFormValidationSchema: any = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Required'),
+export const upsertSoftwareFormValidationSchema = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Field is Required'),
   description: Yup?.string(),
-  status: Yup?.string()?.required('Required'),
-  type: Yup?.string()?.required('Required'),
+  status: Yup?.string(),
+  type: Yup?.string()?.required('Field is Required'),
   publisher: Yup?.string(),
   category: Yup?.string(),
+  managedBy: Yup?.string(),
 });
 
-export const upsertSoftwareFormDefaultValues = (data: any) => {
-  return {
-    name: data?.name ?? '',
-    description: data?.details?.description ?? '',
-    status: data?.status ?? null,
-    type: data?.type ?? null,
-    publisher: data?.details?.publisher ?? '',
-    category: data?.details?.category ?? '',
-    managedBy: data?.managedByDetails ?? '',
-  };
+export const upsertSoftwareFormDefaultValues = {
+  name: '', //1
+  description: '', //2
+  status: '', //3
+  type: '', //4
+  publisher: '', //5
+  category: '', //6
+  managedBy: '', //7
 };
 
-export const upsertSoftwareFormFields = () => {
-  const userList = useLazyGetAgentsDropdownQuery();
-  return [
-    {
-      id: 1,
-      componentProps: {
-        name: 'name',
-        label: 'Name',
-        fullWidth: true,
-        required: true,
-      },
-      component: RHFTextField,
+export const upsertSoftwareFormFields = [
+  {
+    componentProps: {
+      name: 'name',
+      label: 'Name',
+      fullWidth: true,
+      required: true,
     },
-    {
-      id: 2,
-      componentProps: {
-        name: 'description',
-        label: 'Description',
-        placeholder: 'Enter Description',
-        fullWidth: true,
-        multiline: true,
-        minRows: 3,
-      },
-      component: RHFTextField,
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'description',
+      label: 'Description',
+      placeholder: 'Enter Description',
+      fullWidth: true,
+      multiline: true,
+      minRows: 3,
     },
-    {
-      id: 3,
-      componentProps: {
-        name: 'status',
-        label: 'Status',
-        fullWidth: true,
-        required: true,
-        options: statusOptions,
-      },
-      component: RHFAutocomplete,
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'status',
+      label: 'Status',
+      fullWidth: true,
+      select: true,
     },
-    {
-      id: 4,
-      componentProps: {
-        name: 'type',
-        label: 'Type',
-        fullWidth: true,
-        required: true,
-        options: typeOptions,
-      },
-      component: RHFAutocomplete,
+    options: statusOptions,
+    component: RHFSelect,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'type',
+      label: 'Type',
+      fullWidth: true,
+      select: true,
+      required: true,
     },
-    {
-      id: 5,
-      componentProps: {
-        name: 'publisher',
-        label: 'Publisher',
-        fullWidth: true,
-      },
-      component: RHFTextField,
+    options: typeOptions,
+    component: RHFSelect,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'publisher',
+      label: 'Publisher',
+      fullWidth: true,
     },
-    {
-      id: 6,
-      componentProps: {
-        name: 'category',
-        label: 'Category',
-        fullWidth: true,
-      },
-      component: RHFTextField,
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'category',
+      label: 'Category',
+      fullWidth: true,
     },
-    {
-      id: 7,
-      componentProps: {
-        name: 'managedBy',
-        label: 'Managed By',
-        fullWidth: true,
-        apiQuery: userList,
-        getOptionLabel: (option: any) =>
-          option?.firstName || option?.lastName
-            ? option?.firstName + ' ' + option?.lastName
-            : '',
-      },
-      component: RHFAutocompleteAsync,
+    component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'managedBy',
+      label: 'Managed By',
+      fullWidth: true,
     },
-  ];
-};
+    component: RHFTextField,
+    md: 12,
+  },
+];
