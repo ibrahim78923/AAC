@@ -22,6 +22,7 @@ export const AlertModals = ({
   typeImage,
   disableCancelBtn,
   loading,
+  footer = true,
 }: any) => {
   return (
     <Dialog
@@ -54,25 +55,27 @@ export const AlertModals = ({
           {message}{' '}
         </Typography>
       </DialogContent>
-      <DialogActions
-        sx={{ '&.MuiDialogActions-root': { padding: '1.5rem !important' } }}
-      >
-        <LoadingButton
-          variant="outlined"
-          color="secondary"
-          onClick={() => handleCancelBtn?.()}
-          disabled={disableCancelBtn}
+      {footer && (
+        <DialogActions
+          sx={{ '&.MuiDialogActions-root': { padding: '1.5rem !important' } }}
         >
-          {cancelBtnText}
-        </LoadingButton>
-        <LoadingButton
-          variant="contained"
-          onClick={handleSubmitBtn}
-          loading={loading}
-        >
-          {submitBtnText}
-        </LoadingButton>
-      </DialogActions>
+          <LoadingButton
+            variant="outlined"
+            color="secondary"
+            onClick={() => handleCancelBtn?.()}
+            disabled={disableCancelBtn}
+          >
+            {cancelBtnText}
+          </LoadingButton>
+          <LoadingButton
+            variant="contained"
+            onClick={handleSubmitBtn}
+            loading={loading}
+          >
+            {submitBtnText}
+          </LoadingButton>
+        </DialogActions>
+      )}
     </Dialog>
   );
 };

@@ -1,4 +1,3 @@
-import { Grid } from '@mui/material';
 import Table from './Table';
 import useAllView from './useAllView';
 import CloneModal from './CloneModal';
@@ -6,7 +5,7 @@ import CloneModal from './CloneModal';
 const AllView = () => {
   const { isAllViewActionsModal, setIsAllViewActionsModal } = useAllView();
   return (
-    <Grid>
+    <>
       <Table />
       {isAllViewActionsModal?.isClone && (
         <CloneModal
@@ -14,7 +13,7 @@ const AllView = () => {
           setIsAllViewActionsModal={setIsAllViewActionsModal}
         />
       )}
-    </Grid>
+    </>
   );
 };
 export default AllView;

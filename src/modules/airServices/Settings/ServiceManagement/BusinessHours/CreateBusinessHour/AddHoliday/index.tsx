@@ -70,6 +70,7 @@ export const AddHoliday = (props: any) => {
                   <RHFDatePicker
                     name="date"
                     label="Date"
+                    disablePast
                     required
                     size="small"
                     fullWidth={true}
