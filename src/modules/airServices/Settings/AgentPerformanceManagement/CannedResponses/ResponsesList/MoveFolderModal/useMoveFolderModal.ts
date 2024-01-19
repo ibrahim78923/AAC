@@ -27,7 +27,7 @@ export const useMoveFolderModal = (props: any) => {
     const upsertCannedResponseFormData = new FormData();
     upsertCannedResponseFormData?.append('folderId', data?.folder?._id);
     selectedData?.forEach(
-      (item: any) => upsertCannedResponseFormData?.append('id', item?._id),
+      (item: any) => upsertCannedResponseFormData?.append('ids', item?._id),
     );
     const moveResponsesParameter = {
       body: upsertCannedResponseFormData,

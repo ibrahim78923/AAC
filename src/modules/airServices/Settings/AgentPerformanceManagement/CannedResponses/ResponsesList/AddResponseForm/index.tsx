@@ -1,9 +1,10 @@
-import { Avatar, AvatarGroup, Box, Grid } from '@mui/material';
+import { Avatar, AvatarGroup, Box, Grid, Tooltip } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { addResponseDataArray } from './AddResponseForm.data';
+import { addResponseDataArray, stringAvatar } from './AddResponseForm.data';
 import { SelectAgentsModal } from './SelectAgentsModal';
 import { useAddResponseForm } from './useAddResponseForm';
 import CommonDrawer from '@/components/CommonDrawer';
+import { CANNED_RESPONSES } from '@/constants/strings';
 
 export const AddResponseForm = (props: any) => {
   const {
@@ -19,6 +20,8 @@ export const AddResponseForm = (props: any) => {
     editableObj,
     postResponseStatus,
     patchResponseStatus,
+    availableForChanged,
+    setValue,
   } = useAddResponseForm(props);
   return (
     <>
@@ -45,19 +48,33 @@ export const AddResponseForm = (props: any) => {
               {addResponseDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
-                  {item?.componentProps?.avatarGroup && !!agents?.length && (
-                    <Grid item xs={12}>
-                      <AvatarGroup max={4} sx={{ justifyContent: 'flex-end' }}>
-                        {agents?.map((avatar: any) => (
-                          <Avatar
-                            key={avatar?.id}
-                            alt={avatar?.name}
-                            src={avatar?.src?.src}
-                          />
-                        ))}
-                      </AvatarGroup>
-                    </Grid>
-                  )}
+                  {item?.componentProps?.avatarGroup &&
+                    !!agents?.length &&
+                    availableForChanged === CANNED_RESPONSES?.SELECT_AGENTS && (
+                      <Grid item xs={12}>
+                        <AvatarGroup
+                          max={4}
+                          sx={{ justifyContent: 'flex-end' }}
+                          total={agents?.length}
+                        >
+                          {agents?.map((avatar: any) => (
+                            <Tooltip
+                              key={avatar?._id}
+                              title={`${avatar?.firstName} ${avatar?.lastName}`}
+                            >
+                              <Avatar
+                                key={avatar?.id}
+                                alt={`${avatar?.firstName} ${avatar?.lastName}`}
+                                src={avatar?.attachments}
+                                {...stringAvatar(
+                                  `${avatar?.firstName} ${avatar?.lastName}`,
+                                )}
+                              />
+                            </Tooltip>
+                          ))}
+                        </AvatarGroup>
+                      </Grid>
+                    )}
                 </Grid>
               ))}
             </Grid>
@@ -67,6 +84,7 @@ export const AddResponseForm = (props: any) => {
           openSelectAgentsModal={openSelectAgentsModal}
           closeSelectAgentsModal={() => setOpenSelectAgentsModal(false)}
           setAgentsResponses={setAgents}
+          setValue={setValue}
         />
       </CommonDrawer>
     </>

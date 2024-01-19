@@ -11,7 +11,9 @@ export const DeleteResponseModal = ({
   const [deleteResponsesTrigger, { isLoading }] = useDeleteResponsesMutation();
   const deleteResponses = async () => {
     const deleteParams = new URLSearchParams();
-    selectedData?.forEach((item: any) => deleteParams?.append('id', item?._id));
+    selectedData?.forEach(
+      (item: any) => deleteParams?.append('ids', item?._id),
+    );
     const deleteResponsesParameter = {
       queryParams: deleteParams,
     };

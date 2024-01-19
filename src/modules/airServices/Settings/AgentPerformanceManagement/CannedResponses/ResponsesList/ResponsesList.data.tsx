@@ -1,7 +1,8 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { CANNED_RESPONSES } from '@/constants/strings';
-import { AvatarGroup, Box, Checkbox, Avatar } from '@mui/material';
+import { AvatarGroup, Box, Checkbox, Avatar, Tooltip } from '@mui/material';
 import dayjs from 'dayjs';
+import { stringAvatar } from './AddResponseForm/AddResponseForm.data';
 export const responsesTableColumns = (
   responsesData: any,
   setResponsesData: any,
@@ -67,28 +68,37 @@ export const responsesTableColumns = (
       dayjs(info?.getValue()).format('ddd MM, YYYY hh:mm:ss A'),
   },
   {
-    accessorFn: (row: any) => row?.availableFor,
+    accessorFn: (row: any) => ({
+      availableFor: row?.availableFor,
+      agents: row?.agents,
+    }),
     id: 'availableFor',
     isSortable: true,
     header: 'Available for',
     cell: (info: any) => {
       return (
         <Box>
-          {true ? (
-            info?.getValue()
-          ) : (
+          {info?.getValue()?.availableFor ===
+          CANNED_RESPONSES?.SELECT_AGENTS ? (
             <AvatarGroup max={4} sx={{ justifyContent: 'flex-end' }}>
-              {info
-                ?.getValue()
-                ?.map((avatar: { src: string | undefined }) => (
+              {info?.getValue()?.agents?.map((avatar: any) => (
+                <Tooltip
+                  key={avatar?._id}
+                  title={`${avatar?.firstName} ${avatar?.lastName}`}
+                >
                   <Avatar
-                    key={avatar?.src}
-                    alt="User Avatar"
-                    src={avatar?.src}
-                    sx={{ height: '30px', width: '30px' }}
+                    key={avatar?.id}
+                    alt={`${avatar?.firstName} ${avatar?.lastName}`}
+                    src={avatar?.attachments}
+                    {...stringAvatar(
+                      `${avatar?.firstName} ${avatar?.lastName}`,
+                    )}
                   />
-                ))}
+                </Tooltip>
+              ))}
             </AvatarGroup>
+          ) : (
+            info?.getValue()?.availableFor?.replace(/_/g, ' ')
           )}
         </Box>
       );

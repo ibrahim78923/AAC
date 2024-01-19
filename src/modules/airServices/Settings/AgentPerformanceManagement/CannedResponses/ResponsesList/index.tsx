@@ -50,36 +50,43 @@ export const ResponsesList = () => {
         borderRadius={3}
         border="0.06rem solid"
         borderColor="custom.light_lavender_gray"
-        px={1}
       >
         <Grid container>
           <Grid item xs={12}>
             <Box p={1.2}>
-              <Grid container>
-                <Grid item xs={6}>
+              <Grid container spacing={2}>
+                <Grid item sm={6} xs={12}>
                   <Box display="flex" alignItems="center" gap={2}>
                     <Search
                       size="small"
                       label="Search"
                       searchBy={search}
                       setSearchBy={setSearch}
+                      width={500}
                     />
                   </Box>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item sm={6} xs={12}>
                   <Box
                     display="flex"
                     justifyContent="flex-end"
                     alignItems="center"
+                    flexWrap="wrap"
                     gap={2}
                   >
                     <SingleDropdownButton
                       dropdownOptions={actionsOptions(handleActionClick)}
                       dropdownName="Actions"
                       disabled={!!!selectedData?.length}
+                      sx={{
+                        width: { sm: 'auto', xs: '100%' },
+                      }}
                     />
                     <Button
                       variant="contained"
+                      sx={{
+                        width: { sm: 'auto', xs: '100%' },
+                      }}
                       startIcon={
                         <AddBoxRoundedIcon sx={{ color: 'custom.white' }} />
                       }
@@ -103,7 +110,7 @@ export const ResponsesList = () => {
               isLoading={lazyGetResponsesListStatus?.isLoading}
               isFetching={lazyGetResponsesListStatus?.isFetching}
               isError={lazyGetResponsesListStatus?.isError}
-              isSuccess={lazyGetResponsesListStatus?.isSuccess}
+              isSuccess={lazyGetResponsesListStatus?.isSuccess || true}
               currentPage={page}
               count={responsesListMetaData?.pages}
               pageLimit={pageLimit}

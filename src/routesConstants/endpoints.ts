@@ -71,6 +71,8 @@ export const END_POINTS = {
   PRODUCT_CATALOG_VENDOR_LIST: '/product-catalog/vendor-list',
   ADD_CANNED_RESPONSES: '/canned-responses/add-canned-response',
   GET_CANNED_RESPONSES: '/canned-responses/get-canned-response',
+  UPDATE_CANNED_RESPONSES: '/canned-responses/update-canned-response',
+  DELETE_CANNED_RESPONSES: '/canned-responses/delete-canned-response',
   GET_RESPONSES_LIST: '/canned-responses/get-responses',
   POST_RESPONSE: '/canned-responses/add-responses',
   UPDATE_RESPONSE: '/canned-responses/update-responses',
