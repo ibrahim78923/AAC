@@ -42,6 +42,7 @@ const Calendar = () => {
     isDelete,
     setIsDelete,
     theme,
+    todayDate,
   } = useCalendar();
   return (
     <>
@@ -269,7 +270,7 @@ const Calendar = () => {
           }}
           initialView="dayGridMonth"
           noEventsText="No Events to Show"
-          events={taskEvents}
+          events={taskEvents(todayDate, theme)}
           dayMaxEventRows={3}
           moreLinkClick={handleMoreLinkClick}
           editable={true}
