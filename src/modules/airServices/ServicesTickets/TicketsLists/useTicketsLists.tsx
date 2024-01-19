@@ -182,8 +182,8 @@ export const useTicketsLists: any = () => {
 
   const updateTicketStatus = async (status: any) => {
     const updateTicketStatusParams = new URLSearchParams();
-    selectedTicketList?.forEach(
-      (ticketId: any) => updateTicketStatusParams?.append('ids', ticketId),
+    selectedTicketList?.forEach((ticketId: any) =>
+      updateTicketStatusParams?.append('ids', ticketId),
     );
     const updateTicketStatusTicketsParameter = {
       queryParams: updateTicketStatusParams,

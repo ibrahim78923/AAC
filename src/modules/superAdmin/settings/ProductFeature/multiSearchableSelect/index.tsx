@@ -56,9 +56,8 @@ export default function MultiSearchableSelect({
     }
   };
 
-  const filteredOptions = options?.filter(
-    (option: any) =>
-      option?.label?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
+  const filteredOptions = options?.filter((option: any) =>
+    option?.label?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
   );
 
   const searchHandler = isSearch === false ? false : true;

@@ -65,8 +65,8 @@ const AddGroupModal = ({
   );
 
   const filteredParticipants = participantsDataSelect
-    ?.filter(
-      (participant: any) => participantsIdsValues?.includes(participant?.id),
+    ?.filter((participant: any) =>
+      participantsIdsValues?.includes(participant?.id),
     )
     ?.map((participant: any) => ({
       id: participant?.id,
