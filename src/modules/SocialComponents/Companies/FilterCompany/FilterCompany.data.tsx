@@ -20,39 +20,6 @@ export const FilterArray = () => {
       component: RHFSelect,
       md: 12,
     },
-    // commented for future use
-    // {
-    //   componentProps: {
-    //     name: 'name',
-    //     label: 'Company Name',
-    //     fullWidth: true,
-    //     select: true,
-    //   },
-    //   options: [
-    //     { value: 'AirApple Cart', label: 'AirApple Cart' },
-    //     { value: 'PhoenixBaker', label: 'PhoenixBaker' },
-    //     { value: 'Foster App', label: 'Foster App' },
-    //     { value: 'Share My Dine', label: 'Share My Dine' },
-    //   ],
-    //   component: RHFSelect,
-    //   md: 12,
-    // },
-    // {
-    //   componentProps: {
-    //     name: 'crn',
-    //     label: 'Company Registration Number',
-    //     fullWidth: true,
-    //     select: true,
-    //   },
-    //   options: [
-    //     { value: 'AirApple Cart', label: 'AirApple Cart' },
-    //     { value: 'PhoenixBaker', label: 'PhoenixBaker' },
-    //     { value: 'Foster App', label: 'Foster App' },
-    //     { value: 'Share My Dine', label: 'Share My Dine' },
-    //   ],
-    //   component: RHFSelect,
-    //   md: 12,
-    // },
     {
       componentProps: {
         name: 'ownerId',

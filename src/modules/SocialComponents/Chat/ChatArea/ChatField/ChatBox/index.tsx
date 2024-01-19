@@ -21,7 +21,7 @@ import {
 } from '@/assets/icons';
 
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { setActiveReply } from '@/redux/slices/chat/slice';
+import { setActiveReply, setChatContacts } from '@/redux/slices/chat/slice';
 
 import { UserDefault } from '@/assets/images';
 import { getSession } from '@/utils';
@@ -32,6 +32,7 @@ import dayjs from 'dayjs';
 import { TIME_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import { IMG_URL } from '@/config';
+import { CHAT_SOCKETS_EMIT } from '@/routesConstants/paths';
 
 const ChatBox = ({
   item,
@@ -57,6 +58,8 @@ const ChatBox = ({
   const dispatch = useAppDispatch();
 
   const socket = useAppSelector((state) => state?.chat?.socket);
+  const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
+  const activeChatState = useAppSelector((state) => state?.chat?.activeChat);
 
   const handelSendReaction = (emoji: any, item: any) => {
     const isReactionExists = item?.reactions?.some(
@@ -79,6 +82,7 @@ const ChatBox = ({
     );
   };
 
+  //Reply message to user
   const handelReply = (chatId: any) => {
     dispatch(
       setActiveReply({
@@ -88,22 +92,34 @@ const ChatBox = ({
     );
   };
 
+  //Delete message from chat
   const handelDelete = () => {
-    socket.emit('update-message', {
+    socket.emit(CHAT_SOCKETS_EMIT.UPDATE_MESSAGE, {
       messageId: item?._id,
       isDeleted: true,
     });
   };
 
+  // Read message functionality from socket
   useEffect(() => {
     if (role === 'receiver') {
       if (item?.isRead === false) {
-        socket.emit('update-message', {
+        socket.emit(CHAT_SOCKETS_EMIT.UPDATE_MESSAGE, {
           messageId: item?._id,
           isRead: true,
+          groupId: activeChatId,
         });
       }
     }
+  }, [item]);
+
+  useEffect(() => {
+    dispatch(
+      setChatContacts({
+        ...activeChatState,
+        unReadMessagesCount: '',
+      }),
+    );
   }, [item]);
 
   const divToCopyRef = useRef<any>(null);
@@ -176,14 +192,22 @@ const ChatBox = ({
             ) : (
               <>
                 {chatMode === 'groupChat' ? (
-                  <Box>
-                    <Typography
-                      variant="body3"
-                      sx={{ color: theme?.palette?.common, fontWeight: '500' }}
-                    >
-                      {item?.userName}
-                    </Typography>
-                  </Box>
+                  <>
+                    {role === 'receiver' && (
+                      <Box>
+                        <Typography
+                          variant="body3"
+                          color={theme?.palette?.common?.black}
+                          sx={{
+                            fontWeight: '500',
+                          }}
+                        >
+                          {item?.ownerDetail?.firstName}&nbsp;
+                          {item?.ownerDetail?.lastName}
+                        </Typography>
+                      </Box>
+                    )}
+                  </>
                 ) : null}
               </>
             )}

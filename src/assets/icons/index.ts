@@ -403,3 +403,5 @@ export { default as UserDynamicIcon } from './modules/airLoyaltyProgram/Dashboar
 export { default as AddToCartMoneyDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/add-to-cart-money-dynamic-icon';
 export { default as TransactionDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/transaction-dynamic-icon';
 export { default as ImageIconAttachment } from './modules/SocialComponents/Chat/imageIcon';
+export { default as BookMarkDarkIcon } from './shared/book-mark-dark-icon';
+export { default as ArrowDownDarkIcon } from './shared/arrow-down-dark-icon';

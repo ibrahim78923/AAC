@@ -27,6 +27,7 @@ export const businessHourAPI = baseAPI?.injectEndpoints({
         method: 'POST',
         body: postBusinessHourParameter?.body,
       }),
+      invalidatesTags: [TAG],
     }),
     patchBusinessHour: builder?.mutation({
       query: (patchBusinessHourParameter: any) => ({
@@ -34,6 +35,7 @@ export const businessHourAPI = baseAPI?.injectEndpoints({
         method: 'PATCH',
         body: patchBusinessHourParameter?.body,
       }),
+      invalidatesTags: [TAG],
     }),
     deleteBusinessHour: builder?.mutation({
       query: (deleteBusinessHourParameter: any) => ({

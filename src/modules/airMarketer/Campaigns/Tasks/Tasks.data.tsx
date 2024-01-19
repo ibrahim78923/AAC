@@ -1,4 +1,12 @@
+import { Checkbox } from '@mui/material';
 export const columns: any = [
+  {
+    accessorFn: (row: any) => row?.id,
+    id: 'Id',
+    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
+    header: <Checkbox color="primary" name="id" />,
+    isSortable: false,
+  },
   {
     accessorFn: (row: any) => row?.taskName,
     id: 'taskName',

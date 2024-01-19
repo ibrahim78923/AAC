@@ -4,7 +4,7 @@ import ChatHeader from './ChatHeader';
 import ChatField from './ChatField';
 import { useAppSelector } from '@/redux/store';
 
-const ChatArea = () => {
+const ChatArea = ({ isError }: any) => {
   const chatModeState = useAppSelector(
     (state: any) => state?.chat?.chatModeState,
   );
@@ -13,7 +13,7 @@ const ChatArea = () => {
   return (
     <Box>
       <ChatHeader chatMode={chatMode} />
-      <ChatField />
+      <ChatField isError={isError} />
     </Box>
   );
 };
