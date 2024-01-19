@@ -59,7 +59,7 @@ const Campaigns = () => {
               onClick={() => setIsCreateTask(true)}
               sx={{ width: { sm: '200px', xs: '100%' } }}
             >
-              Create campaigns made changes
+              Create campaigns
             </Button>
           </Box>
         </Stack>
