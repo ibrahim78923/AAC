@@ -14,7 +14,7 @@ import {
   ticketPriorityOptions,
   ticketSourceOptions,
   ticketStatusOptions,
-} from '../ServicesTickets.data';
+} from '../../../ServicesTickets.data';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { Box, Typography } from '@mui/material';
@@ -22,7 +22,7 @@ import { Box, Typography } from '@mui/material';
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
 export const upsertTicketValidationSchema = Yup?.object()?.shape({
-  requester: Yup?.mixed()?.nullable()?.required('Required'),
+  // requester: Yup?.mixed()?.nullable()?.required('Required'),
   subject: Yup?.string()?.trim()?.required('Required'),
   description: Yup?.string()?.trim()?.required('Required'),
   category: Yup?.mixed()?.nullable(),
@@ -161,7 +161,6 @@ export const upsertTicketFormFieldsDynamic = (
       required: true,
       placeholder: 'Choose Priority',
       options: ticketPriorityOptions,
-      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -184,7 +183,6 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose Source',
       options: ticketSourceOptions,
-      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -196,7 +194,6 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose Impact',
       options: ticketImpactOptions,
-      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },

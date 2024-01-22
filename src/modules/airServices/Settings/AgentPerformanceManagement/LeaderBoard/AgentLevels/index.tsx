@@ -1,21 +1,21 @@
-import { Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import AgentLevelCard from './AgentLevelCard';
-import { AgentLevelCardData } from './AgentLevel.data';
+import { agentLevelCardData } from './AgentLevel.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useAgentLevelsPoints } from './useAgentLevelsPoints';
-import { useEffect } from 'react';
+import { LoadingButton } from '@mui/lab';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const AgentLevels = () => {
   const {
     agentLevelsPointsMethod,
     handleSubmit,
-    agentLevelsPoints,
-    handleSetValues,
+    isLoading,
+    isFetching,
+    addAgentLevelsPointsStatus,
   } = useAgentLevelsPoints();
 
-  useEffect(() => {
-    handleSetValues();
-  }, [agentLevelsPoints]);
+  if (isLoading || isFetching) return <SkeletonForm />;
 
   return (
     <>
@@ -29,24 +29,40 @@ const AgentLevels = () => {
         <Typography variant="subtitle2" fontWeight={500} color="custom.main">
           Set points to be achieved by an agent to reach a level
         </Typography>
-        <Grid container gap={1.6} xs={12} md={8} xl={4} mt={2.4}>
-          {AgentLevelCardData?.map?.((card) => (
+        <Grid item container xs={12} md={8} xl={4} mt={2.4} spacing={2}>
+          {agentLevelCardData?.map?.((card) => (
             <Grid item xs={12} key={card?.points}>
               <AgentLevelCard {...card} />
             </Grid>
           ))}
         </Grid>
         <Grid
+          item
           container
           xs={12}
           md={8}
           xl={4}
           mt={2.4}
-          sx={{ justifyContent: 'flex-end' }}
+          sx={{ justifyContent: { sm: 'flex-end' } }}
         >
-          <Button type="submit" variant="contained">
-            Save
-          </Button>
+          <Box display={'flex'} gap={2} alignItems={'center'} flexWrap={'wrap'}>
+            <LoadingButton
+              disabled={addAgentLevelsPointsStatus?.isLoading}
+              type="button"
+              variant="outlined"
+              color="inherit"
+            >
+              Cancel
+            </LoadingButton>
+            <LoadingButton
+              loading={addAgentLevelsPointsStatus?.isLoading}
+              disableElevation
+              type="submit"
+              variant="contained"
+            >
+              Save
+            </LoadingButton>
+          </Box>
         </Grid>
       </FormProvider>
     </>

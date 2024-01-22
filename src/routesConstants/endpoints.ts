@@ -206,6 +206,7 @@ export const END_POINTS = {
   PURCHASE_ORDER: `/assets/purchaseorder`,
   DROPDOWN_SOFTWARE: `/assets/get-software`,
   DROPDOWN_ALL_AGENTS: '/dropdown/agents',
+  GET_SINGLE_ASSETS_CONTRACT: '/contract/get-contract',
 };
 
 export const superAdminBillingInvoices = {

@@ -6,11 +6,10 @@ import {
   upsertTicketDefaultValuesFunction,
   upsertTicketFormFieldsDynamic,
   upsertTicketValidationSchema,
-} from './UpsertTicket.data';
+} from './UpsertRelatedTicket.data';
 import { enqueueSnackbar } from 'notistack';
 
 import { useEffect } from 'react';
-import usePath from '@/hooks/usePath';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useGetTicketsByIdQuery,
@@ -19,24 +18,20 @@ import {
   useLazyGetCategoriesDropdownQuery,
   useLazyGetDepartmentDropdownQuery,
   useLazyGetRequesterDropdownQuery,
-  usePostTicketsMutation,
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
-import { makeDateTime } from '../ServicesTickets.data';
+import { makeDateTime } from '../../../ServicesTickets.data';
+import { useAddChildTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 
-export const useUpsertTicket = (props: any) => {
-  const {
-    setIsDrawerOpen,
-    ticketId,
-    setSelectedTicketList,
-    setFilterTicketLists,
-  } = props;
+export const useUpsertRelatedTicket = (props: any) => {
+  const { setIsDrawerOpen, childTicketId, setSelectedChildTickets } = props;
 
   const router = useRouter();
+  const { ticketId } = router?.query;
   const theme: any = useTheme();
-  const { makePath } = usePath();
-  const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
-  const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
+  const [postChildTicketTrigger, postChildTicketStatus] =
+    useAddChildTicketsMutation();
+  const [putChildTicketTrigger, putChildTicketStatus] = usePutTicketsMutation();
 
   const getSingleTicketParameter = {
     pathParam: {
@@ -60,8 +55,6 @@ export const useUpsertTicket = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const submitUpsertTicket = async (data: any) => {
-    setFilterTicketLists({});
-
     const upsertTicketFormData = new FormData();
     upsertTicketFormData?.append('requester', data?.requester?._id);
     upsertTicketFormData?.append('subject', data?.subject);
@@ -70,11 +63,11 @@ export const useUpsertTicket = (props: any) => {
     !!data?.category?._id &&
       upsertTicketFormData?.append('category', data?.category?._id);
     upsertTicketFormData?.append('status', data?.status?._id);
-    upsertTicketFormData?.append('pirority', data?.priority?._id);
+    upsertTicketFormData?.append('pirority', data?.priority);
     !!data?.department?._id &&
       upsertTicketFormData?.append('department', data?.department?._id);
-    !!data?.source && upsertTicketFormData?.append('source', data?.source?._id);
-    !!data?.impact && upsertTicketFormData?.append('impact', data?.impact?._id);
+    !!data?.source && upsertTicketFormData?.append('source', data?.source);
+    !!data?.impact && upsertTicketFormData?.append('impact', data?.impact);
     !!data?.agent && upsertTicketFormData?.append('agent', data?.agent?._id);
     (!!data?.plannedEndDate || !!data?.plannedEndTime) &&
       upsertTicketFormData?.append(
@@ -93,17 +86,20 @@ export const useUpsertTicket = (props: any) => {
       );
     upsertTicketFormData?.append('moduleType', 'TICKETS');
     upsertTicketFormData?.append('ticketType', 'INC');
-    if (!!ticketId) {
+    if (!!childTicketId) {
       submitUpdateTicket(upsertTicketFormData);
       return;
     }
     const postTicketParameter = {
       body: upsertTicketFormData,
+      queryParams: {
+        id: ticketId,
+      },
     };
 
     try {
-      const response = await postTicketTrigger(postTicketParameter)?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Ticket Added Successfully', {
+      await postChildTicketTrigger(postTicketParameter)?.unwrap();
+      enqueueSnackbar('Child ticket added successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       reset();
@@ -119,15 +115,15 @@ export const useUpsertTicket = (props: any) => {
     const putTicketParameter = {
       body: data,
       pathParam: {
-        id: ticketId,
+        id: childTicketId,
       },
     };
     try {
-      const response = await putTicketTrigger(putTicketParameter)?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Ticket Created Successfully!', {
+      await putChildTicketTrigger(putTicketParameter)?.unwrap();
+      enqueueSnackbar('Child ticket updated successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      setSelectedTicketList([]);
+      setSelectedChildTickets([]);
       reset();
       setIsDrawerOpen?.(false);
     } catch (error) {
@@ -141,13 +137,7 @@ export const useUpsertTicket = (props: any) => {
   }, [data, reset]);
 
   const onClose = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
-    setSelectedTicketList([]);
+    setSelectedChildTickets([]);
     reset?.();
     setIsDrawerOpen?.(false);
   };
@@ -174,8 +164,8 @@ export const useUpsertTicket = (props: any) => {
     submitUpsertTicket,
     methods,
     onClose,
-    putTicketStatus,
-    postTicketStatus,
+    postChildTicketStatus,
+    putChildTicketStatus,
     isLoading,
     isFetching,
     ticketId,

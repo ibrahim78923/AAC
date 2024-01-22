@@ -2,9 +2,9 @@ import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import { useUpsertTicket } from './useUpsertTicket';
+import { useUpsertRelatedTicket } from './useUpsertRelatedTicket';
 
-export const UpsertTicket = (props: any) => {
+export const UpsertRelatedTicket = (props: any) => {
   const { isDrawerOpen } = props;
   const {
     handleSubmit,
@@ -15,24 +15,28 @@ export const UpsertTicket = (props: any) => {
     isLoading,
     ticketId,
     upsertTicketFormFields,
-    putTicketStatus,
-    postTicketStatus,
+    postChildTicketStatus,
+    putChildTicketStatus,
     isError,
-  } = useUpsertTicket(props);
+  } = useUpsertRelatedTicket(props);
 
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
       onClose={() => onClose?.()}
-      okText={!!ticketId ? 'Update' : 'Submit'}
-      title={!!ticketId ? 'Edit Ticket' : 'Create Ticket'}
+      okText={!!ticketId ? 'Update' : 'Add Child Ticket'}
+      title={!!ticketId ? 'Edit Child Ticket' : 'Add Child Ticket'}
       submitHandler={() => handleSubmit(submitUpsertTicket)()}
       isOk
       cancelText={'Cancel'}
       footer
-      isLoading={putTicketStatus?.isLoading || putTicketStatus?.isLoading}
+      isLoading={
+        postChildTicketStatus?.isLoading || putChildTicketStatus?.isLoading
+      }
       isDisabled={
-        isError || postTicketStatus?.isLoading || postTicketStatus?.isLoading
+        isError ||
+        postChildTicketStatus?.isLoading ||
+        putChildTicketStatus?.isLoading
       }
     >
       {isLoading || isFetching ? (
