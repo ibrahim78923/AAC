@@ -106,6 +106,8 @@ export const AIR_SERVICES = {
     '/air-services/settings/service-management/services-catalog/upsert-service',
   SERVICE_CATALOG: '/air-services/settings/service-management/services-catalog',
   UPSERT_SOFTWARE_CONTRACT: `/air-services/assets/software/detail/create-contract`,
+  UPSERT_WORKFLOW_MANAGEMENT:
+    '/air-services/settings/agent-performance-management/workload-management/upsert-workflow-management',
 };
 
 export const AIR_CUSTOMER_PORTAL = {
