@@ -12,6 +12,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
 import { AudienceMockImage } from '@/assets/images';
 import { styles } from './EngagementAds.style';
+import PublishActionButton from '../PublishActionBtn';
 
 const EngagementAdsStepper = () => {
   const theme = useTheme();
@@ -54,58 +55,62 @@ const EngagementAdsStepper = () => {
           <Grid container spacing={1}>
             {stepperArray
               ?.filter((_, step) => step == activeStep)
-              ?.map((item: any) =>
-                item?.formFields?.map((item: any) => {
-                  return (
-                    (activeStep === initialStep
-                      ? item?.isNewAdFields?.includes(isNewAd)
-                      : item) && (
-                      <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                        <Typography
-                          variant={item?.componentProps?.varient}
-                          fontWeight={500}
-                          color={
-                            item?.componentProps?.heading === 'Age Range'
-                              ? theme?.palette?.grey[600]
-                              : theme?.palette?.blue?.dull_blue
-                          }
-                        >
-                          {item?.componentProps?.heading}
-                          {(item?.componentProps?.heading === 'Age Range' ||
-                            item?.componentProps?.heading ===
-                              'Ad Creative') && (
+              ?.map(
+                (item: any) =>
+                  item?.formFields?.map((item: any) => {
+                    return (
+                      (activeStep === initialStep
+                        ? item?.isNewAdFields?.includes(isNewAd)
+                        : item) && (
+                        <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                          <Typography
+                            variant={item?.componentProps?.varient}
+                            fontWeight={500}
+                            color={
+                              item?.componentProps?.heading === 'Age Range'
+                                ? theme?.palette?.grey[600]
+                                : theme?.palette?.blue?.dull_blue
+                            }
+                          >
+                            {item?.componentProps?.heading}
+                            {(item?.componentProps?.heading === 'Age Range' ||
+                              item?.componentProps?.heading ===
+                                'Ad Creative') && (
+                              <Typography
+                                component="span"
+                                color={theme?.palette?.error?.main}
+                              >
+                                *
+                              </Typography>
+                            )}
+                          </Typography>
+                          <item.component
+                            {...item?.componentProps}
+                            size={'small'}
+                          >
+                            {item?.componentProps?.select &&
+                              item?.options?.map((option: any) => (
+                                <option
+                                  key={option?.value}
+                                  value={option?.value}
+                                >
+                                  {option?.label}
+                                </option>
+                              ))}
+                          </item.component>
+                          {item?.componentProps?.name === 'contactsList' && (
                             <Typography
-                              component="span"
-                              color={theme?.palette?.error?.main}
+                              variant="body3"
+                              color={theme?.palette?.grey[600]}
                             >
-                              *
+                              When a contact interacts with your ads, add them
+                              to an active list so you can market to them later.
                             </Typography>
                           )}
-                        </Typography>
-                        <item.component
-                          {...item?.componentProps}
-                          size={'small'}
-                        >
-                          {item?.componentProps?.select &&
-                            item?.options?.map((option: any) => (
-                              <option key={option?.value} value={option?.value}>
-                                {option?.label}
-                              </option>
-                            ))}
-                        </item.component>
-                        {item?.componentProps?.name === 'contactsList' && (
-                          <Typography
-                            variant="body3"
-                            color={theme?.palette?.grey[600]}
-                          >
-                            When a contact interacts with your ads, add them to
-                            an active list so you can market to them later.
-                          </Typography>
-                        )}
-                      </Grid>
-                    )
-                  );
-                }),
+                        </Grid>
+                      )
+                    );
+                  }),
               )}
           </Grid>
           {activeStep === stepThree && (
@@ -222,12 +227,7 @@ const EngagementAdsStepper = () => {
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
             {activeStep === stepThree ? (
-              <Button
-                variant="contained"
-                onClick={() => router?.push(AIR_MARKETER?.PAID_ADS)}
-              >
-                Publish
-              </Button>
+              <PublishActionButton />
             ) : (
               <Button type="submit" sx={{ mr: 1 }} variant="contained">
                 Next
