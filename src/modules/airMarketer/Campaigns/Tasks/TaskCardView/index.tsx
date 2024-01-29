@@ -6,8 +6,6 @@ import { taskCardViewData } from './TaskCardView.data';
 
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
-import { BackArrIcon } from '@/assets/icons';
-import { useRouter } from 'next/router';
 
 const TaskViewCard = () => {
   const theme: any = useTheme<Theme>();
@@ -33,12 +31,12 @@ const TaskViewCard = () => {
     newTaskCardData?.splice(destinationIndex, 0, draggedItem);
     setTaskCardData(newTaskCardData);
   };
-  const router = useRouter();
+
   return (
     <>
-      <Box mb={1} sx={{ cursor: 'pointer' }} onClick={() => router.back()}>
+      {/* <Box mb={1} sx={{ cursor: 'pointer' }} onClick={() => router.back()}>
         <BackArrIcon />
-      </Box>
+      </Box> */}
       <Box
         sx={{
           display: 'flex',
@@ -53,7 +51,6 @@ const TaskViewCard = () => {
               sx={{
                 border: `1px solid ${theme?.palette?.grey[700]}`,
                 borderRadius: '10px',
-                width: '282px',
               }}
             >
               <Droppable
@@ -62,7 +59,11 @@ const TaskViewCard = () => {
                 direction="vertical"
               >
                 {(provided) => (
-                  <Box ref={provided?.innerRef} {...provided?.droppableProps}>
+                  <Box
+                    ref={provided?.innerRef}
+                    {...provided?.droppableProps}
+                    sx={{ width: '282px' }}
+                  >
                     <Box
                       sx={{
                         boxShadow: '0px 3px 6px 0px #6B72801A',
@@ -212,10 +213,10 @@ const TaskViewCard = () => {
                                       items?.status === 'Inprogress'
                                         ? `${theme?.palette?.warning?.main}`
                                         : items?.status === 'Pending'
-                                        ? `${theme?.palette?.error?.main}`
-                                        : items?.status === 'Complete'
-                                        ? `${theme?.palette?.success?.main}`
-                                        : '',
+                                          ? `${theme?.palette?.error?.main}`
+                                          : items?.status === 'Complete'
+                                            ? `${theme?.palette?.success?.main}`
+                                            : '',
                                     fontWeight: 600,
                                   }}
                                 >

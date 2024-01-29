@@ -345,3 +345,9 @@ export const ROLE = {
   ORG_REQUESTER: 'ORG_REQUESTER',
   ORG_AGENT: 'ORG_AGENT',
 };
+export const WORKLOAD_SCHEDULE = {
+  CREATE: 'Create',
+  EDIT: 'Edit',
+  SAVE: 'Save',
+  UPDATE: 'Update',
+};

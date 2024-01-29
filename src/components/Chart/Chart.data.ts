@@ -24,20 +24,34 @@ export const cssStyles = (theme: any) => {
     },
   };
 };
-export const baroptions = (type: any, options: ApexOptions): ApexOptions => ({
+export const baroptions = (
+  type: any,
+  {
+    chart,
+    grid,
+    plotOptions,
+    xaxis,
+    yaxis,
+    fill,
+    dataLabels,
+    stroke,
+    legend,
+    ...restOptions
+  }: ApexOptions,
+): ApexOptions => ({
   chart: {
     type: type,
     toolbar: { show: false },
     zoom: {
       enabled: false,
     },
-    ...options?.chart,
+    ...chart,
   },
   grid: {
     show: true,
     borderColor: '#D9DBE9',
     strokeDashArray: 7,
-    ...options?.grid,
+    ...grid,
   },
   plotOptions: {
     bar: {
@@ -45,12 +59,12 @@ export const baroptions = (type: any, options: ApexOptions): ApexOptions => ({
       borderRadiusApplication: 'end',
       borderRadiusWhenStacked: 'last',
     },
-    ...options?.plotOptions,
+    ...plotOptions,
   },
   xaxis: {
     labels: {
       ...labelXYStyles,
-      ...options?.xaxis?.labels,
+      ...xaxis?.labels,
     },
     axisTicks: {
       show: false,
@@ -58,27 +72,27 @@ export const baroptions = (type: any, options: ApexOptions): ApexOptions => ({
     axisBorder: {
       show: false,
     },
-    ...options?.xaxis,
+    ...xaxis,
   },
   yaxis: {
     labels: {
       ...labelXYStyles,
     },
-    ...options?.yaxis,
+    ...yaxis,
   },
   fill: {
     opacity: 1,
-    ...options?.fill,
+    ...fill,
   },
   dataLabels: {
     enabled: false,
-    ...options?.dataLabels,
+    ...dataLabels,
   },
   stroke: {
     show: true,
     width: 1,
     colors: ['#fff'],
-    ...options?.stroke,
+    ...stroke,
   },
   legend: {
     show: true,
@@ -87,9 +101,9 @@ export const baroptions = (type: any, options: ApexOptions): ApexOptions => ({
       width: 12,
       height: 12,
       radius: 12,
-      ...options?.legend?.markers,
+      ...legend?.markers,
     },
-    ...options?.legend,
+    ...legend,
   },
-  ...options,
+  ...restOptions,
 });

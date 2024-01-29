@@ -1,10 +1,9 @@
-import { Button, MenuItem, Menu, Box } from '@mui/material';
-import { ActionButtonIcon } from '@/assets/icons';
+import { Typography, Button, MenuItem, Menu, Box } from '@mui/material';
+import { ActionButtonIcon, ViewDetailBackArrowIcon } from '@/assets/icons';
 import { useHeader } from './useHeader';
+import React from 'react';
 import { AlertModals } from '@/components/AlertModals';
-import { enqueueSnackbar } from 'notistack';
 import { UpsertSoftware } from '../../UpsertSoftware';
-import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export default function Header() {
   const {
@@ -16,10 +15,8 @@ export default function Header() {
     handleClose,
     open,
     anchorEl,
-    methods,
-    submitForm,
-    handleCloseDrawer,
-    handleMoveBack,
+    deleteSoftware,
+    isLoading,
   } = useHeader();
 
   return (
@@ -31,11 +28,12 @@ export default function Header() {
         flexWrap={'wrap'}
         gap={2}
       >
-        <PageTitledHeader
-          title="Software"
-          canMovedBack
-          moveBack={handleMoveBack}
-        />
+        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
+          <ViewDetailBackArrowIcon />
+          <Typography variant="h5" component="span">
+            Software
+          </Typography>
+        </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <Button
             variant="outlined"
@@ -76,23 +74,13 @@ export default function Header() {
         <AlertModals
           type="delete"
           open={deleteModalOpen}
+          loading={isLoading}
           handleClose={() => setDeleteModalOpen(false)}
-          handleSubmitBtn={() => {
-            setDeleteModalOpen(false);
-            enqueueSnackbar('Software deleted Successfully', {
-              variant: 'success',
-            });
-          }}
+          handleSubmitBtn={deleteSoftware}
           message="Are you sure  want to delete this Software ?"
         />
       )}
-      <UpsertSoftware
-        isDrawerOpen={isDrawerOpen}
-        onClose={handleCloseDrawer}
-        submitForm={submitForm}
-        methods={methods}
-        title="Edit Software"
-      />
+      <UpsertSoftware isDrawerOpen={isDrawerOpen} onClose={setIsDrawerOpen} />
     </>
   );
 }

@@ -1,59 +1,77 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useRelatedTickets } from './useRelatedTickets';
 import { RelatedTicketsHeader } from './RelatedTicketsHeader';
-import CreateRelatedTickets from './CreateRelatedTickets';
+import { UpsertRelatedTicket } from './UpsertRelatedTicket';
+import { DeleteRelatedTicket } from './DeleteRelatedTicket';
 
-const RelatedTickets = () => {
+const RelatedTickets = (props: any) => {
   const {
     setIsDrawerOpen,
     isDrawerOpen,
-    drawerType,
-    setDrawerType,
     selectedChildTickets,
     relatedTicketsColumns,
     headerFunctions,
-    page,
     setPage,
-    metaData,
-    pageLimit,
+    lazyGetChildTicketsStatus,
     setPageLimit,
-  } = useRelatedTickets();
+    setSelectedChildTickets,
+    relatedTicketsActionDropdown,
+    isDelete,
+    setIsDelete,
+  } = useRelatedTickets(props);
 
   return (
     <div>
       <RelatedTicketsHeader
-        isActive={selectedChildTickets}
+        relatedTicketsActionDropdown={relatedTicketsActionDropdown}
+        isActive={!!!selectedChildTickets?.length}
         setIsDrawerOpen={setIsDrawerOpen}
-        setDrawerType={setDrawerType}
         headerFunctions={headerFunctions}
       />
 
       {isDrawerOpen && (
-        <CreateRelatedTickets
+        <UpsertRelatedTicket
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
-          drawerType={drawerType}
           data={selectedChildTickets}
+          childTicketId={selectedChildTickets?.[0]}
+          setSelectedChildTickets={setSelectedChildTickets}
         />
       )}
       <br />
       <TanstackTable
-        isLoading={metaData?.isLoading}
-        data={metaData?.tickets ?? []}
+        isLoading={lazyGetChildTicketsStatus?.isLoading}
+        data={[
+          { _id: 10, ticketIdNumber: 12, status: 'OPEN' },
+          { _id: 100, ticketIdNumber: 12, status: 'RESOLVED' },
+          { _id: 210, ticketIdNumber: 12, status: 'PENDING' },
+          { _id: 2110, ticketIdNumber: 12, status: 'CLOSED' },
+          { _id: 10212, ticketIdNumber: 12, status: 'OPEN' },
+        ]}
+        // data={lazyGetChildTicketsStatus?.data?.data?.tickets ?? []}
         activeCheck={selectedChildTickets}
         columns={relatedTicketsColumns}
-        isFetching={metaData?.isFetching}
-        isError={metaData?.isError}
-        isSuccess={metaData?.isSuccess}
-        currentPage={page}
-        count={metaData?.data?.meta?.pages}
-        pageLimit={pageLimit}
-        totalRecords={metaData?.data?.meta?.total}
+        // isFetching={lazyGetChildTicketsStatus?.isFetching}
+        // isError={lazyGetChildTicketsStatus?.isError || false}
+        // isSuccess={lazyGetChildTicketsStatus?.isSuccess || true}
+        isSuccess={true}
+        currentPage={lazyGetChildTicketsStatus?.data?.data?.meta?.page}
+        count={lazyGetChildTicketsStatus?.data?.data?.meta?.pages}
+        pageLimit={lazyGetChildTicketsStatus?.data?.data?.meta?.limit}
+        totalRecords={lazyGetChildTicketsStatus?.data?.data?.meta?.total}
         onPageChange={(page: any) => setPage(page)}
         setPage={setPage}
         setPageLimit={setPageLimit}
         isPagination
       />
+      {isDelete && (
+        <DeleteRelatedTicket
+          isDelete={isDelete}
+          setIsDelete={setIsDelete}
+          selectedChildTickets={selectedChildTickets}
+          setSelectedChildTickets={setSelectedChildTickets}
+        />
+      )}
     </div>
   );
 };

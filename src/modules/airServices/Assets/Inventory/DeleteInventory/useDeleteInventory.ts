@@ -18,8 +18,8 @@ export const useDeleteInventory = (props: any) => {
   const deleteInventory = async () => {
     const deleteParams = new URLSearchParams();
 
-    selectedInventoryLists?.forEach(
-      (inventoryId: any) => deleteParams?.append('ids', inventoryId),
+    selectedInventoryLists?.forEach((inventoryId: any) =>
+      deleteParams?.append('ids', inventoryId),
     );
 
     const deleteInventoryParameter = {

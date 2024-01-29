@@ -5,7 +5,7 @@ import { AlertModalDeleteIcon } from '@/assets/icons';
 import useBroadcast from './useBroadcast';
 import { broadcastColumns, broadcastData } from './Broadcast.data';
 
-const Broadcast = ({ setIsCreateBroadcast }: any) => {
+const Broadcast = () => {
   const {
     theme,
     statusTag,
@@ -18,10 +18,7 @@ const Broadcast = ({ setIsCreateBroadcast }: any) => {
   } = useBroadcast();
   return (
     <>
-      <BroadcastHeader
-        handleOpenDelete={handleOpenDelete}
-        setIsCreateBroadcast={setIsCreateBroadcast}
-      />
+      <BroadcastHeader handleOpenDelete={handleOpenDelete} />
 
       <TanstackTable
         columns={broadcastColumns(statusTag, theme)}

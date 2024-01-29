@@ -13,11 +13,12 @@ export const useTicketDelete = (props: any) => {
     setSelectedTicketList,
     setPage,
   } = props;
-  const [deleteTicketsTrigger] = useDeleteTicketsMutation();
+  const [deleteTicketsTrigger, deleteTicketsStatus] =
+    useDeleteTicketsMutation();
   const deleteTicket = async () => {
     const deleteParams = new URLSearchParams();
-    selectedTicketList?.forEach(
-      (ticketId: any) => deleteParams?.append('Ids', ticketId),
+    selectedTicketList?.forEach((ticketId: any) =>
+      deleteParams?.append('Ids', ticketId),
     );
     const deleteTicketsParameter = {
       queryParams: deleteParams,
@@ -53,5 +54,6 @@ export const useTicketDelete = (props: any) => {
   return {
     deleteTicket,
     closeTicketsDeleteModal,
+    deleteTicketsStatus,
   };
 };

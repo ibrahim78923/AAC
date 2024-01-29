@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import {
   TICKETS_ACTION_CONSTANTS,
+  buildQueryParams,
+  errorSnackbar,
   ticketsActionDropdownFunction,
   ticketsListInitialColumns,
   ticketsListsColumnFunction,
@@ -26,11 +28,7 @@ import {
   usePatchBulkUpdateTicketsMutation,
 } from '@/services/airServices/tickets';
 import { FilterTickets } from '../FilterTickets';
-import {
-  neglectKeysInLoop,
-  sendIdOptions,
-} from '../FilterTickets/FilterTickets.data';
-import { makeDateTime } from '../ServicesTickets.data';
+import { neglectKeysInLoop } from '../FilterTickets/FilterTickets.data';
 
 export const useTicketsLists: any = () => {
   const [hasTicketAction, setHasTicketAction] = useState(false);
@@ -45,44 +43,16 @@ export const useTicketsLists: any = () => {
   const theme = useTheme();
   const router = useRouter();
   const { makePath } = usePath();
-  const getTicketsParam = new URLSearchParams();
 
-  Object?.entries(filterTicketLists || {})?.forEach(([key, value]: any) => {
-    if (neglectKeysInLoop?.includes(key)) return;
-    if (sendIdOptions?.includes(key))
-      return getTicketsParam?.append(key, value?._id);
-    getTicketsParam?.append(key, value);
-  });
-
-  (!!filterTicketLists?.plannedEndDate ||
-    !!filterTicketLists?.plannedEndTime ||
-    !!filterTicketLists?.dueByDate ||
-    !!filterTicketLists?.dueByTime) &&
-    getTicketsParam?.append(
-      'plannedEndDate',
-      makeDateTime(
-        filterTicketLists?.plannedEndDate ?? filterTicketLists?.dueByDate,
-        filterTicketLists?.plannedEndTime ?? filterTicketLists?.dueByTime,
-      ),
-    );
-  (!!filterTicketLists?.plannedStartDate ||
-    !!filterTicketLists?.plannedStartTime) &&
-    getTicketsParam?.append(
-      'plannedStartDate',
-      makeDateTime(
-        filterTicketLists?.plannedStartDate,
-        filterTicketLists?.plannedStartTime,
-      ),
-    );
-  !!filterTicketLists?.category && getTicketsParam?.append('ticketType', 'SR');
-  !!filterTicketLists?.department &&
-    getTicketsParam?.append('ticketType', 'SR');
-  getTicketsParam?.append('metaData', true + '');
-  getTicketsParam?.append('page', page + '');
-  getTicketsParam?.append('limit', pageLimit + '');
-  getTicketsParam?.append('search', search);
+  const ticketsParam = buildQueryParams(
+    page,
+    pageLimit,
+    search,
+    filterTicketLists,
+    neglectKeysInLoop,
+  );
   const getTicketsParameter = {
-    queryParams: getTicketsParam,
+    queryParams: ticketsParam,
   };
 
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
@@ -98,53 +68,22 @@ export const useTicketsLists: any = () => {
       await lazyGetTicketsTrigger(getTicketsParameter)?.unwrap();
       setSelectedTicketList([]);
     } catch (error: any) {
-      error?.data?.data?.message &&
-        enqueueSnackbar(error?.data?.message ?? 'Error', {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        });
       setSelectedTicketList([]);
     }
   };
-  const getTicketsListDataExport = async (type: any) => {
-    const exportTicketsParams = new URLSearchParams();
-    Object?.entries(filterTicketLists || {})?.forEach(([key, value]: any) => {
-      if (neglectKeysInLoop?.includes(key)) return;
-      if (sendIdOptions?.includes(key))
-        return exportTicketsParams?.append(key, value?._id);
-      exportTicketsParams?.append(key, value);
-    });
 
-    (!!filterTicketLists?.plannedEndDate ||
-      !!filterTicketLists?.plannedEndTime ||
-      !!filterTicketLists?.dueByDate ||
-      !!filterTicketLists?.dueByTime) &&
-      exportTicketsParams?.append(
-        'plannedEndDate',
-        makeDateTime(
-          filterTicketLists?.plannedEndDate ?? filterTicketLists?.dueByDate,
-          filterTicketLists?.plannedEndTime ?? filterTicketLists?.dueByTime,
-        ),
-      );
-    (!!filterTicketLists?.plannedStartDate ||
-      !!filterTicketLists?.plannedStartTime) &&
-      exportTicketsParams?.append(
-        'plannedStartDate',
-        makeDateTime(
-          filterTicketLists?.plannedStartDate,
-          filterTicketLists?.plannedStartTime,
-        ),
-      );
-    !!filterTicketLists?.category &&
-      exportTicketsParams?.append('ticketType', 'SR');
-    !!filterTicketLists?.department &&
-      exportTicketsParams?.append('ticketType', 'SR');
-    exportTicketsParams?.append('metaData', true + '');
-    exportTicketsParams?.append('exportType', type);
-    exportTicketsParams?.append('page', page + '');
-    exportTicketsParams?.append('limit', pageLimit + '');
-    exportTicketsParams?.append('search', search);
+  const getTicketsListDataExport = async (type: any) => {
+    const ticketsParam = buildQueryParams(
+      page,
+      pageLimit,
+      search,
+      filterTicketLists,
+      neglectKeysInLoop,
+      type,
+    );
+
     const getTicketsExportParameter = {
-      queryParams: exportTicketsParams,
+      queryParams: ticketsParam,
     };
 
     try {
@@ -152,17 +91,12 @@ export const useTicketsLists: any = () => {
         getTicketsExportParameter,
       )?.unwrap();
       downloadFile(response, 'TicketLists', EXPORT_FILE_TYPE?.[type]);
-      enqueueSnackbar(
-        response?.data?.message ?? `Tickets Exported successfully`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      enqueueSnackbar(`Tickets Exported successfully`, {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
       setSelectedTicketList([]);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? `Tickets not exported`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar?.();
       setSelectedTicketList([]);
     }
   };
@@ -182,8 +116,8 @@ export const useTicketsLists: any = () => {
 
   const updateTicketStatus = async (status: any) => {
     const updateTicketStatusParams = new URLSearchParams();
-    selectedTicketList?.forEach(
-      (ticketId: any) => updateTicketStatusParams?.append('ids', ticketId),
+    selectedTicketList?.forEach((ticketId: any) =>
+      updateTicketStatusParams?.append('ids', ticketId),
     );
     const updateTicketStatusTicketsParameter = {
       queryParams: updateTicketStatusParams,
