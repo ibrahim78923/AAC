@@ -16,6 +16,8 @@ export default function RHFAutocomplete({
   noOptionsText = 'Nothing in the List',
   multiple = false,
   placeholder,
+  isOptionEqualToValue = (option: any, newValue: any) =>
+    option?._id === newValue?._id,
   getOptionLabel = (option: any) => option?.replaceAll?.('_', ' '),
   ...other
 }: any) {
@@ -56,6 +58,7 @@ export default function RHFAutocomplete({
             noOptionsText={noOptionsText}
             value={value}
             getOptionLabel={getOptionLabel}
+            isOptionEqualToValue={isOptionEqualToValue}
             PaperComponent={(props) => (
               <Paper
                 {...props}

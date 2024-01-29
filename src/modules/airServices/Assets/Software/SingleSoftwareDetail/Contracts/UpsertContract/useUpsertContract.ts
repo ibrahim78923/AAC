@@ -26,7 +26,7 @@ export const useUpsertContract = () => {
     resolver: yupResolver<any>(upsertContractFormSchemaFunction),
     defaultValues: upsertContractFormDefaultValuesFunction(),
   });
-  const { handleSubmit, control, reset } = upsertContractFormMethods;
+  const { handleSubmit, control } = upsertContractFormMethods;
 
   const watchForNotifyExpiry = useWatch({
     control,
@@ -35,13 +35,12 @@ export const useUpsertContract = () => {
   });
 
   const handleCancelBtn = () => {
-    router?.push({ pathname: AIR_SERVICES?.ASSETS_CONTRACTS });
+    router?.push({ pathname: AIR_SERVICES?.ASSETS_SOFTWARE_DETAIL });
   };
 
   const submitUpsertContractForm = async (data: any) => {
     const postContractForm = new FormData();
     postContractForm?.append('name', data?.contractName);
-    // postContractForm?.append('contractNumber', data?.contractNumber);
     postContractForm?.append('contractType', data?.type?._id);
     postContractForm?.append('cost', data?.cost);
     data?.vendor !== null &&
@@ -60,7 +59,6 @@ export const useUpsertContract = () => {
 
     data?.approver !== null &&
       postContractForm?.append('approver', data?.approver?._id);
-    // postContractForm?.append('status', data?.status?._id);
     data?.associateAssets !== null &&
       postContractForm.append('associatedAsset', data?.associateAssets?._id);
     data?.attachFile !== null &&
@@ -77,12 +75,10 @@ export const useUpsertContract = () => {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       router?.back();
-      reset(upsertContractFormDefaultValuesFunction());
     } catch (error: any) {
       enqueueSnackbar(error?.message ?? 'Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
-      reset(upsertContractFormDefaultValuesFunction());
     }
   };
   const apiQueryVendor = useLazyGetVendorDropdownQuery();

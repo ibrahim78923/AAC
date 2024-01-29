@@ -539,3 +539,71 @@ export const AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS = {
   SET_CLOSURE_RULES_AGAINST_TICKETS:
     'service-settings-set-closure-rules-against-tickets',
 };
+
+export const AIR_OPERATIONS_DASHBOARD_PERMISSIONS = {
+  VIEW_DASHBOARD: 'operation-dashboard-view-dashboard',
+};
+
+export const AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS = {
+  SEARCH_RECORD: 'operation-data-management-search-record',
+  FILTER_RECORD: 'operation-data-management-filter-record',
+  DOWNLOAD_RECORD: 'operation-data-management-download-record',
+};
+
+export const AIR_OPERATIONS_DATA_MANAGEMENT_EXPORT_LIST_PERMISSIONS = {
+  SEARCH_RECORD: 'operation-data-management-search-record',
+  FILTER_RECORD: 'operation-data-management-filter-record',
+  DOWNLOAD_RECORD: 'operation-export-list-data-management-download-record',
+};
+
+export const AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS = {
+  SEARCH_RECORD: 'operation-workflows-sale-search-record',
+  FILTER_RECORD: 'operation-workflows-sale-filter-record',
+  ACTIVE_INACTIVE_WORKFLOW: `operation-workflows-sale-active-inactive-workflow`,
+  TEST_WORKFLOW: `operation-workflows-sale-test-workflow`,
+  DELETE_GROUP: `operation-workflows-sale-delete-group`,
+  ADD_CONDITION: `operation-workflows-sale-add-condition`,
+  EDIT_WORKFLOW: `operation-workflows-sale-edit-workflow`,
+  CLONE: `operation-workflows-sale-clone`,
+  DELETE: `operation-workflows-sale-delete`,
+  ENABLE_NOW: `operation-workflows-sale-enable-now`,
+  SCHEDULE: `operation-workflows-sale-schedule`,
+};
+
+export const AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS = {
+  SEARCH_RECORD: 'operation-workflows-service-search-record',
+  FILTER_RECORD: 'operation-workflows-service-filter-record',
+  ENABLE_DISABLE: `operation-workflows-service-enable-disable`,
+  DELETE: `operation-workflows-service-delete`,
+  EDIT_WORKFLOW: `operation-workflows-service-edit-workflow`,
+  CLONE_WORKFLOW: `operation-workflows-service-clone-workflow`,
+  CREATE_EVENTBASE_WORKFLOW: `operation-workflows-service-create-eventbase-workflow`,
+  CREATE_SCHEDULE_WORKFLOW: `operation-workflows-service-create-schedule-workflows`,
+  CREATE_SUPERVISOR_RULES: `operation-workflows-service-create-supervisor-rules`,
+};
+
+export const AIR_OPERATIONS_ROLES_AND_RIGHT_ROLES_LIST_PERMISSIONS = {
+  SEARCH_RECORD: 'operation-roles-and-right-search-record',
+  EDIT_ROLE: 'operation-roles-and-right-edit-role',
+  VIEW_ROLE: 'operation-roles-and-right-view-role',
+  DELETE_ROLE: `operation-roles-and-right-delete-role`,
+  ADD_ROLE: `operation-roles-and-right-add-role`,
+};
+
+export const AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS = {
+  USER_LIST: `operation-user-managment-user-list`,
+  SEARCH_RECORD: 'operation-user-managment-search-record',
+  ACTIVE_INACTIVE_USER: 'operation-user-managment-active-inactive-user',
+  VIEW_USER_DETAIL: 'operation-user-managment-view-user-detail',
+  EDIT_USER: `operation-user-managment-edit-user`,
+  DELETE_USER: `operation-user-managment-delete-user`,
+};
+
+export const AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS = {
+  TEAM_LIST: `operation-user-managment-team-list`,
+  SEARCH_RECORD: 'operation-user-managment-search-record',
+  VIEW: 'operation-user-managment-view',
+  EDIT: `operation-user-managment-edit`,
+  DELETE: `operation-user-managment-delete`,
+  CREATE_TEAM: `operation-user-managment-create-team`,
+};

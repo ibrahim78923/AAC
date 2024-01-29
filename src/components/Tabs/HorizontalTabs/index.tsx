@@ -27,7 +27,6 @@ const HorizontalTabs = (props: any) => {
   useEffect(() => {
     setValue(defaultValue);
   }, [defaultValue]);
-
   const arrayChildren = Children?.toArray(children);
 
   const theme: any = useTheme();

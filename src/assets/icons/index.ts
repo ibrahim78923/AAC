@@ -405,3 +405,6 @@ export { default as TransactionDynamicIcon } from './modules/airLoyaltyProgram/D
 export { default as ImageIconAttachment } from './modules/SocialComponents/Chat/imageIcon';
 export { default as BookMarkDarkIcon } from './shared/book-mark-dark-icon';
 export { default as ArrowDownDarkIcon } from './shared/arrow-down-dark-icon';
+export { default as PencilEditIcon } from './shared/pencil-edit-icon';
+export { default as TimerPauseIcon } from './shared/timer-pause-icon';
+export { default as DeleteBlackIcon } from './shared/delete-black-icon';
