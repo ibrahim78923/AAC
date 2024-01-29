@@ -23,25 +23,24 @@ export const Contract = () => {
       ) : (
         <>
           {AssetsInventoryContractsData[0]?.contractList?.length ? (
-            AssetsInventoryContractsData?.map(
-              (singleContractList: any) =>
-                singleContractList?.contractList?.map((singleContract: any) => (
-                  <InventoryCard
-                    openDeleteModal={openDeleteModal}
-                    setOpenDeleteModal={setOpenDeleteModal}
-                    handleDelete={handleDelete}
-                    setDelateRecord={setDelateRecord}
-                    deletedRecordId={singleContract?._id}
-                    heading={singleContract?.name}
-                    status={singleContract?.status}
-                    key={singleContract?._id}
-                    showChild
-                  >
-                    <Typography color={theme?.palette?.grey?.[900]}>
-                      {singleContract?.licenseType}
-                    </Typography>
-                  </InventoryCard>
-                )),
+            AssetsInventoryContractsData?.map((singleContractList: any) =>
+              singleContractList?.contractList?.map((singleContract: any) => (
+                <InventoryCard
+                  openDeleteModal={openDeleteModal}
+                  setOpenDeleteModal={setOpenDeleteModal}
+                  handleDelete={handleDelete}
+                  setDelateRecord={setDelateRecord}
+                  deletedRecordId={singleContract?._id}
+                  heading={singleContract?.name}
+                  status={singleContract?.status}
+                  key={singleContract?._id}
+                  showChild
+                >
+                  <Typography color={theme?.palette?.grey?.[900]}>
+                    {singleContract?.licenseType}
+                  </Typography>
+                </InventoryCard>
+              )),
             )
           ) : (
             <NoData

@@ -14,7 +14,6 @@ import { AlertModals } from '@/components/AlertModals';
 import { AlertModalDeleteIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
-import EditColumns from '../EditColumns';
 import CompaignDetails from '../CampaignDetails';
 
 const ActionButton = () => {
@@ -36,7 +35,7 @@ const ActionButton = () => {
         variant="outlined"
         color="inherit"
         sx={{
-          width: '112px',
+          width: { sm: '112px', xs: '100%' },
           height: '36px',
         }}
       >
@@ -117,17 +116,7 @@ const ActionButton = () => {
           }
         />
       )}
-      {actionsModalDetails?.isEditColumns && (
-        <EditColumns
-          open={actionsModalDetails?.isEditColumns}
-          onClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isEditColumns: false,
-            })
-          }
-        />
-      )}
+
       {actionsModalDetails?.isViewDeatsils && (
         <CompaignDetails
           open={actionsModalDetails?.isViewDeatsils}

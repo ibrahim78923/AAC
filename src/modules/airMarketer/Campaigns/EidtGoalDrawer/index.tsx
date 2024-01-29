@@ -1,4 +1,4 @@
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -37,7 +37,7 @@ export default function EditGoalDrawer({
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={'Edit Compaign Goal'}
+      title={'Edit Campaign Goal'}
       okText={'Update'}
       isOk
       cancelText={'Cancel'}
@@ -46,9 +46,12 @@ export default function EditGoalDrawer({
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
-          <Grid container spacing={4}>
+          <Grid container spacing={2}>
             {dataArray?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <Typography variant={item?.componentProps?.varient}>
+                  {item?.componentProps?.heading}
+                </Typography>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (

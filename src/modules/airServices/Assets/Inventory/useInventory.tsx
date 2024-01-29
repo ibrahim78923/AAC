@@ -48,8 +48,8 @@ export const useInventory = () => {
 
   const getInventoryParam = new URLSearchParams();
 
-  Object?.entries(inventoryFilterLists || {})?.forEach(
-    ([key, value]: any) => getInventoryParam?.append(key, value?._id),
+  Object?.entries(inventoryFilterLists || {})?.forEach(([key, value]: any) =>
+    getInventoryParam?.append(key, value?._id),
   );
   getInventoryParam?.append('page', page + '');
   getInventoryParam?.append('limit', pageLimit + '');

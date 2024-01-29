@@ -1,3 +1,5 @@
+import { IMG_URL } from '@/config';
+
 const colorLoop = (str: string) => {
   let a = 1;
   let b = 0;
@@ -26,4 +28,8 @@ export const fullName = (firstName: any, lastName: any) => {
 export const fullNameInitial = (firstName: any, lastName: any) => {
   if (!!!firstName && !!!lastName) return '-';
   return `${firstName?.[0] ?? ''} ${lastName?.[0] ?? ''}`;
+};
+
+export const generateImage = (imgSrc: any) => {
+  return `${IMG_URL}${imgSrc}`;
 };
