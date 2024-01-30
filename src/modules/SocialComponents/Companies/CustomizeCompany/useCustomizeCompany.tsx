@@ -67,8 +67,9 @@ const useCustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
       setSelected((prevSelected) => [...prevSelected, col?.slug]);
       newArr[i].active = checked;
     } else if (selected?.includes(col?.slug)) {
-      setSelected((prevSelected) =>
-        prevSelected?.filter((val: string) => val !== col?.slug),
+      setSelected(
+        (prevSelected) =>
+          prevSelected?.filter((val: string) => val !== col?.slug),
       );
       newArr[i].active = false;
     }

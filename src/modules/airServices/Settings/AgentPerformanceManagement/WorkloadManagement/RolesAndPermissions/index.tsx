@@ -11,48 +11,59 @@ export const RolesAndPermissions = () => {
       </Typography>
       <Box pt={4}>
         <Box display={'flex'} alignItems="center" gap={1}>
-          <Typography variant="body2">Manage all member's workload</Typography>
-          <Tooltip title={<Box>
-            <h3>
-              Agent
-            </h3>
-            <Typography>
-            Agents can manage the workload of all members in their assigned roles
-            </Typography>
-          </Box>}>
-          <ErrorIcon color="primary" />
+          <Typography variant="body2">
+            Manage all member&#39;s workload
+          </Typography>
+          <Tooltip
+            title={
+              <Box>
+                <h3>Agent</h3>
+                <Typography>
+                  Agents can manage the workload of all members in their
+                  assigned roles
+                </Typography>
+              </Box>
+            }
+          >
+            <ErrorIcon color="primary" />
           </Tooltip>
         </Box>
         <Divider variant="middle" style={{ margin: '1rem 0' }} />
         <Box display={'flex'} alignItems="center" gap={1}>
           <Typography variant="body2">
-            Manage all department member's workload
+            Manage all department member&#39;s workload
           </Typography>
-          <Tooltip title={<Box>
-            <h3>
-              Agent
-            </h3>
-            <Typography>
-            Agents can manage the workload of all members in their assigned roles
-            </Typography>
-          </Box>}>
-          <ErrorIcon color="primary" />
+          <Tooltip
+            title={
+              <Box>
+                <h3>Agent</h3>
+                <Typography>
+                  Agents can manage the workload of all members in their
+                  assigned roles
+                </Typography>
+              </Box>
+            }
+          >
+            <ErrorIcon color="primary" />
           </Tooltip>
         </Box>
         <Divider variant="middle" style={{ margin: '1rem 0' }} />
         <Box display={'flex'} alignItems="center" gap={1}>
           <Typography variant="body2">
-            Manage project member's workload
+            Manage project member&#39;s workload
           </Typography>
-          <Tooltip title={<Box>
-            <h3>
-              Agent
-            </h3>
-            <Typography>
-            Agents can manage the workload of all members in their assigned roles
-            </Typography>
-          </Box>}>
-          <ErrorIcon color='primary'/>
+          <Tooltip
+            title={
+              <Box>
+                <h3>Agent</h3>
+                <Typography>
+                  Agents can manage the workload of all members in their
+                  assigned roles
+                </Typography>
+              </Box>
+            }
+          >
+            <ErrorIcon color="primary" />
           </Tooltip>
         </Box>
         <Divider variant="middle" style={{ margin: '1rem 0' }} />
@@ -62,29 +73,23 @@ export const RolesAndPermissions = () => {
         </Box>
       </Box>
       <Box
-            sx={{
-              display: 'flex',
-              gap: 2,
-              justifyContent: 'flex-end',
-              position: 'absolute',
-              right: 24,
-              bottom: 8,
-              zIndex: 50,
-            }}
-          >
-            <Button
-              variant="outlined"
-              color="secondary"
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-            >
-              Save
-            </Button>
-          </Box>
+        sx={{
+          display: 'flex',
+          gap: 2,
+          justifyContent: 'flex-end',
+          position: 'absolute',
+          right: 24,
+          bottom: 8,
+          zIndex: 50,
+        }}
+      >
+        <Button variant="outlined" color="secondary">
+          Cancel
+        </Button>
+        <Button variant="contained" color="primary">
+          Save
+        </Button>
+      </Box>
     </>
   );
 };
