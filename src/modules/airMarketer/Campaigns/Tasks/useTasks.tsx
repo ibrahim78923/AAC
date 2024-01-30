@@ -9,7 +9,7 @@ const useTasks = () => {
   });
   const [isOpenDeleteDrawer, setIsOpenDeleteDrawer] = useState(false);
   const [isOpenChangeStatus, setIsOpenChangeStatus] = useState(false);
-  const [isTaskCreate, setTaskCreate] = useState('');
+  // const [isTaskCreate, setTaskCreate] = useState('');
   const [isListView, setIsListView] = useState('listView');
   const [searchValue, setSearchValue] = useState('');
   const theme = useTheme();
@@ -50,8 +50,8 @@ const useTasks = () => {
     handleDeleteModal,
     setIsOpenDeleteDrawer,
     handleChangeStatus,
-    setTaskCreate,
-    isTaskCreate,
+    // setTaskCreate,
+    // isTaskCreate,
     isOpenChangeStatus,
     setIsOpenChangeStatus,
     handleListViewClick,

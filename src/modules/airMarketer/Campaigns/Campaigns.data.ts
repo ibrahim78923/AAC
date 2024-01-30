@@ -8,4 +8,5 @@ export const campaignsOptions = {
   VIEW_PERFORMANCE: 'View Performance',
   EDIT_CAMPAIGN: 'Edit Campaign',
   EXPORT_CAMPAIGN: 'Export Campaign',
+  CREATE_TASK: 'Create Task',
 };
