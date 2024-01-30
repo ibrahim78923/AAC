@@ -11,25 +11,8 @@ export const RolesAndPermissions = () => {
       </Typography>
       <Box pt={4}>
         <Box display={'flex'} alignItems="center" gap={1}>
-          <Typography variant="body2">Manage all member's workload</Typography>
-          <Tooltip
-            title={
-              <Box>
-                <h3>Agent</h3>
-                <Typography>
-                  Agents can manage the workload of all members in their
-                  assigned roles
-                </Typography>
-              </Box>
-            }
-          >
-            <ErrorIcon color="primary" />
-          </Tooltip>
-        </Box>
-        <Divider variant="middle" style={{ margin: '1rem 0' }} />
-        <Box display={'flex'} alignItems="center" gap={1}>
           <Typography variant="body2">
-            Manage all department member's workload
+            Manage all member&apos;s workload
           </Typography>
           <Tooltip
             title={
@@ -48,7 +31,26 @@ export const RolesAndPermissions = () => {
         <Divider variant="middle" style={{ margin: '1rem 0' }} />
         <Box display={'flex'} alignItems="center" gap={1}>
           <Typography variant="body2">
-            Manage project member's workload
+            Manage all department member&apos;s workload
+          </Typography>
+          <Tooltip
+            title={
+              <Box>
+                <h3>Agent</h3>
+                <Typography>
+                  Agents can manage the workload of all members in their
+                  assigned roles
+                </Typography>
+              </Box>
+            }
+          >
+            <ErrorIcon color="primary" />
+          </Tooltip>
+        </Box>
+        <Divider variant="middle" style={{ margin: '1rem 0' }} />
+        <Box display={'flex'} alignItems="center" gap={1}>
+          <Typography variant="body2">
+            Manage project member&apos;s workload
           </Typography>
           <Tooltip
             title={
