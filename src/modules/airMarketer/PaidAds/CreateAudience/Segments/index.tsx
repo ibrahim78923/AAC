@@ -4,7 +4,7 @@ import CommonTabs from '@/components/Tabs';
 import { Box, Button } from '@mui/material';
 import SegmentsConditions from './SegmentsConditions';
 import SegmentContacts from './SegmentsContacts';
-import { BackArrowIcon, ExportIcon } from '@/assets/icons';
+import { ExportIcon } from '@/assets/icons';
 
 const Segments = ({ open, onClose }: any) => {
   return (
@@ -15,11 +15,6 @@ const Segments = ({ open, onClose }: any) => {
       title="Segments"
       isOk
       footer
-      headerIcon={
-        <Box sx={{ cursor: 'pointer' }} onClick={onClose}>
-          <BackArrowIcon />
-        </Box>
-      }
     >
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'end' }}>

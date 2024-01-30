@@ -1,19 +1,16 @@
-import { Grid, Box, Typography } from '@mui/material';
-
+import { Grid, Box, Typography, InputAdornment, Tooltip } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-
 import {
   dataArray,
   defaultValues,
   validationSchema,
 } from './EditGoalDrawer.data';
-
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import { v4 as uuidv4 } from 'uuid';
+import { Info } from '@mui/icons-material';
+import useEditGoalDrawer from './useEditGoalDrawer';
 
 export default function EditGoalDrawer({
   isOpenDrawer,
@@ -27,11 +24,7 @@ export default function EditGoalDrawer({
 
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
-    enqueueSnackbar(' Compaign Goal updated Successfully', {
-      variant: 'success',
-    });
-  };
+  const { toolTipTitle, onSubmit } = useEditGoalDrawer();
 
   return (
     <CommonDrawer
@@ -48,7 +41,13 @@ export default function EditGoalDrawer({
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
             {dataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Grid
+                item
+                xs={12}
+                md={item?.md}
+                key={uuidv4()}
+                position={'relative'}
+              >
                 <Typography variant={item?.componentProps?.varient}>
                   {item?.componentProps?.heading}
                 </Typography>
@@ -60,6 +59,42 @@ export default function EditGoalDrawer({
                       </option>
                     ))}
                 </item.component>
+                {!item?.componentProps?.heading && (
+                  <InputAdornment
+                    sx={{
+                      position: 'absolute',
+                      top: 69,
+                      right: 15,
+                      zIndex: 9999,
+                    }}
+                    position="end"
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        gap: '10px',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Tooltip
+                        placeholder="top"
+                        title={
+                          <Typography
+                            sx={{
+                              width: '220px',
+                              textAlign: 'center',
+                              fontSize: '12px',
+                            }}
+                          >
+                            {toolTipTitle(item?.componentProps?.name)}
+                          </Typography>
+                        }
+                      >
+                        <Info />
+                      </Tooltip>
+                    </Box>
+                  </InputAdornment>
+                )}
               </Grid>
             ))}
           </Grid>
