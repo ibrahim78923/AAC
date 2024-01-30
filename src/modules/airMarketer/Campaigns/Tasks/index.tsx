@@ -32,7 +32,7 @@ const Tasks = () => {
     isOpenDeleteDrawer,
     handleDeleteModal,
     setIsOpenDeleteDrawer,
-    setTaskCreate,
+    // setTaskCreate,
     handleChangeStatus,
     isOpenChangeStatus,
     setIsOpenChangeStatus,
@@ -104,8 +104,8 @@ const Tasks = () => {
           </Box>
           <Button
             onClick={() => {
-              setIsOpenEditTaskDrawer({ isToggle: true, type: 'create' }),
-                setTaskCreate('Create Task');
+              setIsOpenEditTaskDrawer({ isToggle: true, type: 'create' });
+              // setTaskCreate('Create Task');
             }}
             startIcon={<ArrowDownDarkIcon />}
             className="small"
@@ -146,7 +146,8 @@ const Tasks = () => {
 
       {isOpenEditTaskDrawer?.isToggle && (
         <EditTask
-          isOpenDrawer={isOpenEditTaskDrawer}
+          isOpenDrawer={isOpenEditTaskDrawer?.isToggle}
+          isType={isOpenEditTaskDrawer?.type}
           setIsOpenEditTaskDrawer={setIsOpenEditTaskDrawer}
           onClose={() => {
             setIsOpenEditTaskDrawer({ isToggle: false, type: '' });
