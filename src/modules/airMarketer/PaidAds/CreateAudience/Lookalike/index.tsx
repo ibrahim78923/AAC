@@ -5,9 +5,8 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
-import { Box, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import useLookalike from './useLookalike';
-import { BackArrowIcon } from '@/assets/icons';
 
 const Lookalike = ({ open, onClose }: any) => {
   const { methods } = useLookalike();
@@ -66,11 +65,6 @@ const Lookalike = ({ open, onClose }: any) => {
       footer
       onClose={onClose}
       title="Lookalike"
-      headerIcon={
-        <Box sx={{ cursor: 'pointer' }} onClick={onClose}>
-          <BackArrowIcon />
-        </Box>
-      }
       submitHandler={handleSubmit(onSubmit)}
     >
       <FormProvider methods={methods}>
