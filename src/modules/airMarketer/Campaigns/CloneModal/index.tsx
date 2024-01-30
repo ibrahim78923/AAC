@@ -1,6 +1,14 @@
 import * as React from 'react';
 
-import { Grid, Box, Button, Typography, Modal, useTheme } from '@mui/material';
+import {
+  Grid,
+  Box,
+  Button,
+  Typography,
+  Modal,
+  useTheme,
+  Stack,
+} from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
@@ -43,15 +51,14 @@ const CloneModal = ({ openCloneModal, handleCloseFeaturesModal }: any) => {
       >
         <Box sx={styles?.parentBox}>
           <Box sx={styles?.modalBox(theme?.palette)}>
-            <Box sx={styles?.innerBoxOne}>
-              <Box
+            <Box>
+              <Stack
+                display={'flex'}
+                direction={'row'}
+                justifyContent={'space-between'}
                 sx={{ cursor: 'pointer' }}
                 onClick={handleCloseFeaturesModal}
               >
-                <Box sx={{ display: 'block' }}>
-                  {' '}
-                  <CloseIcon />
-                </Box>
                 <Box>
                   <Typography
                     id="modal-modal-title"
@@ -61,7 +68,10 @@ const CloneModal = ({ openCloneModal, handleCloseFeaturesModal }: any) => {
                     Clone a saved view
                   </Typography>
                 </Box>
-              </Box>
+                <Box sx={{ display: 'block' }}>
+                  <CloseIcon />
+                </Box>
+              </Stack>
             </Box>
             <Box sx={{ margin: '20px 0' }}>
               <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

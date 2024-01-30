@@ -10,64 +10,55 @@ import * as yup from 'yup';
 
 export const awardPointsSchema = yup?.object()?.shape({
   fast: yup
-    .number()
-    .positive('Positive number required')
-    .required('Required field')
-    .typeError('Positive number required'),
+    ?.number()
+    ?.positive('Positive number required')
+    ?.required('Required field')
+    ?.typeError('Positive number required'),
   onTime: yup
-    .number()
-    .positive('Positive number required')
-    .required('Required field')
-    .typeError('Positive number required'),
+    ?.number()
+    ?.positive('Positive number required')
+    ?.required('Required field')
+    ?.typeError('Positive number required'),
   late: yup
-    .number()
-    .positive('Positive number required')
-    .required('Required field')
-    .typeError('Positive number required'),
+    ?.number()
+    ?.positive('Positive number required')
+    ?.required('Required field')
+    ?.typeError('Positive number required'),
   firstCallResolution: yup
-    .number()
-    .positive('Positive number required')
-    .required('Required field')
-    .typeError('Positive number required'),
+    ?.number()
+    ?.positive('Positive number required')
+    ?.required('Required field')
+    ?.typeError('Positive number required'),
   happyCustomer: yup
-    .number()
-    .positive('Positive number required')
-    .required('Required field')
-    .typeError('Positive number required'),
+    ?.number()
+    ?.positive('Positive number required')
+    ?.required('Required field')
+    ?.typeError('Positive number required'),
   unHappyCustomer: yup
-    .number()
-    .positive('Positive number required')
-    .required('Required field')
-    .typeError('Positive number required'),
+    ?.number()
+    ?.positive('Positive number required')
+    ?.required('Required field')
+    ?.typeError('Positive number required'),
 });
 
-export const awardFormDefaultValue = {
-  fast: 0,
-  onTime: 0,
-  late: 0,
-  firstCallResolution: 0,
-  happyCustomer: 0,
-  unHappyCustomer: 0,
+export const awardFormDefaultValue = (data?: any) => {
+  return {
+    fast: data?.fast ?? 0,
+    onTime: data?.onTime ?? 0,
+    late: data?.late ?? 0,
+    firstCallResolution: data?.firstCallResolution ?? 0,
+    happyCustomer: data?.happyCustomer ?? 0,
+    unHappyCustomer: data?.unHappyCustomer ?? 0,
+  };
 };
 
 export const agentResolveTicketData = [
   {
+    id: 1,
     component: Typography,
     componentProps: {
-      type: 'number',
       children: 'When agent resolves a ticket:',
       fontWeight: 600,
-    },
-  },
-  {
-    id: 1,
-    component: RHFTextField,
-    md: 3,
-    componentProps: {
-      type: 'number',
-      fullWidth: true,
-      name: 'fast',
-      label: 'Fast (Less than 1 hr)',
     },
   },
   {
@@ -75,10 +66,9 @@ export const agentResolveTicketData = [
     component: RHFTextField,
     md: 3,
     componentProps: {
-      type: 'number',
       fullWidth: true,
-      name: 'onTime',
-      label: 'on time',
+      name: 'fast',
+      label: 'Fast (Less than 1 hr)',
     },
   },
   {
@@ -86,48 +76,54 @@ export const agentResolveTicketData = [
     component: RHFTextField,
     md: 3,
     componentProps: {
-      type: 'number',
+      fullWidth: true,
+      name: 'onTime',
+      label: 'on time',
+    },
+  },
+  {
+    id: 4,
+    component: RHFTextField,
+    md: 3,
+    componentProps: {
       fullWidth: true,
       name: 'late',
       label: 'Late ( Overdue)',
     },
   },
   {
+    id: 5,
     component: Typography,
     componentProps: {
-      type: 'number',
       children: 'Bonus points for:',
       fontWeight: 600,
     },
   },
   {
-    id: 1,
+    id: 6,
     component: RHFTextField,
     md: 3,
     componentProps: {
-      type: 'number',
       fullWidth: true,
       name: 'firstCallResolution',
       label: 'First call Resolution',
     },
   },
   {
-    id: 2,
+    id: 7,
     component: RHFTextField,
     md: 3,
     componentProps: {
-      type: 'number',
       fullWidth: true,
       name: 'happyCustomer',
       label: 'happy Customer',
     },
   },
   {
-    id: 2,
+    id: 8,
     component: RHFTextField,
     md: 3,
     componentProps: {
-      type: 'number',
       fullWidth: true,
       name: 'unHappyCustomer',
       label: 'Unhappy Customer',

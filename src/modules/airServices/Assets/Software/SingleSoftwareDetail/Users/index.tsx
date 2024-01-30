@@ -1,5 +1,5 @@
 import UsersTable from './UsersTable';
-import { Box, Button, Divider } from '@mui/material';
+import { Box } from '@mui/material';
 import { UsersAdd } from './UsersAdd';
 import { UsersFilter } from './UsersFilter';
 import { userDropdown } from './Users.data';
@@ -12,21 +12,24 @@ import UsersDeallocate from './UsersDeallocate';
 import useUsers from './useUsers';
 import UserActionModal from './UserActionModal';
 import { EXPORT_TYPE, SOFTWARE_USER_ACTIONS_TYPES } from '@/constants/strings';
+import { LoadingButton } from '@mui/lab';
 
 export const Users = () => {
   const {
     setActionModalOpen,
-    userActionClickHandler,
     csvExportHandler,
     excelExportHandler,
     usersData,
+    actionClickHandler,
+    userActionClickHandler,
     actionModalOpen,
     userActionDropdownCloseHandler,
     selectedActionTitle,
-    actionClickHandler,
     handleExportTypeClick,
     setSearch,
+    setUsersData,
   } = useUsers();
+
   return (
     <>
       <Box
@@ -45,7 +48,7 @@ export const Users = () => {
               setActionModalOpen,
               userActionClickHandler,
             )}
-            disabled={usersData?.length === 0}
+            disabled={!usersData?.length}
           />
 
           <UsersAdd />
@@ -77,10 +80,10 @@ export const Users = () => {
             selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE
               ? 'Add Device'
               : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE
-              ? 'Deallocate Contract '
-              : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
-              ? 'Remove Contract'
-              : 'Add Device'
+                ? 'Deallocate Contract '
+                : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
+                  ? 'Remove Contract'
+                  : 'Add Device'
           }
         >
           {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (
@@ -92,11 +95,7 @@ export const Users = () => {
           {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE && (
             <UsersRemove />
           )}
-          {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (
-            <Box sx={{ mt: 2 }}>
-              <Divider />
-            </Box>
-          )}
+
           <Box
             display={'flex'}
             justifyContent={'flex-end'}
@@ -104,25 +103,25 @@ export const Users = () => {
             gap={2}
             marginTop={2}
           >
-            <Button
+            <LoadingButton
               onClick={userActionDropdownCloseHandler}
               variant="outlined"
               color="secondary"
             >
               No
-            </Button>
-            <Button
+            </LoadingButton>
+            <LoadingButton
               variant="contained"
               onClick={() => actionClickHandler(selectedActionTitle)}
             >
               Yes
-            </Button>
+            </LoadingButton>
           </Box>
         </UserActionModal>
       )}
 
       <br />
-      <UsersTable />
+      <UsersTable setUsersData={setUsersData} usersData={usersData} />
       <br />
     </>
   );

@@ -17,6 +17,13 @@ export const contractAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getSingleContractById: builder?.query({
+      query: (getSingleContractParameter: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_ASSETS_CONTRACT}/${getSingleContractParameter?.pathParam?.ticketId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
     getExportContract: builder?.query({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.GET_ASSETS_CONTRACT}`,
@@ -140,4 +147,5 @@ export const {
   useLazyGetUsersDropdownQuery,
   useLazyGetSoftwareDropdownQuery,
   useLazyGetAgentsDropdownQuery,
+  useGetSingleContractByIdQuery,
 } = contractAPI;

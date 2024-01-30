@@ -18,9 +18,9 @@ export const sendIdOptions = [
   'department',
   'requester',
   'agent',
-  'department',
-  'category',
   'status',
+  'category',
+  'department',
 ];
 export const neglectKeysInLoop = [
   'plannedEndDate',
@@ -29,8 +29,6 @@ export const neglectKeysInLoop = [
   'dueByTime',
   'plannedStartDate',
   'plannedStartTime',
-  'category',
-  'department',
 ];
 
 export const ticketsFilterFormFieldsDefaultValues = (data?: any) => {
@@ -157,6 +155,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Priority',
       placeholder: 'Priority',
       options: ticketPriorityOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -168,6 +167,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Impact',
       placeholder: 'Impact',
       options: ticketImpactOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -191,6 +191,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Source',
       placeholder: 'Choose Source',
       options: ticketSourceOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
