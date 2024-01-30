@@ -3,7 +3,7 @@ import { columns } from './Software.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { FilterSharedIcon } from '@/assets/icons';
-import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
 import SoftwareFilter from './SoftwareFilter';
 import { SoftwareAssignCategory } from './SoftwareAssignCategory';
 import { UpsertSoftware } from './UpsertSoftware';
@@ -15,7 +15,6 @@ function Software() {
     isError,
     isLoading,
     isSuccess,
-    isFetching,
     assetsSoftwares,
     isAddDrawerOpen,
     setIsAddDrawerOpen,
@@ -34,9 +33,6 @@ function Software() {
     setFilterValues,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
-    submitForm,
-    methods,
-    handleClose,
   } = useSoftware();
 
   return (
@@ -88,7 +84,6 @@ function Software() {
           isError={isError}
           isSuccess={isSuccess}
           isLoading={isLoading}
-          isFetching={isFetching}
           data={assetsSoftwares}
           columns={columns(
             softwareData,
@@ -101,6 +96,7 @@ function Software() {
           totalRecords={paginationData?.total}
           pageLimit={pageLimit}
           currentPage={page}
+          rowsPerPageOptions={[10, 20]}
           onPageChange={handlePageChange}
           setPageLimit={setPageLimit}
           setPage={setPage}
@@ -122,10 +118,7 @@ function Software() {
       />
       <UpsertSoftware
         isDrawerOpen={isAddDrawerOpen}
-        onClose={handleClose}
-        submitForm={submitForm}
-        methods={methods}
-        title="New Software"
+        onClose={setIsAddDrawerOpen}
       />
     </>
   );

@@ -50,7 +50,7 @@ const DiscussInternallyDrawer = ({
       <Box>
         <Box
           sx={{
-            background: theme?.palette?.primary?.light,
+            background: theme?.palette?.primary?.lighter,
             p: 1.5,
             borderRadius: '19.8px',
             mb: 2,

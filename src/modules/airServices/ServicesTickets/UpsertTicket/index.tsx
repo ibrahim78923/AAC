@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
@@ -15,6 +15,9 @@ export const UpsertTicket = (props: any) => {
     isLoading,
     ticketId,
     upsertTicketFormFields,
+    putTicketStatus,
+    postTicketStatus,
+    isError,
   } = useUpsertTicket(props);
 
   return (
@@ -27,24 +30,44 @@ export const UpsertTicket = (props: any) => {
       isOk
       cancelText={'Cancel'}
       footer
+      isLoading={putTicketStatus?.isLoading || putTicketStatus?.isLoading}
+      isDisabled={
+        isError || postTicketStatus?.isLoading || postTicketStatus?.isLoading
+      }
     >
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : (
-        <Box mt={1}>
-          <FormProvider
-            methods={methods}
-            onSubmit={handleSubmit(submitUpsertTicket)}
-          >
-            <Grid container spacing={2}>
-              {upsertTicketFormFields?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
+        <>
+          {isError && (
+            <Typography
+              component="div"
+              color="error.main"
+              textAlign={'center'}
+              variant="body3"
+            >
+              Something went wrong. Try again later
+            </Typography>
+          )}
+          <Box mt={1}>
+            <FormProvider
+              methods={methods}
+              onSubmit={handleSubmit(submitUpsertTicket)}
+            >
+              <Grid container spacing={2}>
+                {upsertTicketFormFields?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={item?.id}>
+                    <item.component
+                      {...item?.componentProps}
+                      size={'small'}
+                      disabled={item?.componentProps?.disabled ?? isError}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          </Box>
+        </>
       )}
       <br />
     </CommonDrawer>

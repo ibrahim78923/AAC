@@ -65,6 +65,7 @@ export const PageTitledHeader = ({
           )}
           {!!addTitle?.length && (
             <Button
+              disableElevation
               variant="contained"
               startIcon={hasStartIcon && <PlusSharedColorIcon />}
               endIcon={hasEndIcon && <PlusSharedColorIcon />}

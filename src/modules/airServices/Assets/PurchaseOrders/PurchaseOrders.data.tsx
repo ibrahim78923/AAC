@@ -1,55 +1,37 @@
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
 import { Checkbox, Typography } from '@mui/material';
-
-export const data: any = [
-  {
-    id: 1,
-    OrderNumber: 'PO-1',
-    OrderName: 'Dell Laptop',
-    Vendor: 'Dell',
-    ExpectedDeliveryDate: '30 Mar, 2023',
-    Status: 'Received',
-    TotalCost: '1200',
-  },
-  {
-    id: 2,
-    OrderNumber: 'PO-2',
-    OrderName: 'Apple Mouse',
-    Vendor: '---',
-    ExpectedDeliveryDate: '---',
-    Status: '---',
-    TotalCost: '---',
-  },
-];
 
 export const purchaseOrderColumnsFunction = (
   purchaseOrderData: any,
   setPurchaseOrderData: any,
-  meetingsMainData: any,
+  purchaseData: any,
   router: any,
 ): any => {
   return [
     {
-      accessorFn: (row: any) => row?.id,
-      id: 'id',
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
       cell: (info: any) => (
         <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           checked={
             !!purchaseOrderData?.find(
-              (item: any) => item?.id === info?.getValue(),
+              (item: any) => item?._id === info?.getValue(),
             )
           }
           onChange={(e: any) => {
             e?.target?.checked
               ? setPurchaseOrderData([
                   ...purchaseOrderData,
-                  meetingsMainData.find(
-                    (item: any) => item?.id === info?.getValue(),
+                  purchaseData?.find(
+                    (item: any) => item?._id === info?.getValue(),
                   ),
                 ])
               : setPurchaseOrderData(
-                  purchaseOrderData.filter((item: any) => {
-                    return item?.id !== info?.getValue();
+                  purchaseOrderData?.filter((item: any) => {
+                    return item?._id !== info?.getValue();
                   }),
                 );
           }}
@@ -59,21 +41,23 @@ export const purchaseOrderColumnsFunction = (
       ),
       header: (
         <Checkbox
-          checked={purchaseOrderData?.length === meetingsMainData?.length}
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
+          checked={purchaseOrderData?.length === purchaseData?.length}
           onChange={(e: any) => {
             e?.target?.checked
-              ? setPurchaseOrderData([...meetingsMainData])
+              ? setPurchaseOrderData([...purchaseData])
               : setPurchaseOrderData([]);
           }}
           color="primary"
-          name="id"
+          name="_id"
         />
       ),
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.OrderNumber,
-      id: 'Order Number',
+      accessorFn: (row: any) => row?.orderNumber,
+      id: 'orderNumber',
       isSortable: true,
       header: <span>Order Number</span>,
       cell: (info: any) => (
@@ -95,36 +79,36 @@ export const purchaseOrderColumnsFunction = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.OrderName,
-      id: 'Order Name',
+      accessorFn: (row: any) => row?.orderName,
+      id: 'orderName',
       header: <span>Order Name</span>,
       isSortable: true,
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.Vendor,
-      id: 'Vendor',
+      accessorFn: (row: any) => row?.vendorId,
+      id: 'vendorId',
       isSortable: true,
       header: <span>Vendor</span>,
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.ExpectedDeliveryDate,
-      id: 'Expected Delivery Date',
+      accessorFn: (row: any) => row?.expectedDeliveryDate,
+      id: 'expectedDeliveryDate',
       isSortable: true,
       header: <span>Expected Delivery Date</span>,
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.Status,
-      id: 'Status',
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
       isSortable: true,
       header: <span>Status</span>,
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.TotalCost,
-      id: 'Total Cost (£)',
+      accessorFn: (row: any) => row?.subTotal,
+      id: 'subTotal',
       isSortable: true,
       header: <span>Total Cost (£)</span>,
       cell: (info: any) => info?.getValue(),

@@ -1,15 +1,12 @@
 import { Box } from '@mui/material';
-import { data, purchaseOrderColumnsFunction } from './PurchaseOrders.data';
+import { purchaseOrderColumnsFunction } from './PurchaseOrders.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
-
 import { PurchaseOrderExport } from './PurchaseOrderExport';
 import { PurchaseOrderFilter } from './PurchaseOrderFilter';
-
 import usePurchaseOrders from './usePurchaseOrders';
 import { filterFields } from './PurchaseOrderFilter/PurchaseOrderFilter.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import CustomPagination from '@/components/CustomPagination';
 import { DeletePurchaseOrder } from './DeletePurchaseOrder';
 
 function PurchaseOrder() {
@@ -25,12 +22,25 @@ function PurchaseOrder() {
     setDeleteModalOpen,
     purchaseOrderData,
     setPurchaseOrderData,
+    purchaseData,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
+    setPageLimit,
+    setPage,
+    metaData,
+    pageLimit,
+    searchValue,
+    setSearchValue,
+    departmentDropdown,
+    vendorDropdown,
   } = usePurchaseOrders();
 
   const purchaseOrderColumns = purchaseOrderColumnsFunction(
     purchaseOrderData,
     setPurchaseOrderData,
-    data,
+    purchaseData,
     router,
   );
 
@@ -49,7 +59,11 @@ function PurchaseOrder() {
           flexWrap={'wrap'}
           gap={1.5}
         >
-          <Search label="Search Here" searchBy="" setSearchBy={''} />
+          <Search
+            label="Search Here"
+            searchBy={searchValue}
+            setSearchBy={setSearchValue}
+          />
           <Box
             display={'flex'}
             alignItems={'center'}
@@ -70,16 +84,33 @@ function PurchaseOrder() {
               methods={methodsPurchaseOrderFilterForm}
               handleSubmit={submitPurchaseOrderFilterForm}
               handleReset={resetPurchaseOrderFilterForm}
+              departmentDropdown={departmentDropdown}
+              vendorDropdown={vendorDropdown}
             />
           </Box>
         </Box>
         <br />
-        <TanstackTable data={data} columns={purchaseOrderColumns} />
-        <CustomPagination
+        <TanstackTable
+          data={purchaseData}
+          columns={purchaseOrderColumns}
+          isPagination={true}
+          isLoading={isLoading}
+          isError={isError}
+          isFetching={isFetching}
+          isSuccess={isSuccess}
+          setPageLimit={setPageLimit}
+          setPage={setPage}
+          count={metaData?.pages}
+          totalRecords={metaData?.total}
+          onPageChange={(page: any) => setPage(page)}
+          currentPage={metaData?.page}
+          pageLimit={pageLimit}
+        />
+        {/* <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}
           entriePages={1}
-        />
+        /> */}
       </Box>
     </>
   );

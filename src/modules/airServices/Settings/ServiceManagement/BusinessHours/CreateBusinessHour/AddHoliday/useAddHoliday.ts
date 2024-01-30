@@ -53,8 +53,8 @@ export const useAddHoliday = (props: any) => {
       },
     };
     try {
-      const response = await postHolidayTrigger(postHolidayParameter)?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Holiday Added Successfully', {
+      await postHolidayTrigger(postHolidayParameter)?.unwrap();
+      enqueueSnackbar('Holiday Added Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       closeHolidayModal();

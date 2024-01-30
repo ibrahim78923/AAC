@@ -2,6 +2,7 @@ import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useUpsertContract } from './useUpsertContract';
 import { Box, Grid } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertContract = () => {
   const {
@@ -13,7 +14,12 @@ export const UpsertContract = () => {
     handleCancelBtn,
     postContractStatus,
     putContractStatus,
+    isLoading,
+    isFetching,
+    isError,
   } = useUpsertContract();
+
+  if (isLoading || isFetching) return <SkeletonForm />;
 
   return (
     <>
@@ -44,7 +50,11 @@ export const UpsertContract = () => {
             <Grid container spacing={4}>
               {upsertContractFormFieldsData?.map((item: any) => (
                 <Grid item xs={12} lg={item?.md} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'}>
+                  <item.component
+                    {...item?.componentProps}
+                    size={'small'}
+                    disabled={item?.componentProps?.disabled ?? isError}
+                  >
                     {item?.heading ? item?.heading : null}
                   </item.component>
                 </Grid>

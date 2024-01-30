@@ -1,38 +1,40 @@
 import Typography from '@mui/material/Typography';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box, Divider, IconButton } from '@mui/material';
-import { useTheme } from '@mui/material';
+import { useActivity } from '../useActivity';
+import { uuid } from 'uuidv4';
 
-export const ActivityTimeline = ({ activityData }: any) => {
-  const theme = useTheme();
+export const ActivityTimeline = () => {
+  const { activitiesData, theme } = useActivity();
   return (
     <>
-      <Box
-        display={'flex'}
-        flexWrap={'wrap'}
-        alignItems={'center'}
-        gap={1.25}
-        marginBottom={1.5}
-      >
-        <Typography variant="body3" sx={{ flex: 0.15 }}>
-          {' '}
-          {activityData?.date}
-        </Typography>
-        <IconButton
-          disabled
-          color="primary"
-          sx={{ border: `1px solid ${theme?.palette?.primary?.main}` }}
+      {activitiesData.map((activityData: any) => (
+        <Box
+          key={uuid()}
+          display={'flex'}
+          flexWrap={'wrap'}
+          alignItems={'center'}
+          gap={1.25}
+          marginBottom={1.5}
         >
-          <BorderColorIcon color="primary" />
-        </IconButton>
-        <Typography variant="body2" sx={{ flex: 0.8 }}>
-          {' '}
-          <Typography variant="body2" color="primary" marginRight={0.3}>
-            {activityData?.createdBy}
+          <Typography variant="body3" sx={{ flex: 0.15 }}>
+            {activityData?.timeOne}
           </Typography>
-          {activityData?.description}
-        </Typography>
-      </Box>
+          <IconButton
+            disabled
+            color="primary"
+            sx={{ border: `1px solid ${theme?.palette?.primary?.main}` }}
+          >
+            <BorderColorIcon color="primary" />
+          </IconButton>
+          <Typography variant="body2" sx={{ flex: 0.8 }}>
+            <Typography variant="body2" color="primary" marginRight={0.3}>
+              {activityData?.createdBy}
+            </Typography>
+            {activityData?.timeTwo}{' '}
+          </Typography>
+        </Box>
+      ))}
       <Box
         display={'flex'}
         flexWrap={'wrap'}
