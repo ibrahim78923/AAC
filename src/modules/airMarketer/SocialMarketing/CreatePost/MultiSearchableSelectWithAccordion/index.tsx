@@ -64,11 +64,10 @@ export default function RHFMultiSearchableSelectWithAccordion({
     ?.map((parentOption: any) => {
       const filteredParentOptions = {
         ...parentOption,
-        options: parentOption?.options?.filter(
-          (childOption: any) =>
-            childOption?.label
-              ?.toLowerCase()
-              ?.includes(searchTerm?.toLowerCase()),
+        options: parentOption?.options?.filter((childOption: any) =>
+          childOption?.label
+            ?.toLowerCase()
+            ?.includes(searchTerm?.toLowerCase()),
         ),
       };
 
@@ -83,9 +82,8 @@ export default function RHFMultiSearchableSelectWithAccordion({
   const getSelectedLabels = () => {
     return selectedValues
       ?.map((value) => {
-        const parentOption = options?.find(
-          (option: any) =>
-            option?.options?.some((child: any) => child?.value === value),
+        const parentOption = options?.find((option: any) =>
+          option?.options?.some((child: any) => child?.value === value),
         );
 
         if (parentOption) {
@@ -220,8 +218,8 @@ export default function RHFMultiSearchableSelectWithAccordion({
                               backgroundColor: isCheckBox
                                 ? 'transparent'
                                 : selectedValues?.includes(option?.value)
-                                ? theme?.palette?.custom?.hex_grey
-                                : 'transparent',
+                                  ? theme?.palette?.custom?.hex_grey
+                                  : 'transparent',
                               '&:hover': {
                                 backgroundColor:
                                   theme?.palette?.custom?.hex_grey,

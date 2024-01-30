@@ -196,11 +196,10 @@ const Chat = () => {
           <Box sx={styles?.usersBox}>
             {!isNullOrEmpty(options) &&
               options?.map((item: any) => {
-                const isUserExists = chatContacts?.some(
-                  (chat: any) =>
-                    chat?.participants?.some(
-                      (participant: any) => participant?._id === item?.id,
-                    ),
+                const isUserExists = chatContacts?.some((chat: any) =>
+                  chat?.participants?.some(
+                    (participant: any) => participant?._id === item?.id,
+                  ),
                 );
                 return (
                   <Button

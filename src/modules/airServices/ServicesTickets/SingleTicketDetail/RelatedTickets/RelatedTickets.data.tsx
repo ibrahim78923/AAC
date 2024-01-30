@@ -1,14 +1,17 @@
 import { Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { NOTISTACK_VARIANTS, TICKET_STATUS } from '@/constants/strings';
+import { enqueueSnackbar } from 'notistack';
+import { fullName } from '@/utils/avatarUtils';
 
 export const columnsFunction: any = (
   data: any = [],
-  setIsDrawerOpen: any,
   selectedChildTickets: any = [],
-  setSelectedChildTickets: any,
-  theme: any,
+  setSelectedChildTickets?: any,
+  theme?: any,
+  router?: any,
 ) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -18,20 +21,18 @@ export const columnsFunction: any = (
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          !!selectedChildTickets?.find(
-            (item: any) => item?._id === info?.getValue(),
-          )
+          !!selectedChildTickets?.find((item: any) => item === info?.getValue())
         }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedChildTickets([
                 ...selectedChildTickets,
-                data?.find((item: any) => item?._id === info?.getValue()),
+                info?.getValue(),
               ])
             : setSelectedChildTickets(
-                selectedChildTickets?.filter((item: any) => {
-                  return item?._id !== info?.getValue();
-                }),
+                selectedChildTickets?.filter(
+                  (item: any) => item !== info?.getValue(),
+                ),
               );
         }}
         color="primary"
@@ -42,10 +43,12 @@ export const columnsFunction: any = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={selectedChildTickets?.length === data?.length}
+        checked={
+          data?.length ? selectedChildTickets?.length === data?.length : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedChildTickets([...data])
+            ? setSelectedChildTickets(data?.map((ticket: any) => ticket?._id))
             : setSelectedChildTickets([]);
         }}
         color="primary"
@@ -66,7 +69,12 @@ export const columnsFunction: any = (
           cursor: 'pointer',
         }}
         onClick={() => {
-          setIsDrawerOpen(true);
+          router?.push({
+            pathname: AIR_SERVICES?.CHILD_TICKETS_DETAIL,
+            query: {
+              ticketId: info?.row?.original?._id,
+            },
+          });
         }}
       >
         {info?.getValue()}
@@ -77,12 +85,8 @@ export const columnsFunction: any = (
     accessorFn: (row: any) => row?.subject,
     id: 'subject',
     isSortable: true,
-    header: 'Task Name',
-    cell: (info: any) => (
-      <Typography component={'span'} textTransform={'capitalize'}>
-        {info?.getValue()}
-      </Typography>
-    ),
+    header: 'Name',
+    cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.plannedEndDate,
@@ -99,7 +103,8 @@ export const columnsFunction: any = (
     id: 'assignedto',
     isSortable: true,
     header: 'Assigned To',
-    cell: (info: any) => info?.getValue() ?? '---',
+    cell: (info: any) =>
+      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -109,13 +114,13 @@ export const columnsFunction: any = (
     cell: (info: any) => {
       const status = info?.getValue();
       const color =
-        status === 'OPEN'
+        status === TICKET_STATUS?.OPEN
           ? theme?.palette?.info?.main
-          : status === 'PENDING'
-          ? theme?.palette?.warning?.main
-          : status === 'RESOLVED'
-          ? theme?.palette?.success?.main
-          : theme?.palette?.error?.main;
+          : status === TICKET_STATUS?.PENDING
+            ? theme?.palette?.warning?.main
+            : status === TICKET_STATUS?.RESOLVED
+              ? theme?.palette?.success?.main
+              : theme?.palette?.error?.main;
       return (
         <Typography
           sx={{
@@ -132,13 +137,33 @@ export const columnsFunction: any = (
         </Typography>
       );
     },
-    sortFunction: (a: any, b: any) => {
-      const statusOrder: { [key: string]: number } = {
-        Open: 1,
-        Pending: 2,
-        Resolved: 3,
-      };
-      return statusOrder[a?.status] - statusOrder[b?.status];
+  },
+];
+
+export const relatedTicketsActionDropdownFunction = (
+  setIsDelete: any,
+  selectedChildTickets: any,
+  setIsDrawerOpen: any,
+) => [
+  {
+    title: 'Edit',
+    handleClick: (closeMenu: any) => {
+      if (selectedChildTickets?.length > 1) {
+        enqueueSnackbar('Please select only one ticket', {
+          variant: NOTISTACK_VARIANTS?.WARNING,
+        });
+        closeMenu?.();
+        return;
+      }
+      setIsDrawerOpen(true);
+      closeMenu?.();
+    },
+  },
+  {
+    title: 'Delete',
+    handleClick: (closeMenu: any) => {
+      setIsDelete(true);
+      closeMenu?.();
     },
   },
 ];

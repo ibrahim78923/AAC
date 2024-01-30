@@ -4,7 +4,8 @@ import { AlertModalDeleteIcon } from '@/assets/icons';
 
 export const TicketsDelete = (props: any) => {
   const { deleteModalOpen } = props;
-  const { deleteTicket, closeTicketsDeleteModal } = useTicketDelete(props);
+  const { deleteTicket, closeTicketsDeleteModal, deleteTicketsStatus } =
+    useTicketDelete(props);
   return (
     <AlertModals
       type="delete Ticket"
@@ -13,6 +14,8 @@ export const TicketsDelete = (props: any) => {
       open={deleteModalOpen}
       handleClose={() => closeTicketsDeleteModal?.()}
       handleSubmitBtn={() => deleteTicket?.()}
+      loading={deleteTicketsStatus?.isLoading}
+      disableCancelBtn={deleteTicketsStatus?.isLoading}
     />
   );
 };

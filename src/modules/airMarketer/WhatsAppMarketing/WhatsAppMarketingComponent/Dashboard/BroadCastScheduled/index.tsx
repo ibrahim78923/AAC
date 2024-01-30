@@ -23,51 +23,53 @@ const ScheduledSMS = () => {
   const { theme, statusTag } = useBroadCastScheduled();
 
   return (
-    <Box sx={styles?.scheduledSMSCardStyle}>
-      <Box className="scheduledSMSHeader">
-        <Typography variant="h4" sx={styles?.heading(theme)}>
-          Broadcast Schedule
-        </Typography>
-        <Button variant="contained">View All</Button>
-      </Box>
-      <Box className="cardWrapper">
-        {scheduledSmsArray?.map((item: any) => {
-          return (
-            <Card sx={{ my: 1 }} key={uuidv4()}>
-              <CardContent>
-                <CardHeader item={item} statusTag={statusTag} />
-                <Typography variant="body2" color="text.secondary">
-                  {item?.desc}
-                </Typography>
-                <Stack
-                  direction={{ sx: 'column', sm: 'row' }}
-                  justifyContent="space-between"
-                >
-                  <Typography>
-                    <Typography
-                      component="span"
-                      sx={{ color: theme?.palette?.primary?.main }}
-                    >
-                      {' '}
-                      Created:{' '}
-                    </Typography>
-                    {item?.created}
+    <Box sx={{ pl: '24px' }}>
+      <Box sx={styles?.scheduledSMSCardStyle}>
+        <Box className="scheduledSMSHeader">
+          <Typography variant="h4" sx={styles?.heading(theme)}>
+            Broadcast Schedule
+          </Typography>
+          <Button variant="contained">View All</Button>
+        </Box>
+        <Box className="cardWrapper">
+          {scheduledSmsArray?.map((item: any) => {
+            return (
+              <Card sx={{ my: 1 }} key={uuidv4()}>
+                <CardContent>
+                  <CardHeader item={item} statusTag={statusTag} />
+                  <Typography variant="body2" color="text.secondary">
+                    {item?.desc}
                   </Typography>
-                  <Typography>
-                    <Typography
-                      component="span"
-                      sx={{ color: theme?.palette?.primary?.main }}
-                    >
-                      {' '}
-                      Recipients:{' '}
+                  <Stack
+                    direction={{ sx: 'column', sm: 'row' }}
+                    justifyContent="space-between"
+                  >
+                    <Typography>
+                      <Typography
+                        component="span"
+                        sx={{ color: theme?.palette?.primary?.main }}
+                      >
+                        {' '}
+                        Created:{' '}
+                      </Typography>
+                      {item?.created}
                     </Typography>
-                    {item?.recipients}
-                  </Typography>
-                </Stack>
-              </CardContent>
-            </Card>
-          );
-        })}
+                    <Typography>
+                      <Typography
+                        component="span"
+                        sx={{ color: theme?.palette?.primary?.main }}
+                      >
+                        {' '}
+                        Recipients:{' '}
+                      </Typography>
+                      {item?.recipients}
+                    </Typography>
+                  </Stack>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </Box>
       </Box>
     </Box>
   );
