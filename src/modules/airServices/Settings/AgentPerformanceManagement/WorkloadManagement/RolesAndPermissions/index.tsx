@@ -12,7 +12,7 @@ export const RolesAndPermissions = () => {
       <Box pt={4}>
         <Box display={'flex'} alignItems="center" gap={1}>
           <Typography variant="body2">
-            Manage all member&apos;s workload
+            Manage all member&#39;s workload
           </Typography>
           <Tooltip
             title={
@@ -31,7 +31,7 @@ export const RolesAndPermissions = () => {
         <Divider variant="middle" style={{ margin: '1rem 0' }} />
         <Box display={'flex'} alignItems="center" gap={1}>
           <Typography variant="body2">
-            Manage all department member&apos;s workload
+            Manage all department member&#39;s workload
           </Typography>
           <Tooltip
             title={
@@ -50,7 +50,7 @@ export const RolesAndPermissions = () => {
         <Divider variant="middle" style={{ margin: '1rem 0' }} />
         <Box display={'flex'} alignItems="center" gap={1}>
           <Typography variant="body2">
-            Manage project member&apos;s workload
+            Manage project member&#39;s workload
           </Typography>
           <Tooltip
             title={
