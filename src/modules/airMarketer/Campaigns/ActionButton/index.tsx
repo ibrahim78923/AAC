@@ -15,6 +15,7 @@ import { AlertModalDeleteIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import CompaignDetails from '../CampaignDetails';
+import EditTask from '../Tasks/EditTask';
 
 const ActionButton = () => {
   const {
@@ -23,8 +24,6 @@ const ActionButton = () => {
     handleSelectedOptionValue,
     actionsModalDetails,
     setActionsModalDetails,
-    isDelete,
-    setIsDelete,
   } = useCampaigns();
 
   return (
@@ -62,14 +61,24 @@ const ActionButton = () => {
         })}
       </Menu>
 
-      {actionsModalDetails?.isClone && (
+      {actionsModalDetails?.isDelete && (
         <AlertModals
-          message="Are you sure you want to delete this broadcast?"
-          type="Delete SMS Broadcast"
+          message="Are you sure you want to delete?"
+          type="Delete"
           typeImage={<AlertModalDeleteIcon />}
-          open={isDelete}
-          handleClose={() => setIsDelete(false)}
-          handleSubmit={() => setIsDelete(false)}
+          open={actionsModalDetails?.isDelete}
+          handleClose={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isDelete: false,
+            })
+          }
+          handleSubmit={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isDelete: false,
+            })
+          }
         />
       )}
       {actionsModalDetails?.isClone && (
@@ -116,7 +125,6 @@ const ActionButton = () => {
           }
         />
       )}
-
       {actionsModalDetails?.isViewDeatsils && (
         <CompaignDetails
           open={actionsModalDetails?.isViewDeatsils}
@@ -124,6 +132,18 @@ const ActionButton = () => {
             setActionsModalDetails({
               ...actionsModalDetails,
               isViewDeatsils: false,
+            })
+          }
+        />
+      )}
+      {actionsModalDetails?.isCreateTask && (
+        <EditTask
+          isOpenDrawer={actionsModalDetails?.isCreateTask}
+          isType={'create'}
+          onClose={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isCreateTask: false,
             })
           }
         />

@@ -78,32 +78,42 @@ const Campaigns = () => {
           onClose={() => setIsOpenFilter(false)}
         />
       )}
-      <CommonDrawer
-        isDrawerOpen={isCreateTask}
-        onClose={() => {
-          setIsCreateTask(false);
-        }}
-        title={'Create Campaigns'}
-        okText="Create"
-        isOk
-        footer={true}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={CampaignTask}>
-            <Grid container spacing={2}>
-              {campaignArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component
+
+      {isCreateTask && (
+        <CommonDrawer
+          isDrawerOpen={isCreateTask}
+          onClose={() => {
+            setIsCreateTask(false);
+          }}
+          title="Create Campaign"
+          okText="Create"
+          isOk
+          footer={true}
+        >
+          <Box sx={{ paddingTop: '1rem' }}>
+            <FormProvider methods={CampaignTask}>
+              <Grid container spacing={2}>
+                {campaignArray?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component {...item.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={uuidv4()} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
+                    {/* <item.component
                     {...item.componentProps}
                     size={'small'}
-                  ></item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
-
+                  ></item.component> */}
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          </Box>
+        </CommonDrawer>
+      )}
       <CommonDrawer
         isDrawerOpen={isCompare}
         onClose={() => {
