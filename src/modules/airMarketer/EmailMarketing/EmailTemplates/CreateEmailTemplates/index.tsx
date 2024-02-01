@@ -1,6 +1,5 @@
 import {
   Box,
-  Divider,
   Grid,
   ToggleButton,
   ToggleButtonGroup,
@@ -40,34 +39,35 @@ const CreateTemplatesForm = () => {
     <Grid sx={styles.mainDiv(theme)}>
       <Grid container sx={styles.headerBar}>
         {headerArray?.map((item: any, index: any) => (
-          <Grid item xs={6} md={4} lg={2} key={uuidv4()}>
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              justifyContent={'center'}
-              onClick={() => {
-                setHeaderValue(item?.name);
-              }}
-            >
-              <Box sx={styles.headerIcon(theme)}>
-                {item?.icon}
-                <Typography
-                  variant="body2"
-                  sx={{ marginLeft: '10px', fontWeight: '500' }}
-                >
-                  {item?.name}
-                </Typography>
+          <>
+            <Grid item xs={6} md={4} lg={2} key={uuidv4()}>
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                onClick={() => {
+                  setHeaderValue(item?.name);
+                }}
+              >
+                <Box sx={styles.headerIcon(theme, headerValue, index)}>
+                  {item?.icon}
+                  <Typography
+                    variant="body2"
+                    sx={{ marginLeft: '10px', fontWeight: '500' }}
+                  >
+                    {item?.name}
+                  </Typography>
+                </Box>
               </Box>
-              {index != 3 && (
-                <Divider
-                  orientation="vertical"
-                  variant="middle"
-                  flexItem
-                  sx={{ border: `1px solid ${theme?.palette?.grey[700]}` }}
-                />
-              )}
-            </Box>
-          </Grid>
+            </Grid>
+            <Box
+              sx={{
+                borderRight:
+                  index != 3 && `1px solid ${theme?.palette?.grey[700]}`,
+                height: '100px',
+              }}
+            ></Box>
+          </>
         ))}
       </Grid>
 
@@ -114,13 +114,13 @@ const CreateTemplatesForm = () => {
                             index === 4 && headerValue === 'GiftCard'
                               ? '0px !important'
                               : (index === 4 || index === 3) &&
-                                  (headerValue === 'Loyalty Token' ||
-                                    headerValue === 'Credits' ||
-                                    headerValue === 'Voucher')
-                                ? '0px !important'
-                                : index != 0
-                                  ? '20px !important'
-                                  : '20px !important',
+                                (headerValue === 'Loyalty Token' ||
+                                  headerValue === 'Credits' ||
+                                  headerValue === 'Voucher')
+                              ? '0px !important'
+                              : index != 0
+                              ? '20px !important'
+                              : '20px !important',
                           paddingLeft:
                             (index === 9 || index === 10) && '10px !important',
                         }}
@@ -280,8 +280,8 @@ const CreateTemplatesForm = () => {
                                 index === 0
                                   ? '100%'
                                   : index === 1
-                                    ? '50%'
-                                    : '33%',
+                                  ? '50%'
+                                  : '33%',
                               height: '20px',
                               marginLeft: index !== 0 ? '2px' : '0',
                             }}
