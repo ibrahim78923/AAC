@@ -2,9 +2,7 @@ import { Typography, Button, MenuItem, Menu, Box } from '@mui/material';
 import { ActionButtonIcon, ViewDetailBackArrowIcon } from '@/assets/icons';
 import { useHeader } from './useHeader';
 import React from 'react';
-
 import { AlertModals } from '@/components/AlertModals';
-import { enqueueSnackbar } from 'notistack';
 import { UpsertSoftware } from '../../UpsertSoftware';
 
 export default function Header() {
@@ -17,6 +15,8 @@ export default function Header() {
     handleClose,
     open,
     anchorEl,
+    deleteSoftware,
+    isLoading,
   } = useHeader();
 
   return (
@@ -74,13 +74,9 @@ export default function Header() {
         <AlertModals
           type="delete"
           open={deleteModalOpen}
+          loading={isLoading}
           handleClose={() => setDeleteModalOpen(false)}
-          handleSubmitBtn={() => {
-            setDeleteModalOpen(false);
-            enqueueSnackbar('Software deleted Successfully', {
-              variant: 'success',
-            });
-          }}
+          handleSubmitBtn={deleteSoftware}
           message="Are you sure  want to delete this Software ?"
         />
       )}

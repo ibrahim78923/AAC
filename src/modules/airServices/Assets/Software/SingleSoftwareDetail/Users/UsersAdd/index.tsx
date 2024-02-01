@@ -6,7 +6,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { addUserData } from './UsersAdd.data';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -21,6 +20,7 @@ export const UsersAdd = () => {
     openModal,
     closeModal,
     isModalOpen,
+    addUserDataFormFieldsAddUser,
   } = useUsersAdd();
   return (
     <FormProvider {...methods} onSubmit={handleSubmit(onSubmit)}>
@@ -51,7 +51,7 @@ export const UsersAdd = () => {
         </Box>
         <DialogContent>
           <Grid container spacing={2}>
-            {addUserData?.map((item: any) => (
+            {addUserDataFormFieldsAddUser?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>

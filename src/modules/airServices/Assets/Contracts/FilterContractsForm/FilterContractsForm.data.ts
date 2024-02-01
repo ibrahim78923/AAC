@@ -9,11 +9,26 @@ import {
 } from '@/constants/strings';
 
 export const contractTypeOptions = [
-  'All',
-  CONTRACT_TYPES?.LEASE,
-  CONTRACT_TYPES?.MAINTENANCE,
-  CONTRACT_TYPES?.SOFTWARE_LICENSE,
-  CONTRACT_TYPES?.WARRANTY,
+  {
+    _id: 'All',
+    label: 'All',
+  },
+  {
+    _id: CONTRACT_TYPES?.LEASE,
+    label: CONTRACT_TYPES?.LEASE,
+  },
+  {
+    _id: CONTRACT_TYPES?.MAINTENANCE,
+    label: CONTRACT_TYPES?.MAINTENANCE,
+  },
+  {
+    _id: CONTRACT_TYPES?.SOFTWARE_LICENSE,
+    label: CONTRACT_TYPES?.SOFTWARE_LICENSE,
+  },
+  {
+    _id: CONTRACT_TYPES?.WARRANTY,
+    label: CONTRACT_TYPES?.WARRANTY,
+  },
 ];
 
 const contractStatusOptions = [
@@ -65,28 +80,25 @@ const expiryOptions = [
 
 export const contractsFilterFormDefaultValues = (data?: any) => {
   return {
-    type: data?.type ?? null,
+    contractType: data?.contractType ?? { _id: 'All', label: 'All' },
     status: data?.status ?? null,
-    vender: data?.vender ?? null,
+    vendor: data?.vendor ?? null,
     expiry: data?.expiry ?? null,
   };
 };
 
-export const contractsFilterFormFieldsDynamic = (
-  apiQueryContractType: any,
-  apiQueryVendor: any,
-) => [
+export const contractsFilterFormFieldsDynamic = (apiQueryVendor: any) => [
   {
     id: 1,
     componentProps: {
-      name: 'type',
+      name: 'contractType',
       label: 'Contract Type',
       fullWidth: true,
       placeholder: 'All',
-      apiQuery: apiQueryContractType,
-      externalParams: { limit: 50 },
+      options: contractTypeOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
-    component: RHFAutocompleteAsync,
+    component: RHFAutocomplete,
   },
   {
     id: 2,
@@ -103,7 +115,7 @@ export const contractsFilterFormFieldsDynamic = (
   {
     id: 3,
     componentProps: {
-      name: 'vender',
+      name: 'vendor',
       label: 'Vendor',
       fullWidth: true,
       placeholder: 'Select Vendor',

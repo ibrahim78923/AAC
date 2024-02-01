@@ -1,15 +1,11 @@
 import { Box, Checkbox, Avatar, Typography } from '@mui/material';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
-import {
-  NOTISTACK_VARIANTS,
-  TICKETS_STATE,
-  TICKET_STATUS,
-} from '@/constants/strings';
+import { NOTISTACK_VARIANTS, TICKET_STATUS } from '@/constants/strings';
 import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-
-const todayDate = dayjs()?.format('MM/DD/YYYY');
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { makeDateTime } from '../ServicesTickets.data';
 
 export const TICKETS_ACTION_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -111,80 +107,10 @@ export const ticketsListInitialColumns = [
   'pirority',
 ];
 
-export const ticketsListsData: any = [
-  {
-    _id: '658aaf31e7b1a059b6f2ae4d',
-    ticketId: ` #SR-917`,
-    subject: 'What is wrong with my email',
-    requester: { name: 'Leslie Alexander', profileImg: '' },
-    status: 'closed',
-    priority: 'medium',
-    assignedTo: 'user3',
-    department: 'IT',
-    state: 'Overdue',
-    createAt: new Date(todayDate),
-    dueDate: new Date(todayDate),
-    impact: 'high',
-    plannedStartDate: new Date(todayDate),
-    plannedEndDate: new Date(todayDate),
-    plannedEffort: '1 hour',
-  },
-  {
-    _id: '658bfde764c8bd0f7ee86766',
-    ticketId: ` #SR-917`,
-    subject: 'What is wrong with my email',
-    requester: { name: 'Leslie Alexander', profileImg: '' },
-    status: 'closed',
-    priority: 'medium',
-    assignedTo: 'user3',
-    department: 'IT',
-    state: 'Overdue',
-    createAt: new Date(todayDate),
-    dueDate: new Date(todayDate),
-    impact: 'high',
-    plannedStartDate: new Date(todayDate),
-    plannedEndDate: new Date(todayDate),
-    plannedEffort: '1 hour',
-  },
-];
-
-const TICKET_STATE_CONDITION = {
-  NEW: 2,
-  RESPONSE_DUE: 0,
-};
-
-export const checkStatus = (startDate: any, expiryDate: any) => {
-  const currentDate: any = new Date();
-  const startDiff: any = Math?.round(
-    (currentDate - startDate) / (1000 * 60 * 60 * 24),
-  );
-  const expiryDiff = Math?.round(
-    (expiryDate - currentDate) / (1000 * 60 * 60 * 24),
-  );
-
-  if (startDiff <= TICKET_STATE_CONDITION?.NEW) {
-    return TICKETS_STATE?.NEW;
-  } else if (expiryDiff > TICKET_STATE_CONDITION?.RESPONSE_DUE) {
-    return TICKETS_STATE?.RESPONSE_DUE;
-  } else {
-    return TICKETS_STATE?.OVERDUE;
-  }
-};
-
-const fullName = (firstName: any, lastName: any) => {
-  if (!!!firstName && !!!lastName) return 'None';
-  return `${firstName ?? ''} ${lastName ?? ''}`;
-};
-
-const fullNameInitial = (firstName: any, lastName: any) => {
-  if (!!!firstName && !!!lastName) return '-';
-  return `${firstName?.[0] ?? ''} ${lastName?.[0] ?? ''}`;
-};
-
 export const ticketsListsColumnFunction: any = (
   theme: any,
   router: any,
-  ticketList: any = ticketsListsData,
+  ticketList: any = [],
   selectedTicketList: any,
   setSelectedTicketList: any,
 ) => {
@@ -253,14 +179,7 @@ export const ticketsListsColumnFunction: any = (
               }
             >
               <Typography variant="body2" textTransform={'uppercase'}>
-                {info?.row?.original?.departmentsDetails?.name?.split(
-                  ' ',
-                )?.[0][0] ?? '-'}
-                {
-                  info?.row?.original?.departmentsDetails?.name?.split(
-                    ' ',
-                  )?.[1]?.[0]
-                }
+                {info?.row?.original?.departmentsDetails?.name?.[0] ?? '-'}
               </Typography>
             </Avatar>
             <Typography
@@ -396,4 +315,59 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => info?.getValue(),
     },
   ];
+};
+
+export const buildQueryParams = (
+  page: any,
+  pageLimit: any,
+  search: any,
+  filterLists: any,
+  neglectKeysInLoop: any = [],
+  type = '',
+) => {
+  const getQueryParam = new URLSearchParams();
+
+  Object?.entries(filterLists || {})?.forEach(([key, value]: any) => {
+    if (neglectKeysInLoop?.includes(key)) return;
+    if (value instanceof Date)
+      return getQueryParam?.append(key, value?.toISOString());
+    getQueryParam?.append(key, value?._id);
+  });
+
+  addDateTimeParam(
+    getQueryParam,
+    'plannedEndDate',
+    filterLists?.plannedEndDate || filterLists?.dueByDate,
+    filterLists?.plannedEndTime || filterLists?.dueByTime,
+  );
+  addDateTimeParam(
+    getQueryParam,
+    'plannedStartDate',
+    filterLists?.plannedStartDate,
+    filterLists?.plannedStartTime,
+  );
+
+  getQueryParam?.append('metaData', true + '');
+  getQueryParam?.append('page', page + '');
+  getQueryParam?.append('limit', pageLimit + '');
+  getQueryParam?.append('search', search);
+  !!type?.length && getQueryParam?.append('exportType', type);
+  return getQueryParam;
+};
+
+export const addDateTimeParam = (
+  getTicketsParam: any,
+  paramKey: any,
+  date: any,
+  time: any,
+) => {
+  if (!!date || !!time) {
+    getTicketsParam?.append(paramKey, makeDateTime(date, time)?.toISOString());
+  }
+};
+
+export const errorSnackbar = () => {
+  enqueueSnackbar(`Something went wrong`, {
+    variant: NOTISTACK_VARIANTS?.ERROR,
+  });
 };
