@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { Box, Theme, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { CALENDAR_FORMAT } from '@/constants';
+import { CALENDAR_FORMAT, DATE_FORMAT } from '@/constants';
 
 const useCalendar = () => {
   const [selectedEventData, setSelectedEventData] = useState<any>({});
@@ -11,7 +11,7 @@ const useCalendar = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const currentDate = dayjs().format('MMMM YYYY');
-  const todayDate = dayjs().format('YYYY-MM-DD');
+  const todayDate = dayjs().format(DATE_FORMAT?.API);
   const [calendarDate, setCalendarDate] = useState(currentDate);
   const [isDelete, setIsDelete] = useState(false);
 
