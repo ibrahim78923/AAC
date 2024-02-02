@@ -43,7 +43,7 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
         </Button>
       </Grid>
       <Grid container mt={2}>
-        <Grid item xs={10} sm={10} mt={4} mb={3}>
+        <Grid item xs={10} sm={10} mb={3}>
           <Search
             searchBy={searchByName}
             setSearchBy={setSearchByName}
@@ -52,7 +52,7 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
           />
         </Grid>
 
-        <Grid item xs={2} sm={2} mt={4} sx={{ textAlign: 'end' }}>
+        <Grid item xs={2} sm={2} sx={{ textAlign: 'end' }}>
           <Button
             onClick={() => setIsOpenFilterDrawer(true)}
             startIcon={<FilterSharedIcon />}
