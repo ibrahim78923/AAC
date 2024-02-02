@@ -5,10 +5,10 @@ import {
   Box,
   Button,
   Typography,
-  useTheme,
   Grid,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -35,9 +35,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useEnquiries } from './useEnquiries';
 
 const Enquiries = () => {
-  const theme = useTheme();
   const [isEnquiriesFilterDrawerOpen, setIsEnquiriesFilterDrawerOpen] =
-    useState(false);
+    useState(true);
   const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -77,45 +76,23 @@ const Enquiries = () => {
         border: '1px solid #EAECF0',
       }}
     >
-      <Box sx={{ padding: '16px 24px' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '19px',
-          }}
-        >
+      <Box sx={styles?.pageHeader}>
+        <Box sx={styles?.heading}>
           <Typography variant="h3" sx={{ fontWeight: '600' }}>
             Enquiries
           </Typography>
         </Box>
-        <Box
-          mt={2}
-          mb={3}
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '10px',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Search
-            label={'Search here'}
-            searchBy={search}
-            setSearchBy={setSearch}
-            width="260px"
-            size="small"
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              gap: '10px',
-            }}
-          >
+        <Box sx={styles?.filterBar}>
+          <Box sx={styles?.search}>
+            <Search
+              label={'Search here'}
+              searchBy={search}
+              setSearchBy={setSearch}
+              width="260px"
+              size="small"
+            />
+          </Box>
+          <Box sx={styles?.filterButtons}>
             <Button
               disabled={tableRowIds.length > 0 ? false : true}
               id="basic-button"
@@ -123,14 +100,7 @@ const Enquiries = () => {
               aria-haspopup="true"
               aria-expanded={isActionMenuOpen ? 'true' : undefined}
               onClick={handleClick}
-              sx={{
-                color: theme?.palette?.grey[500],
-                width: '112px',
-                border: '1.5px solid #e7e7e9',
-                '@media (max-width:581px)': {
-                  width: '100%',
-                },
-              }}
+              sx={styles?.actionBtn}
               className="small"
             >
               Actions &nbsp; <DownIcon />
@@ -163,11 +133,13 @@ const Enquiries = () => {
                 Delete
               </MenuItem>
             </Menu>
-            <Button sx={styles?.refreshButton(theme)} className="small">
-              <RefreshSharedIcon />
-            </Button>
+            <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+              <Button sx={styles?.refreshButton} className="small">
+                <RefreshSharedIcon />
+              </Button>
+            </Tooltip>
             <Button
-              sx={styles?.filterButton(theme)}
+              sx={styles?.filterButton}
               className="small"
               onClick={() => setIsEnquiriesFilterDrawerOpen(true)}
             >

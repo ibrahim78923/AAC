@@ -129,18 +129,12 @@ const NewsAndEvents = () => {
                 },
               }}
             >
-              <MenuItem
-                style={{ fontSize: '14px' }}
-                onClick={() => setIsOpenEditDrawer(true)}
-              >
+              <MenuItem onClick={() => setIsOpenEditDrawer(true)}>
                 Edit
               </MenuItem>
-              <MenuItem style={{ fontSize: '14px' }}>Active</MenuItem>
-              <MenuItem style={{ fontSize: '14px' }}>Inactive</MenuItem>
-              <MenuItem
-                style={{ fontSize: '14px' }}
-                onClick={() => setisNewsAndEventsDeleteModal(true)}
-              >
+              <MenuItem>Active</MenuItem>
+              <MenuItem>Inactive</MenuItem>
+              <MenuItem onClick={() => setisNewsAndEventsDeleteModal(true)}>
                 Delete
               </MenuItem>
             </Menu>
