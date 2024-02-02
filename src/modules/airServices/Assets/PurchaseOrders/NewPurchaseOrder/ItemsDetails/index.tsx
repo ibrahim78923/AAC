@@ -1,32 +1,36 @@
 import { Button, Divider, Box } from '@mui/material';
 import { GrayPlusIcon } from '@/assets/icons';
-import { v4 as uuidv4 } from 'uuid';
 import ItemsDetailsHeader from './ItemDetailsComponents/ItemsDetailsHeader';
-import DetailsListItem from './ItemDetailsComponents/DetailsListItem';
 import useItemsDetails from './useItemsDetails';
 import ItemBilling from './ItemDetailsComponents/ItemBilling';
 import { styles } from './ItemsDetails.style';
-import { itemsDetailsData } from './ItemsDetails.data';
+import { ItemDetail } from './ItemDetailsComponents/ItemDetail';
 
-const ItemsDetails = () => {
-  const { itemsList, handleAddAdditionalItems } = useItemsDetails();
-  const { itemsWrapper } = styles();
+const ItemsDetails = (props: any) => {
+  const { fields, append, vendorId, watch } = useItemsDetails(props);
+  const { itemsWrapper, flexBetween } = styles();
   return (
     <>
       <Box width="100%" overflow="scroll">
         <Box sx={{ ...itemsWrapper }}>
           <ItemsDetailsHeader />
-          {itemsList?.map((values: any, index: number) => (
-            <DetailsListItem
-              key={uuidv4()}
-              data={itemsDetailsData}
-              values={values}
-              index={index}
-            />
+          {fields?.map((item: any, index: number) => (
+            <Box key={item?.id} sx={{ ...flexBetween }}>
+              <ItemDetail index={index} vendorId={vendorId} watch={watch} />
+            </Box>
           ))}
           <Button
             color="secondary"
-            onClick={handleAddAdditionalItems}
+            onClick={() =>
+              append({
+                itemName: null,
+                description: '',
+                quantity: 0,
+                costPerItem: 0,
+                taxRate: 0,
+                total: 0,
+              })
+            }
             sx={{ px: 2 }}
             startIcon={<GrayPlusIcon />}
           >
@@ -35,7 +39,7 @@ const ItemsDetails = () => {
         </Box>
       </Box>
       <Divider />
-      <ItemBilling />
+      <ItemBilling watch={watch} />
     </>
   );
 };

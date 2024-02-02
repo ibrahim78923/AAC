@@ -19,15 +19,10 @@ export const useDeleteBusinessHour = (props: any) => {
       queryParams: deleteParams,
     };
     try {
-      const response: any = await deleteBusinessHourTrigger(
-        deleteBusinessHourParameter,
-      )?.unwrap();
-      enqueueSnackbar(
-        response?.message ?? 'Business Hour deleted successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      await deleteBusinessHourTrigger(deleteBusinessHourParameter)?.unwrap();
+      enqueueSnackbar('Business Hour deleted successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
       closeBusinessHourDeleteModal?.();
     } catch (error: any) {
       enqueueSnackbar(

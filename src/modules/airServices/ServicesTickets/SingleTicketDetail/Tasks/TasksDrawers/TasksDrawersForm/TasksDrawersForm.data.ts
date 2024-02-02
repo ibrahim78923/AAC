@@ -16,12 +16,10 @@ const notifyBeforeOption = [
 ];
 const statusOptions = ['Todo', 'In-Progress', 'Done'];
 export const taskTicketFormValidationSchema: any = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Required'),
-  description: Yup?.string(),
+  title: Yup?.string()?.trim()?.required('Required'),
+  description: Yup?.string()?.trim()?.required('Required'),
   departmentId: Yup?.mixed()?.required('Required'),
-  assignTo: Yup?.mixed(),
   status: Yup?.string()?.required('Required'),
-  notifyBefore: Yup?.mixed(),
   startDate: Yup?.date(),
   startDateTime: Yup?.date(),
   endDate: Yup?.date(),
@@ -44,10 +42,8 @@ export const taskTicketFormDefaultValues = (data: any) => {
     startDateTime: taskData?.startDateTime
       ? new Date(taskData?.startDateTime)
       : new Date(),
-    endDate: taskData?.endDate ? new Date(taskData?.endDate) : new Date(),
-    endDateTime: taskData?.endDateTime
-      ? new Date(taskData?.endDateTime)
-      : new Date(),
+    endDate: taskData?.endDate ? new Date(taskData?.endDate) : null,
+    endDateTime: taskData?.endDateTime ? new Date(taskData?.endDateTime) : null,
     plannedEffort: taskData?.plannedEffort ?? '',
   };
 };
@@ -73,6 +69,7 @@ export const taskTicketFormFields = (
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      required: true,
       style: {
         minHeight: 200,
       },
@@ -88,6 +85,7 @@ export const taskTicketFormFields = (
       fullWidth: true,
       required: true,
       placeholder: 'Chose department',
+      externalParams: { limit: 50 },
       apiQuery: departmentDropdown,
     },
     component: RHFAutocompleteAsync,
@@ -142,6 +140,7 @@ export const taskTicketFormFields = (
       name: 'startDate',
       label: 'Planned Start Date',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFDatePicker,
     md: 8,
@@ -152,6 +151,7 @@ export const taskTicketFormFields = (
       name: 'startDateTime',
       label: '\u00a0',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFTimePicker,
     md: 4,
@@ -162,6 +162,8 @@ export const taskTicketFormFields = (
       name: 'endDate',
       label: 'Planned End Date',
       fullWidth: true,
+      disablePast: true,
+      textFieldProps: { readOnly: true },
     },
     component: RHFDatePicker,
     md: 8,
@@ -172,6 +174,7 @@ export const taskTicketFormFields = (
       name: 'endDateTime',
       label: '\u00a0',
       fullWidth: true,
+      textFieldProps: { readOnly: true },
     },
     component: RHFTimePicker,
     md: 4,

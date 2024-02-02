@@ -18,7 +18,7 @@ export const useDepartmentsHeader = (props: any) => {
   const backArrowClick = () => {
     push({ pathname: USER_MANAGEMENT });
   };
-  const [postDepartment] = usePostDepartmentMutation();
+  const [postDepartment, { isLoading }] = usePostDepartmentMutation();
   const addFormMethod = useForm({
     resolver: yupResolver(departmentFormValidation),
     defaultValues: departmentFormValues(null),
@@ -62,5 +62,6 @@ export const useDepartmentsHeader = (props: any) => {
     userList,
     handleClose,
     addFormMethod,
+    isLoading,
   };
 };

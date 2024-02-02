@@ -521,7 +521,7 @@ export const upsertContractFormFieldsDataFunction = (
         {
           id: 20,
           component: RHFAutocomplete,
-          md: 12,
+          md: 6,
           componentProps: {
             fullWidth: true,
             name: 'billingCycle',

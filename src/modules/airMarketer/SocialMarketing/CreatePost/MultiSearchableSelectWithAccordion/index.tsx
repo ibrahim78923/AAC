@@ -159,10 +159,15 @@ export default function RHFMultiSearchableSelectWithAccordion({
                   <Search
                     searchBy={searchTerm}
                     setSearchBy={setSearchTerm}
-                    label="Search By Name"
+                    label="Search here"
                     fullWidth
                     size="small"
-                    sx={{ marginBottom: '15px' }}
+                    sx={{
+                      marginBottom: '15px',
+                      '& input': {
+                        height: '15px',
+                      },
+                    }}
                   />
                 )}
 
@@ -220,8 +225,8 @@ export default function RHFMultiSearchableSelectWithAccordion({
                               backgroundColor: isCheckBox
                                 ? 'transparent'
                                 : selectedValues?.includes(option?.value)
-                                  ? theme?.palette?.custom?.hex_grey
-                                  : 'transparent',
+                                ? theme?.palette?.custom?.hex_grey
+                                : 'transparent',
                               '&:hover': {
                                 backgroundColor:
                                   theme?.palette?.custom?.hex_grey,

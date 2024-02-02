@@ -47,6 +47,7 @@ export const SUPER_ADMIN: any = {
 export const AIR_SERVICES = {
   TICKETS: `/air-services/tickets`,
   TICKETS_LIST: `/air-services/tickets/detail`,
+  CHILD_TICKETS_DETAIL: `/air-services/tickets/child-detail`,
   PURCHASE_ORDER: '/air-services/assets/purchase-orders',
   ASSETS_PURCHASE_ORDER_DETAIL: '/air-services/assets/purchase-orders/detail',
   NEW_PURCHASE_ORDER: '/air-services/assets/purchase-orders/new-purchase',
@@ -105,6 +106,8 @@ export const AIR_SERVICES = {
     '/air-services/settings/service-management/services-catalog/upsert-service',
   SERVICE_CATALOG: '/air-services/settings/service-management/services-catalog',
   UPSERT_SOFTWARE_CONTRACT: `/air-services/assets/software/detail/create-contract`,
+  UPSERT_WORKFLOW_MANAGEMENT:
+    '/air-services/settings/agent-performance-management/workload-management/upsert-workflow-management',
 };
 
 export const AIR_CUSTOMER_PORTAL = {

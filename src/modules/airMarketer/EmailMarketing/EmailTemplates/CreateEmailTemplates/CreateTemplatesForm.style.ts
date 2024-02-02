@@ -74,13 +74,24 @@ export const styles = {
       alignItems: 'center',
     };
   },
-  headerIcon: (theme: any) => {
+  headerIcon: (theme: any, headerValue: any, index: any) => {
+    let backgroundColor;
+    if (headerValue === 'GiftCard' && index === 0) {
+      backgroundColor = theme?.palette?.primary?.lighter;
+    } else if (headerValue === 'Loyalty Token' && index === 1) {
+      backgroundColor = theme?.palette?.primary?.lighter;
+    } else if (headerValue === 'Voucher' && index === 3) {
+      backgroundColor = theme?.palette?.primary?.lighter;
+    } else if (headerValue === 'Credits' && index === 2) {
+      backgroundColor = theme?.palette?.primary?.lighter;
+    }
     return {
       cursor: 'pointer',
       padding: '20px',
       borderRadius: '4px',
       marginX: '10px',
       width: '155x',
+      background: backgroundColor,
       '&:hover': {
         background: theme?.palette?.primary?.lighter,
       },

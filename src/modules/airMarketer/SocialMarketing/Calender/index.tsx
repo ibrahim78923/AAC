@@ -70,7 +70,7 @@ const Calender = () => {
 
   return (
     <>
-      <Box sx={{ backgroundColor: 'white', padding: '20px' }}>
+      <Box sx={{ backgroundColor: 'white' }}>
         <Button
           startIcon={<PlusIcon />}
           sx={{ float: 'right', marginBottom: '25px' }}

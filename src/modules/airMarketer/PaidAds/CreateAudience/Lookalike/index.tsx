@@ -1,10 +1,12 @@
-import React from 'react';
 import CommonDrawer from '@/components/CommonDrawer';
-import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
-import { Box, MenuItem } from '@mui/material';
+import { Grid } from '@mui/material';
 import useLookalike from './useLookalike';
-import { ViewDetailBackArrowIcon } from '@/assets/icons';
 
 const Lookalike = ({ open, onClose }: any) => {
   const { methods } = useLookalike();
@@ -18,31 +20,37 @@ const Lookalike = ({ open, onClose }: any) => {
       componentProps: {
         name: 'contactList',
         label: 'Contact List',
+        fullWidth: true,
         select: true,
-        disabled: true,
       },
-      options: [{ label: 'label', value: 'value' }],
-      component: RHFTextField,
+      options: [
+        { value: 'ALL', label: 'All' },
+        { value: 'DRAFT', label: 'Draft' },
+        { value: 'PUBLISHED', label: 'Published' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-  ];
-
-  const accountValues = [
     {
       componentProps: {
         name: 'accounts',
         label: 'Ad accounts',
+        fullWidth: true,
         select: true,
       },
-      options: [{ label: 'label', value: 'value' }],
-      component: RHFTextField,
+      options: [
+        { value: 'ALL', label: 'All' },
+        { value: 'DRAFT', label: 'Draft' },
+        { value: 'PUBLISHED', label: 'Published' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-  ];
-  const audienceName = [
     {
       componentProps: {
-        name: 'audience',
+        name: 'audienceName',
         label: 'Audience name',
-        select: true,
+        placeholder: 'Lookalike-BBA',
       },
       options: [{ label: 'label', value: 'value' }],
       component: RHFTextField,
@@ -57,61 +65,29 @@ const Lookalike = ({ open, onClose }: any) => {
       footer
       onClose={onClose}
       title="Lookalike"
-      headerIcon={<ViewDetailBackArrowIcon />}
+      submitHandler={handleSubmit(onSubmit)}
     >
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        {formValues?.map((form: any) => (
-          <form.component
-            key={uuidv4()}
-            fullWidth
-            size="small"
-            {...form.componentProps}
-          >
-            {form?.componentProps?.select
-              ? form?.options.map((option: any) => (
-                  <MenuItem key={option?.value} value={option?.value}>
-                    {option?.label}
-                  </MenuItem>
-                ))
-              : null}
-          </form.component>
-        ))}
-        <Box sx={{ marginTop: '20px' }}>
-          {accountValues?.map((form: any) => (
-            <form.component
-              key={uuidv4()}
-              fullWidth
-              size="small"
-              {...form.componentProps}
-            >
-              {form?.componentProps?.select
-                ? form?.options?.map((option: any) => (
-                    <MenuItem key={option?.value} value={option?.value}>
+      <FormProvider methods={methods}>
+        <Grid container spacing={1}>
+          {formValues?.map((item: any) => (
+            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <item.component
+                {...item.componentProps}
+                size={'small'}
+                disabled={
+                  item?.componentProps?.name === 'contactList' ? true : false
+                }
+              >
+                {item?.componentProps?.select &&
+                  item?.options?.map((option: any) => (
+                    <option key={uuidv4()} value={option?.value}>
                       {option?.label}
-                    </MenuItem>
-                  ))
-                : null}
-            </form.component>
+                    </option>
+                  ))}
+              </item.component>
+            </Grid>
           ))}
-        </Box>
-        <Box sx={{ mt: 3 }}>
-          {audienceName?.map((form: any) => (
-            <form.component
-              key={uuidv4()}
-              fullWidth
-              size="small"
-              {...form.componentProps}
-            >
-              {form?.componentProps?.select
-                ? form?.options?.map((option: any) => (
-                    <MenuItem key={option?.value} value={option?.value}>
-                      {option?.label}
-                    </MenuItem>
-                  ))
-                : null}
-            </form.component>
-          ))}
-        </Box>
+        </Grid>
       </FormProvider>
     </CommonDrawer>
   );
