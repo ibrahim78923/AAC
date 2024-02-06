@@ -1,11 +1,11 @@
+import { useState } from 'react';
 import { Box } from '@mui/material';
 import Search from '@/components/Search';
 import CommonModal from '@/components/CommonModal';
 import { useComparePost } from '../useComparePost';
 import PostCards from './PostCards';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
-import { useState } from 'react';
-import ContactsActions from '../../SocialMarketing/PostBox/PostBoxActions';
+import ContactsActions from '../../PostBox/PostBoxActions';
 
 const SelectPostModal = (props: any) => {
   const {
