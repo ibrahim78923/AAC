@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import CompareSocialPost from '@/modules/airMarketer/CompareSocialPost';
+import CompareSocialPost from '@/modules/airMarketer/SocialMarketing/CompareSocialPost';
 
 const ComparePostPage = () => {
   return <CompareSocialPost />;

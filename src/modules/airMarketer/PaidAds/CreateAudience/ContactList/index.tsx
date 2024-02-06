@@ -145,8 +145,7 @@ const ContactList = ({ open, onClose }: any) => {
                       color={theme?.palette?.blue?.light}
                       fontWeight={500}
                     >
-                      {' '}
-                      out of{' '}
+                      out of
                     </Typography>
                     <Typography
                       component="span"
