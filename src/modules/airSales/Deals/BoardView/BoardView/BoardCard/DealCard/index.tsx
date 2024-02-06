@@ -12,16 +12,17 @@ import {
 } from '@/services/airSales/deals';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-import {
-  AccociatedCompanyIcon,
-  AccociatedContactIcon,
-  DealPhoneIcon,
-  EmailDealsIcon,
-  MeetingDealsIcon,
-  NotesDealsIcon,
-  TaskDealsIcon,
-} from '@/assets/icons';
-import Link from 'next/link';
+// import {
+//   AccociatedCompanyIcon,
+//   AccociatedContactIcon,
+//   DealPhoneIcon,
+//   EmailDealsIcon,
+//   MeetingDealsIcon,
+//   NotesDealsIcon,
+//   TaskDealsIcon,
+// } from '@/assets/icons';
+// import Link from 'next/link';
+// import { AIR_SALES } from '@/routesConstants/paths';
 // import { useRouter } from 'next/router';
 
 const TaskViewCard = ({}: any) => {
@@ -226,7 +227,7 @@ const TaskViewCard = ({}: any) => {
                                 {items?.priority}
                               </Typography>
                             </Box>
-                            <Box
+                            {/* <Box
                               sx={{
                                 display: 'flex',
                                 justifyContent: 'space-between',
@@ -241,12 +242,12 @@ const TaskViewCard = ({}: any) => {
                                 }}
                               >
                                 <Link
-                                  href={`/air-sales/deals/view-details?tab-value=7`}
+                                  href={`${AIR_SALES?.DEALS_VIEWDEATAILS}?tab-value=7`}
                                 >
                                   <EmailDealsIcon />
                                 </Link>
                                 <Link
-                                  href={`/air-sales/deals/view-details?tab-value=5`}
+                                  href={`${AIR_SALES?.DEALS_VIEWDEATAILS}?tab-value=5`}
                                 >
                                   <DealPhoneIcon />
                                 </Link>
@@ -278,7 +279,7 @@ const TaskViewCard = ({}: any) => {
                                   <AccociatedCompanyIcon />
                                 </Link>
                               </Box>
-                            </Box>
+                            </Box> */}
                           </Box>
                         )}
                       </Draggable>

@@ -75,6 +75,7 @@ export const AIR_SALES = {
   CONTACTS: '/air-sales/contacts/view-details',
   VIEW_DETAILS: '/air-sales/deals/view-details',
   DEAL_LIST_VIEW: '/deals/get-deals-list-view',
+  DEALS_VIEWDEATAILS: '/air-sales/deals/view-details',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
