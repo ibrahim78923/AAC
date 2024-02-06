@@ -94,7 +94,7 @@ const LifeCycleStage = () => {
                 color: `${theme?.palette?.common?.white}`,
                 fontSize: '16px',
               }}
-            />{' '}
+            />
             Add Stage
           </Button>
         </Box>
