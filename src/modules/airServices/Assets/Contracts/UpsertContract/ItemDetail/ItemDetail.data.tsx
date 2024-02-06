@@ -27,6 +27,7 @@ export const itemDetailFormFieldsFunction = (
         size="small"
         options={priceModelOptions}
         fullWidth={true}
+        sx={{ minWidth: '12rem' }}
       />
     ),
   },

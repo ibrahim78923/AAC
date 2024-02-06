@@ -2,7 +2,7 @@ import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
-import { contractsListsColumnsFunction } from './Contracts.data';
+import { data, contractsListsColumnsFunction } from './Contracts.data';
 import { EXPORT_FILE_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import {
@@ -35,7 +35,7 @@ export const useContracts = () => {
   };
 
   const [lazyGetContractTrigger, lazyGetContractStatus] =
-    useLazyGetContractQuery<any>();
+    useLazyGetContractQuery();
 
   const [lazyGetExportContractTrigger] = useLazyGetExportContractQuery();
 
@@ -87,7 +87,7 @@ export const useContracts = () => {
   const contractListsColumns = contractsListsColumnsFunction(
     selectedContractList,
     setSelectedContractList,
-    lazyGetContractStatus?.data?.data?.contracts,
+    data,
     router,
   );
   return {

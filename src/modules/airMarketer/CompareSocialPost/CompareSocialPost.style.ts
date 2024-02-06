@@ -1,5 +1,5 @@
 export const style = {
-  postCompareBox: (theme: any) => ({
+  postCompareBox: (theme: any, firstPostLength: any) => ({
     backgroundColor: theme?.primary?.lighter,
     display: 'flex',
     justifyContent: 'space-between',
@@ -7,6 +7,7 @@ export const style = {
     width: '366px',
     padding: '20px',
     borderRadius: '8px',
+    height: firstPostLength ? '80px' : 'fit-content',
     '.postContent': {
       whiteSpace: 'nowrap',
       width: '215px',

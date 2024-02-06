@@ -202,7 +202,7 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
       then: (schema: any) => schema?.required('Required'),
       otherwise: (schema: any) => schema,
     }),
-  software: Yup?.mixed()?.nullable()?.required('Required'),
+  // software: Yup?.mixed()?.nullable()?.required('Required'),
   billingCycle: Yup?.mixed()?.nullable()?.required('Required'),
   licenseType: Yup?.mixed()?.nullable()?.required('Required'),
   licenseKey: Yup?.string()?.trim()?.required('Required'),

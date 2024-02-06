@@ -59,6 +59,9 @@ export default function UploadMedia({ name }: any) {
             padding: '40px',
             textAlign: 'center',
             cursor: 'pointer',
+            '@media (max-width:550px)': {
+              padding: '15px',
+            },
           }}
         >
           <input {...getInputProps()} />
@@ -80,6 +83,9 @@ export default function UploadMedia({ name }: any) {
                 backgroundColor: 'white',
                 border: '1px solid #D1D5DB',
                 color: '#6B7280',
+                '@media (max-width:550px)': {
+                  marginBottom: '20px',
+                },
               }}
               onClick={() => {
                 setIsOpenModal(true);

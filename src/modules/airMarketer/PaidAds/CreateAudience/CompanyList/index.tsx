@@ -1,17 +1,16 @@
-import React from 'react';
 import CommonDrawer from '@/components/CommonDrawer';
 
 import {
   FormProvider,
   RHFCheckbox,
-  RHFTextField,
+  RHFSelect,
 } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
-import { Box, MenuItem, Typography } from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 import useCompanyList from './useCompanyList';
-import { BackArrIcon } from '@/assets/icons';
 
 const CompanyList = ({ open, onClose }: any) => {
+  const theme = useTheme();
   const { methods } = useCompanyList();
 
   const { handleSubmit } = methods;
@@ -23,41 +22,54 @@ const CompanyList = ({ open, onClose }: any) => {
       componentProps: {
         name: 'contactList',
         label: 'Contact List',
+        fullWidth: true,
         select: true,
       },
-      options: [{ label: 'label', value: 'value' }],
-      component: RHFTextField,
+      options: [
+        { value: 'ALL', label: 'All' },
+        { value: 'DRAFT', label: 'Draft' },
+        { value: 'PUBLISHED', label: 'Published' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
     {
       componentProps: {
         name: 'thirdParty',
         label:
           'This contact list was not purchased, rented, appended, or provided by a third party.',
+        fullWidth: true,
       },
       component: RHFCheckbox,
+      md: 12,
     },
-  ];
-
-  const accountValues = [
     {
       componentProps: {
         name: 'accounts',
         label: 'Accounts',
         select: true,
       },
-      options: [{ label: 'label', value: 'value' }],
-      component: RHFTextField,
+      options: [
+        { value: 'ALL', label: 'All' },
+        { value: 'DRAFT', label: 'Draft' },
+        { value: 'PUBLISHED', label: 'Published' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-  ];
-  const audienceName = [
     {
       componentProps: {
-        name: 'audience',
+        name: 'name',
         label: 'Name',
         select: true,
       },
-      options: [{ label: 'label', value: 'value' }],
-      component: RHFTextField,
+      options: [
+        { value: 'ALL', label: 'All' },
+        { value: 'DRAFT', label: 'Draft' },
+        { value: 'PUBLISHED', label: 'Published' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
   ];
 
@@ -67,68 +79,45 @@ const CompanyList = ({ open, onClose }: any) => {
       okText="Create Audience"
       isOk
       footer
-      headerIcon={<BackArrIcon />}
       title="Company List"
       onClose={onClose}
+      submitHandler={handleSubmit(onSubmit)}
     >
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        {formValues?.map((form: any) => (
-          <form.component
-            key={uuidv4()}
-            fullWidth
-            size="small"
-            {...form.componentProps}
-          >
-            {form?.componentProps?.select
-              ? form?.options?.map((option: any) => (
-                  <MenuItem key={option?.value} value={option?.value}>
-                    {option?.label}
-                  </MenuItem>
-                ))
-              : null}
-          </form.component>
-        ))}
-        <Typography variant="body2" sx={{ mt: 2, fontWeight: '500' }}>
-          Total companies that will be sent
-        </Typography>
-        <Typography variant="h5" sx={{ mt: 2, fontWeight: '500', mb: 3 }}>
-          0
-        </Typography>
-
-        {accountValues?.map((form: any) => (
-          <form.component
-            key={uuidv4()}
-            fullWidth
-            size="small"
-            {...form.componentProps}
-          >
-            {form?.componentProps?.select
-              ? form?.options?.map((option: any) => (
-                  <MenuItem key={option?.value} value={option?.value}>
-                    {option?.label}
-                  </MenuItem>
-                ))
-              : null}
-          </form.component>
-        ))}
-        <Box sx={{ mt: 3 }}>
-          {audienceName?.map((form: any) => (
-            <form.component
-              key={uuidv4()}
-              fullWidth
-              size="small"
-              {...form.componentProps}
-            >
-              {form?.componentProps?.select
-                ? form?.options?.map((option: any) => (
-                    <MenuItem key={option?.value} value={option?.value}>
+      <FormProvider methods={methods}>
+        <Grid container spacing={1}>
+          {formValues?.map((item: any) => (
+            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <item.component {...item.componentProps} size={'small'}>
+                {item?.componentProps?.select &&
+                  item?.options?.map((option: any) => (
+                    <option key={uuidv4()} value={option?.value}>
                       {option?.label}
-                    </MenuItem>
-                  ))
-                : null}
-            </form.component>
+                    </option>
+                  ))}
+              </item.component>
+              {item?.componentProps?.name === 'thirdParty' && (
+                <Box my={2}>
+                  <Typography
+                    variant="body2"
+                    fontWeight={500}
+                    sx={{ mb: 1 }}
+                    color={theme?.palette?.blue?.light}
+                  >
+                    Contacts that will be sent to the ad network
+                  </Typography>
+                  <Typography
+                    component="span"
+                    variant="h5"
+                    color={theme?.palette?.blue?.light}
+                    fontWeight={500}
+                  >
+                    0
+                  </Typography>
+                </Box>
+              )}
+            </Grid>
           ))}
-        </Box>
+        </Grid>
       </FormProvider>
     </CommonDrawer>
   );
