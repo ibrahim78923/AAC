@@ -1,6 +1,7 @@
 import {
   RHFDatePicker,
   RHFEditor,
+  RHFSelect,
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
@@ -115,7 +116,7 @@ export const matchColumnsData = [
 ];
 
 export const createTaskValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is Required'),
+  name: Yup?.string()?.required('Field is Required').trim(),
   type: Yup?.string()?.trim()?.required('Field is Required'),
   priority: Yup?.string()?.trim()?.required('Field is Required'),
   status: Yup?.string()?.trim()?.required('Field is Required'),
@@ -160,12 +161,13 @@ export const createTaskData = [
     componentProps: {
       name: 'type',
       select: true,
+      placeholder: 'Enter Name',
     },
     options: [
       { label: 'Call', value: 'Call' },
       { label: 'Email', value: 'Email' },
     ],
-    component: RHFTextField,
+    component: RHFSelect,
   },
   {
     gridLength: 4,
@@ -180,7 +182,7 @@ export const createTaskData = [
       { label: 'Medium', value: 'Medium' },
       { label: 'High', value: 'High' },
     ],
-    component: RHFTextField,
+    component: RHFSelect,
   },
   {
     gridLength: 12,
@@ -194,7 +196,7 @@ export const createTaskData = [
       { label: 'Inprogress', value: 'Inprogress' },
       { label: 'Complete', value: 'Complete' },
     ],
-    component: RHFTextField,
+    component: RHFSelect,
   },
   {
     gridLength: 12,
@@ -208,7 +210,7 @@ export const createTaskData = [
       { label: 'Mouse Repair', value: 'Mouse Repair' },
       { label: 'AC Purchase', value: 'AC Purchase' },
     ],
-    component: RHFTextField,
+    component: RHFSelect,
   },
   {
     gridLength: 12,
@@ -230,10 +232,10 @@ export const createTaskData = [
       { label: 'Jhon Doe', value: 'Jhon Doe' },
       { label: 'Jhon Doe', value: 'Jhon Doe' },
     ],
-    component: RHFTextField,
+    component: RHFSelect,
   },
   {
-    gridLength: 8,
+    gridLength: 7,
     title: 'Due date',
     componentProps: {
       name: 'dueDate',
@@ -242,7 +244,7 @@ export const createTaskData = [
     component: RHFDatePicker,
   },
   {
-    gridLength: 4,
+    gridLength: 5,
     title: 'Time',
     componentProps: {
       name: 'time',
@@ -262,7 +264,7 @@ export const createTaskData = [
       { label: 'In 1 business day', value: 'in1businessday' },
       { label: 'In 2 business day', value: 'in2businessday' },
     ],
-    component: RHFTextField,
+    component: RHFSelect,
   },
   {
     gridLength: 12,

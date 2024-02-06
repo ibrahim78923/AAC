@@ -19,20 +19,16 @@ const Trash = ({ setShowSignUpForm, setFindStatus }: any) => {
         padding: '12px 16px',
       }}
     >
-      <Search
-        searchBy={searchByClientName}
-        setSearchBy={setSearchByClientName}
-        label="Search Here"
-        size="small"
-      />
-      <Box sx={{ marginTop: '12px' }}>
-        <TanstackTable columns={getColums} data={TrashTableData} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+      <Box sx={{ mb: '12px' }}>
+        <Search
+          searchBy={searchByClientName}
+          setSearchBy={setSearchByClientName}
+          label="Search Here"
+          size="small"
         />
       </Box>
+      <TanstackTable columns={getColums} data={TrashTableData} />
+      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
     </Box>
   );
 };

@@ -7,5 +7,6 @@ export const styles = {
     flexWrap: 'wrap',
     gap: '15px',
     marginTop: '15px',
+    width: '100%',
   },
 };

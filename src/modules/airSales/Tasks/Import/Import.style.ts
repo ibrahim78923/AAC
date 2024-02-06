@@ -15,8 +15,8 @@ export const styles = (theme: any) => {
     },
     head: {
       color: theme?.palette?.blue['dull_blue'],
-      fontSize: '18px',
-      fontWeight: 600,
+      fontSize: '16px',
+      fontWeight: 500,
       lineHeight: '24px',
       marginTop: '23px',
     },
@@ -29,7 +29,7 @@ export const styles = (theme: any) => {
     },
     desc: {
       color: theme?.palette?.slateBlue['main'],
-      fontSize: '13px',
+      fontSize: '12px',
       fontWeight: 500,
       marginTop: '14px',
     },
@@ -42,7 +42,7 @@ export const styles = (theme: any) => {
       textTransform: 'capitalize',
       '& li': {
         color: theme?.palette?.blue['dull_blue'],
-        fontSize: '13px',
+        fontSize: '12px',
         fontWeight: 500,
         position: 'relative',
         paddingLeft: '15px',

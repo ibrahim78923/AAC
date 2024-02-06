@@ -60,7 +60,9 @@ const Dashboard = () => {
               >
                 Edit Organization Information
               </Typography>
-              <EditProfilelLineIcon />
+              <Box>
+                <EditProfilelLineIcon />
+              </Box>
             </Box>
           </Card>
         </Grid>
@@ -83,7 +85,7 @@ const Dashboard = () => {
       <Grid container spacing={2}>
         {myAccountData?.map((item: any) => (
           <Grid item lg={3} md={6} sm={12} xs={12} key={uuidv4()}>
-            <Card sx={{ p: '24px', mt: 3 }}>
+            <Card sx={{ p: '24px', mt: 3, textAlign: { xs: 'center' } }}>
               {item?.icon}
               <Typography
                 variant="h6"

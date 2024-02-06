@@ -18,20 +18,16 @@ const Published = ({ setShowSignUpForm, setFindStatus }: any) => {
         padding: '16px 12px',
       }}
     >
-      <Search
-        searchBy={searchByClientName}
-        setSearchBy={setSearchByClientName}
-        label="Search Here"
-        size="small"
-      />
-      <Box margin="12px 0">
-        <TanstackTable columns={getColums} data={PublishedTableData} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+      <Box mb="12px">
+        <Search
+          searchBy={searchByClientName}
+          setSearchBy={setSearchByClientName}
+          label="Search Here"
+          size="small"
         />
       </Box>
+      <TanstackTable columns={getColums} data={PublishedTableData} />
+      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
     </Box>
   );
 };

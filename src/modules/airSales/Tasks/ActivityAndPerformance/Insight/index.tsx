@@ -8,9 +8,7 @@ const Insights = () => {
   const { activity, dateRange, activityReportDate } = styles(useTheme());
   return (
     <Box>
-      <Typography sx={activity}>
-        Activity <ArrowDropDownIcon />
-      </Typography>
+      <Typography sx={activity}>Activity</Typography>
       <Typography sx={dateRange}>
         Date Range: This week so <ArrowDropDownIcon />
       </Typography>
@@ -20,7 +18,7 @@ const Insights = () => {
         count={0}
         desc={'Date Range: This week so  | Compared To: Last week'}
       />
-      <Typography variant="subtitle2" mb={'10px'}>
+      <Typography variant="h5" mb={'10px'}>
         Weekly activity report
       </Typography>
       <Typography sx={activityReportDate}>
@@ -31,7 +29,7 @@ const Insights = () => {
         count={1}
         desc={'Performance vs. previous week'}
       />
-      <Typography variant="subtitle2" mb={'10px'}>
+      <Typography variant="h5" mb={'10px'}>
         Task Performance
       </Typography>
       <Typography sx={activityReportDate}>

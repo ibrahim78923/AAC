@@ -20,13 +20,15 @@ const AllForms = ({ setShowSignUpForm, setFindStatus }: any) => {
         padding: '12px  16px',
       }}
     >
-      <Search
-        searchBy={searchByClientName}
-        setSearchBy={setSearchByClientName}
-        label="Search Here"
-        size="small"
-      />
-      <Box marginTop="12px">
+      <Box marginBottom="12px">
+        <Search
+          searchBy={searchByClientName}
+          setSearchBy={setSearchByClientName}
+          label="Search Here"
+          size="small"
+        />
+      </Box>
+      <Box mt="20px">
         <TanstackTable columns={getColums} data={AllFormsTableData} />
         <CustomPagination
           count={1}

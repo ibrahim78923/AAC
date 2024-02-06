@@ -38,6 +38,7 @@ const TabToolbar = ({
               className="small"
               variant="outlined"
               onClick={handleRefreshList}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
             >
               <RefreshTasksIcon />
             </Button>

@@ -59,7 +59,11 @@ const AdsCampaigns = () => {
           </Typography>
         </Box>
         <Box display="flex" flexWrap="wrap" alignItems="center" gap={1}>
-          <SwitchableDatepicker placement="right" renderInput={'button'} />
+          <SwitchableDatepicker
+            sx={{ fontSize: '16px', fontWeight: 500 }}
+            placement={'right'}
+            renderInput={'button'}
+          />
           <Button
             sx={{ p: 0 }}
             className="small"
@@ -120,12 +124,17 @@ const AdsCampaigns = () => {
           display="flex"
           justifyContent="space-between"
           alignItems="center"
+          flexWrap="wrap"
           mx={2}
           my={1}
         >
           <Typography
             variant="h5"
-            sx={{ color: theme?.palette?.blue['light'], fontSize: '16px' }}
+            sx={{
+              color: theme?.palette?.blue['light'],
+              fontSize: '16px',
+              mb: { xs: 1 },
+            }}
           >
             Ad Campaigns
           </Typography>
@@ -136,14 +145,12 @@ const AdsCampaigns = () => {
             width={240}
           />
         </Box>
-        <Box>
-          <TanstackTable columns={usersColumns} data={usersData()} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
-          />
-        </Box>
+        <TanstackTable columns={usersColumns} data={usersData()} />
+        <CustomPagination
+          count={1}
+          rowsPerPageOptions={[1, 2]}
+          entriePages={1}
+        />
       </Card>
     </>
   );

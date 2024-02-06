@@ -19,20 +19,16 @@ const Draft = ({ setShowSignUpForm, setFindStatus }: any) => {
         padding: '12px 16px',
       }}
     >
-      <Search
-        searchBy={searchByClientName}
-        setSearchBy={setSearchByClientName}
-        label="Search Here"
-        size="small"
-      />
-      <Box marginTop="12px">
-        <TanstackTable columns={getColums} data={DraftTableData} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+      <Box mb="12px">
+        <Search
+          searchBy={searchByClientName}
+          setSearchBy={setSearchByClientName}
+          label="Search Here"
+          size="small"
         />
       </Box>
+      <TanstackTable columns={getColums} data={DraftTableData} />
+      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
     </Box>
   );
 };
