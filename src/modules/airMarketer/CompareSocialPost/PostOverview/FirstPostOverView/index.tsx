@@ -25,7 +25,7 @@ const FirstPostOverview = (props: any) => {
         fontWeight={600}
         color={theme?.palette?.grey[600]}
       >
-        Compaign
+        Campaign
       </Typography>
       <Box>
         <Typography
