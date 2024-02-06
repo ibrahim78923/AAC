@@ -18,10 +18,10 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
   const theme: any = useTheme();
 
   return (
-    <Grid container style={{ paddingLeft: '0px' }}>
+    <Grid container style={{ paddingLeft: '20px' }}>
       <Grid item xs={6} sm={6} style={{ paddingLeft: '0px' }}>
         <Box sx={{ display: 'flex' }}>
-          <Box mt={0.7} onClick={() => toggle()}>
+          <Box mt={0.7} onClick={() => toggle()} sx={{ cursor: 'pointer' }}>
             <ArrowLeft />
           </Box>
           <Typography
