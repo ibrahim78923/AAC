@@ -105,7 +105,6 @@ const ContactStatus = () => {
             searchBy={productSearch}
             setSearchBy={setproductSearch}
             width="260px"
-            size="small"
           />
         </Box>
         <Grid>

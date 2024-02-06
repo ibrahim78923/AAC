@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { makeDateTime } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
+import { makeDateTime } from '@/utils/api';
 export const useDetailsViewPropertiesSection = () => {
   const router = useRouter();
   const { ticketId } = router?.query;

@@ -8,7 +8,6 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { Box, Grid, Typography } from '@mui/material';
 import useContactList from './useContactList';
-import { BackArrowIcon } from '@/assets/icons';
 
 const ContactList = ({ open, onClose }: any) => {
   const { theme, methods } = useContactList();
@@ -79,14 +78,8 @@ const ContactList = ({ open, onClose }: any) => {
       okText="Create Audience"
       isOk
       footer
-      headerIcon={
-        <Box sx={{ cursor: 'pointer' }} onClick={onClose}>
-          <BackArrowIcon />
-        </Box>
-      }
       title="Contact List"
       onClose={onClose}
-      isCancel={false}
       submitHandler={handleSubmit(onSubmit)}
     >
       <FormProvider methods={methods}>
@@ -152,8 +145,7 @@ const ContactList = ({ open, onClose }: any) => {
                       color={theme?.palette?.blue?.light}
                       fontWeight={500}
                     >
-                      {' '}
-                      out of{' '}
+                      out of
                     </Typography>
                     <Typography
                       component="span"

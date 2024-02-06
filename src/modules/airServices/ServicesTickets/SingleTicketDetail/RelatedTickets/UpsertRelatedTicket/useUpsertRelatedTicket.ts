@@ -20,8 +20,8 @@ import {
   useLazyGetRequesterDropdownQuery,
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
-import { makeDateTime } from '../../../ServicesTickets.data';
 import { useAddChildTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
+import { makeDateTime } from '@/utils/api';
 
 export const useUpsertRelatedTicket = (props: any) => {
   const { setIsDrawerOpen, childTicketId, setSelectedChildTickets } = props;
@@ -112,6 +112,7 @@ export const useUpsertRelatedTicket = (props: any) => {
   };
 
   const submitUpdateTicket = async (data: any) => {
+    data?.append('isChildTicket', true);
     const putTicketParameter = {
       body: data,
       pathParam: {

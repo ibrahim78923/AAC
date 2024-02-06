@@ -321,7 +321,7 @@ export const columns = (
       accessorFn: (row: any) => row?.numberOfVacancy,
       id: 'numberOfVacancy',
       isSortable: true,
-      header: <Box sx={{ textTransform: 'none' }}>No. of Vacency</Box>,
+      header: <Box sx={{ textTransform: 'none' }}>No. of Vacancy</Box>,
       cell: (info: any) => info?.getValue(),
     },
     {

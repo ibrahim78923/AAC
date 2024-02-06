@@ -56,8 +56,8 @@ export const AIR_SERVICES = {
   KNOWLEDGE_BASE: '/air-services/knowledge-base',
   KNOWLEDGE_BASE_VIEW_ARTICLE:
     '/air-services/knowledge-base/article/view-article',
-  KNOWLEDGE_BASE_EDIT_ARTICLE:
-    '/air-services/knowledge-base/article/edit-article',
+  KNOWLEDGE_BASE_UPSERT_ARTICLE:
+    '/air-services/knowledge-base/article/upsert-article',
   ADD_ASSOCIATE_ASSET:
     '/air-services/assets/contracts/detail/add-associate-asset',
   ASSETS_CONTRACTS: '/air-services/assets/contracts',
