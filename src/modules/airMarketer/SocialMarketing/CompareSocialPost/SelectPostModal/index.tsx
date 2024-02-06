@@ -33,9 +33,11 @@ const SelectPostModal = (props: any) => {
         >
           <Box>
             <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
+              sx={{
+                display: 'flex',
+                gap: 1,
+                flexWrap: 'wrap',
+              }}
             >
               <Search
                 label="search"
@@ -44,7 +46,13 @@ const SelectPostModal = (props: any) => {
                 setSearchBy={setSearchBy}
                 size="small"
               />
-              <Box display="flex" alignItems="center" gap={1}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 1,
+                  flexWrap: 'wrap',
+                }}
+              >
                 <SwitchableDatepicker
                   renderInput="button"
                   placement="right"
