@@ -11,6 +11,7 @@ import { EditProfilelLineIcon, UploadDocumentIcon } from '@/assets/icons';
 
 import { styles } from './dashboard.style';
 import { v4 as uuidv4 } from 'uuid';
+import Link from 'next/link';
 
 const Dashboard = () => {
   const { theme } = useDashboard();
@@ -51,19 +52,20 @@ const Dashboard = () => {
             >
               Upload Organization Logo
             </Typography>
-            <Box sx={{ display: 'flex' }}>
-              <Typography
-                variant="body4"
-                sx={{
-                  color: theme?.palette?.custom?.steel_blue,
-                }}
-              >
-                Edit Organization Information
-              </Typography>
-              <Box>
+            <Link href={ORG_ADMIN?.ORGANIZATION}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Typography
+                  variant="body4"
+                  sx={{
+                    color: theme?.palette?.custom?.steel_blue,
+                    textDecoration: 'underline',
+                  }}
+                >
+                  Edit Organization Information
+                </Typography>
                 <EditProfilelLineIcon />
               </Box>
-            </Box>
+            </Link>
           </Card>
         </Grid>
       </Grid>
@@ -121,7 +123,7 @@ const Dashboard = () => {
           variant="h3"
           sx={{ color: theme?.palette?.slateBlue['main'], fontSize: '18px' }}
         >
-          Explore Airapple cart products
+          Explore Air Applecart products
         </Typography>
         <Typography
           variant="body2"

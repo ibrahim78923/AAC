@@ -7,14 +7,13 @@ import {
 import { enqueueSnackbar } from 'notistack';
 
 export const useMoveFolderModal = (setMoveFolderModal: any) => {
-  const methodMoveFolderForm = useForm({
+  const methodMoveFolderForm = useForm<any>({
     resolver: yupResolver(moveFolderValidationSchema),
     defaultValues: moveFolderDefaultValues,
   });
   const submitMoveFolder = () => {
     enqueueSnackbar('Article moved to a new folder successfully', {
       variant: 'success',
-      autoHideDuration: 2000,
     });
     setMoveFolderModal(false);
   };

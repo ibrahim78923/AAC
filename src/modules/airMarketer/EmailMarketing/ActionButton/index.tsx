@@ -79,7 +79,7 @@ const ActionButton = () => {
       )}
       {actionsModalDetails?.isDuplicate && (
         <AlertModals
-          message="Are you sure you want to duplicate this item?"
+          message="Are you sure you want to duplicate this email?"
           type="Information"
           typeImage={<InfoBlueIcon />}
           open={actionsModalDetails?.isDuplicate}
@@ -99,7 +99,7 @@ const ActionButton = () => {
       )}
       {actionsModalDetails?.isArchive && (
         <AlertModals
-          message="Are you sure you want to archive this item?"
+          message="Are you sure you want to archive this email?"
           type="Information"
           typeImage={<InfoBlueIcon />}
           open={actionsModalDetails?.isArchive}

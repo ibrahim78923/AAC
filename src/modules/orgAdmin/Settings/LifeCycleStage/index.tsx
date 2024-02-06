@@ -94,7 +94,7 @@ const LifeCycleStage = () => {
                 color: `${theme?.palette?.common?.white}`,
                 fontSize: '16px',
               }}
-            />{' '}
+            />
             Add Stage
           </Button>
         </Box>
@@ -104,7 +104,6 @@ const LifeCycleStage = () => {
             searchBy={productSearch}
             setSearchBy={setproductSearch}
             width="260px"
-            size="small"
           />
         </Box>
         <Grid>

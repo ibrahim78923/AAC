@@ -19,8 +19,8 @@ import {
 } from '@/services/airServices/assets/inventory';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { makeDateTime } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
 import { AIR_SERVICES } from '@/constants';
+import { makeDateTime } from '@/utils/api';
 
 export const useUpsertInventory = () => {
   const { query }: any = useRouter();

@@ -87,7 +87,7 @@ export const jobPostingDataArray = [
   {
     componentProps: {
       name: 'numberOfVacancy',
-      label: 'Number of Vacency',
+      label: 'Number of Vacancy',
       fullWidth: true,
       select: true,
     },

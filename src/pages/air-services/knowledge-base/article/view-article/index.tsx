@@ -1,7 +1,7 @@
 import Layout from '@/layout';
-import { ViewArticles } from '@/modules/airServices/KnowledgeBase/Articles/ViewArticles';
+import { SingleViewArticle } from '@/modules/airServices/KnowledgeBase/Articles/SingleViewArticle';
 const ViewArticlesPage = () => {
-  return <ViewArticles />;
+  return <SingleViewArticle />;
 };
 
 ViewArticlesPage.getLayout = function getLayout(page: any) {

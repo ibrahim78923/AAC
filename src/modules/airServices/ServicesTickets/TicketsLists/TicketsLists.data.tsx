@@ -5,7 +5,6 @@ import { NOTISTACK_VARIANTS, TICKET_STATUS } from '@/constants/strings';
 import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
-import { makeDateTime } from '../ServicesTickets.data';
 
 export const TICKETS_ACTION_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -315,59 +314,4 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => info?.getValue(),
     },
   ];
-};
-
-export const buildQueryParams = (
-  page: any,
-  pageLimit: any,
-  search: any,
-  filterLists: any,
-  neglectKeysInLoop: any = [],
-  type = '',
-) => {
-  const getQueryParam = new URLSearchParams();
-
-  Object?.entries(filterLists || {})?.forEach(([key, value]: any) => {
-    if (neglectKeysInLoop?.includes(key)) return;
-    if (value instanceof Date)
-      return getQueryParam?.append(key, value?.toISOString());
-    getQueryParam?.append(key, value?._id);
-  });
-
-  addDateTimeParam(
-    getQueryParam,
-    'plannedEndDate',
-    filterLists?.plannedEndDate || filterLists?.dueByDate,
-    filterLists?.plannedEndTime || filterLists?.dueByTime,
-  );
-  addDateTimeParam(
-    getQueryParam,
-    'plannedStartDate',
-    filterLists?.plannedStartDate,
-    filterLists?.plannedStartTime,
-  );
-
-  getQueryParam?.append('metaData', true + '');
-  getQueryParam?.append('page', page + '');
-  getQueryParam?.append('limit', pageLimit + '');
-  getQueryParam?.append('search', search);
-  !!type?.length && getQueryParam?.append('exportType', type);
-  return getQueryParam;
-};
-
-export const addDateTimeParam = (
-  getTicketsParam: any,
-  paramKey: any,
-  date: any,
-  time: any,
-) => {
-  if (!!date || !!time) {
-    getTicketsParam?.append(paramKey, makeDateTime(date, time)?.toISOString());
-  }
-};
-
-export const errorSnackbar = () => {
-  enqueueSnackbar(`Something went wrong`, {
-    variant: NOTISTACK_VARIANTS?.ERROR,
-  });
 };
