@@ -14,7 +14,6 @@ import {
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
 import QueryModal from './QueryModal';
@@ -36,7 +35,7 @@ import { useEnquiries } from './useEnquiries';
 
 const Enquiries = () => {
   const [isEnquiriesFilterDrawerOpen, setIsEnquiriesFilterDrawerOpen] =
-    useState(true);
+    useState(false);
   const [isQueryModalOpen, setIsQueryModalOpen] = useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -149,12 +148,7 @@ const Enquiries = () => {
         </Box>
       </Box>
       <Box>
-        <TanstackTable {...tableData} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
-        />
+        <TanstackTable {...tableData} isPagination={true} />
       </Box>
       <CommonDrawer
         isDrawerOpen={isEnquiriesFilterDrawerOpen}

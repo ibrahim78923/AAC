@@ -15,7 +15,6 @@ import {
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 
 import { useForm } from 'react-hook-form';
 
@@ -157,11 +156,10 @@ const QuickLinks = () => {
             </Box>
           </Box>
           <Box>
-            <TanstackTable columns={columns} data={quickLinksTableData} />
-            <CustomPagination
-              count={1}
-              rowsPerPageOptions={[1, 2]}
-              entriePages={1}
+            <TanstackTable
+              columns={columns}
+              data={quickLinksTableData}
+              isPagination={true}
             />
           </Box>
           <CommonDrawer
