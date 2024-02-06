@@ -27,6 +27,7 @@ const UsersReports = () => {
       <Card>
         <Box
           display="flex"
+          flexWrap={'wrap'}
           justifyContent="space-between"
           alignItems="center"
           mx={2}
@@ -42,11 +43,13 @@ const UsersReports = () => {
         </Box>
         <Box>
           <TanstackTable columns={usersColumns} data={usersData} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
-          />
+          <Box sx={{ padding: '0px 20px' }}>
+            <CustomPagination
+              count={1}
+              rowsPerPageOptions={[1, 2]}
+              entriePages={1}
+            />
+          </Box>
         </Box>
       </Card>
     </Box>
