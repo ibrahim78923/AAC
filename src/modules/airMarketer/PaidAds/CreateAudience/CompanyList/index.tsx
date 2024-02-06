@@ -8,7 +8,6 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import useCompanyList from './useCompanyList';
-import { BackArrowIcon } from '@/assets/icons';
 
 const CompanyList = ({ open, onClose }: any) => {
   const theme = useTheme();
@@ -80,11 +79,6 @@ const CompanyList = ({ open, onClose }: any) => {
       okText="Create Audience"
       isOk
       footer
-      headerIcon={
-        <Box sx={{ cursor: 'pointer' }} onClick={onClose}>
-          <BackArrowIcon />
-        </Box>
-      }
       title="Company List"
       onClose={onClose}
       submitHandler={handleSubmit(onSubmit)}

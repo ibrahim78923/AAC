@@ -8,12 +8,12 @@ import {
   Grid,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material';
 
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
 import NewsAndEventsModal from './NewsAndEventsModal';
 
@@ -46,22 +46,20 @@ const NewsAndEvents = () => {
   const [isNewsAndEventsDeleteModal, setisNewsAndEventsDeleteModal] =
     useState(false);
   const [isNewsAndEventAddModal, setIsNewsAndEventAddModal] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const actionMenuOpen = Boolean(anchorEl);
+
   const {
+    anchorEl,
+    actionMenuOpen,
+    handleClick,
+    handleClose,
     isDisabled,
     setIsDisabled,
     tableRowValues,
     setTableRowValues,
     isOpenEditDrawer,
-    setIsOpenEditDrawer,
+    handleOpenEditDrawer,
+    handleCloseEditDrawer,
   } = useNewsAndEvents();
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const methodsNewsAndEventsFilters = useForm({
     resolver: yupResolver(newsAndEventsDateValidationSchema),
@@ -92,31 +90,16 @@ const NewsAndEvents = () => {
             News And Events
           </Typography>
         </Box>
-        <Box
-          mt={2}
-          mb={3}
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '10px',
-          }}
-        >
-          <Search
-            label={'Search here'}
-            searchBy={newsAndEventsSearch}
-            setSearchBy={setNewsAndEventsSearch}
-            width="100%"
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              gap: '10px',
-            }}
-          >
+        <Box sx={styles?.filterBar}>
+          <Box sx={styles?.search}>
+            <Search
+              label={'Search here'}
+              searchBy={newsAndEventsSearch}
+              setSearchBy={setNewsAndEventsSearch}
+              width="100%"
+            />
+          </Box>
+          <Box sx={styles?.filterButtons}>
             <Button
               id="basic-button"
               aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
@@ -124,14 +107,7 @@ const NewsAndEvents = () => {
               aria-expanded={actionMenuOpen ? 'true' : undefined}
               onClick={handleClick}
               disabled={!isDisabled}
-              sx={{
-                color: theme?.palette?.grey[500],
-                width: '112px',
-                border: '1.5px solid #e7e7e9',
-                '@media (max-width:581px)': {
-                  width: '100%',
-                },
-              }}
+              sx={styles?.actionBtn}
               className="small"
             >
               Actions &nbsp; <DownIcon />
@@ -150,24 +126,18 @@ const NewsAndEvents = () => {
                 },
               }}
             >
-              <MenuItem
-                style={{ fontSize: '14px' }}
-                onClick={() => setIsOpenEditDrawer(true)}
-              >
-                Edit
-              </MenuItem>
-              <MenuItem style={{ fontSize: '14px' }}>Active</MenuItem>
-              <MenuItem style={{ fontSize: '14px' }}>Inactive</MenuItem>
-              <MenuItem
-                style={{ fontSize: '14px' }}
-                onClick={() => setisNewsAndEventsDeleteModal(true)}
-              >
+              <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
+              <MenuItem>Active</MenuItem>
+              <MenuItem>Inactive</MenuItem>
+              <MenuItem onClick={() => setisNewsAndEventsDeleteModal(true)}>
                 Delete
               </MenuItem>
             </Menu>
-            <Button sx={styles?.refreshButton(theme)} className="small">
-              <RefreshSharedIcon />
-            </Button>
+            <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+              <Button sx={styles?.refreshButton(theme)} className="small">
+                <RefreshSharedIcon />
+              </Button>
+            </Tooltip>
             <Button
               sx={styles?.filterButton(theme)}
               className="small"
@@ -202,18 +172,14 @@ const NewsAndEvents = () => {
             setTableRowValues,
           )}
           data={newsAndEventsTabledata}
-        />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+          isPagination={true}
         />
       </Box>
       <CommonDrawer
         isDrawerOpen={isNewsAndEventsFilterDrawerOpen || isOpenEditDrawer}
         onClose={() => {
           setIsNewsAndEventsFilterDrawerOpen(false);
-          setIsOpenEditDrawer(false);
+          handleCloseEditDrawer();
         }}
         title="Filters"
         okText="Apply"

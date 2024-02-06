@@ -22,7 +22,7 @@ import {
   usePostTicketsMutation,
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
-import { makeDateTime } from '../ServicesTickets.data';
+import { makeDateTime } from '@/utils/api';
 
 export const useUpsertTicket = (props: any) => {
   const {
