@@ -17,8 +17,8 @@ export const useTicketDelete = (props: any) => {
     useDeleteTicketsMutation();
   const deleteTicket = async () => {
     const deleteParams = new URLSearchParams();
-    selectedTicketList?.forEach((ticketId: any) =>
-      deleteParams?.append('Ids', ticketId),
+    selectedTicketList?.forEach(
+      (ticketId: any) => deleteParams?.append('Ids', ticketId),
     );
     const deleteTicketsParameter = {
       queryParams: deleteParams,

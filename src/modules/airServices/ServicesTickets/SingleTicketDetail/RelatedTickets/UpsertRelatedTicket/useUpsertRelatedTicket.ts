@@ -112,6 +112,7 @@ export const useUpsertRelatedTicket = (props: any) => {
   };
 
   const submitUpdateTicket = async (data: any) => {
+    data?.append('isChildTicket', true);
     const putTicketParameter = {
       body: data,
       pathParam: {
