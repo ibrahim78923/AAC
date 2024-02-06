@@ -69,7 +69,7 @@ export const columns: any = [
     accessorFn: (row: any) => row?.subjectName,
     id: 'subjectName',
     cell: (info: any) => info?.getValue(),
-    header: 'Subject Name',
+    header: 'Subject',
     isSortable: false,
   },
   {

@@ -408,3 +408,5 @@ export { default as ArrowDownDarkIcon } from './shared/arrow-down-dark-icon';
 export { default as PencilEditIcon } from './shared/pencil-edit-icon';
 export { default as TimerPauseIcon } from './shared/timer-pause-icon';
 export { default as DeleteBlackIcon } from './shared/delete-black-icon';
+export { default as AddAlertPopupIcon } from './shared/add-alert-popup-icon';
+export { default as ArrowAlertPopupIcon } from './shared/arrow-alert-popup-icon';
