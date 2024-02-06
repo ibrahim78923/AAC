@@ -3,16 +3,28 @@ import {
   addRequestApprovalValidationSchema,
 } from './AddRequestApproval.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useSnackbar } from 'notistack';
+import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
-export function useAddRequestApproval() {
-  const { enqueueSnackbar } = useSnackbar();
+export const useAddRequestApproval = (props: any) => {
+  const { setIsDrawerOpen } = props;
+
   const methods = useForm({
     resolver: yupResolver(addRequestApprovalValidationSchema),
     defaultValues,
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
+  const onSubmit = async () => {
+    enqueueSnackbar('Request for approval sent successfully', {
+      variant: 'success',
+    });
+    onClose?.();
+  };
+
+  const onClose = () => {
+    reset();
+    setIsDrawerOpen(false);
+  };
 
   return {
     methods,
@@ -20,5 +32,7 @@ export function useAddRequestApproval() {
     defaultValues,
     enqueueSnackbar,
     handleSubmit,
+    onClose,
+    onSubmit,
   };
-}
+};

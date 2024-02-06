@@ -95,13 +95,3 @@ export const ticketsTypeOptions = [
     label: TICKET_TYPES?.SERVICE_REQUEST,
   },
 ];
-
-export const makeDateTime = (date: any, time: any) => {
-  const hour = time?.getHours() ?? date?.getHours();
-  const minutes = time?.getMinutes() ?? date?.getMinutes();
-  const year = date?.getFullYear() ?? time?.getFullYear();
-  const month = date?.getMonth() ?? time?.getMonth();
-  const day = date?.getDate() ?? time?.getDate();
-  const combined: any = new Date(year, month, day, hour, minutes, 0);
-  return combined;
-};

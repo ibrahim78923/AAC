@@ -4,9 +4,9 @@ import * as Yup from 'yup';
 export const addRequestApprovalValidationSchema = Yup?.object()?.shape({
   subject: Yup?.string()
     ?.trim()
-    ?.required('Field is Required')
+    ?.required('Required')
     ?.email('Invalid email address'),
-  description: Yup?.string()?.required('Field is Required'),
+  description: Yup?.string()?.required('Required'),
 });
 
 export const defaultValues = {
@@ -31,6 +31,7 @@ export const addRequestApprovalDataArray = [
       label: 'Description',
       fullWidth: true,
       required: true,
+      style: { height: '150px' },
     },
     component: RHFEditor,
     md: 12,
