@@ -75,8 +75,9 @@ export default function RHFMultiSearchableSelect({
     }
   };
 
-  const filteredOptions = options?.filter((option: any) =>
-    option?.label?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
+  const filteredOptions = options?.filter(
+    (option: any) =>
+      option?.label?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
   );
 
   const searchHandler = isSearch === false ? false : true;
@@ -196,8 +197,8 @@ export default function RHFMultiSearchableSelect({
                         backgroundColor: isCheckBox
                           ? 'transparent'
                           : selectedValues?.includes(option?.value)
-                            ? theme?.palette?.custom?.hex_grey
-                            : 'transparent',
+                          ? theme?.palette?.custom?.hex_grey
+                          : 'transparent',
                         '&:hover': {
                           backgroundColor: theme?.palette?.custom?.hex_grey,
                         },

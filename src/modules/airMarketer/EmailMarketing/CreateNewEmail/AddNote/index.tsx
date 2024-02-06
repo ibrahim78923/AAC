@@ -19,6 +19,7 @@ const AddANote = ({ open, onClose }: noteProps) => {
 
   return (
     <CommonDrawer
+      title="Add a Note"
       isDrawerOpen={open}
       onClose={onClose}
       isOk
