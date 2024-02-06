@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
   TICKETS_ACTION_CONSTANTS,
-  buildQueryParams,
-  errorSnackbar,
   ticketsActionDropdownFunction,
   ticketsListInitialColumns,
   ticketsListsColumnFunction,
@@ -29,6 +27,7 @@ import {
 } from '@/services/airServices/tickets';
 import { FilterTickets } from '../FilterTickets';
 import { neglectKeysInLoop } from '../FilterTickets/FilterTickets.data';
+import { buildQueryParams, errorSnackbar } from '@/utils/api';
 
 export const useTicketsLists: any = () => {
   const [hasTicketAction, setHasTicketAction] = useState(false);
@@ -44,13 +43,13 @@ export const useTicketsLists: any = () => {
   const router = useRouter();
   const { makePath } = usePath();
 
-  const ticketsParam = buildQueryParams(
-    page,
-    pageLimit,
-    search,
-    filterTicketLists,
-    neglectKeysInLoop,
-  );
+  const additionalParams = [
+    ['metaData', true + ''],
+    ['page', page + ''],
+    ['limit', pageLimit + ''],
+    ['search', search],
+  ];
+  const ticketsParam = buildQueryParams(additionalParams, filterTicketLists);
   const getTicketsParameter = {
     queryParams: ticketsParam,
   };
@@ -73,13 +72,17 @@ export const useTicketsLists: any = () => {
   };
 
   const getTicketsListDataExport = async (type: any) => {
+    const additionalParams = [
+      ['metaData', true + ''],
+      ['page', page + ''],
+      ['limit', pageLimit + ''],
+      ['search', search],
+      ['exportType', type],
+    ];
     const ticketsParam = buildQueryParams(
-      page,
-      pageLimit,
-      search,
+      additionalParams,
       filterTicketLists,
       neglectKeysInLoop,
-      type,
     );
 
     const getTicketsExportParameter = {

@@ -1,5 +1,7 @@
 import { Checkbox, Chip } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { enqueueSnackbar } from 'notistack';
 
 const bgColor: any = {
   published: 'blue.main',
@@ -14,8 +16,9 @@ export const styleFunction: any = (value: any) => ({
   bgColor: bgColor?.[value?.toLowerCase()],
   color: color?.[value?.toLowerCase()],
 });
+
 export const articlesColumnsFunction = (
-  articlesList: any,
+  articlesList: any = [],
   selectedArticlesData: any,
   setSelectedArticlesData: any,
   handleSingleArticleNavigation: any,
@@ -23,28 +26,26 @@ export const articlesColumnsFunction = (
   return [
     {
       accessorFn: (row: any) => row?._id,
-      id: 'id',
+      id: '_id',
       cell: (info: any) => (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
           checked={
             !!selectedArticlesData?.find(
-              (item: any) => item?._id === info?.getValue(),
+              (item: any) => item === info?.getValue(),
             )
           }
           onChange={(e: any) => {
             e?.target?.checked
               ? setSelectedArticlesData([
                   ...selectedArticlesData,
-                  articlesList?.find(
-                    (item: any) => item?._id === info?.getValue(),
-                  ),
+                  info?.getValue(),
                 ])
               : setSelectedArticlesData(
-                  selectedArticlesData?.filter((item: any) => {
-                    return item?._id !== info?.getValue();
-                  }),
+                  selectedArticlesData?.filter(
+                    (item: any) => item !== info?.getValue(),
+                  ),
                 );
           }}
           color="primary"
@@ -55,10 +56,16 @@ export const articlesColumnsFunction = (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
-          checked={selectedArticlesData?.length === articlesList?.length}
+          checked={
+            articlesList?.length
+              ? selectedArticlesData?.length === articlesList?.length
+              : false
+          }
           onChange={(e: any) => {
             e?.target?.checked
-              ? setSelectedArticlesData([...articlesList])
+              ? setSelectedArticlesData(
+                  articlesList?.map((article: any) => article?._id),
+                )
               : setSelectedArticlesData([]);
           }}
           color="primary"
@@ -68,9 +75,9 @@ export const articlesColumnsFunction = (
     },
     {
       accessorFn: (row: any) => row?.name,
-      id: 'article',
+      id: 'name',
       isSortable: true,
-      header: <span>Article</span>,
+      header: 'Article',
       cell: (info: any) => (
         <span
           onClick={() => handleSingleArticleNavigation(info?.row?._id)}
@@ -83,7 +90,7 @@ export const articlesColumnsFunction = (
     {
       accessorFn: (row: any) => row?.status,
       id: 'status',
-      header: <span>Status</span>,
+      header: 'Status',
       isSortable: true,
       cell: (info: any) => (
         <Chip
@@ -104,21 +111,21 @@ export const articlesColumnsFunction = (
       accessorFn: (row: any) => row?.insertedTicket,
       id: 'insertedTickets',
       isSortable: true,
-      header: <span>Inserted Tickets</span>,
+      header: `Inserted Tickets`,
       cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.author,
       id: 'author',
       isSortable: true,
-      header: <span>Author</span>,
+      header: 'Author',
       cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.folder,
       id: 'folder',
       isSortable: true,
-      header: <span>Folder</span>,
+      header: 'Folder',
       cell: (info: any) => info?.getValue(),
     },
   ];
@@ -132,23 +139,30 @@ export const actionBtnData = (
 ) => [
   {
     title: 'Edit',
-    handleClick: (popClose: any) => {
+    handleClick: (closeMenu: any) => {
+      if (selectedArticlesData?.length > 1) {
+        enqueueSnackbar('Please select only one ticket', {
+          variant: NOTISTACK_VARIANTS?.WARNING,
+        });
+        closeMenu?.();
+        return;
+      }
       handleEditNavigation(selectedArticlesData?.[0]?._id);
-      popClose();
+      closeMenu();
     },
   },
   {
     title: 'Delete',
-    handleClick: (popClose: any) => {
+    handleClick: (closeMenu: any) => {
       setOpenDeleteModal(true);
-      popClose();
+      closeMenu();
     },
   },
   {
     title: 'Move Folder',
-    handleClick: (popClose: any) => {
+    handleClick: (closeMenu: any) => {
       setMoveFolderModal(true);
-      popClose();
+      closeMenu();
     },
   },
 ];

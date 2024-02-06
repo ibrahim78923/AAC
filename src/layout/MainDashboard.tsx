@@ -97,7 +97,7 @@ const DashboardLayout = ({ children, window }: any) => {
   };
 
   const findEmail: any = findRoleByEmail({ user, array });
-  const findEmailRole = findEmail ? findEmail?.role : 'ORG_ADMIN';
+  const findEmailRole = findEmail ? findEmail?.role : 'AIR_SERVICES';
 
   const routes = getRoutes(findEmailRole);
 

@@ -7,37 +7,39 @@ import {
 } from './UpsertFolder.data';
 import { usePostFolderMutation } from '@/services/airServices/assets/knowledge-base/articles';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar } from '@/utils/api';
 
 export const useUpsertFolder = (props: any) => {
   const { setOpenDialog } = props;
-  const methods: any = useForm({
+  const methods: any = useForm<any>({
     resolver: yupResolver(upsertValidationSchema),
     defaultValues: upsertDefaultValues,
   });
 
   const { handleSubmit, reset } = methods;
-  const [createFolder] = usePostFolderMutation();
+  const [postFolderTrigger, postFolderStatus] = usePostFolderMutation();
 
-  const onSubmit = async () => {
-    const payload = methods?.getValues();
+  const onSubmit = async (data: any) => {
     try {
-      await createFolder(payload).unwrap();
+      await postFolderTrigger(data)?.unwrap();
       enqueueSnackbar('Create Folder Successfully!', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
-        autoHideDuration: 3000,
       });
-      setOpenDialog(false);
-      reset(upsertDefaultValues);
+      closeUpsetFolderModal?.();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-        autoHideDuration: 3000,
-      });
+      errorSnackbar?.();
     }
+  };
+
+  const closeUpsetFolderModal = () => {
+    setOpenDialog(false);
+    reset();
   };
   return {
     methods,
     handleSubmit,
     onSubmit,
+    postFolderStatus,
+    closeUpsetFolderModal,
   };
 };

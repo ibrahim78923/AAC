@@ -19,7 +19,7 @@ export const defaultValues = (articleData: any) => {
   };
 };
 
-export const articleFieldsFunction = (
+export const editArticleFieldsFunction = (
   needApprovals: any,
   folderOptions: any,
 ) => {
@@ -51,6 +51,19 @@ export const articleFieldsFunction = (
   ];
   const defaultFields = [
     {
+      id: 1,
+      componentProps: {
+        fullWidth: true,
+        name: 'approver',
+        label: 'Approver',
+        placeholder: 'Select',
+        options: dropdownDummy,
+        sx: { pb: 1.2 },
+      },
+      gridLength: 12,
+      component: RHFAutocomplete,
+    },
+    {
       id: 3,
       component: RHFAutocomplete,
       gridLength: 12,
@@ -70,7 +83,6 @@ export const articleFieldsFunction = (
         fullWidth: true,
         name: 'tags',
         label: 'Tags',
-        placeholder: 'Tags',
         sx: { pb: 1.2 },
       },
       gridLength: 12,
@@ -82,7 +94,6 @@ export const articleFieldsFunction = (
         fullWidth: true,
         name: 'keywords',
         label: 'Keywords',
-        placeholder: 'Keywords',
         sx: { pb: 1.2 },
       },
       gridLength: 12,

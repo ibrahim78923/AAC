@@ -12,9 +12,9 @@ const {
 export const articlesAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getArticles: builder.query({
-      query: (params: any) => ({
+      query: (getArticlesParameter: any) => ({
         url: KNOWLEDGE_BASE_ARTICLES,
-        params,
+        params: getArticlesParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
@@ -71,4 +71,5 @@ export const {
   useGetArticleByIdQuery,
   useGetFoldersQuery,
   usePostFolderMutation,
+  useLazyGetArticlesQuery,
 } = articlesAPI;

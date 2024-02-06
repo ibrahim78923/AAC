@@ -21,7 +21,8 @@ const RelatedTickets = (props: any) => {
   } = useRelatedTickets(props);
 
   return (
-    <div>
+    <>
+      <br />
       <RelatedTicketsHeader
         relatedTicketsActionDropdown={relatedTicketsActionDropdown}
         isActive={!!!selectedChildTickets?.length}
@@ -64,7 +65,7 @@ const RelatedTickets = (props: any) => {
           setSelectedChildTickets={setSelectedChildTickets}
         />
       )}
-    </div>
+    </>
   );
 };
 export default RelatedTickets;

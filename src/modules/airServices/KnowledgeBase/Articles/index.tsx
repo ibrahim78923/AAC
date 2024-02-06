@@ -5,39 +5,32 @@ import { useArticles } from './useArticles';
 import { styles } from './Articles.style';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { AlertModals } from '@/components/AlertModals';
 import { MoveFolderModal } from './MoveFolderModal';
 import FilterArticles from './FilterArticles';
+import { DeleteArticles } from './DeleteArticles';
 
 export const Articles = () => {
   const {
     articlesColumns,
     selectedArticlesTab,
     handleSelectedArticlesTab,
-    selectedArticlesData,
     openDeleteModal,
     setOpenDeleteModal,
-    handleDeleteSubmit,
     moveFolderModal,
     setMoveFolderModal,
     dropdownOptions,
     theme,
     openFilter,
     setOpenFilter,
-    articlesData,
-    isLoading,
-    isSuccess,
-    isError,
-    isFetching,
-    page,
+    lazyGetArticlesStatus,
     setPage,
-    pageLimit,
     setPageLimit,
-    search,
-    handleSearch,
-    meta,
-    handleFilterValues,
+    setSearch,
     foldersList,
+    selectedArticlesData,
+    setSelectedArticlesData,
+    filterValues,
+    setFilterValues,
   } = useArticles();
 
   const { tabWrapper, selectedTabColor } = styles();
@@ -78,15 +71,17 @@ export const Articles = () => {
             justifyContent={'space-between'}
             gap={1}
             flexWrap={'wrap'}
+            alignItems={'center'}
           >
-            <Search
-              placeholder="Search Here"
-              value={search}
-              onChange={(e: any) => handleSearch(e?.target?.value)}
-            />
-            <Box display={'flex'} gap={1}>
+            <Search placeholder="Search Here" setSearchBy={setSearch} />
+            <Box
+              display={'flex'}
+              gap={1}
+              flexWrap={'wrap'}
+              alignItems={'center'}
+            >
               <SingleDropdownButton
-                disabled={!!!selectedArticlesData?.length}
+                disabled={!!selectedArticlesData?.length}
                 dropdownOptions={dropdownOptions}
               />
               <Button
@@ -102,29 +97,32 @@ export const Articles = () => {
           </Box>
           <br />
           <TanstackTable
-            data={articlesData}
+            data={
+              lazyGetArticlesStatus?.data?.data?.articles ?? [
+                { _id: '1', name: 'op', status: 'published' },
+              ]
+            }
             columns={articlesColumns}
-            isLoading={isLoading}
-            currentPage={page}
-            count={meta?.pages}
-            pageLimit={pageLimit}
-            totalRecords={meta?.total}
+            isLoading={lazyGetArticlesStatus?.isLoading}
+            currentPage={lazyGetArticlesStatus?.data?.data?.meta?.page}
+            count={lazyGetArticlesStatus?.data?.data?.meta?.pages}
+            pageLimit={lazyGetArticlesStatus?.data?.data?.meta?.limit}
+            totalRecords={lazyGetArticlesStatus?.data?.data?.meta?.total}
             setPage={setPage}
             setPageLimit={setPageLimit}
-            isFetching={isFetching}
-            isError={isError}
-            isSuccess={isSuccess ?? true}
+            isFetching={lazyGetArticlesStatus?.isFetching}
+            isError={lazyGetArticlesStatus?.isError}
+            isSuccess={lazyGetArticlesStatus?.isSuccess}
             onPageChange={(page: any) => setPage(page)}
             isPagination
           />
         </Grid>
       </Grid>
-      <AlertModals
-        type="delete"
-        message="Do you want to delete the selected article?"
-        open={openDeleteModal}
-        handleClose={() => setOpenDeleteModal(false)}
-        handleSubmitBtn={handleDeleteSubmit}
+      <DeleteArticles
+        deleteModalOpen={openDeleteModal}
+        setDeleteModalOpen={setOpenDeleteModal}
+        selectedArticlesData={selectedArticlesData}
+        setSelectedArticlesData={setSelectedArticlesData}
       />
       <MoveFolderModal
         moveFolderModal={moveFolderModal}
@@ -133,7 +131,10 @@ export const Articles = () => {
       <FilterArticles
         isOpenFilterDrawer={openFilter}
         setIsOpenFilterDrawer={setOpenFilter}
-        handleFilterValues={handleFilterValues}
+        filterValues={filterValues}
+        setFilterValues={setFilterValues}
+        setPage={setPage}
+        // handleFilterValues={handleFilterValues}
       />
     </>
   );

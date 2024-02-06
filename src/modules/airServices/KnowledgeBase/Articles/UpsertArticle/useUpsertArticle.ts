@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { defaultValues, articleFieldsFunction } from './UpsertArticle.data';
 import { useRouter } from 'next/router';
+import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useGetArticleByIdQuery,
   useGetFoldersQuery,
-  usePostArticleMutation,
 } from '@/services/airServices/assets/knowledge-base/articles';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { defaultValues, editArticleFieldsFunction } from './UpsertArticle.data';
 
-const { KNOWLEDGE_BASE } = AIR_SERVICES;
+const { KNOWLEDGE_BASE, KNOWLEDGE_BASE_VIEW_ARTICLE } = AIR_SERVICES;
 
 export const useUpsertArticle = () => {
   const { push, query } = useRouter();
@@ -25,75 +25,37 @@ export const useUpsertArticle = () => {
       label: folder?.name,
     })) ?? [];
 
-  const articleMethods = useForm({
+  const editArticleMethods = useForm({
     defaultValues: defaultValues(articleData),
   });
   useEffect(() => {
-    articleMethods?.reset(defaultValues(articleData));
+    editArticleMethods?.reset(defaultValues(articleData));
   }, [articleId, data]);
 
-  const needApprovals = articleMethods?.watch('needsApproval');
-
-  const handlePayloadFormat = (data: any) => {
-    const formattedPayload: any = {};
-    data?.details && (formattedPayload.details = data?.details);
-    data?.folder?.value && (formattedPayload.folder = data?.folder?.value);
-    data?.tags && (formattedPayload.tags = [...data?.tags]);
-    data?.keywords && (formattedPayload.keywords = [...data?.keywords]);
-    formattedPayload.isApproval = data?.isApproval ?? false;
-    data?.approver && (formattedPayload.approver = data?.approver);
-    data?.reviewDate && (formattedPayload.reviewDate = data?.reviewDate);
-    data?.attachments && (formattedPayload.attachments = data?.attachments);
-    data?.status && (formattedPayload.status = data?.status);
-    return formattedPayload;
-  };
-
-  const [postArticle] = usePostArticleMutation();
-
-  const upsertArticleSubmit = async () => {
-    const data: any = articleMethods.getValues();
-    const payload = handlePayloadFormat(data);
-
-    const formData = new FormData();
-    Object.entries(payload)?.map(([key, value]: any) => {
-      if (Array.isArray(value)) {
-        value?.forEach((item) => {
-          formData.append(key, item);
-        });
-      } else {
-        formData.append(key, value);
-      }
+  const needApprovals = editArticleMethods?.watch('needsApproval');
+  const editArticleSubmit = async () => {
+    enqueueSnackbar({
+      message: 'New Article Created successfully',
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
-
-    try {
-      await postArticle(formData).unwrap();
-      enqueueSnackbar({
-        message: 'New Article Created successfully',
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      push(AIR_SERVICES?.KNOWLEDGE_BASE);
-    } catch (error: any) {
-      enqueueSnackbar({
-        message: error?.data?.message ?? 'Something went wrong',
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-    }
+    push(KNOWLEDGE_BASE_VIEW_ARTICLE);
   };
-
-  const newArticleFields = articleFieldsFunction?.(
-    needApprovals,
-    folderOptions,
-  );
-
   const handlePageBack = () => {
     push(KNOWLEDGE_BASE);
   };
-
+  const theme = useTheme();
+  const newArticleFields = editArticleFieldsFunction?.(
+    needApprovals,
+    folderOptions,
+  );
   return {
     handlePageBack,
-    articleMethods,
+    editArticleMethods,
     needApprovals,
-    upsertArticleSubmit,
+    editArticleSubmit,
+    theme,
+    articleData,
+    folderOptions,
     newArticleFields,
   };
 };

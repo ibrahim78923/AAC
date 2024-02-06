@@ -1,4 +1,12 @@
-import { Box, Dialog, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Typography,
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModalCloseIcon } from '@/assets/icons';
@@ -9,49 +17,58 @@ export const MoveFolderModal = ({
   moveFolderModal,
   setMoveFolderModal,
 }: any) => {
-  const { modalSubmitHandler, methodMoveFolderForm, submitMoveFolder } =
+  const { methodMoveFolderForm, submitMoveFolder } =
     useMoveFolderModal(setMoveFolderModal);
   return (
     <Dialog
       open={moveFolderModal}
       onClose={() => setMoveFolderModal(false)}
-      sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      maxWidth={'sm'}
+      fullWidth
     >
-      <Box maxWidth={580} width="100%" padding="24px">
-        <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Typography variant="h3">Move to other folder</Typography>
+      <DialogTitle>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          flexWrap={'wrap'}
+        >
+          <Typography variant="h3" color="slateBlue.main">
+            Move to other folder
+          </Typography>
           <AlertModalCloseIcon
             onClick={() => setMoveFolderModal(false)}
             style={{ cursor: 'pointer' }}
           />
         </Box>
-        <Box mt={2}>
-          <FormProvider
-            methods={methodMoveFolderForm}
-            onSubmit={methodMoveFolderForm?.handleSubmit(submitMoveFolder)}
-          >
-            <Grid container spacing={1}>
-              {moveFolderFields?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?._id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-        <Box display={'flex'} justifyContent={'flex-end'} gap={1} mt={2}>
+      </DialogTitle>
+      <FormProvider
+        methods={methodMoveFolderForm}
+        onSubmit={methodMoveFolderForm?.handleSubmit(submitMoveFolder)}
+      >
+        <DialogContent>
+          <Grid container spacing={1}>
+            {moveFolderFields?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?._id}>
+                <item.component {...item?.componentProps} size={'small'} />
+              </Grid>
+            ))}
+          </Grid>
+        </DialogContent>
+        <DialogActions>
           <LoadingButton
             variant="outlined"
             color="secondary"
             onClick={() => setMoveFolderModal(false)}
+            type="button"
           >
             Cancel
           </LoadingButton>
-          <LoadingButton variant="contained" onClick={modalSubmitHandler}>
+          <LoadingButton variant="contained" type="submit">
             Move
           </LoadingButton>
-        </Box>
-      </Box>
+        </DialogActions>
+      </FormProvider>
     </Dialog>
   );
 };
