@@ -14,7 +14,6 @@ import {
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
 import NewsAndEventsModal from './NewsAndEventsModal';
 
@@ -47,22 +46,20 @@ const NewsAndEvents = () => {
   const [isNewsAndEventsDeleteModal, setisNewsAndEventsDeleteModal] =
     useState(false);
   const [isNewsAndEventAddModal, setIsNewsAndEventAddModal] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const actionMenuOpen = Boolean(anchorEl);
+
   const {
+    anchorEl,
+    actionMenuOpen,
+    handleClick,
+    handleClose,
     isDisabled,
     setIsDisabled,
     tableRowValues,
     setTableRowValues,
     isOpenEditDrawer,
-    setIsOpenEditDrawer,
+    handleOpenEditDrawer,
+    handleCloseEditDrawer,
   } = useNewsAndEvents();
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const methodsNewsAndEventsFilters = useForm({
     resolver: yupResolver(newsAndEventsDateValidationSchema),
@@ -129,18 +126,10 @@ const NewsAndEvents = () => {
                 },
               }}
             >
-              <MenuItem
-                style={{ fontSize: '14px' }}
-                onClick={() => setIsOpenEditDrawer(true)}
-              >
-                Edit
-              </MenuItem>
-              <MenuItem style={{ fontSize: '14px' }}>Active</MenuItem>
-              <MenuItem style={{ fontSize: '14px' }}>Inactive</MenuItem>
-              <MenuItem
-                style={{ fontSize: '14px' }}
-                onClick={() => setisNewsAndEventsDeleteModal(true)}
-              >
+              <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
+              <MenuItem>Active</MenuItem>
+              <MenuItem>Inactive</MenuItem>
+              <MenuItem onClick={() => setisNewsAndEventsDeleteModal(true)}>
                 Delete
               </MenuItem>
             </Menu>
@@ -183,18 +172,14 @@ const NewsAndEvents = () => {
             setTableRowValues,
           )}
           data={newsAndEventsTabledata}
-        />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+          isPagination={true}
         />
       </Box>
       <CommonDrawer
         isDrawerOpen={isNewsAndEventsFilterDrawerOpen || isOpenEditDrawer}
         onClose={() => {
           setIsNewsAndEventsFilterDrawerOpen(false);
-          setIsOpenEditDrawer(false);
+          handleCloseEditDrawer();
         }}
         title="Filters"
         okText="Apply"
