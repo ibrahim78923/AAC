@@ -22,13 +22,7 @@ const Feed = () => {
 
       <FormControl fullWidth sx={{ mb: 2 }}>
         <Typography variant="body2">Select Task</Typography>
-        <Select
-          labelId=""
-          id="demo-simple-select"
-          // value={age}
-          // label="Age"
-          // onChange={handleChange}
-        >
+        <Select labelId="" id="demo-simple-select">
           <MenuItem value={10}>Ten</MenuItem>
           <MenuItem value={20}>Twenty</MenuItem>
           <MenuItem value={30}>Thirty</MenuItem>

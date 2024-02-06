@@ -60,10 +60,10 @@ const ActionBtn = ({
           horizontal: 'right',
         }}
       >
-        {menuItems.map((item: any) => {
+        {menuItems?.map((item: any) => {
           const isAbleToEdit =
-            selectedTaskIds.length > 1 &&
-            (item.name === 'edit' || item.name === 'viewActivity');
+            selectedTaskIds?.length > 1 &&
+            (item?.name === 'edit' || item?.name === 'viewActivity');
           return (
             <MenuItem
               disabled={isAbleToEdit}

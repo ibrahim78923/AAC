@@ -41,7 +41,6 @@ const Templates = ({
             variant="contained"
             sx={{
               width: '169px',
-              border: '1.5px solid #e7e7e9',
               whiteSpace: 'nowrap',
               '@media (max-width:581px)': {
                 width: '100%',

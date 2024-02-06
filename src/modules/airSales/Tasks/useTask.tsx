@@ -10,9 +10,9 @@ import { PAGINATION } from '@/config';
 import { useState } from 'react';
 
 export const useTask = () => {
-  const [toggler, setToggler] = React.useState<string>('listView');
+  const [toggler, setToggler] = useState<string>('listView');
   const handleToggler = (value: string) => setToggler(value);
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
 
   const [tabsValue, setTabsValue] = useState('');
   const [assignTo, setAssignTo] = useState('');
