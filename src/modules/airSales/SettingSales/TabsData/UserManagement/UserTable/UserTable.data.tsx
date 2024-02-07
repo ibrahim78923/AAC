@@ -227,6 +227,11 @@ export const columnsUser = (
           onChange={handleTeam}
           label="Select"
           name={info.getValue()}
+          sx={{
+            '&:before': {
+              borderBottom: 'none',
+            },
+          }}
         >
           <MenuItem value="Alfa">Alfa</MenuItem>
           <MenuItem value="Orcalo">Orcalo</MenuItem>
@@ -248,6 +253,11 @@ export const columnsUser = (
           onChange={handleRole}
           label="Select"
           name={info.getValue()}
+          sx={{
+            '&:before': {
+              borderBottom: 'none',
+            },
+          }}
         >
           <MenuItem value="AccountAdmin">Account Admin</MenuItem>
           <MenuItem value="SalesManager">Sales Manager</MenuItem>
