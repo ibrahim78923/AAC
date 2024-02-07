@@ -1,16 +1,24 @@
 import React from 'react';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import dynamic from 'next/dynamic';
 import { Box, Typography, useTheme } from '@mui/material';
 import CustomBox from './CustomBox';
 import { styles } from './Insight.style';
 
+import useInsightCard from './useInsite';
+import { CanlendarButtonIcon } from '@/assets/icons';
+
 const Insights = () => {
   const { activity, dateRange, activityReportDate } = styles(useTheme());
+  const { chartOptions, chartData } = useInsightCard();
+  const ReactApexChart = dynamic(() => import('react-apexcharts'), {
+    ssr: false,
+  });
+
   return (
     <Box>
       <Typography sx={activity}>Activity</Typography>
       <Typography sx={dateRange}>
-        Date Range: This week so <ArrowDropDownIcon />
+        Date Range: This week so <CanlendarButtonIcon />
       </Typography>
       <CustomBox title={'CALL CONNECTED THIS WEEK'} count={0} />
       <CustomBox
@@ -35,6 +43,14 @@ const Insights = () => {
       <Typography sx={activityReportDate}>
         Date Range: From 22-03-2023 to 25-03-2023 | Frequency: Daily
       </Typography>
+      <Box mt={2}>
+        <ReactApexChart
+          options={chartOptions}
+          series={[{ data: chartData }]}
+          type="bar"
+          height={450}
+        />
+      </Box>
     </Box>
   );
 };

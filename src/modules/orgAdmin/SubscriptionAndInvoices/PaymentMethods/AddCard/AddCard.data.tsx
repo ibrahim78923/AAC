@@ -40,7 +40,8 @@ export const dataArray = [
     component: RHFTextField,
     componentProps: {
       name: 'cardNumber',
-      label: 'Card Number*',
+      label: 'Card Number',
+      required: true,
       fullWidth: true,
     },
   },
@@ -49,7 +50,8 @@ export const dataArray = [
     component: RHFDatePicker,
     componentProps: {
       name: 'expirationDate',
-      label: 'Expiration Date*',
+      label: 'Expiration Date',
+      required: true,
       fullWidth: true,
     },
   },
@@ -67,7 +69,8 @@ export const dataArray = [
     component: RHFTextField,
     componentProps: {
       name: 'CVVCode',
-      label: 'Enter CVV code*',
+      label: 'Enter CVV code',
+      required: true,
       fullWidth: true,
     },
   },

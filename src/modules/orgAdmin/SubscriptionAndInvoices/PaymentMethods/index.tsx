@@ -8,6 +8,7 @@ import { DropdownIcon } from '@/assets/icons';
 import { paymentData } from '@/mock/modules/SubscriptionAndInvoices';
 import { AlertModals } from '@/components/AlertModals';
 import { styles } from './PaymentMethod.style';
+import { useState } from 'react';
 
 const PaymentMethods = () => {
   const {
@@ -29,6 +30,8 @@ const PaymentMethods = () => {
     isGetRowValues,
   } = usePaymentMethods();
 
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <>
       <Box sx={styles?.paymentsTableWrapper}>
@@ -47,7 +50,13 @@ const PaymentMethods = () => {
 
         <Box sx={styles?.tableToolbar}>
           <Box sx={styles?.tableSearch}>
-            <Search size="small" placeholder="search here" />
+            <Search
+              searchBy={searchTerm}
+              setSearchBy={setSearchTerm}
+              label="Search here"
+              fullWidth
+              size="small"
+            />
           </Box>
           <Box sx={styles?.tableToolbarActions}>
             <Box>
@@ -100,7 +109,6 @@ const PaymentMethods = () => {
           entriePages={paymentData?.length}
         />
       </Box>
-
       <AddCard
         open={openAddCard}
         onClose={handleCloseAddCard}
@@ -109,7 +117,7 @@ const PaymentMethods = () => {
         isGetRowValues={isGetRowValues}
       />
       <AlertModals
-        message="Are you sure you want to delete this payment method?"
+        message="Are you sure you want to delete this payment method ?"
         type="delete"
         open={openDeleteModal}
         handleClose={handleCloseDeleteModal}

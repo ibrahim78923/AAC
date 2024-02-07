@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Box, Button, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
+import { Box, Button, Menu, MenuItem, Tooltip } from '@mui/material';
 import Search from '@/components/Search';
 import {
   CustomizeIcon,
@@ -39,7 +39,16 @@ const TableToolbar: FC<TableToolbarI> = ({
           width={'100%'}
         />
       </Box>
-      <Stack direction={'row'} spacing={'8px'}>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: '8px',
+          flexWrap: 'wrap',
+          '@media (max-width: 819px)': {
+            marginTop: '8px',
+          },
+        }}
+      >
         <Box>
           <Button
             className="small"
@@ -105,7 +114,7 @@ const TableToolbar: FC<TableToolbarI> = ({
         >
           Filter
         </Button>
-      </Stack>
+      </Box>
     </Box>
   );
 };
