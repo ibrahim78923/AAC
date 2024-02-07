@@ -211,6 +211,7 @@ const Deals = () => {
                 variant="outlined"
                 color="inherit"
                 className="small"
+                sx={{ width: { xs: '100%', sm: '40px' } }}
               >
                 <RefreshTasksIcon />
               </Button>

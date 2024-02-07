@@ -86,6 +86,7 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
                 expandIcon={<ArrowBgDownIcon />}
                 aria-controls="panel1a-content"
                 id="panel1a-header"
+                sx={{ padding: '0px' }}
               >
                 <Box
                   sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}

@@ -30,7 +30,7 @@ const DealCustomize = ({ open, onClose, columns, setColumns }: any) => {
       isOk
       submitHandler={onClose}
       okText="Save"
-      title="Customize"
+      title="Customize Columns"
     >
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
