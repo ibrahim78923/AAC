@@ -29,7 +29,7 @@ export const ReceivedItems = (props: any) => {
       test: itemDetail,
     },
   });
-
+  const { handleSubmit } = method;
   const { fields } = useFieldArray({
     control: method?.control,
     name: 'test',
@@ -42,7 +42,7 @@ export const ReceivedItems = (props: any) => {
         setIsDrawerOpen(false);
       }}
       title="Receive items"
-      submitHandler={submitHandler}
+      submitHandler={() => handleSubmit(submitHandler)()}
       footer={true}
       isOk={true}
       okText="Receive"

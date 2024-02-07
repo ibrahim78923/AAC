@@ -32,7 +32,7 @@ export const useReceivedItems = (props: any) => {
   const submitHandler = async () => {
     const updatedPurchaseOrderDetail = purchaseOrderDetail.map((item: any) => ({
       ...item,
-      // received: receivedAmounts,
+      //  received: data?.receivedAmounts,
     }));
     const putAddToItemParameter = {
       body: updatedPurchaseOrderDetail,

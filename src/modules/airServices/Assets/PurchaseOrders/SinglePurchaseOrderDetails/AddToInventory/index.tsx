@@ -1,6 +1,7 @@
 import {
   ItemStatusImage,
   ItemToInventoryImage,
+  NoAssociationFoundImage,
   TotalItemImage,
 } from '@/assets/images';
 import CommonDrawer from '@/components/CommonDrawer';
@@ -35,6 +36,8 @@ import {
   purchaseDetailFormFieldsFunction,
 } from './AddToInventory.data';
 import { useFieldArray } from 'react-hook-form';
+
+import NoData from '@/components/NoData';
 
 export const AddToInventory = (props: any) => {
   const { isADrawerOpen, setIsADrawerOpen } = props;
@@ -235,27 +238,36 @@ export const AddToInventory = (props: any) => {
                     mt={2}
                     sx={{ maxHeight: '300px', overflowY: 'auto' }}
                   >
-                    {updateDate.map((asset: any) => (
-                      <Card key={asset?._id}>
-                        <CardContent>
-                          <FormControl component="fieldset">
-                            <RadioGroup
-                              row
-                              aria-label="asset-radio-group"
-                              name="asset-radio-group"
-                              value={selectedAssetId}
-                              onChange={handleRadioValueChange}
-                            >
-                              <FormControlLabel
-                                value={asset?._id?.toString()}
-                                control={<Radio />}
-                                label={asset.displayName}
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </CardContent>
-                      </Card>
-                    ))}
+                    {updateDate ? (
+                      updateDate.map((asset: any) => (
+                        <Card key={asset?._id}>
+                          <CardContent>
+                            <FormControl component="fieldset">
+                              <RadioGroup
+                                row
+                                aria-label="asset-radio-group"
+                                name="asset-radio-group"
+                                value={selectedAssetId}
+                                onChange={handleRadioValueChange}
+                              >
+                                <FormControlLabel
+                                  value={asset?._id?.toString()}
+                                  control={<Radio />}
+                                  label={asset.displayName}
+                                />
+                              </RadioGroup>
+                            </FormControl>
+                          </CardContent>
+                        </Card>
+                      ))
+                    ) : (
+                      <>
+                        <NoData
+                          image={NoAssociationFoundImage}
+                          message={'no Data Found'}
+                        />
+                      </>
+                    )}
                   </Grid>
                 )}
               </Grid>
