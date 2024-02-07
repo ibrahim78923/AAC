@@ -11,6 +11,7 @@ const ActionBtn = ({
   variant,
   menuItems,
   title = 'Actions',
+  color = 'inherit',
 }: TaskInterfacePropsI) => {
   const theme = useTheme();
 
@@ -35,7 +36,7 @@ const ActionBtn = ({
     <>
       <Button
         className="small"
-        color="inherit"
+        color={color}
         variant={variant}
         endIcon={<ArrowDropDownIcon />}
         onClick={handleClick}
