@@ -47,7 +47,6 @@ export const Columns = (
           <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography variant="subtitle2">
-              {' '}
               {`${info?.row?.original?.usersOrg?.firstName}  ${info?.row?.original?.usersOrg?.lastName}`}
             </Typography>
             <Typography variant="body3">
@@ -57,7 +56,7 @@ export const Columns = (
         </Box>
       ),
       header: 'Client Name',
-      isSortable: false,
+      isSortable: true,
     },
     {
       accessorFn: (row: any) => row?.planProducts,
