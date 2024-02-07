@@ -4,7 +4,6 @@ import DetailTimePicker from './TimePicker';
 import {
   ViewDetailBackArrowIcon,
   ViewDetailCallIcon,
-  ViewDetailKababMenuIcon,
   ViewDetailMeetingIcon,
   ViewDetailVuesaxIcon,
 } from '@/assets/icons';
@@ -15,6 +14,12 @@ import { AIR_SERVICES } from '@/constants';
 import { useState } from 'react';
 import { AddMeetingsDrawer } from '../Meetings/AddMeetingsDrawer';
 import { NewEmailDrawer } from './NewEmailDrawer';
+
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { MoreVert } from '@mui/icons-material';
+import { headerDropdownFunction } from './Header.data';
+import { PrintDrawer } from './Print';
+
 const Header = () => {
   const theme: any = useTheme();
   const { push } = useRouter();
@@ -22,10 +27,14 @@ const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isIconVisible, setIsIconVisible] = useState(true);
-
+  const [isPrintDrawerOpen, setISPrintDrawerOpen] = useState(false);
   const toggleView = () => {
     setIsIconVisible(!isIconVisible);
   };
+  const ticketsApprovalDropdown = headerDropdownFunction(
+    isPrintDrawerOpen,
+    setISPrintDrawerOpen,
+  );
   return (
     <>
       <Grid
@@ -94,7 +103,18 @@ const Header = () => {
             setIsDrawerOpen={setIsDrawerOpen}
           />
           <Box sx={styles?.iconKabaMenuStyle}>
-            <ViewDetailKababMenuIcon />
+            <SingleDropdownButton
+              dropdownOptions={ticketsApprovalDropdown}
+              dropdownName={<MoreVert />}
+              hasEndIcon={false}
+              btnVariant="text"
+            />
+            {isPrintDrawerOpen && (
+              <PrintDrawer
+                isPrintDrawerOpen={isPrintDrawerOpen}
+                setISPrintDrawerOpen={setISPrintDrawerOpen}
+              />
+            )}
           </Box>
         </Grid>
       </Grid>
