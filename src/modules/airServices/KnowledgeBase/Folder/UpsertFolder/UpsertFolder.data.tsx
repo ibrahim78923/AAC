@@ -1,42 +1,38 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
+import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 
 export const upsertValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is Required'),
-  description: Yup?.string()?.required('Field is Required'),
-  visible: Yup?.string()?.trim()?.required('Field is Required'),
+  name: Yup?.string()?.trim()?.required('Field is Required'),
+  description: Yup?.string()?.trim()?.required('Field is Required'),
+  visibility: Yup?.mixed()?.nullable()?.required('Field is Required'),
 });
 
 export const upsertDefaultValues = {
   name: '',
   description: '',
-  visible: '',
+  visibility: null,
 };
 
 export const upsertDataArray = [
   {
+    id: 1,
     componentProps: {
       name: 'name',
       label: 'Name',
       placeholder: 'Enter Folder Name',
-      type: 'text',
-      size: 'small',
       fullWidth: true,
-      select: false,
       required: false,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    id: 2,
     componentProps: {
       name: 'description',
       label: 'Description',
       placeholder: '#example',
-      type: 'text',
-      size: 'small',
       fullWidth: true,
-      select: false,
       required: false,
       multiline: true,
       minRows: 3,
@@ -45,20 +41,19 @@ export const upsertDataArray = [
     md: 12,
   },
   {
+    id: 3,
     componentProps: {
-      name: 'visible',
+      name: 'visibility',
       label: 'Visible to',
-      type: 'text',
-      size: 'small',
       fullWidth: true,
-      select: true,
       required: false,
+      getOptionLabel: (option: any) => option?.label,
+      options: [
+        { _id: 'ALL', label: 'ALL' },
+        { _id: 'ONLY_ME', label: 'ONLY_ME' },
+      ],
     },
-    options: [
-      { value: 'All', label: 'All' },
-      { value: 'Only to you', label: 'Only to you' },
-    ],
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
 ];

@@ -11,6 +11,8 @@ export const SingleDropdownButton = (props: any) => {
     dropdownOptions,
     disabled,
     dropdownName = 'Actions',
+    hasEndIcon = true,
+    btnVariant = 'outlined',
     ...buttonProps
   } = props;
   const { anchorEl, open, theme, handleClick, handleClose } =
@@ -18,20 +20,19 @@ export const SingleDropdownButton = (props: any) => {
   return (
     <>
       <Button
-        variant="outlined"
+        variant={btnVariant}
         id="demo-positioned-button"
         aria-controls={open ? 'demo-positioned-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        endIcon={<ArrowDropDownIcon />}
+        endIcon={hasEndIcon && <ArrowDropDownIcon />}
         color="secondary"
         disabled={disabled}
         sx={{ textTransform: 'capitalize' }}
         {...buttonProps}
       >
-        {dropdownName?.[0]?.toUpperCase() +
-          dropdownName?.slice?.(1)?.toLowerCase()}
+        {dropdownName}
       </Button>
       <Menu
         id="demo-positioned-menu"
