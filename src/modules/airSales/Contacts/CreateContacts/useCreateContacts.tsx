@@ -84,10 +84,13 @@ const useCreateContacts = () => {
     }
   };
 
+  const { handleSubmit, reset } = methodscontacts;
+
   const onCloseHandler = () => {
     reset();
+    alert('called');
   };
-  const { handleSubmit, reset } = methodscontacts;
+
   return {
     handleSubmit,
     onSubmit,
