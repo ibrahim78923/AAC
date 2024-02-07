@@ -21,7 +21,8 @@ const RelatedTickets = (props: any) => {
   } = useRelatedTickets(props);
 
   return (
-    <div>
+    <>
+      <br />
       <RelatedTicketsHeader
         relatedTicketsActionDropdown={relatedTicketsActionDropdown}
         isActive={!!!selectedChildTickets?.length}
@@ -41,20 +42,12 @@ const RelatedTickets = (props: any) => {
       <br />
       <TanstackTable
         isLoading={lazyGetChildTicketsStatus?.isLoading}
-        data={[
-          { _id: 10, ticketIdNumber: 12, status: 'OPEN' },
-          { _id: 100, ticketIdNumber: 12, status: 'RESOLVED' },
-          { _id: 210, ticketIdNumber: 12, status: 'PENDING' },
-          { _id: 2110, ticketIdNumber: 12, status: 'CLOSED' },
-          { _id: 10212, ticketIdNumber: 12, status: 'OPEN' },
-        ]}
-        // data={lazyGetChildTicketsStatus?.data?.data?.tickets ?? []}
+        data={lazyGetChildTicketsStatus?.data?.data?.tickets ?? []}
         activeCheck={selectedChildTickets}
         columns={relatedTicketsColumns}
-        // isFetching={lazyGetChildTicketsStatus?.isFetching}
-        // isError={lazyGetChildTicketsStatus?.isError || false}
-        // isSuccess={lazyGetChildTicketsStatus?.isSuccess || true}
-        isSuccess={true}
+        isFetching={lazyGetChildTicketsStatus?.isFetching}
+        isError={lazyGetChildTicketsStatus?.isError}
+        isSuccess={lazyGetChildTicketsStatus?.isSuccess || true}
         currentPage={lazyGetChildTicketsStatus?.data?.data?.meta?.page}
         count={lazyGetChildTicketsStatus?.data?.data?.meta?.pages}
         pageLimit={lazyGetChildTicketsStatus?.data?.data?.meta?.limit}
@@ -72,7 +65,7 @@ const RelatedTickets = (props: any) => {
           setSelectedChildTickets={setSelectedChildTickets}
         />
       )}
-    </div>
+    </>
   );
 };
 export default RelatedTickets;

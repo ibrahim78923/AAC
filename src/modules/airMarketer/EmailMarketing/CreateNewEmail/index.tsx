@@ -8,7 +8,7 @@ import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic';
 import ActionBtn from '@/modules/airSales/Tasks/ActionBtn';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
-import { PlusIcon } from '@/assets/icons';
+import { BackArrIcon, PlusIcon } from '@/assets/icons';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -24,9 +24,9 @@ const CreateNewEmail = () => {
     isAddNoteDrawer,
     handleActionsButton,
     handleAddNoteDrawer,
-    // isScheduleModalOpen,
     openCalendar,
     theme,
+    router,
   } = useCreateNewEmail();
   const [value, setValue] = useState('');
 
@@ -43,12 +43,14 @@ const CreateNewEmail = () => {
     'strike',
     'blockquote',
   ];
-
   return (
     <>
       <Box sx={styles?.createNewEmailWrap}>
-        <Typography variant="h5" sx={{ fontWeight: 500 }}>
-          Create New Email
+        <Typography variant="h4">
+          <span style={{ cursor: 'pointer' }} onClick={() => router.back()}>
+            <BackArrIcon />
+          </span>
+          &nbsp; Create New Email
         </Typography>
         <Box>
           <Button variant="contained" onClick={handleAddNoteDrawer}>
@@ -146,6 +148,7 @@ const CreateNewEmail = () => {
               menuItems={CreateEmailData}
               title="Send"
               onChange={handleActionsButton}
+              color="primary"
             />
           </Box>
         </FormProvider>
@@ -153,7 +156,9 @@ const CreateNewEmail = () => {
       {isAddNoteDrawer && (
         <AddANote open={isAddNoteDrawer} onClose={handleAddNoteDrawer} />
       )}
-      {openCalendar && <SwitchableDatepicker isCalendarOpen={openCalendar} />}
+      {openCalendar && (
+        <SwitchableDatepicker placement="right" isCalendarOpen={openCalendar} />
+      )}
     </>
   );
 };

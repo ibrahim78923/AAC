@@ -1,9 +1,22 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { styles } from './ApprovalCard.style';
 
 const ApprovalCard = ({ title, folder, author, approvalStatus }: any) => {
+  const theme = useTheme();
   return (
-    <Box sx={styles?.cardWrapper}>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        textTransform: 'capitalize',
+        flexWrap: 'wrap',
+        p: 1.6,
+        boxShadow: `0rem 0.125rem 0.25rem -0.125rem ${theme?.palette?.custom?.transparent_dark_blue}, 0rem 0.25rem 0.5rem -0.125rem ${theme?.palette?.custom?.transparent_dark_blue}`,
+        borderRadius: 4,
+        gap: 1.2,
+      }}
+    >
       <Box>
         <Typography color={'primary.main'} fontWeight={500} variant="h5">
           {title}

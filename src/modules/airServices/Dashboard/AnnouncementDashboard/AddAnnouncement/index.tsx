@@ -44,8 +44,8 @@ function AddAnnouncement({ isDrawerOpen, setIsDrawerOpen }: any) {
                           </option>
                         ))
                       : item?.componentProps?.value
-                        ? item?.componentProps?.value
-                        : null}
+                      ? item?.componentProps?.value
+                      : null}
                   </item.component>
                 </Grid>
               ))}

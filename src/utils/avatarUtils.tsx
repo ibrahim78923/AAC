@@ -20,16 +20,16 @@ export const generateColorFromName = (name: string) => {
   return `rgb(${r},${g},${b})`;
 };
 
-export const fullName = (firstName: any, lastName: any) => {
+export const fullName = (firstName?: any, lastName?: any) => {
   if (!!!firstName && !!!lastName) return 'None';
   return `${firstName ?? ''} ${lastName ?? ''}`;
 };
 
-export const fullNameInitial = (firstName: any, lastName: any) => {
+export const fullNameInitial = (firstName?: any, lastName?: any) => {
   if (!!!firstName && !!!lastName) return '-';
   return `${firstName?.[0] ?? ''} ${lastName?.[0] ?? ''}`;
 };
 
-export const generateImage = (imgSrc: any) => {
+export const generateImage = (imgSrc?: any) => {
   return `${IMG_URL}${imgSrc}`;
 };
