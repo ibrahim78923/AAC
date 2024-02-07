@@ -123,7 +123,10 @@ const CommentsFooter = ({ setActiveReply }: any) => {
           <Image src={DysonAvatarImage} alt="profile-image" />
         </Box>
         <Box sx={styles?.commentSection}>
-          <TextField sx={styles?.chatTextarea} />
+          <TextField
+            sx={styles?.chatTextarea}
+            placeholder="Write your comment here"
+          />
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <Button sx={styles?.unStyledButton}>
               <StickerIcon color={'#6B7280'} size={'18'} />
@@ -372,10 +375,9 @@ const PostCommentsContents = ({ item, setActiveReply, activeReply }: any) => {
         <Search
           searchBy={searchTerm}
           setSearchBy={setSearchTerm}
-          label="Search By Name"
+          label="Search"
           fullWidth
           size="small"
-          sx={{ marginBottom: '15px' }}
         />
 
         {labelsData?.map((item: any) => (
@@ -390,6 +392,7 @@ const PostCommentsContents = ({ item, setActiveReply, activeReply }: any) => {
               alignItems: 'center',
               gap: '10px',
               mb: 1,
+              marginTop: '15px',
             }}
             key={uuidv4()}
           >

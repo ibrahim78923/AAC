@@ -27,7 +27,6 @@ const HorizontalTabs = (props: any) => {
   useEffect(() => {
     setValue(defaultValue);
   }, [defaultValue]);
-
   const arrayChildren = Children?.toArray(children);
 
   const theme: any = useTheme();
@@ -67,7 +66,6 @@ const HorizontalTabs = (props: any) => {
           <AddCircleIcon sx={styles?.circleIconStyle} onClick={handleAddTab} />
         )}
       </Tabs>
-      <br />
       <Box sx={{ py: { md: 2, xs: 0.5 } }}>
         {arrayChildren?.map((child: any, index) => (
           <Box key={uuidv4()}>

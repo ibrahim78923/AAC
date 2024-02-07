@@ -2,16 +2,35 @@ import dayjs from 'dayjs';
 import * as yup from 'yup';
 import { Box, Checkbox } from '@mui/material';
 import {
-  RHFAutocomplete,
   RHFDatePicker,
+  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { EXPENSE_TYPE } from '@/constants/strings';
 
-export const expenseTypeDropdown = [
-  EXPENSE_TYPE?.PURCHASE,
-  EXPENSE_TYPE?.MAINTENANCE,
+export const data: any = [
+  {
+    id: 1,
+    type: 'purchase cost',
+    cost: 1506.325,
+    date: `${new Date()}`,
+  },
+  {
+    id: 2,
+    type: 'maintenance cost',
+    cost: 1506.325,
+    date: `${new Date()}`,
+  },
+];
+
+export const dropdownDummy = [
+  {
+    value: 'Purchase Cost',
+    label: 'purchase cost',
+  },
+  {
+    value: 'maintenance cost',
+    label: 'maintenance cost',
+  },
 ];
 
 export const addExpenseValidationSchema: any = yup?.object()?.shape({
@@ -19,14 +38,10 @@ export const addExpenseValidationSchema: any = yup?.object()?.shape({
   cost: yup?.string()?.required('Required field!'),
 });
 
-export const addExpenseDefaultValues = (selectedExpenseList: any) => {
-  const expenseUpdateData = selectedExpenseList[0];
-
-  return {
-    type: expenseUpdateData?.type ?? '',
-    cost: expenseUpdateData?.cost ?? '',
-    date: expenseUpdateData?.date ?? new Date(),
-  };
+export const addExpenseDefaultValues = {
+  type: '',
+  cost: '',
+  date: new Date(),
 };
 
 export const addExpenseFormData = [
@@ -36,13 +51,12 @@ export const addExpenseFormData = [
       fullWidth: true,
       name: 'type',
       label: 'Expense Type',
-      placeholder: 'Expense Type',
       select: true,
-      options: expenseTypeDropdown,
+      options: dropdownDummy,
       required: true,
     },
     gridLength: 12,
-    component: RHFAutocomplete,
+    component: RHFSelect,
   },
   {
     id: 100,
@@ -69,33 +83,29 @@ export const addExpenseFormData = [
 ];
 
 export const addExpenseColumnsFunction = (
-  expenseData: any,
+  expenseList: any,
   selectedExpenseList: any,
   setSelectedExpenseList: any,
 ) => [
   {
-    accessorFn: (row: any) => row?._id,
-    id: '_id',
+    accessorFn: (row: any) => row?.id,
+    id: 'id',
     cell: (info: any) => (
       <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!selectedExpenseList?.find(
-            (item: any) => item?._id === info?.getValue(),
+            (item: any) => item?.id === info?.getValue(),
           )
         }
         onChange={(e: any) => {
           e?.target.checked
             ? setSelectedExpenseList([
                 ...selectedExpenseList,
-                expenseData?.find(
-                  (item: any) => item?._id === info?.getValue(),
-                ),
+                expenseList?.find((item: any) => item?.id === info?.getValue()),
               ])
             : setSelectedExpenseList(
                 selectedExpenseList?.filter((item: any) => {
-                  return item?._id !== info?.getValue();
+                  return item?.id !== info?.getValue();
                 }),
               );
         }}
@@ -105,12 +115,10 @@ export const addExpenseColumnsFunction = (
     ),
     header: (
       <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
-        checked={selectedExpenseList?.length === expenseData?.length}
+        checked={selectedExpenseList?.length === expenseList?.length}
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedExpenseList([...expenseData])
+            ? setSelectedExpenseList([...expenseList])
             : setSelectedExpenseList([]);
         }}
         color="primary"
@@ -148,16 +156,14 @@ export const addExpenseColumnsFunction = (
 export const expenseActionsDropdownFunction = (handleActionClick: any) => [
   {
     title: 'Edit',
-    handleClick: (close: any) => {
+    handleClick: () => {
       handleActionClick('edit');
-      close?.(false);
     },
   },
   {
     title: 'Delete',
-    handleClick: (close: any) => {
+    handleClick: () => {
       handleActionClick?.('delete');
-      close?.(false);
     },
   },
 ];

@@ -1,7 +1,8 @@
 export interface TaskInterfacePropsI {
-  onChange: ({}) => void;
+  onChange: any;
   disableActionBtn?: boolean;
   variant: any;
   menuItems: any;
   title: string;
+  color?: any;
 }

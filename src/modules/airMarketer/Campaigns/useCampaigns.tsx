@@ -22,10 +22,12 @@ const useCampaigns = () => {
     isViewDeatsils: false,
     isSaveView: false,
     isDelete: false,
+    isCreateTask: false,
   });
   const [isDelete, setIsDelete] = useState(false);
   const [isCreateTask, setIsCreateTask] = useState(false);
   const [isCompare, setIsCompare] = useState(false);
+  const [searchVal, setSearchVal] = useState('');
 
   const CampaignTask: any = useForm({});
   const router = useRouter();
@@ -83,7 +85,12 @@ const useCampaigns = () => {
           isViewDeatsils: true,
         });
         break;
-
+      case campaignsOptions?.CREATE_TASK:
+        setActionsModalDetails({
+          ...actionsModalDetails,
+          isCreateTask: true,
+        });
+        break;
       default:
         break;
     }
@@ -118,6 +125,8 @@ const useCampaigns = () => {
     handleSaveView,
     handleCloseAddAssetsModal,
     handleOpenFilter,
+    searchVal,
+    setSearchVal,
   };
 };
 export default useCampaigns;

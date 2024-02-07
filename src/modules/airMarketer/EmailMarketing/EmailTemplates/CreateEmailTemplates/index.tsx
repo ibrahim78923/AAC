@@ -1,6 +1,5 @@
 import {
   Box,
-  Divider,
   Grid,
   ToggleButton,
   ToggleButtonGroup,
@@ -40,34 +39,35 @@ const CreateTemplatesForm = () => {
     <Grid sx={styles.mainDiv(theme)}>
       <Grid container sx={styles.headerBar}>
         {headerArray?.map((item: any, index: any) => (
-          <Grid item xs={6} md={4} lg={2} key={uuidv4()}>
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              justifyContent={'center'}
-              onClick={() => {
-                setHeaderValue(item?.name);
-              }}
-            >
-              <Box sx={styles.headerIcon(theme)}>
-                {item?.icon}
-                <Typography
-                  variant="body2"
-                  sx={{ marginLeft: '10px', fontWeight: '500' }}
-                >
-                  {item?.name}
-                </Typography>
+          <>
+            <Grid item xs={6} md={4} lg={2} key={uuidv4()}>
+              <Box
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                onClick={() => {
+                  setHeaderValue(item?.name);
+                }}
+              >
+                <Box sx={styles.headerIcon(theme, headerValue, index)}>
+                  {item?.icon}
+                  <Typography
+                    variant="body2"
+                    sx={{ marginLeft: '10px', fontWeight: '500' }}
+                  >
+                    {item?.name}
+                  </Typography>
+                </Box>
               </Box>
-              {index != 3 && (
-                <Divider
-                  orientation="vertical"
-                  variant="middle"
-                  flexItem
-                  sx={{ border: `1px solid ${theme?.palette?.grey[700]}` }}
-                />
-              )}
-            </Box>
-          </Grid>
+            </Grid>
+            <Box
+              sx={{
+                borderRight:
+                  index != 3 && `1px solid ${theme?.palette?.grey[700]}`,
+                height: '100px',
+              }}
+            ></Box>
+          </>
         ))}
       </Grid>
 

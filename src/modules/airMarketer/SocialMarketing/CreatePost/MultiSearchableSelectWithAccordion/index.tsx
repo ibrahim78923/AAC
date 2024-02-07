@@ -159,10 +159,15 @@ export default function RHFMultiSearchableSelectWithAccordion({
                   <Search
                     searchBy={searchTerm}
                     setSearchBy={setSearchTerm}
-                    label="Search By Name"
+                    label="Search here"
                     fullWidth
                     size="small"
-                    sx={{ marginBottom: '15px' }}
+                    sx={{
+                      marginBottom: '15px',
+                      '& input': {
+                        height: '15px',
+                      },
+                    }}
                   />
                 )}
 

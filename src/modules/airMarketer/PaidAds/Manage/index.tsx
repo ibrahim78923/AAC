@@ -81,7 +81,7 @@ const Manage = () => {
                 >
                   <Box>
                     <Typography
-                      variant="body3"
+                      variant="body2"
                       fontWeight={500}
                       color={theme?.palette?.grey[900]}
                     >

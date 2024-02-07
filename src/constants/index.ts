@@ -47,6 +47,7 @@ export const SUPER_ADMIN: any = {
 export const AIR_SERVICES = {
   TICKETS: `/air-services/tickets`,
   TICKETS_LIST: `/air-services/tickets/detail`,
+  CHILD_TICKETS_DETAIL: `/air-services/tickets/child-detail`,
   PURCHASE_ORDER: '/air-services/assets/purchase-orders',
   ASSETS_PURCHASE_ORDER_DETAIL: '/air-services/assets/purchase-orders/detail',
   NEW_PURCHASE_ORDER: '/air-services/assets/purchase-orders/new-purchase',
@@ -55,8 +56,8 @@ export const AIR_SERVICES = {
   KNOWLEDGE_BASE: '/air-services/knowledge-base',
   KNOWLEDGE_BASE_VIEW_ARTICLE:
     '/air-services/knowledge-base/article/view-article',
-  KNOWLEDGE_BASE_EDIT_ARTICLE:
-    '/air-services/knowledge-base/article/edit-article',
+  KNOWLEDGE_BASE_UPSERT_ARTICLE:
+    '/air-services/knowledge-base/article/upsert-article',
   ADD_ASSOCIATE_ASSET:
     '/air-services/assets/contracts/detail/add-associate-asset',
   ASSETS_CONTRACTS: '/air-services/assets/contracts',
@@ -105,6 +106,8 @@ export const AIR_SERVICES = {
     '/air-services/settings/service-management/services-catalog/upsert-service',
   SERVICE_CATALOG: '/air-services/settings/service-management/services-catalog',
   UPSERT_SOFTWARE_CONTRACT: `/air-services/assets/software/detail/create-contract`,
+  UPSERT_WORKFLOW_MANAGEMENT:
+    '/air-services/settings/agent-performance-management/workload-management/upsert-workflow-management',
 };
 
 export const AIR_CUSTOMER_PORTAL = {

@@ -78,7 +78,7 @@ export const audienceTableColumns: any = (statusBtnValue: any) => {
             {info?.getValue()}
           </Typography>
           <Box display="flex" gap={1} alignItems="center">
-            <Typography variant="body2">Too Small</Typography>
+            <Typography variant="body2">Too small</Typography>
             <InfoIcon sx={{ height: '20px', width: '20px' }} />
           </Box>
         </Box>

@@ -17,6 +17,7 @@ import {
   usePostContractMutation,
   useLazyGetSoftwareDropdownQuery,
   useLazyGetAgentsDropdownQuery,
+  useGetSingleContractByIdQuery,
 } from '@/services/airServices/assets/contracts';
 
 export const useUpsertContract = () => {
@@ -32,6 +33,18 @@ export const useUpsertContract = () => {
   });
   const { handleSubmit, control, setValue, getValues, clearErrors, reset } =
     upsertContractFormMethods;
+
+  const getSingleContractParameter = {
+    pathParam: {
+      contractId,
+    },
+  };
+
+  const { data, isLoading, isFetching, isError }: any =
+    useGetSingleContractByIdQuery(getSingleContractParameter, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!contractId,
+    });
 
   const watchForNotifyExpiry = useWatch({
     control,
@@ -64,9 +77,9 @@ export const useUpsertContract = () => {
   }, [watchForContractType]);
 
   //TODO: in integration
-  // useEffect(() => {
-  //   reset(upsertContractFormDefaultValuesFunction(contractType, getValues()));
-  // }, [data, reset]);
+  useEffect(() => {
+    reset(upsertContractFormDefaultValuesFunction(data?.data?.[0]));
+  }, [data, reset]);
 
   const submitUpsertContractForm = async (data: any) => {
     const postContractForm = new FormData();
@@ -110,12 +123,10 @@ export const useUpsertContract = () => {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       router?.back();
-      reset(upsertContractFormDefaultValuesFunction());
     } catch (error: any) {
       enqueueSnackbar(error?.message ?? 'Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
-      reset(upsertContractFormDefaultValuesFunction());
     }
   };
 
@@ -162,5 +173,8 @@ export const useUpsertContract = () => {
     handleCancelBtn,
     postContractStatus,
     putContractStatus,
+    isLoading,
+    isFetching,
+    isError,
   };
 };
