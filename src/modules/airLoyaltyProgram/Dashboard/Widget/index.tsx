@@ -28,6 +28,7 @@ export const Widget = () => {
               onMouseEnter={() => setIsHovered(item?.id)}
               onMouseLeave={() => setIsHovered('')}
               sx={{
+                backgroundColor: theme?.palette?.common?.white,
                 cursor: 'pointer',
                 border: `1px solid ${theme?.palette?.custom?.pale_gray}`,
                 '&:hover': {

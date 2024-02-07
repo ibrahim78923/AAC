@@ -15,7 +15,7 @@ const StepDeal = ({ openCreateDeal, values, methods }: any) => {
     <>
       <FormProvider methods={methods}>
         <Grid container spacing={'40px'}>
-          <Grid item xs={5}>
+          <Grid item xs={12} lg={5}>
             <Grid container spacing={'22px'}>
               {formArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
@@ -38,7 +38,7 @@ const StepDeal = ({ openCreateDeal, values, methods }: any) => {
               ))}
             </Grid>
           </Grid>
-          <Grid item xs={7}>
+          <Grid item xs={12} lg={7}>
             <TemplateFrame>
               {values?.template === '' || values?.template == null ? (
                 <TemplatePlaceholder />

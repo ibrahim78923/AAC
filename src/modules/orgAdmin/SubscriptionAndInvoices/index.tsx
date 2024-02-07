@@ -6,7 +6,7 @@ import Subscriptions from './Subscriptions';
 import Invoices from './Invoices';
 
 const SubscriptionAndInvoices = () => {
-  const [value, setValue] = useState('subscription');
+  const [value, setValue] = useState('subscriptions');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -19,13 +19,13 @@ const SubscriptionAndInvoices = () => {
           onChange={handleChange}
           aria-label="subscription & invoices tabs"
         >
-          <Tab label="Subscription" value="subscription" />
+          <Tab label="Subscriptions" value="subscriptions" />
           <Tab label="Invoices" value="invoices" />
           <Tab label="Payment Methods" value="paymentMethods" />
         </TabList>
       </Box>
       <Box sx={{ pt: '40px', '& .MuiTabPanel-root': { p: '0' } }}>
-        <TabPanel value="subscription">
+        <TabPanel value="subscriptions">
           <Subscriptions />
         </TabPanel>
         <TabPanel value="invoices">

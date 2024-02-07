@@ -1,7 +1,13 @@
+import { NoAssociationFoundImage } from '@/assets/images';
 import { Grid, Typography, Box } from '@mui/material';
 import Image from 'next/image';
 
-const NoData = ({ image, message, children, height = '70vh' }: any) => {
+const NoData = ({
+  image = NoAssociationFoundImage,
+  message = 'No data found',
+  children,
+  height = '70vh',
+}: any) => {
   return (
     <Grid
       container
