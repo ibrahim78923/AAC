@@ -17,7 +17,8 @@ const Tasks = () => {
         ]}
       >
         <TabsComp tabValue="" />
-        <TabsComp tabValue="" assignTo={'65782638da7b3457092af1dd'} />
+        <TabsComp tabValue="" />
+        {/* assignTo={'65782638da7b3457092af1dd'} */}
         <TabsComp tabValue="Pending" />
         <TabsComp tabValue="Inprogress" />
         <TabsComp tabValue="Complete" />

@@ -43,7 +43,7 @@ const TabToolbar = ({ handleRefreshList = () => {} }: FilterWrapperI) => {
             </Button>
           </Tooltip>
           <ActionBtn
-            disableActionBtn={selectedTaskIds.length > 0 ? false : true}
+            disableActionBtn={selectedTaskIds?.length > 0 ? false : true}
             onChange={handleActionBtn}
             menuItems={MenuItems}
             title="Actions"
