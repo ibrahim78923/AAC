@@ -7,10 +7,8 @@ import {
   upsertTicketFormFieldsDynamic,
   upsertTicketValidationSchema,
 } from './UpsertRelatedTicket.data';
-import { enqueueSnackbar } from 'notistack';
 
 import { useEffect } from 'react';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useGetTicketsByIdQuery,
   useLazyGetAgentDropdownQuery,
@@ -21,7 +19,7 @@ import {
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
 import { useAddChildTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
-import { makeDateTime } from '@/utils/api';
+import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
 
 export const useUpsertRelatedTicket = (props: any) => {
   const { setIsDrawerOpen, childTicketId, setSelectedChildTickets } = props;
@@ -43,7 +41,7 @@ export const useUpsertRelatedTicket = (props: any) => {
     getSingleTicketParameter,
     {
       refetchOnMountOrArgChange: true,
-      skip: !!!ticketId,
+      skip: !!!childTicketId,
     },
   );
 
@@ -63,11 +61,11 @@ export const useUpsertRelatedTicket = (props: any) => {
     !!data?.category?._id &&
       upsertTicketFormData?.append('category', data?.category?._id);
     upsertTicketFormData?.append('status', data?.status?._id);
-    upsertTicketFormData?.append('pirority', data?.priority);
+    upsertTicketFormData?.append('pirority', data?.priority?._id);
     !!data?.department?._id &&
       upsertTicketFormData?.append('department', data?.department?._id);
-    !!data?.source && upsertTicketFormData?.append('source', data?.source);
-    !!data?.impact && upsertTicketFormData?.append('impact', data?.impact);
+    !!data?.source && upsertTicketFormData?.append('source', data?.source?._id);
+    !!data?.impact && upsertTicketFormData?.append('impact', data?.impact?._id);
     !!data?.agent && upsertTicketFormData?.append('agent', data?.agent?._id);
     (!!data?.plannedEndDate || !!data?.plannedEndTime) &&
       upsertTicketFormData?.append(
@@ -99,15 +97,11 @@ export const useUpsertRelatedTicket = (props: any) => {
 
     try {
       await postChildTicketTrigger(postTicketParameter)?.unwrap();
-      enqueueSnackbar('Child ticket added successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Child ticket added successfully');
       reset();
       setIsDrawerOpen?.(false);
     } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
 
@@ -121,16 +115,12 @@ export const useUpsertRelatedTicket = (props: any) => {
     };
     try {
       await putChildTicketTrigger(putTicketParameter)?.unwrap();
-      enqueueSnackbar('Child ticket updated successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Child ticket updated successfully');
       setSelectedChildTickets([]);
       reset();
       setIsDrawerOpen?.(false);
     } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
   useEffect(() => {

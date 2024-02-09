@@ -41,10 +41,10 @@ export const articlesAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     deleteArticle: builder.mutation({
-      query: (params: any) => ({
+      query: (deleteArticlesParameter: any) => ({
         url: DELETE_KNOWLEDGE_BASE_ARTICLES,
         method: 'DELETE',
-        params,
+        params: deleteArticlesParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
     }),

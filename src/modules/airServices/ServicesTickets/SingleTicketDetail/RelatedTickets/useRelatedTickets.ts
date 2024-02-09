@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useSnackbar } from 'notistack';
 import { useTheme } from '@mui/material';
 import { useLazyGetChildTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 import {
@@ -11,7 +10,6 @@ import { useRouter } from 'next/router';
 
 export const useRelatedTickets = (props: any) => {
   const { setTotalRelatedTickets } = props;
-  const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
   const router = useRouter();
   const ticketId = router?.query?.ticketId;
@@ -23,11 +21,11 @@ export const useRelatedTickets = (props: any) => {
 
   const [selectedChildTickets, setSelectedChildTickets] = useState<any>([]);
 
-  const getTicketsParam = new URLSearchParams();
-  getTicketsParam?.append('page', page + '');
-  getTicketsParam?.append('limit', pageLimit + '');
   const getTicketsParameter = {
-    queryParams: getTicketsParam,
+    queryParams: {
+      page,
+      limit: pageLimit,
+    },
     pathParam: {
       id: ticketId,
     },
@@ -39,7 +37,7 @@ export const useRelatedTickets = (props: any) => {
     try {
       const response =
         await lazyGetChildTicketsTrigger(getTicketsParameter)?.unwrap();
-      setTotalRelatedTickets(response?.data?.data?.meta?.pages);
+      setTotalRelatedTickets(response?.data?.meta?.total);
       setSelectedChildTickets([]);
     } catch (error: any) {
       setSelectedChildTickets([]);
@@ -48,81 +46,31 @@ export const useRelatedTickets = (props: any) => {
 
   useEffect(() => {
     getValueChildTicketsListData();
-    return () => setTotalRelatedTickets('');
-  }, [page, pageLimit]);
-
-  const handleCheckboxChange = (event: any) => {
-    setSelectedChildTickets(event?.target?.checked);
-  };
-  const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
-  const [actionExportPop, setActionExportPop] =
-    useState<HTMLButtonElement | null>(null);
-  const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setActionPop(event?.currentTarget);
-  };
-  const handleActionClose = () => {
-    setActionPop(null);
-  };
-  const openAction = Boolean(actionPop);
-
-  const handleActionExportClick = (event: any) => {
-    setActionExportPop(event?.currentTarget);
-  };
-
-  const handleActionExportClose = () => {
-    setActionExportPop(null);
-  };
-
-  const openActionExport = Boolean(actionExportPop);
+  }, [page, pageLimit, ticketId]);
 
   const relatedTicketsColumns = columnsFunction(
-    lazyGetChildTicketsStatus?.data?.data,
+    lazyGetChildTicketsStatus?.data?.data?.tickets,
     selectedChildTickets,
     setSelectedChildTickets,
     theme,
     router,
   );
 
-  const headerFunctions = () => ({
-    handleActionClick,
-    actionExportPop,
-    actionPop,
-    setActionPop,
-    handleActionExportClose,
-    openAction,
-    handleActionExportClick,
-    handleActionClose,
-    openActionExport,
-  });
   const relatedTicketsActionDropdown = relatedTicketsActionDropdownFunction(
     setIsDelete,
     selectedChildTickets,
     setIsDrawerOpen,
   );
+
   return {
-    enqueueSnackbar,
     setIsDrawerOpen,
     isDrawerOpen,
-    handleCheckboxChange,
-    setSelectedChildTickets,
     selectedChildTickets,
-    handleActionClick,
-    actionExportPop,
-    actionPop,
-    setActionPop,
-    handleActionExportClose,
-    openAction,
-    handleActionExportClick,
-    handleActionClose,
-    openActionExport,
     relatedTicketsColumns,
-    headerFunctions,
-    page,
     setPage,
-    pageLimit,
-    setPageLimit,
     lazyGetChildTicketsStatus,
-    ticketId,
+    setPageLimit,
+    setSelectedChildTickets,
     relatedTicketsActionDropdown,
     isDelete,
     setIsDelete,

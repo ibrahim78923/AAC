@@ -21,6 +21,7 @@ export const buildQueryParams = (
   additionalParams: any,
   filterLists: any,
   neglectKeysInLoop: any = [],
+  extraFilters: any = [],
 ) => {
   const getQueryParam = new URLSearchParams();
 
@@ -45,6 +46,9 @@ export const buildQueryParams = (
   );
 
   additionalParams?.forEach(([key, value]: any) => {
+    getQueryParam?.append(key, value);
+  });
+  extraFilters?.forEach(([key, value]: any) => {
     getQueryParam?.append(key, value);
   });
   return getQueryParam;

@@ -1,6 +1,5 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useDeleteChildTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
-import { enqueueSnackbar } from 'notistack';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDeleteRelatedTicket = (props: any) => {
   const {
@@ -11,26 +10,23 @@ export const useDeleteRelatedTicket = (props: any) => {
   } = props;
   const [deleteChildTicketsTrigger, deleteChildTicketsStatus] =
     useDeleteChildTicketsMutation();
+
   const deleteTicket = async () => {
     const deleteParams = new URLSearchParams();
     selectedChildTickets?.forEach(
-      (ticketId: any) => deleteParams?.append('Ids', ticketId),
+      (ticketId: any) => deleteParams?.append('ids', ticketId),
     );
     const deleteTicketsParameter = {
       queryParams: deleteParams,
     };
     try {
       await deleteChildTicketsTrigger(deleteTicketsParameter)?.unwrap();
-      enqueueSnackbar('Child Ticket deleted successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Child Ticket deleted successfully');
       setSelectedChildTickets([]);
       setPage(1);
       closeTicketsDeleteModal?.();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.error ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
       setSelectedChildTickets([]);
       closeTicketsDeleteModal?.();
     }

@@ -1,13 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
 import {
   upsertValidationSchema,
   upsertDefaultValues,
 } from './UpsertFolder.data';
 import { usePostFolderMutation } from '@/services/airServices/assets/knowledge-base/articles';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { errorSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useUpsertFolder = (props: any) => {
   const { setOpenDialog } = props;
@@ -20,11 +18,14 @@ export const useUpsertFolder = (props: any) => {
   const [postFolderTrigger, postFolderStatus] = usePostFolderMutation();
 
   const onSubmit = async (data: any) => {
+    const body = {
+      ...data,
+      visibility: data?.visibility?._id,
+    };
+
     try {
-      await postFolderTrigger(data)?.unwrap();
-      enqueueSnackbar('Create Folder Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postFolderTrigger(body)?.unwrap();
+      successSnackbar('Create Folder Successfully!');
       closeUpsetFolderModal?.();
     } catch (error: any) {
       errorSnackbar?.();
@@ -35,6 +36,7 @@ export const useUpsertFolder = (props: any) => {
     setOpenDialog(false);
     reset();
   };
+
   return {
     methods,
     handleSubmit,

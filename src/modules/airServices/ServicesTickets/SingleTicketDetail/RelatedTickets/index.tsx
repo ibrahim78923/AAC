@@ -10,7 +10,6 @@ const RelatedTickets = (props: any) => {
     isDrawerOpen,
     selectedChildTickets,
     relatedTicketsColumns,
-    headerFunctions,
     setPage,
     lazyGetChildTicketsStatus,
     setPageLimit,
@@ -27,7 +26,6 @@ const RelatedTickets = (props: any) => {
         relatedTicketsActionDropdown={relatedTicketsActionDropdown}
         isActive={!!!selectedChildTickets?.length}
         setIsDrawerOpen={setIsDrawerOpen}
-        headerFunctions={headerFunctions}
       />
 
       {isDrawerOpen && (

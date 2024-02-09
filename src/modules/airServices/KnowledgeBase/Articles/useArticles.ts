@@ -10,7 +10,7 @@ import {
 import { PAGINATION } from '@/config';
 import { buildQueryParams } from '@/utils/api';
 
-export const useArticles = () => {
+export const useArticles: any = () => {
   const theme = useTheme();
   const { push } = useRouter();
   const [selectedArticlesData, setSelectedArticlesData] = useState([]);
@@ -32,7 +32,15 @@ export const useArticles = () => {
     ['limit', pageLimit + ''],
     ['search', search],
   ];
-  const articlesParam: any = buildQueryParams(additionalParams, filterValues);
+  const extraFilters = [
+    ['folderId', selectedArticlesTab === 'all' ? '' : selectedArticlesTab],
+  ];
+  const articlesParam: any = buildQueryParams(
+    additionalParams,
+    filterValues,
+    [],
+    extraFilters,
+  );
   const getArticlesParameter = {
     queryParams: articlesParam,
   };
@@ -47,7 +55,7 @@ export const useArticles = () => {
 
   useEffect(() => {
     getValueArticlesListData();
-  }, [search, page, pageLimit, filterValues]);
+  }, [search, page, pageLimit, filterValues, selectedArticlesTab]);
 
   const { data: folderData } = useGetFoldersQuery({});
 
@@ -55,19 +63,6 @@ export const useArticles = () => {
     { name: 'all', _id: 'all' },
     ...(folderData?.data ?? []),
   ];
-
-  const handleSelectedArticlesTab = (tab: string) => {
-    // if (tab !== 'all') {
-    //   setQueryParams((prev: any) => ({ ...prev, folderId: tab }));
-    // } else {
-    //   setQueryParams((param: any) => {
-    //     const paramData: any = { ...param };
-    //     delete paramData?.folderId;
-    //     return paramData;
-    //   });
-    // }
-    setSelectedArticlesTab(tab);
-  };
 
   const handleSingleArticleNavigation = (id: string) => {
     push({
@@ -100,7 +95,6 @@ export const useArticles = () => {
   return {
     articlesColumns,
     selectedArticlesTab,
-    handleSelectedArticlesTab,
     selectedArticlesData,
     openDeleteModal,
     setOpenDeleteModal,
@@ -120,5 +114,6 @@ export const useArticles = () => {
     setSelectedArticlesData,
     filterValues,
     setFilterValues,
+    setSelectedArticlesTab,
   };
 };

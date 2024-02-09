@@ -49,7 +49,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
     subject: data?.subject ?? '',
     description: data?.description ?? '',
     category: data?.category ?? null,
-    status: data?.status ? { _id: data?.status, label: data?.status } : null,
+    status: data?.status ?? null,
     priority: data?.pirority ?? null,
     department: !!Object?.keys(data?.departmentDetails ?? {})?.length
       ? data?.departmentDetails
