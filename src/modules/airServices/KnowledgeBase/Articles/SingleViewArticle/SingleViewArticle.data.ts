@@ -1,10 +1,10 @@
-export const sideData = [
+export const sideData = (data: any) => [
   {
     heading: 'Details',
     details: [
       {
         title: 'Author:',
-        des: 'Minahil',
+        des: data?.folder,
       },
       {
         title: 'Created  on:',

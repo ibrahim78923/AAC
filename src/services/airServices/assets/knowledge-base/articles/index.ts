@@ -19,8 +19,8 @@ export const articlesAPI = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
     getArticleById: builder.query({
-      query: (id: any) => ({
-        url: `${KNOWLEDGE_BASE_ARTICLE}/${id}`,
+      query: (getSingleArticleParameter: any) => ({
+        url: `${KNOWLEDGE_BASE_ARTICLE}/${getSingleArticleParameter?.pathParam?.articleId}`,
       }),
       providesTags: [TAG],
     }),

@@ -5,7 +5,7 @@ import { ArrowLeftIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
 import { styles } from './SingleViewArticle.style';
 import { useSingleViewArticle } from './useSingleViewArticle';
-import { articleEditorData, sideData } from './SingleViewArticle.data';
+import { sideData } from './SingleViewArticle.data';
 
 export const SingleViewArticle = () => {
   const {
@@ -15,6 +15,10 @@ export const SingleViewArticle = () => {
     setOpenDelete,
     handleDeleteSubmit,
     handleEditSubmit,
+    data,
+    // isLoading,
+    // isFetching,
+    // isError,
   } = useSingleViewArticle();
   return (
     <>
@@ -40,12 +44,12 @@ export const SingleViewArticle = () => {
               View Article
             </Typography>
           </Box>
-          <div dangerouslySetInnerHTML={{ __html: articleEditorData }}></div>
+          <div dangerouslySetInnerHTML={{ __html: data?.data?.details }}></div>
         </Grid>
         <Grid item xs={12} lg={3}>
           <Box sx={styles?.sideStyle(theme)}>
             <Box>
-              {sideData?.map((item: any) => (
+              {sideData?.(data?.data)?.map((item: any) => (
                 <Grid
                   container
                   key={item?._id}
