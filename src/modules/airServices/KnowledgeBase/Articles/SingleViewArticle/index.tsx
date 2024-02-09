@@ -89,16 +89,22 @@ export const SingleViewArticle = () => {
                   ))}
                   {item?.keyword && (
                     <Grid item display={'flex'} flexWrap={'wrap'} gap={1}>
-                      {item?.keyword?.map((i: any) => (
-                        <Typography
-                          key={i?._id}
-                          variant="body2"
-                          sx={styles?.keywordStyle(theme)}
-                        >
-                          {<FiberManualRecordSharpIcon fontSize={'inherit'} />}
-                          {i}
-                        </Typography>
-                      ))}
+                      {!!item?.keyword.length
+                        ? item?.keyword?.map((i: any) => (
+                            <Typography
+                              key={i?._id}
+                              variant="body2"
+                              sx={styles?.keywordStyle(theme)}
+                            >
+                              {
+                                <FiberManualRecordSharpIcon
+                                  fontSize={'inherit'}
+                                />
+                              }
+                              {i}
+                            </Typography>
+                          ))
+                        : []}
                     </Grid>
                   )}
                   <Divider sx={{ mt: 2 }} />
