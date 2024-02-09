@@ -102,11 +102,10 @@ const SalesProductCategories = () => {
         </Box>
         <Box sx={styles?.searchAction}>
           <Search
-            label={'Search here'}
+            label="Search here"
             searchBy={productSearch}
             setSearchBy={setproductSearch}
             width="260px"
-            size="small"
           />
           <Button
             id="basic-button"

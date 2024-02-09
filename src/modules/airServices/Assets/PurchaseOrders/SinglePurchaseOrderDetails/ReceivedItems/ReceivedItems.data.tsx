@@ -1,17 +1,27 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
 import { useWatch } from 'react-hook-form';
+import * as Yup from 'yup';
+export const addItemValidationSchemaOne = Yup?.object()?.shape({
+  itemName: Yup?.string(),
+  received: Yup?.number(),
+  quantity: Yup?.string(),
+  pending: Yup?.string(),
+});
 
-export const itemDetail = [
-  {
-    itemName: 'Product A',
-    received: '10',
-    quantity: '20',
-    pending: '10',
-  },
+export const addItemDefaultValuesFunction = (data?: any) => {
+  return {
+    test: [
+      {
+        itemName: data?.itemName ?? '',
+        received: data?.received ?? null,
+        quantity: data?.quantity ?? '',
+        pending: data?.quantity ?? '',
+      },
+    ],
+  };
+};
 
-  // Add more items as needed
-];
 export const itemDetailColumns = [
   'itemName',
   'received',

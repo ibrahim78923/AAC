@@ -12,18 +12,5 @@ export const styles = () => {
     }),
     selectedTabColor: (tab: string, selectedArticlesTab: string, theme: any) =>
       theme?.palette?.grey?.[tab === selectedArticlesTab ? '800' : '900'],
-    articleStatus: (status: string, theme: any) => ({
-      backgroundColor:
-        status?.toLocaleLowerCase() === 'published'
-          ? theme?.palette?.blue?.main
-          : theme?.palette?.grey?.['400'],
-      color:
-        status?.toLocaleLowerCase() === 'published'
-          ? 'white'
-          : theme?.palette?.slateBlue?.main,
-      padding: '0.25rem 0.75rem',
-      borderRadius: '1rem',
-      textTransform: 'capitalize',
-    }),
   };
 };

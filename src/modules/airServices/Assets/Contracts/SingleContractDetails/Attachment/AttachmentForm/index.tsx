@@ -12,6 +12,7 @@ export const AttachmentForm = () => {
     resolver: yupResolver(attachmentFormSchemaFunction),
     defaultValues: attachmentFormDefaultFormValues,
   });
+
   const submitAttachmentForm = () => {
     // console.log(data);
   };

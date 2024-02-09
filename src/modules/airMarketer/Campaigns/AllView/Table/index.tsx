@@ -1,6 +1,6 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { columns, data } from './Table.data';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Stack, Typography } from '@mui/material';
 import ActionButton from '../ActionButton';
 import Search from '@/components/Search';
 import { useState } from 'react';
@@ -12,29 +12,25 @@ const Table = () => {
   const router = useRouter();
   return (
     <Grid container>
-      <Grid
-        item
-        md={12}
-        lg={12}
-        style={{ display: 'flex', justifyContent: 'space-between' }}
-      >
+      <Grid item md={12} lg={12} style={{ justifyContent: 'space-between' }}>
         <Typography variant="h3" onClick={() => router?.back()}>
           <BackArrowIcon /> &nbsp; All View
         </Typography>
       </Grid>
-      <Grid md={6} mt={2}>
-        <Search
-          searchBy={seacrhBy}
-          label="Search Here"
-          width="260px"
-          size="small"
-          setSearchBy={setSearchBy}
-        />
+      <Grid xs={12} mt={2}>
+        <Stack direction={{ sm: 'row' }} gap={1} justifyContent="space-between">
+          <Search
+            searchBy={seacrhBy}
+            label="Search Here"
+            width="260px"
+            size="small"
+            setSearchBy={setSearchBy}
+          />
+          <ActionButton />
+        </Stack>
       </Grid>
-      <Grid md={6} style={{ textAlign: 'end' }}>
-        <ActionButton />
-      </Grid>
-      <Grid md={12} mt={2}>
+
+      <Grid md={12} xs={12} mt={2}>
         <TanstackTable columns={columns} data={data} isPagination />,
       </Grid>
     </Grid>

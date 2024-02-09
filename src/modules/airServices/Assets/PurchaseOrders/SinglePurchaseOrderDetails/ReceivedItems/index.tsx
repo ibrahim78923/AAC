@@ -5,11 +5,10 @@ import React from 'react';
 import { Alert } from '@mui/material';
 import { useReceivedItems } from './useReceivedItems';
 import {
-  itemDetail,
   itemDetailColumns,
   itemDetailFormFieldsFunction,
 } from './ReceivedItems.data';
-import { useForm, useFieldArray, FormProvider } from 'react-hook-form';
+
 import {
   Table,
   TableBody,
@@ -18,22 +17,18 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-
+import { FormProvider } from '@/components/ReactHookForm';
 export const ReceivedItems = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
 
-  const { errorOccurred, submitHandler } = useReceivedItems(props); // Extract 'control' from useReceivedItems
-
-  const method = useForm({
-    defaultValues: {
-      test: itemDetail,
-    },
-  });
-  const { handleSubmit } = method;
-  const { fields } = useFieldArray({
-    control: method?.control,
-    name: 'test',
-  });
+  const {
+    errorOccurred,
+    submitHandler,
+    handleSubmit,
+    fields,
+    control,
+    method,
+  } = useReceivedItems(props);
 
   return (
     <CommonDrawer
@@ -54,7 +49,7 @@ export const ReceivedItems = (props: any) => {
             quantity
           </Alert>
         )}
-        <FormProvider {...method}>
+        <FormProvider methods={method}>
           {' '}
           <TableContainer>
             <Table sx={{ minWidth: '100px' }}>
@@ -69,7 +64,7 @@ export const ReceivedItems = (props: any) => {
                 {fields?.map((item: any, index: any) => (
                   <TableRow key={item?.id}>
                     {itemDetailFormFieldsFunction?.(
-                      method?.control,
+                      control,
                       'test',
                       index,
                     )?.map((singleField: any) => (

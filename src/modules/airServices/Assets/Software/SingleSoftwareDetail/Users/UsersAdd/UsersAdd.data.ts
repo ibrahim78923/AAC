@@ -1,41 +1,43 @@
-import { RHFAutocomplete } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 export const addUserValidationSchema = Yup?.object()?.shape({
-  user: Yup?.string()?.required('Required'),
-  contract: Yup?.string()?.notRequired(),
+  user: Yup?.mixed()?.nullable()?.required('Required'),
+  contract: Yup?.mixed()?.nullable(),
 });
-export const addUserDefaultValues = {
-  user: '',
-  contract: '',
+export const addUserDefaultValues = () => {
+  return {
+    user: null,
+    contract: null,
+  };
 };
-export const userSelectOption = ['Andrew', 'John', 'Root'];
 
-export const userSelectData = ['BE1', 'BE2', 'BE3'];
-
-export const addUserData = [
+export const addUserData = (userDropdown: any, contractDropdown: any) => [
   {
     id: 1,
     componentProps: {
       name: 'user',
       label: 'User',
       fullWidth: true,
-      options: userSelectOption,
+      apiQuery: userDropdown,
       required: true,
+      getOptionLabel: (option: any) =>
+        option?.firstName + ' ' + option?.lastName,
     },
 
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
-    id: 1,
+    id: 2,
     componentProps: {
       name: 'contract',
       label: 'Contract',
       fullWidth: true,
-      options: userSelectData,
+      apiQuery: contractDropdown,
+      getOptionLabel: (option: any) => option?.name,
     },
 
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
 ];

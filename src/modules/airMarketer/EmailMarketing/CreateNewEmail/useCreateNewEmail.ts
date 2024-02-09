@@ -1,13 +1,13 @@
-// import { useRef } from 'react';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { useTheme } from '@mui/material';
 import { createNewEmailSchema, defaultValues } from './CreateNewEmail.data';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 export const useCreateNewEmail = () => {
+  const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const [isBcc, setIsBcc] = useState<string[]>(['both']);
   const [isAddNoteDrawer, setIsAddNoteDrawer] = useState<boolean>(false);
@@ -69,5 +69,6 @@ export const useCreateNewEmail = () => {
     isScheduleModalOpen,
     handleScheduleModal,
     openCalendar,
+    router,
   };
 };

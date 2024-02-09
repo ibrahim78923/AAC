@@ -1,43 +1,44 @@
-import { Button, Grid, MenuItem, Popover, Typography } from '@mui/material';
-import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
-import { styles } from '../RelatedTickets.styles';
+import { Box, Button, Typography } from '@mui/material';
+import { CirclePlusIcon } from '@/assets/icons';
+import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 
 export const RelatedTicketsHeader = ({
   isActive,
   setIsDrawerOpen,
-  setDrawerType,
-  headerFunctions,
+  // headerFunctions,
+  relatedTicketsActionDropdown,
 }: any) => {
-  const {
-    handleActionClick,
-    actionExportPop,
-    actionPop,
-    setActionPop,
-    handleActionExportClose,
-    openAction,
-    handleActionExportClick,
-    handleActionClose,
-    openActionExport,
-    handleDeleteChildTickets,
-  } = headerFunctions();
+  // const {
+  //   handleActionClick,
+  //   actionExportPop,
+  //   actionPop,
+  //   setActionPop,
+  //   handleActionExportClose,
+  //   openAction,
+  //   handleActionExportClick,
+  //   handleActionClose,
+  //   openActionExport,
+  //   handleDeleteChildTickets,
+  // } = headerFunctions();
 
   return (
-    <Grid container spacing={{ sm: 0, xs: 2 }} sx={styles?.headContainer}>
-      <Grid
-        item
-        sm={6}
-        xs={12}
-        sx={{
-          display: 'flex',
-          justifyContent: { sm: 'flex-start', xs: 'center' },
-        }}
-      >
-        <Typography variant="h5" sx={styles?.headtext}>
-          Child Tickets
-        </Typography>
-      </Grid>
-      <Grid sm={6} xs={12} item sx={styles?.btnContainer}>
-        <Button
+    <Box
+      display="flex"
+      justifyContent={'space-between'}
+      flexWrap={'wrap'}
+      gap={1}
+      alignItems={'center'}
+    >
+      <Typography variant="h5" color="slateBlue.main">
+        Child Tickets
+      </Typography>
+      <Box display="flex" flexWrap={'wrap'} gap={1}>
+        <SingleDropdownButton
+          disabled={isActive}
+          dropdownOptions={relatedTicketsActionDropdown}
+        />
+        {/* TODO: according to user story */}
+        {/* <Button
           color="secondary"
           endIcon={<ActionButtonIcon />}
           onClick={handleActionClick}
@@ -62,7 +63,6 @@ export const RelatedTicketsHeader = ({
           <MenuItem
             onClick={() => {
               setIsDrawerOpen(true), setActionPop(null);
-              setDrawerType('Update');
             }}
             sx={{ p: 1 }}
           >
@@ -82,15 +82,16 @@ export const RelatedTicketsHeader = ({
               <MenuItem>Excel</MenuItem>
             </Popover>
           </MenuItem>
-        </Popover>
+        </Popover> */}
         <Button
-          sx={styles?.addTicketBtn}
+          disableElevation
+          variant="contained"
           onClick={() => setIsDrawerOpen(true)}
           startIcon={<CirclePlusIcon />}
         >
           Add Child Ticket
         </Button>
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   );
 };
