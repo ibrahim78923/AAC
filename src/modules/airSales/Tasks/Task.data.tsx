@@ -5,11 +5,10 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 import { Checkbox } from '@mui/material';
-import TanstackTable from '@/components/Table/TanstackTable';
-import GridView from './GridView';
-import { useTask } from './useTask';
 import * as Yup from 'yup';
 import SearchableTabsSelect from '@/modules/airSales/Tasks/searchableTabsSelect/SearchableTabsSelect';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setSelectedTaskIds } from '@/redux/slices/taskManagement/taskManagementSlice';
 
 export const filterDefaultValues = {
   assignee: '',
@@ -274,139 +273,79 @@ export const createTaskData = [
   },
 ];
 
-export const tasksColumns: any = [
-  {
-    accessorFn: (row?: any) => row?.Id,
-    id: '_id',
-    cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
-    header: <Checkbox color="primary" name="Id" />,
-    isSortable: false,
-  },
-  {
-    accessorFn: (row?: any) => row?.name,
-    id: 'name',
-    cell: (info?: any) => info?.getValue(),
-    header: 'Task Name',
-    isSortable: true,
-  },
-  {
-    accessorFn: (row?: any) => row?.status,
-    id: 'status',
-    isSortable: true,
-    header: 'Task Status',
-    cell: (info?: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row?: any) => row?.associate, // TODO Need to discuss
-    id: 'associate',
-    isSortable: true,
-    header: 'Linked Company',
-    cell: (info?: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row?: any) => row?.assignTo,
-    id: 'assignTo',
-    isSortable: true,
-    header: 'Assigned User',
-    cell: (info?: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row?: any) => row?.type,
-    id: 'type',
-    isSortable: true,
-    header: 'task Type',
-    cell: (info?: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row?: any) => row?.updatedAt,
-    id: 'updatedAt',
-    isSortable: true,
-    header: 'last Date',
-    cell: (info?: any) => info?.getValue(),
-  },
-];
-
 export const TasksData = () => {
-  const { taskData, setPage, setPageLimit, isLoading } = useTask();
-  const dataCheck = taskData?.data?.taskmanagements ?? [];
-  const TaskTableData = (type: string) =>
-    type === 'all'
-      ? dataCheck
-      : dataCheck?.filter((obj: any) => obj?.status === type);
+  const dispatch: any = useAppDispatch();
+
+  const selectedTaskIds = useAppSelector(
+    (state: any) => state?.task?.selectedTaskIds,
+  );
+
+  const handleClick = (itemId: any) => {
+    if (selectedTaskIds.includes(itemId)) {
+      dispatch(
+        setSelectedTaskIds(selectedTaskIds?.filter((id: any) => id !== itemId)),
+      );
+    } else {
+      dispatch(setSelectedTaskIds([...selectedTaskIds, itemId]));
+    }
+  };
 
   return [
     {
-      index: 0,
-      label: 'All',
-      tableChildren: (
-        <TanstackTable
-          data={TaskTableData('all')}
-          columns={tasksColumns}
-          isLoading={isLoading}
-          totalRecords={taskData?.data?.meta?.total}
-          onPageChange={(page: any) => setPage(page)}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-          count={taskData?.data?.meta?.pages}
-          isPagination
+      accessorFn: (row?: any) => row?.Id,
+      id: '_id',
+      cell: (info: any) => (
+        <Checkbox
+          checked={selectedTaskIds?.includes(info?.row?.original?._id)}
+          color="primary"
+          name={info?.getValue()}
+          onClick={() => handleClick(info?.row?.original?._id)}
         />
       ),
-      gridChildtren: (
-        <GridView
-          title={'All'}
-          data={TaskTableData('all')}
-          myTaskData={TaskTableData('my-task')}
-          pendingData={TaskTableData('Pending')}
-          inprogressData={TaskTableData('inprogress')}
-          completedData={TaskTableData('Complete')}
-        />
-      ),
+      header: <Checkbox color="primary" name="Id" />,
+      isSortable: false,
     },
     {
-      index: 1,
-      label: 'My Tasks',
-      tableChildren: (
-        <TanstackTable data={TaskTableData('my-task')} columns={tasksColumns} />
-      ),
-      gridChildtren: (
-        <GridView title={'My Tasks'} data={TaskTableData('my-task')} />
-      ),
+      accessorFn: (row?: any) => row?.name,
+      id: 'name',
+      cell: (info?: any) => info?.getValue(),
+      header: 'Task Name',
+      isSortable: true,
     },
     {
-      index: 2,
-      label: 'Pending',
-      tableChildren: (
-        <TanstackTable data={TaskTableData('Pending')} columns={tasksColumns} />
-      ),
-      gridChildtren: (
-        <GridView title={'Pending'} data={TaskTableData('Pending')} />
-      ),
+      accessorFn: (row?: any) => row?.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Task Status',
+      cell: (info?: any) => info?.getValue(),
     },
     {
-      index: 3,
-      label: 'In-Progress',
-      tableChildren: (
-        <TanstackTable
-          data={TaskTableData('inprogress')}
-          columns={tasksColumns}
-        />
-      ),
-      gridChildtren: (
-        <GridView title={'inprogress'} data={TaskTableData('inprogress')} />
-      ),
+      accessorFn: (row?: any) => row?.associate, // TODO Need to discuss
+      id: 'associate',
+      isSortable: true,
+      header: 'Linked Company',
+      cell: (info?: any) => info?.getValue(),
     },
     {
-      index: 4,
-      label: 'Completed',
-      tableChildren: (
-        <TanstackTable
-          data={TaskTableData('Complete')}
-          columns={tasksColumns}
-        />
-      ),
-      gridChildtren: (
-        <GridView title={'Complete'} data={TaskTableData('Complete')} />
-      ),
+      accessorFn: (row?: any) => row?.assignTo,
+      id: 'assignTo',
+      isSortable: true,
+      header: 'Assigned User',
+      cell: (info?: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row?: any) => row?.type,
+      id: 'type',
+      isSortable: true,
+      header: 'task Type',
+      cell: (info?: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row?: any) => row?.updatedAt,
+      id: 'updatedAt',
+      isSortable: true,
+      header: 'last Date',
+      cell: (info?: any) => info?.getValue(),
     },
   ];
 };

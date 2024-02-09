@@ -63,6 +63,7 @@ const useStatisticsCard = () => {
       `${theme?.palette?.error?.main}`,
     ],
     legend: {
+      position: 'top',
       horizontalAlign: 'right',
       verticalAlign: 'top',
       itemMargin: {

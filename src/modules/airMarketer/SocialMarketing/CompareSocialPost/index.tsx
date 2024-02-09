@@ -54,7 +54,7 @@ const CompareSocialPost = () => {
             <Box
               display="flex"
               gap={5}
-              flexDirection={{ xs: 'column', md: 'row' }}
+              flexDirection={{ xs: 'column', lg: 'row' }}
             >
               <Box>
                 <Typography variant="h5" color={theme?.palette?.grey[600]}>

@@ -123,7 +123,7 @@ const TemplateForm = ({ handelSwitch, templateType }: any) => {
             sx={{ display: 'flex', gap: '15px', mt: 5, justifyContent: 'end' }}
           >
             <Button
-              onClick={handleSubmit(onSubmit)}
+              onClick={() => handelSwitch(true)}
               color="inherit"
               sx={{
                 '@media (max-width:581px)': {

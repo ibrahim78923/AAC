@@ -3,10 +3,14 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flexWrap: 'wrap',
     p: '16px 24px',
   }),
   pageHeaderTitle: (theme: any) => ({
     color: theme?.palette?.grey[800],
+    '@media (max-width: 532px)': {
+      marginBottom: '18px',
+    },
   }),
   actionButton: (theme: any) => ({
     border: `1px solid ${theme?.palette?.grey[0]}`,

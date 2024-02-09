@@ -28,7 +28,7 @@ export const style = {
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     position: 'relative',
     '.MuiAvatar-root': {
       border: `2px solid ${theme?.common?.white}`,

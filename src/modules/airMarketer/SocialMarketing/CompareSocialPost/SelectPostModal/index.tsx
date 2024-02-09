@@ -1,10 +1,11 @@
-import { Box, Button } from '@mui/material';
+import { useState } from 'react';
+import { Box } from '@mui/material';
 import Search from '@/components/Search';
 import CommonModal from '@/components/CommonModal';
 import { useComparePost } from '../useComparePost';
 import PostCards from './PostCards';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
-import { useState } from 'react';
+import ContactsActions from '../../PostBox/PostBoxActions';
 
 const SelectPostModal = (props: any) => {
   const {
@@ -32,9 +33,11 @@ const SelectPostModal = (props: any) => {
         >
           <Box>
             <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
+              sx={{
+                display: 'flex',
+                gap: 1,
+                flexWrap: 'wrap',
+              }}
             >
               <Search
                 label="search"
@@ -43,14 +46,20 @@ const SelectPostModal = (props: any) => {
                 setSearchBy={setSearchBy}
                 size="small"
               />
-              <Box display="flex" alignItems="center" gap={1}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 1,
+                  flexWrap: 'wrap',
+                }}
+              >
                 <SwitchableDatepicker
                   renderInput="button"
                   placement="right"
                   dateValue={datePickerVal}
                   setDateValue={setDatePickerVal}
                 />
-                <Button variant="outlined">Filter</Button>
+                <ContactsActions />
               </Box>
             </Box>
             <Box mt={3}>
