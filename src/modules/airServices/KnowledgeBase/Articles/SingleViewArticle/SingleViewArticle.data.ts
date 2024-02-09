@@ -1,28 +1,30 @@
+import { fullName } from '@/utils/avatarUtils';
+
 export const sideData = (data: any) => [
   {
     heading: 'Details',
     details: [
       {
         title: 'Author:',
-        des: data?.folder,
+        des: fullName(data?.author?.firstName, data?.author?.lastName),
       },
       {
         title: 'Created  on:',
-        des: 'Tue, 14 Mar   10:00 AM',
+        des: data?.createdAt,
       },
       {
         title: 'Status:',
-        des: 'Published',
+        des: data?.status,
       },
       {
         title: 'Folder:',
-        des: 'Training',
+        des: data?.folder?.name,
       },
       {
         title: 'Keywords:',
       },
     ],
-    keyword: ['Password', 'security', 'firewall', 'secure'],
+    keyword: data?.keywords,
   },
   {
     heading: 'Analytics',

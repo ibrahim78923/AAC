@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Box, Divider, Grid, Skeleton, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import FiberManualRecordSharpIcon from '@mui/icons-material/FiberManualRecordSharp';
 import { ArrowLeftIcon } from '@/assets/icons';
@@ -16,10 +16,13 @@ export const SingleViewArticle = () => {
     handleDeleteSubmit,
     handleEditSubmit,
     data,
-    // isLoading,
-    // isFetching,
+    isLoading,
+    isFetching,
     // isError,
   } = useSingleViewArticle();
+
+  if (isLoading || isFetching) return <Skeleton />;
+
   return (
     <>
       <Grid container spacing={1} justifyContent={'space-between'}>

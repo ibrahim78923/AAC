@@ -37,6 +37,9 @@ export const useSingleViewArticle = () => {
   const handleEditSubmit = () => {
     router?.push({
       pathname: AIR_SERVICES?.UPSERT_ARTICLE,
+      query: {
+        articleId,
+      },
     });
   };
   return {
