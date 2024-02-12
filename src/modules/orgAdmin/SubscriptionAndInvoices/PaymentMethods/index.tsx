@@ -3,7 +3,6 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import AddCard from './AddCard';
 import usePaymentMethods from './usePaymentMethods';
-import CustomPagination from '@/components/CustomPagination';
 import { DropdownIcon } from '@/assets/icons';
 import { paymentData } from '@/mock/modules/SubscriptionAndInvoices';
 import { AlertModals } from '@/components/AlertModals';
@@ -101,13 +100,7 @@ const PaymentMethods = () => {
           </Box>
         </Box>
 
-        <TanstackTable columns={getRowValues} data={paymentData} />
-
-        <CustomPagination
-          count={3}
-          rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={paymentData?.length}
-        />
+        <TanstackTable columns={getRowValues} data={paymentData} isPagination />
       </Box>
       <AddCard
         open={openAddCard}

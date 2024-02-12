@@ -219,7 +219,16 @@ const SwitchableDatepicker = ({
             onClick={handleClick}
           >
             <CanlendarButtonIcon />
-            <Box sx={{ ml: '8px', display: 'inline-flex' }}>Date</Box>
+            <Box
+              sx={{
+                ml: '8px',
+                display: 'inline-flex',
+                fontSize: '16px',
+                fontWeight: 500,
+              }}
+            >
+              Date
+            </Box>
           </Button>
         ) : (
           <Stack
