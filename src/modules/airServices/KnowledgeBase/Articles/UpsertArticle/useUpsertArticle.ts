@@ -15,7 +15,7 @@ const { KNOWLEDGE_BASE, KNOWLEDGE_BASE_VIEW_ARTICLE } = AIR_SERVICES;
 
 export const useUpsertArticle = () => {
   const { push, query } = useRouter();
-  const articleId = query?.id;
+  const articleId = query?.articleId;
   const { data } = useGetArticleByIdQuery(articleId);
   const articleData = data?.data;
   const { data: folderData } = useGetFoldersQuery({});
@@ -28,9 +28,10 @@ export const useUpsertArticle = () => {
   const editArticleMethods = useForm({
     defaultValues: defaultValues(articleData),
   });
+  const { reset } = editArticleMethods;
   useEffect(() => {
-    editArticleMethods?.reset(defaultValues(articleData));
-  }, [articleId, data]);
+    reset(() => defaultValues(articleData));
+  }, [articleId, data, reset]);
 
   const needApprovals = editArticleMethods?.watch('needsApproval');
   const editArticleSubmit = async () => {
@@ -57,5 +58,6 @@ export const useUpsertArticle = () => {
     articleData,
     folderOptions,
     newArticleFields,
+    articleId,
   };
 };

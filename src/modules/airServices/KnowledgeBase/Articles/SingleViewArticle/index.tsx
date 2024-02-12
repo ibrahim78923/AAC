@@ -2,18 +2,18 @@ import { Box, Divider, Grid, Skeleton, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import FiberManualRecordSharpIcon from '@mui/icons-material/FiberManualRecordSharp';
 import { ArrowLeftIcon } from '@/assets/icons';
-import { AlertModals } from '@/components/AlertModals';
 import { styles } from './SingleViewArticle.style';
 import { useSingleViewArticle } from './useSingleViewArticle';
 import { sideData } from './SingleViewArticle.data';
+import { DeleteArticles } from '../DeleteArticles';
 
 export const SingleViewArticle = () => {
   const {
     theme,
     handlePageBack,
     openDelete,
+    articleId,
     setOpenDelete,
-    handleDeleteSubmit,
     handleEditSubmit,
     data,
     isLoading,
@@ -132,14 +132,11 @@ export const SingleViewArticle = () => {
           </Box>
         </Grid>
       </Grid>
-      <AlertModals
-        open={openDelete}
-        handleClose={() => setOpenDelete(false)}
-        type="delete"
-        message="Are you sure you want to delete?"
-        handleSubmitBtn={handleDeleteSubmit}
-        cancelBtnText="Cancel"
-        submitBtnText="Delete"
+      <DeleteArticles
+        deleteModalOpen={openDelete}
+        setDeleteModalOpen={setOpenDelete}
+        selectedArticlesData={[articleId]}
+        // setSelectedArticlesData={setSelectedArticlesData}
       />
     </>
   );

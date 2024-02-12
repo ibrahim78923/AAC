@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
 import { useGetArticleByIdQuery } from '@/services/airServices/assets/knowledge-base/articles';
 
@@ -27,13 +26,7 @@ export const useSingleViewArticle = () => {
       skip: !!!articleId,
     },
   );
-  const handleDeleteSubmit = () => {
-    enqueueSnackbar('Article deleted successfully', {
-      variant: 'success',
-    });
-    setOpenDelete(false);
-    router?.push(KNOWLEDGE_BASE);
-  };
+
   const handleEditSubmit = () => {
     router?.push({
       pathname: AIR_SERVICES?.UPSERT_ARTICLE,
@@ -46,8 +39,8 @@ export const useSingleViewArticle = () => {
     handlePageBack,
     theme,
     openDelete,
+    articleId,
     setOpenDelete,
-    handleDeleteSubmit,
     handleEditSubmit,
     data,
     isLoading,

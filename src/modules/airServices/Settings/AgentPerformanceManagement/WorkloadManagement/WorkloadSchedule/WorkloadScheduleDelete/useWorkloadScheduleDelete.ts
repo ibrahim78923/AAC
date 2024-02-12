@@ -1,41 +1,44 @@
 import { useDeleteArticleMutation } from '@/services/airServices/assets/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
-export const useDeleteArticles = (props: any) => {
+export const useWorkloadScheduleDelete = (props: any) => {
   const {
-    setDeleteModalOpen,
-    selectedArticlesData,
-    setSelectedArticlesData,
+    setOpenDeleteModal,
     setPage,
+    selectWorkloadSchedule,
+    setSelectWorkloadSchedule,
   } = props;
+
   const [deleteArticleTrigger, deleteArticleStatus] =
     useDeleteArticleMutation();
 
-  const deleteArticles = async () => {
+  const deleteWorkloadSchedule = async () => {
     const deleteParams = new URLSearchParams();
-    selectedArticlesData?.forEach((id: any) => deleteParams?.append('ids', id));
+    selectWorkloadSchedule?.forEach(
+      (id: any) => deleteParams?.append('ids', id),
+    );
     const deleteArticlesParameter = {
       queryParams: deleteParams,
     };
     try {
       await deleteArticleTrigger(deleteArticlesParameter)?.unwrap();
       successSnackbar('Article deleted successfully');
-      setSelectedArticlesData?.([]);
       setPage?.(1);
-      closeArticleDeleteModal?.();
+      setSelectWorkloadSchedule?.('');
+      closeWorkloadScheduleDeleteModal?.();
     } catch (error: any) {
       errorSnackbar?.();
-      setSelectedArticlesData?.([]);
-      closeArticleDeleteModal?.();
+      setSelectWorkloadSchedule?.('');
+      closeWorkloadScheduleDeleteModal?.();
     }
   };
-  const closeArticleDeleteModal = () => {
-    setDeleteModalOpen?.(false);
+  const closeWorkloadScheduleDeleteModal = () => {
+    setOpenDeleteModal?.(false);
   };
 
   return {
-    deleteArticles,
-    closeArticleDeleteModal,
+    deleteWorkloadSchedule,
+    closeWorkloadScheduleDeleteModal,
     deleteArticleStatus,
   };
 };

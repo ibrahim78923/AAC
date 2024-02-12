@@ -1,7 +1,10 @@
 import { Box, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { FormProvider, RHFEditor } from '@/components/ReactHookForm';
-import CustomDropZone from '@/components/CustomDropZone';
+import {
+  FormProvider,
+  RHFDropZone,
+  RHFEditor,
+} from '@/components/ReactHookForm';
 import { ArrowLeftIcon } from '@/assets/icons';
 import { useUpsertArticle } from './useUpsertArticle';
 
@@ -13,13 +16,11 @@ export const UpsertArticle = () => {
     needApprovals,
     theme,
     newArticleFields,
+    articleId,
   } = useUpsertArticle();
 
   return (
-    <FormProvider
-      methods={methods}
-      onSubmit={methods?.handleSubmit?.(editArticleSubmit)}
-    >
+    <FormProvider methods={methods}>
       <Grid
         container
         rowSpacing={1.4}
@@ -50,13 +51,13 @@ export const UpsertArticle = () => {
               <ArrowLeftIcon />
             </Box>
             <Typography variant="h3" color="slateBlue.main">
-              Edit article
+              {articleId ? 'Edit ' : 'Create'} article
             </Typography>
           </Box>
           <Box pb={1.4}>
             <RHFEditor name="details" style={{ minHeight: 500 }} />
           </Box>
-          <CustomDropZone name="file" />
+          <RHFDropZone name="file" fileType="" />
         </Grid>
         <Grid
           item
@@ -89,10 +90,15 @@ export const UpsertArticle = () => {
               <LoadingButton
                 onClick={() => methods?.reset?.()}
                 variant="outlined"
+                type="button"
               >
                 Save
               </LoadingButton>
-              <LoadingButton type="submit" variant="contained">
+              <LoadingButton
+                type="button"
+                onClick={methods?.handleSubmit?.(editArticleSubmit)}
+                variant="contained"
+              >
                 {needApprovals ? 'Send For Approval' : 'Publish Now'}
               </LoadingButton>
             </Box>

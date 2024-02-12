@@ -2,7 +2,6 @@ import {
   RHFAutocomplete,
   RHFDatePicker,
   RHFSwitch,
-  RHFTextField,
 } from '@/components/ReactHookForm';
 
 const dropdownDummy = ['Option 1', 'Option 2'];
@@ -11,8 +10,8 @@ export const defaultValues = (articleData: any) => {
   return {
     folder: articleData?.folder?.name ?? null,
     details: articleData?.details,
-    tags: articleData?.tags ?? '',
-    keywords: articleData?.keywords ?? '',
+    tags: articleData?.tags ?? [],
+    keywords: articleData?.keywords ?? [],
     needsApproval: articleData?.isApprovel ?? '',
     approver: null,
     reviewDate: new Date(),
@@ -84,9 +83,13 @@ export const editArticleFieldsFunction = (
         name: 'tags',
         label: 'Tags',
         sx: { pb: 1.2 },
+        freeSolo: true,
+        options: [],
+        multiple: true,
+        isOptionEqualToValue: () => {},
       },
       gridLength: 12,
-      component: RHFTextField,
+      component: RHFAutocomplete,
     },
     {
       id: 2,
@@ -94,10 +97,14 @@ export const editArticleFieldsFunction = (
         fullWidth: true,
         name: 'keywords',
         label: 'Keywords',
-        sx: { pb: 1.2 },
+        // sx: { pb: 1.2 },
+        freeSolo: true,
+        options: [],
+        multiple: true,
+        isOptionEqualToValue: () => {},
       },
       gridLength: 12,
-      component: RHFTextField,
+      component: RHFAutocomplete,
     },
     {
       id: 4,
