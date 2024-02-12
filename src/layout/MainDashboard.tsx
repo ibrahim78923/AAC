@@ -326,13 +326,13 @@ const DashboardLayout = ({ children, window }: any) => {
                                   : '400'
                               }
                             >
-                              {link.label}
+                              {link?.label}
                             </Typography>
                             <Box sx={{ paddingLeft: '20px' }}>
                               <Image
                                 src={
                                   routerPathName === lowerPathNameKey ||
-                                  dropDownOpen[link.key]
+                                  dropDownOpen[link?.key]
                                     ? ArrowUpImage
                                     : ArrowDownImage
                                 }
