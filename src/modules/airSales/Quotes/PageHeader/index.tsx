@@ -11,7 +11,7 @@ const PageHeader = () => {
       <Typography variant="h4" sx={styles?.pageHeaderTitle}>
         Quotes
       </Typography>
-      <Stack direction="row" spacing={'12px'}>
+      <Stack direction="row" flexWrap={'Wrap'} spacing={'12px'}>
         <Button
           className="small"
           sx={styles?.actionButton}
@@ -25,6 +25,15 @@ const PageHeader = () => {
           color="primary"
           startIcon={<AddCircleSmallIcon />}
           onClick={() => router?.push(AIR_SALES?.CREATE_QUOTES)}
+          sx={{
+            width: { xs: '100%', sm: 'fit-Content' },
+            marginTop: {
+              xs: '15px !important',
+              sm: '0px !important',
+              md: '0px !important',
+            },
+            marginLeft: { xs: '0px !important', sm: '15px !important' },
+          }}
         >
           Create Quote
         </Button>

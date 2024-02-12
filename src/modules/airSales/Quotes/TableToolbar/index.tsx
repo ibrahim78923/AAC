@@ -39,14 +39,20 @@ const TableToolbar: FC<TableToolbarI> = ({
           width={'100%'}
         />
       </Box>
-      <Stack direction={'row'} spacing={'8px'}>
-        <Box>
+      <Stack
+        direction={'row'}
+        flexWrap={'Wrap'}
+        spacing={'8px'}
+        sx={{ marginTop: { xs: '5px', md: '15px', lg: '0px' } }}
+      >
+        <Box sx={{ width: { xs: '100%', sm: 'fit-Content' } }}>
           <Button
             className="small"
             sx={styles?.actionButton}
             endIcon={<DropdownIcon />}
             onClick={handleActionsDropdown}
             disabled={isActionsDisabled}
+            style={{ width: '100%' }}
           >
             Actions
           </Button>
@@ -84,6 +90,11 @@ const TableToolbar: FC<TableToolbarI> = ({
             color="inherit"
             className="small"
             onClick={handleResetFilters}
+            sx={{
+              width: { xs: '100%', sm: 'fit-Content' },
+              marginTop: { xs: '10px !important', sm: '0px !important' },
+              marginLeft: { xs: '0px !important', sm: '10px !important' },
+            }}
           >
             <RefreshSharedIcon />
           </Button>

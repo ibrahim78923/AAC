@@ -4,6 +4,7 @@ export const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     p: '16px 24px',
+    flexWrap: 'wrap',
   }),
   pageHeaderTitle: (theme: any) => ({
     color: theme?.palette?.grey[800],
@@ -15,5 +16,8 @@ export const styles = {
     fontWeight: '500',
     p: '6px 18px',
     height: '36px',
+    '@media (max-width: 500px)': {
+      width: '100%',
+    },
   }),
 };
