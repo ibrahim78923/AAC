@@ -263,7 +263,13 @@ const DashboardLayout = ({ children, window }: any) => {
                                 }}
                               />
                             </ListItemIcon>
-                            {link?.label}
+                            <Typography
+                              fontWeight={
+                                routerPathName === pathNameKey ? '500' : '400'
+                              }
+                            >
+                              {link?.label}
+                            </Typography>
                           </ListItemButton>
                         </ListItem>
                       </Link>
@@ -312,7 +318,16 @@ const DashboardLayout = ({ children, window }: any) => {
                               />
                             </ListItemIcon>
 
-                            {link.label}
+                            <Typography
+                              fontWeight={
+                                routerPathName === lowerPathNameKey ||
+                                dropDownOpen[link?.key]
+                                  ? '500'
+                                  : '400'
+                              }
+                            >
+                              {link.label}
+                            </Typography>
                             <Box sx={{ paddingLeft: '20px' }}>
                               <Image
                                 src={
@@ -396,7 +411,7 @@ const DashboardLayout = ({ children, window }: any) => {
                             }}
                           />
                         </ListItemIcon>
-                        Logout
+                        <Typography fontWeight={500}> Logout</Typography>
                       </ListItemButton>
                     </ListItem>
                   </div>

@@ -44,7 +44,14 @@ const Restore = () => {
           justifyContent: 'space-between',
         }}
       >
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '20px',
+          }}
+        >
           <Link href={'/air-sales/contacts'}>
             <BackArrIcon />
           </Link>
@@ -59,7 +66,7 @@ const Restore = () => {
               variant="body2"
               sx={{ color: theme?.palette?.custom['main'] }}
             >
-              Restore Deals deleted in the last 90 days
+              Restore Contacts deleted in the last 90 days
             </Typography>
           </Box>
         </Box>

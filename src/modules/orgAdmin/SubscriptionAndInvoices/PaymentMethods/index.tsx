@@ -102,12 +102,13 @@ const PaymentMethods = () => {
         </Box>
 
         <TanstackTable columns={getRowValues} data={paymentData} />
-
-        <CustomPagination
-          count={3}
-          rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={paymentData?.length}
-        />
+        <Box padding="0px 45px">
+          <CustomPagination
+            count={3}
+            rowsPerPageOptions={[6, 10, 25, 50, 100]}
+            entriePages={paymentData?.length}
+          />
+        </Box>
       </Box>
       <AddCard
         open={openAddCard}
