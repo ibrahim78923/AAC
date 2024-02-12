@@ -10,7 +10,7 @@ import {
 
 const useDealCustomize = ({ onClose }: any) => {
   const theme = useTheme();
-  const { user } = getSession();
+  const { user }: any = getSession();
 
   const [columns, setColumns] = useState<any[]>([]);
   const [selected, setSelected] = useState<any[]>([]);
@@ -30,8 +30,8 @@ const useDealCustomize = ({ onClose }: any) => {
     try {
       if (!result?.destination) return;
       const items = Array.from(order);
-      const [reOrderItem] = items.splice(result.source.index, 1);
-      items.splice(result.destination.index, 0, reOrderItem);
+      const [reOrderItem] = items?.splice(result?.source?.index, 1);
+      items.splice(result?.destination?.index, 0, reOrderItem);
       setOrder(items);
     } catch (error) {}
   };

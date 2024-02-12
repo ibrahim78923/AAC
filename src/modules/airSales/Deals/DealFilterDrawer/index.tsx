@@ -12,6 +12,8 @@ import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
 
 const DealFilterDrawer = ({ open, onClose, handleApply }: any) => {
+  const firstDate = 0;
+  const lastDate = 1;
   const methods: any = useForm({
     defaultValues: defaultValues,
   });
@@ -21,10 +23,10 @@ const DealFilterDrawer = ({ open, onClose, handleApply }: any) => {
     const obj = {
       ...values,
       dateStart: values?.date
-        ? dayjs(values?.date[0])?.format(DATE_FORMAT?.API)
+        ? dayjs(values?.date[firstDate])?.format(DATE_FORMAT?.API)
         : null,
       dateEnd: values?.date
-        ? dayjs(values?.date[1])?.format(DATE_FORMAT?.API)
+        ? dayjs(values?.date[lastDate])?.format(DATE_FORMAT?.API)
         : null,
     };
     delete obj?.date;

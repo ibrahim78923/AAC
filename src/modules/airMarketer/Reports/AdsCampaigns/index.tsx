@@ -13,7 +13,6 @@ import { ArrowBack } from '@mui/icons-material';
 import Search from '@/components/Search';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 
 import {
   CampaignsCradsData,
@@ -145,12 +144,7 @@ const AdsCampaigns = () => {
             width={240}
           />
         </Box>
-        <TanstackTable columns={usersColumns} data={usersData()} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
-        />
+        <TanstackTable columns={usersColumns} data={usersData()} isPagination />
       </Card>
     </>
   );

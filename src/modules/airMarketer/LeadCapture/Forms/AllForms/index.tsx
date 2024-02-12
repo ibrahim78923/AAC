@@ -1,5 +1,3 @@
-import CustomPagination from '@/components/CustomPagination';
-
 import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './AllForms.data';
 import Search from '@/components/Search';
@@ -28,14 +26,11 @@ const AllForms = ({ setShowSignUpForm, setFindStatus }: any) => {
           size="small"
         />
       </Box>
-      <Box mt="20px">
-        <TanstackTable columns={getColums} data={AllFormsTableData} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
-        />
-      </Box>
+      <TanstackTable
+        columns={getColums}
+        data={AllFormsTableData}
+        isPagination
+      />
     </Box>
   );
 };
