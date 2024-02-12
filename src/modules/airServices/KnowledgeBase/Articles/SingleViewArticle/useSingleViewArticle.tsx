@@ -46,5 +46,6 @@ export const useSingleViewArticle = () => {
     isLoading,
     isFetching,
     isError,
+    router,
   };
 };

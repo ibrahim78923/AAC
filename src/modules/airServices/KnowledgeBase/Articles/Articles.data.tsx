@@ -155,7 +155,7 @@ export const actionBtnData = (
         closeMenu?.();
         return;
       }
-      handleEditNavigation(selectedArticlesData?.[0]?._id);
+      handleEditNavigation(selectedArticlesData?.[0]);
       closeMenu();
     },
   },
@@ -169,6 +169,13 @@ export const actionBtnData = (
   {
     title: 'Move Folder',
     handleClick: (closeMenu: any) => {
+      if (selectedArticlesData?.length > 1) {
+        enqueueSnackbar('Please select only one', {
+          variant: NOTISTACK_VARIANTS?.WARNING,
+        });
+        closeMenu?.();
+        return;
+      }
       setMoveFolderModal(true);
       closeMenu();
     },

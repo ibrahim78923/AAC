@@ -1,22 +1,25 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import {
   FormProvider,
   RHFDropZone,
   RHFEditor,
 } from '@/components/ReactHookForm';
-import { ArrowLeftIcon } from '@/assets/icons';
 import { useUpsertArticle } from './useUpsertArticle';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { AIR_SERVICES } from '@/constants';
 
 export const UpsertArticle = () => {
   const {
     editArticleMethods: methods,
-    editArticleSubmit,
-    handlePageBack,
+    upsertArticleSubmit,
     needApprovals,
     theme,
     newArticleFields,
     articleId,
+    router,
+    postArticleStatus,
+    patchArticleStatus,
   } = useUpsertArticle();
 
   return (
@@ -28,34 +31,15 @@ export const UpsertArticle = () => {
         sx={{ borderRadius: '12px' }}
       >
         <Grid item xs={12} lg={9} pr={2.4}>
-          <Box
-            sx={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              display: 'inline-flex',
-              mb: 2.5,
-              gap: 1.4,
+          <PageTitledHeader
+            title={articleId ? 'Edit article' : 'Create article'}
+            canMovedBack
+            moveBack={() => {
+              router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
             }}
-          >
-            <Box
-              onClick={handlePageBack}
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                cursor: 'pointer',
-              }}
-            >
-              <ArrowLeftIcon />
-            </Box>
-            <Typography variant="h3" color="slateBlue.main">
-              {articleId ? 'Edit ' : 'Create'} article
-            </Typography>
-          </Box>
+          />
           <Box pb={1.4}>
-            <RHFEditor name="details" style={{ minHeight: 500 }} />
+            <RHFEditor name="details" style={{ height: 500 }} />
           </Box>
           <RHFDropZone name="file" fileType="" />
         </Grid>
@@ -88,15 +72,20 @@ export const UpsertArticle = () => {
               }}
             >
               <LoadingButton
-                onClick={() => methods?.reset?.()}
                 variant="outlined"
                 type="button"
+                disabled={
+                  postArticleStatus?.isLoading || patchArticleStatus?.isLoading
+                }
               >
                 Save
               </LoadingButton>
               <LoadingButton
                 type="button"
-                onClick={methods?.handleSubmit?.(editArticleSubmit)}
+                onClick={methods?.handleSubmit?.(upsertArticleSubmit)}
+                loading={
+                  postArticleStatus?.isLoading || patchArticleStatus?.isLoading
+                }
                 variant="contained"
               >
                 {needApprovals ? 'Send For Approval' : 'Publish Now'}
