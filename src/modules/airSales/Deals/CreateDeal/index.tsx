@@ -18,7 +18,7 @@ const CreateDeal = ({ open, onClose }: any) => {
 
   const methods = useForm({});
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
     values.addLineItemId = '6538bb480b3f9e9d83d4a2ce'; // need get api for addLineItem but missing this api so i am using static id
@@ -27,6 +27,7 @@ const CreateDeal = ({ open, onClose }: any) => {
     );
     try {
       await postDeals({ body: values })?.unwrap();
+      reset();
     } catch (error) {}
     onClose();
   };

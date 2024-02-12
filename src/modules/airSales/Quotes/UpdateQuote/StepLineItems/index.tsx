@@ -1,37 +1,41 @@
 import React from 'react';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { lineItemsData } from '@/mock/modules/Quotes';
 import Search from '@/components/Search';
 import { AddCircleSmallIcon } from '@/assets/icons';
 import { styles } from './StepLineItems.style';
 import { EditYellowBgIcon, ViewEyeIcon, TrashIcon } from '@/assets/icons';
+import { useGetQuoteByIdQuery } from '@/services/airSales/quotes';
 
 const StepLineItems = ({ openCreateProduct }: any) => {
+  const { data: productsData } = useGetQuoteByIdQuery({
+    id: '655fda852a3c7ed4c1387da4',
+  });
+
   const lineItemsColumns: any = [
     {
-      accessorFn: (row: any) => row?.productName,
+      accessorFn: (row: any) => row?.name,
       id: 'productName',
       cell: (info: any) => info?.getValue(),
       header: 'Product Name',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.unitPrice,
+      accessorFn: (row: any) => row?.unitPrice ?? 'N/A',
       id: 'unitPrice',
       isSortable: true,
       header: 'Unit Price',
       cell: (info: any) => <>£ {info?.getValue()}</>,
     },
     {
-      accessorFn: (row: any) => row?.quantity,
+      accessorFn: (row: any) => row?.quantity ?? 'N/A',
       id: 'quantity',
       isSortable: true,
       header: 'Quantity',
       cell: (info: any) => <Box sx={styles?.cellChip}>{info?.getValue()}</Box>,
     },
     {
-      accessorFn: (row: any) => row?.unitDiscount,
+      accessorFn: (row: any) => row?.unitDiscount ?? 'N/A',
       id: 'unitDiscount',
       isSortable: true,
       header: 'Unit Discount',
@@ -46,14 +50,14 @@ const StepLineItems = ({ openCreateProduct }: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.totalPrice,
+      accessorFn: (row: any) => row?.totalPrice ?? 'N/A',
       id: 'totalPrice',
       isSortable: true,
       header: 'Total Price',
       cell: (info: any) => <>£ {info?.getValue()}</>,
     },
     {
-      accessorFn: (row: any) => row?.createdDate,
+      accessorFn: (row: any) => row?.createdDate ?? 'N/A',
       id: 'createdDate',
       isSortable: true,
       header: 'Created Date',
@@ -97,7 +101,10 @@ const StepLineItems = ({ openCreateProduct }: any) => {
             </Button>
           </Stack>
         </Box>
-        <TanstackTable columns={lineItemsColumns} data={lineItemsData} />
+        <TanstackTable
+          columns={lineItemsColumns}
+          data={productsData?.data?.products}
+        />
       </Box>
 
       <Box sx={styles?.voucherCont}>

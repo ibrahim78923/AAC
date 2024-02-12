@@ -26,7 +26,18 @@ const useProductWiseGraph = () => {
         endingShape: 'rounded',
       },
     },
-
+    responsive: [
+      {
+        breakpoint: 560,
+        options: {
+          plotOptions: {
+            bar: {
+              columnWidth: '10px', // Set a smaller value for columnWidth in responsiveness
+            },
+          },
+        },
+      },
+    ],
     dataLabels: {
       enabled: false,
     },
@@ -76,6 +87,18 @@ const useProductWiseGraph = () => {
         opacity: 0.5,
       },
     },
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          plotOptions: {
+            bar: {
+              columnWidth: '10px', // Set a smaller value for columnWidth in responsiveness
+            },
+          },
+        },
+      },
+    ],
     xaxis: {
       categories: [
         'Jan',
