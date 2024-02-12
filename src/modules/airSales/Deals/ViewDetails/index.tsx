@@ -20,9 +20,11 @@ import { NotesAvatarImage } from '@/assets/images';
 
 import { styles } from './ViewDetails.style';
 import { AIR_SALES } from '@/routesConstants/paths';
+import { useSearchParams } from 'next/navigation';
 
 const ViewDetails = () => {
   const theme = useTheme();
+  const searchParams = useSearchParams().get('tab-value');
   return (
     <Box>
       <Grid container spacing={2}>
@@ -168,7 +170,10 @@ const ViewDetails = () => {
 
         <Grid item xs={12}>
           <Box>
-            <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
+            <HorizontalTabs
+              tabsDataArray={singleUserDealTabsData}
+              defaultValue={Number(searchParams) ?? 0}
+            >
               <Details />
               <ActivityLog />
               <Associations />

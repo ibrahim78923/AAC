@@ -12,8 +12,10 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { PAGINATION } from '@/config';
+import { useState } from 'react';
 
 const useCompaniesEditorDrawer = (openDrawer: any) => {
+  const [searchTicket, setSearchTicket] = useState('');
   const { user } = getSession();
   const params = {
     page: PAGINATION?.PAGE_COUNT,
@@ -30,7 +32,8 @@ const useCompaniesEditorDrawer = (openDrawer: any) => {
     resolver: yupResolver(companiesValidationSchema),
     defaultValues: companiesDefaultValues,
   });
-  const { handleSubmit, reset } = methodsCompanies;
+  const { handleSubmit, reset, watch } = methodsCompanies;
+  const watchCompany = watch(['companyStatus']);
 
   const onSubmit = async (values: any) => {
     try {
@@ -68,12 +71,14 @@ const useCompaniesEditorDrawer = (openDrawer: any) => {
     }
   };
 
-  // const watchProducts = watch(['companyStatus']);
   return {
     handleSubmit,
     onSubmit,
     methodsCompanies,
     getCompanyContacts,
+    watchCompany,
+    searchTicket,
+    setSearchTicket,
   };
 };
 

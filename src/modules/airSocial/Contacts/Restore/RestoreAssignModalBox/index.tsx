@@ -13,7 +13,7 @@ const RestoreAssignModalBox = ({ open, onClose, handleAssignModal }: any) => {
       open={open}
       handleClose={onClose}
       handleSubmit={handleAssignModal}
-      submitButonText={'Update'}
+      submitButonText={'Updates'}
       isFooter
     >
       <Select sx={{ width: '100%' }} {...RestoreModalData?.componentProps}>

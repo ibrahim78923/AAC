@@ -2,7 +2,7 @@ import React from 'react';
 import { Popover, Button, MenuItem, useTheme } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { TaskInterfacePropsI } from './ActionBtn.interface';
-import { styles } from './ActionBtn.style';
+// import { styles } from './ActionBtn.style';
 import { useAppSelector } from '@/redux/store';
 
 const ActionBtn = ({
@@ -43,7 +43,12 @@ const ActionBtn = ({
         disabled={disableActionBtn}
         classes={{ outlined: 'outlined_btn' }}
         type="submit"
-        sx={styles(theme, disableActionBtn)}
+        // sx={styles(theme, disableActionBtn)}
+        sx={{
+          borderColor: disableActionBtn ? theme?.palette?.custom?.dark : '',
+          width: { xs: '100%', sm: 'auto' },
+          color: disableActionBtn ? theme?.palette?.custom?.dark : '',
+        }}
       >
         {title}
       </Button>
