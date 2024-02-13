@@ -75,6 +75,7 @@ export const teamsDataArray = [
       fullWidth: true,
       select: false,
       placeholder: 'Enter Team Name',
+      required: true,
     },
     component: RHFTextField,
     md: 12,

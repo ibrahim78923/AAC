@@ -67,7 +67,7 @@ export const columns = (
       accessorFn: (row: any) => row?.participant,
       id: 'participant',
       isSortable: false,
-      header: 'participant',
+      header: 'Participant',
       cell: (info: any) => (
         <Typography variant="body3">{info?.getValue()}</Typography>
       ),

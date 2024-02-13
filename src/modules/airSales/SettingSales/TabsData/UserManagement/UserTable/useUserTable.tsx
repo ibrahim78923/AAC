@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const useUserTable = ({ initialValueProps = defaultValues }: any) => {
-  const [team, setTeam] = React.useState('');
-  const [role, setRole] = React.useState('');
+  const [team, setTeam] = React.useState('Alfa');
+  const [role, setRole] = React.useState('AccountAdmin');
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isOpenDelete, setIsOpenDelete] = useState(false);

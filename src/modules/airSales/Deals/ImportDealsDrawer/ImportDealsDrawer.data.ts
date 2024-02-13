@@ -10,7 +10,6 @@ export const ImportDealsData = [
       select: true,
     },
     options: [
-      { head: 'head' },
       { label: 'Mandatory Fileds', value: 'Mandatory Fields' },
       { label: 'Date', value: 'Date' },
       { label: 'Amount', value: 'Amount' },
@@ -28,7 +27,6 @@ export const ImportDealsData = [
       select: true,
     },
     options: [
-      { head: 'head' },
       { label: 'Mandatory Fields', value: 'Mandatory Fields' },
       { label: 'Date', value: 'Date' },
       { label: 'Amount', value: 'Amount' },
@@ -46,7 +44,6 @@ export const ImportDealsData = [
       select: true,
     },
     options: [
-      { head: 'head' },
       { label: 'Mandatory Fields', value: 'Mandatory Fields' },
       { label: 'Date', value: 'Date' },
       { label: 'Amount', value: 'Amount' },
@@ -64,7 +61,6 @@ export const ImportDealsData = [
       select: true,
     },
     options: [
-      { head: 'head' },
       { label: 'Mandatory Fields', value: 'Mandatory Fields' },
       { label: 'Date', value: 'Date' },
       { label: 'Amount', value: 'Amount' },
@@ -82,7 +78,6 @@ export const ImportDealsData = [
       select: true,
     },
     options: [
-      { head: 'head' },
       { label: 'Mandatory Fields', value: 'Mandatory Fields' },
       { label: 'Date', value: 'Date' },
       { label: 'Amount', value: 'Amount' },
@@ -93,14 +88,13 @@ export const ImportDealsData = [
   },
   {
     fileColumn: 'Type',
-    subTitle: 'NewBusiness',
+    subTitle: 'New Business',
     componentProps: {
       name: 'probability',
       label: 'choose value',
       select: true,
     },
     options: [
-      { head: 'head' },
       { label: 'Mandatory Fields', value: 'Mandatory Fields' },
       { label: 'Date', value: 'Date' },
       { label: 'Amount', value: 'Amount' },
@@ -119,7 +113,6 @@ export const ImportDealsData = [
       select: true,
     },
     options: [
-      { head: 'head' },
       { label: 'Mandatory Fields', value: 'Mandatory Fields' },
       { label: 'Date', value: 'Date' },
       { label: 'Amount', value: 'Amount' },
@@ -137,7 +130,6 @@ export const ImportDealsData = [
       select: true,
     },
     options: [
-      { head: 'head' },
       { label: 'Mandatory Fields', value: 'Mandatory Fields' },
       { label: 'Date', value: 'Date' },
       { label: 'Amount', value: 'Amount' },
