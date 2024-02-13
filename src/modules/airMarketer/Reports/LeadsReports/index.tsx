@@ -116,7 +116,7 @@ const LeadaReports = () => {
                   <Typography
                     sx={{ color: theme?.palette?.custom?.steel_blue_alpha }}
                     variant="h6"
-                    gutterBottom
+                    // gutterBottom
                   >
                     {item?.reportView}
                   </Typography>

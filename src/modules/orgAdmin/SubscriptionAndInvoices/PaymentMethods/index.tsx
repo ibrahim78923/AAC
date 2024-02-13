@@ -3,11 +3,11 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import AddCard from './AddCard';
 import usePaymentMethods from './usePaymentMethods';
-import CustomPagination from '@/components/CustomPagination';
 import { DropdownIcon } from '@/assets/icons';
 import { paymentData } from '@/mock/modules/SubscriptionAndInvoices';
 import { AlertModals } from '@/components/AlertModals';
 import { styles } from './PaymentMethod.style';
+import { useState } from 'react';
 
 const PaymentMethods = () => {
   const {
@@ -29,6 +29,8 @@ const PaymentMethods = () => {
     isGetRowValues,
   } = usePaymentMethods();
 
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <>
       <Box sx={styles?.paymentsTableWrapper}>
@@ -47,7 +49,13 @@ const PaymentMethods = () => {
 
         <Box sx={styles?.tableToolbar}>
           <Box sx={styles?.tableSearch}>
-            <Search size="small" placeholder="search here" />
+            <Search
+              searchBy={searchTerm}
+              setSearchBy={setSearchTerm}
+              label="Search here"
+              fullWidth
+              size="small"
+            />
           </Box>
           <Box sx={styles?.tableToolbarActions}>
             <Box>
@@ -92,15 +100,8 @@ const PaymentMethods = () => {
           </Box>
         </Box>
 
-        <TanstackTable columns={getRowValues} data={paymentData} />
-
-        <CustomPagination
-          count={3}
-          rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={paymentData?.length}
-        />
+        <TanstackTable columns={getRowValues} data={paymentData} isPagination />
       </Box>
-
       <AddCard
         open={openAddCard}
         onClose={handleCloseAddCard}
@@ -109,7 +110,7 @@ const PaymentMethods = () => {
         isGetRowValues={isGetRowValues}
       />
       <AlertModals
-        message="Are you sure you want to delete this payment method?"
+        message="Are you sure you want to delete this payment method ?"
         type="delete"
         open={openDeleteModal}
         handleClose={handleCloseDeleteModal}

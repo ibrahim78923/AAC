@@ -5,34 +5,35 @@ export const defaultValues = {
   createdBy: '',
 };
 
-export const dataArray = [
-  {
-    md: 12,
-    component: RHFSelect,
-    options: [
-      { value: 'draft', label: 'Draft' },
-      { value: 'published', label: 'Published' },
-    ],
-    componentProps: {
-      name: 'status',
-      label: 'Quote Status',
-      fullWidth: true,
-      select: true,
+export const dataArray = (UserListData: any) => {
+  return [
+    {
+      md: 12,
+      component: RHFSelect,
+      options: [
+        { value: 'draft', label: 'Draft' },
+        { value: 'published', label: 'Published' },
+      ],
+      componentProps: {
+        name: 'status',
+        label: 'Quote Status',
+        fullWidth: true,
+        select: true,
+      },
     },
-  },
-  {
-    md: 12,
-    component: RHFSelect,
-    options: [
-      { value: 'Darlene Robertson', label: 'Darlene Robertson' },
-      { value: 'Robert Fox', label: 'Robert Fox' },
-      { value: 'Arlene McCoy', label: 'Arlene McCoy' },
-    ],
-    componentProps: {
-      name: 'createdBy',
-      label: 'Created By',
-      fullWidth: true,
-      select: true,
+    {
+      md: 12,
+      component: RHFSelect,
+      options: UserListData?.data?.users?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })),
+      componentProps: {
+        name: 'createdBy',
+        label: 'Created By',
+        fullWidth: true,
+        select: true,
+      },
     },
-  },
-];
+  ];
+};

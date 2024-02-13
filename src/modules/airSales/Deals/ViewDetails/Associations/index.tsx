@@ -8,10 +8,18 @@ import Contacts from './Contacts';
 import Products from './Products';
 import Quotes from './Quotes';
 import useAssociations from './useAssociations';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 const Associations = () => {
+  const sectionId = useSearchParams().get('section-id');
   const { assocaitionData } = useAssociations();
-
+  const router = useRouter();
+  useEffect(() => {
+    if (sectionId) {
+      router.push('/air-sales/deals/view-details?tab-value=2#companies');
+    }
+  }, [sectionId]);
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Associations </Typography>
@@ -23,7 +31,7 @@ const Associations = () => {
           <Grid item xs={12}>
             <Tickets />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} id="companies">
             <Companies />
           </Grid>
           <Grid item xs={12}>

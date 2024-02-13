@@ -36,13 +36,15 @@ const ContactsWhatsappMarketing = () => {
         Contact Groups
       </Typography>
       <Box sx={{ position: 'relative', mb: 2 }}>
-        <Button
-          sx={styles?.btnLeft}
-          onClick={() => handleScroll(-100)}
-          disabled={isLeftButtonDisabled}
-        >
-          <ArrowCircleLeftIcon />
-        </Button>
+        {!isLeftButtonDisabled && (
+          <Button
+            sx={styles?.btnLeft}
+            onClick={() => handleScroll(-100)}
+            disabled={isLeftButtonDisabled}
+          >
+            <ArrowCircleLeftIcon />
+          </Button>
+        )}
         <Box sx={styles?.flexCards} ref={containerRef}>
           <Box
             sx={styles?.createGroupCard}

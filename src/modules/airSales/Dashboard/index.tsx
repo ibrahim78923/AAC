@@ -31,11 +31,14 @@ const Dashboard = () => {
               display: 'flex',
               justifyContent: 'space-between',
               paddingLeft: '0px',
+              flexWrap: 'wrap',
             }}
           >
             <Typography variant="h3">Sales Dashboard</Typography>
 
-            <Box style={{ display: 'flex' }}>
+            <Box
+              sx={{ display: 'flex', margin: { xs: '10px 0px', md: '0px' } }}
+            >
               <Actions setIsShowEditDashboard={setIsShowEditDashboard} />
               <CreateDashboardOptions toggle={toggle} />
             </Box>
