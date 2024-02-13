@@ -8,6 +8,7 @@ import {
 import { useUpsertArticle } from './useUpsertArticle';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertArticle = () => {
   const {
@@ -20,8 +21,11 @@ export const UpsertArticle = () => {
     router,
     postArticleStatus,
     patchArticleStatus,
+    isLoading,
+    isFetching,
   } = useUpsertArticle();
 
+  if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <FormProvider methods={methods}>
       <Grid

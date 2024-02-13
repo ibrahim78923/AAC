@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
-import { useGetArticleByIdQuery } from '@/services/airServices/assets/knowledge-base/articles';
+import { useGetArticleByIdQuery } from '@/services/airServices/knowledge-base/articles';
 
 export const useSingleViewArticle = () => {
   const [openDelete, setOpenDelete] = useState<boolean>(false);

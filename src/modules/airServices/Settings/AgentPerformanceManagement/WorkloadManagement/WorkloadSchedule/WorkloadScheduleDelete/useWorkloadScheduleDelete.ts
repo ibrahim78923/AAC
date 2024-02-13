@@ -1,4 +1,4 @@
-import { useDeleteArticleMutation } from '@/services/airServices/assets/knowledge-base/articles';
+import { useDeleteArticleMutation } from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useWorkloadScheduleDelete = (props: any) => {

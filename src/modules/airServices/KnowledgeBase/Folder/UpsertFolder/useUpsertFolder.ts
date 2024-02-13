@@ -4,7 +4,7 @@ import {
   upsertValidationSchema,
   upsertDefaultValues,
 } from './UpsertFolder.data';
-import { usePostFolderMutation } from '@/services/airServices/assets/knowledge-base/articles';
+import { usePostFolderMutation } from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useUpsertFolder = (props: any) => {

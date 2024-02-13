@@ -7,7 +7,7 @@ import {
   useLazyGetFoldersDropdownQuery,
   usePatchArticleMutation,
   usePostArticleMutation,
-} from '@/services/airServices/assets/knowledge-base/articles';
+} from '@/services/airServices/knowledge-base/articles';
 import { defaultValues, editArticleFieldsFunction } from './UpsertArticle.data';
 import { useLazyGetUsersDropdownQuery } from '@/services/airServices/assets/contracts';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -24,10 +24,13 @@ export const useUpsertArticle: any = () => {
       articleId,
     },
   };
-  const { data } = useGetArticleByIdQuery(getSingleArticleParameter, {
-    refetchOnMountOrArgChange: true,
-    skip: !!!articleId,
-  });
+  const { data, isLoading, isFetching } = useGetArticleByIdQuery(
+    getSingleArticleParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!articleId,
+    },
+  );
   const editArticleMethods = useForm({
     defaultValues: defaultValues(),
   });
@@ -101,5 +104,7 @@ export const useUpsertArticle: any = () => {
     router,
     postArticleStatus,
     patchArticleStatus,
+    isLoading,
+    isFetching,
   };
 };

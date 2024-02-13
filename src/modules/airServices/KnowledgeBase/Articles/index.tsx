@@ -29,7 +29,7 @@ export const Articles = () => {
     setSelectedArticlesData,
     filterValues,
     setFilterValues,
-    setSelectedArticlesTab,
+    setFolder,
   } = useArticles();
 
   return (
@@ -58,7 +58,7 @@ export const Articles = () => {
                   borderRadius: '0.5rem',
                   cursor: 'pointer',
                 }}
-                onClick={() => setSelectedArticlesTab(tab?._id)}
+                onClick={() => setFolder(tab?._id)}
               >
                 <FolderGreyIcon
                   fill={
@@ -146,7 +146,6 @@ export const Articles = () => {
         filterValues={filterValues}
         setFilterValues={setFilterValues}
         setPage={setPage}
-        // handleFilterValues={handleFilterValues}
       />
     </>
   );

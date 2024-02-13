@@ -1,5 +1,5 @@
 import { AIR_SERVICES } from '@/constants';
-import { useDeleteArticleMutation } from '@/services/airServices/assets/knowledge-base/articles';
+import { useDeleteArticleMutation } from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 

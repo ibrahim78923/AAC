@@ -6,7 +6,7 @@ import { actionBtnData, articlesColumnsFunction } from './Articles.data';
 import {
   useGetFoldersQuery,
   useLazyGetArticlesQuery,
-} from '@/services/airServices/assets/knowledge-base/articles';
+} from '@/services/airServices/knowledge-base/articles';
 import { PAGINATION } from '@/config';
 import { buildQueryParams } from '@/utils/api';
 
@@ -31,15 +31,14 @@ export const useArticles: any = () => {
     ['page', page + ''],
     ['limit', pageLimit + ''],
     ['search', search],
-  ];
-  const extraFilters = [
     ['folderId', selectedArticlesTab === 'all' ? '' : selectedArticlesTab],
   ];
+  // const extraFilters = [];
   const articlesParam: any = buildQueryParams(
     additionalParams,
     filterValues,
     [],
-    extraFilters,
+    // extraFilters,
   );
   const getArticlesParameter = {
     queryParams: articlesParam,
@@ -77,7 +76,10 @@ export const useArticles: any = () => {
       query: { articleId: id },
     });
   };
-
+  const setFolder = (id: any) => {
+    setSelectedArticlesTab(id);
+    setPage(1);
+  };
   const articlesColumns = articlesColumnsFunction(
     lazyGetArticlesStatus?.data?.data?.articles,
     selectedArticlesData,
@@ -115,5 +117,6 @@ export const useArticles: any = () => {
     filterValues,
     setFilterValues,
     setSelectedArticlesTab,
+    setFolder,
   };
 };
