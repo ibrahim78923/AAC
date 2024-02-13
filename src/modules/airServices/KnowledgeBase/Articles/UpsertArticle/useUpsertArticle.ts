@@ -43,6 +43,7 @@ export const useUpsertArticle: any = () => {
   const needApprovals = editArticleMethods?.watch('needsApproval');
 
   const upsertArticleSubmit = async (data: any) => {
+    // console.log(data);
     const upsertArticle = new FormData();
     !!data?.details && upsertArticle?.append('details', data?.details);
     !!data?.folder?._id && upsertArticle?.append('folder', data?.folder?._id);

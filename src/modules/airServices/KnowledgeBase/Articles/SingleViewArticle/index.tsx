@@ -34,7 +34,10 @@ export const SingleViewArticle = () => {
               router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
             }}
           />
-          <div dangerouslySetInnerHTML={{ __html: data?.data?.details }}></div>
+          <Box
+            sx={{ wordBreak: 'break-all' }}
+            dangerouslySetInnerHTML={{ __html: data?.data?.details }}
+          ></Box>
         </Grid>
         <Grid item xs={12} lg={3}>
           <Box sx={styles?.sideStyle(theme)}>

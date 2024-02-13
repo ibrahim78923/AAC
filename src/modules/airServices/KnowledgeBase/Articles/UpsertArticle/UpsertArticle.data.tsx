@@ -4,6 +4,10 @@ import {
   RHFDatePicker,
   RHFSwitch,
 } from '@/components/ReactHookForm';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+
+const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
 export const defaultValues = (articleData?: any) => {
   return {
@@ -11,9 +15,9 @@ export const defaultValues = (articleData?: any) => {
     details: articleData?.details,
     tags: articleData?.tags ?? [],
     keywords: articleData?.keywords ?? [],
-    needsApproval: articleData?.isApproval ?? '',
+    needsApproval: articleData?.isApproval ?? false,
     approver: articleData?.approver ?? null,
-    reviewDate: new Date(articleData?.reviewDate) ?? new Date(),
+    reviewDate: new Date(articleData?.reviewDate ?? todayDate),
   };
 };
 
@@ -61,8 +65,6 @@ export const editArticleFieldsFunction = (
         label: 'Folder',
         placeholder: 'Select',
         apiQuery: apiQueryFolder,
-        // getOptionLabel: (option: any) =>
-        //   `${option?.firstName} ${option?.lastName}`,
         sx: { pb: 1.2 },
       },
     },

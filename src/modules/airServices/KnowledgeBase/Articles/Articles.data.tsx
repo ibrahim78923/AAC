@@ -79,17 +79,20 @@ export const articlesColumnsFunction = (
       id: 'name',
       isSortable: false,
       header: 'Article',
-      cell: (info: any) => (
-        <Typography
-          component={'span'}
-          onClick={() =>
-            handleSingleArticleNavigation(info?.row?.original?._id)
-          }
-          style={{ cursor: 'pointer', fontWeight: 600 }}
-        >
-          {info?.getValue()}
-        </Typography>
-      ),
+      cell: (info: any) => {
+        return (
+          <Typography
+            component={'span'}
+            onClick={() =>
+              handleSingleArticleNavigation(info?.row?.original?._id)
+            }
+            style={{ cursor: 'pointer', fontWeight: 600 }}
+            dangerouslySetInnerHTML={{
+              __html: info?.getValue()?.slice?.(0, 50),
+            }}
+          ></Typography>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.status,

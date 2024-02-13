@@ -36,7 +36,7 @@ export const UpsertArticle = () => {
       >
         <Grid item xs={12} lg={9} pr={2.4}>
           <PageTitledHeader
-            title={articleId ? 'Edit article' : 'Create article'}
+            title={articleId ? 'Edit article' : 'Write an article'}
             canMovedBack
             moveBack={() => {
               router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
@@ -82,7 +82,11 @@ export const UpsertArticle = () => {
                   postArticleStatus?.isLoading || patchArticleStatus?.isLoading
                 }
               >
-                Save
+                {needApprovals
+                  ? 'Cancel'
+                  : articleId
+                  ? 'Save'
+                  : 'Save as Draft'}
               </LoadingButton>
               <LoadingButton
                 type="button"
