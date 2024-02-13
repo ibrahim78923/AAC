@@ -80,7 +80,7 @@ const CreateTask = ({ title, hideBtn, defaultOpen }: CreateTaskI) => {
               </Typography>
               <obj.component
                 size={'small'}
-                InputProps={{ sx: { borderRadius: '8px' } }}
+                InputProps={{ sx: { gap: 1, borderRadius: '8px' } }}
                 {...obj?.componentProps}
               >
                 {obj?.componentProps?.select

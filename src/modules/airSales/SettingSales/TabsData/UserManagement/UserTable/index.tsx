@@ -89,6 +89,8 @@ const UserTable = () => {
             alignItems: 'center',
             padding: '0.7rem',
             fontWeight: 500,
+            marginY: { xs: '10px', sm: '0px' },
+            width: { xs: '100%', sm: 'fit-content' },
           }}
         >
           Actions <ArrowDropDownIcon />

@@ -59,7 +59,7 @@ const Restore = () => {
               variant="body2"
               sx={{ color: theme?.palette?.custom['main'] }}
             >
-              Restore Deals deleted in the last 90 days
+              Restore Contacts deleted in the last 90 days
             </Typography>
           </Box>
         </Box>

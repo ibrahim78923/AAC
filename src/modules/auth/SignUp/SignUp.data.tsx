@@ -15,14 +15,14 @@ export const validationSchema = Yup?.object()?.shape({
   phoneNumber: Yup?.string()?.required('Required field'),
   products: Yup?.array()?.min(1, 'Required field')?.required('Required field'),
   password: Yup?.string()
-    ?.required('Password is required')
+    ?.required('Required field')
     ?.matches(
       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/,
       'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and be at least 8 characters long',
     ),
   confirmPassword: Yup?.string()
     ?.oneOf([Yup?.ref('password'), ''], 'Passwords must match')
-    ?.required('Confirm Password is required'),
+    ?.required('Required field'),
 });
 
 export const defaultValues = {

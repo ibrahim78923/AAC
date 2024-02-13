@@ -61,7 +61,7 @@ const useCreateContacts = () => {
     formData?.append('lifeCycleStageId', values?.lifeCycleStageId);
     formData?.append('statusId', values?.statusId);
     formData?.append(
-      'dataOfJoinig',
+      'dateOfJoinig',
       dayjs(values?.dataOfJoinig)?.format(DATE_FORMAT?.API),
     );
 

@@ -1,15 +1,15 @@
 export const teamsTableData: any = [
   {
     name: `Orcalo Holdings`,
-    teamMember: 'Draftstrtr',
+    teamMember: '4',
   },
   {
     name: `Orcalo Holdings`,
-    teamMember: 'Draftstrtr',
+    teamMember: '2',
   },
   {
     name: `Orcalo Holdings`,
-    teamMember: 'Draftstrtr',
+    teamMember: '3',
   },
 ];
 
