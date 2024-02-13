@@ -186,6 +186,7 @@ export const END_POINTS = {
   PATCH_INVENTORY_EXPENSE: '/expense/update-expense',
   DELETE_INVENTORY_EXPENSE: '/expense/delete-expense',
   ASSETS_INVENTORY_DETAIL: '/assets/get-inventory-detail',
+  ASSETS_EDIT_INVENTORY: '/assets/edit-inventory',
   CONTACT_NOTE: '/contact-note/note',
   ADD_CONTRACT: `/contract/add-contract`,
   EDIT_CONTRACT: `/contract/update`,

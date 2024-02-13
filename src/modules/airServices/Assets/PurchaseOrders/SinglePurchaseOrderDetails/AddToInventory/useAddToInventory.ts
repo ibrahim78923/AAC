@@ -16,7 +16,7 @@ import {
   useLazyGetDepartmentDropdownQuery,
   useLazyGetLocationsDropdownQuery,
   usePatchAddToPurchaseOrderMutation,
-  usePostPurchaseOrderMutation,
+  usePostAssetPurchaseOrderMutation,
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
 // import { useRouter } from 'next/router';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
@@ -29,10 +29,10 @@ export default function useAddToInventoryDrawer(props: any) {
   };
   // const router = useRouter();
   const [search, setSearch] = useState('');
-  const purchaseOrderId = '65a6894638ae3159b3246b1f';
+  const purchaseOrderId = '65ba6631395b6d48702e37e6';
   const { setIsADrawerOpen } = props;
-  const [postPurchaseOrderTrigger] = usePostPurchaseOrderMutation();
-  const [patchNewVendorTrigger] = usePatchAddToPurchaseOrderMutation();
+  const [postPurchaseOrderTrigger] = usePostAssetPurchaseOrderMutation();
+  const [patchNewInventoryTrigger] = usePatchAddToPurchaseOrderMutation();
 
   const methodsTwo = useForm({
     defaultValues: addToInventoryItemStatusDefaultValuesFunction(),
@@ -66,7 +66,6 @@ export default function useAddToInventoryDrawer(props: any) {
       skip: !!!purchaseOrderId,
     });
   const purchaseOrderDetail = data?.data;
-  const inventoryId = purchaseOrderDetail?.inventoryId;
 
   const handleRadioChange = (event: { target: { value: string } }) => {
     setToShow(event?.target?.value === 'Add New');
@@ -89,18 +88,15 @@ export default function useAddToInventoryDrawer(props: any) {
   });
 
   const submitHandlerNo = handleSubmitNo(async () => {
-    // const updateData: any = selectedAssetId;
+    const updateData: any = selectedAssetId;
     const putAddToPurchaseOrderParameter = {
-      body: {
-        purchaseOrderId: purchaseOrderId,
-        inventoryId: inventoryId,
-        // updateData,
-      },
+      purchaseOrderId: purchaseOrderId,
+      inventoryId: updateData,
     };
     try {
-      const response = await patchNewVendorTrigger(
-        putAddToPurchaseOrderParameter,
-      )?.unwrap();
+      const response = await patchNewInventoryTrigger({
+        body: putAddToPurchaseOrderParameter,
+      })?.unwrap();
       enqueueSnackbar(
         response?.message ?? 'item added to inventory Successfully',
         {
@@ -115,14 +111,20 @@ export default function useAddToInventoryDrawer(props: any) {
     methodsNo?.reset();
   });
   const submitHandlerTwo = handleSubmitTwo(async (data: any) => {
-    const { department, location, ...otherData } = data;
-
+    const inventoryData = [];
+    for (const item of data['test']) {
+      const mapped_item = {
+        location_id: item.location._id,
+        department_id: item?.department?._id,
+        impact: item['impact'],
+        displayName: item['displayName'],
+        purchaseOrderIds: purchaseOrderId,
+      };
+      inventoryData.push(mapped_item);
+    }
     const postPurchaseOrderParameter = {
       body: {
-        departmentId: department?._id,
-        locationId: location?._id,
-        purchaseOrderIds: purchaseOrderId,
-        ...otherData,
+        inventoryData,
       },
     };
 

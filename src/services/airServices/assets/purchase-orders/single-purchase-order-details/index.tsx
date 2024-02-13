@@ -7,7 +7,7 @@ const TAG_FOUR = 'DROPDOWN_DEPARTMENT';
 const TAG_TWO = 'DROPDOWN_ALL_ASSETS';
 export const singlePurchaseOrderAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    postPurchaseOrder: builder?.mutation({
+    postAssetPurchaseOrder: builder?.mutation({
       query: (postPurchaseOrderParameter: any) => ({
         url: `${END_POINTS?.ASSETS_PURCHASEORDER}`,
         method: 'POST',
@@ -72,7 +72,7 @@ export const singlePurchaseOrderAPI = baseAPI?.injectEndpoints({
     }),
     patchAddToItem: builder?.mutation({
       query: (putAddToItemParameter: any) => ({
-        url: `${END_POINTS?.EDIT_NEW_ITEM}/${putAddToItemParameter?.pathParam?.id}`,
+        url: `${END_POINTS?.EDIT_NEW_ITEM}`,
         method: 'PATCH',
         body: putAddToItemParameter?.body,
       }),
@@ -82,7 +82,7 @@ export const singlePurchaseOrderAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  usePostPurchaseOrderMutation,
+  usePostAssetPurchaseOrderMutation,
   useDeletePurchaseOrderMutation,
   useLazyGetDepartmentDropdownQuery,
   useLazyGetLocationsDropdownQuery,

@@ -6,14 +6,18 @@ import {
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { addItemDefaultValuesFunction } from './ReceivedItems.data';
+import {
+  addItemDefaultValuesFunction,
+  addItemValidationSchemaOne,
+} from './ReceivedItems.data';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export const useReceivedItems = (props: any) => {
   const purchaseOrderId = '65ba6631395b6d48702e37e6';
   const [patchAddToItemTrigger] = usePatchAddToItemMutation();
   const [errorOccurred, setErrorOccurred] = useState(false);
   const { setIsDrawerOpen } = props;
-  let booVariable: boolean;
+  const [booVariable, setBooVariable] = useState(false);
 
   const getSingleAddToPurchaseOrderParameter = {
     pathParam: {
@@ -28,59 +32,79 @@ export const useReceivedItems = (props: any) => {
       skip: !!!purchaseOrderId,
     },
   );
-  const purchaseOrderDetail = data?.data?.purchaseDetails;
 
-  const method = useForm({
-    // resolver: yupResolver(addItemValidationSchemaOne),
-    defaultValues: addItemDefaultValuesFunction(),
+  const method = useForm<any>({
+    resolver: yupResolver(addItemValidationSchemaOne),
+    defaultValues: addItemDefaultValuesFunction(data),
   });
   const { handleSubmit, reset, control } = method;
-  // reset({ test: purchaseOrderDetail });
+  useEffect(() => {
+    reset(() => addItemDefaultValuesFunction(data));
+  }, [data, reset]);
   const { fields } = useFieldArray({
     control,
     name: 'test',
   });
 
   const submitHandler = async (data: any) => {
-    const updatedPurchaseOrderDetail = purchaseOrderDetail.map((item: any) => ({
-      ...item,
-      received: data?.test?.[0]?.received,
-    }));
-    const putAddToItemParameter = {
-      body: updatedPurchaseOrderDetail,
-      pathParam: {
-        id: purchaseOrderId,
-      },
-    };
+    const sendData = data.test.map((item: any) => {
+      const purchaseDetails = item.data.purchaseDetails.map(
+        (secondItem: any) => ({
+          ...secondItem,
+          received: item.received,
+        }),
+      );
 
-    try {
-      await patchAddToItemTrigger(putAddToItemParameter)?.unwrap();
+      return {
+        id: item.data._id,
+        orderName: item?.data?.orderName,
+        orderNumber: item?.data?.orderName,
+        vendorId: item?.data?.vendorId,
+        currency: item?.data?.currency,
+        expectedDeliveryDate: item?.data?.expectedDeliveryDate,
+        locationId: item?.data?.locationId,
+        departmentId: item?.data?.departmentId,
+        termAndCondition: item?.data?.termAndCondition,
+        subTotal: item?.data?.subTotal,
+        status: item?.data?.status,
+        purchaseDetails: purchaseDetails,
+      };
+    });
 
-      updatedPurchaseOrderDetail?.forEach((item: any) => {
-        if (item?._id === item?._id && item?.received < item?.quantity) {
-          booVariable = true;
-        } else {
-          setErrorOccurred(true);
+    let hasError = false;
+    sendData?.[0]?.purchaseDetails?.forEach((item: any) => {
+      if (item?.received > item?.quantity) {
+        setErrorOccurred(true);
+        setIsDrawerOpen(false);
+        hasError = true;
+      } else {
+        setErrorOccurred(false);
+        setBooVariable(true);
+      }
+    });
+
+    if (!hasError) {
+      const putAddToItemParameter = {
+        body: sendData?.[0],
+      };
+      try {
+        await patchAddToItemTrigger(putAddToItemParameter)?.unwrap();
+        if (booVariable) {
+          const message = 'Purchase Order items count updated successfully';
+          const variant = 'success';
+          enqueueSnackbar(message, {
+            variant: variant,
+          });
           setIsDrawerOpen(false);
         }
-      });
-      if (booVariable) {
-        const message = 'Purchase Order items count update successfully';
-        const variant = 'success';
-        enqueueSnackbar(message, {
-          variant: variant,
+      } catch (error) {
+        enqueueSnackbar('Something went wrong', {
+          variant: NOTISTACK_VARIANTS?.ERROR,
         });
-        setIsDrawerOpen(false);
       }
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
     }
   };
-  useEffect(() => {
-    reset(() => addItemDefaultValuesFunction(purchaseOrderDetail?.[0]));
-  }, [purchaseOrderDetail, reset]);
+
   return {
     errorOccurred,
     submitHandler,

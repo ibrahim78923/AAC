@@ -9,14 +9,15 @@ export const addItemValidationSchemaOne = Yup?.object()?.shape({
   pending: Yup?.string(),
 });
 
-export const addItemDefaultValuesFunction = (data?: any) => {
+export const addItemDefaultValuesFunction = (data: any) => {
   return {
     test: [
       {
-        itemName: data?.itemName ?? '',
-        received: data?.received ?? null,
-        quantity: data?.quantity ?? '',
-        pending: data?.quantity ?? '',
+        itemName: data?.data?.purchaseDetails?.[0]?.itemName ?? '',
+        received: null,
+        quantity: data?.data?.purchaseDetails?.[0]?.quantity ?? '',
+        pending: data?.data?.purchaseDetails?.[0]?.quantity ?? '',
+        ...data,
       },
     ],
   };
