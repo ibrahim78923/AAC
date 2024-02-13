@@ -6,6 +6,7 @@ const useProducts = () => {
   const theme = useTheme();
   const [searchName, setSearchName] = useState('');
   const [openDrawer, setOpenDrawer] = useState('');
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState({});
   const [isOpenAlert, setIsOpenAlert] = useState(false);
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
@@ -19,6 +20,8 @@ const useProducts = () => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
+    selectedCheckboxes,
+    setSelectedCheckboxes,
   };
 };
 

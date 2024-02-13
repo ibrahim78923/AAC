@@ -17,21 +17,24 @@ const useFilterCompany = ({
   const onSubmit = async (values: any) => {
     const { date } = values;
 
-    const dateStart = date?.[startedDate]
-      ? dayjs(date[startedDate])?.format(DATE_FORMAT?.API)
-      : null;
-    const dateEnd = date?.[endedDate]
-      ? dayjs(date[endedDate])?.format(DATE_FORMAT?.API)
-      : null;
-
+    const obj = {
+      ...values,
+      dateStart: date?.[startedDate]
+        ? dayjs(date[startedDate])?.format(DATE_FORMAT?.API)
+        : null,
+      dateEnd: date?.[endedDate]
+        ? dayjs(date[endedDate])?.format(DATE_FORMAT?.API)
+        : null,
+    };
+    const filteredObj = Object?.fromEntries(
+      Object?.entries(obj)?.filter(
+        (value) => value[1] !== '' && value[1] !== null,
+      ),
+    );
+    delete filteredObj?.date;
     setFilterValues({
       ...filterValues,
-      industry: values?.industry,
-      name: values?.name,
-      crn: values?.crn,
-      ownerId: values?.ownerId,
-      dateStart: dateStart,
-      dateEnd: dateEnd,
+      ...filteredObj,
     });
 
     setIsFilter(false);

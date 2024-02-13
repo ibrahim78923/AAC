@@ -1,25 +1,54 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import {
-  filterArticlesDataDefaultValues,
-  filterArticlesValidationSchema,
-} from './FilterArticles.data';
+import { filterArticlesDataDefaultValues } from './FilterArticles.data';
 
 export const useFilterArticles = (props: any) => {
-  const { isOpenFilterDrawer, setIsOpenFilterDrawer } = props;
+  const {
+    isOpenFilterDrawer,
+    setIsOpenFilterDrawer,
+    filterValues,
+    setFilterValues,
+    setPage,
+  } = props;
   const methods: any = useForm({
-    resolver: yupResolver(filterArticlesValidationSchema),
-    defaultValues: filterArticlesDataDefaultValues,
+    defaultValues: filterArticlesDataDefaultValues?.(filterValues),
   });
-  const { handleSubmit } = methods;
-  const submitHandler = handleSubmit(() => {
-    setIsOpenFilterDrawer(false);
-    methods?.reset(filterArticlesDataDefaultValues);
-  });
+  const { handleSubmit, reset } = methods;
+  const submitHandler = (data: any) => {
+    const articleFilter: any = Object?.entries(data || {})
+      ?.filter(
+        ([, value]: any) => value !== undefined && value != '' && value != null,
+      )
+      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+    if (!Object?.keys(articleFilter || {})?.length) {
+      setFilterValues({});
+      reset();
+      onClose();
+      return;
+    }
+    setPage(1);
+    setFilterValues(articleFilter);
+    setIsOpenFilterDrawer?.(false);
+  };
+
+  const resetArticleFilterForm = async () => {
+    if (!!Object?.keys(filterValues)?.length) {
+      setFilterValues({});
+    }
+    reset();
+    setIsOpenFilterDrawer?.(false);
+  };
+
+  const onClose = () => {
+    setIsOpenFilterDrawer?.(false);
+  };
+
   return {
     submitHandler,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
     methods,
+    resetArticleFilterForm,
+    onClose,
+    handleSubmit,
   };
 };

@@ -10,39 +10,41 @@ import {
   agentLevelsFormDefaultValue,
   agentLevelsPointsSchema,
 } from './AgentLevel.data';
+import { useEffect } from 'react';
 
 export const useAgentLevelsPoints = () => {
-  const [addAgentLevelsPoints] = useAddAgentLevelsMutation();
-  const { data: agentLevelsPoints = {} } = useGetAgentLevelsQuery({});
+  const [addAgentLevelsPointsTrigger, addAgentLevelsPointsStatus] =
+    useAddAgentLevelsMutation();
+  const { data, isLoading, isFetching } = useGetAgentLevelsQuery({});
 
   const agentLevelsPointsMethod: any = useForm({
-    defaultValues: agentLevelsFormDefaultValue,
+    defaultValues: agentLevelsFormDefaultValue?.(),
     resolver: yupResolver(agentLevelsPointsSchema),
   });
 
+  const { reset } = agentLevelsPointsMethod;
   const handleSubmit = async (values: any) => {
     try {
-      await addAgentLevelsPoints(values)?.unwrap();
+      await addAgentLevelsPointsTrigger(values)?.unwrap();
       enqueueSnackbar('Agent levels points added successfully!', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, {
+      enqueueSnackbar(error?.data?.message ?? 'Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
-
-  const handleSetValues = () => {
-    Object?.entries(agentLevelsPoints)?.map(
-      ([key, value]) => agentLevelsPointsMethod?.setValue(key, value),
-    );
-  };
+  useEffect(() => {
+    reset(() => agentLevelsFormDefaultValue(data?.data?.[0]));
+  }, [data, reset]);
 
   return {
     agentLevelsPointsMethod,
     handleSubmit,
-    agentLevelsPoints,
-    handleSetValues,
+    data,
+    isLoading,
+    isFetching,
+    addAgentLevelsPointsStatus,
   };
 };

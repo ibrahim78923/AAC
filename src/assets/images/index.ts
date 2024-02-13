@@ -76,7 +76,8 @@ export { default as NotesAvatarImage } from './modules/airSales/Deals/notes-avat
 export { default as YellowDotImage } from './shared/yellow-dot.png';
 export { default as EmailMeetingImage } from './modules/airSales/Deals/email-meeting.png';
 export { default as AttendeeAvatarImage } from './modules/airSales/Deals/attendee-avatar.png';
-export { default as DashboardMockImage } from './modules/airServices/Dashboard/dashboard-prototype-image.png';
+
+export { default as DashboardMockImage } from './modules/airServices/Dashboard/dashboard-mock-image.png';
 export { default as DashboardPrototypeImage } from './modules/airSales/Deals/email-meeting.png';
 export { default as SmsImage } from '@/assets/images/modules/airServices/Tickets/sms-image.png';
 export { default as UsersAvatarRoundedImage } from './modules/socialComponents/calling/user-avatar-rounded.png';
@@ -112,6 +113,10 @@ export { default as TwitterCalenderImage } from './shared/twitter.png';
 export { default as YoutubeCalenderImage } from './shared/youtube.png';
 export { default as FacebookCalenderImage } from './shared/facebook.png';
 export { default as InstagramCalenderImage } from './shared/instagram.png';
+export { default as TwitterDropdownImage } from './shared/twitterDropdown.png';
+export { default as LinkedinDropdownImage } from './shared/linkedinDropdown.png';
+export { default as FacebookDropdownImage } from './shared/facebookDropdown.png';
+export { default as InstagramDropdownImage } from './shared/instagramDropdown.png';
 export { default as FacebookLogo } from './shared/facebookLogo.png';
 export { default as InstagramLogo } from './shared/instagramLogo.png';
 export { default as AnnouncementAvatarImage } from './modules/airServices/Dashboard/announcement-avatar-image.png';
@@ -257,5 +262,7 @@ export { default as CatalogAddImage } from './modules/airCustomerPortal/catalog/
 export { default as GiftCardImage } from './modules/HeaderAndSidebar/gift.png';
 export { default as LoyaltyImage } from './modules/HeaderAndSidebar/loyalty.png';
 export { default as PrepaidImage } from './modules/HeaderAndSidebar/prepaid.png';
+export { default as VuesaxErrorImage } from './modules/airServices/Tickets/vuesax-error-image.png';
 export { default as UserDefault } from './modules/socialComponents/chat/user-default.png';
 export { default as TypingGif } from './modules/socialComponents/chat/typing.gif';
+export { default as PhysicalCardSmallImage } from './modules/loyaltyProgram/GiftCards/physical-card-small-image.png';

@@ -22,10 +22,15 @@ import {
   usePostTicketsMutation,
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
-import { makeDateTime } from '../ServicesTickets.data';
+import { makeDateTime } from '@/utils/api';
 
 export const useUpsertTicket = (props: any) => {
-  const { setIsDrawerOpen, ticketId, setSelectedTicketList } = props;
+  const {
+    setIsDrawerOpen,
+    ticketId,
+    setSelectedTicketList,
+    setFilterTicketLists,
+  } = props;
 
   const router = useRouter();
   const theme: any = useTheme();
@@ -55,6 +60,8 @@ export const useUpsertTicket = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const submitUpsertTicket = async (data: any) => {
+    setFilterTicketLists({});
+
     const upsertTicketFormData = new FormData();
     upsertTicketFormData?.append('requester', data?.requester?._id);
     upsertTicketFormData?.append('subject', data?.subject);
@@ -63,11 +70,11 @@ export const useUpsertTicket = (props: any) => {
     !!data?.category?._id &&
       upsertTicketFormData?.append('category', data?.category?._id);
     upsertTicketFormData?.append('status', data?.status?._id);
-    upsertTicketFormData?.append('pirority', data?.priority);
+    upsertTicketFormData?.append('pirority', data?.priority?._id);
     !!data?.department?._id &&
       upsertTicketFormData?.append('department', data?.department?._id);
-    !!data?.source && upsertTicketFormData?.append('source', data?.source);
-    !!data?.impact && upsertTicketFormData?.append('impact', data?.impact);
+    !!data?.source && upsertTicketFormData?.append('source', data?.source?._id);
+    !!data?.impact && upsertTicketFormData?.append('impact', data?.impact?._id);
     !!data?.agent && upsertTicketFormData?.append('agent', data?.agent?._id);
     (!!data?.plannedEndDate || !!data?.plannedEndTime) &&
       upsertTicketFormData?.append(
@@ -167,10 +174,10 @@ export const useUpsertTicket = (props: any) => {
     submitUpsertTicket,
     methods,
     onClose,
+    putTicketStatus,
     postTicketStatus,
     isLoading,
     isFetching,
-    putTicketStatus,
     ticketId,
     upsertTicketFormFields,
     isError,

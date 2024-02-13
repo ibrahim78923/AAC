@@ -23,6 +23,7 @@ export default function RHFDropZone({
     'text/csv': ['.csv'],
   },
   maxSize = 1024 * 1024 * 2,
+  disabled,
   ...other
 }: any) {
   const {
@@ -35,6 +36,7 @@ export default function RHFDropZone({
     useDropzone({
       multiple: false,
       accept: accept,
+      disabled: disabled,
       maxSize: maxSize,
       onDrop: useCallback(
         (files: any) => {

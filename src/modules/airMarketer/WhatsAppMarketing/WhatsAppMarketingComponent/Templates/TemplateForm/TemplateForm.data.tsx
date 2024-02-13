@@ -27,7 +27,9 @@ export const createTemplateFiltersDataArray = () => {
       componentProps: {
         name: 'templateName',
         label: 'Template Name',
+        placeholder: 'Enter Name',
         fullWidth: true,
+        required: true,
       },
       component: RHFTextField,
       md: 12,
@@ -37,6 +39,7 @@ export const createTemplateFiltersDataArray = () => {
         name: 'category',
         label: 'Category',
         select: true,
+        required: true,
       },
       options: [
         { value: 'Account update', label: 'Account update' },
@@ -56,6 +59,7 @@ export const createTemplateFiltersDataArray = () => {
         name: 'language',
         label: 'Language',
         select: true,
+        required: true,
       },
       options: [
         { value: 'English', label: 'English' },
@@ -77,6 +81,7 @@ export const createTemplateFiltersDataArray = () => {
         fullWidth: true,
         placeholder: 'Type',
         multiline: true,
+        required: true,
         rows: 3,
       },
       component: RHFTextField,

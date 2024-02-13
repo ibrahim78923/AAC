@@ -1,7 +1,8 @@
-import { Button, Grid, MenuItem, Popover, Typography } from '@mui/material';
+import { Button, Grid, Menu, MenuItem, Typography } from '@mui/material';
 import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
 import { useTasksHeader } from './useTasksHeader';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const TasksHeader = (props: any) => {
   const { activeCheck } = props;
@@ -19,6 +20,9 @@ export const TasksHeader = (props: any) => {
     submitDeleteModel,
     openEditDrawer,
     openAddDrawer,
+    csvExportHandler,
+    excelExportHandler,
+    isLoading,
   } = useTasksHeader(props);
   return (
     <Grid
@@ -57,11 +61,10 @@ export const TasksHeader = (props: any) => {
         >
           Action
         </Button>
-        <Popover
+        <Menu
           open={openAction}
           anchorEl={actionPop}
           onClose={handleActionClose}
-          sx={{ mt: '8px' }}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'left',
@@ -69,20 +72,19 @@ export const TasksHeader = (props: any) => {
         >
           <MenuItem onClick={openEditDrawer}>Edit</MenuItem>
           <MenuItem onClick={() => setDeleteModal(true)}>Delete</MenuItem>
-          <MenuItem>
-            <a onClick={handleActionExportClick}>Export Task</a>
-            <Popover
+          <MenuItem onClick={handleActionExportClick}>
+            Export Task
+            <Menu
               open={openActionExport}
               anchorEl={actionExportPop}
               onClose={handleActionExportClose}
-              sx={{ ml: '-12px' }}
               transformOrigin={{ vertical: 'top', horizontal: 'right' }}
             >
-              <MenuItem onClick={() => {}}>CSV</MenuItem>
-              <MenuItem onClick={() => {}}>Excel</MenuItem>
-            </Popover>
+              <MenuItem onClick={csvExportHandler}>CSV</MenuItem>
+              <MenuItem onClick={excelExportHandler}>Excel</MenuItem>
+            </Menu>
           </MenuItem>
-        </Popover>
+        </Menu>
         <Button
           variant="contained"
           onClick={openAddDrawer}
@@ -92,11 +94,12 @@ export const TasksHeader = (props: any) => {
         </Button>
       </Grid>
       <AlertModals
-        type="delete"
+        type={ALERT_MODALS_TYPE?.DELETE}
         message="Are you sure you want to delete this task?"
         open={deleteModal}
         handleClose={() => setDeleteModal(false)}
-        handleSubmit={submitDeleteModel}
+        handleSubmitBtn={submitDeleteModel}
+        loading={isLoading}
       />
     </Grid>
   );

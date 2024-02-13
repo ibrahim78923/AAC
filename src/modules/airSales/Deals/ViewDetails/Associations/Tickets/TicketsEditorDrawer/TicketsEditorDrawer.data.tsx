@@ -47,6 +47,7 @@ export const ticketsDataArray = [
       required: true,
       placeHolder: 'Subject',
       fullWidth: true,
+      placeholder: 'Enter here',
     },
     component: RHFTextField,
     md: 12,

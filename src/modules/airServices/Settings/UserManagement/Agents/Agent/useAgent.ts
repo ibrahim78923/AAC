@@ -17,11 +17,14 @@ export const useAgent = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [filterAgentData, setFilterAgentData] = useState({});
 
   const params = {
     page: page,
     limit: pageLimit,
     role: 'ORG_AGENT',
+    search: searchValue,
+    ...filterAgentData,
   };
 
   const { data, isLoading, isSuccess, isFetching } = useGetAgentsQuery(params);
@@ -121,5 +124,6 @@ export const useAgent = () => {
     setPage,
     pageLimit,
     metaData,
+    setFilterAgentData,
   };
 };

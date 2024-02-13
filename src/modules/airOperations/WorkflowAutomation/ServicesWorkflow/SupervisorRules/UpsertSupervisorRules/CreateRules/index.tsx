@@ -6,18 +6,20 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { CreateRuleAction } from './CreateRuleAction';
 import CreateRuleConditions from './CreateRuleConditions';
 import { LoadingButton } from '@mui/lab';
-import { CopyIcon, GrayBookIcon } from '@/assets/icons';
+import { CopyIcon, GrayBookIcon, WhiteBookIcon } from '@/assets/icons';
 
 const CreateRules = () => {
   const {
     methods,
     onSubmit,
     handleSubmit,
-    moveBack,
+    handleMoveBack,
     watch,
     register,
     setValue,
+    action,
   } = useCreateRules();
+  const EDIT_WORKFLOW = 'edit';
   return (
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -27,11 +29,15 @@ const CreateRules = () => {
               <ArrowBackIcon
                 sx={{ cursor: 'pointer' }}
                 onClick={() => {
-                  moveBack?.();
+                  handleMoveBack?.();
                 }}
               />
             </IconButton>
-            <Typography variant="h3">Create Supervisor Rules</Typography>
+            <Typography variant="h4">
+              {action === EDIT_WORKFLOW
+                ? 'Edit Supervisor Rules'
+                : 'Create Supervisor Rules'}
+            </Typography>
           </Box>
           <Box display={'flex'} gap={0.5}>
             <LoadingButton
@@ -46,10 +52,14 @@ const CreateRules = () => {
               variant="outlined"
               color="secondary"
             >
-              Save as Default
+              Save as Draft
             </LoadingButton>
-            <LoadingButton variant="contained" type="submit">
-              Create
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              startIcon={<WhiteBookIcon />}
+            >
+              {action === EDIT_WORKFLOW ? 'Update' : 'Create'}
             </LoadingButton>
           </Box>
         </Box>

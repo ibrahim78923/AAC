@@ -8,15 +8,18 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 
-const notifyBeforeOption = ['5', '10', '15', '30'];
+const notifyBeforeOption = [
+  { value: 5, title: '5 Minutes' },
+  { value: 10, title: '10 Minutes' },
+  { value: 15, title: '15 Minutes' },
+  { value: 30, title: '30 Minutes' },
+];
 const statusOptions = ['Todo', 'In-Progress', 'Done'];
 export const taskTicketFormValidationSchema: any = Yup?.object()?.shape({
-  title: Yup?.string()?.required('Required'),
-  description: Yup?.string(),
+  title: Yup?.string()?.trim()?.required('Required'),
+  description: Yup?.string()?.trim()?.required('Required'),
   departmentId: Yup?.mixed()?.required('Required'),
-  assignTo: Yup?.mixed(),
-  status: Yup?.string(),
-  notifyBefore: Yup?.string(),
+  status: Yup?.string()?.required('Required'),
   startDate: Yup?.date(),
   startDateTime: Yup?.date(),
   endDate: Yup?.date(),
@@ -32,17 +35,15 @@ export const taskTicketFormDefaultValues = (data: any) => {
     departmentId: taskData?.departmentData ?? null,
     assignTo: !!Object?.keys(taskData?.assignedUser ?? {})?.length
       ? taskData?.assignedUser
-      : null,
+      : '',
     status: taskData?.status ?? '',
-    notifyBefore: taskData?.notifyBefore ?? null,
+    notifyBefore: taskData?.notifyBefore ?? '',
     startDate: taskData?.startDate ? new Date(taskData?.startDate) : new Date(),
     startDateTime: taskData?.startDateTime
       ? new Date(taskData?.startDateTime)
       : new Date(),
-    endDate: taskData?.endDate ? new Date(taskData?.endDate) : new Date(),
-    endDateTime: taskData?.endDateTime
-      ? new Date(taskData?.endDateTime)
-      : new Date(),
+    endDate: taskData?.endDate ? new Date(taskData?.endDate) : null,
+    endDateTime: taskData?.endDateTime ? new Date(taskData?.endDateTime) : null,
     plannedEffort: taskData?.plannedEffort ?? '',
   };
 };
@@ -68,6 +69,10 @@ export const taskTicketFormFields = (
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      required: true,
+      style: {
+        minHeight: 200,
+      },
     },
     component: RHFEditor,
     md: 12,
@@ -80,6 +85,7 @@ export const taskTicketFormFields = (
       fullWidth: true,
       required: true,
       placeholder: 'Chose department',
+      externalParams: { limit: 50 },
       apiQuery: departmentDropdown,
     },
     component: RHFAutocompleteAsync,
@@ -94,7 +100,9 @@ export const taskTicketFormFields = (
       placeholder: 'Select',
       apiQuery: userDropdown,
       getOptionLabel: (option: any) =>
-        option?.firstName + ' ' + option?.lastName,
+        option?.firstName || option?.lastName
+          ? option?.firstName + ' ' + option?.lastName
+          : '',
     },
     component: RHFAutocompleteAsync,
     md: 12,
@@ -106,6 +114,7 @@ export const taskTicketFormFields = (
       label: 'Status',
       placeholder: 'Select',
       fullWidth: true,
+      required: true,
       options: statusOptions,
     },
     component: RHFAutocomplete,
@@ -119,7 +128,8 @@ export const taskTicketFormFields = (
       placeholder: 'Select',
       fullWidth: true,
       options: notifyBeforeOption,
-      getOptionLabel: (option: any) => option + ' ' + 'Minutes',
+      getOptionLabel: (option: any) =>
+        option?.title ? option?.title : option ? option + ' ' + 'Minutes' : '',
     },
     component: RHFAutocomplete,
     md: 12,
@@ -130,6 +140,7 @@ export const taskTicketFormFields = (
       name: 'startDate',
       label: 'Planned Start Date',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFDatePicker,
     md: 8,
@@ -140,6 +151,7 @@ export const taskTicketFormFields = (
       name: 'startDateTime',
       label: '\u00a0',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFTimePicker,
     md: 4,
@@ -150,6 +162,8 @@ export const taskTicketFormFields = (
       name: 'endDate',
       label: 'Planned End Date',
       fullWidth: true,
+      disablePast: true,
+      textFieldProps: { readOnly: true },
     },
     component: RHFDatePicker,
     md: 8,
@@ -160,6 +174,7 @@ export const taskTicketFormFields = (
       name: 'endDateTime',
       label: '\u00a0',
       fullWidth: true,
+      textFieldProps: { readOnly: true },
     },
     component: RHFTimePicker,
     md: 4,

@@ -1,33 +1,36 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
-
 import { FilterIcon, FolderGreyIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
-
-import { articlesTabs, data } from './Articles.data';
 import { useArticles } from './useArticles';
 import { styles } from './Articles.style';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { AlertModals } from '@/components/AlertModals';
 import { MoveFolderModal } from './MoveFolderModal';
 import FilterArticles from './FilterArticles';
+import { DeleteArticles } from './DeleteArticles';
 
 export const Articles = () => {
   const {
     articlesColumns,
     selectedArticlesTab,
     handleSelectedArticlesTab,
-    selectedArticlesData,
     openDeleteModal,
     setOpenDeleteModal,
-    handleDeleteSubmit,
     moveFolderModal,
     setMoveFolderModal,
     dropdownOptions,
     theme,
     openFilter,
     setOpenFilter,
+    lazyGetArticlesStatus,
+    setPage,
+    setPageLimit,
+    setSearch,
+    foldersList,
+    selectedArticlesData,
+    setSelectedArticlesData,
+    filterValues,
+    setFilterValues,
   } = useArticles();
 
   const { tabWrapper, selectedTabColor } = styles();
@@ -35,38 +38,50 @@ export const Articles = () => {
   return (
     <>
       <Grid container>
-        <Grid item xs={12} sm={4} md={3.75} lg={3} xl={1.75}>
-          <Box sx={{ m: '0.75rem 1.5rem 0.75rem 0 ' }}>
-            {articlesTabs?.map((tab: string) => (
+        <Grid item xs={12} lg={3} xl={1.75}>
+          <Box
+            sx={{
+              m: '0.75rem 1.5rem 0.75rem 0 ',
+              maxHeight: { xs: '20vh', xl: '60vh' },
+              overflowY: 'scroll',
+            }}
+          >
+            {foldersList?.map((tab: any) => (
               <Box
-                key={uuidv4()}
+                key={tab?._id}
                 sx={{ ...tabWrapper(tab, selectedArticlesTab, theme) }}
-                onClick={() => handleSelectedArticlesTab(tab)}
+                onClick={() => handleSelectedArticlesTab(tab?._id)}
               >
                 <FolderGreyIcon
-                  fill={selectedTabColor(tab, selectedArticlesTab, theme)}
+                  fill={selectedTabColor(tab?._id, selectedArticlesTab, theme)}
                 />
                 <Typography
-                  color={selectedTabColor(tab, selectedArticlesTab, theme)}
+                  color={selectedTabColor(tab?._id, selectedArticlesTab, theme)}
                   textTransform={'capitalize'}
                 >
-                  {tab}
+                  {tab?.name}
                 </Typography>
               </Box>
             ))}
           </Box>
         </Grid>
-        <Grid item xs={12} sm={8} md={7.25} lg={9} xl={10.25}>
+        <Grid item xs={12} lg={9} xl={10.25}>
           <Box
             display={'flex'}
             justifyContent={'space-between'}
             gap={1}
             flexWrap={'wrap'}
+            alignItems={'center'}
           >
-            <Search placeholder="Search Here" />
-            <Box display={'flex'} gap={1}>
+            <Search placeholder="Search Here" setSearchBy={setSearch} />
+            <Box
+              display={'flex'}
+              gap={1}
+              flexWrap={'wrap'}
+              alignItems={'center'}
+            >
               <SingleDropdownButton
-                disabled={!!!selectedArticlesData?.length}
+                disabled={!!selectedArticlesData?.length}
                 dropdownOptions={dropdownOptions}
               />
               <Button
@@ -81,15 +96,33 @@ export const Articles = () => {
             </Box>
           </Box>
           <br />
-          <TanstackTable data={data} columns={articlesColumns} isPagination />
+          <TanstackTable
+            data={
+              lazyGetArticlesStatus?.data?.data?.articles ?? [
+                { _id: '1', name: 'op', status: 'published' },
+              ]
+            }
+            columns={articlesColumns}
+            isLoading={lazyGetArticlesStatus?.isLoading}
+            currentPage={lazyGetArticlesStatus?.data?.data?.meta?.page}
+            count={lazyGetArticlesStatus?.data?.data?.meta?.pages}
+            pageLimit={lazyGetArticlesStatus?.data?.data?.meta?.limit}
+            totalRecords={lazyGetArticlesStatus?.data?.data?.meta?.total}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            isFetching={lazyGetArticlesStatus?.isFetching}
+            isError={lazyGetArticlesStatus?.isError}
+            isSuccess={lazyGetArticlesStatus?.isSuccess}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
+          />
         </Grid>
       </Grid>
-      <AlertModals
-        type="delete"
-        message="Do you want to delete the selected article?"
-        open={openDeleteModal}
-        handleClose={() => setOpenDeleteModal(false)}
-        handleSubmitBtn={handleDeleteSubmit}
+      <DeleteArticles
+        deleteModalOpen={openDeleteModal}
+        setDeleteModalOpen={setOpenDeleteModal}
+        selectedArticlesData={selectedArticlesData}
+        setSelectedArticlesData={setSelectedArticlesData}
       />
       <MoveFolderModal
         moveFolderModal={moveFolderModal}
@@ -98,6 +131,10 @@ export const Articles = () => {
       <FilterArticles
         isOpenFilterDrawer={openFilter}
         setIsOpenFilterDrawer={setOpenFilter}
+        filterValues={filterValues}
+        setFilterValues={setFilterValues}
+        setPage={setPage}
+        // handleFilterValues={handleFilterValues}
       />
     </>
   );

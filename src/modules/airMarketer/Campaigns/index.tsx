@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import Manage from './Manage';
 import useCampaigns from './useCampaigns';
 import { PlusIcon } from '@/assets/icons';
@@ -15,6 +15,7 @@ import { AddCircle } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 
 import { v4 as uuidv4 } from 'uuid';
+import Calendar from './Calendar';
 
 const Campaigns = () => {
   const { isOpenFilter, setIsOpenFilter, theme } = useCampaigns();
@@ -30,19 +31,22 @@ const Campaigns = () => {
           borderRadius: '8px',
         }}
       >
-        <Box
+        <Stack
+          display="flex"
+          direction={{ md: 'row' }}
           justifyContent="space-between"
-          alignItems="center"
-          sx={{ padding: '0px 24px', display: { md: 'flex' } }}
+          sx={{ padding: '0px 24px' }}
         >
-          <Typography variant="h4">Campaigns</Typography>
+          <Typography variant="h4" mb={1}>
+            Campaigns
+          </Typography>
 
-          <Box>
+          <Box display="flex" flexWrap="wrap" gap={1}>
             <Button
               variant="outlined"
               className="small"
               color="inherit"
-              sx={{ mr: 1, mt: 0.2 }}
+              sx={{ width: { sm: '200px', xs: '100%' } }}
               startIcon={<ImportIcon />}
               onClick={() => setIsCompare(true)}
             >
@@ -53,17 +57,17 @@ const Campaigns = () => {
               className="small"
               startIcon={<PlusIcon />}
               onClick={() => setIsCreateTask(true)}
+              sx={{ width: { sm: '200px', xs: '100%' } }}
             >
               Create campaigns
             </Button>
           </Box>
-        </Box>
+        </Stack>
 
         <Box sx={{ padding: '0px 24px' }} mt={1.6}>
           <HorizontalTabs tabsDataArray={campaignsTabs}>
             <Manage />
-            {/* <Calendar /> */}
-            <Manage />
+            <Calendar />
             <Tasks />
           </HorizontalTabs>
         </Box>
@@ -74,32 +78,42 @@ const Campaigns = () => {
           onClose={() => setIsOpenFilter(false)}
         />
       )}
-      <CommonDrawer
-        isDrawerOpen={isCreateTask}
-        onClose={() => {
-          setIsCreateTask(false);
-        }}
-        title={'Create Campaigns'}
-        okText="Create"
-        isOk
-        footer={true}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={CampaignTask}>
-            <Grid container spacing={2}>
-              {campaignArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component
+
+      {isCreateTask && (
+        <CommonDrawer
+          isDrawerOpen={isCreateTask}
+          onClose={() => {
+            setIsCreateTask(false);
+          }}
+          title="Create Campaign"
+          okText="Create"
+          isOk
+          footer={true}
+        >
+          <Box sx={{ paddingTop: '1rem' }}>
+            <FormProvider methods={CampaignTask}>
+              <Grid container spacing={2}>
+                {campaignArray?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component {...item.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={uuidv4()} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
+                    {/* <item.component
                     {...item.componentProps}
                     size={'small'}
-                  ></item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
-
+                  ></item.component> */}
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          </Box>
+        </CommonDrawer>
+      )}
       <CommonDrawer
         isDrawerOpen={isCompare}
         onClose={() => {

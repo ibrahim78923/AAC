@@ -31,6 +31,7 @@ const PaidAdsFilterDrawer = (props: any) => {
       submitHandler={handleSubmit(onSubmit)}
       onClose={onClose}
       isOk={true}
+      isCancel={false}
       footer
     >
       <FormProvider methods={methods}>

@@ -1,53 +1,51 @@
-import { RHFSelect } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
+import { RHFAutocomplete } from '@/components/ReactHookForm';
 
-export const filterArticlesValidationSchema = Yup?.object()?.shape({
-  status: Yup?.string(),
-  author: Yup?.string(),
-});
-
-export const filterArticlesDataDefaultValues = {
-  status: '',
-  author: '',
+export const filterArticlesDataDefaultValues = (data?: any) => {
+  return {
+    status: data?.status?._id ?? null,
+    authorId: data?.authorId?._id ?? null,
+  };
 };
+
 const statusOption = [
-  { value: 'Drafts', label: 'Drafts' },
-  { value: 'Published', label: 'Published' },
+  { _id: 'DRAFT', label: 'DRAFT' },
+  { _id: 'PUBLISHED', label: 'PUBLISHED' },
 ];
+
 const authorOption = [
-  { value: 'Alee', label: 'Alee' },
-  { value: 'David', label: 'David' },
-  { value: 'Raza', label: 'Raza' },
-  { value: 'Sam', label: 'Sam' },
-  { value: 'Martiz', label: 'Martiz' },
-  { value: 'Luke', label: 'Luke' },
-  { value: 'Manpreet', label: 'Manpreet' },
+  { _id: 'Alee', label: 'Alee' },
+  { _id: 'David', label: 'David' },
+  { _id: 'Raza', label: 'Raza' },
+  { _id: 'Sam', label: 'Sam' },
+  { _id: 'Martiz', label: 'Martiz' },
+  { _id: 'Luke', label: 'Luke' },
+  { _id: 'Manpreet', label: 'Manpreet' },
 ];
 export const filterArticlesData = [
   {
+    id: '1',
     componentProps: {
       name: 'status',
       label: 'Status',
+      placeholder: 'Select',
       fullWidth: true,
-      select: true,
+      options: statusOption,
+      getOptionLabel: (option: any) => option?.label,
     },
-
-    options: statusOption,
-
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
+    id: '2',
     componentProps: {
-      name: 'author',
+      name: 'authorId',
       label: 'Author',
+      placeholder: 'Select',
       fullWidth: true,
-      select: true,
+      options: authorOption,
+      getOptionLabel: (option: any) => option?.label,
     },
-
-    options: authorOption,
-
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
 ];

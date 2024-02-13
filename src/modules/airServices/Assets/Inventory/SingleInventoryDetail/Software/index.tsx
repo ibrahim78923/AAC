@@ -1,23 +1,41 @@
 import NoData from '@/components/NoData';
-import { softwareData } from './software.data';
 import { InventoryCard } from '@/components/InventoryCard/index';
-
-import { v4 as uuidv4 } from 'uuid';
 import { ExpenseImage } from '@/assets/images';
+import { useSoftware } from './useSoftware';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const Software = () => {
+  const {
+    AssetsInventorySoftwareData,
+    isLoading,
+    openDeleteModal,
+    setOpenDeleteModal,
+    handleDelete,
+    setDelateRecord,
+  } = useSoftware();
   return (
     <>
-      {!!softwareData?.length ? (
-        softwareData?.map((singleSoftware: any) => (
-          <InventoryCard
-            heading={singleSoftware?.heading}
-            status={singleSoftware?.status}
-            key={uuidv4()}
-          />
-        ))
+      {isLoading ? (
+        <SkeletonTable />
       ) : (
-        <NoData image={ExpenseImage} message={'No Software found'} />
+        <>
+          {!!AssetsInventorySoftwareData?.length ? (
+            AssetsInventorySoftwareData?.map((singleSoftware: any) => (
+              <InventoryCard
+                openDeleteModal={openDeleteModal}
+                setOpenDeleteModal={setOpenDeleteModal}
+                handleDelete={handleDelete}
+                setDelateRecord={setDelateRecord}
+                deletedRecordId={singleSoftware?.inventorySoftwares?._id}
+                heading={singleSoftware?.inventorySoftwares?.name}
+                status={singleSoftware?.inventorySoftwares?.status}
+                key={singleSoftware?.inventorySoftwares?._id}
+              />
+            ))
+          ) : (
+            <NoData image={ExpenseImage} message={'No Software found'} />
+          )}
+        </>
       )}
     </>
   );

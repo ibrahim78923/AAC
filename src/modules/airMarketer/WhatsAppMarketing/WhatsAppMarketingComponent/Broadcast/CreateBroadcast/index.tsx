@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Avatar, Box, Button, Grid, Stack } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { ArrowBackIcon } from '@/assets/icons';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import {
@@ -36,7 +36,9 @@ const CreateBroadcast = () => {
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: '27px' }}>
         <Box
-          onClick={() => router.push(AIR_MARKETER.WHATSAPP_MARKETING)}
+          onClick={() =>
+            router.push({ pathname: AIR_MARKETER.WHATSAPP_MARKETING })
+          }
           sx={{ cursor: 'pointer', lineHeight: '1', mr: '12px' }}
         >
           <ArrowBackIcon />

@@ -2,8 +2,6 @@ import Typography from '@mui/material/Typography';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box, Card, Divider, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
-import { ActivitiesDataI } from './Activities.interface';
-import { v4 as uuidv4 } from 'uuid';
 import CustomPagination from '@/components/CustomPagination';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
@@ -33,8 +31,8 @@ export const Activities = () => {
         Activities
       </Typography>
       <Card sx={{ p: 2.4 }}>
-        {activitiesData?.map((activity: ActivitiesDataI, index: number) => (
-          <Box key={uuidv4()}>
+        {activitiesData?.map((activity: any, index: number) => (
+          <Box key={activity?._id}>
             <Box display={'flex'}>
               <IconButton
                 disabled
@@ -90,7 +88,7 @@ export const Activities = () => {
                     {activity?.timeTwo}
                   </Typography>
                 </Box>
-                <Box sx={{ marginLeft: 2 }} key={uuidv4()}>
+                <Box sx={{ marginLeft: 2 }} key={1}>
                   {index === 1 && (
                     <ul>
                       <li>

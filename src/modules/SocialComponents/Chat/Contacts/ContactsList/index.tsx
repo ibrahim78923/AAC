@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, Button, Checkbox, CircularProgress } from '@mui/material';
+import { Box, Button, Checkbox, Skeleton } from '@mui/material';
 
 import ContactsCard from './ContactsCard';
 import Search from '@/components/Search';
@@ -22,10 +22,28 @@ import {
 import { isNullOrEmpty } from '@/utils';
 
 const ContactList = ({ chatMode, handleManualRefetch }: any) => {
+  const [isDeletedFilter, setIsDeletedFilter] = useState(false);
+  const [unReadFilter, setUnReadFilter] = useState(false);
+  const [isMutedFilter, setIsMutedFilter] = useState(false);
+  const [isPinnedFilter, setIsPinnedFilter] = useState(false);
+  const [isArchivedFilter, setIsArchivedFilter] = useState(false);
+
   const dispatch = useAppDispatch();
+
+  const paramsObj: any = {};
+  paramsObj['isDeleted'] = isDeletedFilter;
+  paramsObj['unRead'] = unReadFilter;
+  paramsObj['isMuted'] = isMutedFilter;
+  paramsObj['isPinned'] = isPinnedFilter;
+  paramsObj['isArchived'] = isArchivedFilter;
+  const queryParams = Object?.entries(paramsObj)
+    ?.map(([key, value]: any) => `${key}=${encodeURIComponent(value)}`)
+    ?.join('&');
+  const query = `&${queryParams}`;
 
   const { data: contactsData, status } = useGetChatsContactsQuery({
     isGroup: chatMode === 'groupChat' ? true : false,
+    query,
   });
 
   const [searchContacts, setSearchContacts] = useState('');
@@ -47,7 +65,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
     (state) => state?.chat?.isChatContactsLoading,
   );
 
-  const chatsTypeToShow = chatMode === 'groupChat' ? [] : chatContacts;
+  const chatsTypeToShow = chatContacts;
 
   const handleSelectAll = () => {
     if (selectedValues?.length === chatsTypeToShow?.length) {
@@ -57,16 +75,19 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
       setSelectedValues(result);
     }
   };
+  const showAllRecordsHandler = () => {
+    setIsArchivedFilter(false);
+    setIsPinnedFilter(false);
+    setIsMutedFilter(false);
+    setUnReadFilter(false);
+    setIsDeletedFilter(false);
+  };
 
   useEffect(() => {
-    if (chatMode === 'groupChat') {
-      null;
-    } else {
-      if (contactsData?.data?.chats.length > 0) {
-        dispatch(setChatContacts(contactsData?.data?.chats));
-      }
+    if (contactsData?.data?.chats) {
+      dispatch(setChatContacts(contactsData?.data?.chats));
     }
-  }, [contactsData?.data?.chats]);
+  }, [contactsData?.data?.chats, chatMode]);
 
   useEffect(() => {
     if (status === 'pending') {
@@ -78,24 +99,48 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
 
   const menuItemsData = [
     {
+      menuLabel: 'All',
+      handler: showAllRecordsHandler,
+    },
+    {
       menuLabel: 'Pinned',
-      handler: handleClose,
+      handler: () => {
+        showAllRecordsHandler();
+        setIsPinnedFilter(true);
+        handleClose();
+      },
     },
     {
       menuLabel: 'Archived',
-      handler: handleClose,
+      handler: () => {
+        showAllRecordsHandler();
+        setIsArchivedFilter(true);
+        handleClose();
+      },
     },
     {
       menuLabel: 'Deleted',
-      handler: handleClose,
+      handler: () => {
+        showAllRecordsHandler();
+        setIsDeletedFilter(true);
+        handleClose();
+      },
     },
     {
       menuLabel: 'Mark as unread',
-      handler: handleClose,
+      handler: () => {
+        showAllRecordsHandler();
+        setUnReadFilter(true);
+        handleClose();
+      },
     },
     {
       menuLabel: 'Muted',
-      handler: handleClose,
+      handler: () => {
+        showAllRecordsHandler();
+        setIsMutedFilter(true);
+        handleClose();
+      },
     },
   ];
 
@@ -147,9 +192,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
         )}
         <Box mt={2} sx={{ overflow: 'scroll', maxHeight: '52vh' }}>
           {isChatContactsLoading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-              <CircularProgress />
-            </Box>
+            <>{[1, 2, 3]?.map((index) => <SkeletonBox key={index} />)}</>
           ) : (
             <>
               {!isNullOrEmpty(chatsTypeToShow) ? (
@@ -184,4 +227,26 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   );
 };
 
+const SkeletonBox = () => {
+  return (
+    <Box sx={{ mb: 4, padding: '0px 35px' }}>
+      <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+        <Skeleton variant="circular" width={40} height={40} />
+        <Skeleton variant="rectangular" width={250} height={30} />
+      </Box>
+      <Skeleton
+        variant="rectangular"
+        width={230}
+        height={15}
+        sx={{ ml: 1, mt: 1 }}
+      />
+      <Skeleton
+        variant="rectangular"
+        width={230}
+        height={15}
+        sx={{ ml: 1, mt: 1 }}
+      />
+    </Box>
+  );
+};
 export default ContactList;

@@ -21,3 +21,4 @@ export { default as RHFFileImport } from './RHFFileImport';
 export { default as RHFDateRangePicker } from './RHFDateRangePicker';
 export { default as RHFRadioButtonTwoLabel } from './RHFRadioButtonTwoLabels';
 export { default as RHFDateTimePicker } from './RHFDateTimePicker';
+export { default as RHFNumberInput } from './RHFNumberInput';

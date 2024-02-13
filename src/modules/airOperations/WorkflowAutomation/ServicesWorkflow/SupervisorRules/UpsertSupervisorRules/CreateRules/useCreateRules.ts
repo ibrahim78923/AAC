@@ -5,9 +5,9 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
+import { useSearchParams } from 'next/navigation';
 
 export const useCreateRules = () => {
-  const router = useRouter();
   const methods = useForm({
     resolver: yupResolver(CreateRulesValidationSchema),
     defaultValues: defaultValues,
@@ -18,16 +18,19 @@ export const useCreateRules = () => {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
   };
-  const moveBack = () => {
-    router?.push(AIR_OPERATIONS?.SERVICES_WORKFLOW);
-  };
+  const searchParams = useSearchParams();
+  const action = searchParams?.get('action');
+
+  const { push } = useRouter();
+  const handleMoveBack = () => push(AIR_OPERATIONS?.SERVICES_WORKFLOW);
   return {
     methods,
     onSubmit,
     handleSubmit,
-    moveBack,
+    handleMoveBack,
     register,
     watch,
     setValue,
+    action,
   };
 };

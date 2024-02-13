@@ -72,7 +72,7 @@ const ManageAccess = ({
               <FormControlLabel
                 value="availableToEveryOne"
                 control={<Radio />}
-                label="Available to EveryOne"
+                label="Available to Everyone"
               />
               <FormControlLabel
                 value="selectUserAndTeamWhoCanEdit"
@@ -82,7 +82,9 @@ const ManageAccess = ({
             </RadioGroup>
           </FormControl>
           <Box sx={styles?.buttonBox} mt={2}>
-            <Button variant="outlined">Cancel</Button>
+            <Button variant="outlined" onClick={handleCloseManageAccessModal}>
+              Cancel
+            </Button>
             <Button variant="contained" type="submit" onClick={handleSubmit}>
               Save
             </Button>

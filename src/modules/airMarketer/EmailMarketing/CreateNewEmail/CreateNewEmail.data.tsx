@@ -18,21 +18,21 @@ export const CreateEmailData = [
 ];
 
 export const createNewEmailSchema = Yup?.object()?.shape({
-  issueRelatedTo: Yup?.string().required('Required Field!'),
-  requester: Yup?.string().required('Required Field!'),
-  subject: Yup?.string().required('Required Field!'),
+  emailFrom: Yup?.string().required('Field is Required'),
+  emailTo: Yup?.string().required('Field is Required'),
+  subject: Yup?.string().required('Field is Required'),
 });
 
 export const defaultValues = {
-  issueRelatedTo: '',
-  requester: '',
+  emailFrom: '',
+  emailTo: '',
   subject: '',
 };
 
 export const createNewEmailData = [
   {
     componentProps: {
-      name: 'issueRelatedTo',
+      name: 'emailFrom',
       label: 'From:',
       placeholder: 'Hycholic@gmail.com',
       fullWidth: true,
@@ -43,7 +43,7 @@ export const createNewEmailData = [
   },
   {
     componentProps: {
-      name: 'requester',
+      name: 'emailTo',
       label: 'To:',
       placeholder: 'Enter Email',
       fullWidth: true,
@@ -93,6 +93,7 @@ export const createNewEmailData = [
     isBCCField: ['both'],
     md: 6.1,
   },
+
   // {
   //   componentProps: {
   //     name: 'message',

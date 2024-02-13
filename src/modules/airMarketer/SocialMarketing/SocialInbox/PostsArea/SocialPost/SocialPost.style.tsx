@@ -78,7 +78,6 @@ export const styles = {
       justifyContent: 'center',
       flexDirection: 'column',
 
-      borderRight: '1px solid #EBECF1',
       '& :last-child': {
         borderRight: '1px solid red',
       },

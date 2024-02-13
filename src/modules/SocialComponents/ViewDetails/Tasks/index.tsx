@@ -56,14 +56,15 @@ const Tasks = ({ companyId }: any) => {
           />
         </Grid>
       </Grid>
-
-      <TaskEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-        selectedCheckboxes={selectedCheckboxes}
-        setSelectedCheckboxes={setSelectedCheckboxes}
-        companyId={companyId}
-      />
+      {openDrawer && (
+        <TaskEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          selectedCheckboxes={selectedCheckboxes}
+          setSelectedCheckboxes={setSelectedCheckboxes}
+          companyId={companyId}
+        />
+      )}
     </Box>
   );
 };

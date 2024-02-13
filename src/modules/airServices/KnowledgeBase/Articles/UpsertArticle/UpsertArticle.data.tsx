@@ -1,45 +1,41 @@
 import {
+  RHFAutocomplete,
   RHFDatePicker,
-  RHFSelect,
   RHFSwitch,
   RHFTextField,
 } from '@/components/ReactHookForm';
 
-const dropdownDummy = [
-  {
-    value: 'option1',
-    label: 'Option 1',
-  },
-  {
-    value: 'option2',
-    label: 'Option 2',
-  },
-];
+const dropdownDummy = ['Option 1', 'Option 2'];
 
-export const defaultValues = {
-  content: '',
-  folder: '',
-  tags: '',
-  keywords: '',
-  needsApproval: false,
-  approver: '',
-  reviewDate: new Date(),
+export const defaultValues = (articleData: any) => {
+  return {
+    folder: articleData?.folder?.name ?? null,
+    details: articleData?.details,
+    tags: articleData?.tags ?? '',
+    keywords: articleData?.keywords ?? '',
+    needsApproval: articleData?.isApprovel ?? '',
+    approver: null,
+    reviewDate: new Date(),
+  };
 };
 
-export const newArticleFieldsFunction = (needApprovals: any) => {
+export const editArticleFieldsFunction = (
+  needApprovals: any,
+  folderOptions: any,
+) => {
   const conditionalFields = [
     {
-      id: 5,
+      id: 1,
       componentProps: {
         fullWidth: true,
         name: 'approver',
         label: 'Approver',
-        select: true,
+        placeholder: 'Select',
         options: dropdownDummy,
         sx: { pb: 1.2 },
       },
       gridLength: 12,
-      component: RHFSelect,
+      component: RHFAutocomplete,
     },
     {
       id: 6,
@@ -49,24 +45,35 @@ export const newArticleFieldsFunction = (needApprovals: any) => {
         fullWidth: true,
         name: 'reviewDate',
         label: 'Review Date',
-        select: true,
-        options: dropdownDummy,
         sx: { pb: 1.2 },
       },
     },
   ];
   const defaultFields = [
     {
+      id: 1,
+      componentProps: {
+        fullWidth: true,
+        name: 'approver',
+        label: 'Approver',
+        placeholder: 'Select',
+        options: dropdownDummy,
+        sx: { pb: 1.2 },
+      },
+      gridLength: 12,
+      component: RHFAutocomplete,
+    },
+    {
       id: 3,
-      component: RHFSelect,
+      component: RHFAutocomplete,
       gridLength: 12,
       componentProps: {
         fullWidth: true,
         name: 'folder',
         label: 'Folder',
-        placeholder: 'Training',
-        select: true,
-        options: dropdownDummy,
+        placeholder: 'Select',
+        options: folderOptions,
+        getOptionLabel: (option: any) => option?.label,
         sx: { pb: 1.2 },
       },
     },
@@ -76,19 +83,17 @@ export const newArticleFieldsFunction = (needApprovals: any) => {
         fullWidth: true,
         name: 'tags',
         label: 'Tags',
-        placeholder: '#example',
         sx: { pb: 1.2 },
       },
       gridLength: 12,
       component: RHFTextField,
     },
     {
-      id: 8,
+      id: 2,
       componentProps: {
         fullWidth: true,
         name: 'keywords',
         label: 'Keywords',
-        placeholder: 'Keywords',
         sx: { pb: 1.2 },
       },
       gridLength: 12,
