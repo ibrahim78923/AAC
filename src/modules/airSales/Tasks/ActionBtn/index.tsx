@@ -37,7 +37,7 @@ const ActionBtn = ({
         onClick={handleClick}
         disabled={disableActionBtn}
         classes={{ outlined: 'outlined_btn' }}
-        type="submit"
+        type="button"
         sx={styles(theme, disableActionBtn)}
       >
         {title}

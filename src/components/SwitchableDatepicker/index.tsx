@@ -16,6 +16,7 @@ const SwitchableDatepicker = ({
   renderInput,
   dateValue,
   isCalendarOpen,
+  setIsCalendarOpen,
   setDateValue,
   handleDateSubmit,
   placement = 'left',
@@ -75,6 +76,11 @@ const SwitchableDatepicker = ({
   const handleClick = (e: any) => {
     e.preventDefault();
     setIsOpen(!isOpen);
+  };
+
+  const handleCancel = () => {
+    setIsOpen(false);
+    setIsCalendarOpen(false);
   };
 
   const handleChange = (date: any) => {
@@ -175,11 +181,7 @@ const SwitchableDatepicker = ({
             )}
           </Box>
           <Stack direction="row" spacing="12px">
-            <Button
-              className="small"
-              variant="outlined"
-              onClick={() => setIsOpen(false)}
-            >
+            <Button className="small" variant="outlined" onClick={handleCancel}>
               Cancel
             </Button>
             <Button
@@ -187,7 +189,7 @@ const SwitchableDatepicker = ({
               variant="contained"
               onClick={() => {
                 handleDateSubmit?.();
-                setIsOpen(false);
+                handleCancel();
               }}
             >
               Apply

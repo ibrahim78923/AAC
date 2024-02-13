@@ -410,3 +410,5 @@ export { default as TimerPauseIcon } from './shared/timer-pause-icon';
 export { default as DeleteBlackIcon } from './shared/delete-black-icon';
 export { default as AddAlertPopupIcon } from './shared/add-alert-popup-icon';
 export { default as ArrowAlertPopupIcon } from './shared/arrow-alert-popup-icon';
+export { default as FeaturedIcon } from './modules/airMarketer/EmailMarketing/featured-icon';
+export { default as SendPrimaryIcon } from './shared/send-primary-icon';
