@@ -1,27 +1,55 @@
-import { MenuItem, Select } from '@mui/material';
+import { Box, Button, Modal, Typography } from '@mui/material';
 
-import { ScheduleModals } from '@/components/ScheduleModals';
-
-import { RestoreModalData } from './RestoreAssign.data';
-
-import { v4 as uuidv4 } from 'uuid';
+import { styles } from './RestoreAssign.styles';
+import { AssignContactIcon } from '@/assets/icons';
+import CloseIcon from '@/assets/icons/shared/close-icon';
 
 const RestoreAssignModalBox = ({ open, onClose, handleAssignModal }: any) => {
   return (
-    <ScheduleModals
-      type={'assign'}
-      open={open}
-      handleClose={onClose}
-      handleSubmit={handleAssignModal}
-      submitButonText={'Updates'}
-      isFooter
-    >
-      <Select sx={{ width: '100%' }} {...RestoreModalData?.componentProps}>
-        {RestoreModalData?.options?.map((option) => (
-          <MenuItem key={uuidv4()}>{option?.value}</MenuItem>
-        ))}
-      </Select>
-    </ScheduleModals>
+    <>
+      <Modal
+        open={open}
+        onClose={onClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styles.parentBox}>
+          <Box sx={styles.modalBox}>
+            <Box sx={styles.innerBoxOne}>
+              <Box sx={styles.innerBoxTwo}>
+                <AssignContactIcon />
+                <Typography component="span" sx={styles.modalTypeText}>
+                  Restore Contacts
+                </Typography>
+              </Box>
+              <Box sx={{ cursor: 'pointer' }} onClick={onClose}>
+                <CloseIcon />
+              </Box>
+            </Box>
+            <Box sx={{ margin: '20px 0' }}>
+              You are about to restore a Contacts.
+            </Box>
+
+            <Box sx={styles.buttonBox}>
+              <Button
+                onClick={onClose}
+                variant="outlined"
+                sx={{ height: '35px' }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                onClick={handleAssignModal}
+                sx={{ height: '35px' }}
+              >
+                Restore
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Modal>
+    </>
   );
 };
 

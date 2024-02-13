@@ -12,7 +12,7 @@ export const RestoreTableColumns: any = [
     accessorFn: (row: any) => row?.dealName,
     id: 'dealName',
     isSortable: true,
-    header: 'Deal Name',
+    header: 'Contact',
     cell: (info: any) => info?.getValue(),
   },
 
