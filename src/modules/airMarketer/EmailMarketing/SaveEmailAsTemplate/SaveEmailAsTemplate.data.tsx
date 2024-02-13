@@ -23,9 +23,7 @@ export const dataArraySaveEmailAsTemplate = [
         { value: 'managementHub', label: 'Management Hub' },
       ],
     },
-
     component: RHFSearchableSelect,
-
     md: 12,
   },
 ];
