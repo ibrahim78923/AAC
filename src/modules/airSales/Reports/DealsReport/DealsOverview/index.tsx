@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Grid, Theme, Typography, useTheme } from '@mui/material';
+import { Box, Theme, Typography, useTheme } from '@mui/material';
 
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -17,19 +17,16 @@ const DealsOverview = () => {
   return (
     <>
       <Box sx={styles.dealBox(theme)}>
-        <Typography variant="h5" sx={{ color: `${theme?.palette?.grey[800]}` }}>
+        <Typography
+          variant="h5"
+          sx={{ color: `${theme?.palette?.grey[800]}`, mb: { xs: '10px' } }}
+        >
           Deals Overview
         </Typography>
         <Search label="Search here" />
       </Box>
-      <Grid>
-        <TanstackTable columns={columns} data={DealOverviewTableData} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
-        />
-      </Grid>
+      <TanstackTable columns={columns} data={DealOverviewTableData} />
+      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
     </>
   );
 };
