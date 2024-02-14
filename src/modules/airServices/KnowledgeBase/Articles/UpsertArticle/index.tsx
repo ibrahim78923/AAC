@@ -4,6 +4,7 @@ import {
   FormProvider,
   RHFDropZone,
   RHFEditor,
+  RHFTextField,
 } from '@/components/ReactHookForm';
 import { useUpsertArticle } from './useUpsertArticle';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
@@ -42,8 +43,9 @@ export const UpsertArticle = () => {
               router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
             }}
           />
+          <RHFTextField name="title" label="Title" required fullWidth />
           <Box pb={1.4}>
-            <RHFEditor name="details" style={{ height: 500 }} />
+            <RHFEditor name="details" style={{ height: 500 }} required />
           </Box>
           <RHFDropZone name="file" fileType="" />
         </Grid>
@@ -85,8 +87,8 @@ export const UpsertArticle = () => {
                 {needApprovals
                   ? 'Cancel'
                   : articleId
-                  ? 'Save'
-                  : 'Save as Draft'}
+                    ? 'Save'
+                    : 'Save as Draft'}
               </LoadingButton>
               <LoadingButton
                 type="button"

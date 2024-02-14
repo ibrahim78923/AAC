@@ -1,35 +1,20 @@
 import NoData from '@/components/NoData';
 import { ApprovalCard } from '../../ApprovalCard';
 
-import { useGetApprovalsTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/approvals';
-import { useRouter } from 'next/router';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
+import { useRequestReceivedApprovals } from './useRequestReceivedApproval';
+import { Box } from '@mui/material';
 
 const RequestReceivedApproval = (props: any) => {
   const { setApproval, updateRequestApprovalStatus } = props;
-  const router = useRouter();
-  const { ticketId } = router?.query;
-
-  const getApprovalsTicketsParameter = {
-    queryParams: {
-      id: ticketId,
-      approvalStatus: 'RECIEVED',
-    },
-  };
-  const { data, isLoading, isFetching, isError } = useGetApprovalsTicketsQuery(
-    getApprovalsTicketsParameter,
-    {
-      refetchOnMountOrArgChange: true,
-      skip: !!!ticketId,
-    },
-  );
-
+  const { data, isLoading, isFetching, isError } =
+    useRequestReceivedApprovals();
   if (isLoading || isFetching) return <SkeletonForm />;
   if (isError) return <ApiErrorState />;
 
   return (
-    <>
+    <Box maxHeight={'50vh'} overflow={'auto'}>
       {!!data?.length ? (
         data?.map((item: any) => (
           <ApprovalCard
@@ -40,9 +25,9 @@ const RequestReceivedApproval = (props: any) => {
           />
         ))
       ) : (
-        <NoData />
+        <NoData height={'50vh'} />
       )}
-    </>
+    </Box>
   );
 };
 
