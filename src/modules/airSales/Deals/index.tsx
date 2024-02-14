@@ -1,32 +1,32 @@
-import { useRouter } from 'next/router';
-
-import { Button, ButtonGroup, Tooltip } from '@mui/material';
-
-import CommonTabs from '@/components/Tabs';
-import { AIR_SERVICES } from '@/constants';
-
-import DealCustomize from './DealCustomize';
 import DealHeader from './DealHeader';
-import DealFilterDrawer from './DealFilterDrawer';
-import ShareMyDine from './ShareMyDine';
-import CreateView from './CreateView';
+import DealsTab from './DealTab';
 
-import useDealSaleSite from './useDealSaleSite';
-import DeleteModal from './DealsModalBox/DeleteModal';
-import ExportRecordModal from './DealsModalBox/ExportRecordModal';
-import AssignModalBox from './DealsModalBox/AssignModalBox';
-import { DealsTabs, dealsColumns } from './DealsSaleSite.data';
-import DealsActions from './DealsActions';
-import BoardView from './BoardView/BoardView';
+// import { Button, ButtonGroup, Tooltip } from '@mui/material';
 
-import {
-  FilterIcon,
-  CutomizeIcon,
-  ListViewIcon,
-  GridViewIcon,
-  RefreshTasksIcon,
-} from '@/assets/icons';
-import TanstackTable from '@/components/Table/TanstackTable';
+// import CommonTabs from '@/components/Tabs';
+// import { AIR_SERVICES } from '@/constants';
+
+// import DealCustomize from './DealCustomize';
+// import DealHeader from './DealHeader';
+// import DealFilterDrawer from './DealFilterDrawer';
+// import ShareMyDine from './ShareMyDine';
+// import CreateView from './CreateView';
+
+// import useDealSaleSite from './useDealSaleSite';
+// import DeleteModal from './DealsModalBox/DeleteModal';
+// import ExportRecordModal from './DealsModalBox/ExportRecordModal';
+// import AssignModalBox from './DealsModalBox/AssignModalBox';
+// import { DealsTabs, dealsColumns } from './DealsSaleSite.data';
+
+// import {
+//   FilterIcon,
+//   CutomizeIcon,
+//   ListViewIcon,
+//   GridViewIcon,
+//   RefreshTasksIcon,
+// } from '@/assets/icons';
+// import TanstackTable from '@/components/Table/TanstackTable';
+// import DealsTab from './DealTab';
 // import {
 //   useGetDealsListWithOutParamsQuery,
 //   useGetDealsViewsQuery,
@@ -35,53 +35,8 @@ import TanstackTable from '@/components/Table/TanstackTable';
 // } from '@/services/airSales/deals';
 
 const Deals = () => {
-  const navigate = useRouter();
-  const {
-    search,
-    setSearch,
-    isOpen,
-    isDealCustomize,
-    isFilter,
-    isShareDine,
-    handleChange,
-    handleDealCustomize,
-    handleSMD,
-    handleFilter,
-    HandleDeleteModal,
-    isDelete,
-    isAssign,
-    handleAssignModal,
-    handleExportRecord,
-    exportRecord,
-    handleActions,
-    listView,
-    handleListViewClick,
-    // handleTableCheckboxChange,
-    // selectedTableIds,
-    // setFilterVal,
-    setIsFilter,
-    // dealViewsData,
-    handleDeleteDeals,
-    viewColumns,
-    setViewColumns,
-    // setTabData,
-    // tabsArr,
-    getTabValue,
-    // tab,
-    // setTab,
-    checkedRows,
-    setCheckedRows,
-    getDealsTableList,
-    filterValues,
-    setFilterValues,
-    handleResetFilters,
-    handleCheckedGrid,
-    checkedGridView,
-    setPage,
-    setPageLimit,
-    isLoading,
-    isSuccess,
-  } = useDealSaleSite();
+  // const {
+  // } = useDealSaleSite();
 
   // use this code in future for tabs apis
   // const handleTabChange = (_: string, index: number) => {
@@ -135,19 +90,23 @@ const Deals = () => {
   //   setFilterVal(filterVal);
   // };
 
-  const columnsProps = {
-    checkedRows: checkedRows,
-    setCheckedRows: setCheckedRows,
-    dealsData: getDealsTableList,
-  };
+  // const columnsProps = {
+  //   // checkedRows: checkedRows,
+  //   // setCheckedRows: setCheckedRows,
+  //   dealsData: getDealsTableList,
+  //   dealColumns: dealCustomzieCol?.data?.columns?.map((item: any) => ({
+  //     slug: item?.slug,
+  //   })),
+  // };
 
-  const columnParams = dealsColumns(columnsProps);
+  // const columnParams = dealsColumns(columnsProps);
 
   return (
     <>
       <DealHeader />
-      <CommonTabs
-        tabsArray={DealsTabs} //?.concat(tabsArr)
+      <DealsTab />
+      {/* <CommonTabs
+        tabsArray={DealsTabs?.concat(tabsArr)} //?.concat(tabsArr)
         // handleTabChange={handleTabChange}
         getTabVal={getTabValue}
         addIcon
@@ -179,9 +138,8 @@ const Deals = () => {
                   'Delete',
                   'View Details',
                 ]}
-                disableActionBtn={checkedRows?.length > 0 ? false : true}
                 onChange={handleActions}
-                selectedIds={checkedRows}
+                checkedRows={checkedRows}
               />
             )}
 
@@ -249,7 +207,6 @@ const Deals = () => {
       >
         {listView === 'listView' ? (
           <>
-            {/* all deals */}
             <TanstackTable
               columns={columnParams}
               data={getDealsTableList?.data?.deals}
@@ -271,9 +228,9 @@ const Deals = () => {
             search={search}
           />
         )}
-      </CommonTabs>
+      </CommonTabs> */}
 
-      {isOpen && <CreateView open={isOpen} onClose={handleChange} />}
+      {/* {isOpen && <CreateView open={isOpen} onClose={handleChange} />}
       {isDealCustomize && (
         <DealCustomize
           open={isDealCustomize}
@@ -290,8 +247,8 @@ const Deals = () => {
           open={isFilter}
           onClose={handleFilter}
         />
-      )}
-      {isShareDine && (
+      )} */}
+      {/* {isShareDine && (
         <ShareMyDine
           open={isShareDine}
           onClose={handleSMD}
@@ -311,10 +268,10 @@ const Deals = () => {
           open={isAssign}
           onClose={handleAssignModal}
         />
-      )}
-      {exportRecord && (
+      )} */}
+      {/* {exportRecord && (
         <ExportRecordModal open={exportRecord} onClose={handleExportRecord} />
-      )}
+      )} */}
     </>
   );
 };

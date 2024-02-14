@@ -403,6 +403,10 @@ export { default as UserDynamicIcon } from './modules/airLoyaltyProgram/Dashboar
 export { default as AddToCartMoneyDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/add-to-cart-money-dynamic-icon';
 export { default as TransactionDynamicIcon } from './modules/airLoyaltyProgram/Dashboard/transaction-dynamic-icon';
 export { default as ImageIconAttachment } from './modules/SocialComponents/Chat/imageIcon';
+export { default as DealEmailIcon } from './modules/airSales/deals/deal-email';
+export { default as DealPhoneIcon } from './modules/airSales/deals/deal-phone';
+export { default as AccociatedContactIcon } from './modules/airSales/deals/accociated-contact';
+export { default as AccociatedCompanyIcon } from './modules/airSales/deals/accociated-company';
 export { default as BookMarkDarkIcon } from './shared/book-mark-dark-icon';
 export { default as ArrowDownDarkIcon } from './shared/arrow-down-dark-icon';
 export { default as PencilEditIcon } from './shared/pencil-edit-icon';
@@ -410,3 +414,5 @@ export { default as TimerPauseIcon } from './shared/timer-pause-icon';
 export { default as DeleteBlackIcon } from './shared/delete-black-icon';
 export { default as AddAlertPopupIcon } from './shared/add-alert-popup-icon';
 export { default as ArrowAlertPopupIcon } from './shared/arrow-alert-popup-icon';
+export { default as FeaturedIcon } from './modules/airMarketer/EmailMarketing/featured-icon';
+export { default as SendPrimaryIcon } from './shared/send-primary-icon';

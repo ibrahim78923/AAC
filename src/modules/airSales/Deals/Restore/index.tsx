@@ -147,7 +147,7 @@ const Restore = () => {
             menuItem={['Restore', 'Delete']}
             disableActionBtn={checkedAll.length > 0 ? false : true}
             onChange={handleActions}
-            checkedAll={checkedAll}
+            checkedRows={checkedAll}
           />
           <Tooltip title={'Refresh Filter'}>
             <Button variant="outlined" color="inherit" className="small">

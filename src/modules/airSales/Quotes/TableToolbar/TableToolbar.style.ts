@@ -3,6 +3,8 @@ export const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: '12px',
     p: '12px 24px',
     flexWrap: 'Wrap',
   }),

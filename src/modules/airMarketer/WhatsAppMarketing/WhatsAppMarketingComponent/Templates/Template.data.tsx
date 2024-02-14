@@ -47,13 +47,6 @@ export const columns = ({
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.createdAt,
-      id: 'createdAt',
-      isSortable: false,
-      header: 'Created Date',
-      cell: (info: any) => info?.getValue(),
-    },
-    {
       accessorFn: (row: any) => row._id,
       id: '_id',
       cell: () => (

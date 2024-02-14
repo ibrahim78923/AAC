@@ -9,7 +9,7 @@ export const CustomGridWithCardContent = ({
   data,
 }: CustomGridWithCardI) => {
   return (
-    <Grid item md={3} key={uuid()}>
+    <Grid item md={3}>
       <Box sx={style?.cardContainer}>
         <Box sx={style?.cardTitle}>{title}</Box>
         <Box sx={style?.cardWrapper}>

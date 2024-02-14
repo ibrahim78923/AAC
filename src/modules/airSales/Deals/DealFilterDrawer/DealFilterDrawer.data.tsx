@@ -1,9 +1,9 @@
 import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
-import useDealSaleSite from '../useDealSaleSite';
 import {
   useGetDealsListQuery,
   useGetUsersListQuery,
 } from '@/services/airSales/deals';
+import useDealTab from '../DealTab/useDealTab';
 
 export const defaultValues = {
   dealPiplineId: '',
@@ -14,7 +14,7 @@ export const defaultValues = {
 };
 
 export const FilterData = () => {
-  const { pipelineData, DealsLifecycleStageData } = useDealSaleSite();
+  const { DealsLifecycleStageData, pipelineData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: 'ORG_EMPLOYEE' });
 
   const { data } = useGetDealsListQuery({});
@@ -50,7 +50,7 @@ export const FilterData = () => {
     },
     {
       componentProps: {
-        name: 'dealOwnerId',
+        name: 'ownerId',
         label: 'Deal Owner',
         select: true,
       },

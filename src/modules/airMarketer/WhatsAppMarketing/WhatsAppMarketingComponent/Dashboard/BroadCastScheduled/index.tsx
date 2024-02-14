@@ -126,12 +126,12 @@ const CardHeader = ({ item, statusTag }: any) => {
         open={open}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'top',
+          vertical: 'bottom',
           horizontal: 'left',
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'left',
+          horizontal: 'center',
         }}
       >
         <MenuItem onClick={handleClose}>Edit</MenuItem>
