@@ -1,11 +1,9 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { ticketInfoBoardHeaderColor } from './TicketInfoBoardHeader.data';
+import useTicketInfoBoardHeader from './useTicketInfoBoardHeader';
 
 export default function TicketInfoBoardHeader({ title, total }: any) {
-  const theme: any = useTheme();
-
-  const formatTotal = (value: number) =>
-    value < 10 ? `0${value}` : `${value}`;
+  const { theme, formatTotal } = useTicketInfoBoardHeader();
 
   return (
     <Box
