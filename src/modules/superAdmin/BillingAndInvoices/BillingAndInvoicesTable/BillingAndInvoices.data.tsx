@@ -70,7 +70,7 @@ export const Columns = (
               <Typography variant="body3">CRM</Typography>
               {info?.row?.original?.planProducts?.map((data: any) => (
                 <Typography variant="body3" key={uuidv4()}>
-                  {data?.name}{' '}
+                  {data?.name}
                 </Typography>
               ))}
             </>
