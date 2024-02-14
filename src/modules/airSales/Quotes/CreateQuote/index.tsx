@@ -32,8 +32,13 @@ const CreateQuote = () => {
             >
               Back
             </Button>
-            <Box sx={{ flex: '1' }}></Box>
-            <Stack direction={'row'} spacing={'12px'}>
+
+            <Stack
+              direction={'row'}
+              flexWrap={'Wrap'}
+              justifyContent={'end'}
+              spacing={'12px'}
+            >
               <Button
                 onClick={handleStepperCancel}
                 variant="outlined"
@@ -45,6 +50,9 @@ const CreateQuote = () => {
                 loading={loadingAddQuote}
                 variant="contained"
                 onClick={handleAddQuoteSubmit}
+                sx={{
+                  marginLeft: { xs: '3px !important', sm: '12px !important' },
+                }}
               >
                 Save & Continue
               </LoadingButton>
