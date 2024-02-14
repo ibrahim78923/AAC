@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTheme } from '@mui/material';
-import { useLazyGetChildTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
+import { useGetChildTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 import {
   columnsFunction,
   relatedTicketsActionDropdownFunction,
@@ -30,26 +30,18 @@ export const useRelatedTickets = (props: any) => {
       id: ticketId,
     },
   };
-  const [lazyGetChildTicketsTrigger, lazyGetChildTicketsStatus] =
-    useLazyGetChildTicketsQuery();
 
-  const getValueChildTicketsListData = async () => {
-    try {
-      const response =
-        await lazyGetChildTicketsTrigger(getTicketsParameter)?.unwrap();
-      setTotalRelatedTickets(response?.data?.meta?.total);
-      setSelectedChildTickets([]);
-    } catch (error: any) {
-      setSelectedChildTickets([]);
-    }
-  };
-
-  useEffect(() => {
-    getValueChildTicketsListData();
-  }, [page, pageLimit, ticketId]);
+  const { data, isLoading, isFetching, isError, isSuccess } =
+    useGetChildTicketsQuery(getTicketsParameter, {
+      refetchOnMountOrArgChange: true,
+    });
 
   const relatedTicketsColumns = columnsFunction(
-    lazyGetChildTicketsStatus?.data?.data?.tickets,
+    data?.data?.tickets?.length > 1
+      ? data?.data?.tickets
+      : !!data?.data?.tickets?.[0]?.childTicketDetails?.length
+      ? data?.data?.tickets?.[0]?.childTicketDetails
+      : [],
     selectedChildTickets,
     setSelectedChildTickets,
     theme,
@@ -68,11 +60,17 @@ export const useRelatedTickets = (props: any) => {
     selectedChildTickets,
     relatedTicketsColumns,
     setPage,
-    lazyGetChildTicketsStatus,
+    // lazyGetChildTicketsStatus,
     setPageLimit,
     setSelectedChildTickets,
     relatedTicketsActionDropdown,
     isDelete,
     setIsDelete,
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    setTotalRelatedTickets,
   };
 };

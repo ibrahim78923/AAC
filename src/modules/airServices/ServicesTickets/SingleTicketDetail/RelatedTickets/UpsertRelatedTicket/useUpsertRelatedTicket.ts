@@ -16,9 +16,11 @@ import {
   useLazyGetCategoriesDropdownQuery,
   useLazyGetDepartmentDropdownQuery,
   useLazyGetRequesterDropdownQuery,
-  usePutTicketsMutation,
 } from '@/services/airServices/tickets';
-import { useAddChildTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
+import {
+  useAddChildTicketsMutation,
+  usePutChildTicketsMutation,
+} from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
 
 export const useUpsertRelatedTicket = (props: any) => {
@@ -29,11 +31,12 @@ export const useUpsertRelatedTicket = (props: any) => {
   const theme: any = useTheme();
   const [postChildTicketTrigger, postChildTicketStatus] =
     useAddChildTicketsMutation();
-  const [putChildTicketTrigger, putChildTicketStatus] = usePutTicketsMutation();
+  const [putChildTicketTrigger, putChildTicketStatus] =
+    usePutChildTicketsMutation();
 
   const getSingleTicketParameter = {
     pathParam: {
-      ticketId,
+      ticketId: childTicketId,
     },
   };
 

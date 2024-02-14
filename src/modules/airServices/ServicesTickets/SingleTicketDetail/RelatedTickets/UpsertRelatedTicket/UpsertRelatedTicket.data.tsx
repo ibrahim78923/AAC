@@ -48,14 +48,16 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
       : null,
     subject: data?.subject ?? '',
     description: data?.description ?? '',
-    category: data?.category ?? null,
-    status: data?.status ?? null,
-    priority: data?.pirority ?? null,
+    category: data?.categoryDetails ?? null,
+    status: data?.status ? { _id: data?.status, label: data?.status } : null,
+    priority: data?.pirority
+      ? { _id: data?.pirority, label: data?.pirority }
+      : null,
     department: !!Object?.keys(data?.departmentDetails ?? {})?.length
       ? data?.departmentDetails
       : null,
-    source: data?.source ?? null,
-    impact: data?.impact ?? null,
+    source: data?.source ? { _id: data?.source, label: data?.source } : null,
+    impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
     agent: !!Object?.keys(data?.agentDetails ?? {})?.length
       ? data?.agentDetails
       : null,
@@ -65,7 +67,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
         ? new Date(data?.plannedStartDate)
         : new Date(),
     plannedEndDate:
-      typeof data?.plannedStartDate === 'string'
+      typeof data?.plannedEndDate === 'string'
         ? new Date(data?.plannedEndDate)
         : null,
     plannedEndTime:

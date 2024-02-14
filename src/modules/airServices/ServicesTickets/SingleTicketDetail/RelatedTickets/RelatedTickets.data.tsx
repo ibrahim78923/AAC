@@ -12,135 +12,137 @@ export const columnsFunction: any = (
   setSelectedChildTickets?: any,
   theme?: any,
   router?: any,
-) => [
-  {
-    accessorFn: (row: any) => row?.childTicketDetails?._id,
-    id: '_id',
-    cell: (info: any) => (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
-        checked={
-          !!selectedChildTickets?.find((item: any) => item === info?.getValue())
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedChildTickets([
-                ...selectedChildTickets,
-                info?.getValue(),
-              ])
-            : setSelectedChildTickets(
-                selectedChildTickets?.filter(
-                  (item: any) => item !== info?.getValue(),
-                ),
-              );
-        }}
-        color="primary"
-        name={info?.getValue()}
-      />
-    ),
-    header: (
-      <Checkbox
-        icon={<CheckboxIcon />}
-        checkedIcon={<CheckboxCheckedIcon />}
-        checked={
-          data?.length ? selectedChildTickets?.length === data?.length : false
-        }
-        onChange={(e: any) => {
-          e?.target?.checked
-            ? setSelectedChildTickets(
-                data?.map((ticket: any) => ticket?.childTicketDetails?._id),
-              )
-            : setSelectedChildTickets([]);
-        }}
-        color="primary"
-        name="Id"
-      />
-    ),
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.childTicketDetails?.ticketIdNumber,
-    id: 'ticketIdNumber',
-    header: 'Tickets ID',
-    isSortable: true,
-    cell: (info: any) => (
-      <Typography
-        sx={{
-          color: 'info.main',
-          cursor: 'pointer',
-        }}
-        onClick={() => {
-          router?.push({
-            pathname: AIR_SERVICES?.CHILD_TICKETS_DETAIL,
-            query: {
-              ticketId: info?.row?.original?._id,
-            },
-          });
-        }}
-      >
-        {info?.getValue()}
-      </Typography>
-    ),
-  },
-  {
-    accessorFn: (row: any) => row?.childTicketDetails?.subject,
-    id: 'subject',
-    isSortable: true,
-    header: 'Name',
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.childTicketDetails?.plannedEndDate,
-    id: 'plannedEndDate',
-    isSortable: true,
-    header: 'Due Date',
-    cell: (info: any) =>
-      info?.getValue()
-        ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
-        : '---',
-  },
-  {
-    accessorFn: (row: any) => row?.childTicketDetails?.assignedto,
-    id: 'assignedto',
-    isSortable: true,
-    header: 'Assigned To',
-    cell: (info: any) =>
-      fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
-  },
-  {
-    accessorFn: (row: any) => row?.childTicketDetails?.status,
-    id: 'status',
-    isSortable: true,
-    header: 'Status',
-    cell: (info: any) => {
-      const status = info?.getValue();
-      const color =
-        status === TICKET_STATUS?.OPEN
-          ? theme?.palette?.info?.main
-          : status === TICKET_STATUS?.PENDING
-            ? theme?.palette?.warning?.main
-            : status === TICKET_STATUS?.RESOLVED
-              ? theme?.palette?.success?.main
-              : theme?.palette?.error?.main;
-      return (
+) => {
+  return [
+    {
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
+      cell: (info: any) => (
+        <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
+          checked={
+            !!selectedChildTickets?.find(
+              (item: any) => item === info?.getValue(),
+            )
+          }
+          onChange={(e: any) => {
+            e?.target?.checked
+              ? setSelectedChildTickets([
+                  ...selectedChildTickets,
+                  info?.getValue(),
+                ])
+              : setSelectedChildTickets(
+                  selectedChildTickets?.filter(
+                    (item: any) => item !== info?.getValue(),
+                  ),
+                );
+          }}
+          color="primary"
+          name={info?.getValue()}
+        />
+      ),
+      header: (
+        <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
+          checked={
+            data?.length ? selectedChildTickets?.length === data?.length : false
+          }
+          onChange={(e: any) => {
+            e?.target?.checked
+              ? setSelectedChildTickets(data?.map((ticket: any) => ticket?._id))
+              : setSelectedChildTickets([]);
+          }}
+          color="primary"
+          name="Id"
+        />
+      ),
+      isSortable: false,
+    },
+    {
+      accessorFn: (row: any) => row?.ticketIdNumber,
+      id: 'ticketIdNumber',
+      header: 'Tickets ID',
+      isSortable: true,
+      cell: (info: any) => (
         <Typography
           sx={{
-            border: color ? `1px solid ${color}` : 'none',
-            color: color,
-            padding: '3px 10px',
-            borderRadius: '16px',
+            color: 'info.main',
             cursor: 'pointer',
-            width: 'fit-content',
-            textTransform: 'capitalize',
+          }}
+          onClick={() => {
+            router?.push({
+              pathname: AIR_SERVICES?.CHILD_TICKETS_DETAIL,
+              query: {
+                ticketId: info?.row?.original?._id,
+              },
+            });
           }}
         >
-          {status?.toLowerCase()}
+          {info?.getValue()}
         </Typography>
-      );
+      ),
     },
-  },
-];
+    {
+      accessorFn: (row: any) => row?.subject,
+      id: 'subject',
+      isSortable: true,
+      header: 'Name',
+      cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.plannedEndDate,
+      id: 'plannedEndDate',
+      isSortable: true,
+      header: 'Due Date',
+      cell: (info: any) =>
+        info?.getValue()
+          ? dayjs(info?.getValue())?.format(DATE_FORMAT?.UI)
+          : '---',
+    },
+    {
+      accessorFn: (row: any) => row?.agentDetails,
+      id: 'assignedto',
+      isSortable: true,
+      header: 'Assigned To',
+      cell: (info: any) =>
+        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
+    },
+    {
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => {
+        const status = info?.getValue();
+        const color =
+          status === TICKET_STATUS?.OPEN
+            ? theme?.palette?.info?.main
+            : status === TICKET_STATUS?.PENDING
+            ? theme?.palette?.warning?.main
+            : status === TICKET_STATUS?.RESOLVED
+            ? theme?.palette?.success?.main
+            : theme?.palette?.error?.main;
+        return (
+          <Typography
+            sx={{
+              border: color ? `1px solid ${color}` : 'none',
+              color: color,
+              padding: '3px 10px',
+              borderRadius: '16px',
+              cursor: 'pointer',
+              width: 'fit-content',
+              textTransform: 'capitalize',
+            }}
+          >
+            {status?.toLowerCase()}
+          </Typography>
+        );
+      },
+    },
+  ];
+};
 
 export const relatedTicketsActionDropdownFunction = (
   setIsDelete: any,

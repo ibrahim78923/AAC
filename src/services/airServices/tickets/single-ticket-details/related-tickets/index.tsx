@@ -22,6 +22,14 @@ export const relatedTicketsAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    putChildTickets: builder?.mutation({
+      query: (putTicketParameter: any) => ({
+        url: `${END_POINTS?.TICKET}/${putTicketParameter?.pathParam?.id}`,
+        method: 'PUT',
+        body: putTicketParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
     deleteChildTickets: builder?.mutation({
       query: (deleteTicketsParameter: any) => ({
         url: `${DELETE_CHILD_TICKET}`,
@@ -38,4 +46,5 @@ export const {
   useGetChildTicketsQuery,
   useAddChildTicketsMutation,
   useDeleteChildTicketsMutation,
+  usePutChildTicketsMutation,
 } = relatedTicketsAPI;
