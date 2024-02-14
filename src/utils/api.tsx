@@ -35,8 +35,8 @@ export const buildQueryParams = (
   addDateTimeParam(
     getQueryParam,
     'plannedEndDate',
-    filterLists?.plannedEndDate || filterLists?.dueByDate,
-    filterLists?.plannedEndTime || filterLists?.dueByTime,
+    filterLists?.plannedEndDate,
+    filterLists?.plannedEndTime,
   );
   addDateTimeParam(
     getQueryParam,
