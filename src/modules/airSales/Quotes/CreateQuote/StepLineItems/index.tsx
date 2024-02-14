@@ -92,6 +92,7 @@ const StepLineItems = ({ openCreateProduct }: any) => {
               color="primary"
               startIcon={<AddCircleSmallIcon />}
               onClick={openCreateProduct}
+              className="small"
             >
               Add Products
             </Button>

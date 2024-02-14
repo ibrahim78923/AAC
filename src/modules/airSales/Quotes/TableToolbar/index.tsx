@@ -44,18 +44,17 @@ const TableToolbar: FC<TableToolbarI> = ({
           display: 'flex',
           gap: '8px',
           flexWrap: 'wrap',
-          '@media (max-width: 819px)': {
-            marginTop: '8px',
-          },
+          marginTop: { xs: '5px', md: '15px', lg: '0px' },
         }}
       >
-        <Box>
+        <Box sx={{ width: { xs: '100%', sm: 'fit-Content' } }}>
           <Button
             className="small"
             sx={styles?.actionButton}
             endIcon={<DropdownIcon />}
             onClick={handleActionsDropdown}
             disabled={isActionsDisabled}
+            style={{ width: '100%' }}
           >
             Actions
           </Button>
@@ -93,6 +92,11 @@ const TableToolbar: FC<TableToolbarI> = ({
             color="inherit"
             className="small"
             onClick={handleResetFilters}
+            sx={{
+              width: { xs: '100%', sm: 'fit-Content' },
+              marginTop: { xs: '10px !important', sm: '0px !important' },
+              marginLeft: { xs: '0px !important', sm: '10px !important' },
+            }}
           >
             <RefreshSharedIcon />
           </Button>
