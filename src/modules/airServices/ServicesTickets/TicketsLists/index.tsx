@@ -15,6 +15,7 @@ export const TicketsLists = () => {
     ticketsActionDropdown,
     lazyGetTicketsStatus,
     ticketsListsColumnPersist,
+    search,
     setSearch,
     setPage,
     getTicketsListDataExport,
@@ -59,6 +60,7 @@ export const TicketsLists = () => {
         <TableBoardView
           setTicketAction={setTicketAction}
           setSelectedTicketList={setSelectedTicketList}
+          search={search}
         />
       ) : (
         <TicketsTableView
