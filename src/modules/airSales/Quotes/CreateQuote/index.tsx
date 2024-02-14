@@ -1,8 +1,7 @@
-import { Box, Button, Stack } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import AppHorizontalStepper from '@/components/Stepper';
 import FormCreateDeal from './FormCreateDeal';
 import useCreateQuote from './useCreateQuote';
-import { styles } from './CreateQuote.style';
 import { LoadingButton } from '@mui/lab';
 
 const CreateQuote = () => {
@@ -24,20 +23,24 @@ const CreateQuote = () => {
         stepperMargin="2rem 0 0"
         stepsArray={createQuoteSteps}
         stepperButtons={
-          <Box sx={styles?.stepperButtons}>
+          <Stack
+            direction={{ sm: 'row' }}
+            justifyContent="space-between"
+            gap={2}
+            mt={2}
+          >
             <Button
               onClick={handleStepperCancel}
               variant="outlined"
-              sx={styles?.btnBack}
+              color="inherit"
             >
               Back
             </Button>
-            <Box sx={{ flex: '1' }}></Box>
-            <Stack direction={'row'} spacing={'12px'}>
+            <Stack direction={{ sm: 'row' }} gap={2}>
               <Button
                 onClick={handleStepperCancel}
                 variant="outlined"
-                sx={styles?.btnBack}
+                color="inherit"
               >
                 Cancel
               </Button>
@@ -49,7 +52,7 @@ const CreateQuote = () => {
                 Save & Continue
               </LoadingButton>
             </Stack>
-          </Box>
+          </Stack>
         }
       />
 

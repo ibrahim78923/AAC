@@ -9,6 +9,7 @@ import {
   useTheme,
   StepConnector,
   stepConnectorClasses,
+  useMediaQuery,
 } from '@mui/material';
 
 import Check from '@mui/icons-material/Check';
@@ -27,13 +28,16 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
   stepperMargin = '2rem 0',
 }) => {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme?.breakpoints?.down('sm'));
 
   return (
-    <Box sx={{ width: '100%', margin: stepperMargin }}>
+    <Box sx={{ width: isMobile ? '100%' : '100%', margin: stepperMargin }}>
       <Stepper
+        sx={{ flexWrap: 'wrap' }}
         alternativeLabel
         activeStep={activeStep}
         connector={<CustomConnector />}
+        orientation={isMobile ? 'vertical' : 'horizontal'} // Change orientation for mobile
       >
         {!isNullOrEmpty(stepsArray) &&
           stepsArray?.map((singleStem: SingleStepI, index: any) => (
