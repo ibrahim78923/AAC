@@ -10,14 +10,17 @@ const RelatedTickets = (props: any) => {
     isDrawerOpen,
     selectedChildTickets,
     relatedTicketsColumns,
-    headerFunctions,
     setPage,
-    lazyGetChildTicketsStatus,
+    data,
     setPageLimit,
     setSelectedChildTickets,
     relatedTicketsActionDropdown,
     isDelete,
     setIsDelete,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
   } = useRelatedTickets(props);
 
   return (
@@ -27,7 +30,6 @@ const RelatedTickets = (props: any) => {
         relatedTicketsActionDropdown={relatedTicketsActionDropdown}
         isActive={!!!selectedChildTickets?.length}
         setIsDrawerOpen={setIsDrawerOpen}
-        headerFunctions={headerFunctions}
       />
 
       {isDrawerOpen && (
@@ -41,17 +43,23 @@ const RelatedTickets = (props: any) => {
       )}
       <br />
       <TanstackTable
-        isLoading={lazyGetChildTicketsStatus?.isLoading}
-        data={lazyGetChildTicketsStatus?.data?.data?.tickets ?? []}
+        isLoading={isLoading}
+        data={
+          data?.data?.tickets?.length > 1
+            ? data?.data?.tickets
+            : !!data?.data?.tickets?.[0]?.childTicketDetails?.length
+            ? data?.data?.tickets?.[0]?.childTicketDetails
+            : []
+        }
         activeCheck={selectedChildTickets}
         columns={relatedTicketsColumns}
-        isFetching={lazyGetChildTicketsStatus?.isFetching}
-        isError={lazyGetChildTicketsStatus?.isError}
-        isSuccess={lazyGetChildTicketsStatus?.isSuccess || true}
-        currentPage={lazyGetChildTicketsStatus?.data?.data?.meta?.page}
-        count={lazyGetChildTicketsStatus?.data?.data?.meta?.pages}
-        pageLimit={lazyGetChildTicketsStatus?.data?.data?.meta?.limit}
-        totalRecords={lazyGetChildTicketsStatus?.data?.data?.meta?.total}
+        isFetching={isFetching}
+        isError={isError}
+        isSuccess={isSuccess || true}
+        // currentPage={lazyGetChildTicketsStatus?.data?.data?.meta?.page}
+        // count={lazyGetChildTicketsStatus?.data?.data?.meta?.pages}
+        // pageLimit={lazyGetChildTicketsStatus?.data?.data?.meta?.limit}
+        // totalRecords={lazyGetChildTicketsStatus?.data?.data?.meta?.total}
         onPageChange={(page: any) => setPage(page)}
         setPage={setPage}
         setPageLimit={setPageLimit}

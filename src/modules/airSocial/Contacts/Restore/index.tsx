@@ -2,7 +2,6 @@ import Link from 'next/link';
 
 import { Box, Button, Paper, Typography } from '@mui/material';
 
-import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 
@@ -119,7 +118,8 @@ const Restore = () => {
           <Button
             startIcon={<FilterIcon />}
             variant="outlined"
-            sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
+            size="small"
+            sx={{ height: '36px', color: theme?.palette?.custom['main'] }}
             onClick={handleRestoreFilter}
           >
             {' '}
@@ -128,11 +128,10 @@ const Restore = () => {
         </Box>
       </Box>
       <Paper sx={{ mb: 2 }}>
-        <TanstackTable columns={RestoreTableColumns} data={RestoreTableData} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+        <TanstackTable
+          columns={RestoreTableColumns}
+          data={RestoreTableData}
+          isPagination
         />
       </Paper>
     </Box>

@@ -1,35 +1,51 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
+import { useGetArticleByIdQuery } from '@/services/airServices/knowledge-base/articles';
 
 export const useSingleViewArticle = () => {
   const [openDelete, setOpenDelete] = useState<boolean>(false);
   const theme = useTheme();
-  const { push } = useRouter();
+  const router = useRouter();
+  const { articleId } = router?.query;
   const { KNOWLEDGE_BASE } = AIR_SERVICES;
   const handlePageBack = () => {
-    push(KNOWLEDGE_BASE);
+    router?.push(KNOWLEDGE_BASE);
   };
-  const handleDeleteSubmit = () => {
-    enqueueSnackbar('Article deleted successfully', {
-      variant: 'success',
-    });
-    setOpenDelete(false);
-    push(KNOWLEDGE_BASE);
+
+  const getSingleArticleParameter = {
+    pathParam: {
+      articleId,
+    },
   };
+  const { data, isLoading, isFetching, isError } = useGetArticleByIdQuery(
+    getSingleArticleParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!articleId,
+    },
+  );
+
   const handleEditSubmit = () => {
-    push({
+    router?.push({
       pathname: AIR_SERVICES?.UPSERT_ARTICLE,
+      query: {
+        articleId,
+      },
     });
   };
   return {
     handlePageBack,
     theme,
     openDelete,
+    articleId,
     setOpenDelete,
-    handleDeleteSubmit,
     handleEditSubmit,
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    router,
   };
 };

@@ -44,7 +44,7 @@ const TanstackTable = (props: any) => {
     setPage,
     setPageLimit,
     paginationPaddingX = 2,
-    noDataTableText = 'No data is available',
+    noDataTableText = 'No data available',
     noDataTableImage = NoAssociationFoundImage,
   } = props;
 

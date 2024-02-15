@@ -29,6 +29,7 @@ export const useAssociatesLists: any = (props: any) => {
       ticketId,
     },
   };
+
   const { data, isLoading, isFetching, isError, isSuccess } =
     useGetTicketsAssociatesAssetsQuery(getTicketsAssociatesAssetsParameter, {
       refetchOnMountOrArgChange: true,
@@ -37,6 +38,7 @@ export const useAssociatesLists: any = (props: any) => {
     setSelectedAsset(id);
     setDeleteModal(true);
   };
+
   useEffect(() => {
     setTotalAssets(
       data?.data?.tickets?.length > 1

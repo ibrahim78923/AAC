@@ -12,13 +12,20 @@ export const TableBoardView = ({
   setTicketAction,
   setSelectedTicketList,
   search,
+  filterTicketLists,
 }: any) => {
-  const { HEAD_STATUS, data, isLoading, isError, ticketViewBoardArray } =
-    useTicketsBoardView({ search });
+  const {
+    HEAD_STATUS,
+    data,
+    isLoading,
+    isError,
+    isFetching,
+    ticketViewBoardArray,
+  } = useTicketsBoardView({ search, filterTicketLists });
 
   if (isError) return <ApiErrorState />;
-  if (isLoading) return <SkeletonTable />;
-  if (!!!data)
+  if (isLoading || isFetching) return <SkeletonTable />;
+  if (!!!data?.data?.tickets?.length)
     return <NoData message="No data is available" image={AssociationsImage} />;
 
   return (
