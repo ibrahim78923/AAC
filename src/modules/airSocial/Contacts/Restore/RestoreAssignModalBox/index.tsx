@@ -1,10 +1,11 @@
-import { Box, Button, Modal, Typography } from '@mui/material';
+import { Box, Button, Modal, Typography, useTheme } from '@mui/material';
 
 import { styles } from './RestoreAssign.styles';
 import { AssignContactIcon } from '@/assets/icons';
 import CloseIcon from '@/assets/icons/shared/close-icon';
 
 const RestoreAssignModalBox = ({ open, onClose, handleAssignModal }: any) => {
+  const theme = useTheme();
   return (
     <>
       <Modal
@@ -14,11 +15,11 @@ const RestoreAssignModalBox = ({ open, onClose, handleAssignModal }: any) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styles.parentBox}>
-          <Box sx={styles.modalBox}>
+          <Box sx={styles.modalBox(theme)}>
             <Box sx={styles.innerBoxOne}>
               <Box sx={styles.innerBoxTwo}>
                 <AssignContactIcon />
-                <Typography component="span" sx={styles.modalTypeText}>
+                <Typography component="span" sx={styles.modalTypeText(theme)}>
                   Restore Contacts
                 </Typography>
               </Box>
