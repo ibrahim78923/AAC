@@ -25,6 +25,8 @@ export default function Comments({ initialValueProps = defaultValues }: any) {
   });
   const theme = useTheme();
   const [viewAllComments, setViewAllComments] = useState(false);
+  const AvatarImg =
+    'https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png';
   //  commeted for future use
   // const { handleSubmit } = methods;
 
@@ -56,10 +58,7 @@ export default function Comments({ initialValueProps = defaultValues }: any) {
             alignItems="center"
           >
             <Stack direction="row" gap={2}>
-              <Avatar
-                src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
-                sx={{ width: 48, height: 48 }}
-              />
+              <Avatar src={AvatarImg} sx={{ width: 48, height: 48 }} />
               <Box>
                 <Typography variant="body1">Olivia Rhye</Typography>
                 <Typography variant="body3">
@@ -128,10 +127,7 @@ export default function Comments({ initialValueProps = defaultValues }: any) {
                   alignItems="center"
                 >
                   <Stack direction="row" gap={2}>
-                    <Avatar
-                      src="https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png"
-                      sx={{ width: 32, height: 32 }}
-                    />
+                    <Avatar src={AvatarImg} sx={{ width: 32, height: 32 }} />
                     <Stack direction="row">
                       <Typography variant="body1">Matt</Typography>
                       <Typography variant="body3">Today at 2:25AM</Typography>

@@ -17,21 +17,21 @@ export const data: any = [
 
 export const columns: any = [
   {
-    accessorFn: (row: any) => row.taskName,
+    accessorFn: (row: any) => row?.taskName,
     id: 'taskName',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
     header: 'Task Name',
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row.campaignName,
+    accessorFn: (row: any) => row?.campaignName,
     id: 'campaignName',
     isSortable: true,
     header: 'Campaign Name',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row.actions,
+    accessorFn: (row: any) => row?.actions,
     id: 'actions',
     isSortable: true,
     header: 'Actions',
