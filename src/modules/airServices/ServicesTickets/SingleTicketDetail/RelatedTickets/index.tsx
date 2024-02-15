@@ -47,8 +47,8 @@ const RelatedTickets = (props: any) => {
         data={
           data?.data?.tickets?.length > 1
             ? data?.data?.tickets
-            : !!data?.data?.tickets?.[0]?.childTicketDetails?.length
-            ? data?.data?.tickets?.[0]?.childTicketDetails
+            : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+            ? data?.data?.tickets
             : []
         }
         activeCheck={selectedChildTickets}
@@ -56,10 +56,28 @@ const RelatedTickets = (props: any) => {
         isFetching={isFetching}
         isError={isError}
         isSuccess={isSuccess || true}
-        // currentPage={lazyGetChildTicketsStatus?.data?.data?.meta?.page}
-        // count={lazyGetChildTicketsStatus?.data?.data?.meta?.pages}
-        // pageLimit={lazyGetChildTicketsStatus?.data?.data?.meta?.limit}
-        // totalRecords={lazyGetChildTicketsStatus?.data?.data?.meta?.total}
+        pageLimit={data?.data?.meta?.limit}
+        currentPage={
+          data?.data?.tickets?.length > 1
+            ? data?.data?.meta?.page
+            : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+            ? data?.data?.meta?.page
+            : 0
+        }
+        count={
+          data?.data?.tickets?.length > 1
+            ? data?.data?.meta?.pages
+            : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+            ? data?.data?.meta?.pages
+            : 0
+        }
+        totalRecords={
+          data?.data?.tickets?.length > 1
+            ? data?.data?.meta?.total
+            : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+            ? data?.data?.meta?.total
+            : 0
+        }
         onPageChange={(page: any) => setPage(page)}
         setPage={setPage}
         setPageLimit={setPageLimit}
@@ -71,9 +89,11 @@ const RelatedTickets = (props: any) => {
           setIsDelete={setIsDelete}
           selectedChildTickets={selectedChildTickets}
           setSelectedChildTickets={setSelectedChildTickets}
+          setPage={setPage}
         />
       )}
     </>
   );
 };
+
 export default RelatedTickets;

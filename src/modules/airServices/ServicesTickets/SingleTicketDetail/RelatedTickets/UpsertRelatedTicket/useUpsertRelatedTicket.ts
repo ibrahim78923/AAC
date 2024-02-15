@@ -110,12 +110,12 @@ export const useUpsertRelatedTicket = (props: any) => {
 
   const submitUpdateTicket = async (data: any) => {
     data?.append('isChildTicket', true);
+    data?.append('id', childTicketId);
+
     const putTicketParameter = {
       body: data,
-      pathParam: {
-        id: childTicketId,
-      },
     };
+
     try {
       await putChildTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Child ticket updated successfully');

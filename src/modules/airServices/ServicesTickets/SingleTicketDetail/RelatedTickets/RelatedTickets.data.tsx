@@ -15,7 +15,7 @@ export const columnsFunction: any = (
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?._id,
+      accessorFn: (row: any) => row?.childTicketDetails?._id,
       id: '_id',
       cell: (info: any) => (
         <Checkbox
@@ -51,7 +51,9 @@ export const columnsFunction: any = (
           }
           onChange={(e: any) => {
             e?.target?.checked
-              ? setSelectedChildTickets(data?.map((ticket: any) => ticket?._id))
+              ? setSelectedChildTickets(
+                  data?.map((ticket: any) => ticket?.childTicketDetails?._id),
+                )
               : setSelectedChildTickets([]);
           }}
           color="primary"
@@ -61,7 +63,7 @@ export const columnsFunction: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.ticketIdNumber,
+      accessorFn: (row: any) => row?.childTicketDetails?.ticketIdNumber,
       id: 'ticketIdNumber',
       header: 'Tickets ID',
       isSortable: true,
@@ -85,14 +87,14 @@ export const columnsFunction: any = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.subject,
+      accessorFn: (row: any) => row?.childTicketDetails?.subject,
       id: 'subject',
       isSortable: true,
       header: 'Name',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.plannedEndDate,
+      accessorFn: (row: any) => row?.childTicketDetails?.plannedEndDate,
       id: 'plannedEndDate',
       isSortable: true,
       header: 'Due Date',
@@ -102,7 +104,7 @@ export const columnsFunction: any = (
           : '---',
     },
     {
-      accessorFn: (row: any) => row?.agentDetails,
+      accessorFn: (row: any) => row?.childTicketDetails?.agentDetails,
       id: 'assignedto',
       isSortable: true,
       header: 'Assigned To',
@@ -110,7 +112,7 @@ export const columnsFunction: any = (
         fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
     },
     {
-      accessorFn: (row: any) => row?.status,
+      accessorFn: (row: any) => row?.childTicketDetails?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
