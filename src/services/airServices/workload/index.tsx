@@ -24,7 +24,7 @@ const TransformResponse = (response: any) =>
       data: { ...item },
       status: item?.status,
       img: item?.img,
-      ticketNo: `TSK-${item?._id?.slice(-3)}`,
+      taskNo: `TSK-${item?._id?.slice(-3)}`,
       description: item?.description ? (
         <Box
           component={'span'}

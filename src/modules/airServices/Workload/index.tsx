@@ -141,7 +141,7 @@ export const Workload = () => {
               }}
               title={
                 <Fragment>
-                  <Box display={'flex'} alignItems={'center'} gap={2} p={2}>
+                  <Box display={'flex'} alignItems={'center'} gap={1} p={2}>
                     <CircleIcon
                       fontSize="small"
                       color={
@@ -162,13 +162,13 @@ export const Workload = () => {
                     </Typography>
                   </Box>
                   <Divider />
-                  <Box display={'flex'} alignItems={'center'} gap={2} p={2}>
+                  <Box display={'flex'} alignItems={'center'} gap={1} p={2}>
                     <TodoIcon />
                     <Typography variant="h5" color={'blue.main'}>
-                      {eventInfo?.event?.extendedProps?.ticketNo}
+                      {eventInfo?.event?.extendedProps?.taskNo}
                     </Typography>
                     <Typography variant="body1" color={'blue.main'}>
-                      {eventInfo?.event?.extendedProps?.description}
+                      {eventInfo?.event?.extendedProps?.data?.title}
                     </Typography>
                   </Box>
                   <Typography
@@ -205,8 +205,7 @@ export const Workload = () => {
                         pathname: AIR_SERVICES?.TICKETS_LIST,
                         query: {
                           ticketId:
-                            eventInfo?.event?.extendedProps?.data?.ticketDetails
-                              ?._id,
+                            eventInfo?.event?.extendedProps?.data?.ticketId,
                         },
                       })
                     }
@@ -239,8 +238,8 @@ export const Workload = () => {
                   display={'flex'}
                   gap={0.3}
                 >
-                  {eventInfo?.event?.extendedProps?.ticketNo}
-                  {eventInfo?.event?.extendedProps?.description}
+                  {eventInfo?.event?.extendedProps?.taskNo}
+                  {eventInfo?.event?.extendedProps?.data?.title}
                 </Typography>
               </Box>
             </Tooltip>
