@@ -48,6 +48,7 @@ export const Workload = () => {
   useEffect(() => {
     trigger({
       startDate: dayjs()?.startOf('week')?.add(1, 'day')?.toISOString(),
+      endDate: dayjs()?.endOf('week')?.toISOString(),
       userIds: selected?._id,
     });
   }, [selected]);
@@ -64,6 +65,7 @@ export const Workload = () => {
     try {
       await trigger({
         startDate: dayjs(date)?.startOf('week')?.add(1, 'day')?.toISOString(),
+        endDate: dayjs(date)?.endOf('week')?.toISOString(),
         userIds: selected?._id,
       })?.unwrap();
 

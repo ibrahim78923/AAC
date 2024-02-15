@@ -28,6 +28,8 @@ import { UpdateWorkloadTask } from '../UpdateWorkloadTask';
 import { getSession } from '@/utils';
 import { IMG_URL } from '@/config';
 import { workloadDefaultDateRange } from '../Workload.data';
+import NoData from '@/components/NoData';
+import { AssociationsImage } from '@/assets/images';
 
 const WorkloadDrawer = ({
   setOpenDrawer,
@@ -37,6 +39,12 @@ const WorkloadDrawer = ({
   dataArray,
   state,
   setDateRange,
+  isLoading,
+  isFetching,
+  isError,
+  setModifiedRange,
+  modifiedRange,
+  onChangeModifiedHandler,
 }: any) => {
   const theme: any = useTheme();
 
@@ -46,11 +54,14 @@ const WorkloadDrawer = ({
     data: null,
   });
 
-  const { user } = getSession();
+  const { user }: any = getSession();
 
-  const { data, isLoading, isFetching, isError } = useGetWorkloadQuery(
-    {},
-    { skip: !openDrawer, refetchOnMountOrArgChange: true },
+  const { data } = useGetWorkloadQuery(
+    { manage: state },
+    {
+      skip: !openDrawer,
+      refetchOnMountOrArgChange: true,
+    },
   );
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -64,13 +75,14 @@ const WorkloadDrawer = ({
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  // Popover open Date
+  // Popover open Create Date
   const [anchorElDate, setAnchorElDate] = useState<HTMLButtonElement | null>(
     null,
   );
 
   const handleClickDate = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorElDate(event?.currentTarget);
+    setModifiedRange(workloadDefaultDateRange);
   };
 
   const handleCloseDate = () => {
@@ -80,13 +92,28 @@ const WorkloadDrawer = ({
   const openDate = Boolean(anchorElDate);
   const idDate = openDate ? 'simple-popover' : undefined;
 
+  // Popover open Modified Date
+  const [anchorElModified, setAnchorElModified] =
+    useState<HTMLButtonElement | null>(null);
+
+  const handleClickModified = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorElModified(event?.currentTarget);
+    setDateRange(workloadDefaultDateRange);
+  };
+
+  const handleCloseModified = () => {
+    setAnchorElModified(null);
+  };
+
+  const openModified = Boolean(anchorElModified);
+  const idModified = openModified ? 'simple-popover' : undefined;
+
   return (
     <Fragment>
       <Drawer
         open={openDrawer}
         onClose={() => {
           setOpenDrawer(false);
-          setDateRange(workloadDefaultDateRange);
         }}
         anchor="right"
       >
@@ -95,132 +122,160 @@ const WorkloadDrawer = ({
             width: { xs: '100vw', md: '40vw' },
           }}
         >
+          <Box display={'flex'} justifyContent={'space-between'} p={4}>
+            <Box display={'flex'} gap={1}>
+              <Avatar
+                sx={{
+                  bgcolor: 'primary.lighter',
+                  color: 'primary.main',
+                }}
+                src={`${IMG_URL}${user?.avatar?.url}`}
+              >
+                {user?.firstName?.[0] ?? '-'}
+                {user?.lastName?.[0]}
+              </Avatar>
+              <Box>
+                <Typography
+                  color={'custom.main'}
+                  variant="body2"
+                  textTransform={'capitalize'}
+                >
+                  {`${user?.firstName ?? '-'} ${user?.lastName}'s Workload`}
+                </Typography>
+                <Typography variant="body2" fontWeight={600}>
+                  Manage open and in progress work
+                </Typography>
+                <Typography variant="body2">
+                  {data?.length} in Total
+                  {state === 'UNPLANNED' ? (
+                    <Chip
+                      label={`Unplanned ${dataArray?.length}`}
+                      sx={{
+                        color: 'success.main',
+                        ml: 2,
+                      }}
+                    />
+                  ) : state === 'PLANNED' ? (
+                    <Chip
+                      label={`Planned ${dataArray?.length}`}
+                      sx={{
+                        color: 'warning.main',
+                        ml: 2,
+                      }}
+                    />
+                  ) : state === 'DELAYED' ? (
+                    <Chip
+                      label={`Delayed ${dataArray?.length}`}
+                      sx={{
+                        color: 'custom.bright',
+                        ml: 2,
+                      }}
+                    />
+                  ) : null}
+                </Typography>
+              </Box>
+            </Box>
+            <IconButton
+              aria-label="filter"
+              sx={{
+                height: '50px',
+                width: '50px',
+                borderRadius: 2,
+                boxShadow: 2,
+              }}
+              onClick={handleClick}
+            >
+              <FilterIcon />
+            </IconButton>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+            >
+              <Box width={200} p={1}>
+                <Button
+                  startIcon={<EditCalendarIcon />}
+                  color={'secondary'}
+                  onClick={handleClickDate}
+                >
+                  Created Date
+                </Button>
+                <Button
+                  startIcon={<CalendarMonthIcon />}
+                  color={'secondary'}
+                  onClick={handleClickModified}
+                >
+                  Last Modified Date
+                </Button>
+              </Box>
+            </Popover>
+            {/* Date Range Popover */}
+            <Popover
+              id={idDate}
+              open={openDate}
+              anchorEl={anchorElDate}
+              onClose={handleCloseDate}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+            >
+              <DateRange
+                editableDateInputs={true}
+                onChange={onChangeDateHandler}
+                moveRangeOnFirstSelection={false}
+                ranges={dateRange}
+                color={theme?.palette?.primary?.main}
+                rangeColors={[theme?.palette?.primary?.main]}
+              />
+            </Popover>
+            {/* Modified Range Popover */}
+            <Popover
+              id={idModified}
+              open={openModified}
+              anchorEl={anchorElModified}
+              onClose={handleCloseModified}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+            >
+              <DateRange
+                editableDateInputs={true}
+                onChange={onChangeModifiedHandler}
+                moveRangeOnFirstSelection={false}
+                ranges={modifiedRange}
+                color={theme?.palette?.primary?.main}
+                rangeColors={[theme?.palette?.primary?.main]}
+              />
+            </Popover>
+          </Box>
+          <Divider />
           {isLoading || isFetching ? (
             <SkeletonTable />
           ) : isError ? (
             <ApiErrorState />
+          ) : !dataArray?.length ? (
+            <NoData message="No data is available" image={AssociationsImage} />
           ) : (
             <Fragment>
-              <Box display={'flex'} justifyContent={'space-between'} p={4}>
-                <Box display={'flex'} gap={1}>
-                  <Avatar
-                    sx={{
-                      bgcolor: 'primary.lighter',
-                      color: 'primary.main',
-                    }}
-                    src={`${IMG_URL}${user?.avatar?.url}`}
-                  >
-                    {user?.firstName?.[0] ?? '-'}
-                    {user?.lastName?.[0]}
-                  </Avatar>
-                  <Box>
-                    <Typography
-                      color={'custom.main'}
-                      variant="body2"
-                      textTransform={'capitalize'}
-                    >
-                      {`${user?.firstName ?? '-'} ${user?.lastName}'s Workload`}
-                    </Typography>
-                    <Typography variant="body2" fontWeight={600}>
-                      Manage open and in progress work
-                    </Typography>
-                    <Typography variant="body2">
-                      {data?.length} in Total
-                      {state === 'UNPLANNED' ? (
-                        <Chip
-                          label={`Unplanned ${dataArray?.length}`}
-                          sx={{
-                            color: 'success.main',
-                            ml: 2,
-                          }}
-                        />
-                      ) : state === 'PLANNED' ? (
-                        <Chip
-                          label={`Planned ${dataArray?.length}`}
-                          sx={{
-                            color: 'warning.main',
-                            ml: 2,
-                          }}
-                        />
-                      ) : state === 'DELAYED' ? (
-                        <Chip
-                          label={`Delayed ${dataArray?.length}`}
-                          sx={{
-                            color: 'custom.bright',
-                            ml: 2,
-                          }}
-                        />
-                      ) : null}
-                    </Typography>
-                  </Box>
-                </Box>
-                <IconButton
-                  aria-label="filter"
-                  sx={{
-                    height: '50px',
-                    width: '50px',
-                    borderRadius: 2,
-                    boxShadow: 2,
-                  }}
-                  onClick={handleClick}
-                >
-                  <FilterIcon />
-                </IconButton>
-                <Popover
-                  id={id}
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                >
-                  <Box width={200} p={1}>
-                    <Button
-                      startIcon={<EditCalendarIcon />}
-                      color={'secondary'}
-                      onClick={handleClickDate}
-                    >
-                      Created Date
-                    </Button>
-                    <Button
-                      startIcon={<CalendarMonthIcon />}
-                      color={'secondary'}
-                    >
-                      Last Modified Date
-                    </Button>
-                  </Box>
-                </Popover>
-                <Popover
-                  id={idDate}
-                  open={openDate}
-                  anchorEl={anchorElDate}
-                  onClose={handleCloseDate}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                  }}
-                >
-                  <DateRange
-                    editableDateInputs={true}
-                    onChange={onChangeDateHandler}
-                    moveRangeOnFirstSelection={false}
-                    ranges={dateRange}
-                    color={theme?.palette?.primary?.main}
-                    rangeColors={[theme?.palette?.primary?.main]}
-                  />
-                </Popover>
-              </Box>
-              <Divider />
               {dataArray?.map((item: any) => (
                 <Fragment key={item}>
                   <Box

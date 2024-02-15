@@ -10,13 +10,17 @@ export const UnassignedWork = () => {
   const UNPLANNED = 'UNPLANNED';
 
   const [dateRange, setDateRange] = useState<any>(workloadDefaultDateRange);
+  const [modifiedRange, setModifiedRange] = useState<any>(
+    workloadDefaultDateRange,
+  );
 
-  const { data } = useGetWorkloadQuery(
+  const { data, isLoading, isFetching, isError } = useGetWorkloadQuery(
     {
       manage: UNPLANNED,
       startDate: dateRange?.[0]?.startDate?.toISOString(),
-      // TODO: Will be catered in integration
-      // endDate: dateRange?.[0]?.endDate?.toISOString(),
+      endDate: dateRange?.[0]?.endDate?.toISOString(),
+      modifiedStartDate: modifiedRange?.[0]?.startDate?.toISOString(),
+      modifiedEndDate: modifiedRange?.[0]?.endDate?.toISOString(),
     },
     { skip: !openDrawer, refetchOnMountOrArgChange: true },
   );
@@ -36,6 +40,14 @@ export const UnassignedWork = () => {
           dateRange={dateRange}
           state={UNPLANNED}
           setDateRange={setDateRange}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          setModifiedRange={setModifiedRange}
+          modifiedRange={modifiedRange}
+          onChangeModifiedHandler={(item: any) =>
+            setModifiedRange([item?.selection])
+          }
         />
       )}
     </Fragment>

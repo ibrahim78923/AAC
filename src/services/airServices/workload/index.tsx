@@ -71,6 +71,15 @@ export const workloadAPI = baseAPI.injectEndpoints({
       },
       providesTags: [TAG_THREE],
     }),
+
+    patchTask: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.TASK}/${body?.id}`,
+        method: 'PATCH',
+        params: body?.data,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -79,4 +88,5 @@ export const {
   useGetWorkloadQuery,
   useLazyGetAssignToQuery,
   useLazyGetDepartmentDropdownQuery,
+  usePatchTaskMutation,
 } = workloadAPI;

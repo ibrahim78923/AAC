@@ -4,24 +4,29 @@ import { useLazyGetAssignToQuery } from '@/services/airServices/workload';
 import { IMG_URL } from '@/config';
 import Search from '@/components/Search';
 import { debounce } from 'lodash';
+import NoData from '@/components/NoData';
+import { AssociationsImage } from '@/assets/images';
 
 export const Profile = ({ selected, setSelected }: any) => {
   const [users, setUsers] = useState<any>([]);
   const [usersExtra, setUsersExtra] = useState<any>([]);
-  const [showExtras, setShowExtras] = useState<any>(false);
   const [anchorEl, setAnchorEl] = useState<any>(null);
-
   const [searchBy, setSearchBy] = useState('');
 
-  const [trigger, { data, isError }] = useLazyGetAssignToQuery();
+  const [usersTrigger, usersStatus] = useLazyGetAssignToQuery();
+  const [usersExtraTrigger, usersExtraStatus] = useLazyGetAssignToQuery();
 
   useEffect(() => {
-    trigger?.({ params: { search: searchBy } });
+    usersTrigger?.({ params: { search: '' } });
+  }, []);
+
+  useEffect(() => {
+    usersExtraTrigger?.({ params: { search: searchBy } });
   }, [searchBy]);
 
   const debouncedSearch = debounce((value: any) => {
     setSearchBy(value);
-  }, 300);
+  }, 100);
 
   const addToArray = (user: any) => {
     setSelected(user);
@@ -34,14 +39,18 @@ export const Profile = ({ selected, setSelected }: any) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+    setSearchBy('');
   };
 
   useEffect(() => {
-    setUsers(data?.slice(0, MAX_LIMIT));
-    setUsersExtra(data?.slice(MAX_LIMIT, data?.length));
-  }, [data]);
+    setUsers(usersStatus?.data?.slice(0, MAX_LIMIT));
+    setUsersExtra(
+      usersExtraStatus?.data?.slice(MAX_LIMIT, usersStatus?.data?.length),
+    );
+  }, [usersStatus?.data, usersExtraStatus?.data]);
 
-  if (isError) return <Typography>Something Went Wrong</Typography>;
+  if (usersStatus?.isError)
+    return <Typography>Something Went Wrong</Typography>;
 
   return (
     <Fragment>
@@ -93,50 +102,50 @@ export const Profile = ({ selected, setSelected }: any) => {
         </Fragment>
       ))}
 
-      {usersExtra?.length && (
-        <Tooltip title="Show Remaining">
-          <Avatar
-            sx={{
-              bgcolor: 'primary.lighter',
-              color: 'primary.main',
-              borderRadius: 2,
-              cursor: 'pointer',
-              fontSize: '12px',
-              width: 38,
-              height: 38,
-              fontWeight: 500,
-            }}
-            onClick={(event: any) => {
-              setAnchorEl(event?.currentTarget);
-              setShowExtras(true);
-            }}
-          >
-            +{usersExtra?.length}
-          </Avatar>
-        </Tooltip>
-      )}
-
-      {showExtras && (
-        <Menu
-          id={id}
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
+      <Tooltip title="Show Remaining">
+        <Avatar
+          sx={{
+            bgcolor: 'primary.lighter',
+            color: 'primary.main',
+            borderRadius: 2,
+            cursor: 'pointer',
+            fontSize: '12px',
+            width: 38,
+            height: 38,
+            fontWeight: 500,
           }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
+          onClick={(event: any) => {
+            setAnchorEl(event?.currentTarget);
           }}
         >
-          <Box width={250}>
-            <Search
-              setSearchBy={(value: any) => debouncedSearch(value)}
-              width={'100%'}
-            />
-            {usersExtra?.map((item: any) => (
+          +{usersExtra?.length}
+        </Avatar>
+      </Tooltip>
+
+      <Menu
+        id={id}
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <Box width={250} height={600} p={1}>
+          <Search
+            setSearchBy={(value: any) => debouncedSearch(value)}
+            width={'100%'}
+            label={'Search Here'}
+          />
+          {!usersExtra?.length ? (
+            <NoData message="No data is available" image={AssociationsImage} />
+          ) : (
+            usersExtra?.map((item: any) => (
               <Box
                 key={item?._id}
                 sx={{
@@ -145,7 +154,7 @@ export const Profile = ({ selected, setSelected }: any) => {
                   gap: 1,
                   cursor: 'pointer',
                   borderRadius: 2,
-                  p: 1,
+                  py: 1,
                   ':hover': { bgcolor: 'primary.lighter' },
                 }}
                 onClick={() => {
@@ -176,10 +185,10 @@ export const Profile = ({ selected, setSelected }: any) => {
                   {item?.firstName} {item?.lastName}
                 </Typography>
               </Box>
-            ))}
-          </Box>
-        </Menu>
-      )}
+            ))
+          )}
+        </Box>
+      </Menu>
     </Fragment>
   );
 };

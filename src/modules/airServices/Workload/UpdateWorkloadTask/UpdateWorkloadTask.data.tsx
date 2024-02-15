@@ -14,7 +14,7 @@ const statusOptions = ['Todo', 'In-Progress', 'Done'];
 export const validationSchema: any = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Required'), //1
   description: Yup?.string()?.trim()?.required('Required'), //2
-  department: Yup?.mixed()?.nullable()?.required('Required'), //3
+  departmentId: Yup?.mixed()?.nullable()?.required('Required'), //3
   assignTo: Yup?.mixed()?.nullable(), //4
   status: Yup.string()?.required('Required'), //5
   startDate: Yup?.date(), //6
@@ -28,7 +28,7 @@ export const getWorkloadDefaultValues = (data?: any) => {
   return {
     title: data?.title ?? '', //1
     description: data?.description ?? '', //2
-    department: !!Object?.keys(data?.departmentData ?? {})?.length
+    departmentId: !!Object?.keys(data?.departmentData ?? {})?.length
       ? data?.departmentData
       : null, //3
     assignTo: !!Object?.keys(data?.assignedUser ?? {})?.length
@@ -71,7 +71,7 @@ export const getWorkloadDataArray = ({
     {
       id: 3,
       componentProps: {
-        name: 'department',
+        name: 'departmentId',
         label: 'Department',
         apiQuery: apiQueryDepartment,
         placeholder: 'Choose Department',

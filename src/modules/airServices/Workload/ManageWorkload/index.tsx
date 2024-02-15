@@ -13,13 +13,17 @@ export const ManageWorkload = () => {
   const open = Boolean(anchorEl);
 
   const [dateRange, setDateRange] = useState<any>(workloadDefaultDateRange);
+  const [modifiedRange, setModifiedRange] = useState<any>(
+    workloadDefaultDateRange,
+  );
 
-  const { data } = useGetWorkloadQuery(
+  const { data, isLoading, isFetching, isError } = useGetWorkloadQuery(
     {
       manage: manage,
       startDate: dateRange?.[0]?.startDate?.toISOString(),
-      // TODO: Will be catered in integration
-      // endDate: dateRange?.[0]?.endDate?.toISOString(),
+      endDate: dateRange?.[0]?.endDate?.toISOString(),
+      modifiedStartDate: modifiedRange?.[0]?.startDate?.toISOString(),
+      modifiedEndDate: modifiedRange?.[0]?.endDate?.toISOString(),
     },
     { skip: !openDrawer, refetchOnMountOrArgChange: true },
   );
@@ -88,6 +92,14 @@ export const ManageWorkload = () => {
           state={manage}
           onChangeDateHandler={(item: any) => setDateRange([item?.selection])}
           setDateRange={setDateRange}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          setModifiedRange={setModifiedRange}
+          modifiedRange={modifiedRange}
+          onChangeModifiedHandler={(item: any) =>
+            setModifiedRange([item?.selection])
+          }
         />
       )}
     </Fragment>
