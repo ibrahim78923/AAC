@@ -7,6 +7,8 @@ import {
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
 import { TICKET_APPROVALS } from '@/constants/strings';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const ApprovalCard = (props: any) => {
   const { setApproval, data, getUpdateStatus } = props;
@@ -38,12 +40,13 @@ export const ApprovalCard = (props: any) => {
               {data?.name}
             </Typography>
             <Box display={'flex'} gap={0.5} alignItems={'center'}>
-              {APPROVAL_CARD_INFO?.[data?.status]?.icon}
+              {APPROVAL_CARD_INFO?.[data?.approvalStatus]?.icon}
               <Typography
                 variant="customStyle"
-                color={APPROVAL_CARD_INFO?.[data?.status]?.color}
+                color={APPROVAL_CARD_INFO?.[data?.approvalStatus]?.color}
               >
-                {APPROVAL_CARD_INFO?.[data?.status]?.text} on {data?.date}
+                {APPROVAL_CARD_INFO?.[data?.approvalStatus]?.text} on{' '}
+                {dayjs(data?.date).format(DATE_FORMAT?.UI)}
               </Typography>
             </Box>
           </Box>
@@ -53,7 +56,7 @@ export const ApprovalCard = (props: any) => {
         </Typography>
       </Box>
       <Box>
-        {data?.status === TICKET_APPROVALS?.REQUESTED && (
+        {data?.approvalStatus === TICKET_APPROVALS?.REQUESTED && (
           <SingleDropdownButton
             dropdownOptions={ticketsApprovalDropdown}
             dropdownName={<MoreVert />}
@@ -61,7 +64,7 @@ export const ApprovalCard = (props: any) => {
             btnVariant="text"
           />
         )}
-        {data?.status === TICKET_APPROVALS?.RECEIVED && (
+        {data?.approvalStatus === TICKET_APPROVALS?.RECEIVED && (
           <Box display={'flex'} gap={1} flexWrap={'wrap'}>
             <Button
               variant="outlined"

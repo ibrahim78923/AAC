@@ -5,8 +5,13 @@ import { AllApprovals } from './AllApprovals';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 const RequestApprovalPage = (props: any) => {
-  const { setIsDrawerOpen, data, setApproval, updateRequestApprovalStatus } =
-    props;
+  const {
+    setIsDrawerOpen,
+    data,
+    setApproval,
+    updateRequestApprovalStatus,
+    metaData,
+  } = props;
   return (
     <>
       <PageTitledHeader
@@ -27,6 +32,7 @@ const RequestApprovalPage = (props: any) => {
           updateRequestApprovalStatus={(item: any) =>
             updateRequestApprovalStatus?.(item)
           }
+          metaData={metaData}
         />
         <RequestApproval
           data={data}
@@ -34,6 +40,7 @@ const RequestApprovalPage = (props: any) => {
           updateRequestApprovalStatus={(item: any) =>
             updateRequestApprovalStatus?.(item)
           }
+          metaData={metaData}
         />
         <RequestReceivedApproval
           data={data}
@@ -41,6 +48,7 @@ const RequestApprovalPage = (props: any) => {
           updateRequestApprovalStatus={(item: any) =>
             updateRequestApprovalStatus?.(item)
           }
+          metaData={metaData}
         />
       </HorizontalTabs>
     </>
