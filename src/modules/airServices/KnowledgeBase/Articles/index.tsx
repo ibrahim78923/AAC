@@ -4,7 +4,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { useArticles } from './useArticles';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { MoveFolderModal } from './MoveFolderModal';
+import { MoveFolder } from './MoveFolder';
 import FilterArticles from './FilterArticles';
 import { DeleteArticles } from './DeleteArticles';
 
@@ -136,9 +136,11 @@ export const Articles = () => {
         selectedArticlesData={selectedArticlesData}
         setSelectedArticlesData={setSelectedArticlesData}
       />
-      <MoveFolderModal
+      <MoveFolder
         moveFolderModal={moveFolderModal}
         setMoveFolderModal={setMoveFolderModal}
+        selectedArticlesData={selectedArticlesData?.[0]}
+        setSelectedArticlesData={setSelectedArticlesData}
       />
       <FilterArticles
         isOpenFilterDrawer={openFilter}
