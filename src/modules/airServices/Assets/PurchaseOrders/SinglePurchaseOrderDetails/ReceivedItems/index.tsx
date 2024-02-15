@@ -1,4 +1,3 @@
-// ... (previous imports)
 import CommonDrawer from '@/components/CommonDrawer';
 import React from 'react';
 

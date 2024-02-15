@@ -17,8 +17,6 @@ export const useReceivedItems = (props: any) => {
   const [patchAddToItemTrigger] = usePatchAddToItemMutation();
   const [errorOccurred, setErrorOccurred] = useState(false);
   const { setIsDrawerOpen } = props;
-  const [booVariable, setBooVariable] = useState(false);
-
   const getSingleAddToPurchaseOrderParameter = {
     pathParam: {
       purchaseOrderId,
@@ -47,16 +45,25 @@ export const useReceivedItems = (props: any) => {
   });
 
   const submitHandler = async (data: any) => {
+    const dr = data?.test?.some(
+      (x: any) => x?.received == 0 || x?.received > x?.quantity,
+    );
+
+    if (dr) {
+      setErrorOccurred(true);
+      setIsDrawerOpen(false);
+      return;
+    }
+
     const sendData = data.test.map((item: any) => {
-      const purchaseDetails = item.data.purchaseDetails.map(
+      const purchaseDetails = item?.data?.purchaseDetails.map(
         (secondItem: any) => ({
           ...secondItem,
           received: item.received,
         }),
       );
-
       return {
-        id: item.data._id,
+        id: item?.data?._id,
         orderName: item?.data?.orderName,
         orderNumber: item?.data?.orderName,
         vendorId: item?.data?.vendorId,
@@ -71,38 +78,24 @@ export const useReceivedItems = (props: any) => {
       };
     });
 
-    let hasError = false;
-    sendData?.[0]?.purchaseDetails?.forEach((item: any) => {
-      if (item?.received > item?.quantity) {
-        setErrorOccurred(true);
-        setIsDrawerOpen(false);
-        hasError = true;
-      } else {
-        setErrorOccurred(false);
-        setBooVariable(true);
-      }
-    });
+    const putAddToItemParameter = {
+      body: sendData?.[0],
+    };
+    try {
+      await patchAddToItemTrigger(putAddToItemParameter)?.unwrap();
 
-    if (!hasError) {
-      const putAddToItemParameter = {
-        body: sendData?.[0],
-      };
-      try {
-        await patchAddToItemTrigger(putAddToItemParameter)?.unwrap();
-        if (booVariable) {
-          const message = 'Purchase Order items count updated successfully';
-          const variant = 'success';
-          enqueueSnackbar(message, {
-            variant: variant,
-          });
-          setIsDrawerOpen(false);
-        }
-      } catch (error) {
-        enqueueSnackbar('Something went wrong', {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        });
-      }
+      const message = 'Purchase Order items count updated successfully';
+      const variant = 'success';
+      enqueueSnackbar(message, {
+        variant: variant,
+      });
+      setIsDrawerOpen(false);
+    } catch (error) {
+      enqueueSnackbar('Something went wrong', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
+    setErrorOccurred(false);
   };
 
   return {

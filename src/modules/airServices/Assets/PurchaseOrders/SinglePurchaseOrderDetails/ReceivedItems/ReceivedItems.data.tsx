@@ -3,23 +3,34 @@ import { Typography } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import * as Yup from 'yup';
 export const addItemValidationSchemaOne = Yup?.object()?.shape({
-  itemName: Yup?.string(),
-  received: Yup?.number(),
-  quantity: Yup?.string(),
-  pending: Yup?.string(),
+  test: Yup?.array()?.of(
+    Yup?.object()?.shape({
+      itemName: Yup?.string(),
+      received: Yup?.number()?.required(),
+      quantity: Yup?.string(),
+      pending: Yup?.string(),
+    }),
+  ),
 });
 
 export const addItemDefaultValuesFunction = (data: any) => {
   return {
-    test: [
-      {
-        itemName: data?.data?.purchaseDetails?.[0]?.itemName ?? '',
-        received: null,
-        quantity: data?.data?.purchaseDetails?.[0]?.quantity ?? '',
-        pending: data?.data?.purchaseDetails?.[0]?.quantity ?? '',
-        ...data,
-      },
-    ],
+    test: !!data?.data?.purchaseDetails?.length
+      ? data?.data?.purchaseDetails?.map((x: any) => ({
+          itemName: x?.itemName ?? '',
+          received: null,
+          quantity: x?.quantity ?? '',
+          pending: x?.quantity ?? '',
+          ...data,
+        }))
+      : [
+          {
+            itemName: '',
+            received: null,
+            quantity: '',
+            pending: '',
+          },
+        ],
   };
 };
 
@@ -50,6 +61,7 @@ export const itemDetailFormFieldsFunction = (
       data: (
         <RHFTextField
           name={`${name}.${index}.received`}
+          required
           control={control}
           size="small"
         />
