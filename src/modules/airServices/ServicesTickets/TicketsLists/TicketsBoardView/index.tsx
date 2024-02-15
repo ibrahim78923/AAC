@@ -2,28 +2,19 @@ import { Grid, Box } from '@mui/material';
 import TicketInfoBoardHeader from './TicketInfoBoardHeader';
 import { TicketInfoCard } from './TicketInfoCard';
 import { Fragment } from 'react';
-import { useGetTicketsQuery } from '@/services/airServices/tickets';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
 import { AssociationsImage } from '@/assets/images';
+import { useTicketsBoardView } from './useTicketsBoardView';
 
 export const TableBoardView = ({
   setTicketAction,
   setSelectedTicketList,
+  search,
 }: any) => {
-  const HEAD_STATUS = [
-    { heading: 'Open', be: 'OPEN' },
-    { heading: 'Resolved', be: 'RESOLVED' },
-    { heading: 'Pending', be: 'PENDING' },
-    { heading: 'Closed', be: 'CLOSED' },
-  ];
-
-  const apiDataParameter = { queryParams: {} };
-
-  const { data, isLoading, isError } = useGetTicketsQuery(apiDataParameter);
-
-  const ticketViewBoardArray = data?.data?.tickets;
+  const { HEAD_STATUS, data, isLoading, isError, ticketViewBoardArray } =
+    useTicketsBoardView({ search });
 
   if (isError) return <ApiErrorState />;
   if (isLoading) return <SkeletonTable />;

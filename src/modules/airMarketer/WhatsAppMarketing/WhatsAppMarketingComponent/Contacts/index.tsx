@@ -1,87 +1,13 @@
-import { useState } from 'react';
-
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 
 import Contacts from '@/modules/airSales/Contacts';
-import GroupsCard from './GroupsCard';
-
-import useScroll from '@/hooks/useScroll';
-
-import { contactGroups } from '@/mock/modules/airMarketer/SMSMarketing/Contacts';
-
-import CreateGroupModal from './CreateGroupModal';
-
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
-import { PlusRoundedIcon } from '@/assets/icons';
-import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-
-import { styles } from './Contacts.style';
-import { v4 as uuidv4 } from 'uuid';
+import ContactsGroup from './contactsGroup';
 
 const ContactsWhatsappMarketing = () => {
-  const theme = useTheme();
-
-  const {
-    containerRef,
-    handleScroll,
-    isRightButtonDisabled,
-    isLeftButtonDisabled,
-  } = useScroll();
-
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
   return (
     <Box sx={{ p: 2 }}>
-      <Typography variant="h4" mb={2}>
-        Contact Groups
-      </Typography>
-      <Box sx={{ position: 'relative', mb: 2 }}>
-        {!isLeftButtonDisabled && (
-          <Button
-            sx={styles?.btnLeft}
-            onClick={() => handleScroll(-100)}
-            disabled={isLeftButtonDisabled}
-          >
-            <ArrowCircleLeftIcon />
-          </Button>
-        )}
-        <Box sx={styles?.flexCards} ref={containerRef}>
-          <Box
-            sx={styles?.createGroupCard}
-            onClick={() => setIsCreateModalOpen(true)}
-          >
-            <PlusRoundedIcon />
-            <Typography
-              sx={{
-                fontSize: '12px',
-                color: theme?.palette?.primary?.main,
-                fontWeight: 500,
-              }}
-            >
-              Create Group
-            </Typography>
-          </Box>
-          <>
-            {contactGroups?.map((info: any) => (
-              <GroupsCard info={info} key={uuidv4()} />
-            ))}
-          </>
-        </Box>
-
-        <Button
-          sx={styles?.btnRight}
-          onClick={() => handleScroll(100)}
-          disabled={isRightButtonDisabled}
-        >
-          <ArrowCircleRightIcon />
-        </Button>
-      </Box>
+      <ContactsGroup />
       <Contacts />
-
-      <CreateGroupModal
-        isCreateModalOpen={isCreateModalOpen}
-        setIsCreateModalOpen={setIsCreateModalOpen}
-      />
     </Box>
   );
 };
