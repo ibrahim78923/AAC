@@ -104,8 +104,6 @@ const PaymentMethods = () => {
             </MenuItem>
             <MenuItem onClick={handleOpenDeleteModal}>Delete</MenuItem>
           </Menu>
-
-          {/* </Box> */}
         </Box>
 
         <TanstackTable columns={getRowValues} data={paymentData} isPagination />

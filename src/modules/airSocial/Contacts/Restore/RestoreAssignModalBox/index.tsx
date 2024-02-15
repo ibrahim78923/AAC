@@ -14,12 +14,12 @@ const RestoreAssignModalBox = ({ open, onClose, handleAssignModal }: any) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={styles.parentBox}>
-          <Box sx={styles.modalBox(theme)}>
-            <Box sx={styles.innerBoxOne}>
-              <Box sx={styles.innerBoxTwo}>
+        <Box sx={styles?.parentBox}>
+          <Box sx={styles?.modalBox(theme)}>
+            <Box sx={styles?.innerBoxOne}>
+              <Box sx={styles?.innerBoxTwo}>
                 <AssignContactIcon />
-                <Typography component="span" sx={styles.modalTypeText(theme)}>
+                <Typography component="span" sx={styles?.modalTypeText(theme)}>
                   Restore Contacts
                 </Typography>
               </Box>
@@ -31,7 +31,7 @@ const RestoreAssignModalBox = ({ open, onClose, handleAssignModal }: any) => {
               You are about to restore a Contact.
             </Box>
 
-            <Box sx={styles.buttonBox}>
+            <Box sx={styles?.buttonBox}>
               <Button
                 onClick={onClose}
                 variant="outlined"
