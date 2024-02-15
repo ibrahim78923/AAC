@@ -24,7 +24,7 @@ export const relatedTicketsAPI = baseAPI?.injectEndpoints({
     }),
     putChildTickets: builder?.mutation({
       query: (putTicketParameter: any) => ({
-        url: `${END_POINTS?.TICKET}/${putTicketParameter?.pathParam?.id}`,
+        url: `${END_POINTS?.TICKET}/{id}`,
         method: 'PUT',
         body: putTicketParameter?.body,
       }),

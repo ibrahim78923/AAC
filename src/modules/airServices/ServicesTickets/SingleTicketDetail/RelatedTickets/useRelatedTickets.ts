@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
 import { useGetChildTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 import {
@@ -39,8 +39,8 @@ export const useRelatedTickets = (props: any) => {
   const relatedTicketsColumns = columnsFunction(
     data?.data?.tickets?.length > 1
       ? data?.data?.tickets
-      : !!data?.data?.tickets?.[0]?.childTicketDetails?.length
-      ? data?.data?.tickets?.[0]?.childTicketDetails
+      : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+      ? data?.data?.tickets
       : [],
     selectedChildTickets,
     setSelectedChildTickets,
@@ -54,13 +54,23 @@ export const useRelatedTickets = (props: any) => {
     setIsDrawerOpen,
   );
 
+  useEffect(() => {
+    setTotalRelatedTickets(
+      data?.data?.tickets?.length > 1
+        ? data?.data?.meta?.total
+        : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+        ? data?.data?.meta?.total
+        : 0,
+    );
+    return () => setTotalRelatedTickets('');
+  }, [data]);
+
   return {
     setIsDrawerOpen,
     isDrawerOpen,
     selectedChildTickets,
     relatedTicketsColumns,
     setPage,
-    // lazyGetChildTicketsStatus,
     setPageLimit,
     setSelectedChildTickets,
     relatedTicketsActionDropdown,

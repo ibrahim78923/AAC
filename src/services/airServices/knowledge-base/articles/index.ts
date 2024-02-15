@@ -9,22 +9,22 @@ const {
   CREATE_FOLDER,
   DELETE_KNOWLEDGE_BASE_ARTICLES,
 } = END_POINTS;
-export const articlesAPI = baseAPI.injectEndpoints({
+export const articlesAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getArticles: builder.query({
+    getArticles: builder?.query({
       query: (getArticlesParameter: any) => ({
         url: KNOWLEDGE_BASE_ARTICLES,
         params: getArticlesParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
-    getArticleById: builder.query({
+    getArticleById: builder?.query({
       query: (getSingleArticleParameter: any) => ({
         url: `${KNOWLEDGE_BASE_ARTICLE}/${getSingleArticleParameter?.pathParam?.articleId}`,
       }),
       providesTags: [TAG],
     }),
-    postArticle: builder.mutation({
+    postArticle: builder?.mutation({
       query: (postArticleParameter: any) => ({
         url: DELETE_KNOWLEDGE_BASE_ARTICLES,
         method: 'POST',
@@ -32,7 +32,7 @@ export const articlesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    patchArticle: builder.mutation({
+    patchArticle: builder?.mutation({
       query: (patchArticleParameter: any) => ({
         url: `${DELETE_KNOWLEDGE_BASE_ARTICLES}`,
         method: 'PATCH',
@@ -40,7 +40,7 @@ export const articlesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    deleteArticle: builder.mutation({
+    deleteArticle: builder?.mutation({
       query: (deleteArticlesParameter: any) => ({
         url: DELETE_KNOWLEDGE_BASE_ARTICLES,
         method: 'DELETE',
@@ -48,11 +48,19 @@ export const articlesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getFolders: builder.query({
+    getFolders: builder?.query({
       query: () => ARTICLES_FOLDERS,
       providesTags: [TAG],
     }),
-    postFolder: builder.mutation({
+    getUnapprovedArticles: builder?.query({
+      query: (getUnapprovedArticlesParameter: any) => ({
+        url: END_POINTS?.GET_UNAPPROVED_ARTICLES,
+        method: 'GET',
+        params: getUnapprovedArticlesParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
+    postFolder: builder?.mutation({
       query: (body: any) => ({
         url: CREATE_FOLDER,
         method: 'POST',
@@ -60,7 +68,7 @@ export const articlesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getFoldersDropdown: builder.query({
+    getFoldersDropdown: builder?.query({
       query: ({ params }: any) => ({
         url: ARTICLES_FOLDERS,
         method: 'GET',
@@ -96,4 +104,5 @@ export const {
   useLazyGetArticlesQuery,
   useLazyGetFoldersDropdownQuery,
   useLazyGetUsersDropdownQuery,
+  useGetUnapprovedArticlesQuery,
 } = articlesAPI;
