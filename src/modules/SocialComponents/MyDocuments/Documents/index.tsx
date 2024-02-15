@@ -109,21 +109,21 @@ const Documents = () => {
           >
             <Button
               variant="outlined"
-              className="large"
+              className="medium"
               sx={styles?.filterUserButton}
             >
               <SingleUserBlackIcon /> Me
             </Button>
             <Button
               variant="outlined"
-              className="large"
+              className="medium"
               sx={styles?.filterUserButton}
             >
               <TwoUserBlackIcon /> My Team
             </Button>
             <Button
               variant="contained"
-              className="large"
+              className="medium"
               sx={styles?.filterUserAnyButton(theme)}
             >
               <AnyRoundIcon /> Any
@@ -366,7 +366,7 @@ const Documents = () => {
               sx={styles?.fiterButton(theme)}
               className="small"
             >
-              <FilterrIcon /> Any
+              <FilterrIcon /> Filter
             </Button>
           </Box>
         </Grid>

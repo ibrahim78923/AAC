@@ -186,6 +186,7 @@ const useContactsSaleSite = () => {
     openModalExport,
     handleOpenModalExport,
     handleCloseModalExport,
+    setOpenModalExport,
 
     theme,
     isOpen,

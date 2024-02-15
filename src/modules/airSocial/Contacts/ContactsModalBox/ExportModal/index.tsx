@@ -21,7 +21,8 @@ const ExportModal = ({ open, onClose }: any) => {
   return (
     <CommonModal
       open={open}
-      handleClose={onClose}
+      handleClose={() => onClose(false)}
+      handleCancel={() => onClose(false)}
       handleSubmit={handleSubmit(onSubmit)}
       title="Export Record"
       okText={'Export'}
