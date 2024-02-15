@@ -410,3 +410,4 @@ export { default as TimerPauseIcon } from './shared/timer-pause-icon';
 export { default as DeleteBlackIcon } from './shared/delete-black-icon';
 export { default as AddAlertPopupIcon } from './shared/add-alert-popup-icon';
 export { default as ArrowAlertPopupIcon } from './shared/arrow-alert-popup-icon';
+export { default as ExportCloudIcon } from './shared/export-cloud-icon';

@@ -42,6 +42,14 @@ const PaymentMethods = () => {
             variant="contained"
             color="primary"
             onClick={handleOpenAddCard}
+            sx={{
+              width: {
+                xs: '100%',
+                sm: 'fit-content',
+                lg: 'fit-content',
+                md: 'fit-content',
+              },
+            }}
           >
             Add a card
           </Button>
@@ -57,47 +65,47 @@ const PaymentMethods = () => {
               size="small"
             />
           </Box>
-          <Box sx={styles?.tableToolbarActions}>
-            <Box>
-              <Button
-                size="small"
-                onClick={handleActionsClick}
-                sx={styles?.actionButton}
-                endIcon={<DropdownIcon />}
-                disabled={!isChecked}
-              >
-                Actions
-              </Button>
-              <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                sx={{
-                  '& .MuiList-root': {
-                    minWidth: '112px',
-                  },
-                }}
-              >
-                <MenuItem
-                  onClick={() => {
-                    setOpenAddCard(true);
-                    setOpenEditCard('Edit');
-                  }}
-                >
-                  Edit
-                </MenuItem>
-                <MenuItem onClick={handleOpenDeleteModal}>Delete</MenuItem>
-              </Menu>
-            </Box>
-          </Box>
+          {/* <Box sx={styles?.tableToolbarActions}> */}
+
+          <Button
+            size="small"
+            onClick={handleActionsClick}
+            sx={styles?.actionButton}
+            endIcon={<DropdownIcon />}
+            disabled={!isChecked}
+          >
+            Actions
+          </Button>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            sx={{
+              '& .MuiList-root': {
+                minWidth: '112px',
+              },
+            }}
+          >
+            <MenuItem
+              onClick={() => {
+                setOpenAddCard(true);
+                setOpenEditCard('Edit');
+              }}
+            >
+              Edit
+            </MenuItem>
+            <MenuItem onClick={handleOpenDeleteModal}>Delete</MenuItem>
+          </Menu>
+
+          {/* </Box> */}
         </Box>
 
         <TanstackTable columns={getRowValues} data={paymentData} isPagination />

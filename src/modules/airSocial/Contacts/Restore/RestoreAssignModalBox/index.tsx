@@ -27,7 +27,7 @@ const RestoreAssignModalBox = ({ open, onClose, handleAssignModal }: any) => {
               </Box>
             </Box>
             <Box sx={{ margin: '20px 0' }}>
-              You are about to restore a Contacts.
+              You are about to restore a Contact.
             </Box>
 
             <Box sx={styles.buttonBox}>

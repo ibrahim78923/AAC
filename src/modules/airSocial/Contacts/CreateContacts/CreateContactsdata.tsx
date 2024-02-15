@@ -126,7 +126,7 @@ export const contactsDataArray = (
         name: 'phoneNumber',
         label: 'Phone Number',
         placeholder: 'Enter Phone ',
-        type: 'number',
+        type: 'text',
       },
       md: 12,
       component: RHFTextField,

@@ -118,7 +118,8 @@ const Restore = () => {
           <Button
             startIcon={<FilterIcon />}
             variant="outlined"
-            sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
+            size="small"
+            sx={{ height: '36px', color: theme?.palette?.custom['main'] }}
             onClick={handleRestoreFilter}
           >
             {' '}
