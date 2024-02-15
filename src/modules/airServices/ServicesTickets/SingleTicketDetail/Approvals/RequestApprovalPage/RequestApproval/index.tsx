@@ -1,18 +1,20 @@
 import NoData from '@/components/NoData';
 import { ApprovalCard } from '../../ApprovalCard';
-import { useApprovals } from '../../useApprovals';
-import { useEffect } from 'react';
+
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
+import { useRequestApprovals } from './useRequestApproval';
+import { Box } from '@mui/material';
 
 const RequestApproval = (props: any) => {
-  const { data, setApproval, updateRequestApprovalStatus } = props;
-  const { setStatus } = useApprovals();
+  const { setApproval, updateRequestApprovalStatus } = props;
+  const { data, isLoading, isFetching, isError } = useRequestApprovals();
 
-  useEffect(() => {
-    setStatus('New');
-  }, []);
+  if (isLoading || isFetching) return <SkeletonForm />;
+  if (isError) return <ApiErrorState />;
 
   return (
-    <>
+    <Box maxHeight={'50vh'} overflow={'auto'}>
       {!!data?.length ? (
         data?.map((item: any) => (
           <ApprovalCard
@@ -23,9 +25,9 @@ const RequestApproval = (props: any) => {
           />
         ))
       ) : (
-        <NoData />
+        <NoData height={'50vh'} />
       )}
-    </>
+    </Box>
   );
 };
 

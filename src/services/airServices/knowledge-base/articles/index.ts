@@ -1,12 +1,12 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 const TAG = 'KNOWLEDGE_BASE_ARTICLES';
+const TAG_FOUR = 'USERS_DROPDOWN';
 const {
   KNOWLEDGE_BASE_ARTICLES,
   KNOWLEDGE_BASE_ARTICLE,
   ARTICLES_FOLDERS,
   CREATE_FOLDER,
-  POST_KNOWLEDGE_BASE_ARTICLES,
   DELETE_KNOWLEDGE_BASE_ARTICLES,
 } = END_POINTS;
 export const articlesAPI = baseAPI.injectEndpoints({
@@ -19,32 +19,32 @@ export const articlesAPI = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
     getArticleById: builder.query({
-      query: (id: any) => ({
-        url: `${KNOWLEDGE_BASE_ARTICLE}/${id}`,
+      query: (getSingleArticleParameter: any) => ({
+        url: `${KNOWLEDGE_BASE_ARTICLE}/${getSingleArticleParameter?.pathParam?.articleId}`,
       }),
       providesTags: [TAG],
     }),
     postArticle: builder.mutation({
-      query: (body: any) => ({
-        url: POST_KNOWLEDGE_BASE_ARTICLES,
+      query: (postArticleParameter: any) => ({
+        url: DELETE_KNOWLEDGE_BASE_ARTICLES,
         method: 'POST',
-        body,
+        body: postArticleParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
-    updateArticle: builder.mutation({
-      query: ({ id, body }: any) => ({
-        url: `${KNOWLEDGE_BASE_ARTICLES}/${id}`,
-        method: 'PUT',
-        body: body,
+    patchArticle: builder.mutation({
+      query: (patchArticleParameter: any) => ({
+        url: `${DELETE_KNOWLEDGE_BASE_ARTICLES}`,
+        method: 'PATCH',
+        body: patchArticleParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
     deleteArticle: builder.mutation({
-      query: (params: any) => ({
+      query: (deleteArticlesParameter: any) => ({
         url: DELETE_KNOWLEDGE_BASE_ARTICLES,
         method: 'DELETE',
-        params,
+        params: deleteArticlesParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
     }),
@@ -60,16 +60,40 @@ export const articlesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getFoldersDropdown: builder.query({
+      query: ({ params }: any) => ({
+        url: ARTICLES_FOLDERS,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG],
+    }),
+    getUsersDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_FOUR],
+    }),
   }),
 });
 
 export const {
-  useUpdateArticleMutation,
   usePostArticleMutation,
+  usePatchArticleMutation,
   useGetArticlesQuery,
   useDeleteArticleMutation,
   useGetArticleByIdQuery,
   useGetFoldersQuery,
   usePostFolderMutation,
   useLazyGetArticlesQuery,
+  useLazyGetFoldersDropdownQuery,
+  useLazyGetUsersDropdownQuery,
 } = articlesAPI;

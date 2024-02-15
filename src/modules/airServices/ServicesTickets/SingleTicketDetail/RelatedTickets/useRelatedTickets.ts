@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useSnackbar } from 'notistack';
+import { useState } from 'react';
 import { useTheme } from '@mui/material';
-import { useLazyGetChildTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
+import { useGetChildTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 import {
   columnsFunction,
   relatedTicketsActionDropdownFunction,
@@ -11,7 +10,6 @@ import { useRouter } from 'next/router';
 
 export const useRelatedTickets = (props: any) => {
   const { setTotalRelatedTickets } = props;
-  const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
   const router = useRouter();
   const ticketId = router?.query?.ticketId;
@@ -23,108 +21,56 @@ export const useRelatedTickets = (props: any) => {
 
   const [selectedChildTickets, setSelectedChildTickets] = useState<any>([]);
 
-  const getTicketsParam = new URLSearchParams();
-  getTicketsParam?.append('page', page + '');
-  getTicketsParam?.append('limit', pageLimit + '');
   const getTicketsParameter = {
-    queryParams: getTicketsParam,
+    queryParams: {
+      page,
+      limit: pageLimit,
+    },
     pathParam: {
       id: ticketId,
     },
   };
-  const [lazyGetChildTicketsTrigger, lazyGetChildTicketsStatus] =
-    useLazyGetChildTicketsQuery();
 
-  const getValueChildTicketsListData = async () => {
-    try {
-      const response =
-        await lazyGetChildTicketsTrigger(getTicketsParameter)?.unwrap();
-      setTotalRelatedTickets(response?.data?.data?.meta?.pages);
-      setSelectedChildTickets([]);
-    } catch (error: any) {
-      setSelectedChildTickets([]);
-    }
-  };
-
-  useEffect(() => {
-    getValueChildTicketsListData();
-    return () => setTotalRelatedTickets('');
-  }, [page, pageLimit]);
-
-  const handleCheckboxChange = (event: any) => {
-    setSelectedChildTickets(event?.target?.checked);
-  };
-  const [actionPop, setActionPop] = useState<HTMLButtonElement | null>(null);
-  const [actionExportPop, setActionExportPop] =
-    useState<HTMLButtonElement | null>(null);
-  const handleActionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setActionPop(event?.currentTarget);
-  };
-  const handleActionClose = () => {
-    setActionPop(null);
-  };
-  const openAction = Boolean(actionPop);
-
-  const handleActionExportClick = (event: any) => {
-    setActionExportPop(event?.currentTarget);
-  };
-
-  const handleActionExportClose = () => {
-    setActionExportPop(null);
-  };
-
-  const openActionExport = Boolean(actionExportPop);
+  const { data, isLoading, isFetching, isError, isSuccess } =
+    useGetChildTicketsQuery(getTicketsParameter, {
+      refetchOnMountOrArgChange: true,
+    });
 
   const relatedTicketsColumns = columnsFunction(
-    lazyGetChildTicketsStatus?.data?.data,
+    data?.data?.tickets?.length > 1
+      ? data?.data?.tickets
+      : !!data?.data?.tickets?.[0]?.childTicketDetails?.length
+      ? data?.data?.tickets?.[0]?.childTicketDetails
+      : [],
     selectedChildTickets,
     setSelectedChildTickets,
     theme,
     router,
   );
 
-  const headerFunctions = () => ({
-    handleActionClick,
-    actionExportPop,
-    actionPop,
-    setActionPop,
-    handleActionExportClose,
-    openAction,
-    handleActionExportClick,
-    handleActionClose,
-    openActionExport,
-  });
   const relatedTicketsActionDropdown = relatedTicketsActionDropdownFunction(
     setIsDelete,
     selectedChildTickets,
     setIsDrawerOpen,
   );
+
   return {
-    enqueueSnackbar,
     setIsDrawerOpen,
     isDrawerOpen,
-    handleCheckboxChange,
-    setSelectedChildTickets,
     selectedChildTickets,
-    handleActionClick,
-    actionExportPop,
-    actionPop,
-    setActionPop,
-    handleActionExportClose,
-    openAction,
-    handleActionExportClick,
-    handleActionClose,
-    openActionExport,
     relatedTicketsColumns,
-    headerFunctions,
-    page,
     setPage,
-    pageLimit,
+    // lazyGetChildTicketsStatus,
     setPageLimit,
-    lazyGetChildTicketsStatus,
-    ticketId,
+    setSelectedChildTickets,
     relatedTicketsActionDropdown,
     isDelete,
     setIsDelete,
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    setTotalRelatedTickets,
   };
 };

@@ -212,6 +212,9 @@ export const END_POINTS = {
   DROPDOWN_SOFTWARE: `/assets/get-software`,
   DROPDOWN_ALL_AGENTS: '/dropdown/agents',
   GET_SINGLE_ASSETS_CONTRACT: '/contract/get-contract',
+  ADD_APPROVALS_TICKETS: `/ticket/add-ticket-approval`,
+  GET_APPROVAL_TICKETS: `/ticket/get-tickets-approval`,
+  UPDATE_APPROVAL_TICKETS: `/ticket/edit-ticket-approval`,
 };
 
 export const superAdminBillingInvoices = {

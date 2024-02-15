@@ -16,6 +16,8 @@ export default function RHFAutocomplete({
   noOptionsText = 'Nothing in the List',
   multiple = false,
   placeholder,
+  freeSolo = false,
+  limitTags = 3,
   isOptionEqualToValue = (option: any, newValue: any) =>
     option?._id === newValue?._id,
   getOptionLabel = (option: any) => option?.replaceAll?.('_', ' '),
@@ -41,7 +43,9 @@ export default function RHFAutocomplete({
       render={({ field: { onChange, value }, fieldState: { error } }) => {
         return (
           <Autocomplete
+            freeSolo={freeSolo}
             id={name}
+            limitTags={limitTags}
             open={open}
             multiple={multiple}
             onOpen={() => {

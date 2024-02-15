@@ -1,4 +1,4 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const moveFolderValidationSchema = Yup?.object()?.shape({
@@ -6,9 +6,11 @@ export const moveFolderValidationSchema = Yup?.object()?.shape({
   moveTo: Yup?.mixed()?.nullable()?.required('Required'),
 });
 
-export const moveFolderDefaultValues = {
-  movingFrom: '',
-  moveTo: null,
+export const moveFolderDefaultValues = (data?: any) => {
+  return {
+    movingFrom: data?.folder?.name ?? '',
+    moveTo: null,
+  };
 };
 
 const moveToOption = [
@@ -39,7 +41,7 @@ export const moveFolderFields = [
       options: moveToOption,
       getOptionLabel: (option: any) => option?.label,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
 ];

@@ -1,18 +1,26 @@
 import { Box, Button, DialogActions, Grid, Typography } from '@mui/material';
-import { useCreateScheduleForm } from './useCreateScheduleForm';
 import { FormProvider } from '@/components/ReactHookForm';
-import { createScheduleFields } from './CreateScheduleForm.dara';
-import { ArrowBack, RemoveRedEyeOutlined } from '@mui/icons-material';
+import { createScheduleFields } from './UpsertWorkloadSchedule.data';
+import { RemoveRedEyeOutlined } from '@mui/icons-material';
 import { AIR_SERVICES } from '@/constants';
-import { WORKLOAD_SCHEDULE } from '@/constants/strings';
+import { useUpsertWorkloadSchedule } from './useUpsertWorkloadSchedule';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
-export const CreateScheduleForm = () => {
-  const { handleSubmit, method, submitForm, router, formType } =
-    useCreateScheduleForm();
-  const { CREATE, EDIT, UPDATE, SAVE } = WORKLOAD_SCHEDULE;
+export const UpsertWorkloadSchedule = () => {
+  const { handleSubmit, method, submitForm, router, workloadScheduleId } =
+    useUpsertWorkloadSchedule();
   return (
     <>
-      <Box display={'flex'} alignItems={'center'} gap={1}>
+      <PageTitledHeader
+        title={
+          !!workloadScheduleId ? 'Edit Scheduled Form' : 'Add Scheduled Form'
+        }
+        canMovedBack
+        moveBack={() => {
+          router?.push(AIR_SERVICES?.WORKLOAD_MANAGEMENT_SETTINGS);
+        }}
+      />
+      {/* <Box display={'flex'} alignItems={'center'} gap={1}>
         <ArrowBack
           color="secondary"
           onClick={() => {
@@ -20,8 +28,8 @@ export const CreateScheduleForm = () => {
           }}
           sx={{ cursor: 'pointer' }}
         />
-        <Typography>{formType} Scheduled Form</Typography>
-      </Box>
+        <Typography> Scheduled Form</Typography>
+      </Box> */}
       <br />
       <FormProvider methods={method} onSubmit={handleSubmit(submitForm)}>
         <Grid container spacing={2}>
@@ -30,6 +38,7 @@ export const CreateScheduleForm = () => {
               item
               key={item?.id}
               md={item?.md}
+              xs={12}
               sx={{
                 display: item?.iconProps && 'flex',
                 alignItems: item?.iconProps && 'center',
@@ -59,7 +68,7 @@ export const CreateScheduleForm = () => {
           Cancel
         </Button>
         <Button variant="contained">
-          {formType === CREATE ? SAVE : formType === EDIT ? UPDATE : null}
+          {workloadScheduleId ? 'Update' : 'Save'}
         </Button>
       </DialogActions>
     </>
