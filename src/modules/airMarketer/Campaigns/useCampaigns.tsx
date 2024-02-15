@@ -28,6 +28,7 @@ const useCampaigns = () => {
   const [isCreateTask, setIsCreateTask] = useState(false);
   const [isCompare, setIsCompare] = useState(false);
   const [searchVal, setSearchVal] = useState('');
+  const [isResetTaskFilter, setIsResetTaskFilter] = useState(false);
 
   const CampaignTask: any = useForm({});
   const router = useRouter();
@@ -127,6 +128,8 @@ const useCampaigns = () => {
     handleOpenFilter,
     searchVal,
     setSearchVal,
+    isResetTaskFilter,
+    setIsResetTaskFilter,
   };
 };
 export default useCampaigns;
