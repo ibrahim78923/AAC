@@ -10,8 +10,8 @@ export const useOverview = () => {
   const purchaseOrderId = router?.query?.purchaseOrderId;
   const { data } = useGetPurchaseOrderOverviewQuery(purchaseOrderId);
   const purchaseOrderData = data?.data;
-
   const purchaseOrderDetailData = data?.data?.purchaseDetails;
+  const orderStatus = data?.data?.status;
 
   return {
     openOverviewModal,
@@ -19,5 +19,6 @@ export const useOverview = () => {
     theme,
     purchaseOrderData,
     purchaseOrderDetailData,
+    orderStatus,
   };
 };

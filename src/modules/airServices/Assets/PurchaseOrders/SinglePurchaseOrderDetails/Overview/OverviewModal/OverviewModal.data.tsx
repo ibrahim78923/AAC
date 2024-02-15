@@ -1,7 +1,12 @@
 import { Typography } from '@mui/material';
 
-export const overviewTablePdfColumns: any = (theme: any) => {
-  return [
+export const overviewTablePdfColumns: any = (
+  setOpenOverviewModal: any,
+  purchaseOrderDetailData: any,
+  theme: any,
+  orderStatus: string,
+) => {
+  const columns = [
     {
       accessorFn: (row: any) => row?.itemName,
       id: 'itemName',
@@ -24,18 +29,42 @@ export const overviewTablePdfColumns: any = (theme: any) => {
       header: 'Cost Per Item',
       cell: (info: any) => info?.getValue(),
     },
-    {
-      accessorFn: (row: any) => row?.receivedVsOrdered,
-      id: 'receivedVsOrdered',
-      header: 'Received Vs Ordered',
+  ];
+  if (orderStatus === 'RECEIVED') {
+    columns.push(
+      {
+        accessorFn: (row: any) => row?.receivedVsOrdered,
+        id: 'receivedVsOrdered',
+        header: 'Received Vs Ordered',
+        cell: () => (
+          <Typography>
+            {`${purchaseOrderDetailData?.map(
+              (item: any) => item?.Received,
+            )}/${purchaseOrderDetailData?.map((item: any) => item?.quantity)}`}
+          </Typography>
+        ),
+      },
+      {
+        accessorFn: (row: any) => row?.quantity,
+        id: 'pending',
+        header: 'Pending',
+        cell: (info: any) =>
+          info?.getValue(
+            <Typography>
+              {purchaseOrderDetailData?.map((item: any) => item?.quantity)}
+            </Typography>,
+          ),
+      },
+    );
+  } else {
+    columns.push({
+      accessorFn: (row: any) => row?.quantity,
+      id: 'quantity',
+      header: 'Quantity',
       cell: (info: any) => info?.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row?.pending,
-      id: 'pending',
-      header: 'Pending',
-      cell: (info: any) => info?.getValue(),
-    },
+    });
+  }
+  columns.push(
     {
       accessorFn: (row: any) => row?.taxRate,
       id: 'taxRate',
@@ -46,9 +75,15 @@ export const overviewTablePdfColumns: any = (theme: any) => {
       accessorFn: (row: any) => row?.total,
       id: 'total',
       header: 'Total ()',
-      cell: (info: any) => info?.getValue(),
+      cell: () => (
+        <Typography>
+          {purchaseOrderDetailData?.map((item: any) => item?.total)}
+        </Typography>
+      ),
     },
-  ];
+  );
+
+  return columns;
 };
 
 export const overviewListPdfData: any = [

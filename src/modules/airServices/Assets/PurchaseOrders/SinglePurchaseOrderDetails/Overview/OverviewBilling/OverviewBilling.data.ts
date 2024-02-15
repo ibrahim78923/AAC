@@ -3,8 +3,8 @@ export const modalBillingData = ({
   purchaseOrderData,
 }: any) => [
   { label: 'subTotal ($)', value: purchaseOrderData?.subTotal },
-  { label: 'discount (%)', value: purchaseOrderDetail?.discount },
+  { label: 'discount (%)', value: purchaseOrderData?.discount },
   { label: 'Tax rate (%)', value: purchaseOrderDetail?.taxRate },
-  { label: 'shipping ($)', value: purchaseOrderDetail?.shipping },
-  { label: 'total ($)', value: purchaseOrderData?.subTotal },
+  { label: 'shipping ($)', value: purchaseOrderData?.shipping },
+  { label: 'total ($)', value: purchaseOrderDetail?.total },
 ];

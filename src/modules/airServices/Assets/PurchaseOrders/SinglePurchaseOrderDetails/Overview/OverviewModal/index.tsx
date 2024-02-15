@@ -9,10 +9,7 @@ import {
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Image from 'next/image';
-import {
-  overviewTablePdfColumns,
-  overviewListPdfData,
-} from './OverviewModal.data';
+import { overviewTablePdfColumns } from './OverviewModal.data';
 import OverviewBilling from '../OverviewBilling';
 import { DownloadFileIcon, PrinterIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -21,7 +18,10 @@ import { styles } from './OverviewModal.style';
 const OverviewModal = ({
   openOverviewModal,
   setOpenOverviewModal,
+  purchaseOrderData,
+  purchaseOrderDetailData,
   theme,
+  orderStatus,
 }: any) => {
   return (
     <Box>
@@ -95,12 +95,20 @@ const OverviewModal = ({
           </Box>
           <Box px={{ md: '3rem', xs: '1rem' }}>
             <TanstackTable
-              data={overviewListPdfData}
-              columns={overviewTablePdfColumns(theme)}
+              data={purchaseOrderDetailData}
+              columns={overviewTablePdfColumns(
+                setOpenOverviewModal,
+                purchaseOrderDetailData,
+                theme,
+                orderStatus,
+              )}
             />
           </Box>
           <Box m={{ md: '1rem 3rem 5rem 0' }} px={{ xs: '1rem' }}>
-            <OverviewBilling />
+            <OverviewBilling
+              purchaseOrderDetailData={purchaseOrderDetailData}
+              purchaseOrderData={purchaseOrderData}
+            />
           </Box>
         </DialogContent>
       </Dialog>

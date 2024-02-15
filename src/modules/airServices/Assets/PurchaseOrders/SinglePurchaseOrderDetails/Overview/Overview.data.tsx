@@ -5,7 +5,7 @@ export const overviewData = (purchaseOrderData: any) => [
     id: purchaseOrderData?._id,
     heading: 'Purchase Details',
     detailsData: [
-      { name: 'Vendor', detail: 'Dell' ?? '---' },
+      { name: 'Vendor', detail: purchaseOrderData?.vendor?.name ?? '---' },
       { name: 'Details', detail: purchaseOrderData?.orderName ?? '---' },
       { name: 'Currency', detail: purchaseOrderData?.currency ?? '---' },
       {
@@ -30,10 +30,11 @@ export const overviewData = (purchaseOrderData: any) => [
 
 export const overviewTableColumns: any = (
   setOpenOverviewModal: any,
-  purchaseOrderData: any,
+  purchaseOrderDetailData: any,
   theme: any,
+  orderStatus: string,
 ) => {
-  return [
+  const columns = [
     {
       accessorFn: (row: any) => row?.itemName,
       id: 'itemName',
@@ -56,12 +57,42 @@ export const overviewTableColumns: any = (
       header: 'Cost Per Item',
       cell: (info: any) => info?.getValue(),
     },
-    {
+  ];
+  if (orderStatus === 'RECEIVED') {
+    columns.push(
+      {
+        accessorFn: (row: any) => row?.receivedVsOrdered,
+        id: 'receivedVsOrdered',
+        header: 'Received Vs Ordered',
+        cell: () => (
+          <Typography>
+            {`${purchaseOrderDetailData?.map(
+              (item: any) => item?.Received,
+            )}/${purchaseOrderDetailData?.map((item: any) => item?.quantity)}`}
+          </Typography>
+        ),
+      },
+      {
+        accessorFn: (row: any) => row?.quantity,
+        id: 'pending',
+        header: 'Pending',
+        cell: (info: any) =>
+          info?.getValue(
+            <Typography>
+              {purchaseOrderDetailData?.map((item: any) => item?.quantity)}
+            </Typography>,
+          ),
+      },
+    );
+  } else {
+    columns.push({
       accessorFn: (row: any) => row?.quantity,
       id: 'quantity',
       header: 'Quantity',
       cell: (info: any) => info?.getValue(),
-    },
+    });
+  }
+  columns.push(
     {
       accessorFn: (row: any) => row?.taxRate,
       id: 'taxRate',
@@ -69,10 +100,14 @@ export const overviewTableColumns: any = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.subTotal,
-      id: 'subTotal',
+      accessorFn: (row: any) => row?.total,
+      id: 'total',
       header: 'Total ()',
-      cell: () => <Typography>{purchaseOrderData?.subTotal}</Typography>,
+      cell: () => (
+        <Typography>
+          {purchaseOrderDetailData?.map((item: any) => item?.total)}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.invoice,
@@ -87,5 +122,7 @@ export const overviewTableColumns: any = (
         </Typography>
       ),
     },
-  ];
+  );
+
+  return columns;
 };
