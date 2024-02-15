@@ -22,8 +22,8 @@ export const ShareData = (data: any) => {
     { heading: 'Priority', values: data?.priority ? data?.priority : 'N/A' },
     {
       heading: 'Close Date',
-      values: dayjs(data?.closeDate)?.format(DATE_FORMAT?.UI)
-        ? dayjs(data?.closeDate)?.format(DATE_FORMAT?.UI)
+      values: dayjs(data?.createdAt)?.format(DATE_FORMAT?.UI)
+        ? dayjs(data?.createdAt)?.format(DATE_FORMAT?.UI)
         : 'N/A',
     },
   ];

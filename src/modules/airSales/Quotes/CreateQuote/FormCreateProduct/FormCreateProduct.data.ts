@@ -27,6 +27,7 @@ export const addContactFields = [
   {
     id: 'productType',
     component: RHFRadioGroup,
+    isCustomItem: [],
     componentProps: {
       name: 'productType',
       fullWidth: true,

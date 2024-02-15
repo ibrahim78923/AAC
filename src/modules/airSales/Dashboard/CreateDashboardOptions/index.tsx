@@ -38,7 +38,6 @@ const CreateDashboardOptions = ({ toggle }: any) => {
             sx={{ marginLeft: '30px', border: 'none' }}
             className="small"
             variant="outlined"
-            onClick={handleClickActions}
           >
             Default
             <CheckMarkIcon />

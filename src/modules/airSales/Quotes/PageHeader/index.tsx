@@ -25,6 +25,15 @@ const PageHeader = () => {
           color="primary"
           startIcon={<AddCircleSmallIcon />}
           onClick={() => router?.push(AIR_SALES?.CREATE_QUOTES)}
+          sx={{
+            width: { xs: '100%', sm: 'fit-Content' },
+            marginTop: {
+              xs: '15px !important',
+              sm: '0px !important',
+              md: '0px !important',
+            },
+            marginLeft: { xs: '0px !important', sm: '15px !important' },
+          }}
         >
           Create Quote
         </Button>

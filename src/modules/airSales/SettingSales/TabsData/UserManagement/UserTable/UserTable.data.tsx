@@ -227,10 +227,15 @@ export const columnsUser = (
           onChange={handleTeam}
           label="Select"
           name={info.getValue()}
+          sx={{
+            '&:before': {
+              borderBottom: 'none',
+            },
+          }}
         >
           <MenuItem value="Alfa">Alfa</MenuItem>
-          <MenuItem value="Alfa">Alfa</MenuItem>
-          <MenuItem value="Alfa">Alfa</MenuItem>
+          <MenuItem value="Orcalo">Orcalo</MenuItem>
+          <MenuItem value="Test1">Test1</MenuItem>
         </Select>
       ),
     },
@@ -248,10 +253,15 @@ export const columnsUser = (
           onChange={handleRole}
           label="Select"
           name={info.getValue()}
+          sx={{
+            '&:before': {
+              borderBottom: 'none',
+            },
+          }}
         >
-          <MenuItem value="Team">Team</MenuItem>
-          <MenuItem value="Team">Team</MenuItem>
-          <MenuItem value="Team">Team</MenuItem>
+          <MenuItem value="AccountAdmin">Account Admin</MenuItem>
+          <MenuItem value="SalesManager">Sales Manager</MenuItem>
+          <MenuItem value="SalesAgent">Sales Agent</MenuItem>
         </Select>
       ),
     },
