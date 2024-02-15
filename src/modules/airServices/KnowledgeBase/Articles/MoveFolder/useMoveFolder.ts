@@ -15,12 +15,12 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 export const useMoveFolder = (props: any) => {
   const { selectedArticlesData, setSelectedArticlesData, setMoveFolderModal } =
     props;
+  const [patchArticleTrigger, patchArticleStatus] = usePatchArticleMutation();
   const getSingleArticleParameter = {
     pathParam: {
       articleId: selectedArticlesData,
     },
   };
-  const [patchArticleTrigger, patchArticleStatus] = usePatchArticleMutation();
   const { data, isLoading, isFetching } = useGetArticleByIdQuery(
     getSingleArticleParameter,
     {

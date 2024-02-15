@@ -111,12 +111,12 @@ export const useUpsertTicket = (props: any) => {
 
   const submitUpdateTicket = async (data: any) => {
     data?.append('isChildTicket', false);
+    data?.append('id', ticketId);
+
     const putTicketParameter = {
       body: data,
-      pathParam: {
-        id: ticketId,
-      },
     };
+
     try {
       await putTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket Updated Successfully');
