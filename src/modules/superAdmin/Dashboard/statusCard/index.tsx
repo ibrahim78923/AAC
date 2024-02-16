@@ -85,7 +85,7 @@ const StatusCards = () => {
                 }}
               >
                 <RedDotIcon />
-                &nbsp; In Active
+                &nbsp; Inactive
               </Typography>
               <Typography
                 variant="body2"
@@ -168,7 +168,7 @@ const StatusCards = () => {
                 }}
               >
                 <RedDotIcon />
-                &nbsp; In Active
+                &nbsp; Inactive
               </Typography>
               <Typography
                 variant="body2"

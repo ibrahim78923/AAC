@@ -34,6 +34,7 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
         alternativeLabel
         activeStep={activeStep}
         connector={<CustomConnector />}
+        sx={{ overflowX: 'auto' }}
       >
         {!isNullOrEmpty(stepsArray) &&
           stepsArray?.map((singleStem: SingleStepI, index: any) => (
