@@ -12,7 +12,16 @@ export const customerPortalDashboardAPI = baseAPI.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getRecentTickets: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.TICKET}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
-export const { useGetPopularArticlesQuery } = customerPortalDashboardAPI;
+export const { useGetPopularArticlesQuery, useGetRecentTicketsQuery } =
+  customerPortalDashboardAPI;

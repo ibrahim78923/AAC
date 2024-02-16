@@ -7,6 +7,9 @@ import { useRecentTickets } from './useRecentTickets';
 import NoData from '@/components/NoData';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
+import dayjs from 'dayjs';
+import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
+import { TICKET_TYPE } from '@/constants/strings';
 
 export const RecentTickets = ({ title, handleViewMore }: any) => {
   const { palette }: any = useTheme();
@@ -21,32 +24,38 @@ export const RecentTickets = ({ title, handleViewMore }: any) => {
         <ApiErrorState />
       ) : (
         <Box my="0.75rem">
-          {!!data?.data?.articles?.length ? (
-            data?.data?.articles?.map((ticket: any) => (
+          {!!data?.data?.tickets?.length ? (
+            data?.data?.tickets?.map((ticket: any) => (
               <Box key={uuidv4()} sx={mainWrapper(palette)}>
                 <Box>
                   <Typography fontWeight={600} color={palette?.blue?.main}>
-                    {ticket?.title}
+                    {ticket?.subject}
                   </Typography>
                   <Box sx={approvalWrapper}>
                     <Avatar src={ticket?.icon} />
                     <Typography
                       color={palette?.blue?.main}
                       fontWeight={500}
-                    >{` ${ticket?.ticketTitle} ${ticket?.ticketNumber}`}</Typography>
+                    >{` ${
+                      ticket?.ticketType === TICKET_TYPE?.INC
+                        ? ''
+                        : ticket?.ticketTitle
+                    } ${ticket?.ticketIdNumber}`}</Typography>
                   </Box>
                   <Typography
                     color={palette?.blue?.main}
                     fontWeight={500}
                     pt={0.6}
                   >
-                    {`${ticket?.CreatedOn}- `}
+                    {`Created On  ${dayjs(ticket?.CreatedAt)?.format(
+                      DATE_FORMAT?.UI,
+                    )}, ${dayjs(ticket?.CreatedAt)?.format(TIME_FORMAT?.UI)} `}
                     <Typography
                       component="span"
                       fontWeight={500}
                       color="primary.main"
                     >
-                      {ticket?.device}
+                      {!!ticket?.source ? `- Via ${ticket?.source}` : ''}
                     </Typography>
                   </Typography>
                 </Box>

@@ -3,10 +3,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   moveFolderValidationSchema,
   moveFolderDefaultValues,
+  moveFolderFormFieldsDynamic,
 } from './MoveFolder.data';
-import { enqueueSnackbar } from 'notistack';
 import {
   useGetArticleByIdQuery,
+  useLazyGetFoldersDropdownQuery,
   usePatchArticleMutation,
 } from '@/services/airServices/knowledge-base/articles';
 import { useEffect } from 'react';
@@ -41,39 +42,29 @@ export const useMoveFolder = (props: any) => {
 
   const submitMoveFolder = async (data: any) => {
     const upsertArticle = new FormData();
-    !!data?.details && upsertArticle?.append('details', data?.details);
-    !!data?.folder?._id && upsertArticle?.append('folder', data?.folder?._id);
-
-    !!data?.tags?.length && upsertArticle?.append('tags', data?.tags);
-
-    !!data?.keywords?.length &&
-      upsertArticle?.append('keywords', data?.keywords);
-    upsertArticle?.append('isApproval', data?.needsApproval);
-    !!data?.approver?._id &&
-      upsertArticle?.append('approver', data?.approver?._id);
-
-    upsertArticle?.append('reviewDate', data?.reviewDate);
+    upsertArticle?.append('folder', data?.moveTo?._id);
     upsertArticle?.append('id', selectedArticlesData);
     const patchArticleParameter = {
-      body: data,
+      body: upsertArticle,
     };
     try {
       await patchArticleTrigger(patchArticleParameter)?.unwrap();
-      successSnackbar('Article Updated successfully');
+      successSnackbar('Article moved to a new folder successfully');
+      setSelectedArticlesData?.([]);
+      closeMoveFolderModal?.();
     } catch (error) {
       errorSnackbar();
     }
-
-    enqueueSnackbar('Article moved to a new folder successfully', {
-      variant: 'success',
-    });
-    setMoveFolderModal(false);
   };
 
   const closeMoveFolderModal = () => {
     setMoveFolderModal?.(false);
     setSelectedArticlesData?.([]);
   };
+
+  const apiQueryFolder = useLazyGetFoldersDropdownQuery();
+  const moveFolderFormFields = moveFolderFormFieldsDynamic(apiQueryFolder);
+
   return {
     methodMoveFolderForm,
     submitMoveFolder,
@@ -82,5 +73,6 @@ export const useMoveFolder = (props: any) => {
     patchArticleStatus,
     handleSubmit,
     closeMoveFolderModal,
+    moveFolderFormFields,
   };
 };

@@ -10,6 +10,7 @@ import { useUpsertArticle } from './useUpsertArticle';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ARTICLE_STATUS } from '@/constants/strings';
 
 export const UpsertArticle = () => {
   const {
@@ -24,6 +25,7 @@ export const UpsertArticle = () => {
     patchArticleStatus,
     isLoading,
     isFetching,
+    cancelBtnHandler,
   } = useUpsertArticle();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -45,7 +47,12 @@ export const UpsertArticle = () => {
           />
           <RHFTextField name="title" label="Title" required fullWidth />
           <Box pb={1.4}>
-            <RHFEditor name="details" style={{ height: 500 }} required />
+            <RHFEditor
+              name="details"
+              label="Description"
+              style={{ height: 500 }}
+              required
+            />
           </Box>
           <RHFDropZone name="file" fileType="" />
         </Grid>
@@ -83,16 +90,23 @@ export const UpsertArticle = () => {
                 disabled={
                   postArticleStatus?.isLoading || patchArticleStatus?.isLoading
                 }
+                onClick={() =>
+                  cancelBtnHandler(needApprovals ? '' : ARTICLE_STATUS?.DRAFT)
+                }
               >
                 {needApprovals
                   ? 'Cancel'
                   : articleId
-                    ? 'Save'
-                    : 'Save as Draft'}
+                  ? 'Save'
+                  : 'Save as Draft'}
               </LoadingButton>
               <LoadingButton
                 type="button"
-                onClick={methods?.handleSubmit?.(upsertArticleSubmit)}
+                onClick={() =>
+                  methods?.handleSubmit?.(upsertArticleSubmit)(
+                    ARTICLE_STATUS?.PUBLISHED,
+                  )
+                }
                 loading={
                   postArticleStatus?.isLoading || patchArticleStatus?.isLoading
                 }

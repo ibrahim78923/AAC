@@ -49,7 +49,10 @@ export const articlesAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     getFolders: builder?.query({
-      query: () => ARTICLES_FOLDERS,
+      query: () => ({
+        url: ARTICLES_FOLDERS,
+        method: 'GET',
+      }),
       providesTags: [TAG],
     }),
     getUnapprovedArticles: builder?.query({

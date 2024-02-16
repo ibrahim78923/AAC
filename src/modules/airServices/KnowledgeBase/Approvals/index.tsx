@@ -5,6 +5,7 @@ import { useApprovals } from './useApprovals';
 import CustomPagination from '@/components/CustomPagination';
 import { PAGINATION } from '@/config';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { fullName } from '@/utils/avatarUtils';
 
 export const Approvals = () => {
   const { data, isLoading, isFetching, setPage, setPageLimit } = useApprovals();
@@ -28,9 +29,11 @@ export const Approvals = () => {
             <ApprovalCard
               key={approval?._id}
               title={approval?.title}
-              folder={approval?.folder}
-              author={approval?.author}
-              approvalStatus={approval?.approvalStatus}
+              folder={approval?.folder?.name}
+              author={fullName(
+                approval?.author?.firstName,
+                approval?.author?.lastName,
+              )}
             />
           ))}
           <br />

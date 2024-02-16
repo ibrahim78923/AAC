@@ -352,3 +352,8 @@ export const WORKLOAD_SCHEDULE = {
   SAVE: 'Save',
   UPDATE: 'Update',
 };
+
+export const ARTICLE_STATUS = {
+  PUBLISHED: 'PUBLISHED',
+  DRAFT: 'DRAFT',
+};
