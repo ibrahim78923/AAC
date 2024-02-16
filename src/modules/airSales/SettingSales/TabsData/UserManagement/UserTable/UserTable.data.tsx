@@ -1,8 +1,9 @@
-import { Checkbox, Select, Switch, MenuItem } from '@mui/material';
+import { Checkbox, Select, MenuItem } from '@mui/material';
 
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
+import { SwitchBtn } from '@/components/SwitchButton';
 
 export const validationSchema = Yup?.object()?.shape({
   firstName: Yup?.string()?.required('Field is Required'),
@@ -270,7 +271,7 @@ export const columnsUser = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => <Switch color="primary" name={info?.getValue()} />,
+      cell: (info: any) => <SwitchBtn name={info?.getValue()} />,
     },
   ];
 };

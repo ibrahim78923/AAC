@@ -23,8 +23,10 @@ import {
   CutomizeIcon,
   RefreshTasksIcon,
   DownIcon,
+  ExportCloudIcon,
 } from '@/assets/icons';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
+import ContactsGroup from '@/modules/airMarketer/WhatsAppMarketing/WhatsAppMarketingComponent/Contacts/contactsGroup';
 
 const Contacts = () => {
   const {
@@ -59,7 +61,7 @@ const Contacts = () => {
     handleCloseModalReAssign,
     openModalExport,
     handleOpenModalExport,
-    handleCloseModalExport,
+    setOpenModalExport,
 
     theme,
     isOpen,
@@ -77,6 +79,7 @@ const Contacts = () => {
 
   return (
     <>
+      <ContactsGroup />
       <ContactsHeader />
       <CommonTabs
         tabsArray={ContactsSaleSite}
@@ -170,7 +173,7 @@ const Contacts = () => {
               sx={{ color: theme?.palette?.custom['main'] }}
               onClick={handleOpenModalExport}
             >
-              <FilterIcon />
+              <ExportCloudIcon />
               &nbsp; Export
             </Button>
           </>
@@ -195,7 +198,7 @@ const Contacts = () => {
       />
       <DeleteModal open={openModalDelete} onClose={handleCloseModalDelete} />
       <AssignModalBox open={isReAssign} onClose={handleCloseModalReAssign} />
-      <ExportModal open={openModalExport} onClose={handleCloseModalExport} />
+      <ExportModal open={openModalExport} onClose={setOpenModalExport} />
     </>
   );
 };

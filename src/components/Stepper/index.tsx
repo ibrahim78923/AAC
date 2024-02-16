@@ -29,7 +29,7 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
   const theme = useTheme();
 
   return (
-    <Box sx={{ width: '100%', margin: stepperMargin }}>
+    <Box sx={{ margin: stepperMargin }}>
       <Stepper
         alternativeLabel
         activeStep={activeStep}

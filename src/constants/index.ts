@@ -45,6 +45,7 @@ export const SUPER_ADMIN: any = {
 };
 
 export const AIR_SERVICES = {
+  DASHBOARD: `/air-services`,
   TICKETS: `/air-services/tickets`,
   TICKETS_LIST: `/air-services/tickets/detail`,
   CHILD_TICKETS_DETAIL: `/air-services/tickets/child-detail`,

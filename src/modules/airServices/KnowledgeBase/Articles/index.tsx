@@ -2,10 +2,9 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import { FilterIcon, FolderGreyIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useArticles } from './useArticles';
-import { styles } from './Articles.style';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { MoveFolderModal } from './MoveFolderModal';
+import { MoveFolder } from './MoveFolder';
 import FilterArticles from './FilterArticles';
 import { DeleteArticles } from './DeleteArticles';
 
@@ -13,7 +12,6 @@ export const Articles = () => {
   const {
     articlesColumns,
     selectedArticlesTab,
-    handleSelectedArticlesTab,
     openDeleteModal,
     setOpenDeleteModal,
     moveFolderModal,
@@ -31,9 +29,8 @@ export const Articles = () => {
     setSelectedArticlesData,
     filterValues,
     setFilterValues,
+    setFolder,
   } = useArticles();
-
-  const { tabWrapper, selectedTabColor } = styles();
 
   return (
     <>
@@ -49,14 +46,33 @@ export const Articles = () => {
             {foldersList?.map((tab: any) => (
               <Box
                 key={tab?._id}
-                sx={{ ...tabWrapper(tab, selectedArticlesTab, theme) }}
-                onClick={() => handleSelectedArticlesTab(tab?._id)}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  p: 1,
+                  background:
+                    tab?._id === selectedArticlesTab
+                      ? theme?.palette?.grey?.['400']
+                      : 'white',
+                  borderRadius: '0.5rem',
+                  cursor: 'pointer',
+                }}
+                onClick={() => setFolder(tab?._id)}
               >
                 <FolderGreyIcon
-                  fill={selectedTabColor(tab?._id, selectedArticlesTab, theme)}
+                  fill={
+                    theme?.palette?.grey?.[
+                      tab?._id === selectedArticlesTab ? '800' : '900'
+                    ]
+                  }
                 />
                 <Typography
-                  color={selectedTabColor(tab?._id, selectedArticlesTab, theme)}
+                  color={
+                    theme?.palette?.grey?.[
+                      tab?._id === selectedArticlesTab ? '800' : '900'
+                    ]
+                  }
                   textTransform={'capitalize'}
                 >
                   {tab?.name}
@@ -81,7 +97,7 @@ export const Articles = () => {
               alignItems={'center'}
             >
               <SingleDropdownButton
-                disabled={!!selectedArticlesData?.length}
+                disabled={!!!selectedArticlesData?.length}
                 dropdownOptions={dropdownOptions}
               />
               <Button
@@ -97,11 +113,7 @@ export const Articles = () => {
           </Box>
           <br />
           <TanstackTable
-            data={
-              lazyGetArticlesStatus?.data?.data?.articles ?? [
-                { _id: '1', name: 'op', status: 'published' },
-              ]
-            }
+            data={lazyGetArticlesStatus?.data?.data?.articles}
             columns={articlesColumns}
             isLoading={lazyGetArticlesStatus?.isLoading}
             currentPage={lazyGetArticlesStatus?.data?.data?.meta?.page}
@@ -124,9 +136,11 @@ export const Articles = () => {
         selectedArticlesData={selectedArticlesData}
         setSelectedArticlesData={setSelectedArticlesData}
       />
-      <MoveFolderModal
+      <MoveFolder
         moveFolderModal={moveFolderModal}
         setMoveFolderModal={setMoveFolderModal}
+        selectedArticlesData={selectedArticlesData?.[0]}
+        setSelectedArticlesData={setSelectedArticlesData}
       />
       <FilterArticles
         isOpenFilterDrawer={openFilter}
@@ -134,7 +148,6 @@ export const Articles = () => {
         filterValues={filterValues}
         setFilterValues={setFilterValues}
         setPage={setPage}
-        // handleFilterValues={handleFilterValues}
       />
     </>
   );

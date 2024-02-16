@@ -34,13 +34,12 @@ export const useDashboard = () => {
 
   const handleButtonClick = (event: any) => {
     setAnchorEl(event?.currentTarget);
-    setOpen(!open);
+    setOpen(true);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
     setOpen(false);
-    setOpenReportAnIssueModal(true);
   };
 
   return {

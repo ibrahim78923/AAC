@@ -1,52 +1,49 @@
-import {
-  Box,
-  Chip,
-  Typography,
-  useTheme,
-  Popover,
-  Avatar,
-} from '@mui/material';
+import { Box, Chip, Typography, Popover, Avatar } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-// import Image from 'next/image';
-// import { AvatarImage } from '@/assets/images';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import { AlertModals } from '@/components/AlertModals';
-import { Fragment, useState } from 'react';
 import {
   ticketInfoCardAppearanceColor,
   ticketInfoCardPriorityColor,
 } from './TicketInfoCard.data';
-import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 import { TICKETS_ACTION_CONSTANTS } from '../../TicketsLists.data';
-import dayjs from 'dayjs';
 import { IMG_URL } from '@/config';
 import { pxToRem } from '@/utils/getFontValue';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import useTicketInfoCard from './useTicketInfoCard';
 
 export const TicketInfoCard = ({
   details,
   setTicketAction,
   setSelectedTicketList,
 }: any) => {
-  const theme: any = useTheme();
-
-  const router = useRouter();
-
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
-  const truncatedDescription = details?.description
-    ? details?.description.length > 60
-      ? `${details.description.slice(0, 60)}...`
-      : details?.description
-    : '-';
+  const {
+    openDeleteModal,
+    setOpenDeleteModal,
+    open,
+    anchorEl,
+    setAnchorEl,
+    id,
+    theme,
+    router,
+    OPEN,
+    openMessage,
+    RESOLVED,
+    resolvedMessage,
+    PENDING,
+    pendingMessage,
+    CLOSED,
+    closedMessage,
+    truncatedSubject,
+    setDeleteId,
+    handleSubmitDelete,
+    deleteTicketsStatus,
+  } = useTicketInfoCard({ details });
 
   return (
-    <Fragment>
+    <>
       <Box
         mb={2}
         boxShadow={2}
@@ -100,6 +97,7 @@ export const TicketInfoCard = ({
                     `${ticketInfoCardAppearanceColor(details?.state)}`
                   ]?.['main']}`,
                   color: theme?.palette?.common?.white,
+                  textTransform: 'capitalize',
                 }}
               />
             )}
@@ -112,12 +110,7 @@ export const TicketInfoCard = ({
             />
           </Box>
         </Box>
-        <Box
-          dangerouslySetInnerHTML={{
-            __html: truncatedDescription,
-          }}
-          fontSize={'14px'}
-        />
+        <Typography variant={'body2'}>{truncatedSubject}</Typography>
         <Box
           display={'flex'}
           alignItems={'center'}
@@ -126,7 +119,7 @@ export const TicketInfoCard = ({
         >
           <Box display={'flex'} gap={2} alignItems={'center'}>
             <Chip
-              label={details?.pirority}
+              label={details?.pirority ?? '-'}
               size="small"
               icon={
                 <FiberManualRecordIcon
@@ -140,16 +133,59 @@ export const TicketInfoCard = ({
               }
             />
             <Box display={'flex'} alignItems={'center'} gap={0.2}>
-              <AccessTimeFilledIcon
-                sx={{ fill: theme?.palette?.warning?.main }}
-                fontSize={'small'}
-              />
-              <Typography
-                variant="body3"
-                color={theme?.palette?.custom?.steel_blue_alpha}
-              >
-                Due in {dayjs(details?.plannedEndDate).diff(dayjs(), 'day')} day
-              </Typography>
+              {details?.status === OPEN ? (
+                <>
+                  <AccessTimeFilledIcon
+                    sx={{ fill: theme?.palette?.warning?.main }}
+                    fontSize={'small'}
+                  />
+                  <Typography
+                    variant="body3"
+                    color={theme?.palette?.custom?.steel_blue_alpha}
+                  >
+                    {openMessage}
+                  </Typography>
+                </>
+              ) : details?.status === RESOLVED ? (
+                <>
+                  <CheckCircleIcon
+                    sx={{ fill: theme?.palette?.custom?.dark }}
+                    fontSize={'small'}
+                  />
+                  <Typography
+                    variant="body3"
+                    color={theme?.palette?.custom?.dark}
+                  >
+                    {resolvedMessage}
+                  </Typography>
+                </>
+              ) : details?.status === PENDING ? (
+                <>
+                  <AccessTimeFilledIcon
+                    sx={{ fill: theme?.palette?.primary?.main }}
+                    fontSize={'small'}
+                  />
+                  <Typography
+                    variant="body3"
+                    color={theme?.palette?.custom?.steel_blue_alpha}
+                  >
+                    {pendingMessage}
+                  </Typography>
+                </>
+              ) : details?.status === CLOSED ? (
+                <>
+                  <CheckCircleIcon
+                    sx={{ fill: theme?.palette?.custom?.dark }}
+                    fontSize={'small'}
+                  />
+                  <Typography
+                    variant="body3"
+                    color={theme?.palette?.custom?.dark}
+                  >
+                    {closedMessage}
+                  </Typography>
+                </>
+              ) : null}
             </Box>
           </Box>
           <Avatar
@@ -209,6 +245,7 @@ export const TicketInfoCard = ({
             },
           }}
           onClick={() => {
+            setDeleteId([details?._id]);
             setOpenDeleteModal(true);
             setAnchorEl(null);
           }}
@@ -224,8 +261,10 @@ export const TicketInfoCard = ({
         handleClose={() => {
           setOpenDeleteModal(false);
         }}
-        handleSubmit={() => {}}
+        handleSubmitBtn={handleSubmitDelete}
+        loading={deleteTicketsStatus?.isLoading}
+        disableCancelBtn={deleteTicketsStatus?.isLoading}
       />
-    </Fragment>
+    </>
   );
 };

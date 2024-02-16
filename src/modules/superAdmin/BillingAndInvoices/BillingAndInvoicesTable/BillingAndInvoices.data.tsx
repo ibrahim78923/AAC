@@ -47,7 +47,6 @@ export const Columns = (
           <Avatar alt="Remy Sharp" src={AvatarImage?.src} />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography variant="subtitle2">
-              {' '}
               {`${info?.row?.original?.usersOrg?.firstName}  ${info?.row?.original?.usersOrg?.lastName}`}
             </Typography>
             <Typography variant="body3">
@@ -57,7 +56,7 @@ export const Columns = (
         </Box>
       ),
       header: 'Client Name',
-      isSortable: false,
+      isSortable: true,
     },
     {
       accessorFn: (row: any) => row?.planProducts,
@@ -71,7 +70,7 @@ export const Columns = (
               <Typography variant="body3">CRM</Typography>
               {info?.row?.original?.planProducts?.map((data: any) => (
                 <Typography variant="body3" key={uuidv4()}>
-                  {data?.name}{' '}
+                  {data?.name}
                 </Typography>
               ))}
             </>

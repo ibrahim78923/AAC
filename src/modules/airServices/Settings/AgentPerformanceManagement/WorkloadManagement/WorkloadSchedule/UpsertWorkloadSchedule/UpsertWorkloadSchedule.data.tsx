@@ -7,15 +7,15 @@ import * as Yup from 'yup';
 export const createScheduleDefaultValues = {
   name: '',
   description: '',
-  businessHours: '',
-  addUsers: [],
+  businessHours: null,
+  addUsers: null,
 };
 
 export const createScheduleSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Required'),
   description: Yup?.string(),
-  businessHours: Yup?.string(),
-  addUsers: Yup?.array(),
+  businessHours: Yup?.mixed()?.nullable(),
+  addUsers: Yup?.mixed()?.nullable(),
 });
 
 const businessOptions = ['Business Hour 1', 'Business Hour 2'];
@@ -61,7 +61,7 @@ export const createScheduleFields = [
       variant: 'body3',
       whiteSpace: 'nowrap',
     },
-    title: 'View Bussiness Hours',
+    title: 'View Business Hours',
     component: RHFAutocomplete,
   },
 
@@ -73,7 +73,6 @@ export const createScheduleFields = [
       label: 'Add Users',
       fullWidth: true,
       options: userOption,
-      multiple: true,
     },
     component: RHFAutocomplete,
   },

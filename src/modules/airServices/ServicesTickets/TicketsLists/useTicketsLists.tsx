@@ -49,7 +49,11 @@ export const useTicketsLists: any = () => {
     ['limit', pageLimit + ''],
     ['search', search],
   ];
-  const ticketsParam = buildQueryParams(additionalParams, filterTicketLists);
+  const ticketsParam = buildQueryParams(
+    additionalParams,
+    filterTicketLists,
+    neglectKeysInLoop,
+  );
   const getTicketsParameter = {
     queryParams: ticketsParam,
   };
@@ -273,5 +277,6 @@ export const useTicketsLists: any = () => {
     setTicketsListsActiveColumn,
     getValueTicketsListData,
     setSelectedTicketList,
+    filterTicketLists,
   };
 };

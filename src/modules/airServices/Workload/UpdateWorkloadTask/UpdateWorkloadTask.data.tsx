@@ -28,8 +28,8 @@ export const getWorkloadDefaultValues = (data?: any) => {
   return {
     title: data?.title ?? '', //1
     description: data?.description ?? '', //2
-    department: !!Object?.keys(data?.departmentDetails ?? {})?.length
-      ? data?.departmentDetails
+    department: !!Object?.keys(data?.departmentData ?? {})?.length
+      ? data?.departmentData
       : null, //3
     assignTo: !!Object?.keys(data?.assignedUser ?? {})?.length
       ? data?.assignedUser
