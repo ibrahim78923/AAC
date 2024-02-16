@@ -62,7 +62,7 @@ export default function useTicketInfoCard({ details }: any) {
       setDeleteId(null);
       setOpenDeleteModal(false);
     } catch (error: any) {
-      errorSnackbar(error?.data?.message?.error ?? 'Something Went Wrong!');
+      errorSnackbar();
       setOpenDeleteModal(false);
     }
   };

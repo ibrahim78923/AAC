@@ -24,7 +24,7 @@ const TransformResponse = (response: any) =>
       data: { ...item },
       status: item?.status,
       img: item?.img,
-      ticketNo: `TSK-${item?._id?.slice(-3)}`,
+      taskNo: `TSK-${item?._id?.slice(-3)}`,
       description: item?.description ? (
         <Box
           component={'span'}
@@ -71,6 +71,15 @@ export const workloadAPI = baseAPI.injectEndpoints({
       },
       providesTags: [TAG_THREE],
     }),
+
+    patchTask: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.TASK}/${body?.id}`,
+        method: 'PATCH',
+        params: body?.data,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -79,4 +88,5 @@ export const {
   useGetWorkloadQuery,
   useLazyGetAssignToQuery,
   useLazyGetDepartmentDropdownQuery,
+  usePatchTaskMutation,
 } = workloadAPI;

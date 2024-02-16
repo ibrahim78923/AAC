@@ -12,7 +12,7 @@ export const UpdateWorkloadTask = ({
   const { handleSubmit, onSubmit, methods, workloadDataArray } =
     useUpdateWorkloadTask({
       onClose,
-      data,
+      dataGet: data,
     });
 
   return (

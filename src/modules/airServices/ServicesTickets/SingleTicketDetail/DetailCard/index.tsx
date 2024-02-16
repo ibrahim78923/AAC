@@ -96,9 +96,11 @@ export const DetailCard = () => {
             <Typography variant="body2" fontWeight={600}>
               Description:
             </Typography>
-            <Typography variant="body2" sx={{ flex: '1' }}>
-              {detail?.data[0]?.description}
-            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ flex: '1' }}
+              dangerouslySetInnerHTML={{ __html: detail?.data[0]?.description }}
+            />
           </Box>
           <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
             <Typography variant="body2" fontWeight={600}>
