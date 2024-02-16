@@ -13,4 +13,4 @@ const barChartDataOptions = (theme: any) => ({
     },
   },
 });
-export {  barChartDataOptions };
+export { barChartDataOptions };

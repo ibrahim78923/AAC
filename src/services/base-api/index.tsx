@@ -80,6 +80,7 @@ export const TAGS = [
   'ASSETS_ITEM_ADDED',
   'KNOWLEDGE_BASE_ARTICLES',
   'TICKETS_APPROVALS',
+  'CUSTOMER_PORTAL_DASHBOARD',
 ];
 
 const baseQuery = fetchBaseQuery({

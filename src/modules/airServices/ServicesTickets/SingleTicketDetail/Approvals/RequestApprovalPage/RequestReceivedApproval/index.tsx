@@ -10,13 +10,14 @@ const RequestReceivedApproval = (props: any) => {
   const { setApproval, updateRequestApprovalStatus } = props;
   const { data, isLoading, isFetching, isError } =
     useRequestReceivedApprovals();
+
   if (isLoading || isFetching) return <SkeletonForm />;
   if (isError) return <ApiErrorState />;
 
   return (
     <Box maxHeight={'50vh'} overflow={'auto'}>
-      {!!data?.length ? (
-        data?.map((item: any) => (
+      {!!data?.data?.length ? (
+        data?.data?.map((item: any) => (
           <ApprovalCard
             key={item?._id}
             data={item}

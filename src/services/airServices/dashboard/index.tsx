@@ -24,5 +24,5 @@ export const dashboardAPI = baseAPI.injectEndpoints({
 
 export const {
   useGetTicketsStatusGraphQuery,
-  useGetTicketsPriorityGraphQuery
+  useGetTicketsPriorityGraphQuery,
 } = dashboardAPI;

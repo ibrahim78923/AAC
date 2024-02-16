@@ -10,7 +10,6 @@ import {
 import { LoadingButton } from '@mui/lab';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModalCloseIcon } from '@/assets/icons';
-import { moveFolderFields } from './MoveFolder.data';
 import { useMoveFolder } from './useMoveFolder';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
@@ -24,6 +23,7 @@ export const MoveFolder = (props: any) => {
     patchArticleStatus,
     handleSubmit,
     closeMoveFolderModal,
+    moveFolderFormFields,
   } = useMoveFolder(props);
   return (
     <Dialog
@@ -57,7 +57,7 @@ export const MoveFolder = (props: any) => {
             <SkeletonForm />
           ) : (
             <Grid container spacing={1}>
-              {moveFolderFields?.map((item: any) => (
+              {moveFolderFormFields?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?._id}>
                   <item.component {...item?.componentProps} size={'small'} />
                 </Grid>

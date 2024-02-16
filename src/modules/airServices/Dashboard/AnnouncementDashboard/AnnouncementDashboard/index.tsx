@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
-
 import { announcementDashboardCardData } from '../AnnouncementDashboardCard/AnnouncementDashboardCard.data';
 import { AnnouncementDashboardCard } from '../AnnouncementDashboardCard';
 

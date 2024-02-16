@@ -2,15 +2,13 @@ import NoData from '@/components/NoData';
 import { ApprovalCard } from '../../ApprovalCard';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
-import { useAllApprovals } from './useAllApprovals';
 import { Box } from '@mui/material';
 
 export const AllApprovals = (props: any) => {
-  const { setApproval, updateRequestApprovalStatus } = props;
-  const { data, isLoading, isFetching, isError } = useAllApprovals();
+  const { setApproval, updateRequestApprovalStatus, metaData, data } = props;
 
-  if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError) return <ApiErrorState />;
+  if (metaData?.isLoading || metaData?.isFetching) return <SkeletonForm />;
+  if (metaData?.isError) return <ApiErrorState />;
 
   return (
     <Box maxHeight={'50vh'} overflow={'auto'}>
