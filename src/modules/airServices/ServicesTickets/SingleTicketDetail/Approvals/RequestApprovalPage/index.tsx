@@ -22,7 +22,7 @@ const RequestApprovalPage = (props: any) => {
       <HorizontalTabs
         tabsDataArray={[
           'All',
-          'Request Approval',
+          'Request sent for approval',
           'Request received for approval',
         ]}
       >
@@ -35,20 +35,16 @@ const RequestApprovalPage = (props: any) => {
           metaData={metaData}
         />
         <RequestApproval
-          data={data}
           setApproval={(x: any) => setApproval?.(x)}
           updateRequestApprovalStatus={(item: any) =>
             updateRequestApprovalStatus?.(item)
           }
-          metaData={metaData}
         />
         <RequestReceivedApproval
-          data={data}
           setApproval={(x: any) => setApproval?.(x)}
           updateRequestApprovalStatus={(item: any) =>
             updateRequestApprovalStatus?.(item)
           }
-          metaData={metaData}
         />
       </HorizontalTabs>
     </>

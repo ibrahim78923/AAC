@@ -9,7 +9,16 @@ export const requestApprovalsData = [
     date: 'Thu, 11 Mar 11:02 PM',
     description: `Hi Guys We have been facing issue when we try to reach email
       server 3 Hi Guys.`,
-    status: TICKET_APPROVALS?.REQUESTED,
+    approvalStatus: TICKET_APPROVALS?.REQUESTED,
+  },
+  {
+    id: '12',
+    imgSrc: AvatarImage,
+    name: 'pending',
+    date: 'Thu, 11 Mar 11:02 PM',
+    description: `<p> Hi We have been facing issue when we try to reach email
+      server 3 Hi Guys </p>`,
+    approvalStatus: TICKET_APPROVALS?.PENDING,
   },
   {
     id: '2',
@@ -18,7 +27,7 @@ export const requestApprovalsData = [
     name: 'Sharemydine',
     description: `Hi Guys We have been facing issue when we try to reach email
       server 3 Hi Guys.`,
-    status: TICKET_APPROVALS?.APPROVE,
+    approvalStatus: TICKET_APPROVALS?.APPROVE,
   },
   {
     id: '3',
@@ -27,7 +36,7 @@ export const requestApprovalsData = [
     date: 'Thu, 11 Mar 11:02 PM',
     description: `Hi Guys We have been facing issue when we try to reach email
       server 3 Hi Guys.`,
-    status: TICKET_APPROVALS?.CANCEL,
+    approvalStatus: TICKET_APPROVALS?.CANCEL,
   },
   {
     id: '4',
@@ -36,7 +45,7 @@ export const requestApprovalsData = [
     date: 'Thu, 11 Mar 11:02 PM',
     description: `Hi Guys We have been facing issue when we try to reach email
       server 3 Hi Guys.`,
-    status: TICKET_APPROVALS?.REJECT,
+    approvalStatus: TICKET_APPROVALS?.REJECT,
   },
   {
     id: '5',
@@ -45,6 +54,6 @@ export const requestApprovalsData = [
     date: 'Thu, 11 Mar 11:02 PM',
     description: `Hi Guys We have been facing issue when we try to reach email
       server 3 Hi Guys.`,
-    status: TICKET_APPROVALS?.RECEIVED,
+    approvalStatus: TICKET_APPROVALS?.RECEIVED,
   },
 ];

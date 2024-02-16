@@ -35,7 +35,7 @@ export const Approvals = () => {
           selectedApproval={selectedApproval}
           setSelectedApproval={setSelectedApproval}
           setApproval={(item: any) => setApproval?.(item)}
-          updateRequestApprovalStatus={(item: any) =>
+          updateRequestApprovalStatus={(item: any): any =>
             updateRequestApprovalStatus?.(item)
           }
           data={data?.data}
