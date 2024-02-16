@@ -31,6 +31,12 @@ export const Workload = () => {
   const calendarRef = useRef<any>(null);
   const router: any = useRouter();
 
+  const [filter, setFilter] = useState<any>({
+    countDayWise: undefined,
+    countDayWiseHours: undefined,
+    countDayWiseHoursAverage: undefined,
+  });
+
   const [onClickEvent, setOnClickEvent] = useState<any>({
     open: null,
     data: null,
@@ -50,8 +56,11 @@ export const Workload = () => {
       startDate: dayjs()?.startOf('week')?.add(1, 'day')?.toISOString(),
       endDate: dayjs()?.endOf('week')?.toISOString(),
       userIds: selected?._id,
+      countDayWise: filter?.countDayWise,
+      countDayWiseHours: filter?.countDayWiseHours,
+      countDayWiseHoursAverage: filter?.countDayWiseHoursAverage,
     });
-  }, [selected]);
+  }, [selected, filter]);
 
   const COMPLETED = 'Done';
   const IN_PROGRESS = 'In-Progress';
@@ -67,6 +76,9 @@ export const Workload = () => {
         startDate: dayjs(date)?.startOf('week')?.add(1, 'day')?.toISOString(),
         endDate: dayjs(date)?.endOf('week')?.toISOString(),
         userIds: selected?._id,
+        countDayWise: filter?.countDayWise,
+        countDayWiseHours: filter?.countDayWiseHours,
+        countDayWiseHoursAverage: filter?.countDayWiseHoursAverage,
       })?.unwrap();
 
       calendarRef?.current?.getApi()?.gotoDate(date);
@@ -103,7 +115,7 @@ export const Workload = () => {
 
           <UnassignedWork />
 
-          <Filters />
+          <Filters setFilter={setFilter} />
         </Grid>
       </Grid>
 

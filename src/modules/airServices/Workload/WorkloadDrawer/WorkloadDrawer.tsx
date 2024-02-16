@@ -10,9 +10,8 @@ import {
   IconButton,
   Popover,
   Typography,
-  useTheme,
 } from '@mui/material';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import dayjs from 'dayjs';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -21,15 +20,13 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import { useGetWorkloadQuery } from '@/services/airServices/workload';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { UpdateWorkloadTask } from '../UpdateWorkloadTask';
-import { getSession } from '@/utils';
 import { IMG_URL } from '@/config';
-import { workloadDefaultDateRange } from '../Workload.data';
 import NoData from '@/components/NoData';
 import { AssociationsImage } from '@/assets/images';
+import useWorkloadDrawer from './useWorkloadDrawer';
 
 const WorkloadDrawer = ({
   setOpenDrawer,
@@ -46,67 +43,33 @@ const WorkloadDrawer = ({
   modifiedRange,
   onChangeModifiedHandler,
 }: any) => {
-  const theme: any = useTheme();
-
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [onClickEvent, setOnClickEvent] = useState<any>({
-    open: null,
-    data: null,
+  const {
+    user,
+    data,
+    handleClick,
+    id,
+    open,
+    anchorEl,
+    handleClose,
+    handleClickDate,
+    handleClickModified,
+    idDate,
+    openDate,
+    anchorElDate,
+    handleCloseDate,
+    theme,
+    idModified,
+    openModified,
+    anchorElModified,
+    handleCloseModified,
+    setOnClickEvent,
+    onClickEvent,
+  } = useWorkloadDrawer({
+    state,
+    openDrawer,
+    setModifiedRange,
+    setDateRange,
   });
-
-  const { user }: any = getSession();
-
-  const { data } = useGetWorkloadQuery(
-    { manage: state },
-    {
-      skip: !openDrawer,
-      refetchOnMountOrArgChange: true,
-    },
-  );
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event?.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
-  // Popover open Create Date
-  const [anchorElDate, setAnchorElDate] = useState<HTMLButtonElement | null>(
-    null,
-  );
-
-  const handleClickDate = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorElDate(event?.currentTarget);
-    setModifiedRange(workloadDefaultDateRange);
-  };
-
-  const handleCloseDate = () => {
-    setAnchorElDate(null);
-  };
-
-  const openDate = Boolean(anchorElDate);
-  const idDate = openDate ? 'simple-popover' : undefined;
-
-  // Popover open Modified Date
-  const [anchorElModified, setAnchorElModified] =
-    useState<HTMLButtonElement | null>(null);
-
-  const handleClickModified = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorElModified(event?.currentTarget);
-    setDateRange(workloadDefaultDateRange);
-  };
-
-  const handleCloseModified = () => {
-    setAnchorElModified(null);
-  };
-
-  const openModified = Boolean(anchorElModified);
-  const idModified = openModified ? 'simple-popover' : undefined;
 
   return (
     <Fragment>
