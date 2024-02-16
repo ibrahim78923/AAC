@@ -1,11 +1,11 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { dropDownMenus, dashboardFunction } from './HeaderDashboard.data';
-import { useRouter } from 'next/router';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import { useHeaderDashboard } from './useHeaderDashboard ';
+import EmailThisDashboard from '../EmailThisDashboard';
 
 export const HeaderDashboard = () => {
-  const theme = useTheme();
-  const router = useRouter();
+  const { theme, router, isDrawerOpen, setIsDrawerOpen } = useHeaderDashboard();
   return (
     <>
       <Typography variant="h3" color="primary.main">
@@ -27,7 +27,7 @@ export const HeaderDashboard = () => {
         </Typography>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
           <SingleDropdownButton
-            dropdownOptions={dropDownMenus}
+            dropdownOptions={dropDownMenus(setIsDrawerOpen)}
             dropdownName="Actions"
           />
           <SingleDropdownButton
@@ -35,6 +35,10 @@ export const HeaderDashboard = () => {
             dropdownName="Dashboards"
           />
         </Box>
+        <EmailThisDashboard
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+        />
       </Box>
     </>
   );

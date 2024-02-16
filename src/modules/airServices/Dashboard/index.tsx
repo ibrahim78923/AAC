@@ -17,6 +17,7 @@ import { AnnouncementHeader } from './AnnouncementDashboard/AnnouncementHeader';
 import { RadialBarChart } from './Chart/RadialBarChart';
 import { useDashboard } from './useDashboard';
 import RecentActivitiesDashboardDrawer from './RecentActivitiesDashboard/RecentActivitiesDashboardDrawer';
+import AnnouncementDashboard from './AnnouncementDashboard/AnnouncementDashboard';
 
 const Dashboard = () => {
   const {
@@ -26,6 +27,9 @@ const Dashboard = () => {
     theme,
     isbarchart,
     setIsBarChart,
+    handleAnnouncementIconButton,
+    isAnnouncementDrawerOpen,
+    setIsAnnouncementDrawerOpen,
   } = useDashboard();
 
   return (
@@ -158,8 +162,16 @@ const Dashboard = () => {
                     </Box>
                   ))}
                 </Box>
-                <Box display={'flex'} justifyContent={'center'} marginTop={1}>
-                  <Button variant="text" fullWidth>
+                <AnnouncementDashboard
+                  isAnnouncementDrawerOpen={isAnnouncementDrawerOpen}
+                  setIsAnnouncementDrawerOpen={setIsAnnouncementDrawerOpen}
+                />
+                <Box display={'flex'} justifyContent={'center'} marginTop={2}>
+                  <Button
+                    variant="text"
+                    fullWidth
+                    onClick={handleAnnouncementIconButton}
+                  >
                     View All
                   </Button>
                 </Box>

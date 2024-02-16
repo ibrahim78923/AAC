@@ -1,23 +1,11 @@
 import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import {
-  createAnnouncementDashboardDataArray,
-  createAnnouncementDashboardDefaultValues,
-  createAnnouncementDashboardValidationSchema,
-} from './AddAnnouncement.data';
 import CommonDrawer from '@/components/CommonDrawer';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useEmailThisDashboard } from './useEmailThisDashboard ';
+import { createEmailThisDashboardDataArray } from './EmailThisDashboard.data';
 
-function AddAnnouncement({ isDrawerOpen, setIsDrawerOpen }: any) {
-  const methods: any = useForm({
-    resolver: yupResolver(createAnnouncementDashboardValidationSchema),
-    defaultValues: createAnnouncementDashboardDefaultValues,
-  });
-
-  const { handleSubmit } = methods;
-
-  const submit = () => {};
+function EmailThisDashboard({ isDrawerOpen, setIsDrawerOpen }: any) {
+  const { handleSubmit, submit, methods } = useEmailThisDashboard();
   return (
     <>
       <CommonDrawer
@@ -25,18 +13,18 @@ function AddAnnouncement({ isDrawerOpen, setIsDrawerOpen }: any) {
         onClose={() => {
           setIsDrawerOpen(false);
         }}
-        title="New Announcements"
+        title="Email this dashboard"
         submitHandler={() => handleSubmit(submit)()}
         footer={true}
         isOk={true}
-        okText="Announce"
+        okText="Send"
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
-            <Grid container spacing={3}>
-              {createAnnouncementDashboardDataArray?.map((item: any) => (
+            <Grid container spacing={4}>
+              {createEmailThisDashboardDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
-                   {item.component === Typography && (
+                  {item.component === Typography && (
                     <Typography>{item.componentProps.value}</Typography>
                   )}
                   {item.component !== Typography && (
@@ -52,4 +40,4 @@ function AddAnnouncement({ isDrawerOpen, setIsDrawerOpen }: any) {
   );
 }
 
-export default AddAnnouncement;
+export default EmailThisDashboard;

@@ -1,4 +1,5 @@
 import {
+  RHFAutocomplete,
   RHFCheckbox,
   RHFDatePicker,
   RHFEditor,
@@ -35,13 +36,9 @@ export const createAnnouncementDashboardDefaultValues: any = {
   addMember: '',
 };
 
-const managedBy = [{ value: 'James Harry', label: 'James Harry' }];
+const managedBy = ['James Harry'];
 
-const visiBility = [
-  { value: 'Select', label: 'Select' },
-  { value: 'All agent', label: 'All agent' },
-  { value: 'Everyone', label: 'Everyone' },
-];
+const visiBility = ['Select', 'All agent', 'Everyone'];
 export const createAnnouncementDashboardDataArray = [
   {
     id: 1,
@@ -102,13 +99,11 @@ export const createAnnouncementDashboardDataArray = [
     componentProps: {
       name: 'managedBy',
       label: 'Managed By',
+      placeholder: 'Select',
       fullWidth: true,
-      select: true,
-      required: true,
-      placeholder: 'James Harry',
+      options: managedBy,
     },
-    options: managedBy,
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
@@ -116,14 +111,14 @@ export const createAnnouncementDashboardDataArray = [
     componentProps: {
       name: 'visibility',
       label: 'Visibility',
+      placeholder: 'Select',
       fullWidth: true,
-      select: true,
-      required: true,
+      options: visiBility,
     },
-    options: visiBility,
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
+
   {
     id: 8,
     componentProps: {
