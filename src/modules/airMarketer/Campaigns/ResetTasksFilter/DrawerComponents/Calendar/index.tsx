@@ -1,13 +1,26 @@
 import { AnnoucementIcon } from '@/assets/icons';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import { Box, Card, Stack, Typography, useTheme } from '@mui/material';
+import { useState } from 'react';
 
 const Calander = () => {
   const theme = useTheme();
+  const [datePickerVal, setDatePickerVal] = useState();
   return (
     <Box>
       <Box sx={{ mt: 1, height: '420px' }}>
-        <SwitchableDatepicker renderInput="button" isCalendarOpen />
+        <Typography
+          variant="body1"
+          fontWeight={500}
+          sx={{ color: theme?.palette?.primary?.main }}
+        >
+          View full calendar
+        </Typography>
+        <SwitchableDatepicker
+          isCalendarOpen
+          dateValue={datePickerVal}
+          setDateValue={setDatePickerVal}
+        />
       </Box>
       <Box>
         <Stack direction="row" justifyContent="space-between" mb={1}>
