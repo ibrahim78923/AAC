@@ -87,8 +87,8 @@ export const UpsertArticle = () => {
                 {needApprovals
                   ? 'Cancel'
                   : articleId
-                    ? 'Save'
-                    : 'Save as Draft'}
+                  ? 'Save'
+                  : 'Save as Draft'}
               </LoadingButton>
               <LoadingButton
                 type="button"
