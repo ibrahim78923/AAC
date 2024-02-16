@@ -6,11 +6,11 @@ import { actionBtnData, articlesColumnsFunction } from './Articles.data';
 import {
   useGetFoldersQuery,
   useLazyGetArticlesQuery,
-} from '@/services/airServices/assets/knowledge-base/articles';
+} from '@/services/airServices/knowledge-base/articles';
 import { PAGINATION } from '@/config';
 import { buildQueryParams } from '@/utils/api';
 
-export const useArticles = () => {
+export const useArticles: any = () => {
   const theme = useTheme();
   const { push } = useRouter();
   const [selectedArticlesData, setSelectedArticlesData] = useState([]);
@@ -31,8 +31,15 @@ export const useArticles = () => {
     ['page', page + ''],
     ['limit', pageLimit + ''],
     ['search', search],
+    ['folderId', selectedArticlesTab === 'all' ? '' : selectedArticlesTab],
   ];
-  const articlesParam: any = buildQueryParams(additionalParams, filterValues);
+  // const extraFilters = [];
+  const articlesParam: any = buildQueryParams(
+    additionalParams,
+    filterValues,
+    [],
+    // extraFilters,
+  );
   const getArticlesParameter = {
     queryParams: articlesParam,
   };
@@ -47,7 +54,7 @@ export const useArticles = () => {
 
   useEffect(() => {
     getValueArticlesListData();
-  }, [search, page, pageLimit, filterValues]);
+  }, [search, page, pageLimit, filterValues, selectedArticlesTab]);
 
   const { data: folderData } = useGetFoldersQuery({});
 
@@ -55,19 +62,6 @@ export const useArticles = () => {
     { name: 'all', _id: 'all' },
     ...(folderData?.data ?? []),
   ];
-
-  const handleSelectedArticlesTab = (tab: string) => {
-    // if (tab !== 'all') {
-    //   setQueryParams((prev: any) => ({ ...prev, folderId: tab }));
-    // } else {
-    //   setQueryParams((param: any) => {
-    //     const paramData: any = { ...param };
-    //     delete paramData?.folderId;
-    //     return paramData;
-    //   });
-    // }
-    setSelectedArticlesTab(tab);
-  };
 
   const handleSingleArticleNavigation = (id: string) => {
     push({
@@ -82,7 +76,10 @@ export const useArticles = () => {
       query: { articleId: id },
     });
   };
-
+  const setFolder = (id: any) => {
+    setSelectedArticlesTab(id);
+    setPage(1);
+  };
   const articlesColumns = articlesColumnsFunction(
     lazyGetArticlesStatus?.data?.data?.articles,
     selectedArticlesData,
@@ -100,7 +97,6 @@ export const useArticles = () => {
   return {
     articlesColumns,
     selectedArticlesTab,
-    handleSelectedArticlesTab,
     selectedArticlesData,
     openDeleteModal,
     setOpenDeleteModal,
@@ -120,5 +116,7 @@ export const useArticles = () => {
     setSelectedArticlesData,
     filterValues,
     setFilterValues,
+    setSelectedArticlesTab,
+    setFolder,
   };
 };

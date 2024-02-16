@@ -32,6 +32,8 @@ const Drawer = ({
             '& .startIcon': {
               marginRight: btnTitle ? '8px' : '-4px',
             },
+            fontWeight: btnTitle ? 500 : 700,
+            width: { xs: '100%', sm: 'auto' },
           }}
           classes={{
             startIcon: 'startIcon',

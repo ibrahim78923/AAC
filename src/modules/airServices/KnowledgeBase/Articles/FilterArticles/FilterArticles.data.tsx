@@ -1,4 +1,7 @@
-import { RHFAutocomplete } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
 
 export const filterArticlesDataDefaultValues = (data?: any) => {
   return {
@@ -12,7 +15,7 @@ const statusOption = [
   { _id: 'PUBLISHED', label: 'PUBLISHED' },
 ];
 
-const authorOption = [
+export const authorOption = [
   { _id: 'Alee', label: 'Alee' },
   { _id: 'David', label: 'David' },
   { _id: 'Raza', label: 'Raza' },
@@ -21,7 +24,7 @@ const authorOption = [
   { _id: 'Luke', label: 'Luke' },
   { _id: 'Manpreet', label: 'Manpreet' },
 ];
-export const filterArticlesData = [
+export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
   {
     id: '1',
     componentProps: {
@@ -42,10 +45,11 @@ export const filterArticlesData = [
       label: 'Author',
       placeholder: 'Select',
       fullWidth: true,
-      options: authorOption,
-      getOptionLabel: (option: any) => option?.label,
+      apiQuery: apiQueryAuthor,
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
 ];

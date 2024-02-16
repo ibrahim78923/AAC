@@ -83,7 +83,7 @@ const RolesAndRights = () => {
 
           <Tooltip title={'Refresh Filter'}>
             <Button
-              sx={{ width: { xs: '46%', sm: '50px' } }}
+              sx={{ width: { xs: '100%', sm: '50px' } }}
               variant="outlined"
               color="inherit"
               className="small"
@@ -101,7 +101,7 @@ const RolesAndRights = () => {
               setIsOpenFilterDrawer(true);
             }}
             startIcon={<FilterSharedIcon />}
-            sx={{ width: { sm: '95px', xs: '49%' } }}
+            sx={{ width: { sm: '95px', xs: '100%' } }}
           >
             Filter
           </Button>

@@ -1,15 +1,29 @@
-import { PAGINATION } from '@/config';
+import { useGetApprovalsTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/approvals';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export const useApprovals = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [selectedApproval, setSelectedApproval] = useState({});
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [status, setStatus] = useState('');
 
+  const router = useRouter();
+  const { ticketId } = router?.query;
+
+  const getApprovalsTicketsParameter = {
+    queryParams: {
+      id: ticketId,
+      approvalStatus: 'ALL',
+    },
+  };
+  const { data, isLoading, isFetching } = useGetApprovalsTicketsQuery(
+    getApprovalsTicketsParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!ticketId,
+    },
+  );
   const setApproval = (approval: any) => {
     setSelectedApproval(approval);
     setIsConfirmModalOpen(true);
@@ -22,6 +36,7 @@ export const useApprovals = () => {
       errorSnackbar();
     }
   };
+
   return {
     isDrawerOpen,
     setIsDrawerOpen,
@@ -30,12 +45,9 @@ export const useApprovals = () => {
     selectedApproval,
     setSelectedApproval,
     setApproval,
-    page,
-    setPage,
-    pageLimit,
-    setPageLimit,
-    status,
-    setStatus,
+    data,
+    isLoading,
+    isFetching,
     updateRequestApprovalStatus,
   };
 };
