@@ -2,27 +2,24 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
   RHFDatePicker,
-  RHFSelect,
   RHFTextField,
-  // RHFTimePicker,
 } from '@/components/ReactHookForm';
 import { DATE_FORMAT } from '@/constants';
 import {
-  ticketDetailsStatusOptions,
   ticketImpactOptions,
   ticketPriorityOptions,
   ticketSourceOptions,
+  ticketStatusOptions,
   ticketTypeOptions,
 } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 export const validationSchema = Yup?.object()?.shape({
-  // tags: Yup?.string(),
   ticketType: Yup?.mixed()?.nullable(),
   category: Yup?.mixed()?.nullable(),
   status: Yup?.mixed()?.nullable()?.required('Required'),
-  pirority: Yup?.mixed()?.nullable()?.required('Required'),
+  priority: Yup?.mixed()?.nullable()?.required('Required'),
   source: Yup?.mixed()?.nullable(),
   impact: Yup?.mixed()?.nullable(),
   agent: Yup?.mixed()?.nullable(),
@@ -32,14 +29,17 @@ export const validationSchema = Yup?.object()?.shape({
 });
 export const ticketsDetailsDefaultValuesFunction = (data?: any) => {
   return {
-    category: data?.category ?? null,
-    status: data?.status ?? null,
-    pirority: data?.pirority ?? null,
-    source: data?.source ?? null,
-    impact: data?.impact ?? null,
-
+    category: data?.categoryDetails ?? null,
+    status: data?.status ? { _id: data?.status, label: data?.status } : null,
+    priority: data?.pirority
+      ? { _id: data?.pirority, label: data?.pirority }
+      : null,
+    source: data?.source ? { _id: data?.source, label: data?.source } : null,
+    impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
     ticketType: data?.ticketType ?? null,
-    agent: data?.agentDetails ?? null,
+    agent: !!Object?.keys(data?.agentDetails ?? {})?.length
+      ? data?.agentDetails
+      : null,
     plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
 
     plannedEndDate:
@@ -50,7 +50,7 @@ export const ticketsDetailsDefaultValuesFunction = (data?: any) => {
     plannedEffort: data?.plannedEffort ?? '',
   };
 };
-export const dataArray = (apiQueryAgent: any) => [
+export const dataArray = (apiQueryAgent: any, apiQueryCategory: any) => [
   {
     id: 5,
     componentProps: {
@@ -59,7 +59,8 @@ export const dataArray = (apiQueryAgent: any) => [
       fullWidth: true,
       required: true,
       placeholder: 'Choose Status',
-      options: ticketDetailsStatusOptions,
+      options: ticketStatusOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
     md: 4,
@@ -67,12 +68,13 @@ export const dataArray = (apiQueryAgent: any) => [
   {
     id: 6,
     componentProps: {
-      name: 'pirority',
+      name: 'priority',
       label: 'Priority',
       fullWidth: true,
       required: true,
       placeholder: 'Choose Priority',
       options: ticketPriorityOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
     md: 4,
@@ -86,6 +88,7 @@ export const dataArray = (apiQueryAgent: any) => [
       fullWidth: true,
       placeholder: 'Choose Source',
       options: ticketSourceOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
     md: 4,
@@ -110,6 +113,7 @@ export const dataArray = (apiQueryAgent: any) => [
       fullWidth: true,
       placeholder: 'Choose Impact',
       options: ticketImpactOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
     md: 4,
@@ -129,37 +133,17 @@ export const dataArray = (apiQueryAgent: any) => [
     component: RHFAutocompleteAsync,
     md: 4,
   },
-
   {
+    id: 4,
     componentProps: {
       name: 'category',
       label: 'Category',
       fullWidth: true,
-      select: true,
+      apiQuery: apiQueryCategory,
+      placeholder: 'Choose Category',
+      getOptionLabel: (option: any) => option?.categoryName,
     },
-    options: [
-      {
-        value: 'HARDWARE',
-        label: 'HARDWARE',
-      },
-      {
-        value: 'SOFTWARE',
-        label: 'SOFTWARE',
-      },
-      {
-        value: 'NETWORK',
-        label: 'NETWORK',
-      },
-      {
-        value: 'OFFICE APPLICATION',
-        label: 'OFFICE APPLICATION',
-      },
-      {
-        value: 'OFFICE FURNITURE',
-        label: 'OFFICE FURNITURE',
-      },
-    ],
-    component: RHFSelect,
+    component: RHFAutocompleteAsync,
     md: 4,
   },
 

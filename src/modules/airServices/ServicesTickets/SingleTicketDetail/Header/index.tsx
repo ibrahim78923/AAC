@@ -15,7 +15,10 @@ import { AIR_SERVICES } from '@/constants';
 import { useState } from 'react';
 import { AddMeetingsDrawer } from '../Meetings/AddMeetingsDrawer';
 import { NewEmailDrawer } from './NewEmailDrawer';
+import { useHeaderData } from './useHeader';
+
 const Header = () => {
+  const { data: detail } = useHeaderData();
   const theme: any = useTheme();
   const { push } = useRouter();
 
@@ -26,6 +29,7 @@ const Header = () => {
   const toggleView = () => {
     setIsIconVisible(!isIconVisible);
   };
+
   return (
     <>
       <Grid
@@ -53,10 +57,10 @@ const Header = () => {
             variant="h6"
             sx={{ color: theme?.palette?.primary?.main }}
           >
-            #INC-3-
+            {detail?.data?.[0]?.ticketIdNumber}
           </Typography>
           <Typography variant="h6" component="span">
-            What’s wrong with my email?
+            {detail?.data?.[0]?.subject}
           </Typography>
         </Grid>
         <Grid item sx={{ display: 'flex' }}>
