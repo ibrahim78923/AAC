@@ -1,4 +1,3 @@
-const radialBarChartData = [100, 55, 67, 83];
 const radialBarChartDataOptions = (theme: any) => ({
   labels: ['Low', 'Medium', 'High', 'Urgent'],
   colors: [
@@ -6,6 +5,7 @@ const radialBarChartDataOptions = (theme: any) => ({
     theme?.palette?.custom?.bright,
     '#35A275', //This color is not available in palette
     theme?.palette?.error?.main,
+
   ],
   plotOptions: {
     radialBar: {
@@ -19,12 +19,9 @@ const radialBarChartDataOptions = (theme: any) => ({
         total: {
           show: true,
           label: '15 Tickets',
-          formatter: function () {
-            return;
-          },
         },
       },
     },
   },
 });
-export { radialBarChartData, radialBarChartDataOptions };
+export { radialBarChartDataOptions };
