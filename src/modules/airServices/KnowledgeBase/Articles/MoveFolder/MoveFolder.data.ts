@@ -13,14 +13,7 @@ export const moveFolderDefaultValues = (data?: any) => {
   };
 };
 
-const moveToOption = [
-  { _id: 'Training', label: 'Training' },
-  { _id: 'Security Firewall', label: 'Security Firewall' },
-  { _id: 'Hardware', label: 'Hardware' },
-  { _id: 'Subscriptions', label: 'Subscriptions' },
-];
-
-export const moveFolderFields = [
+export const moveFolderFormFieldsDynamic = (apiQueryFolder: any) => [
   {
     id: 1,
     componentProps: {
@@ -38,8 +31,7 @@ export const moveFolderFields = [
       name: 'moveTo',
       label: 'Move To',
       fullWidth: true,
-      options: moveToOption,
-      getOptionLabel: (option: any) => option?.label,
+      apiQuery: apiQueryFolder,
     },
     component: RHFAutocompleteAsync,
     md: 12,

@@ -6,10 +6,10 @@ import { useGetTicketsPriorityGraphQuery } from '@/services/airServices/dashboar
 export const RadialBarChart = () => {
   const theme = useTheme();
   const { data } = useGetTicketsPriorityGraphQuery(true);
-  let lowData: number[] = [];
-  let mediumData: number[] = [];
-  let highData: number[] = [];
-  let urgentData: number[] = [];
+  const lowData: number[] = [];
+  const mediumData: number[] = [];
+  const highData: number[] = [];
+  const urgentData: number[] = [];
 
   data?.pirorityStats?.forEach((ele: any) => {
     switch (ele?.pirority) {
@@ -29,7 +29,7 @@ export const RadialBarChart = () => {
         break;
     }
   });
-  const radialBarChartData = [lowData, mediumData,highData,urgentData];
+  const radialBarChartData = [lowData, mediumData, highData, urgentData];
 
   return (
     <CustomChart

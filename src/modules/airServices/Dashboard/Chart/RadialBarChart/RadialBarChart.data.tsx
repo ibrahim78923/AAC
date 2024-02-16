@@ -5,7 +5,6 @@ const radialBarChartDataOptions = (theme: any) => ({
     theme?.palette?.custom?.bright,
     '#35A275', //This color is not available in palette
     theme?.palette?.error?.main,
-
   ],
   plotOptions: {
     radialBar: {

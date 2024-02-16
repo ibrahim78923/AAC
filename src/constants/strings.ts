@@ -62,11 +62,12 @@ export const IMPORT_ACTIONS_STEPS = {
 };
 
 export const TICKET_APPROVALS = {
-  RECEIVED: 'RECEIVED',
+  RECEIVED: 'RECIEVED',
   REQUESTED: 'REQUESTED',
-  APPROVE: 'APPROVE',
-  REJECT: 'REJECT',
-  CANCEL: 'CANCEL',
+  APPROVE: 'APPROVED',
+  REJECT: 'REJECTED',
+  CANCEL: 'CANCELED',
+  PENDING: 'PENDING',
 };
 
 export const CONTRACT_TYPES = {
@@ -357,4 +358,9 @@ export const WORKLOAD_SCHEDULE = {
   EDIT: 'Edit',
   SAVE: 'Save',
   UPDATE: 'Update',
+};
+
+export const ARTICLE_STATUS = {
+  PUBLISHED: 'PUBLISHED',
+  DRAFT: 'DRAFT',
 };

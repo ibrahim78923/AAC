@@ -6,10 +6,10 @@ import { useGetTicketsStatusGraphQuery } from '@/services/airServices/dashboard'
 export const BarChart = () => {
   const theme = useTheme();
   const { data } = useGetTicketsStatusGraphQuery(true);
-  let resolvedData: number[] = [];
-  let closedData: number[] = [];
-  let openData: number[] = [];
-  let pendingData: number[] = [];
+  const resolvedData: number[] = [];
+  const closedData: number[] = [];
+  const openData: number[] = [];
+  const pendingData: number[] = [];
   data?.statusStats?.forEach((ele: any) => {
     switch (ele?.status) {
       case 'RESOLVED':

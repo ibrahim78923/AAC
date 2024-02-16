@@ -4,27 +4,27 @@ import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 export const dropDownMenus = [
   {
     title: 'AllDepartments',
-    handleClick:(closeMenu:any)=>{
+    handleClick: (closeMenu: any) => {
       closeMenu?.();
-    }
+    },
   },
   {
     title: 'IT',
-    handleClick:(closeMenu:any)=>{
+    handleClick: (closeMenu: any) => {
       closeMenu?.();
-    }
+    },
   },
   {
     title: 'HR',
-    handleClick:(closeMenu:any)=>{
+    handleClick: (closeMenu: any) => {
       closeMenu?.();
-    }
+    },
   },
   {
     title: 'Finance',
-    handleClick:(closeMenu:any)=>{
+    handleClick: (closeMenu: any) => {
       closeMenu?.();
-    }
+    },
   },
 ];
 export const pieChartHeader = (theme: any) => [

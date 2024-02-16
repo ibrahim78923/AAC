@@ -1,50 +1,33 @@
 import { useState } from 'react';
-import dayjs from 'dayjs';
 import { useSearchParams } from 'next/navigation';
 import { useGetActivityLogQuery } from '@/services/airServices/tickets/single-ticket-details/activities';
+import { PAGINATION } from '@/config';
 
 export const useActivities = () => {
   const ticketId = useSearchParams()?.get('ticketId');
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
-  const [pageLimit, setPageLimit] = useState(10);
-  const { data, isLoading, isError, isSuccess } = useGetActivityLogQuery({
-    page,
-    limit: pageLimit,
-    moduleId: ticketId,
-  });
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
-  const handlePageChange = (page: number) => {
-    setPage(page);
-  };
-
-  const activitiesData =
-    data?.data?.activitylogs?.map((activity: any) => ({
-      createdBy: activity?.performedByName || '---',
-      createdByOne:
-        `${activity?.activityType} ${activity?.moduleName}` || '---',
-      timeOne:
-        (activity?.createdAt &&
-          dayjs(activity?.createdAt)?.format('DD MMMM, YYYY')) ||
-        '---',
-      timeTwo:
-        (activity?.createdAt && dayjs(activity?.createdAt)?.format('HH:MM')) ||
-        '----',
-    })) || [];
-
-  const paginationData = data?.data?.meta;
+  const { data, isLoading, isError, isFetching } = useGetActivityLogQuery(
+    {
+      page,
+      limit: pageLimit,
+      moduleId: ticketId,
+      module: 'TICKETS',
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
 
   return {
     isLoading,
     isError,
-    isSuccess,
-    activitiesData,
-    handlePageChange,
-    paginationData,
-    pageLimit,
-    page,
     setPageLimit,
     setPage,
+    isFetching,
+    data,
   };
 };

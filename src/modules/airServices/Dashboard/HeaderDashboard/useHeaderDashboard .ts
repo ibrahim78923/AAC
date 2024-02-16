@@ -6,7 +6,7 @@ export function useHeaderDashboard() {
   const theme = useTheme();
   const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
- 
+
   return {
     theme,
     router,

@@ -1,25 +1,25 @@
 import { AIR_SERVICES } from '@/constants';
 import { Box, Button } from '@mui/material';
 
-export const dropDownMenus =(setIsDrawerOpen:any)=> [
+export const dropDownMenus = (setIsDrawerOpen: any) => [
   {
     title: 'Copy URL',
-    handleClick:(closeMenu:any)=>{
+    handleClick: (closeMenu: any) => {
       closeMenu?.();
-    }
+    },
   },
   {
     title: 'Email this dashboard',
-    handleClick:(closeMenu:any)=>{
+    handleClick: (closeMenu: any) => {
       setIsDrawerOpen(true);
       closeMenu?.();
-    }
+    },
   },
   {
     title: 'Edit',
-    handleClick:(closeMenu:any)=>{
+    handleClick: (closeMenu: any) => {
       closeMenu?.();
-    }
+    },
   },
 ];
 
@@ -42,33 +42,33 @@ export const dashboardFunction = (theme: any, router: any) => [
         </Box>
       </Box>
     ),
-    handleClick:(closeMenu:any)=>{
+    handleClick: (closeMenu: any) => {
       closeMenu?.();
-    }
+    },
   },
   {
     title: 'Services_1',
-    handleClick:(closeMenu:any)=>{
+    handleClick: (closeMenu: any) => {
       closeMenu?.();
-    }
+    },
   },
   {
     title: 'Services_2',
-    handleClick:(closeMenu:any)=>{
+    handleClick: (closeMenu: any) => {
       closeMenu?.();
-    }
+    },
   },
   {
     title: 'Services_3',
-    handleClick:(closeMenu:any)=>{
+    handleClick: (closeMenu: any) => {
       closeMenu?.();
-    }
+    },
   },
   {
     title: 'Services_4',
-    handleClick:(closeMenu:any)=>{
+    handleClick: (closeMenu: any) => {
       closeMenu?.();
-    }
+    },
   },
   {
     title: (
@@ -77,7 +77,6 @@ export const dashboardFunction = (theme: any, router: any) => [
           border: `0.063rem solid ${theme?.palette?.grey?.[600]}`,
           color: theme?.palette?.grey?.[600],
         }}
-        
         onClick={() => router?.push(AIR_SERVICES?.MANAGE_DASHBOARD)}
       >
         Manage Dashboards

@@ -4,7 +4,6 @@ import { Button } from '@mui/material';
 import { PlusSharedColorIcon } from '@/assets/icons';
 import { AddRequestApproval } from './AddRequestApproval';
 import { useApprovals } from './useApprovals';
-// import { requestApprovalsData } from './Approvals.data';
 import { RequestConfirmForm } from './RequestConfirmForm';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
@@ -21,6 +20,7 @@ export const Approvals = () => {
     isLoading,
     isFetching,
     updateRequestApprovalStatus,
+    isError,
   } = useApprovals();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -28,16 +28,18 @@ export const Approvals = () => {
   return (
     <>
       <br />
-      {!!data?.length ? (
+      {!!data?.data?.length ? (
         <RequestApprovalPage
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
           selectedApproval={selectedApproval}
           setSelectedApproval={setSelectedApproval}
           setApproval={(item: any) => setApproval?.(item)}
-          updateRequestApprovalStatus={(item: any) =>
+          updateRequestApprovalStatus={(item: any): any =>
             updateRequestApprovalStatus?.(item)
           }
+          data={data?.data}
+          metaData={{ isLoading, isFetching, isError }}
         />
       ) : (
         <NoData message="No approvals found">

@@ -36,7 +36,7 @@ function AddAnnouncement({ isDrawerOpen, setIsDrawerOpen }: any) {
             <Grid container spacing={3}>
               {createAnnouncementDashboardDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
-                   {item.component === Typography && (
+                  {item.component === Typography && (
                     <Typography>{item.componentProps.value}</Typography>
                   )}
                   {item.component !== Typography && (
