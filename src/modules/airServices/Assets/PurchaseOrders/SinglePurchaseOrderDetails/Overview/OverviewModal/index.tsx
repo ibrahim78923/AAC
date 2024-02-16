@@ -14,6 +14,7 @@ import OverviewBilling from '../OverviewBilling';
 import { DownloadFileIcon, PrinterIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { styles } from './OverviewModal.style';
+import jsPDF from 'jspdf';
 
 const OverviewModal = ({
   openOverviewModal,
@@ -23,6 +24,12 @@ const OverviewModal = ({
   theme,
   orderStatus,
 }: any) => {
+  const handleDownload = () => {
+    const invoice: any = new jsPDF('portrait', 'pt', [1200, 1200]);
+    invoice.html(document.getElementById('invoice')).then(() => {
+      invoice.save('invoice.pdf');
+    });
+  };
   return (
     <Box>
       <Dialog
@@ -30,6 +37,7 @@ const OverviewModal = ({
         open={openOverviewModal}
         onClose={() => setOpenOverviewModal(false)}
         sx={styles?.modelSizing}
+        id="invoice"
       >
         <DialogTitle mt={'-1.5rem'}>
           <Box sx={styles?.logoBox}>
@@ -52,8 +60,15 @@ const OverviewModal = ({
         </DialogTitle>
         <DialogContent>
           <Box sx={styles?.iconsStyle}>
-            <PrinterIcon />
-            <DownloadFileIcon />
+            <IconButton
+              sx={{ cursor: 'pointer' }}
+              onClick={() => window.print()}
+            >
+              <PrinterIcon />
+            </IconButton>
+            <IconButton onClick={handleDownload}>
+              <DownloadFileIcon />
+            </IconButton>
           </Box>
           <Box sx={styles?.textBoxStyle}>
             <Box>
