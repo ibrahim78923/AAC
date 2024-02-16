@@ -94,12 +94,6 @@ const DetailViewTimeEntries = () => {
           </Grid>
         </Grid>
       </Box>
-      <Box textAlign={'end'} p={2}>
-        <Button variant={'outlined'}>Cancel</Button>
-        <Button variant={'contained'} type={'submit'} sx={{ ml: 2 }}>
-          Submit
-        </Button>
-      </Box>
     </>
   );
 };
