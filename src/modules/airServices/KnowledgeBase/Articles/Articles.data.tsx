@@ -1,8 +1,7 @@
 import { Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
 import { fullName } from '@/utils/avatarUtils';
+import { errorSnackbar } from '@/utils/api';
 
 const bgColor: any = {
   published: 'blue.main',
@@ -75,7 +74,7 @@ export const articlesColumnsFunction = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.details,
+      accessorFn: (row: any) => row?.title,
       id: 'name',
       isSortable: false,
       header: 'Article',
@@ -87,10 +86,9 @@ export const articlesColumnsFunction = (
               handleSingleArticleNavigation(info?.row?.original?._id)
             }
             style={{ cursor: 'pointer', fontWeight: 600 }}
-            dangerouslySetInnerHTML={{
-              __html: info?.getValue()?.slice?.(0, 50),
-            }}
-          ></Typography>
+          >
+            {info?.getValue()?.slice?.(0, 50)}
+          </Typography>
         );
       },
     },
@@ -152,9 +150,7 @@ export const actionBtnData = (
     title: 'Edit',
     handleClick: (closeMenu: any) => {
       if (selectedArticlesData?.length > 1) {
-        enqueueSnackbar('Please select only one', {
-          variant: NOTISTACK_VARIANTS?.WARNING,
-        });
+        errorSnackbar('Please select only one');
         closeMenu?.();
         return;
       }
@@ -173,9 +169,7 @@ export const actionBtnData = (
     title: 'Move Folder',
     handleClick: (closeMenu: any) => {
       if (selectedArticlesData?.length > 1) {
-        enqueueSnackbar('Please select only one', {
-          variant: NOTISTACK_VARIANTS?.WARNING,
-        });
+        errorSnackbar('Please select only one');
         closeMenu?.();
         return;
       }

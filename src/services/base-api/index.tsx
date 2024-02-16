@@ -77,6 +77,7 @@ export const TAGS = [
   'DROPDOWN_ASSETS',
   'KNOWLEDGE_BASE_ARTICLES',
   'TICKETS_APPROVALS',
+  'CUSTOMER_PORTAL_DASHBOARD',
 ];
 
 const baseQuery = fetchBaseQuery({

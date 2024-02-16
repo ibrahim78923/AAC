@@ -130,25 +130,31 @@ export const Articles = () => {
           />
         </Grid>
       </Grid>
-      <DeleteArticles
-        deleteModalOpen={openDeleteModal}
-        setDeleteModalOpen={setOpenDeleteModal}
-        selectedArticlesData={selectedArticlesData}
-        setSelectedArticlesData={setSelectedArticlesData}
-      />
-      <MoveFolder
-        moveFolderModal={moveFolderModal}
-        setMoveFolderModal={setMoveFolderModal}
-        selectedArticlesData={selectedArticlesData?.[0]}
-        setSelectedArticlesData={setSelectedArticlesData}
-      />
-      <FilterArticles
-        isOpenFilterDrawer={openFilter}
-        setIsOpenFilterDrawer={setOpenFilter}
-        filterValues={filterValues}
-        setFilterValues={setFilterValues}
-        setPage={setPage}
-      />
+      {openDeleteModal && (
+        <DeleteArticles
+          deleteModalOpen={openDeleteModal}
+          setDeleteModalOpen={setOpenDeleteModal}
+          selectedArticlesData={selectedArticlesData}
+          setSelectedArticlesData={setSelectedArticlesData}
+        />
+      )}
+      {moveFolderModal && (
+        <MoveFolder
+          moveFolderModal={moveFolderModal}
+          setMoveFolderModal={setMoveFolderModal}
+          selectedArticlesData={selectedArticlesData?.[0]}
+          setSelectedArticlesData={setSelectedArticlesData}
+        />
+      )}
+      {openFilter && (
+        <FilterArticles
+          isOpenFilterDrawer={openFilter}
+          setIsOpenFilterDrawer={setOpenFilter}
+          filterValues={filterValues}
+          setFilterValues={setFilterValues}
+          setPage={setPage}
+        />
+      )}
     </>
   );
 };

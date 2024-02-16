@@ -32,6 +32,21 @@ export const APPROVAL_CARD_INFO: any = {
   },
 };
 
+export const setStatus = (
+  status: any,
+  receiverUserId?: any,
+  authUserId?: any,
+) => {
+  if (status === TICKET_APPROVALS?.PENDING) {
+    const setApprovalStatus =
+      receiverUserId === authUserId
+        ? APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.RECEIVED]
+        : APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.REQUESTED];
+    return setApprovalStatus;
+  }
+  return APPROVAL_CARD_INFO?.[status];
+};
+
 export const ticketsApprovalDropdownFunction = (
   getUpdateStatus?: any,
   data?: any,

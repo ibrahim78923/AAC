@@ -8,7 +8,7 @@ export const useRequestApprovals = () => {
   const getApprovalsTicketsParameter = {
     queryParams: {
       id: ticketId,
-      approvalStatus: 'ALL',
+      approvalStatus: 'REQUESTED',
     },
   };
   const { data, isLoading, isFetching, isError } = useGetApprovalsTicketsQuery(

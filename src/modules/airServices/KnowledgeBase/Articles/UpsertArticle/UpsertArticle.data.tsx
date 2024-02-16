@@ -6,13 +6,15 @@ import {
 } from '@/components/ReactHookForm';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import * as Yup from 'yup';
 
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
 export const defaultValues = (articleData?: any) => {
   return {
     folder: articleData?.folder ?? null,
-    details: articleData?.details,
+    title: articleData?.title ?? '',
+    details: articleData?.details ?? '',
     tags: articleData?.tags ?? [],
     keywords: articleData?.keywords ?? [],
     needsApproval: articleData?.isApproval ?? false,
@@ -20,6 +22,12 @@ export const defaultValues = (articleData?: any) => {
     reviewDate: new Date(articleData?.reviewDate ?? todayDate),
   };
 };
+
+export const upsertArticleValidationSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.required('Required'),
+  details: Yup?.string()?.required('Required'),
+  folder: Yup?.mixed()?.nullable()?.required('Required'),
+});
 
 export const editArticleFieldsFunction = (
   needApprovals: any,
@@ -89,7 +97,6 @@ export const editArticleFieldsFunction = (
         fullWidth: true,
         name: 'keywords',
         label: 'Keywords',
-        // sx: { pb: 1.2 },
         freeSolo: true,
         options: [],
         multiple: true,

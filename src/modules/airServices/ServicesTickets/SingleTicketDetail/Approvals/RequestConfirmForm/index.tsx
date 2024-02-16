@@ -30,8 +30,10 @@ export const RequestConfirmForm = (props: any) => {
           flexWrap={'wrap'}
           justifyContent={'space-between'}
         >
-          <Typography variant="h5" color="slateBlue.main">
-            Approval
+          <Typography variant="formTopHeading" color="slateBlue.main">
+            {selectedApproval?.state === TICKET_APPROVALS?.APPROVE
+              ? 'Approve'
+              : 'Reject'}
           </Typography>
           <AlertModalCloseIcon
             onClick={() => setModalClose()}
@@ -44,7 +46,6 @@ export const RequestConfirmForm = (props: any) => {
         onSubmit={handleSubmit(submitRequestConfirm)}
       >
         <DialogContent>
-          <Box mt={1}></Box>
           <RHFTextField
             name="reason"
             multiline
@@ -68,12 +69,14 @@ export const RequestConfirmForm = (props: any) => {
               variant="contained"
               color={
                 selectedApproval?.state === TICKET_APPROVALS?.APPROVE
-                  ? 'success'
+                  ? 'primary'
                   : 'error'
               }
               type="submit"
             >
-              {selectedApproval?.state}
+              {selectedApproval?.state === TICKET_APPROVALS?.APPROVE
+                ? 'Approve'
+                : 'Reject'}
             </LoadingButton>
           </Box>
         </DialogActions>

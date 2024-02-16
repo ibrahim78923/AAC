@@ -7,7 +7,6 @@ export const useApprovals = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [selectedApproval, setSelectedApproval] = useState({});
-
   const router = useRouter();
   const { ticketId } = router?.query;
 
@@ -17,7 +16,7 @@ export const useApprovals = () => {
       approvalStatus: 'ALL',
     },
   };
-  const { data, isLoading, isFetching } = useGetApprovalsTicketsQuery(
+  const { data, isLoading, isFetching, isError } = useGetApprovalsTicketsQuery(
     getApprovalsTicketsParameter,
     {
       refetchOnMountOrArgChange: true,
@@ -48,6 +47,7 @@ export const useApprovals = () => {
     data,
     isLoading,
     isFetching,
+    isError,
     updateRequestApprovalStatus,
   };
 };
