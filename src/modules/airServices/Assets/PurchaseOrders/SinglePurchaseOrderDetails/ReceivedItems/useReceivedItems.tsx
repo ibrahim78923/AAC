@@ -1,16 +1,16 @@
-import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import {
   useGetAddToPurchaseOrderByIdQuery,
   usePatchAddToItemMutation,
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+
 import { useFieldArray, useForm } from 'react-hook-form';
 import {
   addItemDefaultValuesFunction,
   addItemValidationSchemaOne,
 } from './ReceivedItems.data';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useReceivedItems = (props: any) => {
   const purchaseOrderId = '65ba6631395b6d48702e37e6';
@@ -84,16 +84,10 @@ export const useReceivedItems = (props: any) => {
     try {
       await patchAddToItemTrigger(putAddToItemParameter)?.unwrap();
 
-      const message = 'Purchase Order items count updated successfully';
-      const variant = 'success';
-      enqueueSnackbar(message, {
-        variant: variant,
-      });
+      successSnackbar('Purchase Order items count updated successfully');
       setIsDrawerOpen(false);
     } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
     setErrorOccurred(false);
   };

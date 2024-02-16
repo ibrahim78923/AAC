@@ -35,7 +35,6 @@ import {
   itemDetailColumns,
   purchaseDetailFormFieldsFunction,
 } from './AddToInventory.data';
-import { useFieldArray } from 'react-hook-form';
 
 import NoData from '@/components/NoData';
 
@@ -59,12 +58,9 @@ export const AddToInventory = (props: any) => {
     apiQueryDepartment,
     methodsTwo,
     apiQueryLocations,
+    fields,
   } = useAddToInventoryDrawer(props);
 
-  const { fields } = useFieldArray({
-    control: methodsTwo?.control,
-    name: 'test',
-  });
   return (
     <CommonDrawer
       isDrawerOpen={isADrawerOpen}
@@ -110,7 +106,8 @@ export const AddToInventory = (props: any) => {
                   Total items received:
                 </Typography>
                 <Typography variant="h6" component="span" mt={1} ml={1}>
-                  5/5
+                  {purchaseOrderDetail?.purchaseDetails?.[0]?.received}/
+                  {purchaseOrderDetail?.purchaseDetails?.[0]?.quantity}
                 </Typography>
               </Box>
             </Grid>
@@ -299,7 +296,10 @@ export const AddToInventory = (props: any) => {
               <Box>
                 <Typography variant="h6">Item Status</Typography>
                 <Chip
-                  label="Received"
+                  label={
+                    purchaseOrderDetail?.status &&
+                    `: ${purchaseOrderDetail?.status}`
+                  }
                   color="primary"
                   variant="outlined"
                   sx={{ mt: '0.5rem' }}
