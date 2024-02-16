@@ -1,21 +1,35 @@
-import { Grid, Typography } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
+import { Box, Grid, Typography } from '@mui/material';
 import { useNonRegisterDashboard } from './useNonRegisterDashboard';
+import { Header } from './Header';
+import { PopularArticles } from './PopularArticles';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const NonRegisterDashboard = () => {
-  const { dashboardWidgets } = useNonRegisterDashboard();
+  const { articlesData, handleViewMore, isLoading, theme } =
+    useNonRegisterDashboard();
   return (
-    <Grid container rowSpacing={1.6} columnSpacing={2.4}>
-      {dashboardWidgets?.map((element: any) => (
-        <Grid key={uuidv4()} item xs={12} {...element?.componentProps}>
-          <Typography variant="h5">{element?.title}</Typography>
-          <element.component
-            articlesData={element?.articlesData}
-            handleViewMore={element?.handleViewMore}
-          />
+    <Box
+      p={2}
+      borderRadius={2}
+      sx={{ backgroundColor: theme?.palette?.grey[100] }}
+    >
+      <Header />
+      <Typography mt={2} p={1.5} sx={{ backgroundColor: 'white' }} variant="h6">
+        Popular Articles
+      </Typography>
+      <Grid container borderRadius={2} sx={{ backgroundColor: 'white' }}>
+        <Grid item xs={12}>
+          {isLoading ? (
+            <SkeletonTable />
+          ) : (
+            <PopularArticles
+              articlesData={articlesData}
+              handleViewMore={handleViewMore}
+            />
+          )}
         </Grid>
-      ))}
-    </Grid>
+      </Grid>
+    </Box>
   );
 };
 

@@ -217,6 +217,9 @@ export const END_POINTS = {
   GET_APPROVAL_TICKETS: `/ticket/get-tickets-approval`,
   UPDATE_APPROVAL_TICKETS: `/ticket/edit-ticket-approval`,
   GET_UNAPPROVED_ARTICLES: `/articles/unapproved-articles`,
+  GET_ALL_ARTICLES: '/articles/get-all-articles',
+  GET_KNOWLEDGE_BASE_FOLDER: '/articles/folders',
+  GET_SINGLE_KNOWLEDGE_BASE_ARTICLES: '/articles/get-by-id',
 };
 
 export const superAdminBillingInvoices = {
