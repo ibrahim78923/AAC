@@ -41,7 +41,7 @@ export default function useAddToInventoryDrawer(props: any) {
   });
   const { fields } = useFieldArray({
     control: methodsTwo?.control,
-    name: 'test',
+    name: 'addToInventory',
   });
   const { handleSubmit: handleSubmitTwo, reset: resetTwo } = methodsTwo;
   const methodsYes = useForm<any>({
@@ -87,7 +87,7 @@ export default function useAddToInventoryDrawer(props: any) {
       { length: data?.description },
       () => tableData,
     );
-    resetTwo({ test: dataArray });
+    resetTwo({ addToInventory: dataArray });
     setBoolVariable(false);
     methodsYes?.reset();
   });
@@ -112,7 +112,7 @@ export default function useAddToInventoryDrawer(props: any) {
   });
   const submitHandlerTwo = handleSubmitTwo(async (data: any) => {
     const inventoryData = [];
-    for (const item of data['test']) {
+    for (const item of data['addToInventory']) {
       const mapped_item = {
         location_id: item?.location?._id,
         department_id: item?.department?._id,

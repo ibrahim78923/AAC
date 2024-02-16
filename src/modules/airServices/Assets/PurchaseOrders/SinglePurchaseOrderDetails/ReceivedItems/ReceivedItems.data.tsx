@@ -3,10 +3,10 @@ import { Typography } from '@mui/material';
 import { useWatch } from 'react-hook-form';
 import * as Yup from 'yup';
 export const addItemValidationSchemaOne = Yup?.object()?.shape({
-  test: Yup?.array()?.of(
+  receivedItem: Yup?.array()?.of(
     Yup?.object()?.shape({
       itemName: Yup?.string(),
-      received: Yup?.number()?.required(),
+      received: Yup?.number()?.required('Required'),
       quantity: Yup?.string(),
       pending: Yup?.string(),
     }),
@@ -15,7 +15,7 @@ export const addItemValidationSchemaOne = Yup?.object()?.shape({
 
 export const addItemDefaultValuesFunction = (data: any) => {
   return {
-    test: !!data?.data?.purchaseDetails?.length
+    receivedItem: !!data?.data?.purchaseDetails?.length
       ? data?.data?.purchaseDetails?.map((x: any) => ({
           itemName: x?.itemName ?? '',
           received: null,

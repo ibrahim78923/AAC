@@ -11,9 +11,11 @@ import {
 } from './ReceivedItems.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
 
 export const useReceivedItems = (props: any) => {
-  const purchaseOrderId = '65ba6631395b6d48702e37e6';
+  const router = useRouter();
+  const { purchaseOrderId } = router?.query;
   const [patchAddToItemTrigger] = usePatchAddToItemMutation();
   const [errorOccurred, setErrorOccurred] = useState(false);
   const { setIsDrawerOpen } = props;
@@ -41,11 +43,11 @@ export const useReceivedItems = (props: any) => {
   }, [data, reset]);
   const { fields } = useFieldArray({
     control,
-    name: 'test',
+    name: 'receivedItem',
   });
 
   const submitHandler = async (data: any) => {
-    const dr = data?.test?.some(
+    const dr = data?.receivedItem?.some(
       (x: any) => x?.received == 0 || x?.received > x?.quantity,
     );
 
@@ -55,11 +57,11 @@ export const useReceivedItems = (props: any) => {
       return;
     }
 
-    const sendData = data.test.map((item: any) => {
+    const sendData = data?.receivedItem?.map((item: any) => {
       const purchaseDetails = item?.data?.purchaseDetails.map(
         (secondItem: any) => ({
           ...secondItem,
-          received: item.received,
+          received: item?.received,
         }),
       );
       return {

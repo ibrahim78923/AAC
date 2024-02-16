@@ -328,7 +328,7 @@ export const AddToInventory = (props: any) => {
                           <TableRow key={item?.id}>
                             {purchaseDetailFormFieldsFunction?.(
                               methodsTwo?.control,
-                              'test',
+                              'addToInventory',
                               index,
                               apiQueryLocations,
                               apiQueryDepartment,

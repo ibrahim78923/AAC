@@ -13,20 +13,20 @@ export const assetsImpactOptions = [
   ASSET_IMPACT?.HIGH,
 ];
 export const addInventoryValidationSchemaOne = Yup?.object()?.shape({
-  description: Yup?.string()?.required('Field is Required'),
-  displayName: Yup?.string()?.required('Field is Required'),
+  description: Yup?.string()?.required('Required'),
+  displayName: Yup?.string()?.required('Required'),
   impact: Yup?.string(),
 });
 export const addInventoryValidationSchemaUpdate = Yup?.object()?.shape({
   allAssets: Yup?.mixed()?.nullable(),
 });
 export const addToInventoryItemStatusValidationSchema = Yup?.object()?.shape({
-  displayName: Yup?.string()?.required('Field is Required'),
+  displayName: Yup?.string()?.required('Required'),
   impact: Yup?.string(),
 });
 export const addInventoryDefaultValuesFunction = (data?: any) => {
   return {
-    test: [
+    addToInventory: [
       {
         description: data?.description ?? '',
         displayName: data?.displayName ?? '',
@@ -38,7 +38,7 @@ export const addInventoryDefaultValuesFunction = (data?: any) => {
   };
 };
 
-const test: any = [
+const addToInventory: any = [
   {
     displayName: '',
     impact: '',
@@ -63,9 +63,9 @@ export const addToInventoryItemStatusDefaultValuesFunction = (
   newData?: any,
 ) => {
   return {
-    test: !!newData?.purchaseDetail?.test.length
-      ? newData?.purchaseDetail?.test
-      : test,
+    addToInventory: !!newData?.purchaseDetail?.addToInventory.length
+      ? newData?.purchaseDetail?.addToInventory
+      : addToInventory,
   };
 };
 
