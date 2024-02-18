@@ -217,6 +217,9 @@ export const END_POINTS = {
   GET_APPROVAL_TICKETS: `/ticket/get-tickets-approval`,
   UPDATE_APPROVAL_TICKETS: `/ticket/edit-ticket-approval`,
   GET_UNAPPROVED_ARTICLES: `/articles/unapproved-articles`,
+  ADD_WORKLOAD_SCHEDULE: `/Work-Shchedule/add-work-shchedule`,
+  EDIT_WORKLOAD_SCHEDULE: `/Work-Shchedule/edit-work-shchedule`,
+  DELETE_WORKLOAD_SCHEDULE: `/Work-Shchedule/delete-work-shchedule`,
 };
 
 export const superAdminBillingInvoices = {

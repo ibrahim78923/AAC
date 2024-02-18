@@ -6,9 +6,8 @@ import {
   useAddAwardPointsMutation,
   useGetAwardPointsQuery,
 } from '@/services/airServices/settings/agent-performance-management/leader-board/award-points';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useEffect } from 'react';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAwardPoints = () => {
   const { palette }: any = useTheme();
@@ -31,13 +30,9 @@ export const useAwardPoints = () => {
   const handleSubmit = async (values: any) => {
     try {
       await addAwardPointsTrigger(values)?.unwrap();
-      enqueueSnackbar('Award points added successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Award points added successfully!');
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
 
