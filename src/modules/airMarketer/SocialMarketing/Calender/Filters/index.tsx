@@ -17,7 +17,12 @@ import {
   InstagramCalenderImage,
   TwitterCalenderImage,
   YoutubeCalenderImage,
+  FacebookDropdownImage,
+  InstagramDropdownImage,
+  TwitterDropdownImage,
+  LinkedinDropdownImage,
 } from '@/assets/images';
+import Image from 'next/image';
 
 dayjs.extend(customParseFormat);
 
@@ -32,19 +37,26 @@ const Filters = () => {
     handleProfilesClickActions,
     profilesAnchorEl,
     openDropDownprofiles,
+    handleClose,
   } = useFilter();
 
   return (
     <Grid
       container
-      sx={{ display: 'flex', gap: '10px', justifyContent: 'end' }}
+      sx={{
+        display: 'flex',
+        gap: '10px',
+        justifyContent: 'end',
+        marginBottom: { xs: '60px', sm: '0px' },
+      }}
     >
-      <Grid xs={12} md={6} lg={2} className="select-users">
+      <Grid xs={12} sm={6} md={6} lg={2} className="select-users">
         <Button
           onClick={handleClickActions}
           sx={{
             border: `1px solid ${theme?.palette?.custom?.dark}`,
             color: theme?.palette?.custom?.main,
+            backgroundColor: 'white',
             width: '100%',
             height: '36px',
             '@media (max-width:400px)': {
@@ -56,7 +68,7 @@ const Filters = () => {
             <Avatar
               style={{
                 border: 'none',
-                marginLeft: '-20px',
+                marginLeft: '-23px',
               }}
               alt="Instagram Image"
               src={InstagramCalenderImage?.src}
@@ -64,7 +76,7 @@ const Filters = () => {
             <Avatar
               style={{
                 border: 'none',
-                marginLeft: '-20px',
+                marginLeft: '-23px',
               }}
               alt="Facebook Image"
               src={FacebookCalenderImage?.src}
@@ -72,7 +84,7 @@ const Filters = () => {
             <Avatar
               style={{
                 border: 'none',
-                marginLeft: '-20px',
+                marginLeft: '-23px',
               }}
               alt="YoutubeImage"
               src={YoutubeCalenderImage?.src}
@@ -80,7 +92,7 @@ const Filters = () => {
             <Avatar
               style={{
                 border: 'none',
-                marginLeft: '-20px',
+                marginLeft: '-23px',
               }}
               alt="Twitter Image"
               src={TwitterCalenderImage?.src}
@@ -98,19 +110,65 @@ const Filters = () => {
           anchorEl={anchorEl}
           open={openDropDown}
           onClose={handleCloseMenuOptions}
+          sx={{ width: '100%' }}
         >
-          <MenuItem>Facebook</MenuItem>
-          <MenuItem>Instagram</MenuItem>
-          <MenuItem>Youtube</MenuItem>
-          <MenuItem>Twitter</MenuItem>
+          <MenuItem
+            onClick={handleClose}
+            sx={{ width: '215px', padding: '10px 15px' }}
+          >
+            {' '}
+            <Image
+              src={FacebookDropdownImage}
+              alt="logo"
+              style={{ marginRight: '10px' }}
+            />{' '}
+            Facebook
+          </MenuItem>
+          <MenuItem
+            onClick={handleClose}
+            sx={{ width: '215px', padding: '10px 15px' }}
+          >
+            {' '}
+            <Image
+              src={InstagramDropdownImage}
+              alt="logo"
+              style={{ marginRight: '10px' }}
+            />
+            Instagram
+          </MenuItem>
+          <MenuItem
+            onClick={handleClose}
+            sx={{ width: '215px', padding: '10px 15px' }}
+          >
+            {' '}
+            <Image
+              src={LinkedinDropdownImage}
+              alt="logo"
+              style={{ marginRight: '10px' }}
+            />
+            Linkedin
+          </MenuItem>
+          <MenuItem
+            onClick={handleClose}
+            sx={{ width: '215px', padding: '10px 15px' }}
+          >
+            {' '}
+            <Image
+              src={TwitterDropdownImage}
+              alt="logo"
+              style={{ marginRight: '10px' }}
+            />
+            Twitter
+          </MenuItem>
         </Menu>
       </Grid>
-      <Grid xs={12} md={6} lg={2} className="select-status">
+      <Grid xs={12} sm={6} md={6} lg={2} className="select-status">
         <Button
           onClick={handleProfilesClickActions}
           sx={{
             border: `1px solid ${theme?.palette?.custom?.dark}`,
             color: theme?.palette?.custom?.main,
+            backgroundColor: 'white',
             width: '100%',
             height: '36px',
             '@media (max-width:400px)': {
@@ -198,10 +256,54 @@ const Filters = () => {
           onClose={handleProfilesCloseMenuOptions}
           sx={{ width: '100%' }}
         >
-          <MenuItem>Profiles</MenuItem>
-          <MenuItem>Profiles</MenuItem>
-          <MenuItem>Profiles</MenuItem>
-          <MenuItem>Profiles</MenuItem>
+          <MenuItem
+            onClick={handleClose}
+            sx={{ width: '215px', padding: '10px 15px' }}
+          >
+            {' '}
+            <Image
+              src={AvatarImage}
+              alt="logo"
+              style={{ marginRight: '10px', width: '27px', height: '27px' }}
+            />{' '}
+            Profiles
+          </MenuItem>
+          <MenuItem
+            onClick={handleClose}
+            sx={{ width: '215px', padding: '10px 15px' }}
+          >
+            {' '}
+            <Image
+              src={AvatarImage}
+              alt="logo"
+              style={{ marginRight: '10px', width: '27px', height: '27px' }}
+            />{' '}
+            Profiles
+          </MenuItem>
+          <MenuItem
+            onClick={handleClose}
+            sx={{ width: '215px', padding: '10px 15px' }}
+          >
+            {' '}
+            <Image
+              src={AvatarImage}
+              alt="logo"
+              style={{ marginRight: '10px', width: '27px', height: '27px' }}
+            />{' '}
+            Profiles
+          </MenuItem>
+          <MenuItem
+            onClick={handleClose}
+            sx={{ width: '215px', padding: '10px 15px' }}
+          >
+            {' '}
+            <Image
+              src={AvatarImage}
+              alt="logo"
+              style={{ marginRight: '10px', width: '27px', height: '27px' }}
+            />{' '}
+            Profiles
+          </MenuItem>
         </Menu>
       </Grid>
     </Grid>

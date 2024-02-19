@@ -4,7 +4,6 @@ import {
   Button,
   Typography,
   Grid,
-  useTheme,
   MenuItem,
   Menu,
   Tooltip,
@@ -71,7 +70,6 @@ const Faqs = () => {
     setRowId,
     rowId,
   } = useFaqs();
-  const theme = useTheme();
   const getFaqsTableColumns = columns(
     selectedRow,
     setSelectedRow,
@@ -158,7 +156,7 @@ const Faqs = () => {
             </Menu>
             <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
               <Button
-                sx={styles?.refreshButton(theme)}
+                sx={styles?.refreshButton}
                 className="small"
                 onClick={handleRefresh}
               >
@@ -166,7 +164,7 @@ const Faqs = () => {
               </Button>
             </Tooltip>
             <Button
-              sx={styles?.filterButton(theme)}
+              sx={styles?.filterButton}
               onClick={handleOpenFilters}
               className="small"
             >

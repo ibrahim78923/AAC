@@ -3,10 +3,10 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { Button } from '@mui/material';
 import { FilterSharedIcon, CustomizeSharedIcon } from '@/assets/icons';
-import { PageTitledHeader } from '../../../../components/PageTitledHeader/index';
 import { useInventory } from './useInventory';
 import { INVENTORY_LIST_ACTIONS } from './Inventory.data';
 import { EXPORT_TYPE } from '@/constants/strings';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 const Inventory = () => {
   const {

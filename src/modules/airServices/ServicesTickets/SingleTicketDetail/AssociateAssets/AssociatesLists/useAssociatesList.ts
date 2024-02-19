@@ -29,6 +29,7 @@ export const useAssociatesLists: any = (props: any) => {
       ticketId,
     },
   };
+
   const { data, isLoading, isFetching, isError, isSuccess } =
     useGetTicketsAssociatesAssetsQuery(getTicketsAssociatesAssetsParameter, {
       refetchOnMountOrArgChange: true,
@@ -37,13 +38,14 @@ export const useAssociatesLists: any = (props: any) => {
     setSelectedAsset(id);
     setDeleteModal(true);
   };
+
   useEffect(() => {
     setTotalAssets(
       data?.data?.tickets?.length > 1
         ? data?.data?.meta?.total
         : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-        ? data?.data?.meta?.total
-        : 0,
+          ? data?.data?.meta?.total
+          : 0,
     );
     return () => setTotalAssets('');
   }, [data]);

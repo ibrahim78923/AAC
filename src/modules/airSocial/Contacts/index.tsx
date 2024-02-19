@@ -6,8 +6,6 @@ import CommonTabs from '@/components/Tabs';
 
 import CreateView from './CreateView';
 
-import { SUPER_ADMIN } from '@/constants';
-
 import { ContactsSaleSite } from './ContactsSaleSite.data';
 import ContactsCustomize from './ContactsCustomize';
 import ContactsFilterDrawer from './ContactsFilterDrawer';
@@ -25,7 +23,10 @@ import {
   CutomizeIcon,
   RefreshTasksIcon,
   DownIcon,
+  ExportCloudIcon,
 } from '@/assets/icons';
+import { AIR_SOCIAL } from '@/routesConstants/paths';
+import ContactsGroup from '@/modules/airMarketer/WhatsAppMarketing/WhatsAppMarketingComponent/Contacts/contactsGroup';
 
 const Contacts = () => {
   const {
@@ -60,7 +61,7 @@ const Contacts = () => {
     handleCloseModalReAssign,
     openModalExport,
     handleOpenModalExport,
-    handleCloseModalExport,
+    setOpenModalExport,
 
     theme,
     isOpen,
@@ -78,6 +79,7 @@ const Contacts = () => {
 
   return (
     <>
+      <ContactsGroup />
       <ContactsHeader />
       <CommonTabs
         tabsArray={ContactsSaleSite}
@@ -122,7 +124,7 @@ const Contacts = () => {
                 <MenuItem onClick={handleOpenModalDelete}>Delete</MenuItem>
               </Menu>
             </Box>
-            <Link href={SUPER_ADMIN?.AIRSALES_CONTCATS_RESTORE}>
+            <Link href={AIR_SOCIAL?.CONTACTS_RESTORE}>
               <Button
                 variant="outlined"
                 className="small"
@@ -171,7 +173,7 @@ const Contacts = () => {
               sx={{ color: theme?.palette?.custom['main'] }}
               onClick={handleOpenModalExport}
             >
-              <FilterIcon />
+              <ExportCloudIcon />
               &nbsp; Export
             </Button>
           </>
@@ -196,7 +198,7 @@ const Contacts = () => {
       />
       <DeleteModal open={openModalDelete} onClose={handleCloseModalDelete} />
       <AssignModalBox open={isReAssign} onClose={handleCloseModalReAssign} />
-      <ExportModal open={openModalExport} onClose={handleCloseModalExport} />
+      <ExportModal open={openModalExport} onClose={setOpenModalExport} />
     </>
   );
 };

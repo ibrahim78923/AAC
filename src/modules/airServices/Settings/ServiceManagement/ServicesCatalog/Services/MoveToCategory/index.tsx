@@ -40,6 +40,7 @@ export const MoveToCategory = (prop: any) => {
             <RHFAutocompleteAsync
               name="category"
               label="Category"
+              placeholder="Select"
               select={true}
               md={12}
               apiQuery={apiQueryCategroy}

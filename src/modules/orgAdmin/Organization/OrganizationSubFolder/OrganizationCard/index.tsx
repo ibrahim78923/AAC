@@ -94,12 +94,16 @@ const OrganizationCard = () => {
       </CommonDrawer>
       <Box sx={{ paddingTop: '5px' }}>
         <Grid container spacing={2}>
-          <Grid item lg={6} md={6} sm={6} xs={12}>
+          <Grid item lg={6} md={12} sm={12} xs={12}>
             <Box
               sx={{
                 border: `1px solid ${theme?.palette?.grey[700]}`,
                 borderRadius: '8px',
                 padding: '1rem',
+                height: '184px',
+                '@media (max-width:900px)': {
+                  height: 'auto',
+                },
               }}
             >
               <Grid container spacing={2}>
@@ -126,6 +130,16 @@ const OrganizationCard = () => {
                       },
                     }}
                   >
+                    <Typography
+                      variant="h3"
+                      sx={{
+                        fontWeight: 500,
+                        color: `${theme?.palette?.custom?.main}`,
+                      }}
+                    >
+                      Orcalo holdings
+                    </Typography>
+
                     <Typography
                       variant="h3"
                       sx={{
@@ -173,7 +187,7 @@ const OrganizationCard = () => {
                           color: `${theme?.palette?.custom?.main}`,
                         }}
                       >
-                        {data?.data?.email}
+                        {data?.data?.email ?? '-'}
                       </Typography>
                     </Box>
                     <Box
@@ -193,40 +207,46 @@ const OrganizationCard = () => {
                           color: `${theme?.palette?.custom?.main}`,
                         }}
                       >
-                        {data?.data?.phoneNo}
+                        {data?.data?.phoneNo ?? '-'}
                       </Typography>
                     </Box>
                   </Box>
                 </Grid>
                 <Grid item lg={4} md={4} sm={6} xs={12}>
-                  <Box
-                    onClick={() => {
-                      setIsOpenDrawer(true);
-                    }}
-                    sx={styles?.editSection}
-                  >
-                    <Image src={EditImage} alt="edit" />
-                    <Typography
-                      variant="body3"
-                      sx={{
-                        fontWeight: 500,
-                        lineHeight: '18px',
-                        color: `${theme?.palette?.primary?.main}`,
+                  <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Box
+                      onClick={() => {
+                        setIsOpenDrawer(true);
                       }}
+                      sx={styles?.editSection}
                     >
-                      Edit Info
-                    </Typography>
+                      <Image src={EditImage} alt="edit" />
+                      <Typography
+                        variant="body3"
+                        sx={{
+                          fontWeight: 500,
+                          lineHeight: '18px',
+                          color: `${theme?.palette?.primary?.main}`,
+                        }}
+                      >
+                        Edit Info
+                      </Typography>
+                    </Box>
                   </Box>
                 </Grid>
               </Grid>
             </Box>
           </Grid>
-          <Grid item lg={6} md={6} sm={6} xs={12}>
+          <Grid item lg={6} md={12} sm={12} xs={12}>
             <Box
               sx={{
                 border: `1px solid ${theme?.palette?.grey[700]}`,
                 borderRadius: '8px',
                 padding: '1rem',
+                height: '184px',
+                '@media (max-width:900px)': {
+                  height: 'auto',
+                },
               }}
             >
               <Grid container>

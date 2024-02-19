@@ -92,17 +92,15 @@ export const ContactsColumns = (
       header: 'Contacts',
       isSortable: true,
       cell: (info: any) => {
-        const contactInfo: any = {
-          address: info?.row?.original?.address,
-          firsName: info?.row?.original?.firstName,
-        };
+        const contactId = info?.row?.original?._id;
+
         return (
           <Link
             href={{
-              pathname: `${AIR_SOCIAL?.CONTACTS}`,
-              query: { data: contactInfo },
+              pathname: `${AIR_SOCIAL?.CONTACTS_VIEW_DETAILS}`,
+              query: { contactId: contactId },
             }}
-            as={`${AIR_SOCIAL?.CONTACTS}`}
+            as={`${AIR_SOCIAL?.CONTACTS_VIEW_DETAILS}`}
           >
             {info?.getValue()}
           </Link>

@@ -147,7 +147,7 @@ export const addRewardsDrawerData = [
     id: 10,
     componentProps: {
       name: 'untilDeacticateIt',
-      label: 'Until Deacticate it',
+      label: 'Until Deactivate it',
       fullWidth: true,
     },
     type: ['physicalReward', 'digitalReward'],

@@ -21,7 +21,7 @@ import {
 } from '@/assets/icons';
 
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { setActiveReply } from '@/redux/slices/chat/slice';
+import { setActiveReply, setChatContacts } from '@/redux/slices/chat/slice';
 
 import { UserDefault } from '@/assets/images';
 import { getSession } from '@/utils';
@@ -31,6 +31,8 @@ import { styles } from '../ChatField.style';
 import dayjs from 'dayjs';
 import { TIME_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
+import { IMG_URL } from '@/config';
+import { CHAT_SOCKETS_EMIT } from '@/routesConstants/paths';
 
 const ChatBox = ({
   item,
@@ -56,6 +58,8 @@ const ChatBox = ({
   const dispatch = useAppDispatch();
 
   const socket = useAppSelector((state) => state?.chat?.socket);
+  const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
+  const activeChatState = useAppSelector((state) => state?.chat?.activeChat);
 
   const handelSendReaction = (emoji: any, item: any) => {
     const isReactionExists = item?.reactions?.some(
@@ -78,6 +82,7 @@ const ChatBox = ({
     );
   };
 
+  //Reply message to user
   const handelReply = (chatId: any) => {
     dispatch(
       setActiveReply({
@@ -87,34 +92,34 @@ const ChatBox = ({
     );
   };
 
+  //Delete message from chat
   const handelDelete = () => {
-    socket.emit(
-      'update-message',
-      {
-        messageId: item?._id,
-        isDeleted: true,
-      },
-      // (response: any) => {
-      //   console.log('response', response?.data);
-      // },
-    );
+    socket.emit(CHAT_SOCKETS_EMIT.UPDATE_MESSAGE, {
+      messageId: item?._id,
+      isDeleted: true,
+    });
   };
 
+  // Read message functionality from socket
   useEffect(() => {
     if (role === 'receiver') {
       if (item?.isRead === false) {
-        socket.emit(
-          'update-message',
-          {
-            messageId: item?._id,
-            isRead: true,
-          },
-          // (response: any) => {
-          //   console.log('response', response?.data);
-          // },
-        );
+        socket.emit(CHAT_SOCKETS_EMIT.UPDATE_MESSAGE, {
+          messageId: item?._id,
+          isRead: true,
+          groupId: activeChatId,
+        });
       }
     }
+  }, [item]);
+
+  useEffect(() => {
+    dispatch(
+      setChatContacts({
+        ...activeChatState,
+        unReadMessagesCount: '',
+      }),
+    );
   }, [item]);
 
   const divToCopyRef = useRef<any>(null);
@@ -187,14 +192,22 @@ const ChatBox = ({
             ) : (
               <>
                 {chatMode === 'groupChat' ? (
-                  <Box>
-                    <Typography
-                      variant="body3"
-                      sx={{ color: theme?.palette?.common, fontWeight: '500' }}
-                    >
-                      {item?.userName}
-                    </Typography>
-                  </Box>
+                  <>
+                    {role === 'receiver' && (
+                      <Box>
+                        <Typography
+                          variant="body3"
+                          color={theme?.palette?.common?.black}
+                          sx={{
+                            fontWeight: '500',
+                          }}
+                        >
+                          {item?.ownerDetail?.firstName}&nbsp;
+                          {item?.ownerDetail?.lastName}
+                        </Typography>
+                      </Box>
+                    )}
+                  </>
                 ) : null}
               </>
             )}
@@ -223,7 +236,7 @@ const ChatBox = ({
                     )}
                   </>
                 )}
-                {item?.attachment?.images && (
+                {item?.type === 'image' && (
                   <Box key={uuidv4()} sx={{ width: '16vw' }}>
                     <Grid
                       container
@@ -233,42 +246,66 @@ const ChatBox = ({
                         marginBottom: '2px',
                       }}
                     >
-                      {item?.attachment?.images?.map((item: any) => (
+                      {item?.media?.map((item: any) => (
                         <Grid item xs={9} sm={4} md={4} lg={4} key={uuidv4()}>
-                          <Image src={item?.img} height={80} alt="media" />
+                          <Image
+                            src={`${IMG_URL}${item?.url}`}
+                            width={100}
+                            height={80}
+                            style={{ borderRadius: '8px' }}
+                            alt="media"
+                          />
                         </Grid>
                       ))}
                     </Grid>
                   </Box>
                 )}
-                {item?.attachment?.document && (
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                      }}
-                    >
-                      <PaperClipIcon />
-                      <Typography
-                        variant="body3"
-                        sx={{
-                          color: theme?.palette?.error?.main,
-                          fontWeight: '500',
-                        }}
-                      >
-                        {item?.attachment?.document}
-                      </Typography>
-                    </Box>
-                    <DownloadRoundedIcon />
-                  </Box>
+                {!item?.isDeleted && (
+                  <>
+                    {item?.type === 'docs' && (
+                      <Box>
+                        {item?.media?.map((item: any) => (
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                            }}
+                            key={uuidv4()}
+                          >
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '10px',
+                              }}
+                            >
+                              <PaperClipIcon />
+                              <Typography
+                                variant="body3"
+                                sx={{
+                                  color: theme?.palette?.error?.main,
+                                  fontWeight: '500',
+                                }}
+                              >
+                                {item?.orignalName}
+                              </Typography>
+                            </Box>
+                            <a
+                              href={`${IMG_URL}${item?.url}`}
+                              download={`${IMG_URL}${item?.url}`}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <Box sx={{ cursor: 'pointer' }}>
+                                <DownloadRoundedIcon />
+                              </Box>
+                            </a>
+                          </Box>
+                        ))}
+                      </Box>
+                    )}
+                  </>
                 )}
                 <Box
                   sx={{
@@ -279,15 +316,17 @@ const ChatBox = ({
                 >
                   <CharmTickIcon isRead={item?.isRead} />
                 </Box>
-                {item?.reactions?.map((emoji: any) => (
-                  <Box
-                    key={uuidv4()}
-                    sx={styles?.chatReaction}
-                    dangerouslySetInnerHTML={{
-                      __html: emoji?.userReaction,
-                    }}
-                  />
-                ))}
+                <Box sx={styles?.chatReactionWrapper(theme)}>
+                  {item?.reactions?.map((emoji: any) => (
+                    <Box
+                      key={uuidv4()}
+                      sx={styles?.chatReaction}
+                      dangerouslySetInnerHTML={{
+                        __html: emoji?.userReaction,
+                      }}
+                    />
+                  ))}
+                </Box>
                 {item?._id === activeChat && (
                   <Box sx={styles?.sendReaction(theme)}>
                     {customEmojis?.map((emoji: any) => (

@@ -7,7 +7,7 @@ import {
 } from './Dashboard.data';
 
 export const useDashboard = () => {
-  const { TICKETS, KNOWLEDGE_BASE } = AIR_CUSTOMER_PORTAL;
+  const { TICKETS, KNOWLEDGE_BASE, APPROVALS } = AIR_CUSTOMER_PORTAL;
   const { push } = useRouter();
 
   const handleViewMore = (widget: string) => {
@@ -16,7 +16,7 @@ export const useDashboard = () => {
         return push(KNOWLEDGE_BASE);
       }
       case dashboardWidgetsTitles?.pendingApproval: {
-        return;
+        return push(APPROVALS);
       }
       case dashboardWidgetsTitles?.recentTickets: {
         return push(TICKETS);
@@ -34,13 +34,12 @@ export const useDashboard = () => {
 
   const handleButtonClick = (event: any) => {
     setAnchorEl(event?.currentTarget);
-    setOpen(!open);
+    setOpen(true);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
     setOpen(false);
-    setOpenReportAnIssueModal(true);
   };
 
   return {

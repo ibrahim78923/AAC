@@ -9,7 +9,7 @@ import { SwitchBtn } from '@/components/SwitchButton';
 import * as Yup from 'yup';
 
 import { CommonAPIS } from '@/services/common-APIs';
-import { getSession } from '@/utils';
+import { convertIdToShortNumber, getSession } from '@/utils';
 
 export const columns: any = (columnsProps: any) => {
   const { updateStatus, checkedRows, setCheckedRows } = columnsProps;
@@ -38,7 +38,7 @@ export const columns: any = (columnsProps: any) => {
     {
       accessorFn: (row: any) => row?._id,
       id: '_id',
-      cell: (info: any) => info?.getValue() ?? 'N/A',
+      cell: (info: any) => convertIdToShortNumber(info?.getValue()) ?? 'N/A',
       header: 'Role ID',
       isSortable: true,
     },

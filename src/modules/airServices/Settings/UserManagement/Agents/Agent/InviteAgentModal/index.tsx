@@ -19,7 +19,7 @@ export const InviteAgentModel = (props: any) => {
     inviteAgentMethods,
     handleSubmitAgent,
     handleAddAgentModal,
-    departmentData,
+    departmentDropdown,
     isLoading,
   } = useInviteAgentModal(props);
 
@@ -59,7 +59,7 @@ export const InviteAgentModel = (props: any) => {
             </DialogTitle>
             <DialogContent sx={{ mt: 2 }}>
               <Grid container gap={2.4}>
-                {agentFieldsData(editAgentModalTitle, departmentData)?.map(
+                {agentFieldsData(editAgentModalTitle, departmentDropdown)?.map(
                   (form: any) => (
                     <Grid item xs={12} md={form?.gridLength} key={form?.id}>
                       <form.component {...form?.componentProps} size="small" />

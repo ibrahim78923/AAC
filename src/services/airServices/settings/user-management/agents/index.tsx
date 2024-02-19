@@ -1,6 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
+const TAG_ONE = 'DROPDOWN_DEPARTMENT';
 const TAG = 'AGENTS';
 const {
   GET_AGENT,
@@ -59,6 +60,17 @@ export const agentsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getDepartmentDropdownList: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.departments;
+      },
+      providesTags: [TAG_ONE],
+    }),
   }),
 });
 
@@ -69,4 +81,5 @@ export const {
   usePatchAgentMutation,
   useGetAgentRequesterQuery,
   useLazyGetAgentRequesterQuery,
+  useLazyGetDepartmentDropdownListQuery,
 } = agentsAPI;

@@ -15,7 +15,8 @@ import {
 } from './FilterTickets.data';
 
 export const useFilterTickets = (props: any) => {
-  const { setIsDrawerOpen, setFilterTicketLists, filterTicketLists } = props;
+  const { setIsDrawerOpen, setFilterTicketLists, filterTicketLists, setPage } =
+    props;
   const router = useRouter();
   const theme: any = useTheme();
   const { makePath } = usePath();
@@ -33,9 +34,11 @@ export const useFilterTickets = (props: any) => {
       )
       ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
     if (!Object?.keys(ticketsFiltered || {})?.length) {
+      setFilterTicketLists(ticketsFiltered);
       onClose();
       return;
     }
+    setPage(1);
     setFilterTicketLists(ticketsFiltered);
     onClose();
   };

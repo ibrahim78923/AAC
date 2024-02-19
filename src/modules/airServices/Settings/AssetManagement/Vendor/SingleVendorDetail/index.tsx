@@ -14,7 +14,9 @@ export const SingleVendorDetail = () => {
     handleDeleteBtn,
     isADrawerOpen,
     setIsADrawerOpen,
+    update,
   } = useSingleVendorDetails();
+
   return (
     <>
       <Header dropdownOptions={singleVendorDetailsActionDropdown} />
@@ -32,6 +34,7 @@ export const SingleVendorDetail = () => {
       )}
       <Box>
         <AddNewVendor
+          update={update}
           isADrawerOpen={isADrawerOpen}
           setIsADrawerOpen={setIsADrawerOpen}
         />

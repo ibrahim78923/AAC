@@ -1,11 +1,19 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Grid, Typography } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
-import { dataArray } from './DetailsViewPropertiesSection.data';
+import { Box, Button, Grid, Typography } from '@mui/material';
+
 import { useDetailsViewPropertiesSection } from './useDetailsViewPropertiesSection';
+import DetailViewTimeEntries from '../DetailViewTimeEntries';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const DetailsViewPropertiesSection = () => {
-  const { methods, handleSubmit, onSubmit } = useDetailsViewPropertiesSection();
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    ticketDetailsFormFields,
+    isLoading,
+    isFetching,
+  } = useDetailsViewPropertiesSection();
   return (
     <>
       <Grid
@@ -18,25 +26,28 @@ const DetailsViewPropertiesSection = () => {
         <Grid item xs={12} sx={{ mb: '2rem' }}>
           <Typography variant="h5">Properties</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-            <Grid container spacing={4}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : item?.heading}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Grid>
+        {isLoading || isFetching ? (
+          <SkeletonForm />
+        ) : (
+          <Grid item xs={12}>
+            <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+              <Grid container spacing={4}>
+                {ticketDetailsFormFields?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={item?.id}>
+                    <item.component {...item?.componentProps} size={'small'} />
+                  </Grid>
+                ))}
+              </Grid>
+              <DetailViewTimeEntries />
+              <Box textAlign={'end'} p={2}>
+                <Button variant={'outlined'}>Cancel</Button>
+                <Button variant={'contained'} type={'submit'} sx={{ ml: 2 }}>
+                  Submit
+                </Button>
+              </Box>
+            </FormProvider>
+          </Grid>
+        )}
       </Grid>
     </>
   );

@@ -9,8 +9,10 @@ export const useDeleteInventory = (props: any) => {
     setDeleteModalOpen,
     selectedInventoryLists,
     setSelectedInventoryLists,
+    setPage,
   } = props;
-  const [deleteInventoryTrigger] = useDeleteInventoryMutation();
+  const [deleteInventoryTrigger, deleteInventoryStatus] =
+    useDeleteInventoryMutation();
   const router = useRouter();
   const { makePath } = usePath();
   const deleteInventory = async () => {
@@ -33,6 +35,7 @@ export const useDeleteInventory = (props: any) => {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       setSelectedInventoryLists([]);
+      setPage(1);
       closeTicketsDeleteModal?.();
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {
@@ -52,5 +55,6 @@ export const useDeleteInventory = (props: any) => {
   };
   return {
     deleteInventory,
+    deleteInventoryStatus,
   };
 };

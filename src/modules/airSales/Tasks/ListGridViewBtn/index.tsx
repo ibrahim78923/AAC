@@ -1,14 +1,15 @@
 import React from 'react';
 import { Button, ButtonGroup } from '@mui/material';
 import { GridViewIcon, ListViewIcon } from '@/assets/icons';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setToggleTableView } from '@/redux/slices/taskManagement/taskManagementSlice';
 
-const ListGridViewBtn = ({ onClick }: { onClick: ({}) => void }) => {
-  const [activeColor, setActiveColor] = React.useState('listView');
+const ListGridViewBtn = () => {
+  const dispatch: any = useAppDispatch();
 
-  const handleClick = (type: string) => {
-    onClick(type);
-    setActiveColor(type);
-  };
+  const toggleTableView = useAppSelector(
+    (state: any) => state?.task?.toggleTableView,
+  );
 
   return (
     <ButtonGroup
@@ -19,10 +20,10 @@ const ListGridViewBtn = ({ onClick }: { onClick: ({}) => void }) => {
       <Button
         color="inherit"
         className="small"
-        onClick={() => handleClick('listView')}
+        onClick={() => dispatch(setToggleTableView('listView'))}
         sx={{
           '&:hover': { backgroundColor: '#F3F4F6' },
-          backgroundColor: activeColor === 'listView' ? '#F3F4F6' : '',
+          backgroundColor: toggleTableView === 'listView' ? '#F3F4F6' : '',
         }}
       >
         <ListViewIcon />
@@ -30,11 +31,11 @@ const ListGridViewBtn = ({ onClick }: { onClick: ({}) => void }) => {
       <Button
         color="inherit"
         className="small"
-        onClick={() => handleClick('gridView')}
-        // sx={{
-        //   '&:hover': { backgroundColor: '#F3F4F6' },
-        //   backgroundColor: activeColor === 'gridView' ? '#F3F4F6' : '',
-        // }}
+        onClick={() => dispatch(setToggleTableView('gridView'))}
+        sx={{
+          '&:hover': { backgroundColor: '#F3F4F6' },
+          backgroundColor: toggleTableView === 'gridView' ? '#F3F4F6' : '',
+        }}
       >
         <GridViewIcon />
       </Button>

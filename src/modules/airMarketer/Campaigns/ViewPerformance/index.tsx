@@ -1,23 +1,26 @@
 import React from 'react';
-
 import { Box, Button, Typography, useTheme } from '@mui/material';
 import ViewCompaignDetails from './ViewCompaignDetails';
 import Performance from './Tabs/Performace';
 import { BackArrowIcon } from '@/assets/icons';
 import { PlusIcon } from '@/assets/icons';
-
 import Tasks from './Tabs/Tasks';
 import Assets from './Tabs/Assets';
 import { useRouter } from 'next/router';
-import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import useCampaigns from '../useCampaigns';
 import AddAssets from './AddAssets/Settings';
+import CommonTabs from '@/components/Tabs';
 
 const ViewPerformance = () => {
   const router = useRouter();
   const theme = useTheme();
-  const { setIsOpenAddAssets, handleCloseAddAssetsModal, isOpenAddAssets } =
-    useCampaigns();
+  const {
+    setIsOpenAddAssets,
+    handleCloseAddAssetsModal,
+    isOpenAddAssets,
+    searchVal,
+    setSearchVal,
+  } = useCampaigns();
   return (
     <Box
       sx={{
@@ -45,17 +48,25 @@ const ViewPerformance = () => {
             startIcon={<PlusIcon />}
             onClick={() => setIsOpenAddAssets(true)}
           >
-            View Assets
+            Add Assets
           </Button>
         </Box>
       </Box>
       <ViewCompaignDetails />
       <Box sx={{ padding: '0px 24px' }}>
-        <HorizontalTabs tabsDataArray={['Performance', 'Assets', 'Tasks']}>
+        <CommonTabs
+          searchBarProps={{
+            label: 'Search Here',
+            setSearchBy: setSearchVal,
+            searchBy: searchVal,
+          }}
+          tabsArray={['Performance', 'Assets', 'Tasks']}
+          isHeader={true}
+        >
           <Performance />
           <Assets />
           <Tasks />
-        </HorizontalTabs>
+        </CommonTabs>
       </Box>
       {isOpenAddAssets && (
         <AddAssets

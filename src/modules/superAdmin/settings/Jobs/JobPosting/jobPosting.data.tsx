@@ -308,12 +308,12 @@ export const columns = (
           info?.getValue() === 'SALES'
             ? 'Sales'
             : info?.getValue() === 'MARKETING'
-            ? 'Marketing'
-            : info?.getValue() === 'SERVICES'
-            ? 'Services'
-            : info?.getValue() === 'OPERATIONS'
-            ? 'Operations'
-            : 'Loyalty Program';
+              ? 'Marketing'
+              : info?.getValue() === 'SERVICES'
+                ? 'Services'
+                : info?.getValue() === 'OPERATIONS'
+                  ? 'Operations'
+                  : 'Loyalty Program';
         return <>{category}</>;
       },
     },
@@ -321,7 +321,7 @@ export const columns = (
       accessorFn: (row: any) => row?.numberOfVacancy,
       id: 'numberOfVacancy',
       isSortable: true,
-      header: <Box sx={{ textTransform: 'none' }}>No. of Vacency</Box>,
+      header: <Box sx={{ textTransform: 'none' }}>No. of Vacancy</Box>,
       cell: (info: any) => info?.getValue(),
     },
     {

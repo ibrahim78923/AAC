@@ -3,9 +3,10 @@ import NoData from '@/components/NoData';
 import { v4 as uuidv4 } from 'uuid';
 import { NoAssociationFoundImage } from '@/assets/images';
 import { Timeline } from './Timeline';
-import { contractHistoryData } from './ContractHistory.data';
+import { useContractHistory } from './useContractHistory';
 
 export const ContractHistory = () => {
+  const { contractHistoryData } = useContractHistory();
   return (
     <Grid container>
       <Grid item xs={12} md={0.5}></Grid>

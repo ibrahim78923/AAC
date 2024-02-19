@@ -19,7 +19,7 @@ export const useChatField = () => {
     (message: any) => message?.content !== '',
   );
 
-  const chatDataToShow = chatMode === 'groupChat' ? [] : filteredMessages;
+  const chatDataToShow = filteredMessages;
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const actionMenuOpen = Boolean(anchorEl);

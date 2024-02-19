@@ -16,7 +16,7 @@ export const dataArray = [
   {
     componentProps: {
       name: 'users',
-      label: 'users',
+      label: 'Users',
       fullWidth: true,
       select: true,
     },

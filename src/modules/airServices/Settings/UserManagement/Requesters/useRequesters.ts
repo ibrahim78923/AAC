@@ -15,7 +15,7 @@ import {
   upsertRequestersValidationSchema,
 } from './UpsertRequesters/UpsertRequesters.data';
 import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
 import { useSearchParams } from 'next/navigation';
 
 export const useRequesters = () => {
@@ -31,7 +31,7 @@ export const useRequesters = () => {
   const params = {
     page: page,
     limit: pageLimit,
-    role: 'ORG_REQUESTER',
+    role: ROLES?.ORG_REQUESTER,
   };
 
   const { data, isLoading, isError, isFetching, isSuccess }: any =
@@ -79,7 +79,7 @@ export const useRequesters = () => {
 
   const submit = async (data: any) => {
     const formData = {
-      ...data,
+      id: profileId,
       firstName: data?.firstName,
       lastName: data?.lastName,
       jobTitle: data?.jobTitle,
@@ -87,23 +87,25 @@ export const useRequesters = () => {
       timezone: data?.timezone,
     };
     try {
-      await editRequester({
-        ...formData,
-        _id: profileId,
-        role: 'ORG_REQUESTER',
-      });
-      enqueueSnackbar('Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      reset();
+      const res: any = await editRequester(formData).unwrap();
+      enqueueSnackbar(
+        res?.data?.data?.message ?? 'Single Requesters Edit  Successfully',
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
       setIsDrawerOpen(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.error?.message ?? 'Error', {
+      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
+    handleClose?.();
   };
-
+  const handleClose = () => {
+    setIsDrawerOpen(false);
+    reset?.();
+  };
   return {
     theme,
     isDrawerOpen,
@@ -131,5 +133,6 @@ export const useRequesters = () => {
     methods,
     handleSubmit,
     submit,
+    handleClose,
   };
 };

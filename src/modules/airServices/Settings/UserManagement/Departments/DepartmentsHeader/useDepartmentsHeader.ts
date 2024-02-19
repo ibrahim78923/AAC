@@ -1,30 +1,27 @@
-import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { usePostDepartmentMutation } from '@/services/airServices/settings/user-management/departments';
+import { useLazyGetAgentsDropdownListQuery } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import {
   departmentFormValidation,
   departmentFormValues,
 } from '../DepartmentsFormModal/DepartmentsFormModal.data';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { usePostDepartmentMutation } from '@/services/airServices/settings/user-management/departments';
-import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
 
-export const useDepartmentsHeader = () => {
-  const [openAddModal, setOpenAddModal] = useState(false);
+export const useDepartmentsHeader = (props: any) => {
+  const { openAddModal, setOpenAddModal } = props;
   const { USER_MANAGEMENT } = AIR_SERVICES;
   const { push } = useRouter();
   const backArrowClick = () => {
     push({ pathname: USER_MANAGEMENT });
   };
-  const usersList = useLazyGetOrganizationsQuery();
-
-  const [postDepartment] = usePostDepartmentMutation();
+  const [postDepartment, { isLoading }] = usePostDepartmentMutation();
   const addFormMethod = useForm({
     resolver: yupResolver(departmentFormValidation),
-    defaultValues: departmentFormValues,
+    defaultValues: departmentFormValues(null),
   });
   const { handleSubmit, reset } = addFormMethod;
   const submitAddForm = async (formData: any) => {
@@ -33,11 +30,10 @@ export const useDepartmentsHeader = () => {
       departmentHeadId: formData?.departmentHeadId?._id,
       members: formData?.members?.map((value: any) => value?._id),
     };
-    const response: any = await postDepartment({
-      body: modifyData,
-    });
     try {
-      response;
+      const response: any = await postDepartment({
+        body: modifyData,
+      });
       enqueueSnackbar(
         response?.data?.message && 'Department Added Successfully',
         {
@@ -45,18 +41,27 @@ export const useDepartmentsHeader = () => {
         },
       );
       reset();
+      setOpenAddModal(false);
     } catch (error: any) {
-      enqueueSnackbar(!response?.message && 'An error', {
+      enqueueSnackbar(error?.data?.error ?? 'An error', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
   };
-  const formProps = { addFormMethod, submitAddForm, handleSubmit };
+  const handleClose = () => {
+    setOpenAddModal(false);
+    reset();
+  };
+  const userList = useLazyGetAgentsDropdownListQuery();
+  const formSubmit = handleSubmit(submitAddForm);
   return {
     backArrowClick,
     openAddModal,
     setOpenAddModal,
-    formProps,
-    usersList,
+    formSubmit,
+    userList,
+    handleClose,
+    addFormMethod,
+    isLoading,
   };
 };

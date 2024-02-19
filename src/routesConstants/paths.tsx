@@ -57,6 +57,9 @@ export const SOCIAL_FEATURES = {
 
 export const AIR_SOCIAL = {
   CONTACTS: `${AIR_SOCIAL_PAGE}/contacts`,
+  CONTACTS_VIEW_DETAILS: `${AIR_SOCIAL_PAGE}/contacts/view-details`,
+  CONTACTS_RESTORE: `${AIR_SOCIAL_PAGE}/contacts/restore`,
+  CONTACTS_IMPORT: `${AIR_SOCIAL_PAGE}/contacts/import`,
 };
 
 export const AIR_SALES = {
@@ -72,6 +75,7 @@ export const AIR_SALES = {
   CONTACTS: '/air-sales/contacts/view-details',
   VIEW_DETAILS: '/air-sales/deals/view-details',
   DEAL_LIST_VIEW: '/deals/get-deals-list-view',
+  DEALS_VIEWDEATAILS: '/air-sales/deals/view-details',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
@@ -107,6 +111,10 @@ export const AIR_MARKETER = {
   ),
   EMAIL_MARKETING: path(AIR_MARKETING_PAGE, '/email-marketing'),
   EMAIL_TEMPLATES: path(AIR_MARKETING_PAGE, '/email-marketing/email-templates'),
+  CREATE_EMAIL_TEMPLATES: path(
+    AIR_MARKETING_PAGE,
+    '/email-marketing/email-templates/create-template',
+  ),
   EMAIL_FOLDER: path(AIR_MARKETING_PAGE, '/email-marketing/email-folder'),
   EMAIL_REPORTS: path(AIR_MARKETING_PAGE, '/email-marketing/email-reports'),
   SOCIAL_MARKETING: path(AIR_MARKETING_PAGE, '/social-marketing'),
@@ -195,10 +203,28 @@ export const LOYALTY_PROGRAM = {
 
 export const ORG_ADMIN = {
   DASHBOARD_EDIT_PROFILE: '/org-admin/dashboard/edit-profile',
+  ORGANIZATION: '/org-admin/organization-admin',
 };
 
 export const SOCIAL_FEATURES_CHAT = {
   CHAT: 'chat/',
   CHAT_LIST: 'chat/list/',
   UPDATE_CHAT: 'chat/',
+  UPLOAD_ATTACHMENT_CHAT: 'chat/message',
+  CREATE_GROUP: 'chat/create-group',
+};
+export const CHAT_SOCKETS = {
+  ON_STATUS_CHANGE: 'on-status-change',
+  ON_GROUP_CREATE: 'on-group-create',
+  ADD_MESSAGE: 'add-message',
+  ON_NEW_CHAT: 'on-new-chat',
+  SOCKET_ERROR_OCCURED: 'socket-error-occured',
+  ON_MESSAGE_RECEIVED: 'on-message-received',
+  UPDATE_MESSAGE: 'update-message',
+  ON_MESSAGE_UPDATE: 'on-message-update',
+  ON_TYPING_START: 'on-typing-start',
+  ON_TYPING_STOP: 'on-typing-stop',
+};
+export const CHAT_SOCKETS_EMIT = {
+  UPDATE_MESSAGE: 'update-message',
 };

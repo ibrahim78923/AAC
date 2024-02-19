@@ -31,7 +31,6 @@ const CustomTextEditor = ({
           { list: 'bullet' },
           { list: 'ordered' },
           'link',
-          'image',
           'code-block',
           'blockquote',
         ],

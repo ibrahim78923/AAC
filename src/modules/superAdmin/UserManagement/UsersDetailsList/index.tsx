@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import {
   Box,
   Button,
@@ -34,8 +33,9 @@ import { ArrowBack, AddCircleOutlined } from '@mui/icons-material';
 
 import { FilterrIcon, RefreshTasksIcon } from '@/assets/icons';
 
-import { AvatarImage, NoAssociationFoundImage } from '@/assets/images';
+import { NoAssociationFoundImage } from '@/assets/images';
 import useUserDetailsList from './useUserDetailsList';
+import useOrgUserDetailsList from '@/modules/orgAdmin/Users/UsersDetails/useUsersDetails';
 import Filter from './Filter';
 import AddCompanyDetails from './AddCompanyDetails';
 import StatusBadge from '@/components/StatusBadge';
@@ -45,10 +45,11 @@ import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/user
 import NoData from '@/components/NoData';
 import { useSearchParams } from 'next/navigation';
 import useUserManagement from '../useUserManagement';
+import { IMG_URL } from '@/config';
+import { useEffect } from 'react';
 
 const UsersDetailsList = () => {
   const {
-    handleCloseDrawer,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenAddCompanyDrawer,
@@ -59,8 +60,6 @@ const UsersDetailsList = () => {
     setIsOpenAdduserDrawer,
     isOpenAddAccountDrawer,
     setIsOpenAddAccountDrawer,
-    search,
-    setSearch,
     tabVal,
     setTabVal,
     theme,
@@ -76,21 +75,24 @@ const UsersDetailsList = () => {
     resetFilters,
     handleEmpListPaginationChange,
     page,
+    searchAccount,
+    setSearchAccount,
   }: any = useUserDetailsList();
 
   const { handleUserSwitchChange } = useUserManagement();
 
-  const { userName, userId } = navigate.query;
+  const { userName } = navigate.query;
   const organizationId = useSearchParams()?.get('organizationId');
 
   const employeeRecordsLimit = 10;
+
   const empListParams = {
     page: page,
     limit: employeeRecordsLimit,
     search: searchEmployee,
-    // status:'ACTIVE'
     product: employeeFilter?.product,
     company: employeeFilter?.company,
+    status: employeeFilter?.status ? employeeFilter?.status : undefined,
   };
   const { data: employeeList } = useGetEmployeeListQuery({
     orgId: organizationId,
@@ -103,6 +105,11 @@ const UsersDetailsList = () => {
       ? employeeDataById
       : employeeList?.data?.users && employeeList?.data?.users[0]?._id,
   );
+  useEffect(() => {
+    setEmployeeDataById(employeeList?.data?.users[0]?._id);
+  }, [employeeList]);
+
+  const { handleChangeImg } = useOrgUserDetailsList();
 
   return (
     <Box>
@@ -232,13 +239,13 @@ const UsersDetailsList = () => {
                       },
                     }}
                   >
-                    <Avatar>
-                      <Image
-                        src={AvatarImage}
-                        alt="Avatar"
-                        width={40}
-                        height={40}
-                      />
+                    <Avatar
+                      src={`${IMG_URL}${item?.avatar?.url}`}
+                      sx={{ color: theme?.palette?.grey[600], fontWeight: 500 }}
+                    >
+                      {`${item?.firstName?.charAt(0)}${item?.lastName?.charAt(
+                        0,
+                      )}`}
                     </Avatar>
                     <Box sx={{ width: '100%' }}>
                       <Box
@@ -296,6 +303,14 @@ const UsersDetailsList = () => {
                     email={profileData?.data?.email}
                     phone={profileData?.data?.phoneNumber}
                     handleEditProfile={() => setTabVal(1)}
+                    src={`${
+                      profileData?.data?.avatar
+                        ? `${IMG_URL}${profileData?.data?.avatar?.url}`
+                        : ''
+                    }`}
+                    handleChangeImg={(e: any) =>
+                      handleChangeImg(e, employeeDataById)
+                    }
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -313,8 +328,8 @@ const UsersDetailsList = () => {
                         activeTab={tabVal}
                         searchBarProps={{
                           label: 'Search Here',
-                          setSearchBy: setSearch,
-                          searchBy: search,
+                          setSearchBy: setSearchAccount,
+                          searchBy: searchAccount,
                         }}
                         isHeader={tabVal === 0 ? true : false}
                         tabsArray={['Company Accounts', 'Profile', 'Delegates']}
@@ -337,7 +352,11 @@ const UsersDetailsList = () => {
                           </>
                         }
                       >
-                        <CompanyAccounts organizationId={organizationId} />
+                        <CompanyAccounts
+                          organizationId={organizationId}
+                          employeeDataById={employeeDataById}
+                          searchAccount={searchAccount}
+                        />
                         <UserDetailsProfile userDetails={profileData?.data} />
                         <Delegates />
                       </CommonTabs>
@@ -359,13 +378,13 @@ const UsersDetailsList = () => {
           isOpen={isOpenAddAccountDrawer}
           setIsOpen={setIsOpenAddAccountDrawer}
           organizationId={organizationId}
-          userId={userId}
+          userId={employeeDataById}
         />
       )}
       {isOpenDrawer && (
         <Filter
           isOpenDrawer={isOpenDrawer}
-          onClose={handleCloseDrawer}
+          setIsOpenDrawer={setIsOpenDrawer}
           employeeFilter={employeeFilter}
           setEmployeeFilter={setEmployeeFilter}
         />

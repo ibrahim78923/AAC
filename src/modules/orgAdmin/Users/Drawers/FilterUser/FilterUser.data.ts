@@ -44,7 +44,7 @@ export const usersFilterArray = () => {
       },
       options: [
         { value: 'ACTIVE', label: 'Active' },
-        { value: 'INACTIVE', label: 'InActive' },
+        { value: 'INACTIVE', label: 'Inactive' },
       ],
       component: RHFSelect,
       md: 12,

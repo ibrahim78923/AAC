@@ -1,8 +1,12 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const upsertProductValidationSchema = Yup?.object()?.shape({
-  productCatalog: Yup?.string(),
+  productCatalog: Yup?.object(),
   price: Yup?.number()
     ?.typeError('Price should be number')
     ?.required('Required'),
@@ -13,10 +17,10 @@ export const upsertProductValidationSchema = Yup?.object()?.shape({
 
 export const upsertProductDefaultValues = (data?: any) => {
   return {
-    productCatalog: data?.productName ?? '',
+    productCatalog: data?.productCatalogId ? data : null,
     price: data?.price ?? null,
-    years: data?.warrantyValidity?.month ?? '',
-    months: data?.warrantyValidity?.year ?? '',
+    years: data?.yrs ?? '',
+    months: data?.months ?? '',
     quantity: data?.quantity ?? 0,
   };
 };
@@ -48,12 +52,10 @@ const warrantyValidityMonthsOptions = [
   '11',
 ];
 
-const productCatalogOptions = [
-  'Dell 22-inch Monitor',
-  'Logitech M705 Wireless Mouse',
-];
-
-export const upsertProductDataArray = [
+export const upsertProductDataArray = (
+  apiQueryProductCatalog: any,
+  editData: any,
+) => [
   {
     id: 9478,
     componentProps: {
@@ -61,11 +63,14 @@ export const upsertProductDataArray = [
       label: 'Product Catalog',
       type: 'text',
       size: 'small',
+      disabled: editData?.length === 0 ? false : true,
       placeholder: 'Catalog',
       fullWidth: true,
-      options: productCatalogOptions,
+      apiQuery: apiQueryProductCatalog,
+      externalParams: { meta: false, limit: 50, page: 1 },
+      getOptionLabel: (option: any) => option?.name,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 2786,

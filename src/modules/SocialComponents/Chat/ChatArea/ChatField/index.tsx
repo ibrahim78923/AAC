@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, Typography, useTheme } from '@mui/material';
 
 import ChatFooter from './ChatFooter';
 import { AlertModals } from '@/components/AlertModals';
@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 
 import { setChatMetaInfo } from '@/redux/slices/chat/slice';
 
-const ChatField = () => {
+const ChatField = ({ isError }: any) => {
   const {
     chatMode,
     activeChat,
@@ -25,6 +25,8 @@ const ChatField = () => {
     setIsDeleteModal,
     chatDataToShow,
   } = useChatField();
+
+  const theme = useTheme();
 
   const dispatch = useAppDispatch();
 
@@ -74,50 +76,46 @@ const ChatField = () => {
           },
         }}
       >
-        {isChatMessagesLoading && (
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <CircularProgress />
-          </Box>
-        )}
-        {/* <Box>
-            <Box sx={styles?.timeSlot(theme)}>
-              <Typography
-                variant="h6"
-                sx={{ color: theme?.palette?.custom?.grayish_blue }}
-              >
-                Sep 09
-              </Typography>
+        {isError ? (
+          <Typography
+            variant="body2"
+            color={theme?.palette?.error?.main}
+            textAlign="center"
+          >
+            Something went wrong
+          </Typography>
+        ) : (
+          <>
+            {isChatMessagesLoading && (
+              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <CircularProgress />
+              </Box>
+            )}
+            <Box sx={{ paddingTop: '30px' }}>
+              {!isNullOrEmpty(chatsData) &&
+                chatDataToShow &&
+                chatDataToShow
+                  ?.slice()
+                  ?.reverse()
+                  ?.map((item: any) => {
+                    const role =
+                      item?.ownerId === user?._id ? 'sender' : 'receiver';
+                    return (
+                      <>
+                        <ChatBox
+                          item={item}
+                          role={role}
+                          chatMode={chatMode}
+                          setActiveChat={setActiveChat}
+                          activeChat={activeChat}
+                          customEmojis={customEmojis}
+                        />
+                      </>
+                    );
+                  })}
             </Box>
-            <Divider
-              sx={{
-                borderColor: theme?.palette?.grey[700],
-                marginTop: '-14px',
-              }}
-            />
-          </Box> */}
-        <Box sx={{ paddingTop: '30px' }}>
-          {!isNullOrEmpty(chatsData) &&
-            chatDataToShow &&
-            chatDataToShow
-              ?.slice()
-              ?.reverse()
-              ?.map((item: any) => {
-                const role =
-                  item?.ownerId === user?._id ? 'sender' : 'receiver';
-                return (
-                  <>
-                    <ChatBox
-                      item={item}
-                      role={role}
-                      chatMode={chatMode}
-                      setActiveChat={setActiveChat}
-                      activeChat={activeChat}
-                      customEmojis={customEmojis}
-                    />
-                  </>
-                );
-              })}
-        </Box>
+          </>
+        )}
       </Box>
       <ChatFooter
         setChangeScroll={setChangeScroll}

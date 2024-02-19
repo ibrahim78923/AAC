@@ -2,32 +2,30 @@ import { Grid, Box } from '@mui/material';
 import TicketInfoBoardHeader from './TicketInfoBoardHeader';
 import { TicketInfoCard } from './TicketInfoCard';
 import { Fragment } from 'react';
-import { useGetTicketsQuery } from '@/services/airServices/tickets';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
 import { AssociationsImage } from '@/assets/images';
+import { useTicketsBoardView } from './useTicketsBoardView';
 
 export const TableBoardView = ({
   setTicketAction,
   setSelectedTicketList,
+  search,
+  filterTicketLists,
 }: any) => {
-  const HEAD_STATUS = [
-    { heading: 'Open', be: 'OPEN' },
-    { heading: 'Resolved', be: 'RESOLVED' },
-    { heading: 'Pending', be: 'PENDING' },
-    { heading: 'Closed', be: 'CLOSED' },
-  ];
-
-  const apiDataParameter = { queryParams: {} };
-
-  const { data, isLoading, isError } = useGetTicketsQuery(apiDataParameter);
-
-  const ticketViewBoardArray = data?.data?.tickets;
+  const {
+    HEAD_STATUS,
+    data,
+    isLoading,
+    isError,
+    isFetching,
+    ticketViewBoardArray,
+  } = useTicketsBoardView({ search, filterTicketLists });
 
   if (isError) return <ApiErrorState />;
-  if (isLoading) return <SkeletonTable />;
-  if (!!!data)
+  if (isLoading || isFetching) return <SkeletonTable />;
+  if (!!!data?.data?.tickets?.length)
     return <NoData message="No data is available" image={AssociationsImage} />;
 
   return (

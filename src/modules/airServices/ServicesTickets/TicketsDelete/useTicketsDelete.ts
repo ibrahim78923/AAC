@@ -7,9 +7,14 @@ import { enqueueSnackbar } from 'notistack';
 export const useTicketDelete = (props: any) => {
   const router = useRouter();
   const { makePath } = usePath();
-  const { setDeleteModalOpen, selectedTicketList, setSelectedTicketList } =
-    props;
-  const [deleteTicketsTrigger] = useDeleteTicketsMutation();
+  const {
+    setDeleteModalOpen,
+    selectedTicketList,
+    setSelectedTicketList,
+    setPage,
+  } = props;
+  const [deleteTicketsTrigger, deleteTicketsStatus] =
+    useDeleteTicketsMutation();
   const deleteTicket = async () => {
     const deleteParams = new URLSearchParams();
     selectedTicketList?.forEach(
@@ -26,6 +31,7 @@ export const useTicketDelete = (props: any) => {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       setSelectedTicketList([]);
+      setPage(1);
       closeTicketsDeleteModal?.();
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message?.error ?? 'Ticket not deleted', {
@@ -48,5 +54,6 @@ export const useTicketDelete = (props: any) => {
   return {
     deleteTicket,
     closeTicketsDeleteModal,
+    deleteTicketsStatus,
   };
 };
