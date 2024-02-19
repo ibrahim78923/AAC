@@ -19,7 +19,7 @@ export const UpdateWorkloadTask = ({
     <CommonDrawer
       isDrawerOpen={openDrawer}
       onClose={() => onClose(false)}
-      title={edit ? 'Update Task' : `#${data?.extendedProps?.ticketNo}`}
+      title={edit ? 'Update Task' : `#${data?.extendedProps?.taskNo}`}
       okText={'Update'}
       isOk={edit}
       cancelText={'Cancel'}

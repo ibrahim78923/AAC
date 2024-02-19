@@ -59,7 +59,6 @@ export const RecentTickets = ({ title, handleViewMore }: any) => {
                         : ticket?.ticketTitle
                     } ${ticket?.ticketIdNumber}`}</Typography>
                   </Box>
-
                   <Typography
                     color={palette?.blue?.main}
                     fontWeight={500}
