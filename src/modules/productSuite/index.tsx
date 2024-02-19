@@ -16,8 +16,6 @@ import { useTheme } from '@mui/material';
 
 import { ProductSuiteCardData } from './ProductSuite.data';
 
-import useAuth from '@/hooks/useAuth';
-
 import { CompanyLogoIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
 
@@ -25,9 +23,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 const ProductSuite = () => {
   const theme = useTheme();
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
-  const { products }: any = user;
+  // const { products }: any = user;
+  const products: any = [];
 
   return (
     <Box
