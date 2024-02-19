@@ -9,7 +9,7 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
 import { TICKET_APPROVALS } from '@/constants/strings';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 export const ApprovalCard = (props: any) => {
   const { setApproval, data, getUpdateStatus } = props;
@@ -18,6 +18,7 @@ export const ApprovalCard = (props: any) => {
     getUpdateStatus,
     data,
   );
+
   return (
     <Box
       p={1.5}
@@ -49,7 +50,11 @@ export const ApprovalCard = (props: any) => {
                 color={setStatus?.(data?.approvalStatus)?.color}
               >
                 {setStatus?.(data?.approvalStatus)?.text} on{' '}
-                {dayjs(data?.date).format(DATE_FORMAT?.UI)}
+                {dayjs(
+                  data?.approvalStatus === TICKET_APPROVALS?.PENDING
+                    ? data?.createdAt
+                    : data?.updatedAt,
+                ).format(DATE_TIME_FORMAT?.UI)}
               </Typography>
             </Box>
           </Box>
