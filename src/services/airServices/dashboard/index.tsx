@@ -1,7 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const { GET_DASHBOARD_TICKETS } = END_POINTS;
+const { GET_DASHBOARD_TICKETS,DASHBOARD_ANNOUNCEMENTS } = END_POINTS;
 
 export const dashboardAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -19,10 +19,20 @@ export const dashboardAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['DASHBOARD_TICKETS'],
     }),
+    postAnnouncement: builder.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.DASHBOARD_ANNOUNCEMENTS}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['ANNOUNCEMENTS'],
+    }),
   }),
+  
 });
 
 export const {
   useGetTicketsStatusGraphQuery,
   useGetTicketsPriorityGraphQuery,
+  usePostAnnouncementMutation
 } = dashboardAPI;
