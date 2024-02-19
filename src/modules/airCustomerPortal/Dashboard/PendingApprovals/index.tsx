@@ -2,7 +2,6 @@ import { CardLayout } from '../CardLayout';
 import { Avatar, Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { styles } from './PendingApprovals.style';
-import { v4 as uuidv4 } from 'uuid';
 import { usePendingApprovals } from './usePendingApprovals';
 import NoData from '@/components/NoData';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
@@ -23,7 +22,7 @@ export const PendingApprovals = ({ title, handleViewMore }: any) => {
         <Box my="0.75rem">
           {!!data?.data?.articles?.length ? (
             data?.data?.articles?.map(({ user, ...approval }: any) => (
-              <Box key={uuidv4()} sx={mainWrapper(palette)}>
+              <Box key={approval?._id} sx={mainWrapper(palette)}>
                 <Typography fontWeight={600} color={palette?.blue?.main}>
                   Request for :
                   <Typography

@@ -7,9 +7,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useLazyGetVendorDropdownQuery,
   useLazyGetDropdownAssetsQuery,
@@ -17,6 +15,7 @@ import {
   useLazyGetSoftwareDropdownQuery,
   useLazyGetAgentsDropdownQuery,
 } from '@/services/airServices/assets/contracts';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useUpsertContract = () => {
   const theme = useTheme();
@@ -49,8 +48,10 @@ export const useUpsertContract = () => {
     postContractForm?.append('endDate', data?.endDate?.toISOString());
     postContractForm?.append('autoRenew', data?.autoRenew);
     postContractForm?.append('notifyRenewal', data?.notifyExpiry);
-    postContractForm?.append('notifyBefore', data?.notifyBefore);
-    postContractForm?.append('notifyTo', data?.notifyTo?._id);
+    !!data?.notifyExpiry &&
+      postContractForm?.append('notifyBefore', data?.notifyBefore);
+    !!data?.notifyExpiry &&
+      postContractForm?.append('notifyTo', data?.notifyTo?._id);
     postContractForm?.append('software', data?.software?._id);
     postContractForm?.append('itemsDetail', data?.itemDetail);
     postContractForm?.append('billingCycle', data?.billingCycle?._id);
@@ -68,17 +69,11 @@ export const useUpsertContract = () => {
       body: postContractForm,
     };
     try {
-      const response: any = await postContractTrigger(
-        postContractParameter,
-      )?.unwrap();
-      enqueueSnackbar('Contract Created Successfully' ?? response?.message, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postContractTrigger(postContractParameter)?.unwrap();
+      successSnackbar('Contract Created Successfully');
       router?.back();
     } catch (error: any) {
-      enqueueSnackbar(error?.message ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
   const apiQueryVendor = useLazyGetVendorDropdownQuery();

@@ -70,30 +70,12 @@ export const drawerTableColumns = (
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row?.assetType,
+    accessorFn: (row: any) => row?.assetTypeDetails?.name,
     id: 'assetType',
     isSortable: true,
     header: 'Asset Type',
     cell: (info: any) => (
       <Typography variant="body4">{info?.getValue()}</Typography>
     ),
-  },
-];
-
-export const drawerTableData: any = [
-  {
-    id: '1',
-    title: 'Logitech Mouse',
-    owner: 'Hardware',
-  },
-  {
-    id: '2',
-    title: 'Dell Monitor',
-    owner: 'Hardware',
-  },
-  {
-    id: '3',
-    title: 'Andrea’s Laptop',
-    owner: 'Hardware',
   },
 ];
