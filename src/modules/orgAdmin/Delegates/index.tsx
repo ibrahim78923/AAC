@@ -102,7 +102,7 @@ const Delegates = () => {
         handleSubmit={function (): void {
           throw new Error('Function not implemented.');
         }}
-        title={'Invite New Member'}
+        title={'Invite New Member dfhfdgf'}
         okText={'Create Folder'}
         footerFill={undefined}
       >
