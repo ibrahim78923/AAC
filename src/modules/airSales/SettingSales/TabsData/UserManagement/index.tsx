@@ -97,7 +97,7 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
             color: `${theme.palette.custom.main}`,
           }}
         >
-          Add New User to Organization
+          Add a new user to this organization
         </Typography>
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
@@ -171,7 +171,13 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
               }
             }}
             variant="contained"
-            sx={{ display: 'flex', alignItems: 'center', columnGap: '10px' }}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              columnGap: '10px',
+              marginTop: { xs: '10px', sm: '0px' },
+              width: { xs: '100%', sm: 'fit-content' },
+            }}
           >
             <AddCircleIcon
               sx={{

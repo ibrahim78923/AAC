@@ -9,18 +9,28 @@ import {
   validationSchema,
   initValues,
 } from './FormCreateProduct.data';
+import { usePostProductMutation } from '@/services/airSales/quotes';
 
 const FormCreateProduct = ({ open, onClose }: any) => {
+  const [postProduct] = usePostProductMutation();
+
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: initValues,
   });
   const { handleSubmit } = methods;
 
-  const onSubmit = async () => {
-    enqueueSnackbar('Ticket Updated Successfully', {
-      variant: 'success',
-    });
+  const onSubmit = async (values: any) => {
+    try {
+      await postProduct({ body: values })?.unwrap();
+      enqueueSnackbar('Ticket Updated Successfully', {
+        variant: 'success',
+      });
+    } catch (err: any) {
+      enqueueSnackbar(err?.data?.message, {
+        variant: 'error',
+      });
+    }
   };
 
   return (

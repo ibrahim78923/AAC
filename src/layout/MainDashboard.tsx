@@ -97,7 +97,7 @@ const DashboardLayout = ({ children, window }: any) => {
   };
 
   const findEmail: any = findRoleByEmail({ user, array });
-  const findEmailRole = findEmail ? findEmail?.role : 'ORG_ADMIN';
+  const findEmailRole = findEmail ? findEmail?.role : 'SUPER_ADMIN';
 
   const routes = getRoutes(findEmailRole);
 
@@ -263,7 +263,13 @@ const DashboardLayout = ({ children, window }: any) => {
                                 }}
                               />
                             </ListItemIcon>
-                            {link?.label}
+                            <Typography
+                              fontWeight={
+                                routerPathName === pathNameKey ? '500' : '400'
+                              }
+                            >
+                              {link?.label}
+                            </Typography>
                           </ListItemButton>
                         </ListItem>
                       </Link>
@@ -312,12 +318,21 @@ const DashboardLayout = ({ children, window }: any) => {
                               />
                             </ListItemIcon>
 
-                            {link.label}
+                            <Typography
+                              fontWeight={
+                                routerPathName === lowerPathNameKey ||
+                                dropDownOpen[link?.key]
+                                  ? '500'
+                                  : '400'
+                              }
+                            >
+                              {link?.label}
+                            </Typography>
                             <Box sx={{ paddingLeft: '20px' }}>
                               <Image
                                 src={
                                   routerPathName === lowerPathNameKey ||
-                                  dropDownOpen[link.key]
+                                  dropDownOpen[link?.key]
                                     ? ArrowUpImage
                                     : ArrowDownImage
                                 }
@@ -396,7 +411,7 @@ const DashboardLayout = ({ children, window }: any) => {
                             }}
                           />
                         </ListItemIcon>
-                        Logout
+                        <Typography fontWeight={500}> Logout</Typography>
                       </ListItemButton>
                     </ListItem>
                   </div>

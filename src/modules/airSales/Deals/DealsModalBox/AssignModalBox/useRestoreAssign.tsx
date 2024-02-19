@@ -17,7 +17,7 @@ const useRestoreAssign = (seletedId: any, onClose: any) => {
   const { handleSubmit } = methods;
 
   const onSubmit = (values: any) => {
-    updatedAssignDeal({ id: seletedId, body: values });
+    updatedAssignDeal({ id: seletedId, body: { ownerId: values?.ownerId } });
     enqueueSnackbar('Re-assign Updated ', {
       variant: 'success',
     });

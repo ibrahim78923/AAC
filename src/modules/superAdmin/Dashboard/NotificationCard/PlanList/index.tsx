@@ -23,7 +23,6 @@ const PlanList = () => {
           display: 'flex',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          flexDirection: { lg: 'row', md: 'row', sm: 'row', xs: 'column' },
         }}
       >
         <Typography

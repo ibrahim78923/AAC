@@ -10,12 +10,12 @@ import {
   useGetContactsStatusQuery,
   useGetLifeCycleQuery,
   usePostContactsMutation,
-  useUpdateContactsMutation,
 } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { DATE_FORMAT } from '@/constants';
+import { useUpdateContactStatusMutation } from '@/services/orgAdmin/settings/contact-status';
 
 const useContactsEditorDrawer = ({
   openDrawer,
@@ -27,7 +27,7 @@ const useContactsEditorDrawer = ({
   const { data: ContactsStatus } = useGetContactsStatusQuery({});
 
   const [postContacts] = usePostContactsMutation();
-  const [updateContacts] = useUpdateContactsMutation();
+  const [updateContacts] = useUpdateContactStatusMutation();
   const [createAssociation] = useCreateAssociationMutation();
 
   const contactStatusData = ContactsStatus?.data?.conatactStatus?.map(

@@ -54,19 +54,13 @@ const HorizontalTabs = (props: any) => {
             onClick={() => {
               setActiveTab ? setActiveTab(title) : null;
             }}
-            label={
-              // <Typography variant="body2" component="span">
-              // {title}
-              title
-              // </Typography>
-            }
+            label={title}
           />
         ))}
         {addIcon && (
           <AddCircleIcon sx={styles?.circleIconStyle} onClick={handleAddTab} />
         )}
       </Tabs>
-      <br />
       <Box sx={{ py: { md: 2, xs: 0.5 } }}>
         {arrayChildren?.map((child: any, index) => (
           <Box key={uuidv4()}>

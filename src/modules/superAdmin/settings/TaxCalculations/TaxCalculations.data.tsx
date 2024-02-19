@@ -221,7 +221,7 @@ export const columns = (
       accessorFn: (row: any) => row.createdAt,
       id: 'createdAt',
       isSortable: true,
-      header: 'Create Date',
+      header: 'Created Date',
       cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT.UI),
     },
     {

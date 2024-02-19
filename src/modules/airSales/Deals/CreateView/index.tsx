@@ -25,7 +25,7 @@ const CreateView = ({ open, onClose }: any) => {
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
   });
-  const [createView] = useCreateViewDealsMutation();
+  const [createViewDeals] = useCreateViewDealsMutation();
   const { handleSubmit } = methods;
 
   const onSubmit = (values: any) => {
@@ -39,7 +39,7 @@ const CreateView = ({ open, onClose }: any) => {
       sharedWith: values?.sharedWith,
     };
     try {
-      createView({ body: obj })?.unwrap();
+      createViewDeals({ body: obj })?.unwrap();
       enqueueSnackbar('Deal created successfully', {
         variant: 'success',
       });

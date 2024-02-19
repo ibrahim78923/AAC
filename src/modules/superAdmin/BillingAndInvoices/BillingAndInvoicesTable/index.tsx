@@ -49,7 +49,7 @@ const BillingAndInvoicesTable = () => {
   return (
     <Grid sx={styles?.invoicesTableWrapper}>
       <Grid sx={{ padding: '15px 15px 0 15px' }}>
-        <Grid container>
+        <Grid container spacing={1}>
           <Grid item xs={12} sm={6}>
             <Typography variant="h4">Plan Assignment</Typography>
           </Grid>
@@ -62,6 +62,7 @@ const BillingAndInvoicesTable = () => {
               variant="contained"
               className="small"
               disabled={isChecked}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
             >
               Assign Plan
             </Button>
