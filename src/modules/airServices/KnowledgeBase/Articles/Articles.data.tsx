@@ -1,7 +1,7 @@
-import { Checkbox, Chip } from '@mui/material';
+import { Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
+import { fullName } from '@/utils/avatarUtils';
+import { errorSnackbar } from '@/utils/api';
 
 const bgColor: any = {
   published: 'blue.main',
@@ -74,18 +74,23 @@ export const articlesColumnsFunction = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.name,
+      accessorFn: (row: any) => row?.title,
       id: 'name',
-      isSortable: true,
+      isSortable: false,
       header: 'Article',
-      cell: (info: any) => (
-        <span
-          onClick={() => handleSingleArticleNavigation(info?.row?._id)}
-          style={{ cursor: 'pointer', fontWeight: 600 }}
-        >
-          {info?.getValue()}
-        </span>
-      ),
+      cell: (info: any) => {
+        return (
+          <Typography
+            component={'span'}
+            onClick={() =>
+              handleSingleArticleNavigation(info?.row?.original?._id)
+            }
+            style={{ cursor: 'pointer', fontWeight: 600 }}
+          >
+            {info?.getValue()?.slice?.(0, 50)}
+          </Typography>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.status,
@@ -95,9 +100,12 @@ export const articlesColumnsFunction = (
       cell: (info: any) => (
         <Chip
           label={
-            <span style={{ textTransform: 'capitalize' }}>
+            <Typography
+              component={'span'}
+              style={{ textTransform: 'capitalize' }}
+            >
               {info?.getValue()}
-            </span>
+            </Typography>
           }
           size="small"
           sx={{
@@ -112,21 +120,22 @@ export const articlesColumnsFunction = (
       id: 'insertedTickets',
       isSortable: true,
       header: `Inserted Tickets`,
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue()?.[0] ?? '---',
     },
     {
       accessorFn: (row: any) => row?.author,
       id: 'author',
       isSortable: true,
       header: 'Author',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) =>
+        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
     },
     {
       accessorFn: (row: any) => row?.folder,
       id: 'folder',
       isSortable: true,
       header: 'Folder',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue()?.name ?? '---',
     },
   ];
 };
@@ -141,13 +150,11 @@ export const actionBtnData = (
     title: 'Edit',
     handleClick: (closeMenu: any) => {
       if (selectedArticlesData?.length > 1) {
-        enqueueSnackbar('Please select only one ticket', {
-          variant: NOTISTACK_VARIANTS?.WARNING,
-        });
+        errorSnackbar('Please select only one');
         closeMenu?.();
         return;
       }
-      handleEditNavigation(selectedArticlesData?.[0]?._id);
+      handleEditNavigation(selectedArticlesData?.[0]);
       closeMenu();
     },
   },
@@ -161,6 +168,11 @@ export const actionBtnData = (
   {
     title: 'Move Folder',
     handleClick: (closeMenu: any) => {
+      if (selectedArticlesData?.length > 1) {
+        errorSnackbar('Please select only one');
+        closeMenu?.();
+        return;
+      }
       setMoveFolderModal(true);
       closeMenu();
     },

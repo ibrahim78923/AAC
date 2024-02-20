@@ -42,11 +42,12 @@ const ListView = () => {
           variant="contained"
           startIcon={<PlusIcon />}
           onClick={() => navigate?.push(AIR_SALES?.SALES_CREATE_INVOICES)}
+          className="small"
         >
           Create Invoice
         </Button>
       </Stack>
-      <Grid spacing={2} container sx={{ marginTop: '30px' }}>
+      <Grid spacing={2} container sx={{ marginTop: '10px' }}>
         <Grid item xs={12} md={6}>
           <Search
             label="Search Here"

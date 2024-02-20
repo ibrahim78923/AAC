@@ -16,6 +16,7 @@ export const FilterData = (
         name: 'contactOwnerId',
         label: 'Contact Owner',
         select: true,
+        placeholder: 'Select',
       },
       options: contactOwners,
       component: RHFTextField,

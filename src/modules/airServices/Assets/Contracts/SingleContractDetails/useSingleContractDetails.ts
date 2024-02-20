@@ -14,7 +14,7 @@ export const useSingleContractDetails = () => {
   const { contractId } = router?.query;
   const [deleteContract] = useDeleteContractMutation();
   const handleDeleteBtn = async () => {
-    const updatedData = { queryParams: { id: contractId } };
+    const updatedData = { queryParams: { ids: [contractId] } };
 
     try {
       const res = await deleteContract(updatedData)?.unwrap();

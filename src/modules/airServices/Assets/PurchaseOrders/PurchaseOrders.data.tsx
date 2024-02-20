@@ -67,7 +67,7 @@ export const purchaseOrderColumnsFunction = (
             router?.push({
               pathname: AIR_SERVICES?.ASSETS_PURCHASE_ORDER_DETAIL,
               query: {
-                purchaseOrderId: info?.row?.id,
+                purchaseOrderId: info?.row?.original?._id,
               },
             })
           }

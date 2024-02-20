@@ -25,6 +25,7 @@ const ContactsHeader = () => {
       <Box sx={styles?.HeaderChildStyle}>
         <Button
           variant="outlined"
+          color="inherit"
           onClick={() => route?.push(AIR_SOCIAL?.CONTACTS_IMPORT)}
           startIcon={<ImportIcon />}
           sx={{ height: '35px' }}

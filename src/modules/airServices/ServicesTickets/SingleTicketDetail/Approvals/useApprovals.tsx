@@ -1,27 +1,60 @@
-import { PAGINATION } from '@/config';
+import { TICKET_APPROVALS } from '@/constants/strings';
+import {
+  useGetApprovalsTicketsQuery,
+  usePatchApprovalTicketsMutation,
+} from '@/services/airServices/tickets/single-ticket-details/approvals';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export const useApprovals = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [selectedApproval, setSelectedApproval] = useState({});
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [status, setStatus] = useState('');
+  const [selectedApproval, setSelectedApproval] = useState<any>({});
+  const router = useRouter();
+  const { ticketId } = router?.query;
+  const [patchApprovalTicketsTrigger, patchApprovalTicketsStatus] =
+    usePatchApprovalTicketsMutation();
 
+  const getApprovalsTicketsParameter = {
+    queryParams: {
+      id: ticketId,
+      approvalStatus: 'ALL',
+    },
+  };
+  const { data, isLoading, isFetching, isError } = useGetApprovalsTicketsQuery(
+    getApprovalsTicketsParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!ticketId,
+    },
+  );
   const setApproval = (approval: any) => {
     setSelectedApproval(approval);
     setIsConfirmModalOpen(true);
   };
 
-  const updateRequestApprovalStatus = (approval: any) => {
+  const updateRequestApprovalStatus = async (approval: any) => {
+    const patchParameterData = {
+      queryParams: {
+        reason: '',
+        id: approval?._id,
+        ticketId: ticketId,
+        approvalStatus: approval?.state,
+      },
+    };
+    const toastMessage =
+      approval?.state === TICKET_APPROVALS?.CANCEL
+        ? 'Request Approved successfully'
+        : 'Request Rejected successfully';
     try {
-      successSnackbar(approval?.state);
+      await patchApprovalTicketsTrigger(patchParameterData)?.unwrap();
+      successSnackbar?.(toastMessage);
     } catch (error) {
       errorSnackbar();
     }
   };
+
   return {
     isDrawerOpen,
     setIsDrawerOpen,
@@ -30,12 +63,11 @@ export const useApprovals = () => {
     selectedApproval,
     setSelectedApproval,
     setApproval,
-    page,
-    setPage,
-    pageLimit,
-    setPageLimit,
-    status,
-    setStatus,
+    data,
+    isLoading,
+    isFetching,
+    isError,
     updateRequestApprovalStatus,
+    patchApprovalTicketsStatus,
   };
 };

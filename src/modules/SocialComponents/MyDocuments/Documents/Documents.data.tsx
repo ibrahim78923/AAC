@@ -16,6 +16,7 @@ export const dataArray = [
       label: 'Folder Name',
       fullWidth: true,
       select: false,
+      placeholder: 'Enter name',
     },
     component: RHFTextField,
     md: 12,

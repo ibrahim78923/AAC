@@ -31,6 +31,12 @@ export const Workload = () => {
   const calendarRef = useRef<any>(null);
   const router: any = useRouter();
 
+  const [filter, setFilter] = useState<any>({
+    countDayWise: undefined,
+    countDayWiseHours: undefined,
+    countDayWiseHoursAverage: undefined,
+  });
+
   const [onClickEvent, setOnClickEvent] = useState<any>({
     open: null,
     data: null,
@@ -48,9 +54,13 @@ export const Workload = () => {
   useEffect(() => {
     trigger({
       startDate: dayjs()?.startOf('week')?.add(1, 'day')?.toISOString(),
+      endDate: dayjs()?.endOf('week')?.toISOString(),
       userIds: selected?._id,
+      countDayWise: filter?.countDayWise,
+      countDayWiseHours: filter?.countDayWiseHours,
+      countDayWiseHoursAverage: filter?.countDayWiseHoursAverage,
     });
-  }, [selected]);
+  }, [selected, filter]);
 
   const COMPLETED = 'Done';
   const IN_PROGRESS = 'In-Progress';
@@ -64,7 +74,11 @@ export const Workload = () => {
     try {
       await trigger({
         startDate: dayjs(date)?.startOf('week')?.add(1, 'day')?.toISOString(),
+        endDate: dayjs(date)?.endOf('week')?.toISOString(),
         userIds: selected?._id,
+        countDayWise: filter?.countDayWise,
+        countDayWiseHours: filter?.countDayWiseHours,
+        countDayWiseHoursAverage: filter?.countDayWiseHoursAverage,
       })?.unwrap();
 
       calendarRef?.current?.getApi()?.gotoDate(date);
@@ -101,7 +115,7 @@ export const Workload = () => {
 
           <UnassignedWork />
 
-          <Filters />
+          <Filters setFilter={setFilter} />
         </Grid>
       </Grid>
 
@@ -139,16 +153,16 @@ export const Workload = () => {
               }}
               title={
                 <Fragment>
-                  <Box display={'flex'} alignItems={'center'} gap={2} p={2}>
+                  <Box display={'flex'} alignItems={'center'} gap={1} p={2}>
                     <CircleIcon
                       fontSize="small"
                       color={
                         eventInfo?.event?.extendedProps?.status === COMPLETED
                           ? 'primary'
                           : eventInfo?.event?.extendedProps?.status ===
-                              IN_PROGRESS
-                            ? 'warning'
-                            : 'secondary'
+                            IN_PROGRESS
+                          ? 'warning'
+                          : 'secondary'
                       }
                     />
                     <Typography
@@ -160,13 +174,13 @@ export const Workload = () => {
                     </Typography>
                   </Box>
                   <Divider />
-                  <Box display={'flex'} alignItems={'center'} gap={2} p={2}>
+                  <Box display={'flex'} alignItems={'center'} gap={1} p={2}>
                     <TodoIcon />
                     <Typography variant="h5" color={'blue.main'}>
-                      {eventInfo?.event?.extendedProps?.ticketNo}
+                      {eventInfo?.event?.extendedProps?.taskNo}
                     </Typography>
                     <Typography variant="body1" color={'blue.main'}>
-                      {eventInfo?.event?.extendedProps?.description}
+                      {eventInfo?.event?.extendedProps?.data?.title}
                     </Typography>
                   </Box>
                   <Typography
@@ -203,8 +217,7 @@ export const Workload = () => {
                         pathname: AIR_SERVICES?.TICKETS_LIST,
                         query: {
                           ticketId:
-                            eventInfo?.event?.extendedProps?.data?.ticketDetails
-                              ?._id,
+                            eventInfo?.event?.extendedProps?.data?.ticketId,
                         },
                       })
                     }
@@ -237,8 +250,8 @@ export const Workload = () => {
                   display={'flex'}
                   gap={0.3}
                 >
-                  {eventInfo?.event?.extendedProps?.ticketNo}
-                  {eventInfo?.event?.extendedProps?.description}
+                  {eventInfo?.event?.extendedProps?.taskNo}
+                  {eventInfo?.event?.extendedProps?.data?.title}
                 </Typography>
               </Box>
             </Tooltip>

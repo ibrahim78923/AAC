@@ -3,19 +3,6 @@ import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
-export const data: any = [
-  {
-    _id: '655c94a50ff30a9a66892968',
-    name: 'Microsoft license',
-    contractType: 'Software license',
-    status: 'Active',
-    statusRenewalExtend: '---',
-    contractNumber: 'CNTR-3',
-    vendor: 'Microsoft',
-    ExpiryDate: '2024-11-21T00:00:00.000Z',
-  },
-];
-
 export const contractsListsColumnsFunction = (
   selectedContractList: any,
   setSelectedContractList: any,
@@ -52,7 +39,11 @@ export const contractsListsColumnsFunction = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={selectedContractList?.length === mainContractsData?.length}
+        checked={
+          mainContractsData?.length
+            ? selectedContractList?.length === mainContractsData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedContractList(
@@ -122,7 +113,7 @@ export const contractsListsColumnsFunction = (
     id: 'vendor',
     isSortable: false,
     header: 'Vendor',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue()?.name ?? '---',
   },
   {
     accessorFn: (row: any) => row?.endDate,
