@@ -4,7 +4,6 @@ import { Box, Theme, Typography, useTheme } from '@mui/material';
 
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 
 import { columns } from './DealsOverview.data';
 
@@ -25,8 +24,11 @@ const DealsOverview = () => {
         </Typography>
         <Search label="Search here" />
       </Box>
-      <TanstackTable columns={columns} data={DealOverviewTableData} />
-      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
+      <TanstackTable
+        columns={columns}
+        data={DealOverviewTableData}
+        isPagination
+      />
     </>
   );
 };
