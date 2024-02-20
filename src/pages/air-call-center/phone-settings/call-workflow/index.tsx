@@ -1,10 +1,10 @@
 import Layout from '@/layout';
-import { Dashboard } from '@/modules/airCallCenter/Dashboard';
+import CallWorkFlow from '@/modules/airCallCenter/PhoneSettings/CallWorkFlow';
 
 const AirCallCenterPage = () => {
   return (
     <>
-      <Dashboard />
+      <CallWorkFlow />
     </>
   );
 };

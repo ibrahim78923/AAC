@@ -1,13 +1,14 @@
 import Layout from '@/layout';
-import { Dashboard } from '@/modules/airCallCenter/Dashboard';
+import BasicIVR from '@/modules/airCallCenter/PhoneSettings/CallWorkFlow/BasicIVR';
 
 const AirCallCenterPage = () => {
   return (
     <>
-      <Dashboard />
+      <BasicIVR />
     </>
   );
 };
+
 export default AirCallCenterPage;
 AirCallCenterPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;

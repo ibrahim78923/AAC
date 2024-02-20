@@ -228,3 +228,10 @@ export const CHAT_SOCKETS = {
 export const CHAT_SOCKETS_EMIT = {
   UPDATE_MESSAGE: 'update-message',
 };
+
+export const PHONE_SETTINGS = {
+  PHONE_SETTINGS_MAIN: '/air-call-center/phone-settings/call-workflow',
+  CALL_QUEUE: '/air-call-center/phone-settings/call-workflow/call-queue',
+  BASIC_IVR: '/air-call-center/phone-settings/call-workflow/basic-ivr',
+  AGENT_EXT: '/air-call-center/phone-settings/call-workflow/agent-extension',
+};
