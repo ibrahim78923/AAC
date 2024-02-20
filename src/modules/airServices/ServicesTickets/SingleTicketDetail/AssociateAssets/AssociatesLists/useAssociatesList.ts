@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from '@emotion/react';
-import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
 import {
   useDeleteTicketsAssociatesAssetsMutation,
   useGetTicketsAssociatesAssetsQuery,
 } from '@/services/airServices/tickets/single-ticket-details/associates-assets';
 import { useRouter } from 'next/router';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAssociatesLists: any = (props: any) => {
   const { setTotalAssets } = props;
@@ -58,17 +57,13 @@ export const useAssociatesLists: any = (props: any) => {
       },
     };
     try {
-      const response: any = await deleteTicketsAssociatesAssetsTrigger(
+      await deleteTicketsAssociatesAssetsTrigger(
         deleteTicketsAssociatesAssetsParameter,
       )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Assets detach successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Assets detach successfully');
       setDeleteModal?.(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.error ?? 'Assets not detach', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
       setDeleteModal?.(false);
     }
   };

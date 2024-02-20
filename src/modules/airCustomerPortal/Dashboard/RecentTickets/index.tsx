@@ -1,8 +1,6 @@
-import { Box, Typography, Avatar } from '@mui/material';
+import { Box, Typography, Avatar, Chip } from '@mui/material';
 import { CardLayout } from '../CardLayout';
 import { useTheme } from '@mui/material/styles';
-import { styles } from './RecentTickets.style';
-import { v4 as uuidv4 } from 'uuid';
 import { useRecentTickets } from './useRecentTickets';
 import NoData from '@/components/NoData';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
@@ -13,7 +11,6 @@ import { TICKET_TYPE } from '@/constants/strings';
 
 export const RecentTickets = ({ title, handleViewMore }: any) => {
   const { palette }: any = useTheme();
-  const { mainWrapper, approvalWrapper, processingBtn } = styles;
   const { data, isLoading, isFetching, isError } = useRecentTickets();
 
   return (
@@ -23,15 +20,35 @@ export const RecentTickets = ({ title, handleViewMore }: any) => {
       ) : isError ? (
         <ApiErrorState />
       ) : (
-        <Box my="0.75rem">
-          {!!data?.data?.tickets?.length ? (
-            data?.data?.tickets?.map((ticket: any) => (
-              <Box key={uuidv4()} sx={mainWrapper(palette)}>
+        <Box my={1}>
+          {!!data?.data?.articles?.length ? (
+            data?.data?.articles?.map((ticket: any) => (
+              <Box
+                key={ticket?._id}
+                sx={{
+                  p: 1,
+                  background: palette?.grey?.[100],
+                  borderRadius: 3,
+                  mb: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: 1,
+                  justifyContent: 'space-between',
+                }}
+              >
                 <Box>
                   <Typography fontWeight={600} color={palette?.blue?.main}>
                     {ticket?.subject}
                   </Typography>
-                  <Box sx={approvalWrapper}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                      gap: 1,
+                    }}
+                  >
                     <Avatar src={ticket?.icon} />
                     <Typography
                       color={palette?.blue?.main}
@@ -59,7 +76,13 @@ export const RecentTickets = ({ title, handleViewMore }: any) => {
                     </Typography>
                   </Typography>
                 </Box>
-                <Typography sx={processingBtn}>Processing</Typography>
+                <Chip
+                  label={'Processing'}
+                  sx={{
+                    backgroundColor: 'grey.400',
+                    color: 'slateBlue.main',
+                  }}
+                />
               </Box>
             ))
           ) : (

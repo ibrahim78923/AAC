@@ -99,6 +99,7 @@ const Delegates = () => {
       <CommonModal
         open={isInvite}
         handleClose={() => setIsInvite(false)}
+        handleCancel={() => setIsInvite(false)}
         handleSubmit={function (): void {
           throw new Error('Function not implemented.');
         }}
@@ -119,16 +120,28 @@ const Delegates = () => {
         <TextField type="text" placeholder="Enter Name" fullWidth />
         <Box
           sx={{
-            paddingTop: '10px',
+            paddingTop: '20px',
             display: 'flex',
             justifyContent: 'flex-end',
             gap: '1rem',
           }}
         >
-          <Button variant="outlined" onClick={() => setIsInvite(false)}>
+          <Button
+            variant="outlined"
+            onClick={() => setIsInvite(false)}
+            className="small"
+            sx={{
+              border: `1px solid ${theme?.palette?.grey[700]}`,
+              color: theme?.palette?.custom?.main,
+            }}
+          >
             Cancel
           </Button>
-          <Button variant="contained" onClick={() => setIsInvite(false)}>
+          <Button
+            variant="contained"
+            onClick={() => setIsInvite(false)}
+            className="small"
+          >
             Send Invite
           </Button>
         </Box>
