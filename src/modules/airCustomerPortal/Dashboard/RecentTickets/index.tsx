@@ -18,7 +18,7 @@ export const RecentTickets = ({ title, handleViewMore }: any) => {
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : isError ? (
-        <ApiErrorState />
+        <ApiErrorState height={'100%'} />
       ) : (
         <Box my={1}>
           {!!data?.data?.articles?.length ? (
@@ -86,7 +86,7 @@ export const RecentTickets = ({ title, handleViewMore }: any) => {
               </Box>
             ))
           ) : (
-            <NoData />
+            <NoData height={'100%'} />
           )}
         </Box>
       )}
