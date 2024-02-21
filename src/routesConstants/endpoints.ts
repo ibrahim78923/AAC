@@ -228,6 +228,8 @@ export const END_POINTS = {
   GET_ALL_ARTICLES: '/articles/get-all-articles',
   GET_KNOWLEDGE_BASE_FOLDER: '/articles/folders',
   GET_SINGLE_KNOWLEDGE_BASE_ARTICLES: '/articles/get-by-id',
+  GET_RECENT_TICKET: `/air-services-dashboard/recent-tickets-dashboard`,
+  GET_TICKETS_PENDING_FOR_APPROVAL: `/air-services-dashboard/get-tickets-approval-dashboard`,
 };
 
 export const superAdminBillingInvoices = {
