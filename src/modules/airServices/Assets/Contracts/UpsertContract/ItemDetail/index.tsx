@@ -44,7 +44,7 @@ export const ItemDetail: any = (props: any) => {
                   <TableRow key={item?.id}>
                     {itemDetailFormFieldsFunction?.(name, index, remove)?.map(
                       (singleField: any) => (
-                        <TableCell key={item?.id}>
+                        <TableCell key={singleField?.id}>
                           {singleField?.data}
                         </TableCell>
                       ),
