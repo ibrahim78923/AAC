@@ -423,3 +423,9 @@ export { default as CallCompletedIcon } from './modules/airCallCenter/CallMetric
 export { default as CallSuccessfulCallbackIcon } from './modules/airCallCenter/CallMetrices/call-successful-callback';
 export { default as CallUnSuccessfulCallbackIcon } from './modules/airCallCenter/CallMetrices/call-unsuccessful-callback';
 export { default as CallAbandonedRingingIcon } from './modules/airCallCenter/CallMetrices/call-abandoned-ringing';
+
+export { default as PlayIcon } from './shared/play';
+export { default as PauseIcon } from './shared/pause';
+export { default as NotesIcon } from './shared/notes';
+export { default as RecordingIcon } from './shared/recording';
+export { default as CallSquareIcon } from './shared/call-square';

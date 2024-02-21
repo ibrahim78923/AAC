@@ -2,10 +2,16 @@ import {
   CallAbandonedRingingIcon,
   CallCompletedIcon,
   CallMissedIcon,
+  CallSquareIcon,
   CallSuccessfulCallbackIcon,
   CallUnSuccessfulCallbackIcon,
+  DeleteCrossIcon,
+  EyeIcon,
+  NotesIcon,
+  RecordingIcon,
 } from '@/assets/icons';
-import { Box, Typography } from '@mui/material';
+import { UserDefault, UserProfileVectorImage } from '@/assets/images';
+import { Box, Tooltip, Typography } from '@mui/material';
 import Image from 'next/image';
 
 export const columns = () => {
@@ -79,7 +85,7 @@ export const columns = () => {
     {
       accessorFn: (row: any) => row?.title,
       id: 'recording',
-      cell: () => <>-</>,
+      cell: () => <Box>-{/* <AudioVisualizer /> */}</Box>,
       header: 'Recording',
       isSortable: false,
     },
@@ -114,12 +120,126 @@ export const columns = () => {
     {
       accessorFn: (row: any) => row?.title,
       id: 'id',
-      cell: () => <>actions ++</>,
+      cell: () => (
+        <Box sx={{ display: 'flex', gap: '10px' }}>
+          <Tooltip title="View" placement="top-start">
+            <Box sx={{ cursor: 'pointer' }}>
+              <EyeIcon color="#1F305D" size="16px" />
+            </Box>
+          </Tooltip>
+          <Tooltip title="Call Notes" placement="top-start">
+            <Box sx={{ cursor: 'pointer' }}>
+              <NotesIcon />
+            </Box>
+          </Tooltip>
+          <Tooltip title="Voicemail" placement="top-start">
+            <Box sx={{ cursor: 'pointer' }}>
+              <RecordingIcon />
+            </Box>
+          </Tooltip>
+          <Tooltip title="Call Transcription " placement="top">
+            <Box sx={{ cursor: 'pointer' }}>
+              <CallSquareIcon />
+            </Box>
+          </Tooltip>
+          <Tooltip title="Delete" placement="top-start">
+            <Box sx={{ cursor: 'pointer' }}>
+              <DeleteCrossIcon />
+            </Box>
+          </Tooltip>
+        </Box>
+      ),
       header: 'Actions',
       isSortable: false,
     },
   ];
 };
+
+export const allCallsData = [
+  {
+    id: '01',
+    customerDetails: {
+      profileAvatar: UserProfileVectorImage,
+      name: 'Eleanor Pena',
+      callType: 'missed',
+    },
+    assignedDetails: {
+      profileAvatar: UserDefault,
+      name: 'Global Queue',
+    },
+    virtualNumber: '+12314 1414 1312 4',
+    callTags: '-',
+    callDuration: '00:42',
+    dateAndTime: '11 Dec, 2023,  7:48 PM',
+  },
+  {
+    id: '02',
+    customerDetails: {
+      profileAvatar: UserProfileVectorImage,
+      name: 'Courtney ',
+      callType: 'completed',
+    },
+    assignedDetails: {
+      profileAvatar: UserDefault,
+      name: 'Global Queue',
+    },
+    virtualNumber: '+12314 1414 1312 4',
+    callTags: '-',
+    callDuration: '00:42',
+    dateAndTime: '11 Dec, 2023,  7:48 PM',
+  },
+  {
+    id: '03',
+    customerDetails: {
+      profileAvatar: UserProfileVectorImage,
+      name: 'Jerome Bell',
+      callType: 'successful_callback',
+    },
+    assignedDetails: {
+      profileAvatar: UserDefault,
+      name: 'Global Queue',
+      category: 'Medical Helpline',
+    },
+    virtualNumber: '+12314 1414 1312 4',
+    callTags: '-',
+    callDuration: '00:42',
+    dateAndTime: '11 Dec, 2023,  7:48 PM',
+  },
+  {
+    id: '04',
+    customerDetails: {
+      profileAvatar: UserProfileVectorImage,
+      name: 'Annette Black',
+      callType: 'unsuccessful_callback',
+    },
+    assignedDetails: {
+      profileAvatar: UserDefault,
+      name: 'Global Queue',
+      category: 'Medical Helpline',
+    },
+    virtualNumber: '+12314 1414 1312 4',
+    callTags: '-',
+    callDuration: '00:42',
+    dateAndTime: '11 Dec, 2023,  7:48 PM',
+  },
+  {
+    id: '05',
+    customerDetails: {
+      profileAvatar: UserProfileVectorImage,
+      name: 'Eleanor Pena',
+      callType: 'abandoned_ringing',
+    },
+    assignedDetails: {
+      profileAvatar: UserDefault,
+      name: 'Global Queue',
+      category: 'Medical Helpline',
+    },
+    virtualNumber: '+12314 1414 1312 4',
+    callTags: '-',
+    callDuration: '00:42',
+    dateAndTime: '11 Dec, 2023,  7:48 PM',
+  },
+];
 
 const CallTypes = {
   MISSED: 'missed',
