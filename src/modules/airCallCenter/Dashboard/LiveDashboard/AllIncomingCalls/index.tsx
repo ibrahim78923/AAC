@@ -177,12 +177,39 @@ export const AllIncomingCalls = () => {
       </Typography>
 
       <Grid container>
-        <Grid item xs={12} sm={6} md={4}>
-          <CircularProgress
-            variant="determinate"
-            value={70}
-            style={incomingCallStyles.root}
-          />
+        <Grid item xs={12} sm={6} md={4} sx={{ position: 'relative' }}>
+          <Box sx={{ marginTop: '40px' }}>
+            <Box
+              sx={{
+                position: 'absolute',
+                left: '50%',
+                bottom: '50%',
+                transform: 'translate(-50%, 50%)',
+              }}
+            >
+              <Typography
+                variant="h3"
+                sx={{ color: theme?.palette?.blue?.main }}
+              >
+                {' '}
+                70%{' '}
+              </Typography>
+              <Typography
+                variant="h4"
+                sx={{ color: theme?.palette?.success?.main }}
+              >
+                {' '}
+                Good{' '}
+              </Typography>
+            </Box>
+            <Box display={'flex'} justifyContent={'center'}>
+              <CircularProgress
+                variant="determinate"
+                value={70}
+                style={incomingCallStyles.root}
+              />
+            </Box>
+          </Box>
         </Grid>
         <Grid item xs={12} sm={6} md={8}>
           <Grid container spacing={3}>
