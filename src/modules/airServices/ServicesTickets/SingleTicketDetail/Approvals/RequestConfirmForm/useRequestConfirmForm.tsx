@@ -1,23 +1,16 @@
 import { TICKET_APPROVALS } from '@/constants/strings';
 import { usePatchApprovalTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/approvals';
-// import { usePatchApprovalTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/approvals';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 
 export const useRequestConfirmForm = (props: any) => {
   const { setIsConfirmModalOpen, selectedApproval, setSelectedApproval } =
     props;
-  const router = useRouter();
-  const { ticketId } = router?.query;
 
   const [patchApprovalTicketsTrigger, patchApprovalTicketsStatus] =
     usePatchApprovalTicketsMutation();
-
-  // const [patchApprovalTicketsTrigger, patchApprovalTicketsStatus] =
-  //   usePatchApprovalTicketsMutation();
 
   const methods = useForm({
     defaultValues: {
@@ -36,7 +29,7 @@ export const useRequestConfirmForm = (props: any) => {
       queryParams: {
         reason: data?.reason,
         id: selectedApproval?._id,
-        ticketId: ticketId,
+        ticketId: selectedApproval?.ticketId,
         approvalStatus: selectedApproval?.state,
       },
     };

@@ -18,7 +18,7 @@ export const Announcements = ({ title, handleViewMore }: any) => {
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : isError ? (
-        <ApiErrorState />
+        <ApiErrorState height={'100%'} />
       ) : (
         <Box my="0.75rem">
           {!!data?.data?.articles?.length ? (
@@ -44,7 +44,7 @@ export const Announcements = ({ title, handleViewMore }: any) => {
               </Box>
             ))
           ) : (
-            <NoData />
+            <NoData height={'100%'} />
           )}
         </Box>
       )}

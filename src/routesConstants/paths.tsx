@@ -228,3 +228,24 @@ export const CHAT_SOCKETS = {
 export const CHAT_SOCKETS_EMIT = {
   UPDATE_MESSAGE: 'update-message',
 };
+
+export const AIR_CALL_CENTER = {
+  DASHBOARD: '/air-call-center/dashboard',
+  CALL_METRICS: '/air-call-center/call-metrics',
+  POWER_DAILER: '/air-call-center/power-dailer',
+  SETTINGS: {
+    PHONE_NUMBER: '/air-call-center/settings/phone-number',
+    PHONE_SETTINGS: '/air-call-center/settings/phone-settings',
+    CALL_WORKFLOW: '/air-call-center/settings/phone-settings/call-workflow',
+    GREETING_LIST: '/air-call-center/settings/phone-settings/greeting-list',
+    SERVICE_LEVEL: '/air-call-center/settings/phone-settings/service-level',
+    VOICE_MAILS: '/air-call-center/settings/phone-settings/voice-mails',
+    ADDITIONAL_SETTINGS:
+      '/air-call-center/settings/phone-settings/additional-settings',
+    GENERAL_SETTING: '/air-call-center/settings/general-settings',
+    BUSINESS_HOURS: '/air-call-center/settings/general-settings/business-hours',
+    AGENT_STATUSES: '/air-call-center/settings/general-settings/agent-statuses',
+    USER_MANAGEMENT: '/air-call-center/settings/user-management',
+    PHONE_CREDITS: '/air-call-center/settings/phone-credits',
+  },
+};
