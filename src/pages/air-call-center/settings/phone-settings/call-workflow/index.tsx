@@ -1,8 +1,9 @@
 import Layout from '@/layout';
 import SettingsLayout from '../../layout';
+import CallWorkFlow from '@/modules/airCallCenter/Settings/PhoneSettings/CallWorkFlow';
 
 const CallworkFlowPage = () => {
-  return <h1>Callworkflow Page</h1>;
+  return <CallWorkFlow />;
 };
 export default CallworkFlowPage;
 

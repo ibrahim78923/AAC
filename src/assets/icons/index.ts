@@ -421,3 +421,4 @@ export { default as SendPrimaryIcon } from './shared/send-primary-icon';
 export { default as ResetFilterIcon } from './shared/reset-filter-icon';
 export { default as ReplyDoubleArrowIcon } from './shared/reply-doublearrow-icon';
 export { default as AnnoucementIcon } from './shared/annoucement-icon';
+export { default as TimmerIcon } from './shared/timmer-icon';
