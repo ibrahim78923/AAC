@@ -1,14 +1,12 @@
 import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {
-  knowledgeBaseTicketEditorData,
-  relatedTicketDataArray,
-} from './KnowledgeBaseTicketDetail.data';
+import { relatedTicketDataArray } from './KnowledgeBaseTicketDetail.data';
 import { useKnowledgeBaseTicketDetail } from './useKnowledgeBaseTicketDetail';
 import { DocumentTextIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
 import { FormProvider } from '@/components/ReactHookForm';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const KnowledgeBaseTicketDetail = () => {
   const {
@@ -21,6 +19,8 @@ export const KnowledgeBaseTicketDetail = () => {
     feedbackMethod,
     showOkFeedback,
     setShowOkFeedback,
+    singleArticlesData,
+    isLoading,
   } = useKnowledgeBaseTicketDetail();
   return (
     <>
@@ -45,9 +45,13 @@ export const KnowledgeBaseTicketDetail = () => {
               Profiting in Bear and Bull Markets
             </Typography>
           </Box>
-          <Box
-            dangerouslySetInnerHTML={{ __html: knowledgeBaseTicketEditorData }}
-          ></Box>
+          {isLoading ? (
+            <SkeletonTable />
+          ) : (
+            <Box
+              dangerouslySetInnerHTML={{ __html: singleArticlesData?.details }}
+            ></Box>
+          )}
         </Grid>
         <Grid item xs={12} lg={3}>
           <Box

@@ -7,8 +7,7 @@ import {
 } from '@/services/airServices/tickets/single-ticket-details/associates-assets';
 import { drawerTableColumns } from './AddAssociationsDrawer.data';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAssociationsDrawer = (props: any) => {
   const { setDrawerOpen } = props;
@@ -51,9 +50,7 @@ export const useAssociationsDrawer = (props: any) => {
 
   const submitAssetAssociationList = async () => {
     if (!!!selectedAssetToAssociateList?.length) {
-      enqueueSnackbar('Please select at least one asset', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar('Please select at least one asset');
       return;
     }
 
@@ -65,17 +62,13 @@ export const useAssociationsDrawer = (props: any) => {
       body,
     };
     try {
-      const response = await postTicketsAssociatesAssetsTrigger(
+      await postTicketsAssociatesAssetsTrigger(
         postTicketsAssociatesAssetsParameter,
       )?.unwrap();
-      enqueueSnackbar('Associate assets successfully' ?? response?.message, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Associate assets successfully');
       closeAssetsAssociate?.();
     } catch (error: any) {
-      enqueueSnackbar(error?.response?.message ?? 'Asset not associated', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
 

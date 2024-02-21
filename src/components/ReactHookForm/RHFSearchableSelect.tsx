@@ -98,7 +98,15 @@ export default function RHFSearchableSelect({
                 label="Search By Name"
                 fullWidth
                 size="small"
-                sx={{ marginBottom: '15px' }}
+                sx={{
+                  marginBottom: '15px',
+                  '& input': {
+                    padding: '10px',
+                    '&::placeholder': {
+                      fontSize: '14px',
+                    },
+                  },
+                }}
               />
               {filteredOptions?.map((option: any) => (
                 <Box

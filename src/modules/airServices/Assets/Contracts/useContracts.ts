@@ -1,9 +1,8 @@
 import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
-import { data, contractsListsColumnsFunction } from './Contracts.data';
-import { EXPORT_FILE_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { contractsListsColumnsFunction } from './Contracts.data';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import {
   useLazyGetContractQuery,
@@ -11,6 +10,7 @@ import {
 } from '@/services/airServices/assets/contracts';
 import { PAGINATION } from '@/config';
 import { useTheme } from '@mui/material';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useContracts = () => {
   const theme = useTheme();
@@ -30,11 +30,12 @@ export const useContracts = () => {
   getContractParam?.append('page', page + '');
   getContractParam?.append('limit', pageLimit + '');
   getContractParam?.append('search', search);
+
   const getContractParameter = {
     queryParams: getContractParam,
   };
 
-  const [lazyGetContractTrigger, lazyGetContractStatus] =
+  const [lazyGetContractTrigger, lazyGetContractStatus]: any =
     useLazyGetContractQuery();
 
   const [lazyGetExportContractTrigger] = useLazyGetExportContractQuery();
@@ -65,13 +66,9 @@ export const useContracts = () => {
         getContractExportParameter,
       )?.unwrap();
       downloadFile(response, 'ContractLists', EXPORT_FILE_TYPE?.[type]);
-      enqueueSnackbar('File Exported successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('File Exported successfully');
     } catch (error: any) {
-      enqueueSnackbar('File not exported', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
 
@@ -87,7 +84,7 @@ export const useContracts = () => {
   const contractListsColumns = contractsListsColumnsFunction(
     selectedContractList,
     setSelectedContractList,
-    data,
+    lazyGetContractStatus?.data?.data?.contracts,
     router,
   );
   return {

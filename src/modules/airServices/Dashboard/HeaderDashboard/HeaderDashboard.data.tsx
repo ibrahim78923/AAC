@@ -1,15 +1,25 @@
 import { AIR_SERVICES } from '@/constants';
 import { Box, Button } from '@mui/material';
 
-export const dropDownMenus = [
+export const dropDownMenus = (setIsDrawerOpen: any) => [
   {
     title: 'Copy URL',
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
+    },
   },
   {
     title: 'Email this dashboard',
+    handleClick: (closeMenu: any) => {
+      setIsDrawerOpen(true);
+      closeMenu?.();
+    },
   },
   {
     title: 'Edit',
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
+    },
   },
 ];
 
@@ -32,18 +42,33 @@ export const dashboardFunction = (theme: any, router: any) => [
         </Box>
       </Box>
     ),
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
+    },
   },
   {
     title: 'Services_1',
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
+    },
   },
   {
     title: 'Services_2',
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
+    },
   },
   {
     title: 'Services_3',
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
+    },
   },
   {
     title: 'Services_4',
+    handleClick: (closeMenu: any) => {
+      closeMenu?.();
+    },
   },
   {
     title: (

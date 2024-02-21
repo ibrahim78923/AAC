@@ -47,6 +47,7 @@ export { default as UpIcon } from './shared/up-icon';
 export { default as ActionButtonIcon } from './shared/action-button-icon';
 export { default as FilterSharedIcon } from './shared/filter-shared';
 export { default as AttachFileIcon } from './shared/attach-file';
+export { default as AttachFilePrimaryIcon } from './shared/attach-file-icon-primary';
 export { default as ArrowDownIcon } from './shared/arrow-down-icon';
 export { default as CirclePlusIcon } from './shared/circle-plus-icon';
 export { default as CustomizeSharedIcon } from './shared/customize-icon';
@@ -417,3 +418,6 @@ export { default as ArrowAlertPopupIcon } from './shared/arrow-alert-popup-icon'
 export { default as ExportCloudIcon } from './shared/export-cloud-icon';
 export { default as FeaturedIcon } from './modules/airMarketer/EmailMarketing/featured-icon';
 export { default as SendPrimaryIcon } from './shared/send-primary-icon';
+export { default as ResetFilterIcon } from './shared/reset-filter-icon';
+export { default as ReplyDoubleArrowIcon } from './shared/reply-doublearrow-icon';
+export { default as AnnoucementIcon } from './shared/annoucement-icon';

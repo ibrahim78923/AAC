@@ -54,12 +54,7 @@ const HorizontalTabs = (props: any) => {
             onClick={() => {
               setActiveTab ? setActiveTab(title) : null;
             }}
-            label={
-              // <Typography variant="body2" component="span">
-              // {title}
-              title
-              // </Typography>
-            }
+            label={title}
           />
         ))}
         {addIcon && (

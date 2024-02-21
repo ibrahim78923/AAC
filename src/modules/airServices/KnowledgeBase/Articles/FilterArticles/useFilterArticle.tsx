@@ -1,5 +1,9 @@
 import { useForm } from 'react-hook-form';
-import { filterArticlesDataDefaultValues } from './FilterArticles.data';
+import {
+  filterArticlesDataDefaultValues,
+  filterArticlesFormFieldsDynamic,
+} from './FilterArticles.data';
+import { useLazyGetUsersDropdownQuery } from '@/services/airServices/knowledge-base/articles';
 
 export const useFilterArticles = (props: any) => {
   const {
@@ -41,7 +45,9 @@ export const useFilterArticles = (props: any) => {
   const onClose = () => {
     setIsOpenFilterDrawer?.(false);
   };
-
+  const apiQueryAuthor = useLazyGetUsersDropdownQuery();
+  const filterArticlesFormFields =
+    filterArticlesFormFieldsDynamic(apiQueryAuthor);
   return {
     submitHandler,
     isOpenFilterDrawer,
@@ -50,5 +56,6 @@ export const useFilterArticles = (props: any) => {
     resetArticleFilterForm,
     onClose,
     handleSubmit,
+    filterArticlesFormFields,
   };
 };
