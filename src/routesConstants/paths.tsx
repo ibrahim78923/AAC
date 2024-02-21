@@ -244,6 +244,8 @@ export const AIR_CALL_CENTER = {
       '/air-call-center/settings/phone-settings/additional-settings',
     GENERAL_SETTING: '/air-call-center/settings/general-settings',
     BUSINESS_HOURS: '/air-call-center/settings/general-settings/business-hours',
+    ADD_BUSINESS_HOURS:
+      '/air-call-center/settings/general-settings/business-hours/add-business-hours',
     AGENT_STATUSES: '/air-call-center/settings/general-settings/agent-statuses',
     USER_MANAGEMENT: '/air-call-center/settings/user-management',
     PHONE_CREDITS: '/air-call-center/settings/phone-credits',

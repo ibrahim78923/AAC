@@ -1,8 +1,9 @@
 import Layout from '@/layout';
 import SettingsLayout from '../../layout';
+import BusinessHours from '@/modules/airCallCenter/Settings/GeneralSettings/BusinessHours';
 
 const BusinessHoursPage = () => {
-  return <h1>Business Hours Page</h1>;
+  return <BusinessHours />;
 };
 export default BusinessHoursPage;
 
