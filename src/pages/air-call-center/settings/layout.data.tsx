@@ -21,7 +21,7 @@ export const CallCenterSettingsRoutes: any = [
       },
       {
         key: AIR_CALL_CENTER?.SETTINGS?.GREETING_LIST,
-        label: 'Message &amp; Greeting List',
+        label: 'Message & Greeting List',
         permissions: [],
       },
       {

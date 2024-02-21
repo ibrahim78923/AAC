@@ -1,7 +1,7 @@
 export const styles = {
   main: () => ({
     display: 'flex',
-    minHeight: 'calc(100vh - 70px)',
+    height: '100%',
   }),
   sidebar: (theme: any) => ({
     width: '276px',
@@ -9,6 +9,15 @@ export const styles = {
     borderRight: `1px solid ${theme?.palette?.graph?.slate_gray}`,
     height: '100%',
   }),
+  submenuItem: () => ({
+    pl: '24px',
+    '& .MuiListItemText-root': {
+      '& > span': {
+        fontSize: '12px',
+      },
+    },
+  }),
+
   content: () => ({
     flex: '1',
   }),

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Collapse,
@@ -16,8 +16,16 @@ import { usePathname } from 'next/navigation';
 
 const SettingsLayout = ({ children }: any) => {
   const pathname = usePathname();
-  const routerPathName = pathname?.split('/')[3];
-  // console.log('routerPathName:: ', routerPathName);
+
+  useEffect(() => {
+    const submenuRoute = pathname?.split('/')[3];
+    if (submenuRoute) {
+      setSubMenuOpen((prevState: any) => ({
+        [submenuRoute]: true,
+        ...prevState,
+      }));
+    }
+  }, [pathname]);
 
   const [subMenuOpen, setSubMenuOpen] = useState<any>({});
   const toggleSubmenu = (linkKey: any) => {
@@ -44,7 +52,7 @@ const SettingsLayout = ({ children }: any) => {
                     </ListItemButton>
 
                     <Collapse
-                      in={subMenuOpen[item.key] || routerPathName === item?.key}
+                      in={subMenuOpen[item.key]}
                       timeout="auto"
                       unmountOnExit
                     >
@@ -52,7 +60,7 @@ const SettingsLayout = ({ children }: any) => {
                         {item?.textNames?.map((subItem: any) => {
                           return (
                             <Link key={subItem?.label} href={subItem?.key}>
-                              <ListItemButton>
+                              <ListItemButton sx={styles.submenuItem}>
                                 <ListItemText primary={subItem?.label} />
                               </ListItemButton>
                             </Link>
