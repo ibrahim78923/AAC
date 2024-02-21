@@ -2,22 +2,33 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
-export const agentExtValidationSchema = Yup.object().shape({
-  agentExtflowName: Yup.string(),
-  playMessage: Yup.string(),
+export const callQueueValidationSchema = Yup.object().shape({
+  queueName: Yup.string()?.required('Required Field'),
+  playMessage: Yup.string()?.required('Required Field'),
+  caller: Yup.string()?.required('Required Field'),
+  routeCallsby: Yup.string()?.required('Required Field'),
+  ringingSecpa: Yup.string()?.required('Required Field'),
+  doThisWhenNotanswer: Yup.string()?.required('Required Field'),
+  doThisWhenbusy: Yup.string()?.required('Required Field'),
+  doThisWhenOffline: Yup.string()?.required('Required Field'),
 });
 
-export const agentExtDefaultValues = {
-  agentExtflowName: '',
+export const callQueueDefaultValues = {
+  queueName: '',
   playMessage: '',
-  doThis: '',
+  caller: '',
+  routeCallsby: '',
+  ringingSecpa: '',
+  doThisWhenNotanswer: '',
+  doThisWhenbusy: '',
+  doThisWhenOffline: '',
 };
 
-export const agentExtArray = [
+export const callQueueArray = [
   {
     componentProps: {
-      name: 'agentExtflowName',
-      label: 'Agent Extension Flow Name',
+      name: 'queueName',
+      label: 'Call Queue Name',
       placeholder: 'Air Applecart',
       fullWidth: true,
       select: false,
@@ -45,77 +56,58 @@ export const agentExtArray = [
   },
   {
     componentProps: {
-      color: '#7a7a7b',
-      heading: 'If The Agent Is Not Available',
-    },
-    gridLength: 12,
-    component: Typography,
-  },
-  {
-    componentProps: {
-      name: 'doThisnotAvail',
-      label: 'Do This',
+      name: 'caller',
+      label: 'Caller Will Be Attended By',
       fullWidth: true,
       select: true,
       required: true,
     },
     options: [
-      { value: 'welcome', label: 'welcome message' },
-      { value: 'voicemail', label: 'voicemail message' },
-      { value: 'hangup', label: 'hang up message' },
-      { value: 'callback', label: 'call back message' },
+      { value: 'all', label: 'All Agents' },
+      { value: 'sales', label: 'Sales' },
+      { value: 'john', label: 'John Jams' },
     ],
     component: RHFSelect,
-    md: 6.1,
+    md: 6,
   },
   {
     componentProps: {
-      color: '#7a7a7b',
-      heading: 'If Agent is available but not answering',
-    },
-    gridLength: 12,
-    component: Typography,
-  },
-  {
-    componentProps: {
-      name: 'doThisNotAnswersing',
-      label: 'Do This',
+      name: 'routeCallsby',
+      label: 'Route Calls By',
       fullWidth: true,
       select: true,
       required: true,
     },
     options: [
-      { value: 'welcome', label: 'welcome message' },
-      { value: 'voicemail', label: 'voicemail message' },
-      { value: 'hangup', label: 'hang up message' },
-      { value: 'callback', label: 'call back message' },
+      { value: 'all', label: 'All Agents' },
+      { value: 'sales', label: 'Sales' },
+      { value: 'john', label: 'John Jams' },
     ],
     component: RHFSelect,
-    md: 6.1,
+    md: 6,
   },
   {
     componentProps: {
-      name: 'afterRinging',
-      label: 'After Ringing For N seconds',
-      placeholder: 'Air Applecart',
+      name: 'ringingSecpa',
+      label: 'Ringing Seconds Per Agent',
+      placeholder: '30s',
       fullWidth: true,
       select: false,
       required: true,
     },
     component: RHFTextField,
-    md: 6.1,
+    md: 6,
   },
   {
     componentProps: {
-      color: '#7a7a7b',
-      heading: 'If Agent Is Busy?',
+      heading: 'If Agent(s) is/are online but not answering Not Available',
     },
     gridLength: 12,
     component: Typography,
   },
   {
     componentProps: {
-      name: 'doThisIsBusy',
+      name: 'doThisWhenNotanswer',
       label: 'Do This',
       fullWidth: true,
       select: true,
@@ -132,44 +124,14 @@ export const agentExtArray = [
   },
   {
     componentProps: {
-      color: '#7a7a7b',
-      heading: 'If Customer Gives An Invalid Input',
+      heading: 'If agent are online but busy',
     },
     gridLength: 12,
     component: Typography,
   },
   {
     componentProps: {
-      name: 'playMessage2',
-      label: 'Play Message',
-      fullWidth: true,
-      select: true,
-      required: true,
-    },
-    options: [
-      { value: 'welcome', label: 'welcome message' },
-      { value: 'voicemail', label: 'voicemail message' },
-      { value: 'hangup', label: 'hang up message' },
-      { value: 'callback', label: 'call back message' },
-    ],
-    component: RHFSelect,
-    md: 6.1,
-  },
-  {
-    componentProps: {
-      name: 'afterNRepeats',
-      label: 'After N Repeats',
-      placeholder: '2',
-      fullWidth: true,
-      select: false,
-      required: true,
-    },
-    component: RHFTextField,
-    md: 6.1,
-  },
-  {
-    componentProps: {
-      name: 'doThisInvalid Input',
+      name: 'doThisWhenbusy',
       label: 'Do This',
       fullWidth: true,
       select: true,
@@ -186,15 +148,14 @@ export const agentExtArray = [
   },
   {
     componentProps: {
-      color: '#7a7a7b',
-      heading: 'If The Customer Presses*',
+      heading: 'If agent is Offline',
     },
     gridLength: 12,
     component: Typography,
   },
   {
     componentProps: {
-      name: 'doThisPresses',
+      name: 'doThisWhenOffline',
       label: 'Do This',
       fullWidth: true,
       select: true,
@@ -208,5 +169,12 @@ export const agentExtArray = [
     ],
     component: RHFSelect,
     md: 6.1,
+  },
+  {
+    componentProps: {
+      type: 'button',
+    },
+    gridLength: 12,
+    component: Typography,
   },
 ];

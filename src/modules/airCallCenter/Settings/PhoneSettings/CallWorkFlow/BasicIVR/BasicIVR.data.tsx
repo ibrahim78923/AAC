@@ -4,10 +4,10 @@ import { DeleteCrossIcon } from '@/assets/icons';
 import * as Yup from 'yup';
 
 export const basicIvrValidationSchema = Yup.object().shape({
-  ivrMenuName: Yup.string(),
-  playMessage: Yup.string(),
-  afterNRepeat: Yup.string(),
-  ifNotValid: Yup.string(),
+  ivrMenuName: Yup.string()?.required('Required Field'),
+  playMessage: Yup.string()?.required('Required Field'),
+  afterNRepeat: Yup.string()?.required('Required Field'),
+  ifNotValid: Yup.string()?.required('Required Field'),
 });
 
 export const basicIvrDefaultValues = {

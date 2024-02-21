@@ -16,14 +16,13 @@ const useCallQueue = () => {
     defaultValues: callQueueDefaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, watch } = methods;
+
+  const callerValue = watch('caller');
 
   const onSubmit = () => {
     // console.log(values)
   };
-  // const handleNextDetail = () => {
-  //   setIsNumberDetail(true)
-  // }
 
   //functions
 
@@ -33,6 +32,7 @@ const useCallQueue = () => {
     methods,
     handleSubmit,
     onSubmit,
+    callerValue,
   };
 };
 

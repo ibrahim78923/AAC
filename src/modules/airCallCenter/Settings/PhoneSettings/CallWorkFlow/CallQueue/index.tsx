@@ -1,14 +1,20 @@
-import React from 'react';
-import useAgentExtension from './useAgentExtension';
-import { Button, Grid, Stack, Typography } from '@mui/material';
 import { BackArrIcon } from '@/assets/icons';
-import { FormProvider } from '@/components/ReactHookForm';
+import { Button, Grid, Stack, Typography } from '@mui/material';
+import useCallQueue from './useCallQueue';
+import { callQueueArray } from './CallQueue.data';
 import { v4 as uuidv4 } from 'uuid';
-import { agentExtArray } from './AgentExtension.data';
-import { PHONE_SETTINGS } from '@/routesConstants/paths';
+import { FormProvider } from '@/components/ReactHookForm';
+import { AIR_CALL_CENTER } from '@/routesConstants/paths';
 
-const AgentExtension = () => {
-  const { methods, navigate } = useAgentExtension();
+const CallQueue = () => {
+  const {
+    theme,
+    methods,
+    navigate,
+    handleSubmit,
+    onSubmit,
+    // callerValue
+  } = useCallQueue();
   return (
     <>
       <Stack
@@ -18,20 +24,29 @@ const AgentExtension = () => {
         mb={3}
         sx={{ cursor: 'pointer' }}
         onClick={() => {
-          navigate?.push(PHONE_SETTINGS?.PHONE_SETTINGS_MAIN);
+          navigate?.push(AIR_CALL_CENTER?.SETTINGS?.CALL_WORKFLOW);
         }}
       >
         <BackArrIcon />
-        <Typography variant="h3">Agent Extension Flow</Typography>
+        <Typography variant="h3">Call Queue</Typography>
       </Stack>
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
-          {agentExtArray?.map((item: any) => (
+          {callQueueArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               {item?.componentProps?.heading && (
-                <Typography variant="body1" fontWeight={600}>
+                <Typography
+                  variant="body1"
+                  fontWeight={600}
+                  sx={{ color: theme?.palette?.slateBlue?.main }}
+                >
                   {item?.componentProps?.heading}
                 </Typography>
+              )}
+              {item?.componentProps?.type === 'button' && (
+                <Button sx={{ color: theme?.palette?.primary?.main }}>
+                  Wait Queue Settings
+                </Button>
               )}
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select &&
@@ -49,12 +64,18 @@ const AgentExtension = () => {
                 variant="outlined"
                 color="inherit"
                 onClick={() => {
-                  navigate?.push(PHONE_SETTINGS?.PHONE_SETTINGS_MAIN);
+                  navigate?.push(AIR_CALL_CENTER?.SETTINGS?.CALL_WORKFLOW);
                 }}
               >
                 Cancel
               </Button>
-              <Button variant="contained">Save</Button>
+              <Button
+                type="submit"
+                variant="contained"
+                onClick={handleSubmit(onSubmit)}
+              >
+                Save
+              </Button>
             </Stack>
           </Grid>
         </Grid>
@@ -63,4 +84,4 @@ const AgentExtension = () => {
   );
 };
 
-export default AgentExtension;
+export default CallQueue;

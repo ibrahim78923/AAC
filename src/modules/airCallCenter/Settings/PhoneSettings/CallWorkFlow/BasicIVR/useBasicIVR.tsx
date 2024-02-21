@@ -3,22 +3,23 @@ import { useTheme } from '@mui/material/styles';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  agentExtDefaultValues,
-  agentExtValidationSchema,
-} from './AgentExtension.data';
+  basicIvrDefaultValues,
+  basicIvrValidationSchema,
+} from './BasicIVR.data';
 
-const useAgentExtension = () => {
+const useBasicIVR = () => {
   const navigate = useRouter();
   //states
   const theme = useTheme();
   const methods: any = useForm({
-    resolver: yupResolver(agentExtValidationSchema),
-    defaultValues: agentExtDefaultValues,
+    resolver: yupResolver(basicIvrValidationSchema),
+    defaultValues: basicIvrDefaultValues,
   });
-  // const { handleSubmit } = methods;
-  // const handleNextDetail = () => {
-  //   setIsNumberDetail(true)
-  // }
+  const { handleSubmit } = methods;
+
+  const onSubmit = () => {
+    // console.log(values)
+  };
 
   //functions
 
@@ -26,7 +27,9 @@ const useAgentExtension = () => {
     theme,
     navigate,
     methods,
+    handleSubmit,
+    onSubmit,
   };
 };
 
-export default useAgentExtension;
+export default useBasicIVR;

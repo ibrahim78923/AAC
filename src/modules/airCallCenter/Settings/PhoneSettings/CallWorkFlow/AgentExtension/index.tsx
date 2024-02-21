@@ -1,17 +1,14 @@
-import { BackArrIcon } from '@/assets/icons';
+import React from 'react';
+import useAgentExtension from './useAgentExtension';
 import { Button, Grid, Stack, Typography } from '@mui/material';
-import useCallQueue from './useCallQueue';
-import { callQueueArray } from './CallQueue.data';
-import { v4 as uuidv4 } from 'uuid';
+import { BackArrIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
-import { PHONE_SETTINGS } from '@/routesConstants/paths';
+import { v4 as uuidv4 } from 'uuid';
+import { agentExtArray } from './AgentExtension.data';
+import { AIR_CALL_CENTER } from '@/routesConstants/paths';
 
-const CallQueue = () => {
-  const {
-    methods,
-    navigate,
-    //  handleSubmit, onSubmit
-  } = useCallQueue();
+const AgentExtension = () => {
+  const { methods, navigate, handleSubmit, onSubmit } = useAgentExtension();
   return (
     <>
       <Stack
@@ -21,16 +18,21 @@ const CallQueue = () => {
         mb={3}
         sx={{ cursor: 'pointer' }}
         onClick={() => {
-          navigate?.push(PHONE_SETTINGS?.PHONE_SETTINGS_MAIN);
+          navigate?.push(AIR_CALL_CENTER?.SETTINGS?.CALL_WORKFLOW);
         }}
       >
         <BackArrIcon />
-        <Typography variant="h3">Call Queue</Typography>
+        <Typography variant="h3">Agent Extension Flow</Typography>
       </Stack>
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
-          {callQueueArray?.map((item: any) => (
+          {agentExtArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {item?.componentProps?.heading && (
+                <Typography variant="body1" fontWeight={600}>
+                  {item?.componentProps?.heading}
+                </Typography>
+              )}
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select &&
                   item?.options?.map((option: any) => (
@@ -47,12 +49,18 @@ const CallQueue = () => {
                 variant="outlined"
                 color="inherit"
                 onClick={() => {
-                  navigate?.push(PHONE_SETTINGS?.PHONE_SETTINGS_MAIN);
+                  navigate?.push(AIR_CALL_CENTER?.SETTINGS?.CALL_WORKFLOW);
                 }}
               >
                 Cancel
               </Button>
-              <Button variant="contained">Save</Button>
+              <Button
+                type="submit"
+                variant="contained"
+                onClick={handleSubmit(onSubmit)}
+              >
+                Save
+              </Button>
             </Stack>
           </Grid>
         </Grid>
@@ -61,4 +69,4 @@ const CallQueue = () => {
   );
 };
 
-export default CallQueue;
+export default AgentExtension;

@@ -4,11 +4,11 @@ import { BackArrIcon, PlusIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { FormProvider } from '@/components/ReactHookForm';
 import { basicIvrArray, columns, data } from './BasicIVR.data';
-import { PHONE_SETTINGS } from '@/routesConstants/paths';
+import { AIR_CALL_CENTER } from '@/routesConstants/paths';
 import TanstackTable from '@/components/Table/TanstackTable';
 
 const BasicIVR = () => {
-  const { methods, navigate } = useBasicIVR();
+  const { methods, navigate, handleSubmit, onSubmit } = useBasicIVR();
   return (
     <>
       <Stack
@@ -18,7 +18,7 @@ const BasicIVR = () => {
         mb={3}
         sx={{ cursor: 'pointer' }}
         onClick={() => {
-          navigate?.push(PHONE_SETTINGS?.PHONE_SETTINGS_MAIN);
+          navigate?.push(AIR_CALL_CENTER?.SETTINGS?.CALL_WORKFLOW);
         }}
       >
         <BackArrIcon />
@@ -58,12 +58,18 @@ const BasicIVR = () => {
                 variant="outlined"
                 color="inherit"
                 onClick={() => {
-                  navigate?.push(PHONE_SETTINGS?.PHONE_SETTINGS_MAIN);
+                  navigate?.push(AIR_CALL_CENTER?.SETTINGS?.CALL_WORKFLOW);
                 }}
               >
                 Cancel
               </Button>
-              <Button variant="contained">Save</Button>
+              <Button
+                type="submit"
+                variant="contained"
+                onClick={handleSubmit(onSubmit)}
+              >
+                Save
+              </Button>
             </Stack>
           </Grid>
         </Grid>

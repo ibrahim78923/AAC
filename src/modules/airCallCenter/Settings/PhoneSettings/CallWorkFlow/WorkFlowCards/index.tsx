@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 const WorkFlowCard = () => {
   const navigate = useRouter();
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={3}>
       {workflowCardArr?.map((item: any) => (
         <Grid item xs={12} sm={6} lg={4} key={uuidv4()}>
           <Card
