@@ -11,10 +11,11 @@ import {
   RecordingIcon,
 } from '@/assets/icons';
 import { UserDefault, UserProfileVectorImage } from '@/assets/images';
-import { Box, Tooltip, Typography } from '@mui/material';
+import { Box, Tooltip, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 
 export const columns = () => {
+  const theme = useTheme();
   return [
     {
       accessorFn: (row: any) => row?.title,
@@ -124,7 +125,7 @@ export const columns = () => {
         <Box sx={{ display: 'flex', gap: '10px' }}>
           <Tooltip title="View" placement="top-start">
             <Box sx={{ cursor: 'pointer' }}>
-              <EyeIcon color="#1F305D" size="16px" />
+              <EyeIcon color={theme?.palette?.blue?.main} size="16px" />
             </Box>
           </Tooltip>
           <Tooltip title="Call Notes" placement="top-start">

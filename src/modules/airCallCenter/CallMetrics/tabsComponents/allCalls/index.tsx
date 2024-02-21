@@ -29,7 +29,7 @@ const AllCalls = () => {
           mb: 2,
         }}
       >
-        <Box sx={styles.searchBar}>
+        <Box sx={styles?.searchBar}>
           <Search
             searchBy={searchTerm}
             setSearchBy={setSearchTerm}
@@ -38,7 +38,7 @@ const AllCalls = () => {
             size="small"
           />
         </Box>
-        <Box sx={styles.flexActionsButtons}>
+        <Box sx={styles?.flexActionsButtons}>
           <Button
             variant="outlined"
             className="small"

@@ -1,5 +1,5 @@
 import { PauseIcon, PlayIcon } from '@/assets/icons';
-import { Button } from '@mui/material';
+import { Button, useTheme } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 
@@ -10,39 +10,41 @@ const AudioVisualizer = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const wavesurferRef = useRef<WaveSurfer | null>(null);
 
+  const theme = useTheme();
+
   const [isPlaying, setIsPlaying] = useState(false);
 
   const handleTogglePlay = () => {
-    if (wavesurferRef.current) {
+    if (wavesurferRef?.current) {
       if (isPlaying) {
-        wavesurferRef.current.pause();
+        wavesurferRef?.current?.pause();
       } else {
-        wavesurferRef.current.play();
+        wavesurferRef?.current?.play();
       }
       setIsPlaying(!isPlaying);
     }
   };
 
   useEffect(() => {
-    if (containerRef.current) {
+    if (containerRef?.current) {
       wavesurferRef.current = WaveSurfer.create({
-        container: containerRef.current,
-        waveColor: '#EBFAF8',
-        progressColor: '#38CAB5',
+        container: containerRef?.current,
+        waveColor: `${theme?.palette?.primary?.light}`,
+        progressColor: `${theme?.palette?.primary?.main}`,
         barWidth: 2.8,
         cursorWidth: 1,
         height: 40,
       });
 
-      wavesurferRef.current
+      wavesurferRef?.current
         .load(audioSrc)
         .then(() => {})
         .catch(() => {});
     }
 
     return () => {
-      if (wavesurferRef.current) {
-        wavesurferRef.current.destroy();
+      if (wavesurferRef?.current) {
+        wavesurferRef?.current?.destroy();
       }
     };
   }, [audioSrc]);
