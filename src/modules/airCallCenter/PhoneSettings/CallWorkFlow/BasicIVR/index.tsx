@@ -1,11 +1,11 @@
-import React from 'react';
 import useBasicIVR from './useBasicIVR';
-import { Grid, Stack, Typography } from '@mui/material';
-import { BackArrIcon } from '@/assets/icons';
+import { Button, Card, Grid, Stack, Typography } from '@mui/material';
+import { BackArrIcon, PlusIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { FormProvider } from '@/components/ReactHookForm';
-import { basicIvrArray } from './BasicIVR.data';
+import { basicIvrArray, columns, data } from './BasicIVR.data';
 import { PHONE_SETTINGS } from '@/routesConstants/paths';
+import TanstackTable from '@/components/Table/TanstackTable';
 
 const BasicIVR = () => {
   const { methods, navigate } = useBasicIVR();
@@ -38,6 +38,34 @@ const BasicIVR = () => {
               </item.component>
             </Grid>
           ))}
+          <Grid item xs={12}>
+            <Card sx={{ p: 2 }}>
+              <Stack direction="row" justifyContent="end" mb={2}>
+                <Button
+                  variant="contained"
+                  className="small"
+                  startIcon={<PlusIcon />}
+                >
+                  Add New Keypress
+                </Button>
+              </Stack>
+              <TanstackTable columns={columns} data={data} />
+            </Card>
+          </Grid>
+          <Grid item sm={12}>
+            <Stack direction={{ md: 'row' }} gap={1} justifyContent="end">
+              <Button
+                variant="outlined"
+                color="inherit"
+                onClick={() => {
+                  navigate?.push(PHONE_SETTINGS?.PHONE_SETTINGS_MAIN);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button variant="contained">Save</Button>
+            </Stack>
+          </Grid>
         </Grid>
       </FormProvider>
     </>

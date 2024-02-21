@@ -1,5 +1,5 @@
 import { BackArrIcon } from '@/assets/icons';
-import { Grid, Stack, Typography } from '@mui/material';
+import { Button, Grid, Stack, Typography } from '@mui/material';
 import useCallQueue from './useCallQueue';
 import { callQueueArray } from './CallQueue.data';
 import { v4 as uuidv4 } from 'uuid';
@@ -7,7 +7,11 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { PHONE_SETTINGS } from '@/routesConstants/paths';
 
 const CallQueue = () => {
-  const { methods, navigate } = useCallQueue();
+  const {
+    methods,
+    navigate,
+    //  handleSubmit, onSubmit
+  } = useCallQueue();
   return (
     <>
       <Stack
@@ -37,6 +41,20 @@ const CallQueue = () => {
               </item.component>
             </Grid>
           ))}
+          <Grid item sm={12}>
+            <Stack direction={{ md: 'row' }} gap={1} justifyContent="end">
+              <Button
+                variant="outlined"
+                color="inherit"
+                onClick={() => {
+                  navigate?.push(PHONE_SETTINGS?.PHONE_SETTINGS_MAIN);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button variant="contained">Save</Button>
+            </Stack>
+          </Grid>
         </Grid>
       </FormProvider>
     </>

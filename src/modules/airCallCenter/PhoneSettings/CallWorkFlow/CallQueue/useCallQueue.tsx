@@ -16,7 +16,11 @@ const useCallQueue = () => {
     defaultValues: callQueueDefaultValues,
   });
 
-  // const { handleSubmit } = methods;
+  const { handleSubmit } = methods;
+
+  const onSubmit = () => {
+    // console.log(values)
+  };
   // const handleNextDetail = () => {
   //   setIsNumberDetail(true)
   // }
@@ -27,6 +31,8 @@ const useCallQueue = () => {
     theme,
     navigate,
     methods,
+    handleSubmit,
+    onSubmit,
   };
 };
 
