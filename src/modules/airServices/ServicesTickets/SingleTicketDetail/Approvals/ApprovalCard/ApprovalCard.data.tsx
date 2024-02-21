@@ -40,20 +40,13 @@ export const setStatus = (
   if (status === TICKET_APPROVALS?.PENDING) {
     const setApprovalStatus =
       receiverUserId === authUserId
-        ? APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.RECEIVED]
-        : APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.REQUESTED];
+        ? APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.REQUESTED]
+        : APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.RECEIVED];
     return setApprovalStatus;
   }
   return APPROVAL_CARD_INFO?.[status];
 };
 
-// export const setDate = (status: any) => {
-//   if (status === TICKET_APPROVALS?.PENDING) {
-
-//     return setApprovalStatus;
-//   }
-//   return APPROVAL_CARD_INFO?.[status];
-// };
 export const ticketsApprovalDropdownFunction = (
   getUpdateStatus?: any,
   data?: any,

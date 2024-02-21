@@ -117,6 +117,22 @@ export const optionsBar: any = (theme: any) => {
         'Dec',
       ],
     },
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 320,
+          },
+          legend: {
+            position: 'bottom',
+            itemMargin: {
+              vertical: 12,
+            },
+          },
+        },
+      },
+    ],
     legend: {
       position: 'top',
       horizontalAlign: 'right',
