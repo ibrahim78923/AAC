@@ -7,13 +7,14 @@ import useBuyNewNumber from './useBuyNewNumber';
 const BuyNewNumberDrawer = (props: any) => {
   const { isBuyNewNumber, setIsBuyNewNumber } = props;
   const { isNumberDetail } = useBuyNewNumber();
+
   return (
     <CommonDrawer
       isDrawerOpen={isBuyNewNumber}
       onClose={() => setIsBuyNewNumber(false)}
       title="Buy New Number"
       okText="Buy"
-      isOk={false}
+      isOk={isNumberDetail ? true : false}
       // submitHandler={() => { }}
       footer
     >
