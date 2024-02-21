@@ -13,13 +13,12 @@ export const AssignedPhysicalGiftCards = () => {
     data,
     setSearch,
     search,
-    handleClick,
-    onSubmit,
     open,
     setOpen,
     handleClose,
     isDrawerOpen,
     setIsADrawerOpen,
+    handleFileExportSubmit,
   } = useAssignedPhysicalGiftCards();
 
   return (
@@ -49,14 +48,13 @@ export const AssignedPhysicalGiftCards = () => {
             variant="outlined"
             color="secondary"
             startIcon={<ExportBlackIcon />}
-            onClick={handleClick}
+            onClick={() => setOpen(true)}
           >
             Export
           </Button>
           <ExportModal
             open={open}
-            setOpen={setOpen}
-            onSubmit={onSubmit}
+            onSubmit={(exportType: any) => handleFileExportSubmit?.(exportType)}
             handleClose={handleClose}
           />
         </Box>

@@ -47,7 +47,7 @@ const AddGroupModal = ({
 
   const [participantsIdsValues, setParticipantsIdsValues] = useState<any>();
   const [groupAdmins, setGroupAdmins] = useState<any>([]);
-  const [imageToUpload, setImageToUpload] = useState<any>();
+  // const [imageToUpload, setImageToUpload] = useState<any>();
 
   const [createNewGroup] = useCreateNewGroupMutation();
 
@@ -77,16 +77,23 @@ const AddGroupModal = ({
     setParticipantsIdsValues(participantIds);
   }, [participantIds]);
 
+  const formData = new FormData();
+
   const onSubmit = async (values: any) => {
-    const payloadMap: any = {
-      participants: participantsIdsValues,
-      groupAdmins: groupAdmins,
-      groupName: values?.groupTitle,
-      groupImage: imageToUpload,
-    };
+    // const payloadMap: any = {
+    //   participants: participantsIdsValues,
+    //   groupAdmins: groupAdmins,
+    //   groupName: values?.groupTitle,
+    //   // groupImage: imageToUpload,
+    // };
+
+    formData.append('participants', participantsIdsValues);
+    formData.append('groupAdmins', groupAdmins);
+    formData.append('groupName', values?.groupTitle);
+
     try {
       await createNewGroup({
-        body: payloadMap,
+        body: formData,
       })?.unwrap();
       enqueueSnackbar('successfully', {
         variant: 'success',
@@ -98,16 +105,15 @@ const AddGroupModal = ({
     }
   };
 
-  const handleImageChange = (e: any) => {
-    const formData = new FormData();
-    formData.append('media', e?.target?.files[0]);
-    setImageToUpload(formData);
+  const handleImageChange = async (e: any) => {
+    formData.append('groupImage', e?.target?.files[0]);
   };
 
   return (
     <CommonModal
       open={isAddGroupModal}
       handleClose={() => setIsAddGroupModal(false)}
+      handleCancel={() => setIsAddGroupModal(false)}
       handleSubmit={handleSubmit(onSubmit)}
       title="Create Group"
       okText="Create Group"
@@ -123,14 +129,19 @@ const AddGroupModal = ({
             gap: '10px',
           }}
         >
-          <Image src={AddRoundedImage} alt="upload" />
-          <Typography variant="h6">Add Photo</Typography>
           <input
+            hidden={true}
+            id="upload-group-image"
             type="file"
             accept="image/*"
             onChange={(e: any) => handleImageChange(e)}
           />
+          <Image src={AddRoundedImage} alt="upload" />
+          <label htmlFor="upload-group-image">
+            <Typography variant="h6">Add Photo</Typography>
+          </label>
         </Box>
+
         <br />
         <FormProvider
           methods={methodsAddGroup}
@@ -158,7 +169,7 @@ const AddGroupModal = ({
               <RHFMultiSearchableSelect
                 name="participant"
                 isCheckBox={true}
-                label="Candidates"
+                label="Add Participant"
                 size="small"
                 setValues={setValues}
                 options={participantsDataSelect}

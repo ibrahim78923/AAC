@@ -101,6 +101,7 @@ const useCreateContacts = () => {
     contactOwnerData,
     lifeCycleStagesData,
     contactStatusData,
+    reset,
   };
 };
 

@@ -13,8 +13,11 @@ import {
 import { ThreeDotsIcon } from '@/assets/icons';
 
 import { styles } from '../Contacts.style';
+import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 const GroupsCard = ({ info }: any) => {
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -22,6 +25,10 @@ const GroupsCard = ({ info }: any) => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleDelete = () => {
+    handleClose();
+    setIsDeleteModal(true);
   };
 
   return (
@@ -85,8 +92,16 @@ const GroupsCard = ({ info }: any) => {
         }}
       >
         <MenuItem onClick={handleClose}>Edit</MenuItem>
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
+        <MenuItem onClick={handleDelete}>Delete</MenuItem>
       </Menu>
+
+      <AlertModals
+        type={ALERT_MODALS_TYPE?.DELETE}
+        open={isDeleteModal}
+        handleClose={() => setIsDeleteModal(false)}
+        handleSubmitBtn={() => setIsDeleteModal(false)}
+        message="Are you sure you want to delete this group?"
+      />
     </>
   );
 };

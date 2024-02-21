@@ -9,7 +9,7 @@ export const KnowledgeBaseCard = (props: any) => {
   return (
     <Box
       gap={1}
-      padding={3}
+      padding={2.5}
       borderRadius={3}
       display={'flex'}
       justifyContent={'center'}

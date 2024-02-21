@@ -23,7 +23,7 @@ export const UpsertInventoryValidationSchema: any = Yup?.object()?.shape({
   assetType: Yup?.mixed()?.nullable()?.required('Required'),
   description: Yup?.string(),
   impact: Yup?.mixed()?.nullable(),
-  assetId: Yup?.mixed()?.nullable(),
+  department: Yup?.mixed()?.nullable(),
   assetLifeExpiry: Yup?.date()?.nullable(),
   usedBy: Yup?.mixed()?.nullable(),
   assignedOnTime: Yup?.date()?.nullable(),
@@ -31,25 +31,37 @@ export const UpsertInventoryValidationSchema: any = Yup?.object()?.shape({
 });
 export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
   return {
-    displayName: data?.displayName ?? '',
-    assetType: data?.assetType ?? null,
-    impact: data?.impact ?? '',
+    displayName: data?.data?.[0]?.displayName ?? '',
+    assetType: data?.data?.[0]?.assetTypeDetails ?? null,
+    impact: data?.data?.[0]?.impact ?? '',
     assetLifeExpiry:
-      typeof data?.assetLifeExpiry === 'string'
-        ? new Date(data?.assetLifeExpiry ?? todayDate)
+      typeof data?.data?.[0]?.assetLifeExpiry === 'string'
+        ? new Date(data?.data?.[0]?.assetLifeExpiry ?? todayDate)
         : new Date(),
-    description: data?.description ?? '',
-    location: data?.location ?? null,
-    assignedOnDate: new Date(data?.assignedOnDate ?? todayDate),
+    description: data?.data?.[0]?.description ?? '',
+    location: data?.data?.[0]?.locationDetails ?? null,
+    department: data?.data?.[0]?.departmentDetails ?? null,
+    assignedOnDate: new Date(data?.data?.[0]?.assignedOnDate ?? todayDate),
     assignedOnTime:
-      typeof data?.assignedOnTime === 'string'
-        ? new Date(data?.assignedOnTime)
+      typeof data?.data?.[0]?.assignedOnTime === 'string'
+        ? new Date(data?.data?.[0]?.assignedOnTime)
         : null,
-    usedBy: data?.usedBy ?? null,
-    attachFile: data?.attachFile ?? '',
+    usedBy: data?.data?.[0]?.usedByDetails ?? null,
+    attachFile: data?.data?.[0]?.attachFile ?? '',
   };
 };
-
+export const editInventoryDefaultValues = {
+  displayName: '',
+  assetType: '',
+  impact: '',
+  assetLifeExpiry: '',
+  description: '',
+  location: '',
+  assignedOnDate: '',
+  assignedOnTime: '',
+  usedBy: '',
+  attachFile: '',
+};
 export const upsertInventoryFormFieldsDynamic = (
   apiQueryAssetType: any,
   apiQueryDepartmentType: any,
@@ -74,8 +86,8 @@ export const upsertInventoryFormFieldsDynamic = (
     componentProps: {
       name: 'assetType',
       label: 'Asset Type',
+      placeholder: 'All Assets',
       fullWidth: true,
-      required: true,
       apiQuery: apiQueryAssetType,
       externalParams: { meta: false, limit: 50 },
     },

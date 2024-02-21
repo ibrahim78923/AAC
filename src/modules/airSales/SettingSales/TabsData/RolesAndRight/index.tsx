@@ -63,7 +63,7 @@ const RolesRight = () => {
           my={2}
         >
           <Search
-            placeholder="Search by Role Name"
+            placeholder="Search Here"
             size="small"
             onChange={(e: any) => {
               setFilterValues({ ...filterValues, search: e?.target?.value });

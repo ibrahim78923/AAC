@@ -15,7 +15,6 @@ import { useDepartmentsDetail } from './useDepartmentsDetail';
 import { DepartmentsFormModal } from '../DepartmentsFormModal';
 import { DepartmentsHeader } from '../DepartmentsHeader';
 import CustomPagination from '@/components/CustomPagination';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { DepartmentMenu } from './DepartmentMenu';
 
 const MAX_WORDS = 95;
@@ -42,8 +41,10 @@ export const DepartmentsDetail = () => {
     userList,
     editFormMethod,
     handleClose,
+    isLoading,
+    updateIsLoading,
+    isSmallScreen,
   } = useDepartmentsDetail();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   return (
     <>
       <DepartmentsHeader
@@ -114,19 +115,21 @@ export const DepartmentsDetail = () => {
               </Box>
               <Box display={'flex'} alignItems={'center'}>
                 <AvatarGroup
-                  max={4}
+                  max={5}
                   sx={{
                     transform: 'scaleX(-1)',
                     '& .MuiAvatar-root': { width: 30, height: 30, border: 0 },
                     '& .MuiAvatar-root:last-child': { ml: '-6px !important' },
                   }}
                 >
-                  {item?.members?.map((ava: any) => (
-                    <Avatar
-                      key={ava}
-                      src={ava?.src ?? UsersAvatarRoundedImage?.src}
-                    />
-                  ))}
+                  {item?.membersListDetails
+                    ?.slice(0, 4)
+                    ?.map((ava: any) => (
+                      <Avatar
+                        key={ava?._id}
+                        src={ava?.src ?? UsersAvatarRoundedImage?.src}
+                      />
+                    ))}
                 </AvatarGroup>
                 <IconButton onClick={() => setOpenAddModal(true)}>
                   <AddCircle color="primary" />
@@ -156,6 +159,7 @@ export const DepartmentsDetail = () => {
         handleSubmitBtn={handleDeleteSubmit}
         message="Are you sure you want to delete this Department?"
         type={ALERT_MODALS_TYPE?.DELETE}
+        loading={isLoading}
       />
       <DepartmentsFormModal
         formTitle="Edit Department"
@@ -164,6 +168,7 @@ export const DepartmentsDetail = () => {
         methods={editFormMethod}
         handleSubmit={submitForm}
         userList={userList}
+        isLoading={updateIsLoading}
       />
     </>
   );

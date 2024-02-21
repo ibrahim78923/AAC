@@ -1,6 +1,11 @@
 import { Grid } from '@mui/material';
 
-import { FormProvider } from '@/components/ReactHookForm';
+import { Box } from '@mui/material';
+
+import {
+  FormProvider,
+  RHFSwitchableDatepicker,
+} from '@/components/ReactHookForm';
 
 import CommonDrawer from '@/components/CommonDrawer';
 
@@ -33,6 +38,18 @@ const RestoreFilterDrawer = ({ open, onClose, handleSubmit, methods }: any) => {
             </Grid>
           ))}
         </Grid>
+        <Box sx={{ my: '20px' }}>
+          <RHFSwitchableDatepicker
+            name="startDate"
+            fullWidth
+            label="Start Date"
+          />
+        </Box>
+        <RHFSwitchableDatepicker
+          name="closeDate"
+          fullWidth
+          label="Close Date"
+        />
       </FormProvider>
     </CommonDrawer>
   );

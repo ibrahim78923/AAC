@@ -133,7 +133,7 @@ const useOrganizationTable = () => {
   );
 
   return {
-    tableRow: data?.data?.organizationcompanyaccounts,
+    tableRow: data?.data?.organizationcompanyaccounts ?? [],
     tablePagination: data?.meta?.pages,
     isOpenDrawer,
     setIsOpenDrawer,

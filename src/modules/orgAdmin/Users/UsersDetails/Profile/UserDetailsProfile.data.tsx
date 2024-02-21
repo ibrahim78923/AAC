@@ -186,7 +186,7 @@ export const profileFields = [
     componentProps: {
       label: 'Twitter URL',
       name: 'twitterUrl',
-      placeholder: 'Enter Twitter URL',
+      placeholder: 'Twitter URL',
       fullWidth: true,
     },
     component: RHFTextField,

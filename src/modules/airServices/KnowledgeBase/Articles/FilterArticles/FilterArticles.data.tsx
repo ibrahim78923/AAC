@@ -1,51 +1,46 @@
-import { RHFAutocomplete } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
 
-export const filterArticlesValidationSchema = Yup?.object()?.shape({
-  status: Yup?.string(),
-  authorId: Yup?.string(),
-});
-
-export const filterArticlesDataDefaultValues = {
-  status: '',
-  // authorId: '',
+export const filterArticlesDataDefaultValues = (data?: any) => {
+  return {
+    status: data?.status?._id ?? null,
+    authorId: data?.authorId?._id ?? null,
+  };
 };
 
-const statusOption = ['DRAFT', 'PUBLISHED'];
-
-const authorOption = [
-  { value: 'Alee', label: 'Alee' },
-  { value: 'David', label: 'David' },
-  { value: 'Raza', label: 'Raza' },
-  { value: 'Sam', label: 'Sam' },
-  { value: 'Martiz', label: 'Martiz' },
-  { value: 'Luke', label: 'Luke' },
-  { value: 'Manpreet', label: 'Manpreet' },
+const statusOption = [
+  { _id: 'DRAFT', label: 'DRAFT' },
+  { _id: 'PUBLISHED', label: 'PUBLISHED' },
 ];
-export const filterArticlesData = [
+
+export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
   {
     id: '1',
     componentProps: {
       name: 'status',
       label: 'Status',
-      size: 'small',
       placeholder: 'Select',
       fullWidth: true,
       options: statusOption,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
     md: 12,
   },
   {
+    id: '2',
     componentProps: {
       name: 'authorId',
       label: 'Author',
-      size: 'small',
       placeholder: 'Select',
       fullWidth: true,
-      options: authorOption,
+      apiQuery: apiQueryAuthor,
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
 ];

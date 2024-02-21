@@ -2,6 +2,7 @@ import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useUpsertContract } from './useUpsertContract';
 import { Box, Grid } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertContract = () => {
   const {
@@ -11,7 +12,14 @@ export const UpsertContract = () => {
     theme,
     upsertContractFormFieldsData,
     handleCancelBtn,
+    postContractStatus,
+    putContractStatus,
+    isLoading,
+    isFetching,
+    isError,
   } = useUpsertContract();
+
+  if (isLoading || isFetching) return <SkeletonForm />;
 
   return (
     <>
@@ -42,7 +50,11 @@ export const UpsertContract = () => {
             <Grid container spacing={4}>
               {upsertContractFormFieldsData?.map((item: any) => (
                 <Grid item xs={12} lg={item?.md} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'}>
+                  <item.component
+                    {...item?.componentProps}
+                    size={'small'}
+                    disabled={item?.componentProps?.disabled ?? isError}
+                  >
                     {item?.heading ? item?.heading : null}
                   </item.component>
                 </Grid>
@@ -51,7 +63,15 @@ export const UpsertContract = () => {
           </Grid>
           <Grid item xs={12} md={0.5}></Grid>
           <Grid item xs={12} md={4} mt={{ xs: 1, md: 0 }} mb={1}>
-            <RHFDropZone name="attachFile" />
+            <RHFDropZone
+              name="attachFile"
+              fullWidth={true}
+              fileType={'PNG or JPG  (max 2.44 MB)'}
+              maxSize={1024 * 1024 * 2.44}
+              accept={{
+                'image/*': ['.png', '.jpg'],
+              }}
+            />
           </Grid>
         </Grid>
         <br />
@@ -69,10 +89,21 @@ export const UpsertContract = () => {
                   type="button"
                   color="secondary"
                   onClick={() => handleCancelBtn?.()}
+                  disabled={
+                    postContractStatus?.isLoading ||
+                    putContractStatus?.isLoading
+                  }
                 >
                   Cancel
                 </LoadingButton>
-                <LoadingButton variant="contained" type="submit">
+                <LoadingButton
+                  loading={
+                    postContractStatus?.isLoading ||
+                    putContractStatus?.isLoading
+                  }
+                  variant="contained"
+                  type="submit"
+                >
                   Save
                 </LoadingButton>
               </Box>

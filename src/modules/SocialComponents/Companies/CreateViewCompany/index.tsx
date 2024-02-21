@@ -56,7 +56,7 @@ const CreateViewCompany = (props: any) => {
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={uuidv4()}>
+                        <option key={uuidv4()} value={option?.value}>
                           {option?.label}
                         </option>
                       ))}

@@ -12,7 +12,9 @@ export const Settings = () => {
       flexDirection={{ xs: 'column', sm: 'row' }}
     >
       <Box paddingRight={2} flex={0.25}>
-        <Typography mb={2}>Settings</Typography>
+        <Typography mb={2} variant="h3" color="slateBlue.main">
+          Settings
+        </Typography>
         <Divider />
         <Box paddingY={2}>
           {settingsData?.map((item: any) => (

@@ -1,45 +1,54 @@
-import React from 'react';
-import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
-import { Box, MenuItem } from '@mui/material';
+import { Grid } from '@mui/material';
 import useSegmentsContacts from './useSegmentsContacts';
 
 const SegmentsContacts = ({}: any) => {
   const { methods } = useSegmentsContacts();
 
-  const { handleSubmit } = methods;
+  // const { handleSubmit } = methods;
 
-  const onSubmit = () => {};
+  // const onSubmit = () => { };
 
   const formValues = [
     {
       componentProps: {
         name: 'field',
         label: 'Field',
+        fullWidth: true,
         select: true,
       },
-      options: [{ label: 'label', value: 'value' }],
-      component: RHFTextField,
+      options: [
+        { value: 'ALL', label: 'All' },
+        { value: 'DRAFT', label: 'Draft' },
+        { value: 'PUBLISHED', label: 'Published' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-  ];
-
-  const accountValues = [
     {
       componentProps: {
-        name: 'operators',
-        label: 'Select Operators',
+        name: 'field',
+        label: 'Select operator',
+        fullWidth: true,
         select: true,
       },
-      options: [{ label: 'label', value: 'value' }],
-      component: RHFTextField,
+      options: [
+        { value: 'ALL', label: 'All' },
+        { value: 'DRAFT', label: 'Draft' },
+        { value: 'PUBLISHED', label: 'Published' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-  ];
-  const audienceName = [
     {
       componentProps: {
         name: 'audience',
-        label: '',
-        select: true,
+        placeholder: 'Enter Value',
       },
       options: [{ label: 'label', value: 'value' }],
       component: RHFTextField,
@@ -47,59 +56,21 @@ const SegmentsContacts = ({}: any) => {
   ];
 
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      {formValues.map((form: any) => (
-        <form.component
-          key={uuidv4()}
-          fullWidth
-          size="small"
-          {...form.componentProps}
-        >
-          {form?.componentProps?.select
-            ? form?.options?.map((option: any) => (
-                <MenuItem key={option?.value} value={option?.value}>
-                  {option?.label}
-                </MenuItem>
-              ))
-            : null}
-        </form.component>
-      ))}
-      <Box sx={{ mt: 2 }}>
-        {accountValues.map((form: any) => (
-          <form.component
-            key={uuidv4()}
-            fullWidth
-            size="small"
-            {...form.componentProps}
-          >
-            {form?.componentProps?.select
-              ? form?.options?.map((option: any) => (
-                  <MenuItem key={option?.value} value={option?.value}>
+    <FormProvider methods={methods}>
+      <Grid container spacing={1}>
+        {formValues?.map((item: any) => (
+          <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            <item.component {...item.componentProps} size={'small'}>
+              {item?.componentProps?.select &&
+                item?.options?.map((option: any) => (
+                  <option key={uuidv4()} value={option?.value}>
                     {option?.label}
-                  </MenuItem>
-                ))
-              : null}
-          </form.component>
+                  </option>
+                ))}
+            </item.component>
+          </Grid>
         ))}
-      </Box>
-      <Box sx={{ mt: 3 }}>
-        {audienceName?.map((form: any) => (
-          <form.component
-            key={uuidv4()}
-            fullWidth
-            size="small"
-            {...form.componentProps}
-          >
-            {form?.componentProps?.select
-              ? form?.options?.map((option: any) => (
-                  <MenuItem key={option?.value} value={option?.value}>
-                    {option?.label}
-                  </MenuItem>
-                ))
-              : null}
-          </form.component>
-        ))}
-      </Box>
+      </Grid>
     </FormProvider>
   );
 };

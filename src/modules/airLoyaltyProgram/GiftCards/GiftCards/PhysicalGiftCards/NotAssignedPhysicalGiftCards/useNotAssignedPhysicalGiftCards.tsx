@@ -13,16 +13,17 @@ export const useNotAssignedPhysicalGiftCards = () => {
   const [search, setSearch] = useState('');
   const router = useRouter();
   const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
+  const [assignedTo, setAssignedTo] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const onSubmit = () => {
+  const handleFileExportSubmit = (type: any) => {
+    if (!!!type) {
+      setOpen(false);
+      return;
+    }
     setOpen(false);
     enqueueSnackbar('File Exported Successfully', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
@@ -35,6 +36,7 @@ export const useNotAssignedPhysicalGiftCards = () => {
       notAssignedPhysicalGiftCardData,
       setNotAssignedPhysicalGiftCardData,
       data,
+      setAssignedTo,
     );
 
   return {
@@ -43,10 +45,11 @@ export const useNotAssignedPhysicalGiftCards = () => {
     data,
     setSearch,
     search,
-    handleClick,
-    onSubmit,
+    handleFileExportSubmit,
     open,
     setOpen,
     handleClose,
+    assignedTo,
+    setAssignedTo,
   };
 };

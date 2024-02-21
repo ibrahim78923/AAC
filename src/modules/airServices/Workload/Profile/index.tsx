@@ -1,32 +1,29 @@
 import { Avatar, Box, Menu, Tooltip, Typography } from '@mui/material';
-import { Fragment, useState, useEffect } from 'react';
-import { profileAvatars } from './Profile.data';
-import { v4 as uuidv4 } from 'uuid';
+import { Fragment } from 'react';
+import { IMG_URL } from '@/config';
+import Search from '@/components/Search';
+import NoData from '@/components/NoData';
+import { AssociationsImage } from '@/assets/images';
+import useProfile from './useProfile';
 
-export const Profile = () => {
-  const [users, setUsers] = useState<any>([]);
-  const [usersExtra, setUsersExtra] = useState<any>([]);
-  const [selected, setSelected] = useState<any>(null);
-  const [showExtras, setShowExtras] = useState<any>(false);
-  const [anchorEl, setAnchorEl] = useState<any>(null);
+export const Profile = ({ selected, setSelected }: any) => {
+  const {
+    usersStatus,
+    users,
+    MAX_LIMIT,
+    addToArray,
+    setAnchorEl,
+    usersExtra,
+    anchorEl,
+    id,
+    debouncedSearch,
+    handleClose,
+  } = useProfile({
+    setSelected,
+  });
 
-  const addToArray = (user: any) => {
-    setSelected(user);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'basic-menu' : undefined;
-
-  const MAX_LIMIT = 5;
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  useEffect(() => {
-    setUsers(profileAvatars?.slice(0, MAX_LIMIT));
-    setUsersExtra(profileAvatars?.slice(MAX_LIMIT, profileAvatars?.length));
-  }, [profileAvatars]);
+  if (usersStatus?.isError)
+    return <Typography>Something Went Wrong</Typography>;
 
   return (
     <Fragment>
@@ -37,6 +34,10 @@ export const Profile = () => {
           borderRadius: 2,
           cursor: 'pointer',
           border: selected ? 0 : 3,
+          fontSize: '12px',
+          width: 38,
+          height: 38,
+          fontWeight: 500,
         }}
         onClick={() => {
           setSelected(null);
@@ -45,87 +46,122 @@ export const Profile = () => {
         All
       </Avatar>
 
-      {users?.map((item: any) => (
-        <Tooltip title={item?.name} key={uuidv4()}>
-          <Avatar
-            sx={{
-              borderRadius: 2,
-              mx: 0.2,
-              color: 'primary.main',
-              cursor: 'pointer',
-              border: selected === item ? 3 : 0,
-            }}
-            src={item?.img?.src}
-            onClick={() => addToArray?.(item)}
-          />
-        </Tooltip>
+      {users?.map((item: any, index: number) => (
+        <Fragment key={item?._id}>
+          {index < MAX_LIMIT && (
+            <Tooltip title={item?.firstName + ' ' + item?.lastName}>
+              <Avatar
+                sx={{
+                  bgcolor: 'primary.lighter',
+                  color: 'primary.main',
+                  borderRadius: 2,
+                  cursor: 'pointer',
+                  border: selected === item ? 3 : 0,
+                  fontSize: '12px',
+                  width: 38,
+                  height: 38,
+                  fontWeight: 500,
+                  mx: 0.2,
+                  textTransform: 'capitalize',
+                }}
+                src={`${IMG_URL}${item?.img}`}
+                onClick={() => addToArray?.(item)}
+              >
+                {item?.firstName?.[0] ?? '-'}
+                {item?.lastName?.[0]}
+              </Avatar>
+            </Tooltip>
+          )}
+        </Fragment>
       ))}
 
-      {usersExtra?.length > 0 && (
-        <Tooltip title="Show Remaining">
-          <Avatar
-            sx={{
-              bgcolor: 'primary.lighter',
-              color: 'primary.main',
-              borderRadius: 2,
-              cursor: 'pointer',
-            }}
-            onClick={(event: any) => {
-              setAnchorEl(event?.currentTarget);
-              setShowExtras(true);
-            }}
-          >
-            +{usersExtra?.length}
-          </Avatar>
-        </Tooltip>
-      )}
-
-      {showExtras && (
-        <Menu
-          id={id}
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
+      <Tooltip title="Show Remaining">
+        <Avatar
+          sx={{
+            bgcolor: 'primary.lighter',
+            color: 'primary.main',
+            borderRadius: 2,
+            cursor: 'pointer',
+            fontSize: '12px',
+            width: 38,
+            height: 38,
+            fontWeight: 500,
           }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
+          onClick={(event: any) => {
+            setAnchorEl(event?.currentTarget);
           }}
         >
-          <Box width={250}>
-            {usersExtra?.map((item: any) => (
+          +{usersExtra?.length}
+        </Avatar>
+      </Tooltip>
+
+      <Menu
+        id={id}
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <Box width={250} height={600} p={1}>
+          <Search
+            setSearchBy={(value: any) => debouncedSearch(value)}
+            width={'100%'}
+            label={'Search Here'}
+          />
+          {!usersExtra?.length ? (
+            <NoData message="No data is available" image={AssociationsImage} />
+          ) : (
+            usersExtra?.map((item: any) => (
               <Box
-                key={uuidv4()}
+                key={item?._id}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: 1,
                   cursor: 'pointer',
                   borderRadius: 2,
-                  p: 1,
+                  py: 1,
                   ':hover': { bgcolor: 'primary.lighter' },
                 }}
-                onClick={() => addToArray?.(item)}
+                onClick={() => {
+                  addToArray?.(item);
+                  handleClose?.();
+                }}
               >
                 <Avatar
                   sx={{
-                    borderRadius: 2,
-                    mx: 0.2,
+                    bgcolor: 'primary.lighter',
                     color: 'primary.main',
+                    borderRadius: 2,
                     cursor: 'pointer',
                     border: selected === item ? 3 : 0,
+                    fontSize: '12px',
+                    width: 38,
+                    height: 38,
+                    fontWeight: 500,
+                    mx: 0.2,
+                    textTransform: 'capitalize',
                   }}
-                  src={item?.img?.src}
-                />
-                <Typography variant={'body1'}>{item?.name}</Typography>
+                  src={`${IMG_URL}${item?.img}`}
+                >
+                  {item?.firstName?.[0] ?? '-'}
+                  {item?.lastName?.[0]}
+                </Avatar>
+                <Typography variant={'body1'}>
+                  {item?.firstName} {item?.lastName}
+                </Typography>
               </Box>
-            ))}
-          </Box>
-        </Menu>
-      )}
+            ))
+          )}
+        </Box>
+      </Menu>
     </Fragment>
   );
 };

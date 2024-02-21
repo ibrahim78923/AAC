@@ -68,7 +68,7 @@ const CardAndGraphs = () => {
         </Grid>
       </Grid>
       <Grid container spacing={2} sx={{ marginTop: '1rem' }}>
-        <Grid item lg={6} md={6} sm={12} xs={12}>
+        <Grid item lg={6} md={12} sm={12} xs={12}>
           <Box
             sx={{
               border: `1px solid ${theme?.palette?.custom.off_white_three}`,
@@ -92,7 +92,7 @@ const CardAndGraphs = () => {
             />
           </Box>
         </Grid>
-        <Grid item lg={6} md={6} sm={12} xs={12}>
+        <Grid item lg={6} md={12} sm={12} xs={12}>
           <Box sx={styles?.pieChart(theme)}>
             <Box>
               <Typography

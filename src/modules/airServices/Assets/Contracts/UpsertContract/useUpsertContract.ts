@@ -8,17 +8,25 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
 import { CONTRACT_TYPES } from '@/constants/strings';
 import {
   useLazyGetVendorDropdownQuery,
   useLazyGetDropdownAssetsQuery,
+  usePostContractMutation,
+  useLazyGetSoftwareDropdownQuery,
+  useLazyGetAgentsDropdownQuery,
+  useGetSingleContractByIdQuery,
+  usePutContractMutation,
 } from '@/services/airServices/assets/contracts';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useUpsertContract = () => {
   const theme = useTheme();
   const router = useRouter();
+  const { contractId } = router?.query;
+  const [postContractTrigger, postContractStatus] = usePostContractMutation();
+  const [putContractTrigger, putContractStatus] = usePutContractMutation();
 
   const upsertContractFormMethods = useForm<any>({
     resolver: yupResolver<any>(upsertContractFormSchemaFunction),
@@ -26,6 +34,18 @@ export const useUpsertContract = () => {
   });
   const { handleSubmit, control, setValue, getValues, clearErrors, reset } =
     upsertContractFormMethods;
+
+  const getSingleContractParameter = {
+    pathParam: {
+      contractId,
+    },
+  };
+
+  const { data, isLoading, isFetching, isError }: any =
+    useGetSingleContractByIdQuery(getSingleContractParameter, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!contractId,
+    });
 
   const watchForNotifyExpiry = useWatch({
     control,
@@ -43,66 +63,98 @@ export const useUpsertContract = () => {
   };
 
   useEffect(() => {
-    if (getValues?.('type')?.label !== ' ') {
+    if (getValues?.('type')?._id !== ' ') {
       clearErrors?.('type');
     }
     if (getValues?.('type') === null) {
       clearErrors?.('associateAssets');
       return;
     }
-    if (getValues?.('type')?.label === CONTRACT_TYPES?.SOFTWARE_LICENSE) {
+    if (getValues?.('type')?._id === CONTRACT_TYPES?.SOFTWARE_LICENSE) {
       setValue?.('associateAssets', null);
       clearErrors?.('associateAssets');
       return;
     }
-    // setValue?.('associateAssets', getValues?.('associateAssets')?.displayName);
-    // getValues?.('associateAssets') !== null
-    //   ? clearErrors?.('associateAssets')
-    //   : setError?.('associateAssets', {
-    //       message: 'Required',
-    //     });
   }, [watchForContractType]);
-  // useEffect(() => {
-  //   reset(upsertContractFormDefaultValuesFunction(contractType, getValues()));
-  // }, [contractType, reset]);
 
-  const submitUpsertContractForm = (data: any) => {
+  useEffect(() => {
+    reset(upsertContractFormDefaultValuesFunction(data?.data));
+  }, [data, reset]);
+
+  const submitUpsertContractForm = async (data: any) => {
     const postContractForm = new FormData();
     postContractForm?.append('name', data?.contractName);
-    postContractForm?.append('contractNumber', data?.contractNumber);
-    postContractForm?.append('contractType', data?.type);
+    postContractForm?.append('contractType', data?.type?._id);
     postContractForm?.append('cost', data?.cost);
-    postContractForm?.append('vendor', data?.vendor?._id);
-    postContractForm?.append('startDate', data?.startDate);
-    postContractForm?.append('endDate', data?.endDate);
+    data?.vendor !== null &&
+      postContractForm?.append('vendor', data?.vendor?._id);
+    postContractForm?.append('startDate', data?.startDate?.toISOString());
+    postContractForm?.append('endDate', data?.endDate?.toISOString());
     postContractForm?.append('autoRenew', data?.autoRenew);
-    postContractForm?.append('notifyExpiry', data?.notifyExpiry);
-    postContractForm?.append('approver', data?.approver?._id);
-    postContractForm?.append('status', data?.status);
-    postContractForm.append('assetId', data?.associateAssets?._id);
+    postContractForm?.append('notifyRenewal', data?.notifyExpiry);
+    !!data?.notifyExpiry &&
+      postContractForm?.append('notifyBefore', data?.notifyBefore);
+    !!data?.notifyExpiry &&
+      postContractForm?.append('notifyTo', data?.notifyTo?._id);
+    postContractForm?.append('software', data?.software?._id);
+    postContractForm?.append('itemsDetail', data?.itemDetail);
+    postContractForm?.append('billingCycle', data?.billingCycle?._id);
+    postContractForm?.append('licenseType', data?.licenseType?._id);
+    postContractForm?.append('licenseKey', data?.licenseKey);
+
+    data?.approver !== null &&
+      postContractForm?.append('approver', data?.approver?._id);
+    data?.associateAssets !== null &&
+      postContractForm.append('associatedAsset', data?.associateAssets?._id);
     data?.attachFile !== null &&
       typeof data?.attachFile !== 'string' &&
-      postContractForm?.append('fileUrl', data?.attachFile);
+      postContractForm?.append('attachments', data?.attachFile);
+
+    if (!!contractId) {
+      submitUpdateContract?.(postContractForm);
+      return;
+    }
+    const postContractParameter = {
+      body: postContractForm,
+    };
     try {
-      enqueueSnackbar('Contract Created Successfully', {
-        variant: 'success',
-      });
-      reset(upsertContractFormDefaultValuesFunction());
+      await postContractTrigger(postContractParameter)?.unwrap();
+      successSnackbar('Contract Created Successfully');
+      router?.back();
     } catch (error: any) {
-      enqueueSnackbar('Contract Created Successfully', {
-        variant: 'success',
-      });
-      reset(upsertContractFormDefaultValuesFunction());
+      errorSnackbar();
     }
   };
+
+  const submitUpdateContract = async (data: any) => {
+    const putContractParameter = {
+      body: data,
+      pathParam: {
+        contractId,
+      },
+    };
+    try {
+      await putContractTrigger(putContractParameter)?.unwrap();
+      successSnackbar('Contract updated Successfully');
+      reset();
+    } catch (error) {
+      errorSnackbar();
+    }
+  };
+
   const apiQueryVendor = useLazyGetVendorDropdownQuery();
   const apiQueryAsset = useLazyGetDropdownAssetsQuery();
+  const apiQueryApprover = useLazyGetAgentsDropdownQuery();
+  const apiQuerySoftware = useLazyGetSoftwareDropdownQuery();
 
   const upsertContractFormFieldsData = upsertContractFormFieldsDataFunction(
     watchForNotifyExpiry,
     watchForContractType,
     apiQueryVendor,
     apiQueryAsset,
+    apiQueryApprover,
+    apiQuerySoftware,
+    contractId,
   );
   return {
     upsertContractFormMethods,
@@ -111,5 +163,10 @@ export const useUpsertContract = () => {
     upsertContractFormFieldsData,
     theme,
     handleCancelBtn,
+    postContractStatus,
+    putContractStatus,
+    isLoading,
+    isFetching,
+    isError,
   };
 };
