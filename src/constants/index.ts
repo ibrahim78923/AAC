@@ -128,6 +128,7 @@ export const AIR_CUSTOMER_PORTAL = {
     '/air-customer-portal/knowledge-base/knowledge-base-detail/knowledge-base-ticket-detail',
   CUSTOMER_PORTAL_DASHBOARD: '/air-customer-portal',
   APPROVALS: '/air-customer-portal/catalog/approvals',
+  APPROVALS_DETAIL: '/air-customer-portal/catalog/approvals/detail',
 };
 
 export const ORG_ADMIN: any = {

@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 import CommonModal from '@/components/CommonModal';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -30,6 +30,9 @@ const ExportModal = ({ open, onClose }: any) => {
       footer={true}
       headerIcon={<ExportRecordIcon />}
     >
+      <Typography fontWeight={500} sx={{ fontSize: '14px' }}>
+        File Format
+      </Typography>
       <FormProvider methods={methods}>
         {RecordModalData?.map((item: any) => {
           return (
