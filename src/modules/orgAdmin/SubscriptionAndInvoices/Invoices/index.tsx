@@ -42,11 +42,11 @@ const Invoices = () => {
       <Box sx={styles?.invoicesTableWrapper}>
         <Box sx={styles?.invoicesHeader}>
           <Grid container>
-            <Grid item xs={3}>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
               <Box sx={styles?.invoicesHeaderLabel}>Invoices Due</Box>
               <Box sx={styles?.invoicesHeaderValue}>1</Box>
             </Grid>
-            <Grid item xs={9}>
+            <Grid item xs={12} sm={6} md={6} lg={9}>
               <Box sx={styles?.invoicesHeaderLabel}>Total Balance Due</Box>
               <Box sx={styles?.invoicesHeaderValue}>£ 1,234.11</Box>
             </Grid>
@@ -63,47 +63,46 @@ const Invoices = () => {
             />
           </Box>
           <Box sx={styles?.tableToolbarActions}>
-            <Box>
-              <Button
-                size="small"
-                onClick={handleActionsClick}
-                sx={styles?.actionButton}
-                endIcon={<DropdownIcon />}
-                disabled={!isChecked}
-              >
-                Actions
-              </Button>
-              <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                sx={{
-                  '& .MuiList-root': {
-                    minWidth: '112px',
-                  },
-                }}
-              >
-                <MenuItem onClick={handleOpenPayInvoice}>Pay Now</MenuItem>
-                <MenuItem onClick={handleOpenViewInvoice}>View</MenuItem>
-              </Menu>
+            {/* <Box> */}
+            <Button
+              size="small"
+              onClick={handleActionsClick}
+              sx={styles?.actionButton}
+              endIcon={<DropdownIcon />}
+              disabled={!isChecked}
+            >
+              Actions
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              sx={{
+                '& .MuiList-root': {
+                  minWidth: '112px',
+                },
+              }}
+            >
+              <MenuItem onClick={handleOpenPayInvoice}>Pay Now</MenuItem>
+              <MenuItem onClick={handleOpenViewInvoice}>View</MenuItem>
+            </Menu>
 
-              <Button
-                size="small"
-                sx={styles?.actionButton}
-                style={{ marginLeft: '10px' }}
-                onClick={() => setIsOpenFilter(true)}
-              >
-                <FilterSharedIcon /> Filter
-              </Button>
-            </Box>
+            <Button
+              size="small"
+              sx={styles?.actionButton}
+              onClick={() => setIsOpenFilter(true)}
+            >
+              <FilterSharedIcon /> Filter
+            </Button>
+            {/* </Box> */}
           </Box>
         </Box>
 
