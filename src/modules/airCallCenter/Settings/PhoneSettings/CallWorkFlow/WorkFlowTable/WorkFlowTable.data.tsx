@@ -17,21 +17,21 @@ export const data: any = [
 ];
 export const columns: any = [
   {
-    accessorFn: (row: any) => row.name,
+    accessorFn: (row: any) => row?.name,
     id: 'name',
     cell: (info: any) => info.getValue(),
     header: 'Name',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row.type,
+    accessorFn: (row: any) => row?.type,
     id: 'type',
     isSortable: true,
     header: 'Type',
     cell: (info: any) => info.getValue(),
   },
   {
-    accessorFn: (row: any) => row.actions,
+    accessorFn: (row: any) => row?.actions,
     id: 'actions',
     isSortable: true,
     header: 'Actions',
