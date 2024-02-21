@@ -5,11 +5,13 @@ import {
   upsertUserDefaultValues,
   upsertUserValidationSchema,
 } from './UpsertUser.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+
 import { useState } from 'react';
+import { usePostUserListMutation } from '@/services/airOperations/user-management/user';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useUpsertUser = (setIsDrawerOpen: any) => {
+  const [postNewUserTrigger] = usePostUserListMutation();
   const [userData, setUserData] = useState<any[]>(upsertUserData);
   const [disabled, setDisabled] = useState(true);
 
@@ -19,13 +21,20 @@ export const useUpsertUser = (setIsDrawerOpen: any) => {
   });
   const { handleSubmit, reset } = methods;
 
-  const submit = async () => {
+  const submit = async (data: any) => {
+    const body = {
+      ...data,
+    };
     if (disabled) {
       setDisabled(false);
     } else {
-      enqueueSnackbar('Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      try {
+        await postNewUserTrigger({ body })?.unwrap();
+        successSnackbar(' user Added successfully');
+      } catch (error) {
+        errorSnackbar();
+      }
+
       setIsDrawerOpen(false);
       reset();
     }
