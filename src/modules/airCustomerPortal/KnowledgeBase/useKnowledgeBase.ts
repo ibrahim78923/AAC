@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useState } from 'react';
+import { useGetKnowledgeBaseFolderQuery } from '@/services/airCustomerPortal/KnowledgeBase';
 
 export const useKnowledgeBase = () => {
   const router = useRouter();
@@ -27,6 +28,9 @@ export const useKnowledgeBase = () => {
     setOpenReportAnIssueModal(true);
   };
 
+  const { data, isLoading } = useGetKnowledgeBaseFolderQuery(null);
+  const KnowledgeBaseFolderData = data?.data;
+
   return {
     handleKnowledgeBaseDetail,
     handleButtonClick,
@@ -35,5 +39,7 @@ export const useKnowledgeBase = () => {
     open,
     openReportAnIssueModal,
     setOpenReportAnIssueModal,
+    KnowledgeBaseFolderData,
+    isLoading,
   };
 };

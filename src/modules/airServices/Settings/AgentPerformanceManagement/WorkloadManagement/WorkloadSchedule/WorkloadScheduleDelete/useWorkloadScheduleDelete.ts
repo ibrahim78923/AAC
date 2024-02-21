@@ -1,4 +1,4 @@
-import { useDeleteArticleMutation } from '@/services/airServices/knowledge-base/articles';
+import { useDeleteWorkloadScheduleMutation } from '@/services/airServices/settings/agent-performance-management/workload-management/workload-schedule';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useWorkloadScheduleDelete = (props: any) => {
@@ -9,20 +9,18 @@ export const useWorkloadScheduleDelete = (props: any) => {
     setSelectWorkloadSchedule,
   } = props;
 
-  const [deleteArticleTrigger, deleteArticleStatus] =
-    useDeleteArticleMutation();
+  const [deleteWorkloadScheduleTrigger, deleteWorkloadScheduleStatus] =
+    useDeleteWorkloadScheduleMutation();
 
   const deleteWorkloadSchedule = async () => {
-    const deleteParams = new URLSearchParams();
-    selectWorkloadSchedule?.forEach(
-      (id: any) => deleteParams?.append('ids', id),
-    );
     const deleteArticlesParameter = {
-      queryParams: deleteParams,
+      queryParams: {
+        id: selectWorkloadSchedule,
+      },
     };
     try {
-      await deleteArticleTrigger(deleteArticlesParameter)?.unwrap();
-      successSnackbar('Article deleted successfully');
+      await deleteWorkloadScheduleTrigger(deleteArticlesParameter)?.unwrap();
+      successSnackbar('Workload Schedule deleted successfully');
       setPage?.(1);
       setSelectWorkloadSchedule?.('');
       closeWorkloadScheduleDeleteModal?.();
@@ -39,6 +37,6 @@ export const useWorkloadScheduleDelete = (props: any) => {
   return {
     deleteWorkloadSchedule,
     closeWorkloadScheduleDeleteModal,
-    deleteArticleStatus,
+    deleteWorkloadScheduleStatus,
   };
 };

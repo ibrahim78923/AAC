@@ -1,25 +1,27 @@
 import React from 'react';
-import DrawerComp from '../Drawer';
-import { UmbrellaIcon } from '@/assets/icons';
 import { useTask } from '../useTask';
 import ImportStepper from '../Stepper';
+import CommonDrawer from '@/components/CommonDrawer';
 
-const Import = () => {
+const Import = (props: any) => {
+  const { setIsOpen, isOpen } = props;
   const { ImportStepperData, activeStep, handleNextStep } = useTask();
   return (
-    <DrawerComp
-      title="Import"
-      isOk
-      okText={activeStep < 2 ? 'Next' : 'Import'}
-      btnTitle="Import"
+    <CommonDrawer
+      isDrawerOpen={isOpen}
+      title="Filters"
       submitHandler={() =>
         activeStep < 2 ? handleNextStep() : alert('imported')
       }
-      btnIcon={<UmbrellaIcon />}
-      footer={true}
+      onClose={() => {
+        setIsOpen(false);
+      }}
+      okText={activeStep < 2 ? 'Next' : 'Import'}
+      footer
+      isOk={true}
     >
       <ImportStepper activeStep={activeStep} stepsArray={ImportStepperData} />
-    </DrawerComp>
+    </CommonDrawer>
   );
 };
 

@@ -23,7 +23,6 @@ const useServices = () => {
     page: page,
     limit: pageLimit,
     search,
-    // meta: true,
   };
   const {
     data: Categories,

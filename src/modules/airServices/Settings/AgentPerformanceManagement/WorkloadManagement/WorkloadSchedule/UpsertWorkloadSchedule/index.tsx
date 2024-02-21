@@ -1,14 +1,26 @@
-import { Box, Button, DialogActions, Grid, Typography } from '@mui/material';
+import { Box, DialogActions, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { createScheduleFields } from './UpsertWorkloadSchedule.data';
 import { RemoveRedEyeOutlined } from '@mui/icons-material';
-import { AIR_SERVICES } from '@/constants';
 import { useUpsertWorkloadSchedule } from './useUpsertWorkloadSchedule';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { LoadingButton } from '@mui/lab';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertWorkloadSchedule = () => {
-  const { handleSubmit, method, submitForm, router, workloadScheduleId } =
-    useUpsertWorkloadSchedule();
+  const {
+    handleSubmit,
+    method,
+    submitWorkloadSchedule,
+    workloadScheduleId,
+    upsertWorkloadScheduleFormFields,
+    isLoading,
+    isFetching,
+    patchWorkloadScheduleStatus,
+    postWorkloadScheduleStatus,
+    moveBack,
+  }: any = useUpsertWorkloadSchedule();
+
+  if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <>
       <PageTitledHeader
@@ -16,27 +28,18 @@ export const UpsertWorkloadSchedule = () => {
           !!workloadScheduleId ? 'Edit Scheduled Form' : 'Add Scheduled Form'
         }
         canMovedBack
-        moveBack={() => {
-          router?.push(AIR_SERVICES?.WORKLOAD_MANAGEMENT_SETTINGS);
-        }}
+        moveBack={() => moveBack?.()}
       />
-      {/* <Box display={'flex'} alignItems={'center'} gap={1}>
-        <ArrowBack
-          color="secondary"
-          onClick={() => {
-            router?.push(AIR_SERVICES?.WORKLOAD_MANAGEMENT_SETTINGS);
-          }}
-          sx={{ cursor: 'pointer' }}
-        />
-        <Typography> Scheduled Form</Typography>
-      </Box> */}
       <br />
-      <FormProvider methods={method} onSubmit={handleSubmit(submitForm)}>
+      <FormProvider
+        methods={method}
+        onSubmit={handleSubmit(submitWorkloadSchedule)}
+      >
         <Grid container spacing={2}>
-          {createScheduleFields?.map((item: any) => (
+          {upsertWorkloadScheduleFormFields?.map((item: any) => (
             <Grid
               item
-              key={item?.id}
+              key={item?._id}
               md={item?.md}
               xs={12}
               sx={{
@@ -46,7 +49,7 @@ export const UpsertWorkloadSchedule = () => {
                 mt: item?.iconProps && 1,
               }}
             >
-              {item.componentProps && (
+              {item?.componentProps && (
                 <item.component {...item?.componentProps} size={'small'} />
               )}
               {item?.iconProps && (
@@ -62,15 +65,31 @@ export const UpsertWorkloadSchedule = () => {
             </Grid>
           ))}
         </Grid>
+        <DialogActions>
+          <LoadingButton
+            type="button"
+            variant="outlined"
+            color="secondary"
+            disabled={
+              patchWorkloadScheduleStatus?.isLoading ||
+              postWorkloadScheduleStatus?.isLoading
+            }
+            onClick={() => moveBack?.()}
+          >
+            Cancel
+          </LoadingButton>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            loading={
+              patchWorkloadScheduleStatus?.isLoading ||
+              postWorkloadScheduleStatus?.isLoading
+            }
+          >
+            {!!workloadScheduleId ? 'Update' : 'Save'}
+          </LoadingButton>
+        </DialogActions>
       </FormProvider>
-      <DialogActions>
-        <Button variant="outlined" color="secondary">
-          Cancel
-        </Button>
-        <Button variant="contained">
-          {workloadScheduleId ? 'Update' : 'Save'}
-        </Button>
-      </DialogActions>
     </>
   );
 };
