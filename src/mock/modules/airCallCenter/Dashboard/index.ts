@@ -51,3 +51,26 @@ export const AllAgentData = [
     Action: '',
   },
 ];
+
+export const InConversationData = [
+  {
+    customer: 'Fisher',
+    agent: 'John Doe',
+    Action: '',
+  },
+  {
+    customer: 'Henry',
+    agent: 'Little stuart',
+    Action: '',
+  },
+  {
+    customer: 'Lane',
+    agent: 'Anderson',
+    Action: '',
+  },
+  {
+    customer: 'Jones',
+    agent: 'Little jimmy',
+    Action: '',
+  },
+];

@@ -13,9 +13,14 @@ import {
 
 import TanstackTable from '@/components/Table/TanstackTable';
 
-import { agentColumns, columns } from './TableSection.data';
+import {
+  agentColumns,
+  columns,
+  conversationColumns,
+} from './TableSection.data';
 import {
   AllAgentData,
+  InConversationData,
   InQueueData,
 } from '@/mock/modules/airCallCenter/Dashboard';
 import { DownIcon } from '@/assets/icons';
@@ -32,7 +37,7 @@ const TableSection = () => {
   } = useTableSection();
 
   return (
-    <Grid container mt={2}>
+    <Grid container spacing={2} mt={2}>
       <Grid item xs={12} md={4}>
         <Box
           sx={{
@@ -54,7 +59,30 @@ const TableSection = () => {
           <TanstackTable columns={columns} data={InQueueData} />
         </Grid>
       </Grid>
-      <Grid item xs={12} md={4}></Grid>
+      <Grid item xs={12} md={4}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+          }}
+        >
+          <Typography
+            variant="body1"
+            sx={{
+              color: `${theme?.palette?.custom?.dark_blue}`,
+            }}
+          >
+            In Conversation ( 03 )
+          </Typography>
+        </Box>
+        <Grid sx={{ paddingTop: '.5rem' }}>
+          <TanstackTable
+            columns={conversationColumns}
+            data={InConversationData}
+          />
+        </Grid>
+      </Grid>
       <Grid item xs={12} md={4}>
         <Box
           sx={{
@@ -73,8 +101,9 @@ const TableSection = () => {
               color: `${theme?.palette?.custom?.dark_blue}`,
               fontWeight: '400',
               fontSize: '16px',
+              padding: '0px',
+              height: '32px',
             }}
-            className="small"
           >
             All Agent &nbsp; <DownIcon />
           </Button>
@@ -104,7 +133,7 @@ const TableSection = () => {
             </MenuItem>
           </Menu>
         </Box>
-        <Grid sx={{ paddingTop: '.5rem' }}>
+        <Grid>
           <TanstackTable columns={agentColumns} data={AllAgentData} />
         </Grid>
       </Grid>
