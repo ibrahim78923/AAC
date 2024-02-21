@@ -37,16 +37,19 @@ const SettingsLayout = ({ children }: any) => {
   return (
     <Box sx={styles.main}>
       <Box sx={styles.sidebar}>
-        <Box sx={styles.sidebar}>
+        <Box sx={styles.sidebarHeader}>
           <Typography variant="h4">Settings</Typography>
         </Box>
-        <List component="nav">
+        <List component="nav" sx={styles.nav}>
           {CallCenterSettingsRoutes?.map((item: any) => {
             return (
               <Box key={item?.key}>
                 {item?.textNames ? (
                   <>
-                    <ListItemButton onClick={() => toggleSubmenu(item?.key)}>
+                    <ListItemButton
+                      onClick={() => toggleSubmenu(item?.key)}
+                      sx={styles.menuItem}
+                    >
                       <ListItemText primary={item?.label} />
                       {subMenuOpen[item.key] ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
@@ -71,7 +74,7 @@ const SettingsLayout = ({ children }: any) => {
                   </>
                 ) : (
                   <Link key={item?.label} href={item?.key}>
-                    <ListItemButton>
+                    <ListItemButton sx={styles.menuItem}>
                       <ListItemText primary={item?.label} />
                     </ListItemButton>
                   </Link>
