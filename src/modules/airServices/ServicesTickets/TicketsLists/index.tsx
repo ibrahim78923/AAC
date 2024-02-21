@@ -24,6 +24,7 @@ export const TicketsLists = () => {
     setPageLimit,
     setTicketsListsActiveColumn,
     setSelectedTicketList,
+    filterTicketLists,
   } = useTicketsLists();
 
   return (
@@ -61,6 +62,7 @@ export const TicketsLists = () => {
           setTicketAction={setTicketAction}
           setSelectedTicketList={setSelectedTicketList}
           search={search}
+          filterTicketLists={filterTicketLists}
         />
       ) : (
         <TicketsTableView

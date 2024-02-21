@@ -1,14 +1,34 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import TanstackTable from '@/components/Table/TanstackTable';
 import React from 'react';
-import { columns, data } from './ReceivedItems.data';
 
 import { Alert } from '@mui/material';
 import { useReceivedItems } from './useReceivedItems';
+import {
+  itemDetailColumns,
+  itemDetailFormFieldsFunction,
+} from './ReceivedItems.data';
 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material';
+import { FormProvider } from '@/components/ReactHookForm';
 export const ReceivedItems = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
-  const { errorOccurred, submitHandler } = useReceivedItems(props);
+
+  const {
+    errorOccurred,
+    submitHandler,
+    handleSubmit,
+    fields,
+    control,
+    method,
+  } = useReceivedItems(props);
+
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
@@ -16,7 +36,7 @@ export const ReceivedItems = (props: any) => {
         setIsDrawerOpen(false);
       }}
       title="Receive items"
-      submitHandler={submitHandler}
+      submitHandler={() => handleSubmit(submitHandler)()}
       footer={true}
       isOk={true}
       okText="Receive"
@@ -28,7 +48,33 @@ export const ReceivedItems = (props: any) => {
             quantity
           </Alert>
         )}
-        <TanstackTable data={data} columns={columns(setIsDrawerOpen)} />
+        <FormProvider methods={method}>
+          {' '}
+          <TableContainer>
+            <Table sx={{ minWidth: '100px' }}>
+              <TableHead>
+                <TableRow>
+                  {itemDetailColumns?.map((column: any) => (
+                    <TableCell key={column}>{column}</TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {fields?.map((item: any, index: any) => (
+                  <TableRow key={item?.id}>
+                    {itemDetailFormFieldsFunction?.(
+                      control,
+                      'receivedItem',
+                      index,
+                    )?.map((singleField: any) => (
+                      <TableCell key={item.id}>{singleField?.data}</TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </FormProvider>
       </>
     </CommonDrawer>
   );

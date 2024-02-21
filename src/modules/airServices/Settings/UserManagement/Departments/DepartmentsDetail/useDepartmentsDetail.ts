@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useMediaQuery, useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { PAGINATION } from '@/config';
 import {
   useDeleteDepartmentMutation,
   useLazyGetDepartmentQuery,
+  useLazyGetUsersDropdownListQuery,
   useUpdateDepartmentMutation,
 } from '@/services/airServices/settings/user-management/departments';
-import { PAGINATION } from '@/config';
-import { useLazyGetAgentsDropdownListQuery } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import {
   departmentFormValidation,
   departmentFormValues,
@@ -38,9 +37,7 @@ export const useDepartmentsDetail = () => {
     try {
       await lazyGetDepartmentTrigger(getDepartmentParameter)?.unwrap();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Error', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.error ?? 'An error occurred');
     }
   };
   useEffect(() => {
@@ -66,25 +63,20 @@ export const useDepartmentsDetail = () => {
       name: formData?.name,
       departmentHeadId: formData?.departmentHeadId?._id,
       description: formData?.description,
-      members: formData?.members?.map((i: any) => i?._id),
+      members: formData?.membersListDetails?.map((i: any) => i?._id),
     };
     const response: any = await updateDepartment({
       body: modifyData,
       id: openEdit?.item?._id,
     });
     try {
-      enqueueSnackbar(
+      successSnackbar(
         response?.data?.message && 'Department Updated Successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
       );
       reset();
       setOpenEdit(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.error?.data?.error ?? 'An error', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.error?.data?.error ?? 'An error');
     }
   };
   const submitForm = handleSubmit(submitEditForm);
@@ -92,7 +84,7 @@ export const useDepartmentsDetail = () => {
     setOpenEdit(false);
     reset(departmentFormValues(openEdit?.item));
   };
-  const userList = useLazyGetAgentsDropdownListQuery();
+  const userList = useLazyGetUsersDropdownListQuery();
   const [deleteDepartmentTrigger, { isLoading }] =
     useDeleteDepartmentMutation();
   const deleteParams = new URLSearchParams();
@@ -100,17 +92,12 @@ export const useDepartmentsDetail = () => {
   const handleDeleteSubmit = async () => {
     try {
       const response: any = await deleteDepartmentTrigger(deleteParams);
-      enqueueSnackbar(
+      successSnackbar(
         response?.data?.message && 'Department Delete Successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
       );
       setOpenDelete(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'An error occurred', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message ?? 'An error occurred');
     }
   };
   const theme: any = useTheme();

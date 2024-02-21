@@ -1,4 +1,5 @@
 import { TICKET_APPROVALS } from '@/constants/strings';
+import { usePatchApprovalTicketsMutation } from '@/services/airServices/tickets/single-ticket-details/approvals';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
@@ -7,6 +8,9 @@ import * as Yup from 'yup';
 export const useRequestConfirmForm = (props: any) => {
   const { setIsConfirmModalOpen, selectedApproval, setSelectedApproval } =
     props;
+
+  const [patchApprovalTicketsTrigger, patchApprovalTicketsStatus] =
+    usePatchApprovalTicketsMutation();
 
   const methods = useForm({
     defaultValues: {
@@ -20,12 +24,21 @@ export const useRequestConfirmForm = (props: any) => {
   });
 
   const { handleSubmit, reset } = methods;
-  const submitRequestConfirm = async () => {
+  const submitRequestConfirm = async (data: any) => {
+    const patchParameterData = {
+      queryParams: {
+        reason: data?.reason,
+        id: selectedApproval?._id,
+        ticketId: selectedApproval?.ticketId,
+        approvalStatus: selectedApproval?.state,
+      },
+    };
     const toastMessage =
       selectedApproval?.state === TICKET_APPROVALS?.APPROVE
         ? 'Request Approved successfully'
         : 'Request Rejected successfully';
     try {
+      await patchApprovalTicketsTrigger(patchParameterData)?.unwrap();
       successSnackbar?.(toastMessage);
       setModalClose?.();
     } catch (error) {
@@ -44,5 +57,6 @@ export const useRequestConfirmForm = (props: any) => {
     methods,
     setModalClose,
     submitRequestConfirm,
+    patchApprovalTicketsStatus,
   };
 };

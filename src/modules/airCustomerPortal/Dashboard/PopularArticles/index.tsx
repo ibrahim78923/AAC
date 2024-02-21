@@ -2,16 +2,17 @@ import { CardLayout } from '../CardLayout';
 import { Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { DocumentTextIcon } from '@/assets/icons';
-import { v4 as uuidv4 } from 'uuid';
 import { styles } from './PopularArticles.style';
+import { usePopularArticles } from './usePopularArticles';
+import ApiErrorState from '@/components/ApiErrorState';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import NoData from '@/components/NoData';
 
-export const PopularArticles = ({
-  title,
-  articlesData = [],
-  handleViewMore,
-}: any) => {
+export const PopularArticles = ({ title, handleViewMore }: any) => {
   const { palette }: any = useTheme();
-  const { mainWrapper, articleWrapper } = styles;
+  const { data, isLoading, isFetching, isError } = usePopularArticles();
+  const { articleWrapper } = styles;
+
   return (
     <CardLayout
       title={title}
@@ -19,16 +20,35 @@ export const PopularArticles = ({
       maxHeight={260}
       btnPosition={'center'}
     >
-      <Box sx={mainWrapper}>
-        {articlesData?.map((article: string) => (
-          <Box key={uuidv4()} sx={articleWrapper(palette)}>
-            <DocumentTextIcon />
-            <Typography variant="body2" color={palette?.grey?.[600]}>
-              {article}
-            </Typography>
-          </Box>
-        ))}
-      </Box>
+      {isLoading || isFetching ? (
+        <SkeletonForm />
+      ) : isError ? (
+        <ApiErrorState height={'100%'} />
+      ) : (
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 1.6,
+            py: 1.6,
+          }}
+        >
+          {!!data?.data?.articles?.length ? (
+            data?.data?.articles?.map((article: any) => (
+              <Box key={article?._id} sx={articleWrapper(palette)}>
+                <DocumentTextIcon />
+                <Typography variant="body2" color={palette?.grey?.[600]}>
+                  {article?.title}
+                </Typography>
+              </Box>
+            ))
+          ) : (
+            <NoData height={'100%'} />
+          )}
+        </Box>
+      )}
     </CardLayout>
   );
 };
