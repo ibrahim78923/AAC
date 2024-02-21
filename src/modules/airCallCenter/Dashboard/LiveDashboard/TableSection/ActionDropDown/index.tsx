@@ -35,8 +35,14 @@ export const ActionDropDown = (props: any) => {
           horizontal: 'right',
         }}
       >
-        <MenuItem onClick={handleClose}>Assign Call to an agent</MenuItem>
-        <MenuItem onClick={handleClose}>Take the call</MenuItem>
+        {data?.row?.original?.Availability ? (
+          <MenuItem onClick={handleClose}>Make Offline</MenuItem>
+        ) : (
+          <>
+            <MenuItem onClick={handleClose}>Assign Call to an agent</MenuItem>
+            <MenuItem onClick={handleClose}>Take the call</MenuItem>
+          </>
+        )}
       </Menu>
     </Box>
   );

@@ -12,7 +12,7 @@ import { DownIcon } from '@/assets/icons';
 import { Indicators } from './Indicators';
 import { AllIncomingCalls } from './AllIncomingCalls';
 import { v4 as uuidv4 } from 'uuid';
-import PlanList from './TableSection';
+import TableSection from './TableSection';
 
 export const LiveDashboard = () => {
   const {
@@ -107,7 +107,7 @@ export const LiveDashboard = () => {
 
       <Indicators />
       <AllIncomingCalls />
-      <PlanList />
+      <TableSection />
     </>
   );
 };

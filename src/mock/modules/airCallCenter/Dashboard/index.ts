@@ -28,3 +28,26 @@ export const InQueueData = [
     Action: '',
   },
 ];
+
+export const AllAgentData = [
+  {
+    Availability: 'Cody',
+    timeSpent: '4 hours',
+    Action: '',
+  },
+  {
+    Availability: 'Courtney',
+    timeSpent: '4 hours',
+    Action: '',
+  },
+  {
+    Availability: 'Devon',
+    timeSpent: '4 hours',
+    Action: '',
+  },
+  {
+    Availability: 'Jacob',
+    timeSpent: '4 hours',
+    Action: '',
+  },
+];

@@ -54,3 +54,39 @@ export const columns: any = [
     },
   },
 ];
+
+export const agentColumns: any = [
+  {
+    accessorFn: (row: any) => row?.customer,
+    id: 'customer',
+    header: 'customer',
+    cell: (info: any) => (
+      <Box display={'flex'}>
+        <Avatar
+          sx={{ bgcolor: 'blue.light', fontSize: '14px', fontWeight: 500 }}
+        >
+          {info?.row?.original?.heading?.slice(0, 2)?.toUpperCase()}
+        </Avatar>
+        <Box mx={2}>
+          <Typography variant="body2" fontWeight={500} color={'common.black'}>
+            {info?.row?.original?.Availability}
+          </Typography>
+        </Box>
+      </Box>
+    ),
+  },
+  {
+    accessorFn: (row: any) => row?.timeSpent,
+    id: 'timeSpent',
+    header: 'Time Spent',
+    cell: (info: any) => info?.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row?.Action,
+    id: 'Action',
+    header: 'Action',
+    cell: (info: any) => {
+      return <ActionDropDown data={info} />;
+    },
+  },
+];
