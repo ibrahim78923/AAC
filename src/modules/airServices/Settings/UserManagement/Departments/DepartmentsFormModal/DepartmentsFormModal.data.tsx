@@ -10,18 +10,18 @@ import {
 export const departmentFormValidation: any = Yup?.object()?.shape({
   departmenProfilePicture: Yup?.string(),
   name: Yup?.string()?.required('Required'),
-  departmentHeadId: Yup?.mixed()?.required('Required'),
+  departmentHeadDetails: Yup?.mixed()?.required('Required'),
   description: Yup?.string(),
-  members: Yup?.array()?.min(1, 'Required'),
+  membersListDetails: Yup?.array()?.min(1, 'Required'),
 });
 
 export const departmentFormValues: any = (data: any) => {
   return {
     departmenProfilePicture: data?.departmenProfilePicture ?? '',
     name: data?.name ?? '',
-    departmentHeadId: data?.departmentHeadId ?? null,
+    departmentHeadDetails: data?.departmentHeadDetails ?? null,
     description: data?.description ?? '',
-    members: data?.members ?? [],
+    membersListDetails: data?.membersListDetails ?? [],
   };
 };
 
@@ -57,7 +57,7 @@ export const departmentFormFields: any = (
     id: 3,
     componentProps: {
       label: 'Department Head',
-      name: 'departmentHeadId',
+      name: 'departmentHeadDetails',
       placeholder: 'Select',
       fullWidth: true,
       apiQuery: userList,
@@ -88,7 +88,7 @@ export const departmentFormFields: any = (
     id: 6,
     componentProps: {
       label: 'Members',
-      name: 'members',
+      name: 'membersListDetails',
       fullWidth: true,
       multiple: true,
       apiQuery: userListMember,

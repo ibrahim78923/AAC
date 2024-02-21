@@ -1,4 +1,4 @@
-import { fullNameInitial } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import {
   APPROVAL_CARD_INFO,
@@ -37,19 +37,52 @@ export const ApprovalCard = (props: any) => {
       >
         <Box display={'flex'} alignItems={'center'} gap={2}>
           <Avatar src={data?.imgSrc?.src} alt="img">
-            {fullNameInitial(data?.name)}
+            {fullNameInitial(
+              data?.recieverId === data?.createdBy
+                ? data?.receiverDetails?.firstName
+                : data?.receiverDetails?.firstName,
+              data?.recieverId === data?.createdBy
+                ? data?.requesterDetails?.lastName
+                : data?.requesterDetails?.lastName,
+            )}
           </Avatar>
           <Box>
             <Typography variant="body2" color="slateBlue.main" fontWeight={600}>
-              {data?.name}
+              {fullName(
+                data?.recieverId === data?.createdBy
+                  ? data?.receiverDetails?.firstName
+                  : data?.receiverDetails?.firstName,
+                data?.recieverId === data?.createdBy
+                  ? data?.requesterDetails?.lastName
+                  : data?.requesterDetails?.lastName,
+              )}
             </Typography>
             <Box display={'flex'} gap={0.5} alignItems={'center'}>
-              {setStatus?.(data?.approvalStatus)?.icon}
+              {
+                setStatus?.(
+                  data?.approvalStatus,
+                  data?.recieverId,
+                  data?.createdBy,
+                )?.icon
+              }
               <Typography
                 variant="customStyle"
-                color={setStatus?.(data?.approvalStatus)?.color}
+                color={
+                  setStatus?.(
+                    data?.approvalStatus,
+                    data?.recieverId,
+                    data?.createdBy,
+                  )?.color
+                }
               >
-                {setStatus?.(data?.approvalStatus)?.text} on{' '}
+                {
+                  setStatus?.(
+                    data?.approvalStatus,
+                    data?.recieverId,
+                    data?.createdBy,
+                  )?.text
+                }{' '}
+                on{' '}
                 {dayjs(
                   data?.approvalStatus === TICKET_APPROVALS?.PENDING
                     ? data?.createdAt
@@ -61,7 +94,7 @@ export const ApprovalCard = (props: any) => {
         </Box>
         <Box>
           {data?.approvalStatus === TICKET_APPROVALS?.PENDING &&
-            data?.recievedId === 'userId' && (
+            data?.recieverId === data?.createdBy && (
               <SingleDropdownButton
                 dropdownOptions={ticketsApprovalDropdown}
                 dropdownName={<MoreVert />}
@@ -70,7 +103,7 @@ export const ApprovalCard = (props: any) => {
               />
             )}
           {data?.approvalStatus === TICKET_APPROVALS?.PENDING &&
-            data?.recievedId !== 'userId' && (
+            data?.recieverId !== data?.createdBy && (
               <Box display={'flex'} gap={1} flexWrap={'wrap'}>
                 <Button
                   variant="outlined"

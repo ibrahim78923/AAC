@@ -23,7 +23,7 @@ export const PopularArticles = ({ title, handleViewMore }: any) => {
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : isError ? (
-        <ApiErrorState />
+        <ApiErrorState height={'100%'} />
       ) : (
         <Box
           sx={{
@@ -45,7 +45,7 @@ export const PopularArticles = ({ title, handleViewMore }: any) => {
               </Box>
             ))
           ) : (
-            <NoData />
+            <NoData height={'100%'} />
           )}
         </Box>
       )}
