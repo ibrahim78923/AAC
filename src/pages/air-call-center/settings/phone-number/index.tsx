@@ -1,8 +1,9 @@
 import Layout from '@/layout';
 import SettingsLayout from '../layout';
+import PhoneNumber from '@/modules/airCallCenter/Settings/PhoneNumber';
 
 const PhoneNumberPage = () => {
-  return <h1>Phone Number</h1>;
+  return <PhoneNumber />;
 };
 export default PhoneNumberPage;
 
