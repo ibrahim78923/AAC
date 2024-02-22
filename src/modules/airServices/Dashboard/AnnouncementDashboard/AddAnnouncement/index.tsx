@@ -2,22 +2,17 @@ import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import {
   createAnnouncementDashboardDataArray,
-  createAnnouncementDashboardDefaultValues,
-  createAnnouncementDashboardValidationSchema,
 } from './AddAnnouncement.data';
 import CommonDrawer from '@/components/CommonDrawer';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+
+import { useAddAnnouncement } from './useAddAnnouncement ';
 
 function AddAnnouncement({ isDrawerOpen, setIsDrawerOpen }: any) {
-  const methods: any = useForm({
-    resolver: yupResolver(createAnnouncementDashboardValidationSchema),
-    defaultValues: createAnnouncementDashboardDefaultValues,
-  });
-
-  const { handleSubmit } = methods;
-
-  const submit = () => {};
+  const {
+    methods,
+    handleSubmit,
+    submit,
+  } = useAddAnnouncement();
   return (
     <>
       <CommonDrawer

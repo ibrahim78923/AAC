@@ -1,4 +1,4 @@
-// import AuthGuard from '@/GuardsAndPermissions/AuthGuard';
+//import AuthGuard from '@/GuardsAndPermissions/AuthGuard';
 import ProductSuite from '@/modules/productSuite';
 
 export default function Home() {
@@ -6,6 +6,6 @@ export default function Home() {
 }
 
 Home.getLayout = function getLayout(page: any) {
-  // return <AuthGuard>{page}</AuthGuard>;
-  return page;
+  //return <AuthGuard>{page}</AuthGuard>;
+   return page;
 };

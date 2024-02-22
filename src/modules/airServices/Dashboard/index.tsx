@@ -96,7 +96,7 @@ const Dashboard = () => {
                   isDrawerOpen={isDrawerOpen}
                   setIsDrawerOpen={setIsDrawerOpen}
                 />
-                <Box display={'flex'} justifyContent={'center'} marginTop={0.5}>
+                <Box display={'flex'} justifyContent={'center'} marginTop={4}>
                   <Button variant="text" fullWidth onClick={handleIconButton}>
                     View All
                   </Button>
@@ -162,11 +162,12 @@ const Dashboard = () => {
                     </Box>
                   ))}
                 </Box>
+
                 <AnnouncementDashboard
                   isAnnouncementDrawerOpen={isAnnouncementDrawerOpen}
                   setIsAnnouncementDrawerOpen={setIsAnnouncementDrawerOpen}
                 />
-                <Box display={'flex'} justifyContent={'center'} marginTop={2}>
+                <Box display={'flex'} justifyContent={'center'} marginTop={3}>
                   <Button
                     variant="text"
                     fullWidth

@@ -11,11 +11,22 @@ import {
 } from './KnowledgeBaseTicketDetail.data';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useGetSingleKnowledgeBaseArticleQuery } from '@/services/airCustomerPortal/KnowledgeBase';
 
 export const useKnowledgeBaseTicketDetail = () => {
   const theme = useTheme();
   const [showFeedbackField, setShowFeedbackField] = useState(false);
   const [showOkFeedback, setShowOkFeedback] = useState(false);
+
+  const route = useRouter();
+
+  const params = {
+    id: route?.query?.id,
+  };
+
+  const { data, isLoading } = useGetSingleKnowledgeBaseArticleQuery(params);
+
+  const singleArticlesData = data?.data;
 
   const { push } = useRouter();
   const handlePageBack = () => {
@@ -46,5 +57,7 @@ export const useKnowledgeBaseTicketDetail = () => {
     feedbackDataArray,
     showOkFeedback,
     setShowOkFeedback,
+    singleArticlesData,
+    isLoading,
   };
 };

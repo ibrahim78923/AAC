@@ -20,7 +20,7 @@ export default function Layout({
     case 'dashboard':
       layout = (
         // <AuthGuard>
-        <DashboardLayout> {childrenEl} </DashboardLayout>
+          <DashboardLayout> {childrenEl} </DashboardLayout>
         // </AuthGuard>
       );
       break;

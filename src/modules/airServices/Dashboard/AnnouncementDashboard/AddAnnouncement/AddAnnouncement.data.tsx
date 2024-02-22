@@ -13,12 +13,10 @@ export const createAnnouncementDashboardValidationSchema: any =
     title: Yup?.string()?.required('Field is Required'),
     description: Yup?.string()?.trim(),
     scheduleMeeting: Yup?.string(),
-    startDate: Yup?.date(),
-    endDate: Yup?.date(),
-    managedBy: Yup?.string()?.required('Field is Required'),
-    visibility: Yup?.string(),
-    notifyMember: Yup?.string(),
-    emailRecipients: Yup?.string(),
+    notifyMembers: Yup?.string(),
+    managedById: Yup?.string()?.required('Field is Required'),
+    vibilityId: Yup?.string(),
+    additionalEmail: Yup?.string(),
     addMember: Yup?.string(),
   });
 
@@ -31,13 +29,14 @@ export const createAnnouncementDashboardDefaultValues: any = {
   managedBy: '',
   visibility: '',
   notifyMember: '',
-  emailRecipients: '',
+  additionalEmail: '',
   addMember: '',
 };
 
 const managedBy = ['James Harry'];
 
 const visiBility = ['Select', 'All agent', 'Everyone'];
+
 export const createAnnouncementDashboardDataArray = [
   {
     id: 1,
@@ -78,6 +77,7 @@ export const createAnnouncementDashboardDataArray = [
       label: 'Start Date',
       fullWidth: true,
       required: true,
+      disabled: true,
     },
     component: RHFDatePicker,
     md: 6,
@@ -89,6 +89,7 @@ export const createAnnouncementDashboardDataArray = [
       label: 'End Date',
       fullWidth: true,
       required: true,
+      disabled: true,
     },
     component: RHFDatePicker,
     md: 6,
@@ -131,7 +132,7 @@ export const createAnnouncementDashboardDataArray = [
   {
     id: 9,
     componentProps: {
-      name: 'emailRecipients',
+      name: 'additionalEmail',
       label: 'Additional Email recipients',
       fullWidth: true,
       placeholder: 'Enter Value',
