@@ -19,6 +19,7 @@ const AllApprovals = () => {
     selectedApproval,
     setSelectedApproval,
     setApproval,
+    openApprovalDetail,
   } = useAllApprovals();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -38,6 +39,7 @@ const AllApprovals = () => {
                 approval?.approvalStatus !== TICKET_APPROVALS?.PENDING
               }
               setApproval={(approvalData: any) => setApproval?.(approvalData)}
+              openApprovalDetail={(data: any) => openApprovalDetail?.(data)}
             />
           </Fragment>
         ))

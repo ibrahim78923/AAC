@@ -1,5 +1,5 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-// import AuthGuard from '@/GuardsAndPermissions/AuthGuard';
+import AuthGuard from '@/GuardsAndPermissions/AuthGuard';
 import DashboardLayout from './MainDashboard';
 
 export default function Layout({
@@ -19,9 +19,9 @@ export default function Layout({
   switch (variant) {
     case 'dashboard':
       layout = (
-        // <AuthGuard>
-        <DashboardLayout> {childrenEl} </DashboardLayout>
-        // </AuthGuard>
+        <AuthGuard>
+          <DashboardLayout> {childrenEl} </DashboardLayout>
+        </AuthGuard>
       );
       break;
     default:
