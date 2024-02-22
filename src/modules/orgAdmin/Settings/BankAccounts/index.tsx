@@ -2,10 +2,7 @@ import { PlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { Box, Button, Stack, Typography, useTheme } from '@mui/material';
-import {
-  bankAccountsColumns,
-  // bankAccountsData
-} from './BankAccounts.data';
+import { bankAccountsColumns } from './BankAccounts.data';
 import ActionDropDown from './ActionDropDown';
 import useBankAccounts from './useBankAccounts';
 import AddBankAccounts from './AddBankAccounts';
@@ -15,11 +12,15 @@ const BankAccounts = () => {
   const {
     isOpenAddAccountDrawer,
     setIsOpenAddAccountDrawer,
-    searchBy,
-    setSearchBy,
+    filterValues,
+    setFilterValues,
     receiversData,
     checkedRows,
     setCheckedRows,
+    isLoading,
+    isSuccess,
+    setPageLimit,
+    setPage,
   } = useBankAccounts();
 
   const columnsProps = {
@@ -35,10 +36,11 @@ const BankAccounts = () => {
       <Stack direction="column" gap={2} mt={3}>
         <Stack direction="row" justifyContent="space-between">
           <Search
-            width={260}
-            searchBy={searchBy}
-            setSearchBy={setSearchBy}
+            onChange={(e: any) => {
+              setFilterValues({ ...filterValues, search: e?.target?.value });
+            }}
             placeholder="Search Here"
+            size="small"
           />
           <Stack direction="row" gap={1}>
             <ActionDropDown
@@ -57,8 +59,16 @@ const BankAccounts = () => {
         </Stack>
         <TanstackTable
           columns={bankAccountsColumns(columnsProps)}
-          data={receiversData}
+          data={receiversData?.data?.receiverbankaccounts}
+          totalRecords={receiversData?.data?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          count={receiversData?.data?.meta?.pages}
           isPagination
+          pageLimit={receiversData?.data?.meta?.limit}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
         />
       </Stack>
 

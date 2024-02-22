@@ -8,33 +8,40 @@ export const receiversBankAccountsAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}`,
         method: 'GET',
       }),
-      providesTags: ['SettingLifeCycleStage'],
+      providesTags: ['RECEIVER_BANK_ACCOUNT'],
     }),
 
-    // postSettingLifeCycleStage: builder.mutation({
-    //   query: ({ body }: any) => ({
-    //     url: `${}`,
-    //     method: 'POST',
-    //     body: body,
-    //   }),
-    //   invalidatesTags: ['SettingLifeCycleStage'],
-    // }),
-    // updateSettingLifeCycleStage: builder.mutation({
-    //   query: ({ id, body }: any) => ({
-    //     url: `${}/${id}`,
-    //     method: 'PATCH',
-    //     body: body,
-    //   }),
-    //   invalidatesTags: ['SettingLifeCycleStage'],
-    // }),
-    // deleteSettingLifeCycleStage: builder.mutation({
-    //   query: ({ id }) => ({
-    //     url: `${}/${id}`,
-    //     method: 'DELETE',
-    //   }),
-    //   invalidatesTags: ['SettingLifeCycleStage'],
-    // }),
+    postReceiverBankAccount: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}`,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['RECEIVER_BANK_ACCOUNT'],
+    }),
+
+    updateReceiverBankAccount: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['RECEIVER_BANK_ACCOUNT'],
+    }),
+
+    deleteReceiverBankAccount: builder.mutation({
+      query: ({ id }) => ({
+        url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['RECEIVER_BANK_ACCOUNT'],
+    }),
   }),
 });
 
-export const { useGetReceiverBankAccountsQuery } = receiversBankAccountsAPI;
+export const {
+  useGetReceiverBankAccountsQuery,
+  useDeleteReceiverBankAccountMutation,
+  usePostReceiverBankAccountMutation,
+  useUpdateReceiverBankAccountMutation,
+} = receiversBankAccountsAPI;

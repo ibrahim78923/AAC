@@ -6,6 +6,7 @@ import {
   addAccountsFormValidationSchema,
 } from './AddBankAccounts/AddBankAccounts.data';
 import { receiversBankAccountsAPI } from '@/services/orgAdmin/settings/receivers-bank-acconts';
+import { PAGINATION } from '@/config';
 
 const useBankAccounts = () => {
   const [selectedValue, setSelectedValue] = useState(null);
@@ -13,16 +14,31 @@ const useBankAccounts = () => {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [searchBy, setSearchBy] = useState();
   const [checkedRows, setCheckedRows] = useState();
-
-  const { useGetReceiverBankAccountsQuery } = receiversBankAccountsAPI;
-  const receiversParams = {
-    page: '',
-    limit: '',
+  const [filterValues, setFilterValues] = useState({
     search: '',
+  });
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+
+  const {
+    useGetReceiverBankAccountsQuery,
+    // useDeleteReceiverBankAccountMutation,
+  } = receiversBankAccountsAPI;
+
+  const receiversParams = {
+    page: page,
+    limit: pageLimit,
+    search: filterValues?.search ?? undefined,
   };
-  const { data: receiversData } =
-    useGetReceiverBankAccountsQuery(receiversParams);
+
+  const {
+    data: receiversData,
+    isLoading,
+    isSuccess,
+  } = useGetReceiverBankAccountsQuery(receiversParams);
   // console.log(receiversData?.data?.receiverbankaccounts);
+
+  // const [deleteReceiverBankAccount] = useDeleteReceiverBankAccountMutation();
 
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
@@ -58,6 +74,12 @@ const useBankAccounts = () => {
     receiversData,
     checkedRows,
     setCheckedRows,
+    filterValues,
+    setFilterValues,
+    isLoading,
+    isSuccess,
+    setPageLimit,
+    setPage,
   };
 };
 
