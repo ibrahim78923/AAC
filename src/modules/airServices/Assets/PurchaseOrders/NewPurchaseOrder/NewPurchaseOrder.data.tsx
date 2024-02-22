@@ -6,21 +6,32 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 
-export const currencyOptions = ['Pound', 'Dollars'];
+export const currencyOptions = ['Pound', 'Dollar'];
 
+const purchaseDetailSchema = yup?.object()?.shape({
+  itemName: yup?.object()?.nullable(),
+  description: yup?.string()?.default(''),
+  quantity: yup?.number(),
+  costPerItem: yup?.number(),
+  taxRate: yup?.number(),
+  total: yup?.number(),
+});
 // form validation schema
 export const validationSchema: any = yup?.object()?.shape({
   orderName: yup?.string()?.required('Required'),
-  orderNumber: yup
-    ?.number()
-    ?.typeError('Must be a Number')
-    ?.required('Required'),
+  orderNumber: yup?.string()?.min(1).required('Required'),
   vendor: yup?.object()?.required('Required'),
   currency: yup?.string()?.required('Required'),
   department: yup?.object()?.nullable(),
-  expectedDeliveryDate: yup?.date()?.required('Required'),
+  expectedDeliveryDate: yup?.date()?.nullable()?.required('Required'),
   location: yup?.object()?.nullable(),
   termAndCondition: yup?.string(),
+  subTotal: yup?.number(),
+  taxRatio: yup?.number(),
+  shipping: yup?.number(),
+  discount: yup?.number(),
+  total: yup?.number(),
+  purchaseDetails: yup.array().of(purchaseDetailSchema),
 });
 
 export const defaultValues = (data?: any) => ({
@@ -29,7 +40,9 @@ export const defaultValues = (data?: any) => ({
   vendor: data?.vendor ?? null,
   currency: data?.currency ?? '',
   department: data?.department ?? null,
-  expectedDeliveryDate: new Date(data?.expectedDeliveryDate) ?? null,
+  expectedDeliveryDate: data?.expectedDeliveryDate
+    ? new Date(data?.expectedDeliveryDate)
+    : null,
   location: data?.location ?? null,
   termAndCondition: data?.termAndCondition ?? '',
   subTotal: data?.subTotal ?? 0,

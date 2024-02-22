@@ -7,7 +7,6 @@ import {
 } from './NewPurchaseOrder.data';
 import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
 import {
   useGetPurchaseOrderByIdQuery,
@@ -17,8 +16,8 @@ import {
   usePatchPurchaseOrderMutation,
   usePostPurchaseOrderMutation,
 } from '@/services/airServices/assets/purchase-orders';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useSearchParams } from 'next/navigation';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 const { PURCHASE_ORDER } = AIR_SERVICES;
 
@@ -48,6 +47,7 @@ const useNewPurchaseOrders = () => {
 
   const submit = async (data: any) => {
     const { location, vendor, department, purchaseDetails, ...rest } = data;
+    delete rest?.taxRatio;
     const apiParameter = {
       body: {
         ...rest,
@@ -67,17 +67,12 @@ const useNewPurchaseOrders = () => {
       return;
     }
     try {
-      const response = await postPurchaseOrderTrigger(apiParameter)?.unwrap();
-      enqueueSnackbar({
-        message: 'New Purchase Order Created successfully' ?? response?.message,
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postPurchaseOrderTrigger(apiParameter)?.unwrap();
+      successSnackbar('New Purchase Order Created successfully');
       reset();
       handlePageBack();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
   const submitUpdatePurchaseOrder = async (data: any) => {
@@ -86,21 +81,12 @@ const useNewPurchaseOrders = () => {
       body: { ...data },
     };
     try {
-      const response = await patchPurchaseOrderTrigger(
-        patchPurchaseOrderParameter,
-      )?.unwrap();
-      enqueueSnackbar(
-        response?.message ?? 'Purchase Order Updated Successfully!',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      await patchPurchaseOrderTrigger(patchPurchaseOrderParameter)?.unwrap();
+      successSnackbar('Purchase Order Updated Successfully!');
       reset();
       handlePageBack();
     } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
   const handlePageBack = () => {
