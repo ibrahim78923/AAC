@@ -97,7 +97,7 @@ const DashboardLayout = ({ children, window }: any) => {
   };
 
   const findEmail: any = findRoleByEmail({ user, array });
-  const findEmailRole = findEmail ? findEmail?.role : 'AIR_MARKETER';
+  const findEmailRole = findEmail ? findEmail?.role : 'AIR_SERVICES';
 
   const routes = getRoutes(findEmailRole);
 
@@ -264,6 +264,7 @@ const DashboardLayout = ({ children, window }: any) => {
                               />
                             </ListItemIcon>
                             <Typography
+                              fontSize={14}
                               fontWeight={
                                 routerPathName === pathNameKey ? '500' : '400'
                               }
@@ -376,7 +377,9 @@ const DashboardLayout = ({ children, window }: any) => {
                           <ListItemButton
                             sx={styles?.mainNavLink(link, router, theme)}
                           >
-                            <ListItemIcon sx={{ minWidth: 20 }}>
+                            <ListItemIcon
+                              sx={{ minWidth: 20, marginRight: '10px' }}
+                            >
                               <Image
                                 src={link?.icon}
                                 alt={link?.icon}
@@ -402,7 +405,9 @@ const DashboardLayout = ({ children, window }: any) => {
                       <ListItemButton
                         sx={styles?.mainNavLink(link, router, theme)}
                       >
-                        <ListItemIcon sx={{ minWidth: 20 }}>
+                        <ListItemIcon
+                          sx={{ minWidth: 20, marginRight: '10px' }}
+                        >
                           <Image
                             src={LogoutImage}
                             alt={'LogoutImage'}
@@ -411,7 +416,10 @@ const DashboardLayout = ({ children, window }: any) => {
                             }}
                           />
                         </ListItemIcon>
-                        <Typography fontWeight={500}> Logout</Typography>
+                        <Typography fontWeight={500} fontSize={14}>
+                          {' '}
+                          Logout
+                        </Typography>
                       </ListItemButton>
                     </ListItem>
                   </div>

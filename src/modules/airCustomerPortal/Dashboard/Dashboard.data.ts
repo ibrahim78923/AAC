@@ -36,7 +36,7 @@ export const pendingApprovalData = [
       profileImage: '',
     },
     requestTime: '3 hours ago',
-    device: 'Via Phone',
+    source: 'Phone',
   },
   {
     ticketNumber: '# SR-8',
@@ -47,7 +47,7 @@ export const pendingApprovalData = [
       profileImage: '',
     },
     requestTime: '3 hours ago',
-    device: 'Via Phone',
+    source: 'Phone',
   },
   {
     ticketNumber: '# SR-8',
@@ -58,7 +58,7 @@ export const pendingApprovalData = [
       profileImage: '',
     },
     requestTime: '3 hours ago',
-    device: 'Via Phone',
+    source: 'Phone',
   },
   {
     ticketNumber: '# SR-8',
@@ -69,10 +69,10 @@ export const pendingApprovalData = [
       profileImage: '',
     },
     requestTime: '3 hours ago',
-    device: 'Via Phone',
+    source: 'Phone',
   },
   {
-    ticketNumber: '# SR-8',
+    ticketIdNumber: '# SR-8',
     ticketTitle: 'Adobe Illustrator CC',
     user: {
       firstName: 'Dough',
@@ -80,42 +80,42 @@ export const pendingApprovalData = [
       profileImage: '',
     },
     requestTime: '3 hours ago',
-    device: 'Via Phone',
+    source: 'Phone',
   },
 ];
 
 export const recentTicketsData = [
   {
-    title: '',
+    subject: `what is in your email`,
     ticketNumber: '# SR-8',
     ticketTitle: 'Adobe Illustrator CC',
     icon: '',
     CreatedOn: 'Created On  Mon,24 Oct  2023 , 11:28 PM',
-    device: 'Via Phone',
+    device: 'Phone',
   },
   {
-    title: '',
+    subject: `what is in your email`,
     ticketNumber: '# SR-8',
     ticketTitle: 'Adobe Illustrator CC',
     icon: '',
     CreatedOn: 'Created On  Mon,24 Oct  2023 , 11:28 PM',
-    device: 'Via Phone',
+    source: 'Phone',
   },
   {
-    title: '',
-    ticketNumber: '# SR-8',
+    subject: `what is in your email`,
+    ticketIdNumber: '# SR-8',
     ticketTitle: 'Adobe Illustrator CC',
     icon: '',
-    CreatedOn: 'Created On  Mon,24 Oct  2023 , 11:28 PM',
-    device: 'Via Phone',
+    CreatedAt: 'Created On  Mon,24 Oct  2023 , 11:28 PM',
+    source: 'Phone',
   },
   {
-    title: '',
+    subject: `what is in your email`,
     ticketNumber: '# SR-8',
     ticketTitle: 'Adobe Illustrator CC',
     icon: '',
     CreatedOn: 'Created On  Mon,24 Oct  2023 , 11:28 PM',
-    device: 'Via Phone',
+    source: 'Phone',
   },
 ];
 

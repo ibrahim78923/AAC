@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 
 import CommonModal from '@/components/CommonModal';
 
@@ -75,14 +75,15 @@ const CreateGroupModal = ({ isCreateModalOpen, setIsCreateModalOpen }: any) => {
             </Grid>
           ))}
           <Grid item xs={12} md={12}>
-            <Search
-              searchBy={searchTerm}
-              setSearchBy={setSearchTerm}
-              label="Search By Name"
-              fullWidth
-              size="small"
-              sx={{ marginBottom: '15px' }}
-            />
+            <Box sx={{ mb: 2 }}>
+              <Search
+                searchBy={searchTerm}
+                setSearchBy={setSearchTerm}
+                label="Search By Name"
+                fullWidth
+                size="small"
+              />
+            </Box>
           </Grid>
           <Grid item xs={12} md={12}>
             <TanstackTable

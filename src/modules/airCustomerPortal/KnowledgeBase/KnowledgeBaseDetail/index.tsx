@@ -3,12 +3,25 @@ import { Box, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import { useKnowledgeBaseDetail } from './useKnowledgeBaseDetail';
 import { KnowledgeBaseTicket } from './KnowledgeBaseTicket';
-import { knowledgeBaseTicketDataArray } from './KnowledgeBaseDetail.data';
 import CustomPagination from '@/components/CustomPagination';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const KnowledgeBaseDetail = () => {
-  const { handleKnowledgeBase, searchValue, SetSearchValue, theme } =
-    useKnowledgeBaseDetail();
+  const {
+    handleKnowledgeBase,
+    searchValue,
+    SetSearchValue,
+    theme,
+    page,
+    pageLimit,
+    setPage,
+    setPageLimit,
+    articlesData,
+    articlesMetaData,
+    handlePageChange,
+    formatDateTime,
+    isLoading,
+  } = useKnowledgeBaseDetail();
 
   return (
     <Box
@@ -33,15 +46,31 @@ export const KnowledgeBaseDetail = () => {
           setSearchBy={SetSearchValue}
         />
       </Box>
-      {knowledgeBaseTicketDataArray?.map((item: any) => (
-        <KnowledgeBaseTicket
-          key={item?.id}
-          policy={item?.policy}
-          modifiedDate={item?.modifiedDate}
-          purposeDescription={item?.purposeDescription}
-        />
-      ))}
-      <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} />
+      {isLoading ? (
+        <SkeletonTable />
+      ) : (
+        <>
+          {articlesData?.map((item: any) => (
+            <KnowledgeBaseTicket
+              key={item?._id}
+              id={item?._id}
+              articlesTitle={'-----'}
+              modifiedDate={formatDateTime(item?.updatedAt)}
+              purposeDescription={'-----'}
+            />
+          ))}
+        </>
+      )}
+      <CustomPagination
+        count={articlesMetaData?.pages}
+        totalRecords={articlesMetaData?.total}
+        pageLimit={pageLimit}
+        currentPage={page}
+        rowsPerPageOptions={[10, 20]}
+        onPageChange={handlePageChange}
+        setPageLimit={setPageLimit}
+        setPage={setPage}
+      />
     </Box>
   );
 };

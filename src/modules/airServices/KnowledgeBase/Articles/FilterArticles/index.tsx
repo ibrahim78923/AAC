@@ -2,7 +2,6 @@ import { Grid, Box } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useFilterArticles } from './useFilterArticle';
-import { filterArticlesData } from './FilterArticles.data';
 
 const FilterArticles = (props: any) => {
   const {
@@ -12,6 +11,7 @@ const FilterArticles = (props: any) => {
     methods,
     onClose,
     handleSubmit,
+    filterArticlesFormFields,
   } = useFilterArticles(props);
 
   return (
@@ -32,8 +32,8 @@ const FilterArticles = (props: any) => {
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
-          <Grid container spacing={4}>
-            {filterArticlesData?.map((item: any) => (
+          <Grid container spacing={2}>
+            {filterArticlesFormFields?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>
