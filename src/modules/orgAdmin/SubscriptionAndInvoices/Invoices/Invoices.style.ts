@@ -23,12 +23,25 @@ export const styles = {
   }),
   tableToolbar: () => ({
     display: 'flex',
+    justifyContent: 'space-between',
     alignItems: 'center',
     p: '12px 24px',
+    flexWrap: 'wrap',
+    gap: '15px',
   }),
-  tableSearch: () => ({}),
+  tableSearch: () => ({
+    '@media (max-width: 599px)': {
+      width: '100%',
+    },
+  }),
   tableToolbarActions: () => ({
-    ml: 'auto',
+    // ml: 'auto',
+    display: 'flex',
+    gap: '15px',
+    '@media (max-width: 599px)': {
+      width: '100%',
+      flexDirection: 'column',
+    },
   }),
   actionButton: (theme: any) => ({
     border: `1px solid ${theme?.palette?.grey[0]}`,
@@ -37,6 +50,9 @@ export const styles = {
     fontWeight: '500',
     p: '6px 18px',
     height: '36px',
+    '@media (max-width: 599px)': {
+      width: '100%',
+    },
   }),
   chip: (theme: any) => ({
     backgroundColor: theme?.palette?.grey[400],

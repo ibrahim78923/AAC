@@ -266,3 +266,4 @@ export { default as VuesaxErrorImage } from './modules/airServices/Tickets/vuesa
 export { default as UserDefault } from './modules/socialComponents/chat/user-default.png';
 export { default as TypingGif } from './modules/socialComponents/chat/typing.gif';
 export { default as PhysicalCardSmallImage } from './modules/loyaltyProgram/GiftCards/physical-card-small-image.png';
+export { default as UserProfileVectorImage } from './modules/airCallCenter/CallMetrices/user-avatar.png';

@@ -6,7 +6,13 @@ import dayjs from 'dayjs';
 import { APPROVAL_CARD_STATUS } from './ApprovalCard.data';
 
 export const ApprovalCard = (props: any) => {
-  const { data, showStatus = false, showButton = false, setApproval } = props;
+  const {
+    data,
+    showStatus = false,
+    showButton = false,
+    setApproval,
+    openApprovalDetail,
+  } = props;
   return (
     <Box
       padding={1}
@@ -18,6 +24,7 @@ export const ApprovalCard = (props: any) => {
       display={'flex'}
       justifyContent={'space-between'}
       alignItems={'center'}
+      onClick={() => openApprovalDetail?.(data)}
     >
       <Box>
         <Box display={'flex'} gap={0.4} flexWrap={'wrap'} alignItems={'center'}>
