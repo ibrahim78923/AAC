@@ -4,7 +4,7 @@ import useBankAccounts from '../useBankAccounts';
 import { AlertModals } from '@/components/AlertModals';
 
 const ActionDropDown = (props: any) => {
-  const { setIsOpenAddAccountDrawer } = props;
+  const { setIsOpenAddAccountDrawer, checkedRows } = props;
   const {
     selectedValue,
     handleClick,
@@ -20,6 +20,7 @@ const ActionDropDown = (props: any) => {
         variant="outlined"
         color="inherit"
         onClick={handleClick}
+        disabled={checkedRows === undefined ? true : false}
         sx={{ width: { sm: '112px', xs: '100%' } }}
       >
         Actions

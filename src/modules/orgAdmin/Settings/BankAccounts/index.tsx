@@ -2,7 +2,10 @@ import { PlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { Box, Button, Stack, Typography, useTheme } from '@mui/material';
-import { bankAccountsColumns, bankAccountsData } from './BankAccounts.data';
+import {
+  bankAccountsColumns,
+  // bankAccountsData
+} from './BankAccounts.data';
 import ActionDropDown from './ActionDropDown';
 import useBankAccounts from './useBankAccounts';
 import AddBankAccounts from './AddBankAccounts';
@@ -14,7 +17,15 @@ const BankAccounts = () => {
     setIsOpenAddAccountDrawer,
     searchBy,
     setSearchBy,
+    receiversData,
+    checkedRows,
+    setCheckedRows,
   } = useBankAccounts();
+
+  const columnsProps = {
+    checkedRows: checkedRows,
+    setCheckedRows: setCheckedRows,
+  };
 
   return (
     <Box>
@@ -32,6 +43,7 @@ const BankAccounts = () => {
           <Stack direction="row" gap={1}>
             <ActionDropDown
               setIsOpenAddAccountDrawer={setIsOpenAddAccountDrawer}
+              checkedRows={checkedRows}
             />
             <Button
               variant="contained"
@@ -44,8 +56,8 @@ const BankAccounts = () => {
           </Stack>
         </Stack>
         <TanstackTable
-          columns={bankAccountsColumns}
-          data={bankAccountsData}
+          columns={bankAccountsColumns(columnsProps)}
+          data={receiversData}
           isPagination
         />
       </Stack>
