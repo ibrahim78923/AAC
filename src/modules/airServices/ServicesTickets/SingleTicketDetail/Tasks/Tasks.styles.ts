@@ -6,27 +6,27 @@ export const styles: any = {
       statusValue === TO_DO
         ? theme?.palette?.primary?.main
         : statusValue === IN_PROGRESS
-          ? theme?.palette?.custom?.bright
-          : statusValue === DONE
-            ? theme?.palette?.error?.dark
-            : null
+        ? theme?.palette?.custom?.bright
+        : statusValue === DONE
+        ? theme?.palette?.error?.dark
+        : null
     }`,
     backgroundColor:
       statusValue === TO_DO
         ? theme?.palette?.primary?.lighter
         : statusValue === IN_PROGRESS
-          ? theme?.palette?.custom?.aqua_breeze
-          : statusValue === DONE
-            ? theme?.palette?.error?.lighter + 40
-            : null,
+        ? theme?.palette?.custom?.aqua_breeze
+        : statusValue === DONE
+        ? theme?.palette?.error?.lighter + 40
+        : null,
     color:
       statusValue === TO_DO
         ? theme?.palette?.primary?.main
         : statusValue === IN_PROGRESS
-          ? theme?.palette?.custom?.bright
-          : statusValue === DONE
-            ? theme?.palette?.error?.dark
-            : null,
+        ? theme?.palette?.custom?.bright
+        : statusValue === DONE
+        ? theme?.palette?.error?.dark
+        : null,
     padding: '4px 18px',
     borderRadius: '4px',
     fontWeight: 500,

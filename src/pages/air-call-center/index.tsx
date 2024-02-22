@@ -4,8 +4,7 @@ import { Dashboard } from '@/modules/airCallCenter/Dashboard';
 const AirCallCenterPage = () => {
   return (
     <>
-      {' '}
-      <Dashboard />{' '}
+      <Dashboard />
     </>
   );
 };
