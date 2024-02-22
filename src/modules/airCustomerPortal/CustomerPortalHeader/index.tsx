@@ -1,19 +1,31 @@
 import { CompanyLogoIcon } from '@/assets/icons';
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-export const CustomerPortalHeader = (props: any) => {
-  const { buttonText, onClick } = props;
+export const CustomerPortalHeader = ({ buttonText, pathname }: any) => {
+  const router: any = useRouter();
 
   return (
-    <Grid container justifyContent="space-between" alignItems="center" p={3}>
-      <Grid item md={6}>
+    <Box
+      display={'flex'}
+      justifyContent="space-between"
+      alignItems="center"
+      p={3}
+    >
+      <Link href={'/'}>
         <CompanyLogoIcon />
-      </Grid>
-      <Box>
-        <Button variant="contained" onClick={onClick}>
-          {buttonText}
-        </Button>
-      </Box>
-    </Grid>
+      </Link>
+      <Button
+        variant="contained"
+        onClick={() =>
+          router?.push({
+            pathname,
+          })
+        }
+      >
+        {buttonText}
+      </Button>
+    </Box>
   );
 };
