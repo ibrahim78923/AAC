@@ -11,6 +11,16 @@ export const taskApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+
+    getCreateTaskContacts: builder.query({
+      query: ({ params }: any) => ({
+        url: `/contact?page=1&limit=10`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
     postCreateTask: builder.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.TASK_MANAGEMENT}`,
@@ -22,4 +32,8 @@ export const taskApi = baseAPI.injectEndpoints({
   }),
 });
 
-export const { useGetTasksQuery, usePostCreateTaskMutation } = taskApi;
+export const {
+  useGetTasksQuery,
+  usePostCreateTaskMutation,
+  useGetCreateTaskContactsQuery,
+} = taskApi;
