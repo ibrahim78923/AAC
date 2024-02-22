@@ -97,7 +97,7 @@ const DashboardLayout = ({ children, window }: any) => {
   };
 
   const findEmail: any = findRoleByEmail({ user, array });
-  const findEmailRole = findEmail ? findEmail?.role : 'SUPER_ADMIN';
+  const findEmailRole = findEmail ? findEmail?.role : 'AIR_SERVICES';
 
   const routes = getRoutes(findEmailRole);
 
@@ -263,7 +263,14 @@ const DashboardLayout = ({ children, window }: any) => {
                                 }}
                               />
                             </ListItemIcon>
-                            {link?.label}
+                            <Typography
+                              fontSize={14}
+                              fontWeight={
+                                routerPathName === pathNameKey ? '500' : '400'
+                              }
+                            >
+                              {link?.label}
+                            </Typography>
                           </ListItemButton>
                         </ListItem>
                       </Link>
@@ -312,12 +319,21 @@ const DashboardLayout = ({ children, window }: any) => {
                               />
                             </ListItemIcon>
 
-                            {link.label}
+                            <Typography
+                              fontWeight={
+                                routerPathName === lowerPathNameKey ||
+                                dropDownOpen[link?.key]
+                                  ? '500'
+                                  : '400'
+                              }
+                            >
+                              {link?.label}
+                            </Typography>
                             <Box sx={{ paddingLeft: '20px' }}>
                               <Image
                                 src={
                                   routerPathName === lowerPathNameKey ||
-                                  dropDownOpen[link.key]
+                                  dropDownOpen[link?.key]
                                     ? ArrowUpImage
                                     : ArrowDownImage
                                 }
@@ -361,7 +377,9 @@ const DashboardLayout = ({ children, window }: any) => {
                           <ListItemButton
                             sx={styles?.mainNavLink(link, router, theme)}
                           >
-                            <ListItemIcon sx={{ minWidth: 20 }}>
+                            <ListItemIcon
+                              sx={{ minWidth: 20, marginRight: '10px' }}
+                            >
                               <Image
                                 src={link?.icon}
                                 alt={link?.icon}
@@ -387,7 +405,9 @@ const DashboardLayout = ({ children, window }: any) => {
                       <ListItemButton
                         sx={styles?.mainNavLink(link, router, theme)}
                       >
-                        <ListItemIcon sx={{ minWidth: 20 }}>
+                        <ListItemIcon
+                          sx={{ minWidth: 20, marginRight: '10px' }}
+                        >
                           <Image
                             src={LogoutImage}
                             alt={'LogoutImage'}
@@ -396,7 +416,10 @@ const DashboardLayout = ({ children, window }: any) => {
                             }}
                           />
                         </ListItemIcon>
-                        Logout
+                        <Typography fontWeight={500} fontSize={14}>
+                          {' '}
+                          Logout
+                        </Typography>
                       </ListItemButton>
                     </ListItem>
                   </div>

@@ -1,28 +1,28 @@
-import { RHFTextField, RHFEditor } from '@/components/ReactHookForm';
+import { RHFEditor, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const addRequestApprovalValidationSchema = Yup?.object()?.shape({
-  subject: Yup?.string()
-    ?.trim()
-    ?.required('Required')
-    ?.email('Invalid email address'),
+  subject: Yup?.mixed()?.nullable()?.required('Required'),
   description: Yup?.string()?.required('Required'),
 });
 
 export const defaultValues = {
-  subject: '',
+  subject: null,
   description: '',
 };
 
-export const addRequestApprovalDataArray = [
+export const addRequestApprovalFormFieldsDynamic = (apiQueryApprover: any) => [
   {
     componentProps: {
       name: 'subject',
       label: 'To',
       fullWidth: true,
       required: true,
+      apiQuery: apiQueryApprover,
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
-    component: RHFTextField,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
@@ -31,7 +31,7 @@ export const addRequestApprovalDataArray = [
       label: 'Description',
       fullWidth: true,
       required: true,
-      style: { height: '150px' },
+      style: { height: '250px' },
     },
     component: RHFEditor,
     md: 12,

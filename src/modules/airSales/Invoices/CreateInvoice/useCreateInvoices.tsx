@@ -22,7 +22,7 @@ const useCreateInvoices = () => {
     },
     {
       key: uuidv4(),
-      label: 'Review and send',
+      label: 'Review and Send',
       component: <ReviewInvoice />,
     },
   ];

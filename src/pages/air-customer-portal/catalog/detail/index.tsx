@@ -1,8 +1,6 @@
 import Layout from '@/layout';
 import CatalogService from '@/modules/airCustomerPortal/Catalog/CatalogService';
 
-import React from 'react';
-
 const CatalogServicePage = () => {
   return <CatalogService />;
 };

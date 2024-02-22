@@ -5,9 +5,9 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 
-import useDealSaleSite from '../useDealSaleSite';
 import * as Yup from 'yup';
 import { useGetUsersListQuery } from '@/services/airSales/deals';
+import useDealTab from '../DealTab/useDealTab';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
@@ -17,13 +17,13 @@ export const validationSchema = Yup?.object()?.shape({
 
 export const defaultValues = {
   name: '',
-  dealPiplineId: 'Select',
-  dealOwnerId: 'Select',
-  dealStageId: 'Select',
+  dealPiplineId: '',
+  dealOwnerId: '',
+  dealStageId: '',
 };
 
 export const CreateViewData = () => {
-  const { pipelineData, DealsLifecycleStageData } = useDealSaleSite();
+  const { pipelineData, DealsLifecycleStageData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: 'ORG_EMPLOYEE' });
 
   return [

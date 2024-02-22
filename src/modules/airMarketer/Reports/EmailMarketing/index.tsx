@@ -46,7 +46,14 @@ const EmailMarketing = () => {
             Email Marketing
           </Typography>
         </Box>
-        <Box display="flex" flexWrap="wrap" alignItems="center" gap={1}>
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          alignItems="center"
+          fontSize="16px"
+          fontWeight={500}
+          gap={1}
+        >
           <SwitchableDatepicker placement="right" renderInput={'button'} />
           <Button
             sx={{ p: 0 }}
@@ -130,7 +137,6 @@ const EmailMarketing = () => {
                       }}
                     >
                       <Typography variant="h4" sx={{ textAlign: 'end' }}>
-                        {' '}
                         {item?.precentage}
                       </Typography>
                       <Stack gap={1}>

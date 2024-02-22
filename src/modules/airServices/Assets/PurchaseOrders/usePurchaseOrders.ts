@@ -4,11 +4,11 @@ import { defaultValues } from './PurchaseOrderFilter/PurchaseOrderFilter.data';
 import { useRouter } from 'next/navigation';
 import { AIR_SERVICES } from '@/constants';
 import { PAGINATION } from '@/config';
-import { useGetPurchaseOrderListQuery } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
 import { EXPORT_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import { enqueueSnackbar } from 'notistack';
 import {
+  useGetPurchaseOrderListQuery,
   useLazyGetDepartmentDropdownQuery,
   useLazyGetVendorDropdownQuery,
 } from '@/services/airServices/assets/purchase-orders';

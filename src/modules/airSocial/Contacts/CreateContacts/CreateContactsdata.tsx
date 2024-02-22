@@ -20,11 +20,11 @@ export const contactsValidationSchema = Yup?.object()?.shape({
   address: Yup?.string()?.trim()?.required('Required Field'),
   phoneNumber: Yup?.string()
     ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.min(10, 'Mininum 10 characters')
+    ?.min(10, 'Minimum 10 digits required')
     ?.required('Required field'),
   whatsAppNumber: Yup?.string()
     ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.min(10, 'Mininum 10 characters')
+    ?.min(10, 'Minimum 10 digits required')
     ?.required('Required field'),
   lifeCycleStageId: Yup?.string()?.trim()?.required('Required Field'),
   // contactOwner: Yup?.string()?.trim()?.required('Required Field'),
@@ -82,7 +82,7 @@ export const contactsDataArray = (
       componentProps: {
         name: 'firstName',
         label: 'First Name',
-        placeholder: 'Enter Email',
+        placeholder: 'Enter First Name',
       },
       md: 12,
       component: RHFTextField,
@@ -93,7 +93,7 @@ export const contactsDataArray = (
       componentProps: {
         name: 'lastName',
         label: 'Last Name',
-        placeholder: 'Enter Email',
+        placeholder: 'Enter Last Name',
         type: 'text',
       },
       md: 12,
@@ -104,7 +104,7 @@ export const contactsDataArray = (
       componentProps: {
         name: 'address',
         label: 'Address',
-        placeholder: 'Enter Email',
+        placeholder: 'Enter Address',
       },
       md: 12,
       component: RHFTextField,
@@ -125,8 +125,17 @@ export const contactsDataArray = (
       componentProps: {
         name: 'phoneNumber',
         label: 'Phone Number',
-        placeholder: 'Enter Phone Email',
+        placeholder: 'Enter Phone ',
         type: 'number',
+        InputProps: {
+          sx: {
+            '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
+              {
+                '-webkit-appearance': 'none',
+                margin: 0,
+              },
+          },
+        },
       },
       md: 12,
       component: RHFTextField,
@@ -138,6 +147,15 @@ export const contactsDataArray = (
         label: 'WhatsApp Number',
         placeholder: 'Enter WhatsApp Number',
         type: 'number',
+        InputProps: {
+          sx: {
+            '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
+              {
+                '-webkit-appearance': 'none',
+                margin: 0,
+              },
+          },
+        },
       },
       md: 12,
       component: RHFTextField,

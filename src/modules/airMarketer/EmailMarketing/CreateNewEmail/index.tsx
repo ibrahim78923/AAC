@@ -1,32 +1,48 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Box, Button, Grid, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  Menu,
+  MenuItem,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { useCreateNewEmail } from './useCreateNewEmail';
-import { CreateEmailData, createNewEmailData } from './CreateNewEmail.data';
+import { createNewEmailData } from './CreateNewEmail.data';
 import AddANote from './AddNote';
 import { useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic';
-import ActionBtn from '@/modules/airSales/Tasks/ActionBtn';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import { BackArrIcon, PlusIcon } from '@/assets/icons';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const CreateNewEmail = () => {
   const {
-    methods,
-    onSubmit,
-    handleSubmit,
+    methodsCreateEmail,
+    handleCreateEmailSubmit,
     isBcc,
     setIsBcc,
     isActive,
     setIsActive,
     isAddNoteDrawer,
-    handleActionsButton,
     handleAddNoteDrawer,
     openCalendar,
+    setOpenCalendar,
     theme,
     router,
+    anchorEl,
+    handlePopverClick,
+    handlePopverClose,
+    menuOpen,
+
+    sendAnchorEl,
+    handleSendMenuClick,
+    handleSendMenuClose,
+    sendMenuOpen,
   } = useCreateNewEmail();
   const [value, setValue] = useState('');
 
@@ -60,7 +76,7 @@ const CreateNewEmail = () => {
         </Box>
       </Box>
       <Box sx={{ mt: 3 }}>
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <FormProvider methods={methodsCreateEmail}>
           <Grid
             container
             spacing={1}
@@ -70,7 +86,7 @@ const CreateNewEmail = () => {
             {createNewEmailData?.map((item: any) => {
               return (
                 item?.isBCCField?.some((val: any) => isBcc?.includes(val)) && (
-                  <Grid item xs={12} md={item?.md}>
+                  <Grid item xs={12} md={item?.md} key={item?.componentProps}>
                     <item.component
                       {...item?.componentProps}
                       key={item?.id}
@@ -142,23 +158,57 @@ const CreateNewEmail = () => {
               placeholder="Write something..."
             />
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-            <ActionBtn
-              variant="contained"
-              menuItems={CreateEmailData}
-              title="Send"
-              onChange={handleActionsButton}
-              color="primary"
-            />
-          </Box>
         </FormProvider>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+          <Button
+            className="small"
+            color="primary"
+            variant="contained"
+            endIcon={<ArrowDropDownIcon />}
+            onClick={handleSendMenuClick}
+            classes={{ outlined: 'outlined_btn' }}
+            type="button"
+          >
+            Send
+          </Button>
+          <Menu
+            anchorEl={sendAnchorEl}
+            open={sendMenuOpen}
+            onClose={handleSendMenuClose}
+            PaperProps={{
+              style: {
+                width: '112px',
+              },
+            }}
+          >
+            <MenuItem onClick={() => handleCreateEmailSubmit('send')}>
+              Send
+            </MenuItem>
+            <MenuItem onClick={() => handleCreateEmailSubmit('schedule')}>
+              Schedule
+            </MenuItem>
+            <MenuItem onClick={() => handleCreateEmailSubmit('saveAsDraft')}>
+              Save as Draft
+            </MenuItem>
+          </Menu>
+          {openCalendar && (
+            <SwitchableDatepicker
+              placement="right"
+              isCalendarOpen={openCalendar}
+              setIsCalendarOpen={setOpenCalendar}
+            />
+          )}
+        </Box>
       </Box>
-      {isAddNoteDrawer && (
-        <AddANote open={isAddNoteDrawer} onClose={handleAddNoteDrawer} />
-      )}
-      {openCalendar && (
-        <SwitchableDatepicker placement="right" isCalendarOpen={openCalendar} />
-      )}
+
+      <AddANote
+        isDrawerOpen={isAddNoteDrawer}
+        onClose={handleAddNoteDrawer}
+        isMenuOpen={menuOpen}
+        handlePopverClick={handlePopverClick}
+        handlePopverClose={handlePopverClose}
+        anchorEl={anchorEl}
+      />
     </>
   );
 };

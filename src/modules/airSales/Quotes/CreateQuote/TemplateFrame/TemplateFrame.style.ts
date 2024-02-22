@@ -6,7 +6,9 @@ export const styles = {
   }),
   header: (theme: any) => ({
     display: 'flex',
+    flexWrap: 'wrap',
     justifyContent: 'center',
+    flexDirection: 'column',
     alignItems: 'center',
     p: '6px',
     borderBottom: `1px solid ${theme?.palette?.custom?.light_greyish}`,

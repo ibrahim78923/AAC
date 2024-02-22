@@ -14,12 +14,18 @@ const CreateContacts = ({ open, onClose }: any) => {
     contactOwnerData,
     lifeCycleStagesData,
     contactStatusData,
+    reset,
   } = useCreateContacts();
+
+  const handelClose = () => {
+    onClose();
+    reset();
+  };
 
   return (
     <CommonDrawer
       isDrawerOpen={open}
-      onClose={onClose}
+      onClose={handelClose}
       title="Create Contact"
       footer
       okText="Create"
