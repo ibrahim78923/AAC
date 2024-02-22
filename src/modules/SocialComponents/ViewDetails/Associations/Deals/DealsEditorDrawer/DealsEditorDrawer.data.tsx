@@ -3,7 +3,7 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import useDealSaleSite from '@/modules/airSales/Deals/useDealSaleSite';
+import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 import { useGetUsersListQuery } from '@/services/airSales/deals';
 import { useGetSalesProductQuery } from '@/services/airSales/deals/settings/sales-product';
 import * as Yup from 'yup';
@@ -33,7 +33,7 @@ export const productsDefaultValues = {
 
 export const productsDataArray = () => {
   const userRole = 'ORG_EMPLOYEE';
-  const { pipelineData, DealsLifecycleStageData } = useDealSaleSite();
+  const { pipelineData, DealsLifecycleStageData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: userRole });
   const query = '&';
   const { data: addLineItem } = useGetSalesProductQuery({
