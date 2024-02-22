@@ -16,7 +16,7 @@ import { styles } from '../Contacts.style';
 import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
-const GroupsCard = ({ info }: any) => {
+const GroupsCard = ({ info, setGroupModalType, setIsCreateModalOpen }: any) => {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -25,6 +25,16 @@ const GroupsCard = ({ info }: any) => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleView = () => {
+    setAnchorEl(null);
+    setIsCreateModalOpen(true);
+    setGroupModalType('view');
+  };
+  const handleEdit = () => {
+    setAnchorEl(null);
+    setIsCreateModalOpen(true);
+    setGroupModalType('edit');
   };
   const handleDelete = () => {
     handleClose();
@@ -56,12 +66,12 @@ const GroupsCard = ({ info }: any) => {
                 border: '2px solid #f8f8fa',
                 backgroundColor: '#38CAB5 !important',
                 fontSize: '12px',
-                width: '25px',
-                height: '25px',
+                width: '25px !important',
+                height: '25px !important',
               },
               '& .css-qv4cv0-MuiAvatar-root': {
-                width: '25px',
-                height: '25px',
+                width: '25px !important',
+                height: '25px !important',
               },
             }}
           >
@@ -91,7 +101,8 @@ const GroupsCard = ({ info }: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <MenuItem onClick={handleView}>View</MenuItem>
+        <MenuItem onClick={handleEdit}>Edit</MenuItem>
         <MenuItem onClick={handleDelete}>Delete</MenuItem>
       </Menu>
 

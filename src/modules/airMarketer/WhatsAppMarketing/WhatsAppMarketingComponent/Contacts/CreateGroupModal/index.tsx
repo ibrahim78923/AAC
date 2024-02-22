@@ -21,7 +21,11 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { smsMarketingContactsData } from '@/mock/modules/airMarketer/SMSMarketing/Contacts';
 import Search from '@/components/Search';
 
-const CreateGroupModal = ({ isCreateModalOpen, setIsCreateModalOpen }: any) => {
+const CreateGroupModal = ({
+  isCreateModalOpen,
+  setIsCreateModalOpen,
+  groupModalType,
+}: any) => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -41,12 +45,19 @@ const CreateGroupModal = ({ isCreateModalOpen, setIsCreateModalOpen }: any) => {
     smsMarketingContactsData,
   });
 
+  const titleToRender: any = {
+    view: 'View Group',
+    edit: 'Edit Group',
+    create: 'Create Group',
+  };
+
   return (
     <CommonModal
       open={isCreateModalOpen}
-      title={'Create Group'}
-      okText={'Create'}
-      footer={true}
+      title={titleToRender[groupModalType]}
+      // title={'Create Group'}
+      okText={groupModalType === 'edit' ? 'Update' : 'Create'}
+      footer={groupModalType === 'view' ? false : true}
       isSubmitDisabled={!selectedUsers?.length}
       handleClose={() => {
         setIsCreateModalOpen(false), setSelectedUsers([]);
