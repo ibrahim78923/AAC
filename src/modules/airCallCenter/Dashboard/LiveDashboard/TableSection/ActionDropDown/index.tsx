@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Box, Button, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Menu, MenuItem, useTheme } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 export const ActionDropDown = (props: any) => {
   const { data } = props;
+  const theme = useTheme();
 
   const [selectedValue, setSelectedValue] = useState(null);
 
@@ -17,7 +18,10 @@ export const ActionDropDown = (props: any) => {
 
   return (
     <Box>
-      <Button onClick={handleStatusClick} sx={{ color: '#6B7280' }}>
+      <Button
+        onClick={handleStatusClick}
+        sx={{ color: theme?.palette?.custom?.main }}
+      >
         {data?.getValue()}
         <MoreVertIcon />
       </Button>

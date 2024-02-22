@@ -59,17 +59,17 @@ export const LiveDashboard = () => {
               },
             }}
           >
-            {options.map((option) => (
+            {options?.map((option) => (
               <MenuItem
                 key={uuidv4()}
-                onClick={handleMenuItemClick(option.value)}
+                onClick={handleMenuItemClick(option?.value)}
                 sx={{ padding: '0 12px' }}
               >
                 <Checkbox
-                  checked={selectedOptions.indexOf(option.value) !== -1}
+                  checked={selectedOptions.indexOf(option?.value) !== -1}
                   color="primary"
                 />
-                {option.label}
+                {option?.label}
               </MenuItem>
             ))}
           </Menu>

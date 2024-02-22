@@ -13,7 +13,7 @@ const useLiveDashboard = () => {
   const actionMenuOpen = Boolean(anchorEl);
 
   const handleActionsClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -24,23 +24,23 @@ const useLiveDashboard = () => {
   };
 
   const handleClickMultiSelect = (event: any) => {
-    setMultiSelect(event.currentTarget);
+    setMultiSelect(event?.currentTarget);
   };
 
   const handleMenuItemClick = (value: any) => () => {
-    const selectedIndex = selectedOptions.indexOf(value);
+    const selectedIndex = selectedOptions?.indexOf(value);
     let newSelected: any = [];
 
     if (selectedIndex === -1) {
       newSelected = [...selectedOptions, value];
     } else if (selectedIndex === 0) {
-      newSelected = selectedOptions.slice(1);
-    } else if (selectedIndex === selectedOptions.length - 1) {
-      newSelected = selectedOptions.slice(0, -1);
+      newSelected = selectedOptions?.slice(1);
+    } else if (selectedIndex === selectedOptions?.length - 1) {
+      newSelected = selectedOptions?.slice(0, -1);
     } else if (selectedIndex > 0) {
       newSelected = [
-        ...selectedOptions.slice(0, selectedIndex),
-        ...selectedOptions.slice(selectedIndex + 1),
+        ...selectedOptions?.slice(0, selectedIndex),
+        ...selectedOptions?.slice(selectedIndex + 1),
       ];
     }
 

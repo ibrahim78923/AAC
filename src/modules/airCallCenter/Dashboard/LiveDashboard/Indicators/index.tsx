@@ -17,7 +17,12 @@ export const Indicators = () => {
       label: 'Incoming',
       color: theme?.palette?.error?.main,
     },
-    { id: 3, count: '15', label: 'Outgoing ', color: '#20315E' },
+    {
+      id: 3,
+      count: '15',
+      label: 'Outgoing ',
+      color: theme?.palette?.custom?.navy_blue,
+    },
     {
       id: 4,
       count: '1',
@@ -56,10 +61,10 @@ export const Indicators = () => {
       <Box display={'flex'} sx={{ overflow: 'scroll' }}>
         {ticketDashboardCardsData?.map((item: any) => (
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item?.id}>
-            <Box sx={styles?.innerBox(item)}>
+            <Box sx={styles?.innerBox(item, theme)}>
               <Typography
                 variant="body3"
-                sx={{ marginLeft: '10px', color: '#6B7280' }}
+                sx={{ marginLeft: '10px', color: theme?.palette?.custom?.main }}
               >
                 {item?.label}{' '}
               </Typography>
