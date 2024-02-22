@@ -13,11 +13,12 @@ const AgentRequest = () => {
     openRejectedModal,
     setOpenRejectedModal,
     handleOpenModal,
+    requesterData,
   } = useAgentRequest();
   return (
     <>
       <Grid container spacing={2}>
-        {agentRequestData?.map((item: any) => {
+        {agentRequestData(requesterData)?.map((item: any) => {
           return (
             <Grid item xs={12} sm={6} md={4} xl={3} key={item?._id}>
               <Card sx={styles?.cardStyling}>

@@ -1,11 +1,11 @@
 import { AgentImg } from '@/assets/images';
 import { AGENT_REQUEST_STATUS } from '@/constants/strings';
 
-export const agentRequestData = [
+export const agentRequestData = (requesterData: any) => [
   {
     id: 1,
     image: AgentImg,
-    name: 'Sophia Arthur',
+    name: `${requesterData?.firstName} ${requesterData?.lastName}`,
     role: 'HR manager',
     date: '10/07/2022',
     approve: 'Approve',
