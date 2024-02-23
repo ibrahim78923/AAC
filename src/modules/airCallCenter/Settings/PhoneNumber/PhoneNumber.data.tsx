@@ -1,8 +1,5 @@
 import { Avatar, Box, Typography } from '@mui/material';
-
 import { AvatarImage } from '@/assets/images';
-import Link from 'next/link';
-
 export const phoneNumberData: any = [
   {
     number: (
@@ -23,7 +20,6 @@ export const phoneNumberData: any = [
     ),
     businessHours: 'Company Owner',
     callActions: 'Orcalo Holdings',
-    action: <Link href="/super-admin/user-management">View Users</Link>,
   },
 ];
 
