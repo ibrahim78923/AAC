@@ -60,6 +60,19 @@ export const Filters = ({ setFilter }: any) => {
                 sx={{ fontWeight: 400 }}
                 onClick={() =>
                   setFilter({
+                    countDayWise: undefined,
+                    countDayWiseHours: undefined,
+                    countDayWiseHoursAverage: undefined,
+                  })
+                }
+              >
+                None
+              </Button>
+              <Button
+                color={'secondary'}
+                sx={{ fontWeight: 400 }}
+                onClick={() =>
+                  setFilter({
                     countDayWise: true,
                     countDayWiseHours: undefined,
                     countDayWiseHoursAverage: undefined,

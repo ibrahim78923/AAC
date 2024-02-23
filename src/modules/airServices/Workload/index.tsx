@@ -160,9 +160,9 @@ export const Workload = () => {
                         eventInfo?.event?.extendedProps?.status === COMPLETED
                           ? 'primary'
                           : eventInfo?.event?.extendedProps?.status ===
-                            IN_PROGRESS
-                          ? 'warning'
-                          : 'secondary'
+                              IN_PROGRESS
+                            ? 'warning'
+                            : 'secondary'
                       }
                     />
                     <Typography
@@ -250,7 +250,7 @@ export const Workload = () => {
                   display={'flex'}
                   gap={0.3}
                 >
-                  {eventInfo?.event?.extendedProps?.taskNo}
+                  {eventInfo?.event?.extendedProps?.taskNo}{' '}
                   {eventInfo?.event?.extendedProps?.data?.title}
                 </Typography>
               </Box>
