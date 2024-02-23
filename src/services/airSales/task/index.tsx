@@ -14,7 +14,7 @@ export const taskApi = baseAPI.injectEndpoints({
 
     getCreateTaskContacts: builder.query({
       query: ({ params }: any) => ({
-        url: `/contact?page=1&limit=10`,
+        url: `/contact`,
         method: 'GET',
         params: params,
       }),
