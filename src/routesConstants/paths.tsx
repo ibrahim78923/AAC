@@ -236,6 +236,12 @@ export const AIR_CALL_CENTER = {
   SETTINGS: {
     PHONE_NUMBER: '/air-call-center/settings/phone-number',
     PHONE_SETTINGS: '/air-call-center/settings/phone-settings',
+    CALL_QUEUE:
+      '/air-call-center/settings/phone-settings/call-workflow/call-queue',
+    BASIC_IVR:
+      '/air-call-center/settings/phone-settings/call-workflow/basic-ivr',
+    AGENT_EXT:
+      '/air-call-center/settings/phone-settings/call-workflow/agent-extension',
     CALL_WORKFLOW: '/air-call-center/settings/phone-settings/call-workflow',
     GREETING_LIST: '/air-call-center/settings/phone-settings/greeting-list',
     SERVICE_LEVEL: '/air-call-center/settings/phone-settings/service-level',
@@ -244,6 +250,8 @@ export const AIR_CALL_CENTER = {
       '/air-call-center/settings/phone-settings/additional-settings',
     GENERAL_SETTING: '/air-call-center/settings/general-settings',
     BUSINESS_HOURS: '/air-call-center/settings/general-settings/business-hours',
+    ADD_BUSINESS_HOURS:
+      '/air-call-center/settings/general-settings/business-hours/add-business-hours',
     AGENT_STATUSES: '/air-call-center/settings/general-settings/agent-statuses',
     USER_MANAGEMENT: '/air-call-center/settings/user-management',
     PHONE_CREDITS: '/air-call-center/settings/phone-credits',

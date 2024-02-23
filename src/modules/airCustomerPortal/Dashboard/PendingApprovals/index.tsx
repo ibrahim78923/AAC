@@ -6,12 +6,22 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import { ApprovalCard } from '../../Catalog/Approvals/ApprovalCard';
 import { Fragment } from 'react';
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
-export const PendingApprovals = ({ title, handleViewMore }: any) => {
-  const { data, isLoading, isFetching, isError } = usePendingApprovals();
+export const PendingApprovals = () => {
+  const { data, isLoading, isFetching, isError, router } =
+    usePendingApprovals();
 
   return (
-    <CardLayout title={title} btnClick={handleViewMore} maxHeight={260}>
+    <CardLayout
+      title={'Pending for Approval'}
+      btnClick={() => {
+        router?.push({
+          pathname: AIR_CUSTOMER_PORTAL?.APPROVALS,
+        });
+      }}
+      maxHeight={260}
+    >
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : isError ? (
