@@ -22,7 +22,8 @@ const useBankAccounts = () => {
 
   const {
     useGetReceiverBankAccountsQuery,
-    // useDeleteReceiverBankAccountMutation,
+    useDeleteReceiverBankAccountMutation,
+    usePostReceiverBankAccountMutation,
   } = receiversBankAccountsAPI;
 
   const receiversParams = {
@@ -36,10 +37,12 @@ const useBankAccounts = () => {
     isLoading,
     isSuccess,
   } = useGetReceiverBankAccountsQuery(receiversParams);
-  // console.log(receiversData?.data?.receiverbankaccounts);
 
-  // const [deleteReceiverBankAccount] = useDeleteReceiverBankAccountMutation();
-
+  const [deleteReceiverBankAccount]: any =
+    useDeleteReceiverBankAccountMutation();
+  const [postReceiverBankAccount]: any = usePostReceiverBankAccountMutation();
+  // const [updateReceiverBankAccount]: any = useUpdateReceiverBankAccountMutation();
+  // console.log(updateReceiverBankAccount(checkedRows,''))
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
   };
@@ -53,9 +56,13 @@ const useBankAccounts = () => {
     defaultValues: addAccountsFormDefaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
-  const onSubmit = () => {};
+  const onSubmit = (values: any) => {
+    postReceiverBankAccount({ body: values });
+    reset();
+    setIsOpenAddAccountDrawer(false);
+  };
 
   return {
     selectedValue,
@@ -80,6 +87,8 @@ const useBankAccounts = () => {
     isSuccess,
     setPageLimit,
     setPage,
+    deleteReceiverBankAccount,
+    postReceiverBankAccount,
   };
 };
 

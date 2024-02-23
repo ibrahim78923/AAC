@@ -4,15 +4,15 @@ import useBankAccounts from '../useBankAccounts';
 import { AlertModals } from '@/components/AlertModals';
 
 const ActionDropDown = (props: any) => {
-  const { setIsOpenAddAccountDrawer, checkedRows } = props;
+  const { setIsOpenAddAccountDrawer, checkedRows, setCheckedRows } = props;
   const {
     selectedValue,
     handleClick,
     handleClose,
     isDeleteModal,
     setIsDeleteModal,
+    deleteReceiverBankAccount,
   } = useBankAccounts();
-
   return (
     <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
       <Button
@@ -62,7 +62,11 @@ const ActionDropDown = (props: any) => {
           submitBtnText="Delete"
           open={isDeleteModal}
           handleClose={() => setIsDeleteModal(false)}
-          handleSubmit={() => setIsDeleteModal(false)}
+          handleSubmitBtn={() => {
+            setIsDeleteModal(false);
+            deleteReceiverBankAccount({ id: checkedRows });
+            setCheckedRows('');
+          }}
         />
       )}
     </Box>

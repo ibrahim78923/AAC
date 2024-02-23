@@ -2,7 +2,7 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const addAccountsFormValidationSchema = Yup.object().shape({
-  accountName: Yup.string().required('Field is Required'),
+  companyAccountName: Yup.string().required('Field is Required'),
   bankName: Yup.string().required('Field is Required'),
   accountHolder: Yup.string().required('Field is Required'),
   accountNumber: Yup.string().required('Field is Required'),
@@ -10,7 +10,7 @@ export const addAccountsFormValidationSchema = Yup.object().shape({
 });
 
 export const addAccountsFormDefaultValues = {
-  accountName: '',
+  companyAccountName: '',
   bankName: '',
   accountHolder: '',
   accountNumber: '',
@@ -20,7 +20,7 @@ export const addAccountsFormDefaultValues = {
 export const addAccountsForm = [
   {
     componentProps: {
-      name: 'accountName',
+      name: 'companyAccountName',
       label: 'Company Account name',
       placeholder: 'Blling Frequency',
       required: true,
@@ -30,7 +30,7 @@ export const addAccountsForm = [
     options: [
       { value: 'monthly', label: 'Monthly' },
       { value: 'quarterly', label: 'Quarterly' },
-      { value: 'semi_annually', label: 'Semi-annually' },
+      { value: 'semiannually', label: 'Semi-annually' },
       { value: 'Annually', label: 'Desing' },
     ],
     component: RHFSelect,

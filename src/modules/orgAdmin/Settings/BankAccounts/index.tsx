@@ -46,6 +46,7 @@ const BankAccounts = () => {
             <ActionDropDown
               setIsOpenAddAccountDrawer={setIsOpenAddAccountDrawer}
               checkedRows={checkedRows}
+              setCheckedRows={setCheckedRows}
             />
             <Button
               variant="contained"
@@ -72,10 +73,12 @@ const BankAccounts = () => {
         />
       </Stack>
 
-      <AddBankAccounts
-        isOpenAddAccountDrawer={isOpenAddAccountDrawer}
-        setIsOpenAddAccountDrawer={setIsOpenAddAccountDrawer}
-      />
+      {isOpenAddAccountDrawer && (
+        <AddBankAccounts
+          isOpenAddAccountDrawer={isOpenAddAccountDrawer}
+          setIsOpenAddAccountDrawer={setIsOpenAddAccountDrawer}
+        />
+      )}
     </Box>
   );
 };

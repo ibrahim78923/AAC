@@ -4,8 +4,17 @@ import { baseAPI } from '@/services/base-api';
 export const receiversBankAccountsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getReceiverBankAccounts: builder.query({
-      query: () => ({
+      query: (params: any) => ({
         url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['RECEIVER_BANK_ACCOUNT'],
+    }),
+
+    getReceiverBankAccountsById: builder.query({
+      query: (id: any) => ({
+        url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}/${id}`,
         method: 'GET',
       }),
       providesTags: ['RECEIVER_BANK_ACCOUNT'],
@@ -30,7 +39,7 @@ export const receiversBankAccountsAPI = baseAPI.injectEndpoints({
     }),
 
     deleteReceiverBankAccount: builder.mutation({
-      query: ({ id }) => ({
+      query: ({ id }: any) => ({
         url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}/${id}`,
         method: 'DELETE',
       }),
@@ -44,4 +53,5 @@ export const {
   useDeleteReceiverBankAccountMutation,
   usePostReceiverBankAccountMutation,
   useUpdateReceiverBankAccountMutation,
+  useLazyGetReceiverBankAccountsByIdQuery,
 } = receiversBankAccountsAPI;
