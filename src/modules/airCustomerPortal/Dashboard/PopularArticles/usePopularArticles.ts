@@ -1,6 +1,8 @@
 import { useGetPopularArticlesQuery } from '@/services/airCustomerPortal';
+import { useRouter } from 'next/router';
 
 export const usePopularArticles = () => {
+  const router = useRouter();
   const getPopularArticlesParameter = {
     queryParams: {
       page: 1,
@@ -20,5 +22,6 @@ export const usePopularArticles = () => {
     isLoading,
     isFetching,
     isError,
+    router,
   };
 };
