@@ -5,6 +5,7 @@ export const CardLayout = ({
   title,
   btnClick,
   btnPosition,
+  buttonText = 'View All',
   maxHeight = 222,
   children,
 }: any) => {
@@ -22,7 +23,7 @@ export const CardLayout = ({
           sx={viewMoreBtn(btnPosition)}
           onClick={() => btnClick(title)}
         >
-          View More
+          {buttonText}
         </Button>
       </Box>
     </Box>
