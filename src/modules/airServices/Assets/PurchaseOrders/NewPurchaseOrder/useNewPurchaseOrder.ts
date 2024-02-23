@@ -24,7 +24,7 @@ const { PURCHASE_ORDER } = AIR_SERVICES;
 const useNewPurchaseOrders = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const purchaseOrderId = searchParams.get('id');
+  const purchaseOrderId = searchParams.get('purchaseOrderId');
   const [postPurchaseOrderTrigger, postPurchaseOrderStatus] =
     usePostPurchaseOrderMutation();
   const [patchPurchaseOrderTrigger, patchPurchaseOrderStatus] =
