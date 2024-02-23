@@ -8,36 +8,34 @@ import {
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
-export const createAnnouncementDashboardValidationSchema: any =
+export const createAddAnnouncementValidationSchema: any =
   Yup?.object()?.shape({
     title: Yup?.string()?.required('Field is Required'),
     description: Yup?.string()?.trim(),
-    scheduleMeeting: Yup?.string(),
     notifyMembers: Yup?.string(),
     managedById: Yup?.string()?.required('Field is Required'),
-    vibilityId: Yup?.string(),
+    vibilityId: Yup?.string()?.required('Field is Required'),
     additionalEmail: Yup?.string(),
-    addMember: Yup?.string(),
+    addMembers: Yup?.string(),
   });
 
-export const createAnnouncementDashboardDefaultValues: any = {
+export const createAddAnnouncementDefaultValues: any = {
   title: '',
   description: '',
-  scheduleMeeting: '',
   startDate: new Date(),
   endDate: new Date(),
   managedBy: '',
   visibility: '',
   notifyMember: '',
   additionalEmail: '',
-  addMember: '',
+  addMembers: '',
 };
 
 const managedBy = ['James Harry'];
 
 const visiBility = ['Select', 'All agent', 'Everyone'];
 
-export const createAnnouncementDashboardDataArray = [
+export const createAddAnnouncementDataArray = [
   {
     id: 1,
     componentProps: {
@@ -76,7 +74,6 @@ export const createAnnouncementDashboardDataArray = [
       name: 'startDate',
       label: 'Start Date',
       fullWidth: true,
-      required: true,
       disabled: true,
     },
     component: RHFDatePicker,
@@ -88,7 +85,6 @@ export const createAnnouncementDashboardDataArray = [
       name: 'endDate',
       label: 'End Date',
       fullWidth: true,
-      required: true,
       disabled: true,
     },
     component: RHFDatePicker,
@@ -143,7 +139,7 @@ export const createAnnouncementDashboardDataArray = [
   {
     id: 10,
     componentProps: {
-      name: 'addMember',
+      name: 'addMembers',
       label: 'Add Members',
       fullWidth: true,
       placeholder: 'Search agents and requesters',

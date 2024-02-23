@@ -6,7 +6,6 @@ export const styles = {
     flexWrap: 'wrap',
     gap: '12px',
     p: '12px 24px',
-    flexWrap: 'Wrap',
   }),
   actionButton: (theme: any) => ({
     border: `1px solid ${theme?.palette?.grey[0]}`,

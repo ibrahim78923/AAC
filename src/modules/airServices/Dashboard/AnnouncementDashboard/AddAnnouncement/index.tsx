@@ -1,35 +1,31 @@
 import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import {
-  createAnnouncementDashboardDataArray,
-} from './AddAnnouncement.data';
+import { createAddAnnouncementDataArray } from './AddAnnouncement.data';
 import CommonDrawer from '@/components/CommonDrawer';
 
-import { useAddAnnouncement } from './useAddAnnouncement ';
-
-function AddAnnouncement({ isDrawerOpen, setIsDrawerOpen }: any) {
-  const {
-    methods,
-    handleSubmit,
-    submit,
-  } = useAddAnnouncement();
+function AddAnnouncement({
+  isDrawerOpen,
+  title,
+  okText,
+  submit,
+  methods,
+  handleClose,
+}: any) {
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
-        onClose={() => {
-          setIsDrawerOpen(false);
-        }}
-        title="New Announcements"
-        submitHandler={() => handleSubmit(submit)()}
+        onClose={handleClose}
+        title={title}
+        submitHandler={submit}
         footer={true}
         isOk={true}
-        okText="Announce"
+        okText={okText}
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={3}>
-              {createAnnouncementDashboardDataArray?.map((item: any) => (
+              {createAddAnnouncementDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   {item.component === Typography && (
                     <Typography>{item.componentProps.value}</Typography>

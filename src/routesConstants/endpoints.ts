@@ -137,7 +137,6 @@ export const END_POINTS = {
   DELETE_SERVICE: '/service-catalog/delete-service',
   UPSERT_SERVICES_CATALOG: '/service-catalog/add-service',
   SERVICE_CATALOG_CATEGORIES: '/service-catalog/get-categories',
-  // settings leader board
   LEADER_BOARD_ADD_AWARD_POINTS: `/Leader-Board/add-award-points`,
   LEADER_BOARD_GET_AWARD_POINTS: `/Leader-Board/get-award-points`,
   LEADER_BOARD_ADD_AGENT_LEVELS: `/Leader-Board/add-agent-levels`,
@@ -217,8 +216,6 @@ export const END_POINTS = {
   EDIT_NEW_ITEM: '/assets/purchaseorder',
   VENDOR_PRODUCT_DROPDOWN: `/product-catalog/vendor-product-list`,
   PURCHASE_ORDER: `/assets/purchaseorder`,
-  DROPDOWN_SOFTWARE: `/assets/get-software`,
-  DROPDOWN_ALL_AGENTS: '/dropdown/agents',
   GET_SINGLE_ASSETS_CONTRACT: '/contract/get-contract',
   GET_DASHBOARD_TICKETS: '/air-services-dashboard/tickets',
   DASHBOARD_ANNOUNCEMENTS:'/air-services-dashboard/dashboard-annoucement',
@@ -227,9 +224,14 @@ export const END_POINTS = {
   UPDATE_APPROVAL_TICKETS: `/ticket/edit-ticket-approval`,
   GET_UNAPPROVED_ARTICLES: `/articles/unapproved-articles`,
   
+  ADD_WORKLOAD_SCHEDULE: `/Work-Shchedule/add-work-shchedule`,
+  EDIT_WORKLOAD_SCHEDULE: `/Work-Shchedule/edit-work-shchedule`,
+  DELETE_WORKLOAD_SCHEDULE: `/Work-Shchedule/delete-work-shchedule`,
   GET_ALL_ARTICLES: '/articles/get-all-articles',
   GET_KNOWLEDGE_BASE_FOLDER: '/articles/folders',
   GET_SINGLE_KNOWLEDGE_BASE_ARTICLES: '/articles/get-by-id',
+  GET_RECENT_TICKET: `/air-services-dashboard/recent-tickets-dashboard`,
+  GET_TICKETS_PENDING_FOR_APPROVAL: `/air-services-dashboard/get-tickets-approval-dashboard`,
 };
 
 export const superAdminBillingInvoices = {

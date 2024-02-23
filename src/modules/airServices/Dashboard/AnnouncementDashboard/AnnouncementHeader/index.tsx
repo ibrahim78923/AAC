@@ -1,19 +1,19 @@
 import { ViewDetailSharedIcon } from '@/assets/icons';
 import { Box, Typography, Divider, IconButton } from '@mui/material';
-import { useAddAnnouncement } from '../AddAnnouncement/useAddAnnouncement ';
-import AnnouncementDashboardDrawer from '../AddAnnouncement';
+import { useAnnouncementHeader } from './useAnnouncementHeader';
+import AddAnnouncement from '../AddAnnouncement';
 
 export const AnnouncementHeader = () => {
   const {
-    setIsDrawerOpen,
     isDrawerOpen,
-    handleIconButton,
-    theme,
+    setIsDrawerOpen,
     methods,
     handleSubmit,
     submit,
     handleClose,
-  } = useAddAnnouncement();
+    theme,
+    handleIconButton
+  } = useAnnouncementHeader();
 
   return (
     <>
@@ -35,10 +35,12 @@ export const AnnouncementHeader = () => {
       <Divider
         sx={{ border: `0.063rem solid ${theme?.palette?.grey?.[700]}` }}
       />{' '}
-      <AnnouncementDashboardDrawer
+      <AddAnnouncement
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
-        submitHandler={handleSubmit(submit)}
+        title={'New Announcements'}
+        okText={'Announce'}
+        submit={()=> handleSubmit(submit)()}
         methods={methods}
         handleClose={handleClose}
       />

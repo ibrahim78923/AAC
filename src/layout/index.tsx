@@ -1,6 +1,6 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-// import AuthGuard from '@/GuardsAndPermissions/AuthGuard';
 import DashboardLayout from './MainDashboard';
+import AuthGuard from '@/GuardsAndPermissions/AuthGuard';
 
 export default function Layout({
   variant = 'dashboard',
@@ -19,7 +19,7 @@ export default function Layout({
   switch (variant) {
     case 'dashboard':
       layout = (
-        // <AuthGuard>
+        <AuthGuard>
           <DashboardLayout> {childrenEl} </DashboardLayout>
         // </AuthGuard>
       );

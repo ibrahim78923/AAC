@@ -14,8 +14,13 @@ import { TICKET_APPROVALS } from '@/constants/strings';
 
 export const RequestConfirmForm = (props: any) => {
   const { isConfirmModalOpen, selectedApproval } = props;
-  const { handleSubmit, submitRequestConfirm, methods, setModalClose } =
-    useRequestConfirmForm(props);
+  const {
+    handleSubmit,
+    submitRequestConfirm,
+    methods,
+    setModalClose,
+    patchApprovalTicketsStatus,
+  } = useRequestConfirmForm(props);
   return (
     <Dialog
       fullWidth
@@ -61,6 +66,7 @@ export const RequestConfirmForm = (props: any) => {
               type="button"
               variant="outlined"
               color="secondary"
+              disabled={patchApprovalTicketsStatus?.isLoading}
               onClick={() => setModalClose()}
             >
               Cancel
@@ -72,6 +78,7 @@ export const RequestConfirmForm = (props: any) => {
                   ? 'primary'
                   : 'error'
               }
+              loading={patchApprovalTicketsStatus?.isLoading}
               type="submit"
             >
               {selectedApproval?.state === TICKET_APPROVALS?.APPROVE

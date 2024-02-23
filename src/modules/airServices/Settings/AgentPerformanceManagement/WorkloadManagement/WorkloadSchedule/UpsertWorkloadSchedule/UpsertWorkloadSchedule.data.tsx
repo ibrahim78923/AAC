@@ -4,26 +4,36 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-export const createScheduleDefaultValues = {
-  name: '',
-  description: '',
-  businessHours: null,
-  addUsers: null,
+
+export const upsertWorkloadScheduleDefaultValues = (data?: any) => {
+  return {
+    name: data?.name ?? '',
+    description: data?.description ?? '',
+    businessHoursId: data?.businessHoursDetails ?? null,
+    agentsId: data?.agentDetails ?? null,
+  };
 };
 
-export const createScheduleSchema = Yup?.object()?.shape({
+export const upsertWorkloadScheduleValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Required'),
   description: Yup?.string(),
-  businessHours: Yup?.mixed()?.nullable(),
-  addUsers: Yup?.mixed()?.nullable(),
+  businessHoursId: Yup?.mixed()?.nullable(),
+  agentsId: Yup?.mixed()?.nullable(),
 });
 
-const businessOptions = ['Business Hour 1', 'Business Hour 2'];
-const userOption = ['BE1', 'BE2', 'BE3'];
+const businessOptions = [
+  { _id: 'Business Hour 1', label: 'Business Hour 1' },
+  { _id: 'Business Hour 2', label: 'Business Hour 2' },
+];
+const userOption = [
+  { _id: 'BE 1', label: 'BE 1' },
+  { _id: 'BE 2', label: 'BE 2' },
+  { _id: 'BE 3', label: 'BE 3' },
+];
 
-export const createScheduleFields = [
+export const upsertWorkloadScheduleFormFieldsDynamic = () => [
   {
-    id: 1,
+    _id: 1,
     md: 7,
     componentProps: {
       name: 'name',
@@ -34,7 +44,7 @@ export const createScheduleFields = [
     component: RHFTextField,
   },
   {
-    id: 2,
+    _id: 2,
     md: 7,
     componentProps: {
       name: 'description',
@@ -45,13 +55,14 @@ export const createScheduleFields = [
     component: RHFEditor,
   },
   {
-    id: 3,
+    _id: 3,
     md: 8.4,
     componentProps: {
-      name: 'businessHours',
+      name: 'businessHoursId',
       label: 'Business Hours',
       fullWidth: true,
       options: businessOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     iconProps: {
       color: 'primary',
@@ -66,13 +77,14 @@ export const createScheduleFields = [
   },
 
   {
-    id: 4,
+    _id: 4,
     md: 7,
     componentProps: {
-      name: 'addUsers',
+      name: 'agentsId',
       label: 'Add Users',
       fullWidth: true,
       options: userOption,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
