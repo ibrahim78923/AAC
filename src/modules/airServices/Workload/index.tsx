@@ -160,9 +160,9 @@ export const Workload = () => {
                         eventInfo?.event?.extendedProps?.status === COMPLETED
                           ? 'primary'
                           : eventInfo?.event?.extendedProps?.status ===
-                              IN_PROGRESS
-                            ? 'warning'
-                            : 'secondary'
+                            IN_PROGRESS
+                          ? 'warning'
+                          : 'secondary'
                       }
                     />
                     <Typography

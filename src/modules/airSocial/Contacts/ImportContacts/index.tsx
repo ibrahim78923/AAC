@@ -77,12 +77,7 @@ const ImportContacts = () => {
             ))}
           </Grid>
           <Box textAlign="end">
-            <Button
-              variant="outlined"
-              onClick={() => {
-                route?.push(SUPER_ADMIN?.AIRSALES_CONTCATS);
-              }}
-            >
+            <Button variant="outlined" onClick={() => window.history.back()}>
               Cancel
             </Button>
             <Button

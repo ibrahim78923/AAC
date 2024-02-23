@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 import { Box, Button, Paper, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -51,9 +49,9 @@ const Restore = () => {
             gap: '20px',
           }}
         >
-          <Link href={'/air-sales/contacts'}>
+          <Box onClick={() => window.history.back()}>
             <BackArrIcon />
-          </Link>
+          </Box>
           <Box>
             <Typography
               variant="subtitle1"
