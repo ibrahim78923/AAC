@@ -17,10 +17,8 @@ import {
   usePatchAddToInventoryMutation,
   usePostInventoryMutation,
 } from '@/services/airServices/assets/inventory';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
-import { makeDateTime } from '@/utils/api';
+import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
 
 export const useUpsertInventory = () => {
   const { query }: any = useRouter();
@@ -69,7 +67,7 @@ export const useUpsertInventory = () => {
       'assignedOn',
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
     );
-    inventoryDetailsData.append('attachment', data?.attachFile);
+    inventoryDetailsData.append('attachFile', data?.attachFile);
     const body = inventoryDetailsData;
     if (!!inventoryId) {
       submitUpdateInventory(data);
@@ -80,27 +78,22 @@ export const useUpsertInventory = () => {
     };
 
     try {
-      const response = await postAddToInventoryTrigger(
-        postInventoryParameter,
-      )?.unwrap();
-
-      enqueueSnackbar(response?.message ?? 'Inventory Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postAddToInventoryTrigger(postInventoryParameter)?.unwrap();
+      successSnackbar?.('Inventory Added Successfully');
       moveBack?.();
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar?.();
     }
   };
   useEffect(() => {
     reset(() => upsertInventoryFieldsDefaultValuesFunction(data));
   }, [data, reset]);
+
   const submitUpdateInventory = async (data: any) => {
     const inventoryEditData = new FormData();
-    inventoryEditData.append('displayName', data?.data?.[0]?.displayName);
+    inventoryEditData.append('id', inventoryId as string);
+    inventoryEditData.append('displayName', data?.displayName);
     inventoryEditData.append('assetType', data?.assetType?._id);
     inventoryEditData.append('impact', data?.impact);
     inventoryEditData.append('description', data?.description);
@@ -115,25 +108,19 @@ export const useUpsertInventory = () => {
       'assignedOn',
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
     );
-    inventoryEditData.append('attachment', data?.fileUrl);
+    // inventoryEditData.append('attachFile', data?.fileUrl);
     const body = inventoryEditData;
     const patchProductCatalogParameter = {
-      id: inventoryId,
       body,
     };
+
     try {
-      const response = await patchAddToInventoryTrigger(
-        patchProductCatalogParameter,
-      )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Inventory Created Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await patchAddToInventoryTrigger(patchProductCatalogParameter)?.unwrap();
+      successSnackbar?.('Inventory Created Successfully!');
       moveBack?.();
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar?.();
     }
   };
 
