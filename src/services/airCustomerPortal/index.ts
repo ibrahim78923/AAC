@@ -13,10 +13,9 @@ export const customerPortalDashboardAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getRecentTickets: builder?.query({
-      query: (apiDataParameter: any) => ({
+      query: () => ({
         url: `${END_POINTS?.GET_RECENT_TICKET}`,
         method: 'GET',
-        params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
