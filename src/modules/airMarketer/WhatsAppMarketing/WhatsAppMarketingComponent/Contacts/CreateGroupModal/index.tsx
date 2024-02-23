@@ -55,7 +55,6 @@ const CreateGroupModal = ({
     <CommonModal
       open={isCreateModalOpen}
       title={titleToRender[groupModalType]}
-      // title={'Create Group'}
       okText={groupModalType === 'edit' ? 'Update' : 'Create'}
       footer={groupModalType === 'view' ? false : true}
       isSubmitDisabled={!selectedUsers?.length}

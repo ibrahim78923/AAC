@@ -46,7 +46,7 @@ const GroupsCard = ({ info }: any) => {
             max={5}
             sx={{
               '& .MuiAvatar-colorDefault': {
-                border: '2px solid #f8f8fa',
+                border: `2px solid red`,
                 backgroundColor: '#38CAB5 !important',
                 fontSize: '12px',
                 width: '25px',
