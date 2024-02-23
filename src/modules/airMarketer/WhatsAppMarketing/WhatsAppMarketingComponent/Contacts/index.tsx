@@ -1,12 +1,10 @@
 import { Box } from '@mui/material';
 
-import Contacts from '@/modules/airSales/Contacts';
-import ContactsGroup from './contactsGroup';
+import Contacts from '@/modules/airSocial/Contacts';
 
 const ContactsWhatsappMarketing = () => {
   return (
     <Box sx={{ p: 2 }}>
-      <ContactsGroup />
       <Contacts />
     </Box>
   );
