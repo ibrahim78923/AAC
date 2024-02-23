@@ -11,7 +11,14 @@ const PageHeader = () => {
       <Typography variant="h4" sx={styles?.pageHeaderTitle}>
         Quotes
       </Typography>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '18px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '8px',
+          width: { xs: '100%', md: 'auto', lg: 'auto' },
+        }}
+      >
         <Button
           className="small"
           sx={styles?.actionButton}

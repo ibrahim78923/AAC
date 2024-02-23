@@ -4,8 +4,8 @@ import { IconButton, InputAdornment } from '@mui/material';
 import * as Yup from 'yup';
 
 export const loginValidationSchema = Yup?.object()?.shape({
-  email: Yup?.string()?.required('Email is Required'),
-  password: Yup?.string()?.required('Password is Required'),
+  email: Yup?.string()?.required('Required'),
+  password: Yup?.string()?.required('Required'),
 });
 
 export const loginDefaultValues = {
@@ -13,17 +13,14 @@ export const loginDefaultValues = {
   password: '',
 };
 
-export const loginFormFields = (
-  showPassword: any,
-  handleClickShowPassword: any,
-) => [
+export const loginFormFields = (showPassword: any, setShowPassword: any) => [
   {
     id: 1,
     componentProps: {
       name: 'email',
       label: 'Email',
       type: 'email',
-      fullWidth: true,
+      placeholder: 'johndoe@gmail.com',
       required: true,
     },
     component: RHFTextField,
@@ -33,17 +30,14 @@ export const loginFormFields = (
     componentProps: {
       name: 'password',
       label: 'Password',
-      fullWidth: true,
-      type: 'password',
+      type: showPassword ? 'text' : 'password',
+      placeholder: '***********',
       required: true,
       InputProps: {
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={() => handleClickShowPassword()}
-            >
-              {!showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+            <IconButton onClick={() => setShowPassword((show: any) => !show)}>
+              {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
             </IconButton>
           </InputAdornment>
         ),

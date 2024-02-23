@@ -16,7 +16,7 @@ import {
 import ActionButton from './ActionButton';
 import useEmailMarketing from './useEmailMarketing';
 import Filters from './Filters';
-import EmailFolder from './EmailFolder';
+// import EmailFolder from './EmailFolder';
 import { ExportButton } from './ExportButton';
 import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
@@ -102,7 +102,8 @@ const EmailMarketing = () => {
         <Scheduled />
         <Sent />
       </HorizontalTabs>
-      <EmailFolder />
+      {/* commented for future use  */}
+      {/* <EmailFolder /> */}
 
       {isOpenFilter && (
         <Filters
