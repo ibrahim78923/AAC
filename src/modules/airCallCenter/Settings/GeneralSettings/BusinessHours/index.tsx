@@ -6,9 +6,16 @@ import { styles } from './BusinessHours.styles';
 import PlusShared from '@/assets/icons/shared/plus-shared';
 import BusinessHour from './BusinessHour';
 import { AIR_CALL_CENTER } from '@/routesConstants/paths';
+import { AlertModals } from '@/components/AlertModals';
 
 const BusinessHours = () => {
-  const {} = useBusinessHours();
+  const {
+    isEnabledBusinessHours,
+    handleEnabledBusinessHours,
+    openAlertModal,
+    handleCloseAlertModal,
+    handleDisabledBusinessHours,
+  } = useBusinessHours();
   const navigate = useRouter();
 
   return (
@@ -36,8 +43,19 @@ const BusinessHours = () => {
         </Box>
       </Box>
       <Box sx={styles?.hoursList}>
-        <BusinessHour />
+        <BusinessHour
+          isEnabledBusinessHours={isEnabledBusinessHours}
+          handleEnaledBusinessHours={handleEnabledBusinessHours}
+        />
       </Box>
+
+      <AlertModals
+        type="delete"
+        open={openAlertModal}
+        handleClose={handleCloseAlertModal}
+        handleSubmitBtn={handleDisabledBusinessHours}
+        message="Are you sure you want to disable it?"
+      />
     </>
   );
 };
