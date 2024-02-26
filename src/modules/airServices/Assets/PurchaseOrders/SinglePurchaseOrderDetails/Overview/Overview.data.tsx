@@ -2,21 +2,27 @@ import { Typography } from '@mui/material';
 
 export const overviewData = (purchaseOrderData: any) => [
   {
-    id: '1',
+    id: purchaseOrderData?._id,
     heading: 'Purchase Details',
     detailsData: [
-      { name: 'Vendor', detail: 'Dell' },
-      { name: 'Details', detail: purchaseOrderData?.orderName },
-      { name: 'Currency', detail: purchaseOrderData?.currency },
-      { name: 'Department', detail: '--' },
+      { name: 'Vendor', detail: purchaseOrderData?.vendor?.name ?? '---' },
+      { name: 'Details', detail: purchaseOrderData?.orderName ?? '---' },
+      { name: 'Currency', detail: purchaseOrderData?.currency ?? '---' },
+      {
+        name: 'Department',
+        detail: purchaseOrderData?.departmentDetails?.name ?? '---',
+      },
       {
         name: 'Expected delivery date',
-        detail: purchaseOrderData?.expectedDeliveryDate,
+        detail: purchaseOrderData?.expectedDeliveryDate ?? '---',
       },
-      { name: 'Location', detail: 'Street no 22' },
+      {
+        name: 'Location',
+        detail: purchaseOrderData?.locationDetails?.locationName ?? '---',
+      },
       {
         name: 'Terms and conditions',
-        detail: purchaseOrderData?.termAndCondition,
+        detail: purchaseOrderData?.termAndCondition ?? '---',
       },
     ],
   },
@@ -24,9 +30,11 @@ export const overviewData = (purchaseOrderData: any) => [
 
 export const overviewTableColumns: any = (
   setOpenOverviewModal: any,
+  purchaseOrderDetailData: any,
   theme: any,
+  orderStatus: string,
 ) => {
-  return [
+  const columns = [
     {
       accessorFn: (row: any) => row?.itemName,
       id: 'itemName',
@@ -49,12 +57,42 @@ export const overviewTableColumns: any = (
       header: 'Cost Per Item',
       cell: (info: any) => info?.getValue(),
     },
-    {
+  ];
+  if (orderStatus === 'RECEIVED') {
+    columns.push(
+      {
+        accessorFn: (row: any) => row?.receivedVsOrdered,
+        id: 'receivedVsOrdered',
+        header: 'Received Vs Ordered',
+        cell: () => (
+          <Typography>
+            {`${purchaseOrderDetailData?.map(
+              (item: any) => item?.Received,
+            )}/${purchaseOrderDetailData?.map((item: any) => item?.quantity)}`}
+          </Typography>
+        ),
+      },
+      {
+        accessorFn: (row: any) => row?.quantity,
+        id: 'pending',
+        header: 'Pending',
+        cell: (info: any) =>
+          info?.getValue(
+            <Typography>
+              {purchaseOrderDetailData?.map((item: any) => item?.quantity)}
+            </Typography>,
+          ),
+      },
+    );
+  } else {
+    columns.push({
       accessorFn: (row: any) => row?.quantity,
       id: 'quantity',
       header: 'Quantity',
       cell: (info: any) => info?.getValue(),
-    },
+    });
+  }
+  columns.push(
     {
       accessorFn: (row: any) => row?.taxRate,
       id: 'taxRate',
@@ -65,7 +103,11 @@ export const overviewTableColumns: any = (
       accessorFn: (row: any) => row?.total,
       id: 'total',
       header: 'Total ()',
-      cell: (info: any) => info?.getValue(),
+      cell: () => (
+        <Typography>
+          {purchaseOrderDetailData?.map((item: any) => item?.total)}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.invoice,
@@ -80,17 +122,7 @@ export const overviewTableColumns: any = (
         </Typography>
       ),
     },
-  ];
+  );
+
+  return columns;
 };
-// export const overviewListData: any = [
-//   {
-//     Id: 1,
-//     itemName: `Andrea`,
-//     description: 'Per Unit',
-//     costPerItem: '30',
-//     quantity: '2',
-//     taxRate: '0',
-//     total: '60',
-//     invoice: 'pdf',
-//   },
-// ];

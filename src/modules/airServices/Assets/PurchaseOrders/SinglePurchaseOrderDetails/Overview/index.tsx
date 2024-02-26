@@ -13,6 +13,7 @@ export const Overview = () => {
     theme,
     purchaseOrderData,
     purchaseOrderDetailData,
+    orderStatus,
   } = useOverview();
   return (
     <Box>
@@ -50,17 +51,28 @@ export const Overview = () => {
         </Typography>
         <TanstackTable
           data={purchaseOrderDetailData}
-          columns={overviewTableColumns(setOpenOverviewModal, theme)}
+          columns={overviewTableColumns(
+            setOpenOverviewModal,
+            purchaseOrderDetailData,
+            theme,
+            orderStatus,
+          )}
         />
       </Box>
       <Box m={'1rem 3rem 0 0'}>
-        <OverviewBilling />
+        <OverviewBilling
+          purchaseOrderDetailData={purchaseOrderDetailData}
+          purchaseOrderData={purchaseOrderData}
+        />
       </Box>
       <Box>
         <OverviewModel
           openOverviewModal={openOverviewModal}
           setOpenOverviewModal={setOpenOverviewModal}
+          purchaseOrderDetailData={purchaseOrderDetailData}
+          purchaseOrderData={purchaseOrderData}
           theme={theme}
+          orderStatus={orderStatus}
         />
       </Box>
     </Box>

@@ -9,20 +9,27 @@ import {
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Image from 'next/image';
-import {
-  overviewTablePdfColumns,
-  overviewListPdfData,
-} from './OverviewModal.data';
+import { overviewTablePdfColumns } from './OverviewModal.data';
 import OverviewBilling from '../OverviewBilling';
 import { DownloadFileIcon, PrinterIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { styles } from './OverviewModal.style';
+import jsPDF from 'jspdf';
 
 const OverviewModal = ({
   openOverviewModal,
   setOpenOverviewModal,
+  purchaseOrderData,
+  purchaseOrderDetailData,
   theme,
+  orderStatus,
 }: any) => {
+  const handleDownload = () => {
+    const invoice: any = new jsPDF('portrait', 'pt', [1200, 1200]);
+    invoice.html(document.getElementById('invoice')).then(() => {
+      invoice.save('invoice.pdf');
+    });
+  };
   return (
     <Box>
       <Dialog
@@ -30,6 +37,7 @@ const OverviewModal = ({
         open={openOverviewModal}
         onClose={() => setOpenOverviewModal(false)}
         sx={styles?.modelSizing}
+        id="invoice"
       >
         <DialogTitle mt={'-1.5rem'}>
           <Box sx={styles?.logoBox}>
@@ -52,8 +60,15 @@ const OverviewModal = ({
         </DialogTitle>
         <DialogContent>
           <Box sx={styles?.iconsStyle}>
-            <PrinterIcon />
-            <DownloadFileIcon />
+            <IconButton
+              sx={{ cursor: 'pointer' }}
+              onClick={() => window.print()}
+            >
+              <PrinterIcon />
+            </IconButton>
+            <IconButton onClick={handleDownload}>
+              <DownloadFileIcon />
+            </IconButton>
           </Box>
           <Box sx={styles?.textBoxStyle}>
             <Box>
@@ -95,12 +110,20 @@ const OverviewModal = ({
           </Box>
           <Box px={{ md: '3rem', xs: '1rem' }}>
             <TanstackTable
-              data={overviewListPdfData}
-              columns={overviewTablePdfColumns(theme)}
+              data={purchaseOrderDetailData}
+              columns={overviewTablePdfColumns(
+                setOpenOverviewModal,
+                purchaseOrderDetailData,
+                theme,
+                orderStatus,
+              )}
             />
           </Box>
           <Box m={{ md: '1rem 3rem 5rem 0' }} px={{ xs: '1rem' }}>
-            <OverviewBilling />
+            <OverviewBilling
+              purchaseOrderDetailData={purchaseOrderDetailData}
+              purchaseOrderData={purchaseOrderData}
+            />
           </Box>
         </DialogContent>
       </Dialog>
