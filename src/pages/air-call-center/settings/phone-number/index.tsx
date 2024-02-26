@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import SettingsLayout from '../layout';
+import SettingsLayout from '../Layout';
 import PhoneNumber from '@/modules/airCallCenter/Settings/PhoneNumber';
 
 const PhoneNumberPage = () => {
