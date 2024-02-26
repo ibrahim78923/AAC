@@ -9,33 +9,31 @@ import { SingleTicketForm } from './SingleTicketForm';
 import { SingleTicketHeader } from './SingleTicketHeader';
 import { SingleTicketPopup } from './SingleTicketPopup';
 import { useSingleTicket } from './useSingleTicket';
-import { useRouter } from 'next/router';
 
 export const SingleTicket = () => {
-  const router = useRouter();
-  const id = router?.query?.id;
-  const { status, openPopup, setOpenPopup, onSubmit } = useSingleTicket();
+  const { status, openPopup, setOpenPopup, onSubmit, ticketId } =
+    useSingleTicket();
 
   return (
     <>
       <SingleTicketHeader
-        id={id}
+        id={ticketId}
         setOpenPopup={setOpenPopup}
         onSubmit={onSubmit}
       />
       <SingleTicketDetail
-        id={id}
+        id={ticketId}
         status={status}
         singleTicketDetailContent={singleTicketDetailContent}
       />
       <SingleTicketForm
-        id={id}
+        id={ticketId}
         singleTicketFormDataArray={singleTicketFormDataArray}
         singleTicketFormValidationSchema={singleTicketFormValidationSchema}
         singleTicketFormDefaultValues={singleTicketFormDefaultValues}
       />
       <SingleTicketPopup
-        id={id}
+        id={ticketId}
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       />
