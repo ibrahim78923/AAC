@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import SettingsLayout from '../layout';
+import SettingsLayout from '../Layout';
 import UserManagement from '@/modules/airCallCenter/Settings/UserManagement';
 
 const UserManagementPage = () => {
