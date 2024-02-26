@@ -7,11 +7,11 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
-import { styles } from './settings.style';
+import { styles } from './Settings.style';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
-import { CallCenterSettingsRoutes } from './layout.data';
+import { CallCenterSettingsRoutes } from './Layout.data';
 import { usePathname } from 'next/navigation';
 
 const SettingsLayout = ({ children }: any) => {
