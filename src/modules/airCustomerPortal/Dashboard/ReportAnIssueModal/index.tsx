@@ -10,12 +10,12 @@ import {
 } from '@mui/material';
 import { useReportAnIssueModal } from './useReportAnIssueModal';
 import { reportAnIssueModalFormFields } from './ReportAnIssueModal.data';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styles } from './ReportAnIssueModal.style';
 
 const ReportAnIssueModal = (props: any) => {
   const { openReportAnIssueModal, setOpenReportAnIssueModal } = props;
-  const { methods, handleSubmitIssue } = useReportAnIssueModal(props);
+  const { methods, handleSubmitIssue, isLoading, apiQueryAssociateAsset } =
+    useReportAnIssueModal(props);
   return (
     <>
       <Dialog
@@ -41,27 +41,17 @@ const ReportAnIssueModal = (props: any) => {
             </Box>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                {reportAnIssueModalFormFields?.map((item: any) => (
-                  <item.component
-                    {...item?.componentProps}
-                    key={item?.id}
-                    size="small"
-                  />
-                ))}
+                {reportAnIssueModalFormFields(apiQueryAssociateAsset)?.map(
+                  (item: any) => (
+                    <item.component
+                      {...item?.componentProps}
+                      key={item?.id}
+                      size="small"
+                    />
+                  ),
+                )}
               </Grid>
             </Grid>
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              gap={0.5}
-              mt={1}
-              sx={{ cursor: 'pointer' }}
-            >
-              <AddCircleIcon fontSize="small" />
-              <Typography variant="body2" fontWeight={600}>
-                Associate Asset
-              </Typography>
-            </Box>
             <Box
               display={'flex'}
               justifyContent={'flex-end'}
@@ -73,10 +63,11 @@ const ReportAnIssueModal = (props: any) => {
                 variant="outlined"
                 color="secondary"
                 onClick={() => setOpenReportAnIssueModal(false)}
+                disabled={isLoading}
               >
                 Cancel
               </Button>
-              <Button variant="contained" type="submit">
+              <Button variant="contained" type="submit" disabled={isLoading}>
                 Submit
               </Button>
             </Box>
