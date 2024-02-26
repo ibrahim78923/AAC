@@ -33,6 +33,7 @@ function Software() {
     setFilterValues,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
+    filterValues,
   } = useSoftware();
 
   return (
@@ -108,6 +109,7 @@ function Software() {
           isOpenDrawer={isOpenFilterDrawer}
           setIsOpenFilterDrawer={setIsOpenFilterDrawer}
           setFilterValues={setFilterValues}
+          filterValues={filterValues}
         />
       )}
 
