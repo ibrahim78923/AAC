@@ -1,8 +1,9 @@
 import Layout from '@/layout';
 import SettingsLayout from '../../Layout';
+import AgentStatuses from '@/modules/airCallCenter/Settings/GeneralSettings/AgentStatuses';
 
 const AgentStatusesPage = () => {
-  return <h1>Business Hours Page</h1>;
+  return <AgentStatuses />;
 };
 export default AgentStatusesPage;
 

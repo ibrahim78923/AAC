@@ -437,3 +437,6 @@ export { default as TimmerIcon } from './shared/timmer-icon';
 export { default as LeftArrowIcon } from './modules/airCallCenter/CallMetrices/left-arrow';
 export { default as ExportFilledIcon } from './shared/export-filled';
 export { default as ArrowBoxedIcon } from './shared/arrow-boxed';
+export { default as StatusAwayIcon } from './modules/airCallCenter/Settings/GeneralSettings/status-away-icon';
+export { default as StatusInfoIcon } from './modules/airCallCenter/Settings/GeneralSettings/status-info-icon';
+export { default as StatusEditIcon } from './modules/airCallCenter/Settings/GeneralSettings/edit-icon';
