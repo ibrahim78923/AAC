@@ -232,6 +232,7 @@ export const END_POINTS = {
   GET_TICKETS_PENDING_FOR_APPROVAL: `/air-services-dashboard/get-tickets-approval-dashboard`,
   GET_CUSTOMER_DASHBOARD: `/air-services-dashboard/get-customer-dashboard-data`,
   GET_DROPDOWN_COMPANY: `/super-admin/company-list`,
+  GET_CUSTOMER_DASHBOARD_ANNOUNCEMENTS: `/air-services-dashboard/get-all-customer-announcment`,
 };
 
 export const superAdminBillingInvoices = {
