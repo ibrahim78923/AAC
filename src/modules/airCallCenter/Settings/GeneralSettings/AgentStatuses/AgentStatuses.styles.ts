@@ -1,30 +1,21 @@
 export const styles = {
   pageHeader: () => ({
-    display: 'flex',
-    alignItems: 'center',
+    padding: '16px 24px',
   }),
   heading: () => ({
-    flex: '1',
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    alignItems: 'center',
   }),
-  paheHeaderActions: () => ({
-    ml: '16px',
+  headerText: (theme: any) => ({
+    fontWeight: '500',
+    fontSize: '12px',
+    lineHeight: '1.5',
+    color: theme?.palette?.custom?.main,
+    mt: '18px',
   }),
-  subHeading: () => ({
-    mt: '4px',
-    color: 'slateBlue.main',
-    lineHeight: '1.875',
-    fontSize: '16px',
-  }),
-  learnMore: () => ({
-    color: 'primary.main',
-    fontWeight: '600',
-    fontSize: '14px',
-    lineHeight: '2.14285',
-  }),
-  hoursList: () => ({
-    mt: '24px',
-    '& > div': {
-      mt: '16px',
-    },
+  tableCont: () => ({
+    mt: '44px',
   }),
 };
