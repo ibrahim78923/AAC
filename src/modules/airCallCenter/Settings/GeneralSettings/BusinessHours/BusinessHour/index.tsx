@@ -4,7 +4,10 @@ import { Box, IconButton, Typography } from '@mui/material';
 import { SwitchBtn } from '@/components/SwitchButton';
 import { EditBlackIcon } from '@/assets/icons';
 
-const BusinessHour = () => {
+const BusinessHour = ({
+  handleEnaledBusinessHours,
+  isEnabledBusinessHours,
+}: any) => {
   return (
     <Box sx={styles?.hour}>
       <Box sx={styles?.hourLeft}>
@@ -15,7 +18,10 @@ const BusinessHour = () => {
         <Box sx={styles?.UTC}>UTC</Box>
       </Box>
       <Box sx={styles?.hourRight}>
-        <SwitchBtn />
+        <SwitchBtn
+          checked={isEnabledBusinessHours}
+          handleSwitchChange={handleEnaledBusinessHours}
+        />
         <IconButton sx={styles?.editBtn}>
           <EditBlackIcon />
         </IconButton>
