@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import SettingsLayout from '../../layout';
+import SettingsLayout from '../../Layout';
 
 const ServiceLevelPage = () => {
   return <h1>ServiceLevelPage</h1>;
