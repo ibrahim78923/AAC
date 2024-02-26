@@ -77,8 +77,10 @@ const useNewPurchaseOrders = () => {
   };
   const submitUpdatePurchaseOrder = async (data: any) => {
     const patchPurchaseOrderParameter = {
-      id: purchaseOrderId,
-      body: { ...data },
+      body: {
+        id: purchaseOrderId,
+        ...data?.body,
+      },
     };
     try {
       await patchPurchaseOrderTrigger(patchPurchaseOrderParameter)?.unwrap();
