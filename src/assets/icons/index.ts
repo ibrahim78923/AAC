@@ -434,3 +434,5 @@ export { default as ResetFilterIcon } from './shared/reset-filter-icon';
 export { default as ReplyDoubleArrowIcon } from './shared/reply-doublearrow-icon';
 export { default as AnnoucementIcon } from './shared/annoucement-icon';
 export { default as TimmerIcon } from './shared/timmer-icon';
+export { default as WhiteMessageIcon } from './shared/white-message-icon';
+export { default as WhiteTrashIcon } from './shared/white-trash-icon';

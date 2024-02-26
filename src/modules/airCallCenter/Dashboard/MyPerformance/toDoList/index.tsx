@@ -1,5 +1,9 @@
-import { AddPlusPrimaryIcon } from '@/assets/icons';
 import { Box, Button, Typography } from '@mui/material';
+import {
+  AddPlusPrimaryIcon,
+  WhiteMessageIcon,
+  WhiteTrashIcon,
+} from '@/assets/icons';
 
 export const ToDoList = () => {
   return (
@@ -22,6 +26,34 @@ export const ToDoList = () => {
           {' '}
           New to do item{' '}
         </Button>
+
+        <Box
+          display={'flex'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          gap={'12px'}
+          sx={{
+            backgroundColor: '#38CAB5',
+            marginTop: '20px',
+            padding: '15px',
+            borderRadius: '8px',
+            color: 'white',
+          }}
+        >
+          <Box>
+            <WhiteMessageIcon />
+          </Box>
+          <Box>
+            <Typography variant="body2">Meeting with CEO</Typography>
+            <Typography variant="body3">
+              Presentation about the Air Applecart project
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant="body3">1 day</Typography>
+            <WhiteTrashIcon />
+          </Box>
+        </Box>
       </Box>
     </>
   );
