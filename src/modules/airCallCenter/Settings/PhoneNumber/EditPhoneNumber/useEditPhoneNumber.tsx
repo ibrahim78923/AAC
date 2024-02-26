@@ -1,7 +1,19 @@
-import React from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import {
+  propertiesDefaultValues,
+  propertiesValidationSchema,
+} from './Properties/Properties.data';
 
 const useEditPhoneNumber = () => {
-  return <div>useEditPhoneNumber</div>;
+  const methods: any = useForm({
+    resolver: yupResolver(propertiesValidationSchema),
+    defaultValues: propertiesDefaultValues,
+  });
+
+  return {
+    methods,
+  };
 };
 
 export default useEditPhoneNumber;
