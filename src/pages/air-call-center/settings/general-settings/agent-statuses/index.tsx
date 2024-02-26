@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import SettingsLayout from '../../layout';
+import SettingsLayout from '../../Layout';
 
 const AgentStatusesPage = () => {
   return <h1>Business Hours Page</h1>;

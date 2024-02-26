@@ -3,9 +3,12 @@ import { useTheme } from '@mui/material/styles';
 import { DocumentTextIcon } from '@/assets/icons';
 import { ExpenseImage } from '@/assets/images';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
 export const PopularArticles = ({ articlesData = [], handleViewMore }: any) => {
   const { palette }: any = useTheme();
+  const router = useRouter();
   return (
     <>
       <Box
@@ -30,10 +33,19 @@ export const PopularArticles = ({ articlesData = [], handleViewMore }: any) => {
               borderRadius={2}
               flexBasis={{ xs: '100%', sm: '48%', lg: '32%' }}
               sx={{ background: palette?.grey?.[100] }}
+              onClick={() =>
+                router?.push({
+                  pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_TICKET_DETAIL,
+                  query: {
+                    articleId: article?._id,
+                    folderId: article?.folder?._id,
+                  },
+                })
+              }
             >
               <DocumentTextIcon />
               <Typography variant="body2" color={palette?.grey?.[600]}>
-                {article?.approverName}
+                {article?.title}
               </Typography>
             </Box>
           ))

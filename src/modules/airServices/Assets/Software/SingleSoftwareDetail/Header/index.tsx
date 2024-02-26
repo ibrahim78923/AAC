@@ -5,8 +5,6 @@ import { useHeader } from './useHeader';
 import React from 'react';
 import { AlertModals } from '@/components/AlertModals';
 import { UpsertSoftware } from '../../UpsertSoftware';
-import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
 
 export default function Header() {
   const {
@@ -20,8 +18,8 @@ export default function Header() {
     anchorEl,
     deleteSoftware,
     isLoading,
+    moveBackArrow,
   } = useHeader();
-  const router = useRouter();
 
   return (
     <>
@@ -33,13 +31,7 @@ export default function Header() {
         gap={2}
       >
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
-          <ArrowBackIcon
-            onClick={() =>
-              router?.push({
-                pathname: AIR_SERVICES?.ASSETS_SOFTWARE,
-              })
-            }
-          />
+          <ArrowBackIcon onClick={moveBackArrow} />
           <Typography variant="h5" component="span">
             Software
           </Typography>
