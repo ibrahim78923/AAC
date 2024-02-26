@@ -50,7 +50,7 @@ export const companiesAPI = baseAPI.injectEndpoints({
 
     CompanyUpdate: builder.mutation({
       query: ({ body, Id }: any) => ({
-        url: `${END_POINTS?.COMPANY}?Id=${Id}`,
+        url: `${END_POINTS?.COMPANY}/${Id}`,
         method: 'PATCH',
         body: body,
       }),
@@ -77,10 +77,55 @@ export const companiesAPI = baseAPI.injectEndpoints({
     mergeCompanies: builder.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.MERGE_COMPANIES}`,
-        method: 'PATCH',
+        method: 'POST',
         body: body,
       }),
       invalidatesTags: ['COMPANY'],
+    }),
+
+    changeCompanyOwner: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.REASSIGN_COMPANY_OWNER}`,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: ['COMPANY'],
+    }),
+
+    postCompaniesView: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.COMPANY_VIEWS,
+          method: 'POST',
+          body,
+        };
+      },
+      invalidatesTags: ['COMPANY'],
+    }),
+
+    getCompaniesViews: builder.query({
+      query: () => ({
+        url: `${END_POINTS?.COMPANY_VIEWS}`,
+        method: 'GET',
+      }),
+      providesTags: ['COMPANY'],
+    }),
+
+    getCustomizeColumns: builder.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['COMPANY'],
+    }),
+    putCustomizedColumns: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['COMPANY', 'CUSTOMIZE'],
     }),
   }),
 });
@@ -95,4 +140,9 @@ export const {
   useGetCompanyPreviewQuery,
   useRestoreCompaniesMutation,
   useMergeCompaniesMutation,
+  useChangeCompanyOwnerMutation,
+  usePostCompaniesViewMutation,
+  useGetCustomizeColumnsQuery,
+  useGetCompaniesViewsQuery,
+  usePutCustomizedColumnsMutation,
 } = companiesAPI;

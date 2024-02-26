@@ -1,15 +1,19 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import usePath from '@/hooks/usePath';
 import { useDeleteTicketsMutation } from '@/services/airServices/tickets';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 
 export const useTicketDelete = (props: any) => {
   const router = useRouter();
   const { makePath } = usePath();
-  const { setDeleteModalOpen, selectedTicketList, setSelectedTicketList } =
-    props;
-  const [deleteTicketsTrigger] = useDeleteTicketsMutation();
+  const {
+    setDeleteModalOpen,
+    selectedTicketList,
+    setSelectedTicketList,
+    setPage,
+  } = props;
+  const [deleteTicketsTrigger, deleteTicketsStatus] =
+    useDeleteTicketsMutation();
   const deleteTicket = async () => {
     const deleteParams = new URLSearchParams();
     selectedTicketList?.forEach(
@@ -19,18 +23,13 @@ export const useTicketDelete = (props: any) => {
       queryParams: deleteParams,
     };
     try {
-      const response: any = await deleteTicketsTrigger(
-        deleteTicketsParameter,
-      )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Ticket deleted successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await deleteTicketsTrigger(deleteTicketsParameter)?.unwrap();
+      successSnackbar('Ticket deleted successfully');
       setSelectedTicketList([]);
+      setPage(1);
       closeTicketsDeleteModal?.();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.error ?? 'Ticket not deleted', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
       setSelectedTicketList([]);
       closeTicketsDeleteModal?.();
     }
@@ -48,5 +47,6 @@ export const useTicketDelete = (props: any) => {
   return {
     deleteTicket,
     closeTicketsDeleteModal,
+    deleteTicketsStatus,
   };
 };

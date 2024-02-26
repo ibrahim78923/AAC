@@ -25,7 +25,6 @@ const TicketsEditorDrawer = (props: any) => {
     searchTicket,
     setSearchTicket,
   } = useTicketsEditorDrawer();
-
   return (
     <div>
       <CommonDrawer
@@ -35,6 +34,7 @@ const TicketsEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider
@@ -42,16 +42,27 @@ const TicketsEditorDrawer = (props: any) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={4}>
-              <Grid item xs={12}>
-                <RHFRadioGroup
-                  options={['New Ticket', 'Existing Ticket']}
-                  name={'ticketStatus'}
-                  label={false}
-                />
+              <Grid item xs={12} sx={{ paddingTop: '20px !important' }}>
+                {watchTickets[0] === 'New Ticket' && (
+                  <RHFRadioGroup
+                    options={[
+                      { value: 'New Ticket', label: 'New Ticket' },
+                      { value: 'Existing Ticket', label: 'Existing Ticket' },
+                    ]}
+                    name={'ticketStatus'}
+                    row={true}
+                  />
+                )}
               </Grid>
-              {watchTickets[0] === 'New Ticket' ? (
-                ticketsDataArray?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {ticketsDataArray?.map((item: any, index: any) =>
+                watchTickets[0] === 'New Ticket' ? (
+                  <Grid
+                    item
+                    xs={12}
+                    md={item?.md}
+                    key={uuidv4()}
+                    sx={{ paddingTop: '20px !important' }}
+                  >
                     <item.component {...item?.componentProps} size={'small'}>
                       {item?.componentProps?.select
                         ? item?.options?.map((option: any) => (
@@ -62,17 +73,36 @@ const TicketsEditorDrawer = (props: any) => {
                         : null}
                     </item.component>
                   </Grid>
-                ))
-              ) : (
-                <Grid item xs={12}>
-                  <Search
-                    searchBy={searchTicket}
-                    setSearchBy={setSearchTicket}
-                    label="Search Products"
-                    size="medium"
-                    fullWidth
-                  />
-                </Grid>
+                ) : (
+                  index === 0 && (
+                    <Grid
+                      item
+                      xs={12}
+                      md={item?.md}
+                      key={uuidv4()}
+                      sx={{ paddingTop: '0px !important' }}
+                    >
+                      <RHFRadioGroup
+                        options={[
+                          { value: 'New Ticket', label: 'New Ticket' },
+                          {
+                            value: 'Existing Ticket',
+                            label: 'Existing Ticket',
+                          },
+                        ]}
+                        name={'ticketStatus'}
+                        row={true}
+                      />
+                      <Search
+                        searchBy={searchTicket}
+                        setSearchBy={setSearchTicket}
+                        label="Search Products"
+                        size="medium"
+                        fullWidth
+                      />
+                    </Grid>
+                  )
+                ),
               )}
             </Grid>
           </FormProvider>

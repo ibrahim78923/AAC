@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
 import { PhysicalGiftCardTabs } from './PhysicalGiftCardTabs';
 import { usePhysicalGiftCards } from './usePhysicalGiftCards';
+import { AddPhysicalGiftCard } from './AddPhysicalGiftCard';
 
 export const PhysicalGiftCards = (props: any) => {
-  const { setShowButtons }: { setShowButtons: (value: boolean) => void } =
-    props;
+  const { setShowButtons, addPhysicalCard, setAddPhysicalCard } = props;
   const { theme } = usePhysicalGiftCards(setShowButtons);
   return (
     <Box
@@ -13,6 +13,10 @@ export const PhysicalGiftCards = (props: any) => {
       p={1.5}
     >
       <PhysicalGiftCardTabs />
+      <AddPhysicalGiftCard
+        addPhysicalCard={addPhysicalCard}
+        setAddPhysicalCard={setAddPhysicalCard}
+      />
     </Box>
   );
 };

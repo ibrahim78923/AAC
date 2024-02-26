@@ -1,68 +1,166 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import {
-  addToInventoryItemStatusDefaultValues,
-  addToInventoryItemStatusValidationSchema,
-  addInventoryDefaultValuesOne,
-  addInventoryDefaultValuesOneUpdate,
+  // addInventoryDefaultValuesOneUpdate,
   addInventoryValidationSchemaOne,
   addInventoryValidationSchemaUpdate,
-  addToInventoryItemAdded,
+  addToInventoryItemAddedFormFieldsDataFunction,
+  addInventoryDefaultValuesFunction,
+  addToInventoryItemStatusDefaultValuesFunction,
 } from './AddToInventory.data';
 import { useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
+
+import {
+  useGetAddToPurchaseOrderByIdQuery,
+  useGetAllAssetsListQuery,
+  useLazyGetDepartmentDropdownQuery,
+  useLazyGetLocationsDropdownQuery,
+  usePatchAddToPurchaseOrderMutation,
+  usePostAssetPurchaseOrderMutation,
+} from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
+import { useRouter } from 'next/router';
+
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export default function useAddToInventoryDrawer(props: any) {
-  const { setIsADrawerOpen } = props;
-  const methodsTwo: any = useForm({
-    resolver: yupResolver(addToInventoryItemStatusValidationSchema),
-    defaultValues: addToInventoryItemStatusDefaultValues,
-  });
+  const [selectedAssetId, setSelectedAssetId] = useState(null);
 
-  const { handleSubmit: handleSubmitTwo } = methodsTwo;
-  const methodsYes: any = useForm({
+  const handleRadioValueChange = (event: any) => {
+    setSelectedAssetId(event.target.value);
+  };
+  const router = useRouter();
+  const [search, setSearch] = useState('');
+  const { purchaseOrderId } = router?.query;
+
+  const { setIsADrawerOpen } = props;
+  const [postPurchaseOrderTrigger] = usePostAssetPurchaseOrderMutation();
+  const [patchNewInventoryTrigger] = usePatchAddToPurchaseOrderMutation();
+
+  const methodsTwo = useForm({
+    defaultValues: addToInventoryItemStatusDefaultValuesFunction(),
+  });
+  const { fields } = useFieldArray({
+    control: methodsTwo?.control,
+    name: 'addToInventory',
+  });
+  const { handleSubmit: handleSubmitTwo, reset: resetTwo } = methodsTwo;
+  const methodsYes = useForm<any>({
     resolver: yupResolver(addInventoryValidationSchemaOne),
-    defaultValues: addInventoryDefaultValuesOne,
+    defaultValues: addInventoryDefaultValuesFunction(),
   });
 
   const { handleSubmit: handleSubmitYes } = methodsYes;
 
-  const methodsNo: any = useForm({
+  const methodsNo = useForm<any>({
     resolver: yupResolver(addInventoryValidationSchemaUpdate),
-    defaultValues: addInventoryDefaultValuesOneUpdate,
   });
   const { handleSubmit: handleSubmitNo } = methodsNo;
   const onSubmit = async () => {};
+
   const [boolVariable, setBoolVariable] = useState(true);
   const [toShow, setToShow] = useState(true);
+  const getSingleAddToPurchaseOrderParameter = {
+    pathParam: {
+      purchaseOrderId,
+    },
+  };
+
+  const { data, isLoading, isFetching, isError } =
+    useGetAddToPurchaseOrderByIdQuery(getSingleAddToPurchaseOrderParameter, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!purchaseOrderId,
+    });
+  const purchaseOrderDetail = data?.data;
+
   const handleRadioChange = (event: { target: { value: string } }) => {
     setToShow(event?.target?.value === 'Add New');
   };
-  const submitHandlerYes = handleSubmitYes(() => {
+
+  const submitHandlerYes = handleSubmitYes((data: any) => {
+    const tableData: any = {
+      displayName: data?.displayName,
+      impact: data?.impact,
+      location: data?.location,
+      department: data?.department,
+    };
+    const dataArray: any = Array.from(
+      { length: data?.description },
+      () => tableData,
+    );
+    resetTwo({ addToInventory: dataArray });
     setBoolVariable(false);
-    methodsYes?.reset(addInventoryDefaultValuesOne);
+    methodsYes?.reset();
   });
-  const submitHandlerNo = handleSubmitNo(() => {
-    enqueueSnackbar('item added to inventory Successfully', {
-      variant: 'success',
-    });
-    methodsNo?.reset(addInventoryDefaultValuesOneUpdate);
+
+  const submitHandlerNo = handleSubmitNo(async () => {
+    const updateData: any = selectedAssetId;
+    const putAddToPurchaseOrderParameter = {
+      purchaseOrderId: purchaseOrderId,
+      inventoryId: updateData,
+    };
+    try {
+      await patchNewInventoryTrigger({
+        body: putAddToPurchaseOrderParameter,
+      })?.unwrap();
+      successSnackbar('Item Added to Inventory  Successfully');
+    } catch (error: any) {
+      errorSnackbar();
+    }
+    setIsADrawerOpen(false);
+    setSelectedAssetId?.(null);
+    methodsNo?.reset();
   });
-  const submitHandlerTwo = handleSubmitTwo(() => {
-    enqueueSnackbar('item added to inventory Successfully', {
-      variant: 'success',
-    });
+  const submitHandlerTwo = handleSubmitTwo(async (data: any) => {
+    const inventoryData = [];
+    for (const item of data['addToInventory']) {
+      const mapped_item = {
+        location_id: item?.location?._id,
+        department_id: item?.department?._id,
+        impact: item['impact'],
+        displayName: item['displayName'],
+        purchaseOrderIds: purchaseOrderId,
+      };
+      inventoryData?.push(mapped_item);
+    }
+    const postPurchaseOrderParameter = {
+      body: {
+        inventoryData,
+      },
+    };
+
+    try {
+      await postPurchaseOrderTrigger(postPurchaseOrderParameter)?.unwrap();
+      successSnackbar('Item Added to Inventory  Successfully');
+    } catch (error) {
+      errorSnackbar();
+    }
+
     setIsADrawerOpen(false);
     setBoolVariable(true);
-    methodsTwo?.reset(addToInventoryItemStatusDefaultValues);
+    methodsTwo?.reset();
   });
-  const filteredYes = addToInventoryItemAdded?.filter((item: any) => {
-    return item?.toShow === 'Yes';
-  });
-  const filteredNo = addToInventoryItemAdded?.filter((item: any) => {
-    return item?.toShow === 'No';
-  });
+  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
+  const apiQueryLocations = useLazyGetLocationsDropdownQuery();
+  const param = {};
+  const { data: allAssetsData } = useGetAllAssetsListQuery({ param });
+  const updateDate = allAssetsData?.data;
+  const addToInventoryItemAddedFormFieldsData =
+    addToInventoryItemAddedFormFieldsDataFunction(
+      apiQueryDepartment,
+      apiQueryLocations,
+    );
+  const filteredYes = addToInventoryItemAddedFormFieldsData?.filter(
+    (item: any) => {
+      return item?.toShow === 'Yes';
+    },
+  );
+  const filteredNo = addToInventoryItemAddedFormFieldsData?.filter(
+    (item: any) => {
+      return item?.toShow === 'No';
+    },
+  );
   return {
+    purchaseOrderDetail,
     methodsTwo,
     handleSubmitTwo,
     onSubmit,
@@ -79,5 +177,19 @@ export default function useAddToInventoryDrawer(props: any) {
     handleRadioChange,
     toShow,
     setToShow,
+    addToInventoryItemAddedFormFieldsData,
+    isLoading,
+    isFetching,
+    isError,
+    search,
+    setSearch,
+    allAssetsData,
+    updateDate,
+    handleRadioValueChange,
+    selectedAssetId,
+    setSelectedAssetId,
+    apiQueryLocations,
+    apiQueryDepartment,
+    fields,
   };
 }

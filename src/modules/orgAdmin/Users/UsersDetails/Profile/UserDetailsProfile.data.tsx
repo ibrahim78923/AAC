@@ -11,24 +11,6 @@ export const profileValidationSchema = Yup.object().shape({
   address: Yup.string().required('Field is Required'),
 });
 
-export const profileDefaultValues = {
-  firstName: '',
-  lastName: '',
-  phoneNumber: '',
-  email: '',
-  jobTitlle: '',
-  postCode: '',
-  address: '',
-  flatUnit: '',
-  buildingName: '',
-  buildingNum: '',
-  streetName: '',
-  townCity: '',
-  country: '',
-  facebookUrl: '',
-  TwitterUrl: '',
-};
-
 export const profileFields = [
   {
     componentProps: {
@@ -204,7 +186,7 @@ export const profileFields = [
     componentProps: {
       label: 'Twitter URL',
       name: 'twitterUrl',
-      placeholder: 'Enter Twitter URL',
+      placeholder: 'Twitter URL',
       fullWidth: true,
     },
     component: RHFTextField,

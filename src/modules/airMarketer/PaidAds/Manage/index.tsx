@@ -51,7 +51,9 @@ const Manage = () => {
                     >
                       {item?.title}
                     </Typography>
-                    <Typography variant="h3">{item?.count}</Typography>
+                    <Typography variant="h3" textAlign="center">
+                      {item?.count}
+                    </Typography>
                   </Box>
                   {item?.divider && (
                     <Divider
@@ -81,13 +83,15 @@ const Manage = () => {
                 >
                   <Box>
                     <Typography
-                      variant="body3"
+                      variant="body2"
                       fontWeight={500}
                       color={theme?.palette?.grey[900]}
                     >
                       {item?.title}
                     </Typography>
-                    <Typography variant="h3">{item?.count}</Typography>
+                    <Typography variant="h3" textAlign="center">
+                      {item?.count}
+                    </Typography>
                   </Box>
                   {item?.divider && (
                     <Divider

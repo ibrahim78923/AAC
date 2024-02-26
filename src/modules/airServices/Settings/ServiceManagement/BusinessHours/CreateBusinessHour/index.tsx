@@ -83,7 +83,12 @@ export const CreateBusinessHour = () => {
               ) : (
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
-                    <RHFTextField name="name" label="Name" size="small" />
+                    <RHFTextField
+                      name="name"
+                      label="Name"
+                      size="small"
+                      required
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <RHFEditor
@@ -95,6 +100,7 @@ export const CreateBusinessHour = () => {
                   <Grid item xs={12}>
                     <RHFAutocomplete
                       name="timeZone"
+                      required
                       label="Time Zone"
                       options={timeZone?.map((timeZone) => timeZone?.label)}
                       size="small"

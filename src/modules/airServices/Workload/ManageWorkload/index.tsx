@@ -1,25 +1,34 @@
-import { Box, Button, Chip, Menu, MenuItem, Typography } from '@mui/material';
-import { Fragment, useState } from 'react';
+import { Button, Menu, MenuItem, Typography } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { manageWorkLoadOptions } from './ManageWorkload.data';
-import { v4 as uuidv4 } from 'uuid';
+import WorkloadDrawer from '../WorkloadDrawer/WorkloadDrawer';
+import useManageWorkload from './useManageWorkload';
 
 export const ManageWorkload = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event?.currentTarget);
-  };
+  const {
+    handleClick,
+    anchorEl,
+    open,
+    setAnchorEl,
+    manageWorkLoadOptions,
+    handleMenuItemClick,
+    openDrawer,
+    data,
+    setOpenDrawer,
+    dateRange,
+    manage,
+    setDateRange,
+    isLoading,
+    isFetching,
+    isError,
+    setModifiedRange,
+    modifiedRange,
+  } = useManageWorkload();
 
   return (
-    <Fragment>
+    <>
       <Button
         variant={'outlined'}
-        color={'secondary'}
-        aria-controls={open ? 'workload' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+        color={'inherit'}
         onClick={handleClick}
         endIcon={<ArrowDropDownIcon />}
       >
@@ -32,11 +41,12 @@ export const ManageWorkload = () => {
         anchorEl={anchorEl}
         open={open}
         onClose={() => setAnchorEl(null)}
+        aria-controls={open ? 'workload' : undefined}
       >
         {manageWorkLoadOptions?.map((item: any) => (
           <MenuItem
-            key={uuidv4()}
-            onClick={() => item?.handleClick?.()}
+            key={item?.label}
+            onClick={() => handleMenuItemClick?.(item?.value)}
             sx={{
               '&.MuiMenuItem-root': {
                 marginBottom: { md: 0.5 },
@@ -45,20 +55,32 @@ export const ManageWorkload = () => {
               },
             }}
           >
-            <Box
-              display={'flex'}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-              width={'100%'}
-            >
-              <Typography variant="body2" fontWeight={500}>
-                {item?.title}
-              </Typography>
-              <Chip label={item?.count} color={'primary'} />
-            </Box>
+            <Typography variant="body2" fontWeight={500}>
+              {item?.label}
+            </Typography>
           </MenuItem>
         ))}
       </Menu>
-    </Fragment>
+
+      {openDrawer && (
+        <WorkloadDrawer
+          dataArray={data}
+          setOpenDrawer={setOpenDrawer}
+          openDrawer={openDrawer}
+          dateRange={dateRange}
+          state={manage}
+          onChangeDateHandler={(item: any) => setDateRange([item?.selection])}
+          setDateRange={setDateRange}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          setModifiedRange={setModifiedRange}
+          modifiedRange={modifiedRange}
+          onChangeModifiedHandler={(item: any) =>
+            setModifiedRange([item?.selection])
+          }
+        />
+      )}
+    </>
   );
 };

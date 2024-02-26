@@ -65,16 +65,16 @@ const CommonTabs = (props: CommonTabsPropsI) => {
   };
 
   return (
-    <Box sx={styles.tabWrapper}>
+    <Box sx={styles.tabWrapper(tabStyle)}>
       <Box
         className="tabs-container"
         sx={{
           mt: '20px',
-          borderBottom: 1,
+          borderBottom: tabStyle === 'vertical' ? 0 : 1,
           borderColor: theme?.palette?.custom?.off_white_three,
           display: 'flex',
           justifyContent: 'flex-start',
-          alignItems: 'center',
+          alignItems: tabStyle === 'vertical' ? 'flex-start' : 'center',
         }}
       >
         <Tabs
@@ -84,6 +84,7 @@ const CommonTabs = (props: CommonTabsPropsI) => {
           onChange={handleChange}
           aria-label="common tabs"
           orientation={tabStyle}
+          className={`${tabStyle === 'vertical' && 'tabs-main-class'}`}
         >
           {tabsArray?.map((tab: string, index: number) => (
             <Tab

@@ -23,7 +23,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
     }),
 
     getQuoteById: builder.query({
-      query: (id: any) => ({
+      query: ({ id }: any) => ({
         url: `${END_POINTS?.QUOTE}/${id}`,
         method: 'GET',
       }),
@@ -75,6 +75,31 @@ export const quotesAPI = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['COMPANY'],
     }),
+    getCompaniesOwners: builder.query({
+      query: () => ({
+        url: END_POINTS?.COMPANIES_OWNER,
+        method: 'GET',
+      }),
+      // providesTags: TAG,
+    }),
+    getUsersList: builder.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.USERS_LIST_ADMIN}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['DEALS'],
+    }),
+    postProduct: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.SALE_PRODUCTS,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: ['COMPANY'],
+    }),
   }),
 });
 
@@ -87,4 +112,7 @@ export const {
   usePostCompaniesMutation,
   useDeleteQuotesMutation,
   useGetUserListQuery,
+  useGetCompaniesOwnersQuery,
+  useGetUsersListQuery,
+  usePostProductMutation,
 } = quotesAPI;

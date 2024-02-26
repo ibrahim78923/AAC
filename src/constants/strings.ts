@@ -1,7 +1,7 @@
 export const BILLING_CYCLE = {
   MONTHLY: 'MONTHLY',
   QUARTERLY: 'QUARTERLY',
-  ANNUAL: 'ANNUAL',
+  ANNUAL: 'YEARLY',
   HALF_YEARLY: 'HALF_YEARLY',
   ONE_TIME: 'ONE_TIME',
 };
@@ -36,25 +36,44 @@ export const TICKET_PRIORITY = {
   HIGH: 'HIGH',
   URGENT: 'URGENT',
 };
+export const TICKET_CATEGORY = {
+  SOFTWARE: 'SOFTWARE',
+  HARDWARE: 'HARDWARE',
+  NETWORK: 'NETWORK',
+  OFFICE_APPLICATION: 'OFFICE_APPLICATION',
+  OFFICE_FURNITURE: 'OFFICE_FURNITURE',
+};
 
 export const TICKET_IMPACT = {
   LOW: 'LOW',
   MEDIUM: 'MEDIUM',
   HIGH: 'HIGH',
 };
+export const IMPORT_ACTIONS = {
+  CANCEL: 'CANCEL',
+  NEXT: 'NEXT',
+  BACK: 'BACK',
+  IMPORT: 'IMPORT',
+};
+export const IMPORT_ACTIONS_STEPS = {
+  STEP_ONE: 0,
+  STEP_TWO: 1,
+  STEP_THREE: 2,
+};
 
 export const TICKET_APPROVALS = {
-  RECEIVED: 'RECEIVED',
+  RECEIVED: 'RECIEVED',
   REQUESTED: 'REQUESTED',
-  APPROVE: 'APPROVE',
-  REJECT: 'REJECT',
-  CANCEL: 'CANCEL',
+  APPROVE: 'APPROVED',
+  REJECT: 'REJECTED',
+  CANCEL: 'CANCELED',
+  PENDING: 'PENDING',
 };
 
 export const CONTRACT_TYPES = {
   LEASE: 'LEASE',
   MAINTENANCE: 'MAINTENANCE',
-  SOFTWARE_LICENSE: 'SOFTWARE_LICENSE',
+  SOFTWARE_LICENSE: 'SOFTWARE_LICENCE',
   WARRANTY: 'WARRANTY',
 };
 
@@ -95,6 +114,10 @@ export const ASSET_IMPACT = {
   HIGH: 'high',
 };
 
+export const TICKET_TYPE = {
+  INC: 'INC',
+  SR: 'SR',
+};
 export const ASSET_TYPE = {
   SERVICES: 'services',
   HARDWARE: 'hardware',
@@ -325,4 +348,19 @@ export const TICKETS_STATE = {
   NEW: 'New',
   RESPONSE_DUE: 'Response due',
   OVERDUE: 'Overdue',
+};
+export const ROLE = {
+  ORG_REQUESTER: 'ORG_REQUESTER',
+  ORG_AGENT: 'ORG_AGENT',
+};
+export const WORKLOAD_SCHEDULE = {
+  CREATE: 'Create',
+  EDIT: 'Edit',
+  SAVE: 'Save',
+  UPDATE: 'Update',
+};
+
+export const ARTICLE_STATUS = {
+  PUBLISHED: 'PUBLISHED',
+  DRAFT: 'DRAFT',
 };

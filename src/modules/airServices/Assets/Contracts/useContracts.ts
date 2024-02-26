@@ -1,17 +1,19 @@
 import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
-import { useState } from 'react';
-import { data, contractsListsColumnsFunction } from './Contracts.data';
-import { EXPORT_FILE_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useEffect, useState } from 'react';
+import { contractsListsColumnsFunction } from './Contracts.data';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
 import {
   useLazyGetContractQuery,
   useLazyGetExportContractQuery,
 } from '@/services/airServices/assets/contracts';
 import { PAGINATION } from '@/config';
+import { useTheme } from '@mui/material';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useContracts = () => {
+  const theme = useTheme();
   const [selectedContractList, setSelectedContractList] = useState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -23,16 +25,17 @@ export const useContracts = () => {
   const getContractParam = new URLSearchParams();
 
   Object?.entries(contractFilterLists || {})?.forEach(
-    ([key, value]: any) => getContractParam?.append(key, value),
+    ([key, value]: any) => getContractParam?.append(key, value?._id),
   );
   getContractParam?.append('page', page + '');
   getContractParam?.append('limit', pageLimit + '');
   getContractParam?.append('search', search);
+
   const getContractParameter = {
     queryParams: getContractParam,
   };
 
-  const [lazyGetContractTrigger, lazyGetContractStatus] =
+  const [lazyGetContractTrigger, lazyGetContractStatus]: any =
     useLazyGetContractQuery();
 
   const [lazyGetExportContractTrigger] = useLazyGetExportContractQuery();
@@ -46,7 +49,12 @@ export const useContracts = () => {
 
   const getContractListDataExport = async (type: any) => {
     const exportContractParams = new URLSearchParams();
-
+    Object?.entries(contractFilterLists || {})?.forEach(
+      ([key, value]: any) => exportContractParams?.append(key, value?._id),
+    );
+    exportContractParams?.append('page', page + '');
+    exportContractParams?.append('limit', pageLimit + '');
+    exportContractParams?.append('search', search);
     exportContractParams?.append('exportType', type);
 
     const getContractExportParameter = {
@@ -58,22 +66,15 @@ export const useContracts = () => {
         getContractExportParameter,
       )?.unwrap();
       downloadFile(response, 'ContractLists', EXPORT_FILE_TYPE?.[type]);
-      enqueueSnackbar(
-        response?.data?.message ?? ' Contract Exported successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      successSnackbar('File Exported successfully');
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? ' Contract not exported', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
 
-  // useEffect(() => {
-  //   getContractListData();
-  // }, [search, page, pageLimit, contractFilterLists]);
+  useEffect(() => {
+    getContractListData();
+  }, [search, page, pageLimit, contractFilterLists]);
 
   const handleAddNewContractClick = () => {
     router?.push({
@@ -83,7 +84,7 @@ export const useContracts = () => {
   const contractListsColumns = contractsListsColumnsFunction(
     selectedContractList,
     setSelectedContractList,
-    data,
+    lazyGetContractStatus?.data?.data?.contracts,
     router,
   );
   return {
@@ -102,5 +103,7 @@ export const useContracts = () => {
     setSelectedContractList,
     getContractListData,
     setContractFilterLists,
+    contractFilterLists,
+    theme,
   };
 };

@@ -20,37 +20,44 @@ import { v4 as uuidv4 } from 'uuid';
 import { options } from '@/mock/modules/SocialComponents/Chat';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
-  setChatContacts,
   setChatMessages,
   setChatMessagesLoading,
   setChatMetaInfo,
 } from '@/redux/slices/chat/slice';
 import { useGetUserChatsQuery } from '@/services/chat';
-import { getSession, isNullOrEmpty } from '@/utils';
+import { isNullOrEmpty } from '@/utils';
 import { styles } from './Chat.style';
+import { enqueueSnackbar } from 'notistack';
 
 const Chat = () => {
-  const dispatch = useAppDispatch();
+  const dispatch: any = useAppDispatch();
 
   const theme = useTheme();
   const socket = useAppSelector((state) => state?.chat?.socket);
 
   const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
   const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
-
+  const chatModeState = useAppSelector(
+    (state: any) => state?.chat?.chatModeState?.chatModeState,
+  );
   const chatMetaInfo = useAppSelector((state) => state?.chat?.chatMetaInfo);
 
   const activeReceiverId = useAppSelector(
     (state) => state?.chat?.activeReceiverId,
+  );
+  const chatMode = useAppSelector(
+    (state) => state?.chat?.chatModeState?.chatModeState,
   );
 
   const {
     data: chatsData,
     refetch,
     status,
+    isError,
   } = useGetUserChatsQuery({
     activeChatId: activeChatId,
     limit: chatMetaInfo?.limit,
+    isGroup: chatMode === 'groupChat' ? true : false,
   });
 
   const handleManualRefetch = () => {
@@ -92,9 +99,6 @@ const Chat = () => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const { user }: { accessToken: string; refreshToken: string; user: any } =
-    getSession();
-
   const handelNewUserChat = (item: any) => {
     socket.emit(
       'add-message',
@@ -103,25 +107,11 @@ const Chat = () => {
         content: '',
       },
       (response: any) => {
-        if (response?.data?.chatId) {
-          dispatch(
-            setChatContacts({
-              _id: response?.data?.chatId,
-              ownerId: user?._id, // Current user id
-              participants: [
-                {
-                  _id: user?._id,
-                  firstName: user?.firstName,
-                  lastName: user?.lastName,
-                },
-                {
-                  _id: item?.id,
-                  firstName: item?.firstName,
-                  lastName: item?.lastName,
-                },
-              ],
-            }),
-          );
+        if (response) {
+          handleClose();
+          enqueueSnackbar('New chat created', {
+            variant: 'success',
+          });
         }
       },
     );
@@ -140,7 +130,7 @@ const Chat = () => {
         <Grid item xs={12} sm={12} md={12} lg={8.5}>
           <Box sx={styles?.rightWrapper}>
             {activeReceiverId ? (
-              <ChatArea />
+              <ChatArea isError={isError} />
             ) : (
               <Box
                 sx={{
@@ -158,23 +148,25 @@ const Chat = () => {
         </Grid>
       </Grid>
 
-      <Button
-        style={{
-          position: 'absolute',
-          right: '-10px',
-          bottom: '-18px',
-          cursor: 'grab',
-          padding: '0px',
-          width: 'fit-content',
-          minWidth: 'fit-content',
-          height: 'fit-content',
-          borderRadius: '50%',
-        }}
-        aria-describedby={id}
-        onClick={handleClick}
-      >
-        <PlusIcon width={55} color={theme?.palette?.primary?.main} />
-      </Button>
+      {chatModeState === 'groupChat' ? null : (
+        <Button
+          style={{
+            position: 'absolute',
+            right: '-10px',
+            bottom: '-18px',
+            cursor: 'grab',
+            padding: '0px',
+            width: 'fit-content',
+            minWidth: 'fit-content',
+            height: 'fit-content',
+            borderRadius: '50%',
+          }}
+          aria-describedby={id}
+          onClick={handleClick}
+        >
+          <PlusIcon width={55} color={theme?.palette?.primary?.main} />
+        </Button>
+      )}
       <Popover
         id={id}
         open={open}

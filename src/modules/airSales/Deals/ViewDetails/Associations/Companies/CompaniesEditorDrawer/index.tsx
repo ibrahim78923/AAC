@@ -21,16 +21,18 @@ const CompaniesEditorDrawer = (props: any) => {
     handleSubmit,
     onSubmit,
     methodsCompanies,
-    searchProduct,
-    setSearchProduct,
-    watchProducts,
-  } = useCompaniesEditorDrawer();
+    getCompanyContacts,
+    watchCompany,
+    searchTicket,
+    setSearchTicket,
+  } = useCompaniesEditorDrawer(openDrawer);
 
   return (
     <div>
       <CommonDrawer
         isDrawerOpen={openDrawer}
         onClose={() => setOpenDrawer('')}
+        submitHandler={handleSubmit(onSubmit)}
         title={drawerTitle[openDrawer]}
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
@@ -41,7 +43,7 @@ const CompaniesEditorDrawer = (props: any) => {
             methods={methodsCompanies}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={2}>
               <Grid item xs={12}>
                 <RHFRadioGroup
                   options={companiesOptions}
@@ -49,8 +51,8 @@ const CompaniesEditorDrawer = (props: any) => {
                   label={false}
                 />
               </Grid>
-              {watchProducts[0] === 'new-company' ? (
-                companiesDataArray?.map((item: any) => (
+              {watchCompany[0] === 'new-Company' ? (
+                companiesDataArray(getCompanyContacts)?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
                     <item.component {...item?.componentProps} size={'small'}>
                       {item?.componentProps?.select
@@ -66,9 +68,9 @@ const CompaniesEditorDrawer = (props: any) => {
               ) : (
                 <Grid item xs={12}>
                   <Search
-                    searchBy={searchProduct}
-                    setSearchBy={setSearchProduct}
-                    label="Search Companies"
+                    searchBy={searchTicket}
+                    setSearchBy={setSearchTicket}
+                    label="Search Products"
                     size="medium"
                     fullWidth
                   />

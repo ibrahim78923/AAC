@@ -5,4 +5,9 @@ export interface CardPropsI {
   status?: string;
   children?: ReactNode;
   showChild?: boolean;
+  openDeleteModal?: any;
+  setOpenDeleteModal?: any;
+  handleDelete?: any;
+  setDelateRecord?: any;
+  deletedRecordId?: any;
 }

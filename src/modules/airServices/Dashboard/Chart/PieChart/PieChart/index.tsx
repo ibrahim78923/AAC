@@ -9,7 +9,7 @@ export const PieChart = () => {
       options={{ ...pieChartDataOptions(theme), legend: { show: false } }}
       series={pieChartData?.data}
       type="pie"
-      height={185}
+      height={210}
     />
   );
 };

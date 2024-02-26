@@ -7,14 +7,10 @@ import ListGridViewBtn from '../../ListGridViewBtn';
 import { RefreshTasksIcon } from '@/assets/icons';
 import { FilterWrapperI } from './TabToolbar.Interface';
 import { styles } from './TabToobar.style';
-import CreateTask from '../../CreateTask';
 import { MenuItems } from '../../ActionBtn/ActionBtn.data';
+import { useAppSelector } from '@/redux/store';
 
-const TabToolbar = ({
-  handleToggler = () => {},
-  handleRefreshList = () => {},
-  disableActionBtn,
-}: FilterWrapperI) => {
+const TabToolbar = ({ handleRefreshList = () => {} }: FilterWrapperI) => {
   const [isEditAction, setIsEditAction] = useState(false);
 
   const handleActionBtn = (item: any) => {
@@ -22,6 +18,10 @@ const TabToolbar = ({
       setIsEditAction(!isEditAction);
     }
   };
+
+  const selectedTaskIds = useAppSelector(
+    (state: any) => state?.task?.selectedTaskIds,
+  );
 
   return (
     <>
@@ -38,22 +38,23 @@ const TabToolbar = ({
               className="small"
               variant="outlined"
               onClick={handleRefreshList}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
             >
               <RefreshTasksIcon />
             </Button>
           </Tooltip>
           <ActionBtn
-            disableActionBtn={disableActionBtn}
+            disableActionBtn={selectedTaskIds?.length > 0 ? false : true}
             onChange={handleActionBtn}
             menuItems={MenuItems}
             title="Actions"
+            variant="outlined"
           />
           <EditColumn />
           <FilterComp />
-          <ListGridViewBtn onClick={handleToggler} />
+          <ListGridViewBtn />
         </Box>
       </Box>
-      {isEditAction && <CreateTask title={'Edit Task'} />}
     </>
   );
 };

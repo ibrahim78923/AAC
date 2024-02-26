@@ -1,32 +1,47 @@
 import { Button } from '@mui/material';
-import { Fragment, useState } from 'react';
-import { unassignedWorkDataArray } from './UnassignedWork.data';
 import WorkloadDrawer from '../WorkloadDrawer/WorkloadDrawer';
+import useUnassignedWork from './useUnassignedWork';
 
 export const UnassignedWork = () => {
-  const [openDrawer, setOpenDrawer] = useState(false);
-
-  const [dateRange, setDateRange] = useState<any>([
-    {
-      startDate: new Date(),
-      endDate: null,
-      key: 'selection',
-    },
-  ]);
+  const {
+    setOpenDrawer,
+    openDrawer,
+    data,
+    setDateRange,
+    dateRange,
+    UNPLANNED,
+    isLoading,
+    isFetching,
+    isError,
+    setModifiedRange,
+    modifiedRange,
+  } = useUnassignedWork();
 
   return (
-    <Fragment>
+    <>
       <Button variant={'contained'} onClick={() => setOpenDrawer(true)}>
         Unassigned Work
       </Button>
 
-      <WorkloadDrawer
-        dataArray={unassignedWorkDataArray}
-        setOpenDrawer={setOpenDrawer}
-        openDrawer={openDrawer}
-        setDateRange={setDateRange}
-        dateRange={dateRange}
-      />
-    </Fragment>
+      {openDrawer && (
+        <WorkloadDrawer
+          dataArray={data}
+          setOpenDrawer={setOpenDrawer}
+          openDrawer={openDrawer}
+          onChangeDateHandler={(item: any) => setDateRange([item?.selection])}
+          dateRange={dateRange}
+          state={UNPLANNED}
+          setDateRange={setDateRange}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          setModifiedRange={setModifiedRange}
+          modifiedRange={modifiedRange}
+          onChangeModifiedHandler={(item: any) =>
+            setModifiedRange([item?.selection])
+          }
+        />
+      )}
+    </>
   );
 };

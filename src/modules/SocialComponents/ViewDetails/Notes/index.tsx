@@ -179,13 +179,14 @@ const Notes = ({ companyId }: any) => {
           something want worng
         </Typography>
       )}
-
-      <NotesEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-        companyId={companyId}
-        rowData={rowData}
-      />
+      {openDrawer && (
+        <NotesEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          companyId={companyId}
+          rowData={rowData}
+        />
+      )}
     </Box>
   );
 };

@@ -44,29 +44,22 @@ export const upsertTicketValidationSchema = Yup?.object()?.shape({
 export const upsertTicketDefaultValuesFunction = (data?: any) => {
   return {
     requester: !!Object?.keys(data?.requesterDetails ?? {})?.length
-      ? {
-          name: `${data?.requesterDetails?.firstName} ${data?.requesterDetails?.firstName}`,
-          _id: data?.requesterDetails?._id,
-        }
+      ? data?.requesterDetails
       : null,
     subject: data?.subject ?? '',
     description: data?.description ?? '',
-    category: data?.category ?? null,
-    status: data?.status ?? null,
-    priority: data?.pirority ?? null,
-    department: !!Object?.keys(data?.departmentDetails ?? {})?.length
-      ? {
-          name: data?.departmentDetails?.name,
-          _id: data?.departmentDetails?._id,
-        }
+    category: data?.categoryDetails ?? null,
+    status: data?.status ? { _id: data?.status, label: data?.status } : null,
+    priority: data?.pirority
+      ? { _id: data?.pirority, label: data?.pirority }
       : null,
-    source: data?.source ?? null,
-    impact: data?.impact ?? null,
+    department: !!Object?.keys(data?.departmentDetails ?? {})?.length
+      ? data?.departmentDetails
+      : null,
+    source: data?.source ? { _id: data?.source, label: data?.source } : null,
+    impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
     agent: !!Object?.keys(data?.agentDetails ?? {})?.length
-      ? {
-          name: `${data?.agentDetails?.firstName} ${data?.agentDetails?.firstName}`,
-          _id: data?.agentDetails?._id,
-        }
+      ? data?.agentDetails
       : null,
     plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
     plannedStartTime:
@@ -74,7 +67,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
         ? new Date(data?.plannedStartDate)
         : new Date(),
     plannedEndDate:
-      typeof data?.plannedStartDate === 'string'
+      typeof data?.plannedEndDate === 'string'
         ? new Date(data?.plannedEndDate)
         : null,
     plannedEndTime:
@@ -83,10 +76,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
         : null,
     plannedEffort: data?.plannedEffort ?? '',
     associatesAssets: !!data?.associateAssets?.length
-      ? data?.associateAssets?.map((asset: any) => ({
-          name: asset?.displayName ?? asset,
-          _id: asset?._id ?? asset,
-        }))
+      ? data?.associateAssetsDetails
       : [],
     attachFile: null,
   };
@@ -173,6 +163,7 @@ export const upsertTicketFormFieldsDynamic = (
       required: true,
       placeholder: 'Choose Priority',
       options: ticketPriorityOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -195,6 +186,7 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose Source',
       options: ticketSourceOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -206,6 +198,7 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose Impact',
       options: ticketImpactOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -263,6 +256,7 @@ export const upsertTicketFormFieldsDynamic = (
       name: 'plannedEndTime',
       label: '\u00a0\u00a0',
       fullWidth: true,
+      textFieldProps: { readOnly: true },
     },
     component: RHFTimePicker,
     md: 4.5,

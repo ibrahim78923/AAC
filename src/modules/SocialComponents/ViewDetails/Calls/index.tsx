@@ -8,13 +8,13 @@ import { isNullOrEmpty } from '@/utils';
 import useCalls from './useCalls';
 
 import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
-import { callsDetails, callsStatusColor, columns } from './Calls.data';
+import { callsStatusColor, columns } from './Calls.data';
 
 import { PlusIcon, ViewCallIcon } from '@/assets/icons';
 
 import { styles } from './Calls.style';
 
-const Calls = () => {
+const Calls = ({ companyId }: any) => {
   const {
     openDrawer,
     setOpenDrawer,
@@ -24,7 +24,16 @@ const Calls = () => {
     isError,
     setPageLimit,
     setPage,
-  } = useCalls();
+    handleCheckboxChange,
+    setSelectedCheckboxes,
+    selectedCheckboxes,
+    deleteCallsHandler,
+    openAlertModal,
+    setOpenAlertModal,
+    WidgetData,
+  } = useCalls({ companyId });
+
+  const getColumns = columns({ handleCheckboxChange, selectedCheckboxes });
 
   return (
     <Box
@@ -35,7 +44,7 @@ const Calls = () => {
       }}
     >
       <Grid container spacing={3} sx={{ marginBottom: '25px' }}>
-        {Object?.entries(callsDetails).map(([key, value]) => (
+        {Object?.entries(WidgetData).map(([key, value]) => (
           <Grid item md={4} xs={12} key={key}>
             <Box sx={styles?.callStatusBox(callsStatusColor, key)}>
               <Typography variant="body2">{key}</Typography>
@@ -57,7 +66,13 @@ const Calls = () => {
                   alignItems: 'center',
                 }}
               >
-                <CallsActionDropdown setOpenDrawer={setOpenDrawer} />
+                <CallsActionDropdown
+                  setOpenDrawer={setOpenDrawer}
+                  selectedCheckboxes={selectedCheckboxes}
+                  deleteCallsHandler={deleteCallsHandler}
+                  openAlertModal={openAlertModal}
+                  setOpenAlertModal={setOpenAlertModal}
+                />
                 <Button
                   variant="contained"
                   sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
@@ -89,11 +104,11 @@ const Calls = () => {
             </Box>
           </Grid>
         )}
-        {!isNullOrEmpty(TasksTableData) && (
+        {!isNullOrEmpty(TasksTableData) && !isError && (
           <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
             <TanstackTable
-              columns={columns}
-              data={CompanyCalls}
+              columns={getColumns}
+              data={CompanyCalls?.data?.schedulecalls}
               isLoading={isLoading}
               setPage={setPage}
               setPageLimit={setPageLimit}
@@ -110,11 +125,15 @@ const Calls = () => {
           something want worng
         </Typography>
       )}
-
-      <CallsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+      {openDrawer && (
+        <CallsEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          setSelectedCheckboxes={setSelectedCheckboxes}
+          selectedCheckboxes={selectedCheckboxes}
+          companyId={companyId}
+        />
+      )}
     </Box>
   );
 };

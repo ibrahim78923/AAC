@@ -28,7 +28,7 @@ import {
   MessageImage,
   PaidAdsImage,
   PlanManagementImage,
-  PrepaidImage,
+  // PrepaidImage,
   ProfileUserImage,
   ProfileUserManagementImage,
   QuotesImage,
@@ -47,6 +47,7 @@ import {
   AIR_MARKETER,
   AIR_OPERATION,
   LOYALTY_PROGRAM,
+  AIR_SOCIAL,
 } from '@/routesConstants/paths';
 
 type MenuItemI = {
@@ -275,20 +276,20 @@ export const LoyaltyProgramsRoutes: any = [
       },
     ],
   },
-  {
-    key: LOYALTY_PROGRAM?.PREPARED_FUNDS_TRANSACTIONS,
-    label: 'Prepaid',
-    icon: PrepaidImage,
-    role: 'Loyalty-Program',
-    permissions: [],
-    textNames: [
-      {
-        key: LOYALTY_PROGRAM?.PREPARED_FUNDS_TRANSACTIONS,
-        label: 'Funds & Transactions',
-        permissions: [],
-      },
-    ],
-  },
+  // {
+  //   key: LOYALTY_PROGRAM?.PREPARED_FUNDS_TRANSACTIONS,
+  //   label: 'Prepaid',
+  //   icon: PrepaidImage,
+  //   role: 'Loyalty-Program',
+  //   permissions: [],
+  //   textNames: [
+  //     {
+  //       key: LOYALTY_PROGRAM?.PREPARED_FUNDS_TRANSACTIONS,
+  //       label: 'Funds & Transactions',
+  //       permissions: [],
+  //     },
+  //   ],
+  // },
 ];
 
 export const AirMarketingRoutes: any = [
@@ -527,7 +528,7 @@ export const SalesRoutes: any = [
 
 export const LowerSuperAdminRoutes = [
   {
-    label: 'Setting',
+    label: 'Settings',
     icon: SettingImage,
     role: 'super-admin',
     key: '/super-admin/settings',
@@ -584,7 +585,7 @@ export const LowerSuperAdminRoutes = [
 
 export const LowerOrgAdminRoutes = [
   {
-    label: 'Setting',
+    label: 'Settings',
     icon: SettingImage,
     role: 'org-admin',
     key: '/org-admin/settings',
@@ -746,7 +747,7 @@ export const QuickLinkData = [
   {
     key: '2',
     icon: ContactImage,
-    path: '',
+    path: AIR_SOCIAL?.CONTACTS,
   },
   {
     key: '3',
@@ -812,4 +813,5 @@ export const zeroPaddingRoutes = [
   '/air-customer-portal',
   '/air-marketer/social-marketing/social-inbox',
   '/air-marketer/social-marketing',
+  '/air-loyalty-program',
 ];

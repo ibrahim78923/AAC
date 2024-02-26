@@ -7,7 +7,7 @@ import {
   MenuItem,
   Select,
 } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import CommonTabs from '@/components/Tabs';
 import Dashboard from './Dashboard';
 import Broadcast from './Broadcast';
@@ -42,7 +42,15 @@ const WhatsAppMarketingComponent = ({
             }}
           >
             <Box>
-              <FormControl fullWidth sx={{ width: '181px' }}>
+              <FormControl
+                fullWidth
+                sx={{
+                  width: '181px',
+                  '& .MuiInputBase-input': {
+                    py: '14px',
+                  },
+                }}
+              >
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -54,7 +62,7 @@ const WhatsAppMarketingComponent = ({
                 </Select>
               </FormControl>
             </Box>
-            <Box>
+            <Box sx={{ height: '52px' }}>
               <EditSmsIcon />
             </Box>
           </Box>

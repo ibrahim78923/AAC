@@ -44,6 +44,7 @@ const BLUE = {
   dark: '#19264a',
   darker: '#162241',
   dull_blue: '#111827',
+  link_blue: '#0072C6',
 };
 const SLATE_BLUE = {
   lighter: '#878d97',
@@ -125,6 +126,19 @@ const CUSTOM_COLORS = {
   custom_shadow: '#6B72801A',
   accordian_color: '#f1f1f17a',
   sliver_grey: '#9D9D9D',
+  light_gray_color: '#D9D9D9',
+  light_green_background: `#F7FCFB`,
+  light_grey_bg: '#e5e7eb4d',
+  cloud_white: '#F9F9F9',
+  whispering_mist_blue: '#EBECF1',
+  light_success: '#47B2631A',
+  light_blue: '#1F305D1A',
+  light_warning: '#FFC20E1A',
+  lighter_blue: '#0AADC71A',
+  light_error: '#FF4A4A1A',
+  navy_blue: '#20315E',
+  lighter_navy_blue: '#1018283d',
+  greenish_blue: '#1018280d',
 };
 const GRAPH = {
   cyan: 'blue',

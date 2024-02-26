@@ -1,7 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useAddAgentLevelsMutation,
   useGetAgentLevelsQuery,
@@ -10,39 +8,38 @@ import {
   agentLevelsFormDefaultValue,
   agentLevelsPointsSchema,
 } from './AgentLevel.data';
+import { useEffect } from 'react';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAgentLevelsPoints = () => {
-  const [addAgentLevelsPoints] = useAddAgentLevelsMutation();
-  const { data: agentLevelsPoints = {} } = useGetAgentLevelsQuery({});
+  const [addAgentLevelsPointsTrigger, addAgentLevelsPointsStatus] =
+    useAddAgentLevelsMutation();
+  const { data, isLoading, isFetching } = useGetAgentLevelsQuery({});
 
   const agentLevelsPointsMethod: any = useForm({
-    defaultValues: agentLevelsFormDefaultValue,
+    defaultValues: agentLevelsFormDefaultValue?.(),
     resolver: yupResolver(agentLevelsPointsSchema),
   });
 
+  const { reset } = agentLevelsPointsMethod;
   const handleSubmit = async (values: any) => {
     try {
-      await addAgentLevelsPoints(values)?.unwrap();
-      enqueueSnackbar('Agent levels points added successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await addAgentLevelsPointsTrigger(values)?.unwrap();
+      successSnackbar('Agent levels points added successfully!');
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
-
-  const handleSetValues = () => {
-    Object?.entries(agentLevelsPoints)?.map(
-      ([key, value]) => agentLevelsPointsMethod?.setValue(key, value),
-    );
-  };
+  useEffect(() => {
+    reset(() => agentLevelsFormDefaultValue(data?.data?.[0]));
+  }, [data, reset]);
 
   return {
     agentLevelsPointsMethod,
     handleSubmit,
-    agentLevelsPoints,
-    handleSetValues,
+    data,
+    isLoading,
+    isFetching,
+    addAgentLevelsPointsStatus,
   };
 };

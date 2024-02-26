@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -21,7 +20,9 @@ export const AlertModals = ({
   cancelBtnText = 'No',
   submitBtnText = 'Yes',
   typeImage,
+  disableCancelBtn,
   loading,
+  footer = true,
 }: any) => {
   return (
     <Dialog
@@ -54,24 +55,27 @@ export const AlertModals = ({
           {message}{' '}
         </Typography>
       </DialogContent>
-      <DialogActions
-        sx={{ '&.MuiDialogActions-root': { padding: '1.5rem !important' } }}
-      >
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() => handleCancelBtn?.()}
+      {footer && (
+        <DialogActions
+          sx={{ '&.MuiDialogActions-root': { padding: '1.5rem !important' } }}
         >
-          {cancelBtnText}
-        </Button>
-        <LoadingButton
-          loading={loading}
-          variant="contained"
-          onClick={handleSubmitBtn}
-        >
-          {submitBtnText}
-        </LoadingButton>
-      </DialogActions>
+          <LoadingButton
+            variant="outlined"
+            color="secondary"
+            onClick={() => handleCancelBtn?.()}
+            disabled={disableCancelBtn}
+          >
+            {cancelBtnText}
+          </LoadingButton>
+          <LoadingButton
+            variant="contained"
+            onClick={handleSubmitBtn}
+            loading={loading}
+          >
+            {submitBtnText}
+          </LoadingButton>
+        </DialogActions>
+      )}
     </Dialog>
   );
 };

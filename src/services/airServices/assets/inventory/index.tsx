@@ -1,9 +1,12 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+import { transformResponse } from '@/utils/api';
 
 const TAG = 'ASSETS_INVENTORY';
+const TAG_TWO = 'DROPDOWN_ASSET_TYPE_LIST';
+const TAG_FOUR = 'DROPDOWN_DEPARTMENT';
 
-export const inventoryAPI: any = baseAPI?.injectEndpoints({
+export const inventoryAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getInventory: builder?.query({
       query: (apiDataParameter: any) => ({
@@ -50,6 +53,63 @@ export const inventoryAPI: any = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getAssetType: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_ASSET_TYPE_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => transformResponse(response),
+      providesTags: [TAG_TWO],
+    }),
+    getDepartmentDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.departments;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getLocationsDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_LOCATION}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getUsersDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getAddToInventoryById: builder?.query({
+      query: (getSingleAddToInventoryParameter: any) => ({
+        url: `${END_POINTS?.ASSETS_INVENTORY_DETAIL}/${getSingleAddToInventoryParameter?.pathParam?.inventoryId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
+    patchAddToInventory: builder?.mutation({
+      query: (putAddToInventoryParameter: any) => ({
+        url: `${END_POINTS?.ASSETS_EDIT_INVENTORY}`,
+        method: 'PATCH',
+        body: putAddToInventoryParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -57,9 +117,13 @@ export const {
   usePostInventoryMutation,
   useGetInventoryQuery,
   useDeleteInventoryMutation,
-  useGetInventoryByIdQuery,
   usePutInventoryMutation,
   useLazyGetInventoryQuery,
   useLazyGetExportInventoryQuery,
-  usePatchBulkUpdateInventoryMutation,
+  useLazyGetAssetTypeQuery,
+  useLazyGetUsersDropdownQuery,
+  useLazyGetDepartmentDropdownQuery,
+  useLazyGetLocationsDropdownQuery,
+  usePatchAddToInventoryMutation,
+  useGetAddToInventoryByIdQuery,
 } = inventoryAPI;

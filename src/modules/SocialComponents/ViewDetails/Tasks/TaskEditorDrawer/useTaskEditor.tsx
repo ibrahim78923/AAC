@@ -35,7 +35,7 @@ const useTaskEditor = ({
           priority,
           note,
           createTime,
-          NotifyBefore,
+          reminder,
         } = editCheckBoxes;
         return {
           name,
@@ -45,7 +45,7 @@ const useTaskEditor = ({
           priority,
           note,
           createTime: new Date(createTime),
-          NotifyBefore,
+          reminder,
         };
       }
       return dealsTasksDefaultValues;
@@ -63,9 +63,12 @@ const useTaskEditor = ({
     const body = {
       dueDate: DueDate,
       time: CreateTime,
-      recordId: companyId,
       ...rest,
     };
+
+    if (openDrawer !== 'Edit') {
+      body.companiesIds = [companyId];
+    }
 
     try {
       openDrawer === 'Edit'

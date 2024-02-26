@@ -57,7 +57,7 @@ export const useAddNewVendor = (props: any) => {
       });
     }
 
-    setIsADrawerOpen(false);
+    handleClose?.();
   };
 
   const submitUpdateNewVendor = async (data: any) => {
@@ -78,7 +78,7 @@ export const useAddNewVendor = (props: any) => {
         patchNewVendorParameter,
       )?.unwrap();
       enqueueSnackbar(
-        response?.data?.message ?? 'NewVendor Updated Successfully!',
+        response?.data?.message ?? 'Vendor Updated Successfully!',
         {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         },
@@ -90,7 +90,10 @@ export const useAddNewVendor = (props: any) => {
     }
     setIsADrawerOpen(false);
   };
-
+  const handleClose = () => {
+    setIsADrawerOpen?.(false);
+    reset?.();
+  };
   return {
     methodsNewVendor,
     newVendorValidationSchema,
@@ -99,5 +102,6 @@ export const useAddNewVendor = (props: any) => {
     onSubmit,
     submitUpdateNewVendor,
     isLoading,
+    handleClose,
   };
 };

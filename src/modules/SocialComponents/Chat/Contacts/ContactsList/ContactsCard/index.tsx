@@ -11,6 +11,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { UserDefault } from '@/assets/images';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
+  setActiveChat,
   setActiveChatId,
   setActiveConversation,
   setActiveParticipant,
@@ -43,10 +44,14 @@ const ContactsCard = ({
   const currentUserIndex = cardData?.item?.participants?.findIndex(
     (participant: any) => participant?._id === currentUserId,
   );
-
   const filteredParticipants = cardData?.item?.participants?.filter(
     (participant: any) => participant?._id !== currentUserId,
   );
+
+  const chatMode = useAppSelector(
+    (state) => state?.chat?.chatModeState?.chatModeState,
+  );
+  const constIsModeGroup = chatMode === 'groupChat';
 
   const handleChatSelect = (_id: string) => {
     if (selectedValues.includes(_id)) {
@@ -71,7 +76,6 @@ const ContactsCard = ({
       enqueueSnackbar('successfully', {
         variant: 'success',
       });
-
       dispatch(
         setChatContacts({
           ...cardData?.item,
@@ -85,10 +89,10 @@ const ContactsCard = ({
       });
     }
   };
-
   const handleCurrentUserSelect = () => {
     dispatch(setChatMessages([])),
       dispatch(setActiveChatId(cardData?.item?._id)),
+      dispatch(setActiveChat(cardData?.item)),
       dispatch(
         setActiveReceiverId(
           cardData?.item?.participants
@@ -99,8 +103,12 @@ const ContactsCard = ({
       dispatch(setActiveConversation(cardData?.item)),
       dispatch(
         setActiveParticipant({
-          firstName: filteredParticipants[0]?.firstName,
-          lastName: filteredParticipants[0]?.lastName,
+          firstName: constIsModeGroup
+            ? cardData?.item?.groupName
+            : filteredParticipants[0]?.firstName,
+          lastName: constIsModeGroup ? '' : filteredParticipants[0]?.lastName,
+          email: constIsModeGroup ? '' : filteredParticipants[0]?.email,
+          phone: constIsModeGroup ? '' : filteredParticipants[0]?.phoneNumber,
         }),
       );
   };
@@ -127,11 +135,11 @@ const ContactsCard = ({
       ? activeConversation?.conversationId
       : null,
   );
-
   return (
     <>
       <Box
         sx={styles?.contactsCardMain(isCardHover, theme, isActiveUser)}
+        style={{ position: 'relative' }}
         onMouseOver={() => setIsCardHover(true)}
         onMouseLeave={() => setIsCardHover(false)}
       >
@@ -147,7 +155,7 @@ const ContactsCard = ({
             }
           />
         )}
-        <Box sx={{ width: '100%' }}>
+        <Box style={{ width: '100%' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Box
               sx={{
@@ -170,41 +178,56 @@ const ContactsCard = ({
                   variant="h6"
                   sx={{ fontWeight: '600', whiteSpace: 'nowrap' }}
                 >
-                  {filteredParticipants[0]?.firstName}&nbsp;
-                  {filteredParticipants[0]?.lastName}
+                  {chatMode === 'groupChat' ? (
+                    <>{cardData?.item?.groupName}</>
+                  ) : (
+                    <>
+                      {filteredParticipants[0]?.firstName}&nbsp;
+                      {filteredParticipants[0]?.lastName}
+                    </>
+                  )}
                 </Typography>
               </Box>
+              {cardData?.item?.unReadMessagesCount > 0 && (
+                <Box sx={styles?.chatNotification}>
+                  {cardData?.item?.unReadMessagesCount}
+                </Box>
+              )}
             </Box>
             <Box
               sx={{
                 display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
+                gap: '10px',
+                position: 'absolute',
+                right: '10px',
               }}
             >
-              <Box></Box>
-
-              <Box sx={{ display: 'flex', gap: '10px' }}>
-                {isCardHover && (
-                  <Box onClick={() => setIsDeleteModal(true)}>
-                    <DeleteIcon />
-                  </Box>
-                )}
-                {cardData?.item?.isPinned ? (
-                  <Box onClick={() => updateChatHandler('isPinned')}>
-                    <PinIcon color={theme?.palette?.warning?.main} />
-                  </Box>
-                ) : (
-                  <>
-                    {isCardHover && (
-                      <Box onClick={() => updateChatHandler('isPinned')}>
-                        <PinIcon color={theme?.palette?.custom?.main} />
-                      </Box>
-                    )}
-                  </>
-                )}
-              </Box>
+              {isCardHover && (
+                <Box
+                  onClick={() => setIsDeleteModal(true)}
+                  sx={{ cursor: 'pointer' }}
+                >
+                  <DeleteIcon />
+                </Box>
+              )}
+              {cardData?.item?.isPinned ? (
+                <Box
+                  onClick={() => updateChatHandler('isPinned')}
+                  sx={{ cursor: 'pointer' }}
+                >
+                  <PinIcon color={theme?.palette?.warning?.main} />
+                </Box>
+              ) : (
+                <>
+                  {isCardHover && (
+                    <Box onClick={() => updateChatHandler('isPinned')}>
+                      <PinIcon color={theme?.palette?.custom?.main} />
+                    </Box>
+                  )}
+                </>
+              )}
             </Box>
+            {/* </Box> */}
           </Box>
           <Box
             sx={{

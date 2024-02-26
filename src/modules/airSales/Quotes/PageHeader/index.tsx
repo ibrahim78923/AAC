@@ -1,4 +1,4 @@
-import { Box, Button, Typography, Stack } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { AddCircleSmallIcon, DownloadIcon } from '@/assets/icons';
 import { styles } from './PageHeader.style';
@@ -11,7 +11,14 @@ const PageHeader = () => {
       <Typography variant="h4" sx={styles?.pageHeaderTitle}>
         Quotes
       </Typography>
-      <Stack direction="row" spacing={'12px'}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '8px',
+          width: { xs: '100%', md: 'auto', lg: 'auto' },
+        }}
+      >
         <Button
           className="small"
           sx={styles?.actionButton}
@@ -25,10 +32,19 @@ const PageHeader = () => {
           color="primary"
           startIcon={<AddCircleSmallIcon />}
           onClick={() => router?.push(AIR_SALES?.CREATE_QUOTES)}
+          sx={{
+            width: { xs: '100%', sm: 'fit-Content' },
+            marginTop: {
+              xs: '15px !important',
+              sm: '0px !important',
+              md: '0px !important',
+            },
+            marginLeft: { xs: '0px !important', sm: '15px !important' },
+          }}
         >
           Create Quote
         </Button>
-      </Stack>
+      </Box>
     </Box>
   );
 };

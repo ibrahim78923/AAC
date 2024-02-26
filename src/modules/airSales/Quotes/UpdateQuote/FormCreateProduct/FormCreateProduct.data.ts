@@ -1,7 +1,7 @@
 import {
   RHFTextField,
   RHFSelect,
-  RHFRadioGroup,
+  // RHFRadioGroup,
   RHFEditor,
   RHFCheckbox,
 } from '@/components/ReactHookForm';
@@ -25,22 +25,10 @@ export const initValues = {
 
 export const addContactFields = [
   {
-    id: 'productType',
-    component: RHFRadioGroup,
-    componentProps: {
-      name: 'productType',
-      fullWidth: true,
-      options: [
-        { value: 'Custom Line Item', label: 'Custom Line Item' },
-        { value: 'Existing Products', label: 'Existing Products' },
-      ],
-    },
-  },
-  {
     id: 'productName',
     component: RHFTextField,
     componentProps: {
-      name: 'productName',
+      name: 'name',
       label: 'Product Name',
       placeholder: 'Enter here',
       required: 'true',
@@ -50,7 +38,7 @@ export const addContactFields = [
     id: 'SKU',
     component: RHFTextField,
     componentProps: {
-      name: 'SKU',
+      name: 'sku',
       label: 'SKU',
       placeholder: 'Enter here',
     },
@@ -67,7 +55,7 @@ export const addContactFields = [
     },
     options: [
       { value: 'Inventory', label: 'Inventory' },
-      { value: 'Non-Inventory', label: 'Non-Inventory' },
+      { value: 'Non_Inventory', label: 'Non_Inventory' },
       { value: 'Service', label: 'Service' },
     ],
   },
@@ -83,7 +71,7 @@ export const addContactFields = [
     id: 'isActiveProduct',
     component: RHFCheckbox,
     componentProps: {
-      name: 'isActiveProduct',
+      name: 'isActive',
       label: 'Active Product',
     },
   },

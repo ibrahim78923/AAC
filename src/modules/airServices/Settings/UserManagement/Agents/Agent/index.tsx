@@ -14,7 +14,6 @@ const Agent = () => {
     agentListsColumns,
     dropdownOptions,
     setSearchValue,
-    searchValue,
     deleteAgentProps,
     handleOpenDrawer,
     isAgentFilterDrawerOpen,
@@ -32,6 +31,7 @@ const Agent = () => {
     pageLimit,
     metaData,
     setSelectedAgentList,
+    setFilterAgentData,
   } = useAgent();
   return (
     <>
@@ -43,13 +43,7 @@ const Agent = () => {
         gap={1.5}
       >
         <Box>
-          <Search
-            value={searchValue}
-            label="search"
-            width="100%"
-            setSearchBy={setSearchValue}
-            onChange={(e: any) => setSearchValue(e?.target?.value)}
-          />
+          <Search label="Search Here" setSearchBy={setSearchValue} />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
           <Button
@@ -109,6 +103,7 @@ const Agent = () => {
       <AgentFilter
         isAgentFilterDrawerOpen={isAgentFilterDrawerOpen}
         setAgentFilterDrawerOpen={setAgentFilterDrawerOpen}
+        setFilterAgentData={setFilterAgentData}
       />
     </>
   );

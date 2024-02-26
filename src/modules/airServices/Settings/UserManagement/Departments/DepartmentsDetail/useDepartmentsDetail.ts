@@ -1,66 +1,131 @@
-import { useState } from 'react';
-import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
+import { useEffect, useState } from 'react';
+import { useMediaQuery, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { PAGINATION } from '@/config';
+import {
+  useDeleteDepartmentMutation,
+  useLazyGetDepartmentQuery,
+  useLazyGetUsersDropdownListQuery,
+  useUpdateDepartmentMutation,
+} from '@/services/airServices/settings/user-management/departments';
 import {
   departmentFormValidation,
   departmentFormValues,
 } from '../DepartmentsFormModal/DepartmentsFormModal.data';
-import { useGetDepartmentQuery } from '@/services/airServices/settings/user-management/departments';
 
 export const useDepartmentsDetail = () => {
-  const [actionPop, setActionPop] = useState<HTMLElement | null>(null);
-  const [openDelete, setOpenDelete] = useState<boolean>(false);
-  const [openEdit, setOpenEdit] = useState<boolean>(false);
-  const { data } = useGetDepartmentQuery(null);
-  const departmentData = data?.data?.departments;
-
-  const handleActionClick = (event: React.MouseEvent<HTMLElement>) => {
-    setActionPop(event?.currentTarget);
+  const [openDelete, setOpenDelete] = useState<any>({ item: null, val: false });
+  const [openEdit, setOpenEdit] = useState<any>({ item: null, val: false });
+  const [openAddModal, setOpenAddModal] = useState(false);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState<any>('');
+  const getDepartmentParam = new URLSearchParams();
+  getDepartmentParam?.append('page', page + '');
+  getDepartmentParam?.append('limit', pageLimit + '');
+  getDepartmentParam?.append('search', search);
+  const getDepartmentParameter = {
+    queryParams: getDepartmentParam,
   };
-  const handleActionClose = () => {
-    setActionPop(null);
+  const [lazyGetDepartmentTrigger, lazyGetDepartmentData] =
+    useLazyGetDepartmentQuery();
+  const departmentData = lazyGetDepartmentData?.data?.data?.departments;
+  const departmentMetaData = lazyGetDepartmentData?.data?.data?.meta;
+  const getDepartmentListData = async () => {
+    try {
+      await lazyGetDepartmentTrigger(getDepartmentParameter)?.unwrap();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.error ?? 'An error occurred');
+    }
   };
-  const openAction = Boolean(actionPop);
-  const handleDeleteSubmit = () => {
-    enqueueSnackbar('Department Deleted', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    setOpenDelete(false);
-    setActionPop(null);
-  };
+  useEffect(() => {
+    getDepartmentListData();
+  }, [search, page, pageLimit]);
   const handleDeleteClose = () => {
     setOpenDelete(false);
-    setActionPop(null);
   };
   const editFormMethod = useForm({
     resolver: yupResolver(departmentFormValidation),
-    defaultValues: departmentFormValues,
+    defaultValues: departmentFormValues(openEdit?.item),
   });
   const { handleSubmit, reset } = editFormMethod;
-  const submitEditForm = async () => {
-    enqueueSnackbar('Department Edit Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
+  useEffect(() => {
+    reset(openEdit?.item);
+  }, [openEdit?.val]);
+  const [updateDepartment, { isLoading: updateIsLoading }] =
+    useUpdateDepartmentMutation();
+  const submitEditForm = async (formData: any) => {
+    const modifyData = {
+      id: openEdit?.item?._id,
+      departmenProfilePicture: formData?.departmenProfilePicture,
+      name: formData?.name,
+      departmentHeadId: formData?.departmentHeadId?._id,
+      description: formData?.description,
+      members: formData?.membersListDetails?.map((i: any) => i?._id),
+    };
+    const response: any = await updateDepartment({
+      body: modifyData,
+      id: openEdit?.item?._id,
     });
-    reset();
+    try {
+      successSnackbar(
+        response?.data?.message && 'Department Updated Successfully',
+      );
+      reset();
+      setOpenEdit(false);
+    } catch (error: any) {
+      errorSnackbar(error?.error?.data?.error ?? 'An error');
+    }
   };
-  const formProps = { editFormMethod, submitEditForm, handleSubmit };
+  const submitForm = handleSubmit(submitEditForm);
+  const handleClose = () => {
+    setOpenEdit(false);
+    reset(departmentFormValues(openEdit?.item));
+  };
+  const userList = useLazyGetUsersDropdownListQuery();
+  const [deleteDepartmentTrigger, { isLoading }] =
+    useDeleteDepartmentMutation();
+  const deleteParams = new URLSearchParams();
+  deleteParams?.append('id', openDelete?.item?._id);
+  const handleDeleteSubmit = async () => {
+    try {
+      const response: any = await deleteDepartmentTrigger(deleteParams);
+      successSnackbar(
+        response?.data?.message && 'Department Delete Successfully',
+      );
+      setOpenDelete(false);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message ?? 'An error occurred');
+    }
+  };
   const theme: any = useTheme();
+  const isSmallScreen = useMediaQuery(theme?.breakpoints?.down('sm'));
   return {
     theme,
-    actionPop,
-    handleActionClick,
-    handleActionClose,
-    openAction,
     openDelete,
     setOpenDelete,
     handleDeleteSubmit,
     handleDeleteClose,
     openEdit,
     setOpenEdit,
-    formProps,
+    submitForm,
     departmentData,
+    search,
+    setSearch,
+    departmentMetaData,
+    pageLimit,
+    setPageLimit,
+    page,
+    setPage,
+    openAddModal,
+    setOpenAddModal,
+    userList,
+    editFormMethod,
+    handleClose,
+    isSmallScreen,
+    isLoading,
+    updateIsLoading,
   };
 };

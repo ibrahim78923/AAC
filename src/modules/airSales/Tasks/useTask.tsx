@@ -10,10 +10,13 @@ import { PAGINATION } from '@/config';
 import { useState } from 'react';
 
 export const useTask = () => {
-  const [toggler, setToggler] = React.useState<string>('listView');
+  const [toggler, setToggler] = useState<string>('listView');
   const handleToggler = (value: string) => setToggler(value);
+  const [activeStep, setActiveStep] = useState(0);
 
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [tabsValue, setTabsValue] = useState('');
+  const [assignTo, setAssignTo] = useState('');
+
   const handleNextStep = () =>
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   const handleBackStep = () =>
@@ -58,8 +61,17 @@ export const useTask = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
-  const { data: taskData, isLoading } = useGetTasksQuery({
-    params: { page: page, limit: pageLimit },
+  const {
+    data: taskData,
+    isLoading,
+    status,
+  } = useGetTasksQuery({
+    params: {
+      page: page,
+      limit: pageLimit,
+      ...(tabsValue && { status: tabsValue }),
+      ...(assignTo && { assignTo: assignTo }),
+    },
   });
 
   return {
@@ -87,5 +99,9 @@ export const useTask = () => {
     pageLimit,
     setPageLimit,
     isLoading,
+
+    setTabsValue,
+    setAssignTo,
+    status,
   };
 };

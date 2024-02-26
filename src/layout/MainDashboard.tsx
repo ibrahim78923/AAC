@@ -24,11 +24,12 @@ import Header from './Header';
 
 import {
   setChangeChat,
+  setChatContacts,
   setChatMessages,
   setSocketConnection,
   setTypingUserData,
 } from '@/redux/slices/chat/slice';
-import { useAppDispatch } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { getSession, isNullOrEmpty } from '@/utils';
 
 import { getLowerRoutes, getRoutes, zeroPaddingRoutes } from './Layout.data';
@@ -45,6 +46,8 @@ import useAuth from '@/hooks/useAuth';
 
 import * as io from 'socket.io-client';
 import { styles } from './Layout.style';
+import { enqueueSnackbar } from 'notistack';
+import { CHAT_SOCKETS } from '@/routesConstants/paths';
 
 const drawerWidth = 230;
 
@@ -94,7 +97,7 @@ const DashboardLayout = ({ children, window }: any) => {
   };
 
   const findEmail: any = findRoleByEmail({ user, array });
-  const findEmailRole = findEmail ? findEmail?.role : 'ORG_ADMIN';
+  const findEmailRole = findEmail ? findEmail?.role : 'AIR_SERVICES';
 
   const routes = getRoutes(findEmailRole);
 
@@ -260,7 +263,14 @@ const DashboardLayout = ({ children, window }: any) => {
                                 }}
                               />
                             </ListItemIcon>
-                            {link?.label}
+                            <Typography
+                              fontSize={14}
+                              fontWeight={
+                                routerPathName === pathNameKey ? '500' : '400'
+                              }
+                            >
+                              {link?.label}
+                            </Typography>
                           </ListItemButton>
                         </ListItem>
                       </Link>
@@ -309,12 +319,21 @@ const DashboardLayout = ({ children, window }: any) => {
                               />
                             </ListItemIcon>
 
-                            {link.label}
+                            <Typography
+                              fontWeight={
+                                routerPathName === lowerPathNameKey ||
+                                dropDownOpen[link?.key]
+                                  ? '500'
+                                  : '400'
+                              }
+                            >
+                              {link?.label}
+                            </Typography>
                             <Box sx={{ paddingLeft: '20px' }}>
                               <Image
                                 src={
                                   routerPathName === lowerPathNameKey ||
-                                  dropDownOpen[link.key]
+                                  dropDownOpen[link?.key]
                                     ? ArrowUpImage
                                     : ArrowDownImage
                                 }
@@ -358,7 +377,9 @@ const DashboardLayout = ({ children, window }: any) => {
                           <ListItemButton
                             sx={styles?.mainNavLink(link, router, theme)}
                           >
-                            <ListItemIcon sx={{ minWidth: 20 }}>
+                            <ListItemIcon
+                              sx={{ minWidth: 20, marginRight: '10px' }}
+                            >
                               <Image
                                 src={link?.icon}
                                 alt={link?.icon}
@@ -384,7 +405,9 @@ const DashboardLayout = ({ children, window }: any) => {
                       <ListItemButton
                         sx={styles?.mainNavLink(link, router, theme)}
                       >
-                        <ListItemIcon sx={{ minWidth: 20 }}>
+                        <ListItemIcon
+                          sx={{ minWidth: 20, marginRight: '10px' }}
+                        >
                           <Image
                             src={LogoutImage}
                             alt={'LogoutImage'}
@@ -393,7 +416,10 @@ const DashboardLayout = ({ children, window }: any) => {
                             }}
                           />
                         </ListItemIcon>
-                        Logout
+                        <Typography fontWeight={500} fontSize={14}>
+                          {' '}
+                          Logout
+                        </Typography>
                       </ListItemButton>
                     </ListItem>
                   </div>
@@ -414,48 +440,82 @@ const DashboardLayout = ({ children, window }: any) => {
     accessToken,
   }: { accessToken: string; refreshToken: string; user: any } = getSession();
 
+  const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
+  const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
+
   const [socket, setSocket] = useState<any>();
   useEffect(() => {
-    if (!socket) {
-      const res: any = io.connect(`${process.env.NEXT_PUBLIC_BASE_URL}`, {
-        auth: (cb) => {
-          cb({
-            accessToken: accessToken,
-          });
-        },
-        extraHeaders: {
-          'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
-        },
+    try {
+      if (!socket) {
+        const res: any = io.connect(`${process?.env?.NEXT_PUBLIC_BASE_URL}`, {
+          auth: (cb) => {
+            cb({
+              accessToken: accessToken,
+            });
+          },
+          extraHeaders: {
+            'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
+          },
+        });
+
+        setSocket(res);
+        dispatch(setSocketConnection({ isConnected: true, socket: res }));
+      }
+    } catch (err: any) {
+      enqueueSnackbar(err?.message, {
+        variant: 'error',
       });
-      setSocket(res);
-      dispatch(setSocketConnection({ isConnected: true, socket: res }));
     }
-  }, []);
+  }, [socket]);
 
   if (socket) {
-    socket.on('on-status-change', () => {});
-    socket.on('add-message', () => {});
-    socket.on('on-new-chat', () => {});
-    socket.on('on-message-received', (payload: any) => {
-      if (payload?.data) {
-        dispatch(setChatMessages(payload?.data));
-        dispatch(setChangeChat(payload?.data));
+    socket.on(CHAT_SOCKETS?.ON_STATUS_CHANGE, () => {});
+
+    socket.on(CHAT_SOCKETS?.ON_GROUP_CREATE, (payload: any) => {
+      dispatch(setChatContacts(payload));
+    });
+    socket.on(CHAT_SOCKETS?.ADD_MESSAGE, () => {});
+
+    socket.on(CHAT_SOCKETS?.ON_NEW_CHAT, (payload: any) => {
+      dispatch(setChatContacts(payload));
+    });
+    socket.on(CHAT_SOCKETS?.SOCKET_ERROR_OCCURED, () => {});
+
+    socket.on(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, (payload: any) => {
+      // Show notification badge on new message
+      if (!activeChatId === payload?.data?.chatId) {
+        if (payload?.data) {
+          const currentData = chatContacts.find(
+            (ele: any) => ele?._id === payload?.data?.chatId,
+          );
+          dispatch(
+            setChatContacts({
+              ...currentData,
+              unReadMessagesCount: currentData?.unReadMessagesCount + 1,
+            }),
+          );
+        }
+      }
+      if (activeChatId === payload?.data?.chatId) {
+        if (payload?.data) {
+          dispatch(setChatMessages(payload?.data));
+          dispatch(setChangeChat(payload?.data));
+        }
       }
     });
-    socket.on('update-message', () => {});
-
+    socket.on(CHAT_SOCKETS?.UPDATE_MESSAGE, () => {});
     socket.on('on-message-update', (payload: any) => {
       dispatch(setChatMessages(payload?.data));
     });
 
-    socket.on('on-typing-start', (payload: any) => {
+    socket.on(CHAT_SOCKETS?.ON_TYPING_START, (payload: any) => {
       dispatch(
         setTypingUserData({
           userName: payload?.typingUserName,
         }),
       );
     });
-    socket.on('on-typing-stop', () => {
+    socket.on(CHAT_SOCKETS?.ON_TYPING_STOP, () => {
       dispatch(setTypingUserData({}));
     });
   }

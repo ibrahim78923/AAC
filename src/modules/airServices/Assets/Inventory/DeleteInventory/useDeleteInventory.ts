@@ -1,11 +1,19 @@
 import { useDeleteInventoryMutation } from '@/services/airServices/assets/inventory';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useRouter } from 'next/router';
+import usePath from '@/hooks/usePath';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDeleteInventory = (props: any) => {
-  const { setDeleteModalOpen, selectedInventoryLists } = props;
-  const [deleteInventoryTrigger] = useDeleteInventoryMutation();
-
+  const {
+    setDeleteModalOpen,
+    selectedInventoryLists,
+    setSelectedInventoryLists,
+    setPage,
+  } = props;
+  const [deleteInventoryTrigger, deleteInventoryStatus] =
+    useDeleteInventoryMutation();
+  const router = useRouter();
+  const { makePath } = usePath();
   const deleteInventory = async () => {
     const deleteParams = new URLSearchParams();
 
@@ -18,28 +26,27 @@ export const useDeleteInventory = (props: any) => {
     };
 
     try {
-      const response: any = await deleteInventoryTrigger(
-        deleteInventoryParameter,
-      )?.unwrap();
-
-      enqueueSnackbar(
-        response?.message ?? 'Selected Inventories Deleted Successfully!',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
-
-      setDeleteModalOpen?.(false);
+      await deleteInventoryTrigger(deleteInventoryParameter)?.unwrap();
+      successSnackbar('Record delete successfully');
+      setSelectedInventoryLists([]);
+      setPage(1);
+      closeTicketsDeleteModal?.();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-
-      setDeleteModalOpen?.(false);
+      errorSnackbar();
+      closeTicketsDeleteModal?.();
     }
   };
-
+  const closeTicketsDeleteModal = () => {
+    router?.push(
+      makePath({
+        path: router?.pathname,
+        skipQueries: ['inventoryListsAction'],
+      }),
+    );
+    setDeleteModalOpen?.(false);
+  };
   return {
     deleteInventory,
+    deleteInventoryStatus,
   };
 };

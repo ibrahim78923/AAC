@@ -39,6 +39,14 @@ export default function CustomizedAccordions() {
               id="panel1d-header"
             >
               <Grid container>
+                {/* <Grid item xs={12} sx={{display:'flex',justifyContent:'space-between'}}>
+                  <Typography variant="h6">
+                    {accordianDescription?.name}
+                  </Typography>
+                  <Typography variant="h6">
+                    {accordianDescription?.description}
+                  </Typography>
+                </Grid> */}
                 <Grid item md={2.4}>
                   <Typography variant="h6">
                     {accordianDescription?.name}

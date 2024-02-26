@@ -3,6 +3,7 @@ import { baseAPI } from '@/services/base-api';
 
 const TAG = 'TASK';
 const TAG_ONE = 'DROPDOWN_DEPARTMENT';
+const TAG_TWO = 'DROPDOWN_AGENT_LIST';
 
 export const taskAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
@@ -30,6 +31,14 @@ export const taskAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    deleteTask: builder.mutation({
+      query: (params: any) => ({
+        url: `${END_POINTS?.TASK}/id`,
+        method: 'DELETE',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
     getDepartmentDropdownList: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
@@ -42,15 +51,14 @@ export const taskAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG_ONE],
     }),
     getAgentsDropdownList: builder?.query({
-      query: ({ params }: any) => ({
+      query: () => ({
         url: `${END_POINTS?.DROPDOWN_AGENTS_LIST}`,
         method: 'GET',
-        params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG_ONE],
+      providesTags: [TAG_TWO],
     }),
   }),
 });
@@ -59,6 +67,7 @@ export const {
   useLazyGetTaskByIdQuery,
   usePatchTaskByIdMutation,
   usePostTaskByIdMutation,
+  useDeleteTaskMutation,
   useLazyGetDepartmentDropdownListQuery,
   useLazyGetAgentsDropdownListQuery,
 } = taskAPI;

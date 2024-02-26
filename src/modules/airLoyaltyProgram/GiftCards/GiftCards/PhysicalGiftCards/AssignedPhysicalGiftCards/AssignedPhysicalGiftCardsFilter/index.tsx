@@ -17,7 +17,7 @@ export const AssignedPhysicalGiftCardsFilter = (props: any) => {
         okText={'Apply'}
         title={'Add Filter'}
         submitHandler={onSubmit}
-        isOk={true}
+        isOk
         cancelText={'cancel'}
         footer
       >
