@@ -434,3 +434,6 @@ export { default as ResetFilterIcon } from './shared/reset-filter-icon';
 export { default as ReplyDoubleArrowIcon } from './shared/reply-doublearrow-icon';
 export { default as AnnoucementIcon } from './shared/annoucement-icon';
 export { default as TimmerIcon } from './shared/timmer-icon';
+export { default as StatusAwayIcon } from './modules/airCallCenter/Settings/GeneralSettings/status-away-icon';
+export { default as StatusInfoIcon } from './modules/airCallCenter/Settings/GeneralSettings/status-info-icon';
+export { default as StatusEditIcon } from './modules/airCallCenter/Settings/GeneralSettings/edit-icon';
