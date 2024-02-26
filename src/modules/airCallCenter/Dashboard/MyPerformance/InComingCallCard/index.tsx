@@ -6,7 +6,7 @@ const InComingCallCard = ({ CallCardArr }: any) => {
   const theme = useTheme<Theme>();
   return (
     <>
-      <Grid container spacing={2} sx={{ marginTop: '1rem' }}>
+      <Grid container spacing={2} sx={{ marginTop: '.5rem' }}>
         {CallCardArr?.map((item) => {
           return (
             <>
