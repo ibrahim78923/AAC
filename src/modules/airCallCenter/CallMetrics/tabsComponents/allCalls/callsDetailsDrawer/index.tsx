@@ -212,7 +212,7 @@ const CallsDetailsDrawer = ({
         {value === 1 || value === 2 || value === 3 ? null : (
           <Box
             sx={{
-              background: '#F6F7F9',
+              background: theme?.palette?.custom?.mid_grey,
               borderRadius: '4px',
               padding: '15px',
               mt: 2,
@@ -232,7 +232,7 @@ const CallsDetailsDrawer = ({
                 },
               }}
             >
-              {timeLineData.map((item: any) => (
+              {timeLineData?.map((item: any) => (
                 <TimelineItem key={uuidv4()}>
                   <TimelineSeparator>
                     <TimelineDot
@@ -280,7 +280,7 @@ const CallsDetailsDrawer = ({
                 >
                   <Box
                     sx={{
-                      borderLeft: '1px solid #E5E7EB',
+                      borderLeft: `1px solid ${theme?.palette?.grey[700]}`,
                       ml: 2,
                       pl: 2,
                       display: 'flex',
@@ -301,7 +301,7 @@ const CallsDetailsDrawer = ({
                 >
                   <Box
                     sx={{
-                      background: '#EBFAF8',
+                      background: theme?.palette?.primary?.light,
                       padding: '18px',
                       borderRadius: '15px',
                     }}
