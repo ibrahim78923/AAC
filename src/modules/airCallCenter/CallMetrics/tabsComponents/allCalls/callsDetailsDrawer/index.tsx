@@ -1,23 +1,62 @@
-import { LeftArrowIcon } from '@/assets/icons';
+import {
+  ArrowBoxedIcon,
+  ExportFilledIcon,
+  LeftArrowIcon,
+} from '@/assets/icons';
 import { CardBGBubbles } from '@/assets/images';
 import CommonDrawer from '@/components/CommonDrawer';
-import { Box, Tab, Tabs, Typography } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+  Tab,
+  Tabs,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import Image from 'next/image';
-import React from 'react';
+import CustomAudioPlayer from './customAudioPlayer';
+import { useState } from 'react';
+import {
+  Timeline,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+  TimelineItem,
+  TimelineSeparator,
+  timelineItemClasses,
+} from '@mui/lab';
+import { networkLogs, timeLineData } from './callsDetailsDrawer.data';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const CallsDetailsDrawer = ({
   isCallDetailsDrawerOpen,
   setIsCallDetailsDrawerOpen,
 }: any) => {
-  const [value, setValue] = React.useState(0);
+  const theme = useTheme();
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const [value, setValue] = useState(0);
+
+  const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event?.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
     <CommonDrawer
-      // isDrawerOpen={true}
       isDrawerOpen={isCallDetailsDrawerOpen}
       onClose={() => setIsCallDetailsDrawerOpen(false)}
       title={'Call Details for john'}
@@ -27,20 +66,6 @@ const CallsDetailsDrawer = ({
       footer={false}
       submitHandler={() => setIsCallDetailsDrawerOpen(false)}
     >
-      {/* <HorizontalTabs
-        tabsDataArray={[
-          'Call Summary',
-          'Call Lifecycle',
-          'Call Transcription',
-          'Network Log',
-        ]}
-      >
-        <>1</>
-        <>2</>
-        <>3</>
-        <>4</>
-      </HorizontalTabs> */}
-
       <Tabs
         value={value}
         onChange={handleChange}
@@ -67,7 +92,7 @@ const CallsDetailsDrawer = ({
       <Box>
         <Box
           sx={{
-            background: '#F6F7F9',
+            background: theme?.palette?.custom?.mid_grey,
             height: '122px',
             borderRadius: '4px',
             padding: '15px',
@@ -93,9 +118,11 @@ const CallsDetailsDrawer = ({
               position: 'relative',
             }}
           >
-            <Typography variant="body4" fontWeight={400}>
-              Incoming call From +12013409847 (Medicines & Pharmacy)
-            </Typography>
+            {value === 2 ? null : (
+              <Typography variant="body4" fontWeight={400}>
+                Incoming call From +12013409847 (Medicines & Pharmacy)
+              </Typography>
+            )}
             <Typography variant="body4" fontWeight={400}>
               07 feb 21,2:15
             </Typography>
@@ -133,16 +160,173 @@ const CallsDetailsDrawer = ({
             </Box>
           </Box>
         </Box>
-
-        <Box
-          sx={{
-            background: '#F6F7F9',
-            height: '122px',
-            borderRadius: '4px',
-            padding: '15px',
-            mt: 2,
-          }}
-        ></Box>
+        {value === 2 || value === 3 ? null : (
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+            <Button
+              variant="contained"
+              id="demo-positioned-button"
+              aria-controls={open ? 'demo-positioned-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
+              startIcon={<ExportFilledIcon />}
+              size="medium"
+            >
+              Export
+            </Button>
+          </Box>
+        )}
+        <Menu
+          id="demo-positioned-menu"
+          aria-labelledby="demo-positioned-button"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+        >
+          <MenuItem key={1}>
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              color={theme?.palette?.grey?.[600]}
+            >
+              CSV
+            </Typography>
+          </MenuItem>
+          <MenuItem
+            key={2}
+            sx={{
+              '&.MuiMenuItem-root': {
+                paddingRight: 4,
+              },
+            }}
+          >
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              color={theme?.palette.grey?.[600]}
+            >
+              Excel
+            </Typography>
+          </MenuItem>
+        </Menu>
+        {value === 1 || value === 2 || value === 3 ? null : (
+          <Box
+            sx={{
+              background: '#F6F7F9',
+              borderRadius: '4px',
+              padding: '15px',
+              mt: 2,
+            }}
+          >
+            <Typography variant="body4">Call Recording/Voicemail</Typography>
+            <CustomAudioPlayer />
+          </Box>
+        )}
+        {value === 3 ? null : (
+          <Box sx={{ maxHeight: '40vh', overflow: 'scroll', mt: 2 }}>
+            <Timeline
+              sx={{
+                [`& .${timelineItemClasses.root}:before`]: {
+                  flex: 0,
+                  padding: 0,
+                },
+              }}
+            >
+              {timeLineData.map((item: any) => (
+                <TimelineItem key={uuidv4()}>
+                  <TimelineSeparator>
+                    <TimelineDot
+                      sx={{ background: theme?.palette?.primary?.main }}
+                    />
+                    <TimelineConnector
+                      sx={{ background: theme?.palette?.primary?.main }}
+                    />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <Box>
+                      <Typography variant="body4" sx={{ fontWeight: '500' }}>
+                        {item?.label}
+                      </Typography>
+                    </Box>
+                    <Typography variant="body4" sx={{ fontWeight: '400' }}>
+                      {item?.content}
+                    </Typography>
+                  </TimelineContent>
+                </TimelineItem>
+              ))}
+            </Timeline>
+          </Box>
+        )}
+        {value === 3 && (
+          <Box sx={{ mt: 2 }}>
+            {networkLogs?.map((item: any) => (
+              <Accordion
+                key={uuidv4()}
+                sx={{
+                  '.css-1sg5mra-MuiButtonBase-root-MuiAccordionSummary-root': {
+                    // backgroundColor: "red",
+                    borderRadius: '8px',
+                    flexDirection: 'row-reverse',
+                    boxShadow: 'rgb(0 0 0 / 7%) -1px 1px 4px 2px',
+                    height: '62px',
+                    mt: 2,
+                  },
+                }}
+              >
+                <AccordionSummary
+                  expandIcon={<ArrowBoxedIcon />}
+                  aria-controls="panel1-content"
+                  id="panel1-header"
+                >
+                  <Box
+                    sx={{
+                      borderLeft: '1px solid #E5E7EB',
+                      ml: 2,
+                      pl: 2,
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                    }}
+                  >
+                    <Typography sx={{ fontWeight: '600' }}>
+                      {item?.title}
+                    </Typography>
+                    <Typography variant="body2">{item?.time}</Typography>
+                  </Box>
+                </AccordionSummary>
+                <AccordionDetails
+                  sx={{
+                    padding: '15px 0px 0px 0px',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      background: '#EBFAF8',
+                      padding: '18px',
+                      borderRadius: '15px',
+                    }}
+                  >
+                    {item?.content?.map((ele: any) => (
+                      <Box sx={{ mb: 1 }} key={uuidv4()}>
+                        <Typography
+                          sx={{
+                            color: theme?.palette?.primary?.main,
+                            fontWeight: '500',
+                          }}
+                        >
+                          {ele?.label}
+                        </Typography>
+                        <Typography sx={{ fontWeight: '500' }}>
+                          {ele?.content}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Box>
+                </AccordionDetails>
+              </Accordion>
+            ))}
+          </Box>
+        )}
       </Box>
     </CommonDrawer>
   );

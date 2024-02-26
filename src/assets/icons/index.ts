@@ -435,3 +435,5 @@ export { default as ReplyDoubleArrowIcon } from './shared/reply-doublearrow-icon
 export { default as AnnoucementIcon } from './shared/annoucement-icon';
 export { default as TimmerIcon } from './shared/timmer-icon';
 export { default as LeftArrowIcon } from './modules/airCallCenter/CallMetrices/left-arrow';
+export { default as ExportFilledIcon } from './shared/export-filled';
+export { default as ArrowBoxedIcon } from './shared/arrow-boxed';
