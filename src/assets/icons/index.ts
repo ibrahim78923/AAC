@@ -59,6 +59,7 @@ export { default as ArrowLeftIcon } from './shared/arrow-left-icon';
 export { default as CheckboxIcon } from './shared/checkbox-icon';
 export { default as CheckboxCheckedIcon } from './shared/checkbox-checked-icon';
 export { default as ExportIcon } from './shared/export-icon';
+export { default as MicIcon } from './shared/mic-icon';
 export { default as ExportShared } from './shared/export-icon';
 export { default as CustomizeIcon } from './shared/customize-icon';
 export { default as ViewDetailAvaterIcon } from './modules/airServices/Tickets/view-detail-avatar-icon';
