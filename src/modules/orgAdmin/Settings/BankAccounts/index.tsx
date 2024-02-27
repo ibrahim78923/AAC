@@ -26,6 +26,7 @@ const BankAccounts = () => {
   const columnsProps = {
     checkedRows: checkedRows,
     setCheckedRows: setCheckedRows,
+    receiversData: receiversData,
   };
 
   return (
@@ -44,15 +45,21 @@ const BankAccounts = () => {
           />
           <Stack direction="row" gap={1}>
             <ActionDropDown
-              setIsOpenAddAccountDrawer={setIsOpenAddAccountDrawer}
               checkedRows={checkedRows}
+              setIsOpenAddAccountDrawer={setIsOpenAddAccountDrawer}
+              isOpenAddAccountDrawer={isOpenAddAccountDrawer}
               setCheckedRows={setCheckedRows}
             />
             <Button
               variant="contained"
               className="small"
               startIcon={<PlusIcon />}
-              onClick={() => setIsOpenAddAccountDrawer(true)}
+              onClick={() =>
+                setIsOpenAddAccountDrawer({
+                  ...isOpenAddAccountDrawer,
+                  isToggle: true,
+                })
+              }
             >
               Add Bank Accounts
             </Button>
@@ -73,8 +80,9 @@ const BankAccounts = () => {
         />
       </Stack>
 
-      {isOpenAddAccountDrawer && (
+      {isOpenAddAccountDrawer?.isToggle && (
         <AddBankAccounts
+          setCheckedRows={setCheckedRows}
           isOpenAddAccountDrawer={isOpenAddAccountDrawer}
           setIsOpenAddAccountDrawer={setIsOpenAddAccountDrawer}
         />

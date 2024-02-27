@@ -53,5 +53,5 @@ export const {
   useDeleteReceiverBankAccountMutation,
   usePostReceiverBankAccountMutation,
   useUpdateReceiverBankAccountMutation,
-  useLazyGetReceiverBankAccountsByIdQuery,
+  useGetReceiverBankAccountsByIdQuery,
 } = receiversBankAccountsAPI;

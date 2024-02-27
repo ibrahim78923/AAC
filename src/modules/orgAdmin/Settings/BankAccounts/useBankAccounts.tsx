@@ -9,11 +9,15 @@ import { receiversBankAccountsAPI } from '@/services/orgAdmin/settings/receivers
 import { PAGINATION } from '@/config';
 
 const useBankAccounts = () => {
+  const [checkedRows, setCheckedRows] = useState<string[]>([]);
   const [selectedValue, setSelectedValue] = useState(null);
-  const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState(false);
+  const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState({
+    isToggle: false,
+    type: 'add',
+    data: [],
+  });
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [searchBy, setSearchBy] = useState();
-  const [checkedRows, setCheckedRows] = useState();
   const [filterValues, setFilterValues] = useState({
     search: '',
   });
@@ -41,8 +45,7 @@ const useBankAccounts = () => {
   const [deleteReceiverBankAccount]: any =
     useDeleteReceiverBankAccountMutation();
   const [postReceiverBankAccount]: any = usePostReceiverBankAccountMutation();
-  // const [updateReceiverBankAccount]: any = useUpdateReceiverBankAccountMutation();
-  // console.log(updateReceiverBankAccount(checkedRows,''))
+
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
   };
@@ -59,9 +62,9 @@ const useBankAccounts = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = (values: any) => {
+    setIsOpenAddAccountDrawer({ ...isOpenAddAccountDrawer, isToggle: false });
     postReceiverBankAccount({ body: values });
     reset();
-    setIsOpenAddAccountDrawer(false);
   };
 
   return {
