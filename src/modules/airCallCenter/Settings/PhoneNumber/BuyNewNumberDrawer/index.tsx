@@ -1,12 +1,10 @@
 import CommonDrawer from '@/components/CommonDrawer';
-import CommonTabs from '@/components/Tabs';
-import LocalNumber from './LocalNumber';
-import TollFreeNumber from './TollFreeNumber';
+import AddNumberForm from './AddNumberForm';
 import useBuyNewNumber from './useBuyNewNumber';
 
 const BuyNewNumberDrawer = (props: any) => {
   const { isBuyNewNumber, setIsBuyNewNumber } = props;
-  const { isNumberDetail } = useBuyNewNumber();
+  const { isNumberDetail, handleNextDetail } = useBuyNewNumber();
 
   return (
     <CommonDrawer
@@ -18,12 +16,10 @@ const BuyNewNumberDrawer = (props: any) => {
       // submitHandler={() => { }}
       footer
     >
-      {!isNumberDetail && (
-        <CommonTabs tabsArray={['Local', 'Toll-Free']}>
-          <LocalNumber />
-          <TollFreeNumber />
-        </CommonTabs>
-      )}
+      <AddNumberForm
+        isNumberDetail={isNumberDetail}
+        handleNextDetail={handleNextDetail}
+      />
     </CommonDrawer>
   );
 };

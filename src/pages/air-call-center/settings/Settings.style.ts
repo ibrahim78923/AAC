@@ -29,6 +29,7 @@ export const styles = {
     },
   }),
   menuItem: (theme: any) => ({
+    borderRadius: '6px',
     px: '8px',
     '& .MuiListItemText-root': {
       '& > span': {
@@ -38,7 +39,20 @@ export const styles = {
     '&:hover': {
       backgroundColor: theme?.palette?.grey[400],
     },
+    '&.open': {
+      backgroundColor: theme?.palette?.grey[400],
+    },
+    '&.selected': {
+      backgroundColor: theme?.palette?.grey[400],
+      '& .MuiListItemText-root': {
+        '& > span': {
+          color: 'secondary.main',
+          fontWeight: '600',
+        },
+      },
+    },
   }),
+
   submenuItem: (theme: any) => ({
     pl: '16px',
     '&:hover': {
@@ -71,6 +85,13 @@ export const styles = {
         borderTop: 'none',
         borderRight: 'none',
         borderRadius: '0 0 0 7px',
+      },
+    },
+    '&.selected': {
+      '& .MuiListItemText-root': {
+        '& > span': {
+          color: theme?.palette?.grey[600],
+        },
       },
     },
   }),
