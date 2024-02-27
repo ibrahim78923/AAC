@@ -9,10 +9,11 @@ import dayjs from 'dayjs';
 import * as Yup from 'yup';
 
 export const validationSchemaReportAnIssueModal = Yup?.object()?.shape({
-  requester: Yup?.string()?.trim()?.required('Required'),
+  requester: Yup?.mixed()?.nullable()?.required('Required'),
   subject: Yup?.string()?.trim()?.required('Required'),
   description: Yup?.string()?.trim()?.required('Required'),
   associatesAssets: Yup?.mixed()?.nullable(),
+  attachFile: Yup?.mixed()?.nullable(),
 });
 
 export const defaultValues = {
@@ -20,19 +21,27 @@ export const defaultValues = {
   subject: '',
   description: '',
   associatesAssets: [],
+  attachFile: null,
 };
 
-export const reportAnIssueModalFormFields = (apiQueryAssociateAsset: any) => [
+export const reportAnIssueModalFormFields = (
+  apiQueryAssociateAsset: any,
+  apiQueryRequester: any,
+) => [
   {
     id: 1,
     componentProps: {
       name: 'requester',
       label: 'Requester',
-      placeholder: 'Enter Name',
       fullWidth: true,
       required: true,
+      apiQuery: apiQueryRequester,
+      externalParams: { limit: 50, role: 'ORG_REQUESTER' },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
+      placeholder: 'Add Requester',
     },
-    component: RHFTextField,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
@@ -62,7 +71,7 @@ export const reportAnIssueModalFormFields = (apiQueryAssociateAsset: any) => [
     md: 12,
   },
   {
-    id: 16,
+    id: 4,
     componentProps: {
       name: 'associatesAssets',
       label: 'Associate Assets',
@@ -96,13 +105,18 @@ export const reportAnIssueModalFormFields = (apiQueryAssociateAsset: any) => [
       placeholder: 'Choose Assets',
     },
     component: RHFAutocompleteAsync,
+    md: 12,
   },
   {
+    id: 5,
     componentProps: {
       name: 'attachFile',
-      label: 'Attach File',
       fullWidth: true,
-      fileType: 'Upload any file',
+      fileType: 'PNG or JPG  (max 2.44 MB)',
+      maxSize: 1024 * 1024 * 2.44,
+      accept: {
+        'image/*': ['.png', '.jpg'],
+      },
     },
     component: RHFDropZone,
     md: 12,

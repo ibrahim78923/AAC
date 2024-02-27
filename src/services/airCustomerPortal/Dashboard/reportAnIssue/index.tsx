@@ -4,15 +4,15 @@ import { baseAPI } from '@/services/base-api';
 const TAG = 'TICKETS';
 export const reportAnIssue = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    postTickets: builder?.mutation({
-      query: (body: any) => ({
+    postReportAnIssue: builder?.mutation({
+      query: (postReportAnIssueParameter: any) => ({
         url: `${END_POINTS?.TICKET}`,
         method: 'POST',
-        body,
+        body: postReportAnIssueParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
   }),
 });
 
-export const { usePostTicketsMutation } = reportAnIssue;
+export const { usePostReportAnIssueMutation } = reportAnIssue;

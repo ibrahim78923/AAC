@@ -14,15 +14,20 @@ import { styles } from './ReportAnIssueModal.style';
 
 const ReportAnIssueModal = (props: any) => {
   const { openReportAnIssueModal, setOpenReportAnIssueModal } = props;
-  const { methods, handleSubmitIssue, isLoading, apiQueryAssociateAsset } =
-    useReportAnIssueModal(props);
+  const {
+    methods,
+    handleSubmitIssue,
+    isLoading,
+    apiQueryAssociateAsset,
+    apiQueryRequester,
+  } = useReportAnIssueModal(props);
   return (
     <>
       <Dialog
         fullWidth
         sx={styles?.modalSizing}
         open={openReportAnIssueModal}
-        onClose={() => setOpenReportAnIssueModal(false)}
+        onClose={() => setOpenReportAnIssueModal?.(false)}
       >
         <FormProvider methods={methods} onSubmit={handleSubmitIssue}>
           <Box p={2}>
@@ -35,21 +40,22 @@ const ReportAnIssueModal = (props: any) => {
               <Typography variant="h3">Report an issue</Typography>
               <IconButton style={{ cursor: 'pointer' }}>
                 <AlertModalCloseIcon
-                  onClick={() => setOpenReportAnIssueModal(false)}
+                  onClick={() => setOpenReportAnIssueModal?.(false)}
                 />
               </IconButton>
             </Box>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                {reportAnIssueModalFormFields(apiQueryAssociateAsset)?.map(
-                  (item: any) => (
-                    <item.component
-                      {...item?.componentProps}
-                      key={item?.id}
-                      size="small"
-                    />
-                  ),
-                )}
+                {reportAnIssueModalFormFields(
+                  apiQueryAssociateAsset,
+                  apiQueryRequester,
+                )?.map((item: any) => (
+                  <item.component
+                    {...item?.componentProps}
+                    key={item?.id}
+                    size="small"
+                  />
+                ))}
               </Grid>
             </Grid>
             <Box
@@ -62,7 +68,7 @@ const ReportAnIssueModal = (props: any) => {
               <Button
                 variant="outlined"
                 color="secondary"
-                onClick={() => setOpenReportAnIssueModal(false)}
+                onClick={() => setOpenReportAnIssueModal?.(false)}
                 disabled={isLoading}
               >
                 Cancel

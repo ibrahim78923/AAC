@@ -6,43 +6,53 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { useTheme } from '@mui/material';
-import { useLazyGetAssociateAssetsDropdownQuery } from '@/services/airServices/tickets';
+import {
+  useLazyGetAssociateAssetsDropdownQuery,
+  useLazyGetRequesterDropdownQuery,
+} from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { usePostTicketsMutation } from '@/services/airCustomerPortal/Dashboard/reportAnIssue';
+import { usePostReportAnIssueMutation } from '@/services/airCustomerPortal/Dashboard/reportAnIssue';
 
-export const useReportAnIssueModal = () => {
-  // const { setOpenReportAnIssueModal } = props;
+export const useReportAnIssueModal = (props: any) => {
+  const { setOpenReportAnIssueModal } = props;
   const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
   const apiQueryAssociateAsset = useLazyGetAssociateAssetsDropdownQuery();
+  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
   const methods = useForm({
     resolver: yupResolver(validationSchemaReportAnIssueModal),
     defaultValues,
   });
-  const requesterId = '655cca75f9b7f734480e35fd';
-  const { handleSubmit } = methods;
-  const [postTrigger, postProgress] = usePostTicketsMutation();
+  const { handleSubmit, reset } = methods;
+  const [postTrigger, postProgress] = usePostReportAnIssueMutation();
   const isLoading = postProgress?.isLoading;
-  const onSubmit = async (formData: any) => {
+  const onSubmit = async (data: any) => {
+    const reportAnIssueData = new FormData();
+    reportAnIssueData?.append('requester', data?.requester?._id);
+    reportAnIssueData?.append('subject', data?.subject);
+    !!data?.description &&
+      reportAnIssueData?.append('description', data?.description);
+    reportAnIssueData?.append('status', 'OPEN');
+    !!data?.associatesAssets?.length &&
+      reportAnIssueData?.append(
+        'associateAssets',
+        data?.associatesAssets?.map((asset: any) => asset?._id),
+      );
+    reportAnIssueData?.append('moduleType', 'CUSTOMER_PORTAL');
+    reportAnIssueData?.append('ticketType', 'INC');
+    data?.attachFile !== null &&
+      typeof data?.attachFile !== 'string' &&
+      reportAnIssueData?.append('fileUrl', data?.attachFile);
+    const postReportAnIssueParameter = {
+      body: reportAnIssueData,
+    };
     try {
-      await postTrigger({
-        body: {
-          requester: requesterId ?? '',
-          description: formData?.description ?? '',
-          status: formData?.status ?? 'OPEN',
-          subject: formData?.subject ?? '',
-          moduleType: formData?.moduleType ?? 'CUSTOMER_PORTAL',
-          ticketType: formData?.ticketType ?? 'INC',
-          associatesAssets: formData?.associatesAssets?.map(
-            (asset: any) => asset?._id,
-          ),
-        },
-      });
-      successSnackbar('Ticket Added Successfully');
-      // reset();
-      // if (setOpenReportAnIssueModal) {
-      //   setOpenReportAnIssueModal(false);
-      // }
+      await postTrigger(postReportAnIssueParameter)?.unwrap();
+      successSnackbar('Issue Report Successfully');
+      reset();
+      if (setOpenReportAnIssueModal) {
+        setOpenReportAnIssueModal?.(false);
+      }
     } catch (error) {
       errorSnackbar();
     }
@@ -60,5 +70,6 @@ export const useReportAnIssueModal = () => {
     theme,
     isLoading,
     apiQueryAssociateAsset,
+    apiQueryRequester,
   };
 };
