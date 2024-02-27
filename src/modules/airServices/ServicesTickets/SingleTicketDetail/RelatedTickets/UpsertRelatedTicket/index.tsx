@@ -5,7 +5,7 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { useUpsertRelatedTicket } from './useUpsertRelatedTicket';
 
 export const UpsertRelatedTicket = (props: any) => {
-  const { isDrawerOpen } = props;
+  const { isDrawerOpen, childTicketId } = props;
   const {
     handleSubmit,
     submitUpsertTicket,
@@ -13,7 +13,6 @@ export const UpsertRelatedTicket = (props: any) => {
     isFetching,
     onClose,
     isLoading,
-    ticketId,
     upsertTicketFormFields,
     postChildTicketStatus,
     putChildTicketStatus,
@@ -24,8 +23,8 @@ export const UpsertRelatedTicket = (props: any) => {
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
       onClose={() => onClose?.()}
-      okText={!!ticketId ? 'Update' : 'Add Child Ticket'}
-      title={!!ticketId ? 'Edit Child Ticket' : 'Add Child Ticket'}
+      okText={!!childTicketId ? 'Update' : 'Add Child Ticket'}
+      title={!!childTicketId ? 'Edit Child Ticket' : 'Add Child Ticket'}
       submitHandler={() => handleSubmit(submitUpsertTicket)()}
       isOk
       cancelText={'Cancel'}

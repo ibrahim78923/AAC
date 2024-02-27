@@ -5,7 +5,13 @@ import { useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
 export const KnowledgeBaseTicket = (props: any) => {
-  const { policy, modifiedDate, purposeDescription } = props;
+  const {
+    modifiedDate,
+    purposeDescription,
+    articleId,
+    articlesTitle,
+    folderId,
+  } = props;
   const router = useRouter();
 
   return (
@@ -24,8 +30,8 @@ export const KnowledgeBaseTicket = (props: any) => {
           flexDirection={'column'}
           pr={4}
         >
-          <Typography variant="h6">{policy}</Typography>
-          <Typography color="secondary">{modifiedDate}</Typography>
+          <Typography variant="h6">{articlesTitle}</Typography>
+          <Typography color="secondary">Modified on: {modifiedDate}</Typography>
         </Box>
         <Box
           display={'flex'}
@@ -41,6 +47,7 @@ export const KnowledgeBaseTicket = (props: any) => {
         onClick={() =>
           router?.push({
             pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_TICKET_DETAIL,
+            query: { articleId, folderId },
           })
         }
       />

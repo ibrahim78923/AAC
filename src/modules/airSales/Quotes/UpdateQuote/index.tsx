@@ -106,7 +106,7 @@ const UpdateQuote = () => {
                     variant="outlined"
                     sx={styles?.btnBack}
                   >
-                    Preview
+                    Review
                   </Button>
                   <Button onClick={handleOpenDialog} variant="contained">
                     Submit

@@ -1,4 +1,5 @@
 import {
+  TICKET_CATEGORY,
   TICKET_IMPACT,
   TICKET_PRIORITY,
   TICKET_STATUS,
@@ -64,8 +65,17 @@ export const ticketImpactOptions = [
     label: TICKET_IMPACT?.HIGH,
   },
 ];
-
+export const ticketCategoryOptions = [
+  TICKET_CATEGORY?.SOFTWARE,
+  TICKET_CATEGORY?.HARDWARE,
+  TICKET_CATEGORY?.NETWORK,
+  TICKET_CATEGORY?.OFFICE_APPLICATION,
+  TICKET_CATEGORY?.OFFICE_FURNITURE,
+];
 export const ticketTypeOptions = [TICKET_TYPE.INC, TICKET_TYPE.SR];
+export const ticketsSourceOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
+export const ticketImpact = ['LOW', 'MEDIUM', 'HIGH'];
+
 export const ticketSourceOptions = [
   {
     _id: 'PHONE',
@@ -95,13 +105,3 @@ export const ticketsTypeOptions = [
     label: TICKET_TYPES?.SERVICE_REQUEST,
   },
 ];
-
-export const makeDateTime = (date: any, time: any) => {
-  const hour = time?.getHours() ?? date?.getHours();
-  const minutes = time?.getMinutes() ?? date?.getMinutes();
-  const year = date?.getFullYear() ?? time?.getFullYear();
-  const month = date?.getMonth() ?? time?.getMonth();
-  const day = date?.getDate() ?? time?.getDate();
-  const combined: any = new Date(year, month, day, hour, minutes, 0);
-  return combined;
-};

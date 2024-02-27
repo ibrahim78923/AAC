@@ -9,14 +9,13 @@ import {
   useGetTicketsDetailsByIdQuery,
   useLazyGetAgentDropdownQuery,
   usePutTicketsMutation,
-  // useLazyGetTicketsDetailsByIdQuery,
+  useLazyGetCategoriesDropdownQuery,
 } from '@/services/airServices/tickets/single-ticket-details/details';
 
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { makeDateTime } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
+import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
+
 export const useDetailsViewPropertiesSection = () => {
   const router = useRouter();
   const { ticketId } = router?.query;
@@ -27,6 +26,7 @@ export const useDetailsViewPropertiesSection = () => {
       ticketId,
     },
   };
+
   const { data, isLoading, isFetching, isError } =
     useGetTicketsDetailsByIdQuery(getSingleTicketParameter, {
       refetchOnMountOrArgChange: true,
@@ -44,37 +44,33 @@ export const useDetailsViewPropertiesSection = () => {
   const onSubmit = async (data: any) => {
     const ticketDetailsData = new FormData();
     ticketDetailsData?.append('requester', requester);
-    ticketDetailsData.append('status', data?.status);
-    ticketDetailsData.append('pirority', data?.pirority);
-    ticketDetailsData.append('source', data?.source);
+    ticketDetailsData.append('status', data?.status?._id);
+    ticketDetailsData.append('pirority', data?.priority?._id);
+    !!data?.source && ticketDetailsData.append('source', data?.source?._id);
     ticketDetailsData.append('ticketType', data?.ticketType);
-    ticketDetailsData.append('impact', data?.impact);
-    ticketDetailsData.append('agent', data?.agent?._id);
-    ticketDetailsData.append('category', data?.category);
+    !!data?.impact && ticketDetailsData.append('impact', data?.impact?._id);
+    !!data?.agent && ticketDetailsData.append('agent', data?.agent?._id);
+    ticketDetailsData.append('category', data?.category?._id);
     ticketDetailsData?.append('moduleType', 'TICKETS');
 
-    ticketDetailsData.append(
-      'plannedEndDate',
-      makeDateTime(data?.plannedEndDate, data?.plannedEndTime)?.toISOString(),
-    );
+    (!!data?.plannedEndDate || !!data?.plannedEndTime) &&
+      ticketDetailsData?.append(
+        'plannedEndDate',
+        makeDateTime(data?.plannedEndDate, data?.plannedEndTime)?.toISOString(),
+      );
     ticketDetailsData.append('plannedEffort', data?.plannedEffort);
+    ticketDetailsData?.append('isChildTicket', false + '');
+    ticketDetailsData?.append('id', ticketId as string);
 
     const putTicketParameter = {
       body: ticketDetailsData,
-      pathParam: {
-        id: ticketId,
-      },
     };
     try {
-      const response = await putTicketTrigger(putTicketParameter)?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Ticket update Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await putTicketTrigger(putTicketParameter)?.unwrap();
+      successSnackbar(' ticket updated successfully');
       reset();
     } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
 
@@ -83,7 +79,8 @@ export const useDetailsViewPropertiesSection = () => {
   }, [data, reset]);
 
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
-  const ticketDetailsFormFields = dataArray(apiQueryAgent);
+  const apiQueryCategory = useLazyGetCategoriesDropdownQuery();
+  const ticketDetailsFormFields = dataArray(apiQueryAgent, apiQueryCategory);
   return {
     methods,
     handleSubmit,

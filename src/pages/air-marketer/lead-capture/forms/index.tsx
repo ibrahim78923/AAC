@@ -3,11 +3,7 @@ import Forms from '@/modules/airMarketer/LeadCapture/Forms';
 import React from 'react';
 
 const AirMarketerDashboard = () => {
-  return (
-    <div>
-      <Forms />
-    </div>
-  );
+  return <Forms />;
 };
 
 export default AirMarketerDashboard;

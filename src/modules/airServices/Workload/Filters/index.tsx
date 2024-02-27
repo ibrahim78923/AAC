@@ -7,24 +7,12 @@ import {
   Popover,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
 import { FilterSharedIcon } from '@/assets/icons';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import useFilters from './useFilters';
 
-export const Filters = () => {
-  // Popover open
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event?.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+export const Filters = ({ setFilter }: any) => {
+  const { id, handleClick, open, anchorEl, handleClose } = useFilters();
 
   return (
     <>
@@ -67,13 +55,43 @@ export const Filters = () => {
               <Typography>Workload count</Typography>
             </AccordionSummary>
             <AccordionDetails sx={{ py: 0, mt: -1 }}>
-              <Button color={'secondary'} sx={{ fontWeight: 400 }}>
+              <Button
+                color={'secondary'}
+                sx={{ fontWeight: 400 }}
+                onClick={() =>
+                  setFilter({
+                    countDayWise: true,
+                    countDayWiseHours: undefined,
+                    countDayWiseHoursAverage: undefined,
+                  })
+                }
+              >
                 Workload count
               </Button>
-              <Button color={'secondary'} sx={{ fontWeight: 400 }}>
+              <Button
+                color={'secondary'}
+                sx={{ fontWeight: 400 }}
+                onClick={() =>
+                  setFilter({
+                    countDayWise: undefined,
+                    countDayWiseHours: true,
+                    countDayWiseHoursAverage: undefined,
+                  })
+                }
+              >
                 Workload hours
               </Button>
-              <Button color={'secondary'} sx={{ fontWeight: 400 }}>
+              <Button
+                color={'secondary'}
+                sx={{ fontWeight: 400 }}
+                onClick={() =>
+                  setFilter({
+                    countDayWise: undefined,
+                    countDayWiseHours: undefined,
+                    countDayWiseHoursAverage: true,
+                  })
+                }
+              >
                 Workload hours as %
               </Button>
             </AccordionDetails>

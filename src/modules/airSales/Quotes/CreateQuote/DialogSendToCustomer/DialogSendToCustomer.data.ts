@@ -17,6 +17,7 @@ export const formFields = [
       name: 'email',
       label: 'Email',
       placeholder: 'abc@gmail.com , Johndoe@ceative.co.uk',
+      required: true,
     },
   },
 ];

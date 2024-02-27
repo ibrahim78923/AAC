@@ -1,32 +1,53 @@
 import { Box, Typography } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
-import { approvalsData } from './Approvals.data';
 import NoData from '@/components/NoData';
 import ApprovalCard from './ApprovalCard';
-import { NoSearchResultFoundImage } from '@/assets/images';
+import { useApprovals } from './useApprovals';
+import CustomPagination from '@/components/CustomPagination';
+import { PAGINATION } from '@/config';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { fullName } from '@/utils/avatarUtils';
 
 export const Approvals = () => {
+  const { data, isLoading, isFetching, setPage, setPageLimit } = useApprovals();
+
+  if (isLoading || isFetching) return <SkeletonForm />;
+
   return (
-    <Box sx={{ minHeight: '65vh' }}>
-      {approvalsData?.length < 1 ? (
-        <NoData
-          image={NoSearchResultFoundImage}
-          message={'No approval found'}
-        />
+    <Box sx={{ mt: 2 }}>
+      {!!!data?.data?.articles?.length ? (
+        <NoData message={'No approvals found'} />
       ) : (
         <>
-          <Typography variant="h5" fontWeight={500}>
-            Approvals(1)
+          <Typography variant="h5" fontWeight={500} mb={1}>
+            {`Approvals ${
+              !!data?.data?.articles?.length
+                ? `(${data?.data?.articles?.length})`
+                : ''
+            }`}
           </Typography>
-          {approvalsData?.map((approval: any) => (
+          {data?.data?.articles?.map((approval: any) => (
             <ApprovalCard
-              key={uuidv4()}
+              key={approval?._id}
               title={approval?.title}
-              folder={approval?.folder}
-              author={approval?.author}
-              approvalStatus={approval?.approvalStatus}
+              folder={approval?.folder?.name}
+              author={fullName(
+                approval?.author?.firstName,
+                approval?.author?.lastName,
+              )}
             />
           ))}
+          <br />
+          <br />
+          <CustomPagination
+            count={data?.data?.meta?.pages}
+            pageLimit={data?.data?.meta?.limit}
+            rowsPerPageOptions={PAGINATION?.ROWS_PER_PAGE}
+            currentPage={data?.data?.meta?.page}
+            totalRecords={data?.data?.meta?.total}
+            onPageChange={(page: any) => setPage?.(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+          />
         </>
       )}
     </Box>

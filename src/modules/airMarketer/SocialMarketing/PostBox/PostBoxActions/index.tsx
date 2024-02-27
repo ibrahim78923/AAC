@@ -1,13 +1,9 @@
 import { useState } from 'react';
-
 import { Popover, Button, MenuItem, Typography, Box } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
-import { styles } from './ActionBtn.style';
 import Image from 'next/image';
 import { GroupAppAvatarImage } from '@/assets/images';
 import { platFormDropdownData } from './PostActions.data';
-
 import { v4 as uuidv4 } from 'uuid';
 
 const ContactsActions = () => {
@@ -28,8 +24,7 @@ const ContactsActions = () => {
         variant="outlined"
         endIcon={<ArrowDropDownIcon />}
         onClick={handleClick}
-        classes={{ outlined: 'outlined_btn' }}
-        sx={styles?.ActionBtn}
+        className="small"
       >
         <Image src={GroupAppAvatarImage} alt="icon" />
         <Typography>Platfoms</Typography>

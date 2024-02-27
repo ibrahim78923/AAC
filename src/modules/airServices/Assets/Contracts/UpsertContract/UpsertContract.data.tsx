@@ -141,21 +141,28 @@ export const softwareLicense = {
 };
 export const upsertContractFormDefaultValuesFunction = (data?: any) => {
   return {
-    contractName: data?.contractName ?? '',
+    contractName: data?.name ?? '',
     contractNumber: data?.contractNumber ?? '',
-    type: data?.type ?? null,
-    associateAssets: data?.associateAssets ?? null,
+    type: data?.contractType
+      ? { _id: data?.contractType, label: data?.contractType }
+      : null,
+    associateAssets: data?.associatedAsset ?? null,
     cost: data?.cost ?? 0,
-    status: data?.status ?? {
-      _id: CONTRACT_STATUS?.DRAFT,
-      label: 'Draft',
-    },
+    status: data?.status
+      ? {
+          _id: data?.status,
+          label: data?.status,
+        }
+      : {
+          _id: CONTRACT_STATUS?.DRAFT,
+          label: 'Draft',
+        },
     vendor: data?.vendor ?? null,
     approver: data?.approver ?? null,
     startDate: new Date(data?.startDate ?? todayDate),
     endDate: new Date(data?.endDate ?? todayDate),
     autoRenew: data?.autoRenew ?? false,
-    notifyExpiry: data?.notifyExpiry ?? false,
+    notifyExpiry: data?.notifyRenewal ?? false,
     notifyBefore: data?.notifyBefore ?? '',
     notifyTo: data?.notifyTo ?? null,
     itemDetail: !!data?.itemDetail?.length
@@ -180,9 +187,7 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
       then: (schema: any) => schema?.required('Required'),
       otherwise: (schema: any) => schema?.notRequired(),
     }),
-  cost: Yup?.number()
-    ?.typeError('Not a number')
-    ?.moreThan(-1, 'cost must be positive'),
+  cost: Yup?.string(),
   status: Yup?.mixed()?.nullable()?.required('Required'),
   vendor: Yup?.mixed()?.nullable(),
   approver: Yup?.mixed()?.nullable(),
@@ -196,14 +201,14 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
     ?.when('notifyExpiry', {
       is: (value: any) => value,
       then: (schema: any) => schema?.required('Required'),
-      otherwise: (schema) => schema,
+      otherwise: (schema) => schema?.notRequired(),
     }),
   notifyTo: Yup?.mixed()
     ?.nullable()
     ?.when('notifyExpiry', {
       is: (value: any) => value,
       then: (schema: any) => schema?.required('Required'),
-      otherwise: (schema: any) => schema,
+      otherwise: (schema: any) => schema?.notRequired(),
     }),
   software: Yup?.mixed()
     ?.nullable()
@@ -238,7 +243,7 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
     ?.of(
       Yup?.object()?.shape({
         serviceName: Yup?.string(),
-        priceModel: Yup?.string(),
+        priceModel: Yup?.mixed()?.nullable(),
         cost: Yup?.number(),
         count: Yup?.number(),
         comments: Yup?.string(),
@@ -251,7 +256,7 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
           ?.of(
             Yup?.object()?.shape({
               serviceName: Yup?.string()?.required('Required'),
-              priceModel: Yup?.mixed()?.required('Required'),
+              priceModel: Yup?.mixed()?.nullable()?.required('Required'),
               cost: Yup?.number()
                 ?.positive('Greater than zero')
                 ?.typeError('Not a number'),
@@ -274,7 +279,7 @@ export const upsertContractFormFieldsDataFunction = (
   apiQueryAsset: any,
   apiQueryApprover: any,
   apiQuerySoftware: any,
-  isFieldDisable = false,
+  contractId: any,
 ) => [
   {
     id: 1,
@@ -294,7 +299,6 @@ export const upsertContractFormFieldsDataFunction = (
       fullWidth: true,
       name: 'contractName',
       label: 'Contract Name',
-      disabled: isFieldDisable,
       required: true,
     },
   },
@@ -305,9 +309,9 @@ export const upsertContractFormFieldsDataFunction = (
       name: 'type',
       label: 'Type',
       options: contractTypeOptions,
-      disabled: isFieldDisable,
       getOptionLabel: (option: any) => option?.label,
       required: true,
+      disabled: !!contractId,
     },
     md: 6,
     component: RHFAutocomplete,
@@ -349,7 +353,6 @@ export const upsertContractFormFieldsDataFunction = (
       fullWidth: true,
       name: 'cost',
       label: 'Cost (£)',
-      disabled: isFieldDisable,
     },
   },
   {
@@ -360,7 +363,6 @@ export const upsertContractFormFieldsDataFunction = (
       fullWidth: true,
       name: 'approver',
       label: 'Approver',
-      disabled: isFieldDisable,
       apiQuery: apiQueryApprover,
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
@@ -461,7 +463,6 @@ export const upsertContractFormFieldsDataFunction = (
             fullWidth: true,
             name: 'notifyBefore',
             label: 'Notify Before',
-            disabled: isFieldDisable,
             required: true,
           },
         },
@@ -473,7 +474,6 @@ export const upsertContractFormFieldsDataFunction = (
             fullWidth: true,
             name: 'notifyTo',
             label: 'Notify To',
-            disabled: isFieldDisable,
             required: true,
             apiQuery: apiQueryApprover,
             getOptionLabel: (option: any) =>
@@ -482,7 +482,6 @@ export const upsertContractFormFieldsDataFunction = (
         },
       ]
     : []),
-  //TODO: will be cater in integration
   ...(watchForContractType?._id === CONTRACT_TYPES?.SOFTWARE_LICENSE
     ? [
         {
@@ -526,9 +525,8 @@ export const upsertContractFormFieldsDataFunction = (
             fullWidth: true,
             name: 'billingCycle',
             label: 'Billing Cycle',
-            select: true,
+            required: true,
             options: billingCycleOptions,
-            disabled: isFieldDisable,
             getOptionLabel: (option: any) => option?.label,
           },
         },
@@ -550,9 +548,8 @@ export const upsertContractFormFieldsDataFunction = (
             fullWidth: true,
             name: 'licenseType',
             label: 'License Type',
-            select: true,
+            required: true,
             options: licenseTypeOptions,
-            disabled: isFieldDisable,
             getOptionLabel: (option: any) => option?.label,
           },
         },
@@ -564,7 +561,7 @@ export const upsertContractFormFieldsDataFunction = (
             fullWidth: true,
             name: 'licenseKey',
             label: 'License Key',
-            disabled: isFieldDisable,
+            required: true,
           },
         },
       ]

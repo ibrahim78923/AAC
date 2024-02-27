@@ -75,8 +75,8 @@ const UserManagement = () => {
             {tabVal === initialTab
               ? 'Add Company Owner'
               : tabVal === tabOne
-              ? 'Add Super Admin '
-              : 'Add Role'}
+                ? 'Add Super Admin '
+                : 'Add Role'}
           </Button>
         </PermissionsGuard>
       </Box>
@@ -106,7 +106,7 @@ const UserManagement = () => {
                   tabVal={tabVal}
                   setIsOpenAddUserDrawer={setIsOpenAddUserDrawer}
                 />
-                <Tooltip title={'Refresh Filter'}>
+                <Tooltip title="Refresh Filter">
                   <Button
                     variant="outlined"
                     color="inherit"

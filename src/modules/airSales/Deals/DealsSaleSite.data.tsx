@@ -8,6 +8,12 @@ export const dealsColumns: any = (columnsProps: any) => {
   const theme = useTheme();
   const { checkedRows, setCheckedRows, dealsData } = columnsProps;
 
+  // const keyValueObject: any = {};
+
+  // dealColumns?.forEach((key: any, index: any) => {
+  //   keyValueObject[key] = dealColumns[index]; // You can set a default value if needed
+  // });
+
   const handleSelectDealById = (checked: boolean, id: string): void => {
     if (checked) {
       setCheckedRows([...checkedRows, id]);
@@ -15,7 +21,6 @@ export const dealsColumns: any = (columnsProps: any) => {
       setCheckedRows(checkedRows?.filter((_id: any) => _id !== id));
     }
   };
-
   const handleSelectAllDeals = (checked: boolean): void => {
     setCheckedRows(
       checked ? dealsData?.data?.deals?.map(({ _id }: any) => _id) : [],
@@ -51,7 +56,7 @@ export const dealsColumns: any = (columnsProps: any) => {
       accessorFn: (row: any) => row?.dealOwner,
       id: 'name',
       isSortable: true,
-      header: 'Deal Owner',
+      header: 'owner',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '5px' }}>
           <Avatar

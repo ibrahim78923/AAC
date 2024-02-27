@@ -20,7 +20,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const CreatePost = () => {
-  const { router, methods, handleSubmit, onSubmit } = useCreatePost();
+  const { router, methods, handleSubmit, onSubmit, theme } = useCreatePost();
 
   return (
     <Grid container spacing={4}>
@@ -88,20 +88,32 @@ const CreatePost = () => {
                   variant="circular"
                   width={60}
                   height={60}
-                  sx={{ bgcolor: '#EBECF1' }}
+                  sx={{ bgcolor: theme?.palette?.custom?.whispering_mist_blue }}
                 />
               </Box>
               <Box sx={{ marginLeft: '10px' }}>
                 <Skeleton
                   variant="rounded"
-                  sx={{ marginTop: '10px', bgcolor: '#EBECF1' }}
-                  width={200}
+                  sx={{
+                    marginTop: '10px',
+                    bgcolor: theme?.palette?.custom?.whispering_mist_blue,
+                    width: '200px',
+                    '@media (max-width: 500px)': {
+                      width: '90px',
+                    },
+                  }}
                   height={10}
                 />
                 <Skeleton
                   variant="rounded"
-                  sx={{ marginTop: '10px', bgcolor: '#EBECF1' }}
-                  width={94}
+                  sx={{
+                    marginTop: '10px',
+                    bgcolor: theme?.palette?.custom?.whispering_mist_blue,
+                    width: '94px',
+                    '@media (max-width: 500px)': {
+                      width: '60px',
+                    },
+                  }}
                   height={10}
                 />
               </Box>
@@ -109,27 +121,48 @@ const CreatePost = () => {
 
             <Skeleton
               variant="rounded"
-              sx={{ marginTop: '20px', bgcolor: '#EBECF1' }}
-              width={443}
+              sx={{
+                marginTop: '20px',
+                bgcolor: theme?.palette?.custom?.whispering_mist_blue,
+                width: '443px',
+                '@media (max-width: 500px)': {
+                  width: '140px',
+                },
+              }}
               height={10}
             />
             <Skeleton
               variant="rounded"
-              sx={{ marginTop: '10px', bgcolor: '#EBECF1' }}
-              width={348}
+              sx={{
+                marginTop: '10px',
+                bgcolor: theme?.palette?.custom?.whispering_mist_blue,
+                width: '348px',
+                '@media (max-width: 500px)': {
+                  width: '100px',
+                },
+              }}
               height={10}
             />
             <Skeleton
               variant="rounded"
-              sx={{ marginTop: '10px', bgcolor: '#EBECF1' }}
-              width={280}
+              sx={{
+                marginTop: '10px',
+                bgcolor: theme?.palette?.custom?.whispering_mist_blue,
+                width: '280px',
+                '@media (max-width: 500px)': {
+                  width: '70px',
+                },
+              }}
               height={10}
             />
 
             <Skeleton
               variant="rounded"
               height={313}
-              sx={{ marginTop: '25px', bgcolor: '#EBECF1' }}
+              sx={{
+                marginTop: '25px',
+                bgcolor: theme?.palette?.custom?.whispering_mist_blue,
+              }}
             />
           </Box>
 

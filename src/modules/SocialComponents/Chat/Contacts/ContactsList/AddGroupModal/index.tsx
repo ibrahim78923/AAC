@@ -113,6 +113,7 @@ const AddGroupModal = ({
     <CommonModal
       open={isAddGroupModal}
       handleClose={() => setIsAddGroupModal(false)}
+      handleCancel={() => setIsAddGroupModal(false)}
       handleSubmit={handleSubmit(onSubmit)}
       title="Create Group"
       okText="Create Group"
@@ -168,7 +169,7 @@ const AddGroupModal = ({
               <RHFMultiSearchableSelect
                 name="participant"
                 isCheckBox={true}
-                label="Candidates"
+                label="Add Participant"
                 size="small"
                 setValues={setValues}
                 options={participantsDataSelect}

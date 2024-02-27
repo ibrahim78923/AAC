@@ -1,7 +1,7 @@
 import {
   RHFDatePicker,
+  RHFSelect,
   RHFSwitchableDatepicker,
-  RHFTextField,
 } from '@/components/ReactHookForm';
 
 export const FilterData = (
@@ -16,9 +16,11 @@ export const FilterData = (
         name: 'contactOwnerId',
         label: 'Contact Owner',
         select: true,
+        placeholder: 'Select Owner',
       },
+
       options: contactOwners,
-      component: RHFTextField,
+      component: RHFSelect,
     },
     {
       id: 'lifeCycleStageId',
@@ -28,7 +30,7 @@ export const FilterData = (
         select: true,
       },
       options: lifeCycleStages,
-      component: RHFTextField,
+      component: RHFSelect,
     },
     {
       id: 'statusId',
@@ -38,7 +40,7 @@ export const FilterData = (
         select: true,
       },
       options: contactStatuses,
-      component: RHFTextField,
+      component: RHFSelect,
     },
     {
       id: 'createdAt',
@@ -57,7 +59,7 @@ export const FilterData = (
         select: true,
       },
       options: contactOwners,
-      component: RHFTextField,
+      component: RHFSelect,
     },
     {
       id: 'lastActivityDate',

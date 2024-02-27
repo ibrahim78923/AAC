@@ -29,11 +29,12 @@ const AppHorizontalStepper: React.FC<HorizontalStepperI> = ({
   const theme = useTheme();
 
   return (
-    <Box sx={{ width: '100%', margin: stepperMargin }}>
+    <Box sx={{ margin: stepperMargin }}>
       <Stepper
         alternativeLabel
         activeStep={activeStep}
         connector={<CustomConnector />}
+        sx={{ overflowX: 'auto' }}
       >
         {!isNullOrEmpty(stepsArray) &&
           stepsArray?.map((singleStem: SingleStepI, index: any) => (

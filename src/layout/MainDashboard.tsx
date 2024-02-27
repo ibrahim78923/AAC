@@ -96,6 +96,14 @@ const DashboardLayout = ({ children, window }: any) => {
 
   const findEmailRole = product?.name ?? 'Super Admin';
 
+  // const { user }: { user: any } = getSession();
+  // const findRoleByEmail = ({ user, array }: any) => {
+  //   return array?.find((skill: any) => skill?.email === user?.email);
+  // };
+
+  // const findEmail: any = findRoleByEmail({ user, array });
+  // const findEmailRole = findEmail ? findEmail?.role : 'AIR_SERVICES';
+
   const routes = getRoutes(findEmailRole);
 
   const lowerRoutes = getLowerRoutes(findEmailRole);
@@ -410,7 +418,9 @@ const DashboardLayout = ({ children, window }: any) => {
                       <ListItemButton
                         sx={styles?.mainNavLink(link, router, theme)}
                       >
-                        <ListItemIcon sx={{ minWidth: 20 }}>
+                        <ListItemIcon
+                          sx={{ minWidth: 20, marginRight: '10px' }}
+                        >
                           <Image
                             src={LogoutImage}
                             alt={'LogoutImage'}
@@ -419,7 +429,10 @@ const DashboardLayout = ({ children, window }: any) => {
                             }}
                           />
                         </ListItemIcon>
-                        Logout
+                        <Typography fontWeight={500} fontSize={14}>
+                          {' '}
+                          Logout
+                        </Typography>
                       </ListItemButton>
                     </ListItem>
                   </div>

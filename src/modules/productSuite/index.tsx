@@ -16,8 +16,6 @@ import { useTheme } from '@mui/material';
 
 import { ProductSuiteCardData } from './ProductSuite.data';
 
-import useAuth from '@/hooks/useAuth';
-
 import { CompanyLogoIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
 

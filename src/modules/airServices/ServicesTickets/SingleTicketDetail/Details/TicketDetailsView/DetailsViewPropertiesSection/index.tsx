@@ -1,5 +1,5 @@
 import { FormProvider } from '@/components/ReactHookForm';
-import { Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 
 import { useDetailsViewPropertiesSection } from './useDetailsViewPropertiesSection';
 import DetailViewTimeEntries from '../DetailViewTimeEntries';
@@ -39,6 +39,12 @@ const DetailsViewPropertiesSection = () => {
                 ))}
               </Grid>
               <DetailViewTimeEntries />
+              <Box textAlign={'end'} p={2}>
+                <Button variant={'outlined'}>Cancel</Button>
+                <Button variant={'contained'} type={'submit'} sx={{ ml: 2 }}>
+                  Submit
+                </Button>
+              </Box>
             </FormProvider>
           </Grid>
         )}

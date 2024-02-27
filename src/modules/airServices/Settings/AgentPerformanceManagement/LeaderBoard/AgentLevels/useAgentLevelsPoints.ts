@@ -1,7 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useAddAgentLevelsMutation,
   useGetAgentLevelsQuery,
@@ -11,6 +9,7 @@ import {
   agentLevelsPointsSchema,
 } from './AgentLevel.data';
 import { useEffect } from 'react';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAgentLevelsPoints = () => {
   const [addAgentLevelsPointsTrigger, addAgentLevelsPointsStatus] =
@@ -26,13 +25,9 @@ export const useAgentLevelsPoints = () => {
   const handleSubmit = async (values: any) => {
     try {
       await addAgentLevelsPointsTrigger(values)?.unwrap();
-      enqueueSnackbar('Agent levels points added successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Agent levels points added successfully!');
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
   useEffect(() => {
