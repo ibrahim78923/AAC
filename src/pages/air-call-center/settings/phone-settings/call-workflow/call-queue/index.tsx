@@ -1,6 +1,6 @@
 import Layout from '@/layout';
 import CallQueue from '@/modules/airCallCenter/Settings/PhoneSettings/CallWorkFlow/CallQueue';
-import SettingsLayout from '../../../layout';
+import SettingsLayout from '../../../Layout';
 
 const AirCallCenterPage = () => {
   return <CallQueue />;
