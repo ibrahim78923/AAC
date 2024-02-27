@@ -36,6 +36,12 @@ export function useHeader() {
       });
     }
   };
+
+  const moveBackArrow = () => {
+    router?.push({
+      pathname: AIR_SERVICES?.ASSETS_SOFTWARE,
+    });
+  };
   return {
     isDrawerOpen,
     setIsDrawerOpen,
@@ -47,5 +53,6 @@ export function useHeader() {
     anchorEl,
     isLoading,
     deleteSoftware,
+    moveBackArrow,
   };
 }

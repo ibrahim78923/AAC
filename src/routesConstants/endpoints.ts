@@ -235,6 +235,8 @@ export const END_POINTS = {
   GET_SINGLE_KNOWLEDGE_BASE_ARTICLES: '/articles/get-by-id',
   GET_RECENT_TICKET: `/air-services-dashboard/recent-tickets-dashboard`,
   GET_TICKETS_PENDING_FOR_APPROVAL: `/air-services-dashboard/get-tickets-approval-dashboard`,
+  GET_CUSTOMER_DASHBOARD: `/air-services-dashboard/get-customer-dashboard-data`,
+  GET_DROPDOWN_COMPANY: `/super-admin/company-list`,
 };
 
 export const superAdminBillingInvoices = {

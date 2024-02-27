@@ -10,7 +10,7 @@ import {
   validationSchema,
   websiteVIisitorsData,
 } from './WebsiteVisitors.data';
-import { BackArrIcon } from '@/assets/icons';
+// import { BackArrIcon } from '@/assets/icons';
 
 const WebsiteVisitors = ({
   open,
@@ -31,11 +31,6 @@ const WebsiteVisitors = ({
       submitHandler={() => {}}
       cancelText={'cancel'}
       footer
-      headerIcon={
-        <Box onClick={onClose} sx={{ cursor: 'pointer' }}>
-          <BackArrIcon />
-        </Box>
-      }
       footerActionText=""
       onFooterActionSubmit={() => {}}
       isOk
