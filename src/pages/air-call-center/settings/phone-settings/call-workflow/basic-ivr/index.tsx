@@ -1,6 +1,6 @@
 import Layout from '@/layout';
 import BasicIVR from '@/modules/airCallCenter/Settings/PhoneSettings/CallWorkFlow/BasicIVR';
-import SettingsLayout from '../../../Layout';
+import SettingsLayout from '@/layout/SettingsLayout/Layout';
 
 const AirCallCenterPage = () => {
   return <BasicIVR />;
