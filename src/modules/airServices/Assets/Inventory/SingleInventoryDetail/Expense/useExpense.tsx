@@ -18,6 +18,7 @@ import {
   usePostInventoryExpenseMutation,
 } from '@/services/airServices/assets/inventory/single-inventory-details/expense';
 import { useRouter } from 'next/router';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useExpense = () => {
   const [selectedExpenseList, setSelectedExpenseList] = useState([]);
@@ -75,16 +76,12 @@ export const useExpense = () => {
           ...data,
           assetId: assetId,
         };
-        const res: any = await postExpenseTrigger(formData);
-        enqueueSnackbar(res?.data?.message && 'Expense added successfully!', {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        });
+        await postExpenseTrigger(formData);
+        successSnackbar('Expense added successfully');
         reset();
         setIsAddExpenseModalOpen(false);
-      } catch (err: any) {
-        enqueueSnackbar(err?.data?.message ?? 'Something went wrong!', {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        });
+      } catch (error: any) {
+        errorSnackbar();
       }
     } else {
       try {
@@ -92,17 +89,13 @@ export const useExpense = () => {
           id: expenseId,
           assetId: assetId,
         };
-        const res: any = await patchExpenseTrigger(formData);
-        enqueueSnackbar(res?.data?.message && 'Expense update successfully!', {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        });
+        await patchExpenseTrigger(formData);
+        successSnackbar('Expense added successfully');
         reset();
         setIsAddExpenseModalOpen(false);
         setSelectedExpenseList([]);
-      } catch (err: any) {
-        enqueueSnackbar(err?.data?.message ?? 'Something went wrong!', {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        });
+      } catch (error: any) {
+        errorSnackbar();
       }
     }
   };
