@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import SettingsLayout from '../../Layout';
+import SettingsLayout from '@/layout/SettingsLayout/Layout';
 import CallWorkFlow from '@/modules/airCallCenter/Settings/PhoneSettings/CallWorkFlow';
 
 const CallworkFlowPage = () => {
