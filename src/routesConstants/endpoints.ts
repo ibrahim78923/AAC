@@ -30,6 +30,7 @@ export const END_POINTS = {
   DEALS_LIFECYCLE_STAGES: '/lifecycle-stages',
   DEALS_USER_LIST: '/super-admin/user-list',
   DEALS_GRID_VIEW: '/deals/get-deals-grid-view',
+  DEALS_CUSTOMIZE_COLUMN: '/customized-columns',
   DEALS_ACTION_PREVIEW: '/deals/deal-action-preview/{id}',
   POST_DEALS_VIEW: '/deal-views',
   GET_DEALS_VIEWS: '/deal-views',

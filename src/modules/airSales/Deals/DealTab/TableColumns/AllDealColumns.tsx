@@ -95,6 +95,7 @@ export const AllDealColumns = ({
     ),
     isSortable: false,
   };
+
   const tableActiveColumns: any =
     activeColumns?.map((item: any) => ({
       accessorFn: (row: any) => row?.attributes,

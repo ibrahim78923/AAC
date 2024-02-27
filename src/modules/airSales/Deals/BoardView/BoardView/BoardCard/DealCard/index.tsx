@@ -28,6 +28,7 @@ import { DATE_FORMAT } from '@/constants';
 const TaskViewCard = ({}: any) => {
   // const route = useRouter();
   const { data: dealsGridViewData } = useGetDealsGridViewQuery({});
+
   // const [updatedGridDeals] = useUpdatedGridDealsMutation();
   // console.log(dealsGridViewData?.data, 'dealsGridViewData');
 
