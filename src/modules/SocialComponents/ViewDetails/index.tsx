@@ -245,7 +245,7 @@ const ViewDetails = () => {
             <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
               <Details data={data?.data} isLoading={isLoading} />
               <ActivityLog companyId={data?.data?._id} />
-              <Associations />
+              <Associations companyId={data?.data?._id} />
               <Tasks companyId={data?.data?._id} />
               <Notes companyId={data?.data?._id} />
               <Calls companyId={data?.data?._id} />

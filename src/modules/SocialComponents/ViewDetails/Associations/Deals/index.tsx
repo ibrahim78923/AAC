@@ -15,7 +15,7 @@ import { PlusIcon } from '@/assets/icons';
 import { styles } from '../Associations.style';
 import useDeals from './useDeals';
 
-const Deals = () => {
+const Deals = (companyId: any) => {
   const {
     theme,
     isOpenAlert,
@@ -79,6 +79,7 @@ const Deals = () => {
         <DealsEditorDrawer
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
+          companyId={companyId}
         />
       )}
       <AlertModals
