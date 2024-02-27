@@ -24,6 +24,8 @@ const Deals = (companyId: any) => {
     setOpenDrawer,
     handleCloseAlert,
     getCompanyDeals,
+    handleDeleteDeals,
+    setDealRecord,
   } = useDeals(companyId);
 
   return (
@@ -69,7 +71,7 @@ const Deals = (companyId: any) => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
+            columns={columns({ setOpenDrawer, setIsOpenAlert, setDealRecord })}
             data={getCompanyDeals?.data}
           />
         </Grid>
@@ -87,6 +89,7 @@ const Deals = (companyId: any) => {
         open={isOpenAlert}
         handleClose={handleCloseAlert}
         handleSubmit={() => {}}
+        handleSubmitBtn={handleDeleteDeals}
       />
     </Box>
   );

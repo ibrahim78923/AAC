@@ -53,7 +53,7 @@ const DealsEditorDrawer = (props: any) => {
                   />
                 )}
               </Grid>
-              {productsDataArray()?.map((item: any, index: any) =>
+              {productsDataArray(openDrawer)?.map((item: any, index: any) =>
                 watchProductstatus[0] === 'New Deal' ? (
                   <Grid
                     item

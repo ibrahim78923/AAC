@@ -4,6 +4,7 @@ import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
+  setDealRecord,
 }: {
   setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
   setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,15 +27,15 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row?.DealsOwner,
-      id: 'DealsOwner',
+      accessorFn: (row: any) => row?.ownerId,
+      id: 'ownerId',
       isSortable: true,
       header: 'Deals Owner',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.DealStage,
-      id: 'DealStage',
+      accessorFn: (row: any) => row?.dealStageId,
+      id: 'dealStageId',
       isSortable: true,
       header: 'Deal Stage',
       cell: (info: any) => info?.getValue(),
@@ -45,7 +46,7 @@ export const columns: any = ({
       id: 'Actions',
       isSortable: false,
       header: 'Actions',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
           <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('View')}>
             <ViewEyeIcon />
@@ -53,7 +54,12 @@ export const columns: any = ({
           <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('Edit')}>
             <EditPenIcon />
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setIsOpenAlert(true)}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              setIsOpenAlert(true), setDealRecord(info?.row?.original?._id);
+            }}
+          >
             <DeleteCrossIcon />
           </Box>
         </Box>

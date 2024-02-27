@@ -37,7 +37,7 @@ const useDealsEditorDrawer = ({ setOpenDrawer, companyId }: any) => {
           await createAssociationDeals({
             body: {
               dealId: res?.data?._id,
-              companyId: companyId,
+              companyId: companyId?.companyId,
             },
           }).unwrap();
 
