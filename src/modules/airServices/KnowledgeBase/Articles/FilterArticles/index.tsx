@@ -1,40 +1,41 @@
 import { Grid, Box } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { v4 as uuidv4 } from 'uuid';
 import { useFilterArticles } from './useFilterArticle';
-import { filterArticlesData } from './FilterArticles.data';
 
 const FilterArticles = (props: any) => {
-  const { submitHandler, isOpenFilterDrawer, setIsOpenFilterDrawer, methods } =
-    useFilterArticles(props);
+  const {
+    submitHandler,
+    resetArticleFilterForm,
+    isOpenFilterDrawer,
+    methods,
+    onClose,
+    handleSubmit,
+    filterArticlesFormFields,
+  } = useFilterArticles(props);
 
   return (
     <CommonDrawer
       isDrawerOpen={isOpenFilterDrawer}
       onClose={() => {
-        setIsOpenFilterDrawer(false);
+        onClose();
       }}
-      submitHandler={submitHandler}
+      submitHandler={() => {
+        handleSubmit?.(submitHandler)();
+      }}
       title={'Filters'}
       okText={'Apply'}
       cancelText="Reset"
       isOk={true}
       footer={true}
+      cancelBtnHandler={() => resetArticleFilterForm?.()}
     >
       <Box mt={1}>
-        <FormProvider methods={methods} onSubmit={submitHandler}>
-          <Grid container spacing={4}>
-            {filterArticlesData?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item?.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
+        <FormProvider methods={methods}>
+          <Grid container spacing={2}>
+            {filterArticlesFormFields?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?.id}>
+                <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             ))}
           </Grid>

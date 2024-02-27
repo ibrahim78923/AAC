@@ -13,11 +13,6 @@ export const styles = {
     gap: 1.2,
     pb: 1.2,
   },
-  ticketColors: (palette: any) => ({
-    newTickets: palette?.primary?.main,
-    pendingTickets: palette?.warning?.main,
-    completedTickets: palette?.success?.main,
-  }),
   progressBar: (palette: any, ticketTypeColor: string) => ({
     height: 6,
     borderRadius: 5,

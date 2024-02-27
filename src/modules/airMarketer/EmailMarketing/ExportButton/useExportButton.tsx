@@ -11,7 +11,9 @@ export const useExportButton = () => {
     defaultValues: exportButtonDefaultValue,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, watch } = methods;
+
+  const radioGroup = watch('radio');
 
   const onSubmit = () => {};
 
@@ -19,5 +21,6 @@ export const useExportButton = () => {
     handleSubmit,
     methods,
     onSubmit,
+    radioGroup,
   };
 };

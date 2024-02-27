@@ -65,12 +65,7 @@ const NewsAndEventsModal = ({
             ))}
           </Grid>
           <Grid sm={12} mt={3} sx={{ textAlign: 'end' }}>
-            <Button
-              variant="contained"
-              className="medium"
-              type="submit"
-              startIcon={<PostIcon color={theme.palette.common.white} />}
-            >
+            <Button variant="contained" className="medium" type="submit">
               Add
             </Button>
           </Grid>

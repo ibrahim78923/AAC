@@ -7,11 +7,9 @@ import {
   upsertTicketFormFieldsDynamic,
   upsertTicketValidationSchema,
 } from './UpsertTicket.data';
-import { enqueueSnackbar } from 'notistack';
 
 import { useEffect } from 'react';
 import usePath from '@/hooks/usePath';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useGetTicketsByIdQuery,
   useLazyGetAgentDropdownQuery,
@@ -22,7 +20,7 @@ import {
   usePostTicketsMutation,
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
-import { makeDateTime } from '../ServicesTickets.data';
+import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
 
 export const useUpsertTicket = (props: any) => {
   const {
@@ -102,38 +100,31 @@ export const useUpsertTicket = (props: any) => {
     };
 
     try {
-      const response = await postTicketTrigger(postTicketParameter)?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Ticket Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postTicketTrigger(postTicketParameter)?.unwrap();
+      successSnackbar('Ticket Added Successfully');
       reset();
       setIsDrawerOpen?.(false);
     } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
 
   const submitUpdateTicket = async (data: any) => {
+    data?.append('isChildTicket', false);
+    data?.append('id', ticketId);
+
     const putTicketParameter = {
       body: data,
-      pathParam: {
-        id: ticketId,
-      },
     };
+
     try {
-      const response = await putTicketTrigger(putTicketParameter)?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Ticket Created Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await putTicketTrigger(putTicketParameter)?.unwrap();
+      successSnackbar('Ticket Updated Successfully');
       setSelectedTicketList([]);
       reset();
       setIsDrawerOpen?.(false);
     } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
   useEffect(() => {

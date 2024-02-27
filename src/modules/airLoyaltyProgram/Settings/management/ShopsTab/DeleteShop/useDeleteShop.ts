@@ -5,8 +5,8 @@ export const useDeleteShop = (props: any) => {
   const { setDeleteModalOpen, purchaseOrderData } = props;
   const handleDeleteShop = async () => {
     const deleteParams = new URLSearchParams();
-    purchaseOrderData?.forEach((purchaseOrderId: any) =>
-      deleteParams?.append('ids', purchaseOrderId),
+    purchaseOrderData?.forEach(
+      (purchaseOrderId: any) => deleteParams?.append('ids', purchaseOrderId),
     );
     try {
       enqueueSnackbar('Selected Shops Deleted Successfully!', {

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Box, Button, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
+import { Box, Button, Menu, MenuItem, Tooltip } from '@mui/material';
 import Search from '@/components/Search';
 import {
   CustomizeIcon,
@@ -39,14 +39,22 @@ const TableToolbar: FC<TableToolbarI> = ({
           width={'100%'}
         />
       </Box>
-      <Stack direction={'row'} spacing={'8px'}>
-        <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: '8px',
+          flexWrap: 'wrap',
+          marginTop: { xs: '5px', md: '15px', lg: '0px' },
+        }}
+      >
+        <Box sx={{ width: { xs: '100%', sm: 'fit-Content' } }}>
           <Button
             className="small"
             sx={styles?.actionButton}
             endIcon={<DropdownIcon />}
             onClick={handleActionsDropdown}
             disabled={isActionsDisabled}
+            style={{ width: '100%' }}
           >
             Actions
           </Button>
@@ -84,6 +92,11 @@ const TableToolbar: FC<TableToolbarI> = ({
             color="inherit"
             className="small"
             onClick={handleResetFilters}
+            sx={{
+              width: { xs: '100%', sm: 'fit-Content' },
+              marginTop: { xs: '10px !important', sm: '0px !important' },
+              marginLeft: { xs: '0px !important', sm: '10px !important' },
+            }}
           >
             <RefreshSharedIcon />
           </Button>
@@ -105,7 +118,7 @@ const TableToolbar: FC<TableToolbarI> = ({
         >
           Filter
         </Button>
-      </Stack>
+      </Box>
     </Box>
   );
 };

@@ -3,11 +3,11 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import AddCard from './AddCard';
 import usePaymentMethods from './usePaymentMethods';
-import CustomPagination from '@/components/CustomPagination';
 import { DropdownIcon } from '@/assets/icons';
 import { paymentData } from '@/mock/modules/SubscriptionAndInvoices';
 import { AlertModals } from '@/components/AlertModals';
 import { styles } from './PaymentMethod.style';
+import { useState } from 'react';
 
 const PaymentMethods = () => {
   const {
@@ -29,6 +29,8 @@ const PaymentMethods = () => {
     isGetRowValues,
   } = usePaymentMethods();
 
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <>
       <Box sx={styles?.paymentsTableWrapper}>
@@ -40,6 +42,14 @@ const PaymentMethods = () => {
             variant="contained"
             color="primary"
             onClick={handleOpenAddCard}
+            sx={{
+              width: {
+                xs: '100%',
+                sm: 'fit-content',
+                lg: 'fit-content',
+                md: 'fit-content',
+              },
+            }}
           >
             Add a card
           </Button>
@@ -47,60 +57,57 @@ const PaymentMethods = () => {
 
         <Box sx={styles?.tableToolbar}>
           <Box sx={styles?.tableSearch}>
-            <Search size="small" placeholder="search here" />
+            <Search
+              searchBy={searchTerm}
+              setSearchBy={setSearchTerm}
+              label="Search here"
+              fullWidth
+              size="small"
+            />
           </Box>
-          <Box sx={styles?.tableToolbarActions}>
-            <Box>
-              <Button
-                size="small"
-                onClick={handleActionsClick}
-                sx={styles?.actionButton}
-                endIcon={<DropdownIcon />}
-                disabled={!isChecked}
-              >
-                Actions
-              </Button>
-              <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                sx={{
-                  '& .MuiList-root': {
-                    minWidth: '112px',
-                  },
-                }}
-              >
-                <MenuItem
-                  onClick={() => {
-                    setOpenAddCard(true);
-                    setOpenEditCard('Edit');
-                  }}
-                >
-                  Edit
-                </MenuItem>
-                <MenuItem onClick={handleOpenDeleteModal}>Delete</MenuItem>
-              </Menu>
-            </Box>
-          </Box>
+          {/* <Box sx={styles?.tableToolbarActions}> */}
+
+          <Button
+            size="small"
+            onClick={handleActionsClick}
+            sx={styles?.actionButton}
+            endIcon={<DropdownIcon />}
+            disabled={!isChecked}
+          >
+            Actions
+          </Button>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            sx={{
+              '& .MuiList-root': {
+                minWidth: '112px',
+              },
+            }}
+          >
+            <MenuItem
+              onClick={() => {
+                setOpenAddCard(true);
+                setOpenEditCard('Edit');
+              }}
+            >
+              Edit
+            </MenuItem>
+            <MenuItem onClick={handleOpenDeleteModal}>Delete</MenuItem>
+          </Menu>
         </Box>
 
-        <TanstackTable columns={getRowValues} data={paymentData} />
-
-        <CustomPagination
-          count={3}
-          rowsPerPageOptions={[6, 10, 25, 50, 100]}
-          entriePages={paymentData?.length}
-        />
+        <TanstackTable columns={getRowValues} data={paymentData} isPagination />
       </Box>
-
       <AddCard
         open={openAddCard}
         onClose={handleCloseAddCard}
@@ -109,7 +116,7 @@ const PaymentMethods = () => {
         isGetRowValues={isGetRowValues}
       />
       <AlertModals
-        message="Are you sure you want to delete this payment method?"
+        message="Are you sure you want to delete this payment method ?"
         type="delete"
         open={openDeleteModal}
         handleClose={handleCloseDeleteModal}

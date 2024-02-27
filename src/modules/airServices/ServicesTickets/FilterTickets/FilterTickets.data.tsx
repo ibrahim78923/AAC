@@ -2,7 +2,7 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
   RHFDatePicker,
-  RHFTimePicker,
+  // RHFTimePicker,
 } from '@/components/ReactHookForm';
 
 import {
@@ -25,8 +25,6 @@ export const sendIdOptions = [
 export const neglectKeysInLoop = [
   'plannedEndDate',
   'plannedEndTime',
-  'dueByDate',
-  'dueByTime',
   'plannedStartDate',
   'plannedStartTime',
 ];
@@ -42,31 +40,24 @@ export const ticketsFilterFormFieldsDefaultValues = (data?: any) => {
     priority: data?.priority ?? null,
     impact: data?.impact ?? null,
     category: data?.category ?? null,
+    department: data?.department ?? null,
     typeSource: data?.typeSource ?? null,
     plannedStartDate:
       typeof data?.plannedStartDate === 'object'
         ? new Date(data?.plannedStartDate)
         : null,
-    plannedStartTime:
-      typeof data?.plannedStartTime === 'object'
-        ? new Date(data?.plannedStartTime)
-        : null,
+    // plannedStartTime:
+    //   typeof data?.plannedStartTime === 'object'
+    //     ? new Date(data?.plannedStartTime)
+    //     : null,
     plannedEndDate:
       typeof data?.plannedEndDate === 'object'
         ? new Date(data?.plannedEndDate)
         : null,
-    plannedEndTime:
-      typeof data?.plannedEndTime === 'object'
-        ? new Date(data?.plannedEndTime)
-        : null,
-    dueByDate:
-      typeof data?.plannedEndDate === 'object'
-        ? new Date(data?.dueByDate)
-        : null,
-    dueByTime:
-      typeof data?.plannedEndTime === 'object'
-        ? new Date(data?.dueByTime)
-        : null,
+    // plannedEndTime:
+    //   typeof data?.plannedEndTime === 'object'
+    //     ? new Date(data?.plannedEndTime)
+    //     : null,
   };
 };
 export const ticketsFilterFormFieldsDataFunction = (
@@ -202,19 +193,19 @@ export const ticketsFilterFormFieldsDataFunction = (
       name: 'plannedStartDate',
       label: 'Planned Start Date',
     },
-    gridLength: 7.5,
+    gridLength: 12,
     component: RHFDatePicker,
   },
-  {
-    id: 11,
-    componentProps: {
-      name: 'plannedStartTime',
-      label: '\u00a0\u00a0',
-      fullWidth: true,
-    },
-    gridLength: 4.5,
-    component: RHFTimePicker,
-  },
+  // {
+  //   id: 11,
+  //   componentProps: {
+  //     name: 'plannedStartTime',
+  //     label: '\u00a0\u00a0',
+  //     fullWidth: true,
+  //   },
+  //   gridLength: 4.5,
+  //   component: RHFTimePicker,
+  // },
   {
     id: 12,
     componentProps: {
@@ -222,37 +213,17 @@ export const ticketsFilterFormFieldsDataFunction = (
       name: 'plannedEndDate',
       label: 'Planned End Date',
     },
-    gridLength: 7.5,
+    gridLength: 12,
     component: RHFDatePicker,
   },
-  {
-    id: 13,
-    componentProps: {
-      name: 'plannedEndTime',
-      label: '\u00a0\u00a0',
-      fullWidth: true,
-    },
-    gridLength: 4.5,
-    component: RHFTimePicker,
-  },
-  {
-    id: 14,
-    componentProps: {
-      fullWidth: true,
-      name: 'plannedEndDate',
-      label: 'Due By',
-    },
-    gridLength: 7.5,
-    component: RHFDatePicker,
-  },
-  {
-    id: 15,
-    componentProps: {
-      fullWidth: true,
-      name: 'plannedEndTime',
-      label: '\u00a0\u00a0',
-    },
-    gridLength: 4.5,
-    component: RHFTimePicker,
-  },
+  // {
+  //   id: 13,
+  //   componentProps: {
+  //     name: 'plannedEndTime',
+  //     label: '\u00a0\u00a0',
+  //     fullWidth: true,
+  //   },
+  //   gridLength: 4.5,
+  //   component: RHFTimePicker,
+  // },
 ];

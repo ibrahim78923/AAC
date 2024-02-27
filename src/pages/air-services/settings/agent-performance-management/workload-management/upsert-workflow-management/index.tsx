@@ -1,8 +1,8 @@
 import Layout from '@/layout';
-import { CreateScheduleForm } from '@/modules/airServices/Settings/AgentPerformanceManagement/WorkloadManagement/WorkloadSchedule/CreateScheduleForm';
+import { UpsertWorkloadSchedule } from '@/modules/airServices/Settings/AgentPerformanceManagement/WorkloadManagement/WorkloadSchedule/UpsertWorkloadSchedule';
 
 const UpsertWorkflowManagementPage = () => {
-  return <CreateScheduleForm />;
+  return <UpsertWorkloadSchedule />;
 };
 
 export default UpsertWorkflowManagementPage;

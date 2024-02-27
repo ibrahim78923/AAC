@@ -1,8 +1,5 @@
-import Link from 'next/link';
-
 import { Box, Button, Paper, Typography } from '@mui/material';
 
-import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 
@@ -44,10 +41,17 @@ const Restore = () => {
           justifyContent: 'space-between',
         }}
       >
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-          <Link href={'/air-sales/contacts'}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '20px',
+          }}
+        >
+          <Box onClick={() => window.history.back()}>
             <BackArrIcon />
-          </Link>
+          </Box>
           <Box>
             <Typography
               variant="subtitle1"
@@ -59,7 +63,7 @@ const Restore = () => {
               variant="body2"
               sx={{ color: theme?.palette?.custom['main'] }}
             >
-              Restore Deals deleted in the last 90 days
+              Restore Contacts deleted in the last 90 days
             </Typography>
           </Box>
         </Box>
@@ -112,7 +116,8 @@ const Restore = () => {
           <Button
             startIcon={<FilterIcon />}
             variant="outlined"
-            sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
+            size="small"
+            sx={{ height: '36px', color: theme?.palette?.custom['main'] }}
             onClick={handleRestoreFilter}
           >
             {' '}
@@ -121,11 +126,10 @@ const Restore = () => {
         </Box>
       </Box>
       <Paper sx={{ mb: 2 }}>
-        <TanstackTable columns={RestoreTableColumns} data={RestoreTableData} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+        <TanstackTable
+          columns={RestoreTableColumns}
+          data={RestoreTableData}
+          isPagination
         />
       </Paper>
     </Box>

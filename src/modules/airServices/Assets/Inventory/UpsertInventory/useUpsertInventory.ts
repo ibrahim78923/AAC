@@ -19,8 +19,8 @@ import {
 } from '@/services/airServices/assets/inventory';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { makeDateTime } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
 import { AIR_SERVICES } from '@/constants';
+import { makeDateTime } from '@/utils/api';
 
 export const useUpsertInventory = () => {
   const { query }: any = useRouter();
@@ -32,11 +32,7 @@ export const useUpsertInventory = () => {
     usePatchAddToInventoryMutation();
   const [postAddToInventoryTrigger, postAddToInventoryStatus] =
     usePostInventoryMutation();
-  const methods = useForm({
-    resolver: yupResolver(UpsertInventoryValidationSchema),
-    defaultValues: upsertInventoryFieldsDefaultValuesFunction(),
-  });
-  const { handleSubmit, reset } = methods;
+
   const getSingleInventoryDetailsParameter = {
     pathParam: {
       inventoryId,
@@ -50,6 +46,11 @@ export const useUpsertInventory = () => {
       skip: !!!inventoryId,
     },
   );
+  const methods = useForm({
+    resolver: yupResolver(UpsertInventoryValidationSchema),
+    defaultValues: upsertInventoryFieldsDefaultValuesFunction(data),
+  });
+  const { handleSubmit, reset } = methods;
 
   const submitUpsertInventory = async (data: any) => {
     const inventoryDetailsData = new FormData();
@@ -71,7 +72,7 @@ export const useUpsertInventory = () => {
     inventoryDetailsData.append('attachment', data?.attachFile);
     const body = inventoryDetailsData;
     if (!!inventoryId) {
-      submitUpdateInventory(body);
+      submitUpdateInventory(data);
       return;
     }
     const postInventoryParameter = {
@@ -98,11 +99,27 @@ export const useUpsertInventory = () => {
     reset(() => upsertInventoryFieldsDefaultValuesFunction(data));
   }, [data, reset]);
   const submitUpdateInventory = async (data: any) => {
+    const inventoryEditData = new FormData();
+    inventoryEditData.append('displayName', data?.data?.[0]?.displayName);
+    inventoryEditData.append('assetType', data?.assetType?._id);
+    inventoryEditData.append('impact', data?.impact);
+    inventoryEditData.append('description', data?.description);
+    inventoryEditData.append(
+      'assetLifeExpiry',
+      data?.assetLifeExpiry?.toISOString(),
+    );
+    inventoryEditData.append('locationId', data?.location?._id);
+    inventoryEditData.append('departmentId', data?.department?._id);
+    inventoryEditData.append('usedBy', data?.usedBy?._id);
+    inventoryEditData.append(
+      'assignedOn',
+      makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
+    );
+    inventoryEditData.append('attachment', data?.fileUrl);
+    const body = inventoryEditData;
     const patchProductCatalogParameter = {
-      body: {
-        id: inventoryId,
-        ...data,
-      },
+      id: inventoryId,
+      body,
     };
     try {
       const response = await patchAddToInventoryTrigger(
@@ -145,7 +162,7 @@ export const useUpsertInventory = () => {
       pathname: AIR_SERVICES?.ASSETS_INVENTORY,
     });
   };
-  const submit = () => {};
+
   return {
     methods,
     query,
@@ -159,6 +176,5 @@ export const useUpsertInventory = () => {
     isLoading,
     isFetching,
     postAddToInventoryStatus,
-    submit,
   };
 };

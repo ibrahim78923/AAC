@@ -11,15 +11,40 @@ import {
 } from './KnowledgeBaseTicketDetail.data';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  useGetAllKnowledgeBaseArticleQuery,
+  useGetSingleKnowledgeBaseArticleQuery,
+} from '@/services/airCustomerPortal/KnowledgeBase';
 
 export const useKnowledgeBaseTicketDetail = () => {
   const theme = useTheme();
   const [showFeedbackField, setShowFeedbackField] = useState(false);
   const [showOkFeedback, setShowOkFeedback] = useState(false);
 
+  const route = useRouter();
+
+  const folderId = route?.query?.folderId;
+  const relatedArticlesParams = {
+    folderId: folderId,
+  };
+  const { data: articlesData, isLoading: loadingArticles } =
+    useGetAllKnowledgeBaseArticleQuery(relatedArticlesParams);
+  const relatedArticlesData = articlesData?.data?.articles;
+
+  const params = {
+    id: route?.query?.articleId,
+  };
+
+  const { data, isLoading } = useGetSingleKnowledgeBaseArticleQuery(params);
+
+  const singleArticlesData = data?.data;
+
   const { push } = useRouter();
   const handlePageBack = () => {
-    push(AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_DETAIL);
+    push({
+      pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_DETAIL,
+      query: { folderId },
+    });
   };
   const feedbackMethod: any = useForm<any>({
     resolver: yupResolver(feedbackValidationSchema),
@@ -46,5 +71,9 @@ export const useKnowledgeBaseTicketDetail = () => {
     feedbackDataArray,
     showOkFeedback,
     setShowOkFeedback,
+    singleArticlesData,
+    isLoading,
+    relatedArticlesData,
+    loadingArticles,
   };
 };

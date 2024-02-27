@@ -3,13 +3,13 @@ import { Box, Typography, useTheme } from '@mui/material';
 import { useKnowledgeBase } from '../useKnowledgeBase';
 
 export const KnowledgeBaseCard = (props: any) => {
-  const { id, name, createdBy, createdDate } = props;
+  const { folderId, name, createdBy, createdDate } = props;
   const { handleKnowledgeBaseDetail } = useKnowledgeBase();
   const theme = useTheme();
   return (
     <Box
       gap={1}
-      padding={3}
+      padding={2.5}
       borderRadius={3}
       display={'flex'}
       justifyContent={'center'}
@@ -20,7 +20,7 @@ export const KnowledgeBaseCard = (props: any) => {
       height={'auto'}
       border={`.1rem solid ${theme?.palette?.grey?.[700]}`}
       sx={{ cursor: 'pointer' }}
-      onClick={() => handleKnowledgeBaseDetail(id)}
+      onClick={() => handleKnowledgeBaseDetail(folderId)}
     >
       <Box
         display={'flex'}

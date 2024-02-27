@@ -1,14 +1,11 @@
 import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {
-  knowledgeBaseTicketEditorData,
-  relatedTicketDataArray,
-} from './KnowledgeBaseTicketDetail.data';
 import { useKnowledgeBaseTicketDetail } from './useKnowledgeBaseTicketDetail';
 import { DocumentTextIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
 import { FormProvider } from '@/components/ReactHookForm';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const KnowledgeBaseTicketDetail = () => {
   const {
@@ -21,6 +18,10 @@ export const KnowledgeBaseTicketDetail = () => {
     feedbackMethod,
     showOkFeedback,
     setShowOkFeedback,
+    singleArticlesData,
+    isLoading,
+    relatedArticlesData,
+    loadingArticles,
   } = useKnowledgeBaseTicketDetail();
   return (
     <>
@@ -42,12 +43,16 @@ export const KnowledgeBaseTicketDetail = () => {
               <ArrowBackIcon onClick={handlePageBack} />
             </Box>
             <Typography variant="h3" color={theme?.palette?.slateBlue?.main}>
-              Profiting in Bear and Bull Markets
+              {singleArticlesData?.title}
             </Typography>
           </Box>
-          <Box
-            dangerouslySetInnerHTML={{ __html: knowledgeBaseTicketEditorData }}
-          ></Box>
+          {isLoading ? (
+            <SkeletonTable />
+          ) : (
+            <Box
+              dangerouslySetInnerHTML={{ __html: singleArticlesData?.details }}
+            ></Box>
+          )}
         </Grid>
         <Grid item xs={12} lg={3}>
           <Box
@@ -77,23 +82,29 @@ export const KnowledgeBaseTicketDetail = () => {
                   height={showFeedbackField ? '14rem' : '33rem'}
                   overflow={'scroll'}
                 >
-                  {relatedTicketDataArray?.map((item: any) => (
-                    <Box
-                      display={'flex'}
-                      justifyContent={'flex-start'}
-                      alignItems={'center'}
-                      p={1}
-                      borderRadius={1}
-                      bgcolor={theme?.palette?.grey?.[100]}
-                      mt={0.5}
-                      key={item?.id}
-                    >
-                      <DocumentTextIcon />
-                      <Typography color="secondary">
-                        {item?.ticketDescription}
-                      </Typography>
-                    </Box>
-                  ))}
+                  {loadingArticles ? (
+                    <SkeletonTable />
+                  ) : (
+                    <>
+                      {relatedArticlesData?.map((item: any) => (
+                        <Box
+                          display={'flex'}
+                          justifyContent={'flex-start'}
+                          alignItems={'center'}
+                          p={1}
+                          borderRadius={1}
+                          bgcolor={theme?.palette?.grey?.[100]}
+                          mt={0.5}
+                          key={item?.id}
+                        >
+                          <DocumentTextIcon />
+                          <Typography color="secondary">
+                            {item?.title}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </>
+                  )}
                 </Box>
               </Grid>
               {showFeedbackField ? (

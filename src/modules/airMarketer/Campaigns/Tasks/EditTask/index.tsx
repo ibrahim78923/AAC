@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 export default function EditTask({
   onClose,
   isOpenDrawer,
+  isType,
   initialValueProps = defaultValues,
 }: any) {
   const methods: any = useForm({
@@ -30,10 +31,10 @@ export default function EditTask({
 
   return (
     <CommonDrawer
-      isDrawerOpen={isOpenDrawer?.isToggle}
+      isDrawerOpen={isOpenDrawer}
       onClose={() => onClose(false)}
-      title={isOpenDrawer?.type === 'create' ? 'Create Task' : 'Edit Task'}
-      okText={isOpenDrawer?.type === 'create' ? 'Create' : 'Update'}
+      title={isType === 'create' ? 'Create Task' : 'Edit Task'}
+      okText={isType === 'create' ? 'Create' : 'Update'}
       isOk
       cancelText={'Cancel'}
       footer

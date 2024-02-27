@@ -75,6 +75,7 @@ export const AIR_SALES = {
   CONTACTS: '/air-sales/contacts/view-details',
   VIEW_DETAILS: '/air-sales/deals/view-details',
   DEAL_LIST_VIEW: '/deals/get-deals-list-view',
+  DEALS_VIEWDEATAILS: '/air-sales/deals/view-details',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
@@ -202,6 +203,7 @@ export const LOYALTY_PROGRAM = {
 
 export const ORG_ADMIN = {
   DASHBOARD_EDIT_PROFILE: '/org-admin/dashboard/edit-profile',
+  ORGANIZATION: '/org-admin/organization-admin',
 };
 
 export const SOCIAL_FEATURES_CHAT = {
@@ -225,4 +227,33 @@ export const CHAT_SOCKETS = {
 };
 export const CHAT_SOCKETS_EMIT = {
   UPDATE_MESSAGE: 'update-message',
+};
+
+export const AIR_CALL_CENTER = {
+  DASHBOARD: '/air-call-center/dashboard',
+  CALL_METRICS: '/air-call-center/call-metrics',
+  POWER_DAILER: '/air-call-center/power-dailer',
+  SETTINGS: {
+    PHONE_NUMBER: '/air-call-center/settings/phone-number',
+    PHONE_SETTINGS: '/air-call-center/settings/phone-settings',
+    CALL_QUEUE:
+      '/air-call-center/settings/phone-settings/call-workflow/call-queue',
+    BASIC_IVR:
+      '/air-call-center/settings/phone-settings/call-workflow/basic-ivr',
+    AGENT_EXT:
+      '/air-call-center/settings/phone-settings/call-workflow/agent-extension',
+    CALL_WORKFLOW: '/air-call-center/settings/phone-settings/call-workflow',
+    GREETING_LIST: '/air-call-center/settings/phone-settings/greeting-list',
+    SERVICE_LEVEL: '/air-call-center/settings/phone-settings/service-level',
+    VOICE_MAILS: '/air-call-center/settings/phone-settings/voice-mails',
+    ADDITIONAL_SETTINGS:
+      '/air-call-center/settings/phone-settings/additional-settings',
+    GENERAL_SETTING: '/air-call-center/settings/general-settings',
+    BUSINESS_HOURS: '/air-call-center/settings/general-settings/business-hours',
+    ADD_BUSINESS_HOURS:
+      '/air-call-center/settings/general-settings/business-hours/add-business-hours',
+    AGENT_STATUSES: '/air-call-center/settings/general-settings/agent-statuses',
+    USER_MANAGEMENT: '/air-call-center/settings/user-management',
+    PHONE_CREDITS: '/air-call-center/settings/phone-credits',
+  },
 };

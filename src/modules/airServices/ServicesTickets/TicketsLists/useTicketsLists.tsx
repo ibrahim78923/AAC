@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
   TICKETS_ACTION_CONSTANTS,
-  buildQueryParams,
-  errorSnackbar,
   ticketsActionDropdownFunction,
   ticketsListInitialColumns,
   ticketsListsColumnFunction,
@@ -10,11 +8,10 @@ import {
 import { CustomizeTicketsColumn } from '../CustomizeTicketsColumn';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
 
 import { downloadFile } from '@/utils/file';
 import { UpsertTicket } from '../UpsertTicket';
-import { EXPORT_FILE_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { TicketsBulkUpdate } from '../TicketsBulkUpdate';
 import { AssignedTickets } from '../AssignedTickets';
 import { MoveTickets } from '../MoveTickets';
@@ -29,6 +26,7 @@ import {
 } from '@/services/airServices/tickets';
 import { FilterTickets } from '../FilterTickets';
 import { neglectKeysInLoop } from '../FilterTickets/FilterTickets.data';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useTicketsLists: any = () => {
   const [hasTicketAction, setHasTicketAction] = useState(false);
@@ -44,10 +42,14 @@ export const useTicketsLists: any = () => {
   const router = useRouter();
   const { makePath } = usePath();
 
+  const additionalParams = [
+    ['metaData', true + ''],
+    ['page', page + ''],
+    ['limit', pageLimit + ''],
+    ['search', search],
+  ];
   const ticketsParam = buildQueryParams(
-    page,
-    pageLimit,
-    search,
+    additionalParams,
     filterTicketLists,
     neglectKeysInLoop,
   );
@@ -73,13 +75,17 @@ export const useTicketsLists: any = () => {
   };
 
   const getTicketsListDataExport = async (type: any) => {
+    const additionalParams = [
+      ['metaData', true + ''],
+      ['page', page + ''],
+      ['limit', pageLimit + ''],
+      ['search', search],
+      ['exportType', type],
+    ];
     const ticketsParam = buildQueryParams(
-      page,
-      pageLimit,
-      search,
+      additionalParams,
       filterTicketLists,
       neglectKeysInLoop,
-      type,
     );
 
     const getTicketsExportParameter = {
@@ -91,9 +97,7 @@ export const useTicketsLists: any = () => {
         getTicketsExportParameter,
       )?.unwrap();
       downloadFile(response, 'TicketLists', EXPORT_FILE_TYPE?.[type]);
-      enqueueSnackbar(`Tickets Exported successfully`, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar(`Tickets Exported successfully`);
       setSelectedTicketList([]);
     } catch (error: any) {
       errorSnackbar?.();
@@ -116,8 +120,8 @@ export const useTicketsLists: any = () => {
 
   const updateTicketStatus = async (status: any) => {
     const updateTicketStatusParams = new URLSearchParams();
-    selectedTicketList?.forEach((ticketId: any) =>
-      updateTicketStatusParams?.append('ids', ticketId),
+    selectedTicketList?.forEach(
+      (ticketId: any) => updateTicketStatusParams?.append('ids', ticketId),
     );
     const updateTicketStatusTicketsParameter = {
       queryParams: updateTicketStatusParams,
@@ -126,23 +130,12 @@ export const useTicketsLists: any = () => {
       },
     };
     try {
-      const response: any = await patchBulkUpdateTicketsTrigger(
+      await patchBulkUpdateTicketsTrigger(
         updateTicketStatusTicketsParameter,
       )?.unwrap();
-      enqueueSnackbar(
-        response?.message ?? `Ticket marked as ${status?.toLowerCase()}`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      successSnackbar('Ticket status updated successfully');
     } catch (error: any) {
-      enqueueSnackbar(
-        error?.data?.error?.message ??
-          `Ticket not marked as ${status?.toLowerCase()}`,
-        {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        },
-      );
+      errorSnackbar();
     }
   };
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
@@ -270,5 +263,6 @@ export const useTicketsLists: any = () => {
     setTicketsListsActiveColumn,
     getValueTicketsListData,
     setSelectedTicketList,
+    filterTicketLists,
   };
 };
