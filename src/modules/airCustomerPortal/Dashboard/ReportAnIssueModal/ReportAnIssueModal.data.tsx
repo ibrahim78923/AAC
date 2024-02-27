@@ -4,6 +4,7 @@ import {
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
 import { DATE_FORMAT } from '@/constants';
+import { ROLE } from '@/constants/strings';
 import { Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
@@ -36,7 +37,7 @@ export const reportAnIssueModalFormFields = (
       fullWidth: true,
       required: true,
       apiQuery: apiQueryRequester,
-      externalParams: { limit: 50, role: 'ORG_REQUESTER' },
+      externalParams: { limit: 50, role: ROLE?.ORG_REQUESTER },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
       placeholder: 'Add Requester',
