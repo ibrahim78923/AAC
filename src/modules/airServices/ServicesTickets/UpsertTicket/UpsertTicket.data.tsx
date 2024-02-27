@@ -48,14 +48,16 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
       : null,
     subject: data?.subject ?? '',
     description: data?.description ?? '',
-    category: data?.category ?? null,
+    category: data?.categoryDetails ?? null,
     status: data?.status ? { _id: data?.status, label: data?.status } : null,
-    priority: data?.pirority ?? null,
+    priority: data?.pirority
+      ? { _id: data?.pirority, label: data?.pirority }
+      : null,
     department: !!Object?.keys(data?.departmentDetails ?? {})?.length
       ? data?.departmentDetails
       : null,
-    source: data?.source ?? null,
-    impact: data?.impact ?? null,
+    source: data?.source ? { _id: data?.source, label: data?.source } : null,
+    impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
     agent: !!Object?.keys(data?.agentDetails ?? {})?.length
       ? data?.agentDetails
       : null,
@@ -65,7 +67,7 @@ export const upsertTicketDefaultValuesFunction = (data?: any) => {
         ? new Date(data?.plannedStartDate)
         : new Date(),
     plannedEndDate:
-      typeof data?.plannedStartDate === 'string'
+      typeof data?.plannedEndDate === 'string'
         ? new Date(data?.plannedEndDate)
         : null,
     plannedEndTime:
@@ -161,6 +163,7 @@ export const upsertTicketFormFieldsDynamic = (
       required: true,
       placeholder: 'Choose Priority',
       options: ticketPriorityOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -183,6 +186,7 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose Source',
       options: ticketSourceOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -194,6 +198,7 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       placeholder: 'Choose Impact',
       options: ticketImpactOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -251,6 +256,7 @@ export const upsertTicketFormFieldsDynamic = (
       name: 'plannedEndTime',
       label: '\u00a0\u00a0',
       fullWidth: true,
+      textFieldProps: { readOnly: true },
     },
     component: RHFTimePicker,
     md: 4.5,

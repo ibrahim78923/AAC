@@ -113,6 +113,10 @@ export { default as TwitterCalenderImage } from './shared/twitter.png';
 export { default as YoutubeCalenderImage } from './shared/youtube.png';
 export { default as FacebookCalenderImage } from './shared/facebook.png';
 export { default as InstagramCalenderImage } from './shared/instagram.png';
+export { default as TwitterDropdownImage } from './shared/twitterDropdown.png';
+export { default as LinkedinDropdownImage } from './shared/linkedinDropdown.png';
+export { default as FacebookDropdownImage } from './shared/facebookDropdown.png';
+export { default as InstagramDropdownImage } from './shared/instagramDropdown.png';
 export { default as FacebookLogo } from './shared/facebookLogo.png';
 export { default as InstagramLogo } from './shared/instagramLogo.png';
 export { default as AnnouncementAvatarImage } from './modules/airServices/Dashboard/announcement-avatar-image.png';
@@ -261,3 +265,4 @@ export { default as PrepaidImage } from './modules/HeaderAndSidebar/prepaid.png'
 export { default as VuesaxErrorImage } from './modules/airServices/Tickets/vuesax-error-image.png';
 export { default as UserDefault } from './modules/socialComponents/chat/user-default.png';
 export { default as TypingGif } from './modules/socialComponents/chat/typing.gif';
+export { default as PhysicalCardSmallImage } from './modules/loyaltyProgram/GiftCards/physical-card-small-image.png';

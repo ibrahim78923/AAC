@@ -1,36 +1,43 @@
-import { Box, Typography } from '@mui/material';
+import React from 'react';
+import { Box, Checkbox, FormControlLabel, Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 
-import ColumnsWrapper from './CoumnsWrapper';
+import useDealCustomize from './useDealCustomize';
+import { styles } from './DealCustomize.style';
+import { DragIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
-import { columnsData } from './DealCustomize.data';
-
-import { AddCircleBlackIcon, EditProfilelLineIcon } from '@/assets/icons';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { useState } from 'react';
 
-const DealCustomize = ({ open, onClose, columns, setColumns }: any) => {
-  const [taskCardData, setTaskCardData] = useState(columnsData);
-  const onDragEnd = (result: any) => {
-    if (!result?.destination) return;
-    const sourceIndex = result?.source?.index;
-    const destinationIndex = result?.destination?.index;
-    const newTaskCardData = [...taskCardData];
-    const [draggedItem] = newTaskCardData?.splice(sourceIndex, 1);
+const DealCustomize = ({ open, onClose }: any) => {
+  const {
+    handleChackboxChange,
+    handleUpdateColumns,
+    // columnsData,
+    selected,
+    theme,
+    order,
+    onDragEnd,
+  } = useDealCustomize(onClose);
 
-    newTaskCardData?.splice(destinationIndex, 0, draggedItem);
-    setTaskCardData(newTaskCardData);
-  };
+  // const onDragEnd = (result: any) => {
+  //   if (!result?.destination) return;
+
+  //   const items = Array.from(order);
+  //   const [reOrderItem] = items.splice(result.source.index, 1);
+  //   items.splice(result.destination.index, 0, reOrderItem);
+  //   setOrder(items);
+  // };
+
   return (
     <CommonDrawer
       isDrawerOpen={open}
       onClose={onClose}
       footer
       isOk
-      submitHandler={onClose}
+      submitHandler={handleUpdateColumns}
       okText="Save"
-      title="Customize"
+      title="Customize Columns"
     >
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
@@ -40,55 +47,71 @@ const DealCustomize = ({ open, onClose, columns, setColumns }: any) => {
         >
           {(provided) => (
             <Box
-              sx={{ userSelect: 'none' }}
+              sx={{ userSelect: 'none', width: '100%' }}
               ref={provided?.innerRef}
               {...provided?.droppableProps}
             >
-              {taskCardData?.map((items: any, index: number) => (
-                <Draggable
-                  key={uuidv4()}
-                  draggableId={`taskCard-${index}`}
-                  index={index}
-                >
-                  {(provided) => (
-                    <Box
-                      ref={provided?.innerRef}
-                      {...provided?.draggableProps}
-                      {...provided?.dragHandleProps}
-                      sx={{
-                        cursor: 'grabbing',
-                      }}
+              <Box sx={{ paddingTop: '1rem', width: '100%' }}>
+                <Grid container>
+                  {order?.map((col: any, i: number) => (
+                    <Draggable
+                      key={col?.slug}
+                      draggableId={col?.slug}
+                      index={i}
                     >
-                      <ColumnsWrapper
-                        key={uuidv4()}
-                        title={items?.title}
-                        checkboxProps={{
-                          checked: columns?.includes(items?.id),
-                          onChange: (e: any) => {
-                            if (e?.target?.checked) {
-                              setColumns([...columns, items?.id]);
-                            } else {
-                              setColumns(
-                                columns?.filter((id: any) => id != items?.id),
-                              );
-                            }
-                          },
-                        }}
-                      />
-                    </Box>
-                  )}
-                </Draggable>
-              ))}
+                      {(provided) => (
+                        <Box
+                          ref={provided?.innerRef}
+                          {...provided?.draggableProps}
+                          {...provided?.dragHandleProps}
+                          sx={{
+                            cursor: 'grabbing',
+                            width: '100%',
+                          }}
+                        >
+                          <Grid item xs={12} key={col?.slug}>
+                            <Box
+                              sx={{
+                                ...styles?.column(theme?.palette, col?.active),
+                                width: '100%',
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: 2,
+                                  flex: 1,
+                                }}
+                              >
+                                <DragIcon />
+                                <FormControlLabel
+                                  key={col?.slug}
+                                  checked={selected?.includes(col?.slug)}
+                                  classes={{
+                                    root: '_root',
+                                    label: '_label',
+                                  }}
+                                  name={col?.attributes}
+                                  onChange={({ target }: any) =>
+                                    handleChackboxChange(target.checked, col, i)
+                                  }
+                                  control={<Checkbox />}
+                                  label={col?.slug}
+                                />
+                              </Box>
+                            </Box>
+                          </Grid>
+                        </Box>
+                      )}
+                    </Draggable>
+                  ))}
+                </Grid>
+              </Box>
             </Box>
           )}
         </Droppable>
       </DragDropContext>
-
-      <Box display="flex" alignItems="center" gap={1}>
-        <AddCircleBlackIcon />
-        <Typography>Add Columns</Typography>
-        <EditProfilelLineIcon />
-      </Box>
     </CommonDrawer>
   );
 };

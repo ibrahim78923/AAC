@@ -75,6 +75,7 @@ export const AIR_SALES = {
   CONTACTS: '/air-sales/contacts/view-details',
   VIEW_DETAILS: '/air-sales/deals/view-details',
   DEAL_LIST_VIEW: '/deals/get-deals-list-view',
+  DEALS_VIEWDEATAILS: '/air-sales/deals/view-details',
 };
 
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
@@ -202,6 +203,7 @@ export const LOYALTY_PROGRAM = {
 
 export const ORG_ADMIN = {
   DASHBOARD_EDIT_PROFILE: '/org-admin/dashboard/edit-profile',
+  ORGANIZATION: '/org-admin/organization-admin',
 };
 
 export const SOCIAL_FEATURES_CHAT = {
@@ -222,4 +224,7 @@ export const CHAT_SOCKETS = {
   ON_MESSAGE_UPDATE: 'on-message-update',
   ON_TYPING_START: 'on-typing-start',
   ON_TYPING_STOP: 'on-typing-stop',
+};
+export const CHAT_SOCKETS_EMIT = {
+  UPDATE_MESSAGE: 'update-message',
 };

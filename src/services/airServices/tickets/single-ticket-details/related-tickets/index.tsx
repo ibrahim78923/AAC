@@ -2,69 +2,49 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'RELATED_TICKETS';
-const {
-  ADD_CHILD_TICKET,
-  GET_CHILD_TICKETS,
-  DELETE_CHILD_TICKET,
-  REQUESTER_LIST,
-  SERVICES_CATEGORIES,
-  DEPARTMENT_LIST,
-} = END_POINTS;
+const { ADD_CHILD_TICKET, GET_CHILD_TICKETS, DELETE_CHILD_TICKET } = END_POINTS;
 export const relatedTicketsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getChildTickets: builder?.query({
-      query: ({ id, ...params }) => ({
-        url: `${GET_CHILD_TICKETS}/${id}`,
+      query: (getChildTicketsParameters: any) => ({
+        url: `${GET_CHILD_TICKETS}/${getChildTicketsParameters?.pathParam?.id}`,
         method: 'GET',
-        params,
+        params: getChildTicketsParameters?.queryParams,
       }),
       providesTags: [TAG],
     }),
     addChildTickets: builder?.mutation({
-      query: ({ id, body }: any) => ({
+      query: (addChildTicketParameters: any) => ({
         url: ADD_CHILD_TICKET,
         method: 'POST',
-        params: { id },
-        body,
+        params: addChildTicketParameters?.queryParams,
+        body: addChildTicketParameters?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    putChildTickets: builder?.mutation({
+      query: (putTicketParameter: any) => ({
+        url: `${END_POINTS?.TICKET}/${putTicketParameter?.pathParam?.id}`,
+        method: 'PUT',
+        body: putTicketParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
     deleteChildTickets: builder?.mutation({
-      query: (params: any) => ({
+      query: (deleteTicketsParameter: any) => ({
         url: `${DELETE_CHILD_TICKET}`,
         method: 'DELETE',
-        params,
+        params: deleteTicketsParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
-    }),
-    getRequester: builder?.query({
-      query: (params: any) => ({
-        url: `${REQUESTER_LIST}`,
-        method: 'GET',
-        params,
-      }),
-    }),
-    getServiceCategories: builder?.query({
-      query: () => ({
-        url: SERVICES_CATEGORIES,
-        method: 'GET',
-      }),
-    }),
-    getDepartmentList: builder?.query({
-      query: () => ({
-        url: DEPARTMENT_LIST,
-        method: 'GET',
-      }),
     }),
   }),
 });
 
 export const {
+  useLazyGetChildTicketsQuery,
   useGetChildTicketsQuery,
   useAddChildTicketsMutation,
   useDeleteChildTicketsMutation,
-  useLazyGetRequesterQuery,
-  useGetRequesterQuery,
-  useGetServiceCategoriesQuery,
-  useGetDepartmentListQuery,
+  usePutChildTicketsMutation,
 } = relatedTicketsAPI;

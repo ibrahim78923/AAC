@@ -1,7 +1,7 @@
 export const BILLING_CYCLE = {
   MONTHLY: 'MONTHLY',
   QUARTERLY: 'QUARTERLY',
-  ANNUAL: 'ANNUAL',
+  ANNUAL: 'YEARLY',
   HALF_YEARLY: 'HALF_YEARLY',
   ONE_TIME: 'ONE_TIME',
 };
@@ -42,6 +42,17 @@ export const TICKET_IMPACT = {
   MEDIUM: 'MEDIUM',
   HIGH: 'HIGH',
 };
+export const IMPORT_ACTIONS = {
+  CANCEL: 'CANCEL',
+  NEXT: 'NEXT',
+  BACK: 'BACK',
+  IMPORT: 'IMPORT',
+};
+export const IMPORT_ACTIONS_STEPS = {
+  STEP_ONE: 0,
+  STEP_TWO: 1,
+  STEP_THREE: 2,
+};
 
 export const TICKET_APPROVALS = {
   RECEIVED: 'RECEIVED',
@@ -54,7 +65,7 @@ export const TICKET_APPROVALS = {
 export const CONTRACT_TYPES = {
   LEASE: 'LEASE',
   MAINTENANCE: 'MAINTENANCE',
-  SOFTWARE_LICENSE: 'SOFTWARE_LICENSE',
+  SOFTWARE_LICENSE: 'SOFTWARE_LICENCE',
   WARRANTY: 'WARRANTY',
 };
 
@@ -94,6 +105,7 @@ export const ASSET_IMPACT = {
   MEDIUM: 'medium',
   HIGH: 'high',
 };
+
 export const TICKET_TYPE = {
   INC: 'INC',
   SR: 'SR',
@@ -328,4 +340,14 @@ export const TICKETS_STATE = {
   NEW: 'New',
   RESPONSE_DUE: 'Response due',
   OVERDUE: 'Overdue',
+};
+export const ROLE = {
+  ORG_REQUESTER: 'ORG_REQUESTER',
+  ORG_AGENT: 'ORG_AGENT',
+};
+export const WORKLOAD_SCHEDULE = {
+  CREATE: 'Create',
+  EDIT: 'Edit',
+  SAVE: 'Save',
+  UPDATE: 'Update',
 };

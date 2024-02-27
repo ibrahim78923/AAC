@@ -14,8 +14,8 @@ import { AlertModals } from '@/components/AlertModals';
 import { AlertModalDeleteIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
-import EditColumns from '../EditColumns';
 import CompaignDetails from '../CampaignDetails';
+import EditTask from '../Tasks/EditTask';
 
 const ActionButton = () => {
   const {
@@ -24,8 +24,6 @@ const ActionButton = () => {
     handleSelectedOptionValue,
     actionsModalDetails,
     setActionsModalDetails,
-    isDelete,
-    setIsDelete,
   } = useCampaigns();
 
   return (
@@ -36,7 +34,7 @@ const ActionButton = () => {
         variant="outlined"
         color="inherit"
         sx={{
-          width: '112px',
+          width: { sm: '112px', xs: '100%' },
           height: '36px',
         }}
       >
@@ -63,14 +61,24 @@ const ActionButton = () => {
         })}
       </Menu>
 
-      {actionsModalDetails?.isClone && (
+      {actionsModalDetails?.isDelete && (
         <AlertModals
-          message="Are you sure you want to delete this broadcast?"
-          type="Delete SMS Broadcast"
+          message="Are you sure you want to delete?"
+          type="Delete"
           typeImage={<AlertModalDeleteIcon />}
-          open={isDelete}
-          handleClose={() => setIsDelete(false)}
-          handleSubmit={() => setIsDelete(false)}
+          open={actionsModalDetails?.isDelete}
+          handleClose={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isDelete: false,
+            })
+          }
+          handleSubmit={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isDelete: false,
+            })
+          }
         />
       )}
       {actionsModalDetails?.isClone && (
@@ -117,17 +125,6 @@ const ActionButton = () => {
           }
         />
       )}
-      {actionsModalDetails?.isEditColumns && (
-        <EditColumns
-          open={actionsModalDetails?.isEditColumns}
-          onClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isEditColumns: false,
-            })
-          }
-        />
-      )}
       {actionsModalDetails?.isViewDeatsils && (
         <CompaignDetails
           open={actionsModalDetails?.isViewDeatsils}
@@ -135,6 +132,18 @@ const ActionButton = () => {
             setActionsModalDetails({
               ...actionsModalDetails,
               isViewDeatsils: false,
+            })
+          }
+        />
+      )}
+      {actionsModalDetails?.isCreateTask && (
+        <EditTask
+          isOpenDrawer={actionsModalDetails?.isCreateTask}
+          isType={'create'}
+          onClose={() =>
+            setActionsModalDetails({
+              ...actionsModalDetails,
+              isCreateTask: false,
             })
           }
         />

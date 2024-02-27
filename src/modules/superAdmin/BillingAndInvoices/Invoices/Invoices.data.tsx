@@ -103,7 +103,7 @@ export const columns = (
       accessorFn: (row: any) => row?.total,
       id: 'InvoiceAmount',
       isSortable: true,
-      header: 'Invoice amount',
+      header: 'Invoice Amount',
       cell: (info: any) => <>£ {info?.getValue()}</>,
     },
     {

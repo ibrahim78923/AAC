@@ -1,178 +1,33 @@
-import { Box, Button, Dialog, Grid, Typography } from '@mui/material';
-import Image from 'next/image';
-import { requestApprovalPageData } from '../RequestApprovalPage.data';
-import CancelIcon from '@mui/icons-material/Cancel';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import SharedIcon from '@/assets/icons/shared/shared-icon';
-import { useRequestApprovalPage } from '../useRequestApprovalPage';
-import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
-import { AlertModalCloseIcon } from '@/assets/icons';
-import { styles } from '../RequestApprovalPage.style';
+import NoData from '@/components/NoData';
+import { ApprovalCard } from '../../ApprovalCard';
 
-const RequestReceivedApproval = () => {
-  const {
-    theme,
-    textColor,
-    handleApprovalModalClose,
-    openApprovalModal,
-    handleRejectModalClose,
-    openRejectModal,
-    handleRejectModalOpen,
-    handleApprovalModalOpen,
-    methods,
-  } = useRequestApprovalPage();
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
+import { useRequestReceivedApprovals } from './useRequestReceivedApproval';
+import { Box } from '@mui/material';
 
-  const Icons: any = {
-    Request: <SharedIcon />,
-  };
+const RequestReceivedApproval = (props: any) => {
+  const { setApproval, updateRequestApprovalStatus } = props;
+  const { data, isLoading, isFetching, isError } =
+    useRequestReceivedApprovals();
+  if (isLoading || isFetching) return <SkeletonForm />;
+  if (isError) return <ApiErrorState />;
+
   return (
-    <>
-      <Box sx={styles?.approvalsContainerBox}>
-        {requestApprovalPageData
-          ?.filter((item: any) => item?.status === 'Request')
-          ?.map((filteredItem) => {
-            return (
-              <Box key={filteredItem?.id} sx={styles?.approvalsContainer}>
-                <Grid
-                  container
-                  justifyContent={'space-between'}
-                  alignItems={'center'}
-                >
-                  <Grid item>
-                    <Box sx={styles?.requestApprovalBoxFirst}>
-                      <Box>
-                        <Image src={filteredItem?.img} alt="Avatar" />
-                      </Box>
-                      <Box>
-                        <Typography
-                          variant="body2"
-                          fontWeight={theme?.typography?.fontWeightMedium}
-                        >
-                          {filteredItem?.mainText}
-                        </Typography>
-                        <Box sx={styles?.requestApprovalBoxSecond}>
-                          {Icons[filteredItem?.status]}
-                          <span>
-                            <Typography
-                              variant="customStyle"
-                              color={textColor[filteredItem?.status]}
-                            >
-                              {filteredItem?.iconText}
-                            </Typography>
-                          </span>
-                        </Box>
-                      </Box>
-                    </Box>
-                    <Typography
-                      variant="customStyle"
-                      color={theme?.palette?.common?.black}
-                    >
-                      {filteredItem?.detail}
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Box sx={styles?.requestApprovalBoxFirst}>
-                      <Button
-                        variant="outlined"
-                        onClick={handleApprovalModalOpen}
-                        startIcon={
-                          <CheckCircleIcon
-                            sx={{ color: theme?.palette?.success?.main }}
-                          />
-                        }
-                      >
-                        Approve
-                      </Button>
-                      <Button
-                        onClick={handleRejectModalOpen}
-                        variant="outlined"
-                        color="error"
-                        startIcon={
-                          <CancelIcon
-                            sx={{ color: theme?.palette?.error?.main }}
-                          />
-                        }
-                      >
-                        Reject
-                      </Button>
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Box>
-            );
-          })}
-      </Box>
-      <Dialog
-        fullWidth
-        open={openApprovalModal}
-        onClose={handleApprovalModalClose}
-      >
-        <Box width={'100%'} p={'1rem'}>
-          <Box sx={styles?.dialogBoxStyle}>
-            <Typography variant="h5">Approval</Typography>
-            <AlertModalCloseIcon
-              onClick={handleApprovalModalClose}
-              style={{ cursor: 'pointer' }}
-            />
-          </Box>
-          <FormProvider methods={methods}>
-            <RHFTextField
-              name="approval"
-              multiline
-              minRows={7}
-              fullWidth
-              placeholder="Add Your Remarks here"
-              label="remarks"
-            />
-          </FormProvider>
-          <Box sx={styles?.boxBorderStyle}></Box>
-          <Box sx={styles?.buttonBox}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleApprovalModalClose}
-            >
-              Cancel
-            </Button>
-            <Button variant="contained">Approve</Button>
-          </Box>
-        </Box>
-      </Dialog>
-      <Dialog fullWidth open={openRejectModal} onClose={handleRejectModalClose}>
-        <Box width={'100%'} p={'1rem'}>
-          <Box sx={styles?.dialogBoxStyle}>
-            <Typography variant="h5">Approval</Typography>
-            <AlertModalCloseIcon
-              onClick={handleRejectModalClose}
-              style={{ cursor: 'pointer' }}
-            />
-          </Box>
-          <FormProvider methods={methods}>
-            <RHFTextField
-              name="rejected"
-              multiline
-              minRows={7}
-              fullWidth
-              placeholder="Add Your Remarks here"
-              label="remarks"
-            />
-          </FormProvider>
-          <Box sx={styles?.boxBorderStyle}></Box>
-          <Box sx={styles?.buttonBox}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleRejectModalClose}
-            >
-              Cancel
-            </Button>
-            <Button variant="contained" color="error">
-              Reject
-            </Button>
-          </Box>
-        </Box>
-      </Dialog>
-    </>
+    <Box maxHeight={'50vh'} overflow={'auto'}>
+      {!!data?.length ? (
+        data?.map((item: any) => (
+          <ApprovalCard
+            key={item?._id}
+            data={item}
+            setApproval={(x: any) => setApproval?.(x)}
+            getUpdateStatus={(item: any) => updateRequestApprovalStatus?.(item)}
+          />
+        ))
+      ) : (
+        <NoData height={'50vh'} />
+      )}
+    </Box>
   );
 };
 

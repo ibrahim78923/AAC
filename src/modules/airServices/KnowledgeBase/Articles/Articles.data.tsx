@@ -1,24 +1,9 @@
-import { Checkbox, Chip } from '@mui/material';
+import { Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { enqueueSnackbar } from 'notistack';
+import { fullName } from '@/utils/avatarUtils';
 
-export const data: any = [
-  {
-    id: 1,
-    article: 'Time management',
-    status: 'published',
-    insertedTickets: 'sharemydine',
-    author: 'alice',
-    folder: 'tech support',
-  },
-  {
-    id: 2,
-    article: 'Time management',
-    status: 'draft',
-    insertedTickets: 'sharemydine',
-    author: 'alice',
-    folder: 'tech support',
-  },
-];
 const bgColor: any = {
   published: 'blue.main',
   draft: 'grey.400',
@@ -32,37 +17,36 @@ export const styleFunction: any = (value: any) => ({
   bgColor: bgColor?.[value?.toLowerCase()],
   color: color?.[value?.toLowerCase()],
 });
+
 export const articlesColumnsFunction = (
-  articlesList: any,
+  articlesList: any = [],
   selectedArticlesData: any,
   setSelectedArticlesData: any,
   handleSingleArticleNavigation: any,
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?.id,
-      id: 'id',
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
       cell: (info: any) => (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
           checked={
             !!selectedArticlesData?.find(
-              (item: any) => item?.id === info?.getValue(),
+              (item: any) => item === info?.getValue(),
             )
           }
           onChange={(e: any) => {
             e?.target?.checked
               ? setSelectedArticlesData([
                   ...selectedArticlesData,
-                  articlesList?.find(
-                    (item: any) => item?.id === info?.getValue(),
-                  ),
+                  info?.getValue(),
                 ])
               : setSelectedArticlesData(
-                  selectedArticlesData?.filter((item: any) => {
-                    return item?.id !== info?.getValue();
-                  }),
+                  selectedArticlesData?.filter(
+                    (item: any) => item !== info?.getValue(),
+                  ),
                 );
           }}
           color="primary"
@@ -73,10 +57,16 @@ export const articlesColumnsFunction = (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
-          checked={selectedArticlesData?.length === articlesList?.length}
+          checked={
+            articlesList?.length
+              ? selectedArticlesData?.length === articlesList?.length
+              : false
+          }
           onChange={(e: any) => {
             e?.target?.checked
-              ? setSelectedArticlesData([...articlesList])
+              ? setSelectedArticlesData(
+                  articlesList?.map((article: any) => article?._id),
+                )
               : setSelectedArticlesData([]);
           }}
           color="primary"
@@ -85,30 +75,39 @@ export const articlesColumnsFunction = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.article,
-      id: 'article',
-      isSortable: true,
-      header: <span>Article</span>,
-      cell: (info: any) => (
-        <span
-          onClick={() => handleSingleArticleNavigation(info?.row?.id)}
-          style={{ cursor: 'pointer', fontWeight: 600 }}
-        >
-          {info?.getValue()}
-        </span>
-      ),
+      accessorFn: (row: any) => row?.details,
+      id: 'name',
+      isSortable: false,
+      header: 'Article',
+      cell: (info: any) => {
+        return (
+          <Typography
+            component={'span'}
+            onClick={() =>
+              handleSingleArticleNavigation(info?.row?.original?._id)
+            }
+            style={{ cursor: 'pointer', fontWeight: 600 }}
+            dangerouslySetInnerHTML={{
+              __html: info?.getValue()?.slice?.(0, 50),
+            }}
+          ></Typography>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.status,
       id: 'status',
-      header: <span>Status</span>,
+      header: 'Status',
       isSortable: true,
       cell: (info: any) => (
         <Chip
           label={
-            <span style={{ textTransform: 'capitalize' }}>
+            <Typography
+              component={'span'}
+              style={{ textTransform: 'capitalize' }}
+            >
               {info?.getValue()}
-            </span>
+            </Typography>
           }
           size="small"
           sx={{
@@ -119,62 +118,69 @@ export const articlesColumnsFunction = (
       ),
     },
     {
-      accessorFn: (row: any) => row?.insertedTickets,
+      accessorFn: (row: any) => row?.insertedTicket,
       id: 'insertedTickets',
       isSortable: true,
-      header: <span>Inserted Tickets</span>,
-      cell: (info: any) => info?.getValue(),
+      header: `Inserted Tickets`,
+      cell: (info: any) => info?.getValue()?.[0] ?? '---',
     },
     {
       accessorFn: (row: any) => row?.author,
       id: 'author',
       isSortable: true,
-      header: <span>Author</span>,
-      cell: (info: any) => info?.getValue(),
+      header: 'Author',
+      cell: (info: any) =>
+        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
     },
     {
       accessorFn: (row: any) => row?.folder,
       id: 'folder',
       isSortable: true,
-      header: <span>Folder</span>,
-      cell: (info: any) => info?.getValue(),
+      header: 'Folder',
+      cell: (info: any) => info?.getValue()?.name ?? '---',
     },
   ];
 };
-
-export const articlesTabs = [
-  'all',
-  'training',
-  'compliances',
-  'hardware',
-  'software',
-  'payments',
-];
 
 export const actionBtnData = (
   setOpenDeleteModal: any,
   setMoveFolderModal: any,
   handleEditNavigation: any,
+  selectedArticlesData: any,
 ) => [
   {
     title: 'Edit',
-    handleClick: (popClose: any) => {
-      handleEditNavigation();
-      popClose();
+    handleClick: (closeMenu: any) => {
+      if (selectedArticlesData?.length > 1) {
+        enqueueSnackbar('Please select only one', {
+          variant: NOTISTACK_VARIANTS?.WARNING,
+        });
+        closeMenu?.();
+        return;
+      }
+      handleEditNavigation(selectedArticlesData?.[0]);
+      closeMenu();
     },
   },
   {
     title: 'Delete',
-    handleClick: (popClose: any) => {
+    handleClick: (closeMenu: any) => {
       setOpenDeleteModal(true);
-      popClose();
+      closeMenu();
     },
   },
   {
     title: 'Move Folder',
-    handleClick: (popClose: any) => {
+    handleClick: (closeMenu: any) => {
+      if (selectedArticlesData?.length > 1) {
+        enqueueSnackbar('Please select only one', {
+          variant: NOTISTACK_VARIANTS?.WARNING,
+        });
+        closeMenu?.();
+        return;
+      }
       setMoveFolderModal(true);
-      popClose();
+      closeMenu();
     },
   },
 ];

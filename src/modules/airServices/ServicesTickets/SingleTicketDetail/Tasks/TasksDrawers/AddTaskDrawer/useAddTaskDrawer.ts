@@ -20,7 +20,7 @@ export const useAddTaskDrawer = (props: any) => {
   });
   const searchParams = useSearchParams();
   const taskId = searchParams?.get('ticketId');
-  const [postTask] = usePostTaskByIdMutation();
+  const [postTask, { isLoading }] = usePostTaskByIdMutation();
   const submitCreateNewTicket = async (data: any) => {
     const params = {
       ...data,
@@ -59,5 +59,6 @@ export const useAddTaskDrawer = (props: any) => {
     departmentDropdown,
     userDropdown,
     handleClose,
+    isLoading,
   };
 };

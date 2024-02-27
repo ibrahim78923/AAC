@@ -45,8 +45,10 @@ export const SUPER_ADMIN: any = {
 };
 
 export const AIR_SERVICES = {
+  DASHBOARD: `/air-services`,
   TICKETS: `/air-services/tickets`,
   TICKETS_LIST: `/air-services/tickets/detail`,
+  CHILD_TICKETS_DETAIL: `/air-services/tickets/child-detail`,
   PURCHASE_ORDER: '/air-services/assets/purchase-orders',
   ASSETS_PURCHASE_ORDER_DETAIL: '/air-services/assets/purchase-orders/detail',
   NEW_PURCHASE_ORDER: '/air-services/assets/purchase-orders/new-purchase',
@@ -55,8 +57,8 @@ export const AIR_SERVICES = {
   KNOWLEDGE_BASE: '/air-services/knowledge-base',
   KNOWLEDGE_BASE_VIEW_ARTICLE:
     '/air-services/knowledge-base/article/view-article',
-  KNOWLEDGE_BASE_EDIT_ARTICLE:
-    '/air-services/knowledge-base/article/edit-article',
+  KNOWLEDGE_BASE_UPSERT_ARTICLE:
+    '/air-services/knowledge-base/article/upsert-article',
   ADD_ASSOCIATE_ASSET:
     '/air-services/assets/contracts/detail/add-associate-asset',
   ASSETS_CONTRACTS: '/air-services/assets/contracts',
@@ -104,6 +106,9 @@ export const AIR_SERVICES = {
   UPSERT_SERVICE:
     '/air-services/settings/service-management/services-catalog/upsert-service',
   SERVICE_CATALOG: '/air-services/settings/service-management/services-catalog',
+  UPSERT_SOFTWARE_CONTRACT: `/air-services/assets/software/detail/create-contract`,
+  UPSERT_WORKFLOW_MANAGEMENT:
+    '/air-services/settings/agent-performance-management/workload-management/upsert-workflow-management',
 };
 
 export const AIR_CUSTOMER_PORTAL = {
@@ -147,11 +152,13 @@ export const AIR_LOYALTY_PROGRAM = {
   REWARDS: `/air-loyalty-program/loyalty/rewards`,
   ADD_REWARDS: `/air-loyalty-program/loyalty/rewards/add-rewards`,
   GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards`,
-  SINGLE_DIGITAL_GIFT_CARDS: `/air-loyalty-program/gift-cards/gift-cards/single-digital-gift-card`,
+  SINGLE_GIFT_CARD_TRANSACTION_DETAIL: `/air-loyalty-program/gift-cards/gift-cards/transaction-details`,
   DIGITAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/digital/single-digital-detail`,
   PHYSICAL_REWARDS_DETAIL: `/air-loyalty-program/loyalty/rewards/physical/single-physical-detail`,
   VOUCHERS: `/air-loyalty-program/loyalty/vouchers`,
   VOUCHER_REDEMPTION_LIST: `/air-loyalty-program/loyalty/vouchers/voucher-redemptions-list`,
+  PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design`,
+  EDIT_PHYSICAL_GIFT_CARD_DESIGN: `/air-loyalty-program/gift-cards/gift-cards/physical-card-design/edit`,
 };
 export const SOCIAL_COMPONENTS = {
   COMPANIES: `/social-components/companies`,

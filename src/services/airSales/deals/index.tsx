@@ -162,12 +162,37 @@ export const dealsApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['DEALS'],
     }),
+    getCustomizeColumn: builder.query({
+      query: (params) => ({
+        url: `${END_POINTS?.DEALS_CUSTOMIZE_COLUMN}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['DEALS'],
+    }),
+    updatedGridDeals: builder.mutation({
+      query: ({ body, id }: any) => {
+        return {
+          url: `${END_POINTS?.POST_DEALS}/${id}`,
+          method: 'PATCH',
+          body,
+        };
+      },
+      invalidatesTags: ['DEALS'],
+    }),
+    putCustomizedColumns: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.DEALS_CUSTOMIZE_COLUMN}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['DEALS', 'CUSTOMIZE'],
+    }),
   }),
 });
 
 export const {
   useGetDealsListQuery,
-  useLazyGetDealsListQuery,
   // useGetDealsByIdQuery,
   useGetDealsSalesProductQuery,
   useGetDealsLifecycleStageQuery,
@@ -186,4 +211,7 @@ export const {
   useGetUsersListQuery,
   usePatchDealsMutation,
   useGetDealsAssociationsQuery,
+  useGetCustomizeColumnQuery,
+  useUpdatedGridDealsMutation,
+  usePutCustomizedColumnsMutation,
 } = dealsApi;

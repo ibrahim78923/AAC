@@ -1,45 +1,46 @@
 import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
-  RHFSelect,
   RHFSwitch,
-  RHFTextField,
 } from '@/components/ReactHookForm';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
-const dropdownDummy = [
-  {
-    value: 'option1',
-    label: 'Option 1',
-  },
-  {
-    value: 'option2',
-    label: 'Option 2',
-  },
-];
+const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
-export const defaultValues = {
-  content: '',
-  folder: '',
-  tags: '',
-  keywords: '',
-  needsApproval: false,
-  approver: '',
-  reviewDate: new Date(),
+export const defaultValues = (articleData?: any) => {
+  return {
+    folder: articleData?.folder ?? null,
+    details: articleData?.details,
+    tags: articleData?.tags ?? [],
+    keywords: articleData?.keywords ?? [],
+    needsApproval: articleData?.isApproval ?? false,
+    approver: articleData?.approver ?? null,
+    reviewDate: new Date(articleData?.reviewDate ?? todayDate),
+  };
 };
 
-export const newArticleFieldsFunction = (needApprovals: any) => {
+export const editArticleFieldsFunction = (
+  needApprovals: any,
+  apiQueryFolder: any,
+  apiQueryApprover: any,
+) => {
   const conditionalFields = [
     {
-      id: 5,
+      id: 1,
       componentProps: {
         fullWidth: true,
         name: 'approver',
         label: 'Approver',
-        select: true,
-        options: dropdownDummy,
+        placeholder: 'Select',
         sx: { pb: 1.2 },
+        apiQuery: apiQueryApprover,
+        getOptionLabel: (option: any) =>
+          `${option?.firstName} ${option?.lastName}`,
       },
       gridLength: 12,
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
     },
     {
       id: 6,
@@ -49,8 +50,6 @@ export const newArticleFieldsFunction = (needApprovals: any) => {
         fullWidth: true,
         name: 'reviewDate',
         label: 'Review Date',
-        select: true,
-        options: dropdownDummy,
         sx: { pb: 1.2 },
       },
     },
@@ -58,15 +57,14 @@ export const newArticleFieldsFunction = (needApprovals: any) => {
   const defaultFields = [
     {
       id: 3,
-      component: RHFSelect,
+      component: RHFAutocompleteAsync,
       gridLength: 12,
       componentProps: {
         fullWidth: true,
         name: 'folder',
         label: 'Folder',
-        placeholder: 'Training',
-        select: true,
-        options: dropdownDummy,
+        placeholder: 'Select',
+        apiQuery: apiQueryFolder,
         sx: { pb: 1.2 },
       },
     },
@@ -76,23 +74,29 @@ export const newArticleFieldsFunction = (needApprovals: any) => {
         fullWidth: true,
         name: 'tags',
         label: 'Tags',
-        placeholder: '#example',
         sx: { pb: 1.2 },
+        freeSolo: true,
+        options: [],
+        multiple: true,
+        isOptionEqualToValue: () => {},
       },
       gridLength: 12,
-      component: RHFTextField,
+      component: RHFAutocomplete,
     },
     {
-      id: 8,
+      id: 2,
       componentProps: {
         fullWidth: true,
         name: 'keywords',
         label: 'Keywords',
-        placeholder: 'Keywords',
-        sx: { pb: 1.2 },
+        // sx: { pb: 1.2 },
+        freeSolo: true,
+        options: [],
+        multiple: true,
+        isOptionEqualToValue: () => {},
       },
       gridLength: 12,
-      component: RHFTextField,
+      component: RHFAutocomplete,
     },
     {
       id: 4,

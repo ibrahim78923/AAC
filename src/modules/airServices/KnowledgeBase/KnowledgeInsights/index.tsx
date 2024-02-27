@@ -5,7 +5,6 @@ import { TicketRelated } from './TicketRelated';
 import { v4 as uuidv4 } from 'uuid';
 import { useKnowledgeInsights } from './useKnowledgeInsights';
 import NoData from '@/components/NoData';
-import { NoSearchResultFoundImage } from '@/assets/images';
 
 export const KnowledgeInsights = () => {
   const {
@@ -16,11 +15,8 @@ export const KnowledgeInsights = () => {
   } = useKnowledgeInsights();
   return (
     <>
-      {trendingInsightsData?.length < 1 ? (
-        <NoData
-          image={NoSearchResultFoundImage}
-          message={'No approval found'}
-        />
+      {!!!trendingInsightsData?.length ? (
+        <NoData message={'No Knowledge Insights found'} />
       ) : (
         <>
           {ticketRelatedToggler ? (

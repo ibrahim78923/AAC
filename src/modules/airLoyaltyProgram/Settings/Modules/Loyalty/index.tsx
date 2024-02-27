@@ -2,7 +2,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import {
   modulesLoyaltyDataGenral,
   modulesLoyaltyDataAttribute,
-} from './ModulesLoyalty.data';
+} from './Loyalty.data';
 import { useForm } from 'react-hook-form';
 import { FormProvider } from '@/components/ReactHookForm';
 

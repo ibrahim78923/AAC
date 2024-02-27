@@ -98,7 +98,7 @@ const useCampaignsGraphs = () => {
       },
     },
     title: {
-      text: 'Total Add Spend',
+      text: 'Add Spend Over Time',
     },
     dataLabels: {
       enabled: false,

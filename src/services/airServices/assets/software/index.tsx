@@ -1,6 +1,21 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
+const TAGS = 'SOFTWARE';
+
+export const deleteSoftwareAPI = baseAPI?.injectEndpoints({
+  endpoints: (builder: any) => ({
+    deleteSoftware: builder?.mutation({
+      query: (id: any) => ({
+        url: `${END_POINTS?.DELETE_SOFTWARE}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [TAGS],
+    }),
+  }),
+});
+
+export const { useDeleteSoftwareMutation } = deleteSoftwareAPI;
 const TAG = 'ASSETS_SOFTWARE';
 
 export const assetsSoftwareAPI = baseAPI?.injectEndpoints({

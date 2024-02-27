@@ -6,12 +6,12 @@ import { BoardCardI } from './BoardCard.interface';
 import { styles } from './BoardCard.style';
 
 const BoardCard: FC<BoardCardI> = ({
-  dealStage,
   stageDealsNumber,
   stageDealsAmount,
   stageDealsPercent,
   sx,
   children,
+  title,
 }) => {
   const theme = useTheme();
   return (
@@ -20,9 +20,12 @@ const BoardCard: FC<BoardCardI> = ({
         <Box sx={styles?.cardHeaderLeft}>
           <Typography
             variant="body2"
-            sx={{ fontWeight: '700', color: 'blue.main' }}
+            sx={{
+              color: `${theme?.palette?.blue?.main}`,
+              fontWeight: 600,
+            }}
           >
-            {dealStage}
+            {title}
           </Typography>
           <Box sx={styles?.dealsNumber}>{stageDealsNumber}</Box>
         </Box>

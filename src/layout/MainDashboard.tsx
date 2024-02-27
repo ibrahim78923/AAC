@@ -29,7 +29,7 @@ import {
   setSocketConnection,
   setTypingUserData,
 } from '@/redux/slices/chat/slice';
-import { useAppDispatch } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { getSession, isNullOrEmpty } from '@/utils';
 
 import { getLowerRoutes, getRoutes, zeroPaddingRoutes } from './Layout.data';
@@ -97,7 +97,7 @@ const DashboardLayout = ({ children, window }: any) => {
   };
 
   const findEmail: any = findRoleByEmail({ user, array });
-  const findEmailRole = findEmail ? findEmail?.role : 'ORG_ADMIN';
+  const findEmailRole = findEmail ? findEmail?.role : 'AIR_SERVICES';
 
   const routes = getRoutes(findEmailRole);
 
@@ -263,7 +263,13 @@ const DashboardLayout = ({ children, window }: any) => {
                                 }}
                               />
                             </ListItemIcon>
-                            {link?.label}
+                            <Typography
+                              fontWeight={
+                                routerPathName === pathNameKey ? '500' : '400'
+                              }
+                            >
+                              {link?.label}
+                            </Typography>
                           </ListItemButton>
                         </ListItem>
                       </Link>
@@ -312,12 +318,21 @@ const DashboardLayout = ({ children, window }: any) => {
                               />
                             </ListItemIcon>
 
-                            {link.label}
+                            <Typography
+                              fontWeight={
+                                routerPathName === lowerPathNameKey ||
+                                dropDownOpen[link?.key]
+                                  ? '500'
+                                  : '400'
+                              }
+                            >
+                              {link?.label}
+                            </Typography>
                             <Box sx={{ paddingLeft: '20px' }}>
                               <Image
                                 src={
                                   routerPathName === lowerPathNameKey ||
-                                  dropDownOpen[link.key]
+                                  dropDownOpen[link?.key]
                                     ? ArrowUpImage
                                     : ArrowDownImage
                                 }
@@ -396,7 +411,7 @@ const DashboardLayout = ({ children, window }: any) => {
                             }}
                           />
                         </ListItemIcon>
-                        Logout
+                        <Typography fontWeight={500}> Logout</Typography>
                       </ListItemButton>
                     </ListItem>
                   </div>
@@ -416,6 +431,9 @@ const DashboardLayout = ({ children, window }: any) => {
   const {
     accessToken,
   }: { accessToken: string; refreshToken: string; user: any } = getSession();
+
+  const activeChatId = useAppSelector((state) => state?.chat?.activeChatId);
+  const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
 
   const [socket, setSocket] = useState<any>();
   useEffect(() => {
@@ -453,15 +471,28 @@ const DashboardLayout = ({ children, window }: any) => {
     socket.on(CHAT_SOCKETS?.ON_NEW_CHAT, (payload: any) => {
       dispatch(setChatContacts(payload));
     });
-    socket.on(CHAT_SOCKETS?.SOCKET_ERROR_OCCURED, (payload: any) => {
-      enqueueSnackbar(payload?.message, {
-        variant: 'error',
-      });
-    });
+    socket.on(CHAT_SOCKETS?.SOCKET_ERROR_OCCURED, () => {});
+
     socket.on(CHAT_SOCKETS?.ON_MESSAGE_RECEIVED, (payload: any) => {
-      if (payload?.data) {
-        dispatch(setChatMessages(payload?.data));
-        dispatch(setChangeChat(payload?.data));
+      // Show notification badge on new message
+      if (!activeChatId === payload?.data?.chatId) {
+        if (payload?.data) {
+          const currentData = chatContacts.find(
+            (ele: any) => ele?._id === payload?.data?.chatId,
+          );
+          dispatch(
+            setChatContacts({
+              ...currentData,
+              unReadMessagesCount: currentData?.unReadMessagesCount + 1,
+            }),
+          );
+        }
+      }
+      if (activeChatId === payload?.data?.chatId) {
+        if (payload?.data) {
+          dispatch(setChatMessages(payload?.data));
+          dispatch(setChangeChat(payload?.data));
+        }
       }
     });
     socket.on(CHAT_SOCKETS?.UPDATE_MESSAGE, () => {});

@@ -20,6 +20,7 @@ export default function RHFSearchableSelect({
   isFooter,
   footerText,
   footerActionHandler,
+  label,
   ...other
 }: any) {
   const theme = useTheme();
@@ -48,6 +49,13 @@ export default function RHFSearchableSelect({
       control={control}
       render={({ field, fieldState: { error } }) => (
         <>
+          <Typography
+            variant="body2"
+            fontWeight={500}
+            sx={{ marginBottom: '6px' }}
+          >
+            {label}
+          </Typography>
           <TextField
             {...field}
             fullWidth
@@ -59,6 +67,7 @@ export default function RHFSearchableSelect({
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
+            placeholder="sss"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="start">
@@ -89,7 +98,15 @@ export default function RHFSearchableSelect({
                 label="Search By Name"
                 fullWidth
                 size="small"
-                sx={{ marginBottom: '15px' }}
+                sx={{
+                  marginBottom: '15px',
+                  '& input': {
+                    padding: '10px',
+                    '&::placeholder': {
+                      fontSize: '14px',
+                    },
+                  },
+                }}
               />
               {filteredOptions?.map((option: any) => (
                 <Box

@@ -93,7 +93,7 @@ const Products = () => {
         />
       )}
       <AlertModals
-        message={"You're about to remove a record. Are you Sure?"}
+        message={"You're about to remove a record. Are you sure?"}
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}
