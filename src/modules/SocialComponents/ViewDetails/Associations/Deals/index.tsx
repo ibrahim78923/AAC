@@ -8,8 +8,6 @@ import TanstackTable from '@/components/Table/TanstackTable';
 
 import { columns } from './Deals.data';
 
-import { productsData } from '@/mock/modules/airSales/Deals/ViewDetails';
-
 import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
@@ -25,7 +23,8 @@ const Deals = (companyId: any) => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
-  } = useDeals();
+    getCompanyDeals,
+  } = useDeals(companyId);
 
   return (
     <Box
@@ -71,7 +70,7 @@ const Deals = (companyId: any) => {
         <Grid item xs={12}>
           <TanstackTable
             columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={productsData}
+            data={getCompanyDeals?.data}
           />
         </Grid>
       </Grid>

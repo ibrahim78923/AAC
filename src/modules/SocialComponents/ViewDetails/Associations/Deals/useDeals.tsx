@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
+import { useGetCompanyDealsQuery } from '@/services/commonFeatures/companies';
 
-const useDeals = () => {
+const useDeals = (companyId: any) => {
   const theme = useTheme();
   const [searchName, setSearchName] = useState('');
   const [openDrawer, setOpenDrawer] = useState('');
@@ -10,6 +11,10 @@ const useDeals = () => {
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
   };
+  const { data: getCompanyDeals } = useGetCompanyDealsQuery({
+    id: companyId.companyId,
+  });
+
   return {
     theme,
     isOpenAlert,
@@ -19,6 +24,7 @@ const useDeals = () => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
+    getCompanyDeals,
   };
 };
 
