@@ -1,9 +1,5 @@
 export const styles = {
   pageHeader: () => ({
-    display: 'flex',
-    alignItems: 'center',
-  }),
-  heading: () => ({
-    flex: '1',
+    mb: '24px',
   }),
 };

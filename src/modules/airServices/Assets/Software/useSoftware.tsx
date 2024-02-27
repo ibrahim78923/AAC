@@ -14,12 +14,15 @@ export const useSoftware = () => {
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(10);
 
-  const { data, isLoading, isError, isSuccess } = useGetAssetsSoftwareQuery({
+  const apiDataParameter = {
     page,
     limit: pageLimit,
-    search: searchValue,
     ...filterValues,
-  });
+    search: searchValue,
+  };
+
+  const { data, isLoading, isError, isSuccess } =
+    useGetAssetsSoftwareQuery(apiDataParameter);
 
   const handlePageChange = (page: number) => {
     setPage(page);
@@ -65,5 +68,6 @@ export const useSoftware = () => {
     setFilterValues,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
+    filterValues,
   };
 };
