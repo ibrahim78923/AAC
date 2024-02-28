@@ -131,6 +131,7 @@ const CUSTOM_COLORS = {
   light_grey_bg: '#e5e7eb4d',
   cloud_white: '#F9F9F9',
   whispering_mist_blue: '#EBECF1',
+  mid_grey: '#F6F7F9',
   light_success: '#47B2631A',
   light_blue: '#1F305D1A',
   light_warning: '#FFC20E1A',
