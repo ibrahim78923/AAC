@@ -128,7 +128,7 @@ export const dealsApi = baseAPI.injectEndpoints({
         url: `${END_POINTS?.DELETE_DEALS}/${ids}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['DEALS'],
+      invalidatesTags: ['DEALS', 'COMPANY'],
     }),
     updateRestoreDeals: builder.mutation({
       query: ({ id, action }: any) => ({

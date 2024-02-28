@@ -114,6 +114,7 @@ export const END_POINTS = {
   COMPANY: `/companies`,
   DELETED_COMPANIES: '/companies/deleted',
   COMPANY_PREVIEW: '/companies/get-company-preview',
+  COMPANY_DEALS: '/deals/get-company-deals',
   RESTORE_COMPANIES: '/companies/restore-action',
   MERGE_COMPANIES: '/companies/merge-company',
   REASSIGN_COMPANY_OWNER: '/companies/change-company-owner',
