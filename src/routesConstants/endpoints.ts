@@ -8,8 +8,8 @@ export const END_POINTS = {
   forgot_password: 'auth/forgot-password',
   INVENTORY_ACTIVITY: 'assets/inventory',
   WORKLOAD: `/workload/workload-management`,
-  INVENTORY_EXPENSE: 'expense/add-expense',
-  GET_INVENTORY_EXPENSE: 'expense/get-expense',
+  INVENTORY_EXPENSE: '/expense/add-expense',
+  GET_INVENTORY_EXPENSE: '/expense/get-expense',
   TICKET: '/ticket',
   TICKET_STATUS: '/ticket/status',
   TICKET_BULK_UPDATE: '/ticket/bulk-ticket-update',
@@ -233,6 +233,7 @@ export const END_POINTS = {
   GET_RECEIVERS_BANK_ACCOUNTS: `/receiver-bank-account`,
   GET_CUSTOMER_DASHBOARD: `/air-services-dashboard/get-customer-dashboard-data`,
   GET_DROPDOWN_COMPANY: `/super-admin/company-list`,
+  ASSETS_RECEIVED: '/assets/get-purchaseorder-assets-received/{id}',
 };
 
 export const superAdminBillingInvoices = {
