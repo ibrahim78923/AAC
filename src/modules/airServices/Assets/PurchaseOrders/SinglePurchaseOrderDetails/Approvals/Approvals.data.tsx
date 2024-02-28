@@ -7,7 +7,6 @@ import {
   PrimaryRequestIcon,
 } from '@/assets/icons';
 export const approvalStatus = ['APPROVED', 'REJECTED', 'CANCELED'];
-export const DATE_TIME_FORMAT = 'ddd, D MMM h:mm A';
 export const approvalsStatusObj = (
   status: any,
   approverId: any,

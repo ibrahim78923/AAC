@@ -1,6 +1,5 @@
 import NoData from '@/components/NoData';
 import {
-  DATE_TIME_FORMAT,
   approvalStatus,
   approvalsStatusObj,
   stringAvatar,
@@ -20,6 +19,7 @@ import CustomPagination from '@/components/CustomPagination';
 import { LoadingButton } from '@mui/lab';
 import { useApprovals } from './useApprovals';
 import { Fragment } from 'react';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 export const Approvals = () => {
   const {
@@ -124,7 +124,9 @@ export const Approvals = () => {
                             user?._id,
                           )?.message
                         }
-                        {dayjs(item?.updatedAt).format(DATE_TIME_FORMAT)}
+                        {dayjs(item?.updatedAt).format(
+                          DATE_TIME_FORMAT?.DMDMHA,
+                        )}
                       </Typography>
                       <Typography variant="body2">{item?.reasons}</Typography>
                     </Box>
