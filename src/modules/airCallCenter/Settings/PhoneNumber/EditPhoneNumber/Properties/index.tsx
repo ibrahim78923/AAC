@@ -6,7 +6,7 @@ import useEditPhoneNumber from '../useEditPhoneNumber';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const Properties = () => {
-  const { methods, maskValue } = useEditPhoneNumber();
+  const { methods, maskValue, callerIds } = useEditPhoneNumber();
   return (
     <FormProvider methods={methods}>
       <Grid container spacing={0.5}>
@@ -28,7 +28,7 @@ const Properties = () => {
                   placeholder="select"
                   value="jjciodeo"
                 >
-                  {[]?.map((item: any) => (
+                  {callerIds?.map((item: any) => (
                     <MenuItem value={item?.value} key={uuidv4()}>
                       {item?.label}
                     </MenuItem>

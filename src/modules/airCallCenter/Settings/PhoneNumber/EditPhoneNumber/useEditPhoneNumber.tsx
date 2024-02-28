@@ -4,8 +4,11 @@ import {
   propertiesDefaultValues,
   propertiesValidationSchema,
 } from './Properties/Properties.data';
+import { useState } from 'react';
 
 const useEditPhoneNumber = () => {
+  const [callerIds, setcallerIds] = useState([]);
+
   const methods: any = useForm({
     resolver: yupResolver(propertiesValidationSchema),
     defaultValues: propertiesDefaultValues,
@@ -16,6 +19,8 @@ const useEditPhoneNumber = () => {
   return {
     methods,
     maskValue,
+    callerIds,
+    setcallerIds,
   };
 };
 
