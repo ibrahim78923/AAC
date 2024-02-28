@@ -85,6 +85,7 @@ export const TAGS = [
   'CUSTOMER_PORTAL_KNOWLEDGE_BASE',
   'USER_LIST',
   'ASSETS_RECEIVED',
+  'SOFTWARE_CONTRACTS',
 ];
 
 const baseQuery = fetchBaseQuery({
