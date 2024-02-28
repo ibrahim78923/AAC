@@ -26,6 +26,7 @@ const useDeals = (companyId: any) => {
       enqueueSnackbar('Deals deleted successfully', {
         variant: 'success',
       });
+      setDealRecord('');
       handleCloseAlert();
     } catch (error) {
       enqueueSnackbar('Error while deleting deals', {

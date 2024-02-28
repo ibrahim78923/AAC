@@ -48,10 +48,20 @@ export const columns: any = ({
       header: 'Actions',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('View')}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              setOpenDrawer('View'), setDealRecord(info?.row?.original);
+            }}
+          >
             <ViewEyeIcon />
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('Edit')}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              setOpenDrawer('Edit'), setDealRecord(info?.row?.original);
+            }}
+          >
             <EditPenIcon />
           </Box>
           <Box
