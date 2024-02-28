@@ -171,7 +171,3 @@ export const SOCIAL_COMPONENTS = {
 export const AUTH = {
   FORGOT_PASSWORD: `/forget-password`,
 };
-
-export const userRoleName = {
-  ORG_EMPLOYEE: 'ORG_EMPLOYEE',
-};
