@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   addExpenseColumnsFunction,
@@ -9,7 +8,6 @@ import {
   addExpenseValidationSchema,
   expenseActionsDropdownFunction,
 } from './Expense.data';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { PAGINATION } from '@/config';
 import {
   useDeleteInventoryExpenseMutation,
@@ -44,7 +42,6 @@ export const useExpense = () => {
   const { data, isLoading, isSuccess, isFetching } =
     useGetInventoryExpenseQuery(params);
   const expenseData = data?.data?.expenses;
-
   const metaData = data?.data?.meta;
 
   const addExpenseMethods: any = useForm({
@@ -86,11 +83,14 @@ export const useExpense = () => {
     } else {
       try {
         const formData = {
+          cost: data?.cost,
+          type: data?.type,
+          date: data?.date,
           id: expenseId,
           assetId: assetId,
         };
         await patchExpenseTrigger(formData);
-        successSnackbar('Expense added successfully');
+        successSnackbar('Expense Update successfully');
         reset();
         setIsAddExpenseModalOpen(false);
         setSelectedExpenseList([]);
@@ -105,9 +105,7 @@ export const useExpense = () => {
       return setIsDeleteExpenseModalOpen(true);
     }
     if (selectedExpenseList?.length > 1) {
-      enqueueSnackbar(`Can't update multiple records`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(`Can't update multiple records`);
       return;
     }
     Object?.entries(selectedExpenseList?.[0])?.map(
@@ -127,16 +125,12 @@ export const useExpense = () => {
   const [deleteExpense] = useDeleteInventoryExpenseMutation();
   const handleDelete = async () => {
     try {
-      const res: any = await deleteExpense({ ids: expenseId });
-      enqueueSnackbar(res?.data?.message && 'Record deleted Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await deleteExpense({ ids: expenseId });
+      successSnackbar('Record deleted Successfully');
       setIsDeleteExpenseModalOpen(false);
       setSelectedExpenseList([]);
     } catch (err: any) {
-      enqueueSnackbar(err?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
 
