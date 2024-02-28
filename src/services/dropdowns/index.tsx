@@ -34,6 +34,15 @@ export const dropdownsAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => transformResponse(response),
       providesTags: [TAG],
     }),
+    getAgents: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_AGENTS_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => transformResponse(response),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -41,4 +50,5 @@ export const {
   useLazyGetOrganizationsQuery,
   useLazyGetProductsQuery,
   useGetOrganizationUsersQuery,
+  useLazyGetAgentsQuery,
 } = dropdownsAPI;

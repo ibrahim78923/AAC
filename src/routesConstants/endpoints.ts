@@ -234,6 +234,9 @@ export const END_POINTS = {
   GET_RECEIVERS_BANK_ACCOUNTS: `/receiver-bank-account`,
   GET_CUSTOMER_DASHBOARD: `/air-services-dashboard/get-customer-dashboard-data`,
   GET_DROPDOWN_COMPANY: `/super-admin/company-list`,
+  REQUEST_APPROVAL: `/assets/add-approver-order`,
+  REQUEST_APPROVALS_LIST: `/assets/get-purchase-approvals-by-purchase-order`,
+  PATCH_APPROVAL_STATUS: `/assets/approver-order-status`,
   ASSETS_RECEIVED: '/assets/get-purchaseorder-assets-received/{id}',
 };
 

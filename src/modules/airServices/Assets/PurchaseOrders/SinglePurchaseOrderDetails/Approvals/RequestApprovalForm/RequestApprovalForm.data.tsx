@@ -1,9 +1,9 @@
 import * as Yup from 'yup';
 
-export const validationSchema = Yup?.object()?.shape({
-  approvers: Yup?.string()?.required('Required'),
+export const validationSchema: any = Yup?.object()?.shape({
+  approvers: Yup?.object()?.required('Required'),
 });
 
 export const defaultValues = {
-  approvers: '',
+  approvers: null,
 };
