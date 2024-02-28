@@ -52,7 +52,7 @@ export const ToDoList = () => {
           <Box>
             <Typography variant="body2">Meeting with CEO</Typography>
             <Typography variant="body3">
-              Presentation about the Air Applecart project
+              Presentation about the Air Applecart projects
             </Typography>
           </Box>
           <Box display={'grid'} gap={'15px'}>
