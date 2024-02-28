@@ -2,17 +2,25 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
-import useBankAccounts from '../useBankAccounts';
 import { addAccountsForm } from './AddBankAccounts.data';
+import useAddBankAccounts from './useAddBankAccounts';
 
 const AddBankAccounts = (props: any) => {
-  const { isOpenAddAccountDrawer, setIsOpenAddAccountDrawer } = props;
-  const { methods, handleSubmit, onSubmit } = useBankAccounts();
+  const { isOpenAddAccountDrawer, setIsOpenAddAccountDrawer, setCheckedRows } =
+    props;
+  const { methods, handleSubmit, onSubmit, reset } = useAddBankAccounts(
+    setIsOpenAddAccountDrawer,
+    isOpenAddAccountDrawer,
+    setCheckedRows,
+  );
 
   return (
     <CommonDrawer
-      isDrawerOpen={isOpenAddAccountDrawer}
-      onClose={() => setIsOpenAddAccountDrawer(false)}
+      isDrawerOpen={isOpenAddAccountDrawer?.isToggle}
+      onClose={() => {
+        setIsOpenAddAccountDrawer(false);
+        reset();
+      }}
       title="Add Bank Account"
       okText="Add"
       isOk
