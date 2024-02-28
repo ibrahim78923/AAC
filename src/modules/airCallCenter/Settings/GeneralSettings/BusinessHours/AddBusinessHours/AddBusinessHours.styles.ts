@@ -2,8 +2,10 @@ export const styles = {
   pageHeader: () => ({
     display: 'flex',
     alignItems: 'center',
+    mb: '24px',
   }),
-  heading: () => ({
-    flex: '1',
+  arrowBack: () => ({
+    cursor: 'pointer',
+    mr: '16px',
   }),
 };

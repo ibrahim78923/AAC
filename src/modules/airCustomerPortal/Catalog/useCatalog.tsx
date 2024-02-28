@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
@@ -14,6 +14,7 @@ const useCatalog = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
+  const [result, setResult] = useState<any[]>([]);
   const handlePageChange = (page: number) => {
     setPage(page);
   };
@@ -42,7 +43,13 @@ const useCatalog = () => {
   });
 
   const results = services?.data;
-  const [result, setResult] = useState<any[]>(results);
+
+  // Update result when services changes
+  useEffect(() => {
+    if (results) {
+      setResult(results);
+    }
+  }, [services]);
 
   const handleClick = (prop: string) => {
     let filteredServices;

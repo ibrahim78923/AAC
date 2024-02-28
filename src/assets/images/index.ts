@@ -267,3 +267,4 @@ export { default as UserDefault } from './modules/socialComponents/chat/user-def
 export { default as TypingGif } from './modules/socialComponents/chat/typing.gif';
 export { default as PhysicalCardSmallImage } from './modules/loyaltyProgram/GiftCards/physical-card-small-image.png';
 export { default as UserProfileVectorImage } from './modules/airCallCenter/CallMetrices/user-avatar.png';
+export { default as CardBGBubbles } from './modules/airCallCenter/CallMetrices/card-bg-bubbles.png';

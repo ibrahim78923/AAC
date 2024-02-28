@@ -18,9 +18,9 @@ export const CreateEmailData = [
 ];
 
 export const createNewEmailSchema = Yup?.object()?.shape({
-  emailFrom: Yup?.string().required('Field is Required'),
-  emailTo: Yup?.string().required('Field is Required'),
-  subject: Yup?.string().required('Field is Required'),
+  emailFrom: Yup?.string().required('Required Field'),
+  emailTo: Yup?.string().required('Required Field'),
+  subject: Yup?.string().required('Required Field'),
 });
 
 export const defaultValues = {

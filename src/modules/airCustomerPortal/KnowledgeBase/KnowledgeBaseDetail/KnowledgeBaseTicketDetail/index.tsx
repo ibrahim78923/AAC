@@ -1,6 +1,5 @@
 import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { relatedTicketDataArray } from './KnowledgeBaseTicketDetail.data';
 import { useKnowledgeBaseTicketDetail } from './useKnowledgeBaseTicketDetail';
 import { DocumentTextIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
@@ -21,6 +20,8 @@ export const KnowledgeBaseTicketDetail = () => {
     setShowOkFeedback,
     singleArticlesData,
     isLoading,
+    relatedArticlesData,
+    loadingArticles,
   } = useKnowledgeBaseTicketDetail();
   return (
     <>
@@ -42,7 +43,7 @@ export const KnowledgeBaseTicketDetail = () => {
               <ArrowBackIcon onClick={handlePageBack} />
             </Box>
             <Typography variant="h3" color={theme?.palette?.slateBlue?.main}>
-              Profiting in Bear and Bull Markets
+              {singleArticlesData?.title}
             </Typography>
           </Box>
           {isLoading ? (
@@ -81,23 +82,29 @@ export const KnowledgeBaseTicketDetail = () => {
                   height={showFeedbackField ? '14rem' : '33rem'}
                   overflow={'scroll'}
                 >
-                  {relatedTicketDataArray?.map((item: any) => (
-                    <Box
-                      display={'flex'}
-                      justifyContent={'flex-start'}
-                      alignItems={'center'}
-                      p={1}
-                      borderRadius={1}
-                      bgcolor={theme?.palette?.grey?.[100]}
-                      mt={0.5}
-                      key={item?.id}
-                    >
-                      <DocumentTextIcon />
-                      <Typography color="secondary">
-                        {item?.ticketDescription}
-                      </Typography>
-                    </Box>
-                  ))}
+                  {loadingArticles ? (
+                    <SkeletonTable />
+                  ) : (
+                    <>
+                      {relatedArticlesData?.map((item: any) => (
+                        <Box
+                          display={'flex'}
+                          justifyContent={'flex-start'}
+                          alignItems={'center'}
+                          p={1}
+                          borderRadius={1}
+                          bgcolor={theme?.palette?.grey?.[100]}
+                          mt={0.5}
+                          key={item?.id}
+                        >
+                          <DocumentTextIcon />
+                          <Typography color="secondary">
+                            {item?.title}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </>
+                  )}
                 </Box>
               </Grid>
               {showFeedbackField ? (
