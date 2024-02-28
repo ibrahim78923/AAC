@@ -14,7 +14,31 @@ export const taskApi = baseAPI.injectEndpoints({
 
     getCreateTaskContacts: builder.query({
       query: ({ params }: any) => ({
-        url: `/contact`,
+        url: `${END_POINTS?.CONTACTS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+    getCreateTaskCompanies: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.COMPANY}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+    getCreateTaskDeals: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DEALS_LIST_VIEW}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+    getCreateTaskTickets: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.TICKET}`,
         method: 'GET',
         params: params,
       }),
@@ -36,4 +60,7 @@ export const {
   useGetTasksQuery,
   usePostCreateTaskMutation,
   useGetCreateTaskContactsQuery,
+  useGetCreateTaskCompaniesQuery,
+  useGetCreateTaskDealsQuery,
+  useGetCreateTaskTicketsQuery,
 } = taskApi;

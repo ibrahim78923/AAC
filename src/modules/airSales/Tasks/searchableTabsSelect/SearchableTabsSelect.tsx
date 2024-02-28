@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   InputAdornment,
@@ -16,22 +16,38 @@ import { ArrowDownIcon } from '@/assets/icons';
 import { useFormContext, Controller } from 'react-hook-form';
 
 import { v4 as uuidv4 } from 'uuid';
-import { useGetCreateTaskContactsQuery } from '@/services/airSales/task';
+import {
+  useGetCreateTaskCompaniesQuery,
+  useGetCreateTaskContactsQuery,
+  useGetCreateTaskDealsQuery,
+  useGetCreateTaskTicketsQuery,
+} from '@/services/airSales/task';
 
 export default function SearchableTabsSelect({ name, ...other }: any) {
   const { control } = useFormContext();
-
-  // const [searchTerm, setSearchTerm] = useState('');
   const [activeSidebarItem, setActiveSidebarItem] = useState('associations');
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const {
-    data: contactsData,
-    // isLoading,
-    // status,
-  } = useGetCreateTaskContactsQuery({
+  const { data: contactsData } = useGetCreateTaskContactsQuery({
+    params: {
+      page: '1',
+      limit: '10',
+    },
+  });
+  const { data: companiesData } = useGetCreateTaskCompaniesQuery({
+    params: {
+      page: '1',
+      limit: '10',
+    },
+  });
+  const { data: dealsData } = useGetCreateTaskDealsQuery({
+    params: {
+      page: '1',
+      limit: '10',
+    },
+  });
+  const { data: ticketsData } = useGetCreateTaskTicketsQuery({
     params: {
       page: '1',
       limit: '10',
@@ -40,8 +56,28 @@ export default function SearchableTabsSelect({ name, ...other }: any) {
 
   const contactsDataArray =
     contactsData?.data?.contacts &&
-    contactsData?.data?.contacts.map((item: any) => ({
+    contactsData?.data?.contacts?.map((item: any) => ({
       label: `${item?.firstName} ${item?.lastName}`,
+      id: item?._id,
+    }));
+
+  const companiesDataArray =
+    companiesData?.data?.companies &&
+    companiesData?.data?.companies?.map((item: any) => ({
+      label: item?.name,
+      id: item?._id,
+    }));
+
+  const dealsDataArray =
+    dealsData?.data?.deals &&
+    dealsData?.data?.deals?.map((item: any) => ({
+      label: item?.name,
+      id: item?._id,
+    }));
+  const ticketsDataArray =
+    ticketsData?.data &&
+    ticketsData?.data?.map((item: any) => ({
+      label: item?.subject,
       id: item?._id,
     }));
 
@@ -68,34 +104,6 @@ export default function SearchableTabsSelect({ name, ...other }: any) {
     },
   ];
 
-  // const dataOptions = [
-  //   {
-  //     key: 'companies',
-  //     label: 'Companies',
-  //     data: [
-  //       {
-  //         label: 'L&C',
-  //         id: '89sff89df',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     key: 'contacts',
-  //     label: 'Contacts',
-  //     data: contactsDataArray,
-  //   },
-  //   {
-  //     key: 'deals',
-  //     label: 'Deals',
-  //     data: [
-  //       {
-  //         label: 'Sharemydine',
-  //         id: 'hjhjhjs78dsd',
-  //       },
-  //     ],
-  //   },
-  // ];
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -105,21 +113,81 @@ export default function SearchableTabsSelect({ name, ...other }: any) {
   };
 
   const [contactsSelectedIds, setContactsSelectedIds] = useState<any>([]);
-  // const [companiesSelectedIds, setcompaniesSelectedIds] = useState<string[]>([]);
-  // const [dealsSelectedIds, setDealsSelectedIds] = useState<string[]>([]);
-  // const [ticketsSelectedIds, setTicketsSelectedIds] = useState<string[]>([]);
+  const [companiesSelectedIds, setCompaniesSelectedIds] = useState<string[]>(
+    [],
+  );
+  const [dealsSelectedIds, setDealsSelectedIds] = useState<string[]>([]);
+  const [ticketsSelectedIds, setTicketsSelectedIds] = useState<string[]>([]);
 
-  const handleCheckboxChange = (itemId: string) => {
+  const handleCheckboxContacts = (item: any) => {
     setContactsSelectedIds((prevSelectedItems: any) => {
-      if (prevSelectedItems.includes(itemId)) {
-        // Item is already selected, remove it
-        return prevSelectedItems.filter((id: any) => id !== itemId);
+      const itemId = item.id;
+      if (
+        prevSelectedItems.some(
+          (selectedItem: any) => selectedItem.id === itemId,
+        )
+      ) {
+        return prevSelectedItems.filter(
+          (selectedItem: any) => selectedItem.id !== itemId,
+        );
       } else {
-        // Item is not selected, add it
-        return [...prevSelectedItems, itemId];
+        return [...prevSelectedItems, item];
       }
     });
   };
+  const handleCheckboxCompanies = (item: any) => {
+    setCompaniesSelectedIds((prevSelectedItems: any) => {
+      const itemId = item.id;
+      if (
+        prevSelectedItems.some(
+          (selectedItem: any) => selectedItem.id === itemId,
+        )
+      ) {
+        return prevSelectedItems.filter(
+          (selectedItem: any) => selectedItem.id !== itemId,
+        );
+      } else {
+        return [...prevSelectedItems, item];
+      }
+    });
+  };
+  const handleCheckboxDeals = (item: any) => {
+    setDealsSelectedIds((prevSelectedItems: any) => {
+      const itemId = item.id;
+      if (
+        prevSelectedItems.some(
+          (selectedItem: any) => selectedItem.id === itemId,
+        )
+      ) {
+        return prevSelectedItems.filter(
+          (selectedItem: any) => selectedItem.id !== itemId,
+        );
+      } else {
+        return [...prevSelectedItems, item];
+      }
+    });
+  };
+  const handleCheckboxTickets = (item: any) => {
+    setTicketsSelectedIds((prevSelectedItems: any) => {
+      const itemId = item.id;
+      if (
+        prevSelectedItems.some(
+          (selectedItem: any) => selectedItem.id === itemId,
+        )
+      ) {
+        return prevSelectedItems.filter(
+          (selectedItem: any) => selectedItem.id !== itemId,
+        );
+      } else {
+        return [...prevSelectedItems, item];
+      }
+    });
+  };
+
+  useEffect(() => {
+    // clearErrors(name);
+    // setValue(name, contactsSelectedIds)
+  }, [contactsSelectedIds]);
 
   return (
     <Controller
@@ -133,7 +201,7 @@ export default function SearchableTabsSelect({ name, ...other }: any) {
             error={!!error}
             helperText={error?.message}
             {...other}
-            value={''}
+            value={contactsSelectedIds.map((item: any) => item?.label)}
             placeholder="Select"
             onClick={handleClick}
             InputProps={{
@@ -196,11 +264,46 @@ export default function SearchableTabsSelect({ name, ...other }: any) {
                     width="100%"
                   />
                   <Box sx={{ maxHeight: '300px', overflow: 'scroll' }}>
-                    <TabsContentSection
-                      dataArray={contactsDataArray}
-                      selectedIds={contactsSelectedIds}
-                      handelChange={handleCheckboxChange}
-                    />
+                    {(activeSidebarItem === 'contacts' ||
+                      activeSidebarItem === 'associations') && (
+                      <TabsContentSection
+                        title="Contacts"
+                        dataArray={contactsDataArray}
+                        selectedIds={contactsSelectedIds}
+                        handelChange={handleCheckboxContacts}
+                        activeSidebarItem={activeSidebarItem}
+                      />
+                    )}
+                    {(activeSidebarItem === 'companies' ||
+                      activeSidebarItem === 'associations') && (
+                      <TabsContentSection
+                        title="Companies"
+                        dataArray={companiesDataArray}
+                        selectedIds={companiesSelectedIds}
+                        handelChange={handleCheckboxCompanies}
+                        activeSidebarItem={activeSidebarItem}
+                      />
+                    )}
+                    {(activeSidebarItem === 'deals' ||
+                      activeSidebarItem === 'associations') && (
+                      <TabsContentSection
+                        title="Deals"
+                        dataArray={dealsDataArray}
+                        selectedIds={dealsSelectedIds}
+                        handelChange={handleCheckboxDeals}
+                        activeSidebarItem={activeSidebarItem}
+                      />
+                    )}
+                    {(activeSidebarItem === 'tickets' ||
+                      activeSidebarItem === 'associations') && (
+                      <TabsContentSection
+                        title="Tickets"
+                        dataArray={ticketsDataArray}
+                        selectedIds={ticketsSelectedIds}
+                        handelChange={handleCheckboxTickets}
+                        activeSidebarItem={activeSidebarItem}
+                      />
+                    )}
                   </Box>
                 </Box>
               </Grid>
@@ -212,11 +315,17 @@ export default function SearchableTabsSelect({ name, ...other }: any) {
   );
 }
 
-const TabsContentSection = ({ dataArray, selectedIds, handelChange }: any) => {
+const TabsContentSection = ({
+  dataArray,
+  selectedIds,
+  handelChange,
+  title,
+  activeSidebarItem,
+}: any) => {
   return (
     <Box>
       <Typography fontWeight={500} sx={{ mt: 2 }}>
-        Contacts
+        {title}
       </Typography>
       <Box
         sx={{
@@ -226,15 +335,49 @@ const TabsContentSection = ({ dataArray, selectedIds, handelChange }: any) => {
           mt: 1,
         }}
       >
-        {dataArray?.map((item: any) => (
-          <Box sx={{ display: 'flex', alignItems: 'center' }} key={uuidv4()}>
-            <Checkbox
-              checked={selectedIds.includes(item?.id)}
-              onChange={() => handelChange(item?.id, item?.label)}
-            />
-            <Typography key={uuidv4()}>{item?.label}</Typography>
-          </Box>
-        ))}
+        {dataArray?.map((item: any) => {
+          return (
+            <>
+              {activeSidebarItem === 'associations' ? (
+                <>
+                  {selectedIds?.some(
+                    (selectedItem: any) => selectedItem?.id === item?.id,
+                  ) && (
+                    <Box
+                      sx={{ display: 'flex', alignItems: 'center' }}
+                      key={uuidv4()}
+                    >
+                      <Checkbox
+                        checked={selectedIds?.some(
+                          (selectedItem: any) => selectedItem?.id === item?.id,
+                        )}
+                        onChange={() => {
+                          handelChange(item);
+                        }}
+                      />
+                      <Typography key={uuidv4()}>{item?.label}</Typography>
+                    </Box>
+                  )}
+                </>
+              ) : (
+                <>
+                  <Box
+                    sx={{ display: 'flex', alignItems: 'center' }}
+                    key={uuidv4()}
+                  >
+                    <Checkbox
+                      checked={selectedIds?.some(
+                        (selectedItem: any) => selectedItem?.id === item?.id,
+                      )}
+                      onChange={() => handelChange(item)}
+                    />
+                    <Typography key={uuidv4()}>{item?.label}</Typography>
+                  </Box>
+                </>
+              )}
+            </>
+          );
+        })}
       </Box>
     </Box>
   );

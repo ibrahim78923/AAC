@@ -43,6 +43,8 @@ const CreateTask = ({ title, hideBtn, defaultOpen }: CreateTaskI) => {
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
+
+    alert('sdsd');
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitHandler);
   return (

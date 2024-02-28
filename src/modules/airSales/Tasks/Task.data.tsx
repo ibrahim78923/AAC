@@ -118,14 +118,14 @@ export const createTaskValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required').trim(),
   type: Yup?.string()?.trim()?.required('Field is Required'),
   priority: Yup?.string()?.trim()?.required('Field is Required'),
-  status: Yup?.string()?.trim()?.required('Field is Required'),
-  deal: Yup?.string()?.trim()?.required('Field is Required'),
-  associate: Yup?.string()?.trim()?.required('Field is Required'),
-  assignTo: Yup?.string()?.trim()?.required('Field is Required'),
-  dueDate: Yup?.string()?.trim()?.required('Field is Required'),
-  time: Yup?.string()?.trim()?.required('Field is Required'),
-  reminder: Yup?.string()?.trim()?.required('Field is Required'),
-  note: Yup?.string()?.trim()?.required('Field is Required'),
+  // status: Yup?.string()?.trim()?.required('Field is Required'),
+  // deal: Yup?.string()?.trim()?.required('Field is Required'),
+  // associate: Yup?.string()?.trim()?.required('Field is Required'),
+  // assignTo: Yup?.string()?.trim()?.required('Field is Required'),
+  // dueDate: Yup?.string()?.trim()?.required('Field is Required'),
+  // time: Yup?.string()?.trim()?.required('Field is Required'),
+  // reminder: Yup?.string()?.trim()?.required('Field is Required'),
+  // note: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const createTaskDefaultValues = {
@@ -161,11 +161,11 @@ export const createTaskData = [
       name: 'type',
       select: true,
       placeholder: 'Enter Name',
+      options: [
+        { label: 'Call', value: 'Call' },
+        { label: 'Email', value: 'Email' },
+      ],
     },
-    options: [
-      { label: 'Call', value: 'Call' },
-      { label: 'Email', value: 'Email' },
-    ],
     component: RHFSelect,
   },
   {
