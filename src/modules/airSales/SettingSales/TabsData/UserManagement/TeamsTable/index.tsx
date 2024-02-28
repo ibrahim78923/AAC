@@ -9,13 +9,12 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import CommonDrawer from '@/components/CommonDrawer';
 import { AlertModals } from '@/components/AlertModals';
 
-import { teamsTableData } from '@/mock/modules/airSales/SettingSales';
-
 import useTeamsTable from './useTeamsTable';
 import { styles } from './TeamsTable.style';
 import { memberDetails } from './TeamsTable.data';
 import { v4 as uuidv4 } from 'uuid';
 import MemberDetails from './MemberDetails';
+import useUserManagement from '../useUserManagement';
 
 const TeamsTable = () => {
   const {
@@ -26,6 +25,8 @@ const TeamsTable = () => {
     isOpenDelete,
     setIsOpenDelete,
   } = useTeamsTable();
+
+  const { teamsData } = useUserManagement();
 
   return (
     <>
@@ -47,11 +48,12 @@ const TeamsTable = () => {
         <Grid sx={{ paddingTop: '1rem' }}>
           <TanstackTable
             columns={getRowValues}
-            data={teamsTableData}
+            data={teamsData?.data?.userTeams}
             isPagination
           />
         </Grid>
       </Box>
+
       <CommonDrawer
         isDrawerOpen={isTeamDrawer}
         onClose={() => setIsTeamDrawer(false)}

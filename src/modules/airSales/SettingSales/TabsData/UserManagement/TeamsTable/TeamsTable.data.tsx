@@ -21,8 +21,8 @@ export const columnsTeams = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.teamMember,
-      id: 'teamMember',
+      accessorFn: (row: any) => row?.teamMembers,
+      id: 'teamMembers',
       isSortable: true,
       header: 'Team Member',
       cell: (info: any) => info?.getValue(),

@@ -234,6 +234,7 @@ export const END_POINTS = {
   GET_CUSTOMER_DASHBOARD: `/air-services-dashboard/get-customer-dashboard-data`,
   GET_DROPDOWN_COMPANY: `/super-admin/company-list`,
   ASSETS_RECEIVED: '/assets/get-purchaseorder-assets-received/{id}',
+  SALES_TEAM: '/teams',
 };
 
 export const superAdminBillingInvoices = {
