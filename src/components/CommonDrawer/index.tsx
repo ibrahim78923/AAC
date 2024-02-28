@@ -48,7 +48,7 @@ const CommonDrawer = ({
         flexDirection="column"
         minHeight="100vh"
         sx={{
-          width: { lg: '500px', md: '500px', sm: '500px', xs: '100vw' },
+          width: { lg: '520px', md: '500px', sm: '500px', xs: '100vw' },
         }}
       >
         <AppBar

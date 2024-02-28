@@ -5,13 +5,14 @@ import { softwareFilterDataArray } from './SoftwareFilter.data';
 import { useSoftwareFilter } from './useSoftwareFilter';
 
 export default function SoftwareFilter(props: any) {
-  const { isOpenDrawer, setIsOpenFilterDrawer } = props;
-  const { methods, handleSubmit, onSubmit } = useSoftwareFilter(props);
+  const { isOpenDrawer } = props;
+  const { methods, handleSubmit, onSubmit, clearFilter } =
+    useSoftwareFilter(props);
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isOpenDrawer}
-        onClose={() => setIsOpenFilterDrawer(false)}
+        onClose={handleSubmit(clearFilter)}
         title={'Filters'}
         okText={'Apply'}
         isOk

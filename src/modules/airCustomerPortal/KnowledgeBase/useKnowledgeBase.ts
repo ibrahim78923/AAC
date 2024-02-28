@@ -10,10 +10,10 @@ export const useKnowledgeBase = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<any>(null);
 
-  const handleKnowledgeBaseDetail = (id: any) => {
+  const handleKnowledgeBaseDetail = (folderId: any) => {
     router?.push({
       pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_DETAIL,
-      query: { id },
+      query: { folderId },
     });
   };
 
