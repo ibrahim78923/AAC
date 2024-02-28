@@ -15,15 +15,6 @@ const statusOption = [
   { _id: 'PUBLISHED', label: 'PUBLISHED' },
 ];
 
-export const authorOption = [
-  { _id: 'Alee', label: 'Alee' },
-  { _id: 'David', label: 'David' },
-  { _id: 'Raza', label: 'Raza' },
-  { _id: 'Sam', label: 'Sam' },
-  { _id: 'Martiz', label: 'Martiz' },
-  { _id: 'Luke', label: 'Luke' },
-  { _id: 'Manpreet', label: 'Manpreet' },
-];
 export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
   {
     id: '1',

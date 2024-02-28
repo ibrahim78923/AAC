@@ -17,6 +17,7 @@ import { ReplyDoubleArrowIcon } from '@/assets/icons';
 import { ArrowBack, Done, MoreHoriz } from '@mui/icons-material';
 
 import { useState } from 'react';
+import ActionButton from './ActionButton';
 
 export default function Comments({ initialValueProps = defaultValues }: any) {
   const methods: any = useForm({
@@ -66,10 +67,7 @@ export default function Comments({ initialValueProps = defaultValues }: any) {
                 </Typography>
               </Box>
             </Stack>
-
-            <MoreHoriz
-              sx={{ color: theme?.palette?.custom?.steel_blue_alpha }}
-            />
+            <ActionButton />
           </Stack>
           <Stack
             direction={{ md: 'row' }}

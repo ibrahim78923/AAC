@@ -33,12 +33,10 @@ export const useArticles: any = () => {
     ['search', search],
     ['folderId', selectedArticlesTab === 'all' ? '' : selectedArticlesTab],
   ];
-  // const extraFilters = [];
   const articlesParam: any = buildQueryParams(
     additionalParams,
     filterValues,
     [],
-    // extraFilters,
   );
   const getArticlesParameter = {
     queryParams: articlesParam,
@@ -80,6 +78,7 @@ export const useArticles: any = () => {
     setSelectedArticlesTab(id);
     setPage(1);
   };
+
   const articlesColumns = articlesColumnsFunction(
     lazyGetArticlesStatus?.data?.data?.articles,
     selectedArticlesData,

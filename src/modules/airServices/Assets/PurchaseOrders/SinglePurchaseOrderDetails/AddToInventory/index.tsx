@@ -1,35 +1,64 @@
 import {
   ItemStatusImage,
   ItemToInventoryImage,
+  NoAssociationFoundImage,
   TotalItemImage,
 } from '@/assets/images';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
-import { Box, Chip, Divider, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  Divider,
+  FormControl,
+  Grid,
+  Typography,
+} from '@mui/material';
 import Image from 'next/image';
-import { addToInventoryItemStatus } from './AddToInventory.data';
 import * as React from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import useAddToInventoryDrawer from './useAddToInventory';
-import { v4 as uuidv4 } from 'uuid';
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material';
+import {
+  itemDetailColumns,
+  purchaseDetailFormFieldsFunction,
+} from './AddToInventory.data';
+
+import NoData from '@/components/NoData';
 
 export const AddToInventory = (props: any) => {
   const { isADrawerOpen, setIsADrawerOpen } = props;
   const {
-    methodsTwo,
     methodsNo,
     methodsYes,
     boolVariable,
     filteredYes,
-    filteredNo,
     submitHandlerTwo,
     submitHandlerNo,
     submitHandlerYes,
     handleRadioChange,
     toShow,
     setToShow,
+    purchaseOrderDetail,
+    updateDate,
+    handleRadioValueChange,
+    selectedAssetId,
+    apiQueryDepartment,
+    methodsTwo,
+    apiQueryLocations,
+    fields,
   } = useAddToInventoryDrawer(props);
 
   return (
@@ -77,7 +106,8 @@ export const AddToInventory = (props: any) => {
                   Total items received:
                 </Typography>
                 <Typography variant="h6" component="span" mt={1} ml={1}>
-                  5/5
+                  {purchaseOrderDetail?.purchaseDetails?.[0]?.received}/
+                  {purchaseOrderDetail?.purchaseDetails?.[0]?.quantity}
                 </Typography>
               </Box>
             </Grid>
@@ -89,9 +119,12 @@ export const AddToInventory = (props: any) => {
                 alt="item Status"
               />
               <Box display={'flex'} flexDirection={'column'} marginLeft={0.5}>
-                <Typography variant="h6">Item Status</Typography>
+                <Typography variant="h6">Status</Typography>
                 <Chip
-                  label="Received"
+                  label={
+                    purchaseOrderDetail?.status &&
+                    `: ${purchaseOrderDetail?.status}`
+                  }
                   color="primary"
                   variant="outlined"
                   sx={{ mt: '0.5rem' }}
@@ -118,7 +151,7 @@ export const AddToInventory = (props: any) => {
             >
               <Typography variant="h5">Items added to inventory</Typography>
               <Typography variant="body1" mt={1} ml={1}>
-                2
+                {purchaseOrderDetail?.purchaseDetails?.[0]?.quantity}
               </Typography>
             </Grid>
             <Divider />
@@ -189,49 +222,51 @@ export const AddToInventory = (props: any) => {
               onSubmit={toShow === true ? submitHandlerYes : submitHandlerNo}
             >
               <Grid container spacing={2}>
-                {toShow === true
-                  ? filteredYes?.map((item: any) => (
-                      <Grid item xs={4} md={item?.md} key={uuidv4()}>
-                        {item?.component && (
-                          <item.component
-                            {...item?.componentProps}
-                            size={'small'}
-                          >
-                            {item?.componentProps?.select
-                              ? item?.options?.map((option: any) => (
-                                  <option key={uuidv4()} value={option?.value}>
-                                    {option?.label}
-                                  </option>
-                                ))
-                              : null}
-                          </item.component>
-                        )}
-                      </Grid>
-                    ))
-                  : filteredNo?.map(
-                      (item: any) =>
-                        item?.component && (
-                          <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                            {item?.componentProps?.select ? (
-                              <item.component
-                                {...item?.componentProps}
-                                size="small"
+                {toShow === true ? (
+                  filteredYes?.map((item: any) => (
+                    <Grid item xs={12} md={item?.md} key={item?.id}>
+                      <item.component {...item?.componentProps} size="small" />
+                    </Grid>
+                  ))
+                ) : (
+                  <Grid
+                    item
+                    xs={12}
+                    mt={2}
+                    sx={{ maxHeight: '300px', overflowY: 'auto' }}
+                  >
+                    {updateDate ? (
+                      updateDate.map((asset: any) => (
+                        <Card key={asset?._id}>
+                          <CardContent>
+                            <FormControl component="fieldset">
+                              <RadioGroup
+                                row
+                                aria-label="asset-radio-group"
+                                name="asset-radio-group"
+                                value={selectedAssetId}
+                                onChange={handleRadioValueChange}
                               >
-                                {item?.options?.map((option: any) => (
-                                  <option key={uuidv4()} value={option?.value}>
-                                    {option?.label}
-                                  </option>
-                                ))}
-                              </item.component>
-                            ) : (
-                              <item.component
-                                {...item?.componentProps}
-                                size="small"
-                              />
-                            )}
-                          </Grid>
-                        ),
+                                <FormControlLabel
+                                  value={asset?._id?.toString()}
+                                  control={<Radio />}
+                                  label={asset.displayName}
+                                />
+                              </RadioGroup>
+                            </FormControl>
+                          </CardContent>
+                        </Card>
+                      ))
+                    ) : (
+                      <>
+                        <NoData
+                          image={NoAssociationFoundImage}
+                          message={'no Data Found'}
+                        />
+                      </>
                     )}
+                  </Grid>
+                )}
               </Grid>
             </FormProvider>
           </Grid>
@@ -261,25 +296,53 @@ export const AddToInventory = (props: any) => {
               <Box>
                 <Typography variant="h6">Item Status</Typography>
                 <Chip
-                  label="Received"
+                  label={
+                    purchaseOrderDetail?.status &&
+                    `: ${purchaseOrderDetail?.status}`
+                  }
                   color="primary"
                   variant="outlined"
                   sx={{ mt: '0.5rem' }}
                 />
               </Box>
             </Grid>
-            <Grid item xs={12}>
-              <FormProvider methods={methodsTwo} onSubmit={submitHandlerTwo}>
-                <Grid container spacing={2}>
-                  {addToInventoryItemStatus?.map((item: any) => (
-                    <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                      <item.component
-                        {...item?.componentProps}
-                        size={'small'}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
+            <Grid
+              display={'flex'}
+              flexDirection={'row'}
+              justifyContent={'center'}
+            >
+              <FormProvider methods={methodsTwo} onsubmit={submitHandlerTwo}>
+                {' '}
+                <TableContainer>
+                  <Table sx={{ minWidth: '800px' }}>
+                    <TableHead>
+                      <TableRow>
+                        {itemDetailColumns?.map((column: any) => (
+                          <TableCell key={column}>{column}</TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {fields?.map((item: any, index: any) => {
+                        return (
+                          <TableRow key={item?.id}>
+                            {purchaseDetailFormFieldsFunction?.(
+                              methodsTwo?.control,
+                              'addToInventory',
+                              index,
+                              apiQueryLocations,
+                              apiQueryDepartment,
+                            )?.map((singleField: any) => (
+                              <TableCell key={item?.id}>
+                                {singleField?.data}
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
               </FormProvider>
             </Grid>
           </Grid>

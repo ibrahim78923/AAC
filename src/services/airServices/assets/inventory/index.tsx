@@ -104,7 +104,7 @@ export const inventoryAPI = baseAPI?.injectEndpoints({
     }),
     patchAddToInventory: builder?.mutation({
       query: (putAddToInventoryParameter: any) => ({
-        url: `${END_POINTS?.ASSETS_INVENTORY}/${putAddToInventoryParameter?.pathParam?.inventoryId}`,
+        url: `${END_POINTS?.ASSETS_EDIT_INVENTORY}`,
         method: 'PATCH',
         body: putAddToInventoryParameter?.body,
       }),

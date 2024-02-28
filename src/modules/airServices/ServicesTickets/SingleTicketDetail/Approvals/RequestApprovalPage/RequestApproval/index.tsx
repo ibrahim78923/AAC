@@ -15,8 +15,8 @@ const RequestApproval = (props: any) => {
 
   return (
     <Box maxHeight={'50vh'} overflow={'auto'}>
-      {!!data?.length ? (
-        data?.map((item: any) => (
+      {!!data?.data?.length ? (
+        data?.data?.map((item: any) => (
           <ApprovalCard
             key={item?._id}
             data={item}

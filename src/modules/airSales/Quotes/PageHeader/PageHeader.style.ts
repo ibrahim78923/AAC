@@ -5,7 +5,6 @@ export const styles = {
     alignItems: 'center',
     flexWrap: 'wrap',
     p: '16px 24px',
-    flexWrap: 'wrap',
   }),
   pageHeaderTitle: (theme: any) => ({
     color: theme?.palette?.grey[800],
@@ -20,7 +19,7 @@ export const styles = {
     fontWeight: '500',
     p: '6px 18px',
     height: '36px',
-    '@media (max-width: 500px)': {
+    '@media (max-width: 599px)': {
       width: '100%',
     },
   }),

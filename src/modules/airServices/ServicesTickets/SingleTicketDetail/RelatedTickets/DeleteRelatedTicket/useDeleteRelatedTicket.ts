@@ -22,12 +22,12 @@ export const useDeleteRelatedTicket = (props: any) => {
     try {
       await deleteChildTicketsTrigger(deleteTicketsParameter)?.unwrap();
       successSnackbar('Child Ticket deleted successfully');
-      setSelectedChildTickets([]);
-      setPage(1);
+      setSelectedChildTickets?.([]);
+      setPage?.(1);
       closeTicketsDeleteModal?.();
     } catch (error: any) {
       errorSnackbar();
-      setSelectedChildTickets([]);
+      setSelectedChildTickets?.([]);
       closeTicketsDeleteModal?.();
     }
   };
