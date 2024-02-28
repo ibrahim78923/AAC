@@ -83,6 +83,7 @@ export const TAGS = [
   'CUSTOMER_PORTAL_DASHBOARD',
   'NON_REGISTER_DASHBOARD',
   'CUSTOMER_PORTAL_KNOWLEDGE_BASE',
+  'USER_LIST',
 ];
 
 const baseQuery = fetchBaseQuery({
