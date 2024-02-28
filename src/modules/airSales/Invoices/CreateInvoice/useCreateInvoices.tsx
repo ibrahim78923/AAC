@@ -12,11 +12,6 @@ const useCreateInvoices = () => {
   const invoicesStepperData = [
     {
       key: uuidv4(),
-      label: 'Choose Quotes',
-      component: '<ChooseQuotes />',
-    },
-    {
-      key: uuidv4(),
       label: 'Edit Details',
       component: <EditDetails />,
     },
