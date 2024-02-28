@@ -1,13 +1,20 @@
 import { PauseIcon, PlayIcon } from '@/assets/icons';
 import CommonModal from '@/components/CommonModal';
-import { Box, Button, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  LinearProgress,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import useTestConnection from './useTestConnection';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import { FormProvider, RHFSelect } from '@/components/ReactHookForm';
 
 const TestConnectionModal = (props: any) => {
   const theme = useTheme();
   const { isTestConnectionModal, setIsTestConnectionModal } = props;
-  const { isPlay, setIsPlay, isRecording, setIsRecording } =
+  const { isPlay, setIsPlay, isRecording, setIsRecording, methods } =
     useTestConnection();
 
   return (
@@ -18,7 +25,6 @@ const TestConnectionModal = (props: any) => {
     >
       <Box display="flex" gap={2}>
         <Button
-          // variant={isRecording ? 'contained' : 'danger'}
           sx={{
             color: theme?.palette?.common?.white,
             px: 1,
@@ -50,6 +56,81 @@ const TestConnectionModal = (props: any) => {
         >
           Play
         </Button>
+      </Box>
+      <Box mt={2}>
+        <FormProvider methods={methods}>
+          <Typography
+            variant="body1"
+            fontWeight={600}
+            color={theme?.palette?.grey[600]}
+            mb={1}
+          >
+            Speaker
+          </Typography>
+          <RHFSelect
+            name="outputDevices"
+            label="Output Devices"
+            select={true}
+            size="small"
+          >
+            <option value="default">
+              Default - Speakers (Realek High definition Audio)
+            </option>
+            <option value="default">
+              Default - Speakers (Realek High definition Audio)
+            </option>
+          </RHFSelect>
+          <Box display="flex" gap={1} alignItems="center">
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              color={theme?.palette?.grey[600]}
+            >
+              Output Level:{' '}
+            </Typography>
+            <LinearProgress
+              variant="determinate"
+              value={75}
+              sx={{ width: '152px' }}
+            />
+          </Box>
+          <Typography
+            variant="body1"
+            fontWeight={600}
+            color={theme?.palette?.grey[600]}
+            mt={2}
+            mb={1}
+          >
+            Microphone
+          </Typography>
+          <RHFSelect
+            name="inputDevices"
+            label="Input Devices"
+            select={true}
+            size="small"
+          >
+            <option value="default">
+              Default - Speakers (Realek High definition Audio)
+            </option>
+            <option value="default">
+              Default - Speakers (Realek High definition Audio)
+            </option>
+          </RHFSelect>
+          <Box display="flex" gap={1} alignItems="center">
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              color={theme?.palette?.grey[600]}
+            >
+              Input Level:{' '}
+            </Typography>
+            <LinearProgress
+              variant="determinate"
+              value={75}
+              sx={{ width: '152px' }}
+            />
+          </Box>
+        </FormProvider>
       </Box>
     </CommonModal>
   );
