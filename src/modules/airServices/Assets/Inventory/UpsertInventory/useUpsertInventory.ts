@@ -67,7 +67,6 @@ export const useUpsertInventory = () => {
       'assignedOn',
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
     );
-    inventoryDetailsData.append('attachFile', data?.attachFile);
     const body = inventoryDetailsData;
     if (!!inventoryId) {
       submitUpdateInventory(data);
@@ -108,7 +107,6 @@ export const useUpsertInventory = () => {
       'assignedOn',
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
     );
-    // inventoryEditData.append('attachFile', data?.fileUrl);
     const body = inventoryEditData;
     const patchProductCatalogParameter = {
       body,
