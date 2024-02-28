@@ -4,7 +4,8 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { Checkbox } from '@mui/material';
+import { SwitchBtn } from '@/components/SwitchButton';
+import { Avatar, Box, Checkbox } from '@mui/material';
 import * as Yup from 'yup';
 
 export const jobPostingValidationSchema = Yup.object().shape({
@@ -207,7 +208,24 @@ export const columns = (
     {
       accessorFn: (row: any) => row?.name,
       id: 'name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar
+              sx={{
+                backgroundColor: 'primary.main',
+                mr: '6px',
+                fontSize: '14px',
+              }}
+              alt=""
+              src={'src'}
+            >
+              {'OR'}
+            </Avatar>
+            <Box>{info?.getValue()}</Box>
+          </Box>
+        );
+      },
       header: 'Name',
       isSortable: true,
     },
@@ -222,15 +240,24 @@ export const columns = (
       accessorFn: (row: any) => row?.team,
       id: 'team',
       isSortable: true,
-      header: 'Category',
+      header: 'Team',
       cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.role,
       id: 'role',
       isSortable: true,
-      header: 'Status',
+      header: 'Role',
       cell: (info: any) => info?.getValue(),
+    },
+    {
+      accessorFn: (row: any) => row?.status,
+      id: 'status',
+      isSortable: true,
+      header: 'Status',
+      cell: (info: any) => {
+        return <SwitchBtn checked={info?.getValue()} />;
+      },
     },
   ];
 };

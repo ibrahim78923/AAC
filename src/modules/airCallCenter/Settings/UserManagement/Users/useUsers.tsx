@@ -1,10 +1,14 @@
 import { useState } from 'react';
-// import { useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 // import { enqueueSnackbar } from 'notistack';
-// import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 // import dayjs from 'dayjs';
 
 import { PAGINATION } from '@/config';
+import {
+  editUserDefaultValues,
+  editUserValidationSchema,
+} from './EditUser/EditUser.data';
 // import { DATE_FORMAT } from '@/constants/index';
 
 const useUsers = () => {
@@ -54,6 +58,40 @@ const useUsers = () => {
     });
   };
 
+  // Edit User
+  const [openDrawerEditUser, setOpenDrawerEditUser] = useState(false);
+  const methodsEditUser = useForm({
+    resolver: yupResolver(editUserValidationSchema),
+    defaultValues: editUserDefaultValues,
+  });
+
+  const { handleSubmit: handleMethodEditUser, reset: resetEditUserForm } =
+    methodsEditUser;
+
+  const handleOpenDrawerEditUser = () => {
+    handleClose();
+    setOpenDrawerEditUser(true);
+  };
+  const handleCloseDrawerEditUser = () => {
+    setOpenDrawerEditUser(false);
+    resetEditUserForm();
+  };
+
+  const onSubmitEditUser = async () => {
+    // try {
+    //   await postAddFaq({ body: values })?.unwrap();
+    //   handleCloseModalFaq();
+    //   enqueueSnackbar('FAQ added successfully', {
+    //     variant: 'success',
+    //   });
+    // } catch (error: any) {
+    //   enqueueSnackbar('An error occured', {
+    //     variant: 'error',
+    //   });
+    // }
+  };
+  const handleEditUserSubmit = handleMethodEditUser(onSubmitEditUser);
+
   return {
     anchorEl,
     actionMenuOpen,
@@ -71,6 +109,11 @@ const useUsers = () => {
     isActionsDisabled,
     setRowId,
     rowId,
+    openDrawerEditUser,
+    methodsEditUser,
+    handleOpenDrawerEditUser,
+    handleCloseDrawerEditUser,
+    handleEditUserSubmit,
   };
 };
 export default useUsers;

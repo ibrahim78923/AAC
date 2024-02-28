@@ -11,15 +11,14 @@ const Slot = () => {
         <Box sx={styles?.slotLabel}>Monday</Box>
         <Box>
           <Box sx={{ display: 'flex' }}>
-            <Box sx={{ width: '97px' }}>
+            <Box sx={styles?.timeField}>
               <RHFTimePicker name="timeStart" size="small" />
             </Box>
-            <Box sx={{ width: '56px' }}>To</Box>
-            <Box sx={{ width: '97px' }}>
+            <Box sx={styles?.toString}>To</Box>
+            <Box sx={styles?.timeField}>
               <RHFTimePicker name="timeEnd" size="small" />
             </Box>
           </Box>
-          <Box>Tr</Box>
         </Box>
       </Box>
       <Box sx={styles?.addMore}>
