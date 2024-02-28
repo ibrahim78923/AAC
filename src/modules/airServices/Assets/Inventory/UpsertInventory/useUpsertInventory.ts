@@ -93,6 +93,7 @@ export const useUpsertInventory = () => {
     const inventoryEditData = new FormData();
     inventoryEditData.append('id', inventoryId as string);
     inventoryEditData.append('displayName', data?.displayName);
+    inventoryEditData.append('assetId', data?.assetType?._id);
     inventoryEditData.append('assetType', data?.assetType?._id);
     inventoryEditData.append('impact', data?.impact);
     inventoryEditData.append('description', data?.description);
@@ -108,6 +109,7 @@ export const useUpsertInventory = () => {
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
     );
     const body = inventoryEditData;
+
     const patchProductCatalogParameter = {
       body,
     };
