@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import SettingsLayout from '../../Layout';
+import SettingsLayout from '@/layout/SettingsLayout/Layout';
 import AgentStatuses from '@/modules/airCallCenter/Settings/GeneralSettings/AgentStatuses';
 
 const AgentStatusesPage = () => {
