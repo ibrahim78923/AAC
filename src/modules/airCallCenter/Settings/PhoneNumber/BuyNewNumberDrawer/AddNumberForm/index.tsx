@@ -18,7 +18,7 @@ const AddNumberForm = ({ isNumberDetail, handleNextDetail }: any) => {
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 {item?.componentProps?.name === 'formType' && (
                   <Typography variant="body2" component="span">
-                    Toll-Free{' '}
+                    Toll-Free
                   </Typography>
                 )}
                 <item.component {...item.componentProps} size={'small'}>
