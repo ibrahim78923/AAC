@@ -1,7 +1,9 @@
 import { TICKET_APPROVALS } from '@/constants/strings';
 import { useGetPendingForApprovalsTicketsQuery } from '@/services/airCustomerPortal';
+import { useRouter } from 'next/router';
 
 export const usePendingApprovals = () => {
+  const router = useRouter();
   const getPendingForApprovalsTicketsParameter = {
     queryParams: {
       approvalStatus: TICKET_APPROVALS?.RECEIVED,
@@ -21,5 +23,6 @@ export const usePendingApprovals = () => {
     isLoading,
     isFetching,
     isError,
+    router,
   };
 };
