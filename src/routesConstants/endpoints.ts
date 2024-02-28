@@ -182,6 +182,7 @@ export const END_POINTS = {
   ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
   DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
   AGENT_REJECT_REQUEST: '/agent/reject-request',
+  APPROVED_REQUEST: '/agent/approve-request',
   ADD_SOFTWARE_USERS: '/assets/add-software-users',
   PATCH_INVENTORY_EXPENSE: '/expense/update-expense',
   DELETE_INVENTORY_EXPENSE: '/expense/delete-expense',

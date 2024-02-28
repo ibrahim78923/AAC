@@ -10,6 +10,7 @@ const {
   EDIT_AGENT,
   GET_AGENT_REQUESTER,
   AGENT_REJECT_REQUEST,
+  APPROVED_REQUEST,
 } = END_POINTS;
 export const agentsAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -22,8 +23,8 @@ export const agentsAPI = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
     getAgentRequester: builder.query({
-      query: (params: any) => ({
-        url: `${GET_AGENT_REQUESTER}/${params?.id}`,
+      query: (id: any) => ({
+        url: `${GET_AGENT_REQUESTER}/${id}`,
         method: 'GET',
       }),
       providesTags: [TAG],
@@ -45,10 +46,16 @@ export const agentsAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     patchRejectRequest: builder.mutation({
-      query: ({ id, body }) => ({
-        url: `${AGENT_REJECT_REQUEST}/${id}`,
+      query: ({ id, companyId, Rejected }) => ({
+        url: `${AGENT_REJECT_REQUEST}/{id}?id=${id}&reason=${Rejected}&companyId=${companyId}`,
         method: 'PATCH',
-        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    patchApprovedRequest: builder.mutation({
+      query: ({ id, companyId }) => ({
+        url: `${APPROVED_REQUEST}/{id}?id=${id}&companyId=${companyId}`,
+        method: 'PATCH',
       }),
       invalidatesTags: [TAG],
     }),
@@ -82,4 +89,6 @@ export const {
   useGetAgentRequesterQuery,
   useLazyGetAgentRequesterQuery,
   useLazyGetDepartmentDropdownListQuery,
+  usePatchApprovedRequestMutation,
+  usePatchRejectRequestMutation,
 } = agentsAPI;

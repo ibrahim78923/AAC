@@ -1,25 +1,35 @@
 import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useGetAgentRequesterQuery } from '@/services/airServices/settings/user-management/agents';
-import { useRouter } from 'next/router';
+import {
+  useGetAgentRequesterQuery,
+  usePatchApprovedRequestMutation,
+} from '@/services/airServices/settings/user-management/agents';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAgentRequest = () => {
   const [openRejectedModal, setOpenRejectedModal] = useState<boolean>(false);
-  const router = useRouter();
-  const agentRequesterId = router?.query;
-  const { data } = useGetAgentRequesterQuery(agentRequesterId);
+  const [selectedId, setSelectedId] = useState(null);
+  const companyId = '651e6368a3a6baf2f193efb3';
+  const { data } = useGetAgentRequesterQuery(companyId);
   const requesterData = data?.data;
+  const userDetails = requesterData?.map((item: any) => item?.userDetails);
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (_id: any) => {
+    setSelectedId(_id);
     setOpenRejectedModal(true);
   };
   const theme = useTheme();
-  const handlerStatusApprove = () => {
-    enqueueSnackbar(`Request Approved successfully`, {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+  const [patchTrigger] = usePatchApprovedRequestMutation();
+  const handlerStatusApprove = async (_id: any) => {
+    try {
+      await patchTrigger({
+        id: _id,
+        companyId,
+      });
+      successSnackbar(`Request Approved successfully`);
+    } catch (error) {
+      errorSnackbar();
+    }
   };
 
   return {
@@ -28,6 +38,8 @@ export const useAgentRequest = () => {
     openRejectedModal,
     setOpenRejectedModal,
     handleOpenModal,
+    userDetails,
     requesterData,
+    selectedId,
   };
 };
