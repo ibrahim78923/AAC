@@ -8,8 +8,8 @@ export const END_POINTS = {
   forgot_password: 'auth/forgot-password',
   INVENTORY_ACTIVITY: 'assets/inventory',
   WORKLOAD: `/workload/workload-management`,
-  INVENTORY_EXPENSE: 'expense/add-expense',
-  GET_INVENTORY_EXPENSE: 'expense/get-expense',
+  INVENTORY_EXPENSE: '/expense/add-expense',
+  GET_INVENTORY_EXPENSE: '/expense/get-expense',
   TICKET: '/ticket',
   TICKET_STATUS: '/ticket/status',
   TICKET_BULK_UPDATE: '/ticket/bulk-ticket-update',
@@ -114,6 +114,7 @@ export const END_POINTS = {
   COMPANY: `/companies`,
   DELETED_COMPANIES: '/companies/deleted',
   COMPANY_PREVIEW: '/companies/get-company-preview',
+  COMPANY_DEALS: '/deals/get-company-deals',
   RESTORE_COMPANIES: '/companies/restore-action',
   MERGE_COMPANIES: '/companies/merge-company',
   REASSIGN_COMPANY_OWNER: '/companies/change-company-owner',
@@ -233,6 +234,10 @@ export const END_POINTS = {
   GET_RECEIVERS_BANK_ACCOUNTS: `/receiver-bank-account`,
   GET_CUSTOMER_DASHBOARD: `/air-services-dashboard/get-customer-dashboard-data`,
   GET_DROPDOWN_COMPANY: `/super-admin/company-list`,
+  REQUEST_APPROVAL: `/assets/add-approver-order`,
+  REQUEST_APPROVALS_LIST: `/assets/get-purchase-approvals-by-purchase-order`,
+  PATCH_APPROVAL_STATUS: `/assets/approver-order-status`,
+  ASSETS_RECEIVED: '/assets/get-purchaseorder-assets-received/{id}',
 };
 
 export const superAdminBillingInvoices = {
