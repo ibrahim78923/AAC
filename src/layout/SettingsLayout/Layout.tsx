@@ -7,7 +7,7 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
-import { styles } from './Settings.style';
+import { styles } from './Layout.style';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Link from 'next/link';
@@ -16,6 +16,13 @@ import { usePathname } from 'next/navigation';
 
 const SettingsLayout = ({ children }: any) => {
   const pathname = usePathname();
+
+  const [subMenuOpen, setSubMenuOpen] = useState<any>({});
+  const toggleSubmenu = (linkKey: any) => {
+    setSubMenuOpen((prevState: any) => ({
+      [linkKey]: !prevState[linkKey],
+    }));
+  };
 
   useEffect(() => {
     const submenuRoute = pathname?.split('/')[3];
@@ -26,13 +33,6 @@ const SettingsLayout = ({ children }: any) => {
       }));
     }
   }, [pathname]);
-
-  const [subMenuOpen, setSubMenuOpen] = useState<any>({});
-  const toggleSubmenu = (linkKey: any) => {
-    setSubMenuOpen((prevState: any) => ({
-      [linkKey]: !prevState[linkKey],
-    }));
-  };
 
   return (
     <Box sx={styles.main}>
@@ -49,6 +49,7 @@ const SettingsLayout = ({ children }: any) => {
                     <ListItemButton
                       onClick={() => toggleSubmenu(item?.key)}
                       sx={styles.menuItem}
+                      className={subMenuOpen[item.key] ? 'open' : 'close'}
                     >
                       <ListItemText primary={item?.label} />
                       {subMenuOpen[item.key] ? <ExpandLess /> : <ExpandMore />}
@@ -63,7 +64,12 @@ const SettingsLayout = ({ children }: any) => {
                         {item?.textNames?.map((subItem: any) => {
                           return (
                             <Link key={subItem?.label} href={subItem?.key}>
-                              <ListItemButton sx={styles.submenuItem}>
+                              <ListItemButton
+                                sx={styles.submenuItem}
+                                className={
+                                  pathname === subItem?.key ? 'selected' : ''
+                                }
+                              >
                                 <ListItemText primary={subItem?.label} />
                               </ListItemButton>
                             </Link>
@@ -74,7 +80,10 @@ const SettingsLayout = ({ children }: any) => {
                   </>
                 ) : (
                   <Link key={item?.label} href={item?.key}>
-                    <ListItemButton sx={styles.menuItem}>
+                    <ListItemButton
+                      sx={styles.menuItem}
+                      className={pathname === item?.key ? 'selected' : ''}
+                    >
                       <ListItemText primary={item?.label} />
                     </ListItemButton>
                   </Link>
