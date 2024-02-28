@@ -25,10 +25,10 @@ export const AssetsReceivedDetail = () => {
   } = useAssetsReceivedDetail();
   return (
     <>
-      {purchaseOrderIdData?.data?.[0]?.orderName && (
+      {purchaseOrderIdData?.data?.orderName && (
         <Box mb={2}>
           <Typography variant="h4">
-            {purchaseOrderIdData?.data?.[0]?.orderName}
+            {purchaseOrderIdData?.data?.orderName}
           </Typography>
           <Typography
             variant="body2"
