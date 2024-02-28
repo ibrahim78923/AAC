@@ -8,14 +8,12 @@ import TanstackTable from '@/components/Table/TanstackTable';
 
 import { columns } from './Deals.data';
 
-import { productsData } from '@/mock/modules/airSales/Deals/ViewDetails';
-
 import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 import useDeals from './useDeals';
 
-const Deals = () => {
+const Deals = (companyId: any) => {
   const {
     theme,
     isOpenAlert,
@@ -25,7 +23,11 @@ const Deals = () => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
-  } = useDeals();
+    getCompanyDeals,
+    handleDeleteDeals,
+    setDealRecord,
+    dealRecord,
+  } = useDeals(companyId);
 
   return (
     <Box
@@ -70,8 +72,8 @@ const Deals = () => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={productsData}
+            columns={columns({ setOpenDrawer, setIsOpenAlert, setDealRecord })}
+            data={getCompanyDeals?.data}
           />
         </Grid>
       </Grid>
@@ -79,6 +81,8 @@ const Deals = () => {
         <DealsEditorDrawer
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
+          companyId={companyId}
+          dealRecord={dealRecord}
         />
       )}
       <AlertModals
@@ -87,6 +91,7 @@ const Deals = () => {
         open={isOpenAlert}
         handleClose={handleCloseAlert}
         handleSubmit={() => {}}
+        handleSubmitBtn={handleDeleteDeals}
       />
     </Box>
   );

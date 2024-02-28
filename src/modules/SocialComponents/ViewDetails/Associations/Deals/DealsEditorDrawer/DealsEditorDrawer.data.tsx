@@ -3,6 +3,7 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { userRoleName } from '@/constants';
 import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 import { useGetUsersListQuery } from '@/services/airSales/deals';
 import { useGetSalesProductQuery } from '@/services/airSales/deals/settings/sales-product';
@@ -31,8 +32,8 @@ export const productsDefaultValues = {
   addLineItemId: '',
 };
 
-export const productsDataArray = () => {
-  const userRole = 'ORG_EMPLOYEE';
+export const productsDataArray = (openDrawer: any) => {
+  const userRole = userRoleName?.ORG_EMPLOYEE;
   const { pipelineData, DealsLifecycleStageData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: userRole });
   const query = '&';
@@ -50,6 +51,7 @@ export const productsDataArray = () => {
         fullWidth: true,
         required: true,
         placeholder: 'Enter Name',
+        disabled: openDrawer === 'View',
       },
       component: RHFTextField,
       md: 12,
@@ -60,6 +62,7 @@ export const productsDataArray = () => {
         label: 'Deal Pipeline',
         select: true,
         required: true,
+        disabled: openDrawer === 'View',
       },
       options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
         value: item?._id,
@@ -74,6 +77,7 @@ export const productsDataArray = () => {
         label: 'Deal Stage',
         select: true,
         required: true,
+        disabled: openDrawer === 'View',
       },
       options: DealsLifecycleStageData?.data?.lifecycleStages?.map(
         (item: any) => ({
@@ -91,6 +95,7 @@ export const productsDataArray = () => {
         fullWidth: true,
         placeholder: 'Enter Amount',
         type: 'number',
+        disabled: openDrawer === 'View',
       },
       component: RHFTextField,
       md: 12,
@@ -100,6 +105,7 @@ export const productsDataArray = () => {
         name: 'closeDate',
         label: 'Close Date',
         fullWidth: true,
+        disabled: openDrawer === 'View',
       },
       component: RHFDatePicker,
       md: 12,
@@ -109,6 +115,7 @@ export const productsDataArray = () => {
         name: 'ownerId',
         label: 'Deal Owner',
         select: true,
+        disabled: openDrawer === 'View',
       },
       options: UserListData?.data?.users?.map((item: any) => ({
         value: item?._id,
@@ -122,6 +129,7 @@ export const productsDataArray = () => {
         name: 'priority',
         label: 'Priority',
         select: true,
+        disabled: openDrawer === 'View',
       },
       options: [
         { value: '-', label: '-' },
@@ -136,6 +144,7 @@ export const productsDataArray = () => {
         name: 'addLineItemId',
         label: 'Add Line Item',
         select: true,
+        disabled: openDrawer === 'View',
       },
       options: addLineItem?.data?.salesproducts?.map((item: any) => ({
         value: item?._id,
