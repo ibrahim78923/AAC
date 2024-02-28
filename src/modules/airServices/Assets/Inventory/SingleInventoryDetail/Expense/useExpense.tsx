@@ -53,7 +53,7 @@ export const useExpense = () => {
     reset(addExpenseDefaultValues(selectedExpenseList));
   }, [selectedExpenseList, reset]);
 
-  const expenseId = selectedExpenseList.map((expense: any) => expense?._id);
+  const expenseId = selectedExpenseList?.map((expense: any) => expense?._id);
   const handleAddExpenseModal = (isOpen?: boolean) => {
     if (isOpen) {
       setAddExpenseModalTitle('Add New Expense');
