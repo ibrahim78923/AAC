@@ -9,7 +9,6 @@ import CompaniesEditorDrawer from './CompaniesEditorDrawer';
 import useCompanies from './useCompanies';
 
 import { columns } from './Companies.data';
-import { companiesData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { styles } from '../Associations.style';
 
@@ -25,6 +24,8 @@ const Companies = ({ contactId }: any) => {
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,
+    dataGetCompanies,
+    companyOwners,
   } = useCompanies(contactId);
 
   const tableColumns = columns(handleOpenDrawer, handleOpenAlert);
@@ -54,7 +55,6 @@ const Companies = ({ contactId }: any) => {
               flexDirection: { xs: 'column', sm: 'row' },
             }}
           >
-            , ,
             <Search
               searchBy={searchValue}
               setSearchBy={setSearchValue}
@@ -66,8 +66,7 @@ const Companies = ({ contactId }: any) => {
         <Grid item xs={12}>
           <TanstackTable
             columns={tableColumns}
-            // data={dataGetCompanies?.data?.companies}
-            data={companiesData}
+            data={dataGetCompanies?.data?.companies}
           />
         </Grid>
       </Grid>
@@ -75,6 +74,7 @@ const Companies = ({ contactId }: any) => {
         isOpen={openDrawer}
         onClose={handleCloseDrawer}
         methods={methodsView}
+        companyOwners={companyOwners || []}
       />
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}

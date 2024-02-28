@@ -116,7 +116,7 @@ export const restoreTableColumns: any = (
     },
 
     {
-      accessorFn: (row: any) => row?.deletedBy,
+      accessorFn: (row: any) => row?.deletedBy[0].firstName,
       id: 'deletedby',
       isSortable: true,
       header: 'Deleted By',

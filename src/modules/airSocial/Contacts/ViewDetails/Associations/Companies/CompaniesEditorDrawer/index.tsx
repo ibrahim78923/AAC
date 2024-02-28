@@ -8,7 +8,9 @@ import { companiesDataArray } from './CompaniesEditorDrawer.data';
 import { v4 as uuidv4 } from 'uuid';
 
 const CompaniesEditorDrawer = (props: any) => {
-  const { isOpen, onClose, methods } = props;
+  const { isOpen, onClose, methods, companyOwners } = props;
+
+  const formFields = companiesDataArray(companyOwners);
 
   return (
     <div>
@@ -23,7 +25,7 @@ const CompaniesEditorDrawer = (props: any) => {
         <Box sx={{ pt: 2 }}>
           <FormProvider methods={methods}>
             <Grid container spacing={'22px'}>
-              {companiesDataArray?.map((item: any) => (
+              {formFields?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select

@@ -19,7 +19,7 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
             </Typography>
             <br />
             <Typography variant="body3">
-              {info?.row?.original?.email}
+              {info?.row?.original?.domain}
             </Typography>
           </Box>
         </Box>
@@ -37,7 +37,7 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
     },
 
     {
-      accessorFn: (row: any) => row?.owner,
+      accessorFn: (row: any) => row?.ownerId,
       id: 'owner',
       isSortable: true,
       header: 'Company Owner',

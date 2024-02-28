@@ -1,22 +1,20 @@
 import { useState } from 'react';
-
 import { useTheme } from '@mui/material';
-import { PAGINATION } from '@/config';
-import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts';
+import {
+  useGetContactAssociationsQuery,
+  useGetContactsQuery,
+} from '@/services/commonFeatures/contacts';
 import { useForm } from 'react-hook-form';
 
 const useCompanies = (contactId: any) => {
-  // Get Association Tickets
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  // const defaultParams = {
-  //   page: PAGINATION?.CURRENT_PAGE,
-  //   limit: PAGINATION?.PAGE_LIMIT,
-  // };
+  const { data: dataCompaniesList } = useGetContactsQuery({});
+  const companyOwners = dataCompaniesList?.data?.contacts?.map((item: any) => ({
+    value: item?._id,
+    label: `${item?.firstName} ${item?.lastName}`,
+  }));
+
   const [searchValue, setSearchValue] = useState(null);
   const [filterParams] = useState({
-    page: page,
-    limit: pageLimit,
     contactId: contactId,
     association_type: 'companies',
   });
@@ -34,14 +32,19 @@ const useCompanies = (contactId: any) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const handleOpenDrawer = (data: any) => {
     if (data) {
+      methodsView.setValue('domain', data?.domain);
       methodsView.setValue('name', data?.name);
-      methodsView.setValue('dealPiplineId', data?.dealPiplineId);
-      methodsView.setValue('dealStageId', data?.dealStageId);
-      methodsView.setValue('amount', data?.amount);
-      methodsView.setValue('closeDate', new Date(data?.closeDate));
       methodsView.setValue('ownerId', data?.ownerId);
-      methodsView.setValue('priority', data?.priority);
-      methodsView.setValue('addLineItemId', data?.addLineItemId);
+      methodsView.setValue('description', data?.description);
+      methodsView.setValue('industry', data?.industry);
+      methodsView.setValue('city', data?.city);
+      methodsView.setValue('postalCode', data?.postalCode);
+      methodsView.setValue('noOfEmloyee', data?.noOfEmloyee);
+      methodsView.setValue('totalRevenue', data?.totalRevenue);
+      methodsView.setValue('timeZone', data?.timeZone);
+      methodsView.setValue('companyPage', data?.companyPage);
+      methodsView.setValue('joiningDate', new Date(data?.createdAt));
+      methodsView.setValue('joiningTime', new Date(data?.createdAt));
     }
     setOpenDrawer(true);
   };
@@ -60,8 +63,6 @@ const useCompanies = (contactId: any) => {
   const theme = useTheme();
 
   return {
-    setPage,
-    setPageLimit,
     searchValue,
     setSearchValue,
     loadingCompanies,
@@ -73,8 +74,8 @@ const useCompanies = (contactId: any) => {
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,
-
     theme,
+    companyOwners,
   };
 };
 
