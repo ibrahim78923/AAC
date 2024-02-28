@@ -1,5 +1,6 @@
 import NoData from '@/components/NoData';
 import {
+  DATE_TIME_FORMAT,
   approvalStatus,
   approvalsStatusObj,
   stringAvatar,
@@ -92,6 +93,7 @@ export const Approvals = () => {
                   >
                     <Avatar
                       alt={`${item?.firstName} ${item?.lastName}`}
+                      sx={{ color: theme?.palette?.grey[600], fontWeight: 500 }}
                       src={item?.attachments}
                       {...stringAvatar(`${item?.firstName} ${item?.lastName}`)}
                     />
@@ -122,7 +124,7 @@ export const Approvals = () => {
                             user?._id,
                           )?.message
                         }
-                        {dayjs(item?.updatedAt).format('ddd, D MMM h:mm A')}
+                        {dayjs(item?.updatedAt).format(DATE_TIME_FORMAT)}
                       </Typography>
                       <Typography variant="body2">{item?.reasons}</Typography>
                     </Box>
