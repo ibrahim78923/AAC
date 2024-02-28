@@ -10,9 +10,12 @@ const useEditPhoneNumber = () => {
     resolver: yupResolver(propertiesValidationSchema),
     defaultValues: propertiesDefaultValues,
   });
+  const { watch } = methods;
+  const maskValue = watch('maskNumber');
 
   return {
     methods,
+    maskValue,
   };
 };
 
