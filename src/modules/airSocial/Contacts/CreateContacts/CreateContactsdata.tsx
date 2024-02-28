@@ -20,11 +20,11 @@ export const contactsValidationSchema = Yup?.object()?.shape({
   address: Yup?.string()?.trim()?.required('Required Field'),
   phoneNumber: Yup?.string()
     ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.min(10, 'Minimum 10 characters')
+    ?.min(10, 'Minimum 10 digits required')
     ?.required('Required field'),
   whatsAppNumber: Yup?.string()
     ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.min(10, 'Minimum 10 characters')
+    ?.min(10, 'Minimum 10 digits required')
     ?.required('Required field'),
   lifeCycleStageId: Yup?.string()?.trim()?.required('Required Field'),
   // contactOwner: Yup?.string()?.trim()?.required('Required Field'),
@@ -126,7 +126,16 @@ export const contactsDataArray = (
         name: 'phoneNumber',
         label: 'Phone Number',
         placeholder: 'Enter Phone ',
-        type: 'text',
+        type: 'number',
+        InputProps: {
+          sx: {
+            '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
+              {
+                '-webkit-appearance': 'none',
+                margin: 0,
+              },
+          },
+        },
       },
       md: 12,
       component: RHFTextField,
@@ -138,6 +147,15 @@ export const contactsDataArray = (
         label: 'WhatsApp Number',
         placeholder: 'Enter WhatsApp Number',
         type: 'number',
+        InputProps: {
+          sx: {
+            '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
+              {
+                '-webkit-appearance': 'none',
+                margin: 0,
+              },
+          },
+        },
       },
       md: 12,
       component: RHFTextField,

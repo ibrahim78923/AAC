@@ -160,6 +160,7 @@ export const styles = {
       height: 'auto',
       padding: `${isZeroPaddingRoutes ? '1px' : '24px'}`,
       borderRadius: '8px',
+      position: 'relative',
     };
   },
 };

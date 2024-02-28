@@ -1,54 +1,41 @@
 import { CardLayout } from '../CardLayout';
-import { Avatar, Box, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { styles } from './PendingApprovals.style';
+import { Box } from '@mui/material';
 import { usePendingApprovals } from './usePendingApprovals';
 import NoData from '@/components/NoData';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
+import { ApprovalCard } from '../../Catalog/Approvals/ApprovalCard';
+import { Fragment } from 'react';
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
-export const PendingApprovals = ({ title, handleViewMore }: any) => {
-  const { palette }: any = useTheme();
-  const { mainWrapper, approvalWrapper, approvalTicket, divider } = styles;
-  const { data, isLoading, isFetching, isError } = usePendingApprovals();
+export const PendingApprovals = () => {
+  const { data, isLoading, isFetching, isError, router } =
+    usePendingApprovals();
 
   return (
-    <CardLayout title={title} btnClick={handleViewMore} maxHeight={260}>
+    <CardLayout
+      title={'Pending for Approval'}
+      btnClick={() => {
+        router?.push({
+          pathname: AIR_CUSTOMER_PORTAL?.APPROVALS,
+        });
+      }}
+      maxHeight={260}
+    >
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : isError ? (
-        <ApiErrorState />
+        <ApiErrorState height={'100%'} />
       ) : (
         <Box my="0.75rem">
-          {!!data?.data?.articles?.length ? (
-            data?.data?.articles?.map(({ user, ...approval }: any) => (
-              <Box key={approval?._id} sx={mainWrapper(palette)}>
-                <Typography fontWeight={600} color={palette?.blue?.main}>
-                  Request for :
-                  <Typography
-                    component={'span'}
-                    variant="body2"
-                    sx={approvalTicket(palette)}
-                  >{`${approval?.ticketNumber}, ${approval?.ticketTitle}`}</Typography>
-                </Typography>
-                <Box sx={approvalWrapper}>
-                  <Avatar></Avatar>
-                  <Typography
-                    color={palette?.blue?.light}
-                  >{`${user?.firstName} ${user?.lastName} sent approval request `}</Typography>
-                  <Box sx={divider(palette)} />
-                  <Typography color={palette?.grey?.[900]} fontSize={'0.75rem'}>
-                    {approval?.requestTime}
-                  </Typography>
-                  <Box sx={divider(palette)} />
-                  <Typography color={palette?.grey?.[900]} fontSize={'0.75rem'}>
-                    {approval?.device}
-                  </Typography>
-                </Box>
-              </Box>
+          {!!data?.data?.length ? (
+            data?.data?.map((approval: any) => (
+              <Fragment key={approval?._id}>
+                <ApprovalCard data={approval} />
+              </Fragment>
             ))
           ) : (
-            <NoData />
+            <NoData height={'100%'} />
           )}
         </Box>
       )}

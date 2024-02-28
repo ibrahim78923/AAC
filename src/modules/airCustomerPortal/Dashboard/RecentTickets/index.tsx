@@ -6,19 +6,26 @@ import NoData from '@/components/NoData';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import dayjs from 'dayjs';
-import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
+import { AIR_CUSTOMER_PORTAL, DATE_FORMAT, TIME_FORMAT } from '@/constants';
 import { TICKET_TYPE } from '@/constants/strings';
 
-export const RecentTickets = ({ title, handleViewMore }: any) => {
+export const RecentTickets = () => {
   const { palette }: any = useTheme();
-  const { data, isLoading, isFetching, isError } = useRecentTickets();
+  const { data, isLoading, isFetching, isError, router } = useRecentTickets();
 
   return (
-    <CardLayout title={title} btnClick={handleViewMore}>
+    <CardLayout
+      title={'Recent Tickets'}
+      btnClick={() => {
+        router?.push({
+          pathname: AIR_CUSTOMER_PORTAL?.TICKETS,
+        });
+      }}
+    >
       {isLoading || isFetching ? (
         <SkeletonForm />
       ) : isError ? (
-        <ApiErrorState />
+        <ApiErrorState height={'100%'} />
       ) : (
         <Box my={1}>
           {!!data?.data?.articles?.length ? (
@@ -86,7 +93,7 @@ export const RecentTickets = ({ title, handleViewMore }: any) => {
               </Box>
             ))
           ) : (
-            <NoData />
+            <NoData height={'100%'} />
           )}
         </Box>
       )}

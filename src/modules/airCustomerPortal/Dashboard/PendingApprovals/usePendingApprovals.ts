@@ -1,24 +1,28 @@
-import { useGetPopularArticlesQuery } from '@/services/airCustomerPortal';
+import { TICKET_APPROVALS } from '@/constants/strings';
+import { useGetPendingForApprovalsTicketsQuery } from '@/services/airCustomerPortal';
+import { useRouter } from 'next/router';
 
 export const usePendingApprovals = () => {
-  const getPopularArticlesParameter = {
+  const router = useRouter();
+  const getPendingForApprovalsTicketsParameter = {
     queryParams: {
-      page: 1,
-      limit: 10,
+      approvalStatus: TICKET_APPROVALS?.RECEIVED,
     },
   };
 
-  const { data, isLoading, isFetching, isError } = useGetPopularArticlesQuery(
-    getPopularArticlesParameter,
-    {
-      refetchOnMountOrArgChange: true,
-    },
-  );
+  const { data, isLoading, isFetching, isError } =
+    useGetPendingForApprovalsTicketsQuery(
+      getPendingForApprovalsTicketsParameter,
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
 
   return {
     data,
     isLoading,
     isFetching,
     isError,
+    router,
   };
 };

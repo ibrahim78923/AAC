@@ -115,19 +115,21 @@ export const DepartmentsDetail = () => {
               </Box>
               <Box display={'flex'} alignItems={'center'}>
                 <AvatarGroup
-                  max={4}
+                  max={5}
                   sx={{
                     transform: 'scaleX(-1)',
                     '& .MuiAvatar-root': { width: 30, height: 30, border: 0 },
                     '& .MuiAvatar-root:last-child': { ml: '-6px !important' },
                   }}
                 >
-                  {item?.members?.map((ava: any) => (
-                    <Avatar
-                      key={ava}
-                      src={ava?.src ?? UsersAvatarRoundedImage?.src}
-                    />
-                  ))}
+                  {item?.membersListDetails
+                    ?.slice(0, 4)
+                    ?.map((ava: any) => (
+                      <Avatar
+                        key={ava?._id}
+                        src={ava?.src ?? UsersAvatarRoundedImage?.src}
+                      />
+                    ))}
                 </AvatarGroup>
                 <IconButton onClick={() => setOpenAddModal(true)}>
                   <AddCircle color="primary" />
