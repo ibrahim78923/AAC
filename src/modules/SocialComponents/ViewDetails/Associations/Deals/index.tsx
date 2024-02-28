@@ -26,6 +26,7 @@ const Deals = (companyId: any) => {
     getCompanyDeals,
     handleDeleteDeals,
     setDealRecord,
+    dealRecord,
   } = useDeals(companyId);
 
   return (
@@ -81,6 +82,7 @@ const Deals = (companyId: any) => {
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
           companyId={companyId}
+          dealRecord={dealRecord}
         />
       )}
       <AlertModals

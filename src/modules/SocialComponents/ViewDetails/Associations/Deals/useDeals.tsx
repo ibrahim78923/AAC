@@ -47,6 +47,7 @@ const useDeals = (companyId: any) => {
     getCompanyDeals,
     handleDeleteDeals,
     setDealRecord,
+    dealRecord,
   };
 };
 

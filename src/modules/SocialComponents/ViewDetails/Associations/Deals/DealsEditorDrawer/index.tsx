@@ -14,7 +14,7 @@ import {
 } from './DealsEditorDrawer.data';
 
 const DealsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, companyId } = props;
+  const { openDrawer, setOpenDrawer, companyId, dealRecord } = props;
   const {
     handleSubmit,
     onSubmit,
@@ -22,7 +22,12 @@ const DealsEditorDrawer = (props: any) => {
     watchProductstatus,
     searchProduct,
     setSearchProduct,
-  } = useDealsEditorDrawer({ setOpenDrawer, companyId });
+  } = useDealsEditorDrawer({
+    openDrawer,
+    setOpenDrawer,
+    companyId,
+    dealRecord,
+  });
 
   return (
     <div>
