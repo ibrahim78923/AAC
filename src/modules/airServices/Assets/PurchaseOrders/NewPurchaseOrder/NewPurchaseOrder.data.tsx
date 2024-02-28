@@ -37,13 +37,13 @@ export const validationSchema: any = yup?.object()?.shape({
 export const defaultValues = (data?: any) => ({
   orderName: data?.orderName ?? '',
   orderNumber: data?.orderNumber ?? 0,
-  vendor: data?.vendor ?? null,
+  vendor: data?.vendorDetails ?? null,
   currency: data?.currency ?? '',
-  department: data?.department ?? null,
+  department: data?.departmentDetails ?? null,
   expectedDeliveryDate: data?.expectedDeliveryDate
     ? new Date(data?.expectedDeliveryDate)
     : null,
-  location: data?.location ?? null,
+  location: data?.locationDetails ?? null,
   termAndCondition: data?.termAndCondition ?? '',
   subTotal: data?.subTotal ?? 0,
   taxRatio: data?.taxRatio ?? 0,

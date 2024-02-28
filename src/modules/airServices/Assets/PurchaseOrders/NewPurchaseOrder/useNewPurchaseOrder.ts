@@ -29,10 +29,13 @@ const useNewPurchaseOrders = () => {
     usePostPurchaseOrderMutation();
   const [patchPurchaseOrderTrigger, patchPurchaseOrderStatus] =
     usePatchPurchaseOrderMutation();
-  const singlePurchaseOrder = useGetPurchaseOrderByIdQuery(purchaseOrderId, {
-    refetchOnMountOrArgChange: true,
-    skip: !!!purchaseOrderId,
-  });
+  const singlePurchaseOrder: any = useGetPurchaseOrderByIdQuery(
+    purchaseOrderId,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!purchaseOrderId,
+    },
+  );
   const loadingStatus =
     patchPurchaseOrderStatus?.isLoading || postPurchaseOrderStatus?.isLoading;
   const methods = useForm({
@@ -102,7 +105,7 @@ const useNewPurchaseOrders = () => {
   );
   useEffect(() => {
     if (singlePurchaseOrder?.data) {
-      reset(() => defaultValues(singlePurchaseOrder?.data?.data));
+      reset(() => defaultValues(singlePurchaseOrder?.data?.data?.[0]));
     }
   }, [singlePurchaseOrder?.data, reset]);
   return {
@@ -115,6 +118,7 @@ const useNewPurchaseOrders = () => {
     router,
     loadingStatus,
     watch,
+    singlePurchaseOrder,
   };
 };
 export default useNewPurchaseOrders;
