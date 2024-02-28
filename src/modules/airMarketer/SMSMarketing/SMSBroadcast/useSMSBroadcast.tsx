@@ -1,4 +1,5 @@
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import { smsMarketingAPI } from '@/services/airMarketer/SmsMarketing';
 import { Theme, useTheme } from '@mui/material';
 
 import { useRouter } from 'next/router';
@@ -12,6 +13,20 @@ const useSMSBroadcast = () => {
   const [datePickerVal, setDatePickerVal] = useState(new Date());
   const theme = useTheme<Theme>();
   const navigate = useRouter();
+
+  const { useGetSmsBroadcatsQuery } = smsMarketingAPI;
+
+  const smsParams = {
+    page: '',
+    limit: '',
+    search: '',
+  };
+
+  const {
+    data: smsBroadcastData,
+    // isLoading,
+    // isSuccess,
+  } = useGetSmsBroadcatsQuery(smsParams);
 
   const handleClose = () => {
     setSelectedValue(null);
@@ -62,6 +77,7 @@ const useSMSBroadcast = () => {
     theme,
     datePickerVal,
     setDatePickerVal,
+    smsBroadcastData,
   };
 };
 
