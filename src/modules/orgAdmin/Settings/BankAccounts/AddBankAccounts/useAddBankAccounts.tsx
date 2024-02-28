@@ -49,8 +49,8 @@ const useAddBankAccounts = (
     setIsOpenAddAccountDrawer(false);
     enqueueSnackbar(
       isOpenAddAccountDrawer?.type === 'add'
-        ? 'Account added successfully'
-        : 'Account edited successfully',
+        ? 'Bank account added successfully'
+        : 'Bank account edited successfully',
       {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       },

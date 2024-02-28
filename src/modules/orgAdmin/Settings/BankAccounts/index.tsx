@@ -58,6 +58,7 @@ const BankAccounts = () => {
                 setIsOpenAddAccountDrawer({
                   ...isOpenAddAccountDrawer,
                   isToggle: true,
+                  type: 'add',
                 })
               }
             >

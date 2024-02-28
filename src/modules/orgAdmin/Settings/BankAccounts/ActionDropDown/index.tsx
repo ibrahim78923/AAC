@@ -30,7 +30,7 @@ const ActionDropDown = (props: any) => {
           color="inherit"
           startIcon={<DeleteIcon />}
           onClick={() => {
-            deleteReceiverBankAccount({ id: checkedRows });
+            deleteReceiverBankAccount({ ids: checkedRows });
             setCheckedRows([]);
             enqueueSnackbar(`Accounts deleted successfully`, {
               variant: NOTISTACK_VARIANTS?.SUCCESS,
@@ -96,7 +96,7 @@ const ActionDropDown = (props: any) => {
           handleClose={() => setIsDeleteModal(false)}
           handleSubmitBtn={() => {
             setIsDeleteModal(false);
-            deleteReceiverBankAccount({ id: checkedRows });
+            deleteReceiverBankAccount({ ids: checkedRows });
             setCheckedRows([]);
             enqueueSnackbar(`Accounts deleted successfully`, {
               variant: NOTISTACK_VARIANTS?.SUCCESS,
