@@ -29,8 +29,8 @@ export const useAnnouncementHeader = () => {
       const payload = {
         title: data?.title,
         description: data?.description,
-        managedById: data?.managedById?._id ,
-        vibilityId: data?.vibilityId?._id ,
+        managedById: data?.managedById?._id,
+        vibilityId: data?.vibilityId?._id,
         notifyMembers: notifyMembers,
         additionalEmail: data?.additionalEmail,
         addMembers: data?.addMembers,
@@ -43,7 +43,7 @@ export const useAnnouncementHeader = () => {
       console.log(data);
 
       await addAnnouncements(postAnnouncementParameter).unwrap();
-      successSnackbar('Announcements added successfully. ');
+      successSnackbar('Announcements added successfully.');
       setIsDrawerOpen(false);
     } catch (error: any) {
       errorSnackbar('Something went wrong');
@@ -61,7 +61,7 @@ export const useAnnouncementHeader = () => {
   };
 
   const departmentDropdown = useLazyGetDepartmentDropdownQuery();
-  const userDropdown=useLazyGetUsersDropdownListQuery();
+  const userDropdown = useLazyGetUsersDropdownListQuery();
 
   return {
     isDrawerOpen,
@@ -73,6 +73,6 @@ export const useAnnouncementHeader = () => {
     theme,
     handleIconButton,
     departmentDropdown,
-    userDropdown
+    userDropdown,
   };
 };
