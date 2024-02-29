@@ -18,6 +18,7 @@ export const upsertSoftwareFormValidationSchema: any = Yup?.object()?.shape({
   name: Yup?.string()?.required('Required'),
   description: Yup?.string(),
   type: Yup?.string()?.required('Required'),
+  status: Yup?.string()?.required('Required'),
   publisher: Yup?.string(),
   category: Yup?.string(),
 });
@@ -65,6 +66,7 @@ export const upsertSoftwareFormFields = (userQuery: any) => [
       name: 'status',
       label: 'Status',
       fullWidth: true,
+      required: true,
       options: statusOptions,
     },
     component: RHFAutocomplete,
