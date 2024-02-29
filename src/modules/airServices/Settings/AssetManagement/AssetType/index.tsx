@@ -18,14 +18,12 @@ export const AssetType = () => {
     setPage,
     setPageLimit,
     pageLimit,
-    setSelectedId,
-    selectedId,
   } = useAssetType();
 
   return (
     <>
       <Box>
-        <Header />
+        <Header assetTypeData={assetTypeData} />
         {assetTypeData?.length ? (
           <Box
             borderRadius={3}
@@ -43,19 +41,18 @@ export const AssetType = () => {
                 <TitleBar
                   title={asset?.name}
                   handleCollapse={() => handleCollapse(index)}
+                  assetTypeData={asset}
                 />
                 {collapseItem === index && !!asset?.assetTypeChildIds ? (
                   <ChildBarWrapper
                     parentId={asset?._id}
-                    selectedId={selectedId}
-                    setSelectedId={setSelectedId}
+                    assetTypeData={assetTypeData}
                   >
                     {asset?.childList?.map(
                       (childAsset: any, subChildIndex: any) => (
                         <Fragment key={childAsset?._id}>
                           <TitleBar
-                            selectedId={selectedId}
-                            setSelectedId={setSelectedId}
+                            assetTypeData={childAsset}
                             title={childAsset?.name}
                             handleCollapse={() =>
                               handleSubChildCollapse(subChildIndex)
