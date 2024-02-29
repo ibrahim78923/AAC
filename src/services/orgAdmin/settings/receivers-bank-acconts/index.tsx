@@ -39,9 +39,10 @@ export const receiversBankAccountsAPI = baseAPI.injectEndpoints({
     }),
 
     deleteReceiverBankAccount: builder.mutation({
-      query: ({ ids }: any) => ({
-        url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}/${ids}`,
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}`,
         method: 'DELETE',
+        body: body,
       }),
       invalidatesTags: ['RECEIVER_BANK_ACCOUNT'],
     }),
