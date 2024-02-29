@@ -45,15 +45,19 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
     //   invalidatesTags: ['USERS'],
     // }),
 
-    // deleteUsers: builder.mutation({
-    //   query: ({ id }: any) => ({
-    //     url: `/${id}`,
-    //     method: 'GET',
-    //   }),
-    //   invalidatesTags: ['USERS'],
-    // }),
+    deleteTeams: builder.mutation({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.SALES_TEAM}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['TEAMS'],
+    }),
   }),
 });
 
-export const { useGetTeamsQuery, useGetTeamsByIdQuery, usePostTeamsMutation } =
-  TeamsApi;
+export const {
+  useGetTeamsQuery,
+  useGetTeamsByIdQuery,
+  usePostTeamsMutation,
+  useDeleteTeamsMutation,
+} = TeamsApi;

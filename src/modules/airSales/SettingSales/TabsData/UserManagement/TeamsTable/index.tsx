@@ -23,6 +23,8 @@ const TeamsTable = () => {
     setLimit,
     isSuccess,
     isLoading,
+    teamId,
+    handleDeleteTeam,
   } = useTeamsTable();
 
   return (
@@ -117,6 +119,7 @@ const TeamsTable = () => {
         handleClose={() => setIsOpenDelete(false)}
         handleSubmitBtn={() => {
           setIsOpenDelete(false);
+          handleDeleteTeam(teamId);
         }}
       />
     </>

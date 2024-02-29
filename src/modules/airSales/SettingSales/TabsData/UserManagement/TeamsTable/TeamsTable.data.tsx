@@ -48,7 +48,10 @@ export const columnsTeams = (
           />
           <EditPenIcon />
           <CancelIcon
-            onClick={() => setIsOpenDelete(true)}
+            onClick={() => {
+              setIsOpenDelete(true);
+              setTeamId(info?.row?.original?._id);
+            }}
             sx={{
               color: `${theme?.palette?.error?.main}`,
               fontSize: '22px',
