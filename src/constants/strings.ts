@@ -247,7 +247,6 @@ export const MESSAGE_EXPORT_FILE_TYPE: any = {
 export const AGENT_REQUEST_STATUS = {
   APPROVED: 'Approved',
   REJECTED: 'Rejected',
-  PENDING: 'Pending',
 };
 
 export const SETTINGS_ADD_ROLE = {
