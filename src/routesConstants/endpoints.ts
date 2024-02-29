@@ -239,6 +239,8 @@ export const END_POINTS = {
   PATCH_APPROVAL_STATUS: `/assets/approver-order-status`,
   ASSETS_RECEIVED: '/assets/get-purchaseorder-assets-received/{id}',
   SOFTWARE_CONTRACTS: '/assets/get-software-contracts',
+  ADD_SOFTWARE: '/assets/add_software',
+  EDIT_SOFTWARE: '/assets/edit-software',
 };
 
 export const superAdminBillingInvoices = {
