@@ -219,6 +219,7 @@ export const END_POINTS = {
   PURCHASE_ORDER: `/assets/purchaseorder`,
   GET_SINGLE_ASSETS_CONTRACT: '/contract/get-contract',
   GET_DASHBOARD_TICKETS: '/air-services-dashboard/tickets',
+  GET_DASHBOARD_CARDS_TICKETS: '/air-services-dashboard/dashboard-tickets',
   ADD_APPROVALS_TICKETS: `/ticket/add-ticket-approval`,
   GET_APPROVAL_TICKETS: `/ticket/get-tickets-approval`,
   UPDATE_APPROVAL_TICKETS: `/ticket/edit-ticket-approval`,

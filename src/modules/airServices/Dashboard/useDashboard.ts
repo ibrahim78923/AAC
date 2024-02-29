@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTheme } from '@mui/material';
+import { useGetDashboardCardsTicketsQuery } from '@/services/airServices/dashboard';
 
 export function useDashboard() {
   const theme = useTheme();
@@ -13,6 +14,9 @@ export function useDashboard() {
   const handleAnnouncementIconButton = () => {
     setIsAnnouncementDrawerOpen(!isAnnouncementDrawerOpen);
   };
+  const { data } = useGetDashboardCardsTicketsQuery(null);
+  const cardData = data?.data;
+
   return {
     setIsDrawerOpen,
     isDrawerOpen,
@@ -23,5 +27,6 @@ export function useDashboard() {
     handleAnnouncementIconButton,
     isAnnouncementDrawerOpen,
     setIsAnnouncementDrawerOpen,
+    cardData,
   };
 }

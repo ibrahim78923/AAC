@@ -30,6 +30,7 @@ const Dashboard = () => {
     handleAnnouncementIconButton,
     isAnnouncementDrawerOpen,
     setIsAnnouncementDrawerOpen,
+    cardData,
   } = useDashboard();
 
   return (
@@ -37,7 +38,7 @@ const Dashboard = () => {
       <HeaderDashboard />
       <br />
       <Grid container spacing={3}>
-        {ticketDashboardCardsData?.map((item: any) => (
+        {ticketDashboardCardsData(cardData)?.map((item: any) => (
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item?.id}>
             <TicketDashboardCards
               icon={item?.icon}
