@@ -14,6 +14,6 @@ export const announcementDashboardCardData = (customerAnnouncement: any[]) => {
       />
     ),
     announcementTime: announcementItem?.createdAt,
-    announcementAvatar: announcementItem?.userNamess,
+    announcementAvatar: announcementItem?.userName,
   }));
 };
