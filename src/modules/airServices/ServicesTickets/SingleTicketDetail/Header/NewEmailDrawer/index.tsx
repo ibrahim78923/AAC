@@ -22,40 +22,40 @@ export const NewEmailDrawer = (props: any) => {
       <FormProvider methods={methods}>
         <Grid container spacing={4}>
           {addEmailDataArray?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={item.id}>
+            <Grid item xs={12} md={item?.md} key={item?.id}>
               <item.component {...item?.componentProps} size={'small'}>
                 {item?.componentProps?.select
                   ? item?.options?.map((option: any) => (
-                      <option key={item.id} value={option?.value}>
+                      <option key={item?.id} value={option?.value}>
                         {option?.label}
                       </option>
                     ))
                   : item?.buttonGroup
-                  ? item?.options?.map((option: any) => (
-                      <ToggleButton
-                        sx={{
-                          border: '1.5px solid grey.700 !important',
-                          borderRadius: '8px !important',
-                          p: '10px 16px !important',
-                          color: 'grey.900',
-                          fontSize: '14px',
-                          fontWeight: '400',
-                          gap: '0.3rem',
-                          '&.Mui-selected': {
-                            bgcolor: 'primary.light',
-                            '&:hover': {
+                    ? item?.options?.map((option: any) => (
+                        <ToggleButton
+                          sx={{
+                            border: '1.5px solid grey.700 !important',
+                            borderRadius: '8px !important',
+                            p: '10px 16px !important',
+                            color: 'grey.900',
+                            fontSize: '14px',
+                            fontWeight: '400',
+                            gap: '0.3rem',
+                            '&.Mui-selected': {
                               bgcolor: 'primary.light',
+                              '&:hover': {
+                                bgcolor: 'primary.light',
+                              },
                             },
-                          },
-                        }}
-                        key={item.id}
-                        value={option?.value}
-                      >
-                        <Image src={option?.img} alt={option?.value} />
-                        {option?.label}
-                      </ToggleButton>
-                    ))
-                  : null}
+                          }}
+                          key={item?.id}
+                          value={option?.value}
+                        >
+                          <Image src={option?.img} alt={option?.value} />
+                          {option?.label}
+                        </ToggleButton>
+                      ))
+                    : null}
               </item.component>
             </Grid>
           ))}

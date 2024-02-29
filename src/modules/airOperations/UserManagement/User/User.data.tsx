@@ -1,7 +1,15 @@
-import { Avatar, Box, Checkbox, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Checkbox,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
 import { UserListI } from './User.interface';
 import { AvatarImage } from '@/assets/images';
 import { AntSwitch } from '@/components/AntSwitch';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 
 export const userDropdown = (setDeleteModal: any) => [
   {
@@ -42,32 +50,28 @@ export const userListData: UserListI[] = [
   },
 ];
 export const userList: any = (
+  userData: any = [],
   selectedUserList: any,
   setSelectedUserList: any,
   setIsDrawerOpen: any,
 ) => [
   {
-    accessorFn: (row: any) => row?.id,
-    id: 'id',
+    accessorFn: (row: any) => row?._id,
+    id: '_id',
     cell: (info: any) => (
       <Checkbox
         color="primary"
         name={info?.getValue()}
         checked={
-          !!selectedUserList?.find((item: any) => item?.id === info?.getValue())
+          !!selectedUserList?.find((item: any) => item === info?.getValue())
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedUserList([
-                ...selectedUserList,
-                userListData?.find(
-                  (item: any) => item?.id === info?.getValue(),
-                ),
-              ])
+            ? setSelectedUserList([...selectedUserList, info?.getValue()])
             : setSelectedUserList(
-                selectedUserList?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
-                }),
+                selectedUserList?.filter(
+                  (item: any) => item !== info?.getValue(),
+                ),
               );
         }}
       />
@@ -75,11 +79,15 @@ export const userList: any = (
     header: (
       <Checkbox
         color="primary"
-        name="id"
-        checked={selectedUserList?.length === userListData?.length}
+        name="_id"
+        checked={
+          userData?.length
+            ? selectedUserList?.length === userData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedUserList([...userListData])
+            ? setSelectedUserList(userData?.map((user: any) => user?._id))
             : setSelectedUserList([]);
         }}
       />
@@ -87,59 +95,98 @@ export const userList: any = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.name,
-    id: 'name',
+    accessorFn: (row: any) => row?.firstName,
+    id: 'firstName',
     header: 'Name',
     isSortable: true,
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} gap={1}>
-        <Avatar
-          src={info?.row?.original?.icon?.src}
-          alt={info?.row?.original?.icon?.name}
-        />{' '}
-        <Typography
-          sx={{
-            color: 'blue.dull_blue',
-            cursor: 'pointer',
-          }}
-          onClick={() => setIsDrawerOpen(info?.getValue(), true)}
-        >
-          {info?.getValue()}
-        </Typography>
+        <Avatar src={info?.row?.original?.icon?.src} alt="users">
+          <Typography
+            variant="body2"
+            textTransform={'uppercase'}
+            sx={{
+              color: 'blue.dull_blue',
+              cursor: 'pointer',
+            }}
+            onClick={() => setIsDrawerOpen(info?.getValue(), true)}
+          >
+            {fullNameInitial(
+              info?.row?.original?.firstName,
+              info?.row?.original?.lastName,
+            )}
+          </Typography>
+        </Avatar>
+        {fullName(
+          info?.row?.original?.firstName,
+          info?.row?.original?.lastName,
+        )}
       </Box>
     ),
-  },
-  {
-    accessorFn: (row: any) => row?.email,
-    id: 'email',
-    isSortable: true,
-    header: 'Email',
-    cell: (info: any) => {
-      return (
-        <Typography
-          style={{
-            textTransform: 'lowercase',
-            cursor: 'pointer',
-          }}
-        >
-          {info?.getValue()}
-        </Typography>
-      );
-    },
   },
   {
     accessorFn: (row: any) => row?.team,
     id: 'team',
     isSortable: true,
     header: 'Team',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Select
+        variant="standard"
+        labelId="demo-simple-select-standard-label"
+        id="demo-simple-select-standard"
+        value={info.getValue() || ''}
+        label="Select"
+        name={info.getValue()}
+        sx={{ borderBottom: 'none !important' }}
+      >
+        <MenuItem value="" style={{ borderBottom: 'none !important' }}>
+          <em> {info?.row?.original?.team}</em>
+        </MenuItem>
+        <MenuItem value={info?.row?.original?.team}>
+          {info?.row?.original?.team}
+        </MenuItem>
+        <MenuItem value={info?.row?.original?.team}>
+          {info?.row?.original?.team}
+        </MenuItem>
+        <MenuItem value={info?.row?.original?.team}>
+          {info?.row?.original?.team}
+        </MenuItem>
+      </Select>
+    ),
   },
   {
     accessorFn: (row: any) => row?.role,
     id: 'role',
     isSortable: true,
     header: 'Role',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Select
+        variant="standard"
+        labelId="demo-simple-select-standard-label"
+        id="demo-simple-select-standard"
+        value={info.getValue() || ''}
+        label="Select"
+        name={info.getValue()}
+        sx={{
+          borderBottom: 'none !important',
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderBottom: 'none !important',
+          },
+          '&:focus': {
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderBottom: 'none !important',
+            },
+          },
+        }}
+      >
+        <MenuItem value="">
+          <em>{info?.row?.original?.role}</em>
+        </MenuItem>
+        <MenuItem value={info?.row?.original?.role}>
+          {info?.row?.original?.role}
+        </MenuItem>
+      </Select>
+    ),
   },
   {
     accessorFn: (row: any) => row?.status,

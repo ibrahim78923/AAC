@@ -20,17 +20,14 @@ import { AddCircleRounded } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import { productTotalDetails } from '../EditDetails.data';
 import TanstackTable from '@/components/Table/TanstackTable';
-import {
-  productsTableColumns,
-  productsTableData,
-} from '../../../Invoices.data';
+import { productsTableColumns } from '../../../Invoices.data';
 import AddProducts from '../AddProducts';
 import { AlertModals } from '@/components/AlertModals';
 import useInvoices from '../../../useInvoices';
 import { v4 as uuidv4 } from 'uuid';
 import { ArrowDownIcon } from '@/assets/icons';
 
-const ProductsTable = () => {
+const ProductsTable = (data: any) => {
   const [isDiscount, setIsDiscount] = useState(false);
   const theme = useTheme();
   const { isDeleteModal, setIsDeleteModal, isDrawerOpen, setIsDrawerOpen } =
@@ -42,7 +39,7 @@ const ProductsTable = () => {
   return (
     <Box my={3}>
       <Box my={3}>
-        <TanstackTable columns={getTableColumns} data={productsTableData} />
+        <TanstackTable columns={getTableColumns} data={data} />
       </Box>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={7} lg={8} xl={9}>
@@ -180,10 +177,6 @@ const ProductsTable = () => {
             }}
             fullWidth
             labelId="demo-simple-select-label"
-            // id="demo-simple-select"
-            //  value={age}
-            // label="Age"
-            //  onChange={handleChange}
             endAdornment={
               <InputAdornment position="end">
                 <ArrowDownIcon

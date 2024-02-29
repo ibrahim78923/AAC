@@ -10,24 +10,27 @@ import {
 } from '@mui/material';
 import { useReportAnIssueModal } from './useReportAnIssueModal';
 import { reportAnIssueModalFormFields } from './ReportAnIssueModal.data';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styles } from './ReportAnIssueModal.style';
 
-const ReportAnIssueModal = ({
-  openReportAnIssueModal,
-  setOpenReportAnIssueModal,
-}: any) => {
-  const { methods, theme }: any = useReportAnIssueModal();
+const ReportAnIssueModal = (props: any) => {
+  const { openReportAnIssueModal, setOpenReportAnIssueModal } = props;
+  const {
+    methods,
+    handleSubmitIssue,
+    isLoading,
+    apiQueryAssociateAsset,
+    apiQueryRequester,
+  } = useReportAnIssueModal(props);
   return (
     <>
-      <FormProvider methods={methods}>
-        <Dialog
-          fullWidth
-          sx={styles?.modalSizing}
-          open={openReportAnIssueModal}
-          onClose={() => setOpenReportAnIssueModal(false)}
-        >
-          <Box width={'100%'} p={'1rem'}>
+      <Dialog
+        fullWidth
+        sx={styles?.modalSizing}
+        open={openReportAnIssueModal}
+        onClose={() => setOpenReportAnIssueModal?.(false)}
+      >
+        <FormProvider methods={methods} onSubmit={handleSubmitIssue}>
+          <Box p={2}>
             <Box
               display={'flex'}
               justifyContent={'space-between'}
@@ -37,40 +40,24 @@ const ReportAnIssueModal = ({
               <Typography variant="h3">Report an issue</Typography>
               <IconButton style={{ cursor: 'pointer' }}>
                 <AlertModalCloseIcon
-                  onClick={() => setOpenReportAnIssueModal(false)}
+                  onClick={() => setOpenReportAnIssueModal?.(false)}
                 />
               </IconButton>
             </Box>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                {reportAnIssueModalFormFields?.map((item: any) => (
+                {reportAnIssueModalFormFields(
+                  apiQueryAssociateAsset,
+                  apiQueryRequester,
+                )?.map((item: any) => (
                   <item.component
                     {...item?.componentProps}
                     key={item?.id}
                     size="small"
-                  >
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
+                  />
                 ))}
               </Grid>
             </Grid>
-            <Box
-              display={'flex'}
-              alignItems={'center'}
-              gap={0.5}
-              mt={1}
-              sx={{ cursor: 'pointer' }}
-            >
-              <AddCircleIcon color={theme?.palette?.grey?.[600]} />
-              <Typography variant="body2" fontWeight={600}>
-                Associate Asset
-              </Typography>
-            </Box>
             <Box
               display={'flex'}
               justifyContent={'flex-end'}
@@ -81,15 +68,18 @@ const ReportAnIssueModal = ({
               <Button
                 variant="outlined"
                 color="secondary"
-                onClick={() => setOpenReportAnIssueModal(false)}
+                onClick={() => setOpenReportAnIssueModal?.(false)}
+                disabled={isLoading}
               >
                 Cancel
               </Button>
-              <Button variant="contained">Submit</Button>
+              <Button variant="contained" type="submit" disabled={isLoading}>
+                Submit
+              </Button>
             </Box>
           </Box>
-        </Dialog>
-      </FormProvider>
+        </FormProvider>
+      </Dialog>
     </>
   );
 };

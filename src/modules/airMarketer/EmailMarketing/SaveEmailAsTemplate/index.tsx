@@ -15,6 +15,7 @@ import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import CommonModal from '@/components/CommonModal';
 import { styles } from '../ManageAccess/ManageAccess.style';
+import { FeaturedIcon } from '@/assets/icons';
 
 const SaveEmailAsTemplate = ({
   openSaveEmailAsTemplateModal,
@@ -41,7 +42,16 @@ const SaveEmailAsTemplate = ({
         handleClose={handleCloseSaveEmailAsTemplateModal}
         handleCancel={handleCloseSaveEmailAsTemplateModal}
         handleSubmit={handleCloseSaveEmailAsTemplateModal}
-        title="Save as  Template"
+        title={
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'inline-flex' }} component={'span'}>
+              <FeaturedIcon />
+            </Box>
+            <Box sx={{ display: 'inline-flex', ml: '12px' }} component={'span'}>
+              Save as Template
+            </Box>
+          </Box>
+        }
       >
         <Box sx={{ margin: '20px 0' }}>
           <Grid container>
@@ -67,7 +77,12 @@ const SaveEmailAsTemplate = ({
               ))}
             </Grid>
             <Box sx={styles?.buttonBox} mt={2}>
-              <Button variant="outlined">Cancel</Button>
+              <Button
+                variant="outlined"
+                onClick={handleCloseSaveEmailAsTemplateModal}
+              >
+                Cancel
+              </Button>
               <Button variant="contained" type="submit" onClick={handleSubmit}>
                 Save
               </Button>

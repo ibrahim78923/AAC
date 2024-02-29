@@ -5,7 +5,6 @@ export const actionsOptions = [
   'Edit Campaign',
   'Edit Goal',
   'Export Campaign',
-  'Edit Columns',
   'Clone',
   'Delete',
 ];

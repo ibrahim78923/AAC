@@ -36,8 +36,8 @@ export const userManagementRequesterAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     patchRequester: builder.mutation({
-      query: ({ _id, body }: { _id: any; body: any }) => ({
-        url: `${END_POINTS?.EDIT_REQUESTER}/${_id}`,
+      query: (body: any) => ({
+        url: `${END_POINTS?.EDIT_REQUESTER}`,
         method: 'PATCH',
         body,
       }),

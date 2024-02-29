@@ -14,8 +14,12 @@ import {
 } from '@/services/airServices/assets/inventory';
 
 export const useFilterInventory = (props: any) => {
-  const { setIsDrawerOpen, setInventoryFilterLists, inventoryFilterLists } =
-    props;
+  const {
+    setIsDrawerOpen,
+    setInventoryFilterLists,
+    inventoryFilterLists,
+    setPage,
+  } = props;
 
   const router = useRouter();
   const theme: any = useTheme();
@@ -32,10 +36,13 @@ export const useFilterInventory = (props: any) => {
         ([, value]: any) => value !== undefined && value != '' && value != null,
       )
       ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+
     if (!Object?.keys(inventoryFilteredFields ?? {})?.length) {
       closeInventoryFilterForm();
+      setInventoryFilterLists?.(inventoryFilteredFields);
       return;
     }
+    setPage(1);
     setInventoryFilterLists?.(inventoryFilteredFields);
     closeInventoryFilterForm();
   };
@@ -47,7 +54,7 @@ export const useFilterInventory = (props: any) => {
         skipQueries: ['inventoryListsAction'],
       }),
     );
-    // reset();
+    reset();
     setIsDrawerOpen?.(false);
   };
 
@@ -64,6 +71,7 @@ export const useFilterInventory = (props: any) => {
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
   const apiQueryLocations = useLazyGetLocationsDropdownQuery();
   const apiQueryUsersCreatedBy = useLazyGetUsersDropdownQuery();
+
   const inventoryFilterFormFieldsData = inventoryFilterFormFieldsDataFunction(
     apiQueryDepartment,
     apiQueryLocations,

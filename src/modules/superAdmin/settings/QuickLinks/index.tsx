@@ -9,12 +9,12 @@ import {
   useTheme,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material';
 
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 
 import { useForm } from 'react-hook-form';
 
@@ -84,16 +84,8 @@ const QuickLinks = () => {
             border: '1px solid #EAECF0',
           }}
         >
-          <Box sx={{ padding: '16px 24px' }}>
-            <Box
-              sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '19px',
-              }}
-            >
+          <Box sx={styles?.pageHeader}>
+            <Box sx={styles?.heading}>
               <Typography variant="h3" sx={{ fontWeight: '600' }}>
                 Quick Links
               </Typography>
@@ -105,46 +97,24 @@ const QuickLinks = () => {
                 <PlusShared /> &nbsp; Manage
               </Button>
             </Box>
-            <Box
-              mt={2}
-              mb={3}
-              sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '10px',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Search
-                label={'Search here'}
-                searchBy={quickLinksSearch}
-                setSearchBy={setQuickLinksSearch}
-                width="260px"
-                size="small"
-              />
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  gap: '10px',
-                }}
-              >
+            <Box sx={styles?.filterBar}>
+              <Box sx={styles?.search}>
+                <Search
+                  label={'Search here'}
+                  searchBy={quickLinksSearch}
+                  setSearchBy={setQuickLinksSearch}
+                  width="260px"
+                  size="small"
+                />
+              </Box>
+              <Box sx={styles?.filterButtons}>
                 <Button
                   id="basic-button"
                   aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
                   aria-haspopup="true"
                   aria-expanded={actionMenuOpen ? 'true' : undefined}
                   onClick={handleClick}
-                  sx={{
-                    color: theme?.palette?.grey[500],
-                    width: '112px',
-                    border: '1.5px solid #e7e7e9',
-                    '@media (max-width:581px)': {
-                      width: '100%',
-                    },
-                  }}
+                  sx={styles?.actionBtn}
                   className="small"
                 >
                   Actions &nbsp; <DownIcon />
@@ -170,11 +140,13 @@ const QuickLinks = () => {
                     Delete
                   </MenuItem>
                 </Menu>
-                <Button sx={styles?.refreshButton(theme)} className="small">
-                  <RefreshSharedIcon />
-                </Button>
+                <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+                  <Button sx={styles?.refreshButton} className="small">
+                    <RefreshSharedIcon />
+                  </Button>
+                </Tooltip>
                 <Button
-                  sx={styles?.filterButton(theme)}
+                  sx={styles?.filterButton}
                   className="small"
                   onClick={() => setIsQuickLinksFilterDrawerOpen(true)}
                 >
@@ -184,11 +156,10 @@ const QuickLinks = () => {
             </Box>
           </Box>
           <Box>
-            <TanstackTable columns={columns} data={quickLinksTableData} />
-            <CustomPagination
-              count={1}
-              rowsPerPageOptions={[1, 2]}
-              entriePages={1}
+            <TanstackTable
+              columns={columns}
+              data={quickLinksTableData}
+              isPagination={true}
             />
           </Box>
           <CommonDrawer

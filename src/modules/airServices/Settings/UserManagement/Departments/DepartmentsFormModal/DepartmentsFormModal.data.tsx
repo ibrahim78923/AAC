@@ -9,26 +9,36 @@ import {
 
 export const departmentFormValidation: any = Yup?.object()?.shape({
   departmenProfilePicture: Yup?.string(),
-  name: Yup?.string(),
-  departmentHeadId: Yup?.object(),
+  name: Yup?.string()?.required('Required'),
+  departmentHeadDetails: Yup?.mixed()?.required('Required'),
   description: Yup?.string(),
-  members: Yup?.array(),
+  membersListDetails: Yup?.array()?.min(1, 'Required'),
 });
 
-export const departmentFormValues: any = {
-  departmenProfilePicture: '',
-  name: '',
-  departmentHeadId: null,
-  description: '',
-  members: [],
+export const departmentFormValues: any = (data: any) => {
+  return {
+    departmenProfilePicture: data?.departmenProfilePicture ?? '',
+    name: data?.name ?? '',
+    departmentHeadDetails: data?.departmentHeadDetails ?? null,
+    description: data?.description ?? '',
+    membersListDetails: data?.membersListDetails ?? [],
+  };
 };
 
-export const departmentFormFields: any = (usersList: any) => [
+export const departmentFormFields: any = (
+  userList: any,
+  userListMember: any,
+) => [
   {
     id: 1,
     componentProps: {
       name: 'departmenProfilePicture',
       label: 'Image',
+      accept: {
+        'image/*': ['.png', '.jpg', '.svg'],
+      },
+      fileName: 'Upload File',
+      fileType: 'SVG, PNG or JPG (max 2 MB)',
     },
     component: RHFDropZone,
   },
@@ -39,6 +49,7 @@ export const departmentFormFields: any = (usersList: any) => [
       name: 'name',
       fullWidth: true,
       placeholder: 'Enter Name',
+      required: true,
     },
     component: RHFTextField,
   },
@@ -46,10 +57,13 @@ export const departmentFormFields: any = (usersList: any) => [
     id: 3,
     componentProps: {
       label: 'Department Head',
-      name: 'departmentHeadId',
+      name: 'departmentHeadDetails',
       placeholder: 'Select',
       fullWidth: true,
-      apiQuery: usersList,
+      apiQuery: userList,
+      getOptionLabel: (option: any) =>
+        option?.firstName + ' ' + option?.lastName,
+      required: true,
     },
     component: RHFAutocompleteAsync,
   },
@@ -74,10 +88,13 @@ export const departmentFormFields: any = (usersList: any) => [
     id: 6,
     componentProps: {
       label: 'Members',
-      name: 'members',
+      name: 'membersListDetails',
       fullWidth: true,
       multiple: true,
-      apiQuery: usersList,
+      apiQuery: userListMember,
+      getOptionLabel: (option: any) =>
+        option?.firstName + ' ' + option?.lastName,
+      required: true,
     },
     component: RHFAutocompleteAsync,
   },

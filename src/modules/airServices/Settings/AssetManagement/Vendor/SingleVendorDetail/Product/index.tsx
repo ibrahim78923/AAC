@@ -1,5 +1,4 @@
 import { Box, Button } from '@mui/material';
-import { productData } from './Product.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { UpsertProduct } from './UpsertProduct';
 import { GrayPlusIcon } from '@/assets/icons';
@@ -17,6 +16,13 @@ export const Product = () => {
     upsertProductModal,
     setUpsertProductModal,
     productListColumns,
+    setPage,
+    setPageLimit,
+    productVendorData,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
   } = useProduct();
 
   return (
@@ -37,11 +43,23 @@ export const Product = () => {
           Add Product
         </Button>
       </Box>
+
       <br />
       <TanstackTable
-        data={productData}
+        data={productVendorData?.data?.vendorproductcatalogs}
         columns={productListColumns}
         isPagination
+        isLoading={isLoading}
+        isError={isError}
+        isFetching={isFetching}
+        isSuccess={isSuccess}
+        setPageLimit={setPageLimit}
+        setPage={setPage}
+        currentPage={productVendorData?.data?.meta?.page}
+        count={productVendorData?.data?.meta?.pages}
+        pageLimit={productVendorData?.data?.meta?.limit}
+        totalRecords={productVendorData?.data?.meta?.total}
+        onPageChange={(page: any) => setPage(page)}
       />
 
       <UpsertProduct

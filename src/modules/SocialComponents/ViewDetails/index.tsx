@@ -23,18 +23,16 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
 import { useState } from 'react';
 import UploadImageModal from './UploadImageModal';
-import EditDomainModal from './EditDomainModal';
 import { useRouter } from 'next/router';
 
 const ViewDetails = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isUploadImageOpen, setIsUploadImageOpen] = useState(false);
-  const [isEditDomainOpen, setIsEditDomainOpen] = useState(false);
 
   const theme = useTheme();
   const navigate = useRouter();
   const { query } = navigate;
-  const { data } = useGetCompaniesDetailsQuery({
+  const { data, isLoading } = useGetCompaniesDetailsQuery({
     Id: query?.id,
   });
 
@@ -97,13 +95,6 @@ const ViewDetails = () => {
                     }}
                   >
                     {data?.data?.domain}
-                    <Box
-                      sx={{ marginLeft: '5px', cursor: 'pointer' }}
-                      onClick={() => setIsEditDomainOpen(true)}
-                    >
-                      {' '}
-                      <EditFormIcon />
-                    </Box>
                   </Typography>
                 </Box>
               </>
@@ -252,10 +243,10 @@ const ViewDetails = () => {
         <Grid item xs={12}>
           <Box>
             <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
-              <Details data={data?.data} />
+              <Details data={data?.data} isLoading={isLoading} />
               <ActivityLog companyId={data?.data?._id} />
-              <Associations />
-              <Tasks />
+              <Associations companyId={data?.data?._id} />
+              <Tasks companyId={data?.data?._id} />
               <Notes companyId={data?.data?._id} />
               <Calls companyId={data?.data?._id} />
               <Meetings />
@@ -268,10 +259,6 @@ const ViewDetails = () => {
       <UploadImageModal
         isUploadImageOpen={isUploadImageOpen}
         setIsUploadImageOpen={setIsUploadImageOpen}
-      />
-      <EditDomainModal
-        isEditDomainOpen={isEditDomainOpen}
-        setIsEditDomainOpen={setIsEditDomainOpen}
       />
     </Box>
   );

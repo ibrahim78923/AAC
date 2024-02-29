@@ -3,14 +3,15 @@ import {
   contractsFilterFormDefaultValues,
   contractsFilterFormFieldsDynamic,
 } from './FilterContractsForm.data';
-import {
-  useLazyGetContractTypeDropdownQuery,
-  useLazyGetVendorDropdownQuery,
-} from '@/services/airServices/assets/contracts';
+import { useLazyGetVendorDropdownQuery } from '@/services/airServices/assets/contracts';
 
 export const useFilterContractsForm = (props: any) => {
-  const { setIsDrawerOpen, setContractFilterLists, contractFilterLists } =
-    props;
+  const {
+    setIsDrawerOpen,
+    setContractFilterLists,
+    contractFilterLists,
+    setPage,
+  } = props;
 
   const methods = useForm({
     defaultValues: contractsFilterFormDefaultValues(contractFilterLists),
@@ -21,19 +22,25 @@ export const useFilterContractsForm = (props: any) => {
   const onSubmit = async (data: any) => {
     const contractFilteredFields: any = Object?.entries(data || {})
       ?.filter(
-        ([, value]: any) => value !== undefined && value != '' && value != null,
+        ([, value]: any) =>
+          value !== undefined &&
+          value != '' &&
+          value != null &&
+          value?._id !== 'All',
       )
       ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
     if (!Object?.keys(contractFilteredFields || {})?.length) {
+      setContractFilterLists(contractFilteredFields);
       closeInventoryFilterForm();
       return;
     }
+    setPage(1);
     setContractFilterLists(contractFilteredFields);
     closeInventoryFilterForm();
     setIsDrawerOpen(false);
   };
   const closeInventoryFilterForm = () => {
-    // reset();
+    reset();
     setIsDrawerOpen?.(false);
   };
 
@@ -44,12 +51,9 @@ export const useFilterContractsForm = (props: any) => {
     reset();
     setIsDrawerOpen?.(false);
   };
-  const apiQueryContractType = useLazyGetContractTypeDropdownQuery();
   const apiQueryVendor = useLazyGetVendorDropdownQuery();
-  const contractsFilterFormFields = contractsFilterFormFieldsDynamic(
-    apiQueryContractType,
-    apiQueryVendor,
-  );
+  const contractsFilterFormFields =
+    contractsFilterFormFieldsDynamic(apiQueryVendor);
   return {
     methods,
     handleSubmit,

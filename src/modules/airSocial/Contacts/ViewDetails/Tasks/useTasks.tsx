@@ -7,7 +7,11 @@ const useTasks = () => {
 
   const [openDrawer, setOpenDrawer] = useState('');
 
-  return { openDrawer, setOpenDrawer, theme };
+  return {
+    openDrawer,
+    setOpenDrawer,
+    theme,
+  };
 };
 
 export default useTasks;

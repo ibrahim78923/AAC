@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { AlertModals } from '@/components/AlertModals';
 import useCompanies from '../../useCompanies';
 import { enqueueSnackbar } from 'notistack';

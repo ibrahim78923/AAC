@@ -3,7 +3,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { Box, Chip, Collapse, Typography } from '@mui/material';
 import { useSingleAssociationsTicket } from './useSingleAssociationsTicket';
 
-export const SingleAssociationsTicket = ({ associationsItem }: any) => {
+export const SingleAssociationsTicket = (props: any) => {
   const {
     setShowDisassociate,
     theme,
@@ -11,7 +11,9 @@ export const SingleAssociationsTicket = ({ associationsItem }: any) => {
     setDisassociateModal,
     disassociateModal,
     handleSubmitDissociate,
-  } = useSingleAssociationsTicket();
+    associationsItem,
+    deleteAssociationStatus,
+  } = useSingleAssociationsTicket(props);
   return (
     <>
       <Box
@@ -21,6 +23,7 @@ export const SingleAssociationsTicket = ({ associationsItem }: any) => {
         boxShadow={2}
         borderLeft={`.5rem solid ${theme?.palette?.primary?.main}`}
         borderRadius={'.6rem'}
+        my={2}
         padding={'.7rem'}
         onMouseOver={() => setShowDisassociate(true)}
         onMouseOut={() => setShowDisassociate(false)}
@@ -38,10 +41,12 @@ export const SingleAssociationsTicket = ({ associationsItem }: any) => {
               />
             </Box>
           </Collapse>
-          <Typography>{associationsItem?.title}</Typography>
+          <Typography>
+            {associationsItem?.ticketIdNumber}-{associationsItem?.subject}
+          </Typography>
         </Box>
         <Chip
-          label={associationsItem?.buttonText}
+          label={associationsItem?.status}
           color="success"
           sx={{ color: 'common.white' }}
         />
@@ -53,6 +58,7 @@ export const SingleAssociationsTicket = ({ associationsItem }: any) => {
         message="You are about to dissociate this service "
         submitBtnText="Disassociate"
         handleSubmitBtn={handleSubmitDissociate}
+        loading={deleteAssociationStatus?.isLoading}
       />
     </>
   );

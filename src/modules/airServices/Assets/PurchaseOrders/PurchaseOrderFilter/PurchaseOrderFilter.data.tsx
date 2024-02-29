@@ -1,4 +1,7 @@
-import { RHFAutocomplete } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
 
 export const venderOptions = [
   {
@@ -24,81 +27,34 @@ export const venderOptions = [
 ];
 
 export const statusOptions = [
-  {
-    label: 'Approved',
-    value: 'Approved',
-  },
-  {
-    label: 'Cancelled',
-    value: 'Cancelled',
-  },
-  {
-    label: 'Closed',
-    value: 'Closed',
-  },
-  {
-    label: 'Open',
-    value: 'Open',
-  },
-  {
-    label: 'Ordered',
-    value: 'Ordered',
-  },
-  {
-    label: 'Partly Received',
-    value: 'Partly Received',
-  },
-  {
-    label: 'Pending approval',
-    value: 'Pending approval',
-  },
-  {
-    label: 'Received',
-    value: 'Received',
-  },
-  {
-    label: 'Rejected',
-    value: 'Rejected',
-  },
+  'Approved',
+
+  'Cancelled',
+
+  'Closed',
+  'Open',
+
+  'Ordered',
+  'Partly Received',
+  'Pending approval',
+  'Received',
+  'Rejected',
 ];
 
 export const createdDateOptions = [
-  {
-    label: 'None',
-    value: 'None',
-  },
-  {
-    label: 'AllTime',
-    value: 'AllTime',
-  },
-  {
-    label: 'Today',
-    value: 'Today',
-  },
-  {
-    label: 'Yesterday',
-    value: 'Yesterday',
-  },
-  {
-    label: 'Previous Week',
-    value: 'Previous Week',
-  },
-  {
-    label: 'Previous Month',
-    value: 'Previous Month',
-  },
+  'None',
+  'AllTime',
+  'Today',
+  'Yesterday',
+  'Previous Week',
+  'Previous Month',
 ];
 
 export const deliveryDateOptions = [
   ...createdDateOptions,
-  {
-    label: 'Next Month',
-    value: 'Next Month',
-  },
-  {
-    label: 'Next week',
-    value: 'Next week',
-  },
+  'Next Month',
+
+  'Next week',
 ];
 
 export const departmentOptions = [
@@ -124,18 +80,17 @@ export const defaultValues = {
   department: '',
 };
 
-export const filterFields = [
+export const filterFields = (vendorDropdown: any, departmentDropdown: any) => [
   {
     id: 2,
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     gridLength: 12,
     componentProps: {
       placeholder: 'Select Vendor',
       fullWidth: true,
       name: 'vendor',
       label: 'Vendor',
-      select: true,
-      options: venderOptions,
+      apiQuery: vendorDropdown,
     },
   },
   {
@@ -145,7 +100,6 @@ export const filterFields = [
       fullWidth: true,
       name: 'status',
       label: 'Status',
-      select: true,
       options: statusOptions,
     },
     gridLength: 12,
@@ -158,7 +112,6 @@ export const filterFields = [
       fullWidth: true,
       name: 'createdDate',
       label: 'Created Date',
-      select: true,
       options: createdDateOptions,
     },
     gridLength: 12,
@@ -173,7 +126,6 @@ export const filterFields = [
       fullWidth: true,
       name: 'deliverDate',
       label: 'Deliver Date',
-      select: true,
       options: deliveryDateOptions,
     },
   },
@@ -184,10 +136,9 @@ export const filterFields = [
       fullWidth: true,
       name: 'department',
       label: 'Department',
-      select: true,
-      options: departmentOptions,
+      apiQuery: departmentDropdown,
     },
     gridLength: 12,
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
 ];

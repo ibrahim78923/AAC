@@ -1,46 +1,11 @@
 import { Checkbox, Typography } from '@mui/material';
-import { RHFSelect } from '@/components/ReactHookForm';
 import { AIR_SERVICES } from '@/constants';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
-export const dataArray = [
-  {
-    options: [
-      { value: 'Add & Assign', label: 'Add & Assign' },
-      { value: 'Operation', label: 'Operation' },
-    ],
-    component: RHFSelect,
-  },
-];
-
-export const data: any = [
-  {
-    id: 1,
-    Software: 'Freshservice',
-    Status: 'Managed',
-    Category: '---',
-    ContractValue: '---',
-    ManagedBy: '---',
-    Users: '---',
-    Installs: '1',
-    Type: '---',
-  },
-  {
-    id: 2,
-    Software: 'Microsoft Office 365',
-    Status: 'Managed',
-    Category: '---',
-    ContractValue: '---',
-    ManagedBy: '---',
-    Users: '---',
-    Installs: '2',
-    Type: '---',
-  },
-];
 export const columns = (
   softwareData: any,
   setSoftwareData: any,
   data: any,
-  theme: any,
   router: any,
 ): any => [
   {
@@ -48,6 +13,8 @@ export const columns = (
     id: 'id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!softwareData?.find((item: any) => item?.id === info?.getValue())
         }
@@ -69,6 +36,8 @@ export const columns = (
     ),
     header: (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={softwareData?.length === data?.length}
         onChange={(e: any) => {
           e?.target?.checked ? setSoftwareData([...data]) : setSoftwareData([]);
@@ -91,7 +60,7 @@ export const columns = (
           router?.push({
             pathname: AIR_SERVICES?.ASSETS_SOFTWARE_DETAIL,
             query: {
-              softwareId: info?.row?.id,
+              softwareId: info?.row?.original?.id,
             },
           })
         }
@@ -149,6 +118,13 @@ export const columns = (
     id: 'Type',
     isSortable: true,
     header: <span>Type</span>,
+    cell: (info: any) => info?.getValue(),
+  },
+  {
+    accessorFn: (row: any) => row?.publisher,
+    id: 'Publisher',
+    isSortable: true,
+    header: <span>Publisher</span>,
     cell: (info: any) => info?.getValue(),
   },
 ];

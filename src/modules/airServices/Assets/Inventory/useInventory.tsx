@@ -10,8 +10,7 @@ import { CustomizeInventoryColumn } from './CustomizeInventoryColumn';
 import { FilterInventory } from './FilterInventory';
 import { AIR_SERVICES } from '@/constants';
 import { PAGINATION } from '@/config';
-import { EXPORT_FILE_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import {
   useLazyGetInventoryQuery,
   useLazyGetExportInventoryQuery,
@@ -21,6 +20,7 @@ import usePath from '@/hooks/usePath';
 import { DeleteInventory } from './DeleteInventory';
 import { ImportInventory } from './ImportInventory';
 import { useTheme } from '@mui/material';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useInventory = () => {
   const { makePath } = usePath();
@@ -87,13 +87,9 @@ export const useInventory = () => {
         getInventoryExportParameter,
       )?.unwrap();
       downloadFile(response, 'InventoryLists', EXPORT_FILE_TYPE?.[type]);
-      enqueueSnackbar('File Exported successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('File export successfully');
     } catch (error: any) {
-      enqueueSnackbar('File not exported', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
   useEffect(() => {
@@ -118,6 +114,7 @@ export const useInventory = () => {
         setIsDrawerOpen={setHasInventoryAction}
         setInventoryFilterLists={setInventoryFilterLists}
         inventoryFilterLists={inventoryFilterLists}
+        setPage={setPage}
       />
     ),
     [INVENTORY_LIST_ACTIONS?.CUSTOMIZE_COLUMN]: (
@@ -136,6 +133,7 @@ export const useInventory = () => {
         setDeleteModalOpen={setHasInventoryAction}
         selectedInventoryLists={selectedInventoryLists}
         setSelectedInventoryLists={setSelectedInventoryLists}
+        setPage={setPage}
       />
     ),
     [INVENTORY_LIST_ACTIONS?.IMPORT]: (

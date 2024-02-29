@@ -8,9 +8,18 @@ export const useTeams = () => {
   const theme = useTheme();
   const [searchValue, setSearchValue] = useState<string>('');
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [isTeamDrawerOpen, setIsTeamDrawerOpen] = useState<boolean>(false);
   const [selectedTeamList, setSelectedTeamList] = useState<any>([]);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
+  const handleMenuClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
   const submitDeleteModal = () => {
     enqueueSnackbar('Delete Successfully', {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
@@ -19,10 +28,18 @@ export const useTeams = () => {
   };
   const teamDropdownOptions = teamDropdown(setDeleteModal);
 
+  const submit = async () => {
+    enqueueSnackbar('Team Add Successfully', {
+      variant: NOTISTACK_VARIANTS?.SUCCESS,
+    });
+    setIsDrawerOpen(false);
+  };
+
   const teamListColumn = teamList(
     selectedTeamList,
     setSelectedTeamList,
     teamListData,
+    setIsTeamDrawerOpen,
     setIsDrawerOpen,
     setDeleteModal,
   );
@@ -40,5 +57,11 @@ export const useTeams = () => {
     setDeleteModal,
     submitDeleteModal,
     teamDropdownOptions,
+    isTeamDrawerOpen,
+    setIsTeamDrawerOpen,
+    handleMenuClick,
+    handleMenuClose,
+    anchorEl,
+    submit,
   };
 };

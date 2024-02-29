@@ -26,6 +26,8 @@ const Products = () => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
+    selectedCheckboxes,
+    setSelectedCheckboxes,
   } = useProducts();
 
   return (
@@ -64,7 +66,9 @@ const Products = () => {
               variant="contained"
               className="medium"
               sx={{ minWidth: '0px', gap: 0.5 }}
-              onClick={() => setOpenDrawer('Add')}
+              onClick={() => {
+                setOpenDrawer('Add'), setSelectedCheckboxes({});
+              }}
             >
               <PlusIcon /> Add Products
             </Button>
@@ -72,17 +76,24 @@ const Products = () => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
+            columns={columns({
+              setOpenDrawer,
+              setIsOpenAlert,
+              setSelectedCheckboxes,
+            })}
             data={productsData}
           />
         </Grid>
       </Grid>
-      <ProductEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+      {openDrawer && (
+        <ProductEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          selectedCheckboxes={selectedCheckboxes}
+        />
+      )}
       <AlertModals
-        message={"You're about to remove a record. Are you Sure?"}
+        message={"You're about to remove a record. Are you sure?"}
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}

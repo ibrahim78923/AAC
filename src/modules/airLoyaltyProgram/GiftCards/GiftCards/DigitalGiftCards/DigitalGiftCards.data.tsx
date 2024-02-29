@@ -92,9 +92,10 @@ export const digitalGiftCardColumnsFunction = (router: any): any => [
         component="span"
         onClick={() =>
           router?.push({
-            pathname: AIR_LOYALTY_PROGRAM?.SINGLE_DIGITAL_GIFT_CARDS,
+            pathname: AIR_LOYALTY_PROGRAM?.SINGLE_GIFT_CARD_TRANSACTION_DETAIL,
             query: {
-              digitalCardId: info?.row?.id,
+              giftCardId: info?.row?.id,
+              type: 'digital',
             },
           })
         }

@@ -28,7 +28,7 @@ import {
   MessageImage,
   PaidAdsImage,
   PlanManagementImage,
-  PrepaidImage,
+  // PrepaidImage,
   ProfileUserImage,
   ProfileUserManagementImage,
   QuotesImage,
@@ -276,20 +276,20 @@ export const LoyaltyProgramsRoutes: any = [
       },
     ],
   },
-  {
-    key: LOYALTY_PROGRAM?.PREPARED_FUNDS_TRANSACTIONS,
-    label: 'Prepaid',
-    icon: PrepaidImage,
-    role: 'Loyalty-Program',
-    permissions: [],
-    textNames: [
-      {
-        key: LOYALTY_PROGRAM?.PREPARED_FUNDS_TRANSACTIONS,
-        label: 'Funds & Transactions',
-        permissions: [],
-      },
-    ],
-  },
+  // {
+  //   key: LOYALTY_PROGRAM?.PREPARED_FUNDS_TRANSACTIONS,
+  //   label: 'Prepaid',
+  //   icon: PrepaidImage,
+  //   role: 'Loyalty-Program',
+  //   permissions: [],
+  //   textNames: [
+  //     {
+  //       key: LOYALTY_PROGRAM?.PREPARED_FUNDS_TRANSACTIONS,
+  //       label: 'Funds & Transactions',
+  //       permissions: [],
+  //     },
+  //   ],
+  // },
 ];
 
 export const AirMarketingRoutes: any = [
@@ -813,4 +813,5 @@ export const zeroPaddingRoutes = [
   '/air-customer-portal',
   '/air-marketer/social-marketing/social-inbox',
   '/air-marketer/social-marketing',
+  '/air-loyalty-program',
 ];

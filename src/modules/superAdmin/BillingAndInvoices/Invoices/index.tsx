@@ -51,7 +51,9 @@ const Invoices = () => {
               <Box sx={styles?.invoicesHeaderLabel}>Invoices Due</Box>
               <Box sx={styles?.invoicesHeaderValue}>
                 {!allInvoicesTableData?.data?.widget && (
-                  <Typography>No Due Invoices </Typography>
+                  <Typography sx={styles?.invoicesHeaderValue}>
+                    No Due Invoices{' '}
+                  </Typography>
                 )}
                 {allInvoicesTableData?.data?.widget?.countInvoiceDue}
               </Box>

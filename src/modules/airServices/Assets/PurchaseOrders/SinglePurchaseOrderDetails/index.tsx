@@ -1,4 +1,3 @@
-import { enqueueSnackbar } from 'notistack';
 import { Header } from './Header';
 import { useSinglePurchaseDetail } from './useSinglePurchaseDetail';
 import { AlertModals } from '@/components/AlertModals';
@@ -17,6 +16,8 @@ export const SinglePurchaseOrderDetail = () => {
     isADrawerOpen,
     setIsADrawerOpen,
     singlePurchaseDetailStatusDropdown,
+    deletePurchaseOrder,
+    isLoading,
   }: any = useSinglePurchaseDetail();
   return (
     <>
@@ -35,12 +36,8 @@ export const SinglePurchaseOrderDetail = () => {
           type="delete"
           open={isDeleteModalOpen}
           handleClose={() => setIsDeleteModalOpen(false)}
-          handleSubmitBtn={() => {
-            setIsDeleteModalOpen(false);
-            enqueueSnackbar('Contract deleted Successfully', {
-              variant: 'success',
-            });
-          }}
+          handleSubmitBtn={deletePurchaseOrder}
+          loading={isLoading}
           message="Are you sure  want to delete this purchase order ?"
         />
       )}

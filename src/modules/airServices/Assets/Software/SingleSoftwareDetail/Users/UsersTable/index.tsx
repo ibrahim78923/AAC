@@ -2,26 +2,36 @@ import React from 'react';
 import { usersTableColumns } from './UsersTable.data';
 import TanstackTable from '@/components/Table/TanstackTable';
 import useUsers from '../useUsers';
+// import { userAgent } from 'next/server';
 
 const UsersTable = ({ setUsersData, usersData }: any) => {
-  const { getSoftwareUsers, setPage, setLimit } = useUsers();
+  const {
+    getSoftwareUsers,
+    page,
+    limit,
+    setPage,
+    setLimit,
+    isFetching,
+    isLoading,
+    metaData,
+    isError,
+    isSuccess,
+  } = useUsers();
+  const userDetails = getSoftwareUsers?.data?.[0]?.collections || [];
+
   return (
     <div>
       <TanstackTable
-        columns={usersTableColumns(
-          usersData,
-          setUsersData,
-          getSoftwareUsers?.data?.data?.softwareUsers || [],
-        )}
-        data={getSoftwareUsers?.data?.data?.softwareUsers || []}
-        isLoading={getSoftwareUsers?.isLoading}
-        isError={getSoftwareUsers?.isError}
-        isFetching={getSoftwareUsers?.isFetching}
-        isSuccess={getSoftwareUsers?.isSuccess}
-        currentPage={getSoftwareUsers?.data?.data?.meta?.page}
-        count={getSoftwareUsers?.data?.data?.meta?.pages}
-        pageLimit={getSoftwareUsers?.data?.data?.meta?.limit}
-        totalRecords={getSoftwareUsers?.data?.data?.meta?.total}
+        columns={usersTableColumns(usersData, setUsersData, userDetails)}
+        data={userDetails}
+        isLoading={isLoading}
+        isError={isError}
+        isFetching={isFetching}
+        isSuccess={isSuccess}
+        currentPage={page}
+        count={metaData?.pages}
+        pageLimit={limit}
+        totalRecords={metaData?.total}
         isPagination
         setPage={setPage}
         setPageLimit={setLimit}

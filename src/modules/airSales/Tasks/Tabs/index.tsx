@@ -1,44 +1,88 @@
-import React, { Fragment } from 'react';
-import CommonTabs from '@/components/Tabs';
+import React, { useEffect, useState } from 'react';
 import Filter from './TabToolbar';
-import { v4 as uuidv4 } from 'uuid';
 import { useTask } from '../useTask';
-import CreateTask from '../CreateTask';
 import { TasksData } from '../Task.data';
+import Search from '@/components/Search';
+import { Box } from '@mui/material';
+import TanstackTable from '@/components/Table/TanstackTable';
+import GridView from '../GridView';
+import { useAppSelector } from '@/redux/store';
 
-const Tabs = () => {
-  const { handleToggler, toggler, handleActionBtn, actionType } = useTask();
+const Tabs = ({ tabValue, assignTo }: any) => {
+  const {
+    handleToggler,
+    taskData,
+    handleActionBtn,
+    setPage,
+    setTabsValue,
+    setPageLimit,
+    setAssignTo,
+    status,
+  } = useTask();
 
-  const getTastaData = TasksData();
+  const [searchTask, setSearchTask] = useState('');
+
+  const getTaskData = TasksData();
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
+  useEffect(() => {
+    if (assignTo) {
+      setAssignTo(assignTo);
+    } else {
+      setAssignTo('');
+      setTabsValue(tabValue);
+    }
+  }, [tabValue]);
+  const toggleTableView = useAppSelector(
+    (state: any) => state?.task?.toggleTableView,
+  );
 
   return (
     <>
-      <CommonTabs
-        tabsArray={getTastaData?.map(({ label }) => label)}
-        isHeader
-        headerChildren={
-          <Filter
-            handleActionBtn={handleActionBtn}
-            disableActionBtn={false}
-            handleToggler={(val: any) => handleToggler(val)}
-            handleRefreshList={() => {
-              'refresh';
-            }}
-          />
-        }
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
       >
-        {toggler === 'listView' &&
-          getTastaData?.map(({ tableChildren }) => (
-            <Fragment key={uuidv4()}>{tableChildren}</Fragment>
-          ))}
-        {toggler === 'gridView' &&
-          getTastaData?.map(({ gridChildtren }) => (
-            <Fragment key={uuidv4()}>{gridChildtren}</Fragment>
-          ))}
-      </CommonTabs>
-      {actionType === 'Edit' && (
-        <CreateTask title={'Edit Task'} hideBtn defaultOpen />
-      )}
+        <Search
+          label={'Search here'}
+          searchBy={searchTask}
+          setSearchBy={setSearchTask}
+          width="260px"
+          size="small"
+        />
+        <Filter
+          handleActionBtn={handleActionBtn}
+          disableActionBtn={false}
+          handleToggler={(val: any) => handleToggler(val)}
+          handleRefreshList={() => {
+            'refresh';
+          }}
+        />
+      </Box>
+
+      <Box sx={{ mt: 3 }}>
+        {toggleTableView === 'gridView' ? (
+          <GridView title={'Complete'} data={taskData?.data?.taskmanagements} />
+        ) : (
+          <TanstackTable
+            columns={getTaskData}
+            data={taskData?.data?.taskmanagements}
+            isLoading={status === 'pending'}
+            isPagination
+            count={taskData?.data?.meta?.pages}
+            totalRecords={taskData?.data?.meta?.total}
+            onPageChange={handlePageChange}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+          />
+        )}
+      </Box>
     </>
   );
 };

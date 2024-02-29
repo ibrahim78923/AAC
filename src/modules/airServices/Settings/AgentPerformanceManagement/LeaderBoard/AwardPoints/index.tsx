@@ -1,23 +1,21 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { agentResolveTicketData, receivingAwardData } from './AwardPoints.data';
 import { useAwardPoints } from './useAwardPoints';
 import AwardCard from './AwardCard';
-import { useEffect } from 'react';
+import { LoadingButton } from '@mui/lab';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const AwardPoints = () => {
   const {
     awardPointsMethod,
     awardCardBorderColors,
     handleSubmit,
-    handleSetValues,
-    awardPoints,
+    isLoading,
+    isFetching,
+    addAwardPointsStatus,
   } = useAwardPoints();
-
-  useEffect(() => {
-    handleSetValues();
-  }, [awardPoints]);
-
+  if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <FormProvider
       methods={awardPointsMethod}
@@ -38,7 +36,7 @@ const AwardPoints = () => {
             Set award points based on different factors for agents
           </Typography>
         </Box>
-        <Grid container gap={2.3}>
+        <Grid container spacing={2.3}>
           {agentResolveTicketData?.map((item: any) => (
             <Grid
               item
@@ -72,18 +70,42 @@ const AwardPoints = () => {
             The agent will receive 4 Awards based on different criteria.
           </Typography>
         </Box>
-        <Grid container xs={12} xl={9} gap={2}>
+        <Grid item container xs={12} xl={9} gap={2}>
           {receivingAwardData?.map?.((card, index) => (
             <Grid key={card?.title} xs={12} lg={5} item>
-              <AwardCard {...card} borderColor={awardCardBorderColors[index]} />
+              <AwardCard
+                {...card}
+                borderColor={awardCardBorderColors?.[index]}
+              />
             </Grid>
           ))}
         </Grid>
       </Box>
-      <Grid container xs={12} xl={9} sx={{ justifyContent: 'flex-end', mt: 2 }}>
-        <Button type="submit" variant="contained">
-          Save
-        </Button>
+      <Grid
+        item
+        container
+        xs={12}
+        xl={9}
+        sx={{ justifyContent: { sm: 'flex-end' }, mt: 2 }}
+      >
+        <Box display={'flex'} gap={2} alignItems={'center'} flexWrap={'wrap'}>
+          <LoadingButton
+            type="button"
+            variant="outlined"
+            color="inherit"
+            disabled={addAwardPointsStatus?.isLoading}
+          >
+            Cancel
+          </LoadingButton>
+          <LoadingButton
+            disableElevation
+            type="submit"
+            variant="contained"
+            loading={addAwardPointsStatus?.isLoading}
+          >
+            Save
+          </LoadingButton>
+        </Box>
       </Grid>
     </FormProvider>
   );

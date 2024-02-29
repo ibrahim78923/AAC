@@ -30,12 +30,20 @@ const TeamsTable = () => {
   return (
     <>
       <Box>
-        <Search
-          searchBy=""
-          width="260px"
-          label={'Search here'}
-          setSearchBy={() => {}}
-        />
+        <Box
+          sx={{
+            marginTop: '1rem',
+            marginBottom: '1rem',
+          }}
+        >
+          <Search
+            searchBy=""
+            width="260px"
+            label={'Search here'}
+            setSearchBy={() => {}}
+          />
+        </Box>
+
         <Grid sx={{ paddingTop: '1rem' }}>
           <TanstackTable
             columns={getRowValues}

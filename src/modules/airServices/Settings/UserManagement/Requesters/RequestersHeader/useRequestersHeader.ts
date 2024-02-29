@@ -1,4 +1,4 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
 import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
@@ -64,17 +64,33 @@ export const useRequestersHeader = (props: any) => {
 
   const submit = async (data: any) => {
     try {
-      await addRequester({ ...data, role: 'ORG_REQUESTER' });
-      enqueueSnackbar('Successfully', {
+      const payload = {
+        firstName: data?.firstName,
+        lastName: data?.lastName,
+        email: data?.email,
+        role: data?.role,
+        jobTitle: data?.jobTitle,
+        phoneNumber: data?.phoneNumber,
+        timezone: data?.timezone,
+      };
+      await addRequester({ ...payload, role: ROLES?.ORG_REQUESTER }).unwrap();
+      enqueueSnackbar(' Requesters Added Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      reset();
       setIsDrawerOpen(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.error?.message ?? 'Error', {
+      const errorMessage =
+        error?.response?.data?.message?.[0] || 'Email Already Exists!';
+
+      enqueueSnackbar(errorMessage, {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
+    handleClose?.();
+  };
+  const handleClose = () => {
+    setIsDrawerOpen(false);
+    reset?.();
   };
 
   return {
@@ -94,5 +110,6 @@ export const useRequestersHeader = (props: any) => {
     methods,
     handleSubmit,
     submit,
+    handleClose,
   };
 };

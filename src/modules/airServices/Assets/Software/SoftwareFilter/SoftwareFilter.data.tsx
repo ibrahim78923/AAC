@@ -1,8 +1,8 @@
-import { RHFAutocomplete } from '@/components/ReactHookForm';
+import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
-export const drawerFormValidationSchema = Yup?.object()?.shape({
+export const softwareFilterValidationSchema = Yup?.object()?.shape({
   status: Yup?.string(),
   type: Yup?.string(),
   category: Yup?.string(),
@@ -11,17 +11,20 @@ export const drawerFormValidationSchema = Yup?.object()?.shape({
   updatedDate: Yup?.date(),
 });
 
-export const defaultValues = {
-  type: '',
-  status: '',
-  category: '',
-  publisher: '',
-  createdDate: '',
-  updatedDate: '',
+export const softwareFilterDefaultValues = (filterValues: any) => {
+  return {
+    type: filterValues?.type,
+    status: filterValues?.status,
+    category: filterValues?.category,
+    publisher: filterValues?.publisher,
+    createdDate: filterValues?.createdDate,
+    updatedDate: filterValues?.updatedDate,
+  };
 };
 
-export const dataArray = [
+export const softwareFilterDataArray = [
   {
+    id: 2435,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -33,6 +36,7 @@ export const dataArray = [
     md: 12,
   },
   {
+    id: 6546,
     componentProps: {
       name: 'type',
       label: 'Type',
@@ -45,28 +49,31 @@ export const dataArray = [
   },
 
   {
+    id: 5674,
     componentProps: {
       name: 'category',
       label: 'Category',
       fullWidth: true,
       select: false,
     },
-    component: RHFAutocomplete,
+    component: RHFTextField,
     md: 12,
   },
 
   {
+    id: 9877,
     componentProps: {
       name: 'publisher',
       label: 'Publisher',
       fullWidth: true,
       select: false,
     },
-    component: RHFAutocomplete,
+    component: RHFTextField,
     md: 12,
   },
 
   {
+    id: 6566,
     componentProps: {
       name: 'createdDate',
       label: 'Created Date',
@@ -74,12 +81,12 @@ export const dataArray = [
       select: true,
       placeholder: 'Select a time period',
       options: [
-        'None',
-        'AllTime',
-        'Today',
-        'Yesterday',
-        'PreviousWeek',
-        'PreviousMonth',
+        'NONE',
+        'ALL_TIME',
+        'TODAY',
+        'YESTERDAY',
+        'PREVIOUS_WEEK',
+        'PREVIOUS_MONTH',
       ],
     },
     component: RHFAutocomplete,
@@ -87,6 +94,7 @@ export const dataArray = [
   },
 
   {
+    id: 6785,
     componentProps: {
       name: 'updatedDate',
       label: 'Updated Date',
@@ -94,12 +102,12 @@ export const dataArray = [
       select: true,
       placeholder: 'Select a time period',
       options: [
-        'None',
-        'AllTime',
-        'Today',
-        'Yesterday',
-        'PreviousWeek',
-        'PreviousMonth',
+        'NONE',
+        'ALL_TIME',
+        'TODAY',
+        'YESTERDAY',
+        'PREVIOUS_WEEK',
+        'PREVIOUS_MONTH',
       ],
     },
     component: RHFAutocomplete,

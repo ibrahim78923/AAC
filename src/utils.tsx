@@ -22,6 +22,14 @@ export function isNullOrEmpty(
   return false;
 }
 
+export const convertIdToShortNumber = (mongodbId: string): any => {
+  // Convert hexadecimal to decimal
+  const decimalId = parseInt(mongodbId, 16);
+  // Take modulo with a large prime number to get a unique five-digit number
+  const uniqueFiveDigitNumber = decimalId % 99991; // 99991 is a prime number
+  return uniqueFiveDigitNumber;
+};
+
 //=====debounce search
 
 const DEBOUNCE_DELAY = 1000;
@@ -30,12 +38,13 @@ export const debouncedSearch = debounce((value: any, setSearchBy: any) => {
 }, DEBOUNCE_DELAY);
 
 const getSession = () => {
-  const sessionJSON = window.localStorage.getItem('session');
+  const sessionJSON = window?.localStorage?.getItem('session');
 
   if (sessionJSON) return JSON.parse(sessionJSON);
-  return {};
+  // return {};
 };
 
+// const setSession = (userData: any) => {
 const setSession = (userData: any) => {
   if (userData) {
     localStorage.setItem('session', JSON.stringify(userData));

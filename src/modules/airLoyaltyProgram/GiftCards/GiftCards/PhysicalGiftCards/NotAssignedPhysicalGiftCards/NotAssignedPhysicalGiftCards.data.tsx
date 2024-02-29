@@ -1,4 +1,9 @@
-import { DocumentIcon } from '@/assets/icons';
+import {
+  CheckboxCheckedIcon,
+  CheckboxIcon,
+  DocumentIcon,
+} from '@/assets/icons';
+import { AIR_LOYALTY_PROGRAM } from '@/constants';
 import { Box, Checkbox, Typography } from '@mui/material';
 
 export const data: any = [
@@ -50,12 +55,15 @@ export const notAssignedPhysicalGiftCardColumnsFunction = (
   notAssignedPhysicalGiftCardData: any,
   setNotAssignedPhysicalGiftCardData: any,
   notAssignedPhysicaldata: any,
+  setAssignedTo: any,
 ): any => [
   {
     accessorFn: (row: any) => row?.id,
     id: 'id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!notAssignedPhysicalGiftCardData?.find(
             (item: any) => item?.id === info?.getValue(),
@@ -81,6 +89,8 @@ export const notAssignedPhysicalGiftCardColumnsFunction = (
     ),
     header: (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           notAssignedPhysicalGiftCardData?.length ===
           notAssignedPhysicaldata?.length
@@ -103,7 +113,22 @@ export const notAssignedPhysicalGiftCardColumnsFunction = (
     isSortable: true,
     header: 'Card Number',
     cell: (info: any) => (
-      <Typography color={'black'}>{info?.getValue()}</Typography>
+      <Typography
+        color={'black'}
+        sx={{ cursor: 'pointer' }}
+        onClick={() =>
+          router?.push({
+            pathname: AIR_LOYALTY_PROGRAM?.SINGLE_GIFT_CARD_TRANSACTION_DETAIL,
+            query: {
+              giftCardId: info?.row?.id,
+              type: 'physical',
+              category: 'unassigned',
+            },
+          })
+        }
+      >
+        {info?.getValue()}
+      </Typography>
     ),
   },
   {
@@ -129,14 +154,7 @@ export const notAssignedPhysicalGiftCardColumnsFunction = (
       <Box display={'flex'} justifyContent={'space-between'}>
         <DocumentIcon />
         <Typography
-          onClick={() =>
-            router?.push({
-              pathname: '',
-              query: {
-                notAssignedId: info?.row?.id,
-              },
-            })
-          }
+          onClick={() => setAssignedTo(true)}
           sx={{ cursor: 'pointer' }}
           color={'primary'}
         >

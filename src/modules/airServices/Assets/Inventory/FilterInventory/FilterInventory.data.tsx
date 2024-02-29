@@ -13,10 +13,10 @@ export const inventoryFilterFormDefaultValues = (data: any) => {
   return {
     assetType: data?.assetType ?? null,
     usedBy: data?.usedBy ?? null,
-    department: data?.department ?? null,
-    locations: data?.locations ?? null,
-    createdDate: data?.createdDate ?? null,
-    updatedDate: data?.updatedDate ?? null,
+    departmentId: data?.departmentId ?? null,
+    locationId: data?.locationId ?? null,
+    createdAt: data?.createdAt ?? null,
+    updatedAt: data?.updatedAt ?? null,
     impact: data?.impact ?? null,
     createdBy: data?.createdBy ?? null,
     assetLifeExpiry: data?.assetLifeExpiry ?? null,
@@ -50,6 +50,8 @@ export const inventoryFilterFormFieldsDataFunction = (
       label: 'Used By',
       placeholder: 'Name or Email',
       apiQuery: apiQueryUsedBy,
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option.lastName}`,
     },
     component: RHFAutocompleteAsync,
   },
@@ -57,8 +59,9 @@ export const inventoryFilterFormFieldsDataFunction = (
     id: 3,
     componentProps: {
       fullWidth: true,
-      name: 'department',
+      name: 'departmentId',
       label: 'Department',
+      placeholder: 'Select department',
       apiQuery: apiQueryDepartment,
     },
     component: RHFAutocompleteAsync,
@@ -67,8 +70,9 @@ export const inventoryFilterFormFieldsDataFunction = (
     id: 4,
     componentProps: {
       fullWidth: true,
-      name: 'locations',
+      name: 'locationId',
       label: 'Locations',
+      placeholder: 'Select location',
       apiQuery: apiQueryLocation,
       getOptionLabel: (option: any) => option?.locationName,
     },
@@ -78,7 +82,7 @@ export const inventoryFilterFormFieldsDataFunction = (
     id: 5,
     componentProps: {
       fullWidth: true,
-      name: 'createdDate',
+      name: 'createdAt',
       label: 'Created Date',
       placeholder: 'Select a time period',
       select: true,
@@ -91,7 +95,7 @@ export const inventoryFilterFormFieldsDataFunction = (
     id: 6,
     componentProps: {
       fullWidth: true,
-      name: 'updatedDate',
+      name: 'updatedAt',
       label: 'Updated Date',
       placeholder: 'Select a time period',
       select: true,
@@ -109,6 +113,8 @@ export const inventoryFilterFormFieldsDataFunction = (
       label: 'Impact',
       select: true,
       options: assetsImpactOptions,
+      placeholder: 'Select impact',
+
       getOptionLabel: (option: any) => option?.label?.replaceAll?.('_', ' '),
     },
   },
@@ -119,6 +125,9 @@ export const inventoryFilterFormFieldsDataFunction = (
       name: 'createdBy',
       label: 'Created By',
       apiQuery: apiQueryUsersCreatedBy,
+      placeholder: 'Select user',
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option.lastName}`,
     },
     component: RHFAutocompleteAsync,
   },

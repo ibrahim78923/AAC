@@ -8,6 +8,6 @@ export interface CardPropsI {
   openDeleteModal?: any;
   setOpenDeleteModal?: any;
   handleDelete?: any;
-  setDelateSoftware?: any;
-  delateSoftwareId?: any;
+  setDelateRecord?: any;
+  deletedRecordId?: any;
 }

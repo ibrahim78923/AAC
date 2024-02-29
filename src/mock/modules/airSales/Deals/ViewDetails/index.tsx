@@ -38,21 +38,21 @@ export const TasksTableData: any = [
     id: 1,
     taskno: ` #TSK- 5`,
     taskname: 'Business Platform debt, docs, refactors and stability',
-    duedate: 'Mar 3, - Mar 26, 2022',
+    duedate: 'Open',
     assignedTo: 'Robert Fox',
   },
   {
     id: 2,
     taskno: ` #TSK- 6`,
     taskname: 'Search migration modelling',
-    duedate: '--',
+    duedate: 'Resolved',
     assignedTo: 'Ralph Edwards',
   },
   {
     id: 3,
     taskno: ` #TSK- 7`,
     taskname: 'Draftstrtr',
-    duedate: 'Mar 3, - Mar 26, 2022',
+    duedate: 'Open',
     assignedTo: 'Cameron Williamson',
   },
 ];
@@ -135,14 +135,16 @@ export const productsData: any = [
   {
     Id: 1,
     name: `# PBR - 5`,
-    quantity: 1,
-    amount: '$42',
+    PhoneNumber: '030012345',
+    DealsOwner: 'Ali haasan',
+    DealStage: '$42',
   },
   {
     Id: 2,
     name: ` # PBR - 52`,
-    quantity: 2,
-    amount: '$40',
+    PhoneNumber: '030012345',
+    DealsOwner: 'Ali haasan',
+    DealStage: '$40',
   },
 ];
 

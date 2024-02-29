@@ -8,11 +8,10 @@ import {
 import { CustomizeTicketsColumn } from '../CustomizeTicketsColumn';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
 
 import { downloadFile } from '@/utils/file';
 import { UpsertTicket } from '../UpsertTicket';
-import { EXPORT_FILE_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { TicketsBulkUpdate } from '../TicketsBulkUpdate';
 import { AssignedTickets } from '../AssignedTickets';
 import { MoveTickets } from '../MoveTickets';
@@ -26,11 +25,8 @@ import {
   usePatchBulkUpdateTicketsMutation,
 } from '@/services/airServices/tickets';
 import { FilterTickets } from '../FilterTickets';
-import {
-  neglectKeysInLoop,
-  sendIdOptions,
-} from '../FilterTickets/FilterTickets.data';
-import { makeDateTime } from '../ServicesTickets.data';
+import { neglectKeysInLoop } from '../FilterTickets/FilterTickets.data';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useTicketsLists: any = () => {
   const [hasTicketAction, setHasTicketAction] = useState(false);
@@ -45,44 +41,20 @@ export const useTicketsLists: any = () => {
   const theme = useTheme();
   const router = useRouter();
   const { makePath } = usePath();
-  const getTicketsParam = new URLSearchParams();
 
-  Object?.entries(filterTicketLists || {})?.forEach(([key, value]: any) => {
-    if (neglectKeysInLoop?.includes(key)) return;
-    if (sendIdOptions?.includes(key))
-      return getTicketsParam?.append(key, value?._id);
-    getTicketsParam?.append(key, value);
-  });
-
-  (!!filterTicketLists?.plannedEndDate ||
-    !!filterTicketLists?.plannedEndTime ||
-    !!filterTicketLists?.dueByDate ||
-    !!filterTicketLists?.dueByTime) &&
-    getTicketsParam?.append(
-      'plannedEndDate',
-      makeDateTime(
-        filterTicketLists?.plannedEndDate ?? filterTicketLists?.dueByDate,
-        filterTicketLists?.plannedEndTime ?? filterTicketLists?.dueByTime,
-      ),
-    );
-  (!!filterTicketLists?.plannedStartDate ||
-    !!filterTicketLists?.plannedStartTime) &&
-    getTicketsParam?.append(
-      'plannedStartDate',
-      makeDateTime(
-        filterTicketLists?.plannedStartDate,
-        filterTicketLists?.plannedStartTime,
-      ),
-    );
-  !!filterTicketLists?.category && getTicketsParam?.append('ticketType', 'SR');
-  !!filterTicketLists?.department &&
-    getTicketsParam?.append('ticketType', 'SR');
-
-  getTicketsParam?.append('page', page + '');
-  getTicketsParam?.append('limit', pageLimit + '');
-  getTicketsParam?.append('search', search);
+  const additionalParams = [
+    ['metaData', true + ''],
+    ['page', page + ''],
+    ['limit', pageLimit + ''],
+    ['search', search],
+  ];
+  const ticketsParam = buildQueryParams(
+    additionalParams,
+    filterTicketLists,
+    neglectKeysInLoop,
+  );
   const getTicketsParameter = {
-    queryParams: getTicketsParam,
+    queryParams: ticketsParam,
   };
 
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
@@ -98,53 +70,26 @@ export const useTicketsLists: any = () => {
       await lazyGetTicketsTrigger(getTicketsParameter)?.unwrap();
       setSelectedTicketList([]);
     } catch (error: any) {
-      error?.data?.data?.message &&
-        enqueueSnackbar(error?.data?.message ?? 'Error', {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        });
       setSelectedTicketList([]);
     }
   };
+
   const getTicketsListDataExport = async (type: any) => {
-    const exportTicketsParams = new URLSearchParams();
-    Object?.entries(filterTicketLists || {})?.forEach(([key, value]: any) => {
-      if (neglectKeysInLoop?.includes(key)) return;
-      if (sendIdOptions?.includes(key))
-        return exportTicketsParams?.append(key, value?._id);
-      exportTicketsParams?.append(key, value);
-    });
+    const additionalParams = [
+      ['metaData', true + ''],
+      ['page', page + ''],
+      ['limit', pageLimit + ''],
+      ['search', search],
+      ['exportType', type],
+    ];
+    const ticketsParam = buildQueryParams(
+      additionalParams,
+      filterTicketLists,
+      neglectKeysInLoop,
+    );
 
-    (!!filterTicketLists?.plannedEndDate ||
-      !!filterTicketLists?.plannedEndTime ||
-      !!filterTicketLists?.dueByDate ||
-      !!filterTicketLists?.dueByTime) &&
-      exportTicketsParams?.append(
-        'plannedEndDate',
-        makeDateTime(
-          filterTicketLists?.plannedEndDate ?? filterTicketLists?.dueByDate,
-          filterTicketLists?.plannedEndTime ?? filterTicketLists?.dueByTime,
-        ),
-      );
-    (!!filterTicketLists?.plannedStartDate ||
-      !!filterTicketLists?.plannedStartTime) &&
-      exportTicketsParams?.append(
-        'plannedStartDate',
-        makeDateTime(
-          filterTicketLists?.plannedStartDate,
-          filterTicketLists?.plannedStartTime,
-        ),
-      );
-    !!filterTicketLists?.category &&
-      exportTicketsParams?.append('ticketType', 'SR');
-    !!filterTicketLists?.department &&
-      exportTicketsParams?.append('ticketType', 'SR');
-
-    exportTicketsParams?.append('exportType', type);
-    exportTicketsParams?.append('page', page + '');
-    exportTicketsParams?.append('limit', pageLimit + '');
-    exportTicketsParams?.append('search', search);
     const getTicketsExportParameter = {
-      queryParams: exportTicketsParams,
+      queryParams: ticketsParam,
     };
 
     try {
@@ -152,17 +97,10 @@ export const useTicketsLists: any = () => {
         getTicketsExportParameter,
       )?.unwrap();
       downloadFile(response, 'TicketLists', EXPORT_FILE_TYPE?.[type]);
-      enqueueSnackbar(
-        response?.data?.message ?? `Tickets Exported successfully`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      successSnackbar(`Tickets Exported successfully`);
       setSelectedTicketList([]);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? `Tickets not exported`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar?.();
       setSelectedTicketList([]);
     }
   };
@@ -192,23 +130,12 @@ export const useTicketsLists: any = () => {
       },
     };
     try {
-      const response: any = await patchBulkUpdateTicketsTrigger(
+      await patchBulkUpdateTicketsTrigger(
         updateTicketStatusTicketsParameter,
       )?.unwrap();
-      enqueueSnackbar(
-        response?.message ?? `Ticket marked as ${status?.toLowerCase()}`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      successSnackbar('Ticket status updated successfully');
     } catch (error: any) {
-      enqueueSnackbar(
-        error?.data?.error?.message ??
-          `Ticket not marked as ${status?.toLowerCase()}`,
-        {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        },
-      );
+      errorSnackbar();
     }
   };
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
@@ -236,6 +163,7 @@ export const useTicketsLists: any = () => {
         isDrawerOpen={hasTicketAction}
         setFilterTicketLists={setFilterTicketLists}
         filterTicketLists={filterTicketLists}
+        setPage={setPage}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET]: (
@@ -243,6 +171,7 @@ export const useTicketsLists: any = () => {
         setIsDrawerOpen={setHasTicketAction}
         isDrawerOpen={hasTicketAction}
         setSelectedTicketList={setSelectedTicketList}
+        setFilterTicketLists={setFilterTicketLists}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.EDIT_TICKET]: (
@@ -251,6 +180,7 @@ export const useTicketsLists: any = () => {
         isDrawerOpen={hasTicketAction}
         ticketId={selectedTicketList?.[0]}
         setSelectedTicketList={setSelectedTicketList}
+        setFilterTicketLists={setFilterTicketLists}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA]: (
@@ -287,6 +217,7 @@ export const useTicketsLists: any = () => {
         setDeleteModalOpen={setHasTicketAction}
         selectedTicketList={selectedTicketList}
         setSelectedTicketList={setSelectedTicketList}
+        setPage={setPage}
       />
     ),
   };
@@ -332,5 +263,6 @@ export const useTicketsLists: any = () => {
     setTicketsListsActiveColumn,
     getValueTicketsListData,
     setSelectedTicketList,
+    filterTicketLists,
   };
 };

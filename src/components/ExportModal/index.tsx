@@ -1,5 +1,3 @@
-import * as React from 'react';
-import { Fragment } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -20,13 +18,19 @@ import {
 import { LoadingButton } from '@mui/lab';
 import { ExportModalImage } from '@/assets/images';
 import Image from 'next/image';
-import { EXPORT_TYPE, MESSAGE_EXPORT_FILE_TYPE } from '@/constants/strings';
+import { EXPORT_TYPE } from '@/constants/strings';
+import { useState } from 'react';
 
-export const ExportModal = ({ open, onSubmit, handleClose }: any) => {
+export const ExportModal = (props: any) => {
+  const { open, onSubmit, handleClose } = props;
+  const [exportType, setExportType] = useState('');
   return (
-    <Fragment>
+    <>
       <Dialog
-        onClose={handleClose}
+        onClose={() => {
+          handleClose?.();
+          setExportType?.('');
+        }}
         aria-labelledby="customized-dialog-title"
         open={open}
         fullWidth
@@ -51,7 +55,13 @@ export const ExportModal = ({ open, onSubmit, handleClose }: any) => {
             />
             <Typography variant="h3">Export Record</Typography>
           </Box>
-          <CloseIcon sx={{ cursor: 'pointer' }} onClick={handleClose} />
+          <CloseIcon
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              handleClose?.();
+              setExportType?.('');
+            }}
+          />
         </DialogTitle>
 
         <DialogContent dividers>
@@ -68,15 +78,17 @@ export const ExportModal = ({ open, onSubmit, handleClose }: any) => {
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="row-radio-buttons-group"
+              value={exportType}
+              onChange={(e: any) => setExportType(e?.target?.value)}
             >
               <FormControlLabel
                 sx={{ mr: '12rem' }}
-                value={MESSAGE_EXPORT_FILE_TYPE?.[EXPORT_TYPE?.CSV]}
+                value={EXPORT_TYPE?.CSV}
                 control={<Radio />}
                 label="CSV"
               />
               <FormControlLabel
-                value={MESSAGE_EXPORT_FILE_TYPE?.[EXPORT_TYPE?.XLS]}
+                value={EXPORT_TYPE?.XLS}
                 control={<Radio />}
                 label="XLS"
               />
@@ -86,17 +98,26 @@ export const ExportModal = ({ open, onSubmit, handleClose }: any) => {
         <Divider />
         <DialogActions>
           <LoadingButton
-            onClick={handleClose}
+            onClick={() => {
+              handleClose?.();
+              setExportType?.('');
+            }}
             color="secondary"
             variant="outlined"
           >
             Cancel
           </LoadingButton>
-          <LoadingButton variant="contained" onClick={onSubmit}>
+          <LoadingButton
+            variant="contained"
+            onClick={() => {
+              onSubmit?.(exportType);
+              setExportType?.('');
+            }}
+          >
             Export
           </LoadingButton>
         </DialogActions>
       </Dialog>
-    </Fragment>
+    </>
   );
 };

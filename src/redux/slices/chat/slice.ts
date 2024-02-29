@@ -5,6 +5,7 @@ interface ChatStateI {
   chatMessages: any;
   chatContacts: any;
   activeChatId: any;
+  activeChat: any;
   activeConversation: any;
   changeChat: any;
   activeReceiverId: any;
@@ -25,6 +26,7 @@ const initialState: ChatStateI = {
   chatMessages: [],
   chatContacts: [],
   activeChatId: '',
+  activeChat: {},
   activeConversation: '',
   changeChat: '',
   activeReceiverId: '',
@@ -100,6 +102,9 @@ const chatSlice = createSlice({
     setActiveChatId(state, action) {
       state.activeChatId = action?.payload;
     },
+    setActiveChat(state, action) {
+      state.activeChat = action?.payload;
+    },
     setActiveReceiverId(state, action) {
       state.activeReceiverId = action?.payload;
     },
@@ -148,6 +153,7 @@ export const {
   setChatContacts,
   setUpdateChatContacts,
   setActiveChatId,
+  setActiveChat,
   setActiveReceiverId,
   setActiveConversation,
   setSocketConnection,

@@ -50,7 +50,7 @@ const DiscussInternallyDrawer = ({
       <Box>
         <Box
           sx={{
-            background: theme?.palette?.primary?.light,
+            background: theme?.palette?.primary?.lighter,
             p: 1.5,
             borderRadius: '19.8px',
             mb: 2,
@@ -95,7 +95,7 @@ const DiscussInternallyDrawer = ({
               background: theme?.palette?.common?.white,
               borderRadius: '20px',
               '& .css-1y9xby2-MuiInputBase-input-MuiOutlinedInput-input': {
-                padding: '9px 15px',
+                padding: '4px 15px',
                 fontSize: '12px',
               },
               '& .css-4sveug-MuiInputBase-root-MuiOutlinedInput-root': {
@@ -181,7 +181,10 @@ const DiscussInternallyDrawer = ({
           sx={{
             mt: 1,
             '& .css-1y9xby2-MuiInputBase-input-MuiOutlinedInput-input': {
-              padding: '11px 15px',
+              padding: '10px 15px',
+            },
+            '& .MuiInputBase-input::placeholder': {
+              fontSize: '14px',
             },
           }}
           fullWidth

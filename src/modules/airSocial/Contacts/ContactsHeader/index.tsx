@@ -3,14 +3,13 @@ import { useRouter } from 'next/router';
 import { Typography, Box, Button } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
 
-import { SUPER_ADMIN } from '@/constants';
-
 import useContactsHeader from './useContactsHeader';
 import CreateContacts from '../CreateContacts';
 
 import { styles } from './ContractsHeader.style';
 
 import { ImportIcon } from '@/assets/icons';
+import { AIR_SOCIAL } from '@/routesConstants/paths';
 
 const ContactsHeader = () => {
   const route = useRouter();
@@ -26,7 +25,8 @@ const ContactsHeader = () => {
       <Box sx={styles?.HeaderChildStyle}>
         <Button
           variant="outlined"
-          onClick={() => route?.push(SUPER_ADMIN?.CONTACT_IMPORT)}
+          color="inherit"
+          onClick={() => route?.push(AIR_SOCIAL?.CONTACTS_IMPORT)}
           startIcon={<ImportIcon />}
           sx={{ height: '35px' }}
         >

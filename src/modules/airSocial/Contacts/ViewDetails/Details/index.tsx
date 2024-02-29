@@ -21,19 +21,27 @@ import { styles } from '../ViewDetails.style';
 import { ElipseImage } from '@/assets/images';
 
 import { EditProfileIcon } from '@/assets/icons';
-
-import { v4 as uuidv4 } from 'uuid';
+import { LoadingButton } from '@mui/lab';
 
 const Details = () => {
   const {
     methodsDetails,
-    onSubmit,
-    handleSubmit,
+    loadingUpdateDetail,
+    handleSubmitUpdateContactDetail,
     anchorEl,
     open,
     handleShowMenuClick,
     handleClose,
+    contactOwnerData,
+    contactStatusData,
+    lifeCycleStagesData,
   } = useDetails();
+
+  const detailsFormFields = detailsDataArray(
+    contactOwnerData,
+    lifeCycleStagesData,
+    contactStatusData,
+  );
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
@@ -77,19 +85,16 @@ const Details = () => {
       </Box>
       <Box sx={styles.horizontalTabsInnnerBox}>
         <Typography variant="h4">Basic Information</Typography>
-        <FormProvider
-          methods={methodsDetails}
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <FormProvider methods={methodsDetails}>
           <Grid container spacing={4}>
-            {detailsDataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            {detailsFormFields?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?.id}>
                 <Typography>{item?.label}</Typography>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>
-                          {option?.placeholder}
+                          {option?.label}
                         </option>
                       ))
                     : null}
@@ -97,7 +102,8 @@ const Details = () => {
               </Grid>
             ))}
           </Grid>
-          {/* <Typography sx={{ mt: '24px', mb: '24px' }} variant="h4">
+        </FormProvider>
+        {/* <Typography sx={{ mt: '24px', mb: '24px' }} variant="h4">
             System Information
           </Typography>
           <Grid container spacing={4}>
@@ -120,23 +126,29 @@ const Details = () => {
             </Grid>
           </Grid> */}
 
-          <Grid item xs={12}>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'end',
-                gap: 1.5,
-              }}
-            >
-              <ButtonGroup>
-                <Button sx={{ height: '35px' }}>Cancel</Button>
-              </ButtonGroup>
-              <ButtonGroup variant="contained" color="primary">
-                <Button sx={{ height: '35px' }}>Update</Button>
-              </ButtonGroup>
-            </Box>
-          </Grid>
-        </FormProvider>
+        <Grid item xs={12}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'end',
+              gap: 1.5,
+            }}
+          >
+            <ButtonGroup>
+              <Button sx={{ height: '35px' }}>Cancel</Button>
+            </ButtonGroup>
+            <ButtonGroup variant="contained" color="primary">
+              <LoadingButton
+                type="button"
+                sx={{ height: '35px' }}
+                onClick={handleSubmitUpdateContactDetail}
+                loading={loadingUpdateDetail}
+              >
+                Update
+              </LoadingButton>
+            </ButtonGroup>
+          </Box>
+        </Grid>
       </Box>
     </Box>
   );

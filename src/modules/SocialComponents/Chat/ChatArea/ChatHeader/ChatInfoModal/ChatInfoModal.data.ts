@@ -1,7 +1,7 @@
 export const viewUserProfileButtonData = [
   {
     label: 'Media',
-    value: 'media',
+    value: 'image',
     position: 'left-aligned',
   },
   {

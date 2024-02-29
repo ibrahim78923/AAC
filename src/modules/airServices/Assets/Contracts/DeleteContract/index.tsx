@@ -4,7 +4,7 @@ import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const DeleteContract = (props: any) => {
   const { setIsDeleteModalOpen, isDeleteModalOpen } = props;
-  const { deleteContract } = useDeleteContract(props);
+  const { deleteContract, deleteContractStatus } = useDeleteContract(props);
 
   return (
     <AlertModals
@@ -14,6 +14,8 @@ export const DeleteContract = (props: any) => {
       handleClose={() => setIsDeleteModalOpen?.(false)}
       handleSubmitBtn={() => deleteContract?.()}
       cancelBtnText="Cancel"
+      loading={deleteContractStatus?.isLoading}
+      disableCancelBtn={deleteContractStatus?.isLoading}
     />
   );
 };

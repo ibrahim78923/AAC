@@ -61,8 +61,8 @@ export const AddAccountArray = (companyAccounts: any, companyRoles: any) => {
         select: true,
       },
       options: [
-        { value: 'active', label: 'Active' },
-        { value: 'inactive', label: 'Inactive' },
+        { value: 'ACTIVE', label: 'Active' },
+        { value: 'INACTIVE', label: 'Inactive' },
       ],
       component: RHFSelect,
       md: 6,

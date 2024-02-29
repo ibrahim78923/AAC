@@ -1,10 +1,9 @@
 import { Typography, Button, MenuItem, Menu, Box } from '@mui/material';
-import { ActionButtonIcon, ViewDetailBackArrowIcon } from '@/assets/icons';
+import { ActionButtonIcon } from '@/assets/icons';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useHeader } from './useHeader';
 import React from 'react';
-
 import { AlertModals } from '@/components/AlertModals';
-import { enqueueSnackbar } from 'notistack';
 import { UpsertSoftware } from '../../UpsertSoftware';
 
 export default function Header() {
@@ -17,6 +16,9 @@ export default function Header() {
     handleClose,
     open,
     anchorEl,
+    deleteSoftware,
+    isLoading,
+    moveBackArrow,
   } = useHeader();
 
   return (
@@ -29,7 +31,7 @@ export default function Header() {
         gap={2}
       >
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
-          <ViewDetailBackArrowIcon />
+          <ArrowBackIcon onClick={moveBackArrow} />
           <Typography variant="h5" component="span">
             Software
           </Typography>
@@ -74,13 +76,9 @@ export default function Header() {
         <AlertModals
           type="delete"
           open={deleteModalOpen}
+          loading={isLoading}
           handleClose={() => setDeleteModalOpen(false)}
-          handleSubmitBtn={() => {
-            setDeleteModalOpen(false);
-            enqueueSnackbar('Software deleted Successfully', {
-              variant: 'success',
-            });
-          }}
+          handleSubmitBtn={deleteSoftware}
           message="Are you sure  want to delete this Software ?"
         />
       )}

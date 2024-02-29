@@ -5,11 +5,11 @@ const useStatisticsCard = () => {
 
   const series = [
     {
-      name: 'Recieved',
+      name: 'Received',
       data: [20, 10, 45, 58, 47, 56, 45, 58, 48, 57, 40, 60],
     },
     {
-      name: 'send',
+      name: 'Send',
       data: [10, 41, 36, 26, 45, 35, 41, 36, 26, 45, 55, 70],
     },
     {
@@ -63,6 +63,7 @@ const useStatisticsCard = () => {
       `${theme?.palette?.error?.main}`,
     ],
     legend: {
+      position: 'top',
       horizontalAlign: 'right',
       verticalAlign: 'top',
       itemMargin: {

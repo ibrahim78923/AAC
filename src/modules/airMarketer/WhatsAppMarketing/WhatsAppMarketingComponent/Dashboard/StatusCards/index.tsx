@@ -10,7 +10,7 @@ const StatusCards = () => {
   const { theme } = useStatusCards();
 
   return (
-    <Box sx={{ p: 1 }}>
+    <Box sx={{ p: '10px 24px' }}>
       <Grid container spacing={5}>
         {smsStatusArray?.map((item: any) => (
           <Grid item xs={6} sm={4} lg={3} xl={2.4} key={uuidv4()}>
@@ -36,7 +36,7 @@ const StatusCards = () => {
                   orientation="vertical"
                   variant="middle"
                   flexItem
-                  sx={{ borderColor: theme?.palette?.custom?.off_white_three }}
+                  sx={{ borderColor: theme?.palette?.custom?.bluish_gray }}
                 />
               )}
             </Stack>
