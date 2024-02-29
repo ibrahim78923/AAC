@@ -4,6 +4,7 @@ import Image from 'next/image';
 import RejectedModal from './RejectedModal';
 import { useAgentRequest } from './useAgentRequest';
 import { AGENT_REQUEST_STATUS } from '@/constants/strings';
+import { UserRequesterImage } from '@/assets/images';
 
 const AgentRequest = () => {
   const {
@@ -25,26 +26,34 @@ const AgentRequest = () => {
                 borderRadius={'50%'}
                 p={'0.05rem'}
               >
-                <Image
-                  src={item?.image}
-                  alt="Profile"
-                  style={styles?.imageStyle}
-                />
+                {item?.userDetails?.avatar?.url ? (
+                  <Image
+                    src={item.userDetails.avatar.url}
+                    alt="Profile"
+                    style={styles?.imageStyle}
+                  />
+                ) : (
+                  <Image
+                    src={UserRequesterImage}
+                    alt="Profile"
+                    style={styles?.imageStyle}
+                  />
+                )}
               </Box>
               <Typography variant="h4" py={0.5} fontWeight={700}>
                 {`${item?.userDetails?.firstName} ${item?.userDetails?.lastName}`}
               </Typography>
               <Typography variant="body2">{item?.role}</Typography>
               <Typography variant="subtitle2">{item?.date}</Typography>
-              {item?.status === AGENT_REQUEST_STATUS?.APPROVED ? (
+              {item?.status === AGENT_REQUEST_STATUS?.APPROVED ||
+              item?.status === AGENT_REQUEST_STATUS?.REJECTED ? (
                 <Box py={2} textAlign={'center'}>
                   <Typography
                     variant="body2"
                     color={
-                      item?.userDetails?.status ===
-                      AGENT_REQUEST_STATUS?.APPROVED
-                        ? theme?.palette?.error?.main
-                        : theme?.palette?.success?.main
+                      item?.status === AGENT_REQUEST_STATUS?.APPROVED
+                        ? theme?.palette?.success?.main
+                        : theme?.palette?.error?.main
                     }
                   >
                     {item?.status}

@@ -7,25 +7,31 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAgentRequest = () => {
-  const [openRejectedModal, setOpenRejectedModal] = useState<boolean>(false);
-  const [selectedId, setSelectedId] = useState(null);
-  const companyId = '651e6368a3a6baf2f193efb3';
+  const [openRejectedModal, setOpenRejectedModal] = useState({
+    val: false,
+    id: null,
+  });
+  const session: any = window?.localStorage?.getItem('session');
+  const companyId = JSON?.parse(session)?.user?._id;
   const { data } = useGetAgentRequesterQuery(companyId);
   const requesterData = data?.data;
   const userDetails = requesterData?.map((item: any) => item?.userDetails);
 
   const handleOpenModal = (_id: any) => {
-    setSelectedId(_id);
-    setOpenRejectedModal(true);
+    setOpenRejectedModal({ val: true, id: _id });
   };
+
   const theme = useTheme();
   const [patchTrigger] = usePatchApprovedRequestMutation();
   const handlerStatusApprove = async (_id: any) => {
+    const approvedRequestParams = new URLSearchParams();
+    approvedRequestParams?.append('id', _id);
+    approvedRequestParams?.append('companyId', companyId);
+    const approvedRequestParameter = {
+      queryParams: approvedRequestParams,
+    };
     try {
-      await patchTrigger({
-        id: _id,
-        companyId,
-      });
+      await patchTrigger(approvedRequestParameter)?.unwrap();
       successSnackbar(`Request Approved successfully`);
     } catch (error) {
       errorSnackbar();
@@ -40,6 +46,5 @@ export const useAgentRequest = () => {
     handleOpenModal,
     userDetails,
     requesterData,
-    selectedId,
   };
 };

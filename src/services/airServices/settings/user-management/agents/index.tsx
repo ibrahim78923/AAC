@@ -46,16 +46,18 @@ export const agentsAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     patchRejectRequest: builder.mutation({
-      query: ({ id, companyId, Rejected }) => ({
-        url: `${AGENT_REJECT_REQUEST}/{id}?id=${id}&reason=${Rejected}&companyId=${companyId}`,
+      query: (params: any) => ({
+        url: `${AGENT_REJECT_REQUEST}/{id}`,
         method: 'PATCH',
+        params,
       }),
       invalidatesTags: [TAG],
     }),
     patchApprovedRequest: builder.mutation({
-      query: ({ id, companyId }) => ({
-        url: `${APPROVED_REQUEST}/{id}?id=${id}&companyId=${companyId}`,
+      query: (approvedRequestParameter: any) => ({
+        url: `${APPROVED_REQUEST}/{id}`,
         method: 'PATCH',
+        params: approvedRequestParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
     }),

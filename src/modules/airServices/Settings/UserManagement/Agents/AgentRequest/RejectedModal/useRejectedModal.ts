@@ -8,7 +8,7 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { usePatchRejectRequestMutation } from '@/services/airServices/settings/user-management/agents';
 
 export const useRejectedModal = (props: any) => {
-  const { setOpenRejectedModal } = props;
+  const { setOpenRejectedModal, openRejectedModal } = props;
   const rejectedRequestMethods: any = useForm({
     resolver: yupResolver(validationSchemaRejectedModal),
     defaultValues: defaultValuesRejectedModal,
@@ -17,14 +17,17 @@ export const useRejectedModal = (props: any) => {
     setOpenRejectedModal(false);
     rejectedRequestMethods?.reset();
   };
-  const companyId = '651e6368a3a6baf2f193efb3';
+  const session: any = window?.localStorage?.getItem('session');
+  const companyId = JSON?.parse(session)?.user?._id;
   const [patchRejectRequestTrigger] = usePatchRejectRequestMutation();
-  const onSubmit = async () => {
+  const onSubmit = async (formData: any) => {
+    const rejectRequestParameter = {
+      id: openRejectedModal?.id,
+      reason: formData?.rejected,
+      companyId: companyId,
+    };
     try {
-      await patchRejectRequestTrigger({
-        // id: _id,
-        companyId,
-      });
+      await patchRejectRequestTrigger(rejectRequestParameter)?.unwrap();
       successSnackbar('Rejected Successfully');
       setOpenRejectedModal(false);
       rejectedRequestMethods?.reset();
