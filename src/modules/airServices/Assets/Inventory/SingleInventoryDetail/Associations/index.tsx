@@ -2,14 +2,14 @@ import { Button, useTheme, Box, Typography, Chip } from '@mui/material';
 import { Fragment, useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoData from '@/components/NoData';
-import { associationsDataArray, chipColor } from './Associations.data';
+import { chipColor } from './Associations.data';
 import { ExistingIncident } from './ExistingIncident';
 import { DialogBox } from './DialogBox';
 import { NewIncident } from './NewIncident';
 import { NoAssociationFoundImage } from '@/assets/images';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { AlertModals } from '@/components/AlertModals';
-
+import { useGetAssociationsTicketsQuery } from '@/services/airServices/assets/inventory/single-inventory-details/associations';
 export const Associations = () => {
   const theme: any = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
@@ -22,6 +22,10 @@ export const Associations = () => {
     setHoveredItemId(itemId);
   };
 
+  const { data } = useGetAssociationsTicketsQuery();
+
+  const associationTicketsData = data?.data;
+
   const handleMouseLeave = () => {
     setHoveredItemId(null);
   };
@@ -33,7 +37,7 @@ export const Associations = () => {
   };
   return (
     <Fragment>
-      {associationsDataArray?.length <= 0 ? (
+      {associationTicketsData?.length <= 0 ? (
         <NoData
           image={NoAssociationFoundImage}
           message={'There are no associations'}
@@ -58,7 +62,7 @@ export const Associations = () => {
               Associate
             </Button>
           </Box>
-          {associationsDataArray.map((item) => (
+          {associationTicketsData?.map((item: any) => (
             <Box
               key={item.id}
               border={`1px solid ${theme?.palette?.grey?.[400]}`}
@@ -87,11 +91,11 @@ export const Associations = () => {
                   />
                 )}
                 <Typography variant="body2" fontWeight={600}>
-                  {item.displayName}
+                  {item?.ticketIdNumber}
                 </Typography>
               </Box>
               <Chip
-                label={item.status}
+                label={item?.status}
                 sx={{
                   bgcolor:
                     theme?.['palette']?.[`${chipColor(item?.status)}`]?.[

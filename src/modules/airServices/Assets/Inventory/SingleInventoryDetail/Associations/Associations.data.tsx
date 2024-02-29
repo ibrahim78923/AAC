@@ -1,31 +1,31 @@
 export const chipColor = (chipLabel: string) => {
-  const Open = 'Open';
-  const InProgress = 'InProgress';
+  const OPEN = 'OPEN';
+  const PENDING = 'PENDING';
+  const RESOLVED = 'RESOLVED ';
+  const CLOSED = 'CLOSED ';
 
   let color;
 
   switch (chipLabel) {
-    case Open:
+    case OPEN:
       color = 'success';
       break;
-
-    case InProgress:
+    case RESOLVED:
+      color = 'success';
+      break;
+    case PENDING:
       color = 'warning';
+
+      break;
+    case CLOSED:
+      color = 'error';
+
       break;
 
     default:
       color = 'error';
+
       break;
   }
   return color;
 };
-
-export const associationsDataArray = [
-  {
-    id: 1,
-    displayName: '#INC22',
-    status: 'Open',
-  },
-
-  { id: 2, displayName: '#INC22', status: 'InProgress' },
-];
