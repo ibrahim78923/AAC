@@ -62,4 +62,26 @@ export const styles = {
       gap: 0.2,
     };
   },
+  logCont: (theme: any) => ({
+    borderBottom: `1px solid ${theme?.palette?.custom?.light_lavender_gray}`,
+    p: '24px 0 15px 0',
+  }),
+  log: () => ({
+    display: 'flex',
+    alignItems: 'center',
+  }),
+  logImage: () => ({
+    mr: '16px',
+  }),
+  logTitle: (theme: any) => ({
+    fontSize: '18px',
+    fontWeight: '400',
+    color: theme?.palette?.grey[800],
+  }),
+  logPerformedBy: (theme: any) => ({
+    color: theme?.palette?.primary?.main,
+  }),
+  activityType: () => ({
+    textTransform: 'lowercase',
+  }),
 };

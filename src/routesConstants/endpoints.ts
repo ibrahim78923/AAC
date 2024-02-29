@@ -188,9 +188,14 @@ export const END_POINTS = {
   ASSETS_INVENTORY_DETAIL: '/assets/get-inventory-detail',
   ASSETS_EDIT_INVENTORY: '/assets/edit-inventory',
   CONTACT_NOTE: '/contact-note/note',
+  CONTACT_CALL: `/contact-call/call`,
   ADD_CONTRACT: `/contract/add-contract`,
   EDIT_CONTRACT: `/contract/update`,
   UPDATE_CONTRACT_STATUS: `/contract/renew-extend`,
+  DELETED_CONTACT_LIST: `/contact/contact-deleted-list`,
+  CONTACT_RESTORE: `/contact/restore`,
+  CONTACT_DELETE_PERMANENT: `/contact/permanent`,
+  CONTACT_ASSOCIATIONS: `/contact/contact-associations`,
   ADD_SOFTWARE_INSTALLATION: '/assets/add-software-device',
   REMOVE_SOFTWARE_INSTALLATION: '/assets/software-device',
   SOFTWARE_INSTALLATION: '/assets/software-devices',
@@ -239,6 +244,7 @@ export const END_POINTS = {
   REQUEST_APPROVALS_LIST: `/assets/get-purchase-approvals-by-purchase-order`,
   PATCH_APPROVAL_STATUS: `/assets/approver-order-status`,
   ASSETS_RECEIVED: '/assets/get-purchaseorder-assets-received/{id}',
+  SOFTWARE_CONTRACTS: '/assets/get-software-contracts',
 };
 
 export const superAdminBillingInvoices = {

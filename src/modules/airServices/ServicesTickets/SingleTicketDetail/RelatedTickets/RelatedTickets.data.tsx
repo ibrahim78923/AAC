@@ -122,10 +122,10 @@ export const columnsFunction: any = (
           status === TICKET_STATUS?.OPEN
             ? theme?.palette?.info?.main
             : status === TICKET_STATUS?.PENDING
-              ? theme?.palette?.warning?.main
-              : status === TICKET_STATUS?.RESOLVED
-                ? theme?.palette?.success?.main
-                : theme?.palette?.error?.main;
+            ? theme?.palette?.warning?.main
+            : status === TICKET_STATUS?.RESOLVED
+            ? theme?.palette?.success?.main
+            : theme?.palette?.error?.main;
         return (
           <Typography
             sx={{
