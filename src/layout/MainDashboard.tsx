@@ -48,6 +48,7 @@ import * as io from 'socket.io-client';
 import { styles } from './Layout.style';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS } from '@/routesConstants/paths';
+import { ROLES } from '@/constants/strings';
 
 const drawerWidth = 230;
 
@@ -98,7 +99,7 @@ const DashboardLayout = ({ children, window }: any) => {
 
   // const findEmail: any = findRoleByEmail({ user, array });
 
-  const findEmailRole = user ? user?.role : 'ORG_ADMIN';
+  const findEmailRole = user ? user?.role : ROLES?.SUPER_ADMIN;
 
   const routes = getRoutes(findEmailRole);
 

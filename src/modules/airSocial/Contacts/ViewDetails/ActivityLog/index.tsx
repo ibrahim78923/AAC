@@ -60,7 +60,7 @@ const ActivityLog = ({ contactId }: any) => {
                 <Typography
                   fontWeight={400}
                   fontSize="12px"
-                  sx={{ color: '#6B7280' }}
+                  sx={{ color: (theme: any) => theme?.palette?.custom?.main }}
                 >
                   {dayjs(item?.createdAt).format(DATE_TIME_FORMAT?.DMYhmma)}
                 </Typography>
