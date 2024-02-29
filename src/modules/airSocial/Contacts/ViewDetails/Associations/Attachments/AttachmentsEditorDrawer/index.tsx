@@ -3,36 +3,28 @@ import { Box, Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 
-import {
-  attachmentsDataArray,
-  drawerButtonTitle,
-  drawerTitle,
-} from './AttachmentsEditorDrawer.data';
+import { attachmentsDataArray } from './AttachmentsEditorDrawer.data';
 
 import useAttachmentsEditorDrawer from './useAttachmentEditorDrawer';
 
 import { v4 as uuidv4 } from 'uuid';
 
 const AttachmentsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
-  const { handleSubmit, onSubmit, methodsAttachments } =
-    useAttachmentsEditorDrawer();
+  const { isOpen, onClose, title, methods } = props;
+  const { handleSubmit, onSubmit } = useAttachmentsEditorDrawer();
 
   return (
     <div>
       <CommonDrawer
-        isDrawerOpen={openDrawer}
-        onClose={() => setOpenDrawer('')}
-        title={drawerTitle[openDrawer]}
-        okText={drawerButtonTitle[openDrawer]}
+        isDrawerOpen={isOpen}
+        onClose={onClose}
+        title={`${title} Attachment`}
+        okText={title === 'Add' ? 'Add' : title === 'Edit' ? 'Edit' : 'View'}
         isOk={true}
-        footer={openDrawer === 'View' ? false : true}
+        footer={title === 'View' ? false : true}
       >
         <Box>
-          <FormProvider
-            methods={methodsAttachments}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid
               container
               sx={{
