@@ -11,6 +11,7 @@ export const columnsTeams = (
   setIsTeamDrawer: any,
   setIsOpenDelete: any,
   theme: any,
+  setTeamId: any,
 ) => {
   return [
     {
@@ -32,10 +33,13 @@ export const columnsTeams = (
       id: 'action',
       isSortable: true,
       header: 'Action',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <VisibilityIcon
-            onClick={() => setIsTeamDrawer(true)}
+            onClick={() => {
+              setIsTeamDrawer(true);
+              setTeamId(info?.row?.original?._id);
+            }}
             sx={{
               color: `${theme?.palette?.blue?.main}`,
               fontSize: '22px',

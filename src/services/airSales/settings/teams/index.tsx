@@ -12,15 +12,15 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
       providesTags: ['TEAMS'],
     }),
 
-    // getUsersById: builder.query({
-    //   query: (id: any) => {
-    //     return {
-    //       url: `${END_POINTS?.ADD_USER}/${id}`,
-    //       method: 'GET',
-    //     };
-    //   },
-    //   providesTags: ['USERS'],
-    // }),
+    getTeamsById: builder.query({
+      query: (id: any) => {
+        return {
+          url: `${END_POINTS?.SALES_TEAM}/${id}`,
+          method: 'GET',
+        };
+      },
+      providesTags: ['TEAMS'],
+    }),
 
     postTeams: builder.mutation({
       query: ({ body }: any) => {
@@ -55,4 +55,5 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
   }),
 });
 
-export const { useGetTeamsQuery, usePostTeamsMutation } = TeamsApi;
+export const { useGetTeamsQuery, useGetTeamsByIdQuery, usePostTeamsMutation } =
+  TeamsApi;

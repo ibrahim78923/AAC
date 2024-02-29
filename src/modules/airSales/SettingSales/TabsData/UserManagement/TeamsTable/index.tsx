@@ -1,20 +1,13 @@
-import React from 'react';
-
 import { Box, Grid, Typography } from '@mui/material';
-
 import { AddCircle } from '@mui/icons-material';
-
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import CommonDrawer from '@/components/CommonDrawer';
 import { AlertModals } from '@/components/AlertModals';
-
 import useTeamsTable from './useTeamsTable';
 import { styles } from './TeamsTable.style';
-import { memberDetails } from './TeamsTable.data';
-import { v4 as uuidv4 } from 'uuid';
 import MemberDetails from './MemberDetails';
-import useUserManagement from '../useUserManagement';
+import { v4 as uuidv4 } from 'uuid';
 
 const TeamsTable = () => {
   const {
@@ -24,9 +17,9 @@ const TeamsTable = () => {
     theme,
     isOpenDelete,
     setIsOpenDelete,
+    teamsData,
+    teamDataById,
   } = useTeamsTable();
-
-  const { teamsData } = useUserManagement();
 
   return (
     <>
@@ -54,29 +47,19 @@ const TeamsTable = () => {
         </Grid>
       </Box>
 
+      {/* teams view detail drawer  */}
       <CommonDrawer
         isDrawerOpen={isTeamDrawer}
         onClose={() => setIsTeamDrawer(false)}
-        title=""
+        title={teamDataById?.data?.name}
         okText={'Add'}
         footer={true}
         isOk={true}
       >
         <>
-          <Box sx={{ position: 'absolute', top: 30 }}>
-            <Typography
-              variant="h4"
-              sx={{
-                fontWeight: 700,
-                color: `${theme?.palette?.slateBlue?.main}`,
-              }}
-            >
-              Test
-            </Typography>
-          </Box>
           <Box sx={styles?.activeMemberBox(theme)}>
             <Typography>Number of active Team Members</Typography>
-            <Typography>4</Typography>
+            <Typography>{teamDataById?.data?.users?.length}</Typography>
           </Box>
           <Box
             sx={{
@@ -90,17 +73,27 @@ const TeamsTable = () => {
             <Typography>Members detail</Typography>
             <AddCircle sx={{ color: '#A0A3BD', cursor: 'pointer' }} />
           </Box>
-          {memberDetails?.map((item: any) => {
-            return (
-              <MemberDetails
-                key={uuidv4()}
-                img={item?.img}
-                name={item?.name}
-                email={item?.email}
-                designation={item?.designation}
-              />
-            );
-          })}
+          {teamDataById?.data?.users?.length === 0 && (
+            <Typography
+              variant="body2"
+              textAlign="center"
+              mt={5}
+              fontWeight={500}
+              color={theme?.palette?.grey[500]}
+            >
+              No Member Found
+            </Typography>
+          )}
+
+          {teamDataById?.data?.users?.map((item: any) => (
+            <MemberDetails
+              key={uuidv4()}
+              img={item?.img}
+              name={item?.name}
+              email={item?.email}
+              designation={item?.designation}
+            />
+          ))}
         </>
       </CommonDrawer>
       <AlertModals

@@ -118,33 +118,7 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
           </FormProvider>
         </Box>
       </CommonDrawer>
-      <CommonDrawer
-        isDrawerOpen={isCreateTeamOpen}
-        onClose={handleCloseDrawer}
-        title={'Create Team'}
-        okText={'Add'}
-        footer={true}
-        isOk={true}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={methods}>
-            <Grid container spacing={1}>
-              {teamsDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
+
       <Box
         sx={{
           border: `1px solid ${theme?.palette?.grey[700]}`,
@@ -207,6 +181,34 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
           </CustomTabPanel>
         </Box>
       </Box>
+
+      <CommonDrawer
+        isDrawerOpen={isCreateTeamOpen}
+        onClose={handleCloseDrawer}
+        title={'Create Team'}
+        okText={'Add'}
+        footer={true}
+        isOk={true}
+      >
+        <Box sx={{ paddingTop: '1rem' }}>
+          <FormProvider methods={methods}>
+            <Grid container spacing={1}>
+              {teamsDataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={uuidv4()} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </Box>
+      </CommonDrawer>
     </>
   );
 };
