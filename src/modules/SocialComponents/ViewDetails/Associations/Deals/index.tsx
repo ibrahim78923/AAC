@@ -27,6 +27,9 @@ const Deals = (companyId: any) => {
     handleDeleteDeals,
     setDealRecord,
     dealRecord,
+    isLoading,
+    setPage,
+    setPageLimit,
   } = useDeals(companyId);
 
   return (
@@ -74,6 +77,10 @@ const Deals = (companyId: any) => {
           <TanstackTable
             columns={columns({ setOpenDrawer, setIsOpenAlert, setDealRecord })}
             data={getCompanyDeals?.data}
+            isLoading={isLoading}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            isPagination
           />
         </Grid>
       </Grid>
