@@ -102,7 +102,7 @@ export const AIR_SERVICES = {
   CANNED_RESPONSE_SETTINGS: `/air-services/settings/agent-performance-management/canned-responses`,
   LEADER_BOARD_SETTINGS: `/air-services/settings/agent-performance-management/leader-board`,
   WORKLOAD_MANAGEMENT_SETTINGS: `/air-services/settings/agent-performance-management/workload-management`,
-  USER_ADD_NEW_ROLES_SETTINGS: `/air-services/settings/user-management/roles/add-role`,
+  USER_UPSERT_ROLES_SETTINGS: `/air-services/settings/user-management/roles/upsert-roles`,
   UPSERT_BUSINESS_HOUR: `/air-services/settings/service-management/business-hours/upsert-business-hour`,
   ADD_NEW_LOCATION: `/air-services/settings/asset-management/location/add-new-location`,
   UPSERT_INVENTORY: `/air-services/assets/inventory/upsert-inventory`,

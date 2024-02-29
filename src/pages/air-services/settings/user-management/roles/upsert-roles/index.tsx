@@ -1,12 +1,12 @@
 import Layout from '@/layout';
 import UpsertRoles from '@/modules/airServices/Settings/UserManagement/Roles/UpsertRoles';
 
-const AddRolePage = () => {
+const UpsertRolesPage = () => {
   return <UpsertRoles />;
 };
 
-export default AddRolePage;
+export default UpsertRolesPage;
 
-AddRolePage.getLayout = function getLayout(page: any) {
+UpsertRolesPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

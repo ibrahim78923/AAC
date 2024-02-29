@@ -1,16 +1,37 @@
-import React from 'react';
-import { Grid } from '@mui/material';
-import RolesView from '../RolesView';
-import { rolesViewData } from '../RolesView/RolesView.data';
-import { v4 as uuidv4 } from 'uuid';
+import { Box, Grid, Typography } from '@mui/material';
+import { AddRoleIcon } from '@/assets/icons';
+import { useRouter } from 'next/router';
+import { AIR_SERVICES } from '@/constants';
+
 const RolesCards = () => {
+  const router: any = useRouter();
+
   return (
     <Grid container spacing={2}>
-      {rolesViewData?.map((roleData) => (
-        <Grid item key={uuidv4()} xs={12} xl={4}>
-          <RolesView roleData={roleData} />
-        </Grid>
-      ))}
+      <Grid item xs={12} md={6} xl={4}>
+        <Box
+          width={'100%'}
+          border={1}
+          borderColor={'grey.0'}
+          borderRadius={2}
+          p={3}
+          height={'100%'}
+          sx={{ cursor: 'pointer' }}
+          onClick={() => router?.push(AIR_SERVICES?.USER_UPSERT_ROLES_SETTINGS)}
+        >
+          <Box
+            display={'flex'}
+            justifyContent={'space-between'}
+            height={'100%'}
+          >
+            <Typography variant="h5">Add New</Typography>
+
+            <Box height={'100%'} display={'flex'} alignItems={'end'}>
+              <AddRoleIcon />
+            </Box>
+          </Box>
+        </Box>
+      </Grid>
     </Grid>
   );
 };
