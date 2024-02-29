@@ -253,6 +253,8 @@ export const END_POINTS = {
   GET_CONTRACT_VENDOR_LIST: '/vendors/get-vendor-contracts',
   POST_ARTICLES_FEEDBACK: '/articles/feedback',
   SOFTWARE_CONTRACTS: '/assets/get-software-contracts',
+  ADD_SOFTWARE: '/assets/add_software',
+  EDIT_SOFTWARE: '/assets/edit-software',
 };
 
 export const superAdminBillingInvoices = {
