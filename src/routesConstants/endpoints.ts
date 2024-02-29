@@ -240,6 +240,7 @@ export const END_POINTS = {
   ASSETS_RECEIVED: '/assets/get-purchaseorder-assets-received/{id}',
   GET_CONTRACT_VENDOR_LIST: '/vendors/get-vendor-contracts',
   POST_ARTICLES_FEEDBACK: '/articles/feedback',
+  SOFTWARE_CONTRACTS: '/assets/get-software-contracts',
 };
 
 export const superAdminBillingInvoices = {
