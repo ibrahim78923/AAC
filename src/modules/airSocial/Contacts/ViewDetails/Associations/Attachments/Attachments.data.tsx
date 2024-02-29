@@ -1,12 +1,6 @@
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import { Box } from '@mui/material';
-export const columns: any = ({
-  setOpenDrawer,
-  setIsOpenAlert,
-}: {
-  setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
-  setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
   return [
     {
       accessorFn: (row: any) => row?.title,
@@ -31,13 +25,19 @@ export const columns: any = ({
       header: 'Actions',
       cell: () => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('View')}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => handleOpenDrawer('View')}
+          >
             <ViewEyeIcon />
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('Edit')}>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => handleOpenDrawer('Edit')}
+          >
             <EditPenIcon />
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setIsOpenAlert(true)}>
+          <Box sx={{ cursor: 'pointer' }} onClick={() => handleOpenAlert()}>
             <DeleteCrossIcon />
           </Box>
         </Box>

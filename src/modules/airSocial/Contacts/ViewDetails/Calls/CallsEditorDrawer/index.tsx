@@ -43,7 +43,7 @@ const CallsEditorDrawer = (props: any) => {
             methods={methodsdealsCalls}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Grid container spacing={5}>
+            <Grid container spacing={'22px'}>
               {dealsCallsDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
