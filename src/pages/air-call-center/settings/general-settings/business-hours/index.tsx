@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import SettingsLayout from '../../layout';
+import SettingsLayout from '@/layout/SettingsLayout/Layout';
 import BusinessHours from '@/modules/airCallCenter/Settings/GeneralSettings/BusinessHours';
 
 const BusinessHoursPage = () => {

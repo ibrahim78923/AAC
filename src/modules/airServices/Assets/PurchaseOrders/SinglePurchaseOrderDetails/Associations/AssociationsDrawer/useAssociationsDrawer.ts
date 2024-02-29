@@ -10,7 +10,7 @@ import { usePostAssociationsMutation } from '@/services/airServices/assets/purch
 export const useAssociationsDrawer = (props: AssociationsDrawerPropsI) => {
   const { open, setDrawerOpen } = props;
   const searchParams = useSearchParams();
-  const purchaseOrderId = searchParams.get('id');
+  const purchaseOrderId = searchParams.get('purchaseOrderId');
   const [selectedTicketList, setSelectedTicketList] = useState<any>([]);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);

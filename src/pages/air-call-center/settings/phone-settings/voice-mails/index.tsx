@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import SettingsLayout from '../../layout';
+import SettingsLayout from '@/layout/SettingsLayout/Layout';
 
 const VoiceMailsPage = () => {
   return <h1>VoiceMailsPage Page</h1>;

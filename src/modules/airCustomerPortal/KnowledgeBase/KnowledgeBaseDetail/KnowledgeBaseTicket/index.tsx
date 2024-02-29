@@ -5,7 +5,14 @@ import { useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
 export const KnowledgeBaseTicket = (props: any) => {
-  const { modifiedDate, purposeDescription, id, articlesTitle } = props;
+  const {
+    modifiedDate,
+    purposeDescription,
+    articleId,
+    articlesTitle,
+    folderId,
+    folderName,
+  } = props;
   const router = useRouter();
 
   return (
@@ -41,7 +48,7 @@ export const KnowledgeBaseTicket = (props: any) => {
         onClick={() =>
           router?.push({
             pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_TICKET_DETAIL,
-            query: { id },
+            query: { articleId, folderId, folderName },
           })
         }
       />

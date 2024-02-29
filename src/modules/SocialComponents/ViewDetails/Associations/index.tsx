@@ -6,7 +6,7 @@ import Tickets from './Tickets';
 import Contacts from './Contacts';
 import Deals from './Deals';
 
-const Associations = () => {
+const Associations = ({ companyId }: any) => {
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Associations </Typography>
@@ -19,7 +19,7 @@ const Associations = () => {
             <Tickets />
           </Grid>
           <Grid item xs={12}>
-            <Deals />
+            <Deals companyId={companyId} />
           </Grid>
           <Grid item xs={12}>
             <Attachments />

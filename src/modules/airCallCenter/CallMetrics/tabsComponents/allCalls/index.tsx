@@ -7,15 +7,17 @@ import { ExportIcon, FilterIcon } from '@/assets/icons';
 import { styles } from './allCalls.style';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { allCallsData, columns } from './allCalls.data';
+import CallsDetailsDrawer from './callsDetailsDrawer';
 
 const AllCalls = () => {
-  const [searchTerm, setSearchTerm] = useState('');
   const theme = useTheme();
 
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isCallDetailsDrawerOpen, setIsCallDetailsDrawerOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(5);
 
-  const getColumns = columns();
+  const getColumns = columns({ setIsCallDetailsDrawerOpen });
 
   return (
     <Box>
@@ -79,6 +81,10 @@ const AllCalls = () => {
         // totalRecords={Calls?.meta?.total}
         // isSuccess={true}
         // onPageChange={(page: any) => setPage(page)}
+      />
+      <CallsDetailsDrawer
+        setIsCallDetailsDrawerOpen={setIsCallDetailsDrawerOpen}
+        isCallDetailsDrawerOpen={isCallDetailsDrawerOpen}
       />
     </Box>
   );

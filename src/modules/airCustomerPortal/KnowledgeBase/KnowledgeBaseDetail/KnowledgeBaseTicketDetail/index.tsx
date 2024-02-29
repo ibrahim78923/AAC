@@ -1,6 +1,5 @@
 import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { relatedTicketDataArray } from './KnowledgeBaseTicketDetail.data';
 import { useKnowledgeBaseTicketDetail } from './useKnowledgeBaseTicketDetail';
 import { DocumentTextIcon } from '@/assets/icons';
 import { LoadingButton } from '@mui/lab';
@@ -18,9 +17,14 @@ export const KnowledgeBaseTicketDetail = () => {
     feedbackSubmit,
     feedbackMethod,
     showOkFeedback,
-    setShowOkFeedback,
+    helpfulSubmit,
     singleArticlesData,
     isLoading,
+    relatedArticlesData,
+    loadingArticles,
+    handleRelatedArticles,
+    singleArticleId,
+    feedbackIsLoading,
   } = useKnowledgeBaseTicketDetail();
   return (
     <>
@@ -42,7 +46,7 @@ export const KnowledgeBaseTicketDetail = () => {
               <ArrowBackIcon onClick={handlePageBack} />
             </Box>
             <Typography variant="h3" color={theme?.palette?.slateBlue?.main}>
-              Profiting in Bear and Bull Markets
+              {singleArticlesData?.title}
             </Typography>
           </Box>
           {isLoading ? (
@@ -81,23 +85,33 @@ export const KnowledgeBaseTicketDetail = () => {
                   height={showFeedbackField ? '14rem' : '33rem'}
                   overflow={'scroll'}
                 >
-                  {relatedTicketDataArray?.map((item: any) => (
-                    <Box
-                      display={'flex'}
-                      justifyContent={'flex-start'}
-                      alignItems={'center'}
-                      p={1}
-                      borderRadius={1}
-                      bgcolor={theme?.palette?.grey?.[100]}
-                      mt={0.5}
-                      key={item?.id}
-                    >
-                      <DocumentTextIcon />
-                      <Typography color="secondary">
-                        {item?.ticketDescription}
-                      </Typography>
-                    </Box>
-                  ))}
+                  {loadingArticles ? (
+                    <SkeletonTable />
+                  ) : (
+                    <>
+                      {relatedArticlesData?.map(
+                        (item: any) =>
+                          item?._id != singleArticleId && (
+                            <Box
+                              display={'flex'}
+                              justifyContent={'flex-start'}
+                              alignItems={'center'}
+                              p={1}
+                              borderRadius={1}
+                              bgcolor={theme?.palette?.grey?.[100]}
+                              mt={0.5}
+                              key={item?.id}
+                              onClick={() => handleRelatedArticles(item?._id)}
+                            >
+                              <DocumentTextIcon />
+                              <Typography color="secondary">
+                                {item?.title}
+                              </Typography>
+                            </Box>
+                          ),
+                      )}
+                    </>
+                  )}
                 </Box>
               </Grid>
               {showFeedbackField ? (
@@ -137,7 +151,11 @@ export const KnowledgeBaseTicketDetail = () => {
                         >
                           Cancel
                         </Button>
-                        <LoadingButton variant="contained" type="submit">
+                        <LoadingButton
+                          disabled={feedbackIsLoading}
+                          variant="contained"
+                          type="submit"
+                        >
                           Submit
                         </LoadingButton>
                       </Box>
@@ -181,10 +199,7 @@ export const KnowledgeBaseTicketDetail = () => {
                   >
                     No
                   </Button>
-                  <Button
-                    variant="contained"
-                    onClick={() => setShowOkFeedback(true)}
-                  >
+                  <Button variant="contained" onClick={helpfulSubmit}>
                     Yes
                   </Button>
                 </Grid>

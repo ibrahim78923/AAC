@@ -28,6 +28,7 @@ const ContactsGroup = () => {
   } = useScroll();
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [groupModalType, setGroupModalType] = useState('');
 
   return (
     <>
@@ -47,7 +48,10 @@ const ContactsGroup = () => {
         <Box sx={styles?.flexCards} ref={containerRef}>
           <Box
             sx={styles?.createGroupCard}
-            onClick={() => setIsCreateModalOpen(true)}
+            onClick={() => {
+              setIsCreateModalOpen(true);
+              setGroupModalType('create');
+            }}
           >
             <PlusRoundedIcon />
             <Typography
@@ -62,7 +66,12 @@ const ContactsGroup = () => {
           </Box>
           <>
             {contactGroups?.map((info: any) => (
-              <GroupsCard info={info} key={uuidv4()} />
+              <GroupsCard
+                info={info}
+                key={uuidv4()}
+                setGroupModalType={setGroupModalType}
+                setIsCreateModalOpen={setIsCreateModalOpen}
+              />
             ))}
           </>
         </Box>
@@ -77,6 +86,7 @@ const ContactsGroup = () => {
       </Box>
 
       <CreateGroupModal
+        groupModalType={groupModalType}
         isCreateModalOpen={isCreateModalOpen}
         setIsCreateModalOpen={setIsCreateModalOpen}
       />

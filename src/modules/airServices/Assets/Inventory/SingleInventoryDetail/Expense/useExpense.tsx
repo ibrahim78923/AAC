@@ -1,16 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   addExpenseColumnsFunction,
   addExpenseDefaultValues,
   addExpenseValidationSchema,
-  data,
   expenseActionsDropdownFunction,
 } from './Expense.data';
-import { usePostInventoryExpenseMutation } from '@/services/airServices/inventory/expense';
+import { PAGINATION } from '@/config';
+import {
+  useDeleteInventoryExpenseMutation,
+  useGetInventoryExpenseQuery,
+  usePatchInventoryExpenseMutation,
+  usePostInventoryExpenseMutation,
+} from '@/services/airServices/assets/inventory/single-inventory-details/expense';
+import { useRouter } from 'next/router';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useExpense = () => {
   const [selectedExpenseList, setSelectedExpenseList] = useState([]);
@@ -21,11 +27,33 @@ export const useExpense = () => {
     useState<boolean>(false);
   const [isDeleteExpenseModalOpen, setIsDeleteExpenseModalOpen] =
     useState<boolean>(false);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const router = useRouter();
+  const assetId = router.query.inventoryId;
+  const params = {
+    assetId,
+    page: page,
+    limit: pageLimit,
+  };
+  const EXPENSE_DELETE = 'delete';
+  const UPDATE_EXPENSE = 'Add New Expense';
+
+  const { data, isLoading, isSuccess, isFetching } =
+    useGetInventoryExpenseQuery(params);
+  const expenseData = data?.data?.expenses;
+  const metaData = data?.data?.meta;
 
   const addExpenseMethods: any = useForm({
     resolver: yupResolver(addExpenseValidationSchema),
-    defaultValues: addExpenseDefaultValues,
+    defaultValues: addExpenseDefaultValues(selectedExpenseList),
   });
+  const { reset } = addExpenseMethods;
+  useEffect(() => {
+    reset(addExpenseDefaultValues(selectedExpenseList));
+  }, [selectedExpenseList, reset]);
+
+  const expenseId = selectedExpenseList?.map((expense: any) => expense?._id);
   const handleAddExpenseModal = (isOpen?: boolean) => {
     if (isOpen) {
       setAddExpenseModalTitle('Add New Expense');
@@ -34,35 +62,52 @@ export const useExpense = () => {
     setIsAddExpenseModalOpen(false);
     addExpenseMethods?.reset();
   };
-  const [expense] = usePostInventoryExpenseMutation();
+  const [postExpenseTrigger, postExpenseProgress] =
+    usePostInventoryExpenseMutation();
+  const [patchExpenseTrigger] = usePatchInventoryExpenseMutation();
+  const isLoadingExpense = postExpenseProgress?.isLoading;
   const onAddExpenseSubmit = async (data: any) => {
-    try {
-      await expense(data);
-      enqueueSnackbar('Expense added successfully!', {
-        variant: 'success',
-      });
-      addExpenseMethods?.reset();
-      setIsAddExpenseModalOpen(false);
-    } catch (e: any) {
-      enqueueSnackbar('Something went wrong!', {
-        variant: 'error',
-      });
+    if (addExpenseModalTitle === UPDATE_EXPENSE) {
+      try {
+        const formData = {
+          ...data,
+          assetId: assetId,
+        };
+        await postExpenseTrigger(formData);
+        successSnackbar('Expense added successfully');
+        reset();
+        setIsAddExpenseModalOpen(false);
+      } catch (error: any) {
+        errorSnackbar();
+      }
+    } else {
+      try {
+        const formData = {
+          cost: data?.cost,
+          type: data?.type,
+          date: data?.date,
+          id: expenseId,
+          assetId: assetId,
+        };
+        await patchExpenseTrigger(formData);
+        successSnackbar('Expense Update successfully');
+        reset();
+        setIsAddExpenseModalOpen(false);
+        setSelectedExpenseList([]);
+      } catch (error: any) {
+        errorSnackbar();
+      }
     }
   };
 
   const handleActionClick = (ActionType: string) => {
-    // open delete modal on selected action type
-    if (ActionType === 'delete') {
+    if (ActionType === EXPENSE_DELETE) {
       return setIsDeleteExpenseModalOpen(true);
     }
-    // restriction check for multiple update
     if (selectedExpenseList?.length > 1) {
-      enqueueSnackbar(`Can't update multiple records`, {
-        variant: 'error',
-      });
+      errorSnackbar(`Can't update multiple records`);
       return;
     }
-    // set selected record values in expense modal
     Object?.entries(selectedExpenseList?.[0])?.map(
       ([key, value]: any) =>
         addExpenseMethods?.setValue(
@@ -77,21 +122,24 @@ export const useExpense = () => {
     setAddExpenseModalTitle('Update Expense');
     setIsAddExpenseModalOpen(true);
   };
-  const handleDelete = () => {
-    setIsDeleteExpenseModalOpen(false);
-    setSelectedExpenseList([]);
-    enqueueSnackbar('Record deleted Successfully', {
-      variant: 'success',
-    });
+  const [deleteExpense] = useDeleteInventoryExpenseMutation();
+  const handleDelete = async () => {
+    try {
+      await deleteExpense({ ids: expenseId });
+      successSnackbar('Record deleted Successfully');
+      setIsDeleteExpenseModalOpen(false);
+      setSelectedExpenseList([]);
+    } catch (err: any) {
+      errorSnackbar();
+    }
   };
 
   const expenseColumns = addExpenseColumnsFunction(
-    data,
+    expenseData,
     selectedExpenseList,
     setSelectedExpenseList,
   );
 
-  // expense action dropdown options
   const dropdownOptions = expenseActionsDropdownFunction(handleActionClick);
 
   const addExpenseProps = {
@@ -101,6 +149,7 @@ export const useExpense = () => {
     methods: addExpenseMethods,
     onAddExpenseSubmit,
     handleAddExpenseModal,
+    isLoadingExpense,
   };
 
   const actionProps = {
@@ -130,5 +179,13 @@ export const useExpense = () => {
     dropdownOptions,
     addExpenseProps,
     actionProps,
+    expenseData,
+    isFetching,
+    isSuccess,
+    isLoading,
+    setPageLimit,
+    setPage,
+    pageLimit,
+    metaData,
   };
 };

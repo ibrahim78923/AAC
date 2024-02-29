@@ -30,6 +30,7 @@ const RelatedTickets = (props: any) => {
         relatedTicketsActionDropdown={relatedTicketsActionDropdown}
         isActive={!!!selectedChildTickets?.length}
         setIsDrawerOpen={setIsDrawerOpen}
+        setSelectedChildTickets={setSelectedChildTickets}
       />
 
       {isDrawerOpen && (

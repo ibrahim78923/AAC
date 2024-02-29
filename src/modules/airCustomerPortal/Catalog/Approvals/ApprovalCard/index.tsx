@@ -1,4 +1,3 @@
-import { DATE_TIME_FORMAT } from '@/constants';
 import { TICKET_APPROVALS } from '@/constants/strings';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { Avatar, Box, Button, Typography } from '@mui/material';
@@ -28,10 +27,10 @@ export const ApprovalCard = (props: any) => {
     >
       <Box>
         <Box display={'flex'} gap={0.4} flexWrap={'wrap'} alignItems={'center'}>
-          <Typography fontWeight={600} variant="body1" color={'blue.main'}>
+          <Typography fontWeight={600} variant="body2" color={'blue.main'}>
             Request for :
           </Typography>
-          <Typography variant="body2" fontWeight={400} color={'grey.800'}>
+          <Typography variant="body3" fontWeight={400} color={'grey.800'}>
             {`${data?.ticketDetails?.ticketIdNumber ?? ''}, ${' '} ${
               data?.ticketDetails?.subject ?? ''
             }`}
@@ -47,8 +46,7 @@ export const ApprovalCard = (props: any) => {
         >
           <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
             <Avatar
-              sx={{ bgcolor: 'blue.main' }}
-              style={{ width: 25, height: 25 }}
+              sx={{ bgcolor: 'blue.main', width: 25, height: 25 }}
               src={data?.requesterDetails?.profileImg?.src}
             >
               <Typography variant="body4" textTransform={'uppercase'}>
@@ -58,7 +56,13 @@ export const ApprovalCard = (props: any) => {
                 )}
               </Typography>
             </Avatar>
-            <Typography color={'blue.light'}>
+            <Typography
+              color={'blue.light'}
+              variant="body3"
+              borderRight={'1px solid'}
+              borderColor={'grey.900'}
+              px={1.5}
+            >
               {fullName(
                 data?.requesterDetails?.firstName,
                 data?.requesterDetails?.lastName,
@@ -73,19 +77,13 @@ export const ApprovalCard = (props: any) => {
           <Typography
             color={'grey.900'}
             fontSize={'0.75rem'}
-            borderLeft={'1px solid'}
-            borderColor={'grey.700 '}
             px={1.5}
+            borderRight={'1px solid'}
+            borderColor={'grey.900'}
           >
-            {dayjs(data?.createdAt).format(DATE_TIME_FORMAT?.UI)}
+            {`${dayjs()?.diff(dayjs(data?.createdAt), 'hour')} hours ago`}
           </Typography>
-          <Typography
-            color={'grey.900'}
-            fontSize={'0.75rem'}
-            borderLeft={'1px solid'}
-            borderColor={'grey.700 '}
-            px={1.5}
-          >
+          <Typography color={'grey.900'} fontSize={'0.75rem'}>
             {!!data?.ticketDetails?.source
               ? `Via ${' '}  ${data?.ticketDetails?.source}`
               : ''}

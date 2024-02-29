@@ -14,7 +14,7 @@ import { UserDefault, UserProfileVectorImage } from '@/assets/images';
 import { Box, Tooltip, Typography, useTheme } from '@mui/material';
 import Image from 'next/image';
 
-export const columns = () => {
+export const columns = ({ setIsCallDetailsDrawerOpen }: any) => {
   const theme = useTheme();
   return [
     {
@@ -124,7 +124,10 @@ export const columns = () => {
       cell: () => (
         <Box sx={{ display: 'flex', gap: '10px' }}>
           <Tooltip title="View" placement="top-start">
-            <Box sx={{ cursor: 'pointer' }}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => setIsCallDetailsDrawerOpen(true)}
+            >
               <EyeIcon color={theme?.palette?.blue?.main} size="16px" />
             </Box>
           </Tooltip>

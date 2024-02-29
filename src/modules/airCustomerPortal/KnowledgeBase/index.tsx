@@ -36,9 +36,9 @@ export const KnowledgeBase = () => {
             KnowledgeBaseFolderData?.map((option: any) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={option?.id}>
                 <KnowledgeBaseCard
-                  id={option?._id}
+                  folderId={option?._id}
                   name={option?.name}
-                  createdBy={'-----'}
+                  createdBy={option?.createdBy?.firstName}
                   createdDate={new Date(option?.createdAt).toLocaleDateString(
                     'en-GB',
                   )}

@@ -20,12 +20,14 @@ export const useKnowledgeBaseDetail = () => {
       pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE,
     });
   };
-  const id = router?.query?.id;
+  const folderId = router?.query?.folderId;
+  const folderName = router?.query?.folderName;
+
   const params = {
     page: page,
     limit: pageLimit,
     search: searchValue,
-    folderId: id,
+    folderId: folderId,
   };
   const { data, isLoading } = useGetAllKnowledgeBaseArticleQuery(params);
   const articlesData = data?.data?.articles;
@@ -63,5 +65,7 @@ export const useKnowledgeBaseDetail = () => {
     handlePageChange,
     formatDateTime,
     isLoading,
+    folderId,
+    folderName,
   };
 };
