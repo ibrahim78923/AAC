@@ -20,10 +20,19 @@ export const catalogAPI: any = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getServiceCatalogCategoriesDetails: builder?.query({
+      query: ({ param }) => ({
+        url: `${END_POINTS?.SERVICE_CATALOG_CATEGORIES_DETAILS}`,
+        method: 'GET',
+        params: param,
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
 export const {
   useGetServiceCatalogQuery,
   useGetServiceCatalogCategoriesQuery,
+  useGetServiceCatalogCategoriesDetailsQuery,
 } = catalogAPI;
