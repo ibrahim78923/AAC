@@ -30,7 +30,7 @@ export const detailsValidationSchema = Yup?.object()?.shape({
   contactOwnerId: Yup?.string()?.trim()?.required('Required Field'),
   statusId: Yup?.string()?.trim()?.required('Required Field'),
   jobTitle: Yup?.string()?.trim()?.required('Required Field'),
-  dateOfJoining: Yup?.date()?.nullable()?.required('Required Field'),
+  dateOfJoinig: Yup?.date()?.nullable()?.required('Required Field'),
   dateOfBirth: Yup?.date()?.nullable()?.required('Required Field'),
 });
 
@@ -163,10 +163,10 @@ export const detailsDataArray = (
       options: contactStatusData,
     },
     {
-      id: 'dateOfJoining',
+      id: 'dateOfJoinig',
       label: 'Date of joining',
       componentProps: {
-        name: 'dateOfJoining',
+        name: 'dateOfJoinig',
         placeholder: '10/04/2023',
         select: false,
         fullWidth: true,

@@ -1,46 +1,19 @@
 import { DashboardAvatarImage } from '@/assets/images';
 
-export const announcementDashboardCardData = [
-  {
-    id: 1,
+export const announcementDashboardCardData = (customerAnnouncement: any[]) => {
+  if (!customerAnnouncement || customerAnnouncement.length === 0) {
+    return [];
+  }
+
+  return customerAnnouncement.map((announcementItem: any) => ({
+    id: announcementItem?._id,
     icon: DashboardAvatarImage,
-    announcement: ' We are excited to announce that..',
-    announcementTime: '3 hours ago',
-    announcementAvatar: 'Kyle Jenner',
-  },
-  {
-    id: 2,
-    icon: DashboardAvatarImage,
-    announcement: ' We are excited to announce that..',
-    announcementTime: '3 hours ago',
-    announcementAvatar: 'Kyle Jenner',
-  },
-  {
-    id: 3,
-    icon: DashboardAvatarImage,
-    announcement: ' We are excited to announce that..',
-    announcementTime: '3 hours ago',
-    announcementAvatar: 'Kyle Jenner',
-  },
-  {
-    id: 4,
-    icon: DashboardAvatarImage,
-    announcement: ' We are excited to announce that..',
-    announcementTime: '3 hours ago',
-    announcementAvatar: 'Kyle Jenner',
-  },
-  {
-    id: 5,
-    icon: DashboardAvatarImage,
-    announcement: ' We are excited to announce that..',
-    announcementTime: '3 hours ago',
-    announcementAvatar: 'Kyle Jenner',
-  },
-  {
-    id: 6,
-    icon: DashboardAvatarImage,
-    announcement: ' We are excited to announce that..',
-    announcementTime: '3 hours ago',
-    announcementAvatar: 'Kyle Jenner',
-  },
-];
+    announcement: (
+      <div
+        dangerouslySetInnerHTML={{ __html: announcementItem?.description }}
+      />
+    ),
+    announcementTime: announcementItem?.createdAt,
+    announcementAvatar: announcementItem?.userName,
+  }));
+};

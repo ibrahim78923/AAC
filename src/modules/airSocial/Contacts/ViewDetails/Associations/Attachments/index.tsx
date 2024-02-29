@@ -15,17 +15,21 @@ import { styles } from '../Associations.style';
 
 import { PlusSharedIcon } from '@/assets/icons';
 
-const Attachments = () => {
+const Attachments = ({ contactId }: any) => {
   const {
     theme,
-    isOpenAlert,
-    setIsOpenAlert,
-    searchName,
-    setSearchName,
+    searchValue,
+    setSearchValue,
+    drawerTitle,
     openDrawer,
-    setOpenDrawer,
+    handleOpenDrawer,
+    handleCloseDrawer,
+    methodsAttachments,
+    isOpenAlert,
+    handleOpenAlert,
     handleCloseAlert,
-  } = useAttachments();
+  } = useAttachments(contactId);
+  const tableColumns = columns(handleOpenDrawer, handleOpenAlert);
 
   return (
     <Box
@@ -53,8 +57,8 @@ const Attachments = () => {
             }}
           >
             <Search
-              searchBy={searchName}
-              setSearchBy={setSearchName}
+              searchBy={searchValue}
+              setSearchBy={setSearchValue}
               label="Search By Name"
               size="small"
             />
@@ -62,22 +66,21 @@ const Attachments = () => {
               variant="contained"
               className="small"
               sx={{ minWidth: '0px', gap: 0.5 }}
-              onClick={() => setOpenDrawer('Add')}
+              onClick={() => handleOpenDrawer('Add', {})}
             >
               <PlusSharedIcon /> Add Attachments
             </Button>
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={attachmentData}
-          />
+          <TanstackTable columns={tableColumns} data={attachmentData} />
         </Grid>
       </Grid>
       <AttachmentsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
+        title={drawerTitle}
+        isOpen={openDrawer}
+        onClose={handleCloseDrawer}
+        methods={methodsAttachments}
       />
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}

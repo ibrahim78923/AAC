@@ -67,6 +67,7 @@ export const TAGS = [
   'ADD-TO-INVENTORY',
   'CONTACTS',
   'CONTACT_NOTE',
+  'CONTACT_CALL',
   'DROPDOWN_USERS',
   'DROPDOWN_CONTRACT',
   'GET_SOFTWARE_DETAIL',
@@ -86,6 +87,8 @@ export const TAGS = [
   'REQUEST_APPROVAL',
   'USER_LIST',
   'ASSETS_RECEIVED',
+  'VENDOR_CONTRACT',
+  'SOFTWARE_CONTRACTS',
 ];
 
 const baseQuery = fetchBaseQuery({

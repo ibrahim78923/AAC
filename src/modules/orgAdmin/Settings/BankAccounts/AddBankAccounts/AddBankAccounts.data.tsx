@@ -28,67 +28,70 @@ export const addAccountsFormDefaultValues = {
   sortCode: '',
 };
 
-export const addAccountsForm = [
-  {
-    componentProps: {
-      name: 'companyAccountName',
-      label: 'Company Account name',
-      placeholder: 'Blling Frequency',
-      required: true,
-      fullWidth: true,
-      select: true,
+export const addAccountsForm = (companyAccounts: any) => {
+  return [
+    {
+      componentProps: {
+        name: 'companyAccountName',
+        label: 'Company Account name',
+        placeholder: 'Blling Frequency',
+        required: true,
+        fullWidth: true,
+        select: true,
+      },
+      options: companyAccounts?.data?.organizationcompanyaccounts?.map(
+        (item: any) => ({
+          // item?._id
+          value: item?.accountName,
+          label: item?.accountName,
+        }),
+      ),
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'monthly', label: 'Monthly' },
-      { value: 'quarterly', label: 'Quarterly' },
-      { value: 'semiannually', label: 'Semi-annually' },
-      { value: 'Annually', label: 'Desing' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'bankName',
-      label: 'Bank Name',
-      fullWidth: true,
-      required: true,
-      placeholder: 'Enter Bank Name',
+    {
+      componentProps: {
+        name: 'bankName',
+        label: 'Bank Name',
+        fullWidth: true,
+        required: true,
+        placeholder: 'Enter Bank Name',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'accountHolder',
-      label: 'Account Holder',
-      placeholder: 'Enter Account Holder',
-      fullWidth: true,
-      required: true,
+    {
+      componentProps: {
+        name: 'accountHolder',
+        label: 'Account Holder',
+        placeholder: 'Enter Account Holder',
+        fullWidth: true,
+        required: true,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'accountNumber',
-      label: 'Account Number',
-      fullWidth: true,
-      required: true,
-      placeholder: 'Enter Account Number',
+    {
+      componentProps: {
+        name: 'accountNumber',
+        label: 'Account Number',
+        fullWidth: true,
+        required: true,
+        placeholder: 'Enter Account Number',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'sortCode',
-      label: 'Sort Code',
-      placeholder: '------',
-      fullWidth: true,
-      required: true,
+    {
+      componentProps: {
+        name: 'sortCode',
+        label: 'Sort Code',
+        placeholder: '------',
+        fullWidth: true,
+        required: true,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-];
+  ];
+};

@@ -7,7 +7,8 @@ import { CONTRACT_STATUS } from '@/constants/strings';
 
 export const Header = (props: any) => {
   const { dropdownOptions } = props;
-  const { data, isLoading, isFetching, router } = useHeader();
+  const { data, isLoading, isFetching, router, handleSubmitForApproval } =
+    useHeader();
   if (isLoading || isFetching) return <Skeleton />;
 
   return (
@@ -30,7 +31,12 @@ export const Header = (props: any) => {
         />
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           {data?.data?.status === CONTRACT_STATUS?.DRAFT && (
-            <Button variant="outlined" color="secondary">
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleSubmitForApproval}
+              type="submit"
+            >
               Submit For Approval
             </Button>
           )}
