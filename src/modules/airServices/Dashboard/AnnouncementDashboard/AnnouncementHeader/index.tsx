@@ -12,7 +12,9 @@ export const AnnouncementHeader = () => {
     submit,
     handleClose,
     theme,
-    handleIconButton
+    handleIconButton,
+    departmentDropdown,
+    userDropdown,
   } = useAnnouncementHeader();
 
   return (
@@ -40,9 +42,11 @@ export const AnnouncementHeader = () => {
         setIsDrawerOpen={setIsDrawerOpen}
         title={'New Announcements'}
         okText={'Announce'}
-        submit={()=> handleSubmit(submit)()}
+        submit={() => handleSubmit(submit)()}
         methods={methods}
         handleClose={handleClose}
+        departmentDropdown={departmentDropdown}
+        userDropdown={userDropdown}
       />
     </>
   );

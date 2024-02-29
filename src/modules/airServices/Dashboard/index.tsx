@@ -30,6 +30,7 @@ const Dashboard = () => {
     handleAnnouncementIconButton,
     isAnnouncementDrawerOpen,
     setIsAnnouncementDrawerOpen,
+    customerAnnouncement
   } = useDashboard();
 
   return (
@@ -148,8 +149,8 @@ const Dashboard = () => {
                   <AnnouncementHeader />
                 </Box>
                 <Box overflow={'scroll'} height={'25vh'}>
-                  {announcementDashboardCardData?.map((item, index) => (
-                    <Box key={uuidv4()}>
+                  {announcementDashboardCardData(customerAnnouncement)?.map((item, index) => (
+                    <Box key={item?.id}>
                       <AnnouncementDashboardCard
                         icon={item?.icon}
                         announcement={item?.announcement}

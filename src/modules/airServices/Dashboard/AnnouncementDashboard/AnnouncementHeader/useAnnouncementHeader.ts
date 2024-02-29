@@ -8,6 +8,8 @@ import {
   createAddAnnouncementDefaultValues,
   createAddAnnouncementValidationSchema,
 } from '../AddAnnouncement/AddAnnouncement.data';
+import { useLazyGetDepartmentDropdownQuery } from '@/services/airServices/tickets';
+import { useLazyGetUsersDropdownListQuery } from '@/services/airServices/settings/user-management/departments';
 
 export const useAnnouncementHeader = () => {
   const theme = useTheme();
@@ -23,22 +25,28 @@ export const useAnnouncementHeader = () => {
   const [addAnnouncements] = usePostAnnouncementMutation();
   const submit = async (data: any) => {
     try {
+      const notifyMembers = !!data.notifyMembers;
       const payload = {
         title: data?.title,
         description: data?.description,
-        managedById: data?.managedById,
-        vibilityId: data?.vibilityId,
-        notifyMembers: data?.notifyMembers,
+        managedById: data?.managedById?._id ,
+        vibilityId: data?.vibilityId?._id ,
+        notifyMembers: notifyMembers,
         additionalEmail: data?.additionalEmail,
         addMembers: data?.addMembers,
+        startDate: new Date(data.startDate).toISOString(),
+        endDate: new Date(data.endDate).toISOString(),
       };
-      await addAnnouncements({
-        ...payload,
-      }).unwrap();
-      successSnackbar(true);
+      const postAnnouncementParameter = {
+        body: payload,
+      };
+      console.log(data);
+
+      await addAnnouncements(postAnnouncementParameter).unwrap();
+      successSnackbar('Announcements added successfully. ');
       setIsDrawerOpen(false);
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar('Something went wrong');
     }
     handleClose?.();
   };
@@ -52,6 +60,9 @@ export const useAnnouncementHeader = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
+  const departmentDropdown = useLazyGetDepartmentDropdownQuery();
+  const userDropdown=useLazyGetUsersDropdownListQuery();
+
   return {
     isDrawerOpen,
     setIsDrawerOpen,
@@ -61,5 +72,7 @@ export const useAnnouncementHeader = () => {
     handleClose,
     theme,
     handleIconButton,
+    departmentDropdown,
+    userDropdown
   };
 };

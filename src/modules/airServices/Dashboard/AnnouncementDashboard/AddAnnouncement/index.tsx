@@ -10,6 +10,8 @@ function AddAnnouncement({
   submit,
   methods,
   handleClose,
+  departmentDropdown,
+  userDropdown
 }: any) {
   return (
     <>
@@ -25,7 +27,7 @@ function AddAnnouncement({
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={3}>
-              {createAddAnnouncementDataArray?.map((item: any) => (
+              {createAddAnnouncementDataArray(departmentDropdown,userDropdown)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   {item.component === Typography && (
                     <Typography>{item.componentProps.value}</Typography>
