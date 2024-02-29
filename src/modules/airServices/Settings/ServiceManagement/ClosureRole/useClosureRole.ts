@@ -13,7 +13,7 @@ import {
   serviceResolveDataArray,
 } from './ClosureRole.data';
 import { useEffect } from 'react';
-import { usePostClosureRoleMutation } from '@/services/airServices/settings/service-management/closureRole';
+import { usePostClosureRuleMutation } from '@/services/airServices/settings/service-management/closureRole';
 
 export const useClosureRole = () => {
   const closureRoleMethods = useForm({
@@ -21,8 +21,11 @@ export const useClosureRole = () => {
     defaultValues: closureRoleDefaultValues,
   });
 
+  //const {data} = useGetClosureRulesQuery(null)
+  //console.log('Closure Rule data', data);
+
   const [postClosureRuleTrigger, postClosureRuleProgress] =
-    usePostClosureRoleMutation();
+    usePostClosureRuleMutation();
   const isLoading = postClosureRuleProgress?.isLoading;
 
   const isSubmit = async (data: any) => {
@@ -86,7 +89,7 @@ export const useClosureRole = () => {
       ],
     };
     try {
-      const res: any = await postClosureRuleTrigger(payload);
+      const res: any = await postClosureRuleTrigger(payload)?.unwrap();
       reset();
       enqueueSnackbar(res?.message ?? 'Saved Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
