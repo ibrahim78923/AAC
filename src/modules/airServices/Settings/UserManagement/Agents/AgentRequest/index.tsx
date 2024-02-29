@@ -28,7 +28,7 @@ const AgentRequest = () => {
               >
                 {item?.userDetails?.avatar?.url ? (
                   <Image
-                    src={item.userDetails.avatar.url}
+                    src={item?.userDetails?.avatar?.url}
                     alt="Profile"
                     style={styles?.imageStyle}
                   />
