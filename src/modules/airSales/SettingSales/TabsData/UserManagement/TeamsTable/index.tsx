@@ -19,6 +19,10 @@ const TeamsTable = () => {
     setIsOpenDelete,
     teamsData,
     teamDataById,
+    setPage,
+    setLimit,
+    isSuccess,
+    isLoading,
   } = useTeamsTable();
 
   return (
@@ -43,6 +47,14 @@ const TeamsTable = () => {
             columns={getRowValues}
             data={teamsData?.data?.userTeams}
             isPagination
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setLimit}
+            count={teamsData?.data?.meta?.pages}
+            pageLimit={teamsData?.data?.meta?.limit}
+            totalRecords={teamsData?.data?.meta?.total}
+            isLoading={isLoading}
+            isSuccess={isSuccess}
           />
         </Grid>
       </Box>

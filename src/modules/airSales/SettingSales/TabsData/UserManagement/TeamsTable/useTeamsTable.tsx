@@ -1,18 +1,28 @@
 import { useState } from 'react';
 import { columnsTeams } from './TeamsTable.data';
 import { Theme, useTheme } from '@mui/material';
-import useUserManagement from '../useUserManagement';
-import { useGetTeamsByIdQuery } from '@/services/airSales/settings/teams';
+import {
+  useGetTeamsByIdQuery,
+  useGetTeamsQuery,
+} from '@/services/airSales/settings/teams';
+import { PAGINATION } from '@/config';
 
 const useTeamsTable = () => {
+  const theme = useTheme<Theme>();
   const [isTeamDrawer, setIsTeamDrawer] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [teamId, setTeamId] = useState();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const theme = useTheme<Theme>();
-  const { teamsData } = useUserManagement();
+  const [page, setPage] = useState<any>(PAGINATION?.CURRENT_PAGE);
+  const [limit, setLimit] = useState<any>(PAGINATION?.PAGE_LIMIT);
   const { data: teamDataById } = useGetTeamsByIdQuery(teamId);
+
+  const params = {
+    page: page,
+    limit: limit,
+  };
+  const { data: teamsData, isSuccess, isLoading } = useGetTeamsQuery(params);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
@@ -44,6 +54,12 @@ const useTeamsTable = () => {
     teamsData,
     teamId,
     teamDataById,
+    page,
+    setPage,
+    limit,
+    setLimit,
+    isSuccess,
+    isLoading,
   };
 };
 

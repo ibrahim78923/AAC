@@ -4,10 +4,10 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 export const TeamsApi: any = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getTeams: builder.query({
-      query: () => ({
+      query: (params) => ({
         url: END_POINTS?.SALES_TEAM,
         method: 'GET',
-        // params: params,
+        params: params,
       }),
       providesTags: ['TEAMS'],
     }),
