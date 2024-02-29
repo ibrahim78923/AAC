@@ -15,9 +15,7 @@ export function useDashboard() {
     setIsAnnouncementDrawerOpen(!isAnnouncementDrawerOpen);
   };
   const { data } = useGetCustomerAnnouncementQuery(null);
-  // console.log(data?.annoucements);
   const customerAnnouncement = data?.annoucements;
-  // console.log(customerAnnouncement);
   return {
     setIsDrawerOpen,
     isDrawerOpen,
