@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import {
   createAnnouncementDashboardDataArray,
@@ -36,12 +36,17 @@ function AddAnnouncement({ isDrawerOpen, setIsDrawerOpen }: any) {
             <Grid container spacing={3}>
               {createAnnouncementDashboardDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
-                  {item.component === Typography && (
-                    <Typography>{item.componentProps.value}</Typography>
-                  )}
-                  {item.component !== Typography && (
-                    <item.component {...item.componentProps} size="small" />
-                  )}
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select
+                      ? item?.options?.map((option: any) => (
+                          <option value={option?.value} key={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : item?.componentProps?.value
+                        ? item?.componentProps?.value
+                        : null}
+                  </item.component>
                 </Grid>
               ))}
             </Grid>
