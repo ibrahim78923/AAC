@@ -11,13 +11,15 @@ export const softwareFilterValidationSchema = Yup?.object()?.shape({
   updatedDate: Yup?.date(),
 });
 
-export const softwareFilterDefaultValues = {
-  type: '',
-  status: '',
-  category: '',
-  publisher: '',
-  createdDate: '',
-  updatedDate: '',
+export const softwareFilterDefaultValues = (filterValues: any) => {
+  return {
+    type: filterValues?.type,
+    status: filterValues?.status,
+    category: filterValues?.category,
+    publisher: filterValues?.publisher,
+    createdDate: filterValues?.createdDate,
+    updatedDate: filterValues?.updatedDate,
+  };
 };
 
 export const softwareFilterDataArray = [

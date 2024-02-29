@@ -127,6 +127,8 @@ const SignUp = () => {
                 sx={{
                   width: { md: '60%', sm: '70%', xs: '90%' },
                   margin: 'auto',
+                  height: { md: '90vh', xs: '85vh' },
+                  overflowX: 'scroll',
                 }}
               >
                 <Typography

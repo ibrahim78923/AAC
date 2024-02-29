@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import SettingsLayout from '../../Layout';
+import SettingsLayout from '@/layout/SettingsLayout/Layout';
 
 const GreetingListPage = () => {
   return <h1>Greeting List Page</h1>;

@@ -6,9 +6,8 @@ import { useUser } from '../useUser';
 import UpsertUser from '../UpsertUser';
 import { AgentConversionDelete } from '../../AgentConversionDelete';
 
-export const UserHeader = ({ selectedUserList }: any) => {
+export const UserHeader = ({ selectedUserList, setSearch }: any) => {
   const {
-    setSearchValue,
     isDrawerOpen,
     setIsDrawerOpen,
     userDropdownOptions,
@@ -26,7 +25,7 @@ export const UserHeader = ({ selectedUserList }: any) => {
         <Search
           label="Search Here"
           width={'16.25rem'}
-          setSearchBy={setSearchValue}
+          setSearchBy={setSearch}
         />
       </Box>
       <Box display={'flex'} gap={1} mt={{ xs: 2, sm: 0 }}>

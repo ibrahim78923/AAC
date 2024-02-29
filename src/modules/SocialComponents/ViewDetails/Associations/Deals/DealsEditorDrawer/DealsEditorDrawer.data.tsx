@@ -1,105 +1,164 @@
 import {
-  RHFCheckbox,
-  RHFDropZone,
-  RHFEditor,
+  RHFDatePicker,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { ROLES } from '@/constants/strings';
+import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
+import { useGetUsersListQuery } from '@/services/airSales/deals';
+import { useGetSalesProductQuery } from '@/services/airSales/deals/settings/sales-product';
 import * as Yup from 'yup';
 export const productsValidationSchema = Yup?.object()?.shape({
-  productName: Yup?.string()?.trim()?.required('Field is Required'),
-  unitPrice: Yup?.string()?.trim()?.required('Field is Required'),
+  dealStatus: Yup?.string(),
+  name: Yup?.string()?.trim()?.required('Field is Required'),
+  dealPiplineId: Yup?.string()?.trim()?.required('Field is Required'),
+  dealStageId: Yup?.string()?.trim()?.required('Field is Required'),
+  amount: Yup?.string(),
+  closeDate: Yup?.string(),
+  ownerId: Yup?.string(),
+  priority: Yup?.string(),
+  addLineItemId: Yup?.string(),
 });
 
 export const productsDefaultValues = {
-  productStatus: 'Custom Line Item',
-  productName: '',
-  sku: '',
-  description: '',
-  category: '',
-  activeProducts: '',
-  unitPrice: '',
-  attachfile: '',
+  dealStatus: 'New Deal',
+  name: '',
+  dealPiplineId: '',
+  dealStageId: '',
+  amount: '',
+  closeDate: '',
+  ownerId: '',
+  priority: '',
+  addLineItemId: '',
 };
 
-export const productsDataArray = [
-  {
-    componentProps: {
-      name: 'productName',
-      label: 'Product Name',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
+export const productsDataArray = (openDrawer: any) => {
+  const userRole = ROLES?.ORG_EMPLOYEE;
+  const { pipelineData, DealsLifecycleStageData } = useDealTab();
+  const { data: UserListData } = useGetUsersListQuery({ role: userRole });
+  const query = '&';
+  const { data: addLineItem } = useGetSalesProductQuery({
+    page: 1,
+    pageLimit: 10,
+    query,
+  });
 
-  {
-    componentProps: {
-      name: 'sku',
-      label: 'SKU',
-      fullWidth: true,
+  return [
+    {
+      componentProps: {
+        name: 'name',
+        label: 'Deal Name',
+        fullWidth: true,
+        required: true,
+        placeholder: 'Enter Name',
+        disabled: openDrawer === 'View',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'category',
-      label: 'Category',
-      select: true,
+    {
+      componentProps: {
+        name: 'dealPiplineId',
+        label: 'Deal Pipeline',
+        select: true,
+        required: true,
+        disabled: openDrawer === 'View',
+      },
+      options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })) ?? [{ label: '', value: '' }],
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'Inventory', label: 'Inventory' },
-      { value: 'Non-Inventory', label: 'Non-Inventory' },
-      { value: 'Service', label: 'Service' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-
-  {
-    componentProps: {
-      name: 'description',
-      label: 'Description',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'dealStageId',
+        label: 'Deal Stage',
+        select: true,
+        required: true,
+        disabled: openDrawer === 'View',
+      },
+      options: DealsLifecycleStageData?.data?.lifecycleStages?.map(
+        (item: any) => ({
+          value: item?._id,
+          label: item?.name,
+        }),
+      ),
+      component: RHFSelect,
+      md: 12,
     },
-    component: RHFEditor,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'activeProducts',
-      label: 'Active Products',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'amount',
+        label: 'Amount',
+        fullWidth: true,
+        placeholder: 'Enter Amount',
+        type: 'number',
+        disabled: openDrawer === 'View',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFCheckbox,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'unitPrice',
-      label: 'Unit Price',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'closeDate',
+        label: 'Close Date',
+        fullWidth: true,
+        disabled: openDrawer === 'View',
+      },
+      component: RHFDatePicker,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-
-  {
-    componentProps: {
-      name: 'attachFile',
-      label: '',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'ownerId',
+        label: 'Deal Owner',
+        select: true,
+        disabled: openDrawer === 'View',
+      },
+      options: UserListData?.data?.users?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })) ?? [{ label: '', value: '' }],
+      component: RHFSelect,
+      md: 12,
     },
-    component: RHFDropZone,
-    md: 12,
-  },
-];
-
+    {
+      componentProps: {
+        name: 'priority',
+        label: 'Priority',
+        select: true,
+        disabled: openDrawer === 'View',
+      },
+      options: [
+        { value: '-', label: '-' },
+        { value: 'Low', label: 'Low' },
+        { value: 'Medium', label: 'Medium' },
+      ],
+      component: RHFSelect,
+      md: 12,
+    },
+    {
+      componentProps: {
+        name: 'addLineItemId',
+        label: 'Add Line Item',
+        select: true,
+        disabled: openDrawer === 'View',
+      },
+      options: addLineItem?.data?.salesproducts?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
+      md: 12,
+    },
+  ];
+};
 export const drawerTitle: any = {
-  Add: 'Add products',
-  Edit: 'Edit products',
-  View: 'View products',
+  Add: 'Add Deal',
+  Edit: 'Edit Deal',
+  View: 'View Deal',
 };
 export const drawerButtonTitle: any = {
   Add: 'Add',

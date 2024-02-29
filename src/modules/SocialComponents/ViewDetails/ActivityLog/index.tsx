@@ -18,7 +18,7 @@ const ActivityLog = ({ companyId }: any) => {
   const { theme } = useNameWithStyledWords();
 
   const filterPayloadValues = {
-    recordType: 'COMPANY',
+    recordType: 'companies',
     recordId: companyId,
   };
 
