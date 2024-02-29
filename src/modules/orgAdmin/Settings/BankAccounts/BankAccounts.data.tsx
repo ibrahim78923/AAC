@@ -19,10 +19,6 @@ export const bankAccountsColumns = (columnsProps: any) => {
     );
   };
 
-  // const handleCheckboxChange = (val: any, rowId: string) => {
-  //   val?.target?.checked ? setCheckedRows(rowId) : setCheckedRows();
-  // };
-
   return [
     {
       accessorFn: (row: any) => row?._id,

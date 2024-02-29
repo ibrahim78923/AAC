@@ -63,6 +63,7 @@ const useDetails = () => {
   const { handleSubmit, setValue } = methodsDetails;
 
   const contactData = dataGetContactById?.data;
+
   useEffect(() => {
     if (contactData) {
       // setValue('profilePicture', contactData?.profilePicture?.url);
@@ -77,7 +78,7 @@ const useDetails = () => {
       setValue('lifeCycleStageId', contactData?.lifeCycleStageId);
       setValue('jobTitle', contactData?.jobTitle);
       setValue('statusId', contactData?.statusId);
-      setValue('dateOfJoining', contactData?.dateOfJoining);
+      setValue('dateOfJoinig', new Date(contactData?.dateOfJoinig));
     }
   }, [contactData]);
 
@@ -99,8 +100,8 @@ const useDetails = () => {
     formData?.append('jobTitle', values?.jobTitle);
     formData?.append('statusId', values?.statusId);
     formData?.append(
-      'dataOfJoinig',
-      dayjs(values?.dataOfJoinig)?.format(DATE_FORMAT?.API),
+      'dateOfJoinig',
+      dayjs(values?.dateOfJoinig)?.format(DATE_FORMAT?.API),
     );
     try {
       await updateDetails({

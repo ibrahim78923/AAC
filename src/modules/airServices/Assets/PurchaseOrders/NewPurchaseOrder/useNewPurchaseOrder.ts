@@ -7,7 +7,6 @@ import {
 } from './NewPurchaseOrder.data';
 import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
 import {
   useGetPurchaseOrderByIdQuery,
@@ -17,23 +16,26 @@ import {
   usePatchPurchaseOrderMutation,
   usePostPurchaseOrderMutation,
 } from '@/services/airServices/assets/purchase-orders';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useSearchParams } from 'next/navigation';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 const { PURCHASE_ORDER } = AIR_SERVICES;
 
 const useNewPurchaseOrders = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const purchaseOrderId = searchParams.get('id');
+  const purchaseOrderId = searchParams.get('purchaseOrderId');
   const [postPurchaseOrderTrigger, postPurchaseOrderStatus] =
     usePostPurchaseOrderMutation();
   const [patchPurchaseOrderTrigger, patchPurchaseOrderStatus] =
     usePatchPurchaseOrderMutation();
-  const singlePurchaseOrder = useGetPurchaseOrderByIdQuery(purchaseOrderId, {
-    refetchOnMountOrArgChange: true,
-    skip: !!!purchaseOrderId,
-  });
+  const singlePurchaseOrder: any = useGetPurchaseOrderByIdQuery(
+    purchaseOrderId,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!purchaseOrderId,
+    },
+  );
   const loadingStatus =
     patchPurchaseOrderStatus?.isLoading || postPurchaseOrderStatus?.isLoading;
   const methods = useForm({
@@ -48,6 +50,7 @@ const useNewPurchaseOrders = () => {
 
   const submit = async (data: any) => {
     const { location, vendor, department, purchaseDetails, ...rest } = data;
+    delete rest?.taxRatio;
     const apiParameter = {
       body: {
         ...rest,
@@ -67,40 +70,28 @@ const useNewPurchaseOrders = () => {
       return;
     }
     try {
-      const response = await postPurchaseOrderTrigger(apiParameter)?.unwrap();
-      enqueueSnackbar({
-        message: 'New Purchase Order Created successfully' ?? response?.message,
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postPurchaseOrderTrigger(apiParameter)?.unwrap();
+      successSnackbar('New Purchase Order Created successfully');
       reset();
       handlePageBack();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
   const submitUpdatePurchaseOrder = async (data: any) => {
     const patchPurchaseOrderParameter = {
-      id: purchaseOrderId,
-      body: { ...data },
+      body: {
+        id: purchaseOrderId,
+        ...data?.body,
+      },
     };
     try {
-      const response = await patchPurchaseOrderTrigger(
-        patchPurchaseOrderParameter,
-      )?.unwrap();
-      enqueueSnackbar(
-        response?.message ?? 'Purchase Order Updated Successfully!',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      await patchPurchaseOrderTrigger(patchPurchaseOrderParameter)?.unwrap();
+      successSnackbar('Purchase Order Updated Successfully!');
       reset();
       handlePageBack();
     } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
   const handlePageBack = () => {
@@ -114,7 +105,7 @@ const useNewPurchaseOrders = () => {
   );
   useEffect(() => {
     if (singlePurchaseOrder?.data) {
-      reset(() => defaultValues(singlePurchaseOrder?.data?.data));
+      reset(() => defaultValues(singlePurchaseOrder?.data?.data?.[0]));
     }
   }, [singlePurchaseOrder?.data, reset]);
   return {
@@ -127,6 +118,7 @@ const useNewPurchaseOrders = () => {
     router,
     loadingStatus,
     watch,
+    singlePurchaseOrder,
   };
 };
 export default useNewPurchaseOrders;
