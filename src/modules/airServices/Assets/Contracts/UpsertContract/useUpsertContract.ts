@@ -136,7 +136,7 @@ export const useUpsertContract = () => {
     try {
       await putContractTrigger(putContractParameter)?.unwrap();
       successSnackbar('Contract updated Successfully');
-      reset();
+      router?.back();
     } catch (error) {
       errorSnackbar();
     }
