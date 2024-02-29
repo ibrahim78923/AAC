@@ -9,8 +9,7 @@ const NewAgentStatus = ({
   isDrawerOpen,
   onClose,
   handleSubmit,
-  formMethods,
-  // isLoading,
+  formMethods, // isLoading,
 }: NewAgentStatusPropsI) => {
   return (
     <CommonDrawer
