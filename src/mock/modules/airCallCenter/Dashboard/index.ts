@@ -74,3 +74,34 @@ export const InConversationData = [
     Action: '',
   },
 ];
+
+export const myRecentCallData = [
+  {
+    customer: 'Cody Fisher',
+    Status: `missed call`,
+    assignedTo: 'Arlene McCoy0',
+    recording: '',
+    lastUpdate: '30 mintus ago',
+  },
+  {
+    customer: 'Courtney Henry',
+    Status: `voice email`,
+    assignedTo: 'Ronald Richards',
+    recording: '',
+    lastUpdate: 'one hour ago',
+  },
+  {
+    customer: 'Devon Lane',
+    Status: `answered call`,
+    assignedTo: 'Eleanor Pena',
+    recording: '',
+    lastUpdate: 'one hour ago',
+  },
+  {
+    customer: 'Kathryn Murphy',
+    Status: `missed call`,
+    assignedTo: 'Kristin Watson',
+    recording: '',
+    lastUpdate: 'one hour ago',
+  },
+];
