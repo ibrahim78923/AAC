@@ -196,6 +196,7 @@ export const END_POINTS = {
   CONTACT_RESTORE: `/contact/restore`,
   CONTACT_DELETE_PERMANENT: `/contact/permanent`,
   CONTACT_ASSOCIATIONS: `/contact/contact-associations`,
+  CONTACT_TASKS: `/contact/contact-tasks`,
   ADD_SOFTWARE_INSTALLATION: '/assets/add-software-device',
   REMOVE_SOFTWARE_INSTALLATION: '/assets/software-device',
   SOFTWARE_INSTALLATION: '/assets/software-devices',

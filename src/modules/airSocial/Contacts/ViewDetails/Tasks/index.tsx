@@ -9,8 +9,8 @@ import ActionDropdown from './ActionDropdown';
 import useTasks from './useTasks';
 import { columns } from './Tasks.data';
 
-const Tasks = () => {
-  const { openDrawer, setOpenDrawer } = useTasks();
+const Tasks = ({ contactId }: any) => {
+  const { openDrawer, setOpenDrawer } = useTasks(contactId);
   return (
     <Box
       sx={{

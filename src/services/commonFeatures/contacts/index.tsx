@@ -96,6 +96,15 @@ export const contactsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getContactTasks: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACT_TASKS,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -111,4 +120,5 @@ export const {
   useGetDeletedContactsQuery,
   useRestoreContactMutation,
   useDeleteContactPermanentMutation,
+  useGetContactTasksQuery,
 } = contactsAPI;
