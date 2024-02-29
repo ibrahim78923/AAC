@@ -86,6 +86,7 @@ export const TAGS = [
   'REQUEST_APPROVAL',
   'USER_LIST',
   'ASSETS_RECEIVED',
+  'VENDOR_CONTRACT',
 ];
 
 const baseQuery = fetchBaseQuery({

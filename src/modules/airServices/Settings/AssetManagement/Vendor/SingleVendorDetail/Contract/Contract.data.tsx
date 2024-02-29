@@ -1,20 +1,10 @@
 import { Chip, Typography } from '@mui/material';
+import { format } from 'date-fns';
 
-export const data: any = [
+export const contractColumns = [
   {
-    id: 1,
-    contractName: 'Sample Apple Contract',
-    type: 'Lease',
-    status: 'Active',
-    renewalStatus: 'Pending',
-    contractNumber: 'CNTR-1',
-    expiry: '3 May,2024',
-  },
-];
-export const columns = (): any => [
-  {
-    accessorFn: (row: any) => row?.contractName,
-    id: 'contractName',
+    accessorFn: (row: any) => row?.name,
+    id: 'name',
     isSortable: true,
     header: 'Contract Name',
     cell: (info: any) => (
@@ -22,8 +12,8 @@ export const columns = (): any => [
     ),
   },
   {
-    accessorFn: (row: any) => row?.type,
-    id: 'type',
+    accessorFn: (row: any) => row?.contractType,
+    id: 'contractType',
     header: 'Type',
     isSortable: true,
     cell: (info: any) => info?.getValue(),
@@ -37,16 +27,19 @@ export const columns = (): any => [
       <Chip
         sx={{
           bgcolor:
-            info?.getValue() === 'Active' ? 'success.lighter' : 'error.lighter',
-          color: info?.getValue() === 'Active' ? 'success.main' : 'error.main',
+            info?.getValue() === 'APPROVED'
+              ? 'success.lighter'
+              : 'error.lighter',
+          color:
+            info?.getValue() === 'APPROVED' ? 'success.main' : 'error.main',
         }}
         label={info?.getValue()}
       />
     ),
   },
   {
-    accessorFn: (row: any) => row?.renewalStatus,
-    id: 'renewalStatus',
+    accessorFn: (row: any) => row?.statusRenewExtend,
+    id: 'statusRenewExtend',
     isSortable: true,
     header: 'Renewal Status',
     cell: (info: any) => info?.getValue(),
@@ -59,10 +52,16 @@ export const columns = (): any => [
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.expiry,
-    id: 'expiry',
+    accessorFn: (row: any) => row?.endDate,
+    id: 'endDate',
     isSortable: true,
     header: 'Expiry',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => {
+      const dateValue = info?.getValue();
+      if (dateValue) {
+        return format(new Date(dateValue), 'd MMM yyyy');
+      }
+      return null;
+    },
   },
 ];

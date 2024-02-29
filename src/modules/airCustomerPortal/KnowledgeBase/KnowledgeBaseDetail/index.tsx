@@ -39,7 +39,7 @@ export const KnowledgeBaseDetail = () => {
       >
         <ArrowBackIcon onClick={() => handleKnowledgeBase()} />
         <Typography variant="h4">
-          Knowledge Base - {articlesData?.folder?.name}
+          Knowledge Base - {articlesData?.[0]?.folder?.name}
         </Typography>
       </Box>
       <Box mt={2} mb={4}>
@@ -60,7 +60,7 @@ export const KnowledgeBaseDetail = () => {
               folderId={folderId}
               articlesTitle={item?.title}
               modifiedDate={formatDateTime(item?.updatedAt)}
-              purposeDescription={'-----'}
+              purposeDescription={item?.folder?.description}
             />
           ))}
         </>
