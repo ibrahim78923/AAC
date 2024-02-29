@@ -6,6 +6,7 @@ export const RelatedTicketsHeader = ({
   isActive,
   setIsDrawerOpen,
   relatedTicketsActionDropdown,
+  setSelectedChildTickets,
 }: any) => {
   return (
     <Box
@@ -26,7 +27,10 @@ export const RelatedTicketsHeader = ({
         <Button
           disableElevation
           variant="contained"
-          onClick={() => setIsDrawerOpen(true)}
+          onClick={() => {
+            setSelectedChildTickets?.([]);
+            setIsDrawerOpen(true);
+          }}
           startIcon={<CirclePlusIcon />}
         >
           Add Child Ticket

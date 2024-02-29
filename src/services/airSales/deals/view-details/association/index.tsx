@@ -9,7 +9,7 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
         method: 'PATCH',
         body: body,
       }),
-      invalidatesTags: ['DEALS_ASSOCIATION'],
+      invalidatesTags: ['DEALS_ASSOCIATION', 'COMPANY'],
     }),
 
     deleteAssociation: builder.mutation({
