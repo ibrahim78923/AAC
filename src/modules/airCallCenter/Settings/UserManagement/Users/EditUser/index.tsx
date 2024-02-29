@@ -9,8 +9,7 @@ const EditUser = ({
   isDrawerOpen,
   onClose,
   handleSubmit,
-  formMethods,
-  // isLoading,
+  formMethods, // isLoading,
 }: EditUserPropsI) => {
   return (
     <CommonDrawer

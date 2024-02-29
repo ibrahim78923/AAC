@@ -4,34 +4,30 @@ import Attachments from './Attachments';
 import Companies from './Companies';
 import Tickets from './Tickets';
 import Deal from './Deal';
-import PlayBook from './PlayBook';
 
 import { styles } from '../ViewDetails.style';
+// import useAssociations from './useAssociations';
 
-const Associations = () => {
+const Associations = ({ contactId }: any) => {
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Associations </Typography>
       <Box sx={styles?.horizontalTabsInnnerBox}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Tickets />
+            <Tickets contactId={contactId} />
           </Grid>
 
           <Grid item xs={12}>
-            <Deal />
+            <Deal contactId={contactId} />
           </Grid>
 
           <Grid item xs={12}>
-            <Companies />
+            <Companies contactId={contactId} />
           </Grid>
 
           <Grid item xs={12}>
-            <Attachments />
-          </Grid>
-
-          <Grid item xs={12}>
-            <PlayBook />
+            <Attachments contactId={contactId} />
           </Grid>
         </Grid>
       </Box>
