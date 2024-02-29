@@ -1,40 +1,33 @@
 import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import {
-  createAnnouncementDashboardDataArray,
-  createAnnouncementDashboardDefaultValues,
-  createAnnouncementDashboardValidationSchema,
-} from './AddAnnouncement.data';
+import { createAddAnnouncementDataArray } from './AddAnnouncement.data';
 import CommonDrawer from '@/components/CommonDrawer';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 
-function AddAnnouncement({ isDrawerOpen, setIsDrawerOpen }: any) {
-  const methods: any = useForm({
-    resolver: yupResolver(createAnnouncementDashboardValidationSchema),
-    defaultValues: createAnnouncementDashboardDefaultValues,
-  });
-
-  const { handleSubmit } = methods;
-
-  const submit = () => {};
+function AddAnnouncement({
+  isDrawerOpen,
+  title,
+  okText,
+  submit,
+  methods,
+  handleClose,
+  departmentDropdown,
+  userDropdown
+}: any) {
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
-        onClose={() => {
-          setIsDrawerOpen(false);
-        }}
-        title="New Announcements"
-        submitHandler={() => handleSubmit(submit)()}
+        onClose={handleClose}
+        title={title}
+        submitHandler={submit}
         footer={true}
         isOk={true}
-        okText="Announce"
+        okText={okText}
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={3}>
-              {createAnnouncementDashboardDataArray?.map((item: any) => (
+              {createAddAnnouncementDataArray(departmentDropdown,userDropdown)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   {item.component === Typography && (
                     <Typography>{item.componentProps.value}</Typography>

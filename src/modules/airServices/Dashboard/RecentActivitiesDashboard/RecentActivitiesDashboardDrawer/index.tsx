@@ -3,11 +3,14 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { RecentActivitiesDashboardCard } from '../RecentActivitiesDashboardCard';
 import { recentActivitiesDashboardCardData } from '../RecentActivitiesDashboardCard/RecentActivitiesDashboardCard.data';
 import { v4 as uuidv4 } from 'uuid';
+import Divider from '@mui/material/Divider';
+import { useTheme } from '@emotion/react';
 
 function RecentActivitiesDashboardDrawer({
   isDrawerOpen,
   setIsDrawerOpen,
 }: any) {
+  const theme = useTheme();
   return (
     <>
       <CommonDrawer
@@ -25,17 +28,30 @@ function RecentActivitiesDashboardDrawer({
             <Typography variant="h5">Today</Typography>
           </Box>
           {recentActivitiesDashboardCardData?.map((item, index) => (
-            <Box key={uuidv4()} marginTop={1}>
-              <RecentActivitiesDashboardCard
-                icon={item?.icon}
-                recentActivity={item?.recentActivity}
-                recentActivityRequest={item?.recentActivityRequest}
-                recentActivityDateTime={item?.recentActivityDateTime}
-                isBorderBottom={
-                  recentActivitiesDashboardCardData?.length - 1 !== index
-                }
-              />
-            </Box>
+            <>
+              <Box key={uuidv4()} marginTop={1}>
+                <RecentActivitiesDashboardCard
+                  icon={item?.icon}
+                  recentActivity={item?.recentActivity}
+                  recentActivityRequest={item?.recentActivityRequest}
+                  recentActivityDateTime={item?.recentActivityDateTime}
+                  // isBorderBottom={
+                  //   recentActivitiesDashboardCardData?.length - 1 !== index
+                  // }
+                />
+              </Box>
+              {recentActivitiesDashboardCardData?.length - 1 !== index && (
+                <Divider
+                  orientation="vertical"
+                  sx={{
+                    borderRadius: '1rem',
+                    borderBottomWidth: '45px',
+                    marginLeft: '2.1rem',
+                    width: '6px',
+                  }}
+                />
+              )}
+            </>
           ))}{' '}
         </Box>
       </CommonDrawer>

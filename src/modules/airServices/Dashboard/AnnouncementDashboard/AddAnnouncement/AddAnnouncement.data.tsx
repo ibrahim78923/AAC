@@ -1,5 +1,5 @@
 import {
-  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFCheckbox,
   RHFDatePicker,
   RHFEditor,
@@ -8,37 +8,29 @@ import {
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
-export const createAnnouncementDashboardValidationSchema: any =
-  Yup?.object()?.shape({
-    title: Yup?.string()?.required('Field is Required'),
-    description: Yup?.string()?.trim(),
-    scheduleMeeting: Yup?.string(),
-    startDate: Yup?.date(),
-    endDate: Yup?.date(),
-    managedBy: Yup?.string()?.required('Field is Required'),
-    visibility: Yup?.string(),
-    notifyMember: Yup?.string(),
-    emailRecipients: Yup?.string(),
-    addMember: Yup?.string(),
-  });
+export const createAddAnnouncementValidationSchema: any = Yup?.object()?.shape({
+  title: Yup?.string()?.required('Required'),
+  description: Yup?.string()?.trim(),
+  notifyMembers: Yup?.string(),
+  managedById: Yup?.mixed()?.required('Required'),
+  vibilityId: Yup?.mixed()?.required('Required'),
+  additionalEmail: Yup?.string(),
+  addMember: Yup?.string(),
+});
 
-export const createAnnouncementDashboardDefaultValues: any = {
+export const createAddAnnouncementDefaultValues: any = {
   title: '',
   description: '',
-  scheduleMeeting: '',
   startDate: new Date(),
   endDate: new Date(),
-  managedBy: '',
-  visibility: '',
-  notifyMember: '',
-  emailRecipients: '',
+  notifyMembers: '',
+  additionalEmail: '',
   addMember: '',
 };
 
-const managedBy = ['James Harry'];
 
-const visiBility = ['Select', 'All agent', 'Everyone'];
-export const createAnnouncementDashboardDataArray = [
+
+export const createAddAnnouncementDataArray = (departmentDropdown: any,userDropdown:any) => [
   {
     id: 1,
     componentProps: {
@@ -77,7 +69,7 @@ export const createAnnouncementDashboardDataArray = [
       name: 'startDate',
       label: 'Start Date',
       fullWidth: true,
-      required: true,
+      disabled: true,
     },
     component: RHFDatePicker,
     md: 6,
@@ -88,7 +80,7 @@ export const createAnnouncementDashboardDataArray = [
       name: 'endDate',
       label: 'End Date',
       fullWidth: true,
-      required: true,
+      disabled: true,
     },
     component: RHFDatePicker,
     md: 6,
@@ -96,32 +88,37 @@ export const createAnnouncementDashboardDataArray = [
   {
     id: 6,
     componentProps: {
-      name: 'managedBy',
+      name: 'managedById',
       label: 'Managed By',
       placeholder: 'Select',
       fullWidth: true,
-      options: managedBy,
+      apiQuery: userDropdown,
+      required: true,
+      getOptionLabel: (option: any) =>
+      option?.firstName + ' ' + option?.lastName,
+      
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
     id: 7,
     componentProps: {
-      name: 'visibility',
+      name: 'vibilityId',
       label: 'Visibility',
       placeholder: 'Select',
       fullWidth: true,
-      options: visiBility,
+      apiQuery: departmentDropdown,
+      required: true,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
 
   {
     id: 8,
     componentProps: {
-      name: 'notifyMember',
+      name: 'notifyMembers',
       label: 'Notify members via email',
       fullWidth: true,
     },
@@ -131,7 +128,7 @@ export const createAnnouncementDashboardDataArray = [
   {
     id: 9,
     componentProps: {
-      name: 'emailRecipients',
+      name: 'additionalEmail',
       label: 'Additional Email recipients',
       fullWidth: true,
       placeholder: 'Enter Value',
@@ -143,7 +140,7 @@ export const createAnnouncementDashboardDataArray = [
     id: 10,
     componentProps: {
       name: 'addMember',
-      label: 'Add Members',
+      label: 'Add Member',
       fullWidth: true,
       placeholder: 'Search agents and requesters',
     },
