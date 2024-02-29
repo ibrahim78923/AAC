@@ -38,7 +38,7 @@ export const KnowledgeBase = () => {
                 <KnowledgeBaseCard
                   folderId={option?._id}
                   name={option?.name}
-                  createdBy={'-----'}
+                  createdBy={option?.createdBy?.firstName}
                   createdDate={new Date(option?.createdAt).toLocaleDateString(
                     'en-GB',
                   )}

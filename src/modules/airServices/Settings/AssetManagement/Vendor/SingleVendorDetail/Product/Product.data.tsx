@@ -8,7 +8,7 @@ export const productColumns = (
   setEditData: any,
 ): any => [
   {
-    accessorFn: (row: any) => row?.vendor?.name,
+    accessorFn: (row: any) => row?.vendorproductcatalogsDetails?.name,
     id: 'productName',
     isSortable: true,
     header: 'Product Name',
