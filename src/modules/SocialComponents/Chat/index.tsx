@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
+  CircularProgress,
   Grid,
   Popover,
   Typography,
@@ -17,20 +18,32 @@ import Search from '@/components/Search';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
 
-import { options } from '@/mock/modules/SocialComponents/Chat';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   setChatMessages,
   setChatMessagesLoading,
   setChatMetaInfo,
 } from '@/redux/slices/chat/slice';
-import { useGetUserChatsQuery } from '@/services/chat';
-import { isNullOrEmpty } from '@/utils';
+import { useGetChatUsersQuery, useGetUserChatsQuery } from '@/services/chat';
+import { getSession, isNullOrEmpty } from '@/utils';
 import { styles } from './Chat.style';
 import { enqueueSnackbar } from 'notistack';
+import { UserDefault } from '@/assets/images';
 
 const Chat = () => {
   const dispatch: any = useAppDispatch();
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null,
+  );
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const theme = useTheme();
   const socket = useAppSelector((state) => state?.chat?.socket);
@@ -60,6 +73,18 @@ const Chat = () => {
     isGroup: chatMode === 'groupChat' ? true : false,
   });
 
+  const { user }: { user: any } = getSession();
+
+  const { data: chatsUsers, status: chatUsersStatus } = useGetChatUsersQuery({
+    params: {
+      organization: user?.organization?._id,
+      page: '1',
+      limit: '20',
+      role: user?.role,
+      search: searchTerm,
+    },
+  });
+
   const handleManualRefetch = () => {
     refetch();
   };
@@ -84,17 +109,13 @@ const Chat = () => {
     }
   }, [status]);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null,
-  );
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
+    id: item._id,
+    firstName: item.firstName,
+    lastName: item.lastName,
+    email: item.email,
+    src: UserDefault,
+  }));
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
@@ -136,7 +157,7 @@ const Chat = () => {
                 sx={{
                   background: theme?.palette?.common?.white,
                   width: '100%',
-                  height: '80vh',
+                  height: '85vh',
                   p: 2,
                   borderRadius: '20px',
                 }}
@@ -186,47 +207,57 @@ const Chat = () => {
             New Chat
           </Typography>
           <Search
+            label={'Search by name'}
             searchBy={searchTerm}
             setSearchBy={setSearchTerm}
-            label="Search By Name"
-            fullWidth
+            width="100%"
             size="small"
-            sx={{ marginBottom: '15px' }}
           />
           <Box sx={styles?.usersBox}>
-            {!isNullOrEmpty(options) &&
-              options?.map((item: any) => {
-                const isUserExists = chatContacts?.some(
-                  (chat: any) =>
-                    chat?.participants?.some(
-                      (participant: any) => participant?._id === item?.id,
-                    ),
-                );
-                return (
-                  <Button
-                    key={uuidv4()}
-                    sx={styles?.userCard}
-                    onClick={() =>
-                      isUserExists
-                        ? handelUserExists()
-                        : handelNewUserChat(item)
-                    }
-                  >
-                    <Image
-                      width={30}
-                      height={30}
-                      src={item?.src}
-                      alt={item?.name}
-                    />
-                    <Typography
-                      variant="body2"
-                      color={theme?.palette?.grey[600]}
-                    >
-                      {item?.firstName}&nbsp;{item?.lastName}
-                    </Typography>
-                  </Button>
-                );
-              })}
+            {chatUsersStatus === 'pending' ? (
+              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <CircularProgress />
+              </Box>
+            ) : (
+              <>
+                {!isNullOrEmpty(transformedData) ? (
+                  transformedData?.map((item: any) => {
+                    const isUserExists = chatContacts?.some(
+                      (chat: any) =>
+                        chat?.participants?.some(
+                          (participant: any) => participant?._id === item?.id,
+                        ),
+                    );
+                    return (
+                      <Button
+                        key={uuidv4()}
+                        sx={styles?.userCard}
+                        onClick={() =>
+                          isUserExists
+                            ? handelUserExists()
+                            : handelNewUserChat(item)
+                        }
+                      >
+                        <Image
+                          width={30}
+                          height={30}
+                          src={item?.src}
+                          alt={item?.name}
+                        />
+                        <Typography
+                          variant="body2"
+                          color={theme?.palette?.grey[600]}
+                        >
+                          {item?.firstName}&nbsp;{item?.lastName}
+                        </Typography>
+                      </Button>
+                    );
+                  })
+                ) : (
+                  <>No Data Found</>
+                )}
+              </>
+            )}
           </Box>
         </Box>
       </Popover>

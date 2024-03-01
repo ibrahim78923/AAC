@@ -53,6 +53,15 @@ export const taskApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getTaskDetails: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.TICKET}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 

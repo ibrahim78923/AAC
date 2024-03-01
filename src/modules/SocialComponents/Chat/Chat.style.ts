@@ -2,7 +2,7 @@ export const styles = {
   leftWrapper: () => {
     return {
       backgroundColor: '#FFFFFF',
-      height: '80vh',
+      height: '85vh',
       border: '1.5px solid #e7e7e9',
       borderRadius: '8px',
       padding: '10px 0px',
@@ -19,6 +19,7 @@ export const styles = {
     return {
       height: '200px',
       overflow: 'scroll',
+      mt: 1,
     };
   },
   userCard: () => {
