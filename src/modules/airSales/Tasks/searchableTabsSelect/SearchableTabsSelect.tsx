@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   InputAdornment,
@@ -13,8 +13,6 @@ import Search from '../../../../components/Search';
 
 import { ArrowDownIcon } from '@/assets/icons';
 
-import { useFormContext, Controller } from 'react-hook-form';
-
 import { v4 as uuidv4 } from 'uuid';
 import {
   useGetCreateTaskCompaniesQuery,
@@ -22,9 +20,31 @@ import {
   useGetCreateTaskDealsQuery,
   useGetCreateTaskTicketsQuery,
 } from '@/services/airSales/task';
+import CustomLabel from '@/components/CustomLabel';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import {
+  setCompaniesSelectedIds,
+  setContactsSelectedIds,
+  setDealsSelectedIds,
+  setTicketsSelectedIds,
+} from '@/redux/slices/taskManagement/taskManagementSlice';
 
-export default function SearchableTabsSelect({ name, ...other }: any) {
-  const { control } = useFormContext();
+const SearchableTabsSelect = ({ required, ...other }: any) => {
+  const dispatch: any = useAppDispatch();
+
+  const contactsSelectedIds = useAppSelector(
+    (state: any) => state?.task?.contactsSelectedIds,
+  );
+  const dealsSelectedIds = useAppSelector(
+    (state: any) => state?.task?.dealsSelectedIds,
+  );
+  const ticketsSelectedIds = useAppSelector(
+    (state: any) => state?.task?.ticketsSelectedIds,
+  );
+  const companiesSelectedIds = useAppSelector(
+    (state: any) => state?.task?.companiesSelectedIds,
+  );
+
   const [activeSidebarItem, setActiveSidebarItem] = useState('associations');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -112,208 +132,130 @@ export default function SearchableTabsSelect({ name, ...other }: any) {
     setAnchorEl(null);
   };
 
-  const [contactsSelectedIds, setContactsSelectedIds] = useState<any>([]);
-  const [companiesSelectedIds, setCompaniesSelectedIds] = useState<string[]>(
-    [],
-  );
-  const [dealsSelectedIds, setDealsSelectedIds] = useState<string[]>([]);
-  const [ticketsSelectedIds, setTicketsSelectedIds] = useState<string[]>([]);
-
   const handleCheckboxContacts = (item: any) => {
-    setContactsSelectedIds((prevSelectedItems: any) => {
-      const itemId = item.id;
-      if (
-        prevSelectedItems.some(
-          (selectedItem: any) => selectedItem.id === itemId,
-        )
-      ) {
-        return prevSelectedItems.filter(
-          (selectedItem: any) => selectedItem.id !== itemId,
-        );
-      } else {
-        return [...prevSelectedItems, item];
-      }
-    });
+    dispatch(setContactsSelectedIds(item));
   };
   const handleCheckboxCompanies = (item: any) => {
-    setCompaniesSelectedIds((prevSelectedItems: any) => {
-      const itemId = item.id;
-      if (
-        prevSelectedItems.some(
-          (selectedItem: any) => selectedItem.id === itemId,
-        )
-      ) {
-        return prevSelectedItems.filter(
-          (selectedItem: any) => selectedItem.id !== itemId,
-        );
-      } else {
-        return [...prevSelectedItems, item];
-      }
-    });
+    dispatch(setCompaniesSelectedIds(item));
   };
   const handleCheckboxDeals = (item: any) => {
-    setDealsSelectedIds((prevSelectedItems: any) => {
-      const itemId = item.id;
-      if (
-        prevSelectedItems.some(
-          (selectedItem: any) => selectedItem.id === itemId,
-        )
-      ) {
-        return prevSelectedItems.filter(
-          (selectedItem: any) => selectedItem.id !== itemId,
-        );
-      } else {
-        return [...prevSelectedItems, item];
-      }
-    });
+    dispatch(setDealsSelectedIds(item));
   };
   const handleCheckboxTickets = (item: any) => {
-    setTicketsSelectedIds((prevSelectedItems: any) => {
-      const itemId = item.id;
-      if (
-        prevSelectedItems.some(
-          (selectedItem: any) => selectedItem.id === itemId,
-        )
-      ) {
-        return prevSelectedItems.filter(
-          (selectedItem: any) => selectedItem.id !== itemId,
-        );
-      } else {
-        return [...prevSelectedItems, item];
-      }
-    });
+    dispatch(setTicketsSelectedIds(item));
   };
 
-  useEffect(() => {
-    // clearErrors(name);
-    // setValue(name, contactsSelectedIds)
-  }, [contactsSelectedIds]);
-
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field, fieldState: { error } }) => (
-        <>
-          <TextField
-            {...field}
-            fullWidth
-            error={!!error}
-            helperText={error?.message}
-            {...other}
-            value={contactsSelectedIds.map((item: any) => item?.label)}
-            placeholder="Select"
-            onClick={handleClick}
-            InputProps={{
-              // inputRef: inputRef,
-              endAdornment: (
-                <InputAdornment position="start">
-                  <ArrowDownIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-            PaperProps={{
-              style: {
-                width: anchorEl ? anchorEl.clientWidth : 'auto',
-                padding: '10px',
-              },
-            }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  {tabsData.map((item) => (
-                    <Button
-                      key={uuidv4()}
-                      sx={{
-                        fontWeight: '400',
-                        justifyContent: 'start',
-                        paddingLeft: '10px',
-                        backgroundColor:
-                          activeSidebarItem === item.value ? '#EBFAF8' : '',
-                        color:
-                          activeSidebarItem === item.value ? '#38CAB5' : '#000',
-                        borderLeft: `3px solid ${
-                          activeSidebarItem === item.value
-                            ? '#38CAB5'
-                            : 'transparent'
-                        }`,
-                      }}
-                      onClick={() => setActiveSidebarItem(item.value)}
-                    >
-                      {item?.label}
-                    </Button>
-                  ))}
-                </Box>
-              </Grid>
-              <Grid item xs={8}>
-                <Box>
-                  <Search
-                    searchBy={'Name'}
-                    label=""
-                    size="small"
-                    width="100%"
+    <>
+      {other?.label && <CustomLabel label={other?.label} required={required} />}
+      <TextField
+        fullWidth
+        {...other}
+        placeholder="Select Option"
+        onClick={handleClick}
+        label=""
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="start">
+              <ArrowDownIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+        PaperProps={{
+          style: {
+            width: anchorEl ? anchorEl.clientWidth : 'auto',
+            padding: '10px',
+          },
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              {tabsData.map((item: any) => (
+                <Button
+                  key={uuidv4()}
+                  sx={{
+                    fontWeight: '400',
+                    justifyContent: 'start',
+                    paddingLeft: '10px',
+                    backgroundColor:
+                      activeSidebarItem === item.value ? '#EBFAF8' : '',
+                    color:
+                      activeSidebarItem === item.value ? '#38CAB5' : '#000',
+                    borderLeft: `3px solid ${
+                      activeSidebarItem === item?.value
+                        ? '#38CAB5'
+                        : 'transparent'
+                    }`,
+                  }}
+                  onClick={() => setActiveSidebarItem(item?.value)}
+                >
+                  {item?.label}
+                </Button>
+              ))}
+            </Box>
+          </Grid>
+          <Grid item xs={8}>
+            <Box>
+              <Search searchBy={'Name'} label="" size="small" width="100%" />
+              <Box sx={{ maxHeight: '300px', overflow: 'scroll' }}>
+                {(activeSidebarItem === 'contacts' ||
+                  activeSidebarItem === 'associations') && (
+                  <TabsContentSection
+                    title="Contacts"
+                    dataArray={contactsDataArray}
+                    selectedIds={contactsSelectedIds ?? []}
+                    handelChange={handleCheckboxContacts}
+                    activeSidebarItem={activeSidebarItem}
                   />
-                  <Box sx={{ maxHeight: '300px', overflow: 'scroll' }}>
-                    {(activeSidebarItem === 'contacts' ||
-                      activeSidebarItem === 'associations') && (
-                      <TabsContentSection
-                        title="Contacts"
-                        dataArray={contactsDataArray}
-                        selectedIds={contactsSelectedIds}
-                        handelChange={handleCheckboxContacts}
-                        activeSidebarItem={activeSidebarItem}
-                      />
-                    )}
-                    {(activeSidebarItem === 'companies' ||
-                      activeSidebarItem === 'associations') && (
-                      <TabsContentSection
-                        title="Companies"
-                        dataArray={companiesDataArray}
-                        selectedIds={companiesSelectedIds}
-                        handelChange={handleCheckboxCompanies}
-                        activeSidebarItem={activeSidebarItem}
-                      />
-                    )}
-                    {(activeSidebarItem === 'deals' ||
-                      activeSidebarItem === 'associations') && (
-                      <TabsContentSection
-                        title="Deals"
-                        dataArray={dealsDataArray}
-                        selectedIds={dealsSelectedIds}
-                        handelChange={handleCheckboxDeals}
-                        activeSidebarItem={activeSidebarItem}
-                      />
-                    )}
-                    {(activeSidebarItem === 'tickets' ||
-                      activeSidebarItem === 'associations') && (
-                      <TabsContentSection
-                        title="Tickets"
-                        dataArray={ticketsDataArray}
-                        selectedIds={ticketsSelectedIds}
-                        handelChange={handleCheckboxTickets}
-                        activeSidebarItem={activeSidebarItem}
-                      />
-                    )}
-                  </Box>
-                </Box>
-              </Grid>
-            </Grid>
-          </Menu>
-        </>
-      )}
-    />
+                )}
+                {(activeSidebarItem === 'companies' ||
+                  activeSidebarItem === 'associations') && (
+                  <TabsContentSection
+                    title="Companies"
+                    dataArray={companiesDataArray}
+                    selectedIds={companiesSelectedIds}
+                    handelChange={handleCheckboxCompanies}
+                    activeSidebarItem={activeSidebarItem}
+                  />
+                )}
+                {(activeSidebarItem === 'deals' ||
+                  activeSidebarItem === 'associations') && (
+                  <TabsContentSection
+                    title="Deals"
+                    dataArray={dealsDataArray}
+                    selectedIds={dealsSelectedIds}
+                    handelChange={handleCheckboxDeals}
+                    activeSidebarItem={activeSidebarItem}
+                  />
+                )}
+                {(activeSidebarItem === 'tickets' ||
+                  activeSidebarItem === 'associations') && (
+                  <TabsContentSection
+                    title="Tickets"
+                    dataArray={ticketsDataArray}
+                    selectedIds={ticketsSelectedIds}
+                    handelChange={handleCheckboxTickets}
+                    activeSidebarItem={activeSidebarItem}
+                  />
+                )}
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
+      </Menu>
+    </>
   );
-}
+};
 
 const TabsContentSection = ({
   dataArray,
@@ -337,16 +279,13 @@ const TabsContentSection = ({
       >
         {dataArray?.map((item: any) => {
           return (
-            <>
+            <Box key={uuidv4()}>
               {activeSidebarItem === 'associations' ? (
                 <>
                   {selectedIds?.some(
                     (selectedItem: any) => selectedItem?.id === item?.id,
                   ) && (
-                    <Box
-                      sx={{ display: 'flex', alignItems: 'center' }}
-                      key={uuidv4()}
-                    >
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       <Checkbox
                         checked={selectedIds?.some(
                           (selectedItem: any) => selectedItem?.id === item?.id,
@@ -355,30 +294,29 @@ const TabsContentSection = ({
                           handelChange(item);
                         }}
                       />
-                      <Typography key={uuidv4()}>{item?.label}</Typography>
+                      <Typography>{item?.label}</Typography>
                     </Box>
                   )}
                 </>
               ) : (
                 <>
-                  <Box
-                    sx={{ display: 'flex', alignItems: 'center' }}
-                    key={uuidv4()}
-                  >
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Checkbox
                       checked={selectedIds?.some(
                         (selectedItem: any) => selectedItem?.id === item?.id,
                       )}
                       onChange={() => handelChange(item)}
                     />
-                    <Typography key={uuidv4()}>{item?.label}</Typography>
+                    <Typography>{item?.label}</Typography>
                   </Box>
                 </>
               )}
-            </>
+            </Box>
           );
         })}
       </Box>
     </Box>
   );
 };
+
+export default SearchableTabsSelect;
