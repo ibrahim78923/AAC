@@ -8,6 +8,7 @@ import {
   Typography,
   Button,
   Grid,
+  useTheme,
 } from '@mui/material';
 import Search from '../../../../components/Search';
 
@@ -28,10 +29,12 @@ import {
   setDealsSelectedIds,
   setTicketsSelectedIds,
 } from '@/redux/slices/taskManagement/taskManagementSlice';
-import { tabsData } from './searchableTabSelect.data';
+import { tabsData } from './SearchableTabSelect.data';
 
 const SearchableTabsSelect = ({ required, ...other }: any) => {
   const dispatch: any = useAppDispatch();
+
+  const theme = useTheme();
 
   const contactsSelectedIds = useAppSelector(
     (state: any) => state?.task?.contactsSelectedIds,
@@ -166,9 +169,13 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                     justifyContent: 'start',
                     paddingLeft: '10px',
                     backgroundColor:
-                      activeSidebarItem === item.value ? '#EBFAF8' : '',
+                      activeSidebarItem === item?.value
+                        ? theme?.palette?.primary?.light
+                        : '',
                     color:
-                      activeSidebarItem === item.value ? '#38CAB5' : '#000',
+                      activeSidebarItem === item?.value
+                        ? theme?.palette?.primary?.main
+                        : theme?.palette?.common?.black,
                     borderLeft: `3px solid ${
                       activeSidebarItem === item?.value
                         ? '#38CAB5'

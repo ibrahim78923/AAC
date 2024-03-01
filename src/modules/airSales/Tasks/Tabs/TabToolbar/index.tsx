@@ -15,15 +15,14 @@ import { styles } from './TabToobar.style';
 import { useAppSelector } from '@/redux/store';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CreateTask from '../../CreateTask';
+import { menuItems } from './TabToolbar.data';
 
 const TabToolbar = () => {
   const theme = useTheme();
 
   const [isCreateTaskDrawerOpen, setIsCreateTaskDrawerOpen] = useState(false);
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null,
-  );
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -46,25 +45,6 @@ const TabToolbar = () => {
     changeStatus: () => alert('changeStatus'),
     delete: () => alert('delete'),
   };
-
-  const menuItems = [
-    {
-      item: 'Edit',
-      name: 'edit',
-    },
-    {
-      item: 'View Activity',
-      name: 'viewActivity',
-    },
-    {
-      item: 'Change Status',
-      name: 'changeStatus',
-    },
-    {
-      item: 'Delete',
-      name: 'delete',
-    },
-  ];
 
   return (
     <>

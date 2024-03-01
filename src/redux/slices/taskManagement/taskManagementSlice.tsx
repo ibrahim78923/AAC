@@ -38,9 +38,9 @@ const taskManagementSlice = createSlice({
       );
 
       if (existingItemIndex !== -1) {
-        state.contactsSelectedIds?.splice(existingItemIndex, 1);
+        state?.contactsSelectedIds?.splice(existingItemIndex, 1);
       } else {
-        state.contactsSelectedIds?.push(newItem);
+        state?.contactsSelectedIds?.push(newItem);
       }
     },
     setCompaniesSelectedIds: (state: any, action: PayloadAction<any>) => {

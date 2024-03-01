@@ -42,13 +42,13 @@ const useCreateTask = ({ creationMode }: any) => {
         await postCreateTask({
           body: {
             ...values,
-            dueDate: dayjs(values?.dueDate).format(DATE_FORMAT.API),
+            dueDate: dayjs(values?.dueDate)?.format(DATE_FORMAT?.API),
             time: '00:00',
             associate: 'Companies',
-            companiesIds: companiesSelectedIds.map((ele: any) => ele.id),
-            dealsIds: dealsSelectedIds.map((ele: any) => ele.id),
-            ticketsIds: ticketsSelectedIds.map((ele: any) => ele.id),
-            contactsIds: contactsSelectedIds.map((ele: any) => ele.id),
+            companiesIds: companiesSelectedIds?.map((ele: any) => ele?.id),
+            dealsIds: dealsSelectedIds?.map((ele: any) => ele?.id),
+            ticketsIds: ticketsSelectedIds?.map((ele: any) => ele?.id),
+            contactsIds: contactsSelectedIds?.map((ele: any) => ele?.id),
           },
         }).unwrap();
         enqueueSnackbar('Task Created Successfully', {

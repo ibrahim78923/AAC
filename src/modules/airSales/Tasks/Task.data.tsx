@@ -7,7 +7,7 @@ import {
 } from '@/components/ReactHookForm';
 import { Checkbox } from '@mui/material';
 import * as Yup from 'yup';
-import SearchableTabsSelect from '@/modules/airSales/Tasks/searchableTabsSelect';
+import SearchableTabsSelect from '@/modules/airSales/Tasks/SearchableTabsSelect';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setSelectedTaskIds } from '@/redux/slices/taskManagement/taskManagementSlice';
 
@@ -321,7 +321,7 @@ export const TasksData = () => {
       cell: (info?: any) => info?.getValue(),
     },
     {
-      accessorFn: (row?: any) => row?.associate, // TODO Need to discuss
+      accessorFn: (row?: any) => row?.name, // TODO Need to discuss
       id: 'associate',
       isSortable: true,
       header: 'Linked Company',
