@@ -28,9 +28,10 @@ export const createAddAnnouncementDefaultValues: any = {
   addMember: '',
 };
 
-
-
-export const createAddAnnouncementDataArray = (departmentDropdown: any,userDropdown:any) => [
+export const createAddAnnouncementDataArray = (
+  departmentDropdown: any,
+  userDropdown: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -95,8 +96,7 @@ export const createAddAnnouncementDataArray = (departmentDropdown: any,userDropd
       apiQuery: userDropdown,
       required: true,
       getOptionLabel: (option: any) =>
-      option?.firstName + ' ' + option?.lastName,
-      
+        option?.firstName + ' ' + option?.lastName,
     },
     component: RHFAutocompleteAsync,
     md: 12,

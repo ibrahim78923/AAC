@@ -4,7 +4,7 @@ import { Box, Button, Typography } from '@mui/material';
 import AddNewAssetTypesModal from '../AddNewAssetTypesModal';
 import { useHeader } from './useHeader';
 
-const Header = () => {
+const Header = (props: any) => {
   const {
     router,
     handleSubmitAddForm,
@@ -12,7 +12,7 @@ const Header = () => {
     openAddNewAssetTypesModal,
     setOpenAddNewAssetTypesModal,
     isLoading,
-  } = useHeader();
+  } = useHeader(props);
   return (
     <>
       <Box

@@ -226,13 +226,15 @@ export const END_POINTS = {
   PURCHASE_ORDER: `/assets/purchaseorder`,
   GET_SINGLE_ASSETS_CONTRACT: '/contract/get-contract',
   GET_DASHBOARD_TICKETS: '/air-services-dashboard/tickets',
-  DASHBOARD_ANNOUNCEMENTS:'/air-services-dashboard/dashboard-annoucement',
-  DASHBOARD_ANNOUNCEMENTS_CUSTOMER:'/air-services-dashboard/get-all-customer-announcment',
+  GET_DASHBOARD_CARDS_TICKETS: '/air-services-dashboard/dashboard-tickets',
+  DASHBOARD_ANNOUNCEMENTS: '/air-services-dashboard/dashboard-annoucement',
+  DASHBOARD_ANNOUNCEMENTS_CUSTOMER:
+    '/air-services-dashboard/get-all-customer-announcment',
   ADD_APPROVALS_TICKETS: `/ticket/add-ticket-approval`,
   GET_APPROVAL_TICKETS: `/ticket/get-tickets-approval`,
   UPDATE_APPROVAL_TICKETS: `/ticket/edit-ticket-approval`,
   GET_UNAPPROVED_ARTICLES: `/articles/unapproved-articles`,
-  
+
   ADD_WORKLOAD_SCHEDULE: `/Work-Shchedule/add-work-shchedule`,
   EDIT_WORKLOAD_SCHEDULE: `/Work-Shchedule/edit-work-shchedule`,
   DELETE_WORKLOAD_SCHEDULE: `/Work-Shchedule/delete-work-shchedule`,

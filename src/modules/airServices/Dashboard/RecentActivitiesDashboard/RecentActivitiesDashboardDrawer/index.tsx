@@ -4,13 +4,11 @@ import { RecentActivitiesDashboardCard } from '../RecentActivitiesDashboardCard'
 import { recentActivitiesDashboardCardData } from '../RecentActivitiesDashboardCard/RecentActivitiesDashboardCard.data';
 import { v4 as uuidv4 } from 'uuid';
 import Divider from '@mui/material/Divider';
-import { useTheme } from '@emotion/react';
 
 function RecentActivitiesDashboardDrawer({
   isDrawerOpen,
   setIsDrawerOpen,
 }: any) {
-  const theme = useTheme();
   return (
     <>
       <CommonDrawer
@@ -35,9 +33,6 @@ function RecentActivitiesDashboardDrawer({
                   recentActivity={item?.recentActivity}
                   recentActivityRequest={item?.recentActivityRequest}
                   recentActivityDateTime={item?.recentActivityDateTime}
-                  // isBorderBottom={
-                  //   recentActivitiesDashboardCardData?.length - 1 !== index
-                  // }
                 />
               </Box>
               {recentActivitiesDashboardCardData?.length - 1 !== index && (

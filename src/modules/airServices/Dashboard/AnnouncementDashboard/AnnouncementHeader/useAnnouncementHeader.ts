@@ -40,7 +40,6 @@ export const useAnnouncementHeader = () => {
       const postAnnouncementParameter = {
         body: payload,
       };
-      console.log(data);
 
       await addAnnouncements(postAnnouncementParameter).unwrap();
       successSnackbar('Announcements added successfully.');
