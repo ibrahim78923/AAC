@@ -28,8 +28,8 @@ export const RecentTickets = () => {
         <ApiErrorState height={'100%'} />
       ) : (
         <Box my={1}>
-          {!!data?.data?.articles?.length ? (
-            data?.data?.articles?.map((ticket: any) => (
+          {!!data?.data?.length ? (
+            data?.data?.map((ticket: any) => (
               <Box
                 key={ticket?._id}
                 sx={{
@@ -42,10 +42,23 @@ export const RecentTickets = () => {
                   flexWrap: 'wrap',
                   gap: 1,
                   justifyContent: 'space-between',
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  router?.push({
+                    pathname: AIR_CUSTOMER_PORTAL?.SINGLE_TICKETS,
+                    query: {
+                      id: ticket?._id,
+                    },
+                  });
                 }}
               >
                 <Box>
-                  <Typography fontWeight={600} color={palette?.blue?.main}>
+                  <Typography
+                    fontWeight={600}
+                    variant="body2"
+                    color={'blue.main'}
+                  >
                     {ticket?.subject}
                   </Typography>
                   <Box
@@ -54,11 +67,16 @@ export const RecentTickets = () => {
                       alignItems: 'center',
                       flexWrap: 'wrap',
                       gap: 1,
+                      my: 0.5,
                     }}
                   >
-                    <Avatar src={ticket?.icon} />
+                    <Avatar
+                      src={ticket?.icon}
+                      sx={{ bgcolor: 'blue.main', width: 25, height: 25 }}
+                    />
                     <Typography
-                      color={palette?.blue?.main}
+                      variant="body2"
+                      color={'blue.main'}
                       fontWeight={500}
                     >{` ${
                       ticket?.ticketType === TICKET_TYPE?.INC
@@ -67,9 +85,9 @@ export const RecentTickets = () => {
                     } ${ticket?.ticketIdNumber}`}</Typography>
                   </Box>
                   <Typography
-                    color={palette?.blue?.main}
+                    variant="body2"
+                    color={'blue.main'}
                     fontWeight={500}
-                    pt={0.6}
                   >
                     {`Created On  ${dayjs(ticket?.CreatedAt)?.format(
                       DATE_FORMAT?.UI,
@@ -77,6 +95,7 @@ export const RecentTickets = () => {
                     <Typography
                       component="span"
                       fontWeight={500}
+                      variant="body2"
                       color="primary.main"
                     >
                       {!!ticket?.source ? `- Via ${ticket?.source}` : ''}
@@ -84,7 +103,7 @@ export const RecentTickets = () => {
                   </Typography>
                 </Box>
                 <Chip
-                  label={'Processing'}
+                  label={ticket?.status}
                   sx={{
                     backgroundColor: 'grey.400',
                     color: 'slateBlue.main',

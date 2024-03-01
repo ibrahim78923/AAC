@@ -26,22 +26,20 @@ import { AlertModals } from '@/components/AlertModals';
 import useInvoices from '../../../useInvoices';
 import { v4 as uuidv4 } from 'uuid';
 import { ArrowDownIcon } from '@/assets/icons';
-import useProductTable from './useProductTable';
 
-const ProductsTable = () => {
+const ProductsTable = (data: any) => {
   const [isDiscount, setIsDiscount] = useState(false);
   const theme = useTheme();
   const { isDeleteModal, setIsDeleteModal, isDrawerOpen, setIsDrawerOpen } =
     useInvoices();
   const getTableColumns = productsTableColumns();
-  const { cardData } = useProductTable();
   // setIsDeleteModal,
   // setIsDrawerOpen,
 
   return (
     <Box my={3}>
       <Box my={3}>
-        <TanstackTable columns={getTableColumns} data={cardData} />
+        <TanstackTable columns={getTableColumns} data={data} />
       </Box>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={7} lg={8} xl={9}>

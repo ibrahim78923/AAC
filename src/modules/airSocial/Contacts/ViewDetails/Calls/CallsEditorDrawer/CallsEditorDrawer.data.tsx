@@ -21,6 +21,7 @@ export const dealsCallsDefaultValues = {
 
 export const dealsCallsDataArray = [
   {
+    id: 'title',
     componentProps: {
       name: 'title',
       label: 'Title',
@@ -30,6 +31,7 @@ export const dealsCallsDataArray = [
     md: 12,
   },
   {
+    id: 'startdate',
     componentProps: {
       name: 'startdate',
       label: 'Start Date',
@@ -39,6 +41,7 @@ export const dealsCallsDataArray = [
     md: 6,
   },
   {
+    id: 'starttime',
     componentProps: {
       name: 'starttime',
       label: 'Start Time',
@@ -48,6 +51,7 @@ export const dealsCallsDataArray = [
     md: 6,
   },
   {
+    id: 'enddate',
     componentProps: {
       name: 'enddate',
       label: '  End Date',
@@ -57,6 +61,7 @@ export const dealsCallsDataArray = [
     md: 6,
   },
   {
+    id: 'endtime',
     componentProps: {
       name: 'endtime',
       label: 'End Time',
@@ -66,21 +71,19 @@ export const dealsCallsDataArray = [
     md: 6,
   },
   {
+    id: 'owner',
     componentProps: {
       name: 'owner',
       label: 'Owner',
       fullWidth: true,
       select: true,
     },
-
     options: [
       { value: 'Guy Hawkins', label: 'Guy Hawkins' },
       { value: 'Jacob Jones', label: 'Jacob Jones' },
       { value: 'Courtney Henry', label: 'Courtney Henry' },
     ],
-
     component: RHFSelect,
-
     md: 12,
   },
 ];

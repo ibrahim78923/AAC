@@ -10,6 +10,8 @@ import {
 } from './AddBankAccounts.data';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { CommonAPIS } from '@/services/common-APIs';
+import { getSession } from '@/utils';
 
 const useAddBankAccounts = (
   setIsOpenAddAccountDrawer: any,
@@ -17,8 +19,13 @@ const useAddBankAccounts = (
   setCheckedRows: any,
 ) => {
   const selectedUser = isOpenAddAccountDrawer?.data?._id;
-
+  const { user } = getSession();
   const { usePostReceiverBankAccountMutation } = receiversBankAccountsAPI;
+  const { useGetCompanyAccountsQuery } = CommonAPIS;
+
+  const { data: companyAccounts } = useGetCompanyAccountsQuery({
+    orgId: user?.organization?._id,
+  });
 
   const [postReceiverBankAccount]: any = usePostReceiverBankAccountMutation();
   const [updateReceiverBankAccount]: any =
@@ -49,8 +56,8 @@ const useAddBankAccounts = (
     setIsOpenAddAccountDrawer(false);
     enqueueSnackbar(
       isOpenAddAccountDrawer?.type === 'add'
-        ? 'Account added successfully'
-        : 'Account edited successfully',
+        ? 'Bank account added successfully'
+        : 'Bank account edited successfully',
       {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       },
@@ -59,10 +66,11 @@ const useAddBankAccounts = (
   };
 
   return {
-    methods,
+    postReceiverBankAccount,
+    companyAccounts,
     handleSubmit,
     onSubmit,
-    postReceiverBankAccount,
+    methods,
     reset,
   };
 };
