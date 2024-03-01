@@ -31,6 +31,7 @@ import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { getActivePermissionsSession } from '@/utils';
 import { IMG_URL } from '@/config';
+import useAuth from '@/hooks/useAuth';
 
 const ProductSuite = () => {
   const theme = useTheme();
