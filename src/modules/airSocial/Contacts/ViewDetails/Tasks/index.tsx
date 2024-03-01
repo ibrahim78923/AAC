@@ -11,6 +11,7 @@ import { columns } from './Tasks.data';
 
 const Tasks = ({ contactId }: any) => {
   const { openDrawer, setOpenDrawer } = useTasks(contactId);
+
   return (
     <Box
       sx={{
@@ -28,6 +29,7 @@ const Tasks = ({ contactId }: any) => {
             </Box>
           </Box>
         </Grid>
+
         <Grid item xs={12}>
           <TanstackTable columns={columns} data={TasksTableData} />
         </Grid>
