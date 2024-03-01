@@ -4,14 +4,13 @@ import {
 } from '@/services/airServices/tickets/single-ticket-details/approvals';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import {
   addRequestApprovalFormFieldsDynamic,
   addRequestApprovalValidationSchema,
-  defaultValues,
+  addRequestApprovalFormDefaultValues,
 } from './AddRequestApproval.data';
 import useAuth from '@/hooks/useAuth';
 
@@ -25,7 +24,7 @@ export const useAddRequestApproval = (props: any) => {
 
   const methods = useForm<any>({
     resolver: yupResolver(addRequestApprovalValidationSchema),
-    defaultValues,
+    defaultValues: addRequestApprovalFormDefaultValues,
   });
 
   const { handleSubmit, reset } = methods;
@@ -64,9 +63,6 @@ export const useAddRequestApproval = (props: any) => {
 
   return {
     methods,
-    addRequestApprovalValidationSchema,
-    defaultValues,
-    enqueueSnackbar,
     handleSubmit,
     onClose,
     onSubmit,
