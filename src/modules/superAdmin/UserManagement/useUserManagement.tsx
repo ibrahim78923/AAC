@@ -55,6 +55,7 @@ const useUserManagement = () => {
   const [updateUsers] = useUpdateUsersMutation();
   const { data: products } = useGetProductsQuery({});
   const { data: organizations } = useGetOrganizationsQuery({});
+
   const handleClick = (event: any) => {
     setSelectedValue(event?.currentTarget);
   };

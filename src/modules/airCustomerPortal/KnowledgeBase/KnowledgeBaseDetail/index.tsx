@@ -22,6 +22,7 @@ export const KnowledgeBaseDetail = () => {
     formatDateTime,
     isLoading,
     folderId,
+    folderName,
   } = useKnowledgeBaseDetail();
 
   return (
@@ -38,9 +39,7 @@ export const KnowledgeBaseDetail = () => {
         sx={{ cursor: 'pointer' }}
       >
         <ArrowBackIcon onClick={() => handleKnowledgeBase()} />
-        <Typography variant="h4">
-          Knowledge Base - {articlesData?.folder?.name}
-        </Typography>
+        <Typography variant="h4">Knowledge Base - {folderName}</Typography>
       </Box>
       <Box mt={2} mb={4}>
         <Search
@@ -59,8 +58,9 @@ export const KnowledgeBaseDetail = () => {
               articleId={item?._id}
               folderId={folderId}
               articlesTitle={item?.title}
+              folderName={folderName}
               modifiedDate={formatDateTime(item?.updatedAt)}
-              purposeDescription={'-----'}
+              purposeDescription={item?.folder?.description}
             />
           ))}
         </>

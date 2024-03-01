@@ -49,6 +49,7 @@ import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS } from '@/routesConstants/paths';
+import { ROLES } from '@/constants/strings';
 
 const drawerWidth = 230;
 
@@ -90,19 +91,16 @@ const drawerWidth = 230;
 const DashboardLayout = ({ children, window }: any) => {
   const theme = useTheme();
 
-  const { product }: any = useAuth();
-
   const router = useRouter();
 
-  const findEmailRole = product?.name ?? 'Super Admin';
-
-  // const { user }: { user: any } = getSession();
-  // const findRoleByEmail = ({ user, array }: any) => {
-  //   return array?.find((skill: any) => skill?.email === user?.email);
-  // };
+  const { user }: { user: any } = getSession();
+  //   const findRoleByEmail = ({ user, array }: any) => {
+  //     return array?.find((skill: any) => skill?.email === user?.email);
+  //   };
 
   // const findEmail: any = findRoleByEmail({ user, array });
-  // const findEmailRole = findEmail ? findEmail?.role : 'AIR_SERVICES';
+
+  const findEmailRole = user ? user?.role : ROLES?.SUPER_ADMIN;
 
   const routes = getRoutes(findEmailRole);
 

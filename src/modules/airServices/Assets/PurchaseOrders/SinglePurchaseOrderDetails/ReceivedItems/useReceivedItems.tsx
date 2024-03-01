@@ -92,6 +92,7 @@ export const useReceivedItems = (props: any) => {
       errorSnackbar();
     }
     setErrorOccurred(false);
+    method?.reset?.();
   };
 
   return {
