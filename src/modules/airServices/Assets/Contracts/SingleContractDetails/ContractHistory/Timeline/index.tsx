@@ -1,3 +1,4 @@
+import { CALENDAR_FORMAT, DATE_TIME_FORMAT } from '@/constants';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box, Button, Divider, IconButton, Typography } from '@mui/material';
 import { useTheme } from '@mui/material';
@@ -31,7 +32,7 @@ export const Timeline = ({ data, timelineIndex }: any) => {
       )}
       <Box display={'flex'} flexWrap={'wrap'} gap={1.25}>
         <Typography variant="body4" sx={{ flex: 0.15 }} pt={1}>
-          {dayjs(data?.startDate)?.format('ddd, D MMM, YYYY h:mm A')}
+          {dayjs(data?.startDate)?.format(DATE_TIME_FORMAT?.DDMYHMA)}
         </Typography>
         <Box>
           <IconButton
@@ -53,12 +54,12 @@ export const Timeline = ({ data, timelineIndex }: any) => {
             {data?.status}
           </Typography>
           <Typography variant="body2" fontWeight={600}>
-            {dayjs(data?.startDate, 'DDMMMYYYY')
-              ?.format('D MMMM, YYYY')
+            {dayjs(data?.startDate, DATE_TIME_FORMAT?.DMY)
+              ?.format(CALENDAR_FORMAT?.UI)
               .toUpperCase()}{' '}
             to{' '}
-            {dayjs(data?.endDate, 'DDMMMYYYY')
-              ?.format('D MMMM, YYYY')
+            {dayjs(data?.endDate, DATE_TIME_FORMAT?.DMY)
+              ?.format(CALENDAR_FORMAT?.UI)
               ?.toUpperCase()}
           </Typography>
           <Box
