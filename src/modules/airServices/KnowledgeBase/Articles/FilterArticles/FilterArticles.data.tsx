@@ -2,10 +2,11 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
+import { ARTICLE_STATUS } from '@/constants/strings';
 
 const statusOption = [
-  { _id: 'DRAFT', label: 'DRAFT' },
-  { _id: 'PUBLISHED', label: 'PUBLISHED' },
+  { _id: ARTICLE_STATUS?.DRAFT, label: ARTICLE_STATUS?.DRAFT },
+  { _id: ARTICLE_STATUS?.PUBLISHED, label: ARTICLE_STATUS?.PUBLISHED },
 ];
 
 export const filterArticlesDataDefaultValues = (data?: any) => {
