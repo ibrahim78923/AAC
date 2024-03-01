@@ -89,6 +89,7 @@ export const TAGS = [
   'ASSETS_RECEIVED',
   'VENDOR_CONTRACT',
   'SOFTWARE_CONTRACTS',
+  'CONTRACT_HISTORY',
 ];
 
 const baseQuery = fetchBaseQuery({

@@ -1,19 +1,18 @@
 import { Grid } from '@mui/material';
 import NoData from '@/components/NoData';
-import { v4 as uuidv4 } from 'uuid';
 import { NoAssociationFoundImage } from '@/assets/images';
 import { Timeline } from './Timeline';
 import { useContractHistory } from './useContractHistory';
 
 export const ContractHistory = () => {
-  const { contractHistoryData } = useContractHistory();
+  const { contractHistory } = useContractHistory();
   return (
     <Grid container>
       <Grid item xs={12} md={0.5}></Grid>
       <Grid item xs={12} md={10.5}>
-        {!!contractHistoryData?.length ? (
-          contractHistoryData?.map((singleActivity: any) => (
-            <Timeline data={singleActivity} key={uuidv4()} />
+        {!!contractHistory?.length ? (
+          contractHistory?.map((singleActivity: any) => (
+            <Timeline data={singleActivity} key={singleActivity?._id} />
           ))
         ) : (
           <NoData
