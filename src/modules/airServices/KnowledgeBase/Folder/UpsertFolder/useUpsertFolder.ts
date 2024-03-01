@@ -1,17 +1,18 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  upsertValidationSchema,
-  upsertDefaultValues,
-} from './UpsertFolder.data';
+
 import { usePostFolderMutation } from '@/services/airServices/knowledge-base/articles';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  upsertFolderFormDefaultValues,
+  upsertFolderValidationSchema,
+} from './UpsertFolder.data';
 
 export const useUpsertFolder = (props: any) => {
   const { setOpenDialog } = props;
   const methods: any = useForm<any>({
-    resolver: yupResolver(upsertValidationSchema),
-    defaultValues: upsertDefaultValues,
+    resolver: yupResolver(upsertFolderValidationSchema),
+    defaultValues: upsertFolderFormDefaultValues,
   });
 
   const { handleSubmit, reset } = methods;

@@ -3,21 +3,21 @@ import {
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
 
-export const filterArticlesDataDefaultValues = (data?: any) => {
-  return {
-    status: data?.status?._id ?? null,
-    authorId: data?.authorId?._id ?? null,
-  };
-};
-
 const statusOption = [
   { _id: 'DRAFT', label: 'DRAFT' },
   { _id: 'PUBLISHED', label: 'PUBLISHED' },
 ];
 
+export const filterArticlesDataDefaultValues = (data?: any) => {
+  return {
+    status: data?.status ?? null,
+    authorId: data?.authorId ?? null,
+  };
+};
+
 export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
   {
-    id: '1',
+    id: 1,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -27,10 +27,9 @@ export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
       getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
-    md: 12,
   },
   {
-    id: '2',
+    id: 2,
     componentProps: {
       name: 'authorId',
       label: 'Author',
@@ -41,6 +40,5 @@ export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
-    md: 12,
   },
 ];
