@@ -4,12 +4,12 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import CommonDrawer from '@/components/CommonDrawer';
 import { AlertModals } from '@/components/AlertModals';
-import useTeamsTable from './useTeamsTable';
-import { styles } from './TeamsTable.style';
+import useTeamsTable from './useTeams';
+import { styles } from './Teams.style';
 import MemberDetails from './MemberDetails';
 import { v4 as uuidv4 } from 'uuid';
 
-const TeamsTable = () => {
+const Teams = () => {
   const {
     isTeamDrawer,
     setIsTeamDrawer,
@@ -126,4 +126,4 @@ const TeamsTable = () => {
   );
 };
 
-export default TeamsTable;
+export default Teams;

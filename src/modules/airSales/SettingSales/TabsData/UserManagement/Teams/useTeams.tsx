@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { columnsTeams } from './TeamsTable.data';
+import { columnsTeams } from './Teams.data';
 import { Theme, useTheme } from '@mui/material';
 import {
   useDeleteTeamsMutation,
@@ -43,11 +43,17 @@ const useTeamsTable = () => {
     setTeamId,
   );
 
-  const handleDeleteTeam = (id: any) => {
-    deleteTeams({ id: id });
-    enqueueSnackbar('Team deleted successfully', {
-      variant: 'success',
-    });
+  const handleDeleteTeam = async (id: any) => {
+    try {
+      await deleteTeams({ id: id })?.unwrap();
+      enqueueSnackbar('Team deleted successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
   };
 
   return {

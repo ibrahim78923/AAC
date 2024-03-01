@@ -27,7 +27,6 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
         return {
           url: END_POINTS?.SALES_TEAM,
           method: 'POST',
-
           body: body,
         };
       },

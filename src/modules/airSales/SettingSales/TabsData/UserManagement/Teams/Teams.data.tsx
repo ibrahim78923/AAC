@@ -3,8 +3,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { EditPenIcon } from '@/assets/icons';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
-
-import * as Yup from 'yup';
 import { UserAvatarImage } from '@/assets/images';
 
 export const columnsTeams = (
@@ -62,16 +60,6 @@ export const columnsTeams = (
       ),
     },
   ];
-};
-
-export const validationSchema = Yup?.object()?.shape({
-  teamName: Yup?.string()?.required('Field is Required'),
-  teamMember: Yup?.string()?.trim()?.required('Field is Required'),
-});
-
-export const defaultValues = {
-  teamName: '',
-  teamMember: '',
 };
 
 export const teamsDataArray = [
