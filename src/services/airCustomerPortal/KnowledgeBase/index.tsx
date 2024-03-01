@@ -27,6 +27,14 @@ export const knowledgeBaseAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    postArticleFeedback: builder?.mutation({
+      query: (articleFeedbackParameter: any) => ({
+        url: `${END_POINTS?.POST_ARTICLES_FEEDBACK}`,
+        method: 'POST',
+        body: articleFeedbackParameter,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -34,4 +42,5 @@ export const {
   useGetKnowledgeBaseFolderQuery,
   useGetAllKnowledgeBaseArticleQuery,
   useGetSingleKnowledgeBaseArticleQuery,
+  usePostArticleFeedbackMutation,
 } = knowledgeBaseAPI;

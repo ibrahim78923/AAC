@@ -182,6 +182,8 @@ export const END_POINTS = {
   DROPDOWN_ALL_ASSETS: '/dropdown/all-assets',
   ASSETS_INVENTORY_SOFTWARE: '/assets/get-inventory-software',
   DELETE_INVENTORY_SOFTWARE: '/assets/delete-software',
+  AGENT_REJECT_REQUEST: '/agent/reject-request',
+  APPROVED_REQUEST: '/agent/approve-request',
   ADD_SOFTWARE_USERS: '/assets/add-software-users',
   PATCH_INVENTORY_EXPENSE: '/expense/update-expense',
   DELETE_INVENTORY_EXPENSE: '/expense/delete-expense',
@@ -224,10 +226,15 @@ export const END_POINTS = {
   PURCHASE_ORDER: `/assets/purchaseorder`,
   GET_SINGLE_ASSETS_CONTRACT: '/contract/get-contract',
   GET_DASHBOARD_TICKETS: '/air-services-dashboard/tickets',
+  GET_DASHBOARD_CARDS_TICKETS: '/air-services-dashboard/dashboard-tickets',
+  DASHBOARD_ANNOUNCEMENTS: '/air-services-dashboard/dashboard-annoucement',
+  DASHBOARD_ANNOUNCEMENTS_CUSTOMER:
+    '/air-services-dashboard/get-all-customer-announcment',
   ADD_APPROVALS_TICKETS: `/ticket/add-ticket-approval`,
   GET_APPROVAL_TICKETS: `/ticket/get-tickets-approval`,
   UPDATE_APPROVAL_TICKETS: `/ticket/edit-ticket-approval`,
   GET_UNAPPROVED_ARTICLES: `/articles/unapproved-articles`,
+
   ADD_WORKLOAD_SCHEDULE: `/Work-Shchedule/add-work-shchedule`,
   EDIT_WORKLOAD_SCHEDULE: `/Work-Shchedule/edit-work-shchedule`,
   DELETE_WORKLOAD_SCHEDULE: `/Work-Shchedule/delete-work-shchedule`,
@@ -239,11 +246,17 @@ export const END_POINTS = {
   GET_RECEIVERS_BANK_ACCOUNTS: `/receiver-bank-account`,
   GET_CUSTOMER_DASHBOARD: `/air-services-dashboard/get-customer-dashboard-data`,
   GET_DROPDOWN_COMPANY: `/super-admin/company-list`,
+  GET_CUSTOMER_DASHBOARD_ANNOUNCEMENTS: `/air-services-dashboard/get-all-customer-announcment`,
   REQUEST_APPROVAL: `/assets/add-approver-order`,
   REQUEST_APPROVALS_LIST: `/assets/get-purchase-approvals-by-purchase-order`,
   PATCH_APPROVAL_STATUS: `/assets/approver-order-status`,
   ASSETS_RECEIVED: '/assets/get-purchaseorder-assets-received/{id}',
+  UPDATE_CONTRACT_SUBMIT_APPROVAL: '/contract/approval-request',
+  GET_CONTRACT_VENDOR_LIST: '/vendors/get-vendor-contracts',
+  POST_ARTICLES_FEEDBACK: '/articles/feedback',
   SOFTWARE_CONTRACTS: '/assets/get-software-contracts',
+  ADD_SOFTWARE: '/assets/add_software',
+  EDIT_SOFTWARE: '/assets/edit-software',
 };
 
 export const superAdminBillingInvoices = {

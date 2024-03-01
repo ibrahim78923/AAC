@@ -1,5 +1,5 @@
-import { Avatar, Box, Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { Avatar, Box, Checkbox } from '@mui/material';
 
 export const agentActionsDropdown = (handleActionClick: any) => [
   {
