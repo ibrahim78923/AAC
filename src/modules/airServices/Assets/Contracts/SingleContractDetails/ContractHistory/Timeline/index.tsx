@@ -3,10 +3,32 @@ import { Box, Button, Divider, IconButton, Typography } from '@mui/material';
 import { useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 
-export const Timeline = ({ data }: any) => {
+export const Timeline = ({ data, timelineIndex }: any) => {
   const theme = useTheme();
   return (
     <>
+      {timelineIndex !== 0 && (
+        <Box
+          display={'flex'}
+          flexWrap={'wrap'}
+          alignItems={'center'}
+          gap={1.3}
+          marginBottom={1.5}
+        >
+          <Box flex={0.15}></Box>
+          <Box></Box>
+          <Divider
+            orientation="vertical"
+            sx={{
+              borderRadius: '20px',
+              background: theme?.palette?.primary?.light,
+              width: '4px',
+              height: '49px',
+            }}
+          />
+          <Box flex={0.8}></Box>
+        </Box>
+      )}
       <Box display={'flex'} flexWrap={'wrap'} gap={1.25}>
         <Typography variant="body4" sx={{ flex: 0.15 }} pt={1}>
           {dayjs(data?.startDate)?.format('ddd, D MMM, YYYY h:mm A')}
@@ -75,26 +97,6 @@ export const Timeline = ({ data }: any) => {
             </Button>
           </Box>
         </Box>
-      </Box>
-      <Box
-        display={'flex'}
-        flexWrap={'wrap'}
-        alignItems={'center'}
-        gap={1.3}
-        marginBottom={1.5}
-      >
-        <Box flex={0.15}></Box>
-        <Box></Box>
-        <Divider
-          orientation="vertical"
-          sx={{
-            borderRadius: '20px',
-            background: theme?.palette?.primary?.light,
-            width: '4px',
-            height: '49px',
-          }}
-        />
-        <Box flex={0.8}></Box>
       </Box>
     </>
   );
