@@ -84,6 +84,7 @@ const Attachments = (companyId: any) => {
       <AttachmentsEditorDrawer
         openDrawer={openDrawer}
         setOpenDrawer={setOpenDrawer}
+        companyId={companyId}
       />
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
