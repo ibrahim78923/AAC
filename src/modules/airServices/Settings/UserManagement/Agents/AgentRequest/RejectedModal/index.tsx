@@ -18,7 +18,11 @@ const RejectedModal = (props: any) => {
     useRejectedModal(props);
   return (
     <>
-      <Dialog fullWidth open={openRejectedModal} onClose={handleCloseModal}>
+      <Dialog
+        fullWidth
+        open={openRejectedModal?.val}
+        onClose={handleCloseModal}
+      >
         <FormProvider
           methods={rejectedRequestMethods}
           onSubmit={rejectedRequestMethods?.handleSubmit?.(onSubmit)}

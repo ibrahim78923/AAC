@@ -25,6 +25,7 @@ export const useKnowledgeBaseTicketDetail = () => {
 
   const folderId = route?.query?.folderId;
   const singleArticleId = route?.query?.articleId;
+  const folderName = route?.query?.folderName;
   const relatedArticlesParams = {
     folderId: folderId,
   };
@@ -37,14 +38,13 @@ export const useKnowledgeBaseTicketDetail = () => {
   };
 
   const { data, isLoading } = useGetSingleKnowledgeBaseArticleQuery(params);
-
   const singleArticlesData = data?.data;
 
   const { push } = useRouter();
   const handlePageBack = () => {
     push({
       pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_DETAIL,
-      query: { folderId },
+      query: { folderId, folderName },
     });
   };
 

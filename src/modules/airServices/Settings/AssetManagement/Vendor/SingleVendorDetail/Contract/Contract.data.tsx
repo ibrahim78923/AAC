@@ -1,5 +1,6 @@
 import { Chip, Typography } from '@mui/material';
-import { format } from 'date-fns';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 export const contractColumns = [
   {
@@ -38,7 +39,7 @@ export const contractColumns = [
     ),
   },
   {
-    accessorFn: (row: any) => row?.statusRenewExtend,
+    accessorFn: (row: any) => row?.statusRenewExtend ?? '---',
     id: 'statusRenewExtend',
     isSortable: true,
     header: 'Renewal Status',
@@ -56,12 +57,6 @@ export const contractColumns = [
     id: 'endDate',
     isSortable: true,
     header: 'Expiry',
-    cell: (info: any) => {
-      const dateValue = info?.getValue();
-      if (dateValue) {
-        return format(new Date(dateValue), 'd MMM yyyy');
-      }
-      return null;
-    },
+    cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT.UI),
   },
 ];

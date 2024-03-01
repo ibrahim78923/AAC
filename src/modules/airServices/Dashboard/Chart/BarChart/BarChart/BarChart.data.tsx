@@ -10,7 +10,11 @@ const barChartDataOptions = (theme: any) => ({
   plotOptions: {
     bar: {
       columnWidth: '30%',
+      borderRadius: '2',
     },
+  },
+  legend: {
+    offsetY: 5,
   },
 });
 export { barChartDataOptions };

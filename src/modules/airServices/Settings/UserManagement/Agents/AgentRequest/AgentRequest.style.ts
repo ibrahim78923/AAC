@@ -10,5 +10,6 @@ export const styles = {
   imageStyle: {
     width: 80,
     height: 80,
+    borderRadius: 50,
   },
 };

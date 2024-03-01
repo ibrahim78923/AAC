@@ -9,8 +9,7 @@ const AddUser = ({
   isDrawerOpen,
   onClose,
   handleSubmit,
-  formMethods,
-  // isLoading,
+  formMethods, // isLoading,
 }: AddUserPropsI) => {
   return (
     <CommonDrawer

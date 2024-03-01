@@ -1,8 +1,8 @@
-import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import {
   APPROVAL_CARD_INFO,
   setStatus,
+  setUserDetails,
   ticketsApprovalDropdownFunction,
 } from './ApprovalCard.data';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
@@ -10,10 +10,11 @@ import { MoreVert } from '@mui/icons-material';
 import { TICKET_APPROVALS } from '@/constants/strings';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
+import useAuth from '@/hooks/useAuth';
 
 export const ApprovalCard = (props: any) => {
   const { setApproval, data, getUpdateStatus } = props;
-
+  const { user }: any = useAuth();
   const ticketsApprovalDropdown = ticketsApprovalDropdownFunction(
     getUpdateStatus,
     data,
@@ -36,32 +37,25 @@ export const ApprovalCard = (props: any) => {
         mb={1}
       >
         <Box display={'flex'} alignItems={'center'} gap={2}>
-          <Avatar src={data?.imgSrc?.src} alt="img">
-            {fullNameInitial(
-              data?.recieverId === data?.createdBy
-                ? data?.receiverDetails?.firstName
-                : data?.receiverDetails?.firstName,
-              data?.recieverId === data?.createdBy
-                ? data?.requesterDetails?.lastName
-                : data?.requesterDetails?.lastName,
-            )}
+          <Avatar
+            src={setUserDetails(data, user?._id, data?.createdBy)?.avatar}
+            alt="img"
+            sx={{ bgcolor: 'blue' }}
+          >
+            <Typography variant="body2" textTransform={'uppercase'}>
+              {setUserDetails(data, user?._id, data?.createdBy)?.nameInitial}
+            </Typography>
           </Avatar>
           <Box>
             <Typography variant="body2" color="slateBlue.main" fontWeight={600}>
-              {fullName(
-                data?.recieverId === data?.createdBy
-                  ? data?.receiverDetails?.firstName
-                  : data?.receiverDetails?.firstName,
-                data?.recieverId === data?.createdBy
-                  ? data?.requesterDetails?.lastName
-                  : data?.requesterDetails?.lastName,
-              )}
+              {setUserDetails(data, user?._id, data?.createdBy)?.name}
             </Typography>
             <Box display={'flex'} gap={0.5} alignItems={'center'}>
               {
                 setStatus?.(
                   data?.approvalStatus,
                   data?.recieverId,
+                  user?._id,
                   data?.createdBy,
                 )?.icon
               }
@@ -71,6 +65,7 @@ export const ApprovalCard = (props: any) => {
                   setStatus?.(
                     data?.approvalStatus,
                     data?.recieverId,
+                    user?._id,
                     data?.createdBy,
                   )?.color
                 }
@@ -79,6 +74,7 @@ export const ApprovalCard = (props: any) => {
                   setStatus?.(
                     data?.approvalStatus,
                     data?.recieverId,
+                    user?._id,
                     data?.createdBy,
                   )?.text
                 }{' '}
@@ -94,7 +90,7 @@ export const ApprovalCard = (props: any) => {
         </Box>
         <Box>
           {data?.approvalStatus === TICKET_APPROVALS?.PENDING &&
-            data?.recieverId === data?.createdBy && (
+            data?.createdBy === user?._id && (
               <SingleDropdownButton
                 dropdownOptions={ticketsApprovalDropdown}
                 dropdownName={<MoreVert />}
@@ -103,7 +99,7 @@ export const ApprovalCard = (props: any) => {
               />
             )}
           {data?.approvalStatus === TICKET_APPROVALS?.PENDING &&
-            data?.recieverId !== data?.createdBy && (
+            data?.recieverId === user?._id && (
               <Box display={'flex'} gap={1} flexWrap={'wrap'}>
                 <Button
                   variant="outlined"
