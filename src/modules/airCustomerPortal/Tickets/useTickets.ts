@@ -3,6 +3,7 @@ import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useEffect, useState } from 'react';
 import { useLazyGetCustomerPortalTicketsQuery } from '@/services/airCustomerPortal/Tickets';
 import { PAGINATION } from '@/config';
+import { getSession } from '@/utils';
 
 export const useTickets = () => {
   const router = useRouter();
@@ -12,16 +13,14 @@ export const useTickets = () => {
   const [anchorEl, setAnchorEl] = useState<any>(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const {
+    user: { _id: requesterId },
+  } = getSession();
   const getTicketsParam = new URLSearchParams();
   getTicketsParam?.append('page', page + '');
   getTicketsParam?.append('limit', pageLimit + '');
   getTicketsParam?.append('metaData', true + '');
-
-  const handleTickets = () => {
-    router?.push({
-      pathname: AIR_CUSTOMER_PORTAL?.TICKETS,
-    });
-  };
+  getTicketsParam?.append('requester', requesterId + '');
   const [
     lazyGetTicketsTrigger,
     { data, isLoading, isFetching, isError, isSuccess },
@@ -52,7 +51,6 @@ export const useTickets = () => {
     setOpenReportAnIssueModal(true);
   };
   return {
-    handleTickets,
     handleSingleTickets,
     handleButtonClick,
     handleClose,

@@ -1,5 +1,4 @@
-import { FormProvider } from '@/components/ReactHookForm';
-import { v4 as uuidv4 } from 'uuid';
+import { FormProvider, RHFEditor } from '@/components/ReactHookForm';
 import { useSingleTicketForm } from './useSingleTicketForm';
 import { Box, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -7,7 +6,7 @@ import { AttachIcon } from '@/assets/icons';
 
 export const SingleTicketForm = (props: any) => {
   const {
-    singleTicketFormDataArray,
+    // singleTicketFormDataArray,
     singleTicketFormDefaultValues,
     singleTicketFormValidationSchema,
   } = props;
@@ -20,12 +19,11 @@ export const SingleTicketForm = (props: any) => {
   return (
     <>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        {singleTicketFormDataArray?.map((item: any) => (
-          <item.component
-            {...item?.componentProps}
-            key={uuidv4()}
-          ></item.component>
-        ))}
+        <RHFEditor
+          name="yourReplay"
+          label="Your Replay"
+          style={{ minHeight: 150 }}
+        />
       </FormProvider>
       <Box
         display={'flex'}

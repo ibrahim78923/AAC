@@ -2,7 +2,6 @@ import {
   singleTicketFormDataArray,
   singleTicketFormDefaultValues,
   singleTicketFormValidationSchema,
-  singleTicketDetailContent,
 } from '../Tickets.data';
 import { SingleTicketDetail } from './SingleTicketDetail';
 import { SingleTicketForm } from './SingleTicketForm';
@@ -11,20 +10,20 @@ import { SingleTicketPopup } from './SingleTicketPopup';
 import { useSingleTicket } from './useSingleTicket';
 
 export const SingleTicket = () => {
-  const { status, openPopup, setOpenPopup, onSubmit, ticketId } =
+  const { openPopup, setOpenPopup, ticketId, singleTicketData } =
     useSingleTicket();
 
   return (
     <>
       <SingleTicketHeader
         id={ticketId}
+        ticketNumber={singleTicketData?.ticketIdNumber}
         setOpenPopup={setOpenPopup}
-        onSubmit={onSubmit}
       />
       <SingleTicketDetail
         id={ticketId}
-        status={status}
-        singleTicketDetailContent={singleTicketDetailContent}
+        status={singleTicketData?.status}
+        singleTicketDetailContent={singleTicketData?.description}
       />
       <SingleTicketForm
         id={ticketId}

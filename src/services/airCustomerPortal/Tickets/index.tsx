@@ -20,10 +20,19 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    editTicketStatus: builder?.mutation({
+      query: ({ id, params }: any) => ({
+        url: `${END_POINTS?.TICKET_STATUS}/${id}`,
+        method: 'PUT',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
 export const {
   useLazyGetCustomerPortalTicketsQuery,
   useLazyGetCustomerPortalTicketsByIdQuery,
+  useEditTicketStatusMutation,
 } = ticketsAPI;

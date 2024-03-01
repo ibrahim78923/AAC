@@ -72,7 +72,7 @@ export const TicketsCard = (props: any) => {
             Created On {dayjs(created)?.format(DATE_TIME_FORMAT?.DMYhmma)} -{' '}
           </Typography>
           <Typography variant="body2" color="primary.main">
-            Via {source}
+            Via {source ?? '.....'}
           </Typography>
         </Box>
       </Box>
