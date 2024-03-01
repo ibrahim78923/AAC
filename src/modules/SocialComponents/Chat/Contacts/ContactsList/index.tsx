@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, Button, Checkbox, Skeleton } from '@mui/material';
+import { Box, Button, Checkbox, Skeleton, useTheme } from '@mui/material';
 
 import ContactsCard from './ContactsCard';
 import Search from '@/components/Search';
@@ -8,7 +8,7 @@ import AddGroupModal from './AddGroupModal';
 import ChatDropdown from '../../ChatDropdown';
 import { AlertModals } from '@/components/AlertModals';
 
-import { FilterSharedIcon, PlusIcon } from '@/assets/icons';
+import { DeleteIcon, FilterSharedIcon, PlusIcon } from '@/assets/icons';
 
 import { styles } from './ContactsList.style';
 
@@ -22,29 +22,12 @@ import {
 import { isNullOrEmpty } from '@/utils';
 
 const ContactList = ({ chatMode, handleManualRefetch }: any) => {
+  const theme = useTheme();
   const [isDeletedFilter, setIsDeletedFilter] = useState(false);
   const [unReadFilter, setUnReadFilter] = useState(false);
   const [isMutedFilter, setIsMutedFilter] = useState(false);
   const [isPinnedFilter, setIsPinnedFilter] = useState(false);
   const [isArchivedFilter, setIsArchivedFilter] = useState(false);
-
-  const dispatch = useAppDispatch();
-
-  const paramsObj: any = {};
-  paramsObj['isDeleted'] = isDeletedFilter;
-  paramsObj['unRead'] = unReadFilter;
-  paramsObj['isMuted'] = isMutedFilter;
-  paramsObj['isPinned'] = isPinnedFilter;
-  paramsObj['isArchived'] = isArchivedFilter;
-  const queryParams = Object?.entries(paramsObj)
-    ?.map(([key, value]: any) => `${key}=${encodeURIComponent(value)}`)
-    ?.join('&');
-  const query = `&${queryParams}`;
-
-  const { data: contactsData, status } = useGetChatsContactsQuery({
-    isGroup: chatMode === 'groupChat' ? true : false,
-    query,
-  });
 
   const [searchContacts, setSearchContacts] = useState('');
   const [isAddGroupModal, setIsAddGroupModal] = useState(false);
@@ -59,6 +42,25 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const dispatch = useAppDispatch();
+
+  const paramsObj: any = {};
+  paramsObj['isDeleted'] = isDeletedFilter;
+  paramsObj['unRead'] = unReadFilter;
+  paramsObj['isMuted'] = isMutedFilter;
+  paramsObj['isPinned'] = isPinnedFilter;
+  paramsObj['isArchived'] = isArchivedFilter;
+  paramsObj['search'] = searchContacts;
+  const queryParams = Object?.entries(paramsObj)
+    ?.map(([key, value]: any) => `${key}=${encodeURIComponent(value)}`)
+    ?.join('&');
+  const query = `&${queryParams}`;
+
+  const { data: contactsData, status } = useGetChatsContactsQuery({
+    isGroup: chatMode === 'groupChat' ? true : false,
+    query,
+  });
 
   const chatContacts = useAppSelector((state) => state?.chat?.chatContacts);
   const isChatContactsLoading = useAppSelector(
@@ -148,7 +150,7 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
     <>
       <Box sx={styles?.wrapperContactList}>
         <Box sx={styles?.contactListHeader}>
-          <Box sx={{ display: 'flex' }}>
+          <Box sx={{ display: 'flex', width: '100%' }}>
             <Checkbox
               onClick={handleSelectAll}
               checked={
@@ -156,23 +158,34 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
                 chatsTypeToShow?.length === selectedValues?.length
               }
             />
-            <Search
-              label={'Search here'}
-              searchBy={searchContacts}
-              setSearchBy={setSearchContacts}
-              width="100%"
-              size="small"
-            />
+            <Box sx={{ width: '100%', display: 'flex' }}>
+              <Search
+                label={'Search by name'}
+                searchBy={searchContacts}
+                setSearchBy={setSearchContacts}
+                width="100%"
+                size="small"
+              />
+            </Box>
           </Box>
-          <Button
-            sx={styles?.filterButton}
-            aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={actionMenuOpen ? 'true' : undefined}
-            onClick={handleClick}
-          >
-            <FilterSharedIcon />
-          </Button>
+
+          {chatsTypeToShow?.length > 0 &&
+          chatsTypeToShow?.length === selectedValues?.length ? (
+            <Box sx={{ marginLeft: '10px' }}>
+              <DeleteIcon color={theme?.palette?.error?.main} />
+            </Box>
+          ) : (
+            <Button
+              sx={styles?.filterButton}
+              aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={actionMenuOpen ? 'true' : undefined}
+              onClick={handleClick}
+            >
+              <FilterSharedIcon />
+            </Button>
+          )}
+
           <ChatDropdown
             anchorEl={anchorEl}
             actionMenuOpen={actionMenuOpen}
