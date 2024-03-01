@@ -478,7 +478,7 @@ export const SalesRoutes: any = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'AIR_SALES',
-    permissions: ['sales-dashboard-list'],
+    permissions: Permissions?.AIR_SALES_DASHBOARD,
   },
   {
     key: '/air-sales/deals',

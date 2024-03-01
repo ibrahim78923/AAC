@@ -199,7 +199,7 @@ const DashboardLayout = ({ children, window }: any) => {
                                   />
                                 </ListItemIcon>
 
-                                {link.label}
+                                {link?.label}
 
                                 <Box sx={{ paddingLeft: '15px' }}>
                                   <Image

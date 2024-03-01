@@ -165,7 +165,7 @@ const ProductSuite = () => {
                 disableRipple
                 sx={{
                   display: 'flex',
-                  color: '#212121',
+                  color: theme?.palette?.custom?.charcoal_gray,
                   pt: 4,
                   justifyContent: 'center',
                   flexDirection: 'column',
@@ -185,7 +185,6 @@ const ProductSuite = () => {
                       alt="product"
                     />
                   )}
-                  {/* {`/${product.logo.url}`} */}
                   <Typography variant="h5" sx={{ marginLeft: '20px' }}>
                     {product?.name}
                   </Typography>

@@ -240,39 +240,12 @@ export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
   DETAIL_VIEW: 'marketer-sms-marketing-sms-broadcast-detail-view',
 };
 
+export const AIR_SALES_DASHBOARD_PERMISSIONS = {
+  SALES_DASHBOARD_LIST: 'sales-dashboard-list',
+};
+
 export const AIR_SALES_SETTINGS = {
   SEARCH_PIPELINE: 'sale-deal-pipeline-search-and-filter',
-  CREATE_PIPELINE: 'sale-create-deal-pipeline',
-  PIPELINE_LIST: 'sale-deal-pipeline-list',
-  EDIT_PIPELINE: 'sale-edit-deal-pipeline',
-  DELETE_PIPELINE: 'sale-delete-deal-pipeline',
-  PRODUCT_LIST: 'sale-setting-product-list',
-  SEARCH_PRODUCT: 'sale-setting-product-search-and-filter',
-  CREATE_PRODUCT: 'sale-setting-create-product',
-  ACTIVATE_DEACTIVATE_PRODUCT: 'sale-setting-active-inactive-product',
-  EDIT_PRODUCT: 'sale-setting-edit-product',
-  DELETE_PRODUCT: 'sale-setting-delete-product',
-  SEARCH_ROLE: 'sale-setting-roles-and-right-search-and-filter',
-  ADD_NEW_ROLE: 'sale-setting-add-new-role',
-  EDIT_ROLE: 'sale-setting-edit-role',
-  VIEW_ROLE: 'sale-setting-view-role',
-  DELETE_ROLE: 'sale-setting-delete-role',
-  USER_LIST: 'sale-setting-user-list',
-  ADD_USER: 'sale-setting-add-user',
-  SEARCH_USER: 'sale-setting-search-and-filter',
-  ACTIVATE_DEACTIVATE_USER: 'sale-setting-active-inactive-user',
-  TEAM_LIST: 'sale-setting-team-list',
-  SEARCH_TEAM: 'sale-setting-teams-search-and-filter',
-  CREATE_TEAM: 'sale-setting-create-team',
-  EDIT_TEAM: 'sale-setting-edit-team',
-  DELETE_TEAM: 'sale-setting-delete-team',
-  VIEW_TEAM: 'sale-setting-view-team',
-  ACTIVATE_DEACTIVATE_EMAIL_NOTIFICATION:
-    'sale-setting-active-inactive-email-notification',
-  ACTIVATE_DEACTIVATE_DEALS_NOTIFICATION:
-    'sale-setting-active-inactive-deals-notification',
-  ACTIVATE_DEACTIVATE_QUOTE_NOTIFICATION:
-    'sale-setting-active-inactive-quote-notification',
 };
 
 export const AIR_MARKETER_SOCIAL_MARKETING_CALENDER = {

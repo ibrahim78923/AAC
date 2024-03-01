@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 
 import useAuth from '../hooks/useAuth';
 import LoadingScreen from '@/components/LoadingScreen';
+import { ROLES } from '@/constants/strings';
 
 // const array = [
 //   {
@@ -35,7 +36,8 @@ export default function GuestGuard({ children }: any) {
   // };
   // const path: any = findSkillByEmail({ user, array });
 
-  const pathVariable = user?.role === 'ORG_EMPLOYEE' ? '/' : '/super-admin';
+  const pathVariable =
+    user?.role === ROLES.ORG_EMPLOYEE ? '/' : ROLES.SUPER_ADMIN;
 
   useEffect(() => {
     if (!isInitialized) return;
