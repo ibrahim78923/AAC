@@ -7,7 +7,7 @@ const RestoreDeleteModal = ({ open, onClose, handlePermanantDelete }: any) => {
       type="delete"
       open={open}
       handleClose={onClose}
-      handleSubmit={handlePermanantDelete}
+      handleSubmitBtn={handlePermanantDelete}
     />
   );
 };

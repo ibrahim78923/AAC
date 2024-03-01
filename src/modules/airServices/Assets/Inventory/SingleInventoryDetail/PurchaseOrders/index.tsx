@@ -22,7 +22,7 @@ export const PurchaseOrder = () => {
         <SkeletonTable />
       ) : (
         <>
-          {AssetsInventoryPurchaseOrderData[0]?.purchaseOrdersDetails
+          {AssetsInventoryPurchaseOrderData?.[0]?.purchaseOrdersDetails
             ?.length ? (
             AssetsInventoryPurchaseOrderData?.map(
               (singlePurchaseOrderList: any) =>

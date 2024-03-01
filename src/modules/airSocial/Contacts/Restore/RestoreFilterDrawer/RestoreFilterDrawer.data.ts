@@ -1,10 +1,24 @@
-import { RHFDatePicker } from '@/components/ReactHookForm';
+import { RHFSwitchableDatepicker } from '@/components/ReactHookForm';
 
-export const RestoreFilterData = {
-  title: 'Close Date',
-  componentProps: {
-    name: 'CloseDate',
-    label: 'Select',
+export const filterFormFields = [
+  {
+    id: 'createdAt',
+    componentProps: {
+      name: 'createdAt',
+      label: 'Start Date',
+      fullWidth: true,
+    },
+    component: RHFSwitchableDatepicker,
+    md: 12,
   },
-  component: RHFDatePicker,
-};
+  {
+    id: 'endDate',
+    componentProps: {
+      name: 'endDate',
+      label: 'End Date',
+      fullWidth: true,
+    },
+    component: RHFSwitchableDatepicker,
+    md: 12,
+  },
+];
