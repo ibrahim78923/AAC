@@ -66,9 +66,8 @@ export const Associations = () => {
             <Box
               key={item.id}
               border={`1px solid ${theme?.palette?.grey?.[400]}`}
-              borderLeft={`8px solid ${theme?.['palette']?.[
-                `${chipColor(item?.status)}`
-              ]?.['main']}`}
+              borderLeft={`8px solid ${theme?.palette[chipColor(item?.status)]
+                ?.main}`}
               boxShadow={4}
               borderRadius={2}
               p={1}
@@ -97,10 +96,7 @@ export const Associations = () => {
               <Chip
                 label={item?.status}
                 sx={{
-                  bgcolor:
-                    theme?.['palette']?.[`${chipColor(item?.status)}`]?.[
-                      'main'
-                    ],
+                  bgcolor: theme?.palette[chipColor(item?.status)]?.main,
                   color: theme?.palette?.common?.white,
                 }}
               />

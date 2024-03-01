@@ -1,31 +1,10 @@
-export const chipColor = (chipLabel: string) => {
-  const OPEN = 'OPEN';
-  const PENDING = 'PENDING';
-  const RESOLVED = 'RESOLVED ';
-  const CLOSED = 'CLOSED ';
-
-  let color;
-
-  switch (chipLabel) {
-    case OPEN:
-      color = 'success';
-      break;
-    case RESOLVED:
-      color = 'success';
-      break;
-    case PENDING:
-      color = 'warning';
-
-      break;
-    case CLOSED:
-      color = 'error';
-
-      break;
-
-    default:
-      color = 'error';
-
-      break;
-  }
-  return color;
+const STATUS_COLORS: { [key: string]: string } = {
+  OPEN: 'success',
+  CLOSED: 'error',
+  RESOLVED: 'success',
+  PENDING: 'warning',
+  SPAM: 'default',
+};
+export const chipColor = (status: string): string => {
+  return STATUS_COLORS[status] || 'default';
 };
