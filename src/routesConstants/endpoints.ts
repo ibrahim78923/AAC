@@ -147,6 +147,7 @@ export const END_POINTS = {
   PATCH_ASSET_TYPE: '/asset-type/add-child-asset-type',
   EDIT_ASSET_TYPE: '/asset-type/edit-assset-type',
   PUT_LOCATION: '/location/edit-location',
+  DELETE_CHILD_LOCATION: '/location/delete-child-location',
   DROPDOWN_REQUESTERS: `/requester/requester-list`,
   DROPDOWN_AGENTS: `/requester/requester-list`,
   DROPDOWN_ASSOCIATE_ASSET: `/assets/inventory`,

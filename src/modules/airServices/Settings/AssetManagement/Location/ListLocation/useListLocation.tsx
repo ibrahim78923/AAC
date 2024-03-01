@@ -10,7 +10,6 @@ export const useListLocation = () => {
     setIsCollapse(collapseItem !== item ? item : undefined);
   };
   const locationList = data?.data;
-
   return {
     theme,
     handleCollapse,

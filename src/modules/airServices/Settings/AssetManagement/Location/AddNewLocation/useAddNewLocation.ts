@@ -5,8 +5,6 @@ import {
   locationDefaultValues,
 } from './AddNewLocation.data';
 import { AIR_SERVICES } from '@/constants';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useRouter } from 'next/router';
 import {
   usePostChildLocationMutation,
@@ -14,11 +12,11 @@ import {
   usePutLocationMutation,
   usePutChildLocationMutation,
 } from '@/services/airServices/settings/asset-management/location';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAddNewLocation = () => {
   const router = useRouter();
   const { data, editData, childEditData }: any = router.query;
-
   let dataArray, editDataArray, childEditDataArray;
   try {
     dataArray = data ? JSON.parse(data) : [];
@@ -33,12 +31,13 @@ export const useAddNewLocation = () => {
   const locationId = dataArray?._id;
   const editLocationId = editDataArray?._id;
   const childEditLocationId = childEditDataArray?._id;
-
+  const parentLocationName = router?.query?.location;
   const AddNewLocationMethods = useForm({
     resolver: yupResolver(validationSchemaAddNewLocation),
     defaultValues: locationDefaultValues({
       editDataArray,
       childEditDataArray,
+      parentLocationName,
     }),
   });
   const [postLocationTrigger, postLocationProgress] = usePostLocationMutation();
@@ -59,7 +58,7 @@ export const useAddNewLocation = () => {
   const childOnsubmit = async (data: any) => {
     const locationData = {
       locationName: data?.locationName,
-      parentLocation: data?.parentLocation,
+      parentLocation: data?.parentLocation ?? '',
       contactName: data?.contactName,
       email: data?.email,
       phone: data?.phone,
@@ -77,17 +76,11 @@ export const useAddNewLocation = () => {
       id: locationId,
     };
     try {
-      const res: any = await postChildLocationTrigger(
-        postChildLocationParameter,
-      ).unwrap();
-      enqueueSnackbar(res?.message ?? 'Child Location Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postChildLocationTrigger(postChildLocationParameter).unwrap();
+      successSnackbar('Child Location Added Successfully');
       moveToLocationPage();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
     AddNewLocationMethods?.reset?.();
   };
@@ -95,7 +88,6 @@ export const useAddNewLocation = () => {
   const onSubmit = async (data: any) => {
     const locationData = {
       locationName: data?.locationName,
-      parentLocation: data?.parentLocation,
       contactName: data?.contactName,
       email: data?.email,
       phone: data?.phone,
@@ -109,22 +101,13 @@ export const useAddNewLocation = () => {
       },
     };
     try {
-      const res: any = await postLocationTrigger(locationData).unwrap();
-      enqueueSnackbar(res?.message && 'Location Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postLocationTrigger(locationData).unwrap();
+      successSnackbar('Location Added Successfully');
       AddNewLocationMethods?.reset?.();
       moveToLocationPage();
       AddNewLocationMethods?.reset?.();
     } catch (error: any) {
-      enqueueSnackbar(
-        ((Array.isArray(error?.data?.message) && error?.data?.message?.[0]) ||
-          error?.data?.message) ??
-          'Something went wrong!',
-        {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        },
-      );
+      errorSnackbar();
     }
   };
 
@@ -149,15 +132,11 @@ export const useAddNewLocation = () => {
       id: editLocationId,
     };
     try {
-      const res: any = await putLocationTrigger(putLocationParameter).unwrap();
-      enqueueSnackbar(res?.message ?? 'Location Edit Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await putLocationTrigger(putLocationParameter).unwrap();
+      successSnackbar('Location Edit Successfully');
       moveToLocationPage();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
     AddNewLocationMethods?.reset?.();
   };
@@ -183,17 +162,11 @@ export const useAddNewLocation = () => {
       id: childEditLocationId,
     };
     try {
-      const res: any = await putChildLocationTrigger(
-        putChildLocationParameter,
-      ).unwrap();
-      enqueueSnackbar(res?.message ?? 'Child Location Edit Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await putChildLocationTrigger(putChildLocationParameter).unwrap();
+      successSnackbar('Child Location Edit Successfully');
       moveToLocationPage();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
     AddNewLocationMethods?.reset?.();
   };
@@ -215,5 +188,6 @@ export const useAddNewLocation = () => {
     childEditLocationId,
     childEditOnSubmit,
     handleCancel,
+    parentLocationName,
   };
 };

@@ -2,8 +2,13 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'LOCATION';
-const { ADD_LOCATION, GET_LOCATION, ADD_CHILD_LOCATION, PUT_LOCATION } =
-  END_POINTS;
+const {
+  ADD_LOCATION,
+  GET_LOCATION,
+  ADD_CHILD_LOCATION,
+  PUT_LOCATION,
+  DELETE_CHILD_LOCATION,
+} = END_POINTS;
 export const locationAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getLocation: builder.query({
@@ -45,6 +50,14 @@ export const locationAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    deleteChildLocation: builder.mutation({
+      query: (params: any) => ({
+        url: `${DELETE_CHILD_LOCATION}/{id}`,
+        method: 'DELETE',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -54,4 +67,5 @@ export const {
   usePostChildLocationMutation,
   usePutLocationMutation,
   usePutChildLocationMutation,
+  useDeleteChildLocationMutation,
 } = locationAPI;

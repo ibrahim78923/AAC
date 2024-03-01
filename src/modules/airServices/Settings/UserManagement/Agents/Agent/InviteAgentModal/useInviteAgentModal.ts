@@ -4,14 +4,14 @@ import {
   defaultValues,
 } from './InviteAgentModal.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
-import { AGENTS, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { AGENTS } from '@/constants/strings';
 import {
   useLazyGetDepartmentDropdownListQuery,
   usePatchAgentMutation,
   usePostAddAgentMutation,
 } from '@/services/airServices/settings/user-management/agents';
 import { useEffect } from 'react';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useInviteAgentModal = (props: any) => {
   const { handleAddAgentModal, selectedAgentList, editAgentModalTitle } = props;
@@ -32,7 +32,7 @@ export const useInviteAgentModal = (props: any) => {
   const handleFormSubmit = async (formData: any) => {
     if (editAgentModalTitle === AGENTS?.INVITE_AGENT) {
       try {
-        const res: any = await postAgentTrigger({
+        await postAgentTrigger({
           firstName: formData?.firstName ?? '',
           lastName: formData?.lastName ?? '',
           phoneNumber: formData?.phoneNumber ?? '',
@@ -41,25 +41,18 @@ export const useInviteAgentModal = (props: any) => {
           role: formData?.role ?? '',
           timezone: formData?.timezone ?? '',
         });
-        enqueueSnackbar(res?.data?.message && 'Invite Agent Successfully!', {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        });
+        successSnackbar('Invite Agent Successfully!');
         handleAddAgentModal?.(false);
         reset();
       } catch (error: any) {
-        enqueueSnackbar(
-          error?.data?.message ?? 'Failed to invite agent. Please try again.',
-          {
-            variant: NOTISTACK_VARIANTS?.ERROR,
-          },
-        );
+        errorSnackbar();
       }
     } else {
       try {
         const agentId = selectedAgentList.map((agent: any) => agent?._id);
-        const res: any = await agentUpdate({
-          id: agentId,
+        await agentUpdate({
           body: {
+            id: agentId,
             firstName: formData?.firstName ?? '',
             lastName: formData?.lastName ?? '',
             phoneNumber: formData?.phoneNumber ?? '',
@@ -68,17 +61,10 @@ export const useInviteAgentModal = (props: any) => {
             timezone: formData?.timezone ?? '',
           },
         });
-        enqueueSnackbar(res?.data?.message && 'Update Agent Successfully!', {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        });
+        successSnackbar('Update Agent Successfully!');
         handleAddAgentModal?.(false);
       } catch (error: any) {
-        enqueueSnackbar(
-          error?.data?.message ?? 'Failed to update agent. Please try again.',
-          {
-            variant: NOTISTACK_VARIANTS?.ERROR,
-          },
-        );
+        errorSnackbar();
       }
     }
   };

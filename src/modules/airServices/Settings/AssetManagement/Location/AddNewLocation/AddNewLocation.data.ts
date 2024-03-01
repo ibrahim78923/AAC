@@ -13,12 +13,12 @@ export const validationSchemaAddNewLocation: any = yup?.object()?.shape({
 export const locationDefaultValues = ({
   editDataArray,
   childEditDataArray,
+  parentLocationName,
 }: any) => {
   return {
     locationName:
       childEditDataArray?.locationName ?? editDataArray?.locationName ?? '',
-    parentLocation:
-      childEditDataArray?.parentLocation ?? editDataArray?.parentLocation ?? '',
+    parentLocation: parentLocationName,
     contactName:
       childEditDataArray?.contactName ?? editDataArray?.contactName ?? '',
     email: childEditDataArray?.email ?? editDataArray?.email ?? '',
@@ -44,6 +44,7 @@ export const addNewLocationDataFields = [
     gridLength: 6,
     componentProps: {
       fullWidth: true,
+      disabled: true,
       name: 'parentLocation',
       label: 'Parent Location',
     },

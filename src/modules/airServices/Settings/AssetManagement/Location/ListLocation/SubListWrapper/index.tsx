@@ -24,7 +24,8 @@ export const SubListWrapper = ({ children, data }: any) => {
             router?.push({
               pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
               query: {
-                data: JSON.stringify(data),
+                id: data?._id,
+                location: data?.locationName,
               },
             })
           }

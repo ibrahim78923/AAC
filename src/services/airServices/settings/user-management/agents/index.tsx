@@ -38,8 +38,8 @@ export const agentsAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     patchAgent: builder.mutation({
-      query: ({ id, body }) => ({
-        url: `${EDIT_AGENT}/${id}`,
+      query: ({ body }) => ({
+        url: `${EDIT_AGENT}`,
         method: 'PATCH',
         body,
       }),

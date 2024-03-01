@@ -26,6 +26,7 @@ const AddNewLocation = () => {
     childEditLocationId,
     childEditOnSubmit,
     handleCancel,
+    parentLocationName,
   } = useAddNewLocation();
   return (
     <>
@@ -54,13 +55,21 @@ const AddNewLocation = () => {
             </Box>
             <Grid item container xs={12} overflow="scroll">
               <Grid container rowSpacing={1.8} columnSpacing={3}>
-                {addNewLocationDataFields?.map((form: any) => (
-                  <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                    <form.component {...form?.componentProps} size="small">
-                      {form?.heading ? form?.heading : null}
-                    </form.component>
-                  </Grid>
-                ))}
+                {addNewLocationDataFields?.map((form: any, index) =>
+                  parentLocationName || childEditLocationId ? (
+                    <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                      <form.component {...form?.componentProps} size="small">
+                        {form?.heading ? form?.heading : null}
+                      </form.component>
+                    </Grid>
+                  ) : index === 1 ? null : (
+                    <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                      <form.component {...form?.componentProps} size="small">
+                        {form?.heading ? form?.heading : null}
+                      </form.component>
+                    </Grid>
+                  ),
+                )}
               </Grid>
             </Grid>
           </Grid>

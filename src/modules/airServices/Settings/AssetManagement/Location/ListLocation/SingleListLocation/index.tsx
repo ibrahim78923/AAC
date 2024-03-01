@@ -1,32 +1,28 @@
-import { Box, Divider, Typography, useTheme } from '@mui/material';
-import { useState } from 'react';
+import { Box, Divider, Typography } from '@mui/material';
 import { DropdownMenuIcon } from '@/assets/icons';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import React from 'react';
 import { AlertModals } from '@/components/AlertModals';
-import { enqueueSnackbar } from 'notistack';
-import { ALERT_MODALS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import router from 'next/router';
 import { AIR_SERVICES } from '@/constants';
+import { useSingleListLocation } from './useSingleListLocation';
 
 export const SingleListLocation = ({
   continents,
   handleCollapse,
   editData,
 }: any) => {
-  const theme: any = useTheme();
-  const [showIcon, setShowIcon] = useState(false);
-  const [isOpenAlert, setIsOpenAlert] = useState(false);
-
-  const handleDeleteSubmit = () => {
-    enqueueSnackbar('Delete successfully', {
-      variant: NOTISTACK_VARIANTS?.ERROR,
-    });
-    setIsOpenAlert(false);
-  };
-
+  const {
+    showIcon,
+    setShowIcon,
+    theme,
+    setIsOpenAlert,
+    isOpenAlert,
+    handleDeleteSubmit,
+  } = useSingleListLocation();
   return (
     <>
       <Box

@@ -19,7 +19,7 @@ export const ListLocation = () => {
             <Box key={item?._id}>
               <SingleListLocation
                 editData={item}
-                continents={item?.parentLocation}
+                continents={item?.locationName}
                 handleCollapse={() => handleCollapse(index)}
               />
               {isLoading ? (
