@@ -68,6 +68,7 @@ export const TICKET_APPROVALS = {
   REJECT: 'REJECTED',
   CANCEL: 'CANCELED',
   PENDING: 'PENDING',
+  REMINDER: 'REMINDER',
 };
 
 export const CONTRACT_TYPES = {
@@ -247,7 +248,6 @@ export const MESSAGE_EXPORT_FILE_TYPE: any = {
 export const AGENT_REQUEST_STATUS = {
   APPROVED: 'Approved',
   REJECTED: 'Rejected',
-  PENDING: 'Pending',
 };
 
 export const SETTINGS_ADD_ROLE = {

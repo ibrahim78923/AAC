@@ -10,7 +10,6 @@ export const AnnouncementDashboardCard = ({
   isBorderBottom,
 }: any) => {
   const theme = useTheme();
-
   return (
     <Box>
       <Box sx={styles?.boxMain(theme, isBorderBottom)}>

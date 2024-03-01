@@ -21,6 +21,8 @@ export const useKnowledgeBaseDetail = () => {
     });
   };
   const folderId = router?.query?.folderId;
+  const folderName = router?.query?.folderName;
+
   const params = {
     page: page,
     limit: pageLimit,
@@ -64,5 +66,6 @@ export const useKnowledgeBaseDetail = () => {
     formatDateTime,
     isLoading,
     folderId,
+    folderName,
   };
 };

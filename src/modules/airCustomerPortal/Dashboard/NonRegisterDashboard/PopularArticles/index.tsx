@@ -39,6 +39,7 @@ export const PopularArticles = ({ articlesData = [], handleViewMore }: any) => {
                   query: {
                     articleId: article?._id,
                     folderId: article?.folder?._id,
+                    folderName: article?.folder?.name,
                   },
                 })
               }
