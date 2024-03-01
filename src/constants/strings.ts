@@ -68,6 +68,7 @@ export const TICKET_APPROVALS = {
   REJECT: 'REJECTED',
   CANCEL: 'CANCELED',
   PENDING: 'PENDING',
+  REMINDER: 'REMINDER',
 };
 
 export const CONTRACT_TYPES = {

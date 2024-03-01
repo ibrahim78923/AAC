@@ -71,7 +71,7 @@ const GroupsCard = ({ info, setGroupModalType, setIsCreateModalOpen }: any) => {
                 width: '25px !important',
                 height: '25px !important',
               },
-              '& .css-qv4cv0-MuiAvatar-root': {
+              '& .MuiAvatar-root ': {
                 width: '25px !important',
                 height: '25px !important',
               },
