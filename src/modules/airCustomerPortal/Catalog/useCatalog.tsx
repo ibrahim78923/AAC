@@ -43,8 +43,6 @@ const useCatalog = () => {
   });
 
   const results = services?.data;
-
-  // Update result when services changes
   useEffect(() => {
     if (results) {
       setResult(results);
@@ -63,11 +61,13 @@ const useCatalog = () => {
 
     setResult(filteredServices);
   };
-  const handleClickService = (id: any) => {
+
+  const handleClickService = (id: any, serviceCategory: any) => {
     router?.push({
       pathname: AIR_CUSTOMER_PORTAL?.SINGLE_CATALOG_SERVICE_DETAILS,
       query: {
         serviceId: id,
+        categoryId: serviceCategory,
       },
     });
   };
@@ -93,6 +93,7 @@ const useCatalog = () => {
     handleClose,
     setSearch,
     open,
+    setOpen,
   };
 };
 

@@ -1,15 +1,24 @@
-import { Box } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import React from 'react';
-import { catalogDetailContent } from '../Catalog.data';
 
-const CatalogServiceSoftware = () => {
+const CatalogServiceSoftware = (prop: any) => {
+  const theme: any = useTheme();
+  const { servicesDetails } = prop;
   return (
     <>
       <>
-        <Box
-          mt={3}
-          dangerouslySetInnerHTML={{ __html: catalogDetailContent }}
-        />
+        <Box maxWidth={'65%'} sx={{ color: theme?.palette?.blue?.lighter }}>
+          <Typography variant="body1">Description:</Typography>
+          <br />
+          <Typography
+            variant="body4"
+            dangerouslySetInnerHTML={{
+              __html: servicesDetails?.data?.[0]?.description,
+            }}
+          />
+
+          <br />
+        </Box>
       </>
     </>
   );
