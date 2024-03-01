@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 export const useAssociations = () => {
   const searchParams = useSearchParams();
-  const purchaseOrderId = searchParams.get('id');
+  const purchaseOrderId = searchParams.get('purchaseOrderId');
   const [openDrawer, setOpenDrawer] = useState<any>(false);
   const { data, isLoading, isError } = useGetAssociationsQuery(purchaseOrderId);
   const associationsList = data?.data;

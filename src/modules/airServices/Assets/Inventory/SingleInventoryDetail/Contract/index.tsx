@@ -22,7 +22,7 @@ export const Contract = () => {
         <SkeletonTable />
       ) : (
         <>
-          {AssetsInventoryContractsData[0]?.contractList?.length ? (
+          {AssetsInventoryContractsData?.[0]?.contractList?.length ? (
             AssetsInventoryContractsData?.map(
               (singleContractList: any) =>
                 singleContractList?.contractList?.map((singleContract: any) => (

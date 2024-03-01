@@ -7,17 +7,16 @@ import {
   validationSchemaAddNewAssetTypes,
 } from '../AddNewAssetTypesModal/AddNewAssetTypesModal.data';
 import { usePatchAssetTypeMutation } from '@/services/airServices/settings/asset-management/asset-type';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useChildAssetTypes = (props: any) => {
-  const { parentId, childId } = props;
+  const { parentId, childId, assetTypeData } = props;
   const [openAddNewChildModal, setOpenAddNewChildModal] = useState(false);
   const { palette }: any = useTheme();
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchemaAddNewAssetTypes),
-    defaultValues: assetTypesDefaultValues,
+    defaultValues: assetTypesDefaultValues(assetTypeData),
   });
 
   const { handleSubmit, reset } = methods;
@@ -29,16 +28,12 @@ export const useChildAssetTypes = (props: any) => {
       description: formData?.description,
     };
     try {
-      const res: any = await patchAssetTypeTrigger(assetChildData);
-      enqueueSnackbar(res?.data?.message && 'Asset Types Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await patchAssetTypeTrigger(assetChildData);
+      successSnackbar('Asset Types Added Successfully');
       reset();
-      setOpenAddNewChildModal(false);
+      setOpenAddNewChildModal?.(false);
     } catch (err: any) {
-      enqueueSnackbar(err?.data?.message ?? 'Error! Please try again', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
 

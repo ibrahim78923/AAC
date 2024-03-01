@@ -15,12 +15,12 @@ import {
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
+import { AIR_SERVICES } from '@/constants';
 
 export const useDetailsViewPropertiesSection = () => {
   const router = useRouter();
   const { ticketId } = router?.query;
   const [putTicketTrigger] = usePutTicketsMutation();
-
   const getSingleTicketParameter = {
     pathParam: {
       ticketId,
@@ -67,6 +67,7 @@ export const useDetailsViewPropertiesSection = () => {
     };
     try {
       await putTicketTrigger(putTicketParameter)?.unwrap();
+      router?.push(AIR_SERVICES?.TICKETS);
       successSnackbar(' ticket updated successfully');
       reset();
     } catch (error) {

@@ -48,43 +48,44 @@ import * as io from 'socket.io-client';
 import { styles } from './Layout.style';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS } from '@/routesConstants/paths';
+import { ROLES } from '@/constants/strings';
 
 const drawerWidth = 230;
 
-const array = [
-  {
-    email: 'mubashir.yusuf@ceative.co.uk',
-    role: 'SUPER_ADMIN',
-  },
-  {
-    email: 'azeem.aslam@ceative.co.uk',
-    role: 'AIR_SALES',
-  },
-  {
-    email: 'airmarketerapplecart@yopmail.com',
-    role: 'AIR_MARKETER',
-  },
-  {
-    email: 'orgadminairapplecard@yopmail.com',
-    role: 'ORG_ADMIN',
-  },
-  {
-    email: 'wan@yopmail.com',
-    role: 'AIR_SERVICES',
-  },
-  {
-    email: 'operations@example.com',
-    role: 'AIR_OPERATIONS',
-  },
-  {
-    email: 'loyalty@example.com',
-    role: 'LOYALTY_PROGRAM',
-  },
-  {
-    email: 'customer@example.com',
-    role: 'CUSTOMER_PORTAL',
-  },
-];
+// const array = [
+//   {
+//     email: 'mubashir.yusuf@ceative.co.uk',
+//     role: 'SUPER_ADMIN',
+//   },
+//   {
+//     email: 'azeem.aslam@ceative.co.uk',
+//     role: 'AIR_SALES',
+//   },
+//   {
+//     email: 'airmarketerapplecart@yopmail.com',
+//     role: 'AIR_MARKETER',
+//   },
+//   {
+//     email: 'orgadminairapplecard@yopmail.com',
+//     role: 'ORG_ADMIN',
+//   },
+//   {
+//     email: 'wan@yopmail.com',
+//     role: 'AIR_SERVICES',
+//   },
+//   {
+//     email: 'operations@example.com',
+//     role: 'AIR_OPERATIONS',
+//   },
+//   {
+//     email: 'loyalty@example.com',
+//     role: 'LOYALTY_PROGRAM',
+//   },
+//   {
+//     email: 'customer@example.com',
+//     role: 'CUSTOMER_PORTAL',
+//   },
+// ];
 
 const DashboardLayout = ({ children, window }: any) => {
   const theme = useTheme();
@@ -92,12 +93,13 @@ const DashboardLayout = ({ children, window }: any) => {
   const router = useRouter();
 
   const { user }: { user: any } = getSession();
-  const findRoleByEmail = ({ user, array }: any) => {
-    return array?.find((skill: any) => skill?.email === user?.email);
-  };
+  //   const findRoleByEmail = ({ user, array }: any) => {
+  //     return array?.find((skill: any) => skill?.email === user?.email);
+  //   };
 
-  const findEmail: any = findRoleByEmail({ user, array });
-  const findEmailRole = findEmail ? findEmail?.role : 'AIR_SERVICES';
+  // const findEmail: any = findRoleByEmail({ user, array });
+
+  const findEmailRole = user ? user?.role : ROLES?.SUPER_ADMIN;
 
   const routes = getRoutes(findEmailRole);
 

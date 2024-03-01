@@ -35,7 +35,7 @@ const BankAccounts = () => {
         Receiver Bank Accounts
       </Typography>
       <Stack direction="column" gap={2} mt={3}>
-        <Stack direction="row" justifyContent="space-between">
+        <Stack direction={{ md: 'row' }} justifyContent="space-between" gap={1}>
           <Search
             onChange={(e: any) => {
               setFilterValues({ ...filterValues, search: e?.target?.value });
@@ -43,7 +43,7 @@ const BankAccounts = () => {
             placeholder="Search Here"
             size="small"
           />
-          <Stack direction="row" gap={1}>
+          <Stack direction={{ sm: 'row' }} gap={1}>
             <ActionDropDown
               checkedRows={checkedRows}
               setIsOpenAddAccountDrawer={setIsOpenAddAccountDrawer}
@@ -58,6 +58,7 @@ const BankAccounts = () => {
                 setIsOpenAddAccountDrawer({
                   ...isOpenAddAccountDrawer,
                   isToggle: true,
+                  type: 'add',
                 })
               }
             >
