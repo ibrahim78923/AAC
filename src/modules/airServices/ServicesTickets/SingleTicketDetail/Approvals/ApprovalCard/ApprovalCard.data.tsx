@@ -91,7 +91,7 @@ export const ticketsApprovalDropdownFunction = (
   {
     title: 'Send Reminder',
     handleClick: (closeMenu: any) => {
-      getUpdateStatus?.({ ...data, state: 'Send Reminder' });
+      getUpdateStatus?.({ ...data, state: TICKET_APPROVALS?.REMINDER });
       closeMenu?.();
     },
   },
