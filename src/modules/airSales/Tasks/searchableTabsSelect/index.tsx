@@ -28,6 +28,7 @@ import {
   setDealsSelectedIds,
   setTicketsSelectedIds,
 } from '@/redux/slices/taskManagement/taskManagementSlice';
+import { tabsData } from './searchableTabSelect.data';
 
 const SearchableTabsSelect = ({ required, ...other }: any) => {
   const dispatch: any = useAppDispatch();
@@ -101,29 +102,6 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
       id: item?._id,
     }));
 
-  const tabsData = [
-    {
-      label: 'Associations',
-      value: 'associations',
-    },
-    {
-      label: 'Companies',
-      value: 'companies',
-    },
-    {
-      label: 'Contacts',
-      value: 'contacts',
-    },
-    {
-      label: 'Deals',
-      value: 'deals',
-    },
-    {
-      label: 'Tickets',
-      value: 'tickets',
-    },
-  ];
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -180,7 +158,7 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              {tabsData.map((item: any) => (
+              {tabsData?.map((item: any) => (
                 <Button
                   key={uuidv4()}
                   sx={{

@@ -7,7 +7,7 @@ import {
 } from '@/components/ReactHookForm';
 import { Checkbox } from '@mui/material';
 import * as Yup from 'yup';
-import SearchableTabsSelect from '@/modules/airSales/Tasks/searchableTabsSelect/SearchableTabsSelect';
+import SearchableTabsSelect from '@/modules/airSales/Tasks/searchableTabsSelect';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setSelectedTaskIds } from '@/redux/slices/taskManagement/taskManagementSlice';
 
