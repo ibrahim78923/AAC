@@ -7,15 +7,20 @@ import {
   Typography,
 } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { v4 as uuidv4 } from 'uuid';
-import { upsertDataArray } from './UpsertFolder.data';
 import { AlertModalCloseIcon } from '@/assets/icons';
 import { useUpsertFolder } from './useUpsertFolder';
 import { LoadingButton } from '@mui/lab';
+import { upsertFolderFormFields } from './UpsertFolder.data';
 
 export const UpsertFolder = (props: any) => {
   const { openDialog, setOpenDialog } = props;
-  const { methods, handleSubmit, onSubmit } = useUpsertFolder(props);
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    postFolderStatus,
+    closeUpsetFolderModal,
+  } = useUpsertFolder(props);
 
   return (
     <Dialog
@@ -40,39 +45,42 @@ export const UpsertFolder = (props: any) => {
           />
         </Box>
       </DialogTitle>
-      <DialogContent>
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          {upsertDataArray?.map((item: any) => (
-            <item.component {...item?.componentProps} key={uuidv4()}>
-              {item?.componentProps?.select &&
-                item?.options?.map((option: any) => (
-                  <option key={uuidv4()} value={option?.value}>
-                    {option?.label}
-                  </option>
-                ))}
-            </item.component>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <DialogContent>
+          {upsertFolderFormFields?.map((item: any) => (
+            <item.component
+              {...item?.componentProps}
+              key={item?.id}
+              size={'small'}
+            />
           ))}
-        </FormProvider>
-      </DialogContent>
-      <DialogActions sx={{ height: '2rem' }}>
-        <Box
-          display={'flex'}
-          justifyContent={'flex-end'}
-          marginBottom={'2rem'}
-          gap={'1rem'}
-        >
-          <LoadingButton
-            variant="outlined"
-            color="secondary"
-            onClick={() => setOpenDialog(false)}
+        </DialogContent>
+        <DialogActions>
+          <Box
+            display={'flex'}
+            justifyContent={'flex-end'}
+            marginBottom={'2rem'}
+            gap={'1rem'}
           >
-            Cancel
-          </LoadingButton>
-          <LoadingButton variant="contained" onClick={onSubmit}>
-            Create
-          </LoadingButton>
-        </Box>
-      </DialogActions>
+            <LoadingButton
+              type="button"
+              variant="outlined"
+              color="secondary"
+              onClick={() => closeUpsetFolderModal?.()}
+              disabled={postFolderStatus?.isLoading}
+            >
+              Cancel
+            </LoadingButton>
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              loading={postFolderStatus?.isLoading}
+            >
+              Create
+            </LoadingButton>
+          </Box>
+        </DialogActions>
+      </FormProvider>
     </Dialog>
   );
 };

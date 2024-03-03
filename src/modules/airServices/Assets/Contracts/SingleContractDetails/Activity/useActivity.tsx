@@ -1,22 +1,10 @@
-import { useState } from 'react';
 import dayjs from 'dayjs';
 import { useGetActivityLogQuery } from '@/services/airServices/tickets/single-ticket-details/activities';
 import { useTheme } from '@mui/material';
 
 export const useActivity = () => {
   const theme = useTheme();
-
-  const [page, setPage] = useState(1);
-
-  const [pageLimit, setPageLimit] = useState(10);
-  const { data, isLoading, isError, isSuccess } = useGetActivityLogQuery({
-    page,
-    limit: pageLimit,
-  });
-
-  const handlePageChange = (page: number) => {
-    setPage(page);
-  };
+  const { data } = useGetActivityLogQuery(null);
 
   const activitiesData =
     data?.data?.activitylogs?.map((activity: any) => ({
@@ -30,19 +18,8 @@ export const useActivity = () => {
       timeTwo: activity?.activityType || '---',
     })) || [];
 
-  const paginationData = data?.data?.meta;
-
   return {
-    isLoading,
-    isError,
-    isSuccess,
     activitiesData,
-    handlePageChange,
-    paginationData,
-    pageLimit,
-    page,
-    setPageLimit,
-    setPage,
     theme,
   };
 };

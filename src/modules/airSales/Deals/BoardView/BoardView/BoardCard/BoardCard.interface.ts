@@ -7,4 +7,5 @@ export interface BoardCardI {
   stageDealsPercent?: number;
   children?: React.ReactNode;
   sx?: SxProps;
+  title?: string;
 }

@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import Manage from './Manage';
 import useCampaigns from './useCampaigns';
-import { PlusIcon } from '@/assets/icons';
+import { PlusIcon, ResetFilterIcon } from '@/assets/icons';
 import Tasks from './Tasks';
 import ImportIcon from '@/assets/icons/shared/import-icon';
 import Filters from './Filters';
@@ -16,9 +16,16 @@ import { useForm } from 'react-hook-form';
 
 import { v4 as uuidv4 } from 'uuid';
 import Calendar from './Calendar';
+import ResetTasksFilter from './ResetTasksFilter';
 
 const Campaigns = () => {
-  const { isOpenFilter, setIsOpenFilter, theme } = useCampaigns();
+  const {
+    isOpenFilter,
+    setIsOpenFilter,
+    theme,
+    isResetTaskFilter,
+    setIsResetTaskFilter,
+  } = useCampaigns();
   const [isCreateTask, setIsCreateTask] = useState(false);
   const [isCompare, setIsCompare] = useState(false);
   const CampaignTask: any = useForm({});
@@ -61,6 +68,16 @@ const Campaigns = () => {
             >
               Create campaigns
             </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              className="small"
+              onClick={() => {
+                setIsResetTaskFilter(true);
+              }}
+            >
+              <ResetFilterIcon />
+            </Button>
           </Box>
         </Stack>
 
@@ -78,60 +95,82 @@ const Campaigns = () => {
           onClose={() => setIsOpenFilter(false)}
         />
       )}
-      <CommonDrawer
-        isDrawerOpen={isCreateTask}
-        onClose={() => {
-          setIsCreateTask(false);
-        }}
-        title={'Create Campaigns'}
-        okText="Create"
-        isOk
-        footer={true}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={CampaignTask}>
-            <Grid container spacing={2}>
-              {campaignArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component
-                    {...item.componentProps}
-                    size={'small'}
-                  ></item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
 
-      <CommonDrawer
-        isDrawerOpen={isCompare}
-        onClose={() => {
-          setIsCompare(false);
-        }}
-        title={'Compare Campaigns'}
-        okText="Create"
-        isOk
-        footer={true}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={CampaignTask}>
-            <Grid container spacing={2}>
-              {compareCampaignArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component
+      {isCreateTask && (
+        <CommonDrawer
+          isDrawerOpen={isCreateTask}
+          onClose={() => {
+            setIsCreateTask(false);
+          }}
+          title="Create Campaign"
+          okText="Create"
+          isOk
+          footer={true}
+        >
+          <Box sx={{ paddingTop: '1rem' }}>
+            <FormProvider methods={CampaignTask}>
+              <Grid container spacing={2}>
+                {campaignArray?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component {...item.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={uuidv4()} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
+                    {/* <item.component
                     {...item.componentProps}
                     size={'small'}
-                  ></item.component>
-                </Grid>
-              ))}
-            </Grid>
-            <Button sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <AddCircle /> Add More
-            </Button>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
+                  ></item.component> */}
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          </Box>
+        </CommonDrawer>
+      )}
+
+      {isCompare && (
+        <CommonDrawer
+          isDrawerOpen={isCompare}
+          onClose={() => {
+            setIsCompare(false);
+          }}
+          title={'Compare Campaigns'}
+          okText="Create"
+          isOk
+          footer={true}
+        >
+          <Box sx={{ paddingTop: '1rem' }}>
+            <FormProvider methods={CampaignTask}>
+              <Grid container spacing={2}>
+                {compareCampaignArray?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component
+                      {...item.componentProps}
+                      size={'small'}
+                    ></item.component>
+                  </Grid>
+                ))}
+              </Grid>
+              <Button
+                sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+              >
+                <AddCircle /> Add More
+              </Button>
+            </FormProvider>
+          </Box>
+        </CommonDrawer>
+      )}
+
+      {isResetTaskFilter && (
+        <ResetTasksFilter
+          isOpen={isResetTaskFilter}
+          setIsOpen={setIsResetTaskFilter}
+        />
+      )}
     </Box>
   );
 };

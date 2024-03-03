@@ -127,6 +127,13 @@ export const companiesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['COMPANY', 'CUSTOMIZE'],
     }),
+    getCompanyDeals: builder.query({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.COMPANY_DEALS}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['COMPANY'],
+    }),
   }),
 });
 
@@ -145,4 +152,5 @@ export const {
   useGetCustomizeColumnsQuery,
   useGetCompaniesViewsQuery,
   usePutCustomizedColumnsMutation,
+  useGetCompanyDealsQuery,
 } = companiesAPI;

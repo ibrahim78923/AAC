@@ -17,6 +17,7 @@ import { AnnouncementHeader } from './AnnouncementDashboard/AnnouncementHeader';
 import { RadialBarChart } from './Chart/RadialBarChart';
 import { useDashboard } from './useDashboard';
 import RecentActivitiesDashboardDrawer from './RecentActivitiesDashboard/RecentActivitiesDashboardDrawer';
+import AnnouncementDashboard from './AnnouncementDashboard/AnnouncementDashboard';
 
 const Dashboard = () => {
   const {
@@ -26,6 +27,11 @@ const Dashboard = () => {
     theme,
     isbarchart,
     setIsBarChart,
+    handleAnnouncementIconButton,
+    isAnnouncementDrawerOpen,
+    setIsAnnouncementDrawerOpen,
+    cardData,
+    customerAnnouncement,
   } = useDashboard();
 
   return (
@@ -33,7 +39,7 @@ const Dashboard = () => {
       <HeaderDashboard />
       <br />
       <Grid container spacing={3}>
-        {ticketDashboardCardsData?.map((item: any) => (
+        {ticketDashboardCardsData(cardData)?.map((item: any) => (
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item?.id}>
             <TicketDashboardCards
               icon={item?.icon}
@@ -92,7 +98,7 @@ const Dashboard = () => {
                   isDrawerOpen={isDrawerOpen}
                   setIsDrawerOpen={setIsDrawerOpen}
                 />
-                <Box display={'flex'} justifyContent={'center'} marginTop={0.5}>
+                <Box display={'flex'} justifyContent={'center'} marginTop={4}>
                   <Button variant="text" fullWidth onClick={handleIconButton}>
                     View All
                   </Button>
@@ -144,22 +150,33 @@ const Dashboard = () => {
                   <AnnouncementHeader />
                 </Box>
                 <Box overflow={'scroll'} height={'25vh'}>
-                  {announcementDashboardCardData?.map((item, index) => (
-                    <Box key={uuidv4()}>
-                      <AnnouncementDashboardCard
-                        icon={item?.icon}
-                        announcement={item?.announcement}
-                        announcementTime={item?.announcementTime}
-                        announcementAvatar={item?.announcementAvatar}
-                        isBorderBottom={
-                          announcementDashboardCardData?.length - 1 !== index
-                        }
-                      />
-                    </Box>
-                  ))}
+                  {announcementDashboardCardData(customerAnnouncement)?.map(
+                    (item, index) => (
+                      <Box key={item?.id}>
+                        <AnnouncementDashboardCard
+                          icon={item?.icon}
+                          announcement={item?.announcement}
+                          announcementTime={item?.announcementTime}
+                          announcementAvatar={item?.announcementAvatar}
+                          isBorderBottom={
+                            announcementDashboardCardData?.length - 1 !== index
+                          }
+                        />
+                      </Box>
+                    ),
+                  )}
                 </Box>
-                <Box display={'flex'} justifyContent={'center'} marginTop={1}>
-                  <Button variant="text" fullWidth>
+
+                <AnnouncementDashboard
+                  isAnnouncementDrawerOpen={isAnnouncementDrawerOpen}
+                  setIsAnnouncementDrawerOpen={setIsAnnouncementDrawerOpen}
+                />
+                <Box display={'flex'} justifyContent={'center'} marginTop={3}>
+                  <Button
+                    variant="text"
+                    fullWidth
+                    onClick={handleAnnouncementIconButton}
+                  >
                     View All
                   </Button>
                 </Box>

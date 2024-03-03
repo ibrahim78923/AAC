@@ -2,16 +2,10 @@ import Image from 'next/image';
 
 import { Box, Typography } from '@mui/material';
 
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import { NotesAvatarImage } from '@/assets/images';
 
-export const columns: any = ({
-  setOpenDrawer,
-  setIsOpenAlert,
-}: {
-  setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
-  setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -25,7 +19,7 @@ export const columns: any = ({
             </Typography>
             <br />
             <Typography variant="body3">
-              {info?.row?.original?.email}
+              {info?.row?.original?.domain}
             </Typography>
           </Box>
         </Box>
@@ -43,7 +37,7 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row?.owner,
+      accessorFn: (row: any) => row?.ownerId,
       id: 'owner',
       isSortable: true,
       header: 'Company Owner',
@@ -55,19 +49,23 @@ export const columns: any = ({
       id: 'assignedTo',
       isSortable: false,
       header: 'Actions',
-      cell: () => (
-        <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('View')}>
-            <ViewEyeIcon />
+      cell: (info: any) => {
+        const rowData = info?.row?.original;
+        return (
+          <Box sx={{ display: 'flex', gap: 0.5 }}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => handleOpenDrawer(rowData)}
+            >
+              <ViewEyeIcon />
+            </Box>
+
+            <Box sx={{ cursor: 'pointer' }} onClick={handleOpenAlert}>
+              <DeleteCrossIcon />
+            </Box>
           </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('Edit')}>
-            <EditPenIcon />
-          </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setIsOpenAlert(true)}>
-            <DeleteCrossIcon />
-          </Box>
-        </Box>
-      ),
+        );
+      },
     },
   ];
 };

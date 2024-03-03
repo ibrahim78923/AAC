@@ -1,47 +1,27 @@
-import { Box, Grid, Typography } from '@mui/material';
-import { settingTabsOptions } from './Settings.data';
+import { Typography } from '@mui/material';
 import CommonModal from '@/components/CommonModal';
-import Search from '@/components/Search';
-import { v4 as uuidv4 } from 'uuid';
-import useSettings from './useSettings';
-import { useState } from 'react';
+import CommonTabs from '@/components/Tabs';
+import AddCampaigns from './AdCampaigns';
+import CTAs from './CTAs';
 
 const Settings = ({ closeAddAssets, isOpenAddAssets }: any) => {
-  const { accordianTableInfo, SelectedAccordianTable } = useSettings();
-  const [searchBy, setSearchBy] = useState('');
   return (
     <CommonModal
-      title="Add Assets"
+      title={<Typography variant="h3">Add Assets</Typography>}
       open={isOpenAddAssets}
       handleCancel={closeAddAssets}
+      okText="Apply"
+      cancelText="cancel"
+      footer
     >
-      <Grid container>
-        <Grid item lg={3}>
-          <Typography variant="h4">Settings</Typography>
-          {settingTabsOptions?.map((settingTabsOptionsNames) => (
-            <Typography
-              onClick={() => SelectedAccordianTable(settingTabsOptionsNames)}
-              key={uuidv4()}
-              pt={3}
-              style={{ cursor: 'pointer' }}
-            >
-              {settingTabsOptionsNames?.name}
-            </Typography>
-          ))}
-        </Grid>
-        <Grid item lg={9}>
-          <Box mb={4}>
-            <Search
-              width={260}
-              label="Search Here"
-              size="small"
-              setSearchBy={setSearchBy}
-              searchBy={searchBy}
-            />
-          </Box>
-          {accordianTableInfo}
-        </Grid>
-      </Grid>
+      <Typography variant="h4">Settings</Typography>
+      <CommonTabs
+        tabsArray={['Ad Campaigns', 'CTAs', 'Emails', 'Forms', 'Social Posts']}
+        tabStyle={'vertical'}
+      >
+        <AddCampaigns />
+        <CTAs />
+      </CommonTabs>
     </CommonModal>
   );
 };

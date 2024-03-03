@@ -4,7 +4,11 @@ import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
 import { DATE_FORMAT } from '@/constants';
-import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
+import {
+  useGetContactsQuery,
+  useDeleteContactMutation,
+} from '@/services/commonFeatures/contacts';
+import { enqueueSnackbar } from 'notistack';
 
 const useContactsSaleSite = () => {
   const [selectedRow, setSelectedRow]: any = useState([]);
@@ -102,7 +106,8 @@ const useContactsSaleSite = () => {
 
   // Delete Contact
   const [openModalDelete, setOpenModalDelete] = useState(false);
-  // const [deleteFaq, { isLoading: loadingDelete }] = useDeleteFaqsMutation();
+  const [deleteContact, { isLoading: loadingDelete }] =
+    useDeleteContactMutation();
   const handleOpenModalDelete = () => {
     handleActionsMenuClose();
     setOpenModalDelete(true);
@@ -111,22 +116,22 @@ const useContactsSaleSite = () => {
     setOpenModalDelete(false);
   };
 
-  // const handleDeleteFaq = async () => {
-  //   const items = await selectedRow?.join(',');
-  //   try {
-  //     await deleteFaq(items)?.unwrap();
-  //     handleCloseModalDelete();
-  //     setSelectedRow([]);
-  //     enqueueSnackbar('Record has been deleted.', {
-  //       variant: 'success',
-  //     });
-  //     setIsActionsDisabled(true);
-  //   } catch (error: any) {
-  //     enqueueSnackbar('An error occured', {
-  //       variant: 'error',
-  //     });
-  //   }
-  // };
+  const handleDeleteContact = async () => {
+    const contactIds = await selectedRow;
+    try {
+      await deleteContact({ contactIds })?.unwrap();
+      handleCloseModalDelete();
+      setSelectedRow([]);
+      enqueueSnackbar('Contact has been deleted.', {
+        variant: 'success',
+      });
+      setIsActionsDisabled(true);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
 
   // Re-Asign
   const [isReAssign, setIsReAssign] = useState(false);
@@ -180,12 +185,15 @@ const useContactsSaleSite = () => {
     openModalDelete,
     handleOpenModalDelete,
     handleCloseModalDelete,
+    handleDeleteContact,
+    loadingDelete,
     isReAssign,
     handleOpenModalReAssign,
     handleCloseModalReAssign,
     openModalExport,
     handleOpenModalExport,
     handleCloseModalExport,
+    setOpenModalExport,
 
     theme,
     isOpen,

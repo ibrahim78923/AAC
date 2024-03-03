@@ -1,5 +1,6 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
+import { transformResponse } from '@/utils/api';
 
 const TAGS = 'SOFTWARE';
 
@@ -17,6 +18,7 @@ export const deleteSoftwareAPI = baseAPI?.injectEndpoints({
 
 export const { useDeleteSoftwareMutation } = deleteSoftwareAPI;
 const TAG = 'ASSETS_SOFTWARE';
+const TAG_TWO = 'USERS_DROPDOWN';
 
 export const assetsSoftwareAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
@@ -51,6 +53,39 @@ export const assetsSoftwareAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
+    postSoftware: builder?.mutation({
+      query: (body) => ({
+        url: `${END_POINTS?.ADD_SOFTWARE}`,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    editSoftware: builder?.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.EDIT_SOFTWARE}/${id}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getSoftwareById: builder?.query({
+      query: (params) => ({
+        url: `${END_POINTS?.GET_SOFTWARE_DETAIL}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG],
+    }),
+    getUserDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse,
+      providesTags: [TAG_TWO],
+    }),
   }),
 });
 
@@ -58,4 +93,8 @@ export const {
   useGetAssetsSoftwareQuery,
   useLazyGetCategoriesDropdownQuery,
   usePutSoftwareAssignCategoryMutation,
+  usePostSoftwareMutation,
+  useEditSoftwareMutation,
+  useLazyGetUserDropdownQuery,
+  useLazyGetSoftwareByIdQuery,
 } = assetsSoftwareAPI;

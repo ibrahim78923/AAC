@@ -52,6 +52,7 @@ export { default as KnowledgeBaseImage } from './modules/HeaderAndSidebar/knowle
 export { default as CompaniesImage } from './modules/HeaderAndSidebar/companies.png';
 export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
 export { default as RQCodeImage } from '../../assets/images/shared/qr-code.png';
+export { default as UserRequesterImage } from '../images/shared/user-requester.png';
 
 export { default as AvatarConversationImage } from '../../assets/images/shared/avatar-conversation-image.png';
 export { default as UserAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';
@@ -266,3 +267,5 @@ export { default as VuesaxErrorImage } from './modules/airServices/Tickets/vuesa
 export { default as UserDefault } from './modules/socialComponents/chat/user-default.png';
 export { default as TypingGif } from './modules/socialComponents/chat/typing.gif';
 export { default as PhysicalCardSmallImage } from './modules/loyaltyProgram/GiftCards/physical-card-small-image.png';
+export { default as UserProfileVectorImage } from './modules/airCallCenter/CallMetrices/user-avatar.png';
+export { default as CardBGBubbles } from './modules/airCallCenter/CallMetrices/card-bg-bubbles.png';

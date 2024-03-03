@@ -35,7 +35,7 @@ const RestoreFilterDrawer = ({
         <Box sx={{ my: '20px' }}>
           <RHFDatePicker name="startDate" fullWidth label="Start Date" />
         </Box>
-        <RHFDatePicker name="closeDate" fullWidth label="Close Date" />
+        <RHFDatePicker name="endDate" fullWidth label="End Date" />
       </FormProvider>
     </CommonDrawer>
   );

@@ -60,7 +60,7 @@ export const columns = (
           router?.push({
             pathname: AIR_SERVICES?.ASSETS_SOFTWARE_DETAIL,
             query: {
-              softwareId: info?.row?.id,
+              softwareId: info?.row?.original?.id,
             },
           })
         }

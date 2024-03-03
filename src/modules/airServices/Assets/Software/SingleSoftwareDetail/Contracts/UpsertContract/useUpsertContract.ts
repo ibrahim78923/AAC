@@ -7,9 +7,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useLazyGetVendorDropdownQuery,
   useLazyGetDropdownAssetsQuery,
@@ -17,6 +15,7 @@ import {
   useLazyGetSoftwareDropdownQuery,
   useLazyGetAgentsDropdownQuery,
 } from '@/services/airServices/assets/contracts';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useUpsertContract = () => {
   const theme = useTheme();
@@ -26,7 +25,7 @@ export const useUpsertContract = () => {
     resolver: yupResolver<any>(upsertContractFormSchemaFunction),
     defaultValues: upsertContractFormDefaultValuesFunction(),
   });
-  const { handleSubmit, control, reset } = upsertContractFormMethods;
+  const { handleSubmit, control } = upsertContractFormMethods;
 
   const watchForNotifyExpiry = useWatch({
     control,
@@ -35,13 +34,12 @@ export const useUpsertContract = () => {
   });
 
   const handleCancelBtn = () => {
-    router?.push({ pathname: AIR_SERVICES?.ASSETS_CONTRACTS });
+    router?.push({ pathname: AIR_SERVICES?.ASSETS_SOFTWARE_DETAIL });
   };
 
   const submitUpsertContractForm = async (data: any) => {
     const postContractForm = new FormData();
     postContractForm?.append('name', data?.contractName);
-    // postContractForm?.append('contractNumber', data?.contractNumber);
     postContractForm?.append('contractType', data?.type?._id);
     postContractForm?.append('cost', data?.cost);
     data?.vendor !== null &&
@@ -50,8 +48,10 @@ export const useUpsertContract = () => {
     postContractForm?.append('endDate', data?.endDate?.toISOString());
     postContractForm?.append('autoRenew', data?.autoRenew);
     postContractForm?.append('notifyRenewal', data?.notifyExpiry);
-    postContractForm?.append('notifyBefore', data?.notifyBefore);
-    postContractForm?.append('notifyTo', data?.notifyTo?._id);
+    !!data?.notifyExpiry &&
+      postContractForm?.append('notifyBefore', data?.notifyBefore);
+    !!data?.notifyExpiry &&
+      postContractForm?.append('notifyTo', data?.notifyTo?._id);
     postContractForm?.append('software', data?.software?._id);
     postContractForm?.append('itemsDetail', data?.itemDetail);
     postContractForm?.append('billingCycle', data?.billingCycle?._id);
@@ -60,7 +60,6 @@ export const useUpsertContract = () => {
 
     data?.approver !== null &&
       postContractForm?.append('approver', data?.approver?._id);
-    // postContractForm?.append('status', data?.status?._id);
     data?.associateAssets !== null &&
       postContractForm.append('associatedAsset', data?.associateAssets?._id);
     data?.attachFile !== null &&
@@ -70,19 +69,11 @@ export const useUpsertContract = () => {
       body: postContractForm,
     };
     try {
-      const response: any = await postContractTrigger(
-        postContractParameter,
-      )?.unwrap();
-      enqueueSnackbar('Contract Created Successfully' ?? response?.message, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postContractTrigger(postContractParameter)?.unwrap();
+      successSnackbar('Contract Created Successfully');
       router?.back();
-      reset(upsertContractFormDefaultValuesFunction());
     } catch (error: any) {
-      enqueueSnackbar(error?.message ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-      reset(upsertContractFormDefaultValuesFunction());
+      errorSnackbar();
     }
   };
   const apiQueryVendor = useLazyGetVendorDropdownQuery();

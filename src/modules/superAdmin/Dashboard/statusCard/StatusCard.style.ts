@@ -3,6 +3,7 @@ import { GreenBgImage, UnionBgImage } from '@/assets/images';
 export const style = {
   TotalClientStyle: (theme: any) => {
     return {
+      height: '100%',
       border: `1px solid ${theme?.palette?.grey[700]}`,
       borderRadius: '8px',
       padding: '1rem',
@@ -35,6 +36,7 @@ export const style = {
   },
   EarningCardStyle: (theme: any) => {
     return {
+      height: '100%',
       border: `1px solid ${theme?.palette?.grey[700]}`,
       borderRadius: '8px',
       padding: '0.8rem',

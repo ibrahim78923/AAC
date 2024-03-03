@@ -12,14 +12,14 @@ export const UpdateWorkloadTask = ({
   const { handleSubmit, onSubmit, methods, workloadDataArray } =
     useUpdateWorkloadTask({
       onClose,
-      data,
+      dataGet: data,
     });
 
   return (
     <CommonDrawer
       isDrawerOpen={openDrawer}
       onClose={() => onClose(false)}
-      title={edit ? 'Update Task' : `#${data?.extendedProps?.ticketNo}`}
+      title={edit ? 'Update Task' : `#${data?.extendedProps?.taskNo}`}
       okText={'Update'}
       isOk={edit}
       cancelText={'Cancel'}

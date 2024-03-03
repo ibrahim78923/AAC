@@ -77,6 +77,7 @@ const CommonModal = ({
                 <Button
                   onClick={handleCancel}
                   variant="outlined"
+                  color="inherit"
                   sx={{
                     height: '36px',
                     width: 'auto',

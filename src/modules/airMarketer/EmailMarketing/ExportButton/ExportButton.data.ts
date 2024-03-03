@@ -1,4 +1,4 @@
-import { RHFDateRangePicker, RHFTextField } from '@/components/ReactHookForm';
+import { RHFRadioGroup, RHFSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const exportButtonValidationSchema = Yup?.object()?.shape({
@@ -8,33 +8,32 @@ export const exportButtonValidationSchema = Yup?.object()?.shape({
 
 export const exportButtonFormFields = [
   {
-    id: 10,
     componentProps: {
-      name: 'percentageOff',
-      label: 'Percentage Off',
-      placeholder: '',
+      name: 'fileFormat',
+      label: 'File format',
+      fullWidth: true,
+      select: true,
     },
-    component: RHFTextField,
+    options: [
+      { value: 'csv', label: 'CSV' },
+      { value: 'xls', label: 'XLS' },
+      { value: 'xlsx', label: 'XLSX' },
+    ],
+    component: RHFSelect,
     md: 12,
   },
+
   {
-    id: 11,
     componentProps: {
-      name: 'flatOff',
-      label: 'Flat off (on entire purchase)',
-      placeholder: '',
+      name: 'radio',
+      row: false,
+      fullWidth: true,
+      options: [
+        { value: 'all', label: 'All emails' },
+        { value: 'emails', label: 'Emails sent within a custom date range' },
+      ],
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    id: 7,
-    componentProps: {
-      name: 'accountCreatedIn',
-      label: 'Account created in',
-      placeholder: 'Select',
-    },
-    component: RHFDateRangePicker,
+    component: RHFRadioGroup,
     md: 12,
   },
 ];

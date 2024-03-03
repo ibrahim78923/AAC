@@ -14,7 +14,7 @@ export const AddRewards = () => {
   return (
     <Box>
       <Typography variant="body1" color={'secondary'}>
-        What Kind of reqard would you like to create?
+        What Kind of reward would you like to create?
       </Typography>
       <Box mt={3}>
         <Grid container spacing={2}>

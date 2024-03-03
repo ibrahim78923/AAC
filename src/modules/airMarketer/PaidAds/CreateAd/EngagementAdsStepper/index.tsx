@@ -12,6 +12,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
 import { AudienceMockImage } from '@/assets/images';
 import { styles } from './EngagementAds.style';
+import PublishActionButton from '../PublishActionBtn';
 
 const EngagementAdsStepper = () => {
   const theme = useTheme();
@@ -226,12 +227,7 @@ const EngagementAdsStepper = () => {
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
             {activeStep === stepThree ? (
-              <Button
-                variant="contained"
-                onClick={() => router?.push(AIR_MARKETER?.PAID_ADS)}
-              >
-                Publish
-              </Button>
+              <PublishActionButton />
             ) : (
               <Button type="submit" sx={{ mr: 1 }} variant="contained">
                 Next

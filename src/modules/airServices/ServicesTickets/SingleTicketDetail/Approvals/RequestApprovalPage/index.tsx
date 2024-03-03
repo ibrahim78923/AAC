@@ -1,42 +1,52 @@
-import { useState } from 'react';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import RequestApproval from './RequestApproval';
 import RequestReceivedApproval from './RequestReceivedApproval';
-import { Button, Grid, Typography } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AllApprovals } from './AllApprovals';
-import { AddRequestApproval } from '../AddRequestPage/AddRequestApproval';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
-const TabsData = ['All', 'Request Approval', 'Request received for approval'];
-
-const RequestApprovalPage: React.FC = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+const RequestApprovalPage = (props: any) => {
+  const {
+    setIsDrawerOpen,
+    data,
+    setApproval,
+    updateRequestApprovalStatus,
+    metaData,
+  } = props;
   return (
     <>
-      <Grid
-        container
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        mb={'1rem'}
-      >
-        <Typography variant="h5">Approvals</Typography>
-        <Button
-          variant="contained"
-          onClick={() => setIsDrawerOpen(true)}
-          startIcon={<AddCircleIcon />}
-        >
-          Request Approval
-        </Button>
-      </Grid>
-      <HorizontalTabs tabsDataArray={TabsData} variant={'fullWidth'}>
-        <AllApprovals />
-        <RequestApproval />
-        <RequestReceivedApproval />
-      </HorizontalTabs>
-      <AddRequestApproval
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
+      <PageTitledHeader
+        title={'Approvals'}
+        addTitle={' Request Approval'}
+        handleAction={() => setIsDrawerOpen(true)}
       />
+      <HorizontalTabs
+        tabsDataArray={[
+          'All',
+          'Request sent for approval',
+          'Request received for approval',
+        ]}
+      >
+        <AllApprovals
+          data={data}
+          setApproval={(x: any) => setApproval?.(x)}
+          updateRequestApprovalStatus={(item: any) =>
+            updateRequestApprovalStatus?.(item)
+          }
+          metaData={metaData}
+        />
+        <RequestApproval
+          setApproval={(x: any) => setApproval?.(x)}
+          updateRequestApprovalStatus={(item: any) =>
+            updateRequestApprovalStatus?.(item)
+          }
+        />
+        <RequestReceivedApproval
+          setApproval={(x: any) => setApproval?.(x)}
+          updateRequestApprovalStatus={(item: any) =>
+            updateRequestApprovalStatus?.(item)
+          }
+        />
+      </HorizontalTabs>
     </>
   );
 };

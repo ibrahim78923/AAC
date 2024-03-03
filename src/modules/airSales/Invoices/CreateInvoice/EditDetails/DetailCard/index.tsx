@@ -8,7 +8,6 @@ import { LogoSharedIcon } from '@/assets/icons';
 import { useTheme } from '@mui/material/styles';
 import { style } from '../EditDetail.style';
 import { v4 as uuidv4 } from 'uuid';
-import ChooseQuotes from '../../ChooseQuotes';
 import useDetailCard from './useDetailCard';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '../../../../../../constants/index';
@@ -25,7 +24,6 @@ const DetailCard = () => {
 
   return (
     <Box>
-      <ChooseQuotes />
       <Box sx={style?.cardDetails} className="air-apple-card">
         <Stack
           gap={2}

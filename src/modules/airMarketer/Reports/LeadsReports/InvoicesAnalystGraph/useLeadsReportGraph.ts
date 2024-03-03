@@ -1,3 +1,5 @@
+import { ApexOptions } from 'apexcharts';
+
 const useLeadsReportGraph = () => {
   const series = [
     {
@@ -30,18 +32,49 @@ const useLeadsReportGraph = () => {
     },
   ];
 
-  const options: any = {
+  const options: ApexOptions = {
     chart: {
       type: 'bar',
-      height: 350,
+      // height: 350,
+      toolbar: {
+        show: false,
+      },
     },
     plotOptions: {
       bar: {
         horizontal: false,
         columnWidth: '18px',
-        endingShape: 'rounded',
+        // endingShape: 'rounded',
       },
     },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'right',
+      show: true,
+      offsetX: 0,
+      offsetY: 0,
+      itemMargin: {
+        horizontal: 15,
+      },
+    },
+    responsive: [
+      {
+        breakpoint: 560,
+
+        options: {
+          legend: {
+            position: 'bottom',
+            offsetX: 10,
+            offsetY: 4,
+          },
+          plotOptions: {
+            bar: {
+              columnWidth: '15px', // Set a smaller value for columnWidth in responsiveness
+            },
+          },
+        },
+      },
+    ],
     dataLabels: {
       enabled: false,
     },

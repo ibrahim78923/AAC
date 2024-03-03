@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
-import ChooseQuotes from './ChooseQuotes';
 import EditDetails from './EditDetails';
 import ReviewInvoice from './ReviewInvoice';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,17 +12,12 @@ const useCreateInvoices = () => {
   const invoicesStepperData = [
     {
       key: uuidv4(),
-      label: 'Choose Quotes',
-      component: <ChooseQuotes />,
-    },
-    {
-      key: uuidv4(),
       label: 'Edit Details',
       component: <EditDetails />,
     },
     {
       key: uuidv4(),
-      label: 'Review and send',
+      label: 'Review and Send',
       component: <ReviewInvoice />,
     },
   ];

@@ -14,6 +14,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import CommonModal from '@/components/CommonModal';
+import { ArrowAlertPopupIcon } from '@/assets/icons';
 
 const MoveToFolder = ({
   openMoveToFolderModal,
@@ -41,6 +42,7 @@ const MoveToFolder = ({
         handleCancel={handleCloseMoveToFolderModal}
         handleSubmit={handleCloseMoveToFolderModal}
         title="Move to folder"
+        headerIcon={<ArrowAlertPopupIcon />}
       >
         <Box sx={{ margin: '20px 0' }}>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -59,7 +61,13 @@ const MoveToFolder = ({
               ))}
             </Grid>
             <Box sx={styles?.buttonBox} mt={2}>
-              <Button variant="outlined">Cancel</Button>
+              <Button
+                variant="outlined"
+                color="inherit"
+                onClick={handleCloseMoveToFolderModal}
+              >
+                Cancel
+              </Button>
               <Button variant="contained" type="submit" onClick={handleSubmit}>
                 Save
               </Button>
