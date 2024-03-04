@@ -5,7 +5,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { AIR_SERVICES } from '@/constants';
-import { CATALOG_SERVICE_TYPES } from '@/constants/strings';
+import { CATALOG_SERVICE_TYPES, ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
 export const placeRequestValidationSchema = (searchStringLowerCase: any) =>
   Yup?.object()?.shape({
@@ -66,7 +66,7 @@ export const placeRequest = (
       disabled: requestForSomeOne === true ? true : false,
       apiQuery: apiQueryRequester,
       EndIcon: AddCircleIcon,
-      externalParams: { limit: 50, role: 'ORG_REQUESTER' },
+      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
       endIconClick: () => {
@@ -95,7 +95,7 @@ export const placeRequest = (
       required: true,
       apiQuery: apiQueryRequester,
       EndIcon: AddCircleIcon,
-      externalParams: { limit: 50, role: 'ORG_REQUESTER' },
+      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
       endIconClick: () => {

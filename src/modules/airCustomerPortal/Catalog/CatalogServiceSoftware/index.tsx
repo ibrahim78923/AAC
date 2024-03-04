@@ -13,7 +13,7 @@ const CatalogServiceSoftware = (prop: any) => {
           <Typography
             variant="body4"
             dangerouslySetInnerHTML={{
-              __html: servicesDetails?.data?.[0]?.description,
+              __html: servicesDetails?.data?.description,
             }}
           />
 

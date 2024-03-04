@@ -23,8 +23,8 @@ const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
   const { serviceId } = router?.query;
   const [postTicketTrigger] = usePostTicketsMutation();
   const CategoryType =
-    servicesDetails?.data?.[0]?.categoryDetails?.categoryName ||
-    servicesDetails?.data?.[0]?.itemName;
+    servicesDetails?.data?.categoryDetails?.categoryName ||
+    servicesDetails?.data?.itemName;
 
   const searchStringLowerCase = CategoryType?.toLowerCase();
   const methodRequest = useForm<any>({
@@ -39,8 +39,8 @@ const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
     const addItemToDescription =
       CategoryType?.toLowerCase() ===
       CATALOG_SERVICE_TYPES?.HARDWARE?.toLowerCase()
-        ? `${servicesDetails?.data?.[0]?.description} No of item ${data?.noOfItem}`
-        : servicesDetails?.data?.[0]?.description;
+        ? `${servicesDetails?.data?.description} No of item ${data?.noOfItem}`
+        : servicesDetails?.data?.description;
 
     const placeRequestData = new FormData();
     placeRequestData?.append(

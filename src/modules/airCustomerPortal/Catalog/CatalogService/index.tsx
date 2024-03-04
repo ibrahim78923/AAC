@@ -42,14 +42,14 @@ const CatalogService = () => {
           <ArrowForwardIosIcon fontSize="small" />
 
           <Typography variant="h5">
-            {servicesDetails?.data?.[0]?.itemName}
+            {servicesDetails?.data?.itemName}
           </Typography>
         </Box>
       </Box>
       <Grid container>
         <Grid item xs={12} md={6} lg={4} key={uuidv4()}>
           <Box
-            key={servicesDetails?.data?.[0]?._id}
+            key={servicesDetails?.data?._id}
             borderRadius={2}
             border={'0.3rem solid'}
             borderColor={'primary.lighter'}
@@ -66,10 +66,10 @@ const CatalogService = () => {
               p={2}
             >
               <Image
-                src={servicesDetails?.data?.[0]?.image || ''}
+                src={servicesDetails?.data?.image || ''}
                 height={56}
                 width={58}
-                alt={`Service ${servicesDetails?.data?.[0]?._id} Image`}
+                alt={`Service ${servicesDetails?.data?._id} Image`}
               />
             </Box>
             <Box
@@ -80,14 +80,14 @@ const CatalogService = () => {
               mt={2}
             >
               <Typography variant="h5">
-                {servicesDetails?.data?.[0]?.itemName}
+                {servicesDetails?.data?.itemName}
               </Typography>
 
               <Typography variant="body2" component={'span'}>
-                {servicesDetails?.data?.[0]?.description}
+                {servicesDetails?.data?.description}
               </Typography>
               <Typography variant="body2" component={'span'}>
-                {servicesDetails?.data?.[0]?.cost}
+                {servicesDetails?.data?.cost}
               </Typography>
             </Box>
           </Box>
