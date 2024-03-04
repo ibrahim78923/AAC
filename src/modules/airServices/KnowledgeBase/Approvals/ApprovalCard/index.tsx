@@ -1,6 +1,7 @@
 import { Box, Chip, Typography, useTheme } from '@mui/material';
 
-const ApprovalCard = ({ title, folder, author }: any) => {
+const ApprovalCard = (props: any) => {
+  const { title, folder, author, sendApproval, disabled } = props;
   const theme = useTheme();
   return (
     <Box
@@ -52,10 +53,16 @@ const ApprovalCard = ({ title, folder, author }: any) => {
       </Box>
       <Chip
         label={'Approve'}
+        variant="filled"
         sx={{
           backgroundColor: 'blue.main',
           color: 'common.white',
+          '&:hover': {
+            backgroundColor: 'blue.main',
+          },
         }}
+        disabled={disabled}
+        onClick={() => sendApproval?.()}
       />
     </Box>
   );

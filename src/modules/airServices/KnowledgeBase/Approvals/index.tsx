@@ -7,8 +7,13 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { fullName } from '@/utils/avatarUtils';
 
 export const Approvals = () => {
-  const { lazyGetUnapprovedArticlesStatus, setPage, setPageLimit } =
-    useApprovals();
+  const {
+    lazyGetUnapprovedArticlesStatus,
+    setPage,
+    setPageLimit,
+    postApproval,
+    postArticleApprovalStatus,
+  } = useApprovals();
 
   if (
     lazyGetUnapprovedArticlesStatus?.isLoading ||
@@ -39,6 +44,8 @@ export const Approvals = () => {
                   approval?.author?.firstName,
                   approval?.author?.lastName,
                 )}
+                sendApproval={() => postApproval?.(approval?._id)}
+                disabled={postArticleApprovalStatus?.isLoading}
               />
             ),
           )}
