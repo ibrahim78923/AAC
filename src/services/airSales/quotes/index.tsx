@@ -100,6 +100,16 @@ export const quotesAPI = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['COMPANY'],
     }),
+    postAddbuyerInfo: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.POST_BUYER_INFO,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -115,4 +125,5 @@ export const {
   useGetCompaniesOwnersQuery,
   useGetUsersListQuery,
   usePostProductMutation,
+  usePostAddbuyerInfoMutation,
 } = quotesAPI;

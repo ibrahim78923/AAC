@@ -16,6 +16,7 @@ const CreateContacts = ({ open, onClose }: any) => {
     lifeCycleStagesData,
     contactStatusData,
     userList,
+    submitContact,
   }: any = useCreateContacts();
 
   return (
@@ -25,7 +26,7 @@ const CreateContacts = ({ open, onClose }: any) => {
       title="Create Contact"
       footer
       okText="Create"
-      submitHandler={handleSubmit(onSubmit)}
+      submitHandler={submitContact(onClose)}
       isOk
     >
       <Box sx={{ pt: 2 }}>
