@@ -1,5 +1,4 @@
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -7,29 +6,20 @@ import {
   Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { FormProvider, RHFAutocomplete } from '@/components/ReactHookForm';
-import { v4 as uuidv4 } from 'uuid';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
-import { validationSchema, defaultValues } from './RequestApprovalForm.data';
+import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { LoadingButton } from '@mui/lab';
+import { useRequestApprovalForm } from './useRequestApprovalForm';
 
-export const RequestApprovalForm = ({ openDialog, setOpenDialog }: any) => {
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues,
-  });
-
-  const { handleSubmit, reset } = methods;
-
-  const onSubmit = async () => {
-    enqueueSnackbar('Approval Requested Successfully!', {
-      variant: 'success',
-    });
-    setOpenDialog(false);
-    reset(defaultValues);
-  };
-
+export const RequestApprovalForm = (props: any) => {
+  const {
+    openDialog,
+    setOpenDialog,
+    methods,
+    handleSubmit,
+    onSubmit,
+    postRequestApprovalStatus,
+    apiQueryAgents,
+  } = useRequestApprovalForm(props);
   return (
     <Dialog
       open={openDialog}
@@ -49,29 +39,37 @@ export const RequestApprovalForm = ({ openDialog, setOpenDialog }: any) => {
 
       <DialogContent sx={{ mt: 1 }}>
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={4}>
-            <Grid item xs={12} key={uuidv4()}>
-              <RHFAutocomplete
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <RHFAutocompleteAsync
                 name="approvers"
+                size="small"
+                placeholder="Select a User"
                 label="Approvers"
-                options={['BE', 'BE1', 'BE2']}
-                placeholder={'Select a User'}
+                apiQuery={apiQueryAgents}
+                getOptionLabel={(option: any) =>
+                  `${option?.firstName} ${option?.lastName}`
+                }
                 required
               />
             </Grid>
 
             <Grid item xs={12} textAlign={'end'}>
-              <Button
+              <LoadingButton
                 variant="outlined"
                 sx={{ mx: 2 }}
                 onClick={() => setOpenDialog(false)}
                 color={'secondary'}
               >
                 Cancel
-              </Button>
-              <Button variant="contained" type="submit">
+              </LoadingButton>
+              <LoadingButton
+                loading={postRequestApprovalStatus?.isLoading}
+                variant="contained"
+                type="submit"
+              >
                 Request
-              </Button>
+              </LoadingButton>
             </Grid>
           </Grid>
         </FormProvider>

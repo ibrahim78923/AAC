@@ -9,8 +9,7 @@ const EditAgentStatus = ({
   isDrawerOpen,
   onClose,
   handleSubmit,
-  formMethods,
-  // isLoading,
+  formMethods, // isLoading,
 }: EditAgentStatusPropsI) => {
   return (
     <CommonDrawer

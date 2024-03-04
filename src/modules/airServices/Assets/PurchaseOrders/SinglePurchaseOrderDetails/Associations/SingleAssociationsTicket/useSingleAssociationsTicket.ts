@@ -8,7 +8,7 @@ import { useState } from 'react';
 export const useSingleAssociationsTicket = (props: any) => {
   const { associationsItem } = props;
   const searchParams = useSearchParams();
-  const purchaseOrderId = searchParams.get('id');
+  const purchaseOrderId = searchParams.get('purchaseOrderId');
   const [showDisassociate, setShowDisassociate] = useState(false);
   const [disassociateModal, setDisassociateModal] = useState(false);
   const [deleteAssociationTrigger, deleteAssociationStatus] =

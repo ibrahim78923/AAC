@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
 import { useRemoveInstallationMutation } from '@/services/airServices/assets/software/single-software-detail/installations';
 import { useSearchParams } from 'next/navigation';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useInstallationHeader = (props: any) => {
   const { activeCheck, setActiveCheck } = props;
@@ -13,31 +12,22 @@ export const useInstallationHeader = (props: any) => {
   const submitDeleteModel = async () => {
     try {
       const deleteRes: any = await removeDeviceTrigger({
-        id: activeCheck?.[0]?._id,
-        body: { softwareId: softwareId },
-      });
-      enqueueSnackbar(
-        deleteRes?.data?.message && 'Device Removed Successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        body: {
+          softwareId: activeCheck?.map((item: any) => item?._id),
+          id: softwareId,
         },
+      });
+      successSnackbar(
+        deleteRes?.data?.message && 'Device Removed Successfully',
       );
       setDeleteModal(false);
       setActiveCheck([]);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'An error occurred', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message ?? 'An error occurred');
     }
   };
   const handleOpenDelete = () => {
-    if (activeCheck?.length > 1) {
-      enqueueSnackbar('Cannot Remove Multiple Devices', {
-        variant: NOTISTACK_VARIANTS?.WARNING,
-      });
-    } else {
-      setDeleteModal(true);
-    }
+    setDeleteModal(true);
   };
   return {
     deleteModal,

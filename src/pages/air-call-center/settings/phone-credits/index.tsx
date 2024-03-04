@@ -1,5 +1,5 @@
 import Layout from '@/layout';
-import SettingsLayout from '../Layout';
+import SettingsLayout from '@/layout/SettingsLayout/Layout';
 
 const PhoneCreditsPage = () => {
   return <h1>Phone Credits</h1>;
