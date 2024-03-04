@@ -3,6 +3,7 @@ import { CANNED_RESPONSES } from '@/constants/strings';
 import { AvatarGroup, Box, Checkbox, Avatar, Tooltip } from '@mui/material';
 import dayjs from 'dayjs';
 import { stringAvatar } from './AddResponseForm/AddResponseForm.data';
+import { DATE_TIME_FORMAT } from '@/constants';
 export const responsesTableColumns = (
   responsesData: any,
   setResponsesData: any,
@@ -65,7 +66,7 @@ export const responsesTableColumns = (
     isSortable: true,
     header: 'Created Date',
     cell: (info: any) =>
-      dayjs(info?.getValue()).format('ddd MM, YYYY hh:mm:ss A'),
+      dayjs(info?.getValue()).format(DATE_TIME_FORMAT?.DMYHMSA),
   },
   {
     accessorFn: (row: any) => ({
