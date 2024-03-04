@@ -9,7 +9,7 @@ export const closureRulesAPI = baseAPI?.injectEndpoints({
       query: (postClosureRoleParameter: any) => ({
         url: `${END_POINTS?.POST_CLOSURE_RULES}`,
         method: 'POST',
-        body: postClosureRoleParameter?.body,
+        body: postClosureRoleParameter,
       }),
       invalidatesTags: [TAG],
     }),

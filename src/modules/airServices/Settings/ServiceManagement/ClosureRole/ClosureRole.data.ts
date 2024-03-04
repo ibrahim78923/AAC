@@ -1,48 +1,53 @@
-import * as Yup from 'yup';
 import { RHFRadioGroup, RHFCheckbox } from '@/components/ReactHookForm';
 
-export const closureRoleValidationSchema = Yup?.object()?.shape({
-  closeIncidentTimeAdded: Yup?.boolean(),
-  closeIncidentAssociatedTasks: Yup?.boolean(),
-  closeIncidentChildTickets: Yup?.boolean(),
-  closeIncidentClosedResolved: Yup?.string(),
+export const closureRoleDefaultValues = (getClosureRuleValues: any) => {
+  return {
+    closeIncidentTimeAdded: getClosureRuleValues?.incident?.[0]?.timeEntryAdded,
+    closeIncidentAssociatedTasks:
+      getClosureRuleValues?.incident?.[0]?.associatedTasksCompleted,
+    closeIncidentChildTickets:
+      getClosureRuleValues?.incident?.[0]?.childTickets?.closed ||
+      getClosureRuleValues?.incident?.[0]?.childTickets?.resolved,
+    closeIncidentClosedResolved:
+      (getClosureRuleValues?.incident?.[0]?.childTickets?.resolved &&
+        'Either closed or resolved') ||
+      (getClosureRuleValues?.incident?.[0]?.childTickets?.closed && 'Closed'),
 
-  resolveIncidentTimeAdded: Yup?.boolean(),
-  resolveIncidentAssociatedTasks: Yup?.boolean(),
-  resolveIncidentChildTickets: Yup?.boolean(),
-  resolveIncidentClosedResolved: Yup?.string(),
+    resolveIncidentTimeAdded:
+      getClosureRuleValues?.incident?.[1]?.timeEntryAdded,
+    resolveIncidentAssociatedTasks:
+      getClosureRuleValues?.incident?.[1]?.associatedTasksCompleted,
+    resolveIncidentChildTickets:
+      getClosureRuleValues?.incident?.[1]?.childTickets?.closed ||
+      getClosureRuleValues?.incident?.[1]?.childTickets?.resolved,
+    resolveIncidentClosedResolved:
+      (getClosureRuleValues?.incident?.[1]?.childTickets?.resolved &&
+        'Either closed or resolved') ||
+      (getClosureRuleValues?.incident?.[1]?.childTickets?.closed && 'Closed'),
 
-  serviceCloseTimeAdded: Yup?.boolean(),
-  serviceCloseAssociatedTasks: Yup?.boolean(),
-  serviceCloseChildTickets: Yup?.boolean(),
-  serviceCloseClosedResolved: Yup?.string(),
+    serviceCloseTimeAdded: getClosureRuleValues?.services?.[1]?.timeEntryAdded,
+    serviceCloseAssociatedTasks:
+      getClosureRuleValues?.services?.[1]?.associatedTasksCompleted,
+    serviceCloseChildTickets:
+      getClosureRuleValues?.services?.[1]?.childTickets?.closed ||
+      getClosureRuleValues?.services?.[1]?.childTickets?.resolved,
+    serviceCloseClosedResolved:
+      (getClosureRuleValues?.services?.[1]?.childTickets?.resolved &&
+        'Either closed or resolved') ||
+      (getClosureRuleValues?.services?.[1]?.childTickets?.closed && 'Closed'),
 
-  serviceResolveTimeAdded: Yup?.boolean(),
-  serviceResolveAssociatedTasks: Yup?.boolean(),
-  serviceResolveChildTickets: Yup?.boolean(),
-  serviceResolveClosedResolved: Yup?.string(),
-});
-
-export const closureRoleDefaultValues = {
-  closeIncidentTimeAdded: false,
-  closeIncidentAssociatedTasks: false,
-  closeIncidentChildTickets: false,
-  closeIncidentClosedResolved: '',
-
-  resolveIncidentTimeAdded: false,
-  resolveIncidentAssociatedTasks: false,
-  resolveIncidentChildTickets: false,
-  resolveIncidentClosedResolved: '',
-
-  serviceCloseTimeAdded: false,
-  serviceCloseAssociatedTasks: false,
-  serviceCloseChildTickets: false,
-  serviceCloseClosedResolved: '',
-
-  serviceResolveTimeAdded: false,
-  serviceResolveAssociatedTasks: false,
-  serviceResolveChildTickets: false,
-  serviceResolveClosedResolved: '',
+    serviceResolveTimeAdded:
+      getClosureRuleValues?.services?.[0]?.timeEntryAdded,
+    serviceResolveAssociatedTasks:
+      getClosureRuleValues?.services?.[0]?.associatedTasksCompleted,
+    serviceResolveChildTickets:
+      getClosureRuleValues?.services?.[0]?.childTickets?.closed ||
+      getClosureRuleValues?.services?.[0]?.childTickets?.resolved,
+    serviceResolveClosedResolved:
+      (getClosureRuleValues?.services?.[0]?.childTickets?.resolved &&
+        'Either closed or resolved') ||
+      (getClosureRuleValues?.services?.[0]?.childTickets?.closed && 'Closed'),
+  };
 };
 
 export const closeIncidentDataArray = (isRadioGroupDisable: any) => [
