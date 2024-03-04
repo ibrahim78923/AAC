@@ -2,9 +2,9 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { v4 as uuidv4 } from 'uuid';
 import { Typography } from '@mui/material';
 import { useSingleDropdownButton } from './useSingleDropdownButton';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const SingleDropdownButton = (props: any) => {
   const {
@@ -43,24 +43,28 @@ export const SingleDropdownButton = (props: any) => {
         sx={{ padding: 2 }}
       >
         {dropdownOptions?.map((singleOption: any) => (
-          <MenuItem
-            key={uuidv4()}
-            onClick={() => singleOption?.handleClick?.(handleClose)}
-            sx={{
-              '&.MuiMenuItem-root': {
-                marginBottom: { md: 0.5 },
-                marginX: { md: 0.5 },
-              },
-            }}
+          <PermissionsGuard
+            permissions={[singleOption?.permissionKey]}
+            key={singleOption?.id}
           >
-            <Typography
-              variant="body2"
-              color={theme?.palette?.grey?.[600]}
-              fontWeight={500}
+            <MenuItem
+              onClick={() => singleOption?.handleClick?.(handleClose)}
+              sx={{
+                '&.MuiMenuItem-root': {
+                  marginBottom: { md: 0.5 },
+                  marginX: { md: 0.5 },
+                },
+              }}
             >
-              {singleOption?.title}{' '}
-            </Typography>
-          </MenuItem>
+              <Typography
+                variant="body2"
+                color={theme?.palette?.grey?.[600]}
+                fontWeight={500}
+              >
+                {singleOption?.title}{' '}
+              </Typography>
+            </MenuItem>
+          </PermissionsGuard>
         ))}
       </Menu>
     </>
