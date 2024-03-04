@@ -1,3 +1,4 @@
+import { DATE_FORMAT } from '@/constants';
 import {
   useLazyGetWorkloadFilterQuery,
   useLazyGetWorkloadQuery,
@@ -25,7 +26,9 @@ export default function useWorkload() {
     data: null,
   });
   const [dateCalendar, setDateCalendar] = useState<any>(
-    dayjs()?.startOf('week')?.format('YYYY-MM-DD'),
+    dayjs()
+      ?.startOf('week')
+      ?.format(DATE_FORMAT?.API),
   );
   const [selected, setSelected] = useState<any>(null);
   const [trigger, status] = useLazyGetWorkloadQuery();
