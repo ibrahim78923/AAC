@@ -1,4 +1,4 @@
-import { Box, Checkbox } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
@@ -50,11 +50,7 @@ export const usersTableColumns = (
   {
     accessorFn: (row: any) => row?.userName,
     id: 'Name',
-    cell: (info: any) => (
-      <Box fontWeight={700}>
-        {`${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`}
-      </Box>
-    ),
+    cell: (info: any) => info?.getValue() ?? '__',
     header: 'Name',
     isSortable: true,
   },
