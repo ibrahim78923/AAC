@@ -18,7 +18,7 @@ const useCreateTask = ({ creationMode, id }: any) => {
   const [postCreateTask] = usePostCreateTaskMutation();
 
   const [defaultValues, setDefaultValues] = useState({
-    name: 'k',
+    name: '',
     type: '',
     priority: '',
     status: '',
