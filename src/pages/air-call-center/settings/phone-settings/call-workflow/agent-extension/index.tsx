@@ -1,6 +1,6 @@
 import Layout from '@/layout';
 import AgentExtension from '@/modules/airCallCenter/Settings/PhoneSettings/CallWorkFlow/AgentExtension';
-import SettingsLayout from '../../../Layout';
+import SettingsLayout from '@/layout/SettingsLayout/Layout';
 
 const AirCallCenterPage = () => {
   return (

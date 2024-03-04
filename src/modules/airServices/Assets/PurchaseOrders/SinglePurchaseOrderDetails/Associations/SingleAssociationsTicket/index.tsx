@@ -41,7 +41,9 @@ export const SingleAssociationsTicket = (props: any) => {
               />
             </Box>
           </Collapse>
-          <Typography>{associationsItem?.subject}</Typography>
+          <Typography>
+            {associationsItem?.ticketIdNumber}-{associationsItem?.subject}
+          </Typography>
         </Box>
         <Chip
           label={associationsItem?.status}

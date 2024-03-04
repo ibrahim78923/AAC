@@ -1,7 +1,6 @@
 import { Grid } from '@mui/material';
 import NoData from '@/components/NoData';
 import { ActivityTimeline } from './ActivityTimeline';
-import { v4 as uuidv4 } from 'uuid';
 import { NoAssociationFoundImage } from '@/assets/images';
 import { useActivity } from './useActivity';
 
@@ -14,7 +13,10 @@ export const Activity = () => {
       <Grid item xs={12} md={10.5}>
         {activitiesData && activitiesData?.length > 0 ? (
           activitiesData?.map((singleActivity: any) => (
-            <ActivityTimeline activityData={singleActivity} key={uuidv4()} />
+            <ActivityTimeline
+              activityData={singleActivity}
+              key={singleActivity?._id}
+            />
           ))
         ) : (
           <NoData

@@ -241,6 +241,51 @@ const TaskViewCard = ({}: any) => {
                                   gap: 1,
                                 }}
                               >
+                                Assigned User
+                              </Typography>
+                              <Typography
+                                variant="subtitle2"
+                                sx={{
+                                  color: `${theme?.palette?.blue?.main}`,
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {items?.assignUser}
+                              </Typography>
+                            </Box>
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <Typography
+                                variant="subtitle2"
+                                sx={{
+                                  color: `${theme?.palette?.custom?.main}`,
+                                  fontWeight: 400,
+                                }}
+                              >
+                                Task Status
+                              </Typography>
+                              <Typography
+                                variant="subtitle2"
+                                sx={{
+                                  color:
+                                    items?.status === 'Inprogress'
+                                      ? `${theme?.palette?.warning?.main}`
+                                      : items?.status === 'Pending'
+                                      ? `${theme?.palette?.error?.main}`
+                                      : items?.status === 'Complete'
+                                      ? `${theme?.palette?.success?.main}`
+                                      : '',
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {items?.status}
+                              </Typography>
+                            </Box>
                                 <Link
                                   href={`${AIR_SALES?.DEALS_VIEWDEATAILS}?tab-value=7`}
                                 >

@@ -1,6 +1,10 @@
 import { INVOICE } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
+const transformResponse = (response: any) => {
+  if (response) return response?.data?.quotes;
+};
+
 export const invoiceAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     postInvoice: builder.mutation({
@@ -10,6 +14,13 @@ export const invoiceAPI = baseAPI.injectEndpoints({
         body: body,
       }),
       invalidatesTags: ['INVOICE'],
+    }),
+    getInvoice: builder.query({
+      query: () => ({
+        url: `${INVOICE.POST_INVOICE_QUOTE}`,
+        method: 'GET',
+      }),
+      providesTags: ['INVOICE'],
     }),
     getInvoiceId: builder.query({
       query: ({ id = '' }: any) => ({
@@ -23,10 +34,14 @@ export const invoiceAPI = baseAPI.injectEndpoints({
         url: `${INVOICE.GET_INVOICE_QUOTE_LIST}`,
         method: 'GET',
       }),
+      transformResponse: (response: any) => transformResponse(response),
       providesTags: ['INVOICE'],
     }),
   }),
 });
 
-export const { useGetInvoiceQoutesListQuery, useGetInvoiceIdQuery } =
-  invoiceAPI;
+export const {
+  useLazyGetInvoiceQoutesListQuery,
+  useGetInvoiceIdQuery,
+  useGetInvoiceQuery,
+} = invoiceAPI;

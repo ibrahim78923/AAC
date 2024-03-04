@@ -3,6 +3,7 @@ import Image from 'next/image';
 import useCatalog from './useCatalog';
 import { FolderIcon } from '@/assets/icons';
 import CustomPagination from '@/components/CustomPagination';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const Catalog = () => {
   const {
@@ -13,6 +14,8 @@ export const Catalog = () => {
     handlePageChange,
     setPageLimit,
     setPage,
+    isLoading,
+    isFetching,
   } = useCatalog();
 
   return (
@@ -67,6 +70,7 @@ export const Catalog = () => {
                 borderColor={'primary.lighter'}
                 textAlign="center"
                 mt={2}
+                minHeight={'15rem'}
                 p={2}
                 sx={{ cursor: 'pointer' }}
               >
@@ -115,52 +119,61 @@ export const Catalog = () => {
         setPageLimit={setPageLimit}
       />
       <Grid container>
-        {result?.map((allService: any) => (
-          <Grid item xs={12} md={6} lg={4} key={allService?._id}>
-            <Box
-              key={allService?._id}
-              onClick={() => handleClickService?.(allService?._id)}
-              borderRadius={2}
-              border={'0.3rem solid'}
-              borderColor={'primary.lighter'}
-              display={'flex'}
-              flexDirection={'row'}
-              mt={4}
-              mr={3}
-              sx={{ cursor: 'pointer' }}
-            >
+        {isLoading || isFetching ? (
+          <SkeletonForm />
+        ) : (
+          result?.map((allService: any) => (
+            <Grid item xs={12} md={6} lg={4} key={allService?._id}>
               <Box
-                alignItems={'center'}
+                key={allService?._id}
+                onClick={() =>
+                  handleClickService?.(
+                    allService?._id,
+                    allService?.serviceCategory,
+                  )
+                }
+                borderRadius={2}
+                border={'0.3rem solid'}
+                borderColor={'primary.lighter'}
                 display={'flex'}
-                justifyContent={'flex-start'}
-                p={2}
+                flexDirection={'row'}
+                mt={4}
+                mr={3}
+                sx={{ cursor: 'pointer' }}
               >
-                <Image
-                  src={allService?.image}
-                  height={56}
-                  width={58}
-                  alt={`Service ${allService?.id} Image`}
-                />
-              </Box>
-              <Box
-                alignItems={'flex-start'}
-                display={'flex'}
-                justifyContent={'flex-start'}
-                flexDirection={'column'}
-                mt={2}
-              >
-                <Typography variant="h5">{allService?.itemName}</Typography>
+                <Box
+                  alignItems={'center'}
+                  display={'flex'}
+                  justifyContent={'flex-start'}
+                  p={2}
+                >
+                  <Image
+                    src={allService?.image}
+                    height={56}
+                    width={58}
+                    alt={`Service ${allService?.id} Image`}
+                  />
+                </Box>
+                <Box
+                  alignItems={'flex-start'}
+                  display={'flex'}
+                  justifyContent={'flex-start'}
+                  flexDirection={'column'}
+                  mt={2}
+                >
+                  <Typography variant="h5">{allService?.itemName}</Typography>
 
-                <Typography variant="body2" component={'span'}>
-                  {allService?.description}
-                </Typography>
-                <Typography variant="body2" component={'span'}>
-                  {allService?.cost}
-                </Typography>
+                  <Typography variant="body2" component={'span'}>
+                    {allService?.description}
+                  </Typography>
+                  <Typography variant="body2" component={'span'}>
+                    {allService?.cost}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-          </Grid>
-        ))}
+            </Grid>
+          ))
+        )}
       </Grid>
     </>
   );

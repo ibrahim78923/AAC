@@ -7,6 +7,7 @@ import { UmbrellaIcon } from '@/assets/icons';
 const TaskHeader = () => {
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const [isCreateTaskDrawerOpen, setIsCreateTaskDrawerOpen] = useState(false);
   return (
     <Box
       sx={{
@@ -49,7 +50,14 @@ const TaskHeader = () => {
           Import
         </Button>
         <ActivityAndPerformance />
-        <CreateTask />
+        <Button onClick={() => setIsCreateTaskDrawerOpen(true)}>
+          Create Task
+        </Button>
+        <CreateTask
+          isCreateTaskDrawerOpen={isCreateTaskDrawerOpen}
+          setIsCreateTaskDrawerOpen={setIsCreateTaskDrawerOpen}
+          creationMode={'create'}
+        />
       </Box>
       {isOpen && <Import setIsOpen={setIsOpen} isOpen={isOpen} />}
     </Box>

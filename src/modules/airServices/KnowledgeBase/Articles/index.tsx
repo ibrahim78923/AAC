@@ -30,6 +30,8 @@ export const Articles = () => {
     filterValues,
     setFilterValues,
     setFolder,
+    page,
+    getValueArticlesListData,
   } = useArticles();
 
   return (
@@ -39,8 +41,8 @@ export const Articles = () => {
           <Box
             sx={{
               m: '0.75rem 1.5rem 0.75rem 0 ',
-              maxHeight: { xs: '20vh', xl: '60vh' },
-              overflowY: 'scroll',
+              maxHeight: '70vh',
+              overflowY: 'auto',
             }}
           >
             {foldersList?.map((tab: any) => (
@@ -136,6 +138,10 @@ export const Articles = () => {
           setDeleteModalOpen={setOpenDeleteModal}
           selectedArticlesData={selectedArticlesData}
           setSelectedArticlesData={setSelectedArticlesData}
+          setPage={setPage}
+          page={page}
+          getValueArticlesListData={getValueArticlesListData}
+          totalRecords={lazyGetArticlesStatus?.data?.data?.articles?.length}
         />
       )}
       {moveFolderModal && (
