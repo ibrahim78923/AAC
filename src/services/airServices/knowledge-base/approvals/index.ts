@@ -11,8 +11,8 @@ export const articlesAPI = baseAPI?.injectEndpoints({
       }),
     }),
     postArticleApproval: builder?.mutation({
-      query: (getUnapprovedArticlesParameter: any) => ({
-        url: `${END_POINTS?.POST_APPROVALS}/${getUnapprovedArticlesParameter?.pathParams?.id}`,
+      query: (postApprovalParameters: any) => ({
+        url: `${END_POINTS?.POST_APPROVALS}/${postApprovalParameters?.pathParams?.id}`,
         method: 'POST',
       }),
     }),
