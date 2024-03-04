@@ -33,6 +33,7 @@ export const TAGS = [
   'AGENTS',
   'TASK',
   'CANNED_RESPONSES',
+  'RESPONSES_LIST',
   'BUSINESS_HOUR',
   'BUSINESS_HOUR_BY_ID',
   'HOLIDAYS',

@@ -104,7 +104,7 @@ export const CannedResponses = () => {
                 component={Link}
                 href={`${AIR_SERVICES?.CANNED_RESPONSE_SETTINGS}/${convertToHyphenCase(
                   response?.folderName,
-                )}`}
+                )}?id=${response?._id}`}
               >
                 <Box>
                   {!response?.isDeletedAble ? (
