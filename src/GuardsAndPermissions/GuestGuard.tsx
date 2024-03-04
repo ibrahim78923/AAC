@@ -31,21 +31,13 @@ export default function GuestGuard({ children }: any) {
   const { push } = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
-  const { isAuthenticated, isInitialized, user }: any = useAuth();
+  const { isAuthenticated, isInitialized, user, logout }: any = useAuth();
+
   // const findSkillByEmail = ({ user, array }: any) => {
   //   return array.find((skill: any) => skill?.email === user?.email);
   // };
   // const path: any = findSkillByEmail({ user, array });
-  // let pathVariable=''
-  //   if(user?.role === ROLES.ORG_EMPLOYEE ){
-  //     pathVariable='/'
-  //   }else if(user?.role === ROLES.ORG_ADMIN){
-  //     pathVariable=ORG_ADMIN.DASHBOARD
-  //   }else if(user?.role === ROLES.SUPER_ADMIN){
-  //     pathVariable=SUPER_ADMIN.DASHBOARD
-  //   }else{
 
-  //   }
   let pathVariable: string;
 
   switch (user?.role) {
@@ -67,6 +59,9 @@ export default function GuestGuard({ children }: any) {
     if (!isInitialized) return;
     if (isAuthenticated) {
       push(pathVariable);
+      if (pathVariable === AUTH.LOGIN) {
+        logout();
+      }
       return;
     }
     setIsLoading(false);
