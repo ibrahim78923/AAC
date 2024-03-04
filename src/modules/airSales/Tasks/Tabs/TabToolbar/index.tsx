@@ -125,6 +125,7 @@ const TabToolbar = () => {
             isCreateTaskDrawerOpen={isCreateTaskDrawerOpen}
             setIsCreateTaskDrawerOpen={setIsCreateTaskDrawerOpen}
             creationMode={'edit'}
+            id={selectedTaskIds?.length === 1 && selectedTaskIds[0]}
           />
         </Box>
       </Box>

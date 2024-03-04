@@ -7,9 +7,9 @@ import {
 } from '@/components/ReactHookForm';
 import { Checkbox } from '@mui/material';
 import * as Yup from 'yup';
-import SearchableTabsSelect from '@/modules/airSales/Tasks/SearchableTabsSelect';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setSelectedTaskIds } from '@/redux/slices/taskManagement/taskManagementSlice';
+import SearchableTabsSelect from './searchableTabsSelect';
 
 export const filterDefaultValues = {
   assignee: '',
@@ -120,24 +120,18 @@ export const createTaskValidationSchema = Yup?.object()?.shape({
   priority: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
-export const createTaskDefaultValues = () => {
-  // const selectedTaskIds = useAppSelector(
-  //   (state: any) => state?.task?.selectedTaskIds,
-  // );
-
-  return {
-    name: '',
-    type: '',
-    priority: '',
-    status: '',
-    dealsIds: '',
-    associate: '',
-    assignTo: '',
-    dueDate: null,
-    time: null,
-    reminder: '',
-    note: '',
-  };
+export const createTaskDefaultValues = {
+  name: '',
+  type: '',
+  priority: '',
+  status: '',
+  dealsIds: '',
+  associate: '',
+  assignTo: '',
+  dueDate: null,
+  time: null,
+  reminder: '',
+  note: '',
 };
 
 export const createTaskData = () => {

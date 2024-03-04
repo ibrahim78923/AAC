@@ -131,6 +131,8 @@ const Login = () => {
           lg={6}
           style={styles.loginDashboard}
           sx={{
+            width: 'auto',
+            height: 'auto',
             '@media (max-width: 900px)': {
               display: 'none !important', // Hide the element when the screen width is less than 900px
             },

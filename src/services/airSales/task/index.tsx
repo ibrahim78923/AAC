@@ -53,6 +53,14 @@ export const taskApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getTaskDetails: builder.query({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -63,4 +71,5 @@ export const {
   useGetCreateTaskCompaniesQuery,
   useGetCreateTaskDealsQuery,
   useGetCreateTaskTicketsQuery,
+  useGetTaskDetailsQuery,
 } = taskApi;

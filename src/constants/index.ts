@@ -22,6 +22,8 @@ export const DATE_TIME_FORMAT = {
   UI: 'dddd, MMMM D, YYYY - HH:mm',
   DMYhmma: 'D MMMM, YYYY - h:mm A',
   DMDMHA: 'ddd, D MMM h:mm A',
+  DDMYHMA: 'ddd, D MMM, YYYY h:mm A',
+  DMY: 'DDMMMYYYY',
 };
 
 export const VALIDATION_CONSTANT = {
@@ -32,6 +34,7 @@ export const VALIDATION_CONSTANT = {
 };
 
 export const SUPER_ADMIN: any = {
+  DASHBOARD: '/super-admin',
   USERMANAGMENT: '/super-admin/user-management',
   ADDROLE: '/super-admin/user-management/add-role',
   USERS_LIST: '/super-admin/user-management/users-list',
@@ -134,6 +137,7 @@ export const AIR_CUSTOMER_PORTAL = {
 };
 
 export const ORG_ADMIN: any = {
+  DASHBOARD: '/org-admin',
   ROLES_AND_RIGHTS: '/org-admin/roles-and-rights',
   ADD_ROLE: '/org-admin/roles-and-rights/add-role',
 };
@@ -171,4 +175,5 @@ export const SOCIAL_COMPONENTS = {
 
 export const AUTH = {
   FORGOT_PASSWORD: `/forget-password`,
+  LOGIN: `/login`,
 };

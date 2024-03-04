@@ -12,6 +12,17 @@ import {
 } from '@/services/airSales/deals';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import Link from 'next/link';
+import { AIR_SALES } from '@/routesConstants/paths';
+import {
+  AccociatedCompanyIcon,
+  AccociatedContactIcon,
+  DealPhoneIcon,
+  EmailDealsIcon,
+  MeetingDealsIcon,
+  NotesDealsIcon,
+  TaskDealsIcon,
+} from '@/assets/icons';
 // import {
 //   AccociatedCompanyIcon,
 //   AccociatedContactIcon,
@@ -196,60 +207,54 @@ const TaskViewCard = ({}: any) => {
                               sx={{
                                 display: 'flex',
                                 justifyContent: 'space-between',
-                                alignItems: 'center',
+                                gap: 4,
                               }}
                             >
-                              <Typography
-                                variant="subtitle2"
+                              <Box
                                 sx={{
-                                  color: `${theme?.palette?.custom?.main}`,
-                                  fontWeight: 400,
+                                  display: 'flex',
+                                  justifyContent: 'space-between',
+                                  gap: 1,
                                 }}
                               >
-                                Assigned User
-                              </Typography>
-                              <Typography
-                                variant="subtitle2"
-                                sx={{
-                                  color: `${theme?.palette?.blue?.main}`,
-                                  fontWeight: 600,
-                                }}
-                              >
-                                {items?.assignUser}
-                              </Typography>
-                            </Box>
-                            <Box
-                              sx={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                              }}
-                            >
-                              <Typography
-                                variant="subtitle2"
-                                sx={{
-                                  color: `${theme?.palette?.custom?.main}`,
-                                  fontWeight: 400,
-                                }}
-                              >
-                                Task Status
-                              </Typography>
-                              <Typography
-                                variant="subtitle2"
-                                sx={{
-                                  color:
-                                    items?.status === 'Inprogress'
-                                      ? `${theme?.palette?.warning?.main}`
-                                      : items?.status === 'Pending'
-                                        ? `${theme?.palette?.error?.main}`
-                                        : items?.status === 'Complete'
-                                          ? `${theme?.palette?.success?.main}`
-                                          : '',
-                                  fontWeight: 600,
-                                }}
-                              >
-                                {items?.status}
-                              </Typography>
+                                <Link
+                                  href={`${AIR_SALES?.DEALS_VIEWDEATAILS}?tab-value=7`}
+                                >
+                                  <EmailDealsIcon />
+                                </Link>
+                                <Link
+                                  href={`${AIR_SALES?.DEALS_VIEWDEATAILS}?tab-value=5`}
+                                >
+                                  <DealPhoneIcon />
+                                </Link>
+                                <Link
+                                  href={`/air-sales/deals/view-details?tab-value=6`}
+                                >
+                                  <MeetingDealsIcon />
+                                </Link>
+                                <Link
+                                  href={`/air-sales/deals/view-details?tab-value=4`}
+                                >
+                                  <NotesDealsIcon />
+                                </Link>
+                                <Link
+                                  href={`/air-sales/deals/view-details?tab-value=3`}
+                                >
+                                  <TaskDealsIcon />
+                                </Link>
+                              </Box>
+                              <Box sx={{ display: 'flex' }}>
+                                <Link
+                                  href={`/air-sales/deals/view-details?tab-value=2`}
+                                >
+                                  <AccociatedContactIcon />
+                                </Link>
+                                <Link
+                                  href={`/air-sales/deals/view-details?tab-value=2&section-id=companies`}
+                                >
+                                  <AccociatedCompanyIcon />
+                                </Link>
+                              </Box>
                             </Box>
                           </Box>
                         )}
