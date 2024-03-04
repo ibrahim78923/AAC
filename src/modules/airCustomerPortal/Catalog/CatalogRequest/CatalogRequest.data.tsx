@@ -9,12 +9,16 @@ import { CATALOG_SERVICE_TYPES } from '@/constants/strings';
 import * as Yup from 'yup';
 export const placeRequestValidationSchema = (searchStringLowerCase: any) =>
   Yup?.object()?.shape({
-    requestor: Yup.mixed().nullable().required('Required'),
     ...(searchStringLowerCase ===
       CATALOG_SERVICE_TYPES?.HARDWARE?.toLowerCase() && {
-      noOfItem: Yup.number().nullable().required('Required'),
+      noOfItem: Yup.number().nullable()?.required('Required'),
     }),
     requestForSomeOneElse: Yup.boolean(),
+    requestor: Yup.mixed().when('requestForSomeOneElse', {
+      is: (value: any) => value,
+      then: (schema: any) => schema?.notRequired('Required'),
+      otherwise: (schema) => schema?.required(),
+    }),
     requestorFor: Yup.mixed().when('requestForSomeOneElse', {
       is: (value: any) => value,
       then: (schema: any) => schema?.required('Required'),
@@ -32,6 +36,7 @@ export const placeRequest = (
   apiQueryRequester?: any,
   router?: any,
   searchStringLowerCase?: string,
+  requestForSomeOne?: boolean,
 ) => [
   {
     componentProps: {
@@ -40,14 +45,14 @@ export const placeRequest = (
       fullWidth: true,
 
       required:
-        searchStringLowerCase === CATALOG_SERVICE_TYPES?.HARDWARE.toLowerCase()
+        searchStringLowerCase === CATALOG_SERVICE_TYPES?.HARDWARE?.toLowerCase()
           ? true
           : false,
 
       type: 'number',
     },
     shouldDisplay: ({ other: { searchStringLowerCase } }: any) =>
-      searchStringLowerCase === CATALOG_SERVICE_TYPES?.HARDWARE.toLowerCase(),
+      searchStringLowerCase === CATALOG_SERVICE_TYPES?.HARDWARE?.toLowerCase(),
     component: RHFTextField,
     md: 3,
   },
@@ -58,6 +63,7 @@ export const placeRequest = (
       label: 'Requester',
       fullWidth: true,
       required: true,
+      disabled: requestForSomeOne === true ? true : false,
       apiQuery: apiQueryRequester,
       EndIcon: AddCircleIcon,
       externalParams: { limit: 50, role: 'ORG_REQUESTER' },

@@ -11,7 +11,11 @@ import {
 } from '@/services/airCustomerPortal/catalog';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
+import {
+  CATALOG_SERVICE_TYPES,
+  TICKET_STATUS,
+  TICKET_TYPE,
+} from '@/constants/strings';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
 const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
@@ -29,17 +33,20 @@ const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
     ),
     defaultValues: placeRequestDefaultValues,
   });
-  const { handleSubmit, getValues, control, watch } = methodRequest;
+  const { handleSubmit, getValues, control, watch, reset } = methodRequest;
 
   const onSubmitRequest = async (data: any) => {
     const addItemToDescription =
-      servicesDetails?.data?.[0]?.description +
-      ' ' +
-      'No of item' +
-      ' ' +
-      data?.noOfItem;
+      CategoryType?.toLowerCase() ===
+      CATALOG_SERVICE_TYPES?.HARDWARE?.toLowerCase()
+        ? `${servicesDetails?.data?.[0]?.description} No of item ${data?.noOfItem}`
+        : servicesDetails?.data?.[0]?.description;
+
     const placeRequestData = new FormData();
-    placeRequestData?.append('requester', data?.requestor?._id);
+    placeRequestData?.append(
+      'requester',
+      data?.requestor?._id || data?.requestorFor?._id,
+    );
     placeRequestData?.append('status', TICKET_STATUS?.OPEN);
     placeRequestData?.append('subject', 'test subject');
     placeRequestData?.append('serviceId', serviceId as string);
@@ -63,6 +70,7 @@ const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
   };
 
   const handleClose = () => {
+    methodRequest?.reset();
     setOpen(false);
   };
   const requestForSomeOne = watch('requestForSomeOneElse');
@@ -73,6 +81,7 @@ const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
     apiQueryRequester,
     router,
     searchStringLowerCase,
+    requestForSomeOne,
   );
   return {
     methodRequest,
@@ -84,6 +93,7 @@ const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
     requestForSomeOne,
     handleClose,
     searchStringLowerCase,
+    reset,
   };
 };
 export default useCatalogRequest;
