@@ -114,6 +114,7 @@ export const rolesAccordionsTicketsData = {
       },
       component: RHFCheckbox,
       md: 4,
+      children: {},
     },
     {
       id: 11,
@@ -258,7 +259,7 @@ export const rolesAccordionsTicketsData = {
         label: 'Create or Edit Announcements',
       },
       component: RHFCheckbox,
-      md: 4,
+      md: 12,
     },
   ],
 };
