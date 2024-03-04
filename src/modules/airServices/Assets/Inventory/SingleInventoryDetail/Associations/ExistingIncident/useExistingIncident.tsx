@@ -1,16 +1,40 @@
 import { useTheme } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { enqueueSnackbar } from 'notistack';
-import { useGetExitingTicketsQuery } from '@/services/airServices/inventory/SingleInventoryDetail/Associations';
+import { useLazyGetExitingTicketsQuery } from '@/services/airServices/inventory/SingleInventoryDetail/Associations';
+import { PAGINATION } from '@/config';
 
 export const useExistingIncident = ({ onClose }: any) => {
-  const [searchBy, setSearchBy] = useState<any>();
+  const [searchBy, setSearchBy] = useState<any>('');
 
   const [checkboxValues, setCheckboxValues] = useState<any>({});
 
   const theme: any = useTheme();
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
+    useLazyGetExitingTicketsQuery();
 
-  const { data: existingTicketsData } = useGetExitingTicketsQuery();
+  const getValueTicketsListData = async () => {
+    const getTicketsParam = new URLSearchParams();
+    getTicketsParam?.append('ticketType', 'SR');
+
+    getTicketsParam?.append('page', page + '');
+    getTicketsParam?.append('limit', pageLimit + '');
+    getTicketsParam?.append('search', searchBy);
+    getTicketsParam?.append('metaData', 'true');
+    const getTicketsParameter = {
+      queryParams: getTicketsParam,
+    };
+    try {
+      await lazyGetTicketsTrigger(getTicketsParameter)?.unwrap();
+      setCheckboxValues([]);
+    } catch (error: any) {
+      setCheckboxValues([]);
+    }
+  };
+  const existingTicketsData = lazyGetTicketsStatus?.data?.data?.tickets;
+  const metaData = lazyGetTicketsStatus?.data?.data?.meta;
 
   const handleCheckboxChange = (event: any) => {
     const { id, checked } = event.target;
@@ -19,7 +43,9 @@ export const useExistingIncident = ({ onClose }: any) => {
       [id]: checked,
     }));
   };
-
+  useEffect(() => {
+    getValueTicketsListData();
+  }, [searchBy, page, pageLimit]);
   const handleSubmit: any = () => {
     Object.keys(checkboxValues)?.filter((id) => checkboxValues?.[id]);
     enqueueSnackbar('Incident Associated Successfully!', {
@@ -27,16 +53,6 @@ export const useExistingIncident = ({ onClose }: any) => {
     });
     onClose(false);
   };
-  const filteredTickets = existingTicketsData?.data?.tickets?.filter(
-    (ticket: any) => {
-      if (!searchBy) return true;
-      return Object.values(ticket)?.some(
-        (value) =>
-          typeof value === 'string' &&
-          value.toLowerCase().includes(searchBy.toLowerCase()),
-      );
-    },
-  );
   return {
     handleSubmit,
     searchBy,
@@ -44,6 +60,12 @@ export const useExistingIncident = ({ onClose }: any) => {
     theme,
     checkboxValues,
     handleCheckboxChange,
-    existingTicketsData: { data: { tickets: filteredTickets } },
+    existingTicketsData,
+    lazyGetTicketsStatus,
+    pageLimit,
+    setPageLimit,
+    page,
+    setPage,
+    metaData,
   };
 };
