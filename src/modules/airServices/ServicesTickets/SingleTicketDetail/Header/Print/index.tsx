@@ -65,15 +65,15 @@ export const PrintDrawer = (props: any) => {
         <Divider sx={{ marginTop: '1rem', marginBottom: '1rem' }} />
         <Typography variant="h4"> TICKET PROPERTIES</Typography>
         <Grid container mt={1}>
-          {printData.map((item) => (
+          {printData?.map((item) => (
             <Grid key={item?.id} xs={12} lg={3.5}>
               <Box display={'flex'} flexDirection={'row'}>
                 <Box display={'flex'} flexDirection={'column'}>
-                  <Typography key={item.id} variant="h6" fontWeight={'bold'}>
-                    {item.heading}
+                  <Typography key={item?.id} variant="h6" fontWeight={'bold'}>
+                    {item?.heading}
                   </Typography>
-                  <Typography key={item.id} variant="body1">
-                    {item.text}
+                  <Typography key={item?.id} variant="body1">
+                    {item?.text}
                   </Typography>
                 </Box>
               </Box>
