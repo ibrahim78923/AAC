@@ -35,6 +35,9 @@ export const useApprovals = () => {
   };
 
   const updateRequestApprovalStatus = async (approval: any) => {
+    if (approval?.state === TICKET_APPROVALS?.REMINDER) {
+      successSnackbar?.('Reminder send successfully');
+    }
     const patchParameterData = {
       queryParams: {
         reason: '',
@@ -43,13 +46,9 @@ export const useApprovals = () => {
         approvalStatus: approval?.state,
       },
     };
-    const toastMessage =
-      approval?.state === TICKET_APPROVALS?.CANCEL
-        ? 'Request Approved successfully'
-        : 'Request Rejected successfully';
     try {
       await patchApprovalTicketsTrigger(patchParameterData)?.unwrap();
-      successSnackbar?.(toastMessage);
+      successSnackbar?.('Request cancelled successfully');
     } catch (error) {
       errorSnackbar();
     }

@@ -199,7 +199,7 @@ export const END_POINTS = {
   CONTACT_DELETE_PERMANENT: `/contact/permanent`,
   CONTACT_ASSOCIATIONS: `/contact/contact-associations`,
   ADD_SOFTWARE_INSTALLATION: '/assets/add-software-device',
-  REMOVE_SOFTWARE_INSTALLATION: '/assets/software-device',
+  REMOVE_SOFTWARE_INSTALLATION: '/assets/software-device/{id}',
   SOFTWARE_INSTALLATION: '/assets/software-devices',
   GET_INVENTORY_OVERVIEW: `/assets/get-inventory-detail`,
   ASSETS_DROPDOWN: '/assets/inventory',
