@@ -272,6 +272,7 @@ export const END_POINTS = {
   SOFTWARE_CONTRACTS: '/assets/get-software-contracts',
   ADD_SOFTWARE: '/assets/add_software',
   EDIT_SOFTWARE: '/assets/edit-software',
+  POST_APPROVALS: `/articles/approve`,
 };
 
 export const superAdminBillingInvoices = {
