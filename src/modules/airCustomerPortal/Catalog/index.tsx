@@ -70,6 +70,7 @@ export const Catalog = () => {
                 borderColor={'primary.lighter'}
                 textAlign="center"
                 mt={2}
+                minHeight={'15rem'}
                 p={2}
                 sx={{ cursor: 'pointer' }}
               >
@@ -125,7 +126,12 @@ export const Catalog = () => {
             <Grid item xs={12} md={6} lg={4} key={allService?._id}>
               <Box
                 key={allService?._id}
-                onClick={() => handleClickService?.(allService?._id)}
+                onClick={() =>
+                  handleClickService?.(
+                    allService?._id,
+                    allService?.serviceCategory,
+                  )
+                }
                 borderRadius={2}
                 border={'0.3rem solid'}
                 borderColor={'primary.lighter'}

@@ -55,10 +55,9 @@ export const taskApi = baseAPI.injectEndpoints({
     }),
 
     getTaskDetails: builder.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.TICKET}`,
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT}/${id}`,
         method: 'GET',
-        params: params,
       }),
       providesTags: TAG,
     }),
@@ -72,4 +71,5 @@ export const {
   useGetCreateTaskCompaniesQuery,
   useGetCreateTaskDealsQuery,
   useGetCreateTaskTicketsQuery,
+  useGetTaskDetailsQuery,
 } = taskApi;

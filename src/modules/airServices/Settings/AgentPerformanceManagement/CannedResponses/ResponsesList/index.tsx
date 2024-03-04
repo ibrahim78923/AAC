@@ -4,7 +4,7 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button, Grid } from '@mui/material';
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { actionsOptions, responsesTableData } from './ResponsesList.data';
+import { actionsOptions } from './ResponsesList.data';
 import { MoveFolderModal } from './MoveFolderModal';
 import { useResponsesList } from './useResponsesList';
 import { AIR_SERVICES } from '@/constants';
@@ -29,6 +29,11 @@ export const ResponsesList = () => {
     router,
     handleActionClick,
     tableColumns,
+    search,
+    setSearch,
+    responsesList,
+    responsesListMetaData,
+    lazyGetResponsesListStatus,
   } = useResponsesList();
   return (
     <>
@@ -36,7 +41,7 @@ export const ResponsesList = () => {
         <PageTitledHeader
           title={`Canned Response > ${convertToTitleCase(
             router?.query?.response,
-          )}`}
+          )} Responses`}
           canMovedBack
           moveBack={() => router?.push(AIR_SERVICES?.CANNED_RESPONSE_SETTINGS)}
         />
@@ -45,36 +50,51 @@ export const ResponsesList = () => {
         borderRadius={3}
         border="0.06rem solid"
         borderColor="custom.light_lavender_gray"
-        px={1}
       >
         <Grid container>
           <Grid item xs={12}>
             <Box p={1.2}>
-              <Grid container>
-                <Grid item xs={6}>
+              <Grid container spacing={2}>
+                <Grid item sm={6} xs={12}>
                   <Box display="flex" alignItems="center" gap={2}>
-                    <Search size="small" label="Search" />
+                    <Search
+                      size="small"
+                      label="Search"
+                      searchBy={search}
+                      setSearchBy={setSearch}
+                      width={500}
+                    />
                   </Box>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item sm={6} xs={12}>
                   <Box
                     display="flex"
                     justifyContent="flex-end"
                     alignItems="center"
+                    flexWrap="wrap"
                     gap={2}
                   >
                     <SingleDropdownButton
                       dropdownOptions={actionsOptions(handleActionClick)}
                       dropdownName="Actions"
                       disabled={!!!selectedData?.length}
+                      sx={{
+                        width: { sm: 'auto', xs: '100%' },
+                      }}
                     />
                     <Button
                       variant="contained"
+                      sx={{
+                        width: { sm: 'auto', xs: '100%' },
+                      }}
                       startIcon={
                         <AddBoxRoundedIcon sx={{ color: 'custom.white' }} />
                       }
                       disableElevation
-                      onClick={() => setOpenAddResponseDrawer(true)}
+                      onClick={() => {
+                        setOpenAddResponseDrawer(true);
+                        setSelectedData([]);
+                      }}
                     >
                       Add New
                     </Button>
@@ -86,15 +106,15 @@ export const ResponsesList = () => {
           <Grid item xs={12}>
             <TanstackTable
               columns={tableColumns}
-              data={responsesTableData}
-              isLoading={false}
-              isFetching={false}
-              isError={false}
-              isSuccess={true}
+              data={responsesList}
+              isLoading={lazyGetResponsesListStatus?.isLoading}
+              isFetching={lazyGetResponsesListStatus?.isFetching}
+              isError={lazyGetResponsesListStatus?.isError}
+              isSuccess={lazyGetResponsesListStatus?.isSuccess || true}
               currentPage={page}
-              count={2}
+              count={responsesListMetaData?.pages}
               pageLimit={pageLimit}
-              totalRecords={4}
+              totalRecords={responsesListMetaData?.total}
               onPageChange={(page: any) => setPage(page)}
               setPage={setPage}
               setPageLimit={setPageLimit}
@@ -106,15 +126,21 @@ export const ResponsesList = () => {
       <AddResponseForm
         open={openAddResponseDrawer}
         setDrawerOpen={setOpenAddResponseDrawer}
+        folderName={convertToTitleCase(router?.query?.response)}
+        selectedData={selectedData}
+        setSelectedData={setSelectedData}
       />
       <DeleteResponseModal
         deleteModal={deleteModal}
         setDeleteModal={setDeleteModal}
         setSelectedData={setSelectedData}
+        selectedData={selectedData}
       />
       <MoveFolderModal
         openMoveFolderModal={openMoveFolderModal}
         closeMoveFolderModal={() => setOpenMoveFolderModal(false)}
+        setSelectedData={setSelectedData}
+        selectedData={selectedData}
       />
     </>
   );

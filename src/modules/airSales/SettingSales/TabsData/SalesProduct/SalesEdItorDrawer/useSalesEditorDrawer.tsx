@@ -12,7 +12,12 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
-const useSalesEditorDrawer = ({ selectedCheckboxes, isEditMode }: any) => {
+const useSalesEditorDrawer = ({
+  selectedCheckboxes,
+  isEditMode,
+  setSelectedCheckboxes,
+  setIsDraweropen,
+}: any) => {
   const editRowValue = selectedCheckboxes && selectedCheckboxes[0];
   const [postSalesProduct] = usePostSalesProductMutation();
   const [updateSalesProduct] = useUpdateSalesProductMutation();
@@ -53,18 +58,32 @@ const useSalesEditorDrawer = ({ selectedCheckboxes, isEditMode }: any) => {
   });
   const { handleSubmit } = salesProduct;
   const onSubmit = async (values: any) => {
-    const { fileUrl, ...rest } = values;
-    const payload = {
-      fileUrl: fileUrl?.path,
-      ...rest,
-    };
+    const formData = new FormData();
+
+    formData.append('category', values?.category);
+    formData.append('description', values?.description);
+    formData.append('isActive', values?.isActive);
+    formData.append('name', values?.name);
+    formData.append('purchasePrice', values?.purchasePrice);
+    formData.append('sku', values?.sku);
+    formData.append('unitPrice', values?.unitPrice);
+    formData.append('image', values?.image);
+
     try {
-      isEditMode
+      isEditMode === 'Edit'
         ? await updateSalesProduct({
-            body: payload,
+            body: formData,
             id: editRowValue?._id,
           }).unwrap()
-        : await postSalesProduct({ body: payload })?.unwrap();
+        : await postSalesProduct({ body: formData })?.unwrap();
+      setSelectedCheckboxes([]);
+      setIsDraweropen(false);
+      enqueueSnackbar(
+        `Product ${isEditMode ? 'Updated ' : 'Added'} Successfully`,
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
     } catch (error) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
