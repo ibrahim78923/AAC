@@ -7,52 +7,49 @@ import {
 
 import * as Yup from 'yup';
 
-export const dealsTasksValidationSchema = Yup?.object()?.shape({
-  taskname: Yup?.string()?.trim()?.required('Field is Required'),
-  tasktype: Yup?.string()?.trim()?.required('Field is Required'),
-  priority: Yup?.string()?.trim()?.required('Field is Required'),
-  taskstatus: Yup?.string()?.trim()?.required('Field is Required'),
-  selectdeal: Yup?.string()?.trim()?.required('Field is Required'),
-  assignedto: Yup?.string()?.trim()?.required('Field is Required'),
-  associatewithrecords: Yup?.string()?.trim()?.required('Field is Required'),
-  reminder: Yup?.string()?.trim()?.required('Field is Required'),
-  note: Yup?.string()?.trim()?.required('Field is Required'),
+export const contactTaskValidationSchema = Yup?.object()?.shape({
+  title: Yup?.string()?.trim()?.required('Field is Required'),
+  status: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
-export const dealsTasksDefaultValues = {
-  taskname: '',
-  tasktype: '',
+export const contactTaskDefaultValues = {
+  title: '',
+  description: '',
+  status: '',
+  startDate: null,
+  endDate: null,
+  assignTo: '',
   priority: '',
-  taskstatus: '',
-  selectdeal: '',
-  assignedto: '',
-  associatewithrecords: '',
-  reminder: '',
-  note: '',
+  notifyBefore: '',
 };
 
-export const ContactsTasksDataArray = [
+export const contactTaskDataArray = [
   {
+    id: 'title',
+    md: 12,
+    component: RHFTextField,
     componentProps: {
       name: 'title',
       label: 'Title',
       fullWidth: true,
     },
-    component: RHFTextField,
-    md: 12,
   },
   {
+    id: 'description',
+    md: 12,
+    component: RHFEditor,
     componentProps: {
-      name: 'note',
-      label: 'Note',
+      name: 'description',
+      label: 'Description',
       fullWidth: true,
     },
-    component: RHFEditor,
-    md: 12,
   },
   {
+    id: 'status',
+    md: 12,
+    component: RHFSelect,
     componentProps: {
-      name: 'tasktype',
+      name: 'status',
       label: 'Task Type',
       select: true,
     },
@@ -61,30 +58,33 @@ export const ContactsTasksDataArray = [
       { value: 'Follow-up', label: 'Follow-up' },
       { value: 'Call reminder', label: 'Call reminder' },
     ],
-    component: RHFSelect,
-    md: 12,
   },
   {
+    id: 'startDate',
+    md: 6,
+    component: RHFDatePicker,
     componentProps: {
-      name: 'dueDate',
-      label: 'Due Date',
+      name: 'startDate',
+      label: 'Start Date',
       fullWidth: true,
     },
+  },
+  {
+    id: 'endDate',
+    md: 6,
     component: RHFDatePicker,
-    md: 6,
-  },
-  {
     componentProps: {
-      name: 'taskstatus',
-      label: '2:56',
-      select: false,
+      name: 'endDate',
+      label: 'End Date',
+      fullWidth: true,
     },
-    component: RHFTextField,
-    md: 6,
   },
   {
+    id: 'assignTo',
+    md: 12,
+    component: RHFSelect,
     componentProps: {
-      name: 'Assign To',
+      name: 'assignTo',
       label: 'Assign To',
       select: true,
     },
@@ -94,12 +94,13 @@ export const ContactsTasksDataArray = [
       { value: 'Deals', label: 'Deals' },
       { value: 'Tickets', label: 'Tickets' },
     ],
-    component: RHFSelect,
-    md: 12,
   },
   {
+    id: 'priority',
+    md: 12,
+    component: RHFSelect,
     componentProps: {
-      name: 'Priority',
+      name: 'priority',
       label: 'Priority',
       select: true,
     },
@@ -108,13 +109,14 @@ export const ContactsTasksDataArray = [
       { value: 'Alfa Bravo', label: 'Alfa Bravo' },
       { value: 'John Charlie', label: 'John Charlie' },
     ],
-    component: RHFSelect,
-    md: 12,
   },
 
   {
+    id: 'notifyBefore',
+    md: 12,
+    component: RHFSelect,
     componentProps: {
-      name: 'Notify Before',
+      name: 'notifyBefore',
       label: 'Notify Before',
       fullWidth: true,
       select: true,
@@ -124,8 +126,6 @@ export const ContactsTasksDataArray = [
       { value: 'Alfa Bravo', label: 'Alfa Bravo' },
       { value: 'John Charlie', label: 'John Charlie' },
     ],
-    component: RHFSelect,
-    md: 12,
   },
 ];
 

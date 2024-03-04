@@ -1,16 +1,37 @@
 import { Box, Grid, Typography } from '@mui/material';
-
 import TanstackTable from '@/components/Table/TanstackTable';
-
-import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
-
 import TaskEditorDrawer from './TaskEditorDrawer';
 import ActionDropdown from './ActionDropdown';
 import useTasks from './useTasks';
 import { columns } from './Tasks.data';
 
 const Tasks = ({ contactId }: any) => {
-  const { openDrawer, setOpenDrawer } = useTasks(contactId);
+  const {
+    anchorEl,
+    isActionMenuOpen,
+    handleOpenActionMenu,
+    handleCloseActionMenu,
+    dataGetContactTasks,
+    drawerTitle,
+    openDrawerEditTask,
+    handleOpenDrawerEditTask,
+    handleCloseDrawerEditTask,
+    methodsEditTask,
+    handleSubmitUpdateContactTask,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
+  } = useTasks(contactId);
+
+  const tasksTableColumns = columns(
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    setRowId,
+  );
 
   return (
     <Box
@@ -25,17 +46,34 @@ const Tasks = ({ contactId }: any) => {
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="h4"> Tasks</Typography>
             <Box sx={{ gap: 1, display: 'flex' }}>
-              <ActionDropdown setOpenDrawer={setOpenDrawer} />
+              <ActionDropdown
+                anchorEl={anchorEl}
+                isActionMenuOpen={isActionMenuOpen}
+                handleOpenActionMenu={handleOpenActionMenu}
+                handleCloseActionMenu={handleCloseActionMenu}
+                isActionsDisabled={isActionsDisabled}
+                isMenuItemDisabled={rowId}
+                handleOpenDrawer={handleOpenDrawerEditTask}
+              />
             </Box>
           </Box>
         </Grid>
 
         <Grid item xs={12}>
-          <TanstackTable columns={columns} data={TasksTableData} />
+          <TanstackTable
+            columns={tasksTableColumns}
+            data={dataGetContactTasks?.data?.tasks}
+          />
         </Grid>
       </Grid>
 
-      <TaskEditorDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
+      <TaskEditorDrawer
+        title={drawerTitle}
+        openDrawer={openDrawerEditTask}
+        onClose={handleCloseDrawerEditTask}
+        methods={methodsEditTask}
+        handleSubmit={handleSubmitUpdateContactTask}
+      />
     </Box>
   );
 };

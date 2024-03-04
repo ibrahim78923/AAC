@@ -105,6 +105,15 @@ export const contactsAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+
+    updateContactTask: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.TASK}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -121,4 +130,5 @@ export const {
   useRestoreContactMutation,
   useDeleteContactPermanentMutation,
   useGetContactTasksQuery,
+  useUpdateContactTaskMutation,
 } = contactsAPI;

@@ -1,41 +1,27 @@
 import { Box, Grid } from '@mui/material';
-
 import CommonDrawer from '@/components/CommonDrawer';
-
-import useTaskEditor from './useTaskEditor';
-
-import {
-  ContactsTasksDataArray,
-  drawerButtonTitle,
-  drawerTitle,
-} from './TaskEditor.data';
-
 import { FormProvider } from '@/components/ReactHookForm';
-
-import { v4 as uuidv4 } from 'uuid';
+import { contactTaskDataArray } from './TaskEditor.data';
 
 const TaskEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
-  const { handleSubmit, onSubmit, methodsdealsTasks } = useTaskEditor();
+  const { title, openDrawer, onClose, methods, handleSubmit } = props;
 
   return (
     <div>
       <CommonDrawer
         isDrawerOpen={openDrawer}
-        onClose={() => setOpenDrawer('')}
-        title={drawerTitle[openDrawer]}
-        okText={drawerButtonTitle[openDrawer]}
+        onClose={onClose}
+        title={`${title} Task`}
+        okText={'Update'}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
+        submitHandler={handleSubmit}
       >
         <Box sx={{ pt: 2 }}>
-          <FormProvider
-            methods={methodsdealsTasks}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <Grid container spacing={4}>
-              {ContactsTasksDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+          <FormProvider methods={methods}>
+            <Grid container spacing="22px">
+              {contactTaskDataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (

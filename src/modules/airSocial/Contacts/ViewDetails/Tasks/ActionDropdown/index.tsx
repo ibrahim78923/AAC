@@ -13,23 +13,25 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 
 const ActionDropdown = (props: any) => {
-  const { setOpenDrawer } = props;
+  const {
+    anchorEl,
+    isActionMenuOpen,
+    handleOpenActionMenu,
+    handleCloseActionMenu,
+    handleOpenDrawer,
+    isActionsDisabled,
+    isMenuItemDisabled,
+  } = props;
   const {
     theme,
-    isMenuOpen,
-    anchorEl,
-    handleOpenMenu,
-    handleCloseMenu,
     openAlertModal,
-    handleOpenEditDrawer,
-    handleOpenViewDrawer,
     handleOpenReassignAlert,
     handleOpenDeleteAlert,
     handleCloseAlert,
     handleSubmit,
     onSubmit,
     methodsAssignee,
-  } = useActionDropdown({ setOpenDrawer });
+  } = useActionDropdown();
 
   return (
     <div>
@@ -41,25 +43,38 @@ const ActionDropdown = (props: any) => {
           minWidth: '0px',
           height: '35px',
         }}
-        aria-controls={isMenuOpen ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={isMenuOpen ? 'true' : undefined}
-        onClick={handleOpenMenu}
+        onClick={handleOpenActionMenu}
+        disabled={isActionsDisabled}
       >
         Action
       </Button>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
-        open={isMenuOpen}
-        onClose={handleCloseMenu}
+        open={isActionMenuOpen}
+        onClose={handleCloseActionMenu}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleOpenViewDrawer}>View</MenuItem>
-        <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
-        <MenuItem onClick={handleOpenReassignAlert}>Re-assign</MenuItem>
+        <MenuItem
+          disabled={!isMenuItemDisabled}
+          onClick={() => handleOpenDrawer('View')}
+        >
+          View
+        </MenuItem>
+        <MenuItem
+          disabled={!isMenuItemDisabled}
+          onClick={() => handleOpenDrawer('Edit')}
+        >
+          Edit
+        </MenuItem>
+        <MenuItem
+          disabled={!isMenuItemDisabled}
+          onClick={handleOpenReassignAlert}
+        >
+          Re-assign
+        </MenuItem>
         <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
       </Menu>
 

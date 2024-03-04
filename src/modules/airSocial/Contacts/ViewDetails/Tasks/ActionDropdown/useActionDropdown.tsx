@@ -10,7 +10,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-const useActionDropdown = ({ setOpenDrawer }: any) => {
+const useActionDropdown = () => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openAlertModal, setOpenAlertModal] = useState('');
@@ -31,14 +31,14 @@ const useActionDropdown = ({ setOpenDrawer }: any) => {
     setAnchorEl(null);
   };
 
-  const handleOpenEditDrawer = () => {
-    setOpenDrawer('Edit');
-    handleCloseMenu();
-  };
-  const handleOpenViewDrawer = () => {
-    setOpenDrawer('View');
-    handleCloseMenu();
-  };
+  // const handleOpenEditDrawer = () => {
+  //   setOpenDrawer('Edit');
+  //   handleCloseMenu();
+  // };
+  // const handleOpenViewDrawer = () => {
+  //   setOpenDrawer('View');
+  //   handleCloseMenu();
+  // };
   const handleOpenReassignAlert = () => {
     setOpenAlertModal('Reassign');
   };
@@ -62,9 +62,6 @@ const useActionDropdown = ({ setOpenDrawer }: any) => {
     handleOpenReassignAlert,
     handleOpenDeleteAlert,
     handleCloseAlert,
-
-    handleOpenEditDrawer,
-    handleOpenViewDrawer,
   };
 };
 
