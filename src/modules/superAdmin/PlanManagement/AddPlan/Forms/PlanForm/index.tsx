@@ -11,12 +11,16 @@ import { v4 as uuidv4 } from 'uuid';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { selectProductSuites } from './PlanForm.data';
 
-const AddPlanForm = ({ handleSubmit, methods }: any) => {
+const AddPlanForm = ({
+  handleSubmit,
+  methods,
+  AdditionalStorageValue,
+}: any) => {
   const {
     formDefaultValuesFunction,
     selectProductSuite,
     setSelectProductSuite,
-  } = useAddPlanForm();
+  } = useAddPlanForm(AdditionalStorageValue);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit}>
