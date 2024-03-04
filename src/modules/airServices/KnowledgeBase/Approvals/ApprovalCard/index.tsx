@@ -53,7 +53,6 @@ const ApprovalCard = (props: any) => {
       </Box>
       <Chip
         label={'Approve'}
-        variant="filled"
         sx={{
           backgroundColor: 'blue.main',
           color: 'common.white',
