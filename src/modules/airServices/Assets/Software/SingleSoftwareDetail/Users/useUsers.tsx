@@ -40,7 +40,7 @@ const useUsers = () => {
     page,
     limit,
   });
-  const metaData = getSoftwareUsers?.data?.[0];
+  const metaData = getSoftwareUsers?.data;
   const { data: getSoftwareExportUsers } = useGetSoftwareUsersDetailsQuery({
     id: softwareId,
     page,

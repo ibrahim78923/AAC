@@ -17,7 +17,8 @@ const UsersTable = ({ setUsersData, usersData }: any) => {
     isError,
     isSuccess,
   } = useUsers();
-  const userDetails = getSoftwareUsers?.data?.[0]?.collections || [];
+  const userDetails = getSoftwareUsers?.data;
+  // console.log(getSoftwareUsers?.data);
 
   return (
     <div>
