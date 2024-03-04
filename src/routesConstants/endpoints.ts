@@ -264,6 +264,7 @@ export const END_POINTS = {
   REQUEST_APPROVALS_LIST: `/assets/get-purchase-approvals-by-purchase-order`,
   PATCH_APPROVAL_STATUS: `/assets/approver-order-status`,
   ASSETS_RECEIVED: '/assets/get-purchaseorder-assets-received/{id}',
+  SERVICE_CATALOG_CATEGORIES_DETAILS: '/service-catalog/get-detail-service',
   UPDATE_CONTRACT_SUBMIT_APPROVAL: '/contract/approval-request',
   GET_CONTRACT_VENDOR_LIST: '/vendors/get-vendor-contracts',
   POST_ARTICLES_FEEDBACK: '/articles/feedback',

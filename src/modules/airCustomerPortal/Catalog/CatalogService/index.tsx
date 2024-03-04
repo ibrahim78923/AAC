@@ -4,15 +4,12 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Image from 'next/image';
-import useCatalog from '../useCatalog';
 import { allServices } from '../Catalog.data';
 import { CatalogRequest } from '../CatalogRequest';
-import CatalogServiceBackUp from '../CatalogServiceBackUp';
 import CatalogServiceSoftware from '../CatalogServiceSoftware';
 import { v4 as uuidv4 } from 'uuid';
-
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
-import { CATALOG_SERVICE } from '@/constants/strings';
+import useCatalogService from './useCatalogService';
 
 const CatalogService = () => {
   const router = useRouter();
@@ -20,7 +17,8 @@ const CatalogService = () => {
   const serviceData = allServices?.find(
     (service: any) => service?.id == router?.query?.serviceId,
   );
-  const { open, handleClickOpen, setOpen } = useCatalog();
+  const { handleClickOpen, open, setOpen, servicesDetails } =
+    useCatalogService();
   return (
     <>
       <Box
@@ -31,7 +29,7 @@ const CatalogService = () => {
       >
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
           <Button
-            onClick={() => router.push(AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES)}
+            onClick={() => router?.push(AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES)}
           >
             <ViewDetailBackArrowIcon />
           </Button>
@@ -43,13 +41,15 @@ const CatalogService = () => {
           </Typography>
           <ArrowForwardIosIcon fontSize="small" />
 
-          <Typography variant="h5">{serviceData?.title}</Typography>
+          <Typography variant="h5">
+            {servicesDetails?.data?.itemName}
+          </Typography>
         </Box>
       </Box>
       <Grid container>
         <Grid item xs={12} md={6} lg={4} key={uuidv4()}>
           <Box
-            key={serviceData?.id}
+            key={servicesDetails?.data?._id}
             borderRadius={2}
             border={'0.3rem solid'}
             borderColor={'primary.lighter'}
@@ -66,10 +66,10 @@ const CatalogService = () => {
               p={2}
             >
               <Image
-                src={serviceData?.image || ''}
+                src={servicesDetails?.data?.image || ''}
                 height={56}
                 width={58}
-                alt={`Service ${serviceData?.id} Image`}
+                alt={`Service ${servicesDetails?.data?._id} Image`}
               />
             </Box>
             <Box
@@ -79,13 +79,15 @@ const CatalogService = () => {
               flexDirection={'column'}
               mt={2}
             >
-              <Typography variant="h5">{serviceData?.title}</Typography>
+              <Typography variant="h5">
+                {servicesDetails?.data?.itemName}
+              </Typography>
 
               <Typography variant="body2" component={'span'}>
-                {serviceData?.description}
+                {servicesDetails?.data?.description}
               </Typography>
               <Typography variant="body2" component={'span'}>
-                {serviceData?.price}
+                {servicesDetails?.data?.cost}
               </Typography>
             </Box>
           </Box>
@@ -94,15 +96,7 @@ const CatalogService = () => {
       <Grid container>
         <Box m={1}>
           <Typography variant="h5">{serviceData?.title}</Typography>
-          {serviceData?.title === CATALOG_SERVICE?.DATA_BACKUP ? (
-            <>
-              <CatalogServiceBackUp />
-            </>
-          ) : (
-            <>
-              <CatalogServiceSoftware />
-            </>
-          )}
+          <CatalogServiceSoftware servicesDetails={servicesDetails} />
         </Box>
         <Grid item xs={12}>
           <Box
@@ -114,7 +108,13 @@ const CatalogService = () => {
             bottom={'1rem'}
             right={'2rem'}
           >
-            <Button variant="outlined" color="secondary">
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() =>
+                router?.push(AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES)
+              }
+            >
               Cancel
             </Button>
             <Button
@@ -126,7 +126,11 @@ const CatalogService = () => {
             </Button>
           </Box>
 
-          <CatalogRequest open={open} setOpen={setOpen} />
+          <CatalogRequest
+            open={open}
+            setOpen={setOpen}
+            servicesDetails={servicesDetails}
+          />
         </Grid>
       </Grid>
     </>
