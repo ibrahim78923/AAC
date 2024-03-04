@@ -28,6 +28,8 @@ const Contracts = () => {
     contractFilterLists,
     setContractFilterLists,
     theme,
+    getContractListData,
+    page,
   }: any = useContracts();
   return (
     <>
@@ -109,6 +111,9 @@ const Contracts = () => {
           selectedContractList={selectedContractList}
           setSelectedContractList={setSelectedContractList}
           setPage={setPage}
+          page={page}
+          getContractListData={getContractListData}
+          totalRecords={lazyGetContractStatus?.data?.data?.contracts?.length}
         />
       )}
       {isDrawerOpen && (

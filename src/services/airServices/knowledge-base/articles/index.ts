@@ -46,7 +46,6 @@ export const articlesAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: deleteArticlesParameter?.queryParams,
       }),
-      invalidatesTags: [TAG],
     }),
     getFolders: builder?.query({
       query: () => ({

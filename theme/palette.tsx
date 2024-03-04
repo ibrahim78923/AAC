@@ -92,6 +92,7 @@ const CUSTOM_COLORS = {
   off_white_three: '#EAECF0',
   mint_green: '#E6FAEB',
   light_lavender_gray: '#EAECF0',
+  charcoal_gray: '#212121',
   steel_blue: '#79839E99',
   steel_blue_alpha: '#79839E',
   light_greyish: '#EAEAEA',
