@@ -12,7 +12,6 @@ export const useExistingIncident = ({ onClose }: any) => {
 
   const { data: existingTicketsData } = useGetExitingTicketsQuery();
 
-  // Function to handle checkbox change
   const handleCheckboxChange = (event: any) => {
     const { id, checked } = event.target;
     setCheckboxValues((prevValues: any) => ({
@@ -22,21 +21,16 @@ export const useExistingIncident = ({ onClose }: any) => {
   };
 
   const handleSubmit: any = () => {
-    // Filter out checkboxes with values set to false
-    Object.keys(checkboxValues).filter((id) => checkboxValues?.[id]);
-    // TODO: const selectedCheckboxes = Object.keys(checkboxValues).filter(
-    //   (id) => checkboxValues[id],
-    // );
-
+    Object.keys(checkboxValues)?.filter((id) => checkboxValues?.[id]);
     enqueueSnackbar('Incident Associated Successfully!', {
       variant: 'success',
     });
     onClose(false);
   };
-  const filteredTickets = existingTicketsData?.data?.tickets.filter(
+  const filteredTickets = existingTicketsData?.data?.tickets?.filter(
     (ticket: any) => {
       if (!searchBy) return true;
-      return Object.values(ticket).some(
+      return Object.values(ticket)?.some(
         (value) =>
           typeof value === 'string' &&
           value.toLowerCase().includes(searchBy.toLowerCase()),

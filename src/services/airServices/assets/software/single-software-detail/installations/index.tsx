@@ -43,8 +43,8 @@ export const installationAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     removeInstallation: builder?.mutation({
-      query: ({ id, body }: any) => ({
-        url: `${END_POINTS?.REMOVE_SOFTWARE_INSTALLATION}/${id}`,
+      query: ({ body }: any) => ({
+        url: END_POINTS?.REMOVE_SOFTWARE_INSTALLATION,
         method: 'PATCH',
         body,
       }),
