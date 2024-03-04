@@ -14,7 +14,7 @@ import {
 } from './DealsEditorDrawer.data';
 
 const DealsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
+  const { openDrawer, setOpenDrawer, companyId, dealRecord } = props;
   const {
     handleSubmit,
     onSubmit,
@@ -22,7 +22,12 @@ const DealsEditorDrawer = (props: any) => {
     watchProductstatus,
     searchProduct,
     setSearchProduct,
-  } = useDealsEditorDrawer();
+  } = useDealsEditorDrawer({
+    openDrawer,
+    setOpenDrawer,
+    companyId,
+    dealRecord,
+  });
 
   return (
     <div>
@@ -33,6 +38,7 @@ const DealsEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider
@@ -40,16 +46,27 @@ const DealsEditorDrawer = (props: any) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Grid container spacing={4}>
-              <Grid item xs={12}>
-                <RHFRadioGroup
-                  options={['Custom Line Item', 'Existing Products']}
-                  name={'productStatus'}
-                  label={''}
-                />
+              <Grid item xs={12} sx={{ paddingTop: '20px !important' }}>
+                {watchProductstatus[0] === 'New Deal' && (
+                  <RHFRadioGroup
+                    options={[
+                      { value: 'New Deal', label: 'New Deal' },
+                      { value: 'Existing Deals', label: 'Existing Deals' },
+                    ]}
+                    name={'dealStatus'}
+                    row={true}
+                  />
+                )}
               </Grid>
-              {watchProductstatus[0] === 'Custom Line Item' ? (
-                productsDataArray?.map((item: any) => (
-                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {productsDataArray(openDrawer)?.map((item: any, index: any) =>
+                watchProductstatus[0] === 'New Deal' ? (
+                  <Grid
+                    item
+                    xs={12}
+                    md={item?.md}
+                    key={uuidv4()}
+                    sx={{ paddingTop: '20px !important' }}
+                  >
                     <item.component {...item?.componentProps} size={'small'}>
                       {item?.componentProps?.select
                         ? item?.options?.map((option: any) => (
@@ -60,17 +77,33 @@ const DealsEditorDrawer = (props: any) => {
                         : null}
                     </item.component>
                   </Grid>
-                ))
-              ) : (
-                <Grid item xs={12}>
-                  <Search
-                    searchBy={searchProduct}
-                    setSearchBy={setSearchProduct}
-                    label="Search Products"
-                    size="medium"
-                    fullWidth
-                  />
-                </Grid>
+                ) : (
+                  index === 0 && (
+                    <Grid
+                      item
+                      xs={12}
+                      md={item?.md}
+                      key={uuidv4()}
+                      sx={{ paddingTop: '0px !important' }}
+                    >
+                      <RHFRadioGroup
+                        options={[
+                          { value: 'New Deal', label: 'New Deal' },
+                          { value: 'Existing Deals', label: 'Existing Deals' },
+                        ]}
+                        name={'dealStatus'}
+                        row={true}
+                      />
+                      <Search
+                        searchBy={searchProduct}
+                        setSearchBy={setSearchProduct}
+                        label="Search Deal"
+                        size="medium"
+                        fullWidth
+                      />
+                    </Grid>
+                  )
+                ),
               )}
             </Grid>
           </FormProvider>

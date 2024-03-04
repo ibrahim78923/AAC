@@ -1,12 +1,61 @@
-import { Box } from '@mui/material';
+import { Box, CircularProgress, Grid } from '@mui/material';
 import DetailCard from './DetailCard';
 import ProductsTable from './ProductsTable';
+import {
+  useGetInvoiceIdQuery,
+  useLazyGetInvoiceQoutesListQuery,
+} from '@/services/airSales/invoices';
+import { isNullOrEmpty } from '@/utils';
+import { FormProvider } from '@/components/ReactHookForm';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  defaultValues,
+  getDataArray,
+  validationSchema,
+} from './EditDetails.data';
 
 const EditDetails = () => {
+  const QuoteData = useLazyGetInvoiceQoutesListQuery();
+  const methods: any = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: defaultValues,
+  });
+
+  const { handleSubmit, watch } = methods;
+  const watchFields = watch(['Quote']);
+  const QuoteID = watchFields[0]?._id;
+
+  const { data, isError, isLoading } = useGetInvoiceIdQuery(
+    { id: QuoteID },
+    { skip: isNullOrEmpty(QuoteID) },
+  );
+  const onSubmit = async () => {};
+  const dataArray = getDataArray(QuoteData);
+
   return (
     <Box className="stepper-content">
-      <DetailCard />
-      <ProductsTable />
+      <Grid container>
+        <Grid xs={12} md={4}>
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={2}>
+              {dataArray?.map((item: any) => (
+                <Grid item xs={12} key={item?.id}>
+                  <item.component {...item?.componentProps} />
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </Grid>
+      </Grid>
+      {isLoading && <CircularProgress />}
+
+      {!isError && data && (
+        <>
+          <DetailCard />
+          <ProductsTable data={data} />
+        </>
+      )}
     </Box>
   );
 };

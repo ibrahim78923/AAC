@@ -3,8 +3,8 @@ import { singleContractDetailsActionDropdownFunction } from './SingleContractDet
 import { useRouter } from 'next/router';
 import { useDeleteContractMutation } from '@/services/airServices/assets/contracts';
 import { AIR_SERVICES } from '@/constants';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
+
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useSingleContractDetails = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -17,16 +17,12 @@ export const useSingleContractDetails = () => {
     const updatedData = { queryParams: { ids: [contractId] } };
 
     try {
-      const res = await deleteContract(updatedData)?.unwrap();
+      await deleteContract(updatedData)?.unwrap();
       setDeleteModalOpen?.(false);
-      router?.push(AIR_SERVICES?.VENDOR_SETTINGS);
-      enqueueSnackbar(res?.data?.message ?? 'Contract Deleted Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      router?.push(AIR_SERVICES?.ASSETS_CONTRACTS);
+      successSnackbar('Contract Deleted Successfully!');
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar?.();
       setDeleteModalOpen?.(false);
     }
   };

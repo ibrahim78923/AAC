@@ -27,10 +27,10 @@ export const contactsValidationSchema = Yup?.object()?.shape({
     ?.min(10, 'Minimum 10 digits required')
     ?.required('Required field'),
   lifeCycleStageId: Yup?.string()?.trim()?.required('Required Field'),
-  // contactOwner: Yup?.string()?.trim()?.required('Required Field'),
+  // contactOwnerId: Yup?.string()?.trim()?.required('Required Field'),
   statusId: Yup?.string()?.trim()?.required('Required Field'),
   jobTitle: Yup?.string()?.trim()?.required('Required Field'),
-  dateOfJoining: Yup?.string()?.nullable()?.required('Required Field'),
+  dateOfJoinig: Yup?.string()?.nullable()?.required('Required Field'),
   dateOfBirth: Yup?.string()?.nullable()?.required('Required Field'),
 });
 
@@ -45,9 +45,9 @@ export const contactsDefaultValues = {
   phoneNumber: null,
   whatsAppNumber: null,
   lifeCycleStageId: '',
-  contactOwner: '',
+  contactOwnerId: '',
   statusId: '',
-  dateOfJoining: null,
+  dateOfJoinig: null,
   dateOfBirth: null,
 };
 export const contactsDataArray = (
@@ -161,10 +161,10 @@ export const contactsDataArray = (
       component: RHFTextField,
     },
     {
-      id: 'contactOwner',
+      id: 'contactOwnerId',
       title: 'Contact Owner',
       componentProps: {
-        name: 'contactOwner',
+        name: 'contactOwnerId',
         label: 'Contact Owner',
         select: true,
       },
@@ -206,10 +206,10 @@ export const contactsDataArray = (
       component: RHFSelect,
     },
     {
-      id: 'dateOfJoining',
+      id: 'dateOfJoinig',
       title: 'Date of Joining',
       componentProps: {
-        name: 'dateOfJoining',
+        name: 'dateOfJoinig',
         label: 'Date of Joining',
         fullWidth: true,
       },

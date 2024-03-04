@@ -1,41 +1,43 @@
-import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 const statusOptions = [
-  { value: 'Restricted', label: 'Restricted' },
-  { value: 'Ignored', label: 'Ignored' },
-  { value: 'Managed', label: 'Managed' },
-  { value: 'Disabled', label: 'Disabled' },
-  { value: 'In Review', label: 'In Review' },
+  'Restricted',
+  'Ignored',
+  'Managed',
+  'Disabled',
+  'In Review',
 ];
-const typeOptions = [
-  { value: 'Desktop', label: 'Desktop' },
-  { value: 'SaaS', label: 'SaaS' },
-  { value: 'Mobile', label: 'Mobile' },
-];
+const typeOptions = ['Desktop', 'Saas', 'Mobile'];
 
-export const upsertSoftwareFormValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is Required'),
+export const upsertSoftwareFormValidationSchema: any = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Required'),
   description: Yup?.string(),
-  status: Yup?.string(),
-  type: Yup?.string()?.required('Field is Required'),
+  type: Yup?.string()?.required('Required'),
+  status: Yup?.string()?.required('Required'),
   publisher: Yup?.string(),
   category: Yup?.string(),
-  managedBy: Yup?.string(),
 });
 
-export const upsertSoftwareFormDefaultValues = {
-  name: '', //1
-  description: '', //2
-  status: '', //3
-  type: '', //4
-  publisher: '', //5
-  category: '', //6
-  managedBy: '', //7
+export const upsertSoftwareFormDefaultValues = (data: any) => {
+  return {
+    name: data?.name ?? '',
+    description: data?.details?.description ?? '',
+    status: data?.status ?? null,
+    type: data?.type ?? '',
+    publisher: data?.details?.publisher ?? '',
+    category: data?.details?.category ?? '',
+    managedBy: data?.managedByDetails ?? null,
+  };
 };
 
-export const upsertSoftwareFormFields = [
+export const upsertSoftwareFormFields = (userQuery: any) => [
   {
+    id: 1,
     componentProps: {
       name: 'name',
       label: 'Name',
@@ -46,6 +48,7 @@ export const upsertSoftwareFormFields = [
     md: 12,
   },
   {
+    id: 2,
     componentProps: {
       name: 'description',
       label: 'Description',
@@ -58,29 +61,31 @@ export const upsertSoftwareFormFields = [
     md: 12,
   },
   {
+    id: 3,
     componentProps: {
       name: 'status',
       label: 'Status',
       fullWidth: true,
-      select: true,
+      required: true,
+      options: statusOptions,
     },
-    options: statusOptions,
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
+    id: 4,
     componentProps: {
       name: 'type',
       label: 'Type',
       fullWidth: true,
-      select: true,
       required: true,
+      options: typeOptions,
     },
-    options: typeOptions,
-    component: RHFSelect,
+    component: RHFAutocomplete,
     md: 12,
   },
   {
+    id: 5,
     componentProps: {
       name: 'publisher',
       label: 'Publisher',
@@ -90,6 +95,7 @@ export const upsertSoftwareFormFields = [
     md: 12,
   },
   {
+    id: 6,
     componentProps: {
       name: 'category',
       label: 'Category',
@@ -99,12 +105,16 @@ export const upsertSoftwareFormFields = [
     md: 12,
   },
   {
+    id: 7,
     componentProps: {
       name: 'managedBy',
       label: 'Managed By',
       fullWidth: true,
+      apiQuery: userQuery,
+      getOptionLabel: (option: any) =>
+        option?.firstName + ' ' + option?.lastName,
     },
-    component: RHFTextField,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
 ];

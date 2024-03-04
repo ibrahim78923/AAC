@@ -35,8 +35,8 @@ export const useRequestConfirmForm = (props: any) => {
     };
     const toastMessage =
       selectedApproval?.state === TICKET_APPROVALS?.APPROVE
-        ? 'Request Approved successfully'
-        : 'Request Rejected successfully';
+        ? 'Request approved successfully'
+        : 'Request rejected successfully';
     try {
       await patchApprovalTicketsTrigger(patchParameterData)?.unwrap();
       successSnackbar?.(toastMessage);

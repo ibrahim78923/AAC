@@ -69,6 +69,7 @@ export const TICKET_APPROVALS = {
   REJECT: 'REJECTED',
   CANCEL: 'CANCELED',
   PENDING: 'PENDING',
+  REMINDER: 'REMINDER',
 };
 
 export const CONTRACT_TYPES = {
@@ -249,7 +250,6 @@ export const MESSAGE_EXPORT_FILE_TYPE: any = {
 export const AGENT_REQUEST_STATUS = {
   APPROVED: 'Approved',
   REJECTED: 'Rejected',
-  PENDING: 'Pending',
 };
 
 export const SETTINGS_ADD_ROLE = {
@@ -344,6 +344,9 @@ export const TASK_STATUS = {
 export enum ROLES {
   ORG_REQUESTER = 'ORG_REQUESTER',
   ORG_AGENT = 'ORG_AGENT',
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  ORG_EMPLOYEE = 'ORG_EMPLOYEE',
+  ORG_ADMIN = 'ORG_ADMIN',
 }
 
 export const TICKETS_STATE = {
