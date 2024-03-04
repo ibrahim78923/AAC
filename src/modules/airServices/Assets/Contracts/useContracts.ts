@@ -10,7 +10,7 @@ import {
 } from '@/services/airServices/assets/contracts';
 import { PAGINATION } from '@/config';
 import { useTheme } from '@mui/material';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useContracts = () => {
   const theme = useTheme();
@@ -22,25 +22,27 @@ export const useContracts = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState('');
-  const getContractParam = new URLSearchParams();
-
-  Object?.entries(contractFilterLists || {})?.forEach(
-    ([key, value]: any) => getContractParam?.append(key, value?._id),
-  );
-  getContractParam?.append('page', page + '');
-  getContractParam?.append('limit', pageLimit + '');
-  getContractParam?.append('search', search);
-
-  const getContractParameter = {
-    queryParams: getContractParam,
-  };
 
   const [lazyGetContractTrigger, lazyGetContractStatus]: any =
     useLazyGetContractQuery();
 
   const [lazyGetExportContractTrigger] = useLazyGetExportContractQuery();
 
-  const getContractListData = async () => {
+  const getContractListData = async (pages = page) => {
+    const additionalParams = [
+      ['page', pages + ''],
+      ['limit', pageLimit + ''],
+      ['search', search],
+    ];
+    const getContractParam: any = buildQueryParams(
+      additionalParams,
+      contractFilterLists,
+    );
+
+    const getContractParameter = {
+      queryParams: getContractParam,
+    };
+
     try {
       await lazyGetContractTrigger(getContractParameter)?.unwrap();
       setSelectedContractList([]);
@@ -105,5 +107,6 @@ export const useContracts = () => {
     setContractFilterLists,
     contractFilterLists,
     theme,
+    page,
   };
 };

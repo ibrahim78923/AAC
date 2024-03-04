@@ -1,19 +1,19 @@
 import * as Yup from 'yup';
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 
-export const upsertValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Field is Required'),
-  description: Yup?.string()?.trim()?.required('Field is Required'),
-  visibility: Yup?.mixed()?.nullable()?.required('Field is Required'),
+export const upsertFolderValidationSchema = Yup?.object()?.shape({
+  name: Yup?.string()?.trim()?.required('Required'),
+  description: Yup?.string(),
+  visibility: Yup?.mixed()?.nullable()?.required('Required'),
 });
 
-export const upsertDefaultValues = {
+export const upsertFolderFormDefaultValues = {
   name: '',
   description: '',
   visibility: null,
 };
 
-export const upsertDataArray = [
+export const upsertFolderFormFields = [
   {
     id: 1,
     componentProps: {
@@ -21,7 +21,7 @@ export const upsertDataArray = [
       label: 'Name',
       placeholder: 'Enter Folder Name',
       fullWidth: true,
-      required: false,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -33,7 +33,6 @@ export const upsertDataArray = [
       label: 'Description',
       placeholder: '#example',
       fullWidth: true,
-      required: false,
       multiline: true,
       minRows: 3,
     },
@@ -46,7 +45,7 @@ export const upsertDataArray = [
       name: 'visibility',
       label: 'Visible to',
       fullWidth: true,
-      required: false,
+      required: true,
       getOptionLabel: (option: any) => option?.label,
       options: [
         { _id: 'ALL', label: 'ALL' },
