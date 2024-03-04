@@ -45,7 +45,10 @@ export const AddResponseForm = (props: any) => {
             onSubmit={handleSubmit(submitAddResponse)}
           >
             <Grid container spacing={4}>
-              {addResponseDataArray?.map((item: any) => (
+              {addResponseDataArray(
+                availableForChanged,
+                setOpenSelectAgentsModal,
+              )?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
                   {item?.componentProps?.avatarGroup &&
@@ -64,6 +67,7 @@ export const AddResponseForm = (props: any) => {
                             >
                               <Avatar
                                 key={avatar?.id}
+                                sx={{ color: 'grey.600', fontWeight: 500 }}
                                 alt={`${avatar?.firstName} ${avatar?.lastName}`}
                                 src={avatar?.attachments}
                                 {...stringAvatar(
@@ -84,6 +88,7 @@ export const AddResponseForm = (props: any) => {
           openSelectAgentsModal={openSelectAgentsModal}
           closeSelectAgentsModal={() => setOpenSelectAgentsModal(false)}
           setAgentsResponses={setAgents}
+          agentsDetails={agents}
           setValue={setValue}
         />
       </CommonDrawer>

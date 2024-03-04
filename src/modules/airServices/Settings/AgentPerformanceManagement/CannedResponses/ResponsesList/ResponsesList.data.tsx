@@ -70,7 +70,7 @@ export const responsesTableColumns = (
   {
     accessorFn: (row: any) => ({
       availableFor: row?.availableFor,
-      agents: row?.agents,
+      agents: row?.agentDetails,
     }),
     id: 'availableFor',
     isSortable: true,
@@ -88,6 +88,7 @@ export const responsesTableColumns = (
                 >
                   <Avatar
                     key={avatar?.id}
+                    sx={{ color: 'grey.600', fontWeight: 500 }}
                     alt={`${avatar?.firstName} ${avatar?.lastName}`}
                     src={avatar?.attachments}
                     {...stringAvatar(

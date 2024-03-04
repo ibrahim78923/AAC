@@ -118,6 +118,7 @@ export const SelectAgentsModal = (props: any) => {
                         >
                           <Avatar
                             alt={`${avatar?.firstName} ${avatar?.lastName}`}
+                            sx={{ color: 'grey.600', fontWeight: 500 }}
                             src={avatar?.attachments}
                             {...stringAvatar(
                               `${avatar?.firstName} ${avatar?.lastName}`,

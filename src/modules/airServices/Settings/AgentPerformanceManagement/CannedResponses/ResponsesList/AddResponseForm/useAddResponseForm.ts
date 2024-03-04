@@ -98,13 +98,9 @@ export const useAddResponseForm = (props: any) => {
     }
   };
   useEffect(() => {
-    if (availableForChanged === CANNED_RESPONSES?.SELECT_AGENTS) {
-      setOpenSelectAgentsModal(true);
-    }
-  }, [availableForChanged]);
-  useEffect(() => {
     setOpenSelectAgentsModal(false);
     reset(addResponseDefaultValues(folderName, editableObj));
+    setAgents(editableObj?.agentDetails);
   }, [open]);
   return {
     methodsAddResponseForm,
