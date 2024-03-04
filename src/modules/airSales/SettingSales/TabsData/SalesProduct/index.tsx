@@ -41,6 +41,7 @@ const SalesProduct = () => {
     setPage,
     isLoading,
     isSuccess,
+    setSelectedCheckboxes,
   } = useSalesProduct();
 
   return (
@@ -155,6 +156,7 @@ const SalesProduct = () => {
           setIsDraweropen={setIsDraweropen}
           isEditMode={isEditMode}
           handleCloseDrawer={handleCloseDrawer}
+          setSelectedCheckboxes={setSelectedCheckboxes}
           selectedCheckboxes={selectedCheckboxes}
         />
       )}

@@ -26,7 +26,7 @@ export const salesProductDefaultValues = {
   category: '',
   description: '',
   unitPrice: null,
-  fileUrl: '',
+  image: '',
   isActive: false,
   // upload: '',
 };
@@ -115,7 +115,7 @@ export const dataArray = [
   },
   {
     componentProps: {
-      name: 'fileUrl',
+      name: 'image',
       label: 'Upload',
       fullWidth: true,
     },

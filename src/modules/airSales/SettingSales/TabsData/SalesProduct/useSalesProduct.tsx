@@ -59,6 +59,7 @@ const useSalesProduct = () => {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         },
       );
+      setSelectedCheckboxes([]);
       setDeleteModalOpen(false);
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {
@@ -78,7 +79,7 @@ const useSalesProduct = () => {
     } else {
       setSelectedCheckboxes(
         (prevSelected: any) =>
-          prevSelected?.filter((item: any) => item?.id !== row?.id),
+          prevSelected?.filter((item: any) => item?._id !== row?._id),
       );
     }
   };
@@ -106,6 +107,7 @@ const useSalesProduct = () => {
     selectedCheckboxes,
     getRowValues,
     setAnchorEl,
+    setSelectedCheckboxes,
     salesProductData: data?.data,
     isLoading,
     isSuccess,
