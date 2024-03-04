@@ -48,43 +48,44 @@ import * as io from 'socket.io-client';
 import { styles } from './Layout.style';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS } from '@/routesConstants/paths';
+import { ROLES } from '@/constants/strings';
 
 const drawerWidth = 230;
 
-const array = [
-  {
-    email: 'mubashir.yusuf@ceative.co.uk',
-    role: 'SUPER_ADMIN',
-  },
-  {
-    email: 'azeem.aslam@ceative.co.uk',
-    role: 'AIR_SALES',
-  },
-  {
-    email: 'airmarketerapplecart@yopmail.com',
-    role: 'AIR_MARKETER',
-  },
-  {
-    email: 'orgadminairapplecard@yopmail.com',
-    role: 'ORG_ADMIN',
-  },
-  {
-    email: 'wan@yopmail.com',
-    role: 'AIR_SERVICES',
-  },
-  {
-    email: 'operations@example.com',
-    role: 'AIR_OPERATIONS',
-  },
-  {
-    email: 'loyalty@example.com',
-    role: 'LOYALTY_PROGRAM',
-  },
-  {
-    email: 'customer@example.com',
-    role: 'CUSTOMER_PORTAL',
-  },
-];
+// const array = [
+//   {
+//     email: 'mubashir.yusuf@ceative.co.uk',
+//     role: 'SUPER_ADMIN',
+//   },
+//   {
+//     email: 'azeem.aslam@ceative.co.uk',
+//     role: 'AIR_SALES',
+//   },
+//   {
+//     email: 'airmarketerapplecart@yopmail.com',
+//     role: 'AIR_MARKETER',
+//   },
+//   {
+//     email: 'orgadminairapplecard@yopmail.com',
+//     role: 'ORG_ADMIN',
+//   },
+//   {
+//     email: 'wan@yopmail.com',
+//     role: 'AIR_SERVICES',
+//   },
+//   {
+//     email: 'operations@example.com',
+//     role: 'AIR_OPERATIONS',
+//   },
+//   {
+//     email: 'loyalty@example.com',
+//     role: 'LOYALTY_PROGRAM',
+//   },
+//   {
+//     email: 'customer@example.com',
+//     role: 'CUSTOMER_PORTAL',
+//   },
+// ];
 
 const DashboardLayout = ({ children, window }: any) => {
   const theme = useTheme();
@@ -92,12 +93,13 @@ const DashboardLayout = ({ children, window }: any) => {
   const router = useRouter();
 
   const { user }: { user: any } = getSession();
-  const findRoleByEmail = ({ user, array }: any) => {
-    return array?.find((skill: any) => skill?.email === user?.email);
-  };
+  //   const findRoleByEmail = ({ user, array }: any) => {
+  //     return array?.find((skill: any) => skill?.email === user?.email);
+  //   };
 
-  const findEmail: any = findRoleByEmail({ user, array });
-  const findEmailRole = findEmail ? findEmail?.role : 'SUPER_ADMIN';
+  // const findEmail: any = findRoleByEmail({ user, array });
+
+  const findEmailRole = user ? user?.role : ROLES?.SUPER_ADMIN;
 
   const routes = getRoutes(findEmailRole);
 
@@ -263,7 +265,14 @@ const DashboardLayout = ({ children, window }: any) => {
                                 }}
                               />
                             </ListItemIcon>
-                            {link?.label}
+                            <Typography
+                              fontSize={14}
+                              fontWeight={
+                                routerPathName === pathNameKey ? '500' : '400'
+                              }
+                            >
+                              {link?.label}
+                            </Typography>
                           </ListItemButton>
                         </ListItem>
                       </Link>
@@ -312,12 +321,21 @@ const DashboardLayout = ({ children, window }: any) => {
                               />
                             </ListItemIcon>
 
-                            {link.label}
+                            <Typography
+                              fontWeight={
+                                routerPathName === lowerPathNameKey ||
+                                dropDownOpen[link?.key]
+                                  ? '500'
+                                  : '400'
+                              }
+                            >
+                              {link?.label}
+                            </Typography>
                             <Box sx={{ paddingLeft: '20px' }}>
                               <Image
                                 src={
                                   routerPathName === lowerPathNameKey ||
-                                  dropDownOpen[link.key]
+                                  dropDownOpen[link?.key]
                                     ? ArrowUpImage
                                     : ArrowDownImage
                                 }
@@ -361,7 +379,9 @@ const DashboardLayout = ({ children, window }: any) => {
                           <ListItemButton
                             sx={styles?.mainNavLink(link, router, theme)}
                           >
-                            <ListItemIcon sx={{ minWidth: 20 }}>
+                            <ListItemIcon
+                              sx={{ minWidth: 20, marginRight: '10px' }}
+                            >
                               <Image
                                 src={link?.icon}
                                 alt={link?.icon}
@@ -387,7 +407,9 @@ const DashboardLayout = ({ children, window }: any) => {
                       <ListItemButton
                         sx={styles?.mainNavLink(link, router, theme)}
                       >
-                        <ListItemIcon sx={{ minWidth: 20 }}>
+                        <ListItemIcon
+                          sx={{ minWidth: 20, marginRight: '10px' }}
+                        >
                           <Image
                             src={LogoutImage}
                             alt={'LogoutImage'}
@@ -396,7 +418,10 @@ const DashboardLayout = ({ children, window }: any) => {
                             }}
                           />
                         </ListItemIcon>
-                        Logout
+                        <Typography fontWeight={500} fontSize={14}>
+                          {' '}
+                          Logout
+                        </Typography>
                       </ListItemButton>
                     </ListItem>
                   </div>
@@ -433,6 +458,10 @@ const DashboardLayout = ({ children, window }: any) => {
           extraHeaders: {
             'ngrok-skip-browser-warning': 'Bearer YOUR_ACCESS_TOKEN_HERE',
           },
+          //   reconnection: true,
+          // reconnectionDelay: 1000,
+          // reconnectionDelayMax: 5000,
+          // reconnectionAttempts: Infinity,
         });
 
         setSocket(res);

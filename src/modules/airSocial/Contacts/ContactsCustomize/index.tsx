@@ -18,6 +18,9 @@ const ContactsCustomize = ({ open, onClose }: any) => {
       footer
       isOk
       submitHandler={onClose}
+      isFooterFeature={true}
+      isFooterFeatureText="Reset to default"
+      variant={'outlined'}
       okText="Save"
       title="Customize"
     >

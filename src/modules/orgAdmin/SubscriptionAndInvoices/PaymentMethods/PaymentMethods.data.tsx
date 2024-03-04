@@ -51,7 +51,7 @@ export const columns = (
       accessorFn: (row: any) => row?.expirationDate,
       id: 'expirationDate',
       isSortable: true,
-      header: 'expirationDate',
+      header: 'Expiration Date',
       cell: (info: any) => info?.getValue(),
     },
     {

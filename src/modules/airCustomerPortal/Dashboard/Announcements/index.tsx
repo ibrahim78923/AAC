@@ -1,41 +1,64 @@
-import { Box, Typography, Avatar, Divider } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { styles } from './Announcements.style';
+import { Box } from '@mui/material';
 import { CardLayout } from '../CardLayout';
-import { v4 as uuidv4 } from 'uuid';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
+import NoData from '@/components/NoData';
+import { AnnouncementCard } from './AnnouncementCard';
+import { Fragment } from 'react';
+import { AnnouncementList } from './AnnouncementList';
+import { useAnnouncements } from './useAnnouncements';
 
-export const Announcements = ({
-  title,
-  announcementsData,
-  handleViewMore,
-}: any) => {
-  const { palette }: any = useTheme();
-  const { mainWrapper, announcementsWrapper, avatarWrapper } = styles;
+export const Announcements = () => {
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    openDrawer,
+    setDrawerOpen,
+    setPageLimit,
+    setPage,
+    onClose,
+  } = useAnnouncements();
+
   return (
-    <CardLayout title={title} btnPosition="center" btnClick={handleViewMore}>
-      <Box my="0.75rem">
-        {announcementsData?.map(({ user, ...announcement }: any) => (
-          <Box key={uuidv4()} sx={mainWrapper}>
-            <Divider />
-            <Box sx={announcementsWrapper}>
-              <Typography fontWeight={600} color={palette?.blue?.main}>
-                {announcement?.title}
-              </Typography>
-              <Box sx={avatarWrapper}>
-                <Avatar src={user?.profileImage} />
-                <Typography
-                  variant="body3"
-                  color={palette?.blue?.main}
-                  fontWeight={500}
-                >{`${user?.firstName} ${user?.lastName}`}</Typography>
-              </Box>
-            </Box>
-            <Typography color={palette?.grey?.[900]} fontSize={'0.75rem'}>
-              {announcement?.announcementTime}
-            </Typography>
+    <>
+      <CardLayout
+        title={'Announcements'}
+        btnPosition="center"
+        btnClick={() => setDrawerOpen(true)}
+      >
+        {isLoading || isFetching ? (
+          <SkeletonForm />
+        ) : isError ? (
+          <ApiErrorState height={'100%'} />
+        ) : (
+          <Box my="0.75rem">
+            {!!data?.annoucements?.length ? (
+              data?.annoucements?.map((announcement: any, index: number) => (
+                <Fragment key={announcement?._id}>
+                  <AnnouncementCard data={announcement} index={index} />
+                </Fragment>
+              ))
+            ) : (
+              <NoData height={'100%'} />
+            )}
           </Box>
-        ))}
-      </Box>
-    </CardLayout>
+        )}
+      </CardLayout>
+
+      {openDrawer && (
+        <AnnouncementList
+          isDrawerOpen={openDrawer}
+          onClose={() => onClose?.()}
+          data={data}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+        />
+      )}
+    </>
   );
 };

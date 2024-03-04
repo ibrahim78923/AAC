@@ -41,7 +41,7 @@ export const dealsApi = baseAPI.injectEndpoints({
       invalidatesTags: ['DEALS'],
     }),
 
-    getDealsSalesProduct: builder.query({
+    getDealPipeLine: builder.query({
       query: ({ ...params }: any) => ({
         url: `${END_POINTS?.DEALS_PIPELINE}`,
         method: 'GET',
@@ -54,6 +54,15 @@ export const dealsApi = baseAPI.injectEndpoints({
       query: ({}) => ({
         url: `${END_POINTS?.DEALS_LIFECYCLE_STAGES}`,
         method: 'GET',
+      }),
+      providesTags: ['DEALS'],
+    }),
+
+    getAddLineItems: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.SALE_PRODUCTS}`,
+        method: 'GET',
+        params: params,
       }),
       providesTags: ['DEALS'],
     }),
@@ -128,7 +137,7 @@ export const dealsApi = baseAPI.injectEndpoints({
         url: `${END_POINTS?.DELETE_DEALS}/${ids}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['DEALS'],
+      invalidatesTags: ['DEALS', 'COMPANY'],
     }),
     updateRestoreDeals: builder.mutation({
       query: ({ id, action }: any) => ({
@@ -162,15 +171,41 @@ export const dealsApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['DEALS'],
     }),
+    getCustomizeColumn: builder.query({
+      query: (params) => ({
+        url: `${END_POINTS?.DEALS_CUSTOMIZE_COLUMN}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['DEALS'],
+    }),
+    updatedGridDeals: builder.mutation({
+      query: ({ body, id }: any) => {
+        return {
+          url: `${END_POINTS?.POST_DEALS}/${id}`,
+          method: 'PATCH',
+          body,
+        };
+      },
+      invalidatesTags: ['DEALS'],
+    }),
+    putCustomizedColumns: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.DEALS_CUSTOMIZE_COLUMN}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['DEALS', 'CUSTOMIZE'],
+    }),
   }),
 });
 
 export const {
   useGetDealsListQuery,
-  useLazyGetDealsListQuery,
   // useGetDealsByIdQuery,
-  useGetDealsSalesProductQuery,
+  useGetDealPipeLineQuery,
   useGetDealsLifecycleStageQuery,
+  useGetAddLineItemsQuery,
   // useGetDealsUserListQuery,
   useGetDealsGridViewQuery,
   useGetDealsActionPreviewQuery,
@@ -186,4 +221,7 @@ export const {
   useGetUsersListQuery,
   usePatchDealsMutation,
   useGetDealsAssociationsQuery,
+  useGetCustomizeColumnQuery,
+  useUpdatedGridDealsMutation,
+  usePutCustomizedColumnsMutation,
 } = dealsApi;

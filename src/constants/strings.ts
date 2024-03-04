@@ -36,6 +36,13 @@ export const TICKET_PRIORITY = {
   HIGH: 'HIGH',
   URGENT: 'URGENT',
 };
+export const TICKET_CATEGORY = {
+  SOFTWARE: 'SOFTWARE',
+  HARDWARE: 'HARDWARE',
+  NETWORK: 'NETWORK',
+  OFFICE_APPLICATION: 'OFFICE_APPLICATION',
+  OFFICE_FURNITURE: 'OFFICE_FURNITURE',
+};
 
 export const TICKET_IMPACT = {
   LOW: 'LOW',
@@ -55,11 +62,13 @@ export const IMPORT_ACTIONS_STEPS = {
 };
 
 export const TICKET_APPROVALS = {
-  RECEIVED: 'RECEIVED',
+  RECEIVED: 'RECIEVED',
   REQUESTED: 'REQUESTED',
-  APPROVE: 'APPROVE',
-  REJECT: 'REJECT',
-  CANCEL: 'CANCEL',
+  APPROVE: 'APPROVED',
+  REJECT: 'REJECTED',
+  CANCEL: 'CANCELED',
+  PENDING: 'PENDING',
+  REMINDER: 'REMINDER',
 };
 
 export const CONTRACT_TYPES = {
@@ -239,7 +248,6 @@ export const MESSAGE_EXPORT_FILE_TYPE: any = {
 export const AGENT_REQUEST_STATUS = {
   APPROVED: 'Approved',
   REJECTED: 'Rejected',
-  PENDING: 'Pending',
 };
 
 export const SETTINGS_ADD_ROLE = {
@@ -334,6 +342,9 @@ export const TASK_STATUS = {
 export enum ROLES {
   ORG_REQUESTER = 'ORG_REQUESTER',
   ORG_AGENT = 'ORG_AGENT',
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  ORG_EMPLOYEE = 'ORG_EMPLOYEE',
+  ORG_ADMIN = 'ORG_ADMIN',
 }
 
 export const TICKETS_STATE = {
@@ -350,4 +361,9 @@ export const WORKLOAD_SCHEDULE = {
   EDIT: 'Edit',
   SAVE: 'Save',
   UPDATE: 'Update',
+};
+
+export const ARTICLE_STATUS = {
+  PUBLISHED: 'PUBLISHED',
+  DRAFT: 'DRAFT',
 };

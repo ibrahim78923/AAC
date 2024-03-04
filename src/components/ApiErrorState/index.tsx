@@ -2,10 +2,10 @@ import Image from 'next/image';
 import { Box, Typography } from '@mui/material';
 import { NoAssociationFoundImage } from '@/assets/images';
 
-const ApiErrorState = () => {
+const ApiErrorState = ({ height = '50vh' }) => {
   return (
     <Box
-      height={'50vh'}
+      height={height}
       display={'flex'}
       flexDirection={'column'}
       alignItems={'center'}

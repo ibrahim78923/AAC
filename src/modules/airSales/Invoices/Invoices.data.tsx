@@ -85,11 +85,11 @@ export const invoicesTableColumns: any = [
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.createdDate,
-    id: 'createdDate',
+    accessorFn: (row: any) => row?.createdAt,
+    id: 'createdAt',
     isSortable: true,
     header: 'Created Date',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
   },
 ];
 

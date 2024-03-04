@@ -8,9 +8,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
-import { CONTRACT_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { CONTRACT_TYPES } from '@/constants/strings';
 import {
   useLazyGetVendorDropdownQuery,
   useLazyGetDropdownAssetsQuery,
@@ -18,14 +17,16 @@ import {
   useLazyGetSoftwareDropdownQuery,
   useLazyGetAgentsDropdownQuery,
   useGetSingleContractByIdQuery,
+  usePutContractMutation,
 } from '@/services/airServices/assets/contracts';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useUpsertContract = () => {
   const theme = useTheme();
   const router = useRouter();
   const { contractId } = router?.query;
   const [postContractTrigger, postContractStatus] = usePostContractMutation();
-  const [putContractTrigger, putContractStatus] = usePostContractMutation();
+  const [putContractTrigger, putContractStatus] = usePutContractMutation();
 
   const upsertContractFormMethods = useForm<any>({
     resolver: yupResolver<any>(upsertContractFormSchemaFunction),
@@ -76,9 +77,8 @@ export const useUpsertContract = () => {
     }
   }, [watchForContractType]);
 
-  //TODO: in integration
   useEffect(() => {
-    reset(upsertContractFormDefaultValuesFunction(data?.data?.[0]));
+    reset(upsertContractFormDefaultValuesFunction(data?.data));
   }, [data, reset]);
 
   const submitUpsertContractForm = async (data: any) => {
@@ -92,10 +92,12 @@ export const useUpsertContract = () => {
     postContractForm?.append('endDate', data?.endDate?.toISOString());
     postContractForm?.append('autoRenew', data?.autoRenew);
     postContractForm?.append('notifyRenewal', data?.notifyExpiry);
-    postContractForm?.append('notifyBefore', data?.notifyBefore);
-    postContractForm?.append('notifyTo', data?.notifyTo?._id);
+    !!data?.notifyExpiry &&
+      postContractForm?.append('notifyBefore', data?.notifyBefore);
+    !!data?.notifyExpiry &&
+      postContractForm?.append('notifyTo', data?.notifyTo?._id);
     postContractForm?.append('software', data?.software?._id);
-    postContractForm?.append('itemsDetail', data?.itemDetail);
+    postContractForm?.append('itemsDetail', JSON.stringify(data?.itemDetail));
     postContractForm?.append('billingCycle', data?.billingCycle?._id);
     postContractForm?.append('licenseType', data?.licenseType?._id);
     postContractForm?.append('licenseKey', data?.licenseKey);
@@ -116,17 +118,11 @@ export const useUpsertContract = () => {
       body: postContractForm,
     };
     try {
-      const response: any = await postContractTrigger(
-        postContractParameter,
-      )?.unwrap();
-      enqueueSnackbar('Contract Created Successfully' ?? response?.message, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postContractTrigger(postContractParameter)?.unwrap();
+      successSnackbar('Contract Created Successfully');
       router?.back();
     } catch (error: any) {
-      enqueueSnackbar(error?.message ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
 
@@ -134,20 +130,15 @@ export const useUpsertContract = () => {
     const putContractParameter = {
       body: data,
       pathParam: {
-        id: contractId,
+        contractId,
       },
     };
     try {
-      const response: any =
-        await putContractTrigger(putContractParameter)?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Ticket Created Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      reset();
+      await putContractTrigger(putContractParameter)?.unwrap();
+      successSnackbar('Contract updated Successfully');
+      router?.back();
     } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
 
@@ -163,6 +154,7 @@ export const useUpsertContract = () => {
     apiQueryAsset,
     apiQueryApprover,
     apiQuerySoftware,
+    contractId,
   );
   return {
     upsertContractFormMethods,

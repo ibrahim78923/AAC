@@ -1,31 +1,45 @@
 import React from 'react';
 import CommonDrawer from '@/components/CommonDrawer';
 import { styles } from './styles';
-import { Box, Popover, Typography } from '@mui/material';
-import { useAddNote } from './useAddNote';
+import {
+  Box,
+  IconButton,
+  InputAdornment,
+  Menu,
+  MenuItem,
+  TextField,
+  Typography,
+} from '@mui/material';
 import Image from 'next/image';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { SmileIcon } from '@/assets/icons';
+import { SendPrimaryIcon, SmileIcon } from '@/assets/icons';
 import { AvatarImage, EmailMockupImage } from '@/assets/images';
 
 interface noteProps {
-  open: boolean;
+  isDrawerOpen: boolean;
   onClose: () => void;
+  isMenuOpen: boolean;
+  handlePopverClick: any;
+  handlePopverClose: () => void;
+  anchorEl: any;
 }
 
-const AddANote = ({ open, onClose }: noteProps) => {
-  const { handlePopverClick, handlePopverClose, popverId, anchorEl } =
-    useAddNote();
-
+const AddANote = ({
+  isDrawerOpen,
+  onClose,
+  handlePopverClick,
+  handlePopverClose,
+  anchorEl,
+  isMenuOpen,
+}: noteProps) => {
   return (
     <CommonDrawer
       title="Add a Note"
-      isDrawerOpen={open}
+      isDrawerOpen={isDrawerOpen}
       onClose={onClose}
       isOk
       okText={'Add'}
       footer
-      handlerIsFooterFeature={() => {}}
     >
       <Box sx={styles?.subjectWrapper}>
         <SubjectComp title="To" value="CustomerCare@Airapplecart.com" />
@@ -40,15 +54,24 @@ const AddANote = ({ open, onClose }: noteProps) => {
               <Image src={AvatarImage} alt="" />
               <Typography variant="body4">Paula Griffin</Typography>
             </Box>
-            <Box onClick={handlePopverClick}>
-              <MoreVertIcon />
+            <Box>
+              <Box onClick={handlePopverClick} sx={{ cursor: 'pointer' }}>
+                <MoreVertIcon />
+              </Box>
+              <Menu
+                anchorEl={anchorEl}
+                open={isMenuOpen}
+                onClose={handlePopverClose}
+                PaperProps={{
+                  style: {
+                    width: '112px',
+                  },
+                }}
+              >
+                <MenuItem>Edit</MenuItem>
+                <MenuItem>Delete</MenuItem>
+              </Menu>
             </Box>
-            <Popover
-              id={popverId}
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handlePopverClose}
-            ></Popover>
           </Box>
           <Box sx={styles?.chatContent}>
             <Typography variant="body3" sx={{ color: '#14142B' }}>
@@ -57,7 +80,23 @@ const AddANote = ({ open, onClose }: noteProps) => {
             <SmileIcon />
           </Box>
         </Box>
-        <Box></Box>
+        <Box sx={{ mt: '26px' }}>
+          <TextField
+            fullWidth
+            variant="outlined"
+            size="small"
+            placeholder="Add Your Note Here"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton>
+                    <SendPrimaryIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
       </Box>
     </CommonDrawer>
   );

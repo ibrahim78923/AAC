@@ -9,16 +9,8 @@ import GridView from '../GridView';
 import { useAppSelector } from '@/redux/store';
 
 const Tabs = ({ tabValue, assignTo }: any) => {
-  const {
-    handleToggler,
-    taskData,
-    handleActionBtn,
-    setPage,
-    setTabsValue,
-    setPageLimit,
-    setAssignTo,
-    status,
-  } = useTask();
+  const { taskData, setPage, setTabsValue, setPageLimit, setAssignTo, status } =
+    useTask();
 
   const [searchTask, setSearchTask] = useState('');
 
@@ -57,12 +49,11 @@ const Tabs = ({ tabValue, assignTo }: any) => {
           size="small"
         />
         <Filter
-          handleActionBtn={handleActionBtn}
-          disableActionBtn={false}
-          handleToggler={(val: any) => handleToggler(val)}
-          handleRefreshList={() => {
-            'refresh';
-          }}
+        // disableActionBtn={false}
+        // handleToggler={(val: any) => handleToggler(val)}
+        // handleRefreshList={() => {
+        //   'refresh';
+        // }}
         />
       </Box>
 

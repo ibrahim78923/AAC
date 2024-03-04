@@ -1,7 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   validationSchemaAddNewAssetTypes,
   assetTypesDefaultValues,
@@ -9,14 +7,16 @@ import {
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { usePostAssetTypeMutation } from '@/services/airServices/settings/asset-management/asset-type';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
-export const useHeader = () => {
+export const useHeader = (props: any) => {
+  const { assetTypeData } = props;
   const [openAddNewAssetTypesModal, setOpenAddNewAssetTypesModal] =
     useState<boolean>(false);
   const router = useRouter();
   const methods: any = useForm({
     resolver: yupResolver(validationSchemaAddNewAssetTypes),
-    defaultValues: assetTypesDefaultValues,
+    defaultValues: assetTypesDefaultValues(assetTypeData),
   });
 
   const { handleSubmit, reset } = methods;
@@ -25,16 +25,12 @@ export const useHeader = () => {
   const isLoading = postAssetTypeProgress?.isLoading;
   const submitAddForm = async (formData: any) => {
     try {
-      const res: any = await postAssetTypeTrigger(formData);
-      enqueueSnackbar(res?.data?.message && 'Asset Types Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postAssetTypeTrigger(formData);
+      successSnackbar('Asset Types Added Successfully');
       reset();
-      setOpenAddNewAssetTypesModal(false);
+      setOpenAddNewAssetTypesModal?.(false);
     } catch (err: any) {
-      enqueueSnackbar(err?.data?.message ?? 'Error! Please try again', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
 

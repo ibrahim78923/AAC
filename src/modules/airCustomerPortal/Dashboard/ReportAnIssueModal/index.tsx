@@ -10,19 +10,24 @@ import {
 } from '@mui/material';
 import { useReportAnIssueModal } from './useReportAnIssueModal';
 import { reportAnIssueModalFormFields } from './ReportAnIssueModal.data';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styles } from './ReportAnIssueModal.style';
 
 const ReportAnIssueModal = (props: any) => {
   const { openReportAnIssueModal, setOpenReportAnIssueModal } = props;
-  const { methods, handleSubmitIssue } = useReportAnIssueModal(props);
+  const {
+    methods,
+    handleSubmitIssue,
+    isLoading,
+    apiQueryAssociateAsset,
+    apiQueryRequester,
+  } = useReportAnIssueModal(props);
   return (
     <>
       <Dialog
         fullWidth
         sx={styles?.modalSizing}
         open={openReportAnIssueModal}
-        onClose={() => setOpenReportAnIssueModal(false)}
+        onClose={() => setOpenReportAnIssueModal?.(false)}
       >
         <FormProvider methods={methods} onSubmit={handleSubmitIssue}>
           <Box p={2}>
@@ -35,13 +40,16 @@ const ReportAnIssueModal = (props: any) => {
               <Typography variant="h3">Report an issue</Typography>
               <IconButton style={{ cursor: 'pointer' }}>
                 <AlertModalCloseIcon
-                  onClick={() => setOpenReportAnIssueModal(false)}
+                  onClick={() => setOpenReportAnIssueModal?.(false)}
                 />
               </IconButton>
             </Box>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                {reportAnIssueModalFormFields?.map((item: any) => (
+                {reportAnIssueModalFormFields(
+                  apiQueryAssociateAsset,
+                  apiQueryRequester,
+                )?.map((item: any) => (
                   <item.component
                     {...item?.componentProps}
                     key={item?.id}
@@ -52,18 +60,6 @@ const ReportAnIssueModal = (props: any) => {
             </Grid>
             <Box
               display={'flex'}
-              alignItems={'center'}
-              gap={0.5}
-              mt={1}
-              sx={{ cursor: 'pointer' }}
-            >
-              <AddCircleIcon fontSize="small" />
-              <Typography variant="body2" fontWeight={600}>
-                Associate Asset
-              </Typography>
-            </Box>
-            <Box
-              display={'flex'}
               justifyContent={'flex-end'}
               alignItems={'center'}
               gap={1}
@@ -72,11 +68,12 @@ const ReportAnIssueModal = (props: any) => {
               <Button
                 variant="outlined"
                 color="secondary"
-                onClick={() => setOpenReportAnIssueModal(false)}
+                onClick={() => setOpenReportAnIssueModal?.(false)}
+                disabled={isLoading}
               >
                 Cancel
               </Button>
-              <Button variant="contained" type="submit">
+              <Button variant="contained" type="submit" disabled={isLoading}>
                 Submit
               </Button>
             </Box>

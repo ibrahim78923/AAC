@@ -1,4 +1,5 @@
 import {
+  TICKET_CATEGORY,
   TICKET_IMPACT,
   TICKET_PRIORITY,
   TICKET_STATUS,
@@ -64,8 +65,17 @@ export const ticketImpactOptions = [
     label: TICKET_IMPACT?.HIGH,
   },
 ];
-
+export const ticketCategoryOptions = [
+  TICKET_CATEGORY?.SOFTWARE,
+  TICKET_CATEGORY?.HARDWARE,
+  TICKET_CATEGORY?.NETWORK,
+  TICKET_CATEGORY?.OFFICE_APPLICATION,
+  TICKET_CATEGORY?.OFFICE_FURNITURE,
+];
 export const ticketTypeOptions = [TICKET_TYPE.INC, TICKET_TYPE.SR];
+export const ticketsSourceOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
+export const ticketImpact = ['LOW', 'MEDIUM', 'HIGH'];
+
 export const ticketSourceOptions = [
   {
     _id: 'PHONE',

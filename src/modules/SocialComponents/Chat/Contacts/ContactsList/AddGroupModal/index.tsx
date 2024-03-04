@@ -113,6 +113,7 @@ const AddGroupModal = ({
     <CommonModal
       open={isAddGroupModal}
       handleClose={() => setIsAddGroupModal(false)}
+      handleCancel={() => setIsAddGroupModal(false)}
       handleSubmit={handleSubmit(onSubmit)}
       title="Create Group"
       okText="Create Group"
@@ -135,9 +136,15 @@ const AddGroupModal = ({
             accept="image/*"
             onChange={(e: any) => handleImageChange(e)}
           />
-          <Image src={AddRoundedImage} alt="upload" />
           <label htmlFor="upload-group-image">
-            <Typography variant="h6">Add Photo</Typography>
+            <Image
+              src={AddRoundedImage}
+              alt="upload"
+              style={{ cursor: 'pointer' }}
+            />
+            <Typography sx={{ cursor: 'pointer' }} variant="h6">
+              Add Photo
+            </Typography>
           </label>
         </Box>
 
@@ -168,7 +175,7 @@ const AddGroupModal = ({
               <RHFMultiSearchableSelect
                 name="participant"
                 isCheckBox={true}
-                label="Candidates"
+                label="Add Participant"
                 size="small"
                 setValues={setValues}
                 options={participantsDataSelect}

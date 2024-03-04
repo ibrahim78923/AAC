@@ -17,10 +17,8 @@ import {
   usePatchAddToInventoryMutation,
   usePostInventoryMutation,
 } from '@/services/airServices/assets/inventory';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
-import { makeDateTime } from '@/utils/api';
+import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
 
 export const useUpsertInventory = () => {
   const { query }: any = useRouter();
@@ -32,11 +30,7 @@ export const useUpsertInventory = () => {
     usePatchAddToInventoryMutation();
   const [postAddToInventoryTrigger, postAddToInventoryStatus] =
     usePostInventoryMutation();
-  const methods = useForm({
-    resolver: yupResolver(UpsertInventoryValidationSchema),
-    defaultValues: upsertInventoryFieldsDefaultValuesFunction(),
-  });
-  const { handleSubmit, reset } = methods;
+
   const getSingleInventoryDetailsParameter = {
     pathParam: {
       inventoryId,
@@ -50,6 +44,11 @@ export const useUpsertInventory = () => {
       skip: !!!inventoryId,
     },
   );
+  const methods = useForm({
+    resolver: yupResolver(UpsertInventoryValidationSchema),
+    defaultValues: upsertInventoryFieldsDefaultValuesFunction(data),
+  });
+  const { handleSubmit, reset } = methods;
 
   const submitUpsertInventory = async (data: any) => {
     const inventoryDetailsData = new FormData();
@@ -68,10 +67,9 @@ export const useUpsertInventory = () => {
       'assignedOn',
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
     );
-    inventoryDetailsData.append('attachment', data?.attachFile);
     const body = inventoryDetailsData;
     if (!!inventoryId) {
-      submitUpdateInventory(body);
+      submitUpdateInventory(data);
       return;
     }
     const postInventoryParameter = {
@@ -79,44 +77,50 @@ export const useUpsertInventory = () => {
     };
 
     try {
-      const response = await postAddToInventoryTrigger(
-        postInventoryParameter,
-      )?.unwrap();
-
-      enqueueSnackbar(response?.message ?? 'Inventory Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postAddToInventoryTrigger(postInventoryParameter)?.unwrap();
+      successSnackbar?.('Inventory Added Successfully');
       moveBack?.();
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar?.();
     }
   };
   useEffect(() => {
     reset(() => upsertInventoryFieldsDefaultValuesFunction(data));
   }, [data, reset]);
+
   const submitUpdateInventory = async (data: any) => {
+    const inventoryEditData = new FormData();
+    inventoryEditData.append('id', inventoryId as string);
+    inventoryEditData.append('displayName', data?.displayName);
+    inventoryEditData.append('assetId', data?.assetType?._id);
+    inventoryEditData.append('assetType', data?.assetType?._id);
+    inventoryEditData.append('impact', data?.impact);
+    inventoryEditData.append('description', data?.description);
+    inventoryEditData.append(
+      'assetLifeExpiry',
+      data?.assetLifeExpiry?.toISOString(),
+    );
+    inventoryEditData.append('locationId', data?.location?._id);
+    inventoryEditData.append('departmentId', data?.department?._id);
+    inventoryEditData.append('usedBy', data?.usedBy?._id);
+    inventoryEditData.append(
+      'assignedOn',
+      makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
+    );
+    const body = inventoryEditData;
+
     const patchProductCatalogParameter = {
-      body: {
-        id: inventoryId,
-        ...data,
-      },
+      body,
     };
+
     try {
-      const response = await patchAddToInventoryTrigger(
-        patchProductCatalogParameter,
-      )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Inventory Created Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await patchAddToInventoryTrigger(patchProductCatalogParameter)?.unwrap();
+      successSnackbar?.('Inventory Created Successfully!');
       moveBack?.();
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar?.();
     }
   };
 
@@ -145,7 +149,7 @@ export const useUpsertInventory = () => {
       pathname: AIR_SERVICES?.ASSETS_INVENTORY,
     });
   };
-  const submit = () => {};
+
   return {
     methods,
     query,
@@ -159,6 +163,5 @@ export const useUpsertInventory = () => {
     isLoading,
     isFetching,
     postAddToInventoryStatus,
-    submit,
   };
 };

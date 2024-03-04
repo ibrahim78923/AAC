@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { enqueueSnackbar } from 'notistack';
 import { PAGINATION } from '@/config';
 import { downloadFile } from '@/utils/file';
-import { EXPORT_FILE_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import {
   useLazyGetExportInstallationQuery,
   useLazyGetInstallationByIdQuery,
 } from '@/services/airServices/assets/software/single-software-detail/installations';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useInstallationDetail = () => {
   const [activeCheck, setActiveCheck] = useState<string[]>([]);
@@ -33,23 +33,15 @@ export const useInstallationDetail = () => {
         getInstallationExportParameter,
       )?.unwrap();
       downloadFile(response, 'Software Devices List', EXPORT_FILE_TYPE?.[type]);
-      enqueueSnackbar(
+      successSnackbar(
         response?.data?.message ?? `Installation Exported Successfully`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
       );
       setActiveCheck([]);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? `Installation Not Exported`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message ?? `Installation Not Exported`);
       setActiveCheck([]);
     }
   };
-  useEffect(() => {
-    getInstallationListData();
-  }, [page, pageLimit, searchBy]);
   const [
     lazyGetInstallationTrigger,
     { data: installationsData, isLoading, isError, isFetching, isSuccess },
@@ -62,15 +54,11 @@ export const useInstallationDetail = () => {
     getInstallationParam?.append('limit', pageLimit + '');
     getInstallationParam?.append('deviceId', deviceId + '');
     getInstallationParam?.append('search', searchBy + '');
-    try {
-      await lazyGetInstallationTrigger(getInstallationParam)?.unwrap();
-    } catch (error: any) {
-      enqueueSnackbar(error?.error?.message ?? 'An error', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-        autoHideDuration: 2000,
-      });
-    }
+    await lazyGetInstallationTrigger(getInstallationParam)?.unwrap();
   };
+  useEffect(() => {
+    getInstallationListData();
+  }, [page, pageLimit, searchBy]);
   return {
     activeCheck,
     setActiveCheck,

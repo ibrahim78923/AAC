@@ -19,7 +19,7 @@ export const contractAPI = baseAPI?.injectEndpoints({
     }),
     getSingleContractById: builder?.query({
       query: (getSingleContractParameter: any) => ({
-        url: `${END_POINTS?.GET_SINGLE_ASSETS_CONTRACT}/${getSingleContractParameter?.pathParam?.ticketId}`,
+        url: `${END_POINTS?.GET_SINGLE_ASSETS_CONTRACT}/${getSingleContractParameter?.pathParam?.contractId}`,
         method: 'GET',
       }),
       providesTags: [TAG],
@@ -71,11 +71,11 @@ export const contractAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    patchContract: builder?.mutation({
-      query: (patchContractParameter: any) => ({
-        url: `${END_POINTS?.EDIT_CONTRACT}/${patchContractParameter?.pathParam?.id}`,
-        method: 'PATCH',
-        body: patchContractParameter?.body,
+    putContract: builder?.mutation({
+      query: (putContractParameter: any) => ({
+        url: `${END_POINTS?.EDIT_CONTRACT}/${putContractParameter?.pathParam?.contractId}`,
+        method: 'PUT',
+        body: putContractParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
@@ -131,6 +131,14 @@ export const contractAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_FIVE],
     }),
+    patchContractSubmitForApproval: builder?.mutation({
+      query: (patchContractSubmitForApprovalParameter: any) => ({
+        url: `${END_POINTS?.UPDATE_CONTRACT_SUBMIT_APPROVAL}/${patchContractSubmitForApprovalParameter?.pathParam?.contractId}`,
+        method: 'PATCH',
+        body: patchContractSubmitForApprovalParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -141,11 +149,12 @@ export const {
   useLazyGetContractTypeDropdownQuery,
   useLazyGetVendorDropdownQuery,
   usePostContractMutation,
-  usePatchContractMutation,
+  usePutContractMutation,
   usePatchContractStatusMutation,
   useLazyGetDropdownAssetsQuery,
   useLazyGetUsersDropdownQuery,
   useLazyGetSoftwareDropdownQuery,
   useLazyGetAgentsDropdownQuery,
   useGetSingleContractByIdQuery,
+  usePatchContractSubmitForApprovalMutation,
 } = contractAPI;

@@ -1,7 +1,7 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useDeleteArticleMutation } from '@/services/airServices/assets/knowledge-base/articles';
-import { errorSnackbar } from '@/utils/api';
-import { enqueueSnackbar } from 'notistack';
+import { AIR_SERVICES } from '@/constants';
+import { useDeleteArticleMutation } from '@/services/airServices/knowledge-base/articles';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
 
 export const useDeleteArticles = (props: any) => {
   const {
@@ -9,27 +9,27 @@ export const useDeleteArticles = (props: any) => {
     selectedArticlesData,
     setSelectedArticlesData,
     setPage,
+    moveBack = false,
   } = props;
   const [deleteArticleTrigger, deleteArticleStatus] =
     useDeleteArticleMutation();
-
+  const router = useRouter();
   const deleteArticles = async () => {
     const deleteParams = new URLSearchParams();
-    selectedArticlesData?.forEach((id: any) => deleteParams?.append('Ids', id));
+    selectedArticlesData?.forEach((id: any) => deleteParams?.append('ids', id));
     const deleteArticlesParameter = {
       queryParams: deleteParams,
     };
     try {
       await deleteArticleTrigger(deleteArticlesParameter)?.unwrap();
-      enqueueSnackbar('Article deleted successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      setSelectedArticlesData([]);
-      setPage(1);
+      successSnackbar('Article deleted successfully');
+      setSelectedArticlesData?.([]);
+      setPage?.(1);
       closeArticleDeleteModal?.();
+      moveBack && moveToArticleList?.();
     } catch (error: any) {
       errorSnackbar?.();
-      setSelectedArticlesData([]);
+      setSelectedArticlesData?.([]);
       closeArticleDeleteModal?.();
     }
   };
@@ -37,6 +37,9 @@ export const useDeleteArticles = (props: any) => {
     setDeleteModalOpen?.(false);
   };
 
+  const moveToArticleList = () => {
+    router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
+  };
   return {
     deleteArticles,
     closeArticleDeleteModal,

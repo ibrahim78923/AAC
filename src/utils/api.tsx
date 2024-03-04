@@ -21,6 +21,7 @@ export const buildQueryParams = (
   additionalParams: any,
   filterLists: any,
   neglectKeysInLoop: any = [],
+  extraFilters: any = [],
 ) => {
   const getQueryParam = new URLSearchParams();
 
@@ -34,8 +35,8 @@ export const buildQueryParams = (
   addDateTimeParam(
     getQueryParam,
     'plannedEndDate',
-    filterLists?.plannedEndDate || filterLists?.dueByDate,
-    filterLists?.plannedEndTime || filterLists?.dueByTime,
+    filterLists?.plannedEndDate,
+    filterLists?.plannedEndTime,
   );
   addDateTimeParam(
     getQueryParam,
@@ -45,6 +46,9 @@ export const buildQueryParams = (
   );
 
   additionalParams?.forEach(([key, value]: any) => {
+    getQueryParam?.append(key, value);
+  });
+  extraFilters?.forEach(([key, value]: any) => {
     getQueryParam?.append(key, value);
   });
   return getQueryParam;

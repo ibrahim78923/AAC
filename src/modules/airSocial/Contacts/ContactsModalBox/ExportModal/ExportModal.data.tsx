@@ -12,7 +12,7 @@ export const RecordModalData = [
       GridView: 6,
       options: [
         { value: 'CSV', label: 'CSV' },
-        { value: 'XLV', label: 'XLV' },
+        { value: 'XLS', label: 'XLS' },
       ],
     },
     component: RHFMultiCheckbox,

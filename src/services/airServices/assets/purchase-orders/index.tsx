@@ -4,6 +4,7 @@ import { baseAPI } from '@/services/base-api';
 const TAG_TWO = 'LOCATION';
 const TAG_THREE = 'VENDOR_DROPDOWN';
 const TAG_FOUR = 'DROPDOWN_DEPARTMENT';
+const TAG_FIVE = 'PURCHASE_ORDER';
 export const purchaseOrderAPI = baseAPI.injectEndpoints({
   endpoints: (builder: any) => ({
     getDepartmentDropdown: builder?.query({
@@ -75,6 +76,15 @@ export const purchaseOrderAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.PURCHASE_ORDER}/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: [TAG_FIVE],
+    }),
+    getPurchaseOrderList: builder.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.PURCHASE_ORDER_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG_FIVE],
     }),
   }),
 });
@@ -88,4 +98,5 @@ export const {
   usePatchPurchaseOrderMutation,
   useGetPurchaseOrderByIdQuery,
   useDeletePurchaseOrderMutation,
+  useGetPurchaseOrderListQuery,
 } = purchaseOrderAPI;

@@ -131,6 +131,15 @@ const CUSTOM_COLORS = {
   light_grey_bg: '#e5e7eb4d',
   cloud_white: '#F9F9F9',
   whispering_mist_blue: '#EBECF1',
+  mid_grey: '#F6F7F9',
+  light_success: '#47B2631A',
+  light_blue: '#1F305D1A',
+  light_warning: '#FFC20E1A',
+  lighter_blue: '#0AADC71A',
+  light_error: '#FF4A4A1A',
+  navy_blue: '#20315E',
+  lighter_navy_blue: '#1018283d',
+  greenish_blue: '#1018280d',
 };
 const GRAPH = {
   cyan: 'blue',

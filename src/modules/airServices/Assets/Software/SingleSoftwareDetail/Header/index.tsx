@@ -1,5 +1,6 @@
 import { Typography, Button, MenuItem, Menu, Box } from '@mui/material';
-import { ActionButtonIcon, ViewDetailBackArrowIcon } from '@/assets/icons';
+import { ActionButtonIcon } from '@/assets/icons';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useHeader } from './useHeader';
 import React from 'react';
 import { AlertModals } from '@/components/AlertModals';
@@ -17,6 +18,12 @@ export default function Header() {
     anchorEl,
     deleteSoftware,
     isLoading,
+    moveBackArrow,
+    submitHandler,
+    userQuery,
+    onClose,
+    methods,
+    editLoading,
   } = useHeader();
 
   return (
@@ -29,7 +36,7 @@ export default function Header() {
         gap={2}
       >
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
-          <ViewDetailBackArrowIcon />
+          <ArrowBackIcon onClick={moveBackArrow} />
           <Typography variant="h5" component="span">
             Software
           </Typography>
@@ -80,7 +87,14 @@ export default function Header() {
           message="Are you sure  want to delete this Software ?"
         />
       )}
-      <UpsertSoftware isDrawerOpen={isDrawerOpen} onClose={setIsDrawerOpen} />
+      <UpsertSoftware
+        isDrawerOpen={isDrawerOpen}
+        onClose={onClose}
+        methods={methods}
+        submitHandler={submitHandler}
+        isLoading={editLoading}
+        userQuery={userQuery}
+      />
     </>
   );
 }
