@@ -20,7 +20,7 @@ import usePath from '@/hooks/usePath';
 import { DeleteInventory } from './DeleteInventory';
 import { ImportInventory } from './ImportInventory';
 import { useTheme } from '@mui/material';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useInventory = () => {
   const { makePath } = usePath();
@@ -46,24 +46,26 @@ export const useInventory = () => {
     );
   }, []);
 
-  const getInventoryParam = new URLSearchParams();
-
-  Object?.entries(inventoryFilterLists || {})?.forEach(
-    ([key, value]: any) => getInventoryParam?.append(key, value?._id),
-  );
-  getInventoryParam?.append('page', page + '');
-  getInventoryParam?.append('limit', pageLimit + '');
-  getInventoryParam?.append('search', search);
-  const getInventoryParameter = {
-    queryParams: getInventoryParam,
-  };
-
   const [lazyGetInventoryTrigger, lazyGetInventoryStatus] =
     useLazyGetInventoryQuery<any>();
 
   const [lazyGetExportInventoryTrigger] = useLazyGetExportInventoryQuery();
 
-  const getInventoryListData = async () => {
+  const getInventoryListData = async (currentPage: any = page) => {
+    const additionalParams = [
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+      ['search', search],
+    ];
+    const getInventoryParam: any = buildQueryParams(
+      additionalParams,
+      inventoryFilterLists,
+    );
+
+    const getInventoryParameter = {
+      queryParams: getInventoryParam,
+    };
+
     try {
       await lazyGetInventoryTrigger(getInventoryParameter)?.unwrap();
       setSelectedInventoryLists([]);
@@ -134,6 +136,9 @@ export const useInventory = () => {
         selectedInventoryLists={selectedInventoryLists}
         setSelectedInventoryLists={setSelectedInventoryLists}
         setPage={setPage}
+        page={page}
+        getInventoryListData={getInventoryListData}
+        totalRecords={lazyGetInventoryStatus?.data?.data?.inventories?.length}
       />
     ),
     [INVENTORY_LIST_ACTIONS?.IMPORT]: (
