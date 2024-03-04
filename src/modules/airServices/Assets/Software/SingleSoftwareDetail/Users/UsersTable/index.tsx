@@ -18,8 +18,6 @@ const UsersTable = ({ setUsersData, usersData }: any) => {
     isSuccess,
   } = useUsers();
   const userDetails = getSoftwareUsers?.data;
-  // console.log(getSoftwareUsers?.data);
-
   return (
     <div>
       <TanstackTable
