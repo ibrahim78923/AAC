@@ -60,7 +60,11 @@ export const TicketsCard = (props: any) => {
           ) : (
             <IncTicketIcon />
           )}
-          {associateAssetsDetails?.[0]?.displayName} {ticketIdNumber}
+          {
+            associateAssetsDetails?.find((item: any) => item?.displayName)
+              ?.displayName
+          }{' '}
+          {ticketIdNumber}
         </Typography>
 
         <Box
