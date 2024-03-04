@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import useAuth from '../hooks/useAuth';
 import LoadingScreen from '@/components/LoadingScreen';
 import { ROLES } from '@/constants/strings';
+import { SUPER_ADMIN, ORG_ADMIN, AUTH } from '@/constants';
 
 // const array = [
 //   {
@@ -35,9 +36,32 @@ export default function GuestGuard({ children }: any) {
   //   return array.find((skill: any) => skill?.email === user?.email);
   // };
   // const path: any = findSkillByEmail({ user, array });
+  // let pathVariable=''
+  //   if(user?.role === ROLES.ORG_EMPLOYEE ){
+  //     pathVariable='/'
+  //   }else if(user?.role === ROLES.ORG_ADMIN){
+  //     pathVariable=ORG_ADMIN.DASHBOARD
+  //   }else if(user?.role === ROLES.SUPER_ADMIN){
+  //     pathVariable=SUPER_ADMIN.DASHBOARD
+  //   }else{
 
-  const pathVariable =
-    user?.role === ROLES.ORG_EMPLOYEE ? '/' : ROLES.SUPER_ADMIN;
+  //   }
+  let pathVariable: string;
+
+  switch (user?.role) {
+    case ROLES.ORG_EMPLOYEE:
+      pathVariable = '/';
+      break;
+    case ROLES.ORG_ADMIN:
+      pathVariable = ORG_ADMIN.DASHBOARD;
+      break;
+    case ROLES.SUPER_ADMIN:
+      pathVariable = SUPER_ADMIN.DASHBOARD;
+      break;
+    default:
+      pathVariable = AUTH.LOGIN;
+      break;
+  }
 
   useEffect(() => {
     if (!isInitialized) return;
