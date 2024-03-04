@@ -1,6 +1,7 @@
 import {
   RHFCheckbox,
   RHFEditor,
+  RHFRadioGroup,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
@@ -114,7 +115,23 @@ export const rolesAccordionsTicketsData = {
       },
       component: RHFCheckbox,
       md: 4,
-      children: {},
+      children: {
+        id: 99,
+        componentProps: {
+          name: 'editNotesValues',
+          label: '',
+          options: [
+            { value: 'editEveryoneNotes', label: 'Edit Everyone’s Notes' },
+            {
+              value: 'editOnlyTheirOwnNotes',
+              label: 'Edit Only their own Notes',
+            },
+          ],
+          row: false,
+        },
+        component: RHFRadioGroup,
+        md: 4,
+      },
     },
     {
       id: 11,
@@ -124,6 +141,26 @@ export const rolesAccordionsTicketsData = {
       },
       component: RHFCheckbox,
       md: 4,
+      children: {
+        id: 98,
+        componentProps: {
+          name: 'createEditTasksInTicketsValues',
+          label: '',
+          options: [
+            {
+              value: 'editEveryoneTimeEntries',
+              label: 'Edit Everyone’s Time Entries',
+            },
+            {
+              value: 'editOnlyTheirTime',
+              label: 'Edit Only their Time',
+            },
+          ],
+          row: false,
+        },
+        component: RHFRadioGroup,
+        md: 4,
+      },
     },
     {
       id: 12,
@@ -260,27 +297,23 @@ export const rolesAccordionsTicketsData = {
       },
       component: RHFCheckbox,
       md: 12,
+      children: {
+        id: 97,
+        componentProps: {
+          name: 'createEditAnnouncementsValues',
+          label: '',
+          options: [
+            { value: 'editEveryoneNotes', label: 'Edit Everyone’s Notes' },
+            {
+              value: 'editTheirOwnNotes',
+              label: 'Edit Their Own Notes',
+            },
+          ],
+          row: false,
+        },
+        component: RHFRadioGroup,
+        md: 4,
+      },
     },
   ],
 };
-
-export const editNotesOptions = [];
-export const createEditTasksInTicketsOptions = [];
-export const createEditAnnouncementsOptions = [
-  {
-    id: 30,
-    componentProps: {
-      name: 'manageWork',
-      label: '',
-      options: [
-        { value: 'editEveryoneNotes', label: 'Edit Everyone’s Notes' },
-        {
-          value: 'editTheirOwnNotes',
-          label: 'Edit Their Own Notes',
-        },
-      ],
-    },
-    component: RHFCheckbox,
-    md: 4,
-  },
-];

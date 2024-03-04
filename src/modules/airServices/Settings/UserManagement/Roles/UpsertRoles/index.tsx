@@ -5,6 +5,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Button,
   Divider,
   Grid,
   Typography,
@@ -33,11 +34,11 @@ const UpsertRoles = () => {
     defaultValues: upsertRolesDefaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, watch } = methods;
 
-  // const editNotes = watch('editNotes');
-  // const createEditTasksInTickets = watch('createEditTasksInTickets');
-  // const createEditAnnouncements = watch('createEditAnnouncements');
+  const editNotes = watch('editNotes');
+  const createEditTasksInTickets = watch('createEditTasksInTickets');
+  const createEditAnnouncements = watch('createEditAnnouncements');
 
   const onSubmit = async () => {};
 
@@ -108,6 +109,35 @@ const UpsertRoles = () => {
                             {...item?.componentProps}
                             size={'small'}
                           />
+                          {item?.componentProps?.name === 'editNotes' &&
+                            editNotes &&
+                            item?.children && (
+                              <item.children.component
+                                key={item?.children?.id}
+                                {...item?.children?.componentProps}
+                                size={'small'}
+                              />
+                            )}
+                          {item?.componentProps?.name ===
+                            'createEditTasksInTickets' &&
+                            createEditTasksInTickets &&
+                            item?.children && (
+                              <item.children.component
+                                key={item?.children?.id}
+                                {...item?.children?.componentProps}
+                                size={'small'}
+                              />
+                            )}
+                          {item?.componentProps?.name ===
+                            'createEditAnnouncements' &&
+                            createEditAnnouncements &&
+                            item?.children && (
+                              <item.children.component
+                                key={item?.children?.id}
+                                {...item?.children?.componentProps}
+                                size={'small'}
+                              />
+                            )}
                         </Grid>
                       ))}
                     </Grid>
@@ -115,6 +145,21 @@ const UpsertRoles = () => {
                 </Accordion>
               ),
             )}
+          </Grid>
+
+          <Grid item xs={12} textAlign={'end'}>
+            <Button
+              type={'button'}
+              variant={'outlined'}
+              color={'inherit'}
+              sx={{ mr: 2 }}
+              onClick={() => router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS)}
+            >
+              Cancel
+            </Button>
+            <Button type={'submit'} variant={'contained'}>
+              Submit
+            </Button>
           </Grid>
         </Grid>
       </FormProvider>
