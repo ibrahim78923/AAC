@@ -1,9 +1,9 @@
 export const styles = {
-  leftWrapper: () => {
+  leftWrapper: (theme: any) => {
     return {
-      backgroundColor: '#FFFFFF',
+      backgroundColor: theme?.palette?.common?.white,
       height: '85vh',
-      border: '1.5px solid #e7e7e9',
+      border: `1.5px solid ${theme?.palette?.grey[100]}`,
       borderRadius: '8px',
       padding: '10px 0px',
     };

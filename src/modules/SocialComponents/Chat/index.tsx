@@ -110,10 +110,10 @@ const Chat = () => {
   }, [status]);
 
   const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
-    id: item._id,
-    firstName: item.firstName,
-    lastName: item.lastName,
-    email: item.email,
+    id: item?._id,
+    firstName: item?.firstName,
+    lastName: item?.lastName,
+    email: item?.email,
     src: UserDefault,
   }));
 
@@ -144,7 +144,7 @@ const Chat = () => {
     <Box sx={{ position: 'relative' }}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={3.5}>
-          <Box sx={styles?.leftWrapper}>
+          <Box sx={styles?.leftWrapper(theme)}>
             <Contacts handleManualRefetch={handleManualRefetch} />
           </Box>
         </Grid>
