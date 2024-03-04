@@ -106,11 +106,21 @@ export const contactsAPI = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
 
+    // Re-assign
     updateContactTask: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `${END_POINTS?.TASK}/${id}`,
         method: 'PATCH',
         body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+
+    // Delete Tasks
+    deleteTasks: builder.mutation({
+      query: (id: any) => ({
+        url: `${END_POINTS?.TASK}/${id}`,
+        method: 'DELETE',
       }),
       invalidatesTags: TAG,
     }),
@@ -131,4 +141,5 @@ export const {
   useDeleteContactPermanentMutation,
   useGetContactTasksQuery,
   useUpdateContactTaskMutation,
+  useDeleteTasksMutation,
 } = contactsAPI;

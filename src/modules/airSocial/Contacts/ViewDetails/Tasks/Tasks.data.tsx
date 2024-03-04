@@ -1,3 +1,4 @@
+import { RHFSelect } from '@/components/ReactHookForm';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
@@ -128,6 +129,21 @@ export const columns = (
       isSortable: true,
       header: 'Assigned To',
       cell: (info: any) => info?.getValue(),
+    },
+  ];
+};
+
+export const assigneeDataArray = (assigneeOptions: any) => {
+  return [
+    {
+      componentProps: {
+        name: 'assignTo',
+        label: 'Assign To',
+        select: true,
+      },
+      options: assigneeOptions,
+      component: RHFSelect,
+      md: 12,
     },
   ];
 };
