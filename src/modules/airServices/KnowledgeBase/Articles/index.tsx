@@ -30,6 +30,8 @@ export const Articles = () => {
     filterValues,
     setFilterValues,
     setFolder,
+    page,
+    getValueArticlesListData,
   } = useArticles();
 
   return (
@@ -137,6 +139,9 @@ export const Articles = () => {
           selectedArticlesData={selectedArticlesData}
           setSelectedArticlesData={setSelectedArticlesData}
           setPage={setPage}
+          page={page}
+          getValueArticlesListData={getValueArticlesListData}
+          totalRecords={lazyGetArticlesStatus?.data?.data?.articles?.length}
         />
       )}
       {moveFolderModal && (

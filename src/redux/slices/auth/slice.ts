@@ -28,7 +28,7 @@ const authSlice = createSlice({
       .addMatcher(authAPI?.endpoints?.signUp?.matchFulfilled, registerSuccess)
       //permissions Matchers
       .addMatcher(
-        authAPI?.endpoints?.getPermissions?.matchFulfilled,
+        authAPI?.endpoints?.getAuthMyAccount?.matchFulfilled,
         permissionsUpdate,
       );
   },

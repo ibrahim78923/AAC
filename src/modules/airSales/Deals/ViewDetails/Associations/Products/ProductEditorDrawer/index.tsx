@@ -17,6 +17,7 @@ const ProductEditorDrawer = (props: any) => {
   const { handleSubmit, onSubmit, methodsProducts } = useProductEditorDrawer({
     selectedCheckboxes,
     openDrawer,
+    setOpenDrawer,
   });
 
   return (

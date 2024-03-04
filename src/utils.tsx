@@ -1,4 +1,5 @@
 import debounce from 'lodash.debounce';
+import jwtDecode from 'jwt-decode';
 
 export function isNullOrEmpty(
   value: string | null | undefined | unknown[] | Record<string, unknown>,
@@ -22,6 +23,15 @@ export function isNullOrEmpty(
   return false;
 }
 
+const isTokenValidationCheck = (accessToken: string) => {
+  if (!accessToken) {
+    return false;
+  }
+  const decoded: any = jwtDecode(accessToken);
+  const currentTime = Date.now() / 1000;
+
+  return decoded.exp > currentTime;
+};
 export const convertIdToShortNumber = (mongodbId: string): any => {
   // Convert hexadecimal to decimal
   const decimalId = parseInt(mongodbId, 16);
@@ -57,5 +67,42 @@ const setSession = (userData: any) => {
     // delete axios.defaults.headers.common.Authorization;
   }
 };
+const setActiveProductSession = (product: any) => {
+  if (product) {
+    localStorage.setItem('ActiveProduct', JSON.stringify(product));
+  } else {
+    localStorage.removeItem('ActiveProduct');
+  }
+};
 
-export { getSession, setSession };
+const getActiveProductSession = () => {
+  const sessionJSON = window?.localStorage?.getItem('ActiveProduct');
+
+  if (sessionJSON) return JSON.parse(sessionJSON);
+  return {};
+};
+
+const setActivePermissionsSession = (permissions: any) => {
+  if (permissions) {
+    localStorage.setItem('ActivePermissions', JSON.stringify(permissions));
+  } else {
+    localStorage.removeItem('ActivePermissions');
+  }
+};
+
+const getActivePermissionsSession = () => {
+  const sessionJSON = window?.localStorage?.getItem('ActivePermissions');
+
+  if (sessionJSON) return JSON.parse(sessionJSON);
+  return {};
+};
+
+export {
+  getSession,
+  setSession,
+  isTokenValidationCheck,
+  setActiveProductSession,
+  getActiveProductSession,
+  setActivePermissionsSession,
+  getActivePermissionsSession,
+};
