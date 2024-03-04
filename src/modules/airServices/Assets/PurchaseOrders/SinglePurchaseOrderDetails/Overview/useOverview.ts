@@ -1,5 +1,6 @@
 import { useGetPurchaseOrderOverviewQuery } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/overview';
 import { useTheme } from '@mui/material';
+import jsPDF from 'jspdf';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -13,6 +14,13 @@ export const useOverview = () => {
   const purchaseOrderDetailData = data?.data?.purchaseDetails;
   const orderStatus = data?.data?.status;
 
+  const handleDownload = () => {
+    const invoice: any = new jsPDF('portrait', 'px', 'a1');
+    invoice.html(document.getElementById('invoice')).then(() => {
+      invoice.save('invoice.pdf');
+    });
+  };
+
   return {
     openOverviewModal,
     setOpenOverviewModal,
@@ -20,5 +28,6 @@ export const useOverview = () => {
     purchaseOrderData,
     purchaseOrderDetailData,
     orderStatus,
+    handleDownload,
   };
 };

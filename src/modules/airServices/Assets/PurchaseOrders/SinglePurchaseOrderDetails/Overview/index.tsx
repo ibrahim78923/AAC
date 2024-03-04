@@ -14,6 +14,7 @@ export const Overview = () => {
     purchaseOrderData,
     purchaseOrderDetailData,
     orderStatus,
+    handleDownload,
   } = useOverview();
   return (
     <Box>
@@ -73,6 +74,7 @@ export const Overview = () => {
           purchaseOrderData={purchaseOrderData}
           theme={theme}
           orderStatus={orderStatus}
+          handleDownload={handleDownload}
         />
       </Box>
     </Box>

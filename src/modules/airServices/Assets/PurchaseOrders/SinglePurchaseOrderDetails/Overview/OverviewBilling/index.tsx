@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Typography, TextField } from '@mui/material';
+import { Box, Divider, Grid, Typography } from '@mui/material';
 import { modalBillingData } from './OverviewBilling.data';
 import { styles } from './OverviewBilling.style';
 
@@ -50,24 +50,24 @@ const OverviewBilling = ({
                   {item?.label}
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid
+                item
+                sx={{
+                  width: 70,
+                  border: '1px solid black',
+                  padding: '8px',
+                  mt: 1,
+                  borderRadius: 1,
+                  textAlign: 'center',
+                }}
+                key={item?.value}
+              >
                 {totalItem?.includes(item?.label) ? (
                   <Typography sx={styles?.billingValue}>
                     {item?.value}
                   </Typography>
                 ) : (
-                  <TextField
-                    key={item?.value}
-                    name={item?.value}
-                    value={item?.value}
-                    type={item?.value === 'description' ? 'text' : 'number'}
-                    inputProps={{
-                      style: {
-                        width: 50,
-                        height: 1,
-                      },
-                    }}
-                  />
+                  <Typography>{item?.value}</Typography>
                 )}
               </Grid>
               {totalItem?.includes(item?.label) && (
