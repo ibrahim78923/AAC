@@ -273,6 +273,7 @@ export const END_POINTS = {
   GET_CLOSURE_RULES: '/Closure-Rules/get-closure-rules',
   ADD_SOFTWARE: '/assets/add_software',
   EDIT_SOFTWARE: '/assets/edit-software',
+  POST_APPROVALS: `/articles/approve`,
 };
 
 export const superAdminBillingInvoices = {

@@ -1,31 +1,37 @@
-import { FormProvider } from '@/components/ReactHookForm';
-import { v4 as uuidv4 } from 'uuid';
+import { FormProvider, RHFEditor } from '@/components/ReactHookForm';
 import { useSingleTicketForm } from './useSingleTicketForm';
 import { Box, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { v4 as uuidv4 } from 'uuid';
 import { AttachIcon } from '@/assets/icons';
+import { styles } from './SingleTicketForm.style';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 export const SingleTicketForm = (props: any) => {
-  const {
-    singleTicketFormDataArray,
-    singleTicketFormDefaultValues,
-    singleTicketFormValidationSchema,
-  } = props;
-  const { methods, handleSubmit, onSubmit, fileImport, handleImport } =
-    useSingleTicketForm({
-      singleTicketFormDefaultValues,
-      singleTicketFormValidationSchema,
-    });
-
+  const { singleTicketData } = props;
+  const { methods, handleSubmit, onSubmit, fileImport, handleImport, theme } =
+    useSingleTicketForm();
   return (
     <>
+      {singleTicketData?.associateAssetsDetails?.map((item: any) => (
+        <Box key={uuidv4()} sx={styles?.assetsCard(theme)}>
+          <Typography variant="body1" fontWeight={600} sx={styles?.cardText}>
+            {item?.displayName}
+          </Typography>
+          <Box sx={styles?.cardLine(theme)} />
+          <Typography variant="body3" sx={styles?.cardText}>
+            <b>Created Date:-</b>{' '}
+            {dayjs(item?.createdAt)?.format(DATE_TIME_FORMAT?.DMYhmma)}
+          </Typography>
+        </Box>
+      ))}
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        {singleTicketFormDataArray?.map((item: any) => (
-          <item.component
-            {...item?.componentProps}
-            key={uuidv4()}
-          ></item.component>
-        ))}
+        <RHFEditor
+          name="yourReplay"
+          label="Your Replay"
+          style={{ minHeight: 150 }}
+        />
       </FormProvider>
       <Box
         display={'flex'}
