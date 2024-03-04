@@ -31,6 +31,7 @@ export const END_POINTS = {
   DEALS_USER_LIST: '/super-admin/user-list',
   DEALS_GRID_VIEW: '/deals/get-deals-grid-view',
   DEALS_ACTION_PREVIEW: '/deals/deal-action-preview/{id}',
+  DEALS_CUSTOMIZE_COLUMN: '/customized-columns',
   POST_DEALS_VIEW: '/deal-views',
   GET_DEALS_VIEWS: '/deal-views',
   DELETE_DEALS: '/deals/delete-deals',
