@@ -13,15 +13,15 @@ export const newIncident = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     getExitingTickets: builder?.query({
-      query: () => ({
+      query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.TICKET}`,
         method: 'GET',
-        // params: apiDataParameter?.queryParams,
+        params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
   }),
 });
 
-export const { usePostIncidentMutation, useGetExitingTicketsQuery } =
+export const { usePostIncidentMutation, useLazyGetExitingTicketsQuery } =
   newIncident;
