@@ -8,6 +8,7 @@ export const styles = {
     return {
       display: 'flex',
       gap: '10px',
+      alignItems: 'center',
     };
   },
   filterButton: () => {

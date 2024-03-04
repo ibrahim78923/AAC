@@ -19,6 +19,11 @@ export default function Header() {
     deleteSoftware,
     isLoading,
     moveBackArrow,
+    submitHandler,
+    userQuery,
+    onClose,
+    methods,
+    editLoading,
   } = useHeader();
 
   return (
@@ -82,7 +87,14 @@ export default function Header() {
           message="Are you sure  want to delete this Software ?"
         />
       )}
-      <UpsertSoftware isDrawerOpen={isDrawerOpen} onClose={setIsDrawerOpen} />
+      <UpsertSoftware
+        isDrawerOpen={isDrawerOpen}
+        onClose={onClose}
+        methods={methods}
+        submitHandler={submitHandler}
+        isLoading={editLoading}
+        userQuery={userQuery}
+      />
     </>
   );
 }

@@ -2,22 +2,23 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
+import { ARTICLE_STATUS } from '@/constants/strings';
+
+const statusOption = [
+  { _id: ARTICLE_STATUS?.DRAFT, label: ARTICLE_STATUS?.DRAFT },
+  { _id: ARTICLE_STATUS?.PUBLISHED, label: ARTICLE_STATUS?.PUBLISHED },
+];
 
 export const filterArticlesDataDefaultValues = (data?: any) => {
   return {
-    status: data?.status?._id ?? null,
-    authorId: data?.authorId?._id ?? null,
+    status: data?.status ?? null,
+    authorId: data?.authorId ?? null,
   };
 };
 
-const statusOption = [
-  { _id: 'DRAFT', label: 'DRAFT' },
-  { _id: 'PUBLISHED', label: 'PUBLISHED' },
-];
-
 export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
   {
-    id: '1',
+    id: 1,
     componentProps: {
       name: 'status',
       label: 'Status',
@@ -27,10 +28,9 @@ export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
       getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
-    md: 12,
   },
   {
-    id: '2',
+    id: 2,
     componentProps: {
       name: 'authorId',
       label: 'Author',
@@ -41,6 +41,5 @@ export const filterArticlesFormFieldsDynamic = (apiQueryAuthor: any) => [
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
-    md: 12,
   },
 ];

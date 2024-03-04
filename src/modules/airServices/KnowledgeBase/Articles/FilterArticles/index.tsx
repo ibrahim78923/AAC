@@ -34,7 +34,7 @@ const FilterArticles = (props: any) => {
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
             {filterArticlesFormFields?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
+              <Grid item xs={12} key={item?.id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             ))}

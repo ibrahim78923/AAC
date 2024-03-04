@@ -14,11 +14,15 @@ const SalesEditorDrawer = ({
   isDraweropen,
   isEditMode,
   handleCloseDrawer,
+  setIsDraweropen,
+  setSelectedCheckboxes,
   selectedCheckboxes,
 }: any) => {
   const { handleSubmit, onSubmit, salesProduct } = useSalesEditorDrawer({
     selectedCheckboxes,
     isEditMode,
+    setIsDraweropen,
+    setSelectedCheckboxes,
   });
   return (
     <>
