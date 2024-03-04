@@ -1,8 +1,8 @@
 import { useGetWorkloadQuery } from '@/services/airServices/workload';
-import { getSession } from '@/utils';
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
 import { workloadDefaultDateRange } from '../Workload.data';
+import useAuth from '@/hooks/useAuth';
 
 export default function useWorkloadDrawer({
   state,
@@ -18,7 +18,7 @@ export default function useWorkloadDrawer({
     data: null,
   });
 
-  const { user }: any = getSession();
+  const { user }: any = useAuth();
 
   const { data } = useGetWorkloadQuery(
     { manage: state },
