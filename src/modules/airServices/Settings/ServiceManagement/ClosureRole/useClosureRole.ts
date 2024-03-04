@@ -18,10 +18,17 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 export const useClosureRole = () => {
   const router = useRouter();
   const { data, isLoading: getIsLoading } = useGetClosureRulesQuery(null);
-  const getClosureRuleValues = data?.data?.[0];
+  const getClosureRuleValues = data?.data;
+
+  const ticket = {
+    incidentClose: 0,
+    incidentResolve: 1,
+    serviceClose: 1,
+    serviceResolve: 0,
+  };
 
   const closureRoleMethods = useForm({
-    defaultValues: closureRoleDefaultValues(getClosureRuleValues),
+    defaultValues: closureRoleDefaultValues(getClosureRuleValues, ticket),
   });
 
   const [postClosureRuleTrigger, postClosureRuleProgress] =

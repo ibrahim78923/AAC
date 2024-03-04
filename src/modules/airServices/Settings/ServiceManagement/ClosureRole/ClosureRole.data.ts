@@ -1,52 +1,81 @@
 import { RHFRadioGroup, RHFCheckbox } from '@/components/ReactHookForm';
 
-export const closureRoleDefaultValues = (getClosureRuleValues: any) => {
+export const closureRoleDefaultValues = (
+  getClosureRuleValues: any,
+  ticket: any,
+) => {
   return {
-    closeIncidentTimeAdded: getClosureRuleValues?.incident?.[0]?.timeEntryAdded,
+    closeIncidentTimeAdded:
+      getClosureRuleValues?.incident?.[ticket?.incidentClose]?.timeEntryAdded,
     closeIncidentAssociatedTasks:
-      getClosureRuleValues?.incident?.[0]?.associatedTasksCompleted,
+      getClosureRuleValues?.incident?.[ticket?.incidentClose]
+        ?.associatedTasksCompleted,
     closeIncidentChildTickets:
-      getClosureRuleValues?.incident?.[0]?.childTickets?.closed ||
-      getClosureRuleValues?.incident?.[0]?.childTickets?.resolved,
+      getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
+        ?.closed ||
+      getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
+        ?.resolved,
     closeIncidentClosedResolved:
-      (getClosureRuleValues?.incident?.[0]?.childTickets?.resolved &&
+      (getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
+        ?.resolved &&
         'Either closed or resolved') ||
-      (getClosureRuleValues?.incident?.[0]?.childTickets?.closed && 'Closed'),
+      (getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
+        ?.closed &&
+        'Closed'),
 
     resolveIncidentTimeAdded:
-      getClosureRuleValues?.incident?.[1]?.timeEntryAdded,
+      getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.timeEntryAdded,
     resolveIncidentAssociatedTasks:
-      getClosureRuleValues?.incident?.[1]?.associatedTasksCompleted,
+      getClosureRuleValues?.incident?.[ticket?.incidentResolve]
+        ?.associatedTasksCompleted,
     resolveIncidentChildTickets:
-      getClosureRuleValues?.incident?.[1]?.childTickets?.closed ||
-      getClosureRuleValues?.incident?.[1]?.childTickets?.resolved,
+      getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
+        ?.closed ||
+      getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
+        ?.resolved,
     resolveIncidentClosedResolved:
-      (getClosureRuleValues?.incident?.[1]?.childTickets?.resolved &&
+      (getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
+        ?.resolved &&
         'Either closed or resolved') ||
-      (getClosureRuleValues?.incident?.[1]?.childTickets?.closed && 'Closed'),
+      (getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
+        ?.closed &&
+        'Closed'),
 
-    serviceCloseTimeAdded: getClosureRuleValues?.services?.[1]?.timeEntryAdded,
+    serviceCloseTimeAdded:
+      getClosureRuleValues?.services?.[ticket?.serviceClose]?.timeEntryAdded,
     serviceCloseAssociatedTasks:
-      getClosureRuleValues?.services?.[1]?.associatedTasksCompleted,
+      getClosureRuleValues?.services?.[ticket?.serviceClose]
+        ?.associatedTasksCompleted,
     serviceCloseChildTickets:
-      getClosureRuleValues?.services?.[1]?.childTickets?.closed ||
-      getClosureRuleValues?.services?.[1]?.childTickets?.resolved,
+      getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
+        ?.closed ||
+      getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
+        ?.resolved,
     serviceCloseClosedResolved:
-      (getClosureRuleValues?.services?.[1]?.childTickets?.resolved &&
+      (getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
+        ?.resolved &&
         'Either closed or resolved') ||
-      (getClosureRuleValues?.services?.[1]?.childTickets?.closed && 'Closed'),
+      (getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
+        ?.closed &&
+        'Closed'),
 
     serviceResolveTimeAdded:
-      getClosureRuleValues?.services?.[0]?.timeEntryAdded,
+      getClosureRuleValues?.services?.[ticket?.serviceResolve]?.timeEntryAdded,
     serviceResolveAssociatedTasks:
-      getClosureRuleValues?.services?.[0]?.associatedTasksCompleted,
+      getClosureRuleValues?.services?.[ticket?.serviceResolve]
+        ?.associatedTasksCompleted,
     serviceResolveChildTickets:
-      getClosureRuleValues?.services?.[0]?.childTickets?.closed ||
-      getClosureRuleValues?.services?.[0]?.childTickets?.resolved,
+      getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
+        ?.closed ||
+      getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
+        ?.resolved,
     serviceResolveClosedResolved:
-      (getClosureRuleValues?.services?.[0]?.childTickets?.resolved &&
+      (getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
+        ?.resolved &&
         'Either closed or resolved') ||
-      (getClosureRuleValues?.services?.[0]?.childTickets?.closed && 'Closed'),
+      (getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
+        ?.closed &&
+        'Closed'),
   };
 };
 
