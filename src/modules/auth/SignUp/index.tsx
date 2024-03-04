@@ -44,6 +44,8 @@ const SignUp = () => {
     isVerifiedSuccess,
     isLoading,
     allValuesNotEmpty,
+    isStepComplete,
+    setIsStepComplete,
   } = useSignup();
 
   const products = productData?.data.map((product: any) => {
@@ -52,8 +54,6 @@ const SignUp = () => {
       label: product?.name,
     };
   });
-
-  const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
 
   const theme = useTheme();
 
@@ -150,7 +150,7 @@ const SignUp = () => {
                         <Grid item xs={12}>
                           <Button
                             variant="contained"
-                            sx={{ width: '100%' }}
+                            sx={{ width: '100%', marginTop: '15px' }}
                             onClick={() =>
                               allValuesNotEmpty() && setIsStepComplete(true)
                             }
