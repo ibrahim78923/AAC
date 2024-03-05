@@ -8,7 +8,7 @@ const WorkloadPage = () => {
 
 WorkloadPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout permissions={[Permissions?.AIR_SERVICES_WORKLOAD_CALENDER_VIEW]}>
+    <Layout permissions={Permissions?.AIR_SERVICES_WORKLOAD_CALENDER_VIEW}>
       {page}
     </Layout>
   );
