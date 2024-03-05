@@ -14,15 +14,28 @@ import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/p
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useState } from 'react';
 import CustomPagination from '@/components/CustomPagination';
+import ApiErrorState from '@/components/ApiErrorState';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
-const RolesCards = ({ data, setPage, setPageLimit }: any) => {
+const RolesCards = ({
+  data,
+  setPage,
+  setPageLimit,
+  isError,
+  isLoading,
+  isFetching,
+}: any) => {
   const router: any = useRouter();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  // const [roleId, setRoleId] = useState<any>(null);
+  const [roleId, setRoleId] = useState<any>(null);
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
   const theme: any = useTheme();
+
+  if (isError) return <ApiErrorState />;
+
+  if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
     <>
@@ -69,6 +82,7 @@ const RolesCards = ({ data, setPage, setPageLimit }: any) => {
               borderRadius={2}
               p={3}
               height={'100%'}
+              overflow={'hidden'}
             >
               <Box display={'flex'} justifyContent={'space-between'} mb={1}>
                 <Typography variant="h5">{item?.name}</Typography>
@@ -78,7 +92,7 @@ const RolesCards = ({ data, setPage, setPageLimit }: any) => {
                     onClick={(event: any) => {
                       event.stopPropagation();
                       setAnchorEl(event?.currentTarget);
-                      // setRoleId(item?._id);
+                      setRoleId(item?._id);
                     }}
                     sx={{ cursor: 'pointer', color: 'grey.600' }}
                   />
@@ -113,7 +127,7 @@ const RolesCards = ({ data, setPage, setPageLimit }: any) => {
         anchorEl={anchorEl}
         onClose={() => {
           setAnchorEl(null);
-          // setRoleId(null);
+          setRoleId(null);
         }}
         anchorOrigin={{
           vertical: 'bottom',
@@ -145,9 +159,9 @@ const RolesCards = ({ data, setPage, setPageLimit }: any) => {
               setAnchorEl(null);
               router?.push({
                 pathname: AIR_SERVICES?.USER_UPSERT_ROLES_SETTINGS,
-                query: { roleId: '1' },
+                query: { roleId: roleId },
               });
-              // setRoleId(null);
+              setRoleId(null);
             }}
           >
             Edit
@@ -170,7 +184,7 @@ const RolesCards = ({ data, setPage, setPageLimit }: any) => {
             }}
             onClick={() => {
               setAnchorEl(null);
-              // setRoleId(null);
+              setRoleId(null);
             }}
           >
             Delete

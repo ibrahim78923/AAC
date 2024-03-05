@@ -8,8 +8,6 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { useGetPermissionsRoleQuery } from '@/services/airServices/settings/user-management/roles';
 import { useState } from 'react';
-import ApiErrorState from '@/components/ApiErrorState';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { PAGINATION } from '@/config';
 
 export const Roles = () => {
@@ -24,10 +22,6 @@ export const Roles = () => {
     limit: pageLimit,
     search: searchValue,
   });
-
-  if (isError) return <ApiErrorState />;
-
-  if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
     <>
@@ -58,7 +52,14 @@ export const Roles = () => {
         </PermissionsGuard>
       </Box>
 
-      <RolesCards data={data} setPage={setPage} setPageLimit={setPageLimit} />
+      <RolesCards
+        data={data}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        isError={isError}
+        isLoading={isLoading}
+        isFetching={isFetching}
+      />
     </>
   );
 };
