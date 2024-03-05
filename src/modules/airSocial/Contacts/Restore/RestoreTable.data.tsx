@@ -85,14 +85,20 @@ export const restoreTableColumns: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => `${row?.firstName} ${row?.lastName}`,
+      accessorFn: (row: any) => ({
+        firstName: row?.firstName,
+        lastName: row?.lastName,
+        profilePicture: row?.profilePicture,
+        email: row?.email,
+      }),
       id: 'contact',
       isSortable: true,
       header: 'Contact',
       cell: (info: any) => {
-        const firstChar = info?.cell?.row?.original?.firstName?.charAt(0);
-        const imgUrl = info?.cell?.row?.original?.profilePicture?.url;
-        const email = info?.cell?.row?.original?.email;
+        const firstName = info.getValue()?.firstName;
+        const lastName = info.getValue()?.lastName;
+        const imgUrl = info.getValue()?.profilePicture?.url;
+        const email = info.getValue()?.email;
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Avatar
@@ -100,14 +106,18 @@ export const restoreTableColumns: any = (
                 bgcolor: 'primary.main',
                 textTransform: 'uppercase',
                 mr: '6px',
+                fontSize: '14px',
               }}
               alt={info?.getValue()}
               src={`${IMG_URL}${imgUrl}`}
             >
-              {firstChar}
+              {firstName?.charAt(0)}
+              {lastName?.charAt(0)}
             </Avatar>
             <Box>
-              <Box sx={{ color: 'blue.dull_blue' }}>{info?.getValue()}</Box>
+              <Box sx={{ color: 'blue.dull_blue' }}>
+                {firstName} {lastName}
+              </Box>
               <Box sx={{ fontSize: '12px' }}>{email}</Box>
             </Box>
           </Box>
@@ -116,13 +126,15 @@ export const restoreTableColumns: any = (
     },
 
     {
-      accessorFn: (row: any) => row?.deletedBy[0].firstName,
+      accessorFn: (row: any) => row?.deletedBy,
       id: 'deletedby',
       isSortable: true,
       header: 'Deleted By',
       cell: (info: any) => {
-        const firstChar = info?.cell?.row?.original?.firstName?.charAt(0);
-        const imgUrl = info?.cell?.row?.original?.profilePicture?.url;
+        const firstName = info.getValue()?.firstName;
+        const lastName = info.getValue()?.lastName;
+        const imgUrl = info.getValue()?.profilePicture?.url;
+
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Avatar
@@ -130,14 +142,17 @@ export const restoreTableColumns: any = (
                 bgcolor: 'primary.main',
                 textTransform: 'uppercase',
                 mr: '6px',
+                fontSize: '14px',
               }}
               alt={info?.getValue()}
               src={`${IMG_URL}${imgUrl}`}
             >
-              {firstChar}
+              {`${firstName?.charAt(0)}${lastName?.charAt(0)}`}
             </Avatar>
             <Box>
-              <Box sx={{ color: 'blue.dull_blue' }}>{info?.getValue()}</Box>
+              <Box sx={{ color: 'blue.dull_blue' }}>
+                {firstName} {lastName}
+              </Box>
             </Box>
           </Box>
         );

@@ -112,7 +112,7 @@ export const END_POINTS = {
   DELETE_NEW_VENDOR: '/vendors/delete-vendor',
   VENDOR: '/vendors/get-vendor',
   CALLS: '/calls',
-  POST_CLOSURE_ROLE: '/Closure-Rules/add-closure-rules',
+  POST_CLOSURE_RULES: '/Closure-Rules/add-closure-rules',
   GET_BUSINESS_HOUR: `/business-hour/list`,
   BUSINESS_HOUR: `/business-hour`,
   DELETE_BUSINESS_HOUR: `/business-hour/delete-business-hour`,
@@ -212,6 +212,7 @@ export const END_POINTS = {
   CONTACT_RESTORE: `/contact/restore`,
   CONTACT_DELETE_PERMANENT: `/contact/permanent`,
   CONTACT_ASSOCIATIONS: `/contact/contact-associations`,
+  CONTACT_TASKS: `/contact/contact-tasks`,
   ADD_SOFTWARE_INSTALLATION: '/assets/add-software-device',
   REMOVE_SOFTWARE_INSTALLATION: '/assets/software-device/{id}',
   SOFTWARE_INSTALLATION: '/assets/software-devices',
@@ -270,8 +271,10 @@ export const END_POINTS = {
   GET_CONTRACT_VENDOR_LIST: '/vendors/get-vendor-contracts',
   POST_ARTICLES_FEEDBACK: '/articles/feedback',
   SOFTWARE_CONTRACTS: '/assets/get-software-contracts',
+  GET_CLOSURE_RULES: '/Closure-Rules/get-closure-rules',
   ADD_SOFTWARE: '/assets/add_software',
   EDIT_SOFTWARE: '/assets/edit-software',
+  POST_APPROVALS: `/articles/approve`,
 };
 
 export const superAdminBillingInvoices = {
