@@ -8,6 +8,7 @@ import usePurchaseOrders from './usePurchaseOrders';
 import { filterFields } from './PurchaseOrderFilter/PurchaseOrderFilter.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { DeletePurchaseOrder } from './DeletePurchaseOrder';
+import { AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS } from '@/constants/permission-keys';
 
 function PurchaseOrder() {
   const {
@@ -49,6 +50,9 @@ function PurchaseOrder() {
       <PageTitledHeader
         title={'Purchase Order'}
         addTitle={'New Purchase Order'}
+        createPermissionKe={
+          AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.NEW_PURCAHSE_ORDER
+        }
         handleAction={handleNewPurchaseOrder}
       />
       <Box>
