@@ -7,12 +7,7 @@ const CatalogServicePage = () => {
 };
 CatalogServicePage.getLayout = function getLayout(page: any) {
   return (
-    <Layout
-      permission={[
-        Permissions?.AIR_CUSTOMER_PORTAL_CATALOG_DETAIL,
-        '65e0175d29624d4d419196a6',
-      ]}
-    >
+    <Layout permissions={Permissions?.AIR_CUSTOMER_PORTAL_CATALOG_DETAIL}>
       {page}
     </Layout>
   );

@@ -26,7 +26,7 @@ const CatalogService = () => {
   return (
     <>
       <PermissionsGuard
-        permissions={[Permissions?.AIR_CUSTOMER_PORTAL_CATALOG_DETAIL]}
+        permissions={Permissions?.AIR_CUSTOMER_PORTAL_CATALOG_DETAIL}
       >
         <Box
           display={'flex'}

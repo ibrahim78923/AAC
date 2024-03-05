@@ -4,10 +4,10 @@ import useCatalog from './useCatalog';
 import { FolderIcon } from '@/assets/icons';
 import CustomPagination from '@/components/CustomPagination';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 import { Permissions } from '@/constants/permissions';
 import { AIR_CUSTOMER_PORTAL_CATALOG_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 export const Catalog = () => {
   const {
     handleClick,
@@ -23,9 +23,7 @@ export const Catalog = () => {
 
   return (
     <>
-      <PermissionsGuard
-        permissions={[Permissions?.AIR_CUSTOMER_PORTAL_CATALOG]}
-      >
+      <PermissionsGuard permissions={Permissions?.AIR_CUSTOMER_PORTAL_CATALOG}>
         <Typography variant="h3">All Services</Typography>
         <PermissionsGuard
           permissions={[
