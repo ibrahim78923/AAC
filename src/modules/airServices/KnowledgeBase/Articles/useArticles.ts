@@ -27,21 +27,17 @@ export const useArticles: any = () => {
   const [lazyGetArticlesTrigger, lazyGetArticlesStatus] =
     useLazyGetArticlesQuery();
 
-  const additionalParams = [
-    ['page', page + ''],
-    ['limit', pageLimit + ''],
-    ['search', search],
-    ['folderId', selectedArticlesTab === 'all' ? '' : selectedArticlesTab],
-  ];
-  const articlesParam: any = buildQueryParams(
-    additionalParams,
-    filterValues,
-    [],
-  );
-  const getArticlesParameter = {
-    queryParams: articlesParam,
-  };
-  const getValueArticlesListData = async () => {
+  const getValueArticlesListData = async (pages = page) => {
+    const additionalParams = [
+      ['page', pages + ''],
+      ['limit', pageLimit + ''],
+      ['search', search],
+      ['folderId', selectedArticlesTab === 'all' ? '' : selectedArticlesTab],
+    ];
+    const articlesParam: any = buildQueryParams(additionalParams, filterValues);
+    const getArticlesParameter = {
+      queryParams: articlesParam,
+    };
     try {
       await lazyGetArticlesTrigger(getArticlesParameter)?.unwrap();
       setSelectedArticlesData([]);
@@ -117,5 +113,8 @@ export const useArticles: any = () => {
     setFilterValues,
     setSelectedArticlesTab,
     setFolder,
+    lazyGetArticlesTrigger,
+    search,
+    getValueArticlesListData,
   };
 };

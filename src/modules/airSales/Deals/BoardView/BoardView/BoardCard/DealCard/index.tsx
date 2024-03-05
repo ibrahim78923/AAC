@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Box, Checkbox, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
@@ -129,50 +129,15 @@ const TaskViewCard = ({}: any) => {
                             }}
                           >
                             <Box>
-                              <Box
+                              <Typography
+                                variant="body2"
                                 sx={{
-                                  display: 'flex',
-                                  justifyContent: 'space-between',
-                                  alignItems: 'center',
+                                  color: `${theme?.palette?.slateBlue?.main}`,
+                                  fontWeight: 700,
                                 }}
                               >
-                                <Typography
-                                  variant="body2"
-                                  sx={{
-                                    color: `${theme?.palette?.slateBlue?.main}`,
-                                    fontWeight: 700,
-                                  }}
-                                >
-                                  {items?.subTitle}
-                                </Typography>
-                                <Checkbox />
-                              </Box>
-                              <Box
-                                sx={{
-                                  display: 'flex',
-                                  justifyContent: 'space-between',
-                                  alignItems: 'center',
-                                }}
-                              >
-                                <Typography
-                                  variant="subtitle2"
-                                  sx={{
-                                    color: `${theme?.palette?.custom?.main}`,
-                                    fontWeight: 400,
-                                  }}
-                                >
-                                  Amount
-                                </Typography>
-                                <Typography
-                                  variant="subtitle2"
-                                  sx={{
-                                    color: `${theme?.palette?.grey[900]}`,
-                                    fontWeight: 400,
-                                  }}
-                                >
-                                  {items?.amount}
-                                </Typography>
-                              </Box>
+                                {items?.subTitle}
+                              </Typography>
                               <Box
                                 sx={{
                                   display: 'flex',
@@ -196,7 +161,7 @@ const TaskViewCard = ({}: any) => {
                                     fontWeight: 400,
                                   }}
                                 >
-                                  {items?.closeDate}
+                                  {items?.date}
                                 </Typography>
                               </Box>
                             </Box>
@@ -215,7 +180,7 @@ const TaskViewCard = ({}: any) => {
                                   fontWeight: 400,
                                 }}
                               >
-                                Priority
+                                Linked Company
                               </Typography>
                               <Typography
                                 variant="subtitle2"
@@ -224,62 +189,68 @@ const TaskViewCard = ({}: any) => {
                                   fontWeight: 600,
                                 }}
                               >
-                                {items?.priority}
+                                {items?.linkdCompany}
                               </Typography>
                             </Box>
-                            {/* <Box
+                            <Box
                               sx={{
                                 display: 'flex',
                                 justifyContent: 'space-between',
-                                gap: 4,
+                                alignItems: 'center',
                               }}
                             >
-                              <Box
+                              <Typography
+                                variant="subtitle2"
                                 sx={{
-                                  display: 'flex',
-                                  justifyContent: 'space-between',
-                                  gap: 1,
+                                  color: `${theme?.palette?.custom?.main}`,
+                                  fontWeight: 400,
                                 }}
                               >
-                                <Link
-                                  href={`${AIR_SALES?.DEALS_VIEWDEATAILS}?tab-value=7`}
-                                >
-                                  <EmailDealsIcon />
-                                </Link>
-                                <Link
-                                  href={`${AIR_SALES?.DEALS_VIEWDEATAILS}?tab-value=5`}
-                                >
-                                  <DealPhoneIcon />
-                                </Link>
-                                <Link
-                                  href={`/air-sales/deals/view-details?tab-value=6`}
-                                >
-                                  <MeetingDealsIcon />
-                                </Link>
-                                <Link
-                                  href={`/air-sales/deals/view-details?tab-value=4`}
-                                >
-                                  <NotesDealsIcon />
-                                </Link>
-                                <Link
-                                  href={`/air-sales/deals/view-details?tab-value=3`}
-                                >
-                                  <TaskDealsIcon />
-                                </Link>
-                              </Box>
-                              <Box sx={{ display: 'flex' }}>
-                                <Link
-                                  href={`/air-sales/deals/view-details?tab-value=2`}
-                                >
-                                  <AccociatedContactIcon />
-                                </Link>
-                                <Link
-                                  href={`/air-sales/deals/view-details?tab-value=2&section-id=companies`}
-                                >
-                                  <AccociatedCompanyIcon />
-                                </Link>
-                              </Box>
-                            </Box> */}
+                                Assigned User
+                              </Typography>
+                              <Typography
+                                variant="subtitle2"
+                                sx={{
+                                  color: `${theme?.palette?.blue?.main}`,
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {items?.assignUser}
+                              </Typography>
+                            </Box>
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <Typography
+                                variant="subtitle2"
+                                sx={{
+                                  color: `${theme?.palette?.custom?.main}`,
+                                  fontWeight: 400,
+                                }}
+                              >
+                                Task Status
+                              </Typography>
+                              <Typography
+                                variant="subtitle2"
+                                sx={{
+                                  color:
+                                    items?.status === 'Inprogress'
+                                      ? `${theme?.palette?.warning?.main}`
+                                      : items?.status === 'Pending'
+                                      ? `${theme?.palette?.error?.main}`
+                                      : items?.status === 'Complete'
+                                      ? `${theme?.palette?.success?.main}`
+                                      : '',
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {items?.status}
+                              </Typography>
+                            </Box>
                           </Box>
                         )}
                       </Draggable>

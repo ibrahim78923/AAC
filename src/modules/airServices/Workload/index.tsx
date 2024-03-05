@@ -16,74 +16,43 @@ import { ManageWorkload } from './ManageWorkload';
 import { UnassignedWork } from './UnassignedWork';
 import { Filters } from './Filters';
 import { Profile } from './Profile';
-import { useRef, useState, Fragment, useEffect } from 'react';
 import styles from './Workload.module.scss';
 import CircleIcon from '@mui/icons-material/Circle';
 import { TodoIcon } from '@/assets/icons';
-import { useLazyGetWorkloadQuery } from '@/services/airServices/workload';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { UpdateWorkloadTask } from './UpdateWorkloadTask';
-import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
+import useWorkload from './useWorkload';
 
 export const Workload = () => {
-  const calendarRef = useRef<any>(null);
-  const router: any = useRouter();
+  const {
+    status,
+    statusFilter,
+    dateChangeHandler,
+    dateCalendar,
+    selected,
+    setSelected,
+    setFilter,
+    calendarRef,
+    COMPLETED,
+    IN_PROGRESS,
+    setAddPlannedEffort,
+    router,
+    setOnClickEvent,
+    onClickEvent,
+    addPlannedEffort,
+  } = useWorkload();
 
-  const [filter, setFilter] = useState<any>({
-    countDayWise: undefined,
-    countDayWiseHours: undefined,
-    countDayWiseHoursAverage: undefined,
-  });
+  if (status?.isError || statusFilter?.isError) return <ApiErrorState />;
 
-  const [onClickEvent, setOnClickEvent] = useState<any>({
-    open: null,
-    data: null,
-  });
-  const [addPlannedEffort, setAddPlannedEffort] = useState<any>({
-    open: null,
-    data: null,
-  });
-  const [dateCalendar, setDateCalendar] = useState<any>(
-    dayjs()?.startOf('week')?.format('YYYY-MM-DD'),
-  );
-  const [selected, setSelected] = useState<any>(null);
-  const [trigger, status] = useLazyGetWorkloadQuery();
-
-  useEffect(() => {
-    trigger({
-      startDate: dayjs()?.startOf('week')?.add(1, 'day')?.toISOString(),
-      endDate: dayjs()?.endOf('week')?.toISOString(),
-      userIds: selected?._id,
-      countDayWise: filter?.countDayWise,
-      countDayWiseHours: filter?.countDayWiseHours,
-      countDayWiseHoursAverage: filter?.countDayWiseHoursAverage,
-    });
-  }, [selected, filter]);
-
-  const COMPLETED = 'Done';
-  const IN_PROGRESS = 'In-Progress';
-
-  if (status?.isError) return <ApiErrorState />;
-
-  if (status?.isLoading || status?.isFetching) return <SkeletonTable />;
-
-  const dateChangeHandler = async (date: any) => {
-    setDateCalendar(date);
-    try {
-      await trigger({
-        startDate: dayjs(date)?.startOf('week')?.add(1, 'day')?.toISOString(),
-        endDate: dayjs(date)?.endOf('week')?.toISOString(),
-        userIds: selected?._id,
-        countDayWise: filter?.countDayWise,
-        countDayWiseHours: filter?.countDayWiseHours,
-        countDayWiseHoursAverage: filter?.countDayWiseHoursAverage,
-      })?.unwrap();
-
-      calendarRef?.current?.getApi()?.gotoDate(date);
-    } catch (error: any) {}
-  };
+  if (
+    status?.isLoading ||
+    status?.isFetching ||
+    statusFilter?.isLoading ||
+    statusFilter?.isFetching
+  )
+    return <SkeletonTable />;
 
   return (
     <Box className={styles?.calendarWrapper}>
@@ -121,14 +90,35 @@ export const Workload = () => {
 
       <FullCalendar
         ref={calendarRef}
-        dayHeaderContent={(data: any) => (
-          <Box sx={{ cursor: 'pointer' }}>
-            {dayjs(data?.date)?.format('ddd - DD')}
-            <Typography variant={'h6'}>
-              {data?.day?.allDayEvents?.length}
-            </Typography>
-          </Box>
-        )}
+        dayHeaderContent={(data: any) => {
+          const count = statusFilter?.data?.data?.filter(
+            (item: any) => item?.day === +dayjs(data?.date)?.format('D'),
+          );
+          const countHours = statusFilter?.data?.data?.filter(
+            (item: any) =>
+              dayjs(item?.date)?.format('D') === dayjs(data?.date)?.format('D'),
+          );
+          const hours = Math.floor(countHours?.[0]?.totalPlannedEffort / 60);
+          const minutes = countHours?.[0]?.totalPlannedEffort % 60;
+          const countHoursPercent = statusFilter?.data?.data?.filter(
+            (item: any) =>
+              dayjs(item?.date)?.format('D') === dayjs(data?.date)?.format('D'),
+          );
+          return (
+            <Box sx={{ cursor: 'pointer' }}>
+              {dayjs(data?.date)?.format('ddd - DD')}
+              <Typography variant={'h6'}>
+                {count?.[0]?.count ?? null}
+                {countHours?.[0]?.totalPlannedEffort
+                  ? `${hours}hr ${minutes}m`
+                  : null}
+                {countHoursPercent?.[0]?.averagePlannedEffort
+                  ? `${countHoursPercent?.[0]?.averagePlannedEffort}%`
+                  : null}
+              </Typography>
+            </Box>
+          );
+        }}
         headerToolbar={false}
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridWeek"
@@ -152,7 +142,7 @@ export const Workload = () => {
                 },
               }}
               title={
-                <Fragment>
+                <>
                   <Box display={'flex'} alignItems={'center'} gap={1} p={2}>
                     <CircleIcon
                       fontSize="small"
@@ -160,9 +150,9 @@ export const Workload = () => {
                         eventInfo?.event?.extendedProps?.status === COMPLETED
                           ? 'primary'
                           : eventInfo?.event?.extendedProps?.status ===
-                              IN_PROGRESS
-                            ? 'warning'
-                            : 'secondary'
+                            IN_PROGRESS
+                          ? 'warning'
+                          : 'secondary'
                       }
                     />
                     <Typography
@@ -224,7 +214,7 @@ export const Workload = () => {
                   >
                     VIEW TICKET
                   </Button>
-                </Fragment>
+                </>
               }
             >
               <Box
@@ -250,7 +240,7 @@ export const Workload = () => {
                   display={'flex'}
                   gap={0.3}
                 >
-                  {eventInfo?.event?.extendedProps?.taskNo}
+                  {eventInfo?.event?.extendedProps?.taskNo}{' '}
                   {eventInfo?.event?.extendedProps?.data?.title}
                 </Typography>
               </Box>

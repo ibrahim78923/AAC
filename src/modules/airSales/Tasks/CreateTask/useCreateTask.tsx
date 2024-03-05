@@ -1,21 +1,51 @@
 import { useAppSelector } from '@/redux/store';
-import { usePostCreateTaskMutation } from '@/services/airSales/task';
+import {
+  useGetTaskDetailsQuery,
+  usePostCreateTaskMutation,
+} from '@/services/airSales/task';
 import { useTheme } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useForm } from 'react-hook-form';
-import {
-  createTaskData,
-  createTaskDefaultValues,
-  createTaskValidationSchema,
-} from '../Task.data';
+import { createTaskData, createTaskValidationSchema } from '../Task.data';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
+import { useEffect, useState } from 'react';
 
-const useCreateTask = ({ creationMode }: any) => {
+const useCreateTask = ({ creationMode, id }: any) => {
   const theme = useTheme();
   const [postCreateTask] = usePostCreateTaskMutation();
+
+  const [defaultValues, setDefaultValues] = useState({
+    name: '',
+    type: '',
+    priority: '',
+    status: '',
+    dealsIds: '',
+    associate: '',
+    assignTo: '',
+    dueDate: null,
+    time: null,
+    reminder: '',
+    note: '',
+  });
+  const { data: taskData } = useGetTaskDetailsQuery({ id });
+  useEffect(() => {
+    setDefaultValues({
+      name: taskData?.data?.name,
+      type: '',
+      priority: '',
+      status: '',
+      dealsIds: '',
+      associate: '',
+      assignTo: '',
+      dueDate: null,
+      time: null,
+      reminder: '',
+      note: '',
+    });
+  }, [taskData?.data, creationMode]);
 
   const contactsSelectedIds = useAppSelector(
     (state: any) => state?.task?.contactsSelectedIds,
@@ -32,8 +62,9 @@ const useCreateTask = ({ creationMode }: any) => {
 
   const methodsFilter: any = useForm({
     resolver: yupResolver(createTaskValidationSchema),
-    defaultValues: createTaskDefaultValues(),
+    defaultValues: defaultValues,
   });
+
   const { handleSubmit: handleMethodFilter } = methodsFilter;
 
   const onSubmitHandler = async (values: any) => {

@@ -1,15 +1,38 @@
+import { CALENDAR_FORMAT, DATE_TIME_FORMAT } from '@/constants';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box, Button, Divider, IconButton, Typography } from '@mui/material';
 import { useTheme } from '@mui/material';
+import dayjs from 'dayjs';
 
-export const Timeline = ({ data }: any) => {
+export const Timeline = ({ data, timelineIndex }: any) => {
   const theme = useTheme();
   return (
     <>
+      {timelineIndex !== 0 && (
+        <Box
+          display={'flex'}
+          flexWrap={'wrap'}
+          alignItems={'center'}
+          gap={1.3}
+          marginBottom={1.5}
+        >
+          <Box flex={0.15}></Box>
+          <Box></Box>
+          <Divider
+            orientation="vertical"
+            sx={{
+              borderRadius: '20px',
+              background: theme?.palette?.primary?.light,
+              width: '4px',
+              height: '49px',
+            }}
+          />
+          <Box flex={0.8}></Box>
+        </Box>
+      )}
       <Box display={'flex'} flexWrap={'wrap'} gap={1.25}>
-        <Typography variant="body3" sx={{ flex: 0.15 }} pt={1}>
-          {' '}
-          {data?.name}
+        <Typography variant="body4" sx={{ flex: 0.15 }} pt={1}>
+          {dayjs(data?.startDate)?.format(DATE_TIME_FORMAT?.DDMYHMA)}
         </Typography>
         <Box>
           <IconButton
@@ -28,10 +51,16 @@ export const Timeline = ({ data }: any) => {
             color="primary"
             marginRight={0.3}
           >
-            {data?.name}
+            {data?.status}
           </Typography>
           <Typography variant="body2" fontWeight={600}>
-            {data?.description}
+            {dayjs(data?.startDate, DATE_TIME_FORMAT?.DMY)
+              ?.format(CALENDAR_FORMAT?.UI)
+              .toUpperCase()}{' '}
+            to{' '}
+            {dayjs(data?.endDate, DATE_TIME_FORMAT?.DMY)
+              ?.format(CALENDAR_FORMAT?.UI)
+              ?.toUpperCase()}
           </Typography>
           <Box
             display={'flex'}
@@ -51,7 +80,7 @@ export const Timeline = ({ data }: any) => {
                 },
               }}
             >
-              Cost: {data?.name}
+              Cost: {data?.cost}
             </Button>
             <Button
               size="small"
@@ -69,26 +98,6 @@ export const Timeline = ({ data }: any) => {
             </Button>
           </Box>
         </Box>
-      </Box>
-      <Box
-        display={'flex'}
-        flexWrap={'wrap'}
-        alignItems={'center'}
-        gap={1.3}
-        marginBottom={1.5}
-      >
-        <Box flex={0.15}></Box>
-        <Box></Box>
-        <Divider
-          orientation="vertical"
-          sx={{
-            borderRadius: '20px',
-            background: theme?.palette?.primary?.light,
-            width: '4px',
-            height: '49px',
-          }}
-        />
-        <Box flex={0.8}></Box>
       </Box>
     </>
   );

@@ -79,7 +79,11 @@ const Notes = () => {
               <Typography variant="body3">
                 There are no notes available{' '}
               </Typography>
-              <Button variant="contained" sx={{ height: '35px' }}>
+              <Button
+                variant="contained"
+                sx={{ height: '35px' }}
+                onClick={() => setOpenDrawer('Add')}
+              >
                 <PlusIcon /> Add Notes
               </Button>
             </Box>

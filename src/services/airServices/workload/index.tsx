@@ -18,8 +18,8 @@ const TransformResponse = (response: any) =>
       item?.status === COMPLETED
         ? styles?.completed
         : item?.status === IN_PROGRESS
-          ? styles?.inprogress
-          : styles?.toDo,
+        ? styles?.inprogress
+        : styles?.toDo,
     extendedProps: {
       data: { ...item },
       status: item?.status,
@@ -45,6 +45,15 @@ export const workloadAPI = baseAPI.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => TransformResponse(response),
+      providesTags: [TAG],
+    }),
+
+    getWorkloadFilter: builder.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.WORKLOAD}`,
+        method: 'GET',
+        params,
+      }),
       providesTags: [TAG],
     }),
 
@@ -85,6 +94,7 @@ export const workloadAPI = baseAPI.injectEndpoints({
 
 export const {
   useLazyGetWorkloadQuery,
+  useLazyGetWorkloadFilterQuery,
   useGetWorkloadQuery,
   useLazyGetAssignToQuery,
   useLazyGetDepartmentDropdownQuery,

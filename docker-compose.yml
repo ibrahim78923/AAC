@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile
       context: .
       target: runner
+    restart: always
     env_file:
       - .env
     ports:
