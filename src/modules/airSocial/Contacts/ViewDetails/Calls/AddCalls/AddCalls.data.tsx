@@ -6,26 +6,27 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const dealsCallsValidationSchema = Yup?.object()?.shape({
+export const addCallValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Field is Required'),
   description: Yup?.string()?.trim()?.required('Field is Required'),
   attachfile: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
-export const dealsCallsDefaultValues = {
+export const addCallDefaultValues = {
   title: '',
   description: '',
   attachfile: '',
   owner: '',
 };
 
-export const contactCallsDataArray = [
+export const addCallFormData = [
   {
     id: 'title',
     componentProps: {
       name: 'title',
       label: 'Title',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,

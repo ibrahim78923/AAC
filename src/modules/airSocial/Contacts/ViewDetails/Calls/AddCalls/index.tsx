@@ -10,39 +10,31 @@ import {
   RHFSelect,
 } from '@/components/ReactHookForm';
 
-import useCallsEditorDrawer from './useCallsEditorDrawer';
-import {
-  contactCallsDataArray,
-  drawerButtonTitle,
-  drawerTitle,
-} from './CallsEditorDrawer.data';
+import { addCallFormData } from './AddCalls.data';
 
 import { avatarGroupMockData } from '@/modules/superAdmin/PlanManagement/PlanManagement.data';
 import { options } from '../../Emails/EmailEditorDrawer/EmailEditorDrawer.data';
 
 import { AttendeeAvatarImage } from '@/assets/images';
 
-const CallsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
-  const { handleSubmit, onSubmit, methodsdealsCalls } = useCallsEditorDrawer();
+const AddCall = (props: any) => {
+  const { openDrawer, onClose, methods, onSubmit } = props;
 
   return (
     <div>
       <CommonDrawer
         isDrawerOpen={openDrawer}
-        onClose={() => setOpenDrawer('')}
-        title={drawerTitle[openDrawer]}
-        okText={drawerButtonTitle[openDrawer]}
+        onClose={onClose}
+        title={'Add Call'}
+        okText={'Save'}
         isOk={true}
-        footer={openDrawer === 'View' ? false : true}
+        footer={true}
+        submitHandler={onSubmit}
       >
         <Box sx={{ pt: 2 }}>
-          <FormProvider
-            methods={methodsdealsCalls}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methods}>
             <Grid container spacing={'22px'}>
-              {contactCallsDataArray?.map((item: any) => (
+              {addCallFormData?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
@@ -84,7 +76,7 @@ const CallsEditorDrawer = (props: any) => {
                 <AppAvatarGroup data={avatarGroupMockData} />
               </Grid>
               <Grid item xs={12}>
-                <RHFSelect name="template" label="Template" size="small">
+                <RHFSelect name="outcome" label="Outcome" size="small">
                   {options?.map((option: any) => (
                     <option key={option?.value} value={option?.value}>
                       {option?.label}
@@ -93,7 +85,7 @@ const CallsEditorDrawer = (props: any) => {
                 </RHFSelect>
               </Grid>
               <Grid item xs={12}>
-                <RHFEditor label="Meeting Notes" name="meeeting_notes" />
+                <RHFEditor label="Meeting Notes" name="notes" required />
               </Grid>
             </Grid>
           </FormProvider>
@@ -103,4 +95,4 @@ const CallsEditorDrawer = (props: any) => {
   );
 };
 
-export default CallsEditorDrawer;
+export default AddCall;

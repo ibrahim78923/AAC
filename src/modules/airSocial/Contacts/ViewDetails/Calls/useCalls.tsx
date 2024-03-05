@@ -2,12 +2,17 @@ import { useState } from 'react';
 
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
-import { useGetCallsQuery } from '@/services/commonFeatures/contact-calls';
+import {
+  useGetCallsQuery,
+  usePostCallMutation,
+} from '@/services/commonFeatures/contact-calls';
+import { useForm } from 'react-hook-form';
+import { enqueueSnackbar } from 'notistack';
 
 const useCalls = () => {
-  // const [selectedRow, setSelectedRow]: any = useState([]);
-  // const [isActionsDisabled, setIsActionsDisabled] = useState(true);
-  // const [rowId, setRowId] = useState(null);
+  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
+  const [rowId, setRowId] = useState(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   // const defaultParams = {
@@ -47,7 +52,37 @@ const useCalls = () => {
   };
 
   const theme = useTheme();
-  const [openDrawer, setOpenDrawer] = useState('');
+
+  // Add FAQ
+  const [postAddCall, { isLoading: loadingAddCall }] = usePostCallMutation();
+  const [openDrawerAddCall, setOpenDrawerAddCall] = useState(false);
+  const methodsAddCall = useForm({});
+
+  const { handleSubmit: handleMethodAddCall, reset: resetAddCallForm } =
+    methodsAddCall;
+
+  const handleOpenDrawerAddCall = () => {
+    setOpenDrawerAddCall(true);
+  };
+  const handleCloseDrawerAddCall = () => {
+    setOpenDrawerAddCall(false);
+    resetAddCallForm();
+  };
+
+  const onSubmitAddCall = async (values: any) => {
+    try {
+      await postAddCall({ body: values })?.unwrap();
+      handleCloseDrawerAddCall();
+      enqueueSnackbar('FAQ added successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+  const handleAddCallSubmit = handleMethodAddCall(onSubmitAddCall);
 
   return {
     actionMenuOpen,
@@ -56,11 +91,22 @@ const useCalls = () => {
     loadingGetCalls,
     dataGetCalls,
     setPageLimit,
+    setPage,
     handlePageChange,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
 
     theme,
-    openDrawer,
-    setOpenDrawer,
+    loadingAddCall,
+    openDrawerAddCall,
+    methodsAddCall,
+    handleOpenDrawerAddCall,
+    handleCloseDrawerAddCall,
+    handleAddCallSubmit,
   };
 };
 

@@ -13,7 +13,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 const CallsActionDropdown = (props: any) => {
-  const { setOpenDrawer } = props;
+  const { setOpenDrawer, isActionsDisabled } = props;
   const {
     theme,
     isMenuOpen,
@@ -51,6 +51,7 @@ const CallsActionDropdown = (props: any) => {
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
+        disabled={isActionsDisabled}
       >
         Action
       </Button>

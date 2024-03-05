@@ -4,7 +4,6 @@ import TanstackTable from '@/components/Table/TanstackTable';
 
 import { callsDetails, callsStatusColor, columns } from './Calls.data';
 
-import CallsEditorDrawer from './CallsEditorDrawer';
 import CallsActionDropdown from './CallsActionDropDown';
 
 import useCalls from './useCalls';
@@ -14,15 +13,36 @@ import { PlusSharedIcon, ViewCallIcon } from '@/assets/icons';
 import { styles } from './Calls.style';
 
 import { isNullOrEmpty } from '@/utils';
+import AddCall from './AddCalls';
 
 const Calls = () => {
   const {
     dataGetCalls,
+    loadingGetCalls,
+    setPageLimit,
+    setPage,
+    handlePageChange,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    // rowId,
 
-    openDrawer,
-    setOpenDrawer,
+    openDrawerAddCall,
+    methodsAddCall,
+    handleOpenDrawerAddCall,
+    handleCloseDrawerAddCall,
+    handleAddCallSubmit,
     theme,
   } = useCalls();
+
+  const callsTableColumns = columns(
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    setRowId,
+  );
 
   return (
     <Box
@@ -46,7 +66,7 @@ const Calls = () => {
         <Grid item xs={12}>
           <Box sx={styles?.callsSpacingBetween}>
             <Typography variant="h4"> Calls</Typography>
-            {!isNullOrEmpty(dataGetCalls?.data?.contactscalls) && (
+            {!isNullOrEmpty(dataGetCalls?.data?.contactcalls) && (
               <Box
                 sx={{
                   gap: 1,
@@ -55,11 +75,11 @@ const Calls = () => {
                   alignItems: 'center',
                 }}
               >
-                <CallsActionDropdown setOpenDrawer={setOpenDrawer} />
+                <CallsActionDropdown isActionsDisabled={isActionsDisabled} />
                 <Button
                   variant="contained"
                   sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-                  onClick={() => setOpenDrawer('Add')}
+                  onClick={handleOpenDrawerAddCall}
                 >
                   <PlusSharedIcon /> Add Calls
                 </Button>
@@ -67,7 +87,7 @@ const Calls = () => {
             )}
           </Box>
         </Grid>
-        {isNullOrEmpty(dataGetCalls?.data?.contactscalls) && (
+        {isNullOrEmpty(dataGetCalls?.data?.contactcalls) && (
           <Grid item xs={12}>
             <Box sx={styles?.noCallsBox}>
               <ViewCallIcon />
@@ -80,26 +100,35 @@ const Calls = () => {
               <Button
                 variant="contained"
                 sx={{ height: '35px' }}
-                onClick={() => setOpenDrawer('Add')}
+                onClick={handleOpenDrawerAddCall}
               >
                 <PlusSharedIcon /> Add Calls
               </Button>
             </Box>
           </Grid>
         )}
-        {!isNullOrEmpty(dataGetCalls?.data?.contactscalls) && (
+        {!isNullOrEmpty(dataGetCalls?.data?.contactcalls) && (
           <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
             <TanstackTable
-              columns={columns}
-              data={dataGetCalls?.data?.contactscalls}
+              columns={callsTableColumns}
+              data={dataGetCalls?.data?.contactcalls}
+              isLoading={loadingGetCalls}
+              isPagination={true}
+              count={dataGetCalls?.data?.meta?.pages}
+              totalRecords={dataGetCalls?.data?.meta?.total}
+              onPageChange={handlePageChange}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
             />
           </Grid>
         )}
       </Grid>
 
-      <CallsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
+      <AddCall
+        openDrawer={openDrawerAddCall}
+        onClose={handleCloseDrawerAddCall}
+        methods={methodsAddCall}
+        onSubmit={handleAddCallSubmit}
       />
     </Box>
   );
