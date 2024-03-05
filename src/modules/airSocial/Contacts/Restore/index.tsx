@@ -53,6 +53,7 @@ const Restore = () => {
     setIsActionsDisabled,
     setRowId,
   );
+
   return (
     <>
       <Box
