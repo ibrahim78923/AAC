@@ -4,11 +4,30 @@ import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Search from '@/components/Search';
-// import { useState } from 'react';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { useGetPermissionsRoleQuery } from '@/services/airServices/settings/user-management/roles';
+import { useState } from 'react';
+import ApiErrorState from '@/components/ApiErrorState';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { PAGINATION } from '@/config';
 
 export const Roles = () => {
   const router: any = useRouter();
-  // const [searchValue, setSearchValue] = useState<any>('');
+  const [searchValue, setSearchValue] = useState<any>('');
+
+  const [page, setPage] = useState(PAGINATION?.PAGE_COUNT);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
+  const { data, isLoading, isFetching, isError } = useGetPermissionsRoleQuery({
+    page: page,
+    limit: pageLimit,
+    search: searchValue,
+  });
+
+  if (isError) return <ApiErrorState />;
+
+  if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
     <>
@@ -29,14 +48,17 @@ export const Roles = () => {
           <Typography variant="h3">Roles</Typography>
         </Box>
 
-        <Search
-          label="Search Here"
-          width={'16.25rem'}
-          // setSearchBy={setSearchValue}
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.SEARCH_ROLES,
+            '65e0582afafa591831a18cef',
+          ]}
+        >
+          <Search label="Search Here" setSearchBy={setSearchValue} />
+        </PermissionsGuard>
       </Box>
 
-      <RolesCards />
+      <RolesCards data={data} setPage={setPage} setPageLimit={setPageLimit} />
     </>
   );
 };

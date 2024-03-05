@@ -1,38 +1,186 @@
-import { Box, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Divider,
+  Grid,
+  Popover,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { AddRoleIcon } from '@/assets/icons';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { useState } from 'react';
+import CustomPagination from '@/components/CustomPagination';
 
-const RolesCards = () => {
+const RolesCards = ({ data, setPage, setPageLimit }: any) => {
   const router: any = useRouter();
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  // const [roleId, setRoleId] = useState<any>(null);
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
+  const theme: any = useTheme();
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} md={6} xl={4}>
-        <Box
-          width={'100%'}
-          border={1}
-          borderColor={'grey.0'}
-          borderRadius={2}
-          p={3}
-          height={'100%'}
-          sx={{ cursor: 'pointer' }}
-          onClick={() => router?.push(AIR_SERVICES?.USER_UPSERT_ROLES_SETTINGS)}
+    <>
+      <Grid container spacing={2}>
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_NEW_ROLE,
+            '65e0582afafa591831a18cef',
+          ]}
         >
-          <Box
-            display={'flex'}
-            justifyContent={'space-between'}
-            height={'100%'}
-          >
-            <Typography variant="h5">Add New</Typography>
+          <Grid item xs={12} md={6} xl={4}>
+            <Box
+              width={'100%'}
+              border={1}
+              borderColor={'grey.0'}
+              borderRadius={2}
+              p={3}
+              height={'100%'}
+              sx={{ cursor: 'pointer' }}
+              onClick={() =>
+                router?.push(AIR_SERVICES?.USER_UPSERT_ROLES_SETTINGS)
+              }
+            >
+              <Box
+                display={'flex'}
+                justifyContent={'space-between'}
+                height={'100%'}
+              >
+                <Typography variant="h5">Add New</Typography>
 
-            <Box height={'100%'} display={'flex'} alignItems={'end'}>
-              <AddRoleIcon />
+                <Box height={'100%'} display={'flex'} alignItems={'end'}>
+                  <AddRoleIcon />
+                </Box>
+              </Box>
             </Box>
-          </Box>
-        </Box>
+          </Grid>
+        </PermissionsGuard>
+
+        {data?.data?.companyaccountroles?.map((item: any) => (
+          <Grid item xs={12} md={6} xl={4} key={item?._id}>
+            <Box
+              width={'100%'}
+              border={1}
+              borderColor={'grey.0'}
+              borderRadius={2}
+              p={3}
+              height={'100%'}
+            >
+              <Box display={'flex'} justifyContent={'space-between'} mb={1}>
+                <Typography variant="h5">{item?.name}</Typography>
+
+                <Box>
+                  <MoreHorizIcon
+                    onClick={(event: any) => {
+                      event.stopPropagation();
+                      setAnchorEl(event?.currentTarget);
+                      // setRoleId(item?._id);
+                    }}
+                    sx={{ cursor: 'pointer', color: 'grey.600' }}
+                  />
+                </Box>
+              </Box>
+
+              <Box
+                dangerouslySetInnerHTML={{ __html: item?.description }}
+                color={'custom.mulled_wine'}
+              />
+              <Divider sx={{ my: 2 }} />
+            </Box>
+          </Grid>
+        ))}
+
+        <Grid item xs={12}>
+          <CustomPagination
+            count={data?.data?.meta?.pages}
+            pageLimit={data?.data?.meta?.limit}
+            currentPage={data?.data?.meta?.page}
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            totalRecords={data?.data?.meta?.total}
+          />
+        </Grid>
       </Grid>
-    </Grid>
+
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={() => {
+          setAnchorEl(null);
+          // setRoleId(null);
+        }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        sx={{
+          '& .MuiPopover-paper': { borderRadius: 3, width: '9rem' },
+        }}
+      >
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_ROLE,
+            '65e0582afafa591831a18cef',
+          ]}
+        >
+          <Typography
+            sx={{
+              px: 2,
+              py: 1,
+              cursor: 'pointer',
+              '&:hover': {
+                bgcolor: theme?.palette?.grey?.[700],
+              },
+            }}
+            onClick={() => {
+              setAnchorEl(null);
+              router?.push({
+                path: AIR_SERVICES?.USER_UPSERT_ROLES_SETTINGS,
+                query: { roleId: '1' },
+              });
+              // setRoleId(null);
+            }}
+          >
+            Edit
+          </Typography>
+        </PermissionsGuard>
+
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.DELETE_ROLE,
+            '65e0582afafa591831a18cef',
+          ]}
+        >
+          <Typography
+            sx={{
+              px: 2,
+              py: 1,
+              cursor: 'pointer',
+              '&:hover': {
+                bgcolor: theme?.palette?.grey?.[700],
+              },
+            }}
+            onClick={() => {
+              setAnchorEl(null);
+              // setRoleId(null);
+            }}
+          >
+            Delete
+          </Typography>
+        </PermissionsGuard>
+      </Popover>
+    </>
   );
 };
 
