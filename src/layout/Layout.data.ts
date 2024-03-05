@@ -780,7 +780,7 @@ const ROLES_ROUTES: any = {
   SUPER_ADMIN: SuperAdminRoutes,
   ORG_EMPLOYEE: SalesRoutes,
   'Air Services': ServicesRoutes,
-  'Org Admin': OrgAdminRoutes,
+  ORG_ADMIN: OrgAdminRoutes,
   'Customer Portal': CustomerPortalRoutes,
   'Air Operations': AirOperationsRoutes,
   'Air Marketer': AirMarketingRoutes,
