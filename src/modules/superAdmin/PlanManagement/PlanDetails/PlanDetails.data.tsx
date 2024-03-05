@@ -65,7 +65,7 @@ export const PlanDetailsDataColumnFunction: any = (
           color="primary"
           checked={
             info?.cell?.row?.original?._id ===
-              tableRowValues?.cell?.row?.original?._id && isDisabled
+              tableRowValues?.cell?.row?.original?._id && !isDisabled
           }
           name={info.getValue()}
           onClick={() => {
