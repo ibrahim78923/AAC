@@ -30,7 +30,6 @@ const RolesCards = ({ data, setPage, setPageLimit }: any) => {
         <PermissionsGuard
           permissions={[
             AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_NEW_ROLE,
-            '65e0582afafa591831a18cef',
           ]}
         >
           <Grid item xs={12} md={6} xl={4}>
@@ -131,7 +130,6 @@ const RolesCards = ({ data, setPage, setPageLimit }: any) => {
         <PermissionsGuard
           permissions={[
             AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_ROLE,
-            '65e0582afafa591831a18cef',
           ]}
         >
           <Typography
@@ -146,7 +144,7 @@ const RolesCards = ({ data, setPage, setPageLimit }: any) => {
             onClick={() => {
               setAnchorEl(null);
               router?.push({
-                path: AIR_SERVICES?.USER_UPSERT_ROLES_SETTINGS,
+                pathname: AIR_SERVICES?.USER_UPSERT_ROLES_SETTINGS,
                 query: { roleId: '1' },
               });
               // setRoleId(null);
@@ -159,7 +157,6 @@ const RolesCards = ({ data, setPage, setPageLimit }: any) => {
         <PermissionsGuard
           permissions={[
             AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.DELETE_ROLE,
-            '65e0582afafa591831a18cef',
           ]}
         >
           <Typography

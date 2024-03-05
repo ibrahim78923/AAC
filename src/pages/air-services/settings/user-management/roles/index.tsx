@@ -11,10 +11,7 @@ export default RolesPage;
 RolesPage.getLayout = function getLayout(page: any) {
   return (
     <Layout
-      permissions={[
-        Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT_ROLES,
-        '65e0582afafa591831a18cef',
-      ]}
+      permissions={[Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT_ROLES]}
     >
       {page}
     </Layout>
