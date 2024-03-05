@@ -22,7 +22,7 @@ import { TodoIcon } from '@/assets/icons';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { UpdateWorkloadTask } from './UpdateWorkloadTask';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES, DATE_TIME_FORMAT } from '@/constants';
 import useWorkload from './useWorkload';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_WORKLOAD_CALENDER_VIEW_PERMISSIONS } from '@/constants/permission-keys';
@@ -31,6 +31,7 @@ export const Workload = () => {
   const {
     status,
     statusFilter,
+    zeroIndex,
     dateChangeHandler,
     dateCalendar,
     selected,
@@ -117,30 +118,33 @@ export const Workload = () => {
           ref={calendarRef}
           dayHeaderContent={(data: any) => {
             const count = statusFilter?.data?.data?.filter(
-              (item: any) => item?.day === +dayjs(data?.date)?.format('D'),
+              (item: any) =>
+                item?.day === +dayjs(data?.date)?.format(DATE_TIME_FORMAT?.D),
             );
             const countHours = statusFilter?.data?.data?.filter(
               (item: any) =>
-                dayjs(item?.date)?.format('D') ===
-                dayjs(data?.date)?.format('D'),
+                dayjs(item?.date)?.format(DATE_TIME_FORMAT?.D) ===
+                dayjs(data?.date)?.format(DATE_TIME_FORMAT?.D),
             );
-            const hours = Math.floor(countHours?.[0]?.totalPlannedEffort / 60);
-            const minutes = countHours?.[0]?.totalPlannedEffort % 60;
+            const hours = Math.floor(
+              countHours?.[zeroIndex]?.totalPlannedEffort / 60,
+            );
+            const minutes = countHours?.[zeroIndex]?.totalPlannedEffort % 60;
             const countHoursPercent = statusFilter?.data?.data?.filter(
               (item: any) =>
-                dayjs(item?.date)?.format('D') ===
-                dayjs(data?.date)?.format('D'),
+                dayjs(item?.date)?.format(DATE_TIME_FORMAT?.D) ===
+                dayjs(data?.date)?.format(DATE_TIME_FORMAT?.D),
             );
             return (
               <Box sx={{ cursor: 'pointer' }}>
-                {dayjs(data?.date)?.format('ddd - DD')}
+                {dayjs(data?.date)?.format(DATE_TIME_FORMAT?.DDDDDD)}
                 <Typography variant={'h6'}>
-                  {count?.[0]?.count ?? null}
-                  {countHours?.[0]?.totalPlannedEffort
+                  {count?.[zeroIndex]?.count ?? null}
+                  {countHours?.[zeroIndex]?.totalPlannedEffort
                     ? `${hours}hr ${minutes}m`
                     : null}
-                  {countHoursPercent?.[0]?.averagePlannedEffort
-                    ? `${countHoursPercent?.[0]?.averagePlannedEffort}%`
+                  {countHoursPercent?.[zeroIndex]?.averagePlannedEffort
+                    ? `${countHoursPercent?.[zeroIndex]?.averagePlannedEffort}%`
                     : null}
                 </Typography>
               </Box>
@@ -208,11 +212,11 @@ export const Workload = () => {
                       pb={2}
                     >
                       {dayjs(eventInfo?.event?.start)?.format(
-                        'DD MMM, YYYY hh:MM A',
+                        DATE_TIME_FORMAT?.DDMMYYYY,
                       )}{' '}
                       -{' '}
                       {dayjs(eventInfo?.event?.end)?.format(
-                        'DD MMM, YYYY hh:MM A',
+                        DATE_TIME_FORMAT?.DDMMYYYY,
                       )}
                     </Typography>
                     <Divider />
