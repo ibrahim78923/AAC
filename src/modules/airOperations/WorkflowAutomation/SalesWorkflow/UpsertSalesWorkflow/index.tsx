@@ -6,6 +6,8 @@ import { WorkflowSchedule } from './WorkflowSchedule';
 import { WorkflowHeader } from './WorkflowHeader';
 import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 
 export const UpsertSalesWorkflow = () => {
   const {
@@ -27,11 +29,17 @@ export const UpsertSalesWorkflow = () => {
       >
         <WorkflowHeader watch={watch} />
         <Grid container>
-          <WorkflowSchedule
-            register={register}
-            watch={watch}
-            setValue={setValue}
-          />
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.SCHEDULE,
+            ]}
+          >
+            <WorkflowSchedule
+              register={register}
+              watch={watch}
+              setValue={setValue}
+            />
+          </PermissionsGuard>
           <WorkflowRunAndTrigger palette={palette} register={register} />
         </Grid>
         <WorkflowConditions

@@ -4,6 +4,7 @@ import { useSalesWorkflow } from './useSalesWorkflow';
 import { salesWorkflowListsData } from './SalesWorkflow.data';
 import { SalesWorkflowSubHeader } from './SalesWorkflowSubHeader';
 import { DeleteSalesWorkflow } from './DeleteSalesWorkflow';
+import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 
 export const SalesWorkflow = () => {
   const {
@@ -27,6 +28,9 @@ export const SalesWorkflow = () => {
         canMovedBack
         moveBack={handleBack}
         handleAction={handleCreateWorkflow}
+        createPermissionKey={
+          AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.ADD_CONDITION
+        }
       />
       <br />
       <SalesWorkflowSubHeader

@@ -3,6 +3,8 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { AntSwitch } from '@/components/AntSwitch';
 import { AIR_OPERATIONS } from '@/constants';
+import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const salesWorkflowActionDropdownDynamic = (
   selectedSalesWorkflowLists: any,
@@ -24,6 +26,8 @@ export const salesWorkflowActionDropdownDynamic = (
       });
       closeMenu?.();
     },
+    permissionKey:
+      AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.EDIT_WORKFLOW,
   },
   {
     title: 'Clone',
@@ -33,6 +37,7 @@ export const salesWorkflowActionDropdownDynamic = (
       });
       closeMenu?.();
     },
+    permissionKey: AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.CLONE,
   },
   {
     title: 'Delete',
@@ -40,6 +45,7 @@ export const salesWorkflowActionDropdownDynamic = (
       setDeleteWorkflow(true);
       closeMenu?.();
     },
+    permissionKey: AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.DELETE,
   },
 ];
 
@@ -179,7 +185,15 @@ export const salesWorkflowListsColumnDynamic: any = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => <AntSwitch values={info?.getValue()} />,
+      cell: (info: any) => (
+        <PermissionsGuard
+          permissions={[
+            AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.ACTIVE_INACTIVE_WORKFLOW,
+          ]}
+        >
+          <AntSwitch values={info?.getValue()} />
+        </PermissionsGuard>
+      ),
     },
   ];
 };
