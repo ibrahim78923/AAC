@@ -1,5 +1,5 @@
 import { DATE_FORMAT } from '@/constants';
-import { Checkbox } from '@mui/material';
+import { Box, Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
 
 export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
@@ -47,11 +47,15 @@ export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
     },
 
     {
-      accessorFn: (row: any) => row?.assignTo,
+      accessorFn: (row: any) => row?.assignTo?.firstName,
       id: 'assignedTo',
       isSortable: true,
       header: 'Assigned To',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Box>
+          {`${info?.row?.original?.assignTo?.firstName} ${info?.row?.original?.assignTo?.lastName}`}{' '}
+        </Box>
+      ),
     },
   ];
 };

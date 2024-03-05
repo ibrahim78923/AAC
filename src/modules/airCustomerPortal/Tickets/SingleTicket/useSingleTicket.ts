@@ -1,22 +1,27 @@
-import { enqueueSnackbar } from 'notistack';
-import { useState } from 'react';
+import { useLazyGetCustomerPortalTicketsByIdQuery } from '@/services/airCustomerPortal/Tickets';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 export const useSingleTicket = () => {
-  const [status, setStatus] = useState(false);
+  const [status] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
-
-  const onSubmit = async () => {
-    enqueueSnackbar('The ticket has been closed', {
-      variant: 'success',
-      autoHideDuration: 3000,
-    });
-    setStatus(true);
-  };
+  const router = useRouter();
+  const ticketId = router?.query?.id;
+  const [lazyGetTicketsTriggerById, { data }] =
+    useLazyGetCustomerPortalTicketsByIdQuery();
+  useEffect(() => {
+    const handleGetTicket = async () => {
+      await lazyGetTicketsTriggerById(ticketId);
+    };
+    handleGetTicket();
+  }, [ticketId]);
+  const singleTicketData = data?.data?.find((item: any) => item);
 
   return {
     status,
     openPopup,
     setOpenPopup,
-    onSubmit,
+    ticketId,
+    singleTicketData,
   };
 };

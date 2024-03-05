@@ -15,18 +15,39 @@ import {
 import { CompanyLogoIcon } from '@/assets/icons';
 import { LoginDashboardImage } from '@/assets/images';
 import { styles } from './ForgetPassword.style';
+import { useForgotPasswordMutation } from '@/services/auth';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const ForgetPassword = () => {
   const [isEmailSuccess, setIsEmailSuccess] = useState<boolean>(false);
   const theme = useTheme();
+  const [forgotPassword] = useForgotPasswordMutation();
 
   const forgetPasswordForm = useForm({
     resolver: yupResolver(forgetPasswordValidationSchema),
     defaultValues: forgetPasswordDefaultValues,
   });
 
-  const onSubmit = () => {
-    setIsEmailSuccess(true);
+  const onSubmit = async (values: any) => {
+    const payload = {
+      email: values?.email,
+    };
+    try {
+      await forgotPassword(payload)?.unwrap();
+      enqueueSnackbar(
+        'Password reset email has been sent to registered email',
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
+      setIsEmailSuccess(true);
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      enqueueSnackbar(errMsg ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
   const { handleSubmit } = forgetPasswordForm;
@@ -72,7 +93,7 @@ const ForgetPassword = () => {
               </Typography>
             )}
 
-            <Box onSubmit={handleSubmit(onSubmit)} style={styles.formStyling}>
+            <Box style={styles.formStyling}>
               {isEmailSuccess ? (
                 <>
                   <Typography variant="h3" sx={{ textAlign: 'center' }}>

@@ -170,7 +170,7 @@ export const DetailCard = () => {
               variant="body2"
               sx={{ color: 'primary.main', textDecoration: 'underline' }}
             >
-              {detail?.association ?? 'Deals'}
+              {detail?.data?.[0]?.associateAssetsDetails?.[0]?.displayName}
             </Typography>
           </Box>
         </Grid>

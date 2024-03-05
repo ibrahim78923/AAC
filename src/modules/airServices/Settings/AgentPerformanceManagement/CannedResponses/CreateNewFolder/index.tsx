@@ -20,6 +20,7 @@ export const CreateNewFolder = (props: any) => {
     openCreateNewFolderModal,
     closeCreateNewFolderModal,
     postCannedResponseStatus,
+    patchCannedResponseStatus,
   } = useCreateNewFolder(props);
   return (
     <>
@@ -79,7 +80,10 @@ export const CreateNewFolder = (props: any) => {
                 </LoadingButton>
                 <LoadingButton
                   type="submit"
-                  loading={postCannedResponseStatus?.isLoading}
+                  loading={
+                    postCannedResponseStatus?.isLoading ||
+                    patchCannedResponseStatus?.isLoading
+                  }
                   variant="contained"
                   color="primary"
                 >

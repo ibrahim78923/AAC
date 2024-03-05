@@ -39,7 +39,6 @@ export const contractAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: deleteContractParameter?.queryParams,
       }),
-      invalidatesTags: [TAG],
     }),
     getContractTypeDropdown: builder?.query({
       query: ({ params }: any) => ({
@@ -131,6 +130,14 @@ export const contractAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_FIVE],
     }),
+    patchContractSubmitForApproval: builder?.mutation({
+      query: (patchContractSubmitForApprovalParameter: any) => ({
+        url: `${END_POINTS?.UPDATE_CONTRACT_SUBMIT_APPROVAL}/${patchContractSubmitForApprovalParameter?.pathParam?.contractId}`,
+        method: 'PATCH',
+        body: patchContractSubmitForApprovalParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -148,4 +155,5 @@ export const {
   useLazyGetSoftwareDropdownQuery,
   useLazyGetAgentsDropdownQuery,
   useGetSingleContractByIdQuery,
+  usePatchContractSubmitForApprovalMutation,
 } = contractAPI;

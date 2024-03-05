@@ -114,13 +114,13 @@ const CreateTemplatesForm = () => {
                             index === 4 && headerValue === 'GiftCard'
                               ? '0px !important'
                               : (index === 4 || index === 3) &&
-                                (headerValue === 'Loyalty Token' ||
-                                  headerValue === 'Credits' ||
-                                  headerValue === 'Voucher')
-                              ? '0px !important'
-                              : index != 0
-                              ? '20px !important'
-                              : '20px !important',
+                                  (headerValue === 'Loyalty Token' ||
+                                    headerValue === 'Credits' ||
+                                    headerValue === 'Voucher')
+                                ? '0px !important'
+                                : index != 0
+                                  ? '20px !important'
+                                  : '20px !important',
                           paddingLeft:
                             (index === 9 || index === 10) && '10px !important',
                         }}
@@ -280,8 +280,8 @@ const CreateTemplatesForm = () => {
                                 index === 0
                                   ? '100%'
                                   : index === 1
-                                  ? '50%'
-                                  : '33%',
+                                    ? '50%'
+                                    : '33%',
                               height: '20px',
                               marginLeft: index !== 0 ? '2px' : '0',
                             }}

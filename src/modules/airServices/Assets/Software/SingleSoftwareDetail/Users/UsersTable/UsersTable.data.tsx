@@ -48,7 +48,7 @@ export const usersTableColumns = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.details,
+    accessorFn: (row: any) => row?.userName,
     id: 'Name',
     cell: (info: any) => (
       <Box fontWeight={700}>
@@ -80,21 +80,21 @@ export const usersTableColumns = (
     cell: (info: any) => info?.getValue() ?? '__',
   },
   {
-    accessorFn: (row: any) => row?.details?.createdAt,
+    accessorFn: (row: any) => row?.data?.createdAt,
     id: 'createdAt',
     isSortable: true,
     header: 'First Seen',
     cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
   },
   {
-    accessorFn: (row: any) => row?.details?.updatedAt,
+    accessorFn: (row: any) => row?.data?.updatedAt,
     id: 'updatedAt',
     isSortable: true,
     header: 'Last Seen',
     cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
   },
   {
-    accessorFn: (row: any) => row?.createdAt,
+    accessorFn: (row: any) => row?.data?.createdAt,
     id: 'createdAt',
     isSortable: true,
     header: 'Assigned Date',
