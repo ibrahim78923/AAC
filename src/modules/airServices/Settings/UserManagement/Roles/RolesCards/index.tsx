@@ -16,6 +16,8 @@ import { useState } from 'react';
 import CustomPagination from '@/components/CustomPagination';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import NoData from '@/components/NoData';
+import { AssociationsImage } from '@/assets/images';
 
 const RolesCards = ({
   data,
@@ -73,40 +75,50 @@ const RolesCards = ({
           </Grid>
         </PermissionsGuard>
 
-        {data?.data?.companyaccountroles?.map((item: any) => (
-          <Grid item xs={12} md={6} xl={4} key={item?._id}>
-            <Box
-              width={'100%'}
-              border={1}
-              borderColor={'grey.0'}
-              borderRadius={2}
-              p={3}
-              height={'100%'}
-              overflow={'hidden'}
-            >
-              <Box display={'flex'} justifyContent={'space-between'} mb={1}>
-                <Typography variant="h5">{item?.name}</Typography>
-
-                <Box>
-                  <MoreHorizIcon
-                    onClick={(event: any) => {
-                      event.stopPropagation();
-                      setAnchorEl(event?.currentTarget);
-                      setRoleId(item?._id);
-                    }}
-                    sx={{ cursor: 'pointer', color: 'grey.600' }}
-                  />
-                </Box>
-              </Box>
-
+        {data?.data?.companyaccountroles?.length ? (
+          data?.data?.companyaccountroles?.map((item: any) => (
+            <Grid item xs={12} md={6} xl={4} key={item?._id}>
               <Box
-                dangerouslySetInnerHTML={{ __html: item?.description }}
-                color={'custom.mulled_wine'}
-              />
-              <Divider sx={{ my: 2 }} />
-            </Box>
+                width={'100%'}
+                border={1}
+                borderColor={'grey.0'}
+                borderRadius={2}
+                p={3}
+                height={'100%'}
+                overflow={'hidden'}
+              >
+                <Box display={'flex'} justifyContent={'space-between'} mb={1}>
+                  <Typography variant="h5">{item?.name}</Typography>
+
+                  <Box>
+                    <MoreHorizIcon
+                      onClick={(event: any) => {
+                        event.stopPropagation();
+                        setAnchorEl(event?.currentTarget);
+                        setRoleId(item?._id);
+                      }}
+                      sx={{ cursor: 'pointer', color: 'grey.600' }}
+                    />
+                  </Box>
+                </Box>
+
+                <Box
+                  dangerouslySetInnerHTML={{ __html: item?.description }}
+                  color={'custom.mulled_wine'}
+                />
+                <Divider sx={{ my: 2 }} />
+              </Box>
+            </Grid>
+          ))
+        ) : (
+          <Grid item xs={12}>
+            <NoData
+              message="No data is available"
+              image={AssociationsImage}
+              height={'50vh'}
+            />
           </Grid>
-        ))}
+        )}
 
         <Grid item xs={12}>
           <CustomPagination
