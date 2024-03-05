@@ -241,10 +241,10 @@ const TaskViewCard = ({}: any) => {
                                     items?.status === 'Inprogress'
                                       ? `${theme?.palette?.warning?.main}`
                                       : items?.status === 'Pending'
-                                        ? `${theme?.palette?.error?.main}`
-                                        : items?.status === 'Complete'
-                                          ? `${theme?.palette?.success?.main}`
-                                          : '',
+                                      ? `${theme?.palette?.error?.main}`
+                                      : items?.status === 'Complete'
+                                      ? `${theme?.palette?.success?.main}`
+                                      : '',
                                   fontWeight: 600,
                                 }}
                               >
