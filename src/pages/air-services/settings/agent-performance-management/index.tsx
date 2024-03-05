@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { AgentPerformanceManagement } from '@/modules/airServices/Settings/AgentPerformanceManagement';
 
@@ -8,5 +9,13 @@ const AgentPerformanceManagementPage = () => {
 export default AgentPerformanceManagementPage;
 
 AgentPerformanceManagementPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout
+      permissions={
+        Permissions?.AIR_SERVICES_SETTINGS_AGENT_PERFORMANCE_MANAGEMENT
+      }
+    >
+      {page}
+    </Layout>
+  );
 };
