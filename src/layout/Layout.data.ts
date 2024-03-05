@@ -778,7 +778,7 @@ export const QuickLinkData = [
 
 const ROLES_ROUTES: any = {
   'Super Admin': SuperAdminRoutes,
-  'Air Sales': SalesRoutes,
+  ORG_EMPLOYEE: SalesRoutes,
   'Air Services': ServicesRoutes,
   'Org Admin': OrgAdminRoutes,
   'Customer Portal': CustomerPortalRoutes,
