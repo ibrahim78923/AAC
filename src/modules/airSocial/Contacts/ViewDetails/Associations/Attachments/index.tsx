@@ -9,7 +9,6 @@ import AttachmentsEditorDrawer from './AttachmentsEditorDrawer';
 import useAttachments from './useAttachments';
 
 import { columns } from './Attachments.data';
-import { attachmentData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { styles } from '../Associations.style';
 
@@ -20,6 +19,7 @@ const Attachments = ({ contactId }: any) => {
     theme,
     searchValue,
     setSearchValue,
+    dataGetAttachment,
     drawerTitle,
     openDrawer,
     handleOpenDrawer,
@@ -73,7 +73,10 @@ const Attachments = ({ contactId }: any) => {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <TanstackTable columns={tableColumns} data={attachmentData} />
+          <TanstackTable
+            columns={tableColumns}
+            data={dataGetAttachment?.data?.attachments}
+          />
         </Grid>
       </Grid>
       <AttachmentsEditorDrawer

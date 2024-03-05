@@ -37,11 +37,15 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
     },
 
     {
-      accessorFn: (row: any) => row?.ownerId,
+      accessorFn: (row: any) => row?.owner,
       id: 'owner',
       isSortable: true,
       header: 'Company Owner',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        const fullName = `${info?.getValue()?.firstName} ${info?.getValue()
+          ?.lastName}`;
+        return <>{fullName}</>;
+      },
     },
 
     {

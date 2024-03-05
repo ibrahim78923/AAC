@@ -26,7 +26,7 @@ export const TAGS = [
   'SETTINGS_PRODUCT_FEATURES',
   'SETTINGS_TAX_CALCULATIONS',
   'MyDocuments',
-  'CLOSURE_ROLE',
+  'CLOSURE_RULES',
   'LOCATION',
   'VENDOR_LIST',
   'PRODUCT_CATALOG',
@@ -91,6 +91,7 @@ export const TAGS = [
   'VENDOR_CONTRACT',
   'SOFTWARE_CONTRACTS',
   'CONTRACT_HISTORY',
+  'ARTICLES_APPROVALS',
 ];
 
 const baseQuery = fetchBaseQuery({

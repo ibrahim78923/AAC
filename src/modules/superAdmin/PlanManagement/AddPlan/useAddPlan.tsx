@@ -108,9 +108,10 @@ export const useAddPlan = () => {
     defaultValues: defaultValuesModules,
   });
 
-  const { handleSubmit, reset } = methodsPlan;
+  const { handleSubmit, reset, watch } = methodsPlan;
   const { handleSubmit: handleSubmitPlanFeatures } = methodsPlanFeatures;
   const { handleSubmit: handleSubmitPlanModules } = methodsPlanModules;
+  const AdditionalStorageValue = watch(['allowAdditionalStorage']);
 
   const planForm: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.addPlanForm,
@@ -294,7 +295,11 @@ export const useAddPlan = () => {
       key: uuidv4(),
       label: 'Plan Form',
       component: (
-        <AddPlanForm methods={methodsPlan} handleSubmit={handlePlanForm} />
+        <AddPlanForm
+          methods={methodsPlan}
+          handleSubmit={handlePlanForm}
+          AdditionalStorageValue={AdditionalStorageValue}
+        />
       ),
 
       componentProps: { addPlanFormValues, setAddPlanFormValues },
