@@ -198,7 +198,7 @@ export const ServicesRoutes: any = [
     icon: WorkLoadImage,
     label: 'WorkLoad',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_WORKLOAD_CALENDER_VIEW,
   },
   {
     key: '/air-customer-portal',
