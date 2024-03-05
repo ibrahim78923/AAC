@@ -31,7 +31,7 @@ export const Workload = () => {
   const {
     status,
     statusFilter,
-    zeroIndex,
+    filterIndex,
     dateChangeHandler,
     dateCalendar,
     selected,
@@ -127,9 +127,9 @@ export const Workload = () => {
                 dayjs(data?.date)?.format(DATE_TIME_FORMAT?.D),
             );
             const hours = Math.floor(
-              countHours?.[zeroIndex]?.totalPlannedEffort / 60,
+              countHours?.[filterIndex]?.totalPlannedEffort / 60,
             );
-            const minutes = countHours?.[zeroIndex]?.totalPlannedEffort % 60;
+            const minutes = countHours?.[filterIndex]?.totalPlannedEffort % 60;
             const countHoursPercent = statusFilter?.data?.data?.filter(
               (item: any) =>
                 dayjs(item?.date)?.format(DATE_TIME_FORMAT?.D) ===
@@ -139,12 +139,12 @@ export const Workload = () => {
               <Box sx={{ cursor: 'pointer' }}>
                 {dayjs(data?.date)?.format(DATE_TIME_FORMAT?.DDDDDD)}
                 <Typography variant={'h6'}>
-                  {count?.[zeroIndex]?.count ?? null}
-                  {countHours?.[zeroIndex]?.totalPlannedEffort
+                  {count?.[filterIndex]?.count ?? null}
+                  {countHours?.[filterIndex]?.totalPlannedEffort
                     ? `${hours}hr ${minutes}m`
                     : null}
-                  {countHoursPercent?.[zeroIndex]?.averagePlannedEffort
-                    ? `${countHoursPercent?.[zeroIndex]?.averagePlannedEffort}%`
+                  {countHoursPercent?.[filterIndex]?.averagePlannedEffort
+                    ? `${countHoursPercent?.[filterIndex]?.averagePlannedEffort}%`
                     : null}
                 </Typography>
               </Box>

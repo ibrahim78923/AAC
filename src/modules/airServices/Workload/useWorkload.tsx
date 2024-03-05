@@ -11,7 +11,7 @@ export default function useWorkload() {
   const calendarRef = useRef<any>(null);
   const router: any = useRouter();
 
-  const zeroIndex = 0;
+  const filterIndex = 0;
 
   const [filter, setFilter] = useState<any>({
     countDayWise: undefined,
@@ -81,7 +81,7 @@ export default function useWorkload() {
   return {
     status,
     statusFilter,
-    zeroIndex,
+    filterIndex,
     dateChangeHandler,
     dateCalendar,
     selected,
