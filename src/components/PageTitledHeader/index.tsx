@@ -20,6 +20,7 @@ export const PageTitledHeader = ({
   createPermissionKey,
   exportPermissionKey,
   importPermissionKey,
+  titledPermissionKey,
 }: any) => {
   const theme: any = useTheme();
 
@@ -32,20 +33,22 @@ export const PageTitledHeader = ({
         flexWrap={'wrap'}
         gap={1}
       >
-        <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-          {canMovedBack && (
-            <ArrowBackIcon
-              color={'secondary'}
-              sx={{ cursor: 'pointer' }}
-              onClick={() => {
-                moveBack?.();
-              }}
-            />
-          )}
-          <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
-            {title}
-          </Typography>
-        </Box>
+        <PermissionsGuard permissions={[titledPermissionKey]}>
+          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
+            {canMovedBack && (
+              <ArrowBackIcon
+                color={'secondary'}
+                sx={{ cursor: 'pointer' }}
+                onClick={() => {
+                  moveBack?.();
+                }}
+              />
+            )}
+            <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
+              {title}
+            </Typography>
+          </Box>
+        </PermissionsGuard>
         <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
           {hasImport && (
             <PermissionsGuard permissions={[importPermissionKey]}>

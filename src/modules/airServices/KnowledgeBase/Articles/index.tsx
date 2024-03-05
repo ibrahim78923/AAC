@@ -41,50 +41,56 @@ export const Articles = () => {
     <>
       <Grid container>
         <Grid item xs={12} lg={3} xl={1.75}>
-          <Box
-            sx={{
-              m: '0.75rem 1.5rem 0.75rem 0 ',
-              maxHeight: '70vh',
-              overflowY: 'auto',
-            }}
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.SEARCH_AND_FILTER,
+            ]}
           >
-            {foldersList?.map((tab: any) => (
-              <Box
-                key={tab?._id}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1,
-                  p: 1,
-                  background:
-                    tab?._id === selectedArticlesTab
-                      ? theme?.palette?.grey?.['400']
-                      : 'white',
-                  borderRadius: '0.5rem',
-                  cursor: 'pointer',
-                }}
-                onClick={() => setFolder(tab?._id)}
-              >
-                <FolderGreyIcon
-                  fill={
-                    theme?.palette?.grey?.[
-                      tab?._id === selectedArticlesTab ? '800' : '900'
-                    ]
-                  }
-                />
-                <Typography
-                  color={
-                    theme?.palette?.grey?.[
-                      tab?._id === selectedArticlesTab ? '800' : '900'
-                    ]
-                  }
-                  textTransform={'capitalize'}
+            <Box
+              sx={{
+                m: '0.75rem 1.5rem 0.75rem 0 ',
+                maxHeight: '70vh',
+                overflowY: 'auto',
+              }}
+            >
+              {foldersList?.map((tab: any) => (
+                <Box
+                  key={tab?._id}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    p: 1,
+                    background:
+                      tab?._id === selectedArticlesTab
+                        ? theme?.palette?.grey?.['400']
+                        : 'white',
+                    borderRadius: '0.5rem',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => setFolder(tab?._id)}
                 >
-                  {tab?.name}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
+                  <FolderGreyIcon
+                    fill={
+                      theme?.palette?.grey?.[
+                        tab?._id === selectedArticlesTab ? '800' : '900'
+                      ]
+                    }
+                  />
+                  <Typography
+                    color={
+                      theme?.palette?.grey?.[
+                        tab?._id === selectedArticlesTab ? '800' : '900'
+                      ]
+                    }
+                    textTransform={'capitalize'}
+                  >
+                    {tab?.name}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          </PermissionsGuard>
         </Grid>
         <Grid item xs={12} lg={9} xl={10.25}>
           <Box
