@@ -26,6 +26,9 @@ export const DATE_TIME_FORMAT = {
   DDMYHMA: 'ddd, D MMM, YYYY h:mm A',
   DMY: 'DDMMMYYYY',
   DMYHMSA: 'ddd MM, YYYY hh:mm:ss A',
+  D: 'D',
+  DDDDDD: 'ddd - DD',
+  DDMMYYYY: 'DD MMM, YYYY hh:MM A',
 };
 
 export const VALIDATION_CONSTANT = {
