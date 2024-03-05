@@ -29,7 +29,7 @@ import {
   setDealsSelectedIds,
   setTicketsSelectedIds,
 } from '@/redux/slices/taskManagement/taskManagementSlice';
-import { tabsData } from './SearchableTabSelect.data';
+import { tabsData } from './searchableTabSelect.data';
 
 const SearchableTabsSelect = ({ required, ...other }: any) => {
   const dispatch: any = useAppDispatch();

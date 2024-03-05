@@ -3,7 +3,7 @@ import {
   useGetCustomizeColumnQuery,
   useGetDealsLifecycleStageQuery,
   useGetDealsListQuery,
-  useGetDealsSalesProductQuery,
+  useGetDealPipeLineQuery,
   useGetDealsViewsQuery,
 } from '@/services/airSales/deals';
 import { useState } from 'react';
@@ -74,7 +74,7 @@ const useDealTab = () => {
     (column: any) => column?.active === true,
   );
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
-  const { data: pipelineData } = useGetDealsSalesProductQuery(params);
+  const { data: pipelineData } = useGetDealPipeLineQuery(params);
 
   const dealListApiUrl = dealViewsData?.data?.map((obj: any) => {
     const dateStart = obj?.apiUrl?.match(/dateStart=([^&]*)/)[1];

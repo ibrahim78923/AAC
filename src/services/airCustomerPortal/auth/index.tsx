@@ -19,7 +19,7 @@ export const authAPI = baseAPI.injectEndpoints({
       }),
     }),
 
-    getComapnyDropdown: builder?.query({
+    getCompanyDropdown: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.GET_DROPDOWN_COMPANY}`,
         method: 'GET',
@@ -43,6 +43,6 @@ export const authAPI = baseAPI.injectEndpoints({
 export const {
   useAuthCustomerLoginMutation,
   useAuthCustomerSignUpMutation,
-  useLazyGetComapnyDropdownQuery,
+  useLazyGetCompanyDropdownQuery,
   useAuthIgVerificationMutation,
 } = authAPI;
