@@ -1,18 +1,3 @@
-export const teamsTableData: any = [
-  {
-    name: `Orcalo Holdings`,
-    teamMember: '4',
-  },
-  {
-    name: `Orcalo Holdings`,
-    teamMember: '2',
-  },
-  {
-    name: `Orcalo Holdings`,
-    teamMember: '3',
-  },
-];
-
 export const userTableData: any = [
   {
     Id: 1,
