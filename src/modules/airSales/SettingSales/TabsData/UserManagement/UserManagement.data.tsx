@@ -17,16 +17,6 @@ export const validationSchema = Yup.object().shape({
   country: Yup.string(),
 });
 
-export const teamsValidationSchema = Yup.object().shape({
-  teamName: Yup.string().required('Field is Required'),
-  teamMembers: Yup.string().trim().required('Field is Required'),
-});
-
-export const teamsDefaultValues = {
-  teamName: '',
-  teamMembers: '',
-};
-
 export const defaultValues = {
   accountName: '',
   phoneNumber: '',
@@ -295,35 +285,5 @@ export const columns: any = [
     isSortable: true,
     header: 'Status',
     cell: (info: any) => <Switch color="primary" name={info.getValue()} />,
-  },
-];
-
-export const teamsDataArray = [
-  {
-    componentProps: {
-      name: 'teamName',
-      label: 'Team Name',
-      fullWidth: true,
-      select: false,
-      placeholder: 'Enter Team Name',
-      required: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'teamMembers',
-      label: 'Team Members',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'United Kingdom', label: 'A' },
-      { value: 'United Kingdom', label: 'B' },
-      { value: 'United Kingdom', label: 'C' },
-    ],
-    component: RHFSelect,
-    md: 12,
   },
 ];

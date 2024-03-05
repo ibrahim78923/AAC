@@ -8,7 +8,7 @@ import CreateTeams from './Teams/CreateTeams';
 
 const Users = () => {
   const theme = useTheme<Theme>();
-  const { activeTab, setActiveTab, isCreateTeamOpen, setIsCreateTeamOpen } =
+  const { activeTab, setActiveTab, setIsAddUser, isAddTeam, setIsAddTeam } =
     useUserManagement();
 
   return (
@@ -31,13 +31,11 @@ const Users = () => {
           <Typography variant="h4">User Management</Typography>
           <Button
             className="small"
-            // onClick={() => {
-            //   {
-            //     activeTab === 0
-            //       ? setIsAddUserOpen(true)
-            //       : setIsCreateTeamOpen(true);
-            //   }
-            // }}
+            onClick={() => {
+              {
+                activeTab === 0 ? setIsAddUser(true) : setIsAddTeam(true);
+              }
+            }}
             variant="contained"
             sx={{
               display: 'flex',
@@ -67,10 +65,7 @@ const Users = () => {
         </Box>
       </Box>
 
-      <CreateTeams
-        isCreateTeamOpen={isCreateTeamOpen}
-        setIsCreateTeamOpen={setIsCreateTeamOpen}
-      />
+      <CreateTeams isAddTeam={isAddTeam} setIsAddTeam={setIsAddTeam} />
     </>
   );
 };

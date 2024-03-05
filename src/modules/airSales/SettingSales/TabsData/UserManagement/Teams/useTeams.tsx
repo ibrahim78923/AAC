@@ -9,11 +9,12 @@ import {
 import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
 
-const useTeamsTable = () => {
+const useTeams = () => {
   const theme = useTheme<Theme>();
   const [isTeamDrawer, setIsTeamDrawer] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [teamId, setTeamId] = useState();
+  const [searchBy, setSearchBy] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [page, setPage] = useState<any>(PAGINATION?.CURRENT_PAGE);
@@ -24,6 +25,7 @@ const useTeamsTable = () => {
   const params = {
     page: page,
     limit: limit,
+    search: searchBy,
   };
   const { data: teamsData, isSuccess, isLoading } = useGetTeamsQuery(params);
 
@@ -78,7 +80,9 @@ const useTeamsTable = () => {
     setLimit,
     isSuccess,
     isLoading,
+    searchBy,
+    setSearchBy,
   };
 };
 
-export default useTeamsTable;
+export default useTeams;

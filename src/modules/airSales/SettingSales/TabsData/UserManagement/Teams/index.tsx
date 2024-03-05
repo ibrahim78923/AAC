@@ -4,10 +4,10 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import CommonDrawer from '@/components/CommonDrawer';
 import { AlertModals } from '@/components/AlertModals';
-import useTeamsTable from './useTeams';
 import { styles } from './Teams.style';
 import MemberDetails from './MemberDetails';
 import { v4 as uuidv4 } from 'uuid';
+import useTeams from './useTeams';
 
 const Teams = () => {
   const {
@@ -25,7 +25,9 @@ const Teams = () => {
     isLoading,
     teamId,
     handleDeleteTeam,
-  } = useTeamsTable();
+    searchBy,
+    setSearchBy,
+  } = useTeams();
 
   return (
     <>
@@ -37,10 +39,10 @@ const Teams = () => {
           }}
         >
           <Search
-            searchBy=""
+            searchBy={searchBy}
             width="260px"
             label={'Search here'}
-            setSearchBy={() => {}}
+            setSearchBy={setSearchBy}
           />
         </Box>
 

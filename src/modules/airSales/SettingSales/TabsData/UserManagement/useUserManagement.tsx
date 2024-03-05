@@ -1,32 +1,20 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import {
-  teamsDefaultValues,
-  teamsValidationSchema,
-} from './UserManagement.data';
 import { useState } from 'react';
 
 const useUserManagement = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [isCreateTeamOpen, setIsCreateTeamOpen] = useState(false);
-
-  const methods: any = useForm({
-    resolver: yupResolver(teamsValidationSchema),
-    defaultValues: teamsDefaultValues,
-  });
-
-  const { handleSubmit } = methods;
-
-  const onSubmit = () => {};
+  const [isAddTeam, setIsAddTeam] = useState(false);
+  const [isAddUser, setIsAddUser] = useState(false);
 
   return {
     activeTab,
     setActiveTab,
-    methods,
-    handleSubmit,
-    onSubmit,
     isCreateTeamOpen,
     setIsCreateTeamOpen,
+    isAddTeam,
+    setIsAddTeam,
+    isAddUser,
+    setIsAddUser,
   };
 };
 
