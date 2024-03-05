@@ -57,7 +57,6 @@ const PlanManagement = () => {
     tableRowValues,
     setTableRowValues,
   );
-
   return (
     <Box sx={styles?.main}>
       <Box
@@ -121,6 +120,7 @@ const PlanManagement = () => {
             onClick={handleClick}
             className="small"
             sx={styles?.actionButton(theme)}
+            disabled={isDisabled}
           >
             Actions <ArrowDropDownIcon />
           </Button>
