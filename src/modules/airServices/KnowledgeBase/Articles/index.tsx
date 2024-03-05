@@ -114,9 +114,9 @@ export const Articles = () => {
               alignItems={'center'}
             >
               <PermissionsGuard
-                permissions={[
-                  Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_LIST_VIEW_ACTIONS,
-                ]}
+                permissions={
+                  Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_LIST_VIEW_ACTIONS
+                }
               >
                 <SingleDropdownButton
                   disabled={!!!selectedArticlesData?.length}

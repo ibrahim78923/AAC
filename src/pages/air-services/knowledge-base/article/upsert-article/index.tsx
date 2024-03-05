@@ -9,7 +9,7 @@ const UpsertArticlePage = () => {
 UpsertArticlePage.getLayout = function getLayout(page: any) {
   return (
     <Layout
-      permissions={[Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_CREATE_ARTICLE]}
+      permissions={Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_CREATE_ARTICLE}
     >
       {page}
     </Layout>

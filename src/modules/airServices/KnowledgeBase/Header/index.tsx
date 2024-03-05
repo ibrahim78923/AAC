@@ -21,9 +21,9 @@ export const Header = (props: any) => {
         Knowledge Base
       </Typography>
       <PermissionsGuard
-        permissions={[
-          Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_CREATE_ARTICLE_FOLDER,
-        ]}
+        permissions={
+          Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_CREATE_ARTICLE_FOLDER
+        }
       >
         <Button
           id="demo-positioned-button"

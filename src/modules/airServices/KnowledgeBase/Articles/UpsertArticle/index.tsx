@@ -37,7 +37,7 @@ export const UpsertArticle = () => {
   if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <PermissionsGuard
-      permissions={[Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_UPSERT_ARTICLE]}
+      permissions={Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_UPSERT_ARTICLE}
     >
       <FormProvider methods={methods}>
         <Grid container sx={{ borderRadius: '12px' }}>
