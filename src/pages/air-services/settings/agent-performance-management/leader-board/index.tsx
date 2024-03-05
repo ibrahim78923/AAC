@@ -11,9 +11,9 @@ export default LeaderBoardPage;
 LeaderBoardPage.getLayout = function getLayout(page: any) {
   return (
     <Layout
-      permissions={[
-        Permissions?.AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_LEADER_BOARD,
-      ]}
+      permissions={
+        Permissions?.AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_LEADER_BOARD
+      }
     >
       {page}
     </Layout>
