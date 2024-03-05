@@ -11,6 +11,40 @@ export const taskApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+
+    getCreateTaskContacts: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.CONTACTS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+    getCreateTaskCompanies: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.COMPANY}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+    getCreateTaskDeals: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DEALS_LIST_VIEW}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+    getCreateTaskTickets: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.TICKET}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
     postCreateTask: builder.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.TASK_MANAGEMENT}`,
@@ -19,7 +53,23 @@ export const taskApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getTaskDetails: builder.query({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
-export const { useGetTasksQuery, usePostCreateTaskMutation } = taskApi;
+export const {
+  useGetTasksQuery,
+  usePostCreateTaskMutation,
+  useGetCreateTaskContactsQuery,
+  useGetCreateTaskCompaniesQuery,
+  useGetCreateTaskDealsQuery,
+  useGetCreateTaskTicketsQuery,
+  useGetTaskDetailsQuery,
+} = taskApi;

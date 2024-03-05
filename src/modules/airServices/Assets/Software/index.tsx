@@ -34,6 +34,11 @@ function Software() {
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
     filterValues,
+    methods,
+    submitHandler,
+    upsertLoading,
+    onClose,
+    userQuery,
   } = useSoftware();
 
   return (
@@ -120,7 +125,11 @@ function Software() {
       />
       <UpsertSoftware
         isDrawerOpen={isAddDrawerOpen}
-        onClose={setIsAddDrawerOpen}
+        onClose={onClose}
+        methods={methods}
+        submitHandler={submitHandler}
+        isLoading={upsertLoading}
+        userQuery={userQuery}
       />
     </>
   );

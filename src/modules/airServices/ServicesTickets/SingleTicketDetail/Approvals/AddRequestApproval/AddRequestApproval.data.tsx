@@ -6,13 +6,14 @@ export const addRequestApprovalValidationSchema = Yup?.object()?.shape({
   description: Yup?.string()?.required('Required'),
 });
 
-export const defaultValues = {
+export const addRequestApprovalFormDefaultValues = {
   subject: null,
   description: '',
 };
 
 export const addRequestApprovalFormFieldsDynamic = (apiQueryApprover: any) => [
   {
+    _id: 1,
     componentProps: {
       name: 'subject',
       label: 'To',
@@ -23,9 +24,9 @@ export const addRequestApprovalFormFieldsDynamic = (apiQueryApprover: any) => [
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
-    md: 12,
   },
   {
+    _id: 2,
     componentProps: {
       name: 'description',
       label: 'Description',
@@ -34,6 +35,5 @@ export const addRequestApprovalFormFieldsDynamic = (apiQueryApprover: any) => [
       style: { height: '250px' },
     },
     component: RHFEditor,
-    md: 12,
   },
 ];

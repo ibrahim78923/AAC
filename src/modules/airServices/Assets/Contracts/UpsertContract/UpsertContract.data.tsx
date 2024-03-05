@@ -124,6 +124,7 @@ export const licenseTypeOptions = [
     label: 'Free',
   },
 ];
+
 export const softwareLicense = {
   software: null,
   itemDetail: [
@@ -144,7 +145,10 @@ export const upsertContractFormDefaultValuesFunction = (data?: any) => {
     contractName: data?.name ?? '',
     contractNumber: data?.contractNumber ?? '',
     type: data?.contractType
-      ? { _id: data?.contractType, label: data?.contractType }
+      ? contractTypeOptions?.find(
+          (contractTypeOption: any) =>
+            contractTypeOption?._id === data?.contractType,
+        )
       : null,
     associateAssets: data?.associatedAsset ?? null,
     cost: data?.cost ?? 0,
@@ -165,11 +169,21 @@ export const upsertContractFormDefaultValuesFunction = (data?: any) => {
     notifyExpiry: data?.notifyRenewal ?? false,
     notifyBefore: data?.notifyBefore ?? '',
     notifyTo: data?.notifyTo ?? null,
-    itemDetail: !!data?.itemDetail?.length
-      ? data?.itemDetail
+    itemDetail: !!data?.itemsDetail?.length
+      ? data?.itemsDetail
       : softwareLicense?.itemDetail,
-    billingCycle: data?.billingCycle ?? softwareLicense?.billingCycle,
-    licenseType: data?.licenseType ?? softwareLicense?.licenseType,
+    billingCycle: data?.billingCycle
+      ? billingCycleOptions?.find(
+          (billingCycleOption: any) =>
+            billingCycleOption?._id === data?.billingCycle,
+        )
+      : null,
+    licenseType: data?.licenseType
+      ? licenseTypeOptions?.find(
+          (licenseTypeOption: any) =>
+            licenseTypeOption?._id === data?.licenseType,
+        )
+      : null,
     licenseKey: data?.licenseKey ?? softwareLicense?.licenseKey,
     software: data?.software ?? softwareLicense?.software,
     attachFile: null,
@@ -236,7 +250,10 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
     ?.ensure()
     ?.when('type', {
       is: (value: any) => value?._id === CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      then: (schema: any) => schema?.required('Required'),
+      then: (schema: any) =>
+        schema
+          ?.matches(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]*$/, 'must be a string')
+          ?.required('Required'),
       otherwise: (schema) => schema?.notRequired(),
     }),
   itemDetail: Yup?.array()
