@@ -7,7 +7,7 @@ const ServicesTicketsPage = () => {
 
 ServicesTicketsPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout permissions={[Permissions?.AIR_SERVICES_TICKETS_TICKET_LISTS]}>
+    <Layout permissions={Permissions?.AIR_SERVICES_TICKETS_TICKET_LISTS}>
       {page}
     </Layout>
   );

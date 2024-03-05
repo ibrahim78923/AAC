@@ -5,6 +5,8 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TicketsListSubHeader } from './TicketsListSubHeader';
 import { EXPORT_TYPE, VIEW_TYPES } from '@/constants/strings';
 import { TICKETS_ACTION_CONSTANTS } from './TicketsLists.data';
+import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const TicketsLists = () => {
   const {
@@ -42,6 +44,8 @@ export const TicketsLists = () => {
         handleAction={() =>
           setTicketAction?.(TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET)
         }
+        exportPermissionKey={AIR_SERVICES_TICKETS_TICKET_LISTS?.EXPORT_TICKETS}
+        createPermissionKey={AIR_SERVICES_TICKETS_TICKET_LISTS?.CREATE_TICKET}
       />
       <br />
       <TicketsListSubHeader
@@ -58,12 +62,16 @@ export const TicketsLists = () => {
       />
       <br />
       {router?.query?.viewType === VIEW_TYPES?.BOARD ? (
-        <TableBoardView
-          setTicketAction={setTicketAction}
-          setSelectedTicketList={setSelectedTicketList}
-          search={search}
-          filterTicketLists={filterTicketLists}
-        />
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.BOARD_VIEW]}
+        >
+          <TableBoardView
+            setTicketAction={setTicketAction}
+            setSelectedTicketList={setSelectedTicketList}
+            search={search}
+            filterTicketLists={filterTicketLists}
+          />
+        </PermissionsGuard>
       ) : (
         <TicketsTableView
           ticketsListsColumn={

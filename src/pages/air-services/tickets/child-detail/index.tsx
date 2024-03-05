@@ -7,7 +7,7 @@ const SingleTicketDetailPage = () => {
 
 SingleTicketDetailPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout permissions={[Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS]}>
+    <Layout permissions={Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS}>
       {page}
     </Layout>
   );

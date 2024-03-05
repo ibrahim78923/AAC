@@ -5,6 +5,7 @@ import { NOTISTACK_VARIANTS, TICKET_STATUS } from '@/constants/strings';
 import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
 
 export const TICKETS_ACTION_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -24,6 +25,8 @@ export const ticketsActionDropdownFunction = (
   updateTicketStatus: any,
 ) => [
   {
+    id: 1,
+    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
     title: 'Edit',
     handleClick: (closeMenu: any) => {
       if (selectedTicketList?.length > 1) {
@@ -38,6 +41,8 @@ export const ticketsActionDropdownFunction = (
     },
   },
   {
+    id: 2,
+    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
     title: 'Assign To',
     handleClick: (closeMenu: any) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET);
@@ -45,6 +50,8 @@ export const ticketsActionDropdownFunction = (
     },
   },
   {
+    id: 3,
+    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
     title: 'Bulk Update',
     handleClick: (closeMenu: any) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA);
@@ -52,6 +59,8 @@ export const ticketsActionDropdownFunction = (
     },
   },
   {
+    id: 4,
+    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
     title: 'Merge',
     handleClick: (closeMenu: any) => {
       if (selectedTicketList?.length > 1) {
@@ -66,6 +75,8 @@ export const ticketsActionDropdownFunction = (
     },
   },
   {
+    id: 5,
+    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
     title: 'Move',
     handleClick: (closeMenu: any) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.MOVE_TICKET);
@@ -73,6 +84,8 @@ export const ticketsActionDropdownFunction = (
     },
   },
   {
+    id: 6,
+    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
     title: 'Mark as Close',
     handleClick: (closeMenu: any) => {
       updateTicketStatus?.(TICKET_STATUS?.CLOSED);
@@ -80,6 +93,8 @@ export const ticketsActionDropdownFunction = (
     },
   },
   {
+    id: 7,
+    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
     title: 'Mark as Spam',
     handleClick: (closeMenu: any) => {
       updateTicketStatus?.(TICKET_STATUS?.SPAM);
@@ -87,6 +102,8 @@ export const ticketsActionDropdownFunction = (
     },
   },
   {
+    id: 8,
+    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
     title: 'Delete',
     handleClick: (closeMenu: any) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.DELETE_TICKET);

@@ -7,6 +7,8 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { ticketsListInitialColumns } from '../TicketsLists.data';
 import usePath from '@/hooks/usePath';
 import { VIEW_TYPES } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
 
 export const TicketsListSubHeader = (props: any) => {
   const {
@@ -30,24 +32,32 @@ export const TicketsListSubHeader = (props: any) => {
         justifyContent={'space-between'}
         flexWrap={'wrap'}
       >
-        <Search
-          label="Search Here"
-          width="100%"
-          setSearchBy={setSearch}
-          sx={{ minWidth: '260px' }}
-        />
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.SEARCH_AND_FILTER]}
+        >
+          <Search
+            label="Search Here"
+            width="100%"
+            setSearchBy={setSearch}
+            sx={{ minWidth: '260px' }}
+          />
+        </PermissionsGuard>
         <Box
           display={'flex'}
           justifyContent={'space-between'}
           flexWrap={'wrap'}
           gap={'.5rem'}
         >
-          {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
-            <SingleDropdownButton
-              dropdownOptions={ticketsActionDropdown}
-              disabled={disabledActionButton}
-            />
-          )}
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS]}
+          >
+            {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
+              <SingleDropdownButton
+                dropdownOptions={ticketsActionDropdown}
+                disabled={disabledActionButton}
+              />
+            )}
+          </PermissionsGuard>
           <Button
             variant="outlined"
             onClick={() => {
@@ -58,69 +68,91 @@ export const TicketsListSubHeader = (props: any) => {
           >
             <AutoRenewIcon />
           </Button>
-          {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_TICKETS_TICKET_LISTS?.COLUMN_CUSTOMIZATION,
+            ]}
+          >
+            {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
+              <Button
+                variant="outlined"
+                onClick={() => onCustomizeClick?.()}
+                size="large"
+                startIcon={<CutomizeIcon />}
+                color="secondary"
+              >
+                Customize
+              </Button>
+            )}
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.SEARCH_AND_FILTER]}
+          >
             <Button
               variant="outlined"
-              onClick={() => onCustomizeClick?.()}
+              onClick={() => onFilterClick?.()}
               size="large"
-              startIcon={<CutomizeIcon />}
+              startIcon={<FilterIcon />}
               color="secondary"
             >
-              Customize
+              Filter
             </Button>
-          )}
-          <Button
-            variant="outlined"
-            onClick={() => onFilterClick?.()}
-            size="large"
-            startIcon={<FilterIcon />}
-            color="secondary"
-          >
-            Filter
-          </Button>
+          </PermissionsGuard>
           <ButtonGroup size="small" aria-label="small button group">
             {[
-              <Button
+              <PermissionsGuard
                 key={1}
-                onClick={() => {
-                  router?.push(
-                    makePath({
-                      path: router?.pathname,
-                      skipQueries: ['viewType'],
-                    }),
-                  );
-                }}
-                sx={{
-                  backgroundColor:
-                    router?.query?.viewType !== VIEW_TYPES?.BOARD
-                      ? theme?.palette?.grey?.['0']
-                      : '',
-                }}
-                color="secondary"
+                permissions={[
+                  AIR_SERVICES_TICKETS_TICKET_LISTS?.SEARCH_AND_FILTER,
+                ]}
               >
-                <ListIcon />
-              </Button>,
-              <Button
+                <Button
+                  key={1}
+                  onClick={() => {
+                    router?.push(
+                      makePath({
+                        path: router?.pathname,
+                        skipQueries: ['viewType'],
+                      }),
+                    );
+                  }}
+                  sx={{
+                    backgroundColor:
+                      router?.query?.viewType !== VIEW_TYPES?.BOARD
+                        ? theme?.palette?.grey?.['0']
+                        : '',
+                  }}
+                  color="secondary"
+                >
+                  <ListIcon />
+                </Button>
+              </PermissionsGuard>,
+              <PermissionsGuard
                 key={2}
-                sx={{
-                  backgroundColor:
-                    router?.query?.viewType === VIEW_TYPES?.BOARD
-                      ? theme?.palette?.grey?.['0']
-                      : '',
-                }}
-                onClick={() => {
-                  router?.push({
-                    pathname: router?.pathname,
-                    query: {
-                      ...router?.query,
-                      viewType: VIEW_TYPES?.BOARD,
-                    },
-                  });
-                }}
-                color="secondary"
+                permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.BOARD_VIEW]}
               >
-                <SubTabIcon />
-              </Button>,
+                <Button
+                  key={2}
+                  sx={{
+                    backgroundColor:
+                      router?.query?.viewType === VIEW_TYPES?.BOARD
+                        ? theme?.palette?.grey?.['0']
+                        : '',
+                  }}
+                  onClick={() => {
+                    router?.push({
+                      pathname: router?.pathname,
+                      query: {
+                        ...router?.query,
+                        viewType: VIEW_TYPES?.BOARD,
+                      },
+                    });
+                  }}
+                  color="secondary"
+                >
+                  <SubTabIcon />
+                </Button>
+              </PermissionsGuard>,
             ]}
           </ButtonGroup>
         </Box>
