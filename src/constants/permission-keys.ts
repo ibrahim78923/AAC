@@ -31,6 +31,14 @@ export const SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS = {
   VIEW_ROLE: 'view-role',
   ACTIVE_INACTIVE_ROLES: 'active-inactive-roles',
 };
+export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS_keys = {
+  PLAN_LIST: 'plan-list',
+  PLAN_SEARCH_AND_FILTER: 'plan-search-and-filter',
+  ADD_PLAN: 'add-plan',
+  ACTION_INACTIVE_PLANS: 'active-inactive-plans',
+  EDIT_PLAN: 'edit-plan',
+  VIEW_PLAN: 'view-plan',
+};
 
 export const SUPER_ADMIN_REPORTS_PERMISSIONS = {
   view_invoice_report: 'view-invoice-report',

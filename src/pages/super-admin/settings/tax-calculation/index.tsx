@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import TaxCalculation from '@/modules/superAdmin/settings/TaxCalculations';
 const TaxCalculationPage = () => {
@@ -5,5 +6,7 @@ const TaxCalculationPage = () => {
 };
 export default TaxCalculationPage;
 TaxCalculationPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout permissions={Permissions?.SETTING_TAX_CALCULATION}>{page}</Layout>
+  );
 };
