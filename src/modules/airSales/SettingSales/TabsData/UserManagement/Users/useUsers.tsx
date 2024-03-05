@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { columnsUser, defaultValues, validationSchema } from './UserTable.data';
+import { columnsUser, defaultValues, validationSchema } from './Users.data';
 import { Theme, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,7 +7,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 const useUserTable = ({ initialValueProps = defaultValues }: any) => {
   const [team, setTeam] = React.useState('Alfa');
   const [role, setRole] = React.useState('AccountAdmin');
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
