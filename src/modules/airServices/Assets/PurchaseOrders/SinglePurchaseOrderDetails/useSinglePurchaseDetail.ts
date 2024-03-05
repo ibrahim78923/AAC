@@ -1,14 +1,19 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   singlePurchaseDetailActionDropdownFunction,
   singlePurchaseDetailStatusDropdownFunction,
 } from './SinglePurchaseDetail.data';
 import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useDeletePurchaseOrderMutation } from '@/services/airServices/assets/purchase-orders';
+import { NOTISTACK_VARIANTS, PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import {
+  useDeletePurchaseOrderMutation,
+  useLazyGetPurchaseOrderByIdQuery,
+} from '@/services/airServices/assets/purchase-orders';
 import { useSearchParams } from 'next/navigation';
+import { usePatchPurchaseOrderStatusMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useSinglePurchaseDetail = () => {
   const router = useRouter();
@@ -17,12 +22,50 @@ export const useSinglePurchaseDetail = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isADrawerOpen, setIsADrawerOpen] = useState<boolean>(false);
 
+  const [patchPurchaseOrderStatusTrigger] =
+    usePatchPurchaseOrderStatusMutation();
+
+  const searchParams = useSearchParams();
+  const purchaseOrderId: any = searchParams.get('purchaseOrderId');
+
+  const [purchaseOrderTrigger, { data }]: any =
+    useLazyGetPurchaseOrderByIdQuery();
+  useEffect(() => {
+    const handleStatus = async () => {
+      await purchaseOrderTrigger(purchaseOrderId);
+    };
+    handleStatus();
+  }, [purchaseOrderId]);
+
+  const handleSubmitForOrdered = async () => {
+    const upDateStatusData = { ...data };
+    const updatedStatusData = { ...upDateStatusData };
+    const newData = {
+      ...updatedStatusData.data,
+      status: PURCHASE_ORDER_STATUS?.ORDERED,
+    };
+    updatedStatusData.data = newData;
+
+    const putContractSubmitApproval = {
+      pathParam: { purchaseOrderId },
+      body: updatedStatusData,
+    };
+
+    try {
+      await patchPurchaseOrderStatusTrigger(
+        putContractSubmitApproval,
+      )?.unwrap();
+      successSnackbar('purchase was sent for Approval');
+    } catch (error) {
+      errorSnackbar();
+    }
+  };
+
   const singlePurchaseDetailActionDropdown =
     singlePurchaseDetailActionDropdownFunction(setIsDeleteModalOpen, router);
   const singlePurchaseDetailStatusDropdown =
-    singlePurchaseDetailStatusDropdownFunction();
-  const searchParams = useSearchParams();
-  const purchaseOrderId: any = searchParams.get('purchaseOrderId');
+    singlePurchaseDetailStatusDropdownFunction(handleSubmitForOrdered);
+
   const [deletePurchaseOrderTrigger, { isLoading }] =
     useDeletePurchaseOrderMutation();
   const deletePurchaseOrder = async () => {
@@ -53,5 +96,6 @@ export const useSinglePurchaseDetail = () => {
     singlePurchaseDetailStatusDropdown,
     deletePurchaseOrder,
     isLoading,
+    handleSubmitForOrdered,
   };
 };

@@ -25,10 +25,13 @@ export const singlePurchaseDetailActionDropdownFunction = (
   },
 ];
 
-export const singlePurchaseDetailStatusDropdownFunction = () => [
+export const singlePurchaseDetailStatusDropdownFunction = (
+  handleSubmitForOrdered: any,
+) => [
   {
     title: 'Ordered',
     handleClick: (closeMenu: any) => {
+      handleSubmitForOrdered?.();
       closeMenu?.();
     },
   },

@@ -56,6 +56,7 @@ export const purchaseOrderAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.PURCHASE_ORDER}/${purchaseOrderId}`,
         method: 'GET',
       }),
+      providesTags: [TAG_FIVE],
     }),
     postPurchaseOrder: builder?.mutation({
       query: (postPurchaseOrderParameter: any) => ({
@@ -96,7 +97,7 @@ export const {
   useLazyGetVendorProductsDropdownQuery,
   usePostPurchaseOrderMutation,
   usePatchPurchaseOrderMutation,
-  useGetPurchaseOrderByIdQuery,
+  useLazyGetPurchaseOrderByIdQuery,
   useDeletePurchaseOrderMutation,
   useGetPurchaseOrderListQuery,
 } = purchaseOrderAPI;

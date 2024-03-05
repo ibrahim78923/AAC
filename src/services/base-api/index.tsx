@@ -90,6 +90,7 @@ export const TAGS = [
   'VENDOR_CONTRACT',
   'SOFTWARE_CONTRACTS',
   'CONTRACT_HISTORY',
+  'PURCHASE_ORDER_STATUS',
 ];
 
 const baseQuery = fetchBaseQuery({

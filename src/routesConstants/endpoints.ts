@@ -222,6 +222,7 @@ export const END_POINTS = {
   DROPDOWN_SOFTWARE: `/assets/get-software`,
   DROPDOWN_ALL_AGENTS: '/dropdown/agents',
   EDIT_NEW_ITEM: '/assets/purchaseorder',
+  PURCHASE_ORDER_STATUS: '/assets/status-purchaseorder',
   VENDOR_PRODUCT_DROPDOWN: `/product-catalog/vendor-product-list`,
   PURCHASE_ORDER: `/assets/purchaseorder`,
   GET_SINGLE_ASSETS_CONTRACT: '/contract/get-contract',

@@ -2,8 +2,9 @@ import { Typography, Box, Button } from '@mui/material';
 import React from 'react';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { ViewDetailBackArrowIcon } from '@/assets/icons';
-import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
+import { useHeader } from './useHeader';
+import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 
 export const Header = (props: any) => {
   const {
@@ -13,9 +14,7 @@ export const Header = (props: any) => {
     statusDropdownOptions,
     currentStatus,
   } = props;
-
-  const { push } = useRouter();
-
+  const { push, statusData } = useHeader();
   return (
     <>
       <Box
@@ -39,6 +38,7 @@ export const Header = (props: any) => {
             color="secondary"
             variant="outlined"
             onClick={() => handleReceived?.()}
+            disabled={statusData !== PURCHASE_ORDER_STATUS?.ORDERED}
           >
             Received item
           </Button>
@@ -46,6 +46,7 @@ export const Header = (props: any) => {
             color="secondary"
             variant="outlined"
             onClick={() => handleAddToInventory?.()}
+            disabled={statusData !== PURCHASE_ORDER_STATUS?.ORDERED}
           >
             Add to Inventory
           </Button>
