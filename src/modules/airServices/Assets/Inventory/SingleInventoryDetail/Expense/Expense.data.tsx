@@ -8,6 +8,7 @@ import {
 } from '@/components/ReactHookForm';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { EXPENSE_TYPE } from '@/constants/strings';
+import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 
 export const expenseTypeDropdown = [
   EXPENSE_TYPE?.PURCHASE,
@@ -147,14 +148,18 @@ export const addExpenseColumnsFunction = (
 
 export const expenseActionsDropdownFunction = (handleActionClick: any) => [
   {
+    id: 1,
     title: 'Edit',
+    permissionKey: AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.EDIT_EXPENSE,
     handleClick: (close: any) => {
       handleActionClick('edit');
       close?.(false);
     },
   },
   {
+    id: 2,
     title: 'Delete',
+    permissionKey: AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.DELETE_EXPENSE,
     handleClick: (close: any) => {
       handleActionClick?.('delete');
       close?.(false);

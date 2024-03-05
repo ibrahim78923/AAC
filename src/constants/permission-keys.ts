@@ -371,7 +371,7 @@ export const AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS = {
   EXPORT_ACTIVITIES: 'service-inventory-export-activities',
   VIEW_RELATED_SOFTWARES: 'service-inventory-view-related-softwares',
   DELETE_ATTACHMENTS: 'service-inventory-delete-attachments',
-  VIEW_ATTACHMENTS: 'service-inventory-view-attachments',
+  VIEW_ATTACHMENTS: 'service-inventory-view-attachment',
 };
 
 export const AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS = {
