@@ -12,6 +12,7 @@ export const salesWorkflowActionDropdownDynamic = (
   push: any,
 ) => [
   {
+    id: 1,
     title: 'Edit',
     handleClick: (closeMenu: any) => {
       if (selectedSalesWorkflowLists?.length > 1) {
@@ -26,10 +27,12 @@ export const salesWorkflowActionDropdownDynamic = (
       });
       closeMenu?.();
     },
-    permissionKey:
+    permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.EDIT_WORKFLOW,
+    ],
   },
   {
+    id: 2,
     title: 'Clone',
     handleClick: (closeMenu: any) => {
       enqueueSnackbar('Workflow clone successfully', {
@@ -37,15 +40,18 @@ export const salesWorkflowActionDropdownDynamic = (
       });
       closeMenu?.();
     },
-    permissionKey: AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.CLONE,
+    permissionKey: [AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.CLONE],
   },
   {
+    id: 3,
     title: 'Delete',
     handleClick: (closeMenu: any) => {
       setDeleteWorkflow(true);
       closeMenu?.();
     },
-    permissionKey: AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.DELETE,
+    permissionKey: [
+      AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.DELETE,
+    ],
   },
 ];
 

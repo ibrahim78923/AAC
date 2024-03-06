@@ -28,9 +28,9 @@ export const SalesWorkflow = () => {
         canMovedBack
         moveBack={handleBack}
         handleAction={handleCreateWorkflow}
-        createPermissionKey={
-          AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.ADD_CONDITION
-        }
+        createPermissionKey={[
+          AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.ADD_CONDITION,
+        ]}
       />
       <br />
       <SalesWorkflowSubHeader

@@ -6,6 +6,8 @@ import {
   workflowConditionsDataArray,
 } from '../WorkflowConditions.data';
 import { useSubWorkflowConditions } from './useSubWorkflowConditions';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 
 export const SubWorkflowConditions = (props: any) => {
   const { moduleType, index, conditionType } = props;
@@ -51,13 +53,19 @@ export const SubWorkflowConditions = (props: any) => {
           </Box>
         );
       })}
-      <Button
-        onClick={handleAppend}
-        color="secondary"
-        startIcon={<AddCircle color="action" />}
+      <PermissionsGuard
+        permissions={[
+          AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.ADD_CONDITION,
+        ]}
       >
-        Add Condition
-      </Button>
+        <Button
+          onClick={handleAppend}
+          color="secondary"
+          startIcon={<AddCircle color="action" />}
+        >
+          Add Condition
+        </Button>
+      </PermissionsGuard>
     </>
   );
 };
