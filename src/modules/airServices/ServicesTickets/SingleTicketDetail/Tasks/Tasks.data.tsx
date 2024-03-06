@@ -118,29 +118,3 @@ export const tasksTableColumns: any = (
     },
   ];
 };
-export const tasksTableData: any = [
-  {
-    Id: 1,
-    taskID: `# TSK - 5`,
-    taskName: 'Business Platform debt, docs, refactors and stability',
-    dueDate: 'Mar 3, - Mar 26, 2022',
-    assignedTo: 'Robert Fox',
-    status: 'To do',
-  },
-  {
-    Id: 2,
-    taskID: `# TSK - 6`,
-    taskName: 'Search migration modelling',
-    dueDate: '.......',
-    assignedTo: 'Esther Howard',
-    status: 'In-Progress',
-  },
-  {
-    Id: 3,
-    taskID: `# TSK - 7`,
-    taskName: 'Style guide for online app store',
-    dueDate: 'Mar 3, - Mar 27, 2022',
-    assignedTo: 'Wade Warren',
-    status: 'Done',
-  },
-];

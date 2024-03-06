@@ -4,6 +4,8 @@ import { TasksHeader } from './TasksHeader';
 import { AddTaskDrawer } from './TasksDrawers/AddTaskDrawer';
 import { EditTaskDrawer } from './TasksDrawers/EditTaskDrawer';
 import { DetailTaskDrawer } from './TasksDrawers/DetailTaskDrawer';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
 export const Tasks = () => {
   const {
@@ -36,22 +38,26 @@ export const Tasks = () => {
         setIsEditDrawerOpen={setIsEditDrawerOpen}
       />
       <br />
-      <TanstackTable
-        columns={tableColumn}
-        data={tableData}
-        isLoading={isLoading}
-        isFetching={isFetching}
-        isError={isError}
-        isSuccess={isSuccess}
-        isPagination
-        count={meta?.pages}
-        pageLimit={pageLimit}
-        currentPage={page}
-        totalRecords={meta?.total}
-        onPageChange={(page: any) => setPage(page)}
-        setPage={setPage}
-        setPageLimit={setPageLimit}
-      />
+      <PermissionsGuard
+        permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.TASK_LIST_VIEW]}
+      >
+        <TanstackTable
+          columns={tableColumn}
+          data={tableData}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          isSuccess={isSuccess}
+          isPagination
+          count={meta?.pages}
+          pageLimit={pageLimit}
+          currentPage={page}
+          totalRecords={meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+        />
+      </PermissionsGuard>
       <AddTaskDrawer
         isDrawerOpen={isAddDrawerOpen}
         onClose={setIsAddDrawerOpen}
