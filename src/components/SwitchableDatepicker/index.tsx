@@ -80,7 +80,9 @@ const SwitchableDatepicker = ({
 
   const handleCancel = () => {
     setIsOpen(false);
-    setIsCalendarOpen(false);
+    if (setIsCalendarOpen) {
+      setIsCalendarOpen(false);
+    }
   };
 
   const handleChange = (date: any) => {
