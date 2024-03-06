@@ -2,7 +2,7 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const forgetPasswordValidationSchema = Yup.object().shape({
-  ForgetPassword: Yup.string()
+  email: Yup.string()
     .trim()
     .required('Required field')
     .test('email', 'Invalid email address', function (value) {
@@ -29,7 +29,7 @@ export const forgetPasswordDefaultValues = {
 export const forgetPasswordDataArray = [
   {
     componentProps: {
-      name: 'ForgetPassword',
+      name: 'email',
       label: 'Email',
       fullWidth: true,
       placeholder: 'Enter Email',

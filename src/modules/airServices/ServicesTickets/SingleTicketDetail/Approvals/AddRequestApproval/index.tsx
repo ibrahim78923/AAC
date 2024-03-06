@@ -11,6 +11,7 @@ export const AddRequestApproval = (props: any) => {
     onClose,
     onSubmit,
     addRequestApprovalFormFields,
+    postApprovalTicketsStatus,
   } = useAddRequestApproval(props);
 
   return (
@@ -22,12 +23,14 @@ export const AddRequestApproval = (props: any) => {
       okText="Send"
       isOk
       submitHandler={() => handleSubmit(onSubmit)()}
+      isLoading={postApprovalTicketsStatus?.isLoading}
+      isDisabled={postApprovalTicketsStatus?.isLoading}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
             {addRequestApprovalFormFields?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.id}>
+              <Grid item xs={12} key={item?._id}>
                 <item.component {...item?.componentProps} size={'small'} />
               </Grid>
             ))}

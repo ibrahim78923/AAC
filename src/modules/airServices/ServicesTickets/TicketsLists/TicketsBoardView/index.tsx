@@ -29,7 +29,12 @@ export const TableBoardView = ({
     return <NoData message="No data is available" image={AssociationsImage} />;
 
   return (
-    <Grid container spacing={2} overflow={'auto'} flexWrap={'nowrap'}>
+    <Grid
+      container
+      spacing={2}
+      flexWrap={'nowrap'}
+      sx={{ overflowX: 'auto', overflowY: 'hidden' }}
+    >
       {HEAD_STATUS?.map((head: any) => {
         const totalCount =
           ticketViewBoardArray?.filter((item: any) => head?.be === item?.status)

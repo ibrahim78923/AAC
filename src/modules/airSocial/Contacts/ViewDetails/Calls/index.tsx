@@ -2,7 +2,6 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 
 import TanstackTable from '@/components/Table/TanstackTable';
 
-import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 import { callsDetails, callsStatusColor, columns } from './Calls.data';
 
 import CallsEditorDrawer from './CallsEditorDrawer';
@@ -17,7 +16,14 @@ import { styles } from './Calls.style';
 import { isNullOrEmpty } from '@/utils';
 
 const Calls = () => {
-  const { openDrawer, setOpenDrawer, theme } = useCalls();
+  const {
+    dataGetCalls,
+
+    openDrawer,
+    setOpenDrawer,
+    theme,
+  } = useCalls();
+
   return (
     <Box
       sx={{
@@ -40,7 +46,7 @@ const Calls = () => {
         <Grid item xs={12}>
           <Box sx={styles?.callsSpacingBetween}>
             <Typography variant="h4"> Calls</Typography>
-            {!isNullOrEmpty(TasksTableData) && (
+            {!isNullOrEmpty(dataGetCalls?.data?.contactscalls) && (
               <Box
                 sx={{
                   gap: 1,
@@ -61,7 +67,7 @@ const Calls = () => {
             )}
           </Box>
         </Grid>
-        {isNullOrEmpty(TasksTableData) && (
+        {isNullOrEmpty(dataGetCalls?.data?.contactscalls) && (
           <Grid item xs={12}>
             <Box sx={styles?.noCallsBox}>
               <ViewCallIcon />
@@ -81,9 +87,12 @@ const Calls = () => {
             </Box>
           </Grid>
         )}
-        {!isNullOrEmpty(TasksTableData) && (
+        {!isNullOrEmpty(dataGetCalls?.data?.contactscalls) && (
           <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
-            <TanstackTable columns={columns} data={TasksTableData} />
+            <TanstackTable
+              columns={columns}
+              data={dataGetCalls?.data?.contactscalls}
+            />
           </Grid>
         )}
       </Grid>

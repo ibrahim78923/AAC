@@ -6,6 +6,7 @@ const usePhoneNumber = () => {
   const [isBuyNewNumber, setIsBuyNewNumber] = useState(false);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [isEditNumberDrawer, setIsEditNumberDrawer] = useState(false);
+  const [isTestConnectionModal, setIsTestConnectionModal] = useState(false);
 
   return {
     theme,
@@ -15,6 +16,8 @@ const usePhoneNumber = () => {
     setIsDeleteModal,
     isEditNumberDrawer,
     setIsEditNumberDrawer,
+    isTestConnectionModal,
+    setIsTestConnectionModal,
   };
 };
 

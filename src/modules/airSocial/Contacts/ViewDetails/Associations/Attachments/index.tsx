@@ -9,23 +9,27 @@ import AttachmentsEditorDrawer from './AttachmentsEditorDrawer';
 import useAttachments from './useAttachments';
 
 import { columns } from './Attachments.data';
-import { attachmentData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { styles } from '../Associations.style';
 
 import { PlusSharedIcon } from '@/assets/icons';
 
-const Attachments = () => {
+const Attachments = ({ contactId }: any) => {
   const {
     theme,
-    isOpenAlert,
-    setIsOpenAlert,
-    searchName,
-    setSearchName,
+    searchValue,
+    setSearchValue,
+    dataGetAttachment,
+    drawerTitle,
     openDrawer,
-    setOpenDrawer,
+    handleOpenDrawer,
+    handleCloseDrawer,
+    methodsAttachments,
+    isOpenAlert,
+    handleOpenAlert,
     handleCloseAlert,
-  } = useAttachments();
+  } = useAttachments(contactId);
+  const tableColumns = columns(handleOpenDrawer, handleOpenAlert);
 
   return (
     <Box
@@ -53,8 +57,8 @@ const Attachments = () => {
             }}
           >
             <Search
-              searchBy={searchName}
-              setSearchBy={setSearchName}
+              searchBy={searchValue}
+              setSearchBy={setSearchValue}
               label="Search By Name"
               size="small"
             />
@@ -62,7 +66,7 @@ const Attachments = () => {
               variant="contained"
               className="small"
               sx={{ minWidth: '0px', gap: 0.5 }}
-              onClick={() => setOpenDrawer('Add')}
+              onClick={() => handleOpenDrawer('Add', {})}
             >
               <PlusSharedIcon /> Add Attachments
             </Button>
@@ -70,14 +74,16 @@ const Attachments = () => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={attachmentData}
+            columns={tableColumns}
+            data={dataGetAttachment?.data?.attachments}
           />
         </Grid>
       </Grid>
       <AttachmentsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
+        title={drawerTitle}
+        isOpen={openDrawer}
+        onClose={handleCloseDrawer}
+        methods={methodsAttachments}
       />
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}

@@ -52,6 +52,7 @@ export { default as KnowledgeBaseImage } from './modules/HeaderAndSidebar/knowle
 export { default as CompaniesImage } from './modules/HeaderAndSidebar/companies.png';
 export { default as LoginDashboardImage } from '../../assets/images/shared/login-dashboard.png';
 export { default as RQCodeImage } from '../../assets/images/shared/qr-code.png';
+export { default as UserRequesterImage } from '../images/shared/user-requester.png';
 
 export { default as AvatarConversationImage } from '../../assets/images/shared/avatar-conversation-image.png';
 export { default as UserAvatarImage } from '../../assets/images/modules/socialComponents/chat/user.png';

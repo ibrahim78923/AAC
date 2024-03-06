@@ -76,6 +76,7 @@ export const purchaseOrderAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.PURCHASE_ORDER}/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: [TAG_FIVE],
     }),
     getPurchaseOrderList: builder.query({
       query: (params: any) => ({

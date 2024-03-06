@@ -17,11 +17,14 @@ export const KnowledgeBaseTicketDetail = () => {
     feedbackSubmit,
     feedbackMethod,
     showOkFeedback,
-    setShowOkFeedback,
+    helpfulSubmit,
     singleArticlesData,
     isLoading,
     relatedArticlesData,
     loadingArticles,
+    handleRelatedArticles,
+    singleArticleId,
+    feedbackIsLoading,
   } = useKnowledgeBaseTicketDetail();
   return (
     <>
@@ -86,23 +89,27 @@ export const KnowledgeBaseTicketDetail = () => {
                     <SkeletonTable />
                   ) : (
                     <>
-                      {relatedArticlesData?.map((item: any) => (
-                        <Box
-                          display={'flex'}
-                          justifyContent={'flex-start'}
-                          alignItems={'center'}
-                          p={1}
-                          borderRadius={1}
-                          bgcolor={theme?.palette?.grey?.[100]}
-                          mt={0.5}
-                          key={item?.id}
-                        >
-                          <DocumentTextIcon />
-                          <Typography color="secondary">
-                            {item?.title}
-                          </Typography>
-                        </Box>
-                      ))}
+                      {relatedArticlesData?.map(
+                        (item: any) =>
+                          item?._id != singleArticleId && (
+                            <Box
+                              display={'flex'}
+                              justifyContent={'flex-start'}
+                              alignItems={'center'}
+                              p={1}
+                              borderRadius={1}
+                              bgcolor={theme?.palette?.grey?.[100]}
+                              mt={0.5}
+                              key={item?.id}
+                              onClick={() => handleRelatedArticles(item?._id)}
+                            >
+                              <DocumentTextIcon />
+                              <Typography color="secondary">
+                                {item?.title}
+                              </Typography>
+                            </Box>
+                          ),
+                      )}
                     </>
                   )}
                 </Box>
@@ -144,7 +151,11 @@ export const KnowledgeBaseTicketDetail = () => {
                         >
                           Cancel
                         </Button>
-                        <LoadingButton variant="contained" type="submit">
+                        <LoadingButton
+                          disabled={feedbackIsLoading}
+                          variant="contained"
+                          type="submit"
+                        >
                           Submit
                         </LoadingButton>
                       </Box>
@@ -188,10 +199,7 @@ export const KnowledgeBaseTicketDetail = () => {
                   >
                     No
                   </Button>
-                  <Button
-                    variant="contained"
-                    onClick={() => setShowOkFeedback(true)}
-                  >
+                  <Button variant="contained" onClick={helpfulSubmit}>
                     Yes
                   </Button>
                 </Grid>

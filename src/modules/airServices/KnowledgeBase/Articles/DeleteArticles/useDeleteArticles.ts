@@ -10,6 +10,9 @@ export const useDeleteArticles = (props: any) => {
     setSelectedArticlesData,
     setPage,
     moveBack = false,
+    getValueArticlesListData,
+    totalRecords,
+    page,
   } = props;
   const [deleteArticleTrigger, deleteArticleStatus] =
     useDeleteArticleMutation();
@@ -24,7 +27,9 @@ export const useDeleteArticles = (props: any) => {
       await deleteArticleTrigger(deleteArticlesParameter)?.unwrap();
       successSnackbar('Article deleted successfully');
       setSelectedArticlesData?.([]);
-      setPage?.(1);
+      setPage?.(selectedArticlesData?.length === totalRecords ? 1 : page);
+      const newPage = selectedArticlesData?.length === totalRecords ? 1 : page;
+      await getValueArticlesListData?.(newPage);
       closeArticleDeleteModal?.();
       moveBack && moveToArticleList?.();
     } catch (error: any) {
