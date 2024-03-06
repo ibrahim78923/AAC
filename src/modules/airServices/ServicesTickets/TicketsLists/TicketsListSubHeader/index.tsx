@@ -8,7 +8,10 @@ import { ticketsListInitialColumns } from '../TicketsLists.data';
 import usePath from '@/hooks/usePath';
 import { VIEW_TYPES } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
+import {
+  AIR_SERVICES_TICKETS_TICKETS_DETAILS,
+  AIR_SERVICES_TICKETS_TICKET_LISTS,
+} from '@/constants/permission-keys';
 
 export const TicketsListSubHeader = (props: any) => {
   const {
@@ -49,7 +52,10 @@ export const TicketsListSubHeader = (props: any) => {
           gap={'.5rem'}
         >
           <PermissionsGuard
-            permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS]}
+            permissions={[
+              AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
+              AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
+            ]}
           >
             {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
               <SingleDropdownButton
@@ -58,16 +64,20 @@ export const TicketsListSubHeader = (props: any) => {
               />
             )}
           </PermissionsGuard>
-          <Button
-            variant="outlined"
-            onClick={() => {
-              setTicketsListsActiveColumn(ticketsListInitialColumns);
-            }}
-            size="large"
-            color="secondary"
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.RESET]}
           >
-            <AutoRenewIcon />
-          </Button>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setTicketsListsActiveColumn(ticketsListInitialColumns);
+              }}
+              size="large"
+              color="secondary"
+            >
+              <AutoRenewIcon />
+            </Button>
+          </PermissionsGuard>
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_TICKETS_TICKET_LISTS?.COLUMN_CUSTOMIZATION,

@@ -4,7 +4,10 @@ import { TICKET_STATUS } from '@/constants/strings';
 import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
-import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
+import {
+  AIR_SERVICES_TICKETS_TICKETS_DETAILS,
+  AIR_SERVICES_TICKETS_TICKET_LISTS,
+} from '@/constants/permission-keys';
 import { errorSnackbar } from '@/utils/api';
 
 export const TICKETS_ACTION_CONSTANTS = {
@@ -26,7 +29,9 @@ export const ticketsActionDropdownFunction = (
 ) => [
   {
     id: 1,
-    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
+    permissionKey: [
+      AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
+    ],
     title: 'Edit',
     handleClick: (closeMenu: any) => {
       if (selectedTicketList?.length > 1) {

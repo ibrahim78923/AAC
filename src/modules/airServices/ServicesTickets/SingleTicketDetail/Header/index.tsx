@@ -19,9 +19,10 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
 import { headerDropdownFunction } from './Header.data';
 import { PrintDrawer } from './Print';
+import { useHeader } from './useHeader';
 
 const Header = () => {
-  const { data: detail } = useHeaderData();
+  const { data: detail } = useHeader();
   const theme: any = useTheme();
   const { push } = useRouter();
 

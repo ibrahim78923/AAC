@@ -2,7 +2,7 @@ import { useGetTicketsDetailsByIdQuery } from '@/services/airServices/tickets/si
 
 import { useRouter } from 'next/router';
 
-export const useHeaderData = () => {
+export const useHeader = () => {
   const router = useRouter();
   const { ticketId } = router.query;
 

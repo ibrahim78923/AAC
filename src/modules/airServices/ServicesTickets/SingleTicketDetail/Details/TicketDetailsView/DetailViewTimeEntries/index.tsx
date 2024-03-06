@@ -7,6 +7,8 @@ import { styles } from './DetailViewTimeEntries.style';
 import { DetailTicketDrawer } from './DetailTicketDrawer';
 import Image from 'next/image';
 import { VuesaxErrorImage } from '@/assets/images';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
 const DetailViewTimeEntries = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -46,13 +48,19 @@ const DetailViewTimeEntries = () => {
               <DetailTimePicker />
             </Box>
             <Box sx={styles?.buttonStyleOFTimeEntries}>
-              <Button
-                variant="contained"
-                onClick={() => setIsDrawerOpen(true)}
-                startIcon={<CirclePlusIcon />}
+              <PermissionsGuard
+                permissions={[
+                  AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_TIME_ENTRIES_DETAILS,
+                ]}
               >
-                Add Time
-              </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => setIsDrawerOpen(true)}
+                  startIcon={<CirclePlusIcon />}
+                >
+                  Add Time
+                </Button>
+              </PermissionsGuard>
               <DetailTicketDrawer
                 isDrawerOpen={isDrawerOpen}
                 setIsDrawerOpen={setIsDrawerOpen}
