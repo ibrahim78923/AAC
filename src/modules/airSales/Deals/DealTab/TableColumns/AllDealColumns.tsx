@@ -13,6 +13,7 @@ export const AllDealColumns = ({
   handleSelectAllCheckbox,
   isAllSelected,
   activeColumns,
+  // allDealsData,
 }: {
   selectedRows: string[];
   handleSelectSingleCheckBox: (checked: boolean, id: string) => void;
@@ -95,6 +96,7 @@ export const AllDealColumns = ({
     ),
     isSortable: false,
   };
+
   const tableActiveColumns: any =
     activeColumns?.map((item: any) => ({
       accessorFn: (row: any) => row?.attributes,
