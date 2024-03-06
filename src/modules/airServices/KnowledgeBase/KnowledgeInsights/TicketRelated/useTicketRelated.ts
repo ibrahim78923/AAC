@@ -1,28 +1,27 @@
+import { PAGINATION } from '@/config';
+import { useGetKnowledgeInsightsDetailsQuery } from '@/services/airServices/knowledge-base/knowledge-insights';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { PAGINATION } from '@/config';
-import { useGetKnowledgeInsightsQuery } from '@/services/airServices/knowledge-base/knowledge-insights';
-import { knowledgeInsightsColumnsDynamic } from './KnowledgeInsights.data';
 
-export const useKnowledgeInsights = () => {
+export const useTicketRelated = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const router = useRouter();
   const { knowledgeInsightId } = router?.query;
-  const getKnowledgeInsightsParameters = {
+  const getKnowledgeInsightsDetailsParameters = {
     queryParams: {
       page: page,
       limit: pageLimit,
+      articleId: knowledgeInsightId,
     },
   };
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetKnowledgeInsightsQuery(getKnowledgeInsightsParameters, {
+    useGetKnowledgeInsightsDetailsQuery(getKnowledgeInsightsDetailsParameters, {
       refetchOnMountOrArgChange: true,
     });
 
-  const knowledgeInsightsColumns = knowledgeInsightsColumnsDynamic?.(router);
   return {
     data,
     isLoading,
@@ -31,7 +30,6 @@ export const useKnowledgeInsights = () => {
     isSuccess,
     setPageLimit,
     setPage,
-    knowledgeInsightsColumns,
-    knowledgeInsightId,
+    router,
   };
 };
