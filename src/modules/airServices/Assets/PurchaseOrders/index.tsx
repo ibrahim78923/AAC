@@ -9,6 +9,7 @@ import { filterFields } from './PurchaseOrderFilter/PurchaseOrderFilter.data';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { DeletePurchaseOrder } from './DeletePurchaseOrder';
 import { AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 function PurchaseOrder() {
   const {
@@ -50,7 +51,7 @@ function PurchaseOrder() {
       <PageTitledHeader
         title={'Purchase Order'}
         addTitle={'New Purchase Order'}
-        createPermissionKe={
+        createPermissionKey={
           AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.NEW_PURCAHSE_ORDER
         }
         handleAction={handleNewPurchaseOrder}
@@ -63,11 +64,17 @@ function PurchaseOrder() {
           flexWrap={'wrap'}
           gap={1.5}
         >
-          <Search
-            label="Search Here"
-            searchBy={searchValue}
-            setSearchBy={setSearchValue}
-          />
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.SEARCH_AND_FILTER,
+            ]}
+          >
+            <Search
+              label="Search Here"
+              searchBy={searchValue}
+              setSearchBy={setSearchValue}
+            />
+          </PermissionsGuard>
           <Box
             display={'flex'}
             alignItems={'center'}
@@ -80,36 +87,56 @@ function PurchaseOrder() {
               purchaseOrderData={purchaseOrderData}
               isDisabled={!!!purchaseOrderData?.length}
             />
-            <PurchaseOrderExport />
-            <PurchaseOrderFilter
-              isDrawerOpen={isDrawerOpen}
-              setIsDrawerOpen={setIsDrawerOpen}
-              filterFields={filterFields}
-              methods={methodsPurchaseOrderFilterForm}
-              handleSubmit={submitPurchaseOrderFilterForm}
-              handleReset={resetPurchaseOrderFilterForm}
-              departmentDropdown={departmentDropdown}
-              vendorDropdown={vendorDropdown}
-            />
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.EXPORT_PURCAHSE_ORDER,
+              ]}
+            >
+              <PurchaseOrderExport />
+            </PermissionsGuard>
+
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.SEARCH_AND_FILTER,
+              ]}
+            >
+              <PurchaseOrderFilter
+                isDrawerOpen={isDrawerOpen}
+                setIsDrawerOpen={setIsDrawerOpen}
+                filterFields={filterFields}
+                methods={methodsPurchaseOrderFilterForm}
+                handleSubmit={submitPurchaseOrderFilterForm}
+                handleReset={resetPurchaseOrderFilterForm}
+                departmentDropdown={departmentDropdown}
+                vendorDropdown={vendorDropdown}
+              />
+            </PermissionsGuard>
           </Box>
         </Box>
         <br />
-        <TanstackTable
-          data={purchaseData}
-          columns={purchaseOrderColumns}
-          isPagination={true}
-          isLoading={isLoading}
-          isError={isError}
-          isFetching={isFetching}
-          isSuccess={isSuccess}
-          setPageLimit={setPageLimit}
-          setPage={setPage}
-          count={metaData?.pages}
-          totalRecords={metaData?.total}
-          onPageChange={(page: any) => setPage(page)}
-          currentPage={metaData?.page}
-          pageLimit={pageLimit}
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.PURCAHSE_ORDER_LIST_VIEW,
+          ]}
+        >
+          <TanstackTable
+            data={purchaseData}
+            columns={purchaseOrderColumns}
+            isPagination={true}
+            isLoading={isLoading}
+            isError={isError}
+            isFetching={isFetching}
+            isSuccess={isSuccess}
+            setPageLimit={setPageLimit}
+            setPage={setPage}
+            count={metaData?.pages}
+            totalRecords={metaData?.total}
+            onPageChange={(page: any) => setPage(page)}
+            currentPage={metaData?.page}
+            pageLimit={pageLimit}
+          />
+        </PermissionsGuard>
+
         {/* <CustomPagination
           count={1}
           rowsPerPageOptions={[1, 2]}

@@ -1,4 +1,4 @@
-import { AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS } from '@/constants/permission-keys';
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import PurchaseOrder from '@/modules/airServices/Assets/PurchaseOrders';
 // import { TicketsLists } from '@/modules/ServicesTickets/TicketsLists';
@@ -8,7 +8,9 @@ const ServicesTicketsPage = () => {
 
 ServicesTicketsPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout permission={[AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS]}>
+    <Layout
+      permissions={Permissions?.AIR_SERVICES_ASSETS_PURCHASE_ORDER_LIST_VIEW}
+    >
       {page}
     </Layout>
   );
