@@ -59,7 +59,6 @@ const useQuotes = () => {
     useGetQuotesQuery({
       params: { ...filterParams, ...searchPayLoad },
     });
-  // console.log(dataGetQuotes,'dataGetQuotesdataGetQuotes');
 
   const [DeleteQuotes] = useDeleteQuotesMutation();
 

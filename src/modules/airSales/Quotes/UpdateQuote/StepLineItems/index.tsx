@@ -18,13 +18,14 @@ const StepLineItems = ({ openCreateProduct }: any) => {
   const { data: productsData } = useGetQuoteByIdQuery({
     id: data,
   });
+
   const [deleteProducts] = useDeleteProductsMutation();
-  const handleDeleteDeals = async (cell: any) => {
+  const handleDeleteDeals = async (productId: string) => {
     try {
       const DelProdBody = {
         dealId: productsData?.data?.dealId,
         product: {
-          productId: cell?.row?.original?.productId,
+          productId,
         },
       };
       await deleteProducts({ body: DelProdBody })?.unwrap();
@@ -39,7 +40,10 @@ const StepLineItems = ({ openCreateProduct }: any) => {
       });
     }
   };
-
+  const handleAction = (id: string, action: string) => {
+    router.push(`?data=${data}&productId=${id}&type=${action}`);
+    openCreateProduct();
+  };
   const lineItemsColumns: any = [
     {
       accessorFn: (row: any) => row?.name,
@@ -92,18 +96,31 @@ const StepLineItems = ({ openCreateProduct }: any) => {
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.actions,
-      id: 'actions',
+      accessorFn: (row: any) => row?.productId,
+      id: 'productId',
       header: 'Actions',
-      cell: (cell: any) => (
+      cell: ({ getValue }: any) => (
         <Stack direction="row" gap="8px">
-          <Box sx={styles?.actionBtn} onClick={openCreateProduct}>
+          <Box
+            sx={styles?.actionBtn}
+            onClick={() => {
+              handleAction(getValue(), 'view');
+            }}
+          >
             <ViewEyeIcon />
           </Box>
-          <Box sx={styles?.actionBtn} onClick={openCreateProduct}>
+          <Box
+            sx={styles?.actionBtn}
+            onClick={() => {
+              handleAction(getValue(), 'edit');
+            }}
+          >
             <EditYellowBgIcon />
           </Box>
-          <Box sx={styles?.actionBtn} onClick={() => handleDeleteDeals(cell)}>
+          <Box
+            sx={styles?.actionBtn}
+            onClick={() => handleDeleteDeals(getValue())}
+          >
             <TrashIcon />
           </Box>
         </Stack>

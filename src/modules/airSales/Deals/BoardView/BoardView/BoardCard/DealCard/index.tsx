@@ -1,12 +1,22 @@
 'use client';
+import { DATE_FORMAT } from '@/constants';
 import { useGetDealsGridViewQuery } from '@/services/airSales/deals';
-import { Avatar, Box, Checkbox, Grid, Typography, alpha } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Checkbox,
+  Grid,
+  Typography,
+  alpha,
+  useTheme,
+} from '@mui/material';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 
 const TaskViewCard = () => {
+  const theme = useTheme();
   const { data: dealsGridViewData } = useGetDealsGridViewQuery({});
 
   // const [selected, setSelected] = useState<any[]>([]);
@@ -56,7 +66,7 @@ const TaskViewCard = () => {
         <Grid item lg={3} key={uuidv4()}>
           <Box
             sx={{
-              background: alpha('#E5E7EB', 0.3),
+              background: alpha(theme?.palette?.grey[700], 0.3),
               border: '1px solid',
               borderRadius: '5px',
               overflow: 'hidden',
@@ -68,7 +78,7 @@ const TaskViewCard = () => {
               justifyContent="space-between"
               flexWrap="wrap"
               gap={0.6}
-              sx={{ background: '#fff', p: '10px 16px' }}
+              sx={{ background: theme?.palette?.common?.white, p: '10px 16px' }}
             >
               <Box display="flex" gap="10px" alignItems="center">
                 <Typography>{obj?.mainTitle}</Typography>
@@ -122,7 +132,7 @@ const TaskViewCard = () => {
                                   sx={{
                                     cursor: 'grabbing',
                                     width: '100%',
-                                    background: '#fff',
+                                    background: theme?.palette?.common?.white,
                                     mb: '16px',
                                     borderRadius: '8px',
                                     border: '1px solid',
@@ -181,7 +191,7 @@ const TaskViewCard = () => {
                                       <Typography>Amount</Typography>
                                       <Typography>
                                         {dayjs(col?.closeDate).format(
-                                          'DD/MM/YYYY',
+                                          DATE_FORMAT?.UI,
                                         )}
                                       </Typography>
                                     </Box>
@@ -197,13 +207,13 @@ const TaskViewCard = () => {
                                           color:
                                             col?.priority?.toLowerCase() ===
                                             'low'
-                                              ? '#47B263'
+                                              ? theme?.palette?.success?.main
                                               : col?.priority?.toLowerCase() ===
                                                   'medium'
-                                                ? '#FFC20E'
+                                                ? theme?.palette?.warning?.main
                                                 : col?.priority?.toLowerCase() ===
                                                     'high'
-                                                  ? '#FF4A4A'
+                                                  ? theme?.palette?.error?.main
                                                   : '',
                                         }}
                                       >

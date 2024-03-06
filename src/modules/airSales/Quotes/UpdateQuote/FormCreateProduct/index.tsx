@@ -15,19 +15,24 @@ import {
   useGetQuoteByIdQuery,
   usePostProductMutation,
 } from '@/services/airSales/quotes';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
+// import { useEffect } from 'react';
 
 const FormCreateProduct = ({ open, onClose }: any) => {
+  const params = useSearchParams();
+  const disableForm = params.get('type') === 'view' ? true : false;
+  const quoteId = params.get('data');
+  // const productId = params.get('productId');
+
   const [postProduct] = usePostProductMutation();
-  const router = useRouter();
-  let quoteId;
-  if (router.query?.data) {
-    quoteId = router.query?.data;
-  }
+  // const router = useRouter();
+  // let quoteId;
+  // if (router.query?.data) {
+  //   quoteId = router.query?.data;
+  // }
   const { data: Quotenew } = useGetQuoteByIdQuery({ id: quoteId });
 
   const { data: productCatagories } = useGetProductCatagoriesQuery({});
-  // console.log(productCatagories?.data?.productcategories, 'productCatagories');
 
   const [createAssociationQuote] = useCreateAssociationQuoteMutation();
 
@@ -48,8 +53,6 @@ const FormCreateProduct = ({ open, onClose }: any) => {
     formData?.append('unitPrice', values?.unitPrice);
     formData?.append('isActive', values?.isActive);
 
-    // console.log(values, 'values');
-
     try {
       await postProduct({ body: formData })
         ?.unwrap()
@@ -66,16 +69,18 @@ const FormCreateProduct = ({ open, onClose }: any) => {
             variant: 'success',
           });
         });
-      // await createAssociationQuote({body:values})?.unwrap();
-      // enqueueSnackbar('Ticket Updated Successfully', {
-      //   variant: 'success',
-      // });
     } catch (err: any) {
       enqueueSnackbar(err?.data?.message, {
         variant: 'error',
       });
     }
   };
+
+  // useEffect(() => {
+  //   const singleProduct = Quotenew?.data?.products?.find(
+  //     (product: { productId: string }) => product?.productId === productId,
+  //   );
+  // }, [productId]);
 
   return (
     <CommonDrawer
@@ -94,7 +99,11 @@ const FormCreateProduct = ({ open, onClose }: any) => {
             {addContactFields(productCatagories?.data?.productcategories)?.map(
               (item: any) => (
                 <Grid item xs={12} key={item.id}>
-                  <item.component {...item?.componentProps} size={'small'}>
+                  <item.component
+                    disabled={disableForm}
+                    {...item?.componentProps}
+                    size={'small'}
+                  >
                     {item?.componentProps?.select &&
                       item?.options?.map((option: any) => (
                         <option key={option?.value} value={option?.value}>
