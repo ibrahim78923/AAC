@@ -124,7 +124,6 @@ const useSMSBroadcast = () => {
     setCheckedRows,
     resetFilters,
     deleteSmsBroadcast,
-    // handleDateFilter
     startedDate,
     endedDate,
   };

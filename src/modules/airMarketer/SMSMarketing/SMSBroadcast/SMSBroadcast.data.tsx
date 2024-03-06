@@ -8,49 +8,11 @@ import {
 } from '@mui/material';
 
 import Link from 'next/link';
-
 import { styles } from '../SMSDashboard/ScheduledSMS/ScheduledSMS.style';
-
 import LinearProgress from '@mui/material/LinearProgress';
-
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-
-// export const broadcastData: any = [
-//   {
-//     Id: 1,
-//     name: 'Test broad',
-//     CreatedOn: '10/04/2023',
-//     Successful: '100%',
-//     Replied: '55%',
-//     Status: 'Completed',
-//   },
-//   {
-//     Id: 2,
-//     name: 'Demo broadcast',
-//     CreatedOn: '10/04/2023',
-//     Successful: '100%',
-//     Replied: '55%',
-//     Status: 'Scheduled',
-//   },
-//   {
-//     Id: 3,
-//     name: 'Test Campaign sankalp',
-//     CreatedOn: '10/04/2023',
-//     Successful: '100%',
-//     Replied: '55%',
-//     Status: 'Draft',
-//   },
-//   {
-//     Id: 4,
-//     name: 'Test Campaign sankalp',
-//     CreatedOn: '10/04/2023',
-//     Successful: '100%',
-//     Replied: '55%',
-//     Status: 'Processing',
-//   },
-// ];
 
 export const broadcastColumns: any = (columnsProps: any) => {
   const { statusTag, theme, data, checkedRows, setCheckedRows } = columnsProps;
@@ -66,9 +28,6 @@ export const broadcastColumns: any = (columnsProps: any) => {
   const handleSelectAllCompanies = (checked: boolean): void => {
     setCheckedRows(checked ? data?.map(({ _id }: any) => _id) : []);
   };
-  // const handleCheckboxChange = (val: any, rowId: string) => {
-  //   val?.target?.checked ? setSelectedId(rowId) : setSelectedId();
-  // };
 
   return [
     {
@@ -92,20 +51,6 @@ export const broadcastColumns: any = (columnsProps: any) => {
       ),
       isSortable: false,
     },
-    // {
-    //   accessorFn: (row: any) => row?._id,
-    //   id: 'Id',
-    //   cell: (info: any) => (
-    //     <Checkbox
-    //       color="primary"
-    //       name={info?.getValue()}
-    //       defaultChecked={selectedId === info?.getValue()}
-    //       onChange={(e: any) => handleCheckboxChange(e, info?.getValue())}
-    //     />
-    //   ),
-    //   header: <Checkbox color="primary" name="Id" />,
-    //   isSortable: false,
-    // },
     {
       accessorFn: (row: any) => row?.name,
       id: 'name',
