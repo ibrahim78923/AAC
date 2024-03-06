@@ -191,7 +191,7 @@ export const ServicesRoutes: any = [
     icon: KnowledgeBaseImage,
     label: 'Knowledge Base',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_KNOWLEDGE_BASE,
   },
   {
     key: '/air-services/workload',
