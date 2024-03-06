@@ -1,11 +1,11 @@
 import { Box, Checkbox, Avatar, Typography } from '@mui/material';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS, TICKET_STATUS } from '@/constants/strings';
+import { TICKET_STATUS } from '@/constants/strings';
 import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
+import { errorSnackbar } from '@/utils/api';
 
 export const TICKETS_ACTION_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -26,13 +26,11 @@ export const ticketsActionDropdownFunction = (
 ) => [
   {
     id: 1,
-    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Edit',
     handleClick: (closeMenu: any) => {
       if (selectedTicketList?.length > 1) {
-        enqueueSnackbar('Please select only one ticket', {
-          variant: NOTISTACK_VARIANTS?.WARNING,
-        });
+        errorSnackbar('Please select only one ticket');
         closeMenu?.();
         return;
       }
@@ -42,7 +40,7 @@ export const ticketsActionDropdownFunction = (
   },
   {
     id: 2,
-    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Assign To',
     handleClick: (closeMenu: any) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET);
@@ -51,7 +49,7 @@ export const ticketsActionDropdownFunction = (
   },
   {
     id: 3,
-    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Bulk Update',
     handleClick: (closeMenu: any) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA);
@@ -60,13 +58,11 @@ export const ticketsActionDropdownFunction = (
   },
   {
     id: 4,
-    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Merge',
     handleClick: (closeMenu: any) => {
       if (selectedTicketList?.length > 1) {
-        enqueueSnackbar('Please select only one ticket', {
-          variant: NOTISTACK_VARIANTS?.WARNING,
-        });
+        errorSnackbar('Please select only one ticket');
         closeMenu?.();
         return;
       }
@@ -76,7 +72,7 @@ export const ticketsActionDropdownFunction = (
   },
   {
     id: 5,
-    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Move',
     handleClick: (closeMenu: any) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.MOVE_TICKET);
@@ -85,7 +81,7 @@ export const ticketsActionDropdownFunction = (
   },
   {
     id: 6,
-    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Mark as Close',
     handleClick: (closeMenu: any) => {
       updateTicketStatus?.(TICKET_STATUS?.CLOSED);
@@ -94,7 +90,7 @@ export const ticketsActionDropdownFunction = (
   },
   {
     id: 7,
-    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Mark as Spam',
     handleClick: (closeMenu: any) => {
       updateTicketStatus?.(TICKET_STATUS?.SPAM);
@@ -103,7 +99,7 @@ export const ticketsActionDropdownFunction = (
   },
   {
     id: 8,
-    permissionKey: AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Delete',
     handleClick: (closeMenu: any) => {
       setTicketAction(TICKETS_ACTION_CONSTANTS?.DELETE_TICKET);
@@ -188,8 +184,12 @@ export const ticketsListsColumnFunction: any = (
             alignItems={'center'}
           >
             <Avatar
-              sx={{ bgcolor: theme?.palette?.blue?.main, borderRadius: 1.25 }}
-              style={{ width: 25, height: 25 }}
+              sx={{
+                bgcolor: theme?.palette?.blue?.main,
+                borderRadius: 1.25,
+                width: 25,
+                height: 25,
+              }}
               src={
                 info?.row?.original?.departmentsDetails?.departmenProfilePicture
               }
@@ -236,8 +236,7 @@ export const ticketsListsColumnFunction: any = (
       cell: (info: any) => (
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Avatar
-            sx={{ bgcolor: theme?.palette?.blue?.main }}
-            style={{ width: 28, height: 28 }}
+            sx={{ bgcolor: theme?.palette?.blue?.main, width: 28, height: 28 }}
             src={info?.row?.original?.requesterDetails?.profileImg?.src}
           >
             <Typography variant="body2" textTransform={'uppercase'}>

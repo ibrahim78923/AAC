@@ -44,8 +44,10 @@ export const TicketsLists = () => {
         handleAction={() =>
           setTicketAction?.(TICKETS_ACTION_CONSTANTS?.CREATE_NEW_TICKET)
         }
-        exportPermissionKey={AIR_SERVICES_TICKETS_TICKET_LISTS?.EXPORT_TICKETS}
-        createPermissionKey={AIR_SERVICES_TICKETS_TICKET_LISTS?.CREATE_TICKET}
+        exportPermissionKey={[
+          AIR_SERVICES_TICKETS_TICKET_LISTS?.EXPORT_TICKETS,
+        ]}
+        createPermissionKey={[AIR_SERVICES_TICKETS_TICKET_LISTS?.CREATE_TICKET]}
       />
       <br />
       <TicketsListSubHeader
