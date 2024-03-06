@@ -143,7 +143,7 @@ const useContactsSaleSite = () => {
     setIsReAssign(false);
   };
 
-  // Re-Asign
+  // Modal export
   const [openModalExport, setOpenModalExport] = useState(false);
   const handleOpenModalExport = () => {
     setOpenModalExport(true);

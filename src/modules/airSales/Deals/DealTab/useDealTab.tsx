@@ -75,7 +75,6 @@ const useDealTab = () => {
   );
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
   const { data: pipelineData } = useGetDealPipeLineQuery(params);
-  // console.log(pipelineData,'useGetDealPipeLineQuery');
 
   const dealListApiUrl = dealViewsData?.data?.map((obj: any) => {
     const dateStart = obj?.apiUrl?.match(/dateStart=([^&]*)/)[1];

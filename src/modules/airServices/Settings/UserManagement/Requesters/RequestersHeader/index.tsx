@@ -6,6 +6,10 @@ import UpsertRequesters from '../UpsertRequesters';
 import { AgentConversionDelete } from '../AgentConversionDelete';
 import { AgentConversionWarning } from '../AgentConversionWarning';
 import { useRequestersHeader } from './useRequestersHeader';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { Permissions } from '@/constants/permissions';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+
 export const RequestersHeader = (props: any) => {
   const { selectedRequestersList } = props;
   const {
@@ -34,12 +38,18 @@ export const RequestersHeader = (props: any) => {
         flexWrap={'wrap'}
       >
         <Box ml={{ md: 2, xs: 3 }}>
-          <Search
-            label="Search Here"
-            width={'16.25rem'}
-            setSearchBy={setSearchValue}
-            searchBy={searchValue}
-          />
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.FILTERS_SEARCH,
+            ]}
+          >
+            <Search
+              label="Search Here"
+              width={'16.25rem'}
+              setSearchBy={setSearchValue}
+              searchBy={searchValue}
+            />
+          </PermissionsGuard>
         </Box>
         <Box
           display={'flex'}
@@ -48,19 +58,31 @@ export const RequestersHeader = (props: any) => {
           mr={{ md: 2, xs: 1 }}
           ml={{ xs: 0.8 }}
         >
-          <SingleDropdownButton
-            dropdownName={'Actions'}
-            dropdownOptions={requestorsDropdownOptions}
-            disabled={!selectedRequestersList?.length}
-          />
-          <Button
-            startIcon={<CirclePlusIcon />}
-            variant="contained"
-            onClick={() => setIsDrawerOpen(true)}
-            sx={{ whiteSpace: 'nowrap' }}
+          <PermissionsGuard
+            permissions={
+              Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT_REQUESTERS_ACTIONS
+            }
           >
-            Add Requestors
-          </Button>
+            <SingleDropdownButton
+              dropdownName={'Actions'}
+              dropdownOptions={requestorsDropdownOptions}
+              disabled={!selectedRequestersList?.length}
+            />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_REQUESTER,
+            ]}
+          >
+            <Button
+              startIcon={<CirclePlusIcon />}
+              variant="contained"
+              onClick={() => setIsDrawerOpen(true)}
+              sx={{ whiteSpace: 'nowrap' }}
+            >
+              Add Requestors
+            </Button>
+          </PermissionsGuard>
           <UpsertRequesters
             isDrawerOpen={isDrawerOpen}
             setIsDrawerOpen={setIsDrawerOpen}

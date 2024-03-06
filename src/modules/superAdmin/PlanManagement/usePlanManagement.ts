@@ -14,7 +14,7 @@ import { DATE_FORMAT } from '@/constants';
 
 export const usePlanManagement = () => {
   const [isOpenEditDrawer, setIsOpenEditDrawer] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [tableRowValues, setTableRowValues] = useState();
   const [searchBy, setSearchBy] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
