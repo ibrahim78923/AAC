@@ -1,8 +1,7 @@
 // import React, { useState } from 'react';
-import { Typography, MenuItem, Box, useTheme } from '@mui/material';
-import DrawerComp from '../Drawer';
-import { FilterIcon } from '@/assets/icons';
-import { uuid } from 'uuidv4';
+import { Grid } from '@mui/material';
+import { setFiltersData } from '@/redux/slices/taskManagement/taskManagementSlice';
+import CommonDrawer from '@/components/CommonDrawer';
 import {
   filterData,
   filterDefaultValues,
@@ -10,76 +9,57 @@ import {
 } from '../Task.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useForm } from 'react-hook-form';
-import { styles } from './Filter.style';
 import { yupResolver } from '@hookform/resolvers/yup';
-// import dayjs from 'dayjs';
-// import { useGetDealsTasksManagementQuery } from '@/services/airSales/deals/view-details/tasks';
+import { useAppDispatch } from '@/redux/store';
+import { v4 as uuidv4 } from 'uuid';
 
-const Filter = () => {
-  const theme = useTheme();
-
-  // const [taskFilters, setTaskFilters] = useState<any>({});
-  const methods = useForm({
+const Filter = ({ isFilterDrawerOpen, setIsFilterDrawerOpen }: any) => {
+  const dispatch: any = useAppDispatch();
+  const methods: any = useForm({
     resolver: yupResolver(filterValidationSchema),
     defaultValues: filterDefaultValues,
   });
-
-  // const paramsObj = {
-  //   assignTo: taskFilters.assignee,
-  //   dueDate: dayjs(taskFilters.dueDate),
-  //   priority: taskFilters?.priority,
-  //   status: taskFilters?.taskStatus,
-  // };
-
-  // const query = "?" + new URLSearchParams(paramsObj).toString();
-  // const { isError } = useGetDealsTasksManagementQuery({ query: query });
-
-  // const { handleSubmit } = methods;
-
-  // const onSubmit = (values: any) => {
-  //   setTaskFilters(values);
-  // };
+  const { handleSubmit } = methods;
+  const onSubmit = (values: any) => {
+    dispatch(setFiltersData(values));
+  };
 
   return (
-    <DrawerComp
-      btnTitle="Filter"
-      title="Filter"
-      btnIcon={<FilterIcon />}
-      key="filter"
-      footer
-      // submitHandler={handleSubmit(onSubmit)}
+    <CommonDrawer
+      isDrawerOpen={isFilterDrawerOpen}
+      onClose={() => setIsFilterDrawerOpen(false)}
+      title={'Filter'}
+      okText={'Apply'}
+      isOk
+      cancelText={'Cancel'}
+      footer={true}
+      submitHandler={handleSubmit(onSubmit)}
     >
-      <FormProvider methods={methods}>
-        {filterData?.map((obj) => (
-          <Box key={uuid()} mb="32px">
-            <Typography
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <Grid container spacing={4}>
+          {filterData?.map((item: any, index: any) => (
+            <Grid
+              item
+              xs={12}
+              md={item?.md}
+              key={uuidv4()}
               sx={{
-                color: theme?.palette?.grey[600],
-                fontSize: '16px',
-                fontWeight: 500,
-                mb: '8px',
+                paddingTop: index === 0 ? '40px !important' : '17px !important',
               }}
             >
-              {obj?.title}
-            </Typography>
-            <obj.component
-              size="small"
-              fullWidth
-              {...styles}
-              {...obj?.componentProps}
-            >
-              {obj?.componentProps.select
-                ? obj?.options?.map((option) => (
-                    <MenuItem key={option?.value} value={option?.value}>
+              <item.component {...item.componentProps} size={'small'}>
+                {item?.componentProps?.select &&
+                  item?.options?.map((option: any) => (
+                    <option key={option?.value} value={option?.value}>
                       {option?.label}
-                    </MenuItem>
-                  ))
-                : null}
-            </obj.component>
-          </Box>
-        ))}
+                    </option>
+                  ))}
+              </item.component>
+            </Grid>
+          ))}
+        </Grid>
       </FormProvider>
-    </DrawerComp>
+    </CommonDrawer>
   );
 };
 

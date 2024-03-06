@@ -23,6 +23,7 @@ const CommonModal = ({
   handleCancel,
   isSubmitDisabled,
   headerIcon,
+  width,
 }: ModelPropsI) => {
   return (
     <Modal
@@ -35,7 +36,7 @@ const CommonModal = ({
       }}
     >
       <>
-        <Box sx={styles.parentBox}>
+        <Box sx={styles.parentBox(width)}>
           <Box
             sx={{
               marginBottom: '20px',
