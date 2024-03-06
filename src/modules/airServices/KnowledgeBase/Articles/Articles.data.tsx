@@ -149,8 +149,9 @@ export const actionBtnData = (
 ) => [
   {
     title: 'Edit',
-    permissionKey:
+    permissionKey: [
       AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
+    ],
     handleClick: (closeMenu: any) => {
       if (selectedArticlesData?.length > 1) {
         errorSnackbar('Please select only one');
@@ -163,8 +164,9 @@ export const actionBtnData = (
   },
   {
     title: 'Delete',
-    permissionKey:
+    permissionKey: [
       AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.DELETE,
+    ],
     handleClick: (closeMenu: any) => {
       setOpenDeleteModal(true);
       closeMenu();
@@ -172,8 +174,9 @@ export const actionBtnData = (
   },
   {
     title: 'Move Folder',
-    permissionKey:
+    permissionKey: [
       AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
+    ],
     handleClick: (closeMenu: any) => {
       if (selectedArticlesData?.length > 1) {
         errorSnackbar('Please select only one');

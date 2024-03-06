@@ -20,10 +20,8 @@ export const PageTitledHeader = ({
   createPermissionKey,
   exportPermissionKey,
   importPermissionKey,
-  titledPermissionKey,
 }: any) => {
   const theme: any = useTheme();
-
   return (
     <>
       <Box
@@ -33,25 +31,23 @@ export const PageTitledHeader = ({
         flexWrap={'wrap'}
         gap={1}
       >
-        <PermissionsGuard permissions={[titledPermissionKey]}>
-          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
-            {canMovedBack && (
-              <ArrowBackIcon
-                color={'secondary'}
-                sx={{ cursor: 'pointer' }}
-                onClick={() => {
-                  moveBack?.();
-                }}
-              />
-            )}
-            <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
-              {title}
-            </Typography>
-          </Box>
-        </PermissionsGuard>
+        <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
+          {canMovedBack && (
+            <ArrowBackIcon
+              color={'secondary'}
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                moveBack?.();
+              }}
+            />
+          )}
+          <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
+            {title}
+          </Typography>
+        </Box>
         <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
           {hasImport && (
-            <PermissionsGuard permissions={[importPermissionKey]}>
+            <PermissionsGuard permissions={importPermissionKey}>
               <Button
                 color="secondary"
                 variant="outlined"
@@ -63,7 +59,7 @@ export const PageTitledHeader = ({
             </PermissionsGuard>
           )}
           {hasExport && (
-            <PermissionsGuard permissions={[exportPermissionKey]}>
+            <PermissionsGuard permissions={exportPermissionKey}>
               <ExportButton
                 handleExcelExport={() => {
                   handleExcelExport?.();
@@ -75,7 +71,7 @@ export const PageTitledHeader = ({
             </PermissionsGuard>
           )}
           {!!addTitle?.length && (
-            <PermissionsGuard permissions={[createPermissionKey]}>
+            <PermissionsGuard permissions={createPermissionKey}>
               <Button
                 disableElevation
                 variant="contained"

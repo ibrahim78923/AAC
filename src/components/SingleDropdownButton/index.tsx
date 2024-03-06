@@ -44,7 +44,7 @@ export const SingleDropdownButton = (props: any) => {
       >
         {dropdownOptions?.map((singleOption: any) => (
           <PermissionsGuard
-            permissions={[singleOption?.permissionKey]}
+            permissions={singleOption?.permissionKey}
             key={singleOption?.id}
           >
             <MenuItem
