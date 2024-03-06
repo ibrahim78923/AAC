@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { PhoneNumberUtil } from 'google-libphonenumber';
+import { useTheme } from '@mui/material';
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 const isValid = (phone: string) => {
@@ -11,6 +12,7 @@ const isValid = (phone: string) => {
 };
 
 const useConnectNumber = () => {
+  const theme = useTheme();
   const [phoneNumber, setPhoneNumber] = useState('');
   const isPhoneValid = isValid(phoneNumber);
   const handlePhoneChange = (phone: any) => {
@@ -44,6 +46,7 @@ const useConnectNumber = () => {
   };
 
   return {
+    theme,
     isPhoneValid,
     phoneNumber,
     handlePhoneChange,

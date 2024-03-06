@@ -1,15 +1,15 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-export const smsMarketingAPI = baseAPI.injectEndpoints({
+export const SmsMarketingAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getSmsBroadcats: builder.query({
       query: (params: any) => ({
-        url: `${END_POINTS?.GET_SMS_MARKETING_BROADCAST}`,
+        url: END_POINTS?.GET_SMS_MARKETING_BROADCAST,
         method: 'GET',
         params: params,
       }),
-      providesTags: ['RECEIVER_BANK_ACCOUNT'],
+      providesTags: ['BROADCAST'],
     }),
 
     // getReceiverBankAccountsById: builder.query({
@@ -38,20 +38,21 @@ export const smsMarketingAPI = baseAPI.injectEndpoints({
     //   invalidatesTags: ['RECEIVER_BANK_ACCOUNT'],
     // }),
 
-    // deleteReceiverBankAccount: builder.mutation({
-    //   query: ({ ids }: any) => ({
-    //     url: `${END_POINTS?.GET_RECEIVERS_BANK_ACCOUNTS}/${ids}`,
-    //     method: 'DELETE',
-    //   }),
-    //   invalidatesTags: ['RECEIVER_BANK_ACCOUNT'],
-    // }),
+    deleteSmsBroadcast: builder.mutation({
+      query: ({ ids }: any) => ({
+        url: `${END_POINTS?.GET_SMS_MARKETING_BROADCAST}/${ids}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['BROADCAST'],
+    }),
   }),
 });
 
 export const {
   useGetSmsBroadcatsQuery,
+  useDeleteSmsBroadcastMutation,
   // useDeleteReceiverBankAccountMutation,
   // usePostReceiverBankAccountMutation,
   // useUpdateReceiverBankAccountMutation,
   // useGetReceiverBankAccountsByIdQuery,
-} = smsMarketingAPI;
+} = SmsMarketingAPI;

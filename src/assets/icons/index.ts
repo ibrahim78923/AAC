@@ -440,3 +440,4 @@ export { default as ArrowBoxedIcon } from './shared/arrow-boxed';
 export { default as StatusAwayIcon } from './modules/airCallCenter/Settings/GeneralSettings/status-away-icon';
 export { default as StatusInfoIcon } from './modules/airCallCenter/Settings/GeneralSettings/status-info-icon';
 export { default as StatusEditIcon } from './modules/airCallCenter/Settings/GeneralSettings/edit-icon';
+export { default as SmsMainIcon } from './modules/airMarketer/SMSMarketing/sms-main-icon';

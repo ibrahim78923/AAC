@@ -1,19 +1,12 @@
-import React from 'react';
-import {
-  Box,
-  Typography,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Button,
-} from '@mui/material';
+import { Box, Typography, Button, Stack } from '@mui/material';
 import { styles } from './ConnectNumber.style';
-import { TickListIcon, WhatsApp55Icon } from '@/assets/icons';
-import { listData } from './ConnectNumber.data';
+import { SmsMainIcon } from '@/assets/icons';
+
 import useConnectNumber from './useConnectNumber';
 import AddRegNumber from './AddRegNumber';
 import OTPVerification from './OTPVerification';
+import Image from 'next/image';
+import { SmsMockImage, TwillioImage } from '@/assets/images';
 
 const ConnectNumber = ({ setIsNumberConnected }: any) => {
   const {
@@ -27,64 +20,76 @@ const ConnectNumber = ({ setIsNumberConnected }: any) => {
     isPhoneValid,
     phoneNumber,
     handlePhoneChange,
+    theme,
   } = useConnectNumber();
   return (
     <>
-      <Box sx={styles?.header}>
-        <Box sx={styles?.icon}>
-          <WhatsApp55Icon />
-        </Box>
-        <Box>
-          <Typography sx={{ lineHeight: '1.25' }} variant="h3">
-            WhatsApp
-          </Typography>
-          <Box sx={styles?.headerText}>
-            Connect WhatsApp Business numbers and bring all your conversation
-            here
+      <Stack
+        direction={{ md: 'row' }}
+        justifyContent="space-between"
+        alignItems={{ md: 'center' }}
+        gap={1}
+      >
+        <Stack direction="row" alignItems="center" sx={styles?.header}>
+          <Box sx={styles?.icon}>
+            <SmsMainIcon />
           </Box>
+          <Box>
+            <Typography sx={{ lineHeight: '1.25' }} variant="h3">
+              SMS Marketing
+            </Typography>
+            <Box sx={styles?.headerText}>
+              Connect SMS Services Provider bring all your conversation here
+            </Box>
+          </Box>
+        </Stack>
+        <Box>
+          <Button variant="contained" onClick={handleOpenDialogRegNumber}>
+            Connect your Number
+          </Button>
         </Box>
-      </Box>
+      </Stack>
+
       <Box sx={styles?.divider} />
       <Box>
-        <Typography sx={{ lineHeight: '1.25' }} variant="h3">
-          Get started with WhatsApp Marketing
-        </Typography>
-        <List>
-          {listData?.map((item: any) => (
-            <ListItem key={item?.id} disableGutters>
-              <ListItemIcon>
-                <TickListIcon />
-              </ListItemIcon>
-              <ListItemText sx={styles?.listItemText} primary={item?.text} />
-            </ListItem>
-          ))}
-        </List>
-        <Button
-          sx={{ mt: '10px' }}
-          variant="contained"
-          onClick={handleOpenDialogRegNumber}
-        >
-          Connect Your WhatsApp Account
-        </Button>
+        <Stack gap={2}>
+          <Typography sx={{ lineHeight: '1.25' }} variant="h6" fontWeight={600}>
+            Text your contacts automatically in real time
+          </Typography>
+          <Typography
+            sx={{ lineHeight: '1.25', color: theme?.palette?.custom?.main }}
+            variant="body2"
+            fontWeight={600}
+          >
+            Connect your SMS service provider (Twilio) account to create SMS
+            campaign
+          </Typography>
+          <Image src={TwillioImage} alt="mock" />
+          <Image src={SmsMockImage} alt="mock" />
+        </Stack>
       </Box>
 
-      <AddRegNumber
-        open={openDialogRegNumber}
-        onClose={handleCloseDialogRegNumber}
-        onSubmit={handleAddRegNumSubmit}
-        onPhoneChange={handlePhoneChange}
-        phoneValue={phoneNumber}
-        isPhoneValid={isPhoneValid}
-      />
+      {openDialogRegNumber && (
+        <AddRegNumber
+          open={openDialogRegNumber}
+          onClose={handleCloseDialogRegNumber}
+          onSubmit={handleAddRegNumSubmit}
+          onPhoneChange={handlePhoneChange}
+          phoneValue={phoneNumber}
+          isPhoneValid={isPhoneValid}
+        />
+      )}
 
-      <OTPVerification
-        open={openDialogVerification}
-        onClose={handleCloseDialogVerification}
-        onSubmit={() => {
-          handleVerificationSubmit();
-          setIsNumberConnected(true);
-        }}
-      />
+      {openDialogVerification && (
+        <OTPVerification
+          open={openDialogVerification}
+          onClose={handleCloseDialogVerification}
+          onSubmit={() => {
+            handleVerificationSubmit();
+            setIsNumberConnected(true);
+          }}
+        />
+      )}
     </>
   );
 };
