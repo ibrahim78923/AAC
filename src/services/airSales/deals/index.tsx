@@ -173,7 +173,7 @@ export const dealsApi = baseAPI.injectEndpoints({
     }),
     getCustomizeColumn: builder.query({
       query: (params) => ({
-        url: `${END_POINTS?.DEALS_CUSTOMIZE_COLUMN}`,
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'GET',
         params: params,
       }),
@@ -191,7 +191,7 @@ export const dealsApi = baseAPI.injectEndpoints({
     }),
     putCustomizedColumns: builder.mutation({
       query: ({ body }: any) => ({
-        url: `${END_POINTS?.DEALS_CUSTOMIZE_COLUMN}`,
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'PUT',
         body,
       }),

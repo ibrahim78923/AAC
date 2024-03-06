@@ -8,68 +8,47 @@ import {
 } from '@mui/material';
 
 import Link from 'next/link';
-
 import { styles } from '../SMSDashboard/ScheduledSMS/ScheduledSMS.style';
-
 import LinearProgress from '@mui/material/LinearProgress';
-
 import { AIR_MARKETER } from '@/routesConstants/paths';
-
-export const broadcastData: any = [
-  {
-    Id: 1,
-    name: 'Test broad',
-    CreatedOn: '10/04/2023',
-    Successful: '100%',
-    Replied: '55%',
-    Status: 'Completed',
-  },
-  {
-    Id: 2,
-    name: 'Demo broadcast',
-    CreatedOn: '10/04/2023',
-    Successful: '100%',
-    Replied: '55%',
-    Status: 'Scheduled',
-  },
-  {
-    Id: 3,
-    name: 'Test Campaign sankalp',
-    CreatedOn: '10/04/2023',
-    Successful: '100%',
-    Replied: '55%',
-    Status: 'Draft',
-  },
-  {
-    Id: 4,
-    name: 'Test Campaign sankalp',
-    CreatedOn: '10/04/2023',
-    Successful: '100%',
-    Replied: '55%',
-    Status: 'Processing',
-  },
-];
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const broadcastColumns: any = (columnsProps: any) => {
-  const { selectedId, statusTag, theme, setSelectedId } = columnsProps;
+  const { statusTag, theme, data, checkedRows, setCheckedRows } = columnsProps;
 
-  const handleCheckboxChange = (val: any, rowId: string) => {
-    val?.target?.checked ? setSelectedId(rowId) : setSelectedId();
+  const handleSelectCompaniesById = (checked: boolean, id: string): void => {
+    if (checked) {
+      setCheckedRows([...checkedRows, id]);
+    } else {
+      setCheckedRows(checkedRows?.filter((_id: any) => _id !== id));
+    }
+  };
+
+  const handleSelectAllCompanies = (checked: boolean): void => {
+    setCheckedRows(checked ? data?.map(({ _id }: any) => _id) : []);
   };
 
   return [
     {
-      accessorFn: (row: any) => row?.Id,
+      accessorFn: (row: any) => row?._id,
       id: 'Id',
-      cell: (info: any) => (
+      cell: ({ row: { original } }: any) => (
         <Checkbox
-          color="primary"
-          name={info?.getValue()}
-          defaultChecked={selectedId === info?.getValue()}
-          onChange={(e: any) => handleCheckboxChange(e, info?.getValue())}
+          checked={checkedRows?.includes(original?._id)}
+          onChange={({ target }) => {
+            handleSelectCompaniesById(target.checked, original?._id);
+          }}
         />
       ),
-      header: <Checkbox color="primary" name="Id" />,
+      header: (
+        <Checkbox
+          onChange={({ target }) => {
+            handleSelectAllCompanies(target.checked);
+          }}
+          checked={data?.length && checkedRows?.length === data?.length}
+        />
+      ),
       isSortable: false,
     },
     {
@@ -91,11 +70,11 @@ export const broadcastColumns: any = (columnsProps: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.CreatedOn,
+      accessorFn: (row: any) => row?.createdAt,
       id: 'createdOn',
       isSortable: false,
       header: 'Created On',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.Successful,
@@ -214,7 +193,7 @@ export const broadcastColumns: any = (columnsProps: any) => {
       ),
     },
     {
-      accessorFn: (row: any) => row?.Status,
+      accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: false,
       header: 'Status',

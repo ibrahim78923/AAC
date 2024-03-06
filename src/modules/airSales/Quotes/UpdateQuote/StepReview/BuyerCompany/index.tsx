@@ -18,7 +18,7 @@ const BuyerCompany = () => {
               123 Street Address
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              City | State | Zip Code
+              {/* City | State | Zip Code */}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
               Phone No
