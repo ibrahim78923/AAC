@@ -3,14 +3,13 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { EditPenIcon } from '@/assets/icons';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
-
-import * as Yup from 'yup';
 import { UserAvatarImage } from '@/assets/images';
 
 export const columnsTeams = (
   setIsTeamDrawer: any,
   setIsOpenDelete: any,
   theme: any,
+  setTeamId: any,
 ) => {
   return [
     {
@@ -21,8 +20,8 @@ export const columnsTeams = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.teamMember,
-      id: 'teamMember',
+      accessorFn: (row: any) => row?.teamMembers,
+      id: 'teamMembers',
       isSortable: true,
       header: 'Team Member',
       cell: (info: any) => info?.getValue(),
@@ -32,10 +31,13 @@ export const columnsTeams = (
       id: 'action',
       isSortable: true,
       header: 'Action',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <VisibilityIcon
-            onClick={() => setIsTeamDrawer(true)}
+            onClick={() => {
+              setIsTeamDrawer(true);
+              setTeamId(info?.row?.original?._id);
+            }}
             sx={{
               color: `${theme?.palette?.blue?.main}`,
               fontSize: '22px',
@@ -44,7 +46,10 @@ export const columnsTeams = (
           />
           <EditPenIcon />
           <CancelIcon
-            onClick={() => setIsOpenDelete(true)}
+            onClick={() => {
+              setIsOpenDelete(true);
+              setTeamId(info?.row?.original?._id);
+            }}
             sx={{
               color: `${theme?.palette?.error?.main}`,
               fontSize: '22px',
@@ -55,16 +60,6 @@ export const columnsTeams = (
       ),
     },
   ];
-};
-
-export const validationSchema = Yup?.object()?.shape({
-  teamName: Yup?.string()?.required('Field is Required'),
-  teamMember: Yup?.string()?.trim()?.required('Field is Required'),
-});
-
-export const defaultValues = {
-  teamName: '',
-  teamMember: '',
 };
 
 export const teamsDataArray = [
