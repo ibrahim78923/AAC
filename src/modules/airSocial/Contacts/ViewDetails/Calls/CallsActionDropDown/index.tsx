@@ -1,77 +1,84 @@
-import { Button, Grid, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 
-import { AlertModals } from '@/components/AlertModals';
+// import { AlertModals } from '@/components/AlertModals';
 import useCallsActionDropdown from './useCallsActionDropDown';
-import { ScheduleModals } from '@/components/ScheduleModals';
-import { FormProvider } from '@/components/ReactHookForm';
-import {
-  outcomesDataArray,
-  reAssignCallDataArray,
-} from './CallsActionDropDown.data';
-
-import { v4 as uuidv4 } from 'uuid';
+// import { ScheduleModals } from '@/components/ScheduleModals';
 
 const CallsActionDropdown = (props: any) => {
-  const { setOpenDrawer, isActionsDisabled } = props;
+  const {
+    setOpenDrawer,
+    isActionsDisabled,
+    disabledMenuItem,
+    anchorEl,
+    actionMenuOpen,
+    handleActionsMenuClick,
+    handleActionsMenuClose,
+    handleOpenDrawerEditCall,
+  } = props;
   const {
     theme,
-    isMenuOpen,
-    anchorEl,
-    handleOpenMenu,
-    handleCloseMenu,
-    openAlertModal,
-    handleOpenEditDrawer,
-    handleOpenViewDrawer,
     handleOpenDeleteAlert,
-    handleCloseAlert,
-
-    methodsReassignCall,
-    handleReAssignCall,
-    onSubmitReassignCall,
     handleOpenReassignModal,
-
-    handleOutCome,
-    onSubmitOutCome,
-    methodsOutCome,
     handleOpenOutcomeModal,
   } = useCallsActionDropdown({ setOpenDrawer });
 
   return (
-    <div>
-      <Button
-        endIcon={<ArrowDropDown />}
-        sx={{
-          border: `1px solid ${theme?.palette?.custom?.dark}`,
-          color: `${theme?.palette?.custom.main}`,
-          minWidth: '0px',
-          height: '35px',
-        }}
-        aria-controls={isMenuOpen ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={isMenuOpen ? 'true' : undefined}
-        onClick={handleOpenMenu}
-        disabled={isActionsDisabled}
-      >
-        Action
-      </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={isMenuOpen}
-        onClose={handleCloseMenu}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <MenuItem onClick={handleOpenViewDrawer}>View</MenuItem>
-        <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
-        <MenuItem onClick={handleOpenReassignModal}>Reschedule</MenuItem>
-        <MenuItem onClick={handleOpenOutcomeModal}>Add outcomes</MenuItem>
-        <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
-      </Menu>
-
-      <AlertModals
+    <>
+      <Box>
+        <Button
+          endIcon={<ArrowDropDown />}
+          sx={{
+            border: `1px solid ${theme?.palette?.custom?.dark}`,
+            color: `${theme?.palette?.custom.main}`,
+            minWidth: '0px',
+            height: '35px',
+          }}
+          aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={actionMenuOpen ? 'true' : undefined}
+          onClick={handleActionsMenuClick}
+          disabled={isActionsDisabled}
+        >
+          Action
+        </Button>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={actionMenuOpen}
+          onClose={handleActionsMenuClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
+          }}
+        >
+          <MenuItem
+            disabled={!disabledMenuItem}
+            onClick={() => handleOpenDrawerEditCall('View')}
+          >
+            View
+          </MenuItem>
+          <MenuItem
+            disabled={!disabledMenuItem}
+            onClick={() => handleOpenDrawerEditCall('Edit')}
+          >
+            Edit
+          </MenuItem>
+          <MenuItem
+            disabled={!disabledMenuItem}
+            onClick={handleOpenReassignModal}
+          >
+            Reschedule
+          </MenuItem>
+          <MenuItem
+            disabled={!disabledMenuItem}
+            onClick={handleOpenOutcomeModal}
+          >
+            Add outcomes
+          </MenuItem>
+          <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+        </Menu>
+      </Box>
+      {/* <AlertModals
         message={
           "You're about to delete a record. Deleted records can't be restored after 90 days."
         }
@@ -145,8 +152,8 @@ const CallsActionDropdown = (props: any) => {
             ))}
           </Grid>
         </FormProvider>
-      </ScheduleModals>
-    </div>
+      </ScheduleModals> */}
+    </>
   );
 };
 export default CallsActionDropdown;

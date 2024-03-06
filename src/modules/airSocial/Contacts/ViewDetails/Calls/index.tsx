@@ -14,9 +14,14 @@ import { styles } from './Calls.style';
 
 import { isNullOrEmpty } from '@/utils';
 import AddCall from './AddCalls';
+import CallsEditorDrawer from './CallsEditorDrawer';
 
-const Calls = () => {
+const Calls = ({ contactId }: any) => {
   const {
+    anchorEl,
+    actionMenuOpen,
+    handleActionsMenuClick,
+    handleActionsMenuClose,
     dataGetCalls,
     loadingGetCalls,
     setPageLimit,
@@ -27,15 +32,25 @@ const Calls = () => {
     setIsActionsDisabled,
     isActionsDisabled,
     setRowId,
-    // rowId,
+    rowId,
 
     openDrawerAddCall,
     methodsAddCall,
     handleOpenDrawerAddCall,
     handleCloseDrawerAddCall,
     handleAddCallSubmit,
+    employeeList,
+    contactsList,
+    methodsEditCall,
+    openDrawerEditCall,
+    handleOpenDrawerEditCall,
+    handleCloseDrawerEditCall,
+    drawerTitle,
+    isFieldDisabled,
+    handleSubmitUpdateCall,
+    loadingUpdateCall,
     theme,
-  } = useCalls();
+  } = useCalls(contactId);
 
   const callsTableColumns = columns(
     selectedRow,
@@ -75,7 +90,15 @@ const Calls = () => {
                   alignItems: 'center',
                 }}
               >
-                <CallsActionDropdown isActionsDisabled={isActionsDisabled} />
+                <CallsActionDropdown
+                  isActionsDisabled={isActionsDisabled}
+                  anchorEl={anchorEl}
+                  actionMenuOpen={actionMenuOpen}
+                  handleActionsMenuClick={handleActionsMenuClick}
+                  handleActionsMenuClose={handleActionsMenuClose}
+                  handleOpenDrawerEditCall={handleOpenDrawerEditCall}
+                  disabledMenuItem={rowId}
+                />
                 <Button
                   variant="contained"
                   sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
@@ -129,6 +152,20 @@ const Calls = () => {
         onClose={handleCloseDrawerAddCall}
         methods={methodsAddCall}
         onSubmit={handleAddCallSubmit}
+        employeeList={employeeList}
+        contactsList={contactsList}
+      />
+
+      <CallsEditorDrawer
+        title={drawerTitle}
+        openDrawer={openDrawerEditCall}
+        onClose={handleCloseDrawerEditCall}
+        methods={methodsEditCall}
+        onSubmit={handleSubmitUpdateCall}
+        employeeList={employeeList}
+        contactsList={contactsList}
+        isFieldDisabled={isFieldDisabled}
+        loading={loadingUpdateCall}
       />
     </Box>
   );

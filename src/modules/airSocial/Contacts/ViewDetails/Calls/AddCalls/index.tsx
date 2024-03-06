@@ -13,12 +13,12 @@ import {
 import { addCallFormData } from './AddCalls.data';
 
 import { avatarGroupMockData } from '@/modules/superAdmin/PlanManagement/PlanManagement.data';
-import { options } from '../../Emails/EmailEditorDrawer/EmailEditorDrawer.data';
-
-import { AttendeeAvatarImage } from '@/assets/images';
+import { options } from './AddCalls.data';
 
 const AddCall = (props: any) => {
-  const { openDrawer, onClose, methods, onSubmit } = props;
+  const { openDrawer, onClose, methods, onSubmit, employeeList, contactsList } =
+    props;
+  const formFields = addCallFormData(employeeList);
 
   return (
     <div>
@@ -34,7 +34,7 @@ const AddCall = (props: any) => {
         <Box sx={{ pt: 2 }}>
           <FormProvider methods={methods}>
             <Grid container spacing={'22px'}>
-              {addCallFormData?.map((item: any) => (
+              {formFields?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
@@ -52,24 +52,9 @@ const AddCall = (props: any) => {
                 <RHFMultiSearchableSelect
                   size="small"
                   label="Attendees"
-                  name="attendee"
-                  options={[
-                    {
-                      value: 'Guy Hawkins',
-                      label: 'Guy Hawkins',
-                      image: AttendeeAvatarImage,
-                    },
-                    {
-                      value: 'Jacob Jones',
-                      label: 'Jacob Jones',
-                      image: AttendeeAvatarImage,
-                    },
-                    {
-                      value: 'Courtney Henry',
-                      label: 'Courtney Henry',
-                      image: AttendeeAvatarImage,
-                    },
-                  ]}
+                  name="assignee"
+                  options={contactsList}
+                  required={true}
                 />
               </Grid>
               <Grid item xs={12} md={4}>
@@ -85,7 +70,7 @@ const AddCall = (props: any) => {
                 </RHFSelect>
               </Grid>
               <Grid item xs={12}>
-                <RHFEditor label="Meeting Notes" name="notes" required />
+                <RHFEditor label="Meeting Notes" name="note" required />
               </Grid>
             </Grid>
           </FormProvider>
