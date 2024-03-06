@@ -7,6 +7,8 @@ import { AIR_SERVICES } from '@/constants';
 import AddNewVendor from './AddNewVendor';
 import { EXPORT_TYPE } from '@/constants/strings';
 import { VENDOR_LISTS_ACTION_CONSTANTS } from './Vendor.data';
+import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const Vendor = () => {
   const {
@@ -38,9 +40,18 @@ export const Vendor = () => {
           setVendorListAction?.(VENDOR_LISTS_ACTION_CONSTANTS?.IMPORT)
         }
         hasExport
+        exportPermissionKey={[
+          AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.SEARCH_IMPORT_EXPORT_VENDORS,
+        ]}
+        importPermissionKey={[
+          AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.SEARCH_IMPORT_EXPORT_VENDORS,
+        ]}
         handleExcelExport={() => getNewVendorDataExport?.(EXPORT_TYPE?.XLS)}
         handleCsvExport={() => getNewVendorDataExport?.(EXPORT_TYPE?.CSV)}
         canMovedBack
+        createPermissionKey={[
+          AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.ADD_NEW_VENDOR,
+        ]}
         moveBack={() => {
           router?.push({
             pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
@@ -59,26 +70,38 @@ export const Vendor = () => {
         gap={1.5}
         marginTop={6}
       >
-        <Search label="search" setSearchBy={setSearch} />
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.SEARCH_IMPORT_EXPORT_VENDORS,
+          ]}
+        >
+          <Search label="search" setSearchBy={setSearch} />
+        </PermissionsGuard>
       </Box>
 
       <br />
-      <TanstackTable
-        data={vendorData?.data?.vendors}
-        columns={vendorListsColumns}
-        isPagination
-        isLoading={isLoading}
-        isError={isError}
-        isFetching={isFetching}
-        isSuccess={isSuccess}
-        setPageLimit={setPageLimit}
-        setPage={setPage}
-        currentPage={vendorData?.data?.meta?.page}
-        count={vendorData?.data?.meta?.pages}
-        pageLimit={vendorData?.data?.meta?.limit}
-        totalRecords={vendorData?.data?.meta?.total}
-        onPageChange={(page: any) => setPage(page)}
-      />
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.VIEW_VENDORS_LIST,
+        ]}
+      >
+        <TanstackTable
+          data={vendorData?.data?.vendors}
+          columns={vendorListsColumns}
+          isPagination
+          isLoading={isLoading}
+          isError={isError}
+          isFetching={isFetching}
+          isSuccess={isSuccess}
+          setPageLimit={setPageLimit}
+          setPage={setPage}
+          currentPage={vendorData?.data?.meta?.page}
+          count={vendorData?.data?.meta?.pages}
+          pageLimit={vendorData?.data?.meta?.limit}
+          totalRecords={vendorData?.data?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+        />
+      </PermissionsGuard>
       <Box>
         {hasVendorAction &&
           vendorListActionComponent?.[
