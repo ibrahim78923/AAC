@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { SingleVendorDetail } from '@/modules/airServices/Settings/AssetManagement/Vendor/SingleVendorDetail';
 
@@ -8,5 +9,11 @@ const VendorDetailsPage = () => {
 export default VendorDetailsPage;
 
 VendorDetailsPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout
+      permissions={Permissions?.AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_DETAILS}
+    >
+      {page}
+    </Layout>
+  );
 };
