@@ -29,6 +29,8 @@ const UpsertRoles = () => {
   const router: any = useRouter();
   const theme: any = useTheme();
 
+  const { roleId } = router?.query;
+
   const methods: any = useForm({
     resolver: yupResolver(upsertRolesValidationSchema),
     defaultValues: upsertRolesDefaultValues,
@@ -49,7 +51,9 @@ const UpsertRoles = () => {
           onClick={() => router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS)}
           sx={{ cursor: 'pointer' }}
         />
-        <Typography variant="h3">Add New Role</Typography>
+        <Typography variant="h3">
+          {roleId ? `Update Role` : `Add New Role`}
+        </Typography>
       </Box>
 
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
