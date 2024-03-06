@@ -10,10 +10,16 @@ import { UserListI } from './User.interface';
 import { AvatarImage } from '@/assets/images';
 import { AntSwitch } from '@/components/AntSwitch';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const userDropdown = (setDeleteModal: any) => [
   {
+    id: 1,
     title: 'Delete',
+    permissionKey: [
+      AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.DELETE_USER,
+    ],
     handleClick: (close: any) => {
       setDeleteModal(true);
       close(null);
@@ -102,20 +108,26 @@ export const userList: any = (
     cell: (info: any) => (
       <Box display={'flex'} alignItems={'center'} gap={1}>
         <Avatar src={info?.row?.original?.icon?.src} alt="users">
-          <Typography
-            variant="body2"
-            textTransform={'uppercase'}
-            sx={{
-              color: 'blue.dull_blue',
-              cursor: 'pointer',
-            }}
-            onClick={() => setIsDrawerOpen(info?.getValue(), true)}
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.VIEW_USER_DETAIL,
+            ]}
           >
-            {fullNameInitial(
-              info?.row?.original?.firstName,
-              info?.row?.original?.lastName,
-            )}
-          </Typography>
+            <Typography
+              variant="body2"
+              textTransform={'uppercase'}
+              sx={{
+                color: 'blue.dull_blue',
+                cursor: 'pointer',
+              }}
+              onClick={() => setIsDrawerOpen(info?.getValue(), true)}
+            >
+              {fullNameInitial(
+                info?.row?.original?.firstName,
+                info?.row?.original?.lastName,
+              )}
+            </Typography>
+          </PermissionsGuard>
         </Avatar>
         {fullName(
           info?.row?.original?.firstName,
@@ -193,6 +205,14 @@ export const userList: any = (
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => <AntSwitch values={info?.getValue()} />,
+    cell: (info: any) => (
+      <PermissionsGuard
+        permissions={[
+          AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.ACTIVE_INACTIVE_USER,
+        ]}
+      >
+        <AntSwitch values={info?.getValue()} />
+      </PermissionsGuard>
+    ),
   },
 ];
