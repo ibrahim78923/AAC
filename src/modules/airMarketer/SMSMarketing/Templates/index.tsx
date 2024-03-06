@@ -1,29 +1,30 @@
-import React from 'react';
-
 import { Box, Button, Grid } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
-
-import { TemplatesTableData } from './Templates.data';
-
 import { styles } from './Templates.style';
-
 import useTemplates from './useTemplates';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 
 const Templates = () => {
   const {
-    productSearch,
-    setproductSearch,
-    theme,
-    getRowValues,
-    isOpenAlert,
     handleCloseAlert,
     deleteTemplete,
+    setFilterValues,
+    smsTemplateData,
+    filterValues,
+    getRowValues,
+    setPageLimit,
+    isOpenAlert,
+    isLoading,
+    isSuccess,
     navigate,
+    setPage,
+    theme,
   } = useTemplates();
+
+  const templatesDate = smsTemplateData?.data?.smstemplates;
 
   return (
     <>
@@ -44,16 +45,11 @@ const Templates = () => {
         >
           <Box sx={styles?.searchAction}>
             <Search
-              label={'Search here'}
-              searchBy={productSearch}
-              setSearchBy={setproductSearch}
-              width="260px"
+              onChange={(e: any) => {
+                setFilterValues({ ...filterValues, search: e?.target?.value });
+              }}
+              placeholder="Search Here"
               size="small"
-              // sx={{
-              //   '@media (max-width: 500px)': {
-              //     width: '100%',
-              //   },
-              // }}
             />
           </Box>
           <Button
@@ -80,18 +76,28 @@ const Templates = () => {
         <Grid>
           <TanstackTable
             columns={getRowValues}
-            data={TemplatesTableData}
+            data={templatesDate}
+            totalRecords={smsTemplateData?.data?.meta?.total}
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            count={smsTemplateData?.data?.meta?.pages}
             isPagination
+            pageLimit={smsTemplateData?.data?.meta?.limit}
+            isLoading={isLoading}
+            isSuccess={isSuccess}
           />
         </Grid>
 
-        <AlertModals
-          message={'Are you sure you want to delete this Template?'}
-          type={'delete'}
-          open={isOpenAlert}
-          handleClose={handleCloseAlert}
-          handleSubmitBtn={() => deleteTemplete()}
-        />
+        {isOpenAlert && (
+          <AlertModals
+            message={'Are you sure you want to delete this Template?'}
+            type={'delete'}
+            open={isOpenAlert}
+            handleClose={handleCloseAlert}
+            handleSubmitBtn={() => deleteTemplete()}
+          />
+        )}
       </Box>
     </>
   );
