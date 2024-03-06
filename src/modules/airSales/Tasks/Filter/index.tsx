@@ -47,7 +47,7 @@ const Filter = ({ isFilterDrawerOpen, setIsFilterDrawerOpen }: any) => {
                 paddingTop: index === 0 ? '40px !important' : '17px !important',
               }}
             >
-              <item.component {...item.componentProps} size={'small'}>
+              <item.component {...item?.componentProps} size={'small'}>
                 {item?.componentProps?.select &&
                   item?.options?.map((option: any) => (
                     <option key={option?.value} value={option?.value}>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Button, Modal, Typography } from '@mui/material';
+import { Box, Button, Modal, Typography, useTheme } from '@mui/material';
 
 import { ModelPropsI } from './CommonModal.interface';
 
@@ -25,6 +25,7 @@ const CommonModal = ({
   headerIcon,
   width,
 }: ModelPropsI) => {
+  const theme = useTheme();
   return (
     <Modal
       open={open}
@@ -36,7 +37,7 @@ const CommonModal = ({
       }}
     >
       <>
-        <Box sx={styles.parentBox(width)}>
+        <Box sx={styles?.parentBox(width, theme)}>
           <Box
             sx={{
               marginBottom: '20px',

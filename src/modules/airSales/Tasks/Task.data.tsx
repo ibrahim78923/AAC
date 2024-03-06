@@ -148,7 +148,7 @@ export const createTaskDefaultValues = ({ data }: any) => {
   const inputTime = new Date(data?.time);
 
   function isValidDate(date: any) {
-    return date instanceof Date && !isNaN(date.getTime());
+    return date instanceof Date && !isNaN(date?.getTime());
   }
 
   return {
