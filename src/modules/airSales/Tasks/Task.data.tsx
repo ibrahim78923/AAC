@@ -10,55 +10,74 @@ import * as Yup from 'yup';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setSelectedTaskIds } from '@/redux/slices/taskManagement/taskManagementSlice';
 import SearchableTabsSelect from './searchableTabsSelect';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 export const filterDefaultValues = {
-  assignee: '',
-  taskStatus: '',
+  assignTo: '',
+  status: '',
   priority: '',
-  dueDate: '',
+  dueDate: null,
 };
 
 export const filterValidationSchema = Yup?.object()?.shape({
-  assignee: Yup?.string(),
-  taskStatus: Yup?.string(),
-  priority: Yup?.string(),
-  dueDate: Yup?.string(),
+  assignTo: Yup.string(),
+  status: Yup.string(),
+  priority: Yup.string(),
+  // dueDate: Yup.date(),
 });
 
 export const filterData = [
   {
-    title: 'Assignee',
+    md: 12,
     componentProps: {
-      name: 'assignee',
+      label: 'Assignee',
+      name: 'assignTo',
       select: true,
     },
-    options: [{ value: 'value', label: 'label' }],
-    component: RHFTextField,
+    options: [
+      { label: 'Pending', value: 'Pending' },
+      { label: 'Inprogress', value: 'Inprogress' },
+      { label: 'Complete', value: 'Complete' },
+    ],
+    component: RHFSelect,
   },
   {
-    title: 'Task Status',
+    md: 12,
     componentProps: {
-      name: 'taskStatus',
+      label: 'Task Status',
+      name: 'status',
       select: true,
     },
-    options: [{ value: 'value', label: 'label' }],
-    component: RHFTextField,
+    options: [
+      { label: 'Pending', value: 'Pending' },
+      { label: 'Inprogress', value: 'Inprogress' },
+      { label: 'Complete', value: 'Complete' },
+    ],
+    component: RHFSelect,
   },
   {
-    title: 'Priority',
+    md: 12,
     componentProps: {
+      label: 'Priority',
       name: 'priority',
       select: true,
     },
-    options: [{ value: 'value', label: 'label' }],
-    component: RHFTextField,
+    options: [
+      { label: 'Low', value: 'Low' },
+      { label: 'Medium', value: 'Medium' },
+      { label: 'High', value: 'High' },
+    ],
+    component: RHFSelect,
   },
   {
-    title: 'Due date',
     componentProps: {
       name: 'dueDate',
+      label: 'Due Date',
+      fullWidth: true,
     },
     component: RHFDatePicker,
+    md: 12,
   },
 ];
 
@@ -89,7 +108,11 @@ export const matchColumnsData = [
       label: 'Status',
       select: true,
     },
-    options: [{ value: 'value', label: 'label' }],
+    options: [
+      { label: 'Pending', value: 'Pending' },
+      { label: 'Inprogress', value: 'Inprogress' },
+      { label: 'Complete', value: 'Complete' },
+    ],
     component: RHFTextField,
   },
   {
@@ -120,21 +143,29 @@ export const createTaskValidationSchema = Yup?.object()?.shape({
   priority: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
-export const createTaskDefaultValues = {
-  name: '',
-  type: '',
-  priority: '',
-  status: '',
-  dealsIds: '',
-  associate: '',
-  assignTo: '',
-  dueDate: null,
-  time: null,
-  reminder: '',
-  note: '',
+export const createTaskDefaultValues = ({ data }: any) => {
+  const inputDate = new Date(data?.dueDate);
+  const inputTime = new Date(data?.time);
+
+  function isValidDate(date: any) {
+    return date instanceof Date && !isNaN(date?.getTime());
+  }
+
+  return {
+    name: data?.name ?? '',
+    type: data?.type ?? '',
+    priority: data?.priority ?? '',
+    status: data?.status ?? '',
+    dealsIds: data?.dealsIds ?? '',
+    assignTo: data?.assignTo ?? '',
+    dueDate: isValidDate(inputDate) ? inputDate : null,
+    time: isValidDate(inputTime) ? inputTime : null,
+    reminder: data?.reminder ?? '',
+    note: data?.note ?? '',
+  };
 };
 
-export const createTaskData = () => {
+export const createTaskData = ({ data }: any) => {
   return [
     {
       md: 12,
@@ -208,7 +239,8 @@ export const createTaskData = () => {
       md: 12,
       componentProps: {
         label: 'Associate with records',
-        name: 'associate',
+        name: '',
+        data: data,
       },
       component: SearchableTabsSelect,
     },
@@ -312,21 +344,26 @@ export const TasksData = () => {
       id: 'status',
       isSortable: true,
       header: 'Task Status',
-      cell: (info?: any) => info?.getValue(),
+      cell: (info?: any) => info?.row?.original?.status ?? '-',
     },
     {
       accessorFn: (row?: any) => row?.name, // TODO Need to discuss
       id: 'associate',
       isSortable: true,
       header: 'Linked Company',
-      cell: (info?: any) => info?.getValue(),
+      cell: (info?: any) => info?.row?.original?.company ?? '-',
     },
     {
       accessorFn: (row?: any) => row?.assignTo,
       id: 'assignTo',
       isSortable: true,
       header: 'Assigned User',
-      cell: (info?: any) => info?.row?.original?._id,
+      cell: (info?: any) =>
+        info?.row?.original?.assignTo
+          ? info?.row?.original?.assignTo?.firstName +
+            ' ' +
+            info?.row?.original?.assignTo?.lastName
+          : '-',
     },
     {
       accessorFn: (row?: any) => row?.type,
@@ -340,7 +377,8 @@ export const TasksData = () => {
       id: 'updatedAt',
       isSortable: true,
       header: 'last Date',
-      cell: (info?: any) => info?.getValue(),
+      cell: (info?: any) =>
+        dayjs(info?.row?.original?.updatedAt).format(DATE_TIME_FORMAT?.YMDHM),
     },
   ];
 };
