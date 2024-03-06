@@ -45,15 +45,19 @@ export const DepartmentsHeader = (props: any) => {
             searchBy={searchBy}
             setSearchBy={setSearchBy}
           />
-          <PermissionsGuard permissions={[AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_DEPARTMENTS]}>
-          <Button
-            startIcon={<PlusSharedColorIcon />}
-            variant="contained"
-            onClick={() => setOpenAddModal(true)}
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_DEPARTMENTS,
+            ]}
+          >
+            <Button
+              startIcon={<PlusSharedColorIcon />}
+              variant="contained"
+              onClick={() => setOpenAddModal(true)}
             >
-            Add New Department
-          </Button>
-            </PermissionsGuard>
+              Add New Department
+            </Button>
+          </PermissionsGuard>
         </Grid>
       </Grid>
       <DepartmentsFormModal

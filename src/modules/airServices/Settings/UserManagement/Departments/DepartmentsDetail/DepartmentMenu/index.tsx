@@ -28,11 +28,19 @@ export const DepartmentMenu = (props: any) => {
           }}
           transformOrigin={{ vertical: 10, horizontal: 100 }}
         >
-          <PermissionsGuard permissions={[AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DEPARTMENT]}>
-          <MenuItem onClick={handleEditClick}>Edit</MenuItem>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DEPARTMENT,
+            ]}
+          >
+            <MenuItem onClick={handleEditClick}>Edit</MenuItem>
           </PermissionsGuard>
-          <PermissionsGuard permissions={[AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.DELETE_DEPARTMENT]}>
-          <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.DELETE_DEPARTMENT,
+            ]}
+          >
+            <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
           </PermissionsGuard>
         </Menu>
       </Box>

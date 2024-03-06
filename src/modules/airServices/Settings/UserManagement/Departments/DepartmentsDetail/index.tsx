@@ -57,93 +57,101 @@ export const DepartmentsDetail = () => {
       />
       <br />
       <br />
-      <PermissionsGuard permissions={Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT_VIEW_DEPARTMENTS}>
-      <Grid container spacing={2}>
-        {departmentData?.map((item: any) => (
-          <Grid item xl={4} md={6} xs={12} key={item?._id}>
-            <Box
-              p={2}
-              borderRadius={3}
-              boxShadow={2}
-              sx={{
-                minHeight: isSmallScreen ? '200px' : '250px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-              }}
-            >
+      <PermissionsGuard
+        permissions={
+          Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT_VIEW_DEPARTMENTS
+        }
+      >
+        <Grid container spacing={2}>
+          {departmentData?.map((item: any) => (
+            <Grid item xl={4} md={6} xs={12} key={item?._id}>
               <Box
-                display={'flex'}
-                justifyContent={'space-between'}
-                alignItems={'center'}
+                p={2}
+                borderRadius={3}
+                boxShadow={2}
+                sx={{
+                  minHeight: isSmallScreen ? '200px' : '250px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                }}
               >
-                <Box display={'flex'} alignItems={'center'} gap={0.5}>
-                  <Avatar
-                    sx={{
-                      bgcolor: generateColorFromName(item?.name),
-                      width: 25,
-                      height: 25,
-                      fontSize: 14,
-                    }}
-                    variant="rounded"
-                  >
-                    {item?.name?.slice(0, 2)?.toUpperCase()}
-                  </Avatar>
-                  <Typography variant="h5">{item?.name}</Typography>
-                </Box>
-                <PermissionsGuard permissions={Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT_EDIT_DELETE_DEPARTMENTS}>
-                <DepartmentMenu
-                  setOpenEdit={setOpenEdit}
-                  setOpenDelete={setOpenDelete}
-                  itemData={item}
-                />
-                </PermissionsGuard>
-              </Box>
-              <Box
-                borderBottom={`1px solid ${theme?.palette?.custom?.off_white_one}`}
-                p="30px 0 30px 0"
-                mb={1}
-                overflow="hidden"
-                height="100px"
-                width="90%"
-              >
-                <Typography variant="body2">
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html:
-                        item?.description?.length > MAX_WORDS
-                          ? item?.description?.slice(0, MAX_WORDS) + '....'
-                          : item?.description,
-                    }}
-                  ></div>
-                </Typography>
-              </Box>
-              <Box display={'flex'} alignItems={'center'}>
-                <AvatarGroup
-                  max={5}
-                  sx={{
-                    transform: 'scaleX(-1)',
-                    '& .MuiAvatar-root': { width: 30, height: 30, border: 0 },
-                    '& .MuiAvatar-root:last-child': { ml: '-6px !important' },
-                  }}
+                <Box
+                  display={'flex'}
+                  justifyContent={'space-between'}
+                  alignItems={'center'}
                 >
-                  {item?.membersListDetails
-                    ?.slice(0, 4)
-                    ?.map((ava: any) => (
-                      <Avatar
-                        key={ava?._id}
-                        src={ava?.src ?? UsersAvatarRoundedImage?.src}
-                      />
-                    ))}
-                </AvatarGroup>
-                <IconButton onClick={() => setOpenAddModal(true)}>
-                  <AddCircle color="primary" />
-                </IconButton>
+                  <Box display={'flex'} alignItems={'center'} gap={0.5}>
+                    <Avatar
+                      sx={{
+                        bgcolor: generateColorFromName(item?.name),
+                        width: 25,
+                        height: 25,
+                        fontSize: 14,
+                      }}
+                      variant="rounded"
+                    >
+                      {item?.name?.slice(0, 2)?.toUpperCase()}
+                    </Avatar>
+                    <Typography variant="h5">{item?.name}</Typography>
+                  </Box>
+                  <PermissionsGuard
+                    permissions={
+                      Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT_EDIT_DELETE_DEPARTMENTS
+                    }
+                  >
+                    <DepartmentMenu
+                      setOpenEdit={setOpenEdit}
+                      setOpenDelete={setOpenDelete}
+                      itemData={item}
+                    />
+                  </PermissionsGuard>
+                </Box>
+                <Box
+                  borderBottom={`1px solid ${theme?.palette?.custom?.off_white_one}`}
+                  p="30px 0 30px 0"
+                  mb={1}
+                  overflow="hidden"
+                  height="100px"
+                  width="90%"
+                >
+                  <Typography variant="body2">
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          item?.description?.length > MAX_WORDS
+                            ? item?.description?.slice(0, MAX_WORDS) + '....'
+                            : item?.description,
+                      }}
+                    ></div>
+                  </Typography>
+                </Box>
+                <Box display={'flex'} alignItems={'center'}>
+                  <AvatarGroup
+                    max={5}
+                    sx={{
+                      transform: 'scaleX(-1)',
+                      '& .MuiAvatar-root': { width: 30, height: 30, border: 0 },
+                      '& .MuiAvatar-root:last-child': { ml: '-6px !important' },
+                    }}
+                  >
+                    {item?.membersListDetails
+                      ?.slice(0, 4)
+                      ?.map((ava: any) => (
+                        <Avatar
+                          key={ava?._id}
+                          src={ava?.src ?? UsersAvatarRoundedImage?.src}
+                        />
+                      ))}
+                  </AvatarGroup>
+                  <IconButton onClick={() => setOpenAddModal(true)}>
+                    <AddCircle color="primary" />
+                  </IconButton>
+                </Box>
               </Box>
-            </Box>
-          </Grid>
-        ))}
-      </Grid>
+            </Grid>
+          ))}
+        </Grid>
       </PermissionsGuard>
       <br />
       {departmentMetaData && departmentMetaData?.total > 5 && (
