@@ -1,7 +1,7 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import React from 'react';
 
-const CatalogServiceSoftware = (prop: any) => {
+const CatalogServiceDetails = (prop: any) => {
   const theme: any = useTheme();
   const { servicesDetails } = prop;
   return (
@@ -23,4 +23,4 @@ const CatalogServiceSoftware = (prop: any) => {
     </>
   );
 };
-export default CatalogServiceSoftware;
+export default CatalogServiceDetails;

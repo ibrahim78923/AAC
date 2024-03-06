@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { UpsertEventBasedWorkflow } from '@/modules/airOperations/WorkflowAutomation/ServicesWorkflow/EventBaseWorkflows/UpsertEventBasedWorkflow';
 
@@ -8,5 +9,13 @@ const UpsertEventBasedWorkflowPage = () => {
 export default UpsertEventBasedWorkflowPage;
 
 UpsertEventBasedWorkflowPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout
+      permissions={
+        Permissions?.AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_CREATE_EVENT_BASE_WORKFLOW
+      }
+    >
+      {page}
+    </Layout>
+  );
 };

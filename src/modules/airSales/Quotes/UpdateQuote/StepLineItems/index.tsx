@@ -5,13 +5,45 @@ import Search from '@/components/Search';
 import { AddCircleSmallIcon } from '@/assets/icons';
 import { styles } from './StepLineItems.style';
 import { EditYellowBgIcon, ViewEyeIcon, TrashIcon } from '@/assets/icons';
-import { useGetQuoteByIdQuery } from '@/services/airSales/quotes';
+import {
+  useDeleteProductsMutation,
+  useGetQuoteByIdQuery,
+} from '@/services/airSales/quotes';
+import { useRouter } from 'next/router';
+import { enqueueSnackbar } from 'notistack';
 
 const StepLineItems = ({ openCreateProduct }: any) => {
+  const router = useRouter();
+  const { data } = router?.query;
   const { data: productsData } = useGetQuoteByIdQuery({
-    id: '655fda852a3c7ed4c1387da4',
+    id: data,
   });
 
+  const [deleteProducts] = useDeleteProductsMutation();
+  const handleDeleteDeals = async (productId: string) => {
+    try {
+      const DelProdBody = {
+        dealId: productsData?.data?.dealId,
+        product: {
+          productId,
+        },
+      };
+      await deleteProducts({ body: DelProdBody })?.unwrap();
+      enqueueSnackbar('Deals deleted successfully', {
+        variant: 'success',
+      });
+      // setSelectedRows([]);
+      // handleDeleteModal();
+    } catch (error) {
+      enqueueSnackbar('Error while deleting deals', {
+        variant: 'error',
+      });
+    }
+  };
+  const handleAction = (id: string, action: string) => {
+    router.push(`?data=${data}&productId=${id}&type=${action}`);
+    openCreateProduct();
+  };
   const lineItemsColumns: any = [
     {
       accessorFn: (row: any) => row?.name,
@@ -64,18 +96,31 @@ const StepLineItems = ({ openCreateProduct }: any) => {
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.actions,
-      id: 'actions',
+      accessorFn: (row: any) => row?.productId,
+      id: 'productId',
       header: 'Actions',
-      cell: () => (
+      cell: ({ getValue }: any) => (
         <Stack direction="row" gap="8px">
-          <Box sx={styles?.actionBtn} onClick={openCreateProduct}>
+          <Box
+            sx={styles?.actionBtn}
+            onClick={() => {
+              handleAction(getValue(), 'view');
+            }}
+          >
             <ViewEyeIcon />
           </Box>
-          <Box sx={styles?.actionBtn} onClick={openCreateProduct}>
+          <Box
+            sx={styles?.actionBtn}
+            onClick={() => {
+              handleAction(getValue(), 'edit');
+            }}
+          >
             <EditYellowBgIcon />
           </Box>
-          <Box sx={styles?.actionBtn}>
+          <Box
+            sx={styles?.actionBtn}
+            onClick={() => handleDeleteDeals(getValue())}
+          >
             <TrashIcon />
           </Box>
         </Stack>
@@ -106,6 +151,8 @@ const StepLineItems = ({ openCreateProduct }: any) => {
           data={productsData?.data?.products}
         />
       </Box>
+
+      <Box></Box>
 
       <Box sx={styles?.voucherCont}>
         <Box sx={styles?.voucher}>

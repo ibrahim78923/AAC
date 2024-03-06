@@ -2,6 +2,7 @@ import { Box, Button, useTheme, Typography } from '@mui/material';
 import { PlusSharedColorIcon, ImportIcon } from '@/assets/icons';
 import { ExportButton } from '../ExportButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const PageTitledHeader = ({
   title,
@@ -16,9 +17,11 @@ export const PageTitledHeader = ({
   handleImport,
   hasStartIcon = true,
   hasEndIcon = false,
+  createPermissionKey,
+  exportPermissionKey,
+  importPermissionKey,
 }: any) => {
   const theme: any = useTheme();
-
   return (
     <>
       <Box
@@ -44,35 +47,41 @@ export const PageTitledHeader = ({
         </Box>
         <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
           {hasImport && (
-            <Button
-              color="secondary"
-              variant="outlined"
-              startIcon={<ImportIcon />}
-              onClick={() => handleImport?.()}
-            >
-              Import
-            </Button>
+            <PermissionsGuard permissions={importPermissionKey}>
+              <Button
+                color="secondary"
+                variant="outlined"
+                startIcon={<ImportIcon />}
+                onClick={() => handleImport?.()}
+              >
+                Import
+              </Button>
+            </PermissionsGuard>
           )}
           {hasExport && (
-            <ExportButton
-              handleExcelExport={() => {
-                handleExcelExport?.();
-              }}
-              handleCsvExport={() => {
-                handleCsvExport?.();
-              }}
-            />
+            <PermissionsGuard permissions={exportPermissionKey}>
+              <ExportButton
+                handleExcelExport={() => {
+                  handleExcelExport?.();
+                }}
+                handleCsvExport={() => {
+                  handleCsvExport?.();
+                }}
+              />
+            </PermissionsGuard>
           )}
           {!!addTitle?.length && (
-            <Button
-              disableElevation
-              variant="contained"
-              startIcon={hasStartIcon && <PlusSharedColorIcon />}
-              endIcon={hasEndIcon && <PlusSharedColorIcon />}
-              onClick={handleAction}
-            >
-              {addTitle}
-            </Button>
+            <PermissionsGuard permissions={createPermissionKey}>
+              <Button
+                disableElevation
+                variant="contained"
+                startIcon={hasStartIcon && <PlusSharedColorIcon />}
+                endIcon={hasEndIcon && <PlusSharedColorIcon />}
+                onClick={handleAction}
+              >
+                {addTitle}
+              </Button>
+            </PermissionsGuard>
           )}
         </Box>
       </Box>
