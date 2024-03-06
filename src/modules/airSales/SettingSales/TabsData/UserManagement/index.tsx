@@ -5,11 +5,26 @@ import TeamsTable from './Teams';
 import useUserManagement from './useUserManagement';
 import CommonTabs from '@/components/Tabs';
 import CreateTeams from './Teams/CreateTeams';
+import { AlertModals } from '@/components/AlertModals';
+import ViewTeams from './Teams/ViewTeams';
 
 const Users = () => {
   const theme = useTheme<Theme>();
-  const { activeTab, setActiveTab, setIsAddUser, isAddTeam, setIsAddTeam } =
-    useUserManagement();
+  const {
+    activeTab,
+    setActiveTab,
+    setIsAddUser,
+    isAddTeam,
+    setIsAddTeam,
+    setTeamId,
+    teamId,
+    teamDataById,
+    isOpenDelete,
+    isTeamDrawer,
+    setIsTeamDrawer,
+    setIsOpenDelete,
+    handleDeleteTeam,
+  } = useUserManagement();
 
   return (
     <>
@@ -33,7 +48,9 @@ const Users = () => {
             className="small"
             onClick={() => {
               {
-                activeTab === 0 ? setIsAddUser(true) : setIsAddTeam(true);
+                activeTab === 0
+                  ? setIsAddUser(true)
+                  : setIsAddTeam({ isToggle: true, type: 'add', data: {} });
               }
             }}
             variant="contained"
@@ -60,12 +77,37 @@ const Users = () => {
             tabsArray={['Users', 'Teams']}
           >
             <UserTable />
-            <TeamsTable />
+            <TeamsTable
+              teamId={teamId}
+              setTeamId={setTeamId}
+              setIsAddTeam={setIsAddTeam}
+              setIsOpenDelete={setIsOpenDelete}
+              setIsTeamDrawer={setIsTeamDrawer}
+            />
           </CommonTabs>
         </Box>
       </Box>
-
       <CreateTeams isAddTeam={isAddTeam} setIsAddTeam={setIsAddTeam} />
+      <ViewTeams
+        isTeamDrawer={isTeamDrawer}
+        setIsTeamDrawer={setIsTeamDrawer}
+        teamData={teamDataById}
+      />
+
+      {isOpenDelete && (
+        <AlertModals
+          message={'Are you sure you want to delete this team?'}
+          type={'delete'}
+          open={isOpenDelete}
+          submitBtnText="Delete"
+          cancelBtnText="Cancel"
+          handleClose={() => setIsOpenDelete(false)}
+          handleSubmitBtn={() => {
+            setIsOpenDelete(false);
+            handleDeleteTeam(teamId);
+          }}
+        />
+      )}
     </>
   );
 };

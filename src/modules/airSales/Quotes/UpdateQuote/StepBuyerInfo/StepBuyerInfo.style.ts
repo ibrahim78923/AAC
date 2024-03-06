@@ -59,6 +59,8 @@ export const styles = {
     fontWeight: '500',
     lineHeight: '1.555556',
     color: theme?.palette?.slateBlue?.main,
+    display: 'flex',
+    justifyContent: 'space-between',
   }),
   itemText: (theme: any) => ({
     fontSize: '12px',

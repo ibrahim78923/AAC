@@ -2,28 +2,39 @@ import {
   RHFTextField,
   RHFSelect,
   // RHFRadioGroup,
-  RHFEditor,
   RHFCheckbox,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
-  productName: Yup?.string()?.required('Field is Required'),
-  unitPrice: Yup?.string()?.required('Field is Required'),
+  name: Yup?.string()?.required('Field is Required'),
+  unitPrice: Yup?.number()?.required('Field is Required'),
+  purchasePrice: Yup?.number()?.required('Field is Required'),
+  isActive: Yup?.boolean()?.required('Field is Required'),
 });
 
 export const initValues = {
-  productType: 'Custom Line Item',
-  productName: '',
-  SKU: '',
+  // image:'',
+  name: '',
+  sku: '',
   category: '',
   description: '',
-  isActiveProduct: true,
-  unitPrice: '',
-  createdDate: '',
+  isActive: true,
+  unitPrice: 0,
+  purchasePrice: 0,
 };
 
-export const addContactFields = [
+export const addContactFields = (productCatagories: any) => [
+  // {
+  //   id: 'image',
+  //   component: RHFTextField,
+  //   componentProps: {
+  //     name: 'image',
+  //     label: 'image',
+  //     placeholder: 'Enter here',
+  //     // required: 'true',
+  //   },
+  // },
   {
     id: 'productName',
     component: RHFTextField,
@@ -35,7 +46,7 @@ export const addContactFields = [
     },
   },
   {
-    id: 'SKU',
+    id: 'sku',
     component: RHFTextField,
     componentProps: {
       name: 'sku',
@@ -53,22 +64,21 @@ export const addContactFields = [
       select: true,
       placeholder: 'Select',
     },
-    options: [
-      { value: 'Inventory', label: 'Inventory' },
-      { value: 'Non_Inventory', label: 'Non_Inventory' },
-      { value: 'Service', label: 'Service' },
-    ],
+    options: productCatagories?.map((item: any) => ({
+      value: item?._id,
+      label: item?.name,
+    })),
   },
   {
     id: 'description',
-    component: RHFEditor,
+    component: RHFTextField,
     componentProps: {
       name: 'description',
-      label: 'Description',
+      // label: 'Description',
     },
   },
   {
-    id: 'isActiveProduct',
+    id: 'isActive',
     component: RHFCheckbox,
     componentProps: {
       name: 'isActive',
@@ -86,10 +96,10 @@ export const addContactFields = [
     },
   },
   {
-    id: 'createdDate',
+    id: 'purchasePrice',
     component: RHFTextField,
     componentProps: {
-      name: 'createdDate',
+      name: 'purchasePrice',
       label: 'Created Date',
       placeholder: '01/01/2022',
     },
