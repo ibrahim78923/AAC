@@ -265,6 +265,7 @@ export const END_POINTS = {
   REQUEST_APPROVALS_LIST: `/assets/get-purchase-approvals-by-purchase-order`,
   PATCH_APPROVAL_STATUS: `/assets/approver-order-status`,
   ASSETS_RECEIVED: '/assets/get-purchaseorder-assets-received/{id}',
+  GET_SMS_MARKETING_BROADCAST: '/sms-marketing/broadcast',
   SALES_TEAM: '/teams',
   SERVICE_CATALOG_CATEGORIES_DETAILS: '/service-catalog/get-detail-service',
   UPDATE_CONTRACT_SUBMIT_APPROVAL: '/contract/approval-request',
