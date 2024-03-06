@@ -5,6 +5,8 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useRouter } from 'next/router';
 import ReportAnIssueModal from '../../Dashboard/ReportAnIssueModal';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Header = (props: any) => {
   const { push } = useRouter();
@@ -30,10 +32,14 @@ export const Header = (props: any) => {
       >
         <Typography variant="h4">All tickets</Typography>
         <Box display={'flex'} gap={1}>
-          <SingleDropdownButton
-            dropdownOptions={allTicketsDropdownFunction}
-            dropdownName={'All Tickets'}
-          />
+          <PermissionsGuard
+            permissions={[AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS?.FILTERS]}
+          >
+            <SingleDropdownButton
+              dropdownOptions={allTicketsDropdownFunction}
+              dropdownName={'All Tickets'}
+            />
+          </PermissionsGuard>
           <Button
             id="demo-customized-button"
             aria-controls={open ? 'demo-customized-menu' : undefined}
