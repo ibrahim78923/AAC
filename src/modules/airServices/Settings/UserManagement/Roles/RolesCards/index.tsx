@@ -1,23 +1,15 @@
-import {
-  Box,
-  Divider,
-  Grid,
-  Popover,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, Divider, Grid, Popover, Typography } from '@mui/material';
 import { AddRoleIcon } from '@/assets/icons';
-import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { useState } from 'react';
 import CustomPagination from '@/components/CustomPagination';
 import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import NoData from '@/components/NoData';
 import { AssociationsImage } from '@/assets/images';
+import useRolesCards from './useRolesCards';
 
 const RolesCards = ({
   data,
@@ -27,13 +19,8 @@ const RolesCards = ({
   isLoading,
   isFetching,
 }: any) => {
-  const router: any = useRouter();
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [roleId, setRoleId] = useState<any>(null);
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
-  const theme: any = useTheme();
+  const { router, setAnchorEl, setRoleId, id, open, anchorEl, theme, roleId } =
+    useRolesCards();
 
   if (isError) return <ApiErrorState />;
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
   Accordion,
@@ -9,40 +8,28 @@ import {
   Divider,
   Grid,
   Typography,
-  useTheme,
 } from '@mui/material';
-
-import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   rolesAccordionsTicketsData,
-  upsertRolesDefaultValues,
   upsertRolesFormData,
-  upsertRolesValidationSchema,
 } from './UpsertRoles.data';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import useUpsertRoles from './useUpsertRoles';
 
 const UpsertRoles = () => {
-  const router: any = useRouter();
-  const theme: any = useTheme();
-
-  const { roleId } = router?.query;
-
-  const methods: any = useForm({
-    resolver: yupResolver(upsertRolesValidationSchema),
-    defaultValues: upsertRolesDefaultValues,
-  });
-
-  const { handleSubmit, watch } = methods;
-
-  const editNotes = watch('editNotes');
-  const createEditTasksInTickets = watch('createEditTasksInTickets');
-  const createEditAnnouncements = watch('createEditAnnouncements');
-
-  const onSubmit = async () => {};
+  const {
+    router,
+    roleId,
+    methods,
+    handleSubmit,
+    onSubmit,
+    theme,
+    createEditTasksInTickets,
+    createEditAnnouncements,
+    editNotes,
+  } = useUpsertRoles();
 
   return (
     <>
