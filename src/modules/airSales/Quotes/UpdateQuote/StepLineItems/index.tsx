@@ -5,12 +5,40 @@ import Search from '@/components/Search';
 import { AddCircleSmallIcon } from '@/assets/icons';
 import { styles } from './StepLineItems.style';
 import { EditYellowBgIcon, ViewEyeIcon, TrashIcon } from '@/assets/icons';
-import { useGetQuoteByIdQuery } from '@/services/airSales/quotes';
+import {
+  useDeleteProductsMutation,
+  useGetQuoteByIdQuery,
+} from '@/services/airSales/quotes';
+import { useRouter } from 'next/router';
+import { enqueueSnackbar } from 'notistack';
 
 const StepLineItems = ({ openCreateProduct }: any) => {
+  const router = useRouter();
+  const { data } = router?.query;
   const { data: productsData } = useGetQuoteByIdQuery({
-    id: '655fda852a3c7ed4c1387da4',
+    id: data,
   });
+  const [deleteProducts] = useDeleteProductsMutation();
+  const handleDeleteDeals = async (cell: any) => {
+    try {
+      const DelProdBody = {
+        dealId: productsData?.data?.dealId,
+        product: {
+          productId: cell?.row?.original?.productId,
+        },
+      };
+      await deleteProducts({ body: DelProdBody })?.unwrap();
+      enqueueSnackbar('Deals deleted successfully', {
+        variant: 'success',
+      });
+      // setSelectedRows([]);
+      // handleDeleteModal();
+    } catch (error) {
+      enqueueSnackbar('Error while deleting deals', {
+        variant: 'error',
+      });
+    }
+  };
 
   const lineItemsColumns: any = [
     {
@@ -67,7 +95,7 @@ const StepLineItems = ({ openCreateProduct }: any) => {
       accessorFn: (row: any) => row?.actions,
       id: 'actions',
       header: 'Actions',
-      cell: () => (
+      cell: (cell: any) => (
         <Stack direction="row" gap="8px">
           <Box sx={styles?.actionBtn} onClick={openCreateProduct}>
             <ViewEyeIcon />
@@ -75,7 +103,7 @@ const StepLineItems = ({ openCreateProduct }: any) => {
           <Box sx={styles?.actionBtn} onClick={openCreateProduct}>
             <EditYellowBgIcon />
           </Box>
-          <Box sx={styles?.actionBtn}>
+          <Box sx={styles?.actionBtn} onClick={() => handleDeleteDeals(cell)}>
             <TrashIcon />
           </Box>
         </Stack>
@@ -106,6 +134,8 @@ const StepLineItems = ({ openCreateProduct }: any) => {
           data={productsData?.data?.products}
         />
       </Box>
+
+      <Box></Box>
 
       <Box sx={styles?.voucherCont}>
         <Box sx={styles?.voucher}>

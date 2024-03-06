@@ -13,6 +13,7 @@ export const AllDealColumns = ({
   handleSelectAllCheckbox,
   isAllSelected,
   activeColumns,
+  // allDealsData,
 }: {
   selectedRows: string[];
   handleSelectSingleCheckBox: (checked: boolean, id: string) => void;

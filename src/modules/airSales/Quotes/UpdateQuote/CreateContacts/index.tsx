@@ -8,7 +8,7 @@ import { contactsDataArray } from './CreateContactsdata';
 import { v4 as uuidv4 } from 'uuid';
 import useCreateContacts from './useCreateContacts';
 
-const CreateContacts = ({ open, onClose }: any) => {
+const CreateContacts = ({ open, onClose, dealId }: any) => {
   const {
     handleSubmit,
     onSubmit,
@@ -17,7 +17,7 @@ const CreateContacts = ({ open, onClose }: any) => {
     contactStatusData,
     userList,
     submitContact,
-  }: any = useCreateContacts();
+  }: any = useCreateContacts(dealId);
 
   return (
     <CommonDrawer

@@ -17,7 +17,7 @@ import {
 } from './CreateContactsdata';
 import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
 
-const useCreateContacts = () => {
+const useCreateContacts = (dealId: any) => {
   const userRole = 'ORG_ADMIN';
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
 
@@ -64,6 +64,8 @@ const useCreateContacts = () => {
       'dateOfJoinig',
       dayjs(values?.dataOfJoinig)?.format(DATE_FORMAT?.API),
     );
+    formData?.append('recordId', dealId);
+    formData?.append('recordType', 'deals');
 
     try {
       const response = await postContacts({ body: formData })?.unwrap();
