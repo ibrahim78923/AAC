@@ -431,7 +431,7 @@ export const AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS = {
 
 export const AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS = {
   TICKET_LIST: 'service-customer-ticket-list',
-  FILTERS: 'service-customer-filters',
+  FILTERS: 'service-customer-filtters',
 };
 
 export const AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS = {
