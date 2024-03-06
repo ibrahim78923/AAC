@@ -16,6 +16,8 @@ import { DepartmentsFormModal } from '../DepartmentsFormModal';
 import { DepartmentsHeader } from '../DepartmentsHeader';
 import CustomPagination from '@/components/CustomPagination';
 import { DepartmentMenu } from './DepartmentMenu';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { Permissions } from '@/constants/permissions';
 
 const MAX_WORDS = 95;
 export const DepartmentsDetail = () => {
@@ -55,6 +57,7 @@ export const DepartmentsDetail = () => {
       />
       <br />
       <br />
+      <PermissionsGuard permissions={Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT_VIEW_DEPARTMENTS}>
       <Grid container spacing={2}>
         {departmentData?.map((item: any) => (
           <Grid item xl={4} md={6} xs={12} key={item?._id}>
@@ -88,11 +91,13 @@ export const DepartmentsDetail = () => {
                   </Avatar>
                   <Typography variant="h5">{item?.name}</Typography>
                 </Box>
+                <PermissionsGuard permissions={Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT_EDIT_DELETE_DEPARTMENTS}>
                 <DepartmentMenu
                   setOpenEdit={setOpenEdit}
                   setOpenDelete={setOpenDelete}
                   itemData={item}
                 />
+                </PermissionsGuard>
               </Box>
               <Box
                 borderBottom={`1px solid ${theme?.palette?.custom?.off_white_one}`}
@@ -139,6 +144,7 @@ export const DepartmentsDetail = () => {
           </Grid>
         ))}
       </Grid>
+      </PermissionsGuard>
       <br />
       {departmentMetaData && departmentMetaData?.total > 5 && (
         <Grid item xs={12}>
