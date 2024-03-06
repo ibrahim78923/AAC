@@ -11,10 +11,10 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
 import { userTableData } from '@/mock/modules/airSales/SettingSales';
 
-import { dataArray } from './UserTable.data';
+import { dataArray } from './Users.data';
 
 import { v4 as uuidv4 } from 'uuid';
-import useUserTable from './useUserTable';
+import useUserTable from './useUsers';
 
 const UserTable = () => {
   const {

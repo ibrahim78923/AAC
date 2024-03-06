@@ -3,20 +3,29 @@ import { REQUESTORS_STATUS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { ProfileImage } from '@/assets/images';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const requestersDropdown = (
   setDeleteModal: any,
   setWarningModal: any,
 ) => [
   {
+    id: 1,
     title: 'Delete',
+    permissionKey: [
+      AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.DELETE_REQUESTER,
+    ],
     handleClick: (close: any) => {
       setDeleteModal(true);
       close(null);
     },
   },
   {
+    id: 2,
     title: 'Convert to Agent',
+    permissionKey: [
+      AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.CONVERT_TO_AGENT_REQUESTER,
+    ],
     handleClick: (close: any) => {
       setWarningModal(true);
       close(null);
@@ -143,8 +152,8 @@ export const requestersList: any = (
         status === REQUESTORS_STATUS?.ACTIVE
           ? theme?.palette?.success?.main
           : status === REQUESTORS_STATUS?.INACTIVE
-          ? theme?.palette?.warning?.main
-          : '';
+            ? theme?.palette?.warning?.main
+            : '';
 
       return (
         <Typography

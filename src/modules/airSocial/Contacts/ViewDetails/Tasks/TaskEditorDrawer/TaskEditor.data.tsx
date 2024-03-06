@@ -5,136 +5,114 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 
-import * as Yup from 'yup';
+export const contactTaskDataArray = (asignToOptions: any) => {
+  return [
+    {
+      id: 'title',
+      md: 12,
+      component: RHFTextField,
+      componentProps: {
+        name: 'title',
+        label: 'Title',
+        fullWidth: true,
+        disabled: true,
+      },
+    },
+    {
+      id: 'description',
+      md: 12,
+      component: RHFEditor,
+      componentProps: {
+        name: 'description',
+        label: 'Description',
+        fullWidth: true,
+        disabled: true,
+      },
+    },
+    {
+      id: 'status',
+      md: 12,
+      component: RHFSelect,
+      componentProps: {
+        name: 'status',
+        label: 'Task Type',
+        select: true,
+        disabled: true,
+      },
+      options: [
+        { value: 'Todo', label: 'To-do' },
+        { value: 'Follow-up', label: 'Follow-up' },
+        { value: 'Call reminder', label: 'Call reminder' },
+      ],
+    },
+    {
+      id: 'startDate',
+      md: 6,
+      component: RHFDatePicker,
+      componentProps: {
+        name: 'startDate',
+        label: 'Start Date',
+        fullWidth: true,
+        disabled: true,
+      },
+    },
+    {
+      id: 'endDate',
+      md: 6,
+      component: RHFDatePicker,
+      componentProps: {
+        name: 'endDate',
+        label: 'End Date',
+        fullWidth: true,
+        disabled: true,
+      },
+    },
+    {
+      id: 'assignTo',
+      md: 12,
+      component: RHFSelect,
+      componentProps: {
+        name: 'assignTo',
+        label: 'Assign To',
+        select: true,
+        disabled: true,
+      },
+      options: asignToOptions,
+    },
+    {
+      id: 'priority',
+      md: 12,
+      component: RHFSelect,
+      componentProps: {
+        name: 'priority',
+        label: 'Priority',
+        select: true,
+        disabled: true,
+      },
+      options: [
+        { value: 'Low', label: 'Low' },
+        { value: 'Medium', label: 'Medium' },
+        { value: 'High', label: 'High' },
+      ],
+    },
 
-export const dealsTasksValidationSchema = Yup?.object()?.shape({
-  taskname: Yup?.string()?.trim()?.required('Field is Required'),
-  tasktype: Yup?.string()?.trim()?.required('Field is Required'),
-  priority: Yup?.string()?.trim()?.required('Field is Required'),
-  taskstatus: Yup?.string()?.trim()?.required('Field is Required'),
-  selectdeal: Yup?.string()?.trim()?.required('Field is Required'),
-  assignedto: Yup?.string()?.trim()?.required('Field is Required'),
-  associatewithrecords: Yup?.string()?.trim()?.required('Field is Required'),
-  reminder: Yup?.string()?.trim()?.required('Field is Required'),
-  note: Yup?.string()?.trim()?.required('Field is Required'),
-});
-
-export const dealsTasksDefaultValues = {
-  taskname: '',
-  tasktype: '',
-  priority: '',
-  taskstatus: '',
-  selectdeal: '',
-  assignedto: '',
-  associatewithrecords: '',
-  reminder: '',
-  note: '',
-};
-
-export const ContactsTasksDataArray = [
-  {
-    componentProps: {
-      name: 'title',
-      label: 'Title',
-      fullWidth: true,
+    {
+      id: 'notifyBefore',
+      md: 12,
+      component: RHFSelect,
+      componentProps: {
+        name: 'notifyBefore',
+        label: 'Notify Before',
+        fullWidth: true,
+        select: true,
+        disabled: true,
+      },
+      options: [
+        { value: '5', label: '5 minute before' },
+        { value: '10', label: '10 minute before' },
+        { value: '15', label: '15 minute before' },
+        { value: '30', label: '30 minute before' },
+      ],
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'note',
-      label: 'Note',
-      fullWidth: true,
-    },
-    component: RHFEditor,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'tasktype',
-      label: 'Task Type',
-      select: true,
-    },
-    options: [
-      { value: 'To-do', label: 'To-do' },
-      { value: 'Follow-up', label: 'Follow-up' },
-      { value: 'Call reminder', label: 'Call reminder' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'dueDate',
-      label: 'Due Date',
-      fullWidth: true,
-    },
-    component: RHFDatePicker,
-    md: 6,
-  },
-  {
-    componentProps: {
-      name: 'taskstatus',
-      label: '2:56',
-      select: false,
-    },
-    component: RHFTextField,
-    md: 6,
-  },
-  {
-    componentProps: {
-      name: 'Assign To',
-      label: 'Assign To',
-      select: true,
-    },
-    options: [
-      { value: 'Companies', label: 'Companies' },
-      { value: 'Contacts', label: 'Contacts' },
-      { value: 'Deals', label: 'Deals' },
-      { value: 'Tickets', label: 'Tickets' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'Priority',
-      label: 'Priority',
-      select: true,
-    },
-    options: [
-      { value: 'John Doe', label: 'John Doe' },
-      { value: 'Alfa Bravo', label: 'Alfa Bravo' },
-      { value: 'John Charlie', label: 'John Charlie' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-
-  {
-    componentProps: {
-      name: 'Notify Before',
-      label: 'Notify Before',
-      fullWidth: true,
-      select: true,
-    },
-    options: [
-      { value: 'John Doe', label: 'John Doe' },
-      { value: 'Alfa Bravo', label: 'Alfa Bravo' },
-      { value: 'John Charlie', label: 'John Charlie' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-];
-
-export const drawerTitle: any = {
-  Add: 'Add New Tasks',
-  Edit: 'Edit Tasks',
-  View: 'View Tasks',
-};
-export const drawerButtonTitle: any = {
-  Add: 'Add',
-  Edit: 'Edit',
+  ];
 };

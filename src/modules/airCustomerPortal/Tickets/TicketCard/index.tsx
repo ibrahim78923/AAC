@@ -1,11 +1,26 @@
-import { Box, Typography, useTheme } from '@mui/material';
-import { useTickets } from '../useTickets';
-import Chip from '@mui/material/Chip';
+import Image from 'next/image';
+import { Box, Typography, useTheme, Chip } from '@mui/material';
+import dayjs from 'dayjs';
+import { IncTicketIcon } from '@/assets/icons';
+import { DATE_TIME_FORMAT } from '@/constants';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const TicketsCard = (props: any) => {
-  const { id, heading, subHeading, created, status, icon } = props;
-  const { handleSingleTickets } = useTickets();
+  const {
+    id,
+    heading,
+    created,
+    status,
+    icon,
+    ticketIdNumber,
+    source,
+    associateAssetsDetails,
+    handleSingleTickets,
+    isLoading,
+    isFetching,
+  } = props;
   const theme = useTheme();
+  if (isLoading || isFetching) return <SkeletonTable />;
   return (
     <Box
       gap={2}
@@ -40,8 +55,16 @@ export const TicketsCard = (props: any) => {
           justifyContent={'flex-start'}
           variant="body1"
         >
-          {icon}
-          {subHeading}
+          {icon ? (
+            <Image src={icon} alt={ticketIdNumber} height={25} width={25} />
+          ) : (
+            <IncTicketIcon />
+          )}
+          {
+            associateAssetsDetails?.find((item: any) => item?.displayName)
+              ?.displayName
+          }{' '}
+          {ticketIdNumber}
         </Typography>
 
         <Box
@@ -49,9 +72,11 @@ export const TicketsCard = (props: any) => {
           alignItems={'center'}
           flexDirection={{ xs: 'column', sm: 'row' }}
         >
-          <Typography variant="body2">Created On {created} - </Typography>
-          <Typography variant="body2" color="primary">
-            Via Portal
+          <Typography variant="body2">
+            Created On {dayjs(created)?.format(DATE_TIME_FORMAT?.DMYhmma)} -{' '}
+          </Typography>
+          <Typography variant="body2" color="primary.main">
+            Via {source ?? '.....'}
           </Typography>
         </Box>
       </Box>

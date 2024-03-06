@@ -48,7 +48,7 @@ export const debouncedSearch = debounce((value: any, setSearchBy: any) => {
 }, DEBOUNCE_DELAY);
 
 const getSession = () => {
-  const sessionJSON = window?.localStorage?.getItem('session');
+  const sessionJSON = localStorage?.getItem('session');
 
   if (sessionJSON) return JSON.parse(sessionJSON);
   // return {};
@@ -76,25 +76,29 @@ const setActiveProductSession = (product: any) => {
 };
 
 const getActiveProductSession = () => {
-  const sessionJSON = window?.localStorage?.getItem('ActiveProduct');
+  const sessionJSON = localStorage?.getItem('ActiveProduct');
 
   if (sessionJSON) return JSON.parse(sessionJSON);
   return {};
 };
 
 const setActivePermissionsSession = (permissions: any) => {
-  if (permissions) {
-    localStorage.setItem('ActivePermissions', JSON.stringify(permissions));
-  } else {
-    localStorage.removeItem('ActivePermissions');
+  if (typeof localStorage !== 'undefined') {
+    if (permissions) {
+      localStorage.setItem('ActivePermissions', JSON.stringify(permissions));
+    } else {
+      localStorage.removeItem('ActivePermissions');
+    }
   }
 };
 
 const getActivePermissionsSession = () => {
-  const sessionJSON = window?.localStorage?.getItem('ActivePermissions');
+  if (typeof localStorage !== 'undefined') {
+    const sessionJSON = localStorage?.getItem('ActivePermissions');
 
-  if (sessionJSON) return JSON.parse(sessionJSON);
-  return {};
+    if (sessionJSON) return JSON.parse(sessionJSON);
+    return {};
+  }
 };
 
 export {
