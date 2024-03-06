@@ -43,5 +43,6 @@ export const styles = {
     fontWeiht: '400',
     lineHeight: '1.5',
     color: 'custom.main',
+    textTransform: 'capitalize',
   }),
 };
