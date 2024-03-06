@@ -14,10 +14,8 @@ export const CompanyOwnerValidationSchema = Yup.object().shape({
   email: Yup.string()
     .required('Field is Required')
     .email('Invalid email address'),
-  crn: Yup.string()
-    .required('Field is Required')
-    .matches(/^[0-9]+$/, 'Must be a number'),
-  phoneNumber: Yup.string().matches(/^\+\d{1,}$/, 'Invalid phone number'),
+  crn: Yup.string().required('Field is Required'),
+  // phoneNumber: Yup.string().matches(/^\+\d{1,}$/, 'Invalid phone number'),
 });
 
 export const superAdminValidationSchema = Yup.object().shape({

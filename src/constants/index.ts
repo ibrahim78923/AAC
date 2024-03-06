@@ -22,9 +22,13 @@ export const DATE_TIME_FORMAT = {
   UI: 'dddd, MMMM D, YYYY - HH:mm',
   DMYhmma: 'D MMMM, YYYY - h:mm A',
   DMDMHA: 'ddd, D MMM h:mm A',
+  MMMDDYYYY: 'MMM DD, YYYY',
   DDMYHMA: 'ddd, D MMM, YYYY h:mm A',
   DMY: 'DDMMMYYYY',
   DMYHMSA: 'ddd MM, YYYY hh:mm:ss A',
+  D: 'D',
+  DDDDDD: 'ddd - DD',
+  DDMMYYYY: 'DD MMM, YYYY hh:MM A',
 };
 
 export const VALIDATION_CONSTANT = {
