@@ -198,7 +198,7 @@ export const ServicesRoutes: any = [
     icon: WorkLoadImage,
     label: 'WorkLoad',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_WORKLOAD_CALENDER_VIEW,
   },
   {
     key: '/air-customer-portal',
@@ -780,7 +780,7 @@ const ROLES_ROUTES: any = {
   SUPER_ADMIN: SuperAdminRoutes,
   ORG_EMPLOYEE: SalesRoutes,
   'Air Services': ServicesRoutes,
-  'Org Admin': OrgAdminRoutes,
+  ORG_ADMIN: OrgAdminRoutes,
   'Customer Portal': CustomerPortalRoutes,
   'Air Operations': AirOperationsRoutes,
   'Air Marketer': AirMarketingRoutes,
