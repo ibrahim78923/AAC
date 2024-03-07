@@ -41,12 +41,6 @@ export const SUPER_ADMIN_REPORTS_PERMISSIONS = {
   view_user_report: 'view-user-report',
 };
 
-export const AIR_MARKETER_COMPARE_POSTS_PERMISSIONS = {
-  Add_post: 'marketer-social-marketing-compare-social-post-add-post',
-  View_compare_posts:
-    'marketer-social-marketing-compare-social-post-view-compare-post',
-};
-
 export const ORG_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
   ADD_USER: 'org-add-user',
   USER_SEARCH_AND_FILTER: 'org-user-search-and-filter',
@@ -412,6 +406,15 @@ export const AIR_SALES_DASHBOARD_PERMISSIONS = {
 
 export const AIR_SALES_SETTINGS = {
   SEARCH_PIPELINE: 'sale-deal-pipeline-search-and-filter',
+};
+
+export const AIR_MARKETER_SMS_MARKETING_TEMPLATES = {
+  CREATE_TEMPLATE: 'marketer-sms-marketing-templates-create',
+  SEARCH_TEMPLATE: 'marketer-sms-marketing-templates-search-and-filter',
+  SAVE_TEMPLATE: 'marketer-sms-marketing-templates-save',
+  EDIT_TEMPLATE: 'marketer-sms-marketing-templates-edit',
+  DELETE_TEMPLATE: 'marketer-sms-marketing-templates-delete',
+  LIST_VIEW: 'marketer-sms-marketing-templates-list-view',
 };
 
 export const AIR_MARKETER_SOCIAL_MARKETING_CALENDER = {
@@ -787,6 +790,144 @@ export const AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS = {
   CREATE_TEAM: `operation-user-managment-create-team`,
 };
 
+export const AIR_MARKETER_DASHBAORD_PERMISSIONS = {
+  VIEW_DASHBOARD: 'marketer-all-company-view-dashboard',
+};
+
+export const AIR_MARKETER_CAMPAIGNS_PERMISSIONS = {
+  COMPARE_CAMPAIGNS: 'marketer-campaigns-manage-compare-campaigns',
+  CREATE_CAMPAIGNS: 'marketer-campaigns-manage-create-campaigns',
+  SEARCH_FILTER: 'marketer-campaigns-manage-search-and-filters',
+  SAVE_VIEW: 'marketer-campaigns-manage-save-view',
+  SAVE_ALL_VIEWS: 'marketer-campaigns-manage-see-all-views',
+  VIEW_DETAILS: 'marketer-campaigns-manage-view-details',
+  VIEW_PERFORMANCE: 'marketer-campaigns-manage-view-perfomance',
+  MANAGER_CREATE_TASK: 'marketer-campaigns-manage-create-task',
+  EDIT_CAMPAIGNS: 'marketer-campaigns-manage-edit-campaign',
+  EDIT_GOALS: 'marketer-campaigns-manage-edit-goal',
+  EXPORT_CAMPAIGNS: 'marketer-campaigns-manage-export-campaign',
+  EDIT_COLUMNS: 'marketer-campaigns-manage-edit-columns',
+  CLONE_DELETE: 'marketer-campaigns-manage-clone-delete',
+  COLLAPSE_MENU_TASKS_FILTERS:
+    'marketer-campaigns-manage-collapse-menu-task-filters',
+  COLLAPSE_MENU_TAKS_EDIT: 'marketer-campaigns-manage-collapse-menu-task-edit',
+  COLLAPSE_MENU_TASKS_DELETE:
+    'marketer-campaigns-manage-collapse-menu-task-delete',
+  COLLAPSE_MENU_COMMENTS_REPLY:
+    'marketer-campaigns-manage-collapse-menu-commnets-reply',
+  COLLAPSE_MENU_COMMENT_TAB_TASK_FILTER:
+    'marketer-campaigns-manage-collapse-menu-commnets-filter',
+  CREATE_CALENDAR: 'marketer-campaigns-calendar-create-task',
+  VIEW_TASK_DETAILS: 'marketer-campaigns-calendar-view-task-details',
+  VIEW_CAMPAIGNS_DETAILS: 'marketer-campaigns-calendar-view-campaign-details',
+  VIEW_SOCIAL_MEDIA_POSTS:
+    'marketer-campaigns-calendar-view-social-media-posts',
+  CREATE_TASK: 'marketer-campaigns-tasks-create-task',
+  TASK_SEARCH_FILTER: 'marketer-campaigns-tasks-search-and-filter',
+  IMPORT_TASK: 'marketer-campaigns-tasks-import-task',
+  LIST_VIEW: 'marketer-campaigns-tasks-list-view',
+  BOARD_VIEW: 'marketer-campaigns-tasks-board-view',
+  TASK_EDIT_COLUMNS: 'marketer-campaigns-tasks-edit-columns',
+  EDIT_TASK: 'marketer-campaigns-tasks-edit-task',
+  VIEW_ACTIVITY: 'marketer-campaigns-tasks-view-activity',
+  VIEW_INSIGHT: 'marketer-campaigns-tasks-view-insights',
+  VIEW_FEEDS: 'marketer-campaigns-tasks-view-feeds',
+  CHANGE_STATUS: 'marketer-campaigns-tasks-change-status',
+  DELETE: 'marketer-campaigns-tasks-delete-task',
+  TASK_VIEW: 'marketer-campaigns-tasks-view-task',
+};
+
+export const AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS = {
+  VIEW_LIST: 'marketer-email-marketing-email-list-view-emails',
+  SEARCH_FILTER: 'marketer-email-marketing-email-list-search-and-filter',
+  VIEW_DETAILS: 'marketer-email-marketing-email-list-view-detail',
+  COMPAIR_EMAILS: 'marketer-email-marketing-email-list-compare-emails',
+  EXPORT_EMAILS: 'marketer-email-marketing-email-list-export-emails',
+  SAVE_AS_TEMPLATE: 'marketer-email-marketing-email-list-save-as-template',
+  MOVE_TO_FOLDERS: 'marketer-email-marketing-email-list-move-to-folders',
+  MANAGE_ACCESS: 'marketer-email-marketing-email-list-manage-access',
+  ARCHIVED_EMAILS: 'marketer-email-marketing-email-list-archived-emails',
+  DUPLICATE_EMAILS: 'marketer-email-marketing-email-list-duplicate-emails',
+  DELETE_EMAILS: 'marketer-email-marketing-email-list-delete-emails',
+  CREATE_NEW_EMAIL: 'marketer-email-marketing-email-list-create-new-email',
+};
+
+export const AIR_MARKETER_EMAIL_MARKETING_EMAIL_FOLDERS_PERMISSIONS = {
+  VIEW_EMAIL_FOLDERS:
+    'marketer-email-marketing-email-folders-view-email-folders',
+  SEARCH_FOLDERS: 'marketer-email-marketing-email-folders-search-folders',
+  CREATE_NEW_FOLDER: 'marketer-email-marketing-email-folders-create-new-folder',
+  DUPLICATE_FOLDER:
+    'marketer-email-marketing-email-folders-duplicate-new-folder',
+  DELETE_FOLDER: 'marketer-email-marketing-email-folders-delete-folders',
+  VIEW_DETAILS: 'marketer-email-marketing-email-folders-view-folder-details',
+};
+
+export const AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS = {
+  CREATE_NEW_TEMPLATE:
+    'marketer-email-marketing-email-tempaltes-create-new-template',
+  EDIT_TEMPLATE: 'marketer-email-marketing-email-tempaltes-edit-template',
+  DELETE_TEMPLATE: 'marketer-email-marketing-email-tempaltes-delete-templates',
+  SEARCH_TEMPLATE: 'marketer-email-marketing-email-tempaltes-search-templates',
+  VIEW_TEMPLATE: 'marketer-email-marketing-email-tempaltes-view-templates',
+  USE_TEMPLATE: 'marketer-email-marketing-email-tempaltes-use-templates',
+};
+
+export const AIR_MARKETER_EMAIL_MARKETING_EMAIL_REPORTS_PERMISSIONS = {
+  VIEW_EMAIL_REPORTS: 'marketer-email-marketing-email-reports-view-reports',
+  DOWNLOAD_REPORTS: 'marketer-email-marketing-email-reports-download-report',
+  FILTER_REPORTS:
+    'marketer-email-marketing-email-reports-serach-filter-reports',
+};
+
+export const AIR_MARKETER_SOCIAL_MARKETING_CALENDER_PERMISSIONS = {
+  VIEW_POST: 'marketer-social-marketing-calendar-view-post',
+  FILTER_BY_PLATFORM: 'marketer-social-marketing-calendar-filter-by-platform',
+  FILTER_BY_PROFILE: 'marketer-social-marketing-calendar-filter-by-profile',
+  CREATE_POST: 'marketer-social-marketing-calendar-create-post',
+};
+
+export const AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS = {
+  FILTER_OUT_BY_PLATEFORM_AND_DATE:
+    'marketer-social-marketing-post-box-filter-by-platform-and-date',
+  CUSTOMISED_PIPELINE: 'marketer-social-marketing-post-box-customized-pipeline',
+  VIEW_PIPELINE: 'marketer-social-marketing-post-box-view-pipeline',
+  VIEW_DETAILS_OF_SPECIFIC_POST:
+    'marketer-social-marketing-post-box-view-details-by-post',
+};
+
+export const AIR_MARKETER_SOCIAL_MAKETER_COMPARE_SOCIAL_POST_PERMISSIONS = {
+  ADD_POST: 'marketer-social-marketing-compare-social-post-add-post',
+  VIEW_COMPARE_POST:
+    'marketer-social-marketing-compare-social-post-view-compare-post',
+};
+
+export const AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS = {
+  VIEW_SOCIAL_INBOX: 'marketer-social-marketing-social-inbox-view-social-inbox',
+  VIEW_TEAMS: 'marketer-social-marketing-social-inbox-view-teams',
+  VIEW_CHANNELS: 'marketer-social-marketing-social-inbox-view-channels',
+  ADD_TEAMS: 'marketer-social-marketing-social-inbox-add-teams',
+  ADD_CHANNELS: 'marketer-social-marketing-social-inbox-add-channels',
+  FILTER: 'marketer-social-marketing-social-inbox-search-and-filter',
+  REPLY_POSTS: 'marketer-social-marketing-social-inbox-reply-on-posts',
+  ADD_COMMENT: 'marketer-social-marketing-social-inbox-add-comment',
+  ADD_NOTE: 'marketer-social-marketing-social-inbox-add-note',
+  ADD_QUICK: 'marketer-social-marketing-social-inbox-add-quick-reply',
+  ADD_LABELS: 'marketer-social-marketing-social-inbox-add-labels',
+  DELETE_COMMENT: 'marketer-social-marketing-social-inbox-delete-comment',
+  VIEW_COMMENT_ACTIVITY:
+    'marketer-social-marketing-social-inbox-view-comment-activity',
+  LIKE_POST: 'marketer-social-marketing-social-inbox-like-post',
+  VIEW_USER_PROFILE: 'marketer-social-marketing-social-inbox-view-user-profile',
+  DELETE_TEAMS_MEMBERS: 'marketer-social-marketing-social-inbox-delete-member',
+  EDIT_TEAM_MEMBERS: 'marketer-social-marketing-social-inbox-edit-team-member',
+  DELETE_CHANNELS: 'marketer-social-marketing-social-inbox-delete-channels',
+  EDIT_CHANNELS: 'marketer-social-marketing-social-inbox-edit-channels',
+  PIN_MEMBER: 'marketer-social-marketing-social-inbox-pin-member',
+  TAG_MEMBER: 'marketer-social-marketing-social-inbox-tag-member',
+  PIN_CHANNELS: 'marketer-social-marketing-social-inbox-pin-channels',
+  TAG_CHANNELS: 'marketer-social-marketing-social-inbox-tag-channels',
+};
 export const SOCIAL_COMPONENTS_CALLING_PERMISSIONS = {
   SEARCH_RECORD: 'common-calling-list-view-search',
   SCHEDULE_CALL: 'common-calling-list-view-schedule',
