@@ -1,6 +1,8 @@
 import { MoreHoriz } from '@mui/icons-material';
 import { Box, IconButton, Menu, MenuItem } from '@mui/material';
 import { useDepartmentMenu } from './useDepartmentMenu';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const DepartmentMenu = (props: any) => {
   const {
@@ -26,8 +28,20 @@ export const DepartmentMenu = (props: any) => {
           }}
           transformOrigin={{ vertical: 10, horizontal: 100 }}
         >
-          <MenuItem onClick={handleEditClick}>Edit</MenuItem>
-          <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DEPARTMENT,
+            ]}
+          >
+            <MenuItem onClick={handleEditClick}>Edit</MenuItem>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.DELETE_DEPARTMENT,
+            ]}
+          >
+            <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
+          </PermissionsGuard>
         </Menu>
       </Box>
     </>
