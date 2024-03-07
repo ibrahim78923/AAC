@@ -5,12 +5,9 @@ import { EditPenIcon } from '@/assets/icons';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import { UserAvatarImage } from '@/assets/images';
 
-export const columnsTeams = (
-  setIsTeamDrawer: any,
-  setIsOpenDelete: any,
-  theme: any,
-  setTeamId: any,
-) => {
+export const columnsTeams = (props: any) => {
+  const { setIsTeamDrawer, setIsOpenDelete, theme, setTeamId, setIsAddTeam } =
+    props;
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -33,29 +30,48 @@ export const columnsTeams = (
       header: 'Action',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <VisibilityIcon
+          <Box
+            sx={{ cursor: 'pointer' }}
             onClick={() => {
               setIsTeamDrawer(true);
               setTeamId(info?.row?.original?._id);
             }}
-            sx={{
-              color: `${theme?.palette?.blue?.main}`,
-              fontSize: '22px',
-              cursor: 'pointer',
-            }}
-          />
-          <EditPenIcon />
-          <CancelIcon
+          >
+            <VisibilityIcon
+              sx={{
+                color: `${theme?.palette?.blue?.main}`,
+                fontSize: '22px',
+                cursor: 'pointer',
+              }}
+            />
+          </Box>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() =>
+              setIsAddTeam({
+                isToggle: true,
+                type: 'edit',
+                data: info?.row?.original,
+              })
+            }
+          >
+            <EditPenIcon />
+          </Box>
+          <Box
+            sx={{ cursor: 'pointer' }}
             onClick={() => {
               setIsOpenDelete(true);
               setTeamId(info?.row?.original?._id);
             }}
-            sx={{
-              color: `${theme?.palette?.error?.main}`,
-              fontSize: '22px',
-              cursor: 'pointer',
-            }}
-          />
+          >
+            <CancelIcon
+              sx={{
+                color: `${theme?.palette?.error?.main}`,
+                fontSize: '22px',
+                cursor: 'pointer',
+              }}
+            />
+          </Box>
         </Box>
       ),
     },

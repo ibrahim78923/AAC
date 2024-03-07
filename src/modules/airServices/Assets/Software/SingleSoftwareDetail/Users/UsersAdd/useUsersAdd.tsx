@@ -18,7 +18,6 @@ const useUsersAdd = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const params = useSearchParams();
   const softwareId = params?.get('softwareId');
-  // const userRefId = params?.get('user');
   const methods: any = useForm({
     resolver: yupResolver(addUserValidationSchema),
     defaultValues: addUserDefaultValues(),
@@ -40,7 +39,6 @@ const useUsersAdd = () => {
   const { handleSubmit, reset } = methods;
   const onSubmit = async (data: any) => {
     const params = {
-      // ...data,
       softwareId: softwareId,
       contractId: data?.contract?._id,
       userRefId: data?.user?._id,

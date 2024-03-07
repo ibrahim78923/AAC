@@ -6,6 +6,8 @@ import { useTeams } from './useTeams';
 import UpsertTeams from './UpsertTeams';
 import { AgentConversionDelete } from '../AgentConversionDelete';
 import TeamsDetails from './TeamsDetails';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Teams = () => {
   const {
@@ -23,11 +25,17 @@ export const Teams = () => {
       <TeamsHeader />
       <br />
       <Box mt={'0.75rem'}>
-        <TanstackTable
-          data={teamListData}
-          columns={teamListColumn}
-          isPagination={true}
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS?.TEAM_LIST,
+          ]}
+        >
+          <TanstackTable
+            data={teamListData}
+            columns={teamListColumn}
+            isPagination={true}
+          />
+        </PermissionsGuard>
         <TeamsDetails
           isTeamDrawerOpen={isTeamDrawerOpen}
           setIsTeamDrawerOpen={setIsTeamDrawerOpen}

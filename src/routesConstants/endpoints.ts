@@ -30,6 +30,7 @@ export const END_POINTS = {
   DEALS_LIFECYCLE_STAGES: '/lifecycle-stages',
   DEALS_USER_LIST: '/super-admin/user-list',
   DEALS_GRID_VIEW: '/deals/get-deals-grid-view',
+  DEALS_CUSTOMIZE_COLUMN: '/customized-columns',
   DEALS_ACTION_PREVIEW: '/deals/deal-action-preview/{id}',
   DEALS_CUSTOMIZE_COLUMN: '/customized-columns',
   POST_DEALS_VIEW: '/deal-views',
@@ -260,6 +261,7 @@ export const END_POINTS = {
   GET_RECEIVERS_BANK_ACCOUNTS: `/receiver-bank-account`,
   GET_CUSTOMER_DASHBOARD: `/air-services-dashboard/get-customer-dashboard-data`,
   GET_DROPDOWN_COMPANY: `/super-admin/company-list`,
+  POST_BUYER_INFO: '/quote/add-buyer-info',
   GET_CUSTOMER_DASHBOARD_ANNOUNCEMENTS: `/air-services-dashboard/get-all-customer-announcment`,
   REQUEST_APPROVAL: `/assets/add-approver-order`,
   REQUEST_APPROVALS_LIST: `/assets/get-purchase-approvals-by-purchase-order`,
@@ -276,10 +278,13 @@ export const END_POINTS = {
   GET_CLOSURE_RULES: '/Closure-Rules/get-closure-rules',
   ADD_SOFTWARE: '/assets/add_software',
   EDIT_SOFTWARE: '/assets/edit-software',
+  UPDATE_CONTRACT_APPROVE: '/contract/approve-contract',
+  UPDATE_CONTRACT_REJECT: '/contract/reject-contract',
   PRODUCTS_USERS: '/product-users',
   POST_APPROVALS: `/articles/approve`,
   GET_KNOWLEDGE_INSIGHTS: `/articles/knowledge-insights`,
   GET_KNOWLEDGE_INSIGHTS_DETAILS: `/articles/knowledge-insights/tickets`,
+  POST_CHANGE_PASSWORD: '/auth/change-password',
 };
 
 export const superAdminBillingInvoices = {

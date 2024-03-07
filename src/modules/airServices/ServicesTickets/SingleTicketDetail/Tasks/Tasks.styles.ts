@@ -1,5 +1,7 @@
 import { TASK_STATUS } from '@/constants/strings';
+
 const { DONE, IN_PROGRESS, TO_DO } = TASK_STATUS;
+
 export const styles: any = {
   tableStatusStyle: (statusValue: any, theme: any) => ({
     border: `1px solid ${

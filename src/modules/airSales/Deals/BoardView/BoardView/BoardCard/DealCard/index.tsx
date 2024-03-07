@@ -1,269 +1,241 @@
+'use client';
+import { DATE_FORMAT } from '@/constants';
+import { useGetDealsGridViewQuery } from '@/services/airSales/deals';
+import {
+  Avatar,
+  Box,
+  Checkbox,
+  Grid,
+  Typography,
+  alpha,
+  useTheme,
+} from '@mui/material';
+import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
-
-import { Box, Typography, useTheme } from '@mui/material';
-
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
-import BoardCard from '..';
-import {
-  useGetDealsGridViewQuery,
-  // useUpdatedGridDealsMutation,
-  // useUpdatedGridDealsMutation,
-} from '@/services/airSales/deals';
-import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
-// import {
-//   AccociatedCompanyIcon,
-//   AccociatedContactIcon,
-//   DealPhoneIcon,
-//   EmailDealsIcon,
-//   MeetingDealsIcon,
-//   NotesDealsIcon,
-//   TaskDealsIcon,
-// } from '@/assets/icons';
-// import Link from 'next/link';
-// import { AIR_SALES } from '@/routesConstants/paths';
-// import { useRouter } from 'next/router';
 
-const TaskViewCard = ({}: any) => {
-  // const route = useRouter();
-  const { data: dealsGridViewData } = useGetDealsGridViewQuery({});
-  // const [updatedGridDeals] = useUpdatedGridDealsMutation();
-  // console.log(dealsGridViewData?.data, 'dealsGridViewData');
-
-  const tasCardData = dealsGridViewData?.data?.map((item: any) => ({
-    mainTitle: item?.mainTitle,
-    cardData: item?.cardData?.map((obj: any) => ({
-      subTitle: obj?.name,
-      amount: obj?.amount,
-      closeDate: dayjs(obj?.closeDate).format(DATE_FORMAT?.API),
-      priority: obj?.priority,
-    })),
-  }));
-
+const TaskViewCard = () => {
   const theme = useTheme();
-  const [taskCardData, setTaskCardData] = useState<any[]>([]);
+  const { data: dealsGridViewData } = useGetDealsGridViewQuery({});
 
-  useEffect(() => {
-    setTaskCardData(tasCardData);
-  }, [dealsGridViewData]);
+  // const [selected, setSelected] = useState<any[]>([]);
 
-  // console.log(taskCardData, 'taskCardData');
+  const [order, setOrder] = useState([
+    dealsGridViewData?.data,
+    // { mainTitle: 'dafdf', cardData: [{_id:'safsdfsdf'}] },
+  ]);
 
-  const [order, setOrder] = useState(tasCardData);
-
-  const onDragEnd = (result: any) => {
-    if (!result?.destination) return;
-    const items = Array?.from(order);
-    const [reOrderItem] = items?.splice(result?.source?.index, 1);
-    items.splice(result?.destination?.index, 0, reOrderItem);
-    setOrder(items);
-  };
-
-  // const updateOrderOnServer = async () => {
-  //   try {
-  //     await updatedGridDeals({
-  //       // body: {},
-  //     });
-  //   } catch (error) {
-  //     console.error('Error updating order:', error);
-  //   }
+  // const handlePatch = () => {
   // };
 
-  // console.log('indexOfBananaindexana', taskCardData, indexOfBanana);
-  // const body={
-  //   dealStageId:
+  const onDragEnd = (result: any, index: number) => {
+    const newOrder = [...order];
+    const cardData = [...newOrder[index]?.cardData];
+    const items = Array.from(cardData);
+    const [reOrderItem] = items.splice(result?.source?.index, 1);
+    items.splice(result?.destination?.index, 0, reOrderItem);
+    newOrder[index] = { ...newOrder[index], cardData: items };
+    setOrder(newOrder);
+    // handlePatch(reOrderItem?._id);
+  };
+
+  // const handleChackboxChange = (checked: boolean, col: any, i: number) => {
+  // const newArr = [...columns];
+  // if (checked) {
+  //   setSelected((prevSelected) => [...prevSelected, col?.slug]);
+  //   newArr[i].active = checked;
+  // } else if (selected?.includes(col?.slug)) {
+  //   setSelected(
+  //     (prevSelected) =>
+  //       prevSelected?.filter((val: string) => val !== col?.slug),
+  //   );
+  //   newArr[i].active = false;
   // }
-  // updatedGridDeals()
+  // setColumns(newArr);
+  // };
+
+  useEffect(() => {
+    if (dealsGridViewData?.data?.length > 0)
+      setOrder(JSON.parse(JSON.stringify(dealsGridViewData?.data)));
+  }, [dealsGridViewData]);
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        columnGap: '2rem',
-        overflowX: 'scroll',
-      }}
-    >
-      <DragDropContext onDragEnd={onDragEnd}>
-        {taskCardData?.map((column, columnIndex) => (
-          <BoardCard
-            key={uuidv4()}
+    <Grid container spacing={2}>
+      {order?.map((obj: any, index: number) => (
+        <Grid item lg={3} key={uuidv4()}>
+          <Box
             sx={{
-              border: `1px solid ${theme?.palette?.grey[700]}`,
-              borderRadius: '10px',
+              background: alpha(theme?.palette?.grey[700], 0.3),
+              border: '1px solid',
+              borderRadius: '5px',
+              overflow: 'hidden',
             }}
-            title={column?.mainTitle}
           >
-            <Droppable
-              key={uuidv4()}
-              droppableId={`column-${columnIndex}`}
-              direction="vertical"
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              flexWrap="wrap"
+              gap={0.6}
+              sx={{ background: theme?.palette?.common?.white, p: '10px 16px' }}
             >
-              {(provided) => (
-                <Box ref={provided?.innerRef} {...provided?.droppableProps}>
-                  {column?.cardData?.map((items: any, index: number) => (
+              <Box display="flex" gap="10px" alignItems="center">
+                <Typography>{obj?.mainTitle}</Typography>
+                <Typography
+                  sx={{
+                    background: 'red',
+                    p: 0.5,
+                    borderRadius: '4px',
+                    color: 'white',
+                  }}
+                  component="span"
+                >
+                  {obj?.quantity < 10 ? `0${obj?.quantity}` : obj?.quantity}
+                </Typography>
+              </Box>
+              <Box textAlign="end">
+                <Typography>Total: £{obj?.amount}</Typography>
+                <Typography>(0%)</Typography>
+              </Box>
+            </Box>
+            <Box p="16px">
+              <DragDropContext
+                onDragEnd={(events: any) => {
+                  onDragEnd(events, index);
+                }}
+              >
+                <Droppable
+                  key={uuidv4()}
+                  droppableId={`div-${index}`}
+                  direction="vertical"
+                >
+                  {(provided) => (
                     <Box
-                      key={uuidv4()}
-                      sx={{
-                        background: `${theme?.palette?.grey[100]}`,
-                        height: '100%',
-                      }}
+                      sx={{ userSelect: 'none', width: '100%' }}
+                      ref={provided?.innerRef}
+                      {...provided?.droppableProps}
                     >
-                      <Draggable
-                        key={uuidv4()}
-                        draggableId={`taskCard-${columnIndex}-${index}`}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <Box
-                            ref={provided?.innerRef}
-                            {...provided?.draggableProps}
-                            {...provided?.dragHandleProps}
-                            sx={{
-                              border: `1px solid ${theme?.palette?.grey[700]}`,
-                              padding: '10px',
-                              borderRadius: '8px',
-                              margin: '10px',
-                              background: `${theme?.palette?.common?.white}`,
-                              cursor: 'grabbing',
-                            }}
-                          >
-                            <Box>
-                              <Typography
-                                variant="body2"
-                                sx={{
-                                  color: `${theme?.palette?.slateBlue?.main}`,
-                                  fontWeight: 700,
-                                }}
-                              >
-                                {items?.subTitle}
-                              </Typography>
-                              <Box
-                                sx={{
-                                  display: 'flex',
-                                  justifyContent: 'space-between',
-                                  alignItems: 'center',
-                                }}
-                              >
-                                <Typography
-                                  variant="subtitle2"
+                      <Box sx={{ paddingTop: '1rem', width: '100%' }}>
+                        <Grid container>
+                          {obj?.cardData?.map((col: any, i: number) => (
+                            <Draggable
+                              key={uuidv4()}
+                              draggableId={col?._id}
+                              index={i}
+                            >
+                              {(provided) => (
+                                <Box
+                                  ref={provided?.innerRef}
+                                  {...provided?.draggableProps}
+                                  {...provided?.dragHandleProps}
                                   sx={{
-                                    color: `${theme?.palette?.custom?.main}`,
-                                    fontWeight: 400,
+                                    cursor: 'grabbing',
+                                    width: '100%',
+                                    background: theme?.palette?.common?.white,
+                                    mb: '16px',
+                                    borderRadius: '8px',
+                                    border: '1px solid',
+                                    p: '11px 10px',
+                                    '&:last-child': {
+                                      mb: '0px',
+                                    },
                                   }}
                                 >
-                                  Close Date
-                                </Typography>
-                                <Typography
-                                  variant="subtitle2"
-                                  sx={{
-                                    color: `${theme?.palette?.grey[900]}`,
-                                    fontWeight: 400,
-                                  }}
-                                >
-                                  {items?.date}
-                                </Typography>
-                              </Box>
-                            </Box>
-
-                            <Box
-                              sx={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                              }}
-                            >
-                              <Typography
-                                variant="subtitle2"
-                                sx={{
-                                  color: `${theme?.palette?.custom?.main}`,
-                                  fontWeight: 400,
-                                }}
-                              >
-                                Linked Company
-                              </Typography>
-                              <Typography
-                                variant="subtitle2"
-                                sx={{
-                                  color: `${theme?.palette?.blue?.main}`,
-                                  fontWeight: 600,
-                                }}
-                              >
-                                {items?.linkdCompany}
-                              </Typography>
-                            </Box>
-                            <Box
-                              sx={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                              }}
-                            >
-                              <Typography
-                                variant="subtitle2"
-                                sx={{
-                                  color: `${theme?.palette?.custom?.main}`,
-                                  fontWeight: 400,
-                                }}
-                              >
-                                Assigned User
-                              </Typography>
-                              <Typography
-                                variant="subtitle2"
-                                sx={{
-                                  color: `${theme?.palette?.blue?.main}`,
-                                  fontWeight: 600,
-                                }}
-                              >
-                                {items?.assignUser}
-                              </Typography>
-                            </Box>
-                            <Box
-                              sx={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                              }}
-                            >
-                              <Typography
-                                variant="subtitle2"
-                                sx={{
-                                  color: `${theme?.palette?.custom?.main}`,
-                                  fontWeight: 400,
-                                }}
-                              >
-                                Task Status
-                              </Typography>
-                              <Typography
-                                variant="subtitle2"
-                                sx={{
-                                  color:
-                                    items?.status === 'Inprogress'
-                                      ? `${theme?.palette?.warning?.main}`
-                                      : items?.status === 'Pending'
-                                      ? `${theme?.palette?.error?.main}`
-                                      : items?.status === 'Complete'
-                                      ? `${theme?.palette?.success?.main}`
-                                      : '',
-                                  fontWeight: 600,
-                                }}
-                              >
-                                {items?.status}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        )}
-                      </Draggable>
+                                  <Grid item xs={12} key={uuidv4()}>
+                                    <Box
+                                      sx={{
+                                        display: 'flex',
+                                        alignItems: 'baseline',
+                                        mb: '9px',
+                                      }}
+                                    >
+                                      <Box
+                                        display="flex"
+                                        alignItems="center"
+                                        gap="8px"
+                                        flex={1}
+                                      >
+                                        <Avatar
+                                          src=""
+                                          sx={{ height: 38, width: 38 }}
+                                        >
+                                          SM
+                                        </Avatar>
+                                        <Box>
+                                          <Typography fontWeight={700}>
+                                            {col?.dealOwner?.name}
+                                          </Typography>
+                                          <Typography fontSize="12px">
+                                            Air Apple Cart
+                                          </Typography>
+                                        </Box>
+                                      </Box>
+                                      <Checkbox name={col?.name} />
+                                    </Box>
+                                    <Box
+                                      display="flex"
+                                      alignItems="center"
+                                      justifyContent="space-between"
+                                      mb="4px"
+                                    >
+                                      <Typography>Close Date</Typography>
+                                      <Typography>£{col?.amount}</Typography>
+                                    </Box>
+                                    <Box
+                                      display="flex"
+                                      alignItems="center"
+                                      justifyContent="space-between"
+                                      mb="4px"
+                                    >
+                                      <Typography>Amount</Typography>
+                                      <Typography>
+                                        {dayjs(col?.closeDate).format(
+                                          DATE_FORMAT?.UI,
+                                        )}
+                                      </Typography>
+                                    </Box>
+                                    <Box
+                                      display="flex"
+                                      alignItems="center"
+                                      justifyContent="space-between"
+                                      mb="8px"
+                                    >
+                                      <Typography>Priority</Typography>
+                                      <Typography
+                                        sx={{
+                                          color:
+                                            col?.priority?.toLowerCase() ===
+                                            'low'
+                                              ? theme?.palette?.success?.main
+                                              : col?.priority?.toLowerCase() ===
+                                                'medium'
+                                              ? theme?.palette?.warning?.main
+                                              : col?.priority?.toLowerCase() ===
+                                                'high'
+                                              ? theme?.palette?.error?.main
+                                              : '',
+                                        }}
+                                      >
+                                        {col?.priority}
+                                      </Typography>
+                                    </Box>
+                                  </Grid>
+                                </Box>
+                              )}
+                            </Draggable>
+                          ))}
+                        </Grid>
+                      </Box>
                     </Box>
-                  ))}
-                  {provided?.placeholder}
-                </Box>
-              )}
-            </Droppable>
-          </BoardCard>
-        ))}
-      </DragDropContext>
-    </Box>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            </Box>
+          </Box>
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 

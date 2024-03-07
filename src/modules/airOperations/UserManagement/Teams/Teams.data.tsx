@@ -1,10 +1,14 @@
 import { Box, Typography } from '@mui/material';
 import { TeamListI } from './Teams.interface';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const teamDropdown = (setDeleteModal: any) => [
   {
+    id: 1,
     title: 'Delete',
+    permissionKey: [AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS?.DELETE],
     handleClick: (close: any) => {
       setDeleteModal(true);
       close(null);
@@ -69,13 +73,31 @@ export const teamList: any = (
           sx={{ cursor: 'pointer' }}
           onClick={() => setIsTeamDrawerOpen(true)}
         >
-          <ViewEyeIcon />
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS?.VIEW,
+            ]}
+          >
+            <ViewEyeIcon />
+          </PermissionsGuard>
         </Box>
         <Box sx={{ cursor: 'pointer' }} onClick={() => setIsDrawerOpen(true)}>
-          <EditPenIcon />
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS?.EDIT,
+            ]}
+          >
+            <EditPenIcon />
+          </PermissionsGuard>
         </Box>
         <Box sx={{ cursor: 'pointer' }} onClick={() => setDeleteModal(true)}>
-          <DeleteCrossIcon />
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS?.DELETE,
+            ]}
+          >
+            <DeleteCrossIcon />
+          </PermissionsGuard>
         </Box>
       </Box>
     ),

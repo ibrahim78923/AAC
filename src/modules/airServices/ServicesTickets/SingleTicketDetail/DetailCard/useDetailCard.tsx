@@ -4,13 +4,14 @@ import { useRouter } from 'next/router';
 
 export const useDetailsCard = () => {
   const router = useRouter();
-  const { ticketId } = router.query;
+  const { ticketId } = router?.query;
 
   const getSingleTicketParameter = {
     pathParam: {
       ticketId,
     },
   };
+
   const { data } = useGetTicketsDetailsByIdQuery(getSingleTicketParameter);
 
   return {

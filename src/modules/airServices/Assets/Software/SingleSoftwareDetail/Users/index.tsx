@@ -17,15 +17,13 @@ import { LoadingButton } from '@mui/lab';
 export const Users = () => {
   const {
     setActionModalOpen,
-    csvExportHandler,
-    excelExportHandler,
+    getUserListDataExport,
     usersData,
     actionClickHandler,
     userActionClickHandler,
     actionModalOpen,
     userActionDropdownCloseHandler,
     selectedActionTitle,
-    handleExportTypeClick,
     setSearch,
     setUsersData,
   } = useUsers();
@@ -53,14 +51,8 @@ export const Users = () => {
 
           <UsersAdd />
           <ExportButton
-            handleCsvExport={() => {
-              handleExportTypeClick(EXPORT_TYPE?.CSV);
-              csvExportHandler();
-            }}
-            handleExcelExport={() => {
-              handleExportTypeClick(EXPORT_TYPE?.XLS);
-              excelExportHandler();
-            }}
+            handleCsvExport={() => getUserListDataExport(EXPORT_TYPE?.CSV)}
+            handleExcelExport={() => getUserListDataExport(EXPORT_TYPE?.XLS)}
           />
           <UsersFilter />
         </Box>

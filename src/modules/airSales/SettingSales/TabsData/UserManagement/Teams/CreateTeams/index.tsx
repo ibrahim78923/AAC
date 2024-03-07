@@ -7,14 +7,17 @@ import { teamsDataArray } from './CreateTeams.data';
 
 const CreateTeams = (props: any) => {
   const { isAddTeam, setIsAddTeam } = props;
-  const { methods, handleSubmit, onSubmit, productsUsers } = useCreateTeams();
+  const { methods, handleSubmit, onSubmit, productsUsers } = useCreateTeams(
+    isAddTeam?.data,
+    setIsAddTeam,
+  );
 
   return (
     <CommonDrawer
-      isDrawerOpen={isAddTeam}
+      isDrawerOpen={isAddTeam?.isToggle}
       onClose={() => setIsAddTeam(false)}
-      title={'Create Team'}
-      okText={'Add'}
+      title={isAddTeam?.type === 'add' ? 'Create Team' : 'Edit Team'}
+      okText={isAddTeam?.type === 'add' ? 'Add' : 'Edit'}
       footer={true}
       isOk={true}
       submitHandler={handleSubmit(onSubmit)}

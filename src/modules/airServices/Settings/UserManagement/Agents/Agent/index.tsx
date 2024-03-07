@@ -7,6 +7,9 @@ import AgentFilter from './AgentFilter';
 import { InviteAgentModel } from './InviteAgentModal';
 import { AgentDeleteModal } from './AgentDeleteModal';
 import { useAgent } from './useAgent';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { Permissions } from '@/constants/permissions';
 
 const Agent = () => {
   const {
@@ -43,49 +46,79 @@ const Agent = () => {
         gap={1.5}
       >
         <Box>
-          <Search label="Search Here" setSearchBy={setSearchValue} />
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.FILTERS_SEARCH,
+            ]}
+          >
+            <Search label="Search Here" setSearchBy={setSearchValue} />
+          </PermissionsGuard>
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
-          <Button
-            color="secondary"
-            variant="outlined"
-            startIcon={<FilterSharedIcon />}
-            onClick={handleOpenDrawer}
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.FILTERS_SEARCH,
+            ]}
           >
-            Filter
-          </Button>
-          <SingleDropdownButton
-            dropdownOptions={dropdownOptions}
-            disabled={!!!selectedAgentList?.length}
-          />
-          <Button
-            variant="contained"
-            startIcon={<PlusSharedColorIcon />}
-            onClick={() => {
-              handleAddAgentModal?.(true);
-              setSelectedAgentList([]);
-            }}
+            <Button
+              color="secondary"
+              variant="outlined"
+              startIcon={<FilterSharedIcon />}
+              onClick={handleOpenDrawer}
+            >
+              Filter
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={
+              Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT_AGENT
+            }
           >
-            Invite Agents
-          </Button>
+            <SingleDropdownButton
+              dropdownOptions={dropdownOptions}
+              disabled={!!!selectedAgentList?.length}
+            />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_NEW_AGENT,
+            ]}
+          >
+            <Button
+              variant="contained"
+              startIcon={<PlusSharedColorIcon />}
+              onClick={() => {
+                handleAddAgentModal?.(true);
+                setSelectedAgentList([]);
+              }}
+            >
+              Invite Agents
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       <Box m={'0.5rem 0 0.5rem 0'}>
-        <TanstackTable
-          data={processedAgentListData}
-          columns={agentListsColumns}
-          isPagination
-          isFetching={isFetching}
-          isSuccess={isSuccess}
-          isLoading={isLoading}
-          setPageLimit={setPageLimit}
-          setPage={setPage}
-          count={metaData?.pages}
-          totalRecords={metaData?.total}
-          onPageChange={(page: any) => setPage(page)}
-          currentPage={metaData?.page}
-          pageLimit={pageLimit}
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.VIEW_AGENTS_LIST,
+          ]}
+        >
+          <TanstackTable
+            data={processedAgentListData}
+            columns={agentListsColumns}
+            isPagination
+            isFetching={isFetching}
+            isSuccess={isSuccess}
+            isLoading={isLoading}
+            setPageLimit={setPageLimit}
+            setPage={setPage}
+            count={metaData?.pages}
+            totalRecords={metaData?.total}
+            onPageChange={(page: any) => setPage(page)}
+            currentPage={metaData?.page}
+            pageLimit={pageLimit}
+          />
+        </PermissionsGuard>
       </Box>
       <Box>
         <InviteAgentModel

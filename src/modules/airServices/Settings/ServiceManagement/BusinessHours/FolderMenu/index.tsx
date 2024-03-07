@@ -5,6 +5,8 @@ import { useFolderMenu } from './useFolderMenu';
 import { DeleteBusinessHour } from '../DeleteBusinessHour';
 import Link from 'next/link';
 import { AIR_SERVICES } from '@/constants';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const FolderMenu = (props: any) => {
   const {
@@ -27,17 +29,29 @@ export const FolderMenu = (props: any) => {
           sx={{ '& .MuiPaper-root': { boxShadow: 2 } }}
           transformOrigin={{ vertical: 10, horizontal: 80 }}
         >
-          <MenuItem
-            sx={{ pr: 5 }}
-            component={Link}
-            href={`${AIR_SERVICES?.UPSERT_BUSINESS_HOUR}?id=${businessHourId}`}
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_BUSINESS_HOUR,
+            ]}
           >
-            Edit
-          </MenuItem>
-          <DeleteBusinessHour
-            id={businessHourId}
-            handleActionClose={handleActionClose}
-          />
+            <MenuItem
+              sx={{ pr: 5 }}
+              component={Link}
+              href={`${AIR_SERVICES?.UPSERT_BUSINESS_HOUR}?id=${businessHourId}`}
+            >
+              Edit
+            </MenuItem>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_BUSINESS_HOUR,
+            ]}
+          >
+            <DeleteBusinessHour
+              id={businessHourId}
+              handleActionClose={handleActionClose}
+            />
+          </PermissionsGuard>
         </Menu>
       </Box>
     </>

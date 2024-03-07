@@ -1,14 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
 import {
   changePasswordValidationSchema,
   changePasswordDefaultValues,
   changePasswordDataArray,
 } from './ChangePassword.data';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { usePostChangePasswordMutation } from '@/services/airServices/settings/account-settings/account-details';
 
 export const useChangePassword = () => {
   const theme = useTheme();
@@ -19,10 +19,23 @@ export const useChangePassword = () => {
     defaultValues: changePasswordDefaultValues,
   });
 
-  const isSubmit = async () => {
-    enqueueSnackbar('Password Change Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+  const [postChangePasswordTrigger, postChangePasswordProgress] =
+    usePostChangePasswordMutation();
+  const isLoading = postChangePasswordProgress?.isLoading;
+
+  const isSubmit = async (data: any) => {
+    const payload = {
+      currentPassword: data?.currentPassword,
+      newPassword: data?.newPassword,
+    };
+    try {
+      const res: any = await postChangePasswordTrigger(payload)?.unwrap();
+      successSnackbar(res?.message ?? 'Password Change Successfully');
+      reset();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+      reset();
+    }
   };
 
   const { handleSubmit, reset } = ChangePasswordMethods;
@@ -48,5 +61,6 @@ export const useChangePassword = () => {
     theme,
     changePasswordDataArray,
     changePasswordFields,
+    isLoading,
   };
 };
