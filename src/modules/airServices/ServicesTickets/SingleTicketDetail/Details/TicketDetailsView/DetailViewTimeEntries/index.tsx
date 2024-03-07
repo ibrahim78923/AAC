@@ -7,6 +7,8 @@ import { styles } from './DetailViewTimeEntries.style';
 import { DetailTicketDrawer } from './DetailTicketDrawer';
 import Image from 'next/image';
 import { VuesaxErrorImage } from '@/assets/images';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
 const DetailViewTimeEntries = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -30,29 +32,41 @@ const DetailViewTimeEntries = () => {
             </Typography>
           </Box>
           <Box sx={styles?.timeEnterInnerGrid}>
-            <Box sx={styles?.iconBoxStyling} onClick={toggleView}>
-              {isIconVisible ? (
-                <ViewDetailVuesaxIcon />
-              ) : (
-                <Image
-                  src={VuesaxErrorImage}
-                  alt={'VuesaxErrorImage'}
-                  height={24}
-                  width={24}
-                />
-              )}
-            </Box>
-            <Box sx={styles?.iconBoxTimerStyling}>
-              <DetailTimePicker />
-            </Box>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_TICKETS_TICKETS_DETAILS?.TIME_TRACK_PLAY_PAUSE,
+              ]}
+            >
+              <Box sx={styles?.iconBoxStyling} onClick={toggleView}>
+                {isIconVisible ? (
+                  <ViewDetailVuesaxIcon />
+                ) : (
+                  <Image
+                    src={VuesaxErrorImage}
+                    alt={'VuesaxErrorImage'}
+                    height={24}
+                    width={24}
+                  />
+                )}
+              </Box>
+              <Box sx={styles?.iconBoxTimerStyling}>
+                <DetailTimePicker />
+              </Box>
+            </PermissionsGuard>
             <Box sx={styles?.buttonStyleOFTimeEntries}>
-              <Button
-                variant="contained"
-                onClick={() => setIsDrawerOpen(true)}
-                startIcon={<CirclePlusIcon />}
+              <PermissionsGuard
+                permissions={[
+                  AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_TIME_ENTRIES_DETAILS,
+                ]}
               >
-                Add Time
-              </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => setIsDrawerOpen(true)}
+                  startIcon={<CirclePlusIcon />}
+                >
+                  Add Time
+                </Button>
+              </PermissionsGuard>
               <DetailTicketDrawer
                 isDrawerOpen={isDrawerOpen}
                 setIsDrawerOpen={setIsDrawerOpen}
