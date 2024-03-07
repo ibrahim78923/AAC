@@ -14,7 +14,7 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 export const useAgentLevelsPoints = () => {
   const [addAgentLevelsPointsTrigger, addAgentLevelsPointsStatus] =
     useAddAgentLevelsMutation();
-  const { data, isLoading, isFetching } = useGetAgentLevelsQuery({});
+  const { data, isLoading, isFetching, isError } = useGetAgentLevelsQuery({});
 
   const agentLevelsPointsMethod: any = useForm({
     defaultValues: agentLevelsFormDefaultValue?.(),
@@ -41,5 +41,6 @@ export const useAgentLevelsPoints = () => {
     isLoading,
     isFetching,
     addAgentLevelsPointsStatus,
+    isError,
   };
 };

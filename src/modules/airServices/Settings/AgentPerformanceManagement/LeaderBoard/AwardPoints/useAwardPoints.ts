@@ -13,7 +13,7 @@ export const useAwardPoints = () => {
   const { palette }: any = useTheme();
   const [addAwardPointsTrigger, addAwardPointsStatus] =
     useAddAwardPointsMutation();
-  const { data, isLoading, isFetching } = useGetAwardPointsQuery({});
+  const { data, isLoading, isFetching, isError } = useGetAwardPointsQuery({});
 
   const awardCardBorderColors = [
     palette?.info?.main,
@@ -47,5 +47,6 @@ export const useAwardPoints = () => {
     isLoading,
     isFetching,
     addAwardPointsStatus,
+    isError,
   };
 };

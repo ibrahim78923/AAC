@@ -7,6 +7,7 @@ import { LoadingButton } from '@mui/lab';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import ApiErrorState from '@/components/ApiErrorState';
 
 const AgentLevels = () => {
   const {
@@ -15,9 +16,11 @@ const AgentLevels = () => {
     isLoading,
     isFetching,
     addAgentLevelsPointsStatus,
+    isError,
   } = useAgentLevelsPoints();
 
   if (isLoading || isFetching) return <SkeletonForm />;
+  if (isError) return <ApiErrorState />;
 
   return (
     <PermissionsGuard
@@ -25,6 +28,7 @@ const AgentLevels = () => {
         AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_AND_MANAGE_AGENT_LEVELS_POINTS,
       ]}
     >
+      <br />
       <FormProvider
         methods={agentLevelsPointsMethod}
         onSubmit={agentLevelsPointsMethod?.handleSubmit?.(handleSubmit)}
