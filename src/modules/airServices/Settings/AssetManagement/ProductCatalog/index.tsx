@@ -6,6 +6,8 @@ import { EXPORT_TYPE } from '@/constants/strings';
 import { PRODUCT_LISTS_ACTION_CONSTANTS } from './ProductCatalog.data';
 import { Box } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const ProductCatalog = () => {
   const {
@@ -56,22 +58,28 @@ export const ProductCatalog = () => {
           <Search label="Search Here" setSearchBy={setSearch} />
         </Box>
         <Box marginY={3} />
-        <TanstackTable
-          columns={productListsColumn}
-          data={lazyGetProductCatalogStatus?.data?.data?.productcatalogs}
-          isLoading={lazyGetProductCatalogStatus?.isLoading}
-          isError={lazyGetProductCatalogStatus?.isError}
-          isFetching={lazyGetProductCatalogStatus?.isFetching}
-          isSuccess={lazyGetProductCatalogStatus?.isSuccess}
-          currentPage={lazyGetProductCatalogStatus?.data?.data?.meta?.page}
-          count={lazyGetProductCatalogStatus?.data?.data?.meta?.pages}
-          pageLimit={lazyGetProductCatalogStatus?.data?.data?.meta?.limit}
-          totalRecords={lazyGetProductCatalogStatus?.data?.data?.meta?.total}
-          isPagination
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-          onPageChange={(page: any) => setPage(page)}
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.VIEW_LIST_OF_PRODUCT_CATEGORIES,
+          ]}
+        >
+          <TanstackTable
+            columns={productListsColumn}
+            data={lazyGetProductCatalogStatus?.data?.data?.productcatalogs}
+            isLoading={lazyGetProductCatalogStatus?.isLoading}
+            isError={lazyGetProductCatalogStatus?.isError}
+            isFetching={lazyGetProductCatalogStatus?.isFetching}
+            isSuccess={lazyGetProductCatalogStatus?.isSuccess}
+            currentPage={lazyGetProductCatalogStatus?.data?.data?.meta?.page}
+            count={lazyGetProductCatalogStatus?.data?.data?.meta?.pages}
+            pageLimit={lazyGetProductCatalogStatus?.data?.data?.meta?.limit}
+            totalRecords={lazyGetProductCatalogStatus?.data?.data?.meta?.total}
+            isPagination
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+          />
+        </PermissionsGuard>
       </Box>
       {hasProductAction &&
         productListActionComponent?.[

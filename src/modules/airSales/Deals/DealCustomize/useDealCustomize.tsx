@@ -16,12 +16,10 @@ const useDealCustomize = ({ onClose }: any) => {
   const [selected, setSelected] = useState<any[]>([]);
 
   // customize columns code starts here
-  // const columnsParams = {
-  //   type: 'deals',
-  // };
-  const { data: dealCustomzieCol } = useGetCustomizeColumnQuery({
+  const columnsParams = {
     type: 'deals',
-  });
+  };
+  const { data: dealCustomzieCol } = useGetCustomizeColumnQuery(columnsParams);
 
   const columnsData = dealCustomzieCol?.data?.columns;
   const [order, setOrder] = useState(columnsData);
@@ -45,13 +43,13 @@ const useDealCustomize = ({ onClose }: any) => {
           body: {
             userId: user?._id,
             type: 'deals',
-            columns: order,
+            columns,
           },
         })
           .unwrap()
           .then((data) => {
             if (data?.data) {
-              onClose;
+              onClose();
               enqueueSnackbar(`Columns customized successfully`, {
                 variant: NOTISTACK_VARIANTS?.SUCCESS,
               });

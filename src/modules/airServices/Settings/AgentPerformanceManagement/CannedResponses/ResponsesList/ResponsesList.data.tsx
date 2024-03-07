@@ -4,6 +4,7 @@ import { AvatarGroup, Box, Checkbox, Avatar, Tooltip } from '@mui/material';
 import dayjs from 'dayjs';
 import { stringAvatar } from './AddResponseForm/AddResponseForm.data';
 import { DATE_TIME_FORMAT } from '@/constants';
+import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 export const responsesTableColumns = (
   responsesData: any,
   setResponsesData: any,
@@ -110,21 +111,33 @@ export const responsesTableColumns = (
 
 export const actionsOptions = (handleOptionsClick: any) => [
   {
+    id: 1,
     title: 'Edit',
+    permissionKey: [
+      AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
+    ],
     handleClick: (close: any) => {
       handleOptionsClick(CANNED_RESPONSES?.EDIT);
       close();
     },
   },
   {
+    id: 2,
     title: 'Delete',
+    permissionKey: [
+      AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
+    ],
     handleClick: (close: any) => {
       handleOptionsClick(CANNED_RESPONSES?.DELETE);
       close();
     },
   },
   {
+    id: 3,
     title: 'Move',
+    permissionKey: [
+      AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
+    ],
     handleClick: (close: any) => {
       handleOptionsClick(CANNED_RESPONSES?.MOVE);
       close();

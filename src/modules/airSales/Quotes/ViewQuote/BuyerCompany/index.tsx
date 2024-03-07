@@ -1,8 +1,10 @@
 import { Box, Avatar, Typography } from '@mui/material';
 import { styles } from './BuyerCompany.style';
 import { AvatarCompanyImage } from '@/assets/images';
+import useViewQuotes from '../useViewQuote';
 
 const BuyerCompany = () => {
+  const { QuotesProduct } = useViewQuotes();
   return (
     <>
       <Box sx={styles?.card}>
@@ -12,7 +14,7 @@ const BuyerCompany = () => {
           </Avatar>
           <Box>
             <Typography variant="h6" sx={styles?.title}>
-              One Care Media
+              {QuotesProduct?.data?.name}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
               123 Street Address

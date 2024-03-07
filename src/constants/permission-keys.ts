@@ -496,7 +496,7 @@ export const AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS = {
   SEARCH_ROLES: 'service-settings-search-roles',
 };
 export const AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS = {
-  ADD_ASSET_TYPES: 'service-settings-add-asset-types',
+  ADD_ASSET_TYPES: 'service-settings-addasset-types',
   ADD_NEW_FIELDS_FOR_ASSET_FORM:
     'service-settings-add-new-fields-for-asset-form',
   ADD_PRODUCT_CATEGORIES: 'service-settings-add-product-categories',
@@ -554,7 +554,7 @@ export const AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS = {
     'service-settings-set-visibility-of-catalog-services',
   VIEW_DETAILS_OF_CATALOG_SERVICE:
     'service-settings-view-details-of-catalog-service',
-  VIEW_BUSINESS_HOURS: 'service-settings-view-business-hours',
+  VIEW_BUSINESS_HOURS: 'service-settings-vIew-business-hours',
   ADD_NEW_BUSINESS_HOURS: 'service-settings-addnew-business-hours',
   EDIT_DELETE_BUSINESS_HOUR: 'service-settings-edit-delete-business-hour',
   ADD_NEW_FIELDS_FOR_TICKET_AND_THEIR_TASKS:

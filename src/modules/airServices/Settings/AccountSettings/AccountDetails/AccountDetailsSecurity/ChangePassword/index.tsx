@@ -14,6 +14,7 @@ export const ChangePassword = () => {
     reset,
     handleSubmitChangePassword,
     theme,
+    isLoading,
   } = useChangePassword();
   return (
     <Box
@@ -39,14 +40,18 @@ export const ChangePassword = () => {
               display={'flex'}
               flexDirection={'column'}
             >
-              {changePasswordFields?.map((item) => (
+              {changePasswordFields?.map((item: any) => (
                 <Grid item xs={12} sm={item?.gridLength} key={item?._id}>
                   <item.component {...item?.componentProps} />
                 </Grid>
               ))}
             </Grid>
             <Box display={'flex'} justifyContent={'end'} gap={1}>
-              <LoadingButton variant="contained" type="submit">
+              <LoadingButton
+                disabled={isLoading}
+                variant="contained"
+                type="submit"
+              >
                 Save
               </LoadingButton>
               <LoadingButton variant="outlined" onClick={() => reset()}>
