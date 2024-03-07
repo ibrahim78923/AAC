@@ -150,7 +150,7 @@ export const expenseActionsDropdownFunction = (handleActionClick: any) => [
   {
     id: 1,
     title: 'Edit',
-    permissionKey: AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.EDIT_EXPENSE,
+    permissionKey: [AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.EDIT_EXPENSE],
     handleClick: (close: any) => {
       handleActionClick('edit');
       close?.(false);
@@ -159,7 +159,7 @@ export const expenseActionsDropdownFunction = (handleActionClick: any) => [
   {
     id: 2,
     title: 'Delete',
-    permissionKey: AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.DELETE_EXPENSE,
+    permissionKey: [AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.DELETE_EXPENSE],
     handleClick: (close: any) => {
       handleActionClick?.('delete');
       close?.(false);

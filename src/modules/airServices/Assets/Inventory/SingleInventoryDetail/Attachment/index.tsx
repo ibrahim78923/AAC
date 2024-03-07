@@ -21,6 +21,9 @@ export const Attachment = () => {
         {attachmentFileData?.map((singleAttachment: any) => (
           <Grid item xs={12} sm={6} lg={4} key={uuidv4()}>
             <AttachFileCard
+              permissionKey={[
+                AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.DELETE_ATTACHMENTS,
+              ]}
               data={singleAttachment}
               onDelete={() =>
                 setDeleteModal({ open: true, id: singleAttachment?.name })

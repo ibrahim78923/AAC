@@ -8,7 +8,7 @@ export const singleInventoryDetailActionDropdownFunction = (
   {
     id: 1,
     title: 'Edit',
-    permissionKey: AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSETS,
+    permissionKey: [AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSETS],
     handleClick: (close: any) => {
       router?.push({
         pathname: AIR_SERVICES?.UPSERT_INVENTORY,
@@ -22,7 +22,7 @@ export const singleInventoryDetailActionDropdownFunction = (
   {
     id: 2,
     title: 'Delete',
-    permissionKey: AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.DELETE_ASSETS,
+    permissionKey: [AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.DELETE_ASSETS],
     handleClick: (close: any) => {
       setDeleteModalOpen?.(true);
       close?.();
