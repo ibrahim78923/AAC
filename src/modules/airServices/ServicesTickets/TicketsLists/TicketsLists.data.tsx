@@ -89,6 +89,11 @@ export const ticketsActionDropdownFunction = (
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Mark as Close',
     handleClick: (closeMenu: any) => {
+      if (selectedTicketList?.length > 1) {
+        errorSnackbar('Please select only one ticket');
+        closeMenu?.();
+        return;
+      }
       updateTicketStatus?.(TICKET_STATUS?.CLOSED);
       closeMenu?.();
     },
@@ -98,6 +103,11 @@ export const ticketsActionDropdownFunction = (
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Mark as Spam',
     handleClick: (closeMenu: any) => {
+      if (selectedTicketList?.length > 1) {
+        errorSnackbar('Please select only one ticket');
+        closeMenu?.();
+        return;
+      }
       updateTicketStatus?.(TICKET_STATUS?.SPAM);
       closeMenu?.();
     },
