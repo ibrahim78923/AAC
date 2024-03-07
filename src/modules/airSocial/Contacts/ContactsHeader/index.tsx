@@ -10,6 +10,8 @@ import { styles } from './ContractsHeader.style';
 
 import { ImportIcon } from '@/assets/icons';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
 
 const ContactsHeader = () => {
   const route = useRouter();
@@ -33,14 +35,20 @@ const ContactsHeader = () => {
           Import
         </Button>
         <Box>
-          <Button
-            variant="contained"
-            onClick={handleCreateDealOpen}
-            startIcon={<AddCircle />}
-            sx={{ height: '35px' }}
+          <PermissionsGuard
+            permissions={[
+              SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.CREATE_CONTACT,
+            ]}
           >
-            Create Contact
-          </Button>
+            <Button
+              variant="contained"
+              onClick={handleCreateDealOpen}
+              startIcon={<AddCircle />}
+              sx={{ height: '35px' }}
+            >
+              Create Contact
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       <CreateContacts open={isCreateDeal} onClose={handleCreateDealOpen} />
