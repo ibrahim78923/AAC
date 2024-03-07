@@ -11,8 +11,10 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAwardPoints = () => {
   const { palette }: any = useTheme();
+
   const [addAwardPointsTrigger, addAwardPointsStatus] =
     useAddAwardPointsMutation();
+
   const { data, isLoading, isFetching } = useGetAwardPointsQuery({});
 
   const awardCardBorderColors = [
@@ -26,7 +28,9 @@ export const useAwardPoints = () => {
     defaultValues: awardFormDefaultValue?.(),
     resolver: yupResolver(awardPointsSchema),
   });
+
   const { reset } = awardPointsMethod;
+
   const handleSubmit = async (values: any) => {
     try {
       await addAwardPointsTrigger(values)?.unwrap();

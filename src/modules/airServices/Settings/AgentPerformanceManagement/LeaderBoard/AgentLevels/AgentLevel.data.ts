@@ -12,31 +12,31 @@ export const agentLevelsPointsSchema = yup?.object()?.shape({
   beginner: yup
     ?.number()
     ?.positive('Positive number required')
-    ?.required('Required field')
+    ?.required('Required')
     ?.typeError('Positive number required')
     ?.max(100, 'maximum value is 100'),
   intermediate: yup
     ?.number()
     ?.positive('Positive number required')
-    ?.required('Required field')
+    ?.required('Required')
     ?.typeError('Positive number required')
     ?.max(2500, 'maximum value is 2500'),
   professional: yup
     ?.number()
     ?.positive('Positive number required')
-    ?.required('Required field')
+    ?.required('Required')
     ?.typeError('Positive number required')
     ?.max(10000, 'maximum value is 10000'),
   master: yup
     ?.number()
     ?.positive('Positive number required')
-    ?.required('Required field')
+    ?.required('Required')
     ?.typeError('Positive number required')
     ?.max(100000, 'maximum value is 100000'),
   expert: yup
     ?.number()
     ?.positive('Positive number required')
-    ?.required('Required field')
+    ?.required('Required')
     ?.typeError('Positive number required')
     ?.max(25000, 'maximum value is 25000'),
 });
