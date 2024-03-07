@@ -37,7 +37,7 @@ const SocialInbox = () => {
     <Box>
       <PermissionsGuard
         permissions={[
-          AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS.VIEW_SOCIAL_INBOX,
+          AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.VIEW_SOCIAL_INBOX,
         ]}
       >
         <Grid container spacing={3}>
@@ -55,7 +55,7 @@ const SocialInbox = () => {
                 >
                   <PermissionsGuard
                     permissions={[
-                      AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS.VIEW_TEAMS,
+                      AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.VIEW_TEAMS,
                     ]}
                   >
                     <ToggleButton
@@ -68,7 +68,7 @@ const SocialInbox = () => {
                   </PermissionsGuard>
                   <PermissionsGuard
                     permissions={[
-                      AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS.VIEW_CHANNELS,
+                      AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.VIEW_CHANNELS,
                     ]}
                   >
                     <ToggleButton
@@ -96,7 +96,7 @@ const SocialInbox = () => {
                 />
                 <PermissionsGuard
                   permissions={[
-                    AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS.FILTER,
+                    AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.FILTER,
                   ]}
                 >
                   <Button

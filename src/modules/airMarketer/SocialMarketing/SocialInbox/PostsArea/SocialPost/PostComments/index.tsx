@@ -147,7 +147,7 @@ const CommentsFooter = ({ setActiveReply }: any) => {
               </Button>
               <PermissionsGuard
                 permissions={[
-                  AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS.ADD_QUICK,
+                  AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.ADD_QUICK,
                 ]}
               >
                 <Button sx={styles?.unStyledButton}>

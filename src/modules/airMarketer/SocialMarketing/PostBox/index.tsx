@@ -47,14 +47,14 @@ const PostBox = () => {
       >
         <PermissionsGuard
           permissions={[
-            AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS.FILTER_OUT_BY_PLATEFORM_AND_DATE,
+            AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS?.FILTER_OUT_BY_PLATEFORM_AND_DATE,
           ]}
         >
           <ContactsActions />
         </PermissionsGuard>
         <PermissionsGuard
           permissions={[
-            AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS.CUSTOMISED_PIPELINE,
+            AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS?.CUSTOMISED_PIPELINE,
           ]}
         >
           <Box
@@ -71,7 +71,7 @@ const PostBox = () => {
       </Box>
       <PermissionsGuard
         permissions={[
-          AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS.VIEW_PIPELINE,
+          AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS?.VIEW_PIPELINE,
         ]}
       >
         <Grid container spacing={2}>
@@ -172,7 +172,7 @@ const PostBox = () => {
       </PermissionsGuard>
       <PermissionsGuard
         permissions={[
-          AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS.VIEW_DETAILS_OF_SPECIFIC_POST,
+          AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS?.VIEW_DETAILS_OF_SPECIFIC_POST,
         ]}
       >
         <PostBoxModalBox open={isPostModal} onClose={handlePostBox} />

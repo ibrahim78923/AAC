@@ -21,7 +21,7 @@ const GroupChannel = () => {
     <>
       <PermissionsGuard
         permissions={[
-          AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS.ADD_CHANNELS,
+          AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.ADD_CHANNELS,
         ]}
       >
         <Box sx={styles?.channelsBox}>

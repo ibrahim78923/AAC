@@ -22,7 +22,7 @@ const TeamsChannel = () => {
       <Box sx={styles?.subChannels}>
         <PermissionsGuard
           permissions={[
-            AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS.ADD_TEAMS,
+            AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.ADD_TEAMS,
           ]}
         >
           <Box
