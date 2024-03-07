@@ -13,6 +13,8 @@ import {
   scheduleTypes,
   weekOptions,
 } from './WorkflowSchedule.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 
 export const WorkflowSchedule = (props: any) => {
   const { register } = props;
@@ -33,7 +35,11 @@ export const WorkflowSchedule = (props: any) => {
         />
       </Grid>
       {selectedScheduleRadio === scheduleTypes?.schedule && (
-        <>
+        <PermissionsGuard
+          permissions={[
+            AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.SCHEDULE,
+          ]}
+        >
           <Grid item xs={12} md={6.5} mt={1}>
             <RHFAutocomplete
               name="schedule"
@@ -102,7 +108,7 @@ export const WorkflowSchedule = (props: any) => {
               />
             )}
           </Grid>
-        </>
+        </PermissionsGuard>
       )}
     </>
   );
