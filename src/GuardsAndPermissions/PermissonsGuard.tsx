@@ -33,7 +33,7 @@ export default function PermissionsGuard({
   children: ReactNode;
   permissions: any;
   sidebar?: string;
-  isPage: boolean;
+  isPage?: boolean;
 }) {
   const currentPermissions = useCurrentPermissions();
   const permissionsCheck = checkPermissions(currentPermissions, permissions);
