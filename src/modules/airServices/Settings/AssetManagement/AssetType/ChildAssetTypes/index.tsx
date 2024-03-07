@@ -2,6 +2,8 @@ import { AddBox } from '@mui/icons-material';
 import { Box, Button } from '@mui/material';
 import AddNewAssetTypesModal from '../AddNewAssetTypesModal';
 import { useChildAssetTypes } from './useChildAssetTypes';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 const ChildAssetTypes = (props: any) => {
   const { children, boxShadow = 2 } = props;
@@ -28,15 +30,21 @@ const ChildAssetTypes = (props: any) => {
     >
       {children}
       <Box>
-        <Button
-          variant="outlined"
-          color="secondary"
-          sx={{ mr: 5 }}
-          startIcon={<AddBox />}
-          onClick={() => setOpenAddNewChildModal?.(true)}
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.ADD_NEW_FIELDS_FOR_ASSET_FORM,
+          ]}
         >
-          Add New Services
-        </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            sx={{ mr: 5 }}
+            startIcon={<AddBox />}
+            onClick={() => setOpenAddNewChildModal?.(true)}
+          >
+            Add New Services
+          </Button>
+        </PermissionsGuard>
       </Box>
       <AddNewAssetTypesModal
         open={openAddNewChildModal}

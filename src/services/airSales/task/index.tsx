@@ -53,14 +53,38 @@ export const taskApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    patchCreateTask: builder.mutation({
+      query: ({ body, id }: any) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
 
     getTaskDetails: builder.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.TICKET}`,
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT}/${id}`,
         method: 'GET',
-        params: params,
       }),
       providesTags: TAG,
+    }),
+
+    deleteTasks: builder.mutation({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: TAG,
+    }),
+
+    patchCreateTaskStatus: builder.mutation({
+      query: ({ body, id }: any) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
     }),
   }),
 });
@@ -72,4 +96,8 @@ export const {
   useGetCreateTaskCompaniesQuery,
   useGetCreateTaskDealsQuery,
   useGetCreateTaskTicketsQuery,
+  useGetTaskDetailsQuery,
+  useDeleteTasksMutation,
+  usePatchCreateTaskMutation,
+  usePatchCreateTaskStatusMutation,
 } = taskApi;

@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import WorkloadDrawer from '../WorkloadDrawer/WorkloadDrawer';
+import WorkloadDrawer from '../WorkloadDrawer';
 import useUnassignedWork from './useUnassignedWork';
 
 export const UnassignedWork = () => {

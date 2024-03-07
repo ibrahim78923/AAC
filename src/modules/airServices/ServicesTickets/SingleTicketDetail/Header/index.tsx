@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Grid, Typography, Box, useTheme } from '@mui/material';
+import { Grid, Typography, Box } from '@mui/material';
 import DetailTimePicker from './TimePicker';
 import {
   ViewDetailBackArrowIcon,
@@ -9,33 +9,34 @@ import {
 } from '@/assets/icons';
 import { styles } from './Header.style';
 import { SmsImage, VuesaxErrorImage } from '@/assets/images';
-import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
-import { useState } from 'react';
 import { AddMeetingsDrawer } from '../Meetings/AddMeetingsDrawer';
 import { NewEmailDrawer } from './NewEmailDrawer';
-
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
-import { headerDropdownFunction } from './Header.data';
 import { PrintDrawer } from './Print';
+import { useHeader } from './useHeader';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import {
+  AIR_SERVICES_TICKETS_TICKETS_DETAILS,
+  AIR_SERVICES_TICKETS_TICKET_LISTS,
+} from '@/constants/permission-keys';
 
 const Header = () => {
-  const { data: detail } = useHeaderData();
-  const theme: any = useTheme();
-  const { push } = useRouter();
-
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isIconVisible, setIsIconVisible] = useState(true);
-  const [isPrintDrawerOpen, setISPrintDrawerOpen] = useState(false);
-  const toggleView = () => {
-    setIsIconVisible(!isIconVisible);
-  };
-  const ticketsApprovalDropdown = headerDropdownFunction(
+  const {
+    data,
+    router,
+    toggleView,
+    isIconVisible,
+    setDrawerOpen,
+    drawerOpen,
+    setIsDrawerOpen,
+    isDrawerOpen,
+    ticketsApprovalDropdown,
     isPrintDrawerOpen,
-    setISPrintDrawerOpen,
-  );
+    setIsPrintDrawerOpen,
+  } = useHeader();
+
   return (
     <>
       <Grid
@@ -54,69 +55,92 @@ const Header = () => {
           }}
         >
           <Box
-            onClick={() => push(AIR_SERVICES?.TICKETS)}
+            onClick={() => router?.push(AIR_SERVICES?.TICKETS)}
             sx={{ cursor: 'pointer' }}
           >
             <ViewDetailBackArrowIcon />
           </Box>
-          <Typography
-            variant="h6"
-            sx={{ color: theme?.palette?.primary?.main }}
-          >
-            {detail?.data?.[0]?.ticketIdNumber}
+          <Typography variant="h6" color="primary.main">
+            {data?.data?.[0]?.ticketIdNumber}
           </Typography>
           <Typography variant="h6" component="span">
-            {detail?.data?.[0]?.subject}
+            {data?.data?.[0]?.subject}
           </Typography>
         </Grid>
         <Grid item sx={{ display: 'flex' }}>
-          <Box sx={styles?.iconBoxStyling} onClick={toggleView}>
-            {isIconVisible ? (
-              <ViewDetailVuesaxIcon />
-            ) : (
-              <Image
-                src={VuesaxErrorImage}
-                alt={'VuesaxErrorImage'}
-                height={24}
-                width={24}
-              />
-            )}
-          </Box>
-
-          <Box sx={styles?.iconBoxTimerStyling}>
-            <DetailTimePicker />
-          </Box>
-          <Box sx={styles?.iconBoxStyling} onClick={() => setDrawerOpen(true)}>
-            <ViewDetailMeetingIcon />
-          </Box>
-          <AddMeetingsDrawer open={drawerOpen} setDrawerOpen={setDrawerOpen} />
-          <Box sx={styles?.iconBoxStyling}>
-            <ViewDetailCallIcon />
-          </Box>
-          <Box
-            sx={styles?.iconBoxStyling}
-            onClick={() => setIsDrawerOpen(true)}
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_TICKETS_TICKETS_DETAILS?.TIME_TRACK_PLAY_PAUSE,
+            ]}
           >
-            <Image src={SmsImage} width={24} height={24} alt="Badge" />
-          </Box>
+            <Box sx={styles?.iconBoxStyling} onClick={toggleView}>
+              {isIconVisible ? (
+                <ViewDetailVuesaxIcon />
+              ) : (
+                <Image
+                  src={VuesaxErrorImage}
+                  alt={'VuesaxErrorImage'}
+                  height={24}
+                  width={24}
+                />
+              )}
+            </Box>
+            <Box sx={styles?.iconBoxTimerStyling}>
+              <DetailTimePicker />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_MEETING]}
+          >
+            <Box
+              sx={styles?.iconBoxStyling}
+              onClick={() => setDrawerOpen(true)}
+            >
+              <ViewDetailMeetingIcon />
+            </Box>
+          </PermissionsGuard>
+          <AddMeetingsDrawer open={drawerOpen} setDrawerOpen={setDrawerOpen} />
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.CALLS]}
+          >
+            <Box sx={styles?.iconBoxStyling}>
+              <ViewDetailCallIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.SENT_EMAIL]}
+          >
+            <Box
+              sx={styles?.iconBoxStyling}
+              onClick={() => setIsDrawerOpen(true)}
+            >
+              <Image src={SmsImage} width={24} height={24} alt="Badge" />
+            </Box>
+          </PermissionsGuard>
           <NewEmailDrawer
             isDrawerOpen={isDrawerOpen}
             setIsDrawerOpen={setIsDrawerOpen}
           />
-          <Box sx={styles?.iconKabaMenuStyle}>
-            <SingleDropdownButton
-              dropdownOptions={ticketsApprovalDropdown}
-              dropdownName={<MoreVert />}
-              hasEndIcon={false}
-              btnVariant="text"
-            />
-            {isPrintDrawerOpen && (
-              <PrintDrawer
-                isPrintDrawerOpen={isPrintDrawerOpen}
-                setISPrintDrawerOpen={setISPrintDrawerOpen}
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS,
+            ]}
+          >
+            <Box sx={styles?.iconKabaMenuStyle}>
+              <SingleDropdownButton
+                dropdownOptions={ticketsApprovalDropdown}
+                dropdownName={<MoreVert />}
+                hasEndIcon={false}
+                btnVariant="text"
               />
-            )}
-          </Box>
+              {isPrintDrawerOpen && (
+                <PrintDrawer
+                  isPrintDrawerOpen={isPrintDrawerOpen}
+                  setISPrintDrawerOpen={setIsPrintDrawerOpen}
+                />
+              )}
+            </Box>
+          </PermissionsGuard>
         </Grid>
       </Grid>
     </>

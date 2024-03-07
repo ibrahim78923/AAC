@@ -1,48 +1,82 @@
-import * as Yup from 'yup';
 import { RHFRadioGroup, RHFCheckbox } from '@/components/ReactHookForm';
 
-export const closureRoleValidationSchema = Yup?.object()?.shape({
-  closeIncidentTimeAdded: Yup?.boolean(),
-  closeIncidentAssociatedTasks: Yup?.boolean(),
-  closeIncidentChildTickets: Yup?.boolean(),
-  closeIncidentClosedResolved: Yup?.string(),
+export const closureRoleDefaultValues = (
+  getClosureRuleValues: any,
+  ticket: any,
+) => {
+  return {
+    closeIncidentTimeAdded:
+      getClosureRuleValues?.incident?.[ticket?.incidentClose]?.timeEntryAdded,
+    closeIncidentAssociatedTasks:
+      getClosureRuleValues?.incident?.[ticket?.incidentClose]
+        ?.associatedTasksCompleted,
+    closeIncidentChildTickets:
+      getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
+        ?.closed ||
+      getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
+        ?.resolved,
+    closeIncidentClosedResolved:
+      (getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
+        ?.resolved &&
+        'Either closed or resolved') ||
+      (getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
+        ?.closed &&
+        'Closed'),
 
-  resolveIncidentTimeAdded: Yup?.boolean(),
-  resolveIncidentAssociatedTasks: Yup?.boolean(),
-  resolveIncidentChildTickets: Yup?.boolean(),
-  resolveIncidentClosedResolved: Yup?.string(),
+    resolveIncidentTimeAdded:
+      getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.timeEntryAdded,
+    resolveIncidentAssociatedTasks:
+      getClosureRuleValues?.incident?.[ticket?.incidentResolve]
+        ?.associatedTasksCompleted,
+    resolveIncidentChildTickets:
+      getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
+        ?.closed ||
+      getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
+        ?.resolved,
+    resolveIncidentClosedResolved:
+      (getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
+        ?.resolved &&
+        'Either closed or resolved') ||
+      (getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
+        ?.closed &&
+        'Closed'),
 
-  serviceCloseTimeAdded: Yup?.boolean(),
-  serviceCloseAssociatedTasks: Yup?.boolean(),
-  serviceCloseChildTickets: Yup?.boolean(),
-  serviceCloseClosedResolved: Yup?.string(),
+    serviceCloseTimeAdded:
+      getClosureRuleValues?.services?.[ticket?.serviceClose]?.timeEntryAdded,
+    serviceCloseAssociatedTasks:
+      getClosureRuleValues?.services?.[ticket?.serviceClose]
+        ?.associatedTasksCompleted,
+    serviceCloseChildTickets:
+      getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
+        ?.closed ||
+      getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
+        ?.resolved,
+    serviceCloseClosedResolved:
+      (getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
+        ?.resolved &&
+        'Either closed or resolved') ||
+      (getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
+        ?.closed &&
+        'Closed'),
 
-  serviceResolveTimeAdded: Yup?.boolean(),
-  serviceResolveAssociatedTasks: Yup?.boolean(),
-  serviceResolveChildTickets: Yup?.boolean(),
-  serviceResolveClosedResolved: Yup?.string(),
-});
-
-export const closureRoleDefaultValues = {
-  closeIncidentTimeAdded: false,
-  closeIncidentAssociatedTasks: false,
-  closeIncidentChildTickets: false,
-  closeIncidentClosedResolved: '',
-
-  resolveIncidentTimeAdded: false,
-  resolveIncidentAssociatedTasks: false,
-  resolveIncidentChildTickets: false,
-  resolveIncidentClosedResolved: '',
-
-  serviceCloseTimeAdded: false,
-  serviceCloseAssociatedTasks: false,
-  serviceCloseChildTickets: false,
-  serviceCloseClosedResolved: '',
-
-  serviceResolveTimeAdded: false,
-  serviceResolveAssociatedTasks: false,
-  serviceResolveChildTickets: false,
-  serviceResolveClosedResolved: '',
+    serviceResolveTimeAdded:
+      getClosureRuleValues?.services?.[ticket?.serviceResolve]?.timeEntryAdded,
+    serviceResolveAssociatedTasks:
+      getClosureRuleValues?.services?.[ticket?.serviceResolve]
+        ?.associatedTasksCompleted,
+    serviceResolveChildTickets:
+      getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
+        ?.closed ||
+      getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
+        ?.resolved,
+    serviceResolveClosedResolved:
+      (getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
+        ?.resolved &&
+        'Either closed or resolved') ||
+      (getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
+        ?.closed &&
+        'Closed'),
+  };
 };
 
 export const closeIncidentDataArray = (isRadioGroupDisable: any) => [

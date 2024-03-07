@@ -96,6 +96,34 @@ export const contactsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getContactTasks: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACT_TASKS,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
+    // Re-assign
+    updateContactTask: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.TASK}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+
+    // Delete Tasks
+    deleteTasks: builder.mutation({
+      query: (id: any) => ({
+        url: `${END_POINTS?.TASK}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -111,4 +139,7 @@ export const {
   useGetDeletedContactsQuery,
   useRestoreContactMutation,
   useDeleteContactPermanentMutation,
+  useGetContactTasksQuery,
+  useUpdateContactTaskMutation,
+  useDeleteTasksMutation,
 } = contactsAPI;

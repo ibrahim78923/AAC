@@ -9,7 +9,7 @@ import {
 } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
-import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
+// import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { DATE_FORMAT } from '@/constants';
 import {
   contactsDefaultValues,
@@ -17,7 +17,7 @@ import {
 } from './CreateContactsdata';
 import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
 
-const useCreateContacts = () => {
+const useCreateContacts = (dealId: any) => {
   const userRole = 'ORG_ADMIN';
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
 
@@ -25,7 +25,7 @@ const useCreateContacts = () => {
 
   const [postContacts] = usePostContactsMutation();
 
-  const [createAssociation] = useCreateAssociationMutation();
+  // const [createAssociation] = useCreateAssociationMutation();
 
   const { data: userList } = useGetUsersQuery({ role: userRole });
 
@@ -44,7 +44,7 @@ const useCreateContacts = () => {
     },
   });
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: any, closeDrawer: any) => {
     const formData = new FormData();
     formData?.append('profilePicture', values?.profilePicture);
     formData?.append('email', values?.email);
@@ -64,22 +64,15 @@ const useCreateContacts = () => {
       'dateOfJoinig',
       dayjs(values?.dataOfJoinig)?.format(DATE_FORMAT?.API),
     );
+    formData?.append('recordId', dealId);
+    formData?.append('recordType', 'deals');
 
     try {
       const response = await postContacts({ body: formData })?.unwrap();
       if (response?.data) {
-        try {
-          await createAssociation({
-            body: {
-              contactId: response?.data?._id,
-            },
-          }).unwrap();
-
-          onCloseHandler();
-        } catch (error: any) {
-          const errMsg = error?.data?.message;
-          enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
-        }
+        closeDrawer();
+        reset();
+        enqueueSnackbar('Success message', { variant: 'success' });
       }
     } catch (error: any) {
       const errMsg = error?.data?.message;
@@ -91,6 +84,9 @@ const useCreateContacts = () => {
     reset();
   };
   const { handleSubmit, reset } = methodscontacts;
+
+  const submitContact = (closeDrawer: any) =>
+    handleSubmit((values) => onSubmit(values, closeDrawer));
   return {
     handleSubmit,
     onSubmit,
@@ -100,6 +96,7 @@ const useCreateContacts = () => {
     onCloseHandler,
     userList,
     contactsStatus,
+    submitContact,
   };
 };
 
