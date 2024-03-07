@@ -1,83 +1,37 @@
 import {
+  RHFAutocompleteAsync,
   RHFDatePicker,
-  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { Typography } from '@mui/material';
-import { ItemDetail } from './ItemDetail';
 import dayjs from 'dayjs';
-import { CONTRACT_TYPES } from '@/constants/strings';
-import {
-  contractTypeOptions,
-  dropdownDummy,
-} from '../UpsertContract/UpsertContract.data';
+import { CONTRACT_ACTION } from '@/constants/strings';
 
 const todayDate = dayjs()?.format('MM/DD/YYYY');
 
 export const updateContractFormValidationSchema = Yup?.object()?.shape({
+  approver: Yup?.mixed()?.nullable(),
   startDate: Yup?.date(),
   endDate: Yup?.date(),
   cost: Yup?.string(),
-  approver: Yup?.string(),
-  type: Yup?.string(),
-  itemDetail: Yup?.array()
-    ?.of(
-      Yup?.object()?.shape({
-        serviceName: Yup?.string(),
-        priceModel: Yup?.string(),
-        cost: Yup?.number(),
-        count: Yup?.number(),
-        comments: Yup?.string(),
-      }),
-    )
-    ?.when('type', {
-      is: (value: any) => value === CONTRACT_TYPES?.SOFTWARE_LICENSE,
-      then: () => {
-        return Yup?.array()
-          ?.of(
-            Yup?.object()?.shape({
-              serviceName: Yup?.string()?.required('service name is required'),
-              priceModel: Yup?.string()?.required('Price model is required'),
-              cost: Yup?.number()?.positive()?.typeError('Not a number'),
-              count: Yup?.number()?.positive()?.typeError('Not a number'),
-              comments: Yup?.string(),
-            }),
-          )
-          ?.min(1, 'At least one item is required');
-      },
-      otherwise: (schema: any) => schema?.notRequired(),
-    }),
 });
 
-export const updateContractFormDefaultValuesFunction = (
-  router: any,
-  data?: any,
-) => {
+export const updateContractFormDefaultValuesFunction = (data?: any) => {
   return {
-    startDate: new Date(data?.startDate ?? todayDate),
-    endDate: new Date(data?.startDate ?? todayDate),
-    cost: data?.cost ?? '',
-    approver: data?.approver ?? '',
-    type: router?.query?.contractType
-      ? (router?.query?.contractType as string)
-      : data?.type,
-    itemDetail: !!data?.itemDetail?.length
-      ? data?.itemDetail
-      : [
-          {
-            serviceName: '',
-            priceModel: '',
-            cost: 0,
-            count: 0,
-            comments: '',
-          },
-        ],
+    startDate: new Date(data?.data?.startDate ?? todayDate),
+    endDate: new Date(data?.data?.endDate ?? todayDate),
+    cost: data?.data?.cost ?? '',
+    approver: data?.data?.approver ?? null,
   };
 };
 
-export const updateContractFormFieldsFunction = (router: any) => [
+export const updateContractFormFieldsFunction = (
+  apiQueryApprover: any,
+  actionRenewExtend: any,
+) => [
   {
+    id: 5,
     componentProps: {
       variant: 'h5',
     },
@@ -86,15 +40,18 @@ export const updateContractFormFieldsFunction = (router: any) => [
     component: Typography,
   },
   {
+    id: 5,
     componentProps: {
       name: 'startDate',
       label: 'Start Date',
+      disabled: actionRenewExtend === CONTRACT_ACTION?.EXTEND ? true : false,
       fullWidth: true,
     },
     component: RHFDatePicker,
     md: 6,
   },
   {
+    id: 6,
     componentProps: {
       name: 'endDate',
       label: 'End Date',
@@ -104,6 +61,7 @@ export const updateContractFormFieldsFunction = (router: any) => [
     md: 6,
   },
   {
+    id: 7,
     componentProps: {
       name: 'cost',
       label: 'Cost (£)',
@@ -115,50 +73,16 @@ export const updateContractFormFieldsFunction = (router: any) => [
   },
 
   {
+    id: 8,
+    component: RHFAutocompleteAsync,
+    md: 6,
     componentProps: {
+      fullWidth: true,
       name: 'approver',
       label: 'Approver',
-      fullWidth: true,
-      select: true,
+      apiQuery: apiQueryApprover,
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
-    options: dropdownDummy,
-    component: RHFSelect,
-    md: 6,
-  },
-  ...(router?.query?.contractType === CONTRACT_TYPES?.SOFTWARE_LICENSE
-    ? [
-        {
-          id: 3,
-          componentProps: {
-            color: 'slateBlue.main',
-            variant: 'h4',
-          },
-          heading: 'Item & Cost Details',
-          md: 12,
-          component: Typography,
-        },
-        {
-          id: 54383,
-          componentProps: {
-            name: 'itemDetail',
-          },
-          component: ItemDetail,
-          md: 12,
-        },
-      ]
-    : []),
-  {
-    id: 129091,
-    componentProps: {
-      fullWidth: true,
-      name: 'type',
-      label: '',
-      select: true,
-      options: contractTypeOptions,
-      disabled: true,
-      sx: { display: 'none' },
-    },
-    component: RHFSelect,
-    md: 6,
   },
 ];
