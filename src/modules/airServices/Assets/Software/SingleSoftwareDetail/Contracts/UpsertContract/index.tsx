@@ -2,6 +2,8 @@ import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useUpsertContract } from './useUpsertContract';
 import { Box, Grid } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const UpsertContract = () => {
   const {
@@ -12,7 +14,13 @@ export const UpsertContract = () => {
     upsertContractFormFieldsData,
     handleCancelBtn,
     postContractStatus,
+    isLoading,
+    isFetching,
+    isError,
   } = useUpsertContract();
+
+  if (isLoading || isFetching) return <SkeletonForm />;
+  if (isError) return <ApiErrorState />;
 
   return (
     <>
