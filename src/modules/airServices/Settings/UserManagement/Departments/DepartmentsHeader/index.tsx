@@ -3,6 +3,8 @@ import { ArrowLeftIcon, PlusSharedColorIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { useDepartmentsHeader } from './useDepartmentsHeader';
 import { DepartmentsFormModal } from '../DepartmentsFormModal';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const DepartmentsHeader = (props: any) => {
   const { searchBy, setSearchBy, openAddModal, setOpenAddModal } = props;
@@ -43,13 +45,19 @@ export const DepartmentsHeader = (props: any) => {
             searchBy={searchBy}
             setSearchBy={setSearchBy}
           />
-          <Button
-            startIcon={<PlusSharedColorIcon />}
-            variant="contained"
-            onClick={() => setOpenAddModal(true)}
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_DEPARTMENTS,
+            ]}
           >
-            Add New Department
-          </Button>
+            <Button
+              startIcon={<PlusSharedColorIcon />}
+              variant="contained"
+              onClick={() => setOpenAddModal(true)}
+            >
+              Add New Department
+            </Button>
+          </PermissionsGuard>
         </Grid>
       </Grid>
       <DepartmentsFormModal

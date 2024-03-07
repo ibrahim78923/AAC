@@ -3,6 +3,8 @@ import { Box, Button } from '@mui/material';
 import { FilterIcon } from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { FilterSalesWorkflow } from '../FilterSalesWorkflow';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 
 export const SalesWorkflowSubHeader = (props: any) => {
   const {
@@ -21,7 +23,17 @@ export const SalesWorkflowSubHeader = (props: any) => {
         justifyContent={'space-between'}
         flexWrap={'wrap'}
       >
-        <Search label="Search Here" searchBy={search} setSearchBy={setSearch} />
+        <PermissionsGuard
+          permissions={[
+            AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.SEARCH_RECORD,
+          ]}
+        >
+          <Search
+            label="Search Here"
+            searchBy={search}
+            setSearchBy={setSearch}
+          />
+        </PermissionsGuard>
         <Box
           display={'flex'}
           justifyContent={'space-between'}
@@ -32,15 +44,21 @@ export const SalesWorkflowSubHeader = (props: any) => {
             dropdownOptions={salesWorkflowActionDropdown}
             disabled={disabledActionButton}
           />
-          <Button
-            variant="outlined"
-            onClick={() => setIsFilterOpen?.(true)}
-            size="large"
-            startIcon={<FilterIcon />}
-            color="secondary"
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.FILTER_RECORD,
+            ]}
           >
-            Filter
-          </Button>
+            <Button
+              variant="outlined"
+              onClick={() => setIsFilterOpen?.(true)}
+              size="large"
+              startIcon={<FilterIcon />}
+              color="secondary"
+            >
+              Filter
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       <FilterSalesWorkflow
