@@ -175,6 +175,7 @@ const ViewDetails = () => {
               defaultValue={Number(searchParams) ?? 0}
             >
               <Details />
+
               <ActivityLog />
               <Associations />
               <Tasks />
