@@ -10,6 +10,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { ArrowDropDownIcon } from '@mui/x-date-pickers';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { VisibilityAction } from './VisibilityAction';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { Permissions } from '@/constants/permissions';
 export const ServicesAction = (props: any) => {
   const {
     deleteModalOpen,
@@ -43,20 +46,26 @@ export const ServicesAction = (props: any) => {
         flexWrap={'wrap'}
         gap={2}
       >
-        <Button
-          variant="outlined"
-          id="demo-positioned-button"
-          aria-controls={openMenu ? 'demo-positioned-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={openMenu ? 'true' : undefined}
-          onClick={handleClickMenu}
-          disabled={isDisabled}
-          endIcon={<ArrowDropDownIcon />}
-          color="secondary"
-          sx={{ textTransform: 'capitalize' }}
+        <PermissionsGuard
+          permissions={
+            Permissions?.AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_SERVICE_CATALOG_ACTION
+          }
         >
-          Action
-        </Button>
+          <Button
+            variant="outlined"
+            id="demo-positioned-button"
+            aria-controls={openMenu ? 'demo-positioned-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={openMenu ? 'true' : undefined}
+            onClick={handleClickMenu}
+            disabled={isDisabled}
+            endIcon={<ArrowDropDownIcon />}
+            color="secondary"
+            sx={{ textTransform: 'capitalize' }}
+          >
+            Action
+          </Button>
+        </PermissionsGuard>
         <Box sx={{ position: 'relative' }}>
           <Menu
             id="basic-menu"
@@ -67,19 +76,43 @@ export const ServicesAction = (props: any) => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={handleCategory} key="moveToCategory">
-              Move To Category
-            </MenuItem>
-            <MenuItem onClick={handleStatus} key="changeStatus">
-              Change Status
-            </MenuItem>
-            <MenuItem onClick={handleVisibility} key="visibility">
-              Visibility
-              <ArrowForwardIosIcon fontSize="small" sx={{ ml: '2.5rem' }} />
-            </MenuItem>
-            <MenuItem onClick={handleDelete} key="delete">
-              Delete
-            </MenuItem>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.DELETE_MOVE_CATALOG_SERVICE,
+              ]}
+            >
+              <MenuItem onClick={handleCategory} key="moveToCategory">
+                Move To Category
+              </MenuItem>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.CHANGE_STATUS_OF_CATALOG_SERVICES,
+              ]}
+            >
+              <MenuItem onClick={handleStatus} key="changeStatus">
+                Change Status
+              </MenuItem>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.SET_VISIBILITY_OF_CATALOG_SERVICES,
+              ]}
+            >
+              <MenuItem onClick={handleVisibility} key="visibility">
+                Visibility
+                <ArrowForwardIosIcon fontSize="small" sx={{ ml: '2.5rem' }} />
+              </MenuItem>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.DELETE_MOVE_CATALOG_SERVICE,
+              ]}
+            >
+              <MenuItem onClick={handleDelete} key="delete">
+                Delete
+              </MenuItem>
+            </PermissionsGuard>
           </Menu>
           {openVisibilityE1 && (
             <VisibilityAction
