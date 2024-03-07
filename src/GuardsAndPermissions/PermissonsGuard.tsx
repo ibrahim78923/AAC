@@ -28,19 +28,22 @@ export default function PermissionsGuard({
   children,
   permissions,
   sidebar,
+  isPage = false,
 }: {
   children: ReactNode;
   permissions: any;
   sidebar?: string;
+  isPage?: boolean;
 }) {
   const currentPermissions = useCurrentPermissions();
   const permissionsCheck = checkPermissions(currentPermissions, permissions);
-
-  return permissionsCheck ? (
-    <>{children}</>
-  ) : sidebar === 'ItemPermission' ? (
-    ' '
-  ) : (
-    <PermissionDenied />
-  );
+  if (permissionsCheck) {
+    return <>{children}</>;
+  } else if (sidebar === 'ItemPermission') {
+    return '';
+  } else if (isPage) {
+    <PermissionDenied />;
+  } else {
+    return <></>;
+  }
 }
