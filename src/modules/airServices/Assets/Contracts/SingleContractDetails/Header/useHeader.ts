@@ -1,6 +1,8 @@
 import { CONTRACT_STATUS } from '@/constants/strings';
 import {
   useGetSingleContractByIdQuery,
+  usePatchContractApproveMutation,
+  usePatchContractRejectMutation,
   usePatchContractSubmitForApprovalMutation,
 } from '@/services/airServices/assets/contracts';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -11,6 +13,8 @@ export const useHeader = () => {
   const { contractId } = router?.query;
   const [patchContractSubmitApprovalTrigger] =
     usePatchContractSubmitForApprovalMutation();
+  const [patchContractApproveTrigger] = usePatchContractApproveMutation();
+  const [patchContractRejectTrigger] = usePatchContractRejectMutation();
   const getSingleContractParameter = {
     pathParam: {
       contractId,
@@ -26,8 +30,8 @@ export const useHeader = () => {
     const upDateStatusData = { ...data };
     const updatedStatusData = { ...upDateStatusData };
     const newData = {
-      ...updatedStatusData.data,
-      status: CONTRACT_STATUS.PENDING_APPROVAL,
+      ...updatedStatusData?.data,
+      status: CONTRACT_STATUS?.PENDING_APPROVAL,
     };
     updatedStatusData.data = newData;
 
@@ -45,7 +49,48 @@ export const useHeader = () => {
       errorSnackbar();
     }
   };
+  const handleSubmitForApprove = async () => {
+    const upDateApprovesStatusData = { ...data };
+    const upDateApproveStatusData = { ...upDateApprovesStatusData };
+    const newData = {
+      ...upDateApproveStatusData?.data,
+      status: CONTRACT_STATUS?.APPROVED,
+    };
+    upDateApproveStatusData.data = newData;
 
+    const putContractSubmitApprove = {
+      pathParam: { contractId },
+      body: upDateApproveStatusData,
+    };
+
+    try {
+      await patchContractApproveTrigger(putContractSubmitApprove)?.unwrap();
+      successSnackbar('Contract was  Approved');
+    } catch (error) {
+      errorSnackbar();
+    }
+  };
+  const handleSubmitForReject = async () => {
+    const upDateRejectStatusData = { ...data };
+    const upDateRejectedStatusData = { ...upDateRejectStatusData };
+    const newData = {
+      ...upDateRejectedStatusData?.data,
+      status: CONTRACT_STATUS?.REJECTED,
+    };
+    upDateRejectedStatusData.data = newData;
+
+    const putContractSubmitReject = {
+      pathParam: { contractId },
+      body: upDateRejectedStatusData,
+    };
+
+    try {
+      await patchContractRejectTrigger(putContractSubmitReject)?.unwrap();
+      successSnackbar('Contract was  Rejected');
+    } catch (error) {
+      errorSnackbar();
+    }
+  };
   return {
     data,
     isLoading,
@@ -53,5 +98,7 @@ export const useHeader = () => {
     isError,
     router,
     handleSubmitForApproval,
+    handleSubmitForApprove,
+    handleSubmitForReject,
   };
 };
