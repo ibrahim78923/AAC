@@ -1,15 +1,15 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-export const SmsMarketingAPI = baseAPI.injectEndpoints({
+export const SmsMarketingTemplateAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getSmsBroadcats: builder.query({
+    getSmsTemplates: builder.query({
       query: (params: any) => ({
-        url: END_POINTS?.GET_SMS_MARKETING_BROADCAST,
+        url: END_POINTS?.GET_SMS_TEMPLATES,
         method: 'GET',
         params: params,
       }),
-      providesTags: ['BROADCAST'],
+      providesTags: ['TEMPLATE'],
     }),
 
     // getReceiverBankAccountsById: builder.query({
@@ -38,15 +38,15 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
     //   invalidatesTags: ['RECEIVER_BANK_ACCOUNT'],
     // }),
 
-    deleteSmsBroadcast: builder.mutation({
+    deleteSmsTemplate: builder.mutation({
       query: ({ ids }: any) => ({
-        url: `${END_POINTS?.GET_SMS_MARKETING_BROADCAST}/${ids}`,
+        url: `${END_POINTS?.GET_SMS_TEMPLATES}/${ids}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['BROADCAST'],
+      invalidatesTags: ['TEMPLATE'],
     }),
   }),
 });
 
-export const { useGetSmsBroadcatsQuery, useDeleteSmsBroadcastMutation } =
-  SmsMarketingAPI;
+export const { useGetSmsTemplatesQuery, useDeleteSmsTemplateMutation } =
+  SmsMarketingTemplateAPI;
