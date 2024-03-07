@@ -1,7 +1,6 @@
 import { AlertModals } from '@/components/AlertModals';
 import { Header } from './Header';
 import { useSingleContractDetails } from './useSingleContractDetails';
-import { enqueueSnackbar } from 'notistack';
 import { SingleContractDetailsTabs } from './SingleContractDetailsTabs';
 
 export const SingleContractDetails = () => {
@@ -12,6 +11,7 @@ export const SingleContractDetails = () => {
     terminateModalOpen,
     setTerminateModalOpen,
     handleDeleteBtn,
+    handleSubmitForTerminated,
   } = useSingleContractDetails();
   return (
     <>
@@ -24,12 +24,7 @@ export const SingleContractDetails = () => {
           type="delete"
           open={terminateModalOpen}
           handleClose={() => setTerminateModalOpen(false)}
-          handleSubmitBtn={() => {
-            setTerminateModalOpen(false);
-            enqueueSnackbar('Contract Terminate Successfully', {
-              variant: 'success',
-            });
-          }}
+          handleSubmitBtn={handleSubmitForTerminated}
           message="Are you sure  want to Terminate this Contract ?"
         />
       )}
@@ -39,11 +34,6 @@ export const SingleContractDetails = () => {
           open={deleteModalOpen}
           handleClose={() => setDeleteModalOpen(false)}
           handleSubmitBtn={handleDeleteBtn}
-          // setDeleteModalOpen(false);
-          // enqueueSnackbar('Contract deleted Successfully', {
-          //   variant: 'success',
-          // });
-          // }
           message="Are you sure  want to delete this Contract ?"
         />
       )}
