@@ -70,6 +70,7 @@ export const UserList: any = [
     header: 'Card Number',
     cell: (info: any) => info?.getValue(),
   },
+
   {
     accessorFn: (row: any) => row?.cardRecipientName,
     id: 'cardRecipientName cardRecipientEmail',

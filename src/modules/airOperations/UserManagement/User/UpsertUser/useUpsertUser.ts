@@ -5,7 +5,6 @@ import {
   upsertUserDefaultValues,
   upsertUserValidationSchema,
 } from './UpsertUser.data';
-
 import { useState } from 'react';
 import { usePostUserListMutation } from '@/services/airOperations/user-management/user';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -30,7 +29,7 @@ export const useUpsertUser = (setIsDrawerOpen: any) => {
     } else {
       try {
         await postNewUserTrigger({ body })?.unwrap();
-        successSnackbar(' user Added successfully');
+        successSnackbar('user Added successfully');
       } catch (error) {
         errorSnackbar();
       }
