@@ -7,7 +7,6 @@ import { LoadingButton } from '@mui/lab';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import ApiErrorState from '@/components/ApiErrorState';
 
 const AwardPoints = () => {
   const {
@@ -17,11 +16,9 @@ const AwardPoints = () => {
     isLoading,
     isFetching,
     addAwardPointsStatus,
-    isError,
   } = useAwardPoints();
 
   if (isLoading || isFetching) return <SkeletonForm />;
-  if (isError) return <ApiErrorState />;
 
   return (
     <PermissionsGuard
