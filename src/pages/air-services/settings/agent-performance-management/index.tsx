@@ -12,7 +12,7 @@ AgentPerformanceManagementPage.getLayout = function getLayout(page: any) {
   return (
     <Layout
       permissions={
-        Permissions?.AIR_SERVICES_SETTINGS_AGENT_PERFORMANCE_MANAGEMENT
+        Permissions?.AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT
       }
     >
       {page}
