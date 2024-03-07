@@ -7,6 +7,8 @@ import Image from 'next/image';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useHeader } from './useHeader';
 import Chip from '@mui/material/Chip';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Header = () => {
   const theme = useTheme();
@@ -46,70 +48,79 @@ export const Header = () => {
           <Typography variant="h5">Account Detail</Typography>
         </Box>
       </Box>
-      <Box display={'flex'} gap={{ xs: 1, sm: 2 }} mt={2}>
-        <Box
-          position="relative"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <label htmlFor="profilePictureInput">
-            <input
-              type="file"
-              id="profilePictureInput"
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={handleFileChange}
-            />
-            <Image
-              src={uploadedImage || UserProfileImage}
-              width={90}
-              height={90}
-              alt="user"
-            />
-            {isHovered && (
-              <Box
-                position="absolute"
-                {...fullScreenPosition}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                borderRadius={3}
-                sx={{ background: 'black', opacity: 0.5 }}
-              >
-                <BorderColorIcon sx={{ color: 'white' }} />
-              </Box>
-            )}
-          </label>
-        </Box>
-        <Box
-          display={'flex'}
-          flexDirection={'column'}
-          justifyContent={'center'}
-          gap={1}
-        >
-          <Box display={'flex'} gap={1}>
-            <Typography variant="h4">John Doe</Typography>
-            <Chip
-              label={'Admin'}
-              sx={{ backgroundColor: 'success.lighter', color: 'success.main' }}
-            />
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_PERMISSIONS?.VIEW_ACCOUNT_DETAILS,
+        ]}
+      >
+        <Box display={'flex'} gap={{ xs: 1, sm: 2 }} mt={2}>
+          <Box
+            position="relative"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <label htmlFor="profilePictureInput">
+              <input
+                type="file"
+                id="profilePictureInput"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+              />
+              <Image
+                src={uploadedImage || UserProfileImage}
+                width={90}
+                height={90}
+                alt="user"
+              />
+              {isHovered && (
+                <Box
+                  position="absolute"
+                  {...fullScreenPosition}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  borderRadius={3}
+                  sx={{ background: 'black', opacity: 0.5 }}
+                >
+                  <BorderColorIcon sx={{ color: 'white' }} />
+                </Box>
+              )}
+            </label>
           </Box>
           <Box
             display={'flex'}
-            flexDirection={{ xs: 'column', sm: 'row' }}
+            flexDirection={'column'}
+            justifyContent={'center'}
             gap={1}
           >
             <Box display={'flex'} gap={1}>
-              <EmailIcon />
-              <Typography variant="body2">Johndoe@gmail.com</Typography>
+              <Typography variant="h4">John Doe</Typography>
+              <Chip
+                label={'Admin'}
+                sx={{
+                  backgroundColor: 'success.lighter',
+                  color: 'success.main',
+                }}
+              />
             </Box>
-            <Box display={'flex'} gap={1}>
-              <PhoneIcon />
-              <Typography variant="body2">(316) 555-0116</Typography>
+            <Box
+              display={'flex'}
+              flexDirection={{ xs: 'column', sm: 'row' }}
+              gap={1}
+            >
+              <Box display={'flex'} gap={1}>
+                <EmailIcon />
+                <Typography variant="body2">Johndoe@gmail.com</Typography>
+              </Box>
+              <Box display={'flex'} gap={1}>
+                <PhoneIcon />
+                <Typography variant="body2">(316) 555-0116</Typography>
+              </Box>
             </Box>
           </Box>
         </Box>
-      </Box>
+      </PermissionsGuard>
     </Box>
   );
 };
