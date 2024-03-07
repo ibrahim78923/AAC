@@ -621,7 +621,7 @@ export const AIR_MARKETER_DASHBAORD_PERMISSIONS = {
   VIEW_DASHBOARD: 'marketer-all-company-view-dashboard',
 };
 
-export const AIR_MARKETER_CAMPAIGNS_MANAGE_PERMISSIONS = {
+export const AIR_MARKETER_CAMPAIGNS_PERMISSIONS = {
   COMPARE_CAMPAIGNS: 'marketer-campaigns-manage-compare-campaigns',
   CREATE_CAMPAIGNS: 'marketer-campaigns-manage-create-campaigns',
   SEARCH_FILTER: 'marketer-campaigns-manage-search-and-filters',
@@ -629,7 +629,7 @@ export const AIR_MARKETER_CAMPAIGNS_MANAGE_PERMISSIONS = {
   SAVE_ALL_VIEWS: 'marketer-campaigns-manage-see-all-views',
   VIEW_DETAILS: 'marketer-campaigns-manage-view-details',
   VIEW_PERFORMANCE: 'marketer-campaigns-manage-view-perfomance',
-  CREATE_TASK: 'marketer-campaigns-manage-create-task',
+  MANAGER_CREATE_TASK: 'marketer-campaigns-manage-create-task',
   EDIT_CAMPAIGNS: 'marketer-campaigns-manage-edit-campaign',
   EDIT_GOALS: 'marketer-campaigns-manage-edit-goal',
   EXPORT_CAMPAIGNS: 'marketer-campaigns-manage-export-campaign',
@@ -644,23 +644,17 @@ export const AIR_MARKETER_CAMPAIGNS_MANAGE_PERMISSIONS = {
     'marketer-campaigns-manage-collapse-menu-commnets-reply',
   COLLAPSE_MENU_COMMENT_TAB_TASK_FILTER:
     'marketer-campaigns-manage-collapse-menu-commnets-filter',
-};
-
-export const AIR_MARKETER_CAMPAIGNS_CALENDAR_PERMISSIONS = {
   CREATE_CALENDAR: 'marketer-campaigns-calendar-create-task',
   VIEW_TASK_DETAILS: 'marketer-campaigns-calendar-view-task-details',
   VIEW_CAMPAIGNS_DETAILS: 'marketer-campaigns-calendar-view-campaign-details',
   VIEW_SOCIAL_MEDIA_POSTS:
     'marketer-campaigns-calendar-view-social-media-posts',
-};
-
-export const AIR_MARKETER_CAMPAIGNS_TASKS_PERMISSIONS = {
   CREATE_TASK: 'marketer-campaigns-tasks-create-task',
-  SEARCH_FILTER: 'marketer-campaigns-tasks-search-and-filter',
+  TASK_SEARCH_FILTER: 'marketer-campaigns-tasks-search-and-filter',
   IMPORT_TASK: 'marketer-campaigns-tasks-import-task',
   LIST_VIEW: 'marketer-campaigns-tasks-list-view',
   BOARD_VIEW: 'marketer-campaigns-tasks-board-view',
-  EDIT_COLUMNS: 'marketer-campaigns-tasks-edit-columns',
+  TASK_EDIT_COLUMNS: 'marketer-campaigns-tasks-edit-columns',
   EDIT_TASK: 'marketer-campaigns-tasks-edit-task',
   VIEW_ACTIVITY: 'marketer-campaigns-tasks-view-activity',
   VIEW_INSIGHT: 'marketer-campaigns-tasks-view-insights',
@@ -669,6 +663,10 @@ export const AIR_MARKETER_CAMPAIGNS_TASKS_PERMISSIONS = {
   DELETE: 'marketer-campaigns-tasks-delete-task',
   TASK_VIEW: 'marketer-campaigns-tasks-view-task',
 };
+
+export const AIR_MARKETER_CAMPAIGNS_CALENDAR_PERMISSIONS = {};
+
+export const AIR_MARKETER_CAMPAIGNS_TASKS_PERMISSIONS = {};
 
 export const AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS = {
   VIEW_LIST: 'marketer-email-marketing-email-list-view-emails',
