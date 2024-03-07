@@ -18,13 +18,30 @@ import useSMSBroadcast from '../useSMSBroadcast';
 
 import { ArrowDropDown } from '@mui/icons-material';
 
-import { AlertModalDeleteIcon, RefreshTasksIcon } from '@/assets/icons';
+import {
+  AlertModalDeleteIcon,
+  DeleteIcon,
+  RefreshTasksIcon,
+} from '@/assets/icons';
 
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const SMSBroadcastHeader = (props: any) => {
   const {
-    theme,
+    filterValues,
+    setFilterValues,
+    checkedRows,
+    resetFilters,
+    setCheckedRows,
+    datePickerVal,
+    setDatePickerVal,
+    startedDate,
+    endedDate,
+  } = props;
+  const {
+    deleteSmsBroadcast,
     handleClick,
     handleClose,
     selectedValue,
@@ -32,8 +49,6 @@ const SMSBroadcastHeader = (props: any) => {
     setIsDelete,
     handleDelete,
     handleEdit,
-    datePickerVal,
-    setDatePickerVal,
   } = useSMSBroadcast();
 
   return (
@@ -48,6 +63,13 @@ const SMSBroadcastHeader = (props: any) => {
             renderInput={'date'}
             dateValue={datePickerVal}
             setDateValue={setDatePickerVal}
+            handleDateSubmit={() => {
+              setFilterValues({
+                ...filterValues,
+                toDate: datePickerVal[startedDate],
+                fromDate: datePickerVal[endedDate],
+              });
+            }}
           />
         </Stack>
       </Grid>
@@ -63,56 +85,88 @@ const SMSBroadcastHeader = (props: any) => {
           gap: '10px',
         }}
       >
-        <Search size="small" placeholder="Search Here" />
+        <Search
+          size="small"
+          placeholder="Search Here"
+          onChange={(e: any) => {
+            setFilterValues({ ...filterValues, search: e?.target?.value });
+          }}
+        />
 
         <Tooltip title={'Refresh Filter'}>
-          <Button variant="outlined" color="inherit" className="small">
+          <Button
+            variant="outlined"
+            color="inherit"
+            className="small"
+            onClick={resetFilters}
+          >
             <RefreshTasksIcon />
           </Button>
         </Tooltip>
 
         <FormControl size="small">
-          <Select sx={{ height: '36px' }} defaultValue={'status'}>
+          <Select
+            sx={{ height: '36px' }}
+            defaultValue={'status'}
+            onChange={(e: any) => {
+              setFilterValues({ ...filterValues, status: e?.target?.value });
+            }}
+          >
             <MenuItem value={'status'} disabled>
               Status
             </MenuItem>
-            <MenuItem value={'completed'}>Completed</MenuItem>
-            <MenuItem value={'scheduled'}>Scheduled</MenuItem>
-            <MenuItem value={'draft'}>Draft</MenuItem>
-            <MenuItem value={'processing'}>Processing</MenuItem>
+            <MenuItem value={'Completed'}>Completed</MenuItem>
+            <MenuItem value={'Scheduled'}>Scheduled</MenuItem>
+            <MenuItem value={'Draft'}>Draft</MenuItem>
+            <MenuItem value={'Processing'}>Processing</MenuItem>
+            <MenuItem value={'Stopped'}>Stopped</MenuItem>
           </Select>
         </FormControl>
 
-        <Box>
+        {checkedRows?.length > 1 ? (
           <Button
             className="small"
-            disabled={props?.selectedId ? false : true}
-            onClick={handleClick}
-            sx={{
-              border: `1px solid ${theme?.palette?.custom?.dark}`,
-              color: theme?.palette?.custom?.main,
-              width: '112px',
-              height: '40px',
+            variant="outlined"
+            color="inherit"
+            startIcon={<DeleteIcon />}
+            onClick={() => {
+              deleteSmsBroadcast({ ids: checkedRows });
+              setCheckedRows([]);
+              enqueueSnackbar(`Broadcast Deleted Successfully`, {
+                variant: NOTISTACK_VARIANTS?.SUCCESS,
+              });
             }}
           >
-            Actions
-            <ArrowDropDown />
+            Delete
           </Button>
-          <Menu
-            sx={{
-              '.MuiPopover-paper': {
-                minWidth: '115px',
-              },
-            }}
-            id="simple-menu"
-            anchorEl={selectedValue}
-            open={Boolean(selectedValue)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleEdit}>Edit</MenuItem>
-            <MenuItem onClick={handleDelete}>Delete</MenuItem>
-          </Menu>
-        </Box>
+        ) : (
+          <Box>
+            <Button
+              color="inherit"
+              className="small"
+              variant="outlined"
+              disabled={checkedRows?.length === 0 ? true : false}
+              endIcon={<ArrowDropDown />}
+              onClick={handleClick}
+            >
+              Actions
+            </Button>
+            <Menu
+              sx={{
+                '.MuiPopover-paper': {
+                  minWidth: '115px',
+                },
+              }}
+              id="simple-menu"
+              anchorEl={selectedValue}
+              open={Boolean(selectedValue)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleEdit}>Edit</MenuItem>
+              <MenuItem onClick={handleDelete}>Delete</MenuItem>
+            </Menu>
+          </Box>
+        )}
       </Grid>
       {isDelete && (
         <AlertModals
@@ -121,7 +175,18 @@ const SMSBroadcastHeader = (props: any) => {
           typeImage={<AlertModalDeleteIcon />}
           open={isDelete}
           handleClose={() => setIsDelete(false)}
-          handleSubmit={() => setIsDelete(false)}
+          handleSubmitBtn={() => {
+            setIsDelete(false);
+            deleteSmsBroadcast({ ids: checkedRows });
+            setCheckedRows([]);
+            enqueueSnackbar(`Broadcast Deleted Successfully`, {
+              variant: NOTISTACK_VARIANTS?.SUCCESS,
+            });
+          }}
+          handleSubmit={() => {
+            deleteSmsBroadcast({ ids: checkedRows });
+            setIsDelete(false);
+          }}
         />
       )}
     </Grid>

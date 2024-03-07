@@ -2,6 +2,7 @@ import { Checkbox, Chip, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName } from '@/utils/avatarUtils';
 import { errorSnackbar } from '@/utils/api';
+import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 
 const bgColor: any = {
   published: 'blue.main',
@@ -148,6 +149,9 @@ export const actionBtnData = (
 ) => [
   {
     title: 'Edit',
+    permissionKey: [
+      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
+    ],
     handleClick: (closeMenu: any) => {
       if (selectedArticlesData?.length > 1) {
         errorSnackbar('Please select only one');
@@ -160,6 +164,9 @@ export const actionBtnData = (
   },
   {
     title: 'Delete',
+    permissionKey: [
+      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.DELETE,
+    ],
     handleClick: (closeMenu: any) => {
       setOpenDeleteModal(true);
       closeMenu();
@@ -167,6 +174,9 @@ export const actionBtnData = (
   },
   {
     title: 'Move Folder',
+    permissionKey: [
+      AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.MOVE_FOLDER,
+    ],
     handleClick: (closeMenu: any) => {
       if (selectedArticlesData?.length > 1) {
         errorSnackbar('Please select only one');

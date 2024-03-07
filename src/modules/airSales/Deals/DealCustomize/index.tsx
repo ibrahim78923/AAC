@@ -18,7 +18,7 @@ const DealCustomize = ({ open, onClose }: any) => {
     theme,
     order,
     onDragEnd,
-  } = useDealCustomize(onClose);
+  } = useDealCustomize({ onClose, open });
 
   // const onDragEnd = (result: any) => {
   //   if (!result?.destination) return;

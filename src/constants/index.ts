@@ -22,8 +22,14 @@ export const DATE_TIME_FORMAT = {
   UI: 'dddd, MMMM D, YYYY - HH:mm',
   DMYhmma: 'D MMMM, YYYY - h:mm A',
   DMDMHA: 'ddd, D MMM h:mm A',
+  MMMDDYYYY: 'MMM DD, YYYY',
   DDMYHMA: 'ddd, D MMM, YYYY h:mm A',
   DMY: 'DDMMMYYYY',
+  YMDHM: 'YYYY-MM-DD hh:mm A',
+  DMYHMSA: 'ddd MM, YYYY hh:mm:ss A',
+  D: 'D',
+  DDDDDD: 'ddd - DD',
+  DDMMYYYY: 'DD MMM, YYYY hh:MM A',
 };
 
 export const VALIDATION_CONSTANT = {
@@ -34,6 +40,7 @@ export const VALIDATION_CONSTANT = {
 };
 
 export const SUPER_ADMIN: any = {
+  DASHBOARD: '/super-admin',
   USERMANAGMENT: '/super-admin/user-management',
   ADDROLE: '/super-admin/user-management/add-role',
   USERS_LIST: '/super-admin/user-management/users-list',
@@ -104,7 +111,7 @@ export const AIR_SERVICES = {
   CANNED_RESPONSE_SETTINGS: `/air-services/settings/agent-performance-management/canned-responses`,
   LEADER_BOARD_SETTINGS: `/air-services/settings/agent-performance-management/leader-board`,
   WORKLOAD_MANAGEMENT_SETTINGS: `/air-services/settings/agent-performance-management/workload-management`,
-  USER_ADD_NEW_ROLES_SETTINGS: `/air-services/settings/user-management/roles/add-role`,
+  USER_UPSERT_ROLES_SETTINGS: `/air-services/settings/user-management/roles/upsert-roles`,
   UPSERT_BUSINESS_HOUR: `/air-services/settings/service-management/business-hours/upsert-business-hour`,
   ADD_NEW_LOCATION: `/air-services/settings/asset-management/location/add-new-location`,
   UPSERT_INVENTORY: `/air-services/assets/inventory/upsert-inventory`,
@@ -136,6 +143,7 @@ export const AIR_CUSTOMER_PORTAL = {
 };
 
 export const ORG_ADMIN: any = {
+  DASHBOARD: '/org-admin',
   ROLES_AND_RIGHTS: '/org-admin/roles-and-rights',
   ADD_ROLE: '/org-admin/roles-and-rights/add-role',
 };
@@ -173,4 +181,5 @@ export const SOCIAL_COMPONENTS = {
 
 export const AUTH = {
   FORGOT_PASSWORD: `/forget-password`,
+  LOGIN: `/login`,
 };

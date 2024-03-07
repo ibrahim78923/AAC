@@ -9,6 +9,7 @@ const useCreateTemplate = () => {
   const navigate = useRouter();
   const { type } = navigate.query;
   const theme = useTheme();
+
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,

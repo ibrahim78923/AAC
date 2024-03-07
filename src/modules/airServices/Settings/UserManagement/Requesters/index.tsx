@@ -4,6 +4,8 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { ArrowBackIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
 import { useRequesters } from './useRequesters';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const Requesters = () => {
   const {
@@ -42,22 +44,28 @@ export const Requesters = () => {
           setSelectedRequestersList={setSelectedRequestersList}
         />
         <Box mt={3} mb={1}>
-          <TanstackTable
-            data={tableListData}
-            columns={requestersListColumn}
-            isPagination={true}
-            isLoading={isLoading}
-            isError={isError}
-            isFetching={isFetching}
-            isSuccess={isSuccess}
-            setPageLimit={setPageLimit}
-            setPage={setPage}
-            count={metaData?.pages}
-            totalRecords={metaData?.total}
-            onPageChange={(page: any) => setPage(page)}
-            currentPage={metaData?.page}
-            pageLimit={pageLimit}
-          />
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.VIEW_REQUESTERS_LIST,
+            ]}
+          >
+            <TanstackTable
+              data={tableListData}
+              columns={requestersListColumn}
+              isPagination={true}
+              isLoading={isLoading}
+              isError={isError}
+              isFetching={isFetching}
+              isSuccess={isSuccess}
+              setPageLimit={setPageLimit}
+              setPage={setPage}
+              count={metaData?.pages}
+              totalRecords={metaData?.total}
+              onPageChange={(page: any) => setPage(page)}
+              currentPage={metaData?.page}
+              pageLimit={pageLimit}
+            />
+          </PermissionsGuard>
         </Box>
       </Box>
     </>

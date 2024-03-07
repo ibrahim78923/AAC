@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Box,
   InputAdornment,
@@ -9,6 +9,7 @@ import {
   Button,
   Grid,
   useTheme,
+  CircularProgress,
 } from '@mui/material';
 import Search from '../../../../components/Search';
 
@@ -29,54 +30,54 @@ import {
   setDealsSelectedIds,
   setTicketsSelectedIds,
 } from '@/redux/slices/taskManagement/taskManagementSlice';
-import { tabsData } from './SearchableTabSelect.data';
+import { tabsData } from './searchableTabSelect.data';
+import { PAGINATION } from '@/config';
 
 const SearchableTabsSelect = ({ required, ...other }: any) => {
   const dispatch: any = useAppDispatch();
 
-  const theme = useTheme();
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const contactsSelectedIds = useAppSelector(
-    (state: any) => state?.task?.contactsSelectedIds,
-  );
-  const dealsSelectedIds = useAppSelector(
-    (state: any) => state?.task?.dealsSelectedIds,
-  );
-  const ticketsSelectedIds = useAppSelector(
-    (state: any) => state?.task?.ticketsSelectedIds,
-  );
-  const companiesSelectedIds = useAppSelector(
-    (state: any) => state?.task?.companiesSelectedIds,
-  );
+  const [contactsPage, setContactsPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const contactsPageLimit = PAGINATION?.PAGE_LIMIT;
 
-  const [activeSidebarItem, setActiveSidebarItem] = useState('associations');
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [companiesPage, setCompaniesPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const companiesPageLimit = PAGINATION?.PAGE_LIMIT;
 
-  const { data: contactsData } = useGetCreateTaskContactsQuery({
+  const [dealsPage, setDealsPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const dealsPageLimit = PAGINATION?.PAGE_LIMIT;
+
+  const [ticketsPage, setTicketsPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const ticketsPageLimit = PAGINATION?.PAGE_LIMIT;
+
+  const { data: contactsData, status: contactsStatus } =
+    useGetCreateTaskContactsQuery({
+      params: {
+        page: contactsPage,
+        limit: contactsPageLimit,
+        search: searchTerm,
+      },
+    });
+  const { data: companiesData, status: companiesStatus } =
+    useGetCreateTaskCompaniesQuery({
+      params: {
+        page: companiesPage,
+        limit: companiesPageLimit,
+      },
+    });
+  const { data: dealsData, status: dealsStatus } = useGetCreateTaskDealsQuery({
     params: {
-      page: '1',
-      limit: '10',
+      page: dealsPage,
+      limit: dealsPageLimit,
     },
   });
-  const { data: companiesData } = useGetCreateTaskCompaniesQuery({
-    params: {
-      page: '1',
-      limit: '10',
-    },
-  });
-  const { data: dealsData } = useGetCreateTaskDealsQuery({
-    params: {
-      page: '1',
-      limit: '10',
-    },
-  });
-  const { data: ticketsData } = useGetCreateTaskTicketsQuery({
-    params: {
-      page: '1',
-      limit: '10',
-    },
-  });
+  const { data: ticketsData, status: ticketsStatus } =
+    useGetCreateTaskTicketsQuery({
+      params: {
+        page: ticketsPage,
+        limit: ticketsPageLimit,
+      },
+    });
 
   const contactsDataArray =
     contactsData?.data?.contacts &&
@@ -105,6 +106,87 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
       id: item?._id,
     }));
 
+  const containerRef = useRef<any>(null);
+
+  const [getContactsData, setGetContactsData] = useState<any>([]);
+  const [getCompaniesData, setGetCompaniesData] = useState<any>([]);
+  const [getDealsData, setGetDealsData] = useState<any>([]);
+  const [getTicketsData, setGetTicketsData] = useState<any>([]);
+
+  useEffect(() => {
+    if (contactsDataArray) {
+      if (searchTerm.length > 1) {
+        setGetContactsData(contactsDataArray);
+      } else {
+        // setGetContactsData((prevData: any) => [...prevData, ...contactsDataArray]);
+        setGetContactsData((prevData: any) => {
+          const newData = contactsDataArray?.filter(
+            (item: any) =>
+              !prevData.some((prevItem: any) => prevItem?.id === item?.id),
+          );
+          return [...prevData, ...newData];
+        });
+      }
+    }
+  }, [contactsData?.data, contactsPage]);
+  useEffect(() => {
+    if (companiesDataArray) {
+      setGetCompaniesData((prevData: any) => {
+        const newData = companiesDataArray?.filter(
+          (item: any) =>
+            !prevData.some((prevItem: any) => prevItem?.id === item?.id),
+        );
+        return [...prevData, ...newData];
+      });
+    }
+  }, [companiesData?.data]);
+  useEffect(() => {
+    if (dealsDataArray) {
+      setGetDealsData((prevData: any) => {
+        const newData = dealsDataArray?.filter(
+          (item: any) =>
+            !prevData.some((prevItem: any) => prevItem?.id === item?.id),
+        );
+        return [...prevData, ...newData];
+      });
+    }
+  }, [dealsData?.data]);
+  useEffect(() => {
+    if (ticketsDataArray) {
+      setGetTicketsData((prevData: any) => {
+        const newData = ticketsDataArray?.filter(
+          (item: any) =>
+            !prevData.some((prevItem: any) => prevItem?.id === item?.id),
+        );
+        return [...prevData, ...newData];
+      });
+    }
+  }, [ticketsData?.data]);
+
+  useEffect(() => {
+    if (searchTerm.length > 1) {
+      setContactsPage(1);
+    }
+  }, [searchTerm]);
+
+  const theme = useTheme();
+  const contactsSelectedIds = useAppSelector(
+    (state: any) => state?.task?.contactsSelectedIds,
+  );
+  const dealsSelectedIds = useAppSelector(
+    (state: any) => state?.task?.dealsSelectedIds,
+  );
+  const ticketsSelectedIds = useAppSelector(
+    (state: any) => state?.task?.ticketsSelectedIds,
+  );
+  const companiesSelectedIds = useAppSelector(
+    (state: any) => state?.task?.companiesSelectedIds,
+  );
+
+  const [activeSidebarItem, setActiveSidebarItem] = useState('associations');
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -125,6 +207,45 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
   const handleCheckboxTickets = (item: any) => {
     dispatch(setTicketsSelectedIds(item));
   };
+
+  useEffect(() => {
+    const container: any = containerRef?.current;
+    const handleScroll = () => {
+      if (
+        container?.scrollTop + container?.clientHeight >=
+        container?.scrollHeight - 5
+      ) {
+        if (contactsStatus !== 'pending') {
+          if (activeSidebarItem === 'contacts') {
+            if (contactsPage < contactsData?.data?.meta?.pages)
+              setContactsPage(contactsPage + 1);
+          }
+        }
+        if (companiesStatus !== 'pending') {
+          if (activeSidebarItem === 'companies') {
+            if (companiesPage < companiesData?.data?.meta?.pages)
+              setCompaniesPage(companiesPage + 1);
+          }
+        }
+        if (dealsStatus !== 'pending') {
+          if (activeSidebarItem === 'deals') {
+            if (dealsPage < dealsData?.data?.meta?.pages)
+              setDealsPage(dealsPage + 1);
+          }
+        }
+        if (ticketsStatus !== 'pending') {
+          if (activeSidebarItem === 'tickets') {
+            if (ticketsPage < ticketsData?.data?.meta?.pages)
+              setTicketsPage(ticketsPage + 1);
+          }
+        }
+      }
+    };
+    container?.addEventListener('scroll', handleScroll);
+    return () => {
+      container?.removeEventListener('scroll', handleScroll);
+    };
+  }, [contactsDataArray]);
 
   return (
     <>
@@ -191,13 +312,27 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
           </Grid>
           <Grid item xs={8}>
             <Box>
-              <Search searchBy={'Name'} label="" size="small" width="100%" />
-              <Box sx={{ maxHeight: '300px', overflow: 'scroll' }}>
+              <Search
+                searchBy={searchTerm}
+                setSearchBy={setSearchTerm}
+                label="Search By Name"
+                fullWidth
+                size="small"
+              />
+
+              <Box
+                sx={{ maxHeight: '300px', overflow: 'scroll' }}
+                ref={containerRef}
+              >
                 {(activeSidebarItem === 'contacts' ||
                   activeSidebarItem === 'associations') && (
                   <TabsContentSection
                     title="Contacts"
-                    dataArray={contactsDataArray}
+                    dataArray={
+                      searchTerm?.length > 0
+                        ? contactsDataArray
+                        : getContactsData
+                    }
                     selectedIds={contactsSelectedIds ?? []}
                     handelChange={handleCheckboxContacts}
                     activeSidebarItem={activeSidebarItem}
@@ -207,7 +342,7 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                   activeSidebarItem === 'associations') && (
                   <TabsContentSection
                     title="Companies"
-                    dataArray={companiesDataArray}
+                    dataArray={getCompaniesData}
                     selectedIds={companiesSelectedIds}
                     handelChange={handleCheckboxCompanies}
                     activeSidebarItem={activeSidebarItem}
@@ -217,7 +352,7 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                   activeSidebarItem === 'associations') && (
                   <TabsContentSection
                     title="Deals"
-                    dataArray={dealsDataArray}
+                    dataArray={getDealsData}
                     selectedIds={dealsSelectedIds}
                     handelChange={handleCheckboxDeals}
                     activeSidebarItem={activeSidebarItem}
@@ -227,13 +362,19 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
                   activeSidebarItem === 'associations') && (
                   <TabsContentSection
                     title="Tickets"
-                    dataArray={ticketsDataArray}
+                    dataArray={getTicketsData}
                     selectedIds={ticketsSelectedIds}
                     handelChange={handleCheckboxTickets}
                     activeSidebarItem={activeSidebarItem}
                   />
                 )}
               </Box>
+
+              {activeSidebarItem === 'contacts' && renderLoader(contactsStatus)}
+              {activeSidebarItem === 'companies' &&
+                renderLoader(companiesStatus)}
+              {activeSidebarItem === 'deals' && renderLoader(dealsStatus)}
+              {activeSidebarItem === 'tickets' && renderLoader(ticketsStatus)}
             </Box>
           </Grid>
         </Grid>
@@ -241,6 +382,13 @@ const SearchableTabsSelect = ({ required, ...other }: any) => {
     </>
   );
 };
+
+const renderLoader = (status: any) =>
+  status === 'pending' && (
+    <Box display={'flex'} justifyContent={'center'}>
+      <CircularProgress />
+    </Box>
+  );
 
 const TabsContentSection = ({
   dataArray,
@@ -262,43 +410,45 @@ const TabsContentSection = ({
           mt: 1,
         }}
       >
-        {dataArray?.map((item: any) => {
-          return (
-            <Box key={uuidv4()}>
-              {activeSidebarItem === 'associations' ? (
-                <>
-                  {selectedIds?.some(
-                    (selectedItem: any) => selectedItem?.id === item?.id,
-                  ) && (
+        {dataArray &&
+          dataArray?.map((item: any) => {
+            return (
+              <Box key={uuidv4()}>
+                {activeSidebarItem === 'associations' ? (
+                  <>
+                    {selectedIds?.some(
+                      (selectedItem: any) => selectedItem?.id === item?.id,
+                    ) && (
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Checkbox
+                          checked={selectedIds?.some(
+                            (selectedItem: any) =>
+                              selectedItem?.id === item?.id,
+                          )}
+                          onChange={() => {
+                            handelChange(item);
+                          }}
+                        />
+                        <Typography>{item?.label}</Typography>
+                      </Box>
+                    )}
+                  </>
+                ) : (
+                  <>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       <Checkbox
                         checked={selectedIds?.some(
                           (selectedItem: any) => selectedItem?.id === item?.id,
                         )}
-                        onChange={() => {
-                          handelChange(item);
-                        }}
+                        onChange={() => handelChange(item)}
                       />
                       <Typography>{item?.label}</Typography>
                     </Box>
-                  )}
-                </>
-              ) : (
-                <>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Checkbox
-                      checked={selectedIds?.some(
-                        (selectedItem: any) => selectedItem?.id === item?.id,
-                      )}
-                      onChange={() => handelChange(item)}
-                    />
-                    <Typography>{item?.label}</Typography>
-                  </Box>
-                </>
-              )}
-            </Box>
-          );
-        })}
+                  </>
+                )}
+              </Box>
+            );
+          })}
       </Box>
     </Box>
   );

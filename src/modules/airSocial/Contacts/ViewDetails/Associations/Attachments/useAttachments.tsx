@@ -1,39 +1,28 @@
 import { useState } from 'react';
-
 import { useTheme } from '@mui/material';
-import { PAGINATION } from '@/config';
 import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts';
 import { useForm } from 'react-hook-form';
 
 const useAttachments = (contactId: any) => {
   // Get Association Tickets
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  // const defaultParams = {
-  //   page: PAGINATION?.CURRENT_PAGE,
-  //   limit: PAGINATION?.PAGE_LIMIT,
-  // };
   const [searchValue, setSearchValue] = useState(null);
-  const [filterParams] = useState({
-    page: page,
-    limit: pageLimit,
+
+  const payLoad = {
     contactId: contactId,
     association_type: 'attachments',
-  });
+  };
+
   let searchPayLoad;
   if (searchValue) {
     searchPayLoad = { search: searchValue };
   }
-  const { data: dataGetDeals, isLoading: loadingDeals } =
+  const { data: dataGetAttachment, isLoading: loadingTickets } =
     useGetContactAssociationsQuery({
-      params: { ...filterParams, ...searchPayLoad },
+      params: { ...payLoad, ...searchPayLoad },
     });
 
   // Drawer Edit
-  const methodsAttachments = useForm({
-    // resolver: yupResolver(productsValidationSchema),
-    // defaultValues: productsDefaultValues
-  });
+  const methodsAttachments = useForm({});
   const [drawerTitle, setDrawerTitle] = useState('Add');
   const [openDrawer, setOpenDrawer] = useState(false);
   // const [isDisabledFields, setIsDisabledFields] = useState(true);
@@ -68,12 +57,11 @@ const useAttachments = (contactId: any) => {
   const theme = useTheme();
 
   return {
-    setPage,
-    setPageLimit,
     searchValue,
     setSearchValue,
-    loadingDeals,
-    dataGetDeals,
+    loadingTickets,
+    dataGetAttachment,
+
     drawerTitle,
     openDrawer,
     handleOpenDrawer,
