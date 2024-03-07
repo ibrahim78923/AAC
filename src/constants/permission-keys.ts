@@ -168,6 +168,7 @@ export const AIR_SALES_DEALS_PERMISSIONS = {
   DEAL_PREVIEW: 'sale-deal-preview',
   DELETE_DEAL: 'sale-delete-deal',
   DEAL_REASSIGN: 'sale-deal-reassign',
+  UPDATE_INFO: 'sale-update-info',
   DEAL_ACTIVITY_LOG: 'sale-deal-activity-log',
   DEAL_ADD_ASSOCIATE_CONTACT: 'sale-deal-add-associate-contact',
   DEAL_EDIT_CONTACT: 'sale-deal-edit-contact',
@@ -221,8 +222,62 @@ export const AIR_SALES_DEALS_PERMISSIONS = {
   DEAL_FORWARD_EMAIL: 'sale-deal-forward-email',
   DEAL_REPLY_EMAIL: 'sale-deal-reply-email',
   DEAL_DELETE_EMAIL: 'sale-deal-delete-email',
+  SEARCH_FILTER: 'sale-deal-stage-search-and-filter',
+  REFRESH: 'sale-deal-stage-refresh',
+  VIEW_DEAL: 'sale-deal-stage-view-deal',
+  VIEW_IN_DEAL: 'sale-deal-stage-view-in-deal',
 };
 
+export const AIR_SALES_FORECAST_PERMISSIONS = {
+  SEARCH_AND_FILTER: 'sale-forecast-search-and-filter',
+  REFRESH: 'sale-forecast-refresh',
+  VIEW_DEAL: 'sale-forecast-view-deal',
+  VIEW_IN_DEAL: 'sale-forecast-view-in-deal',
+  CREATE_GOAL_TEMPLATE: 'sale-forecast-create-goal-from-template',
+  CREATE_GOAL_SCRATCH: 'sale-forecast-create-goal-from-scratch',
+  SEARCH_FILTER: 'sale-foreacst-goal-search-and-filter',
+  REFRESH_GOAL: 'sale-forecast-goal-refresh',
+  VIEW_DEATAILS_GOAL: 'sale-forecast-goal-view-detail',
+  EDIT_GOALS: 'sale-forecast-edit-goal',
+  DELETE: 'sale-forecast-delete-goal',
+};
+export const AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS = {
+  CREATE_QUOTES: 'sale-create-quote',
+  DOWNLOAD: 'sale-download-quote',
+  SEARCH_FILTER: 'sale-quote-search-and-filter',
+  CUSTOMIZE: 'sale-quote-customize-fields',
+  REFRESH_FILTERS: 'sale-quote-refresh',
+  ADD_DISCOUNT: 'sale-quote-add-discount',
+  EDIT_QUOTE: 'sale-edit-quote',
+  VIEW_QUOTE: 'sale-view-quote',
+  DELETE_QUOTE: 'sale-delete-quote',
+  ADD_PPODUCT: 'sale-quote-add-product',
+  EDIT_PRODUCT: 'sale-quote-edit-product',
+  DELETE_PRODUCT: 'sale-quote-delete-product',
+};
+export const AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS = {
+  CRAETE_TASK: 'sale-create-task',
+  SEARCH_FILTER: 'sale-task-serach-and-filter',
+  IMPORT_TASK: 'sale-import-tasks',
+  LIST_VIEW: 'sale-task-list-view',
+  BOARD_VIEW: 'sale-task-board-view',
+  EDIT_COLUMNS: 'sale-task-customize',
+  EDIT_TASK: 'sale-edit-task',
+  VIEW_ACTIVITY: 'sale-task-view-activity',
+  VIEW_INSIGHT: 'sale-task-view-insight',
+  VIEW_FEEDS: 'sale-task-view-feed',
+  CHANGE_STATUS: 'sale-task-change-status',
+  DELETE: 'sale-delete-task',
+  TASK_VIEW: 'sale-task-view',
+};
+export const AIR_SALES_INVOICES_MANAGE_INVOICE_PERMISSIONS = {
+  CREATE_INVOICES: 'sale-create-invoice',
+  SEARCH_FILTER: 'sale-invoice-search-and-filter',
+  EDIT_ACTIONS: 'sale-invoice-edit-action',
+  VIEW: 'sale-view-invoice',
+  DOWNLOAD: 'sale-invoice-download',
+  DELETE: 'sale-delete-invoice',
+};
 export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
   VIEW_DASHBOARD: 'marketer-sms-marketing-dashboard-view-dashboard',
   VIEW_SMS_CONVERSATION: 'marketer-sms-marketing-dashboard-view-sms-conversion',
@@ -242,10 +297,51 @@ export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
 
 export const AIR_SALES_DASHBOARD_PERMISSIONS = {
   SALES_DASHBOARD_LIST: 'sales-dashboard-list',
+  CREATE_DASHBOARD: 'sale-create-dashboard',
+  EDIT_DASBOARD: 'sale-edit-dashboard',
+  SHARE_VIA_EMAIL: 'sale-share-dashboard-via-email',
+  SET_DEFAULT: 'sale-dashboard-set-default',
+  VIEW_DASHBOARD: 'sale-view-dashboard',
+  DELETE_DASHBOARD: 'sale-delete-dashboard',
 };
 
 export const AIR_SALES_SETTINGS = {
   SEARCH_PIPELINE: 'sale-deal-pipeline-search-and-filter',
+  CREATE_PIPELINE: 'sale-create-deal-pipeline',
+  PIPELINE_LIST: 'sale-deal-pipeline-list',
+  EDIT_PIPELINE: 'sale-edit-deal-pipeline',
+  DELETE_PIPELINE: 'sale-delete-deal-pipeline',
+
+  PRODUCT_LIST: 'sale-setting-product-list',
+  SEARCH: 'sale-setting-product-search-and-filter',
+  CREATE_PRODUCT: 'sale-setting-create-product',
+  ACTIVE_INACIVE_PRODUCT: 'sale-setting-active-inactive-product',
+  EDIT: 'sale-setting-edit-product',
+  DELETE: 'sale-setting-delete-product',
+
+  SEARCH_ROLE: 'sale-setting-roles-and-right-search-and-filter',
+  ADD_NEW_ROLE: 'sale-setting-add-new-role',
+  EDIT_ROLE: 'sale-setting-edit-role',
+  VIEW: 'sale-setting-view-role',
+  DELETE_ROLE: 'sale-setting-delete-role',
+
+  USER_LIST: 'sale-setting-user-list',
+  ADD_USER: 'sale-setting-add-user',
+  SEARCH_USER: 'sale-setting-search-and-filter',
+  ACTIVE_INACTIVE_USER: 'sale-setting-active-inactive-user',
+  TEAM_LIST: 'sale-setting-team-list',
+  SEARCH_TEAM: 'sale-setting-teams-search-and-filter',
+  CREATE_TEAMS: 'sale-setting-create-team',
+  EDIT_TEAM: 'sale-setting-edit-team',
+  DELETE_TEAM: 'sale-setting-delete-team',
+  VIEW_TEAM: 'sale-setting-view-team',
+
+  ACTIVE_INACTIVE_EMAIL_NOTIFICATION:
+    'sale-setting-active-inactive-email-notification',
+  ACTIVE_INACTIVE_DEALS_NOTIFICATION:
+    'sale-setting-active-inactive-deals-notification',
+  ACTIVE_INACTIVE_QUOTES_NOTIFICATION:
+    'sale-setting-active-inactive-quote-notification',
 };
 
 export const AIR_MARKETER_SOCIAL_MARKETING_CALENDER = {
