@@ -4,6 +4,8 @@ import { Box, IconButton, Menu, MenuItem } from '@mui/material';
 import React from 'react';
 import { DeleteFolderModal } from '../DeleteFolderModal';
 import { useFolderMenu } from './useFolderMenu';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const FolderMenu = (props: any) => {
   const {
@@ -34,22 +36,34 @@ export const FolderMenu = (props: any) => {
           sx={{ '& .MuiPaper-root': { boxShadow: 2 } }}
           transformOrigin={{ vertical: 10, horizontal: 80 }}
         >
-          <MenuItem
-            sx={{ pr: 5 }}
-            onClick={() => {
-              setOpenCreateNewFolderModal({
-                open: true,
-                editData: response,
-              });
-              handleActionClose();
-            }}
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_CUSTOM_FOLDERS,
+            ]}
           >
-            Edit
-          </MenuItem>
-          <DeleteFolderModal
-            id={response?._id}
-            handleActionClose={handleActionClose}
-          />
+            <MenuItem
+              sx={{ pr: 5 }}
+              onClick={() => {
+                setOpenCreateNewFolderModal({
+                  open: true,
+                  editData: response,
+                });
+                handleActionClose();
+              }}
+            >
+              Edit
+            </MenuItem>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_CUSTOM_FOLDERS,
+            ]}
+          >
+            <DeleteFolderModal
+              id={response?._id}
+              handleActionClose={handleActionClose}
+            />
+          </PermissionsGuard>
         </Menu>
       </Box>
     </>

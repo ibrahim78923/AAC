@@ -15,7 +15,6 @@ export const SingleInventoryDetail = () => {
   return (
     <>
       <Header dropdownOptions={singleInventoryDetailActionDropdown} />
-
       <br />
 
       <SingleInventoryDetailsTabs />
