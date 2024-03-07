@@ -13,4 +13,5 @@ export interface ModelPropsI {
   isLoading?: boolean;
   isSubmitDisabled?: any;
   headerIcon?: any;
+  width?: any;
 }

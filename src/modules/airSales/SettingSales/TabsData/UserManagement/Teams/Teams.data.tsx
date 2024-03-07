@@ -3,15 +3,11 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { EditPenIcon } from '@/assets/icons';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
-
-import * as Yup from 'yup';
 import { UserAvatarImage } from '@/assets/images';
 
-export const columnsTeams = (
-  setIsTeamDrawer: any,
-  setIsOpenDelete: any,
-  theme: any,
-) => {
+export const columnsTeams = (props: any) => {
+  const { setIsTeamDrawer, setIsOpenDelete, theme, setTeamId, setIsAddTeam } =
+    props;
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -21,8 +17,8 @@ export const columnsTeams = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.teamMember,
-      id: 'teamMember',
+      accessorFn: (row: any) => row?.teamMembers,
+      id: 'teamMembers',
       isSortable: true,
       header: 'Team Member',
       cell: (info: any) => info?.getValue(),
@@ -32,39 +28,54 @@ export const columnsTeams = (
       id: 'action',
       isSortable: true,
       header: 'Action',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <VisibilityIcon
-            onClick={() => setIsTeamDrawer(true)}
-            sx={{
-              color: `${theme?.palette?.blue?.main}`,
-              fontSize: '22px',
-              cursor: 'pointer',
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              setIsTeamDrawer(true);
+              setTeamId(info?.row?.original?._id);
             }}
-          />
-          <EditPenIcon />
-          <CancelIcon
-            onClick={() => setIsOpenDelete(true)}
-            sx={{
-              color: `${theme?.palette?.error?.main}`,
-              fontSize: '22px',
-              cursor: 'pointer',
+          >
+            <VisibilityIcon
+              sx={{
+                color: `${theme?.palette?.blue?.main}`,
+                fontSize: '22px',
+                cursor: 'pointer',
+              }}
+            />
+          </Box>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() =>
+              setIsAddTeam({
+                isToggle: true,
+                type: 'edit',
+                data: info?.row?.original,
+              })
+            }
+          >
+            <EditPenIcon />
+          </Box>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() => {
+              setIsOpenDelete(true);
+              setTeamId(info?.row?.original?._id);
             }}
-          />
+          >
+            <CancelIcon
+              sx={{
+                color: `${theme?.palette?.error?.main}`,
+                fontSize: '22px',
+                cursor: 'pointer',
+              }}
+            />
+          </Box>
         </Box>
       ),
     },
   ];
-};
-
-export const validationSchema = Yup?.object()?.shape({
-  teamName: Yup?.string()?.required('Field is Required'),
-  teamMember: Yup?.string()?.trim()?.required('Field is Required'),
-});
-
-export const defaultValues = {
-  teamName: '',
-  teamMember: '',
 };
 
 export const teamsDataArray = [

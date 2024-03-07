@@ -51,7 +51,6 @@ const UpdateQuote = () => {
     openCreateProduct: handleOpenFormCreateProduct,
     methodsSignature: methodsSignature,
   };
-
   const steps = updateQuoteSteps(stepsArgs);
 
   return (
@@ -128,6 +127,7 @@ const UpdateQuote = () => {
       <CreateContacts
         open={isOpenFormAddContact}
         onClose={handleCloseFormAddContact}
+        dealId={dataGetQuoteById?.data?.dealId}
       />
       {/* <FormAddContact
         open={isOpenFormAddContact}

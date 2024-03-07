@@ -4,6 +4,8 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AIR_SERVICES } from '@/constants';
 import { useHeader } from './useHeader';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Header = (props: any) => {
   const { dropdownOptions } = props;
@@ -29,7 +31,13 @@ export const Header = (props: any) => {
           <Typography variant="h5">{singleVendorName}</Typography>
         </Box>
         <Box>
-          <SingleDropdownButton dropdownOptions={dropdownOptions} />
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.SEARCH_IMPORT_EXPORT_VENDORS,
+            ]}
+          >
+            <SingleDropdownButton dropdownOptions={dropdownOptions} />
+          </PermissionsGuard>
         </Box>
       </Box>
     </>

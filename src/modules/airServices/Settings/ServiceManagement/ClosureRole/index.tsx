@@ -4,6 +4,7 @@ import { useClosureRole } from './useClosureRole';
 import { FormProvider } from '@/components/ReactHookForm';
 import { IncidentServicesClosureRule } from './IncidentServicesClosureRule';
 import { LoadingButton } from '@mui/lab';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const ClosureRole = () => {
   const {
@@ -15,6 +16,7 @@ export const ClosureRole = () => {
     serviceCloseData,
     serviceResolveData,
     isLoading,
+    getIsLoading,
   } = useClosureRole();
 
   return (
@@ -24,12 +26,16 @@ export const ClosureRole = () => {
     >
       <Header />
       <br />
-      <IncidentServicesClosureRule
-        closeIncidentData={closeIncidentData}
-        resolveIncidentData={resolveIncidentData}
-        serviceCloseData={serviceCloseData}
-        serviceResolveData={serviceResolveData}
-      />
+      {getIsLoading ? (
+        <SkeletonTable />
+      ) : (
+        <IncidentServicesClosureRule
+          closeIncidentData={closeIncidentData}
+          resolveIncidentData={resolveIncidentData}
+          serviceCloseData={serviceCloseData}
+          serviceResolveData={serviceResolveData}
+        />
+      )}
       <Box display={'flex'} justifyContent={'end'} gap={1} mt={1}>
         <LoadingButton disabled={isLoading} variant="contained" type="submit">
           Save

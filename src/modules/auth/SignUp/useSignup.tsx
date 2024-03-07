@@ -13,6 +13,7 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useSignup = () => {
+  const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
   const methodsSignup = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
@@ -90,6 +91,28 @@ const useSignup = () => {
   }
 
   useEffect(() => {
+    if (!methodsSignup?.formState?.isValid) {
+      const errors = methodsSignup?.formState?.errors;
+      const errorFieldsToCheck = [
+        'lastName',
+        'firstName',
+        'email',
+        'crn',
+        'organizationName',
+        'numberOfEmployees',
+        'phoneNumber',
+      ];
+      const hasErrorInRequiredFields = Object.keys(errors).some((fieldName) =>
+        errorFieldsToCheck.includes(fieldName),
+      );
+
+      if (hasErrorInRequiredFields) {
+        setIsStepComplete(false);
+      }
+    }
+  });
+
+  useEffect(() => {
     setValue('organizationName', companyDetails?.company_name);
     setOrgNumber(organizationNumber);
   }, [data, isError]);
@@ -102,6 +125,8 @@ const useSignup = () => {
     methodsSignup,
     productData,
     isVerifiedSuccess,
+    isStepComplete,
+    setIsStepComplete,
   };
 };
 
