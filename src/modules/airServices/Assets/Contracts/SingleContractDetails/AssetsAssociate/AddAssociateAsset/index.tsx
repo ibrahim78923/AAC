@@ -1,31 +1,61 @@
 import { Box, Button, Typography } from '@mui/material';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { addAssociateAssetData } from './AddAssociateAsset.data';
 import { useAddAssociateAsset } from './useAddAssociateAsset';
+import { LoadingButton } from '@mui/lab';
 
 export const AddAssociateAsset = () => {
   const {
-    activeCheck,
     handleAllocateClick,
     handleCancelBtn,
     tableColumns,
     theme,
+    pageLimit,
+    setPageLimit,
+    page,
+    setPage,
+    searchBy,
+    setSearchBy,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    meta,
+    assetsListData,
+    postLoading,
+    disableAllocate,
   } = useAddAssociateAsset();
   return (
     <>
       <Typography variant="h3">Associated Assets</Typography>
       <br />
-      <br />
       <Box
-        boxShadow={1}
         border={`0.063rem solid ${theme?.palette?.custom?.off_white_three}`}
         borderRadius={2}
       >
         <Box p={'0.75rem 1.5rem'}>
-          <Search placeholder="Search Here" />
+          <Search
+            placeholder="Search Here"
+            searchBy={searchBy}
+            setSearchBy={setSearchBy}
+          />
         </Box>
-        <TanstackTable data={addAssociateAssetData} columns={tableColumns} />
+        <TanstackTable
+          data={assetsListData}
+          columns={tableColumns}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          isSuccess={isSuccess}
+          isPagination
+          count={meta?.pages}
+          pageLimit={pageLimit}
+          currentPage={page}
+          totalRecords={meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+        />
       </Box>
       <br />
       <Box
@@ -37,13 +67,14 @@ export const AddAssociateAsset = () => {
         <Button variant="outlined" color="secondary" onClick={handleCancelBtn}>
           Cancel
         </Button>
-        <Button
+        <LoadingButton
           variant="contained"
-          disabled={!activeCheck?.length}
+          disabled={disableAllocate}
           onClick={handleAllocateClick}
+          loading={postLoading}
         >
           Allocate
-        </Button>
+        </LoadingButton>
       </Box>
     </>
   );

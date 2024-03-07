@@ -1,32 +1,35 @@
 import { Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import dayjs from 'dayjs';
+import { CALENDAR_FORMAT } from '@/constants';
 
 export const addAssociateAssetColumns: any = (
   activeCheck: any,
   setActiveCheck: any,
+  assetsListData: any,
 ) => {
   return [
     {
-      accessorFn: (row: any) => row?.Id,
-      id: 'Id',
+      accessorFn: (row: any) => row?._id,
+      id: '_id',
       cell: (info: any) => (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
           checked={
-            !!activeCheck?.find((item: any) => item?.Id === info?.getValue())
+            !!activeCheck?.find((item: any) => item?._id === info?.getValue())
           }
           onChange={(e: any) => {
             e?.target?.checked
               ? setActiveCheck([
                   ...activeCheck,
-                  addAssociateAssetData?.find(
-                    (item: any) => item?.Id === info?.getValue(),
+                  assetsListData?.find(
+                    (item: any) => item?._id === info?.getValue(),
                   ),
                 ])
               : setActiveCheck(
                   activeCheck?.filter((item: any) => {
-                    return item?.Id !== info?.getValue();
+                    return item?._id !== info?.getValue();
                   }),
                 );
           }}
@@ -38,105 +41,68 @@ export const addAssociateAssetColumns: any = (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
-          checked={activeCheck?.length === addAssociateAssetData?.length}
+          checked={activeCheck?.length === assetsListData?.length}
           onChange={(e: any) => {
             e?.target?.checked
-              ? setActiveCheck([...addAssociateAssetData])
+              ? setActiveCheck([...assetsListData])
               : setActiveCheck([]);
           }}
           color="primary"
-          name="Id"
+          name="_id"
         />
       ),
     },
     {
-      accessorFn: (row: any) => row?.software,
-      id: 'software',
+      accessorFn: (row: any) => row?.displayName,
+      id: 'displayName',
       cell: (info: any) => info?.getValue(),
       isSortable: true,
-      header: 'Software',
+      header: 'Name',
     },
     {
-      accessorFn: (row: any) => row?.status,
-      id: 'status',
-      header: 'Status',
+      accessorFn: (row: any) => row?.assetTypeDetails?.name,
+      id: 'assetTypeDetails',
+      header: 'Asset Type',
       isSortable: true,
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '__',
     },
     {
-      accessorFn: (row: any) => row?.category,
-      id: 'category',
-      header: 'Category',
+      accessorFn: (row: any) => row?.locationDetails?.locationName,
+      id: 'locationName',
+      header: 'Location',
       isSortable: true,
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (info?.getValue() ? info?.getValue() : '__'),
     },
     {
-      accessorFn: (row: any) => row?.contractValue,
-      id: 'contractValue',
-      header: 'Contract Value',
+      accessorFn: (row: any) => row?.userDetails,
+      id: 'userDetails',
+      header: 'Used By',
       isSortable: true,
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        const users = info?.getValue();
+        return users ? `${users?.firstName} ${users?.lastName}` : '__';
+      },
     },
     {
-      accessorFn: (row: any) => row?.managedBy,
-      id: 'managedBy',
-      header: 'Managed By',
+      accessorFn: (row: any) => row?.departmentDetails?.name,
+      id: 'departmentDetails',
+      header: 'Department',
       isSortable: true,
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '__',
     },
     {
-      accessorFn: (row: any) => row?.users,
-      id: 'users',
-      header: 'Users',
+      accessorFn: (row: any) => row?.impact,
+      id: 'impact',
+      header: 'Impact',
       isSortable: true,
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? '__',
     },
     {
-      accessorFn: (row: any) => row?.installs,
-      id: 'installs',
-      header: 'Installs',
+      accessorFn: (row: any) => row?.assetLifeExpiry,
+      id: 'assetLifeExpiry',
+      header: 'Asset life expire on',
       isSortable: true,
-      cell: (info: any) => info?.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row?.type,
-      id: 'type',
-      header: 'Type',
-      isSortable: true,
-      cell: (info: any) => info?.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row?.publisher,
-      id: 'publisher',
-      header: 'Publisher',
-      isSortable: true,
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
     },
   ];
 };
-export const addAssociateAssetData: any = [
-  {
-    Id: 1,
-    software: `Fresh service`,
-    status: 'Managed',
-    category: '---',
-    contractValue: '---',
-    managedBy: '---',
-    users: '---',
-    installs: '1',
-    type: '---',
-    publisher: '9 Mar, 2023',
-  },
-  {
-    Id: 2,
-    software: `Microsoft Office 365`,
-    status: 'Managed',
-    category: '---',
-    contractValue: '---',
-    managedBy: '---',
-    users: '---',
-    installs: '2',
-    type: '---',
-    publisher: '15 Feb, 2023',
-  },
-];

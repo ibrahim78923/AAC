@@ -1,16 +1,24 @@
-import { AssetsAssociateTable } from './AssetsAssociateTable';
-import { AssetsAssociateHeader } from './AssetsAssociateHeader';
-import { useAssetsAssociateDetail } from './useAssetsAssociateDetail';
+import TanstackTable from '@/components/Table/TanstackTable';
+import { assetsAssociateTableColumns } from './AssetsAssociateDetail.data';
 
-export const AssetsAssociateDetail = () => {
-  const { activeCheck, setActiveCheck } = useAssetsAssociateDetail();
+export const AssetsAssociateDetail = (props: any) => {
+  const {
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    assetsAssociateTableData,
+  } = props;
   return (
     <>
-      <AssetsAssociateHeader activeCheck={activeCheck} />
       <br />
-      <AssetsAssociateTable
-        activeCheck={activeCheck}
-        setActiveCheck={setActiveCheck}
+      <TanstackTable
+        data={assetsAssociateTableData}
+        columns={assetsAssociateTableColumns}
+        isLoading={isLoading}
+        isFetching={isFetching}
+        isError={isError}
+        isSuccess={isSuccess}
       />
     </>
   );
