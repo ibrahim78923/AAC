@@ -1,4 +1,4 @@
-import { DownIcon, PlusSharedColorIcon } from '@/assets/icons';
+import { PlusSharedColorIcon } from '@/assets/icons';
 import {
   Box,
   Button,
@@ -12,15 +12,17 @@ import { meetingsTableColumns } from './MeetingsTable/MeetingsTable.data';
 import { MeetingsTable } from './MeetingsTable';
 import { NoMeetings } from './NoMeetings';
 import { widgetsData } from './Meetings.data';
-import { v4 as uuidv4 } from 'uuid';
 import { styles } from './Meetings.style';
 import { AddOutcomeModal } from './AddOutcome';
 import { useMeetings } from './useMeetings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Permissions } from '@/constants/permissions';
+import { successSnackbar } from '@/utils/api';
 
 export const Meetings = () => {
   const {
-    theme,
-    enqueueSnackbar,
     meetingsData,
     onSubmitAddOutcome,
     reschedulePopover,
@@ -28,7 +30,6 @@ export const Meetings = () => {
     handleReschedulePopoverClose,
     handleRescheduleClick,
     actionsPopover,
-    matches,
     setMeetingsData,
     handleActionsPopoverClose,
     handleActionsClick,
@@ -40,6 +41,7 @@ export const Meetings = () => {
 
   return (
     <>
+      <br />
       <div className="meeting">
         <AddMeetingsDrawer open={drawerOpen} setDrawerOpen={setDrawerOpen} />
         <AddOutcomeModal
@@ -48,109 +50,142 @@ export const Meetings = () => {
           addCoversationModel={addCoversationModel}
           onSubmit={onSubmitAddOutcome}
         />
-        <Grid container sx={styles?.headingContainer}>
-          <Grid item sm={6} xs={12}>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+          flexWrap={'wrap'}
+          gap={1}
+        >
+          <Box>
             <Typography variant="h5" fontWeight={500} color="secondary.main">
               Meetings
             </Typography>
-          </Grid>
-          <Grid item sx={styles?.buttonsBox} sm={6} xs={12}>
-            <Button
-              endIcon={<DownIcon />}
-              disableElevation
-              disabled={!!!meetingsData?.length}
-              variant="outlined"
-              color="secondary"
-              fullWidth={matches}
-              onClick={handleActionsClick}
-              sx={{
-                '& path': {
-                  fill: !!!meetingsData?.length
-                    ? ''
-                    : theme?.palette?.secondary?.main,
-                },
-              }}
+          </Box>
+          <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
+            <PermissionsGuard
+              permissions={
+                Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_MEETINGS_ACTIONS
+              }
             >
-              Actions
-            </Button>
-            <Popover
-              open={!!actionsPopover}
-              anchorEl={actionsPopover}
-              onClose={handleActionsPopoverClose}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              sx={styles?.popOverStyles}
-            >
-              <MenuItem
-                onClick={() => {
-                  setDrawerOpen(true);
-                  handleActionsPopoverClose();
-                }}
-                sx={{ p: 1 }}
+              <Button
+                endIcon={<ArrowDropDownIcon />}
+                disableElevation
+                disabled={!!meetingsData?.length}
+                variant="outlined"
+                color="secondary"
+                onClick={handleActionsClick}
               >
-                Edit
-              </MenuItem>
-              <MenuItem sx={{ p: 0 }}>
-                <a
-                  style={{ display: 'block', padding: '.5rem', width: '100%' }}
-                  onClick={handleRescheduleClick}
+                Actions
+              </Button>
+              <Popover
+                open={!!actionsPopover}
+                anchorEl={actionsPopover}
+                onClose={handleActionsPopoverClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                sx={styles?.popOverStyles}
+              >
+                <PermissionsGuard
+                  permissions={[
+                    AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_MEETING,
+                  ]}
                 >
-                  Reschedule
-                </a>
-                <Popover
-                  open={!!reschedulePopover}
-                  anchorEl={reschedulePopover}
-                  onClose={handleReschedulePopoverClose}
-                  anchorOrigin={{
-                    vertical: 'center',
-                    horizontal: 'right',
-                  }}
-                  sx={styles?.popOverStyles}
+                  <MenuItem
+                    onClick={() => {
+                      setDrawerOpen(true);
+                      handleActionsPopoverClose();
+                    }}
+                    sx={{ p: 1 }}
+                  >
+                    Edit
+                  </MenuItem>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[
+                    AIR_SERVICES_TICKETS_TICKETS_DETAILS?.RESCHEDULED_MEETING,
+                  ]}
                 >
-                  <MenuItem sx={{ p: 1 }}>Later Today</MenuItem>
-                  <MenuItem sx={{ p: 1 }}>Tomorrow</MenuItem>
-                  <MenuItem sx={{ p: 1 }}>Next week</MenuItem>
-                  <MenuItem sx={{ p: 1 }}>Pick a date and time</MenuItem>
-                </Popover>
-              </MenuItem>
-              <MenuItem
-                sx={{ p: 1 }}
-                onClick={() => {
-                  setShowAddOutcome(true);
-                  handleActionsPopoverClose();
-                }}
-              >
-                Add outcome
-              </MenuItem>
-              <MenuItem
-                sx={{ p: 1 }}
-                onClick={() => {
-                  enqueueSnackbar('Meeting Deleted Successfully', {
-                    variant: 'success',
-                  });
-                  handleActionsPopoverClose();
-                }}
-              >
-                Delete
-              </MenuItem>
-            </Popover>
-            <Button
-              sx={styles?.addMeetingButton}
-              fullWidth={matches}
-              startIcon={<PlusSharedColorIcon />}
-              disableElevation
-              onClick={() => setDrawerOpen(true)}
-              variant="contained"
+                  <MenuItem sx={{ p: 0 }}>
+                    <a
+                      style={{
+                        display: 'block',
+                        padding: '.5rem',
+                        width: '100%',
+                      }}
+                      onClick={handleRescheduleClick}
+                    >
+                      Reschedule
+                    </a>
+                    <Popover
+                      open={!!reschedulePopover}
+                      anchorEl={reschedulePopover}
+                      onClose={handleReschedulePopoverClose}
+                      anchorOrigin={{
+                        vertical: 'center',
+                        horizontal: 'right',
+                      }}
+                      sx={styles?.popOverStyles}
+                    >
+                      <MenuItem sx={{ p: 1 }}>Later Today</MenuItem>
+                      <MenuItem sx={{ p: 1 }}>Tomorrow</MenuItem>
+                      <MenuItem sx={{ p: 1 }}>Next week</MenuItem>
+                      <MenuItem sx={{ p: 1 }}>Pick a date and time</MenuItem>
+                    </Popover>
+                  </MenuItem>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[
+                    AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_MEETING_OUTCOMES,
+                  ]}
+                >
+                  <MenuItem
+                    sx={{ p: 1 }}
+                    onClick={() => {
+                      setShowAddOutcome(true);
+                      handleActionsPopoverClose();
+                    }}
+                  >
+                    Add outcome
+                  </MenuItem>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[
+                    AIR_SERVICES_TICKETS_TICKETS_DETAILS?.DELETE_MEETING,
+                  ]}
+                >
+                  <MenuItem
+                    sx={{ p: 1 }}
+                    onClick={() => {
+                      successSnackbar('Meeting Deleted Successfully');
+                      handleActionsPopoverClose();
+                    }}
+                  >
+                    Delete
+                  </MenuItem>
+                </PermissionsGuard>
+              </Popover>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_MEETING]}
             >
-              Add Meeting
-            </Button>
-          </Grid>
-        </Grid>
+              <Button
+                startIcon={<PlusSharedColorIcon />}
+                disableElevation
+                onClick={() => setDrawerOpen(true)}
+                variant="contained"
+              >
+                Add Meeting
+              </Button>
+            </PermissionsGuard>
+          </Box>
+        </Box>
+        <br />
         <Grid mb="20px" container spacing={3}>
-          {widgetsData.map((item) => (
-            <Grid item key={uuidv4()} sm={4} xs={12}>
+          {widgetsData?.map((item) => (
+            <Grid item key={item?.id} sm={4} xs={12}>
               <Box sx={styles?.widgetsBox}>
                 <Box sx={styles?.coloredWidgetsDiv(item?.color)}></Box>
                 <Box sx={styles?.widgetsInnerBox}>
@@ -164,10 +199,14 @@ export const Meetings = () => {
           ))}
         </Grid>
         {!!meetingsTableColumns?.length ? (
-          <MeetingsTable
-            meetingsData={meetingsData}
-            setMeetingsData={setMeetingsData}
-          />
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.MEETING_LIST]}
+          >
+            <MeetingsTable
+              meetingsData={meetingsData}
+              setMeetingsData={setMeetingsData}
+            />
+          </PermissionsGuard>
         ) : (
           <NoMeetings setDrawerOpen={setDrawerOpen} />
         )}

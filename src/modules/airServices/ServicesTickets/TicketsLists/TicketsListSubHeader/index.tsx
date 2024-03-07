@@ -7,6 +7,11 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { ticketsListInitialColumns } from '../TicketsLists.data';
 import usePath from '@/hooks/usePath';
 import { VIEW_TYPES } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import {
+  AIR_SERVICES_TICKETS_TICKETS_DETAILS,
+  AIR_SERVICES_TICKETS_TICKET_LISTS,
+} from '@/constants/permission-keys';
 
 export const TicketsListSubHeader = (props: any) => {
   const {
@@ -30,97 +35,134 @@ export const TicketsListSubHeader = (props: any) => {
         justifyContent={'space-between'}
         flexWrap={'wrap'}
       >
-        <Search
-          label="Search Here"
-          width="100%"
-          setSearchBy={setSearch}
-          sx={{ minWidth: '260px' }}
-        />
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.SEARCH_AND_FILTER]}
+        >
+          <Search
+            label="Search Here"
+            width="100%"
+            setSearchBy={setSearch}
+            sx={{ minWidth: '260px' }}
+          />
+        </PermissionsGuard>
         <Box
           display={'flex'}
           justifyContent={'space-between'}
           flexWrap={'wrap'}
           gap={'.5rem'}
         >
-          {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
-            <SingleDropdownButton
-              dropdownOptions={ticketsActionDropdown}
-              disabled={disabledActionButton}
-            />
-          )}
-          <Button
-            variant="outlined"
-            onClick={() => {
-              setTicketsListsActiveColumn(ticketsListInitialColumns);
-            }}
-            size="large"
-            color="secondary"
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
+              AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
+            ]}
           >
-            <AutoRenewIcon />
-          </Button>
-          {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
+            {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
+              <SingleDropdownButton
+                dropdownOptions={ticketsActionDropdown}
+                disabled={disabledActionButton}
+              />
+            )}
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.RESET]}
+          >
             <Button
               variant="outlined"
-              onClick={() => onCustomizeClick?.()}
+              onClick={() => {
+                setTicketsListsActiveColumn(ticketsListInitialColumns);
+              }}
               size="large"
-              startIcon={<CutomizeIcon />}
               color="secondary"
             >
-              Customize
+              <AutoRenewIcon />
             </Button>
-          )}
-          <Button
-            variant="outlined"
-            onClick={() => onFilterClick?.()}
-            size="large"
-            startIcon={<FilterIcon />}
-            color="secondary"
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_TICKETS_TICKET_LISTS?.COLUMN_CUSTOMIZATION,
+            ]}
           >
-            Filter
-          </Button>
+            {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
+              <Button
+                variant="outlined"
+                onClick={() => onCustomizeClick?.()}
+                size="large"
+                startIcon={<CutomizeIcon />}
+                color="secondary"
+              >
+                Customize
+              </Button>
+            )}
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.SEARCH_AND_FILTER]}
+          >
+            <Button
+              variant="outlined"
+              onClick={() => onFilterClick?.()}
+              size="large"
+              startIcon={<FilterIcon />}
+              color="secondary"
+            >
+              Filter
+            </Button>
+          </PermissionsGuard>
           <ButtonGroup size="small" aria-label="small button group">
             {[
-              <Button
+              <PermissionsGuard
                 key={1}
-                onClick={() => {
-                  router?.push(
-                    makePath({
-                      path: router?.pathname,
-                      skipQueries: ['viewType'],
-                    }),
-                  );
-                }}
-                sx={{
-                  backgroundColor:
-                    router?.query?.viewType !== VIEW_TYPES?.BOARD
-                      ? theme?.palette?.grey?.['0']
-                      : '',
-                }}
-                color="secondary"
+                permissions={[
+                  AIR_SERVICES_TICKETS_TICKET_LISTS?.TICKETS_LIST_VIEW,
+                ]}
               >
-                <ListIcon />
-              </Button>,
-              <Button
+                <Button
+                  key={1}
+                  onClick={() => {
+                    router?.push(
+                      makePath({
+                        path: router?.pathname,
+                        skipQueries: ['viewType'],
+                      }),
+                    );
+                  }}
+                  sx={{
+                    backgroundColor:
+                      router?.query?.viewType !== VIEW_TYPES?.BOARD
+                        ? theme?.palette?.grey?.['0']
+                        : '',
+                  }}
+                  color="secondary"
+                >
+                  <ListIcon />
+                </Button>
+              </PermissionsGuard>,
+              <PermissionsGuard
                 key={2}
-                sx={{
-                  backgroundColor:
-                    router?.query?.viewType === VIEW_TYPES?.BOARD
-                      ? theme?.palette?.grey?.['0']
-                      : '',
-                }}
-                onClick={() => {
-                  router?.push({
-                    pathname: router?.pathname,
-                    query: {
-                      ...router?.query,
-                      viewType: VIEW_TYPES?.BOARD,
-                    },
-                  });
-                }}
-                color="secondary"
+                permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.BOARD_VIEW]}
               >
-                <SubTabIcon />
-              </Button>,
+                <Button
+                  key={2}
+                  sx={{
+                    backgroundColor:
+                      router?.query?.viewType === VIEW_TYPES?.BOARD
+                        ? theme?.palette?.grey?.['0']
+                        : '',
+                  }}
+                  onClick={() => {
+                    router?.push({
+                      pathname: router?.pathname,
+                      query: {
+                        ...router?.query,
+                        viewType: VIEW_TYPES?.BOARD,
+                      },
+                    });
+                  }}
+                  color="secondary"
+                >
+                  <SubTabIcon />
+                </Button>
+              </PermissionsGuard>,
             ]}
           </ButtonGroup>
         </Box>
