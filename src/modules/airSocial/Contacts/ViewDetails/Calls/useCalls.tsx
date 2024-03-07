@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import {
+  useDeleteCallMutation,
   useGetCallsQuery,
   usePostCallMutation,
   useUpdateCallMutation,
@@ -167,6 +168,91 @@ const useCalls = (contactId: any = '') => {
   };
   const handleSubmitUpdateCall = handleMethodEditCall(onSubmitEditCall);
 
+  // Delete Calls
+  const [isCallsDeleteModal, setIsCallsDeleteModal] = useState(false);
+  const [deleteCalls, { isLoading: loadingDelete }] = useDeleteCallMutation();
+  const handleOpenModalDelete = () => {
+    handleActionsMenuClose();
+    setIsCallsDeleteModal(true);
+  };
+  const handleCloseModalDelete = () => {
+    setIsCallsDeleteModal(false);
+  };
+
+  const handleSubmitDeleteCalls = async () => {
+    const items = await selectedRow?.join(',');
+    try {
+      await deleteCalls(items)?.unwrap();
+      handleCloseModalDelete();
+      setSelectedRow([]);
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+      setIsActionsDisabled(true);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
+  // Reschedule call
+  const [openRescheduleModal, setOpenRescheduleModal] = useState(false);
+  const handleOpenModalReschedule = () => {
+    handleActionsMenuClose();
+    setOpenRescheduleModal(true);
+  };
+  const handleCloseModalReschedule = () => {
+    setOpenRescheduleModal(false);
+  };
+  const methodsReschedule = useForm({});
+  const { handleSubmit: handleMethodReschedule } = methodsReschedule;
+  const [reScheduleCall, { isLoading: loadingRescheduleCall }] =
+    useUpdateCallMutation();
+  const onSubmitReschedule = async (values: any) => {
+    try {
+      await reScheduleCall({ id: rowId, body: values })?.unwrap();
+      handleCloseDrawerEditCall();
+      setSelectedRow([]);
+      enqueueSnackbar('Call has been updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+  const handleSubmitRescheduleCall = handleMethodReschedule(onSubmitReschedule);
+
+  // Add Outcome
+  const [openOutcomeModal, setOpenOutcomeModal] = useState(false);
+  const handleOpenModalOutcome = () => {
+    handleActionsMenuClose();
+    setOpenOutcomeModal(true);
+  };
+  const handleCloseModalOutcome = () => {
+    setOpenOutcomeModal(false);
+  };
+  const methodsOutcome = useForm({});
+  const { handleSubmit: handleMethodOutcome } = methodsOutcome;
+  const [outcomeCall, { isLoading: loadingOutcome }] = useUpdateCallMutation();
+  const onSubmitOutcome = async (values: any) => {
+    try {
+      await outcomeCall({ id: rowId, body: values })?.unwrap();
+      handleCloseModalOutcome();
+      setSelectedRow([]);
+      enqueueSnackbar('Call has been updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+  const handleSubmitOutcomeCall = handleMethodOutcome(onSubmitOutcome);
+
   return {
     anchorEl,
     actionMenuOpen,
@@ -201,6 +287,23 @@ const useCalls = (contactId: any = '') => {
     isFieldDisabled,
     handleSubmitUpdateCall,
     loadingUpdateCall,
+    isCallsDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleSubmitDeleteCalls,
+    loadingDelete,
+    methodsReschedule,
+    loadingRescheduleCall,
+    handleSubmitRescheduleCall,
+    openRescheduleModal,
+    handleOpenModalReschedule,
+    handleCloseModalReschedule,
+    methodsOutcome,
+    handleSubmitOutcomeCall,
+    openOutcomeModal,
+    handleCloseModalOutcome,
+    handleOpenModalOutcome,
+    loadingOutcome,
   };
 };
 
