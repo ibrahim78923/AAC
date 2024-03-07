@@ -52,7 +52,7 @@ export const columns = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.products,
+      accessorFn: (row: any) => row?.accountName,
       id: 'products',
       isSortable: true,
       header: 'Products',
@@ -66,15 +66,15 @@ export const columns = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.address,
+      accessorFn: (row: any) => row?.address?.streetName,
       id: 'address',
       isSortable: true,
       header: 'Address',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.status,
-      id: 'status',
+      accessorFn: (row: any) => row?.isActive,
+      id: 'isActive',
       isSortable: true,
       header: 'Status',
       cell: (info: any) => (
