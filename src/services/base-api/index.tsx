@@ -93,6 +93,7 @@ export const TAGS = [
   'CONTRACT_HISTORY',
   'ARTICLES_APPROVALS',
   'AIR_SERVICES_ROLES',
+  'ACCOUNT_DETAILS',
 ];
 
 const baseQuery = fetchBaseQuery({

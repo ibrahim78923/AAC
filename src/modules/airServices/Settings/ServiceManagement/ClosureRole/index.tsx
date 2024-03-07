@@ -10,13 +10,13 @@ export const ClosureRole = () => {
   const {
     closureRoleMethods,
     handleSubmitClosureRole,
-    reset,
     closeIncidentData,
     resolveIncidentData,
     serviceCloseData,
     serviceResolveData,
     isLoading,
     getIsLoading,
+    handleCancel,
   } = useClosureRole();
 
   return (
@@ -40,7 +40,7 @@ export const ClosureRole = () => {
         <LoadingButton disabled={isLoading} variant="contained" type="submit">
           Save
         </LoadingButton>
-        <Button variant="outlined" onClick={() => reset()} color="secondary">
+        <Button variant="outlined" onClick={handleCancel} color="secondary">
           cancel
         </Button>
       </Box>
