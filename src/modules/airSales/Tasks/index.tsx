@@ -2,8 +2,11 @@ import React from 'react';
 import TabsComp from './Tabs';
 import TaskHeader from './TaskHeader';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
+import { getSession } from '@/utils';
 
 const Tasks = () => {
+  const { user }: { user: any } = getSession();
+
   return (
     <>
       <TaskHeader />
@@ -17,8 +20,7 @@ const Tasks = () => {
         ]}
       >
         <TabsComp tabValue="" />
-        <TabsComp tabValue="" />
-        {/* assignTo={'65782638da7b3457092af1dd'} */}
+        <TabsComp tabValue="" assignTo={user?._id} />
         <TabsComp tabValue="Pending" />
         <TabsComp tabValue="Inprogress" />
         <TabsComp tabValue="Complete" />

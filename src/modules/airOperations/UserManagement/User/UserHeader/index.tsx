@@ -5,6 +5,8 @@ import { Box, Button } from '@mui/material';
 import { useUser } from '../useUser';
 import UpsertUser from '../UpsertUser';
 import { AgentConversionDelete } from '../../AgentConversionDelete';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const UserHeader = ({ selectedUserList, setSearch }: any) => {
   const {
@@ -22,11 +24,17 @@ export const UserHeader = ({ selectedUserList, setSearch }: any) => {
       alignItems={'center'}
     >
       <Box>
-        <Search
-          label="Search Here"
-          width={'16.25rem'}
-          setSearchBy={setSearch}
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.SEARCH_RECORD,
+          ]}
+        >
+          <Search
+            label="Search Here"
+            width={'16.25rem'}
+            setSearchBy={setSearch}
+          />
+        </PermissionsGuard>
       </Box>
       <Box display={'flex'} gap={1} mt={{ xs: 2, sm: 0 }}>
         <SingleDropdownButton

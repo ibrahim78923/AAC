@@ -9,14 +9,14 @@ const CreateTask = ({
   isCreateTaskDrawerOpen,
   setIsCreateTaskDrawerOpen,
   creationMode,
-  id,
+  taskData,
 }: any) => {
   const {
     handleFiltersSubmit,
     getCreateTaskData,
     methodsFilter,
     onSubmitHandler,
-  } = useCreateTask({ creationMode, id });
+  } = useCreateTask({ creationMode, taskData });
 
   return (
     <CommonDrawer
