@@ -43,6 +43,8 @@ import { airMarketingCalendar } from '@/routesConstants/paths';
 import { SocailMediaEvent } from './Calender.data';
 import { postBoxSteps } from '@/mock/modules/airMarketer/SocialMarketing';
 import { AlertModals } from '@/components/AlertModals';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SOCIAL_MARKETING_CALENDER_PERMISSIONS } from '@/constants/permission-keys';
 
 const Calender = () => {
   const {
@@ -71,15 +73,21 @@ const Calender = () => {
   return (
     <>
       <Box sx={{ backgroundColor: 'white' }}>
-        <Button
-          startIcon={<PlusIcon />}
-          sx={{ float: 'right', marginBottom: '25px' }}
-          variant="contained"
-          className="small"
-          onClick={() => router?.push(`${airMarketingCalendar?.create_post}`)}
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_SOCIAL_MARKETING_CALENDER_PERMISSIONS?.CREATE_POST,
+          ]}
         >
-          Create Post
-        </Button>
+          <Button
+            startIcon={<PlusIcon />}
+            sx={{ float: 'right', marginBottom: '25px' }}
+            variant="contained"
+            className="small"
+            onClick={() => router?.push(`${airMarketingCalendar?.create_post}`)}
+          >
+            Create Post
+          </Button>
+        </PermissionsGuard>
         <Filters />
 
         <FullCalendar

@@ -16,6 +16,8 @@ import FilterDropdown from './SocialModes/FilterDropDown';
 import SocialChannels from './SocialChannels';
 import { styles } from './SocialInbox.style';
 import PostsArea from './PostsArea';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS } from '@/constants/permission-keys';
 
 const SocialInbox = () => {
   const { theme, socialModeState, handleSelection } = useSocialInbox();
@@ -33,77 +35,101 @@ const SocialInbox = () => {
 
   return (
     <Box>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <Box sx={styles?.mainWrapperBox}>
-            <Typography variant="h3" sx={{ marginBottom: '20px' }}>
-              Social Inbox
-            </Typography>
-            <Box sx={styles?.wrapperBox}>
-              <ToggleButtonGroup
-                value={socialModeState}
-                exclusive
-                onChange={handleSelection}
-                aria-label="text alignment"
-              >
-                <ToggleButton
-                  value="TeamChannel"
-                  sx={styles?.toggleButtonLeft(theme)}
-                  aria-label="left-aligned"
+      <PermissionsGuard
+        permissions={[
+          AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS.VIEW_SOCIAL_INBOX,
+        ]}
+      >
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
+            <Box sx={styles?.mainWrapperBox}>
+              <Typography variant="h3" sx={{ marginBottom: '20px' }}>
+                Social Inbox
+              </Typography>
+              <Box sx={styles?.wrapperBox}>
+                <ToggleButtonGroup
+                  value={socialModeState}
+                  exclusive
+                  onChange={handleSelection}
+                  aria-label="text alignment"
                 >
-                  Teams
-                </ToggleButton>
-                <ToggleButton
-                  value="GroupChannel"
-                  sx={styles?.toggleButtonRight(theme)}
-                  aria-label="right-aligned"
-                >
-                  Channel
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </Box>
-            <SocialChannels socialModeState={socialModeState} />
+                  <PermissionsGuard
+                    permissions={[
+                      AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS.VIEW_TEAMS,
+                    ]}
+                  >
+                    <ToggleButton
+                      value="TeamChannel"
+                      sx={styles?.toggleButtonLeft(theme)}
+                      aria-label="left-aligned"
+                    >
+                      Teams
+                    </ToggleButton>
+                  </PermissionsGuard>
+                  <PermissionsGuard
+                    permissions={[
+                      AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS.VIEW_CHANNELS,
+                    ]}
+                  >
+                    <ToggleButton
+                      value="GroupChannel"
+                      sx={styles?.toggleButtonRight(theme)}
+                      aria-label="right-aligned"
+                    >
+                      Channel
+                    </ToggleButton>
+                  </PermissionsGuard>
+                </ToggleButtonGroup>
+              </Box>
+              <SocialChannels socialModeState={socialModeState} />
 
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                padding: '20px 0px',
-              }}
-            >
-              <FormControlLabel
-                control={<Checkbox defaultChecked />}
-                label="Select All"
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  padding: '20px 0px',
+                }}
+              >
+                <FormControlLabel
+                  control={<Checkbox defaultChecked />}
+                  label="Select All"
+                />
+                <PermissionsGuard
+                  permissions={[
+                    AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS.FILTER,
+                  ]}
+                >
+                  <Button
+                    sx={styles?.filterButton}
+                    aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={actionMenuOpen ? 'true' : undefined}
+                    onClick={handleClick}
+                  >
+                    <FilterSharedIcon /> Filter
+                  </Button>
+                </PermissionsGuard>
+              </Box>
+
+              <SocialModes
+                socialModeState={socialModeState}
+                postMode={postMode}
+                setPostMode={setPostMode}
               />
-              <Button
-                sx={styles?.filterButton}
-                aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={actionMenuOpen ? 'true' : undefined}
-                onClick={handleClick}
-              >
-                <FilterSharedIcon /> Filter
-              </Button>
             </Box>
-
-            <SocialModes
-              socialModeState={socialModeState}
-              postMode={postMode}
-              setPostMode={setPostMode}
-            />
-          </Box>
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <Box sx={styles?.mainWrapperBox}>
+              <PostsArea postMode={postMode} />
+            </Box>
+          </Grid>
+          <FilterDropdown
+            anchorEl={anchorEl}
+            actionMenuOpen={actionMenuOpen}
+            handleClose={handleClose}
+          />
         </Grid>
-        <Grid item xs={12} md={8}>
-          <Box sx={styles?.mainWrapperBox}>
-            <PostsArea postMode={postMode} />
-          </Box>
-        </Grid>
-        <FilterDropdown
-          anchorEl={anchorEl}
-          actionMenuOpen={actionMenuOpen}
-          handleClose={handleClose}
-        />
-      </Grid>
+      </PermissionsGuard>
     </Box>
   );
 };

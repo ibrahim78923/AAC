@@ -18,6 +18,8 @@ import { postCardsData } from './PostCards.data';
 
 import { v4 as uuidv4 } from 'uuid';
 import Customize from './Customize';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS } from '@/constants/permission-keys';
 
 const PostBox = () => {
   const { handlePostBox, isPostModal } = usePostBox();
@@ -43,115 +45,138 @@ const PostBox = () => {
           gap: 1,
         }}
       >
-        <ContactsActions />
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-          }}
-          gap={1}
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS.FILTER_OUT_BY_PLATEFORM_AND_DATE,
+          ]}
         >
-          <Customize />
-          {<SwitchableDatepicker size="small" />}
-        </Box>
+          <ContactsActions />
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS.CUSTOMISED_PIPELINE,
+          ]}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+            }}
+            gap={1}
+          >
+            <Customize />
+            {<SwitchableDatepicker size="small" />}
+          </Box>
+        </PermissionsGuard>
       </Box>
-
-      <Grid container spacing={2}>
-        {postCardsData?.map(({ category, data }: any) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={category}>
-            <Box border="1px solid #E5E7EB" borderRadius="5px">
-              <Box
-                p="10px"
-                display={'flex'}
-                alignItems={'center'}
-                justifyContent={'space-between'}
-              >
-                <Typography
-                  sx={{ textTransform: 'capitalize', fontWeight: 500 }}
-                  variant="h6"
+      <PermissionsGuard
+        permissions={[
+          AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS.VIEW_PIPELINE,
+        ]}
+      >
+        <Grid container spacing={2}>
+          {postCardsData?.map(({ category, data }: any) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={category}>
+              <Box border="1px solid #E5E7EB" borderRadius="5px">
+                <Box
+                  p="10px"
+                  display={'flex'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
                 >
-                  {category}
-                </Typography>
-                <Typography
-                  sx={{
-                    background: '#4CCFBC',
-                    color: '#FFFFFF',
-                    borderRadius: '4px',
-                    padding: '3px',
-                  }}
-                >
-                  {data?.length < 10 ? `0${data?.length}` : data?.length}
-                </Typography>
-              </Box>
-              <Box sx={{ p: '10px', background: postBoxColor[category] }}>
-                {data?.map((item: any) => (
-                  <Card
-                    sx={{
-                      width: '100%',
-                      p: '10px',
-                      position: 'relative',
-                      mt: '10px',
-                    }}
-                    onClick={handlePostBox}
-                    key={uuidv4()}
+                  <Typography
+                    sx={{ textTransform: 'capitalize', fontWeight: 500 }}
+                    variant="h6"
                   >
-                    <Box
+                    {category}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      background: '#4CCFBC',
+                      color: '#FFFFFF',
+                      borderRadius: '4px',
+                      padding: '3px',
+                    }}
+                  >
+                    {data?.length < 10 ? `0${data?.length}` : data?.length}
+                  </Typography>
+                </Box>
+                <Box sx={{ p: '10px', background: postBoxColor[category] }}>
+                  {data?.map((item: any) => (
+                    <Card
                       sx={{
-                        position: 'absolute',
-                        right: '5px',
-                        top: '6px',
-                        backgroundColor: 'white',
-                        borderRadius: '50%',
-                        width: '20px',
-                        height: '20px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                        width: '100%',
+                        p: '10px',
+                        position: 'relative',
+                        mt: '10px',
                       }}
+                      onClick={handlePostBox}
+                      key={uuidv4()}
                     >
-                      <Avatar
-                        src="https://static.vecteezy.com/system/resources/previews/023/986/613/non_2x/facebook-logo-facebook-logo-transparent-facebook-icon-transparent-free-free-png.png"
-                        alt="icon"
-                        sx={{ width: '15px', height: '15px' }}
-                      ></Avatar>
-                    </Box>
-                    <CardMedia
-                      component="img"
-                      height="81"
-                      image={item?.image}
-                    />
-                    <CardHeader
-                      avatar={
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          right: '5px',
+                          top: '6px',
+                          backgroundColor: 'white',
+                          borderRadius: '50%',
+                          width: '20px',
+                          height: '20px',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}
+                      >
                         <Avatar
-                          src={item?.avatar}
-                          sx={{ width: '30px', height: '30px' }}
-                        >
-                          R
-                        </Avatar>
-                      }
-                      title={
-                        <Typography variant="body4" fontWeight={600}>
-                          {item?.heading}
+                          src="https://static.vecteezy.com/system/resources/previews/023/986/613/non_2x/facebook-logo-facebook-logo-transparent-facebook-icon-transparent-free-free-png.png"
+                          alt="icon"
+                          sx={{ width: '15px', height: '15px' }}
+                        ></Avatar>
+                      </Box>
+                      <CardMedia
+                        component="img"
+                        height="81"
+                        image={item?.image}
+                      />
+                      <CardHeader
+                        avatar={
+                          <Avatar
+                            src={item?.avatar}
+                            sx={{ width: '30px', height: '30px' }}
+                          >
+                            R
+                          </Avatar>
+                        }
+                        title={
+                          <Typography variant="body4" fontWeight={600}>
+                            {item?.heading}
+                          </Typography>
+                        }
+                        subheader={
+                          <Typography fontSize={8}>{item?.date}</Typography>
+                        }
+                        sx={{ py: '6px', px: '0px' }}
+                      />
+                      <CardContent sx={{ p: '0px' }}>
+                        <Typography variant="body4">
+                          {item?.description}
                         </Typography>
-                      }
-                      subheader={
-                        <Typography fontSize={8}>{item?.date}</Typography>
-                      }
-                      sx={{ py: '6px', px: '0px' }}
-                    />
-                    <CardContent sx={{ p: '0px' }}>
-                      <Typography variant="body4">
-                        {item?.description}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </Box>
               </Box>
-            </Box>
-          </Grid>
-        ))}
-      </Grid>
-      <PostBoxModalBox open={isPostModal} onClose={handlePostBox} />
+            </Grid>
+          ))}
+        </Grid>
+      </PermissionsGuard>
+      <PermissionsGuard
+        permissions={[
+          AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS.VIEW_DETAILS_OF_SPECIFIC_POST,
+        ]}
+      >
+        <PostBoxModalBox open={isPostModal} onClose={handlePostBox} />
+      </PermissionsGuard>
     </>
   );
 };

@@ -664,10 +664,6 @@ export const AIR_MARKETER_CAMPAIGNS_PERMISSIONS = {
   TASK_VIEW: 'marketer-campaigns-tasks-view-task',
 };
 
-export const AIR_MARKETER_CAMPAIGNS_CALENDAR_PERMISSIONS = {};
-
-export const AIR_MARKETER_CAMPAIGNS_TASKS_PERMISSIONS = {};
-
 export const AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS = {
   VIEW_LIST: 'marketer-email-marketing-email-list-view-emails',
   SEARCH_FILTER: 'marketer-email-marketing-email-list-search-and-filter',
