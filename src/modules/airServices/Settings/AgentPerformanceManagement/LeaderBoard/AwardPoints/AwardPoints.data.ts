@@ -106,7 +106,7 @@ export const agentResolveTicketData = [
     componentProps: {
       fullWidth: true,
       name: 'firstCallResolution',
-      label: 'First call Resolution',
+      label: 'First call resolution',
     },
   },
   {
@@ -116,7 +116,7 @@ export const agentResolveTicketData = [
     componentProps: {
       fullWidth: true,
       name: 'happyCustomer',
-      label: 'happy Customer',
+      label: 'Happy customer',
     },
   },
   {
@@ -126,7 +126,7 @@ export const agentResolveTicketData = [
     componentProps: {
       fullWidth: true,
       name: 'unHappyCustomer',
-      label: 'Unhappy Customer',
+      label: 'Unhappy customer',
     },
   },
 ];
