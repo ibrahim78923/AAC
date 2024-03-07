@@ -10,13 +10,13 @@ import {
   Typography,
 } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
-import { FormProvider } from '@/components/ReactHookForm';
-import {
-  rolesAccordionsTicketsData,
-  upsertRolesFormData,
-} from './UpsertRoles.data';
+import { FormProvider, RHFCheckbox } from '@/components/ReactHookForm';
+import { upsertRolesFormData } from './UpsertRoles.data';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useUpsertRoles from './useUpsertRoles';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
+import { Fragment } from 'react';
 
 const UpsertRoles = () => {
   const {
@@ -26,10 +26,16 @@ const UpsertRoles = () => {
     handleSubmit,
     onSubmit,
     theme,
-    createEditTasksInTickets,
-    createEditAnnouncements,
-    editNotes,
+    getPermissionsIsLoading,
+    getPermissionsIsFetching,
+    getPermissionsIsError,
+    getPermissionsData,
   } = useUpsertRoles();
+
+  if (getPermissionsIsError) return <ApiErrorState />;
+
+  if (getPermissionsIsLoading || getPermissionsIsFetching)
+    return <SkeletonTable />;
 
   return (
     <>
@@ -53,89 +59,55 @@ const UpsertRoles = () => {
             </Grid>
           ))}
 
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <Divider sx={{ my: 2 }} />
             <Typography variant="h5">Permissions</Typography>
           </Grid>
-
           <Grid item xs={12} my={2}>
-            {(Object?.entries(rolesAccordionsTicketsData ?? {}) ?? [])?.map(
-              ([title, data]: any) => (
-                <Accordion
-                  key={title}
-                  sx={{
-                    '&.MuiAccordion': {
-                      '&.Mui-expanded': {
-                        boxShadow: 'theme.customShadows.z8',
+            {getPermissionsData?.data?.map((parent: any) => (
+              <Fragment key={parent?.name}>
+                {parent?.subModules?.map((subModule: any) => (
+                  <Accordion
+                    key={subModule?.subModule}
+                    sx={{
+                      '&.MuiAccordion': {
+                        '&.Mui-expanded': {
+                          boxShadow: 'theme.customShadows.z8',
+                          borderRadius: '8px',
+                        },
+                        '&.Mui-disabled': {
+                          backgroundColor: 'transparent',
+                        },
+                      },
+                      '& .MuiAccordionSummary-root': {
+                        backgroundColor: theme?.palette?.blue?.main,
+                        color: theme.palette?.common?.white,
                         borderRadius: '8px',
                       },
-                      '&.Mui-disabled': {
-                        backgroundColor: 'transparent',
-                      },
-                    },
-                    '& .MuiAccordionSummary-root': {
-                      backgroundColor: theme?.palette?.blue?.main,
-                      color: theme.palette?.common?.white,
-                      borderRadius: '8px',
-                    },
-                    mt: 1,
-                  }}
-                >
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    ria-controls={`${title}-content`}
-                    id={`${title}-header`}
+                      mt: 1,
+                    }}
                   >
-                    <Typography>{title}</Typography>
-                  </AccordionSummary>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      ria-controls={`${subModule?.name}-content`}
+                      id={`${subModule?.name}-header`}
+                    >
+                      <Typography>{subModule?.name}</Typography>
+                    </AccordionSummary>
 
-                  <AccordionDetails>
-                    <Grid container spacing={1}>
-                      <Grid item xs={12}>
-                        <Typography variant="h5">Agent Can</Typography>
+                    <AccordionDetails>
+                      <Grid container spacing={1}>
+                        {subModule?.permissions?.map((item: any) => (
+                          <Grid item xs={12} md={4} key={item?.slug}>
+                            <RHFCheckbox name={item?.slug} label={item?.name} />
+                          </Grid>
+                        ))}
                       </Grid>
-                      {data?.map((item: any) => (
-                        <Grid item xs={12} md={item?.md} key={item?.id}>
-                          <item.component
-                            {...item?.componentProps}
-                            size={'small'}
-                          />
-                          {item?.componentProps?.name === 'editNotes' &&
-                            editNotes &&
-                            item?.children && (
-                              <item.children.component
-                                key={item?.children?.id}
-                                {...item?.children?.componentProps}
-                                size={'small'}
-                              />
-                            )}
-                          {item?.componentProps?.name ===
-                            'createEditTasksInTickets' &&
-                            createEditTasksInTickets &&
-                            item?.children && (
-                              <item.children.component
-                                key={item?.children?.id}
-                                {...item?.children?.componentProps}
-                                size={'small'}
-                              />
-                            )}
-                          {item?.componentProps?.name ===
-                            'createEditAnnouncements' &&
-                            createEditAnnouncements &&
-                            item?.children && (
-                              <item.children.component
-                                key={item?.children?.id}
-                                {...item?.children?.componentProps}
-                                size={'small'}
-                              />
-                            )}
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </AccordionDetails>
-                </Accordion>
-              ),
-            )}
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
+              </Fragment>
+            ))}
           </Grid>
 
           <Grid item xs={12} textAlign={'end'}>

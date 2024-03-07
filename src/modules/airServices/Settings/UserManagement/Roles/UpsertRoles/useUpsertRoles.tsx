@@ -6,8 +6,14 @@ import {
   upsertRolesDefaultValues,
   upsertRolesValidationSchema,
 } from './UpsertRoles.data';
-import { successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { AIR_SERVICES } from '@/constants';
+import useAuth from '@/hooks/useAuth';
+import {
+  useGetPermissionsByProductQuery,
+  usePostPermissionsRoleMutation,
+} from '@/services/airServices/settings/user-management/roles';
+import { useEffect } from 'react';
 
 export default function useUpsertRoles() {
   const router: any = useRouter();
@@ -15,20 +21,74 @@ export default function useUpsertRoles() {
 
   const { roleId } = router?.query;
 
-  const methods: any = useForm({
-    resolver: yupResolver(upsertRolesValidationSchema),
-    defaultValues: upsertRolesDefaultValues,
+  const auth: any = useAuth();
+
+  const { _id: productId } = auth?.product;
+  const { _id: organizationCompanyAccountId } = auth?.product?.accounts?.[0];
+  const { _id: organizationId } = auth?.user?.organization;
+
+  const {
+    data: getPermissionsData,
+    isLoading: getPermissionsIsLoading,
+    isFetching: getPermissionsIsFetching,
+    isError: getPermissionsIsError,
+  } = useGetPermissionsByProductQuery({
+    productId,
   });
 
-  const { handleSubmit, watch } = methods;
+  const getSlugs = () => {
+    const slugs = getPermissionsData?.data?.flatMap(
+      (parent: any) =>
+        parent?.subModules?.flatMap(
+          (subModule: any) =>
+            subModule?.permissions?.map((item: any) => item?.slug),
+        ),
+    );
+    const slugsObject = slugs?.reduce((acc: any, slug: any) => {
+      acc[slug] = false;
+      return acc;
+    }, {});
 
-  const editNotes = watch('editNotes');
-  const createEditTasksInTickets = watch('createEditTasksInTickets');
-  const createEditAnnouncements = watch('createEditAnnouncements');
+    return slugsObject;
+  };
 
-  const onSubmit = async () => {
-    successSnackbar('Role Added Successfully!');
-    router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS);
+  const methods: any = useForm({
+    resolver: yupResolver(upsertRolesValidationSchema),
+    defaultValues: upsertRolesDefaultValues(),
+  });
+
+  const { handleSubmit, reset } = methods;
+
+  useEffect(() => {
+    reset(upsertRolesDefaultValues(getSlugs()));
+  }, [getPermissionsData, reset]);
+
+  const [postPermissionTrigger] = usePostPermissionsRoleMutation();
+
+  const onSubmit = async (data: any) => {
+    const permissionKeys = Object?.entries(data ?? {})
+      ?.filter(
+        ([key, value]) => key !== 'name' && key !== 'description' && value,
+      )
+      ?.map(([item]: any) => item);
+
+    const updatedData = {
+      organizationId,
+      organizationCompanyAccountId,
+      productId,
+      status: 'ACTIVE',
+      name: data?.name,
+      description: data?.description,
+      permissions: permissionKeys,
+    };
+
+    try {
+      await postPermissionTrigger(updatedData)?.unwrap();
+      successSnackbar('Role Added Successfully!');
+      router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS);
+    } catch (error) {
+      errorSnackbar();
+    }
   };
 
   return {
@@ -38,8 +98,9 @@ export default function useUpsertRoles() {
     handleSubmit,
     onSubmit,
     theme,
-    createEditTasksInTickets,
-    createEditAnnouncements,
-    editNotes,
+    getPermissionsIsLoading,
+    getPermissionsIsFetching,
+    getPermissionsIsError,
+    getPermissionsData,
   };
 }
