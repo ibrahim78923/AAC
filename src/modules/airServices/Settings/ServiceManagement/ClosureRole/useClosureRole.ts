@@ -111,6 +111,11 @@ export const useClosureRole = () => {
     });
   };
 
+  const handleCancel = () => {
+    handleBack();
+    reset();
+  };
+
   const { handleSubmit, reset } = closureRoleMethods;
   const handleSubmitClosureRole = handleSubmit(isSubmit);
 
@@ -151,5 +156,6 @@ export const useClosureRole = () => {
     serviceResolveData,
     isLoading,
     getIsLoading,
+    handleCancel,
   };
 };

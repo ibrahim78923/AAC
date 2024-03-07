@@ -10,6 +10,9 @@ import { useResponsesList } from './useResponsesList';
 import { AIR_SERVICES } from '@/constants';
 import { DeleteResponseModal } from './DeleteResponseModal';
 import { AddResponseForm } from './AddResponseForm';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { Permissions } from '@/constants/permissions';
 
 export const ResponsesList = () => {
   const {
@@ -57,13 +60,19 @@ export const ResponsesList = () => {
               <Grid container spacing={2}>
                 <Grid item sm={6} xs={12}>
                   <Box display="flex" alignItems="center" gap={2}>
-                    <Search
-                      size="small"
-                      label="Search"
-                      searchBy={search}
-                      setSearchBy={setSearch}
-                      width={500}
-                    />
+                    <PermissionsGuard
+                      permissions={[
+                        AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
+                      ]}
+                    >
+                      <Search
+                        size="small"
+                        label="Search"
+                        searchBy={search}
+                        setSearchBy={setSearch}
+                        width={500}
+                      />
+                    </PermissionsGuard>
                   </Box>
                 </Grid>
                 <Grid item sm={6} xs={12}>
@@ -74,52 +83,70 @@ export const ResponsesList = () => {
                     flexWrap="wrap"
                     gap={2}
                   >
-                    <SingleDropdownButton
-                      dropdownOptions={actionsOptions(handleActionClick)}
-                      dropdownName="Actions"
-                      disabled={!!!selectedData?.length}
-                      sx={{
-                        width: { sm: 'auto', xs: '100%' },
-                      }}
-                    />
-                    <Button
-                      variant="contained"
-                      sx={{
-                        width: { sm: 'auto', xs: '100%' },
-                      }}
-                      startIcon={
-                        <AddBoxRoundedIcon sx={{ color: 'custom.white' }} />
+                    <PermissionsGuard
+                      permissions={
+                        Permissions?.AIR_SERVICES_SETTINGS_AGENT_PERFORMANCE_MANAGEMENT_CANNED_RESPONSES_LIST
                       }
-                      disableElevation
-                      onClick={() => {
-                        setOpenAddResponseDrawer(true);
-                        setSelectedData([]);
-                      }}
                     >
-                      Add New
-                    </Button>
+                      <SingleDropdownButton
+                        dropdownOptions={actionsOptions(handleActionClick)}
+                        dropdownName="Actions"
+                        disabled={!!!selectedData?.length}
+                        sx={{
+                          width: { sm: 'auto', xs: '100%' },
+                        }}
+                      />
+                    </PermissionsGuard>
+                    <PermissionsGuard
+                      permissions={[
+                        AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.ADD_NEW_RESPONSES_IN_DIFFERENT_FOLDERS,
+                      ]}
+                    >
+                      <Button
+                        variant="contained"
+                        sx={{
+                          width: { sm: 'auto', xs: '100%' },
+                        }}
+                        startIcon={
+                          <AddBoxRoundedIcon sx={{ color: 'custom.white' }} />
+                        }
+                        disableElevation
+                        onClick={() => {
+                          setOpenAddResponseDrawer(true);
+                          setSelectedData([]);
+                        }}
+                      >
+                        Add New
+                      </Button>
+                    </PermissionsGuard>
                   </Box>
                 </Grid>
               </Grid>
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <TanstackTable
-              columns={tableColumns}
-              data={responsesList}
-              isLoading={lazyGetResponsesListStatus?.isLoading}
-              isFetching={lazyGetResponsesListStatus?.isFetching}
-              isError={lazyGetResponsesListStatus?.isError}
-              isSuccess={lazyGetResponsesListStatus?.isSuccess || true}
-              currentPage={page}
-              count={responsesListMetaData?.pages}
-              pageLimit={pageLimit}
-              totalRecords={responsesListMetaData?.total}
-              onPageChange={(page: any) => setPage(page)}
-              setPage={setPage}
-              setPageLimit={setPageLimit}
-              isPagination
-            />
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_RESPONSES_LIST,
+              ]}
+            >
+              <TanstackTable
+                columns={tableColumns}
+                data={responsesList}
+                isLoading={lazyGetResponsesListStatus?.isLoading}
+                isFetching={lazyGetResponsesListStatus?.isFetching}
+                isError={lazyGetResponsesListStatus?.isError}
+                isSuccess={lazyGetResponsesListStatus?.isSuccess || true}
+                currentPage={page}
+                count={responsesListMetaData?.pages}
+                pageLimit={pageLimit}
+                totalRecords={responsesListMetaData?.total}
+                onPageChange={(page: any) => setPage(page)}
+                setPage={setPage}
+                setPageLimit={setPageLimit}
+                isPagination
+              />
+            </PermissionsGuard>
           </Grid>
         </Grid>
       </Box>
