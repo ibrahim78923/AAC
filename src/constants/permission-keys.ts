@@ -628,3 +628,7 @@ export const AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS = {
   DELETE: `operation-user-managment-delete`,
   CREATE_TEAM: `operation-user-managment-create-team`,
 };
+
+export const AIR_SERVICES_DASHBOARD_PERMISSIONS = {
+  VIEW_DASHBOARD: 'service-dashboard-list',
+};
