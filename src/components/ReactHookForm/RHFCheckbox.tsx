@@ -20,6 +20,7 @@ export default function RHFCheckbox({ name, required, ...other }: any) {
                 {...field}
                 checked={field?.value}
                 disabled={other?.disabled}
+                defaultChecked={other?.defaultValue}
                 sx={(theme) => ({
                   stroke: theme?.palette?.background?.default,
                   strokeWidth: 1,

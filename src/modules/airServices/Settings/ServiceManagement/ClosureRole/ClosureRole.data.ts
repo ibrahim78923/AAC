@@ -79,13 +79,19 @@ export const closureRoleDefaultValues = (
   };
 };
 
-export const closeIncidentDataArray = (isRadioGroupDisable: any) => [
+export const closeIncidentDataArray = (
+  isRadioGroupDisable: any,
+  getClosureRuleValues: any,
+  ticket: any,
+) => [
   {
     id: 2455,
     closeIncident: true,
     componentProps: {
       name: 'closeIncidentTimeAdded',
       label: 'Time entry is added',
+      defaultValue:
+        getClosureRuleValues?.incident?.[ticket?.incidentClose]?.timeEntryAdded,
     },
     component: RHFCheckbox,
   },
@@ -95,6 +101,9 @@ export const closeIncidentDataArray = (isRadioGroupDisable: any) => [
     componentProps: {
       name: 'closeIncidentAssociatedTasks',
       label: 'Associated tasks are completed',
+      defaultValue:
+        getClosureRuleValues?.incident?.[ticket?.incidentClose]
+          ?.associatedTasksCompleted,
     },
     component: RHFCheckbox,
   },
@@ -104,6 +113,11 @@ export const closeIncidentDataArray = (isRadioGroupDisable: any) => [
     componentProps: {
       name: 'closeIncidentChildTickets',
       label: 'Child tickets',
+      defaultValue:
+        getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
+          ?.closed ||
+        getClosureRuleValues?.incident?.[ticket?.incidentClose]?.childTickets
+          ?.resolved,
     },
     component: RHFCheckbox,
   },
@@ -128,13 +142,20 @@ export const closeIncidentDataArray = (isRadioGroupDisable: any) => [
   },
 ];
 
-export const resolveIncidentDataArray = (isRadioGroupDisable: any) => [
+export const resolveIncidentDataArray = (
+  isRadioGroupDisable: any,
+  getClosureRuleValues: any,
+  ticket: any,
+) => [
   {
     id: 3541,
     resolveIncident: true,
     componentProps: {
       name: 'resolveIncidentTimeAdded',
       label: 'Time entry is added',
+      defaultValue:
+        getClosureRuleValues?.incident?.[ticket?.incidentResolve]
+          ?.timeEntryAdded,
     },
     component: RHFCheckbox,
   },
@@ -144,6 +165,9 @@ export const resolveIncidentDataArray = (isRadioGroupDisable: any) => [
     componentProps: {
       name: 'resolveIncidentAssociatedTasks',
       label: 'Associated tasks are completed',
+      defaultValue:
+        getClosureRuleValues?.incident?.[ticket?.incidentResolve]
+          ?.associatedTasksCompleted,
     },
     component: RHFCheckbox,
   },
@@ -153,6 +177,11 @@ export const resolveIncidentDataArray = (isRadioGroupDisable: any) => [
     componentProps: {
       name: 'resolveIncidentChildTickets',
       label: 'Child tickets',
+      defaultValue:
+        getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
+          ?.closed ||
+        getClosureRuleValues?.incident?.[ticket?.incidentResolve]?.childTickets
+          ?.resolved,
     },
     component: RHFCheckbox,
   },
@@ -177,13 +206,19 @@ export const resolveIncidentDataArray = (isRadioGroupDisable: any) => [
   },
 ];
 
-export const serviceCloseDataArray = (isRadioGroupDisable: any) => [
+export const serviceCloseDataArray = (
+  isRadioGroupDisable: any,
+  getClosureRuleValues: any,
+  ticket: any,
+) => [
   {
     id: 6857,
     serviceCloseIncident: true,
     componentProps: {
       name: 'serviceCloseTimeAdded',
       label: 'Time entry is added',
+      defaultValue:
+        getClosureRuleValues?.services?.[ticket?.serviceClose]?.timeEntryAdded,
     },
     component: RHFCheckbox,
   },
@@ -193,6 +228,9 @@ export const serviceCloseDataArray = (isRadioGroupDisable: any) => [
     componentProps: {
       name: 'serviceCloseAssociatedTasks',
       label: 'Associated tasks are completed',
+      defaultValue:
+        getClosureRuleValues?.services?.[ticket?.serviceClose]
+          ?.associatedTasksCompleted,
     },
     component: RHFCheckbox,
   },
@@ -202,6 +240,11 @@ export const serviceCloseDataArray = (isRadioGroupDisable: any) => [
     componentProps: {
       name: 'serviceCloseChildTickets',
       label: 'Child tickets',
+      defaultValue:
+        getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
+          ?.closed ||
+        getClosureRuleValues?.services?.[ticket?.serviceClose]?.childTickets
+          ?.resolved,
     },
     component: RHFCheckbox,
   },
@@ -226,13 +269,20 @@ export const serviceCloseDataArray = (isRadioGroupDisable: any) => [
   },
 ];
 
-export const serviceResolveDataArray = (isRadioGroupDisable: any) => [
+export const serviceResolveDataArray = (
+  isRadioGroupDisable: any,
+  getClosureRuleValues: any,
+  ticket: any,
+) => [
   {
     id: 2341,
     serviceResolveIncident: true,
     componentProps: {
       name: 'serviceResolveTimeAdded',
       label: 'Time entry is added',
+      defaultValue:
+        getClosureRuleValues?.services?.[ticket?.serviceResolve]
+          ?.timeEntryAdded,
     },
     component: RHFCheckbox,
   },
@@ -242,6 +292,9 @@ export const serviceResolveDataArray = (isRadioGroupDisable: any) => [
     componentProps: {
       name: 'serviceResolveAssociatedTasks',
       label: 'Associated tasks are completed',
+      defaultValue:
+        getClosureRuleValues?.services?.[ticket?.serviceResolve]
+          ?.associatedTasksCompleted,
     },
     component: RHFCheckbox,
   },
@@ -251,6 +304,11 @@ export const serviceResolveDataArray = (isRadioGroupDisable: any) => [
     componentProps: {
       name: 'serviceResolveChildTickets',
       label: 'Child tickets',
+      defaultValue:
+        getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
+          ?.closed ||
+        getClosureRuleValues?.services?.[ticket?.serviceResolve]?.childTickets
+          ?.resolved,
     },
     component: RHFCheckbox,
   },

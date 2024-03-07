@@ -126,10 +126,26 @@ export const useClosureRole = () => {
   const serviceResolve =
     closureRoleMethods?.watch()?.serviceResolveChildTickets;
 
-  const closeIncidentData = closeIncidentDataArray(closeIncident);
-  const resolveIncidentData = resolveIncidentDataArray(resolveIncident);
-  const serviceCloseData = serviceCloseDataArray(serviceClose);
-  const serviceResolveData = serviceResolveDataArray(serviceResolve);
+  const closeIncidentData = closeIncidentDataArray(
+    closeIncident,
+    getClosureRuleValues,
+    ticket,
+  );
+  const resolveIncidentData = resolveIncidentDataArray(
+    resolveIncident,
+    getClosureRuleValues,
+    ticket,
+  );
+  const serviceCloseData = serviceCloseDataArray(
+    serviceClose,
+    getClosureRuleValues,
+    ticket,
+  );
+  const serviceResolveData = serviceResolveDataArray(
+    serviceResolve,
+    getClosureRuleValues,
+    ticket,
+  );
 
   useEffect(() => {
     if (closeIncident === false) {
