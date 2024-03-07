@@ -431,7 +431,7 @@ export const AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS = {
 
 export const AIR_CUSTOMER_PORTAL_TICKETS_PERMISSIONS = {
   TICKET_LIST: 'service-customer-ticket-list',
-  FILTERS: 'service-customer-filtters',
+  FILTERS: 'service-customer-filters',
 };
 
 export const AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS = {
@@ -492,7 +492,7 @@ export const AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS = {
   SEARCH_ROLES: 'service-settings-search-roles',
 };
 export const AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS = {
-  ADD_ASSET_TYPES: 'service-settings-add-asset-types',
+  ADD_ASSET_TYPES: 'service-settings-addasset-types',
   ADD_NEW_FIELDS_FOR_ASSET_FORM:
     'service-settings-add-new-fields-for-asset-form',
   ADD_PRODUCT_CATEGORIES: 'service-settings-add-product-categories',
@@ -627,4 +627,8 @@ export const AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS = {
   EDIT: `operation-user-managment-edit`,
   DELETE: `operation-user-managment-delete`,
   CREATE_TEAM: `operation-user-managment-create-team`,
+};
+
+export const AIR_SERVICES_DASHBOARD_PERMISSIONS = {
+  VIEW_DASHBOARD: 'service-dashboard-list',
 };
