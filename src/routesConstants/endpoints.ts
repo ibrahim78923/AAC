@@ -277,6 +277,8 @@ export const END_POINTS = {
   GET_CLOSURE_RULES: '/Closure-Rules/get-closure-rules',
   ADD_SOFTWARE: '/assets/add_software',
   EDIT_SOFTWARE: '/assets/edit-software',
+  UPDATE_CONTRACT_APPROVE: '/contract/approve-contract',
+  UPDATE_CONTRACT_REJECT: '/contract/reject-contract',
   PRODUCTS_USERS: '/product-users',
   POST_APPROVALS: `/articles/approve`,
   GET_KNOWLEDGE_INSIGHTS: `/articles/knowledge-insights`,
