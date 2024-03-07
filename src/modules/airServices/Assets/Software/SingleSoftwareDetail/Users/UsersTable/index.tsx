@@ -17,7 +17,8 @@ const UsersTable = ({ setUsersData, usersData }: any) => {
     isError,
     isSuccess,
   } = useUsers();
-  const userDetails = getSoftwareUsers?.data;
+  const userDetails = getSoftwareUsers?.data?.softwareusers;
+
   return (
     <div>
       <TanstackTable
