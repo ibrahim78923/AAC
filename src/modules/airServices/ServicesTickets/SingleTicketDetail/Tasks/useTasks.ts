@@ -9,7 +9,7 @@ export const useTasks = () => {
   const theme = useTheme();
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
   const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false);
-  const [isDetailDrawerOpen, setIsDetailDrawerOpen] = useState<any>(0);
+  const [isDetailDrawerOpen, setIsDetailDrawerOpen] = useState<any>(false);
   const [activeCheck, setActiveCheck] = useState<any>([]);
   const searchParams = useSearchParams();
   const ticketId = searchParams?.get?.('ticketId');

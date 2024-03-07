@@ -113,7 +113,7 @@ export const TicketsListSubHeader = (props: any) => {
               <PermissionsGuard
                 key={1}
                 permissions={[
-                  AIR_SERVICES_TICKETS_TICKET_LISTS?.SEARCH_AND_FILTER,
+                  AIR_SERVICES_TICKETS_TICKET_LISTS?.TICKETS_LIST_VIEW,
                 ]}
               >
                 <Button

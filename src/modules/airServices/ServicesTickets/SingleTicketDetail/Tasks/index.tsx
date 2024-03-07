@@ -58,25 +58,31 @@ export const Tasks = () => {
           setPageLimit={setPageLimit}
         />
       </PermissionsGuard>
-      <AddTaskDrawer
-        isDrawerOpen={isAddDrawerOpen}
-        onClose={setIsAddDrawerOpen}
-      />
-      <EditTaskDrawer
-        isDrawerOpen={isEditDrawerOpen}
-        onClose={setIsEditDrawerOpen}
-        activeCheck={activeCheck}
-        setActiveCheck={setActiveCheck}
-      />
-      <DetailTaskDrawer
-        isDrawerOpen={isDetailDrawerOpen}
-        onClose={setIsDetailDrawerOpen}
-        taskDetail={
-          tableData?.[
-            tableData?.findIndex((e: any) => e?._id === isDetailDrawerOpen)
-          ]
-        }
-      />
+      {isAddDrawerOpen && (
+        <AddTaskDrawer
+          isDrawerOpen={isAddDrawerOpen}
+          onClose={setIsAddDrawerOpen}
+        />
+      )}
+      {isEditDrawerOpen && (
+        <EditTaskDrawer
+          isDrawerOpen={isEditDrawerOpen}
+          onClose={setIsEditDrawerOpen}
+          activeCheck={activeCheck}
+          setActiveCheck={setActiveCheck}
+        />
+      )}
+      {isDetailDrawerOpen && (
+        <DetailTaskDrawer
+          isDrawerOpen={isDetailDrawerOpen}
+          onClose={setIsDetailDrawerOpen}
+          taskDetail={
+            tableData?.[
+              tableData?.findIndex((e: any) => e?._id === isDetailDrawerOpen)
+            ]
+          }
+        />
+      )}
     </>
   );
 };

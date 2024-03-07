@@ -637,6 +637,7 @@ export const AIR_SERVICES_TICKETS_TICKET_LISTS = {
   RESET: 'service-ticket-reset',
   BOARD_VIEW: 'service-ticket-board-view',
   VIEW_TICKETS_DETAILS: 'service-ticket-view-details',
+  TICKETS_LIST_VIEW: 'service-ticket-list-view',
   ACTIONS: 'service-ticket-actions',
 };
 

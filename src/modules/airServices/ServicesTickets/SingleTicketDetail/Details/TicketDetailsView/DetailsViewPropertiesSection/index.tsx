@@ -6,6 +6,7 @@ import DetailViewTimeEntries from '../DetailViewTimeEntries';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { Permissions } from '@/constants/permissions';
 
 const DetailsViewPropertiesSection = () => {
   const {
@@ -50,11 +51,11 @@ const DetailsViewPropertiesSection = () => {
                 </Grid>
               </PermissionsGuard>
               <PermissionsGuard
-                permissions={[
-                  AIR_SERVICES_TICKETS_TICKETS_DETAILS?.VIEW_TIME_ENTRIES_DETAILS,
-                  AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_TIME_ENTRIES_DETAILS,
-                ]}
+                permissions={
+                  Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_TIME_ENTRIES
+                }
               >
+                <br />
                 <DetailViewTimeEntries />
               </PermissionsGuard>
               <PermissionsGuard

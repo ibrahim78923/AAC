@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { styles } from './Tasks.styles';
 import { DATE_FORMAT } from '@/constants';
+import { fullName } from '@/utils/avatarUtils';
 
 export const tasksTableColumns: any = (
   activeCheck: any,
@@ -95,9 +96,7 @@ export const tasksTableColumns: any = (
       isSortable: true,
       header: 'Assigned To',
       cell: (info: any) =>
-        info?.getValue()
-          ? `${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`
-          : 'Unknown',
+        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
     },
     {
       accessorFn: (row: any) => row?.status,

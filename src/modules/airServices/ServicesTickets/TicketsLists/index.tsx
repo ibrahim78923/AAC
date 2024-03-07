@@ -75,17 +75,21 @@ export const TicketsLists = () => {
           />
         </PermissionsGuard>
       ) : (
-        <TicketsTableView
-          ticketsListsColumn={
-            ticketsListsColumnPersist?.filter(
-              (col: any) => ticketsListsActiveColumn?.includes?.(col?.id),
-            ) ?? []
-          }
-          ticketListsData={lazyGetTicketsStatus?.data?.data?.tickets}
-          metaData={lazyGetTicketsStatus}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-        />
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.TICKETS_LIST_VIEW]}
+        >
+          <TicketsTableView
+            ticketsListsColumn={
+              ticketsListsColumnPersist?.filter(
+                (col: any) => ticketsListsActiveColumn?.includes?.(col?.id),
+              ) ?? []
+            }
+            ticketListsData={lazyGetTicketsStatus?.data?.data?.tickets}
+            metaData={lazyGetTicketsStatus}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+          />
+        </PermissionsGuard>
       )}
       {hasTicketAction &&
         ticketActionComponent?.[router?.query?.ticketAction as string]}

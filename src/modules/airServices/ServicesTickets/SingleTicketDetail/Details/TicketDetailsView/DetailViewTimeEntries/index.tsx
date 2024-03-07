@@ -32,21 +32,27 @@ const DetailViewTimeEntries = () => {
             </Typography>
           </Box>
           <Box sx={styles?.timeEnterInnerGrid}>
-            <Box sx={styles?.iconBoxStyling} onClick={toggleView}>
-              {isIconVisible ? (
-                <ViewDetailVuesaxIcon />
-              ) : (
-                <Image
-                  src={VuesaxErrorImage}
-                  alt={'VuesaxErrorImage'}
-                  height={24}
-                  width={24}
-                />
-              )}
-            </Box>
-            <Box sx={styles?.iconBoxTimerStyling}>
-              <DetailTimePicker />
-            </Box>
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_TICKETS_TICKETS_DETAILS?.TIME_TRACK_PLAY_PAUSE,
+              ]}
+            >
+              <Box sx={styles?.iconBoxStyling} onClick={toggleView}>
+                {isIconVisible ? (
+                  <ViewDetailVuesaxIcon />
+                ) : (
+                  <Image
+                    src={VuesaxErrorImage}
+                    alt={'VuesaxErrorImage'}
+                    height={24}
+                    width={24}
+                  />
+                )}
+              </Box>
+              <Box sx={styles?.iconBoxTimerStyling}>
+                <DetailTimePicker />
+              </Box>
+            </PermissionsGuard>
             <Box sx={styles?.buttonStyleOFTimeEntries}>
               <PermissionsGuard
                 permissions={[
