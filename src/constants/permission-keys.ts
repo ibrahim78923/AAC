@@ -223,13 +223,12 @@ export const AIR_SALES_DEALS_PERMISSIONS = {
   DEAL_DELETE_EMAIL: 'sale-deal-delete-email',
 };
 
-export const AIR_MARKETER_SMS_MARKETING_DASHBOARD_PERMISSIONS = {
+export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
   VIEW_DASHBOARD: 'marketer-sms-marketing-dashboard-view-dashboard',
   VIEW_SMS_CONVERSATION: 'marketer-sms-marketing-dashboard-view-sms-conversion',
   VIEW_SCHEDULE_SMS: 'marketer-sms-marketing-dashboard-view-sms-schedule',
   VIEW_SMS_CONTACTS: 'marketer-sms-marketing-dashboard-view-sms-contacts',
-};
-export const AIR_MARKETER_SMS_MARKETING_SMS_BROADCAST_PERMISSIONS = {
+
   CREATE_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-create',
   PREVIEW_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-preview',
   SCHEDULE_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-schedule',
@@ -238,76 +237,27 @@ export const AIR_MARKETER_SMS_MARKETING_SMS_BROADCAST_PERMISSIONS = {
   SEARCH_AND_FILTER: 'marketer-sms-marketing-sms-broadcast-search-and-filter',
   EDIT_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-edit',
   DELETE_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-delete',
-  LIST_VIEW: 'marketer-sms-marketing-sms-broadcast-list-view',
+  BROADCAST_LIST_VIEW: 'marketer-sms-marketing-sms-broadcast-list-view',
   DETAIL_VIEW: 'marketer-sms-marketing-sms-broadcast-detail-view',
-};
-export const AIR_MARKETER_SMS_MARKETING_CONTACTS_PERMISSIONS = {
+
   CRAETE_GROUP: 'marketer-sms-marketing-contacts-create-group',
-  LIST_VIEW: 'marketer-sms-marketing-contacts-list-view',
-};
-export const AIR_MARKETER_SMS_MARKETING_TEMPLATES = {
+  CONTACTS_LIST_VIEW: 'marketer-sms-marketing-contacts-list-view',
   CREATE_TEMPLATE: 'marketer-sms-marketing-templates-create',
   SEARCH_TEMPLATE: 'marketer-sms-marketing-templates-search-and-filter',
   SAVE_TEMPLATE: 'marketer-sms-marketing-templates-save',
   EDIT_TEMPLATE: 'marketer-sms-marketing-templates-edit',
   DELETE_TEMPLATE: 'marketer-sms-marketing-templates-delete',
-  LIST_VIEW: 'marketer-sms-marketing-templates-list-view',
+  TEMPLATES_LIST_VIEW: 'marketer-sms-marketing-templates-list-view',
 };
-export const AIR_MARKETER_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS = {
-  SEARCH: 'marketer-settings-lifecycle-stage-search',
-  ADD_STAGE: 'marketer-settings-lifecycle-stage-add-stage',
-  VIEW: 'marketer-settings-lifecycle-stage-view-stage',
-  EDIT: 'marketer-settings-lifecycle-stage-edit-stage',
-  DELETE: 'marketer-settings-lifecycle-stage-delete-stage',
-};
-export const AIR_MARKETER_SETTINGS_SOCIAL_ACCOUNTS_PERMISSIONS = {
-  CONNECT: 'marketer-settings-social-account-connect',
-  VIEW_ACCOUNT: 'marketer-settings-social-account-view-account',
-  SEARCH: 'marketer-settings-social-account-search',
-  ADD_ACCOUNT: 'marketer-settings-social-account-add-account',
-  ADD_CONTACT: 'marketer-settings-social-account-add-contact',
-  ACTIVE_INACTIVE: 'marketer-settings-social-account-active-inactive',
-};
-export const AIR_MARKETER_SETTINGS_ROLES_AND_RIGHTS_PERMISSIONS = {
-  ADD_NEW_ROLE: 'marketer-settings-roles-and-rights-add-new-role',
-  SEARCH: 'marketer-settings-roles-and-rights-search',
-  VIEW: 'marketer-settings-roles-and-rights-view',
-  EDIT: 'marketer-settings-roles-and-rights-edit',
-  DELETE: 'marketer-settings-roles-and-rights-delete',
-};
-export const AIR_MARKETER_SETTINGS_USER_MANAGEMENT_USERS_PERMISSIONS = {
-  SEARCH: 'marketer-settings-users-management-search',
-  ADD_USER: 'marketer-settings-users-management-add-user',
-  ACTIVE_INACTIVE: 'marketer-settings-users-management-active-inactive-user',
-  VIEW: 'marketer-settings-users-management-view-user',
-  EDIT: 'marketer-settings-users-management-edit-user',
-  DELETE: 'marketer-settings-users-management-delete-user',
-};
-export const AIR_MARKETER_SETTINGS_USER_MANAGEMENT_TEAMS_PERMISSIONS = {
-  SEARCH: 'marketer-settings-users-management-team-search',
-  CREATE_TEAM: 'marketer-settings-users-management-team-create',
-  VIEW: 'marketer-settings-users-management-team-view',
-  EDIT: 'marketer-settings-users-management-team-edit',
-  DELETE: 'marketer-settings-users-management-team-delete',
-};
-export const AIR_MARKETER_SETTINGS_NOTIFICATIONS_EMAIL_PERMISSIONS = {
-  ACTIVE_INACTIVE: 'marketer-settings-notifications-email-active-inactive',
-};
-export const AIR_MARKETER_SETTINGS_NOTIFICATIONS_CAMPAIGNS_PERMISSIONS = {
-  ACTIVE_INACTIVE: 'marketer-settings-notifications-campaigns-active-inactive',
-};
-export const AIR_MARKETER_SETTINGS_NOTIFICATIONS_WEBSITES_PERMISSIONS = {
-  ACTIVE_INACTIVE: 'marketer-settings-notifications-websites-active-inactive',
-};
-export const AIR_MARKETER_WHATSAPP_MARKETING_DASHBOARD_PERMISSIONS = {
+
+export const AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS = {
   VIEW_DASHBOARD: 'marketer-whatsapp-marketing-dashboard-view-dashboard',
   VIEW_TOTAL_CONVERSATION:
     'marketer-whatsapp-marketing-dashboard-view-total-conversation',
   VIEW_BROADCAST_SCHEDULE:
     'marketer-whatsapp-marketing-dashboard-view-broadcast-schedule',
   VIEW_CONTACT: 'marketer-whatsapp-marketing-dashboard-view-contacts',
-};
-export const AIR_MARKETER_WHATSAPP_MARKETING_BROADCAST_PERMISSIONS = {
+
   CREATE_BROADCAST: 'marketer-whatsapp-marketing-broadcast-create-broadcast',
   PREVIEW_BROADCAST: 'marketer-whatsapp-marketing-broadcast-preview-broadcast',
   SCHEDULE_BROADCAST:
@@ -320,19 +270,137 @@ export const AIR_MARKETER_WHATSAPP_MARKETING_BROADCAST_PERMISSIONS = {
   DELETE_BROADCAST: 'marketer-whatsapp-marketing-broadcast-delete-broadcast',
   LIST_VIEW: 'marketer-whatsapp-marketing-broadcast-list-broadcast',
   DETAIL_VIEW: 'marketer-whatsapp-marketing-broadcast-detail-view',
-};
-export const AIR_MARKETER_WHATSAPP_MARKETING_CONTACTS_PERMISSIONS = {
+
   CREATE_GROUP: 'marketer-whatsapp-marketing-contacts-create-group',
-  LIST_VIEW: 'marketer-whatsapp-marketing-contacts-list-view',
-};
-export const AIR_MARKETER_WHATSAPP_MARKETING_TEMPLATES_PERMISSIONS = {
+  CONTACTS_LIST_VIEW: 'marketer-whatsapp-marketing-contacts-list-view',
+
   CREATE_TEMPLATE: 'marketer-whatsapp-marketing-templates-create-template',
   SEARCH: 'marketer-whatsapp-marketing-templates-search-and-filter',
   SAVE_TEMPLATE: 'marketer-whatsapp-marketing-templates-save-template',
   EDIT_TEMPLATE: 'marketer-whatsapp-marketing-templates-edit-template',
   DELETE_TEMPLATE: 'marketer-whatsapp-marketing-templates-delete-template',
-  LIST_VIEW: 'marketer-whatsapp-marketing-templates-list-view',
+  TEMPLATES_LIST_VIEW: 'marketer-whatsapp-marketing-templates-list-view',
 };
+
+export const AIR_MARKETER_SETTINGS_PERMISSIONS = {
+  SEARCH_LIFECYCLE: 'marketer-settings-lifecycle-stage-search',
+  ADD_STAGE: 'marketer-settings-lifecycle-stage-add-stage',
+  VIEW_LIFECYCLE: 'marketer-settings-lifecycle-stage-view-stage',
+  EDIT_LIFECYCLE: 'marketer-settings-lifecycle-stage-edit-stage',
+  DELETE_LIFECYCLE: 'marketer-settings-lifecycle-stage-delete-stage',
+
+  CONNECT_SOCIAL: 'marketer-settings-social-account-connect',
+  VIEW_ACCOUNT: 'marketer-settings-social-account-view-account',
+  SEARCH_SOCIAL: 'marketer-settings-social-account-search',
+  ADD_ACCOUNT: 'marketer-settings-social-account-add-account',
+  ADD_CONTACT: 'marketer-settings-social-account-add-contact',
+  ACTIVE_INACTIVE: 'marketer-settings-social-account-active-inactive',
+
+  ADD_NEW_ROLE: 'marketer-settings-roles-and-rights-add-new-role',
+  SEARCH_ROLE: 'marketer-settings-roles-and-rights-search',
+  VIEW_ROLE: 'marketer-settings-roles-and-rights-view',
+  EDIT_ROLE: 'marketer-settings-roles-and-rights-edit',
+  DELETE_ROLE: 'marketer-settings-roles-and-rights-delete',
+
+  SEARCH_USERS: 'marketer-settings-users-management-search',
+  ADD_USER: 'marketer-settings-users-management-add-user',
+  ACTIVE_INACTIVE_USERS:
+    'marketer-settings-users-management-active-inactive-user',
+  VIEW_USERS: 'marketer-settings-users-management-view-user',
+  EDIT_USERS: 'marketer-settings-users-management-edit-user',
+  DELETE_USERS: 'marketer-settings-users-management-delete-user',
+
+  SEARCH_TEAMS: 'marketer-settings-users-management-team-search',
+  CREATE_TEAM: 'marketer-settings-users-management-team-create',
+  VIEW_TEAMS: 'marketer-settings-users-management-team-view',
+  EDIT_TEAMS: 'marketer-settings-users-management-team-edit',
+  DELETE_TEAMS: 'marketer-settings-users-management-team-delete',
+
+  ACTIVE_INACTIVE_NOTIFICATIONS:
+    'marketer-settings-notifications-email-active-inactive',
+};
+
+// export const AIR_MARKETER_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS = {
+//   SEARCH: 'marketer-settings-lifecycle-stage-search',
+//   ADD_STAGE: 'marketer-settings-lifecycle-stage-add-stage',
+//   VIEW: 'marketer-settings-lifecycle-stage-view-stage',
+//   EDIT: 'marketer-settings-lifecycle-stage-edit-stage',
+//   DELETE: 'marketer-settings-lifecycle-stage-delete-stage',
+// };
+// export const AIR_MARKETER_SETTINGS_SOCIAL_ACCOUNTS_PERMISSIONS = {
+//   CONNECT: 'marketer-settings-social-account-connect',
+//   VIEW_ACCOUNT: 'marketer-settings-social-account-view-account',
+//   SEARCH: 'marketer-settings-social-account-search',
+//   ADD_ACCOUNT: 'marketer-settings-social-account-add-account',
+//   ADD_CONTACT: 'marketer-settings-social-account-add-contact',
+//   ACTIVE_INACTIVE: 'marketer-settings-social-account-active-inactive',
+// };
+// export const AIR_MARKETER_SETTINGS_ROLES_AND_RIGHTS_PERMISSIONS = {
+//   ADD_NEW_ROLE: 'marketer-settings-roles-and-rights-add-new-role',
+//   SEARCH: 'marketer-settings-roles-and-rights-search',
+//   VIEW: 'marketer-settings-roles-and-rights-view',
+//   EDIT: 'marketer-settings-roles-and-rights-edit',
+//   DELETE: 'marketer-settings-roles-and-rights-delete',
+// };
+// export const AIR_MARKETER_SETTINGS_USER_MANAGEMENT_USERS_PERMISSIONS = {
+//   SEARCH: 'marketer-settings-users-management-search',
+//   ADD_USER: 'marketer-settings-users-management-add-user',
+//   ACTIVE_INACTIVE: 'marketer-settings-users-management-active-inactive-user',
+//   VIEW: 'marketer-settings-users-management-view-user',
+//   EDIT: 'marketer-settings-users-management-edit-user',
+//   DELETE: 'marketer-settings-users-management-delete-user',
+// };
+// export const AIR_MARKETER_SETTINGS_USER_MANAGEMENT_TEAMS_PERMISSIONS = {
+//   SEARCH: 'marketer-settings-users-management-team-search',
+//   CREATE_TEAM: 'marketer-settings-users-management-team-create',
+//   VIEW: 'marketer-settings-users-management-team-view',
+//   EDIT: 'marketer-settings-users-management-team-edit',
+//   DELETE: 'marketer-settings-users-management-team-delete',
+// };
+// export const AIR_MARKETER_SETTINGS_NOTIFICATIONS_EMAIL_PERMISSIONS = {
+//   ACTIVE_INACTIVE: 'marketer-settings-notifications-email-active-inactive',
+// };
+export const AIR_MARKETER_SETTINGS_NOTIFICATIONS_CAMPAIGNS_PERMISSIONS = {
+  ACTIVE_INACTIVE: 'marketer-settings-notifications-campaigns-active-inactive',
+};
+export const AIR_MARKETER_SETTINGS_NOTIFICATIONS_WEBSITES_PERMISSIONS = {
+  ACTIVE_INACTIVE: 'marketer-settings-notifications-websites-active-inactive',
+};
+
+// export const AIR_MARKETER_WHATSAPP_MARKETING_DASHBOARD_PERMISSIONS = {
+//   VIEW_DASHBOARD: 'marketer-whatsapp-marketing-dashboard-view-dashboard',
+//   VIEW_TOTAL_CONVERSATION:
+//     'marketer-whatsapp-marketing-dashboard-view-total-conversation',
+//   VIEW_BROADCAST_SCHEDULE:
+//     'marketer-whatsapp-marketing-dashboard-view-broadcast-schedule',
+//   VIEW_CONTACT: 'marketer-whatsapp-marketing-dashboard-view-contacts',
+// };
+// export const AIR_MARKETER_WHATSAPP_MARKETING_BROADCAST_PERMISSIONS = {
+//   CREATE_BROADCAST: 'marketer-whatsapp-marketing-broadcast-create-broadcast',
+//   PREVIEW_BROADCAST: 'marketer-whatsapp-marketing-broadcast-preview-broadcast',
+//   SCHEDULE_BROADCAST:
+//     'marketer-whatsapp-marketing-broadcast-schedule-broadcast',
+//   SEND_BROADCAST: 'marketer-whatsapp-marketing-broadcast-send-broadcast',
+//   VIEW_BROADCAST: 'marketer-whatsapp-marketing-broadcast-view-broadcast',
+//   SEARCH_AND_FILTER: 'marketer-whatsapp-marketing-broadcast-search-and-filter',
+//   ACTIONS: 'marketer-whatsapp-marketing-broadcast-actions',
+//   EDIT_BROADCAST: 'marketer-whatsapp-marketing-broadcast-edit-broadcast',
+//   DELETE_BROADCAST: 'marketer-whatsapp-marketing-broadcast-delete-broadcast',
+//   LIST_VIEW: 'marketer-whatsapp-marketing-broadcast-list-broadcast',
+//   DETAIL_VIEW: 'marketer-whatsapp-marketing-broadcast-detail-view',
+// };
+// export const AIR_MARKETER_WHATSAPP_MARKETING_CONTACTS_PERMISSIONS = {
+//   CREATE_GROUP: 'marketer-whatsapp-marketing-contacts-create-group',
+//   LIST_VIEW: 'marketer-whatsapp-marketing-contacts-list-view',
+// };
+// export const AIR_MARKETER_WHATSAPP_MARKETING_TEMPLATES_PERMISSIONS = {
+//   CREATE_TEMPLATE: 'marketer-whatsapp-marketing-templates-create-template',
+//   SEARCH: 'marketer-whatsapp-marketing-templates-search-and-filter',
+//   SAVE_TEMPLATE: 'marketer-whatsapp-marketing-templates-save-template',
+//   EDIT_TEMPLATE: 'marketer-whatsapp-marketing-templates-edit-template',
+//   DELETE_TEMPLATE: 'marketer-whatsapp-marketing-templates-delete-template',
+//   LIST_VIEW: 'marketer-whatsapp-marketing-templates-list-view',
+// };
 
 export const AIR_SALES_DASHBOARD_PERMISSIONS = {
   SALES_DASHBOARD_LIST: 'sales-dashboard-list',

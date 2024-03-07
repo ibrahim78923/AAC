@@ -6,6 +6,11 @@ import { AlertModals } from '@/components/AlertModals';
 import { styles } from './Templates.style';
 import useTemplates from './useTemplates';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import {
+  AIR_MARKETER_SMS_MARKETING_PERMISSIONS,
+  AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS,
+} from '@/constants/permission-keys';
 
 const Templates = () => {
   const {
@@ -44,49 +49,70 @@ const Templates = () => {
           }}
         >
           <Box sx={styles?.searchAction}>
-            <Search
-              onChange={(e: any) => {
-                setFilterValues({ ...filterValues, search: e?.target?.value });
-              }}
-              placeholder="Search Here"
-              size="small"
-            />
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_SMS_MARKETING_PERMISSIONS.SEARCH_TEMPLATE,
+              ]}
+            >
+              <Search
+                onChange={(e: any) => {
+                  setFilterValues({
+                    ...filterValues,
+                    search: e?.target?.value,
+                  });
+                }}
+                placeholder="Search Here"
+                size="small"
+              />
+            </PermissionsGuard>
           </Box>
-          <Button
-            variant="contained"
-            sx={styles?.createBtn}
-            className="small"
-            onClick={() => {
-              navigate.push({
-                pathname: AIR_MARKETER?.CREATE_TEMPLATE,
-                query: { type: 'Create' },
-              });
-            }}
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_SMS_MARKETING_PERMISSIONS.CREATE_TEMPLATE,
+            ]}
           >
-            <AddCircleIcon
-              sx={{
-                color: `${theme?.palette?.common?.white}`,
-                fontSize: '16px',
+            <Button
+              variant="contained"
+              sx={styles?.createBtn}
+              className="small"
+              onClick={() => {
+                navigate.push({
+                  pathname: AIR_MARKETER?.CREATE_TEMPLATE,
+                  query: { type: 'Create' },
+                });
               }}
-            />{' '}
-            Create Template
-          </Button>
+            >
+              <AddCircleIcon
+                sx={{
+                  color: `${theme?.palette?.common?.white}`,
+                  fontSize: '16px',
+                }}
+              />{' '}
+              Create Template
+            </Button>
+          </PermissionsGuard>
         </Box>
 
         <Grid>
-          <TanstackTable
-            columns={getRowValues}
-            data={templatesDate}
-            totalRecords={smsTemplateData?.data?.meta?.total}
-            onPageChange={(page: any) => setPage(page)}
-            setPage={setPage}
-            setPageLimit={setPageLimit}
-            count={smsTemplateData?.data?.meta?.pages}
-            isPagination
-            pageLimit={smsTemplateData?.data?.meta?.limit}
-            isLoading={isLoading}
-            isSuccess={isSuccess}
-          />
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS.TEMPLATES_LIST_VIEW,
+            ]}
+          >
+            <TanstackTable
+              columns={getRowValues}
+              data={templatesDate}
+              totalRecords={smsTemplateData?.data?.meta?.total}
+              onPageChange={(page: any) => setPage(page)}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              count={smsTemplateData?.data?.meta?.pages}
+              isPagination
+              pageLimit={smsTemplateData?.data?.meta?.limit}
+              isLoading={isLoading}
+              isSuccess={isSuccess}
+            />
+          </PermissionsGuard>
         </Grid>
 
         {isOpenAlert && (
