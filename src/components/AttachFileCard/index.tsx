@@ -2,8 +2,9 @@ import { Box, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Image from 'next/image';
 import { useAttachFileCard } from './useAttachFileCard';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
-export const AttachFileCard = ({ data, onDelete }: any) => {
+export const AttachFileCard = ({ data, onDelete, permissionKey }: any) => {
   const { getImageByType, theme, cross, setCross } = useAttachFileCard();
 
   return (
@@ -44,24 +45,26 @@ export const AttachFileCard = ({ data, onDelete }: any) => {
             {data?.size}
           </Typography>
         </Box>
-        {cross && (
-          <IconButton
-            disableFocusRipple
-            disableRipple
-            size="small"
-            sx={{
-              backgroundColor: 'custom.dark',
-              ':hover': {
-                backgroundColor: 'custom.dark ',
-              },
-            }}
-            onClick={onDelete}
-          >
-            <CloseIcon
-              sx={{ color: theme?.palette?.common?.white, fontSize: '14px' }}
-            />
-          </IconButton>
-        )}
+        <PermissionsGuard permissions={permissionKey}>
+          {cross && (
+            <IconButton
+              disableFocusRipple
+              disableRipple
+              size="small"
+              sx={{
+                backgroundColor: 'custom.dark',
+                ':hover': {
+                  backgroundColor: 'custom.dark ',
+                },
+              }}
+              onClick={onDelete}
+            >
+              <CloseIcon
+                sx={{ color: theme?.palette?.common?.white, fontSize: '14px' }}
+              />
+            </IconButton>
+          )}
+        </PermissionsGuard>
       </Box>
     </Box>
   );
