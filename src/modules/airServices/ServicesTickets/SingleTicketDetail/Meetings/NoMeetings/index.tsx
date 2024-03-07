@@ -2,10 +2,9 @@ import Image from 'next/image';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { PlusSharedIcon } from '@/assets/icons';
 import { ZoomImage, TeamsImage } from '@/assets/images';
-import { NoMeetingsPropsI } from './NoMeetings.interface';
 import { styles } from './NoMeetings.styles';
 
-export const NoMeetings = ({ setDrawerOpen }: NoMeetingsPropsI) => {
+export const NoMeetings = ({ setDrawerOpen }: any) => {
   return (
     <>
       <Grid mt="100px" container>

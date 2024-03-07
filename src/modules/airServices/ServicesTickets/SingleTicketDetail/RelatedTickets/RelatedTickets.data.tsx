@@ -2,9 +2,10 @@ import { Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
-import { NOTISTACK_VARIANTS, TICKET_STATUS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
+import { TICKET_STATUS } from '@/constants/strings';
 import { fullName } from '@/utils/avatarUtils';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { errorSnackbar } from '@/utils/api';
 
 export const columnsFunction: any = (
   data: any = [],
@@ -122,10 +123,10 @@ export const columnsFunction: any = (
           status === TICKET_STATUS?.OPEN
             ? theme?.palette?.info?.main
             : status === TICKET_STATUS?.PENDING
-              ? theme?.palette?.warning?.main
-              : status === TICKET_STATUS?.RESOLVED
-                ? theme?.palette?.success?.main
-                : theme?.palette?.error?.main;
+            ? theme?.palette?.warning?.main
+            : status === TICKET_STATUS?.RESOLVED
+            ? theme?.palette?.success?.main
+            : theme?.palette?.error?.main;
         return (
           <Typography
             sx={{
@@ -152,12 +153,12 @@ export const relatedTicketsActionDropdownFunction = (
   setIsDrawerOpen: any,
 ) => [
   {
+    id: 1,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKETS_DETAILS?.EDIT_CHILD_TICKETS],
     title: 'Edit',
     handleClick: (closeMenu: any) => {
       if (selectedChildTickets?.length > 1) {
-        enqueueSnackbar('Please select only one ticket', {
-          variant: NOTISTACK_VARIANTS?.WARNING,
-        });
+        errorSnackbar('Please select only one ticket');
         closeMenu?.();
         return;
       }
@@ -166,6 +167,8 @@ export const relatedTicketsActionDropdownFunction = (
     },
   },
   {
+    id: 2,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKETS_DETAILS?.DELETE_CHILD_TICKETS],
     title: 'Delete',
     handleClick: (closeMenu: any) => {
       setIsDelete(true);
