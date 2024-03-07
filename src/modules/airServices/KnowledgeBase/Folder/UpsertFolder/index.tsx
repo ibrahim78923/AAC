@@ -7,10 +7,10 @@ import {
   Typography,
 } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { upsertDataArray } from './UpsertFolder.data';
 import { AlertModalCloseIcon } from '@/assets/icons';
 import { useUpsertFolder } from './useUpsertFolder';
 import { LoadingButton } from '@mui/lab';
+import { upsertFolderFormFields } from './UpsertFolder.data';
 
 export const UpsertFolder = (props: any) => {
   const { openDialog, setOpenDialog } = props;
@@ -47,7 +47,7 @@ export const UpsertFolder = (props: any) => {
       </DialogTitle>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
-          {upsertDataArray?.map((item: any) => (
+          {upsertFolderFormFields?.map((item: any) => (
             <item.component
               {...item?.componentProps}
               key={item?.id}

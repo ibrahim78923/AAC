@@ -1,6 +1,6 @@
 import { Button, Menu, MenuItem, Typography } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import WorkloadDrawer from '../WorkloadDrawer/WorkloadDrawer';
+import WorkloadDrawer from '../WorkloadDrawer';
 import useManageWorkload from './useManageWorkload';
 
 export const ManageWorkload = () => {

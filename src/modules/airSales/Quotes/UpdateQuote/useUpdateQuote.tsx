@@ -11,16 +11,23 @@ import {
 import {
   useGetDealsQuery,
   useGetQuoteByIdQuery,
+  // usePostAddbuyerInfoMutation,
   useUpdateQuoteMutation,
 } from '@/services/airSales/quotes';
 import { AIR_SALES } from '@/routesConstants/paths';
 
 const useUpdateQuote = () => {
   const router = useRouter();
+  let quoteId;
+  if (router.query?.data) {
+    quoteId = router.query?.data;
+  }
+  // const id = router?.query?.data;
   const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 100 });
-  const { data: dataGetQuoteById } = useGetQuoteByIdQuery(router?.query?.data);
+  const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
 
-  const methodsUpdateQuote = useForm({
+  // const [postAddbuyerInfo] = usePostAddbuyerInfoMutation();
+  const methodsUpdateQuote = useForm<any>({
     resolver: yupResolver(dealValidationSchema),
     defaultValues: dealInitValues,
   });
@@ -85,6 +92,7 @@ const useUpdateQuote = () => {
       });
     }
   };
+
   const handleEditQuoteSubmit = handleMethodUpdateQuote(onSubmitEditQuote);
 
   const handleUpdateDetails = async () => {
@@ -99,6 +107,9 @@ const useUpdateQuote = () => {
         await handleEditQuoteSubmit();
       }
     }
+    // if(activeStep === 1){
+    //   // await postAddbuyerInfo(body:)
+    // }
   };
 
   const handleOpenFormCreateDeal = () => {

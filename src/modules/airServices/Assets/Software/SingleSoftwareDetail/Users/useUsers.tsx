@@ -37,10 +37,10 @@ const useUsers = () => {
     isError,
   } = useGetSoftwareUsersDetailsQuery({
     id: softwareId,
-    page,
-    limit,
+    page: page,
+    limit: limit,
   });
-  const metaData = getSoftwareUsers?.data?.[0];
+  const metaData = getSoftwareUsers?.data;
   const { data: getSoftwareExportUsers } = useGetSoftwareUsersDetailsQuery({
     id: softwareId,
     page,

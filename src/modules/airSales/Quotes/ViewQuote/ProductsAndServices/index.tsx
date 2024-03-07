@@ -1,10 +1,12 @@
 import { Box, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { productServicesData } from '@/mock/modules/Quotes';
 import { columns } from './ProductsAndServices.data';
 import { styles } from './ProductsAndServices.style';
+import useViewQuotes from '../useViewQuote';
 
 const ProductsAndServices = () => {
+  const { QuotesProduct } = useViewQuotes();
+  // console.log(QuotesProduct?.data?.products, 'QuotesProduct');
   return (
     <Box sx={styles?.wrapper}>
       <Typography variant="h5" sx={styles?.heading}>
@@ -12,7 +14,7 @@ const ProductsAndServices = () => {
       </Typography>
 
       <Box sx={styles?.tableWrapper}>
-        <TanstackTable columns={columns} data={productServicesData} />
+        <TanstackTable columns={columns} data={QuotesProduct?.data?.products} />
       </Box>
     </Box>
   );

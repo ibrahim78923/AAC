@@ -3,19 +3,15 @@ import * as Yup from 'yup';
 
 export const profileSecurityValidationSchema = Yup.object().shape({
   CurrentPassword: Yup.string().trim().required('Field is Required'),
-  newPassword: Yup.string()
-    .required('Field is Required')
-    .test(
-      'email',
-      'The Password must be at least 8 characters long having 1 capital letter,1 small letter and 1 numeric digit',
-      function (value) {
-        if (value) {
-          return /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/.test(value);
-        }
-        return true;
-      },
+  newPassword: Yup?.string()
+    ?.required('Password is required')
+    ?.matches(
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/,
+      'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and be at least 8 characters long',
     ),
-  confirmPassword: Yup.string().trim().required('Field is Required'),
+  confirmPassword: Yup?.string()
+    ?.oneOf([Yup?.ref('newPassword'), ''], 'Password must match')
+    ?.required('Confirm Password is required'),
 });
 
 export const profileSecurityDefaultValues = {
@@ -29,6 +25,8 @@ export const profileSecurityDataArray = [
     componentProps: {
       name: 'CurrentPassword',
       label: 'Current Password',
+      required: true,
+      placeholder: 'Current Password',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -37,7 +35,9 @@ export const profileSecurityDataArray = [
   {
     componentProps: {
       name: 'newPassword',
-      label: 'new Password',
+      label: 'New Password',
+      required: true,
+      placeholder: 'New Password',
       fullWidth: true,
     },
     component: RHFTextField,
@@ -48,6 +48,8 @@ export const profileSecurityDataArray = [
       name: 'confirmPassword',
       label: 'Confirm Password',
       fullWidth: true,
+      required: true,
+      placeholder: 'Confirm Password',
     },
     component: RHFTextField,
     md: 7,

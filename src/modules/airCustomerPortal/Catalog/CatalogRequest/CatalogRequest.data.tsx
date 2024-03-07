@@ -1,43 +1,84 @@
-import { RHFCheckbox, RHFTextField } from '@/components/ReactHookForm';
-import { CATALOG_SERVICE_TYPES } from '@/constants/strings';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import {
+  RHFAutocompleteAsync,
+  RHFCheckbox,
+  RHFTextField,
+} from '@/components/ReactHookForm';
+import { AIR_SERVICES } from '@/constants';
+import { CATALOG_SERVICE_TYPES, ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
-export const placeRequestValidationSchema = Yup?.object()?.shape({
-  requestor: Yup?.string()?.required('Required'),
-  requestorFor: Yup?.string()?.required('Required'),
-  noOfItem: Yup?.number(),
-});
+export const placeRequestValidationSchema = (searchStringLowerCase: any) =>
+  Yup?.object()?.shape({
+    ...(searchStringLowerCase ===
+      CATALOG_SERVICE_TYPES?.HARDWARE?.toLowerCase() && {
+      noOfItem: Yup.number().nullable()?.required('Required'),
+    }),
+    requestForSomeOneElse: Yup.boolean(),
+    requestor: Yup.mixed().when('requestForSomeOneElse', {
+      is: (value: any) => value,
+      then: (schema: any) => schema?.notRequired('Required'),
+      otherwise: (schema) => schema?.required(),
+    }),
+    requestorFor: Yup.mixed().when('requestForSomeOneElse', {
+      is: (value: any) => value,
+      then: (schema: any) => schema?.required('Required'),
+      otherwise: (schema) => schema?.notRequired(),
+    }),
+  });
 export const placeRequestDefaultValues = {
-  requestor: '',
-  requestorFor: '',
+  requestor: '' || null,
+  requestorFor: '' || null,
+  noOfItem: 0,
+  requestForSomeOneElse: false,
 };
 
-export const placeRequest = [
+export const placeRequest = (
+  apiQueryRequester?: any,
+  router?: any,
+  searchStringLowerCase?: string,
+  requestForSomeOne?: boolean,
+) => [
   {
     componentProps: {
-      name: 'noOfItem ',
+      name: 'noOfItem',
       label: 'No of item',
       fullWidth: true,
-      required: true,
+
+      required:
+        searchStringLowerCase === CATALOG_SERVICE_TYPES?.HARDWARE?.toLowerCase()
+          ? true
+          : false,
+
       type: 'number',
     },
-    shouldDisplay: ({ other: { serviceId } }: any) =>
-      serviceId === CATALOG_SERVICE_TYPES?.HARDWARE,
+    shouldDisplay: ({ other: { searchStringLowerCase } }: any) =>
+      searchStringLowerCase === CATALOG_SERVICE_TYPES?.HARDWARE?.toLowerCase(),
     component: RHFTextField,
     md: 3,
   },
   {
+    id: 1,
     componentProps: {
       name: 'requestor',
-      label: 'Requestor',
+      label: 'Requester',
       fullWidth: true,
       required: true,
-      placeholder: 'Enter name or email',
+      disabled: requestForSomeOne === true ? true : false,
+      apiQuery: apiQueryRequester,
+      EndIcon: AddCircleIcon,
+      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
+      endIconClick: () => {
+        router?.push(AIR_SERVICES?.REQUESTERS_SETTINGS);
+      },
+      placeholder: 'Add Requester',
     },
-
-    component: RHFTextField,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
+    id: 2,
     componentProps: {
       name: 'requestForSomeOneElse',
       label: 'Request For Someone else',
@@ -46,14 +87,23 @@ export const placeRequest = [
     md: 12,
   },
   {
+    id: 3,
     componentProps: {
       name: 'requestorFor',
-      label: 'Requestor for',
+      label: 'Requester For',
       fullWidth: true,
       required: true,
-      placeholder: 'Enter name or email',
+      apiQuery: apiQueryRequester,
+      EndIcon: AddCircleIcon,
+      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
+      endIconClick: () => {
+        router?.push(AIR_SERVICES?.REQUESTERS_SETTINGS);
+      },
+      placeholder: 'Add Requester',
     },
-    component: RHFTextField,
+    component: RHFAutocompleteAsync,
     shouldDisplay: ({ getValues }: any) => getValues('requestForSomeOneElse'),
     md: 12,
   },

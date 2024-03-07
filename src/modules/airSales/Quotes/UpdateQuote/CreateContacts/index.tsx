@@ -8,7 +8,7 @@ import { contactsDataArray } from './CreateContactsdata';
 import { v4 as uuidv4 } from 'uuid';
 import useCreateContacts from './useCreateContacts';
 
-const CreateContacts = ({ open, onClose }: any) => {
+const CreateContacts = ({ open, onClose, dealId }: any) => {
   const {
     handleSubmit,
     onSubmit,
@@ -16,7 +16,8 @@ const CreateContacts = ({ open, onClose }: any) => {
     lifeCycleStagesData,
     contactStatusData,
     userList,
-  }: any = useCreateContacts();
+    submitContact,
+  }: any = useCreateContacts(dealId);
 
   return (
     <CommonDrawer
@@ -25,7 +26,7 @@ const CreateContacts = ({ open, onClose }: any) => {
       title="Create Contact"
       footer
       okText="Create"
-      submitHandler={handleSubmit(onSubmit)}
+      submitHandler={submitContact(onClose)}
       isOk
     >
       <Box sx={{ pt: 2 }}>

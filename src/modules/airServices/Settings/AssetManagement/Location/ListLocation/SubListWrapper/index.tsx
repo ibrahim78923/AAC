@@ -3,6 +3,8 @@ import React from 'react';
 import { AddBox } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const SubListWrapper = ({ children, data }: any) => {
   const theme: any = useTheme();
@@ -17,21 +19,26 @@ export const SubListWrapper = ({ children, data }: any) => {
     >
       {children}
       <Box mt={1}>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() =>
-            router?.push({
-              pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
-              query: {
-                id: data?._id,
-                location: data?.locationName,
-              },
-            })
-          }
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.ADD_LOCATION,
+          ]}
         >
-          <AddBox />
-        </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() =>
+              router?.push({
+                pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
+                query: {
+                  data: JSON.stringify(data),
+                },
+              })
+            }
+          >
+            <AddBox />
+          </Button>
+        </PermissionsGuard>
       </Box>
     </Box>
   );
