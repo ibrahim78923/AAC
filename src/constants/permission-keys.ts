@@ -23,6 +23,10 @@ export const SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
   ACTIVE_INACTIVE_ACCOUNTS: 'active-inactive-accounts',
 };
 
+export const AIR_SALES_TASKS = {
+  SALES_CREATE_TASK: 'sale-create-task',
+};
+
 export const SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS = {
   ROLES_RIGHTS_LIST: 'roles-right-list',
   ADD_ROLE: 'add-role',
@@ -629,6 +633,172 @@ export const AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS = {
   CREATE_TEAM: `operation-user-managment-create-team`,
 };
 
+export const SOCIAL_COMPONENTS_CALLING_PERMISSIONS = {
+  SEARCH_RECORD: 'common-calling-list-view-search',
+  SCHEDULE_CALL: 'common-calling-list-view-schedule',
+  CONDERENCE_CALL: 'common-calling-list-view-conderence',
+  ONE_TO_ONE_CALL: 'common-calling-list-view-one-to-one',
+  EDIT_CALL: 'common-calling-list-view-edit',
+  RESCHEDULE_CALL: 'common-calling-list-view-reschedule',
+  DELETE_CALL: 'common-calling-list-view-delete',
+  CONNECT_NUMBER: 'common-calling-list-view-connect',
+  MAKE_A_CALL: 'common-calling-list-view-make-call',
+  SEND_MESSAGE: 'common-calling-list-view-send-message',
+};
+
+export const SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS = {
+  // CONTACTS_LIST_PERMISSIONS
+  CREATE_CONTACT: 'common-contacts-list-create',
+  IMPORT_CONTACT: 'common-contacts-list-import',
+  ADD_TAB_VIEW: 'common-contacts-list-add-tab-view',
+  SEARCH: 'common-contacts-list-search',
+  REASSIGN: 'common-contacts-list-reassign',
+  DELETE: 'common-contacts-list-delete',
+  RESTORE: 'common-contacts-list-restore',
+  ACTIVATE_LOYALTY_PROGRAM: 'common-contacts-list-active',
+  DEACTIVATE_LOYALTY_PROGRAM: 'common-contacts-list-deactive',
+  CUSTOMIZE_COLUMNS: 'common-contacts-list-customize-columns',
+  FILTER: 'common-contacts-list-filter',
+  EXPORT_CONTACTS: 'common-contacts-list-export-contacts',
+  // CONTACTS_DETAILS
+  UPDATE_INFO: 'common-contacts-details-update-info',
+  VIEW_ACTIVITY_LOG: 'common-contacts-details-view-activity-log',
+  ADD_ASSOCIATE_TICKETS: 'common-contacts-details-add-associate-tickets',
+  VIEW_TICKET: 'common-contacts-details-view-ticket',
+  EDIT_TICKET: 'common-contacts-details-edit-ticket',
+  DELETE_TICKET: 'common-contacts-details-delete-ticket',
+  ADD_ASSOCIATE_DEALS: 'common-contacts-details-add-associate-deals',
+  VIEW_DEALS: 'common-contacts-details-view-deals',
+  EDIT_DEAL: 'common-contacts-details-edit-deal',
+  DELETE_DEAL: 'common-contacts-details-delete-deal',
+  ADD_ASSOCIATE_COMPANY: 'common-contacts-details-add-associate-company',
+  VIEW_COMPANY: 'common-contacts-details-view-company',
+  EDIT_COMPANY: 'common-contacts-details-edit-company',
+  DELETE_COMPANY: 'common-contacts-details-delete-company',
+  ADD_ASSOCIATE_ATTACHMENTS:
+    'common-contacts-details-add-associate-attachments',
+  EDIT_ATTACHMENTS: 'common-contacts-details-edit-attachments',
+  VIEW_ATTACHMENTS: 'common-contacts-details-view-attachments',
+  REMOVE_ATTACHMENTS: 'common-contacts-details-remove-attachments',
+  ADD_TASKS: 'common-contacts-details-add-tasks',
+  VIEW_TASKS: 'common-contacts-details-view-tasks',
+  EDIT_TASKS: 'common-contacts-details-edit-tasks',
+  REASSIGN_TASK: 'common-contacts-details-reassign-task',
+  DELETE_TASK: 'common-contacts-details-delete-task',
+  ADD_NOTE: 'common-contacts-details-add-note',
+  VIEW_NOTES: 'common-contacts-details-view-notes',
+  EDIT_NOTE: 'common-contacts-details-edit-note',
+  DELETE_NOTES: 'common-contacts-details-delete-notes',
+  ADD_CALL: 'common-contacts-details-add-call',
+  VIEW_CALLS: 'common-contacts-details-view-calls',
+  EDIT_CALLS: 'common-contacts-details-edit-calls',
+  RESCHEDULE_CALLS: 'common-contacts-details-reschedule-calls',
+  ADD_OUTCOME_CALLS: 'common-contacts-details-add-outcome-calls',
+  DELETE_CALLS: 'common-contacts-details-delete-calls',
+  CREATE_MEETINGS: 'common-contacts-details-create-meetings',
+  VIEW_MEETINGS: 'common-contacts-details-view-meetings',
+  EDIT_MEETING: 'common-contacts-details-edit-meeting',
+  REASSIGN_MEETING: 'common-contacts-details-reassign-meeting',
+  ADD_OUTCOME: 'common-contacts-details-add-outcome',
+  DELETE_MEETING: 'common-contacts-details-delete-meeting',
+  SEND_EMAILS: 'common-contacts-details-send-emails',
+  CREATE_EMAIL_TEMPLATE: 'common-contacts-details-create-email-template',
+  SCHEDULE_EMAIL: 'common-contacts-details-schedule-email',
+  VIEW_THREAD: 'common-contacts-details-view-thread',
+  FORWARD_EMAIL: 'common-contacts-details-forward-email',
+  REPLY_EMAIL: 'common-contacts-details-reply-email',
+  DELETE_EMAIL: 'common-contacts-details-delete-email',
+  RESTORE_ACTIVITY: 'common-contacts-details-restore-activity',
+};
+
+export const SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS = {
+  SHOW_COUNT_WIDGETS: 'common-meetings-show-count-widgets',
+  LIST_VIEW: 'common-meetings-list-view',
+  CALENDAR_VIEW: 'common-meetings-calendar-view',
+  SEARCH_RECORD: 'common-meetings-search',
+  FILTER_RECORD: 'common-meetings-filter',
+  CREATE_MEETING: 'common-meetings-create',
+  EDIT_MEETING: 'common-meetings-edit',
+  RESCHEDULE_MEETING: 'common-meetings-reschedule',
+  ADD_OUTCOME: 'common-meetings-add-outcome',
+  DELETE_MEETING: 'common-meetings-delete',
+};
+
+export const SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS = {
+  // FOLDER_LIST
+  CREATE_FOLDER: 'common-documents-folder-list-create',
+  VIEW_FOLDERS: 'common-documents-folder-list-view',
+  APPLY_FILTER: 'common-documents-folder-list-apply-filter',
+  DOWNLOAD_LIST: 'common-documents-folder-list-download',
+  LIST_MOVE_TO_FOLDER: 'common-documents-folder-list-move-to-folder',
+  RENAME_FOLDER: 'common-documents-folder-list-rename-folder',
+  DELETE_FOLDER: 'common-documents-folder-list-delete-folder',
+  // VIEW_FOLDER
+  CREATE_SUB_FOLDER: 'common-documents-view-folder-create-sub-folder',
+  UPLOAD_DOCUMENT: 'common-documents-view-folder-upload-document',
+  VIEW_DOC_LIST: 'common-documents-view-folder-view-doc-list',
+  SEARCH_RECORD: 'common-documents-view-folder-search-record',
+  FILTER_RECORD: 'common-documents-view-folder-filter-record',
+  CREATE_LINK: 'common-documents-view-folder-create-link',
+  PREVIEW_DOC: 'common-documents-view-folder-preview-doc',
+  DOWNLOAD_FOLDER: 'common-documents-view-folder-download',
+  FOLDER_MOVE_TO_FOLDER: 'common-documents-view-folder-move-to-folder',
+  DELETE_DOC: 'common-documents-view-folder-delete-doc',
+};
+
+export const SOCIAL_COMPONENTS_EMAIL_PERMISSIONS = {
+  // EMAIL_SETTINGS_PERMISSIONS
+  ADD_TEAM_SIGNATURE: 'common-email-email-settings-team-signature',
+  SELECT_FONT: 'common-email-email-settings-select-font',
+  SET_FONT_SIZE: 'common-email-email-settings-set-font-size',
+  // EMAIL_INTEGRATION_PERMISSIONS
+  LINK_GOOGLE_ACCOUNT: 'common-email-email-integration-link-google-account',
+  LINK_OUTLOOK_ACCOUNT: 'common-email-email-integration-link-outlook-account',
+  LINK_OTHERS_ACCOUNT: 'common-email-email-integration-link-others-account',
+  // EMAIL_TABS_PERMISSIONS
+  APPLY_FILTER: 'common-email-tabs-apply-filter',
+  SEARCH_EMAIL: 'common-email-tabs-search-email',
+  SEND_EMAIL: 'common-email-tabs-send-email',
+  USE_TEMPLATES: 'common-email-tabs-use-templates',
+  ADD_TEMPLATES: 'common-email-tabs-add-templates',
+  SEND_LATER: 'common-email-tabs-send-later',
+  REPLY_EMAIL: 'common-email-tabs-reply-email',
+  FORWARD_EMAIL: 'common-email-tabs-forward-email',
+  REFRESH_RECORD: 'common-email-tabs-refresh-record',
+  MARK_AS_READ: 'common-email-tabs-mark-as-read',
+  LINK_TO_DEAL: 'common-email-tabs-link-to-deal',
+  DELETE_EMAIL: 'common-email-tabs-delete-email',
+};
+
+export const SOCIAL_COMPONENTS_CHAT_PERMISSIONS = {
+  // CHAT_PERSONAL
+  FILTER_RECORD_PERSONAL: 'common-chats-personal-filter',
+  SEARCH_RECORD_PERSONAL: 'common-chats-personal-search',
+  PIN_CHAT: 'common-chats-personal-pin',
+  DELETE_CHAT: 'common-chats-personal-delete',
+  MARK_AS_UNREAD_PERSONAL: 'common-chats-personal-mark-as-unread',
+  MUTE_PERSONAL: 'common-chats-personal-mute',
+  ARCHIVE_PERSONAL: 'common-chats-personal-archive',
+  VIEW_CHAT: 'common-chats-personal-view',
+  REPLY_CHAT: 'common-chats-personal-reply',
+  MAKE_A_CALL: 'common-chats-personal-make-a-call',
+  VIEW_MEDIA: 'common-chats-personal-view-media',
+  // CHAT_GROUP
+  SEARCH_RECORD_GROUP: 'common-chats-group-search',
+  FILTER_RECORD_GROUP: 'common-chats-group-filter',
+  DELETE_GROUP: 'common-chats-group-delete',
+  PIN_GROUP: 'common-chats-group-pin',
+  MARK_AS_UNREAD_GROUP: 'common-chats-group-mark-as-unread',
+  MUTE_GROUP: 'common-chats-group-mute',
+  ARCHIVE_GROUP: 'common-chats-group-archive',
+  VIEW_CONVERSATIONS: 'common-chats-group-view-conversations',
+  VIEW_INFO: 'common-chats-group-view-info',
+  VIEW_MEMBERS: 'common-chats-group-view-members',
+  VIEW_SHARED_MEDIA: 'common-chats-group-view-shared-media',
+  ADD_PARTICIPANT: 'common-chats-group-add-participant',
+  REMOVE_MEMBER: 'common-chats-group-remove-member',
+  GROUP_CALLING: 'common-chats-group-calling',
+};
 export const AIR_SERVICES_TICKETS_TICKET_LISTS = {
   CREATE_TICKET: 'service-create-ticket',
   SEARCH_AND_FILTER: 'service-ticket-search-and-filter',
