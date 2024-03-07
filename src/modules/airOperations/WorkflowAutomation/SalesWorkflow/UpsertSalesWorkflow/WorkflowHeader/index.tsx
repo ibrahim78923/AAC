@@ -10,6 +10,8 @@ import {
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TestWorkflow } from '../TestWorkflow';
 import { useWorkflowHeader } from './useWorkflowHeader';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 
 const SCHEDULE = 'Schedule';
 export const WorkflowHeader = (props: any) => {
@@ -54,23 +56,35 @@ export const WorkflowHeader = (props: any) => {
               Save as Draft
             </LoadingButton>
           )}
-          <LoadingButton
-            startIcon={<CopyIcon />}
-            variant={scheduleWorkflow === SCHEDULE ? 'contained' : 'outlined'}
-            color={scheduleWorkflow === SCHEDULE ? 'primary' : 'secondary'}
-            onClick={() => setOpenWorkflowModal(true)}
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.TEST_WORKFLOW,
+            ]}
           >
-            Test Workflow
-          </LoadingButton>
-          {scheduleWorkflow !== SCHEDULE && (
             <LoadingButton
-              startIcon={<WhiteBookIcon />}
-              variant="contained"
-              type="submit"
+              startIcon={<CopyIcon />}
+              variant={scheduleWorkflow === SCHEDULE ? 'contained' : 'outlined'}
+              color={scheduleWorkflow === SCHEDULE ? 'primary' : 'secondary'}
+              onClick={() => setOpenWorkflowModal(true)}
             >
-              Enable
+              Test Workflow
             </LoadingButton>
-          )}
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.ENABLE_NOW,
+            ]}
+          >
+            {scheduleWorkflow !== SCHEDULE && (
+              <LoadingButton
+                startIcon={<WhiteBookIcon />}
+                variant="contained"
+                type="submit"
+              >
+                Enable
+              </LoadingButton>
+            )}
+          </PermissionsGuard>
         </Box>
       </Box>
       <Box display={'flex'} alignItems={'center'} gap={1} py={1}>
