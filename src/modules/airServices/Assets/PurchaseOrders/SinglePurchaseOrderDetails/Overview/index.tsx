@@ -14,7 +14,9 @@ export const Overview = () => {
     purchaseOrderData,
     purchaseOrderDetailData,
     orderStatus,
+    productOrderDetailData,
     handleDownload,
+    uniqueNumber,
   } = useOverview();
   return (
     <Box>
@@ -55,6 +57,7 @@ export const Overview = () => {
           columns={overviewTableColumns(
             setOpenOverviewModal,
             purchaseOrderDetailData,
+            productOrderDetailData,
             theme,
             orderStatus,
           )}
@@ -75,6 +78,7 @@ export const Overview = () => {
           theme={theme}
           orderStatus={orderStatus}
           handleDownload={handleDownload}
+          uniqueNumber={uniqueNumber}
         />
       </Box>
     </Box>

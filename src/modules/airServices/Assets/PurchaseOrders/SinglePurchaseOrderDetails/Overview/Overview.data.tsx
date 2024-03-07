@@ -5,7 +5,10 @@ export const overviewData = (purchaseOrderData: any) => [
     id: purchaseOrderData?._id,
     heading: 'Purchase Details',
     detailsData: [
-      { name: 'Vendor', detail: purchaseOrderData?.vendor?.name ?? '---' },
+      {
+        name: 'Vendor',
+        detail: purchaseOrderData?.vendorDetails?.name ?? '---',
+      },
       { name: 'Details', detail: purchaseOrderData?.orderName ?? '---' },
       { name: 'Currency', detail: purchaseOrderData?.currency ?? '---' },
       {
@@ -38,11 +41,12 @@ export const overviewTableColumns: any = (
     {
       accessorFn: (row: any) => row?.itemName,
       id: 'itemName',
-      cell: (info: any) => (
-        <Typography color={theme?.palette?.blue?.dull_blue}>
-          {info?.getValue()}
-        </Typography>
-      ),
+      cell: (info: any) =>
+        info?.getValue(
+          <Typography color={theme?.palette?.blue?.dull_blue}>
+            {purchaseOrderDetailData?.vendorproductcatalogsDetails?.name}
+          </Typography>,
+        ),
       header: 'Item Name',
     },
     {
@@ -67,7 +71,7 @@ export const overviewTableColumns: any = (
         cell: () => (
           <Typography>
             {`${purchaseOrderDetailData?.map(
-              (item: any) => item?.Received,
+              (item: any) => item?.received,
             )}/${purchaseOrderDetailData?.map((item: any) => item?.quantity)}`}
           </Typography>
         ),

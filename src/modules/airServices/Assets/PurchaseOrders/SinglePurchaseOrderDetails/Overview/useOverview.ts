@@ -2,7 +2,7 @@ import { useGetPurchaseOrderOverviewQuery } from '@/services/airServices/assets/
 import { useTheme } from '@mui/material';
 import jsPDF from 'jspdf';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useOverview = () => {
   const [openOverviewModal, setOpenOverviewModal] = useState(false);
@@ -12,6 +12,7 @@ export const useOverview = () => {
   const { data } = useGetPurchaseOrderOverviewQuery(purchaseOrderId);
   const purchaseOrderData = data?.data;
   const purchaseOrderDetailData = data?.data?.purchaseDetails;
+  const productOrderDetailData = data?.data?.productDetails?.[0];
   const orderStatus = data?.data?.status;
 
   const handleDownload = () => {
@@ -20,6 +21,17 @@ export const useOverview = () => {
       invoice.save('invoice.pdf');
     });
   };
+  const [uniqueNumber, setUniqueNumber] = useState(1);
+  const [generatedNumbers, setGeneratedNumbers] = useState<any>([]);
+  let randomNumber: any;
+  do {
+    randomNumber = Math.floor(Math.random() * 10000);
+  } while (generatedNumbers.includes(randomNumber));
+
+  useEffect(() => {
+    setGeneratedNumbers([...generatedNumbers, randomNumber]);
+    setUniqueNumber(randomNumber);
+  }, []);
 
   return {
     openOverviewModal,
@@ -27,7 +39,9 @@ export const useOverview = () => {
     theme,
     purchaseOrderData,
     purchaseOrderDetailData,
+    productOrderDetailData,
     orderStatus,
     handleDownload,
+    uniqueNumber,
   };
 };

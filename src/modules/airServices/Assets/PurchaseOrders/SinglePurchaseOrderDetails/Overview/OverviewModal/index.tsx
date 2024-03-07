@@ -22,6 +22,7 @@ const OverviewModal = ({
   theme,
   orderStatus,
   handleDownload,
+  uniqueNumber,
 }: any) => {
   return (
     <Box>
@@ -62,21 +63,20 @@ const OverviewModal = ({
           </Box>
           <Box sx={styles?.textBoxStyle}>
             <Box>
-              {/*Multiple Typography have common styling that way using sx */}
               <Typography variant="body2" sx={styles?.textColorCommon}>
                 Invoice To
               </Typography>
               <Typography variant="h3" mb={'0.3125rem'}>
-                Albert Torento
+                {purchaseOrderData?.vendorDetails?.name}
               </Typography>
               <Typography variant="h6" sx={styles?.textColorCommon}>
-                Hights St Covendis
+                {purchaseOrderData?.locationDetails?.locationName}
               </Typography>
               <Typography variant="h6" sx={styles?.textColorCommon}>
-                Sudbury
+                {purchaseOrderData?.locationDetails?.address?.city}
               </Typography>
               <Typography variant="h6" sx={styles?.textColorCommon}>
-                CO I8 BAX
+                {purchaseOrderData?.locationDetails?.address?.country}
               </Typography>
             </Box>
             <Box display={'flex'} gap={'3rem'}>
@@ -90,10 +90,10 @@ const OverviewModal = ({
               </Box>
               <Box>
                 <Typography variant="h6" sx={styles?.textColorCommonTwo}>
-                  1203
+                  {uniqueNumber}
                 </Typography>
                 <Typography variant="h6" sx={styles?.textColorCommonTwo}>
-                  19/01/2022
+                  {purchaseOrderData?.createdAt?.slice(0, 10)}
                 </Typography>
               </Box>
             </Box>

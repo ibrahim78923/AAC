@@ -39,7 +39,7 @@ export const overviewTablePdfColumns: any = (
         cell: () => (
           <Typography>
             {`${purchaseOrderDetailData?.map(
-              (item: any) => item?.Received,
+              (item: any) => item?.received,
             )}/${purchaseOrderDetailData?.map((item: any) => item?.quantity)}`}
           </Typography>
         ),
