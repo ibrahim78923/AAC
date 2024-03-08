@@ -5,6 +5,8 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useAgentLevelsPoints } from './useAgentLevelsPoints';
 import { LoadingButton } from '@mui/lab';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 const AgentLevels = () => {
   const {
@@ -18,7 +20,12 @@ const AgentLevels = () => {
   if (isLoading || isFetching) return <SkeletonForm />;
 
   return (
-    <>
+    <PermissionsGuard
+      permissions={[
+        AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_AND_MANAGE_AGENT_LEVELS_POINTS,
+      ]}
+    >
+      <br />
       <FormProvider
         methods={agentLevelsPointsMethod}
         onSubmit={agentLevelsPointsMethod?.handleSubmit?.(handleSubmit)}
@@ -65,7 +72,7 @@ const AgentLevels = () => {
           </Box>
         </Grid>
       </FormProvider>
-    </>
+    </PermissionsGuard>
   );
 };
 

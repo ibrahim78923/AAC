@@ -6,9 +6,11 @@ import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 
 import { AlertModals } from '@/components/AlertModals';
 
-import { DeleteIcon, PinIcon } from '@/assets/icons';
+import { ArchiveIcon, DeleteIcon, PinIcon } from '@/assets/icons';
 
 import { styles } from './GroupCard.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS } from '@/constants/permission-keys';
 
 const GroupCard = ({ chatGroupsData }: any) => {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -79,10 +81,29 @@ const GroupCard = ({ chatGroupsData }: any) => {
             >
               {isCardHover && (
                 <Box sx={{ display: 'flex', gap: '10px' }}>
-                  <Box onClick={() => setIsDeleteModal(true)}>
-                    <DeleteIcon />
-                  </Box>
-                  <PinIcon />
+                  <PermissionsGuard
+                    permissions={[
+                      AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.DELETE_CHANNELS,
+                    ]}
+                  >
+                    <Box onClick={() => setIsDeleteModal(true)}>
+                      <DeleteIcon />
+                    </Box>
+                  </PermissionsGuard>
+                  <PermissionsGuard
+                    permissions={[
+                      AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.PIN_CHANNELS,
+                    ]}
+                  >
+                    <PinIcon />
+                  </PermissionsGuard>
+                  <PermissionsGuard
+                    permissions={[
+                      AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.TAG_CHANNELS,
+                    ]}
+                  >
+                    <ArchiveIcon />
+                  </PermissionsGuard>
                 </Box>
               )}
             </Box>

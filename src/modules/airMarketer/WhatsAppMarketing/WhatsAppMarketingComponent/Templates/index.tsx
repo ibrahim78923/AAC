@@ -5,6 +5,8 @@ import { Box, Button } from '@mui/material';
 import Search from '@/components/Search';
 import { PlusIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 
 const Templates = ({
   handelSwitch,
@@ -36,40 +38,58 @@ const Templates = ({
             },
           }}
         >
-          <Search label="Search here" setSearchBy={setSearchBy} />
-          <Button
-            variant="contained"
-            sx={{
-              width: '169px',
-              whiteSpace: 'nowrap',
-              '@media (max-width:581px)': {
-                width: '100%',
-              },
-            }}
-            className="small"
-            onClick={() => {
-              handelSwitch(false);
-              setIsCreateTemplate(true);
-              setTemplateType('Create');
-            }}
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS.SEARCH]}
           >
-            <PlusIcon /> &nbsp; Create Template
-          </Button>
+            <Search
+              size="small"
+              label="Search here"
+              setSearchBy={setSearchBy}
+            />
+          </PermissionsGuard>
+
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS.CREATE_TEMPLATE,
+            ]}
+          >
+            <Button
+              variant="contained"
+              startIcon={<PlusIcon />}
+              className="small"
+              onClick={() => {
+                handelSwitch(false);
+                setIsCreateTemplate(true);
+                setTemplateType('Create');
+              }}
+            >
+              Create Template
+            </Button>
+          </PermissionsGuard>
         </Box>
 
         <Box sx={{ mt: 2 }}>
-          <TanstackTable
-            data={templateWhatsAppMarketing}
-            columns={getColumns}
-            isPagination
-          />
-          <AlertModals
-            message={'Are you sure you want to delete this template ?'}
-            type="delete"
-            open={isDeleteTemplate}
-            handleClose={() => setIsDeleteTemplate(false)}
-            handleSubmitBtn={() => setIsDeleteTemplate(false)}
-          />
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS.TEMPLATES_LIST_VIEW,
+            ]}
+          >
+            <TanstackTable
+              data={templateWhatsAppMarketing}
+              columns={getColumns}
+              isPagination
+            />
+          </PermissionsGuard>
+
+          {isDeleteTemplate && (
+            <AlertModals
+              message={'Are you sure you want to delete this template ?'}
+              type="delete"
+              open={isDeleteTemplate}
+              handleClose={() => setIsDeleteTemplate(false)}
+              handleSubmitBtn={() => setIsDeleteTemplate(false)}
+            />
+          )}
         </Box>
       </Box>
     </>

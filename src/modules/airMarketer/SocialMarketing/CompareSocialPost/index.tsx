@@ -13,6 +13,8 @@ import {
   videoPerformanceColumn,
   videoPerformanceData,
 } from './CompareSocialPost.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SOCIAL_MAKETER_COMPARE_SOCIAL_POST_PERMISSIONS } from '@/constants/permission-keys';
 
 const CompareSocialPost = () => {
   const {
@@ -138,53 +140,68 @@ const CompareSocialPost = () => {
           </Box>
         </Box>
       </Box>
-      <SelectPostModal
-        isSelectPostModal={isSelectPostModal}
-        setIsSelectPostModal={setIsSelectPostModal}
-        setIsOverview={setIsOverview}
-        setSecondPost={setSecondPost}
-        setFirstPost={setFirstPost}
-        post={isPost}
-      />
-      {isOverView && (
-        <Box mt={4}>
-          <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
-            Overview
-          </Typography>
-          <Grid container>
-            <Grid item xs={12} md={3.5}>
-              {firstPost?.id && <FirstPostOverview postData={firstPost} />}
-            </Grid>
-            <Grid item xs={12} md={3.5}>
-              {secondPost?.id && <SecondPostOverview postData={secondPost} />}
-            </Grid>
-          </Grid>
-          {firstPostLength > 0 && secondPostLength > 0 && (
+      <PermissionsGuard
+        permissions={[
+          AIR_MARKETER_SOCIAL_MAKETER_COMPARE_SOCIAL_POST_PERMISSIONS.ADD_POST,
+        ]}
+      >
+        <SelectPostModal
+          isSelectPostModal={isSelectPostModal}
+          setIsSelectPostModal={setIsSelectPostModal}
+          setIsOverview={setIsOverview}
+          setSecondPost={setSecondPost}
+          setFirstPost={setFirstPost}
+          post={isPost}
+        />
+      </PermissionsGuard>
+
+      <PermissionsGuard
+        permissions={[
+          AIR_MARKETER_SOCIAL_MAKETER_COMPARE_SOCIAL_POST_PERMISSIONS.VIEW_COMPARE_POST,
+        ]}
+      >
+        {isOverView && (
+          <Box mt={4}>
+            <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
+              Overview
+            </Typography>
             <Grid container>
-              <Grid item xs={5}>
-                <Box my={2} sx={style?.comparePosts}>
-                  <Typography variant="h4">Social Post Performance</Typography>
-                  <Card sx={{ mt: 2 }}>
-                    <TanstackTable
-                      columns={postPerformanceColumn}
-                      data={postPerformanceData}
-                    />
-                  </Card>
-                </Box>
-                <Box my={2} sx={style?.comparePosts}>
-                  <Typography variant="h4">Video Post Performance</Typography>
-                  <Card sx={{ mt: 2 }}>
-                    <TanstackTable
-                      columns={videoPerformanceColumn}
-                      data={videoPerformanceData}
-                    />
-                  </Card>
-                </Box>
+              <Grid item xs={12} md={3.5}>
+                {firstPost?.id && <FirstPostOverview postData={firstPost} />}
+              </Grid>
+              <Grid item xs={12} md={3.5}>
+                {secondPost?.id && <SecondPostOverview postData={secondPost} />}
               </Grid>
             </Grid>
-          )}
-        </Box>
-      )}
+            {firstPostLength > 0 && secondPostLength > 0 && (
+              <Grid container>
+                <Grid item xs={5}>
+                  <Box my={2} sx={style?.comparePosts}>
+                    <Typography variant="h4">
+                      Social Post Performance
+                    </Typography>
+                    <Card sx={{ mt: 2 }}>
+                      <TanstackTable
+                        columns={postPerformanceColumn}
+                        data={postPerformanceData}
+                      />
+                    </Card>
+                  </Box>
+                  <Box my={2} sx={style?.comparePosts}>
+                    <Typography variant="h4">Video Post Performance</Typography>
+                    <Card sx={{ mt: 2 }}>
+                      <TanstackTable
+                        columns={videoPerformanceColumn}
+                        data={videoPerformanceData}
+                      />
+                    </Card>
+                  </Box>
+                </Grid>
+              </Grid>
+            )}
+          </Box>
+        )}
+      </PermissionsGuard>
     </Box>
   );
 };
