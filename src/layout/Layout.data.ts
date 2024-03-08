@@ -85,14 +85,14 @@ export const SuperAdminRoutes: MenuItemI[] = [
     icon: BillingInvoiceImage,
     label: 'Billing & Invoices',
     role: 'super-admin',
-    permissions: [],
+    permissions: Permissions?.BILLING_AND_INVOICES,
   },
   {
     key: '/super-admin/reports',
     icon: ReportsImage,
     label: 'Reports',
     role: 'super-admin',
-    permissions: [],
+    permissions: Permissions?.SUPER_ADMIN_REPORTS,
   },
 ];
 
@@ -515,47 +515,47 @@ export const LowerSuperAdminRoutes = [
       {
         key: '/super-admin/settings/jobs',
         label: 'Jobs',
-        permissions: [],
+        permissions: Permissions?.SETTING_JOBS,
       },
       {
         key: '/super-admin/settings/faqs',
         label: 'FAQs',
-        permissions: [],
+        permissions: Permissions?.SETTING_FAQ,
       },
       {
         key: '/super-admin/settings/enquiries',
         label: 'Enquiries',
-        permissions: [],
+        permissions: Permissions?.SETTING_ENQUIRIES,
       },
       {
         key: '/super-admin/settings/tax-calculation',
         label: 'Tax Calculation',
-        permissions: [],
+        permissions: Permissions?.SETTING_TAX_CALCULATION,
       },
       {
         key: '/super-admin/settings/quick-links',
         label: 'Quick Links',
-        permissions: [],
+        permissions: Permissions?.SETTING_QUICK_LINKS,
       },
       {
         key: '/super-admin/settings/news-and-events',
         label: 'News And Events',
-        permissions: [],
+        permissions: Permissions?.SETTING_NEWS_EVENTS,
       },
       {
         key: '/super-admin/settings/module-creation',
         label: 'Module Creation',
-        permissions: [],
+        permissions: Permissions?.SETTING_MODULE_CREATION,
       },
       {
         key: '/super-admin/settings/product-list',
         label: 'Product List',
-        permissions: [],
+        permissions: Permissions?.SETTING_PRODUCT_LIST,
       },
       {
         key: '/super-admin/settings/product-features',
         label: 'Product Feature',
-        permissions: [],
+        permissions: Permissions?.SETTING_PRODUCT_FEATURES,
       },
     ],
   },
