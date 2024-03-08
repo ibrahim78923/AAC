@@ -1,4 +1,6 @@
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS } from '@/constants/permission-keys';
 
 import { Box, Checkbox } from '@mui/material';
 
@@ -71,25 +73,38 @@ export const columns = ({
       header: 'Actions',
       cell: () => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setOpenDrawer('View');
-            }}
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.PREVIEW]}
           >
-            <ViewEyeIcon />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setOpenDrawer('Edit');
-            }}
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setOpenDrawer('View');
+              }}
+            >
+              <ViewEyeIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.EDIT]}
           >
-            <EditPenIcon />
-          </Box>
-          <Box sx={{ cursor: 'pointer' }}>
-            <DeleteCrossIcon />
-          </Box>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setOpenDrawer('Edit');
+              }}
+            >
+              <EditPenIcon />
+            </Box>
+          </PermissionsGuard>
+
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.DELETE]}
+          >
+            <Box sx={{ cursor: 'pointer' }}>
+              <DeleteCrossIcon />
+            </Box>
+          </PermissionsGuard>
         </Box>
       ),
     },

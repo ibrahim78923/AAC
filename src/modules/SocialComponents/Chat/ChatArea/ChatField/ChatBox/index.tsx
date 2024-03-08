@@ -386,6 +386,7 @@ const ChatBox = ({
                   <MenuItem onClick={() => handelReply(item?._id)}>
                     Reply
                   </MenuItem>
+
                   <MenuItem onClick={handelDelete}>Delete</MenuItem>
                   <MenuItem onClick={handleCopyClick}>Copy</MenuItem>
                 </Menu>

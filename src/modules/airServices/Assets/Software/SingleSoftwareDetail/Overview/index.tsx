@@ -9,10 +9,14 @@ import {
   usageActivityLabel,
   contractOverviewLabel,
 } from './Overview.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Overview = () => {
   return (
-    <>
+    <PermissionsGuard
+      permissions={[AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.OVERVIEW]}
+    >
       <Box
         display={'flex'}
         justifyContent={'center'}
@@ -29,6 +33,6 @@ export const Overview = () => {
         />
         <ContractOverview contractOverviewLabel={contractOverviewLabel} />
       </Box>
-    </>
+    </PermissionsGuard>
   );
 };
