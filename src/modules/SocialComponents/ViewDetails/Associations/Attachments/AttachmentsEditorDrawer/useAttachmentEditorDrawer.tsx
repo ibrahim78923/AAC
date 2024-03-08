@@ -21,7 +21,6 @@ const useAttachmentsEditorDrawer = (setOpenDrawer: any, companyId: any) => {
     formData?.append('fileUrl', values?.attachment);
     formData?.append('recordId', companyId?.companyId);
     formData?.append('module ', 'Company');
-    // console.log('+++++++++', formData);
 
     try {
       await postAttachment({ body: formData })?.unwrap();
