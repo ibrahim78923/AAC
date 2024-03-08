@@ -13,7 +13,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const SingleListLocation = (props: any) => {
-  const { continents, handleCollapse, editData } = props;
+  const { continents, handleCollapse, parentId } = props;
   const {
     showIcon,
     setShowIcon,
@@ -79,7 +79,7 @@ export const SingleListLocation = (props: any) => {
                   router?.push({
                     pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
                     query: {
-                      editData: editData,
+                      parentId: parentId,
                     },
                   })
                 }

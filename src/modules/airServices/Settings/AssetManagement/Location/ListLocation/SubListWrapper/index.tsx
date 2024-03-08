@@ -6,7 +6,7 @@ import { AIR_SERVICES } from '@/constants';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
-export const SubListWrapper = ({ children, data }: any) => {
+export const SubListWrapper = ({ children, parentId, ChildId }: any) => {
   const theme: any = useTheme();
   const router = useRouter();
 
@@ -31,7 +31,8 @@ export const SubListWrapper = ({ children, data }: any) => {
               router?.push({
                 pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
                 query: {
-                  data: JSON.stringify(data),
+                  parentId: parentId,
+                  ChildId: ChildId,
                 },
               })
             }

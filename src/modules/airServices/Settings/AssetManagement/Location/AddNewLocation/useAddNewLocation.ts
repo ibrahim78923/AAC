@@ -11,32 +11,19 @@ import {
   usePostLocationMutation,
   usePutLocationMutation,
   usePutChildLocationMutation,
+  useGetByIdLocationQuery,
 } from '@/services/airServices/settings/asset-management/location';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAddNewLocation = () => {
   const router = useRouter();
-  const { data, editData, childEditData }: any = router.query;
-  let dataArray, editDataArray, childEditDataArray;
-  try {
-    dataArray = data ? JSON.parse(data) : [];
-    editDataArray = editData ? JSON.parse(editData) : [];
-    childEditDataArray = childEditData ? JSON.parse(childEditData) : [];
-  } catch {
-    dataArray = [];
-    editDataArray = [];
-    childEditDataArray = [];
-  }
+  const { parentId, childId }: any = router.query;
+  const { data } = useGetByIdLocationQuery(parentId);
 
-  const locationId = dataArray?._id;
-  const editLocationId = editDataArray?._id;
-  const childEditLocationId = childEditDataArray?._id;
-  const parentLocationName = router?.query?.location;
+  const parentLocationName = data?.data?.locationName;
   const AddNewLocationMethods = useForm({
     resolver: yupResolver(validationSchemaAddNewLocation),
     defaultValues: locationDefaultValues({
-      editDataArray,
-      childEditDataArray,
       parentLocationName,
     }),
   });
@@ -73,7 +60,7 @@ export const useAddNewLocation = () => {
     };
     const postChildLocationParameter = {
       body: locationData,
-      id: locationId,
+      id: parentId,
     };
     try {
       await postChildLocationTrigger(postChildLocationParameter).unwrap();
@@ -129,7 +116,7 @@ export const useAddNewLocation = () => {
     };
     const putLocationParameter = {
       body: locationData,
-      id: editLocationId,
+      id: parentId,
     };
     try {
       await putLocationTrigger(putLocationParameter).unwrap();
@@ -159,7 +146,7 @@ export const useAddNewLocation = () => {
     };
     const putChildLocationParameter = {
       body: locationData,
-      id: childEditLocationId,
+      id: childId,
     };
     try {
       await putChildLocationTrigger(putChildLocationParameter).unwrap();
@@ -183,9 +170,8 @@ export const useAddNewLocation = () => {
     editOnSubmit,
     locationIsLoading,
     childLocationIsLoading,
-    locationId,
-    editLocationId,
-    childEditLocationId,
+    parentId,
+    childId,
     childEditOnSubmit,
     handleCancel,
     parentLocationName,

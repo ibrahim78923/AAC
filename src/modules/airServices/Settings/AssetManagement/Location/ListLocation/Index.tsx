@@ -18,7 +18,7 @@ export const ListLocation = () => {
           {locationList?.map((item: any, index: any) => (
             <Box key={item?._id}>
               <SingleListLocation
-                editData={item}
+                parentId={item?._id}
                 continents={item?.locationName}
                 handleCollapse={() => handleCollapse(index)}
               />
@@ -27,13 +27,18 @@ export const ListLocation = () => {
               ) : (
                 <>
                   {collapseItem === index && !!item?.Locations && (
-                    <SubListWrapper data={item}>
+                    <SubListWrapper
+                      parentId={item?._id}
+                      ChildId={item?.Locations?.map(
+                        (subItem: any) => subItem?._id,
+                      )}
+                    >
                       {item?.Locations?.map((subItem: any) => (
                         <Box key={subItem?._id}>
                           <SubListLocation
                             country={subItem?.locationName}
-                            childEditData={subItem}
-                            data={item}
+                            childId={subItem?._id}
+                            parentId={item?._id}
                           />
                         </Box>
                       ))}

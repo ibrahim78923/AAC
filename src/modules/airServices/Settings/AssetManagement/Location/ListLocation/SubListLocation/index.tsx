@@ -11,7 +11,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const SubListLocation = (props: any) => {
-  const { country, childEditData, data } = props;
+  const { country, childId, parentId } = props;
   const {
     showIcon,
     setShowIcon,
@@ -61,7 +61,7 @@ export const SubListLocation = (props: any) => {
                   router?.push({
                     pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
                     query: {
-                      data: JSON.stringify(data),
+                      parentId: parentId,
                     },
                   })
                 }
@@ -75,7 +75,8 @@ export const SubListLocation = (props: any) => {
                   router?.push({
                     pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
                     query: {
-                      childEditData: JSON.stringify(childEditData),
+                      parentId: parentId,
+                      childId: childId,
                     },
                   })
                 }

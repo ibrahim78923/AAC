@@ -4,7 +4,7 @@ import { useTheme } from '@mui/material';
 import { useState } from 'react';
 
 export const useSubListLocation = (props: any) => {
-  const { data, childEditData } = props;
+  const { parentId, childId } = props;
   const theme: any = useTheme();
   const [showIcon, setShowIcon] = useState(false);
   const [isOpenAlert, setIsOpenAlert] = useState(false);
@@ -12,8 +12,8 @@ export const useSubListLocation = (props: any) => {
   const handleDeleteSubmit = async () => {
     try {
       const param = {
-        id: childEditData?._id,
-        parentId: data?._id,
+        id: childId,
+        parentId: parentId,
       };
       await deleteChildTrigger(param)?.unwrap();
       successSnackbar('Delete successfully');

@@ -4,7 +4,7 @@ import { useTheme } from '@mui/material';
 import { useState } from 'react';
 
 export const useSingleListLocation = (props: any) => {
-  const { data } = props;
+  const { parentId } = props;
   const theme: any = useTheme();
   const [showIcon, setShowIcon] = useState(false);
   const [isOpenAlert, setIsOpenAlert] = useState(false);
@@ -12,7 +12,7 @@ export const useSingleListLocation = (props: any) => {
   const handleDeleteSubmit = async () => {
     try {
       const param = {
-        id: data,
+        id: parentId,
       };
       await deleteParentTrigger(param)?.unwrap();
       successSnackbar('Delete successfully');

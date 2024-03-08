@@ -19,11 +19,10 @@ const AddNewLocation = () => {
     moveToLocationPage,
     locationIsLoading,
     childLocationIsLoading,
-    locationId,
     childOnsubmit,
-    editLocationId,
+    parentId,
+    childId,
     editOnSubmit,
-    childEditLocationId,
     childEditOnSubmit,
     handleCancel,
     parentLocationName,
@@ -33,13 +32,13 @@ const AddNewLocation = () => {
       <FormProvider
         methods={AddNewLocationMethods}
         onSubmit={
-          childEditLocationId
+          childId
             ? AddNewLocationMethods?.handleSubmit(childEditOnSubmit)
-            : editLocationId
-            ? AddNewLocationMethods?.handleSubmit(editOnSubmit)
-            : locationId
-            ? AddNewLocationMethods?.handleSubmit(childOnsubmit)
-            : AddNewLocationMethods?.handleSubmit(onSubmit)
+            : parentId
+              ? AddNewLocationMethods?.handleSubmit(editOnSubmit)
+              : parentId
+                ? AddNewLocationMethods?.handleSubmit(childOnsubmit)
+                : AddNewLocationMethods?.handleSubmit(onSubmit)
         }
       >
         <Grid container rowSpacing={1.8} columnSpacing={2}>
@@ -56,7 +55,7 @@ const AddNewLocation = () => {
             <Grid item container xs={12} overflow="scroll">
               <Grid container rowSpacing={1.8} columnSpacing={3}>
                 {addNewLocationDataFields?.map((form: any, index) =>
-                  parentLocationName || childEditLocationId ? (
+                  parentLocationName && childId ? (
                     <Grid item xs={12} md={form?.gridLength} key={form?.id}>
                       <form.component {...form?.componentProps} size="small">
                         {form?.heading ? form?.heading : null}
@@ -80,7 +79,7 @@ const AddNewLocation = () => {
             Cancel
           </Button>
           <LoadingButton
-            disabled={locationId ? childLocationIsLoading : locationIsLoading}
+            disabled={parentId ? childLocationIsLoading : locationIsLoading}
             variant="contained"
             type="submit"
           >
