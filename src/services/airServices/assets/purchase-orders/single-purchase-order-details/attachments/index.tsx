@@ -5,9 +5,10 @@ const TAG = 'ATTACHMENT';
 export const getAttachmentAPI = baseAPI.injectEndpoints({
   endpoints: (builder: any) => ({
     getAttachment: builder.query({
-      query: (id: any) => ({
-        url: `${END_POINTS?.GET_ATTACHMENT}${id}`,
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.GET_ATTACHMENT}/${id}`,
         method: 'GET',
+        // params: params,
       }),
       providesTags: [TAG],
     }),

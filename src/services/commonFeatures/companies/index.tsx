@@ -131,6 +131,7 @@ export const companiesAPI = baseAPI.injectEndpoints({
       query: ({ id }: any) => ({
         url: `${END_POINTS?.COMPANY_DEALS}/${id}`,
         method: 'GET',
+        // params: params,
       }),
       providesTags: ['COMPANY'],
     }),
