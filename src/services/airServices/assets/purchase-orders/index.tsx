@@ -109,4 +109,5 @@ export const {
   useDeletePurchaseOrderMutation,
   useGetPurchaseOrderListQuery,
   usePatchPurchaseOrderStatusMutation,
+  useGetPurchaseOrderByIdQuery,
 } = purchaseOrderAPI;
