@@ -4,6 +4,8 @@ import Search from '@/components/Search';
 import { useState } from 'react';
 import { Box, useTheme } from '@mui/material';
 import { AllFormsTableData } from '@/mock/modules/airMarketer/LeadCapture/Forms';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS } from '@/constants/permission-keys';
 
 const AllForms = ({ setShowSignUpForm, setFindStatus }: any) => {
   const [searchByClientName, setSearchByClientName] = useState('');
@@ -19,12 +21,16 @@ const AllForms = ({ setShowSignUpForm, setFindStatus }: any) => {
       }}
     >
       <Box marginBottom="12px">
-        <Search
-          searchBy={searchByClientName}
-          setSearchBy={setSearchByClientName}
-          label="Search Here"
-          size="small"
-        />
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS?.SEARCH]}
+        >
+          <Search
+            searchBy={searchByClientName}
+            setSearchBy={setSearchByClientName}
+            label="Search Here"
+            size="small"
+          />
+        </PermissionsGuard>
       </Box>
       <TanstackTable
         columns={getColums}

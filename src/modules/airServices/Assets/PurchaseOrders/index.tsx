@@ -51,9 +51,9 @@ function PurchaseOrder() {
       <PageTitledHeader
         title={'Purchase Order'}
         addTitle={'New Purchase Order'}
-        createPermissionKey={
-          AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.NEW_PURCAHSE_ORDER
-        }
+        // createPermissionKey={
+        //   AIR_SERVICES_ASSETS_PURCAHSE_ORDER_PERMISSIONS?.NEW_PURCAHSE_ORDER
+        // }
         handleAction={handleNewPurchaseOrder}
       />
       <Box>

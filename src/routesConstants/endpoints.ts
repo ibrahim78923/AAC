@@ -173,6 +173,9 @@ export const END_POINTS = {
   AUTH_ACCOUNTS_SELECT: '/auth/accounts/select',
   AUTH_MY_ACCOUNT: '/auth/me',
   ASSETS_SOFTWARE: '/assets/get-software',
+  SOFTWARE_OVERVIEW: '/assets/software_overview',
+  SOFTWARE_CONTRACT_UTILIZATION: '/assets/software-contract-utilization',
+  SOFTWARE_CONTRACT_VALUE: '/assets/software-contract-value',
   SOFTWARE_ASSIGN_CATEGORY: '/assets/assign-category',
   GET_PRODUCT_VENDOR_DROPDOWN: '/product-catalog/list',
   CALL_WIDGET: `/calls/get-scheduled-call-widget`,
@@ -182,6 +185,7 @@ export const END_POINTS = {
   VENDOR_DROPDOWN: '/vendors/get-vendors',
   CONTRACT_TYPE_DROPDOWN: '/contract-type',
   DROPDOWN_AGENTS_LIST: '/dropdown/agents',
+  GET_PURCHASE_ORDER_OVERVIEW: '/assets/purchaseorder',
   ASSETS_CONTRACT_DELETE: '/contract/{id}',
   KNOWLEDGE_BASE_ARTICLES: `/articles/get-all-articles`,
   KNOWLEDGE_BASE_ARTICLE: `/articles/get-by-id`,
@@ -237,6 +241,7 @@ export const END_POINTS = {
   DROPDOWN_SOFTWARE: `/assets/get-software`,
   DROPDOWN_ALL_AGENTS: '/dropdown/agents',
   EDIT_NEW_ITEM: '/assets/purchaseorder',
+  PURCHASE_ORDER_STATUS: '/assets/status-purchaseorder',
   VENDOR_PRODUCT_DROPDOWN: `/product-catalog/vendor-product-list`,
   PURCHASE_ORDER: `/assets/purchaseorder`,
   GET_SINGLE_ASSETS_CONTRACT: '/contract/get-contract',
@@ -286,6 +291,7 @@ export const END_POINTS = {
   GET_KNOWLEDGE_INSIGHTS_DETAILS: `/articles/knowledge-insights/tickets`,
   POST_CHANGE_PASSWORD: '/auth/change-password',
   GET_TICKET_APPROVAL_DETAILS: `/air-services-dashboard/get-tickets-approval-dashboard-details`,
+  UPDATE_CONTRACT: 'contract/renew-extend',
 };
 
 export const superAdminBillingInvoices = {
