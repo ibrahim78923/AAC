@@ -778,9 +778,9 @@ export const QuickLinkData = [
   },
 ];
 
-const ROLES_ROUTES: any = {
+const PRODUCT__ROUTES: any = {
   SUPER_ADMIN: SuperAdminRoutes,
-  ORG_EMPLOYEE: SalesRoutes,
+  'Air Sales': SalesRoutes,
   'Air Services': ServicesRoutes,
   ORG_ADMIN: OrgAdminRoutes,
   'Customer Portal': CustomerPortalRoutes,
@@ -790,10 +790,10 @@ const ROLES_ROUTES: any = {
 };
 
 export const getRoutes = (role: any) => {
-  return ROLES_ROUTES[role];
+  return PRODUCT__ROUTES[role];
 };
 
-const LOWER_ROLES_ROUTES: any = {
+const LOWER_PRODUCT_ROUTES: any = {
   'Super Admin': LowerSuperAdminRoutes,
   'Air Sales': LowerSalesRoutes,
   'Air Services': LowerServicesRoutes,
@@ -804,7 +804,7 @@ const LOWER_ROLES_ROUTES: any = {
 };
 
 export const getLowerRoutes = (role: any) => {
-  return LOWER_ROLES_ROUTES[role];
+  return LOWER_PRODUCT_ROUTES[role];
 };
 
 export const zeroPaddingRoutes = [
