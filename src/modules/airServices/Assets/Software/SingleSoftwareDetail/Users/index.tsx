@@ -13,6 +13,8 @@ import useUsers from './useUsers';
 import UserActionModal from './UserActionModal';
 import { EXPORT_TYPE, SOFTWARE_USER_ACTIONS_TYPES } from '@/constants/strings';
 import { LoadingButton } from '@mui/lab';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Users = () => {
   const {
@@ -29,7 +31,9 @@ export const Users = () => {
   } = useUsers();
 
   return (
-    <>
+    <PermissionsGuard
+      permissions={[AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.USERS]}
+    >
       <Box
         display={'flex'}
         justifyContent={'space-between'}
@@ -72,10 +76,10 @@ export const Users = () => {
             selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE
               ? 'Add Device'
               : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE
-              ? 'Deallocate Contract '
-              : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
-              ? 'Remove Contract'
-              : 'Add Device'
+                ? 'Deallocate Contract '
+                : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
+                  ? 'Remove Contract'
+                  : 'Add Device'
           }
         >
           {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (
@@ -115,6 +119,6 @@ export const Users = () => {
       <br />
       <UsersTable setUsersData={setUsersData} usersData={usersData} />
       <br />
-    </>
+    </PermissionsGuard>
   );
 };
