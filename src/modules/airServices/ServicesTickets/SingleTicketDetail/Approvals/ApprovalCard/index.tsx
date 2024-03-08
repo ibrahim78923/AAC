@@ -39,8 +39,7 @@ export const ApprovalCard = (props: any) => {
         <Box display={'flex'} alignItems={'center'} gap={2}>
           <Avatar
             src={setUserDetails(data, user?._id, data?.createdBy)?.avatar}
-            alt="img"
-            sx={{ bgcolor: 'blue' }}
+            sx={{ bgcolor: 'blue.main' }}
           >
             <Typography variant="body2" textTransform={'uppercase'}>
               {setUserDetails(data, user?._id, data?.createdBy)?.nameInitial}
