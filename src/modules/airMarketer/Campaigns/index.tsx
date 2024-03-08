@@ -17,6 +17,8 @@ import { useForm } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
 import Calendar from './Calendar';
 import ResetTasksFilter from './ResetTasksFilter';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Campaigns = () => {
   const {
@@ -49,25 +51,37 @@ const Campaigns = () => {
           </Typography>
 
           <Box display="flex" flexWrap="wrap" gap={1}>
-            <Button
-              variant="outlined"
-              className="small"
-              color="inherit"
-              sx={{ width: { sm: '200px', xs: '100%' } }}
-              startIcon={<ImportIcon />}
-              onClick={() => setIsCompare(true)}
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.COMPARE_CAMPAIGNS,
+              ]}
             >
-              Compare campaigns
-            </Button>
-            <Button
-              variant="contained"
-              className="small"
-              startIcon={<PlusIcon />}
-              onClick={() => setIsCreateTask(true)}
-              sx={{ width: { sm: '200px', xs: '100%' } }}
+              <Button
+                variant="outlined"
+                className="small"
+                color="inherit"
+                sx={{ width: { sm: '200px', xs: '100%' } }}
+                startIcon={<ImportIcon />}
+                onClick={() => setIsCompare(true)}
+              >
+                Compare campaigns
+              </Button>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.CREATE_CAMPAIGNS,
+              ]}
             >
-              Create campaigns
-            </Button>
+              <Button
+                variant="contained"
+                className="small"
+                startIcon={<PlusIcon />}
+                onClick={() => setIsCreateTask(true)}
+                sx={{ width: { sm: '200px', xs: '100%' } }}
+              >
+                Create campaigns
+              </Button>
+            </PermissionsGuard>
             <Button
               variant="contained"
               color="secondary"
