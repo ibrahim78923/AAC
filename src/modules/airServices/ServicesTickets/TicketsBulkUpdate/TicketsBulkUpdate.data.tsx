@@ -25,6 +25,8 @@ export const dropdownDummy = [
   },
 ];
 
+export const isReplyAddedNeglect = ['to', 'description', 'file'];
+
 export const ticketsBulkUpdateToFormSchema: any = {
   to: Yup?.string(),
   description: Yup?.mixed(),
@@ -81,7 +83,7 @@ export const ticketsBulkUpdateFormValidationSchemaFunction: any = (
   Yup?.object()?.shape({
     category: Yup?.mixed()?.nullable(),
     status: Yup?.mixed()?.nullable(),
-    pirority: Yup?.mixed()?.nullable()?.required('Required'),
+    pirority: Yup?.mixed()?.nullable(),
     source: Yup?.mixed()?.nullable(),
     impact: Yup?.mixed()?.nullable(),
     agent: Yup?.mixed()?.nullable(),
@@ -102,7 +104,6 @@ export const ticketsBulkUpdateFormFieldsDynamic = (
       fullWidth: true,
       name: 'pirority',
       label: 'Priority',
-      required: true,
       options: ticketPriorityOptions,
       getOptionLabel: (option: any) => option?.label,
     },

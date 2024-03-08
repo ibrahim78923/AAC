@@ -5,6 +5,7 @@ import {
   ticketsBulkUpdateFormValidationSchemaFunction,
   ticketsBulkUpdateAddReplyFormFieldsData,
   ticketsBulkUpdateFormFieldsDynamic,
+  isReplyAddedNeglect,
 } from './TicketsBulkUpdate.data';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -39,7 +40,11 @@ export const useTicketBulkUpdate = (props: any) => {
   const submitTicketBulkUpdateForm = async (data: any) => {
     const body: any = Object?.entries(data || {})
       ?.filter(
-        ([, value]: any) => value !== undefined && value != '' && value != null,
+        ([key, value]: any) =>
+          value !== undefined &&
+          value != '' &&
+          value != null &&
+          !isReplyAddedNeglect?.includes(key),
       )
       ?.reduce(
         (acc: any, [key, value]: any) => ({ ...acc, [key]: value?._id }),

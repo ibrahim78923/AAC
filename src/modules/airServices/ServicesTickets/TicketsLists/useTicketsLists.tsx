@@ -217,6 +217,7 @@ export const useTicketsLists: any = () => {
         setIsAssignedModalOpen={setHasTicketAction}
         isAssignedModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
+        setSelectedTicketList={setSelectedTicketList}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.MOVE_TICKET]: (
@@ -224,6 +225,7 @@ export const useTicketsLists: any = () => {
         setIsMoveTicketsModalOpen={setHasTicketAction}
         isMoveTicketsModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
+        setSelectedTicketList={setSelectedTicketList}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.MERGE_TICKET]: (
