@@ -20,6 +20,8 @@ import {
   setChatContactsLoading,
 } from '@/redux/slices/chat/slice';
 import { isNullOrEmpty } from '@/utils';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CHAT_PERMISSIONS } from '@/constants/permission-keys';
 
 const ContactList = ({ chatMode, handleManualRefetch }: any) => {
   const theme = useTheme();
@@ -159,31 +161,57 @@ const ContactList = ({ chatMode, handleManualRefetch }: any) => {
               }
             />
             <Box sx={{ width: '100%', display: 'flex' }}>
-              <Search
-                label={'Search by name'}
-                searchBy={searchContacts}
-                setSearchBy={setSearchContacts}
-                width="100%"
-                size="small"
-              />
+              <PermissionsGuard
+                permissions={
+                  chatMode === 'personalChat'
+                    ? [
+                        SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.SEARCH_RECORD_PERSONAL,
+                      ]
+                    : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.SEARCH_RECORD_GROUP]
+                }
+              >
+                <Search
+                  label={'Search by name'}
+                  searchBy={searchContacts}
+                  setSearchBy={setSearchContacts}
+                  width="100%"
+                  size="small"
+                />
+              </PermissionsGuard>
             </Box>
           </Box>
 
           {chatsTypeToShow?.length > 0 &&
           chatsTypeToShow?.length === selectedValues?.length ? (
-            <Box sx={{ marginLeft: '10px' }}>
-              <DeleteIcon color={theme?.palette?.error?.main} />
-            </Box>
-          ) : (
-            <Button
-              sx={styles?.filterButton}
-              aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={actionMenuOpen ? 'true' : undefined}
-              onClick={handleClick}
+            <PermissionsGuard
+              permissions={
+                chatMode === 'groupChat'
+                  ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_GROUP]
+                  : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.DELETE_CHAT]
+              }
             >
-              <FilterSharedIcon />
-            </Button>
+              <Box sx={{ marginLeft: '10px' }}>
+                <DeleteIcon color={theme?.palette?.error?.main} />
+              </Box>
+            </PermissionsGuard>
+          ) : (
+            <PermissionsGuard
+              permissions={
+                chatMode === 'groupChat'
+                  ? [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.FILTER_RECORD_GROUP]
+                  : [SOCIAL_COMPONENTS_CHAT_PERMISSIONS?.FILTER_RECORD_PERSONAL]
+              }
+            >
+              <Button
+                sx={styles?.filterButton}
+                aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={actionMenuOpen ? 'true' : undefined}
+                onClick={handleClick}
+              >
+                <FilterSharedIcon />
+              </Button>
+            </PermissionsGuard>
           )}
 
           <ChatDropdown
