@@ -8,7 +8,7 @@ const ContactPage = () => {
 export default ContactPage;
 ContactPage.getLayout = function getLayout(page: any) {
   return (
-    <Layout permissions={Permissions?.SOCIAL_COMPONENTS_CONTACTS}>
+    <Layout guardRoute permissions={Permissions?.SOCIAL_COMPONENTS_CONTACTS}>
       {page}
     </Layout>
   );

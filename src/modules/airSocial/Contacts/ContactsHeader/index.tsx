@@ -25,15 +25,20 @@ const ContactsHeader = () => {
         </Typography>
       </Box>
       <Box sx={styles?.HeaderChildStyle}>
-        <Button
-          variant="outlined"
-          color="inherit"
-          onClick={() => route?.push(AIR_SOCIAL?.CONTACTS_IMPORT)}
-          startIcon={<ImportIcon />}
-          sx={{ height: '35px' }}
+        <PermissionsGuard
+          permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.IMPORT_CONTACT]}
         >
-          Import
-        </Button>
+          <Button
+            variant="outlined"
+            color="inherit"
+            onClick={() => route?.push(AIR_SOCIAL?.CONTACTS_IMPORT)}
+            startIcon={<ImportIcon />}
+            sx={{ height: '35px' }}
+          >
+            Import
+          </Button>
+        </PermissionsGuard>
+
         <Box>
           <PermissionsGuard
             permissions={[
