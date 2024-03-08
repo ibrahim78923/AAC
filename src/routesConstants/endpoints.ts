@@ -182,6 +182,7 @@ export const END_POINTS = {
   VENDOR_DROPDOWN: '/vendors/get-vendors',
   CONTRACT_TYPE_DROPDOWN: '/contract-type',
   DROPDOWN_AGENTS_LIST: '/dropdown/agents',
+  GET_PURCHASE_ORDER_OVERVIEW: '/assets/purchaseorder',
   ASSETS_CONTRACT_DELETE: '/contract/{id}',
   KNOWLEDGE_BASE_ARTICLES: `/articles/get-all-articles`,
   KNOWLEDGE_BASE_ARTICLE: `/articles/get-by-id`,
