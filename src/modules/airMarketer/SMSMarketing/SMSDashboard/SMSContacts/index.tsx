@@ -7,6 +7,8 @@ import { smsContactsArray } from '../SMSDashboard.data';
 import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './SMSContacts.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 
 const SMSContacts = (props: any) => {
   const { setTabVal } = props;
@@ -53,15 +55,21 @@ const SMSContacts = (props: any) => {
         >
           Latest Added
         </Typography>
-        <Button
-          variant="text"
-          size="small"
-          onClick={() => {
-            setTabVal(2);
-          }}
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.VIEW_SMS_CONTACTS,
+          ]}
         >
-          View All
-        </Button>
+          <Button
+            variant="text"
+            size="small"
+            onClick={() => {
+              setTabVal(2);
+            }}
+          >
+            View All
+          </Button>
+        </PermissionsGuard>
       </Stack>
 
       <Box className="cardWrapper">

@@ -8,6 +8,8 @@ interface TaskManagementStateI {
   companiesSelectedIds: any;
   dealsSelectedIds: any;
   ticketsSelectedIds: any;
+  filtersData: any;
+  taskDataArray: any;
 }
 
 const initialState: TaskManagementStateI = {
@@ -18,6 +20,8 @@ const initialState: TaskManagementStateI = {
   companiesSelectedIds: [],
   dealsSelectedIds: [],
   ticketsSelectedIds: [],
+  filtersData: {},
+  taskDataArray: {},
 };
 
 const taskManagementSlice = createSlice({
@@ -79,6 +83,16 @@ const taskManagementSlice = createSlice({
         state?.ticketsSelectedIds?.push(newItem);
       }
     },
+    setTaskDataArray: (state: any, action: PayloadAction<any>) => {
+      state.taskDataArray = action?.payload;
+    },
+    setFiltersData: (state: any, action: PayloadAction<any>) => {
+      if (action?.payload === 'clear') {
+        state.filtersData = {};
+      } else {
+        state.filtersData = { ...state.filtersData, ...action?.payload };
+      }
+    },
   },
 });
 export const {
@@ -88,5 +102,7 @@ export const {
   setCompaniesSelectedIds,
   setDealsSelectedIds,
   setTicketsSelectedIds,
+  setTaskDataArray,
+  setFiltersData,
 } = taskManagementSlice.actions;
 export default taskManagementSlice.reducer;

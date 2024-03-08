@@ -18,6 +18,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { styles } from './BroadCastScheduled.style';
 import { DotsBoldIcon } from '@/assets/icons';
 import { useState } from 'react';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 
 const ScheduledSMS = () => {
   const { theme, statusTag } = useBroadCastScheduled();
@@ -29,7 +31,15 @@ const ScheduledSMS = () => {
           <Typography variant="h4" sx={styles?.heading(theme)}>
             Broadcast Schedule
           </Typography>
-          <Button variant="contained">View All</Button>
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.VIEW_BROADCAST_SCHEDULE,
+            ]}
+          >
+            <Button variant="contained" className="small">
+              View All
+            </Button>
+          </PermissionsGuard>
         </Box>
         <Box className="cardWrapper">
           {scheduledSmsArray?.map((item: any) => {

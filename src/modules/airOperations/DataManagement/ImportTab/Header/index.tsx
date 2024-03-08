@@ -3,6 +3,8 @@ import { DownloadLargeIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import ImportModal from '../ImportModal';
 import { Filter } from '../Filter';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Header = () => {
   return (
@@ -14,17 +16,35 @@ export const Header = () => {
         flexWrap={'wrap'}
         gap={1.5}
       >
-        <Search label="Search Here" searchBy="" setSearchBy={''} />
+        <PermissionsGuard
+          permissions={[
+            AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS?.SEARCH_RECORD,
+          ]}
+        >
+          <Search label="Search Here" searchBy="" setSearchBy={''} />
+        </PermissionsGuard>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
           <ImportModal />
-          <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={<DownloadLargeIcon />}
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS?.DOWNLOAD_RECORD,
+            ]}
           >
-            Download
-          </Button>
-          <Filter />
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={<DownloadLargeIcon />}
+            >
+              Download
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_DATA_MANAGEMENT_IMPORT_LIST_PERMISSIONS?.FILTER_RECORD,
+            ]}
+          >
+            <Filter />
+          </PermissionsGuard>
         </Box>
       </Box>
       <br />

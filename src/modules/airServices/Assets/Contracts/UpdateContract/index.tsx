@@ -1,6 +1,5 @@
 import { Grid, Typography, Box } from '@mui/material';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
-import { v4 as uuidv4 } from 'uuid';
 import { useUpdateContract } from './useUpdateContract';
 import { LoadingButton } from '@mui/lab';
 
@@ -49,17 +48,17 @@ export const UpdateContract = () => {
             </Box>
             <Grid container spacing={4}>
               {updateContractFormFields?.map((item: any) => (
-                <Grid item xs={12} lg={item?.md} key={uuidv4()}>
+                <Grid item xs={12} lg={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
                       ? item?.componentProps?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
+                          <option key={item?.id} value={option?.value}>
                             {option?.label}
                           </option>
                         ))
                       : item?.heading
-                        ? item?.heading
-                        : null}
+                      ? item?.heading
+                      : null}
                   </item.component>
                 </Grid>
               ))}

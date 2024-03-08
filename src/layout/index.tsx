@@ -22,7 +22,7 @@ export default function Layout({
       layout = (
         <AuthGuard>
           <DashboardLayout>
-            <PermissionsGuard permissions={permissions}>
+            <PermissionsGuard isPage={true} permissions={permissions}>
               {children}
             </PermissionsGuard>
           </DashboardLayout>

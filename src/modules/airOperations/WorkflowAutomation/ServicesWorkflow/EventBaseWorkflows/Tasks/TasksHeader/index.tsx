@@ -6,6 +6,9 @@ import FilterWorkflow from '../../../FilterWorkflow';
 import { useTasksHeader } from './useTasksHeader';
 import { AIR_OPERATIONS } from '@/constants';
 import { EventBasedWorkflowDelete } from '../../EventBasedWorkflowDelete';
+import { Permissions } from '@/constants/permissions';
+import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const TasksHeader = ({ selectedTasksList }: any) => {
   const {
@@ -22,34 +25,58 @@ const TasksHeader = ({ selectedTasksList }: any) => {
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
         <Box mb={1}>
-          <Search
-            value={searchValue}
-            label="Search here"
-            setSearchBy={setSearchValue}
-            onChange={(e: any) => setSearchValue(e?.target?.value)}
-          />
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.SEARCH_RECORD,
+            ]}
+          >
+            <Search
+              value={searchValue}
+              label="Search Here"
+              setSearchBy={setSearchValue}
+              onChange={(e: any) => setSearchValue(e?.target?.value)}
+            />
+          </PermissionsGuard>
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
-          <SingleDropdownButton
-            dropdownOptions={dropdownOptions}
-            disabled={!!!selectedTasksList?.length}
-          />
-          <Button
-            color="secondary"
-            variant="outlined"
-            startIcon={<FilterSharedIcon />}
-            onClick={() => setIsDrawerOpen?.(true)}
-          >
-            Filter
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() =>
-              router?.push(AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW)
+          <PermissionsGuard
+            permissions={
+              Permissions?.AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW
             }
           >
-            Create Event base workflows
-          </Button>
+            <SingleDropdownButton
+              dropdownOptions={dropdownOptions}
+              disabled={!!!selectedTasksList?.length}
+            />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.FILTER_RECORD,
+            ]}
+          >
+            <Button
+              color="secondary"
+              variant="outlined"
+              startIcon={<FilterSharedIcon />}
+              onClick={() => setIsDrawerOpen?.(true)}
+            >
+              Filter
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.CREATE_EVENTBASE_WORKFLOW,
+            ]}
+          >
+            <Button
+              variant="contained"
+              onClick={() =>
+                router?.push(AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW)
+              }
+            >
+              Create Event base Workflow
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       <FilterWorkflow

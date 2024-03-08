@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Filter from './TabToolbar';
 import { useTask } from '../useTask';
 import { TasksData } from '../Task.data';
@@ -9,10 +9,19 @@ import GridView from '../GridView';
 import { useAppSelector } from '@/redux/store';
 
 const Tabs = ({ tabValue, assignTo }: any) => {
-  const { taskData, setPage, setTabsValue, setPageLimit, setAssignTo, status } =
-    useTask();
+  const {
+    setPage,
+    setTabsValue,
+    setPageLimit,
+    setAssignTo,
+    status,
+    setSearchTask,
+    searchTask,
+  } = useTask();
 
-  const [searchTask, setSearchTask] = useState('');
+  const taskDataArray = useAppSelector(
+    (state: any) => state?.task?.taskDataArray,
+  );
 
   const getTaskData = TasksData();
 
@@ -43,31 +52,29 @@ const Tabs = ({ tabValue, assignTo }: any) => {
       >
         <Search
           label={'Search here'}
+          placeholder="Search by name"
           searchBy={searchTask}
           setSearchBy={setSearchTask}
           width="260px"
           size="small"
         />
-        <Filter
-        // disableActionBtn={false}
-        // handleToggler={(val: any) => handleToggler(val)}
-        // handleRefreshList={() => {
-        //   'refresh';
-        // }}
-        />
+        <Filter />
       </Box>
 
       <Box sx={{ mt: 3 }}>
         {toggleTableView === 'gridView' ? (
-          <GridView title={'Complete'} data={taskData?.data?.taskmanagements} />
+          <GridView
+            title={'Complete'}
+            data={taskDataArray?.data?.taskmanagements}
+          />
         ) : (
           <TanstackTable
             columns={getTaskData}
-            data={taskData?.data?.taskmanagements}
+            data={taskDataArray?.data?.taskmanagements}
             isLoading={status === 'pending'}
             isPagination
-            count={taskData?.data?.meta?.pages}
-            totalRecords={taskData?.data?.meta?.total}
+            count={taskDataArray?.data?.meta?.pages}
+            totalRecords={taskDataArray?.data?.meta?.total}
             onPageChange={handlePageChange}
             setPage={setPage}
             setPageLimit={setPageLimit}

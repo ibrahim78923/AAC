@@ -30,7 +30,7 @@ import {
   setTypingUserData,
 } from '@/redux/slices/chat/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { getSession, isNullOrEmpty } from '@/utils';
+import { getActiveProductSession, getSession, isNullOrEmpty } from '@/utils';
 
 import { getLowerRoutes, getRoutes, zeroPaddingRoutes } from './Layout.data';
 
@@ -94,6 +94,7 @@ const DashboardLayout = ({ children, window }: any) => {
   const router = useRouter();
 
   const { user }: { user: any } = getSession();
+  const product = getActiveProductSession();
   //   const findRoleByEmail = ({ user, array }: any) => {
   //     return array?.find((skill: any) => skill?.email === user?.email);
   //   };
@@ -102,7 +103,7 @@ const DashboardLayout = ({ children, window }: any) => {
 
   const findEmailRole = user ? user?.role : ROLES?.SUPER_ADMIN;
 
-  const routes = getRoutes(findEmailRole);
+  const routes = getRoutes(product.name);
 
   const lowerRoutes = getLowerRoutes(findEmailRole);
   const pathname = usePathname();
@@ -140,7 +141,7 @@ const DashboardLayout = ({ children, window }: any) => {
                 textTransform: 'uppercase',
               }}
             >
-              {findEmailRole}
+              {product?.name}
             </Typography>
           </Box>
         </Box>
@@ -164,10 +165,7 @@ const DashboardLayout = ({ children, window }: any) => {
                   <div key={uuidv4()}>
                     {link?.textNames ? (
                       <>
-                        <PermissionsGuard
-                          sidebar="ItemPermission"
-                          permissions={link?.permissions}
-                        >
+                        <PermissionsGuard permissions={link?.permissions}>
                           <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                             <Link
                               href={`${link?.key}`}
@@ -224,7 +222,6 @@ const DashboardLayout = ({ children, window }: any) => {
                             {link?.textNames?.map((subItem: any) => (
                               <Link href={`${subItem?.key}`} key={uuidv4()}>
                                 <PermissionsGuard
-                                  sidebar="ItemPermission"
                                   permissions={link?.permissions}
                                 >
                                   <ListItem sx={{ padding: '0px' }}>
@@ -247,10 +244,7 @@ const DashboardLayout = ({ children, window }: any) => {
                         </Collapse>
                       </>
                     ) : (
-                      <PermissionsGuard
-                        sidebar="ItemPermission"
-                        permissions={link?.permissions}
-                      >
+                      <PermissionsGuard permissions={link?.permissions}>
                         <Link key={uuidv4()} href={`${link?.key}`}>
                           <ListItem
                             sx={{ padding: '6px 0px 6px 0px' }}
@@ -302,10 +296,7 @@ const DashboardLayout = ({ children, window }: any) => {
                   <div key={uuidv4()}>
                     {link?.textNames ? (
                       <>
-                        <PermissionsGuard
-                          sidebar="ItemPermission"
-                          permissions={link?.permissions}
-                        >
+                        <PermissionsGuard permissions={link?.permissions}>
                           <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                             <ListItemButton
                               sx={styles?.LowerNavLink(
@@ -357,7 +348,6 @@ const DashboardLayout = ({ children, window }: any) => {
                             {link?.textNames?.map((subItem: any) => (
                               <Link href={`${subItem?.key}`} key={uuidv4()}>
                                 <PermissionsGuard
-                                  sidebar="ItemPermission"
                                   permissions={link?.permissions}
                                 >
                                   <ListItem sx={{ padding: '0px' }}>
@@ -380,10 +370,7 @@ const DashboardLayout = ({ children, window }: any) => {
                         </Collapse>
                       </>
                     ) : (
-                      <PermissionsGuard
-                        sidebar="ItemPermission"
-                        permissions={link?.permissions}
-                      >
+                      <PermissionsGuard permissions={link?.permissions}>
                         <Link key={uuidv4()} href={`${link?.key}`}>
                           <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                             <ListItemButton

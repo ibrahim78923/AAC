@@ -147,41 +147,41 @@ export const ServicesRoutes: any = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_VIEW_DASHBOARD,
   },
   {
     key: '/air-services/tickets',
     icon: TicketDiscountImage,
     label: 'Tickets',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_TICKETS,
   },
   {
     key: '/air-services/assets/inventory',
     label: 'Assets',
     icon: AssetsImage,
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_ASSETS,
     textNames: [
       {
         key: '/air-services/assets/inventory',
         label: 'Inventory',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_ASSETS_INVENTORY,
       },
       {
         key: '/air-services/assets/software',
         label: 'Software',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_ASSETS_SOFTWARE,
       },
       {
         key: '/air-services/assets/contracts',
         label: 'Contracts',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_ASSETS_CONTRACTS_LIST_VIEW,
       },
       {
         key: '/air-services/assets/purchase-orders',
         label: 'Purchase Orders',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_ASSETS_PURCHASE_ORDER_LIST_VIEW,
       },
     ],
   },
@@ -191,21 +191,21 @@ export const ServicesRoutes: any = [
     icon: KnowledgeBaseImage,
     label: 'Knowledge Base',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_KNOWLEDGE_BASE,
   },
   {
     key: '/air-services/workload',
     icon: WorkLoadImage,
     label: 'WorkLoad',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_WORKLOAD_CALENDER_VIEW,
   },
   {
     key: '/air-customer-portal',
     icon: CustomerPortalImage,
     label: 'Customer Portal',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_CUSTOMER_PORTAL,
   },
 ];
 
@@ -298,7 +298,7 @@ export const AirMarketingRoutes: any = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions.AIR_MARKETER_DASHBAORD_PERMISSIONS,
   },
   {
     key: AIR_MARKETER?.PAID_ADS,
@@ -312,29 +312,33 @@ export const AirMarketingRoutes: any = [
     icon: CampaignImage,
     label: 'Campaign',
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions.AIR_MARKETER_CAMPAIGNS_PERMISSIONS,
   },
   {
     key: AIR_MARKETER?.EMAIL_MARKETING,
     label: 'Email Marketing',
     icon: EmailMarketingImage,
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions:
+      Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS,
     textNames: [
       {
         key: AIR_MARKETER?.EMAIL_TEMPLATES,
         label: 'Email Templates',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS,
       },
       {
         key: AIR_MARKETER?.EMAIL_FOLDER,
         label: 'Email Folder',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_FOLDERS_PERMISSIONS,
       },
       {
         key: AIR_MARKETER?.EMAIL_REPORTS,
         label: 'Email Reports',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_REPORTS_PERMISSIONS,
       },
     ],
   },
@@ -344,12 +348,14 @@ export const AirMarketingRoutes: any = [
     label: 'Social Marketing',
     icon: SocialMarketingImage,
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions:
+      Permissions?.AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS,
     textNames: [
       {
         key: AIR_MARKETER?.SOCIAL_INBOX,
         label: 'SociaL Inbox',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS,
       },
     ],
   },
@@ -359,7 +365,7 @@ export const AirMarketingRoutes: any = [
     icon: SmsMarketingImage,
     label: 'SMS Marketing',
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions?.AIR_MARKETER_SMS_MARKETING,
   },
   {
     key: AIR_MARKETER?.LEAD_CAPTURE,
@@ -371,12 +377,12 @@ export const AirMarketingRoutes: any = [
       {
         key: AIR_MARKETER?.LEAD_CAPTURE_CTA,
         label: 'CTA',
-        permissions: [],
+        permissions: Permissions?.AIR_MARKETER_LEAD_CAPTURE,
       },
       {
         key: AIR_MARKETER?.LEAD_CAPTURE_FORMS,
         label: 'Forms',
-        permissions: [],
+        permissions: Permissions?.AIR_MARKETER_LEAD_CAPTURE_FORM,
       },
     ],
   },
@@ -385,7 +391,7 @@ export const AirMarketingRoutes: any = [
     icon: ReportsImage,
     label: 'Reports',
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions?.AIR_MARKETER_REPORTS,
   },
 ];
 
@@ -395,14 +401,14 @@ export const CustomerPortalRoutes: any = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'CUSTOMER_PORTAL',
-    permissions: [],
+    permissions: Permissions?.AIR_CUSTOMER_PORTAL_DASHBOARD,
   },
   {
     key: '/air-customer-portal/tickets',
     icon: TicketDiscountImage,
     label: 'Tickets',
     role: 'CUSTOMER_PORTAL',
-    permissions: [],
+    permissions: Permissions?.AIR_CUSTOMER_PORTAL_TICKETS,
   },
   {
     key: '/air-customer-portal/knowledge-base',
@@ -416,59 +422,31 @@ export const CustomerPortalRoutes: any = [
     icon: WorkLoadImage,
     label: 'Catalog',
     role: 'CUSTOMER_PORTAL',
-    permissions: [],
+    permissions: Permissions?.AIR_CUSTOMER_PORTAL_CATALOG_LAYOUT,
   },
 ];
 
 export const AirOperationsRoutes: any = [
   {
     key: AIR_OPERATION?.root,
-    icon: DashboardImage,
-    label: 'Dashboard',
-    role: 'AIR_OPERATIONS',
-    permissions: [],
-  },
-  {
-    key: AIR_OPERATION?.DATA_MANAGEMENT,
     icon: DataManagementImage,
     label: 'Data Management',
     role: 'AIR_OPERATIONS',
-    permissions: [],
+    permissions: Permissions?.AIR_OPERATIONS_DATA_MANAGEMENT,
   },
-  // {
-  //   key: AIR_OPERATION?.INTEGRATIONS,
-  //   icon: IntegrationsImage,
-  //   label: 'Integrations',
-  //   role: 'AIR_OPERATIONS',
-  //   permissions: [],
-  // },
   {
     key: AIR_OPERATION?.WORK_FLOW,
     icon: WorkFlowAutomationImage,
     label: 'Workflow',
     role: 'AIR_OPERATIONS',
-    permissions: [],
-  },
-  // {
-  //   key: AIR_OPERATION?.REPORTS,
-  //   icon: ReportsImage,
-  //   label: 'Reports',
-  //   role: 'AIR_OPERATIONS',
-  //   permissions: [],
-  // },
-  {
-    key: AIR_OPERATION?.ROLE_AND_RIGHT,
-    icon: ForecastImage,
-    label: 'Role and Rights',
-    role: 'AIR_OPERATIONS',
-    permissions: [],
+    permissions: Permissions?.AIR_OPERATIONS_WORKFLOWS,
   },
   {
     key: AIR_OPERATION?.USER_MANAGEMENT,
     icon: ProfileUserManagementImage,
     label: 'User Management',
     role: 'AIR_OPERATIONS',
-    permissions: [],
+    permissions: Permissions?.AIR_OPERATIONS_USER_MANAGEMENT,
   },
 ];
 
@@ -646,32 +624,34 @@ export const LowerServicesRoutes = [
     icon: SettingImage,
     role: 'SERVICES',
     key: '/air-services/settings',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_SETTINGS,
     textNames: [
       {
         key: '/air-services/settings/account-settings',
         label: 'Account Settings',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_ACCOUNT_DETAILS,
       },
       {
         key: '/air-services/settings/user-management',
         label: 'User Management',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT,
       },
       {
         key: '/air-services/settings/asset-management',
         label: 'Asset Management',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_SETTINGS_ASSET_MANAGEMENT,
       },
       {
         key: '/air-services/settings/agent-performance-management',
         label: 'Agent Productivity & Workload Management',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_SERVICES_SETTINGS_AGENT_PERFORMANCE_MANAGEMENT,
       },
       {
         key: '/air-services/settings/service-management',
         label: 'Service Management',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT,
       },
     ],
   },
@@ -776,11 +756,11 @@ export const QuickLinkData = [
   },
 ];
 
-const ROLES_ROUTES: any = {
+const PRODUCT__ROUTES: any = {
   SUPER_ADMIN: SuperAdminRoutes,
-  ORG_EMPLOYEE: SalesRoutes,
+  'Air Sales': SalesRoutes,
   'Air Services': ServicesRoutes,
-  'Org Admin': OrgAdminRoutes,
+  ORG_ADMIN: OrgAdminRoutes,
   'Customer Portal': CustomerPortalRoutes,
   'Air Operations': AirOperationsRoutes,
   'Air Marketer': AirMarketingRoutes,
@@ -788,10 +768,10 @@ const ROLES_ROUTES: any = {
 };
 
 export const getRoutes = (role: any) => {
-  return ROLES_ROUTES[role];
+  return PRODUCT__ROUTES[role];
 };
 
-const LOWER_ROLES_ROUTES: any = {
+const LOWER_PRODUCT_ROUTES: any = {
   'Super Admin': LowerSuperAdminRoutes,
   'Air Sales': LowerSalesRoutes,
   'Air Services': LowerServicesRoutes,
@@ -802,7 +782,7 @@ const LOWER_ROLES_ROUTES: any = {
 };
 
 export const getLowerRoutes = (role: any) => {
-  return LOWER_ROLES_ROUTES[role];
+  return LOWER_PRODUCT_ROUTES[role];
 };
 
 export const zeroPaddingRoutes = [
