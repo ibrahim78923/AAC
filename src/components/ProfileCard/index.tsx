@@ -10,6 +10,8 @@ import {
   EditIcon,
   EditColoredIcon,
 } from '@/assets/icons';
+import { ORG_ADMIN_USERS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const ProfileCard = (props: CardPropsI) => {
   const theme = useTheme();
@@ -110,10 +112,14 @@ const ProfileCard = (props: CardPropsI) => {
         </Box>
       </Box>
       {editBtn && (
-        <Button onClick={handleEditProfile}>
-          Edit Profile
-          <EditColoredIcon />
-        </Button>
+        <PermissionsGuard
+          permissions={[ORG_ADMIN_USERS_PERMISSIONS?.EDIT_PROFILE]}
+        >
+          <Button onClick={handleEditProfile}>
+            Edit Profile
+            <EditColoredIcon />
+          </Button>
+        </PermissionsGuard>
       )}
     </Box>
   );

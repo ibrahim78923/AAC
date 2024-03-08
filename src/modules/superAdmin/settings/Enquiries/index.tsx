@@ -32,6 +32,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEnquiries } from './useEnquiries';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS } from '@/constants/permission-keys';
 
 const Enquiries = () => {
   const [isEnquiriesFilterDrawerOpen, setIsEnquiriesFilterDrawerOpen] =
@@ -75,81 +77,125 @@ const Enquiries = () => {
         border: '1px solid #EAECF0',
       }}
     >
-      <Box sx={styles?.pageHeader}>
-        <Box sx={styles?.heading}>
-          <Typography variant="h3" sx={{ fontWeight: '600' }}>
-            Enquiries
-          </Typography>
-        </Box>
-        <Box sx={styles?.filterBar}>
-          <Box sx={styles?.search}>
-            <Search
-              label={'Search here'}
-              searchBy={search}
-              setSearchBy={setSearch}
-              width="260px"
-              size="small"
-            />
+      <PermissionsGuard
+        permissions={[
+          SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.Enquiries_List,
+        ]}
+      >
+        <Box sx={styles?.pageHeader}>
+          <Box sx={styles?.heading}>
+            <Typography variant="h3" sx={{ fontWeight: '600' }}>
+              Enquiries
+            </Typography>
           </Box>
-          <Box sx={styles?.filterButtons}>
-            <Button
-              disabled={tableRowIds.length > 0 ? false : true}
-              id="basic-button"
-              aria-controls={isActionMenuOpen ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={isActionMenuOpen ? 'true' : undefined}
-              onClick={handleClick}
-              sx={styles?.actionBtn}
-              className="small"
+          <Box sx={styles?.filterBar}>
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.Search_and_Filter,
+              ]}
             >
-              Actions &nbsp; <DownIcon />
-            </Button>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={isActionMenuOpen}
-              onClose={handleClose}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-              PaperProps={{
-                style: {
-                  width: '112px',
-                },
-              }}
-            >
-              <MenuItem
-                onClick={() => setIsQueryModalOpen(true)}
-                style={{ fontSize: '14px' }}
+              <Box sx={styles?.search}>
+                <Search
+                  label={'Search here'}
+                  searchBy={search}
+                  setSearchBy={setSearch}
+                  width="260px"
+                  size="small"
+                />
+              </Box>
+            </PermissionsGuard>
+
+            <Box sx={styles?.filterButtons}>
+              <Button
+                disabled={tableRowIds.length > 0 ? false : true}
+                id="basic-button"
+                aria-controls={isActionMenuOpen ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={isActionMenuOpen ? 'true' : undefined}
+                onClick={handleClick}
+                sx={styles?.actionBtn}
+                className="small"
               >
-                Reply
-              </MenuItem>
-              <MenuItem style={{ fontSize: '14px' }}>View</MenuItem>
-              <MenuItem
-                onClick={handleDeleteModal}
-                style={{ fontSize: '14px' }}
-              >
-                Delete
-              </MenuItem>
-            </Menu>
-            <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
-              <Button sx={styles?.refreshButton} className="small">
-                <RefreshSharedIcon />
+                Actions &nbsp; <DownIcon />
               </Button>
-            </Tooltip>
-            <Button
-              sx={styles?.filterButton}
-              className="small"
-              onClick={() => setIsEnquiriesFilterDrawerOpen(true)}
-            >
-              <FilterSharedIcon /> &nbsp; Filter
-            </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={isActionMenuOpen}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+                PaperProps={{
+                  style: {
+                    width: '112px',
+                  },
+                }}
+              >
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.Reply_Enquiry,
+                  ]}
+                >
+                  <MenuItem
+                    onClick={() => setIsQueryModalOpen(true)}
+                    style={{ fontSize: '14px' }}
+                  >
+                    Reply
+                  </MenuItem>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.View_Enquiry,
+                  ]}
+                >
+                  <MenuItem style={{ fontSize: '14px' }}>View</MenuItem>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.Delete_Enquiry,
+                  ]}
+                >
+                  <MenuItem
+                    onClick={handleDeleteModal}
+                    style={{ fontSize: '14px' }}
+                  >
+                    Delete
+                  </MenuItem>
+                </PermissionsGuard>
+              </Menu>
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.Refresh_Record,
+                ]}
+              >
+                <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+                  <Button sx={styles?.refreshButton} className="small">
+                    <RefreshSharedIcon />
+                  </Button>
+                </Tooltip>
+              </PermissionsGuard>
+
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_ENQUIRIES_PERMISSIONS?.Search_and_Filter,
+                ]}
+              >
+                <Button
+                  sx={styles?.filterButton}
+                  className="small"
+                  onClick={() => setIsEnquiriesFilterDrawerOpen(true)}
+                >
+                  <FilterSharedIcon /> &nbsp; Filter
+                </Button>
+              </PermissionsGuard>
+            </Box>
           </Box>
         </Box>
-      </Box>
-      <Box>
-        <TanstackTable {...tableData} isPagination={true} />
-      </Box>
+        <Box>
+          <TanstackTable {...tableData} isPagination={true} />
+        </Box>
+      </PermissionsGuard>
       <CommonDrawer
         isDrawerOpen={isEnquiriesFilterDrawerOpen}
         onClose={() => setIsEnquiriesFilterDrawerOpen(false)}
