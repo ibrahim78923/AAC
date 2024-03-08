@@ -1,7 +1,5 @@
-import {
-  useDeleteTeamsMutation,
-  useGetTeamsByIdQuery,
-} from '@/services/airSales/settings/teams';
+import { useDeleteTeamsMutation } from '@/services/airSales/settings/teams';
+import { useGetProductsUsersQuery } from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
@@ -16,8 +14,14 @@ const useUserManagement = () => {
   const [isAddUser, setIsAddUser] = useState(false);
   const [isTeamDrawer, setIsTeamDrawer] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
-  const { data: teamDataById } = useGetTeamsByIdQuery(teamId);
+  const [searchUser, setSearchUser] = useState('');
   const [deleteTeams] = useDeleteTeamsMutation();
+  const productUserParams = {
+    page: 1,
+    limit: 10,
+    search: searchUser ? searchUser : undefined,
+  };
+  const { data: productsUsers } = useGetProductsUsersQuery(productUserParams);
 
   const handleDeleteTeam = async (id: any) => {
     try {
@@ -41,12 +45,14 @@ const useUserManagement = () => {
     setIsAddUser,
     teamId,
     setTeamId,
-    teamDataById,
     isTeamDrawer,
     setIsTeamDrawer,
     isOpenDelete,
     setIsOpenDelete,
     handleDeleteTeam,
+    productsUsers,
+    searchUser,
+    setSearchUser,
   };
 };
 

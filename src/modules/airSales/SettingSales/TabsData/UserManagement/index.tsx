@@ -6,7 +6,6 @@ import useUserManagement from './useUserManagement';
 import CommonTabs from '@/components/Tabs';
 import CreateTeams from './Teams/CreateTeams';
 import { AlertModals } from '@/components/AlertModals';
-import ViewTeams from './Teams/ViewTeams';
 
 const Users = () => {
   const theme = useTheme<Theme>();
@@ -18,12 +17,12 @@ const Users = () => {
     setIsAddTeam,
     setTeamId,
     teamId,
-    teamDataById,
     isOpenDelete,
     isTeamDrawer,
     setIsTeamDrawer,
     setIsOpenDelete,
     handleDeleteTeam,
+    // searchUser, setSearchUser
   } = useUserManagement();
 
   return (
@@ -83,16 +82,12 @@ const Users = () => {
               setIsAddTeam={setIsAddTeam}
               setIsOpenDelete={setIsOpenDelete}
               setIsTeamDrawer={setIsTeamDrawer}
+              isTeamDrawer={isTeamDrawer}
             />
           </CommonTabs>
         </Box>
       </Box>
       <CreateTeams isAddTeam={isAddTeam} setIsAddTeam={setIsAddTeam} />
-      <ViewTeams
-        isTeamDrawer={isTeamDrawer}
-        setIsTeamDrawer={setIsTeamDrawer}
-        teamData={teamDataById}
-      />
 
       {isOpenDelete && (
         <AlertModals
