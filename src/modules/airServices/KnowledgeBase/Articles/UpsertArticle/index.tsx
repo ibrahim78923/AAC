@@ -41,7 +41,7 @@ export const UpsertArticle = () => {
     >
       <FormProvider methods={methods}>
         <Grid container sx={{ borderRadius: '12px' }}>
-          <Grid item xs={12} lg={9} pr={2.4}>
+          <Grid item xs={12} lg={9} pr={{ lg: 2.4 }}>
             <PageTitledHeader
               title={articleId ? 'Edit article' : 'Write an article'}
               canMovedBack
@@ -64,7 +64,7 @@ export const UpsertArticle = () => {
               ]}
             >
               <RHFDropZone
-                name="file"
+                name="attachments"
                 fileType="PNG or JPG  (max 2.44 MB)"
                 maxSize={1024 * 1024 * 2.44}
                 accept={{
@@ -72,36 +72,36 @@ export const UpsertArticle = () => {
                 }}
               />
             </PermissionsGuard>
+            <br />
           </Grid>
           <Grid
             item
             xs={12}
             lg={3}
+            minHeight={{ xs: 'inherit', lg: '100vh' }}
             sx={{
-              borderLeft: `1px solid ${theme?.palette?.custom?.dark}`,
-              padding: 2,
+              borderLeft: { lg: `1px solid ${theme?.palette?.custom?.dark}` },
+              padding: { lg: 2 },
             }}
+            display={'flex'}
+            flexDirection={'column'}
           >
-            {newArticleFields?.map((form: any) => (
-              <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                <form.component {...form?.componentProps} size="small" />
-              </Grid>
-            ))}
-            <Grid
-              item
-              xs={12}
-              display="flex"
-              flexDirection={'column'}
-              minHeight={{ xs: '5vh', lg: '59vh' }}
-            >
-              <Box flexGrow={1}></Box>
+            <Box>
+              {newArticleFields?.map((form: any) => (
+                <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                  <form.component {...form?.componentProps} size="small" />
+                </Grid>
+              ))}
+            </Box>
+            <Box flexGrow={{ lg: 1 }}></Box>
+            <Box>
               <Box
                 sx={{
-                  height: '100%',
+                  height: { lg: '100%' },
                   display: 'flex',
                   flexWrap: 'wrap',
-                  gap: 2,
-                  alignItems: 'flex-end',
+                  gap: 1,
+                  alignItems: 'center',
                 }}
               >
                 <PermissionsGuard
@@ -167,7 +167,7 @@ export const UpsertArticle = () => {
                   </LoadingButton>
                 </PermissionsGuard>
               </Box>
-            </Grid>
+            </Box>
           </Grid>
         </Grid>
       </FormProvider>

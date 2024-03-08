@@ -30,6 +30,7 @@ export const DATE_TIME_FORMAT = {
   D: 'D',
   DDDDDD: 'ddd - DD',
   DDMMYYYY: 'DD MMM, YYYY hh:MM A',
+  DMMMY: 'D MMM, YYYY',
 };
 
 export const VALIDATION_CONSTANT = {

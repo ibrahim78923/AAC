@@ -3,16 +3,12 @@ import {
   Box,
   Dialog,
   DialogContent,
-  DialogTitle,
   IconButton,
   Typography,
 } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Image from 'next/image';
-import {
-  overviewTablePdfColumns,
-  overviewListPdfData,
-} from './OverviewModal.data';
+import { overviewTablePdfColumns } from './OverviewModal.data';
 import OverviewBilling from '../OverviewBilling';
 import { DownloadFileIcon, PrinterIcon } from '@/assets/icons';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -21,7 +17,13 @@ import { styles } from './OverviewModal.style';
 const OverviewModal = ({
   openOverviewModal,
   setOpenOverviewModal,
+  purchaseOrderData,
+  purchaseOrderDetailData,
+  itemName,
   theme,
+  orderStatus,
+  handleDownload,
+  uniqueNumber,
 }: any) => {
   return (
     <Box>
@@ -31,8 +33,8 @@ const OverviewModal = ({
         onClose={() => setOpenOverviewModal(false)}
         sx={styles?.modelSizing}
       >
-        <DialogTitle mt={'-1.5rem'}>
-          <Box sx={styles?.logoBox}>
+        <DialogContent id="invoice">
+          <Box sx={styles?.logoBox} mt={'-1.5rem'}>
             <Box display={'flex'} gap={1}>
               <Image src={LogoImage} alt="logo" style={styles?.logoImage} />
               <Box>
@@ -49,29 +51,33 @@ const OverviewModal = ({
               />
             </IconButton>
           </Box>
-        </DialogTitle>
-        <DialogContent>
           <Box sx={styles?.iconsStyle}>
-            <PrinterIcon />
-            <DownloadFileIcon />
+            <IconButton
+              sx={{ cursor: 'pointer' }}
+              onClick={() => window.print()}
+            >
+              <PrinterIcon />
+            </IconButton>
+            <IconButton onClick={handleDownload}>
+              <DownloadFileIcon />
+            </IconButton>
           </Box>
           <Box sx={styles?.textBoxStyle}>
             <Box>
-              {/*Multiple Typography have common styling that way using sx */}
               <Typography variant="body2" sx={styles?.textColorCommon}>
                 Invoice To
               </Typography>
               <Typography variant="h3" mb={'0.3125rem'}>
-                Albert Torento
+                {purchaseOrderData?.vendorDetails?.name}
               </Typography>
               <Typography variant="h6" sx={styles?.textColorCommon}>
-                Hights St Covendis
+                {purchaseOrderData?.locationDetails?.locationName}
               </Typography>
               <Typography variant="h6" sx={styles?.textColorCommon}>
-                Sudbury
+                {purchaseOrderData?.locationDetails?.address?.city}
               </Typography>
               <Typography variant="h6" sx={styles?.textColorCommon}>
-                CO I8 BAX
+                {purchaseOrderData?.locationDetails?.address?.country}
               </Typography>
             </Box>
             <Box display={'flex'} gap={'3rem'}>
@@ -85,22 +91,30 @@ const OverviewModal = ({
               </Box>
               <Box>
                 <Typography variant="h6" sx={styles?.textColorCommonTwo}>
-                  1203
+                  {uniqueNumber}
                 </Typography>
                 <Typography variant="h6" sx={styles?.textColorCommonTwo}>
-                  19/01/2022
+                  {purchaseOrderData?.createdAt?.slice(0, 10)}
                 </Typography>
               </Box>
             </Box>
           </Box>
           <Box px={{ md: '3rem', xs: '1rem' }}>
             <TanstackTable
-              data={overviewListPdfData}
-              columns={overviewTablePdfColumns(theme)}
+              data={purchaseOrderDetailData}
+              columns={overviewTablePdfColumns(
+                purchaseOrderDetailData,
+                itemName,
+                theme,
+                orderStatus,
+              )}
             />
           </Box>
           <Box m={{ md: '1rem 3rem 5rem 0' }} px={{ xs: '1rem' }}>
-            <OverviewBilling />
+            <OverviewBilling
+              purchaseOrderDetailData={purchaseOrderDetailData}
+              purchaseOrderData={purchaseOrderData}
+            />
           </Box>
         </DialogContent>
       </Dialog>
