@@ -7,15 +7,18 @@ import {
   serviceResolveDataArray,
 } from './ClosureRole.data';
 import { useEffect } from 'react';
-import { usePostClosureRuleMutation } from '@/services/airServices/settings/service-management/closureRole';
+import {
+  useGetClosureRulesQuery,
+  usePostClosureRuleMutation,
+} from '@/services/airServices/settings/service-management/closureRole';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useClosureRole = () => {
   const router = useRouter();
-  const { closureRuleData, getIsLoading }: any = router?.query;
-  const getClosureRuleValues = JSON?.parse(closureRuleData);
+  const { data, isLoading: getIsLoading } = useGetClosureRulesQuery(null);
+  const getClosureRuleValues = data?.data;
 
   const ticket = {
     incidentClose: 0,

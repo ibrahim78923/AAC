@@ -1,15 +1,13 @@
 import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { serviceManagementData } from './ServiceManagement.data';
+import { serviceManagement } from './ServiceManagement.data';
 import { useGetClosureRulesQuery } from '@/services/airServices/settings/service-management/closureRole';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const ServiceManagement = () => {
   const theme = useTheme();
   const router = useRouter();
-  const { data, isLoading } = useGetClosureRulesQuery(null);
-  const closureRuleData = data?.data;
-  const serviceManagement = serviceManagementData(closureRuleData);
+  const { isLoading } = useGetClosureRulesQuery(null);
 
   return (
     <>
@@ -29,10 +27,6 @@ export const ServiceManagement = () => {
               onClick={() => {
                 router?.push({
                   pathname: item?.link,
-                  query: {
-                    closureRuleData: JSON?.stringify(item?.closureRule),
-                    getIsLoading: isLoading,
-                  },
                 });
               }}
               sx={{ cursor: 'pointer' }}
