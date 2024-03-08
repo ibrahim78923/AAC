@@ -80,8 +80,9 @@ export const useUpsertArticle: any = () => {
       data?.needsApproval &&
       upsertArticle?.append('approver', data?.approver?._id);
     data?.needsApproval &&
-      upsertArticle?.append('reviewDate', data?.reviewDate);
-
+      upsertArticle?.append('reviewDate', data?.reviewDate?.toISOString());
+    !!data?.attachments &&
+      upsertArticle?.append('attachments', data?.attachments);
     const postArticleParameter = {
       body: upsertArticle,
     };

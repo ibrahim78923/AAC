@@ -4,6 +4,8 @@ import ActivityChart from './ActivityChart';
 import { styles } from './styles';
 import RecipientEngagement from './RecipientEngagement';
 import { DocumentDownloadIcon } from '@/assets/icons';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_REPORTS_PERMISSIONS } from '@/constants/permission-keys';
 
 const EmailReports = () => {
   return (
@@ -18,12 +20,21 @@ const EmailReports = () => {
       <Box>
         <Box sx={{ ...styles?.emailReportsWrap, my: 2 }}>
           <Typography variant="h4">Email Chart</Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <DocumentDownloadIcon />
-            <Typography variant="h4" sx={{ fontWeight: 400, color: '#38CAB5' }}>
-              Download Reports
-            </Typography>
-          </Box>
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_REPORTS_PERMISSIONS.DOWNLOAD_REPORTS,
+            ]}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <DocumentDownloadIcon />
+              <Typography
+                variant="h4"
+                sx={{ fontWeight: 400, color: '#38CAB5' }}
+              >
+                Download Reports
+              </Typography>
+            </Box>
+          </PermissionsGuard>
         </Box>
         <Grid container spacing={2}>
           <Grid item md={8} xs={12}>

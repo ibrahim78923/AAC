@@ -20,6 +20,7 @@ export const defaultValues = (articleData?: any) => {
     needsApproval: articleData?.isApproval ?? false,
     approver: articleData?.approver ?? null,
     reviewDate: new Date(articleData?.reviewDate ?? todayDate),
+    attachments: articleData?.attachments ?? null,
   };
 };
 
@@ -27,6 +28,19 @@ export const upsertArticleValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
   details: Yup?.string()?.required('Required'),
   folder: Yup?.mixed()?.nullable()?.required('Required'),
+  needsApproval: Yup?.boolean(),
+  reviewDate: Yup?.date()?.when('needsApproval', {
+    is: (approval: any) => approval,
+    then: (schema: any) => schema?.required('Required'),
+    otherwise: (schema: any) => schema?.notRequired(),
+  }),
+  approver: Yup?.mixed()
+    ?.nullable()
+    ?.when('needsApproval', {
+      is: (approval: any) => approval,
+      then: (schema: any) => schema?.required('Required'),
+      otherwise: (schema: any) => schema?.notRequired(),
+    }),
 });
 
 export const editArticleFieldsFunction = (
@@ -41,6 +55,7 @@ export const editArticleFieldsFunction = (
         fullWidth: true,
         name: 'approver',
         label: 'Approver',
+        required: needApprovals,
         placeholder: 'Select',
         sx: { pb: 1.2 },
         apiQuery: apiQueryApprover,
@@ -56,6 +71,7 @@ export const editArticleFieldsFunction = (
       gridLength: 12,
       componentProps: {
         fullWidth: true,
+        required: needApprovals,
         name: 'reviewDate',
         label: 'Review Date',
         sx: { pb: 1.2 },
@@ -69,6 +85,7 @@ export const editArticleFieldsFunction = (
       gridLength: 12,
       componentProps: {
         fullWidth: true,
+        required: true,
         name: 'folder',
         label: 'Folder',
         placeholder: 'Select',

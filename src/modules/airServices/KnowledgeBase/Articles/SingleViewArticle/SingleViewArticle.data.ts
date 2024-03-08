@@ -36,15 +36,15 @@ export const sideData = (data: any) => {
       details: [
         {
           title: 'Views:',
-          des: '22',
+          des: data?.views,
         },
         {
           title: 'Helpful:',
-          des: '14',
+          des: data?.helpfulYesCount,
         },
         {
           title: 'Not helpful:',
-          des: '1',
+          des: data?.helpfulNoCount,
         },
         {
           title: 'Inserted tickets:',
