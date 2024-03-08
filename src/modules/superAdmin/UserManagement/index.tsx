@@ -17,7 +17,10 @@ import { FilterrIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
 import useUserManagement from './useUserManagement';
 import ActionButton from './ActionButton';
 
-import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS,
+  SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS,
+} from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 
@@ -55,7 +58,13 @@ const UserManagement = () => {
       >
         <Typography variant="h3">User Management</Typography>
         <PermissionsGuard
-          permissions={[SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]}
+          permissions={
+            tabVal === initialTab
+              ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
+              : tabVal === tabOne
+                ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
+                : [SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ADD_ROLE]
+          }
         >
           <Button
             sx={{ mt: { md: 0, xs: 1 } }}
@@ -116,9 +125,15 @@ const UserManagement = () => {
                 </Tooltip>
                 {tabVal !== tabOne ? (
                   <PermissionsGuard
-                    permissions={[
-                      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_SEARCH_AND_FILTER,
-                    ]}
+                    permissions={
+                      tabVal === initialTab
+                        ? [
+                            SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_SEARCH_AND_FILTER,
+                          ]
+                        : [
+                            SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ROLE_SEARCH_AND_FILTER,
+                          ]
+                    }
                   >
                     <Button
                       onClick={() => {
