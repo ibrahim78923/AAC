@@ -111,12 +111,12 @@ export const UpsertArticle = () => {
                           AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.CREATE_ARTICLE,
                         ]
                       : articleId
-                        ? [
-                            AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
-                          ]
-                        : [
-                            AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.SAVE_AS_DRAFT,
-                          ]
+                      ? [
+                          AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
+                        ]
+                      : [
+                          AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.SAVE_AS_DRAFT,
+                        ]
                   }
                 >
                   <LoadingButton
@@ -135,8 +135,8 @@ export const UpsertArticle = () => {
                     {needApprovals
                       ? 'Cancel'
                       : articleId
-                        ? 'Save'
-                        : 'Save as Draft'}
+                      ? 'Save'
+                      : 'Save as Draft'}
                   </LoadingButton>
                 </PermissionsGuard>
                 <PermissionsGuard

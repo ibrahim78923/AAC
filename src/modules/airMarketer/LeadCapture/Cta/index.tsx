@@ -22,6 +22,8 @@ import { DeleteIcon, ExportDownloadIcon, PlusIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import { AlertModals } from '@/components/AlertModals';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS } from '@/constants/permission-keys';
 
 const CTA = () => {
   const {
@@ -49,27 +51,33 @@ const CTA = () => {
         <Grid item xs={12}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="h3"> CTAs</Typography>
-
-            <Button
-              variant="contained"
-              sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-              onClick={() => setOpenDrawer('Add')}
+            <PermissionsGuard
+              permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.CREATE_CTA]}
             >
-              <PlusIcon /> Create CTA
-            </Button>
+              <Button
+                variant="contained"
+                sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
+                onClick={() => setOpenDrawer('Add')}
+              >
+                <PlusIcon /> Create CTA
+              </Button>
+            </PermissionsGuard>
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Search
-            searchBy={searchTerm}
-            setSearchBy={setSearchTerm}
-            label="Search By Name"
-            fullWidth
-            size="small"
-            sx={{ marginBottom: '15px', maxWidth: '240px' }}
-          />
+        <Grid item xs={12} md={3}>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.SERACH]}
+          >
+            <Search
+              searchBy={searchTerm}
+              setSearchBy={setSearchTerm}
+              label="Search By Name"
+              fullWidth
+              size="small"
+            />
+          </PermissionsGuard>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={9}>
           <Box sx={{ display: 'flex', justifyContent: { md: 'end' } }}>
             <Box
               sx={{
@@ -78,26 +86,41 @@ const CTA = () => {
                 flexDirection: { xs: 'column', md: 'row' },
               }}
             >
-              <Button
-                variant="outlined"
-                color="inherit"
-                disabled={selectedCheckboxes?.length === 0}
-                sx={{ minWidth: '0px', height: '35px', gap: 0.5, color: 'red' }}
-                onClick={() => setOpenModal('Delete')}
+              <PermissionsGuard
+                permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.DELETE]}
               >
-                <DeleteIcon
-                  color={selectedCheckboxes?.length > 0 ? '#FF4A4A' : '#D1D5DB'}
-                />
-                Delete
-              </Button>
-              <Button
-                variant="outlined"
-                color="inherit"
-                sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-                onClick={() => setOpenModal('Export')}
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  disabled={selectedCheckboxes?.length === 0}
+                  sx={{
+                    minWidth: '0px',
+                    height: '35px',
+                    gap: 0.5,
+                    color: 'red',
+                  }}
+                  onClick={() => setOpenModal('Delete')}
+                >
+                  <DeleteIcon
+                    color={
+                      selectedCheckboxes?.length > 0 ? '#FF4A4A' : '#D1D5DB'
+                    }
+                  />
+                  Delete
+                </Button>
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS?.EXPORT]}
               >
-                <ExportDownloadIcon /> Export
-              </Button>
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
+                  onClick={() => setOpenModal('Export')}
+                >
+                  <ExportDownloadIcon /> Export
+                </Button>
+              </PermissionsGuard>
             </Box>
           </Box>
         </Grid>
