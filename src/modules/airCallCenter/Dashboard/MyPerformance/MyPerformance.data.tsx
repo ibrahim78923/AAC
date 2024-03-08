@@ -80,8 +80,8 @@ export const columns: any = (theme: any) => [
             info?.row?.original?.Status === 'answered call'
               ? theme?.palette?.success?.main
               : info?.row?.original?.Status === 'missed call'
-                ? theme?.palette?.error?.main
-                : theme?.palette?.warning?.main,
+              ? theme?.palette?.error?.main
+              : theme?.palette?.warning?.main,
         }}
       >
         {info?.row?.original?.Status}

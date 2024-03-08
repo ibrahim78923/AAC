@@ -40,8 +40,8 @@ export const useRelatedTickets = (props: any) => {
     data?.data?.tickets?.length > 1
       ? data?.data?.tickets
       : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
-        ? data?.data?.tickets
-        : [],
+      ? data?.data?.tickets
+      : [],
     selectedChildTickets,
     setSelectedChildTickets,
     theme,
@@ -59,8 +59,8 @@ export const useRelatedTickets = (props: any) => {
       data?.data?.tickets?.length > 1
         ? data?.data?.meta?.total
         : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
-          ? data?.data?.meta?.total
-          : 0,
+        ? data?.data?.meta?.total
+        : 0,
     );
     return () => setTotalRelatedTickets('');
   }, [data]);

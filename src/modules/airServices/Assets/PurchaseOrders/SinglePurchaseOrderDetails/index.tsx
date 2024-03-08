@@ -1,7 +1,6 @@
 import { Header } from './Header';
 import { useSinglePurchaseDetail } from './useSinglePurchaseDetail';
 import { AlertModals } from '@/components/AlertModals';
-
 import { ReceivedItems } from './ReceivedItems';
 import { AddToInventory } from './AddToInventory';
 import { SinglePurchaseOrderDetailTabs } from './SinglePurchaseOrderDetailTabs';

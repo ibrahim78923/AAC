@@ -298,7 +298,7 @@ export const AirMarketingRoutes: any = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions.AIR_MARKETER_DASHBAORD_PERMISSIONS,
   },
   {
     key: AIR_MARKETER?.PAID_ADS,
@@ -312,29 +312,33 @@ export const AirMarketingRoutes: any = [
     icon: CampaignImage,
     label: 'Campaign',
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions.AIR_MARKETER_CAMPAIGNS_PERMISSIONS,
   },
   {
     key: AIR_MARKETER?.EMAIL_MARKETING,
     label: 'Email Marketing',
     icon: EmailMarketingImage,
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions:
+      Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS,
     textNames: [
       {
         key: AIR_MARKETER?.EMAIL_TEMPLATES,
         label: 'Email Templates',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS,
       },
       {
         key: AIR_MARKETER?.EMAIL_FOLDER,
         label: 'Email Folder',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_FOLDERS_PERMISSIONS,
       },
       {
         key: AIR_MARKETER?.EMAIL_REPORTS,
         label: 'Email Reports',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_REPORTS_PERMISSIONS,
       },
     ],
   },
@@ -344,12 +348,14 @@ export const AirMarketingRoutes: any = [
     label: 'Social Marketing',
     icon: SocialMarketingImage,
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions:
+      Permissions?.AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS,
     textNames: [
       {
         key: AIR_MARKETER?.SOCIAL_INBOX,
         label: 'SociaL Inbox',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS,
       },
     ],
   },
@@ -359,7 +365,7 @@ export const AirMarketingRoutes: any = [
     icon: SmsMarketingImage,
     label: 'SMS Marketing',
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions?.AIR_MARKETER_SMS_MARKETING,
   },
   {
     key: AIR_MARKETER?.LEAD_CAPTURE,
@@ -371,12 +377,12 @@ export const AirMarketingRoutes: any = [
       {
         key: AIR_MARKETER?.LEAD_CAPTURE_CTA,
         label: 'CTA',
-        permissions: [],
+        permissions: Permissions?.AIR_MARKETER_LEAD_CAPTURE,
       },
       {
         key: AIR_MARKETER?.LEAD_CAPTURE_FORMS,
         label: 'Forms',
-        permissions: [],
+        permissions: Permissions?.AIR_MARKETER_LEAD_CAPTURE_FORM,
       },
     ],
   },
@@ -385,7 +391,7 @@ export const AirMarketingRoutes: any = [
     icon: ReportsImage,
     label: 'Reports',
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions?.AIR_MARKETER_REPORTS,
   },
 ];
 
@@ -778,9 +784,9 @@ export const QuickLinkData = [
   },
 ];
 
-const ROLES_ROUTES: any = {
+const PRODUCT__ROUTES: any = {
   SUPER_ADMIN: SuperAdminRoutes,
-  ORG_EMPLOYEE: SalesRoutes,
+  'Air Sales': SalesRoutes,
   'Air Services': ServicesRoutes,
   ORG_ADMIN: OrgAdminRoutes,
   'Customer Portal': CustomerPortalRoutes,
@@ -790,10 +796,10 @@ const ROLES_ROUTES: any = {
 };
 
 export const getRoutes = (role: any) => {
-  return ROLES_ROUTES[role];
+  return PRODUCT__ROUTES[role];
 };
 
-const LOWER_ROLES_ROUTES: any = {
+const LOWER_PRODUCT_ROUTES: any = {
   'Super Admin': LowerSuperAdminRoutes,
   'Air Sales': LowerSalesRoutes,
   'Air Services': LowerServicesRoutes,
@@ -804,7 +810,7 @@ const LOWER_ROLES_ROUTES: any = {
 };
 
 export const getLowerRoutes = (role: any) => {
-  return LOWER_ROLES_ROUTES[role];
+  return LOWER_PRODUCT_ROUTES[role];
 };
 
 export const zeroPaddingRoutes = [

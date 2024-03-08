@@ -28,17 +28,17 @@ export const AddMeetingForm = ({
                         </option>
                       ))
                     : item?.buttonGroup
-                      ? item?.options?.map((option: any) => (
-                          <ToggleButton
-                            sx={videoConferencingButtons}
-                            key={uuidv4()}
-                            value={option?.value}
-                          >
-                            <Image src={option?.img} alt={option?.value} />
-                            {option?.label}
-                          </ToggleButton>
-                        ))
-                      : null}
+                    ? item?.options?.map((option: any) => (
+                        <ToggleButton
+                          sx={videoConferencingButtons}
+                          key={uuidv4()}
+                          value={option?.value}
+                        >
+                          <Image src={option?.img} alt={option?.value} />
+                          {option?.label}
+                        </ToggleButton>
+                      ))
+                    : null}
                 </item.component>
               </Grid>
             ))}
