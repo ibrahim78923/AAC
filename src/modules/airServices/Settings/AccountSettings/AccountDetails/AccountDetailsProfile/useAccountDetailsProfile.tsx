@@ -6,11 +6,18 @@ import {
   accountDetailProfileDefaultValues,
 } from './AccountDetailsProfile.data';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useGetProfileDetailQuery } from '@/services/airServices/settings/account-settings/account-details';
+import useAuth from '@/hooks/useAuth';
 
 export const useAccountDetailsProfile = () => {
+  const user = useAuth();
+  const userId = user?.user?._id;
+  const { data } = useGetProfileDetailQuery(userId);
+  const profileDetail = data?.data;
+
   const AccountDetailProfileMethods = useForm({
     resolver: yupResolver(accountDetailProfileValidationSchema),
-    defaultValues: accountDetailProfileDefaultValues,
+    defaultValues: accountDetailProfileDefaultValues(profileDetail),
   });
 
   const isSubmit = async () => {

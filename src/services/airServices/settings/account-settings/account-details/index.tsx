@@ -12,7 +12,28 @@ export const AccountDetailAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getProfileDetail: builder?.query({
+      query: (param: any) => ({
+        url: `${END_POINTS?.GET_PROFILE_DETAIL}/${param}`,
+        method: 'GET',
+        // params: param,
+      }),
+      providesTags: [TAG],
+    }),
+    patchProfileDetail: builder?.mutation({
+      query: (param: any) => ({
+        url: `${END_POINTS?.PATCH_PROFILE_DETAIL}`,
+        method: 'PATCH',
+        params: param?.id,
+        body: param?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
-export const { usePostChangePasswordMutation } = AccountDetailAPI;
+export const {
+  usePostChangePasswordMutation,
+  useGetProfileDetailQuery,
+  usePatchProfileDetailMutation,
+} = AccountDetailAPI;
