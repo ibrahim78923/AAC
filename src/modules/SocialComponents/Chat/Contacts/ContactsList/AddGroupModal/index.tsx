@@ -21,14 +21,17 @@ import {
 } from './AddGroupModal.data';
 import { AddGroupPropsI } from './AddGroup.interface';
 
-import { AddRoundedImage } from '@/assets/images';
+import { AddRoundedImage, UserDefault } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
-import { isNullOrEmpty } from '@/utils';
+import { getSession, isNullOrEmpty } from '@/utils';
 import { participantsDataSelect } from '@/mock/modules/SocialComponents/Chat';
 import { enqueueSnackbar } from 'notistack';
-import { useCreateNewGroupMutation } from '@/services/chat';
+import {
+  useCreateNewGroupMutation,
+  useGetChatUsersQuery,
+} from '@/services/chat';
 
 const AddGroupModal = ({
   isAddGroupModal,
@@ -80,13 +83,6 @@ const AddGroupModal = ({
   const formData = new FormData();
 
   const onSubmit = async (values: any) => {
-    // const payloadMap: any = {
-    //   participants: participantsIdsValues,
-    //   groupAdmins: groupAdmins,
-    //   groupName: values?.groupTitle,
-    //   // groupImage: imageToUpload,
-    // };
-
     formData.append('participants', participantsIdsValues);
     formData.append('groupAdmins', groupAdmins);
     formData.append('groupName', values?.groupTitle);
@@ -108,6 +104,23 @@ const AddGroupModal = ({
   const handleImageChange = async (e: any) => {
     formData.append('groupImage', e?.target?.files[0]);
   };
+  const { user }: { user: any } = getSession();
+
+  const { data: chatsUsers } = useGetChatUsersQuery({
+    params: {
+      organization: user?.organization?._id,
+      page: '1',
+      limit: '20',
+      role: user?.role,
+    },
+  });
+
+  const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
+    id: item?._id,
+    label: `${item?.firstName} ${item?.lastName}`,
+    value: item._id,
+    image: UserDefault,
+  }));
 
   return (
     <CommonModal
@@ -178,7 +191,7 @@ const AddGroupModal = ({
                 label="Add Participant"
                 size="small"
                 setValues={setValues}
-                options={participantsDataSelect}
+                options={transformedData ?? []}
               />
             </Grid>
           </Grid>

@@ -229,28 +229,32 @@ const Chat = () => {
                         ),
                     );
                     return (
-                      <Button
-                        key={uuidv4()}
-                        sx={styles?.userCard}
-                        onClick={() =>
-                          isUserExists
-                            ? handelUserExists()
-                            : handelNewUserChat(item)
-                        }
-                      >
-                        <Image
-                          width={30}
-                          height={30}
-                          src={item?.src}
-                          alt={item?.name}
-                        />
-                        <Typography
-                          variant="body2"
-                          color={theme?.palette?.grey[600]}
-                        >
-                          {item?.firstName}&nbsp;{item?.lastName}
-                        </Typography>
-                      </Button>
+                      <>
+                        {user._id !== item.id && (
+                          <Button
+                            key={uuidv4()}
+                            sx={styles?.userCard}
+                            onClick={() =>
+                              isUserExists
+                                ? handelUserExists()
+                                : handelNewUserChat(item)
+                            }
+                          >
+                            <Image
+                              width={30}
+                              height={30}
+                              src={item?.src}
+                              alt={item?.name}
+                            />
+                            <Typography
+                              variant="body2"
+                              color={theme?.palette?.grey[600]}
+                            >
+                              {item?.firstName}&nbsp;{item?.lastName}
+                            </Typography>
+                          </Button>
+                        )}
+                      </>
                     );
                   })
                 ) : (
