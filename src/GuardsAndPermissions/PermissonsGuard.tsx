@@ -39,7 +39,7 @@ export default function PermissionsGuard({
   if (permissionsCheck) {
     return <>{children}</>;
   } else if (isPage) {
-    <PermissionDenied />;
+    return <PermissionDenied />;
   } else {
     return <Box></Box>;
   }

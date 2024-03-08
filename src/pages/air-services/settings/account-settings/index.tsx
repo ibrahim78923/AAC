@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { AccountSettings } from '@/modules/airServices/Settings/AccountSettings';
 
@@ -8,5 +9,13 @@ const AccountSettingsPage = () => {
 export default AccountSettingsPage;
 
 AccountSettingsPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout
+      permissions={
+        Permissions?.AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_ACCOUNT_DETAILS
+      }
+    >
+      {page}
+    </Layout>
+  );
 };

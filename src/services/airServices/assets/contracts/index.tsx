@@ -162,6 +162,14 @@ export const contractAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    patchContractRenewExtend: builder?.mutation({
+      query: (patchContractRenewExtendParameter: any) => ({
+        url: `${END_POINTS?.UPDATE_CONTRACT}/${patchContractRenewExtendParameter?.pathParam?.contractId}`,
+        method: 'PATCH',
+        body: patchContractRenewExtendParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -183,4 +191,5 @@ export const {
   usePatchContractApproveMutation,
   usePatchContractRejectMutation,
   usePatchContractTerminatedMutation,
+  usePatchContractRenewExtendMutation,
 } = contractAPI;

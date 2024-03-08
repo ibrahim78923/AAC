@@ -34,6 +34,8 @@ import CommonModal from '@/components/CommonModal';
 import { v4 as uuidv4 } from 'uuid';
 import PostComments from './PostComments';
 import { POST_TYPES } from './SocialPost.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS } from '@/constants/permission-keys';
 
 const SocialPost = ({ postType }: any) => {
   const theme = useTheme();
@@ -68,15 +70,21 @@ const SocialPost = ({ postType }: any) => {
                   </Typography>
                 </Box>
               </Box>
-              <Button
-                startIcon={<UserCircleIcon />}
-                variant="outlined"
-                onClick={() => {
-                  setIsUserViewModal(true), setActiveUserProfile(userProfile);
-                }}
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.VIEW_USER_PROFILE,
+                ]}
               >
-                View User Profile
-              </Button>
+                <Button
+                  startIcon={<UserCircleIcon />}
+                  variant="outlined"
+                  onClick={() => {
+                    setIsUserViewModal(true), setActiveUserProfile(userProfile);
+                  }}
+                >
+                  View User Profile
+                </Button>
+              </PermissionsGuard>
             </Box>
             {postType === (POST_TYPES?.FB_POST || POST_TYPES?.TWITTER_POST) && (
               <Box sx={{ mt: 1, mb: 1 }}>
@@ -116,15 +124,23 @@ const SocialPost = ({ postType }: any) => {
             </Box>
             <Box sx={styles?.reactionsGripper(postType)}>
               <Box sx={styles?.reactionsFlex}>
-                <Box sx={styles?.boxReaction(postType)}>
-                  {postType === POST_TYPES?.FB_POST && <LikeIcon />}
-                  {postType === POST_TYPES?.INSTAGRAM_POST && <InstaLikeIcon />}
-                  {postType === POST_TYPES?.TWITTER_POST && <InstaLikeIcon />}
-                  <Typography variant="body2">
-                    {postType === POST_TYPES?.FB_POST && 'Like'}
-                    {postType === POST_TYPES?.TWITTER_POST && '57'}
-                  </Typography>
-                </Box>
+                <PermissionsGuard
+                  permissions={[
+                    AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.LIKE_POST,
+                  ]}
+                >
+                  <Box sx={styles?.boxReaction(postType)}>
+                    {postType === POST_TYPES?.FB_POST && <LikeIcon />}
+                    {postType === POST_TYPES?.INSTAGRAM_POST && (
+                      <InstaLikeIcon />
+                    )}
+                    {postType === POST_TYPES?.TWITTER_POST && <InstaLikeIcon />}
+                    <Typography variant="body2">
+                      {postType === POST_TYPES?.FB_POST && 'Like'}
+                      {postType === POST_TYPES?.TWITTER_POST && '57'}
+                    </Typography>
+                  </Box>
+                </PermissionsGuard>
                 <Box sx={styles?.boxReaction}>
                   {postType === POST_TYPES?.FB_POST && <CommentIcon />}
                   {postType === POST_TYPES?.INSTAGRAM_POST && (
