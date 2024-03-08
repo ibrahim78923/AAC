@@ -187,7 +187,10 @@ export const DetailCard = (props: any) => {
         fontWeight={500}
         color={'primary.main'}
         sx={{ cursor: 'pointer' }}
-        onClick={() => setShowInfo((previousState: any) => !previousState)}
+        onClick={(e: any) => {
+          e?.stopPropagation();
+          setShowInfo((previousState: any) => !previousState);
+        }}
       >
         {' '}
         {showInfo ? 'Hide info' : 'Show info'}
