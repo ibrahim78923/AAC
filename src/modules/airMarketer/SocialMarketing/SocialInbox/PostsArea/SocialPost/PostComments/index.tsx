@@ -41,6 +41,8 @@ import { styles } from './PostComments.style';
 
 import { v4 as uuidv4 } from 'uuid';
 import CloseIcon from '@/assets/icons/shared/close-icon';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS } from '@/constants/permission-keys';
 
 const PostComments = ({ postComments }: any) => {
   const theme = useTheme();
@@ -122,33 +124,45 @@ const CommentsFooter = ({ setActiveReply }: any) => {
         <Box>
           <Image src={DysonAvatarImage} alt="profile-image" />
         </Box>
-        <Box sx={styles?.commentSection}>
-          <TextField
-            sx={styles?.chatTextarea}
-            placeholder="Write your comment here"
-          />
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <Button sx={styles?.unStyledButton}>
-              <StickerIcon color={'#6B7280'} size={'18'} />
-            </Button>
-            <Button
-              sx={styles?.unStyledButton}
-              aria-describedby={id}
-              onClick={handleClick}
-            >
-              <QuriesIcon />
-            </Button>
-            <Button sx={styles?.unStyledButton}>
-              <AttachmentsIcon />
-            </Button>
-            <Button
-              sx={styles?.unStyledButton}
-              onClick={() => setActiveReply('')}
-            >
-              <PostIcon />
-            </Button>
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.ADD_COMMENT,
+          ]}
+        >
+          <Box sx={styles?.commentSection}>
+            <TextField
+              sx={styles?.chatTextarea}
+              placeholder="Write your comment here"
+            />
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <Button sx={styles?.unStyledButton}>
+                <StickerIcon color={'#6B7280'} size={'18'} />
+              </Button>
+              <Button
+                sx={styles?.unStyledButton}
+                aria-describedby={id}
+                onClick={handleClick}
+              >
+                <QuriesIcon />
+              </Button>
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.ADD_QUICK,
+                ]}
+              >
+                <Button sx={styles?.unStyledButton}>
+                  <AttachmentsIcon />
+                </Button>
+              </PermissionsGuard>
+              <Button
+                sx={styles?.unStyledButton}
+                onClick={() => setActiveReply('')}
+              >
+                <PostIcon />
+              </Button>
+            </Box>
           </Box>
-        </Box>
+        </PermissionsGuard>
       </Box>
       <Popover
         id={id}
@@ -313,37 +327,55 @@ const PostCommentsContents = ({ item, setActiveReply, activeReply }: any) => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem
-              onClick={() => {
-                handleClose;
-                setIsCommentActivity(true);
-              }}
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.VIEW_COMMENT_ACTIVITY,
+              ]}
             >
-              Comment Activity
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                setIsDeleteModal(true), setAnchorEl(null);
-              }}
-            >
-              Delete
-            </MenuItem>
-            <Button
-              fullWidth
-              sx={{
-                textAlign: 'left',
-                '& .MuiButtonBase-root': {
-                  width: '200px',
-                  padding: '0px 9px',
-                },
-              }}
-              aria-describedby={idLabel}
-              onClick={handleClickLabel}
-            >
-              <MenuItem sx={{ fontWeight: '400', color: '#000' }}>
-                Add Label
+              <MenuItem
+                onClick={() => {
+                  handleClose;
+                  setIsCommentActivity(true);
+                }}
+              >
+                Comment Activity
               </MenuItem>
-            </Button>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.DELETE_COMMENT,
+              ]}
+            >
+              <MenuItem
+                onClick={() => {
+                  setIsDeleteModal(true), setAnchorEl(null);
+                }}
+              >
+                Delete
+              </MenuItem>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS?.ADD_LABELS,
+              ]}
+            >
+              <Button
+                fullWidth
+                sx={{
+                  textAlign: 'left',
+                  '& .MuiButtonBase-root': {
+                    width: '200px',
+                    padding: '0px 9px',
+                  },
+                }}
+                aria-describedby={idLabel}
+                onClick={handleClickLabel}
+              >
+                <MenuItem sx={{ fontWeight: '400', color: '#000' }}>
+                  Add Label
+                </MenuItem>
+              </Button>
+            </PermissionsGuard>
           </Menu>
         </Box>
       </Box>

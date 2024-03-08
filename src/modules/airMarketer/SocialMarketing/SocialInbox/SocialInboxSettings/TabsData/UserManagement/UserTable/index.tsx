@@ -30,6 +30,8 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
+import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const UserTable = ({ initialValueProps = defaultValues }: any) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -103,13 +105,18 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
           gap: 1,
         }}
       >
-        <Search
-          searchBy=""
-          width="260px"
-          label={'Search here'}
-          setSearchBy={() => {}}
-          size="small"
-        />
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.SEARCH_USERS]}
+        >
+          <Search
+            searchBy=""
+            width="260px"
+            label={'Search here'}
+            setSearchBy={() => {}}
+            size="small"
+          />
+        </PermissionsGuard>
+
         <Button
           id="basic-button"
           aria-controls={open ? 'basic-menu' : undefined}
@@ -141,9 +148,21 @@ const UserTable = ({ initialValueProps = defaultValues }: any) => {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem onClick={handleClose}>Edit</MenuItem>
-          <MenuItem onClick={handleClose}>View</MenuItem>
-          <MenuItem onClick={() => setIsOpenDelete(true)}>Delete</MenuItem>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.VIEW_USERS]}
+          >
+            <MenuItem onClick={handleClose}>View</MenuItem>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.EDIT_USERS]}
+          >
+            <MenuItem onClick={handleClose}>Edit</MenuItem>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.DELETE_USERS]}
+          >
+            <MenuItem onClick={() => setIsOpenDelete(true)}>Delete</MenuItem>
+          </PermissionsGuard>
         </Menu>
       </Box>
       <Grid>
