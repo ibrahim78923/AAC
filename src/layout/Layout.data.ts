@@ -789,8 +789,8 @@ const PRODUCT__ROUTES: any = {
   'Loyalty Program': LoyaltyProgramsRoutes,
 };
 
-export const getRoutes = (role: any) => {
-  return PRODUCT__ROUTES[role];
+export const getRoutes = (product: any) => {
+  return PRODUCT__ROUTES[product];
 };
 
 const LOWER_PRODUCT_ROUTES: any = {
@@ -803,8 +803,8 @@ const LOWER_PRODUCT_ROUTES: any = {
   'Loyalty Program': LowerLoyaltyProgramRoutes,
 };
 
-export const getLowerRoutes = (role: any) => {
-  return LOWER_PRODUCT_ROUTES[role];
+export const getLowerRoutes = (product: any) => {
+  return LOWER_PRODUCT_ROUTES[product];
 };
 
 export const zeroPaddingRoutes = [
