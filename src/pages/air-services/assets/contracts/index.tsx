@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import Contaracts from '@/modules/airServices/Assets/Contracts';
 
@@ -6,7 +7,11 @@ const ServicesTicketsPage = () => {
 };
 
 ServicesTicketsPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout permissions={Permissions?.AIR_SERVICES_ASSETS_CONTRACTS_LIST_VIEW}>
+      {page}
+    </Layout>
+  );
 };
 
 export default ServicesTicketsPage;

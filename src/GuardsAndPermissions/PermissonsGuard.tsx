@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 
 import PermissionDenied from '@/components/PermisisonDenied';
 import { getActivePermissionsSession } from '@/utils';
+import { Box } from '@mui/material';
 
 const useCurrentPermissions = () => {
   const permissions = getActivePermissionsSession();
@@ -27,7 +28,6 @@ function checkPermissions(permissions: any, modulePermissions: any) {
 export default function PermissionsGuard({
   children,
   permissions,
-  sidebar,
 }: {
   children: ReactNode;
   permissions: any;
@@ -35,12 +35,11 @@ export default function PermissionsGuard({
 }) {
   const currentPermissions = useCurrentPermissions();
   const permissionsCheck = checkPermissions(currentPermissions, permissions);
-
-  return permissionsCheck ? (
-    <>{children}</>
-  ) : sidebar === 'ItemPermission' ? (
-    ' '
-  ) : (
-    <PermissionDenied />
-  );
+  if (permissionsCheck) {
+    return <>{children}</>;
+  } else if (isPage) {
+    return <PermissionDenied />;
+  } else {
+    return <Box></Box>;
+  }
 }
