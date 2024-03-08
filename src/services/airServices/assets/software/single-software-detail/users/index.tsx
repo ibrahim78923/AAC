@@ -38,7 +38,6 @@ export const softwareUsers = baseAPI?.injectEndpoints({
         method: 'POST',
         params,
       }),
-
       invalidatesTags: [TAG],
     }),
     getUsersDropdownList: builder?.query({
@@ -58,6 +57,7 @@ export const softwareUsers = baseAPI?.injectEndpoints({
         method: 'PUT',
         params,
       }),
+      invalidatesTags: [TAG],
     }),
     deallocateContract: builder.mutation({
       query: (params: any) => ({
@@ -65,6 +65,7 @@ export const softwareUsers = baseAPI?.injectEndpoints({
         method: 'PUT',
         params,
       }),
+      invalidatesTags: [TAG],
     }),
     removeContract: builder.mutation({
       query: ({ params }: any) => ({
@@ -72,12 +73,13 @@ export const softwareUsers = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params,
       }),
+      invalidatesTags: [TAG],
     }),
   }),
 });
 
 export const {
-  useGetSoftwareUsersDetailsQuery,
+  useLazyGetSoftwareUsersDetailsQuery,
   useLazyGetExportSoftwareUsersQuery,
   useLazyGetContractDropdownListQuery,
   useLazyGetUsersDropdownListQuery,

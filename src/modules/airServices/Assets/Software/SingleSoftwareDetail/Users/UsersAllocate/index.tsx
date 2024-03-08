@@ -1,22 +1,20 @@
 import { Box } from '@mui/material';
-import React from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync, FormProvider } from '@/components/ReactHookForm';
 import useUsersAdd from '../UsersAdd/useUsersAdd';
 
-const UsersAllocate = () => {
+const UsersAllocate = ({ methods, onSubmit }: any) => {
   const { contractDropdown } = useUsersAdd();
-  const methods = useForm();
   return (
-    <FormProvider {...methods}>
+    <FormProvider methods={methods} onSubmit={methods?.handleSubmit(onSubmit)}>
       <Box maxWidth={'sm'}>
         <RHFAutocompleteAsync
-          name="category"
-          label="Category"
-          select={true}
-          md={12}
+          name="contract"
+          label="Contract"
           apiQuery={contractDropdown}
           getOptionLabel={(option: any) => option?.name}
+          placeholder="Select Contract"
+          size="small"
+          required
         />
       </Box>
     </FormProvider>
