@@ -156,7 +156,7 @@ export const SUPER_ADMIN_SETTINGS_PRODUCT_LIST_PERMISSIONS = {
 export const SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS = {
   Select_Products: 'select-feature-products',
   Product_List: 'product-list',
-  Search: 'feature-search-and-filters',
+  Search: 'feature-serach-and-filters',
   Edit_Features: 'edit-feature',
   Add_Features: 'add-feature',
   Active_Inactive_Features: 'active-inactive-feature',
