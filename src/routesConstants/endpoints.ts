@@ -269,6 +269,7 @@ export const END_POINTS = {
   PATCH_APPROVAL_STATUS: `/assets/approver-order-status`,
   ASSETS_RECEIVED: '/assets/get-purchaseorder-assets-received/{id}',
   GET_SMS_MARKETING_BROADCAST: '/sms-marketing/broadcast',
+  GET_SMS_TEMPLATES: '/sms-marketing/template',
   SALES_TEAM: '/teams',
   SERVICE_CATALOG_CATEGORIES_DETAILS: '/service-catalog/get-detail-service',
   UPDATE_CONTRACT_SUBMIT_APPROVAL: '/contract/approval-request',
@@ -278,10 +279,13 @@ export const END_POINTS = {
   GET_CLOSURE_RULES: '/Closure-Rules/get-closure-rules',
   ADD_SOFTWARE: '/assets/add_software',
   EDIT_SOFTWARE: '/assets/edit-software',
+  UPDATE_CONTRACT_APPROVE: '/contract/approve-contract',
+  UPDATE_CONTRACT_REJECT: '/contract/reject-contract',
   PRODUCTS_USERS: '/product-users',
   POST_APPROVALS: `/articles/approve`,
   GET_KNOWLEDGE_INSIGHTS: `/articles/knowledge-insights`,
   GET_KNOWLEDGE_INSIGHTS_DETAILS: `/articles/knowledge-insights/tickets`,
+  POST_CHANGE_PASSWORD: '/auth/change-password',
 };
 
 export const superAdminBillingInvoices = {

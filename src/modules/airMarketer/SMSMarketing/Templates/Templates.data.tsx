@@ -1,38 +1,40 @@
 import { Box } from '@mui/material';
 import { DeleteIcon, EditBlackIcon } from '@/assets/icons';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 // table
-export const TemplatesTableData: any = [
-  {
-    Id: 1,
-    name: `Fund Raising`,
-    Description:
-      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con',
-    Category: ' Account update',
-    createdDate: ' 31-Dec-2023 ',
-    action: 'action',
-  },
-  {
-    Id: 2,
-    name: `Summer Sale`,
-    Description:
-      'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed qu',
-    Category: ' Ticket Update',
-    createdDate: ' 14-Dec-2022',
-    action: 'action',
-  },
+// export const TemplatesTableData: any = [
+//   {
+//     Id: 1,
+//     name: `Fund Raising`,
+//     Description:
+//       'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con',
+//     Category: ' Account update',
+//     createdDate: ' 31-Dec-2023 ',
+//     action: 'action',
+//   },
+//   {
+//     Id: 2,
+//     name: `Summer Sale`,
+//     Description:
+//       'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed qu',
+//     Category: ' Ticket Update',
+//     createdDate: ' 14-Dec-2022',
+//     action: 'action',
+//   },
 
-  {
-    Id: 3,
-    name: `New Launch`,
-    Description:
-      'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut al',
-    Category: ' Alert Update',
-    createdDate: '11-Dec-2022',
-    action: 'action',
-  },
-];
+//   {
+//     Id: 3,
+//     name: `New Launch`,
+//     Description:
+//       'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut al',
+//     Category: ' Alert Update',
+//     createdDate: '11-Dec-2022',
+//     action: 'action',
+//   },
+// ];
 
 export const columns = (setIsOpenAlert: any, navigate: any, theme: any) => {
   return [
@@ -44,25 +46,25 @@ export const columns = (setIsOpenAlert: any, navigate: any, theme: any) => {
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.Description,
+      accessorFn: (row: any) => row?.detail,
       id: 'description',
       isSortable: false,
       header: 'Description',
       cell: (info: any) => info.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.Category,
+      accessorFn: (row: any) => row?.category,
       id: 'Category',
       isSortable: false,
       header: 'Category',
       cell: (info: any) => info.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.createdDate,
+      accessorFn: (row: any) => row?.createdAt,
       id: 'createdDate',
       isSortable: false,
       header: 'createdDate',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => dayjs(info.getValue())?.format(DATE_FORMAT?.API),
     },
     {
       accessorFn: (row: any) => row?.action,

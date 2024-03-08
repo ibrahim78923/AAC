@@ -72,8 +72,8 @@ export const useRolesAndRightTable = () => {
         actionType === ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE
           ? ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE
           : actionType === ROLES_ACTION_CONSTANTS?.EDIT
-            ? ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE
-            : '',
+          ? ROLES_ACTION_CONSTANTS?.ADD_NEW_ROLE
+          : '',
       );
 
       setCurrentActionType(actionType);

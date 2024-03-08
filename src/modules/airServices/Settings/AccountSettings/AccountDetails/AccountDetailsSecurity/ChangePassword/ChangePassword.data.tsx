@@ -19,7 +19,7 @@ export const changePasswordValidationSchema = Yup?.object()?.shape({
     ),
   confirmPassword: Yup?.string()
     ?.required('Required')
-    ?.oneOf([Yup?.ref('newPassword')], 'Passwords must match'),
+    ?.oneOf([Yup?.ref('newPassword')], 'Password must match with new password'),
 });
 
 export const changePasswordDefaultValues = {

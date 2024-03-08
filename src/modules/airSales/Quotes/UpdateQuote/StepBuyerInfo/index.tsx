@@ -22,8 +22,7 @@ import { useState } from 'react';
 const StepBuyerInfo = ({
   // dataContacts,
   // dataCompanies,
-  openAddContact,
-  // openAddCompany,
+  openAddContact, // openAddCompany,
 }: any) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const handleDeleteModal = () => {

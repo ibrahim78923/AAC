@@ -14,10 +14,11 @@ export const softwareUsers = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getExportSoftwareUsers: builder?.query({
-      query: (apiDataParameter: any) => ({
+      query: (params: any) => ({
         url: `${END_POINTS?.GET_SOFTWARE_USER}`,
         method: 'GET',
-        params: apiDataParameter?.queryParams,
+        params,
+        responseHandler: (response: any) => response?.blob(),
       }),
       providesTags: [TAG],
     }),
@@ -77,7 +78,7 @@ export const softwareUsers = baseAPI?.injectEndpoints({
 
 export const {
   useGetSoftwareUsersDetailsQuery,
-  useGetExportSoftwareUsersQuery,
+  useLazyGetExportSoftwareUsersQuery,
   useLazyGetContractDropdownListQuery,
   useLazyGetUsersDropdownListQuery,
   useAddSoftwareUsersMutation,
