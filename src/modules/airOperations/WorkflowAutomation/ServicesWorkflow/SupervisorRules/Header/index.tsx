@@ -6,6 +6,9 @@ import { useHeader } from './useHeader';
 import FilterWorkflow from '../../FilterWorkflow';
 import { AIR_OPERATIONS } from '@/constants';
 import { SupervisorRulesDelete } from '../SupervisorRulesDelete';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
+import { Permissions } from '@/constants/permissions';
 
 const Header = ({ selectedSupervisorList }: any) => {
   const {
@@ -22,34 +25,58 @@ const Header = ({ selectedSupervisorList }: any) => {
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
         <Box mb={1}>
-          <Search
-            value={searchValue}
-            label="Search Here"
-            setSearchBy={setSearchValue}
-            onChange={(e: any) => setSearchValue(e?.target?.value)}
-          />
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.SEARCH_RECORD,
+            ]}
+          >
+            <Search
+              value={searchValue}
+              label="Search Here"
+              setSearchBy={setSearchValue}
+              onChange={(e: any) => setSearchValue(e?.target?.value)}
+            />
+          </PermissionsGuard>
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
-          <SingleDropdownButton
-            dropdownOptions={dropdownOptions}
-            disabled={!!!selectedSupervisorList?.length}
-          />
-          <Button
-            color="secondary"
-            variant="outlined"
-            startIcon={<FilterSharedIcon />}
-            onClick={() => setIsDrawerOpen?.(true)}
-          >
-            Filter
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() =>
-              router?.push(AIR_OPERATIONS?.UPSERT_SUPERVISOR_RULES)
+          <PermissionsGuard
+            permissions={
+              Permissions?.AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW
             }
           >
-            Create Rules
-          </Button>
+            <SingleDropdownButton
+              dropdownOptions={dropdownOptions}
+              disabled={!!!selectedSupervisorList?.length}
+            />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.FILTER_RECORD,
+            ]}
+          >
+            <Button
+              color="secondary"
+              variant="outlined"
+              startIcon={<FilterSharedIcon />}
+              onClick={() => setIsDrawerOpen?.(true)}
+            >
+              Filter
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.CREATE_SUPERVISOR_RULES,
+            ]}
+          >
+            <Button
+              variant="contained"
+              onClick={() =>
+                router?.push(AIR_OPERATIONS?.UPSERT_SUPERVISOR_RULES)
+              }
+            >
+              Create Rules
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       <FilterWorkflow

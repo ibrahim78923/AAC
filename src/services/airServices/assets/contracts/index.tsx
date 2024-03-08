@@ -39,7 +39,6 @@ export const contractAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: deleteContractParameter?.queryParams,
       }),
-      invalidatesTags: [TAG],
     }),
     getContractTypeDropdown: builder?.query({
       query: ({ params }: any) => ({

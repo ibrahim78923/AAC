@@ -117,7 +117,7 @@ export const dealsCallsDataArray = ({ DealsListData, openDrawer }: any) => [
 
   {
     componentProps: {
-      name: 'dealId',
+      name: 'recordId',
       label: 'Link Deal',
       fullWidth: true,
       select: true,
@@ -163,6 +163,23 @@ export const dealsCallsDataArray = ({ DealsListData, openDrawer }: any) => [
     component: RHFSelect,
     md: 12,
   },
+  // {
+  //   componentProps: {
+  //     name: 'setReminder',
+  //     label: 'Set Reminder',
+  //     fullWidth: true,
+  //     select: true,
+  //     disabled: openDrawer === 'Reschedule',
+  //   },
+  //   options: [
+  //     { value: '30 minutes before', label: '30 minutes before' },
+  //     { value: '1 hour before', label: '1 hour before' },
+  //     { value: '1 day before', label: '1 day before' },
+  //     { value: '1 week before', label: '1 week before' },
+  //   ],
+  //   component: RHFAutocomplete,
+  //   md: 12,
+  // },
 ];
 
 export const drawerTitle: any = {

@@ -5,7 +5,6 @@ const TAG = 'ASSETS_PURCHASEORDER';
 const TAG_FIVE = 'ASSETS_ITEM_ADDED';
 const TAG_FOUR = 'DROPDOWN_DEPARTMENT';
 const TAG_TWO = 'DROPDOWN_ALL_ASSETS';
-const TAG_THREE = 'PURCHASE_ORDER';
 export const singlePurchaseOrderAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     postAssetPurchaseOrder: builder?.mutation({
@@ -79,14 +78,6 @@ export const singlePurchaseOrderAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG_FIVE],
     }),
-    patchPurchaseOrderStatus: builder?.mutation({
-      query: (putPurchaseOrderParameter: any) => ({
-        url: `${END_POINTS?.PURCHASE_ORDER_STATUS}`,
-        method: 'PUT',
-        body: putPurchaseOrderParameter?.body,
-      }),
-      invalidatesTags: [TAG_THREE],
-    }),
   }),
 });
 
@@ -99,5 +90,4 @@ export const {
   useGetAllAssetsListQuery,
   usePatchAddToPurchaseOrderMutation,
   usePatchAddToItemMutation,
-  usePatchPurchaseOrderStatusMutation,
 } = singlePurchaseOrderAPI;

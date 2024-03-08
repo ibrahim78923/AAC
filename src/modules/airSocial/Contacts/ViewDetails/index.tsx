@@ -57,7 +57,7 @@ const ContactViewDetails = () => {
               <Details />
               <ActivityLog contactId={contactId} />
               <Associations contactId={contactId} />
-              <Tasks />
+              <Tasks contactId={contactId} />
               <Notes contactId={contactId} />
               <Calls />
               <Meetings />

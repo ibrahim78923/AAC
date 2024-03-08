@@ -37,7 +37,9 @@ export const Header = (props: any) => {
           <Button
             color="secondary"
             variant="outlined"
-            onClick={() => handleReceived?.()}
+            onClick={() => {
+              handleReceived?.();
+            }}
             disabled={statusData !== PURCHASE_ORDER_STATUS?.ORDERED}
           >
             Received item
