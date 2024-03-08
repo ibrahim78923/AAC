@@ -12,11 +12,8 @@ import { useSingleListLocation } from './useSingleListLocation';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
-export const SingleListLocation = ({
-  continents,
-  handleCollapse,
-  editData,
-}: any) => {
+export const SingleListLocation = (props: any) => {
+  const { continents, handleCollapse, editData } = props;
   const {
     showIcon,
     setShowIcon,
@@ -24,7 +21,7 @@ export const SingleListLocation = ({
     setIsOpenAlert,
     isOpenAlert,
     handleDeleteSubmit,
-  } = useSingleListLocation();
+  } = useSingleListLocation(props);
   return (
     <>
       <Box
@@ -82,7 +79,7 @@ export const SingleListLocation = ({
                   router?.push({
                     pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
                     query: {
-                      editData: JSON.stringify(editData),
+                      editData: editData,
                     },
                   })
                 }

@@ -8,12 +8,21 @@ const {
   ADD_CHILD_LOCATION,
   PUT_LOCATION,
   DELETE_CHILD_LOCATION,
+  GET_BY_ID_LOCATION,
+  DELETE_PARENT_LOCATION,
 } = END_POINTS;
 export const locationAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getLocation: builder.query({
       query: () => ({
         url: `${GET_LOCATION}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
+    getByIdLocation: builder.query({
+      query: (id: any) => ({
+        url: `${GET_BY_ID_LOCATION}/{id}?id=${id}`,
         method: 'GET',
       }),
       providesTags: [TAG],
@@ -58,6 +67,14 @@ export const locationAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    deleteParentLocation: builder.mutation({
+      query: (params: any) => ({
+        url: `${DELETE_PARENT_LOCATION}/{id}`,
+        method: 'DELETE',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -68,4 +85,6 @@ export const {
   usePutLocationMutation,
   usePutChildLocationMutation,
   useDeleteChildLocationMutation,
+  useGetByIdLocationQuery,
+  useDeleteParentLocationMutation,
 } = locationAPI;
