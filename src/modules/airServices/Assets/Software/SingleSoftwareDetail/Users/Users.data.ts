@@ -10,7 +10,6 @@ export const userDropdown = (
       title: SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE,
       handleClick: (closeMenu) => {
         userActionClickHandler(SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE);
-        setActionModalOpen(true);
         closeMenu?.();
       },
     },
@@ -18,7 +17,6 @@ export const userDropdown = (
       title: SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE,
       handleClick: (closeMenu) => {
         userActionClickHandler(SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE);
-        setActionModalOpen(true);
         closeMenu?.();
       },
     },

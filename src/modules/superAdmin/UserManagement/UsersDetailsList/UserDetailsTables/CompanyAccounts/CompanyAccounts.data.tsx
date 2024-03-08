@@ -5,6 +5,8 @@ import { SwitchBtn } from '@/components/SwitchButton';
 import { LogoIcon } from '@/assets/icons';
 import { IMG_URL } from '@/config';
 import Image from 'next/image';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const companyData: any = [
   {
@@ -96,12 +98,20 @@ export const companyColumns: any = (handleStatusUpdate: any) => [
     isSortable: true,
     header: 'Status',
     cell: (info: any) => (
-      <SwitchBtn
-        defaultChecked={info?.row?.original?.status === 'ACTIVE' ? true : false}
-        handleSwitchChange={(val: any) =>
-          handleStatusUpdate(info?.row?.original?._id, val?.target?.checked)
-        }
-      />
+      <PermissionsGuard
+        permissions={[
+          SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.ACTIVE_INACTIVE_ACCOUNTS,
+        ]}
+      >
+        <SwitchBtn
+          defaultChecked={
+            info?.row?.original?.status === 'ACTIVE' ? true : false
+          }
+          handleSwitchChange={(val: any) =>
+            handleStatusUpdate(info?.row?.original?._id, val?.target?.checked)
+          }
+        />
+      </PermissionsGuard>
     ),
   },
 ];
