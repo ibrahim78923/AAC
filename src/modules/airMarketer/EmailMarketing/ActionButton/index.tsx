@@ -13,6 +13,8 @@ import MoveToFolder from '../MoveToFolder';
 import ViewDetailsAndPerformance from '../ViewDetailsAndPerformance';
 import SaveEmailAsTemplate from '../SaveEmailAsTemplate';
 import ManageAccess from '../ManageAccess';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS } from '@/constants/permission-keys';
 
 const ActionButton = () => {
   const {
@@ -58,75 +60,99 @@ const ActionButton = () => {
       </Menu>
 
       {actionsModalDetails?.isDelete && (
-        <AlertModals
-          message="Are you sure you want to delete this?"
-          type="Delete"
-          typeImage={<AlertModalDeleteIcon />}
-          open={actionsModalDetails?.isDelete}
-          handleClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isDelete: false,
-            })
-          }
-          handleSubmit={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isDelete: false,
-            })
-          }
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.DELETE_EMAILS,
+          ]}
+        >
+          <AlertModals
+            message="Are you sure you want to delete this?"
+            type="Delete"
+            typeImage={<AlertModalDeleteIcon />}
+            open={actionsModalDetails?.isDelete}
+            handleClose={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isDelete: false,
+              })
+            }
+            handleSubmit={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isDelete: false,
+              })
+            }
+          />
+        </PermissionsGuard>
       )}
       {actionsModalDetails?.isDuplicate && (
-        <AlertModals
-          message="Are you sure you want to duplicate this email?"
-          type="Information"
-          typeImage={<InfoBlueIcon />}
-          open={actionsModalDetails?.isDuplicate}
-          handleClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isDuplicate: false,
-            })
-          }
-          handleSubmit={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isDuplicate: false,
-            })
-          }
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.DUPLICATE_EMAILS,
+          ]}
+        >
+          <AlertModals
+            message="Are you sure you want to duplicate this email?"
+            type="Information"
+            typeImage={<InfoBlueIcon />}
+            open={actionsModalDetails?.isDuplicate}
+            handleClose={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isDuplicate: false,
+              })
+            }
+            handleSubmit={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isDuplicate: false,
+              })
+            }
+          />
+        </PermissionsGuard>
       )}
       {actionsModalDetails?.isArchive && (
-        <AlertModals
-          message="Are you sure you want to archive this email?"
-          type="Information"
-          typeImage={<InfoBlueIcon />}
-          open={actionsModalDetails?.isArchive}
-          handleClose={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isArchive: false,
-            })
-          }
-          handleSubmit={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isArchive: false,
-            })
-          }
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.ARCHIVED_EMAILS,
+          ]}
+        >
+          <AlertModals
+            message="Are you sure you want to archive this email?"
+            type="Information"
+            typeImage={<InfoBlueIcon />}
+            open={actionsModalDetails?.isArchive}
+            handleClose={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isArchive: false,
+              })
+            }
+            handleSubmit={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isArchive: false,
+              })
+            }
+          />
+        </PermissionsGuard>
       )}
       {actionsModalDetails?.isMoveToFolder && (
-        <MoveToFolder
-          openMoveToFolderModal={actionsModalDetails?.isMoveToFolder}
-          handleCloseMoveToFolderModal={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isMoveToFolder: false,
-            })
-          }
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.MOVE_TO_FOLDERS,
+          ]}
+        >
+          <MoveToFolder
+            openMoveToFolderModal={actionsModalDetails?.isMoveToFolder}
+            handleCloseMoveToFolderModal={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isMoveToFolder: false,
+              })
+            }
+          />
+        </PermissionsGuard>
       )}
       {actionsModalDetails?.isViewDeatsils && (
         <ViewDetailsAndPerformance
@@ -140,27 +166,39 @@ const ActionButton = () => {
         />
       )}
       {actionsModalDetails?.isSaveAsTemplate && (
-        <SaveEmailAsTemplate
-          openSaveEmailAsTemplateModal={actionsModalDetails?.isSaveAsTemplate}
-          handleCloseSaveEmailAsTemplateModal={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isSaveAsTemplate: false,
-            })
-          }
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.SAVE_AS_TEMPLATE,
+          ]}
+        >
+          <SaveEmailAsTemplate
+            openSaveEmailAsTemplateModal={actionsModalDetails?.isSaveAsTemplate}
+            handleCloseSaveEmailAsTemplateModal={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isSaveAsTemplate: false,
+              })
+            }
+          />
+        </PermissionsGuard>
       )}
 
       {actionsModalDetails?.isManageAccess && (
-        <ManageAccess
-          isOpenManageAccessModal={actionsModalDetails?.isManageAccess}
-          handleCloseManageAccessModal={() =>
-            setActionsModalDetails({
-              ...actionsModalDetails,
-              isManageAccess: false,
-            })
-          }
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.MANAGE_ACCESS,
+          ]}
+        >
+          <ManageAccess
+            isOpenManageAccessModal={actionsModalDetails?.isManageAccess}
+            handleCloseManageAccessModal={() =>
+              setActionsModalDetails({
+                ...actionsModalDetails,
+                isManageAccess: false,
+              })
+            }
+          />
+        </PermissionsGuard>
       )}
     </Box>
   );

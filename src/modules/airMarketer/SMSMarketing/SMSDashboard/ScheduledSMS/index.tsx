@@ -15,6 +15,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './ScheduledSMS.style';
 import { DotsBoldIcon } from '@/assets/icons';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 
 const ScheduledSMS = (props: any) => {
   const { setTabVal } = props;
@@ -26,14 +28,20 @@ const ScheduledSMS = (props: any) => {
         <Typography variant="h4" sx={styles?.heading(theme)}>
           Scheduled SMS
         </Typography>
-        <Button
-          variant="outlined"
-          sx={{ background: theme?.palette?.primary?.light }}
-          className="small"
-          onClick={() => setTabVal(1)}
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.VIEW_SCHEDULE_SMS,
+          ]}
         >
-          View All
-        </Button>
+          <Button
+            variant="outlined"
+            sx={{ background: theme?.palette?.primary?.light }}
+            className="small"
+            onClick={() => setTabVal(1)}
+          >
+            View All
+          </Button>
+        </PermissionsGuard>
       </Box>
       <Box className="cardWrapper">
         {scheduledSmsArray?.map((item: any) => {

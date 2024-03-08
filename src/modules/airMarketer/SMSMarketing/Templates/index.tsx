@@ -1,29 +1,35 @@
-import React from 'react';
-
 import { Box, Button, Grid } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
-
-import { TemplatesTableData } from './Templates.data';
-
 import { styles } from './Templates.style';
-
 import useTemplates from './useTemplates';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import {
+  AIR_MARKETER_SMS_MARKETING_PERMISSIONS,
+  AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS,
+} from '@/constants/permission-keys';
 
 const Templates = () => {
   const {
-    productSearch,
-    setproductSearch,
-    theme,
-    getRowValues,
-    isOpenAlert,
     handleCloseAlert,
     deleteTemplete,
+    setFilterValues,
+    smsTemplateData,
+    filterValues,
+    getRowValues,
+    setPageLimit,
+    isOpenAlert,
+    isLoading,
+    isSuccess,
     navigate,
+    setPage,
+    theme,
   } = useTemplates();
+
+  const templatesDate = smsTemplateData?.data?.smstemplates;
 
   return (
     <>
@@ -43,55 +49,81 @@ const Templates = () => {
           }}
         >
           <Box sx={styles?.searchAction}>
-            <Search
-              label={'Search here'}
-              searchBy={productSearch}
-              setSearchBy={setproductSearch}
-              width="260px"
-              size="small"
-              // sx={{
-              //   '@media (max-width: 500px)': {
-              //     width: '100%',
-              //   },
-              // }}
-            />
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_SMS_MARKETING_PERMISSIONS.SEARCH_TEMPLATE,
+              ]}
+            >
+              <Search
+                onChange={(e: any) => {
+                  setFilterValues({
+                    ...filterValues,
+                    search: e?.target?.value,
+                  });
+                }}
+                placeholder="Search Here"
+                size="small"
+              />
+            </PermissionsGuard>
           </Box>
-          <Button
-            variant="contained"
-            sx={styles?.createBtn}
-            className="small"
-            onClick={() => {
-              navigate.push({
-                pathname: AIR_MARKETER?.CREATE_TEMPLATE,
-                query: { type: 'Create' },
-              });
-            }}
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_SMS_MARKETING_PERMISSIONS.CREATE_TEMPLATE,
+            ]}
           >
-            <AddCircleIcon
-              sx={{
-                color: `${theme?.palette?.common?.white}`,
-                fontSize: '16px',
+            <Button
+              variant="contained"
+              sx={styles?.createBtn}
+              className="small"
+              onClick={() => {
+                navigate.push({
+                  pathname: AIR_MARKETER?.CREATE_TEMPLATE,
+                  query: { type: 'Create' },
+                });
               }}
-            />{' '}
-            Create Template
-          </Button>
+            >
+              <AddCircleIcon
+                sx={{
+                  color: `${theme?.palette?.common?.white}`,
+                  fontSize: '16px',
+                }}
+              />{' '}
+              Create Template
+            </Button>
+          </PermissionsGuard>
         </Box>
 
         <Grid>
-          <TanstackTable
-            columns={getRowValues}
-            data={TemplatesTableData}
-            isPagination
-          />
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS.TEMPLATES_LIST_VIEW,
+            ]}
+          >
+            <TanstackTable
+              columns={getRowValues}
+              data={templatesDate}
+              totalRecords={smsTemplateData?.data?.meta?.total}
+              onPageChange={(page: any) => setPage(page)}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              count={smsTemplateData?.data?.meta?.pages}
+              isPagination
+              pageLimit={smsTemplateData?.data?.meta?.limit}
+              isLoading={isLoading}
+              isSuccess={isSuccess}
+            />
+          </PermissionsGuard>
         </Grid>
 
-        <AlertModals
-          message={'Are you sure you want to delete this Template?'}
-          type={'delete'}
-          open={isOpenAlert}
-          handleClose={handleCloseAlert}
-          handleSubmitBtn={() => deleteTemplete()}
-        />
+        {isOpenAlert && (
+          <AlertModals
+            message={'Are you sure you want to delete this Template?'}
+            type={'delete'}
+            open={isOpenAlert}
+            handleClose={handleCloseAlert}
+            handleSubmitBtn={() => deleteTemplete()}
+          />
+        )}
       </Box>
     </>
   );

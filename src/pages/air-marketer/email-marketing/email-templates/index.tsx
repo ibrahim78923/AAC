@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import EmailTemplates from '@/modules/airMarketer/EmailMarketing/EmailTemplates';
 
@@ -6,5 +7,14 @@ const EmailTemplatesPage = () => {
 };
 export default EmailTemplatesPage;
 EmailTemplatesPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout
+      guardRoute
+      permissions={
+        Permissions.AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS
+      }
+    >
+      {page}
+    </Layout>
+  );
 };

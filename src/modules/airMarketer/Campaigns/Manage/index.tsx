@@ -22,6 +22,8 @@ import SaveNewViewDrawer from '../SaveNewViewDrawer';
 import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import EditColumns from '../EditColumns';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Manage = () => {
   const theme = useTheme();
@@ -43,7 +45,11 @@ const Manage = () => {
         flexWrap="wrap"
         gap={1}
       >
-        <Search label="Search Here" size="small" />
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.SEARCH_FILTER]}
+        >
+          <Search label="Search Here" size="small" />
+        </PermissionsGuard>
 
         <Stack
           display={{ md: 'flex' }}
@@ -52,53 +58,61 @@ const Manage = () => {
           gap={1}
         >
           <ActionButton />
-
-          <Button
-            onClick={() => router?.push(AIR_MARKETER?.ALL_VIEW)}
-            startIcon={<BookMarkDarkIcon />}
-            className="small"
-            sx={{
-              border: `1px solid ${theme?.palette?.custom?.dark}`,
-              color: theme?.palette?.custom?.main,
-              width: { sm: '130px', xs: '100%' },
-              height: '36px',
-            }}
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.SAVE_ALL_VIEWS]}
           >
-            See All Views
-          </Button>
-
-          <Button
-            variant="outlined"
-            className="small"
-            color="inherit"
-            sx={{ width: { xs: '100%', sm: '132px' } }}
-            startIcon={<CustomizeIcon />}
-            onClick={() => {
-              setActionsModalDetails({
-                ...actionsModalDetails,
-                isEditColumns: true,
-              });
-            }}
+            <Button
+              onClick={() => router?.push(AIR_MARKETER?.ALL_VIEW)}
+              startIcon={<BookMarkDarkIcon />}
+              className="small"
+              sx={{
+                border: `1px solid ${theme?.palette?.custom?.dark}`,
+                color: theme?.palette?.custom?.main,
+                width: { sm: '130px', xs: '100%' },
+                height: '36px',
+              }}
+            >
+              See All Views
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EDIT_COLUMNS]}
           >
-            Customize
-          </Button>
-
-          <Button
-            onClick={handleSaveView}
-            startIcon={<BookMarkDarkIcon />}
-            className="samll"
-            variant="outlined"
-            color="inherit"
-            sx={{
-              border: `1px solid ${theme?.palette?.custom?.dark}`,
-              color: theme?.palette?.custom?.main,
-              width: { sm: '130px', xs: '100%' },
-              height: '36px',
-            }}
+            <Button
+              variant="outlined"
+              className="small"
+              color="inherit"
+              sx={{ width: { xs: '100%', sm: '132px' } }}
+              startIcon={<CustomizeIcon />}
+              onClick={() => {
+                setActionsModalDetails({
+                  ...actionsModalDetails,
+                  isEditColumns: true,
+                });
+              }}
+            >
+              Customize
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.SAVE_VIEW]}
           >
-            Save View
-          </Button>
-
+            <Button
+              onClick={handleSaveView}
+              startIcon={<BookMarkDarkIcon />}
+              className="samll"
+              variant="outlined"
+              color="inherit"
+              sx={{
+                border: `1px solid ${theme?.palette?.custom?.dark}`,
+                color: theme?.palette?.custom?.main,
+                width: { sm: '130px', xs: '100%' },
+                height: '36px',
+              }}
+            >
+              Save View
+            </Button>
+          </PermissionsGuard>
           <Tooltip title={'Refresh Filter'}>
             <Button
               variant="outlined"
@@ -109,19 +123,22 @@ const Manage = () => {
               <RefreshTasksIcon />
             </Button>
           </Tooltip>
-
-          <Button
-            startIcon={<FilterrIcon />}
-            onClick={handleOpenFilter}
-            sx={{
-              border: `1px solid ${theme?.palette?.custom?.dark}`,
-              color: theme?.palette?.custom?.main,
-              width: { sm: '95px', xs: '100%' },
-              height: '36px',
-            }}
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.SEARCH_FILTER]}
           >
-            Filter
-          </Button>
+            <Button
+              startIcon={<FilterrIcon />}
+              onClick={handleOpenFilter}
+              sx={{
+                border: `1px solid ${theme?.palette?.custom?.dark}`,
+                color: theme?.palette?.custom?.main,
+                width: { sm: '95px', xs: '100%' },
+                height: '36px',
+              }}
+            >
+              Filter
+            </Button>
+          </PermissionsGuard>
         </Stack>
       </Box>
 

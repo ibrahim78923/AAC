@@ -342,7 +342,10 @@ export const TASK_STATUS = {
   IN_PROGRESS: 'In-Progress',
   DONE: 'Done',
 };
-
+export const CONTRACT_ACTION = {
+  RENEW: 'renew',
+  EXTEND: 'extend',
+};
 export enum ROLES {
   ORG_REQUESTER = 'ORG_REQUESTER',
   ORG_AGENT = 'ORG_AGENT',
