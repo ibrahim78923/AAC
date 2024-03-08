@@ -6,116 +6,110 @@ import {
   RHFTimePicker,
 } from '@/components/ReactHookForm';
 
-import * as Yup from 'yup';
-
-export const companiesValidationSchema = Yup?.object()?.shape({});
-
-export const companiesDefaultValues = {
-  companieStatus: 'New Company',
-  companyName: '',
-  companyOwner: '',
-  description: '',
-  industury: '',
-  city: '',
-  postalCode: '',
-  numberOfEmployees: '',
-  annualRevenue: '',
-  timeZone: '',
-  companyPage: '',
-  joiningDate: '',
-  joiningTime: '',
-};
-
-export const companiesDataArray = [
+export const companiesDataArray = (companyOwners: any) => [
   {
+    id: 'domain',
     componentProps: {
-      name: 'companyDomainName',
+      name: 'domain',
       label: 'Company Domain Name',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    id: 'name',
     componentProps: {
-      name: 'companyName',
+      name: 'name',
       label: 'Company Name',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    id: 'ownerId',
     componentProps: {
-      name: 'companyOwner',
+      name: 'ownerId',
       label: 'Company Owner',
       select: true,
+      disabled: true,
     },
-    options: [
-      { value: 'Guy Hawkins', label: 'Guy Hawkins' },
-      { value: 'Jacob Jones', label: 'Jacob Jones' },
-      { value: 'Courtney Henry', label: 'Courtney Henry' },
-    ],
+    options: companyOwners,
     component: RHFSelect,
     md: 12,
   },
   {
+    id: 'description',
     componentProps: {
       name: 'description',
       label: 'Description',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFEditor,
     md: 12,
   },
 
   {
+    id: 'industry',
     componentProps: {
       name: 'industry',
       label: 'Industry',
       select: true,
+      disabled: true,
     },
     options: [
-      { value: '-', label: '-' },
-      { value: 'Intern', label: 'Intern' },
-      { value: 'Construction', label: 'Construction' },
-      { value: 'Computer Science', label: 'Computer Science' },
+      { value: 'computerSoftware', label: 'Computer software' },
+      { value: 'computerServices', label: 'Computer Services' },
+      { value: 'construction', label: 'Construction' },
+      { value: 'none', label: 'None' },
     ],
     component: RHFSelect,
     md: 12,
   },
   {
+    id: 'city',
     componentProps: {
       name: 'city',
       label: 'City',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    id: 'postalCode',
     componentProps: {
       name: 'postalCode',
       label: 'Postal Code',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    id: 'noOfEmloyee',
     componentProps: {
-      name: 'numberOfEmployee',
+      name: 'noOfEmloyee',
       label: 'Number of employee',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    id: 'totalRevenue',
     componentProps: {
-      name: 'annualRevenue',
+      name: 'totalRevenue',
       label: 'Annual Revenue',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFTextField,
     md: 12,
@@ -125,45 +119,42 @@ export const companiesDataArray = [
       name: 'timeZone',
       label: 'Time Zone',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    id: 'companyPage',
     componentProps: {
       name: 'companyPage',
       label: 'Company Page',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFTextField,
     md: 12,
   },
   {
+    id: 'joiningDate',
     componentProps: {
       name: 'joiningDate',
       label: 'Joining Date',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFDatePicker,
     md: 6,
   },
   {
+    id: 'joiningTime',
     componentProps: {
       name: 'joiningTime',
       label: 'Joining Time ',
       fullWidth: true,
+      disabled: true,
     },
     component: RHFTimePicker,
     md: 6,
   },
 ];
-
-export const drawerTitle: any = {
-  Add: 'Add companies',
-  Edit: 'Edit companies',
-  View: 'View companies',
-};
-export const drawerButtonTitle: any = {
-  Add: 'Add',
-  Edit: 'Edit',
-};

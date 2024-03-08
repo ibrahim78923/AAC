@@ -12,7 +12,7 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useAuthCustomerSignUpMutation,
   useAuthIgVerificationMutation,
-  useLazyGetComapnyDropdownQuery,
+  useLazyGetCompanyDropdownQuery,
 } from '@/services/airCustomerPortal/auth';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
@@ -65,12 +65,12 @@ export default function useSignUp() {
     setStepState(true);
   };
 
-  const apiQueryCompany = useLazyGetComapnyDropdownQuery();
+  const apiQueryCompany = useLazyGetCompanyDropdownQuery();
 
   const SignUpFormFields = getSignUpFormFields({ apiQueryCompany });
 
   const [postSignUpTrigger, postSignUpStatus] = useAuthCustomerSignUpMutation();
-  const [postIgVerficationTrigger] = useAuthIgVerificationMutation();
+  const [postIgVerificationTrigger] = useAuthIgVerificationMutation();
 
   const onSubmit = async (data: any) => {
     const userDetails = {
@@ -92,7 +92,7 @@ export default function useSignUp() {
       );
       if (res?.data) {
         try {
-          await postIgVerficationTrigger({
+          await postIgVerificationTrigger({
             email: { email: userDetails?.email },
           }).unwrap();
         } catch (error: any) {}

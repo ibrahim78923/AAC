@@ -6,7 +6,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 
 import TicketsEditorDrawer from './TicketsEditorDrawer';
 
-import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
+// import { TasksTableData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import useTickets from './useTickets';
 
@@ -14,8 +14,11 @@ import { columns } from './Tickets.data';
 
 import { styles } from '../Associations.style';
 
-const Tickets = () => {
+const Tickets = ({ contactId }: any) => {
   const {
+    // loadingTickets,
+    dataGetTickets,
+
     theme,
     isOpenAlert,
     setIsOpenAlert,
@@ -24,7 +27,7 @@ const Tickets = () => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
-  } = useTickets();
+  } = useTickets(contactId);
 
   return (
     <Box
@@ -62,7 +65,7 @@ const Tickets = () => {
         <Grid item xs={12}>
           <TanstackTable
             columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={TasksTableData}
+            data={dataGetTickets?.data?.tickets}
           />
         </Grid>
       </Grid>

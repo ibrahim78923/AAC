@@ -20,7 +20,7 @@ export const KnowledgeBaseCard = (props: any) => {
       height={'auto'}
       border={`.1rem solid ${theme?.palette?.grey?.[700]}`}
       sx={{ cursor: 'pointer' }}
-      onClick={() => handleKnowledgeBaseDetail(folderId)}
+      onClick={() => handleKnowledgeBaseDetail(folderId, name)}
     >
       <Box
         display={'flex'}

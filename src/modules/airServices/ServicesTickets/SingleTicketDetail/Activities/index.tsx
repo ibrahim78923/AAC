@@ -30,6 +30,7 @@ export const Activities = () => {
         border={'1px solid'}
         borderColor={'custom.off_white'}
         borderRadius={2}
+        p={2}
       >
         {!!data?.data?.activitylogs?.length ? (
           data?.data?.activitylogs?.map((activity: any) => (
@@ -61,7 +62,7 @@ export const Activities = () => {
                     marginRight={0.3}
                     component={'span'}
                   >
-                    {activity?.activityType} {activity?.moduleName}
+                    has {activity?.activityType}
                   </Typography>
                   <Typography
                     variant="body2"

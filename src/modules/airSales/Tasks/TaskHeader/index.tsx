@@ -3,10 +3,11 @@ import { Box, Button, Typography, useTheme } from '@mui/material';
 import Import from '../Import';
 import ActivityAndPerformance from '../ActivityAndPerformance';
 import CreateTask from '../CreateTask';
-import { UmbrellaIcon } from '@/assets/icons';
+import { PlusIcon, UmbrellaIcon } from '@/assets/icons';
 const TaskHeader = () => {
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const [isCreateTaskDrawerOpen, setIsCreateTaskDrawerOpen] = useState(false);
   return (
     <Box
       sx={{
@@ -49,7 +50,21 @@ const TaskHeader = () => {
           Import
         </Button>
         <ActivityAndPerformance />
-        <CreateTask />
+        <Button
+          onClick={() => setIsCreateTaskDrawerOpen(true)}
+          className="small"
+          variant="contained"
+          startIcon={<PlusIcon />}
+        >
+          Create Task
+        </Button>
+        {isCreateTaskDrawerOpen && (
+          <CreateTask
+            isCreateTaskDrawerOpen={isCreateTaskDrawerOpen}
+            setIsCreateTaskDrawerOpen={setIsCreateTaskDrawerOpen}
+            creationMode={'create'}
+          />
+        )}
       </Box>
       {isOpen && <Import setIsOpen={setIsOpen} isOpen={isOpen} />}
     </Box>

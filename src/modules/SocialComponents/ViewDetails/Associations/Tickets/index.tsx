@@ -71,7 +71,7 @@ const Tickets = () => {
         <Grid item xs={12}>
           <TanstackTable
             columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={data?.data?.tickets}
+            data={data?.data}
             isLoading={isLoading}
           />
         </Grid>

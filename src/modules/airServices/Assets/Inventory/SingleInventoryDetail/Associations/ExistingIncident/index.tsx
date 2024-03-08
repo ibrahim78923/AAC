@@ -10,6 +10,10 @@ import {
 import { chipColor } from './ExistingIncident.data';
 import { v4 as uuidv4 } from 'uuid';
 import { useExistingIncident } from './useExistingIncident';
+import { NoAssociationFoundImage } from '@/assets/images';
+import NoData from '@/components/NoData';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import CustomPagination from '@/components/CustomPagination';
 
 export const ExistingIncident = ({ openDrawer, onClose }: any) => {
   const {
@@ -20,6 +24,12 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
     checkboxValues,
     handleCheckboxChange,
     existingTicketsData,
+    lazyGetTicketsStatus,
+    pageLimit,
+    setPageLimit,
+    page,
+    setPage,
+    metaData,
   } = useExistingIncident({ onClose });
 
   return (
@@ -33,7 +43,7 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
       footer
       submitHandler={handleSubmit}
     >
-      <Box mt={1}>
+      <Box my={1}>
         <Search
           label={'Search'}
           value={searchBy}
@@ -41,10 +51,9 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
           fullWidth
         />
       </Box>
-
-      {existingTicketsData?.data?.tickets &&
-      existingTicketsData.data.tickets.length > 0
-        ? existingTicketsData.data.tickets.map((item: any) => (
+      {!lazyGetTicketsStatus?.isFetching ? (
+        existingTicketsData?.length ? (
+          existingTicketsData?.map((item: any) => (
             <Box
               border={`1px solid ${theme?.palette?.grey?.[400]}`}
               borderRadius={2}
@@ -59,12 +68,12 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={checkboxValues?.[item?.id] || false}
+                      checked={checkboxValues?.[item?._id] || false}
                       onChange={handleCheckboxChange}
-                      id={item?.id}
+                      id={item?._id}
                     />
                   }
-                  label={item?.ticketIdNumber}
+                  label={`${item?.ticketIdNumber}-${item?.subject}`}
                 />
               </FormGroup>
               <Chip
@@ -82,7 +91,29 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
               />
             </Box>
           ))
-        : ''}
+        ) : (
+          <NoData
+            image={NoAssociationFoundImage}
+            message={'No data is available'}
+            height="40vh"
+          />
+        )
+      ) : (
+        <SkeletonTable />
+      )}
+      {metaData && (
+        <Box>
+          <CustomPagination
+            currentPage={page}
+            count={metaData?.pages}
+            pageLimit={pageLimit}
+            totalRecords={metaData?.total}
+            onPageChange={(page: any) => setPage(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+          />
+        </Box>
+      )}
     </CommonDrawer>
   );
 };

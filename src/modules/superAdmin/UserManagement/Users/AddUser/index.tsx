@@ -7,6 +7,7 @@ import { addUsersArray } from './AddUser.data';
 import { SUPER_ADMIN } from '@/constants/index';
 import useAddUser from './useAddUser';
 import { v4 as uuidv4 } from 'uuid';
+import { style } from '../Users.style';
 
 const AddUser = ({
   isOpenDrawer,
@@ -37,8 +38,8 @@ const AddUser = ({
         isOpenAddUserDrawer?.type === 'view'
           ? userDetail?.firstName
           : isOpenAddUserDrawer?.type === 'edit'
-            ? 'Edit User'
-            : 'Add User'
+          ? 'Edit User'
+          : 'Add User'
       }
       okText={isOpenAddUserDrawer?.type === 'edit' ? 'Update User' : 'Add'}
       isOk={isOpenAddUserDrawer?.type === 'view' ? false : true}
@@ -46,7 +47,7 @@ const AddUser = ({
       footer
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={1} mt={1}>
+        <Grid container spacing={1} mt={1} sx={style?.avatarStyle}>
           {addUsersArray()?.map((item: any) => {
             return (
               item?.toShow?.includes(

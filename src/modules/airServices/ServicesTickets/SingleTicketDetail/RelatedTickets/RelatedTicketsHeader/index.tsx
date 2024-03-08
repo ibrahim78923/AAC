@@ -1,11 +1,15 @@
 import { Box, Button, Typography } from '@mui/material';
 import { CirclePlusIcon } from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { Permissions } from '@/constants/permissions';
 
 export const RelatedTicketsHeader = ({
   isActive,
   setIsDrawerOpen,
   relatedTicketsActionDropdown,
+  setSelectedChildTickets,
 }: any) => {
   return (
     <Box
@@ -19,18 +23,31 @@ export const RelatedTicketsHeader = ({
         Child Tickets
       </Typography>
       <Box display="flex" flexWrap={'wrap'} gap={1}>
-        <SingleDropdownButton
-          disabled={isActive}
-          dropdownOptions={relatedTicketsActionDropdown}
-        />
-        <Button
-          disableElevation
-          variant="contained"
-          onClick={() => setIsDrawerOpen(true)}
-          startIcon={<CirclePlusIcon />}
+        <PermissionsGuard
+          permissions={
+            Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_CHILD_TICKET_ACTION
+          }
         >
-          Add Child Ticket
-        </Button>
+          <SingleDropdownButton
+            disabled={isActive}
+            dropdownOptions={relatedTicketsActionDropdown}
+          />
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CHILD_TICKET]}
+        >
+          <Button
+            disableElevation
+            variant="contained"
+            onClick={() => {
+              setSelectedChildTickets?.([]);
+              setIsDrawerOpen(true);
+            }}
+            startIcon={<CirclePlusIcon />}
+          >
+            Add Child Ticket
+          </Button>
+        </PermissionsGuard>
       </Box>
     </Box>
   );

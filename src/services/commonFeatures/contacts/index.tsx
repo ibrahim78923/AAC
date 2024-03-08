@@ -26,6 +26,7 @@ export const contactsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
     updateContact: builder.mutation({
       query: ({ id, body }: any) => ({
         url: `${END_POINTS?.CONTACTS}/${id}`,
@@ -33,6 +34,15 @@ export const contactsAPI = baseAPI.injectEndpoints({
         body: body,
       }),
       invalidatesTags: TAG,
+    }),
+
+    getContactAssociations: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACT_ASSOCIATIONS,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
     }),
 
     getLifeCycle: builder.query({
@@ -50,12 +60,69 @@ export const contactsAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['ContactsStatus'],
     }),
+
     deleteContact: builder.mutation({
-      query: ({ id }: any) => ({
-        url: `${END_POINTS?.CONTACTS}/${id}`,
+      query: ({ contactIds }: any) => ({
+        url: `${END_POINTS?.CONTACTS}`,
+        method: 'DELETE',
+        body: { contactIds },
+      }),
+      invalidatesTags: TAG,
+    }),
+
+    getDeletedContacts: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.DELETED_CONTACT_LIST,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
+    restoreContact: builder.mutation({
+      query: ({ contactIds }: any) => ({
+        url: `${END_POINTS?.CONTACT_RESTORE}`,
+        method: 'PATCH',
+        body: { contactIds },
+      }),
+      invalidatesTags: TAG,
+    }),
+
+    deleteContactPermanent: builder.mutation({
+      query: ({ contactIds }: any) => ({
+        url: `${END_POINTS?.CONTACT_DELETE_PERMANENT}`,
+        method: 'DELETE',
+        body: { contactIds },
+      }),
+      invalidatesTags: TAG,
+    }),
+
+    getContactTasks: builder.query({
+      query: ({ params }: any) => ({
+        url: END_POINTS?.CONTACT_TASKS,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
+    // Re-assign
+    updateContactTask: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.TASK}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+
+    // Delete Tasks
+    deleteTasks: builder.mutation({
+      query: (id: any) => ({
+        url: `${END_POINTS?.TASK}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['CONTACTS'],
+      invalidatesTags: TAG,
     }),
   }),
 });
@@ -64,8 +131,15 @@ export const {
   useGetContactsStatusQuery,
   useGetContactsQuery,
   useGetContactByIdQuery,
+  useGetContactAssociationsQuery,
   useGetLifeCycleQuery,
   usePostContactsMutation,
   useUpdateContactMutation,
   useDeleteContactMutation,
+  useGetDeletedContactsQuery,
+  useRestoreContactMutation,
+  useDeleteContactPermanentMutation,
+  useGetContactTasksQuery,
+  useUpdateContactTaskMutation,
+  useDeleteTasksMutation,
 } = contactsAPI;

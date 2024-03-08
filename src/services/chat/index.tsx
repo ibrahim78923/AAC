@@ -1,3 +1,4 @@
+import { END_POINTS } from '@/routesConstants/endpoints';
 import { SOCIAL_FEATURES_CHAT } from '@/routesConstants/paths';
 import { baseAPI } from '@/services/base-api';
 const TAG = ['CHAT'];
@@ -79,6 +80,14 @@ export const chatApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: TAG,
     }),
+    getChatUsers: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.USER_LIST}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -89,4 +98,5 @@ export const {
   useCreateNewGroupMutation,
   useChatAttachmentUploadMutation,
   useGetUserChatsInfoQuery,
+  useGetChatUsersQuery,
 } = chatApi;

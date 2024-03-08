@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { Workload } from '@/modules/airServices/Workload';
 
@@ -6,7 +7,11 @@ const WorkloadPage = () => {
 };
 
 WorkloadPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout permissions={Permissions?.AIR_SERVICES_WORKLOAD_CALENDER_VIEW}>
+      {page}
+    </Layout>
+  );
 };
 
 export default WorkloadPage;

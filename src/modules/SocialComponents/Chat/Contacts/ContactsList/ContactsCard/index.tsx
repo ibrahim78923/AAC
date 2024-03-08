@@ -62,6 +62,7 @@ const ContactsCard = ({
   };
 
   const [updateChat] = useUpdateChatMutation();
+
   const updateChatHandler = async (requestType: any) => {
     const payloadMap: any = {
       isPinned: { isPinned: !cardData?.item?.isPinned },
@@ -135,6 +136,11 @@ const ContactsCard = ({
       ? activeConversation?.conversationId
       : null,
   );
+
+  const handelDeleteChatList = () => {
+    updateChatHandler('isDeleted');
+    setIsDeleteModal(false);
+  };
   return (
     <>
       <Box
@@ -255,7 +261,7 @@ const ContactsCard = ({
         type="delete"
         open={isDeleteModal}
         handleClose={() => setIsDeleteModal(false)}
-        handleSubmit={() => setIsDeleteModal(false)}
+        handleSubmitBtn={handelDeleteChatList}
       />
     </>
   );

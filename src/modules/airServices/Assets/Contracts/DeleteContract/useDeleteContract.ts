@@ -7,6 +7,9 @@ export const useDeleteContract = (props: any) => {
     selectedContractList,
     setSelectedContractList,
     setPage,
+    totalRecords,
+    page,
+    getContractListData,
   } = props;
   const [deleteContractTrigger, deleteContractStatus] =
     useDeleteContractMutation();
@@ -26,7 +29,9 @@ export const useDeleteContract = (props: any) => {
       await deleteContractTrigger(deleteContractParameter)?.unwrap();
       setSelectedContractList([]);
       successSnackbar('Record deleted successfully');
-      setPage?.(1);
+      setPage?.(selectedContractList?.length === totalRecords ? 1 : page);
+      const newPage = selectedContractList?.length === totalRecords ? 1 : page;
+      await getContractListData?.(newPage);
       setIsDeleteModalOpen?.(false);
     } catch (error: any) {
       errorSnackbar();

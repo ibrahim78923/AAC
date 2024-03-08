@@ -1,11 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  closureRoleValidationSchema,
-  closureRoleDefaultValues,
-} from './ClosureRole.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { closureRoleDefaultValues } from './ClosureRole.data';
 import {
   closeIncidentDataArray,
   resolveIncidentDataArray,
@@ -13,16 +7,32 @@ import {
   serviceResolveDataArray,
 } from './ClosureRole.data';
 import { useEffect } from 'react';
-import { usePostClosureRoleMutation } from '@/services/airServices/settings/service-management/closureRole';
+import {
+  useGetClosureRulesQuery,
+  usePostClosureRuleMutation,
+} from '@/services/airServices/settings/service-management/closureRole';
+import { useRouter } from 'next/router';
+import { AIR_SERVICES } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useClosureRole = () => {
+  const router = useRouter();
+  const { data, isLoading: getIsLoading } = useGetClosureRulesQuery(null);
+  const getClosureRuleValues = data?.data;
+
+  const ticket = {
+    incidentClose: 0,
+    incidentResolve: 1,
+    serviceClose: 1,
+    serviceResolve: 0,
+  };
+
   const closureRoleMethods = useForm({
-    resolver: yupResolver(closureRoleValidationSchema),
-    defaultValues: closureRoleDefaultValues,
+    defaultValues: closureRoleDefaultValues(getClosureRuleValues, ticket),
   });
 
   const [postClosureRuleTrigger, postClosureRuleProgress] =
-    usePostClosureRoleMutation();
+    usePostClosureRuleMutation();
   const isLoading = postClosureRuleProgress?.isLoading;
 
   const isSubmit = async (data: any) => {
@@ -86,16 +96,24 @@ export const useClosureRole = () => {
       ],
     };
     try {
-      const res: any = await postClosureRuleTrigger(payload);
+      const res: any = await postClosureRuleTrigger(payload)?.unwrap();
+      successSnackbar(res?.message ?? 'Saved Successfully');
+      handleBack();
       reset();
-      enqueueSnackbar(res?.message ?? 'Saved Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
     } catch (error) {
-      enqueueSnackbar(`${error}`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
+  };
+
+  const handleBack = () => {
+    router?.push({
+      pathname: AIR_SERVICES?.SERVICE_MANAGEMENT,
+    });
+  };
+
+  const handleCancel = () => {
+    handleBack();
+    reset();
   };
 
   const { handleSubmit, reset } = closureRoleMethods;
@@ -115,28 +133,16 @@ export const useClosureRole = () => {
 
   useEffect(() => {
     if (closeIncident === false) {
-      closureRoleMethods?.setValue(
-        'closeIncidentClosedResolved',
-        closureRoleDefaultValues?.closeIncidentClosedResolved,
-      );
+      closureRoleMethods?.setValue('closeIncidentClosedResolved', '');
     }
     if (resolveIncident === false) {
-      closureRoleMethods?.setValue(
-        'resolveIncidentClosedResolved',
-        closureRoleDefaultValues?.resolveIncidentClosedResolved,
-      );
+      closureRoleMethods?.setValue('resolveIncidentClosedResolved', '');
     }
     if (serviceClose === false) {
-      closureRoleMethods?.setValue(
-        'serviceCloseClosedResolved',
-        closureRoleDefaultValues?.serviceCloseClosedResolved,
-      );
+      closureRoleMethods?.setValue('serviceCloseClosedResolved', '');
     }
     if (serviceResolve === false) {
-      closureRoleMethods?.setValue(
-        'serviceResolveClosedResolved',
-        closureRoleDefaultValues?.serviceResolveClosedResolved,
-      );
+      closureRoleMethods?.setValue('serviceResolveClosedResolved', '');
     }
   }, [closeIncident, resolveIncident, serviceClose, serviceResolve]);
 
@@ -149,5 +155,7 @@ export const useClosureRole = () => {
     serviceCloseData,
     serviceResolveData,
     isLoading,
+    getIsLoading,
+    handleCancel,
   };
 };
