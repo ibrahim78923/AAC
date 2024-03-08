@@ -1028,6 +1028,9 @@ export const SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS = {
   LIST_MOVE_TO_FOLDER: 'common-documents-folder-list-move-to-folder',
   RENAME_FOLDER: 'common-documents-folder-list-rename-folder',
   DELETE_FOLDER: 'common-documents-folder-list-delete-folder',
+};
+
+export const SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS = {
   // VIEW_FOLDER
   CREATE_SUB_FOLDER: 'common-documents-view-folder-create-sub-folder',
   UPLOAD_DOCUMENT: 'common-documents-view-folder-upload-document',

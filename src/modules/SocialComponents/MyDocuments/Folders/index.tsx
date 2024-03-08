@@ -49,6 +49,8 @@ import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import { FormProvider } from '@/components/ReactHookForm';
 import { enqueueSnackbar } from 'notistack';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS } from '@/constants/permission-keys';
 
 const Folders = () => {
   const navigate = useRouter();
@@ -378,14 +380,20 @@ const Folders = () => {
                     'aria-labelledby': 'basic-button',
                   }}
                 >
-                  <MenuItem
-                    onClick={() => {
-                      setAnchorElSide(null);
-                      setIsOpenModal(true);
-                    }}
+                  <PermissionsGuard
+                    permissions={[
+                      SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.CREATE_SUB_FOLDER,
+                    ]}
                   >
-                    Create Sub Folder
-                  </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorElSide(null);
+                        setIsOpenModal(true);
+                      }}
+                    >
+                      Create Sub Folder
+                    </MenuItem>
+                  </PermissionsGuard>
                   <MenuItem
                     onClick={() => {
                       setAnchorElSide(null);
@@ -515,26 +523,38 @@ const Folders = () => {
                 xs={12}
                 sx={styles?.actionButtonBox}
               >
-                <Button
-                  variant="outlined"
-                  className="small"
-                  onClick={() => {
-                    setIsOpenModal(true);
-                  }}
-                  sx={styles?.createFolderButton(theme)}
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.CREATE_SUB_FOLDER,
+                  ]}
                 >
-                  <AddCircle /> Create Folder
-                </Button>
-                <Button
-                  variant="contained"
-                  className="small"
-                  onClick={() => {
-                    setIsImage(true);
-                  }}
-                  sx={styles?.uploadDocumentsButton(theme)}
+                  <Button
+                    variant="outlined"
+                    className="small"
+                    onClick={() => {
+                      setIsOpenModal(true);
+                    }}
+                    sx={styles?.createFolderButton(theme)}
+                  >
+                    <AddCircle /> Create Folder
+                  </Button>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS?.UPLOAD_DOCUMENT,
+                  ]}
                 >
-                  Upload Documents
-                </Button>
+                  <Button
+                    variant="contained"
+                    className="small"
+                    onClick={() => {
+                      setIsImage(true);
+                    }}
+                    sx={styles?.uploadDocumentsButton(theme)}
+                  >
+                    Upload Documents
+                  </Button>
+                </PermissionsGuard>
               </Grid>
               <Grid
                 item
@@ -639,7 +659,7 @@ const Folders = () => {
                     sx={styles?.fiterButton(theme)}
                     className="small"
                   >
-                    <FilterrIcon /> Any
+                    <FilterrIcon /> Filters
                   </Button>
                 </Box>
               </Grid>
