@@ -1,3 +1,4 @@
+import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import { Typography } from '@mui/material';
 
 export const overviewData = (purchaseOrderData: any) => [
@@ -34,6 +35,7 @@ export const overviewData = (purchaseOrderData: any) => [
 export const overviewTableColumns: any = (
   setOpenOverviewModal: any,
   purchaseOrderDetailData: any,
+  itemName: any,
   theme: any,
   orderStatus: string,
 ) => {
@@ -41,12 +43,11 @@ export const overviewTableColumns: any = (
     {
       accessorFn: (row: any) => row?.itemName,
       id: 'itemName',
-      cell: (info: any) =>
-        info?.getValue(
-          <Typography color={theme?.palette?.blue?.dull_blue}>
-            {purchaseOrderDetailData?.vendorproductcatalogsDetails?.name}
-          </Typography>,
-        ),
+      cell: () => (
+        <Typography color={theme?.palette?.blue?.dull_blue}>
+          {itemName}
+        </Typography>
+      ),
       header: 'Item Name',
     },
     {
@@ -62,7 +63,7 @@ export const overviewTableColumns: any = (
       cell: (info: any) => info?.getValue(),
     },
   ];
-  if (orderStatus === 'RECEIVED') {
+  if (orderStatus === PURCHASE_ORDER_STATUS?.RECEIVED) {
     columns.push(
       {
         accessorFn: (row: any) => row?.receivedVsOrdered,
@@ -119,7 +120,8 @@ export const overviewTableColumns: any = (
       header: 'Invoice',
       cell: () => (
         <Typography
-          sx={{ cursor: 'pointer', color: theme?.palette?.primary?.main }}
+          sx={{ cursor: 'pointer' }}
+          color={theme?.palette?.primary?.main}
           onClick={() => setOpenOverviewModal(true)}
         >
           PDF

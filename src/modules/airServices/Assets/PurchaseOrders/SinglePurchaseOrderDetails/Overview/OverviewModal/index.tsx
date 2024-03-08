@@ -19,6 +19,7 @@ const OverviewModal = ({
   setOpenOverviewModal,
   purchaseOrderData,
   purchaseOrderDetailData,
+  itemName,
   theme,
   orderStatus,
   handleDownload,
@@ -102,8 +103,8 @@ const OverviewModal = ({
             <TanstackTable
               data={purchaseOrderDetailData}
               columns={overviewTablePdfColumns(
-                setOpenOverviewModal,
                 purchaseOrderDetailData,
+                itemName,
                 theme,
                 orderStatus,
               )}

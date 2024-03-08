@@ -1,8 +1,9 @@
+import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import { Typography } from '@mui/material';
 
 export const overviewTablePdfColumns: any = (
-  setOpenOverviewModal: any,
   purchaseOrderDetailData: any,
+  itemName: any,
   theme: any,
   orderStatus: string,
 ) => {
@@ -10,9 +11,9 @@ export const overviewTablePdfColumns: any = (
     {
       accessorFn: (row: any) => row?.itemName,
       id: 'itemName',
-      cell: (info: any) => (
+      cell: () => (
         <Typography color={theme?.palette?.blue?.dull_blue}>
-          {info?.getValue()}
+          {itemName}
         </Typography>
       ),
       header: 'Item Name',
@@ -30,7 +31,7 @@ export const overviewTablePdfColumns: any = (
       cell: (info: any) => info?.getValue(),
     },
   ];
-  if (orderStatus === 'RECEIVED') {
+  if (orderStatus === PURCHASE_ORDER_STATUS?.RECEIVED) {
     columns.push(
       {
         accessorFn: (row: any) => row?.receivedVsOrdered,
@@ -85,16 +86,3 @@ export const overviewTablePdfColumns: any = (
 
   return columns;
 };
-
-export const overviewListPdfData: any = [
-  {
-    Id: 1,
-    itemName: `Andrea`,
-    description: 'Per Unit',
-    costPerItem: '30',
-    receivedVsOrdered: '2/2',
-    pending: '2',
-    taxRate: '0',
-    total: '60',
-  },
-];

@@ -12,7 +12,10 @@ export const useOverview = () => {
   const { data } = useGetPurchaseOrderOverviewQuery(purchaseOrderId);
   const purchaseOrderData = data?.data;
   const purchaseOrderDetailData = data?.data?.purchaseDetails;
-  const productOrderDetailData = data?.data?.productDetails?.[0];
+  const itemName = data?.data?.productDetails?.find(
+    (detail: any) => detail?.vendorproductcatalogsDetails,
+  )?.vendorproductcatalogsDetails?.name;
+
   const orderStatus = data?.data?.status;
 
   const handleDownload = () => {
@@ -39,7 +42,7 @@ export const useOverview = () => {
     theme,
     purchaseOrderData,
     purchaseOrderDetailData,
-    productOrderDetailData,
+    itemName,
     orderStatus,
     handleDownload,
     uniqueNumber,

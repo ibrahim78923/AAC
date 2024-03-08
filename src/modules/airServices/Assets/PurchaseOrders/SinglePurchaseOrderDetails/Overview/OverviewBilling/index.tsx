@@ -54,6 +54,7 @@ const OverviewBilling = ({
                 item
                 sx={{
                   width: 70,
+                  height: 44,
                   border: '1px solid black',
                   padding: '8px',
                   mt: 1,
