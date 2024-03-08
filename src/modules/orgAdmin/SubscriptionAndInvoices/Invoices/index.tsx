@@ -11,6 +11,8 @@ import { styles } from './Invoices.style';
 import { FilterInvoiceFiltersDataArray } from './Invoices.data';
 import { isNullOrEmpty } from '@/utils';
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 
 const Invoices = () => {
   const {
@@ -55,12 +57,18 @@ const Invoices = () => {
 
         <Box sx={styles?.tableToolbar}>
           <Box sx={styles?.tableSearch}>
-            <Search
-              searchBy={searchByInvoices}
-              setSearchBy={setSearchByInvoices}
-              size="small"
-              placeholder="search here"
-            />
+            <PermissionsGuard
+              permissions={[
+                ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.INVOICES_SEARCH_INVOICE,
+              ]}
+            >
+              <Search
+                searchBy={searchByInvoices}
+                setSearchBy={setSearchByInvoices}
+                size="small"
+                placeholder="search here"
+              />
+            </PermissionsGuard>
           </Box>
           <Box sx={styles?.tableToolbarActions}>
             {/* <Box> */}
@@ -91,17 +99,35 @@ const Invoices = () => {
                 },
               }}
             >
-              <MenuItem onClick={handleOpenPayInvoice}>Pay Now</MenuItem>
-              <MenuItem onClick={handleOpenViewInvoice}>View</MenuItem>
-            </Menu>
+              <PermissionsGuard
+                permissions={[
+                  ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.INVOICES_PAY_INVOICE,
+                ]}
+              >
+                <MenuItem onClick={handleOpenPayInvoice}>Pay Now</MenuItem>
+              </PermissionsGuard>
 
-            <Button
-              size="small"
-              sx={styles?.actionButton}
-              onClick={() => setIsOpenFilter(true)}
+              <PermissionsGuard
+                permissions={[
+                  ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.INVOICES_VIEW_INVOICE,
+                ]}
+              >
+                <MenuItem onClick={handleOpenViewInvoice}>View</MenuItem>
+              </PermissionsGuard>
+            </Menu>
+            <PermissionsGuard
+              permissions={[
+                ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.INVOICES_SEARCH_INVOICE,
+              ]}
             >
-              <FilterSharedIcon /> Filter
-            </Button>
+              <Button
+                size="small"
+                sx={styles?.actionButton}
+                onClick={() => setIsOpenFilter(true)}
+              >
+                <FilterSharedIcon /> Filter
+              </Button>
+            </PermissionsGuard>
             {/* </Box> */}
           </Box>
         </Box>

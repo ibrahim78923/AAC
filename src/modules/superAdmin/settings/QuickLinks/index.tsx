@@ -45,6 +45,8 @@ import PlusShared from '@/assets/icons/shared/plus-shared';
 
 import { styles } from './QuickLinks.style';
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS } from '@/constants/permission-keys';
 
 const QuickLinks = () => {
   const theme = useTheme();
@@ -89,24 +91,37 @@ const QuickLinks = () => {
               <Typography variant="h3" sx={{ fontWeight: '600' }}>
                 Quick Links
               </Typography>
-              <Button
-                variant="contained"
-                sx={{ height: '36px', fontWeight: '500' }}
-                onClick={() => setIsManageQuickLinks(true)}
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS?.Manage_Links,
+                ]}
               >
-                <PlusShared /> &nbsp; Manage
-              </Button>
+                <Button
+                  variant="contained"
+                  sx={{ height: '36px', fontWeight: '500' }}
+                  onClick={() => setIsManageQuickLinks(true)}
+                >
+                  <PlusShared /> &nbsp; Manage
+                </Button>
+              </PermissionsGuard>
             </Box>
             <Box sx={styles?.filterBar}>
-              <Box sx={styles?.search}>
-                <Search
-                  label={'Search here'}
-                  searchBy={quickLinksSearch}
-                  setSearchBy={setQuickLinksSearch}
-                  width="260px"
-                  size="small"
-                />
-              </Box>
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS?.Search_and_Filter,
+                ]}
+              >
+                <Box sx={styles?.search}>
+                  <Search
+                    label={'Search here'}
+                    searchBy={quickLinksSearch}
+                    setSearchBy={setQuickLinksSearch}
+                    width="260px"
+                    size="small"
+                  />
+                </Box>
+              </PermissionsGuard>
+
               <Box sx={styles?.filterButtons}>
                 <Button
                   id="basic-button"
@@ -133,35 +148,61 @@ const QuickLinks = () => {
                     },
                   }}
                 >
-                  <MenuItem
-                    style={{ fontSize: '14px' }}
-                    onClick={() => setisQuickLinksDeleteModal(true)}
+                  <PermissionsGuard
+                    permissions={[
+                      SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS?.Delete_Link,
+                    ]}
                   >
-                    Delete
-                  </MenuItem>
+                    <MenuItem
+                      style={{ fontSize: '14px' }}
+                      onClick={() => setisQuickLinksDeleteModal(true)}
+                    >
+                      Delete
+                    </MenuItem>
+                  </PermissionsGuard>
                 </Menu>
-                <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
-                  <Button sx={styles?.refreshButton} className="small">
-                    <RefreshSharedIcon />
-                  </Button>
-                </Tooltip>
-                <Button
-                  sx={styles?.filterButton}
-                  className="small"
-                  onClick={() => setIsQuickLinksFilterDrawerOpen(true)}
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS?.Refresh_Record,
+                  ]}
                 >
-                  <FilterSharedIcon /> &nbsp; Filter
-                </Button>
+                  <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+                    <Button sx={styles?.refreshButton} className="small">
+                      <RefreshSharedIcon />
+                    </Button>
+                  </Tooltip>
+                </PermissionsGuard>
+
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS?.Search_and_Filter,
+                  ]}
+                >
+                  <Button
+                    sx={styles?.filterButton}
+                    className="small"
+                    onClick={() => setIsQuickLinksFilterDrawerOpen(true)}
+                  >
+                    <FilterSharedIcon /> &nbsp; Filter
+                  </Button>
+                </PermissionsGuard>
               </Box>
             </Box>
           </Box>
-          <Box>
-            <TanstackTable
-              columns={columns}
-              data={quickLinksTableData}
-              isPagination={true}
-            />
-          </Box>
+          <PermissionsGuard
+            permissions={[
+              SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS?.Links_List,
+            ]}
+          >
+            <Box>
+              <TanstackTable
+                columns={columns}
+                data={quickLinksTableData}
+                isPagination={true}
+              />
+            </Box>
+          </PermissionsGuard>
+
           <CommonDrawer
             isDrawerOpen={isQuickLinksFilterDrawerOpen}
             onClose={() => setIsQuickLinksFilterDrawerOpen(false)}

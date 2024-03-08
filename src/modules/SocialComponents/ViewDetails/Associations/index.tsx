@@ -22,7 +22,7 @@ const Associations = ({ companyId }: any) => {
             <Deals companyId={companyId} />
           </Grid>
           <Grid item xs={12}>
-            <Attachments />
+            <Attachments companyId={companyId} />
           </Grid>
         </Grid>
       </Box>

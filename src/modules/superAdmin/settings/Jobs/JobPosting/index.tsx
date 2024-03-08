@@ -21,6 +21,8 @@ import { v4 as uuidv4 } from 'uuid';
 import useJobPosting from './useJobPosting';
 import { styles } from './Jobs.styles';
 import EditJobPost from './EditJobPost/index';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS } from '@/constants/permission-keys';
 
 const JobPosting = () => {
   const theme = useTheme();
@@ -70,95 +72,135 @@ const JobPosting = () => {
 
   return (
     <Box>
-      <Box sx={styles?.filterBar}>
-        <Box sx={styles?.search}>
-          <Search
-            setSearchBy={setSearchValue}
-            label="Search Here"
-            size="small"
-            width={'100%'}
+      <PermissionsGuard
+        permissions={[SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.Job_List]}
+      >
+        <Box sx={styles?.filterBar}>
+          <Box sx={styles?.search}>
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.Search_and_Filter,
+              ]}
+            >
+              <Search
+                setSearchBy={setSearchValue}
+                label="Search Here"
+                size="small"
+                width={'100%'}
+              />
+            </PermissionsGuard>
+          </Box>
+          <Box sx={styles?.filterButtons}>
+            <Button
+              id="basic-button"
+              aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={actionMenuOpen ? 'true' : undefined}
+              onClick={handleActionsClick}
+              sx={styles?.actionBtn}
+              className="small"
+              disabled={isActionsDisabled}
+            >
+              Actions &nbsp; <DownIcon />
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={actionMenuOpen}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+              PaperProps={{
+                style: {
+                  width: '112px',
+                },
+              }}
+            >
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.Edit_Job,
+                ]}
+              >
+                <MenuItem
+                  style={{ fontSize: '14px' }}
+                  disabled={!rowId}
+                  onClick={handleOpenEditJobPost}
+                >
+                  Edit
+                </MenuItem>
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.View_Job,
+                ]}
+              >
+                <MenuItem
+                  style={{ fontSize: '14px' }}
+                  disabled={!rowId}
+                  onClick={handleOpenEditJobPost}
+                >
+                  View
+                </MenuItem>
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.Delete_Job,
+                ]}
+              >
+                <MenuItem
+                  style={{ fontSize: '14px' }}
+                  onClick={handleOpenModalDeleteJobPost}
+                >
+                  Delete
+                </MenuItem>
+              </PermissionsGuard>
+            </Menu>
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.Refresh_Record,
+              ]}
+            >
+              <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+                <Button
+                  sx={styles?.refreshButton(theme)}
+                  className="small"
+                  onClick={handleRefresh}
+                >
+                  <RefreshSharedIcon />
+                </Button>
+              </Tooltip>
+            </PermissionsGuard>
+
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_JOB_POSTING_PERMISSIONS?.Search_and_Filter,
+              ]}
+            >
+              <Button
+                className="small"
+                sx={styles?.filterButton(theme)}
+                onClick={handleOpenJobPostingFilters}
+              >
+                <FilterSharedIcon /> &nbsp; Filter
+              </Button>
+            </PermissionsGuard>
+          </Box>
+        </Box>
+        <Box>
+          <TanstackTable
+            columns={getColumns}
+            data={jopPostingData?.data?.jobs}
+            isLoading={loadingJobPosting}
+            isPagination
+            count={jopPostingData?.data?.meta?.pages}
+            totalRecords={jopPostingData?.data?.meta?.total}
+            onPageChange={handlePageChange}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
           />
         </Box>
-        <Box sx={styles?.filterButtons}>
-          <Button
-            id="basic-button"
-            aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={actionMenuOpen ? 'true' : undefined}
-            onClick={handleActionsClick}
-            sx={styles?.actionBtn}
-            className="small"
-            disabled={isActionsDisabled}
-          >
-            Actions &nbsp; <DownIcon />
-          </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={actionMenuOpen}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-            PaperProps={{
-              style: {
-                width: '112px',
-              },
-            }}
-          >
-            <MenuItem
-              style={{ fontSize: '14px' }}
-              disabled={!rowId}
-              onClick={handleOpenEditJobPost}
-            >
-              Edit
-            </MenuItem>
-            <MenuItem
-              style={{ fontSize: '14px' }}
-              disabled={!rowId}
-              onClick={handleOpenEditJobPost}
-            >
-              View
-            </MenuItem>
-            <MenuItem
-              style={{ fontSize: '14px' }}
-              onClick={handleOpenModalDeleteJobPost}
-            >
-              Delete
-            </MenuItem>
-          </Menu>
-          <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
-            <Button
-              sx={styles?.refreshButton(theme)}
-              className="small"
-              onClick={handleRefresh}
-            >
-              <RefreshSharedIcon />
-            </Button>
-          </Tooltip>
-          <Button
-            className="small"
-            sx={styles?.filterButton(theme)}
-            onClick={handleOpenJobPostingFilters}
-          >
-            <FilterSharedIcon /> &nbsp; Filter
-          </Button>
-        </Box>
-      </Box>
-      <Box>
-        <TanstackTable
-          columns={getColumns}
-          data={jopPostingData?.data?.jobs}
-          isLoading={loadingJobPosting}
-          isPagination
-          count={jopPostingData?.data?.meta?.pages}
-          totalRecords={jopPostingData?.data?.meta?.total}
-          onPageChange={handlePageChange}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-        />
-      </Box>
-
+      </PermissionsGuard>
       <CommonDrawer
         isDrawerOpen={openJobPostingFilter}
         onClose={handleCloseJobPostingFilters}

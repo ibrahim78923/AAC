@@ -245,6 +245,7 @@ export const END_POINTS = {
   VENDOR_PRODUCT_DROPDOWN: `/product-catalog/vendor-product-list`,
   PURCHASE_ORDER: `/assets/purchaseorder`,
   GET_SINGLE_ASSETS_CONTRACT: '/contract/get-contract',
+  GET_CONTRACTS_OVERVIEW: '/contract/get-contract',
   GET_DASHBOARD_TICKETS: '/air-services-dashboard/tickets',
   GET_DASHBOARD_CARDS_TICKETS: '/air-services-dashboard/dashboard-tickets',
   DASHBOARD_ANNOUNCEMENTS: '/air-services-dashboard/dashboard-annoucement',
