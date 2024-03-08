@@ -7,9 +7,9 @@ export const useOverview = () => {
   const searchParams = useSearchParams();
   const contractId = searchParams?.get('contractId');
   const { data } = useGetContractsOverviewQuery(contractId);
-  const contractData = data?.data?.contractResponse;
-  const contractItemDataArray = data?.data?.contractResponse?.itemsDetail || [];
-  const contractItemData = contractItemDataArray.map((item: any) => ({
+  const contractData = data?.data;
+  const contractItemDataArray = data?.data?.itemsDetail || [];
+  const contractItemData = contractItemDataArray.find((item: any) => ({
     serviceName: item?.serviceName,
     priceModel: item?.priceModel,
     cost: item?.cost,
@@ -17,9 +17,14 @@ export const useOverview = () => {
     comments: item?.comments,
     _id: item?._id,
   }));
+  const approverName = data?.data?.history?.find(
+    (detail: any) => detail?.performedBy,
+  )?.performedBy;
+
   return {
     theme,
     contractData,
     contractItemData,
+    approverName,
   };
 };

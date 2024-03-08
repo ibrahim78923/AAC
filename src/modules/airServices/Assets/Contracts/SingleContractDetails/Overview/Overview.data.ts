@@ -1,14 +1,21 @@
-export const overviewData = (contractData: any, contractItemData: any) => [
+export const overviewData = ({
+  contractData,
+  contractItemData,
+  approverName,
+}: any) => [
   {
     id: '1',
     heading: 'General Details',
     detailsData: [
-      { name: 'Contact Number', detail: contractData?.contactNumber ?? '--' },
-      { name: 'Vendor', detail: contractData?.vendor ?? '--' },
-      { name: 'Type', detail: contractData?.type ?? '--' },
+      { name: 'Contact Number', detail: contractData?.contractNumber ?? '--' },
+      { name: 'Vendor', detail: contractData?.vendorDetails?.name ?? '--' },
+      { name: 'Type', detail: contractData?.contractType ?? '--' },
       { name: 'Status', detail: contractData?.status ?? '--' },
       { name: 'Cost', detail: contractData?.cost ?? '--' },
-      { name: 'Approver', detail: contractData?.approver ?? '--' },
+      {
+        name: 'Approver',
+        detail: `${approverName?.firstName} ${approverName?.lastName}` ?? '--',
+      },
       {
         name: 'Validity',
         detail:
