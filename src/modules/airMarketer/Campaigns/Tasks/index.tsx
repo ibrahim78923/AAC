@@ -19,6 +19,8 @@ import {
 import Search from '@/components/Search';
 
 import TaskViewCard from './TaskCardView';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_CAMPAIGNS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Tasks = () => {
   const {
@@ -52,12 +54,16 @@ const Tasks = () => {
         gap={1}
         mb={2}
       >
-        <Search
-          label="Search Here"
-          size="small"
-          searchBy={searchValue}
-          setSearchBy={setSearchValue}
-        />
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.TASK_SEARCH_FILTER]}
+        >
+          <Search
+            label="Search Here"
+            size="small"
+            searchBy={searchValue}
+            setSearchBy={setSearchValue}
+          />
+        </PermissionsGuard>
 
         <Stack
           display={{ md: 'flex' }}
@@ -91,50 +97,76 @@ const Tasks = () => {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem
-                onClick={() =>
-                  setIsOpenEditTaskDrawer({ isToggle: true, type: 'edit' })
-                }
+              <PermissionsGuard
+                permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.EDIT_TASK]}
               >
-                Edit
-              </MenuItem>
-              <MenuItem onClick={handleChangeStatus}>Change Status</MenuItem>
-              <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
+                <MenuItem
+                  onClick={() =>
+                    setIsOpenEditTaskDrawer({ isToggle: true, type: 'edit' })
+                  }
+                >
+                  Edit
+                </MenuItem>
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.CHANGE_STATUS,
+                ]}
+              >
+                <MenuItem onClick={handleChangeStatus}>Change Status</MenuItem>
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.DELETE]}
+              >
+                <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
+              </PermissionsGuard>
             </Menu>
           </Box>
-          <Button
-            onClick={() => {
-              setIsOpenEditTaskDrawer({ isToggle: true, type: 'create' });
-              // setTaskCreate('Create Task');
-            }}
-            startIcon={<ArrowDownDarkIcon />}
-            className="small"
-            sx={{
-              border: `1px solid ${theme?.palette?.custom?.dark}`,
-              color: theme?.palette?.custom?.main,
-              width: { sm: '130px', xs: '100%' },
-              height: '36px',
-            }}
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.CREATE_TASK]}
           >
-            Create Task
-          </Button>
+            <Button
+              onClick={() => {
+                setIsOpenEditTaskDrawer({ isToggle: true, type: 'create' });
+                // setTaskCreate('Create Task');
+              }}
+              startIcon={<ArrowDownDarkIcon />}
+              className="small"
+              sx={{
+                border: `1px solid ${theme?.palette?.custom?.dark}`,
+                color: theme?.palette?.custom?.main,
+                width: { sm: '130px', xs: '100%' },
+                height: '36px',
+              }}
+            >
+              Create Task
+            </Button>
+          </PermissionsGuard>
           <ButtonGroup
             variant="outlined"
             color="inherit"
             aria-label="outlined button group"
           >
-            <Button
-              className="small"
-              onClick={() => handleListViewClick('listView')}
+            <PermissionsGuard
+              permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.LIST_VIEW]}
             >
-              <ListViewIcon />
-            </Button>
-            <Button
-              onClick={() => handleListViewClick('gridView')}
-              className="small"
+              <Button
+                className="small"
+                onClick={() => handleListViewClick('listView')}
+              >
+                <ListViewIcon />
+              </Button>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[AIR_MARKETER_CAMPAIGNS_PERMISSIONS?.BOARD_VIEW]}
             >
-              <GridViewIcon />
-            </Button>
+              <Button
+                onClick={() => handleListViewClick('gridView')}
+                className="small"
+              >
+                <GridViewIcon />
+              </Button>
+            </PermissionsGuard>
           </ButtonGroup>
         </Stack>
       </Box>

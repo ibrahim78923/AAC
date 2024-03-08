@@ -1,7 +1,7 @@
-import { Box, Typography, useTheme } from '@mui/material';
-import { styles } from './ApprovalCard.style';
+import { Box, Chip, Typography, useTheme } from '@mui/material';
 
-const ApprovalCard = ({ title, folder, author, approvalStatus }: any) => {
+const ApprovalCard = (props: any) => {
+  const { title, folder, author, sendApproval, disabled } = props;
   const theme = useTheme();
   return (
     <Box
@@ -14,27 +14,55 @@ const ApprovalCard = ({ title, folder, author, approvalStatus }: any) => {
         p: 1.6,
         boxShadow: `0rem 0.125rem 0.25rem -0.125rem ${theme?.palette?.custom?.transparent_dark_blue}, 0rem 0.25rem 0.5rem -0.125rem ${theme?.palette?.custom?.transparent_dark_blue}`,
         borderRadius: 4,
-        gap: 1.2,
+        gap: 1,
       }}
     >
       <Box>
         <Typography color={'primary.main'} fontWeight={500} variant="h5">
-          {title}
+          {title?.length > 20 ? `${title?.slice?.(0, 20)} ...` : title}
         </Typography>
-        <Typography sx={styles?.label} fontWeight={500} component={'span'}>
+        <Typography
+          variant="body3"
+          color="slateBlue.main"
+          fontWeight={600}
+          component={'span'}
+        >
           folder:
         </Typography>
-        <Typography sx={styles?.label} component={'span'}>
-          {` ${folder}`}
+        <Typography
+          variant="body3"
+          fontWeight={600}
+          color="slateBlue.main"
+          component={'span'}
+        >
+          {folder?.length > 20 ? `${folder?.slice?.(0, 20)} ...` : folder}
         </Typography>
       </Box>
       <Box>
-        <Typography sx={styles?.label} fontWeight={500} pb={0.4}>
+        <Typography
+          variant="body3"
+          color="slateBlue.main"
+          fontWeight={600}
+          component={'p'}
+        >
           author
         </Typography>
-        <Typography sx={styles?.label}>{author}</Typography>
+        <Typography variant="body3" fontWeight={500} color="slateBlue.main">
+          {author}
+        </Typography>
       </Box>
-      <Typography sx={styles?.approvalStatusBtn}>{approvalStatus}</Typography>
+      <Chip
+        label={'Approve'}
+        sx={{
+          backgroundColor: 'blue.main',
+          color: 'common.white',
+          '&:hover': {
+            backgroundColor: 'blue.main',
+          },
+        }}
+        disabled={disabled}
+        onClick={() => sendApproval?.()}
+      />
     </Box>
   );
 };

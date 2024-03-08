@@ -3,7 +3,7 @@ import { baseAPI } from '@/services/base-api';
 
 const TAG = 'TICKET_DETAILS';
 const TAG_THREE = 'DROPDOWN_AGENT';
-
+const TAG_SIX = 'DROPDOWN_CATEGORIES';
 const ticketsDetailsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getTicketsDetailsById: builder?.query({
@@ -24,9 +24,20 @@ const ticketsDetailsAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_THREE],
     }),
+    getCategoriesDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_CATEGORIES}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.servicecategories;
+      },
+      providesTags: [TAG_SIX],
+    }),
     putTickets: builder?.mutation({
       query: (putTicketParameter: any) => ({
-        url: `${END_POINTS?.TICKET}/${putTicketParameter?.pathParam?.id}`,
+        url: `${END_POINTS?.TICKET}/{id}`,
         method: 'PUT',
         body: putTicketParameter?.body,
       }),
@@ -40,4 +51,5 @@ export const {
   useLazyGetTicketsDetailsByIdQuery,
   useLazyGetAgentDropdownQuery,
   usePutTicketsMutation,
+  useLazyGetCategoriesDropdownQuery,
 } = ticketsDetailsAPI;

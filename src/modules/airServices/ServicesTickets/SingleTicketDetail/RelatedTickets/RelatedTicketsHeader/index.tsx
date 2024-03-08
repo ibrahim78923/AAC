@@ -1,26 +1,16 @@
 import { Box, Button, Typography } from '@mui/material';
 import { CirclePlusIcon } from '@/assets/icons';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { Permissions } from '@/constants/permissions';
 
 export const RelatedTicketsHeader = ({
   isActive,
   setIsDrawerOpen,
-  // headerFunctions,
   relatedTicketsActionDropdown,
+  setSelectedChildTickets,
 }: any) => {
-  // const {
-  //   handleActionClick,
-  //   actionExportPop,
-  //   actionPop,
-  //   setActionPop,
-  //   handleActionExportClose,
-  //   openAction,
-  //   handleActionExportClick,
-  //   handleActionClose,
-  //   openActionExport,
-  //   handleDeleteChildTickets,
-  // } = headerFunctions();
-
   return (
     <Box
       display="flex"
@@ -33,64 +23,31 @@ export const RelatedTicketsHeader = ({
         Child Tickets
       </Typography>
       <Box display="flex" flexWrap={'wrap'} gap={1}>
-        <SingleDropdownButton
-          disabled={isActive}
-          dropdownOptions={relatedTicketsActionDropdown}
-        />
-        {/* TODO: according to user story */}
-        {/* <Button
-          color="secondary"
-          endIcon={<ActionButtonIcon />}
-          onClick={handleActionClick}
-          disabled={!!!isActive?.length}
-          variant={'outlined'}
+        <PermissionsGuard
+          permissions={
+            Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_CHILD_TICKET_ACTION
+          }
         >
-          Action
-        </Button>
-        <Popover
-          open={openAction}
-          anchorEl={actionPop}
-          onClose={handleActionClose}
-          sx={{ mt: '8px' }}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
+          <SingleDropdownButton
+            disabled={isActive}
+            dropdownOptions={relatedTicketsActionDropdown}
+          />
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_CHILD_TICKET]}
         >
-          <MenuItem sx={{ p: 1 }} onClick={handleDeleteChildTickets}>
-            Delete
-          </MenuItem>
-          <MenuItem
+          <Button
+            disableElevation
+            variant="contained"
             onClick={() => {
-              setIsDrawerOpen(true), setActionPop(null);
+              setSelectedChildTickets?.([]);
+              setIsDrawerOpen(true);
             }}
-            sx={{ p: 1 }}
+            startIcon={<CirclePlusIcon />}
           >
-            Edit
-          </MenuItem>
-
-          <MenuItem sx={{ p: 1 }}>
-            <a onClick={handleActionExportClick}>Export Ticket</a>
-            <Popover
-              open={openActionExport}
-              anchorEl={actionExportPop}
-              onClose={handleActionExportClose}
-              sx={{ ml: '-12px' }}
-              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            >
-              <MenuItem>CSV</MenuItem>
-              <MenuItem>Excel</MenuItem>
-            </Popover>
-          </MenuItem>
-        </Popover> */}
-        <Button
-          disableElevation
-          variant="contained"
-          onClick={() => setIsDrawerOpen(true)}
-          startIcon={<CirclePlusIcon />}
-        >
-          Add Child Ticket
-        </Button>
+            Add Child Ticket
+          </Button>
+        </PermissionsGuard>
       </Box>
     </Box>
   );

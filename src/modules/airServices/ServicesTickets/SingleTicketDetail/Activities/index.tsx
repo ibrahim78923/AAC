@@ -1,162 +1,129 @@
 import Typography from '@mui/material/Typography';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { Box, Card, Divider, IconButton } from '@mui/material';
+import { Box, Divider, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import CustomPagination from '@/components/CustomPagination';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { useActivities } from './useActivities';
 import { PAGINATION } from '@/config';
+import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+import NoData from '@/components/NoData';
 
 export const Activities = () => {
   const theme = useTheme();
 
-  const {
-    isLoading,
-    isError,
-    activitiesData,
-    paginationData,
-    pageLimit,
-    page,
-    handlePageChange,
-    setPageLimit,
-    setPage,
-  } = useActivities();
-  if (isLoading) return <SkeletonTable />;
+  const { isLoading, isError, setPageLimit, setPage, isFetching, data } =
+    useActivities();
+
+  if (isLoading || isFetching) return <SkeletonTable />;
+
   if (isError) return <ApiErrorState />;
 
   return (
     <>
-      <Typography variant="h5" pb={1.6} color={theme?.palette?.slateBlue?.main}>
+      <Typography variant="h5" color={'slateBlue.main'} my={1}>
         Activities
       </Typography>
-      <Card sx={{ p: 2.4 }}>
-        {activitiesData?.map((activity: any, index: number) => (
-          <Box key={activity?._id}>
-            <Box display={'flex'}>
-              <IconButton
-                disabled
-                color="primary"
-                sx={{
-                  border: `0.063rem solid ${theme?.palette?.primary?.main}`,
-                  height: '1.75rem',
-                  width: '1.75rem',
-                }}
-              >
-                <BorderColorIcon color="primary" sx={{ p: 0.35 }} />
-              </IconButton>
-              <Box sx={{ marginLeft: 2 }}>
-                <Typography
-                  variant="body2"
+      <Box
+        border={'1px solid'}
+        borderColor={'custom.off_white'}
+        borderRadius={2}
+        p={2}
+      >
+        {!!data?.data?.activitylogs?.length ? (
+          data?.data?.activitylogs?.map((activity: any) => (
+            <Box key={activity?._id}>
+              <Box display={'flex'}>
+                <IconButton
+                  disabled
                   color="primary"
-                  marginRight={0.3}
-                  component={'span'}
+                  sx={{
+                    border: `0.063rem solid ${theme?.palette?.primary?.main}`,
+                    height: '1.75rem',
+                    width: '1.75rem',
+                  }}
                 >
-                  {activity?.createdBy}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="secondary"
-                  marginRight={0.3}
-                  component={'span'}
-                >
-                  {activity?.createdByOne}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="primary"
-                  marginRight={0.3}
-                  component={'span'}
-                >
-                  {activity?.createdByTwo}
-                </Typography>
+                  <BorderColorIcon color="primary" sx={{ p: 0.35 }} />
+                </IconButton>
+                <Box sx={{ marginLeft: 2 }}>
+                  <Typography
+                    variant="body2"
+                    color="primary"
+                    marginRight={0.3}
+                    component={'span'}
+                  >
+                    {activity?.performedByName}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="secondary"
+                    marginRight={0.3}
+                    component={'span'}
+                  >
+                    has {activity?.activityType}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="primary"
+                    marginRight={0.3}
+                    component={'span'}
+                  >
+                    {activity?.moduleName}
+                  </Typography>
 
-                <Box>
-                  <Typography
-                    variant="body2"
-                    color="textPrimary"
-                    component={'span'}
-                    mr="0.625rem"
-                  >
-                    {activity?.timeOne}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textPrimary"
-                    component={'span'}
-                  >
-                    {activity?.timeTwo}
-                  </Typography>
-                </Box>
-                <Box sx={{ marginLeft: 2 }} key={1}>
-                  {index === 1 && (
-                    <ul>
-                      <li>
-                        <Typography
-                          variant="body2"
-                          color="textPrimary"
-                          component={'span'}
-                        >
-                          {activity?.attachedTicketPoint}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="primary"
-                          component={'span'}
-                        >
-                          {activity?.attachedTicketPointOne}
-                        </Typography>
-                      </li>
-                      <li>
-                        <Typography
-                          variant="body2"
-                          color="textPrimary"
-                          component={'span'}
-                        >
-                          {activity?.attachedTicketThree}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="primary"
-                          component={'span'}
-                        >
-                          {activity?.attachedTicketPointFour}
-                        </Typography>
-                      </li>
-                    </ul>
-                  )}
+                  <Box>
+                    <Typography
+                      variant="body2"
+                      color="textPrimary"
+                      component={'span'}
+                      mr="0.625rem"
+                    >
+                      {dayjs(activity?.createdAt)?.format(DATE_FORMAT?.UI)}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textPrimary"
+                      component={'span'}
+                    >
+                      {dayjs(activity?.createdAt)?.format(TIME_FORMAT?.UI)}
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
+              <Box
+                display={'flex'}
+                flexWrap={'wrap'}
+                alignItems={'center'}
+                gap={1.3}
+                marginBottom={1.5}
+              >
+                <Box flex={'0 0 0.4%'}></Box>
+                <Divider
+                  orientation="vertical"
+                  sx={{
+                    borderRadius: '1.25rem',
+                    background: theme?.palette?.primary?.light,
+                    width: '0.25rem',
+                    height: '3.063rem',
+                  }}
+                />
+                <Box flex={0}></Box>
+              </Box>
             </Box>
-            <Box
-              display={'flex'}
-              flexWrap={'wrap'}
-              alignItems={'center'}
-              gap={1.3}
-              marginBottom={1.5}
-            >
-              <Box flex={'0 0 0.4%'}></Box>
-              <Divider
-                orientation="vertical"
-                sx={{
-                  borderRadius: '1.25rem',
-                  background: theme?.palette?.primary?.light,
-                  width: '0.25rem',
-                  height: '3.063rem',
-                }}
-              />
-              <Box flex={0}></Box>
-            </Box>
-          </Box>
-        ))}
-      </Card>
+          ))
+        ) : (
+          <NoData height="40vh" />
+        )}
+      </Box>
       <CustomPagination
-        count={paginationData?.pages}
-        totalRecords={paginationData?.total}
-        pageLimit={pageLimit}
-        currentPage={page}
+        count={data?.data?.meta?.pages}
+        totalRecords={data?.data?.meta?.total}
+        pageLimit={data?.data?.meta?.limit}
+        currentPage={data?.data?.meta?.page}
         rowsPerPageOptions={PAGINATION?.ROWS_PER_PAGE}
-        onPageChange={handlePageChange}
+        onPageChange={(page: any) => setPage(page)}
         setPageLimit={setPageLimit}
         setPage={setPage}
       />

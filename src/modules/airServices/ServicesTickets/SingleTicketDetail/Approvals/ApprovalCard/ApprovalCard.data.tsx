@@ -1,5 +1,6 @@
 import { ReceivedFileIcon, SharedIcon } from '@/assets/icons';
 import { TICKET_APPROVALS } from '@/constants/strings';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import UnsubscribeIcon from '@mui/icons-material/Unsubscribe';
@@ -30,8 +31,59 @@ export const APPROVAL_CARD_INFO: any = {
     text: 'Cancel ',
     color: 'grey.900',
   },
+  [TICKET_APPROVALS?.PENDING]: {
+    icon: <ReceivedFileIcon />,
+    text: 'Pending ',
+    color: 'primary.main',
+  },
 };
 
+export const setStatus = (
+  status: any,
+  receiverUserId: any,
+  authUserId: any,
+  creatorUserId: any,
+) => {
+  if (status === TICKET_APPROVALS?.PENDING) {
+    const setApprovalStatus =
+      creatorUserId === authUserId
+        ? APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.REQUESTED]
+        : receiverUserId === authUserId
+          ? APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.RECEIVED]
+          : APPROVAL_CARD_INFO?.[status];
+    return setApprovalStatus;
+  }
+  return APPROVAL_CARD_INFO?.[status];
+};
+
+export const setUserDetails = (
+  data: any,
+  authUserId: any,
+  creatorUserId: any,
+) => {
+  if (creatorUserId === authUserId) {
+    const name = fullName(
+      data?.receiverDetails?.firstName,
+      data?.receiverDetails?.lastName,
+    );
+    const nameInitial = fullNameInitial(
+      data?.receiverDetails?.firstName,
+      data?.receiverDetails?.lastName,
+    );
+    const avatar = generateImage(data?.imgSrc?.src);
+    return { name, nameInitial, avatar };
+  }
+  const name = fullName(
+    data?.requesterDetails?.firstName,
+    data?.requesterDetails?.lastName,
+  );
+  const nameInitial = fullNameInitial(
+    data?.requesterDetails?.firstName,
+    data?.requesterDetails?.lastName,
+  );
+  const avatar = generateImage(data?.imgSrc?.src);
+  return { name, nameInitial, avatar };
+};
 export const ticketsApprovalDropdownFunction = (
   getUpdateStatus?: any,
   data?: any,
@@ -39,7 +91,7 @@ export const ticketsApprovalDropdownFunction = (
   {
     title: 'Send Reminder',
     handleClick: (closeMenu: any) => {
-      getUpdateStatus?.({ ...data, state: 'Send Reminder' });
+      getUpdateStatus?.({ ...data, state: TICKET_APPROVALS?.REMINDER });
       closeMenu?.();
     },
   },

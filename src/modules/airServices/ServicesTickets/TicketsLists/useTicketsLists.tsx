@@ -8,11 +8,10 @@ import {
 import { CustomizeTicketsColumn } from '../CustomizeTicketsColumn';
 import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
 
 import { downloadFile } from '@/utils/file';
 import { UpsertTicket } from '../UpsertTicket';
-import { EXPORT_FILE_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { EXPORT_FILE_TYPE, VIEW_TYPES } from '@/constants/strings';
 import { TicketsBulkUpdate } from '../TicketsBulkUpdate';
 import { AssignedTickets } from '../AssignedTickets';
 import { MoveTickets } from '../MoveTickets';
@@ -27,11 +26,14 @@ import {
 } from '@/services/airServices/tickets';
 import { FilterTickets } from '../FilterTickets';
 import { neglectKeysInLoop } from '../FilterTickets/FilterTickets.data';
-import { buildQueryParams, errorSnackbar } from '@/utils/api';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { getActivePermissionsSession } from '@/utils';
+import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
 
 export const useTicketsLists: any = () => {
   const [hasTicketAction, setHasTicketAction] = useState(false);
   const [selectedTicketList, setSelectedTicketList] = useState([]);
+  const overallPermissions = getActivePermissionsSession();
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
@@ -49,7 +51,11 @@ export const useTicketsLists: any = () => {
     ['limit', pageLimit + ''],
     ['search', search],
   ];
-  const ticketsParam = buildQueryParams(additionalParams, filterTicketLists);
+  const ticketsParam = buildQueryParams(
+    additionalParams,
+    filterTicketLists,
+    neglectKeysInLoop,
+  );
   const getTicketsParameter = {
     queryParams: ticketsParam,
   };
@@ -94,9 +100,7 @@ export const useTicketsLists: any = () => {
         getTicketsExportParameter,
       )?.unwrap();
       downloadFile(response, 'TicketLists', EXPORT_FILE_TYPE?.[type]);
-      enqueueSnackbar(`Tickets Exported successfully`, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar(`Tickets Exported successfully`);
       setSelectedTicketList([]);
     } catch (error: any) {
       errorSnackbar?.();
@@ -109,12 +113,33 @@ export const useTicketsLists: any = () => {
   }, [search, page, pageLimit, filterTicketLists]);
 
   useEffect(() => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
+    if (
+      overallPermissions?.includes(
+        AIR_SERVICES_TICKETS_TICKET_LISTS?.TICKETS_LIST_VIEW,
+      )
+    ) {
+      router?.push(
+        makePath({
+          path: router?.pathname,
+          skipQueries: ['ticketAction'],
+        }),
+      );
+      return;
+    }
+    if (
+      overallPermissions?.includes(
+        AIR_SERVICES_TICKETS_TICKET_LISTS?.BOARD_VIEW,
+      )
+    ) {
+      router?.push(
+        makePath({
+          path: router?.pathname,
+          skipQueries: ['ticketAction'],
+          queryParams: { viewType: VIEW_TYPES?.BOARD },
+        }),
+      );
+      return;
+    }
   }, []);
 
   const updateTicketStatus = async (status: any) => {
@@ -129,23 +154,12 @@ export const useTicketsLists: any = () => {
       },
     };
     try {
-      const response: any = await patchBulkUpdateTicketsTrigger(
+      await patchBulkUpdateTicketsTrigger(
         updateTicketStatusTicketsParameter,
       )?.unwrap();
-      enqueueSnackbar(
-        response?.message ?? `Ticket marked as ${status?.toLowerCase()}`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      successSnackbar('Ticket status updated successfully');
     } catch (error: any) {
-      enqueueSnackbar(
-        error?.data?.error?.message ??
-          `Ticket not marked as ${status?.toLowerCase()}`,
-        {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        },
-      );
+      errorSnackbar();
     }
   };
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
@@ -273,5 +287,6 @@ export const useTicketsLists: any = () => {
     setTicketsListsActiveColumn,
     getValueTicketsListData,
     setSelectedTicketList,
+    filterTicketLists,
   };
 };

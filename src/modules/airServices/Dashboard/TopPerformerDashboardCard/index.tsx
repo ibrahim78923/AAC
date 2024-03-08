@@ -23,7 +23,7 @@ export const TopPerformerDashboardCard = ({
       p={2}
       border={`1px solid ${theme?.palette?.grey?.[700]}`}
     >
-      <Box marginTop={3}>
+      <Box>
         <Typography variant="h5">Top Performer</Typography>
       </Box>
       <Box display={'flex'} gap={2} marginTop={2}>
@@ -61,8 +61,8 @@ export const TopPerformerDashboardCard = ({
         />
       </Box>
 
-      <Grid container spacing={2} mt={2}>
-        <Grid item xs={12} sm={6}>
+      <Grid container spacing={2} mt={4.4}>
+        <Grid item xs={12} sm={6} md={6}>
           <Box display={'flex'} gap={1.5} flexWrap={'wrap'}>
             <Avatar
               alt=""
@@ -72,7 +72,7 @@ export const TopPerformerDashboardCard = ({
             <Typography sx={{ flex: 1 }}>{badgeText}</Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={12} md={6}>
           <Box display={'flex'} gap={1.5} flexWrap={'wrap'}>
             <Avatar
               alt=""

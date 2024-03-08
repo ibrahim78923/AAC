@@ -1,4 +1,6 @@
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { DeleteIcon, EditPenBorderedIcon } from '@/assets/icons';
+import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 import { Box, Button } from '@mui/material';
 
 export const templateWhatsAppMarketing = [
@@ -51,34 +53,45 @@ export const columns = ({
       id: '_id',
       cell: () => (
         <Box sx={{ display: 'flex', gap: '10px' }}>
-          <Button
-            sx={{
-              background: '',
-              padding: '0',
-              minWidth: '30px',
-              height: '30px',
-              borderRadius: '50%',
-            }}
-            onClick={() => {
-              handelSwitch(false);
-              setIsCreateTemplate(true);
-              setTemplateType('Edit');
-            }}
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SMS_MARKETING_PERMISSIONS.EDIT_TEMPLATE]}
           >
-            <EditPenBorderedIcon size={20} />{' '}
-          </Button>
-          <Button
-            sx={{
-              background: '',
-              padding: '0',
-              minWidth: '30px',
-              height: '30px',
-              borderRadius: '50%',
-            }}
-            onClick={() => setIsDeleteTemplate(true)}
+            <Button
+              sx={{
+                background: '',
+                padding: '0',
+                minWidth: '30px',
+                height: '30px',
+                borderRadius: '50%',
+              }}
+              onClick={() => {
+                handelSwitch(false);
+                setIsCreateTemplate(true);
+                setTemplateType('Edit');
+              }}
+            >
+              <EditPenBorderedIcon size={20} />{' '}
+            </Button>
+          </PermissionsGuard>
+
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_SMS_MARKETING_PERMISSIONS.DELETE_TEMPLATE,
+            ]}
           >
-            <DeleteIcon />
-          </Button>
+            <Button
+              sx={{
+                background: '',
+                padding: '0',
+                minWidth: '30px',
+                height: '30px',
+                borderRadius: '50%',
+              }}
+              onClick={() => setIsDeleteTemplate(true)}
+            >
+              <DeleteIcon />
+            </Button>
+          </PermissionsGuard>
         </Box>
       ),
       header: 'Actions',

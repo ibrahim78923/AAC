@@ -10,7 +10,6 @@ import {
 import { useGetOrganizationUsersQuery } from '@/services/dropdowns';
 import { enqueueSnackbar } from 'notistack';
 import dayjs from 'dayjs';
-import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { DATE_FORMAT } from '@/constants';
 import {
   contactsDefaultValues,
@@ -30,8 +29,6 @@ const useCreateContacts = () => {
   const { data: ContactsStatus } = useGetContactsStatusQuery({});
 
   const [postContacts] = usePostContactsMutation();
-
-  const [createAssociation] = useCreateAssociationMutation();
 
   const contactOwnerData = ContactOwners?.data?.users?.map((user: any) => ({
     value: user?._id,
@@ -72,17 +69,14 @@ const useCreateContacts = () => {
     formData?.append('lifeCycleStageId', values?.lifeCycleStageId);
     formData?.append('statusId', values?.statusId);
     formData?.append(
-      'dataOfJoinig',
-      dayjs(values?.dataOfJoinig)?.format(DATE_FORMAT?.API),
+      'dateOfJoinig',
+      dayjs(values?.dateOfJoinig)?.format(DATE_FORMAT?.API),
     );
 
     try {
       const contactResponse = await postContacts({ body: formData })?.unwrap();
-      const associationResponse = await createAssociation({
-        body: { contactId: contactResponse?.data?._id },
-      })?.unwrap();
 
-      if (contactResponse?.data && associationResponse?.data) {
+      if (contactResponse?.data) {
         closeDrawer();
         reset();
         enqueueSnackbar('Success message', { variant: 'success' });
@@ -101,6 +95,7 @@ const useCreateContacts = () => {
     contactOwnerData,
     lifeCycleStagesData,
     contactStatusData,
+    reset,
   };
 };
 

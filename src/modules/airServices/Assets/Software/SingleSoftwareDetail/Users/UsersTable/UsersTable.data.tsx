@@ -1,4 +1,4 @@
-import { Box, Checkbox } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { CALENDAR_FORMAT } from '@/constants';
@@ -48,60 +48,49 @@ export const usersTableColumns = (
     ),
   },
   {
-    accessorFn: (row: any) => row?.details,
+    accessorFn: (row: any) => row?.Name,
     id: 'Name',
-    cell: (info: any) => (
-      <Box fontWeight={700}>
-        {`${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`}
-      </Box>
-    ),
+    cell: (info: any) => info?.getValue() ?? '__',
     header: 'Name',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row?.departmentDetails?.name,
+    accessorFn: (row: any) => row?.Department,
     id: 'Department',
     cell: (info: any) => info?.getValue() ?? '__',
     header: 'Department',
     isSortable: true,
   },
   {
-    accessorFn: (row: any) => row?.source,
+    accessorFn: (row: any) => row?.Source,
     id: 'Source',
     isSortable: true,
     header: 'Source',
     cell: (info: any) => info?.getValue() ?? '__',
   },
   {
-    accessorFn: (row: any) => row?.data?.usage,
-    id: 'Usage',
-    isSortable: true,
-    header: 'Usage',
-    cell: (info: any) => info?.getValue() ?? '__',
-  },
-  {
-    accessorFn: (row: any) => row?.details?.createdAt,
+    accessorFn: (row: any) => row?.data?.createdAt,
     id: 'createdAt',
     isSortable: true,
     header: 'First Seen',
     cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
   },
   {
-    accessorFn: (row: any) => row?.details?.updatedAt,
+    accessorFn: (row: any) => row?.data?.updatedAt,
     id: 'updatedAt',
     isSortable: true,
     header: 'Last Seen',
     cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
   },
   {
-    accessorFn: (row: any) => row?.createdAt,
+    accessorFn: (row: any) => row?.data?.createdAt,
     id: 'createdAt',
     isSortable: true,
     header: 'Assigned Date',
     cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
   },
   {
-    accessorFn: (row: any) => row?.contractDetails?.name,
+    accessorFn: (row: any) => row?.Contract,
     id: 'Contract',
     isSortable: true,
     header: 'Contract',

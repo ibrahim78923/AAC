@@ -4,9 +4,11 @@ import { TicketCard } from '../TicketCard';
 import { v4 as uuidv4 } from 'uuid';
 import { styles } from './WelcomeCard.style';
 import { WelcomeCardImage } from '@/assets/images';
+import { useWelcomeCard } from './useWelcomeCard';
 
-export const WelcomeCard = ({ ticketsTypeList, ticketsData }: any) => {
+export const WelcomeCard = () => {
   const { mainWrapper, ticketCardWrapper } = styles;
+  const { data, isLoading, isFetching } = useWelcomeCard();
   return (
     <>
       <Box
@@ -24,14 +26,13 @@ export const WelcomeCard = ({ ticketsTypeList, ticketsData }: any) => {
           </Typography>
         </Box>
         <Box sx={ticketCardWrapper}>
-          {ticketsTypeList?.map((ticketType: string) => (
+          {Object?.entries(data?.ticketsCount ?? {})?.map((singleData: any) => (
             <TicketCard
               key={uuidv4()}
-              ticketsProgress={50}
-              ticketsType={ticketType}
-              ticketsCount={ticketsData?.[ticketType]}
-              totalTickets={ticketsData?.totalTickets}
-              doneTickets={ticketsData?.doneTickets}
+              data={singleData}
+              totalCount={data?.ticketsCount}
+              isLoading={isLoading}
+              isFetching={isFetching}
             />
           ))}
         </Box>

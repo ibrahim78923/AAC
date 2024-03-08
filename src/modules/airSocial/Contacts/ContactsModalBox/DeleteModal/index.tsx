@@ -8,7 +8,7 @@ const DeleteModal = ({ open, onClose, handleSubmit }: any) => {
         type="delete"
         open={open}
         handleClose={onClose}
-        handleSubmit={handleSubmit}
+        handleSubmitBtn={handleSubmit}
       />
     </>
   );

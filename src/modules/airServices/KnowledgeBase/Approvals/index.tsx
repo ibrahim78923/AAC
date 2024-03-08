@@ -1,29 +1,69 @@
 import { Box, Typography } from '@mui/material';
-import { approvalsData } from './Approvals.data';
 import NoData from '@/components/NoData';
 import ApprovalCard from './ApprovalCard';
+import { useApprovals } from './useApprovals';
+import CustomPagination from '@/components/CustomPagination';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { fullName } from '@/utils/avatarUtils';
 
 export const Approvals = () => {
+  const {
+    lazyGetUnapprovedArticlesStatus,
+    setPage,
+    setPageLimit,
+    postApproval,
+    postArticleApprovalStatus,
+  } = useApprovals();
+
+  if (
+    lazyGetUnapprovedArticlesStatus?.isLoading ||
+    lazyGetUnapprovedArticlesStatus?.isFetching
+  )
+    return <SkeletonForm />;
+
   return (
-    <Box sx={{ minHeight: '65vh', mt: 2 }}>
-      {!!!approvalsData?.length ? (
-        <NoData message={'No approval found'} />
+    <Box sx={{ mt: 2 }}>
+      {!!!lazyGetUnapprovedArticlesStatus?.data?.data?.articles?.length ? (
+        <NoData message={'No approvals found'} />
       ) : (
         <>
           <Typography variant="h5" fontWeight={500} mb={1}>
             {`Approvals ${
-              !!approvalsData?.length ? `(${approvalsData?.length})` : ''
+              !!lazyGetUnapprovedArticlesStatus?.data?.data?.articles?.length
+                ? `(${lazyGetUnapprovedArticlesStatus?.data?.data?.articles?.length})`
+                : ''
             }`}
           </Typography>
-          {approvalsData?.map((approval: any) => (
-            <ApprovalCard
-              key={approval?._id}
-              title={approval?.title}
-              folder={approval?.folder}
-              author={approval?.author}
-              approvalStatus={approval?.approvalStatus}
-            />
-          ))}
+          {lazyGetUnapprovedArticlesStatus?.data?.data?.articles?.map(
+            (approval: any) => (
+              <ApprovalCard
+                key={approval?._id}
+                title={approval?.title}
+                folder={approval?.folder?.name}
+                author={fullName(
+                  approval?.author?.firstName,
+                  approval?.author?.lastName,
+                )}
+                sendApproval={() => postApproval?.(approval?._id)}
+                disabled={postArticleApprovalStatus?.isLoading}
+              />
+            ),
+          )}
+          <br />
+          <br />
+          <CustomPagination
+            count={lazyGetUnapprovedArticlesStatus?.data?.data?.meta?.pages}
+            pageLimit={lazyGetUnapprovedArticlesStatus?.data?.data?.meta?.limit}
+            currentPage={
+              lazyGetUnapprovedArticlesStatus?.data?.data?.meta?.page
+            }
+            totalRecords={
+              lazyGetUnapprovedArticlesStatus?.data?.data?.meta?.total
+            }
+            onPageChange={(page: any) => setPage?.(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+          />
         </>
       )}
     </Box>

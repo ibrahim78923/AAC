@@ -19,5 +19,8 @@ export const styles = {
     fontWeight: '500',
     p: '6px 18px',
     height: '36px',
+    '@media (max-width: 599px)': {
+      width: '100%',
+    },
   }),
 };

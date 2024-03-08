@@ -23,6 +23,10 @@ export const SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
   ACTIVE_INACTIVE_ACCOUNTS: 'active-inactive-accounts',
 };
 
+export const AIR_SALES_TASKS = {
+  SALES_CREATE_TASK: 'sale-create-task',
+};
+
 export const SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS = {
   ROLES_RIGHTS_LIST: 'roles-right-list',
   ADD_ROLE: 'add-role',
@@ -35,12 +39,6 @@ export const SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS = {
 export const SUPER_ADMIN_REPORTS_PERMISSIONS = {
   view_invoice_report: 'view-invoice-report',
   view_user_report: 'view-user-report',
-};
-
-export const AIR_MARKETER_COMPARE_POSTS_PERMISSIONS = {
-  Add_post: 'marketer-social-marketing-compare-social-post-add-post',
-  View_compare_posts:
-    'marketer-social-marketing-compare-social-post-view-compare-post',
 };
 
 export const ORG_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
@@ -157,22 +155,70 @@ export const SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS = {
 };
 
 export const AIR_SALES_DEALS_PERMISSIONS = {
-  Update_Info: 'sale-update-info',
-  View_Activity_Log: 'sale-deal-activity-log',
-  Add_Associate_Contacts: 'sale-deal-add-associate-contact',
-  Edit_Contacts: 'sale-deal-edit-contact',
-  View_Contacts: 'sale-deal-view-contact',
-  Remove_Contacts: 'sale-deal-remove-conatct',
-  Add_Associate_Tickets: 'sale-deal-add-associate-ticket',
-  Edit_Tickets: 'sale-deal-edit-ticket',
-  View_Tickets: 'sale-deal-view-ticket',
-  Remove_Tickets: 'sale-deal-remove-ticket',
-  Add_Associate_Companies: 'sale-deal-add-associate-company',
-  Edit_Companies: 'sale-deal-edit-comapny',
-  View_Companies: 'sale-deal-view-company',
-  Remove_Companies: 'sale-deal-remove-company',
-  Add_Associate_Products: 'view-deal-add-associate-product',
-  Edit_Products: 'sale-deal-edit-product',
+  COLUMN_CUSTOMIZATION: 'sale-column-customization',
+  CREATE_DEALS: 'sale-create-deals',
+  RESTORE_DEAL: 'sale-restore-deal',
+  DEAL_SEARCH_AND_FILTER: 'sale-deal-search-and-filter',
+  EXPORT_DEALS: 'sale-export-deals',
+  IMPORT_DEALS: 'sale-import-deals',
+  DEAL_TAB_VIEW: 'sale-deal-tab-view',
+  DEAL_BOARD_VIEW: 'sale-deal-board-view',
+  DEAL_PREVIEW: 'sale-deal-preview',
+  DELETE_DEAL: 'sale-delete-deal',
+  DEAL_REASSIGN: 'sale-deal-reassign',
+  DEAL_ACTIVITY_LOG: 'sale-deal-activity-log',
+  DEAL_ADD_ASSOCIATE_CONTACT: 'sale-deal-add-associate-contact',
+  DEAL_EDIT_CONTACT: 'sale-deal-edit-contact',
+  DEAL_VIEW_CONTACT: 'sale-deal-view-contact',
+  DEAL_REMOVE_CONTACT: 'sale-deal-remove-conatct',
+  DEAL_ADD_ASSOCIATE_TICKET: 'sale-deal-add-associate-ticket',
+  DEAL_EDIT_TICKET: 'sale-deal-edit-ticket',
+  DEAL_VIEW_TICKET: 'sale-deal-view-ticket',
+  DEAL_REMOVE_TICKET: 'sale-deal-remove-ticket',
+  DEAL_ADD_ASSOCIATE_COMPANY: 'sale-deal-add-associate-company',
+  DEAL_EDIT_COMPANY: 'sale-deal-edit-comapny',
+  DEAL_VIEW_COMPANY: 'sale-deal-view-company',
+  DEAL_REMOVE_COMPANY: 'sale-deal-remove-company',
+  VIEW_DEAL_ADD_ASSOCIATE_PRODUCT: 'view-deal-add-associate-product',
+  DEAL_EDIT_PRODUCT: 'sale-deal-edit-product',
+  DEAL_VIEW_PRODUCT: 'sale-deal-view-product',
+  DEAL_REMOVE_PRODUCT: 'sale-deal-remove-product',
+  DEAL_ADD_ASSOCIATE_QUOTE: 'sale-deal-add-associate-quote',
+  DEAL_EDIT_QUOTE: 'sale-deal-edit-quote',
+  DEAL_VIEW_QUOTE: 'sale-deal-view-quote',
+  DEAL_REMOVE_QUOTE: 'sale-deal-remove-quote',
+  DEAL_ADD_ASSOCIATE_ATTACHMENT: 'sale-deal-add-associate-attachment',
+  DEAL_EDIT_ATTACHMENT: 'sale-deal-edit-attachment',
+  DEAL_VIEW_ATTACHMENT: 'sale-deal-view-attachment',
+  DEAL_REMOVE_ATTACHMENT: 'sale-deal-remove-attachment',
+  DEAL_ADD_TASK: 'sale-deal-add-task',
+  DEAL_VIEW_TASK: 'sale-deal-view-task',
+  DEAL_EDIT_TASK: 'sale-deal-edit-task',
+  DEAL_REASSIGN_TASK: 'sale-deal-re-assign-task',
+  DEAL_DELETE_TASK: 'sale-deal-delete-task',
+  DEAL_ADD_NOTE: 'sale-deal-add-note',
+  DEAL_VIEW_NOTE: 'sale-deal-view-note',
+  DEAL_EDIT_NOTE: 'sale-deal-edit-note',
+  DEAL_DELETE_NOTE: 'sale-deal-delete-note',
+  DEAL_ADD_CALL: 'sale-deal-add-call',
+  DEAL_VIEW_CALL: 'sale-deal-view-call',
+  DEAL_EDIT_CALL: 'sale-deal-edit-call',
+  DEAL_RESCHEDULE_CALL: 'sale-deal-reschedule-call',
+  DEAL_CALL_OUTCOME: 'sale-deal-call-outcome',
+  DEAL_DELETE_CALL: 'sale-deal-delete-call',
+  DEAL_CREATE_MEETING: 'sale-deal-create-meeting',
+  DEAL_MEETING_LIST: 'sale-deal-meeting-list',
+  DEAL_VIEW_MEETING: 'sale-deal-view-meeting',
+  DEAL_EDIT_MEETING: 'sale-deal-edit-meeting',
+  DEAL_REASSIGN_MEETING: 'sale-deal-re-assign-meeting',
+  DEAL_DELETE_MEETING: 'sale-deal-delete-meeting',
+  DEAL_SEND_EMAIL: 'sale-deal-send-email',
+  DEAL_CREATE_EMAIL_TEMPLATE: 'sale-deal-create-email-template',
+  DEAL_SCHEDULE_EMAIL: 'sale-deal-schedule-email',
+  DEAL_VIEW_THREAD: 'sale-deal-view-thread',
+  DEAL_FORWARD_EMAIL: 'sale-deal-forward-email',
+  DEAL_REPLY_EMAIL: 'sale-deal-reply-email',
+  DEAL_DELETE_EMAIL: 'sale-deal-delete-email',
 };
 
 export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
@@ -180,6 +226,7 @@ export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
   VIEW_SMS_CONVERSATION: 'marketer-sms-marketing-dashboard-view-sms-conversion',
   VIEW_SCHEDULE_SMS: 'marketer-sms-marketing-dashboard-view-sms-schedule',
   VIEW_SMS_CONTACTS: 'marketer-sms-marketing-dashboard-view-sms-contacts',
+
   CREATE_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-create',
   PREVIEW_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-preview',
   SCHEDULE_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-schedule',
@@ -188,51 +235,179 @@ export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
   SEARCH_AND_FILTER: 'marketer-sms-marketing-sms-broadcast-search-and-filter',
   EDIT_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-edit',
   DELETE_SMS_BROADCAST: 'marketer-sms-marketing-sms-broadcast-delete',
-  LIST_VIEW: 'marketer-sms-marketing-sms-broadcast-list-view',
+  BROADCAST_LIST_VIEW: 'marketer-sms-marketing-sms-broadcast-list-view',
   DETAIL_VIEW: 'marketer-sms-marketing-sms-broadcast-detail-view',
+
+  CRAETE_GROUP: 'marketer-sms-marketing-contacts-create-group',
+  CONTACTS_LIST_VIEW: 'marketer-sms-marketing-contacts-list-view',
+  CREATE_TEMPLATE: 'marketer-sms-marketing-templates-create',
+  SEARCH_TEMPLATE: 'marketer-sms-marketing-templates-search-and-filter',
+  SAVE_TEMPLATE: 'marketer-sms-marketing-templates-save',
+  EDIT_TEMPLATE: 'marketer-sms-marketing-templates-edit',
+  DELETE_TEMPLATE: 'marketer-sms-marketing-templates-delete',
+  TEMPLATES_LIST_VIEW: 'marketer-sms-marketing-templates-list-view',
+};
+
+export const AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS = {
+  VIEW_DASHBOARD: 'marketer-whatsapp-marketing-dashboard-view-dashboard',
+  VIEW_TOTAL_CONVERSATION:
+    'marketer-whatsapp-marketing-dashboard-view-total-conversation',
+  VIEW_BROADCAST_SCHEDULE:
+    'marketer-whatsapp-marketing-dashboard-view-broadcast-schedule',
+  VIEW_CONTACT: 'marketer-whatsapp-marketing-dashboard-view-contacts',
+
+  CREATE_BROADCAST: 'marketer-whatsapp-marketing-broadcast-create-broadcast',
+  PREVIEW_BROADCAST: 'marketer-whatsapp-marketing-broadcast-preview-broadcast',
+  SCHEDULE_BROADCAST:
+    'marketer-whatsapp-marketing-broadcast-schedule-broadcast',
+  SEND_BROADCAST: 'marketer-whatsapp-marketing-broadcast-send-broadcast',
+  VIEW_BROADCAST: 'marketer-whatsapp-marketing-broadcast-view-broadcast',
+  SEARCH_AND_FILTER: 'marketer-whatsapp-marketing-broadcast-search-and-filter',
+  ACTIONS: 'marketer-whatsapp-marketing-broadcast-actions',
+  EDIT_BROADCAST: 'marketer-whatsapp-marketing-broadcast-edit-broadcast',
+  DELETE_BROADCAST: 'marketer-whatsapp-marketing-broadcast-delete-broadcast',
+  LIST_VIEW: 'marketer-whatsapp-marketing-broadcast-list-broadcast',
+  DETAIL_VIEW: 'marketer-whatsapp-marketing-broadcast-detail-view',
+
+  CREATE_GROUP: 'marketer-whatsapp-marketing-contacts-create-group',
+  CONTACTS_LIST_VIEW: 'marketer-whatsapp-marketing-contacts-list-view',
+
+  CREATE_TEMPLATE: 'marketer-whatsapp-marketing-templates-create-template',
+  SEARCH: 'marketer-whatsapp-marketing-templates-search-and-filter',
+  SAVE_TEMPLATE: 'marketer-whatsapp-marketing-templates-save-template',
+  EDIT_TEMPLATE: 'marketer-whatsapp-marketing-templates-edit-template',
+  DELETE_TEMPLATE: 'marketer-whatsapp-marketing-templates-delete-template',
+  TEMPLATES_LIST_VIEW: 'marketer-whatsapp-marketing-templates-list-view',
+};
+
+export const AIR_MARKETER_SETTINGS_PERMISSIONS = {
+  SEARCH_LIFECYCLE: 'marketer-settings-lifecycle-stage-search',
+  ADD_STAGE: 'marketer-settings-lifecycle-stage-add-stage',
+  VIEW_LIFECYCLE: 'marketer-settings-lifecycle-stage-view-stage',
+  EDIT_LIFECYCLE: 'marketer-settings-lifecycle-stage-edit-stage',
+  DELETE_LIFECYCLE: 'marketer-settings-lifecycle-stage-delete-stage',
+
+  CONNECT_SOCIAL: 'marketer-settings-social-account-connect',
+  VIEW_ACCOUNT: 'marketer-settings-social-account-view-account',
+  SEARCH_SOCIAL: 'marketer-settings-social-account-search',
+  ADD_ACCOUNT: 'marketer-settings-social-account-add-account',
+  ADD_CONTACT: 'marketer-settings-social-account-add-contact',
+  ACTIVE_INACTIVE: 'marketer-settings-social-account-active-inactive',
+
+  ADD_NEW_ROLE: 'marketer-settings-roles-and-rights-add-new-role',
+  SEARCH_ROLE: 'marketer-settings-roles-and-rights-search',
+  VIEW_ROLE: 'marketer-settings-roles-and-rights-view',
+  EDIT_ROLE: 'marketer-settings-roles-and-rights-edit',
+  DELETE_ROLE: 'marketer-settings-roles-and-rights-delete',
+
+  SEARCH_USERS: 'marketer-settings-users-management-search',
+  ADD_USER: 'marketer-settings-users-management-add-user',
+  ACTIVE_INACTIVE_USERS:
+    'marketer-settings-users-management-active-inactive-user',
+  VIEW_USERS: 'marketer-settings-users-management-view-user',
+  EDIT_USERS: 'marketer-settings-users-management-edit-user',
+  DELETE_USERS: 'marketer-settings-users-management-delete-user',
+
+  SEARCH_TEAMS: 'marketer-settings-users-management-team-search',
+  CREATE_TEAM: 'marketer-settings-users-management-team-create',
+  VIEW_TEAMS: 'marketer-settings-users-management-team-view',
+  EDIT_TEAMS: 'marketer-settings-users-management-team-edit',
+  DELETE_TEAMS: 'marketer-settings-users-management-team-delete',
+
+  ACTIVE_INACTIVE_NOTIFICATIONS:
+    'marketer-settings-notifications-email-active-inactive',
+};
+
+// export const AIR_MARKETER_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS = {
+//   SEARCH: 'marketer-settings-lifecycle-stage-search',
+//   ADD_STAGE: 'marketer-settings-lifecycle-stage-add-stage',
+//   VIEW: 'marketer-settings-lifecycle-stage-view-stage',
+//   EDIT: 'marketer-settings-lifecycle-stage-edit-stage',
+//   DELETE: 'marketer-settings-lifecycle-stage-delete-stage',
+// };
+// export const AIR_MARKETER_SETTINGS_SOCIAL_ACCOUNTS_PERMISSIONS = {
+//   CONNECT: 'marketer-settings-social-account-connect',
+//   VIEW_ACCOUNT: 'marketer-settings-social-account-view-account',
+//   SEARCH: 'marketer-settings-social-account-search',
+//   ADD_ACCOUNT: 'marketer-settings-social-account-add-account',
+//   ADD_CONTACT: 'marketer-settings-social-account-add-contact',
+//   ACTIVE_INACTIVE: 'marketer-settings-social-account-active-inactive',
+// };
+// export const AIR_MARKETER_SETTINGS_ROLES_AND_RIGHTS_PERMISSIONS = {
+//   ADD_NEW_ROLE: 'marketer-settings-roles-and-rights-add-new-role',
+//   SEARCH: 'marketer-settings-roles-and-rights-search',
+//   VIEW: 'marketer-settings-roles-and-rights-view',
+//   EDIT: 'marketer-settings-roles-and-rights-edit',
+//   DELETE: 'marketer-settings-roles-and-rights-delete',
+// };
+// export const AIR_MARKETER_SETTINGS_USER_MANAGEMENT_USERS_PERMISSIONS = {
+//   SEARCH: 'marketer-settings-users-management-search',
+//   ADD_USER: 'marketer-settings-users-management-add-user',
+//   ACTIVE_INACTIVE: 'marketer-settings-users-management-active-inactive-user',
+//   VIEW: 'marketer-settings-users-management-view-user',
+//   EDIT: 'marketer-settings-users-management-edit-user',
+//   DELETE: 'marketer-settings-users-management-delete-user',
+// };
+// export const AIR_MARKETER_SETTINGS_USER_MANAGEMENT_TEAMS_PERMISSIONS = {
+//   SEARCH: 'marketer-settings-users-management-team-search',
+//   CREATE_TEAM: 'marketer-settings-users-management-team-create',
+//   VIEW: 'marketer-settings-users-management-team-view',
+//   EDIT: 'marketer-settings-users-management-team-edit',
+//   DELETE: 'marketer-settings-users-management-team-delete',
+// };
+// export const AIR_MARKETER_SETTINGS_NOTIFICATIONS_EMAIL_PERMISSIONS = {
+//   ACTIVE_INACTIVE: 'marketer-settings-notifications-email-active-inactive',
+// };
+export const AIR_MARKETER_SETTINGS_NOTIFICATIONS_CAMPAIGNS_PERMISSIONS = {
+  ACTIVE_INACTIVE: 'marketer-settings-notifications-campaigns-active-inactive',
+};
+export const AIR_MARKETER_SETTINGS_NOTIFICATIONS_WEBSITES_PERMISSIONS = {
+  ACTIVE_INACTIVE: 'marketer-settings-notifications-websites-active-inactive',
+};
+
+// export const AIR_MARKETER_WHATSAPP_MARKETING_DASHBOARD_PERMISSIONS = {
+//   VIEW_DASHBOARD: 'marketer-whatsapp-marketing-dashboard-view-dashboard',
+//   VIEW_TOTAL_CONVERSATION:
+//     'marketer-whatsapp-marketing-dashboard-view-total-conversation',
+//   VIEW_BROADCAST_SCHEDULE:
+//     'marketer-whatsapp-marketing-dashboard-view-broadcast-schedule',
+//   VIEW_CONTACT: 'marketer-whatsapp-marketing-dashboard-view-contacts',
+// };
+// export const AIR_MARKETER_WHATSAPP_MARKETING_BROADCAST_PERMISSIONS = {
+//   CREATE_BROADCAST: 'marketer-whatsapp-marketing-broadcast-create-broadcast',
+//   PREVIEW_BROADCAST: 'marketer-whatsapp-marketing-broadcast-preview-broadcast',
+//   SCHEDULE_BROADCAST:
+//     'marketer-whatsapp-marketing-broadcast-schedule-broadcast',
+//   SEND_BROADCAST: 'marketer-whatsapp-marketing-broadcast-send-broadcast',
+//   VIEW_BROADCAST: 'marketer-whatsapp-marketing-broadcast-view-broadcast',
+//   SEARCH_AND_FILTER: 'marketer-whatsapp-marketing-broadcast-search-and-filter',
+//   ACTIONS: 'marketer-whatsapp-marketing-broadcast-actions',
+//   EDIT_BROADCAST: 'marketer-whatsapp-marketing-broadcast-edit-broadcast',
+//   DELETE_BROADCAST: 'marketer-whatsapp-marketing-broadcast-delete-broadcast',
+//   LIST_VIEW: 'marketer-whatsapp-marketing-broadcast-list-broadcast',
+//   DETAIL_VIEW: 'marketer-whatsapp-marketing-broadcast-detail-view',
+// };
+// export const AIR_MARKETER_WHATSAPP_MARKETING_CONTACTS_PERMISSIONS = {
+//   CREATE_GROUP: 'marketer-whatsapp-marketing-contacts-create-group',
+//   LIST_VIEW: 'marketer-whatsapp-marketing-contacts-list-view',
+// };
+// export const AIR_MARKETER_WHATSAPP_MARKETING_TEMPLATES_PERMISSIONS = {
+//   CREATE_TEMPLATE: 'marketer-whatsapp-marketing-templates-create-template',
+//   SEARCH: 'marketer-whatsapp-marketing-templates-search-and-filter',
+//   SAVE_TEMPLATE: 'marketer-whatsapp-marketing-templates-save-template',
+//   EDIT_TEMPLATE: 'marketer-whatsapp-marketing-templates-edit-template',
+//   DELETE_TEMPLATE: 'marketer-whatsapp-marketing-templates-delete-template',
+//   LIST_VIEW: 'marketer-whatsapp-marketing-templates-list-view',
+// };
+
+export const AIR_SALES_DASHBOARD_PERMISSIONS = {
+  SALES_DASHBOARD_LIST: 'sales-dashboard-list',
 };
 
 export const AIR_SALES_SETTINGS = {
   SEARCH_PIPELINE: 'sale-deal-pipeline-search-and-filter',
-  CREATE_PIPELINE: 'sale-create-deal-pipeline',
-  PIPELINE_LIST: 'sale-deal-pipeline-list',
-  EDIT_PIPELINE: 'sale-edit-deal-pipeline',
-  DELETE_PIPELINE: 'sale-delete-deal-pipeline',
-  PRODUCT_LIST: 'sale-setting-product-list',
-  SEARCH_PRODUCT: 'sale-setting-product-search-and-filter',
-  CREATE_PRODUCT: 'sale-setting-create-product',
-  ACTIVATE_DEACTIVATE_PRODUCT: 'sale-setting-active-inactive-product',
-  EDIT_PRODUCT: 'sale-setting-edit-product',
-  DELETE_PRODUCT: 'sale-setting-delete-product',
-  SEARCH_ROLE: 'sale-setting-roles-and-right-search-and-filter',
-  ADD_NEW_ROLE: 'sale-setting-add-new-role',
-  EDIT_ROLE: 'sale-setting-edit-role',
-  VIEW_ROLE: 'sale-setting-view-role',
-  DELETE_ROLE: 'sale-setting-delete-role',
-  USER_LIST: 'sale-setting-user-list',
-  ADD_USER: 'sale-setting-add-user',
-  SEARCH_USER: 'sale-setting-search-and-filter',
-  ACTIVATE_DEACTIVATE_USER: 'sale-setting-active-inactive-user',
-  TEAM_LIST: 'sale-setting-team-list',
-  SEARCH_TEAM: 'sale-setting-teams-search-and-filter',
-  CREATE_TEAM: 'sale-setting-create-team',
-  EDIT_TEAM: 'sale-setting-edit-team',
-  DELETE_TEAM: 'sale-setting-delete-team',
-  VIEW_TEAM: 'sale-setting-view-team',
-  ACTIVATE_DEACTIVATE_EMAIL_NOTIFICATION:
-    'sale-setting-active-inactive-email-notification',
-  ACTIVATE_DEACTIVATE_DEALS_NOTIFICATION:
-    'sale-setting-active-inactive-deals-notification',
-  ACTIVATE_DEACTIVATE_QUOTE_NOTIFICATION:
-    'sale-setting-active-inactive-quote-notification',
 };
 
-export const AIR_MARKETER_SOCIAL_MARKETING_CALENDER = {
-  VIEW_POST: 'marketer-social-marketing-calendar-view-post',
-  FILTER_BY_PLATFORM: 'marketer-social-marketing-calendar-filter-by-platform',
-  FILTER_BY_PROFILE: 'marketer-social-marketing-calendar-filter-by-profile',
-  CREATE_POST: 'marketer-social-marketing-calendar-create-post',
-};
 export const AIR_MARKETER_SMS_MARKETING_TEMPLATES = {
   CREATE_TEMPLATE: 'marketer-sms-marketing-templates-create',
   SEARCH_TEMPLATE: 'marketer-sms-marketing-templates-search-and-filter',
@@ -240,6 +415,13 @@ export const AIR_MARKETER_SMS_MARKETING_TEMPLATES = {
   EDIT_TEMPLATE: 'marketer-sms-marketing-templates-edit',
   DELETE_TEMPLATE: 'marketer-sms-marketing-templates-delete',
   LIST_VIEW: 'marketer-sms-marketing-templates-list-view',
+};
+
+export const AIR_MARKETER_SOCIAL_MARKETING_CALENDER = {
+  VIEW_POST: 'marketer-social-marketing-calendar-view-post',
+  FILTER_BY_PLATFORM: 'marketer-social-marketing-calendar-filter-by-platform',
+  FILTER_BY_PROFILE: 'marketer-social-marketing-calendar-filter-by-profile',
+  CREATE_POST: 'marketer-social-marketing-calendar-create-post',
 };
 
 //for display purpose in steppers
@@ -471,7 +653,7 @@ export const AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS = {
   SEARCH_ROLES: 'service-settings-search-roles',
 };
 export const AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS = {
-  ADD_ASSET_TYPES: 'service-settings-add-asset-types',
+  ADD_ASSET_TYPES: 'service-settings-addasset-types',
   ADD_NEW_FIELDS_FOR_ASSET_FORM:
     'service-settings-add-new-fields-for-asset-form',
   ADD_PRODUCT_CATEGORIES: 'service-settings-add-product-categories',
@@ -529,7 +711,7 @@ export const AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS = {
     'service-settings-set-visibility-of-catalog-services',
   VIEW_DETAILS_OF_CATALOG_SERVICE:
     'service-settings-view-details-of-catalog-service',
-  VIEW_BUSINESS_HOURS: 'service-settings-view-business-hours',
+  VIEW_BUSINESS_HOURS: 'service-settings-vIew-business-hours',
   ADD_NEW_BUSINESS_HOURS: 'service-settings-addnew-business-hours',
   EDIT_DELETE_BUSINESS_HOUR: 'service-settings-edit-delete-business-hour',
   ADD_NEW_FIELDS_FOR_TICKET_AND_THEIR_TASKS:
@@ -606,4 +788,366 @@ export const AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS = {
   EDIT: `operation-user-managment-edit`,
   DELETE: `operation-user-managment-delete`,
   CREATE_TEAM: `operation-user-managment-create-team`,
+};
+
+export const AIR_MARKETER_DASHBAORD_PERMISSIONS = {
+  VIEW_DASHBOARD: 'marketer-all-company-view-dashboard',
+};
+
+export const AIR_MARKETER_CAMPAIGNS_PERMISSIONS = {
+  COMPARE_CAMPAIGNS: 'marketer-campaigns-manage-compare-campaigns',
+  CREATE_CAMPAIGNS: 'marketer-campaigns-manage-create-campaigns',
+  SEARCH_FILTER: 'marketer-campaigns-manage-search-and-filters',
+  SAVE_VIEW: 'marketer-campaigns-manage-save-view',
+  SAVE_ALL_VIEWS: 'marketer-campaigns-manage-see-all-views',
+  VIEW_DETAILS: 'marketer-campaigns-manage-view-details',
+  VIEW_PERFORMANCE: 'marketer-campaigns-manage-view-perfomance',
+  MANAGER_CREATE_TASK: 'marketer-campaigns-manage-create-task',
+  EDIT_CAMPAIGNS: 'marketer-campaigns-manage-edit-campaign',
+  EDIT_GOALS: 'marketer-campaigns-manage-edit-goal',
+  EXPORT_CAMPAIGNS: 'marketer-campaigns-manage-export-campaign',
+  EDIT_COLUMNS: 'marketer-campaigns-manage-edit-columns',
+  CLONE_DELETE: 'marketer-campaigns-manage-clone-delete',
+  COLLAPSE_MENU_TASKS_FILTERS:
+    'marketer-campaigns-manage-collapse-menu-task-filters',
+  COLLAPSE_MENU_TAKS_EDIT: 'marketer-campaigns-manage-collapse-menu-task-edit',
+  COLLAPSE_MENU_TASKS_DELETE:
+    'marketer-campaigns-manage-collapse-menu-task-delete',
+  COLLAPSE_MENU_COMMENTS_REPLY:
+    'marketer-campaigns-manage-collapse-menu-commnets-reply',
+  COLLAPSE_MENU_COMMENT_TAB_TASK_FILTER:
+    'marketer-campaigns-manage-collapse-menu-commnets-filter',
+  CREATE_CALENDAR: 'marketer-campaigns-calendar-create-task',
+  VIEW_TASK_DETAILS: 'marketer-campaigns-calendar-view-task-details',
+  VIEW_CAMPAIGNS_DETAILS: 'marketer-campaigns-calendar-view-campaign-details',
+  VIEW_SOCIAL_MEDIA_POSTS:
+    'marketer-campaigns-calendar-view-social-media-posts',
+  CREATE_TASK: 'marketer-campaigns-tasks-create-task',
+  TASK_SEARCH_FILTER: 'marketer-campaigns-tasks-search-and-filter',
+  IMPORT_TASK: 'marketer-campaigns-tasks-import-task',
+  LIST_VIEW: 'marketer-campaigns-tasks-list-view',
+  BOARD_VIEW: 'marketer-campaigns-tasks-board-view',
+  TASK_EDIT_COLUMNS: 'marketer-campaigns-tasks-edit-columns',
+  EDIT_TASK: 'marketer-campaigns-tasks-edit-task',
+  VIEW_ACTIVITY: 'marketer-campaigns-tasks-view-activity',
+  VIEW_INSIGHT: 'marketer-campaigns-tasks-view-insights',
+  VIEW_FEEDS: 'marketer-campaigns-tasks-view-feeds',
+  CHANGE_STATUS: 'marketer-campaigns-tasks-change-status',
+  DELETE: 'marketer-campaigns-tasks-delete-task',
+  TASK_VIEW: 'marketer-campaigns-tasks-view-task',
+};
+
+export const AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS = {
+  VIEW_LIST: 'marketer-email-marketing-email-list-view-emails',
+  SEARCH_FILTER: 'marketer-email-marketing-email-list-search-and-filter',
+  VIEW_DETAILS: 'marketer-email-marketing-email-list-view-detail',
+  COMPAIR_EMAILS: 'marketer-email-marketing-email-list-compare-emails',
+  EXPORT_EMAILS: 'marketer-email-marketing-email-list-export-emails',
+  SAVE_AS_TEMPLATE: 'marketer-email-marketing-email-list-save-as-template',
+  MOVE_TO_FOLDERS: 'marketer-email-marketing-email-list-move-to-folders',
+  MANAGE_ACCESS: 'marketer-email-marketing-email-list-manage-access',
+  ARCHIVED_EMAILS: 'marketer-email-marketing-email-list-archived-emails',
+  DUPLICATE_EMAILS: 'marketer-email-marketing-email-list-duplicate-emails',
+  DELETE_EMAILS: 'marketer-email-marketing-email-list-delete-emails',
+  CREATE_NEW_EMAIL: 'marketer-email-marketing-email-list-create-new-email',
+};
+
+export const AIR_MARKETER_EMAIL_MARKETING_EMAIL_FOLDERS_PERMISSIONS = {
+  VIEW_EMAIL_FOLDERS:
+    'marketer-email-marketing-email-folders-view-email-folders',
+  SEARCH_FOLDERS: 'marketer-email-marketing-email-folders-search-folders',
+  CREATE_NEW_FOLDER: 'marketer-email-marketing-email-folders-create-new-folder',
+  DUPLICATE_FOLDER:
+    'marketer-email-marketing-email-folders-duplicate-new-folder',
+  DELETE_FOLDER: 'marketer-email-marketing-email-folders-delete-folders',
+  VIEW_DETAILS: 'marketer-email-marketing-email-folders-view-folder-details',
+};
+
+export const AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS = {
+  CREATE_NEW_TEMPLATE:
+    'marketer-email-marketing-email-tempaltes-create-new-template',
+  EDIT_TEMPLATE: 'marketer-email-marketing-email-tempaltes-edit-template',
+  DELETE_TEMPLATE: 'marketer-email-marketing-email-tempaltes-delete-templates',
+  SEARCH_TEMPLATE: 'marketer-email-marketing-email-tempaltes-search-templates',
+  VIEW_TEMPLATE: 'marketer-email-marketing-email-tempaltes-view-templates',
+  USE_TEMPLATE: 'marketer-email-marketing-email-tempaltes-use-templates',
+};
+
+export const AIR_MARKETER_EMAIL_MARKETING_EMAIL_REPORTS_PERMISSIONS = {
+  VIEW_EMAIL_REPORTS: 'marketer-email-marketing-email-reports-view-reports',
+  DOWNLOAD_REPORTS: 'marketer-email-marketing-email-reports-download-report',
+  FILTER_REPORTS:
+    'marketer-email-marketing-email-reports-serach-filter-reports',
+};
+
+export const AIR_MARKETER_SOCIAL_MARKETING_CALENDER_PERMISSIONS = {
+  VIEW_POST: 'marketer-social-marketing-calendar-view-post',
+  FILTER_BY_PLATFORM: 'marketer-social-marketing-calendar-filter-by-platform',
+  FILTER_BY_PROFILE: 'marketer-social-marketing-calendar-filter-by-profile',
+  CREATE_POST: 'marketer-social-marketing-calendar-create-post',
+};
+
+export const AIR_MARKETER_SOCIAL_MAKETER_POST_BOX_PERMISSIONS = {
+  FILTER_OUT_BY_PLATEFORM_AND_DATE:
+    'marketer-social-marketing-post-box-filter-by-platform-and-date',
+  CUSTOMISED_PIPELINE: 'marketer-social-marketing-post-box-customized-pipeline',
+  VIEW_PIPELINE: 'marketer-social-marketing-post-box-view-pipeline',
+  VIEW_DETAILS_OF_SPECIFIC_POST:
+    'marketer-social-marketing-post-box-view-details-by-post',
+};
+
+export const AIR_MARKETER_SOCIAL_MAKETER_COMPARE_SOCIAL_POST_PERMISSIONS = {
+  ADD_POST: 'marketer-social-marketing-compare-social-post-add-post',
+  VIEW_COMPARE_POST:
+    'marketer-social-marketing-compare-social-post-view-compare-post',
+};
+
+export const AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS = {
+  VIEW_SOCIAL_INBOX: 'marketer-social-marketing-social-inbox-view-social-inbox',
+  VIEW_TEAMS: 'marketer-social-marketing-social-inbox-view-teams',
+  VIEW_CHANNELS: 'marketer-social-marketing-social-inbox-view-channels',
+  ADD_TEAMS: 'marketer-social-marketing-social-inbox-add-teams',
+  ADD_CHANNELS: 'marketer-social-marketing-social-inbox-add-channels',
+  FILTER: 'marketer-social-marketing-social-inbox-search-and-filter',
+  REPLY_POSTS: 'marketer-social-marketing-social-inbox-reply-on-posts',
+  ADD_COMMENT: 'marketer-social-marketing-social-inbox-add-comment',
+  ADD_NOTE: 'marketer-social-marketing-social-inbox-add-note',
+  ADD_QUICK: 'marketer-social-marketing-social-inbox-add-quick-reply',
+  ADD_LABELS: 'marketer-social-marketing-social-inbox-add-labels',
+  DELETE_COMMENT: 'marketer-social-marketing-social-inbox-delete-comment',
+  VIEW_COMMENT_ACTIVITY:
+    'marketer-social-marketing-social-inbox-view-comment-activity',
+  LIKE_POST: 'marketer-social-marketing-social-inbox-like-post',
+  VIEW_USER_PROFILE: 'marketer-social-marketing-social-inbox-view-user-profile',
+  DELETE_TEAMS_MEMBERS: 'marketer-social-marketing-social-inbox-delete-member',
+  EDIT_TEAM_MEMBERS: 'marketer-social-marketing-social-inbox-edit-team-member',
+  DELETE_CHANNELS: 'marketer-social-marketing-social-inbox-delete-channels',
+  EDIT_CHANNELS: 'marketer-social-marketing-social-inbox-edit-channels',
+  PIN_MEMBER: 'marketer-social-marketing-social-inbox-pin-member',
+  TAG_MEMBER: 'marketer-social-marketing-social-inbox-tag-member',
+  PIN_CHANNELS: 'marketer-social-marketing-social-inbox-pin-channels',
+  TAG_CHANNELS: 'marketer-social-marketing-social-inbox-tag-channels',
+};
+export const SOCIAL_COMPONENTS_CALLING_PERMISSIONS = {
+  SEARCH_RECORD: 'common-calling-list-view-search',
+  SCHEDULE_CALL: 'common-calling-list-view-schedule',
+  CONDERENCE_CALL: 'common-calling-list-view-conderence',
+  ONE_TO_ONE_CALL: 'common-calling-list-view-one-to-one',
+  EDIT_CALL: 'common-calling-list-view-edit',
+  RESCHEDULE_CALL: 'common-calling-list-view-reschedule',
+  DELETE_CALL: 'common-calling-list-view-delete',
+  CONNECT_NUMBER: 'common-calling-list-view-connect',
+  MAKE_A_CALL: 'common-calling-list-view-make-call',
+  SEND_MESSAGE: 'common-calling-list-view-send-message',
+};
+
+export const SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS = {
+  // CONTACTS_LIST_PERMISSIONS
+  CREATE_CONTACT: 'common-contacts-list-create',
+  IMPORT_CONTACT: 'common-contacts-list-import',
+  ADD_TAB_VIEW: 'common-contacts-list-add-tab-view',
+  SEARCH: 'common-contacts-list-search',
+  REASSIGN: 'common-contacts-list-reassign',
+  DELETE: 'common-contacts-list-delete',
+  RESTORE: 'common-contacts-list-restore',
+  ACTIVATE_LOYALTY_PROGRAM: 'common-contacts-list-active',
+  DEACTIVATE_LOYALTY_PROGRAM: 'common-contacts-list-deactive',
+  CUSTOMIZE_COLUMNS: 'common-contacts-list-customize-columns',
+  FILTER: 'common-contacts-list-filter',
+  EXPORT_CONTACTS: 'common-contacts-list-export-contacts',
+  // CONTACTS_DETAILS
+  UPDATE_INFO: 'common-contacts-details-update-info',
+  VIEW_ACTIVITY_LOG: 'common-contacts-details-view-activity-log',
+  ADD_ASSOCIATE_TICKETS: 'common-contacts-details-add-associate-tickets',
+  VIEW_TICKET: 'common-contacts-details-view-ticket',
+  EDIT_TICKET: 'common-contacts-details-edit-ticket',
+  DELETE_TICKET: 'common-contacts-details-delete-ticket',
+  ADD_ASSOCIATE_DEALS: 'common-contacts-details-add-associate-deals',
+  VIEW_DEALS: 'common-contacts-details-view-deals',
+  EDIT_DEAL: 'common-contacts-details-edit-deal',
+  DELETE_DEAL: 'common-contacts-details-delete-deal',
+  ADD_ASSOCIATE_COMPANY: 'common-contacts-details-add-associate-company',
+  VIEW_COMPANY: 'common-contacts-details-view-company',
+  EDIT_COMPANY: 'common-contacts-details-edit-company',
+  DELETE_COMPANY: 'common-contacts-details-delete-company',
+  ADD_ASSOCIATE_ATTACHMENTS:
+    'common-contacts-details-add-associate-attachments',
+  EDIT_ATTACHMENTS: 'common-contacts-details-edit-attachments',
+  VIEW_ATTACHMENTS: 'common-contacts-details-view-attachments',
+  REMOVE_ATTACHMENTS: 'common-contacts-details-remove-attachments',
+  ADD_TASKS: 'common-contacts-details-add-tasks',
+  VIEW_TASKS: 'common-contacts-details-view-tasks',
+  EDIT_TASKS: 'common-contacts-details-edit-tasks',
+  REASSIGN_TASK: 'common-contacts-details-reassign-task',
+  DELETE_TASK: 'common-contacts-details-delete-task',
+  ADD_NOTE: 'common-contacts-details-add-note',
+  VIEW_NOTES: 'common-contacts-details-view-notes',
+  EDIT_NOTE: 'common-contacts-details-edit-note',
+  DELETE_NOTES: 'common-contacts-details-delete-notes',
+  ADD_CALL: 'common-contacts-details-add-call',
+  VIEW_CALLS: 'common-contacts-details-view-calls',
+  EDIT_CALLS: 'common-contacts-details-edit-calls',
+  RESCHEDULE_CALLS: 'common-contacts-details-reschedule-calls',
+  ADD_OUTCOME_CALLS: 'common-contacts-details-add-outcome-calls',
+  DELETE_CALLS: 'common-contacts-details-delete-calls',
+  CREATE_MEETINGS: 'common-contacts-details-create-meetings',
+  VIEW_MEETINGS: 'common-contacts-details-view-meetings',
+  EDIT_MEETING: 'common-contacts-details-edit-meeting',
+  REASSIGN_MEETING: 'common-contacts-details-reassign-meeting',
+  ADD_OUTCOME: 'common-contacts-details-add-outcome',
+  DELETE_MEETING: 'common-contacts-details-delete-meeting',
+  SEND_EMAILS: 'common-contacts-details-send-emails',
+  CREATE_EMAIL_TEMPLATE: 'common-contacts-details-create-email-template',
+  SCHEDULE_EMAIL: 'common-contacts-details-schedule-email',
+  VIEW_THREAD: 'common-contacts-details-view-thread',
+  FORWARD_EMAIL: 'common-contacts-details-forward-email',
+  REPLY_EMAIL: 'common-contacts-details-reply-email',
+  DELETE_EMAIL: 'common-contacts-details-delete-email',
+  RESTORE_ACTIVITY: 'common-contacts-details-restore-activity',
+};
+
+export const SOCIAL_COMPONENTS_MEETINGS_PERMISSIONS = {
+  SHOW_COUNT_WIDGETS: 'common-meetings-show-count-widgets',
+  LIST_VIEW: 'common-meetings-list-view',
+  CALENDAR_VIEW: 'common-meetings-calendar-view',
+  SEARCH_RECORD: 'common-meetings-search',
+  FILTER_RECORD: 'common-meetings-filter',
+  CREATE_MEETING: 'common-meetings-create',
+  EDIT_MEETING: 'common-meetings-edit',
+  RESCHEDULE_MEETING: 'common-meetings-reschedule',
+  ADD_OUTCOME: 'common-meetings-add-outcome',
+  DELETE_MEETING: 'common-meetings-delete',
+};
+
+export const SOCIAL_COMPONENTS_DOCUMENTS_PERMISSIONS = {
+  // FOLDER_LIST
+  CREATE_FOLDER: 'common-documents-folder-list-create',
+  VIEW_FOLDERS: 'common-documents-folder-list-view',
+  APPLY_FILTER: 'common-documents-folder-list-apply-filter',
+  DOWNLOAD_LIST: 'common-documents-folder-list-download',
+  LIST_MOVE_TO_FOLDER: 'common-documents-folder-list-move-to-folder',
+  RENAME_FOLDER: 'common-documents-folder-list-rename-folder',
+  DELETE_FOLDER: 'common-documents-folder-list-delete-folder',
+};
+
+export const SOCIAL_COMPONENTS_DOCUMENTS_VIEW_FOLDER_PERMISSIONS = {
+  // VIEW_FOLDER
+  CREATE_SUB_FOLDER: 'common-documents-view-folder-create-sub-folder',
+  UPLOAD_DOCUMENT: 'common-documents-view-folder-upload-document',
+  VIEW_DOC_LIST: 'common-documents-view-folder-view-doc-list',
+  SEARCH_RECORD: 'common-documents-view-folder-search-record',
+  FILTER_RECORD: 'common-documents-view-folder-filter-record',
+  CREATE_LINK: 'common-documents-view-folder-create-link',
+  PREVIEW_DOC: 'common-documents-view-folder-preview-doc',
+  DOWNLOAD_FOLDER: 'common-documents-view-folder-download',
+  FOLDER_MOVE_TO_FOLDER: 'common-documents-view-folder-move-to-folder',
+  DELETE_DOC: 'common-documents-view-folder-delete-doc',
+};
+
+export const SOCIAL_COMPONENTS_EMAIL_PERMISSIONS = {
+  // EMAIL_SETTINGS_PERMISSIONS
+  ADD_TEAM_SIGNATURE: 'common-email-email-settings-team-signature',
+  SELECT_FONT: 'common-email-email-settings-select-font',
+  SET_FONT_SIZE: 'common-email-email-settings-set-font-size',
+  // EMAIL_INTEGRATION_PERMISSIONS
+  LINK_GOOGLE_ACCOUNT: 'common-email-email-integration-link-google-account',
+  LINK_OUTLOOK_ACCOUNT: 'common-email-email-integration-link-outlook-account',
+  LINK_OTHERS_ACCOUNT: 'common-email-email-integration-link-others-account',
+  // EMAIL_TABS_PERMISSIONS
+  APPLY_FILTER: 'common-email-tabs-apply-filter',
+  SEARCH_EMAIL: 'common-email-tabs-search-email',
+  SEND_EMAIL: 'common-email-tabs-send-email',
+  USE_TEMPLATES: 'common-email-tabs-use-templates',
+  ADD_TEMPLATES: 'common-email-tabs-add-templates',
+  SEND_LATER: 'common-email-tabs-send-later',
+  REPLY_EMAIL: 'common-email-tabs-reply-email',
+  FORWARD_EMAIL: 'common-email-tabs-forward-email',
+  REFRESH_RECORD: 'common-email-tabs-refresh-record',
+  MARK_AS_READ: 'common-email-tabs-mark-as-read',
+  LINK_TO_DEAL: 'common-email-tabs-link-to-deal',
+  DELETE_EMAIL: 'common-email-tabs-delete-email',
+};
+
+export const SOCIAL_COMPONENTS_CHAT_PERMISSIONS = {
+  // CHAT_PERSONAL
+  FILTER_RECORD_PERSONAL: 'common-chats-personal-filter',
+  SEARCH_RECORD_PERSONAL: 'common-chats-personal-search',
+  PIN_CHAT: 'common-chats-personal-pin',
+  DELETE_CHAT: 'common-chats-personal-delete',
+  MARK_AS_UNREAD_PERSONAL: 'common-chats-personal-mark-as-unread',
+  MUTE_PERSONAL: 'common-chats-personal-mute',
+  ARCHIVE_PERSONAL: 'common-chats-personal-archive',
+  VIEW_CHAT: 'common-chats-personal-view',
+  REPLY_CHAT: 'common-chats-personal-reply',
+  MAKE_A_CALL: 'common-chats-personal-make-a-call',
+  VIEW_MEDIA: 'common-chats-personal-view-media',
+  // CHAT_GROUP
+  SEARCH_RECORD_GROUP: 'common-chats-group-search',
+  FILTER_RECORD_GROUP: 'common-chats-group-filter',
+  DELETE_GROUP: 'common-chats-group-delete',
+  PIN_GROUP: 'common-chats-group-pin',
+  MARK_AS_UNREAD_GROUP: 'common-chats-group-mark-as-unread',
+  MUTE_GROUP: 'common-chats-group-mute',
+  ARCHIVE_GROUP: 'common-chats-group-archive',
+  VIEW_CONVERSATIONS: 'common-chats-group-view-conversations',
+  VIEW_INFO: 'common-chats-group-view-info',
+  VIEW_MEMBERS: 'common-chats-group-view-members',
+  VIEW_SHARED_MEDIA: 'common-chats-group-view-shared-media',
+  ADD_PARTICIPANT: 'common-chats-group-add-participant',
+  REMOVE_MEMBER: 'common-chats-group-remove-member',
+  GROUP_CALLING: 'common-chats-group-calling',
+};
+export const AIR_SERVICES_TICKETS_TICKET_LISTS = {
+  CREATE_TICKET: 'service-create-ticket',
+  SEARCH_AND_FILTER: 'service-ticket-search-and-filter',
+  EXPORT_TICKETS: 'service-ticket-export',
+  COLUMN_CUSTOMIZATION: 'service-ticket-customize-columns',
+  RESET: 'service-ticket-reset',
+  BOARD_VIEW: 'service-ticket-board-view',
+  VIEW_TICKETS_DETAILS: 'service-ticket-view-details',
+  TICKETS_LIST_VIEW: 'service-ticket-list-view',
+  ACTIONS: 'service-ticket-actions',
+};
+
+export const AIR_SERVICES_TICKETS_TICKETS_DETAILS = {
+  VIEW_REQUESTER_DETAILS: 'service-view-requester-detail',
+  UPDATE_INFO_EDIT_TICKET_DETAILS: 'service-ticket-edit-detail',
+  ADD_TIME_ENTRIES_DETAILS: 'service-add-time-entries-detail',
+  VIEW_TIME_ENTRIES_DETAILS: 'service-ticket-view-time-entries-detail',
+  ADD_TASK: 'service-add-task',
+  TASK_LIST_VIEW: 'service-task-list-view',
+  VIEW_TASK_DETAILS: 'service-view-task-details',
+  EDIT_TASK: 'service-edit-task',
+  DELETE_TASK: 'service-delete-task',
+  EXPORT_TASK: 'service-export-task',
+  ADD_CHILD_TICKET: 'service-add-child-ticket',
+  CHILD_TICKET_LIST_VIEW: 'service-child-ticket-list-view',
+  VIEW_CHILD_TICKETS_DETAILS: 'service-view-child-tickets-details',
+  DELETE_CHILD_TICKETS: 'service-delete-child-tickets',
+  EDIT_CHILD_TICKETS: 'service-edit-child-tickets',
+  EXPORT_TICKETS: 'service-export-tickets',
+  ADD_ASSOCIATE_ASSETS: 'service-add-associate-assets',
+  ASSET_LIST_VIEW: 'service-asset-list-view',
+  VIEW_ASSETS_DETAILS: 'service-view-assets-details',
+  DELETE_ASSETS: 'service-delete-asstes',
+  ADD_MEETING: 'service-add-meeting',
+  MEETING_DETAILS: 'service-meeting-details',
+  RESCHEDULED_MEETING: 'service-rescheduled-meeting',
+  ADD_MEETING_OUTCOMES: 'service-add-meeting-outcomes',
+  DELETE_MEETING: 'service-delete-meeting',
+  MEETING_LIST: 'service-meeting-list',
+  VIEW_ACTIVITIES_DETAILS: 'service-view-activities',
+  ADD_CONVERSATION_NOTE: 'service-add-conversation-note',
+  ADD_CONVERSATION_REPLY: 'service-add-conversation-reply',
+  ADD_CONVERSATION_FARWARD: 'service-add-conversation-forward',
+  ADD_CONVERSATION_DISCUSSIONS: 'service-add-conversation-discussions',
+  ADD_CONVERSATION_DELETE_NOTE: 'service-add-conversation-delete-note',
+  ADD_CONVERSATION_DELETE_REPLY: 'service-add-conversation-delete-reply',
+  ADD_CONVERSATION_DELETE_FARWARD: 'service-add-conversation-delete-forward',
+  SENT_EMAIL: 'service-ticket-sent-email',
+  TIME_TRACK_PLAY_PAUSE: 'service-ticket-time-track-play-and-pause',
+  CALLS: 'service-ticket-call',
+};
+export const AIR_SERVICES_DASHBOARD_PERMISSIONS = {
+  VIEW_DASHBOARD: 'service-dashboard-list',
 };

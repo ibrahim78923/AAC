@@ -16,10 +16,12 @@ import {
 import ActionButton from './ActionButton';
 import useEmailMarketing from './useEmailMarketing';
 import Filters from './Filters';
-import EmailFolder from './EmailFolder';
+// import EmailFolder from './EmailFolder';
 import { ExportButton } from './ExportButton';
 import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const EmailMarketing = () => {
   const {
@@ -36,40 +38,64 @@ const EmailMarketing = () => {
       <Stack direction={{ lg: 'row' }} justifyContent="space-between">
         <Typography variant="h4">Email Marketing</Typography>
         <Stack direction="row" gap={1} flexWrap="wrap">
-          <Search
-            searchBy={searchEmailMarketing}
-            setSearchBy={setSearchEmailMarketing}
-            label="Search Here"
-            size="small"
-          />
-          <Button
-            variant="outlined"
-            color="inherit"
-            className="small"
-            onClick={handleExportModalOpen}
-            startIcon={<ExportIcon />}
-            sx={{ width: { sm: '106px', xs: '100%' } }}
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.SEARCH_FILTER,
+            ]}
           >
-            Export
-          </Button>
-          <Button
-            variant="outlined"
-            className="small"
-            color="inherit"
-            onClick={() => router.push(`${AIR_MARKETER?.COMPARE_EMAIL}`)}
-            sx={{ width: { sm: '140px', xs: '100%' } }}
+            <Search
+              searchBy={searchEmailMarketing}
+              setSearchBy={setSearchEmailMarketing}
+              label="Search Here"
+              size="small"
+            />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.EXPORT_EMAILS,
+            ]}
           >
-            Compare Email
-          </Button>
-          <Button
-            onClick={() => router.push(`${AIR_MARKETER?.CREATE_NEW_EMAIL}`)}
-            variant="contained"
-            className="small"
-            startIcon={<PlusIcon />}
-            sx={{ width: { sm: '176px', xs: '100%' } }}
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={handleExportModalOpen}
+              startIcon={<ExportIcon />}
+              sx={{ width: { sm: '106px', xs: '100%' } }}
+            >
+              Export
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.COMPAIR_EMAILS,
+            ]}
           >
-            Create New Email
-          </Button>
+            <Button
+              variant="outlined"
+              className="small"
+              color="inherit"
+              onClick={() => router.push(`${AIR_MARKETER?.COMPARE_EMAIL}`)}
+              sx={{ width: { sm: '140px', xs: '100%' } }}
+            >
+              Compare Email
+            </Button>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.CREATE_NEW_EMAIL,
+            ]}
+          >
+            <Button
+              onClick={() => router.push(`${AIR_MARKETER?.CREATE_NEW_EMAIL}`)}
+              variant="contained"
+              className="small"
+              startIcon={<PlusIcon />}
+              sx={{ width: { sm: '176px', xs: '100%' } }}
+            >
+              Create New Email
+            </Button>
+          </PermissionsGuard>
         </Stack>
       </Stack>
       <Stack
@@ -85,24 +111,37 @@ const EmailMarketing = () => {
             <RefreshTasksIcon />
           </Button>
         </Tooltip>
-        <Button
-          onClick={() => setIsOpenFilter(true)}
-          className="small"
-          startIcon={<FilterrIcon />}
-          variant="outlined"
-          color="inherit"
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.SEARCH_FILTER,
+          ]}
         >
-          Filters
-        </Button>
+          <Button
+            onClick={() => setIsOpenFilter(true)}
+            className="small"
+            startIcon={<FilterrIcon />}
+            variant="outlined"
+            color="inherit"
+          >
+            Filters
+          </Button>
+        </PermissionsGuard>
       </Stack>
-      <HorizontalTabs tabsDataArray={emailMarketingTabsData}>
-        <All />
-        <Archived />
-        <Draft />
-        <Scheduled />
-        <Sent />
-      </HorizontalTabs>
-      <EmailFolder />
+      <PermissionsGuard
+        permissions={[
+          AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS.VIEW_LIST,
+        ]}
+      >
+        <HorizontalTabs tabsDataArray={emailMarketingTabsData}>
+          <All />
+          <Archived />
+          <Draft />
+          <Scheduled />
+          <Sent />
+        </HorizontalTabs>
+      </PermissionsGuard>
+      {/* commented for future use  */}
+      {/* <EmailFolder /> */}
 
       {isOpenFilter && (
         <Filters

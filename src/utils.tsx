@@ -1,4 +1,5 @@
 import debounce from 'lodash.debounce';
+import jwtDecode from 'jwt-decode';
 
 export function isNullOrEmpty(
   value: string | null | undefined | unknown[] | Record<string, unknown>,
@@ -22,6 +23,15 @@ export function isNullOrEmpty(
   return false;
 }
 
+const isTokenValidationCheck = (accessToken: string) => {
+  if (!accessToken) {
+    return false;
+  }
+  const decoded: any = jwtDecode(accessToken);
+  const currentTime = Date.now() / 1000;
+
+  return decoded.exp > currentTime;
+};
 export const convertIdToShortNumber = (mongodbId: string): any => {
   // Convert hexadecimal to decimal
   const decimalId = parseInt(mongodbId, 16);
@@ -38,24 +48,65 @@ export const debouncedSearch = debounce((value: any, setSearchBy: any) => {
 }, DEBOUNCE_DELAY);
 
 const getSession = () => {
-  // const sessionJSON = window?.localStorage?.getItem('session');
+  const sessionJSON = localStorage?.getItem('session');
 
-  // if (sessionJSON) return JSON.parse(sessionJSON);
-  return {};
+  if (sessionJSON) return JSON.parse(sessionJSON);
+  // return {};
 };
 
 // const setSession = (userData: any) => {
-const setSession = () => {
-  // if (userData) {
-  //   localStorage.setItem('session', JSON.stringify(userData));
-  //   // axios.defaults.headers.common.Authorization = `Bearer ${authToken}`;
-  //   // This function below will handle when token is expired
-  //   // const { exp } = jwtDecode(authToken);
-  //   // handleTokenExpired(exp);
-  // } else {
-  //   localStorage.removeItem('session');
-  //   // delete axios.defaults.headers.common.Authorization;
-  // }
+const setSession = (userData: any) => {
+  if (userData) {
+    localStorage.setItem('session', JSON.stringify(userData));
+    // axios.defaults.headers.common.Authorization = `Bearer ${authToken}`;
+    // This function below will handle when token is expired
+    // const { exp } = jwtDecode(authToken);
+    // handleTokenExpired(exp);
+  } else {
+    localStorage.removeItem('session');
+    // delete axios.defaults.headers.common.Authorization;
+  }
+};
+const setActiveProductSession = (product: any) => {
+  if (product) {
+    localStorage.setItem('ActiveProduct', JSON.stringify(product));
+  } else {
+    localStorage.removeItem('ActiveProduct');
+  }
 };
 
-export { getSession, setSession };
+const getActiveProductSession = () => {
+  const sessionJSON = localStorage?.getItem('ActiveProduct');
+
+  if (sessionJSON) return JSON.parse(sessionJSON);
+  return {};
+};
+
+const setActivePermissionsSession = (permissions: any) => {
+  if (typeof localStorage !== 'undefined') {
+    if (permissions) {
+      localStorage.setItem('ActivePermissions', JSON.stringify(permissions));
+    } else {
+      localStorage.removeItem('ActivePermissions');
+    }
+  }
+};
+
+const getActivePermissionsSession = () => {
+  if (typeof localStorage !== 'undefined') {
+    const sessionJSON = localStorage?.getItem('ActivePermissions');
+
+    if (sessionJSON) return JSON.parse(sessionJSON);
+    return {};
+  }
+};
+
+export {
+  getSession,
+  setSession,
+  isTokenValidationCheck,
+  setActiveProductSession,
+  getActiveProductSession,
+  setActivePermissionsSession,
+  getActivePermissionsSession,
+};

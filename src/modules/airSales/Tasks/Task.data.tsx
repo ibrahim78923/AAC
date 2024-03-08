@@ -7,58 +7,77 @@ import {
 } from '@/components/ReactHookForm';
 import { Checkbox } from '@mui/material';
 import * as Yup from 'yup';
-import SearchableTabsSelect from '@/modules/airSales/Tasks/searchableTabsSelect/SearchableTabsSelect';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { setSelectedTaskIds } from '@/redux/slices/taskManagement/taskManagementSlice';
+import SearchableTabsSelect from './searchableTabsSelect';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 export const filterDefaultValues = {
-  assignee: '',
-  taskStatus: '',
+  assignTo: '',
+  status: '',
   priority: '',
-  dueDate: '',
+  dueDate: null,
 };
 
 export const filterValidationSchema = Yup?.object()?.shape({
-  assignee: Yup?.string(),
-  taskStatus: Yup?.string(),
-  priority: Yup?.string(),
-  dueDate: Yup?.string(),
+  assignTo: Yup.string(),
+  status: Yup.string(),
+  priority: Yup.string(),
+  // dueDate: Yup.date(),
 });
 
 export const filterData = [
   {
-    title: 'Assignee',
+    md: 12,
     componentProps: {
-      name: 'assignee',
+      label: 'Assignee',
+      name: 'assignTo',
       select: true,
     },
-    options: [{ value: 'value', label: 'label' }],
-    component: RHFTextField,
+    options: [
+      { label: 'Pending', value: 'Pending' },
+      { label: 'Inprogress', value: 'Inprogress' },
+      { label: 'Complete', value: 'Complete' },
+    ],
+    component: RHFSelect,
   },
   {
-    title: 'Task Status',
+    md: 12,
     componentProps: {
-      name: 'taskStatus',
+      label: 'Task Status',
+      name: 'status',
       select: true,
     },
-    options: [{ value: 'value', label: 'label' }],
-    component: RHFTextField,
+    options: [
+      { label: 'Pending', value: 'Pending' },
+      { label: 'Inprogress', value: 'Inprogress' },
+      { label: 'Complete', value: 'Complete' },
+    ],
+    component: RHFSelect,
   },
   {
-    title: 'Priority',
+    md: 12,
     componentProps: {
+      label: 'Priority',
       name: 'priority',
       select: true,
     },
-    options: [{ value: 'value', label: 'label' }],
-    component: RHFTextField,
+    options: [
+      { label: 'Low', value: 'Low' },
+      { label: 'Medium', value: 'Medium' },
+      { label: 'High', value: 'High' },
+    ],
+    component: RHFSelect,
   },
   {
-    title: 'Due date',
     componentProps: {
       name: 'dueDate',
+      label: 'Due Date',
+      fullWidth: true,
     },
     component: RHFDatePicker,
+    md: 12,
   },
 ];
 
@@ -89,7 +108,11 @@ export const matchColumnsData = [
       label: 'Status',
       select: true,
     },
-    options: [{ value: 'value', label: 'label' }],
+    options: [
+      { label: 'Pending', value: 'Pending' },
+      { label: 'Inprogress', value: 'Inprogress' },
+      { label: 'Complete', value: 'Complete' },
+    ],
     component: RHFTextField,
   },
   {
@@ -115,165 +138,167 @@ export const matchColumnsData = [
 ];
 
 export const createTaskValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Field is Required').trim(),
+  name: Yup?.string()?.required('Field is Required')?.trim(),
   type: Yup?.string()?.trim()?.required('Field is Required'),
   priority: Yup?.string()?.trim()?.required('Field is Required'),
-  status: Yup?.string()?.trim()?.required('Field is Required'),
-  deal: Yup?.string()?.trim()?.required('Field is Required'),
-  associate: Yup?.string()?.trim()?.required('Field is Required'),
-  assignTo: Yup?.string()?.trim()?.required('Field is Required'),
-  dueDate: Yup?.string()?.trim()?.required('Field is Required'),
-  time: Yup?.string()?.trim()?.required('Field is Required'),
-  reminder: Yup?.string()?.trim()?.required('Field is Required'),
-  note: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
-export const createTaskDefaultValues = {
-  name: '',
-  type: '',
-  priority: '',
-  status: '',
-  deal: '',
-  associate: '',
-  assignTo: '',
-  dueDate: null,
-  time: null,
-  reminder: '',
-  note: '',
+export const createTaskDefaultValues = ({ data }: any) => {
+  const inputDate = new Date(data?.dueDate);
+  const inputTime = new Date(data?.time);
+
+  function isValidDate(date: any) {
+    return date instanceof Date && !isNaN(date?.getTime());
+  }
+
+  return {
+    name: data?.name ?? '',
+    type: data?.type ?? '',
+    priority: data?.priority ?? '',
+    status: data?.status ?? '',
+    dealsIds: data?.dealsIds ?? '',
+    assignTo: data?.assignTo ?? '',
+    dueDate: isValidDate(inputDate) ? inputDate : null,
+    time: isValidDate(inputTime) ? inputTime : null,
+    reminder: data?.reminder ?? '',
+    note: data?.note ?? '',
+  };
 };
 
-export const createTaskData = [
-  {
-    gridLength: 12,
-    title: 'Task Name',
-    symbol: '*',
-    componentProps: {
-      placeholder: 'Enter Name',
-      name: 'name',
+export const createTaskData = ({ data }: any) => {
+  return [
+    {
+      md: 12,
+      componentProps: {
+        placeholder: 'Enter Name',
+        label: 'Task Name',
+        name: 'name',
+        required: true,
+      },
+      component: RHFTextField,
     },
-    component: RHFTextField,
-  },
-  {
-    gridLength: 8,
-    title: 'Task Type',
-    symbol: '*',
-    componentProps: {
-      name: 'type',
-      select: true,
-      placeholder: 'Enter Name',
+    {
+      md: 8,
+      componentProps: {
+        label: 'Task Type',
+        name: 'type',
+        select: true,
+        required: true,
+        placeholder: 'Enter Name',
+      },
+      options: [
+        { label: 'Call', value: 'Call' },
+        { label: 'Email', value: 'Email' },
+      ],
+      component: RHFSelect,
     },
-    options: [
-      { label: 'Call', value: 'Call' },
-      { label: 'Email', value: 'Email' },
-    ],
-    component: RHFSelect,
-  },
-  {
-    gridLength: 4,
-    title: 'Priority',
-    symbol: '*',
-    componentProps: {
-      name: 'priority',
-      select: true,
+    {
+      md: 4,
+      componentProps: {
+        label: 'Priority',
+        name: 'priority',
+        select: true,
+        required: true,
+      },
+      options: [
+        { label: 'Low', value: 'Low' },
+        { label: 'Medium', value: 'Medium' },
+        { label: 'High', value: 'High' },
+      ],
+      component: RHFSelect,
     },
-    options: [
-      { label: 'Low', value: 'Low' },
-      { label: 'Medium', value: 'Medium' },
-      { label: 'High', value: 'High' },
-    ],
-    component: RHFSelect,
-  },
-  {
-    gridLength: 12,
-    title: 'Task Status',
-    componentProps: {
-      name: 'status',
-      select: true,
+    {
+      md: 12,
+      componentProps: {
+        label: 'Task Status',
+        name: 'status',
+        select: true,
+      },
+      options: [
+        { label: 'Pending', value: 'Pending' },
+        { label: 'Inprogress', value: 'Inprogress' },
+        { label: 'Complete', value: 'Complete' },
+      ],
+      component: RHFSelect,
     },
-    options: [
-      { label: 'Pending', value: 'Pending' },
-      { label: 'Inprogress', value: 'Inprogress' },
-      { label: 'Complete', value: 'Complete' },
-    ],
-    component: RHFSelect,
-  },
-  {
-    gridLength: 12,
-    title: 'Select Deal (Optional)',
-    componentProps: {
-      name: 'deal',
-      select: true,
+    {
+      md: 12,
+      componentProps: {
+        label: 'Select Deal (Optional)',
+        name: 'dealsIds',
+        select: true,
+      },
+      options: [
+        { label: 'Laptop Purchase', value: 'Laptop Purchase' },
+        { label: 'Mouse Repair', value: 'Mouse Repair' },
+        { label: 'AC Purchase', value: 'AC Purchase' },
+      ],
+      component: RHFSelect,
     },
-    options: [
-      { label: 'Laptop Purchase', value: 'Laptop Purchase' },
-      { label: 'Mouse Repair', value: 'Mouse Repair' },
-      { label: 'AC Purchase', value: 'AC Purchase' },
-    ],
-    component: RHFSelect,
-  },
-  {
-    gridLength: 12,
-    title: 'Associate with records',
-    componentProps: {
-      name: 'associate',
+    {
+      md: 12,
+      componentProps: {
+        label: 'Associate with records',
+        name: '',
+        data: data,
+      },
+      component: SearchableTabsSelect,
     },
-
-    component: SearchableTabsSelect,
-  },
-  {
-    gridLength: 12,
-    title: 'Assigned to',
-    componentProps: {
-      name: 'assignTo',
-      select: true,
+    {
+      md: 12,
+      componentProps: {
+        label: 'Assigned to',
+        name: 'assignTo',
+        select: true,
+      },
+      options: [
+        { label: 'Jhon Doe', value: 'Jhon Doe' },
+        { label: 'Jhon Doe', value: 'Jhon Doe' },
+      ],
+      component: RHFSelect,
     },
-    options: [
-      { label: 'Jhon Doe', value: 'Jhon Doe' },
-      { label: 'Jhon Doe', value: 'Jhon Doe' },
-    ],
-    component: RHFSelect,
-  },
-  {
-    gridLength: 7,
-    title: 'Due date',
-    componentProps: {
-      name: 'dueDate',
-      select: true,
+    {
+      md: 7,
+      componentProps: {
+        label: 'Due date',
+        name: 'dueDate',
+        select: true,
+      },
+      component: RHFDatePicker,
     },
-    component: RHFDatePicker,
-  },
-  {
-    gridLength: 5,
-    title: 'Time',
-    componentProps: {
-      name: 'time',
+    {
+      md: 5,
+      componentProps: {
+        label: 'Time',
+        name: 'time',
+      },
+      component: RHFTimePicker,
     },
-    component: RHFTimePicker,
-  },
-  {
-    gridLength: 12,
-    title: 'Reminder',
-    componentProps: {
-      name: 'reminder',
-      select: true,
+    {
+      md: 12,
+      componentProps: {
+        label: 'Reminder',
+        name: 'reminder',
+        select: true,
+      },
+      options: [
+        { label: 'Today', value: 'Today' },
+        { label: 'Tomorrow', value: 'Tomorrow' },
+        { label: 'In 1 business day', value: 'in1businessday' },
+        { label: 'In 2 business day', value: 'in2businessday' },
+      ],
+      component: RHFSelect,
     },
-    options: [
-      { label: 'Today', value: 'Today' },
-      { label: 'Tomorrow', value: 'Tomorrow' },
-      { label: 'In 1 business day', value: 'in1businessday' },
-      { label: 'In 2 business day', value: 'in2businessday' },
-    ],
-    component: RHFSelect,
-  },
-  {
-    gridLength: 12,
-    title: 'Note',
-    componentProps: {
-      name: 'note',
+    {
+      md: 12,
+      componentProps: {
+        label: 'Note',
+        name: 'note',
+      },
+      component: RHFEditor,
     },
-    component: RHFEditor,
-  },
-];
+  ];
+};
 
 export const TasksData = () => {
   const dispatch: any = useAppDispatch();
@@ -319,27 +344,32 @@ export const TasksData = () => {
       id: 'status',
       isSortable: true,
       header: 'Task Status',
-      cell: (info?: any) => info?.getValue(),
+      cell: (info?: any) => info?.row?.original?.status ?? '-',
     },
     {
-      accessorFn: (row?: any) => row?.associate, // TODO Need to discuss
+      accessorFn: (row?: any) => row?.name, // TODO Need to discuss
       id: 'associate',
       isSortable: true,
       header: 'Linked Company',
-      cell: (info?: any) => info?.getValue(),
+      cell: (info?: any) => info?.row?.original?.company ?? '-',
     },
     {
       accessorFn: (row?: any) => row?.assignTo,
       id: 'assignTo',
       isSortable: true,
       header: 'Assigned User',
-      cell: (info?: any) => info?.getValue(),
+      cell: (info?: any) =>
+        info?.row?.original?.assignTo
+          ? info?.row?.original?.assignTo?.firstName +
+            ' ' +
+            info?.row?.original?.assignTo?.lastName
+          : '-',
     },
     {
       accessorFn: (row?: any) => row?.type,
       id: 'type',
       isSortable: true,
-      header: 'task Type',
+      header: 'Task Type',
       cell: (info?: any) => info?.getValue(),
     },
     {
@@ -347,7 +377,8 @@ export const TasksData = () => {
       id: 'updatedAt',
       isSortable: true,
       header: 'last Date',
-      cell: (info?: any) => info?.getValue(),
+      cell: (info?: any) =>
+        dayjs(info?.row?.original?.updatedAt).format(DATE_TIME_FORMAT?.YMDHM),
     },
   ];
 };

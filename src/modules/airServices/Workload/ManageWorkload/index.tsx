@@ -1,48 +1,31 @@
 import { Button, Menu, MenuItem, Typography } from '@mui/material';
-import { Fragment, useState } from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import WorkloadDrawer from '../WorkloadDrawer/WorkloadDrawer';
-import { useGetWorkloadQuery } from '@/services/airServices/workload';
-import { workloadDefaultDateRange } from '../Workload.data';
+import WorkloadDrawer from '../WorkloadDrawer';
+import useManageWorkload from './useManageWorkload';
 
 export const ManageWorkload = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const [manage, setManage] = useState<any>();
-
-  const open = Boolean(anchorEl);
-
-  const [dateRange, setDateRange] = useState<any>(workloadDefaultDateRange);
-
-  const { data } = useGetWorkloadQuery(
-    {
-      manage: manage,
-      startDate: dateRange?.[0]?.startDate?.toISOString(),
-      // TODO: Will be catered in integration
-      // endDate: dateRange?.[0]?.endDate?.toISOString(),
-    },
-    { skip: !openDrawer, refetchOnMountOrArgChange: true },
-  );
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event?.currentTarget);
-  };
-
-  const handleMenuItemClick = (value: any) => {
-    setManage(value);
-    setOpenDrawer(true);
-    setAnchorEl(null);
-  };
-
-  const manageWorkLoadOptions = [
-    { label: 'All', value: undefined },
-    { label: 'Planned', value: 'PLANNED' },
-    { label: 'UnPlanned', value: 'UNPLANNED' },
-    { label: 'Delayed', value: 'DELAYED' },
-  ];
+  const {
+    handleClick,
+    anchorEl,
+    open,
+    setAnchorEl,
+    manageWorkLoadOptions,
+    handleMenuItemClick,
+    openDrawer,
+    data,
+    setOpenDrawer,
+    dateRange,
+    manage,
+    setDateRange,
+    isLoading,
+    isFetching,
+    isError,
+    setModifiedRange,
+    modifiedRange,
+  } = useManageWorkload();
 
   return (
-    <Fragment>
+    <>
       <Button
         variant={'outlined'}
         color={'inherit'}
@@ -88,8 +71,16 @@ export const ManageWorkload = () => {
           state={manage}
           onChangeDateHandler={(item: any) => setDateRange([item?.selection])}
           setDateRange={setDateRange}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          setModifiedRange={setModifiedRange}
+          modifiedRange={modifiedRange}
+          onChangeModifiedHandler={(item: any) =>
+            setModifiedRange([item?.selection])
+          }
         />
       )}
-    </Fragment>
+    </>
   );
 };

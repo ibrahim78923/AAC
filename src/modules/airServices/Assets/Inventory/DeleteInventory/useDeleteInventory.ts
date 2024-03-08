@@ -1,8 +1,7 @@
 import { useDeleteInventoryMutation } from '@/services/airServices/assets/inventory';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useRouter } from 'next/router';
 import usePath from '@/hooks/usePath';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDeleteInventory = (props: any) => {
   const {
@@ -10,6 +9,9 @@ export const useDeleteInventory = (props: any) => {
     selectedInventoryLists,
     setSelectedInventoryLists,
     setPage,
+    totalRecords,
+    page,
+    getInventoryListData,
   } = props;
   const [deleteInventoryTrigger, deleteInventoryStatus] =
     useDeleteInventoryMutation();
@@ -27,20 +29,16 @@ export const useDeleteInventory = (props: any) => {
     };
 
     try {
-      const response: any = await deleteInventoryTrigger(
-        deleteInventoryParameter,
-      )?.unwrap();
-
-      enqueueSnackbar('Record delete successfully' ?? response?.message, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await deleteInventoryTrigger(deleteInventoryParameter)?.unwrap();
+      successSnackbar('Record delete successfully');
       setSelectedInventoryLists([]);
-      setPage(1);
+      setPage?.(selectedInventoryLists?.length === totalRecords ? 1 : page);
+      const newPage =
+        selectedInventoryLists?.length === totalRecords ? 1 : page;
+      await getInventoryListData?.(newPage);
       closeTicketsDeleteModal?.();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something Went Wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
       closeTicketsDeleteModal?.();
     }
   };

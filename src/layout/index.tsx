@@ -1,5 +1,5 @@
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-// import AuthGuard from '@/GuardsAndPermissions/AuthGuard';
+import AuthGuard from '@/GuardsAndPermissions/AuthGuard';
 import DashboardLayout from './MainDashboard';
 
 export default function Layout({
@@ -8,24 +8,29 @@ export default function Layout({
   children,
   permissions,
 }: any) {
-  let childrenEl: any = children;
+  // let childrenEl: any ;
 
-  if (permissions)
-    childrenEl = (
-      <PermissionsGuard permissions={permissions}>{children}</PermissionsGuard>
-    );
+  // if (permissions)
+  //   childrenEl = (
+  //     <PermissionsGuard permissions={permissions}>{children}</PermissionsGuard>
+  //   );
+
   let layout = null;
 
   switch (variant) {
     case 'dashboard':
       layout = (
-        // <AuthGuard>
-        <DashboardLayout> {childrenEl} </DashboardLayout>
-        // </AuthGuard>
+        <AuthGuard>
+          <DashboardLayout>
+            <PermissionsGuard isPage={true} permissions={permissions}>
+              {children}
+            </PermissionsGuard>
+          </DashboardLayout>
+        </AuthGuard>
       );
       break;
     default:
-      layout = childrenEl;
+      layout = children;
       break;
   }
 

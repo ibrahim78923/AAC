@@ -1,42 +1,59 @@
-import React from 'react';
-import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
-import { v4 as uuidv4 } from 'uuid';
-import { services } from './Catalog.data';
 import useCatalog from './useCatalog';
+import { FolderIcon } from '@/assets/icons';
+import CustomPagination from '@/components/CustomPagination';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
-const Catalog = () => {
-  const theme = useTheme();
-  const { handleClick, result, handleClickService } = useCatalog();
+import { Permissions } from '@/constants/permissions';
+import { AIR_CUSTOMER_PORTAL_CATALOG_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+export const Catalog = () => {
+  const {
+    handleClick,
+    result,
+    handleClickService,
+    data,
+    handlePageChange,
+    setPageLimit,
+    setPage,
+    isLoading,
+    isFetching,
+  } = useCatalog();
+
   return (
     <>
-      <Typography variant="h3">All Services</Typography>
-      <Grid container spacing={2}>
-        {services?.map((service) => (
-          <Grid item xs={12} md={6} lg={3} key={uuidv4()}>
-            <Box
-              onClick={() => handleClick(service?.title)}
+      <PermissionsGuard permissions={Permissions?.AIR_CUSTOMER_PORTAL_CATALOG}>
+        <Typography variant="h3">All Services</Typography>
+        <PermissionsGuard
+          permissions={[
+            AIR_CUSTOMER_PORTAL_CATALOG_PERMISSIONS?.VIEW_ALL_CATALOG_SERVICES,
+          ]}
+        >
+          <Grid container spacing={2}>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={3}
               borderRadius={2}
               border={'0.2rem solid'}
               borderColor={'primary.lighter'}
               textAlign="center"
-              mt={2}
-              p={2}
+              mt={4}
               sx={{ cursor: 'pointer' }}
+              onClick={() => handleClick('ALL Services')}
             >
-              <Box textAlign={'center'}>
-                <Avatar
-                  sx={{
-                    backgroundColor: theme?.palette?.primary?.light,
-                    margin: 'auto',
-                  }}
-                  alt={`Service ${service?.id} Image`}
-                >
-                  <service.image />
-                </Avatar>
+              <Box
+                alignItems={'center'}
+                display={'flex'}
+                justifyContent={'center'}
+                mt={2}
+              >
+                <FolderIcon />
               </Box>
               <Typography variant="h5" mt={2}>
-                {service?.title}
+                All Services
               </Typography>
               <Box
                 alignItems={'center'}
@@ -52,63 +69,135 @@ const Catalog = () => {
                   ml={2}
                   mr={2}
                 >
-                  {service?.description}
+                  Browse the list of all services offered and raise a request.
                 </Typography>
               </Box>
-            </Box>
+            </Grid>
+            {!!data?.data?.servicecategories?.length &&
+              data?.data?.servicecategories?.map((service: any) => (
+                <Grid item xs={12} md={6} lg={3} key={service?._id}>
+                  <Box
+                    onClick={() => handleClick(service?._id)}
+                    borderRadius={2}
+                    border={'0.2rem solid'}
+                    borderColor={'primary.lighter'}
+                    textAlign="center"
+                    mt={2}
+                    minHeight={'15rem'}
+                    p={2}
+                    sx={{ cursor: 'pointer' }}
+                  >
+                    <Box
+                      alignItems={'center'}
+                      display={'flex'}
+                      justifyContent={'center'}
+                      mt={2}
+                    >
+                      <FolderIcon />
+                    </Box>
+                    <Typography variant="h5" mt={2}>
+                      {service?.categoryName}
+                    </Typography>
+                    <Box
+                      alignItems={'center'}
+                      display={'flex'}
+                      justifyContent={'center'}
+                    >
+                      <Typography
+                        variant="body2"
+                        align="center"
+                        gutterBottom
+                        mt={1}
+                        mb={2}
+                        ml={2}
+                        mr={2}
+                      >
+                        {service?.description}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Grid>
+              ))}
           </Grid>
-        ))}
-      </Grid>
-      <Grid container>
-        {result?.map((allService: any) => (
-          <Grid item xs={12} md={6} lg={4} key={uuidv4()}>
-            <Box
-              key={uuidv4()}
-              onClick={() => handleClickService?.(allService?.id)}
-              borderRadius={2}
-              border={'0.3rem solid'}
-              borderColor={'primary.lighter'}
-              display={'flex'}
-              flexDirection={'row'}
-              mt={4}
-              mr={3}
-              sx={{ cursor: 'pointer' }}
-            >
-              <Box
-                alignItems={'center'}
-                display={'flex'}
-                justifyContent={'flex-start'}
-                p={2}
-              >
-                <Image
-                  src={allService?.image}
-                  height={56}
-                  width={58}
-                  alt={`Service ${allService?.id} Image`}
-                />
-              </Box>
-              <Box
-                alignItems={'flex-start'}
-                display={'flex'}
-                justifyContent={'flex-start'}
-                flexDirection={'column'}
-                mt={2}
-              >
-                <Typography variant="h5">{allService?.title}</Typography>
+          <CustomPagination
+            count={data?.data?.servicecategories?.meta?.count}
+            pageLimit={data?.data?.servicecategories?.meta?.pageLimit}
+            rowsPerPageOptions={
+              data?.data?.servicecategories?.meta?.rowsPerPageOptions
+            }
+            currentPage={data?.data?.servicecategories?.meta?.currentPage}
+            totalRecords={data?.data?.servicecategories?.meta?.totalRecords}
+            onPageChange={handlePageChange}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+          />
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            AIR_CUSTOMER_PORTAL_CATALOG_PERMISSIONS?.VIEW_CATALOG_SERVICES_DIFFERENT_TYPES,
+          ]}
+        >
+          <Grid container>
+            {isLoading || isFetching ? (
+              <SkeletonForm />
+            ) : (
+              result?.map((allService: any) => (
+                <Grid item xs={12} md={6} lg={4} key={allService?._id}>
+                  <Box
+                    key={allService?._id}
+                    onClick={() =>
+                      handleClickService?.(
+                        allService?._id,
+                        allService?.serviceCategory,
+                      )
+                    }
+                    borderRadius={2}
+                    border={'0.3rem solid'}
+                    borderColor={'primary.lighter'}
+                    display={'flex'}
+                    flexDirection={'row'}
+                    mt={4}
+                    mr={3}
+                    sx={{ cursor: 'pointer' }}
+                  >
+                    <Box
+                      alignItems={'center'}
+                      display={'flex'}
+                      justifyContent={'flex-start'}
+                      p={2}
+                    >
+                      <Image
+                        src={allService?.image}
+                        height={56}
+                        width={58}
+                        alt={`Service ${allService?.id} Image`}
+                      />
+                    </Box>
+                    <Box
+                      alignItems={'flex-start'}
+                      display={'flex'}
+                      justifyContent={'flex-start'}
+                      flexDirection={'column'}
+                      mt={2}
+                    >
+                      <Typography variant="h5">
+                        {allService?.itemName}
+                      </Typography>
 
-                <Typography variant="body2" component={'span'}>
-                  {allService?.description}
-                </Typography>
-                <Typography variant="body2" component={'span'}>
-                  {allService?.price}
-                </Typography>
-              </Box>
-            </Box>
+                      <Typography variant="body2" component={'span'}>
+                        {allService?.description}
+                      </Typography>
+                      <Typography variant="body2" component={'span'}>
+                        {allService?.cost}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Grid>
+              ))
+            )}
           </Grid>
-        ))}
-      </Grid>
+        </PermissionsGuard>
+      </PermissionsGuard>
     </>
   );
 };
-
-export default Catalog;

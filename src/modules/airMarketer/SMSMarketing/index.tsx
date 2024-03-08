@@ -23,111 +23,137 @@ import ContactsSMSMarketing from './Contacts';
 
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import Templates from './Templates';
+import ConnectNumber from './ConnectNumber';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 
 const SMSMarketing = () => {
-  const { tabVal, setTabVal, navigate, theme } = useSMSMarketing();
+  const {
+    tabVal,
+    setTabVal,
+    navigate,
+    theme,
+    isNumberConnected,
+    setIsNumberConnected,
+  } = useSMSMarketing();
 
   return (
     <>
-      <Box
-        sx={{
-          border: `1px solid ${theme?.palette?.custom?.light_lavender_gray}`,
-          p: 2.4,
-          borderRadius: '8px',
-        }}
-      >
-        <Stack
-          direction={{ sm: 'row', xs: 'column' }}
-          alignItems={{ sm: 'center' }}
-          justifyContent="space-between"
+      {isNumberConnected ? (
+        <Box
+          sx={{
+            border: `1px solid ${theme?.palette?.custom?.light_lavender_gray}`,
+            p: 2.4,
+            borderRadius: '8px',
+          }}
         >
-          <Typography variant="h3" pb={1}>
-            SMS Marketing
-          </Typography>
+          <Stack
+            direction={{ sm: 'row', xs: 'column' }}
+            alignItems={{ sm: 'center' }}
+            justifyContent="space-between"
+          >
+            <Typography variant="h3" pb={1}>
+              SMS Marketing
+            </Typography>
 
-          {tabVal === 0 && (
-            <Stack direction={{ sm: 'row', xs: 'column' }} gap={1.5}>
-              <FormControl fullWidth>
-                <Select
-                  sx={{
-                    height: '52px',
-                    width: '181px',
-                    padding: '7px 0px',
-                    alignItems: 'center',
-                    display: 'flex',
-                  }}
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  defaultValue={'monica'}
-                  // value={}
-                  // onChange={handleChange}
+            {tabVal === 0 && (
+              <Stack direction={{ sm: 'row', xs: 'column' }} gap={1.5}>
+                <FormControl fullWidth>
+                  <Select
+                    sx={{
+                      height: '52px',
+                      width: '181px',
+                      padding: '7px 0px',
+                      alignItems: 'center',
+                      display: 'flex',
+                    }}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    defaultValue={'monica'}
+                    // value={}
+                    // onChange={handleChange}
+                  >
+                    <MenuItem value={'monica'}>
+                      <Stack direction="row" gap={1} alignItems="center">
+                        <Avatar
+                          alt="avatar"
+                          src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
+                        />
+                        <Box>
+                          <Typography>Monica</Typography>
+                          <Typography>8023456789</Typography>
+                        </Box>
+                      </Stack>
+                    </MenuItem>
+                    <MenuItem value={'Nakita'}>
+                      <Stack direction="row" gap={1} alignItems="center">
+                        <Avatar
+                          alt="avatar"
+                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJZE0VNh6-l13QFIf7SdXGqFIKnD-qOJP-yzN2r800&s"
+                        />
+                        <Box>
+                          <Typography>Nakita</Typography>
+                          <Typography>0987654321</Typography>
+                        </Box>
+                      </Stack>
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                <PermissionsGuard
+                  permissions={[
+                    AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.EDIT_SMS_BROADCAST,
+                  ]}
                 >
-                  <MenuItem value={'monica'}>
-                    <Stack direction="row" gap={1} alignItems="center">
-                      <Avatar
-                        alt="avatar"
-                        src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D"
-                      />
-                      <Box>
-                        <Typography>Monica</Typography>
-                        <Typography>8023456789</Typography>
-                      </Box>
-                    </Stack>
-                  </MenuItem>
-                  <MenuItem value={'Nakita'}>
-                    <Stack direction="row" gap={1} alignItems="center">
-                      <Avatar
-                        alt="avatar"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJZE0VNh6-l13QFIf7SdXGqFIKnD-qOJP-yzN2r800&s"
-                      />
-                      <Box>
-                        <Typography>Nakita</Typography>
-                        <Typography>0987654321</Typography>
-                      </Box>
-                    </Stack>
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              <Box
-                sx={{ cursor: 'pointer' }}
-                onClick={() => {
-                  navigate.push({
-                    pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
-                    query: { type: 'edit' },
-                  });
-                }}
+                  <Box
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => {
+                      navigate.push({
+                        pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
+                        query: { type: 'edit' },
+                      });
+                    }}
+                  >
+                    <EditSmsIcon />
+                  </Box>
+                </PermissionsGuard>
+              </Stack>
+            )}
+            {tabVal === 1 && (
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.CREATE_SMS_BROADCAST,
+                ]}
               >
-                <EditSmsIcon />
-              </Box>
-            </Stack>
-          )}
-          {tabVal === 1 && (
-            <Button
-              className="small"
-              variant="contained"
-              onClick={() => {
-                navigate.push({
-                  pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
-                  query: { type: 'add' },
-                });
-              }}
-              startIcon={<PlusIcon />}
-            >
-              Create SMS Broadcast
-            </Button>
-          )}
-        </Stack>
-        <CommonTabs
-          tabsArray={['Dashboard', 'SMS Broadcast', 'Contacts', 'Templates']}
-          getTabVal={(val: number) => setTabVal(val)}
-          activeTab={tabVal}
-        >
-          <SMSDashboard setTabVal={setTabVal} />
-          <SMSBroadcast />
-          <ContactsSMSMarketing />
-          <Templates />
-        </CommonTabs>
-      </Box>
+                <Button
+                  className="small"
+                  variant="contained"
+                  onClick={() => {
+                    navigate.push({
+                      pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
+                      query: { type: 'add' },
+                    });
+                  }}
+                  startIcon={<PlusIcon />}
+                >
+                  Create SMS Broadcast
+                </Button>
+              </PermissionsGuard>
+            )}
+          </Stack>
+          <CommonTabs
+            tabsArray={['Dashboard', 'SMS Broadcast', 'Contacts', 'Templates']}
+            getTabVal={(val: number) => setTabVal(val)}
+            activeTab={tabVal}
+          >
+            <SMSDashboard setTabVal={setTabVal} />
+            <SMSBroadcast />
+            <ContactsSMSMarketing />
+            <Templates />
+          </CommonTabs>
+        </Box>
+      ) : (
+        <ConnectNumber setIsNumberConnected={setIsNumberConnected} />
+      )}
     </>
   );
 };

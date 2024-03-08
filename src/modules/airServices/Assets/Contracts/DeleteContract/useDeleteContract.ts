@@ -1,6 +1,5 @@
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useDeleteContractMutation } from '@/services/airServices/assets/contracts';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDeleteContract = (props: any) => {
   const {
@@ -8,6 +7,9 @@ export const useDeleteContract = (props: any) => {
     selectedContractList,
     setSelectedContractList,
     setPage,
+    totalRecords,
+    page,
+    getContractListData,
   } = props;
   const [deleteContractTrigger, deleteContractStatus] =
     useDeleteContractMutation();
@@ -26,15 +28,13 @@ export const useDeleteContract = (props: any) => {
     try {
       await deleteContractTrigger(deleteContractParameter)?.unwrap();
       setSelectedContractList([]);
-      enqueueSnackbar('Record deleted successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      setPage?.(1);
+      successSnackbar('Record deleted successfully');
+      setPage?.(selectedContractList?.length === totalRecords ? 1 : page);
+      const newPage = selectedContractList?.length === totalRecords ? 1 : page;
+      await getContractListData?.(newPage);
       setIsDeleteModalOpen?.(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
       setSelectedContractList([]);
       setIsDeleteModalOpen?.(false);
     }

@@ -281,7 +281,7 @@ const DealPipelines = () => {
         {isLoading ? (
           <SkeletonForm />
         ) : (
-          dealPipelinesData?.dealpipelines?.map((dealPipeline: any) => (
+          dealPipelinesData?.map((dealPipeline: any) => (
             <Accordion
               key={uuidv4()}
               sx={{

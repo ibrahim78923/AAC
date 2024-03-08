@@ -21,6 +21,6 @@ export const userData = [
 export const selectAgentSchema = Yup?.object()?.shape({
   agents: Yup?.array()?.required('Required'),
 });
-export const selectAgentDefaultValues = {
-  agents: [],
-};
+export const selectAgentDefaultValues = (agentsDetails: any) => ({
+  agents: agentsDetails ?? [],
+});

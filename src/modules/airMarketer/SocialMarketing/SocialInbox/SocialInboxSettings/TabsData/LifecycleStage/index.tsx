@@ -14,6 +14,8 @@ import TanstackTable from '@/components/Table/TanstackTable';
 
 import { drawerButtonTitle, drawerTitle } from './LifecycleStage.data';
 import { LifeCycleStageTableData } from '@/mock/modules/airMarketer/SocialMarketing/SocialInbox';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 
 const LifeCycleStage = () => {
   const {
@@ -77,31 +79,36 @@ const LifeCycleStage = () => {
           }}
         >
           <Typography variant="h3">Life Cycle Stages</Typography>
-          <Button
-            variant="contained"
-            sx={styles?.createBtn}
-            onClick={() => setIsDraweropen('Add')}
-            className="small"
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.ADD_STAGE]}
           >
-            <AddCircleIcon
-              sx={{
-                color: `${theme?.palette?.common?.white}`,
-                fontSize: '16px',
-              }}
-            />
-            Add Stage
-          </Button>
+            <Button
+              variant="contained"
+              sx={styles?.createBtn}
+              onClick={() => setIsDraweropen('Add')}
+              className="small"
+            >
+              <AddCircleIcon
+                sx={{
+                  color: `${theme?.palette?.common?.white}`,
+                  fontSize: '16px',
+                }}
+              />
+              Add Stage
+            </Button>
+          </PermissionsGuard>
         </Box>
-
-        <Search
-          label={'Search here'}
-          searchBy={productSearch}
-          setSearchBy={setproductSearch}
-          width="260px"
-          size="small"
-
-          // sx={{ marginTop: '2rem', marginBottom: '1rem' }}
-        />
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.SEARCH_LIFECYCLE]}
+        >
+          <Search
+            label={'Search here'}
+            searchBy={productSearch}
+            setSearchBy={setproductSearch}
+            width="260px"
+            size="small"
+          />
+        </PermissionsGuard>
 
         <Grid sx={{ marginTop: '2rem' }}>
           <TanstackTable

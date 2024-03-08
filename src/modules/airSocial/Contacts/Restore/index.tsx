@@ -1,40 +1,61 @@
 import Link from 'next/link';
-
 import { Box, Button, Paper, Typography } from '@mui/material';
-
-import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-
-import { RestoreTableData } from '@/mock/modules/airSales/Deals/Restore';
-
 import RestoreFilterDrawer from './RestoreFilterDrawer';
 import RestoreDeleteModal from './RestoreDeleteModal';
-
 import useRestore from './useRestore';
-import { RestoreTableColumns } from './RestoreTable.data';
-
-import RestoreAssignModalBox from './RestoreAssignModalBox';
 import ContactsActions from '../ContactsActions';
-
 import { BackArrIcon, FilterIcon } from '@/assets/icons';
+import { AIR_SOCIAL } from '@/routesConstants/paths';
+import { restoreTableColumns } from './RestoreTable.data';
+import RestoreModal from './RestoreModal';
 
 const Restore = () => {
   const {
-    handleRestoreFilter,
-    isRestoreFilter,
-    setSearch,
-    search,
-    handlePermanantDelete,
-    handleResDealModal,
-    isPermanantlyDel,
-    IsRestoreDealModal,
+    anchorEl,
+    actionMenuOpen,
+    handleActionsMenuClick,
+    handleActionsMenuClose,
+    setSearchValue,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    loadingGetContact,
+    dataGetDeletedContacts,
+    // searchValue,
+    methodsFilter,
+    handleFiltersSubmit,
+    // handleRefresh,
+    setPageLimit,
+    setPage,
+    handlePageChange,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    // rowId,
+    isDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteContact,
+    isRestoreModal,
+    handleOpenModalRestore,
+    handleSubmitRestoreContact,
+    handleCloseModalRestore,
     theme,
-    handleActions,
   } = useRestore();
 
+  const columns = restoreTableColumns(
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    setRowId,
+  );
+
   return (
-    <Box>
+    <>
       <Box
         sx={{
           display: 'flex',
@@ -44,15 +65,8 @@ const Restore = () => {
           justifyContent: 'space-between',
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '20px',
-          }}
-        >
-          <Link href={'/air-sales/contacts'}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+          <Link href={AIR_SOCIAL?.CONTACTS}>
             <BackArrIcon />
           </Link>
           <Box>
@@ -70,19 +84,6 @@ const Restore = () => {
             </Typography>
           </Box>
         </Box>
-
-        <RestoreFilterDrawer
-          open={isRestoreFilter}
-          onClose={handleRestoreFilter}
-        />
-        <RestoreDeleteModal
-          open={isPermanantlyDel}
-          onClose={handlePermanantDelete}
-        />
-        <RestoreAssignModalBox
-          open={IsRestoreDealModal}
-          onClose={handleResDealModal}
-        />
       </Box>
 
       <Box
@@ -97,8 +98,7 @@ const Restore = () => {
         <Box>
           <Search
             label="Search Here"
-            searchBy={search}
-            setSearchBy={setSearch}
+            setSearchBy={setSearchValue}
             fullWidth
             autoComplete="off"
           />
@@ -112,15 +112,19 @@ const Restore = () => {
           }}
         >
           <ContactsActions
-            menuItem={['Restore', 'Delete']}
-            disableActionBtn={false}
-            onChange={handleActions}
+            anchorEl={anchorEl}
+            actionMenuOpen={actionMenuOpen}
+            handleActionsMenuClick={handleActionsMenuClick}
+            handleActionsMenuClose={handleActionsMenuClose}
+            disableActionBtn={isActionsDisabled}
+            openDelete={handleOpenModalDelete}
+            openRestoreModal={handleOpenModalRestore}
           />
           <Button
             startIcon={<FilterIcon />}
             variant="outlined"
             sx={{ height: '30px', color: theme?.palette?.custom['main'] }}
-            onClick={handleRestoreFilter}
+            onClick={handleOpenFilters}
           >
             {' '}
             Filter
@@ -128,14 +132,38 @@ const Restore = () => {
         </Box>
       </Box>
       <Paper sx={{ mb: 2 }}>
-        <TanstackTable columns={RestoreTableColumns} data={RestoreTableData} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+        <TanstackTable
+          columns={columns}
+          data={dataGetDeletedContacts?.data?.contacts}
+          isLoading={loadingGetContact}
+          isPagination
+          count={dataGetDeletedContacts?.data?.meta?.pages}
+          totalRecords={dataGetDeletedContacts?.data?.meta?.total}
+          onPageChange={handlePageChange}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          pageLimit={dataGetDeletedContacts?.data?.meta?.limit}
         />
       </Paper>
-    </Box>
+
+      <RestoreFilterDrawer
+        open={openFilters}
+        onClose={handleCloseFilters}
+        methods={methodsFilter}
+        handleSubmit={handleFiltersSubmit}
+      />
+      <RestoreDeleteModal
+        open={isDeleteModal}
+        onClose={handleCloseModalDelete}
+        handlePermanantDelete={handleDeleteContact}
+      />
+
+      <RestoreModal
+        open={isRestoreModal}
+        onClose={handleCloseModalRestore}
+        handleSubmit={handleSubmitRestoreContact}
+      />
+    </>
   );
 };
 

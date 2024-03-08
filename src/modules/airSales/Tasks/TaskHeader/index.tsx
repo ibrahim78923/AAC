@@ -1,10 +1,13 @@
-import React from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 import Import from '../Import';
 import ActivityAndPerformance from '../ActivityAndPerformance';
 import CreateTask from '../CreateTask';
+import { PlusIcon, UmbrellaIcon } from '@/assets/icons';
 const TaskHeader = () => {
   const theme = useTheme();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isCreateTaskDrawerOpen, setIsCreateTaskDrawerOpen] = useState(false);
   return (
     <Box
       sx={{
@@ -37,10 +40,33 @@ const TaskHeader = () => {
           width: { xs: '100%', sm: 'auto' },
         }}
       >
-        <Import />
+        <Button
+          variant="outlined"
+          className="small"
+          color="inherit"
+          startIcon={<UmbrellaIcon />}
+          onClick={() => setIsOpen(true)}
+        >
+          Import
+        </Button>
         <ActivityAndPerformance />
-        <CreateTask />
+        <Button
+          onClick={() => setIsCreateTaskDrawerOpen(true)}
+          className="small"
+          variant="contained"
+          startIcon={<PlusIcon />}
+        >
+          Create Task
+        </Button>
+        {isCreateTaskDrawerOpen && (
+          <CreateTask
+            isCreateTaskDrawerOpen={isCreateTaskDrawerOpen}
+            setIsCreateTaskDrawerOpen={setIsCreateTaskDrawerOpen}
+            creationMode={'create'}
+          />
+        )}
       </Box>
+      {isOpen && <Import setIsOpen={setIsOpen} isOpen={isOpen} />}
     </Box>
   );
 };

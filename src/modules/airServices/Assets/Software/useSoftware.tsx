@@ -1,6 +1,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useGetAssetsSoftwareQuery } from '@/services/airServices/assets/software';
+import {
+  useGetAssetsSoftwareQuery,
+  usePostSoftwareMutation,
+  useLazyGetUserDropdownQuery,
+} from '@/services/airServices/assets/software';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  upsertSoftwareFormDefaultValues,
+  upsertSoftwareFormValidationSchema,
+} from './UpsertSoftware/UpsertSoftware.data';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useSoftware = () => {
   const router = useRouter();
@@ -14,12 +25,15 @@ export const useSoftware = () => {
   const [page, setPage] = useState(1);
   const [pageLimit, setPageLimit] = useState(10);
 
-  const { data, isLoading, isError, isSuccess } = useGetAssetsSoftwareQuery({
+  const apiDataParameter = {
     page,
     limit: pageLimit,
-    search: searchValue,
     ...filterValues,
-  });
+    search: searchValue,
+  };
+
+  const { data, isLoading, isError, isSuccess } =
+    useGetAssetsSoftwareQuery(apiDataParameter);
 
   const handlePageChange = (page: number) => {
     setPage(page);
@@ -39,9 +53,43 @@ export const useSoftware = () => {
       Type: software?.type ?? '---',
       publisher: software?.details?.publisher ?? '---',
     })) || [];
-
   const paginationData = data?.data?.meta;
-
+  const [postSoftwareTrigger, { isLoading: upsertLoading }] =
+    usePostSoftwareMutation();
+  const methods = useForm({
+    resolver: yupResolver(upsertSoftwareFormValidationSchema),
+    defaultValues: upsertSoftwareFormDefaultValues(null),
+  });
+  const { handleSubmit, reset } = methods;
+  const submitUpsertSoftware = async (formData: any) => {
+    const modifiedData = {
+      name: formData?.name,
+      status: formData?.status,
+      type: formData?.type,
+      details: {
+        description: formData?.description,
+        category: formData?.category,
+        publisher: formData?.publisher,
+        managedBy: formData?.managedBy?._id,
+      },
+    };
+    try {
+      const response: any = await postSoftwareTrigger(modifiedData);
+      successSnackbar(
+        response?.data?.message && 'Software Created Successfully',
+      );
+      setIsAddDrawerOpen(false);
+      reset();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.error ?? 'An error');
+    }
+  };
+  const submitHandler = handleSubmit(submitUpsertSoftware);
+  const onClose = () => {
+    setIsAddDrawerOpen(false);
+    reset();
+  };
+  const userQuery = useLazyGetUserDropdownQuery();
   return {
     router,
     assetsSoftwares,
@@ -65,5 +113,11 @@ export const useSoftware = () => {
     setFilterValues,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
+    filterValues,
+    methods,
+    submitHandler,
+    upsertLoading,
+    onClose,
+    userQuery,
   };
 };
