@@ -81,9 +81,7 @@ const UserManagement = () => {
         </PermissionsGuard>
       </Box>
       <PermissionsGuard
-        permissions={[
-          SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_SEARCH_AND_FILTER,
-        ]}
+        permissions={[SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_LIST]}
       >
         <Box sx={{ padding: '0px 24px' }}>
           <CommonTabs
@@ -117,20 +115,26 @@ const UserManagement = () => {
                   </Button>
                 </Tooltip>
                 {tabVal !== tabOne ? (
-                  <Button
-                    onClick={() => {
-                      setIsOpenFilterDrawer(true);
-                    }}
-                    startIcon={<FilterrIcon />}
-                    sx={{
-                      border: `1px solid ${theme?.palette?.custom?.dark}`,
-                      color: theme?.palette?.custom?.main,
-                      width: '95px',
-                      height: '36px',
-                    }}
+                  <PermissionsGuard
+                    permissions={[
+                      SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_SEARCH_AND_FILTER,
+                    ]}
                   >
-                    Filter
-                  </Button>
+                    <Button
+                      onClick={() => {
+                        setIsOpenFilterDrawer(true);
+                      }}
+                      startIcon={<FilterrIcon />}
+                      sx={{
+                        border: `1px solid ${theme?.palette?.custom?.dark}`,
+                        color: theme?.palette?.custom?.main,
+                        width: '95px',
+                        height: '36px',
+                      }}
+                    >
+                      Filter
+                    </Button>
+                  </PermissionsGuard>
                 ) : (
                   <SwitchableDatepicker
                     renderInput="button"

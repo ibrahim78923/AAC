@@ -2,6 +2,8 @@ import { Box, Button, Menu, MenuItem } from '@mui/material';
 import useUserManagement from '../useUserManagement';
 import { ArrowDropDown } from '@mui/icons-material';
 import AddUser from '../Users/AddUser';
+import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const ActionButton = (props?: any) => {
   const { checkedRows, tabVal, setIsOpenAddUserDrawer } = props;
@@ -58,19 +60,23 @@ const ActionButton = (props?: any) => {
         >
           View
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            setIsOpenAddUserDrawer({
-              ...isOpenAddUserDrawer,
-              drawer: true,
-              type: 'edit',
-              data: data,
-            });
-          }}
+        <PermissionsGuard
+          permissions={[SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.EDIT_USER]}
         >
-          Edit
-        </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              setIsOpenAddUserDrawer({
+                ...isOpenAddUserDrawer,
+                drawer: true,
+                type: 'edit',
+                data: data,
+              });
+            }}
+          >
+            Edit
+          </MenuItem>
+        </PermissionsGuard>
       </Menu>
       {isOpenAddUserDrawer?.drawer && (
         <AddUser

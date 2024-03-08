@@ -17,7 +17,7 @@ export const SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
   VIEW_COMPANY_ACCOUNTS: 'view-company-accounts',
   ADD_COMPANY_ACCOUNTS: 'add-company-account',
   VIEW_SUB_USER_PROFILE: 'view-sub-user-profile',
-  UPDATE_SUB_USER_PROFILE: 'update-sub-user- profile',
+  UPDATE_SUB_USER_PROFILE: 'update-sub-user-profile',
   VIEW_DELEGATES: 'view-delegates',
   ACTIVE_INACTIVE_USERS: 'active-inactive-users',
   ACTIVE_INACTIVE_ACCOUNTS: 'active-inactive-accounts',
