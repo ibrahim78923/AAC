@@ -171,12 +171,12 @@ export const ServicesRoutes: any = [
       {
         key: '/air-services/assets/software',
         label: 'Software',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_ASSETS_SOFTWARE,
       },
       {
         key: '/air-services/assets/contracts',
         label: 'Contracts',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_ASSETS_CONTRACTS_LIST_VIEW,
       },
       {
         key: '/air-services/assets/purchase-orders',
@@ -408,7 +408,7 @@ export const CustomerPortalRoutes: any = [
     icon: TicketDiscountImage,
     label: 'Tickets',
     role: 'CUSTOMER_PORTAL',
-    permissions: [],
+    permissions: Permissions?.AIR_CUSTOMER_PORTAL_TICKETS,
   },
   {
     key: '/air-customer-portal/knowledge-base',
@@ -422,59 +422,31 @@ export const CustomerPortalRoutes: any = [
     icon: WorkLoadImage,
     label: 'Catalog',
     role: 'CUSTOMER_PORTAL',
-    permissions: [],
+    permissions: Permissions?.AIR_CUSTOMER_PORTAL_CATALOG_LAYOUT,
   },
 ];
 
 export const AirOperationsRoutes: any = [
   {
     key: AIR_OPERATION?.root,
-    icon: DashboardImage,
-    label: 'Dashboard',
-    role: 'AIR_OPERATIONS',
-    permissions: [],
-  },
-  {
-    key: AIR_OPERATION?.DATA_MANAGEMENT,
     icon: DataManagementImage,
     label: 'Data Management',
     role: 'AIR_OPERATIONS',
-    permissions: [],
+    permissions: Permissions?.AIR_OPERATIONS_DATA_MANAGEMENT,
   },
-  // {
-  //   key: AIR_OPERATION?.INTEGRATIONS,
-  //   icon: IntegrationsImage,
-  //   label: 'Integrations',
-  //   role: 'AIR_OPERATIONS',
-  //   permissions: [],
-  // },
   {
     key: AIR_OPERATION?.WORK_FLOW,
     icon: WorkFlowAutomationImage,
     label: 'Workflow',
     role: 'AIR_OPERATIONS',
-    permissions: [],
-  },
-  // {
-  //   key: AIR_OPERATION?.REPORTS,
-  //   icon: ReportsImage,
-  //   label: 'Reports',
-  //   role: 'AIR_OPERATIONS',
-  //   permissions: [],
-  // },
-  {
-    key: AIR_OPERATION?.ROLE_AND_RIGHT,
-    icon: ForecastImage,
-    label: 'Role and Rights',
-    role: 'AIR_OPERATIONS',
-    permissions: [],
+    permissions: Permissions?.AIR_OPERATIONS_WORKFLOWS,
   },
   {
     key: AIR_OPERATION?.USER_MANAGEMENT,
     icon: ProfileUserManagementImage,
     label: 'User Management',
     role: 'AIR_OPERATIONS',
-    permissions: [],
+    permissions: Permissions?.AIR_OPERATIONS_USER_MANAGEMENT,
   },
 ];
 
