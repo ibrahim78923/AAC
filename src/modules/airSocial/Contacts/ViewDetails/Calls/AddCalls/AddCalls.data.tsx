@@ -6,19 +6,16 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-export const editCallValidationSchema = Yup?.object()?.shape({
+export const addCallValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.trim()?.required('Field is Required'),
   contactOwnerId: Yup?.string()?.trim()?.required('Field is Required'),
   // assignee: Yup?.string()?.trim()?.required('Field is Required'),
   note: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
-export const editCallDefaultValues = {};
+export const addCallDefaultValues = {};
 
-export const editCallFormData = (
-  contactOwners: any,
-  isFieldDisabled: boolean,
-) => {
+export const addCallFormData = (contactOwners: any) => {
   return [
     {
       id: 'title',
@@ -27,7 +24,6 @@ export const editCallFormData = (
         label: 'Title',
         fullWidth: true,
         required: true,
-        disabled: isFieldDisabled,
       },
       component: RHFTextField,
       md: 12,
@@ -39,41 +35,37 @@ export const editCallFormData = (
         label: 'Start Date',
         fullWidth: true,
         required: true,
-        disabled: isFieldDisabled,
       },
       component: RHFDatePicker,
       md: 6,
     },
     {
-      id: 'startTime',
+      id: 'starttime',
       componentProps: {
-        name: 'startTime',
+        name: 'starttime',
         label: 'Start Time',
         fullWidth: true,
-        disabled: isFieldDisabled,
       },
       component: RHFTimePicker,
       md: 6,
     },
     {
-      id: 'endDate',
+      id: 'enddate',
       componentProps: {
         name: 'endDate',
         label: '  End Date',
         fullWidth: true,
         required: true,
-        disabled: isFieldDisabled,
       },
       component: RHFDatePicker,
       md: 6,
     },
     {
-      id: 'endTime',
+      id: 'endtime',
       componentProps: {
         name: 'endTime',
         label: 'End Time',
         fullWidth: true,
-        disabled: isFieldDisabled,
       },
       component: RHFTimePicker,
       md: 6,
@@ -86,7 +78,6 @@ export const editCallFormData = (
         fullWidth: true,
         select: true,
         required: true,
-        disabled: isFieldDisabled,
       },
       options: contactOwners,
       component: RHFSelect,
@@ -104,3 +95,12 @@ export const drawerButtonTitle: any = {
   Add: 'Add',
   Edit: 'Edit',
 };
+
+export const options = [
+  { value: 'Interested', label: 'Interested' },
+  { value: 'Left message', label: 'Left message' },
+  { value: 'No response', label: 'No response' },
+  { value: 'No interested', label: 'No interested' },
+  { value: 'No able to reach', label: 'No able to reach' },
+  { value: 'Others', label: 'Others' },
+];
