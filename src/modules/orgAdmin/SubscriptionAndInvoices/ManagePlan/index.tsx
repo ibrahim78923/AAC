@@ -22,6 +22,8 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import Link from 'next/link';
+import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const ManagePlan = () => {
   const router = useRouter();
@@ -75,60 +77,79 @@ const ManagePlan = () => {
             Sales
           </Typography>
           <Box sx={styles?.cardHeaderAction}>
-            <Link
-              href={{
-                pathname: `${orgAdminSubcriptionInvoices.choose_plan}`,
-                query: { data: parsedManageData?._id },
-              }}
-              as={`${orgAdminSubcriptionInvoices.choose_plan}`}
+            <PermissionsGuard
+              permissions={[
+                ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_CHANGE_PLAN,
+              ]}
             >
-              <Button>Change Plan</Button>
-            </Link>
+              <Link
+                href={{
+                  pathname: `${orgAdminSubcriptionInvoices.choose_plan}`,
+                  query: { data: parsedManageData?._id },
+                }}
+                as={`${orgAdminSubcriptionInvoices.choose_plan}`}
+              >
+                <Button>Change Plan</Button>
+              </Link>
+            </PermissionsGuard>
           </Box>
         </Box>
 
         <Box sx={styles?.divider}></Box>
 
         <Box sx={styles?.planSelectionRow}>
-          <Typography
-            variant="body1"
-            sx={{ color: 'secondary.main', mr: '24px' }}
+          <PermissionsGuard
+            permissions={[
+              ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_UPDATE_SUBSCRIPTION,
+            ]}
           >
-            <Box>Plan</Box>
-            <Box sx={{ mt: '12px' }}>Growth</Box>
-          </Typography>
-          <Box sx={styles?.planSelectionForm}>
-            <Grid container spacing={3}>
-              <Grid item xs={4}>
-                <FormControl fullWidth>
-                  <InputLabel id="billingCycle">Billing Cycle</InputLabel>
-                  <Select
-                    labelId="billingCycle"
-                    value={value}
-                    label="Age"
-                    onChange={handleChange}
-                  >
-                    <MenuItem value={'paidMonthly'}>Paid Monthly</MenuItem>
-                    <MenuItem value={'paidQuarterly'}>Paid Quarterly</MenuItem>
-                    <MenuItem value={'paidHalfYearly'}>
-                      Paid Half-Yearly
-                    </MenuItem>
-                    <MenuItem value={'paidAnnually'}>Paid Annually</MenuItem>
-                  </Select>
-                </FormControl>
+            <Typography
+              variant="body1"
+              sx={{ color: 'secondary.main', mr: '24px' }}
+            >
+              <Box>Plan</Box>
+              <Box sx={{ mt: '12px' }}>Growth</Box>
+            </Typography>
+
+            <Box sx={styles?.planSelectionForm}>
+              <Grid container spacing={3}>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
+                    <InputLabel id="billingCycle">Billing Cycle</InputLabel>
+                    <Select
+                      labelId="billingCycle"
+                      value={value}
+                      label="Age"
+                      onChange={handleChange}
+                    >
+                      <MenuItem value={'paidMonthly'}>Paid Monthly</MenuItem>
+                      <MenuItem value={'paidQuarterly'}>
+                        Paid Quarterly
+                      </MenuItem>
+                      <MenuItem value={'paidHalfYearly'}>
+                        Paid Half-Yearly
+                      </MenuItem>
+                      <MenuItem value={'paidAnnually'}>Paid Annually</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    label="Max Additional User"
+                    type="number"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    label="Additional Storage"
+                    type="number"
+                    fullWidth
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  label="Max Additional User"
-                  type="number"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField label="Additional Storage" type="number" fullWidth />
-              </Grid>
-            </Grid>
-          </Box>
+            </Box>
+          </PermissionsGuard>
         </Box>
       </Box>
 
@@ -209,31 +230,37 @@ const ManagePlan = () => {
           <Box sx={styles?.planTableTh}>£ 158</Box>
         </Box>
       </Box>
-
-      <Stack
-        spacing={'12px'}
-        useFlexGap
-        direction={'row'}
-        sx={styles?.updateSubscription}
+      <PermissionsGuard
+        permissions={[
+          ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_UPDATE_SUBSCRIPTION,
+        ]}
       >
-        <Button
-          sx={styles?.cancelButton}
-          onClick={() =>
-            router.push(
-              `${orgAdminSubcriptionInvoices.back_subscription_invoices}`,
-            )
-          }
+        <Stack
+          spacing={'12px'}
+          useFlexGap
+          direction={'row'}
+          sx={styles?.updateSubscription}
         >
-          Cancel
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleUpdateSubscription}
-        >
-          Update Subscription
-        </Button>
-      </Stack>
+          <Button
+            sx={styles?.cancelButton}
+            onClick={() =>
+              router.push(
+                `${orgAdminSubcriptionInvoices.back_subscription_invoices}`,
+              )
+            }
+          >
+            Cancel
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleUpdateSubscription}
+          >
+            Update Subscription
+          </Button>
+        </Stack>
+      </PermissionsGuard>
     </>
   );
 };

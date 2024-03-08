@@ -21,6 +21,7 @@ export const UsersAdd = () => {
     closeModal,
     isModalOpen,
     addUserDataFormFieldsAddUser,
+    isLoading,
   } = useUsersAdd();
   return (
     <FormProvider {...methods} onSubmit={handleSubmit(onSubmit)}>
@@ -70,6 +71,7 @@ export const UsersAdd = () => {
             onClick={handleSubmit(onSubmit)}
             color="primary"
             variant={'contained'}
+            loading={isLoading}
           >
             Add
           </LoadingButton>

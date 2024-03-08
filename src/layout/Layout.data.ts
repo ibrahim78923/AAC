@@ -85,14 +85,14 @@ export const SuperAdminRoutes: MenuItemI[] = [
     icon: BillingInvoiceImage,
     label: 'Billing & Invoices',
     role: 'super-admin',
-    permissions: [],
+    permissions: Permissions?.BILLING_AND_INVOICES,
   },
   {
     key: '/super-admin/reports',
     icon: ReportsImage,
     label: 'Reports',
     role: 'super-admin',
-    permissions: [],
+    permissions: Permissions?.SUPER_ADMIN_REPORTS,
   },
 ];
 
@@ -102,42 +102,42 @@ export const OrgAdminRoutes: MenuItemI[] = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'org-admin',
-    permissions: [],
+    permissions: Permissions?.ORG_ADMIN_DASHBOARD,
   },
   {
     key: '/org-admin/users',
     icon: UserManagementImage,
     label: 'Users',
     role: 'org-admin',
-    permissions: [],
+    permissions: Permissions?.ORG_ADMIN_USER,
   },
   {
     key: '/org-admin/organization-admin',
     icon: QuotesImage,
     label: 'Organization',
     role: 'org-admin',
-    permissions: [],
+    permissions: Permissions?.ORG_ADMIN_ORGANIZATION,
   },
   {
     key: '/org-admin/subscription-and-invoices',
     icon: BillingInvoiceImage,
     label: 'Subsciption & Invoices',
     role: 'org-admin',
-    permissions: [],
+    permissions: Permissions?.ORG_ADMIN_SUBSCRIPTION_AND_INVOICE,
   },
   {
     key: '/org-admin/properties',
     icon: ReportsImage,
     label: 'Properties',
     role: 'org-admin',
-    permissions: [],
+    permissions: Permissions?.ORG_ADMIN_USER,
   },
   {
     key: '/org-admin/roles-and-rights',
     icon: ForecastImage,
     label: 'Role and Rights',
     role: 'org-admin',
-    permissions: [],
+    permissions: Permissions?.ORG_ADMIN_USER,
   },
 ];
 
@@ -515,47 +515,47 @@ export const LowerSuperAdminRoutes = [
       {
         key: '/super-admin/settings/jobs',
         label: 'Jobs',
-        permissions: [],
+        permissions: Permissions?.SETTING_JOBS,
       },
       {
         key: '/super-admin/settings/faqs',
         label: 'FAQs',
-        permissions: [],
+        permissions: Permissions?.SETTING_FAQ,
       },
       {
         key: '/super-admin/settings/enquiries',
         label: 'Enquiries',
-        permissions: [],
+        permissions: Permissions?.SETTING_ENQUIRIES,
       },
       {
         key: '/super-admin/settings/tax-calculation',
         label: 'Tax Calculation',
-        permissions: [],
+        permissions: Permissions?.SETTING_TAX_CALCULATION,
       },
       {
         key: '/super-admin/settings/quick-links',
         label: 'Quick Links',
-        permissions: [],
+        permissions: Permissions?.SETTING_QUICK_LINKS,
       },
       {
         key: '/super-admin/settings/news-and-events',
         label: 'News And Events',
-        permissions: [],
+        permissions: Permissions?.SETTING_NEWS_EVENTS,
       },
       {
         key: '/super-admin/settings/module-creation',
         label: 'Module Creation',
-        permissions: [],
+        permissions: Permissions?.SETTING_MODULE_CREATION,
       },
       {
         key: '/super-admin/settings/product-list',
         label: 'Product List',
-        permissions: [],
+        permissions: Permissions?.SETTING_PRODUCT_LIST,
       },
       {
         key: '/super-admin/settings/product-features',
         label: 'Product Feature',
-        permissions: [],
+        permissions: Permissions?.SETTING_PRODUCT_FEATURES,
       },
     ],
   },
@@ -767,8 +767,8 @@ const PRODUCT__ROUTES: any = {
   'Loyalty Program': LoyaltyProgramsRoutes,
 };
 
-export const getRoutes = (role: any) => {
-  return PRODUCT__ROUTES[role];
+export const getRoutes = (product: any) => {
+  return PRODUCT__ROUTES[product];
 };
 
 const LOWER_PRODUCT_ROUTES: any = {
@@ -781,8 +781,8 @@ const LOWER_PRODUCT_ROUTES: any = {
   'Loyalty Program': LowerLoyaltyProgramRoutes,
 };
 
-export const getLowerRoutes = (role: any) => {
-  return LOWER_PRODUCT_ROUTES[role];
+export const getLowerRoutes = (product: any) => {
+  return LOWER_PRODUCT_ROUTES[product];
 };
 
 export const zeroPaddingRoutes = [

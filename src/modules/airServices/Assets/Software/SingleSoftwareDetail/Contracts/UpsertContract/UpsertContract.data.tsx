@@ -139,7 +139,10 @@ export const softwareLicense = {
   licenseType: null,
   licenseKey: '',
 };
-export const upsertContractFormDefaultValuesFunction: any = (data?: any) => {
+export const upsertContractFormDefaultValuesFunction: any = (
+  software?: any,
+  data?: any,
+) => {
   return {
     contractName: data?.contractName ?? '',
     contractNumber: data?.contractNumber ?? '',
@@ -147,7 +150,6 @@ export const upsertContractFormDefaultValuesFunction: any = (data?: any) => {
       _id: CONTRACT_TYPES?.SOFTWARE_LICENSE,
       label: 'SOFTWARE_LICENSE',
     },
-    associateAssets: data?.associateAssets ?? null,
     cost: data?.cost ?? 0,
     status: data?.status ?? {
       _id: CONTRACT_STATUS?.DRAFT,
@@ -167,16 +169,15 @@ export const upsertContractFormDefaultValuesFunction: any = (data?: any) => {
     billingCycle: data?.billingCycle ?? softwareLicense?.billingCycle,
     licenseType: data?.licenseType ?? softwareLicense?.licenseType,
     licenseKey: data?.licenseKey ?? softwareLicense?.licenseKey,
-    software: data?.software ?? softwareLicense?.software,
+    software: software?.[0] ?? softwareLicense?.software,
     attachFile: null,
   };
 };
 
 export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
-  contractName: Yup?.string()?.required('Required'),
+  contractName: Yup?.string()?.trim()?.required('Required'),
   contractNumber: Yup?.string(),
   type: Yup?.mixed()?.nullable()?.required('Required'),
-  associateAssets: Yup?.mixed()?.nullable(),
   cost: Yup?.number()
     ?.typeError('Not a number')
     ?.moreThan(-1, 'cost must be positive'),
@@ -205,7 +206,10 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
   software: Yup?.mixed()?.nullable()?.required('Required'),
   billingCycle: Yup?.mixed()?.nullable()?.required('Required'),
   licenseType: Yup?.mixed()?.nullable()?.required('Required'),
-  licenseKey: Yup?.string()?.trim()?.required('Required'),
+  licenseKey: Yup?.string()
+    ?.trim()
+    ?.matches(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]*$/, 'must be a string')
+    ?.required('Required'),
   itemDetail: Yup?.array()
     ?.of(
       Yup?.object()?.shape({
@@ -280,20 +284,6 @@ export const upsertContractFormFieldsDataFunction = (
     },
     md: 6,
     component: RHFAutocomplete,
-  },
-  {
-    id: 5,
-    componentProps: {
-      fullWidth: true,
-      name: 'associateAssets',
-      label: 'Associate Assets',
-      disabled: true,
-      apiQuery: apiQueryAsset,
-      externalParams: { limit: 50 },
-      getOptionLabel: (option: any) => option?.displayName,
-    },
-    md: 6,
-    component: RHFAutocompleteAsync,
   },
   {
     id: 6,
@@ -466,6 +456,7 @@ export const upsertContractFormFieldsDataFunction = (
       name: 'software',
       label: 'Software',
       required: true,
+      disabled: true,
       apiQuery: apiQuerySoftware,
       externalParams: { limit: 50 },
       getOptionLabel: (option: any) => option?.name,
