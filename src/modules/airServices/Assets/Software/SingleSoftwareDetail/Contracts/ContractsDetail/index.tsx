@@ -5,6 +5,8 @@ import { AddCircleBlackIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
 import { contractsTableColumns } from './ContractsDetail.data';
 import { useContractDetail } from './useContractDetail';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
 
 export const ContractsDetails = () => {
   const {
@@ -23,7 +25,9 @@ export const ContractsDetails = () => {
     softwareContractMeta,
   } = useContractDetail();
   return (
-    <>
+    <PermissionsGuard
+      permissions={[AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.CONTRACTS]}
+    >
       <Box
         display={'flex'}
         justifyContent={'space-between'}
@@ -65,6 +69,6 @@ export const ContractsDetails = () => {
         setPage={setPage}
         setPageLimit={setLimit}
       />
-    </>
+    </PermissionsGuard>
   );
 };

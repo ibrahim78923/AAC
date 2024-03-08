@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useTheme } from '@mui/material';
@@ -13,9 +12,6 @@ import {
 
 const useCallsActionDropdown = ({ setOpenDrawer }: any) => {
   const theme = useTheme();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [openAlertModal, setOpenAlertModal] = useState('');
-  const isMenuOpen = Boolean(anchorEl);
 
   const methodsReassignCall = useForm({
     resolver: yupResolver(reAssignCallValidationSchema),
@@ -33,42 +29,20 @@ const useCallsActionDropdown = ({ setOpenDrawer }: any) => {
   const onSubmitOutCome = () => {};
   const { handleSubmit: handleOutCome } = methodsOutCome;
 
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
-
   const handleOpenEditDrawer = () => {
     setOpenDrawer('Edit');
-    handleCloseMenu();
   };
   const handleOpenViewDrawer = () => {
     setOpenDrawer('View');
-    handleCloseMenu();
   };
 
-  const handleOpenDeleteAlert = () => {
-    setOpenAlertModal('Delete');
-  };
-  const handleCloseAlert = () => {
-    setOpenAlertModal('');
-  };
-  const handleOpenReassignModal = () => {
-    setOpenAlertModal('reschedule');
-  };
-  const handleOpenOutcomeModal = () => {
-    setOpenAlertModal('outcome');
-  };
+  const handleOpenDeleteAlert = () => {};
+  const handleCloseAlert = () => {};
+  const handleOpenReassignModal = () => {};
+  const handleOpenOutcomeModal = () => {};
 
   return {
     theme,
-    isMenuOpen,
-    handleOpenMenu,
-    handleCloseMenu,
-    anchorEl,
-    openAlertModal,
 
     handleOpenDeleteAlert,
     handleCloseAlert,

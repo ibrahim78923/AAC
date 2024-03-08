@@ -86,9 +86,9 @@ export const SingleViewArticle = () => {
                       {item?.keyword && (
                         <Grid item display={'flex'} flexWrap={'wrap'} gap={1}>
                           {!!item?.keyword?.length ? (
-                            item?.keyword?.map((i: any) => (
+                            item?.keyword?.map((item: any) => (
                               <Typography
-                                key={i?._id}
+                                key={item?._id}
                                 variant="body2"
                                 sx={styles?.keywordStyle(theme)}
                               >
@@ -97,7 +97,7 @@ export const SingleViewArticle = () => {
                                     fontSize={'inherit'}
                                   />
                                 }
-                                {i}
+                                {item}
                               </Typography>
                             ))
                           ) : (
