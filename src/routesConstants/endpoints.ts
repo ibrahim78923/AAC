@@ -285,6 +285,7 @@ export const END_POINTS = {
   GET_KNOWLEDGE_INSIGHTS: `/articles/knowledge-insights`,
   GET_KNOWLEDGE_INSIGHTS_DETAILS: `/articles/knowledge-insights/tickets`,
   POST_CHANGE_PASSWORD: '/auth/change-password',
+  GET_TICKET_APPROVAL_DETAILS: `/air-services-dashboard/get-tickets-approval-dashboard-details`,
 };
 
 export const superAdminBillingInvoices = {

@@ -23,6 +23,7 @@ export const ApprovalCard = (props: any) => {
       display={'flex'}
       justifyContent={'space-between'}
       alignItems={'center'}
+      sx={{ cursor: 'pointer' }}
       onClick={() => openApprovalDetail?.(data)}
     >
       <Box>
