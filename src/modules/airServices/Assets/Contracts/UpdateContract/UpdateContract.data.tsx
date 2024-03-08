@@ -7,8 +7,9 @@ import * as Yup from 'yup';
 import { Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { CONTRACT_ACTION } from '@/constants/strings';
+import { DATE_FORMAT } from '@/constants';
 
-const todayDate = dayjs()?.format('MM/DD/YYYY');
+const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
 export const updateContractFormValidationSchema = Yup?.object()?.shape({
   approver: Yup?.mixed()?.nullable(),

@@ -77,7 +77,7 @@ export const useUpdateContract = () => {
         successSnackbar?.('Contract Renew Successfully');
       else if (actionRenewExtend === CONTRACT_ACTION?.EXTEND)
         successSnackbar?.('Contract Extend Successfully');
-      router?.push('/air-services/assets/contracts');
+      router?.push(AIR_SERVICES?.ASSETS_CONTRACTS);
       reset?.();
     } catch (error: any) {
       errorSnackbar?.();
