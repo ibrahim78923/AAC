@@ -1,7 +1,7 @@
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import { AIR_SERVICES } from '@/constants';
 import { ClosureRuleIcon, ServicesCatalogIcon } from '@/assets/icons';
-export const serviceManagement = [
+export const serviceManagementData = (data: any) => [
   {
     id: 1,
     avatar: ServicesCatalogIcon,
@@ -22,5 +22,6 @@ export const serviceManagement = [
     type: 'Closure Rule',
     purpose: `Create and manage fields to capture information about projects`,
     link: AIR_SERVICES?.CLOSURE_RULE_SETTINGS,
+    closureRule: data,
   },
 ];

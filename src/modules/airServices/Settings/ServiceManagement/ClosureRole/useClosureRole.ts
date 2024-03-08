@@ -7,18 +7,15 @@ import {
   serviceResolveDataArray,
 } from './ClosureRole.data';
 import { useEffect } from 'react';
-import {
-  useGetClosureRulesQuery,
-  usePostClosureRuleMutation,
-} from '@/services/airServices/settings/service-management/closureRole';
+import { usePostClosureRuleMutation } from '@/services/airServices/settings/service-management/closureRole';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useClosureRole = () => {
   const router = useRouter();
-  const { data, isLoading: getIsLoading } = useGetClosureRulesQuery(null);
-  const getClosureRuleValues = data?.data;
+  const { closureRuleData, getIsLoading }: any = router?.query;
+  const getClosureRuleValues = JSON?.parse(closureRuleData);
 
   const ticket = {
     incidentClose: 0,
@@ -126,26 +123,10 @@ export const useClosureRole = () => {
   const serviceResolve =
     closureRoleMethods?.watch()?.serviceResolveChildTickets;
 
-  const closeIncidentData = closeIncidentDataArray(
-    closeIncident,
-    getClosureRuleValues,
-    ticket,
-  );
-  const resolveIncidentData = resolveIncidentDataArray(
-    resolveIncident,
-    getClosureRuleValues,
-    ticket,
-  );
-  const serviceCloseData = serviceCloseDataArray(
-    serviceClose,
-    getClosureRuleValues,
-    ticket,
-  );
-  const serviceResolveData = serviceResolveDataArray(
-    serviceResolve,
-    getClosureRuleValues,
-    ticket,
-  );
+  const closeIncidentData = closeIncidentDataArray(closeIncident);
+  const resolveIncidentData = resolveIncidentDataArray(resolveIncident);
+  const serviceCloseData = serviceCloseDataArray(serviceClose);
+  const serviceResolveData = serviceResolveDataArray(serviceResolve);
 
   useEffect(() => {
     if (closeIncident === false) {
