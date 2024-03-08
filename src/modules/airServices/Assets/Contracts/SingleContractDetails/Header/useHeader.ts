@@ -2,19 +2,28 @@ import { CONTRACT_STATUS } from '@/constants/strings';
 import {
   useGetSingleContractByIdQuery,
   usePatchContractApproveMutation,
-  usePatchContractRejectMutation,
   usePatchContractSubmitForApprovalMutation,
 } from '@/services/airServices/assets/contracts';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 export const useHeader = () => {
   const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const { contractId } = router?.query;
   const [patchContractSubmitApprovalTrigger] =
     usePatchContractSubmitForApprovalMutation();
   const [patchContractApproveTrigger] = usePatchContractApproveMutation();
-  const [patchContractRejectTrigger] = usePatchContractRejectMutation();
+
   const getSingleContractParameter = {
     pathParam: {
       contractId,
@@ -70,28 +79,11 @@ export const useHeader = () => {
       errorSnackbar();
     }
   };
-  const handleSubmitForReject = async () => {
-    const upDateRejectStatusData = { ...data };
-    const upDateRejectedStatusData = { ...upDateRejectStatusData };
-    const newData = {
-      ...upDateRejectedStatusData?.data,
-      status: CONTRACT_STATUS?.REJECTED,
-    };
-    upDateRejectedStatusData.data = newData;
 
-    const putContractSubmitReject = {
-      pathParam: { contractId },
-      body: upDateRejectedStatusData,
-    };
-
-    try {
-      await patchContractRejectTrigger(putContractSubmitReject)?.unwrap();
-      successSnackbar('Contract was  Rejected');
-    } catch (error) {
-      errorSnackbar();
-    }
-  };
   return {
+    handleClose,
+    open,
+    setOpen,
     data,
     isLoading,
     isFetching,
@@ -99,6 +91,6 @@ export const useHeader = () => {
     router,
     handleSubmitForApproval,
     handleSubmitForApprove,
-    handleSubmitForReject,
+    handleClickOpen,
   };
 };

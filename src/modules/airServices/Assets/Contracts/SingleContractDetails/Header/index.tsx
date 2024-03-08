@@ -4,17 +4,20 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
 import { useHeader } from './useHeader';
 import { CONTRACT_STATUS } from '@/constants/strings';
+import { RejectStatus } from './RejectStatus';
 
 export const Header = (props: any) => {
   const { dropdownOptions } = props;
   const {
+    handleClose,
+    open,
     data,
     isLoading,
     isFetching,
     router,
     handleSubmitForApproval,
     handleSubmitForApprove,
-    handleSubmitForReject,
+    handleClickOpen,
   } = useHeader();
   if (isLoading || isFetching) return <Skeleton />;
 
@@ -59,15 +62,17 @@ export const Header = (props: any) => {
               <Button
                 variant="outlined"
                 color="secondary"
-                onClick={handleSubmitForReject}
+                onClick={handleClickOpen}
               >
                 Reject
               </Button>
             </>
           )}
+
           <SingleDropdownButton dropdownOptions={dropdownOptions} />
         </Box>
       </Box>
+      <RejectStatus open={open} handleClose={handleClose} data={data} />
     </>
   );
 };
