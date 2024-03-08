@@ -17,8 +17,8 @@ const useUserManagement = () => {
   const [searchUser, setSearchUser] = useState('');
   const [deleteTeams] = useDeleteTeamsMutation();
   const productUserParams = {
-    page: 1,
-    limit: 10,
+    // page: 1,
+    // limit: 10,
     search: searchUser ? searchUser : undefined,
   };
   const { data: productsUsers } = useGetProductsUsersQuery(productUserParams);
