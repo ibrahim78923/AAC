@@ -25,7 +25,13 @@ export const Users = () => {
     userActionDropdownCloseHandler,
     selectedActionTitle,
     setSearch,
+    search,
     setUsersData,
+    methods,
+    allocateSubmit,
+    deAllocateLoading,
+    allocateLoading,
+    removeLoading,
   } = useUsers();
 
   return (
@@ -38,7 +44,7 @@ export const Users = () => {
         gap={2}
       >
         <Box>
-          <Search label="Search" setSearchBy={setSearch} />
+          <Search label="Search" setSearchBy={setSearch} searchBy={search} />
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <SingleDropdownButton
@@ -79,7 +85,7 @@ export const Users = () => {
           }
         >
           {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (
-            <UsersAllocate />
+            <UsersAllocate methods={methods} onSubmit={allocateSubmit} />
           )}
           {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE && (
             <UsersDeallocate />
@@ -104,7 +110,12 @@ export const Users = () => {
             </LoadingButton>
             <LoadingButton
               variant="contained"
-              onClick={() => actionClickHandler(selectedActionTitle)}
+              loading={deAllocateLoading || allocateLoading || removeLoading}
+              onClick={
+                selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE
+                  ? methods?.handleSubmit(allocateSubmit)
+                  : () => actionClickHandler(selectedActionTitle)
+              }
             >
               Yes
             </LoadingButton>
