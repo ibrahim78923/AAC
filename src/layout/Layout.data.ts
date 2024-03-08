@@ -85,14 +85,14 @@ export const SuperAdminRoutes: MenuItemI[] = [
     icon: BillingInvoiceImage,
     label: 'Billing & Invoices',
     role: 'super-admin',
-    permissions: [],
+    permissions: Permissions?.BILLING_AND_INVOICES,
   },
   {
     key: '/super-admin/reports',
     icon: ReportsImage,
     label: 'Reports',
     role: 'super-admin',
-    permissions: [],
+    permissions: Permissions?.SUPER_ADMIN_REPORTS,
   },
 ];
 
@@ -102,42 +102,42 @@ export const OrgAdminRoutes: MenuItemI[] = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'org-admin',
-    permissions: [],
+    permissions: Permissions?.ORG_ADMIN_DASHBOARD,
   },
   {
     key: '/org-admin/users',
     icon: UserManagementImage,
     label: 'Users',
     role: 'org-admin',
-    permissions: [],
+    permissions: Permissions?.ORG_ADMIN_USER,
   },
   {
     key: '/org-admin/organization-admin',
     icon: QuotesImage,
     label: 'Organization',
     role: 'org-admin',
-    permissions: [],
+    permissions: Permissions?.ORG_ADMIN_ORGANIZATION,
   },
   {
     key: '/org-admin/subscription-and-invoices',
     icon: BillingInvoiceImage,
     label: 'Subsciption & Invoices',
     role: 'org-admin',
-    permissions: [],
+    permissions: Permissions?.ORG_ADMIN_SUBSCRIPTION_AND_INVOICE,
   },
   {
     key: '/org-admin/properties',
     icon: ReportsImage,
     label: 'Properties',
     role: 'org-admin',
-    permissions: [],
+    permissions: Permissions?.ORG_ADMIN_USER,
   },
   {
     key: '/org-admin/roles-and-rights',
     icon: ForecastImage,
     label: 'Role and Rights',
     role: 'org-admin',
-    permissions: [],
+    permissions: Permissions?.ORG_ADMIN_USER,
   },
 ];
 
@@ -171,12 +171,12 @@ export const ServicesRoutes: any = [
       {
         key: '/air-services/assets/software',
         label: 'Software',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_ASSETS_SOFTWARE,
       },
       {
         key: '/air-services/assets/contracts',
         label: 'Contracts',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_ASSETS_CONTRACTS_LIST_VIEW,
       },
       {
         key: '/air-services/assets/purchase-orders',
@@ -298,7 +298,7 @@ export const AirMarketingRoutes: any = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions.AIR_MARKETER_DASHBAORD_PERMISSIONS,
   },
   {
     key: AIR_MARKETER?.PAID_ADS,
@@ -312,29 +312,33 @@ export const AirMarketingRoutes: any = [
     icon: CampaignImage,
     label: 'Campaign',
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions.AIR_MARKETER_CAMPAIGNS_PERMISSIONS,
   },
   {
     key: AIR_MARKETER?.EMAIL_MARKETING,
     label: 'Email Marketing',
     icon: EmailMarketingImage,
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions:
+      Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_LIST_PERMISSIONS,
     textNames: [
       {
         key: AIR_MARKETER?.EMAIL_TEMPLATES,
         label: 'Email Templates',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS,
       },
       {
         key: AIR_MARKETER?.EMAIL_FOLDER,
         label: 'Email Folder',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_FOLDERS_PERMISSIONS,
       },
       {
         key: AIR_MARKETER?.EMAIL_REPORTS,
         label: 'Email Reports',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_MARKETER_EMAIL_MARKETING_EMAIL_REPORTS_PERMISSIONS,
       },
     ],
   },
@@ -344,12 +348,14 @@ export const AirMarketingRoutes: any = [
     label: 'Social Marketing',
     icon: SocialMarketingImage,
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions:
+      Permissions?.AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS,
     textNames: [
       {
         key: AIR_MARKETER?.SOCIAL_INBOX,
         label: 'SociaL Inbox',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_MARKETER_SOCIAL_MARKETING_SOCIAL_INBOX_PERMISSIONS,
       },
     ],
   },
@@ -359,7 +365,7 @@ export const AirMarketingRoutes: any = [
     icon: SmsMarketingImage,
     label: 'SMS Marketing',
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions?.AIR_MARKETER_SMS_MARKETING,
   },
   {
     key: AIR_MARKETER?.LEAD_CAPTURE,
@@ -371,12 +377,12 @@ export const AirMarketingRoutes: any = [
       {
         key: AIR_MARKETER?.LEAD_CAPTURE_CTA,
         label: 'CTA',
-        permissions: [],
+        permissions: Permissions?.AIR_MARKETER_LEAD_CAPTURE,
       },
       {
         key: AIR_MARKETER?.LEAD_CAPTURE_FORMS,
         label: 'Forms',
-        permissions: [],
+        permissions: Permissions?.AIR_MARKETER_LEAD_CAPTURE_FORM,
       },
     ],
   },
@@ -385,7 +391,7 @@ export const AirMarketingRoutes: any = [
     icon: ReportsImage,
     label: 'Reports',
     role: 'AIR_MARKETER',
-    permissions: [],
+    permissions: Permissions?.AIR_MARKETER_REPORTS,
   },
 ];
 
@@ -402,7 +408,7 @@ export const CustomerPortalRoutes: any = [
     icon: TicketDiscountImage,
     label: 'Tickets',
     role: 'CUSTOMER_PORTAL',
-    permissions: [],
+    permissions: Permissions?.AIR_CUSTOMER_PORTAL_TICKETS,
   },
   {
     key: '/air-customer-portal/knowledge-base',
@@ -416,59 +422,31 @@ export const CustomerPortalRoutes: any = [
     icon: WorkLoadImage,
     label: 'Catalog',
     role: 'CUSTOMER_PORTAL',
-    permissions: [],
+    permissions: Permissions?.AIR_CUSTOMER_PORTAL_CATALOG_LAYOUT,
   },
 ];
 
 export const AirOperationsRoutes: any = [
   {
     key: AIR_OPERATION?.root,
-    icon: DashboardImage,
-    label: 'Dashboard',
-    role: 'AIR_OPERATIONS',
-    permissions: [],
-  },
-  {
-    key: AIR_OPERATION?.DATA_MANAGEMENT,
     icon: DataManagementImage,
     label: 'Data Management',
     role: 'AIR_OPERATIONS',
-    permissions: [],
+    permissions: Permissions?.AIR_OPERATIONS_DATA_MANAGEMENT,
   },
-  // {
-  //   key: AIR_OPERATION?.INTEGRATIONS,
-  //   icon: IntegrationsImage,
-  //   label: 'Integrations',
-  //   role: 'AIR_OPERATIONS',
-  //   permissions: [],
-  // },
   {
     key: AIR_OPERATION?.WORK_FLOW,
     icon: WorkFlowAutomationImage,
     label: 'Workflow',
     role: 'AIR_OPERATIONS',
-    permissions: [],
-  },
-  // {
-  //   key: AIR_OPERATION?.REPORTS,
-  //   icon: ReportsImage,
-  //   label: 'Reports',
-  //   role: 'AIR_OPERATIONS',
-  //   permissions: [],
-  // },
-  {
-    key: AIR_OPERATION?.ROLE_AND_RIGHT,
-    icon: ForecastImage,
-    label: 'Role and Rights',
-    role: 'AIR_OPERATIONS',
-    permissions: [],
+    permissions: Permissions?.AIR_OPERATIONS_WORKFLOWS,
   },
   {
     key: AIR_OPERATION?.USER_MANAGEMENT,
     icon: ProfileUserManagementImage,
     label: 'User Management',
     role: 'AIR_OPERATIONS',
-    permissions: [],
+    permissions: Permissions?.AIR_OPERATIONS_USER_MANAGEMENT,
   },
 ];
 
@@ -537,47 +515,47 @@ export const LowerSuperAdminRoutes = [
       {
         key: '/super-admin/settings/jobs',
         label: 'Jobs',
-        permissions: [],
+        permissions: Permissions?.SETTING_JOBS,
       },
       {
         key: '/super-admin/settings/faqs',
         label: 'FAQs',
-        permissions: [],
+        permissions: Permissions?.SETTING_FAQ,
       },
       {
         key: '/super-admin/settings/enquiries',
         label: 'Enquiries',
-        permissions: [],
+        permissions: Permissions?.SETTING_ENQUIRIES,
       },
       {
         key: '/super-admin/settings/tax-calculation',
         label: 'Tax Calculation',
-        permissions: [],
+        permissions: Permissions?.SETTING_TAX_CALCULATION,
       },
       {
         key: '/super-admin/settings/quick-links',
         label: 'Quick Links',
-        permissions: [],
+        permissions: Permissions?.SETTING_QUICK_LINKS,
       },
       {
         key: '/super-admin/settings/news-and-events',
         label: 'News And Events',
-        permissions: [],
+        permissions: Permissions?.SETTING_NEWS_EVENTS,
       },
       {
         key: '/super-admin/settings/module-creation',
         label: 'Module Creation',
-        permissions: [],
+        permissions: Permissions?.SETTING_MODULE_CREATION,
       },
       {
         key: '/super-admin/settings/product-list',
         label: 'Product List',
-        permissions: [],
+        permissions: Permissions?.SETTING_PRODUCT_LIST,
       },
       {
         key: '/super-admin/settings/product-features',
         label: 'Product Feature',
-        permissions: [],
+        permissions: Permissions?.SETTING_PRODUCT_FEATURES,
       },
     ],
   },
@@ -778,9 +756,9 @@ export const QuickLinkData = [
   },
 ];
 
-const ROLES_ROUTES: any = {
+const PRODUCT__ROUTES: any = {
   SUPER_ADMIN: SuperAdminRoutes,
-  ORG_EMPLOYEE: SalesRoutes,
+  'Air Sales': SalesRoutes,
   'Air Services': ServicesRoutes,
   ORG_ADMIN: OrgAdminRoutes,
   'Customer Portal': CustomerPortalRoutes,
@@ -790,10 +768,10 @@ const ROLES_ROUTES: any = {
 };
 
 export const getRoutes = (role: any) => {
-  return ROLES_ROUTES[role];
+  return PRODUCT__ROUTES[role];
 };
 
-const LOWER_ROLES_ROUTES: any = {
+const LOWER_PRODUCT_ROUTES: any = {
   'Super Admin': LowerSuperAdminRoutes,
   'Air Sales': LowerSalesRoutes,
   'Air Services': LowerServicesRoutes,
@@ -804,7 +782,7 @@ const LOWER_ROLES_ROUTES: any = {
 };
 
 export const getLowerRoutes = (role: any) => {
-  return LOWER_ROLES_ROUTES[role];
+  return LOWER_PRODUCT_ROUTES[role];
 };
 
 export const zeroPaddingRoutes = [

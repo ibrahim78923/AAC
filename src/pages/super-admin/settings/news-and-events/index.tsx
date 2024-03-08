@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import NewsAndEvents from '@/modules/superAdmin/settings/NewsAndEvents';
 const NewsAndEventsPage = () => {
@@ -5,5 +6,5 @@ const NewsAndEventsPage = () => {
 };
 export default NewsAndEventsPage;
 NewsAndEventsPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return <Layout permissions={Permissions?.SETTING_NEWS_EVENTS}>{page}</Layout>;
 };

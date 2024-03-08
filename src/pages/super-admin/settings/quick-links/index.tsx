@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import QuickLinks from '@/modules/superAdmin/settings/QuickLinks';
 const QuickLinksPage = () => {
@@ -5,5 +6,5 @@ const QuickLinksPage = () => {
 };
 export default QuickLinksPage;
 QuickLinksPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return <Layout permissions={Permissions?.SETTING_QUICK_LINKS}>{page}</Layout>;
 };

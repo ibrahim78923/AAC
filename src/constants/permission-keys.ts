@@ -17,7 +17,7 @@ export const SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
   VIEW_COMPANY_ACCOUNTS: 'view-company-accounts',
   ADD_COMPANY_ACCOUNTS: 'add-company-account',
   VIEW_SUB_USER_PROFILE: 'view-sub-user-profile',
-  UPDATE_SUB_USER_PROFILE: 'update-sub-user- profile',
+  UPDATE_SUB_USER_PROFILE: 'update-sub-user-profile',
   VIEW_DELEGATES: 'view-delegates',
   ACTIVE_INACTIVE_USERS: 'active-inactive-users',
   ACTIVE_INACTIVE_ACCOUNTS: 'active-inactive-accounts',
@@ -35,21 +35,18 @@ export const SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS = {
   VIEW_ROLE: 'view-role',
   ACTIVE_INACTIVE_ROLES: 'active-inactive-roles',
 };
+export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS_KEYS = {
+  PLAN_LIST: 'plan-list',
+  PLAN_SEARCH_AND_FILTER: 'plan-search-and-filter',
+  ADD_PLAN: 'add-plan',
+  ACTION_INACTIVE_PLANS: 'active-inactive-plans',
+  EDIT_PLAN: 'edit-plan',
+  VIEW_PLAN: 'view-plan',
+};
 
 export const SUPER_ADMIN_REPORTS_PERMISSIONS = {
   view_invoice_report: 'view-invoice-report',
   view_user_report: 'view-user-report',
-};
-
-export const ORG_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
-  ADD_USER: 'org-add-user',
-  USER_SEARCH_AND_FILTER: 'org-user-search-and-filter',
-  VIEW_USERs: 'org-view-users',
-  VIEW_COMPANY: 'view-company',
-  VIEW_USER_PROFILE: 'org-view-user-profile',
-  ADD_ACCOUNTS: 'org-add-accounts',
-  ORG_EDIT_PRFILE: 'org-edit-profile',
-  ORG_ACTIVE_INACTIVE_USERS: 'org-active-inactive-users',
 };
 
 export const AIR_SALES_INVOICES_PERMISSIONS = {
@@ -148,7 +145,7 @@ export const SUPER_ADMIN_SETTINGS_PRODUCT_LIST_PERMISSIONS = {
 export const SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS = {
   Select_Products: 'select-feature-products',
   Product_List: 'product-list',
-  Search: 'feature-search-and-filters',
+  Search: 'feature-serach-and-filters',
   Edit_Features: 'edit-feature',
   Add_Features: 'add-feature',
   Active_Inactive_Features: 'active-inactive-feature',
@@ -318,87 +315,48 @@ export const AIR_MARKETER_SETTINGS_PERMISSIONS = {
     'marketer-settings-notifications-email-active-inactive',
 };
 
-// export const AIR_MARKETER_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS = {
-//   SEARCH: 'marketer-settings-lifecycle-stage-search',
-//   ADD_STAGE: 'marketer-settings-lifecycle-stage-add-stage',
-//   VIEW: 'marketer-settings-lifecycle-stage-view-stage',
-//   EDIT: 'marketer-settings-lifecycle-stage-edit-stage',
-//   DELETE: 'marketer-settings-lifecycle-stage-delete-stage',
-// };
-// export const AIR_MARKETER_SETTINGS_SOCIAL_ACCOUNTS_PERMISSIONS = {
-//   CONNECT: 'marketer-settings-social-account-connect',
-//   VIEW_ACCOUNT: 'marketer-settings-social-account-view-account',
-//   SEARCH: 'marketer-settings-social-account-search',
-//   ADD_ACCOUNT: 'marketer-settings-social-account-add-account',
-//   ADD_CONTACT: 'marketer-settings-social-account-add-contact',
-//   ACTIVE_INACTIVE: 'marketer-settings-social-account-active-inactive',
-// };
-// export const AIR_MARKETER_SETTINGS_ROLES_AND_RIGHTS_PERMISSIONS = {
-//   ADD_NEW_ROLE: 'marketer-settings-roles-and-rights-add-new-role',
-//   SEARCH: 'marketer-settings-roles-and-rights-search',
-//   VIEW: 'marketer-settings-roles-and-rights-view',
-//   EDIT: 'marketer-settings-roles-and-rights-edit',
-//   DELETE: 'marketer-settings-roles-and-rights-delete',
-// };
-// export const AIR_MARKETER_SETTINGS_USER_MANAGEMENT_USERS_PERMISSIONS = {
-//   SEARCH: 'marketer-settings-users-management-search',
-//   ADD_USER: 'marketer-settings-users-management-add-user',
-//   ACTIVE_INACTIVE: 'marketer-settings-users-management-active-inactive-user',
-//   VIEW: 'marketer-settings-users-management-view-user',
-//   EDIT: 'marketer-settings-users-management-edit-user',
-//   DELETE: 'marketer-settings-users-management-delete-user',
-// };
-// export const AIR_MARKETER_SETTINGS_USER_MANAGEMENT_TEAMS_PERMISSIONS = {
-//   SEARCH: 'marketer-settings-users-management-team-search',
-//   CREATE_TEAM: 'marketer-settings-users-management-team-create',
-//   VIEW: 'marketer-settings-users-management-team-view',
-//   EDIT: 'marketer-settings-users-management-team-edit',
-//   DELETE: 'marketer-settings-users-management-team-delete',
-// };
-// export const AIR_MARKETER_SETTINGS_NOTIFICATIONS_EMAIL_PERMISSIONS = {
-//   ACTIVE_INACTIVE: 'marketer-settings-notifications-email-active-inactive',
-// };
+export const AIR_MARKETER_LEAD_CAPTURE_PERMISSIONS = {
+  PREVIEW: 'marketer-lead-capture-preview',
+  EDIT: 'marketer-lead-capture-edit',
+  REDIRECT: 'marketer-lead-capture-redirect',
+  DELETE: 'marketer-lead-capture-delete',
+  CREATE_CTA: 'marketer-lead-capture-create-cta',
+  EXPORT: 'marketer-lead-capture-export',
+  GRID_VIEW: 'marketer-lead-capture-grid-view',
+  SERACH: 'marketer-lead-capture-search',
+  ACTIONS: 'marketer-lead-capture-actions',
+};
+
+export const AIR_MARKETER_LEAD_CAPTURE_FORM_PERMISSIONS = {
+  ADD_FORM: 'marketer-forms-add-forms',
+  ALL: 'marketer-forms-all',
+  PUBLISHED: 'marketer-forms-published',
+  DRAFT: 'marketer-forms-draft',
+  TRASH: 'marketer-forms-trash',
+  SEARCH: 'marketer-forms-search',
+  GRID_VIEW: 'marketer-forms-grid-view',
+  FORM_DETAILS: 'marketer-forms-forms-detail',
+  OVERVIEW: 'marketer-forms-overview',
+  VIEW: 'marketer-forms-view',
+  EDIT: 'marketer-forms-edit',
+  ACTION: 'marketer-forms-action',
+  SUBMISSION: 'marketer-forms-submission',
+  EXPORT: 'marketer-forms-export',
+  RESPONSES: 'marketer-forms-responses',
+};
+
+export const AIR_MARKETER_REPORTS_PERMISSIONS = {
+  LEAD_CTAS: 'marketer-reports-lead-cta',
+  EMAIL_MARKETING: 'marketer-email-marketing',
+  ADS_CAMPAIGNS: 'marketer-ads-campaigns',
+};
+
 export const AIR_MARKETER_SETTINGS_NOTIFICATIONS_CAMPAIGNS_PERMISSIONS = {
   ACTIVE_INACTIVE: 'marketer-settings-notifications-campaigns-active-inactive',
 };
 export const AIR_MARKETER_SETTINGS_NOTIFICATIONS_WEBSITES_PERMISSIONS = {
   ACTIVE_INACTIVE: 'marketer-settings-notifications-websites-active-inactive',
 };
-
-// export const AIR_MARKETER_WHATSAPP_MARKETING_DASHBOARD_PERMISSIONS = {
-//   VIEW_DASHBOARD: 'marketer-whatsapp-marketing-dashboard-view-dashboard',
-//   VIEW_TOTAL_CONVERSATION:
-//     'marketer-whatsapp-marketing-dashboard-view-total-conversation',
-//   VIEW_BROADCAST_SCHEDULE:
-//     'marketer-whatsapp-marketing-dashboard-view-broadcast-schedule',
-//   VIEW_CONTACT: 'marketer-whatsapp-marketing-dashboard-view-contacts',
-// };
-// export const AIR_MARKETER_WHATSAPP_MARKETING_BROADCAST_PERMISSIONS = {
-//   CREATE_BROADCAST: 'marketer-whatsapp-marketing-broadcast-create-broadcast',
-//   PREVIEW_BROADCAST: 'marketer-whatsapp-marketing-broadcast-preview-broadcast',
-//   SCHEDULE_BROADCAST:
-//     'marketer-whatsapp-marketing-broadcast-schedule-broadcast',
-//   SEND_BROADCAST: 'marketer-whatsapp-marketing-broadcast-send-broadcast',
-//   VIEW_BROADCAST: 'marketer-whatsapp-marketing-broadcast-view-broadcast',
-//   SEARCH_AND_FILTER: 'marketer-whatsapp-marketing-broadcast-search-and-filter',
-//   ACTIONS: 'marketer-whatsapp-marketing-broadcast-actions',
-//   EDIT_BROADCAST: 'marketer-whatsapp-marketing-broadcast-edit-broadcast',
-//   DELETE_BROADCAST: 'marketer-whatsapp-marketing-broadcast-delete-broadcast',
-//   LIST_VIEW: 'marketer-whatsapp-marketing-broadcast-list-broadcast',
-//   DETAIL_VIEW: 'marketer-whatsapp-marketing-broadcast-detail-view',
-// };
-// export const AIR_MARKETER_WHATSAPP_MARKETING_CONTACTS_PERMISSIONS = {
-//   CREATE_GROUP: 'marketer-whatsapp-marketing-contacts-create-group',
-//   LIST_VIEW: 'marketer-whatsapp-marketing-contacts-list-view',
-// };
-// export const AIR_MARKETER_WHATSAPP_MARKETING_TEMPLATES_PERMISSIONS = {
-//   CREATE_TEMPLATE: 'marketer-whatsapp-marketing-templates-create-template',
-//   SEARCH: 'marketer-whatsapp-marketing-templates-search-and-filter',
-//   SAVE_TEMPLATE: 'marketer-whatsapp-marketing-templates-save-template',
-//   EDIT_TEMPLATE: 'marketer-whatsapp-marketing-templates-edit-template',
-//   DELETE_TEMPLATE: 'marketer-whatsapp-marketing-templates-delete-template',
-//   LIST_VIEW: 'marketer-whatsapp-marketing-templates-list-view',
-// };
 
 export const AIR_SALES_DASHBOARD_PERMISSIONS = {
   SALES_DASHBOARD_LIST: 'sales-dashboard-list',
@@ -788,6 +746,56 @@ export const AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS = {
   EDIT: `operation-user-managment-edit`,
   DELETE: `operation-user-managment-delete`,
   CREATE_TEAM: `operation-user-managment-create-team`,
+};
+
+// Org-Admin Roles & Right
+export const ORG_ADMIN_DASHBOARD_PERMISSIONS = {
+  DASHBOARD: 'org-dashboard',
+};
+
+export const ORG_ADMIN_USERS_PERMISSIONS = {
+  ADD_USER: 'org-add-user',
+  SEARCH_AND_FILTER: 'org-user-search-and-filter',
+  VIEW_USERS: 'org-view-users',
+  VIEW_COMPONY_ACCOUNTS: 'org-view-company-accounts',
+  VIEW_USER_PROFILE: 'org-view-user-profile',
+  ADD_ACCOUNTS: 'org-add-accounts',
+  EDIT_PROFILE: 'org-edit-profile',
+  ACTIVE_INACTIVE_USERS: 'org-active-inactive-users',
+};
+
+export const ORG_ADMIN_ORGANIZATION_PERMISSIONS = {
+  COMPANY_ACCOUNT_LIST: 'org-view-account-list',
+  ADD_COMPANY_ACCOUNT: 'org-add-company-account',
+  EDIT_ACCOUNT: 'org-edit-account',
+  VIEW_ACCOUNT: 'org-view-account',
+  EDIT_INFO: 'org-edit-info',
+};
+
+export const ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS = {
+  SUBSCRIPTION_VIEW_PRODUCTS_PLANS: 'org-view-product-and-plans',
+  SUBSCRIPTION_VIEW_BILLING_DETAILS: 'org-view-billing-detail',
+  SUBSCRIPTION_MANAGE_PLAN: 'org-manage-plan',
+  SUBSCRIPTION_CHANGE_PLAN: 'org-change-plan',
+  SUBSCRIPTION_UPDATE_SUBSCRIPTION: 'org-update-subscription',
+  SUBSCRIPTION_BUY_PLAN: 'org-buy-plan',
+  SUBSCRIPTION_ADD_ADDITIONAL_USER: 'org-add-additional-user',
+  SUBSCRIPTION_ADD_ADDITIONAL_STORAGE: 'org-add-additional-storage',
+  INVOICES_LIST_VIEW: 'org-view-invoice-list',
+  INVOICES_PAY_INVOICE: 'org-pay-invoice',
+  INVOICES_VIEW_INVOICE: 'org-view-invoice',
+  INVOICES_SEARCH_INVOICE: 'org-search-and-filter',
+  PAYMENT_METHODS_ADD_CARD: 'org-add-card',
+};
+
+export const ORG_ADMIN_PROPERTIES_PERMISSIONS = {
+  SELECT_PRODUCT: 'org-select-product',
+  SEARCH_AND_FILTER: 'org-properties-search-and-filter',
+  COMPANY_ACCOUNT_LIST: 'org-properties-company-account-list',
+  MODULE_LIST: 'org-properties-module-list',
+  CREATE_PROPERTY: 'org-create-property',
+  EDIT_PROPERTY: 'org-edit-property',
+  DELETE_PROPERTY: 'org-delete-property',
 };
 
 export const AIR_MARKETER_DASHBAORD_PERMISSIONS = {

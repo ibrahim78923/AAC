@@ -48,6 +48,11 @@ export const ticketsActionDropdownFunction = (
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Assign To',
     handleClick: (closeMenu: any) => {
+      if (selectedTicketList?.length > 1) {
+        errorSnackbar('Please select only one ticket');
+        closeMenu?.();
+        return;
+      }
       setTicketAction(TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET);
       closeMenu?.();
     },
@@ -80,6 +85,11 @@ export const ticketsActionDropdownFunction = (
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Move',
     handleClick: (closeMenu: any) => {
+      if (selectedTicketList?.length > 1) {
+        errorSnackbar('Please select only one ticket');
+        closeMenu?.();
+        return;
+      }
       setTicketAction(TICKETS_ACTION_CONSTANTS?.MOVE_TICKET);
       closeMenu?.();
     },
@@ -89,6 +99,11 @@ export const ticketsActionDropdownFunction = (
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Mark as Close',
     handleClick: (closeMenu: any) => {
+      if (selectedTicketList?.length > 1) {
+        errorSnackbar('Please select only one ticket');
+        closeMenu?.();
+        return;
+      }
       updateTicketStatus?.(TICKET_STATUS?.CLOSED);
       closeMenu?.();
     },
@@ -98,6 +113,11 @@ export const ticketsActionDropdownFunction = (
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS],
     title: 'Mark as Spam',
     handleClick: (closeMenu: any) => {
+      if (selectedTicketList?.length > 1) {
+        errorSnackbar('Please select only one ticket');
+        closeMenu?.();
+        return;
+      }
       updateTicketStatus?.(TICKET_STATUS?.SPAM);
       closeMenu?.();
     },
