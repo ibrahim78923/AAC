@@ -1,5 +1,7 @@
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 import { Box } from '@mui/material';
 
 import * as Yup from 'yup';
@@ -27,15 +29,27 @@ export const columnsTeams: any = [
     header: 'Action',
     cell: () => (
       <Box sx={{ display: 'flex', gap: 0.5 }}>
-        <Box sx={{ cursor: 'pointer' }}>
-          <ViewEyeIcon />
-        </Box>
-        <Box sx={{ cursor: 'pointer' }}>
-          <EditPenIcon />
-        </Box>
-        <Box sx={{ cursor: 'pointer' }}>
-          <DeleteCrossIcon />
-        </Box>
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.VIEW_TEAMS]}
+        >
+          <Box sx={{ cursor: 'pointer' }}>
+            <ViewEyeIcon />
+          </Box>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.EDIT_TEAMS]}
+        >
+          <Box sx={{ cursor: 'pointer' }}>
+            <EditPenIcon />
+          </Box>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.DELETE_TEAMS]}
+        >
+          <Box sx={{ cursor: 'pointer' }}>
+            <DeleteCrossIcon />
+          </Box>
+        </PermissionsGuard>
       </Box>
     ),
   },

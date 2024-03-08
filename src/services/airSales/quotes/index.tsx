@@ -1,5 +1,8 @@
 import { baseAPI } from '@/services/base-api';
-import { END_POINTS } from '@/routesConstants/endpoints';
+import {
+  END_POINTS,
+  settingSalesProductCategory,
+} from '@/routesConstants/endpoints';
 
 const TAG = ['AIR_SALES_QUOTES'];
 export const quotesAPI = baseAPI.injectEndpoints({
@@ -98,7 +101,40 @@ export const quotesAPI = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['COMPANY'],
+      invalidatesTags: TAG,
+    }),
+    deleteProducts: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.DELETE_ASSOCIATION}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+    postAddbuyerInfo: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.POST_BUYER_INFO,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: TAG,
+    }),
+    createAssociationQuote: builder.mutation({
+      query: ({ body }: any) => ({
+        url: END_POINTS?.CREATE_ASSOCIATION,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+    getProductCatagories: builder.query({
+      query: () => ({
+        url: settingSalesProductCategory.GET_SALES_PRODUCT_CATEGORY,
+        method: 'GET',
+      }),
+      providesTags: TAG,
     }),
   }),
 });
@@ -115,4 +151,8 @@ export const {
   useGetCompaniesOwnersQuery,
   useGetUsersListQuery,
   usePostProductMutation,
+  usePostAddbuyerInfoMutation,
+  useCreateAssociationQuoteMutation,
+  useGetProductCatagoriesQuery,
+  useDeleteProductsMutation,
 } = quotesAPI;

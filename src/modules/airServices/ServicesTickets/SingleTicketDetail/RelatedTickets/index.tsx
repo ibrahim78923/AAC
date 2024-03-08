@@ -3,6 +3,8 @@ import { useRelatedTickets } from './useRelatedTickets';
 import { RelatedTicketsHeader } from './RelatedTicketsHeader';
 import { UpsertRelatedTicket } from './UpsertRelatedTicket';
 import { DeleteRelatedTicket } from './DeleteRelatedTicket';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
 const RelatedTickets = (props: any) => {
   const {
@@ -43,47 +45,53 @@ const RelatedTickets = (props: any) => {
         />
       )}
       <br />
-      <TanstackTable
-        isLoading={isLoading}
-        data={
-          data?.data?.tickets?.length > 1
-            ? data?.data?.tickets
-            : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_TICKETS_TICKETS_DETAILS?.CHILD_TICKET_LIST_VIEW,
+        ]}
+      >
+        <TanstackTable
+          isLoading={isLoading}
+          data={
+            data?.data?.tickets?.length > 1
+              ? data?.data?.tickets
+              : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
               ? data?.data?.tickets
               : []
-        }
-        activeCheck={selectedChildTickets}
-        columns={relatedTicketsColumns}
-        isFetching={isFetching}
-        isError={isError}
-        isSuccess={isSuccess || true}
-        pageLimit={data?.data?.meta?.limit}
-        currentPage={
-          data?.data?.tickets?.length > 1
-            ? data?.data?.meta?.page
-            : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+          }
+          activeCheck={selectedChildTickets}
+          columns={relatedTicketsColumns}
+          isFetching={isFetching}
+          isError={isError}
+          isSuccess={isSuccess || true}
+          pageLimit={data?.data?.meta?.limit}
+          currentPage={
+            data?.data?.tickets?.length > 1
+              ? data?.data?.meta?.page
+              : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
               ? data?.data?.meta?.page
               : 0
-        }
-        count={
-          data?.data?.tickets?.length > 1
-            ? data?.data?.meta?.pages
-            : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+          }
+          count={
+            data?.data?.tickets?.length > 1
+              ? data?.data?.meta?.pages
+              : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
               ? data?.data?.meta?.pages
               : 0
-        }
-        totalRecords={
-          data?.data?.tickets?.length > 1
-            ? data?.data?.meta?.total
-            : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+          }
+          totalRecords={
+            data?.data?.tickets?.length > 1
+              ? data?.data?.meta?.total
+              : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
               ? data?.data?.meta?.total
               : 0
-        }
-        onPageChange={(page: any) => setPage(page)}
-        setPage={setPage}
-        setPageLimit={setPageLimit}
-        isPagination
-      />
+          }
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          isPagination
+        />
+      </PermissionsGuard>
       {isDelete && (
         <DeleteRelatedTicket
           isDelete={isDelete}

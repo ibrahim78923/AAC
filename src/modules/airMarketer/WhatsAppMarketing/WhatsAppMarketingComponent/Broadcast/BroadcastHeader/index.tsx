@@ -8,6 +8,8 @@ import { styles } from './BroadcastHeader.style';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import { useRouter } from 'next/navigation';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 
 const BroadcastHeader = (props: BroadcastHeaderI) => {
   const router = useRouter();
@@ -28,53 +30,73 @@ const BroadcastHeader = (props: BroadcastHeaderI) => {
   return (
     <Box sx={styles?.cont}>
       <Box sx={styles?.headerLeft}>
-        <SwitchableDatepicker
-          renderInput="date"
-          dateValue={dateValue}
-          setDateValue={setDateValue}
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.SEARCH_AND_FILTER,
+          ]}
+        >
+          <SwitchableDatepicker
+            renderInput="date"
+            dateValue={dateValue}
+            setDateValue={setDateValue}
+          />
+        </PermissionsGuard>
       </Box>
       <Stack direction="row" spacing={'8px'} sx={styles?.headerRight}>
-        <Search size="small" placeholder="Search Here" />
-        <Box>
-          <Button
-            className="small"
-            onClick={handleStatusMenuClick}
-            variant="outlined"
-            color="inherit"
-            sx={{
-              borderColor: theme?.palette?.custom?.dark,
-              color: theme?.palette?.custom?.main,
-            }}
-          >
-            Status
-            <ArrowDropDown />
-          </Button>
-          <Menu
-            anchorEl={statusEl}
-            open={statusMenuOpen}
-            onClose={handleStatusMenuClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            sx={{
-              '& .MuiList-root': {
-                minWidth: '190px',
-              },
-            }}
-          >
-            <MenuItem value={'completed'}>Completed</MenuItem>
-            <MenuItem value={'scheduled'}>Scheduled</MenuItem>
-            <MenuItem value={'stopped'}>Stopped</MenuItem>
-            <MenuItem value={'processing'}>Processing</MenuItem>
-            <MenuItem value={'draft'}>Draft</MenuItem>
-          </Menu>
-        </Box>
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.SEARCH_AND_FILTER,
+          ]}
+        >
+          <Search size="small" placeholder="Search Here" />
+        </PermissionsGuard>
+
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.SEARCH_AND_FILTER,
+          ]}
+        >
+          <Box>
+            <Button
+              className="small"
+              onClick={handleStatusMenuClick}
+              variant="outlined"
+              color="inherit"
+              sx={{
+                borderColor: theme?.palette?.custom?.dark,
+                color: theme?.palette?.custom?.main,
+              }}
+            >
+              Status
+              <ArrowDropDown />
+            </Button>
+            <Menu
+              anchorEl={statusEl}
+              open={statusMenuOpen}
+              onClose={handleStatusMenuClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              sx={{
+                '& .MuiList-root': {
+                  minWidth: '190px',
+                },
+              }}
+            >
+              <MenuItem value={'completed'}>Completed</MenuItem>
+              <MenuItem value={'scheduled'}>Scheduled</MenuItem>
+              <MenuItem value={'stopped'}>Stopped</MenuItem>
+              <MenuItem value={'processing'}>Processing</MenuItem>
+              <MenuItem value={'draft'}>Draft</MenuItem>
+            </Menu>
+          </Box>
+        </PermissionsGuard>
+
         <Box>
           <Button
             className="small"
@@ -108,22 +130,36 @@ const BroadcastHeader = (props: BroadcastHeaderI) => {
               },
             }}
           >
-            <MenuItem
-              onClick={() => {
-                handleActionsMenuClose();
-                router.push(AIR_MARKETER?.WHATSAPP_MERKETING_UPDATE_BROADCAST);
-              }}
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.EDIT_BROADCAST,
+              ]}
             >
-              Edit
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                handleOpenDelete();
-                handleActionsMenuClose();
-              }}
+              <MenuItem
+                onClick={() => {
+                  handleActionsMenuClose();
+                  router.push(
+                    AIR_MARKETER?.WHATSAPP_MERKETING_UPDATE_BROADCAST,
+                  );
+                }}
+              >
+                Edit
+              </MenuItem>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.DELETE_BROADCAST,
+              ]}
             >
-              Delete
-            </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleOpenDelete();
+                  handleActionsMenuClose();
+                }}
+              >
+                Delete
+              </MenuItem>
+            </PermissionsGuard>
           </Menu>
         </Box>
       </Stack>
