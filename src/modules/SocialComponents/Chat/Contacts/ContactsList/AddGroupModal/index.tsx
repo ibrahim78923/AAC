@@ -32,6 +32,7 @@ import {
   useCreateNewGroupMutation,
   useGetChatUsersQuery,
 } from '@/services/chat';
+import { PAGINATION } from '@/config';
 
 const AddGroupModal = ({
   isAddGroupModal,
@@ -109,8 +110,8 @@ const AddGroupModal = ({
   const { data: chatsUsers } = useGetChatUsersQuery({
     params: {
       organization: user?.organization?._id,
-      page: '1',
-      limit: '20',
+      page: PAGINATION?.CURRENT_PAGE,
+      limit: PAGINATION?.PAGE_LIMIT,
       role: user?.role,
     },
   });

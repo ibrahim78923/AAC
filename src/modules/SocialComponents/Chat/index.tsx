@@ -230,7 +230,7 @@ const Chat = () => {
                     );
                     return (
                       <>
-                        {user._id !== item.id && (
+                        {user?._id !== item?.id && (
                           <Button
                             key={uuidv4()}
                             sx={styles?.userCard}
