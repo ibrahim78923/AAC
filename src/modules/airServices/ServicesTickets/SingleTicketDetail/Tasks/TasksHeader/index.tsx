@@ -3,6 +3,8 @@ import { ActionButtonIcon, CirclePlusIcon } from '@/assets/icons';
 import { AlertModals } from '@/components/AlertModals';
 import { useTasksHeader } from './useTasksHeader';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
 export const TasksHeader = (props: any) => {
   const { activeCheck } = props;
@@ -70,28 +72,44 @@ export const TasksHeader = (props: any) => {
             horizontal: 'left',
           }}
         >
-          <MenuItem onClick={openEditDrawer}>Edit</MenuItem>
-          <MenuItem onClick={() => setDeleteModal(true)}>Delete</MenuItem>
-          <MenuItem onClick={handleActionExportClick}>
-            Export Task
-            <Menu
-              open={openActionExport}
-              anchorEl={actionExportPop}
-              onClose={handleActionExportClose}
-              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            >
-              <MenuItem onClick={csvExportHandler}>CSV</MenuItem>
-              <MenuItem onClick={excelExportHandler}>Excel</MenuItem>
-            </Menu>
-          </MenuItem>
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.EDIT_TASK]}
+          >
+            <MenuItem onClick={openEditDrawer}>Edit</MenuItem>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.DELETE_TASK]}
+          >
+            <MenuItem onClick={() => setDeleteModal(true)}>Delete</MenuItem>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.EXPORT_TASK]}
+          >
+            <MenuItem onClick={handleActionExportClick}>
+              Export Task
+              <Menu
+                open={openActionExport}
+                anchorEl={actionExportPop}
+                onClose={handleActionExportClose}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+              >
+                <MenuItem onClick={csvExportHandler}>CSV</MenuItem>
+                <MenuItem onClick={excelExportHandler}>Excel</MenuItem>
+              </Menu>
+            </MenuItem>
+          </PermissionsGuard>
         </Menu>
-        <Button
-          variant="contained"
-          onClick={openAddDrawer}
-          startIcon={<CirclePlusIcon />}
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_TASK]}
         >
-          Add New Task
-        </Button>
+          <Button
+            variant="contained"
+            onClick={openAddDrawer}
+            startIcon={<CirclePlusIcon />}
+          >
+            Add New Task
+          </Button>
+        </PermissionsGuard>
       </Grid>
       <AlertModals
         type={ALERT_MODALS_TYPE?.DELETE}

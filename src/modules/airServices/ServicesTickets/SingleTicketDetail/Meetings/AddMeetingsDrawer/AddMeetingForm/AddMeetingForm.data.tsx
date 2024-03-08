@@ -27,15 +27,15 @@ export const addMeetingValidationSchema: any = Yup?.object()?.shape({
 });
 
 export const addMeetingDefaultValues = {
-  title: '', //01
-  meetingNotes: '', //3
-  timeZone: null, //5
-  outcome: '', //6
-  attendees: [], //7
-  startDate: new Date(), //11
-  startTime: new Date(), //12
-  endDate: new Date(), //13
-  endTime: new Date(), //14
+  title: '',
+  meetingNotes: '',
+  timeZone: null,
+  outcome: '',
+  attendees: [],
+  startDate: new Date(),
+  startTime: new Date(),
+  endDate: new Date(),
+  endTime: new Date(),
   addVideoConferencing: '',
 };
 

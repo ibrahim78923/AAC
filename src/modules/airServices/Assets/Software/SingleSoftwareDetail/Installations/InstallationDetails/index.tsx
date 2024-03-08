@@ -2,6 +2,8 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { InstallationHeader } from './InstallationHeader';
 import { useInstallationDetail } from './useInstallationsDetail';
 import { installationTableColumns } from './InstallationTable.data';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
 
 export const InstallationDetails = () => {
   const {
@@ -22,7 +24,9 @@ export const InstallationDetails = () => {
     getInstallationListDataExport,
   } = useInstallationDetail();
   return (
-    <>
+    <PermissionsGuard
+      permissions={[AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.INSTALLATIONS]}
+    >
       <InstallationHeader
         activeCheck={activeCheck}
         setActiveCheck={setActiveCheck}
@@ -51,6 +55,6 @@ export const InstallationDetails = () => {
         setPage={setPage}
         setPageLimit={setPageLimit}
       />
-    </>
+    </PermissionsGuard>
   );
 };
