@@ -17,7 +17,7 @@ export const SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
   VIEW_COMPANY_ACCOUNTS: 'view-company-accounts',
   ADD_COMPANY_ACCOUNTS: 'add-company-account',
   VIEW_SUB_USER_PROFILE: 'view-sub-user-profile',
-  UPDATE_SUB_USER_PROFILE: 'update-sub-user- profile',
+  UPDATE_SUB_USER_PROFILE: 'update-sub-user-profile',
   VIEW_DELEGATES: 'view-delegates',
   ACTIVE_INACTIVE_USERS: 'active-inactive-users',
   ACTIVE_INACTIVE_ACCOUNTS: 'active-inactive-accounts',
@@ -34,6 +34,14 @@ export const SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS = {
   EDIT_ROLE: 'edit-role',
   VIEW_ROLE: 'view-role',
   ACTIVE_INACTIVE_ROLES: 'active-inactive-roles',
+};
+export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS_KEYS = {
+  PLAN_LIST: 'plan-list',
+  PLAN_SEARCH_AND_FILTER: 'plan-search-and-filter',
+  ADD_PLAN: 'add-plan',
+  ACTION_INACTIVE_PLANS: 'active-inactive-plans',
+  EDIT_PLAN: 'edit-plan',
+  VIEW_PLAN: 'view-plan',
 };
 
 export const SUPER_ADMIN_REPORTS_PERMISSIONS = {
@@ -148,7 +156,7 @@ export const SUPER_ADMIN_SETTINGS_PRODUCT_LIST_PERMISSIONS = {
 export const SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS = {
   Select_Products: 'select-feature-products',
   Product_List: 'product-list',
-  Search: 'feature-search-and-filters',
+  Search: 'feature-serach-and-filters',
   Edit_Features: 'edit-feature',
   Add_Features: 'add-feature',
   Active_Inactive_Features: 'active-inactive-feature',

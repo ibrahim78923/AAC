@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 
 import AddRole from '@/modules/superAdmin/UserManagement/RolesAndRights/AddRole';
@@ -7,5 +8,5 @@ const AddRolePage = () => {
 };
 export default AddRolePage;
 AddRolePage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return <Layout permissions={Permissions?.user_management}>{page}</Layout>;
 };

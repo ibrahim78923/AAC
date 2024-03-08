@@ -9,6 +9,8 @@ import { columns, getFiltersDataArray } from './JobApplication.data';
 import { styles } from './JobsApplication.styles';
 import { v4 as uuidv4 } from 'uuid';
 import useJobApplication from './useJobApplication';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_JOB_APPLICATION_PERMISSIONS } from '@/constants/permission-keys';
 
 const JobApplication = () => {
   const {
@@ -30,47 +32,65 @@ const JobApplication = () => {
 
   return (
     <Box>
-      <Box sx={styles?.filterBar}>
-        <Box sx={styles?.search}>
-          <Search
-            setSearchBy={setSearchValue}
-            label="Search Here"
-            size="small"
-            width={'100%'}
+      <PermissionsGuard
+        permissions={[
+          SUPER_ADMIN_SETTINGS_JOB_APPLICATION_PERMISSIONS?.Application_List,
+        ]}
+      >
+        <Box sx={styles?.filterBar}>
+          <Box sx={styles?.search}>
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_JOB_APPLICATION_PERMISSIONS?.Search_and_Filter,
+              ]}
+            >
+              <Search
+                setSearchBy={setSearchValue}
+                label="Search Here"
+                size="small"
+                width={'100%'}
+              />
+            </PermissionsGuard>
+          </Box>
+          <Box sx={styles?.filterButtons}>
+            <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+              <Button
+                sx={styles?.refreshButton}
+                className="small"
+                onClick={handleRefresh}
+              >
+                <RefreshSharedIcon />
+              </Button>
+            </Tooltip>
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_JOB_APPLICATION_PERMISSIONS?.Search_and_Filter,
+              ]}
+            >
+              <Button
+                sx={styles?.filterButton}
+                className="small"
+                onClick={handleOpenFilters}
+              >
+                <FilterSharedIcon /> &nbsp; Filter
+              </Button>
+            </PermissionsGuard>
+          </Box>
+        </Box>
+        <Box>
+          <TanstackTable
+            columns={getColumns}
+            data={data?.data?.jobApplications}
+            isLoading={isLoading}
+            isPagination
+            count={data?.data?.meta?.pages}
+            totalRecords={data?.data?.meta?.total}
+            onPageChange={handlePageChange}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
           />
         </Box>
-        <Box sx={styles?.filterButtons}>
-          <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
-            <Button
-              sx={styles?.refreshButton}
-              className="small"
-              onClick={handleRefresh}
-            >
-              <RefreshSharedIcon />
-            </Button>
-          </Tooltip>
-          <Button
-            sx={styles?.filterButton}
-            className="small"
-            onClick={handleOpenFilters}
-          >
-            <FilterSharedIcon /> &nbsp; Filter
-          </Button>
-        </Box>
-      </Box>
-      <Box>
-        <TanstackTable
-          columns={getColumns}
-          data={data?.data?.jobApplications}
-          isLoading={isLoading}
-          isPagination
-          count={data?.data?.meta?.pages}
-          totalRecords={data?.data?.meta?.total}
-          onPageChange={handlePageChange}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-        />
-      </Box>
+      </PermissionsGuard>
       <CommonDrawer
         isDrawerOpen={openDrawerFilter}
         onClose={handleCloseFilters}
