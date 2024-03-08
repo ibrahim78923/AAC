@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 
 import PermissionDenied from '@/components/PermisisonDenied';
 import { getActivePermissionsSession } from '@/utils';
+import { Box } from '@mui/material';
 
 const useCurrentPermissions = () => {
   const permissions = getActivePermissionsSession();
@@ -14,21 +15,20 @@ function checkPermissions(permissions: any, modulePermissions: any) {
     componentPermissionsDictionary[value] = true;
   });
   return true;
-  // if (permissions?.length > 0) {
-  //   for (const permission of permissions) {
-  //     if (componentPermissionsDictionary[permission]) {
-  //       return true; // At least one permission is available
-  //     }
-  //   }
-  // }
-  // return false; // None of the permissions are available
+  if (permissions?.length > 0) {
+    for (const permission of permissions) {
+      if (componentPermissionsDictionary[permission]) {
+        return true; // At least one permission is available
+      }
+    }
+  }
+  return false; // None of the permissions are available
 }
 
 export default function PermissionsGuard({
   children,
   permissions,
-  sidebar,
-  isPage = false,
+  isPage,
 }: {
   children: ReactNode;
   permissions: any;
@@ -39,11 +39,9 @@ export default function PermissionsGuard({
   const permissionsCheck = checkPermissions(currentPermissions, permissions);
   if (permissionsCheck) {
     return <>{children}</>;
-  } else if (sidebar === 'ItemPermission') {
-    return '';
   } else if (isPage) {
-    <PermissionDenied />;
+    return <PermissionDenied />;
   } else {
-    return <></>;
+    return <Box></Box>;
   }
 }

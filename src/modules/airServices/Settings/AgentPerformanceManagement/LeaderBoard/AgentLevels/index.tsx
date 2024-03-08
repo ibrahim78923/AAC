@@ -25,6 +25,7 @@ const AgentLevels = () => {
         AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_AND_MANAGE_AGENT_LEVELS_POINTS,
       ]}
     >
+      <br />
       <FormProvider
         methods={agentLevelsPointsMethod}
         onSubmit={agentLevelsPointsMethod?.handleSubmit?.(handleSubmit)}

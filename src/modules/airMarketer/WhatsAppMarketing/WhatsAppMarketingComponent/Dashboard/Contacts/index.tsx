@@ -7,6 +7,8 @@ import useContacts from './useContacts';
 import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './Contacts.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 
 const SMSContacts = () => {
   const { theme } = useContacts();
@@ -20,19 +22,25 @@ const SMSContacts = () => {
           <Typography>
             <Box component={'span'} sx={{ color: 'primary.main' }}>
               Total Contacts:
-            </Box>{' '}
+            </Box>
             786
           </Typography>
           <Typography>
             <Box component={'span'} sx={{ color: 'primary.main' }}>
               New Contacts:
-            </Box>{' '}
+            </Box>
             94
           </Typography>
         </Stack>
         <Stack direction="row" justifyContent="space-between">
           <Typography variant="body2">Latest Added</Typography>
-          <Button size="small">View All</Button>
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_WHATSAPP_MARKETING_PERMISSIONS?.VIEW_CONTACT,
+            ]}
+          >
+            <Button size="small">View All</Button>
+          </PermissionsGuard>
         </Stack>
 
         <Box className="cardWrapper">

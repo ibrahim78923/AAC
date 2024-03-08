@@ -185,6 +185,7 @@ export const END_POINTS = {
   VENDOR_DROPDOWN: '/vendors/get-vendors',
   CONTRACT_TYPE_DROPDOWN: '/contract-type',
   DROPDOWN_AGENTS_LIST: '/dropdown/agents',
+  GET_PURCHASE_ORDER_OVERVIEW: '/assets/purchaseorder',
   ASSETS_CONTRACT_DELETE: '/contract/{id}',
   KNOWLEDGE_BASE_ARTICLES: `/articles/get-all-articles`,
   KNOWLEDGE_BASE_ARTICLE: `/articles/get-by-id`,
@@ -240,6 +241,7 @@ export const END_POINTS = {
   DROPDOWN_SOFTWARE: `/assets/get-software`,
   DROPDOWN_ALL_AGENTS: '/dropdown/agents',
   EDIT_NEW_ITEM: '/assets/purchaseorder',
+  PURCHASE_ORDER_STATUS: '/assets/status-purchaseorder',
   VENDOR_PRODUCT_DROPDOWN: `/product-catalog/vendor-product-list`,
   PURCHASE_ORDER: `/assets/purchaseorder`,
   GET_SINGLE_ASSETS_CONTRACT: '/contract/get-contract',
@@ -271,6 +273,7 @@ export const END_POINTS = {
   PATCH_APPROVAL_STATUS: `/assets/approver-order-status`,
   ASSETS_RECEIVED: '/assets/get-purchaseorder-assets-received/{id}',
   GET_SMS_MARKETING_BROADCAST: '/sms-marketing/broadcast',
+  GET_SMS_TEMPLATES: '/sms-marketing/template',
   SALES_TEAM: '/teams',
   SERVICE_CATALOG_CATEGORIES_DETAILS: '/service-catalog/get-detail-service',
   UPDATE_CONTRACT_SUBMIT_APPROVAL: '/contract/approval-request',
@@ -287,6 +290,7 @@ export const END_POINTS = {
   GET_KNOWLEDGE_INSIGHTS: `/articles/knowledge-insights`,
   GET_KNOWLEDGE_INSIGHTS_DETAILS: `/articles/knowledge-insights/tickets`,
   POST_CHANGE_PASSWORD: '/auth/change-password',
+  UPDATE_CONTRACT: 'contract/renew-extend',
 };
 
 export const superAdminBillingInvoices = {

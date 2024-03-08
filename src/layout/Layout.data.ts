@@ -147,26 +147,26 @@ export const ServicesRoutes: any = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_VIEW_DASHBOARD,
   },
   {
     key: '/air-services/tickets',
     icon: TicketDiscountImage,
     label: 'Tickets',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_TICKETS,
   },
   {
     key: '/air-services/assets/inventory',
     label: 'Assets',
     icon: AssetsImage,
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_ASSETS,
     textNames: [
       {
         key: '/air-services/assets/inventory',
         label: 'Inventory',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_ASSETS_INVENTORY,
       },
       {
         key: '/air-services/assets/software',
@@ -181,7 +181,7 @@ export const ServicesRoutes: any = [
       {
         key: '/air-services/assets/purchase-orders',
         label: 'Purchase Orders',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_ASSETS_PURCHASE_ORDER_LIST_VIEW,
       },
     ],
   },
@@ -205,7 +205,7 @@ export const ServicesRoutes: any = [
     icon: CustomerPortalImage,
     label: 'Customer Portal',
     role: 'SERVICE',
-    permissions: [],
+    permissions: Permissions?.AIR_CUSTOMER_PORTAL,
   },
 ];
 
@@ -395,7 +395,7 @@ export const CustomerPortalRoutes: any = [
     icon: DashboardImage,
     label: 'Dashboard',
     role: 'CUSTOMER_PORTAL',
-    permissions: [],
+    permissions: Permissions?.AIR_CUSTOMER_PORTAL_DASHBOARD,
   },
   {
     key: '/air-customer-portal/tickets',
@@ -646,32 +646,34 @@ export const LowerServicesRoutes = [
     icon: SettingImage,
     role: 'SERVICES',
     key: '/air-services/settings',
-    permissions: [],
+    permissions: Permissions?.AIR_SERVICES_SETTINGS,
     textNames: [
       {
         key: '/air-services/settings/account-settings',
         label: 'Account Settings',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_ACCOUNT_DETAILS,
       },
       {
         key: '/air-services/settings/user-management',
         label: 'User Management',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_SETTINGS_USER_MANAGEMENT,
       },
       {
         key: '/air-services/settings/asset-management',
         label: 'Asset Management',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_SETTINGS_ASSET_MANAGEMENT,
       },
       {
         key: '/air-services/settings/agent-performance-management',
         label: 'Agent Productivity & Workload Management',
-        permissions: [],
+        permissions:
+          Permissions?.AIR_SERVICES_SETTINGS_AGENT_PERFORMANCE_MANAGEMENT,
       },
       {
         key: '/air-services/settings/service-management',
         label: 'Service Management',
-        permissions: [],
+        permissions: Permissions?.AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT,
       },
     ],
   },

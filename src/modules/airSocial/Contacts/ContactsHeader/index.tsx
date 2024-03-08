@@ -10,6 +10,8 @@ import { styles } from './ContractsHeader.style';
 
 import { ImportIcon } from '@/assets/icons';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
 
 const ContactsHeader = () => {
   const route = useRouter();
@@ -23,24 +25,35 @@ const ContactsHeader = () => {
         </Typography>
       </Box>
       <Box sx={styles?.HeaderChildStyle}>
-        <Button
-          variant="outlined"
-          color="inherit"
-          onClick={() => route?.push(AIR_SOCIAL?.CONTACTS_IMPORT)}
-          startIcon={<ImportIcon />}
-          sx={{ height: '35px' }}
+        <PermissionsGuard
+          permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.IMPORT_CONTACT]}
         >
-          Import
-        </Button>
-        <Box>
           <Button
-            variant="contained"
-            onClick={handleCreateDealOpen}
-            startIcon={<AddCircle />}
+            variant="outlined"
+            color="inherit"
+            onClick={() => route?.push(AIR_SOCIAL?.CONTACTS_IMPORT)}
+            startIcon={<ImportIcon />}
             sx={{ height: '35px' }}
           >
-            Create Contact
+            Import
           </Button>
+        </PermissionsGuard>
+
+        <Box>
+          <PermissionsGuard
+            permissions={[
+              SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.CREATE_CONTACT,
+            ]}
+          >
+            <Button
+              variant="contained"
+              onClick={handleCreateDealOpen}
+              startIcon={<AddCircle />}
+              sx={{ height: '35px' }}
+            >
+              Create Contact
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       <CreateContacts open={isCreateDeal} onClose={handleCreateDealOpen} />

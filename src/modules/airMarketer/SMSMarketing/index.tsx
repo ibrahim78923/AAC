@@ -24,6 +24,8 @@ import ContactsSMSMarketing from './Contacts';
 import { AIR_MARKETER } from '@/routesConstants/paths';
 import Templates from './Templates';
 import ConnectNumber from './ConnectNumber';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 
 const SMSMarketing = () => {
   const {
@@ -97,33 +99,45 @@ const SMSMarketing = () => {
                     </MenuItem>
                   </Select>
                 </FormControl>
-                <Box
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    navigate.push({
-                      pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
-                      query: { type: 'edit' },
-                    });
-                  }}
+                <PermissionsGuard
+                  permissions={[
+                    AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.EDIT_SMS_BROADCAST,
+                  ]}
                 >
-                  <EditSmsIcon />
-                </Box>
+                  <Box
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => {
+                      navigate.push({
+                        pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
+                        query: { type: 'edit' },
+                      });
+                    }}
+                  >
+                    <EditSmsIcon />
+                  </Box>
+                </PermissionsGuard>
               </Stack>
             )}
             {tabVal === 1 && (
-              <Button
-                className="small"
-                variant="contained"
-                onClick={() => {
-                  navigate.push({
-                    pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
-                    query: { type: 'add' },
-                  });
-                }}
-                startIcon={<PlusIcon />}
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.CREATE_SMS_BROADCAST,
+                ]}
               >
-                Create SMS Broadcast
-              </Button>
+                <Button
+                  className="small"
+                  variant="contained"
+                  onClick={() => {
+                    navigate.push({
+                      pathname: AIR_MARKETER?.CREATE_SMS_BROADCAST,
+                      query: { type: 'add' },
+                    });
+                  }}
+                  startIcon={<PlusIcon />}
+                >
+                  Create SMS Broadcast
+                </Button>
+              </PermissionsGuard>
             )}
           </Stack>
           <CommonTabs
