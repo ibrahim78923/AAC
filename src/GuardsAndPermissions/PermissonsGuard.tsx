@@ -15,23 +15,25 @@ function checkPermissions(permissions: any, modulePermissions: any) {
     componentPermissionsDictionary[value] = true;
   });
   return true;
-  // if (permissions?.length > 0) {
-  //   for (const permission of permissions) {
-  //     if (componentPermissionsDictionary[permission]) {
-  //       return true; // At least one permission is available
-  //     }
-  //   }
-  // }
-  // return false; // None of the permissions are available
+  if (permissions?.length > 0) {
+    for (const permission of permissions) {
+      if (componentPermissionsDictionary[permission]) {
+        return true; // At least one permission is available
+      }
+    }
+  }
+  return false; // None of the permissions are available
 }
 
 export default function PermissionsGuard({
   children,
   permissions,
+  isPage,
 }: {
   children: ReactNode;
   permissions: any;
   sidebar?: string;
+  isPage?: boolean;
 }) {
   const currentPermissions = useCurrentPermissions();
   const permissionsCheck = checkPermissions(currentPermissions, permissions);
