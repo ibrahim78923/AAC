@@ -39,6 +39,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './OrganizationTable.style';
 import CommonModal from '@/components/CommonModal';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ORG_ADMIN_ORGANIZATION_PERMISSIONS } from '@/constants/permission-keys';
 
 const OrganizationTable = () => {
   const {
@@ -330,16 +332,28 @@ const OrganizationTable = () => {
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                <MenuItem
-                  onClick={() => {
-                    handleClose();
-                    setDrawerHeading('Edit Company');
-                    setIsOpenDrawer(true);
-                  }}
+                <PermissionsGuard
+                  permissions={[
+                    ORG_ADMIN_ORGANIZATION_PERMISSIONS?.EDIT_ACCOUNT,
+                  ]}
                 >
-                  Edit
-                </MenuItem>
-                <MenuItem onClick={handleClose}>View</MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      handleClose();
+                      setDrawerHeading('Edit Company');
+                      setIsOpenDrawer(true);
+                    }}
+                  >
+                    Edit
+                  </MenuItem>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[
+                    ORG_ADMIN_ORGANIZATION_PERMISSIONS?.VIEW_ACCOUNT,
+                  ]}
+                >
+                  <MenuItem onClick={handleClose}>View</MenuItem>
+                </PermissionsGuard>
                 <MenuItem
                   onClick={() => {
                     handleClose();
@@ -349,21 +363,27 @@ const OrganizationTable = () => {
                   Delete
                 </MenuItem>
               </Menu>
-              <Button
-                onClick={() => {
-                  handleClose();
-                  setIsOpenDrawer(true);
-                }}
-                variant="contained"
-                className="small"
-                sx={{
-                  display: 'flex',
-                  alignContent: 'center',
-                  columnGap: '10px',
-                }}
+              <PermissionsGuard
+                permissions={[
+                  ORG_ADMIN_ORGANIZATION_PERMISSIONS?.ADD_COMPANY_ACCOUNT,
+                ]}
               >
-                <Image src={AddCircleImage} alt="add" /> Add Company Account
-              </Button>
+                <Button
+                  onClick={() => {
+                    handleClose();
+                    setIsOpenDrawer(true);
+                  }}
+                  variant="contained"
+                  className="small"
+                  sx={{
+                    display: 'flex',
+                    alignContent: 'center',
+                    columnGap: '10px',
+                  }}
+                >
+                  <Image src={AddCircleImage} alt="add" /> Add Company Account
+                </Button>
+              </PermissionsGuard>
             </Box>
           </Grid>
         </Grid>

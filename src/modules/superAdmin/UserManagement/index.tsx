@@ -17,7 +17,10 @@ import { FilterrIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
 import useUserManagement from './useUserManagement';
 import ActionButton from './ActionButton';
 
-import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS,
+  SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS,
+} from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 
@@ -55,7 +58,13 @@ const UserManagement = () => {
       >
         <Typography variant="h3">User Management</Typography>
         <PermissionsGuard
-          permissions={[SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]}
+          permissions={
+            tabVal === initialTab
+              ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
+              : tabVal === tabOne
+                ? [SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS.ADD_USER]
+                : [SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ADD_ROLE]
+          }
         >
           <Button
             sx={{ mt: { md: 0, xs: 1 } }}
@@ -75,15 +84,13 @@ const UserManagement = () => {
             {tabVal === initialTab
               ? 'Add Company Owner'
               : tabVal === tabOne
-              ? 'Add Super Admin '
-              : 'Add Role'}
+                ? 'Add Super Admin '
+                : 'Add Role'}
           </Button>
         </PermissionsGuard>
       </Box>
       <PermissionsGuard
-        permissions={[
-          SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_SEARCH_AND_FILTER,
-        ]}
+        permissions={[SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_LIST]}
       >
         <Box sx={{ padding: '0px 24px' }}>
           <CommonTabs
@@ -117,20 +124,32 @@ const UserManagement = () => {
                   </Button>
                 </Tooltip>
                 {tabVal !== tabOne ? (
-                  <Button
-                    onClick={() => {
-                      setIsOpenFilterDrawer(true);
-                    }}
-                    startIcon={<FilterrIcon />}
-                    sx={{
-                      border: `1px solid ${theme?.palette?.custom?.dark}`,
-                      color: theme?.palette?.custom?.main,
-                      width: '95px',
-                      height: '36px',
-                    }}
+                  <PermissionsGuard
+                    permissions={
+                      tabVal === initialTab
+                        ? [
+                            SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.USER_SEARCH_AND_FILTER,
+                          ]
+                        : [
+                            SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ROLE_SEARCH_AND_FILTER,
+                          ]
+                    }
                   >
-                    Filter
-                  </Button>
+                    <Button
+                      onClick={() => {
+                        setIsOpenFilterDrawer(true);
+                      }}
+                      startIcon={<FilterrIcon />}
+                      sx={{
+                        border: `1px solid ${theme?.palette?.custom?.dark}`,
+                        color: theme?.palette?.custom?.main,
+                        width: '95px',
+                        height: '36px',
+                      }}
+                    >
+                      Filter
+                    </Button>
+                  </PermissionsGuard>
                 ) : (
                   <SwitchableDatepicker
                     renderInput="button"

@@ -14,9 +14,9 @@ import useAttachmentsEditorDrawer from './useAttachmentEditorDrawer';
 import { v4 as uuidv4 } from 'uuid';
 
 const AttachmentsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
+  const { openDrawer, setOpenDrawer, companyId } = props;
   const { handleSubmit, onSubmit, methodsAttachments } =
-    useAttachmentsEditorDrawer();
+    useAttachmentsEditorDrawer(setOpenDrawer, companyId);
 
   return (
     <div>
@@ -27,6 +27,7 @@ const AttachmentsEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
+        submitHandler={handleSubmit(onSubmit)}
       >
         <Box>
           <FormProvider

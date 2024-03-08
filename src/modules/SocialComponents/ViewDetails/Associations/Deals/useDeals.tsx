@@ -4,6 +4,7 @@ import { useTheme } from '@mui/material';
 import { useGetCompanyDealsQuery } from '@/services/commonFeatures/companies';
 import { useDeleteDealsMutation } from '@/services/airSales/deals';
 import { enqueueSnackbar } from 'notistack';
+import { PAGINATION } from '@/config';
 
 const useDeals = (companyId: any) => {
   const theme = useTheme();
@@ -11,12 +12,22 @@ const useDeals = (companyId: any) => {
   const [openDrawer, setOpenDrawer] = useState('');
   const [dealRecord, setDealRecord] = useState('');
   const [isOpenAlert, setIsOpenAlert] = useState(false);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [deleteDealsMutation] = useDeleteDealsMutation();
+
+  // const searchObj = {
+  //    search: searchName,
+  //   id: companyId.companyId,
+  // };
 
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
   };
-  const { data: getCompanyDeals } = useGetCompanyDealsQuery({
+  const { data: getCompanyDeals, isLoading } = useGetCompanyDealsQuery({
+    page,
+    pageLimit,
+    // params: searchObj,
     id: companyId.companyId,
   });
 
@@ -48,6 +59,9 @@ const useDeals = (companyId: any) => {
     handleDeleteDeals,
     setDealRecord,
     dealRecord,
+    isLoading,
+    setPage,
+    setPageLimit,
   };
 };
 
