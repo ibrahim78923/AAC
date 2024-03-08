@@ -17,7 +17,7 @@ import { useTheme } from '@mui/material';
 import { ProductSuiteCardData } from './ProductSuite.data';
 
 import { CompanyLogoIcon } from '@/assets/icons';
-import { AvatarImage } from '@/assets/images';
+// import { AvatarImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
 import { getRoutes } from '@/layout/Layout.data';
@@ -30,7 +30,7 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { getActivePermissionsSession } from '@/utils';
-import { IMG_URL } from '@/config';
+// import { IMG_URL } from '@/config';
 import useAuth from '@/hooks/useAuth';
 
 const ProductSuite = () => {
@@ -117,7 +117,8 @@ const ProductSuite = () => {
           </Button>
           <Avatar
             alt="Remy Sharp"
-            src={AvatarImage?.src}
+            // src={AvatarImage?.src}
+            src={''}
             sx={{ marginLeft: '20px' }}
           ></Avatar>
         </Box>
@@ -179,7 +180,8 @@ const ProductSuite = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   {product?.logo && (
                     <Image
-                      src={`${IMG_URL}${product?.logo?.url}`}
+                      // src={`${IMG_URL}${product?.logo?.url}`}
+                      src={``}
                       width={25}
                       height={25}
                       alt="product"

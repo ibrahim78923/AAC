@@ -27,7 +27,7 @@ import useUsers from '../useUsers';
 import { v4 as uuidv4 } from 'uuid';
 import NoData from '@/components/NoData';
 import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManagement';
-import { IMG_URL } from '@/config';
+// import { IMG_URL } from '@/config';
 
 const UsersSidebar = (props: any) => {
   const { setEmployeeDataById } = props;
@@ -160,7 +160,8 @@ const UsersSidebar = (props: any) => {
                   fontSize: '16px',
                   fontWeight: 500,
                 }}
-                src={item?.avatar && `${IMG_URL}${item?.avatar?.url}`}
+                // src={item?.avatar && `${IMG_URL}${item?.avatar?.url}`}
+                src={item?.avatar && ``}
               >
                 {`${item?.firstName?.charAt(0)?.toUpperCase()}${item?.lastName
                   ?.charAt(0)
