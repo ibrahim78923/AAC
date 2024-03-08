@@ -83,20 +83,24 @@ const Dashboard = () => {
                     <Typography variant="h5">Recent Activities</Typography>
                   </Box>
                   <Box marginTop={2} overflow={'scroll'} height={'36.5vh'}>
-                    {recentActivitiesDashboardCardData?.map((item, index) => (
-                      <Box key={item?.id}>
-                        <RecentActivitiesDashboardCard
-                          icon={item?.icon}
-                          recentActivity={item?.recentActivity}
-                          recentActivityRequest={item?.recentActivityRequest}
-                          recentActivityDateTime={item?.recentActivityDateTime}
-                          isBorderBottom={
-                            recentActivitiesDashboardCardData?.length - 1 !==
-                            index
-                          }
-                        />
-                      </Box>
-                    ))}
+                    {recentActivitiesDashboardCardData?.map(
+                      (item: any, index) => (
+                        <Box key={item?.id}>
+                          <RecentActivitiesDashboardCard
+                            icon={item?.icon}
+                            recentActivity={item?.recentActivity}
+                            recentActivityRequest={item?.recentActivityRequest}
+                            recentActivityDateTime={
+                              item?.recentActivityDateTime
+                            }
+                            isBorderBottom={
+                              recentActivitiesDashboardCardData?.length - 1 !==
+                              index
+                            }
+                          />
+                        </Box>
+                      ),
+                    )}
                   </Box>
                   <RecentActivitiesDashboardDrawer
                     isDrawerOpen={isDrawerOpen}
@@ -128,7 +132,7 @@ const Dashboard = () => {
                 </Box>
               </Grid>
               <Grid item xs={12} lg={4}>
-                {topPerformerDashboardCardData?.map((item) => (
+                {topPerformerDashboardCardData?.map((item: any) => (
                   <Box key={item?.id}>
                     <TopPerformerDashboardCard
                       userImage={item?.userImage}
