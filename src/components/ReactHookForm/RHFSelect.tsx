@@ -31,7 +31,7 @@ export default function RHFSelect({ name, children, required, ...other }: any) {
             label=""
             value={field?.value ?? ' '}
           >
-            <option value=" ">Select Option</option>
+            <option value="">Select Option</option>
             {children}
           </TextField>
         </>

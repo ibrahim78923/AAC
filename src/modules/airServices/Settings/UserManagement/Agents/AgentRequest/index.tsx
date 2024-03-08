@@ -5,6 +5,8 @@ import RejectedModal from './RejectedModal';
 import { useAgentRequest } from './useAgentRequest';
 import { AGENT_REQUEST_STATUS } from '@/constants/strings';
 import { UserRequesterImage } from '@/assets/images';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 const AgentRequest = () => {
   const {
@@ -63,30 +65,36 @@ const AgentRequest = () => {
                   </Typography>
                 </Box>
               ) : (
-                <Box
-                  display={'flex'}
-                  justifyContent={'space-around'}
-                  width={'90%'}
-                  py={2}
-                  mt={2}
+                <PermissionsGuard
+                  permissions={[
+                    AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.APPROVE_REJECT_AGENT_REQUEST,
+                  ]}
                 >
-                  <Typography
-                    variant="body2"
-                    color={theme?.palette?.success?.main}
-                    sx={{ cursor: 'pointer' }}
-                    onClick={() => handlerStatusApprove(item?._id)}
+                  <Box
+                    display={'flex'}
+                    justifyContent={'space-around'}
+                    width={'90%'}
+                    py={2}
+                    mt={2}
                   >
-                    Approve
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color={theme?.palette?.error?.main}
-                    sx={{ cursor: 'pointer' }}
-                    onClick={() => handleOpenModal(item?._id)}
-                  >
-                    Reject
-                  </Typography>
-                </Box>
+                    <Typography
+                      variant="body2"
+                      color={theme?.palette?.success?.main}
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => handlerStatusApprove(item?._id)}
+                    >
+                      Approve
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color={theme?.palette?.error?.main}
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => handleOpenModal(item?._id)}
+                    >
+                      Reject
+                    </Typography>
+                  </Box>
+                </PermissionsGuard>
               )}
             </Card>
           </Grid>

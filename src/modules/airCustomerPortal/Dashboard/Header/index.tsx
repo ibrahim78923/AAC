@@ -7,6 +7,8 @@ import { useDashboard } from '../useDashboard';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AIR_CUSTOMER_PORTAL, AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
+import { AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const Header = () => {
   const {
@@ -77,23 +79,35 @@ export const Header = () => {
             onClose={handleClose}
             sx={{ padding: 2 }}
           >
-            <MenuItem
-              onClick={() => {
-                setOpenReportAnIssueModal?.(true);
-                handleClose?.();
-              }}
+            <PermissionsGuard
+              permissions={[
+                AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS?.REPORT_AN_ISSUES,
+              ]}
             >
-              Report an Issue
-            </MenuItem>
-            <MenuItem
-              onClick={() =>
-                push({
-                  pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
-                })
-              }
+              <MenuItem
+                onClick={() => {
+                  setOpenReportAnIssueModal?.(true);
+                  handleClose?.();
+                }}
+              >
+                Report an Issue
+              </MenuItem>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS?.SENT_SERVICES_REQUEST,
+              ]}
             >
-              Request a service
-            </MenuItem>
+              <MenuItem
+                onClick={() =>
+                  push({
+                    pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
+                  })
+                }
+              >
+                Request a service
+              </MenuItem>
+            </PermissionsGuard>
           </Menu>
         </Box>
       </Box>

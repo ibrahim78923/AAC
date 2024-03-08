@@ -16,3 +16,18 @@ export const menuItems = [
     name: 'delete',
   },
 ];
+
+export const statusButtonsData = [
+  {
+    label: 'Inprogress',
+    value: 'Inprogress',
+  },
+  {
+    label: 'Pending',
+    value: 'Pending',
+  },
+  {
+    label: 'Completed',
+    value: 'Complete',
+  },
+];

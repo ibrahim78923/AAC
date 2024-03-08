@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { UpsertInventory } from '@/modules/airServices/Assets/Inventory/UpsertInventory';
 const UpsertInventoryPage = () => {
@@ -5,7 +6,11 @@ const UpsertInventoryPage = () => {
 };
 
 UpsertInventoryPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout permission={Permissions?.AIR_SERVICES_ASSETS_INVENTORY_LIST}>
+      {page}
+    </Layout>
+  );
 };
 
 export default UpsertInventoryPage;
