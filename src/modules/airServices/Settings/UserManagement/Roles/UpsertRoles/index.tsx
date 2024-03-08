@@ -1,266 +1,131 @@
-import React from 'react';
-import { ArrowBack } from '@mui/icons-material';
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import { useRoles } from '../useRoles';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
-  FormProvider,
-  RHFCheckbox,
-  RHFRadioGroup,
-} from '@/components/ReactHookForm';
-import {
-  contractOptions,
-  inventoryOptions,
-  purchaseOptions,
-  solutionsOptions,
-  ticketOptionViewAnnouncements,
-  upsertRolesData,
-} from '../Roles.data';
-import { v4 as uuidv4 } from 'uuid';
-import {
-  RolesAccordionsTicketsData,
-  ticketOptionViewsEditEntries,
-  ticketOptionViewsEditNotes,
-} from '../Roles.data';
-
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Divider,
+  Grid,
+  Typography,
+} from '@mui/material';
+import { AIR_SERVICES } from '@/constants';
+import { FormProvider, RHFCheckbox } from '@/components/ReactHookForm';
+import { upsertRolesFormData } from './UpsertRoles.data';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { SETTINGS_ADD_ROLE } from '@/constants/strings';
-
-const renderCheckboxes = (options: any) => {
-  return options?.map((option: any) => (
-    <Box key={option?.name} marginLeft={2}>
-      <RHFCheckbox name={option?.name} label={option?.label} />
-    </Box>
-  ));
-};
+import useUpsertRoles from './useUpsertRoles';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
+import { Fragment } from 'react';
 
 const UpsertRoles = () => {
-  const { backToRoles, rolesMethods, onSubmit, handleSubmit, theme } =
-    useRoles();
+  const {
+    router,
+    roleId,
+    methods,
+    handleSubmit,
+    onSubmit,
+    theme,
+    getPermissionsIsLoading,
+    getPermissionsIsFetching,
+    getPermissionsIsError,
+    getPermissionsData,
+  } = useUpsertRoles();
 
-  const checkboxState = {
-    [SETTINGS_ADD_ROLE.EDIT_NOTES]: rolesMethods.watch(
-      SETTINGS_ADD_ROLE.EDIT_NOTES,
-    ),
-    [SETTINGS_ADD_ROLE.INVENTORY_ASSET]: rolesMethods.watch(
-      SETTINGS_ADD_ROLE.INVENTORY_ASSET,
-    ),
-    [SETTINGS_ADD_ROLE.CONTRACT_ASSET]: rolesMethods.watch(
-      SETTINGS_ADD_ROLE.CONTRACT_ASSET,
-    ),
-    [SETTINGS_ADD_ROLE.PURCHASE_ASSET]: rolesMethods.watch(
-      SETTINGS_ADD_ROLE.PURCHASE_ASSET,
-    ),
-    [SETTINGS_ADD_ROLE.TICKET_SOLUTIONS]: rolesMethods.watch(
-      SETTINGS_ADD_ROLE.TICKET_SOLUTIONS,
-    ),
-    [SETTINGS_ADD_ROLE.EDIT_TASKS]: rolesMethods.watch(
-      SETTINGS_ADD_ROLE.EDIT_TASKS,
-    ),
-    [SETTINGS_ADD_ROLE.ANNOUNCEMENTS]: rolesMethods.watch(
-      SETTINGS_ADD_ROLE.ANNOUNCEMENTS,
-    ),
-  };
+  if (getPermissionsIsError) return <ApiErrorState />;
+
+  if (getPermissionsIsLoading || getPermissionsIsFetching)
+    return <SkeletonTable />;
 
   return (
     <>
-      <Grid container>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <ArrowBack onClick={backToRoles} sx={{ cursor: 'pointer' }} />
-          <Typography variant="h5">Add New Role</Typography>
-        </Box>
-        <Grid lg={6} xs={12}></Grid>
-        <FormProvider methods={rolesMethods}>
-          <Box sx={{ my: 2 }}>
-            <Grid container spacing={2}>
-              {upsertRolesData?.map((item) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <Typography variant="body2" fontWeight={500}>
-                    {item?.title}
-                  </Typography>
-                  <item.component
-                    {...item?.componentProps}
-                    size={'small'}
-                  ></item.component>
-                </Grid>
-              ))}
+      <Box display={'flex'} alignItems={'center'} gap={1} mb={2}>
+        <ArrowBackIcon
+          onClick={() => router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS)}
+          sx={{ cursor: 'pointer' }}
+        />
+        <Typography variant="h3">
+          {roleId ? `Update Role` : `Add New Role`}
+        </Typography>
+      </Box>
+
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <Grid container>
+          {upsertRolesFormData?.map((item: any) => (
+            <Grid item xs={12} key={item?.id}>
+              <Box width={'50%'}>
+                <item.component {...item?.componentProps} size={'small'} />
+              </Box>
             </Grid>
-          </Box>
-          <Grid xs={12}>
+          ))}
+
+          <Grid item xs={12}>
+            <Divider sx={{ my: 2 }} />
             <Typography variant="h5">Permissions</Typography>
           </Grid>
-          <Grid item xs={12} md={10}>
-            {(Object?.entries(RolesAccordionsTicketsData ?? {}) ?? []).map(
-              ([title, data]) => (
-                <Accordion
-                  key={title}
-                  disableGutters
-                  sx={{
-                    '&.MuiAccordion': {
-                      '&.Mui-expanded': {
-                        boxShadow: 'theme.customShadows.z8',
+          <Grid item xs={12} my={2}>
+            {getPermissionsData?.data?.map((parent: any) => (
+              <Fragment key={parent?.name}>
+                {parent?.subModules?.map((subModule: any) => (
+                  <Accordion
+                    key={subModule?.subModule}
+                    sx={{
+                      '&.MuiAccordion': {
+                        '&.Mui-expanded': {
+                          boxShadow: 'theme.customShadows.z8',
+                          borderRadius: '8px',
+                        },
+                        '&.Mui-disabled': {
+                          backgroundColor: 'transparent',
+                        },
+                      },
+                      '& .MuiAccordionSummary-root': {
+                        backgroundColor: theme?.palette?.blue?.main,
+                        color: theme.palette?.common?.white,
                         borderRadius: '8px',
                       },
-                      '&.Mui-disabled': {
-                        backgroundColor: 'transparent',
-                      },
-                    },
-                    '& .MuiAccordionSummary-root': {
-                      backgroundColor: theme?.palette?.blue?.main,
-                      color: theme.palette?.common?.white,
-                      borderRadius: '8px',
-                    },
-                    mt: 1,
-                  }}
-                >
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls={`${title}-content`}
-                    id={`${title}-header`}
+                      mt: 1,
+                    }}
                   >
-                    <Typography>{title}</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Grid container>
-                      {data?.map((item) => (
-                        <React.Fragment key={uuidv4()}>
-                          {item?.componentProps?.heading && (
-                            <Grid item xs={12}>
-                              <Typography variant="h5">
-                                {item?.componentProps?.heading}
-                              </Typography>
-                            </Grid>
-                          )}
-                          {!item?.componentProps?.heading &&
-                            item?.componentProps?.name ===
-                              SETTINGS_ADD_ROLE.VIEW_TICKET && (
-                              <Grid item xs={12}>
-                                <item.component
-                                  {...item?.componentProps}
-                                  size="small"
-                                />
-                              </Grid>
-                            )}
-                          {!item?.componentProps?.heading &&
-                            item?.componentProps?.name !==
-                              SETTINGS_ADD_ROLE?.VIEW_TICKET && (
-                              <Grid
-                                item
-                                lg={4}
-                                md={6}
-                                xs={12}
-                                key={uuidv4()}
-                                sx={{ pl: 2 }}
-                              >
-                                <item.component
-                                  {...item?.componentProps}
-                                  size="small"
-                                  onChange={(event) => {
-                                    item?.componentProps?.onChange &&
-                                      item?.componentProps?.onChange(event);
-                                    const { name, checked } = event?.target;
-                                    rolesMethods.setValue(name, checked);
-                                  }}
-                                />
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      ria-controls={`${subModule?.name}-content`}
+                      id={`${subModule?.name}-header`}
+                    >
+                      <Typography>{subModule?.name}</Typography>
+                    </AccordionSummary>
 
-                                {item?.componentProps?.name ===
-                                  SETTINGS_ADD_ROLE?.EDIT_NOTES &&
-                                  checkboxState?.[
-                                    SETTINGS_ADD_ROLE?.EDIT_NOTES
-                                  ] && (
-                                    <Box marginLeft={2}>
-                                      <RHFRadioGroup
-                                        options={ticketOptionViewsEditNotes}
-                                        name={SETTINGS_ADD_ROLE?.EDIT_NOTES}
-                                        label=""
-                                        row={false}
-                                      />
-                                    </Box>
-                                  )}
-                                {item.componentProps?.name ===
-                                  SETTINGS_ADD_ROLE?.INVENTORY_ASSET &&
-                                  checkboxState?.[
-                                    SETTINGS_ADD_ROLE?.INVENTORY_ASSET
-                                  ] &&
-                                  renderCheckboxes(inventoryOptions)}
-                                {item.componentProps?.name ===
-                                  SETTINGS_ADD_ROLE?.CONTRACT_ASSET &&
-                                  checkboxState?.[
-                                    SETTINGS_ADD_ROLE?.CONTRACT_ASSET
-                                  ] &&
-                                  renderCheckboxes(contractOptions)}
-                                {item.componentProps?.name ===
-                                  SETTINGS_ADD_ROLE?.PURCHASE_ASSET &&
-                                  checkboxState?.[
-                                    SETTINGS_ADD_ROLE?.PURCHASE_ASSET
-                                  ] &&
-                                  renderCheckboxes(purchaseOptions)}
-
-                                {item.componentProps?.name ===
-                                  SETTINGS_ADD_ROLE?.TICKET_SOLUTIONS &&
-                                  checkboxState?.[
-                                    SETTINGS_ADD_ROLE?.TICKET_SOLUTIONS
-                                  ] &&
-                                  renderCheckboxes(solutionsOptions)}
-
-                                {item.componentProps?.name ===
-                                  SETTINGS_ADD_ROLE?.EDIT_TASKS &&
-                                  checkboxState?.[
-                                    SETTINGS_ADD_ROLE?.EDIT_TASKS
-                                  ] && (
-                                    <Box marginLeft={2}>
-                                      <RHFRadioGroup
-                                        options={ticketOptionViewsEditEntries}
-                                        name={SETTINGS_ADD_ROLE?.EDIT_TASKS}
-                                        label=""
-                                        row={false}
-                                      />
-                                    </Box>
-                                  )}
-                                {item.componentProps?.name ===
-                                  SETTINGS_ADD_ROLE?.ANNOUNCEMENTS &&
-                                  checkboxState?.[
-                                    SETTINGS_ADD_ROLE?.ANNOUNCEMENTS
-                                  ] && (
-                                    <Box marginLeft={2}>
-                                      <RHFRadioGroup
-                                        options={ticketOptionViewAnnouncements}
-                                        name={SETTINGS_ADD_ROLE?.ANNOUNCEMENTS}
-                                        label=""
-                                        row={false}
-                                      />
-                                    </Box>
-                                  )}
-                              </Grid>
-                            )}
-                        </React.Fragment>
-                      ))}
-                    </Grid>
-                  </AccordionDetails>
-                </Accordion>
-              ),
-            )}
+                    <AccordionDetails>
+                      <Grid container spacing={1}>
+                        {subModule?.permissions?.map((item: any) => (
+                          <Grid item xs={12} md={4} key={item?.slug}>
+                            <RHFCheckbox name={item?.slug} label={item?.name} />
+                          </Grid>
+                        ))}
+                      </Grid>
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
+              </Fragment>
+            ))}
           </Grid>
-          <Divider sx={{ my: 3 }} />
-          <Box
-            sx={{ display: 'flex', gap: '10px', justifyContent: 'end', my: 2 }}
-          >
-            <Button variant="outlined" onClick={backToRoles}>
+
+          <Grid item xs={12} textAlign={'end'}>
+            <Button
+              type={'button'}
+              variant={'outlined'}
+              color={'inherit'}
+              sx={{ mr: 2 }}
+              onClick={() => router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS)}
+            >
               Cancel
             </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              onClick={handleSubmit(onSubmit)}
-            >
-              Add
+            <Button type={'submit'} variant={'contained'}>
+              Submit
             </Button>
-          </Box>
-        </FormProvider>
-      </Grid>
-      <Grid></Grid>
+          </Grid>
+        </Grid>
+      </FormProvider>
     </>
   );
 };

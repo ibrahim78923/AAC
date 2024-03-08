@@ -11,6 +11,8 @@ import { columns } from './ViewAccounts.data';
 import { companiesData } from '@/mock/modules/airSales/Contacts/ContactViewDetails';
 
 import { BackArrIcon } from '@/assets/icons';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 
 const ViewAccount = ({ handleShowCard }: { handleShowCard: () => void }) => {
   const { searchTerm, setSearchTerm } = useViewAccounts();
@@ -34,13 +36,16 @@ const ViewAccount = ({ handleShowCard }: { handleShowCard: () => void }) => {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <Search
-            searchBy={searchTerm}
-            setSearchBy={setSearchTerm}
-            label="Search By Name"
-            size="small"
-            // sx={{ marginBottom: '15px' }}
-          />
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.SEARCH_SOCIAL]}
+          >
+            <Search
+              searchBy={searchTerm}
+              setSearchBy={setSearchTerm}
+              label="Search By Name"
+              size="small"
+            />
+          </PermissionsGuard>
         </Grid>
         <Grid item xs={12}>
           <TanstackTable columns={columns()} data={companiesData} />

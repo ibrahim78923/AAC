@@ -5,7 +5,6 @@ import {
   cardRelatedData,
   serviceWorkflowsCardData,
 } from './ServicesWorkflow.data';
-import { v4 as uuidv4 } from 'uuid';
 import { useServiceWorkflow } from './useServiceWorkflow';
 
 export const ServicesWorkflow = () => {
@@ -37,10 +36,10 @@ export const ServicesWorkflow = () => {
           <Typography variant="h5">Services Workflow</Typography>
         </Box>
         <Grid container gap={4} justifyContent={'center'}>
-          {serviceWorkflowsCardData?.map((item) => {
+          {serviceWorkflowsCardData?.map((item: any) => {
             return (
               <Grid
-                key={uuidv4()}
+                key={item?._id}
                 item
                 xl={3.7}
                 md={5.5}

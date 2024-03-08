@@ -18,6 +18,8 @@ import { DownIcon, MobileIcon, PlusIcon } from '@/assets/icons';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import ScheduleCalls from './ScheduleCalls';
 import ScheduleEditorDrawer from './ScheduleCallDrawer';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CALLING_PERMISSIONS } from '@/constants/permission-keys';
 
 const CallsTabsData = ['Schedule Calls', 'Call logs'];
 
@@ -68,16 +70,22 @@ const CallingMain = ({ setAddaNumber }: any) => {
           >
             {callingData?.length > 0 ? (
               <>
-                <Button
-                  variant="text"
-                  sx={{ background: theme?.palette?.primary?.light }}
-                  aria-controls="simple-menu"
-                  aria-haspopup="true"
-                  onClick={handleClickCallNow}
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.MAKE_A_CALL,
+                  ]}
                 >
-                  <MobileIcon /> &nbsp; Make a call now &nbsp;{' '}
-                  <DownIcon color={'#38CAB5'} />
-                </Button>
+                  <Button
+                    variant="text"
+                    sx={{ background: theme?.palette?.primary?.light }}
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={handleClickCallNow}
+                  >
+                    <MobileIcon /> &nbsp; Make a call now &nbsp;{' '}
+                    <DownIcon color={'#38CAB5'} />
+                  </Button>
+                </PermissionsGuard>
                 <Menu
                   id="simple-menu"
                   anchorEl={anchorElCallNow}
@@ -90,16 +98,21 @@ const CallingMain = ({ setAddaNumber }: any) => {
                   </Link>
                   <MenuItem>For Mobile</MenuItem>
                 </Menu>
-
-                <Button
-                  variant="contained"
-                  aria-controls="schedule-a-call"
-                  aria-haspopup="true"
-                  onClick={handleClickScheduleCall}
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_CALLING_PERMISSIONS?.SCHEDULE_CALL,
+                  ]}
                 >
-                  Schedule a call &nbsp;
-                  <PlusIcon />
-                </Button>
+                  <Button
+                    variant="contained"
+                    aria-controls="schedule-a-call"
+                    aria-haspopup="true"
+                    onClick={handleClickScheduleCall}
+                  >
+                    Schedule a call &nbsp;
+                    <PlusIcon />
+                  </Button>
+                </PermissionsGuard>
                 <Menu
                   id="schedule-a-call"
                   anchorEl={anchorElScheduleCall}

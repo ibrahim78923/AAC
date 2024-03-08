@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Step1 from './Import/StepOne';
 import Step2 from './Import/StepTwo';
@@ -7,9 +6,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { useGetTasksQuery } from '@/services/airSales/task';
 import { PAGINATION } from '@/config';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setTaskDataArray } from '@/redux/slices/taskManagement/taskManagementSlice';
 
 export const useTask = () => {
+  const dispatch: any = useAppDispatch();
+
+  const filtersData = useAppSelector((state: any) => state?.task?.filtersData);
+
+  const [searchTask, setSearchTask] = useState('');
   const [toggler, setToggler] = useState<string>('listView');
   const handleToggler = (value: string) => setToggler(value);
   const [activeStep, setActiveStep] = useState(0);
@@ -69,10 +75,17 @@ export const useTask = () => {
     params: {
       page: page,
       limit: pageLimit,
-      ...(tabsValue && { status: tabsValue }),
-      ...(assignTo && { assignTo: assignTo }),
+      status: tabsValue || filtersData?.status,
+      assignTo: assignTo || filtersData?.assignTo,
+      priority: filtersData?.priority,
+      dueDate: filtersData?.dueDate && filtersData?.dueDate?.toISOString(),
+      search: searchTask,
     },
   });
+
+  useEffect(() => {
+    dispatch(setTaskDataArray(taskData));
+  }, [taskData]);
 
   return {
     toggler,
@@ -93,7 +106,6 @@ export const useTask = () => {
     actionType,
     handleActionBtn,
     taskData,
-
     page,
     setPage,
     pageLimit,
@@ -103,5 +115,8 @@ export const useTask = () => {
     setTabsValue,
     setAssignTo,
     status,
+
+    setSearchTask,
+    searchTask,
   };
 };

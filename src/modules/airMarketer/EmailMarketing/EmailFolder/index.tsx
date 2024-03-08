@@ -5,6 +5,8 @@ import CommonModal from '@/components/CommonModal';
 import useEmailFolder from './useEmailFolder.';
 import { FormProvider } from '@/components/ReactHookForm';
 import { createFolderFormFields } from './EmailFolder.data';
+import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_FOLDERS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const EmailFolder = () => {
   const {
@@ -18,14 +20,20 @@ const EmailFolder = () => {
     <>
       <Stack direction={{ sm: 'row' }} justifyContent="space-between" px={1.5}>
         <Typography variant="h4">All Emails</Typography>
-        <Button
-          variant="contained"
-          className="small"
-          startIcon={<PlusIcon />}
-          onClick={handleOpenModalCreateFolder}
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_EMAIL_MARKETING_EMAIL_FOLDERS_PERMISSIONS.CREATE_NEW_FOLDER,
+          ]}
         >
-          Create New Folder
-        </Button>
+          <Button
+            variant="contained"
+            className="small"
+            startIcon={<PlusIcon />}
+            onClick={handleOpenModalCreateFolder}
+          >
+            Create New Folder
+          </Button>
+        </PermissionsGuard>
       </Stack>
       <Folders />
 

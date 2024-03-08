@@ -8,6 +8,8 @@ import { enqueueSnackbar } from 'notistack';
 import { ALERT_MODALS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
 import router from 'next/router';
 import { AIR_SERVICES } from '@/constants';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const SubListLocation = ({ country, childEditData, data }: any) => {
   const theme: any = useTheme();
@@ -47,43 +49,49 @@ export const SubListLocation = ({ country, childEditData, data }: any) => {
           />
           <Typography>{country}</Typography>
         </Box>
-        <Box gap={1} display={'flex'}>
-          {showIcon && (
-            <AddCircleRoundedIcon
-              color="primary"
-              fontSize="small"
-              onClick={() =>
-                router?.push({
-                  pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
-                  query: {
-                    data: JSON.stringify(data),
-                  },
-                })
-              }
-            />
-          )}
-          {showIcon && (
-            <BorderColorIcon
-              fontSize="small"
-              color="primary"
-              onClick={() =>
-                router?.push({
-                  pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
-                  query: {
-                    childEditData: JSON.stringify(childEditData),
-                  },
-                })
-              }
-            />
-          )}
-          {showIcon && (
-            <DeleteIcon
-              fontSize="small"
-              color="primary"
-              onClick={() => setIsOpenAlert(true)}
-            />
-          )}
-        </Box>
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.VIEW_EDIT_DELETE_LOCATIONS,
+          ]}
+        >
+          <Box gap={1} display={'flex'}>
+            {showIcon && (
+              <AddCircleRoundedIcon
+                color="primary"
+                fontSize="small"
+                onClick={() =>
+                  router?.push({
+                    pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
+                    query: {
+                      data: JSON.stringify(data),
+                    },
+                  })
+                }
+              />
+            )}
+            {showIcon && (
+              <BorderColorIcon
+                fontSize="small"
+                color="primary"
+                onClick={() =>
+                  router?.push({
+                    pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
+                    query: {
+                      childEditData: JSON.stringify(childEditData),
+                    },
+                  })
+                }
+              />
+            )}
+            {showIcon && (
+              <DeleteIcon
+                fontSize="small"
+                color="primary"
+                onClick={() => setIsOpenAlert(true)}
+              />
+            )}
+          </Box>
+        </PermissionsGuard>
       </Box>
       <AlertModals
         message={'Are you sure you want to delete this list?'}
