@@ -34,5 +34,5 @@ export const assetAssociateApi = baseAPI?.injectEndpoints({
 export const {
   useLazyGetInventoryListQuery,
   usePutAssetAssociateMutation,
-  useGetSingleContractListQuery,
+  useLazyGetSingleContractListQuery,
 } = assetAssociateApi;

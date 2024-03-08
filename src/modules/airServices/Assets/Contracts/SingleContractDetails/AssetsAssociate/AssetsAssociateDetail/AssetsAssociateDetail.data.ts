@@ -5,7 +5,7 @@ export const assetsAssociateTableColumns: any = [
   {
     accessorFn: (row: any) => row?.displayName,
     id: 'displayName',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '__',
     header: 'Name',
   },
   {
@@ -45,6 +45,9 @@ export const assetsAssociateTableColumns: any = [
     accessorFn: (row: any) => row?.assetLifeExpiry,
     id: 'assetLifeExpiry',
     header: 'Asset life expire on',
-    cell: (info: any) => dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI),
+    cell: (info: any) =>
+      info?.getValue()
+        ? dayjs(info?.getValue())?.format(CALENDAR_FORMAT?.UI)
+        : '__',
   },
 ];

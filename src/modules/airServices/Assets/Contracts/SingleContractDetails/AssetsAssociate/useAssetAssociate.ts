@@ -1,27 +1,27 @@
-import { useRouter } from 'next/router';
-import { AIR_SERVICES } from '@/constants';
+import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useGetSingleContractListQuery } from '@/services/airServices/assets/contracts/single-contract-details/asset-associates';
+import { useLazyGetSingleContractListQuery } from '@/services/airServices/assets/contracts/single-contract-details/asset-associates';
 
 export const useAssetAssociate = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const contractId = searchParams?.get('contractId');
-  const { data, isLoading, isFetching, isError, isSuccess }: any =
-    useGetSingleContractListQuery(contractId);
-  const assetAssociatedData = [data?.data?.associatedAsset];
-  const handleAddAssociateAsset = () => {
-    router?.push({
-      pathname: AIR_SERVICES?.ADD_ASSOCIATE_ASSET,
-      query: { contractId },
-    });
-  };
+  const [
+    getContractTrigger,
+    { data, isLoading, isFetching, isError, isSuccess },
+  ]: any = useLazyGetSingleContractListQuery();
+  useEffect(() => {
+    const handleContract = async () => {
+      await getContractTrigger(contractId);
+    };
+    handleContract();
+  }, [contractId, getContractTrigger]);
+  const assetAssociatedData = data?.data?.associatedAsset;
+  const associatedAssetArray = assetAssociatedData ? [assetAssociatedData] : [];
   return {
-    handleAddAssociateAsset,
     isLoading,
     isFetching,
     isError,
     isSuccess,
-    assetAssociatedData,
+    associatedAssetArray,
   };
 };

@@ -39,14 +39,15 @@ export const useAddAssociateAsset = () => {
     usePutAssetAssociateMutation();
   const searchParams = useSearchParams();
   const contractId = searchParams?.get('contractId');
+  const selectedAsset = activeCheck?.find((item: any) => item);
   const putParams = {
     contractId: contractId,
-    body: { associatedAsset: activeCheck?.[0]?._id },
+    body: { associatedAsset: selectedAsset?._id },
   };
   if (activeCheck?.length > 1) {
     errorSnackbar('You can associate only one asset');
   }
-  const disableAllocate = !activeCheck?.length || activeCheck?.length > 1;
+  const disableAllocate = activeCheck?.length !== 1;
   const handleAllocateClick = async () => {
     try {
       const response: any =
