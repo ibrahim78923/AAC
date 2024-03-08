@@ -1,150 +1,33 @@
-import React, { useState } from 'react';
-
-import {
-  Box,
-  Button,
-  Typography,
-  Tabs,
-  Tab,
-  Theme,
-  useTheme,
-  Grid,
-} from '@mui/material';
-
+import { Box, Button, Typography, Theme, useTheme } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import UserTable from './Users';
+import TeamsTable from './Teams';
+import useUserManagement from './useUserManagement';
+import CommonTabs from '@/components/Tabs';
+import CreateTeams from './Teams/CreateTeams';
+import { AlertModals } from '@/components/AlertModals';
+import ViewTeams from './Teams/ViewTeams';
 
-import CommonDrawer from '@/components/CommonDrawer';
-import { FormProvider } from '@/components/ReactHookForm';
-
-import UserTable from './UserTable';
-import TeamsTable from './TeamsTable';
-
-import {
-  dataArray,
-  defaultValues,
-  validationSchema,
-} from './UserManagement.data';
-
-import { UserManagementProps } from './UserManagement.interface';
-
-import { teamsDataArray } from './TeamsTable/TeamsTable.data';
-
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { v4 as uuidv4 } from 'uuid';
-
-function CustomTabPanel(props: UserManagementProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Box
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </Box>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-const UserManagement = ({ initialValueProps = defaultValues }: any) => {
-  const [value, setValue] = React.useState(0);
-  const [isAddUserOpen, setIsAddUserOpen] = useState(false);
-  const [isCreateTeamOpen, setIsCreateTeamOpen] = useState(false);
+const Users = () => {
   const theme = useTheme<Theme>();
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
-  const handleCloseDrawer = () => {
-    setIsAddUserOpen(false);
-    setIsCreateTeamOpen(false);
-  };
-
-  const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: initialValueProps,
-  });
+  const {
+    activeTab,
+    setActiveTab,
+    setIsAddUser,
+    isAddTeam,
+    setIsAddTeam,
+    setTeamId,
+    teamId,
+    teamDataById,
+    isOpenDelete,
+    isTeamDrawer,
+    setIsTeamDrawer,
+    setIsOpenDelete,
+    handleDeleteTeam,
+  } = useUserManagement();
 
   return (
     <>
-      <CommonDrawer
-        isDrawerOpen={isAddUserOpen}
-        onClose={handleCloseDrawer}
-        title={'Add User'}
-        okText={'Add'}
-        footer={true}
-        isOk={true}
-      >
-        <Typography
-          sx={{
-            fontWeight: 500,
-            fontSize: '12px',
-            color: `${theme.palette.custom.main}`,
-          }}
-        >
-          Add a new user to this organization
-        </Typography>
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={methods}>
-            <Grid container spacing={1}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
-      <CommonDrawer
-        isDrawerOpen={isCreateTeamOpen}
-        onClose={handleCloseDrawer}
-        title={'Create Team'}
-        okText={'Add'}
-        footer={true}
-        isOk={true}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={methods}>
-            <Grid container spacing={1}>
-              {teamsDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
       <Box
         sx={{
           border: `1px solid ${theme?.palette?.grey[700]}`,
@@ -165,9 +48,9 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
             className="small"
             onClick={() => {
               {
-                value === 0
-                  ? setIsAddUserOpen(true)
-                  : setIsCreateTeamOpen(true);
+                activeTab === 0
+                  ? setIsAddUser(true)
+                  : setIsAddTeam({ isToggle: true, type: 'add', data: {} });
               }
             }}
             variant="contained"
@@ -185,30 +68,48 @@ const UserManagement = ({ initialValueProps = defaultValues }: any) => {
                 fontSize: '16px',
               }}
             />
-            {value === 0 ? 'Add User' : 'Create Team'}
+            {activeTab === 0 ? 'Add User' : 'Create Team'}
           </Button>
         </Box>
         <Box sx={{ width: '100%' }}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="basic tabs example"
-            >
-              <Tab label="User" {...a11yProps(0)} />
-              <Tab label="Teams" {...a11yProps(1)} />
-            </Tabs>
-          </Box>
-          <CustomTabPanel value={value} index={0}>
+          <CommonTabs
+            getTabVal={(val: any) => setActiveTab(val)}
+            tabsArray={['Users', 'Teams']}
+          >
             <UserTable />
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={1}>
-            <TeamsTable />
-          </CustomTabPanel>
+            <TeamsTable
+              teamId={teamId}
+              setTeamId={setTeamId}
+              setIsAddTeam={setIsAddTeam}
+              setIsOpenDelete={setIsOpenDelete}
+              setIsTeamDrawer={setIsTeamDrawer}
+            />
+          </CommonTabs>
         </Box>
       </Box>
+      <CreateTeams isAddTeam={isAddTeam} setIsAddTeam={setIsAddTeam} />
+      <ViewTeams
+        isTeamDrawer={isTeamDrawer}
+        setIsTeamDrawer={setIsTeamDrawer}
+        teamData={teamDataById}
+      />
+
+      {isOpenDelete && (
+        <AlertModals
+          message={'Are you sure you want to delete this team?'}
+          type={'delete'}
+          open={isOpenDelete}
+          submitBtnText="Delete"
+          cancelBtnText="Cancel"
+          handleClose={() => setIsOpenDelete(false)}
+          handleSubmitBtn={() => {
+            setIsOpenDelete(false);
+            handleDeleteTeam(teamId);
+          }}
+        />
+      )}
     </>
   );
 };
 
-export default UserManagement;
+export default Users;

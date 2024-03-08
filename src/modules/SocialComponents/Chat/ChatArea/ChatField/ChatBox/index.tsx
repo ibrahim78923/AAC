@@ -316,17 +316,19 @@ const ChatBox = ({
                 >
                   <CharmTickIcon isRead={item?.isRead} />
                 </Box>
-                <Box sx={styles?.chatReactionWrapper(theme)}>
-                  {item?.reactions?.map((emoji: any) => (
-                    <Box
-                      key={uuidv4()}
-                      sx={styles?.chatReaction}
-                      dangerouslySetInnerHTML={{
-                        __html: emoji?.userReaction,
-                      }}
-                    />
-                  ))}
-                </Box>
+                {!item?.isDeleted && (
+                  <Box sx={styles?.chatReactionWrapper(theme)}>
+                    {item?.reactions?.map((emoji: any) => (
+                      <Box
+                        key={uuidv4()}
+                        sx={styles?.chatReaction}
+                        dangerouslySetInnerHTML={{
+                          __html: emoji?.userReaction,
+                        }}
+                      />
+                    ))}
+                  </Box>
+                )}
                 {item?._id === activeChat && (
                   <Box sx={styles?.sendReaction(theme)}>
                     {customEmojis?.map((emoji: any) => (
@@ -384,6 +386,7 @@ const ChatBox = ({
                   <MenuItem onClick={() => handelReply(item?._id)}>
                     Reply
                   </MenuItem>
+
                   <MenuItem onClick={handelDelete}>Delete</MenuItem>
                   <MenuItem onClick={handleCopyClick}>Copy</MenuItem>
                 </Menu>

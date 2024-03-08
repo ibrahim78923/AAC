@@ -8,6 +8,8 @@ import SoftwareFilter from './SoftwareFilter';
 import { SoftwareAssignCategory } from './SoftwareAssignCategory';
 import { UpsertSoftware } from './UpsertSoftware';
 import { useSoftware } from './useSoftware';
+import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 function Software() {
   const {
@@ -34,6 +36,11 @@ function Software() {
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
     filterValues,
+    methods,
+    submitHandler,
+    upsertLoading,
+    onClose,
+    userQuery,
   } = useSoftware();
 
   return (
@@ -41,6 +48,9 @@ function Software() {
       <PageTitledHeader
         title={'Software'}
         addTitle={'New Software'}
+        createPermissionKey={
+          AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.NEW_SOFTWARE
+        }
         handleAction={() => setIsAddDrawerOpen(true)}
       />
       <Box
@@ -51,12 +61,18 @@ function Software() {
         gap={1.5}
       >
         <Box>
-          <Search
-            label="search"
-            width="100%"
-            searchBy={searchValue}
-            setSearchBy={setSearchValue}
-          />
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SEARCH_AND_FILTER,
+            ]}
+          >
+            <Search
+              label="search"
+              width="100%"
+              searchBy={searchValue}
+              setSearchBy={setSearchValue}
+            />
+          </PermissionsGuard>
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
           <Button
@@ -69,39 +85,51 @@ function Software() {
           >
             Assign Category
           </Button>
-          <Button
-            color="secondary"
-            variant="outlined"
-            startIcon={<FilterSharedIcon />}
-            onClick={() => setIsOpenFilterDrawer(true)}
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SEARCH_AND_FILTER,
+            ]}
           >
-            Filter
-          </Button>
+            <Button
+              color="secondary"
+              variant="outlined"
+              startIcon={<FilterSharedIcon />}
+              onClick={() => setIsOpenFilterDrawer(true)}
+            >
+              Filter
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       <br />
       <Box>
-        <TanstackTable
-          isError={isError}
-          isSuccess={isSuccess}
-          isLoading={isLoading}
-          data={assetsSoftwares}
-          columns={columns(
-            softwareData,
-            setSoftwareData,
-            assetsSoftwares,
-            router,
-          )}
-          isPagination
-          count={paginationData?.pages}
-          totalRecords={paginationData?.total}
-          pageLimit={pageLimit}
-          currentPage={page}
-          rowsPerPageOptions={[10, 20]}
-          onPageChange={handlePageChange}
-          setPageLimit={setPageLimit}
-          setPage={setPage}
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SOFTWARE_LIST_VIEW,
+          ]}
+        >
+          <TanstackTable
+            isError={isError}
+            isSuccess={isSuccess}
+            isLoading={isLoading}
+            data={assetsSoftwares}
+            columns={columns(
+              softwareData,
+              setSoftwareData,
+              assetsSoftwares,
+              router,
+            )}
+            isPagination
+            count={paginationData?.pages}
+            totalRecords={paginationData?.total}
+            pageLimit={pageLimit}
+            currentPage={page}
+            rowsPerPageOptions={[10, 20]}
+            onPageChange={handlePageChange}
+            setPageLimit={setPageLimit}
+            setPage={setPage}
+          />
+        </PermissionsGuard>
       </Box>
 
       {isOpenFilterDrawer && (
@@ -120,7 +148,11 @@ function Software() {
       />
       <UpsertSoftware
         isDrawerOpen={isAddDrawerOpen}
-        onClose={setIsAddDrawerOpen}
+        onClose={onClose}
+        methods={methods}
+        submitHandler={submitHandler}
+        isLoading={upsertLoading}
+        userQuery={userQuery}
       />
     </>
   );

@@ -62,7 +62,7 @@ export const TopPerformerDashboardCard = ({
       </Box>
 
       <Grid container spacing={2} mt={4.4}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} md={6}>
           <Box display={'flex'} gap={1.5} flexWrap={'wrap'}>
             <Avatar
               alt=""
@@ -72,27 +72,14 @@ export const TopPerformerDashboardCard = ({
             <Typography sx={{ flex: 1 }}>{badgeText}</Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={12} md={6}>
           <Box display={'flex'} gap={1.5} flexWrap={'wrap'}>
             <Avatar
               alt=""
               src={badgeNextImage?.src}
               sx={{ width: '2.375rem', height: '2.721rem' }}
             />
-            <Typography
-              sx={{
-                flex: 1,
-                display: 'inline',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              {badgeNextText.split(' ')[0]}&nbsp;
-              {badgeNextText.split(' ')[1]}
-              <br />
-              {badgeNextText.split(' ')[2]}
-            </Typography>
+            <Typography sx={{ flex: 1 }}>{badgeNextText}</Typography>
           </Box>
         </Grid>
       </Grid>

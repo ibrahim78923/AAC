@@ -1,16 +1,25 @@
-import { Avatar, Box, Checkbox } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { Avatar, Box, Checkbox } from '@mui/material';
 
 export const agentActionsDropdown = (handleActionClick: any) => [
   {
+    id: 1,
     title: 'Edit',
+    permissionKey: [
+      AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_AGENTS,
+    ],
     handleClick: (close: any) => {
       handleActionClick('edit');
       close?.(false);
     },
   },
   {
+    id: 2,
     title: 'Delete',
+    permissionKey: [
+      AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_AGENTS,
+    ],
     handleClick: () => {
       handleActionClick?.('delete');
     },

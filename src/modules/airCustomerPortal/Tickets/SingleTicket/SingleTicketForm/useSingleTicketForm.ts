@@ -1,14 +1,11 @@
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import { useRef } from 'react';
+import { useTheme } from '@mui/material';
 
-export const useSingleTicketForm = (props: any) => {
-  const { singleTicketFormDefaultValues, singleTicketFormValidationSchema } =
-    props;
+export const useSingleTicketForm = () => {
   const methods: any = useForm({
-    resolver: yupResolver(singleTicketFormValidationSchema),
-    defaultValues: singleTicketFormDefaultValues,
+    defaultValues: { yourReplay: '' },
   });
 
   const { handleSubmit, reset } = methods;
@@ -17,18 +14,20 @@ export const useSingleTicketForm = (props: any) => {
     enqueueSnackbar('Your reply has been sent!', {
       variant: 'success',
     });
-    reset(singleTicketFormDefaultValues);
+    reset();
   };
 
   const fileImport: any = useRef();
   const handleImport = () => {
     fileImport?.current?.click();
   };
+  const theme = useTheme();
   return {
     methods,
     handleSubmit,
     onSubmit,
     fileImport,
     handleImport,
+    theme,
   };
 };

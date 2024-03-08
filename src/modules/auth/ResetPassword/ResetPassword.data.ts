@@ -38,6 +38,8 @@ export const resetPasswordDataArray = [
     componentProps: {
       name: 'newPassword',
       label: 'New Password',
+      placeholder: 'Enter your new password',
+      required: true,
       fullWidth: true,
     },
     component: RHFTextField,
@@ -47,7 +49,9 @@ export const resetPasswordDataArray = [
     componentProps: {
       name: 'confirmPassword',
       label: 'Confirm Password',
+      placeholder: 'Confirm Password',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,

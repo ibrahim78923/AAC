@@ -2,19 +2,20 @@ import { PAGINATION } from '@/config';
 import {
   NOTISTACK_VARIANTS,
   SOFTWARE_USER_ACTIONS_TYPES,
-  EXPORT_TYPE,
   EXPORT_FILE_TYPE,
 } from '@/constants/strings';
 import {
   useDeallocateContractMutation,
   useGetSoftwareUsersDetailsQuery,
   useRemoveContractMutation,
+  useAllocateContractMutation,
+  useLazyGetExportSoftwareUsersQuery,
 } from '@/services/airServices/assets/software/single-software-detail/users';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 import { downloadFile } from '@/utils/file';
 import { useSearchParams } from 'next/navigation';
-import { userData } from '@/modules/airServices/Dashboard/CreateDashboard/CreateDashboard.data';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 const useUsers = () => {
   const [usersData, setUsersData] = useState([]);
@@ -23,9 +24,6 @@ const useUsers = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [selectedExportType, setSelectedExportType] = useState(
-    EXPORT_TYPE?.XLS,
-  );
 
   const params = useSearchParams();
   const softwareId = params?.get('softwareId');
@@ -37,18 +35,15 @@ const useUsers = () => {
     isError,
   } = useGetSoftwareUsersDetailsQuery({
     id: softwareId,
-    page,
-    limit,
+    page: page,
+    limit: limit,
   });
-  const metaData = getSoftwareUsers?.data?.[0];
-  const { data: getSoftwareExportUsers } = useGetSoftwareUsersDetailsQuery({
-    id: softwareId,
-    page,
-    limit,
-    exportType: selectedExportType,
-  });
+  const metaData = getSoftwareUsers?.data?.meta;
+
+  const [getExportUserTrigger] = useLazyGetExportSoftwareUsersQuery();
 
   const [userDeallocate] = useDeallocateContractMutation();
+  const [userAllocate] = useAllocateContractMutation();
   const [userRemove] = useRemoveContractMutation();
 
   const userActionClickHandler = (title: any) => {
@@ -75,117 +70,72 @@ const useUsers = () => {
     setActionModalOpen(false);
   };
 
-  const excelExportHandler = async () => {
+  const getUserListDataExport = async (type: any) => {
+    const getUserParam = new URLSearchParams();
+    getUserParam?.append('page', page + '');
+    getUserParam?.append('limit', limit + '');
+    getUserParam?.append('id', softwareId + '');
+    // getUserParam?.append('search', searchBy + '');
+    getUserParam?.append('exportType', type);
     try {
-      const excelData = getSoftwareUsers?.data?.[0]?.collections[0]?.details;
-      const userArray = Array.isArray(excelData) ? excelData : [excelData];
-
-      const formattedExcelData = userArray.map((user) => ({
-        Name: `${user?.details?.firstName || 'Unknown'} ${
-          user?.details?.lastName || 'Unknown'
-        }`,
-        Department: user?.data?.department || '--',
-        Source: user?.data?.source || '--',
-        Usage: user?.data?.usage || '--',
-        'First Seen': user?.createdAt || '--',
-        'Last Seen': user?.updatedAt || '--',
-        'Assigned Date': user?.createdAt || '--',
-        Contract: user?.data?.contract || '--',
-      }));
-
-      const convertedExcelData = formattedExcelData.map((user) => ({
-        ...user,
-        Contract: String(user.Contract),
-      }));
-
-      downloadFile(
-        convertedExcelData || [],
-        'excel-export.xlsx',
-        EXPORT_FILE_TYPE?.XLS,
-      );
-      enqueueSnackbar(
-        getSoftwareExportUsers?.data?.message ??
-          ' XLS File Download successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
-    } catch (error) {
-      enqueueSnackbar(
-        getSoftwareExportUsers?.data?.message ?? ' Error exporting XLS file ',
-        {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        },
-      );
+      const response: any = await getExportUserTrigger(getUserParam)?.unwrap();
+      downloadFile(response, 'User Data List', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar(response?.data?.message ?? `Users Exported Successfully`);
+      setUsersData([]);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message ?? `Users Not Exported`);
+      setUsersData([]);
     }
   };
-
-  const csvExportHandler = async () => {
-    try {
-      const csvData = getSoftwareUsers?.data?.[0]?.collections[0]?.details;
-      const userArray = Array.isArray(csvData) ? csvData : [csvData];
-
-      const formattedCsvData = userArray.map((user) => ({
-        Name: `${user?.details?.firstName || 'Unknown'} ${
-          user?.details?.lastName || 'Unknown'
-        }`,
-        Department: user?.data?.department || '--',
-        Source: user?.data?.source || '--',
-        Usage: user?.data?.usage || '--',
-        'First Seen': user?.createdAt || '--',
-        'Last Seen': user?.updatedAt || '--',
-        'Assigned Date': user?.createdAt || '--',
-        Contract: user?.data?.contract || '--',
-      }));
-      const convertedCsvData = formattedCsvData.map((user) => ({
-        ...user,
-
-        Contract: String(user.Contract),
-      }));
-
-      downloadFile(
-        convertedCsvData || [],
-        'csv-export.csv',
-        EXPORT_FILE_TYPE?.CSV,
-      );
-      enqueueSnackbar(
-        getSoftwareExportUsers?.data?.message ??
-          'CSV File Download Successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
-    } catch (error) {
-      enqueueSnackbar(
-        getSoftwareExportUsers?.data?.message ?? 'Error exporting CSV file',
-        {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        },
-      );
-    }
+  const allocateParams = {
+    id: softwareId,
+    softwareId: getSoftwareUsers?.data?.softwareusers?.userId,
+    contractId: getSoftwareUsers?.data?.softwareusers?.Contract,
   };
-  // const dealocateParams = new URLSearchParams();
-  // dealocateParams?.append('id', userData?._id + '');
-  // dealocateParams?.append('contractId', userData?.contracts?._id + '');
+  const deallocateParams = {
+    id: softwareId,
+    softwareId: getSoftwareUsers?.data?.softwareusers?.userId,
+    contractId: getSoftwareUsers?.data?.softwareusers?.Contract,
+  };
   const deleteParams = new URLSearchParams();
   usersData?.forEach((user: any) => deleteParams?.append('ids', user?._id));
   const actionClickHandler = async (selectedActionTitle: any) => {
     try {
       switch (selectedActionTitle) {
         case SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE:
-          enqueueSnackbar('Contract Allocated Successfully', {
-            variant: NOTISTACK_VARIANTS?.SUCCESS,
-          });
-          userActionDropdownCloseHandler();
-          setUsersData([]);
+          try {
+            const res = await userAllocate(allocateParams)?.unwrap();
+            enqueueSnackbar(res?.message ?? 'Contract Allocated successfully', {
+              variant: NOTISTACK_VARIANTS?.SUCCESS,
+            });
+            userActionDropdownCloseHandler();
+            setUsersData([]);
+          } catch (error: any) {
+            enqueueSnackbar(error?.error?.message ?? 'Contract Not Allocated', {
+              variant: NOTISTACK_VARIANTS?.ERROR,
+            });
+          }
+
           break;
         case SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE:
-          await userDeallocate(userData?._id);
-          enqueueSnackbar('Contract Deallocated Successfully', {
-            variant: NOTISTACK_VARIANTS?.SUCCESS,
-          });
-          userActionDropdownCloseHandler();
-          setUsersData([]);
+          try {
+            const res = await userDeallocate(deallocateParams)?.unwrap();
+            enqueueSnackbar(
+              res?.message ?? 'Contract Deallocate successfully',
+              {
+                variant: NOTISTACK_VARIANTS?.SUCCESS,
+              },
+            );
+            userActionDropdownCloseHandler();
+            setUsersData([]);
+          } catch (error: any) {
+            enqueueSnackbar(
+              error?.error?.message ?? 'Contract Not Deallocated',
+              {
+                variant: NOTISTACK_VARIANTS?.ERROR,
+              },
+            );
+          }
           break;
         case SOFTWARE_USER_ACTIONS_TYPES?.REMOVE:
           try {
@@ -210,21 +160,13 @@ const useUsers = () => {
         default:
           break;
       }
-    } catch (error) {
-      // Handle errors and show appropriate messages
-      // console.error('Error:', error);
-    }
-  };
-  // console.log(userData);
-  const handleExportTypeClick = (type: any) => {
-    setSelectedExportType(type);
+    } catch (error) {}
   };
 
   return {
     userActionClickHandler,
     userActionDropdownCloseHandler,
-    excelExportHandler,
-    csvExportHandler,
+    getUserListDataExport,
     actionClickHandler,
     setActionModalOpen,
     actionModalOpen,
@@ -238,7 +180,6 @@ const useUsers = () => {
     setLimit,
     page,
     limit,
-    handleExportTypeClick,
     isLoading,
     isFetching,
     isSuccess,

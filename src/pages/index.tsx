@@ -7,5 +7,4 @@ export default function Home() {
 
 Home.getLayout = function getLayout(page: any) {
   return <AuthGuard>{page}</AuthGuard>;
-  // return page;
 };

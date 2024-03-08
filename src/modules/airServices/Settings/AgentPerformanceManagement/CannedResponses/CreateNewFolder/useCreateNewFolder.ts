@@ -8,7 +8,10 @@ import {
 import { useEffect } from 'react';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { usePostCannedResponsesMutation } from '@/services/airServices/settings/agent-performance-management/canned-responses';
+import {
+  usePatchCannedResponseMutation,
+  usePostCannedResponsesMutation,
+} from '@/services/airServices/settings/agent-performance-management/canned-responses';
 
 export const useCreateNewFolder = (props: any) => {
   const { openCreateNewFolderModal, closeCreateNewFolderModal } = props;
@@ -18,15 +21,20 @@ export const useCreateNewFolder = (props: any) => {
   });
   const [postCannedResponseTrigger, postCannedResponseStatus] =
     usePostCannedResponsesMutation();
+  const [patchCannedResponseTrigger, patchCannedResponseStatus] =
+    usePatchCannedResponseMutation();
   const { reset } = method;
   const onSubmit = async (data: any) => {
-    const upsertCannedResponseFormData = new FormData();
-    Object?.entries?.(data || {})?.forEach(
-      ([key, value]: any) => upsertCannedResponseFormData?.append(key, value),
-    );
     const postCannedResponseParameter = {
       body: data,
     };
+    if (!!openCreateNewFolderModal?.editData) {
+      const responseParameter = {
+        body: { ...data, id: openCreateNewFolderModal?.editData?._id },
+      };
+      submitUpdateCannedResponse(responseParameter);
+      return;
+    }
     try {
       const response = await postCannedResponseTrigger(
         postCannedResponseParameter,
@@ -42,6 +50,23 @@ export const useCreateNewFolder = (props: any) => {
       });
     }
   };
+  const submitUpdateCannedResponse = async (data: any) => {
+    try {
+      const response = await patchCannedResponseTrigger(data)?.unwrap();
+      enqueueSnackbar(
+        response?.message ?? 'Canned Response Updated Successfully!',
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
+      closeCreateNewFolderModal();
+      reset();
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
   useEffect(() => {
     reset(
       upsertFolderDefaultValuesFunction(openCreateNewFolderModal?.editData),
@@ -53,5 +78,6 @@ export const useCreateNewFolder = (props: any) => {
     openCreateNewFolderModal,
     closeCreateNewFolderModal,
     postCannedResponseStatus,
+    patchCannedResponseStatus,
   };
 };

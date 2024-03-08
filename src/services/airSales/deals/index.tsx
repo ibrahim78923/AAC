@@ -41,7 +41,7 @@ export const dealsApi = baseAPI.injectEndpoints({
       invalidatesTags: ['DEALS'],
     }),
 
-    getDealsSalesProduct: builder.query({
+    getDealPipeLine: builder.query({
       query: ({ ...params }: any) => ({
         url: `${END_POINTS?.DEALS_PIPELINE}`,
         method: 'GET',
@@ -54,6 +54,15 @@ export const dealsApi = baseAPI.injectEndpoints({
       query: ({}) => ({
         url: `${END_POINTS?.DEALS_LIFECYCLE_STAGES}`,
         method: 'GET',
+      }),
+      providesTags: ['DEALS'],
+    }),
+
+    getAddLineItems: builder.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.SALE_PRODUCTS}`,
+        method: 'GET',
+        params: params,
       }),
       providesTags: ['DEALS'],
     }),
@@ -164,7 +173,7 @@ export const dealsApi = baseAPI.injectEndpoints({
     }),
     getCustomizeColumn: builder.query({
       query: (params) => ({
-        url: `${END_POINTS?.DEALS_CUSTOMIZE_COLUMN}`,
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'GET',
         params: params,
       }),
@@ -182,7 +191,7 @@ export const dealsApi = baseAPI.injectEndpoints({
     }),
     putCustomizedColumns: builder.mutation({
       query: ({ body }: any) => ({
-        url: `${END_POINTS?.DEALS_CUSTOMIZE_COLUMN}`,
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'PUT',
         body,
       }),
@@ -194,8 +203,9 @@ export const dealsApi = baseAPI.injectEndpoints({
 export const {
   useGetDealsListQuery,
   // useGetDealsByIdQuery,
-  useGetDealsSalesProductQuery,
+  useGetDealPipeLineQuery,
   useGetDealsLifecycleStageQuery,
+  useGetAddLineItemsQuery,
   // useGetDealsUserListQuery,
   useGetDealsGridViewQuery,
   useGetDealsActionPreviewQuery,

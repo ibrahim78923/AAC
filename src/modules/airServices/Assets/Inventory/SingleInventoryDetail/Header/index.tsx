@@ -4,6 +4,8 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useRouter } from 'next/router';
 import { ViewDetailBackArrowIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
+import { Permissions } from '@/constants/permissions';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 export const Header = (props: any) => {
   const { dropdownOptions } = props;
   const router = useRouter();
@@ -32,7 +34,11 @@ export const Header = (props: any) => {
           <Typography variant="h5">Logitech Mouse</Typography>
         </Box>
         <Box>
-          <SingleDropdownButton dropdownOptions={dropdownOptions} />
+          <PermissionsGuard
+            permissions={Permissions?.AIR_SERVICES_ASSETS_INVENTORY_ACTION}
+          >
+            <SingleDropdownButton dropdownOptions={dropdownOptions} />
+          </PermissionsGuard>
         </Box>
       </Box>
     </>

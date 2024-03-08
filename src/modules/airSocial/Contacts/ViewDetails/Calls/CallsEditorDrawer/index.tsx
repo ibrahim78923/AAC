@@ -10,98 +10,92 @@ import {
   RHFSelect,
 } from '@/components/ReactHookForm';
 
-import useCallsEditorDrawer from './useCallsEditorDrawer';
-import {
-  dealsCallsDataArray,
-  drawerButtonTitle,
-  drawerTitle,
-} from './CallsEditorDrawer.data';
+import { editCallFormData } from './CallsEditorDrawer.data';
 
 import { avatarGroupMockData } from '@/modules/superAdmin/PlanManagement/PlanManagement.data';
 import { options } from '../../Emails/EmailEditorDrawer/EmailEditorDrawer.data';
 
-import { AttendeeAvatarImage } from '@/assets/images';
-
-import { v4 as uuidv4 } from 'uuid';
-
 const CallsEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
-  const { handleSubmit, onSubmit, methodsdealsCalls } = useCallsEditorDrawer();
+  const {
+    title,
+    openDrawer,
+    onClose,
+    methods,
+    onSubmit,
+    employeeList,
+    contactsList,
+    isFieldDisabled,
+    loading,
+  } = props;
+  const formFields = editCallFormData(employeeList, isFieldDisabled);
 
   return (
-    <div>
-      <CommonDrawer
-        isDrawerOpen={openDrawer}
-        onClose={() => setOpenDrawer('')}
-        title={drawerTitle[openDrawer]}
-        okText={drawerButtonTitle[openDrawer]}
-        isOk={true}
-        footer={openDrawer === 'View' ? false : true}
-      >
-        <Box sx={{ pt: 2 }}>
-          <FormProvider
-            methods={methodsdealsCalls}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <Grid container spacing={5}>
-              {dealsCallsDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select
-                      ? item?.options?.map((option: any) => (
-                          <option key={option?.value} value={option?.value}>
-                            {option?.label}
-                          </option>
-                        ))
-                      : null}
-                  </item.component>
-                </Grid>
-              ))}
+    <CommonDrawer
+      isDrawerOpen={openDrawer}
+      onClose={onClose}
+      title={`${title} Call`}
+      okText={'Edit'}
+      isOk={true}
+      footer={title === 'View' ? false : true}
+      submitHandler={onSubmit}
+      isLoading={loading}
+    >
+      <Box sx={{ pt: 2 }}>
+        <FormProvider methods={methods}>
+          <Grid container spacing={'22px'}>
+            {formFields?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?.id}>
+                <item.component {...item?.componentProps} size={'small'}>
+                  {item?.componentProps?.select
+                    ? item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))
+                    : null}
+                </item.component>
+              </Grid>
+            ))}
 
-              <Grid item xs={12} md={8}>
-                <RHFMultiSearchableSelect
-                  size="small"
-                  label="Attendees"
-                  name="attendee"
-                  options={[
-                    {
-                      value: 'Guy Hawkins',
-                      label: 'Guy Hawkins',
-                      image: AttendeeAvatarImage,
-                    },
-                    {
-                      value: 'Jacob Jones',
-                      label: 'Jacob Jones',
-                      image: AttendeeAvatarImage,
-                    },
-                    {
-                      value: 'Courtney Henry',
-                      label: 'Courtney Henry',
-                      image: AttendeeAvatarImage,
-                    },
-                  ]}
-                />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <AppAvatarGroup data={avatarGroupMockData} />
-              </Grid>
-              <Grid item xs={12}>
-                <RHFSelect name="template" label="Template" size="small">
-                  {options?.map((option: any) => (
-                    <option key={uuidv4()} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-                </RHFSelect>
-              </Grid>
-              <Grid item xs={12}>
-                <RHFEditor label="Meeting Notes" name="meeeting_notes" />
-              </Grid>
+            <Grid item xs={12} md={8}>
+              <RHFMultiSearchableSelect
+                size="small"
+                label="Attendees"
+                name="assignee"
+                options={contactsList}
+                required={true}
+                disabled={isFieldDisabled}
+              />
             </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
-    </div>
+            <Grid item xs={12} md={4}>
+              <AppAvatarGroup data={avatarGroupMockData} />
+            </Grid>
+            <Grid item xs={12}>
+              <RHFSelect
+                name="outcome"
+                label="Outcome"
+                size="small"
+                disabled={isFieldDisabled}
+              >
+                {options?.map((option: any) => (
+                  <option key={option?.value} value={option?.value}>
+                    {option?.label}
+                  </option>
+                ))}
+              </RHFSelect>
+            </Grid>
+            <Grid item xs={12}>
+              <RHFEditor
+                label="Meeting Notes"
+                name="note"
+                required
+                disabled={isFieldDisabled}
+              />
+            </Grid>
+          </Grid>
+        </FormProvider>
+      </Box>
+    </CommonDrawer>
   );
 };
 

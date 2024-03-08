@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ImportLocation } from '../ImportLocation';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -39,16 +41,22 @@ export const Header = () => {
           >
             Import
           </Button>
-          <Button
-            variant="contained"
-            onClick={() =>
-              router?.push({
-                pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
-              })
-            }
+          <PermissionsGuard
+            permissions={[
+              AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.ADD_LOCATION,
+            ]}
           >
-            New Location
-          </Button>
+            <Button
+              variant="contained"
+              onClick={() =>
+                router?.push({
+                  pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
+                })
+              }
+            >
+              New Location
+            </Button>
+          </PermissionsGuard>
         </Box>
       </Box>
       <ImportLocation

@@ -39,7 +39,6 @@ export const contractAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: deleteContractParameter?.queryParams,
       }),
-      invalidatesTags: [TAG],
     }),
     getContractTypeDropdown: builder?.query({
       query: ({ params }: any) => ({
@@ -131,6 +130,46 @@ export const contractAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_FIVE],
     }),
+    patchContractSubmitForApproval: builder?.mutation({
+      query: (patchContractSubmitForApprovalParameter: any) => ({
+        url: `${END_POINTS?.UPDATE_CONTRACT_SUBMIT_APPROVAL}/${patchContractSubmitForApprovalParameter?.pathParam?.contractId}`,
+        method: 'PATCH',
+        body: patchContractSubmitForApprovalParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    patchContractApprove: builder?.mutation({
+      query: (patchContractApproveParameter: any) => ({
+        url: `${END_POINTS?.UPDATE_CONTRACT_APPROVE}/${patchContractApproveParameter?.pathParam?.contractId}`,
+        method: 'PATCH',
+        body: patchContractApproveParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    patchContractReject: builder?.mutation({
+      query: (patchContractRejectParameter: any) => ({
+        url: `${END_POINTS?.UPDATE_CONTRACT_REJECT}/${patchContractRejectParameter?.pathParam?.contractId}`,
+        method: 'PATCH',
+        body: patchContractRejectParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    patchContractTerminated: builder?.mutation({
+      query: (patchContractTerminatedParameter: any) => ({
+        url: `${END_POINTS?.UPDATE_CONTRACT_SUBMIT_APPROVAL}/${patchContractTerminatedParameter?.pathParam?.contractId}`,
+        method: 'PATCH',
+        body: patchContractTerminatedParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    patchContractRenewExtend: builder?.mutation({
+      query: (patchContractRenewExtendParameter: any) => ({
+        url: `${END_POINTS?.UPDATE_CONTRACT}/${patchContractRenewExtendParameter?.pathParam?.contractId}`,
+        method: 'PATCH',
+        body: patchContractRenewExtendParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -148,4 +187,9 @@ export const {
   useLazyGetSoftwareDropdownQuery,
   useLazyGetAgentsDropdownQuery,
   useGetSingleContractByIdQuery,
+  usePatchContractSubmitForApprovalMutation,
+  usePatchContractApproveMutation,
+  usePatchContractRejectMutation,
+  usePatchContractTerminatedMutation,
+  usePatchContractRenewExtendMutation,
 } = contractAPI;

@@ -59,10 +59,12 @@ const useQuotes = () => {
     useGetQuotesQuery({
       params: { ...filterParams, ...searchPayLoad },
     });
+
   const [DeleteQuotes] = useDeleteQuotesMutation();
 
   // Filters
   const [openFilters, setOpenFilters] = useState(false);
+
   const handleOpenFilters = () => {
     setOpenFilters(true);
   };

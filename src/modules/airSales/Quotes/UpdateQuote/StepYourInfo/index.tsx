@@ -5,8 +5,10 @@ import TemplateFrame from '../TemplateFrame';
 import TemplateBasic from '../TemplateBasic';
 import { ProfileCircleIcon } from '@/assets/icons/index';
 import { styles } from './StepYourInfo.style';
+import { getSession } from '@/utils';
 
 const StepYourInfo = () => {
+  const { user } = getSession();
   return (
     <Grid container spacing={'40px'}>
       <Grid item xs={5}>
@@ -25,10 +27,14 @@ const StepYourInfo = () => {
             <ProfileCircleIcon />
           </Box>
           <Box sx={styles?.contactInfo}>
-            <Box sx={styles?.contactTitle}>Adil khan</Box>
-            <Box sx={styles?.contactInfoText}>No Title</Box>
-            <Box sx={styles?.contactInfoText}>adil.khan@orcalo.co.uk</Box>
-            <Box sx={styles?.contactInfoText}>No phone no</Box>
+            <Box sx={styles?.contactTitle}>
+              {`${user?.firstName} ${user?.lastName}`}
+            </Box>
+            <Box sx={styles?.contactInfoText}>
+              {user?.role?.toLowerCase()?.split('_')?.join(' ')}
+            </Box>
+            <Box sx={styles?.contactInfoText}>{user?.email}</Box>
+            <Box sx={styles?.contactInfoText}>{user?.phoneNumber}</Box>
           </Box>
         </Box>
       </Grid>

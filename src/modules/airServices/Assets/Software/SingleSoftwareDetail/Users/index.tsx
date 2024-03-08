@@ -13,25 +13,27 @@ import useUsers from './useUsers';
 import UserActionModal from './UserActionModal';
 import { EXPORT_TYPE, SOFTWARE_USER_ACTIONS_TYPES } from '@/constants/strings';
 import { LoadingButton } from '@mui/lab';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Users = () => {
   const {
     setActionModalOpen,
-    csvExportHandler,
-    excelExportHandler,
+    getUserListDataExport,
     usersData,
     actionClickHandler,
     userActionClickHandler,
     actionModalOpen,
     userActionDropdownCloseHandler,
     selectedActionTitle,
-    handleExportTypeClick,
     setSearch,
     setUsersData,
   } = useUsers();
 
   return (
-    <>
+    <PermissionsGuard
+      permissions={[AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.USERS]}
+    >
       <Box
         display={'flex'}
         justifyContent={'space-between'}
@@ -53,14 +55,8 @@ export const Users = () => {
 
           <UsersAdd />
           <ExportButton
-            handleCsvExport={() => {
-              handleExportTypeClick(EXPORT_TYPE?.CSV);
-              csvExportHandler();
-            }}
-            handleExcelExport={() => {
-              handleExportTypeClick(EXPORT_TYPE?.XLS);
-              excelExportHandler();
-            }}
+            handleCsvExport={() => getUserListDataExport(EXPORT_TYPE?.CSV)}
+            handleExcelExport={() => getUserListDataExport(EXPORT_TYPE?.XLS)}
           />
           <UsersFilter />
         </Box>
@@ -123,6 +119,6 @@ export const Users = () => {
       <br />
       <UsersTable setUsersData={setUsersData} usersData={usersData} />
       <br />
-    </>
+    </PermissionsGuard>
   );
 };

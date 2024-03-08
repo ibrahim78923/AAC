@@ -51,7 +51,6 @@ export const inventoryAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: deleteInventoryParameter?.queryParams,
       }),
-      invalidatesTags: [TAG],
     }),
     getAssetType: builder?.query({
       query: ({ params }: any) => ({

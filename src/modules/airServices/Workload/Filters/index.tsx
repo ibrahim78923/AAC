@@ -1,14 +1,5 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Button,
-  Popover,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Popover, Typography } from '@mui/material';
 import { FilterSharedIcon } from '@/assets/icons';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import useFilters from './useFilters';
 
 export const Filters = ({ setFilter }: any) => {
@@ -40,62 +31,65 @@ export const Filters = ({ setFilter }: any) => {
           horizontal: 'right',
         }}
       >
-        <Box width={250} p={1}>
-          <Accordion>
-            <AccordionSummary
-              sx={{
-                flexDirection: 'row-reverse',
-                p: 0,
-                '& > :first-child': { variant: 'body2' },
-              }}
-              expandIcon={<ArrowDropDownIcon />}
-              aria-controls="panel2a-content"
-              id="panel2a-header"
-            >
-              <Typography>Workload count</Typography>
-            </AccordionSummary>
-            <AccordionDetails sx={{ py: 0, mt: -1 }}>
-              <Button
-                color={'secondary'}
-                sx={{ fontWeight: 400 }}
-                onClick={() =>
-                  setFilter({
-                    countDayWise: true,
-                    countDayWiseHours: undefined,
-                    countDayWiseHoursAverage: undefined,
-                  })
-                }
-              >
-                Workload count
-              </Button>
-              <Button
-                color={'secondary'}
-                sx={{ fontWeight: 400 }}
-                onClick={() =>
-                  setFilter({
-                    countDayWise: undefined,
-                    countDayWiseHours: true,
-                    countDayWiseHoursAverage: undefined,
-                  })
-                }
-              >
-                Workload hours
-              </Button>
-              <Button
-                color={'secondary'}
-                sx={{ fontWeight: 400 }}
-                onClick={() =>
-                  setFilter({
-                    countDayWise: undefined,
-                    countDayWiseHours: undefined,
-                    countDayWiseHoursAverage: true,
-                  })
-                }
-              >
-                Workload hours as %
-              </Button>
-            </AccordionDetails>
-          </Accordion>
+        <Box width={250} p={2}>
+          <Typography
+            variant={'body2'}
+            color={'secondary.main'}
+            sx={{ cursor: 'pointer' }}
+            onClick={() =>
+              setFilter({
+                countDayWise: undefined,
+                countDayWiseHours: undefined,
+                countDayWiseHoursAverage: undefined,
+              })
+            }
+          >
+            None
+          </Typography>
+          <Typography
+            variant={'body2'}
+            color={'secondary.main'}
+            my={2}
+            sx={{ cursor: 'pointer' }}
+            onClick={() =>
+              setFilter({
+                countDayWise: true,
+                countDayWiseHours: undefined,
+                countDayWiseHoursAverage: undefined,
+              })
+            }
+          >
+            Workload count
+          </Typography>
+          <Typography
+            variant={'body2'}
+            color={'secondary.main'}
+            sx={{ cursor: 'pointer' }}
+            onClick={() =>
+              setFilter({
+                countDayWise: undefined,
+                countDayWiseHours: true,
+                countDayWiseHoursAverage: undefined,
+              })
+            }
+          >
+            Workload hours
+          </Typography>
+          <Typography
+            variant={'body2'}
+            color={'secondary.main'}
+            mt={2}
+            sx={{ cursor: 'pointer' }}
+            onClick={() =>
+              setFilter({
+                countDayWise: undefined,
+                countDayWiseHours: undefined,
+                countDayWiseHoursAverage: true,
+              })
+            }
+          >
+            Workload hours as %
+          </Typography>
         </Box>
       </Popover>
     </>

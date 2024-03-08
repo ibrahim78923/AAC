@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { styles } from './Tasks.styles';
 import { DATE_FORMAT } from '@/constants';
+import { fullName } from '@/utils/avatarUtils';
 
 export const tasksTableColumns: any = (
   activeCheck: any,
@@ -95,9 +96,7 @@ export const tasksTableColumns: any = (
       isSortable: true,
       header: 'Assigned To',
       cell: (info: any) =>
-        info?.getValue()
-          ? `${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`
-          : 'Unknown',
+        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
     },
     {
       accessorFn: (row: any) => row?.status,
@@ -118,29 +117,3 @@ export const tasksTableColumns: any = (
     },
   ];
 };
-export const tasksTableData: any = [
-  {
-    Id: 1,
-    taskID: `# TSK - 5`,
-    taskName: 'Business Platform debt, docs, refactors and stability',
-    dueDate: 'Mar 3, - Mar 26, 2022',
-    assignedTo: 'Robert Fox',
-    status: 'To do',
-  },
-  {
-    Id: 2,
-    taskID: `# TSK - 6`,
-    taskName: 'Search migration modelling',
-    dueDate: '.......',
-    assignedTo: 'Esther Howard',
-    status: 'In-Progress',
-  },
-  {
-    Id: 3,
-    taskID: `# TSK - 7`,
-    taskName: 'Style guide for online app store',
-    dueDate: 'Mar 3, - Mar 27, 2022',
-    assignedTo: 'Wade Warren',
-    status: 'Done',
-  },
-];

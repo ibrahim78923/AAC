@@ -4,7 +4,6 @@ import { TicketDashboardCards } from '@/modules/airServices/Dashboard/TicketDash
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { AnnouncementDashboardCard } from '@/modules/airServices/Dashboard/AnnouncementDashboard/AnnouncementDashboardCard';
 import { TopPerformerDashboardCard } from '@/modules/airServices/Dashboard/TopPerformerDashboardCard';
-import { v4 as uuidv4 } from 'uuid';
 import { ticketDashboardCardsData } from './TicketDashboardCards/TicketDashboardCards.data';
 import { recentActivitiesDashboardCardData } from './RecentActivitiesDashboard/RecentActivitiesDashboardCard/RecentActivitiesDashboardCard.data';
 import { announcementDashboardCardData } from './AnnouncementDashboard/AnnouncementDashboardCard/AnnouncementDashboardCard.data';
@@ -18,6 +17,8 @@ import { RadialBarChart } from './Chart/RadialBarChart';
 import { useDashboard } from './useDashboard';
 import RecentActivitiesDashboardDrawer from './RecentActivitiesDashboard/RecentActivitiesDashboardDrawer';
 import AnnouncementDashboard from './AnnouncementDashboard/AnnouncementDashboard';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 
 const Dashboard = () => {
   const {
@@ -30,157 +31,175 @@ const Dashboard = () => {
     handleAnnouncementIconButton,
     isAnnouncementDrawerOpen,
     setIsAnnouncementDrawerOpen,
+    cardData,
+    customerAnnouncement,
   } = useDashboard();
 
   return (
-    <Box>
-      <HeaderDashboard />
-      <br />
-      <Grid container spacing={3}>
-        {ticketDashboardCardsData?.map((item: any) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item?.id}>
-            <TicketDashboardCards
-              icon={item?.icon}
-              count={item?.count}
-              label={item?.label}
-            />
-          </Grid>
-        ))}
-      </Grid>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} lg={8} sx={{ marginTop: 2 }}>
-              <Box
-                borderRadius={3}
-                border={`1px solid ${theme?.palette?.grey?.[700]}`}
-              >
-                <br />
-                <Box marginLeft={2}>
-                  <HeaderBarChart
-                    setIsBarChart={setIsBarChart}
-                    isbarchart={isbarchart}
-                  />
-                </Box>
-                <Box marginTop={2} marginBottom={2}>
-                  {isbarchart ? <BarChart /> : <RadialBarChart />}
-                </Box>
-              </Box>
+    <PermissionsGuard
+      permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
+    >
+      <Box>
+        <HeaderDashboard />
+        <br />
+        <Grid container spacing={3}>
+          {ticketDashboardCardsData(cardData)?.map((item: any) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item?.id}>
+              <TicketDashboardCards
+                icon={item?.icon}
+                count={item?.count}
+                label={item?.label}
+              />
             </Grid>
-            <Grid item xs={12} lg={4} sx={{ marginTop: 2 }}>
-              <Box
-                borderRadius={3}
-                border={`1px solid ${theme?.palette?.grey?.[700]}`}
-              >
-                <br />
-                <Box marginLeft={2}>
-                  <Typography variant="h5">Recent Activities</Typography>
-                </Box>
-                <Box marginTop={2} overflow={'scroll'} height={'36.5vh'}>
-                  {recentActivitiesDashboardCardData?.map((item, index) => (
-                    <Box key={uuidv4()}>
-                      <RecentActivitiesDashboardCard
-                        icon={item?.icon}
-                        recentActivity={item?.recentActivity}
-                        recentActivityRequest={item?.recentActivityRequest}
-                        recentActivityDateTime={item?.recentActivityDateTime}
-                        isBorderBottom={
-                          recentActivitiesDashboardCardData?.length - 1 !==
-                          index
-                        }
-                      />
-                    </Box>
-                  ))}
-                </Box>
-                <RecentActivitiesDashboardDrawer
-                  isDrawerOpen={isDrawerOpen}
-                  setIsDrawerOpen={setIsDrawerOpen}
-                />
-                <Box display={'flex'} justifyContent={'center'} marginTop={0.5}>
-                  <Button variant="text" fullWidth onClick={handleIconButton}>
-                    View All
-                  </Button>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
+          ))}
         </Grid>
-        <Grid item xs={12}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} lg={4}>
-              <Box
-                borderRadius={3}
-                p={2}
-                border={`1px solid ${theme?.palette?.grey?.[700]}`}
-              >
-                <Box>
-                  <HeaderPieChart />
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} lg={8} sx={{ marginTop: 2 }}>
+                <Box
+                  borderRadius={3}
+                  border={`1px solid ${theme?.palette?.grey?.[700]}`}
+                >
+                  <br />
+                  <Box marginLeft={2}>
+                    <HeaderBarChart
+                      setIsBarChart={setIsBarChart}
+                      isbarchart={isbarchart}
+                    />
+                  </Box>
+                  <Box marginTop={2} marginBottom={2}>
+                    {isbarchart ? <BarChart /> : <RadialBarChart />}
+                  </Box>
                 </Box>
-                <Box sx={{ marginTop: 2 }}>
-                  <PieChart />
-                </Box>
-              </Box>
-            </Grid>
-            <Grid item xs={12} lg={4}>
-              {topPerformerDashboardCardData?.map((item) => (
-                <Box key={uuidv4()}>
-                  <TopPerformerDashboardCard
-                    userImage={item?.userImage}
-                    badgeImage={item?.badgeImage}
-                    badgeNextImage={item?.badgeNextImage}
-                    userImageText={item?.userImageText}
-                    userImageDescription={item?.userImageDescription}
-                    progressBarText={item?.progressBarText}
-                    ProgressBarDescription={item?.ProgressBarDescription}
-                    badgeText={item?.badgeText}
-                    badgeNextText={item?.badgeNextText}
+              </Grid>
+              <Grid item xs={12} lg={4} sx={{ marginTop: 2 }}>
+                <Box
+                  borderRadius={3}
+                  border={`1px solid ${theme?.palette?.grey?.[700]}`}
+                >
+                  <br />
+                  <Box marginLeft={2}>
+                    <Typography variant="h5">Recent Activities</Typography>
+                  </Box>
+                  <Box marginTop={2} overflow={'scroll'} height={'36.5vh'}>
+                    {recentActivitiesDashboardCardData?.map(
+                      (item: any, index) => (
+                        <Box key={item?.id}>
+                          <RecentActivitiesDashboardCard
+                            icon={item?.icon}
+                            recentActivity={item?.recentActivity}
+                            recentActivityRequest={item?.recentActivityRequest}
+                            recentActivityDateTime={
+                              item?.recentActivityDateTime
+                            }
+                            isBorderBottom={
+                              recentActivitiesDashboardCardData?.length - 1 !==
+                              index
+                            }
+                          />
+                        </Box>
+                      ),
+                    )}
+                  </Box>
+                  <RecentActivitiesDashboardDrawer
+                    isDrawerOpen={isDrawerOpen}
+                    setIsDrawerOpen={setIsDrawerOpen}
                   />
+                  <Box display={'flex'} justifyContent={'center'} marginTop={4}>
+                    <Button variant="text" fullWidth onClick={handleIconButton}>
+                      View All
+                    </Button>
+                  </Box>
                 </Box>
-              ))}
+              </Grid>
             </Grid>
-            <Grid item xs={12} lg={4}>
-              <Box
-                borderRadius={3}
-                border={`1px solid ${theme?.palette?.grey?.[700]}`}
-              >
-                <br />
-                <Box>
-                  <AnnouncementHeader />
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} lg={4}>
+                <Box
+                  borderRadius={3}
+                  p={2}
+                  border={`1px solid ${theme?.palette?.grey?.[700]}`}
+                >
+                  <Box>
+                    <HeaderPieChart />
+                  </Box>
+                  <Box sx={{ marginTop: 2 }}>
+                    <PieChart />
+                  </Box>
                 </Box>
-                <Box overflow={'scroll'} height={'25vh'}>
-                  {announcementDashboardCardData?.map((item, index) => (
-                    <Box key={uuidv4()}>
-                      <AnnouncementDashboardCard
-                        icon={item?.icon}
-                        announcement={item?.announcement}
-                        announcementTime={item?.announcementTime}
-                        announcementAvatar={item?.announcementAvatar}
-                        isBorderBottom={
-                          announcementDashboardCardData?.length - 1 !== index
-                        }
-                      />
-                    </Box>
-                  ))}
-                </Box>
-                <AnnouncementDashboard
-                  isAnnouncementDrawerOpen={isAnnouncementDrawerOpen}
-                  setIsAnnouncementDrawerOpen={setIsAnnouncementDrawerOpen}
-                />
-                <Box display={'flex'} justifyContent={'center'} marginTop={2}>
-                  <Button
-                    variant="text"
-                    fullWidth
-                    onClick={handleAnnouncementIconButton}
+              </Grid>
+              <Grid item xs={12} lg={4}>
+                {topPerformerDashboardCardData?.map((item: any) => (
+                  <Box key={item?.id}>
+                    <TopPerformerDashboardCard
+                      userImage={item?.userImage}
+                      badgeImage={item?.badgeImage}
+                      badgeNextImage={item?.badgeNextImage}
+                      userImageText={item?.userImageText}
+                      userImageDescription={item?.userImageDescription}
+                      progressBarText={item?.progressBarText}
+                      ProgressBarDescription={item?.ProgressBarDescription}
+                      badgeText={item?.badgeText}
+                      badgeNextText={item?.badgeNextText}
+                    />
+                  </Box>
+                ))}
+              </Grid>
+              <Grid item xs={12} lg={4}>
+                <Box
+                  borderRadius={3}
+                  border={`1px solid ${theme?.palette?.grey?.[700]}`}
+                >
+                  <br />
+                  <Box>
+                    <AnnouncementHeader />
+                  </Box>
+                  <Box overflow={'scroll'} height={'25vh'}>
+                    {announcementDashboardCardData(customerAnnouncement)?.map(
+                      (item, index) => (
+                        <Box key={item?.id}>
+                          <AnnouncementDashboardCard
+                            icon={item?.icon}
+                            announcement={item?.announcement}
+                            announcementTime={item?.announcementTime}
+                            announcementAvatar={item?.announcementAvatar}
+                            isBorderBottom={
+                              announcementDashboardCardData?.length - 1 !==
+                              index
+                            }
+                          />
+                        </Box>
+                      ),
+                    )}
+                  </Box>
+
+                  <AnnouncementDashboard
+                    isAnnouncementDrawerOpen={isAnnouncementDrawerOpen}
+                    setIsAnnouncementDrawerOpen={setIsAnnouncementDrawerOpen}
+                  />
+                  <Box
+                    display={'flex'}
+                    justifyContent={'center'}
+                    marginTop={2.8}
                   >
-                    View All
-                  </Button>
+                    <Button
+                      variant="text"
+                      fullWidth
+                      onClick={handleAnnouncementIconButton}
+                    >
+                      View All
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </PermissionsGuard>
   );
 };
 

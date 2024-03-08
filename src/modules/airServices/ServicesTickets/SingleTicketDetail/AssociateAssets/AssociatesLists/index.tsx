@@ -5,6 +5,8 @@ import { associatesListsColumnFunction } from './AssociatesList.data';
 import { useAssociatesLists } from './useAssociatesList';
 import { AddAssociationsDrawer } from '../AddAssociationsDrawer';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
 export const AssociatesLists = (props: any) => {
   const {
@@ -34,49 +36,56 @@ export const AssociatesLists = (props: any) => {
         handleAction={() => setOpenDrawer(true)}
         hasEndIcon
         hasStartIcon={false}
+        createPermissionKey={[
+          AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_ASSOCIATE_ASSETS,
+        ]}
       />
 
       <br />
-      <TanstackTable
-        columns={associatesListsColumnFunction(theme, setAssetId, router)}
-        data={
-          data?.data?.tickets?.length > 1
-            ? data?.data?.tickets
-            : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
+      <PermissionsGuard
+        permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ASSET_LIST_VIEW]}
+      >
+        <TanstackTable
+          columns={associatesListsColumnFunction(theme, setAssetId, router)}
+          data={
+            data?.data?.tickets?.length > 1
+              ? data?.data?.tickets
+              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
               ? data?.data?.tickets
               : []
-        }
-        isPagination
-        isSuccess={isSuccess}
-        isError={isError}
-        isFetching={isFetching}
-        isLoading={isLoading}
-        currentPage={
-          data?.data?.tickets?.length > 1
-            ? data?.data?.meta?.page
-            : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
+          }
+          isPagination
+          isSuccess={isSuccess}
+          isError={isError}
+          isFetching={isFetching}
+          isLoading={isLoading}
+          currentPage={
+            data?.data?.tickets?.length > 1
+              ? data?.data?.meta?.page
+              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
               ? data?.data?.meta?.page
               : 0
-        }
-        count={
-          data?.data?.tickets?.length > 1
-            ? data?.data?.meta?.pages
-            : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
+          }
+          count={
+            data?.data?.tickets?.length > 1
+              ? data?.data?.meta?.pages
+              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
               ? data?.data?.meta?.pages
               : 0
-        }
-        totalRecords={
-          data?.data?.tickets?.length > 1
-            ? data?.data?.meta?.total
-            : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
+          }
+          totalRecords={
+            data?.data?.tickets?.length > 1
+              ? data?.data?.meta?.total
+              : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
               ? data?.data?.meta?.total
               : 0
-        }
-        pageLimit={data?.data?.meta?.limit}
-        onPageChange={(page: any) => setPage(page)}
-        setPage={setPage}
-        setPageLimit={setPageLimit}
-      />
+          }
+          pageLimit={data?.data?.meta?.limit}
+          onPageChange={(page: any) => setPage(page)}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+        />
+      </PermissionsGuard>
       <AlertModals
         open={deleteModal}
         message="Are you sure you want to detach this asset ?"

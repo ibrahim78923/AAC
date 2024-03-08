@@ -8,8 +8,8 @@ export const styles = {
       des === PUBLISHED
         ? theme?.palette?.common?.white
         : des === TRAINING
-          ? theme?.palette?.primary?.main
-          : theme?.palette?.grey?.[600],
+        ? theme?.palette?.primary?.main
+        : theme?.palette?.grey?.[600],
     p: '4px 12px',
     borderRadius: des === PUBLISHED ? 6 : null,
   }),

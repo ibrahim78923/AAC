@@ -54,12 +54,12 @@ const ContactViewDetails = () => {
         <Grid item xs={12}>
           <Box>
             <HorizontalTabs tabsDataArray={singleUserDealTabsData}>
-              <Details contactId={contactId} />
-              <ActivityLog />
-              <Associations />
-              <Tasks />
+              <Details />
+              <ActivityLog contactId={contactId} />
+              <Associations contactId={contactId} />
+              <Tasks contactId={contactId} />
               <Notes contactId={contactId} />
-              <Calls />
+              <Calls contactId={contactId} />
               <Meetings />
               <Emails />
             </HorizontalTabs>

@@ -1,11 +1,12 @@
 import { ReactNode } from 'react';
 
-import useAuth from '../hooks/useAuth';
+import PermissionDenied from '@/components/PermisisonDenied';
+import { getActivePermissionsSession } from '@/utils';
+import { Box } from '@mui/material';
 
 const useCurrentPermissions = () => {
-  const { permissions: currentPermissions }: any = useAuth();
-
-  return currentPermissions;
+  const permissions = getActivePermissionsSession();
+  return permissions;
 };
 
 function checkPermissions(permissions: any, modulePermissions: any) {
@@ -13,10 +14,11 @@ function checkPermissions(permissions: any, modulePermissions: any) {
   modulePermissions?.forEach((value: any) => {
     componentPermissionsDictionary[value] = true;
   });
-
-  for (const permission of permissions) {
-    if (componentPermissionsDictionary[permission]) {
-      return true; // At least one permission is available
+  if (permissions?.length > 0) {
+    for (const permission of permissions) {
+      if (componentPermissionsDictionary[permission]) {
+        return true; // At least one permission is available
+      }
     }
   }
   return false; // None of the permissions are available
@@ -25,17 +27,19 @@ function checkPermissions(permissions: any, modulePermissions: any) {
 export default function PermissionsGuard({
   children,
   permissions,
+  isPage = false,
 }: {
   children: ReactNode;
   permissions: any;
+  isPage?: boolean;
 }) {
   const currentPermissions = useCurrentPermissions();
-
   const permissionsCheck = checkPermissions(currentPermissions, permissions);
-
   if (permissionsCheck) {
     return <>{children}</>;
+  } else if (isPage) {
+    <PermissionDenied />;
+  } else {
+    return <Box></Box>;
   }
-
-  return <>Permission Denied</>;
 }

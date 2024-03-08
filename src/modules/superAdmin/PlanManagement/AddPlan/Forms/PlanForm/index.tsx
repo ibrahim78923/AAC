@@ -11,18 +11,57 @@ import { v4 as uuidv4 } from 'uuid';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { selectProductSuites } from './PlanForm.data';
 
-const AddPlanForm = ({ handleSubmit, methods }: any) => {
+const AddPlanForm = ({
+  handleSubmit,
+  methods,
+  AdditionalStorageValue,
+}: any) => {
   const {
     formDefaultValuesFunction,
     selectProductSuite,
     setSelectProductSuite,
-  } = useAddPlanForm();
+  } = useAddPlanForm(AdditionalStorageValue);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit}>
-      <Grid container spacing={5} sx={{ position: 'relative' }}>
-        {formDefaultValuesFunction?.map((item: any) => (
-          <Grid item xs={12} md={item?.md} key={uuidv4()}>
+      <Box
+        sx={{
+          width: 'fit-content',
+          margin: 'auto',
+          background: '#E5E7EB',
+          borderRadius: '10px',
+        }}
+      >
+        <Button
+          onClick={() => setSelectProductSuite('product')}
+          variant={`${selectProductSuite === 'product' ? 'contained' : 'text'}`}
+          sx={{ height: '25px', borderRadius: '10px' }}
+        >
+          <Typography>Product</Typography>{' '}
+        </Button>
+        <Button
+          onClick={() => setSelectProductSuite('CRM')}
+          variant={`${selectProductSuite === 'CRM' ? 'contained' : 'text'}`}
+          sx={{ height: '25px', borderRadius: '10px' }}
+        >
+          <Typography>CRM Suite</Typography>
+        </Button>
+      </Box>
+      <Grid
+        container
+        spacing={5}
+        sx={{ position: 'relative', marginTop: '30px' }}
+      >
+        {formDefaultValuesFunction?.map((item: any, index: any) => (
+          <Grid
+            item
+            xs={12}
+            md={item?.md}
+            key={uuidv4()}
+            sx={{
+              paddingTop: (index === 0 || index === 1) && '0px !important',
+            }}
+          >
             {item?.componentProps.name == selectProductSuites?.planTypeId &&
               selectProductSuite === selectProductSuites?.crm && (
                 <RHFTextField
@@ -43,36 +82,6 @@ const AddPlanForm = ({ handleSubmit, methods }: any) => {
             </item.component>
           </Grid>
         ))}
-
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            background: '#E5E7EB',
-
-            transform: 'translate(350%, 0%)',
-
-            borderRadius: '10px',
-          }}
-        >
-          <Button
-            onClick={() => setSelectProductSuite('product')}
-            variant={`${
-              selectProductSuite === 'product' ? 'contained' : 'text'
-            }`}
-            sx={{ height: '25px', borderRadius: '10px' }}
-          >
-            <Typography>Product</Typography>{' '}
-          </Button>
-          <Button
-            onClick={() => setSelectProductSuite('CRM')}
-            variant={`${selectProductSuite === 'CRM' ? 'contained' : 'text'}`}
-            sx={{ height: '25px', borderRadius: '10px' }}
-          >
-            <Typography>CRM Suite</Typography>
-          </Button>
-        </Box>
       </Grid>
     </FormProvider>
   );
