@@ -17,11 +17,15 @@ import LinearProgress from '@mui/material/LinearProgress';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import { DownloadIcon } from '@/assets/icons';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_REPORTS_PERMISSIONS } from '@/constants/permission-keys';
 
 const EmailMarketing = () => {
   const theme = useTheme();
   return (
-    <>
+    <PermissionsGuard
+      permissions={[AIR_MARKETER_REPORTS_PERMISSIONS?.EMAIL_MARKETING]}
+    >
       <Box
         display="flex"
         alignItems="center"
@@ -191,7 +195,7 @@ const EmailMarketing = () => {
       <Box>
         <ProductWiseGrpah />
       </Box>
-    </>
+    </PermissionsGuard>
   );
 };
 
