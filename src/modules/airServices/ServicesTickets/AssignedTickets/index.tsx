@@ -19,6 +19,7 @@ export const AssignedTickets = (props: any) => {
     submitAssignedTicketsForm,
     closeTicketsAssignedModal,
     apiQueryAgent,
+    putTicketStatus,
   }: any = useAssignedTickets(props);
 
   return (
@@ -64,6 +65,7 @@ export const AssignedTickets = (props: any) => {
             label="Select user"
             name="user"
             fullWidth
+            required
             apiQuery={apiQueryAgent}
             size="small"
             placeholder="Choose Agent"
@@ -80,10 +82,15 @@ export const AssignedTickets = (props: any) => {
             variant="outlined"
             color="secondary"
             onClick={() => closeTicketsAssignedModal?.()}
+            disabled={putTicketStatus?.isLoading}
           >
             Cancel
           </LoadingButton>
-          <LoadingButton variant="contained" type="submit">
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            loading={putTicketStatus?.isLoading}
+          >
             Assign
           </LoadingButton>
         </DialogActions>

@@ -33,6 +33,7 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontFamily: theme?.typography?.fontFamily,
     fontWeight: 500,
     whiteSpace: 'pre-wrap',
+    wordBreak: 'break-all',
     borderBottom: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
     '&:first-of-type': {
       borderLeft: `1px solid  ${theme?.palette?.custom?.off_white_three}`,

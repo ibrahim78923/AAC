@@ -292,6 +292,9 @@ export const END_POINTS = {
   GET_KNOWLEDGE_INSIGHTS_DETAILS: `/articles/knowledge-insights/tickets`,
   POST_CHANGE_PASSWORD: '/auth/change-password',
   UPDATE_CONTRACT: 'contract/renew-extend',
+  GET_TICKET_BY_REQUESTER: '/ticket/requester-ticket',
+  GET_TICKET_BY_SUBJECT: '/ticket/search-subject-ticket',
+  MERGE_TICKET: '/ticket/merge-ticket',
 };
 
 export const superAdminBillingInvoices = {

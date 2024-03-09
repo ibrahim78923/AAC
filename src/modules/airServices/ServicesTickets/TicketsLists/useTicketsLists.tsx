@@ -218,6 +218,9 @@ export const useTicketsLists: any = () => {
         isAssignedModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
         setSelectedTicketList={setSelectedTicketList}
+        singleTicketDetail={lazyGetTicketsStatus?.data?.data?.tickets?.find(
+          (singleTicket: any) => singleTicket?._id === selectedTicketList?.[0],
+        )}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.MOVE_TICKET]: (
@@ -226,6 +229,9 @@ export const useTicketsLists: any = () => {
         isMoveTicketsModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
         setSelectedTicketList={setSelectedTicketList}
+        singleTicketDetail={lazyGetTicketsStatus?.data?.data?.tickets?.find(
+          (singleTicket: any) => singleTicket?._id === selectedTicketList?.[0],
+        )}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.MERGE_TICKET]: (
@@ -233,6 +239,10 @@ export const useTicketsLists: any = () => {
         setIsMergedTicketsModalOpen={setHasTicketAction}
         isMergedTicketsModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
+        setSelectedTicketList={setSelectedTicketList}
+        singleTicketDetail={lazyGetTicketsStatus?.data?.data?.tickets?.find(
+          (singleTicket: any) => singleTicket?._id === selectedTicketList?.[0],
+        )}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.DELETE_TICKET]: (

@@ -130,6 +130,47 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_SIX],
     }),
+    getTicketByRequester: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_TICKET_BY_REQUESTER}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_THREE],
+    }),
+    getTicketBySubject: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_TICKET_BY_SUBJECT}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response)
+          return Object?.keys(response?.data)?.length ? [response?.data] : [];
+      },
+      providesTags: [TAG_THREE],
+    }),
+    getTicketsSearchById: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.TICKET}/${params?.ticketId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
+    postMergeTickets: builder?.mutation({
+      query: (postMergeTicketParameter: any) => ({
+        url: `${END_POINTS?.MERGE_TICKET}`,
+        method: 'POST',
+        params: postMergeTicketParameter?.queryParams,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -148,4 +189,8 @@ export const {
   useLazyGetAssociateAssetsDropdownQuery,
   useLazyGetCategoriesDropdownQuery,
   usePutSingleTicketStatusMutation,
+  useLazyGetTicketByRequesterQuery,
+  useLazyGetTicketBySubjectQuery,
+  useLazyGetTicketsSearchByIdQuery,
+  usePostMergeTicketsMutation,
 } = ticketsAPI;
