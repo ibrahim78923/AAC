@@ -1,24 +1,30 @@
 import dayjs from 'dayjs';
 
-export const formatTimeDifference = (createdAt: any) => {
-  const diffMinutes = dayjs()?.diff(dayjs(createdAt), 'minute');
-  if (diffMinutes < 60) {
-    return `${diffMinutes} minute${diffMinutes !== 1 ? 's' : ''} ago`;
-  } else if (diffMinutes < 24 * 60) {
-    const diffHours = Math.floor(diffMinutes / 60);
-    return `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
-  } else {
-    const diffDays = Math.floor(diffMinutes / (24 * 60));
-    if (diffDays < 30) {
-      return `${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
-    } else {
-      const diffMonths = dayjs()?.diff(dayjs(createdAt), 'month');
-      if (diffMonths < 12) {
-        return `${diffMonths} month${diffMonths !== 1 ? 's' : ''} ago`;
-      } else {
-        const diffYears = Math.floor(diffMonths / 12);
-        return `${diffYears} year${diffYears !== 1 ? 's' : ''} ago`;
-      }
-    }
+const MINUTES_IN_HOUR = 60;
+const MINUTES_IN_DAY = 24 * MINUTES_IN_HOUR;
+const MINUTES_IN_MONTH = 30 * MINUTES_IN_DAY;
+const MINUTES_IN_YEAR = 365 * MINUTES_IN_DAY;
+
+export const formatTimeDifference = (isoDateString: string) => {
+  const diffMinutes = dayjs().diff(dayjs(isoDateString), 'minute');
+
+  if (diffMinutes < MINUTES_IN_HOUR) {
+    return formatTimeUnit(diffMinutes, 'minute');
   }
+  if (diffMinutes < MINUTES_IN_DAY) {
+    return formatTimeUnit(diffMinutes, 'hour', MINUTES_IN_HOUR);
+  }
+  if (diffMinutes < MINUTES_IN_MONTH) {
+    return formatTimeUnit(diffMinutes, 'day', MINUTES_IN_DAY);
+  }
+  if (diffMinutes < MINUTES_IN_YEAR) {
+    return formatTimeUnit(diffMinutes, 'month', MINUTES_IN_MONTH);
+  }
+
+  return formatTimeUnit(diffMinutes, 'year', MINUTES_IN_YEAR);
+};
+
+const formatTimeUnit = (diff: number, unit: string, base: number = 1) => {
+  const value = Math.floor(diff / base);
+  return `${value} ${unit}${value !== 1 ? 's' : ''} ago`;
 };
