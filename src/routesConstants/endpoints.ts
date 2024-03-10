@@ -293,6 +293,8 @@ export const END_POINTS = {
   POST_CHANGE_PASSWORD: '/auth/change-password',
   GET_TICKET_APPROVAL_DETAILS: `/air-services-dashboard/get-tickets-approval-dashboard-details`,
   UPDATE_CONTRACT: 'contract/renew-extend',
+  GET_WORKLOAD_SCHEDULE_LIST: `/Work-Shchedule/get-work-shchedule-list`,
+  GET_SINGLE_WORKLOAD_SCHEDULE_DETAILS: `/Work-Shchedule/get-work-shchedule-details`,
 };
 
 export const superAdminBillingInvoices = {

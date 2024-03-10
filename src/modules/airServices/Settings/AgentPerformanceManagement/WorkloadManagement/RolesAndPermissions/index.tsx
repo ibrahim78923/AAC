@@ -1,10 +1,12 @@
 import { Box, Button, Divider, Tooltip, Typography } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { AIR_SERVICES } from '@/constants';
 
 export const RolesAndPermissions = () => {
   return (
     <>
+      <br />
       <Typography variant="h4">
         Agents and project members can be given these workload permissions via
         roles.
@@ -65,7 +67,15 @@ export const RolesAndPermissions = () => {
           </Tooltip>
         </Box>
         <Divider variant="middle" style={{ margin: '1rem 0' }} />
-        <Box display={'flex'} gap={1} pt={2}>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          gap={1}
+          pt={2}
+          flexWrap={'wrap'}
+          component={'a'}
+          href={`${AIR_SERVICES?.USER_ROLES_SETTINGS}`}
+        >
           <VisibilityIcon color={'primary'} />
           <Typography color={'primary'}>View Roles and Permissions</Typography>
         </Box>
