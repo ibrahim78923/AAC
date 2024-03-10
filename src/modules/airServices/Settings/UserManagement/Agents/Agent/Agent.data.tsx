@@ -1,6 +1,7 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { AIR_SERVICES } from '@/constants';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { Avatar, Box, Checkbox } from '@mui/material';
+import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 
 export const agentActionsDropdown = (handleActionClick: any) => [
   {
@@ -30,6 +31,7 @@ export const agentsListsColumnsFunction = (
   selectedAgentList: any,
   setSelectedAgentList: any,
   processedAgentListData: any,
+  router: any,
 ): any => [
   {
     accessorFn: (row: any) => row?._id,
@@ -85,7 +87,20 @@ export const agentsListsColumnsFunction = (
     cell: (info: any) => (
       <Box display={'flex'} gap={1} alignItems={'center'}>
         <Avatar sx={{ backgroundColor: 'gray' }} />
-        {info?.getValue()}
+        <Typography
+          color="blue.main"
+          sx={{
+            cursor: 'pointer',
+          }}
+          onClick={() =>
+            router?.push({
+              pathname: AIR_SERVICES?.SINGLE_AGENT_DETAILS,
+              query: { agentId: info?.row?.original?._id },
+            })
+          }
+        >
+          {info?.getValue()}
+        </Typography>
       </Box>
     ),
   },

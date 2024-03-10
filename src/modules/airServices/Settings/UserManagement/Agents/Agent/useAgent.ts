@@ -7,6 +7,7 @@ import {
   useGetAgentsQuery,
 } from '@/services/airServices/settings/user-management/agents';
 import { PAGINATION } from '@/config';
+import { useRouter } from 'next/router';
 
 export const useAgent = () => {
   const [selectedAgentList, setSelectedAgentList] = useState([]);
@@ -18,7 +19,7 @@ export const useAgent = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [filterAgentData, setFilterAgentData] = useState({});
-
+  const router = useRouter();
   const params = {
     page: page,
     limit: pageLimit,
@@ -71,6 +72,7 @@ export const useAgent = () => {
     selectedAgentList,
     setSelectedAgentList,
     processedAgentListData,
+    router,
   );
 
   const handleDelete = async () => {
