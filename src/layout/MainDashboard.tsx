@@ -49,7 +49,6 @@ import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS } from '@/routesConstants/paths';
-import { ROLES } from '@/constants/strings';
 
 const drawerWidth = 230;
 
@@ -93,7 +92,6 @@ const DashboardLayout = ({ children, window }: any) => {
 
   const router = useRouter();
 
-  const { user }: { user: any } = getSession();
   const product = getActiveProductSession();
   //   const findRoleByEmail = ({ user, array }: any) => {
   //     return array?.find((skill: any) => skill?.email === user?.email);
@@ -101,11 +99,9 @@ const DashboardLayout = ({ children, window }: any) => {
 
   // const findEmail: any = findRoleByEmail({ user, array });
 
-  const findEmailRole = user ? user?.role : ROLES?.SUPER_ADMIN;
-
   const routes = getRoutes(product.name);
 
-  const lowerRoutes = getLowerRoutes(findEmailRole);
+  const lowerRoutes = getLowerRoutes(product.name);
   const pathname = usePathname();
 
   const routerPathName = pathname?.split('/')[2] ?? pathname?.split('/')[1];
