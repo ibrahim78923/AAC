@@ -182,7 +182,7 @@ const CompanyTabs = () => {
                     sx={{
                       float: 'right',
                       cursor: 'pointer',
-                      color: theme.palette.grey[900],
+                      color: theme?.palette?.grey[900],
                     }}
                   />
                 </Box>
