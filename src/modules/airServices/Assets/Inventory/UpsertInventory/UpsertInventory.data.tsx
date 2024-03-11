@@ -33,7 +33,7 @@ export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
   return {
     displayName: data?.data?.[0]?.displayName ?? '',
     assetType: data?.data?.[0]?.assetTypeDetails ?? null,
-    impact: data?.data?.[0]?.impact ?? '',
+    impact: data?.data?.[0]?.impact ?? ASSET_IMPACT?.LOW,
     assetLifeExpiry:
       typeof data?.data?.[0]?.assetLifeExpiry === 'string'
         ? new Date(data?.data?.[0]?.assetLifeExpiry ?? todayDate)
@@ -88,6 +88,7 @@ export const upsertInventoryFormFieldsDynamic = (
       label: 'Asset Type',
       placeholder: 'All Assets',
       fullWidth: true,
+      required: true,
       apiQuery: apiQueryAssetType,
       externalParams: { meta: false, limit: 50 },
     },
@@ -142,7 +143,6 @@ export const upsertInventoryFormFieldsDynamic = (
       name: 'location',
       label: 'Location',
       fullWidth: true,
-      required: true,
       apiQuery: apiQueryLocationType,
 
       getOptionLabel: (option: any) => option?.locationName,
@@ -156,7 +156,6 @@ export const upsertInventoryFormFieldsDynamic = (
       name: 'department',
       label: 'Department',
       fullWidth: true,
-      required: true,
       apiQuery: apiQueryDepartmentType,
     },
     component: RHFAutocompleteAsync,

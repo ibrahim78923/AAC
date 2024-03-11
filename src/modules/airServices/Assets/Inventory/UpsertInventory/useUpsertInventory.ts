@@ -10,6 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import {
   useGetAddToInventoryByIdQuery,
+  useGetAttachmentToInventoryQuery,
   useLazyGetAssetTypeQuery,
   useLazyGetDepartmentDropdownQuery,
   useLazyGetLocationsDropdownQuery,
@@ -36,6 +37,18 @@ export const useUpsertInventory = () => {
       inventoryId,
     },
   };
+  const getAttachmentToInventoryParameter = {
+    pathParam: {
+      id: inventoryId,
+    },
+  };
+  const { data: attachFile } = useGetAttachmentToInventoryQuery(
+    getAttachmentToInventoryParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!inventoryId,
+    },
+  );
 
   const { data, isLoading, isFetching } = useGetAddToInventoryByIdQuery(
     getSingleInventoryDetailsParameter,
@@ -60,13 +73,18 @@ export const useUpsertInventory = () => {
       'assetLifeExpiry',
       data?.assetLifeExpiry?.toISOString(),
     );
-    inventoryDetailsData.append('locationId', data?.location?._id);
-    inventoryDetailsData.append('departmentId', data?.department?._id);
-    inventoryDetailsData.append('usedBy', data?.usedBy?._id);
+    !!data?.location?._id &&
+      inventoryDetailsData.append('locationId', data?.location?._id);
+    !!data?.department?._id &&
+      inventoryDetailsData.append('departmentId', data?.department?._id);
+    !!data?.data?.usedBy?._id &&
+      inventoryDetailsData.append('usedBy', data?.usedBy?._id);
     inventoryDetailsData.append(
       'assignedOn',
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
     );
+    typeof data?.attachFile !== 'string' &&
+      inventoryDetailsData?.append('attachment', data?.attachFile);
     const body = inventoryDetailsData;
     if (!!inventoryId) {
       submitUpdateInventory(data);
@@ -101,9 +119,12 @@ export const useUpsertInventory = () => {
       'assetLifeExpiry',
       data?.assetLifeExpiry?.toISOString(),
     );
-    inventoryEditData.append('locationId', data?.location?._id);
-    inventoryEditData.append('departmentId', data?.department?._id);
-    inventoryEditData.append('usedBy', data?.usedBy?._id);
+    !!data?.location?._id &&
+      inventoryEditData.append('locationId', data?.location?._id);
+    !!data?.department?._id &&
+      inventoryEditData.append('departmentId', data?.department?._id);
+    !!data?.data?.usedBy?._id &&
+      inventoryEditData.append('usedBy', data?.usedBy?._id);
     inventoryEditData.append(
       'assignedOn',
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
@@ -163,5 +184,6 @@ export const useUpsertInventory = () => {
     isLoading,
     isFetching,
     postAddToInventoryStatus,
+    attachFile,
   };
 };
