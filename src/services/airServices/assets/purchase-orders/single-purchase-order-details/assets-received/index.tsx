@@ -22,7 +22,5 @@ export const assetReceivedApi = baseAPI?.injectEndpoints({
   }),
 });
 
-export const {
-  useLazyGetAssetsReceivedQuery,
-  useLazyGetPurchaseOrderByIdQuery,
-} = assetReceivedApi;
+export const { useLazyGetAssetsReceivedQuery, useGetPurchaseOrderByIdQuery } =
+  assetReceivedApi;
