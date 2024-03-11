@@ -20,7 +20,6 @@ export const LeaderBoard = () => {
       />
       <HorizontalTabs tabsDataArray={LeaderBoardTabs}>
         <AwardPoints />
-
         <AgentLevels />
       </HorizontalTabs>
     </>

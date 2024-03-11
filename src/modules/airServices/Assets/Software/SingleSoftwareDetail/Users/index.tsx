@@ -82,10 +82,10 @@ export const Users = () => {
             selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE
               ? 'Add Device'
               : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE
-                ? 'Deallocate Contract '
-                : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
-                  ? 'Remove Contract'
-                  : 'Add Device'
+              ? 'Deallocate Contract '
+              : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
+              ? 'Remove Contract'
+              : 'Add Device'
           }
         >
           {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (
