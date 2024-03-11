@@ -101,7 +101,7 @@ export const dataArray = (_: any, AdditionalStorageValue: any) => {
         required: true,
         options: 'productsOptions',
       },
-      component: 'RHFMultiSearchableSelect',
+      component: 'RHFMultiSearchableSelect ',
       md: 6,
     },
     {
