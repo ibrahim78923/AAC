@@ -1,6 +1,6 @@
 import { AlertModals } from '@/components/AlertModals';
 
-const RestoreModal = ({ open, onClose, handleSubmit }: any) => {
+const RestoreModal = ({ open, onClose, handleSubmit, loading }: any) => {
   return (
     <AlertModals
       message="You are about to restore a Contacts."
@@ -9,6 +9,7 @@ const RestoreModal = ({ open, onClose, handleSubmit }: any) => {
       open={open}
       handleClose={onClose}
       handleSubmitBtn={handleSubmit}
+      loading={loading}
     />
   );
 };

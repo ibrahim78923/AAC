@@ -28,7 +28,7 @@ export const TICKET_STATUS = {
   CLOSED: 'CLOSED',
   RESOLVED: 'RESOLVED',
   PENDING: 'PENDING',
-  SPAM: 'SPAM',
+  SPAM: 'SPAMS',
 };
 
 export const TICKET_PRIORITY = {

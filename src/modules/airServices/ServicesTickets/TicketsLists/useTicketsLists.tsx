@@ -22,7 +22,7 @@ import { PAGINATION } from '@/config';
 import {
   useLazyGetExportTicketsQuery,
   useLazyGetTicketsQuery,
-  usePatchBulkUpdateTicketsMutation,
+  usePutSingleTicketStatusMutation,
 } from '@/services/airServices/tickets';
 import { FilterTickets } from '../FilterTickets';
 import { neglectKeysInLoop } from '../FilterTickets/FilterTickets.data';
@@ -66,7 +66,7 @@ export const useTicketsLists: any = () => {
   const [lazyGetExportTicketsTrigger, lazyGetExportTicketsStatus] =
     useLazyGetExportTicketsQuery();
 
-  const [patchBulkUpdateTicketsTrigger] = usePatchBulkUpdateTicketsMutation();
+  const [putSingleTicketStatusTrigger] = usePutSingleTicketStatusMutation();
 
   const getValueTicketsListData = async () => {
     try {
@@ -143,21 +143,18 @@ export const useTicketsLists: any = () => {
   }, []);
 
   const updateTicketStatus = async (status: any) => {
-    const updateTicketStatusParams = new URLSearchParams();
-    selectedTicketList?.forEach(
-      (ticketId: any) => updateTicketStatusParams?.append('ids', ticketId),
-    );
     const updateTicketStatusTicketsParameter = {
-      queryParams: updateTicketStatusParams,
-      body: {
+      pathParams: { id: selectedTicketList?.[0] },
+      queryParams: {
         status,
       },
     };
     try {
-      await patchBulkUpdateTicketsTrigger(
+      await putSingleTicketStatusTrigger(
         updateTicketStatusTicketsParameter,
       )?.unwrap();
       successSnackbar('Ticket status updated successfully');
+      setSelectedTicketList([]);
     } catch (error: any) {
       errorSnackbar();
     }
@@ -211,7 +208,8 @@ export const useTicketsLists: any = () => {
       <TicketsBulkUpdate
         setIsDrawerOpen={setHasTicketAction}
         isDrawerOpen={hasTicketAction}
-        ticketId={selectedTicketList?.[0]}
+        selectedTicketList={selectedTicketList}
+        setSelectedTicketList={setSelectedTicketList}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET]: (
@@ -219,6 +217,7 @@ export const useTicketsLists: any = () => {
         setIsAssignedModalOpen={setHasTicketAction}
         isAssignedModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
+        setSelectedTicketList={setSelectedTicketList}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.MOVE_TICKET]: (
@@ -226,6 +225,7 @@ export const useTicketsLists: any = () => {
         setIsMoveTicketsModalOpen={setHasTicketAction}
         isMoveTicketsModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
+        setSelectedTicketList={setSelectedTicketList}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.MERGE_TICKET]: (

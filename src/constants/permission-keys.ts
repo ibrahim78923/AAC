@@ -17,7 +17,7 @@ export const SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
   VIEW_COMPANY_ACCOUNTS: 'view-company-accounts',
   ADD_COMPANY_ACCOUNTS: 'add-company-account',
   VIEW_SUB_USER_PROFILE: 'view-sub-user-profile',
-  UPDATE_SUB_USER_PROFILE: 'update-sub-user- profile',
+  UPDATE_SUB_USER_PROFILE: 'update-sub-user-profile',
   VIEW_DELEGATES: 'view-delegates',
   ACTIVE_INACTIVE_USERS: 'active-inactive-users',
   ACTIVE_INACTIVE_ACCOUNTS: 'active-inactive-accounts',
@@ -35,21 +35,18 @@ export const SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS = {
   VIEW_ROLE: 'view-role',
   ACTIVE_INACTIVE_ROLES: 'active-inactive-roles',
 };
+export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS_KEYS = {
+  PLAN_LIST: 'plan-list',
+  PLAN_SEARCH_AND_FILTER: 'plan-search-and-filter',
+  ADD_PLAN: 'add-plan',
+  ACTION_INACTIVE_PLANS: 'active-inactive-plans',
+  EDIT_PLAN: 'edit-plan',
+  VIEW_PLAN: 'view-plan',
+};
 
 export const SUPER_ADMIN_REPORTS_PERMISSIONS = {
   view_invoice_report: 'view-invoice-report',
   view_user_report: 'view-user-report',
-};
-
-export const ORG_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
-  ADD_USER: 'org-add-user',
-  USER_SEARCH_AND_FILTER: 'org-user-search-and-filter',
-  VIEW_USERs: 'org-view-users',
-  VIEW_COMPANY: 'view-company',
-  VIEW_USER_PROFILE: 'org-view-user-profile',
-  ADD_ACCOUNTS: 'org-add-accounts',
-  ORG_EDIT_PRFILE: 'org-edit-profile',
-  ORG_ACTIVE_INACTIVE_USERS: 'org-active-inactive-users',
 };
 
 export const AIR_SALES_INVOICES_PERMISSIONS = {
@@ -148,7 +145,7 @@ export const SUPER_ADMIN_SETTINGS_PRODUCT_LIST_PERMISSIONS = {
 export const SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS = {
   Select_Products: 'select-feature-products',
   Product_List: 'product-list',
-  Search: 'feature-search-and-filters',
+  Search: 'feature-serach-and-filters',
   Edit_Features: 'edit-feature',
   Add_Features: 'add-feature',
   Active_Inactive_Features: 'active-inactive-feature',
@@ -749,6 +746,56 @@ export const AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS = {
   EDIT: `operation-user-managment-edit`,
   DELETE: `operation-user-managment-delete`,
   CREATE_TEAM: `operation-user-managment-create-team`,
+};
+
+// Org-Admin Roles & Right
+export const ORG_ADMIN_DASHBOARD_PERMISSIONS = {
+  DASHBOARD: 'org-dashboard',
+};
+
+export const ORG_ADMIN_USERS_PERMISSIONS = {
+  ADD_USER: 'org-add-user',
+  SEARCH_AND_FILTER: 'org-user-search-and-filter',
+  VIEW_USERS: 'org-view-users',
+  VIEW_COMPONY_ACCOUNTS: 'org-view-company-accounts',
+  VIEW_USER_PROFILE: 'org-view-user-profile',
+  ADD_ACCOUNTS: 'org-add-accounts',
+  EDIT_PROFILE: 'org-edit-profile',
+  ACTIVE_INACTIVE_USERS: 'org-active-inactive-users',
+};
+
+export const ORG_ADMIN_ORGANIZATION_PERMISSIONS = {
+  COMPANY_ACCOUNT_LIST: 'org-view-account-list',
+  ADD_COMPANY_ACCOUNT: 'org-add-company-account',
+  EDIT_ACCOUNT: 'org-edit-account',
+  VIEW_ACCOUNT: 'org-view-account',
+  EDIT_INFO: 'org-edit-info',
+};
+
+export const ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS = {
+  SUBSCRIPTION_VIEW_PRODUCTS_PLANS: 'org-view-product-and-plans',
+  SUBSCRIPTION_VIEW_BILLING_DETAILS: 'org-view-billing-detail',
+  SUBSCRIPTION_MANAGE_PLAN: 'org-manage-plan',
+  SUBSCRIPTION_CHANGE_PLAN: 'org-change-plan',
+  SUBSCRIPTION_UPDATE_SUBSCRIPTION: 'org-update-subscription',
+  SUBSCRIPTION_BUY_PLAN: 'org-buy-plan',
+  SUBSCRIPTION_ADD_ADDITIONAL_USER: 'org-add-additional-user',
+  SUBSCRIPTION_ADD_ADDITIONAL_STORAGE: 'org-add-additional-storage',
+  INVOICES_LIST_VIEW: 'org-view-invoice-list',
+  INVOICES_PAY_INVOICE: 'org-pay-invoice',
+  INVOICES_VIEW_INVOICE: 'org-view-invoice',
+  INVOICES_SEARCH_INVOICE: 'org-search-and-filter',
+  PAYMENT_METHODS_ADD_CARD: 'org-add-card',
+};
+
+export const ORG_ADMIN_PROPERTIES_PERMISSIONS = {
+  SELECT_PRODUCT: 'org-select-product',
+  SEARCH_AND_FILTER: 'org-properties-search-and-filter',
+  COMPANY_ACCOUNT_LIST: 'org-properties-company-account-list',
+  MODULE_LIST: 'org-properties-module-list',
+  CREATE_PROPERTY: 'org-create-property',
+  EDIT_PROPERTY: 'org-edit-property',
+  DELETE_PROPERTY: 'org-delete-property',
 };
 
 export const AIR_MARKETER_DASHBAORD_PERMISSIONS = {

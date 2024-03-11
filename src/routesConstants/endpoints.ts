@@ -209,6 +209,8 @@ export const END_POINTS = {
   ASSETS_EDIT_INVENTORY: '/assets/edit-inventory',
   CONTACT_NOTE: '/contact-note/note',
   CONTACT_CALL: `/contact-call/call`,
+  CONTACT_GROUPS: `/contact/group`,
+  ASSIGN_CONTACT_OWNER: `/contact/assign-contact-owner`,
   ADD_CONTRACT: `/contract/add-contract`,
   EDIT_CONTRACT: `/contract/update`,
   UPDATE_CONTRACT_STATUS: `/contract/renew-extend`,
@@ -245,6 +247,7 @@ export const END_POINTS = {
   VENDOR_PRODUCT_DROPDOWN: `/product-catalog/vendor-product-list`,
   PURCHASE_ORDER: `/assets/purchaseorder`,
   GET_SINGLE_ASSETS_CONTRACT: '/contract/get-contract',
+  GET_CONTRACTS_OVERVIEW: '/contract/get-contract',
   GET_DASHBOARD_TICKETS: '/air-services-dashboard/tickets',
   GET_DASHBOARD_CARDS_TICKETS: '/air-services-dashboard/dashboard-tickets',
   DASHBOARD_ANNOUNCEMENTS: '/air-services-dashboard/dashboard-annoucement',
@@ -290,6 +293,7 @@ export const END_POINTS = {
   GET_KNOWLEDGE_INSIGHTS: `/articles/knowledge-insights`,
   GET_KNOWLEDGE_INSIGHTS_DETAILS: `/articles/knowledge-insights/tickets`,
   POST_CHANGE_PASSWORD: '/auth/change-password',
+  GET_TICKET_APPROVAL_DETAILS: `/air-services-dashboard/get-tickets-approval-dashboard-details`,
   UPDATE_CONTRACT: 'contract/renew-extend',
 };
 

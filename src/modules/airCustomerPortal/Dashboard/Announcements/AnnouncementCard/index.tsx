@@ -1,6 +1,6 @@
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { formatTimeDifference } from '@/utils/dateTime';
 import { Avatar, Box, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 
 export const AnnouncementCard = (props: any) => {
   const { data, index } = props;
@@ -43,7 +43,7 @@ export const AnnouncementCard = (props: any) => {
         </Box>
       </Box>
       <Typography color={'grey.900'} fontSize={'0.75rem'} mt={1}>
-        {`${dayjs()?.diff(dayjs(data?.createdAt), 'hour')} hours ago`}
+        {formatTimeDifference(data?.createdAt)}
       </Typography>
     </Box>
   );
