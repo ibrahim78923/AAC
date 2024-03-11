@@ -18,6 +18,7 @@ import Image from 'next/image';
 import { AlertModals } from '@/components/AlertModals';
 import { useState } from 'react';
 // import useUpdateQuote from '../useUpdateQuote';
+// import useUpdateQuote from '../useUpdateQuote';
 
 const StepBuyerInfo = ({
   // dataContacts,
@@ -29,6 +30,8 @@ const StepBuyerInfo = ({
     setDeleteModal(!deleteModal);
   };
   // const {dataGetQuoteById}=useUpdateQuote()
+  // const { dataGetQuoteById } = useUpdateQuote();
+  // console.log(dataGetQuoteById, 'dataGetQuoteByIddataGetQuoteByIddataGetQuoteById');
 
   return (
     <>

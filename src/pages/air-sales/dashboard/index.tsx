@@ -7,5 +7,9 @@ const SalesDashboardPage = () => {
 };
 export default SalesDashboardPage;
 SalesDashboardPage.getLayout = function getLayout(page: any) {
-  return <Layout permissions={Permissions.AIR_SALES_DASHBOARD}>{page}</Layout>;
+  return (
+    <Layout guardRoute permissions={Permissions.AIR_SALES_DASHBOARD}>
+      {page}
+    </Layout>
+  );
 };

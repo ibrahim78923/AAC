@@ -31,6 +31,8 @@ import {
 } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const EmailEditorDrawer = (props: any) => {
   const { openDrawer, setOpenDrawer } = props;
@@ -222,39 +224,42 @@ const EmailEditorDrawer = (props: any) => {
           </FormProvider>
         </Box>
       </CommonDrawer>
-
-      <ScheduleModals
-        message={
-          "You're about to delete a record. Deleted records can't be restored after 90 days?."
-        }
-        submitButonText="Schedule"
-        type={'outcome'}
-        open={openDrawer === 'outcome'}
-        handleClose={() => setOpenDrawer('')}
-        handleSubmit={() => {}}
-        isFooter={true}
+      <PermissionsGuard
+        permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_SCHEDULE_EMAIL]}
       >
-        <FormProvider
-          methods={methodsScheduleEmail}
-          onSubmit={handleScheduleEmail(onSubmitEmail)}
+        <ScheduleModals
+          message={
+            "You're about to delete a record. Deleted records can't be restored after 90 days?."
+          }
+          submitButonText="Schedule"
+          type={'outcome'}
+          open={openDrawer === 'outcome'}
+          handleClose={() => setOpenDrawer('')}
+          handleSubmit={() => {}}
+          isFooter={true}
         >
-          <Grid container spacing={5}>
-            {scheduleEmailDataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item?.componentProps} size={'small'}>
-                  {item?.componentProps?.select
-                    ? item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))
-                    : null}
-                </item.component>
-              </Grid>
-            ))}
-          </Grid>
-        </FormProvider>
-      </ScheduleModals>
+          <FormProvider
+            methods={methodsScheduleEmail}
+            onSubmit={handleScheduleEmail(onSubmitEmail)}
+          >
+            <Grid container spacing={5}>
+              {scheduleEmailDataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item?.componentProps} size={'small'}>
+                    {item?.componentProps?.select
+                      ? item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : null}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </ScheduleModals>
+      </PermissionsGuard>
     </div>
   );
 };
