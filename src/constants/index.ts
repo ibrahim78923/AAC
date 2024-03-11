@@ -144,7 +144,7 @@ export const AIR_CUSTOMER_PORTAL = {
 };
 
 export const ORG_ADMIN: any = {
-  DASHBOARD: '/org-admin',
+  DASHBOARD: '/org-admin/dashboard',
   ROLES_AND_RIGHTS: '/org-admin/roles-and-rights',
   ADD_ROLE: '/org-admin/roles-and-rights/add-role',
 };
