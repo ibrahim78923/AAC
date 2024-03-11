@@ -19,7 +19,7 @@ const EditColumn = () => {
       <PermissionsGuard
         permissions={[AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS?.EDIT_COLUMNS]}
       >
-        {drawerTasksData.map((column) => (
+        {drawerTasksData.map((column: any) => (
           <ColumnsWrapper key={uuidv4()} title={column?.title} />
         ))}
       </PermissionsGuard>
