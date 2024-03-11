@@ -13,6 +13,8 @@ import { callsDetails, callsStatusColor, columns } from './Calls.data';
 import { PlusIcon, ViewCallIcon } from '@/assets/icons';
 
 import { styles } from './Calls.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Calls = () => {
   const { openDrawer, setOpenDrawer, theme } = useCalls();
@@ -50,14 +52,18 @@ const Calls = () => {
             {!isNullOrEmpty(TasksTableData) && (
               <Box sx={styles?.callsSpacingBetween}>
                 <CallsActionDropdown setOpenDrawer={setOpenDrawer} />
-                <Button
-                  variant="contained"
-                  sx={{ minWidth: '0px', gap: 1 }}
-                  onClick={() => setOpenDrawer('Add')}
-                  className="small"
+                <PermissionsGuard
+                  permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_CALL]}
                 >
-                  <PlusIcon /> Add Call
-                </Button>
+                  <Button
+                    variant="contained"
+                    sx={{ minWidth: '0px', gap: 1 }}
+                    onClick={() => setOpenDrawer('Add')}
+                    className="small"
+                  >
+                    <PlusIcon /> Add Call
+                  </Button>
+                </PermissionsGuard>
               </Box>
             )}
           </Grid>

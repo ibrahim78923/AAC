@@ -252,9 +252,9 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
       is: (value: any) => value?._id === CONTRACT_TYPES?.SOFTWARE_LICENSE,
       then: (schema: any) =>
         schema
-          ?.matches(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]*$/, 'must be a string')
+          ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string')
           ?.required('Required'),
-      otherwise: (schema) => schema?.notRequired(),
+      otherwise: (schema: any) => schema?.notRequired(),
     }),
   itemDetail: Yup?.array()
     ?.of(

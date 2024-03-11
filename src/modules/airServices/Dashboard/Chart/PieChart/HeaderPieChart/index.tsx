@@ -1,9 +1,12 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { dropDownMenus, pieChartHeader } from './HeaderPieChart.data';
+import { useGetDashboardAgentQuery } from '@/services/airServices/dashboard';
 
 export const HeaderPieChart = () => {
   const theme = useTheme();
+  const { data: pieChart } = useGetDashboardAgentQuery(true);
+  const pieCharts = pieChart?.data;
   return (
     <>
       <Box
@@ -25,7 +28,7 @@ export const HeaderPieChart = () => {
         gap={1}
         flexWrap={'wrap'}
       >
-        {pieChartHeader(theme)?.map((department) => (
+        {pieChartHeader(theme, pieCharts)?.map((department) => (
           <Box key={department?.title}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               {department?.icon}

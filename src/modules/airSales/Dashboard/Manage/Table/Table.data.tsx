@@ -1,6 +1,8 @@
 import { Box, Switch } from '@mui/material';
 
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const columns = (setIsDeleteModalOpen: any) => {
   return [
@@ -58,21 +60,28 @@ export const columns = (setIsDeleteModalOpen: any) => {
       header: 'Actions',
       cell: () => (
         <Box sx={{ display: 'flex' }}>
-          <Box sx={{ cursor: 'pointer' }} mr={1}>
-            <ViewEyeIcon />
-          </Box>
+          <PermissionsGuard
+            permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
+          >
+            <Box sx={{ cursor: 'pointer' }} mr={1}>
+              <ViewEyeIcon />
+            </Box>
+          </PermissionsGuard>
           <Box sx={{ cursor: 'pointer' }} mr={1}>
             <EditPenIcon />
           </Box>
-
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setIsDeleteModalOpen(true);
-            }}
+          <PermissionsGuard
+            permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.DELETE_DASHBOARD]}
           >
-            <DeleteCrossIcon />
-          </Box>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setIsDeleteModalOpen(true);
+              }}
+            >
+              <DeleteCrossIcon />
+            </Box>
+          </PermissionsGuard>
         </Box>
       ),
     },

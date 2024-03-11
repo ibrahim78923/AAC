@@ -209,6 +209,8 @@ export const END_POINTS = {
   ASSETS_EDIT_INVENTORY: '/assets/edit-inventory',
   CONTACT_NOTE: '/contact-note/note',
   CONTACT_CALL: `/contact-call/call`,
+  CONTACT_GROUPS: `/contact/group`,
+  ASSIGN_CONTACT_OWNER: `/contact/assign-contact-owner`,
   ADD_CONTRACT: `/contract/add-contract`,
   EDIT_CONTRACT: `/contract/update`,
   UPDATE_CONTRACT_STATUS: `/contract/renew-extend`,
@@ -251,6 +253,9 @@ export const END_POINTS = {
   DASHBOARD_ANNOUNCEMENTS: '/air-services-dashboard/dashboard-annoucement',
   DASHBOARD_ANNOUNCEMENTS_CUSTOMER:
     '/air-services-dashboard/get-all-customer-announcment',
+  DASHBOARD_RECENT_ACTIVITIES:
+    '/air-services-dashboard/dashboard-recent-activities',
+  DASHBOARD_AGENT_AVAILABILITY: '/air-services-dashboard/get-dashboard-agents',
   ADD_APPROVALS_TICKETS: `/ticket/add-ticket-approval`,
   GET_APPROVAL_TICKETS: `/ticket/get-tickets-approval`,
   UPDATE_APPROVAL_TICKETS: `/ticket/edit-ticket-approval`,
@@ -291,6 +296,7 @@ export const END_POINTS = {
   GET_KNOWLEDGE_INSIGHTS: `/articles/knowledge-insights`,
   GET_KNOWLEDGE_INSIGHTS_DETAILS: `/articles/knowledge-insights/tickets`,
   POST_CHANGE_PASSWORD: '/auth/change-password',
+  GET_TICKET_APPROVAL_DETAILS: `/air-services-dashboard/get-tickets-approval-dashboard-details`,
   UPDATE_CONTRACT: 'contract/renew-extend',
 };
 
