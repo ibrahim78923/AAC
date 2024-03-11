@@ -106,6 +106,7 @@ export const {
   usePostPurchaseOrderMutation,
   usePatchPurchaseOrderMutation,
   useLazyGetPurchaseOrderByIdQuery,
+  useGetPurchaseOrderByIdQuery,
   useDeletePurchaseOrderMutation,
   useGetPurchaseOrderListQuery,
   usePatchPurchaseOrderStatusMutation,
