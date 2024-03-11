@@ -292,6 +292,7 @@ export const END_POINTS = {
   GET_KNOWLEDGE_INSIGHTS_DETAILS: `/articles/knowledge-insights/tickets`,
   POST_CHANGE_PASSWORD: '/auth/change-password',
   UPDATE_CONTRACT: 'contract/renew-extend',
+  PERMISSIONS_ROLE: '/permissions/role',
 };
 
 export const superAdminBillingInvoices = {
