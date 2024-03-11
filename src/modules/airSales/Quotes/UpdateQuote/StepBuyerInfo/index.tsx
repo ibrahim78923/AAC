@@ -12,26 +12,27 @@ import {
   AvatarContactImage,
   CrossCircleImage,
 } from '@/assets/images';
-import { buyerContactList, buyerCompanyList } from '@/mock/modules/Quotes';
+import { buyerCompanyList } from '@/mock/modules/Quotes';
 import { styles } from './StepBuyerInfo.style';
 import Image from 'next/image';
 import { AlertModals } from '@/components/AlertModals';
 import { useState } from 'react';
 // import useUpdateQuote from '../useUpdateQuote';
-// import useUpdateQuote from '../useUpdateQuote';
+import useUpdateQuote from '../useUpdateQuote';
 
 const StepBuyerInfo = ({
   // dataContacts,
   // dataCompanies,
-  openAddContact, // openAddCompany,
+  openAddContact,
+  openAddCompany,
 }: any) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const handleDeleteModal = () => {
     setDeleteModal(!deleteModal);
   };
   // const {dataGetQuoteById}=useUpdateQuote()
-  // const { dataGetQuoteById } = useUpdateQuote();
-  // console.log(dataGetQuoteById, 'dataGetQuoteByIddataGetQuoteByIddataGetQuoteById');
+  const { dataGetQuoteById }: any = useUpdateQuote();
+  const contactData = dataGetQuoteById?.data?.deal;
 
   return (
     <>
@@ -63,31 +64,32 @@ const StepBuyerInfo = ({
                   Buyer’s Contact
                 </Typography>
                 <Box component="ul" sx={styles?.contactsList}>
-                  {buyerContactList?.map((item: any) => (
-                    <Box component="li" sx={styles?.listItem} key={item?.id}>
-                      <Box sx={styles?.itemIcon}>
-                        <Avatar
-                          src={AvatarContactImage?.src}
-                          sx={styles?.itemAvatar}
-                        ></Avatar>
-                        {/* <CrossCircleImage /> */}
-                      </Box>
-                      <Box sx={styles?.itemDetail}>
-                        <Box sx={styles?.itemTitle}>
-                          {item?.owner}
-                          <Image
-                            src={CrossCircleImage}
-                            alt="delIcon"
-                            onClick={handleDeleteModal}
-                          />
+                  {contactData &&
+                    contactData[0]?.contacts?.map((item: any) => (
+                      <Box component="li" sx={styles?.listItem} key={item?.id}>
+                        <Box sx={styles?.itemIcon}>
+                          <Avatar
+                            src={AvatarContactImage?.src}
+                            sx={styles?.itemAvatar}
+                          ></Avatar>
+                          {/* <CrossCircleImage /> */}
                         </Box>
-                        <Box sx={styles?.itemText}>{item?.title}</Box>
-                        <Box sx={styles?.itemText}>{item?.email}</Box>
-                        <Box sx={styles?.itemText}>{item?.phoneNumber}</Box>
-                        <Box></Box>
+                        <Box sx={styles?.itemDetail}>
+                          <Box sx={styles?.itemTitle}>
+                            {/* {item?.owner} */}
+                            {item?.name}
+                            <Image
+                              src={CrossCircleImage}
+                              alt="delIcon"
+                              onClick={handleDeleteModal}
+                            />
+                          </Box>
+                          {/* <Box sx={styles?.itemText}>{item?.name}</Box> */}
+                          <Box sx={styles?.itemText}>{item?.email}</Box>
+                          <Box sx={styles?.itemText}>{item?.phoneNumber}</Box>
+                        </Box>
                       </Box>
-                    </Box>
-                  ))}
+                    ))}
                 </Box>
               </Box>
             </>
@@ -111,7 +113,7 @@ const StepBuyerInfo = ({
                   variant="outlined"
                   className="small"
                   sx={styles?.btnAddMore}
-                  onClick={openAddContact}
+                  onClick={openAddCompany}
                   startIcon={<GrayPlusIcon />}
                 >
                   Add Company
