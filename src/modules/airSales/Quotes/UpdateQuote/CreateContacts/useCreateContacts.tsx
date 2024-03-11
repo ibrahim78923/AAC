@@ -73,11 +73,9 @@ const useCreateContacts = (dealId: any) => {
       const response = await postContacts({ body: formData })
         ?.unwrap()
         .then((res) => {
-          // console.log('resresrderdd',res);
-
           const associationBody = {
             dealId: dataGetQuoteById?.data?.dealId,
-            contact: res?._id,
+            contactId: res?.data?._id,
           };
           createAssociationQuote({ body: associationBody })?.unwrap();
           enqueueSnackbar('Ticket Updated Successfully', {

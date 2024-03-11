@@ -23,7 +23,8 @@ import useUpdateQuote from '../useUpdateQuote';
 const StepBuyerInfo = ({
   // dataContacts,
   // dataCompanies,
-  openAddContact, // openAddCompany,
+  openAddContact,
+  openAddCompany,
 }: any) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const handleDeleteModal = () => {
@@ -112,7 +113,7 @@ const StepBuyerInfo = ({
                   variant="outlined"
                   className="small"
                   sx={styles?.btnAddMore}
-                  onClick={openAddContact}
+                  onClick={openAddCompany}
                   startIcon={<GrayPlusIcon />}
                 >
                   Add Company
