@@ -27,11 +27,11 @@ export const dropDownMenus = [
     },
   },
 ];
-export const pieChartHeader = (theme: any) => [
+export const pieChartHeader = (theme: any, pieCharts: any) => [
   {
     title: 'Total Agents',
     icon: <PersonIcon style={{ color: theme?.palette?.custom?.main }} />,
-    titleNumber: '15',
+    titleNumber: pieCharts?.total,
   },
   {
     title: 'Available',
@@ -40,13 +40,13 @@ export const pieChartHeader = (theme: any) => [
         style={{ color: theme?.palette?.success?.main }}
       />
     ),
-    titleNumber: '12',
+    titleNumber: pieCharts?.availableAgents,
   },
   {
     title: 'Not Available',
     icon: (
       <AccessTimeFilledIcon style={{ color: theme?.palette?.warning?.main }} />
     ),
-    titleNumber: '3',
+    titleNumber: pieCharts?.unAvailableAgents,
   },
 ];
