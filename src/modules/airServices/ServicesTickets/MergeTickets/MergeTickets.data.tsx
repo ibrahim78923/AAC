@@ -2,7 +2,7 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
-import { TICKET_SELECTION_TYPE } from '@/constants/strings';
+import { ROLES, TICKET_SELECTION_TYPE } from '@/constants/strings';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
@@ -89,7 +89,7 @@ export const mergeTicketsFormFieldsDynamic = (
             fullWidth: true,
             required: true,
             apiQuery: apiQueryRequester,
-            externalParams: { limit: 50, role: 'ORG_REQUESTER' },
+            externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
             getOptionLabel: (option: any) =>
               `${option?.firstName} ${option?.lastName}`,
             placeholder: 'Add Requester',
@@ -132,7 +132,6 @@ export const mergeTicketsFormFieldsDynamic = (
         apiQueryTicketById,
         watchForTicketSelection?._id,
       )?.apiQuery,
-      // apiQuery: apiQueryTicketByRequester,
       getOptionLabel: (option: any) =>
         `${option?.ticketIdNumber} ${option?.subject}`,
     },

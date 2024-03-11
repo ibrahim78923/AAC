@@ -32,7 +32,7 @@ export const useAttachments = (props: any) => {
 
   useEffect(() => {
     getSingleAttachment();
-  }, []);
+  }, [data?.data?.length]);
 
   const deleteAttachmentSubmit = async () => {
     const deleteSingleAttachmentParameter = {

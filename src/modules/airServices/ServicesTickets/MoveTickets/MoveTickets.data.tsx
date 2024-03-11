@@ -1,4 +1,5 @@
 import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
 
 export const moveTicketsValidationSchema = Yup?.object()?.shape({
@@ -36,7 +37,7 @@ export const moveTicketsFormFieldsDynamic = (
       apiQuery: apiQueryAgent,
       required: true,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      externalParams: { limit: 50, role: ROLES?.ORG_AGENT },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

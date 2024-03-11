@@ -5,6 +5,7 @@ import { useAttachments } from './useAttachments';
 import SkeletonForm from '../Skeletons/SkeletonForm';
 import ApiErrorState from '../ApiErrorState';
 import NoData from '../NoData';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const Attachments = (props: any) => {
   const { permissionKey } = props;
@@ -41,15 +42,17 @@ export const Attachments = (props: any) => {
         ) : (
           <NoData message="No attachments found" height="100%" />
         )}
-        <AlertModals
-          message={'Are you sure you want to delete?'}
-          type={'delete'}
-          open={deleteModal?.open}
-          handleClose={() => setDeleteModal({ open: false, id: '' })}
-          handleSubmitBtn={() => deleteAttachmentSubmit?.()}
-          loading={deleteAttachmentStatus?.isLoading}
-          disableCancelBtn={deleteAttachmentStatus?.isLoading}
-        />
+        {deleteModal?.open && (
+          <AlertModals
+            message={'Are you sure you want to delete attachment file?'}
+            type={ALERT_MODALS_TYPE?.DELETE}
+            open={deleteModal?.open}
+            handleClose={() => setDeleteModal({ open: false, id: '' })}
+            handleSubmitBtn={() => deleteAttachmentSubmit?.()}
+            loading={deleteAttachmentStatus?.isLoading}
+            disableCancelBtn={deleteAttachmentStatus?.isLoading}
+          />
+        )}
       </Grid>
     </>
   );
