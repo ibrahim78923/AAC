@@ -8,6 +8,8 @@ import { DeleteArticles } from '../DeleteArticles';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
 import { Attachments } from '@/components/Attachments';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 
 export const SingleViewArticle = () => {
   const {
@@ -132,29 +134,41 @@ export const SingleViewArticle = () => {
               })}
             </Box>
             <Box display={'flex'} flexDirection={'column'} gap={1}>
-              <LoadingButton
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  router?.push({
-                    pathname: AIR_SERVICES?.UPSERT_ARTICLE,
-                    query: {
-                      articleId,
-                    },
-                  });
-                }}
-                fullWidth
+              <PermissionsGuard
+                permissions={[
+                  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.EDIT_ARTICLE,
+                ]}
               >
-                Edit
-              </LoadingButton>
-              <LoadingButton
-                variant="text"
-                color="error"
-                onClick={() => setOpenDelete(true)}
-                fullWidth
+                <LoadingButton
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    router?.push({
+                      pathname: AIR_SERVICES?.UPSERT_ARTICLE,
+                      query: {
+                        articleId,
+                      },
+                    });
+                  }}
+                  fullWidth
+                >
+                  Edit
+                </LoadingButton>
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS?.DELETE,
+                ]}
               >
-                Delete
-              </LoadingButton>
+                <LoadingButton
+                  variant="text"
+                  color="error"
+                  onClick={() => setOpenDelete(true)}
+                  fullWidth
+                >
+                  Delete
+                </LoadingButton>
+              </PermissionsGuard>
             </Box>
           </Box>
         </Grid>
