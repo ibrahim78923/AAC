@@ -251,6 +251,9 @@ export const END_POINTS = {
   DASHBOARD_ANNOUNCEMENTS: '/air-services-dashboard/dashboard-annoucement',
   DASHBOARD_ANNOUNCEMENTS_CUSTOMER:
     '/air-services-dashboard/get-all-customer-announcment',
+  DASHBOARD_RECENT_ACTIVITIES:
+    '/air-services-dashboard/dashboard-recent-activities',
+  DASHBOARD_AGENT_AVAILABILITY: '/air-services-dashboard/get-dashboard-agents',
   ADD_APPROVALS_TICKETS: `/ticket/add-ticket-approval`,
   GET_APPROVAL_TICKETS: `/ticket/get-tickets-approval`,
   UPDATE_APPROVAL_TICKETS: `/ticket/edit-ticket-approval`,

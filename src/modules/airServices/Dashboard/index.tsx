@@ -33,16 +33,17 @@ const Dashboard = () => {
     setIsAnnouncementDrawerOpen,
     cardData,
     customerAnnouncement,
+    recentActivities,
   } = useDashboard();
 
   return (
     <PermissionsGuard
       permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
     >
-      <Box>
+      <Box height="100vh">
         <HeaderDashboard />
         <br />
-        <Grid container spacing={3}>
+        <Grid container spacing={3} height="100vh">
           {ticketDashboardCardsData(cardData)?.map((item: any) => (
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item?.id}>
               <TicketDashboardCards
@@ -53,9 +54,9 @@ const Dashboard = () => {
             </Grid>
           ))}
         </Grid>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} height="100vh">
           <Grid item xs={12}>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} height="100vh">
               <Grid item xs={12} lg={8} sx={{ marginTop: 2 }}>
                 <Box
                   borderRadius={3}
@@ -83,13 +84,20 @@ const Dashboard = () => {
                     <Typography variant="h5">Recent Activities</Typography>
                   </Box>
                   <Box marginTop={2} overflow={'scroll'} height={'36.5vh'}>
-                    {recentActivitiesDashboardCardData?.map(
-                      (item: any, index) => (
+                    {recentActivitiesDashboardCardData(recentActivities)?.map(
+                      (item: any, index: any) => (
                         <Box key={item?.id}>
                           <RecentActivitiesDashboardCard
                             icon={item?.icon}
+                            recentActivityName={item?.recentActivityName}
                             recentActivity={item?.recentActivity}
                             recentActivityRequest={item?.recentActivityRequest}
+                            recentActivitySerialNumber={
+                              item?.recentActivitySerialNumber
+                            }
+                            recentActivityModuleName={
+                              item?.recentActivityModuleName
+                            }
                             recentActivityDateTime={
                               item?.recentActivityDateTime
                             }
@@ -116,7 +124,7 @@ const Dashboard = () => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} height="100vh">
               <Grid item xs={12} lg={4}>
                 <Box
                   borderRadius={3}

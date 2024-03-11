@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useTheme } from '@mui/material';
-import { useGetDashboardCardsTicketsQuery } from '@/services/airServices/dashboard';
+import {
+  useGetDashboardCardsTicketsQuery,
+  useGetRecentActivitiesQuery,
+} from '@/services/airServices/dashboard';
 import { useGetCustomerAnnouncementQuery } from '@/services/airServices/dashboard';
 
 export function useDashboard() {
@@ -20,6 +23,10 @@ export function useDashboard() {
 
   const { data } = useGetCustomerAnnouncementQuery(null);
   const customerAnnouncement = data?.annoucements;
+
+  const { data: recentActivitie } = useGetRecentActivitiesQuery(null);
+  const recentActivities = recentActivitie?.data;
+
   return {
     setIsDrawerOpen,
     isDrawerOpen,
@@ -32,5 +39,6 @@ export function useDashboard() {
     setIsAnnouncementDrawerOpen,
     cardData,
     customerAnnouncement,
+    recentActivities,
   };
 }
