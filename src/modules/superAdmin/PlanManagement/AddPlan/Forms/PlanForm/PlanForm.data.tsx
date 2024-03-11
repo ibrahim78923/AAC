@@ -1,13 +1,6 @@
 import * as Yup from 'yup';
-import {
-  RHFMultiSearchableSelect,
-  RHFSelect,
-  RHFTextField,
-} from '@/components/ReactHookForm';
-import {
-  useGetPlanTypesQuery,
-  useGetProductsQuery,
-} from '@/services/superAdmin/plan-mangement';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
+import { useGetPlanTypesQuery } from '@/services/superAdmin/plan-mangement';
 
 export const defaultValues = {
   suite: [],
@@ -53,11 +46,10 @@ export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
     ?.min(1, 'Mininum 1 characters')
     ?.max(12, 'max is 12'),
   allowAdditionalStorage: Yup?.string()?.required('Required field'),
-  additionalStoragePrice: Yup?.string()
-    ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.required('Required field')
-    ?.min(1, 'Mininum 1 characters')
-    ?.max(12, 'max is 12'),
+  additionalStoragePrice: Yup?.string()?.matches(
+    /^[0-9]*$/,
+    'must be a number',
+  ),
 });
 
 export const defaultValuesFunction = (data: any = defaultValues) => {
@@ -89,18 +81,7 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
   };
 };
 
-export const dataArray = (
-  _: any,
-  selectProductSuite: any,
-  AdditionalStorageValue: any,
-) => {
-  const { data } = useGetProductsQuery({});
-
-  const productsOptions = data?.data?.map((product: any) => ({
-    value: product?._id,
-    label: product?.name,
-  }));
-
+export const dataArray = (_: any, AdditionalStorageValue: any) => {
   const { data: planTypeData } = useGetPlanTypesQuery<any>({
     refetchOnMountOrArgChange: true,
     pagination: `page=1&limit=10`,
@@ -111,21 +92,16 @@ export const dataArray = (
     label: planType?.name,
   }));
 
-  const planLabelRender =
-    selectProductSuite == 'product' ? 'productId' : 'suite';
-  const planNameRender = selectProductSuite == 'product' ? 'Product' : 'Suite';
-
   return [
     {
       componentProps: {
-        name: planLabelRender,
-        label: planNameRender,
-        isCheckBox: selectProductSuite == 'product' ? false : true,
-        options: productsOptions,
+        name: 'planLabelRender',
+        label: 'planNameRender',
         placeholder: 'Select',
         required: true,
+        options: 'productsOptions',
       },
-      component: RHFMultiSearchableSelect,
+      component: 'RHFMultiSearchableSelect ',
       md: 6,
     },
     {
@@ -244,6 +220,8 @@ export const dataArray = (
         fullWidth: true,
         placeholder: 'Enter Additional Storage Price',
         disabled: AdditionalStorageValue[0] === 'No',
+        required: AdditionalStorageValue[0] === 'No' ? false : true,
+        // value:AdditionalStorageValue[0] === 'No' ? '' : ''
       },
       component: RHFTextField,
       md: 6,
