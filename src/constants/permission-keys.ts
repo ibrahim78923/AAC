@@ -23,9 +23,9 @@ export const SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
   ACTIVE_INACTIVE_ACCOUNTS: 'active-inactive-accounts',
 };
 
-export const AIR_SALES_TASKS = {
-  SALES_CREATE_TASK: 'sale-create-task',
-};
+// export const AIR_SALES_TASKS = {
+//   SALES_CREATE_TASK: 'sale-create-task',
+// };
 
 export const SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS = {
   ROLES_RIGHTS_LIST: 'roles-right-list',
@@ -59,7 +59,7 @@ export const ORG_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
 };
 
 export const AIR_SALES_INVOICES_PERMISSIONS = {
-  SALE_CREATE_NVOICES: 'sale-create-invoice',
+  SALE_CREATE_INVOICES: 'sale-create-invoice',
   SALE_INVOICE_SEARCH_AND_FILTER: 'sale-invoice-search-and-filter',
   SALE_INVOICE_EDIT_ACTION: 'sale-invoice-edit-action',
   SALE_VIEW_INVOICE: 'sale-view-invoice',
@@ -274,14 +274,14 @@ export const AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS = {
   DELETE: 'sale-delete-task',
   TASK_VIEW: 'sale-task-view',
 };
-export const AIR_SALES_INVOICES_MANAGE_INVOICE_PERMISSIONS = {
-  CREATE_INVOICES: 'sale-create-invoice',
-  SEARCH_FILTER: 'sale-invoice-search-and-filter',
-  EDIT_ACTIONS: 'sale-invoice-edit-action',
-  VIEW: 'sale-view-invoice',
-  DOWNLOAD: 'sale-invoice-download',
-  DELETE: 'sale-delete-invoice',
-};
+// export const AIR_SALES_INVOICES_MANAGE_INVOICE_PERMISSIONS = {
+//   CREATE_INVOICES: 'sale-create-invoice',
+//   SEARCH_FILTER: 'sale-invoice-search-and-filter',
+//   EDIT_ACTIONS: 'sale-invoice-edit-action',
+//   VIEW: 'sale-view-invoice',
+//   DOWNLOAD: 'sale-invoice-download',
+//   DELETE: 'sale-delete-invoice',
+// };
 export const AIR_MARKETER_SMS_MARKETING_PERMISSIONS = {
   VIEW_DASHBOARD: 'marketer-sms-marketing-dashboard-view-dashboard',
   VIEW_SMS_CONVERSATION: 'marketer-sms-marketing-dashboard-view-sms-conversion',

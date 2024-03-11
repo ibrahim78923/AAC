@@ -178,30 +178,34 @@ const DealsTab = () => {
               Customize
             </Button>
           </PermissionsGuard>
-          <Tooltip title={'Refresh Filter'}>
-            <Button
-              onClick={handleResetFilters}
-              variant="outlined"
-              color="inherit"
-              className="small"
-            >
-              <RefreshTasksIcon />
-            </Button>
-          </Tooltip>
           <PermissionsGuard
-            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_SEARCH_AND_FILTER]}
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.REFRESH]}
           >
-            <Button
-              variant="outlined"
-              color="inherit"
-              className="small"
-              onClick={handleFilter}
-              sx={{ width: { xs: '100%', sm: '100px' } }}
-              startIcon={<FilterIcon />}
-            >
-              Filter
-            </Button>
+            <Tooltip title={'Refresh Filter'}>
+              <Button
+                onClick={handleResetFilters}
+                variant="outlined"
+                color="inherit"
+                className="small"
+              >
+                <RefreshTasksIcon />
+              </Button>
+            </Tooltip>
           </PermissionsGuard>
+          {/* <PermissionsGuard
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_SEARCH_AND_FILTER]}
+          > */}
+          <Button
+            variant="outlined"
+            color="inherit"
+            className="small"
+            onClick={handleFilter}
+            sx={{ width: { xs: '100%', sm: '100px' } }}
+            startIcon={<FilterIcon />}
+          >
+            Filter
+          </Button>
+          {/* </PermissionsGuard> */}
           <ButtonGroup variant="outlined" aria-label="outlined button group">
             <Button
               variant="contained"

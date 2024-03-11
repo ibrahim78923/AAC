@@ -178,12 +178,25 @@ const ViewDetails = () => {
             >
               <Details />
               <PermissionsGuard
-                permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_TAB_VIEW]}
+                permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_ACTIVITY_LOG]}
               >
                 <ActivityLog />
               </PermissionsGuard>
+
+              {/* <PermissionsGuard
+                permissions={[
+                  AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_CONTACT,
+                ]}
+              > */}
               <Associations />
+              {/* </PermissionsGuard> */}
+              {/* <PermissionsGuard
+                permissions={[
+                  AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_CONTACT,
+                ]}
+              > */}
               <Tasks />
+              {/* </PermissionsGuard> */}
               <Notes />
               <Calls />
               <Meetings />
