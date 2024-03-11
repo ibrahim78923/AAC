@@ -10,6 +10,8 @@ import {
 import useQuotes from '../useQuotes';
 import { TableToolbarI } from './TableToolbar.interface';
 import { styles } from './TableToolbar.style';
+import { AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const TableToolbar: FC<TableToolbarI> = ({
   setSearchValue,
@@ -32,12 +34,18 @@ const TableToolbar: FC<TableToolbarI> = ({
   return (
     <Box sx={styles?.tableToolbar}>
       <Box>
-        <Search
-          setSearchBy={setSearchValue}
-          label="Search Here"
-          size="small"
-          width={'100%'}
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.SEARCH_FILTER,
+          ]}
+        >
+          <Search
+            setSearchBy={setSearchValue}
+            label="Search Here"
+            size="small"
+            width={'100%'}
+          />
+        </PermissionsGuard>
       </Box>
       <Box
         sx={{
@@ -76,48 +84,81 @@ const TableToolbar: FC<TableToolbarI> = ({
               },
             }}
           >
-            <MenuItem disabled={!rowId} onClick={handleEditQuote}>
-              Edit
-            </MenuItem>
-            <MenuItem disabled={!rowId} onClick={handleViewQuote}>
-              View
-            </MenuItem>
-            <MenuItem onClick={handleOpenDeleteQuote}>Delete</MenuItem>
+            <PermissionsGuard
+              permissions={[
+                AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.EDIT_QUOTE,
+              ]}
+            >
+              <MenuItem disabled={!rowId} onClick={handleEditQuote}>
+                Edit
+              </MenuItem>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.VIEW_QUOTE,
+              ]}
+            >
+              <MenuItem disabled={!rowId} onClick={handleViewQuote}>
+                View
+              </MenuItem>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.DELETE_QUOTE,
+              ]}
+            >
+              <MenuItem onClick={handleOpenDeleteQuote}>Delete</MenuItem>
+            </PermissionsGuard>
           </Menu>
         </Box>
 
         <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
-          <Button
-            variant="outlined"
-            color="inherit"
-            className="small"
-            onClick={handleResetFilters}
-            sx={{
-              width: { xs: '100%', sm: 'fit-Content' },
-              marginTop: { xs: '10px !important', sm: '0px !important' },
-              marginLeft: { xs: '0px !important', sm: '10px !important' },
-            }}
+          <PermissionsGuard
+            permissions={[
+              AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.REFRESH_FILTERS,
+            ]}
           >
-            <RefreshSharedIcon />
-          </Button>
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={handleResetFilters}
+              sx={{
+                width: { xs: '100%', sm: 'fit-Content' },
+                marginTop: { xs: '10px !important', sm: '0px !important' },
+                marginLeft: { xs: '0px !important', sm: '10px !important' },
+              }}
+            >
+              <RefreshSharedIcon />
+            </Button>
+          </PermissionsGuard>
         </Tooltip>
-
-        <Button
-          className="small"
-          sx={styles?.actionButton}
-          startIcon={<CustomizeIcon />}
-          onClick={handleCustomizeColumns}
+        <PermissionsGuard
+          permissions={[AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.CUSTOMIZE]}
         >
-          Customize
-        </Button>
-        <Button
-          className="small"
-          sx={styles?.actionButton}
-          startIcon={<FilterSharedIcon />}
-          onClick={handleFilters}
+          <Button
+            className="small"
+            sx={styles?.actionButton}
+            startIcon={<CustomizeIcon />}
+            onClick={handleCustomizeColumns}
+          >
+            Customize
+          </Button>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.SEARCH_FILTER,
+          ]}
         >
-          Filter
-        </Button>
+          <Button
+            className="small"
+            sx={styles?.actionButton}
+            startIcon={<FilterSharedIcon />}
+            onClick={handleFilters}
+          >
+            Filter
+          </Button>
+        </PermissionsGuard>
       </Box>
     </Box>
   );

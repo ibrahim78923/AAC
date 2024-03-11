@@ -27,13 +27,15 @@ import {
 } from '@/assets/icons';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
 import { useRouter } from 'next/router';
-import ContactsGroup from '@/modules/airMarketer/WhatsAppMarketing/WhatsAppMarketingComponent/Contacts/contactsGroup';
+// import ContactsGroup from '@/modules/airMarketer/WhatsAppMarketing/WhatsAppMarketingComponent/Contacts/contactsGroup';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
+import ContactsGroup from './ContactsGroup';
 
 const Contacts = () => {
   const router = useRouter();
   const {
+    contactOwnerData,
     anchorEl,
     actionMenuOpen,
     handleActionsMenuClick,
@@ -61,9 +63,13 @@ const Contacts = () => {
     handleOpenModalDelete,
     handleCloseModalDelete,
     handleDeleteContact,
+    loadingDelete,
+    methodsReAssign,
     isReAssign,
     handleOpenModalReAssign,
     handleCloseModalReAssign,
+    handleSubmitReAssign,
+    loadingReassign,
     openModalExport,
     handleOpenModalExport,
     setOpenModalExport,
@@ -241,8 +247,16 @@ const Contacts = () => {
         open={openModalDelete}
         onClose={handleCloseModalDelete}
         handleSubmit={handleDeleteContact}
+        loading={loadingDelete}
       />
-      <AssignModalBox open={isReAssign} onClose={handleCloseModalReAssign} />
+      <AssignModalBox
+        open={isReAssign}
+        onClose={handleCloseModalReAssign}
+        contactOwnerData={contactOwnerData}
+        methods={methodsReAssign}
+        handleSubmit={handleSubmitReAssign}
+        loading={loadingReassign}
+      />
       <ExportModal open={openModalExport} onClose={setOpenModalExport} />
     </>
   );

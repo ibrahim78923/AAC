@@ -9,6 +9,7 @@ import {
   signatureInitValues,
 } from './UpdateQuote.data';
 import {
+  useCreateAssociationQuoteMutation,
   useGetDealsQuery,
   useGetQuoteByIdQuery,
   // usePostAddbuyerInfoMutation,
@@ -23,6 +24,9 @@ const useUpdateQuote = () => {
     quoteId = router.query?.data;
   }
   // const id = router?.query?.data;
+  // console.log(quoteId, 'quoteIdquoteIdquoteIdquoteId');
+  const [createAssociationQuote] = useCreateAssociationQuoteMutation();
+
   const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 100 });
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
 
@@ -181,6 +185,7 @@ const useUpdateQuote = () => {
     methodsSignature,
     handleUpdateDetails,
     loadingUpdateQuote,
+    createAssociationQuote,
   };
 };
 
