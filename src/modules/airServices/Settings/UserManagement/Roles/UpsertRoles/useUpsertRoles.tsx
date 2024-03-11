@@ -41,26 +41,10 @@ export default function useUpsertRoles() {
     productId,
   });
 
-  const getSlugs = () => {
-    const slugs = getPermissionsData?.data?.flatMap(
-      (parent: any) =>
-        parent?.subModules?.flatMap(
-          (subModule: any) =>
-            subModule?.permissions?.map((item: any) => item?.slug),
-        ),
-    );
-    const slugsObject = slugs?.reduce((acc: any, slug: any) => {
-      acc[slug] = false;
-      return acc;
-    }, {});
-
-    return slugsObject;
-  };
-
   // form methods
   const methods: any = useForm({
     resolver: yupResolver(upsertRolesValidationSchema),
-    defaultValues: upsertRolesDefaultValues(getSlugs()),
+    defaultValues: upsertRolesDefaultValues(),
   });
 
   const { handleSubmit, reset } = methods;
