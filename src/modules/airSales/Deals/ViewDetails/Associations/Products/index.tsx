@@ -15,6 +15,8 @@ import { productsData } from '@/mock/modules/airSales/Deals/ViewDetails';
 import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Products = () => {
   const {
@@ -62,16 +64,22 @@ const Products = () => {
               size="medium"
               width={'250px'}
             />
-            <Button
-              variant="contained"
-              className="medium"
-              sx={{ minWidth: '0px', gap: 0.5 }}
-              onClick={() => {
-                setOpenDrawer('Add'), setSelectedCheckboxes({});
-              }}
+            <PermissionsGuard
+              permissions={[
+                AIR_SALES_DEALS_PERMISSIONS?.VIEW_DEAL_ADD_ASSOCIATE_PRODUCT,
+              ]}
             >
-              <PlusIcon /> Add Products
-            </Button>
+              <Button
+                variant="contained"
+                className="medium"
+                sx={{ minWidth: '0px', gap: 0.5 }}
+                onClick={() => {
+                  setOpenDrawer('Add'), setSelectedCheckboxes({});
+                }}
+              >
+                <PlusIcon /> Add Products
+              </Button>
+            </PermissionsGuard>
           </Box>
         </Grid>
         <Grid item xs={12}>
