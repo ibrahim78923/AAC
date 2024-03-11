@@ -6,13 +6,13 @@ import useUserManagement from './useUserManagement';
 import CommonTabs from '@/components/Tabs';
 import CreateTeams from './Teams/CreateTeams';
 import { AlertModals } from '@/components/AlertModals';
+import AddUsers from './Users/AddUsers';
 
 const Users = () => {
   const theme = useTheme<Theme>();
   const {
     activeTab,
     setActiveTab,
-    setIsAddUser,
     isAddTeam,
     setIsAddTeam,
     setTeamId,
@@ -22,6 +22,10 @@ const Users = () => {
     setIsTeamDrawer,
     setIsOpenDelete,
     handleDeleteTeam,
+    isAddUserDrawer,
+    setIsAddUserDrawer,
+    // setPage,
+    // setPageLimit
     // searchUser, setSearchUser
   } = useUserManagement();
 
@@ -48,7 +52,11 @@ const Users = () => {
             onClick={() => {
               {
                 activeTab === 0
-                  ? setIsAddUser(true)
+                  ? setIsAddUserDrawer({
+                      isToggle: true,
+                      type: 'add',
+                      data: {},
+                    })
                   : setIsAddTeam({ isToggle: true, type: 'add', data: {} });
               }
             }}
@@ -75,7 +83,10 @@ const Users = () => {
             getTabVal={(val: any) => setActiveTab(val)}
             tabsArray={['Users', 'Teams']}
           >
-            <UserTable />
+            <UserTable
+              isAddUserDrawer={isAddUserDrawer}
+              setIsAddUserDrawer={setIsAddUserDrawer}
+            />
             <TeamsTable
               teamId={teamId}
               setTeamId={setTeamId}
@@ -88,6 +99,10 @@ const Users = () => {
         </Box>
       </Box>
       <CreateTeams isAddTeam={isAddTeam} setIsAddTeam={setIsAddTeam} />
+      <AddUsers
+        isAddUserDrawer={isAddUserDrawer}
+        setIsAddUserDrawer={setIsAddUserDrawer}
+      />
 
       {isOpenDelete && (
         <AlertModals

@@ -22,16 +22,16 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
     //   providesTags: ['TEAMS'],
     // }),
 
-    // postTeams: builder.mutation({
-    //   query: ({ body }: any) => {
-    //     return {
-    //       url: END_POINTS?.SALES_TEAM,
-    //       method: 'POST',
-    //       body: body,
-    //     };
-    //   },
-    //   invalidatesTags: ['TEAMS'],
-    // }),
+    postPoductUser: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.PRODUCTS_USERS,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: ['USER'],
+    }),
 
     // updateUsers: builder.mutation({
     //   query: ({ id, body }: any) => {
@@ -57,6 +57,6 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
 export const {
   useGetProductsUsersQuery,
   // useGetTeamsByIdQuery,
-  // usePostTeamsMutation,
+  usePostPoductUserMutation,
   // useDeleteTeamsMutation,
 } = ProductUsersApi;

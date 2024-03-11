@@ -6,7 +6,7 @@ import {
 } from '@/services/airSales/settings/teams';
 import { PAGINATION } from '@/config';
 
-const useTeams = (teamId: any) => {
+const useTeams = (teamId?: any) => {
   const theme = useTheme<Theme>();
   const [searchBy, setSearchBy] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

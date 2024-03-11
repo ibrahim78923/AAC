@@ -1,3 +1,4 @@
+import { PAGINATION } from '@/config';
 import { useDeleteTeamsMutation } from '@/services/airSales/settings/teams';
 import { useGetProductsUsersQuery } from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
@@ -11,17 +12,27 @@ const useUserManagement = () => {
     type: 'add',
     data: {},
   });
-  const [isAddUser, setIsAddUser] = useState(false);
   const [isTeamDrawer, setIsTeamDrawer] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [isAddUserDrawer, setIsAddUserDrawer] = useState({
+    isToggle: false,
+    type: 'add',
+    data: {},
+  });
   const [searchUser, setSearchUser] = useState('');
   const [deleteTeams] = useDeleteTeamsMutation();
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const productUserParams = {
-    // page: 1,
-    // limit: 10,
+    page: page,
+    limit: pageLimit,
     search: searchUser ? searchUser : undefined,
   };
-  const { data: productsUsers } = useGetProductsUsersQuery(productUserParams);
+  const {
+    data: productsUsers,
+    isLoading,
+    isSuccess,
+  } = useGetProductsUsersQuery(productUserParams);
 
   const handleDeleteTeam = async (id: any) => {
     try {
@@ -41,8 +52,6 @@ const useUserManagement = () => {
     setActiveTab,
     isAddTeam,
     setIsAddTeam,
-    isAddUser,
-    setIsAddUser,
     teamId,
     setTeamId,
     isTeamDrawer,
@@ -53,6 +62,12 @@ const useUserManagement = () => {
     productsUsers,
     searchUser,
     setSearchUser,
+    setPage,
+    isLoading,
+    isSuccess,
+    setPageLimit,
+    isAddUserDrawer,
+    setIsAddUserDrawer,
   };
 };
 

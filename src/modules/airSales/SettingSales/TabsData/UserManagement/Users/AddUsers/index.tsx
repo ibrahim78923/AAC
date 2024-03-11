@@ -3,20 +3,24 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { dataArray } from '../Users.data';
-import useUserManagement from '../../useUserManagement';
+import useUsers from '../useUsers';
 
 const AddUsers = (props: any) => {
-  const { isAddUserOpen, setIsAddUserOpen } = props;
+  const { isAddUserDrawer, setIsAddUserDrawer } = props;
   const theme = useTheme();
-  const { methods } = useUserManagement();
+  const { methods, handleSubmit, onSubmit } = useUsers();
+
   return (
     <CommonDrawer
-      isDrawerOpen={isAddUserOpen}
-      onClose={() => setIsAddUserOpen(false)}
+      isDrawerOpen={isAddUserDrawer?.isToggle}
+      onClose={() =>
+        setIsAddUserDrawer({ ...isAddUserDrawer, isToggle: false })
+      }
       title={'Add User'}
       okText={'Add'}
       footer={true}
       isOk={true}
+      submitHandler={handleSubmit(onSubmit)}
     >
       <Typography
         sx={{
@@ -30,7 +34,7 @@ const AddUsers = (props: any) => {
       <Box sx={{ paddingTop: '1rem' }}>
         <FormProvider methods={methods}>
           <Grid container spacing={1}>
-            {dataArray?.map((item: any) => (
+            {dataArray()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
