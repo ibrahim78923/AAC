@@ -49,6 +49,14 @@ export const customerPortalDashboardAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getTicketApprovalDetailsById: builder?.query({
+      query: (getTicketApprovalDetailsParameter: any) => ({
+        url: `${END_POINTS?.GET_TICKET_APPROVAL_DETAILS}`,
+        method: 'GET',
+        params: getTicketApprovalDetailsParameter?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -59,4 +67,5 @@ export const {
   useGetApprovalTicketsByIdQuery,
   useGetCustomerDashboardDataQuery,
   useGetCustomerDashboardAnnouncementsQuery,
+  useGetTicketApprovalDetailsByIdQuery,
 } = customerPortalDashboardAPI;

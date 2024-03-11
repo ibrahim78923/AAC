@@ -3,6 +3,7 @@ import {
   RHFEditor,
   RHFAutocomplete,
   RHFTextField,
+  RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
@@ -23,6 +24,8 @@ export const dropdownDummy = [
     label: 'Option 2',
   },
 ];
+
+export const isReplyAddedNeglect = ['to', 'description', 'file'];
 
 export const ticketsBulkUpdateToFormSchema: any = {
   to: Yup?.string(),
@@ -63,12 +66,12 @@ export const ticketsBulkUpdateAddReplyFormFieldsData = [
 ];
 
 export const ticketsBulkUpdateDefaultFormValues = {
-  priority: '',
-  status: '',
-  impact: '',
-  agent: '',
-  source: '',
-  category: '',
+  pirority: null,
+  status: null,
+  impact: null,
+  agent: null,
+  source: null,
+  category: null,
   to: '',
   description: '',
   file: '',
@@ -78,12 +81,12 @@ export const ticketsBulkUpdateFormValidationSchemaFunction: any = (
   isReplyAdded: boolean,
 ) =>
   Yup?.object()?.shape({
-    priority: Yup?.string(),
-    status: Yup?.string(),
-    impact: Yup?.string(),
-    agent: Yup?.string(),
-    source: Yup?.string(),
-    category: Yup?.string(),
+    category: Yup?.mixed()?.nullable(),
+    status: Yup?.mixed()?.nullable(),
+    pirority: Yup?.mixed()?.nullable(),
+    source: Yup?.mixed()?.nullable(),
+    impact: Yup?.mixed()?.nullable(),
+    agent: Yup?.mixed()?.nullable(),
     ...(isReplyAdded && {
       to: Yup?.string()?.required(),
       description: Yup?.mixed()?.required(),
@@ -91,26 +94,29 @@ export const ticketsBulkUpdateFormValidationSchemaFunction: any = (
     }),
   });
 
-export const ticketsBulkUpdateFormFieldsData = [
+export const ticketsBulkUpdateFormFieldsDynamic = (
+  apiQueryAgent: any,
+  apiQueryCategories: any,
+) => [
   {
-    id: 100,
+    id: 1,
     componentProps: {
       fullWidth: true,
-      name: 'priority',
+      name: 'pirority',
       label: 'Priority',
-      select: true,
       options: ticketPriorityOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
   {
-    id: 150,
+    id: 2,
     componentProps: {
       fullWidth: true,
       name: 'status',
       label: 'Status',
-      select: true,
       options: ticketStatusOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -121,20 +127,23 @@ export const ticketsBulkUpdateFormFieldsData = [
       fullWidth: true,
       name: 'impact',
       label: 'Impact',
-      select: true,
       options: ticketImpactOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
   },
   {
     id: 200,
-    component: RHFAutocomplete,
     componentProps: {
       fullWidth: true,
       name: 'agent',
       label: 'Agent',
-      select: true,
-      options: dropdownDummy,
+      apiQuery: apiQueryAgent,
+      placeholder: 'Choose Agent',
+      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
+    component: RHFAutocompleteAsync,
   },
   {
     id: 2,
@@ -143,8 +152,8 @@ export const ticketsBulkUpdateFormFieldsData = [
       fullWidth: true,
       name: 'source',
       label: 'Source',
-      select: true,
       options: ticketSourceOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
   },
   {
@@ -153,9 +162,10 @@ export const ticketsBulkUpdateFormFieldsData = [
       fullWidth: true,
       name: 'category',
       label: 'Category',
-      select: true,
-      options: dropdownDummy,
+      apiQuery: apiQueryCategories,
+      placeholder: 'Choose Category',
+      getOptionLabel: (option: any) => option?.categoryName,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
 ];

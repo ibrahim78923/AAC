@@ -42,15 +42,13 @@ const AgentLevelCard = (props: any) => {
           </Typography>
         </Box>
         <Box>
-          <Typography
-            fontSize={14}
-            fontWeight={500}
-            pb={0.4}
-            color={palette?.grey?.[600]}
+          <RHFTextField
+            name={props?.title}
+            label="After collecting"
+            required
+            size="small"
+            sx={{ maxWidth: 204 }}
           >
-            After collecting
-          </Typography>
-          <RHFTextField name={props?.title} size="small" sx={{ maxWidth: 204 }}>
             {props?.points}
           </RHFTextField>
         </Box>

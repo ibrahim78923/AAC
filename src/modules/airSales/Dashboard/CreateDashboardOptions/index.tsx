@@ -3,6 +3,8 @@ import { ArrowDropDown } from '@mui/icons-material';
 
 import useCreateDashboardOptions from './useCreateDashboardOptions';
 import { CheckMarkIcon } from '@/assets/icons';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 
 const CreateDashboardOptions = ({ toggle }: any) => {
   const { handleCloseMenuOptions, anchorEl, openDropDown, handleClickActions } =
@@ -32,20 +34,24 @@ const CreateDashboardOptions = ({ toggle }: any) => {
         onClose={handleCloseMenuOptions}
         TransitionComponent={Fade}
       >
-        <MenuItem>
-          Sales_1{' '}
-          <Button
-            sx={{ marginLeft: '30px', border: 'none' }}
-            className="small"
-            variant="outlined"
-          >
-            Default
-            <CheckMarkIcon />
-          </Button>
-        </MenuItem>
-        <MenuItem>Sales_2</MenuItem>
-        <MenuItem>Sales_3</MenuItem>
-        <MenuItem>Sales_4</MenuItem>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.SET_DEFAULT]}
+        >
+          <MenuItem>
+            Sales_1{' '}
+            <Button
+              sx={{ marginLeft: '30px', border: 'none' }}
+              className="small"
+              variant="outlined"
+            >
+              Default
+              <CheckMarkIcon />
+            </Button>
+          </MenuItem>
+          <MenuItem>Sales_2</MenuItem>
+          <MenuItem>Sales_3</MenuItem>
+          <MenuItem>Sales_4</MenuItem>
+        </PermissionsGuard>
         <MenuItem onClick={() => toggle()}>
           <Button
             sx={{

@@ -8,7 +8,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 export const TicketsBulkUpdate = (props: any) => {
   const { isDrawerOpen } = props;
   const {
-    ticketsBulkUpdateFormFieldsData,
+    ticketsBulkUpdateFormFields,
     theme,
     ticketsBulkUpdateAddReplyFormFieldsData,
     methodsBulkUpdateForm,
@@ -78,7 +78,7 @@ export const TicketsBulkUpdate = (props: any) => {
           )}
           <br />
           <Grid container spacing={1.5}>
-            {ticketsBulkUpdateFormFieldsData?.map((form: any) => {
+            {ticketsBulkUpdateFormFields?.map((form: any) => {
               return (
                 <Grid item xs={12} key={form?.id}>
                   <form.component {...form?.componentProps} size="small" />

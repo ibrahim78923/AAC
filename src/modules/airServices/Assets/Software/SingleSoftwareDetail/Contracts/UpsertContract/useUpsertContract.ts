@@ -16,16 +16,31 @@ import {
   useLazyGetAgentsDropdownQuery,
 } from '@/services/airServices/assets/contracts';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useGetSingleSoftwareByIdQuery } from '@/services/airServices/assets/software/single-software-detail/contracts';
+import { useEffect } from 'react';
 
 export const useUpsertContract = () => {
   const theme = useTheme();
   const router = useRouter();
+  const { softwareId } = router?.query;
   const [postContractTrigger, postContractStatus] = usePostContractMutation();
   const upsertContractFormMethods = useForm<any>({
     resolver: yupResolver<any>(upsertContractFormSchemaFunction),
     defaultValues: upsertContractFormDefaultValuesFunction(),
   });
-  const { handleSubmit, control } = upsertContractFormMethods;
+  const { handleSubmit, control, reset } = upsertContractFormMethods;
+
+  const getSingleSoftwareParameter = {
+    queryParams: {
+      id: softwareId,
+    },
+  };
+
+  const { data, isLoading, isFetching, isError }: any =
+    useGetSingleSoftwareByIdQuery(getSingleSoftwareParameter, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!softwareId,
+    });
 
   const watchForNotifyExpiry = useWatch({
     control,
@@ -34,9 +49,17 @@ export const useUpsertContract = () => {
   });
 
   const handleCancelBtn = () => {
-    router?.push({ pathname: AIR_SERVICES?.ASSETS_SOFTWARE_DETAIL });
+    router?.push({
+      pathname: AIR_SERVICES?.ASSETS_SOFTWARE_DETAIL,
+      query: {
+        softwareId,
+      },
+    });
   };
 
+  useEffect(() => {
+    reset(upsertContractFormDefaultValuesFunction(data?.data));
+  }, [data, reset]);
   const submitUpsertContractForm = async (data: any) => {
     const postContractForm = new FormData();
     postContractForm?.append('name', data?.contractName);
@@ -53,7 +76,7 @@ export const useUpsertContract = () => {
     !!data?.notifyExpiry &&
       postContractForm?.append('notifyTo', data?.notifyTo?._id);
     postContractForm?.append('software', data?.software?._id);
-    postContractForm?.append('itemsDetail', data?.itemDetail);
+    postContractForm?.append('itemsDetail', JSON.stringify(data?.itemDetail));
     postContractForm?.append('billingCycle', data?.billingCycle?._id);
     postContractForm?.append('licenseType', data?.licenseType?._id);
     postContractForm?.append('licenseKey', data?.licenseKey);
@@ -70,8 +93,8 @@ export const useUpsertContract = () => {
     };
     try {
       await postContractTrigger(postContractParameter)?.unwrap();
-      successSnackbar('Contract Created Successfully');
-      router?.back();
+      successSnackbar('Contract created successfully');
+      handleCancelBtn?.();
     } catch (error: any) {
       errorSnackbar();
     }
@@ -96,5 +119,8 @@ export const useUpsertContract = () => {
     theme,
     handleCancelBtn,
     postContractStatus,
+    isLoading,
+    isFetching,
+    isError,
   };
 };

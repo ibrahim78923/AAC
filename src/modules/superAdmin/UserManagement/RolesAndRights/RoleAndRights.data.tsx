@@ -11,6 +11,8 @@ import { ExpandMore } from '@mui/icons-material';
 import { SwitchBtn } from '@/components/SwitchButton';
 
 import * as Yup from 'yup';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const data: any = [
   {
@@ -77,7 +79,16 @@ export const columns: any = [
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: <SwitchBtn defaultChecked />,
+    cell: (
+      <PermissionsGuard
+        permissions={[
+          SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS?.ACTIVE_INACTIVE_ROLES,
+        ]}
+      >
+        {' '}
+        <SwitchBtn defaultChecked />
+      </PermissionsGuard>
+    ),
   },
   {
     accessorFn: (row: any) => row?.CreatedOn,

@@ -30,7 +30,7 @@ import {
   setTypingUserData,
 } from '@/redux/slices/chat/slice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { getSession, isNullOrEmpty } from '@/utils';
+import { getActiveProductSession, getSession, isNullOrEmpty } from '@/utils';
 
 import { getLowerRoutes, getRoutes, zeroPaddingRoutes } from './Layout.data';
 
@@ -49,7 +49,6 @@ import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS } from '@/routesConstants/paths';
-import { ROLES } from '@/constants/strings';
 
 const drawerWidth = 230;
 
@@ -93,18 +92,16 @@ const DashboardLayout = ({ children, window }: any) => {
 
   const router = useRouter();
 
-  const { user }: { user: any } = getSession();
+  const product = getActiveProductSession();
   //   const findRoleByEmail = ({ user, array }: any) => {
   //     return array?.find((skill: any) => skill?.email === user?.email);
   //   };
 
   // const findEmail: any = findRoleByEmail({ user, array });
 
-  const findEmailRole = user ? user?.role : ROLES?.SUPER_ADMIN;
+  const routes = getRoutes(product.name);
 
-  const routes = getRoutes(findEmailRole);
-
-  const lowerRoutes = getLowerRoutes(findEmailRole);
+  const lowerRoutes = getLowerRoutes(product.name);
   const pathname = usePathname();
 
   const routerPathName = pathname?.split('/')[2] ?? pathname?.split('/')[1];
@@ -140,7 +137,7 @@ const DashboardLayout = ({ children, window }: any) => {
                 textTransform: 'uppercase',
               }}
             >
-              {findEmailRole}
+              {product?.name}
             </Typography>
           </Box>
         </Box>

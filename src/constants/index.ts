@@ -184,3 +184,10 @@ export const AUTH = {
   FORGOT_PASSWORD: `/forget-password`,
   LOGIN: `/login`,
 };
+
+export const Quick_Links_Routes = {
+  CALLING: '/social-components/calling',
+  DOCUMENT: '/social-components/my-documents',
+  CHAT: '/social-components/chat',
+  EMAIL: '/social-components/email',
+};

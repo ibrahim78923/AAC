@@ -17,14 +17,16 @@ export const SinglePurchaseOrderDetail = () => {
     singlePurchaseDetailStatusDropdown,
     deletePurchaseOrder,
     isLoading,
+    statusData,
   }: any = useSinglePurchaseDetail();
+
   return (
     <>
       <>
         <Header
           dropdownOptions={singlePurchaseDetailActionDropdown}
           statusDropdownOptions={singlePurchaseDetailStatusDropdown}
-          currentStatus={PURCHASE_ORDER_STATUS?.OPEN}
+          currentStatus={statusData || PURCHASE_ORDER_STATUS.OPEN}
           handleReceived={() => setIsADrawerOpen(true)}
           handleAddToInventory={() => setIsDrawerOpen(true)}
         />
