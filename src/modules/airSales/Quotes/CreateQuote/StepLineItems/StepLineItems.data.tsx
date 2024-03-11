@@ -1,6 +1,8 @@
 import { Box, Stack } from '@mui/material';
 import { styles } from './StepLineItems.style';
 import { EditYellowBgIcon, ViewEyeIcon, TrashIcon } from '@/assets/icons';
+import { AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const tableColumns: any = [
   {
@@ -62,12 +64,24 @@ export const tableColumns: any = [
         <Box sx={styles?.actionBtn}>
           <ViewEyeIcon />
         </Box>
-        <Box sx={styles?.actionBtn}>
-          <EditYellowBgIcon />
-        </Box>
-        <Box sx={styles?.actionBtn}>
-          <TrashIcon />
-        </Box>
+        <PermissionsGuard
+          permissions={[
+            AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.EDIT_PRODUCT,
+          ]}
+        >
+          <Box sx={styles?.actionBtn}>
+            <EditYellowBgIcon />
+          </Box>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.DELETE_PRODUCT,
+          ]}
+        >
+          <Box sx={styles?.actionBtn}>
+            <TrashIcon />
+          </Box>
+        </PermissionsGuard>
       </Stack>
     ),
   },

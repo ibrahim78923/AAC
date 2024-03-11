@@ -11,6 +11,8 @@ import {
 } from './CallsActionDropDown.data';
 
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const CallsActionDropdown = (props: any) => {
   const { setOpenDrawer } = props;
@@ -63,11 +65,31 @@ const CallsActionDropdown = (props: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleOpenViewDrawer}>View</MenuItem>
-        <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
-        <MenuItem onClick={handleOpenReassignModal}>Reschedule</MenuItem>
-        <MenuItem onClick={handleOpenOutcomeModal}>Add outcomes</MenuItem>
-        <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_CALL]}
+        >
+          <MenuItem onClick={handleOpenViewDrawer}>View</MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_CALL]}
+        >
+          <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_RESCHEDULE_CALL]}
+        >
+          <MenuItem onClick={handleOpenReassignModal}>Reschedule</MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_CALL_OUTCOME]}
+        >
+          <MenuItem onClick={handleOpenOutcomeModal}>Add outcomes</MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_DELETE_CALL]}
+        >
+          <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+        </PermissionsGuard>
       </Menu>
 
       <AlertModals

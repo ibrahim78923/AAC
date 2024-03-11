@@ -98,6 +98,7 @@ export const TAGS = [
   'AIR_SERVICES_ROLES',
   'ACCOUNT_DETAILS',
   'SINGLE_ATTACHMENT',
+  'CONTACT_GROUPS',
 ];
 
 const baseQuery = fetchBaseQuery({

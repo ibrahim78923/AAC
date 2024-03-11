@@ -209,6 +209,8 @@ export const END_POINTS = {
   ASSETS_EDIT_INVENTORY: '/assets/edit-inventory',
   CONTACT_NOTE: '/contact-note/note',
   CONTACT_CALL: `/contact-call/call`,
+  CONTACT_GROUPS: `/contact/group`,
+  ASSIGN_CONTACT_OWNER: `/contact/assign-contact-owner`,
   ADD_CONTRACT: `/contract/add-contract`,
   EDIT_CONTRACT: `/contract/update`,
   UPDATE_CONTRACT_STATUS: `/contract/renew-extend`,
