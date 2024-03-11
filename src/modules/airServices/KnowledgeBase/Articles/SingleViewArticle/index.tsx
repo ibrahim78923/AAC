@@ -21,7 +21,6 @@ export const SingleViewArticle = () => {
     isLoading,
     isFetching,
     router,
-    // isError,
   } = useSingleViewArticle();
 
   if (isLoading || isFetching) return <Skeleton />;
