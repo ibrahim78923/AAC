@@ -5,9 +5,9 @@ import { useAttachFileCard } from './useAttachFileCard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { generateImage } from '@/utils/avatarUtils';
 
-export const AttachFileCard = ({ data, onDelete, permissionKey }: any) => {
+export const AttachFileCard = (props: any) => {
+  const { data, onDelete, permissionKey, size } = props;
   const { theme, cross, setCross } = useAttachFileCard();
-
   return (
     <Box
       display={'flex'}
@@ -24,8 +24,8 @@ export const AttachFileCard = ({ data, onDelete, permissionKey }: any) => {
       <Image
         src={generateImage(data?.fileUrl)}
         alt="file-preview"
-        width={45}
-        height={45}
+        width={size?.width ?? 45}
+        height={size?.height ?? 45}
         style={{ objectFit: 'cover' }}
       />
       <Box

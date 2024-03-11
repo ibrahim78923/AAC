@@ -7,6 +7,7 @@ import { sideData } from './SingleViewArticle.data';
 import { DeleteArticles } from '../DeleteArticles';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AIR_SERVICES } from '@/constants';
+import { Attachments } from '@/components/Attachments';
 
 export const SingleViewArticle = () => {
   const {
@@ -38,6 +39,25 @@ export const SingleViewArticle = () => {
             sx={{ wordBreak: 'break-all' }}
             dangerouslySetInnerHTML={{ __html: data?.data?.details }}
           ></Box>
+          {!!articleId && (
+            <>
+              <Typography
+                variant="body1"
+                fontWeight={500}
+                color="slateBlue.main"
+                my={2}
+              >
+                {' '}
+                Attachments{' '}
+              </Typography>
+              <Box>
+                <Attachments
+                  recordId={articleId}
+                  size={{ width: 350, height: 350 }}
+                />
+              </Box>
+            </>
+          )}
         </Grid>
         <Grid item xs={12} lg={3}>
           <Box sx={styles?.sideStyle(theme)}>
