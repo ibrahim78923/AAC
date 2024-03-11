@@ -5,8 +5,9 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { usePostPoductUserMutation } from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
+import { useGetCompanyAccountsRolesQuery } from '@/services/common-APIs';
 
-const useUsers = () => {
+const useUsers = (setIsAddUserDrawer?: any) => {
   const [checkedUser, setCheckedUser] = useState([]);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
@@ -20,21 +21,24 @@ const useUsers = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const { data: rolesByCompanyId } = useGetCompanyAccountsRolesQuery({
+    organizationId: '65dc64bbb454e252cbe9a416',
+  });
   const methods: any = useForm({
     resolver: yupResolver(userValidationSchema),
     defaultValues: userDefaultValues,
   });
   const { handleSubmit } = methods;
-  const onSubmit = (values: any) => {
+  const onSubmit = async (values: any) => {
     try {
-      postPoductUser({ body: values })?.unwrap();
+      await postPoductUser({ body: values })?.unwrap();
       enqueueSnackbar('User added successfully', {
         variant: 'success',
       });
-    } catch (error) {
-      enqueueSnackbar('error', {
-        variant: 'success',
+      setIsAddUserDrawer({ isToggle: false, type: 'add', data: {} });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
       });
     }
   };
@@ -53,6 +57,7 @@ const useUsers = () => {
     onSubmit,
     checkedUser,
     setCheckedUser,
+    rolesByCompanyId,
   };
 };
 

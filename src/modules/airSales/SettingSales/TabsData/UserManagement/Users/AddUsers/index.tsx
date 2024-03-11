@@ -8,7 +8,7 @@ import useUsers from '../useUsers';
 const AddUsers = (props: any) => {
   const { isAddUserDrawer, setIsAddUserDrawer } = props;
   const theme = useTheme();
-  const { methods, handleSubmit, onSubmit } = useUsers();
+  const { methods, handleSubmit, onSubmit } = useUsers(setIsAddUserDrawer);
 
   return (
     <CommonDrawer

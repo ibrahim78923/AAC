@@ -5,6 +5,7 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { SwitchBtn } from '@/components/SwitchButton';
 import useTeams from '../Teams/useTeams';
+import useUsers from './useUsers';
 
 export const userValidationSchema = Yup?.object()?.shape({
   firstName: Yup?.string()?.required('Field is Required'),
@@ -22,9 +23,8 @@ export const userDefaultValues = {
   address: '',
   phoneNumber: '',
   jobTitle: '',
-  assignRole: '',
-  country: '',
-  faceBookUrl: '',
+  role: '',
+  facebookUrl: '',
   language: '',
   twitterUrl: '',
   linkedInUrl: '',
@@ -32,6 +32,7 @@ export const userDefaultValues = {
 
 export const dataArray = () => {
   const { teamsData } = useTeams();
+  const { rolesByCompanyId } = useUsers();
   return [
     {
       componentProps: {
@@ -105,11 +106,10 @@ export const dataArray = () => {
         fullWidth: true,
         select: true,
       },
-      options: [
-        { value: 'United Kingdom', label: 'Account Admin' },
-        { value: 'United Kingdom', label: 'Sales Manager' },
-        { value: 'United Kingdom', label: 'Account Admin' },
-      ],
+      options: rolesByCompanyId?.data?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
       component: RHFSelect,
       md: 12,
     },
