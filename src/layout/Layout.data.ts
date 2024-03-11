@@ -42,6 +42,7 @@ import {
   WorkFlowAutomationImage,
   WorkLoadImage,
 } from '@/assets/images';
+import { Quick_Links_Routes } from '@/constants';
 import { Permissions } from '@/constants/permissions';
 import {
   AIR_MARKETER,
@@ -722,7 +723,7 @@ export const QuickLinkData = [
   {
     key: '1',
     icon: CallImage,
-    path: '/social-components/calling',
+    path: Quick_Links_Routes?.CALLING,
     permissions: Permissions?.SOCIAL_COMPONENTS_CALLING,
   },
   {
@@ -738,17 +739,17 @@ export const QuickLinkData = [
   {
     key: '4',
     icon: DocumentImage,
-    path: '/social-components/my-documents',
+    path: Quick_Links_Routes?.CALLING,
   },
   {
     key: '5',
     icon: MailImage,
-    path: '/social-components/chat',
+    path: Quick_Links_Routes?.CHAT,
   },
   {
     key: '6',
     icon: MessageImage,
-    path: '/social-components/email',
+    path: Quick_Links_Routes?.EMAIL,
   },
   {
     key: '7',

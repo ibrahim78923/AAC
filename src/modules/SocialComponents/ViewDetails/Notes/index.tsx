@@ -150,7 +150,10 @@ const Notes = ({ companyId }: any) => {
                   >
                     Note
                     <span
-                      style={{ color: 'black', textTransform: 'lowercase' }}
+                      style={{
+                        color: theme?.palette?.common?.black,
+                        textTransform: 'lowercase',
+                      }}
                     >
                       {' '}
                       Created by
