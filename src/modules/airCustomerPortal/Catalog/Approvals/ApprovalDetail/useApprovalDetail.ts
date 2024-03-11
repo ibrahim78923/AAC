@@ -1,44 +1,36 @@
-import { useGetApprovalTicketsByIdQuery } from '@/services/airCustomerPortal';
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import { useGetTicketApprovalDetailsByIdQuery } from '@/services/airCustomerPortal';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export const useApprovalDetail = () => {
   const router = useRouter();
-  const { ticketId, userId }: any = router?.query;
+  const { approvalId }: any = router?.query;
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [selectedApproval, setSelectedApproval] = useState<any>({});
   const setApproval = (approval: any) => {
     setSelectedApproval(approval);
     setIsConfirmModalOpen(true);
   };
-  const getSingleTicketParameter = {
-    pathParam: {
-      ticketId,
+  const getSingleTicketApprovalParameter = {
+    queryParams: {
+      id: approvalId,
     },
   };
 
   const { data, isLoading, isFetching, isError } =
-    useGetApprovalTicketsByIdQuery(getSingleTicketParameter, {
+    useGetTicketApprovalDetailsByIdQuery(getSingleTicketApprovalParameter, {
       refetchOnMountOrArgChange: true,
-      skip: !!!ticketId,
+      skip: !!!approvalId,
     });
 
-  const setUserInfo = () => {
-    const approvalData = !!userId && JSON.parse(userId);
-    const approvalDetailData = {
-      approvalStatus: approvalData?.approvalStatus,
-      createdAt: approvalData?.createdAt,
-      updatedAt: approvalData?.updatedAt,
-      requesterDetails: {
-        firstName: approvalData?.firstName,
-        lastName: approvalData?.lastName,
-        email: approvalData?.email,
+  const openTicketDetail = (data: any) => {
+    router?.push({
+      pathname: AIR_CUSTOMER_PORTAL?.SINGLE_TICKETS,
+      query: {
+        id: data?.ticketId,
       },
-      ticketDetails: {
-        ...data?.data?.[0],
-      },
-    };
-    return approvalDetailData;
+    });
   };
   return {
     router,
@@ -47,10 +39,10 @@ export const useApprovalDetail = () => {
     selectedApproval,
     setSelectedApproval,
     setApproval,
-    setUserInfo,
-    userId,
     isLoading,
     isFetching,
     isError,
+    data,
+    openTicketDetail,
   };
 };

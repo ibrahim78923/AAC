@@ -9,6 +9,8 @@ import { ExportButton } from '@/components/ExportButton';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { EXPORT_TYPE } from '@/constants/strings';
 import { DeleteContract } from './DeleteContract';
+import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const Contracts = () => {
   const {
@@ -36,6 +38,9 @@ const Contracts = () => {
       <PageTitledHeader
         title={'Contracts'}
         addTitle={'Add New Contract'}
+        createPermissionKey={[
+          AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.ADD_CONTRACT,
+        ]}
         handleAction={handleAddNewContractClick}
       />
       <Box
@@ -52,57 +57,87 @@ const Contracts = () => {
             flexWrap={'wrap'}
             gap={2}
           >
-            <Search label="Search Here" setSearchBy={setSearch} />
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.SEARCH_AND_FILTER,
+              ]}
+            >
+              <Search label="Search Here" setSearchBy={setSearch} />
+            </PermissionsGuard>
             <Box
               display={'flex'}
               alignItems={'center'}
               gap={1}
               flexWrap={'wrap'}
             >
-              <Button
-                variant="outlined"
-                color="secondary"
-                disabled={!!!selectedContractList?.length}
-                onClick={() => setIsDeleteModalOpen(true)}
+              <PermissionsGuard
+                permissions={[
+                  AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.DELETE_CONTRACTS,
+                ]}
               >
-                Delete
-              </Button>
-              <ExportButton
-                handleExcelExport={() =>
-                  getContractListDataExport?.(EXPORT_TYPE?.XLS)
-                }
-                handleCsvExport={() =>
-                  getContractListDataExport?.(EXPORT_TYPE?.CSV)
-                }
-              />
-              <Button
-                variant="outlined"
-                color="secondary"
-                startIcon={<FilterSharedIcon />}
-                onClick={() => setIsDrawerOpen(true)}
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  disabled={!!!selectedContractList?.length}
+                  onClick={() => setIsDeleteModalOpen(true)}
+                >
+                  Delete
+                </Button>
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.EXPORT_CONTRACTS,
+                ]}
               >
-                Filter
-              </Button>
+                <ExportButton
+                  handleExcelExport={() =>
+                    getContractListDataExport?.(EXPORT_TYPE?.XLS)
+                  }
+                  handleCsvExport={() =>
+                    getContractListDataExport?.(EXPORT_TYPE?.CSV)
+                  }
+                />
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.SEARCH_AND_FILTER,
+                ]}
+              >
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  startIcon={<FilterSharedIcon />}
+                  onClick={() => setIsDrawerOpen(true)}
+                >
+                  Filter
+                </Button>
+              </PermissionsGuard>
             </Box>
           </Box>
         </Box>
         <br />
-        <TanstackTable
-          columns={contractListsColumns}
-          data={lazyGetContractStatus?.data?.data?.contracts}
-          isLoading={lazyGetContractStatus?.isLoading}
-          currentPage={lazyGetContractStatus?.data?.data?.meta?.page}
-          count={lazyGetContractStatus?.data?.data?.meta?.pages}
-          pageLimit={lazyGetContractStatus?.data?.data?.meta?.limit}
-          totalRecords={lazyGetContractStatus?.data?.data?.meta?.total}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-          isFetching={lazyGetContractStatus?.isFetching}
-          isError={lazyGetContractStatus?.isError}
-          isSuccess={lazyGetContractStatus?.isSuccess}
-          onPageChange={(page: any) => setPage(page)}
-          isPagination
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.CONTRACTS_LIST_VIEW,
+          ]}
+        >
+          <TanstackTable
+            columns={contractListsColumns}
+            data={lazyGetContractStatus?.data?.data?.contracts}
+            isLoading={lazyGetContractStatus?.isLoading}
+            currentPage={lazyGetContractStatus?.data?.data?.meta?.page}
+            count={lazyGetContractStatus?.data?.data?.meta?.pages}
+            pageLimit={lazyGetContractStatus?.data?.data?.meta?.limit}
+            totalRecords={lazyGetContractStatus?.data?.data?.meta?.total}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            isFetching={lazyGetContractStatus?.isFetching}
+            isError={lazyGetContractStatus?.isError}
+            isSuccess={lazyGetContractStatus?.isSuccess}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
+          />
+        </PermissionsGuard>
       </Box>
       {isDeleteModalOpen && (
         <DeleteContract

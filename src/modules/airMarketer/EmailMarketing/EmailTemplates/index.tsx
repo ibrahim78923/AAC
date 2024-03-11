@@ -19,6 +19,8 @@ import Search from '@/components/Search';
 import { PlusIcon } from '@/assets/icons';
 import { useRouter } from 'next/router';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import { AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const EmailTemplates = () => {
   const [search, setSearch] = useState();
@@ -47,23 +49,35 @@ const EmailTemplates = () => {
           xs={12}
           sx={{ paddingTop: '0px !important', textAlign: 'end' }}
         >
-          <Search
-            size="small"
-            label="Search Here"
-            searchBy={search}
-            setSearchBy={setSearch}
-          />
-          <Button
-            variant="contained"
-            className="small"
-            startIcon={<PlusIcon />}
-            sx={{ marginLeft: '15px' }}
-            onClick={() =>
-              router.push(`${AIR_MARKETER?.CREATE_EMAIL_TEMPLATES}`)
-            }
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS.SEARCH_TEMPLATE,
+            ]}
           >
-            Create New Template
-          </Button>
+            <Search
+              size="small"
+              label="Search Here"
+              searchBy={search}
+              setSearchBy={setSearch}
+            />
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[
+              AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS.CREATE_NEW_TEMPLATE,
+            ]}
+          >
+            <Button
+              variant="contained"
+              className="small"
+              startIcon={<PlusIcon />}
+              sx={{ marginLeft: '15px' }}
+              onClick={() =>
+                router.push(`${AIR_MARKETER?.CREATE_EMAIL_TEMPLATES}`)
+              }
+            >
+              Create New Template
+            </Button>
+          </PermissionsGuard>
         </Grid>
       </Grid>
 
@@ -117,32 +131,49 @@ const EmailTemplates = () => {
                       'aria-labelledby': 'basic-button',
                     }}
                   >
-                    <MenuItem
-                      onClick={() =>
-                        router.push(`${AIR_MARKETER?.CREATE_EMAIL_TEMPLATES}`)
-                      }
+                    <PermissionsGuard
+                      permissions={[
+                        AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS.EDIT_TEMPLATE,
+                      ]}
                     >
-                      Edit
-                    </MenuItem>
-
-                    <MenuItem sx={{ color: 'red' }}>Delete</MenuItem>
+                      <MenuItem
+                        onClick={() =>
+                          router.push(`${AIR_MARKETER?.CREATE_EMAIL_TEMPLATES}`)
+                        }
+                      >
+                        Edit
+                      </MenuItem>
+                    </PermissionsGuard>
+                    <PermissionsGuard
+                      permissions={[
+                        AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS.DELETE_TEMPLATE,
+                      ]}
+                    >
+                      <MenuItem sx={{ color: 'red' }}>Delete</MenuItem>
+                    </PermissionsGuard>
                   </Menu>
                 </Stack>
               </CardContent>
-              <CardActions>
-                <Button
-                  className="small"
-                  fullWidth
-                  variant="contained"
-                  onClick={() =>
-                    router.push(`${AIR_MARKETER?.CREATE_EMAIL_TEMPLATES}`)
-                  }
-                >
-                  <Typography variant="body3" fontWeight={400}>
-                    Use this Template
-                  </Typography>
-                </Button>
-              </CardActions>
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_EMAIL_MARKETING_EMAIL_TEMPLATES_PERMISSIONS.USE_TEMPLATE,
+                ]}
+              >
+                <CardActions>
+                  <Button
+                    className="small"
+                    fullWidth
+                    variant="contained"
+                    onClick={() =>
+                      router.push(`${AIR_MARKETER?.CREATE_EMAIL_TEMPLATES}`)
+                    }
+                  >
+                    <Typography variant="body3" fontWeight={400}>
+                      Use this Template
+                    </Typography>
+                  </Button>
+                </CardActions>
+              </PermissionsGuard>
             </Card>
           </Grid>
         ))}

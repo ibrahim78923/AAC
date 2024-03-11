@@ -25,6 +25,7 @@ const AgentLevels = () => {
         AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_AND_MANAGE_AGENT_LEVELS_POINTS,
       ]}
     >
+      <br />
       <FormProvider
         methods={agentLevelsPointsMethod}
         onSubmit={agentLevelsPointsMethod?.handleSubmit?.(handleSubmit)}
@@ -35,7 +36,7 @@ const AgentLevels = () => {
         <Typography variant="subtitle2" fontWeight={500} color="custom.main">
           Set points to be achieved by an agent to reach a level
         </Typography>
-        <Grid item container xs={12} md={8} xl={4} mt={2.4} spacing={2}>
+        <Grid item container xs={12} md={10} lg={7} mt={2.4} spacing={2}>
           {agentLevelCardData?.map?.((card) => (
             <Grid item xs={12} key={card?.points}>
               <AgentLevelCard {...card} />

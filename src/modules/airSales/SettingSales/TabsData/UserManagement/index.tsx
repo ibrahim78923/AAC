@@ -6,7 +6,7 @@ import useUserManagement from './useUserManagement';
 import CommonTabs from '@/components/Tabs';
 import CreateTeams from './Teams/CreateTeams';
 import { AlertModals } from '@/components/AlertModals';
-import ViewTeams from './Teams/ViewTeams';
+// import ViewTeams from './Teams/ViewTeams';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 
@@ -20,12 +20,12 @@ const Users = () => {
     setIsAddTeam,
     setTeamId,
     teamId,
-    teamDataById,
     isOpenDelete,
     isTeamDrawer,
     setIsTeamDrawer,
     setIsOpenDelete,
     handleDeleteTeam,
+    // searchUser, setSearchUser
   } = useUserManagement();
 
   return (
@@ -87,16 +87,12 @@ const Users = () => {
               setIsAddTeam={setIsAddTeam}
               setIsOpenDelete={setIsOpenDelete}
               setIsTeamDrawer={setIsTeamDrawer}
+              isTeamDrawer={isTeamDrawer}
             />
           </CommonTabs>
         </Box>
       </Box>
       <CreateTeams isAddTeam={isAddTeam} setIsAddTeam={setIsAddTeam} />
-      <ViewTeams
-        isTeamDrawer={isTeamDrawer}
-        setIsTeamDrawer={setIsTeamDrawer}
-        teamData={teamDataById}
-      />
 
       {isOpenDelete && (
         <AlertModals

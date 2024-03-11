@@ -119,8 +119,8 @@ export const useUpsertContract = () => {
     };
     try {
       await postContractTrigger(postContractParameter)?.unwrap();
-      successSnackbar('Contract Created Successfully');
-      router?.back();
+      successSnackbar('Contract created successfully');
+      handleCancelBtn?.();
     } catch (error: any) {
       errorSnackbar();
     }
@@ -135,8 +135,8 @@ export const useUpsertContract = () => {
     };
     try {
       await putContractTrigger(putContractParameter)?.unwrap();
-      successSnackbar('Contract updated Successfully');
-      router?.back();
+      successSnackbar('Contract updated successfully');
+      handleCancelBtn?.();
     } catch (error) {
       errorSnackbar();
     }

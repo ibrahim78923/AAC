@@ -4,6 +4,8 @@ import { PlanCardI } from './PlanCard.interface';
 import { styles } from './PlanCard.style';
 import { orgAdminSubcriptionInvoices } from '@/routesConstants/paths';
 import Link from 'next/link';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 
 const PlanCard: FC<PlanCardI> = ({
   status,
@@ -53,20 +55,32 @@ const PlanCard: FC<PlanCardI> = ({
         direction={'row'}
         sx={styles?.planActions}
       >
-        <Button variant="contained" onClick={() => handleBillingDetail(id)}>
-          Billing Details
-        </Button>
-        <Link
-          href={{
-            pathname: `${orgAdminSubcriptionInvoices.manage_plan}`,
-            query: { data: JSON?.stringify(plan) },
-          }}
-          as={`${orgAdminSubcriptionInvoices.manage_plan}`}
+        <PermissionsGuard
+          permissions={[
+            ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_VIEW_BILLING_DETAILS,
+          ]}
         >
-          <Button variant="outlined" sx={styles?.buttonOutlineGrey}>
-            Manage Plan
+          <Button variant="contained" onClick={() => handleBillingDetail(id)}>
+            Billing Details
           </Button>
-        </Link>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_MANAGE_PLAN,
+          ]}
+        >
+          <Link
+            href={{
+              pathname: `${orgAdminSubcriptionInvoices.manage_plan}`,
+              query: { data: JSON?.stringify(plan) },
+            }}
+            as={`${orgAdminSubcriptionInvoices.manage_plan}`}
+          >
+            <Button variant="outlined" sx={styles?.buttonOutlineGrey}>
+              Manage Plan
+            </Button>
+          </Link>
+        </PermissionsGuard>
       </Stack>
     </Box>
   );

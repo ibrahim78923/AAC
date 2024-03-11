@@ -17,13 +17,16 @@ const AwardPoints = () => {
     isFetching,
     addAwardPointsStatus,
   } = useAwardPoints();
+
   if (isLoading || isFetching) return <SkeletonForm />;
+
   return (
     <PermissionsGuard
       permissions={[
         AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_AND_SET_AWARD_POINTS,
       ]}
     >
+      <br />
       <FormProvider
         methods={awardPointsMethod}
         onSubmit={awardPointsMethod?.handleSubmit?.(handleSubmit)}
@@ -96,6 +99,7 @@ const AwardPoints = () => {
             ))}
           </Grid>
         </Box>
+        <br />
         <Grid
           item
           container

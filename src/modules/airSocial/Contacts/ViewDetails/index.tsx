@@ -59,7 +59,7 @@ const ContactViewDetails = () => {
               <Associations contactId={contactId} />
               <Tasks contactId={contactId} />
               <Notes contactId={contactId} />
-              <Calls />
+              <Calls contactId={contactId} />
               <Meetings />
               <Emails />
             </HorizontalTabs>
