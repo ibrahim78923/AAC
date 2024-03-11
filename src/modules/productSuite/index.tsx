@@ -65,7 +65,6 @@ const ProductSuite = () => {
     }
     return false;
   };
-
   const permissions = getActivePermissionsSession();
 
   useEffect(() => {
@@ -212,6 +211,10 @@ const ProductSuite = () => {
                         onClick={() => {
                           findModulePermissionKey(product?.name, account?._id);
                           setActiveProduct(product);
+                          localStorage.setItem(
+                            'ActiveAccount',
+                            account?.company?._id,
+                          );
                         }}
                       >
                         {account?.company?.accountName}

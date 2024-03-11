@@ -8,8 +8,13 @@ import {
   usePostPermissionRoleMutation,
   useUpdateRoleRightsMutation,
 } from '@/services/airSales/roles-and-rights';
+import { getActiveProductSession, getSession } from '@/utils';
 
 const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
+  const activeProduct = getActiveProductSession();
+  // const activePermissions = getActivePermissionsSession();
+  const activeAccount = localStorage?.getItem('ActiveAccount');
+  const { user } = getSession();
   const theme = useTheme<Theme>();
   const { useLazyGetPermissionsRolesByIdQuery } = airSalesRolesAndRightsAPI;
 
@@ -32,11 +37,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const { handleSubmit, reset, setValue } = methods;
 
   useEffect(() => {
-    trigger(
-      isDrawerOpen?.type === 'view'
-        ? isDrawerOpen?.id
-        : '65952ebafcfe18588f3e23f7',
-    );
+    trigger(isDrawerOpen?.type !== 'add' && isDrawerOpen?.id);
   }, [isDrawerOpen]);
 
   useEffect(() => {
@@ -44,7 +45,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
     const fieldsToSet: any = {
       name: isDrawerOpen?.type === 'add' ? '' : data?.name,
       description: isDrawerOpen?.type === 'add' ? '' : data?.description,
-      // permissions: data?.permissions?.map((item: any) => item),
+      permissions: data?.permissions?.map((item: any) => item),
     };
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);
@@ -54,14 +55,14 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const [updateRoleRights] = useUpdateRoleRightsMutation();
 
   const onSubmit = async (values: any) => {
-    // const organizationId  = user?.organization 65952bbf6d2c26398e492e42
-    // const organizationCompanyAccountId = user?.account?.company?._id; 6597d07959d5ddb8341e316f
-    // const productId = user?.product?._id; 6584ff9b508107024e1e3b14
+    const organizationId = user?.organization?._id;
+    const organizationCompanyAccountId = activeAccount;
+    const productId = activeProduct?._id;
 
     if (isDrawerOpen?.type === 'add') {
-      values.organizationId = '65952bbf6d2c26398e492e42';
-      values.organizationCompanyAccountId = '6597d07959d5ddb8341e316f';
-      values.productId = '6584ff9b508107024e1e3b14';
+      values.organizationId = organizationId;
+      values.organizationCompanyAccountId = organizationCompanyAccountId;
+      values.productId = productId;
       values.status = 'ACTIVE';
       postPermissionRole({ body: values });
       onClose();
@@ -78,6 +79,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
     onSubmit,
     handleSubmit,
     viewPerdetails,
+    // ActivePermissions,
   };
 };
 

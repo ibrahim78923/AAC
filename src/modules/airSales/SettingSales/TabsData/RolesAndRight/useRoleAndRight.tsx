@@ -3,40 +3,42 @@ import { Theme, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
 import { airSalesRolesAndRightsAPI } from '@/services/airSales/roles-and-rights';
-// import { getSession } from '@/utils';
+import { getActiveProductSession, getSession } from '@/utils';
 
 const useRoleAndRight: any = () => {
-  // const { user } = getSession();
+  const { user } = getSession();
   const theme = useTheme<Theme>();
   const navigate = useRouter();
+  const activeProduct = getActiveProductSession();
+  const activeAccount = localStorage?.getItem('ActiveAccount');
 
   const [expanded, setExpanded] = React.useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
   const [checkedRows, setCheckedRows] = useState();
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+
   const [filterValues, setFilterValues] = useState({
     search: '',
   });
+
   const [isDraweropen, setIsDraweropen] = useState({
     isToggle: false,
     type: 'add',
     id: '',
   });
 
-  // const [isOpenDelete, setIsOpenDelete] = useState(false);
-
   const { useGetPermissionsRolesQuery } = airSalesRolesAndRightsAPI;
-  // const organizationId  = user?.organization 65952bbf6d2c26398e492e42
-  // const organizationCompanyAccountId = user?.account?.company?._id; 6597d07959d5ddb8341e316f
-  // const productId = user?.product?._id; 6584ff9b508107024e1e3b14
+  const organizationId = user?.organization?._id;
+  const organizationCompanyAccountId = activeAccount;
+  const productId = activeProduct?._id;
 
   const permissionParams = {
     page: page,
     limit: pageLimit,
-    organizationCompanyAccountId: '6597d07959d5ddb8341e316f',
-    organizationId: '65952bbf6d2c26398e492e42',
-    productId: '6584ff9b508107024e1e3b14',
+    organizationCompanyAccountId: organizationCompanyAccountId,
+    organizationId: organizationId,
+    productId: productId,
     search: filterValues?.search ?? undefined,
   };
 
