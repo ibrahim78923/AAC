@@ -17,7 +17,7 @@ export const SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
   VIEW_COMPANY_ACCOUNTS: 'view-company-accounts',
   ADD_COMPANY_ACCOUNTS: 'add-company-account',
   VIEW_SUB_USER_PROFILE: 'view-sub-user-profile',
-  UPDATE_SUB_USER_PROFILE: 'update-sub-user- profile',
+  UPDATE_SUB_USER_PROFILE: 'update-sub-user-profile',
   VIEW_DELEGATES: 'view-delegates',
   ACTIVE_INACTIVE_USERS: 'active-inactive-users',
   ACTIVE_INACTIVE_ACCOUNTS: 'active-inactive-accounts',
@@ -35,21 +35,18 @@ export const SUPER_ADMIN_ROLES_AND_RIGHTS_PERMISSIONS = {
   VIEW_ROLE: 'view-role',
   ACTIVE_INACTIVE_ROLES: 'active-inactive-roles',
 };
+export const SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS_KEYS = {
+  PLAN_LIST: 'plan-list',
+  PLAN_SEARCH_AND_FILTER: 'plan-search-and-filter',
+  ADD_PLAN: 'add-plan',
+  ACTION_INACTIVE_PLANS: 'active-inactive-plans',
+  EDIT_PLAN: 'edit-plan',
+  VIEW_PLAN: 'view-plan',
+};
 
 export const SUPER_ADMIN_REPORTS_PERMISSIONS = {
   view_invoice_report: 'view-invoice-report',
   view_user_report: 'view-user-report',
-};
-
-export const ORG_ADMIN_USER_MANAGEMENT_PERMISSIONS = {
-  ADD_USER: 'org-add-user',
-  USER_SEARCH_AND_FILTER: 'org-user-search-and-filter',
-  VIEW_USERs: 'org-view-users',
-  VIEW_COMPANY: 'view-company',
-  VIEW_USER_PROFILE: 'org-view-user-profile',
-  ADD_ACCOUNTS: 'org-add-accounts',
-  ORG_EDIT_PRFILE: 'org-edit-profile',
-  ORG_ACTIVE_INACTIVE_USERS: 'org-active-inactive-users',
 };
 
 export const AIR_SALES_INVOICES_PERMISSIONS = {
@@ -148,7 +145,7 @@ export const SUPER_ADMIN_SETTINGS_PRODUCT_LIST_PERMISSIONS = {
 export const SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS = {
   Select_Products: 'select-feature-products',
   Product_List: 'product-list',
-  Search: 'feature-search-and-filters',
+  Search: 'feature-serach-and-filters',
   Edit_Features: 'edit-feature',
   Add_Features: 'add-feature',
   Active_Inactive_Features: 'active-inactive-feature',
@@ -751,6 +748,56 @@ export const AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS = {
   CREATE_TEAM: `operation-user-managment-create-team`,
 };
 
+// Org-Admin Roles & Right
+export const ORG_ADMIN_DASHBOARD_PERMISSIONS = {
+  DASHBOARD: 'org-dashboard',
+};
+
+export const ORG_ADMIN_USERS_PERMISSIONS = {
+  ADD_USER: 'org-add-user',
+  SEARCH_AND_FILTER: 'org-user-search-and-filter',
+  VIEW_USERS: 'org-view-users',
+  VIEW_COMPONY_ACCOUNTS: 'org-view-company-accounts',
+  VIEW_USER_PROFILE: 'org-view-user-profile',
+  ADD_ACCOUNTS: 'org-add-accounts',
+  EDIT_PROFILE: 'org-edit-profile',
+  ACTIVE_INACTIVE_USERS: 'org-active-inactive-users',
+};
+
+export const ORG_ADMIN_ORGANIZATION_PERMISSIONS = {
+  COMPANY_ACCOUNT_LIST: 'org-view-account-list',
+  ADD_COMPANY_ACCOUNT: 'org-add-company-account',
+  EDIT_ACCOUNT: 'org-edit-account',
+  VIEW_ACCOUNT: 'org-view-account',
+  EDIT_INFO: 'org-edit-info',
+};
+
+export const ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS = {
+  SUBSCRIPTION_VIEW_PRODUCTS_PLANS: 'org-view-product-and-plans',
+  SUBSCRIPTION_VIEW_BILLING_DETAILS: 'org-view-billing-detail',
+  SUBSCRIPTION_MANAGE_PLAN: 'org-manage-plan',
+  SUBSCRIPTION_CHANGE_PLAN: 'org-change-plan',
+  SUBSCRIPTION_UPDATE_SUBSCRIPTION: 'org-update-subscription',
+  SUBSCRIPTION_BUY_PLAN: 'org-buy-plan',
+  SUBSCRIPTION_ADD_ADDITIONAL_USER: 'org-add-additional-user',
+  SUBSCRIPTION_ADD_ADDITIONAL_STORAGE: 'org-add-additional-storage',
+  INVOICES_LIST_VIEW: 'org-view-invoice-list',
+  INVOICES_PAY_INVOICE: 'org-pay-invoice',
+  INVOICES_VIEW_INVOICE: 'org-view-invoice',
+  INVOICES_SEARCH_INVOICE: 'org-search-and-filter',
+  PAYMENT_METHODS_ADD_CARD: 'org-add-card',
+};
+
+export const ORG_ADMIN_PROPERTIES_PERMISSIONS = {
+  SELECT_PRODUCT: 'org-select-product',
+  SEARCH_AND_FILTER: 'org-properties-search-and-filter',
+  COMPANY_ACCOUNT_LIST: 'org-properties-company-account-list',
+  MODULE_LIST: 'org-properties-module-list',
+  CREATE_PROPERTY: 'org-create-property',
+  EDIT_PROPERTY: 'org-edit-property',
+  DELETE_PROPERTY: 'org-delete-property',
+};
+
 export const AIR_MARKETER_DASHBAORD_PERMISSIONS = {
   VIEW_DASHBOARD: 'marketer-all-company-view-dashboard',
 };
@@ -1027,6 +1074,79 @@ export const SOCIAL_COMPONENTS_EMAIL_PERMISSIONS = {
   MARK_AS_READ: 'common-email-tabs-mark-as-read',
   LINK_TO_DEAL: 'common-email-tabs-link-to-deal',
   DELETE_EMAIL: 'common-email-tabs-delete-email',
+};
+
+export const SOCIAL_COMPONENTS_COMPANIES_PERMISSIONS = {
+  // All Companies
+  IMPORT_ALL_COMPANIES: 'marketer-all-company-import',
+  CREATE_COMPANY_ALL_COMPANIES: 'marketer-all-company-create',
+  SEARCH_AND_FILTER_ALL_COMPANIES: 'marketer-all-company-search-and-filter',
+  RESTORE_ALL_COMPANIES: 'marketer-all-company-restore',
+  CUSTOMIZE_LIST_ALL_COMPANIES: 'marketer-all-company-customize-list',
+  USER_LIST_ALL_COMPANIES: 'marketer-all-company-user-list',
+  ADD_VIEW_ALL_COMPANIES: 'marketer-all-company-add-view',
+  PREVIEW_ALL_COMPANIES: 'marketer-all-company-preview',
+  REASSIGN_ALL_COMPANIES: 'marketer-all-company-re-assign',
+  EXPORT_ALL_COMPANIES: 'marketer-all-company-export',
+  DELETE_ALL_COMPANIES: 'marketer-all-company-delete',
+  MERGE_ALL_COMPANIES: 'marketer-all-company-merge',
+  // My Companies
+  IMPORT_MY_COMPANY: 'marketer-my-company-import',
+  CREATE_COMPANY_MY_COMPANY: 'marketer-my-company-create',
+  SEARCH_AND_FILTER_MY_COMPANY: 'marketer-my-company-search-and-filter',
+  RESTORE_MY_COMPANY: 'marketer-my-company-restore',
+  CUSTOMIZE_MY_COMPANY: 'marketer-my-company-customize',
+  USER_LIST_MY_COMPANY: 'marketer-my-company-user-list',
+  ADD_VIEW_MY_COMPANY: 'marketer-my-company-add-view',
+  PREVIEW_MY_COMPANY: 'marketer-my-company-preview',
+  REASSIGN_MY_COMPANY: 'marketer-my-company-re-assign',
+  EXPORT_MY_COMPANY: 'marketer-my-company-export',
+  DELETE_MY_COMPANY: 'marketer-my-company-delete',
+  MERGE_MY_COMPANY: 'marketer-my-company-merge',
+  // Create View
+  PRIVATE: 'marketer-companies-create-view-private',
+  MY_TEAMS: 'marketer-companies-create-view-my-teams',
+  EVERYONE: 'marketer-companies-create-view-everyone',
+  EDIT_DOMAIN: 'marketer-companies-create-view-edit-domain',
+  ADD_DOMAIN: 'marketer-companies-create-views-add-domain',
+  // Company Detail
+};
+
+export const SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS = {
+  VIEW_DETAILS: 'marketer-company-detail-view-details',
+  VIEW_ACTIVITIES: 'marketer-company-detail-view-activities',
+  ADD_ATTACHMENTS: 'marketer-company-detail-add-attachments',
+  EDIT_ATTACHMENTS: 'marketer-company-detail-edit-attachments',
+  VIEW_ATTACHMENTS: 'marketer-company-detail-view-attachments',
+  REMOVE_ATTACHMENTS: 'marketer-comapny-detail-remove-attachments',
+  ADD_TASK: 'marketer-company-detail-add-task',
+  VIEW_TASK: 'marketer-company-detail-view-task',
+  EDIT_TASK: 'marketer-company-detail-edit-task',
+  REASSIGN_TASK: 'marketer-company-detail-reassign-task',
+  DELETE_TASK: 'marketer-comapny-detail-delete-task',
+  ADD_NOTES: 'marketer-company-detail-add-notes',
+  VIEW_NOTES: 'marketer-comapny-detail-view-notes',
+  EDIT_NOTES: 'marketer-comapny-detail-edit-notes',
+  DELETE_NOTES: 'marketer-company-detail-delete-notes',
+  ADD_CALLS: 'marketer-company-detail-add-calls',
+  VIEW_CALLS: 'marketer-company-detail-view-calls',
+  EDIT_CALLS: 'marketer-company-detail-edit-calls',
+  RESCHEDULE_CALLS: 'marketer-company-detail-reschedule-calls',
+  ADD_CALLS_OUTCOME: 'marketer-company-detail-add-calls-outcome',
+  DELETE_CALLS: 'marketer-company-detail-delete-calls',
+  CREATE_MEETINGS: 'marketer-company-detail-create-meetings',
+  MEETING_LIST: 'marketer-company-detail-meeting-list',
+  VIEW_MEETING: 'marketer-company-detail-view-meeting',
+  EDIT_MEETING: 'marketer-company-detail-edit-meeting',
+  REASSIGN_MEETING: 'marketer-comapny-detail-reassign-meeting',
+  DELETE_MEETING: 'marketer-company-detail-delete-meeting',
+  SEND_EMAILS: 'marketer-company-detail-send-emails',
+  CREATE_EMAIL_TEMPLATES: 'marketer-company-detail-create-email-templates',
+  SCHEDULE_EMAIL: 'marketer-comapny-detail-schedule-email',
+  VIEW_THREAD: 'marketer-company-detail-view-thread',
+  FORWARD_EMAIL: 'marketer-company-detail-forward-email',
+  REPLY_EMAIL: 'marketer-comapny-detail-reply-email',
+  DELETE_EMAIL: 'marketer-company-detail-delete-email',
 };
 
 export const SOCIAL_COMPONENTS_CHAT_PERMISSIONS = {

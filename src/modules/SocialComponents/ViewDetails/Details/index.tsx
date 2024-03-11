@@ -17,6 +17,8 @@ import { detailsDataArray } from './Details.data';
 import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Details = ({ data, isLoading }: any) => {
   const {
@@ -28,69 +30,75 @@ const Details = ({ data, isLoading }: any) => {
     UserListData,
   } = useDetails(data);
   return (
-    <Box sx={styles?.horizontalTabsBox}>
-      <Typography variant="h4">Details</Typography>
-      {data || !isLoading ? (
-        <Box sx={styles?.horizontalTabsInnnerBox}>
-          <FormProvider
-            methods={methodsDetails}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <Grid container spacing={4}>
-              {detailsDataArray({ lifeCycleStagesData, UserListData })?.map(
-                (item: any) => (
-                  <Grid
-                    item
-                    xs={12}
-                    md={item?.md}
-                    key={uuidv4()}
-                    sx={{ paddingTop: '20px !important' }}
+    <PermissionsGuard
+      permissions={[
+        SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.VIEW_DETAILS,
+      ]}
+    >
+      <Box sx={styles?.horizontalTabsBox}>
+        <Typography variant="h4">Details</Typography>
+        {data || !isLoading ? (
+          <Box sx={styles?.horizontalTabsInnnerBox}>
+            <FormProvider
+              methods={methodsDetails}
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <Grid container spacing={4}>
+                {detailsDataArray({ lifeCycleStagesData, UserListData })?.map(
+                  (item: any) => (
+                    <Grid
+                      item
+                      xs={12}
+                      md={item?.md}
+                      key={uuidv4()}
+                      sx={{ paddingTop: '20px !important' }}
+                    >
+                      <item.component {...item?.componentProps} size={'small'}>
+                        {item?.componentProps?.select
+                          ? item?.options?.map((option: any) => (
+                              <option key={option?.value} value={option?.value}>
+                                {option?.label}
+                              </option>
+                            ))
+                          : null}
+                      </item.component>
+                    </Grid>
+                  ),
+                )}
+                <Grid item xs={12}>
+                  <Divider sx={{ borderColor: theme?.palette?.grey[700] }} />
+                </Grid>
+                <Grid item xs={12}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'end',
+                      gap: 1.5,
+                    }}
                   >
-                    <item.component {...item?.componentProps} size={'small'}>
-                      {item?.componentProps?.select
-                        ? item?.options?.map((option: any) => (
-                            <option key={option?.value} value={option?.value}>
-                              {option?.label}
-                            </option>
-                          ))
-                        : null}
-                    </item.component>
-                  </Grid>
-                ),
-              )}
-              <Grid item xs={12}>
-                <Divider sx={{ borderColor: theme?.palette?.grey[700] }} />
+                    <ButtonGroup>
+                      <Button sx={{ height: '35px' }}>Cancel</Button>
+                    </ButtonGroup>
+                    <ButtonGroup variant="contained" color="primary">
+                      <Button sx={{ height: '35px' }} type="submit">
+                        Update
+                      </Button>
+                    </ButtonGroup>
+                  </Box>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'end',
-                    gap: 1.5,
-                  }}
-                >
-                  <ButtonGroup>
-                    <Button sx={{ height: '35px' }}>Cancel</Button>
-                  </ButtonGroup>
-                  <ButtonGroup variant="contained" color="primary">
-                    <Button sx={{ height: '35px' }} type="submit">
-                      Update
-                    </Button>
-                  </ButtonGroup>
-                </Box>
-              </Grid>
-            </Grid>
-          </FormProvider>
-        </Box>
-      ) : (
-        <Skeleton
-          variant="rectangular"
-          width={'100%'}
-          height={500}
-          sx={{ marginTop: '20px' }}
-        />
-      )}
-    </Box>
+            </FormProvider>
+          </Box>
+        ) : (
+          <Skeleton
+            variant="rectangular"
+            width={'100%'}
+            height={500}
+            sx={{ marginTop: '20px' }}
+          />
+        )}
+      </Box>
+    </PermissionsGuard>
   );
 };
 

@@ -16,15 +16,15 @@ export const ApprovalDetail = () => {
     selectedApproval,
     setSelectedApproval,
     setApproval,
-    setUserInfo,
     isLoading,
     isFetching,
     isError,
+    data,
+    openTicketDetail,
   } = useApprovalDetail();
 
   if (isLoading || isFetching) return <SkeletonForm />;
   if (isError) return <ApiErrorState />;
-
   return (
     <>
       <PageTitledHeader
@@ -38,13 +38,9 @@ export const ApprovalDetail = () => {
       />
 
       <ApprovalCard
-        data={setUserInfo?.()}
-        showButton={
-          setUserInfo?.()?.approvalStatus === TICKET_APPROVALS?.PENDING
-        }
-        showStatus={
-          setUserInfo?.()?.approvalStatus !== TICKET_APPROVALS?.PENDING
-        }
+        data={data?.data}
+        showButton={data?.data?.approvalStatus === TICKET_APPROVALS?.PENDING}
+        showStatus={data?.data?.approvalStatus !== TICKET_APPROVALS?.PENDING}
         setApproval={(approvalData: any) => setApproval?.(approvalData)}
       />
 
@@ -54,7 +50,10 @@ export const ApprovalDetail = () => {
         selectedApproval={selectedApproval}
         setSelectedApproval={setSelectedApproval}
       />
-      <DetailCard data={setUserInfo?.()} />
+      <DetailCard
+        data={data?.data}
+        openTicketDetail={(data: any) => openTicketDetail?.(data)}
+      />
     </>
   );
 };

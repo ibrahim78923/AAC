@@ -12,7 +12,18 @@ export const softwareContractsApi = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getSingleSoftwareById: builder?.query({
+      query: (singleSoftwareParameters: any) => ({
+        url: `${END_POINTS?.GET_SOFTWARE_DETAIL}`,
+        method: 'GET',
+        params: singleSoftwareParameters?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
-export const { useLazyGetSoftwareContractsQuery } = softwareContractsApi;
+export const {
+  useLazyGetSoftwareContractsQuery,
+  useGetSingleSoftwareByIdQuery,
+} = softwareContractsApi;

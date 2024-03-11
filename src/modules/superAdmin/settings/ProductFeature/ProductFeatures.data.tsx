@@ -10,6 +10,8 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import useProductFeature from './useProductFeature';
 import StatusBadge from '@/components/StatusBadge';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS } from '@/constants/permission-keys';
 
 export const productFeaturesValidationSchema = Yup.object().shape({
   productIds: Yup.array()
@@ -124,25 +126,31 @@ export const columns = (
       header: 'Status',
       cell: (info: any) => {
         return (
-          <StatusBadge
-            key={info?.row?.original?._id}
-            value={info?.row?.original?.status}
-            onChange={(e: any) => {
-              handleUpdateStatus(e?.target?.value, info?.row?.original?._id);
-            }}
-            options={[
-              {
-                label: 'Active',
-                value: 'active',
-                color: theme?.palette?.custom?.bluish_gray,
-              },
-              {
-                label: 'Inactive',
-                value: 'inactive',
-                color: theme?.palette?.error?.main,
-              },
+          <PermissionsGuard
+            permissions={[
+              SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS?.Active_Inactive_Features,
             ]}
-          />
+          >
+            <StatusBadge
+              key={info?.row?.original?._id}
+              value={info?.row?.original?.status}
+              onChange={(e: any) => {
+                handleUpdateStatus(e?.target?.value, info?.row?.original?._id);
+              }}
+              options={[
+                {
+                  label: 'Active',
+                  value: 'active',
+                  color: theme?.palette?.custom?.bluish_gray,
+                },
+                {
+                  label: 'Inactive',
+                  value: 'inactive',
+                  color: theme?.palette?.error?.main,
+                },
+              ]}
+            />
+          </PermissionsGuard>
         );
       },
     },

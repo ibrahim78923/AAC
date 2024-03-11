@@ -1,6 +1,6 @@
 import { AlertModals } from '@/components/AlertModals';
 
-const DeleteModal = ({ open, onClose, handleSubmit }: any) => {
+const DeleteModal = ({ open, onClose, handleSubmit, loading }: any) => {
   return (
     <>
       <AlertModals
@@ -9,6 +9,7 @@ const DeleteModal = ({ open, onClose, handleSubmit }: any) => {
         open={open}
         handleClose={onClose}
         handleSubmitBtn={handleSubmit}
+        loading={loading}
       />
     </>
   );

@@ -52,7 +52,7 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
     }),
     putSingleTicketStatus: builder?.mutation({
       query: (putSingleTicketStatusParameter: any) => ({
-        url: `${END_POINTS?.TICKET_STATUS}/${putSingleTicketStatusParameter?.pathParams?.ticketId}`,
+        url: `${END_POINTS?.TICKET_STATUS}/${putSingleTicketStatusParameter?.pathParams?.id}`,
         method: 'PUT',
         params: putSingleTicketStatusParameter?.queryParams,
       }),
@@ -147,4 +147,5 @@ export const {
   useLazyGetDepartmentDropdownQuery,
   useLazyGetAssociateAssetsDropdownQuery,
   useLazyGetCategoriesDropdownQuery,
+  usePutSingleTicketStatusMutation,
 } = ticketsAPI;

@@ -25,6 +25,8 @@ const Tickets = () => {
     handleCloseAlert,
     data,
     isLoading,
+    setPage,
+    setPageLimit,
   } = useTickets();
 
   return (
@@ -73,6 +75,9 @@ const Tickets = () => {
             columns={columns({ setOpenDrawer, setIsOpenAlert })}
             data={data?.data}
             isLoading={isLoading}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            isPagination
           />
         </Grid>
       </Grid>

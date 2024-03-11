@@ -10,21 +10,19 @@ export const defaultValues = {
   contact: '',
 };
 
-export const AssignModalData = [
-  {
-    componentProps: {
-      name: 'Contact Owner',
-      label: 'Contact Owner',
-      placeholder: 'Select',
-      select: true,
+export const AssignModalData = (contactOwnerData: any) => {
+  return [
+    {
+      id: 'contactOwnerId',
+      componentProps: {
+        name: 'contactOwnerId',
+        label: 'Contact Owner',
+        placeholder: 'Select',
+        select: true,
+      },
+      options: contactOwnerData,
+      component: RHFSelect,
+      md: 4,
     },
-    options: [
-      { value: 'Savanah Shane', label: 'Savanah Shane' },
-      { value: 'Phoenix Baker', label: 'Phoenix Baker' },
-      { value: 'Cameron Williamson', label: 'Cameron Williamson' },
-      { value: 'Brooklyn Simmons', label: 'Brooklyn Simmons' },
-    ],
-    component: RHFSelect,
-    md: 4,
-  },
-];
+  ];
+};

@@ -87,7 +87,7 @@ export const purchaseOrderAPI = baseAPI.injectEndpoints({
       }),
       providesTags: [TAG_FIVE],
     }),
-    patchPurchaseOrderStatus: builder?.mutation({
+    putPurchaseOrderStatus: builder?.mutation({
       query: (params: any) => ({
         url: `${END_POINTS?.PURCHASE_ORDER_STATUS}`,
         method: 'PUT',
@@ -108,5 +108,6 @@ export const {
   useLazyGetPurchaseOrderByIdQuery,
   useDeletePurchaseOrderMutation,
   useGetPurchaseOrderListQuery,
-  usePatchPurchaseOrderStatusMutation,
+  usePutPurchaseOrderStatusMutation,
+  useGetPurchaseOrderByIdQuery,
 } = purchaseOrderAPI;
