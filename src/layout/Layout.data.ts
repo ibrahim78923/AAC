@@ -751,6 +751,7 @@ export const QuickLinkData = [
     key: '1',
     icon: CallImage,
     path: '/social-components/calling',
+    permissions: Permissions?.SOCIAL_COMPONENTS_CALLING,
   },
   {
     key: '2',
@@ -765,7 +766,7 @@ export const QuickLinkData = [
   {
     key: '4',
     icon: DocumentImage,
-    path: '',
+    path: '/social-components/my-documents',
   },
   {
     key: '5',
@@ -775,7 +776,7 @@ export const QuickLinkData = [
   {
     key: '6',
     icon: MessageImage,
-    path: '',
+    path: '/social-components/email',
   },
   {
     key: '7',
