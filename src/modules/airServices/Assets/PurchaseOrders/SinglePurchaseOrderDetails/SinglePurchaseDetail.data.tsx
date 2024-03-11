@@ -13,7 +13,7 @@ export const singlePurchaseDetailActionDropdownFunction = (
     ],
     title: 'Edit',
     handleClick: (closeMenu: any) => {
-      router.push({
+      router?.push({
         pathname: AIR_SERVICES?.NEW_PURCHASE_ORDER,
         query: {
           ...router?.query,
