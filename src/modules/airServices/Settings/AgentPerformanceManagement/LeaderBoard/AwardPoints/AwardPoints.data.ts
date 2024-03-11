@@ -67,6 +67,7 @@ export const agentResolveTicketData = [
     md: 3,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'fast',
       label: 'Fast (Less than 1 hr)',
     },
@@ -77,6 +78,7 @@ export const agentResolveTicketData = [
     md: 3,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'onTime',
       label: 'on time',
     },
@@ -87,6 +89,7 @@ export const agentResolveTicketData = [
     md: 3,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'late',
       label: 'Late ( Overdue)',
     },
@@ -105,6 +108,7 @@ export const agentResolveTicketData = [
     md: 3,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'firstCallResolution',
       label: 'First call resolution',
     },
@@ -115,6 +119,7 @@ export const agentResolveTicketData = [
     md: 3,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'happyCustomer',
       label: 'Happy customer',
     },
@@ -125,6 +130,7 @@ export const agentResolveTicketData = [
     md: 3,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'unHappyCustomer',
       label: 'Unhappy customer',
     },

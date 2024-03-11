@@ -28,15 +28,7 @@ export const useAllApprovals = () => {
     router?.push({
       pathname: AIR_CUSTOMER_PORTAL?.APPROVALS_DETAIL,
       query: {
-        ticketId: data?.ticketId,
-        userId: JSON.stringify({
-          firstName: data?.requesterDetails?.firstName,
-          lastName: data?.requesterDetails?.lastName,
-          email: data?.requesterDetails?.email,
-          createdAt: data?.createdAt,
-          updatedAt: data?.updatedAt,
-          approvalStatus: data?.approvalStatus,
-        }),
+        approvalId: data?._id,
       },
     });
   };

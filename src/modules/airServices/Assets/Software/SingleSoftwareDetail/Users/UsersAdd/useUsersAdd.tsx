@@ -23,7 +23,7 @@ const useUsersAdd = () => {
     defaultValues: addUserDefaultValues(),
   });
 
-  const [addSoftwareUsers] = useAddSoftwareUsersMutation();
+  const [addSoftwareUsers, { isLoading }] = useAddSoftwareUsersMutation();
 
   const contractDropdown = useLazyGetContractDropdownListQuery();
   const userDropdown = useLazyGetUsersDropdownListQuery();
@@ -56,23 +56,11 @@ const useUsersAdd = () => {
       });
     }
   };
-  // const onSubmit = async () => {
-  //   enqueueSnackbar('User Add Successfully', {
-  //     variant: NOTISTACK_VARIANTS?.SUCCESS,
-  //   });
-  //   closeModal();
-  //   // reset(addUserDefaultValues);
-  // };
 
   const addUserDataFormFieldsAddUser = addUserData(
     userDropdown,
     contractDropdown,
   );
-  // const addUserDataFormFieldsAllocate = addUserData(
-  //   null,
-  //   contractDropdown,
-  //   false,
-  // );
 
   return {
     methods,
@@ -84,7 +72,7 @@ const useUsersAdd = () => {
     contractDropdown,
     userDropdown,
     addUserDataFormFieldsAddUser,
-    // addUserDataFormFieldsAllocate,
+    isLoading,
   };
 };
 export default useUsersAdd;

@@ -1,5 +1,4 @@
 import { Overview } from '../Overview';
-
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { singlePurchaseOrderDetailTabsData } from './SinglePurchaseOrderDetailsTabs.data';
 import { Approvals } from '../Approvals';

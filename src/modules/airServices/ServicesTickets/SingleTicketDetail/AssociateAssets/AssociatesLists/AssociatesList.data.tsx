@@ -73,7 +73,7 @@ export const associatesListsColumnFunction: any = (
             router?.push({
               pathname: AIR_SERVICES?.ASSETS_INVENTORY_DETAIL,
               query: {
-                inventoryId: info?.row?.original._id,
+                inventoryId: info?.row?.original?.associateAssetsDetails?._id,
               },
             })
           }
@@ -85,11 +85,11 @@ export const associatesListsColumnFunction: any = (
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.associateAssetsDetails?.assetType,
+      accessorFn: (row: any) => row?.associateAssetsDetails?.assetTypeDetails,
       id: 'associateAssetsDetails.assetType',
       isSortable: true,
       header: 'Asset Type',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue()?.name ?? '---',
     },
     {
       accessorFn: (row: any) => row?.associateAssetsDetails?.users,

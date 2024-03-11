@@ -31,6 +31,8 @@ import { FilterSharedIcon, PlusIcon, RefreshTasksIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { PlanDetailsDataColumnFunction } from './PlanDetails/PlanDetails.data';
 import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS_KEYS } from '@/constants/permission-keys';
 
 const PlanManagement = () => {
   const {
@@ -69,18 +71,22 @@ const PlanManagement = () => {
           Plan Management
         </Typography>
         .
-        <Box sx={styles?.linkStyle}>
-          <Link href={`${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`}>
-            <Button
-              variant="contained"
-              className="small"
-              fullWidth
-              startIcon={<PlusIcon />}
-            >
-              Add Plan
-            </Button>
-          </Link>
-        </Box>
+        <PermissionsGuard
+          permissions={[SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS_KEYS?.ADD_PLAN]}
+        >
+          <Box sx={styles?.linkStyle}>
+            <Link href={`${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`}>
+              <Button
+                variant="contained"
+                className="small"
+                fullWidth
+                startIcon={<PlusIcon />}
+              >
+                Add Plan
+              </Button>
+            </Link>
+          </Box>
+        </PermissionsGuard>
       </Box>
 
       <Stack
@@ -92,16 +98,22 @@ const PlanManagement = () => {
         alignItems="center"
         mt="0.8rem"
       >
-        <Box width={{ xs: '100%', sm: 'auto' }}>
-          <Search
-            label="Search here"
-            width={'260px'}
-            searchBy={searchBy}
-            size="small"
-            fullWidth
-            setSearchBy={setSearchBy}
-          />
-        </Box>
+        <PermissionsGuard
+          permissions={[
+            SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS_KEYS?.PLAN_SEARCH_AND_FILTER,
+          ]}
+        >
+          <Box width={{ xs: '100%', sm: 'auto' }}>
+            <Search
+              label="Search here"
+              width={'260px'}
+              searchBy={searchBy}
+              size="small"
+              fullWidth
+              setSearchBy={setSearchBy}
+            />
+          </Box>
+        </PermissionsGuard>
 
         <Stack
           direction={{ xs: 'row' }}
@@ -138,24 +150,37 @@ const PlanManagement = () => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <Link
-              href={{
-                pathname: `${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`,
-                query: { data: JSON?.stringify(tableRowValues?.row?.original) },
-              }}
-              as={`${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`}
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS_KEYS?.EDIT_PLAN,
+              ]}
             >
-              <MenuItem>Edit</MenuItem>
-            </Link>
+              <Link
+                href={{
+                  pathname: `${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`,
+                  query: {
+                    data: JSON?.stringify(tableRowValues?.row?.original),
+                  },
+                }}
+                as={`${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`}
+              >
+                <MenuItem>Edit</MenuItem>
+              </Link>
+            </PermissionsGuard>
           </Menu>
-
-          <Button
-            className="small"
-            sx={styles?.filterButton(theme)}
-            onClick={() => setIsFaqsFilterDrawerOpen(true)}
+          <PermissionsGuard
+            permissions={[
+              SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS_KEYS?.PLAN_SEARCH_AND_FILTER,
+            ]}
           >
-            <FilterSharedIcon /> &nbsp; Filter
-          </Button>
+            <Button
+              className="small"
+              sx={styles?.filterButton(theme)}
+              onClick={() => setIsFaqsFilterDrawerOpen(true)}
+            >
+              <FilterSharedIcon /> &nbsp; Filter
+            </Button>
+          </PermissionsGuard>
         </Stack>
       </Stack>
 
