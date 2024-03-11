@@ -88,6 +88,7 @@ export const upsertTicketFormFieldsDynamic = (
   apiQueryCategory?: any,
   apiQueryAssociateAsset?: any,
   router?: any,
+  hasAttachment?: any,
 ) => [
   {
     id: 1,
@@ -318,6 +319,7 @@ export const upsertTicketFormFieldsDynamic = (
     componentProps: {
       name: 'attachFile',
       fullWidth: true,
+      disabled: hasAttachment,
       fileType: 'PNG or JPG  (max 2.44 MB)',
       maxSize: 1024 * 1024 * 2.44,
       accept: {

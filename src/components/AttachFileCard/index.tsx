@@ -3,9 +3,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import Image from 'next/image';
 import { useAttachFileCard } from './useAttachFileCard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { generateImage } from '@/utils/avatarUtils';
 
 export const AttachFileCard = ({ data, onDelete, permissionKey }: any) => {
-  const { getImageByType, theme, cross, setCross } = useAttachFileCard();
+  const { theme, cross, setCross } = useAttachFileCard();
 
   return (
     <Box
@@ -21,7 +22,7 @@ export const AttachFileCard = ({ data, onDelete, permissionKey }: any) => {
       onMouseLeave={() => setCross(false)}
     >
       <Image
-        src={getImageByType(data)}
+        src={generateImage(data?.fileUrl)}
         alt="file-preview"
         width={45}
         height={45}
@@ -54,7 +55,7 @@ export const AttachFileCard = ({ data, onDelete, permissionKey }: any) => {
               sx={{
                 backgroundColor: 'custom.dark',
                 ':hover': {
-                  backgroundColor: 'custom.dark ',
+                  backgroundColor: 'custom.dark',
                 },
               }}
               onClick={onDelete}

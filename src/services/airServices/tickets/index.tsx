@@ -171,6 +171,13 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getAttachmentsById: builder?.query({
+      query: (getAttachmentsByIdParameter: any) => ({
+        url: `${END_POINTS?.GET_ATTACHMENT}/${getAttachmentsByIdParameter?.pathParam?.id}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -193,4 +200,5 @@ export const {
   useLazyGetTicketBySubjectQuery,
   useLazyGetTicketsSearchByIdQuery,
   usePostMergeTicketsMutation,
+  useGetAttachmentsByIdQuery,
 } = ticketsAPI;

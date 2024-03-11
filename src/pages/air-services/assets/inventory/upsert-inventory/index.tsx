@@ -8,7 +8,7 @@ const UpsertInventoryPage = () => {
 UpsertInventoryPage.getLayout = function getLayout(page: any) {
   return (
     <Layout
-      permission={[AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSETS]}
+      permissions={[AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSETS]}
     >
       {page}
     </Layout>
