@@ -1,8 +1,8 @@
 import { TICKET_APPROVALS } from '@/constants/strings';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { Avatar, Box, Button, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 import { APPROVAL_CARD_STATUS } from './ApprovalCard.data';
+import { formatTimeDifference } from '@/utils/dateTime';
 
 export const ApprovalCard = (props: any) => {
   const {
@@ -23,6 +23,7 @@ export const ApprovalCard = (props: any) => {
       display={'flex'}
       justifyContent={'space-between'}
       alignItems={'center'}
+      sx={{ cursor: 'pointer' }}
       onClick={() => openApprovalDetail?.(data)}
     >
       <Box>
@@ -81,7 +82,7 @@ export const ApprovalCard = (props: any) => {
             borderRight={'1px solid'}
             borderColor={'grey.900'}
           >
-            {`${dayjs()?.diff(dayjs(data?.createdAt), 'hour')} hours ago`}
+            {formatTimeDifference(data?.createdAt)}
           </Typography>
           <Typography color={'grey.900'} fontSize={'0.75rem'}>
             {!!data?.ticketDetails?.source

@@ -48,9 +48,9 @@ function Software() {
       <PageTitledHeader
         title={'Software'}
         addTitle={'New Software'}
-        createPermissionKey={
-          AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.NEW_SOFTWARE
-        }
+        createPermissionKey={[
+          AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.NEW_SOFTWARE,
+        ]}
         handleAction={() => setIsAddDrawerOpen(true)}
       />
       <Box

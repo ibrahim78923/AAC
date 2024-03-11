@@ -3,9 +3,17 @@ import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import useTeams from './useTeams';
 import { columnsTeams } from './Teams.data';
+import ViewTeams from './ViewTeams';
 
 const Teams = (props: any) => {
-  const { setIsAddTeam, setTeamId, setIsOpenDelete, setIsTeamDrawer } = props;
+  const {
+    setIsAddTeam,
+    setTeamId,
+    teamId,
+    setIsOpenDelete,
+    setIsTeamDrawer,
+    isTeamDrawer,
+  } = props;
   const {
     theme,
     teamsData,
@@ -15,7 +23,8 @@ const Teams = (props: any) => {
     isLoading,
     searchBy,
     setSearchBy,
-  } = useTeams();
+    teamDataById,
+  } = useTeams(teamId);
 
   const columnsProps = {
     setIsTeamDrawer: setIsTeamDrawer,
@@ -57,6 +66,12 @@ const Teams = (props: any) => {
             isSuccess={isSuccess}
           />
         </Grid>
+
+        <ViewTeams
+          isTeamDrawer={isTeamDrawer}
+          setIsTeamDrawer={setIsTeamDrawer}
+          teamData={teamDataById}
+        />
       </Box>
     </>
   );
