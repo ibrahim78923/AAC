@@ -40,10 +40,10 @@ const Dashboard = () => {
     <PermissionsGuard
       permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
     >
-      <Box height="100vh">
+      <Box height="100%">
         <HeaderDashboard />
         <br />
-        <Grid container spacing={3} height="100vh">
+        <Grid container spacing={3} height="100%">
           {ticketDashboardCardsData(cardData)?.map((item: any) => (
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item?.id}>
               <TicketDashboardCards
@@ -54,9 +54,9 @@ const Dashboard = () => {
             </Grid>
           ))}
         </Grid>
-        <Grid container spacing={2} height="100vh">
+        <Grid container spacing={2} height="100%">
           <Grid item xs={12}>
-            <Grid container spacing={2} height="100vh">
+            <Grid container spacing={2} height="100%">
               <Grid item xs={12} lg={8} sx={{ marginTop: 2 }}>
                 <Box
                   borderRadius={3}
@@ -124,7 +124,7 @@ const Dashboard = () => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Grid container spacing={2} height="100vh">
+            <Grid container spacing={2} height="100%">
               <Grid item xs={12} lg={4}>
                 <Box
                   borderRadius={3}
