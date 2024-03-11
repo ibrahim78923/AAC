@@ -33,6 +33,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 import Search from '@/components/Search';
+import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const RolesRight = ({ initialValueProps = defaultValues }: any) => {
   const [isDraweropen, setIsDraweropen] = useState(false);
@@ -125,28 +127,34 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
           }}
         >
           <Typography variant="h3">Roles and Rights</Typography>
-          <Button
-            variant="contained"
-            sx={{
-              display: 'flex',
-              columnGap: '10px',
-              '@media (max-width: 500px)': {
-                marginTop: '20px',
-                width: '100%',
-              },
-            }}
-            className="small"
-            onClick={() => setIsDraweropen(true)}
+
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.ADD_NEW_ROLE]}
           >
-            <AddCircleIcon
+            <Button
+              variant="contained"
               sx={{
-                color: `${theme?.palette?.common.white}`,
-                fontSize: '16px',
+                display: 'flex',
+                columnGap: '10px',
+                '@media (max-width: 500px)': {
+                  marginTop: '20px',
+                  width: '100%',
+                },
               }}
-            />
-            Add New Role
-          </Button>
+              className="small"
+              onClick={() => setIsDraweropen(true)}
+            >
+              <AddCircleIcon
+                sx={{
+                  color: `${theme?.palette?.common.white}`,
+                  fontSize: '16px',
+                }}
+              />
+              Add New Role
+            </Button>
+          </PermissionsGuard>
         </Box>
+
         <Box
           sx={{
             display: 'flex',
@@ -157,15 +165,18 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
             gap: 1,
           }}
         >
-          <Search
-            label={'Search here'}
-            searchBy={productSearch}
-            setSearchBy={setproductSearch}
-            width="260px"
-            size="small"
+          <PermissionsGuard
+            permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.SEARCH_ROLE]}
+          >
+            <Search
+              label={'Search here'}
+              searchBy={productSearch}
+              setSearchBy={setproductSearch}
+              width="260px"
+              size="small"
+            />
+          </PermissionsGuard>
 
-            // sx={{ marginTop: '2rem', marginBottom: '1rem' }}
-          />
           <Button
             id="basic-button"
             aria-controls={open ? 'basic-menu' : undefined}
@@ -195,9 +206,21 @@ const RolesRight = ({ initialValueProps = defaultValues }: any) => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={handleClose}>Edit</MenuItem>
-            <MenuItem onClick={handleClose}>View</MenuItem>
-            <MenuItem onClick={() => setIsOpenDelete(true)}>Delete</MenuItem>
+            <PermissionsGuard
+              permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.VIEW_ROLE]}
+            >
+              <MenuItem onClick={handleClose}>View</MenuItem>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.EDIT_ROLE]}
+            >
+              <MenuItem onClick={handleClose}>Edit</MenuItem>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[AIR_MARKETER_SETTINGS_PERMISSIONS?.DELETE_ROLE]}
+            >
+              <MenuItem onClick={() => setIsOpenDelete(true)}>Delete</MenuItem>
+            </PermissionsGuard>
           </Menu>
         </Box>
         <Grid>

@@ -37,6 +37,7 @@ export const useApprovals = () => {
   const updateRequestApprovalStatus = async (approval: any) => {
     if (approval?.state === TICKET_APPROVALS?.REMINDER) {
       successSnackbar?.('Reminder send successfully');
+      return;
     }
     const patchParameterData = {
       queryParams: {

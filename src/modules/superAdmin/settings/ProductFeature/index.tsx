@@ -23,6 +23,8 @@ import { v4 as uuidv4 } from 'uuid';
 import useProductFeature from './useProductFeature';
 // import MultiSearchableSelect from './multiSearchableSelect';
 import { styles } from './ProductFeature.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS } from '@/constants/permission-keys';
 
 const ProductFeature = () => {
   const theme = useTheme();
@@ -87,14 +89,21 @@ const ProductFeature = () => {
           </Box> */}
         </Box>
         <Box sx={styles?.filterBar}>
-          <Box sx={styles?.search}>
-            <Search
-              setSearchBy={setSearchValue}
-              label="Search Here"
-              size="small"
-              width={'100%'}
-            />
-          </Box>
+          <PermissionsGuard
+            permissions={[
+              SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS?.Search,
+            ]}
+          >
+            <Box sx={styles?.search}>
+              <Search
+                setSearchBy={setSearchValue}
+                label="Search Here"
+                size="small"
+                width={'100%'}
+              />
+            </Box>
+          </PermissionsGuard>
+
           <Box sx={styles?.filterButtons}>
             <Button
               id="basic-button"
@@ -130,36 +139,54 @@ const ProductFeature = () => {
                 horizontal: 'right',
               }}
             >
-              <MenuItem
-                onClick={handleOpenDrawerEditFeature}
-                style={{ fontSize: '14px' }}
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS?.Edit_Features,
+                ]}
               >
-                Edit
-              </MenuItem>
+                <MenuItem
+                  onClick={handleOpenDrawerEditFeature}
+                  style={{ fontSize: '14px' }}
+                >
+                  Edit
+                </MenuItem>
+              </PermissionsGuard>
             </Menu>
-            <Button
-              variant="contained"
-              className="small"
-              onClick={handleOpenDrawerAddFeature}
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS?.Add_Features,
+              ]}
             >
-              <PlusShared /> &nbsp; Add Feature
-            </Button>
+              <Button
+                variant="contained"
+                className="small"
+                onClick={handleOpenDrawerAddFeature}
+              >
+                <PlusShared /> &nbsp; Add Feature
+              </Button>
+            </PermissionsGuard>
           </Box>
         </Box>
       </Box>
-      <Box>
-        <TanstackTable
-          columns={ProductFeatureTableColumns}
-          data={dataProductFeatures?.data?.productfeatures}
-          isLoading={loagingProductFeatures}
-          isPagination
-          count={dataProductFeatures?.data?.meta?.pages}
-          totalRecords={dataProductFeatures?.data?.meta?.total}
-          onPageChange={handlePageChange}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-        />
-      </Box>
+      <PermissionsGuard
+        permissions={[
+          SUPER_ADMIN_SETTINGS_PRODUCT_FEATURES_PERMISSIONS?.Product_List,
+        ]}
+      >
+        <Box>
+          <TanstackTable
+            columns={ProductFeatureTableColumns}
+            data={dataProductFeatures?.data?.productfeatures}
+            isLoading={loagingProductFeatures}
+            isPagination
+            count={dataProductFeatures?.data?.meta?.pages}
+            totalRecords={dataProductFeatures?.data?.meta?.total}
+            onPageChange={handlePageChange}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+          />
+        </Box>
+      </PermissionsGuard>
 
       <CommonDrawer
         isDrawerOpen={openDrawerAddFeature}

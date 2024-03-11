@@ -52,7 +52,11 @@ export const SingleViewArticle = () => {
                     mt={2}
                   >
                     <Grid item>
-                      <Typography variant="body2" fontWeight={500}>
+                      <Typography
+                        variant="body2"
+                        fontWeight={500}
+                        color="slateBlue.main"
+                      >
                         {item?.heading}
                       </Typography>
                     </Grid>
@@ -78,12 +82,13 @@ export const SingleViewArticle = () => {
                         </Typography>
                       </Grid>
                     ))}
-                    {item?.keyword && (
-                      <Grid item display={'flex'} flexWrap={'wrap'} gap={1}>
-                        {!!item?.keyword?.length
-                          ? item?.keyword?.map((i: any) => (
+                    <Box mt={1} maxHeight={100} overflow={'auto'} p={1}>
+                      {item?.keyword && (
+                        <Grid item display={'flex'} flexWrap={'wrap'} gap={1}>
+                          {!!item?.keyword?.length ? (
+                            item?.keyword?.map((item: any) => (
                               <Typography
-                                key={i?._id}
+                                key={item?._id}
                                 variant="body2"
                                 sx={styles?.keywordStyle(theme)}
                               >
@@ -92,12 +97,15 @@ export const SingleViewArticle = () => {
                                     fontSize={'inherit'}
                                   />
                                 }
-                                {i}
+                                {item}
                               </Typography>
                             ))
-                          : []}
-                      </Grid>
-                    )}
+                          ) : (
+                            <Typography variant="body2"> --- </Typography>
+                          )}
+                        </Grid>
+                      )}
+                    </Box>
                     <Divider sx={{ mt: 2 }} />
                   </Grid>
                 );

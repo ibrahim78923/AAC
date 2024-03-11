@@ -48,11 +48,5 @@ export const SmsMarketingAPI = baseAPI.injectEndpoints({
   }),
 });
 
-export const {
-  useGetSmsBroadcatsQuery,
-  useDeleteSmsBroadcastMutation,
-  // useDeleteReceiverBankAccountMutation,
-  // usePostReceiverBankAccountMutation,
-  // useUpdateReceiverBankAccountMutation,
-  // useGetReceiverBankAccountsByIdQuery,
-} = SmsMarketingAPI;
+export const { useGetSmsBroadcatsQuery, useDeleteSmsBroadcastMutation } =
+  SmsMarketingAPI;

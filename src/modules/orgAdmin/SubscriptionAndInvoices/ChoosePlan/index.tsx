@@ -19,6 +19,8 @@ import {
   useGetProductPlanListProductIdQuery,
 } from '@/services/orgAdmin/subscription-and-invoices';
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 const ChoosePlan = () => {
   const router = useRouter();
   const { data } = useGetProductPlanListProductIdQuery({
@@ -73,9 +75,15 @@ const ChoosePlan = () => {
                       £{choosePlan?.planPrice}
                       <Box component={'span'}>/Month</Box>
                     </Typography>
-                    <Button variant="contained" color="primary">
-                      Buy Plan
-                    </Button>
+                    <PermissionsGuard
+                      permissions={[
+                        ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_BUY_PLAN,
+                      ]}
+                    >
+                      <Button variant="contained" color="primary">
+                        Buy Plan
+                      </Button>
+                    </PermissionsGuard>
                   </TableCell>
                 );
               })}
@@ -119,7 +127,13 @@ const ChoosePlan = () => {
               {data?.data?.map(() => {
                 return (
                   <TableCell key={uuidv4()} sx={styles?.userIncludes}>
-                    <Counter inputValue={0} />
+                    <PermissionsGuard
+                      permissions={[
+                        ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_USER,
+                      ]}
+                    >
+                      <Counter inputValue={0} />
+                    </PermissionsGuard>
                   </TableCell>
                 );
               })}
@@ -132,7 +146,17 @@ const ChoosePlan = () => {
               {data?.data?.map(() => {
                 return (
                   <TableCell key={uuidv4()} sx={styles?.userIncludes}>
-                    <Counter inputValue={0} fixedText="GB" inputWidth="74px" />
+                    <PermissionsGuard
+                      permissions={[
+                        ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_STORAGE,
+                      ]}
+                    >
+                      <Counter
+                        inputValue={0}
+                        fixedText="GB"
+                        inputWidth="74px"
+                      />
+                    </PermissionsGuard>
                   </TableCell>
                 );
               })}

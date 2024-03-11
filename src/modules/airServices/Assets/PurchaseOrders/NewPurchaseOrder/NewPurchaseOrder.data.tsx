@@ -51,7 +51,14 @@ export const defaultValues = (data?: any) => ({
   discount: data?.discount ?? 0,
   total: data?.total ?? 0,
   status: data?.status ?? 'ORDERED',
-  purchaseDetails: data?.purchaseDetails ?? [
+  purchaseDetails: data?.purchaseDetails?.map((item: any, index: any) => {
+    const { ...rest } = item;
+    delete rest?.itemName;
+    return {
+      itemName: data?.productDetails[index],
+      ...rest,
+    };
+  }) ?? [
     {
       itemName: null,
       description: '',

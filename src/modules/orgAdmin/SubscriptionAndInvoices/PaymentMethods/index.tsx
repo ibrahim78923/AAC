@@ -8,6 +8,8 @@ import { paymentData } from '@/mock/modules/SubscriptionAndInvoices';
 import { AlertModals } from '@/components/AlertModals';
 import { styles } from './PaymentMethod.style';
 import { useState } from 'react';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 
 const PaymentMethods = () => {
   const {
@@ -38,21 +40,27 @@ const PaymentMethods = () => {
           <Typography variant="h4" sx={styles?.paymentTitle}>
             Payment Methods
           </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleOpenAddCard}
-            sx={{
-              width: {
-                xs: '100%',
-                sm: 'fit-content',
-                lg: 'fit-content',
-                md: 'fit-content',
-              },
-            }}
+          <PermissionsGuard
+            permissions={[
+              ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.PAYMENT_METHODS_ADD_CARD,
+            ]}
           >
-            Add a card
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleOpenAddCard}
+              sx={{
+                width: {
+                  xs: '100%',
+                  sm: 'fit-content',
+                  lg: 'fit-content',
+                  md: 'fit-content',
+                },
+              }}
+            >
+              Add a card
+            </Button>
+          </PermissionsGuard>
         </Box>
 
         <Box sx={styles?.tableToolbar}>

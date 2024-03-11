@@ -11,7 +11,7 @@ import { useTheme } from '@mui/material';
 
 import { downloadFile } from '@/utils/file';
 import { UpsertTicket } from '../UpsertTicket';
-import { EXPORT_FILE_TYPE } from '@/constants/strings';
+import { EXPORT_FILE_TYPE, VIEW_TYPES } from '@/constants/strings';
 import { TicketsBulkUpdate } from '../TicketsBulkUpdate';
 import { AssignedTickets } from '../AssignedTickets';
 import { MoveTickets } from '../MoveTickets';
@@ -22,15 +22,18 @@ import { PAGINATION } from '@/config';
 import {
   useLazyGetExportTicketsQuery,
   useLazyGetTicketsQuery,
-  usePatchBulkUpdateTicketsMutation,
+  usePutSingleTicketStatusMutation,
 } from '@/services/airServices/tickets';
 import { FilterTickets } from '../FilterTickets';
 import { neglectKeysInLoop } from '../FilterTickets/FilterTickets.data';
 import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { getActivePermissionsSession } from '@/utils';
+import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
 
 export const useTicketsLists: any = () => {
   const [hasTicketAction, setHasTicketAction] = useState(false);
   const [selectedTicketList, setSelectedTicketList] = useState([]);
+  const overallPermissions = getActivePermissionsSession();
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<any>('');
@@ -63,7 +66,7 @@ export const useTicketsLists: any = () => {
   const [lazyGetExportTicketsTrigger, lazyGetExportTicketsStatus] =
     useLazyGetExportTicketsQuery();
 
-  const [patchBulkUpdateTicketsTrigger] = usePatchBulkUpdateTicketsMutation();
+  const [putSingleTicketStatusTrigger] = usePutSingleTicketStatusMutation();
 
   const getValueTicketsListData = async () => {
     try {
@@ -110,30 +113,48 @@ export const useTicketsLists: any = () => {
   }, [search, page, pageLimit, filterTicketLists]);
 
   useEffect(() => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
+    if (
+      overallPermissions?.includes(
+        AIR_SERVICES_TICKETS_TICKET_LISTS?.TICKETS_LIST_VIEW,
+      )
+    ) {
+      router?.push(
+        makePath({
+          path: router?.pathname,
+          skipQueries: ['ticketAction'],
+        }),
+      );
+      return;
+    }
+    if (
+      overallPermissions?.includes(
+        AIR_SERVICES_TICKETS_TICKET_LISTS?.BOARD_VIEW,
+      )
+    ) {
+      router?.push(
+        makePath({
+          path: router?.pathname,
+          skipQueries: ['ticketAction'],
+          queryParams: { viewType: VIEW_TYPES?.BOARD },
+        }),
+      );
+      return;
+    }
   }, []);
 
   const updateTicketStatus = async (status: any) => {
-    const updateTicketStatusParams = new URLSearchParams();
-    selectedTicketList?.forEach(
-      (ticketId: any) => updateTicketStatusParams?.append('ids', ticketId),
-    );
     const updateTicketStatusTicketsParameter = {
-      queryParams: updateTicketStatusParams,
-      body: {
+      pathParams: { id: selectedTicketList?.[0] },
+      queryParams: {
         status,
       },
     };
     try {
-      await patchBulkUpdateTicketsTrigger(
+      await putSingleTicketStatusTrigger(
         updateTicketStatusTicketsParameter,
       )?.unwrap();
       successSnackbar('Ticket status updated successfully');
+      setSelectedTicketList([]);
     } catch (error: any) {
       errorSnackbar();
     }
@@ -187,7 +208,8 @@ export const useTicketsLists: any = () => {
       <TicketsBulkUpdate
         setIsDrawerOpen={setHasTicketAction}
         isDrawerOpen={hasTicketAction}
-        ticketId={selectedTicketList?.[0]}
+        selectedTicketList={selectedTicketList}
+        setSelectedTicketList={setSelectedTicketList}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET]: (
@@ -195,6 +217,7 @@ export const useTicketsLists: any = () => {
         setIsAssignedModalOpen={setHasTicketAction}
         isAssignedModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
+        setSelectedTicketList={setSelectedTicketList}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.MOVE_TICKET]: (
@@ -202,6 +225,7 @@ export const useTicketsLists: any = () => {
         setIsMoveTicketsModalOpen={setHasTicketAction}
         isMoveTicketsModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
+        setSelectedTicketList={setSelectedTicketList}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.MERGE_TICKET]: (

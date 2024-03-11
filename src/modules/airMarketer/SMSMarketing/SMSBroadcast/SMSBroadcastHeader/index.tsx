@@ -27,6 +27,8 @@ import {
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_MARKETER_SMS_MARKETING_PERMISSIONS } from '@/constants/permission-keys';
 
 const SMSBroadcastHeader = (props: any) => {
   const {
@@ -58,20 +60,26 @@ const SMSBroadcastHeader = (props: any) => {
       sx={{ justifyContent: 'space-between', my: 1, alignItems: 'center' }}
     >
       <Grid item xs={12} lg={6}>
-        <Stack direction="row" gap={1}>
-          <SwitchableDatepicker
-            renderInput={'date'}
-            dateValue={datePickerVal}
-            setDateValue={setDatePickerVal}
-            handleDateSubmit={() => {
-              setFilterValues({
-                ...filterValues,
-                toDate: datePickerVal[startedDate],
-                fromDate: datePickerVal[endedDate],
-              });
-            }}
-          />
-        </Stack>
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.SEARCH_AND_FILTER,
+          ]}
+        >
+          <Stack direction="row" gap={1}>
+            <SwitchableDatepicker
+              renderInput={'date'}
+              dateValue={datePickerVal}
+              setDateValue={setDatePickerVal}
+              handleDateSubmit={() => {
+                setFilterValues({
+                  ...filterValues,
+                  toDate: datePickerVal[startedDate],
+                  fromDate: datePickerVal[endedDate],
+                });
+              }}
+            />
+          </Stack>
+        </PermissionsGuard>
       </Grid>
       <Grid
         item
@@ -85,13 +93,19 @@ const SMSBroadcastHeader = (props: any) => {
           gap: '10px',
         }}
       >
-        <Search
-          size="small"
-          placeholder="Search Here"
-          onChange={(e: any) => {
-            setFilterValues({ ...filterValues, search: e?.target?.value });
-          }}
-        />
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.SEARCH_AND_FILTER,
+          ]}
+        >
+          <Search
+            size="small"
+            placeholder="Search Here"
+            onChange={(e: any) => {
+              setFilterValues({ ...filterValues, search: e?.target?.value });
+            }}
+          />
+        </PermissionsGuard>
 
         <Tooltip title={'Refresh Filter'}>
           <Button
@@ -104,24 +118,30 @@ const SMSBroadcastHeader = (props: any) => {
           </Button>
         </Tooltip>
 
-        <FormControl size="small">
-          <Select
-            sx={{ height: '36px' }}
-            defaultValue={'status'}
-            onChange={(e: any) => {
-              setFilterValues({ ...filterValues, status: e?.target?.value });
-            }}
-          >
-            <MenuItem value={'status'} disabled>
-              Status
-            </MenuItem>
-            <MenuItem value={'Completed'}>Completed</MenuItem>
-            <MenuItem value={'Scheduled'}>Scheduled</MenuItem>
-            <MenuItem value={'Draft'}>Draft</MenuItem>
-            <MenuItem value={'Processing'}>Processing</MenuItem>
-            <MenuItem value={'Stopped'}>Stopped</MenuItem>
-          </Select>
-        </FormControl>
+        <PermissionsGuard
+          permissions={[
+            AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.SEARCH_AND_FILTER,
+          ]}
+        >
+          <FormControl size="small">
+            <Select
+              sx={{ height: '36px' }}
+              defaultValue={'status'}
+              onChange={(e: any) => {
+                setFilterValues({ ...filterValues, status: e?.target?.value });
+              }}
+            >
+              <MenuItem value={'status'} disabled>
+                Status
+              </MenuItem>
+              <MenuItem value={'Completed'}>Completed</MenuItem>
+              <MenuItem value={'Scheduled'}>Scheduled</MenuItem>
+              <MenuItem value={'Draft'}>Draft</MenuItem>
+              <MenuItem value={'Processing'}>Processing</MenuItem>
+              <MenuItem value={'Stopped'}>Stopped</MenuItem>
+            </Select>
+          </FormControl>
+        </PermissionsGuard>
 
         {checkedRows?.length > 1 ? (
           <Button
@@ -162,12 +182,25 @@ const SMSBroadcastHeader = (props: any) => {
               open={Boolean(selectedValue)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleEdit}>Edit</MenuItem>
-              <MenuItem onClick={handleDelete}>Delete</MenuItem>
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.EDIT_SMS_BROADCAST,
+                ]}
+              >
+                <MenuItem onClick={handleEdit}>Edit</MenuItem>
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[
+                  AIR_MARKETER_SMS_MARKETING_PERMISSIONS?.DELETE_SMS_BROADCAST,
+                ]}
+              >
+                <MenuItem onClick={handleDelete}>Delete</MenuItem>
+              </PermissionsGuard>
             </Menu>
           </Box>
         )}
       </Grid>
+
       {isDelete && (
         <AlertModals
           message="Are you sure you want to delete this broadcast?"

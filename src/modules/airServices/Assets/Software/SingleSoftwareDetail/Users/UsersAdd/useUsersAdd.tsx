@@ -18,13 +18,12 @@ const useUsersAdd = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const params = useSearchParams();
   const softwareId = params?.get('softwareId');
-  // const userRefId = params?.get('user');
   const methods: any = useForm({
     resolver: yupResolver(addUserValidationSchema),
     defaultValues: addUserDefaultValues(),
   });
 
-  const [addSoftwareUsers] = useAddSoftwareUsersMutation();
+  const [addSoftwareUsers, { isLoading }] = useAddSoftwareUsersMutation();
 
   const contractDropdown = useLazyGetContractDropdownListQuery();
   const userDropdown = useLazyGetUsersDropdownListQuery();
@@ -40,7 +39,6 @@ const useUsersAdd = () => {
   const { handleSubmit, reset } = methods;
   const onSubmit = async (data: any) => {
     const params = {
-      // ...data,
       softwareId: softwareId,
       contractId: data?.contract?._id,
       userRefId: data?.user?._id,
@@ -58,23 +56,11 @@ const useUsersAdd = () => {
       });
     }
   };
-  // const onSubmit = async () => {
-  //   enqueueSnackbar('User Add Successfully', {
-  //     variant: NOTISTACK_VARIANTS?.SUCCESS,
-  //   });
-  //   closeModal();
-  //   // reset(addUserDefaultValues);
-  // };
 
   const addUserDataFormFieldsAddUser = addUserData(
     userDropdown,
     contractDropdown,
   );
-  // const addUserDataFormFieldsAllocate = addUserData(
-  //   null,
-  //   contractDropdown,
-  //   false,
-  // );
 
   return {
     methods,
@@ -86,7 +72,7 @@ const useUsersAdd = () => {
     contractDropdown,
     userDropdown,
     addUserDataFormFieldsAddUser,
-    // addUserDataFormFieldsAllocate,
+    isLoading,
   };
 };
 export default useUsersAdd;

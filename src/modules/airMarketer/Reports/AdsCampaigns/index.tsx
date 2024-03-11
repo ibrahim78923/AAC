@@ -26,13 +26,17 @@ import { DownloadIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import { AIR_MARKETER } from '@/routesConstants/paths';
+import { AIR_MARKETER_REPORTS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const AdsCampaigns = () => {
   const theme = useTheme();
   const { searchBy, setSearchBy }: any = useMarketerReports();
 
   return (
-    <>
+    <PermissionsGuard
+      permissions={[AIR_MARKETER_REPORTS_PERMISSIONS?.ADS_CAMPAIGNS]}
+    >
       <Box
         display="flex"
         alignItems="center"
@@ -146,7 +150,7 @@ const AdsCampaigns = () => {
         </Box>
         <TanstackTable columns={usersColumns} data={usersData()} isPagination />
       </Card>
-    </>
+    </PermissionsGuard>
   );
 };
 
