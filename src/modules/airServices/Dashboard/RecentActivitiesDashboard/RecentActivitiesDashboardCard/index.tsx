@@ -2,12 +2,16 @@ import { Box, Grid, Typography, useTheme } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { styles } from './RecentActivitiesDashboardCard.styles';
 import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 export const RecentActivitiesDashboardCard = ({
   icon,
   recentActivity,
   recentActivityRequest,
+  recentActivitySerialNumber,
+  recentActivityName,
   isBorderBottom,
+  recentActivityModuleName,
 }: any) => {
   const theme = useTheme();
   return (
@@ -28,16 +32,17 @@ export const RecentActivitiesDashboardCard = ({
                 color="custom.bright"
                 variant="subtitle2"
               >
-                John Doe
+                {recentActivityName}{' '}
               </Typography>
-              {recentActivity}
+              {recentActivity} Ticket Request For
               <Typography
                 component="span"
                 color="custom.bright"
                 variant="subtitle2"
               >
                 {' '}
-                Mark Dyson
+                {recentActivityRequest.charAt(0).toUpperCase() +
+                  recentActivityRequest.slice(1).toLowerCase()}
               </Typography>
             </Typography>
             <Typography
@@ -46,10 +51,11 @@ export const RecentActivitiesDashboardCard = ({
               color={'grey.[800]'}
               fontWeight={700}
             >
-              {recentActivityRequest}
+              {recentActivityModuleName}(#{recentActivitySerialNumber}) to
+              Service Request
             </Typography>
             <Typography color={'grey?.[600]'} component={'p'} variant="body3">
-              {dayjs(new Date())?.format('ddd, MMM D, YYYY, h:mm A')}
+              {dayjs(new Date())?.format(DATE_TIME_FORMAT?.DMDHMA)}
             </Typography>
           </Box>
         </Box>

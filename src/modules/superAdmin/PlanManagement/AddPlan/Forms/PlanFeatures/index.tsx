@@ -20,6 +20,7 @@ import { AddPlusPrimaryIcon } from '@/assets/icons';
 import { useAppSelector } from '@/redux/store';
 import { v4 as uuidv4 } from 'uuid';
 import { useGetProductsFeaturesQuery } from '@/services/superAdmin/plan-mangement';
+import { useGetProductsQuery } from '@/services/common-APIs';
 
 const PlanFeatures = ({ methods, handleSubmit }: any) => {
   const {
@@ -52,173 +53,173 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
     productFeatures = data;
   }
 
+  const { data: productList } = useGetProductsQuery({});
+
+  const productsOptions = productList?.data?.map((product: any) => ({
+    value: product?._id,
+    label: product?.name,
+  }));
+
   return (
     <div>
-      {!isNullOrEmpty(planManagement?.addPlanForm?.suite)
-        ? planManagement?.addPlanForm?.suite?.map((feature: string) => (
-            <Accordion
-              expanded={expandedAccordion === feature}
-              onChange={handleExpandAccordionChange(feature)}
-              key={uuidv4()}
-              disableGutters
-              sx={{
-                '&.MuiAccordion': {
-                  '&.Mui-expanded': {
-                    boxShadow: 'theme.customShadows.z8',
-                    borderRadius: '8px',
-                  },
-                  '&.Mui-disabled': {
-                    backgroundColor: 'transparent',
-                  },
-                },
-                '& .MuiAccordionSummary-root': {
-                  backgroundColor: theme?.palette?.blue?.main,
-                  color: theme?.palette?.common?.white,
+      {!isNullOrEmpty(planManagement?.addPlanForm?.suite) ? (
+        planManagement?.addPlanForm?.suite?.map((feature: string) => (
+          <Accordion
+            expanded={expandedAccordion === feature}
+            onChange={handleExpandAccordionChange(feature)}
+            key={uuidv4()}
+            disableGutters
+            sx={{
+              '&.MuiAccordion': {
+                '&.Mui-expanded': {
+                  boxShadow: 'theme.customShadows.z8',
                   borderRadius: '8px',
-                  marginBottom: '11px',
                 },
-              }}
+                '&.Mui-disabled': {
+                  backgroundColor: 'transparent',
+                },
+              },
+              '& .MuiAccordionSummary-root': {
+                backgroundColor: theme?.palette?.blue?.main,
+                color: theme?.palette?.common?.white,
+                borderRadius: '8px',
+                marginBottom: '11px',
+              },
+            }}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="plan-features-sales-accordion-content"
+              id="plan-features-sales-accordion-header"
             >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="plan-features-sales-accordion-content"
-                id="plan-features-sales-accordion-header"
-              >
-                <Typography variant="h4">{feature}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Grid container>
-                  {!isNullOrEmpty(productFeatures?.data?.productfeatures)
-                    ? productFeatures?.data?.productfeatures?.map(
-                        (item: any) => {
-                          return (
-                            <Grid
-                              item
-                              xs={12}
-                              sm={6}
-                              lg={4}
-                              xl={3}
-                              key={uuidv4()}
+              <Typography variant="h4">
+                {productList &&
+                  productsOptions?.find((obj: any) => obj?.value === feature)
+                    ?.label}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container>
+                {!isNullOrEmpty(productFeatures?.data?.productfeatures)
+                  ? productFeatures?.data?.productfeatures?.map((item: any) => {
+                      return (
+                        <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
+                          <Box sx={{ width: 'max-content', display: 'flex' }}>
+                            <FormProvider
+                              methods={methods}
+                              onSubmit={handleSubmit}
                             >
-                              <Box
-                                sx={{ width: 'max-content', display: 'flex' }}
-                              >
-                                <FormProvider
-                                  methods={methods}
-                                  onSubmit={handleSubmit}
-                                >
-                                  <RHFMultiCheckbox
-                                    name="features"
-                                    label="Features"
-                                    options={[
-                                      {
-                                        label: item?.name,
-                                        value: item?._id,
-                                      },
-                                    ]}
-                                  />
-                                </FormProvider>
-                                <Box
-                                  sx={{ cursor: 'pointer' }}
-                                  onClick={() => {
-                                    handleOpenFeaturesModal();
-                                    setFeatureName(item?.name);
-                                  }}
-                                >
-                                  <AddPlusPrimaryIcon />
-                                </Box>
-                              </Box>
-                            </Grid>
-                          );
-                        },
-                      )
-                    : 'No Data'}
-                </Grid>
-              </AccordionDetails>
-            </Accordion>
-          ))
-        : planManagement?.addPlanForm?.productId?.map((feature: string) => (
-            <Accordion
-              expanded={expandedAccordion === feature}
-              onChange={handleExpandAccordionChange(feature)}
-              key={uuidv4()}
-              disableGutters
-              sx={{
-                '&.MuiAccordion': {
-                  '&.Mui-expanded': {
-                    boxShadow: 'theme?.customShadows?.z8',
-                    borderRadius: '8px',
-                  },
-                  '&.Mui-disabled': {
-                    backgroundColor: 'transparent',
-                  },
-                },
-                '& .MuiAccordionSummary-root': {
-                  backgroundColor: theme?.palette?.blue?.main,
-                  color: theme?.palette?.common?.white,
-                  borderRadius: '8px',
-                  marginBottom: '11px',
-                },
-              }}
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="plan-features-sales-accordion-content"
-                id="plan-features-sales-accordion-header"
-              >
-                <Typography variant="h4">{feature}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Grid container>
-                  {!isNullOrEmpty(productFeatures?.data?.productfeatures)
-                    ? productFeatures?.data?.productfeatures?.map(
-                        (item: any) => {
-                          return (
-                            <Grid
-                              item
-                              xs={12}
-                              sm={6}
-                              lg={4}
-                              xl={3}
-                              key={uuidv4()}
+                              <RHFMultiCheckbox
+                                name="features"
+                                label="Features"
+                                options={[
+                                  {
+                                    label: item?.name,
+                                    value: item?._id,
+                                  },
+                                ]}
+                              />
+                            </FormProvider>
+                            <Box
+                              sx={{ cursor: 'pointer' }}
+                              onClick={() => {
+                                handleOpenFeaturesModal();
+                                setFeatureName(item?.name);
+                              }}
                             >
-                              <Box
-                                sx={{ width: 'max-content', display: 'flex' }}
-                              >
-                                <FormProvider
-                                  methods={methods}
-                                  onSubmit={handleSubmit}
-                                >
-                                  <RHFMultiCheckbox
-                                    name="features"
-                                    label="Features"
-                                    options={[
-                                      {
-                                        label: item?.name,
-                                        value: item?._id,
-                                      },
-                                    ]}
-                                  />
-                                </FormProvider>
-                                <Box
-                                  sx={{ cursor: 'pointer' }}
-                                  onClick={() => {
-                                    handleOpenFeaturesModal();
-                                    setFeatureName(item?.name);
-                                  }}
-                                >
-                                  <AddPlusPrimaryIcon />
-                                </Box>
-                              </Box>
-                            </Grid>
-                          );
-                        },
-                      )
-                    : 'No Data'}
-                </Grid>
-              </AccordionDetails>
-            </Accordion>
-          ))}
+                              <AddPlusPrimaryIcon />
+                            </Box>
+                          </Box>
+                        </Grid>
+                      );
+                    })
+                  : 'No Data'}
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+        ))
+      ) : (
+        // : planManagement?.addPlanForm?.productId?.map((feature: string) => ())
+        <Accordion
+          expanded={
+            expandedAccordion === planManagement?.addPlanForm?.productId
+          }
+          onChange={handleExpandAccordionChange(
+            planManagement?.addPlanForm?.productId,
+          )}
+          key={uuidv4()}
+          disableGutters
+          sx={{
+            '&.MuiAccordion': {
+              '&.Mui-expanded': {
+                boxShadow: 'theme?.customShadows?.z8',
+                borderRadius: '8px',
+              },
+              '&.Mui-disabled': {
+                backgroundColor: 'transparent',
+              },
+            },
+            '& .MuiAccordionSummary-root': {
+              backgroundColor: theme?.palette?.blue?.main,
+              color: theme?.palette?.common?.white,
+              borderRadius: '8px',
+              marginBottom: '11px',
+            },
+          }}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="plan-features-sales-accordion-content"
+            id="plan-features-sales-accordion-header"
+          >
+            <Typography variant="h4">
+              {productList &&
+                productsOptions?.find(
+                  (obj: any) =>
+                    obj?.value === planManagement?.addPlanForm?.productId,
+                )?.label}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container>
+              {!isNullOrEmpty(productFeatures?.data?.productfeatures)
+                ? productFeatures?.data?.productfeatures?.map((item: any) => {
+                    return (
+                      <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
+                        <Box sx={{ width: 'max-content', display: 'flex' }}>
+                          <FormProvider
+                            methods={methods}
+                            onSubmit={handleSubmit}
+                          >
+                            <RHFMultiCheckbox
+                              name="features"
+                              label="Features"
+                              options={[
+                                {
+                                  label: item?.name,
+                                  value: item?._id,
+                                },
+                              ]}
+                            />
+                          </FormProvider>
+                          <Box
+                            sx={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              handleOpenFeaturesModal();
+                              setFeatureName(item?.name);
+                            }}
+                          >
+                            <AddPlusPrimaryIcon />
+                          </Box>
+                        </Box>
+                      </Grid>
+                    );
+                  })
+                : 'No Data'}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+      )}
 
       {openFeaturesModal && (
         <FeaturesModal
