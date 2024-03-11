@@ -28,6 +28,13 @@ export const servicesPermissionsRole = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    deleteRole: builder?.mutation({
+      query: (roleId: any) => ({
+        url: `${END_POINTS?.GET_PERMISSIONS_ROLES}/${roleId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -35,4 +42,5 @@ export const {
   useGetPermissionsRoleQuery,
   useGetPermissionsByProductQuery,
   usePostPermissionsRoleMutation,
+  useDeleteRoleMutation,
 } = servicesPermissionsRole;

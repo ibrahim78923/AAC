@@ -36,6 +36,13 @@ export default function useUpsertRoles() {
     productId,
   });
 
+  const methods: any = useForm({
+    resolver: yupResolver(upsertRolesValidationSchema),
+    defaultValues: upsertRolesDefaultValues(),
+  });
+
+  const { handleSubmit, reset } = methods;
+
   const getSlugs = () => {
     const slugs = getPermissionsData?.data?.flatMap(
       (parent: any) =>
@@ -52,16 +59,9 @@ export default function useUpsertRoles() {
     return slugsObject;
   };
 
-  const methods: any = useForm({
-    resolver: yupResolver(upsertRolesValidationSchema),
-    defaultValues: upsertRolesDefaultValues(),
-  });
-
-  const { handleSubmit, reset } = methods;
-
   useEffect(() => {
     reset(upsertRolesDefaultValues(getSlugs()));
-  }, [getPermissionsData, reset]);
+  }, [upsertRolesDefaultValues, reset, getPermissionsData?.data?.length]);
 
   const [postPermissionTrigger] = usePostPermissionsRoleMutation();
 
@@ -84,7 +84,7 @@ export default function useUpsertRoles() {
 
     try {
       await postPermissionTrigger(updatedData)?.unwrap();
-      successSnackbar('Role Added Successfully!');
+      successSnackbar(`Role ${roleId ? 'Updated' : 'Added'} Successfully!`);
       router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS);
     } catch (error) {
       errorSnackbar();

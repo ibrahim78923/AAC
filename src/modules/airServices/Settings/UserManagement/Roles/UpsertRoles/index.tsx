@@ -121,7 +121,7 @@ const UpsertRoles = () => {
               Cancel
             </Button>
             <Button type={'submit'} variant={'contained'}>
-              Submit
+              {roleId ? `Update` : `Submit`}
             </Button>
           </Grid>
         </Grid>
