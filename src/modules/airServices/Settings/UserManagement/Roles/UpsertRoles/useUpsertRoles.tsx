@@ -21,9 +21,8 @@ export default function useUpsertRoles() {
   const router: any = useRouter();
   const theme: any = useTheme();
 
-  const [firstEffectRun, setFirstEffectRun] = useState(false);
-
   const { roleId } = router?.query;
+  const [firstEffectRun, setFirstEffectRun] = useState(roleId ? true : false);
 
   const auth: any = useAuth();
 
