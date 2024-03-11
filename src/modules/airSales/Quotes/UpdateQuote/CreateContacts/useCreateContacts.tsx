@@ -16,9 +16,11 @@ import {
   contactsValidationSchema,
 } from './CreateContactsdata';
 import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
+import useUpdateQuote from '../useUpdateQuote';
 
 const useCreateContacts = (dealId: any) => {
   const userRole = 'ORG_ADMIN';
+  const { dataGetQuoteById, createAssociationQuote } = useUpdateQuote();
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
 
   const { data: contactsStatus } = useGetContactsStatusQuery({});
@@ -37,7 +39,7 @@ const useCreateContacts = (dealId: any) => {
     (lifecycle: any) => ({ value: lifecycle?._id, label: lifecycle?.name }),
   );
 
-  const methodscontacts = useForm({
+  const methodscontacts = useForm<any>({
     resolver: yupResolver(contactsValidationSchema),
     defaultValues: async () => {
       return contactsDefaultValues;
@@ -68,7 +70,21 @@ const useCreateContacts = (dealId: any) => {
     formData?.append('recordType', 'deals');
 
     try {
-      const response = await postContacts({ body: formData })?.unwrap();
+      const response = await postContacts({ body: formData })
+        ?.unwrap()
+        .then((res) => {
+          // console.log('resresrderdd',res);
+
+          const associationBody = {
+            dealId: dataGetQuoteById?.data?.dealId,
+            contact: res?._id,
+          };
+          createAssociationQuote({ body: associationBody })?.unwrap();
+          enqueueSnackbar('Ticket Updated Successfully', {
+            variant: 'success',
+          });
+        });
+
       if (response?.data) {
         closeDrawer();
         reset();
