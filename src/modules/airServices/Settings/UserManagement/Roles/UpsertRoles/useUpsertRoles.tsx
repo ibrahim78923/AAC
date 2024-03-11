@@ -15,11 +15,13 @@ import {
   usePatchPermissionsRoleByIdMutation,
   usePostPermissionsRoleMutation,
 } from '@/services/airServices/settings/user-management/roles';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function useUpsertRoles() {
   const router: any = useRouter();
   const theme: any = useTheme();
+
+  const [firstEffectRun, setFirstEffectRun] = useState(false);
 
   const { roleId } = router?.query;
 
@@ -51,20 +53,23 @@ export default function useUpsertRoles() {
 
   // reset the values of form with new slugs
   useEffect(() => {
-    const slugs = getPermissionsData?.data?.flatMap(
-      (parent: any) =>
-        parent?.subModules?.flatMap(
-          (subModule: any) =>
-            subModule?.permissions?.map((item: any) => item?.slug),
-        ),
-    );
-    const slugsObject = slugs?.reduce((acc: any, slug: any) => {
-      acc[slug] = false;
-      return acc;
-    }, {});
+    if (!firstEffectRun) {
+      const slugs = getPermissionsData?.data?.flatMap(
+        (parent: any) =>
+          parent?.subModules?.flatMap(
+            (subModule: any) =>
+              subModule?.permissions?.map((item: any) => item?.slug),
+          ),
+      );
+      const slugsObject = slugs?.reduce((acc: any, slug: any) => {
+        acc[slug] = false;
+        return acc;
+      }, {});
 
-    reset(upsertRolesDefaultValues(slugsObject));
-  }, [reset, getPermissionsData]);
+      reset(upsertRolesDefaultValues(slugsObject));
+      setFirstEffectRun(true);
+    }
+  }, [reset, getPermissionsData, firstEffectRun]);
 
   // get by id roles
   const {
@@ -76,10 +81,8 @@ export default function useUpsertRoles() {
   });
 
   useEffect(() => {
-    if (roleId) {
-      const { name, description, permissions } = getRolesData?.data;
-
-      const slugs = permissions?.flatMap(
+    if (roleId && firstEffectRun) {
+      const slugs = getRolesData?.data?.permissions?.flatMap(
         (parent: any) =>
           parent?.subModules?.flatMap(
             (subModule: any) =>
@@ -92,9 +95,12 @@ export default function useUpsertRoles() {
         return acc;
       }, {});
 
+      const name = getRolesData?.data?.name;
+      const description = getRolesData?.data?.description;
+
       reset(upsertRolesDefaultValues({ name, description, ...slugsObject }));
     }
-  }, [reset, getRolesData]);
+  }, [reset, getRolesData, roleId, firstEffectRun]);
 
   // Submissions
   const [postPermissionTrigger, postPermissionsStatus] =
