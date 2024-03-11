@@ -76,6 +76,7 @@ const AddPlanForm = ({
                 name={planLabelRender}
                 label={planNameRender}
                 options={productsOptions}
+                required={true}
               />
             )}
 
@@ -84,6 +85,7 @@ const AddPlanForm = ({
                 name={planLabelRender}
                 label={planNameRender}
                 size="small"
+                required={true}
               >
                 {productsOptions?.map((option: any) => (
                   <option key={uuidv4()} value={option?.value}>

@@ -25,6 +25,7 @@ import { useGetProductsQuery } from '@/services/common-APIs';
 
 const Modules = ({ methods, handleSubmit }: any) => {
   const { theme } = useModules();
+  let prevProductId: any = null;
 
   const { planManagement }: any = useAppSelector(
     (state: any) => state?.planManagementForms,
@@ -133,14 +134,25 @@ const Modules = ({ methods, handleSubmit }: any) => {
             (itema: any) =>
               itema?.subModules?.map(
                 (itemb: any) =>
-                  itemb?.permissions?.map((itemc: any) => (
-                    <Typography key={uuidv4()}>
-                      {productList &&
-                        productsOptions?.find(
-                          (obj: any) => obj?.value === itemc?.productId,
-                        )?.label}
-                    </Typography>
-                  )),
+                  itemb?.permissions?.map((itemc: any) => {
+                    const currentProductId = itemc?.productId;
+                    const productName =
+                      productList &&
+                      productsOptions?.find(
+                        (obj: any) => obj?.value === currentProductId,
+                      )?.label;
+
+                    if (currentProductId !== prevProductId) {
+                      prevProductId = currentProductId;
+                      return (
+                        <Typography variant="h4" my={2} key={uuidv4()}>
+                          {productName}
+                        </Typography>
+                      );
+                    } else {
+                      return null;
+                    }
+                  }),
               ),
           )}
 

@@ -46,11 +46,10 @@ export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
     ?.min(1, 'Mininum 1 characters')
     ?.max(12, 'max is 12'),
   allowAdditionalStorage: Yup?.string()?.required('Required field'),
-  additionalStoragePrice: Yup?.string()
-    ?.matches(/^[0-9]*$/, 'must be a number')
-    ?.required('Required field')
-    ?.min(1, 'Mininum 1 characters')
-    ?.max(12, 'max is 12'),
+  additionalStoragePrice: Yup?.string()?.matches(
+    /^[0-9]*$/,
+    'must be a number',
+  ),
 });
 
 export const defaultValuesFunction = (data: any = defaultValues) => {
@@ -221,6 +220,8 @@ export const dataArray = (_: any, AdditionalStorageValue: any) => {
         fullWidth: true,
         placeholder: 'Enter Additional Storage Price',
         disabled: AdditionalStorageValue[0] === 'No',
+        required: AdditionalStorageValue[0] === 'No' ? false : true,
+        // value:AdditionalStorageValue[0] === 'No' ? '' : ''
       },
       component: RHFTextField,
       md: 6,
