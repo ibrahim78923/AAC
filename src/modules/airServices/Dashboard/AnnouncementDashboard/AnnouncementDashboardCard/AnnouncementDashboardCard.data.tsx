@@ -9,9 +9,7 @@ export const announcementDashboardCardData = (customerAnnouncement: any[]) => {
     id: announcementItem?._id,
     icon: DashboardAvatarImage,
     announcement: (
-      <div
-        dangerouslySetInnerHTML={{ __html: announcementItem?.description }}
-      />
+      <div dangerouslySetInnerHTML={{ __html: announcementItem?.title }} />
     ),
     announcementTime: announcementItem?.createdAt,
     announcementAvatar: announcementItem?.userName,
