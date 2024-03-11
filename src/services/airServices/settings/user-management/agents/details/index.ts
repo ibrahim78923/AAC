@@ -5,7 +5,7 @@ export const agentDetailsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getSingleAgentDetails: builder?.query({
       query: (getSingleAgentDetailsParameter: any) => ({
-        url: `${END_POINTS?.REQUESTER_VIEW_DETAILS}/${getSingleAgentDetailsParameter?.pathParams?.id}`,
+        url: `${END_POINTS?.REQUESTER_VIEW_DETAILS}${getSingleAgentDetailsParameter?.pathParams?.id}`,
         method: 'GET',
       }),
     }),
