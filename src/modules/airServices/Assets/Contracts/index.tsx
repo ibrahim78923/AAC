@@ -38,9 +38,9 @@ const Contracts = () => {
       <PageTitledHeader
         title={'Contracts'}
         addTitle={'Add New Contract'}
-        createPermissionKey={
-          AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.ADD_CONTRACT
-        }
+        createPermissionKey={[
+          AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.ADD_CONTRACT,
+        ]}
         handleAction={handleAddNewContractClick}
       />
       <Box
@@ -84,17 +84,20 @@ const Contracts = () => {
                   Delete
                 </Button>
               </PermissionsGuard>
-              <ExportButton
-                createPermissionKey={[
+              <PermissionsGuard
+                permissions={[
                   AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.EXPORT_CONTRACTS,
                 ]}
-                handleExcelExport={() =>
-                  getContractListDataExport?.(EXPORT_TYPE?.XLS)
-                }
-                handleCsvExport={() =>
-                  getContractListDataExport?.(EXPORT_TYPE?.CSV)
-                }
-              />
+              >
+                <ExportButton
+                  handleExcelExport={() =>
+                    getContractListDataExport?.(EXPORT_TYPE?.XLS)
+                  }
+                  handleCsvExport={() =>
+                    getContractListDataExport?.(EXPORT_TYPE?.CSV)
+                  }
+                />
+              </PermissionsGuard>
               <PermissionsGuard
                 permissions={[
                   AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.SEARCH_AND_FILTER,

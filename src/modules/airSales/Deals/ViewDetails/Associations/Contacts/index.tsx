@@ -12,6 +12,8 @@ import { columns } from './Contacts.data';
 import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Contacts = ({ contactsData }: any) => {
   const {
@@ -59,14 +61,20 @@ const Contacts = ({ contactsData }: any) => {
               label="Search By Name"
               size="medium"
             />
-            <Button
-              variant="contained"
-              className="medium"
-              sx={{ minWidth: '0px', gap: 0.5 }}
-              onClick={() => setOpenDrawer('Add')}
+            <PermissionsGuard
+              permissions={[
+                AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_CONTACT,
+              ]}
             >
-              <PlusIcon /> Add Contacts
-            </Button>
+              <Button
+                variant="contained"
+                className="medium"
+                sx={{ minWidth: '0px', gap: 0.5 }}
+                onClick={() => setOpenDrawer('Add')}
+              >
+                <PlusIcon /> Add Contacts
+              </Button>
+            </PermissionsGuard>
           </Box>
         </Grid>
         <Grid item xs={12}>

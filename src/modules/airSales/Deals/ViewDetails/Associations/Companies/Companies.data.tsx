@@ -4,6 +4,8 @@ import { Box, Typography } from '@mui/material';
 
 import { NotesAvatarImage } from '@/assets/images';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
@@ -56,15 +58,36 @@ export const columns: any = ({
       header: 'Actions',
       cell: () => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('View')}>
-            <ViewEyeIcon />
-          </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setOpenDrawer('Edit')}>
-            <EditPenIcon />
-          </Box>
-          <Box sx={{ cursor: 'pointer' }} onClick={() => setIsOpenAlert(true)}>
-            <DeleteCrossIcon />
-          </Box>
+          <PermissionsGuard
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_COMPANY]}
+          >
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => setOpenDrawer('View')}
+            >
+              <ViewEyeIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_TICKET]}
+          >
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => setOpenDrawer('Edit')}
+            >
+              <EditPenIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_REMOVE_COMPANY]}
+          >
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => setIsOpenAlert(true)}
+            >
+              <DeleteCrossIcon />
+            </Box>
+          </PermissionsGuard>
         </Box>
       ),
     },

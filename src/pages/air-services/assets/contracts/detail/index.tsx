@@ -8,7 +8,9 @@ const SingleContractDetailsPage = () => {
 SingleContractDetailsPage.getLayout = function getLayout(page: any) {
   return (
     <Layout
-      permissions={AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.VIEW_TASK_DETAILS}
+      permissions={[
+        AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.VIEW_TASK_DETAILS,
+      ]}
     >
       {page}
     </Layout>

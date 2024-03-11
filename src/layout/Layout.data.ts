@@ -42,6 +42,7 @@ import {
   WorkFlowAutomationImage,
   WorkLoadImage,
 } from '@/assets/images';
+import { Quick_Links_Routes } from '@/constants';
 import { Permissions } from '@/constants/permissions';
 import {
   AIR_MARKETER,
@@ -478,14 +479,14 @@ export const SalesRoutes: any = [
     icon: QuotesImage,
     label: 'Quotes',
     role: 'AIR_SALES',
-    permissions: [],
+    permissions: Permissions?.AIR_SALES_QUOTES,
   },
   {
     key: '/air-sales/tasks',
     icon: PlanManagementImage,
     label: 'Tasks',
     role: 'AIR_SALES',
-    permissions: [],
+    permissions: Permissions?.AIR_SALES_TASKS,
   },
 
   {
@@ -493,7 +494,7 @@ export const SalesRoutes: any = [
     icon: BillingInvoiceImage,
     label: 'Invoices',
     role: 'AIR_SALES',
-    permissions: [],
+    permissions: Permissions?.AIR_SALES_INVOICES,
   },
   {
     key: '/air-sales/reports',
@@ -595,7 +596,7 @@ export const LowerSalesRoutes = [
     icon: SettingImage,
     role: 'AIR_SALES',
     key: '/air-sales/settings',
-    permissions: [],
+    permissions: Permissions?.AIR_SALES_SETTINGS,
   },
 ];
 
@@ -722,7 +723,8 @@ export const QuickLinkData = [
   {
     key: '1',
     icon: CallImage,
-    path: '/social-components/calling',
+    path: Quick_Links_Routes?.CALLING,
+    permissions: Permissions?.SOCIAL_COMPONENTS_CALLING,
   },
   {
     key: '2',
@@ -737,17 +739,17 @@ export const QuickLinkData = [
   {
     key: '4',
     icon: DocumentImage,
-    path: '',
+    path: Quick_Links_Routes?.CALLING,
   },
   {
     key: '5',
     icon: MailImage,
-    path: '/social-components/chat',
+    path: Quick_Links_Routes?.CHAT,
   },
   {
     key: '6',
     icon: MessageImage,
-    path: '',
+    path: Quick_Links_Routes?.EMAIL,
   },
   {
     key: '7',
