@@ -121,23 +121,27 @@ const Agent = () => {
         </PermissionsGuard>
       </Box>
       <Box>
-        <InviteAgentModel
-          isAgentModalOpen={isAgentModalOpen}
-          setEditAgentModalTitle={setEditAgentModalTitle}
-          editAgentModalTitle={editAgentModalTitle}
-          handleAddAgentModal={handleAddAgentModal}
-          selectedAgentList={selectedAgentList}
-          setSelectedAgentList={setSelectedAgentList}
-        />
+        {isAgentModalOpen && (
+          <InviteAgentModel
+            isAgentModalOpen={isAgentModalOpen}
+            setEditAgentModalTitle={setEditAgentModalTitle}
+            editAgentModalTitle={editAgentModalTitle}
+            handleAddAgentModal={handleAddAgentModal}
+            selectedAgentList={selectedAgentList}
+            setSelectedAgentList={setSelectedAgentList}
+          />
+        )}
         {deleteAgentProps?.openDeleteModal && (
           <AgentDeleteModal deleteAgentProps={deleteAgentProps} />
         )}
       </Box>
-      <AgentFilter
-        isAgentFilterDrawerOpen={isAgentFilterDrawerOpen}
-        setAgentFilterDrawerOpen={setAgentFilterDrawerOpen}
-        setFilterAgentData={setFilterAgentData}
-      />
+      {isAgentFilterDrawerOpen && (
+        <AgentFilter
+          isAgentFilterDrawerOpen={isAgentFilterDrawerOpen}
+          setAgentFilterDrawerOpen={setAgentFilterDrawerOpen}
+          setFilterAgentData={setFilterAgentData}
+        />
+      )}
     </>
   );
 };
