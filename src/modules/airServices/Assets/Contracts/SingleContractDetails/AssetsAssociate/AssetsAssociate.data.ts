@@ -1,7 +1,7 @@
 import { CALENDAR_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
-export const assetsAssociateTableColumns: any = [
+export const assetsAssociateColumns: any = [
   {
     accessorFn: (row: any) => row?.displayName,
     id: 'displayName',
@@ -9,20 +9,20 @@ export const assetsAssociateTableColumns: any = [
     header: 'Name',
   },
   {
-    accessorFn: (row: any) => row?.assetTypeDetails?.name,
-    id: 'assetTypeDetails',
+    accessorFn: (row: any) => row?.assetType?.name,
+    id: 'assetType',
     header: 'Asset Type',
     cell: (info: any) => info?.getValue() ?? '__',
   },
   {
-    accessorFn: (row: any) => row?.locationDetails?.locationName,
-    id: 'locationName',
+    accessorFn: (row: any) => row?.location?.locationName,
+    id: 'location',
     header: 'Location',
     cell: (info: any) => (info?.getValue() ? info?.getValue() : '__'),
   },
   {
-    accessorFn: (row: any) => row?.userDetails,
-    id: 'userDetails',
+    accessorFn: (row: any) => row?.usedBy,
+    id: 'usedBy',
     header: 'Used By',
     cell: (info: any) => {
       const users = info?.getValue();
@@ -30,8 +30,8 @@ export const assetsAssociateTableColumns: any = [
     },
   },
   {
-    accessorFn: (row: any) => row?.departmentDetails?.name,
-    id: 'departmentDetails',
+    accessorFn: (row: any) => row?.department?.name,
+    id: 'department',
     header: 'Department',
     cell: (info: any) => info?.getValue() ?? '__',
   },

@@ -1,7 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const TAG = 'ASSET_ASSOCIATE';
+const TAG = 'ASSETS_CONTRACT';
 
 export const assetAssociateApi = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
