@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Box,
   Stack,
@@ -7,7 +6,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  TextField,
   InputAdornment,
   Button,
   Grid,
@@ -16,7 +14,6 @@ import {
   Select,
   MenuItem,
 } from '@mui/material';
-import { AddCircleRounded } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import { productTotalDetails } from '../EditDetails.data';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -26,10 +23,12 @@ import { AlertModals } from '@/components/AlertModals';
 import useInvoices from '../../../useInvoices';
 import { v4 as uuidv4 } from 'uuid';
 import { ArrowDownIcon } from '@/assets/icons';
+import { useRouter } from 'next/router';
+import { isNullOrEmpty } from '@/utils';
 
 const ProductsTable = (data: any) => {
-  const [isDiscount, setIsDiscount] = useState(false);
   const theme = useTheme();
+  const router = useRouter();
   const { isDeleteModal, setIsDeleteModal, isDrawerOpen, setIsDrawerOpen } =
     useInvoices();
   const getTableColumns = productsTableColumns();
@@ -39,7 +38,14 @@ const ProductsTable = (data: any) => {
   return (
     <Box my={3}>
       <Box my={3}>
-        <TanstackTable columns={getTableColumns} data={data} />
+        {isNullOrEmpty(data?.data) ? (
+          ''
+        ) : (
+          <TanstackTable
+            columns={getTableColumns}
+            data={data?.data?.products}
+          />
+        )}
       </Box>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={7} lg={8} xl={9}>
@@ -108,44 +114,18 @@ const ProductsTable = (data: any) => {
                     gap: '10px',
                     cursor: 'pointer',
                   }}
-                  onClick={() => {
-                    setIsDiscount(true);
-                  }}
                 >
-                  {!isDiscount && <AddCircleRounded />}
                   <Typography variant="body2" fontWeight={500}>
                     Discount
                   </Typography>
                 </Box>
-                {!isDiscount ? (
-                  <Typography
-                    variant="body2"
-                    fontWeight={500}
-                    sx={{ color: theme?.palette?.custom?.dark }}
-                  >
-                    0%
-                  </Typography>
-                ) : (
-                  <TextField
-                    type="number"
-                    sx={{
-                      '& input': {
-                        width: '10px',
-                        '&::-webkit-inner-spin-button, &::-webkit-outer-spin-button':
-                          {
-                            '-webkit-appearance': 'none',
-                          },
-                      },
-                    }}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">%</InputAdornment>
-                      ),
-                      inputProps: { min: 0, max: 100 },
-                    }}
-                    size="small"
-                  />
-                )}
+                <Typography
+                  variant="body2"
+                  fontWeight={500}
+                  sx={{ color: theme?.palette?.custom?.dark }}
+                >
+                  0%
+                </Typography>
               </Box>
             </CardContent>
             <CardActions
@@ -160,7 +140,7 @@ const ProductsTable = (data: any) => {
                 Total
               </Typography>
               <Typography variant="h5" fontWeight={500}>
-                £50
+                {isNullOrEmpty(data) ? '----' : data?.total}
               </Typography>
             </CardActions>
           </Card>
@@ -201,13 +181,14 @@ const ProductsTable = (data: any) => {
             variant="outlined"
             className="medium"
             sx={{
-              border: `1px solid ${theme?.palette?.grey[100]}`,
+              border: `1px solid ${theme?.palette?.grey[700]}`,
               color: `${theme?.palette?.custom?.main}`,
               '&:hover': {
                 border: `1px solid ${theme?.palette?.grey[100]}`,
                 color: `${theme?.palette?.custom?.main}`,
               },
             }}
+            onClick={() => router?.back()}
           >
             Back
           </Button>
@@ -223,13 +204,14 @@ const ProductsTable = (data: any) => {
               variant="outlined"
               className="medium"
               sx={{
-                border: `1px solid ${theme?.palette?.grey[100]}`,
+                border: `1px solid ${theme?.palette?.grey[700]}`,
                 color: `${theme?.palette?.custom?.main}`,
                 '&:hover': {
                   border: `1px solid ${theme?.palette?.grey[100]}`,
                   color: `${theme?.palette?.custom?.main}`,
                 },
               }}
+              onClick={() => router?.back()}
             >
               Cancel
             </Button>

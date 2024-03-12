@@ -99,9 +99,9 @@ export const dataArray = (_: any, AdditionalStorageValue: any) => {
         label: 'planNameRender',
         placeholder: 'Select',
         required: true,
-        options: 'productsOptions',
+        options: planType,
       },
-      component: 'RHFMultiSearchableSelect ',
+      component: 'RHFMultiSearchableSelect',
       md: 6,
     },
     {
