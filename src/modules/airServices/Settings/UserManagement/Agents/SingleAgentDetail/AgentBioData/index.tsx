@@ -4,6 +4,7 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
+import { fullName, generateImage } from '@/utils/avatarUtils';
 
 export const AgentBioData = () => {
   const theme = useTheme();
@@ -34,43 +35,41 @@ export const AgentBioData = () => {
             md: 'none',
           }}
         >
-          <Box height="100%">
+          <Box>
             <Box
               display={'flex'}
               flexWrap={'wrap'}
               alignItems={'center'}
               gap={3}
-              height="100%"
             >
               <Avatar
                 sx={{
                   bgcolor: 'blue.main',
-                  width: 180,
-                  height: 180,
+                  width: 150,
+                  height: 150,
                 }}
-                src={''}
+                src={generateImage(data?.data?.avatar?.url)}
               />
               <Box
                 flex={1}
                 flexDirection={'column'}
                 display={'flex'}
-                justifyContent={'space-between'}
-                height="75%"
+                flexWrap={'wrap'}
               >
-                <Box>
+                <Box my={2}>
                   <Typography
                     variant="h5"
                     color="slateBlue.main"
                     fontWeight={600}
                   >
-                    {' '}
-                    {data?.requesterDetails?.firstName ?? 'Rachel'}{' '}
-                    {data?.requesterDetails?.lastName ?? 'Chris'}
+                    {fullName(data?.data?.firstName, data?.data?.lastName)}
                   </Typography>
                   <Typography variant="body3" fontWeight={500}>
                     {' '}
                     Joined on{' '}
-                    {dayjs(data?.createdAt)?.format(DATE_TIME_FORMAT?.DMYHMSA)}
+                    {dayjs(data?.data?.createdAt)?.format(
+                      DATE_TIME_FORMAT?.DMYHMSA,
+                    )}
                   </Typography>
                 </Box>
                 <Box
@@ -83,7 +82,7 @@ export const AgentBioData = () => {
                     Email:
                   </Typography>
                   <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-                    {data?.requesterDetails?.email ?? 'test@test.com'}
+                    {data?.data?.email}
                   </Typography>
                 </Box>
                 <Box
@@ -96,27 +95,15 @@ export const AgentBioData = () => {
                     Phone Number
                   </Typography>
                   <Typography variant="body2">
-                    {data?.requesterDetails?.phoneNumber ?? '+44123456789'}
+                    {data?.data?.phoneNumber ?? 'N/A'}
                   </Typography>
                 </Box>
               </Box>
             </Box>
           </Box>
         </Grid>
-        <Grid
-          item
-          xs={12}
-          md={3.9}
-          padding={1.5}
-          borderRight={{
-            md: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-          }}
-          borderBottom={{
-            xs: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-            md: 'none',
-          }}
-        >
-          <Box display={'flex'} flexWrap={'wrap'} gap={1} marginBottom={1}>
+        <Grid item xs={12} md={3.9} padding={1.5}>
+          <Box display={'flex'} flexWrap={'wrap'} gap={1} my={2}>
             <Typography variant="body2" fontWeight={600}>
               Department
             </Typography>
@@ -127,20 +114,20 @@ export const AgentBioData = () => {
             display={'flex'}
             flexWrap={'wrap'}
             justifyContent={'space-between'}
-            marginBottom={1}
+            my={2}
           >
             <Typography variant="body2" fontWeight={600}>
               Email:
             </Typography>
             <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-              {data?.requesterDetails?.email}
+              {data?.data?.email}
             </Typography>
           </Box>
           <Box
             display={'flex'}
             flexWrap={'wrap'}
             justifyContent={'space-between'}
-            marginBottom={1}
+            my={2}
           >
             <Typography variant="body2" fontWeight={600}>
               Title
@@ -159,7 +146,7 @@ export const AgentBioData = () => {
               Mobile Phone
             </Typography>
             <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-              03372734737
+              {data?.data?.phoneNumber ?? 'N/A'}
             </Typography>
           </Box>
         </Grid>
