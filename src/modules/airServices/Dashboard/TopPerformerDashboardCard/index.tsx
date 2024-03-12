@@ -61,7 +61,7 @@ export const TopPerformerDashboardCard = ({
         />
       </Box>
 
-      <Grid container spacing={2} mt={4.4}>
+      <Grid container spacing={2} mt={4.7}>
         <Grid item xs={12} sm={6} md={6}>
           <Box display={'flex'} gap={1.5} flexWrap={'wrap'}>
             <Avatar

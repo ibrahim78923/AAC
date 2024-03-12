@@ -1,52 +1,22 @@
 import { ClipboardTickImage } from '@/assets/images';
 
-export const recentActivitiesDashboardCardData = [
-  {
+export const recentActivitiesDashboardCardData = (recentActivities: any[]) => {
+  if (!recentActivities || recentActivities.length === 0) {
+    return [];
+  }
+
+  return recentActivities.map((activityItem: any) => ({
+    id: 1,
     icon: ClipboardTickImage,
-    recentActivity: ' Updated ticket Request for',
-    recentActivityRequest: 'Password Reset (#SR-24) to Service Request',
-    recentActivityDateTime: 'Tue, 7 Mar, 2023 10:31 PM',
-  },
-  {
-    icon: ClipboardTickImage,
-    recentActivity: ' Updated ticket Request for',
-    recentActivityRequest: 'Password Reset (#SR-24) to Service Request',
-    recentActivityDateTime: 'Tue, 7 Mar, 2023 10:31 PM',
-  },
-  {
-    icon: ClipboardTickImage,
-    recentActivity: ' Updated ticket Request for',
-    recentActivityRequest: 'Password Reset (#SR-24) to Service Request',
-    recentActivityDateTime: 'Tue, 7 Mar, 2023 10:31 PM',
-  },
-  {
-    icon: ClipboardTickImage,
-    recentActivity: ' Updated ticket Request for',
-    recentActivityRequest: 'Password Reset (#SR-24) to Service Request',
-    recentActivityDateTime: 'Tue, 7 Mar, 2023 10:31 PM',
-  },
-  {
-    icon: ClipboardTickImage,
-    recentActivity: ' Updated ticket Request for',
-    recentActivityRequest: 'Password Reset (#SR-24) to Service Request',
-    recentActivityDateTime: 'Tue, 7 Mar, 2023 10:31 PM',
-  },
-  {
-    icon: ClipboardTickImage,
-    recentActivity: ' Updated ticket Request for',
-    recentActivityRequest: 'Password Reset (#SR-24) to Service Request',
-    recentActivityDateTime: 'Tue, 7 Mar, 2023 10:31 PM',
-  },
-  {
-    icon: ClipboardTickImage,
-    recentActivity: ' Updated ticket Request for',
-    recentActivityRequest: 'Password Reset (#SR-24) to Service Request',
-    recentActivityDateTime: 'Tue, 7 Mar, 2023 10:31 PM',
-  },
-  {
-    icon: ClipboardTickImage,
-    recentActivity: ' Updated ticket Request for',
-    recentActivityRequest: 'Password Reset (#SR-24) to Service Request',
-    recentActivityDateTime: 'Tue, 7 Mar, 2023 10:31 PM',
-  },
-];
+    recentActivityName:
+      (activityItem?.userDetails?.firstName || '') +
+      ' ' +
+      (activityItem?.userDetails?.lastName || ''),
+
+    recentActivity: activityItem?.activityType,
+    recentActivityRequest: activityItem?.module,
+    recentActivityDateTime: activityItem?.createdAt,
+    recentActivitySerialNumber: activityItem?.userDetails?.postCode,
+    recentActivityModuleName: activityItem?.moduleName,
+  }));
+};

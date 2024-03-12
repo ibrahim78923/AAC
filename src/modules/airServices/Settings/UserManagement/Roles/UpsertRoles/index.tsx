@@ -17,6 +17,7 @@ import useUpsertRoles from './useUpsertRoles';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { Fragment } from 'react';
+import { LoadingButton } from '@mui/lab';
 
 const UpsertRoles = () => {
   const {
@@ -30,11 +31,20 @@ const UpsertRoles = () => {
     getPermissionsIsFetching,
     getPermissionsIsError,
     getPermissionsData,
+    postPermissionsStatus,
+    getRolesIsLoading,
+    getRolesIsFetching,
+    patchPermissionsStatus,
   } = useUpsertRoles();
 
   if (getPermissionsIsError) return <ApiErrorState />;
 
-  if (getPermissionsIsLoading || getPermissionsIsFetching)
+  if (
+    getPermissionsIsLoading ||
+    getPermissionsIsFetching ||
+    getRolesIsLoading ||
+    getRolesIsFetching
+  )
     return <SkeletonTable />;
 
   return (
@@ -120,9 +130,20 @@ const UpsertRoles = () => {
             >
               Cancel
             </Button>
-            <Button type={'submit'} variant={'contained'}>
-              Submit
-            </Button>
+            <LoadingButton
+              type={'submit'}
+              variant={'contained'}
+              disabled={
+                postPermissionsStatus?.isLoading ||
+                patchPermissionsStatus?.isLoading
+              }
+              loading={
+                postPermissionsStatus?.isLoading ||
+                patchPermissionsStatus?.isLoading
+              }
+            >
+              {roleId ? `Update` : `Submit`}
+            </LoadingButton>
           </Grid>
         </Grid>
       </FormProvider>
