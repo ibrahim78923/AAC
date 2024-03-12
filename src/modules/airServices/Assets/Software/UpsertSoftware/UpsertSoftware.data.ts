@@ -10,7 +10,7 @@ const statusOptions = [
   'Ignored',
   'Managed',
   'Disabled',
-  'In Review',
+  'InReview',
 ];
 const typeOptions = ['Desktop', 'Saas', 'Mobile'];
 

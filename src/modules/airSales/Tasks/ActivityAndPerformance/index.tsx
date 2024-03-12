@@ -5,6 +5,8 @@ import DrawerComp from '../Drawer';
 import Insights from './Insight';
 import Feed from './Feed';
 import { useTask } from '../useTask';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS } from '@/constants/permission-keys';
 
 const ActivityAndPerformance = () => {
   const theme = useTheme();
@@ -17,22 +19,30 @@ const ActivityAndPerformance = () => {
       btnIcon={<RecycleIcon />}
     >
       <ButtonGroup size="small" sx={{ mb: '24px' }}>
-        <Button
-          onClick={handleInsightsBtnClick}
-          sx={{
-            background: counter === 0 ? theme?.palette?.grey[400] : '',
-          }}
+        <PermissionsGuard
+          permissions={[AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS?.VIEW_INSIGHT]}
         >
-          Insights
-        </Button>
-        <Button
-          onClick={handleFeedBtnClick}
-          sx={{
-            background: counter === 1 ? theme?.palette?.grey[400] : '',
-          }}
+          <Button
+            onClick={handleInsightsBtnClick}
+            sx={{
+              background: counter === 0 ? theme?.palette?.grey[400] : '',
+            }}
+          >
+            Insights
+          </Button>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS?.VIEW_FEEDS]}
         >
-          Feed
-        </Button>
+          <Button
+            onClick={handleFeedBtnClick}
+            sx={{
+              background: counter === 1 ? theme?.palette?.grey[400] : '',
+            }}
+          >
+            Feed
+          </Button>
+        </PermissionsGuard>
       </ButtonGroup>
       {counter === 0 && <Insights />}
       {counter === 1 && <Feed />}

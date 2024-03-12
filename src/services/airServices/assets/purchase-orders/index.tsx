@@ -56,6 +56,7 @@ export const purchaseOrderAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.PURCHASE_ORDER}/${purchaseOrderId}`,
         method: 'GET',
       }),
+      providesTags: [TAG_FIVE],
     }),
     postPurchaseOrder: builder?.mutation({
       query: (postPurchaseOrderParameter: any) => ({
@@ -86,6 +87,14 @@ export const purchaseOrderAPI = baseAPI.injectEndpoints({
       }),
       providesTags: [TAG_FIVE],
     }),
+    putPurchaseOrderStatus: builder?.mutation({
+      query: (params: any) => ({
+        url: `${END_POINTS?.PURCHASE_ORDER_STATUS}`,
+        method: 'PUT',
+        params,
+      }),
+      invalidatesTags: [TAG_FIVE],
+    }),
   }),
 });
 
@@ -96,7 +105,10 @@ export const {
   useLazyGetVendorProductsDropdownQuery,
   usePostPurchaseOrderMutation,
   usePatchPurchaseOrderMutation,
+  useLazyGetPurchaseOrderByIdQuery,
   useGetPurchaseOrderByIdQuery,
   useDeletePurchaseOrderMutation,
   useGetPurchaseOrderListQuery,
+  usePutPurchaseOrderStatusMutation,
+  useGetPurchaseOrderByIdQuery,
 } = purchaseOrderAPI;

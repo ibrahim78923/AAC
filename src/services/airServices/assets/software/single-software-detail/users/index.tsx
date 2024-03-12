@@ -14,10 +14,11 @@ export const softwareUsers = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getExportSoftwareUsers: builder?.query({
-      query: (apiDataParameter: any) => ({
+      query: (params: any) => ({
         url: `${END_POINTS?.GET_SOFTWARE_USER}`,
         method: 'GET',
-        params: apiDataParameter?.queryParams,
+        params,
+        responseHandler: (response: any) => response?.blob(),
       }),
       providesTags: [TAG],
     }),
@@ -37,7 +38,6 @@ export const softwareUsers = baseAPI?.injectEndpoints({
         method: 'POST',
         params,
       }),
-
       invalidatesTags: [TAG],
     }),
     getUsersDropdownList: builder?.query({
@@ -57,6 +57,7 @@ export const softwareUsers = baseAPI?.injectEndpoints({
         method: 'PUT',
         params,
       }),
+      invalidatesTags: [TAG],
     }),
     deallocateContract: builder.mutation({
       query: (params: any) => ({
@@ -64,6 +65,7 @@ export const softwareUsers = baseAPI?.injectEndpoints({
         method: 'PUT',
         params,
       }),
+      invalidatesTags: [TAG],
     }),
     removeContract: builder.mutation({
       query: ({ params }: any) => ({
@@ -71,13 +73,14 @@ export const softwareUsers = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params,
       }),
+      invalidatesTags: [TAG],
     }),
   }),
 });
 
 export const {
-  useGetSoftwareUsersDetailsQuery,
-  useGetExportSoftwareUsersQuery,
+  useLazyGetSoftwareUsersDetailsQuery,
+  useLazyGetExportSoftwareUsersQuery,
   useLazyGetContractDropdownListQuery,
   useLazyGetUsersDropdownListQuery,
   useAddSoftwareUsersMutation,

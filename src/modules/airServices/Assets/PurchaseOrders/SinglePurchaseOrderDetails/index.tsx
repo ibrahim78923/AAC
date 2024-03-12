@@ -1,7 +1,6 @@
 import { Header } from './Header';
 import { useSinglePurchaseDetail } from './useSinglePurchaseDetail';
 import { AlertModals } from '@/components/AlertModals';
-
 import { ReceivedItems } from './ReceivedItems';
 import { AddToInventory } from './AddToInventory';
 import { SinglePurchaseOrderDetailTabs } from './SinglePurchaseOrderDetailTabs';
@@ -18,14 +17,16 @@ export const SinglePurchaseOrderDetail = () => {
     singlePurchaseDetailStatusDropdown,
     deletePurchaseOrder,
     isLoading,
+    statusData,
   }: any = useSinglePurchaseDetail();
+
   return (
     <>
       <>
         <Header
           dropdownOptions={singlePurchaseDetailActionDropdown}
           statusDropdownOptions={singlePurchaseDetailStatusDropdown}
-          currentStatus={PURCHASE_ORDER_STATUS?.OPEN}
+          currentStatus={statusData || PURCHASE_ORDER_STATUS.OPEN}
           handleReceived={() => setIsADrawerOpen(true)}
           handleAddToInventory={() => setIsDrawerOpen(true)}
         />

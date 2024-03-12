@@ -12,32 +12,32 @@ export const awardPointsSchema = yup?.object()?.shape({
   fast: yup
     ?.number()
     ?.positive('Positive number required')
-    ?.required('Required field')
+    ?.required('Required')
     ?.typeError('Positive number required'),
   onTime: yup
     ?.number()
     ?.positive('Positive number required')
-    ?.required('Required field')
+    ?.required('Required')
     ?.typeError('Positive number required'),
   late: yup
     ?.number()
     ?.positive('Positive number required')
-    ?.required('Required field')
+    ?.required('Required')
     ?.typeError('Positive number required'),
   firstCallResolution: yup
     ?.number()
     ?.positive('Positive number required')
-    ?.required('Required field')
+    ?.required('Required')
     ?.typeError('Positive number required'),
   happyCustomer: yup
     ?.number()
     ?.positive('Positive number required')
-    ?.required('Required field')
+    ?.required('Required')
     ?.typeError('Positive number required'),
   unHappyCustomer: yup
     ?.number()
     ?.positive('Positive number required')
-    ?.required('Required field')
+    ?.required('Required')
     ?.typeError('Positive number required'),
 });
 
@@ -67,6 +67,7 @@ export const agentResolveTicketData = [
     md: 3,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'fast',
       label: 'Fast (Less than 1 hr)',
     },
@@ -77,6 +78,7 @@ export const agentResolveTicketData = [
     md: 3,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'onTime',
       label: 'on time',
     },
@@ -87,6 +89,7 @@ export const agentResolveTicketData = [
     md: 3,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'late',
       label: 'Late ( Overdue)',
     },
@@ -105,8 +108,9 @@ export const agentResolveTicketData = [
     md: 3,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'firstCallResolution',
-      label: 'First call Resolution',
+      label: 'First call resolution',
     },
   },
   {
@@ -115,8 +119,9 @@ export const agentResolveTicketData = [
     md: 3,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'happyCustomer',
-      label: 'happy Customer',
+      label: 'Happy customer',
     },
   },
   {
@@ -125,8 +130,9 @@ export const agentResolveTicketData = [
     md: 3,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'unHappyCustomer',
-      label: 'Unhappy Customer',
+      label: 'Unhappy customer',
     },
   },
 ];

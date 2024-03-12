@@ -1,4 +1,5 @@
 import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const singleContractDetailsActionDropdownFunction = (
   setDeleteModalOpen: any,
@@ -6,6 +7,10 @@ export const singleContractDetailsActionDropdownFunction = (
   router: any,
 ) => [
   {
+    id: 1,
+    permissionKey: [
+      AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.VIEW_TASK_DETAILS,
+    ],
     title: 'Edit',
     handleClick: (closeMenu: any) => {
       router?.push({
@@ -19,6 +24,10 @@ export const singleContractDetailsActionDropdownFunction = (
     },
   },
   {
+    id: 2,
+    permissionKey: [
+      AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.DELETE_CONTRACTS,
+    ],
     title: 'Delete',
     handleClick: (closeMenu: any) => {
       setDeleteModalOpen?.(true);
@@ -26,6 +35,10 @@ export const singleContractDetailsActionDropdownFunction = (
     },
   },
   {
+    id: 3,
+    permissionKey: [
+      AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.VIEW_TASK_DETAILS,
+    ],
     title: 'Renew',
     handleClick: (closeMenu: any) => {
       router?.push({
@@ -39,6 +52,10 @@ export const singleContractDetailsActionDropdownFunction = (
     },
   },
   {
+    id: 4,
+    permissionKey: [
+      AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.VIEW_TASK_DETAILS,
+    ],
     title: 'Extend',
     handleClick: (closeMenu: any) => {
       router?.push({
@@ -52,6 +69,10 @@ export const singleContractDetailsActionDropdownFunction = (
     },
   },
   {
+    id: 5,
+    permissionKey: [
+      AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.VIEW_TASK_DETAILS,
+    ],
     title: 'Terminate',
     handleClick: (closeMenu: any) => {
       setTerminateModalOpen?.(true);

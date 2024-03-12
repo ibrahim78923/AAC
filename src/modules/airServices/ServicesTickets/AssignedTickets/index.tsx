@@ -18,7 +18,7 @@ export const AssignedTickets = (props: any) => {
     handleSubmit,
     submitAssignedTicketsForm,
     closeTicketsAssignedModal,
-    apiQueryOrganizations,
+    apiQueryAgent,
   }: any = useAssignedTickets(props);
 
   return (
@@ -64,8 +64,13 @@ export const AssignedTickets = (props: any) => {
             label="Select user"
             name="user"
             fullWidth
-            apiQuery={apiQueryOrganizations}
+            apiQuery={apiQueryAgent}
             size="small"
+            placeholder="Choose Agent"
+            externalParams={{ limit: 50, role: 'ORG_AGENT' }}
+            getOptionLabel={(option: any) =>
+              `${option?.firstName} ${option?.lastName}`
+            }
           />
         </DialogContent>
         <DialogActions

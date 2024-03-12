@@ -1,8 +1,11 @@
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { TICKET_APPROVALS } from '@/constants/strings';
 import { useGetPendingForApprovalsTicketsQuery } from '@/services/airCustomerPortal';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export const usePendingForApprovals = () => {
+  const router = useRouter();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [selectedApproval, setSelectedApproval] = useState<any>({});
   const setApproval = (approval: any) => {
@@ -22,7 +25,14 @@ export const usePendingForApprovals = () => {
         refetchOnMountOrArgChange: true,
       },
     );
-
+  const openApprovalDetail = (data: any) => {
+    router?.push({
+      pathname: AIR_CUSTOMER_PORTAL?.APPROVALS_DETAIL,
+      query: {
+        approvalId: data?._id,
+      },
+    });
+  };
   return {
     data,
     isLoading,
@@ -33,5 +43,6 @@ export const usePendingForApprovals = () => {
     selectedApproval,
     setSelectedApproval,
     setApproval,
+    openApprovalDetail,
   };
 };

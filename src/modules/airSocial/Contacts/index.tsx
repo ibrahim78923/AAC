@@ -27,11 +27,15 @@ import {
 } from '@/assets/icons';
 import { AIR_SOCIAL } from '@/routesConstants/paths';
 import { useRouter } from 'next/router';
-import ContactsGroup from '@/modules/airMarketer/WhatsAppMarketing/WhatsAppMarketingComponent/Contacts/contactsGroup';
+// import ContactsGroup from '@/modules/airMarketer/WhatsAppMarketing/WhatsAppMarketingComponent/Contacts/contactsGroup';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS } from '@/constants/permission-keys';
+import ContactsGroup from './ContactsGroup';
 
 const Contacts = () => {
   const router = useRouter();
   const {
+    contactOwnerData,
     anchorEl,
     actionMenuOpen,
     handleActionsMenuClick,
@@ -59,9 +63,13 @@ const Contacts = () => {
     handleOpenModalDelete,
     handleCloseModalDelete,
     handleDeleteContact,
+    loadingDelete,
+    methodsReAssign,
     isReAssign,
     handleOpenModalReAssign,
     handleCloseModalReAssign,
+    handleSubmitReAssign,
+    loadingReassign,
     openModalExport,
     handleOpenModalExport,
     setOpenModalExport,
@@ -139,57 +147,82 @@ const Contacts = () => {
               </Menu>
             </Box>
             <Link href={AIR_SOCIAL?.CONTACTS_RESTORE}>
-              <Button
-                variant="outlined"
-                className="small"
-                color="inherit"
-                sx={{ color: theme?.palette?.custom['main'] }}
-                startIcon={<RestoreIcon />}
+              <PermissionsGuard
+                permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.RESTORE]}
               >
-                Restore
-              </Button>
+                <Button
+                  variant="outlined"
+                  className="small"
+                  color="inherit"
+                  sx={{ color: theme?.palette?.custom['main'] }}
+                  startIcon={<RestoreIcon />}
+                >
+                  Restore
+                </Button>
+              </PermissionsGuard>
             </Link>
             <>
+              <PermissionsGuard
+                permissions={[
+                  SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.CUSTOMIZE_COLUMNS,
+                ]}
+              >
+                <Button
+                  onClick={handleDealCustomize}
+                  variant="outlined"
+                  className="small"
+                  color="inherit"
+                  sx={{ color: theme?.palette?.custom['main'] }}
+                >
+                  <CutomizeIcon /> &nbsp; Customize
+                </Button>
+              </PermissionsGuard>
+            </>
+            <PermissionsGuard
+              permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.FILTER]}
+            >
               <Button
-                onClick={handleDealCustomize}
                 variant="outlined"
                 className="small"
                 color="inherit"
                 sx={{ color: theme?.palette?.custom['main'] }}
+                onClick={handleOpenFilters}
               >
-                <CutomizeIcon /> &nbsp; Customize
+                <FilterIcon />
+                &nbsp; Filter
               </Button>
-            </>
-            <Button
-              variant="outlined"
-              className="small"
-              color="inherit"
-              sx={{ color: theme?.palette?.custom['main'] }}
-              onClick={handleOpenFilters}
+            </PermissionsGuard>
+
+            <PermissionsGuard
+              permissions={[SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.FILTER]}
             >
-              <FilterIcon />
-              &nbsp; Filter
-            </Button>
-            <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+              <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  className="small"
+                  onClick={handleRefresh}
+                >
+                  <RefreshTasksIcon />
+                </Button>
+              </Tooltip>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                SOCIAL_COMPONENTS_CONTACTS_PERMISSIONS?.EXPORT_CONTACTS,
+              ]}
+            >
               <Button
                 variant="outlined"
-                color="inherit"
                 className="small"
-                onClick={handleRefresh}
+                color="inherit"
+                sx={{ color: theme?.palette?.custom['main'] }}
+                onClick={handleOpenModalExport}
               >
-                <RefreshTasksIcon />
+                <ExportCloudIcon />
+                &nbsp; Export
               </Button>
-            </Tooltip>
-            <Button
-              variant="outlined"
-              className="small"
-              color="inherit"
-              sx={{ color: theme?.palette?.custom['main'] }}
-              onClick={handleOpenModalExport}
-            >
-              <ExportCloudIcon />
-              &nbsp; Export
-            </Button>
+            </PermissionsGuard>
           </>
         }
       >
@@ -214,8 +247,16 @@ const Contacts = () => {
         open={openModalDelete}
         onClose={handleCloseModalDelete}
         handleSubmit={handleDeleteContact}
+        loading={loadingDelete}
       />
-      <AssignModalBox open={isReAssign} onClose={handleCloseModalReAssign} />
+      <AssignModalBox
+        open={isReAssign}
+        onClose={handleCloseModalReAssign}
+        contactOwnerData={contactOwnerData}
+        methods={methodsReAssign}
+        handleSubmit={handleSubmitReAssign}
+        loading={loadingReassign}
+      />
       <ExportModal open={openModalExport} onClose={setOpenModalExport} />
     </>
   );

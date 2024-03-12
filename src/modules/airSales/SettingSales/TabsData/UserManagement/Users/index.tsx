@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, Button, Menu, MenuItem, Grid } from '@mui/material';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -9,12 +7,12 @@ import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
-import { userTableData } from '@/mock/modules/airSales/SettingSales';
 
 import { dataArray } from './Users.data';
 
 import { v4 as uuidv4 } from 'uuid';
 import useUserTable from './useUsers';
+import useUserManagement from '../useUserManagement';
 
 const UserTable = () => {
   const {
@@ -30,7 +28,7 @@ const UserTable = () => {
     handleCloseDrawer,
     isEditOpen,
   } = useUserTable('');
-
+  const { productsUsers, searchUser, setSearchUser } = useUserManagement();
   return (
     <>
       <CommonDrawer
@@ -70,10 +68,10 @@ const UserTable = () => {
         }}
       >
         <Search
-          searchBy=""
+          searchBy={searchUser}
           width="260px"
           label={'Search here'}
-          setSearchBy={() => {}}
+          setSearchBy={setSearchUser}
         />
         <Button
           id="basic-button"
@@ -109,7 +107,11 @@ const UserTable = () => {
           <MenuItem onClick={() => setIsOpenDelete(true)}>Delete</MenuItem>
         </Menu>
       </Box>
-      <TanstackTable columns={getRowValues} data={userTableData} isPagination />
+      <TanstackTable
+        columns={getRowValues}
+        data={productsUsers?.data?.usercompanyaccounts}
+        isPagination
+      />
       <AlertModals
         message={'Are you sure you want to delete this role?'}
         type={'delete'}

@@ -20,6 +20,7 @@ export const TIME_PERIODS = {
 export const EXPORT_TYPE = {
   CSV: 'CSV',
   XLS: 'XLS',
+  PDF: 'PDF',
 };
 
 export const TICKET_STATUS = {
@@ -27,7 +28,7 @@ export const TICKET_STATUS = {
   CLOSED: 'CLOSED',
   RESOLVED: 'RESOLVED',
   PENDING: 'PENDING',
-  SPAM: 'SPAM',
+  SPAM: 'SPAMS',
 };
 
 export const TICKET_PRIORITY = {
@@ -197,6 +198,7 @@ export const EXPORT_FILE_TYPE: any = {
   [EXPORT_TYPE?.CSV]: 'text/csv',
   [EXPORT_TYPE?.XLS]:
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  [EXPORT_TYPE?.PDF]: 'application/pdf',
 };
 
 export const VIEW_TYPES = {
@@ -340,7 +342,10 @@ export const TASK_STATUS = {
   IN_PROGRESS: 'In-Progress',
   DONE: 'Done',
 };
-
+export const CONTRACT_ACTION = {
+  RENEW: 'renew',
+  EXTEND: 'extend',
+};
 export enum ROLES {
   ORG_REQUESTER = 'ORG_REQUESTER',
   ORG_AGENT = 'ORG_AGENT',

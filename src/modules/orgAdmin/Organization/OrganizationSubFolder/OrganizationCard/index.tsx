@@ -25,6 +25,8 @@ import { styles } from './OrganizationCard.style';
 
 import { v4 as uuidv4 } from 'uuid';
 import useOrganizationCard from './useOrganizationCard';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ORG_ADMIN_ORGANIZATION_PERMISSIONS } from '@/constants/permission-keys';
 
 const OrganizationCard = () => {
   const {
@@ -213,26 +215,34 @@ const OrganizationCard = () => {
                   </Box>
                 </Grid>
                 <Grid item lg={4} md={4} sm={6} xs={12}>
-                  <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <PermissionsGuard
+                    permissions={[
+                      ORG_ADMIN_ORGANIZATION_PERMISSIONS?.EDIT_INFO,
+                    ]}
+                  >
                     <Box
-                      onClick={() => {
-                        setIsOpenDrawer(true);
-                      }}
-                      sx={styles?.editSection}
+                      style={{ display: 'flex', justifyContent: 'flex-end' }}
                     >
-                      <Image src={EditImage} alt="edit" />
-                      <Typography
-                        variant="body3"
-                        sx={{
-                          fontWeight: 500,
-                          lineHeight: '18px',
-                          color: `${theme?.palette?.primary?.main}`,
+                      <Box
+                        onClick={() => {
+                          setIsOpenDrawer(true);
                         }}
+                        sx={styles?.editSection}
                       >
-                        Edit Info
-                      </Typography>
+                        <Image src={EditImage} alt="edit" />
+                        <Typography
+                          variant="body3"
+                          sx={{
+                            fontWeight: 500,
+                            lineHeight: '18px',
+                            color: `${theme?.palette?.primary?.main}`,
+                          }}
+                        >
+                          Edit Info
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
+                  </PermissionsGuard>
                 </Grid>
               </Grid>
             </Box>

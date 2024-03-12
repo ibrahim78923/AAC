@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   singlePurchaseDetailActionDropdownFunction,
   singlePurchaseDetailStatusDropdownFunction,
@@ -7,8 +7,13 @@ import {
 import { enqueueSnackbar } from 'notistack';
 import { AIR_SERVICES } from '@/constants';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useDeletePurchaseOrderMutation } from '@/services/airServices/assets/purchase-orders';
+import {
+  useDeletePurchaseOrderMutation,
+  useLazyGetPurchaseOrderByIdQuery,
+  usePutPurchaseOrderStatusMutation,
+} from '@/services/airServices/assets/purchase-orders';
 import { useSearchParams } from 'next/navigation';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useSinglePurchaseDetail = () => {
   const router = useRouter();
@@ -17,12 +22,39 @@ export const useSinglePurchaseDetail = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isADrawerOpen, setIsADrawerOpen] = useState<boolean>(false);
 
-  const singlePurchaseDetailActionDropdown =
-    singlePurchaseDetailActionDropdownFunction(setIsDeleteModalOpen, router);
-  const singlePurchaseDetailStatusDropdown =
-    singlePurchaseDetailStatusDropdownFunction();
+  const [putPurchaseOrderStatusTrigger] = usePutPurchaseOrderStatusMutation();
+
   const searchParams = useSearchParams();
   const purchaseOrderId: any = searchParams.get('purchaseOrderId');
+
+  const [purchaseOrderTrigger, { data }]: any =
+    useLazyGetPurchaseOrderByIdQuery();
+  const statusData = data?.data?.status;
+  useEffect(() => {
+    const handleStatus = async () => {
+      await purchaseOrderTrigger(purchaseOrderId);
+    };
+    handleStatus();
+  }, [purchaseOrderId]);
+  const handleSubmitForOrdered = async (status: string) => {
+    const orderedStatusParams = {
+      id: purchaseOrderId,
+      status: status,
+    };
+    try {
+      await putPurchaseOrderStatusTrigger(orderedStatusParams)?.unwrap();
+      successSnackbar('purchase was sent for Approval');
+    } catch (error) {
+      errorSnackbar();
+    }
+  };
+
+  const singlePurchaseDetailStatusDropdown =
+    singlePurchaseDetailStatusDropdownFunction(handleSubmitForOrdered);
+
+  const singlePurchaseDetailActionDropdown =
+    singlePurchaseDetailActionDropdownFunction(setIsDeleteModalOpen, router);
+
   const [deletePurchaseOrderTrigger, { isLoading }] =
     useDeletePurchaseOrderMutation();
   const deletePurchaseOrder = async () => {
@@ -53,5 +85,7 @@ export const useSinglePurchaseDetail = () => {
     singlePurchaseDetailStatusDropdown,
     deletePurchaseOrder,
     isLoading,
+    handleSubmitForOrdered,
+    statusData,
   };
 };
