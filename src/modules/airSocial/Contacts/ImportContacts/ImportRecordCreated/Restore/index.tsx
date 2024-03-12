@@ -1,10 +1,7 @@
 import Link from 'next/link';
-
 import { Box, Button, Paper, Typography } from '@mui/material';
-
 import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
-import { SUPER_ADMIN } from '@/constants';
 import TanstackTable from '@/components/Table/TanstackTable';
 
 import RestoreFilterDrawer from './RestoreFilterDrawer';
@@ -18,6 +15,7 @@ import RestoreAssignModalBox from './RestoreAssignModalBox';
 import ContactsActions from '../CreatedActions';
 
 import { BackArrIcon, FilterIcon } from '@/assets/icons';
+import { AIR_SOCIAL } from '@/routesConstants/paths';
 
 const Restore = () => {
   const {
@@ -45,7 +43,7 @@ const Restore = () => {
         }}
       >
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-          <Link href={SUPER_ADMIN?.IMPORT_RECORD}>
+          <Link href={AIR_SOCIAL?.IMPORT_RECORD_CREATED}>
             <BackArrIcon />
           </Link>
           <Box>

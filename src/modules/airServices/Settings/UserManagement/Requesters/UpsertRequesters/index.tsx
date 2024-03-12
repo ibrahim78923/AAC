@@ -11,6 +11,7 @@ function UpsertRequesters({
   submitHandler,
   methods,
   handleClose,
+  isLoading,
 }: any) {
   return (
     <>
@@ -22,6 +23,8 @@ function UpsertRequesters({
         footer={true}
         isOk={true}
         okText={okText}
+        isLoading={isLoading}
+        isDisabled={isLoading}
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
