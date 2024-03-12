@@ -299,6 +299,11 @@ export const END_POINTS = {
   GET_TICKET_APPROVAL_DETAILS: `/air-services-dashboard/get-tickets-approval-dashboard-details`,
   UPDATE_CONTRACT: 'contract/renew-extend',
   PERMISSIONS_ROLE: '/permissions/role',
+  GET_TICKET_BY_REQUESTER: '/ticket/requester-ticket',
+  GET_TICKET_BY_SUBJECT: '/ticket/search-subject-ticket',
+  MERGE_TICKET: '/ticket/merge-ticket',
+  DELETE_ALL_ATTACHMENT: '/attachment/delete-all-attachment',
+  DELETE_MULTIPLE_ATTACHMENT: '/attachment/delete-multiple-attachment',
 };
 
 export const superAdminBillingInvoices = {
