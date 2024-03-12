@@ -18,7 +18,6 @@ export const singleAttachmentsApi = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: deleteSingleAttachmentParameter?.queryParams,
       }),
-      invalidatesTags: [TAG],
     }),
     postAttachments: builder?.mutation({
       query: (postAttachmentParameter: any) => ({
