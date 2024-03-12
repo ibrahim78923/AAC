@@ -9,7 +9,6 @@ import {
   Menu,
   MenuItem,
   Typography,
-  Checkbox,
   InputAdornment,
 } from '@mui/material';
 
@@ -18,6 +17,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 import {
   FormProvider,
+  RHFCheckbox,
   RHFDropZone,
   RHFSelect,
   RHFTextField,
@@ -125,7 +125,8 @@ const OrganizationTable = () => {
               }}
             >
               <Box sx={styles?.productCard}>
-                <Checkbox
+                <RHFCheckbox
+                  name={'Sales'}
                   sx={{
                     marginLeft: '7rem',
                   }}
@@ -136,7 +137,8 @@ const OrganizationTable = () => {
                 </Box>
               </Box>
               <Box sx={styles?.productCard}>
-                <Checkbox
+                <RHFCheckbox
+                  name={'Marketing'}
                   sx={{
                     marginLeft: '7rem',
                   }}
@@ -147,7 +149,8 @@ const OrganizationTable = () => {
                 </Box>
               </Box>
               <Box sx={styles.productCard}>
-                <Checkbox
+                <RHFCheckbox
+                  name={'Service'}
                   sx={{
                     marginLeft: '7rem',
                   }}
@@ -158,7 +161,8 @@ const OrganizationTable = () => {
                 </Box>
               </Box>
               <Box sx={styles?.productCard}>
-                <Checkbox
+                <RHFCheckbox
+                  name={'Operation'}
                   sx={{
                     marginLeft: '7rem',
                   }}

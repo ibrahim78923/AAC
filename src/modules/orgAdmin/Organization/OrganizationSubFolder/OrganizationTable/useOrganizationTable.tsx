@@ -84,17 +84,33 @@ const useOrganizationTable = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (data: any) => {
-    const organizationData = {
-      ...data,
-      logoUrl: data?.logoUrl?.path,
-      organizationId: user?.organization?._id,
-      products: [],
-      status: 'Active',
-    };
+    const products: any = [];
+    if (data?.Sales) products.push('Sales');
+    if (data?.Marketing) products.push('Marketing');
+    if (data?.Service) products.push('Service');
+    if (data?.Operation) products.push('Operation');
+
+    const formData = new FormData();
+    formData.append('image', data?.image);
+    formData.append('products', JSON.stringify(products));
+    formData.append('accountName', data?.accountName);
+    formData.append('phoneNo', data?.phoneNo);
+    formData.append('postCode', data?.postCode);
+    formData.append('address', data?.address);
+    formData.append('postCode', data?.postCode);
+    formData.append('organizationId', user?.organization?._id);
+    formData.append('isActive', 'true');
+    // const organizationData = {
+    //   ...data,
+    //   logoUrl: data?.logoUrl?.path,
+    //   organizationId: user?.organization?._id,
+    //   products: [],
+    //   status: 'Active',
+    // };
     try {
       if (Object?.keys(editData)[0]) {
         await updateOrganizationCompany({
-          body: organizationData,
+          body: formData,
           id: editData?._id,
         }).unwrap();
         enqueueSnackbar('Company Updated Successfully', {
@@ -102,7 +118,7 @@ const useOrganizationTable = () => {
         });
         setIsOpenDrawer(false);
       } else {
-        await postOrganization({ body: organizationData }).unwrap();
+        await postOrganization({ body: formData }).unwrap();
         enqueueSnackbar('Company Created Successfully', {
           variant: 'success',
         });

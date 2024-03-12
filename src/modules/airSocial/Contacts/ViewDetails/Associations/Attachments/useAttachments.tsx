@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts';
 import { useForm } from 'react-hook-form';
+import { usePostAttachmentMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/attachments';
 
 const useAttachments = (contactId: any) => {
   // Get Association Tickets
@@ -20,6 +21,43 @@ const useAttachments = (contactId: any) => {
     useGetContactAssociationsQuery({
       params: { ...payLoad, ...searchPayLoad },
     });
+
+  // Add Attachment
+  const [postAttachment, { isLoading: loadingAddCompanyAccount }] =
+    usePostAttachmentMutation();
+  // const [openModalAddFaq, setOpenModalAddFaq] = useState(false);
+  // const methodsAddFaqs = useForm({
+  //   resolver: yupResolver(addFaqsValidationSchema),
+  //   defaultValues: addFaqsDefaultValues,
+  // });
+
+  // const { handleSubmit: handleMethodAddFaq, reset: resetAddFaqForm } =
+  //   methodsAddFaqs;
+
+  // const handleOpenModalFaq = (title: string) => {
+  //   setModalTitle(title);
+  //   setOpenModalAddFaq(true);
+  //   handleActionsMenuClose();
+  // };
+  // const handleCloseModalFaq = () => {
+  //   setOpenModalAddFaq(false);
+  //   resetAddFaqForm();
+  // };
+
+  // const onSubmitAddFaq = async (values: any) => {
+  //   try {
+  //     await postAddFaq({ body: values })?.unwrap();
+  //     handleCloseModalFaq();
+  //     enqueueSnackbar('FAQ added successfully', {
+  //       variant: 'success',
+  //     });
+  //   } catch (error: any) {
+  //     enqueueSnackbar('An error occured', {
+  //       variant: 'error',
+  //     });
+  //   }
+  // };
+  // const handleAddFaqSubmit = handleMethodAddFaq(onSubmitAddFaq);
 
   // Drawer Edit
   const methodsAttachments = useForm({});
@@ -70,7 +108,8 @@ const useAttachments = (contactId: any) => {
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,
-
+    loadingAddCompanyAccount,
+    postAttachment,
     theme,
   };
 };
