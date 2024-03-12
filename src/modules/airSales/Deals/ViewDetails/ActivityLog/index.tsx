@@ -22,7 +22,7 @@ const ActivityLog = () => {
       <Typography variant="h4">Activity Log </Typography>
       <Box sx={styles?.horizontalTabsInnnerBox}>
         <Grid container>
-          {activitylogData?.activitylogs?.map((item) => (
+          {activitylogData?.activitylogs?.map((item: any) => (
             <Grid item xs={12} key={uuidv4()}>
               <Box
                 sx={{

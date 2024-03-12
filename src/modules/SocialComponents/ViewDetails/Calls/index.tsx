@@ -13,6 +13,8 @@ import { callsStatusColor, columns } from './Calls.data';
 import { PlusIcon, ViewCallIcon } from '@/assets/icons';
 
 import { styles } from './Calls.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Calls = ({ companyId }: any) => {
   const {
@@ -73,13 +75,19 @@ const Calls = ({ companyId }: any) => {
                   openAlertModal={openAlertModal}
                   setOpenAlertModal={setOpenAlertModal}
                 />
-                <Button
-                  variant="contained"
-                  sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
-                  onClick={() => setOpenDrawer('Add')}
+                <PermissionsGuard
+                  permissions={[
+                    SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.ADD_CALLS,
+                  ]}
                 >
-                  <PlusIcon /> Add Calls
-                </Button>
+                  <Button
+                    variant="contained"
+                    sx={{ minWidth: '0px', height: '35px', gap: 0.5 }}
+                    onClick={() => setOpenDrawer('Add')}
+                  >
+                    <PlusIcon /> Add Calls
+                  </Button>
+                </PermissionsGuard>
               </Box>
             )}
           </Box>
@@ -106,14 +114,20 @@ const Calls = ({ companyId }: any) => {
         )}
         {!isNullOrEmpty(TasksTableData) && !isError && (
           <Grid item xs={12} sx={{ height: '24vh', overflow: 'auto' }}>
-            <TanstackTable
-              columns={getColumns}
-              data={CompanyCalls?.data?.schedulecalls}
-              isLoading={isLoading}
-              setPage={setPage}
-              setPageLimit={setPageLimit}
-              isPagination
-            />
+            <PermissionsGuard
+              permissions={[
+                SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.VIEW_CALLS,
+              ]}
+            >
+              <TanstackTable
+                columns={getColumns}
+                data={CompanyCalls?.data?.schedulecalls}
+                isLoading={isLoading}
+                setPage={setPage}
+                setPageLimit={setPageLimit}
+                isPagination
+              />
+            </PermissionsGuard>
           </Grid>
         )}
       </Grid>
@@ -121,7 +135,6 @@ const Calls = ({ companyId }: any) => {
         <Typography
           sx={{ textAlign: 'center', color: theme?.palette?.error?.main }}
         >
-          {' '}
           something want worng
         </Typography>
       )}

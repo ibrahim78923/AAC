@@ -1,4 +1,4 @@
-import { Checkbox, Select, MenuItem } from '@mui/material';
+import { Checkbox } from '@mui/material';
 
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
@@ -186,92 +186,100 @@ export const dataArray = [
   },
 ];
 
-export const columnsUser = (
-  handleTeam: any,
-  handleRole: any,
-  team: any,
-  role: any,
-) => {
-  return [
-    {
-      accessorFn: (row: any) => row?.Id,
-      id: 'Id',
-      cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
-      header: <Checkbox color="primary" name="Id" />,
-      isSortable: false,
-    },
-    {
-      accessorFn: (row: any) => row?.name,
-      id: 'name',
-      cell: (info: any) => info?.getValue(),
-      header: 'Name',
-      isSortable: true,
-    },
-    {
-      accessorFn: (row: any) => row?.email,
-      id: 'email',
-      isSortable: true,
-      header: 'Email',
-      cell: (info: any) => info?.getValue(),
-    },
-    {
-      accessorFn: (row: any) => row?.team,
-      id: 'team',
-      isSortable: true,
-      header: 'Team',
-      cell: (info: any) => (
-        <Select
-          variant="standard"
-          labelId="demo-simple-select-standard-label"
-          id="demo-simple-select-standard"
-          value={team}
-          onChange={handleTeam}
-          label="Select"
-          name={info.getValue()}
-          sx={{
-            '&:before': {
-              borderBottom: 'none',
-            },
-          }}
-        >
-          <MenuItem value="Alfa">Alfa</MenuItem>
-          <MenuItem value="Orcalo">Orcalo</MenuItem>
-          <MenuItem value="Test1">Test1</MenuItem>
-        </Select>
-      ),
-    },
-    {
-      accessorFn: (row: any) => row?.role,
-      id: 'role',
-      isSortable: true,
-      header: 'Role',
-      cell: (info: any) => (
-        <Select
-          variant="standard"
-          labelId="demo-simple-select-standard-label"
-          id="demo-simple-select-standard"
-          value={role}
-          onChange={handleRole}
-          label="Select"
-          name={info.getValue()}
-          sx={{
-            '&:before': {
-              borderBottom: 'none',
-            },
-          }}
-        >
-          <MenuItem value="AccountAdmin">Account Admin</MenuItem>
-          <MenuItem value="SalesManager">Sales Manager</MenuItem>
-          <MenuItem value="SalesAgent">Sales Agent</MenuItem>
-        </Select>
-      ),
-    },
-    {
-      accessorFn: (row: any) => row?.status,
-      id: 'status',
-      isSortable: true,
-      header: 'Status',
-      cell: (info: any) => <SwitchBtn name={info?.getValue()} />,
-    },
-  ];
-};
+export const columnsUser = () =>
+  // handleTeam: any,
+  // handleRole: any,
+  // team: any,
+  // role: any,
+  {
+    return [
+      {
+        accessorFn: (row: any) => row?.Id,
+        id: 'Id',
+        cell: (info: any) => (
+          <Checkbox color="primary" name={info?.getValue()} />
+        ),
+        header: <Checkbox color="primary" name="Id" />,
+        isSortable: false,
+      },
+      {
+        accessorFn: (row: any) =>
+          `${row?.user?.firstName} ${row?.user?.lastName}`,
+        id: 'name',
+        cell: (info: any) => info?.getValue(),
+        header: 'Name',
+        isSortable: true,
+      },
+      {
+        accessorFn: (row: any) => row?.user?.email,
+        id: 'email',
+        isSortable: true,
+        header: 'Email',
+        cell: (info: any) => info?.getValue(),
+      },
+      // {
+      //   accessorFn: (row: any) => row?.team,
+      //   id: 'team',
+      //   isSortable: true,
+      //   header: 'Team',
+      //   cell: (info: any) => (
+      //     <Select
+      //       variant="standard"
+      //       labelId="demo-simple-select-standard-label"
+      //       id="demo-simple-select-standard"
+      //       value={team}
+      //       onChange={handleTeam}
+      //       label="Select"
+      //       name={info.getValue()}
+      //       sx={{
+      //         '&:before': {
+      //           borderBottom: 'none',
+      //         },
+      //       }}
+      //     >
+      //       <MenuItem value="Alfa">Alfa</MenuItem>
+      //       <MenuItem value="Orcalo">Orcalo</MenuItem>
+      //       <MenuItem value="Test1">Test1</MenuItem>
+      //     </Select>
+      //   ),
+      // },
+      // {
+      //   accessorFn: (row: any) => row?.role,
+      //   id: 'role',
+      //   isSortable: true,
+      //   header: 'Role',
+      //   cell: (info: any) => (
+      //     <Select
+      //       variant="standard"
+      //       labelId="demo-simple-select-standard-label"
+      //       id="demo-simple-select-standard"
+      //       value={role}
+      //       onChange={handleRole}
+      //       label="Select"
+      //       name={info.getValue()}
+      //       sx={{
+      //         '&:before': {
+      //           borderBottom: 'none',
+      //         },
+      //       }}
+      //     >
+      //       <MenuItem value="AccountAdmin">Account Admin</MenuItem>
+      //       <MenuItem value="SalesManager">Sales Manager</MenuItem>
+      //       <MenuItem value="SalesAgent">Sales Agent</MenuItem>
+      //     </Select>
+      //   ),
+      // },
+      {
+        accessorFn: (row: any) => row?.status,
+        id: 'status',
+        isSortable: true,
+        header: 'Status',
+        cell: (info: any) => (
+          <SwitchBtn
+            defaultChecked={info?.row?.original?.status}
+            name={info?.getValue()}
+          />
+        ),
+      },
+    ];
+  };

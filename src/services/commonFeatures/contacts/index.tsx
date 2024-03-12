@@ -36,6 +36,15 @@ export const contactsAPI = baseAPI.injectEndpoints({
       invalidatesTags: TAG,
     }),
 
+    updateContactOwner: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${END_POINTS?.ASSIGN_CONTACT_OWNER}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+
     getContactAssociations: builder.query({
       query: ({ params }: any) => ({
         url: END_POINTS?.CONTACT_ASSOCIATIONS,
@@ -135,6 +144,7 @@ export const {
   useGetLifeCycleQuery,
   usePostContactsMutation,
   useUpdateContactMutation,
+  useUpdateContactOwnerMutation,
   useDeleteContactMutation,
   useGetDeletedContactsQuery,
   useRestoreContactMutation,

@@ -2,15 +2,19 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { Avatar, Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
+import { useState } from 'react';
 
 export const DetailCard = (props: any) => {
-  const { data } = props;
+  const { data, openTicketDetail } = props;
+  const [showInfo, setShowInfo] = useState(false);
   return (
     <Box
       border={'1px solid'}
       borderColor={'custom.off_white'}
       borderRadius={2}
       p={2}
+      onClick={() => openTicketDetail?.(data)}
+      sx={{ cursor: 'pointer' }}
     >
       <Box display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'}>
         <Avatar
@@ -178,10 +182,25 @@ export const DetailCard = (props: any) => {
           </Typography>
         </Box>
       </Box>
-      <Box
-        mt={3}
-        dangerouslySetInnerHTML={{ __html: data?.ticketDetails?.description }}
-      />
+      <Typography
+        variant="body2"
+        fontWeight={500}
+        color={'primary.main'}
+        sx={{ cursor: 'pointer' }}
+        onClick={(e: any) => {
+          e?.stopPropagation();
+          setShowInfo((previousState: any) => !previousState);
+        }}
+      >
+        {' '}
+        {showInfo ? 'Hide info' : 'Show info'}
+      </Typography>
+      {showInfo && (
+        <Box
+          mt={3}
+          dangerouslySetInnerHTML={{ __html: data?.ticketDetails?.description }}
+        />
+      )}
     </Box>
   );
 };
