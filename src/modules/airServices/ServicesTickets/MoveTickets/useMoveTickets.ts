@@ -1,4 +1,3 @@
-import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import {
   moveTicketsDefaultValue,
@@ -6,13 +5,23 @@ import {
 } from './MoveTickets.data';
 import { useRouter } from 'next/router';
 import usePath from '@/hooks/usePath';
-import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  useLazyGetAgentDropdownQuery,
+  useLazyGetDepartmentDropdownQuery,
+  usePutTicketsMutation,
+} from '@/services/airServices/tickets';
 
 export const useMoveTickets = (props: any) => {
   const router = useRouter();
   const { makePath } = usePath();
-  const { setIsMoveTicketsModalOpen } = props;
+  const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
+  const {
+    setIsMoveTicketsModalOpen,
+    setSelectedTicketList,
+    selectedTicketList,
+    singleTicketDetail,
+  } = props;
 
   const moveTicketsFormMethod = useForm({
     defaultValues: moveTicketsDefaultValue,
@@ -20,11 +29,33 @@ export const useMoveTickets = (props: any) => {
 
   const { handleSubmit, reset } = moveTicketsFormMethod;
 
-  const submitMoveTicketsForm = () => {
-    enqueueSnackbar('Tickets Move Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    closeMoveTicketsModal?.();
+  const submitMoveTicketsForm = async (data: any) => {
+    const moveTicketFormData = new FormData();
+    moveTicketFormData?.append(
+      'isChildTicket',
+      singleTicketDetail?.isChildTicket,
+    );
+    moveTicketFormData?.append('requester', singleTicketDetail?.requester);
+    moveTicketFormData?.append('ticketType', singleTicketDetail?.ticketType);
+    moveTicketFormData?.append('moduleType', singleTicketDetail?.moduleType);
+    moveTicketFormData?.append('status', singleTicketDetail?.status);
+    moveTicketFormData?.append('id', selectedTicketList?.[0]);
+    moveTicketFormData?.append('department', data?.department?._id);
+    moveTicketFormData?.append('agent', data?.agent?._id);
+
+    const putTicketParameter = {
+      body: moveTicketFormData,
+    };
+
+    try {
+      await putTicketTrigger(putTicketParameter)?.unwrap();
+      successSnackbar('Ticket moved Successfully');
+
+      closeMoveTicketsModal?.();
+      reset();
+    } catch (error) {
+      errorSnackbar();
+    }
   };
 
   const closeMoveTicketsModal = () => {
@@ -35,12 +66,14 @@ export const useMoveTickets = (props: any) => {
       }),
     );
     reset();
+    setSelectedTicketList([]);
     setIsMoveTicketsModalOpen?.(false);
   };
-  const apiQueryOrganizations = useLazyGetOrganizationsQuery();
+  const apiQueryAgent = useLazyGetAgentDropdownQuery();
+  const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
   const moveTicketsFormFields = moveTicketsFormFieldsDynamic(
-    apiQueryOrganizations,
-    apiQueryOrganizations,
+    apiQueryDepartment,
+    apiQueryAgent,
   );
   return {
     moveTicketsFormMethod,
@@ -48,5 +81,6 @@ export const useMoveTickets = (props: any) => {
     handleSubmit,
     submitMoveTicketsForm,
     moveTicketsFormFields,
+    putTicketStatus,
   };
 };

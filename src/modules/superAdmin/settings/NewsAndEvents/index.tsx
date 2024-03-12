@@ -37,6 +37,8 @@ import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
 import { styles } from './NewsAndEvents.style';
 import { v4 as uuidv4 } from 'uuid';
 import useNewsAndEvents from './useNewsAndEvents';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_SETTINGS_NEWS_AND_EVENTS_PERMISSIONS } from '@/constants/permission-keys';
 
 const NewsAndEvents = () => {
   const theme = useTheme();
@@ -91,14 +93,21 @@ const NewsAndEvents = () => {
           </Typography>
         </Box>
         <Box sx={styles?.filterBar}>
-          <Box sx={styles?.search}>
-            <Search
-              label={'Search here'}
-              searchBy={newsAndEventsSearch}
-              setSearchBy={setNewsAndEventsSearch}
-              width="100%"
-            />
-          </Box>
+          <PermissionsGuard
+            permissions={[
+              SUPER_ADMIN_SETTINGS_NEWS_AND_EVENTS_PERMISSIONS?.Search_and_Filter,
+            ]}
+          >
+            <Box sx={styles?.search}>
+              <Search
+                label={'Search here'}
+                searchBy={newsAndEventsSearch}
+                setSearchBy={setNewsAndEventsSearch}
+                width="100%"
+              />
+            </Box>
+          </PermissionsGuard>
+
           <Box sx={styles?.filterButtons}>
             <Button
               id="basic-button"
@@ -126,55 +135,93 @@ const NewsAndEvents = () => {
                 },
               }}
             >
-              <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_NEWS_AND_EVENTS_PERMISSIONS?.Edit,
+                ]}
+              >
+                <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
+              </PermissionsGuard>
+
               <MenuItem>Active</MenuItem>
               <MenuItem>Inactive</MenuItem>
-              <MenuItem onClick={() => setisNewsAndEventsDeleteModal(true)}>
-                Delete
-              </MenuItem>
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_SETTINGS_NEWS_AND_EVENTS_PERMISSIONS?.Delete,
+                ]}
+              >
+                <MenuItem onClick={() => setisNewsAndEventsDeleteModal(true)}>
+                  Delete
+                </MenuItem>
+              </PermissionsGuard>
             </Menu>
-            <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
-              <Button sx={styles?.refreshButton(theme)} className="small">
-                <RefreshSharedIcon />
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_NEWS_AND_EVENTS_PERMISSIONS?.Refresh_Record,
+              ]}
+            >
+              <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
+                <Button sx={styles?.refreshButton(theme)} className="small">
+                  <RefreshSharedIcon />
+                </Button>
+              </Tooltip>
+            </PermissionsGuard>
+
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_NEWS_AND_EVENTS_PERMISSIONS?.Search_and_Filter,
+              ]}
+            >
+              <Button
+                sx={styles?.filterButton(theme)}
+                className="small"
+                onClick={() => setIsNewsAndEventsFilterDrawerOpen(true)}
+              >
+                <FilterSharedIcon /> &nbsp; Filter
               </Button>
-            </Tooltip>
-            <Button
-              sx={styles?.filterButton(theme)}
-              className="small"
-              onClick={() => setIsNewsAndEventsFilterDrawerOpen(true)}
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_SETTINGS_NEWS_AND_EVENTS_PERMISSIONS?.Add,
+              ]}
             >
-              <FilterSharedIcon /> &nbsp; Filter
-            </Button>
-            <Button
-              variant="contained"
-              sx={{
-                fontWeight: '500',
-                width: '90px',
-                '@media (max-width:581px)': {
-                  width: '100%',
-                },
-              }}
-              className="small"
-              onClick={() => setIsNewsAndEventAddModal(true)}
-            >
-              <PlusShared /> &nbsp; Add
-            </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  fontWeight: '500',
+                  width: '90px',
+                  '@media (max-width:581px)': {
+                    width: '100%',
+                  },
+                }}
+                className="small"
+                onClick={() => setIsNewsAndEventAddModal(true)}
+              >
+                <PlusShared /> &nbsp; Add
+              </Button>
+            </PermissionsGuard>
           </Box>
         </Box>
       </Box>
+      <PermissionsGuard
+        permissions={[
+          SUPER_ADMIN_SETTINGS_NEWS_AND_EVENTS_PERMISSIONS?.News_and_Events_List,
+        ]}
+      >
+        <Box>
+          <TanstackTable
+            columns={columns(
+              isDisabled,
+              setIsDisabled,
+              tableRowValues,
+              setTableRowValues,
+            )}
+            data={newsAndEventsTabledata}
+            isPagination={true}
+          />
+        </Box>
+      </PermissionsGuard>
 
-      <Box>
-        <TanstackTable
-          columns={columns(
-            isDisabled,
-            setIsDisabled,
-            tableRowValues,
-            setTableRowValues,
-          )}
-          data={newsAndEventsTabledata}
-          isPagination={true}
-        />
-      </Box>
       <CommonDrawer
         isDrawerOpen={isNewsAndEventsFilterDrawerOpen || isOpenEditDrawer}
         onClose={() => {

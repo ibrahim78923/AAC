@@ -18,6 +18,7 @@ const PendingForApprovals = () => {
     selectedApproval,
     setSelectedApproval,
     setApproval,
+    openApprovalDetail,
   } = usePendingForApprovals();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -37,6 +38,7 @@ const PendingForApprovals = () => {
                 approval?.approvalStatus !== TICKET_APPROVALS?.PENDING
               }
               setApproval={(approvalData: any) => setApproval?.(approvalData)}
+              openApprovalDetail={(data: any) => openApprovalDetail?.(data)}
             />
           </Fragment>
         ))

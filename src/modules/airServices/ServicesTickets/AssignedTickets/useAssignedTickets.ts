@@ -1,16 +1,25 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import usePath from '@/hooks/usePath';
-import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
+import {
+  usePutTicketsMutation,
+  useLazyGetAgentDropdownQuery,
+} from '@/services/airServices/tickets';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 
 export const useAssignedTickets = (props: any) => {
   const router = useRouter();
   const { makePath } = usePath();
-  const { setIsAssignedModalOpen } = props;
+  const {
+    setIsAssignedModalOpen,
+    setSelectedTicketList,
+    selectedTicketList,
+    singleTicketDetail,
+  } = props;
+
+  const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
 
   const assignedTicketsMethod = useForm<any>({
     defaultValues: {
@@ -18,18 +27,37 @@ export const useAssignedTickets = (props: any) => {
     },
     resolver: yupResolver(
       Yup?.object()?.shape({
-        user: Yup?.mixed()?.nullable()?.required(),
+        user: Yup?.mixed()?.nullable()?.required('Required'),
       }),
     ),
   });
 
   const { handleSubmit, reset } = assignedTicketsMethod;
+  const submitAssignedTicketsForm = async (formData: any) => {
+    const assignTicketFormData = new FormData();
+    assignTicketFormData?.append(
+      'isChildTicket',
+      singleTicketDetail?.isChildTicket,
+    );
+    assignTicketFormData?.append('requester', singleTicketDetail?.requester);
+    assignTicketFormData?.append('ticketType', singleTicketDetail?.ticketType);
+    assignTicketFormData?.append('moduleType', singleTicketDetail?.moduleType);
+    assignTicketFormData?.append('status', singleTicketDetail?.status);
+    assignTicketFormData?.append('id', selectedTicketList?.[0]);
+    assignTicketFormData?.append('agent', formData?.user?._id);
 
-  const submitAssignedTicketsForm = () => {
-    enqueueSnackbar('Ticket Assigned Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    closeTicketsAssignedModal?.();
+    const putTicketParameter = {
+      body: assignTicketFormData,
+    };
+
+    try {
+      await putTicketTrigger(putTicketParameter)?.unwrap();
+      successSnackbar('Ticket assigned Successfully');
+      reset();
+      closeTicketsAssignedModal?.();
+    } catch (error) {
+      errorSnackbar();
+    }
   };
 
   const closeTicketsAssignedModal = () => {
@@ -40,15 +68,18 @@ export const useAssignedTickets = (props: any) => {
       }),
     );
     reset();
+    setSelectedTicketList([]);
     setIsAssignedModalOpen?.(false);
   };
-  const apiQueryOrganizations = useLazyGetOrganizationsQuery();
+
+  const apiQueryAgent = useLazyGetAgentDropdownQuery();
 
   return {
     assignedTicketsMethod,
     handleSubmit,
     submitAssignedTicketsForm,
     closeTicketsAssignedModal,
-    apiQueryOrganizations,
+    apiQueryAgent,
+    putTicketStatus,
   };
 };

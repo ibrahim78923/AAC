@@ -6,7 +6,9 @@ import useUserManagement from './useUserManagement';
 import CommonTabs from '@/components/Tabs';
 import CreateTeams from './Teams/CreateTeams';
 import { AlertModals } from '@/components/AlertModals';
-import ViewTeams from './Teams/ViewTeams';
+// import ViewTeams from './Teams/ViewTeams';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 
 const Users = () => {
   const theme = useTheme<Theme>();
@@ -18,12 +20,12 @@ const Users = () => {
     setIsAddTeam,
     setTeamId,
     teamId,
-    teamDataById,
     isOpenDelete,
     isTeamDrawer,
     setIsTeamDrawer,
     setIsOpenDelete,
     handleDeleteTeam,
+    // searchUser, setSearchUser
   } = useUserManagement();
 
   return (
@@ -44,32 +46,34 @@ const Users = () => {
           }}
         >
           <Typography variant="h4">User Management</Typography>
-          <Button
-            className="small"
-            onClick={() => {
-              {
-                activeTab === 0
-                  ? setIsAddUser(true)
-                  : setIsAddTeam({ isToggle: true, type: 'add', data: {} });
-              }
-            }}
-            variant="contained"
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              columnGap: '10px',
-              marginTop: { xs: '10px', sm: '0px' },
-              width: { xs: '100%', sm: 'fit-content' },
-            }}
-          >
-            <AddCircleIcon
-              sx={{
-                color: `${theme?.palette?.common.white}`,
-                fontSize: '16px',
+          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.ADD_USER]}>
+            <Button
+              className="small"
+              onClick={() => {
+                {
+                  activeTab === 0
+                    ? setIsAddUser(true)
+                    : setIsAddTeam({ isToggle: true, type: 'add', data: {} });
+                }
               }}
-            />
-            {activeTab === 0 ? 'Add User' : 'Create Team'}
-          </Button>
+              variant="contained"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                columnGap: '10px',
+                marginTop: { xs: '10px', sm: '0px' },
+                width: { xs: '100%', sm: 'fit-content' },
+              }}
+            >
+              <AddCircleIcon
+                sx={{
+                  color: `${theme?.palette?.common.white}`,
+                  fontSize: '16px',
+                }}
+              />
+              {activeTab === 0 ? 'Add User' : 'Create Team'}
+            </Button>
+          </PermissionsGuard>
         </Box>
         <Box sx={{ width: '100%' }}>
           <CommonTabs
@@ -83,16 +87,12 @@ const Users = () => {
               setIsAddTeam={setIsAddTeam}
               setIsOpenDelete={setIsOpenDelete}
               setIsTeamDrawer={setIsTeamDrawer}
+              isTeamDrawer={isTeamDrawer}
             />
           </CommonTabs>
         </Box>
       </Box>
       <CreateTeams isAddTeam={isAddTeam} setIsAddTeam={setIsAddTeam} />
-      <ViewTeams
-        isTeamDrawer={isTeamDrawer}
-        setIsTeamDrawer={setIsTeamDrawer}
-        teamData={teamDataById}
-      />
 
       {isOpenDelete && (
         <AlertModals

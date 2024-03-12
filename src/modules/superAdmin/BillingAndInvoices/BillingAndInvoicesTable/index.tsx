@@ -14,6 +14,8 @@ import { styles } from '../Invoices/Invoices.style';
 import { FilterSharedIcon, RefreshTasksIcon } from '@/assets/icons';
 import { dataArray } from './BillingAndInvoices.data';
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS } from '@/constants/permission-keys';
 
 const BillingAndInvoicesTable = () => {
   const {
@@ -48,89 +50,112 @@ const BillingAndInvoicesTable = () => {
 
   return (
     <Grid sx={styles?.invoicesTableWrapper}>
-      <Grid sx={{ padding: '15px 15px 0 15px' }}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h4">Plan Assignment</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} sx={{ textAlign: 'end' }}>
-            <Button
-              onClick={() => {
-                setIsOpenDrawer(true);
-                setIsEditModal(false);
-              }}
-              variant="contained"
-              className="small"
-              disabled={isChecked}
-              sx={{ width: { xs: '100%', sm: 'auto' } }}
+      <PermissionsGuard
+        permissions={[
+          SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS?.BILLING_INVOICES_LIST,
+        ]}
+      >
+        <Grid sx={{ padding: '15px 15px 0 15px' }}>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="h4">Plan Assignment</Typography>
+            </Grid>
+            <PermissionsGuard
+              permissions={[
+                SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS?.ASSIGN_PLAN,
+              ]}
             >
-              Assign Plan
-            </Button>
-          </Grid>
-        </Grid>
-
-        <Grid
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-          }}
-        >
-          <Grid item xs={12} md={6} xl={6} mt={2}>
-            <Search
-              searchBy={searchByClientName}
-              setSearchBy={setSearchByClientName}
-              label="Search Here"
-              size="small"
-            />
-          </Grid>
-          <Grid item xs={12} md={6} xl={6} mt={2}>
-            <Box style={{ display: 'flex', flexWrap: 'wrap' }}>
-              <MenuItems
-                isViewDetailOpen={isViewDetailOpen}
-                setIsViewDeailOpen={setIsViewDeailOpen}
-                setIsOpenDrawer={setIsOpenDrawer}
-                setIsShowViewBillingDetails={setIsShowViewBillingDetails}
-                setisShowGenerateInvoice={setisShowGenerateInvoice}
-                isChecked={isChecked}
-                setIsEditModal={setIsEditModal}
-              />
-
-              <Tooltip title={'Refresh Filter'}>
+              <Grid item xs={12} sm={6} sx={{ textAlign: 'end' }}>
                 <Button
-                  variant="outlined"
-                  color="inherit"
+                  onClick={() => {
+                    setIsOpenDrawer(true);
+                    setIsEditModal(false);
+                  }}
+                  variant="contained"
                   className="small"
-                  onClick={handleRefresh}
-                  sx={{ marginLeft: '10px' }}
+                  disabled={isChecked}
+                  sx={{ width: { xs: '100%', sm: 'auto' } }}
                 >
-                  <RefreshTasksIcon />
+                  Assign Plan
                 </Button>
-              </Tooltip>
-
-              <Button
-                onClick={() => setIsOpenFilter(true)}
-                startIcon={<FilterSharedIcon />}
-                sx={{
-                  border: `1px solid ${theme?.palette?.custom?.dark}`,
-                  color: theme?.palette?.custom?.main,
-                  width: '105px',
-                  marginLeft: '10px',
-                  height: '36px',
-                  '@media (max-width:400px)': {
-                    width: '100% !important',
-                    marginTop: '10px',
-                    marginLeft: '0px !important',
-                  },
-                }}
-              >
-                Filters
-              </Button>
-            </Box>
+              </Grid>
+            </PermissionsGuard>
           </Grid>
+
+          <Grid
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+            }}
+          >
+            <Grid item xs={12} md={6} xl={6} mt={2}>
+              <PermissionsGuard
+                permissions={[
+                  SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS?.BILLING_SEARCH_AND_FILTER,
+                ]}
+              >
+                <Search
+                  searchBy={searchByClientName}
+                  setSearchBy={setSearchByClientName}
+                  label="Search Here"
+                  size="small"
+                />
+              </PermissionsGuard>
+            </Grid>
+            <Grid item xs={12} md={6} xl={6} mt={2}>
+              <Box style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <MenuItems
+                  isViewDetailOpen={isViewDetailOpen}
+                  setIsViewDeailOpen={setIsViewDeailOpen}
+                  setIsOpenDrawer={setIsOpenDrawer}
+                  setIsShowViewBillingDetails={setIsShowViewBillingDetails}
+                  setisShowGenerateInvoice={setisShowGenerateInvoice}
+                  isChecked={isChecked}
+                  setIsEditModal={setIsEditModal}
+                />
+
+                <Tooltip title={'Refresh Filter'}>
+                  <Button
+                    variant="outlined"
+                    color="inherit"
+                    className="small"
+                    onClick={handleRefresh}
+                    sx={{ marginLeft: '10px' }}
+                  >
+                    <RefreshTasksIcon />
+                  </Button>
+                </Tooltip>
+                <PermissionsGuard
+                  permissions={[
+                    SUPER_ADMIN_BILLING_INVOICES_PERMISSIONS?.BILLING_SEARCH_AND_FILTER,
+                  ]}
+                >
+                  <Button
+                    onClick={() => setIsOpenFilter(true)}
+                    startIcon={<FilterSharedIcon />}
+                    sx={{
+                      border: `1px solid ${theme?.palette?.custom?.dark}`,
+                      color: theme?.palette?.custom?.main,
+                      width: '105px',
+                      marginLeft: '10px',
+                      height: '36px',
+                      '@media (max-width:400px)': {
+                        width: '100% !important',
+                        marginTop: '10px',
+                        marginLeft: '0px !important',
+                      },
+                    }}
+                  >
+                    Filters
+                  </Button>
+                </PermissionsGuard>
+              </Box>
+            </Grid>
+          </Grid>
+          {isShowGenerateInvoice && <GenerateInvoice />}
         </Grid>
-        {isShowGenerateInvoice && <GenerateInvoice />}
-      </Grid>
+      </PermissionsGuard>
       {isShowViewBillingDetails && (
         <ViewBillingDetails
           isOpenDrawer={isShowViewBillingDetails}

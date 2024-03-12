@@ -28,7 +28,7 @@ export const TICKET_STATUS = {
   CLOSED: 'CLOSED',
   RESOLVED: 'RESOLVED',
   PENDING: 'PENDING',
-  SPAM: 'SPAM',
+  SPAM: 'SPAMS',
 };
 
 export const TICKET_PRIORITY = {
@@ -373,4 +373,10 @@ export const WORKLOAD_SCHEDULE = {
 export const ARTICLE_STATUS = {
   PUBLISHED: 'PUBLISHED',
   DRAFT: 'DRAFT',
+};
+
+export const TICKET_SELECTION_TYPE = {
+  REQUESTER: 'REQUESTER',
+  SUBJECT: 'SUBJECT',
+  ID: 'ID',
 };

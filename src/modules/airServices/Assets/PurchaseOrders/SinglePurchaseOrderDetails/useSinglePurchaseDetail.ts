@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   singlePurchaseDetailActionDropdownFunction,
   singlePurchaseDetailStatusDropdownFunction,
@@ -9,7 +9,8 @@ import { AIR_SERVICES } from '@/constants';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useDeletePurchaseOrderMutation,
-  usePatchPurchaseOrderStatusMutation,
+  useLazyGetPurchaseOrderByIdQuery,
+  usePutPurchaseOrderStatusMutation,
 } from '@/services/airServices/assets/purchase-orders';
 import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -21,19 +22,27 @@ export const useSinglePurchaseDetail = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isADrawerOpen, setIsADrawerOpen] = useState<boolean>(false);
 
-  const [patchPurchaseOrderStatusTrigger] =
-    usePatchPurchaseOrderStatusMutation();
+  const [putPurchaseOrderStatusTrigger] = usePutPurchaseOrderStatusMutation();
 
   const searchParams = useSearchParams();
   const purchaseOrderId: any = searchParams.get('purchaseOrderId');
 
+  const [purchaseOrderTrigger, { data }]: any =
+    useLazyGetPurchaseOrderByIdQuery();
+  const statusData = data?.data?.status;
+  useEffect(() => {
+    const handleStatus = async () => {
+      await purchaseOrderTrigger(purchaseOrderId);
+    };
+    handleStatus();
+  }, [purchaseOrderId]);
   const handleSubmitForOrdered = async (status: string) => {
     const orderedStatusParams = {
       id: purchaseOrderId,
       status: status,
     };
     try {
-      await patchPurchaseOrderStatusTrigger(orderedStatusParams)?.unwrap();
+      await putPurchaseOrderStatusTrigger(orderedStatusParams)?.unwrap();
       successSnackbar('purchase was sent for Approval');
     } catch (error) {
       errorSnackbar();
@@ -77,5 +86,6 @@ export const useSinglePurchaseDetail = () => {
     deletePurchaseOrder,
     isLoading,
     handleSubmitForOrdered,
+    statusData,
   };
 };

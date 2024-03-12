@@ -28,11 +28,10 @@ function checkPermissions(permissions: any, modulePermissions: any) {
 export default function PermissionsGuard({
   children,
   permissions,
-  isPage,
+  isPage = false,
 }: {
   children: ReactNode;
   permissions: any;
-  sidebar?: string;
   isPage?: boolean;
 }) {
   const currentPermissions = useCurrentPermissions();
@@ -40,7 +39,7 @@ export default function PermissionsGuard({
   if (permissionsCheck) {
     return <>{children}</>;
   } else if (isPage) {
-    return <PermissionDenied />;
+    <PermissionDenied />;
   } else {
     return <Box></Box>;
   }

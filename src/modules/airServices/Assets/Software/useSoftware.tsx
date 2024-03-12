@@ -81,7 +81,7 @@ export const useSoftware = () => {
       setIsAddDrawerOpen(false);
       reset();
     } catch (error: any) {
-      errorSnackbar(error?.data?.error ?? 'An error');
+      errorSnackbar(error?.data?.error);
     }
   };
   const submitHandler = handleSubmit(submitUpsertSoftware);

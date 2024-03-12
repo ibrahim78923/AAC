@@ -14,7 +14,7 @@ export const Header = (props: any) => {
     statusDropdownOptions,
     currentStatus,
   } = props;
-  const { push, statusData } = useHeader();
+  const { push } = useHeader();
   return (
     <>
       <Box
@@ -40,7 +40,7 @@ export const Header = (props: any) => {
             onClick={() => {
               handleReceived?.();
             }}
-            disabled={statusData !== PURCHASE_ORDER_STATUS?.ORDERED}
+            disabled={currentStatus !== PURCHASE_ORDER_STATUS?.ORDERED}
           >
             Received item
           </Button>
@@ -48,7 +48,7 @@ export const Header = (props: any) => {
             color="secondary"
             variant="outlined"
             onClick={() => handleAddToInventory?.()}
-            disabled={statusData !== PURCHASE_ORDER_STATUS?.ORDERED}
+            disabled={currentStatus !== PURCHASE_ORDER_STATUS?.ORDERED}
           >
             Add to Inventory
           </Button>

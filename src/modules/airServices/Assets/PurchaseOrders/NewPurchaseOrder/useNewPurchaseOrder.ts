@@ -50,16 +50,17 @@ const useNewPurchaseOrders = () => {
 
   const submit = async (data: any) => {
     const { location, vendor, department, purchaseDetails, ...rest } = data;
+    const taxRate = rest?.taxRatio;
     delete rest?.taxRatio;
     const apiParameter = {
       body: {
         ...rest,
+        taxRate,
         locationId: location?._id,
         vendorId: vendor?._id,
         departmentId: department?._id,
         purchaseDetails: purchaseDetails?.map((purchaseDetail: any) => {
-          const name =
-            purchaseDetail?.itemName?.vendorproductcatalogsDetails?.name;
+          const name = purchaseDetail?.itemName?._id;
           delete purchaseDetail?.itemName;
           return { itemName: name, ...purchaseDetail };
         }),
@@ -105,7 +106,7 @@ const useNewPurchaseOrders = () => {
   );
   useEffect(() => {
     if (singlePurchaseOrder?.data) {
-      reset(() => defaultValues(singlePurchaseOrder?.data?.data?.[0]));
+      reset(() => defaultValues(singlePurchaseOrder?.data?.data));
     }
   }, [singlePurchaseOrder?.data, reset]);
   return {
