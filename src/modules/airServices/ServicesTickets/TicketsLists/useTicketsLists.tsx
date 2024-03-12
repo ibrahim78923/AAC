@@ -45,21 +45,6 @@ export const useTicketsLists: any = () => {
   const router = useRouter();
   const { makePath } = usePath();
 
-  const additionalParams = [
-    ['metaData', true + ''],
-    ['page', page + ''],
-    ['limit', pageLimit + ''],
-    ['search', search],
-  ];
-  const ticketsParam = buildQueryParams(
-    additionalParams,
-    filterTicketLists,
-    neglectKeysInLoop,
-  );
-  const getTicketsParameter = {
-    queryParams: ticketsParam,
-  };
-
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
     useLazyGetTicketsQuery();
 
@@ -68,7 +53,21 @@ export const useTicketsLists: any = () => {
 
   const [putSingleTicketStatusTrigger] = usePutSingleTicketStatusMutation();
 
-  const getValueTicketsListData = async () => {
+  const getValueTicketsListData = async (currentPage = page) => {
+    const additionalParams = [
+      ['metaData', true + ''],
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+      ['search', search],
+    ];
+    const ticketsParam = buildQueryParams(
+      additionalParams,
+      filterTicketLists,
+      neglectKeysInLoop,
+    );
+    const getTicketsParameter = {
+      queryParams: ticketsParam,
+    };
     try {
       await lazyGetTicketsTrigger(getTicketsParameter)?.unwrap();
       setSelectedTicketList([]);
@@ -252,6 +251,9 @@ export const useTicketsLists: any = () => {
         selectedTicketList={selectedTicketList}
         setSelectedTicketList={setSelectedTicketList}
         setPage={setPage}
+        page={page}
+        getTicketsListData={getValueTicketsListData}
+        totalRecords={lazyGetTicketsStatus?.data?.data?.tickets?.length}
       />
     ),
   };

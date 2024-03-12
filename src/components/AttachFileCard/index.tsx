@@ -2,11 +2,10 @@ import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAttachFileCard } from './useAttachFileCard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { generateImage } from '@/utils/avatarUtils';
 
 export const AttachFileCard = (props: any) => {
   const { data, onDelete, permissionKey, size } = props;
-  const { theme, cross, setCross } = useAttachFileCard();
+  const { theme, cross, setCross, getImageByType } = useAttachFileCard();
   return (
     <Box
       display={'flex'}
@@ -21,7 +20,7 @@ export const AttachFileCard = (props: any) => {
       onMouseLeave={() => setCross(false)}
     >
       <Avatar
-        src={generateImage(data?.fileUrl)}
+        src={getImageByType(data)}
         alt="file-preview"
         sx={{ width: size?.width ?? 45, height: size?.height ?? 45 }}
         variant={size?.variant ?? 'rounded'}

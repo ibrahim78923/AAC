@@ -73,7 +73,6 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: deleteTicketsParameter?.queryParams,
       }),
-      invalidatesTags: [TAG],
     }),
     getRequesterDropdown: builder?.query({
       query: ({ params }: any) => ({
