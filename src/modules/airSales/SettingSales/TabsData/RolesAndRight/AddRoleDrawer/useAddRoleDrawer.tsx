@@ -8,19 +8,23 @@ import {
   usePostPermissionRoleMutation,
   useUpdateRoleRightsMutation,
 } from '@/services/airSales/roles-and-rights';
-import { getActiveProductSession, getSession } from '@/utils';
+import {
+  getActiveAccountSession,
+  getActiveProductSession,
+  getSession,
+} from '@/utils';
 
 const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
-  const activeProduct = getActiveProductSession();
-  // const activePermissions = getActivePermissionsSession();
-  const activeAccount = localStorage?.getItem('ActiveAccount');
   const { user } = getSession();
   const theme = useTheme<Theme>();
+  const activeProduct = getActiveProductSession();
+  const activeAccount = getActiveAccountSession();
+
   const { useLazyGetPermissionsRolesByIdQuery } = airSalesRolesAndRightsAPI;
 
   const [postPermissionRole] = usePostPermissionRoleMutation();
 
-  const [trigger, { data: viewPerdetails }] =
+  const [trigger, { data: viewPerdetails, isLoading }] =
     useLazyGetPermissionsRolesByIdQuery();
 
   const roleDefaultValues: any = {
@@ -37,7 +41,9 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const { handleSubmit, reset, setValue } = methods;
 
   useEffect(() => {
-    trigger(isDrawerOpen?.type !== 'add' && isDrawerOpen?.id);
+    trigger(
+      isDrawerOpen?.type === 'add' ? activeAccount?.role : isDrawerOpen?.id,
+    );
   }, [isDrawerOpen]);
 
   useEffect(() => {
@@ -45,7 +51,10 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
     const fieldsToSet: any = {
       name: isDrawerOpen?.type === 'add' ? '' : data?.name,
       description: isDrawerOpen?.type === 'add' ? '' : data?.description,
-      permissions: data?.permissions?.map((item: any) => item),
+      permissions:
+        isDrawerOpen?.type === 'add'
+          ? []
+          : data?.permissions?.map((item: any) => item?.slug),
     };
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);
@@ -56,7 +65,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
 
   const onSubmit = async (values: any) => {
     const organizationId = user?.organization?._id;
-    const organizationCompanyAccountId = activeAccount;
+    const organizationCompanyAccountId = activeAccount?.company?._id;
     const productId = activeProduct?._id;
 
     if (isDrawerOpen?.type === 'add') {
@@ -79,7 +88,8 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
     onSubmit,
     handleSubmit,
     viewPerdetails,
-    // ActivePermissions,
+    activeAccount,
+    isLoading,
   };
 };
 

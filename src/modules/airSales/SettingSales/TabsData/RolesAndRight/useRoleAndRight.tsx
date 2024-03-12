@@ -3,14 +3,18 @@ import { Theme, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
 import { airSalesRolesAndRightsAPI } from '@/services/airSales/roles-and-rights';
-import { getActiveProductSession, getSession } from '@/utils';
+import {
+  getActiveAccountSession,
+  getActiveProductSession,
+  getSession,
+} from '@/utils';
 
 const useRoleAndRight: any = () => {
   const { user } = getSession();
   const theme = useTheme<Theme>();
   const navigate = useRouter();
   const activeProduct = getActiveProductSession();
-  const activeAccount = localStorage?.getItem('ActiveAccount');
+  const activeAccount = getActiveAccountSession();
 
   const [expanded, setExpanded] = React.useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
@@ -30,7 +34,7 @@ const useRoleAndRight: any = () => {
 
   const { useGetPermissionsRolesQuery } = airSalesRolesAndRightsAPI;
   const organizationId = user?.organization?._id;
-  const organizationCompanyAccountId = activeAccount;
+  const organizationCompanyAccountId = activeAccount?.company?._id;
   const productId = activeProduct?._id;
 
   const permissionParams = {

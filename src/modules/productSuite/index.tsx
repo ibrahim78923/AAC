@@ -29,7 +29,7 @@ import {
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
-import { getActivePermissionsSession } from '@/utils';
+import { getActivePermissionsSession, setActiveAccountSession } from '@/utils';
 // import { IMG_URL } from '@/config';
 import useAuth from '@/hooks/useAuth';
 
@@ -211,10 +211,7 @@ const ProductSuite = () => {
                         onClick={() => {
                           findModulePermissionKey(product?.name, account?._id);
                           setActiveProduct(product);
-                          localStorage.setItem(
-                            'ActiveAccount',
-                            account?.company?._id,
-                          );
+                          setActiveAccountSession(account);
                         }}
                       >
                         {account?.company?.accountName}
