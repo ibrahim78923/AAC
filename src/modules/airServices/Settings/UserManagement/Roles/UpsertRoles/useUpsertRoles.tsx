@@ -11,22 +11,28 @@ import { AIR_SERVICES } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import {
   useGetPermissionsByProductQuery,
+  useGetPermissionsRoleByIdQuery,
+  usePatchPermissionsRoleByIdMutation,
   usePostPermissionsRoleMutation,
 } from '@/services/airServices/settings/user-management/roles';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function useUpsertRoles() {
   const router: any = useRouter();
   const theme: any = useTheme();
 
   const { roleId } = router?.query;
+  const [firstEffectRun, setFirstEffectRun] = useState(roleId ? true : false);
 
   const auth: any = useAuth();
 
+  // To Post or patch the product
   const { _id: productId } = auth?.product;
-  const { _id: organizationCompanyAccountId } = auth?.product?.accounts?.[0];
+  const { _id: organizationCompanyAccountId } =
+    auth?.product?.accounts?.[0]?.company;
   const { _id: organizationId } = auth?.user?.organization;
 
+  // get the accordion list permissions
   const {
     data: getPermissionsData,
     isLoading: getPermissionsIsLoading,
@@ -36,22 +42,7 @@ export default function useUpsertRoles() {
     productId,
   });
 
-  const getSlugs = () => {
-    const slugs = getPermissionsData?.data?.flatMap(
-      (parent: any) =>
-        parent?.subModules?.flatMap(
-          (subModule: any) =>
-            subModule?.permissions?.map((item: any) => item?.slug),
-        ),
-    );
-    const slugsObject = slugs?.reduce((acc: any, slug: any) => {
-      acc[slug] = false;
-      return acc;
-    }, {});
-
-    return slugsObject;
-  };
-
+  // form methods
   const methods: any = useForm({
     resolver: yupResolver(upsertRolesValidationSchema),
     defaultValues: upsertRolesDefaultValues(),
@@ -59,11 +50,64 @@ export default function useUpsertRoles() {
 
   const { handleSubmit, reset } = methods;
 
+  // reset the values of form with new slugs
   useEffect(() => {
-    reset(upsertRolesDefaultValues(getSlugs()));
-  }, [getPermissionsData, reset]);
+    if (!firstEffectRun) {
+      const slugs = getPermissionsData?.data?.flatMap(
+        (parent: any) =>
+          parent?.subModules?.flatMap(
+            (subModule: any) =>
+              subModule?.permissions?.map((item: any) => item?.slug),
+          ),
+      );
+      const slugsObject = slugs?.reduce((acc: any, slug: any) => {
+        acc[slug] = false;
+        return acc;
+      }, {});
 
-  const [postPermissionTrigger] = usePostPermissionsRoleMutation();
+      reset(upsertRolesDefaultValues(slugsObject));
+      setFirstEffectRun(true);
+    }
+  }, [reset, getPermissionsData, firstEffectRun]);
+
+  // get by id roles
+  const {
+    data: getRolesData,
+    isLoading: getRolesIsLoading,
+    isFetching: getRolesIsFetching,
+  } = useGetPermissionsRoleByIdQuery(roleId, {
+    skip: !roleId,
+    refetchOnMountOrArgChange: true,
+  });
+
+  useEffect(() => {
+    if (roleId && firstEffectRun) {
+      const slugs = getRolesData?.data?.permissions?.flatMap(
+        (parent: any) =>
+          parent?.subModules?.flatMap(
+            (subModule: any) =>
+              subModule?.permissions?.map((item: any) => item?.slug),
+          ),
+      );
+
+      const slugsObject = slugs?.reduce((acc: any, slug: any) => {
+        acc[slug] = true;
+        return acc;
+      }, {});
+
+      const name = getRolesData?.data?.name;
+      const description = getRolesData?.data?.description;
+
+      reset(upsertRolesDefaultValues({ name, description, ...slugsObject }));
+    }
+  }, [reset, getRolesData, roleId, firstEffectRun]);
+
+  // Submissions
+  const [postPermissionTrigger, postPermissionsStatus] =
+    usePostPermissionsRoleMutation();
+
+  const [patchPermissionTrigger, patchPermissionsStatus] =
+    usePatchPermissionsRoleByIdMutation();
 
   const onSubmit = async (data: any) => {
     const permissionKeys = Object?.entries(data ?? {})
@@ -72,7 +116,7 @@ export default function useUpsertRoles() {
       )
       ?.map(([item]: any) => item);
 
-    const updatedData = {
+    const updatedPostData = {
       organizationId,
       organizationCompanyAccountId,
       productId,
@@ -82,9 +126,23 @@ export default function useUpsertRoles() {
       permissions: permissionKeys,
     };
 
+    const updatedPatchData = {
+      companyAccountRoleId: organizationId,
+      organizationCompanyAccountId,
+      productId,
+      status: 'ACTIVE',
+      name: data?.name,
+      description: data?.description,
+      permissions: permissionKeys,
+    };
+
     try {
-      await postPermissionTrigger(updatedData)?.unwrap();
-      successSnackbar('Role Added Successfully!');
+      if (roleId) {
+        await patchPermissionTrigger({ updatedPatchData, roleId })?.unwrap();
+      } else {
+        await postPermissionTrigger(updatedPostData)?.unwrap();
+      }
+      successSnackbar(`Role ${roleId ? 'Updated' : 'Added'} Successfully!`);
       router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS);
     } catch (error) {
       errorSnackbar();
@@ -102,5 +160,9 @@ export default function useUpsertRoles() {
     getPermissionsIsFetching,
     getPermissionsIsError,
     getPermissionsData,
+    postPermissionsStatus,
+    getRolesIsLoading,
+    getRolesIsFetching,
+    patchPermissionsStatus,
   };
 }
