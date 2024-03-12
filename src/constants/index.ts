@@ -31,6 +31,7 @@ export const DATE_TIME_FORMAT = {
   DDDDDD: 'ddd - DD',
   DDMMYYYY: 'DD MMM, YYYY hh:MM A',
   DMMMY: 'D MMM, YYYY',
+  DMDHMA: 'ddd, MMM D, YYYY, h:mm A',
 };
 
 export const VALIDATION_CONSTANT = {
@@ -144,7 +145,7 @@ export const AIR_CUSTOMER_PORTAL = {
 };
 
 export const ORG_ADMIN: any = {
-  DASHBOARD: '/org-admin',
+  DASHBOARD: '/org-admin/dashboard',
   ROLES_AND_RIGHTS: '/org-admin/roles-and-rights',
   ADD_ROLE: '/org-admin/roles-and-rights/add-role',
 };
@@ -183,4 +184,11 @@ export const SOCIAL_COMPONENTS = {
 export const AUTH = {
   FORGOT_PASSWORD: `/forget-password`,
   LOGIN: `/login`,
+};
+
+export const Quick_Links_Routes = {
+  CALLING: '/social-components/calling',
+  DOCUMENT: '/social-components/my-documents',
+  CHAT: '/social-components/chat',
+  EMAIL: '/social-components/email',
 };

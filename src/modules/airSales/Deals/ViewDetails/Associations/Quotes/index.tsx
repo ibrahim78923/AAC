@@ -10,6 +10,8 @@ import { quotesData } from '@/mock/modules/airSales/Deals/ViewDetails';
 import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Quotes = () => {
   const theme = useTheme();
@@ -45,13 +47,19 @@ const Quotes = () => {
               label="Search By Name"
               size="medium"
             />
-            <Button
-              variant="contained"
-              className="medium"
-              sx={{ minWidth: '0px', gap: 0.5 }}
+            <PermissionsGuard
+              permissions={[
+                AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_QUOTE,
+              ]}
             >
-              <PlusIcon /> Add Quotes
-            </Button>
+              <Button
+                variant="contained"
+                className="medium"
+                sx={{ minWidth: '0px', gap: 0.5 }}
+              >
+                <PlusIcon /> Add Quotes
+              </Button>
+            </PermissionsGuard>
           </Box>
         </Grid>
         <Grid item xs={12}>

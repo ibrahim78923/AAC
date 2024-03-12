@@ -19,6 +19,8 @@ import { IMG_URL } from '@/config';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import CustomPagination from '@/components/CustomPagination';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Notes = () => {
   const {
@@ -54,13 +56,17 @@ const Notes = () => {
                   selectedCheckboxes={selectedCheckboxes}
                   setSelectedCheckboxes={setSelectedCheckboxes}
                 />
-                <Button
-                  variant="contained"
-                  className="small"
-                  onClick={() => setOpenDrawer('Add')}
+                <PermissionsGuard
+                  permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_NOTE]}
                 >
-                  <PlusIcon /> Add Notes
-                </Button>
+                  <Button
+                    variant="contained"
+                    className="small"
+                    onClick={() => setOpenDrawer('Add')}
+                  >
+                    <PlusIcon /> Add Notes
+                  </Button>
+                </PermissionsGuard>
               </Box>
             )}
           </Box>
@@ -92,7 +98,7 @@ const Notes = () => {
 
         {!isNullOrEmpty(data?.data?.notes) && (
           <Grid item xs={12} sx={styles?.horizontalTabsInnnerBox}>
-            {data?.data?.notes?.map((item) => (
+            {data?.data?.notes?.map((item: any) => (
               <Grid
                 container
                 key={uuidv4()}

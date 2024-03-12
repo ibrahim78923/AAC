@@ -6,6 +6,8 @@ const {
   DASHBOARD_ANNOUNCEMENTS,
   DASHBOARD_ANNOUNCEMENTS_CUSTOMER,
   GET_DASHBOARD_CARDS_TICKETS,
+  DASHBOARD_RECENT_ACTIVITIES,
+  DASHBOARD_AGENT_AVAILABILITY,
 } = END_POINTS;
 
 export const dashboardAPI = baseAPI.injectEndpoints({
@@ -46,6 +48,20 @@ export const dashboardAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['DASHBOARD_ANNOUNCEMENTS_CUSTOMER'],
     }),
+    getRecentActivities: builder.query({
+      query: () => ({
+        url: `${DASHBOARD_RECENT_ACTIVITIES}`,
+        method: 'GET',
+      }),
+      providesTags: ['DASHBOARD_RECENT_ACTIVITIES'],
+    }),
+    getDashboardAgent: builder.query({
+      query: () => ({
+        url: `${DASHBOARD_AGENT_AVAILABILITY}`,
+        method: 'GET',
+      }),
+      providesTags: ['DASHBOARD_AGENT_AVAILABILITY'],
+    }),
   }),
 });
 
@@ -55,4 +71,6 @@ export const {
   useGetDashboardCardsTicketsQuery,
   usePostAnnouncementMutation,
   useGetCustomerAnnouncementQuery,
+  useGetRecentActivitiesQuery,
+  useGetDashboardAgentQuery,
 } = dashboardAPI;

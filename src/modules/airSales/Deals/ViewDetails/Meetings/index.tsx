@@ -17,6 +17,8 @@ import { EmailMeetingImage } from '@/assets/images';
 import { MircosoftTeamsIcon, PlusIcon, ZoomIcon } from '@/assets/icons';
 
 import { styles } from './Meetings.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Meetings = () => {
   const { openDrawer, setOpenDrawer, theme } = useMeetings();
@@ -53,15 +55,21 @@ const Meetings = () => {
                 }}
               >
                 <MeetingsDropDown setOpenDrawer={setOpenDrawer} />
-                <Button
-                  variant="contained"
-                  sx={{ gap: 0.5 }}
-                  onClick={() => setOpenDrawer('Add')}
-                  className="small"
+                <PermissionsGuard
+                  permissions={[
+                    AIR_SALES_DEALS_PERMISSIONS?.DEAL_CREATE_MEETING,
+                  ]}
                 >
-                  <PlusIcon />
-                  <Typography variant="body2">Create Meeting</Typography>
-                </Button>
+                  <Button
+                    variant="contained"
+                    sx={{ gap: 0.5 }}
+                    onClick={() => setOpenDrawer('Add')}
+                    className="small"
+                  >
+                    <PlusIcon />
+                    <Typography variant="body2">Create Meeting</Typography>
+                  </Button>
+                </PermissionsGuard>
               </Box>
             )}
           </Box>

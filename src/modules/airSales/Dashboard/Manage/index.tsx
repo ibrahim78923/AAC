@@ -7,6 +7,8 @@ import Table from './Table';
 
 import { ArrowLeft, FilterSharedIcon, PlusIcon } from '@/assets/icons';
 import Filters from './Filters';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 
 const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
   const {
@@ -33,14 +35,18 @@ const Manage = ({ toggle, setIsShowCreateDashboardForm }: any) => {
         </Box>
       </Grid>
       <Grid item xs={6} sm={6} sx={{ textAlign: 'end' }}>
-        <Button
-          startIcon={<PlusIcon />}
-          variant="contained"
-          className="medium"
-          onClick={() => setIsShowCreateDashboardForm(true)}
+        <PermissionsGuard
+          permissions={[AIR_SALES_DASHBOARD_PERMISSIONS?.CREATE_DASHBOARD]}
         >
-          Create Dashboard
-        </Button>
+          <Button
+            startIcon={<PlusIcon />}
+            variant="contained"
+            className="medium"
+            onClick={() => setIsShowCreateDashboardForm(true)}
+          >
+            Create Dashboard
+          </Button>
+        </PermissionsGuard>
       </Grid>
       <Grid container mt={2}>
         <Grid item xs={10} sm={10} mb={3}>
