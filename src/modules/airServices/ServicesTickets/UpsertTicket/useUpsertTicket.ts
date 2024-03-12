@@ -8,7 +8,7 @@ import {
   upsertTicketValidationSchema,
 } from './UpsertTicket.data';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import usePath from '@/hooks/usePath';
 import {
   useGetTicketsByIdQuery,
@@ -35,13 +35,13 @@ export const useUpsertTicket = (props: any) => {
   const { makePath } = usePath();
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
+  const [hasAttachment, setHasAttachment] = useState(false);
 
   const getSingleTicketParameter = {
     pathParam: {
       ticketId,
     },
   };
-
   const { data, isLoading, isFetching, isError } = useGetTicketsByIdQuery(
     getSingleTicketParameter,
     {
@@ -156,8 +156,8 @@ export const useUpsertTicket = (props: any) => {
     apiQueryCategories,
     apiQueryAssociateAsset,
     router,
+    hasAttachment,
   );
-
   return {
     router,
     theme,
@@ -172,5 +172,6 @@ export const useUpsertTicket = (props: any) => {
     ticketId,
     upsertTicketFormFields,
     isError,
+    setHasAttachment,
   };
 };

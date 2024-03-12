@@ -374,3 +374,9 @@ export const ARTICLE_STATUS = {
   PUBLISHED: 'PUBLISHED',
   DRAFT: 'DRAFT',
 };
+
+export const TICKET_SELECTION_TYPE = {
+  REQUESTER: 'REQUESTER',
+  SUBJECT: 'SUBJECT',
+  ID: 'ID',
+};
