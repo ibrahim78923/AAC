@@ -5,7 +5,6 @@ import { Box, Button, Card, Paper, Typography, useTheme } from '@mui/material';
 import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { SUPER_ADMIN } from '@/constants';
 
 import { ImportHistoryTableData } from '@/mock/modules/airSales/Contacts/ImportHistoryData';
 
@@ -14,6 +13,7 @@ import useImportContacts from '../useImportCreated';
 import FilterDrawer from '../FilterDrawer';
 
 import { FilterIcon, ImportIcon } from '@/assets/icons';
+import { AIR_SOCIAL } from '@/routesConstants/paths';
 
 const ImportHistoryTable = () => {
   const { handleFilterDrawer, isFilterDrawer } = useImportContacts();
@@ -31,7 +31,7 @@ const ImportHistoryTable = () => {
         <Typography variant="h4">Import History</Typography>
         <Button
           variant="contained"
-          onClick={() => route?.push(SUPER_ADMIN?.CONTACT_IMPORT)}
+          onClick={() => route?.push(AIR_SOCIAL?.CONTACTS_IMPORT)}
           startIcon={<ImportIcon />}
           sx={{ height: '35px' }}
         >
