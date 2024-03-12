@@ -10,6 +10,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import NoData from '@/components/NoData';
 import { AssociationsImage } from '@/assets/images';
 import useRolesCards from './useRolesCards';
+import { AlertModals } from '@/components/AlertModals';
 
 const RolesCards = ({
   data,
@@ -19,8 +20,20 @@ const RolesCards = ({
   isLoading,
   isFetching,
 }: any) => {
-  const { router, setAnchorEl, setRoleId, id, open, anchorEl, theme, roleId } =
-    useRolesCards();
+  const {
+    router,
+    setAnchorEl,
+    setRoleId,
+    id,
+    open,
+    anchorEl,
+    theme,
+    roleId,
+    setOpenDeleteModal,
+    openDeleteModal,
+    handleSubmitDelete,
+    deleteRolesStatus,
+  } = useRolesCards();
 
   if (isError) return <ApiErrorState />;
 
@@ -155,12 +168,12 @@ const RolesCards = ({
               },
             }}
             onClick={() => {
-              setAnchorEl(null);
               router?.push({
                 pathname: AIR_SERVICES?.USER_UPSERT_ROLES_SETTINGS,
                 query: { roleId: roleId },
               });
               setRoleId(null);
+              setAnchorEl(null);
             }}
           >
             Edit
@@ -182,14 +195,28 @@ const RolesCards = ({
               },
             }}
             onClick={() => {
+              setOpenDeleteModal(true);
               setAnchorEl(null);
-              setRoleId(null);
             }}
           >
             Delete
           </Typography>
         </PermissionsGuard>
       </Popover>
+
+      {openDeleteModal && (
+        <AlertModals
+          message={'Are you sure you want to delete this role?'}
+          type={'delete'}
+          open={openDeleteModal}
+          handleClose={() => {
+            setOpenDeleteModal(false);
+          }}
+          handleSubmitBtn={handleSubmitDelete}
+          loading={deleteRolesStatus?.isLoading}
+          disableCancelBtn={deleteRolesStatus?.isLoading}
+        />
+      )}
     </>
   );
 };

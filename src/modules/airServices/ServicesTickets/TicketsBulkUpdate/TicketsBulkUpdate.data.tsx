@@ -13,6 +13,7 @@ import {
   ticketSourceOptions,
   ticketStatusOptions,
 } from '../ServicesTickets.data';
+import { ROLES } from '@/constants/strings';
 
 export const dropdownDummy = [
   {
@@ -139,7 +140,7 @@ export const ticketsBulkUpdateFormFieldsDynamic = (
       label: 'Agent',
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      externalParams: { limit: 50, role: ROLES?.ORG_AGENT },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

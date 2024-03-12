@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import Image from 'next/image';
 
 import {
@@ -13,8 +12,6 @@ import {
 } from '@mui/material';
 
 import { useTheme } from '@mui/material';
-
-import { ProductSuiteCardData } from './ProductSuite.data';
 
 import { CompanyLogoIcon } from '@/assets/icons';
 import { AvatarImage } from '@/assets/images';
@@ -305,68 +302,6 @@ const ProductSuite = () => {
             </Card>
           </Grid>
         ))} */}
-
-        {ProductSuiteCardData?.map((card: any) => (
-          <Grid item xs={12} sm={6} md={6} lg={3} key={uuidv4()}>
-            <Card
-              className="card-hover-color cursor-pointer"
-              sx={{
-                boxShadow: 'none',
-                borderRadius: '6px',
-                '&:hover': {
-                  transition: '0.3s',
-                  outline: `1.5px solid ${theme?.palette?.primary?.main}`,
-                  boxShadow: '0px 1px 1px -1px',
-                },
-                height: '270px',
-              }}
-            >
-              <CardActionArea
-                disableRipple
-                sx={{
-                  display: 'flex',
-                  color: '#212121',
-                  pt: 4,
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                  '&:hover': {
-                    '.MuiCardActionArea-focusHighlight': {
-                      opacity: '0',
-                    },
-                  },
-                }}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {card?.icon && <card.icon />}
-                  <Typography variant="h5" sx={{ marginLeft: '20px' }}>
-                    {card?.title}
-                  </Typography>
-                </Box>
-
-                <CardContent
-                  sx={{
-                    display: 'block',
-                    padding: '0px',
-                    color: theme?.palette?.custom?.main,
-                  }}
-                >
-                  {card?.companyList?.map((company: any) => (
-                    <Box
-                      sx={{
-                        marginTop: '15px',
-                        fontSize: '15px',
-                        color: '#6B7280',
-                      }}
-                      key={uuidv4()}
-                    >
-                      <Link href={company?.path}>{company?.name}</Link>
-                    </Box>
-                  ))}
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        ))}
       </Grid>
     </Box>
   );
