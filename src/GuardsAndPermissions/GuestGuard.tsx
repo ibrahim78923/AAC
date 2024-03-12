@@ -52,13 +52,13 @@ export default function GuestGuard({ children }: any) {
     case ROLES.ORG_ADMIN:
       pathVariable = ORG_ADMIN.DASHBOARD;
       //these two line are for testing purpose need to remove after org amdin and super admin permissions are cattered
-      setActiveProductSession({ name: ROLES.ORG_ADMIN });
+      setActiveProductSession({ name: 'Org Admin' });
       setActivePermissionsSession(orgAdminAllPermissions);
       break;
     case ROLES.SUPER_ADMIN:
       pathVariable = SUPER_ADMIN.DASHBOARD;
       //these two line are for testing purpose need to remove after org amdin and super admin permissions are cattered
-      setActiveProductSession({ name: ROLES.SUPER_ADMIN });
+      setActiveProductSession({ name: 'Super Admin' });
       setActivePermissionsSession(superAdminAllPermissions);
       break;
     default:

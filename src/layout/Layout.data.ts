@@ -757,10 +757,10 @@ export const QuickLinkData = [
 ];
 
 const PRODUCT__ROUTES: any = {
-  SUPER_ADMIN: SuperAdminRoutes,
+  'Super Admin': SuperAdminRoutes,
   'Air Sales': SalesRoutes,
   'Air Services': ServicesRoutes,
-  ORG_ADMIN: OrgAdminRoutes,
+  'Org Admin': OrgAdminRoutes,
   'Customer Portal': CustomerPortalRoutes,
   'Air Operations': AirOperationsRoutes,
   'Air Marketer': AirMarketingRoutes,
