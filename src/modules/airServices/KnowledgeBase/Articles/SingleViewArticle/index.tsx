@@ -54,7 +54,7 @@ export const SingleViewArticle = () => {
               <Box>
                 <Attachments
                   recordId={articleId}
-                  size={{ width: 350, height: 350 }}
+                  size={{ width: '100%', height: '100%' }}
                 />
               </Box>
             </>
