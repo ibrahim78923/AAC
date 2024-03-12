@@ -2,6 +2,8 @@ import Typography from '@mui/material/Typography';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Box, Divider, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
+import dayjs from 'dayjs';
+import { DATE_FORMAT, TIME_FORMAT } from '@/constants';
 
 export const ActivityTimeline = ({ activityData }: any) => {
   const theme = useTheme();
@@ -16,7 +18,7 @@ export const ActivityTimeline = ({ activityData }: any) => {
         marginBottom={1.5}
       >
         <Typography variant="body3" sx={{ flex: 0.15 }}>
-          {activityData?.date}
+          {activityData?.createdAt}
         </Typography>
         <IconButton
           disabled
@@ -25,16 +27,38 @@ export const ActivityTimeline = ({ activityData }: any) => {
         >
           <BorderColorIcon color="primary" />
         </IconButton>
-        <Typography variant="body2" sx={{ flex: 0.8 }}>
+        <Typography variant="body2" sx={{ flex: 0.8, ml: 1 }}>
           <Typography
             variant="body2"
             color="primary"
             marginRight={0.3}
             component={'span'}
           >
-            {activityData?.createdBy}
-          </Typography>
-          {activityData?.description}
+            {activityData?.performedByName}
+          </Typography>{' '}
+          has {activityData?.activityType}{' '}
+          <Typography
+            variant="body2"
+            color="primary"
+            marginRight={0.3}
+            component={'span'}
+          >
+            {' '}
+            {activityData?.moduleName}
+          </Typography>{' '}
+          <Box>
+            <Typography
+              variant="body2"
+              color="textPrimary"
+              component={'span'}
+              mr="0.625rem"
+            >
+              {dayjs(activityData?.createdAt)?.format(DATE_FORMAT?.UI)}
+            </Typography>
+            <Typography variant="body2" color="textPrimary" component={'span'}>
+              {dayjs(activityData?.createdAt)?.format(TIME_FORMAT?.UI)}
+            </Typography>
+          </Box>
         </Typography>
       </Box>
       <Box
