@@ -253,6 +253,9 @@ export const END_POINTS = {
   DASHBOARD_ANNOUNCEMENTS: '/air-services-dashboard/dashboard-annoucement',
   DASHBOARD_ANNOUNCEMENTS_CUSTOMER:
     '/air-services-dashboard/get-all-customer-announcment',
+  DASHBOARD_RECENT_ACTIVITIES:
+    '/air-services-dashboard/dashboard-recent-activities',
+  DASHBOARD_AGENT_AVAILABILITY: '/air-services-dashboard/get-dashboard-agents',
   ADD_APPROVALS_TICKETS: `/ticket/add-ticket-approval`,
   GET_APPROVAL_TICKETS: `/ticket/get-tickets-approval`,
   UPDATE_APPROVAL_TICKETS: `/ticket/edit-ticket-approval`,
@@ -295,6 +298,11 @@ export const END_POINTS = {
   POST_CHANGE_PASSWORD: '/auth/change-password',
   GET_TICKET_APPROVAL_DETAILS: `/air-services-dashboard/get-tickets-approval-dashboard-details`,
   UPDATE_CONTRACT: 'contract/renew-extend',
+  GET_TICKET_BY_REQUESTER: '/ticket/requester-ticket',
+  GET_TICKET_BY_SUBJECT: '/ticket/search-subject-ticket',
+  MERGE_TICKET: '/ticket/merge-ticket',
+  DELETE_ALL_ATTACHMENT: '/attachment/delete-all-attachment',
+  DELETE_MULTIPLE_ATTACHMENT: '/attachment/delete-multiple-attachment',
 };
 
 export const superAdminBillingInvoices = {

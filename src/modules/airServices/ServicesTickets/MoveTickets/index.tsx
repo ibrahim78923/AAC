@@ -20,6 +20,7 @@ export const MoveTickets = (props: any) => {
     handleSubmit,
     submitMoveTicketsForm,
     moveTicketsFormFields,
+    putTicketStatus,
   } = useMoveTickets(props);
   return (
     <Dialog
@@ -75,10 +76,15 @@ export const MoveTickets = (props: any) => {
             variant="outlined"
             color="secondary"
             onClick={() => closeMoveTicketsModal?.()}
+            disabled={putTicketStatus?.isLoading}
           >
             Cancel
           </LoadingButton>
-          <LoadingButton variant="contained" type="submit">
+          <LoadingButton
+            loading={putTicketStatus?.isLoading}
+            variant="contained"
+            type="submit"
+          >
             Continue
           </LoadingButton>
         </DialogActions>
