@@ -10,7 +10,6 @@ const useUserManagement = () => {
   const [isAddTeam, setIsAddTeam] = useState({
     isToggle: false,
     type: 'add',
-    data: {},
   });
   const [isTeamDrawer, setIsTeamDrawer] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);

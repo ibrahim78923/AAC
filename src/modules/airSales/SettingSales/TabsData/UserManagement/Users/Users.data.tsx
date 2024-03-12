@@ -197,6 +197,7 @@ export const dataArray = () => {
 };
 
 export const columnsUser = (checkedUser: any, setCheckedUser: any) => {
+  const { handleUpdateStatus } = useUsers();
   const handleCheckboxChange = (val: any, rowId: string) => {
     const recordId = val?.target?.checked ? rowId : null;
     setCheckedUser(recordId);
@@ -242,6 +243,9 @@ export const columnsUser = (checkedUser: any, setCheckedUser: any) => {
         <SwitchBtn
           defaultChecked={info?.row?.original?.status}
           name={info?.getValue()}
+          handleSwitchChange={(val: any) =>
+            handleUpdateStatus(info?.row?.original?._id, val)
+          }
         />
       ),
     },

@@ -3,7 +3,10 @@ import { userDefaultValues, userValidationSchema } from './Users.data';
 import { Theme, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { usePostPoductUserMutation } from '@/services/airSales/settings/users';
+import {
+  usePostPoductUserMutation,
+  useUpdateUsersMutation,
+} from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
 import { useGetCompanyAccountsRolesQuery } from '@/services/common-APIs';
 
@@ -14,6 +17,8 @@ const useUsers = (setIsAddUserDrawer?: any) => {
   const theme = useTheme<Theme>();
   const [postPoductUser] = usePostPoductUserMutation();
   const open = Boolean(anchorEl);
+  const [updateUsers] = useUpdateUsersMutation();
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -43,6 +48,20 @@ const useUsers = (setIsAddUserDrawer?: any) => {
     }
   };
 
+  const handleUpdateStatus = async (id: any, value: any) => {
+    const statusVal = value?.target?.checked ? 'ACTIVE' : 'INACTIVE';
+    try {
+      await updateUsers({ id: id, body: { status: statusVal } })?.unwrap();
+      enqueueSnackbar('Status updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
+  };
+
   return {
     isOpenDelete,
     setIsOpenDelete,
@@ -58,6 +77,7 @@ const useUsers = (setIsAddUserDrawer?: any) => {
     checkedUser,
     setCheckedUser,
     rolesByCompanyId,
+    handleUpdateStatus,
   };
 };
 

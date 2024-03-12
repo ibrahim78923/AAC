@@ -57,7 +57,7 @@ const Users = () => {
                         type: 'add',
                         data: {},
                       })
-                    : setIsAddTeam({ isToggle: true, type: 'add', data: {} });
+                    : setIsAddTeam({ isToggle: true, type: 'add' });
                 }
               }}
               variant="contained"

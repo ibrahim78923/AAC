@@ -32,7 +32,7 @@ const useUsers = () => {
   const employeeMetaData = employeeList?.data?.meta;
 
   useEffect(() => {
-    setEmployeeDataById(employeeList?.data?.users[0]?._id);
+    setEmployeeDataById(employeeList?.data?.users[0]?._id ?? null);
   }, [employeeList?.data?.users]);
 
   const handleEmpListPaginationChange = (
