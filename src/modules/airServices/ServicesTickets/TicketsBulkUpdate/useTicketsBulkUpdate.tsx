@@ -52,7 +52,7 @@ export const useTicketBulkUpdate = (props: any) => {
       );
     const bulkUpdateTicketParams = new URLSearchParams();
     selectedTicketList?.forEach(
-      (ticketId: any) => bulkUpdateTicketParams?.append('Ids', ticketId),
+      (ticketId: any) => bulkUpdateTicketParams?.append('ids', ticketId),
     );
     const bulkUpdateTicketsParameter = {
       queryParams: bulkUpdateTicketParams,
