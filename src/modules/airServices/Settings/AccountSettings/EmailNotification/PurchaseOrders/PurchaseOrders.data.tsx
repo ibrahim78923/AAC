@@ -1,37 +1,43 @@
 export const purchaseOrdersData = [
   {
-    id: 32,
-    name: 'Notify when items are ordered',
-    value: false,
-  },
-  {
-    id: 33,
-    name: 'Notify when items are received',
-    value: false,
-  },
-  {
-    id: 34,
-    name: 'Notify when a purchase order is cancelled',
-    value: true,
-  },
-  {
-    id: 35,
-    name: 'Notify when a purchase order is associated to Service Report',
-    value: false,
-  },
-  {
-    id: 36,
-    name: 'Notify when a purchase order is overdue',
-    value: true,
-  },
-  {
-    id: 37,
-    name: 'Notify when a purchase order is approved or rejected',
-    value: false,
-  },
-  {
-    id: 38,
-    name: 'Notify when a purchase order is sent for approval',
-    value: false,
+    _id: 1,
+    heading: 'Requester Notification',
+    details: [
+      {
+        _id: 1,
+        title: 'Notify when items are ordered',
+        value: false,
+      },
+      {
+        _id: 2,
+        title: 'Notify when items are received',
+        value: true,
+      },
+      {
+        _id: 3,
+        title: 'Notify when a purchase order is cancelled',
+        value: true,
+      },
+      {
+        _id: 4,
+        title: 'Notify when a purchase order is associated to Service Report',
+        value: true,
+      },
+      {
+        _id: 5,
+        title: 'Notify when a purchase order is overdue',
+        value: true,
+      },
+      {
+        _id: 6,
+        title: 'Notify when a purchase order is approved or rejected',
+        value: true,
+      },
+      {
+        _id: 7,
+        title: 'Notify when a purchase order is sent for approval',
+        value: true,
+      },
+    ],
   },
 ];

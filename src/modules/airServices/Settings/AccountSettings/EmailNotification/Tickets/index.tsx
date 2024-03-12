@@ -1,52 +1,62 @@
-import { Box, Typography } from '@mui/material';
-import { AntSwitch } from '../SwitchButton.style';
-import { Fragment } from 'react';
-import { EditYellowBGPenIcon } from '@/assets/icons';
-import { useTickets } from './useTickets';
+import { Box, Divider, Typography } from '@mui/material';
+import { AntSwitch } from '@/components/AntSwitch';
+import { Fragment, useState } from 'react';
+import { ticketDataArray } from './Tickets.data';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 export const Tickets = () => {
-  const { ticketData, setShowIcon, showIcon, onSwitchChange } = useTickets();
+  const [showIcon, setShowIcon] = useState<any>(null);
+
+  const onSwitchChange = (id: any) => {
+    alert(id);
+  };
 
   return (
-    <Fragment>
-      {ticketData?.map((item: any) => (
-        <Box key={item?.id}>
-          <Typography variant="h4">{item?.heading}</Typography>
-          {item?.detail?.map((val: any) => (
+    <>
+      {ticketDataArray?.map((head: any) => (
+        <Fragment key={head?._id}>
+          <Typography variant={'h5'} color={'blue.main'}>
+            {head?.heading}
+          </Typography>
+
+          <Divider sx={{ my: 2, borderColor: 'custom.dark' }} />
+
+          {head?.details?.map((item: any) => (
             <Box
+              key={item?._id}
               p={2}
               my={1}
               borderRadius={2}
-              bgcolor={'grey.300'}
-              height={{ xs: 'unset', md: 50 }}
+              bgcolor={'custom.white_fifty'}
               display={'flex'}
               justifyContent={'space-between'}
-              key={val?.id}
-              onMouseEnter={() => setShowIcon(val)}
+              onMouseEnter={() => setShowIcon(item)}
               onMouseLeave={() => setShowIcon(null)}
               sx={{ cursor: 'pointer' }}
             >
-              <Box display={'flex'} alignItems={'center'} gap={'.5rem'}>
-                <Typography>{val?.name}</Typography>
-              </Box>
+              {item.value}
+              <Typography
+                color={'custom.dim_blue'}
+                variant={'body1'}
+                fontWeight={500}
+              >
+                {item?.title}
+              </Typography>
+
               <Box display={'flex'} alignItems={'center'} gap={1}>
-                {showIcon === val ? (
-                  <Box>
-                    <EditYellowBGPenIcon />
-                  </Box>
-                ) : null}
+                {showIcon === item && (
+                  <BorderColorIcon sx={{ color: 'custom.dim_blue' }} />
+                )}
 
                 <AntSwitch
-                  onChange={() => {
-                    onSwitchChange(val?.id);
-                  }}
-                  checked={val?.value}
+                  onChange={() => onSwitchChange(item?._id)}
+                  checked={item?.value}
                 />
               </Box>
             </Box>
           ))}
-        </Box>
+        </Fragment>
       ))}
-    </Fragment>
+    </>
   );
 };

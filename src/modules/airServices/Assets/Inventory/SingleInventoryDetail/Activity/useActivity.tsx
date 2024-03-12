@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useGetActivityLogQuery } from '@/services/airServices/tickets/single-ticket-details/activities';
+
 import { PAGINATION } from '@/config';
+import { useGetActivityLogQuery } from '@/services/airServices/assets/inventory/single-inventory-details/activity';
 import { MODULE_TYPE } from '@/constants/strings';
 
-export const useActivities = () => {
-  const ticketId = useSearchParams()?.get('ticketId');
+export const useActivity = () => {
+  const inventoryId = useSearchParams()?.get('inventoryId');
 
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
@@ -15,8 +16,8 @@ export const useActivities = () => {
     {
       page,
       limit: pageLimit,
-      moduleId: ticketId,
-      module: MODULE_TYPE?.TICKETS,
+      moduleId: inventoryId,
+      module: MODULE_TYPE?.INVENTORIES,
     },
     {
       refetchOnMountOrArgChange: true,

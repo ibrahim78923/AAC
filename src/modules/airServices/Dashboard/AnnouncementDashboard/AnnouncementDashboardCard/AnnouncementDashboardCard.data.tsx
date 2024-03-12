@@ -1,4 +1,5 @@
 import { DashboardAvatarImage } from '@/assets/images';
+import { formatTimeDifference } from '@/utils/dateTime';
 
 export const announcementDashboardCardData = (customerAnnouncement: any[]) => {
   if (!customerAnnouncement || customerAnnouncement.length === 0) {
@@ -11,7 +12,7 @@ export const announcementDashboardCardData = (customerAnnouncement: any[]) => {
     announcement: (
       <div dangerouslySetInnerHTML={{ __html: announcementItem?.title }} />
     ),
-    announcementTime: announcementItem?.createdAt,
+    announcementTime: formatTimeDifference(announcementItem?.createdAt),
     announcementAvatar: announcementItem?.userName,
   }));
 };

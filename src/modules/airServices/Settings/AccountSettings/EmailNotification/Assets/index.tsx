@@ -1,44 +1,62 @@
 import { Box, Divider, Typography } from '@mui/material';
-import { AntSwitch } from '../SwitchButton.style';
-import { EditYellowBGPenIcon } from '@/assets/icons';
-import { useAssets } from './useAssets';
+import { Fragment, useState } from 'react';
+import { assetsData } from './Assets.data';
+import { AntSwitch } from '@/components/AntSwitch';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 export const Assets = () => {
-  const { asset, setShowIcon, showIcon, onSwitchChange } = useAssets();
+  const [showIcon, setShowIcon] = useState<any>(null);
+
+  const onSwitchChange = (id: any) => {
+    alert(id);
+  };
 
   return (
-    <Box>
-      <Box>
-        <Typography variant="h4">Asset Notification</Typography>
-      </Box>
-      <Divider />
-      {asset?.map((item) => {
-        return (
-          <Box
-            key={item?.id}
-            p={1}
-            mt={1}
-            bgcolor={'grey.300'}
-            borderRadius={2}
-            height={{ xs: 'unset', md: 50 }}
-            display={'flex'}
-            justifyContent={'space-between'}
-            onMouseEnter={() => setShowIcon(item)}
-            onMouseLeave={() => setShowIcon(null)}
-          >
-            <Typography>Hardware Warranty Expiry Notification</Typography>
-            <Box display={'flex'} alignItems={'center'} gap={1}>
-              {showIcon === item ? <EditYellowBGPenIcon /> : null}
-              <AntSwitch
-                onChange={() => {
-                  onSwitchChange(item?.id);
-                }}
-                checked={item?.value}
-              />
+    <>
+      {assetsData?.map((head: any) => (
+        <Fragment key={head?._id}>
+          <Typography variant={'h5'} color={'blue.main'}>
+            {head?.heading}
+          </Typography>
+
+          <Divider sx={{ my: 2, borderColor: 'custom.dark' }} />
+
+          {head?.details?.map((item: any) => (
+            <Box
+              key={item?._id}
+              p={2}
+              my={1}
+              borderRadius={2}
+              bgcolor={'custom.white_fifty'}
+              display={'flex'}
+              justifyContent={'space-between'}
+              onMouseEnter={() => setShowIcon(item)}
+              onMouseLeave={() => setShowIcon(null)}
+              sx={{ cursor: 'pointer' }}
+            >
+              {item.value}
+              <Typography
+                color={'custom.dim_blue'}
+                variant={'body1'}
+                fontWeight={500}
+              >
+                {item?.title}
+              </Typography>
+
+              <Box display={'flex'} alignItems={'center'} gap={1}>
+                {showIcon === item && (
+                  <BorderColorIcon sx={{ color: 'custom.dim_blue' }} />
+                )}
+
+                <AntSwitch
+                  onChange={() => onSwitchChange(item?._id)}
+                  checked={item?.value}
+                />
+              </Box>
             </Box>
-          </Box>
-        );
-      })}
-    </Box>
+          ))}
+        </Fragment>
+      ))}
+    </>
   );
 };
