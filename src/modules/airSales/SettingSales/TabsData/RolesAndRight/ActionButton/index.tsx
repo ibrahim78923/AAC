@@ -1,6 +1,8 @@
 import { Box, Button, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import useRoleAndRight from '../useRoleAndRight';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 
 const ActionButton = (props?: any) => {
   const { checkedRows, setIsDraweropen } = props;
@@ -31,23 +33,34 @@ const ActionButton = (props?: any) => {
           },
         }}
       >
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            setIsDraweropen({ isToggle: true, type: 'edit', id: checkedRows });
-          }}
-        >
-          Edit
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            setIsDraweropen({ isToggle: true, type: 'view', id: checkedRows });
-          }}
-        >
-          View
-        </MenuItem>
+        <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.EDIT_ROLE]}>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              setIsDraweropen({
+                isToggle: true,
+                type: 'edit',
+                id: checkedRows,
+              });
+            }}
+          >
+            Edit
+          </MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.DELETE_ROLE]}>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              setIsDraweropen({
+                isToggle: true,
+                type: 'view',
+                id: checkedRows,
+              });
+            }}
+          >
+            View
+          </MenuItem>
+        </PermissionsGuard>
       </Menu>
     </Box>
   );

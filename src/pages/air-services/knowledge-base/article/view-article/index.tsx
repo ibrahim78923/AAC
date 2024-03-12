@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { SingleViewArticle } from '@/modules/airServices/KnowledgeBase/Articles/SingleViewArticle';
 const ViewArticlesPage = () => {
@@ -5,7 +6,13 @@ const ViewArticlesPage = () => {
 };
 
 ViewArticlesPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout
+      permissions={Permissions?.AIR_SERVICES_KNOWLEDGE_BASE_LIST_VIEW_DETAILS}
+    >
+      {page}
+    </Layout>
+  );
 };
 
 export default ViewArticlesPage;

@@ -12,8 +12,13 @@ import * as Yup from 'yup';
 export const useAssignedTickets = (props: any) => {
   const router = useRouter();
   const { makePath } = usePath();
-  const { setIsAssignedModalOpen, setSelectedTicketList, selectedTicketList } =
-    props;
+  const {
+    setIsAssignedModalOpen,
+    setSelectedTicketList,
+    selectedTicketList,
+    singleTicketDetail,
+  } = props;
+
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
 
   const assignedTicketsMethod = useForm<any>({
@@ -28,20 +33,26 @@ export const useAssignedTickets = (props: any) => {
   });
 
   const { handleSubmit, reset } = assignedTicketsMethod;
-
-  const submitAssignedTicketsForm = async (data: any) => {
+  const submitAssignedTicketsForm = async (formData: any) => {
     const assignTicketFormData = new FormData();
-    assignTicketFormData?.append('isChildTicket', false + '');
+    assignTicketFormData?.append(
+      'isChildTicket',
+      singleTicketDetail?.isChildTicket,
+    );
+    assignTicketFormData?.append('requester', singleTicketDetail?.requester);
+    assignTicketFormData?.append('ticketType', singleTicketDetail?.ticketType);
+    assignTicketFormData?.append('moduleType', singleTicketDetail?.moduleType);
+    assignTicketFormData?.append('status', singleTicketDetail?.status);
     assignTicketFormData?.append('id', selectedTicketList?.[0]);
-    assignTicketFormData?.append('agent', data?.user?._id);
+    assignTicketFormData?.append('agent', formData?.user?._id);
+
     const putTicketParameter = {
-      body: data,
+      body: assignTicketFormData,
     };
 
     try {
       await putTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket assigned Successfully');
-      setSelectedTicketList([]);
       reset();
       closeTicketsAssignedModal?.();
     } catch (error) {
@@ -57,6 +68,7 @@ export const useAssignedTickets = (props: any) => {
       }),
     );
     reset();
+    setSelectedTicketList([]);
     setIsAssignedModalOpen?.(false);
   };
 

@@ -1,8 +1,6 @@
 import { Box, Typography } from '@mui/material';
-
-import { SUPER_ADMIN } from '@/constants';
-
 import { useRouter } from 'next/router';
+import { AIR_SOCIAL } from '@/routesConstants/paths';
 
 export const ContactsHistoryColumns: any = [
   {
@@ -30,7 +28,7 @@ export const ContactsHistoryColumns: any = [
           {value}
           {value === '0' && (
             <Typography
-              onClick={() => route?.push(SUPER_ADMIN?.IMPORT_RECORD)}
+              onClick={() => route?.push(AIR_SOCIAL?.IMPORT_RECORD_CREATED)}
               variant="body3"
               sx={{
                 cursor: 'pointer',

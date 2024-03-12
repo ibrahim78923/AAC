@@ -76,7 +76,9 @@ export const contractsListsColumnsFunction = (
         color="custom.bright"
         sx={{ cursor: 'pointer' }}
       >
-        {info?.getValue()}
+        {info?.getValue()?.length > 30
+          ? `${info?.getValue()?.slice?.(0, 29)} ... `
+          : info?.getValue()}
       </Typography>
     ),
   },

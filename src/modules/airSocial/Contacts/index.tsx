@@ -132,10 +132,7 @@ const Contacts = () => {
                 <MenuItem
                   disabled={!rowId}
                   onClick={() =>
-                    router.push({
-                      pathname: AIR_SOCIAL?.CONTACTS_VIEW_DETAILS,
-                      query: { contactId: rowId },
-                    })
+                    router.push(`${AIR_SOCIAL?.CONTACTS}/${rowId}`)
                   }
                 >
                   View Details

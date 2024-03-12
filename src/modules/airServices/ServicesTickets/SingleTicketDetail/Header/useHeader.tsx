@@ -3,6 +3,8 @@ import { useGetTicketsDetailsByIdQuery } from '@/services/airServices/tickets/si
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { headerDropdownFunction } from './Header.data';
+import { usePutSingleTicketStatusMutation } from '@/services/airServices/tickets';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useHeader = () => {
   const router = useRouter();
@@ -12,11 +14,36 @@ export const useHeader = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isIconVisible, setIsIconVisible] = useState(true);
   const [isPrintDrawerOpen, setIsPrintDrawerOpen] = useState(false);
+  const [putSingleTicketStatusTrigger] = usePutSingleTicketStatusMutation();
+
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const toggleView = () => {
     setIsIconVisible(!isIconVisible);
   };
-  const ticketsApprovalDropdown = headerDropdownFunction(setIsPrintDrawerOpen);
+
+  const updateTicketStatus = async (status: any) => {
+    const updateTicketStatusTicketsParameter = {
+      pathParams: { id: ticketId },
+      queryParams: {
+        status,
+      },
+    };
+    try {
+      await putSingleTicketStatusTrigger(
+        updateTicketStatusTicketsParameter,
+      )?.unwrap();
+      successSnackbar('Ticket marked as close successfully');
+    } catch (error: any) {
+      errorSnackbar();
+    }
+  };
+
+  const ticketsApprovalDropdown = headerDropdownFunction(
+    setIsPrintDrawerOpen,
+    updateTicketStatus,
+    setDeleteModalOpen,
+  );
   const getSingleTicketParameter = {
     pathParam: {
       ticketId,
@@ -36,5 +63,8 @@ export const useHeader = () => {
     ticketsApprovalDropdown,
     isPrintDrawerOpen,
     setIsPrintDrawerOpen,
+    deleteModalOpen,
+    setDeleteModalOpen,
+    ticketId,
   };
 };
