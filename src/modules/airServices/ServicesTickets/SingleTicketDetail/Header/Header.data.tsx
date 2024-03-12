@@ -1,6 +1,11 @@
 import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
+import { TICKET_STATUS } from '@/constants/strings';
 
-export const headerDropdownFunction = (setIsPrintDrawerOpen: any) => [
+export const headerDropdownFunction = (
+  setIsPrintDrawerOpen: any,
+  updateTicketStatus: any,
+  setDeleteModalOpen: any,
+) => [
   {
     id: 1,
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
@@ -15,6 +20,7 @@ export const headerDropdownFunction = (setIsPrintDrawerOpen: any) => [
     title: 'Delete',
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
     handleClick: (closeMenu: any) => {
+      setDeleteModalOpen?.(true);
       closeMenu?.();
     },
   },
@@ -23,6 +29,7 @@ export const headerDropdownFunction = (setIsPrintDrawerOpen: any) => [
     title: 'Close',
     permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
     handleClick: (closeMenu: any) => {
+      updateTicketStatus?.(TICKET_STATUS?.CLOSED);
       closeMenu?.();
     },
   },
