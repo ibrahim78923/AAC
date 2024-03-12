@@ -1,16 +1,12 @@
 import { EditRequestorsIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
 import { Avatar, Box, Grid, IconButton, Typography } from '@mui/material';
-import TanstackTable from '@/components/Table/TanstackTable';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UpsertRequesters from '../../UpsertRequesters';
-import {
-  requestorAssignedData,
-  requestorsAssigned,
-} from '../../RequestorsAssignedDetails/RequestorsAssignedDetails.data';
 import { useRequesters } from '../../useRequesters';
 import { profileInformation, profileRole } from './RequestorsDetails.data';
 import { ProfileImage } from '@/assets/images';
+import { RequestedTickets } from '../RequestedTickets';
 
 export const RequestorsDetails = () => {
   const {
@@ -152,11 +148,7 @@ export const RequestorsDetails = () => {
       <Box py={'1.125rem'}>
         <Typography variant="h6">Requested</Typography>
         <br />
-        <TanstackTable
-          data={requestorAssignedData}
-          columns={requestorsAssigned()}
-          isPagination={true}
-        />
+        <RequestedTickets />
       </Box>
       <UpsertRequesters
         isDrawerOpen={isDrawerOpen}
