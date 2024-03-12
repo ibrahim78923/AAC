@@ -168,5 +168,6 @@ export const useUpsertContract = () => {
     isLoading,
     isFetching,
     isError,
+    contractId,
   };
 };
