@@ -25,14 +25,10 @@ const Agent = () => {
     setEditAgentModalTitle,
     editAgentModalTitle,
     handleAddAgentModal,
-    processedAgentListData,
-    isFetching,
-    isSuccess,
-    isLoading,
+    lazyGetAgentsStatus,
     setPageLimit,
     setPage,
     pageLimit,
-    metaData,
     setSelectedAgentList,
     setFilterAgentData,
   } = useAgent();
@@ -97,47 +93,50 @@ const Agent = () => {
           </PermissionsGuard>
         </Box>
       </Box>
-      <Box m={'0.5rem 0 0.5rem 0'}>
-        <PermissionsGuard
-          permissions={[
-            AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.VIEW_AGENTS_LIST,
-          ]}
-        >
-          <TanstackTable
-            data={processedAgentListData}
-            columns={agentListsColumns}
-            isPagination
-            isFetching={isFetching}
-            isSuccess={isSuccess}
-            isLoading={isLoading}
-            setPageLimit={setPageLimit}
-            setPage={setPage}
-            count={metaData?.pages}
-            totalRecords={metaData?.total}
-            onPageChange={(page: any) => setPage(page)}
-            currentPage={metaData?.page}
-            pageLimit={pageLimit}
-          />
-        </PermissionsGuard>
-      </Box>
-      <Box>
-        <InviteAgentModel
-          isAgentModalOpen={isAgentModalOpen}
-          setEditAgentModalTitle={setEditAgentModalTitle}
-          editAgentModalTitle={editAgentModalTitle}
-          handleAddAgentModal={handleAddAgentModal}
-          selectedAgentList={selectedAgentList}
-          setSelectedAgentList={setSelectedAgentList}
+      <br />
+      <PermissionsGuard
+        permissions={[
+          AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.VIEW_AGENTS_LIST,
+        ]}
+      >
+        <TanstackTable
+          data={lazyGetAgentsStatus?.data?.data?.users}
+          columns={agentListsColumns}
+          isPagination
+          isFetching={lazyGetAgentsStatus?.isFetching}
+          isSuccess={lazyGetAgentsStatus?.isSuccess}
+          isLoading={lazyGetAgentsStatus?.isLoading}
+          setPageLimit={setPageLimit}
+          setPage={setPage}
+          count={lazyGetAgentsStatus?.data?.data?.meta?.pages}
+          totalRecords={lazyGetAgentsStatus?.data?.data?.meta?.total}
+          onPageChange={(page: any) => setPage(page)}
+          currentPage={lazyGetAgentsStatus?.data?.data?.meta?.page}
+          pageLimit={pageLimit}
         />
+      </PermissionsGuard>
+      <Box>
+        {isAgentModalOpen && (
+          <InviteAgentModel
+            isAgentModalOpen={isAgentModalOpen}
+            setEditAgentModalTitle={setEditAgentModalTitle}
+            editAgentModalTitle={editAgentModalTitle}
+            handleAddAgentModal={handleAddAgentModal}
+            selectedAgentList={selectedAgentList}
+            setSelectedAgentList={setSelectedAgentList}
+          />
+        )}
         {deleteAgentProps?.openDeleteModal && (
           <AgentDeleteModal deleteAgentProps={deleteAgentProps} />
         )}
       </Box>
-      <AgentFilter
-        isAgentFilterDrawerOpen={isAgentFilterDrawerOpen}
-        setAgentFilterDrawerOpen={setAgentFilterDrawerOpen}
-        setFilterAgentData={setFilterAgentData}
-      />
+      {isAgentFilterDrawerOpen && (
+        <AgentFilter
+          isAgentFilterDrawerOpen={isAgentFilterDrawerOpen}
+          setAgentFilterDrawerOpen={setAgentFilterDrawerOpen}
+          setFilterAgentData={setFilterAgentData}
+        />
+      )}
     </>
   );
 };

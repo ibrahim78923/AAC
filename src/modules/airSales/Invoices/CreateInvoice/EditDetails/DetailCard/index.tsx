@@ -8,13 +8,12 @@ import { LogoSharedIcon } from '@/assets/icons';
 import { useTheme } from '@mui/material/styles';
 import { style } from '../EditDetail.style';
 import { v4 as uuidv4 } from 'uuid';
-import useDetailCard from './useDetailCard';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '../../../../../../constants/index';
+import { isNullOrEmpty } from '@/utils';
 
-const DetailCard = () => {
+const DetailCard = ({ data }: any) => {
   const theme = useTheme();
-  const { user } = useDetailCard();
 
   const calculateDueDate = (invoiceDate: any) => {
     return dayjs(invoiceDate)
@@ -75,14 +74,18 @@ const DetailCard = () => {
             <Typography variant="body2" fontWeight={500}>
               Invoice No:
             </Typography>
-            <Typography variant="body2">---</Typography>
+            <Typography variant="body2">
+              {isNullOrEmpty(data) ? '----' : data?.invoiceNo}
+            </Typography>
           </Stack>
           <Stack direction="row" gap="3px" key={uuidv4()}>
             <Typography variant="body2" fontWeight={500}>
               Invoice Date:
             </Typography>
             <Typography variant="body2">
-              {dayjs(user?.createdAt).format(DATE_FORMAT?.UI)}
+              {isNullOrEmpty(data)
+                ? '----'
+                : dayjs(data?.createdAt).format(DATE_FORMAT?.UI)}
             </Typography>
           </Stack>
           <Stack direction="row" gap="3px" key={uuidv4()}>
@@ -90,7 +93,9 @@ const DetailCard = () => {
               Due Date:
             </Typography>
             <Typography variant="body2">
-              {calculateDueDate(user?.createdAt)}
+              {isNullOrEmpty(data)
+                ? '----'
+                : calculateDueDate(data?.expiryDate)}
             </Typography>
           </Stack>
           <Stack direction="row" gap="3px" key={uuidv4()}>
@@ -98,7 +103,7 @@ const DetailCard = () => {
               Prepared By:
             </Typography>
             <Typography variant="body2">
-              {user?.firstName} {user?.lastName}
+              {isNullOrEmpty(data) ? '----' : data?.name}
             </Typography>
           </Stack>
         </Stack>
