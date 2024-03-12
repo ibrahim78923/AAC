@@ -8,7 +8,7 @@ import NoData from '../NoData';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const Attachments = (props: any) => {
-  const { permissionKey } = props;
+  const { permissionKey, size, colSpan } = props;
   const {
     deleteModal,
     setDeleteModal,
@@ -29,8 +29,15 @@ export const Attachments = (props: any) => {
       <Grid container spacing={2}>
         {!!data?.data?.length ? (
           data?.data?.map((singleAttachment: any) => (
-            <Grid item xs={12} sm={6} lg={4} key={singleAttachment?._id}>
+            <Grid
+              item
+              xs={12}
+              sm={colSpan?.sm ?? 6}
+              lg={colSpan?.lg ?? 4}
+              key={singleAttachment?._id}
+            >
               <AttachFileCard
+                size={size}
                 data={singleAttachment}
                 onDelete={() =>
                   setDeleteModal({ open: true, id: singleAttachment?._id })

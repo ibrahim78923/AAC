@@ -1,13 +1,11 @@
-import { Box, IconButton, Typography } from '@mui/material';
+import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import Image from 'next/image';
 import { useAttachFileCard } from './useAttachFileCard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { generateImage } from '@/utils/avatarUtils';
 
-export const AttachFileCard = ({ data, onDelete, permissionKey }: any) => {
-  const { theme, cross, setCross } = useAttachFileCard();
-
+export const AttachFileCard = (props: any) => {
+  const { data, onDelete, permissionKey, size } = props;
+  const { theme, cross, setCross, getImageByType } = useAttachFileCard();
   return (
     <Box
       display={'flex'}
@@ -21,12 +19,11 @@ export const AttachFileCard = ({ data, onDelete, permissionKey }: any) => {
       onMouseEnter={() => setCross(true)}
       onMouseLeave={() => setCross(false)}
     >
-      <Image
-        src={generateImage(data?.fileUrl)}
+      <Avatar
+        src={getImageByType(data)}
         alt="file-preview"
-        width={45}
-        height={45}
-        style={{ objectFit: 'cover' }}
+        sx={{ width: size?.width ?? 45, height: size?.height ?? 45 }}
+        variant={size?.variant ?? 'rounded'}
       />
       <Box
         display={'flex'}
@@ -35,7 +32,7 @@ export const AttachFileCard = ({ data, onDelete, permissionKey }: any) => {
         justifyContent={'space-between'}
       >
         <Box>
-          <Typography variant="h6" whiteSpace={'nowrap'}>
+          <Typography variant="h6" whiteSpace={'nowrap'} color="slateBlue.main">
             {data?.name}
           </Typography>
           <Typography
