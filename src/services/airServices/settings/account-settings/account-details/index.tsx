@@ -16,15 +16,13 @@ export const AccountDetailAPI = baseAPI?.injectEndpoints({
       query: (param: any) => ({
         url: `${END_POINTS?.GET_PROFILE_DETAIL}/${param}`,
         method: 'GET',
-        // params: param,
       }),
       providesTags: [TAG],
     }),
     patchProfileDetail: builder?.mutation({
       query: (param: any) => ({
-        url: `${END_POINTS?.PATCH_PROFILE_DETAIL}`,
+        url: `${END_POINTS?.PATCH_PROFILE_DETAIL}/${param?.id}`,
         method: 'PATCH',
-        params: param?.id,
         body: param?.body,
       }),
       invalidatesTags: [TAG],
