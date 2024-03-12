@@ -1,10 +1,10 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const TAG = 'SINGLE_ATTACHMENT';
+const TAG = 'ATTACHMENTS';
 
 export const singleAttachmentsApi = baseAPI?.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder: any) => ({
     getSingleAttachment: builder?.query({
       query: (getSingleAttachmentParameter: any) => ({
         url: `${END_POINTS?.GET_ATTACHMENT}/${getSingleAttachmentParameter?.pathParams?.id}`,
@@ -28,6 +28,22 @@ export const singleAttachmentsApi = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    deleteAllAttachments: builder?.mutation({
+      query: (deleteAllAttachmentsParameter: any) => ({
+        url: `${END_POINTS?.DELETE_ALL_ATTACHMENT}`,
+        method: 'DELETE',
+        params: deleteAllAttachmentsParameter?.queryParams,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    deleteMultipleAttachments: builder?.mutation({
+      query: (deleteMultipleAttachmentsParameter: any) => ({
+        url: `${END_POINTS?.DELETE_MULTIPLE_ATTACHMENT}`,
+        method: 'DELETE',
+        params: deleteMultipleAttachmentsParameter?.queryParams,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -35,4 +51,6 @@ export const {
   useGetSingleAttachmentQuery,
   useDeleteSingleAttachmentMutation,
   useLazyGetSingleAttachmentQuery,
+  useDeleteAllAttachmentsMutation,
+  useDeleteMultipleAttachmentsMutation,
 } = singleAttachmentsApi;
