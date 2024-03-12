@@ -25,15 +25,47 @@ import { v4 as uuidv4 } from 'uuid';
 import { ArrowDownIcon } from '@/assets/icons';
 import { useRouter } from 'next/router';
 import { isNullOrEmpty } from '@/utils';
+import { useGetReceiverBankAccountsQuery } from '@/services/orgAdmin/settings/receivers-bank-acconts';
+import { usePostInvoiceMutation } from '@/services/airSales/invoices';
+import { enqueueSnackbar } from 'notistack';
+import { AIR_SALES } from '@/routesConstants/paths';
+import { useState } from 'react';
 
 const ProductsTable = (data: any) => {
   const theme = useTheme();
   const router = useRouter();
+  const [commentValue, setCommentValue] = useState();
   const { isDeleteModal, setIsDeleteModal, isDrawerOpen, setIsDrawerOpen } =
     useInvoices();
   const getTableColumns = productsTableColumns();
   // setIsDeleteModal,
   // setIsDrawerOpen,
+  const receiversParams = {};
+
+  const { data: receiversData } =
+    useGetReceiverBankAccountsQuery(receiversParams);
+
+  const [postCreateInvoice] = usePostInvoiceMutation();
+
+  const handleInvoice = async () => {
+    const values = {
+      quoteId: data?.data?._id,
+      comments: commentValue,
+      customerEmail: 'abc@orcalo.co.uk',
+      status: 'DRAFT',
+    };
+    try {
+      await postCreateInvoice({ body: values })?.unwrap();
+      enqueueSnackbar('Invoice added successfully', {
+        variant: 'success',
+      });
+      router.push(AIR_SALES?.SALES_INVOICES);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
 
   return (
     <Box my={3}>
@@ -50,6 +82,7 @@ const ProductsTable = (data: any) => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={7} lg={8} xl={9}>
           <TextareaAutosize
+            value={commentValue}
             placeholder="Comments"
             style={{
               width: '100%',
@@ -57,6 +90,7 @@ const ProductsTable = (data: any) => {
               padding: '16px',
               fontSize: '14px',
             }}
+            onChange={(e) => setCommentValue(e?.target?.value)}
           />
         </Grid>
         <Grid item xs={12} sm={5} lg={4} xl={3}>
@@ -81,7 +115,7 @@ const ProductsTable = (data: any) => {
                       {item?.title}
                     </Typography>
                     <Typography variant="h5" fontWeight={500}>
-                      {item?.value}
+                      {data?.data?.deal[0]?.companies[0]?.totalRevenue}
                     </Typography>
                   </Stack>
                   <Stack my={1} gap={1}>
@@ -140,7 +174,9 @@ const ProductsTable = (data: any) => {
                 Total
               </Typography>
               <Typography variant="h5" fontWeight={500}>
-                {isNullOrEmpty(data) ? '----' : data?.total}
+                {isNullOrEmpty(data)
+                  ? '----'
+                  : data?.data?.deal[0]?.companies[0]?.totalRevenue}
               </Typography>
             </CardActions>
           </Card>
@@ -159,15 +195,15 @@ const ProductsTable = (data: any) => {
             labelId="demo-simple-select-label"
             endAdornment={
               <InputAdornment position="end">
-                <ArrowDownIcon
-                  sx={{ color: `${theme?.palette?.custom?.main}` }}
-                />
+                <ArrowDownIcon />
               </InputAdornment>
             }
           >
-            <MenuItem value={10}>SCBL 1587 1254 32569 452226</MenuItem>
-            <MenuItem value={20}>SCBL 1587 1254 32569 452226</MenuItem>
-            <MenuItem value={30}>SCBL 1587 1254 32569 452226</MenuItem>
+            {receiversData?.data?.receiverbankaccounts?.map((account: any) => (
+              <MenuItem key={account._id} value={account.accountNumber}>
+                {`${account.accountNumber}`}
+              </MenuItem>
+            ))}
           </Select>
         </Grid>
       </Grid>
@@ -215,7 +251,11 @@ const ProductsTable = (data: any) => {
             >
               Cancel
             </Button>
-            <Button variant="contained" className="medium">
+            <Button
+              variant="contained"
+              className="medium"
+              onClick={handleInvoice}
+            >
               Send to Customer
             </Button>
           </Stack>

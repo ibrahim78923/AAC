@@ -41,6 +41,7 @@ export const invoiceAPI = baseAPI.injectEndpoints({
 });
 
 export const {
+  usePostInvoiceMutation,
   useLazyGetInvoiceQoutesListQuery,
   useGetInvoiceIdQuery,
   useGetInvoiceQuery,
