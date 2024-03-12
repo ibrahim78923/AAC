@@ -1,5 +1,5 @@
 import { DashboardAvatarImage } from '@/assets/images';
-import dayjs from 'dayjs';
+import { formatTimeDifference } from '@/utils/dateTime';
 
 export const announcementDashboardCardData = (customerAnnouncement: any[]) => {
   if (!customerAnnouncement || customerAnnouncement.length === 0) {
@@ -12,18 +12,7 @@ export const announcementDashboardCardData = (customerAnnouncement: any[]) => {
     announcement: (
       <div dangerouslySetInnerHTML={{ __html: announcementItem?.title }} />
     ),
-    announcementTime: calculateTimeDifference(announcementItem?.createdAt),
+    announcementTime: formatTimeDifference(announcementItem?.createdAt),
     announcementAvatar: announcementItem?.userName,
   }));
-};
-const calculateTimeDifference = (createdAt: string) => {
-  const currentTime = dayjs();
-  const announcementTime = dayjs(createdAt);
-  const diffInHours = currentTime.diff(announcementTime, 'hour');
-
-  if (diffInHours === 0) {
-    return 'Less than an hour ago';
-  } else {
-    return `${diffInHours} hours ago`;
-  }
 };

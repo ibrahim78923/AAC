@@ -40,27 +40,30 @@ const Dashboard = () => {
     <PermissionsGuard
       permissions={[AIR_SERVICES_DASHBOARD_PERMISSIONS?.VIEW_DASHBOARD]}
     >
-      <Box height="100%">
+      <Box>
         <HeaderDashboard />
         <br />
-        <Grid container spacing={3} height="100%">
+        <Grid container spacing={3}>
           {ticketDashboardCardsData(cardData)?.map((item: any) => (
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item?.id}>
-              <TicketDashboardCards
-                icon={item?.icon}
-                count={item?.count}
-                label={item?.label}
-              />
+              <Box height="100%">
+                <TicketDashboardCards
+                  icon={item?.icon}
+                  count={item?.count}
+                  label={item?.label}
+                />
+              </Box>
             </Grid>
           ))}
         </Grid>
-        <Grid container spacing={2} height="100%">
+        <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Grid container spacing={2} height="100%">
+            <Grid container spacing={2}>
               <Grid item xs={12} lg={8} sx={{ marginTop: 2 }}>
                 <Box
                   borderRadius={3}
                   border={`1px solid ${theme?.palette?.grey?.[700]}`}
+                  height="100%"
                 >
                   <br />
                   <Box marginLeft={2}>
@@ -78,12 +81,13 @@ const Dashboard = () => {
                 <Box
                   borderRadius={3}
                   border={`1px solid ${theme?.palette?.grey?.[700]}`}
+                  height="100%"
                 >
                   <br />
                   <Box marginLeft={2}>
                     <Typography variant="h5">Recent Activities</Typography>
                   </Box>
-                  <Box marginTop={2} overflow={'scroll'} height={'36.5vh'}>
+                  <Box marginTop={2} overflow={'scroll'} height={'35vh'}>
                     {recentActivitiesDashboardCardData(recentActivities)?.map(
                       (item: any, index: any) => (
                         <Box key={item?.id}>
@@ -114,7 +118,7 @@ const Dashboard = () => {
                     isDrawerOpen={isDrawerOpen}
                     setIsDrawerOpen={setIsDrawerOpen}
                   />
-                  <Box display={'flex'} justifyContent={'center'} marginTop={4}>
+                  <Box display={'flex'} justifyContent={'center'} marginTop={5}>
                     <Button variant="text" fullWidth onClick={handleIconButton}>
                       View All
                     </Button>
@@ -124,12 +128,13 @@ const Dashboard = () => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Grid container spacing={2} height="100%">
+            <Grid container spacing={2}>
               <Grid item xs={12} lg={4}>
                 <Box
                   borderRadius={3}
                   p={2}
                   border={`1px solid ${theme?.palette?.grey?.[700]}`}
+                  height="100%"
                 >
                   <Box>
                     <HeaderPieChart />
@@ -141,7 +146,7 @@ const Dashboard = () => {
               </Grid>
               <Grid item xs={12} lg={4}>
                 {topPerformerDashboardCardData?.map((item: any) => (
-                  <Box key={item?.id}>
+                  <Box key={item?.id} height="100%">
                     <TopPerformerDashboardCard
                       userImage={item?.userImage}
                       badgeImage={item?.badgeImage}
@@ -160,12 +165,13 @@ const Dashboard = () => {
                 <Box
                   borderRadius={3}
                   border={`1px solid ${theme?.palette?.grey?.[700]}`}
+                  height="100%"
                 >
                   <br />
                   <Box>
                     <AnnouncementHeader />
                   </Box>
-                  <Box overflow={'scroll'} height={'25vh'}>
+                  <Box overflow={'scroll'} height={'26vh'}>
                     {announcementDashboardCardData(customerAnnouncement)?.map(
                       (item, index) => (
                         <Box key={item?.id}>
@@ -188,11 +194,7 @@ const Dashboard = () => {
                     isAnnouncementDrawerOpen={isAnnouncementDrawerOpen}
                     setIsAnnouncementDrawerOpen={setIsAnnouncementDrawerOpen}
                   />
-                  <Box
-                    display={'flex'}
-                    justifyContent={'center'}
-                    marginTop={2.8}
-                  >
+                  <Box display={'flex'} justifyContent={'center'} marginTop={2}>
                     <Button
                       variant="text"
                       fullWidth
