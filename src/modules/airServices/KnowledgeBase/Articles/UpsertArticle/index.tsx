@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import {
   FormProvider,
@@ -17,6 +17,7 @@ import {
   AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS,
 } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
+import { Attachments } from '@/components/Attachments';
 
 export const UpsertArticle = () => {
   const {
@@ -71,6 +72,27 @@ export const UpsertArticle = () => {
                   'image/*': ['.png', '.jpg'],
                 }}
               />
+              {!!articleId && (
+                <>
+                  <Typography
+                    variant="body1"
+                    fontWeight={500}
+                    color="slateBlue.main"
+                    my={2}
+                  >
+                    {' '}
+                    Attachments{' '}
+                  </Typography>
+                  <Box maxHeight={'20vh'}>
+                    <Attachments
+                      recordId={articleId}
+                      permissionKey={[
+                        AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_FOLDER_LIST_PERMISSIONS?.ATTACHMENT,
+                      ]}
+                    />
+                  </Box>
+                </>
+              )}
             </PermissionsGuard>
             <br />
           </Grid>
