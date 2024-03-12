@@ -116,10 +116,12 @@ export const agentsListsColumnsFunction = (
             )}
           </Typography>
         </Avatar>
-        {fullName(
-          info?.row?.original?.firstName,
-          info?.row?.original?.lastName,
-        )}
+        <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+          {fullName(
+            info?.row?.original?.firstName,
+            info?.row?.original?.lastName,
+          )}
+        </Typography>
       </Box>
     ),
   },
