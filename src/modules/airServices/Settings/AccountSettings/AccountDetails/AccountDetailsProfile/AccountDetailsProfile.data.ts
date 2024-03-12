@@ -28,7 +28,9 @@ export const accountDetailProfileDefaultValues = (profileDetail: any) => {
     companyName: profileDetail?.company ?? '',
     jobTitle: profileDetail?.jobTitle ?? '',
     language: profileDetail?.language ?? '',
-    timeZone: profileDetail?.timezone ?? null,
+    timeZone: profileDetail?.timezone
+      ? timeZone?.find((item: any) => item?.label === profileDetail?.timezone)
+      : null,
     facebookURL: profileDetail?.facebookUrl ?? '',
     linkedinURL: profileDetail?.linkedInUrl ?? '',
     twitterURL: profileDetail?.twitterUrl ?? '',
