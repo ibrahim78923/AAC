@@ -395,3 +395,8 @@ export const MODULE_TYPE = {
   ARTICLES: 'ARTICLES',
   LOCATION: 'LOCATION',
 };
+export const TICKET_SELECTION_TYPE = {
+  REQUESTER: 'REQUESTER',
+  SUBJECT: 'SUBJECT',
+  ID: 'ID',
+};
