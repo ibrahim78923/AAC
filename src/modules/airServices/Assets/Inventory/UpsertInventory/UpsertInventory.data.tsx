@@ -28,6 +28,7 @@ export const UpsertInventoryValidationSchema: any = Yup?.object()?.shape({
   usedBy: Yup?.mixed()?.nullable(),
   assignedOnTime: Yup?.date()?.nullable(),
   assignedOnDate: Yup?.date()?.nullable(),
+  attachFile: Yup?.mixed()?.nullable(),
 });
 export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
   return {
@@ -60,7 +61,6 @@ export const editInventoryDefaultValues = {
   assignedOnDate: '',
   assignedOnTime: '',
   usedBy: '',
-  attachFile: '',
 };
 export const upsertInventoryFormFieldsDynamic = (
   apiQueryAssetType: any,

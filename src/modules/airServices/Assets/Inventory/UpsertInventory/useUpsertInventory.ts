@@ -10,7 +10,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import {
   useGetAddToInventoryByIdQuery,
-  useGetAttachmentToInventoryQuery,
   useLazyGetAssetTypeQuery,
   useLazyGetDepartmentDropdownQuery,
   useLazyGetLocationsDropdownQuery,
@@ -31,32 +30,18 @@ export const useUpsertInventory = () => {
     usePatchAddToInventoryMutation();
   const [postAddToInventoryTrigger, postAddToInventoryStatus] =
     usePostInventoryMutation();
-
+  const [hasAttachment, setHasAttachment] = useState(false);
   const getSingleInventoryDetailsParameter = {
     pathParam: {
       inventoryId,
     },
   };
-  const getAttachmentToInventoryParameter = {
-    pathParam: {
-      id: inventoryId,
-    },
-  };
-  const { data: attachFile } = useGetAttachmentToInventoryQuery(
-    getAttachmentToInventoryParameter,
-    {
-      refetchOnMountOrArgChange: true,
-      skip: !!!inventoryId,
-    },
-  );
 
-  const { data, isLoading, isFetching } = useGetAddToInventoryByIdQuery(
-    getSingleInventoryDetailsParameter,
-    {
+  const { data, isLoading, isFetching, isError } =
+    useGetAddToInventoryByIdQuery(getSingleInventoryDetailsParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!inventoryId,
-    },
-  );
+    });
   const methods = useForm({
     resolver: yupResolver(UpsertInventoryValidationSchema),
     defaultValues: upsertInventoryFieldsDefaultValuesFunction(data),
@@ -83,8 +68,8 @@ export const useUpsertInventory = () => {
       'assignedOn',
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
     );
-    typeof data?.attachFile !== 'string' &&
-      inventoryDetailsData?.append('attachment', data?.attachFile);
+    typeof data?.fileUrl !== 'string' &&
+      inventoryDetailsData?.append('attachment', data?.fileUrl);
     const body = inventoryDetailsData;
     if (!!inventoryId) {
       submitUpdateInventory(data);
@@ -129,6 +114,8 @@ export const useUpsertInventory = () => {
       'assignedOn',
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
     );
+    typeof data?.fileUrl !== 'string' &&
+      inventoryEditData?.append('fileUrl', data?.fileUrl);
     const body = inventoryEditData;
 
     const patchProductCatalogParameter = {
@@ -183,7 +170,10 @@ export const useUpsertInventory = () => {
     upsertInventoryFormFields,
     isLoading,
     isFetching,
+    isError,
     postAddToInventoryStatus,
-    attachFile,
+    hasAttachment,
+    inventoryId,
+    setHasAttachment,
   };
 };
