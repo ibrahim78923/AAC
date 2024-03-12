@@ -1,7 +1,5 @@
 import { EditRequestorsIcon } from '@/assets/icons';
-import { AIR_SERVICES } from '@/constants';
 import { Avatar, Box, Grid, IconButton, Typography } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UpsertRequesters from '../../UpsertRequesters';
 import { useRequesters } from '../../useRequesters';
 import { profileInformation, profileRole } from './RequestorsDetails.data';
@@ -11,7 +9,6 @@ import { RequestedTickets } from '../RequestedTickets';
 export const RequestorsDetails = () => {
   const {
     theme,
-    router,
     isDrawerOpen,
     setIsDrawerOpen,
     profileData,
@@ -22,18 +19,6 @@ export const RequestorsDetails = () => {
   } = useRequesters();
   return (
     <>
-      <Box display={'flex'} alignItems={'center'} gap={2} mb={3}>
-        <Box sx={{ cursor: 'pointer' }}>
-          <ArrowBackIcon
-            onClick={() =>
-              router?.push({ pathname: AIR_SERVICES?.REQUESTERS_SETTINGS })
-            }
-          />
-        </Box>
-        <Box mb={1}>
-          <Typography variant="h3">Profile</Typography>
-        </Box>
-      </Box>
       <Grid
         container
         borderRadius={'0.5rem'}
@@ -150,15 +135,17 @@ export const RequestorsDetails = () => {
         <br />
         <RequestedTickets />
       </Box>
-      <UpsertRequesters
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-        title={'Edit Requestor'}
-        okText={'Update'}
-        submitHandler={handleSubmit(submit)}
-        methods={methods}
-        handleClose={handleClose}
-      />
+      {isDrawerOpen && (
+        <UpsertRequesters
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+          title={'Edit Requestor'}
+          okText={'Update'}
+          submitHandler={handleSubmit(submit)}
+          methods={methods}
+          handleClose={handleClose}
+        />
+      )}
     </>
   );
 };
