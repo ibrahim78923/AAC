@@ -36,10 +36,10 @@ export const servicesPermissionsRole = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
     patchPermissionsRoleById: builder?.mutation({
-      query: ({ body, roleId }: any) => ({
+      query: ({ updatedPatchData, roleId }: any) => ({
         url: `${END_POINTS?.PERMISSIONS_ROLE}/${roleId}`,
         method: 'PATCH',
-        body: body?.updatedPatchData,
+        body: updatedPatchData,
       }),
       invalidatesTags: [TAG],
     }),

@@ -77,6 +77,7 @@ export default function useUpsertRoles() {
     isFetching: getRolesIsFetching,
   } = useGetPermissionsRoleByIdQuery(roleId, {
     skip: !roleId,
+    refetchOnMountOrArgChange: true,
   });
 
   useEffect(() => {
