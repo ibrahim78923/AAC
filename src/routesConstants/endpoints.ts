@@ -298,6 +298,7 @@ export const END_POINTS = {
   POST_CHANGE_PASSWORD: '/auth/change-password',
   GET_TICKET_APPROVAL_DETAILS: `/air-services-dashboard/get-tickets-approval-dashboard-details`,
   UPDATE_CONTRACT: 'contract/renew-extend',
+  PERMISSIONS_ROLE: '/permissions/role',
   GET_TICKET_BY_REQUESTER: '/ticket/requester-ticket',
   GET_TICKET_BY_SUBJECT: '/ticket/search-subject-ticket',
   MERGE_TICKET: '/ticket/merge-ticket',
