@@ -17,6 +17,9 @@ import {
 const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const { user } = getSession();
   const theme = useTheme<Theme>();
+
+  const disabled = isDrawerOpen?.type === 'view';
+
   const activeProduct = getActiveProductSession();
   const activeAccount = getActiveAccountSession();
 
@@ -42,20 +45,29 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
 
   useEffect(() => {
     trigger(
-      isDrawerOpen?.type === 'add' ? activeAccount?.role : isDrawerOpen?.id,
+      isDrawerOpen?.type !== 'add' ? isDrawerOpen?.id : activeAccount?.role,
     );
   }, [isDrawerOpen]);
 
   useEffect(() => {
     const data = viewPerdetails?.data;
+
+    const permissionsArray =
+      isDrawerOpen?.type !== 'add'
+        ? data?.permissions?.flatMap(
+            (item: any) =>
+              item?.subModules?.flatMap(
+                (mod: any) => mod?.permissions?.map((slg: any) => slg?.slug),
+              ),
+          )
+        : [];
+
     const fieldsToSet: any = {
       name: isDrawerOpen?.type === 'add' ? '' : data?.name,
       description: isDrawerOpen?.type === 'add' ? '' : data?.description,
-      permissions:
-        isDrawerOpen?.type === 'add'
-          ? []
-          : data?.permissions?.map((item: any) => item?.slug),
+      permissions: permissionsArray || [],
     };
+
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);
     }
@@ -90,6 +102,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
     viewPerdetails,
     activeAccount,
     isLoading,
+    disabled,
   };
 };
 
