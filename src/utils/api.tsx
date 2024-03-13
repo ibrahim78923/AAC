@@ -6,9 +6,12 @@ export const transformResponse = (response: any) => {
 };
 
 export const errorSnackbar = (message?: any) => {
-  enqueueSnackbar(message ?? `Something went wrong`, {
-    variant: NOTISTACK_VARIANTS?.ERROR,
-  });
+  enqueueSnackbar(
+    Array?.isArray(message) ? message?.[0] : message ?? `Something went wrong`,
+    {
+      variant: NOTISTACK_VARIANTS?.ERROR,
+    },
+  );
 };
 
 export const successSnackbar = (message: any) => {

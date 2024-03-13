@@ -13,6 +13,12 @@ import { IMG_URL } from '@/config';
 import { pxToRem } from '@/utils/getFontValue';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import useTicketInfoCard from './useTicketInfoCard';
+import { generateImage } from '@/utils/avatarUtils';
+import {
+  AIR_SERVICES_TICKETS_TICKETS_DETAILS,
+  AIR_SERVICES_TICKETS_TICKET_LISTS,
+} from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const TicketInfoCard = ({
   details,
@@ -201,7 +207,7 @@ export const TicketInfoCard = ({
           <Avatar
             sx={{ bgcolor: theme?.palette?.primary?.main }}
             style={{ width: 20, height: 20 }}
-            src={`${IMG_URL}${details?.requesterDetails?.requesterProfilePicture}`}
+            src={generateImage(details?.requesterDetails?.avatar?.url)}
           >
             <Typography fontSize={pxToRem(10)} textTransform={'uppercase'}>
               {details?.requesterDetails?.firstName?.[0] ?? '-'}
@@ -228,40 +234,50 @@ export const TicketInfoCard = ({
           '& .MuiPopover-paper': { borderRadius: 3, width: '9rem' },
         }}
       >
-        <Typography
-          sx={{
-            px: 2,
-            py: 1,
-            cursor: 'pointer',
-            '&:hover': {
-              bgcolor: theme?.palette?.grey?.[700],
-            },
-          }}
-          onClick={() => {
-            setSelectedTicketList([details?._id]);
-            setTicketAction(TICKETS_ACTION_CONSTANTS?.EDIT_TICKET);
-            setAnchorEl(null);
-          }}
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
+          ]}
         >
-          Edit
-        </Typography>
-        <Typography
-          sx={{
-            px: 2,
-            py: 1,
-            cursor: 'pointer',
-            '&:hover': {
-              bgcolor: theme?.palette?.grey?.[700],
-            },
-          }}
-          onClick={() => {
-            setDeleteId([details?._id]);
-            setOpenDeleteModal(true);
-            setAnchorEl(null);
-          }}
+          <Typography
+            sx={{
+              px: 2,
+              py: 1,
+              cursor: 'pointer',
+              '&:hover': {
+                bgcolor: theme?.palette?.grey?.[700],
+              },
+            }}
+            onClick={() => {
+              setSelectedTicketList([details?._id]);
+              setTicketAction(TICKETS_ACTION_CONSTANTS?.EDIT_TICKET);
+              setAnchorEl(null);
+            }}
+          >
+            Edit
+          </Typography>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS]}
         >
-          Delete
-        </Typography>
+          <Typography
+            sx={{
+              px: 2,
+              py: 1,
+              cursor: 'pointer',
+              '&:hover': {
+                bgcolor: theme?.palette?.grey?.[700],
+              },
+            }}
+            onClick={() => {
+              setDeleteId([details?._id]);
+              setOpenDeleteModal(true);
+              setAnchorEl(null);
+            }}
+          >
+            Delete
+          </Typography>
+        </PermissionsGuard>
       </Popover>
 
       <AlertModals

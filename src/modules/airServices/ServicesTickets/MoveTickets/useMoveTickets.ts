@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import {
   moveTicketsDefaultValue,
   moveTicketsFormFieldsDynamic,
+  moveTicketsValidationSchema,
 } from './MoveTickets.data';
 import { useRouter } from 'next/router';
 import usePath from '@/hooks/usePath';
@@ -11,6 +12,7 @@ import {
   useLazyGetDepartmentDropdownQuery,
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export const useMoveTickets = (props: any) => {
   const router = useRouter();
@@ -21,10 +23,14 @@ export const useMoveTickets = (props: any) => {
     setSelectedTicketList,
     selectedTicketList,
     singleTicketDetail,
+    setFilterTicketLists,
+    getTicketsListData,
+    setPage,
   } = props;
 
-  const moveTicketsFormMethod = useForm({
+  const moveTicketsFormMethod = useForm<any>({
     defaultValues: moveTicketsDefaultValue,
+    resolver: yupResolver(moveTicketsValidationSchema),
   });
 
   const { handleSubmit, reset } = moveTicketsFormMethod;
@@ -50,7 +56,9 @@ export const useMoveTickets = (props: any) => {
     try {
       await putTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket moved Successfully');
-
+      getTicketsListData(1, {});
+      setFilterTicketLists?.({});
+      setPage?.(1);
       closeMoveTicketsModal?.();
       reset();
     } catch (error) {

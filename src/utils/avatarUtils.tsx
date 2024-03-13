@@ -33,3 +33,9 @@ export const fullNameInitial = (firstName?: any, lastName?: any) => {
 export const generateImage = (imgSrc?: any) => {
   return `${IMG_URL}${imgSrc}`;
 };
+
+export const truncateText = (text = '---', sliceLimit = 30) => {
+  return text?.length > sliceLimit
+    ? `${text?.slice?.(0, sliceLimit)}...`
+    : text;
+};
