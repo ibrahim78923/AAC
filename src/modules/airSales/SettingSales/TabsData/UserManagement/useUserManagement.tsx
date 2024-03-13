@@ -22,6 +22,7 @@ const useUserManagement = () => {
   const [deleteTeams] = useDeleteTeamsMutation();
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
   const productUserParams = {
     page: page,
     limit: pageLimit,
