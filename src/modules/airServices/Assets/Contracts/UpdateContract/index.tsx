@@ -2,6 +2,8 @@ import { Grid, Typography, Box } from '@mui/material';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useUpdateContract } from './useUpdateContract';
 import { LoadingButton } from '@mui/lab';
+import { ViewDetailBackArrowIcon } from '@/assets/icons';
+import { AIR_SERVICES } from '@/constants';
 
 export const UpdateContract = () => {
   const {
@@ -41,10 +43,24 @@ export const UpdateContract = () => {
             borderRadius={{ md: 2, xs: 0 }}
             padding={{ md: 1.5, xs: 0 }}
           >
-            <Box sx={{ mb: '1rem' }}>
-              <Typography variant="h5" textTransform={'capitalize'}>
-                {`${router?.query?.action} Contract`}
-              </Typography>
+            <Box
+              sx={{
+                mb: '1rem',
+              }}
+            >
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Box
+                  onClick={() =>
+                    router?.push(AIR_SERVICES?.ASSETS_CONTRACTS_DETAIL)
+                  }
+                  sx={{ cursor: 'pointer' }}
+                >
+                  <ViewDetailBackArrowIcon />
+                </Box>
+                <Typography variant="h5" textTransform={'capitalize'}>
+                  {`${router?.query?.action} Contract`}
+                </Typography>
+              </Box>
             </Box>
             <Grid container spacing={4}>
               {updateContractFormFields?.map((item: any) => (
@@ -57,8 +73,8 @@ export const UpdateContract = () => {
                           </option>
                         ))
                       : item?.heading
-                        ? item?.heading
-                        : null}
+                      ? item?.heading
+                      : null}
                   </item.component>
                 </Grid>
               ))}

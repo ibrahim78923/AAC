@@ -235,7 +235,7 @@ export const inventoryListsColumnsFunction: any = (
     accessorFn: (row: any) => row?.assetLifeExpiry,
     id: 'assetLifeExpireOn',
     isSortable: true,
-    header: 'Asset life expire on',
+    header: 'Expiry date',
     cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
   },
 ];
