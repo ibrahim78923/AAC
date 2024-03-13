@@ -401,7 +401,10 @@ const UsersDetailsList = () => {
                             employeeDataById={employeeDataById}
                             searchAccount={searchAccount}
                           />
-                          <UserDetailsProfile userDetails={profileData?.data} />
+                          <UserDetailsProfile
+                            userDetails={profileData?.data}
+                            setTabVal={setTabVal}
+                          />
                           <Delegates />
                         </CommonTabs>
                       </Card>

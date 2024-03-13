@@ -71,7 +71,7 @@ const Header = () => {
             {data?.data?.[0]?.subject}
           </Typography>
         </Grid>
-        <Grid item sx={{ display: 'flex' }}>
+        <Grid item sx={{ display: 'flex', cursor: 'pointer' }}>
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_TICKETS_TICKETS_DETAILS?.TIME_TRACK_PLAY_PAUSE,
@@ -141,6 +141,7 @@ const Header = () => {
                 <PrintDrawer
                   isPrintDrawerOpen={isPrintDrawerOpen}
                   setISPrintDrawerOpen={setIsPrintDrawerOpen}
+                  data={data}
                 />
               )}
             </Box>

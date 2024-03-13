@@ -47,12 +47,13 @@ export const columnsTeams = (props: any) => {
           </Box>
           <Box
             sx={{ cursor: 'pointer' }}
-            onClick={() =>
+            onClick={() => {
               setIsAddTeam({
                 isToggle: true,
                 type: 'edit',
-              })
-            }
+              });
+              setTeamId(info?.row?.original?._id);
+            }}
           >
             <EditPenIcon />
           </Box>

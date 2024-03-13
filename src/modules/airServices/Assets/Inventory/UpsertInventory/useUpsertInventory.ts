@@ -124,7 +124,7 @@ export const useUpsertInventory = () => {
 
     try {
       await patchAddToInventoryTrigger(patchProductCatalogParameter)?.unwrap();
-      successSnackbar?.('Inventory Created Successfully!');
+      successSnackbar?.('Inventory Updated Successfully!');
       moveBack?.();
       reset();
     } catch (error: any) {
@@ -175,5 +175,7 @@ export const useUpsertInventory = () => {
     hasAttachment,
     inventoryId,
     setHasAttachment,
+    router,
+    moveBack,
   };
 };

@@ -1,5 +1,6 @@
 import { Button, useTheme, Box, Typography, Chip } from '@mui/material';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoData from '@/components/NoData';
 import { chipColor } from './Associations.data';
@@ -9,9 +10,11 @@ import { NewIncident } from './NewIncident';
 import { NoAssociationFoundImage } from '@/assets/images';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { AlertModals } from '@/components/AlertModals';
-import { useGetAssociationsTicketsQuery } from '@/services/airServices/assets/inventory/single-inventory-details/associations';
+import { useLazyGetAssociationsTicketsQuery } from '@/services/airServices/assets/inventory/single-inventory-details/associations';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
+import { PAGINATION } from '@/config';
+import CustomPagination from '@/components/CustomPagination';
 export const Associations = () => {
   const theme: any = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
@@ -19,15 +22,34 @@ export const Associations = () => {
   const [openNewIncident, setNewIncident] = useState(false);
   const [openExistingIncident, setExistingIncident] = useState(false);
   const [hoveredItemId, setHoveredItemId] = useState(null);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const handleMouseOver = (itemId: any) => {
     setHoveredItemId(itemId);
   };
 
-  const { data } = useGetAssociationsTicketsQuery();
+  const [lazyGetIncidentTrigger, lazyGetIncidentStatus] =
+    useLazyGetAssociationsTicketsQuery();
+  const getIncidentListData = async () => {
+    const getIncidentParams = new URLSearchParams();
+    // getIncidentParams?.append('ticketType', 'SR');
+    getIncidentParams?.append('page', page + '');
+    getIncidentParams?.append('limit', limit + '');
+    getIncidentParams?.append('metaData', 'true');
+    const getInventoryParameters = {
+      queryParams: getIncidentParams,
+    };
+    try {
+      await lazyGetIncidentTrigger(getInventoryParameters)?.unwrap();
+    } catch (error: any) {}
+  };
+  const getInventoryListData = lazyGetIncidentStatus?.data?.data?.tickets;
+  const metaData = lazyGetIncidentStatus?.data?.data?.meta;
 
-  const associationTicketsData = data?.data;
-
+  useEffect(() => {
+    getIncidentListData();
+  }, [page, limit]);
   const handleMouseLeave = () => {
     setHoveredItemId(null);
   };
@@ -39,7 +61,7 @@ export const Associations = () => {
   };
   return (
     <Fragment>
-      {associationTicketsData?.length <= 0 ? (
+      {getInventoryListData?.length <= 0 ? (
         <NoData
           image={NoAssociationFoundImage}
           message={'There are no associations'}
@@ -81,46 +103,71 @@ export const Associations = () => {
               AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.VIEW_ASSOCIATION,
             ]}
           >
-            {associationTicketsData?.map((item: any) => (
-              <Box
-                key={item.id}
-                border={`1px solid ${theme?.palette?.grey?.[400]}`}
-                borderLeft={`8px solid ${theme?.palette[chipColor(item?.status)]
-                  ?.main}`}
-                boxShadow={4}
-                borderRadius={2}
-                p={1}
-                mt={2}
-                display={'flex'}
-                justifyContent={'space-between'}
-                alignItems={'center'}
-              >
-                <Box
-                  display={'flex'}
-                  flexWrap={'wrap'}
-                  onMouseOver={() => handleMouseOver(item.id)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  {hoveredItemId === item.id && (
-                    <RemoveCircleOutlineIcon
-                      style={{ marginRight: '8px' }}
-                      fontSize="small"
-                      onClick={handleDelete}
-                    />
+            <>
+              {lazyGetIncidentStatus?.isLoading ||
+              lazyGetIncidentStatus?.isFetching ? (
+                <SkeletonTable />
+              ) : (
+                <>
+                  {' '}
+                  {getInventoryListData?.map((item: any) => (
+                    <Box
+                      key={item?._id}
+                      border={`1px solid $ {theme?.palette?.grey?.[400]}`}
+                      borderLeft={`8px solid ${theme?.palette[
+                        chipColor(item?.status)
+                      ]?.main}`}
+                      boxShadow={4}
+                      borderRadius={2}
+                      p={1}
+                      mt={2}
+                      display={'flex'}
+                      justifyContent={'space-between'}
+                      alignItems={'center'}
+                    >
+                      <Box
+                        display={'flex'}
+                        flexWrap={'wrap'}
+                        onMouseOver={() => handleMouseOver(item?._id)}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        {hoveredItemId === item?._id && (
+                          <RemoveCircleOutlineIcon
+                            style={{ marginRight: '8px' }}
+                            fontSize="small"
+                            onClick={handleDelete}
+                          />
+                        )}
+                        <Typography variant="body2" fontWeight={600}>
+                          {item?.ticketIdNumber}
+                        </Typography>
+                      </Box>
+                      <Chip
+                        label={item?.status}
+                        sx={{
+                          bgcolor:
+                            theme?.palette[chipColor(item?.status)]?.main,
+                          color: theme?.palette?.common?.white,
+                        }}
+                      />
+                    </Box>
+                  ))}
+                  {metaData && (
+                    <Box>
+                      <CustomPagination
+                        currentPage={page}
+                        count={metaData?.pages}
+                        pageLimit={limit}
+                        totalRecords={metaData?.total}
+                        onPageChange={(page: any) => setPage(page)}
+                        setPage={setPage}
+                        setPageLimit={setLimit}
+                      />
+                    </Box>
                   )}
-                  <Typography variant="body2" fontWeight={600}>
-                    {item?.ticketIdNumber}
-                  </Typography>
-                </Box>
-                <Chip
-                  label={item?.status}
-                  sx={{
-                    bgcolor: theme?.palette[chipColor(item?.status)]?.main,
-                    color: theme?.palette?.common?.white,
-                  }}
-                />
-              </Box>
-            ))}
+                </>
+              )}
+            </>
           </PermissionsGuard>
         </Fragment>
       )}

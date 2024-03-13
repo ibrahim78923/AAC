@@ -7,25 +7,29 @@ import { useEffect } from 'react';
 import { LoadingButton } from '@mui/lab';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
+import { ViewDetailBackArrowIcon } from '@/assets/icons';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 export const UpsertInventory = () => {
   const {
     methods,
     handleSubmit,
     theme,
-    formType,
     setFormType,
     query,
     upsertInventoryFormFields,
     submitUpsertInventory,
     inventoryId,
     setHasAttachment,
+    isLoading,
+    isFetching,
+    moveBack,
   } = useUpsertInventory();
 
   useEffect(() => {
     setFormType(query?.type);
   }, [query?.update]);
-
+  if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <>
       <FormProvider
@@ -39,9 +43,25 @@ export const UpsertInventory = () => {
               borderRadius={3}
               border={`2px solid ${theme?.palette?.custom?.off_white_three}`}
             >
-              <Typography variant="h3" color="slateblue.main">
-                Add New
-              </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 1,
+                }}
+              >
+                <Box onClick={moveBack} sx={{ cursor: 'pointer' }} mt={0.5}>
+                  <ViewDetailBackArrowIcon />
+                </Box>
+                {!!inventoryId ? (
+                  <Typography variant="h3" color="slateblue.main">
+                    Update
+                  </Typography>
+                ) : (
+                  <Typography variant="h3" color="slateblue.main">
+                    Add New
+                  </Typography>
+                )}
+              </Box>
               <br />
               <Grid item container xs={12} overflow="scroll">
                 <Grid container rowSpacing={1.8} columnSpacing={3}>
@@ -101,7 +121,7 @@ export const UpsertInventory = () => {
                 type="submit"
                 sx={{ paddingX: '25px' }}
               >
-                {formType || 'save'}
+                {!!inventoryId ? 'update' : 'save'}
               </LoadingButton>
             </Box>
           </Grid>

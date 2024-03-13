@@ -73,6 +73,7 @@ const Teams = (props: any) => {
           </PermissionsGuard>
         </Grid>
 
+        {/* <CreateTeams isAddTeam={isAddTeam} setIsAddTeam={setIsAddTeam} teamsDataById={teamDataById} /> */}
         <ViewTeams
           isTeamDrawer={isTeamDrawer}
           setIsTeamDrawer={setIsTeamDrawer}
