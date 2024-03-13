@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   Box,
@@ -30,6 +30,14 @@ const ChoosePlan = () => {
     id: router?.query?.data,
   });
 
+  const [getData, setGetData] = useState<any>([]);
+
+  useEffect(() => {
+    if (data?.data) {
+      setGetData(Object?.values(data?.data));
+    }
+  }, [data]);
+
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: '27px' }}>
@@ -59,107 +67,119 @@ const ChoosePlan = () => {
                   Everything your sales team need to work better and together.
                 </Typography>
               </TableCell>
-              {data?.data?.map((choosePlan: any) => {
-                return (
-                  <TableCell key={uuidv4()} component="th">
-                    {choosePlan?.planType?.name}
-                  </TableCell>
-                );
-              })}
+              {getData?.length
+                ? getData?.map((choosePlan: any) => {
+                    return (
+                      <TableCell key={uuidv4()} component="th">
+                        {choosePlan?.planType?.name}
+                      </TableCell>
+                    );
+                  })
+                : null}
             </TableRow>
             <TableRow>
-              {data?.data?.map((choosePlan: any) => {
-                return (
-                  <TableCell sx={styles?.planBox} key={uuidv4()}>
-                    <Typography variant="h3">
-                      £{choosePlan?.planPrice}
-                      <Box component={'span'}>/Month</Box>
-                    </Typography>
-                    <PermissionsGuard
-                      permissions={[
-                        ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_BUY_PLAN,
-                      ]}
-                    >
-                      <Button variant="contained" color="primary">
-                        Buy Plan
-                      </Button>
-                    </PermissionsGuard>
-                  </TableCell>
-                );
-              })}
+              {getData?.length
+                ? getData?.map((choosePlan: any) => {
+                    return (
+                      <TableCell sx={styles?.planBox} key={uuidv4()}>
+                        <Typography variant="h3">
+                          £{choosePlan?.planPrice}
+                          <Box component={'span'}>/Month</Box>
+                        </Typography>
+                        <PermissionsGuard
+                          permissions={[
+                            ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_BUY_PLAN,
+                          ]}
+                        >
+                          <Button variant="contained" color="primary">
+                            Buy Plan
+                          </Button>
+                        </PermissionsGuard>
+                      </TableCell>
+                    );
+                  })
+                : null}
             </TableRow>
 
             <TableRow sx={styles?.planDetailText}>
-              {data?.data?.map((choosePlan: any) => {
-                return (
-                  <TableCell key={uuidv4()}>
-                    <Typography variant="body2">
-                      {choosePlan?.description}
-                    </Typography>
-                  </TableCell>
-                );
-              })}
+              {getData?.length
+                ? getData?.map((choosePlan: any) => {
+                    return (
+                      <TableCell key={uuidv4()}>
+                        <Typography variant="body2">
+                          {choosePlan?.description}
+                        </Typography>
+                      </TableCell>
+                    );
+                  })
+                : null}
             </TableRow>
             <TableRow>
               <TableCell sx={styles?.sideHeader}>Users</TableCell>
-              {data?.data?.map((choosePlan: any) => {
-                return (
-                  <TableCell key={uuidv4()} sx={styles?.userIncludes}>
-                    <Typography variant="h6">
-                      Includes {choosePlan?.defaultUsers} paid users
-                    </Typography>
-                    <Typography variant="body2">
-                      £ {choosePlan?.additionalPerUserPrice}/ Month per
-                      additional user
-                    </Typography>
-                    <Typography variant="body2">
-                      Allow {choosePlan?.defaultStorage} GB storage
-                    </Typography>
-                  </TableCell>
-                );
-              })}
+              {getData?.length
+                ? getData?.map((choosePlan: any) => {
+                    return (
+                      <TableCell key={uuidv4()} sx={styles?.userIncludes}>
+                        <Typography variant="h6">
+                          Includes {choosePlan?.defaultUsers} paid users
+                        </Typography>
+                        <Typography variant="body2">
+                          £ {choosePlan?.additionalPerUserPrice}/ Month per
+                          additional user
+                        </Typography>
+                        <Typography variant="body2">
+                          Allow {choosePlan?.defaultStorage} GB storage
+                        </Typography>
+                      </TableCell>
+                    );
+                  })
+                : null}
             </TableRow>
 
             <TableRow>
               <TableCell sx={styles?.sideHeader}>
                 Max Additional Users
               </TableCell>
-              {data?.data?.map(() => {
-                return (
-                  <TableCell key={uuidv4()} sx={styles?.userIncludes}>
-                    <PermissionsGuard
-                      permissions={[
-                        ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_USER,
-                      ]}
-                    >
-                      <Counter inputValue={0} />
-                    </PermissionsGuard>
-                  </TableCell>
-                );
-              })}
+              {getData?.length
+                ? getData?.map(() => {
+                    return (
+                      <TableCell key={uuidv4()} sx={styles?.userIncludes}>
+                        <PermissionsGuard
+                          permissions={[
+                            ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_USER,
+                          ]}
+                        >
+                          <Counter inputValue={0} />
+                        </PermissionsGuard>
+                      </TableCell>
+                    );
+                  })
+                : null}
             </TableRow>
 
             <TableRow>
               <TableCell sx={styles?.sideHeader}>
                 Max Additional Srorage
               </TableCell>
-              {data?.data?.map(() => {
-                return (
-                  <TableCell key={uuidv4()} sx={styles?.userIncludes}>
-                    <PermissionsGuard
-                      permissions={[
-                        ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_STORAGE,
-                      ]}
-                    >
-                      <Counter
-                        inputValue={0}
-                        fixedText="GB"
-                        inputWidth="74px"
-                      />
-                    </PermissionsGuard>
-                  </TableCell>
-                );
-              })}
+              {getData?.length
+                ? getData?.map(() => {
+                    return (
+                      <TableCell key={uuidv4()} sx={styles?.userIncludes}>
+                        <PermissionsGuard
+                          permissions={[
+                            ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_STORAGE,
+                          ]}
+                        >
+                          <Counter
+                            inputValue={0}
+                            fixedText="GB"
+                            inputWidth="74px"
+                          />
+                        </PermissionsGuard>
+                      </TableCell>
+                    );
+                  })
+                : null}
             </TableRow>
             {featuresData?.data?.productfeatures?.map((feature: any) => {
               return (
@@ -167,7 +187,7 @@ const ChoosePlan = () => {
                   <TableCell sx={styles?.salesActivities}>
                     <Typography variant="h6">{feature?.name}</Typography>
                   </TableCell>
-                  {data?.data?.map((planFeature: any) => {
+                  {getData?.map((planFeature: any) => {
                     return planFeature?.planProductFeatures?.map(
                       (planFeatureId: any) => {
                         return planFeatureId?.featureId === feature?._id ? (
