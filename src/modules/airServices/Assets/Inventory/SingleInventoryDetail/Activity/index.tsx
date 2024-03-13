@@ -27,7 +27,6 @@ export const Activity = () => {
 
   return (
     <>
-      <br />
       <Box
         display={'flex'}
         flexWrap={'wrap'}

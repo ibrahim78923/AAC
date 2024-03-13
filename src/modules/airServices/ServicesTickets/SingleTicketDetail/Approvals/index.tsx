@@ -27,7 +27,6 @@ export const Approvals = () => {
 
   return (
     <>
-      <br />
       {!!data?.data?.length ? (
         <RequestApprovalPage
           isDrawerOpen={isDrawerOpen}

@@ -27,7 +27,6 @@ const RelatedTickets = (props: any) => {
 
   return (
     <>
-      <br />
       <RelatedTicketsHeader
         relatedTicketsActionDropdown={relatedTicketsActionDropdown}
         isActive={!!!selectedChildTickets?.length}
