@@ -12,7 +12,7 @@ import EditColumn from '../../EditColumn';
 import FilterComp from '../../Filter';
 import ListGridViewBtn from '../../ListGridViewBtn';
 
-import { RefreshTasksIcon } from '@/assets/icons';
+import { EditColumnIcon, RefreshTasksIcon } from '@/assets/icons';
 import { FilterIcon } from '@/assets/icons';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -33,12 +33,16 @@ import { styles } from './TabToobar.style';
 import { v4 as uuidv4 } from 'uuid';
 import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS } from '@/constants/permission-keys';
 
 const TabToolbar = () => {
   const dispatch: any = useAppDispatch();
   const theme = useTheme();
 
   const [deleteIsLoading, setDeleteIsLoading] = useState(false);
+
+  const [isEditColumnOpen, setIsEditColumnOpen] = useState(false);
 
   const [isCreateTaskDrawerOpen, setIsCreateTaskDrawerOpen] = useState(false);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
@@ -165,39 +169,67 @@ const TabToolbar = () => {
           >
             Actions
           </Button>
-          <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
+          <PermissionsGuard
+            permissions={[AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS?.EDIT_TASK]}
           >
-            {menuItems?.map((item: any) => {
-              const isAbleToEdit =
-                selectedTaskIds?.length > 1 &&
-                (item?.name === 'edit' ||
-                  item?.name === 'viewActivity' ||
-                  item?.name === 'changeStatus');
-              return (
-                <MenuItem
-                  disabled={isAbleToEdit}
-                  onClick={menuFunctionsToRender[item?.name]}
-                  key={item?.item}
-                >
-                  {item?.item}
-                </MenuItem>
-              );
-            })}
-          </Popover>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+            >
+              {menuItems?.map((item: any) => {
+                const isAbleToEdit =
+                  selectedTaskIds?.length > 1 &&
+                  (item?.name === 'edit' ||
+                    item?.name === 'viewActivity' ||
+                    item?.name === 'changeStatus');
+                return (
+                  <MenuItem
+                    disabled={isAbleToEdit}
+                    onClick={menuFunctionsToRender[item?.name]}
+                    key={item?.item}
+                  >
+                    {item?.item}
+                  </MenuItem>
+                );
+              })}
+            </Popover>
+          </PermissionsGuard>
 
-          <EditColumn />
+          <Button
+            className="small"
+            color={'inherit'}
+            variant={'outlined'}
+            startIcon={<EditColumnIcon />}
+            sx={{
+              minHeight: '36px',
+              '& .startIcon': {
+                marginRight: '8px',
+              },
+              fontWeight: '500',
+              width: { xs: '100%', sm: 'auto' },
+            }}
+            classes={{
+              startIcon: 'startIcon',
+            }}
+            onClick={() => setIsEditColumnOpen(true)}
+          >
+            {'Edit Column'}
+          </Button>
+
+          <EditColumn
+            open={isEditColumnOpen}
+            onClose={() => setIsEditColumnOpen(false)}
+          />
           <Button
             className="small"
             color={'inherit'}
@@ -226,7 +258,7 @@ const TabToolbar = () => {
               isCreateTaskDrawerOpen={isCreateTaskDrawerOpen}
               setIsCreateTaskDrawerOpen={setIsCreateTaskDrawerOpen}
               creationMode={'edit'}
-              taskData={taskData}
+              // taskData={taskData}
             />
           )}
 

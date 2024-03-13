@@ -32,10 +32,9 @@ export const taskAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     deleteTask: builder.mutation({
-      query: (params: any) => ({
-        url: `${END_POINTS?.TASK}/id`,
+      query: (ids: any) => ({
+        url: `${END_POINTS?.TASK}/${ids}`,
         method: 'DELETE',
-        params,
       }),
       invalidatesTags: [TAG],
     }),

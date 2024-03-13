@@ -24,7 +24,6 @@ import { persistStore } from 'redux-persist';
 import store, { useAppSelector } from '@/redux/store';
 
 import {
-  useGetProductsFeaturesAllQuery,
   useGetPermissionsByProductsQuery,
   usePostPlanMangementMutation,
   useUpdatePlanMangementMutation,
@@ -122,15 +121,15 @@ export const useAddPlan = () => {
   const featuresFormData: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.planFeature,
   );
-  const { data, isSuccess } = useGetProductsFeaturesAllQuery({});
+  // const { data, isSuccess } = useGetProductsFeaturesAllQuery({});
   const { data: modulesData } = useGetPermissionsByProductsQuery({
     id: productIdModules,
     skip,
   });
-  let productFeatures: any;
-  if (isSuccess) {
-    productFeatures = data;
-  }
+  // let productFeatures: any;
+  // if (isSuccess) {
+  //   productFeatures = data;
+  // }
 
   const onSubmitPlan = async (values: any) => {
     dispatch(addPlanFormData(values));
@@ -153,9 +152,9 @@ export const useAddPlan = () => {
   };
   const onSubmitPlanFeaturesHandler = async (values: any) => {
     const featuresData = values?.features?.map((item: any) => {
-      const productId = productFeatures?.data?.productfeatures?.find(
-        (id: any) => id?._id === item,
-      );
+      // const productId = productFeatures?.data?.productfeatures?.find(
+      //   (id: any) => id?._id === item,
+      // );
 
       return {
         features: [
@@ -164,7 +163,7 @@ export const useAddPlan = () => {
             featureId: item,
           },
         ],
-        productId: productId?.productId || null,
+        productId: planForm?.productId || null,
       };
     });
     dispatch(planFeaturesFormData(featuresData));
@@ -195,7 +194,7 @@ export const useAddPlan = () => {
     if (activeStep == AddPlanStepperData?.length - 1) {
       const planFormData = {
         //Todo: getting product id at index 0
-        productId: planForm?.productId[0],
+        productId: planForm?.productId,
 
         ...(isNullOrEmpty(planForm?.productId) && { suite: planForm?.suite }),
         planTypeId: planForm?.planTypeId,
@@ -231,7 +230,7 @@ export const useAddPlan = () => {
           {
             permissionSlugs: values?.permissionSlugs,
             //Todo: getting product id at index 0
-            productId: planForm?.productId[0],
+            productId: planForm?.productId,
           },
         ],
       };

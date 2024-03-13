@@ -7,10 +7,11 @@ import { PAGINATION } from '@/config';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS_KEYS } from '@/constants/permission-keys';
 
-const PlanDetails = ({ getPlanManagementRowData }: any) => {
+const PlanDetails = ({ getPlanManagementRowData, searchBy }: any) => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const params = {
+    search: searchBy,
     page,
     limit,
   };
@@ -32,7 +33,8 @@ const PlanDetails = ({ getPlanManagementRowData }: any) => {
           pageLimit={tableRowData?.data?.meta?.limit}
           totalRecords={tableRowData?.data?.meta?.total}
           isSuccess={true}
-          onPageChange={(page: any) => setPage(page)}
+          // onPageChange={(page: any) => setPage(page)}
+          onPageChange={() => setPageLimit(tableRowData?.data?.meta?.limit)}
         />
       </PermissionsGuard>
     </div>

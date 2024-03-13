@@ -1,30 +1,74 @@
-import { enqueueSnackbar } from 'notistack';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import {
   mergeTicketsFormDefaultValue,
   mergeTicketsFormFieldsDynamic,
 } from './MergeTickets.data';
 import { useRouter } from 'next/router';
 import usePath from '@/hooks/usePath';
-import { useLazyGetOrganizationsQuery } from '@/services/dropdowns';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import {
+  useLazyGetRequesterDropdownQuery,
+  useLazyGetTicketByRequesterQuery,
+  useLazyGetTicketBySubjectQuery,
+  useLazyGetTicketsSearchByIdQuery,
+  usePostMergeTicketsMutation,
+} from '@/services/airServices/tickets';
+import { useEffect } from 'react';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { TICKET_SELECTION_TYPE } from '@/constants/strings';
 
 export const useMergedTickets = (props: any) => {
   const router = useRouter();
   const { makePath } = usePath();
-  const { setIsMergedTicketsModalOpen } = props;
-
+  const {
+    setIsMergedTicketsModalOpen,
+    setSelectedTicketList,
+    selectedTicketList,
+  } = props;
+  const [postMergeTicketsTrigger, postMergeTicketsStatus] =
+    usePostMergeTicketsMutation();
   const mergedTicketsFormMethod = useForm({
     defaultValues: mergeTicketsFormDefaultValue,
   });
 
-  const { handleSubmit, reset } = mergedTicketsFormMethod;
+  const { handleSubmit, reset, control, setValue, getValues } =
+    mergedTicketsFormMethod;
 
-  const submitMergedTicketsForm = () => {
-    enqueueSnackbar('Tickets Merge Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    closeMergedTicketsModal?.();
+  const watchForTicketSelection: any = useWatch({
+    control,
+    name: 'ticketSelection',
+    defaultValue: {
+      _id: TICKET_SELECTION_TYPE?.REQUESTER,
+      label: TICKET_SELECTION_TYPE?.REQUESTER,
+    },
+  });
+
+  useEffect(() => {
+    setValue(
+      'searchTicket',
+      watchForTicketSelection?._id === TICKET_SELECTION_TYPE?.ID ? null : [],
+    );
+    setValue('requester', null);
+  }, [watchForTicketSelection?._id]);
+
+  const submitMergedTicketsForm = async (data: any) => {
+    const postMergeTicketsParams = new URLSearchParams();
+    data?.searchTicket?.forEach(
+      (ticketId: any) =>
+        postMergeTicketsParams?.append('searchTicket', ticketId?._id),
+    );
+    postMergeTicketsParams?.append('findTicketBy', data?.ticketSelection?._id);
+    postMergeTicketsParams?.append('ticketId', selectedTicketList?.[0]);
+    const postMergeTicketsParameter = {
+      queryParams: postMergeTicketsParams,
+    };
+    try {
+      await postMergeTicketsTrigger(postMergeTicketsParameter)?.unwrap();
+      successSnackbar('Ticket merged successfully');
+      setSelectedTicketList([]);
+      closeMergedTicketsModal?.();
+    } catch (error: any) {
+      errorSnackbar();
+    }
   };
 
   const closeMergedTicketsModal = () => {
@@ -35,18 +79,29 @@ export const useMergedTickets = (props: any) => {
       }),
     );
     reset();
+    setSelectedTicketList([]);
     setIsMergedTicketsModalOpen?.(false);
   };
-  const apiQueryOrganizations = useLazyGetOrganizationsQuery();
+  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
+  const apiQueryTicketBySubject = useLazyGetTicketBySubjectQuery();
+  const apiQueryTicketByRequester = useLazyGetTicketByRequesterQuery();
+  const apiQueryTicketById = useLazyGetTicketsSearchByIdQuery();
 
   const mergeTicketsFormFields = mergeTicketsFormFieldsDynamic(
-    apiQueryOrganizations,
+    watchForTicketSelection,
+    apiQueryRequester,
+    apiQueryTicketByRequester,
+    apiQueryTicketBySubject,
+    apiQueryTicketById,
+    getValues,
   );
+
   return {
     mergedTicketsFormMethod,
     closeMergedTicketsModal,
     handleSubmit,
     submitMergedTicketsForm,
     mergeTicketsFormFields,
+    postMergeTicketsStatus,
   };
 };

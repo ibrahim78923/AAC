@@ -3,6 +3,8 @@ import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { useUpsertTicket } from './useUpsertTicket';
+import { Attachments } from '@/components/Attachments';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
 export const UpsertTicket = (props: any) => {
   const { isDrawerOpen } = props;
@@ -18,6 +20,7 @@ export const UpsertTicket = (props: any) => {
     putTicketStatus,
     postTicketStatus,
     isError,
+    setHasAttachment,
   } = useUpsertTicket(props);
 
   return (
@@ -65,6 +68,30 @@ export const UpsertTicket = (props: any) => {
                   </Grid>
                 ))}
               </Grid>
+              <br />
+
+              {!!ticketId && (
+                <>
+                  <Typography
+                    variant="body1"
+                    fontWeight={500}
+                    color="slateBlue.main"
+                    mb={2}
+                  >
+                    {' '}
+                    Attachments{' '}
+                  </Typography>
+                  <Box maxHeight={'20vh'}>
+                    <Attachments
+                      recordId={ticketId}
+                      permissionKey={[
+                        AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
+                      ]}
+                      hasAttachments={setHasAttachment}
+                    />
+                  </Box>
+                </>
+              )}
             </FormProvider>
           </Box>
         </>

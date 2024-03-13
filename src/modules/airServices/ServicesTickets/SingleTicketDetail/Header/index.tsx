@@ -21,6 +21,7 @@ import {
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
   AIR_SERVICES_TICKETS_TICKET_LISTS,
 } from '@/constants/permission-keys';
+import { TicketsDelete } from '../../TicketsDelete';
 
 const Header = () => {
   const {
@@ -35,6 +36,9 @@ const Header = () => {
     ticketsApprovalDropdown,
     isPrintDrawerOpen,
     setIsPrintDrawerOpen,
+    deleteModalOpen,
+    setDeleteModalOpen,
+    ticketId,
   } = useHeader();
 
   return (
@@ -67,7 +71,7 @@ const Header = () => {
             {data?.data?.[0]?.subject}
           </Typography>
         </Grid>
-        <Grid item sx={{ display: 'flex' }}>
+        <Grid item sx={{ display: 'flex', cursor: 'pointer' }}>
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_TICKETS_TICKETS_DETAILS?.TIME_TRACK_PLAY_PAUSE,
@@ -137,12 +141,21 @@ const Header = () => {
                 <PrintDrawer
                   isPrintDrawerOpen={isPrintDrawerOpen}
                   setISPrintDrawerOpen={setIsPrintDrawerOpen}
+                  data={data}
                 />
               )}
             </Box>
           </PermissionsGuard>
         </Grid>
       </Grid>
+      {deleteModalOpen && (
+        <TicketsDelete
+          deleteModalOpen={deleteModalOpen}
+          setDeleteModalOpen={setDeleteModalOpen}
+          selectedTicketList={[ticketId]}
+          isMoveBack
+        />
+      )}
     </>
   );
 };

@@ -1,277 +1,253 @@
-import { Checkbox, Select, MenuItem } from '@mui/material';
+import { Checkbox } from '@mui/material';
 
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 import { SwitchBtn } from '@/components/SwitchButton';
+import useTeams from '../Teams/useTeams';
+import useUsers from './useUsers';
 
-export const validationSchema = Yup?.object()?.shape({
+export const userValidationSchema = Yup?.object()?.shape({
   firstName: Yup?.string()?.required('Field is Required'),
   lastName: Yup?.string()?.required('Field is Required'),
   email: Yup?.string()?.trim()?.required('Field is Required'),
   team: Yup?.string()?.trim()?.required('Field is Required'),
-  address: Yup?.string(),
   phoneNumber: Yup?.string()?.required('Field is Required'),
-  jobTitle: Yup?.string(),
-  assignRole: Yup?.string(),
-  faceBookUrl: Yup?.string(),
-  country: Yup?.string(),
 });
 
-export const defaultValues = {
+export const userDefaultValues = {
   firstName: '',
   lastName: '',
-  address: '',
   email: '',
+  team: '',
+  address: '',
   phoneNumber: '',
   jobTitle: '',
-  assignRole: '',
-  team: '',
-  country: '',
+  role: '',
+  facebookUrl: '',
+  language: '',
+  twitterUrl: '',
+  linkedInUrl: '',
 };
 
-export const dataArray = [
-  {
-    componentProps: {
-      name: 'firstName',
-      label: 'First Name',
-      fullWidth: true,
-      select: false,
+export const dataArray = () => {
+  const { teamsData } = useTeams();
+  const { rolesByCompanyId } = useUsers();
+  return [
+    {
+      componentProps: {
+        name: 'firstName',
+        label: 'First Name',
+        fullWidth: true,
+        placeholder: 'Enter First Name',
+        select: false,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'lastName',
-      label: 'Last Name',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'lastName',
+        label: 'Last Name',
+        placeholder: 'Enter Last Name',
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'address',
-      label: 'Address',
-      fullWidth: true,
-      select: false,
+    {
+      componentProps: {
+        name: 'address',
+        label: 'Address',
+        placeholder: 'Enter Address',
+        fullWidth: true,
+        select: false,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'email',
-      label: 'Email',
-      fullWidth: true,
-      select: false,
+    {
+      componentProps: {
+        name: 'email',
+        label: 'Email',
+        fullWidth: true,
+        placeholder: 'Enter Email',
+        select: false,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'phoneNumber',
-      label: 'Phone Number',
-      fullWidth: true,
-      select: false,
+    {
+      componentProps: {
+        name: 'phoneNumber',
+        label: 'Phone Number',
+        placeholder: 'Enter Phone Number',
+        fullWidth: true,
+        select: false,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'jobTitle',
-      label: 'Job Title',
-      fullWidth: true,
-      select: false,
+    {
+      componentProps: {
+        name: 'jobTitle',
+        label: 'Job Title',
+        placeholder: 'Enter Job Title',
+        fullWidth: true,
+        select: false,
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'assignRole',
-      label: 'Assign role',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        name: 'role',
+        label: 'Assign role',
+        fullWidth: true,
+        select: true,
+      },
+      options: rolesByCompanyId?.data?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'United Kingdom', label: 'Account Admin' },
-      { value: 'United Kingdom', label: 'Sales Manager' },
-      { value: 'United Kingdom', label: 'Account Admin' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'team',
-      label: 'Select Team',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        name: 'team',
+        label: 'Select Team',
+        fullWidth: true,
+        select: true,
+      },
+      options: teamsData?.data?.userTeams?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'United Kingdom', label: 'Alfa' },
-      { value: 'United Kingdom', label: 'Test' },
-      { value: 'United Kingdom', label: 'Test 1' },
-      { value: 'United Kingdom', label: 'Orcalo' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'language',
-      label: 'Language',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        name: 'language',
+        label: 'Language',
+        fullWidth: true,
+        select: true,
+      },
+      options: [
+        { value: 'United Kingdom', label: 'English' },
+        { value: 'United Kingdom', label: 'Spanish' },
+        { value: 'United Kingdom', label: 'Chinese' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'United Kingdom', label: 'English' },
-      { value: 'United Kingdom', label: 'Spanish' },
-      { value: 'United Kingdom', label: 'Chinese' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'timeZone',
-      label: 'Time Zone',
-      fullWidth: true,
-      select: true,
+    {
+      componentProps: {
+        name: 'timezone',
+        label: 'Time Zone',
+        fullWidth: true,
+        select: true,
+      },
+      options: [
+        { value: 'United Kingdom', label: '(GMT-11:00) London' },
+        { value: 'United Kingdom', label: '(GMT-11:00) London' },
+        { value: 'United Kingdom', label: '(GMT-11:00) London' },
+      ],
+      component: RHFSelect,
+      md: 12,
     },
-    options: [
-      { value: 'United Kingdom', label: '(GMT-11:00) London' },
-      { value: 'United Kingdom', label: '(GMT-11:00) London' },
-      { value: 'United Kingdom', label: '(GMT-11:00) London' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'facwBookUrl',
-      label: 'Facebook URL',
-      fullWidth: true,
-      select: false,
+    {
+      componentProps: {
+        name: 'faceBookUrl',
+        label: 'Facebook URL',
+        placeholder: 'Enter Facebook URL',
+        fullWidth: true,
+        select: false,
+      },
+      options: [{ value: 'United Kingdom', label: 'United Kingdom' }],
+      component: RHFTextField,
+      md: 12,
     },
-    options: [{ value: 'United Kingdom', label: 'United Kingdom' }],
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'linkdINuRL',
-      label: 'Linkdin URL',
-      fullWidth: true,
-      select: false,
+    {
+      componentProps: {
+        name: 'linkedInURL',
+        label: 'Linkdin URL',
+        placeholder: 'Enter LinkedIn URL',
+        fullWidth: true,
+        select: false,
+      },
+      options: [{ value: 'United Kingdom', label: 'United Kingdom' }],
+      component: RHFTextField,
+      md: 12,
     },
-    options: [{ value: 'United Kingdom', label: 'United Kingdom' }],
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'TWITTERuRL',
-      label: 'Twitter URL',
-      fullWidth: true,
-      select: false,
+    {
+      componentProps: {
+        name: 'twitterUrl',
+        label: 'Twitter URL',
+        placeholder: 'Enter Twitter URL',
+        fullWidth: true,
+        select: false,
+      },
+      options: [{ value: 'United Kingdom', label: 'United Kingdom' }],
+      component: RHFTextField,
+      md: 12,
     },
-    options: [{ value: 'United Kingdom', label: 'United Kingdom' }],
-    component: RHFTextField,
-    md: 12,
-  },
-];
+  ];
+};
 
-export const columnsUser = (
-  handleTeam: any,
-  handleRole: any,
-  team: any,
-  role: any,
-) => {
+export const columnsUser = (checkedUser: any, setCheckedUser: any) => {
+  const { handleUpdateStatus } = useUsers();
+  const handleCheckboxChange = (val: any, rowId: string) => {
+    const recordId = val?.target?.checked ? rowId : null;
+    setCheckedUser(recordId);
+  };
   return [
     {
       accessorFn: (row: any) => row?.Id,
       id: 'Id',
-      cell: (info: any) => <Checkbox color="primary" name={info?.getValue()} />,
+      cell: (info: any) => (
+        <Checkbox
+          color="primary"
+          name={info?.getValue()}
+          defaultChecked={checkedUser === info?.row?.original?._id}
+          onChange={(e: any) =>
+            handleCheckboxChange(e, info?.row?.original?._id)
+          }
+        />
+      ),
       header: <Checkbox color="primary" name="Id" />,
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.name,
+      accessorFn: (row: any) =>
+        `${row?.user?.firstName} ${row?.user?.lastName}`,
       id: 'name',
       cell: (info: any) => info?.getValue(),
       header: 'Name',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.email,
+      accessorFn: (row: any) => row?.user?.email,
       id: 'email',
       isSortable: true,
       header: 'Email',
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.team,
-      id: 'team',
-      isSortable: true,
-      header: 'Team',
-      cell: (info: any) => (
-        <Select
-          variant="standard"
-          labelId="demo-simple-select-standard-label"
-          id="demo-simple-select-standard"
-          value={team}
-          onChange={handleTeam}
-          label="Select"
-          name={info.getValue()}
-          sx={{
-            '&:before': {
-              borderBottom: 'none',
-            },
-          }}
-        >
-          <MenuItem value="Alfa">Alfa</MenuItem>
-          <MenuItem value="Orcalo">Orcalo</MenuItem>
-          <MenuItem value="Test1">Test1</MenuItem>
-        </Select>
-      ),
-    },
-    {
-      accessorFn: (row: any) => row?.role,
-      id: 'role',
-      isSortable: true,
-      header: 'Role',
-      cell: (info: any) => (
-        <Select
-          variant="standard"
-          labelId="demo-simple-select-standard-label"
-          id="demo-simple-select-standard"
-          value={role}
-          onChange={handleRole}
-          label="Select"
-          name={info.getValue()}
-          sx={{
-            '&:before': {
-              borderBottom: 'none',
-            },
-          }}
-        >
-          <MenuItem value="AccountAdmin">Account Admin</MenuItem>
-          <MenuItem value="SalesManager">Sales Manager</MenuItem>
-          <MenuItem value="SalesAgent">Sales Agent</MenuItem>
-        </Select>
-      ),
-    },
-    {
       accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) => <SwitchBtn name={info?.getValue()} />,
+      cell: (info: any) => (
+        <SwitchBtn
+          defaultChecked={info?.row?.original?.status}
+          name={info?.getValue()}
+          handleSwitchChange={(val: any) =>
+            handleUpdateStatus(info?.row?.original?._id, val)
+          }
+        />
+      ),
     },
   ];
 };

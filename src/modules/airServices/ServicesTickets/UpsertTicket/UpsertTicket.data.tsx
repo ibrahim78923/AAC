@@ -18,6 +18,7 @@ import {
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { Box, Typography } from '@mui/material';
+import { ROLES } from '@/constants/strings';
 
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
@@ -88,6 +89,7 @@ export const upsertTicketFormFieldsDynamic = (
   apiQueryCategory?: any,
   apiQueryAssociateAsset?: any,
   router?: any,
+  hasAttachment?: any,
 ) => [
   {
     id: 1,
@@ -98,7 +100,7 @@ export const upsertTicketFormFieldsDynamic = (
       required: true,
       apiQuery: apiQueryRequester,
       EndIcon: AddCircleIcon,
-      externalParams: { limit: 50, role: 'ORG_REQUESTER' },
+      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
       endIconClick: () => {
@@ -210,7 +212,7 @@ export const upsertTicketFormFieldsDynamic = (
       fullWidth: true,
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      externalParams: { limit: 50, role: ROLES?.ORG_AGENT },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },
@@ -318,6 +320,7 @@ export const upsertTicketFormFieldsDynamic = (
     componentProps: {
       name: 'attachFile',
       fullWidth: true,
+      disabled: hasAttachment,
       fileType: 'PNG or JPG  (max 2.44 MB)',
       maxSize: 1024 * 1024 * 2.44,
       accept: {

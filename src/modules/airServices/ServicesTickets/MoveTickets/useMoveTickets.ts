@@ -20,6 +20,7 @@ export const useMoveTickets = (props: any) => {
     setIsMoveTicketsModalOpen,
     setSelectedTicketList,
     selectedTicketList,
+    singleTicketDetail,
   } = props;
 
   const moveTicketsFormMethod = useForm({
@@ -30,20 +31,26 @@ export const useMoveTickets = (props: any) => {
 
   const submitMoveTicketsForm = async (data: any) => {
     const moveTicketFormData = new FormData();
-
-    moveTicketFormData?.append('isChildTicket', false + '');
+    moveTicketFormData?.append(
+      'isChildTicket',
+      singleTicketDetail?.isChildTicket,
+    );
+    moveTicketFormData?.append('requester', singleTicketDetail?.requester);
+    moveTicketFormData?.append('ticketType', singleTicketDetail?.ticketType);
+    moveTicketFormData?.append('moduleType', singleTicketDetail?.moduleType);
+    moveTicketFormData?.append('status', singleTicketDetail?.status);
     moveTicketFormData?.append('id', selectedTicketList?.[0]);
     moveTicketFormData?.append('department', data?.department?._id);
     moveTicketFormData?.append('agent', data?.agent?._id);
 
     const putTicketParameter = {
-      body: data,
+      body: moveTicketFormData,
     };
 
     try {
       await putTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket moved Successfully');
-      setSelectedTicketList([]);
+
       closeMoveTicketsModal?.();
       reset();
     } catch (error) {
@@ -59,6 +66,7 @@ export const useMoveTickets = (props: any) => {
       }),
     );
     reset();
+    setSelectedTicketList([]);
     setIsMoveTicketsModalOpen?.(false);
   };
   const apiQueryAgent = useLazyGetAgentDropdownQuery();

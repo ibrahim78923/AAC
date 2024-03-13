@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { PAGINATION } from '@/config';
 import {
   useLazyGetAssetsReceivedQuery,
-  useLazyGetPurchaseOrderByIdQuery,
+  useGetPurchaseOrderByIdQuery,
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/assets-received';
 import { useTheme } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
@@ -16,15 +16,17 @@ export const useAssetsReceivedDetail = () => {
   assetReceivedParams.append('page', page?.toString());
   assetReceivedParams.append('limit', limit?.toString());
   assetReceivedParams.append('id', purchaseOrderId + '');
-  const [getPurchaseOrderTrigger, { data: purchaseOrderIdData }] =
-    useLazyGetPurchaseOrderByIdQuery();
+  const {
+    data: purchaseOrderIdData,
+    isLoading: purchaseLoading,
+    isFetching: purchaseFetching,
+  } = useGetPurchaseOrderByIdQuery(purchaseOrderId);
   const [
     getAssetsReceivedTrigger,
     { data, isError, isSuccess, isLoading, isFetching },
   ] = useLazyGetAssetsReceivedQuery();
   useEffect(() => {
     const handleAssetsReceived = async () => {
-      await getPurchaseOrderTrigger(purchaseOrderId);
       await getAssetsReceivedTrigger(assetReceivedParams);
     };
     handleAssetsReceived();
@@ -48,5 +50,7 @@ export const useAssetsReceivedDetail = () => {
     theme,
     MIN_META,
     purchaseOrderIdData,
+    purchaseLoading,
+    purchaseFetching,
   };
 };

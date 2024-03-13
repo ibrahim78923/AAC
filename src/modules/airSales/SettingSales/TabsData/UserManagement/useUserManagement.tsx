@@ -1,7 +1,6 @@
-import {
-  useDeleteTeamsMutation,
-  useGetTeamsByIdQuery,
-} from '@/services/airSales/settings/teams';
+import { PAGINATION } from '@/config';
+import { useDeleteTeamsMutation } from '@/services/airSales/settings/teams';
+import { useGetProductsUsersQuery } from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
@@ -11,13 +10,28 @@ const useUserManagement = () => {
   const [isAddTeam, setIsAddTeam] = useState({
     isToggle: false,
     type: 'add',
-    data: {},
   });
-  const [isAddUser, setIsAddUser] = useState(false);
   const [isTeamDrawer, setIsTeamDrawer] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
-  const { data: teamDataById } = useGetTeamsByIdQuery(teamId);
+  const [isAddUserDrawer, setIsAddUserDrawer] = useState({
+    isToggle: false,
+    type: 'add',
+    data: {},
+  });
+  const [searchUser, setSearchUser] = useState('');
   const [deleteTeams] = useDeleteTeamsMutation();
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const productUserParams = {
+    page: page,
+    limit: pageLimit,
+    search: searchUser ? searchUser : undefined,
+  };
+  const {
+    data: productsUsers,
+    isLoading,
+    isSuccess,
+  } = useGetProductsUsersQuery(productUserParams);
 
   const handleDeleteTeam = async (id: any) => {
     try {
@@ -37,16 +51,22 @@ const useUserManagement = () => {
     setActiveTab,
     isAddTeam,
     setIsAddTeam,
-    isAddUser,
-    setIsAddUser,
     teamId,
     setTeamId,
-    teamDataById,
     isTeamDrawer,
     setIsTeamDrawer,
     isOpenDelete,
     setIsOpenDelete,
     handleDeleteTeam,
+    productsUsers,
+    searchUser,
+    setSearchUser,
+    setPage,
+    isLoading,
+    isSuccess,
+    setPageLimit,
+    isAddUserDrawer,
+    setIsAddUserDrawer,
   };
 };
 

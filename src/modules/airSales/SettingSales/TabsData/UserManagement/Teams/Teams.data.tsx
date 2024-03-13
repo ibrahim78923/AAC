@@ -51,7 +51,6 @@ export const columnsTeams = (props: any) => {
               setIsAddTeam({
                 isToggle: true,
                 type: 'edit',
-                data: info?.row?.original,
               })
             }
           >
