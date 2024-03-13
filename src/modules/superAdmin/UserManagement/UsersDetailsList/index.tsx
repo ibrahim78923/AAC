@@ -43,7 +43,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/users';
 import NoData from '@/components/NoData';
-import { useSearchParams } from 'next/navigation';
 import useUserManagement from '../useUserManagement';
 import { IMG_URL } from '@/config';
 import { useEffect } from 'react';
@@ -83,9 +82,11 @@ const UsersDetailsList = () => {
 
   const { handleUserSwitchChange } = useUserManagement();
 
-  const { userName } = navigate.query;
-  const organizationId = useSearchParams()?.get('organizationId');
+  const { id } = navigate.query;
+  const { data: userDataById } = useGetUsersByIdQuery(id);
 
+  const organizationId = userDataById?.data?.organization?._id;
+  const organizationBasesProducts = userDataById?.data?.products;
   const employeeRecordsLimit = 10;
 
   const empListParams = {
@@ -136,7 +137,7 @@ const UsersDetailsList = () => {
                   }}
                   sx={{ cursor: 'pointer' }}
                 />
-                <Typography variant="h3">{userName}</Typography>
+                <Typography variant="h3">{`${userDataById?.data?.firstName} ${userDataById?.data?.firstName}`}</Typography>
               </Stack>
               <Stack direction={{ sm: 'row' }} gap={1}>
                 <PermissionsGuard
@@ -442,6 +443,7 @@ const UsersDetailsList = () => {
           isOpenDrawer={isOpenAddCompanyDrawer}
           onClose={handleCloseAddCompanyDrawer}
           organizationId={organizationId}
+          organizationBasesProducts={organizationBasesProducts}
           setISOpenCompanyDrawer={setISOpenCompanyDrawer}
         />
       )}
