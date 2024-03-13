@@ -8,12 +8,12 @@ export const useRequestedTickets = () => {
   const router = useRouter();
   const [page, setPage] = useState(PAGINATION.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const { agentId } = router?.query;
+  const { _id } = router?.query;
   const getAgentTicketDetailsParameter = {
     queryParams: {
       page,
       limit: pageLimit,
-      requester: agentId,
+      requester: _id,
       metaData: true,
     },
   };
@@ -21,7 +21,7 @@ export const useRequestedTickets = () => {
   const { data, isLoading, isFetching, isError, isSuccess } =
     useGetAgentTicketDetailsQuery(getAgentTicketDetailsParameter, {
       refetchOnMountOrArgChange: true,
-      skip: !!!agentId,
+      skip: !!!_id,
     });
 
   const requestedTicketsColumns = requestedTicketsColumnsDynamic(router);

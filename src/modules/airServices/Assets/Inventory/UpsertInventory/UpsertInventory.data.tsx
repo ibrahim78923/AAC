@@ -113,6 +113,8 @@ export const upsertInventoryFormFieldsDynamic = (
       fullWidth: true,
       name: 'description',
       label: 'Description',
+
+      style: { height: '200px' },
     },
     gridLength: 12,
     component: RHFEditor,
@@ -123,7 +125,7 @@ export const upsertInventoryFormFieldsDynamic = (
     componentProps: {
       fullWidth: true,
       name: 'assetLifeExpiry',
-      label: 'Asset life expire on',
+      label: 'Expiry date',
       select: true,
     },
     md: 6,

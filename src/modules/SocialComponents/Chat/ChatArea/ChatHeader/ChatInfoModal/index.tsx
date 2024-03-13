@@ -25,7 +25,7 @@ import {
 } from './ChatInfoModal.data';
 
 import CloseIcon from '@/assets/icons/shared/close-icon';
-import { UserProfileAvatarImage } from '@/assets/images';
+import { UserDefault } from '@/assets/images';
 
 import { styles } from './ChatInfoModal.style';
 
@@ -62,6 +62,10 @@ const ChatInfoModal = ({
       ? viewGroupInfoButtonData
       : viewUserProfileButtonData;
 
+  const activeConversation = useAppSelector(
+    (state) => state?.chat?.activeConversation,
+  );
+
   return (
     <Modal
       open={isUserProfile}
@@ -80,19 +84,14 @@ const ChatInfoModal = ({
           </Box>
         </Box>
         <Box sx={styles?.chatInfoDetails(theme)}>
-          <Image
-            src={UserProfileAvatarImage}
-            width={95}
-            height={95}
-            alt="profile-image"
-          />
+          <Image src={UserDefault} width={95} height={95} alt="profile-image" />
           <br />
           {chatMode === 'groupChat' ? (
             <Typography
               variant="h6"
               sx={{ fontWeight: '600', color: theme?.palette?.common?.black }}
             >
-              Product Catalog
+              {activeConversation?.groupName}
             </Typography>
           ) : (
             <>

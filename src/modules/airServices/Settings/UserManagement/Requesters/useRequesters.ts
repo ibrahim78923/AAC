@@ -35,7 +35,9 @@ export const useRequesters = () => {
   };
 
   const { data, isLoading, isError, isFetching, isSuccess }: any =
-    useGetRequestersListQuery(params);
+    useGetRequestersListQuery(params, {
+      refetchOnMountOrArgChange: true,
+    });
 
   const tableData = data?.data?.users;
 

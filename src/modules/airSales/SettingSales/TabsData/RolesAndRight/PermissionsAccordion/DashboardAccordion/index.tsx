@@ -9,7 +9,7 @@ import { styled } from '@mui/material/styles';
 import { RHFMultiCheckbox } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 
-const DashboardAccordion = ({ subModules }: any) => {
+const DashboardAccordion = ({ subModules, disabled }: any) => {
   return (
     <>
       {subModules?.map((item: any) => (
@@ -26,6 +26,7 @@ const DashboardAccordion = ({ subModules }: any) => {
           <AccordionDetails sx={{ p: 0 }}>
             <Grid container>
               <RHFMultiCheckbox
+                disabled={disabled}
                 name="permissions"
                 options={item?.permissions?.map((item: any) => ({
                   label: item?.name,

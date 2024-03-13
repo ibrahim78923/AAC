@@ -29,7 +29,7 @@ export const useUpsertFolder = (props: any) => {
       successSnackbar('Create Folder Successfully!');
       closeUpsetFolderModal?.();
     } catch (error: any) {
-      errorSnackbar?.();
+      errorSnackbar?.(error?.data?.message);
     }
   };
 

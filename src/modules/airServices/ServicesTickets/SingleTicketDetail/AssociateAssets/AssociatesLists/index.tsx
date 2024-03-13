@@ -29,7 +29,6 @@ export const AssociatesLists = (props: any) => {
 
   return (
     <>
-      <br />
       <PageTitledHeader
         title={'Associations'}
         addTitle={'Add Associations'}
