@@ -22,6 +22,7 @@ export const TopPerformerDashboardCard = ({
       borderRadius={3}
       p={2}
       border={`1px solid ${theme?.palette?.grey?.[700]}`}
+      height={'100%'}
     >
       <Box>
         <Typography variant="h5">Top Performer</Typography>

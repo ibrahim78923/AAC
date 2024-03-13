@@ -401,3 +401,7 @@ export const TICKET_SELECTION_TYPE = {
   SUBJECT: 'SUBJECT',
   ID: 'ID',
 };
+export const TICKET_GRAPH_TYPES = {
+  STATUS: 'status',
+  PRIORITY: 'pirority',
+};
