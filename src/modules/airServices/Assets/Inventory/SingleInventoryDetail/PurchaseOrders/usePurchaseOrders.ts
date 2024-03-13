@@ -26,7 +26,6 @@ export const usePurchaseOrders = () => {
       errorSnackbar();
     }
   };
-
   return {
     AssetsInventoryPurchaseOrderData,
     isLoading,
