@@ -1,4 +1,7 @@
-import { useGetCompaniesOwnersQuery } from '@/services/airSales/quotes';
+import {
+  useGetCompaniesOwnersQuery,
+  useGetContactsQuery,
+} from '@/services/airSales/quotes';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
@@ -12,6 +15,8 @@ import useUpdateQuote from '../useUpdateQuote';
 
 const useFormAddContact = () => {
   const { usePostCompaniesMutation } = companiesAPI;
+  const { data: contacts } = useGetContactsQuery({});
+
   const { dataGetQuoteById, createAssociationQuote } = useUpdateQuote();
   // const { user } = getSession();
 
@@ -33,25 +38,31 @@ const useFormAddContact = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
+    // const numberEmpl=parseInt(values?.noOfEmloyee?.toString())
+    // console.log(typeof values.noOfEmloyee, 'noOfEmloyee');
     const formData = new FormData();
     formData?.append('domain', values?.domain);
     formData?.append('profilePicture', values?.profilePicture);
-    formData?.append('profilePicture', values?.name);
-    formData?.append('profilePicture', values?.ownerId);
-    formData?.append('profilePicture', values?.indusry);
-    formData?.append('profilePicture', values?.type);
-    formData?.append('profilePicture', values?.noOfEmloyee);
-    formData?.append('profilePicture', values?.totalRevenue);
-    formData?.append('profilePicture', values?.city);
-    formData?.append('profilePicture', values?.postalCode);
-    formData?.append('profilePicture', values?.address);
-    formData?.append('profilePicture', values?.description);
-    formData?.append('profilePicture', values?.linkedInUrl);
+    formData?.append('name', values?.name);
+    formData?.append('ownerId', values?.ownerId);
+    formData?.append('industry', values?.industry);
+    formData?.append('type', values?.type);
+    formData?.append('noOfEmloyee', 12 as any);
+    formData?.append('totalRevenue', values?.totalRevenue);
+    formData?.append('city', values?.city);
+    formData?.append('postalCode', values?.postalCode);
+    formData?.append('address', values?.address);
+    formData?.append('description', values?.description);
+    formData?.append('linkedInUrl', values?.linkedInUrl);
+    // formData?.append('noOfEmloyee', '12');
+
+    // console.log('formData',formData);
+
     try {
-      postCompanies({ body: formData }).then((res) => {
+      postCompanies({ body: formData })?.then((res) => {
         const associationBody = {
           dealId: dataGetQuoteById?.data?.dealId,
-          companyId: res?._id,
+          companyId: res,
         };
         createAssociationQuote({ body: associationBody })?.unwrap();
         enqueueSnackbar('Ticket Updated Successfully', {
@@ -86,6 +97,7 @@ const useFormAddContact = () => {
     handleSubmit,
     methods,
     companiesOwner,
+    contacts,
   };
 };
 

@@ -140,7 +140,9 @@ const StepLineItems = ({ openCreateProduct }: any) => {
               variant="contained"
               color="primary"
               startIcon={<AddCircleSmallIcon />}
-              onClick={openCreateProduct}
+              onClick={() => {
+                handleAction('', 'create');
+              }}
             >
               Add Products
             </Button>

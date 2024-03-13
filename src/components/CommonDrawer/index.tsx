@@ -76,7 +76,9 @@ const CommonDrawer = ({
               }}
             >
               {headerIcon}
-              <Typography variant="subtitle1">{title}</Typography>
+              <Typography variant="subtitle1" textTransform="capitalize">
+                {title}
+              </Typography>
             </Box>
             <Box onClick={onClose} sx={{ cursor: 'pointer' }}>
               <CloseIcon />

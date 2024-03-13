@@ -13,26 +13,27 @@ import {
   useCreateAssociationQuoteMutation,
   useGetProductCatagoriesQuery,
   useGetQuoteByIdQuery,
+  useLazyGetProductsByIdQuery,
   usePostProductMutation,
 } from '@/services/airSales/quotes';
 import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 // import { useEffect } from 'react';
 
 const FormCreateProduct = ({ open, onClose }: any) => {
   const params = useSearchParams();
-  const disableForm = params.get('type') === 'view' ? true : false;
+  const actionType = params.get('type');
+  const disableForm = actionType === 'view' ? true : false;
   const quoteId = params.get('data');
-  // const productId = params.get('productId');
+  const productId = params.get('productId');
 
   const [postProduct] = usePostProductMutation();
-  // const router = useRouter();
-  // let quoteId;
-  // if (router.query?.data) {
-  //   quoteId = router.query?.data;
-  // }
+
   const { data: Quotenew } = useGetQuoteByIdQuery({ id: quoteId });
 
   const { data: productCatagories } = useGetProductCatagoriesQuery({});
+
+  const [lazyGetProductsByIdQuery] = useLazyGetProductsByIdQuery();
 
   const [createAssociationQuote] = useCreateAssociationQuoteMutation();
 
@@ -40,7 +41,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
     resolver: yupResolver(validationSchema),
     defaultValues: initValues,
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();
@@ -76,21 +77,37 @@ const FormCreateProduct = ({ open, onClose }: any) => {
     }
   };
 
-  // useEffect(() => {
-  //   const singleProduct = Quotenew?.data?.products?.find(
-  //     (product: { productId: string }) => product?.productId === productId,
-  //   );
-  // }, [productId]);
+  useEffect(() => {
+    if (actionType !== 'create') {
+      lazyGetProductsByIdQuery({ id: productId }).then((res) => {
+        if (res?.data) {
+          const fieldsData = res?.data?.data;
+          reset({
+            name: fieldsData?.name,
+            sku: fieldsData?.sku,
+            category: fieldsData?.category,
+            description: fieldsData?.description,
+            isActive: fieldsData?.isActive,
+            unitPrice: fieldsData?.unitPrice,
+            purchasePrice: fieldsData?.purchasePrice,
+          });
+        }
+      });
+    }
+    if (actionType === 'create') {
+      reset(initValues);
+    }
+  }, [productId, reset]);
 
   return (
     <CommonDrawer
-      title="Create Product"
+      title={`${actionType} Product`}
       okText="Save"
       isDrawerOpen={open}
       onClose={onClose}
-      isOk={true}
+      isOk
       cancelText={'Cancel'}
-      footer={true}
+      footer
       submitHandler={handleSubmit(onSubmit)}
     >
       <Box sx={{ pt: '27px' }}>

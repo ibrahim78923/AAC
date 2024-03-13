@@ -1,10 +1,14 @@
 import { Box, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { productServicesData } from '@/mock/modules/Quotes';
 import { columns } from './ProductsAndServices.data';
 import { styles } from './ProductsAndServices.style';
+import { useSearchParams } from 'next/navigation';
+import { useGetQuoteByIdQuery } from '@/services/airSales/quotes';
 
 const ProductsAndServices = () => {
+  const quoteId = useSearchParams().get('data');
+  const { data: viewQuotesData } = useGetQuoteByIdQuery({ id: quoteId });
+
   return (
     <Box sx={styles?.wrapper}>
       <Typography variant="h5" sx={styles?.heading}>
@@ -12,7 +16,10 @@ const ProductsAndServices = () => {
       </Typography>
 
       <Box sx={styles?.tableWrapper}>
-        <TanstackTable columns={columns} data={productServicesData} />
+        <TanstackTable
+          columns={columns}
+          data={viewQuotesData?.data?.products}
+        />
       </Box>
     </Box>
   );

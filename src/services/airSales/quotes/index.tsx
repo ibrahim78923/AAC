@@ -136,6 +136,28 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getContacts: builder.query({
+      query: () => ({
+        url: END_POINTS?.CONTACTS,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    getProductsById: builder.query({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    updateSalesProductQuote: builder.mutation({
+      query: ({ body }: any) => ({
+        // url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -155,4 +177,7 @@ export const {
   useCreateAssociationQuoteMutation,
   useGetProductCatagoriesQuery,
   useDeleteProductsMutation,
+  useGetContactsQuery,
+  useGetProductsByIdQuery,
+  useLazyGetProductsByIdQuery,
 } = quotesAPI;
