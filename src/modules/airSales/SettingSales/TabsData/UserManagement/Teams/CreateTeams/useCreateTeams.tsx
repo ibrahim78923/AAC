@@ -10,9 +10,7 @@ const useCreateTeams = (editData: any, setIsAddTeam: any) => {
   const [postTeams] = usePostTeamsMutation();
   const methods: any = useForm({
     resolver: yupResolver(teamsValidationSchema),
-    defaultValues: {
-      name: editData?.name,
-    },
+    defaultValues: editData?.data,
   });
 
   const { handleSubmit, reset } = methods;
