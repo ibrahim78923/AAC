@@ -142,7 +142,6 @@ const useAddUser = (useActionParams?: any) => {
       'country',
       'streetName',
       'compositeAddress',
-      'email',
     ];
 
     if (isOpenAddUserDrawer?.type === 'edit') {
@@ -153,6 +152,7 @@ const useAddUser = (useActionParams?: any) => {
         'products',
         'role',
         'organization',
+        'email',
       );
     }
 
