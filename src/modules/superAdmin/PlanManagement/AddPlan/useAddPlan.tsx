@@ -25,6 +25,7 @@ import store, { useAppSelector } from '@/redux/store';
 
 import {
   useGetPermissionsByProductsQuery,
+  useGetPlanMangementByIdQuery,
   usePostPlanMangementMutation,
   useUpdatePlanMangementMutation,
 } from '@/services/superAdmin/plan-mangement';
@@ -50,6 +51,9 @@ export const useAddPlan = () => {
   if (router.query.data) {
     parsedRowData = JSON.parse(router.query.data);
   }
+  const { data: singlePlan } = useGetPlanMangementByIdQuery({
+    id: parsedRowData?._id,
+  });
 
   const dispatch = useDispatch();
   const hanldeGoBack = () => {
@@ -73,13 +77,11 @@ export const useAddPlan = () => {
           additionalPerUserPrice,
           additionalStoragePrice,
           description,
-          allowAdditionalUsers,
-          allowAdditionalStorage,
           planProducts,
           planType,
         } = parsedRowData;
         if (!isNullOrEmpty(planProducts)) {
-          const productId = planProducts[0].name;
+          const productId = planProducts[0]._id;
           const planTypeId = { value: planType?.name, label: planType?.name };
           return {
             defaultUsers,
@@ -88,8 +90,12 @@ export const useAddPlan = () => {
             additionalPerUserPrice,
             additionalStoragePrice,
             description,
-            allowAdditionalUsers,
-            allowAdditionalStorage,
+            allowAdditionalUsers: !isNullOrEmpty(additionalPerUserPrice)
+              ? 'Yes'
+              : 'No',
+            allowAdditionalStorage: !isNullOrEmpty(additionalStoragePrice)
+              ? 'Yes'
+              : 'No',
             productId,
             planTypeId,
           };
@@ -149,12 +155,13 @@ export const useAddPlan = () => {
     });
     const productIdArray = values?.suite;
     const modulesPermissionsArray = [];
+    if (!isNullOrEmpty(productIdArray)) {
+      for (const productId of productIdArray) {
+        setSkip(false);
+        setProductIdModules(productId);
 
-    for (const productId of productIdArray) {
-      setSkip(false);
-      setProductIdModules(productId);
-
-      modulesPermissionsArray?.push(modulesData);
+        modulesPermissionsArray?.push(modulesData);
+      }
     }
 
     reset();
@@ -322,6 +329,7 @@ export const useAddPlan = () => {
         <PlanFeaturesForm
           methods={methodsPlanFeatures}
           handleSubmit={handlePlanFeatures}
+          editPlan={singlePlan?.data}
         />
       ),
       componentProps: { addPlanFormValues, setAddPlanFormValues },
