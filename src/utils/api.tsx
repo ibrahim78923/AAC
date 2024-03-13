@@ -5,8 +5,8 @@ export const transformResponse = (response: any) => {
   if (response) return response?.data;
 };
 
-export const errorSnackbar = (message = `Something went wrong`) => {
-  enqueueSnackbar(message, {
+export const errorSnackbar = (message?: any) => {
+  enqueueSnackbar(message ?? `Something went wrong`, {
     variant: NOTISTACK_VARIANTS?.ERROR,
   });
 };
@@ -14,6 +14,12 @@ export const errorSnackbar = (message = `Something went wrong`) => {
 export const successSnackbar = (message: any) => {
   enqueueSnackbar(message, {
     variant: NOTISTACK_VARIANTS?.SUCCESS,
+  });
+};
+
+export const warningSnackbar = (message: any) => {
+  enqueueSnackbar(message, {
+    variant: NOTISTACK_VARIANTS?.WARNING,
   });
 };
 

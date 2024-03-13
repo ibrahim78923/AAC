@@ -5,19 +5,17 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
 import AgentFilter from './AgentFilter';
 import { InviteAgentModel } from './InviteAgentModal';
-import { AgentDeleteModal } from './AgentDeleteModal';
 import { useAgent } from './useAgent';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
+import { DeleteAgent } from '../DeleteAgent';
 
 const Agent = () => {
   const {
-    selectedAgentList,
     agentListsColumns,
     dropdownOptions,
     setSearchValue,
-    deleteAgentProps,
     handleOpenDrawer,
     isAgentFilterDrawerOpen,
     setAgentFilterDrawerOpen,
@@ -29,8 +27,13 @@ const Agent = () => {
     setPageLimit,
     setPage,
     pageLimit,
-    setSelectedAgentList,
     setFilterAgentData,
+    selectedAgentList,
+    setSelectedAgentList,
+    getAgentsListData,
+    page,
+    openDeleteModal,
+    setOpenDeleteModal,
   } = useAgent();
   return (
     <>
@@ -126,8 +129,17 @@ const Agent = () => {
             setSelectedAgentList={setSelectedAgentList}
           />
         )}
-        {deleteAgentProps?.openDeleteModal && (
-          <AgentDeleteModal deleteAgentProps={deleteAgentProps} />
+        {openDeleteModal && (
+          <DeleteAgent
+            openDeleteModal={openDeleteModal}
+            setOpenDeleteModal={setOpenDeleteModal}
+            selectedAgentList={selectedAgentList}
+            setSelectedAgentList={setSelectedAgentList}
+            setPage={setPage}
+            page={page}
+            getAgentsListData={getAgentsListData}
+            totalRecords={lazyGetAgentsStatus?.data?.data?.users?.length}
+          />
         )}
       </Box>
       {isAgentFilterDrawerOpen && (
