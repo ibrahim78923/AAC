@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Modules from './Forms/Modules';
@@ -107,10 +107,19 @@ export const useAddPlan = () => {
     defaultValues: defaultValuesModules,
   });
 
-  const { handleSubmit, reset, watch } = methodsPlan;
+  const { handleSubmit, reset, watch, setValue } = methodsPlan;
   const { handleSubmit: handleSubmitPlanFeatures } = methodsPlanFeatures;
   const { handleSubmit: handleSubmitPlanModules } = methodsPlanModules;
   const AdditionalStorageValue = watch(['allowAdditionalStorage']);
+  const AdditionalUsereValue = watch(['allowAdditionalUsers']);
+
+  useEffect(() => {
+    if (AdditionalStorageValue[0] === 'No') {
+      setValue('additionalStoragePrice', '');
+    } else if (AdditionalUsereValue[0] === 'No') {
+      setValue('additionalPerUserPrice', '');
+    }
+  }, [AdditionalStorageValue, AdditionalUsereValue, setValue]);
 
   const planForm: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.addPlanForm,
@@ -251,9 +260,11 @@ export const useAddPlan = () => {
                 ...transformedModulesFormData,
               },
             })?.unwrap();
-        enqueueSnackbar('Plan Modules Details Added Successfully', {
-          variant: 'success',
-        });
+        setTimeout(function () {
+          enqueueSnackbar('Plan Added Successfully', {
+            variant: 'success',
+          });
+        }, 3000);
         persistor?.purge();
         reset();
       } catch (error: any) {
@@ -298,6 +309,7 @@ export const useAddPlan = () => {
           methods={methodsPlan}
           handleSubmit={handlePlanForm}
           AdditionalStorageValue={AdditionalStorageValue}
+          AdditionalUsereValue={AdditionalUsereValue}
         />
       ),
 
