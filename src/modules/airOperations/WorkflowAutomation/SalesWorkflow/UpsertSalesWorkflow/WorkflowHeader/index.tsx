@@ -1,17 +1,13 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Cancel } from '@mui/icons-material';
-import {
-  CopyIcon,
-  EditBlackIcon,
-  GrayBookIcon,
-  WhiteBookIcon,
-} from '@/assets/icons';
+import { CopyIcon, GrayBookIcon, WhiteBookIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TestWorkflow } from '../TestWorkflow';
 import { useWorkflowHeader } from './useWorkflowHeader';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
+import { RHFTextField } from '@/components/ReactHookForm';
 
 const SCHEDULE = 'Schedule';
 export const WorkflowHeader = (props: any) => {
@@ -87,11 +83,8 @@ export const WorkflowHeader = (props: any) => {
           </PermissionsGuard>
         </Box>
       </Box>
-      <Box display={'flex'} alignItems={'center'} gap={1} py={1}>
-        <Typography variant="h4" color="slateBlue.main">
-          Dummy Title Workflow - 09 May 2023, 10:50:12 GMT+05:00
-        </Typography>
-        <EditBlackIcon />
+      <Box py={2} maxWidth={{ md: '54%', xs: '100%' }}>
+        <RHFTextField name="title" size="small" label="Title" required />
       </Box>
       <TestWorkflow
         openWorkflowModal={openWorkflowModal}

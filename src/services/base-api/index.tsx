@@ -99,6 +99,7 @@ export const TAGS = [
   'ACCOUNT_DETAILS',
   'ATTACHMENTS',
   'CONTACT_GROUPS',
+  'SALES_WORKFLOW',
 ];
 
 const baseQuery = fetchBaseQuery({

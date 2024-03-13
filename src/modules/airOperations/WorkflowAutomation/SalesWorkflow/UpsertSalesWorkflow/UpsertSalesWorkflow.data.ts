@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 export const salesSchema: any = Yup?.object()?.shape({
+  title: Yup?.string()?.required('Required'),
   schedule: Yup?.string(),
   scheduleMonth: Yup?.date(),
   scheduleDay: Yup?.string(),
@@ -36,6 +37,7 @@ export const salesSchema: any = Yup?.object()?.shape({
 });
 
 export const salesValues = {
+  title: '',
   scheduleWorkflow: 'Enable Now',
   schedule: '',
   scheduleMonth: new Date(),
