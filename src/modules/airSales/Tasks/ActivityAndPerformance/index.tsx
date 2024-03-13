@@ -22,6 +22,8 @@ const ActivityAndPerformance = () => {
           sx={{
             background: counter === 0 ? theme?.palette?.grey[400] : '',
           }}
+          color="inherit"
+          size="small"
         >
           Insights
         </Button>
@@ -30,6 +32,8 @@ const ActivityAndPerformance = () => {
           sx={{
             background: counter === 1 ? theme?.palette?.grey[400] : '',
           }}
+          color="inherit"
+          size="small"
         >
           Feed
         </Button>

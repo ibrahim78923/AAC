@@ -12,7 +12,7 @@ import EditColumn from '../../EditColumn';
 import FilterComp from '../../Filter';
 import ListGridViewBtn from '../../ListGridViewBtn';
 
-import { RefreshTasksIcon } from '@/assets/icons';
+import { EditColumnIcon, RefreshTasksIcon } from '@/assets/icons';
 import { FilterIcon } from '@/assets/icons';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -39,6 +39,8 @@ const TabToolbar = () => {
   const theme = useTheme();
 
   const [deleteIsLoading, setDeleteIsLoading] = useState(false);
+
+  const [isEditColumnOpen, setIsEditColumnOpen] = useState(false);
 
   const [isCreateTaskDrawerOpen, setIsCreateTaskDrawerOpen] = useState(false);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
@@ -197,7 +199,32 @@ const TabToolbar = () => {
             })}
           </Popover>
 
-          <EditColumn />
+          <Button
+            className="small"
+            color={'inherit'}
+            variant={'outlined'}
+            startIcon={<EditColumnIcon />}
+            sx={{
+              minHeight: '36px',
+              '& .startIcon': {
+                marginRight: '8px',
+              },
+              fontWeight: '500',
+              width: { xs: '100%', sm: 'auto' },
+            }}
+            classes={{
+              startIcon: 'startIcon',
+            }}
+            onClick={() => setIsEditColumnOpen(true)}
+          >
+            {'Edit Column'}
+          </Button>
+
+          <EditColumn
+            open={isEditColumnOpen}
+            onClose={() => setIsEditColumnOpen(false)}
+          />
+
           <Button
             className="small"
             color={'inherit'}
@@ -226,7 +253,7 @@ const TabToolbar = () => {
               isCreateTaskDrawerOpen={isCreateTaskDrawerOpen}
               setIsCreateTaskDrawerOpen={setIsCreateTaskDrawerOpen}
               creationMode={'edit'}
-              taskData={taskData}
+              // taskData={taskData}
             />
           )}
 
