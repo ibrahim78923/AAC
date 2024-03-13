@@ -85,14 +85,13 @@ const useOrganizationTable = () => {
 
   const onSubmit = async (data: any) => {
     const products: any = [];
-    if (data?.Sales) products.push('Sales');
-    if (data?.Marketing) products.push('Marketing');
-    if (data?.Service) products.push('Service');
-    if (data?.Operation) products.push('Operation');
+    user?.products.forEach((product: any) => {
+      if (data[product?._id]) products.push(product?._id);
+    });
 
     const formData = new FormData();
     formData.append('image', data?.image);
-    formData.append('products', JSON.stringify(products));
+    formData.append('products', products);
     formData.append('accountName', data?.accountName);
     formData.append('phoneNo', data?.phoneNo);
     formData.append('postCode', data?.postCode);
@@ -100,13 +99,7 @@ const useOrganizationTable = () => {
     formData.append('postCode', data?.postCode);
     formData.append('organizationId', user?.organization?._id);
     formData.append('isActive', 'true');
-    // const organizationData = {
-    //   ...data,
-    //   logoUrl: data?.logoUrl?.path,
-    //   organizationId: user?.organization?._id,
-    //   products: [],
-    //   status: 'Active',
-    // };
+
     try {
       if (Object?.keys(editData)[0]) {
         await updateOrganizationCompany({
