@@ -2,13 +2,10 @@ import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { agentsListsColumnsFunction, agentActionsDropdown } from './Agent.data';
 import { ACTIONS_TYPES, NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
-import {
-  useDeleteAgentMutation,
-  useLazyGetAgentsQuery,
-} from '@/services/airServices/settings/user-management/agents';
+import { useLazyGetAgentsQuery } from '@/services/airServices/settings/user-management/agents';
 import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
-import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { buildQueryParams } from '@/utils/api';
 
 export const useAgent = () => {
   const [selectedAgentList, setSelectedAgentList] = useState([]);
@@ -56,8 +53,6 @@ export const useAgent = () => {
     setAgentFilterDrawerOpen(true);
   };
 
-  const [deleteAgent] = useDeleteAgentMutation();
-
   const handleActionClick = async (ActionType: string) => {
     if (ActionType === ACTIONS_TYPES?.DELETE) {
       setOpenDeleteModal(true);
@@ -88,28 +83,6 @@ export const useAgent = () => {
     router,
   );
 
-  const handleDelete = async () => {
-    try {
-      const agentIdsToDelete = selectedAgentList?.map(
-        (agent: any) => agent?._id,
-      );
-      await deleteAgent({ ids: agentIdsToDelete });
-      successSnackbar('Record deleted Successfully');
-      setSelectedAgentList([]);
-      setOpenDeleteModal(false);
-    } catch (err: any) {
-      errorSnackbar();
-      setOpenDeleteModal(false);
-      setSelectedAgentList([]);
-    }
-  };
-
-  const deleteAgentProps = {
-    openDeleteModal,
-    setOpenDeleteModal,
-    handleDelete,
-  };
-
   const dropdownOptions = agentActionsDropdown(handleActionClick);
 
   return {
@@ -117,7 +90,6 @@ export const useAgent = () => {
     agentListsColumns,
     dropdownOptions,
     setSearchValue,
-    deleteAgentProps,
     handleOpenDrawer,
     isAgentFilterDrawerOpen,
     setAgentFilterDrawerOpen,
@@ -131,5 +103,9 @@ export const useAgent = () => {
     pageLimit,
     setSelectedAgentList,
     setFilterAgentData,
+    openDeleteModal,
+    setOpenDeleteModal,
+    getAgentsListData,
+    page,
   };
 };
