@@ -8,12 +8,14 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { usePostUsersAccountMutation } from '@/services/superAdmin/user-management/UserList';
+import { useEffect, useState } from 'react';
 
 const useAddAccount = (
   employeeDataById?: any,
   setIsOpenAddAccountDrawer?: any,
 ) => {
   const { user } = useUsers();
+  const [companyVal, setCompanyVal] = useState('');
   const [postUsersAccount] = usePostUsersAccountMutation();
   const {
     useGetProductsQuery,
@@ -33,6 +35,19 @@ const useAddAccount = (
   const { handleSubmit, reset, watch } = methods;
   const companyAccountValue = watch('company');
 
+  useEffect(() => {
+    setCompanyVal(companyAccountValue);
+  }, [companyAccountValue]);
+
+  if (companyVal !== companyAccountValue) {
+    methods.setValue('role', '');
+  }
+
+  const roleParams = {
+    organizationCompanyAccountId: companyAccountValue,
+  };
+  const { data: companyRoles } = useGetCompanyAccountsRolesQuery(roleParams);
+
   const onSubmit = async (values: any) => {
     values.user = employeeDataById;
     try {
@@ -51,11 +66,6 @@ const useAddAccount = (
       });
     }
   };
-
-  const roleParams = {
-    organizationCompanyAccountId: companyAccountValue,
-  };
-  const { data: companyRoles } = useGetCompanyAccountsRolesQuery(roleParams);
 
   return {
     products,
