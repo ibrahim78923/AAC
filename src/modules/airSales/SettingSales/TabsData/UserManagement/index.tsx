@@ -6,7 +6,7 @@ import useUserManagement from './useUserManagement';
 import CommonTabs from '@/components/Tabs';
 import CreateTeams from './Teams/CreateTeams';
 import { AlertModals } from '@/components/AlertModals';
-// import ViewTeams from './Teams/ViewTeams';
+import AddUsers from './Users/AddUsers';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 
@@ -15,7 +15,6 @@ const Users = () => {
   const {
     activeTab,
     setActiveTab,
-    setIsAddUser,
     isAddTeam,
     setIsAddTeam,
     setTeamId,
@@ -25,7 +24,8 @@ const Users = () => {
     setIsTeamDrawer,
     setIsOpenDelete,
     handleDeleteTeam,
-    // searchUser, setSearchUser
+    isAddUserDrawer,
+    setIsAddUserDrawer,
   } = useUserManagement();
 
   return (
@@ -52,8 +52,12 @@ const Users = () => {
               onClick={() => {
                 {
                   activeTab === 0
-                    ? setIsAddUser(true)
-                    : setIsAddTeam({ isToggle: true, type: 'add', data: {} });
+                    ? setIsAddUserDrawer({
+                        isToggle: true,
+                        type: 'add',
+                        data: {},
+                      })
+                    : setIsAddTeam({ isToggle: true, type: 'add' });
                 }
               }}
               variant="contained"
@@ -80,7 +84,10 @@ const Users = () => {
             getTabVal={(val: any) => setActiveTab(val)}
             tabsArray={['Users', 'Teams']}
           >
-            <UserTable />
+            <UserTable
+              isAddUserDrawer={isAddUserDrawer}
+              setIsAddUserDrawer={setIsAddUserDrawer}
+            />
             <TeamsTable
               teamId={teamId}
               setTeamId={setTeamId}
@@ -93,21 +100,22 @@ const Users = () => {
         </Box>
       </Box>
       <CreateTeams isAddTeam={isAddTeam} setIsAddTeam={setIsAddTeam} />
-
-      {isOpenDelete && (
-        <AlertModals
-          message={'Are you sure you want to delete this team?'}
-          type={'delete'}
-          open={isOpenDelete}
-          submitBtnText="Delete"
-          cancelBtnText="Cancel"
-          handleClose={() => setIsOpenDelete(false)}
-          handleSubmitBtn={() => {
-            setIsOpenDelete(false);
-            handleDeleteTeam(teamId);
-          }}
-        />
-      )}
+      <AddUsers
+        isAddUserDrawer={isAddUserDrawer}
+        setIsAddUserDrawer={setIsAddUserDrawer}
+      />
+      <AlertModals
+        message={'Are you sure you want to delete this team?'}
+        type={'delete'}
+        open={isOpenDelete}
+        submitBtnText="Delete"
+        cancelBtnText="Cancel"
+        handleClose={() => setIsOpenDelete(false)}
+        handleSubmitBtn={() => {
+          setIsOpenDelete(false);
+          handleDeleteTeam(teamId);
+        }}
+      />
     </>
   );
 };

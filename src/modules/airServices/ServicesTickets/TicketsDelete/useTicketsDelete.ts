@@ -33,6 +33,12 @@ export const useTicketDelete = (props: any) => {
       const newPage = selectedTicketList?.length === totalRecords ? 1 : page;
       setPage?.(newPage);
       await getTicketsListData?.(newPage);
+      router?.push(
+        makePath({
+          path: AIR_SERVICES?.TICKETS,
+          skipQueries: ['ticketAction'],
+        }),
+      );
       closeTicketsDeleteModal?.();
     } catch (error: any) {
       errorSnackbar();
@@ -41,12 +47,6 @@ export const useTicketDelete = (props: any) => {
     }
   };
   const closeTicketsDeleteModal = () => {
-    router?.push(
-      makePath({
-        path: AIR_SERVICES?.TICKETS,
-        skipQueries: ['ticketAction'],
-      }),
-    );
     setDeleteModalOpen?.(false);
   };
 

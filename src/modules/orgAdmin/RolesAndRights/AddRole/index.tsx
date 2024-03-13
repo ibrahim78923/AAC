@@ -1,4 +1,12 @@
-import { Box, Typography, Grid, Divider, Button, Stack } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Grid,
+  Divider,
+  Button,
+  Stack,
+  Skeleton,
+} from '@mui/material';
 
 import PermissionsAccordion from './PermissionsAccordion';
 
@@ -16,13 +24,14 @@ import { ArrowBack } from '@mui/icons-material';
 
 const AddRole = () => {
   const {
+    productPermissionsData,
+    handleSubmit,
+    productVal,
+    isLoading,
     navigate,
     onSubmit,
     methods,
     theme,
-    handleSubmit,
-    productVal,
-    productPermissionsData,
   } = useAddRole();
 
   const { query } = navigate;
@@ -40,8 +49,8 @@ const AddRole = () => {
           {query?.type === 'add'
             ? 'Add New Role'
             : query?.type === 'edit'
-              ? 'Edit Role'
-              : 'Role Details'}
+            ? 'Edit Role'
+            : 'Role Details'}
         </Typography>
       </Box>
       <Box sx={{ my: 3 }}>
@@ -73,11 +82,16 @@ const AddRole = () => {
                 </Typography>
               </Stack>
             </Grid>
+
             {productVal && (
               <Grid item xs={12} lg={10} mt={2}>
-                <PermissionsAccordion
-                  permissionsData={productPermissionsData}
-                />
+                {isLoading ? (
+                  <Skeleton height={80} />
+                ) : (
+                  <PermissionsAccordion
+                    permissionsData={productPermissionsData}
+                  />
+                )}
               </Grid>
             )}
           </Grid>
