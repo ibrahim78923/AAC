@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import { overviewData } from './Overview.data';
 import { styles } from './Overview.style';
 import { useOverview } from './useOverview';
@@ -6,7 +6,8 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Overview = () => {
-  const { theme, inventoryData } = useOverview();
+  const { theme, inventoryData, isLoading, isFetching } = useOverview();
+  if (isLoading || isFetching) return <Skeleton />;
   return (
     <Box>
       <PermissionsGuard
