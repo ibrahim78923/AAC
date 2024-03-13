@@ -123,7 +123,7 @@ export const upsertInventoryFormFieldsDynamic = (
     componentProps: {
       fullWidth: true,
       name: 'assetLifeExpiry',
-      label: 'Asset life expire on',
+      label: 'Expiry date',
       select: true,
     },
     md: 6,

@@ -22,7 +22,7 @@ export const singleAttachmentsApi = baseAPI?.injectEndpoints({
     postAttachments: builder?.mutation({
       query: (postAttachmentParameter: any) => ({
         url: `${END_POINTS?.POST_ATTACHMENT}`,
-        method: 'DELETE',
+        method: 'POST',
         body: postAttachmentParameter?.body,
       }),
       invalidatesTags: [TAG],
@@ -52,4 +52,5 @@ export const {
   useLazyGetSingleAttachmentQuery,
   useDeleteAllAttachmentsMutation,
   useDeleteMultipleAttachmentsMutation,
+  usePostAttachmentsMutation,
 } = singleAttachmentsApi;
