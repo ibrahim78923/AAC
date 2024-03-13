@@ -2,7 +2,7 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export const usePrintDrawer = (props: any) => {
-  const { isPrintDrawerOpen, setISPrintDrawerOpen } = props;
+  const { isPrintDrawerOpen, setISPrintDrawerOpen, data } = props;
 
   const onClose = () => {
     setISPrintDrawerOpen?.(false);
@@ -18,5 +18,6 @@ export const usePrintDrawer = (props: any) => {
     isPrintDrawerOpen,
     setISPrintDrawerOpen,
     onClose,
+    data,
   };
 };

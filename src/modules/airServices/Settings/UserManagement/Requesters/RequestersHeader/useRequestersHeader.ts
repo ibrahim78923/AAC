@@ -14,6 +14,7 @@ import {
   upsertRequestersDefaultValues,
   upsertRequestersValidationSchema,
 } from '../UpsertRequesters/UpsertRequesters.data';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useRequestersHeader = (props: any) => {
   const { selectedRequestersList, setSelectedRequestersList } = props;
@@ -60,7 +61,7 @@ export const useRequestersHeader = (props: any) => {
   });
   const { handleSubmit, reset } = methods;
 
-  const [addRequester] = usePostAddRequesterMutation();
+  const [addRequester, { isLoading }] = usePostAddRequesterMutation();
 
   const submit = async (data: any) => {
     try {
@@ -74,19 +75,11 @@ export const useRequestersHeader = (props: any) => {
         timezone: data?.timezone,
       };
       await addRequester({ ...payload, role: ROLES?.ORG_REQUESTER }).unwrap();
-      enqueueSnackbar(' Requesters Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      setIsDrawerOpen(false);
+      successSnackbar(' Requesters Added Successfully');
+      handleClose?.();
     } catch (error: any) {
-      const errorMessage =
-        error?.response?.data?.message?.[0] || 'Email Already Exists!';
-
-      enqueueSnackbar(errorMessage, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
-    handleClose?.();
   };
   const handleClose = () => {
     setIsDrawerOpen(false);
@@ -111,5 +104,6 @@ export const useRequestersHeader = (props: any) => {
     handleSubmit,
     submit,
     handleClose,
+    isLoading,
   };
 };

@@ -97,7 +97,24 @@ const getActivePermissionsSession = () => {
     const sessionJSON = localStorage?.getItem('ActivePermissions');
 
     if (sessionJSON) return JSON.parse(sessionJSON);
+    return [];
+  }
+};
+
+const getActiveAccountSession = () => {
+  if (typeof localStorage !== 'undefined') {
+    const sessionJSON = localStorage?.getItem('ActiveAccount');
+
+    if (sessionJSON) return JSON.parse(sessionJSON);
     return {};
+  }
+};
+
+const setActiveAccountSession = (product: any) => {
+  if (product) {
+    localStorage.setItem('ActiveAccount', JSON.stringify(product));
+  } else {
+    localStorage.removeItem('ActiveAccount');
   }
 };
 
@@ -109,4 +126,6 @@ export {
   getActiveProductSession,
   setActivePermissionsSession,
   getActivePermissionsSession,
+  getActiveAccountSession,
+  setActiveAccountSession,
 };

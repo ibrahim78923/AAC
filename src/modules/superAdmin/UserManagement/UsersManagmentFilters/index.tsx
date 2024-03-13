@@ -51,7 +51,7 @@ const UsersManagementFilters = (props: any) => {
   const { handleSubmit } = methods;
 
   const onSubmit = async (values: any) => {
-    setFilterValues({
+    await setFilterValues({
       ...filterValues,
       products: values?.products,
       role: values?.role,

@@ -67,16 +67,18 @@ export const TicketsListSubHeader = (props: any) => {
           <PermissionsGuard
             permissions={[AIR_SERVICES_TICKETS_TICKET_LISTS?.RESET]}
           >
-            <Button
-              variant="outlined"
-              onClick={() => {
-                setTicketsListsActiveColumn(ticketsListInitialColumns);
-              }}
-              size="large"
-              color="secondary"
-            >
-              <AutoRenewIcon />
-            </Button>
+            {router?.query?.viewType !== VIEW_TYPES?.BOARD && (
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  setTicketsListsActiveColumn(ticketsListInitialColumns);
+                }}
+                size="large"
+                color="secondary"
+              >
+                <AutoRenewIcon />
+              </Button>
+            )}
           </PermissionsGuard>
           <PermissionsGuard
             permissions={[

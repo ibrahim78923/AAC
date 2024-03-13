@@ -1,12 +1,11 @@
-import { Box, IconButton, Typography } from '@mui/material';
+import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import Image from 'next/image';
 import { useAttachFileCard } from './useAttachFileCard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
-export const AttachFileCard = ({ data, onDelete, permissionKey }: any) => {
-  const { getImageByType, theme, cross, setCross } = useAttachFileCard();
-
+export const AttachFileCard = (props: any) => {
+  const { data, onDelete, permissionKey, size } = props;
+  const { theme, cross, setCross, getImageByType } = useAttachFileCard();
   return (
     <Box
       display={'flex'}
@@ -20,12 +19,11 @@ export const AttachFileCard = ({ data, onDelete, permissionKey }: any) => {
       onMouseEnter={() => setCross(true)}
       onMouseLeave={() => setCross(false)}
     >
-      <Image
+      <Avatar
         src={getImageByType(data)}
         alt="file-preview"
-        width={45}
-        height={45}
-        style={{ objectFit: 'cover' }}
+        sx={{ width: size?.width ?? 45, height: size?.height ?? 45 }}
+        variant={size?.variant ?? 'rounded'}
       />
       <Box
         display={'flex'}
@@ -34,7 +32,7 @@ export const AttachFileCard = ({ data, onDelete, permissionKey }: any) => {
         justifyContent={'space-between'}
       >
         <Box>
-          <Typography variant="h6" whiteSpace={'nowrap'}>
+          <Typography variant="h6" whiteSpace={'nowrap'} color="slateBlue.main">
             {data?.name}
           </Typography>
           <Typography
@@ -54,7 +52,7 @@ export const AttachFileCard = ({ data, onDelete, permissionKey }: any) => {
               sx={{
                 backgroundColor: 'custom.dark',
                 ':hover': {
-                  backgroundColor: 'custom.dark ',
+                  backgroundColor: 'custom.dark',
                 },
               }}
               onClick={onDelete}

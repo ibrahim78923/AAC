@@ -6,13 +6,13 @@ import * as Yup from 'yup';
 const roleOptions = [ROLE?.ORG_AGENT];
 
 export const validationSchemaAgentFilterFields = Yup?.object()?.shape({
-  department: Yup?.string(),
-  role: Yup?.string(),
+  department: Yup?.mixed()?.nullable(),
+  role: Yup?.mixed()?.nullable(),
 });
 
 export const defaultValuesAgentFilter = {
-  department: '',
-  role: '',
+  department: null,
+  role: null,
 };
 
 export const agentFilterFields = (departmentData: any) => [

@@ -1,5 +1,6 @@
 import { useAppSelector } from '@/redux/store';
 import {
+  useGetTaskDetailsQuery,
   usePatchCreateTaskMutation,
   usePostCreateTaskMutation,
 } from '@/services/airSales/task';
@@ -16,7 +17,7 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 
-const useCreateTask = ({ creationMode, taskData }: any) => {
+const useCreateTask = ({ creationMode }: any) => {
   const theme = useTheme();
 
   const [postCreateTask] = usePostCreateTaskMutation();
@@ -29,6 +30,11 @@ const useCreateTask = ({ creationMode, taskData }: any) => {
   const contactsSelectedIds = useAppSelector(
     (state: any) => state?.task?.contactsSelectedIds,
   );
+
+  const { data: taskData } = useGetTaskDetailsQuery({
+    id: selectedTaskIds?.length === 1 && selectedTaskIds[0],
+  });
+
   const dealsSelectedIds = useAppSelector(
     (state: any) => state?.task?.dealsSelectedIds,
   );

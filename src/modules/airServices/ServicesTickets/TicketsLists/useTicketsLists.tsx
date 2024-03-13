@@ -44,22 +44,6 @@ export const useTicketsLists: any = () => {
   const theme = useTheme();
   const router = useRouter();
   const { makePath } = usePath();
-
-  const additionalParams = [
-    ['metaData', true + ''],
-    ['page', page + ''],
-    ['limit', pageLimit + ''],
-    ['search', search],
-  ];
-  const ticketsParam = buildQueryParams(
-    additionalParams,
-    filterTicketLists,
-    neglectKeysInLoop,
-  );
-  const getTicketsParameter = {
-    queryParams: ticketsParam,
-  };
-
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
     useLazyGetTicketsQuery();
 
@@ -68,7 +52,21 @@ export const useTicketsLists: any = () => {
 
   const [putSingleTicketStatusTrigger] = usePutSingleTicketStatusMutation();
 
-  const getValueTicketsListData = async () => {
+  const getValueTicketsListData = async (currentPage = page) => {
+    const additionalParams = [
+      ['metaData', true + ''],
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+      ['search', search],
+    ];
+    const ticketsParam = buildQueryParams(
+      additionalParams,
+      filterTicketLists,
+      neglectKeysInLoop,
+    );
+    const getTicketsParameter = {
+      queryParams: ticketsParam,
+    };
     try {
       await lazyGetTicketsTrigger(getTicketsParameter)?.unwrap();
       setSelectedTicketList([]);
@@ -218,6 +216,9 @@ export const useTicketsLists: any = () => {
         isAssignedModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
         setSelectedTicketList={setSelectedTicketList}
+        singleTicketDetail={lazyGetTicketsStatus?.data?.data?.tickets?.find(
+          (singleTicket: any) => singleTicket?._id === selectedTicketList?.[0],
+        )}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.MOVE_TICKET]: (
@@ -226,6 +227,9 @@ export const useTicketsLists: any = () => {
         isMoveTicketsModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
         setSelectedTicketList={setSelectedTicketList}
+        singleTicketDetail={lazyGetTicketsStatus?.data?.data?.tickets?.find(
+          (singleTicket: any) => singleTicket?._id === selectedTicketList?.[0],
+        )}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.MERGE_TICKET]: (
@@ -233,6 +237,10 @@ export const useTicketsLists: any = () => {
         setIsMergedTicketsModalOpen={setHasTicketAction}
         isMergedTicketsModalOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
+        setSelectedTicketList={setSelectedTicketList}
+        singleTicketDetail={lazyGetTicketsStatus?.data?.data?.tickets?.find(
+          (singleTicket: any) => singleTicket?._id === selectedTicketList?.[0],
+        )}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.DELETE_TICKET]: (
@@ -242,6 +250,9 @@ export const useTicketsLists: any = () => {
         selectedTicketList={selectedTicketList}
         setSelectedTicketList={setSelectedTicketList}
         setPage={setPage}
+        page={page}
+        getTicketsListData={getValueTicketsListData}
+        totalRecords={lazyGetTicketsStatus?.data?.data?.tickets?.length}
       />
     ),
   };

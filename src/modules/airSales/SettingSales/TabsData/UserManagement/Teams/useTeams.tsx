@@ -6,7 +6,7 @@ import {
 } from '@/services/airSales/settings/teams';
 import { PAGINATION } from '@/config';
 
-const useTeams = (teamId: any) => {
+const useTeams = (teamId?: any) => {
   const theme = useTheme<Theme>();
   const [searchBy, setSearchBy] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -20,6 +20,7 @@ const useTeams = (teamId: any) => {
     search: searchBy,
   };
   const { data: teamsData, isSuccess, isLoading } = useGetTeamsQuery(params);
+
   const { data: teamDataById } = useGetTeamsByIdQuery(teamId);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

@@ -30,20 +30,18 @@ export const useUpsertInventory = () => {
     usePatchAddToInventoryMutation();
   const [postAddToInventoryTrigger, postAddToInventoryStatus] =
     usePostInventoryMutation();
-
+  const [hasAttachment, setHasAttachment] = useState(false);
   const getSingleInventoryDetailsParameter = {
     pathParam: {
       inventoryId,
     },
   };
 
-  const { data, isLoading, isFetching } = useGetAddToInventoryByIdQuery(
-    getSingleInventoryDetailsParameter,
-    {
+  const { data, isLoading, isFetching, isError } =
+    useGetAddToInventoryByIdQuery(getSingleInventoryDetailsParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!inventoryId,
-    },
-  );
+    });
   const methods = useForm({
     resolver: yupResolver(UpsertInventoryValidationSchema),
     defaultValues: upsertInventoryFieldsDefaultValuesFunction(data),
@@ -60,13 +58,18 @@ export const useUpsertInventory = () => {
       'assetLifeExpiry',
       data?.assetLifeExpiry?.toISOString(),
     );
-    inventoryDetailsData.append('locationId', data?.location?._id);
-    inventoryDetailsData.append('departmentId', data?.department?._id);
-    inventoryDetailsData.append('usedBy', data?.usedBy?._id);
+    !!data?.location?._id &&
+      inventoryDetailsData.append('locationId', data?.location?._id);
+    !!data?.department?._id &&
+      inventoryDetailsData.append('departmentId', data?.department?._id);
+    !!data?.data?.usedBy?._id &&
+      inventoryDetailsData.append('usedBy', data?.usedBy?._id);
     inventoryDetailsData.append(
       'assignedOn',
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
     );
+    typeof data?.fileUrl !== 'string' &&
+      inventoryDetailsData?.append('attachment', data?.fileUrl);
     const body = inventoryDetailsData;
     if (!!inventoryId) {
       submitUpdateInventory(data);
@@ -101,13 +104,18 @@ export const useUpsertInventory = () => {
       'assetLifeExpiry',
       data?.assetLifeExpiry?.toISOString(),
     );
-    inventoryEditData.append('locationId', data?.location?._id);
-    inventoryEditData.append('departmentId', data?.department?._id);
-    inventoryEditData.append('usedBy', data?.usedBy?._id);
+    !!data?.location?._id &&
+      inventoryEditData.append('locationId', data?.location?._id);
+    !!data?.department?._id &&
+      inventoryEditData.append('departmentId', data?.department?._id);
+    !!data?.data?.usedBy?._id &&
+      inventoryEditData.append('usedBy', data?.usedBy?._id);
     inventoryEditData.append(
       'assignedOn',
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
     );
+    typeof data?.fileUrl !== 'string' &&
+      inventoryEditData?.append('fileUrl', data?.fileUrl);
     const body = inventoryEditData;
 
     const patchProductCatalogParameter = {
@@ -116,7 +124,7 @@ export const useUpsertInventory = () => {
 
     try {
       await patchAddToInventoryTrigger(patchProductCatalogParameter)?.unwrap();
-      successSnackbar?.('Inventory Created Successfully!');
+      successSnackbar?.('Inventory Updated Successfully!');
       moveBack?.();
       reset();
     } catch (error: any) {
@@ -162,6 +170,12 @@ export const useUpsertInventory = () => {
     upsertInventoryFormFields,
     isLoading,
     isFetching,
+    isError,
     postAddToInventoryStatus,
+    hasAttachment,
+    inventoryId,
+    setHasAttachment,
+    router,
+    moveBack,
   };
 };

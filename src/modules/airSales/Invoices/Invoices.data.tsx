@@ -1,9 +1,7 @@
-import { Checkbox, Stack, TextField } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 import { StatusDropdown } from './InvoicesCommonComponents/StatusDropDown';
-import { QuantityNumber } from './InvoicesCommonComponents/QuantityNumber';
-import { SelectUnit } from './InvoicesCommonComponents/SelectUnit';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 
@@ -225,35 +223,29 @@ export const productsTableColumns = () =>
       id: 'quantity',
       isSortable: true,
       header: 'Quantity',
-      cell: (info: any) => {
-        return <QuantityNumber data={info} />;
-      },
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.unitDiscount,
       id: 'unitDiscount',
       isSortable: true,
       header: 'Unit Discount',
-      cell: (info: any) => {
-        return (
-          <Stack direction="row" gap={2}>
-            <SelectUnit data={info} />
-            <TextField
-              type="text"
-              size="small"
-              value={20}
-              sx={{ width: '100px' }}
-            />
-          </Stack>
-        );
-      },
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.totalPrice,
       id: 'totalPrice',
       isSortable: true,
       header: 'Total Price',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        return (
+          <>
+            {' '}
+            {info?.row?.original?.unitPrice *
+              info?.row?.original?.quantity}{' '}
+          </>
+        );
+      },
     },
     {
       accessorFn: (row: any) => dayjs(row?.createdAt)?.format(DATE_FORMAT?.UI),
