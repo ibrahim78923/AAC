@@ -12,24 +12,25 @@ const {
   AGENT_REJECT_REQUEST,
   APPROVED_REQUEST,
 } = END_POINTS;
-export const agentsAPI = baseAPI.injectEndpoints({
-  endpoints: (builder) => ({
-    getAgents: builder.query({
-      query: (params: any) => ({
+
+export const agentsAPI = baseAPI?.injectEndpoints({
+  endpoints: (builder: any) => ({
+    getAgents: builder?.query({
+      query: (getAgentsListParameter: any) => ({
         url: `${GET_AGENT}`,
         method: 'GET',
-        params,
+        params: getAgentsListParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
-    getAgentRequester: builder.query({
+    getAgentRequester: builder?.query({
       query: (id: any) => ({
         url: `${GET_AGENT_REQUESTER}/${id}`,
         method: 'GET',
       }),
       providesTags: [TAG],
     }),
-    postAddAgent: builder.mutation({
+    postAddAgent: builder?.mutation({
       query: (body: any) => ({
         url: `${ADD_AGENT}`,
         method: 'POST',
@@ -37,15 +38,15 @@ export const agentsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    patchAgent: builder.mutation({
-      query: ({ id, body }) => ({
+    patchAgent: builder?.mutation({
+      query: ({ id, body }: any) => ({
         url: `${EDIT_AGENT}/${id}`,
         method: 'PATCH',
         body,
       }),
       invalidatesTags: [TAG],
     }),
-    patchRejectRequest: builder.mutation({
+    patchRejectRequest: builder?.mutation({
       query: (params: any) => ({
         url: `${AGENT_REJECT_REQUEST}/{id}`,
         method: 'PATCH',
@@ -53,7 +54,7 @@ export const agentsAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    patchApprovedRequest: builder.mutation({
+    patchApprovedRequest: builder?.mutation({
       query: (approvedRequestParameter: any) => ({
         url: `${APPROVED_REQUEST}/{id}`,
         method: 'PATCH',
@@ -62,10 +63,10 @@ export const agentsAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     deleteAgent: builder?.mutation({
-      query: (body: any) => ({
+      query: (deleteArticlesParameter: any) => ({
         url: `${DELETE_AGENT}`,
         method: 'DELETE',
-        body,
+        body: deleteArticlesParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
@@ -93,4 +94,5 @@ export const {
   useLazyGetDepartmentDropdownListQuery,
   usePatchApprovedRequestMutation,
   usePatchRejectRequestMutation,
+  useLazyGetAgentsQuery,
 } = agentsAPI;

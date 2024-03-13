@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 import useToggle from '@/hooks/useToggle';
-import { EditInputIcon, RevertIcon } from '@/assets/icons';
+import { EditInputIcon } from '@/assets/icons';
 import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManagement';
 import { enqueueSnackbar } from 'notistack';
 
@@ -58,6 +58,7 @@ const UserDetailsProfile = (props: any) => {
       '_id',
       'products',
       'role',
+      'email',
       'organization',
       'createdAt',
       'createdBy',
@@ -119,30 +120,20 @@ const UserDetailsProfile = (props: any) => {
                     position="end"
                   >
                     <Box
-                      sx={{
-                        display: 'flex',
-                        gap: '10px',
-                        alignItems: 'center',
-                      }}
+                      onClick={() => setIsToggled(true)}
+                      sx={{ cursor: 'pointer', fontSize: '20px' }}
                     >
-                      <Box
-                        sx={{ cursor: 'pointer' }}
-                        // onClick={() => setIsToggled(false)}
-                      >
-                        <RevertIcon />
-                      </Box>
-                      <Box
-                        onClick={() => setIsToggled(true)}
-                        sx={{ cursor: 'pointer', fontSize: '20px' }}
-                      >
-                        <EditInputIcon />
-                      </Box>
+                      <EditInputIcon />
                     </Box>
                   </InputAdornment>
                 </Box>
               )}
               {!item?.toShow?.includes('address') && (
-                <item.component {...item?.componentProps} size={'small'}>
+                <item.component
+                  {...item?.componentProps}
+                  size={'small'}
+                  disabled={item?.componentProps?.name === 'email' && true}
+                >
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
                       <option key={uuidv4()} value={option?.value}>

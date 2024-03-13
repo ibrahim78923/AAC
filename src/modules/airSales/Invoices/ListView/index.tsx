@@ -20,6 +20,8 @@ import { AlertModals } from '@/components/AlertModals';
 import { AIR_SALES } from '@/routesConstants/paths';
 import RefreshIcon from '@/assets/icons/modules/airSales/Tasks/refresh';
 import { useGetInvoiceQuery } from '@/services/airSales/invoices';
+import { AIR_SALES_INVOICES_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const ListView = () => {
   const navigate = useRouter();
@@ -35,31 +37,42 @@ const ListView = () => {
     handleClick,
   } = useListView();
 
-  const { data: InvoiceData } = useGetInvoiceQuery({});
+  const { data: InvoiceData, isLoading } = useGetInvoiceQuery({});
 
   return (
     <>
       <Stack direction="row" justifyContent="space-between">
         <Typography variant="h3">Invoice</Typography>
-        <Button
-          variant="contained"
-          startIcon={<PlusIcon />}
-          onClick={() => navigate?.push(AIR_SALES?.SALES_CREATE_INVOICES)}
-          className="small"
+        <PermissionsGuard
+          permissions={[AIR_SALES_INVOICES_PERMISSIONS?.SALE_CREATE_INVOICES]}
         >
-          Create Invoice
-        </Button>
+          <Button
+            variant="contained"
+            startIcon={<PlusIcon />}
+            onClick={() => navigate?.push(AIR_SALES?.SALES_CREATE_INVOICES)}
+            className="small"
+          >
+            Create Invoice
+          </Button>
+        </PermissionsGuard>
       </Stack>
       <Grid spacing={2} container sx={{ marginTop: '10px' }}>
-        <Grid item xs={12} md={6}>
-          <Search
-            label="Search Here"
-            size="small"
-            searchBy={searchBy}
-            setSearchBy={setSearchBy}
-            width={240}
-          />
-        </Grid>
+        <PermissionsGuard
+          permissions={[
+            AIR_SALES_INVOICES_PERMISSIONS?.SALE_INVOICE_SEARCH_AND_FILTER,
+          ]}
+        >
+          <Grid item xs={12} md={6}>
+            <Search
+              label="Search Here"
+              size="small"
+              searchBy={searchBy}
+              setSearchBy={setSearchBy}
+              width={240}
+            />
+          </Grid>
+        </PermissionsGuard>
+
         <Grid item xs={12} md={6}>
           <Stack direction="row" justifyContent="end" gap={1}>
             <Box>
@@ -79,9 +92,27 @@ const ListView = () => {
                 open={Boolean(selectedValue)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleIsViewPage}>View</MenuItem>
-                <MenuItem onClick={handleClose}>Download</MenuItem>
-                <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
+                <PermissionsGuard
+                  permissions={[
+                    AIR_SALES_INVOICES_PERMISSIONS?.SALE_VIEW_INVOICE,
+                  ]}
+                >
+                  <MenuItem onClick={handleIsViewPage}>View</MenuItem>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[
+                    AIR_SALES_INVOICES_PERMISSIONS?.SALE_INVOICE_DOWNLOAD,
+                  ]}
+                >
+                  <MenuItem onClick={handleClose}>Download</MenuItem>
+                </PermissionsGuard>
+                <PermissionsGuard
+                  permissions={[
+                    AIR_SALES_INVOICES_PERMISSIONS?.SALE_DELETE_INVOICE,
+                  ]}
+                >
+                  <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
+                </PermissionsGuard>
               </Menu>
             </Box>
             <Box
@@ -96,7 +127,13 @@ const ListView = () => {
             >
               <RefreshIcon />
             </Box>
-            <FilterDrawer />
+            <PermissionsGuard
+              permissions={[
+                AIR_SALES_INVOICES_PERMISSIONS?.SALE_INVOICE_SEARCH_AND_FILTER,
+              ]}
+            >
+              <FilterDrawer />
+            </PermissionsGuard>
           </Stack>
         </Grid>
       </Grid>
@@ -104,6 +141,7 @@ const ListView = () => {
         <TanstackTable
           columns={invoicesTableColumns}
           data={InvoiceData?.data?.quoteinvoices}
+          isLoading={isLoading}
         />
         <CustomPagination
           count={1}

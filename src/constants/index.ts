@@ -31,6 +31,7 @@ export const DATE_TIME_FORMAT = {
   DDDDDD: 'ddd - DD',
   DDMMYYYY: 'DD MMM, YYYY hh:MM A',
   DMMMY: 'D MMM, YYYY',
+  DMDHMA: 'ddd, MMM D, YYYY, h:mm A',
 };
 
 export const VALIDATION_CONSTANT = {
@@ -122,6 +123,7 @@ export const AIR_SERVICES = {
   UPSERT_SOFTWARE_CONTRACT: `/air-services/assets/software/detail/create-contract`,
   UPSERT_WORKFLOW_MANAGEMENT:
     '/air-services/settings/agent-performance-management/workload-management/upsert-workflow-management',
+  SINGLE_AGENT_DETAILS: `/air-services/settings/user-management/agents/details`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {
@@ -144,7 +146,7 @@ export const AIR_CUSTOMER_PORTAL = {
 };
 
 export const ORG_ADMIN: any = {
-  DASHBOARD: '/org-admin',
+  DASHBOARD: '/org-admin/dashboard',
   ROLES_AND_RIGHTS: '/org-admin/roles-and-rights',
   ADD_ROLE: '/org-admin/roles-and-rights/add-role',
 };

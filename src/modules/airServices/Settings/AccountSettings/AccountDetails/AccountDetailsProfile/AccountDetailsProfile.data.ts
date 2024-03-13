@@ -6,13 +6,11 @@ export const accountDetailProfileValidationSchema = Yup?.object()?.shape({
   firstName: Yup?.string()
     ?.required('Required')
     ?.max(30, 'First Name up to 30 characters'),
-  middleName: Yup?.string()?.max(30, 'Middle Name up to 30 characters'),
   lastName: Yup?.string()
     ?.required('Required')
     ?.max(30, 'Last Name up to 30 characters'),
   workPhoneNumber: Yup?.string(),
   mobileNumber: Yup?.string(),
-  companyName: Yup?.string()?.max(100, 'Company Name up to 30 characters'),
   jobTitle: Yup?.string(),
   language: Yup?.string(),
   timeZone: Yup?.mixed()?.nullable(),
@@ -21,19 +19,22 @@ export const accountDetailProfileValidationSchema = Yup?.object()?.shape({
   twitterURL: Yup?.string(),
 });
 
-export const accountDetailProfileDefaultValues = {
-  firstName: '',
-  middleName: '',
-  lastName: '',
-  workPhoneNumber: '',
-  mobileNumber: '',
-  companyName: '',
-  jobTitle: '',
-  language: 'English',
-  timeZone: null,
-  facebookURL: '',
-  linkedinURL: '',
-  twitterURL: '',
+export const accountDetailProfileDefaultValues = (profileDetail: any) => {
+  return {
+    firstName: profileDetail?.firstName ?? '',
+    lastName: profileDetail?.lastName ?? '',
+    workPhoneNumber: profileDetail?.phoneNumber ?? '',
+    mobileNumber: profileDetail?.mobileNumber ?? '',
+    companyName: profileDetail?.company ?? '',
+    jobTitle: profileDetail?.jobTitle ?? '',
+    language: profileDetail?.language ?? '',
+    timeZone: profileDetail?.timezone
+      ? timeZone?.find((item: any) => item?.label === profileDetail?.timezone)
+      : null,
+    facebookURL: profileDetail?.facebookUrl ?? '',
+    linkedinURL: profileDetail?.linkedInUrl ?? '',
+    twitterURL: profileDetail?.twitterUrl ?? '',
+  };
 };
 
 export const profileWorkDataArray = [
@@ -46,18 +47,6 @@ export const profileWorkDataArray = [
       type: 'text',
       size: 'small',
       required: true,
-      placeholder: 'John',
-    },
-    component: RHFTextField,
-  },
-  {
-    _id: 6578,
-    gridLength: 6,
-    componentProps: {
-      name: 'middleName',
-      label: 'Middle Name',
-      type: 'text',
-      size: 'small',
     },
     component: RHFTextField,
   },
@@ -70,7 +59,6 @@ export const profileWorkDataArray = [
       type: 'text',
       size: 'small',
       required: true,
-      placeholder: 'Doe',
     },
     component: RHFTextField,
   },
@@ -82,7 +70,6 @@ export const profileWorkDataArray = [
       name: 'workPhoneNumber',
       label: 'Work Phone Number',
       size: 'small',
-      placeholder: 'Phone Number',
     },
     component: RHFTextField,
   },
@@ -93,7 +80,6 @@ export const profileWorkDataArray = [
       name: 'mobileNumber',
       label: 'Mobile Number',
       size: 'small',
-      placeholder: '+12 12345',
     },
     component: RHFTextField,
   },
@@ -105,7 +91,7 @@ export const profileWorkDataArray = [
       label: 'Company Name',
       type: 'text',
       size: 'small',
-      placeholder: 'Orcalo Holdings',
+      disabled: true,
     },
     component: RHFTextField,
   },
@@ -118,7 +104,6 @@ export const profileWorkDataArray = [
       label: 'Job Title',
       type: 'text',
       size: 'small',
-      placeholder: 'UI UX Designer',
     },
     component: RHFTextField,
   },
@@ -144,7 +129,6 @@ export const profileOtherDataArray = [
       label: 'Time Zone',
       type: 'text',
       size: 'small',
-      placeholder: '(GMT-11:00) London',
       options: timeZone,
       getOptionLabel: (option: any) => option?.label,
     },
@@ -158,7 +142,6 @@ export const profileOtherDataArray = [
       label: 'Facebook URL',
       type: 'text',
       size: 'small',
-      placeholder: 'Jhondoe@ceative.co.uk',
     },
     component: RHFTextField,
   },
@@ -170,7 +153,6 @@ export const profileOtherDataArray = [
       label: 'Linkedin URL',
       type: 'text',
       size: 'small',
-      placeholder: 'Jhondoe@ceative.co.uk',
     },
     component: RHFTextField,
   },
@@ -182,7 +164,6 @@ export const profileOtherDataArray = [
       label: 'Twitter URL',
       type: 'text',
       size: 'small',
-      placeholder: 'Jhondoe@ceative.co.uk',
     },
     component: RHFTextField,
   },

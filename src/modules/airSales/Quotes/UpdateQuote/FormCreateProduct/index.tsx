@@ -56,7 +56,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
     try {
       await postProduct({ body: formData })
         ?.unwrap()
-        .then((res) => {
+        .then((res: any) => {
           const associationBody = {
             dealId: Quotenew?.data?.dealId,
             product: {

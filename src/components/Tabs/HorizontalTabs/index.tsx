@@ -64,6 +64,7 @@ const HorizontalTabs = (props: any) => {
       <Box sx={{ py: { md: 2, xs: 0.5 } }}>
         {arrayChildren?.map((child: any, index) => (
           <Box key={uuidv4()}>
+            <br />
             {value === index && cloneElement(child, { setValue })}
           </Box>
         ))}

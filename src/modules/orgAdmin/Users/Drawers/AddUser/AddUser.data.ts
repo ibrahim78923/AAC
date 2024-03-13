@@ -191,7 +191,7 @@ export const addUsersArray = [
   },
   {
     componentProps: {
-      name: 'twitterURL',
+      name: 'twitterUrl',
       label: 'Twitter URL',
       placeholder: 'Enter Twitter URL',
       fullWidth: true,

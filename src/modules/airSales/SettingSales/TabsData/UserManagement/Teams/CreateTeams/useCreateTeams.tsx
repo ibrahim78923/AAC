@@ -8,10 +8,11 @@ import useUserManagement from '../../useUserManagement';
 const useCreateTeams = (editData: any, setIsAddTeam: any) => {
   const { productsUsers } = useUserManagement();
   const [postTeams] = usePostTeamsMutation();
-
   const methods: any = useForm({
     resolver: yupResolver(teamsValidationSchema),
-    defaultValues: editData,
+    defaultValues: {
+      name: editData?.name,
+    },
   });
 
   const { handleSubmit, reset } = methods;
