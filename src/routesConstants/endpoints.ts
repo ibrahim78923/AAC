@@ -373,3 +373,7 @@ export const INVOICE = {
   POST_INVOICE_QUOTE: '/quote-invoice',
   GET_INVOICE_QUOTE_LIST: '/quote',
 };
+
+export const OPERATION = {
+  ADD_OPERATION_WORKFLOW: '/operation/add-workflow',
+};

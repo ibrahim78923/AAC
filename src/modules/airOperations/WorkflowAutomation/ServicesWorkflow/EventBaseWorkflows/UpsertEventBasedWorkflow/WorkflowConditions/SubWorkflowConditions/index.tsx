@@ -19,8 +19,8 @@ export const SubWorkflowConditions = (props: any) => {
   return (
     <>
       {fields?.map((item, subIndex) => {
-        const workflowConditions = watch(
-          `workflowConditions.${index}.nestedArray.${subIndex}.condition1`,
+        const groups = watch(
+          `groups.${index}.nestedArray.${subIndex}.condition1`,
         );
         return (
           <Box key={item?.id}>
@@ -44,18 +44,18 @@ export const SubWorkflowConditions = (props: any) => {
                 <Grid container spacing={1}>
                   <Grid item md={3}>
                     <RHFAutocomplete
-                      name={`workflowConditions.${index}.nestedArray.${subIndex}.condition1`}
+                      name={`groups.${index}.nestedArray.${subIndex}.condition1`}
                       size="small"
                       placeholder="Select"
                       options={conditionOptions}
                       inputRef={register}
                     />
                   </Grid>
-                  {workflowConditions === TICKET_FIELDS && (
+                  {groups === TICKET_FIELDS && (
                     <>
                       <Grid item md={3}>
                         <RHFAutocomplete
-                          name={`workflowConditions.${index}.nestedArray.${subIndex}.condition2`}
+                          name={`groups.${index}.nestedArray.${subIndex}.condition2`}
                           size="small"
                           placeholder="Select"
                           options={ticketsFieldsOptions}
@@ -63,7 +63,7 @@ export const SubWorkflowConditions = (props: any) => {
                       </Grid>
                       <Grid item md={3}>
                         <RHFAutocomplete
-                          name={`workflowConditions.${index}.nestedArray.${subIndex}.condition3`}
+                          name={`groups.${index}.nestedArray.${subIndex}.condition3`}
                           size="small"
                           placeholder="Select"
                           options={fieldOptions}
@@ -71,7 +71,7 @@ export const SubWorkflowConditions = (props: any) => {
                       </Grid>
                       <Grid item md={3}>
                         <RHFAutocomplete
-                          name={`workflowConditions.${index}.nestedArray.${subIndex}.condition4`}
+                          name={`groups.${index}.nestedArray.${subIndex}.condition4`}
                           size="small"
                           placeholder="Select"
                           options={statusOptions}
@@ -91,7 +91,7 @@ export const SubWorkflowConditions = (props: any) => {
       })}
       <Button
         onClick={() =>
-          append(eventBasedWorkflowValues?.workflowConditions?.[0]?.conditions)
+          append(eventBasedWorkflowValues?.groups?.[0]?.conditions)
         }
         color="secondary"
         startIcon={<AddCircle color="action" />}

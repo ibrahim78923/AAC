@@ -1,11 +1,11 @@
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import { AddCircle, Delete } from '@mui/icons-material';
-import { actionsExecutedFields } from './WorkflowActionExecuted.data';
+import { actionsData } from './WorkflowActionExecuted.data';
 import { useFieldArray } from 'react-hook-form';
 
 export const WorkflowActionExecuted = () => {
   const { fields, append, remove } = useFieldArray({
-    name: 'actionsExecuted',
+    name: 'actions',
   });
   const theme = useTheme();
   return (
@@ -37,11 +37,11 @@ export const WorkflowActionExecuted = () => {
           borderBottom={`1px solid ${theme?.palette?.custom?.off_white_three}`}
         >
           <Grid container spacing={2}>
-            {actionsExecutedFields?.map((item: any) => (
+            {actionsData?.map((item: any) => (
               <Grid item xs={12} lg={item?.gridLength} key={item?._id}>
                 <item.component
                   {...item?.componentProps}
-                  name={`actionsExecuted[0].${item?.componentProps?.name}`}
+                  name={`actions[0].${item?.componentProps?.name}`}
                 />
               </Grid>
             ))}
@@ -58,12 +58,12 @@ export const WorkflowActionExecuted = () => {
             gap={1}
           >
             <Grid container spacing={2}>
-              {actionsExecutedFields?.map((item) => (
+              {actionsData?.map((item: any) => (
                 <Grid item xs={12} lg={item?.gridLength} key={item?._id}>
                   <item.component
                     {...item?.componentProps}
                     {...field}
-                    name={`actionsExecuted[${index}].${item?.componentProps?.name}`}
+                    name={`actions[${index}].${item?.componentProps?.name}`}
                   />
                 </Grid>
               ))}

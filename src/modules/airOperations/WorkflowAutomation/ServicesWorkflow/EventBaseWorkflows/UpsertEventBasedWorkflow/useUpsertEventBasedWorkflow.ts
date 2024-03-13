@@ -5,26 +5,25 @@ import {
   eventBasedWorkflowValues,
 } from './UpsertEventBasedWorkflow.data';
 import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+// import { usePostServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
+import { successSnackbar } from '@/utils/api';
 
 export const useUpsertEventBasedWorkflow = () => {
-  const salesMethod = useForm({
+  const eventMethod = useForm({
     defaultValues: eventBasedWorkflowValues,
     resolver: yupResolver(eventBasedWorkflowSchema),
   });
   const { reset, watch, register, handleSubmit, setValue, control } =
-    salesMethod;
+    eventMethod;
+  // const [postWorkflowTrigger] = usePostServicesWorkflowMutation();
   const handleFormSubmit = () => {
-    enqueueSnackbar('Workflow Enabled Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+    successSnackbar('Workflow Enabled Successfully');
     reset();
   };
   const { palette } = useTheme();
   const moduleType = watch('moduleType');
   return {
-    salesMethod,
+    eventMethod,
     handleFormSubmit,
     register,
     handleSubmit,

@@ -31,15 +31,13 @@ export const WorkflowConditions = (props: any) => {
         </Typography>
       </Box>
       {fields?.map((item, index) => {
-        const conditionType = watch(
-          `workflowConditions.${index}.conditionType`,
-        );
+        const conditionType = watch(`groups.${index}.conditionType`);
         return (
           <Box key={item?.id} p={1.5}>
             {index !== 0 && (
               <Box sx={styles?.logicBtnContainer(palette)}>
                 <RHFButtonGroup
-                  name={`workflowConditions.${index}.logicGate`}
+                  name={`groups.${index}.logicGate`}
                   sx={{ gap: 0 }}
                 >
                   <ToggleButton
