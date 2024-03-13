@@ -131,13 +131,13 @@ const Agent = () => {
         )}
         {openDeleteModal && (
           <DeleteAgent
-            deleteModalOpen={openDeleteModal}
-            setDeleteModalOpen={setOpenDeleteModal}
-            selectedInventoryLists={selectedAgentList}
-            setSelectedInventoryLists={setSelectedAgentList}
+            openDeleteModal={openDeleteModal}
+            setOpenDeleteModal={setOpenDeleteModal}
+            selectedAgentList={selectedAgentList}
+            setSelectedAgentList={setSelectedAgentList}
             setPage={setPage}
             page={page}
-            getInventoryListData={getAgentsListData}
+            getAgentsListData={getAgentsListData}
             totalRecords={lazyGetAgentsStatus?.data?.data?.users?.length}
           />
         )}

@@ -14,17 +14,15 @@ export const useDeleteAgent = (props: any) => {
 
   const [deleteAgentTrigger, deleteAgentStatus] = useDeleteAgentMutation();
   const deleteAgent = async () => {
-    const deleteParams = new URLSearchParams();
-    selectedAgentList?.forEach((id: any) => deleteParams?.append('ids', id));
     const deleteArticlesParameter = {
-      queryParams: deleteParams,
+      body: { ids: selectedAgentList?.map((agent: any) => agent?._id) },
     };
     try {
       await deleteAgentTrigger(deleteArticlesParameter)?.unwrap();
       successSnackbar('Agent deleted successfully');
       setSelectedAgentList?.([]);
-      setPage?.(selectedAgentList?.length === totalRecords ? 1 : page);
       const newPage = selectedAgentList?.length === totalRecords ? 1 : page;
+      setPage?.(newPage);
       await getAgentsListData?.(newPage);
       closeAgentDeleteModal?.();
     } catch (error: any) {
