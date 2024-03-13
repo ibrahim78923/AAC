@@ -123,6 +123,7 @@ export const AIR_SERVICES = {
   UPSERT_SOFTWARE_CONTRACT: `/air-services/assets/software/detail/create-contract`,
   UPSERT_WORKFLOW_MANAGEMENT:
     '/air-services/settings/agent-performance-management/workload-management/upsert-workflow-management',
+  SINGLE_AGENT_DETAILS: `/air-services/settings/user-management/agents/details`,
 };
 
 export const AIR_CUSTOMER_PORTAL = {

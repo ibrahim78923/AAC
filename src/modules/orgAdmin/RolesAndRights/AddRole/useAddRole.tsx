@@ -78,9 +78,10 @@ const useAddRole = () => {
   const { useGetProductsPermissionsQuery, useUpdateRoleRightsMutation } =
     rolesAndRightsAPI;
 
-  const { data: productPermissionsData } = useGetProductsPermissionsQuery({
-    productId: productVal,
-  });
+  const { data: productPermissionsData, isLoading } =
+    useGetProductsPermissionsQuery({
+      productId: productVal,
+    });
 
   const [updateRoleRights] = useUpdateRoleRightsMutation();
 
@@ -118,6 +119,7 @@ const useAddRole = () => {
     handleSwitch,
     isSwitchVal,
     productVal,
+    isLoading,
     navigate,
     onSubmit,
     methods,
