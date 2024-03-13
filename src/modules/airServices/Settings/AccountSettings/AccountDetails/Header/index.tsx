@@ -10,8 +10,9 @@ import Chip from '@mui/material/Chip';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 
-export const Header = () => {
+export const Header = (props: any) => {
   const theme = useTheme();
+  const { profileDetail } = props;
 
   const {
     handleFileChange,
@@ -95,9 +96,9 @@ export const Header = () => {
             gap={1}
           >
             <Box display={'flex'} gap={1}>
-              <Typography variant="h4">John Doe</Typography>
+              <Typography variant="h4">{profileDetail?.firstName}</Typography>
               <Chip
-                label={'Admin'}
+                label={profileDetail?.role}
                 sx={{
                   backgroundColor: 'success.lighter',
                   color: 'success.main',
@@ -111,11 +112,13 @@ export const Header = () => {
             >
               <Box display={'flex'} gap={1}>
                 <EmailIcon />
-                <Typography variant="body2">Johndoe@gmail.com</Typography>
+                <Typography variant="body2">{profileDetail?.email}</Typography>
               </Box>
               <Box display={'flex'} gap={1}>
                 <PhoneIcon />
-                <Typography variant="body2">(316) 555-0116</Typography>
+                <Typography variant="body2">
+                  {profileDetail?.phoneNumber}
+                </Typography>
               </Box>
             </Box>
           </Box>

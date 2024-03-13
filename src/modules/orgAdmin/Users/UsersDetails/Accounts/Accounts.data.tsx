@@ -4,7 +4,7 @@ import { SwitchBtn } from '@/components/SwitchButton';
 
 import { LogoIcon } from '@/assets/icons';
 import Image from 'next/image';
-import { IMG_URL } from '@/config';
+// import { IMG_URL } from '@/config';
 
 export const companyColumns: any = (handleStatusUpdate: any) => [
   {
@@ -16,7 +16,8 @@ export const companyColumns: any = (handleStatusUpdate: any) => [
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         {info?.getValue()?.logo ? (
           <Image
-            src={`${IMG_URL}${info?.getValue()?.logo?.url}`}
+            src={``}
+            // src={`${IMG_URL}${info?.getValue()?.logo?.url}`}
             alt="product img missing"
             width={30}
             height={38}
