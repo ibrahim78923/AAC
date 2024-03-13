@@ -11,6 +11,7 @@ const useUsers = () => {
     company: '',
     status: '',
   });
+  const [searchAccount, setSearchAccount] = useState('');
 
   const [page, setPage] = useState(1);
   const employeeRecordsLimit = 10;
@@ -32,7 +33,7 @@ const useUsers = () => {
   const employeeMetaData = employeeList?.data?.meta;
 
   useEffect(() => {
-    setEmployeeDataById(employeeList?.data?.users[0]?._id);
+    setEmployeeDataById(employeeList?.data?.users[0]?._id ?? null);
   }, [employeeList?.data?.users]);
 
   const handleEmpListPaginationChange = (
@@ -63,6 +64,8 @@ const useUsers = () => {
     setEmployeeDataById,
     resetFilter,
     employeeMetaData,
+    searchAccount,
+    setSearchAccount,
   };
 };
 

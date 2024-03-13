@@ -37,7 +37,7 @@ const ListView = () => {
     handleClick,
   } = useListView();
 
-  const { data: InvoiceData } = useGetInvoiceQuery({});
+  const { data: InvoiceData, isLoading } = useGetInvoiceQuery({});
 
   return (
     <>
@@ -141,6 +141,7 @@ const ListView = () => {
         <TanstackTable
           columns={invoicesTableColumns}
           data={InvoiceData?.data?.quoteinvoices}
+          isLoading={isLoading}
         />
         <CustomPagination
           count={1}

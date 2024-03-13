@@ -109,6 +109,13 @@ export const inventoryAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getAttachmentToInventory: builder?.query({
+      query: (getAttachmentToInventoryParameter: any) => ({
+        url: `${END_POINTS?.ATTACHMENT_INVENTORY}/${getAttachmentToInventoryParameter?.pathParam?.inventoryId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -125,4 +132,5 @@ export const {
   useLazyGetLocationsDropdownQuery,
   usePatchAddToInventoryMutation,
   useGetAddToInventoryByIdQuery,
+  useGetAttachmentToInventoryQuery,
 } = inventoryAPI;

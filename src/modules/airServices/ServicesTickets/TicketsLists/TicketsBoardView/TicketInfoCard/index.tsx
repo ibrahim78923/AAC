@@ -18,6 +18,10 @@ export const TicketInfoCard = ({
   details,
   setTicketAction,
   setSelectedTicketList,
+  totalRecords,
+  setPage,
+  getValueTicketsListData,
+  page,
 }: any) => {
   const {
     openDeleteModal,
@@ -40,7 +44,13 @@ export const TicketInfoCard = ({
     setDeleteId,
     handleSubmitDelete,
     deleteTicketsStatus,
-  } = useTicketInfoCard({ details });
+  } = useTicketInfoCard({
+    details,
+    setPage,
+    totalRecords,
+    getValueTicketsListData,
+    page,
+  });
 
   return (
     <>

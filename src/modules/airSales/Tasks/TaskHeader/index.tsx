@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Box, Button, Typography, useTheme } from '@mui/material';
-import Import from '../Import';
+
 import ActivityAndPerformance from '../ActivityAndPerformance';
 import CreateTask from '../CreateTask';
 import { PlusIcon, UmbrellaIcon } from '@/assets/icons';
+import ImportTaskDrawer from '../ImportTaskDrawer';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS } from '@/constants/permission-keys';
 const TaskHeader = () => {
@@ -76,7 +77,9 @@ const TaskHeader = () => {
           />
         )}
       </Box>
-      {isOpen && <Import setIsOpen={setIsOpen} isOpen={isOpen} />}
+      {isOpen && (
+        <ImportTaskDrawer onClose={() => setIsOpen(false)} open={isOpen} />
+      )}
     </Box>
   );
 };

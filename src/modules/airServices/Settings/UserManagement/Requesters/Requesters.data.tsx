@@ -2,8 +2,9 @@ import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import { REQUESTORS_STATUS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { ProfileImage } from '@/assets/images';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { errorSnackbar } from '@/utils/api';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 
 export const requestersDropdown = (
   setDeleteModal: any,
@@ -92,24 +93,39 @@ export const requestersList: any = (
     header: 'Name',
     isSortable: true,
     cell: (info: any) => (
-      <Box display={'flex'} alignItems={'center'} gap={1}>
-        <Avatar
-          src={info?.row?.original?.icon?.src || ProfileImage}
-          alt={info?.row?.original?.icon?.name}
-        />
-        <Typography
-          sx={{
-            color: 'blue.main',
-            cursor: 'pointer',
-          }}
-          onClick={() =>
-            router?.push({
-              pathname: AIR_SERVICES?.SINGLE_REQUESTERS_DETAILS,
-              query: { _id: info?.row?.original?._id },
-            })
+      <Box
+        display={'flex'}
+        flexWrap={'wrap'}
+        alignItems={'center'}
+        sx={{ cursor: 'pointer' }}
+        gap={1}
+        onClick={() => {
+          if (info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE) {
+            errorSnackbar('This agent is not active');
+            return;
           }
+          router?.push({
+            pathname: AIR_SERVICES?.SINGLE_REQUESTERS_DETAILS,
+            query: { _id: info?.row?.original?._id },
+          });
+        }}
+      >
+        <Avatar
+          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
+          src={generateImage(info?.row?.original?.avatar?.url)}
         >
-          {info?.getValue()}
+          <Typography variant="body3" textTransform={'uppercase'}>
+            {fullNameInitial(
+              info?.row?.original?.firstName,
+              info?.row?.original?.lastName,
+            )}
+          </Typography>
+        </Avatar>
+        <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+          {fullName(
+            info?.row?.original?.firstName,
+            info?.row?.original?.lastName,
+          )}
         </Typography>
       </Box>
     ),
