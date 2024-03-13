@@ -16,7 +16,6 @@ import {
 } from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
-import { SUPER_ADMIN } from '@/constants';
 
 import { ImportContactsData } from './ImportContacts.data';
 
@@ -24,6 +23,7 @@ import { ImportIcon } from '@/assets/icons';
 import { AvailableImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
+import { AIR_SOCIAL } from '@/routesConstants/paths';
 
 const ImportColumns = () => {
   const route = useRouter();
@@ -43,7 +43,7 @@ const ImportColumns = () => {
           startIcon={<ImportIcon />}
           variant="outlined"
           onClick={() => {
-            route?.push(SUPER_ADMIN?.AIRSALES_IMPORTHISTORY);
+            route?.push(AIR_SOCIAL?.IMPORTHISTORY);
           }}
         >
           Import History
@@ -92,14 +92,14 @@ const ImportColumns = () => {
           <Box textAlign="end">
             <Button
               variant="outlined"
-              onClick={() => route?.push(SUPER_ADMIN?.CONTACT_IMPORT)}
+              onClick={() => route?.push(AIR_SOCIAL?.CONTACTS_IMPORT)}
             >
               Back
             </Button>
             <Button
               variant="contained"
               sx={{ ml: '10px' }}
-              onClick={() => route?.push(SUPER_ADMIN?.AIRSALES_IMPORTHISTORY)}
+              onClick={() => route?.push(AIR_SOCIAL?.IMPORTHISTORY)}
             >
               Import
             </Button>

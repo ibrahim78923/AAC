@@ -43,7 +43,10 @@ import {
   WorkLoadImage,
 } from '@/assets/images';
 import { Quick_Links_Routes } from '@/constants';
-import { Permissions } from '@/constants/permissions';
+import {
+  Permissions,
+  superAdminAllPermissionsSetting,
+} from '@/constants/permissions';
 import {
   AIR_MARKETER,
   AIR_OPERATION,
@@ -511,7 +514,7 @@ export const LowerSuperAdminRoutes = [
     icon: SettingImage,
     role: 'super-admin',
     key: '/super-admin/settings',
-    permissions: [],
+    permissions: superAdminAllPermissionsSetting,
     textNames: [
       {
         key: '/super-admin/settings/jobs',
@@ -759,10 +762,10 @@ export const QuickLinkData = [
 ];
 
 const PRODUCT__ROUTES: any = {
-  SUPER_ADMIN: SuperAdminRoutes,
+  'Super Admin': SuperAdminRoutes,
   'Air Sales': SalesRoutes,
   'Air Services': ServicesRoutes,
-  ORG_ADMIN: OrgAdminRoutes,
+  'Org Admin': OrgAdminRoutes,
   'Customer Portal': CustomerPortalRoutes,
   'Air Operations': AirOperationsRoutes,
   'Air Marketer': AirMarketingRoutes,

@@ -5,6 +5,8 @@ import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useEffect } from 'react';
 
 import { LoadingButton } from '@mui/lab';
+import { Attachments } from '@/components/Attachments';
+import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 
 export const UpsertInventory = () => {
   const {
@@ -16,6 +18,8 @@ export const UpsertInventory = () => {
     query,
     upsertInventoryFormFields,
     submitUpsertInventory,
+    inventoryId,
+    setHasAttachment,
   } = useUpsertInventory();
 
   useEffect(() => {
@@ -51,7 +55,31 @@ export const UpsertInventory = () => {
                 </Grid>
               </Grid>
               <Box sx={{ display: { lg: 'none', xs: 'block' } }}>
-                <RHFDropZone name="file" />
+                <RHFDropZone name="fileUrl" />
+                <br />
+                {!!inventoryId && (
+                  <>
+                    <Typography
+                      variant="body1"
+                      fontWeight={500}
+                      color="slateBlue.main"
+                      mb={2}
+                    >
+                      {' '}
+                      Attachments{' '}
+                    </Typography>
+                    <Box maxHeight={'20vh'}>
+                      <Attachments
+                        recordId={inventoryId}
+                        permissionKey={[
+                          AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_NEW_EXPENSE,
+                        ]}
+                        hasAttachments={setHasAttachment}
+                        size={1024 * 1024 * 2.44}
+                      />
+                    </Box>
+                  </>
+                )}
               </Box>
             </Box>
             <Box
@@ -78,7 +106,31 @@ export const UpsertInventory = () => {
             </Box>
           </Grid>
           <Grid item lg={3} sx={{ display: { xs: 'none', lg: 'block' } }}>
-            <RHFDropZone name="attachFile" />
+            <RHFDropZone name="fileUrl" />
+            <br />
+            {!!inventoryId && (
+              <>
+                <Typography
+                  variant="body1"
+                  fontWeight={500}
+                  color="slateBlue.main"
+                  mb={2}
+                >
+                  {' '}
+                  Attachments{' '}
+                </Typography>
+                <Box maxHeight={'20vh'}>
+                  <Attachments
+                    recordId={inventoryId}
+                    permissionKey={[
+                      AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_NEW_EXPENSE,
+                    ]}
+                    hasAttachments={setHasAttachment}
+                    size={1024 * 1024 * 2.44}
+                  />
+                </Box>
+              </>
+            )}
           </Grid>
         </Grid>
       </FormProvider>
