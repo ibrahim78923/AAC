@@ -7,8 +7,11 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const AccountDetails = () => {
   const theme = useTheme();
-  const user = useAuth();
-  const { data, isLoading } = useGetProfileDetailQuery(user?.user?._id);
+  const user: any = useAuth();
+  const { data, isLoading } = useGetProfileDetailQuery(user?.user?._id, {
+    refetchOnMountOrArgChange: true,
+    skip: !!!user?.user?._id,
+  });
 
   return (
     <>

@@ -7,7 +7,7 @@ import { Box, Divider, Grid, Typography } from '@mui/material';
 import { printData } from './print.data';
 
 export const PrintDrawer = (props: any) => {
-  const { onSubmit, isPrintDrawerOpen, onClose } = usePrintDrawer(props);
+  const { onSubmit, isPrintDrawerOpen, onClose, data } = usePrintDrawer(props);
   return (
     <CommonDrawer
       isDrawerOpen={isPrintDrawerOpen}
@@ -35,10 +35,10 @@ export const PrintDrawer = (props: any) => {
           </Typography>
         </Box>
         <Typography variant="h5" marginTop={1}>
-          asdsa{' '}
+          {data?.data?.[0]?.subject}{' '}
           <Typography variant="h5" component={'span'} marginLeft={1}>
             {' '}
-            #INC-18
+            {data?.data?.[0]?.ticketIdNumber}
           </Typography>
         </Typography>
         <Typography variant="body3">by</Typography>
