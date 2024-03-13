@@ -8,12 +8,7 @@ import { ticketDashboardCardsData } from './TicketDashboardCards/TicketDashboard
 import { recentActivitiesDashboardCardData } from './RecentActivitiesDashboard/RecentActivitiesDashboardCard/RecentActivitiesDashboardCard.data';
 import { announcementDashboardCardData } from './AnnouncementDashboard/AnnouncementDashboardCard/AnnouncementDashboardCard.data';
 import { topPerformerDashboardCardData } from './TopPerformerDashboardCard/TopPerformerDashboardCard.data';
-import { BarChart } from './Chart/BarChart/BarChart';
-import { PieChart } from './Chart/PieChart/PieChart';
-import { HeaderBarChart } from './Chart/BarChart/HeaderBarChart';
-import { HeaderPieChart } from './Chart/PieChart/HeaderPieChart';
 import { AnnouncementHeader } from './AnnouncementDashboard/AnnouncementHeader';
-import { RadialBarChart } from './Chart/RadialBarChart';
 import { useDashboard } from './useDashboard';
 import RecentActivitiesDashboardDrawer from './RecentActivitiesDashboard/RecentActivitiesDashboardDrawer';
 import AnnouncementDashboard from './AnnouncementDashboard/AnnouncementDashboard';
@@ -21,6 +16,8 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import NoData from '@/components/NoData';
 import { NoAssociationFoundImage } from '@/assets/images';
+import { PieChart } from './Chart/PieChart';
+import { TicketBased } from './Chart/TicketBased';
 
 const Dashboard = () => {
   const {
@@ -28,8 +25,6 @@ const Dashboard = () => {
     isDrawerOpen,
     handleIconButton,
     theme,
-    isbarchart,
-    setIsBarChart,
     handleAnnouncementIconButton,
     isAnnouncementDrawerOpen,
     setIsAnnouncementDrawerOpen,
@@ -75,13 +70,9 @@ const Dashboard = () => {
                 >
                   <br />
                   <Box marginLeft={2}>
-                    <HeaderBarChart
-                      setIsBarChart={setIsBarChart}
-                      isbarchart={isbarchart}
-                    />
-                  </Box>
-                  <Box marginTop={2} marginBottom={2}>
-                    {isbarchart ? <BarChart /> : <RadialBarChart />}
+                    <Box marginTop={2} marginBottom={2}>
+                      <TicketBased />
+                    </Box>{' '}
                   </Box>
                 </Box>
               </Grid>
@@ -156,12 +147,7 @@ const Dashboard = () => {
                   border={`1px solid ${theme?.palette?.grey?.[700]}`}
                   height="100%"
                 >
-                  <Box>
-                    <HeaderPieChart />
-                  </Box>
-                  <Box sx={{ marginTop: 2 }}>
-                    <PieChart />
-                  </Box>
+                  <PieChart />
                 </Box>
               </Grid>
               <Grid item xs={12} lg={4}>

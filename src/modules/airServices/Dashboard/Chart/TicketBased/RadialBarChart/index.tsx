@@ -1,17 +1,16 @@
 import { CustomChart } from '@/components/Chart';
 import { radialBarChartDataOptions } from './RadialBarChart.data';
 import { useTheme } from '@mui/material';
-import { useGetTicketsPriorityGraphQuery } from '@/services/airServices/dashboard';
 
-export const RadialBarChart = () => {
+export const RadialBarChart = (props: any) => {
+  const { chartData } = props;
   const theme = useTheme();
-  const { data } = useGetTicketsPriorityGraphQuery(true);
   const lowData: number[] = [];
   const mediumData: number[] = [];
   const highData: number[] = [];
   const urgentData: number[] = [];
 
-  data?.pirorityStats?.forEach((ele: any) => {
+  chartData?.pirorityStats?.forEach((ele: any) => {
     switch (ele?.pirority) {
       case 'LOW':
         lowData?.push(ele?.count);

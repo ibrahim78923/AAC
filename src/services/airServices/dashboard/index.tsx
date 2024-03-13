@@ -18,17 +18,11 @@ const TAGFIVE = 'DASHBOARD_AGENT_AVAILABILITY';
 
 export const dashboardAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
-    getTicketsStatusGraph: builder.query({
-      query: () => ({
-        url: `${GET_DASHBOARD_TICKETS}?filterBy=status`,
+    getTicketsGraph: builder.query({
+      query: (params) => ({
+        url: `${GET_DASHBOARD_TICKETS}`,
         method: 'GET',
-      }),
-      providesTags: [TAG],
-    }),
-    getTicketsPriorityGraph: builder.query({
-      query: () => ({
-        url: `${GET_DASHBOARD_TICKETS}?filterBy=pirority`,
-        method: 'GET',
+        params,
       }),
       providesTags: [TAG],
     }),
@@ -62,9 +56,10 @@ export const dashboardAPI = baseAPI.injectEndpoints({
       providesTags: [TAGFOUR],
     }),
     getDashboardAgent: builder.query({
-      query: () => ({
+      query: (params) => ({
         url: `${DASHBOARD_AGENT_AVAILABILITY}`,
         method: 'GET',
+        params,
       }),
       providesTags: [TAGFIVE],
     }),
@@ -72,11 +67,11 @@ export const dashboardAPI = baseAPI.injectEndpoints({
 });
 
 export const {
-  useGetTicketsStatusGraphQuery,
-  useGetTicketsPriorityGraphQuery,
+  useLazyGetTicketsGraphQuery,
   useGetDashboardCardsTicketsQuery,
   usePostAnnouncementMutation,
   useGetCustomerAnnouncementQuery,
   useGetRecentActivitiesQuery,
   useGetDashboardAgentQuery,
+  useLazyGetDashboardAgentQuery,
 } = dashboardAPI;
