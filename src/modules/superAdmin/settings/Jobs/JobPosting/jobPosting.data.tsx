@@ -82,10 +82,11 @@ export const jobPostingDataArray = [
       select: true,
     },
     options: [
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-      { value: 'High', label: 'High' },
-      { value: 'Urgent', label: 'Urgent' },
+      { value: 'No Experience', label: 'No Experience' },
+      { value: 'Less than 1 years', label: 'Less than 1 years' },
+      { value: '1 to 2 Years', label: '1 to 2 Years' },
+      { value: '3 to 4 Years', label: '3 to 4 Years' },
+      { value: '5 or more than 5 Years', label: '5 or more than 5 Years' },
     ],
     component: RHFSelect,
     md: 12,
@@ -308,12 +309,12 @@ export const columns = (
           info?.getValue() === 'SALES'
             ? 'Sales'
             : info?.getValue() === 'MARKETING'
-            ? 'Marketing'
-            : info?.getValue() === 'SERVICES'
-            ? 'Services'
-            : info?.getValue() === 'OPERATIONS'
-            ? 'Operations'
-            : 'Loyalty Program';
+              ? 'Marketing'
+              : info?.getValue() === 'SERVICES'
+                ? 'Services'
+                : info?.getValue() === 'OPERATIONS'
+                  ? 'Operations'
+                  : 'Loyalty Program';
         return <>{category}</>;
       },
     },

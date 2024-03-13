@@ -113,6 +113,8 @@ export const upsertInventoryFormFieldsDynamic = (
       fullWidth: true,
       name: 'description',
       label: 'Description',
+
+      style: { height: '200px' },
     },
     gridLength: 12,
     component: RHFEditor,
