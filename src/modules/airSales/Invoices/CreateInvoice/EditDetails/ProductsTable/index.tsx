@@ -48,20 +48,27 @@ const ProductsTable = (data: any) => {
   const [postCreateInvoice] = usePostInvoiceMutation();
 
   const handleInvoice = async () => {
-    const values = {
-      quoteId: data?.data?._id,
-      comments: commentValue,
-      customerEmail: 'abc@orcalo.co.uk',
-      status: 'DRAFT',
-    };
-    try {
-      await postCreateInvoice({ body: values })?.unwrap();
-      enqueueSnackbar('Invoice added successfully', {
-        variant: 'success',
-      });
-      router.push(AIR_SALES?.SALES_INVOICES);
-    } catch (error: any) {
-      enqueueSnackbar('An error occured', {
+    if (!isNullOrEmpty(data?.data?._id)) {
+      alert('value filled');
+      const values = {
+        quoteId: data?.data?._id,
+        comments: commentValue,
+        customerEmail: 'demmy@orcalo.co.uk',
+        status: 'DRAFT',
+      };
+      try {
+        await postCreateInvoice({ body: values })?.unwrap();
+        enqueueSnackbar('Invoice added successfully', {
+          variant: 'success',
+        });
+        router.push(AIR_SALES?.SALES_INVOICES);
+      } catch (error: any) {
+        enqueueSnackbar('An error occured', {
+          variant: 'error',
+        });
+      }
+    } else {
+      enqueueSnackbar('Please select Quote', {
         variant: 'error',
       });
     }

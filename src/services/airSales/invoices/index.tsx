@@ -16,9 +16,10 @@ export const invoiceAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['INVOICE'],
     }),
     getInvoice: builder.query({
-      query: () => ({
-        url: `${INVOICE.POST_INVOICE_QUOTE}`,
+      query: ({ params }: any) => ({
+        url: `${INVOICE?.POST_INVOICE_QUOTE}`,
         method: 'GET',
+        params: params,
       }),
       providesTags: ['INVOICE'],
     }),
