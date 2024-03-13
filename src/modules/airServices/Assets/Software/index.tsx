@@ -146,14 +146,18 @@ function Software() {
         setOpenAssignModal={setOpenAssignModal}
         selectedSoftware={softwareData}
       />
-      <UpsertSoftware
-        isDrawerOpen={isAddDrawerOpen}
-        onClose={onClose}
-        methods={methods}
-        submitHandler={submitHandler}
-        isLoading={upsertLoading}
-        userQuery={userQuery}
-      />
+      {isAddDrawerOpen && (
+        <UpsertSoftware
+          isDrawerOpen={isAddDrawerOpen}
+          onClose={onClose}
+          methods={methods}
+          submitHandler={submitHandler}
+          isLoading={upsertLoading}
+          userQuery={userQuery}
+          title="New Software"
+          okText="Save"
+        />
+      )}
     </>
   );
 }
