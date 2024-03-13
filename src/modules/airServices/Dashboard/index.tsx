@@ -19,6 +19,8 @@ import RecentActivitiesDashboardDrawer from './RecentActivitiesDashboard/RecentA
 import AnnouncementDashboard from './AnnouncementDashboard/AnnouncementDashboard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
+import NoData from '@/components/NoData';
+import { NoAssociationFoundImage } from '@/assets/images';
 
 const Dashboard = () => {
   const {
@@ -43,19 +45,25 @@ const Dashboard = () => {
       <Box>
         <HeaderDashboard />
         <br />
-        <Grid container spacing={3}>
-          {ticketDashboardCardsData(cardData)?.map((item: any) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item?.id}>
-              <Box height="100%">
+        {ticketDashboardCardsData(cardData)?.length > 0 ? (
+          <Grid container spacing={3}>
+            {ticketDashboardCardsData(cardData)?.map((item: any) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item?._id}>
                 <TicketDashboardCards
                   icon={item?.icon}
                   count={item?.count}
                   label={item?.label}
                 />
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <NoData
+            image={NoAssociationFoundImage}
+            message={'No data is available'}
+            height={'100%'}
+          />
+        )}
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Grid container spacing={2}>
@@ -87,33 +95,45 @@ const Dashboard = () => {
                   <Box marginLeft={2}>
                     <Typography variant="h5">Recent Activities</Typography>
                   </Box>
-                  <Box marginTop={2} overflow={'scroll'} height={'35vh'}>
-                    {recentActivitiesDashboardCardData(recentActivities)?.map(
-                      (item: any, index: any) => (
-                        <Box key={item?.id}>
-                          <RecentActivitiesDashboardCard
-                            icon={item?.icon}
-                            recentActivityName={item?.recentActivityName}
-                            recentActivity={item?.recentActivity}
-                            recentActivityRequest={item?.recentActivityRequest}
-                            recentActivitySerialNumber={
-                              item?.recentActivitySerialNumber
-                            }
-                            recentActivityModuleName={
-                              item?.recentActivityModuleName
-                            }
-                            recentActivityDateTime={
-                              item?.recentActivityDateTime
-                            }
-                            isBorderBottom={
-                              recentActivitiesDashboardCardData?.length - 1 !==
-                              index
-                            }
-                          />
-                        </Box>
-                      ),
-                    )}
-                  </Box>
+                  {recentActivitiesDashboardCardData(recentActivities)?.length >
+                  0 ? (
+                    <Box marginTop={2} overflow={'scroll'} height={'35vh'}>
+                      {recentActivitiesDashboardCardData(recentActivities)?.map(
+                        (item: any, index: any) => (
+                          <Box key={item?._id}>
+                            <RecentActivitiesDashboardCard
+                              icon={item?.icon}
+                              recentActivityName={item?.recentActivityName}
+                              recentActivity={item?.recentActivity}
+                              recentActivityRequest={
+                                item?.recentActivityRequest
+                              }
+                              recentActivitySerialNumber={
+                                item?.recentActivitySerialNumber
+                              }
+                              recentActivityModuleName={
+                                item?.recentActivityModuleName
+                              }
+                              recentActivityDateTime={
+                                item?.recentActivityDateTime
+                              }
+                              isBorderBottom={
+                                recentActivitiesDashboardCardData?.length -
+                                  1 !==
+                                index
+                              }
+                            />
+                          </Box>
+                        ),
+                      )}
+                    </Box>
+                  ) : (
+                    <NoData
+                      image={NoAssociationFoundImage}
+                      message={'No data is available'}
+                      height={'100%'}
+                    />
+                  )}
                   <RecentActivitiesDashboardDrawer
                     isDrawerOpen={isDrawerOpen}
                     setIsDrawerOpen={setIsDrawerOpen}
@@ -145,9 +165,11 @@ const Dashboard = () => {
                 </Box>
               </Grid>
               <Grid item xs={12} lg={4}>
-                {topPerformerDashboardCardData?.map((item: any) => (
-                  <Box key={item?.id} height="100%">
+                {topPerformerDashboardCardData &&
+                topPerformerDashboardCardData.length > 0 ? (
+                  topPerformerDashboardCardData.map((item: any) => (
                     <TopPerformerDashboardCard
+                      key={item?._id}
                       userImage={item?.userImage}
                       badgeImage={item?.badgeImage}
                       badgeNextImage={item?.badgeNextImage}
@@ -158,9 +180,16 @@ const Dashboard = () => {
                       badgeText={item?.badgeText}
                       badgeNextText={item?.badgeNextText}
                     />
-                  </Box>
-                ))}
+                  ))
+                ) : (
+                  <NoData
+                    image={NoAssociationFoundImage}
+                    message={'No data is available'}
+                    height={'100%'}
+                  />
+                )}
               </Grid>
+
               <Grid item xs={12} lg={4}>
                 <Box
                   borderRadius={3}
@@ -171,25 +200,34 @@ const Dashboard = () => {
                   <Box>
                     <AnnouncementHeader />
                   </Box>
-                  <Box overflow={'scroll'} height={'26vh'}>
-                    {announcementDashboardCardData(customerAnnouncement)?.map(
-                      (item, index) => (
-                        <Box key={item?.id}>
-                          <AnnouncementDashboardCard
-                            icon={item?.icon}
-                            announcement={item?.announcement}
-                            announcementTime={item?.announcementTime}
-                            announcementAvatar={item?.announcementAvatar}
-                            isBorderBottom={
-                              announcementDashboardCardData?.length - 1 !==
-                              index
-                            }
-                          />
-                        </Box>
-                      ),
-                    )}
-                  </Box>
 
+                  {announcementDashboardCardData(customerAnnouncement)?.length >
+                  0 ? (
+                    <Box overflow={'scroll'} height={'26vh'}>
+                      {announcementDashboardCardData(customerAnnouncement)?.map(
+                        (item, index) => (
+                          <Box key={item?._id}>
+                            <AnnouncementDashboardCard
+                              icon={item?.icon}
+                              announcement={item?.announcement}
+                              announcementTime={item?.announcementTime}
+                              announcementAvatar={item?.announcementAvatar}
+                              isBorderBottom={
+                                announcementDashboardCardData?.length - 1 !==
+                                index
+                              }
+                            />
+                          </Box>
+                        ),
+                      )}
+                    </Box>
+                  ) : (
+                    <NoData
+                      image={NoAssociationFoundImage}
+                      message={'No data is available'}
+                      height={'100%'}
+                    />
+                  )}
                   <AnnouncementDashboard
                     isAnnouncementDrawerOpen={isAnnouncementDrawerOpen}
                     setIsAnnouncementDrawerOpen={setIsAnnouncementDrawerOpen}
