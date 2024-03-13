@@ -2,7 +2,7 @@ import { Typography, Box, useTheme } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AIR_SERVICES } from '@/constants';
 import { EmailIcon, PhoneIcon } from '@/assets/icons';
-import { UserProfileImage } from '@/assets/images';
+import { UserRequesterImage } from '@/assets/images';
 import Image from 'next/image';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useHeader } from './useHeader';
@@ -13,10 +13,8 @@ import { AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_PERMISSIONS } from '@/constants/
 export const Header = (props: any) => {
   const theme = useTheme();
   const { profileDetail } = props;
-
   const {
     handleFileChange,
-    uploadedImage,
     isHovered,
     setIsHovered,
     fullScreenPosition,
@@ -68,8 +66,12 @@ export const Header = (props: any) => {
                 style={{ display: 'none' }}
                 onChange={handleFileChange}
               />
+
               <Image
-                src={uploadedImage || UserProfileImage}
+                src={
+                  `${process.env.NEXT_PUBLIC_IMG_URL}${profileDetail?.avatar?.url}` ||
+                  UserRequesterImage
+                }
                 width={90}
                 height={90}
                 alt="user"

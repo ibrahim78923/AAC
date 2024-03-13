@@ -7,7 +7,6 @@ export const AssetsAssociate = () => {
     useAssetAssociate();
   return (
     <>
-      <br />
       <TanstackTable
         data={associatedAssetArray}
         columns={assetsAssociateColumns}

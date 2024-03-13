@@ -13,10 +13,10 @@ import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManage
 import { enqueueSnackbar } from 'notistack';
 
 const UserDetailsProfile = (props: any) => {
-  const { profileData } = props;
+  const { profileData, setTabVal } = props;
   const [isToggled, setIsToggled] = useToggle(false);
   const { updateUsers }: any = useUserManagement();
-
+  const initialTab = 0;
   const profileDefaulValues = {
     ...profileData,
     address: profileData?.address?.composite
@@ -84,6 +84,7 @@ const UserDetailsProfile = (props: any) => {
       enqueueSnackbar('User updated successfully', {
         variant: 'success',
       });
+      setTabVal(initialTab);
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
         variant: 'error',
@@ -161,7 +162,11 @@ const UserDetailsProfile = (props: any) => {
         lg={12}
         sx={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', my: 2 }}
       >
-        <Button variant="outlined" color="inherit">
+        <Button
+          variant="outlined"
+          color="inherit"
+          onClick={() => setTabVal(initialTab)}
+        >
           Cancel
         </Button>
         <Button variant="contained" onClick={handleSubmit(onSubmit)}>

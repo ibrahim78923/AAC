@@ -5,10 +5,10 @@ import useCreateTeams from './useCreateTeams';
 import { v4 as uuidv4 } from 'uuid';
 import { teamsDataArray } from './CreateTeams.data';
 
-const CreateTeams = (props: any) => {
-  const { isAddTeam, setIsAddTeam } = props;
+const CreateTeams = (props?: any) => {
+  const { isAddTeam, setIsAddTeam, teamsDataById } = props;
   const { methods, handleSubmit, onSubmit, productsUsers } = useCreateTeams(
-    isAddTeam?.data,
+    teamsDataById,
     setIsAddTeam,
   );
 
@@ -26,7 +26,7 @@ const CreateTeams = (props: any) => {
         <FormProvider methods={methods}>
           <Grid container spacing={1}>
             {teamsDataArray(productsUsers)?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (

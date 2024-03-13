@@ -6,14 +6,17 @@ const TAG = 'TICKETS';
 export const associationsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getAssociationsTickets: builder?.query({
-      query: () => ({
+      query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.TICKET}`,
         method: 'GET',
-        // params: apiDataParameter?.queryParams,
+        params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
   }),
 });
 
-export const { useGetAssociationsTicketsQuery } = associationsAPI;
+export const {
+  useGetAssociationsTicketsQuery,
+  useLazyGetAssociationsTicketsQuery,
+} = associationsAPI;
