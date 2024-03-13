@@ -25,8 +25,8 @@ const Members = () => {
 
   const [updateChat] = useUpdateChatMutation();
   const updateChatHandler = async (id: any) => {
-    const updatedParticipants = activeConversation.participants.filter(
-      (participant: any) => participant._id !== id,
+    const updatedParticipants = activeConversation?.participants?.filter(
+      (participant: any) => participant?._id !== id,
     );
 
     const payload = {
@@ -75,12 +75,12 @@ const Members = () => {
           </Box>
         )}
         <Box sx={{ height: '262px', overflow: 'scroll' }}>
-          {activeConversation.participants.slice(0, 5).map((item: any) => (
-            <Box sx={styles.boxMemberCard} key={uuidv4()}>
+          {activeConversation?.participants?.slice(0, 5)?.map((item: any) => (
+            <Box sx={styles?.boxMemberCard} key={uuidv4()}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Image src={UserDefault} alt="user" width={24} height={24} />
                 <Typography variant="body3" sx={{ fontWeight: '500' }}>
-                  {item.firstName} {item.lastName}
+                  {item?.firstName} {item?.lastName}
                 </Typography>
               </Box>
               <Box>

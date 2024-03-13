@@ -123,8 +123,7 @@ const AddGroupModal = ({
     // formData.append('groupImage', e?.target?.files[0]);
 
     const selectedImage = e?.target?.files[0];
-    setImageToUpload(selectedImage); // Save the selected image to state
-    // Optionally, you can keep the formData.append('groupImage', selectedImage) here
+    setImageToUpload(selectedImage);
     formData.append('groupImage', selectedImage);
   };
 
