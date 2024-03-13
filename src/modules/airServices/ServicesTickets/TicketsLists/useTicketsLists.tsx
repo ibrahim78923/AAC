@@ -44,7 +44,6 @@ export const useTicketsLists: any = () => {
   const theme = useTheme();
   const router = useRouter();
   const { makePath } = usePath();
-
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
     useLazyGetTicketsQuery();
 

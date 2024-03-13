@@ -49,7 +49,10 @@ export const useHeader = () => {
       ticketId,
     },
   };
-  const { data } = useGetTicketsDetailsByIdQuery(getSingleTicketParameter);
+  const { data } = useGetTicketsDetailsByIdQuery(getSingleTicketParameter, {
+    refetchOnMountOrArgChange: true,
+    skip: !!!ticketId,
+  });
 
   return {
     data,
