@@ -70,6 +70,7 @@ const OrganizationTable = () => {
     setValue,
     drawerHeading,
     setDrawerHeading,
+    loadingAddCompanyAccount,
   } = useOrganizationTable();
   const { user }: any = useAuth();
 
@@ -85,6 +86,7 @@ const OrganizationTable = () => {
         isOk
         footer={true}
         submitHandler={handleSubmit(onSubmit)}
+        isLoading={loadingAddCompanyAccount}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>

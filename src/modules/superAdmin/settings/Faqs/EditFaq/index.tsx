@@ -12,20 +12,22 @@ const EditFaq = ({
   handleSubmit,
   formMethods,
   isLoading,
+  title,
+  onViewDisabled,
 }: EditFaqPropsI) => {
   return (
     <CommonModal
       open={isModalOpen}
       handleClose={onClose}
       handleSubmit={handleSubmit}
-      title={'Edit FAQ'}
+      title={`${title} FAQ`}
       okText="Update"
-      footer={true}
+      footer={title === 'Edit'}
       isLoading={isLoading}
     >
       <FormProvider methods={formMethods}>
         <Grid container spacing={4}>
-          {editFaqsDataArray?.map((item: any) => (
+          {editFaqsDataArray(onViewDisabled)?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               <item.component {...item.componentProps} size={'small'}>
                 {item?.componentProps?.select
