@@ -8,20 +8,20 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { ArrowDropDown } from '@mui/icons-material';
-import FilterDrawer from './FilterDrawer';
+import { ArrowDropDown, FilterAlt } from '@mui/icons-material';
 import { PlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
-import CustomPagination from '@/components/CustomPagination';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { invoicesTableColumns } from '../Invoices.data';
+import { invoiceFilterFields, invoicesTableColumns } from '../Invoices.data';
 import useListView from './useListView';
 import { AlertModals } from '@/components/AlertModals';
 import { AIR_SALES } from '@/routesConstants/paths';
 import RefreshIcon from '@/assets/icons/modules/airSales/Tasks/refresh';
-import { useGetInvoiceQuery } from '@/services/airSales/invoices';
 import { AIR_SALES_INVOICES_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import CommonDrawer from '@/components/CommonDrawer';
+import { FormProvider } from '@/components/ReactHookForm';
+import { v4 as uuidv4 } from 'uuid';
 
 const ListView = () => {
   const navigate = useRouter();
@@ -35,9 +35,16 @@ const ListView = () => {
     handleIsViewPage,
     handleDeleteModal,
     handleClick,
+    InvoiceData,
+    isLoading,
+    setPage,
+    setPageLimit,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    onSubmit,
+    handleSubmit,
+    methods,
   } = useListView();
-
-  const { data: InvoiceData, isLoading } = useGetInvoiceQuery({});
 
   return (
     <>
@@ -77,7 +84,8 @@ const ListView = () => {
           <Stack direction="row" justifyContent="end" gap={1}>
             <Box>
               <Button
-                // disabled={selected.length > 0 ? false : true}
+                //  disabled={selected.length > 0 ? false : true}
+                disabled={true}
                 onClick={handleClick}
                 variant="outlined"
                 color="inherit"
@@ -132,7 +140,16 @@ const ListView = () => {
                 AIR_SALES_INVOICES_PERMISSIONS?.SALE_INVOICE_SEARCH_AND_FILTER,
               ]}
             >
-              <FilterDrawer />
+              {/* <FilterDrawer /> */}
+              <Button
+                variant="outlined"
+                color="inherit"
+                className="small"
+                startIcon={<FilterAlt />}
+                onClick={() => setIsDrawerOpen(true)}
+              >
+                Filter
+              </Button>
             </PermissionsGuard>
           </Stack>
         </Grid>
@@ -142,11 +159,13 @@ const ListView = () => {
           columns={invoicesTableColumns}
           data={InvoiceData?.data?.quoteinvoices}
           isLoading={isLoading}
-        />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={[1, 2]}
-          entriePages={1}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          isPagination
+          currentPage={InvoiceData?.data?.meta?.pages}
+          count={InvoiceData?.data?.meta?.pages}
+          pageLimit={InvoiceData?.data?.meta?.limit}
+          totalRecords={InvoiceData?.data?.meta?.total}
         />
       </Box>
       <AlertModals
@@ -156,6 +175,33 @@ const ListView = () => {
         handleClose={() => setIsDeleteModal(false)}
         handleSubmit={() => setIsDeleteModal(false)}
       />
+      <CommonDrawer
+        isDrawerOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        title="Filters"
+        isOk={true}
+        okText="Apply"
+        cancelText="Cancel"
+        footer={true}
+        submitHandler={handleSubmit(onSubmit)}
+      >
+        <FormProvider methods={methods}>
+          <Grid container spacing={1}>
+            {invoiceFilterFields?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component {...item.componentProps} size={'small'}>
+                  {item?.componentProps?.select &&
+                    item?.options?.map((option: any) => (
+                      <option key={option?.value} value={option?.value}>
+                        {option?.label}
+                      </option>
+                    ))}
+                </item.component>
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
+      </CommonDrawer>
     </>
   );
 };
