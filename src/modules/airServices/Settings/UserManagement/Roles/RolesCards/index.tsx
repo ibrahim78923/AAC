@@ -11,7 +11,6 @@ import NoData from '@/components/NoData';
 import { AssociationsImage } from '@/assets/images';
 import useRolesCards from './useRolesCards';
 import { AlertModals } from '@/components/AlertModals';
-import { truncateText } from '@/utils/avatarUtils';
 
 const RolesCards = ({
   data,
@@ -55,8 +54,10 @@ const RolesCards = ({
               borderColor={'grey.0'}
               borderRadius={2}
               p={3}
+              maxHeight={'20vh'}
               height={'100%'}
               sx={{ cursor: 'pointer' }}
+              overflow={'auto'}
               onClick={() =>
                 router?.push(AIR_SERVICES?.USER_UPSERT_ROLES_SETTINGS)
               }
@@ -85,8 +86,9 @@ const RolesCards = ({
                 borderColor={'grey.0'}
                 borderRadius={2}
                 p={3}
+                maxHeight={'20vh'}
                 height={'100%'}
-                overflow={'hidden'}
+                overflow={'auto'}
               >
                 <Box display={'flex'} justifyContent={'space-between'} mb={1}>
                   <Typography variant="h5">{item?.name}</Typography>
@@ -105,7 +107,7 @@ const RolesCards = ({
 
                 <Box
                   dangerouslySetInnerHTML={{
-                    __html: truncateText(item?.description, 30),
+                    __html: item?.description,
                   }}
                   color={'custom.mulled_wine'}
                 />
