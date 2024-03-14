@@ -36,7 +36,6 @@ export const relatedTicketsAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: deleteTicketsParameter?.queryParams,
       }),
-      invalidatesTags: [TAG],
     }),
   }),
 });

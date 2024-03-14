@@ -246,7 +246,6 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
 export const upsertContractFormFieldsDataFunction = (
   watchForNotifyExpiry = false,
   apiQueryVendor: any,
-  apiQueryAsset: any,
   apiQueryApprover: any,
   apiQuerySoftware: any,
 ) => [
@@ -513,6 +512,7 @@ export const upsertContractFormFieldsDataFunction = (
     md: 6,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'licenseKey',
       label: 'License Key',
     },
