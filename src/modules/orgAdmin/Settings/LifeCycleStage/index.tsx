@@ -17,6 +17,8 @@ import { dataArray } from './LifeCycleStage.data';
 import { styles } from './LifeCycleStage.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import { ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const LifeCycleStage = () => {
   const {
@@ -81,22 +83,28 @@ const LifeCycleStage = () => {
           }}
         >
           <Typography variant="h4">Life cycle Stages</Typography>
-          <Button
-            variant="contained"
-            sx={styles?.createBtn}
-            onClick={() => {
-              setIsDraweropen(true);
-              setIsModalHeading('Create');
-            }}
+          <PermissionsGuard
+            permissions={[
+              ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS?.CREATE_STAGES,
+            ]}
           >
-            <AddCircleIcon
-              sx={{
-                color: `${theme?.palette?.common?.white}`,
-                fontSize: '16px',
+            <Button
+              variant="contained"
+              sx={styles?.createBtn}
+              onClick={() => {
+                setIsDraweropen(true);
+                setIsModalHeading('Create');
               }}
-            />
-            Add Stage
-          </Button>
+            >
+              <AddCircleIcon
+                sx={{
+                  color: `${theme?.palette?.common?.white}`,
+                  fontSize: '16px',
+                }}
+              />
+              Add Stage
+            </Button>
+          </PermissionsGuard>
         </Box>
         <Box sx={styles?.searchAction}>
           <Search
@@ -107,12 +115,18 @@ const LifeCycleStage = () => {
           />
         </Box>
         <Grid>
-          <TanstackTable columns={getRowValues} data={tableRow} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
-          />
+          <PermissionsGuard
+            permissions={[
+              ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS?.GRIDVIEW,
+            ]}
+          >
+            <TanstackTable columns={getRowValues} data={tableRow} />
+            <CustomPagination
+              count={1}
+              rowsPerPageOptions={[1, 2]}
+              entriePages={1}
+            />
+          </PermissionsGuard>
         </Grid>
 
         <AlertModals

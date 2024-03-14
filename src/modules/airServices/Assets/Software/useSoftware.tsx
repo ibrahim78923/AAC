@@ -32,27 +32,16 @@ export const useSoftware = () => {
     search: searchValue,
   };
 
-  const { data, isLoading, isError, isSuccess } =
-    useGetAssetsSoftwareQuery(apiDataParameter);
+  const { data, isLoading, isError, isSuccess, isFetching } =
+    useGetAssetsSoftwareQuery(apiDataParameter, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!apiDataParameter,
+    });
+  const assetsSoftwares = data?.data?.assetssoftwares;
 
   const handlePageChange = (page: number) => {
     setPage(page);
   };
-  const assetsSoftwares =
-    data?.data?.assetssoftwares?.map?.((software: any) => ({
-      id: software?._id,
-      Software: software?.name ?? '---',
-      Status: software?.status ?? '---',
-      Category: software?.details?.category ?? '---',
-      ContractValue: software?.contractValue ?? '---',
-      ManagedBy:
-        `${software?.managedByDetails?.firstName}  ${software?.managedByDetails?.lastName}` ??
-        '---',
-      Users: software?.users ?? '---',
-      Installs: software?.installs ?? '---',
-      Type: software?.type ?? '---',
-      publisher: software?.details?.publisher ?? '---',
-    })) || [];
   const paginationData = data?.data?.meta;
   const [postSoftwareTrigger, { isLoading: upsertLoading }] =
     usePostSoftwareMutation();
@@ -81,7 +70,7 @@ export const useSoftware = () => {
       setIsAddDrawerOpen(false);
       reset();
     } catch (error: any) {
-      errorSnackbar(error?.data?.error ?? 'An error');
+      errorSnackbar(error?.data?.error);
     }
   };
   const submitHandler = handleSubmit(submitUpsertSoftware);
@@ -119,5 +108,6 @@ export const useSoftware = () => {
     upsertLoading,
     onClose,
     userQuery,
+    isFetching,
   };
 };

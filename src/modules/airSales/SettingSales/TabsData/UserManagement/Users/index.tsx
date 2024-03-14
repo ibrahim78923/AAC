@@ -1,24 +1,15 @@
-import React from 'react';
-
-import { Box, Button, Menu, MenuItem, Grid } from '@mui/material';
-
+import { Box, Button, Menu, MenuItem } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-
-import { FormProvider } from '@/components/ReactHookForm';
-import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 import { AlertModals } from '@/components/AlertModals';
-import { userTableData } from '@/mock/modules/airSales/SettingSales';
+import { columnsUser } from './Users.data';
+import useUserManagement from '../useUserManagement';
+import useUsers from './useUsers';
 
-import { dataArray } from './Users.data';
-
-import { v4 as uuidv4 } from 'uuid';
-import useUserTable from './useUsers';
-
-const UserTable = () => {
+const UserTable = (props: any) => {
+  const { setIsAddUserDrawer, isAddUserDrawer } = props;
   const {
-    getRowValues,
     isOpenDelete,
     setIsOpenDelete,
     anchorEl,
@@ -26,40 +17,21 @@ const UserTable = () => {
     theme,
     handleClick,
     handleClose,
-    methods,
-    handleCloseDrawer,
-    isEditOpen,
-  } = useUserTable('');
+    checkedUser,
+    setCheckedUser,
+  } = useUsers();
 
+  const {
+    productsUsers,
+    searchUser,
+    setSearchUser,
+    setPage,
+    setPageLimit,
+    isLoading,
+    isSuccess,
+  } = useUserManagement();
   return (
     <>
-      <CommonDrawer
-        isDrawerOpen={isEditOpen}
-        onClose={handleCloseDrawer}
-        title={'User View'}
-        okText={'Update'}
-        footer={true}
-        isOk={true}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={methods}>
-            <Grid container spacing={1}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
       <Box
         sx={{
           display: 'flex',
@@ -70,10 +42,10 @@ const UserTable = () => {
         }}
       >
         <Search
-          searchBy=""
+          searchBy={searchUser}
           width="260px"
           label={'Search here'}
-          setSearchBy={() => {}}
+          setSearchBy={setSearchUser}
         />
         <Button
           id="basic-button"
@@ -81,6 +53,7 @@ const UserTable = () => {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
+          disabled={checkedUser?.length > 0 ? false : true}
           sx={{
             border: `1px solid ${theme?.palette?.grey[700]}`,
             borderRadius: '4px',
@@ -104,12 +77,53 @@ const UserTable = () => {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem onClick={handleClose}>Edit</MenuItem>
-          <MenuItem onClick={handleClose}>View</MenuItem>
-          <MenuItem onClick={() => setIsOpenDelete(true)}>Delete</MenuItem>
+          <MenuItem
+            onClick={() => {
+              setIsAddUserDrawer({
+                ...isAddUserDrawer,
+                isToggle: true,
+                type: 'edit',
+              });
+              handleClose();
+            }}
+          >
+            Edit
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setIsAddUserDrawer({
+                ...isAddUserDrawer,
+                isToggle: true,
+                type: 'view',
+              });
+              handleClose();
+            }}
+          >
+            View
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setIsOpenDelete(true);
+              handleClose();
+            }}
+          >
+            Delete
+          </MenuItem>
         </Menu>
       </Box>
-      <TanstackTable columns={getRowValues} data={userTableData} isPagination />
+      <TanstackTable
+        columns={columnsUser(checkedUser, setCheckedUser)}
+        data={productsUsers?.data?.usercompanyaccounts}
+        isPagination
+        onPageChange={(page: any) => setPage(page)}
+        setPage={setPage}
+        setPageLimit={setPageLimit}
+        count={productsUsers?.data?.meta?.pages}
+        pageLimit={productsUsers?.data?.meta?.limit}
+        totalRecords={productsUsers?.data?.meta?.total}
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+      />
       <AlertModals
         message={'Are you sure you want to delete this role?'}
         type={'delete'}

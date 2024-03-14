@@ -8,9 +8,11 @@ import {
 } from './FormAddCompany.data';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { companiesAPI } from '@/services/commonFeatures/companies';
+import useUpdateQuote from '../useUpdateQuote';
 
 const useFormAddContact = () => {
   const { usePostCompaniesMutation } = companiesAPI;
+  const { dataGetQuoteById, createAssociationQuote } = useUpdateQuote();
   // const { user } = getSession();
 
   // const params = {
@@ -31,8 +33,31 @@ const useFormAddContact = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
+    const formData = new FormData();
+    formData?.append('domain', values?.domain);
+    formData?.append('profilePicture', values?.profilePicture);
+    formData?.append('profilePicture', values?.name);
+    formData?.append('profilePicture', values?.ownerId);
+    formData?.append('profilePicture', values?.indusry);
+    formData?.append('profilePicture', values?.type);
+    formData?.append('profilePicture', values?.noOfEmloyee);
+    formData?.append('profilePicture', values?.totalRevenue);
+    formData?.append('profilePicture', values?.city);
+    formData?.append('profilePicture', values?.postalCode);
+    formData?.append('profilePicture', values?.address);
+    formData?.append('profilePicture', values?.description);
+    formData?.append('profilePicture', values?.linkedInUrl);
     try {
-      postCompanies({ body: values });
+      postCompanies({ body: formData }).then((res) => {
+        const associationBody = {
+          dealId: dataGetQuoteById?.data?.dealId,
+          companyId: res?._id,
+        };
+        createAssociationQuote({ body: associationBody })?.unwrap();
+        enqueueSnackbar('Ticket Updated Successfully', {
+          variant: 'success',
+        });
+      });
       enqueueSnackbar(`Company Created Successfully`, {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });

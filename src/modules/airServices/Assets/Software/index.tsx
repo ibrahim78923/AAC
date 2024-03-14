@@ -17,6 +17,7 @@ function Software() {
     isError,
     isLoading,
     isSuccess,
+    isFetching,
     assetsSoftwares,
     isAddDrawerOpen,
     setIsAddDrawerOpen,
@@ -67,7 +68,7 @@ function Software() {
             ]}
           >
             <Search
-              label="search"
+              label="Search Here"
               width="100%"
               searchBy={searchValue}
               setSearchBy={setSearchValue}
@@ -112,6 +113,7 @@ function Software() {
             isError={isError}
             isSuccess={isSuccess}
             isLoading={isLoading}
+            isFetching={isFetching}
             data={assetsSoftwares}
             columns={columns(
               softwareData,
@@ -146,14 +148,18 @@ function Software() {
         setOpenAssignModal={setOpenAssignModal}
         selectedSoftware={softwareData}
       />
-      <UpsertSoftware
-        isDrawerOpen={isAddDrawerOpen}
-        onClose={onClose}
-        methods={methods}
-        submitHandler={submitHandler}
-        isLoading={upsertLoading}
-        userQuery={userQuery}
-      />
+      {isAddDrawerOpen && (
+        <UpsertSoftware
+          isDrawerOpen={isAddDrawerOpen}
+          onClose={onClose}
+          methods={methods}
+          submitHandler={submitHandler}
+          isLoading={upsertLoading}
+          userQuery={userQuery}
+          title="New Software"
+          okText="Save"
+        />
+      )}
     </>
   );
 }

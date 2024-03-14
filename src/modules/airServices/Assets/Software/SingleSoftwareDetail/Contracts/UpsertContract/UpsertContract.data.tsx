@@ -208,7 +208,7 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
   licenseType: Yup?.mixed()?.nullable()?.required('Required'),
   licenseKey: Yup?.string()
     ?.trim()
-    ?.matches(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]*$/, 'must be a string')
+    ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string')
     ?.required('Required'),
   itemDetail: Yup?.array()
     ?.of(
@@ -246,7 +246,6 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
 export const upsertContractFormFieldsDataFunction = (
   watchForNotifyExpiry = false,
   apiQueryVendor: any,
-  apiQueryAsset: any,
   apiQueryApprover: any,
   apiQuerySoftware: any,
 ) => [
@@ -513,6 +512,7 @@ export const upsertContractFormFieldsDataFunction = (
     md: 6,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'licenseKey',
       label: 'License Key',
     },

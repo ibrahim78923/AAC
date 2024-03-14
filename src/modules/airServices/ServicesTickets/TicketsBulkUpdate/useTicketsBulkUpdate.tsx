@@ -19,7 +19,14 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useTicketBulkUpdate = (props: any) => {
-  const { setIsDrawerOpen, setSelectedTicketList, selectedTicketList } = props;
+  const {
+    setIsDrawerOpen,
+    setSelectedTicketList,
+    selectedTicketList,
+    setFilterTicketLists,
+    getTicketsListData,
+    setPage,
+  } = props;
   const [isReplyAdded, setIsReplyAdded] = useState(false);
 
   const router = useRouter();
@@ -52,7 +59,7 @@ export const useTicketBulkUpdate = (props: any) => {
       );
     const bulkUpdateTicketParams = new URLSearchParams();
     selectedTicketList?.forEach(
-      (ticketId: any) => bulkUpdateTicketParams?.append('Ids', ticketId),
+      (ticketId: any) => bulkUpdateTicketParams?.append('ids', ticketId),
     );
     const bulkUpdateTicketsParameter = {
       queryParams: bulkUpdateTicketParams,
@@ -63,10 +70,13 @@ export const useTicketBulkUpdate = (props: any) => {
       await patchBulkUpdateTicketsTrigger(bulkUpdateTicketsParameter)?.unwrap();
       successSnackbar('Ticket Updated Successfully');
       reset();
+      getTicketsListData(1, {});
+      setFilterTicketLists?.({});
+      setPage?.(1);
       setIsDrawerOpen?.(false);
       setSelectedTicketList?.([]);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 

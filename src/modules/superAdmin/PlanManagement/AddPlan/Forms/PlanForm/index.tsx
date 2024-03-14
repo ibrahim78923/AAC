@@ -8,19 +8,28 @@ import { isNullOrEmpty } from '@/utils';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
+import {
+  FormProvider,
+  RHFMultiSearchableSelect,
+  RHFSelect,
+  RHFTextField,
+} from '@/components/ReactHookForm';
 import { selectProductSuites } from './PlanForm.data';
 
 const AddPlanForm = ({
   handleSubmit,
   methods,
   AdditionalStorageValue,
+  AdditionalUsereValue,
 }: any) => {
   const {
     formDefaultValuesFunction,
     selectProductSuite,
     setSelectProductSuite,
-  } = useAddPlanForm(AdditionalStorageValue);
+    productsOptions,
+    planLabelRender,
+    planNameRender,
+  } = useAddPlanForm(AdditionalStorageValue, AdditionalUsereValue);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit}>
@@ -62,6 +71,31 @@ const AddPlanForm = ({
               paddingTop: (index === 0 || index === 1) && '0px !important',
             }}
           >
+            {selectProductSuite === 'CRM' && index === 0 && (
+              <RHFMultiSearchableSelect
+                size="small"
+                name={planLabelRender}
+                label={planNameRender}
+                options={productsOptions}
+                required={true}
+              />
+            )}
+
+            {selectProductSuite === 'product' && index === 0 && (
+              <RHFSelect
+                name={planLabelRender}
+                label={planNameRender}
+                size="small"
+                required={true}
+              >
+                {productsOptions?.map((option: any) => (
+                  <option key={uuidv4()} value={option?.value}>
+                    {option?.label}
+                  </option>
+                ))}
+              </RHFSelect>
+            )}
+
             {item?.componentProps.name == selectProductSuites?.planTypeId &&
               selectProductSuite === selectProductSuites?.crm && (
                 <RHFTextField

@@ -1,14 +1,10 @@
-import { FeaturedImage } from '@/assets/images';
-import { CommonAPIS } from '@/services/common-APIs';
-import { Card, Typography, useTheme } from '@mui/material';
-import { styles } from './AddCompanyDetails.style';
-import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema, defaultValues } from './AddCompanyDetails.data';
 import { userListApi } from '@/services/superAdmin/user-management/UserList';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
+import { useTheme } from '@mui/material';
 
 const useAddCompanyDetails = (
   organizationId: any,
@@ -16,21 +12,19 @@ const useAddCompanyDetails = (
   isToggled: any,
 ) => {
   const theme = useTheme();
-  const { useGetProductsQuery } = CommonAPIS;
   const { usePostCompanyMutation } = userListApi;
   const [postCompany] = usePostCompanyMutation();
-  const { data: products } = useGetProductsQuery({});
   const [companyImg, setCompanyImg] = useState<any>();
 
-  const productsList = products?.data?.map((item: any) => ({
-    value: item?._id,
-    label: (
-      <Card sx={styles?.productCard}>
-        <Image src={FeaturedImage} alt="sales-image" />
-        <Typography>{item?.name}</Typography>
-      </Card>
-    ),
-  }));
+  // const productsList = products?.data?.map((item: any) => ({
+  //   value: item?._id,
+  //   label: (
+  //     <Card sx={styles?.productCard}>
+  //       <Image src={FeaturedImage} alt="sales-image" />
+  //       <Typography>{item?.name}</Typography>
+  //     </Card>
+  //   ),
+  // }));
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
@@ -112,7 +106,7 @@ const useAddCompanyDetails = (
 
   return {
     theme,
-    productsList,
+    // productsList,
     methods,
     handleSubmit,
     onSubmit,

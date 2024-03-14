@@ -1,3 +1,4 @@
+import { AIR_SERVICES } from '@/constants';
 import usePath from '@/hooks/usePath';
 import { useDeleteTicketsMutation } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -11,6 +12,9 @@ export const useTicketDelete = (props: any) => {
     selectedTicketList,
     setSelectedTicketList,
     setPage,
+    getTicketsListData,
+    totalRecords,
+    page,
   } = props;
   const [deleteTicketsTrigger, deleteTicketsStatus] =
     useDeleteTicketsMutation();
@@ -25,22 +29,24 @@ export const useTicketDelete = (props: any) => {
     try {
       await deleteTicketsTrigger(deleteTicketsParameter)?.unwrap();
       successSnackbar('Ticket deleted successfully');
-      setSelectedTicketList([]);
-      setPage(1);
+      setSelectedTicketList?.([]);
+      const newPage = selectedTicketList?.length === totalRecords ? 1 : page;
+      setPage?.(newPage);
+      await getTicketsListData?.(newPage);
+      router?.push(
+        makePath({
+          path: AIR_SERVICES?.TICKETS,
+          skipQueries: ['ticketAction'],
+        }),
+      );
       closeTicketsDeleteModal?.();
     } catch (error: any) {
-      errorSnackbar();
-      setSelectedTicketList([]);
+      errorSnackbar(error?.data?.message);
+      setSelectedTicketList?.([]);
       closeTicketsDeleteModal?.();
     }
   };
   const closeTicketsDeleteModal = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
     setDeleteModalOpen?.(false);
   };
 

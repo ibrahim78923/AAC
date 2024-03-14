@@ -8,7 +8,7 @@ import {
   upsertTicketValidationSchema,
 } from './UpsertTicket.data';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import usePath from '@/hooks/usePath';
 import {
   useGetTicketsByIdQuery,
@@ -28,6 +28,8 @@ export const useUpsertTicket = (props: any) => {
     ticketId,
     setSelectedTicketList,
     setFilterTicketLists,
+    getTicketsListData,
+    setPage,
   } = props;
 
   const router = useRouter();
@@ -35,13 +37,13 @@ export const useUpsertTicket = (props: any) => {
   const { makePath } = usePath();
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
+  const [hasAttachment, setHasAttachment] = useState(false);
 
   const getSingleTicketParameter = {
     pathParam: {
       ticketId,
     },
   };
-
   const { data, isLoading, isFetching, isError } = useGetTicketsByIdQuery(
     getSingleTicketParameter,
     {
@@ -58,8 +60,6 @@ export const useUpsertTicket = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const submitUpsertTicket = async (data: any) => {
-    setFilterTicketLists({});
-
     const upsertTicketFormData = new FormData();
     upsertTicketFormData?.append('requester', data?.requester?._id);
     upsertTicketFormData?.append('subject', data?.subject);
@@ -103,9 +103,12 @@ export const useUpsertTicket = (props: any) => {
       await postTicketTrigger(postTicketParameter)?.unwrap();
       successSnackbar('Ticket Added Successfully');
       reset();
+      getTicketsListData(1, {});
+      setFilterTicketLists?.({});
+      setPage?.(1);
       setIsDrawerOpen?.(false);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -122,9 +125,12 @@ export const useUpsertTicket = (props: any) => {
       successSnackbar('Ticket Updated Successfully');
       setSelectedTicketList([]);
       reset();
+      getTicketsListData(1, {});
+      setFilterTicketLists?.({});
+      setPage?.(1);
       setIsDrawerOpen?.(false);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {
@@ -156,8 +162,8 @@ export const useUpsertTicket = (props: any) => {
     apiQueryCategories,
     apiQueryAssociateAsset,
     router,
+    hasAttachment,
   );
-
   return {
     router,
     theme,
@@ -172,5 +178,6 @@ export const useUpsertTicket = (props: any) => {
     ticketId,
     upsertTicketFormFields,
     isError,
+    setHasAttachment,
   };
 };
