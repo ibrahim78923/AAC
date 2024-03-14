@@ -1,5 +1,7 @@
+import { DATE_FORMAT } from '@/constants';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import { Typography } from '@mui/material';
+import dayjs from 'dayjs';
 
 export const overviewData = (purchaseOrderData: any) => [
   {
@@ -18,7 +20,10 @@ export const overviewData = (purchaseOrderData: any) => [
       },
       {
         name: 'Expected delivery date',
-        detail: purchaseOrderData?.expectedDeliveryDate ?? '---',
+        detail:
+          dayjs(purchaseOrderData?.expectedDeliveryDate)?.format(
+            DATE_FORMAT?.UI,
+          ) ?? '---',
       },
       {
         name: 'Location',
@@ -26,7 +31,9 @@ export const overviewData = (purchaseOrderData: any) => [
       },
       {
         name: 'Terms and conditions',
-        detail: purchaseOrderData?.termAndCondition ?? '---',
+        detail:
+          `${purchaseOrderData?.termAndCondition?.slice?.(0, 29)} ... ` ??
+          '---',
       },
     ],
   },
@@ -54,7 +61,13 @@ export const overviewTableColumns: any = (
       accessorFn: (row: any) => row?.description,
       id: 'description',
       header: 'Description',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (
+        <Typography>
+          {info?.getValue()?.length > 30
+            ? `${info?.getValue()?.slice?.(0, 29)} ... `
+            : info?.getValue()}
+        </Typography>
+      ),
     },
     {
       accessorFn: (row: any) => row?.costPerItem,

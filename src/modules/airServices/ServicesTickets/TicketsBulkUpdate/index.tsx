@@ -17,6 +17,7 @@ export const TicketsBulkUpdate = (props: any) => {
     setIsReplyAdded,
     onClose,
     submitTicketBulkUpdateForm,
+    patchBulkUpdateTicketsStatus,
   }: any = useTicketBulkUpdate(props);
   return (
     <>
@@ -29,6 +30,8 @@ export const TicketsBulkUpdate = (props: any) => {
         isOk
         cancelText={'Cancel'}
         footer
+        isLoading={patchBulkUpdateTicketsStatus?.isLoading}
+        isDisabled={patchBulkUpdateTicketsStatus?.isLoading}
       >
         {!isReplyAdded && (
           <Button

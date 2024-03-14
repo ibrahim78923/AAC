@@ -8,7 +8,7 @@ import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
-export const AssociatesLists = (props: any) => {
+export const AssociatesLists = () => {
   const {
     deleteModal,
     setDeleteModal,
@@ -25,7 +25,8 @@ export const AssociatesLists = (props: any) => {
     deleteTicketsAssociatesAssets,
     setAssetId,
     router,
-  } = useAssociatesLists(props);
+    deleteTicketsAssociatesAssetsStatus,
+  } = useAssociatesLists();
 
   return (
     <>
@@ -50,8 +51,8 @@ export const AssociatesLists = (props: any) => {
             data?.data?.tickets?.length > 1
               ? data?.data?.tickets
               : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-              ? data?.data?.tickets
-              : []
+                ? data?.data?.tickets
+                : []
           }
           isPagination
           isSuccess={isSuccess}
@@ -62,22 +63,22 @@ export const AssociatesLists = (props: any) => {
             data?.data?.tickets?.length > 1
               ? data?.data?.meta?.page
               : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-              ? data?.data?.meta?.page
-              : 0
+                ? data?.data?.meta?.page
+                : 0
           }
           count={
             data?.data?.tickets?.length > 1
               ? data?.data?.meta?.pages
               : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-              ? data?.data?.meta?.pages
-              : 0
+                ? data?.data?.meta?.pages
+                : 0
           }
           totalRecords={
             data?.data?.tickets?.length > 1
               ? data?.data?.meta?.total
               : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-              ? data?.data?.meta?.total
-              : 0
+                ? data?.data?.meta?.total
+                : 0
           }
           pageLimit={data?.data?.meta?.limit}
           onPageChange={(page: any) => setPage(page)}
@@ -85,19 +86,25 @@ export const AssociatesLists = (props: any) => {
           setPageLimit={setPageLimit}
         />
       </PermissionsGuard>
-      <AlertModals
-        open={deleteModal}
-        message="Are you sure you want to detach this asset ?"
-        handleClose={() => setDeleteModal(false)}
-        handleSubmitBtn={() => deleteTicketsAssociatesAssets?.()}
-        type={ALERT_MODALS_TYPE?.DELETE}
-        cancelBtnText="Cancel"
-        submitBtnText="Detach"
-      />
-      <AddAssociationsDrawer
-        open={openDrawer}
-        setDrawerOpen={() => setOpenDrawer(false)}
-      />
+      {deleteModal && (
+        <AlertModals
+          open={deleteModal}
+          message="Are you sure you want to detach this asset ?"
+          handleClose={() => setDeleteModal(false)}
+          handleSubmitBtn={() => deleteTicketsAssociatesAssets?.()}
+          type={ALERT_MODALS_TYPE?.DELETE}
+          cancelBtnText="Cancel"
+          submitBtnText="Detach"
+          loading={deleteTicketsAssociatesAssetsStatus?.isLoading}
+          disableCancelBtn={deleteTicketsAssociatesAssetsStatus?.isLoading}
+        />
+      )}
+      {openDrawer && (
+        <AddAssociationsDrawer
+          open={openDrawer}
+          setDrawerOpen={() => setOpenDrawer(false)}
+        />
+      )}
     </>
   );
 };
