@@ -271,7 +271,7 @@ export const useAddPlan = () => {
           enqueueSnackbar('Plan Added Successfully', {
             variant: 'success',
           });
-        }, 3000);
+        }, 5000);
         persistor?.purge();
         reset();
       } catch (error: any) {
