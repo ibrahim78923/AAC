@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { Avatar, Grid, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import CommonDrawer from '@/components/CommonDrawer';
@@ -10,7 +9,7 @@ import {
 import { styles } from './DetailTaskDrawer.styles';
 import { useDetailTaskDrawer } from './useDetailTaskDrawer';
 import { drawerDetail, statusOptions } from './DetailTaskDrawer.data';
-import { generateColorFromName } from '@/utils/avatarUtils';
+import { generateColorFromName, generateImage } from '@/utils/avatarUtils';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
@@ -72,9 +71,9 @@ export const DetailTaskDrawer = (props: any) => {
                   </Grid>
                   <Grid xs={6} sx={styles?.detailDrawerGridCenter}>
                     {item?.profile && (
-                      <Image
+                      <Avatar
                         style={styles?.detailDrawerImg}
-                        src={item?.profile}
+                        src={generateImage(item?.profile)}
                         alt=""
                       />
                     )}

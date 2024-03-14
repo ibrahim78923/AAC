@@ -6,7 +6,7 @@ import {
 } from '../TasksDrawersForm/TasksDrawersForm.data';
 import { useEffect } from 'react';
 import {
-  useLazyGetAgentsDropdownListQuery,
+  useLazyGetUsersDropdownListQuery,
   useLazyGetDepartmentDropdownListQuery,
   usePatchTaskByIdMutation,
 } from '@/services/airServices/tickets/single-ticket-details/tasks';
@@ -52,7 +52,7 @@ export const useEditTaskDrawer = (props: any) => {
     methodsEditTicketForm?.handleSubmit(submitEditTicket)();
   };
   const departmentDropdown = useLazyGetDepartmentDropdownListQuery();
-  const userDropdown = useLazyGetAgentsDropdownListQuery();
+  const userDropdown = useLazyGetUsersDropdownListQuery();
   return {
     methodsEditTicketForm,
     drawerSubmitHandler,

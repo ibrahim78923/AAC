@@ -5,7 +5,7 @@ import {
   taskTicketFormValidationSchema,
 } from '../TasksDrawersForm/TasksDrawersForm.data';
 import {
-  useLazyGetAgentsDropdownListQuery,
+  useLazyGetUsersDropdownListQuery,
   useLazyGetDepartmentDropdownListQuery,
   usePostTaskByIdMutation,
 } from '@/services/airServices/tickets/single-ticket-details/tasks';
@@ -52,7 +52,7 @@ export const useAddTaskDrawer = (props: any) => {
     methodsCreateNewTicketForm?.reset();
   };
   const departmentDropdown = useLazyGetDepartmentDropdownListQuery();
-  const userDropdown = useLazyGetAgentsDropdownListQuery();
+  const userDropdown = useLazyGetUsersDropdownListQuery();
   return {
     methodsCreateNewTicketForm,
     drawerSubmitHandler,

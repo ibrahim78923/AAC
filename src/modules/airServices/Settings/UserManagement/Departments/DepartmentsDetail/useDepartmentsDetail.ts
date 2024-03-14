@@ -29,16 +29,12 @@ export const useDepartmentsDetail = () => {
   const getDepartmentParameter = {
     queryParams: getDepartmentParam,
   };
-  const [lazyGetDepartmentTrigger, lazyGetDepartmentData] =
+  const [lazyGetDepartmentTrigger, lazyGetDepartmentData]: any =
     useLazyGetDepartmentQuery();
   const departmentData = lazyGetDepartmentData?.data?.data?.departments;
   const departmentMetaData = lazyGetDepartmentData?.data?.data?.meta;
   const getDepartmentListData = async () => {
-    try {
-      await lazyGetDepartmentTrigger(getDepartmentParameter)?.unwrap();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.error ?? 'An error occurred');
-    }
+    await lazyGetDepartmentTrigger(getDepartmentParameter)?.unwrap();
   };
   useEffect(() => {
     getDepartmentListData();
@@ -127,5 +123,6 @@ export const useDepartmentsDetail = () => {
     isSmallScreen,
     isLoading,
     updateIsLoading,
+    lazyGetDepartmentData,
   };
 };

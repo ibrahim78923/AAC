@@ -1,7 +1,6 @@
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
-import { AvatarImage } from '@/assets/images';
 import { styles } from './DetailTaskDrawer.styles';
 
 export const drawerDetail: any = (taskDetail: any, theme: any) => [
@@ -17,7 +16,7 @@ export const drawerDetail: any = (taskDetail: any, theme: any) => [
     details: taskDetail?.assignedUser
       ? `${taskDetail?.assignedUser?.firstName} ${taskDetail?.assignedUser?.lastName}`
       : null,
-    profile: AvatarImage,
+    profile: taskDetail?.assignedUser?.avatar?.url,
   },
   {
     id: 3,

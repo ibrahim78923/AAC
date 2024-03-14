@@ -104,7 +104,7 @@ export const END_POINTS = {
   REQUESTER_LIST: `/requester/requester-list`,
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
-  DEPARTMENT: '/department',
+  DEPARTMENT: '/department/add-department',
   DROPDOWN_DEPARTMENT: `/Department/department-list`,
   TICKETS_ASSOCIATES_ASSETS: '/ticket/associate-assets',
   DROPDOWN_VENDORS_LIST: `/vendors/get-vendors`,

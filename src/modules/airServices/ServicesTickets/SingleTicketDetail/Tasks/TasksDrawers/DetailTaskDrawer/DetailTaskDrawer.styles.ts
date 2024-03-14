@@ -12,8 +12,8 @@ export const styles: any = {
     marginRight: '8px',
   }),
   detailDrawerImg: {
-    height: '16px',
-    width: '16px',
+    height: '25px',
+    width: '25px',
     marginRight: '8px',
   },
   detailDrawerGridCenter: { display: 'flex', alignItems: 'center' },
@@ -31,27 +31,27 @@ export const styles: any = {
       statusValue === TASK_STATUS?.TO_DO
         ? theme?.palette?.primary?.main
         : statusValue === TASK_STATUS?.IN_PROGRESS
-        ? theme?.palette?.custom?.bright
-        : statusValue === TASK_STATUS?.DONE
-        ? theme?.palette?.error?.dark
-        : null
+          ? theme?.palette?.custom?.bright
+          : statusValue === TASK_STATUS?.DONE
+            ? theme?.palette?.error?.dark
+            : null
     }`,
     backgroundColor:
       statusValue === TASK_STATUS?.TO_DO
         ? theme?.palette?.primary?.lighter
         : statusValue === TASK_STATUS?.IN_PROGRESS
-        ? theme?.palette?.custom?.aqua_breeze
-        : statusValue === TASK_STATUS?.DONE
-        ? theme?.palette?.error?.lighter + 40
-        : null,
+          ? theme?.palette?.custom?.aqua_breeze
+          : statusValue === TASK_STATUS?.DONE
+            ? theme?.palette?.error?.lighter + 40
+            : null,
     color:
       statusValue === TASK_STATUS?.TO_DO
         ? theme?.palette?.primary?.main
         : statusValue === TASK_STATUS?.IN_PROGRESS
-        ? theme?.palette?.custom?.bright
-        : statusValue === TASK_STATUS?.DONE
-        ? theme?.palette?.error?.dark
-        : null,
+          ? theme?.palette?.custom?.bright
+          : statusValue === TASK_STATUS?.DONE
+            ? theme?.palette?.error?.dark
+            : null,
     padding: '2px 14px',
     borderRadius: '4px',
     fontWeight: 500,
