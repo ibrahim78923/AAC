@@ -22,7 +22,12 @@ export const useSoftware = () => {
 
   const handleDelete = async () => {
     try {
-      const res: any = await deleteInventorySoftware(deleteRecord);
+      const res: any = await deleteInventorySoftware({
+        body: {
+          softwareId: router?.query?.inventoryId,
+          id: deleteRecord,
+        },
+      })?.unwrap();
       successSnackbar(res?.message ?? 'Record deleted Successfully');
       setOpenDeleteModal(false);
     } catch (err: any) {
