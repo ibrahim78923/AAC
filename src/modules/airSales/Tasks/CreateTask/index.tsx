@@ -8,8 +8,7 @@ import CommonDrawer from '@/components/CommonDrawer';
 const CreateTask = ({
   isCreateTaskDrawerOpen,
   setIsCreateTaskDrawerOpen,
-  creationMode,
-  // taskData,
+  creationMode, // taskData,
 }: any) => {
   const {
     handleFiltersSubmit,
