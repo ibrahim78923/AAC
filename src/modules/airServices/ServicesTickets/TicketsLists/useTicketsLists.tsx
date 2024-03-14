@@ -44,7 +44,6 @@ export const useTicketsLists: any = () => {
   const theme = useTheme();
   const router = useRouter();
   const { makePath } = usePath();
-
   const [lazyGetTicketsTrigger, lazyGetTicketsStatus] =
     useLazyGetTicketsQuery();
 
@@ -53,7 +52,10 @@ export const useTicketsLists: any = () => {
 
   const [putSingleTicketStatusTrigger] = usePutSingleTicketStatusMutation();
 
-  const getValueTicketsListData = async (currentPage = page) => {
+  const getValueTicketsListData = async (
+    currentPage = page,
+    filtered = filterTicketLists,
+  ) => {
     const additionalParams = [
       ['metaData', true + ''],
       ['page', currentPage + ''],
@@ -62,7 +64,7 @@ export const useTicketsLists: any = () => {
     ];
     const ticketsParam = buildQueryParams(
       additionalParams,
-      filterTicketLists,
+      filtered,
       neglectKeysInLoop,
     );
     const getTicketsParameter = {
@@ -102,7 +104,7 @@ export const useTicketsLists: any = () => {
       successSnackbar(`Tickets Exported successfully`);
       setSelectedTicketList([]);
     } catch (error: any) {
-      errorSnackbar?.();
+      errorSnackbar(error?.data?.message);
       setSelectedTicketList([]);
     }
   };
@@ -155,7 +157,7 @@ export const useTicketsLists: any = () => {
       successSnackbar('Ticket status updated successfully');
       setSelectedTicketList([]);
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
   const ticketsListsColumnPersist = ticketsListsColumnFunction(
@@ -191,7 +193,9 @@ export const useTicketsLists: any = () => {
         setIsDrawerOpen={setHasTicketAction}
         isDrawerOpen={hasTicketAction}
         setSelectedTicketList={setSelectedTicketList}
+        getTicketsListData={getValueTicketsListData}
         setFilterTicketLists={setFilterTicketLists}
+        setPage={setPage}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.EDIT_TICKET]: (
@@ -199,8 +203,10 @@ export const useTicketsLists: any = () => {
         setIsDrawerOpen={setHasTicketAction}
         isDrawerOpen={hasTicketAction}
         ticketId={selectedTicketList?.[0]}
+        getTicketsListData={getValueTicketsListData}
         setSelectedTicketList={setSelectedTicketList}
         setFilterTicketLists={setFilterTicketLists}
+        setPage={setPage}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.BULK_UPDATE_DATA]: (
@@ -209,6 +215,9 @@ export const useTicketsLists: any = () => {
         isDrawerOpen={hasTicketAction}
         selectedTicketList={selectedTicketList}
         setSelectedTicketList={setSelectedTicketList}
+        getTicketsListData={getValueTicketsListData}
+        setFilterTicketLists={setFilterTicketLists}
+        setPage={setPage}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.ASSIGNED_TICKET]: (
@@ -220,6 +229,9 @@ export const useTicketsLists: any = () => {
         singleTicketDetail={lazyGetTicketsStatus?.data?.data?.tickets?.find(
           (singleTicket: any) => singleTicket?._id === selectedTicketList?.[0],
         )}
+        getTicketsListData={getValueTicketsListData}
+        setFilterTicketLists={setFilterTicketLists}
+        setPage={setPage}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.MOVE_TICKET]: (
@@ -231,6 +243,9 @@ export const useTicketsLists: any = () => {
         singleTicketDetail={lazyGetTicketsStatus?.data?.data?.tickets?.find(
           (singleTicket: any) => singleTicket?._id === selectedTicketList?.[0],
         )}
+        getTicketsListData={getValueTicketsListData}
+        setFilterTicketLists={setFilterTicketLists}
+        setPage={setPage}
       />
     ),
     [TICKETS_ACTION_CONSTANTS?.MERGE_TICKET]: (

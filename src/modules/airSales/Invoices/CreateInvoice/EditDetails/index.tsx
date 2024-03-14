@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import DetailCard from './DetailCard';
 import ProductsTable from './ProductsTable';
 import {
@@ -26,7 +26,7 @@ const EditDetails = () => {
   const watchFields = watch(['Quote']);
   const QuoteID = watchFields[0]?._id;
 
-  const { data, isError, isLoading } = useGetInvoiceIdQuery(
+  const { data } = useGetInvoiceIdQuery(
     { id: QuoteID },
     { skip: isNullOrEmpty(QuoteID) },
   );
@@ -48,14 +48,8 @@ const EditDetails = () => {
           </FormProvider>
         </Grid>
       </Grid>
-      {isLoading && <CircularProgress />}
-
-      {!isError && data && (
-        <>
-          <DetailCard />
-          <ProductsTable data={data} />
-        </>
-      )}
+      <DetailCard data={data?.data} />
+      <ProductsTable data={data?.data} />
     </Box>
   );
 };

@@ -1,8 +1,11 @@
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 import { useUpsertContract } from './useUpsertContract';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { Attachments } from '@/components/Attachments';
+import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export const UpsertContract = () => {
   const {
@@ -17,12 +20,18 @@ export const UpsertContract = () => {
     isLoading,
     isFetching,
     isError,
+    contractId,
   } = useUpsertContract();
 
   if (isLoading || isFetching) return <SkeletonForm />;
 
   return (
     <>
+      <PageTitledHeader
+        moveBack={() => handleCancelBtn?.()}
+        canMovedBack
+        title={!!contractId ? 'Edit Contract' : 'Add Contract'}
+      />
       <FormProvider
         methods={upsertContractFormMethods}
         onSubmit={handleSubmit?.(submitUpsertContractForm)}
@@ -47,7 +56,7 @@ export const UpsertContract = () => {
             borderRadius={{ md: 2, xs: 0 }}
             padding={{ md: 1.5, xs: 0 }}
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={3}>
               {upsertContractFormFieldsData?.map((item: any) => (
                 <Grid item xs={12} lg={item?.md} key={item?.id}>
                   <item.component
@@ -62,7 +71,7 @@ export const UpsertContract = () => {
             </Grid>
           </Grid>
           <Grid item xs={12} md={0.5}></Grid>
-          <Grid item xs={12} md={4} mt={{ xs: 1, md: 0 }} mb={1}>
+          <Grid item xs={12} md={4} mt={{ xs: 2, md: 0 }} mb={2}>
             <RHFDropZone
               name="attachFile"
               fullWidth={true}
@@ -72,6 +81,27 @@ export const UpsertContract = () => {
                 'image/*': ['.png', '.jpg'],
               }}
             />
+            {!!contractId && (
+              <>
+                <Typography
+                  variant="body1"
+                  fontWeight={500}
+                  color="slateBlue.main"
+                  my={2}
+                >
+                  {' '}
+                  Attachments{' '}
+                </Typography>
+                <Box maxHeight={'20vh'}>
+                  <Attachments
+                    recordId={contractId}
+                    permissionKey={[
+                      AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.ADD_CONTRACT,
+                    ]}
+                  />
+                </Box>
+              </>
+            )}
           </Grid>
         </Grid>
         <br />
@@ -104,7 +134,7 @@ export const UpsertContract = () => {
                   variant="contained"
                   type="submit"
                 >
-                  Save
+                  {!!contractId ? 'Update' : 'Save'}
                 </LoadingButton>
               </Box>
             </Box>

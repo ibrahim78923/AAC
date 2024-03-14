@@ -1,12 +1,11 @@
 import { enqueueSnackbar } from 'notistack';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { agentsListsColumnsFunction, agentActionsDropdown } from './Agent.data';
-import { ACTIONS_TYPES, NOTISTACK_VARIANTS } from '@/constants/strings';
-import {
-  useDeleteAgentMutation,
-  useGetAgentsQuery,
-} from '@/services/airServices/settings/user-management/agents';
+import { ACTIONS_TYPES, NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
+import { useLazyGetAgentsQuery } from '@/services/airServices/settings/user-management/agents';
 import { PAGINATION } from '@/config';
+import { useRouter } from 'next/router';
+import { buildQueryParams } from '@/utils/api';
 
 export const useAgent = () => {
   const [selectedAgentList, setSelectedAgentList] = useState([]);
@@ -18,31 +17,41 @@ export const useAgent = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [filterAgentData, setFilterAgentData] = useState({});
+  const router = useRouter();
 
-  const params = {
-    page: page,
-    limit: pageLimit,
-    role: 'ORG_AGENT',
-    search: searchValue,
-    ...filterAgentData,
+  const [lazyGetAgentsTrigger, lazyGetAgentsStatus]: any =
+    useLazyGetAgentsQuery();
+
+  const getAgentsListData = async (currentPage = page) => {
+    const additionalParams = [
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+      ['search', searchValue],
+      ['role', ROLES?.ORG_AGENT],
+    ];
+
+    const getAgentsListParam: any = buildQueryParams(
+      additionalParams,
+      filterAgentData,
+    );
+
+    const getAgentsListParameter = {
+      queryParams: getAgentsListParam,
+    };
+
+    try {
+      await lazyGetAgentsTrigger(getAgentsListParameter)?.unwrap();
+      setSelectedAgentList([]);
+    } catch (error: any) {}
   };
 
-  const { data, isLoading, isSuccess, isFetching } = useGetAgentsQuery(params);
-  const agentListData = data?.data?.users;
-
-  const metaData = data?.data?.meta;
-  const processedAgentListData = agentListData?.map(
-    (agent: { firstName: any; lastName: any }) => ({
-      ...agent,
-      fullName: `${agent.firstName} ${agent.lastName}`,
-    }),
-  );
+  useEffect(() => {
+    getAgentsListData();
+  }, [searchValue, page, pageLimit, filterAgentData]);
 
   const handleOpenDrawer = () => {
     setAgentFilterDrawerOpen(true);
   };
-
-  const [deleteAgent] = useDeleteAgentMutation();
 
   const handleActionClick = async (ActionType: string) => {
     if (ActionType === ACTIONS_TYPES?.DELETE) {
@@ -70,32 +79,9 @@ export const useAgent = () => {
   const agentListsColumns = agentsListsColumnsFunction(
     selectedAgentList,
     setSelectedAgentList,
-    processedAgentListData,
+    lazyGetAgentsStatus?.data?.data?.users,
+    router,
   );
-
-  const handleDelete = async () => {
-    setOpenDeleteModal(false);
-    try {
-      const agentIdsToDelete = selectedAgentList?.map(
-        (agent: any) => agent?._id,
-      );
-      const res: any = await deleteAgent({ ids: agentIdsToDelete });
-      enqueueSnackbar(res?.message ?? 'Record deleted Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      setSelectedAgentList([]);
-    } catch (err: any) {
-      enqueueSnackbar(err?.message ?? `Can't update multiple records`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-    }
-  };
-
-  const deleteAgentProps = {
-    openDeleteModal,
-    setOpenDeleteModal,
-    handleDelete,
-  };
 
   const dropdownOptions = agentActionsDropdown(handleActionClick);
 
@@ -103,27 +89,23 @@ export const useAgent = () => {
     selectedAgentList,
     agentListsColumns,
     dropdownOptions,
-    handleActionClick,
     setSearchValue,
-    searchValue,
-    deleteAgentProps,
     handleOpenDrawer,
     isAgentFilterDrawerOpen,
     setAgentFilterDrawerOpen,
-    setIsAgentModalOpen,
     isAgentModalOpen,
     setEditAgentModalTitle,
     editAgentModalTitle,
     handleAddAgentModal,
-    setSelectedAgentList,
-    processedAgentListData,
-    isFetching,
-    isSuccess,
-    isLoading,
+    lazyGetAgentsStatus,
     setPageLimit,
     setPage,
     pageLimit,
-    metaData,
+    setSelectedAgentList,
     setFilterAgentData,
+    openDeleteModal,
+    setOpenDeleteModal,
+    getAgentsListData,
+    page,
   };
 };

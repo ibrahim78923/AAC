@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useGetActivityLogQuery } from '@/services/airServices/tickets/single-ticket-details/activities';
 import { PAGINATION } from '@/config';
+import { MODULE_TYPE } from '@/constants/strings';
 
 export const useActivities = () => {
   const ticketId = useSearchParams()?.get('ticketId');
@@ -15,7 +16,7 @@ export const useActivities = () => {
       page,
       limit: pageLimit,
       moduleId: ticketId,
-      module: 'TICKETS',
+      module: MODULE_TYPE?.TICKETS,
     },
     {
       refetchOnMountOrArgChange: true,

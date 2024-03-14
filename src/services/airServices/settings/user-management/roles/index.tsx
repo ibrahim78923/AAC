@@ -7,7 +7,7 @@ export const servicesPermissionsRole = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getPermissionsRole: builder.query({
       query: (params: any) => ({
-        url: `${END_POINTS?.GET_PERMISSIONS_ROLES}`,
+        url: `${END_POINTS?.PERMISSIONS_ROLE}`,
         method: 'GET',
         params,
       }),
@@ -22,9 +22,31 @@ export const servicesPermissionsRole = baseAPI.injectEndpoints({
     }),
     postPermissionsRole: builder?.mutation({
       query: (body: any) => ({
-        url: `${END_POINTS?.GET_PERMISSIONS_ROLES}`,
+        url: `${END_POINTS?.PERMISSIONS_ROLE}`,
         method: 'POST',
         body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getPermissionsRoleById: builder?.query({
+      query: (roleId: any) => ({
+        url: `${END_POINTS?.PERMISSIONS_ROLE}/${roleId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
+    patchPermissionsRoleById: builder?.mutation({
+      query: ({ updatedPatchData, roleId }: any) => ({
+        url: `${END_POINTS?.PERMISSIONS_ROLE}/${roleId}`,
+        method: 'PATCH',
+        body: updatedPatchData,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    deleteRole: builder?.mutation({
+      query: (roleId: any) => ({
+        url: `${END_POINTS?.PERMISSIONS_ROLE}/${roleId}`,
+        method: 'DELETE',
       }),
       invalidatesTags: [TAG],
     }),
@@ -35,4 +57,7 @@ export const {
   useGetPermissionsRoleQuery,
   useGetPermissionsByProductQuery,
   usePostPermissionsRoleMutation,
+  useGetPermissionsRoleByIdQuery,
+  usePatchPermissionsRoleByIdMutation,
+  useDeleteRoleMutation,
 } = servicesPermissionsRole;

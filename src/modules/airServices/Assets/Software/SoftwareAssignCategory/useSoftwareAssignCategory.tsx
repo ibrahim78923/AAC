@@ -1,16 +1,15 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
 import {
   assignCategoryValidationSchema,
   assignCategoryDefaultValues,
   assignCategoryFieldFunction,
 } from './SoftwareAssignCategory.data';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useLazyGetCategoriesDropdownQuery,
   usePutSoftwareAssignCategoryMutation,
 } from '@/services/airServices/assets/software';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useSoftwareAssignCategory = (params: any) => {
   const { setOpenAssignModal, selectedSoftware } = params;
@@ -33,7 +32,7 @@ export const useSoftwareAssignCategory = (params: any) => {
       categoryId: data?.category?._id,
     };
     const selectedSoftwareIds = selectedSoftware.map(
-      (software: any) => software?.id,
+      (software: any) => software,
     );
     const putAssignCategoryParameter = {
       ids: selectedSoftwareIds,
@@ -44,15 +43,11 @@ export const useSoftwareAssignCategory = (params: any) => {
       const response = await putSoftwareAssignCategoryTrigger(
         putAssignCategoryParameter,
       )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Category Assign Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar(response?.message ?? 'Category Assign Successfully');
       reset(assignCategoryDefaultValues());
       setOpenAssignModal?.(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.error ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.error ?? 'Something went wrong');
       reset(assignCategoryDefaultValues());
       setOpenAssignModal?.(false);
     }

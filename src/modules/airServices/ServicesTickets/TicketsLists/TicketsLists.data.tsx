@@ -3,7 +3,12 @@ import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { TICKET_STATUS } from '@/constants/strings';
 import dayjs from 'dayjs';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
 import {
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
   AIR_SERVICES_TICKETS_TICKET_LISTS,
@@ -251,7 +256,7 @@ export const ticketsListsColumnFunction: any = (
       id: 'subject',
       isSortable: true,
       header: 'Subject',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => truncateText(info?.getValue()),
     },
     {
       accessorFn: (row: any) => row?.requesterDetails,
@@ -262,7 +267,9 @@ export const ticketsListsColumnFunction: any = (
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Avatar
             sx={{ bgcolor: theme?.palette?.blue?.main, width: 28, height: 28 }}
-            src={info?.row?.original?.requesterDetails?.profileImg?.src}
+            src={generateImage(
+              info?.row?.original?.requesterDetails?.avatar?.url,
+            )}
           >
             <Typography variant="body2" textTransform={'uppercase'}>
               {fullNameInitial(

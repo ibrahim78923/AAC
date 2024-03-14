@@ -1,4 +1,12 @@
-import { Box, Typography, Grid, Divider, Button, Stack } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Grid,
+  Divider,
+  Button,
+  Stack,
+  Skeleton,
+} from '@mui/material';
 
 import PermissionsAccordion from './PermissionsAccordion';
 
@@ -16,13 +24,15 @@ import { ArrowBack } from '@mui/icons-material';
 
 const AddRole = () => {
   const {
+    productPermissionsData,
+    handleSubmit,
+    productVal,
+    isLoading,
     navigate,
     onSubmit,
     methods,
     theme,
-    handleSubmit,
-    productVal,
-    productPermissionsData,
+    viewPerdetails,
   } = useAddRole();
 
   const { query } = navigate;
@@ -64,23 +74,32 @@ const AddRole = () => {
               </Grid>
             ))}
           </Grid>
-          <Grid container>
-            <Grid item xs={12} lg={10} mt={3}>
-              <Stack direction="row">
-                <Typography variant="h4">Permissions</Typography>
-                <Typography style={{ color: theme?.palette?.error?.main }}>
-                  *
-                </Typography>
-              </Stack>
-            </Grid>
-            {productVal && (
-              <Grid item xs={12} lg={10} mt={2}>
-                <PermissionsAccordion
-                  permissionsData={productPermissionsData}
-                />
+          {productVal && (
+            <Grid container>
+              <Grid item xs={12} lg={10} mt={3}>
+                <Stack direction="row">
+                  <Typography variant="h4">Permissions</Typography>
+                  <Typography style={{ color: theme?.palette?.error?.main }}>
+                    *
+                  </Typography>
+                </Stack>
               </Grid>
-            )}
-          </Grid>
+              <Grid item xs={12} lg={10} mt={2}>
+                {isLoading ? (
+                  <Skeleton height={80} />
+                ) : (
+                  <PermissionsAccordion
+                    query={query}
+                    permissionsData={
+                      query?.type === 'view'
+                        ? viewPerdetails?.data
+                        : productPermissionsData
+                    }
+                  />
+                )}
+              </Grid>
+            </Grid>
+          )}
           <Divider sx={{ my: 3 }} />
           {(query?.type === 'add' || query?.type === 'edit') && (
             <Box

@@ -12,7 +12,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_USERS_PERMISSIONS } from '@/constants/permission-keys';
 
 const UsersDetails = (props: any) => {
-  const { employeeDataById } = props;
+  const { employeeDataById, searchAccount, setSearchAccount } = props;
 
   const {
     tabValue,
@@ -21,8 +21,6 @@ const UsersDetails = (props: any) => {
     setIsOpenAddAccountDrawer,
     theme,
     handleChangeImg,
-    searchAccount,
-    setSearchAccount,
   } = useUsersDetails();
 
   const { data: profileData } = useGetUsersByIdQuery(employeeDataById);
@@ -64,7 +62,10 @@ const UsersDetails = (props: any) => {
               <CommonTabs
                 isHeader={tabValue === 0 ? true : false}
                 activeTab={tabValue}
-                getTabVal={(val: number) => setTabVal(val)}
+                getTabVal={(val: number) => {
+                  setTabVal(val);
+                  setSearchAccount('');
+                }}
                 tabsArray={['Accounts', 'Profile']}
                 searchBarProps={{
                   label: 'Search Here',
@@ -103,7 +104,10 @@ const UsersDetails = (props: any) => {
                 <PermissionsGuard
                   permissions={[ORG_ADMIN_USERS_PERMISSIONS?.VIEW_USER_PROFILE]}
                 >
-                  <Profile profileData={profileData?.data} />
+                  <Profile
+                    profileData={profileData?.data}
+                    setTabVal={setTabVal}
+                  />
                 </PermissionsGuard>
               </CommonTabs>
             </Card>
