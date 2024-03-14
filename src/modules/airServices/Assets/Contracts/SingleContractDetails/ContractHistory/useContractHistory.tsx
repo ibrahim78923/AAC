@@ -12,16 +12,17 @@ export const useContractHistory = () => {
       id: contractId,
     },
   };
-  const { data }: any = useGetContractHistoryQuery(
-    getContractHistoryParameter.queryParam,
-    {
+  const { data, isLoading, isFetching, isError }: any =
+    useGetContractHistoryQuery(getContractHistoryParameter.queryParam, {
       refetchOnMountOrArgChange: true,
-    },
-  );
+    });
 
   const contractHistory = data?.data.contracts;
   return {
     contractHistory,
     theme,
+    isLoading,
+    isFetching,
+    isError,
   };
 };

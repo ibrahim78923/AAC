@@ -10,6 +10,7 @@ export const RelatedTicketsHeader = ({
   setIsDrawerOpen,
   relatedTicketsActionDropdown,
   setSelectedChildTickets,
+  data,
 }: any) => {
   return (
     <Box
@@ -20,7 +21,13 @@ export const RelatedTicketsHeader = ({
       alignItems={'center'}
     >
       <Typography variant="h5" color="slateBlue.main">
-        Child Tickets
+        {`Child Tickets (${
+          data?.data?.tickets?.length > 1
+            ? data?.data?.meta?.total
+            : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
+              ? data?.data?.meta?.total
+              : 0
+        })`}
       </Typography>
       <Box display="flex" flexWrap={'wrap'} gap={1}>
         <PermissionsGuard

@@ -1,4 +1,4 @@
-import { Grid, Box, Typography, InputAdornment } from '@mui/material';
+import { Grid, Box, Typography, InputAdornment, Card } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider, RHFMultiCheckbox } from '@/components/ReactHookForm';
 import { dataArray } from './AddCompanyDetails.data';
@@ -8,24 +8,35 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { EraserIcon } from '@/assets/icons';
 import useToggle from '@/hooks/useToggle';
 import useAddCompanyDetails from './useAddCompanyDetails';
+import Image from 'next/image';
+import { IMG_URL } from '@/config';
 
 export default function AddCompanyDetails({
   isOpenDrawer,
   onClose,
   organizationId,
   setISOpenCompanyDrawer,
+  organizationBasesProducts,
 }: any) {
   const [isToggled, setIsToggled] = useToggle(false);
 
-  const {
-    theme,
-    productsList,
-    methods,
-    handleSubmit,
-    onSubmit,
-    companyImg,
-    setCompanyImg,
-  } = useAddCompanyDetails(organizationId, setISOpenCompanyDrawer, isToggled);
+  const { theme, methods, handleSubmit, onSubmit, companyImg, setCompanyImg } =
+    useAddCompanyDetails(organizationId, setISOpenCompanyDrawer, isToggled);
+
+  const productsList = organizationBasesProducts?.map((item: any) => ({
+    value: item?._id,
+    label: (
+      <Card sx={styles?.productCard}>
+        <Image
+          src={`${IMG_URL}${item?.logo?.url}`}
+          alt="sales-image"
+          width={25}
+          height={25}
+        />
+        <Typography>{item?.name}</Typography>
+      </Card>
+    ),
+  }));
 
   return (
     <CommonDrawer

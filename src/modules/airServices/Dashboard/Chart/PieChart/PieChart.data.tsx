@@ -1,32 +1,16 @@
 import PersonIcon from '@mui/icons-material/Person';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
-export const dropDownMenus = [
-  {
-    title: 'AllDepartments',
-    handleClick: (closeMenu: any) => {
-      closeMenu?.();
-    },
-  },
-  {
-    title: 'IT',
-    handleClick: (closeMenu: any) => {
-      closeMenu?.();
-    },
-  },
-  {
-    title: 'HR',
-    handleClick: (closeMenu: any) => {
-      closeMenu?.();
-    },
-  },
-  {
-    title: 'Finance',
-    handleClick: (closeMenu: any) => {
-      closeMenu?.();
-    },
-  },
-];
+
+const pieChartData: any = {
+  data: [44, 55],
+};
+
+const pieChartDataOptions = (theme: any) => ({
+  colors: [theme?.palette?.success?.main, theme?.palette?.warning?.main],
+});
+
+export { pieChartData, pieChartDataOptions };
 export const pieChartHeader = (theme: any, pieCharts: any) => [
   {
     title: 'Total Agents',

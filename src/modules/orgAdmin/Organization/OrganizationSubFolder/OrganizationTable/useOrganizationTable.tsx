@@ -31,7 +31,8 @@ const useOrganizationTable = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme<Theme>();
-  const [postOrganization] = usePostOrganizationMutation();
+  const [postOrganization, { isLoading: loadingAddCompanyAccount }] =
+    usePostOrganizationMutation();
   const [updateOrganizationCompany] = useUpdateOrganizationMutation();
   const [deleteOrganization] = useDeleteOrganizationMutation();
   const [updateOrganizationStatus] = useUpdateOrganizationStatusMutation();
@@ -84,17 +85,35 @@ const useOrganizationTable = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (data: any) => {
-    const organizationData = {
-      ...data,
-      logoUrl: data?.logoUrl?.path,
-      organizationId: user?.organization?._id,
-      products: [],
-      status: 'Active',
+    const products: any = [];
+    user?.products.forEach((product: any) => {
+      if (data[product?._id]) products.push(product?._id);
+    });
+    const address = {
+      flatNumber: data?.unit,
+      buildingName: data?.buildingName,
+      buildingNumber: data?.buildingNumber,
+      streetName: data?.streetName,
+      city: data?.city,
+      country: data?.country,
+      composite: data?.address,
     };
+
+    const formData = new FormData();
+    formData.append('image', data?.image);
+    formData.append('products', products);
+    formData.append('accountName', data?.accountName);
+    formData.append('phoneNo', data?.phoneNo);
+    formData.append('postCode', data?.postCode);
+    formData.append('address', JSON.stringify(address));
+    formData.append('postCode', data?.postCode);
+    formData.append('organizationId', user?.organization?._id);
+    formData.append('isActive', 'true');
+
     try {
       if (Object?.keys(editData)[0]) {
         await updateOrganizationCompany({
-          body: organizationData,
+          body: formData,
           id: editData?._id,
         }).unwrap();
         enqueueSnackbar('Company Updated Successfully', {
@@ -102,7 +121,7 @@ const useOrganizationTable = () => {
         });
         setIsOpenDrawer(false);
       } else {
-        await postOrganization({ body: organizationData }).unwrap();
+        await postOrganization({ body: formData }).unwrap();
         enqueueSnackbar('Company Created Successfully', {
           variant: 'success',
         });
@@ -171,6 +190,7 @@ const useOrganizationTable = () => {
     editData,
     drawerHeading,
     setDrawerHeading,
+    loadingAddCompanyAccount,
   };
 };
 
