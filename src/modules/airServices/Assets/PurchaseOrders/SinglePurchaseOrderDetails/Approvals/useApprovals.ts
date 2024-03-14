@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react';
 import { PAGINATION } from '@/config';
 import { useSearchParams } from 'next/navigation';
-import {
-  useLazyGetApprovalRequestsQuery,
-  usePatchRequestApprovalMutation,
-} from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useLazyGetApprovalRequestsQuery } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/approvals';
+import { errorSnackbar } from '@/utils/api';
 import { getSession } from '@/utils';
 import { useTheme } from '@mui/material';
-import { approvalStatus } from './Approvals.data';
 
 export const useApprovals = () => {
   const theme: any = useTheme();
@@ -43,20 +39,6 @@ export const useApprovals = () => {
       getApprovalRequestsListData();
     }
   }, [page, pageLimit, purchaseOrderId]);
-  const [patchRequestApprovalTrigger, patchRequestApprovalStatus] =
-    usePatchRequestApprovalMutation();
-
-  const onCancel = async (approvalId: any) => {
-    const params = new URLSearchParams();
-    params?.append('id', approvalId);
-    params?.append('approvalStatus', approvalStatus?.[2]);
-    try {
-      await patchRequestApprovalTrigger(params)?.unwrap();
-      successSnackbar('Cancelled Successfully!');
-    } catch (error: any) {
-      errorSnackbar();
-    }
-  };
   return {
     lazyGetApprovalRequestsStatus,
     approvalsList,
@@ -68,8 +50,6 @@ export const useApprovals = () => {
     setPage,
     approvalsListMetaData,
     openDialog,
-    onCancel,
-    patchRequestApprovalStatus,
     user,
   };
 };

@@ -70,7 +70,11 @@ export const agentsListsColumnsFunction = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={selectedAgentList?.length === processedAgentListData?.length}
+        checked={
+          !!processedAgentListData?.length
+            ? selectedAgentList?.length === processedAgentListData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedAgentList([...processedAgentListData])
