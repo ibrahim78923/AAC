@@ -86,7 +86,7 @@ export const PlanDetailsDataColumnFunction: any = (
     },
     {
       //Todo: Getting description at index 0
-      accessorFn: (row: any) => row?.planProducts[0]?.description,
+      accessorFn: (row: any) => row?.description,
       id: 'description',
       isSortable: true,
       header: 'Description',
@@ -94,8 +94,7 @@ export const PlanDetailsDataColumnFunction: any = (
     },
     {
       //Todo: Getting createdAt at index 0
-      accessorFn: (row: any) =>
-        dayjs(row?.planProducts[0]?.createdAt)?.format(DATE_FORMAT?.UI),
+      accessorFn: (row: any) => dayjs(row?.createdAt)?.format(DATE_FORMAT?.UI),
       id: 'createdAt',
       isSortable: true,
       header: 'Created on',
