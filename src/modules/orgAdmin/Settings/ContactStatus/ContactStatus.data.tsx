@@ -7,6 +7,8 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 
 import * as Yup from 'yup';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ORG_ADMIN_SETTINGS_CONTACT_STATUS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const ContactStatusvalidationSchema: any = Yup.object().shape({
   name: Yup.string()
@@ -112,31 +114,35 @@ export const columns = (
       isSortable: true,
       header: 'Action',
       cell: (info: any) => (
-        <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              handleEditClick(info?.row?.original);
-              setIsModalHeading('View');
-            }}
-          >
-            <ViewEyeIcon />
+        <PermissionsGuard
+          permissions={[ORG_ADMIN_SETTINGS_CONTACT_STATUS_PERMISSIONS?.ACTIONS]}
+        >
+          <Box sx={{ display: 'flex', gap: 0.5 }}>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                handleEditClick(info?.row?.original);
+                setIsModalHeading('View');
+              }}
+            >
+              <ViewEyeIcon />
+            </Box>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                handleEditClick(info?.row?.original);
+              }}
+            >
+              <EditPenIcon />
+            </Box>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => handleDeleteRecord(info?.row?.original?._id)}
+            >
+              <DeleteCrossIcon />
+            </Box>
           </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              handleEditClick(info?.row?.original);
-            }}
-          >
-            <EditPenIcon />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => handleDeleteRecord(info?.row?.original?._id)}
-          >
-            <DeleteCrossIcon />
-          </Box>
-        </Box>
+        </PermissionsGuard>
       ),
     },
   ];
