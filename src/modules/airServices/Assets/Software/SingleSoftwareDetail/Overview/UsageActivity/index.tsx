@@ -36,7 +36,10 @@ function UsageActivity(props: any) {
               {
                 data: usageActivityData?.map((item: any) => ({
                   ...item,
-                  value: data?.data?.usageActivity,
+                  value:
+                    data?.data?.usageActivity === 0
+                      ? 1e-10
+                      : data?.data?.usageActivity,
                 })),
                 cx: styles?.alignGraph?.cx,
                 cy: styles?.alignGraph?.cy,
