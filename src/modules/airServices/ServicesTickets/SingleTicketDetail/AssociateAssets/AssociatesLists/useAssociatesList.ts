@@ -40,9 +40,6 @@ export const useAssociatesLists: any = () => {
 
     const getTicketsAssociatesAssetsParameter = {
       queryParams: getTicketsAssociatesAssetsParam,
-      pathParam: {
-        id: ticketId,
-      },
     };
 
     try {

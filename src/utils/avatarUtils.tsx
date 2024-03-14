@@ -34,8 +34,8 @@ export const generateImage = (imgSrc?: any) => {
   return `${IMG_URL}${imgSrc}`;
 };
 
-export const truncateText = (text = '---', sliceLimit = 30) => {
+export const truncateText = (text = '---', sliceLimit = 20) => {
   return text?.length > sliceLimit
-    ? `${text?.slice?.(0, sliceLimit)}...`
+    ? `${text?.slice?.(0, sliceLimit)} ...`
     : text;
 };

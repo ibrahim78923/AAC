@@ -117,13 +117,20 @@ export const TicketInfoCard = ({
                 }}
               />
             )}
-            <MoreVertIcon
-              onClick={(event: any) => {
-                event.stopPropagation();
-                setAnchorEl(event?.currentTarget);
-              }}
-              sx={{ cursor: 'pointer' }}
-            />
+            <PermissionsGuard
+              permissions={[
+                AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
+                AIR_SERVICES_TICKETS_TICKET_LISTS?.ACTIONS,
+              ]}
+            >
+              <MoreVertIcon
+                onClick={(event: any) => {
+                  event.stopPropagation();
+                  setAnchorEl(event?.currentTarget);
+                }}
+                sx={{ cursor: 'pointer' }}
+              />
+            </PermissionsGuard>
           </Box>
         </Box>
         <Typography variant={'body2'}>{truncatedSubject}</Typography>
