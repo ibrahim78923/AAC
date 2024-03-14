@@ -28,7 +28,7 @@ export const warningSnackbar = (message: any) => {
 
 export const buildQueryParams = (
   additionalParams: any,
-  filterLists: any,
+  filterLists: any = {},
   neglectKeysInLoop: any = [],
   extraFilters: any = [],
 ) => {
