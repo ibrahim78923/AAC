@@ -5,10 +5,18 @@ import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { usePieChart } from './usePieChart';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const PieChart = () => {
-  const { departmentDropdown, methods, pieChartData, theme, pieChartSeries } =
-    usePieChart();
+  const {
+    departmentDropdown,
+    methods,
+    pieChartData,
+    theme,
+    pieChartSeries,
+    isLoading,
+    isFetching,
+  } = usePieChart();
   return (
     <>
       <>
@@ -59,12 +67,16 @@ export const PieChart = () => {
         </Box>
       </>
       <Box sx={{ marginTop: 2 }}>
-        <CustomChart
-          options={{ ...pieChartDataOptions(theme), legend: { show: false } }}
-          series={pieChartSeries}
-          type="pie"
-          height={212}
-        />
+        {isLoading || isFetching ? (
+          <SkeletonTable />
+        ) : (
+          <CustomChart
+            options={{ ...pieChartDataOptions(theme), legend: { show: false } }}
+            series={pieChartSeries}
+            type="pie"
+            height={212}
+          />
+        )}
       </Box>
     </>
   );
