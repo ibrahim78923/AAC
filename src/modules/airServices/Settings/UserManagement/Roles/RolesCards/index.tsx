@@ -11,6 +11,7 @@ import NoData from '@/components/NoData';
 import { AssociationsImage } from '@/assets/images';
 import useRolesCards from './useRolesCards';
 import { AlertModals } from '@/components/AlertModals';
+import { truncateText } from '@/utils/avatarUtils';
 
 const RolesCards = ({
   data,
@@ -103,7 +104,9 @@ const RolesCards = ({
                 </Box>
 
                 <Box
-                  dangerouslySetInnerHTML={{ __html: item?.description }}
+                  dangerouslySetInnerHTML={{
+                    __html: truncateText(item?.description, 30),
+                  }}
                   color={'custom.mulled_wine'}
                 />
                 <Divider sx={{ my: 2 }} />

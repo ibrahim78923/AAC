@@ -1,23 +1,13 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Button,
-  Divider,
-  Grid,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
-import { FormProvider, RHFCheckbox } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import { upsertRolesFormData } from './UpsertRoles.data';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useUpsertRoles from './useUpsertRoles';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
-import { Fragment } from 'react';
 import { LoadingButton } from '@mui/lab';
+import PermissionsAccordion from './permissions-accordion';
 
 const UpsertRoles = () => {
   const {
@@ -26,26 +16,16 @@ const UpsertRoles = () => {
     methods,
     handleSubmit,
     onSubmit,
-    theme,
-    getPermissionsIsLoading,
-    getPermissionsIsFetching,
-    getPermissionsIsError,
-    getPermissionsData,
     postPermissionsStatus,
     getRolesIsLoading,
     getRolesIsFetching,
     patchPermissionsStatus,
+    getRolesIsError,
   } = useUpsertRoles();
 
-  if (getPermissionsIsError) return <ApiErrorState />;
+  if (getRolesIsError) return <ApiErrorState />;
 
-  if (
-    getPermissionsIsLoading ||
-    getPermissionsIsFetching ||
-    getRolesIsLoading ||
-    getRolesIsFetching
-  )
-    return <SkeletonTable />;
+  if (getRolesIsLoading || getRolesIsFetching) return <SkeletonTable />;
 
   return (
     <>
@@ -74,50 +54,7 @@ const UpsertRoles = () => {
             <Typography variant="h5">Permissions</Typography>
           </Grid>
           <Grid item xs={12} my={2}>
-            {getPermissionsData?.data?.map((parent: any) => (
-              <Fragment key={parent?.name}>
-                {parent?.subModules?.map((subModule: any) => (
-                  <Accordion
-                    key={subModule?.subModule}
-                    sx={{
-                      '&.MuiAccordion': {
-                        '&.Mui-expanded': {
-                          boxShadow: 'theme.customShadows.z8',
-                          borderRadius: '8px',
-                        },
-                        '&.Mui-disabled': {
-                          backgroundColor: 'transparent',
-                        },
-                      },
-                      '& .MuiAccordionSummary-root': {
-                        backgroundColor: theme?.palette?.blue?.main,
-                        color: theme.palette?.common?.white,
-                        borderRadius: '8px',
-                      },
-                      mt: 1,
-                    }}
-                  >
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      ria-controls={`${subModule?.name}-content`}
-                      id={`${subModule?.name}-header`}
-                    >
-                      <Typography>{subModule?.name}</Typography>
-                    </AccordionSummary>
-
-                    <AccordionDetails>
-                      <Grid container spacing={1}>
-                        {subModule?.permissions?.map((item: any) => (
-                          <Grid item xs={12} md={4} key={item?.slug}>
-                            <RHFCheckbox name={item?.slug} label={item?.name} />
-                          </Grid>
-                        ))}
-                      </Grid>
-                    </AccordionDetails>
-                  </Accordion>
-                ))}
-              </Fragment>
-            ))}
+            <PermissionsAccordion />
           </Grid>
 
           <Grid item xs={12} textAlign={'end'}>
