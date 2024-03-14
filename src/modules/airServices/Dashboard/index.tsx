@@ -18,6 +18,7 @@ import NoData from '@/components/NoData';
 import { NoAssociationFoundImage } from '@/assets/images';
 import { PieChart } from './Chart/PieChart';
 import { TicketBased } from './Chart/TicketBased';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const Dashboard = () => {
   const {
@@ -31,6 +32,8 @@ const Dashboard = () => {
     cardData,
     customerAnnouncement,
     recentActivities,
+    isLoading,
+    isFetching,
   } = useDashboard();
 
   return (
@@ -86,11 +89,13 @@ const Dashboard = () => {
                   <Box marginLeft={2}>
                     <Typography variant="h5">Recent Activities</Typography>
                   </Box>
-                  {recentActivitiesDashboardCardData(recentActivities)?.length >
-                  0 ? (
+                  {isLoading || isFetching ? (
+                    <SkeletonTable />
+                  ) : recentActivitiesDashboardCardData(recentActivities)
+                      .length > 0 ? (
                     <Box marginTop={2} overflow={'scroll'} height={'35vh'}>
                       {recentActivitiesDashboardCardData(recentActivities)?.map(
-                        (item: any, index: any) => (
+                        (item: any, index: any, arr: any) => (
                           <Box key={item?._id}>
                             <RecentActivitiesDashboardCard
                               icon={item?.icon}
@@ -108,11 +113,7 @@ const Dashboard = () => {
                               recentActivityDateTime={
                                 item?.recentActivityDateTime
                               }
-                              isBorderBottom={
-                                recentActivitiesDashboardCardData?.length -
-                                  1 !==
-                                index
-                              }
+                              isBorderBottom={arr.length - 1 !== index}
                             />
                           </Box>
                         ),
@@ -150,6 +151,7 @@ const Dashboard = () => {
                   <PieChart />
                 </Box>
               </Grid>
+
               <Grid item xs={12} lg={4}>
                 {topPerformerDashboardCardData &&
                 topPerformerDashboardCardData.length > 0 ? (
@@ -187,8 +189,10 @@ const Dashboard = () => {
                     <AnnouncementHeader />
                   </Box>
 
-                  {announcementDashboardCardData(customerAnnouncement)?.length >
-                  0 ? (
+                  {isLoading || isFetching ? (
+                    <SkeletonTable />
+                  ) : recentActivitiesDashboardCardData(recentActivities)
+                      .length > 0 ? (
                     <Box overflow={'scroll'} height={'26vh'}>
                       {announcementDashboardCardData(customerAnnouncement)?.map(
                         (item, index) => (
