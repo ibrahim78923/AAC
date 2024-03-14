@@ -54,7 +54,10 @@ export function useHeader() {
       pathname: AIR_SERVICES?.ASSETS_SOFTWARE,
     });
   };
-  const [getSoftwareByIdTrigger, { data }] = useLazyGetSoftwareByIdQuery();
+  const [
+    getSoftwareByIdTrigger,
+    { data, isLoading: softwareLoading, isFetching: softwareFetching },
+  ] = useLazyGetSoftwareByIdQuery();
   const softwareByIdParams = { id: softwareId };
   const softwareData = data?.data?.find((item: any) => item);
   const [editSoftwareTrigger, { isLoading: editLoading }] =
@@ -67,10 +70,15 @@ export function useHeader() {
   useEffect(() => {
     const handleSoftware = async () => {
       await getSoftwareByIdTrigger(softwareByIdParams);
-      reset(upsertSoftwareFormDefaultValues(softwareData));
     };
     handleSoftware();
-  }, [anchorEl, softwareId]);
+  }, [softwareId, getSoftwareByIdTrigger]);
+  useEffect(() => {
+    const handleOpenDrawer = () => {
+      reset(upsertSoftwareFormDefaultValues(softwareData));
+    };
+    handleOpenDrawer();
+  }, [anchorEl]);
   const submitUpsertSoftware = async (formData: any) => {
     const editSoftwareParams = {
       id: softwareId,
@@ -120,5 +128,8 @@ export function useHeader() {
     onClose,
     methods,
     editLoading,
+    softwareFetching,
+    softwareLoading,
+    softwareData,
   };
 }

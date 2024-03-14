@@ -41,7 +41,7 @@ export const useTicketDelete = (props: any) => {
       );
       closeTicketsDeleteModal?.();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
       setSelectedTicketList?.([]);
       closeTicketsDeleteModal?.();
     }

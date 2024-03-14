@@ -108,7 +108,11 @@ export const addExpenseColumnsFunction = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={selectedExpenseList?.length === expenseData?.length}
+        checked={
+          !!expenseData?.length
+            ? selectedExpenseList?.length === expenseData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedExpenseList([...expenseData])

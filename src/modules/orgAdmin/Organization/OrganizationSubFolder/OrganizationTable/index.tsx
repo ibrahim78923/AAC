@@ -9,7 +9,6 @@ import {
   Menu,
   MenuItem,
   Typography,
-  Checkbox,
   InputAdornment,
 } from '@mui/material';
 
@@ -18,6 +17,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 import {
   FormProvider,
+  RHFCheckbox,
   RHFDropZone,
   RHFSelect,
   RHFTextField,
@@ -41,6 +41,7 @@ import { styles } from './OrganizationTable.style';
 import CommonModal from '@/components/CommonModal';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_ORGANIZATION_PERMISSIONS } from '@/constants/permission-keys';
+import useAuth from '@/hooks/useAuth';
 
 const OrganizationTable = () => {
   const {
@@ -69,7 +70,9 @@ const OrganizationTable = () => {
     setValue,
     drawerHeading,
     setDrawerHeading,
+    loadingAddCompanyAccount,
   } = useOrganizationTable();
+  const { user }: any = useAuth();
 
   return (
     <>
@@ -83,6 +86,7 @@ const OrganizationTable = () => {
         isOk
         footer={true}
         submitHandler={handleSubmit(onSubmit)}
+        isLoading={loadingAddCompanyAccount}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
@@ -120,54 +124,24 @@ const OrganizationTable = () => {
                 display: 'flex',
                 columnGap: '1rem',
                 alignItems: 'center',
-                overflowY: 'scroll',
+                overflowX: 'auto',
                 marginBottom: '1rem',
               }}
             >
-              <Box sx={styles?.productCard}>
-                <Checkbox
-                  sx={{
-                    marginLeft: '7rem',
-                  }}
-                />
-                <Box sx={styles?.productItem}>
-                  <Image src={FeaturedImage} alt="1" />
-                  <Typography>Sales</Typography>
+              {user?.products?.map((product: any) => (
+                <Box sx={styles?.productCard} key={product?._id}>
+                  <RHFCheckbox
+                    name={product?._id}
+                    sx={{
+                      marginLeft: '7rem',
+                    }}
+                  />
+                  <Box sx={styles?.productItem}>
+                    <Image src={FeaturedImage} alt="1" />
+                    <Typography>{product?.name}</Typography>
+                  </Box>
                 </Box>
-              </Box>
-              <Box sx={styles?.productCard}>
-                <Checkbox
-                  sx={{
-                    marginLeft: '7rem',
-                  }}
-                />
-                <Box sx={styles?.productItem}>
-                  <Image src={FeaturedImage} alt="1" />
-                  <Typography>Marketing</Typography>
-                </Box>
-              </Box>
-              <Box sx={styles.productCard}>
-                <Checkbox
-                  sx={{
-                    marginLeft: '7rem',
-                  }}
-                />
-                <Box sx={styles?.productItem}>
-                  <Image src={FeaturedImage} alt="1" />
-                  <Typography>Service</Typography>
-                </Box>
-              </Box>
-              <Box sx={styles?.productCard}>
-                <Checkbox
-                  sx={{
-                    marginLeft: '7rem',
-                  }}
-                />
-                <Box sx={styles?.productItem}>
-                  <Image src={FeaturedImage} alt="1" />
-                  <Typography>Operation</Typography>
-                </Box>
-              </Box>
+              ))}
             </Box>
             <Grid container spacing={1}>
               {dataArray?.map((item: any) => (

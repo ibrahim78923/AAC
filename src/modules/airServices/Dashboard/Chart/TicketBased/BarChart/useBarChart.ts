@@ -1,16 +1,13 @@
-import { CustomChart } from '@/components/Chart';
-import { barChartDataOptions } from './BarChart.data';
 import { useTheme } from '@mui/material';
-import { useGetTicketsStatusGraphQuery } from '@/services/airServices/dashboard';
 
-export const BarChart = () => {
+export const useBarChart = (props: any) => {
+  const { chartData } = props;
   const theme = useTheme();
-  const { data } = useGetTicketsStatusGraphQuery(true);
   const resolvedData: number[] = [];
   const closedData: number[] = [];
   const openData: number[] = [];
   const pendingData: number[] = [];
-  data?.statusStats?.forEach((ele: any) => {
+  chartData?.statusStats?.forEach((ele: any) => {
     switch (ele?.status) {
       case 'RESOLVED':
         resolvedData?.push(ele?.count);
@@ -28,7 +25,7 @@ export const BarChart = () => {
     }
   });
 
-  const barChartData = [
+  const barChartData = () => [
     {
       data: pendingData,
       name: 'Pending',
@@ -46,13 +43,8 @@ export const BarChart = () => {
       name: 'Resolved',
     },
   ];
-
-  return (
-    <CustomChart
-      options={barChartDataOptions(theme)}
-      series={barChartData}
-      type="bar"
-      height={348}
-    />
-  );
+  return {
+    theme,
+    barChartData,
+  };
 };

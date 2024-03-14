@@ -32,7 +32,7 @@ export const columns: any = (columnsProps: any) => {
           }
         />
       ),
-      header: <Checkbox color="primary" name="Id" />,
+      header: <Checkbox color="primary" name="Id" disabled />,
       isSortable: false,
     },
     {

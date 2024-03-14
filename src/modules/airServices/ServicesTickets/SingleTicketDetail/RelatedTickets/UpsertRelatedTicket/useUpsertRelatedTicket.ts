@@ -103,8 +103,8 @@ export const useUpsertRelatedTicket: any = (props: any) => {
       successSnackbar('Child ticket added successfully');
       reset();
       setIsDrawerOpen?.(false);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -122,8 +122,8 @@ export const useUpsertRelatedTicket: any = (props: any) => {
       setSelectedChildTickets([]);
       reset();
       setIsDrawerOpen?.(false);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {

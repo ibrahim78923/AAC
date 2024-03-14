@@ -51,6 +51,7 @@ const PlanManagement = () => {
     setIsDisabled,
     tableRowValues,
     setTableRowValues,
+    filterValues,
   } = usePlanManagement();
 
   const getPlanManagementRowData = PlanDetailsDataColumnFunction(
@@ -218,6 +219,7 @@ const PlanManagement = () => {
       <PlanDetails
         searchBy={searchBy}
         getPlanManagementRowData={getPlanManagementRowData}
+        filterValues={filterValues}
       />
     </Box>
   );
