@@ -45,7 +45,11 @@ export const tasksTableColumns: any = (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
-          checked={activeCheck?.length === tableData?.length}
+          checked={
+            tableData?.length
+              ? activeCheck?.length === tableData?.length
+              : false
+          }
           onChange={(e: any) => {
             e?.target?.checked
               ? setActiveCheck([...tableData])

@@ -14,9 +14,9 @@ import {
   upsertRequestersDefaultValues,
   upsertRequestersValidationSchema,
 } from './UpsertRequesters/UpsertRequesters.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
 import { useSearchParams } from 'next/navigation';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { ROLES } from '@/constants/strings';
 
 export const useRequesters = () => {
   const theme = useTheme();
@@ -90,17 +90,12 @@ export const useRequesters = () => {
     };
     try {
       const res: any = await editRequester(formData).unwrap();
-      enqueueSnackbar(
+      successSnackbar(
         res?.data?.data?.message ?? 'Single Requesters Edit  Successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
       );
       setIsDrawerOpen(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
     handleClose?.();
   };

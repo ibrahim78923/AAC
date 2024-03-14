@@ -6,7 +6,7 @@ import { DeleteRelatedTicket } from './DeleteRelatedTicket';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
-const RelatedTickets = (props: any) => {
+const RelatedTickets = () => {
   const {
     setIsDrawerOpen,
     isDrawerOpen,
@@ -23,7 +23,9 @@ const RelatedTickets = (props: any) => {
     isFetching,
     isError,
     isSuccess,
-  } = useRelatedTickets(props);
+    getChildTicketsListData,
+    page,
+  } = useRelatedTickets();
 
   return (
     <>
@@ -32,6 +34,7 @@ const RelatedTickets = (props: any) => {
         isActive={!!!selectedChildTickets?.length}
         setIsDrawerOpen={setIsDrawerOpen}
         setSelectedChildTickets={setSelectedChildTickets}
+        data={data}
       />
 
       {isDrawerOpen && (
@@ -98,6 +101,9 @@ const RelatedTickets = (props: any) => {
           selectedChildTickets={selectedChildTickets}
           setSelectedChildTickets={setSelectedChildTickets}
           setPage={setPage}
+          totalRecords={data?.data?.tickets?.length}
+          page={page}
+          getChildTicketsListData={getChildTicketsListData}
         />
       )}
     </>

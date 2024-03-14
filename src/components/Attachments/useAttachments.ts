@@ -48,8 +48,8 @@ export const useAttachments = (props: any) => {
       successSnackbar('Attachment Deleted Successfully!');
       getSingleAttachment?.();
       setDeleteModal({ open: false, id: '' });
-    } catch (err: any) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
       setDeleteModal({ open: false, id: '' });
     }
   };

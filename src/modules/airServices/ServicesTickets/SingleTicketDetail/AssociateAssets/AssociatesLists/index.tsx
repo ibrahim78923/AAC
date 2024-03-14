@@ -8,7 +8,7 @@ import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
-export const AssociatesLists = (props: any) => {
+export const AssociatesLists = () => {
   const {
     deleteModal,
     setDeleteModal,
@@ -25,7 +25,8 @@ export const AssociatesLists = (props: any) => {
     deleteTicketsAssociatesAssets,
     setAssetId,
     router,
-  } = useAssociatesLists(props);
+    deleteTicketsAssociatesAssetsStatus,
+  } = useAssociatesLists();
 
   return (
     <>
@@ -85,19 +86,25 @@ export const AssociatesLists = (props: any) => {
           setPageLimit={setPageLimit}
         />
       </PermissionsGuard>
-      <AlertModals
-        open={deleteModal}
-        message="Are you sure you want to detach this asset ?"
-        handleClose={() => setDeleteModal(false)}
-        handleSubmitBtn={() => deleteTicketsAssociatesAssets?.()}
-        type={ALERT_MODALS_TYPE?.DELETE}
-        cancelBtnText="Cancel"
-        submitBtnText="Detach"
-      />
-      <AddAssociationsDrawer
-        open={openDrawer}
-        setDrawerOpen={() => setOpenDrawer(false)}
-      />
+      {deleteModal && (
+        <AlertModals
+          open={deleteModal}
+          message="Are you sure you want to detach this asset ?"
+          handleClose={() => setDeleteModal(false)}
+          handleSubmitBtn={() => deleteTicketsAssociatesAssets?.()}
+          type={ALERT_MODALS_TYPE?.DELETE}
+          cancelBtnText="Cancel"
+          submitBtnText="Detach"
+          loading={deleteTicketsAssociatesAssetsStatus?.isLoading}
+          disableCancelBtn={deleteTicketsAssociatesAssetsStatus?.isLoading}
+        />
+      )}
+      {openDrawer && (
+        <AddAssociationsDrawer
+          open={openDrawer}
+          setDrawerOpen={() => setOpenDrawer(false)}
+        />
+      )}
     </>
   );
 };

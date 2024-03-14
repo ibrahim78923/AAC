@@ -1,25 +1,28 @@
-import dayjs from 'dayjs';
-import { useGetActivityLogQuery } from '@/services/airServices/tickets/single-ticket-details/activities';
 import { useTheme } from '@mui/material';
+import { useSearchParams } from 'next/navigation';
+import { useGetSingleContractByIdQuery } from '@/services/airServices/assets/contracts';
 
 export const useActivity = () => {
   const theme = useTheme();
-  const { data } = useGetActivityLogQuery(null);
+  const contractId = useSearchParams()?.get('contractId');
 
-  const activitiesData =
-    data?.data?.activitylogs?.map((activity: any) => ({
-      createdBy: activity?.performedByName || '---',
-      createdByOne:
-        `${activity?.activityType} ${activity?.moduleName}` || '---',
-      timeOne:
-        (activity?.createdAt &&
-          dayjs(activity?.createdAt)?.format('ddd, D MMM, YYYY h:mm A')) ||
-        '---',
-      timeTwo: activity?.activityType || '---',
-    })) || [];
+  const getSingleContractParameter = {
+    pathParam: {
+      contractId,
+    },
+  };
 
+  const { data, isLoading, isFetching, isError }: any =
+    useGetSingleContractByIdQuery(getSingleContractParameter, {
+      skip: !!!contractId,
+    });
+
+  const contractHistory = data?.data?.history;
   return {
-    activitiesData,
+    isLoading,
+    isError,
+    isFetching,
     theme,
+    contractHistory,
   };
 };

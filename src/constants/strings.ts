@@ -401,3 +401,14 @@ export const TICKET_SELECTION_TYPE = {
   SUBJECT: 'SUBJECT',
   ID: 'ID',
 };
+export const TICKET_GRAPH_TYPES = {
+  STATUS: 'status',
+  PRIORITY: 'pirority',
+};
+
+export const TICKET_SOURCE = {
+  PHONE: 'PHONE',
+  EMAIL: 'EMAIL',
+  PORTAL: 'PORTAL',
+  CHAT: 'CHAT',
+};

@@ -96,8 +96,8 @@ export const useUpsertArticle: any = () => {
       await postArticleTrigger(postArticleParameter)?.unwrap();
       successSnackbar('Article Added successfully');
       router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -110,8 +110,8 @@ export const useUpsertArticle: any = () => {
       await patchArticleTrigger(patchArticleParameter)?.unwrap();
       successSnackbar('Article Updated successfully');
       router?.push(AIR_SERVICES?.KNOWLEDGE_BASE);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
