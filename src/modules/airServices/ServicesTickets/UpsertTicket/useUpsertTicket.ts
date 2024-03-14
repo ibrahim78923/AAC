@@ -28,6 +28,8 @@ export const useUpsertTicket = (props: any) => {
     ticketId,
     setSelectedTicketList,
     setFilterTicketLists,
+    getTicketsListData,
+    setPage,
   } = props;
 
   const router = useRouter();
@@ -58,8 +60,6 @@ export const useUpsertTicket = (props: any) => {
   const { handleSubmit, reset } = methods;
 
   const submitUpsertTicket = async (data: any) => {
-    setFilterTicketLists({});
-
     const upsertTicketFormData = new FormData();
     upsertTicketFormData?.append('requester', data?.requester?._id);
     upsertTicketFormData?.append('subject', data?.subject);
@@ -103,9 +103,12 @@ export const useUpsertTicket = (props: any) => {
       await postTicketTrigger(postTicketParameter)?.unwrap();
       successSnackbar('Ticket Added Successfully');
       reset();
+      getTicketsListData(1, {});
+      setFilterTicketLists?.({});
+      setPage?.(1);
       setIsDrawerOpen?.(false);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -122,9 +125,12 @@ export const useUpsertTicket = (props: any) => {
       successSnackbar('Ticket Updated Successfully');
       setSelectedTicketList([]);
       reset();
+      getTicketsListData(1, {});
+      setFilterTicketLists?.({});
+      setPage?.(1);
       setIsDrawerOpen?.(false);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {

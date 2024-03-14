@@ -101,7 +101,7 @@ export const requestersList: any = (
         gap={1}
         onClick={() => {
           if (info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE) {
-            errorSnackbar('This agent is not active');
+            errorSnackbar('This requester is not active');
             return;
           }
           router?.push({
@@ -168,8 +168,8 @@ export const requestersList: any = (
         status === REQUESTORS_STATUS?.ACTIVE
           ? theme?.palette?.success?.main
           : status === REQUESTORS_STATUS?.INACTIVE
-          ? theme?.palette?.warning?.main
-          : '';
+            ? theme?.palette?.warning?.main
+            : '';
 
       return (
         <Typography

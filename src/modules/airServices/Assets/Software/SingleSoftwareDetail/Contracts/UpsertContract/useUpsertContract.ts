@@ -10,7 +10,6 @@ import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 import {
   useLazyGetVendorDropdownQuery,
-  useLazyGetDropdownAssetsQuery,
   usePostContractMutation,
   useLazyGetSoftwareDropdownQuery,
   useLazyGetAgentsDropdownQuery,
@@ -96,18 +95,16 @@ export const useUpsertContract = () => {
       successSnackbar('Contract created successfully');
       handleCancelBtn?.();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
   const apiQueryVendor = useLazyGetVendorDropdownQuery();
-  const apiQueryAsset = useLazyGetDropdownAssetsQuery();
   const apiQueryApprover = useLazyGetAgentsDropdownQuery();
   const apiQuerySoftware = useLazyGetSoftwareDropdownQuery();
 
   const upsertContractFormFieldsData = upsertContractFormFieldsDataFunction(
     watchForNotifyExpiry,
     apiQueryVendor,
-    apiQueryAsset,
     apiQueryApprover,
     apiQuerySoftware,
   );
