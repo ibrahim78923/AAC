@@ -19,6 +19,8 @@ export const Overview = () => {
     uniqueNumber,
     isLoading,
     isFetching,
+    handleRowClick,
+    rowData,
   } = useOverview();
   if (isLoading || isFetching) return <Skeleton />;
   return (
@@ -58,7 +60,7 @@ export const Overview = () => {
         <TanstackTable
           data={purchaseOrderDetailData}
           columns={overviewTableColumns(
-            setOpenOverviewModal,
+            handleRowClick,
             purchaseOrderDetailData,
             itemName,
             theme,
@@ -73,17 +75,20 @@ export const Overview = () => {
         />
       </Box>
       <Box>
-        <OverviewModel
-          openOverviewModal={openOverviewModal}
-          setOpenOverviewModal={setOpenOverviewModal}
-          purchaseOrderDetailData={purchaseOrderDetailData}
-          purchaseOrderData={purchaseOrderData}
-          theme={theme}
-          orderStatus={orderStatus}
-          handleDownload={handleDownload}
-          uniqueNumber={uniqueNumber}
-          itemName={itemName}
-        />
+        {openOverviewModal && (
+          <OverviewModel
+            openOverviewModal={openOverviewModal}
+            setOpenOverviewModal={setOpenOverviewModal}
+            purchaseOrderDetailData={purchaseOrderDetailData}
+            purchaseOrderData={purchaseOrderData}
+            theme={theme}
+            orderStatus={orderStatus}
+            handleDownload={handleDownload}
+            uniqueNumber={uniqueNumber}
+            itemName={itemName}
+            rowData={rowData}
+          />
+        )}
       </Box>
     </Box>
   );

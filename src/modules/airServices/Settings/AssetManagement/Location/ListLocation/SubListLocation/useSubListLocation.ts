@@ -3,19 +3,18 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
 
-export const useSubListLocation = (props: any) => {
-  const { parentId, childId } = props;
+export const useSubListLocation = () => {
   const theme: any = useTheme();
   const [showIcon, setShowIcon] = useState(false);
   const [isOpenAlert, setIsOpenAlert] = useState(false);
   const [deleteChildTrigger] = useDeleteChildLocationMutation();
-  const handleDeleteSubmit = async () => {
+
+  const handleDeleteSubmit = async (parentId: string, childId: string) => {
     try {
-      const param = {
+      await deleteChildTrigger({
         id: childId,
         parentId: parentId,
-      };
-      await deleteChildTrigger(param)?.unwrap();
+      }).unwrap();
       successSnackbar('Delete successfully');
       setIsOpenAlert(false);
     } catch (error: any) {

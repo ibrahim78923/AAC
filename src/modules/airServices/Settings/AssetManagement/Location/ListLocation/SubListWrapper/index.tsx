@@ -31,6 +31,7 @@ export const SubListWrapper = ({ children, parentId, ChildId }: any) => {
               router?.push({
                 pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
                 query: {
+                  type: 'child',
                   parentId: parentId,
                   ChildId: ChildId,
                 },

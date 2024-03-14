@@ -2,6 +2,7 @@ import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 import { Typography } from '@mui/material';
 
 export const overviewTablePdfColumns: any = (
+  singlePurchaseOrderDetailData: any,
   purchaseOrderDetailData: any,
   itemName: any,
   theme: any,
@@ -22,13 +23,23 @@ export const overviewTablePdfColumns: any = (
       accessorFn: (row: any) => row?.description,
       id: 'description',
       header: 'Description',
-      cell: (info: any) => info?.getValue(),
+      cell: () => {
+        return (
+          <Typography>
+            {singlePurchaseOrderDetailData?.description?.slice?.(0, 30)}
+          </Typography>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.costPerItem,
       id: 'costPerItem',
       header: 'Cost Per Item',
-      cell: (info: any) => info?.getValue(),
+      cell: () => {
+        return (
+          <Typography>{singlePurchaseOrderDetailData?.costPerItem}</Typography>
+        );
+      },
     },
   ];
   if (orderStatus === PURCHASE_ORDER_STATUS?.RECEIVED) {
@@ -39,9 +50,7 @@ export const overviewTablePdfColumns: any = (
         header: 'Received Vs Ordered',
         cell: () => (
           <Typography>
-            {`${purchaseOrderDetailData?.map(
-              (item: any) => item?.received,
-            )}/${purchaseOrderDetailData?.map((item: any) => item?.quantity)}`}
+            {`${singlePurchaseOrderDetailData?.received}/${singlePurchaseOrderDetailData?.quantity}`}
           </Typography>
         ),
       },
@@ -49,12 +58,11 @@ export const overviewTablePdfColumns: any = (
         accessorFn: (row: any) => row?.quantity,
         id: 'pending',
         header: 'Pending',
-        cell: (info: any) =>
-          info?.getValue(
-            <Typography>
-              {purchaseOrderDetailData?.map((item: any) => item?.quantity)}
-            </Typography>,
-          ),
+        cell: () => {
+          return (
+            <Typography>{singlePurchaseOrderDetailData?.quantity}</Typography>
+          );
+        },
       },
     );
   } else {
@@ -62,7 +70,11 @@ export const overviewTablePdfColumns: any = (
       accessorFn: (row: any) => row?.quantity,
       id: 'quantity',
       header: 'Quantity',
-      cell: (info: any) => info?.getValue(),
+      cell: () => {
+        return (
+          <Typography>{singlePurchaseOrderDetailData?.quantity}</Typography>
+        );
+      },
     });
   }
   columns.push(
@@ -70,7 +82,11 @@ export const overviewTablePdfColumns: any = (
       accessorFn: (row: any) => row?.taxRate,
       id: 'taxRate',
       header: 'Tax Rate (%)',
-      cell: (info: any) => info?.getValue(),
+      cell: () => {
+        return (
+          <Typography>{singlePurchaseOrderDetailData?.taxRate}</Typography>
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.total,

@@ -21,25 +21,26 @@ const AddNewLocation = () => {
     childLocationIsLoading,
     childOnsubmit,
     parentId,
-    childId,
     editOnSubmit,
     childEditOnSubmit,
     handleCancel,
-    parentLocationName,
+    type,
   } = useAddNewLocation();
+  let handleSubmit;
+  if (type === 'parent-edit') {
+    handleSubmit = editOnSubmit;
+  } else if (type === 'child') {
+    handleSubmit = childOnsubmit;
+  } else if (type === 'child-edit') {
+    handleSubmit = childEditOnSubmit;
+  } else {
+    handleSubmit = onSubmit;
+  }
   return (
     <>
       <FormProvider
         methods={AddNewLocationMethods}
-        onSubmit={
-          childId
-            ? AddNewLocationMethods?.handleSubmit(childEditOnSubmit)
-            : parentId
-              ? AddNewLocationMethods?.handleSubmit(editOnSubmit)
-              : parentId
-                ? AddNewLocationMethods?.handleSubmit(childOnsubmit)
-                : AddNewLocationMethods?.handleSubmit(onSubmit)
-        }
+        onSubmit={AddNewLocationMethods?.handleSubmit(handleSubmit)}
       >
         <Grid container rowSpacing={1.8} columnSpacing={2}>
           <Grid item lg={9}>
@@ -54,15 +55,21 @@ const AddNewLocation = () => {
             </Box>
             <Grid item container xs={12} overflow="scroll">
               <Grid container rowSpacing={1.8} columnSpacing={3}>
-                {addNewLocationDataFields?.map((form: any, index) =>
-                  parentLocationName && childId ? (
-                    <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                      <form.component {...form?.componentProps} size="small">
-                        {form?.heading ? form?.heading : null}
-                      </form.component>
-                    </Grid>
-                  ) : index === 1 ? null : (
-                    <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                {addNewLocationDataFields(type)?.map(
+                  (form: any, index: number) => (
+                    <Grid
+                      item
+                      xs={12}
+                      md={form?.gridLength}
+                      key={form?.id}
+                      sx={{
+                        display:
+                          (type === 'parent' || type === 'parent-edit') &&
+                          index === 1
+                            ? 'none'
+                            : 'block',
+                      }}
+                    >
                       <form.component {...form?.componentProps} size="small">
                         {form?.heading ? form?.heading : null}
                       </form.component>

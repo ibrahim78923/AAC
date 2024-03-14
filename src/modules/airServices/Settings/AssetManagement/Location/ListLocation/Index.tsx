@@ -22,29 +22,21 @@ export const ListLocation = () => {
                 continents={item?.locationName}
                 handleCollapse={() => handleCollapse(index)}
               />
-              {isLoading ? (
-                <SkeletonTable />
-              ) : (
-                <>
-                  {collapseItem === index && !!item?.Locations && (
-                    <SubListWrapper
-                      parentId={item?._id}
-                      ChildId={item?.Locations?.map(
-                        (subItem: any) => subItem?._id,
-                      )}
-                    >
-                      {item?.Locations?.map((subItem: any) => (
-                        <Box key={subItem?._id}>
-                          <SubListLocation
-                            country={subItem?.locationName}
-                            childId={subItem?._id}
-                            parentId={item?._id}
-                          />
-                        </Box>
-                      ))}
-                    </SubListWrapper>
-                  )}
-                </>
+              {collapseItem === index && !!item?.Locations && (
+                <SubListWrapper
+                  parentId={item?._id}
+                  ChildId={item?.Locations?.map((subItem: any) => subItem?._id)}
+                >
+                  {item?.Locations?.map((subItem: any) => (
+                    <Box key={subItem?._id}>
+                      <SubListLocation
+                        country={subItem?.locationName}
+                        childId={subItem?._id}
+                        parentId={item?._id}
+                      />
+                    </Box>
+                  ))}
+                </SubListWrapper>
               )}
             </Box>
           ))}

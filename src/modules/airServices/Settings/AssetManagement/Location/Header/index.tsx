@@ -51,6 +51,9 @@ export const Header = () => {
               onClick={() =>
                 router?.push({
                   pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
+                  query: {
+                    type: 'parent',
+                  },
                 })
               }
             >

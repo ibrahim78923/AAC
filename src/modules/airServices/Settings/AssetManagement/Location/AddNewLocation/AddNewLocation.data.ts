@@ -2,31 +2,40 @@ import * as yup from 'yup';
 import { RHFTextField } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
 
-export const validationSchemaAddNewLocation: any = yup?.object()?.shape({
-  locationName: yup?.string()?.required('Required'),
-  parentLocation: yup?.string(),
-  contactName: yup?.string(),
-  email: yup?.string(),
-  phone: yup?.string(),
+export const validationSchemaAddNewLocation = yup.object().shape({
+  locationName: yup.string().required('Required'),
+  contactName: yup.string(),
+  email: yup.string().nullable(),
+  phone: yup.string().nullable(),
+  address: yup.object().shape({
+    addressLine1: yup.string(),
+    addressLine2: yup.string(),
+    city: yup.string(),
+    country: yup.string(),
+    state: yup.string(),
+    zipCode: yup.string(),
+  }),
 });
 
-export const locationDefaultValues = ({
-  editDataArray,
-  childEditDataArray,
-  parentLocationName,
-}: any) => {
+export const locationDefaultValues = (locationData: any) => {
   return {
-    locationName:
-      childEditDataArray?.locationName ?? editDataArray?.locationName ?? '',
-    parentLocation: parentLocationName,
-    contactName:
-      childEditDataArray?.contactName ?? editDataArray?.contactName ?? '',
-    email: childEditDataArray?.email ?? editDataArray?.email ?? '',
-    phone: childEditDataArray?.phone ?? editDataArray?.phone ?? '',
+    locationName: locationData?.locationName ?? '',
+    parentLocation: locationData?.parentLocation,
+    contactName: locationData?.contactName ?? '',
+    email: locationData?.email ?? null,
+    phone: locationData?.phone ?? null,
+    address: {
+      addressLine1: locationData?.address?.addressLine1 ?? '',
+      addressLine2: locationData?.address?.addressLine2 ?? '',
+      city: locationData?.address?.city ?? '',
+      country: locationData?.address?.country ?? '',
+      state: locationData?.address?.state ?? '',
+      zipCode: locationData?.address?.zipCode ?? '',
+    },
   };
 };
 
-export const addNewLocationDataFields = [
+export const addNewLocationDataFields = (type: string) => [
   {
     id: 1,
     gridLength: 6,
@@ -44,7 +53,7 @@ export const addNewLocationDataFields = [
     gridLength: 6,
     componentProps: {
       fullWidth: true,
-      disabled: true,
+      disabled: type === 'child' || 'child-edit' ? true : false,
       name: 'parentLocation',
       label: 'Parent Location',
     },
@@ -99,7 +108,7 @@ export const addNewLocationDataFields = [
     id: 7,
     componentProps: {
       fullWidth: true,
-      name: 'addressLine1',
+      name: 'address.addressLine1',
       label: 'Address Line 1',
     },
     gridLength: 6,
@@ -110,7 +119,7 @@ export const addNewLocationDataFields = [
     id: 8,
     componentProps: {
       fullWidth: true,
-      name: 'addressLine2',
+      name: 'address.addressLine2',
       label: 'Address Line 2',
     },
     gridLength: 6,
@@ -121,7 +130,7 @@ export const addNewLocationDataFields = [
     id: 9,
     componentProps: {
       fullWidth: true,
-      name: 'city',
+      name: 'address.city',
       label: 'City',
     },
     gridLength: 6,
@@ -132,7 +141,7 @@ export const addNewLocationDataFields = [
     id: 10,
     componentProps: {
       fullWidth: true,
-      name: 'country',
+      name: 'address.country',
       label: 'Country',
     },
     component: RHFTextField,
@@ -143,7 +152,7 @@ export const addNewLocationDataFields = [
     id: 11,
     componentProps: {
       fullWidth: true,
-      name: 'state',
+      name: 'address.state',
       label: 'State',
     },
     component: RHFTextField,
@@ -154,7 +163,7 @@ export const addNewLocationDataFields = [
     id: 12,
     componentProps: {
       fullWidth: true,
-      name: 'zipCode',
+      name: 'address.zipCode',
       label: 'Zip Code',
     },
     component: RHFTextField,

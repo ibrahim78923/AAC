@@ -14,19 +14,29 @@ import {
   useGetByIdLocationQuery,
 } from '@/services/airServices/settings/asset-management/location';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useEffect } from 'react';
 
 export const useAddNewLocation = () => {
   const router = useRouter();
-  const { parentId, childId }: any = router.query;
+  const { parentId, childId, type }: any = router.query;
   const { data } = useGetByIdLocationQuery(parentId);
-
-  const parentLocationName = data?.data?.locationName;
+  const { data: childData } = useGetByIdLocationQuery(childId);
+  const childLocationData = childData?.data;
+  const locationData = data?.data;
+  const parentD = { parentLocation: locationData?.locationName };
   const AddNewLocationMethods = useForm({
     resolver: yupResolver(validationSchemaAddNewLocation),
-    defaultValues: locationDefaultValues({
-      parentLocationName,
-    }),
+    defaultValues: locationDefaultValues(
+      type === 'parent-edit'
+        ? locationData
+        : type === 'child'
+          ? parentD
+          : type === 'child-edit'
+            ? childLocationData
+            : null,
+    ),
   });
+  const { reset } = AddNewLocationMethods;
   const [postLocationTrigger, postLocationProgress] = usePostLocationMutation();
   const [postChildLocationTrigger, postChildLocationProgress] =
     usePostChildLocationMutation();
@@ -43,23 +53,8 @@ export const useAddNewLocation = () => {
   };
 
   const childOnsubmit = async (data: any) => {
-    const locationData = {
-      locationName: data?.locationName,
-      parentLocation: data?.parentLocation ?? '',
-      contactName: data?.contactName,
-      email: data?.email,
-      phone: data?.phone,
-      address: {
-        addressLine1: data?.addressLine1,
-        addressLine2: data?.addressLine2,
-        city: data?.city,
-        country: data?.country,
-        state: data?.state,
-        zipCode: data?.zipCode,
-      },
-    };
     const postChildLocationParameter = {
-      body: locationData,
+      body: data,
       id: parentId,
     };
     try {
@@ -69,53 +64,23 @@ export const useAddNewLocation = () => {
     } catch (error: any) {
       errorSnackbar();
     }
-    AddNewLocationMethods?.reset?.();
+    reset();
   };
 
   const onSubmit = async (data: any) => {
-    const locationData = {
-      locationName: data?.locationName,
-      contactName: data?.contactName,
-      email: data?.email,
-      phone: data?.phone,
-      address: {
-        addressLine1: data?.addressLine1,
-        addressLine2: data?.addressLine2,
-        city: data?.city,
-        country: data?.country,
-        state: data?.state,
-        zipCode: data?.zipCode,
-      },
-    };
     try {
-      await postLocationTrigger(locationData).unwrap();
+      await postLocationTrigger(data).unwrap();
       successSnackbar('Location Added Successfully');
-      AddNewLocationMethods?.reset?.();
       moveToLocationPage();
-      AddNewLocationMethods?.reset?.();
+      reset();
     } catch (error: any) {
       errorSnackbar();
     }
   };
 
   const editOnSubmit = async (data: any) => {
-    const locationData = {
-      locationName: data?.locationName,
-      parentLocation: data?.parentLocation,
-      contactName: data?.contactName,
-      email: data?.email,
-      phone: data?.phone,
-      address: {
-        addressLine1: data?.addressLine1,
-        addressLine2: data?.addressLine2,
-        city: data?.city,
-        country: data?.country,
-        state: data?.state,
-        zipCode: data?.zipCode,
-      },
-    };
     const putLocationParameter = {
-      body: locationData,
+      body: data,
       id: parentId,
     };
     try {
@@ -125,27 +90,12 @@ export const useAddNewLocation = () => {
     } catch (error: any) {
       errorSnackbar();
     }
-    AddNewLocationMethods?.reset?.();
+    reset();
   };
 
   const childEditOnSubmit = async (data: any) => {
-    const locationData = {
-      locationName: data?.locationName,
-      parentLocation: data?.parentLocation,
-      contactName: data?.contactName,
-      email: data?.email,
-      phone: data?.phone,
-      address: {
-        addressLine1: data?.addressLine1,
-        addressLine2: data?.addressLine2,
-        city: data?.city,
-        country: data?.country,
-        state: data?.state,
-        zipCode: data?.zipCode,
-      },
-    };
     const putChildLocationParameter = {
-      body: locationData,
+      body: data,
       id: childId,
     };
     try {
@@ -155,12 +105,26 @@ export const useAddNewLocation = () => {
     } catch (error: any) {
       errorSnackbar();
     }
-    AddNewLocationMethods?.reset?.();
+    reset();
   };
   const handleCancel = () => {
-    AddNewLocationMethods?.reset?.();
+    reset();
     moveToLocationPage();
   };
+
+  useEffect(() => {
+    reset(
+      locationDefaultValues(
+        type === 'parent-edit'
+          ? locationData
+          : type === 'child'
+            ? parentD
+            : type === 'child-edit'
+              ? childLocationData
+              : null,
+      ),
+    );
+  }, [data, type, locationData, childLocationData]);
 
   return {
     AddNewLocationMethods,
@@ -174,6 +138,6 @@ export const useAddNewLocation = () => {
     childId,
     childEditOnSubmit,
     handleCancel,
-    parentLocationName,
+    type,
   };
 };

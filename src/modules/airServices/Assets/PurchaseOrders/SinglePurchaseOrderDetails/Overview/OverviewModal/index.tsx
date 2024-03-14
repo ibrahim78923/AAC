@@ -24,7 +24,9 @@ const OverviewModal = ({
   orderStatus,
   handleDownload,
   uniqueNumber,
+  rowData,
 }: any) => {
+  const singlePurchaseOrderDetailData = purchaseOrderDetailData[0];
   return (
     <Box>
       <Dialog
@@ -101,8 +103,9 @@ const OverviewModal = ({
           </Box>
           <Box px={{ md: '3rem', xs: '1rem' }}>
             <TanstackTable
-              data={purchaseOrderDetailData}
+              data={[rowData]}
               columns={overviewTablePdfColumns(
+                singlePurchaseOrderDetailData,
                 purchaseOrderDetailData,
                 itemName,
                 theme,
@@ -114,6 +117,7 @@ const OverviewModal = ({
             <OverviewBilling
               purchaseOrderDetailData={purchaseOrderDetailData}
               purchaseOrderData={purchaseOrderData}
+              rowData={rowData}
             />
           </Box>
         </DialogContent>

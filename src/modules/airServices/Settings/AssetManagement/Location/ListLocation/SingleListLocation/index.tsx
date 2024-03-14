@@ -14,14 +14,8 @@ import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants
 
 export const SingleListLocation = (props: any) => {
   const { continents, handleCollapse, parentId } = props;
-  const {
-    showIcon,
-    setShowIcon,
-    theme,
-    setIsOpenAlert,
-    isOpenAlert,
-    handleDeleteSubmit,
-  } = useSingleListLocation(props);
+  const { theme, setIsOpenAlert, isOpenAlert, handleDeleteSubmit } =
+    useSingleListLocation(props);
   return (
     <>
       <Box
@@ -33,9 +27,15 @@ export const SingleListLocation = (props: any) => {
         boxShadow={2}
         padding={1.5}
         borderRadius={2}
-        sx={{ cursor: 'pointer' }}
-        onMouseEnter={() => setShowIcon(true)}
-        onMouseLeave={() => setShowIcon(false)}
+        sx={{
+          cursor: 'pointer',
+          '&:hover': {
+            '& .icon_wrapper': {
+              opacity: 1,
+              visibility: 1,
+            },
+          },
+        }}
         mb={2}
         mt={2}
       >
@@ -59,39 +59,39 @@ export const SingleListLocation = (props: any) => {
             AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.VIEW_EDIT_DELETE_LOCATIONS,
           ]}
         >
-          <Box gap={1} display={'flex'}>
-            {showIcon && (
-              <AddCircleRoundedIcon
-                color="primary"
-                fontSize="small"
-                onClick={() =>
-                  router?.push({
-                    pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
-                  })
-                }
-              />
-            )}
-            {showIcon && (
-              <BorderColorIcon
-                fontSize="small"
-                color="primary"
-                onClick={() =>
-                  router?.push({
-                    pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
-                    query: {
-                      parentId: parentId,
-                    },
-                  })
-                }
-              />
-            )}
-            {showIcon && (
-              <DeleteIcon
-                fontSize="small"
-                color="primary"
-                onClick={() => setIsOpenAlert(true)}
-              />
-            )}
+          <Box
+            gap={1}
+            display={'flex'}
+            className="icon_wrapper"
+            sx={{ opacity: 0, visibility: 0 }}
+          >
+            <AddCircleRoundedIcon
+              color="primary"
+              fontSize="small"
+              onClick={() =>
+                router?.push({
+                  pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
+                })
+              }
+            />
+            <BorderColorIcon
+              fontSize="small"
+              color="primary"
+              onClick={() =>
+                router?.push({
+                  pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
+                  query: {
+                    type: 'parent-edit',
+                    parentId: parentId,
+                  },
+                })
+              }
+            />
+            <DeleteIcon
+              fontSize="small"
+              color="primary"
+              onClick={() => setIsOpenAlert(true)}
+            />
           </Box>
         </PermissionsGuard>
       </Box>

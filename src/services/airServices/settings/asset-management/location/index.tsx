@@ -45,7 +45,7 @@ export const locationAPI = baseAPI?.injectEndpoints({
     }),
     putLocation: builder.mutation({
       query: (putLocationParameter: any) => ({
-        url: `${PUT_LOCATION}?id=${putLocationParameter?.id}`,
+        url: `${PUT_LOCATION}/${putLocationParameter?.id}`,
         method: 'PUT',
         body: putLocationParameter?.body,
       }),
@@ -53,17 +53,17 @@ export const locationAPI = baseAPI?.injectEndpoints({
     }),
     putChildLocation: builder.mutation({
       query: (putChildLocationParameter: any) => ({
-        url: `${PUT_LOCATION}?id=${putChildLocationParameter?.id}`,
+        url: `${PUT_LOCATION}/${putChildLocationParameter?.id}`,
         method: 'PUT',
         body: putChildLocationParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
     deleteChildLocation: builder.mutation({
-      query: (params: any) => ({
-        url: `${DELETE_CHILD_LOCATION}/{id}`,
-        method: 'DELETE',
-        params,
+      query: ({ ...body }) => ({
+        url: `${DELETE_CHILD_LOCATION}`,
+        method: 'PUT',
+        body,
       }),
       invalidatesTags: [TAG],
     }),

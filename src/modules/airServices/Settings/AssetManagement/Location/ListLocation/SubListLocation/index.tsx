@@ -75,6 +75,7 @@ export const SubListLocation = (props: any) => {
                   router?.push({
                     pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
                     query: {
+                      type: 'child-edit',
                       parentId: parentId,
                       childId: childId,
                     },
@@ -97,7 +98,9 @@ export const SubListLocation = (props: any) => {
         type={ALERT_MODALS_TYPE?.DELETE}
         open={isOpenAlert}
         handleClose={() => setIsOpenAlert(false)}
-        handleSubmitBtn={handleDeleteSubmit}
+        handleSubmitBtn={() => {
+          handleDeleteSubmit(parentId, childId);
+        }}
       />
     </>
   );

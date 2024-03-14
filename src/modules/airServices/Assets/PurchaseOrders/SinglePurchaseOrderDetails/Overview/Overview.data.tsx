@@ -40,7 +40,7 @@ export const overviewData = (purchaseOrderData: any) => [
 ];
 
 export const overviewTableColumns: any = (
-  setOpenOverviewModal: any,
+  handleRowClick: any,
   purchaseOrderDetailData: any,
   itemName: any,
   theme: any,
@@ -135,7 +135,7 @@ export const overviewTableColumns: any = (
         <Typography
           sx={{ cursor: 'pointer' }}
           color={theme?.palette?.primary?.main}
-          onClick={() => setOpenOverviewModal(true)}
+          onClick={handleRowClick}
         >
           PDF
         </Typography>
