@@ -6,6 +6,7 @@ export const productColumns = (
   setUpsertProductModal: any,
   setDeleteModalOpen: any,
   setEditData: any,
+  setDeleteId: any,
 ): any => [
   {
     accessorFn: (row: any) => row?.vendorproductcatalogsDetails?.name,
@@ -59,6 +60,7 @@ export const productColumns = (
           sx={{ cursor: 'pointer' }}
           onClick={() => {
             setDeleteModalOpen(true);
+            setDeleteId(info?.row?.original?._id);
           }}
         />
       </Box>
