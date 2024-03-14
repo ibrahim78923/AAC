@@ -80,6 +80,8 @@ export const profileFields = [
       label: 'Address',
       placeholder: 'Enter Address',
       fullWidth: true,
+      multiline: true,
+      rows: 4,
     },
     component: RHFTextField,
     md: 6,

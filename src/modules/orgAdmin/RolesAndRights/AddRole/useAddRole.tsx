@@ -23,7 +23,6 @@ const useAddRole = () => {
   const navigate = useRouter();
   const roleId = useSearchParams().get('id');
   const { user } = getSession();
-
   const { query } = navigate;
 
   const { useLazyGetPermissionsRolesByIdQuery, usePostPermissionRoleMutation } =
@@ -53,18 +52,28 @@ const useAddRole = () => {
   const productVal = watch('productId');
 
   useEffect(() => {
-    trigger(roleId);
+    trigger(query?.type !== 'add' && roleId);
   }, [roleId]);
 
   useEffect(() => {
     const data = viewPerdetails?.data;
+    const permissionsArray =
+      query?.type === 'view' || query?.type === 'edit'
+        ? data?.permissions?.flatMap(
+            (item: any) =>
+              item?.subModules?.flatMap(
+                (mod: any) => mod?.permissions?.map((slg: any) => slg?.slug),
+              ),
+          )
+        : [];
     const fieldsToSet: any = {
-      productId: data?.productDetails?.id,
-      organizationCompanyAccountId: data?.companyAccountDetails?.id,
-      name: data?.name,
-      description: data?.description,
-      status: data?.status,
-      permissions: data?.permissions?.map((item: any) => item?.slug),
+      productId: query?.type !== 'add' ? data?.productDetails?.id : '',
+      organizationCompanyAccountId:
+        query?.type !== 'add' ? data?.companyAccountDetails?.id : '',
+      name: query?.type !== 'add' ? data?.name : '',
+      description: query?.type !== 'add' ? data?.description : '',
+      status: query?.type !== 'add' ? data?.status : '',
+      permissions: permissionsArray || [],
     };
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);
@@ -114,6 +123,7 @@ const useAddRole = () => {
 
   return {
     productPermissionsData,
+    viewPerdetails,
     setIsSwitchVal,
     handleSubmit,
     handleSwitch,

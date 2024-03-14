@@ -150,8 +150,16 @@ const useFaqs = () => {
   });
   const { handleSubmit: handleMethodEditFaq } = methodsEditFaq;
   const [openModalEditFaq, setOpenModalEditFaq] = useState(false);
+  const [drawerTitle, setDrawerTitle] = useState('Edit');
+  const [onViewDisabled, setOnViewDisabled] = useState(false);
 
-  const handleOpenModalEditFaq = () => {
+  const handleOpenModalEditFaq = (title: string) => {
+    if (title === 'View') {
+      setOnViewDisabled(true);
+    } else {
+      setOnViewDisabled(false);
+    }
+    setDrawerTitle(title);
     handleActionsMenuClose();
     const selectedItem =
       dataGetFaqs?.data?.faqs?.find((item: any) => item?._id === rowId) || {};
@@ -239,6 +247,8 @@ const useFaqs = () => {
     handleOpenModalDelete,
     handleCloseModalDelete,
     openModalEditFaq,
+    drawerTitle,
+    onViewDisabled,
     handleOpenModalEditFaq,
     handleCloseModalEditFaq,
     handleSubmitUpdateFaq,

@@ -26,7 +26,6 @@ import { AddRoundedImage, UserDefault } from '@/assets/images';
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
 import { getSession, isNullOrEmpty } from '@/utils';
-import { participantsDataSelect } from '@/mock/modules/SocialComponents/Chat';
 import { enqueueSnackbar } from 'notistack';
 import {
   useCreateNewGroupMutation,
@@ -51,7 +50,24 @@ const AddGroupModal = ({
 
   const [participantsIdsValues, setParticipantsIdsValues] = useState<any>();
   const [groupAdmins, setGroupAdmins] = useState<any>([]);
-  // const [imageToUpload, setImageToUpload] = useState<any>();
+  const [imageToUpload, setImageToUpload] = useState<any>();
+
+  const { user }: { user: any } = getSession();
+
+  const { data: chatsUsers } = useGetChatUsersQuery({
+    params: {
+      organization: user?.organization?._id,
+      page: PAGINATION?.CURRENT_PAGE,
+      limit: PAGINATION?.PAGE_LIMIT,
+      role: user?.role,
+    },
+  });
+  const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
+    id: item?._id,
+    label: `${item?.firstName} ${item?.lastName}`,
+    value: item._id,
+    image: UserDefault,
+  }));
 
   const [createNewGroup] = useCreateNewGroupMutation();
 
@@ -68,7 +84,7 @@ const AddGroupModal = ({
     setGroupAdmins,
   );
 
-  const filteredParticipants = participantsDataSelect
+  const filteredParticipants = transformedData
     ?.filter(
       (participant: any) => participantsIdsValues?.includes(participant?.id),
     )
@@ -87,6 +103,7 @@ const AddGroupModal = ({
     formData.append('participants', participantsIdsValues);
     formData.append('groupAdmins', groupAdmins);
     formData.append('groupName', values?.groupTitle);
+    formData.append('groupImage', imageToUpload);
 
     try {
       await createNewGroup({
@@ -103,25 +120,12 @@ const AddGroupModal = ({
   };
 
   const handleImageChange = async (e: any) => {
-    formData.append('groupImage', e?.target?.files[0]);
+    // formData.append('groupImage', e?.target?.files[0]);
+
+    const selectedImage = e?.target?.files[0];
+    setImageToUpload(selectedImage);
+    formData.append('groupImage', selectedImage);
   };
-  const { user }: { user: any } = getSession();
-
-  const { data: chatsUsers } = useGetChatUsersQuery({
-    params: {
-      organization: user?.organization?._id,
-      page: PAGINATION?.CURRENT_PAGE,
-      limit: PAGINATION?.PAGE_LIMIT,
-      role: user?.role,
-    },
-  });
-
-  const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
-    id: item?._id,
-    label: `${item?.firstName} ${item?.lastName}`,
-    value: item._id,
-    image: UserDefault,
-  }));
 
   return (
     <CommonModal
