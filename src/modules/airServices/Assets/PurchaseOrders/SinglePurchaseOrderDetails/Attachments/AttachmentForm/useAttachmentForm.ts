@@ -33,8 +33,8 @@ export const useAttachmentForm = (props: any) => {
       await postAttachmentsTrigger(postAttachmentParameter)?.unwrap();
       successSnackbar('Attachment Added Successfully!');
       setAddAttachment(false);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
