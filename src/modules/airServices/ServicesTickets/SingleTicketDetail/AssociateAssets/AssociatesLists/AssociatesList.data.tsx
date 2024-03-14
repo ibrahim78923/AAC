@@ -5,6 +5,7 @@ import { ASSET_IMPACT } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { truncateText } from '@/utils/avatarUtils';
 
 export const associatesListsData: any = [
   {
@@ -78,7 +79,7 @@ export const associatesListsColumnFunction: any = (
             })
           }
         >
-          {info?.getValue()}
+          {truncateText(info?.getValue())}
         </Typography>
       ),
       header: 'Asset',
@@ -119,7 +120,6 @@ export const associatesListsColumnFunction: any = (
                 }}
               />
             }
-            // size="small"
             label={info?.getValue()}
             sx={{
               color: theme?.palette?.common?.black,
