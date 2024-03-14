@@ -101,13 +101,7 @@ const RelatedTickets = () => {
           selectedChildTickets={selectedChildTickets}
           setSelectedChildTickets={setSelectedChildTickets}
           setPage={setPage}
-          totalRecords={
-            data?.data?.tickets?.length > 1
-              ? data?.data?.meta?.total
-              : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
-                ? data?.data?.meta?.total
-                : 0
-          }
+          totalRecords={data?.data?.tickets?.length}
           page={page}
           getChildTicketsListData={getChildTicketsListData}
         />
