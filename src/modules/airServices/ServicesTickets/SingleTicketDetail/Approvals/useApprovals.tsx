@@ -50,8 +50,8 @@ export const useApprovals = () => {
     try {
       await patchApprovalTicketsTrigger(patchParameterData)?.unwrap();
       successSnackbar?.('Request cancelled successfully');
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 

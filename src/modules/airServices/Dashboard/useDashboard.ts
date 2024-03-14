@@ -8,7 +8,6 @@ import { useGetCustomerAnnouncementQuery } from '@/services/airServices/dashboar
 
 export function useDashboard() {
   const theme = useTheme();
-  const [isbarchart, setIsBarChart] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isAnnouncementDrawerOpen, setIsAnnouncementDrawerOpen] =
     useState<boolean>(false);
@@ -18,13 +17,28 @@ export function useDashboard() {
   const handleAnnouncementIconButton = () => {
     setIsAnnouncementDrawerOpen(!isAnnouncementDrawerOpen);
   };
-  const { data: cardsData } = useGetDashboardCardsTicketsQuery(null);
+  const {
+    data: cardsData,
+    isLoading: cardsLoading,
+    isError: cardsError,
+    isFetching: cardsFetching,
+  } = useGetDashboardCardsTicketsQuery(null);
   const cardData = cardsData?.data;
 
-  const { data } = useGetCustomerAnnouncementQuery(null);
+  const {
+    data,
+    isLoading: announcementLoading,
+    isError: announcementError,
+    isFetching: announcementFetching,
+  } = useGetCustomerAnnouncementQuery(null);
   const customerAnnouncement = data?.annoucements;
 
-  const { data: recentActivitie } = useGetRecentActivitiesQuery(null);
+  const {
+    data: recentActivitie,
+    isLoading: recentActivitiesLoading,
+    isError: recentActivitiesError,
+    isFetching: recentActivitiesFetching,
+  } = useGetRecentActivitiesQuery(null);
   const recentActivities = recentActivitie?.data;
 
   return {
@@ -32,13 +46,15 @@ export function useDashboard() {
     isDrawerOpen,
     theme,
     handleIconButton,
-    isbarchart,
-    setIsBarChart,
     handleAnnouncementIconButton,
     isAnnouncementDrawerOpen,
     setIsAnnouncementDrawerOpen,
     cardData,
     customerAnnouncement,
     recentActivities,
+    isLoading: cardsLoading || announcementLoading || recentActivitiesLoading,
+    isError: cardsError || announcementError || recentActivitiesError,
+    isFetching:
+      cardsFetching || announcementFetching || recentActivitiesFetching,
   };
 }

@@ -1,7 +1,7 @@
 import { Box, Grid, InputAdornment, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { EditInputIcon, RevertIcon } from '@/assets/icons';
+import { EditInputIcon } from '@/assets/icons';
 import useToggle from '@/hooks/useToggle';
 import { addUsersArray } from './AddUser.data';
 import { SUPER_ADMIN } from '@/constants/index';
@@ -73,28 +73,12 @@ const AddUser = ({
                         position="end"
                       >
                         <Box
-                          sx={{
-                            display: 'flex',
-                            gap: '10px',
-                            alignItems: 'center',
+                          onClick={() => {
+                            setIsToggled(true);
                           }}
+                          sx={{ cursor: 'pointer', fontSize: '20px' }}
                         >
-                          <Box
-                            sx={{ cursor: 'pointer' }}
-                            onClick={() => {
-                              setIsToggled(false);
-                            }}
-                          >
-                            <RevertIcon />
-                          </Box>
-                          <Box
-                            onClick={() => {
-                              setIsToggled(true);
-                            }}
-                            sx={{ cursor: 'pointer', fontSize: '20px' }}
-                          >
-                            <EditInputIcon />
-                          </Box>
+                          <EditInputIcon />
                         </Box>
                       </InputAdornment>
                     </Box>

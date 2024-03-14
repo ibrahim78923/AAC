@@ -1,5 +1,6 @@
 import { Checkbox, Typography } from '@mui/material';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { truncateText } from '@/utils/avatarUtils';
 
 export const drawerTableColumns = (
   selectedAssetToAssociateList: any,
@@ -63,7 +64,7 @@ export const drawerTableColumns = (
     id: 'displayName',
     cell: (info: any) => (
       <Typography variant="body4" color={theme?.palette?.custom?.bright}>
-        {info?.getValue()}
+        {truncateText(info?.getValue())}
       </Typography>
     ),
     header: 'Name',
@@ -75,7 +76,7 @@ export const drawerTableColumns = (
     isSortable: true,
     header: 'Asset Type',
     cell: (info: any) => (
-      <Typography variant="body4">{info?.getValue()}</Typography>
+      <Typography variant="body4">{truncateText(info?.getValue())}</Typography>
     ),
   },
 ];

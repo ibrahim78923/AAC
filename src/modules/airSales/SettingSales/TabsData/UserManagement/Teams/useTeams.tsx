@@ -20,6 +20,7 @@ const useTeams = (teamId?: any) => {
     search: searchBy,
   };
   const { data: teamsData, isSuccess, isLoading } = useGetTeamsQuery(params);
+
   const { data: teamDataById } = useGetTeamsByIdQuery(teamId);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

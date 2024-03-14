@@ -2,6 +2,7 @@ import {
   TICKET_CATEGORY,
   TICKET_IMPACT,
   TICKET_PRIORITY,
+  TICKET_SOURCE,
   TICKET_STATUS,
   TICKET_TYPE,
   TICKET_TYPES,
@@ -23,6 +24,10 @@ export const ticketStatusOptions = [
   {
     _id: TICKET_STATUS?.CLOSED,
     label: TICKET_STATUS?.CLOSED,
+  },
+  {
+    _id: TICKET_STATUS?.SPAM,
+    label: TICKET_STATUS?.SPAM,
   },
 ];
 export const ticketDetailsStatusOptions = [
@@ -78,30 +83,30 @@ export const ticketImpact = ['LOW', 'MEDIUM', 'HIGH'];
 
 export const ticketSourceOptions = [
   {
-    _id: 'PHONE',
-    label: 'PHONE',
+    _id: TICKET_SOURCE?.PHONE,
+    label: TICKET_SOURCE?.PHONE,
   },
   {
-    _id: 'EMAIL',
-    label: 'EMAIL',
+    _id: TICKET_SOURCE?.EMAIL,
+    label: TICKET_SOURCE?.EMAIL,
   },
   {
-    _id: 'PORTAL',
-    label: 'PORTAL',
+    _id: TICKET_SOURCE?.PORTAL,
+    label: TICKET_SOURCE?.PORTAL,
   },
   {
-    _id: 'CHAT',
-    label: 'CHAT',
+    _id: TICKET_SOURCE?.CHAT,
+    label: TICKET_SOURCE?.CHAT,
   },
 ];
 
 export const ticketsTypeOptions = [
   {
-    _id: 'INC',
+    _id: TICKET_TYPE?.INC,
     label: TICKET_TYPES?.INCIDENTS,
   },
   {
-    _id: 'SR',
+    _id: TICKET_TYPE?.SR,
     label: TICKET_TYPES?.SERVICE_REQUEST,
   },
 ];

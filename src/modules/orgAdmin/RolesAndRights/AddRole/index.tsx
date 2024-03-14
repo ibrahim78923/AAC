@@ -32,6 +32,7 @@ const AddRole = () => {
     onSubmit,
     methods,
     theme,
+    viewPerdetails,
   } = useAddRole();
 
   const { query } = navigate;
@@ -73,28 +74,32 @@ const AddRole = () => {
               </Grid>
             ))}
           </Grid>
-          <Grid container>
-            <Grid item xs={12} lg={10} mt={3}>
-              <Stack direction="row">
-                <Typography variant="h4">Permissions</Typography>
-                <Typography style={{ color: theme?.palette?.error?.main }}>
-                  *
-                </Typography>
-              </Stack>
-            </Grid>
-
-            {productVal && (
+          {productVal && (
+            <Grid container>
+              <Grid item xs={12} lg={10} mt={3}>
+                <Stack direction="row">
+                  <Typography variant="h4">Permissions</Typography>
+                  <Typography style={{ color: theme?.palette?.error?.main }}>
+                    *
+                  </Typography>
+                </Stack>
+              </Grid>
               <Grid item xs={12} lg={10} mt={2}>
                 {isLoading ? (
                   <Skeleton height={80} />
                 ) : (
                   <PermissionsAccordion
-                    permissionsData={productPermissionsData}
+                    query={query}
+                    permissionsData={
+                      query?.type === 'view'
+                        ? viewPerdetails?.data
+                        : productPermissionsData
+                    }
                   />
                 )}
               </Grid>
-            )}
-          </Grid>
+            </Grid>
+          )}
           <Divider sx={{ my: 3 }} />
           {(query?.type === 'add' || query?.type === 'edit') && (
             <Box

@@ -70,10 +70,7 @@ const useUserManagement = () => {
   const handleUsersList = (data: any) => {
     navigate.push({
       pathname: SUPER_ADMIN?.USERS_LIST,
-      query: {
-        userName: `${data?.firstName} ${data?.lastName}`,
-        organizationId: data?.organization?._id,
-      },
+      query: { id: data?._id },
     });
     setSelectedValue(null);
   };

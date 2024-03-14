@@ -11,6 +11,7 @@ const useUsers = () => {
     company: '',
     status: '',
   });
+  const [searchAccount, setSearchAccount] = useState('');
 
   const [page, setPage] = useState(1);
   const employeeRecordsLimit = 10;
@@ -63,6 +64,8 @@ const useUsers = () => {
     setEmployeeDataById,
     resetFilter,
     employeeMetaData,
+    searchAccount,
+    setSearchAccount,
   };
 };
 

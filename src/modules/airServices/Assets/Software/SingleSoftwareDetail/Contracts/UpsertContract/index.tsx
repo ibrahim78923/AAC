@@ -4,6 +4,7 @@ import { Box, Grid } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export const UpsertContract = () => {
   const {
@@ -24,6 +25,11 @@ export const UpsertContract = () => {
 
   return (
     <>
+      <PageTitledHeader
+        moveBack={() => handleCancelBtn?.()}
+        canMovedBack
+        title={'Add Contract'}
+      />
       <FormProvider
         methods={upsertContractFormMethods}
         onSubmit={handleSubmit?.(submitUpsertContractForm)}

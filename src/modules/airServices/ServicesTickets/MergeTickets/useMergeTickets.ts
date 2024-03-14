@@ -2,6 +2,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import {
   mergeTicketsFormDefaultValue,
   mergeTicketsFormFieldsDynamic,
+  mergeTicketsFormValidationSchema,
 } from './MergeTickets.data';
 import { useRouter } from 'next/router';
 import usePath from '@/hooks/usePath';
@@ -15,6 +16,7 @@ import {
 import { useEffect } from 'react';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { TICKET_SELECTION_TYPE } from '@/constants/strings';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export const useMergedTickets = (props: any) => {
   const router = useRouter();
@@ -28,6 +30,7 @@ export const useMergedTickets = (props: any) => {
     usePostMergeTicketsMutation();
   const mergedTicketsFormMethod = useForm({
     defaultValues: mergeTicketsFormDefaultValue,
+    resolver: yupResolver(mergeTicketsFormValidationSchema),
   });
 
   const { handleSubmit, reset, control, setValue, getValues } =
@@ -67,7 +70,7 @@ export const useMergedTickets = (props: any) => {
       setSelectedTicketList([]);
       closeMergedTicketsModal?.();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
 

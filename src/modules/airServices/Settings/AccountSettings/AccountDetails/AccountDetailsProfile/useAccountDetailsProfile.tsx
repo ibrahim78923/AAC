@@ -13,9 +13,9 @@ import { AIR_SERVICES } from '@/constants';
 export const useAccountDetailsProfile = (props: any) => {
   const { profileDetail } = props;
   const router = useRouter();
-  const user = useAuth();
+  const user: any = useAuth();
 
-  const AccountDetailProfileMethods = useForm({
+  const AccountDetailProfileMethods = useForm<any>({
     resolver: yupResolver(accountDetailProfileValidationSchema),
     defaultValues: accountDetailProfileDefaultValues(profileDetail),
   });
