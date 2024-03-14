@@ -95,7 +95,7 @@ export const useUpsertContract = () => {
       successSnackbar('Contract created successfully');
       handleCancelBtn?.();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
   const apiQueryVendor = useLazyGetVendorDropdownQuery();

@@ -61,8 +61,8 @@ export const useMoveTickets = (props: any) => {
       setPage?.(1);
       closeMoveTicketsModal?.();
       reset();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 

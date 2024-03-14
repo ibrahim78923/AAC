@@ -75,8 +75,8 @@ export const useTicketBulkUpdate = (props: any) => {
       setPage?.(1);
       setIsDrawerOpen?.(false);
       setSelectedTicketList?.([]);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 

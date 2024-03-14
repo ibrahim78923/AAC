@@ -38,7 +38,7 @@ export const useDeleteInventory = (props: any) => {
       await getInventoryListData?.(newPage);
       closeTicketsDeleteModal?.();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
       closeTicketsDeleteModal?.();
     }
   };

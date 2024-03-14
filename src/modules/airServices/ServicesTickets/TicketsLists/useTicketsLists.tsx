@@ -104,7 +104,7 @@ export const useTicketsLists: any = () => {
       successSnackbar(`Tickets Exported successfully`);
       setSelectedTicketList([]);
     } catch (error: any) {
-      errorSnackbar?.();
+      errorSnackbar(error?.data?.message);
       setSelectedTicketList([]);
     }
   };
@@ -157,7 +157,7 @@ export const useTicketsLists: any = () => {
       successSnackbar('Ticket status updated successfully');
       setSelectedTicketList([]);
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
   const ticketsListsColumnPersist = ticketsListsColumnFunction(

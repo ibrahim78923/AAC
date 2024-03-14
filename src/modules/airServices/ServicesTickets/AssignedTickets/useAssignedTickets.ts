@@ -61,8 +61,8 @@ export const useAssignedTickets = (props: any) => {
       setFilterTicketLists?.({});
       setPage?.(1);
       closeTicketsAssignedModal?.();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 

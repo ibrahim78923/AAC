@@ -31,7 +31,7 @@ export const useDeleteRelatedTicket = (props: any) => {
       await getChildTicketsListData?.(newPage);
       closeTicketsDeleteModal?.();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
       setSelectedChildTickets?.([]);
       closeTicketsDeleteModal?.();
     }
