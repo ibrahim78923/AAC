@@ -81,7 +81,7 @@ export const useAddPlan = () => {
           planType,
         } = parsedRowData;
         if (!isNullOrEmpty(planProducts)) {
-          const productId = planProducts[0]._id;
+          const productId = planProducts[0]?._id;
           const planTypeId = { value: planType?.name, label: planType?.name };
           return {
             defaultUsers,

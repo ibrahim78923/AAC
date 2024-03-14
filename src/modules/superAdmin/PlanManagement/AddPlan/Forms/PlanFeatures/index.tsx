@@ -36,7 +36,6 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
   const { planManagement }: any = useAppSelector(
     (state) => state?.planManagementForms,
   );
-  // console.log('singlePlan',editPlan);
 
   const [expandedAccordion, setExpandedAccordion] = useState<string | false>(
     '',
