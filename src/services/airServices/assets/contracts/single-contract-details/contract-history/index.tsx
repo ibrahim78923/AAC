@@ -5,15 +5,14 @@ const TAG = 'CONTRACT_HISTORY';
 
 export const contractHistoryAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    getContractHistory: builder?.query({
-      query: (getContractHistoryParameter: any) => ({
-        url: `${END_POINTS?.GET_ASSETS_CONTRACT}`,
+    getSingleContractById: builder?.query({
+      query: (getSingleContractParameter: any) => ({
+        url: `${END_POINTS?.GET_SINGLE_ASSETS_CONTRACT}/${getSingleContractParameter?.pathParam?.contractId}`,
         method: 'GET',
-        params: getContractHistoryParameter?.queryParam,
       }),
       providesTags: [TAG],
     }),
   }),
 });
 
-export const { useGetContractHistoryQuery } = contractHistoryAPI;
+export const { useGetSingleContractByIdQuery } = contractHistoryAPI;
