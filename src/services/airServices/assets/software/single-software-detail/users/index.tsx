@@ -23,9 +23,10 @@ export const softwareUsers = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getContractDropdownList: builder?.query({
-      query: () => ({
+      query: ({ params }) => ({
         url: `${END_POINTS?.CONTRACT_DROPDOWN}`,
         method: 'GET',
+        params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data;
@@ -41,10 +42,10 @@ export const softwareUsers = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     getUsersDropdownList: builder?.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: `${END_POINTS?.USERS_DROPDOWN}`,
         method: 'GET',
-        // params,
+        params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data;
