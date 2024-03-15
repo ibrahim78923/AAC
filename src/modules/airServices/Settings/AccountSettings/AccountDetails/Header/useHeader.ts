@@ -15,11 +15,11 @@ export const useHeader = () => {
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const fileInput = event?.target;
-    if (fileInput && fileInput.files && fileInput.files.length > 0) {
-      const file: any = fileInput.files[0];
+
+    if (fileInput && fileInput?.files && fileInput?.files?.length > 0) {
+      const file: any = fileInput?.files[0];
       setUploadedImage(file);
       isSubmit();
-      fileInput.value = '';
     }
   };
 

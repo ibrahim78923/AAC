@@ -62,7 +62,7 @@ export const useUpsertInventory = () => {
       inventoryDetailsData.append('locationId', data?.location?._id);
     !!data?.department?._id &&
       inventoryDetailsData.append('departmentId', data?.department?._id);
-    !!data?.data?.usedBy?._id &&
+    !!data?.usedBy?._id &&
       inventoryDetailsData.append('usedBy', data?.usedBy?._id);
     inventoryDetailsData.append(
       'assignedOn',
@@ -108,7 +108,7 @@ export const useUpsertInventory = () => {
       inventoryEditData.append('locationId', data?.location?._id);
     !!data?.department?._id &&
       inventoryEditData.append('departmentId', data?.department?._id);
-    !!data?.data?.usedBy?._id &&
+    !!data?.usedBy?._id &&
       inventoryEditData.append('usedBy', data?.usedBy?._id);
     inventoryEditData.append(
       'assignedOn',

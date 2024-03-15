@@ -50,9 +50,7 @@ export const UpdateContract = () => {
             >
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Box
-                  onClick={() =>
-                    router?.push(AIR_SERVICES?.ASSETS_CONTRACTS_DETAIL)
-                  }
+                  onClick={() => router?.push(AIR_SERVICES?.ASSETS_CONTRACTS)}
                   sx={{ cursor: 'pointer' }}
                 >
                   <ViewDetailBackArrowIcon />
@@ -73,8 +71,8 @@ export const UpdateContract = () => {
                           </option>
                         ))
                       : item?.heading
-                      ? item?.heading
-                      : null}
+                        ? item?.heading
+                        : null}
                   </item.component>
                 </Grid>
               ))}
