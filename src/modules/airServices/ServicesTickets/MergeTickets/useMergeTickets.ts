@@ -10,7 +10,6 @@ import {
   useLazyGetRequesterDropdownQuery,
   useLazyGetTicketByRequesterQuery,
   useLazyGetTicketBySubjectQuery,
-  useLazyGetTicketsSearchByIdQuery,
   usePostMergeTicketsMutation,
 } from '@/services/airServices/tickets';
 import { useEffect } from 'react';
@@ -55,10 +54,13 @@ export const useMergedTickets = (props: any) => {
 
   const submitMergedTicketsForm = async (data: any) => {
     const postMergeTicketsParams = new URLSearchParams();
-    data?.searchTicket?.forEach(
-      (ticketId: any) =>
-        postMergeTicketsParams?.append('searchTicket', ticketId?._id),
-    );
+    data?.ticketSelection?._id !== TICKET_SELECTION_TYPE?.ID &&
+      data?.searchTicket?.forEach(
+        (ticketId: any) =>
+          postMergeTicketsParams?.append('searchTicket', ticketId?._id),
+      );
+    data?.ticketSelection?._id === TICKET_SELECTION_TYPE?.ID &&
+      postMergeTicketsParams?.append('searchTicket', data?.searchTicket?._id);
     postMergeTicketsParams?.append('findTicketBy', data?.ticketSelection?._id);
     postMergeTicketsParams?.append('ticketId', selectedTicketList?.[0]);
     const postMergeTicketsParameter = {
@@ -88,14 +90,12 @@ export const useMergedTickets = (props: any) => {
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();
   const apiQueryTicketBySubject = useLazyGetTicketBySubjectQuery();
   const apiQueryTicketByRequester = useLazyGetTicketByRequesterQuery();
-  const apiQueryTicketById = useLazyGetTicketsSearchByIdQuery();
 
   const mergeTicketsFormFields = mergeTicketsFormFieldsDynamic(
     watchForTicketSelection,
     apiQueryRequester,
     apiQueryTicketByRequester,
     apiQueryTicketBySubject,
-    apiQueryTicketById,
     getValues,
   );
 

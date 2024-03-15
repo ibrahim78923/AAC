@@ -6,7 +6,6 @@ import { AIR_SERVICES } from '@/constants';
 export const RolesAndPermissions = () => {
   return (
     <>
-      <br />
       <Typography variant="h4">
         Agents and project members can be given these workload permissions via
         roles.

@@ -15,7 +15,8 @@ export const useContractHistory = () => {
 
   const { data, isLoading, isFetching, isError }: any =
     useGetSingleContractByIdQuery(getSingleContractParameter, {
-      // refetchOnMountOrArgChange: true,
+      refetchOnMountOrArgChange: true,
+
       skip: !!!contractId,
     });
 

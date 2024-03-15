@@ -18,6 +18,7 @@ import {
 } from '@/services/orgAdmin/settings/sales-product-category';
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
+import { PAGINATION } from '@/config';
 
 const useSalesProductCategories = () => {
   const [isDraweropen, setIsDraweropen] = useState(false);
@@ -27,8 +28,17 @@ const useSalesProductCategories = () => {
   const [isGetRowValues, setIsGetRowValues] = useState('');
   const [postSalesProductCategories] = usePostSalesProductCategoriesMutation();
   const [editData, setEditData] = useState<any>({});
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+
+  const params = {
+    page: page,
+    limit: pageLimit,
+    ...(productSearch && { search: productSearch }),
+  };
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetSalesProductCategoriesQuery([]);
+    useGetSalesProductCategoriesQuery({ params });
+
   const [updateSalesProductCategories] =
     useUpdateSalesProductCategoriesMutation();
   const [userStatus, setUserStatus] = useState('active');
@@ -116,7 +126,7 @@ const useSalesProductCategories = () => {
   );
 
   return {
-    tableRow: data?.data?.productcategories,
+    tableRow: data,
     isLoading,
     isError,
     isFetching,
@@ -141,6 +151,8 @@ const useSalesProductCategories = () => {
     isGetRowValues,
     setIsGetRowValues,
     getRowValues,
+    setPage,
+    setPageLimit,
   };
 };
 
