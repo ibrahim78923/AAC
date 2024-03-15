@@ -1,8 +1,7 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useGetInventoryContractsQuery } from '@/services/airServices/assets/inventory/single-inventory-details/contract';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 export const useContract = () => {
@@ -12,19 +11,19 @@ export const useContract = () => {
   const router = useRouter();
   const { data, isLoading } = useGetInventoryContractsQuery(
     router?.query?.inventoryId,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!router?.query?.inventoryId,
+    },
   );
   const AssetsInventoryContractsData = data?.data;
 
   const handleDelete = async () => {
     try {
-      enqueueSnackbar('Record deleted Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Record deleted Successfully');
       setOpenDeleteModal(false);
     } catch (err: any) {
-      enqueueSnackbar(`Something went wrong`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
 

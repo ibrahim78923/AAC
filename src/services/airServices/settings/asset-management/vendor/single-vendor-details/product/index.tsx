@@ -10,7 +10,7 @@ const transformResponse = (response: any) => {
 export const vendorsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getProductVendorList: builder?.query({
-      query: ({ param }) => ({
+      query: (param: any) => ({
         url: `${END_POINTS?.GET_PRODUCT_VENDOR_LIST}`,
         method: 'GET',
         params: param,
@@ -42,6 +42,14 @@ export const vendorsAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => transformResponse(response),
       providesTags: [TAG],
     }),
+    deleteProductVendor: builder?.mutation({
+      query: (param: any) => ({
+        url: `${END_POINTS?.DELETE_PRODUCT_CATALOG_VENDOR}`,
+        method: 'DELETE',
+        params: param?.queryParams,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -50,4 +58,5 @@ export const {
   usePostProductVendorMutation,
   usePutProductVendorMutation,
   useLazyGetProductVendorDropdownQuery,
+  useDeleteProductVendorMutation,
 } = vendorsAPI;

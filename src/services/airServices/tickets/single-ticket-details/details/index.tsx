@@ -4,6 +4,7 @@ import { baseAPI } from '@/services/base-api';
 const TAG = 'TICKET_DETAILS';
 const TAG_THREE = 'DROPDOWN_AGENT';
 const TAG_SIX = 'DROPDOWN_CATEGORIES';
+
 const ticketsDetailsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getTicketsDetailsById: builder?.query({

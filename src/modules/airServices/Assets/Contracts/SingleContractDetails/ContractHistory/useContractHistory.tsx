@@ -1,27 +1,30 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useGetContractHistoryQuery } from '@/services/airServices/assets/contracts/single-contract-details/contract-history';
+import { useGetSingleContractByIdQuery } from '@/services/airServices/assets/contracts';
 
 export const useContractHistory = () => {
   const theme = useTheme();
   const router = useRouter();
 
   const { contractId } = router?.query;
-  const getContractHistoryParameter = {
-    queryParam: {
-      id: contractId,
+  const getSingleContractParameter = {
+    pathParam: {
+      contractId,
     },
   };
-  const { data }: any = useGetContractHistoryQuery(
-    getContractHistoryParameter.queryParam,
-    {
-      refetchOnMountOrArgChange: true,
-    },
-  );
 
-  const contractHistory = data?.data.contracts;
+  const { data, isLoading, isFetching, isError }: any =
+    useGetSingleContractByIdQuery(getSingleContractParameter, {
+      // refetchOnMountOrArgChange: true,
+      skip: !!!contractId,
+    });
+
+  const contractHistory = data?.data?.history;
   return {
     contractHistory,
     theme,
+    isLoading,
+    isFetching,
+    isError,
   };
 };

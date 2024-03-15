@@ -5,13 +5,15 @@ import {
 } from './AccountDetailsProfile.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useAccountDetailsProfile } from './useAccountDetailsProfile';
+import { LoadingButton } from '@mui/lab';
 
-export const AccountDetailsProfile = () => {
+export const AccountDetailsProfile = (props: any) => {
   const {
+    isLoading,
     AccountDetailProfileMethods,
-    reset,
     handleSubmitAccountDetailProfile,
-  } = useAccountDetailsProfile();
+    handleCancel,
+  } = useAccountDetailsProfile(props);
 
   return (
     <FormProvider
@@ -40,12 +42,12 @@ export const AccountDetailsProfile = () => {
         ))}
       </Grid>
       <Box display={'flex'} justifyContent={'end'} gap={1}>
-        <Button variant="outlined" color={'inherit'} onClick={() => reset()}>
+        <Button variant="outlined" color={'inherit'} onClick={handleCancel}>
           cancel
         </Button>
-        <Button variant="contained" type="submit">
+        <LoadingButton disabled={isLoading} variant="contained" type="submit">
           Update
-        </Button>
+        </LoadingButton>
       </Box>
     </FormProvider>
   );

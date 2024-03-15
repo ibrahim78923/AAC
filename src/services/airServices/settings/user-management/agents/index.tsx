@@ -39,8 +39,8 @@ export const agentsAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     patchAgent: builder?.mutation({
-      query: ({ id, body }: any) => ({
-        url: `${EDIT_AGENT}/${id}`,
+      query: ({ body }: any) => ({
+        url: `${EDIT_AGENT}`,
         method: 'PATCH',
         body,
       }),
@@ -63,10 +63,10 @@ export const agentsAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     deleteAgent: builder?.mutation({
-      query: (body: any) => ({
+      query: (deleteArticlesParameter: any) => ({
         url: `${DELETE_AGENT}`,
         method: 'DELETE',
-        body,
+        body: deleteArticlesParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),

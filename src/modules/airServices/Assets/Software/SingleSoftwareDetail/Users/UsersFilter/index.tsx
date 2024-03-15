@@ -3,24 +3,12 @@ import Button from '@mui/material/Button';
 import { FilterIcon } from '@/assets/icons';
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useForm } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  userDataArray,
-  userDefaultValues,
-  userValidationSchema,
-} from './UsersFilter.data';
 import { Box, Grid } from '@mui/material';
+import { useUsersFilter } from './useUsersFilter';
 
-export const UsersFilter = () => {
-  const methods: any = useForm({
-    resolver: yupResolver(userValidationSchema),
-    defaultValues: userDefaultValues,
-  });
-
+export const UsersFilter = (props: any) => {
+  const { userFieldsData, methods } = useUsersFilter(props);
   const [isFilterOpen, setIsFilterOpen] = React?.useState(false);
-
   const openFilterDrawer = () => {
     setIsFilterOpen(true);
   };
@@ -52,16 +40,9 @@ export const UsersFilter = () => {
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={1}>
-              {userDataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
+              {userFieldsData?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={item?.id}>
+                  <item.component {...item?.componentProps} size={'small'} />
                 </Grid>
               ))}
             </Grid>

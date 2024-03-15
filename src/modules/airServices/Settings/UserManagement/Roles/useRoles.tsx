@@ -8,7 +8,7 @@ export default function useRoles() {
   const router: any = useRouter();
   const [searchValue, setSearchValue] = useState<any>('');
 
-  const [page, setPage] = useState(PAGINATION?.PAGE_COUNT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const auth: any = useAuth();

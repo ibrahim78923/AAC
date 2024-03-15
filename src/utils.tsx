@@ -97,7 +97,7 @@ const getActivePermissionsSession = () => {
     const sessionJSON = localStorage?.getItem('ActivePermissions');
 
     if (sessionJSON) return JSON.parse(sessionJSON);
-    return {};
+    return [];
   }
 };
 

@@ -44,13 +44,13 @@ export const avatarGroupMockData: IAVATARGROUPDATA[] = [
 export const planManagementFilterValidationSchema = Yup?.object()?.shape({
   productId: Yup?.string()?.trim()?.required('Field is Required'),
   planTypeId: Yup.string()?.trim()?.required('Field is Required'),
-  createdAt: Yup?.string()?.trim()?.required('Field is Required'),
+  createdAt: Yup?.array(),
 });
 
 export const planManagementFilterDefaultValues = {
   productId: '',
   planTypeId: '',
-  createdAt: null,
+  createdAt: [],
 };
 
 export const planManagementFilterFiltersDataArray = () => {

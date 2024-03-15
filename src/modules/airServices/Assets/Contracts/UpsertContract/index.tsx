@@ -5,6 +5,7 @@ import { LoadingButton } from '@mui/lab';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export const UpsertContract = () => {
   const {
@@ -26,6 +27,11 @@ export const UpsertContract = () => {
 
   return (
     <>
+      <PageTitledHeader
+        moveBack={() => handleCancelBtn?.()}
+        canMovedBack
+        title={!!contractId ? 'Edit Contract' : 'Add Contract'}
+      />
       <FormProvider
         methods={upsertContractFormMethods}
         onSubmit={handleSubmit?.(submitUpsertContractForm)}
@@ -50,7 +56,7 @@ export const UpsertContract = () => {
             borderRadius={{ md: 2, xs: 0 }}
             padding={{ md: 1.5, xs: 0 }}
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={3}>
               {upsertContractFormFieldsData?.map((item: any) => (
                 <Grid item xs={12} lg={item?.md} key={item?.id}>
                   <item.component

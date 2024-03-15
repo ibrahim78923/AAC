@@ -20,6 +20,7 @@ const AddPlanForm = ({
   handleSubmit,
   methods,
   AdditionalStorageValue,
+  AdditionalUsereValue,
 }: any) => {
   const {
     formDefaultValuesFunction,
@@ -28,7 +29,7 @@ const AddPlanForm = ({
     productsOptions,
     planLabelRender,
     planNameRender,
-  } = useAddPlanForm(AdditionalStorageValue);
+  } = useAddPlanForm(AdditionalStorageValue, AdditionalUsereValue);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit}>

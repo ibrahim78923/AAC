@@ -57,6 +57,8 @@ const Faqs = () => {
     handleOpenModalDelete,
     handleCloseModalDelete,
     openModalEditFaq,
+    drawerTitle,
+    onViewDisabled,
     handleOpenModalEditFaq,
     handleCloseModalEditFaq,
     handleSubmitUpdateFaq,
@@ -155,7 +157,7 @@ const Faqs = () => {
                 >
                   <MenuItem
                     disabled={!rowId}
-                    onClick={() => handleOpenModalEditFaq()}
+                    onClick={() => handleOpenModalEditFaq('Edit')}
                     style={{ fontSize: '14px' }}
                   >
                     Edit
@@ -169,7 +171,7 @@ const Faqs = () => {
                 >
                   <MenuItem
                     disabled={!rowId}
-                    onClick={() => handleOpenModalEditFaq()}
+                    onClick={() => handleOpenModalEditFaq('View')}
                     style={{ fontSize: '14px' }}
                   >
                     View
@@ -285,6 +287,8 @@ const Faqs = () => {
         formMethods={methodsEditFaq}
         handleSubmit={handleSubmitUpdateFaq}
         isLoading={loadingUpdateFaq}
+        title={drawerTitle}
+        onViewDisabled={onViewDisabled}
       />
     </Box>
   );

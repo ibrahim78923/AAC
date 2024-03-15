@@ -6,7 +6,13 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-export default function useTicketInfoCard({ details }: any) {
+export default function useTicketInfoCard({
+  details,
+  setPage,
+  totalRecords,
+  getValueTicketsListData,
+  page,
+}: any) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [deleteId, setDeleteId] = useState<any>(null);
@@ -58,9 +64,11 @@ export default function useTicketInfoCard({ details }: any) {
     };
     try {
       await deleteTicketsTrigger(deleteTicketsParameter)?.unwrap();
-      successSnackbar('Ticket Deleted Successfully!');
-      setDeleteId(null);
+      successSnackbar('Ticket deleted successfully');
+      const newPage = totalRecords === 1 ? 1 : page;
+      setPage?.(newPage);
       setOpenDeleteModal(false);
+      await getValueTicketsListData?.(newPage);
     } catch (error: any) {
       errorSnackbar();
       setOpenDeleteModal(false);

@@ -8,23 +8,46 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 import useToggle from '@/hooks/useToggle';
-import { EditInputIcon, RevertIcon } from '@/assets/icons';
+import { EditInputIcon } from '@/assets/icons';
 import useUserManagement from '../../useUserManagement';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { enqueueSnackbar } from 'notistack';
 
 const UserDetailsProfile = (props: any) => {
-  const { userDetails } = props;
-  const { updateUsers }: any = useUserManagement();
+  const { userDetails, setTabVal } = props;
+  const { updateUsers, initialTab }: any = useUserManagement();
   const [isToggled, setIsToggled] = useToggle(false);
   const id = userDetails?._id;
 
   const userProfileDefaultValues = {
     ...userDetails,
     compositeAddress: userDetails?.address?.composite
-      ? userDetails?.address?.composite
-      : `Flat # ${userDetails?.address?.flatNumber}, building # ${userDetails?.address?.buildingNumber} ,
-    ${userDetails?.address?.buildingName}, street # ${userDetails?.address?.streetName},${userDetails?.address?.city}, ${userDetails?.address?.country} `,
+      ? userDetails.address.composite
+      : `${
+          userDetails.address.flatNumber
+            ? `Flat # ${userDetails.address.flatNumber}, `
+            : ''
+        }` +
+        `${
+          userDetails.address.buildingNumber
+            ? `Building # ${userDetails.address.buildingNumber}, `
+            : ''
+        }` +
+        `${
+          userDetails.address.buildingName
+            ? `Building Name ${userDetails.address.buildingName}, `
+            : ''
+        }` +
+        `${
+          userDetails.address.streetName
+            ? `Street # ${userDetails.address.streetName}, `
+            : ''
+        }` +
+        `${userDetails.address.city ? `${userDetails.address.city}, ` : ''}` +
+        `${
+          userDetails.address.country ? `${userDetails.address.country}` : ''
+        }`,
     flat: userDetails?.address?.flatNumber ?? '',
     city: userDetails?.address?.city ?? '',
     country: userDetails?.address?.country ?? '',
@@ -75,12 +98,23 @@ const UserDetailsProfile = (props: any) => {
       'linkedInUrl',
       'departmentId',
       'avatar',
+      'email',
     ];
 
     for (const key of keysToDelete) {
       delete values[key];
     }
-    updateUsers({ id: id, body: values });
+    try {
+      await updateUsers({ id: id, body: values })?.unwrap();
+      enqueueSnackbar('User updated successfully', {
+        variant: 'success',
+      });
+      setTabVal(initialTab);
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
   };
 
   return (
@@ -125,24 +159,10 @@ const UserDetailsProfile = (props: any) => {
                         position="end"
                       >
                         <Box
-                          sx={{
-                            display: 'flex',
-                            gap: '10px',
-                            alignItems: 'center',
-                          }}
+                          sx={{ cursor: 'pointer' }}
+                          onClick={() => setIsToggled(true)}
                         >
-                          <Box
-                            sx={{ cursor: 'pointer' }}
-                            onClick={() => setIsToggled(false)}
-                          >
-                            <EditInputIcon />
-                          </Box>
-                          <Box
-                            sx={{ cursor: 'pointer' }}
-                            onClick={() => setIsToggled(true)}
-                          >
-                            <RevertIcon />
-                          </Box>
+                          <EditInputIcon />
                         </Box>
                       </InputAdornment>
                     </Box>
@@ -153,8 +173,9 @@ const UserDetailsProfile = (props: any) => {
                       {...item.componentProps}
                       size={'small'}
                       disabled={
-                        isToggled &&
-                        item?.componentProps?.name === 'compositeAddress'
+                        (isToggled &&
+                          item?.componentProps?.name === 'compositeAddress') ||
+                        item?.componentProps?.name === 'email'
                           ? true
                           : false
                       }
@@ -192,7 +213,9 @@ const UserDetailsProfile = (props: any) => {
             my: 2,
           }}
         >
-          <Button variant="outlined">Cancel</Button>
+          <Button variant="outlined" onClick={() => setTabVal(initialTab)}>
+            Cancel
+          </Button>
           <PermissionsGuard
             permissions={[
               SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS?.UPDATE_SUB_USER_PROFILE,

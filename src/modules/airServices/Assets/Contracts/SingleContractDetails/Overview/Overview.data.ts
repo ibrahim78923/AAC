@@ -1,3 +1,6 @@
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+
 export const overviewData = ({
   contractData,
   contractItemData,
@@ -19,7 +22,10 @@ export const overviewData = ({
       {
         name: 'Validity',
         detail:
-          `${contractData?.startDate} to ${contractData?.endDate}` ?? '--',
+          `${dayjs(contractData?.startDate)?.format(
+            DATE_FORMAT?.UI,
+          )} to ${dayjs(contractData?.endDate)?.format(DATE_FORMAT?.UI)}` ??
+          '--',
       },
     ],
   },

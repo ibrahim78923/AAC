@@ -41,7 +41,6 @@ export const Meetings = () => {
 
   return (
     <>
-      <br />
       <div className="meeting">
         <AddMeetingsDrawer open={drawerOpen} setDrawerOpen={setDrawerOpen} />
         <AddOutcomeModal

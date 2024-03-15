@@ -1,8 +1,7 @@
 import { Box, Grid, InputAdornment, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { EditInputIcon, RevertIcon } from '@/assets/icons';
-import useToggle from '@/hooks/useToggle';
+import { EditInputIcon } from '@/assets/icons';
 import { addUsersArray } from './AddUser.data';
 import { SUPER_ADMIN } from '@/constants/index';
 import useAddUser from './useAddUser';
@@ -18,8 +17,6 @@ const AddUser = ({
   setIsOpenAdduserDrawer,
   organizationId,
 }: any) => {
-  const [isToggled, setIsToggled] = useToggle(false);
-
   const useActionParams: any = {
     tabVal: tabVal,
     isOpenAddUserDrawer: isOpenAddUserDrawer,
@@ -28,8 +25,16 @@ const AddUser = ({
     organizationId: organizationId,
   };
 
-  const { pathName, methods, handleSubmit, onSubmit, userDetail, tabTitle } =
-    useAddUser(useActionParams);
+  const {
+    pathName,
+    methods,
+    handleSubmit,
+    onSubmit,
+    userDetail,
+    tabTitle,
+    isToggled,
+    setIsToggled,
+  } = useAddUser(useActionParams);
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
@@ -73,28 +78,12 @@ const AddUser = ({
                         position="end"
                       >
                         <Box
-                          sx={{
-                            display: 'flex',
-                            gap: '10px',
-                            alignItems: 'center',
+                          onClick={() => {
+                            setIsToggled(true);
                           }}
+                          sx={{ cursor: 'pointer', fontSize: '20px' }}
                         >
-                          <Box
-                            sx={{ cursor: 'pointer' }}
-                            onClick={() => {
-                              setIsToggled(false);
-                            }}
-                          >
-                            <RevertIcon />
-                          </Box>
-                          <Box
-                            onClick={() => {
-                              setIsToggled(true);
-                            }}
-                            sx={{ cursor: 'pointer', fontSize: '20px' }}
-                          >
-                            <EditInputIcon />
-                          </Box>
+                          <EditInputIcon />
                         </Box>
                       </InputAdornment>
                     </Box>
