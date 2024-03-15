@@ -1,5 +1,10 @@
 import { TICKET_APPROVALS } from '@/constants/strings';
-import { fullName, fullNameInitial, truncateText } from '@/utils/avatarUtils';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import { APPROVAL_CARD_STATUS } from './ApprovalCard.data';
 import { formatTimeDifference } from '@/utils/dateTime';
@@ -48,7 +53,7 @@ export const ApprovalCard = (props: any) => {
           <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
             <Avatar
               sx={{ bgcolor: 'blue.main', width: 25, height: 25 }}
-              src={data?.requesterDetails?.profileImg?.src}
+              src={generateImage(data?.requesterDetails?.avatar?.url)}
             >
               <Typography variant="body4" textTransform={'uppercase'}>
                 {fullNameInitial(
