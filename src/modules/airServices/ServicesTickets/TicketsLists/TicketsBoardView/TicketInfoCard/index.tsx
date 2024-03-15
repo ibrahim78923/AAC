@@ -9,11 +9,14 @@ import {
 } from './TicketInfoCard.data';
 import { AIR_SERVICES } from '@/constants';
 import { TICKETS_ACTION_CONSTANTS } from '../../TicketsLists.data';
-import { IMG_URL } from '@/config';
 import { pxToRem } from '@/utils/getFontValue';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import useTicketInfoCard from './useTicketInfoCard';
-import { generateImage } from '@/utils/avatarUtils';
+import {
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
 import {
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
   AIR_SERVICES_TICKETS_TICKET_LISTS,
@@ -46,7 +49,6 @@ export const TicketInfoCard = ({
     pendingMessage,
     CLOSED,
     closedMessage,
-    truncatedSubject,
     setDeleteId,
     handleSubmitDelete,
     deleteTicketsStatus,
@@ -89,7 +91,9 @@ export const TicketInfoCard = ({
                 borderRadius: 1.25,
               }}
               style={{ width: 20, height: 20 }}
-              src={`${IMG_URL}${details?.departmentsDetails?.departmenProfilePicture}`}
+              src={generateImage(
+                details?.departmentsDetails?.departmenProfilePicture,
+              )}
             >
               <Typography fontSize={pxToRem(10)} textTransform={'uppercase'}>
                 {details?.departmentsDetails?.name?.slice(0, 2) ?? '-'}
@@ -133,7 +137,9 @@ export const TicketInfoCard = ({
             </PermissionsGuard>
           </Box>
         </Box>
-        <Typography variant={'body2'}>{truncatedSubject}</Typography>
+        <Typography variant={'body2'}>
+          {truncateText(details?.subject)}
+        </Typography>
         <Box
           display={'flex'}
           alignItems={'center'}
@@ -217,8 +223,10 @@ export const TicketInfoCard = ({
             src={generateImage(details?.requesterDetails?.avatar?.url)}
           >
             <Typography fontSize={pxToRem(10)} textTransform={'uppercase'}>
-              {details?.requesterDetails?.firstName?.[0] ?? '-'}
-              {details?.requesterDetails?.lastName?.[0]}
+              {fullNameInitial(
+                details?.requesterDetails?.firstName?.[0],
+                details?.requesterDetails?.lastName?.[0],
+              )}
             </Typography>
           </Avatar>
         </Box>
