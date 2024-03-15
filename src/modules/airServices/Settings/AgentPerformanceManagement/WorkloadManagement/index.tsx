@@ -19,11 +19,7 @@ export const WorkloadManagement = () => {
         }}
       />
       <HorizontalTabs
-        tabsDataArray={[
-          'Workload Level',
-          'Roles And Permission',
-          'Workload Schedule',
-        ]}
+        tabsDataArray={['Roles And Permission', 'Workload Schedule']}
       >
         <PermissionsGuard
           permissions={[

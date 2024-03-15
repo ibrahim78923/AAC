@@ -1,14 +1,16 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import { TicketCard } from '../TicketCard';
-import { v4 as uuidv4 } from 'uuid';
 import { styles } from './WelcomeCard.style';
 import { WelcomeCardImage } from '@/assets/images';
 import { useWelcomeCard } from './useWelcomeCard';
+import ApiErrorState from '@/components/ApiErrorState';
+import { TICKET_TYPE } from './WelcomeCard.data';
 
 export const WelcomeCard = () => {
   const { mainWrapper, ticketCardWrapper } = styles;
-  const { data, isLoading, isFetching } = useWelcomeCard();
+  const { data, isLoading, isFetching, isError, ticketsCountsData } =
+    useWelcomeCard();
   return (
     <>
       <Box
@@ -25,17 +27,28 @@ export const WelcomeCard = () => {
             We are here to help you, Please let us know what you need.
           </Typography>
         </Box>
-        <Box sx={ticketCardWrapper}>
-          {Object?.entries(data?.ticketsCount ?? {})?.map((singleData: any) => (
-            <TicketCard
-              key={uuidv4()}
-              data={singleData}
-              totalCount={data?.ticketsCount}
-              isLoading={isLoading}
-              isFetching={isFetching}
-            />
-          ))}
-        </Box>
+        {isLoading || isFetching ? (
+          <Skeleton
+            variant="rounded"
+            width={'100%'}
+            height={50}
+            sx={{ bgcolor: 'grey.900', borderRadius: 3 }}
+          />
+        ) : isError ? (
+          <Box width="100%" borderRadius={3}>
+            <ApiErrorState height="" textColor="common.white" />
+          </Box>
+        ) : (
+          <Box sx={ticketCardWrapper}>
+            {ticketsCountsData?.map((singleData: any) => (
+              <TicketCard
+                key={singleData?._id}
+                data={singleData}
+                totalCount={data?.ticketsCount[TICKET_TYPE?.TOTAL]}
+              />
+            ))}
+          </Box>
+        )}
       </Box>
     </>
   );

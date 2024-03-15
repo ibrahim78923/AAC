@@ -1,11 +1,11 @@
 import { DATE_TIME_FORMAT } from '@/constants';
-import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial, truncateText } from '@/utils/avatarUtils';
 import { Avatar, Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
 export const DetailCard = (props: any) => {
-  const { data, openTicketDetail } = props;
+  const { data, openTicketDetail, approvalInfo } = props;
   const [showInfo, setShowInfo] = useState(false);
   return (
     <Box
@@ -32,7 +32,7 @@ export const DetailCard = (props: any) => {
         </Avatar>
         <Box>
           <Typography>
-            {` ${' '} ${data?.ticketDetails?.subject ?? ''}`}
+            {` ${' '} ${truncateText(data?.subject, 30) ?? '---'}`}
           </Typography>
           <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
             <Typography
@@ -45,7 +45,7 @@ export const DetailCard = (props: any) => {
             </Typography>
             <Typography variant="body3" fontWeight={400} color={'blue.main'}>
               {' '}
-              {data?.approvalStatus}
+              {approvalInfo?.approvalStatus ?? '---'}
             </Typography>
           </Box>
         </Box>
@@ -68,7 +68,7 @@ export const DetailCard = (props: any) => {
           </Typography>
           <Typography variant="body3" fontWeight={400} color={'blue.main'}>
             {' '}
-            {data?.approvalStatus}
+            {approvalInfo?.approvalStatus ?? '---'}
           </Typography>
         </Box>
         <Box
@@ -88,17 +88,10 @@ export const DetailCard = (props: any) => {
           </Typography>
           <Typography variant="body3" fontWeight={400} color={'blue.main'}>
             {' '}
-            {`${
-              fullName(
-                data?.requesterDetails?.firstName,
-                data?.requesterDetails?.lastName,
-              ) === 'None'
-                ? ''
-                : `${fullName(
-                    data?.requesterDetails?.firstName,
-                    data?.requesterDetails?.lastName,
-                  )}`
-            }, ${dayjs(data?.createdAt).format(DATE_TIME_FORMAT?.UI)}`}
+            {`${fullName(
+              data?.requesterDetails?.firstName,
+              data?.requesterDetails?.lastName,
+            )}, ${'  '} ${dayjs(data?.createdAt).format(DATE_TIME_FORMAT?.UI)}`}
           </Typography>
         </Box>
         <Box
@@ -118,7 +111,7 @@ export const DetailCard = (props: any) => {
           </Typography>
           <Typography variant="body3" fontWeight={400} color={'blue.main'}>
             {' '}
-            {data?.requesterDetails?.email}
+            {data?.requesterDetails?.email ?? '---'}
           </Typography>
         </Box>
         <Box
@@ -138,7 +131,7 @@ export const DetailCard = (props: any) => {
           </Typography>
           <Typography variant="body3" fontWeight={400} color={'blue.main'}>
             {' '}
-            {data?.approvalStatus}
+            {data?.status ?? '---'}
           </Typography>
         </Box>
         <Box
@@ -158,7 +151,7 @@ export const DetailCard = (props: any) => {
           </Typography>
           <Typography variant="body3" fontWeight={400} color={'blue.main'}>
             {' '}
-            {data?.ticketDetails?.pirority}
+            {data?.pirority ?? '---'}
           </Typography>
         </Box>
         <Box
@@ -178,7 +171,10 @@ export const DetailCard = (props: any) => {
           </Typography>
           <Typography variant="body3" fontWeight={400} color={'blue.main'}>
             {' '}
-            {data?.approvalStatus}
+            {fullName(
+              data?.agentDetails?.firstName,
+              data?.agentDetails?.lastName,
+            )}
           </Typography>
         </Box>
       </Box>
@@ -196,10 +192,7 @@ export const DetailCard = (props: any) => {
         {showInfo ? 'Hide info' : 'Show info'}
       </Typography>
       {showInfo && (
-        <Box
-          mt={3}
-          dangerouslySetInnerHTML={{ __html: data?.ticketDetails?.description }}
-        />
+        <Box mt={3} dangerouslySetInnerHTML={{ __html: data?.description }} />
       )}
     </Box>
   );

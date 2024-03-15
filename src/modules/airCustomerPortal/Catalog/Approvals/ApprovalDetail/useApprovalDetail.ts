@@ -1,11 +1,14 @@
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
-import { useGetTicketApprovalDetailsByIdQuery } from '@/services/airCustomerPortal';
+import {
+  useGetTicketApprovalDetailsByIdQuery,
+  useGetTicketDetailsByIdQuery,
+} from '@/services/airCustomerPortal';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export const useApprovalDetail = () => {
   const router = useRouter();
-  const { approvalId }: any = router?.query;
+  const { approvalId, ticketId }: any = router?.query;
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [selectedApproval, setSelectedApproval] = useState<any>({});
   const setApproval = (approval: any) => {
@@ -24,11 +27,21 @@ export const useApprovalDetail = () => {
       skip: !!!approvalId,
     });
 
+  const getSingleTicketParameter = {
+    pathParams: {
+      id: ticketId,
+    },
+  };
+
+  const ticketDetails = useGetTicketDetailsByIdQuery(getSingleTicketParameter, {
+    refetchOnMountOrArgChange: true,
+    skip: !!!ticketId,
+  });
   const openTicketDetail = (data: any) => {
     router?.push({
       pathname: AIR_CUSTOMER_PORTAL?.SINGLE_TICKETS,
       query: {
-        id: data?.ticketId,
+        id: data?._id,
       },
     });
   };
@@ -44,5 +57,6 @@ export const useApprovalDetail = () => {
     isError,
     data,
     openTicketDetail,
+    ticketDetails,
   };
 };
