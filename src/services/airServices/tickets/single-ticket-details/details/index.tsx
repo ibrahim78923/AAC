@@ -44,6 +44,13 @@ const ticketsDetailsAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    postTicketsTime: builder?.mutation({
+      query: (postTicketTimeParameter: any) => ({
+        url: `${END_POINTS?.TICKET_TIME_ENTRIES}`,
+        method: 'POST',
+        body: postTicketTimeParameter?.body,
+      }),
+    }),
   }),
 });
 
@@ -53,4 +60,5 @@ export const {
   useLazyGetAgentDropdownQuery,
   usePutTicketsMutation,
   useLazyGetCategoriesDropdownQuery,
+  usePostTicketsTimeMutation,
 } = ticketsDetailsAPI;

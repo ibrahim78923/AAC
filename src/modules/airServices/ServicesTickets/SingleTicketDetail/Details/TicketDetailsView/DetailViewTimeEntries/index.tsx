@@ -10,7 +10,7 @@ import { VuesaxErrorImage } from '@/assets/images';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
-const DetailViewTimeEntries = () => {
+const DetailViewTimeEntries = (data: any) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isIconVisible, setIsIconVisible] = useState(true);
 
@@ -70,6 +70,7 @@ const DetailViewTimeEntries = () => {
               <DetailTicketDrawer
                 isDrawerOpen={isDrawerOpen}
                 setIsDrawerOpen={setIsDrawerOpen}
+                data={data}
               />
             </Box>
           </Box>

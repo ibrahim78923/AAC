@@ -1,19 +1,52 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { defaultValues, validationSchema } from './DetailTicketDrawer.data';
+import {
+  addTimeDefaultValues,
+  detailDrawerArray,
+  validationSchema,
+} from './DetailTicketDrawer.data';
 import { useForm } from 'react-hook-form';
+import {
+  useLazyGetAgentDropdownQuery,
+  usePostTicketsTimeMutation,
+} from '@/services/airServices/tickets/single-ticket-details/details';
+import { AIR_SERVICES } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useRouter } from 'next/router';
 
-export const useDetailTicketDrawer = () => {
-  const methods: any = useForm({
+export const useDetailTicketDrawer = (props: any) => {
+  const [postTicketsTimeTrigger] = usePostTicketsTimeMutation();
+  const { isDrawerOpen, setIsDrawerOpen, data } = props;
+  const router = useRouter();
+
+  const apiQueryAgent = useLazyGetAgentDropdownQuery();
+
+  const methods: any = useForm<any>({
     resolver: yupResolver(validationSchema),
-    defaultValues,
+    defaultValues: addTimeDefaultValues(data),
   });
-
-  const { handleSubmit } = methods;
-
-  const onSubmit = async () => {};
+  const { handleSubmit, reset } = methods;
+  const ticketDetailsFormFields = detailDrawerArray(apiQueryAgent);
+  const onSubmit = async (data: any) => {
+    const putTicketParameter = {
+      body: data,
+    };
+    try {
+      await postTicketsTimeTrigger(putTicketParameter)?.unwrap();
+      router?.push(AIR_SERVICES?.TICKETS);
+      successSnackbar(' ticket Time Added successfully');
+      setIsDrawerOpen(false);
+      reset();
+    } catch (error) {
+      errorSnackbar();
+      setIsDrawerOpen(false);
+    }
+  };
   return {
     methods,
     handleSubmit,
     onSubmit,
+    ticketDetailsFormFields,
+    isDrawerOpen,
+    setIsDrawerOpen,
   };
 };
