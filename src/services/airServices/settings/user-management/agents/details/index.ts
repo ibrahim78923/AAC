@@ -37,6 +37,12 @@ export const agentDetailsAPI = baseAPI?.injectEndpoints({
         params: getAgentSoftwareDetailsParameter?.queryParams,
       }),
     }),
+    getSingleDepartmentDetails: builder?.query({
+      query: (getSingleDepartmentDetailsParameter: any) => ({
+        url: `${END_POINTS?.SINGLE_DEPARTMENT_DETAIL}/${getSingleDepartmentDetailsParameter?.pathParams?.id}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -46,4 +52,5 @@ export const {
   useGetAgentTaskDetailsQuery,
   useGetAgentTicketDetailsQuery,
   useGetSingleAgentDetailsQuery,
+  useGetSingleDepartmentDetailsQuery,
 } = agentDetailsAPI;

@@ -1,4 +1,7 @@
-import { RHFAutocomplete } from '@/components/ReactHookForm';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
 import { ROLE } from '@/constants/strings';
 
 import * as Yup from 'yup';
@@ -15,17 +18,17 @@ export const defaultValuesAgentFilter = {
   role: null,
 };
 
-export const agentFilterFields = (departmentData: any) => [
+export const agentFilterFields = (apiQueryDepartment: any) => [
   {
-    id: 1,
+    id: 7,
     componentProps: {
       name: 'department',
       label: 'Department',
       fullWidth: true,
+      apiQuery: apiQueryDepartment,
       placeholder: 'Select Department',
-      options: departmentData?.map((item: any) => item?.name),
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 2,

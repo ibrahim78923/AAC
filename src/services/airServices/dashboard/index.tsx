@@ -10,11 +10,10 @@ const {
   DASHBOARD_AGENT_AVAILABILITY,
 } = END_POINTS;
 const TAG = 'DASHBOARD_TICKETS';
-const TAGONE = 'DASHBOARD_CARDS_TICKETS';
-const TAGTWO = 'ANNOUNCEMENTS';
-const TAGTHREE = 'DASHBOARD_ANNOUNCEMENTS_CUSTOMER';
-const TAGFOUR = 'DASHBOARD_RECENT_ACTIVITIES';
-const TAGFIVE = 'DASHBOARD_AGENT_AVAILABILITY';
+const TAG_ONE = 'DASHBOARD_CARDS_TICKETS';
+const TAG_TWO = 'ANNOUNCEMENTS';
+const TAG_THREE = 'DASHBOARD_RECENT_ACTIVITIES';
+const TAG_FOUR = 'DASHBOARD_AGENT_AVAILABILITY';
 
 export const dashboardAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -31,7 +30,7 @@ export const dashboardAPI = baseAPI.injectEndpoints({
         url: `${GET_DASHBOARD_CARDS_TICKETS}`,
         method: 'GET',
       }),
-      providesTags: [TAGONE],
+      providesTags: [TAG_ONE],
     }),
     postAnnouncement: builder.mutation({
       query: (postAnnouncementParameter: any) => ({
@@ -39,21 +38,21 @@ export const dashboardAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: postAnnouncementParameter?.body,
       }),
-      invalidatesTags: [TAGTWO],
+      invalidatesTags: [TAG_TWO],
     }),
     getCustomerAnnouncement: builder.query({
       query: () => ({
         url: `${DASHBOARD_ANNOUNCEMENTS_CUSTOMER}`,
         method: 'GET',
       }),
-      providesTags: [TAGTHREE],
+      providesTags: [TAG_TWO],
     }),
     getRecentActivities: builder.query({
       query: () => ({
         url: `${DASHBOARD_RECENT_ACTIVITIES}`,
         method: 'GET',
       }),
-      providesTags: [TAGFOUR],
+      providesTags: [TAG_THREE],
     }),
     getDashboardAgent: builder.query({
       query: (params) => ({
@@ -61,7 +60,7 @@ export const dashboardAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params,
       }),
-      providesTags: [TAGFIVE],
+      providesTags: [TAG_FOUR],
     }),
   }),
 });
