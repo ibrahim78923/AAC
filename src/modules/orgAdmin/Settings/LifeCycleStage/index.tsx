@@ -125,7 +125,7 @@ const LifeCycleStage = () => {
           >
             <TanstackTable
               columns={getRowValues}
-              data={tableRow}
+              data={tableRow?.data?.lifecycleStages}
               isPagination
               count={tableRow?.data?.meta?.pages}
               totalRecords={tableRow?.data?.meta?.total}

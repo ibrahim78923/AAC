@@ -126,7 +126,7 @@ const useSalesProductCategories = () => {
   );
 
   return {
-    tableRow: data?.data?.productcategories,
+    tableRow: data,
     isLoading,
     isError,
     isFetching,

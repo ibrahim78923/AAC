@@ -160,13 +160,13 @@ const SalesProductCategories = () => {
           >
             <TanstackTable
               columns={getRowValues}
-              data={tableRow}
-              isPagination
-              count={tableRow?.data?.meta?.pages}
+              data={tableRow?.data?.productcategories}
               totalRecords={tableRow?.data?.meta?.total}
               onPageChange={(page: any) => setPage(page)}
               setPage={setPage}
               setPageLimit={setPageLimit}
+              count={tableRow?.data?.meta?.pages}
+              isPagination
               pageLimit={tableRow?.data?.meta?.limit}
               isLoading={isLoading}
               isSuccess={isSuccess}

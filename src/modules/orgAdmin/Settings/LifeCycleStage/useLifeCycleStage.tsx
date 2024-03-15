@@ -142,7 +142,7 @@ const useLifeCycleStage = () => {
   );
 
   return {
-    tableRow: data?.data?.lifecycleStages,
+    tableRow: data,
     isLoading,
     isError,
     isFetching,
