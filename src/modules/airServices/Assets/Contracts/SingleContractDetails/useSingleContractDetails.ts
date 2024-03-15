@@ -32,22 +32,13 @@ export const useSingleContractDetails = () => {
       skip: !!!contractId,
     },
   );
+
   const handleSubmitForTerminated = async () => {
-    const upDateStatusData = { ...data };
-    const updatedStatusData = { ...upDateStatusData };
-    const newData = {
-      ...updatedStatusData?.data,
-      status: CONTRACT_STATUS?.TERMINATED,
-    };
-    updatedStatusData.data = newData;
-
-    const putContractSubmitApproval = {
-      pathParam: { contractId },
-      body: updatedStatusData,
-    };
-
     try {
-      await patchContractTerminateTrigger(putContractSubmitApproval)?.unwrap();
+      await patchContractTerminateTrigger({
+        contractId,
+        statusApproval: CONTRACT_STATUS?.TERMINATED,
+      })?.unwrap();
       setTerminateModalOpen?.(false);
       router?.push(AIR_SERVICES?.ASSETS_CONTRACTS);
       successSnackbar('Contract was Terminated Successfully');
@@ -75,6 +66,7 @@ export const useSingleContractDetails = () => {
       setDeleteModalOpen,
       setTerminateModalOpen,
       router,
+      data,
     );
 
   return {

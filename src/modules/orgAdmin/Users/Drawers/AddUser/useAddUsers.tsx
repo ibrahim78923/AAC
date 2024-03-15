@@ -27,7 +27,7 @@ const useAddUser = (useActionParams?: any) => {
   //make sum up of address fields
   const addressValues = formValues?.composite?.address
     ? formValues?.composite?.address
-    : `${formValues?.flatNumber ? `Flat # ${formValues?.flatNumber}, ` : ''}` +
+    : `${formValues?.flat ? `Flat # ${formValues?.flat}, ` : ''}` +
       `${
         formValues?.buildingNumber
           ? `Building # ${formValues?.buildingNumber}, `
@@ -46,12 +46,13 @@ const useAddUser = (useActionParams?: any) => {
 
   // setValue of address values
   useEffect(() => {
-    setValue('compositeAddress', addressValues?.trim());
+    setValue('compositeAddress', addressValues);
   }, [addressValues]);
 
   //onsubmit function of forms
   const onSubmit = async (values: any) => {
     values.role = 'ORG_EMPLOYEE';
+
     if (isToggled) {
       values.address = {
         flatNumber: values.flat,
@@ -79,35 +80,6 @@ const useAddUser = (useActionParams?: any) => {
     for (const key of keysToDelete) {
       delete values[key];
     }
-    // if (isToggled) {
-    //   values.address = {
-    //     flatNumber: values.flat,
-    //     buildingName: values?.buildingName,
-    //     buildingNumber: values?.buildingNumber,
-    //     streetName: values?.streetName,
-    //     city: values?.city,
-    //     country: values?.country,
-    //   };
-    // } else {
-    //   values.address = {
-    //     composite: values?.compositeAddress,
-    //   };
-    // }
-
-    // const keysToDelete: any = [
-    //   'flat',
-    //   'compositeAddress',
-    //   'compositeAddress ',
-    //   'buildingNumber',
-    //   'buildingName',
-    //   'city',
-    //   'country',
-    //   'streetName',
-    // ];
-
-    // for (const key of keysToDelete) {
-    //   delete values[key];
-    // }
 
     try {
       await postUserEmployee({ id: organizationId, body: values })?.unwrap();
