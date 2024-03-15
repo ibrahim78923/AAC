@@ -150,9 +150,16 @@ export const userList: any = (
         label="Select"
         name={info.getValue()}
         sx={{ borderBottom: 'none !important' }}
+        MenuProps={{
+          sx: {
+            '& .MuiList-root': {
+              '& .MuiMenuItem-root': { borderBottom: 'none !important' },
+            },
+          },
+        }}
       >
-        <MenuItem value="" style={{ borderBottom: 'none !important' }}>
-          <em> {info?.row?.original?.team}</em>
+        <MenuItem value="">
+          <em>{info?.row?.original?.team}</em>
         </MenuItem>
         <MenuItem value={info?.row?.original?.team}>
           {info?.row?.original?.team}
@@ -171,6 +178,7 @@ export const userList: any = (
     id: 'role',
     isSortable: true,
     header: 'Role',
+
     cell: (info: any) => (
       <Select
         variant="standard"
