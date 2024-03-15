@@ -19,7 +19,7 @@ import { useEffect } from 'react';
 export const useAddNewLocation = () => {
   const router = useRouter();
   const { parentId, childId, type }: any = router.query;
-  const { data } = useGetByIdLocationQuery(parentId);
+  const { data, isLoading, isFetching } = useGetByIdLocationQuery(parentId);
   const { data: childData } = useGetByIdLocationQuery(childId);
   const childLocationData = childData?.data;
   const locationData = data?.data;
@@ -126,6 +126,16 @@ export const useAddNewLocation = () => {
     );
   }, [data, type, locationData, childLocationData]);
 
+  let handleSubmit;
+  if (type === 'parent-edit') {
+    handleSubmit = editOnSubmit;
+  } else if (type === 'child') {
+    handleSubmit = childOnsubmit;
+  } else if (type === 'child-edit') {
+    handleSubmit = childEditOnSubmit;
+  } else {
+    handleSubmit = onSubmit;
+  }
   return {
     AddNewLocationMethods,
     moveToLocationPage,
@@ -139,5 +149,8 @@ export const useAddNewLocation = () => {
     childEditOnSubmit,
     handleCancel,
     type,
+    handleSubmit,
+    isLoading,
+    isFetching,
   };
 };

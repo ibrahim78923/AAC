@@ -3,21 +3,21 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
 
 export const validationSchemaAddNewLocation = yup.object().shape({
-  locationName: yup.string().required('Required'),
-  contactName: yup.string(),
-  email: yup.string().nullable(),
-  phone: yup.string().nullable(),
-  address: yup.object().shape({
-    addressLine1: yup.string(),
-    addressLine2: yup.string(),
-    city: yup.string(),
-    country: yup.string(),
-    state: yup.string(),
-    zipCode: yup.string(),
+  locationName: yup?.string()?.required('Required'),
+  contactName: yup?.string(),
+  email: yup?.string()?.nullable(),
+  phone: yup?.string()?.nullable(),
+  address: yup?.object()?.shape({
+    addressLine1: yup?.string(),
+    addressLine2: yup?.string(),
+    city: yup?.string(),
+    country: yup?.string(),
+    state: yup?.string(),
+    zipCode: yup?.string(),
   }),
 });
 
-export const locationDefaultValues = (locationData: any) => {
+export const locationDefaultValues: any = (locationData: any) => {
   return {
     locationName: locationData?.locationName ?? '',
     parentLocation: locationData?.parentLocation,

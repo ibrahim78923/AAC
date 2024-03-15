@@ -11,31 +11,22 @@ import { addNewLocationDataFields } from './AddNewLocation.data';
 import { useAddNewLocation } from './useAddNewLocation';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { LoadingButton } from '@mui/lab';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const AddNewLocation = () => {
   const {
     AddNewLocationMethods,
-    onSubmit,
     moveToLocationPage,
     locationIsLoading,
     childLocationIsLoading,
-    childOnsubmit,
     parentId,
-    editOnSubmit,
-    childEditOnSubmit,
     handleCancel,
     type,
+    handleSubmit,
+    isLoading,
+    isFetching,
   } = useAddNewLocation();
-  let handleSubmit;
-  if (type === 'parent-edit') {
-    handleSubmit = editOnSubmit;
-  } else if (type === 'child') {
-    handleSubmit = childOnsubmit;
-  } else if (type === 'child-edit') {
-    handleSubmit = childEditOnSubmit;
-  } else {
-    handleSubmit = onSubmit;
-  }
+  if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <>
       <FormProvider
