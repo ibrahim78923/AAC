@@ -1,23 +1,20 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  accountDetailProfileValidationSchema,
-  accountDetailProfileDefaultValues,
-} from './AccountDetailsProfile.data';
+import { profileValidationSchema, profileDefaultValues } from './Profile.data';
 import { usePatchProfileDetailMutation } from '@/services/airServices/settings/account-settings/account-details';
 import useAuth from '@/hooks/useAuth';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 
-export const useAccountDetailsProfile = (props: any) => {
+export const useProfile = (props: any) => {
   const { profileDetail } = props;
   const router = useRouter();
   const user: any = useAuth();
 
-  const AccountDetailProfileMethods = useForm<any>({
-    resolver: yupResolver(accountDetailProfileValidationSchema),
-    defaultValues: accountDetailProfileDefaultValues(profileDetail),
+  const profileMethods = useForm<any>({
+    resolver: yupResolver(profileValidationSchema),
+    defaultValues: profileDefaultValues(profileDetail),
   });
   const [patchProfileDetailTrigger, patchProfileDetailProgress] =
     usePatchProfileDetailMutation();
@@ -61,13 +58,13 @@ export const useAccountDetailsProfile = (props: any) => {
     reset();
   };
 
-  const { handleSubmit, reset } = AccountDetailProfileMethods;
-  const handleSubmitAccountDetailProfile = handleSubmit(isSubmit);
+  const { handleSubmit, reset } = profileMethods;
+  const handleSubmitProfile = handleSubmit(isSubmit);
 
   return {
-    AccountDetailProfileMethods,
+    profileMethods,
     reset,
-    handleSubmitAccountDetailProfile,
+    handleSubmitProfile,
     isLoading,
     handleCancel,
   };

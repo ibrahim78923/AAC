@@ -1,25 +1,15 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
-import {
-  profileWorkDataArray,
-  profileOtherDataArray,
-} from './AccountDetailsProfile.data';
+import { profileWorkDataArray, profileOtherDataArray } from './Profile.data';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useAccountDetailsProfile } from './useAccountDetailsProfile';
+import { useProfile } from './useProfile';
 import { LoadingButton } from '@mui/lab';
 
-export const AccountDetailsProfile = (props: any) => {
-  const {
-    isLoading,
-    AccountDetailProfileMethods,
-    handleSubmitAccountDetailProfile,
-    handleCancel,
-  } = useAccountDetailsProfile(props);
+export const Profile = (props: any) => {
+  const { isLoading, profileMethods, handleSubmitProfile, handleCancel } =
+    useProfile(props);
 
   return (
-    <FormProvider
-      methods={AccountDetailProfileMethods}
-      onSubmit={handleSubmitAccountDetailProfile}
-    >
+    <FormProvider methods={profileMethods} onSubmit={handleSubmitProfile}>
       <Typography variant="h5" mb={1}>
         Work Information
       </Typography>

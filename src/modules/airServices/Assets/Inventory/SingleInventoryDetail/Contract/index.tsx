@@ -46,7 +46,7 @@ export const Contract = () => {
                         showChild
                       >
                         <Typography color={theme?.palette?.grey?.[900]}>
-                          {singleContract?.licenseType}
+                          {singleContract?.contractType}
                         </Typography>
                       </InventoryCard>
                     ),

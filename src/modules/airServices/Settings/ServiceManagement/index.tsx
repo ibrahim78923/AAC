@@ -1,7 +1,7 @@
 import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { serviceManagement } from './ServiceManagement.data';
-import { useGetClosureRulesQuery } from '@/services/airServices/settings/service-management/closureRole';
+import { useGetClosureRulesQuery } from '@/services/airServices/settings/service-management/closureRule';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const ServiceManagement = () => {
