@@ -54,8 +54,10 @@ const RolesCards = ({
               borderColor={'grey.0'}
               borderRadius={2}
               p={3}
+              maxHeight={'20vh'}
               height={'100%'}
               sx={{ cursor: 'pointer' }}
+              overflow={'auto'}
               onClick={() =>
                 router?.push(AIR_SERVICES?.USER_UPSERT_ROLES_SETTINGS)
               }
@@ -84,8 +86,9 @@ const RolesCards = ({
                 borderColor={'grey.0'}
                 borderRadius={2}
                 p={3}
+                maxHeight={'20vh'}
                 height={'100%'}
-                overflow={'hidden'}
+                overflow={'auto'}
               >
                 <Box display={'flex'} justifyContent={'space-between'} mb={1}>
                   <Typography variant="h5">{item?.name}</Typography>
@@ -103,7 +106,9 @@ const RolesCards = ({
                 </Box>
 
                 <Box
-                  dangerouslySetInnerHTML={{ __html: item?.description }}
+                  dangerouslySetInnerHTML={{
+                    __html: item?.description,
+                  }}
                   color={'custom.mulled_wine'}
                 />
                 <Divider sx={{ my: 2 }} />

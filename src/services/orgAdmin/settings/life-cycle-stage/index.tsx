@@ -12,9 +12,10 @@ export const lifeCycleStageAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['SettingLifeCycleStage'],
     }),
     getSettingLifeCycleStage: builder.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: `${settingLifeCycleStage.GET_LIFE_CYCLE_STAGE}`,
         method: 'GET',
+        params: params,
       }),
       providesTags: ['SettingLifeCycleStage'],
     }),
