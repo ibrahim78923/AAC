@@ -26,12 +26,14 @@ export const jobPostingDefaultValues = {
   description: '',
 };
 
-export const jobPostingDataArray = [
+export const jobPostingDataArray = (isFieldsDisabled: boolean) => [
   {
     componentProps: {
       name: 'title',
       label: 'Job Title',
       fullWidth: true,
+      required: !isFieldsDisabled,
+      disabled: isFieldsDisabled,
     },
     component: RHFTextField,
     md: 12,
@@ -42,6 +44,8 @@ export const jobPostingDataArray = [
       label: 'Job Type',
       select: true,
       fullWidth: true,
+      required: !isFieldsDisabled,
+      disabled: isFieldsDisabled,
     },
     options: [
       { value: 'FULL_TIME', label: 'Full Time' },
@@ -58,6 +62,8 @@ export const jobPostingDataArray = [
       label: 'Category ',
       select: true,
       fullWidth: true,
+      required: !isFieldsDisabled,
+      disabled: isFieldsDisabled,
     },
     options: [
       { value: 'SALES', label: 'Sales' },
@@ -74,6 +80,8 @@ export const jobPostingDataArray = [
       name: 'experience',
       label: 'Experience Level',
       select: true,
+      required: !isFieldsDisabled,
+      disabled: isFieldsDisabled,
     },
     options: [
       { value: 'No Experience', label: 'No Experience' },
@@ -91,6 +99,8 @@ export const jobPostingDataArray = [
       label: 'Number of Vacency',
       fullWidth: true,
       select: true,
+      required: !isFieldsDisabled,
+      disabled: isFieldsDisabled,
     },
     options: [
       { value: '1', label: '1' },
@@ -107,6 +117,8 @@ export const jobPostingDataArray = [
       name: 'deadline',
       label: 'Application Deadline Date',
       fullWidth: true,
+      required: !isFieldsDisabled,
+      disabled: isFieldsDisabled,
     },
     component: RHFDatePicker,
     md: 12,
@@ -116,6 +128,8 @@ export const jobPostingDataArray = [
       name: 'description',
       label: 'Job Discription',
       fullWidth: true,
+      required: !isFieldsDisabled,
+      disabled: isFieldsDisabled,
     },
     component: RHFEditor,
     md: 12,
