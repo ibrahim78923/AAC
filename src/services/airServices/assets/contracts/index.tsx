@@ -131,10 +131,9 @@ export const contractAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG_FIVE],
     }),
     patchContractSubmitForApproval: builder?.mutation({
-      query: (patchContractSubmitForApprovalParameter: any) => ({
-        url: `${END_POINTS?.UPDATE_CONTRACT_SUBMIT_APPROVAL}/${patchContractSubmitForApprovalParameter?.pathParam?.contractId}`,
+      query: ({ contractId, statusApproval }: any) => ({
+        url: `${END_POINTS?.UPDATE_CONTRACT_SUBMIT_APPROVAL}/${contractId}/${statusApproval}`,
         method: 'PATCH',
-        body: patchContractSubmitForApprovalParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
@@ -155,10 +154,9 @@ export const contractAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     patchContractTerminated: builder?.mutation({
-      query: (patchContractTerminatedParameter: any) => ({
-        url: `${END_POINTS?.UPDATE_CONTRACT_SUBMIT_APPROVAL}/${patchContractTerminatedParameter?.pathParam?.contractId}`,
+      query: ({ contractId, statusApproval }: any) => ({
+        url: `${END_POINTS?.UPDATE_CONTRACT_SUBMIT_APPROVAL}/${contractId}/${statusApproval}`,
         method: 'PATCH',
-        body: patchContractTerminatedParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
