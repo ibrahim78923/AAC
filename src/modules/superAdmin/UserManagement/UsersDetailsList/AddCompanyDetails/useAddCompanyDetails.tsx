@@ -16,16 +16,6 @@ const useAddCompanyDetails = (
   const [postCompany] = usePostCompanyMutation();
   const [companyImg, setCompanyImg] = useState<any>();
 
-  // const productsList = products?.data?.map((item: any) => ({
-  //   value: item?._id,
-  //   label: (
-  //     <Card sx={styles?.productCard}>
-  //       <Image src={FeaturedImage} alt="sales-image" />
-  //       <Typography>{item?.name}</Typography>
-  //     </Card>
-  //   ),
-  // }));
-
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
@@ -59,8 +49,8 @@ const useAddCompanyDetails = (
   }, [addressValues]);
 
   const onSubmit = async (values: any) => {
-    // let formData = new FormData();
-    // values.file = companyImg;
+    const formData = new FormData();
+    values.file = companyImg;
     values.organizationId = organizationId;
     if (isToggled) {
       values.address = {
@@ -85,22 +75,22 @@ const useAddCompanyDetails = (
     delete values['compositeAddress'];
     values.isActive = false;
 
-    // formData?.append('logoUrl', values?.file)
-    // formData?.append('organizationId', values?.organizationId)
-    // formData?.append('address', values?.address)
-    // formData?.append('accountName', values?.accountName)
-    // formData?.append('phoneNo', values?.phoneNo)
-    // formData?.append('postCode', values?.postCode)
-    // formData?.append('products', values?.products)
-    // formData?.append('isActive', values?.isActive)
+    formData?.append('image', values?.file);
+    formData?.append('organizationId', values?.organizationId);
+    formData?.append('address', values?.address);
+    formData?.append('accountName', values?.accountName);
+    formData?.append('phoneNo', values?.phoneNo);
+    formData?.append('postCode', values?.postCode);
+    formData?.append('products', values?.products);
+    formData?.append('isActive', values?.isActive);
 
     try {
-      postCompany({ body: values })?.unwrap();
-      setISOpenCompanyDrawer(false);
+      await postCompany({ body: formData })?.unwrap();
       enqueueSnackbar('Company Added Successfully', { variant: 'success' });
       reset();
-    } catch {
-      enqueueSnackbar('Company not added', { variant: 'error' });
+      setISOpenCompanyDrawer(false);
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, { variant: 'error' });
     }
   };
 
