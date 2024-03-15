@@ -9,6 +9,7 @@ import {
 } from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
 import { useGetCompanyAccountsRolesQuery } from '@/services/common-APIs';
+import { getSession } from '@/utils';
 
 const useUsers = (setIsAddUserDrawer?: any) => {
   const [checkedUser, setCheckedUser] = useState([]);
@@ -18,6 +19,7 @@ const useUsers = (setIsAddUserDrawer?: any) => {
   const [postPoductUser] = usePostPoductUserMutation();
   const open = Boolean(anchorEl);
   const [updateUsers] = useUpdateUsersMutation();
+  const { user } = getSession();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -27,7 +29,7 @@ const useUsers = (setIsAddUserDrawer?: any) => {
     setAnchorEl(null);
   };
   const { data: rolesByCompanyId } = useGetCompanyAccountsRolesQuery({
-    organizationId: '65dc64bbb454e252cbe9a416',
+    organizationId: user?.organization?._id,
   });
   const methods: any = useForm({
     resolver: yupResolver(userValidationSchema),

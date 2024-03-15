@@ -17,12 +17,8 @@ const useAddAccount = (
   const { user } = useUsers();
   const [companyVal, setCompanyVal] = useState('');
   const [postUsersAccount] = usePostUsersAccountMutation();
-  const {
-    useGetProductsQuery,
-    useGetCompanyAccountsQuery,
-    useGetCompanyAccountsRolesQuery,
-  } = CommonAPIS;
-  const { data: products } = useGetProductsQuery({});
+  const { useGetCompanyAccountsQuery, useGetCompanyAccountsRolesQuery } =
+    CommonAPIS;
   const { data: companyAccounts } = useGetCompanyAccountsQuery({
     orgId: user?.organization?._id,
   });
@@ -68,7 +64,6 @@ const useAddAccount = (
   };
 
   return {
-    products,
     companyAccounts,
     companyRoles,
     handleSubmit,
