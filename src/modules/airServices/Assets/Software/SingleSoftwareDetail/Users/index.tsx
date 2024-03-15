@@ -34,6 +34,7 @@ export const Users = () => {
     deAllocateLoading,
     allocateLoading,
     removeLoading,
+    setFilterValues,
   } = useUsers();
 
   return (
@@ -64,7 +65,7 @@ export const Users = () => {
             handleCsvExport={() => getUserListDataExport(EXPORT_TYPE?.CSV)}
             handleExcelExport={() => getUserListDataExport(EXPORT_TYPE?.XLS)}
           />
-          <UsersFilter />
+          <UsersFilter setFilterValues={setFilterValues} />
         </Box>
       </Box>
       {actionModalOpen && (
