@@ -1,25 +1,14 @@
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import TanstackTable from '@/components/Table/TanstackTable';
 import { useSalesWorkflow } from './useSalesWorkflow';
-import { salesWorkflowListsData } from './SalesWorkflow.data';
-import { SalesWorkflowSubHeader } from './SalesWorkflowSubHeader';
-import { DeleteSalesWorkflow } from './DeleteSalesWorkflow';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
+import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
+import { Deal } from './SalesListView/Deal';
+import { Quote } from './SalesListView/Quote';
+import { Meeting } from './SalesListView/Meeting';
+import { Task } from './SalesListView/Task';
 
 export const SalesWorkflow = () => {
-  const {
-    selectedSalesWorkflowLists,
-    salesWorkflowListsColumn,
-    search,
-    setSearch,
-    salesWorkflowActionDropdown,
-    handleBack,
-    handleCreateWorkflow,
-    deleteWorkflow,
-    setDeleteWorkflow,
-    isFilterOpen,
-    setIsFilterOpen,
-  } = useSalesWorkflow();
+  const { handleBack, handleCreateWorkflow } = useSalesWorkflow();
   return (
     <>
       <PageTitledHeader
@@ -33,24 +22,12 @@ export const SalesWorkflow = () => {
         ]}
       />
       <br />
-      <SalesWorkflowSubHeader
-        disabledActionButton={!!!selectedSalesWorkflowLists?.length}
-        search={search}
-        setSearch={setSearch}
-        salesWorkflowActionDropdown={salesWorkflowActionDropdown}
-        isFilterOpen={isFilterOpen}
-        setIsFilterOpen={setIsFilterOpen}
-      />
-      <br />
-      <TanstackTable
-        columns={salesWorkflowListsColumn}
-        data={salesWorkflowListsData}
-        isPagination
-      />
-      <DeleteSalesWorkflow
-        deleteWorkflow={deleteWorkflow}
-        setDeleteWorkflow={setDeleteWorkflow}
-      />
+      <HorizontalTabs tabsDataArray={['Deals', 'Quotes', 'Meeting', 'Tasks']}>
+        <Deal />
+        <Quote />
+        <Meeting />
+        <Task />
+      </HorizontalTabs>
     </>
   );
 };
