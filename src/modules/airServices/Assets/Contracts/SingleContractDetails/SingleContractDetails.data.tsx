@@ -1,10 +1,12 @@
 import { AIR_SERVICES } from '@/constants';
 import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
+import { CONTRACT_STATUS } from '@/constants/strings';
 
 export const singleContractDetailsActionDropdownFunction = (
   setDeleteModalOpen: any,
   setTerminateModalOpen: any,
   router: any,
+  data: any,
 ) => [
   {
     id: 1,
@@ -40,6 +42,7 @@ export const singleContractDetailsActionDropdownFunction = (
       AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.VIEW_TASK_DETAILS,
     ],
     title: 'Renew',
+    disabled: data?.data?.status !== CONTRACT_STATUS?.ACTIVE,
     handleClick: (closeMenu: any) => {
       router?.push({
         pathname: AIR_SERVICES?.UPDATE_CONTRACT,
@@ -57,6 +60,7 @@ export const singleContractDetailsActionDropdownFunction = (
       AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.VIEW_TASK_DETAILS,
     ],
     title: 'Extend',
+    disabled: data?.data?.status !== CONTRACT_STATUS?.ACTIVE,
     handleClick: (closeMenu: any) => {
       router?.push({
         pathname: AIR_SERVICES?.UPDATE_CONTRACT,
