@@ -38,7 +38,7 @@ const UploadLogo = (props: any) => {
           onError={onImageError}
         />
 
-        <label htmlFor="upload-button">
+        <label htmlFor="upload-img-button">
           <Box
             className="upload-icon"
             sx={{
@@ -53,9 +53,10 @@ const UploadLogo = (props: any) => {
         </label>
         <input
           type="file"
-          id="upload-button"
+          name="file"
+          id="upload-img-button"
           style={{ display: 'none' }}
-          accept="image/png, image/gif, image/jpeg, image/webp"
+          accept="image/png, image/gif, image/jpeg, image/webp,image/jfif"
           onChange={handleChangeImg}
         />
       </Box>

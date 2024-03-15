@@ -4,4 +4,6 @@ export interface EditJobPostPropsI {
   handleSubmit: any;
   formMethods: any;
   isLoading?: boolean;
+  title: string;
+  isFieldsDisabled: boolean;
 }

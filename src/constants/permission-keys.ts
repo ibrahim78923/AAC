@@ -844,7 +844,7 @@ export const AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS = {
   CREATE_TEAM: `operation-user-managment-create-team`,
 };
 
-// Org-Admin Roles & Right
+// Org-Admin Permissions
 export const ORG_ADMIN_DASHBOARD_PERMISSIONS = {
   DASHBOARD: 'org-dashboard',
 };
@@ -892,6 +892,31 @@ export const ORG_ADMIN_PROPERTIES_PERMISSIONS = {
   CREATE_PROPERTY: 'org-create-property',
   EDIT_PROPERTY: 'org-edit-property',
   DELETE_PROPERTY: 'org-delete-property',
+};
+
+export const ORG_ADMIN_ROLE_AND_RIGHTS_PERMISSIONS = {
+  EDIT_ROLE_AND_RIGHTS: 'org-admin-edit-role-and-rights',
+  VIEW_ROLE_AND_RIGHTS: 'org-admin-view-role-and-rights',
+};
+
+export const ORG_ADMIN_SETTINGS_PRODUCT_CATEGORIES_PERMISSIONS = {
+  PRODUCT_CATEGORIES_GRIDVIEW: 'product-categories-grid-view',
+  ADD_SALES_PRODUCT_CATEGORIES:
+    'sales-product-categories-add-product-categories',
+  SALES_PRODUCT_CATEGORIES_ACTION:
+    'org-admin-settings-sales-product-categories-action',
+};
+
+export const ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS = {
+  CREATE_STAGES: 'create-stages',
+  ACTIONS: 'setting-lifecycle-stages-actions',
+  GRIDVIEW: 'setting-lifecycle-stages-grid-view',
+};
+
+export const ORG_ADMIN_SETTINGS_CONTACT_STATUS_PERMISSIONS = {
+  ADD_CONTACT: 'setting-contact-status-add-contact',
+  GRIDVIEW: 'setting-contact-status-grid-view',
+  ACTIONS: 'setting-contact-status-actions',
 };
 
 export const AIR_MARKETER_DASHBAORD_PERMISSIONS = {

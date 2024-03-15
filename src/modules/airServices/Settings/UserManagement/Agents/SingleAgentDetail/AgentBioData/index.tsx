@@ -4,12 +4,12 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
-import { fullName, generateImage } from '@/utils/avatarUtils';
+import { fullName, generateImage, truncateText } from '@/utils/avatarUtils';
 
 export const AgentBioData = () => {
   const theme = useTheme();
-  const { data, isLoading, isFetching, isError }: any = useAgentBioData();
-
+  const { data, isLoading, isFetching, isError, departmentDetails }: any =
+    useAgentBioData();
   if (isLoading || isFetching) return <SkeletonForm />;
   if (isError) return <ApiErrorState />;
 
@@ -82,7 +82,7 @@ export const AgentBioData = () => {
                     Email:
                   </Typography>
                   <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-                    {data?.data?.email}
+                    {data?.data?.email ?? '---'}
                   </Typography>
                 </Box>
                 <Box
@@ -95,7 +95,7 @@ export const AgentBioData = () => {
                     Phone Number
                   </Typography>
                   <Typography variant="body2">
-                    {data?.data?.phoneNumber ?? 'N/A'}
+                    {data?.data?.phoneNumber ?? '---'}
                   </Typography>
                 </Box>
               </Box>
@@ -108,7 +108,7 @@ export const AgentBioData = () => {
               Department
             </Typography>
             <Typography variant="body2" sx={{ flex: '1' }} />
-            IT
+            {truncateText(departmentDetails?.data?.data?.name)}
           </Box>
           <Box
             display={'flex'}
@@ -120,7 +120,7 @@ export const AgentBioData = () => {
               Email:
             </Typography>
             <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-              {data?.data?.email}
+              {data?.data?.email ?? '---'}
             </Typography>
           </Box>
           <Box
