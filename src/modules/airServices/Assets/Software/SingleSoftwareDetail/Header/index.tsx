@@ -1,9 +1,8 @@
-import { Typography, Button, MenuItem, Menu, Box } from '@mui/material';
+import { Button, MenuItem, Menu, Box, Skeleton } from '@mui/material';
 import { ActionButtonIcon } from '@/assets/icons';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useHeader } from './useHeader';
-import React from 'react';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { AlertModals } from '@/components/AlertModals';
+import { useHeader } from './useHeader';
 import { UpsertSoftware } from '../../UpsertSoftware';
 
 export default function Header() {
@@ -24,8 +23,11 @@ export default function Header() {
     onClose,
     methods,
     editLoading,
+    softwareFetching,
+    softwareLoading,
+    softwareData,
   } = useHeader();
-
+  if (softwareFetching || softwareLoading) return <Skeleton height={50} />;
   return (
     <>
       <Box
@@ -35,12 +37,11 @@ export default function Header() {
         flexWrap={'wrap'}
         gap={2}
       >
-        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
-          <ArrowBackIcon onClick={moveBackArrow} />
-          <Typography variant="h5" component="span">
-            Software
-          </Typography>
-        </Box>
+        <PageTitledHeader
+          canMovedBack
+          moveBack={moveBackArrow}
+          title={softwareData?.name}
+        />
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <Button
             variant="outlined"
@@ -87,14 +88,18 @@ export default function Header() {
           message="Are you sure  want to delete this Software ?"
         />
       )}
-      <UpsertSoftware
-        isDrawerOpen={isDrawerOpen}
-        onClose={onClose}
-        methods={methods}
-        submitHandler={submitHandler}
-        isLoading={editLoading}
-        userQuery={userQuery}
-      />
+      {isDrawerOpen && (
+        <UpsertSoftware
+          isDrawerOpen={isDrawerOpen}
+          onClose={onClose}
+          methods={methods}
+          submitHandler={submitHandler}
+          isLoading={editLoading}
+          userQuery={userQuery}
+          title="Edit Software"
+          okText="Update"
+        />
+      )}
     </>
   );
 }

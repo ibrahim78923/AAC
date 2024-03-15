@@ -27,18 +27,22 @@ const useOrganizationTable = () => {
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isToggled, toggle] = useToggle(false);
   const [openEditDrawer, setOpenEditDrawer] = useState(false);
-  const [value, setValue] = useState('search here');
+  const [value, setValue] = useState('');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme<Theme>();
-  const [postOrganization] = usePostOrganizationMutation();
+  const [postOrganization, { isLoading: loadingAddCompanyAccount }] =
+    usePostOrganizationMutation();
   const [updateOrganizationCompany] = useUpdateOrganizationMutation();
   const [deleteOrganization] = useDeleteOrganizationMutation();
   const [updateOrganizationStatus] = useUpdateOrganizationStatusMutation();
   const [imageHandler, setImageHandler] = useState(false);
   const { user }: any = useAuth();
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetOrganizationQuery({ organizationId: user?.organization?._id });
+    useGetOrganizationQuery({
+      organizationId: user?.organization?._id,
+      search: value,
+    });
 
   const deleteOrganizationCompany = async () => {
     try {
@@ -74,10 +78,24 @@ const useOrganizationTable = () => {
   useEffect(() => {
     if (editData) {
       const { accountName, phoneNo, address, postCode } = editData;
+      let parsedAddress;
+      try {
+        parsedAddress = JSON.parse(address);
+      } catch (_: any) {
+        parsedAddress = null;
+      }
+
+      // console.log("parsedAddress", parsedAddress === null ? (address?.composite ?? address ) : parsedAddress?.composite ?? parsedAddress)
+
       methods.setValue('accountName', accountName);
       methods.setValue('phoneNo', phoneNo);
       methods.setValue('postCode', postCode);
-      methods.setValue('address', address);
+      methods.setValue(
+        'address',
+        parsedAddress === null
+          ? address?.composite ?? address
+          : parsedAddress?.composite ?? parsedAddress,
+      );
     }
   }, [editData, methods]);
 
@@ -88,6 +106,15 @@ const useOrganizationTable = () => {
     user?.products.forEach((product: any) => {
       if (data[product?._id]) products.push(product?._id);
     });
+    const address = {
+      flatNumber: data?.unit,
+      buildingName: data?.buildingName,
+      buildingNumber: data?.buildingNumber,
+      streetName: data?.streetName,
+      city: data?.city,
+      country: data?.country,
+      composite: data?.address,
+    };
 
     const formData = new FormData();
     formData.append('image', data?.image);
@@ -95,7 +122,7 @@ const useOrganizationTable = () => {
     formData.append('accountName', data?.accountName);
     formData.append('phoneNo', data?.phoneNo);
     formData.append('postCode', data?.postCode);
-    formData.append('address', data?.address);
+    formData.append('address', JSON.stringify(address));
     formData.append('postCode', data?.postCode);
     formData.append('organizationId', user?.organization?._id);
     formData.append('isActive', 'true');
@@ -180,6 +207,7 @@ const useOrganizationTable = () => {
     editData,
     drawerHeading,
     setDrawerHeading,
+    loadingAddCompanyAccount,
   };
 };
 

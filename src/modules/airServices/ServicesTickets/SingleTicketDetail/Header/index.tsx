@@ -22,6 +22,7 @@ import {
   AIR_SERVICES_TICKETS_TICKET_LISTS,
 } from '@/constants/permission-keys';
 import { TicketsDelete } from '../../TicketsDelete';
+import { truncateText } from '@/utils/avatarUtils';
 
 const Header = () => {
   const {
@@ -65,10 +66,10 @@ const Header = () => {
             <ViewDetailBackArrowIcon />
           </Box>
           <Typography variant="h6" color="primary.main">
-            {data?.data?.[0]?.ticketIdNumber}
+            {data?.data?.[0]?.ticketIdNumber ?? '---'}
           </Typography>
           <Typography variant="h6" component="span">
-            {data?.data?.[0]?.subject}
+            {truncateText(data?.data?.[0]?.subject)}
           </Typography>
         </Grid>
         <Grid item sx={{ display: 'flex', cursor: 'pointer' }}>

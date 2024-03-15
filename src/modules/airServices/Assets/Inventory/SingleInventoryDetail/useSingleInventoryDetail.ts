@@ -5,9 +5,16 @@ import { useDeleteInventoryMutation } from '@/services/airServices/assets/invent
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
+import { useSearchParams } from 'next/navigation';
+import { useGetInventoryOverviewQuery } from '@/services/airServices/assets/inventory/single-inventory-details/overview';
 
 export const useSingleInventoryDetail = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const inventoryId = searchParams?.get('inventoryId');
+  const { data, isLoading, isFetching } =
+    useGetInventoryOverviewQuery(inventoryId);
+  const inventoryData = data?.data?.[0];
 
   const [deleteInventoryTrigger] = useDeleteInventoryMutation();
 
@@ -49,5 +56,8 @@ export const useSingleInventoryDetail = () => {
     router,
     deleteInventoryTrigger,
     submitDeleteHandler,
+    inventoryData,
+    isFetching,
+    isLoading,
   };
 };

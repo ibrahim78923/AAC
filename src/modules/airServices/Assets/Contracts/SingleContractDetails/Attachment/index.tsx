@@ -1,38 +1,18 @@
-import { Grid } from '@mui/material';
-import { attachmentFileData } from './Attachment.data';
-import { AttachFileCard } from '@/components/AttachFileCard';
-import { v4 as uuidv4 } from 'uuid';
-import { useState } from 'react';
-import { AlertModals } from '@/components/AlertModals';
-import { enqueueSnackbar } from 'notistack';
+import { useRouter } from 'next/router';
+import { Attachments } from '@/components/Attachments';
+import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Attachment = () => {
-  const [deleteModal, setDeleteModal] = useState({ open: false, id: '' });
-
+  const router = useRouter();
+  const { contractId } = router?.query;
   return (
-    <Grid container spacing={2}>
-      {attachmentFileData?.map((singleAttachment: any) => (
-        <Grid item xs={12} sm={6} lg={4} key={uuidv4()}>
-          <AttachFileCard
-            data={singleAttachment}
-            onDelete={() =>
-              setDeleteModal({ open: true, id: singleAttachment?.name })
-            }
-          />
-        </Grid>
-      ))}
-      <AlertModals
-        message={'Are you sure you want to delete?'}
-        type={'delete'}
-        open={deleteModal?.open}
-        handleClose={() => setDeleteModal({ open: false, id: '' })}
-        handleSubmitBtn={() => {
-          setDeleteModal({ open: false, id: '' });
-          enqueueSnackbar('Attachment Deleted Successfully!', {
-            variant: 'success',
-          });
-        }}
+    <>
+      <Attachments
+        recordId={contractId}
+        permissionKey={[
+          AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.VIEW_TASK_DETAILS,
+        ]}
       />
-    </Grid>
+    </>
   );
 };

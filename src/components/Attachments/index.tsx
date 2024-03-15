@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import { AttachFileCard } from '@/components/AttachFileCard';
 import { AlertModals } from '@/components/AlertModals';
 import { useAttachments } from './useAttachments';
@@ -6,9 +6,17 @@ import SkeletonForm from '../Skeletons/SkeletonForm';
 import ApiErrorState from '../ApiErrorState';
 import NoData from '../NoData';
 import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import { AddCircleIcon } from '@/assets/icons';
 
 export const Attachments = (props: any) => {
-  const { permissionKey, size, colSpan } = props;
+  const {
+    permissionKey,
+    size,
+    colSpan,
+    canAttachFile = false,
+    attachFileHandler,
+    children = <NoData message="No attachments found" height="100%" />,
+  } = props;
   const {
     deleteModal,
     setDeleteModal,
@@ -18,7 +26,7 @@ export const Attachments = (props: any) => {
     isFetching,
     isLoading,
     isError,
-  } = useAttachments(props);
+  }: any = useAttachments(props);
 
   if (isLoading || isFetching) return <SkeletonForm />;
 
@@ -26,41 +34,54 @@ export const Attachments = (props: any) => {
 
   return (
     <>
-      <Grid container spacing={2}>
-        {!!data?.data?.length ? (
-          data?.data?.map((singleAttachment: any) => (
-            <Grid
-              item
-              xs={12}
-              sm={colSpan?.sm ?? 6}
-              lg={colSpan?.lg ?? 4}
-              key={singleAttachment?._id}
-            >
-              <AttachFileCard
-                size={size}
-                data={singleAttachment}
-                onDelete={() =>
-                  setDeleteModal({ open: true, id: singleAttachment?._id })
-                }
-                permissionKey={permissionKey}
-              />
-            </Grid>
-          ))
-        ) : (
-          <NoData message="No attachments found" height="100%" />
-        )}
-        {deleteModal?.open && (
-          <AlertModals
-            message={'Are you sure you want to delete attachment file?'}
-            type={ALERT_MODALS_TYPE?.DELETE}
-            open={deleteModal?.open}
-            handleClose={() => setDeleteModal({ open: false, id: '' })}
-            handleSubmitBtn={() => deleteAttachmentSubmit?.()}
-            loading={deleteAttachmentStatus?.isLoading}
-            disableCancelBtn={deleteAttachmentStatus?.isLoading}
-          />
-        )}
-      </Grid>
+      {!!data?.data?.length ? (
+        <>
+          {canAttachFile && (
+            <Box mb={2} textAlign={'end'}>
+              <Button
+                variant="outlined"
+                onClick={() => attachFileHandler?.()}
+                startIcon={<AddCircleIcon />}
+              >
+                Attach Files
+              </Button>
+            </Box>
+          )}
+          <Grid container spacing={2}>
+            {data?.data?.map((singleAttachment: any) => (
+              <Grid
+                item
+                xs={12}
+                sm={colSpan?.sm ?? 6}
+                lg={colSpan?.lg ?? 4}
+                key={singleAttachment?._id}
+              >
+                <AttachFileCard
+                  size={size}
+                  data={singleAttachment}
+                  onDelete={() =>
+                    setDeleteModal({ open: true, id: singleAttachment?._id })
+                  }
+                  permissionKey={permissionKey}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      ) : (
+        children
+      )}
+      {deleteModal?.open && (
+        <AlertModals
+          message={'Are you sure you want to delete attachment file?'}
+          type={ALERT_MODALS_TYPE?.DELETE}
+          open={deleteModal?.open}
+          handleClose={() => setDeleteModal({ open: false, id: '' })}
+          handleSubmitBtn={() => deleteAttachmentSubmit?.()}
+          loading={deleteAttachmentStatus?.isLoading}
+          disableCancelBtn={deleteAttachmentStatus?.isLoading}
+        />
+      )}
     </>
   );
 };

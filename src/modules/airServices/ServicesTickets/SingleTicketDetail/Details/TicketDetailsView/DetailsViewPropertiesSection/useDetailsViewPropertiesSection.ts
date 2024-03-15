@@ -6,12 +6,11 @@ import {
   validationSchema,
 } from './DetailsViewPropertiesSection.data';
 import {
-  useGetTicketsDetailsByIdQuery,
   useLazyGetAgentDropdownQuery,
   usePutTicketsMutation,
   useLazyGetCategoriesDropdownQuery,
 } from '@/services/airServices/tickets/single-ticket-details/details';
-
+import { useGetTicketsByIdQuery } from '@/services/airServices/tickets';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
@@ -27,11 +26,13 @@ export const useDetailsViewPropertiesSection = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
-    useGetTicketsDetailsByIdQuery(getSingleTicketParameter, {
+  const { data, isLoading, isFetching, isError } = useGetTicketsByIdQuery(
+    getSingleTicketParameter,
+    {
       refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
-    });
+    },
+  );
   const methods: any = useForm<any>({
     resolver: yupResolver(validationSchema),
     defaultValues: ticketsDetailsDefaultValuesFunction(),

@@ -8,7 +8,7 @@ import {
   upsertTicketValidationSchema,
 } from './UpsertTicket.data';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import usePath from '@/hooks/usePath';
 import {
   useGetTicketsByIdQuery,
@@ -21,6 +21,7 @@ import {
   usePutTicketsMutation,
 } from '@/services/airServices/tickets';
 import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
+import { MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
 
 export const useUpsertTicket = (props: any) => {
   const {
@@ -28,6 +29,8 @@ export const useUpsertTicket = (props: any) => {
     ticketId,
     setSelectedTicketList,
     setFilterTicketLists,
+    getTicketsListData,
+    setPage,
   } = props;
 
   const router = useRouter();
@@ -35,7 +38,6 @@ export const useUpsertTicket = (props: any) => {
   const { makePath } = usePath();
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
-  const [hasAttachment, setHasAttachment] = useState(false);
 
   const getSingleTicketParameter = {
     pathParam: {
@@ -57,40 +59,49 @@ export const useUpsertTicket = (props: any) => {
 
   const { handleSubmit, reset } = methods;
 
-  const submitUpsertTicket = async (data: any) => {
-    setFilterTicketLists({});
-
+  const submitUpsertTicket = async (formData: any) => {
     const upsertTicketFormData = new FormData();
-    upsertTicketFormData?.append('requester', data?.requester?._id);
-    upsertTicketFormData?.append('subject', data?.subject);
-    !!data?.description &&
-      upsertTicketFormData?.append('description', data?.description);
-    !!data?.category?._id &&
-      upsertTicketFormData?.append('category', data?.category?._id);
-    upsertTicketFormData?.append('status', data?.status?._id);
-    upsertTicketFormData?.append('pirority', data?.priority?._id);
-    !!data?.department?._id &&
-      upsertTicketFormData?.append('department', data?.department?._id);
-    !!data?.source && upsertTicketFormData?.append('source', data?.source?._id);
-    !!data?.impact && upsertTicketFormData?.append('impact', data?.impact?._id);
-    !!data?.agent && upsertTicketFormData?.append('agent', data?.agent?._id);
-    (!!data?.plannedEndDate || !!data?.plannedEndTime) &&
+    upsertTicketFormData?.append('requester', formData?.requester?._id);
+    upsertTicketFormData?.append('subject', formData?.subject);
+    !!formData?.description &&
+      upsertTicketFormData?.append('description', formData?.description);
+    !!formData?.category?._id &&
+      upsertTicketFormData?.append('category', formData?.category?._id);
+    upsertTicketFormData?.append('status', formData?.status?._id);
+    upsertTicketFormData?.append('pirority', formData?.priority?._id);
+    !!formData?.department?._id &&
+      upsertTicketFormData?.append('department', formData?.department?._id);
+    !!formData?.source &&
+      upsertTicketFormData?.append('source', formData?.source?._id);
+    !!formData?.impact &&
+      upsertTicketFormData?.append('impact', formData?.impact?._id);
+    !!formData?.agent &&
+      upsertTicketFormData?.append('agent', formData?.agent?._id);
+    (!!formData?.plannedEndDate || !!data?.plannedEndTime) &&
       upsertTicketFormData?.append(
         'plannedEndDate',
-        makeDateTime(data?.plannedEndDate, data?.plannedEndTime)?.toISOString(),
+        makeDateTime(
+          formData?.plannedEndDate,
+          formData?.plannedEndTime,
+        )?.toISOString(),
       );
-    !!data?.plannedEffort &&
-      upsertTicketFormData?.append('plannedEffort', data?.plannedEffort);
-    data?.attachFile !== null &&
-      typeof data?.attachFile !== 'string' &&
-      upsertTicketFormData?.append('fileUrl', data?.attachFile);
-    !!data?.associatesAssets?.length &&
+    !!formData?.plannedEffort &&
+      upsertTicketFormData?.append('plannedEffort', formData?.plannedEffort);
+    formData?.attachFile !== null &&
+      upsertTicketFormData?.append('fileUrl', formData?.attachFile);
+    !!formData?.associatesAssets?.length &&
       upsertTicketFormData?.append(
         'associateAssets',
-        data?.associatesAssets?.map((asset: any) => asset?._id),
+        formData?.associatesAssets?.map((asset: any) => asset?._id),
       );
-    upsertTicketFormData?.append('moduleType', 'TICKETS');
-    upsertTicketFormData?.append('ticketType', 'INC');
+    upsertTicketFormData?.append(
+      'moduleType',
+      data?.data?.[0]?.moduleType ?? MODULE_TYPE?.TICKETS,
+    );
+    upsertTicketFormData?.append(
+      'ticketType',
+      data?.data?.[0]?.ticketType ?? TICKET_TYPE?.INC,
+    );
     if (!!ticketId) {
       submitUpdateTicket(upsertTicketFormData);
       return;
@@ -103,18 +114,21 @@ export const useUpsertTicket = (props: any) => {
       await postTicketTrigger(postTicketParameter)?.unwrap();
       successSnackbar('Ticket Added Successfully');
       reset();
+      getTicketsListData(1, {});
+      setFilterTicketLists?.({});
+      setPage?.(1);
       setIsDrawerOpen?.(false);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
-  const submitUpdateTicket = async (data: any) => {
-    data?.append('isChildTicket', false);
-    data?.append('id', ticketId);
+  const submitUpdateTicket = async (formData: any) => {
+    formData?.append('isChildTicket', data?.data?.[0]?.isChildTicket);
+    formData?.append('id', ticketId);
 
     const putTicketParameter = {
-      body: data,
+      body: formData,
     };
 
     try {
@@ -122,9 +136,12 @@ export const useUpsertTicket = (props: any) => {
       successSnackbar('Ticket Updated Successfully');
       setSelectedTicketList([]);
       reset();
+      getTicketsListData(1, {});
+      setFilterTicketLists?.({});
+      setPage?.(1);
       setIsDrawerOpen?.(false);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {
@@ -156,7 +173,6 @@ export const useUpsertTicket = (props: any) => {
     apiQueryCategories,
     apiQueryAssociateAsset,
     router,
-    hasAttachment,
   );
   return {
     router,
@@ -172,6 +188,5 @@ export const useUpsertTicket = (props: any) => {
     ticketId,
     upsertTicketFormFields,
     isError,
-    setHasAttachment,
   };
 };

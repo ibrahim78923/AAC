@@ -22,8 +22,8 @@ export const taskTicketFormValidationSchema: any = Yup?.object()?.shape({
   status: Yup?.string()?.required('Required'),
   startDate: Yup?.date(),
   startDateTime: Yup?.date(),
-  endDate: Yup?.date(),
-  endDateTime: Yup?.date(),
+  endDate: Yup?.date()?.nullable()?.required('Required'),
+  endDateTime: Yup?.date()?.nullable(),
   plannedEffort: Yup?.string(),
 });
 
@@ -163,6 +163,7 @@ export const taskTicketFormFields = (
       label: 'Planned End Date',
       fullWidth: true,
       disablePast: true,
+      required: true,
       textFieldProps: { readOnly: true },
     },
     component: RHFDatePicker,

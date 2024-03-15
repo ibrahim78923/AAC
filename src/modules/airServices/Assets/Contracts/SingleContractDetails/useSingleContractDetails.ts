@@ -42,8 +42,8 @@ export const useSingleContractDetails = () => {
       setTerminateModalOpen?.(false);
       router?.push(AIR_SERVICES?.ASSETS_CONTRACTS);
       successSnackbar('Contract was Terminated Successfully');
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
       setTerminateModalOpen?.(false);
     }
   };

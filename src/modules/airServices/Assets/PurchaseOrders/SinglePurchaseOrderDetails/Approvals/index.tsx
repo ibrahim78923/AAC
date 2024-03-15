@@ -16,10 +16,10 @@ import { enqueueSnackbar } from 'notistack';
 import { NoAssociationFoundImage } from '@/assets/images';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import CustomPagination from '@/components/CustomPagination';
-import { LoadingButton } from '@mui/lab';
 import { useApprovals } from './useApprovals';
 import { Fragment } from 'react';
 import { DATE_TIME_FORMAT } from '@/constants';
+import { CancelRequest } from './CancelRequest';
 
 export const Approvals = () => {
   const {
@@ -33,13 +33,11 @@ export const Approvals = () => {
     setPage,
     approvalsListMetaData,
     openDialog,
-    onCancel,
-    patchRequestApprovalStatus,
     user,
   } = useApprovals();
   return (
     <>
-      {lazyGetApprovalRequestsStatus?.isLoading ? (
+      {lazyGetApprovalRequestsStatus?.isFetching ? (
         <SkeletonTable />
       ) : (
         <Fragment>
@@ -92,14 +90,16 @@ export const Approvals = () => {
                     mb={{ xs: 2, md: 'unset' }}
                   >
                     <Avatar
-                      alt={`${item?.firstName} ${item?.lastName}`}
+                      alt={`${item?.approverName} ${item?.approverName}`}
                       sx={{ color: theme?.palette?.grey[600], fontWeight: 500 }}
                       src={item?.attachments}
-                      {...stringAvatar(`${item?.firstName} ${item?.lastName}`)}
+                      {...stringAvatar(
+                        `${item?.approverName} ${item?.approverName}`,
+                      )}
                     />
                     <Box>
                       <Typography variant="body1" fontWeight={500}>
-                        {`${item?.firstName} ${item?.lastName}`}
+                        {`${item?.approverName}`}
                       </Typography>
                       <Typography
                         variant="body2"
@@ -144,15 +144,7 @@ export const Approvals = () => {
                     {user?._id !== item?.approverId &&
                       !approvalStatus?.includes(item?.approvalStatus) && (
                         <Fragment>
-                          <LoadingButton
-                            variant="outlined"
-                            sx={{ mx: 2 }}
-                            color="secondary"
-                            loading={patchRequestApprovalStatus?.isLoading}
-                            onClick={() => onCancel(item?._id)}
-                          >
-                            Cancel
-                          </LoadingButton>
+                          <CancelRequest approvalId={item?._id} />
                           <Button
                             variant="outlined"
                             startIcon={<NotificationsIcon />}

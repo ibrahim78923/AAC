@@ -11,15 +11,17 @@ export const UpsertSoftware = (props: any) => {
     submitHandler,
     isLoading,
     userQuery,
+    title,
+    okText,
   } = props;
   return (
     <CommonDrawer
       isDrawerOpen={isDrawerOpen}
       onClose={onClose}
       isOk
-      okText="Save"
+      okText={okText}
       footer
-      title="New Software"
+      title={title}
       submitHandler={submitHandler}
       isLoading={isLoading}
     >

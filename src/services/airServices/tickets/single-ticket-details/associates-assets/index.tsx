@@ -34,7 +34,6 @@ export const ticketsAssociatesAssetsAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: deleteTicketsAssociatesAssetsParameter?.queryParams,
       }),
-      invalidatesTags: [TAG],
     }),
   }),
 });
@@ -44,4 +43,6 @@ export const {
   useGetAssociatesAssetsQuery,
   usePostTicketsAssociatesAssetsMutation,
   useDeleteTicketsAssociatesAssetsMutation,
+  useLazyGetAssociatesAssetsQuery,
+  useLazyGetTicketsAssociatesAssetsQuery,
 } = ticketsAssociatesAssetsAPI;

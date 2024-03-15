@@ -38,7 +38,9 @@ export const usersTableColumns = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={usersData?.length === tableData?.length}
+        checked={
+          tableData?.length ? usersData?.length === tableData?.length : false
+        }
         onChange={(e: any) => {
           e?.target?.checked ? setUsersData([...tableData]) : setUsersData([]);
         }}
