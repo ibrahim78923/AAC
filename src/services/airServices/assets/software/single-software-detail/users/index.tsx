@@ -3,6 +3,7 @@ import { baseAPI } from '@/services/base-api';
 const TAG = 'GET-SOFTWARE-USERS-DETAILS';
 const TAG_ONE = 'DROPDOWN_CONTRACT';
 const TAG_TWO = 'DROPDOWN_USERS';
+const TAG_FOUR = 'USERS_DROPDOWN';
 export const softwareUsers = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getSoftwareUsersDetails: builder?.query({
@@ -76,6 +77,17 @@ export const softwareUsers = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getDepartmentDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.departments;
+      },
+      providesTags: [TAG_FOUR],
+    }),
   }),
 });
 
@@ -88,4 +100,5 @@ export const {
   useDeallocateContractMutation,
   useRemoveContractMutation,
   useAllocateContractMutation,
+  useLazyGetDepartmentDropdownQuery,
 } = softwareUsers;
