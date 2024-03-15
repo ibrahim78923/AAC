@@ -72,14 +72,14 @@ const DealPipelines = () => {
   const [selectedPipelines, setSelectedPipelines] = useState<any>([]);
 
   const togglePipeline = (pipeline: any) => {
-    const index = selectedPipelines.findIndex(
-      (p: any) => p._id === pipeline._id,
+    const index = selectedPipelines?.findIndex(
+      (p: any) => p?._id === pipeline?._id,
     );
     if (index === -1) {
       setSelectedPipelines([...selectedPipelines, pipeline]);
     } else {
       const updatedPipelines = [...selectedPipelines];
-      updatedPipelines.splice(index, 1);
+      updatedPipelines?.splice(index, 1);
       setSelectedPipelines(updatedPipelines);
     }
   };
@@ -243,7 +243,7 @@ const DealPipelines = () => {
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
               sx={styles?.actionBtn(theme)}
-              disabled={selectedPipelines.length !== 1}
+              disabled={selectedPipelines?.length !== 1}
             >
               Actions <ArrowDropDownIcon />
             </Button>

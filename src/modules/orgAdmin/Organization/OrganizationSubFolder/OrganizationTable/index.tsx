@@ -135,7 +135,7 @@ const OrganizationTable = () => {
                   <RHFCheckbox
                     name={product?._id}
                     defaultChecked={editData?.products?.some(
-                      (p: any) => p._id === product?._id,
+                      (p: any) => p?._id === product?._id,
                     )}
                     sx={{
                       marginLeft: '7rem',
