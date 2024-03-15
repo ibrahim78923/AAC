@@ -1,6 +1,6 @@
 import { RHFRadioGroup, RHFCheckbox } from '@/components/ReactHookForm';
 
-export const closureRoleDefaultValues = (
+export const closureRuleDefaultValues = (
   getClosureRuleValues: any,
   ticket: any,
 ) => {

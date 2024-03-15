@@ -1,21 +1,21 @@
 import { useForm } from 'react-hook-form';
-import { closureRoleDefaultValues } from './ClosureRole.data';
+import { closureRuleDefaultValues } from './ClosureRule.data';
 import {
   closeIncidentDataArray,
   resolveIncidentDataArray,
   serviceCloseDataArray,
   serviceResolveDataArray,
-} from './ClosureRole.data';
+} from './ClosureRule.data';
 import { useEffect } from 'react';
-import {
-  useGetClosureRulesQuery,
-  usePostClosureRuleMutation,
-} from '@/services/airServices/settings/service-management/closureRole';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  useGetClosureRulesQuery,
+  usePostClosureRuleMutation,
+} from '@/services/airServices/settings/service-management/closureRule';
 
-export const useClosureRole = () => {
+export const useClosureRule = () => {
   const router = useRouter();
   const { data, isLoading: getIsLoading } = useGetClosureRulesQuery(null);
   const getClosureRuleValues = data?.data;
@@ -27,8 +27,8 @@ export const useClosureRole = () => {
     serviceResolve: 0,
   };
 
-  const closureRoleMethods = useForm({
-    defaultValues: closureRoleDefaultValues(getClosureRuleValues, ticket),
+  const closureRuleMethods = useForm({
+    defaultValues: closureRuleDefaultValues(getClosureRuleValues, ticket),
   });
 
   const [postClosureRuleTrigger, postClosureRuleProgress] =
@@ -116,15 +116,15 @@ export const useClosureRole = () => {
     reset();
   };
 
-  const { handleSubmit, reset } = closureRoleMethods;
-  const handleSubmitClosureRole = handleSubmit(isSubmit);
+  const { handleSubmit, reset } = closureRuleMethods;
+  const handleSubmitClosureRule = handleSubmit(isSubmit);
 
-  const closeIncident = closureRoleMethods?.watch()?.closeIncidentChildTickets;
+  const closeIncident = closureRuleMethods?.watch()?.closeIncidentChildTickets;
   const resolveIncident =
-    closureRoleMethods?.watch()?.resolveIncidentChildTickets;
-  const serviceClose = closureRoleMethods?.watch()?.serviceCloseChildTickets;
+    closureRuleMethods?.watch()?.resolveIncidentChildTickets;
+  const serviceClose = closureRuleMethods?.watch()?.serviceCloseChildTickets;
   const serviceResolve =
-    closureRoleMethods?.watch()?.serviceResolveChildTickets;
+    closureRuleMethods?.watch()?.serviceResolveChildTickets;
 
   const closeIncidentData = closeIncidentDataArray(closeIncident);
   const resolveIncidentData = resolveIncidentDataArray(resolveIncident);
@@ -133,22 +133,22 @@ export const useClosureRole = () => {
 
   useEffect(() => {
     if (closeIncident === false) {
-      closureRoleMethods?.setValue('closeIncidentClosedResolved', '');
+      closureRuleMethods?.setValue('closeIncidentClosedResolved', '');
     }
     if (resolveIncident === false) {
-      closureRoleMethods?.setValue('resolveIncidentClosedResolved', '');
+      closureRuleMethods?.setValue('resolveIncidentClosedResolved', '');
     }
     if (serviceClose === false) {
-      closureRoleMethods?.setValue('serviceCloseClosedResolved', '');
+      closureRuleMethods?.setValue('serviceCloseClosedResolved', '');
     }
     if (serviceResolve === false) {
-      closureRoleMethods?.setValue('serviceResolveClosedResolved', '');
+      closureRuleMethods?.setValue('serviceResolveClosedResolved', '');
     }
   }, [closeIncident, resolveIncident, serviceClose, serviceResolve]);
 
   return {
-    closureRoleMethods,
-    handleSubmitClosureRole,
+    closureRuleMethods,
+    handleSubmitClosureRule,
     reset,
     closeIncidentData,
     resolveIncidentData,
