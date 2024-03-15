@@ -1,21 +1,16 @@
 export const moduleOptions = [
-  { value: 'Tickets', label: 'Tickets' },
+  { value: 'TICKETS', label: 'Tickets' },
   { value: 'Assets', label: 'Assets' },
   { value: 'Tasks', label: 'Tasks' },
   { value: 'Meetings', label: 'Meetings' },
 ];
-export const andRunOptions = [
-  'Once, for each record',
-  'Recurring, for the same record',
+export const andRunOptions = ['ONCE', 'Recurring, for the same record'];
+export const triggerOptions = [
+  'When a record is created',
+  'When a record is created or updated',
 ];
 
-export const eventOptions = [
-  'Ticket is',
-  'Incident is',
-  'Services Request is',
-  'Reply or Forward is sent',
-  'Request Item field is Updated',
-];
+export const eventOptions = ['created', 'updated', 'deleted'];
 
 export const assetsOptions = [
   'Inventory',

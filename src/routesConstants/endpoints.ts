@@ -376,5 +376,6 @@ export const INVOICE = {
 };
 
 export const OPERATION = {
-  ADD_OPERATION_WORKFLOW: '/operation/add-workflow',
+  ADD_OPERATION_WORKFLOW: '/workflows',
+  SCHEMA_KEYS: '/workflows/schema-keys',
 };

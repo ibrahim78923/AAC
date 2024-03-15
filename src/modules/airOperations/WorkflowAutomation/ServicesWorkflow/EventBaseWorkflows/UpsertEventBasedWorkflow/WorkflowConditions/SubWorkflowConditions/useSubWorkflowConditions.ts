@@ -1,8 +1,15 @@
+import { SCHEMA_KEYS } from '@/constants/strings';
+import { useGetSchemaKeysQuery } from '@/services/common-APIs';
 import { errorSnackbar } from '@/utils/api';
 import { useFieldArray } from 'react-hook-form';
 
 export const useSubWorkflowConditions = (props: any) => {
   const { control, index, parentField, removeParent } = props;
+  const params = {
+    collectionName: SCHEMA_KEYS?.TICKETS,
+  };
+  const { data } = useGetSchemaKeysQuery(params);
+  const schemaKeysData = data?.data;
   const { fields, remove, append } = useFieldArray({
     control,
     name: `groups.${index}.conditions`,
@@ -23,5 +30,6 @@ export const useSubWorkflowConditions = (props: any) => {
     fields,
     append,
     handleDeleteClick,
+    schemaKeysData,
   };
 };

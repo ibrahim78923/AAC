@@ -5,8 +5,8 @@ import {
   eventBasedWorkflowValues,
 } from './UpsertEventBasedWorkflow.data';
 import { useTheme } from '@mui/material';
-// import { usePostServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
-import { successSnackbar } from '@/utils/api';
+import { usePostServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useUpsertEventBasedWorkflow = () => {
   const eventMethod = useForm({
@@ -15,13 +15,18 @@ export const useUpsertEventBasedWorkflow = () => {
   });
   const { reset, watch, register, handleSubmit, setValue, control } =
     eventMethod;
-  // const [postWorkflowTrigger] = usePostServicesWorkflowMutation();
-  const handleFormSubmit = () => {
-    successSnackbar('Workflow Enabled Successfully');
+  const [postWorkflowTrigger] = usePostServicesWorkflowMutation();
+  const handleFormSubmit = async (data: any) => {
+    try {
+      await postWorkflowTrigger(data).unwrap();
+      successSnackbar('Workflow Enabled Successfully');
+    } catch (error) {
+      errorSnackbar();
+    }
     reset();
   };
   const { palette } = useTheme();
-  const moduleType = watch('moduleType');
+  const moduleType = watch('module');
   return {
     eventMethod,
     handleFormSubmit,

@@ -6,22 +6,21 @@ import { eventBasedWorkflowValues } from '../../UpsertEventBasedWorkflow.data';
 import { useSubWorkflowConditions } from './useSubWorkflowConditions';
 import { RHFAutocomplete } from '@/components/ReactHookForm';
 import {
-  TICKET_FIELDS,
   conditionOptions,
   fieldOptions,
   statusOptions,
-  ticketsFieldsOptions,
 } from './SubWorkflowConditions.data';
 
 export const SubWorkflowConditions = (props: any) => {
-  const { index, conditionType, watch, register } = props;
-  const { append, fields, handleDeleteClick } = useSubWorkflowConditions(props);
+  const { index, conditionType, register } = props;
+  const { append, fields, handleDeleteClick, schemaKeysData } =
+    useSubWorkflowConditions(props);
   return (
     <>
       {fields?.map((item, subIndex) => {
-        const groups = watch(
-          `groups.${index}.nestedArray.${subIndex}.condition1`,
-        );
+        // const groups = watch(
+        //   `groups.${index}.nestedArray.${subIndex}.condition1`,
+        // );
         return (
           <Box key={item?.id}>
             {subIndex !== 0 && (
@@ -51,34 +50,34 @@ export const SubWorkflowConditions = (props: any) => {
                       inputRef={register}
                     />
                   </Grid>
-                  {groups === TICKET_FIELDS && (
-                    <>
-                      <Grid item md={3}>
-                        <RHFAutocomplete
-                          name={`groups.${index}.nestedArray.${subIndex}.condition2`}
-                          size="small"
-                          placeholder="Select"
-                          options={ticketsFieldsOptions}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <RHFAutocomplete
-                          name={`groups.${index}.nestedArray.${subIndex}.condition3`}
-                          size="small"
-                          placeholder="Select"
-                          options={fieldOptions}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <RHFAutocomplete
-                          name={`groups.${index}.nestedArray.${subIndex}.condition4`}
-                          size="small"
-                          placeholder="Select"
-                          options={statusOptions}
-                        />
-                      </Grid>
-                    </>
-                  )}
+                  {/* {groups === TICKET_FIELDS && ( */}
+                  <>
+                    <Grid item md={3}>
+                      <RHFAutocomplete
+                        name={`groups.${index}.conditions.${index}.key`}
+                        size="small"
+                        placeholder="Select"
+                        options={schemaKeysData}
+                      />
+                    </Grid>
+                    <Grid item md={3}>
+                      <RHFAutocomplete
+                        name={`groups.${index}.conditions.${index}.condition`}
+                        size="small"
+                        placeholder="Select"
+                        options={fieldOptions}
+                      />
+                    </Grid>
+                    <Grid item md={3}>
+                      <RHFAutocomplete
+                        name={`groups.${index}.conditions.${index}.value`}
+                        size="small"
+                        placeholder="Select"
+                        options={statusOptions}
+                      />
+                    </Grid>
+                  </>
+                  {/* )} */}
                 </Grid>
               </>
               <DeleteIcon

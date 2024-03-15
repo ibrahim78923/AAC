@@ -11,6 +11,6 @@ export const ticketsFieldsOptions = [
   'workspace',
   'Status',
 ];
-export const fieldOptions = ['Is', 'Is not', 'Equal', 'Not equal', 'Contains'];
-export const statusOptions = ['Open', 'Pending', 'Resolved', 'Close'];
+export const fieldOptions = ['is', 'is not', 'equal', 'not equal', 'contains'];
+export const statusOptions = ['open', 'pending', 'resolved', 'close'];
 export const TICKET_FIELDS = 'Ticket Fields';
