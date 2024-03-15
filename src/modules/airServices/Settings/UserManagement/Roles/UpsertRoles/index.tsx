@@ -7,7 +7,7 @@ import useUpsertRoles from './useUpsertRoles';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
 import { LoadingButton } from '@mui/lab';
-import PermissionsAccordion from './permissions-accordion';
+import PermissionsAccordion from './PermissionsAccordion';
 
 const UpsertRoles = () => {
   const {
