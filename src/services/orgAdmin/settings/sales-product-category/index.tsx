@@ -12,9 +12,10 @@ export const salesProductCategoriesAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['SettingSalesProductCategories'],
     }),
     getSalesProductCategories: builder.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: `${settingSalesProductCategory.GET_SALES_PRODUCT_CATEGORY}`,
         method: 'GET',
+        params: params,
       }),
       providesTags: ['SettingSalesProductCategories'],
     }),

@@ -6,7 +6,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 
@@ -38,6 +37,10 @@ const LifeCycleStage = () => {
     setIsModalHeading,
     tableRow,
     deleteStageLifeCycle,
+    setPage,
+    setPageLimit,
+    isSuccess,
+    isLoading,
   } = useLifeCycleStage();
 
   return (
@@ -54,7 +57,7 @@ const LifeCycleStage = () => {
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={LifeCycleStage}>
             <Grid container spacing={4}>
-              {dataArray?.map((item: any) => (
+              {dataArray(isModalHeading)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component
                     {...item.componentProps}
@@ -120,11 +123,18 @@ const LifeCycleStage = () => {
               ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS?.GRIDVIEW,
             ]}
           >
-            <TanstackTable columns={getRowValues} data={tableRow} />
-            <CustomPagination
-              count={1}
-              rowsPerPageOptions={[1, 2]}
-              entriePages={1}
+            <TanstackTable
+              columns={getRowValues}
+              data={tableRow}
+              isPagination
+              count={tableRow?.data?.meta?.pages}
+              totalRecords={tableRow?.data?.meta?.total}
+              onPageChange={(page: any) => setPage(page)}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              pageLimit={tableRow?.data?.meta?.limit}
+              isLoading={isLoading}
+              isSuccess={isSuccess}
             />
           </PermissionsGuard>
         </Grid>

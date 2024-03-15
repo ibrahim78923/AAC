@@ -8,6 +8,8 @@ import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import * as Yup from 'yup';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES_PERMISSIONS } from '@/constants/permission-keys';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const LifeCycleStagevalidationSchema: any = Yup.object().shape({
   name: Yup.string()
@@ -21,26 +23,30 @@ export const LifeCycleStageDefaultValues = {
   description: '',
 };
 
-export const dataArray = [
-  {
-    componentProps: {
-      name: 'name',
-      label: 'Add stage name',
-      fullWidth: true,
+export const dataArray = (isModalHeading: any) => {
+  return [
+    {
+      componentProps: {
+        name: 'name',
+        label: 'Add stage name',
+        fullWidth: true,
+        disabled: isModalHeading === 'View',
+      },
+      component: RHFTextField,
+      md: 12,
     },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    componentProps: {
-      name: 'description',
-      label: 'Description',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'description',
+        label: 'Description',
+        fullWidth: true,
+        disabled: isModalHeading === 'View',
+      },
+      component: RHFEditor,
+      md: 12,
     },
-    component: RHFEditor,
-    md: 12,
-  },
-];
+  ];
+};
 
 // table
 export const LifeCycleStageTableData: any = [
@@ -111,7 +117,7 @@ export const columns = (
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => dayjs(info.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.action,
@@ -128,6 +134,7 @@ export const columns = (
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() => {
+                handleEditClick(info?.row?.original);
                 setIsDraweropen(true);
                 setIsModalHeading('View');
               }}
