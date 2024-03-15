@@ -25,21 +25,24 @@ const useAddUser = (useActionParams?: any) => {
   const formValues = watch();
 
   //make sum up of address fields
-  const addressValues = `${formValues?.flat ? 'Flat # ' : ''}${
-    formValues?.flat ?? ''
-  }${formValues?.flat ? ',' : ''}
-    ${formValues?.buildingName ? 'building name ' : ''}${
-      formValues?.buildingName ?? ''
-    }${formValues?.buildingName ? ',' : ''}${
-      formValues?.buildingNumber ? 'building # ' : ''
-    }${formValues?.buildingNumber ?? ''}
-    ${formValues?.buildingNumber ? ',' : ''}${
-      formValues?.streetName ? 'street name ' : ''
-    }${formValues?.streetName ?? ''}${formValues?.streetName ? ',' : ''}${
-      formValues?.city ?? ''
-    }${formValues?.city ? ',' : ''}${formValues?.country ?? ''}${
-      formValues?.country ? ',' : ''
-    }`;
+  const addressValues = formValues?.composite?.address
+    ? formValues?.composite?.address
+    : `${formValues?.flatNumber ? `Flat # ${formValues?.flatNumber}, ` : ''}` +
+      `${
+        formValues?.buildingNumber
+          ? `Building # ${formValues?.buildingNumber}, `
+          : ''
+      }` +
+      `${
+        formValues?.buildingName
+          ? `Building Name ${formValues?.buildingName}, `
+          : ''
+      }` +
+      `${
+        formValues?.streetName ? `Street # ${formValues?.streetName}, ` : ''
+      }` +
+      `${formValues?.city ? `${formValues?.city}, ` : ''}` +
+      `${formValues?.country ? `${formValues?.country}` : ''}`;
 
   // setValue of address values
   useEffect(() => {
@@ -49,8 +52,7 @@ const useAddUser = (useActionParams?: any) => {
   //onsubmit function of forms
   const onSubmit = async (values: any) => {
     values.role = 'ORG_EMPLOYEE';
-
-    if (isToggled || values.flat !== '') {
+    if (isToggled) {
       values.address = {
         flatNumber: values.flat,
         buildingName: values?.buildingName,
@@ -64,20 +66,48 @@ const useAddUser = (useActionParams?: any) => {
         composite: values?.compositeAddress,
       };
     }
-
     const keysToDelete: any = [
       'flat',
-      'compositeAddress',
       'buildingNumber',
       'buildingName',
       'city',
       'country',
       'streetName',
+      'compositeAddress',
     ];
 
     for (const key of keysToDelete) {
       delete values[key];
     }
+    // if (isToggled) {
+    //   values.address = {
+    //     flatNumber: values.flat,
+    //     buildingName: values?.buildingName,
+    //     buildingNumber: values?.buildingNumber,
+    //     streetName: values?.streetName,
+    //     city: values?.city,
+    //     country: values?.country,
+    //   };
+    // } else {
+    //   values.address = {
+    //     composite: values?.compositeAddress,
+    //   };
+    // }
+
+    // const keysToDelete: any = [
+    //   'flat',
+    //   'compositeAddress',
+    //   'compositeAddress ',
+    //   'buildingNumber',
+    //   'buildingName',
+    //   'city',
+    //   'country',
+    //   'streetName',
+    // ];
+
+    // for (const key of keysToDelete) {
+    //   delete values[key];
+    // }
 
     try {
       await postUserEmployee({ id: organizationId, body: values })?.unwrap();

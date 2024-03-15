@@ -1,12 +1,13 @@
-import { Box, Card, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Card, Grid, Typography } from '@mui/material';
 import { styles } from './AgentRequest.style';
-import Image from 'next/image';
 import RejectedModal from './RejectedModal';
 import { useAgentRequest } from './useAgentRequest';
 import { AGENT_REQUEST_STATUS } from '@/constants/strings';
-import { UserRequesterImage } from '@/assets/images';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 const AgentRequest = () => {
   const {
@@ -23,25 +24,23 @@ const AgentRequest = () => {
         {requesterData?.map((item: any) => (
           <Grid item xs={12} sm={6} md={4} xl={3} key={item?._id}>
             <Card sx={styles?.cardStyling}>
-              <Box
-                border={`2px solid ${theme?.palette?.secondary?.main}`}
-                borderRadius={'50%'}
-                p={'0.05rem'}
+              <Avatar
+                sx={{
+                  bgcolor: theme?.palette?.blue?.main,
+                  width: 80,
+                  height: 80,
+                  border: '2px solid',
+                  borderColor: 'primary.main',
+                }}
+                src={generateImage(item?.userDetails?.avatar?.url)}
               >
-                {item?.userDetails?.avatar?.url ? (
-                  <Image
-                    src={item?.userDetails?.avatar?.url}
-                    alt="Profile"
-                    style={styles?.imageStyle}
-                  />
-                ) : (
-                  <Image
-                    src={UserRequesterImage}
-                    alt="Profile"
-                    style={styles?.imageStyle}
-                  />
-                )}
-              </Box>
+                <Typography variant="body2" textTransform={'uppercase'}>
+                  {fullNameInitial(
+                    item?.userDetails?.firstName,
+                    item?.userDetails?.lastName,
+                  )}
+                </Typography>
+              </Avatar>
               <Typography variant="h4" py={0.5} fontWeight={700}>
                 {`${item?.userDetails?.firstName} ${item?.userDetails?.lastName}`}
               </Typography>
@@ -61,7 +60,9 @@ const AgentRequest = () => {
                     {item?.status}
                   </Typography>
                   <Typography variant="body2">
-                    {item?.userDetails?.createdAt}
+                    {dayjs(item?.userDetails?.createdAt)?.format(
+                      DATE_FORMAT?.UI,
+                    )}
                   </Typography>
                 </Box>
               ) : (

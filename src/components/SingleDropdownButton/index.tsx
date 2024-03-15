@@ -48,6 +48,7 @@ export const SingleDropdownButton = (props: any) => {
             key={singleOption?.id}
           >
             <MenuItem
+              disabled={singleOption?.disabled}
               onClick={() => singleOption?.handleClick?.(handleClose)}
               sx={{
                 '&.MuiMenuItem-root': {

@@ -27,23 +27,11 @@ export const useHeader = () => {
       skip: !!!contractId,
     });
   const handleSubmitForApproval = async () => {
-    const upDateStatusData = { ...data };
-    const updatedStatusData = { ...upDateStatusData };
-    const newData = {
-      ...updatedStatusData?.data,
-      status: CONTRACT_STATUS?.PENDING_APPROVAL,
-    };
-    updatedStatusData.data = newData;
-
-    const putContractSubmitApproval = {
-      pathParam: { contractId },
-      body: updatedStatusData,
-    };
-
     try {
-      await patchContractSubmitApprovalTrigger(
-        putContractSubmitApproval,
-      )?.unwrap();
+      await patchContractSubmitApprovalTrigger({
+        contractId,
+        statusApproval: CONTRACT_STATUS?.PENDING_APPROVAL,
+      })?.unwrap();
       successSnackbar('Contract was sent for Approval');
     } catch (error) {
       errorSnackbar();

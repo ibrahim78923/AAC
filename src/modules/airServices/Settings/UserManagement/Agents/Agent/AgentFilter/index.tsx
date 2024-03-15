@@ -1,7 +1,6 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
-import { agentFilterFields } from './AgentFilter.data';
 import { useAgentFilter } from './useAgentFilter';
 
 const AgentFilter = (props: any) => {
@@ -10,7 +9,7 @@ const AgentFilter = (props: any) => {
     onSubmit,
     handleCloseDrawer,
     agentFilterDrawerMethods,
-    departmentData,
+    agentFilterFormFields,
   } = useAgentFilter(props);
   return (
     <>
@@ -26,7 +25,7 @@ const AgentFilter = (props: any) => {
         <Box mt={1}>
           <FormProvider methods={agentFilterDrawerMethods}>
             <Grid container spacing={3}>
-              {agentFilterFields(departmentData)?.map((form: any) => (
+              {agentFilterFormFields?.map((form: any) => (
                 <Grid item xs={12} key={form?.id}>
                   <form.component {...form?.componentProps} size="small" />
                 </Grid>

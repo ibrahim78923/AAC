@@ -2,26 +2,27 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'WORKLOAD_SCHEDULE';
-const TAG_FOUR = 'USERS_DROPDOWN';
+const TAG_THREE = 'USERS_DROPDOWN';
 
-export const exampleExampleAPI = baseAPI.injectEndpoints({
+export const workloadScheduleAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getWorkloadSchedule: builder.query({
+    getWorkloadSchedule: builder?.query({
       query: (getWorkloadScheduleParameter: any) => ({
-        url: `/plan-management`,
+        url: END_POINTS?.GET_WORKLOAD_SCHEDULE_LIST,
         method: 'GET',
         params: getWorkloadScheduleParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
-    getWorkloadScheduleById: builder.query({
+    getWorkloadScheduleById: builder?.query({
       query: (getSingleWorkloadScheduleParameter: any) => ({
-        url: `/plan-management/${getSingleWorkloadScheduleParameter?.pathParams?.id}`,
+        url: `${END_POINTS?.GET_SINGLE_WORKLOAD_SCHEDULE_DETAILS}`,
         method: 'GET',
+        params: getSingleWorkloadScheduleParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
-    postWorkloadSchedule: builder.mutation({
+    postWorkloadSchedule: builder?.mutation({
       query: (postWorkloadScheduleParameter: any) => ({
         url: END_POINTS?.ADD_WORKLOAD_SCHEDULE,
         method: 'POST',
@@ -29,15 +30,15 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    patchWorkloadSchedule: builder.mutation({
+    patchWorkloadSchedule: builder?.mutation({
       query: (patchWorkloadScheduleParameter: any) => ({
         url: END_POINTS?.EDIT_WORKLOAD_SCHEDULE,
-        method: 'PUT',
+        method: 'PATCH',
         body: patchWorkloadScheduleParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
-    deleteWorkloadSchedule: builder.mutation({
+    deleteWorkloadSchedule: builder?.mutation({
       query: (deleteWorkloadScheduleParameter: any) => ({
         url: END_POINTS?.DELETE_WORKLOAD_SCHEDULE,
         method: 'DELETE',
@@ -45,16 +46,16 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getUsersDropdown: builder?.query({
+    getWorkloadAgentDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        url: `${END_POINTS?.DROPDOWN_AGENTS}`,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data;
+        if (response) return response?.data?.users;
       },
-      providesTags: [TAG_FOUR],
+      providesTags: [TAG_THREE],
     }),
     getBusinessHourDropdown: builder?.query({
       query: ({ params }: any) => ({
@@ -62,6 +63,9 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
         method: 'GET',
         params,
       }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
       providesTags: [TAG],
     }),
   }),
@@ -74,5 +78,5 @@ export const {
   useDeleteWorkloadScheduleMutation,
   useGetWorkloadScheduleByIdQuery,
   useLazyGetBusinessHourDropdownQuery,
-  useLazyGetUsersDropdownQuery,
-} = exampleExampleAPI;
+  useLazyGetWorkloadAgentDropdownQuery,
+} = workloadScheduleAPI;
