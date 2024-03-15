@@ -71,6 +71,8 @@ const OrganizationTable = () => {
     drawerHeading,
     setDrawerHeading,
     loadingAddCompanyAccount,
+    editData,
+    setEditData,
   } = useOrganizationTable();
   const { user }: any = useAuth();
 
@@ -132,6 +134,9 @@ const OrganizationTable = () => {
                 <Box sx={styles?.productCard} key={product?._id}>
                   <RHFCheckbox
                     name={product?._id}
+                    defaultChecked={editData?.products?.some(
+                      (p: any) => p._id === product?._id,
+                    )}
                     sx={{
                       marginLeft: '7rem',
                     }}
@@ -345,7 +350,9 @@ const OrganizationTable = () => {
                 <Button
                   onClick={() => {
                     handleClose();
+                    setDrawerHeading('Create Company');
                     setIsOpenDrawer(true);
+                    setEditData({});
                   }}
                   variant="contained"
                   className="small"
