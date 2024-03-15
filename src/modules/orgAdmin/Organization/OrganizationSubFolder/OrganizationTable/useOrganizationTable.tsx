@@ -27,7 +27,7 @@ const useOrganizationTable = () => {
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isToggled, toggle] = useToggle(false);
   const [openEditDrawer, setOpenEditDrawer] = useState(false);
-  const [value, setValue] = useState('search here');
+  const [value, setValue] = useState('');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme<Theme>();
@@ -39,7 +39,10 @@ const useOrganizationTable = () => {
   const [imageHandler, setImageHandler] = useState(false);
   const { user }: any = useAuth();
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetOrganizationQuery({ organizationId: user?.organization?._id });
+    useGetOrganizationQuery({
+      organizationId: user?.organization?._id,
+      search: value,
+    });
 
   const deleteOrganizationCompany = async () => {
     try {
@@ -75,10 +78,24 @@ const useOrganizationTable = () => {
   useEffect(() => {
     if (editData) {
       const { accountName, phoneNo, address, postCode } = editData;
+      let parsedAddress;
+      try {
+        parsedAddress = JSON.parse(address);
+      } catch (_: any) {
+        parsedAddress = null;
+      }
+
+      // console.log("parsedAddress", parsedAddress === null ? (address?.composite ?? address ) : parsedAddress?.composite ?? parsedAddress)
+
       methods.setValue('accountName', accountName);
       methods.setValue('phoneNo', phoneNo);
       methods.setValue('postCode', postCode);
-      methods.setValue('address', address);
+      methods.setValue(
+        'address',
+        parsedAddress === null
+          ? address?.composite ?? address
+          : parsedAddress?.composite ?? parsedAddress,
+      );
     }
   }, [editData, methods]);
 

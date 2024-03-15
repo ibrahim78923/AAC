@@ -1,5 +1,4 @@
 import { Box, Button, Typography } from '@mui/material';
-import { styles } from './CardLayout.style';
 
 export const CardLayout = ({
   title,
@@ -9,23 +8,33 @@ export const CardLayout = ({
   maxHeight = 222,
   children,
 }: any) => {
-  const { cardWrapper, viewMoreBtn } = styles;
-
   return (
-    <Box sx={cardWrapper}>
-      <Typography fontWeight={600} color="grey.800">
-        {title}
-      </Typography>
-      <Box sx={{ height: maxHeight, overflowY: 'scroll' }}>{children}</Box>
-      <Box height={20}>
-        <Button
-          variant="text"
-          sx={viewMoreBtn(btnPosition)}
-          onClick={() => btnClick(title)}
-        >
-          {buttonText}
-        </Button>
+    <Box bgcolor={'common.white'} p={2} borderRadius={4} height="100%">
+      <Box
+        display={'flex'}
+        alignItems={'center'}
+        flexWrap={'wrap'}
+        gap={1}
+        mb={0.5}
+        justifyContent={'space-between'}
+      >
+        <Typography fontWeight={600} color="grey.800">
+          {title}
+        </Typography>
+        {btnPosition !== 'center' && (
+          <Button variant="text" onClick={() => btnClick(title)}>
+            {buttonText}
+          </Button>
+        )}
       </Box>
+      <Box sx={{ height: maxHeight, overflowY: 'scroll' }}>{children}</Box>
+      {btnPosition === 'center' && (
+        <Box textAlign={'center'}>
+          <Button variant="text" fullWidth onClick={() => btnClick(title)}>
+            {buttonText}
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 };
