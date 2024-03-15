@@ -51,6 +51,14 @@ const ticketsDetailsAPI = baseAPI?.injectEndpoints({
         body: postTicketTimeParameter?.body,
       }),
     }),
+    getTask: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.TASK}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
