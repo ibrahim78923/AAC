@@ -58,9 +58,8 @@ export const createAddAnnouncementDataArray = (
   },
   {
     id: 3,
-    componentProps: {
-      value: 'Schedule an announcement',
-    },
+    componentProps: {},
+    heading: 'Schedule an announcement',
     component: Typography,
     md: 12,
   },

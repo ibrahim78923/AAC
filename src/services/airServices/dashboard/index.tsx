@@ -41,9 +41,10 @@ export const dashboardAPI = baseAPI.injectEndpoints({
       invalidatesTags: [TAG_TWO],
     }),
     getCustomerAnnouncement: builder.query({
-      query: () => ({
+      query: (getCustomerAnnouncementApiParameter: any) => ({
         url: `${DASHBOARD_ANNOUNCEMENTS_CUSTOMER}`,
         method: 'GET',
+        params: getCustomerAnnouncementApiParameter?.queryParams,
       }),
       providesTags: [TAG_TWO],
     }),

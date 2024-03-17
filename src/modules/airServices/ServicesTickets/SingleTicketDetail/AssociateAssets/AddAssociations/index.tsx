@@ -1,10 +1,10 @@
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { useAssociationsDrawer } from './useAssociationsDrawer';
+import { useAddAssociations } from './useAddAssociations';
 import { Box } from '@mui/material';
 import Search from '@/components/Search';
 
-export const AddAssociationsDrawer = (props: any) => {
+export const AddAssociations = (props: any) => {
   const { open } = props;
   const {
     associateAssetsColumns,
@@ -20,7 +20,7 @@ export const AddAssociationsDrawer = (props: any) => {
     setSearch,
     selectedAssetToAssociateList,
     postTicketsAssociatesAssetsStatus,
-  } = useAssociationsDrawer(props);
+  } = useAddAssociations(props);
 
   return (
     <CommonDrawer

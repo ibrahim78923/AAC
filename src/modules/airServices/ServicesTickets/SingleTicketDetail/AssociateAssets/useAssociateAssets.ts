@@ -8,7 +8,7 @@ import {
 import { useRouter } from 'next/router';
 import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 
-export const useAssociatesLists: any = () => {
+export const useAssociateAssets: any = () => {
   const theme = useTheme();
   const router = useRouter();
   const [deleteModal, setDeleteModal] = useState(false);

@@ -5,8 +5,16 @@ const TAG = 'TICKETS_APPROVALS';
 const TAG_FOUR = 'USERS_DROPDOWN';
 
 export const relatedTicketsAPI = baseAPI?.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder: any) => ({
     getApprovalsTickets: builder?.query({
+      query: (getApprovalsTicketsParameters: any) => ({
+        url: END_POINTS?.GET_APPROVAL_TICKETS,
+        method: 'GET',
+        params: getApprovalsTicketsParameters?.queryParams,
+      }),
+      providesTags: [TAG],
+    }),
+    getAllApprovalsTickets: builder?.query({
       query: (getApprovalsTicketsParameters: any) => ({
         url: END_POINTS?.GET_APPROVAL_TICKETS,
         method: 'GET',
@@ -52,4 +60,5 @@ export const {
   usePostApprovalTicketsMutation,
   useLazyGetUsersDropdownQuery,
   useGetApprovalsTicketsQuery,
+  useGetAllApprovalsTicketsQuery,
 } = relatedTicketsAPI;

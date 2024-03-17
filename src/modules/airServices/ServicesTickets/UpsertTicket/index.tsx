@@ -20,7 +20,7 @@ export const UpsertTicket = (props: any) => {
     putTicketStatus,
     postTicketStatus,
     isError,
-  } = useUpsertTicket(props);
+  }: any = useUpsertTicket(props);
 
   return (
     <CommonDrawer
@@ -32,9 +32,12 @@ export const UpsertTicket = (props: any) => {
       isOk
       cancelText={'Cancel'}
       footer
-      isLoading={putTicketStatus?.isLoading || putTicketStatus?.isLoading}
+      isLoading={putTicketStatus?.isLoading || postTicketStatus?.isLoading}
       isDisabled={
-        isError || postTicketStatus?.isLoading || postTicketStatus?.isLoading
+        isError || postTicketStatus?.isLoading || putTicketStatus?.isLoading
+      }
+      disabledCancelBtn={
+        isError || postTicketStatus?.isLoading || putTicketStatus?.isLoading
       }
     >
       {isLoading || isFetching ? (

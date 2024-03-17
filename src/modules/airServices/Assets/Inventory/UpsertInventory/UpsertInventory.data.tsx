@@ -19,8 +19,8 @@ export const assetsImpactOptions = [
 ];
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 export const UpsertInventoryValidationSchema: any = Yup?.object()?.shape({
-  displayName: Yup?.string()?.trim()?.required('Required'),
-  assetType: Yup?.mixed()?.nullable()?.required('Required'),
+  displayName: Yup?.string()?.trim()?.required('Display name is required'),
+  assetType: Yup?.mixed()?.nullable()?.required('Asset type is required'),
   description: Yup?.string(),
   impact: Yup?.mixed()?.nullable(),
   department: Yup?.mixed()?.nullable(),
@@ -28,27 +28,28 @@ export const UpsertInventoryValidationSchema: any = Yup?.object()?.shape({
   usedBy: Yup?.mixed()?.nullable(),
   assignedOnTime: Yup?.date()?.nullable(),
   assignedOnDate: Yup?.date()?.nullable(),
-  attachFile: Yup?.mixed()?.nullable(),
+  fileUrl: Yup?.mixed()?.nullable(),
 });
+
 export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
   return {
-    displayName: data?.data?.[0]?.displayName ?? '',
-    assetType: data?.data?.[0]?.assetTypeDetails ?? null,
-    impact: data?.data?.[0]?.impact ?? ASSET_IMPACT?.LOW,
+    displayName: data?.displayName ?? '',
+    assetType: data?.assetTypeDetails ?? null,
+    impact: data?.impact ?? ASSET_IMPACT?.LOW,
     assetLifeExpiry:
-      typeof data?.data?.[0]?.assetLifeExpiry === 'string'
-        ? new Date(data?.data?.[0]?.assetLifeExpiry ?? todayDate)
+      typeof data?.assetLifeExpiry === 'string'
+        ? new Date(data?.assetLifeExpiry ?? todayDate)
         : new Date(),
-    description: data?.data?.[0]?.description ?? '',
-    location: data?.data?.[0]?.locationDetails ?? null,
-    department: data?.data?.[0]?.departmentDetails ?? null,
-    assignedOnDate: new Date(data?.data?.[0]?.assignedOnDate ?? todayDate),
+    description: data?.description ?? '',
+    location: data?.locationDetails ?? null,
+    department: data?.departmentDetails ?? null,
+    assignedOnDate: new Date(data?.assignedOnDate ?? todayDate),
     assignedOnTime:
-      typeof data?.data?.[0]?.assignedOnTime === 'string'
-        ? new Date(data?.data?.[0]?.assignedOnTime)
+      typeof data?.assignedOnTime === 'string'
+        ? new Date(data?.assignedOnTime)
         : null,
-    usedBy: data?.data?.[0]?.usedByDetails ?? null,
-    attachFile: data?.data?.[0]?.attachFile ?? '',
+    usedBy: data?.usedByDetails ?? null,
+    fileUrl: null,
   };
 };
 export const editInventoryDefaultValues = {

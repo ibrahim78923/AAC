@@ -97,4 +97,5 @@ export const {
   useEditSoftwareMutation,
   useLazyGetUserDropdownQuery,
   useLazyGetSoftwareByIdQuery,
+  useGetSoftwareByIdQuery,
 } = assetsSoftwareAPI;
