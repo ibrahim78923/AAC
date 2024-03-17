@@ -4,10 +4,10 @@ import * as Yup from 'yup';
 
 export const profileValidationSchema = Yup?.object()?.shape({
   firstName: Yup?.string()
-    ?.required('Required')
+    ?.required('First name is Required')
     ?.max(30, 'First Name up to 30 characters'),
   lastName: Yup?.string()
-    ?.required('Required')
+    ?.required('Last name is Required')
     ?.max(30, 'Last Name up to 30 characters'),
   workPhoneNumber: Yup?.string(),
   mobileNumber: Yup?.string(),

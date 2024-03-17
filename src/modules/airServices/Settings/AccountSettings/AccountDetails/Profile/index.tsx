@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { profileWorkDataArray, profileOtherDataArray } from './Profile.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useProfile } from './useProfile';
@@ -32,10 +32,20 @@ export const Profile = (props: any) => {
         ))}
       </Grid>
       <Box display={'flex'} justifyContent={'end'} gap={1}>
-        <Button variant="outlined" color={'inherit'} onClick={handleCancel}>
+        <LoadingButton
+          variant="outlined"
+          color={'inherit'}
+          onClick={handleCancel}
+          disabled={isLoading}
+        >
           cancel
-        </Button>
-        <LoadingButton disabled={isLoading} variant="contained" type="submit">
+        </LoadingButton>
+        <LoadingButton
+          disabled={isLoading}
+          loading={isLoading}
+          variant="contained"
+          type="submit"
+        >
           Update
         </LoadingButton>
       </Box>

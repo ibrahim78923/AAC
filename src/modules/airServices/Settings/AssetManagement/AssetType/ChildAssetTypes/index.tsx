@@ -13,6 +13,7 @@ const ChildAssetTypes = (props: any) => {
     palette,
     methods,
     handleSubmitServicesForm,
+    isLoading,
   } = useChildAssetTypes(props);
 
   return (
@@ -46,13 +47,16 @@ const ChildAssetTypes = (props: any) => {
           </Button>
         </PermissionsGuard>
       </Box>
-      <AddNewAssetTypesModal
-        open={openAddNewChildModal}
-        handleClose={setOpenAddNewChildModal}
-        modalTitle={'Add New Services'}
-        methods={methods}
-        handleSubmit={handleSubmitServicesForm}
-      />
+      {openAddNewChildModal && (
+        <AddNewAssetTypesModal
+          open={openAddNewChildModal}
+          handleClose={setOpenAddNewChildModal}
+          modalTitle={'Add New Services'}
+          methods={methods}
+          isLoading={isLoading}
+          handleSubmit={handleSubmitServicesForm}
+        />
+      )}
     </Box>
   );
 };

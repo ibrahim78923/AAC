@@ -1,4 +1,5 @@
 import { AIR_SERVICES } from '@/constants';
+import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 
 export const VENDOR_LISTS_ACTION_CONSTANTS = {
@@ -24,7 +25,7 @@ export const vendorListsColumnsFunction = (router: any): any => [
         sx={{ cursor: 'pointer' }}
         color="custom.bright"
       >
-        {info?.getValue()}
+        {truncateText(info?.getValue())}
       </Typography>
     ),
   },
