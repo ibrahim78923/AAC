@@ -38,9 +38,46 @@ const useAddUser = (useActionParams?: any) => {
   const tabTitle = tabVal === initialTab ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
 
   // for super admin form methods
+  const superAdminValues = {
+    ...userDetail,
+    address:
+      userDetail && userDetail?.address?.composite
+        ? userDetail.address.composite
+        : `${
+            userDetail.address.flatNumber
+              ? `Flat # ${userDetail.address.flatNumber}, `
+              : ''
+          }` +
+          `${
+            userDetail.address.buildingNumber
+              ? `Building # ${userDetail.address.buildingNumber}, `
+              : ''
+          }` +
+          `${
+            userDetail.address.buildingName
+              ? `Building Name ${userDetail.address.buildingName}, `
+              : ''
+          }` +
+          `${
+            userDetail.address.streetName
+              ? `Street # ${userDetail.address.streetName}, `
+              : ''
+          }` +
+          `${userDetail.address.city ? `${userDetail.address.city}, ` : ''}` +
+          `${
+            userDetail.address.country ? `${userDetail.address.country}` : ''
+          }`,
+    flat: userDetail?.address?.flatNumber ?? '',
+    city: userDetail?.address?.city ?? '',
+    country: userDetail?.address?.country ?? '',
+    buildingName: userDetail?.address?.buildingName ?? '',
+    buildingNumber: userDetail?.address?.buildingNumber ?? '',
+    streetName: userDetail?.address?.streetName ?? '',
+  };
+
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
-    defaultValues: userDetail,
+    defaultValues: superAdminValues,
   });
 
   // for company awner form values
@@ -170,12 +207,12 @@ const useAddUser = (useActionParams?: any) => {
         ? (await postUsers({ body: values })?.unwrap(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
-          ? (await postUserEmployee({
-              id: organizationId,
-              body: values,
-            })?.unwrap(),
-            setIsOpenAdduserDrawer(false))
-          : await updateUsers({ id: updateUserId, body: values })?.unwrap();
+        ? (await postUserEmployee({
+            id: organizationId,
+            body: values,
+          })?.unwrap(),
+          setIsOpenAdduserDrawer(false))
+        : await updateUsers({ id: updateUserId, body: values })?.unwrap();
 
       enqueueSnackbar(
         `User ${

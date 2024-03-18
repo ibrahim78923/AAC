@@ -15,21 +15,6 @@ export const userValidationSchema = Yup?.object()?.shape({
   phoneNumber: Yup?.string()?.required('Field is Required'),
 });
 
-export const userDefaultValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  team: '',
-  address: '',
-  phoneNumber: '',
-  jobTitle: '',
-  role: '',
-  facebookUrl: '',
-  language: '',
-  twitterUrl: '',
-  linkedInUrl: '',
-};
-
 export const dataArray = () => {
   const { teamsData } = useTeams();
   const { rolesByCompanyId } = useUsers();
@@ -171,7 +156,7 @@ export const dataArray = () => {
     },
     {
       componentProps: {
-        name: 'linkedInURL',
+        name: 'linkedInUrl',
         label: 'Linkdin URL',
         placeholder: 'Enter LinkedIn URL',
         fullWidth: true,
