@@ -7,7 +7,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 
 import useSalesProduct from './useSalesProductCategories';
@@ -40,6 +39,10 @@ const SalesProductCategories = () => {
     isGetRowValues,
     getRowValues,
     tableRow,
+    setPage,
+    setPageLimit,
+    isLoading,
+    isSuccess,
   } = useSalesProduct();
   return (
     <>
@@ -155,11 +158,18 @@ const SalesProductCategories = () => {
               ORG_ADMIN_SETTINGS_PRODUCT_CATEGORIES_PERMISSIONS?.PRODUCT_CATEGORIES_GRIDVIEW,
             ]}
           >
-            <TanstackTable columns={getRowValues} data={tableRow} />
-            <CustomPagination
-              count={1}
-              rowsPerPageOptions={[1, 2]}
-              entriePages={1}
+            <TanstackTable
+              columns={getRowValues}
+              data={tableRow?.data?.productcategories}
+              totalRecords={tableRow?.data?.meta?.total}
+              onPageChange={(page: any) => setPage(page)}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              count={tableRow?.data?.meta?.pages}
+              isPagination
+              pageLimit={tableRow?.data?.meta?.limit}
+              isLoading={isLoading}
+              isSuccess={isSuccess}
             />
           </PermissionsGuard>
         </Grid>

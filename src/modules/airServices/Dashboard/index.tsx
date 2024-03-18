@@ -1,40 +1,21 @@
 import { HeaderDashboard } from '@/modules/airServices/Dashboard/HeaderDashboard';
-import { RecentActivitiesDashboardCard } from '@/modules/airServices/Dashboard/RecentActivitiesDashboard/RecentActivitiesDashboardCard';
 import { TicketDashboardCards } from '@/modules/airServices/Dashboard/TicketDashboardCards';
-import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
-import { AnnouncementDashboardCard } from '@/modules/airServices/Dashboard/AnnouncementDashboard/AnnouncementDashboardCard';
+import { Box, Grid, Skeleton } from '@mui/material';
 import { TopPerformerDashboardCard } from '@/modules/airServices/Dashboard/TopPerformerDashboardCard';
 import { ticketDashboardCardsData } from './TicketDashboardCards/TicketDashboardCards.data';
-import { recentActivitiesDashboardCardData } from './RecentActivitiesDashboard/RecentActivitiesDashboardCard/RecentActivitiesDashboardCard.data';
-import { announcementDashboardCardData } from './AnnouncementDashboard/AnnouncementDashboardCard/AnnouncementDashboardCard.data';
 import { topPerformerDashboardCardData } from './TopPerformerDashboardCard/TopPerformerDashboardCard.data';
-import { AnnouncementHeader } from './AnnouncementDashboard/AnnouncementHeader';
 import { useDashboard } from './useDashboard';
-import RecentActivitiesDashboardDrawer from './RecentActivitiesDashboard/RecentActivitiesDashboardDrawer';
-import AnnouncementDashboard from './AnnouncementDashboard/AnnouncementDashboard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import NoData from '@/components/NoData';
 import { NoAssociationFoundImage } from '@/assets/images';
 import { PieChart } from './Chart/PieChart';
 import { TicketBased } from './Chart/TicketBased';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { Announcement } from './Announcement';
+import { RecentActivities } from './RecentActivities';
 
 const Dashboard = () => {
-  const {
-    setIsDrawerOpen,
-    isDrawerOpen,
-    handleIconButton,
-    theme,
-    handleAnnouncementIconButton,
-    isAnnouncementDrawerOpen,
-    setIsAnnouncementDrawerOpen,
-    cardData,
-    customerAnnouncement,
-    recentActivities,
-    isLoading,
-    isFetching,
-  } = useDashboard();
+  const { theme, cardData, isLoading, isFetching } = useDashboard();
 
   return (
     <PermissionsGuard
@@ -88,66 +69,7 @@ const Dashboard = () => {
                   border={`1px solid ${theme?.palette?.grey?.[700]}`}
                   height="100%"
                 >
-                  <br />
-                  <Box marginLeft={2}>
-                    <Typography variant="h5">Recent Activities</Typography>
-                  </Box>
-                  {isLoading || isFetching ? (
-                    <SkeletonTable />
-                  ) : recentActivitiesDashboardCardData(recentActivities)
-                      .length > 0 ? (
-                    <>
-                      <Box marginTop={2} overflow={'scroll'} height={'35vh'}>
-                        {recentActivitiesDashboardCardData(
-                          recentActivities,
-                        )?.map((item: any, index: any, arr: any) => (
-                          <Box key={item?._id}>
-                            <RecentActivitiesDashboardCard
-                              icon={item?.icon}
-                              recentActivityName={item?.recentActivityName}
-                              recentActivity={item?.recentActivity}
-                              recentActivityRequest={
-                                item?.recentActivityRequest
-                              }
-                              recentActivitySerialNumber={
-                                item?.recentActivitySerialNumber
-                              }
-                              recentActivityModuleName={
-                                item?.recentActivityModuleName
-                              }
-                              recentActivityDateTime={
-                                item?.recentActivityDateTime
-                              }
-                              isBorderBottom={arr.length - 1 !== index}
-                            />
-                          </Box>
-                        ))}
-                      </Box>
-                      <Box
-                        display={'flex'}
-                        justifyContent={'center'}
-                        marginTop={4.9}
-                      >
-                        <Button
-                          variant="text"
-                          fullWidth
-                          onClick={handleIconButton}
-                        >
-                          View All
-                        </Button>
-                      </Box>
-                    </>
-                  ) : (
-                    <NoData
-                      image={NoAssociationFoundImage}
-                      message={'No data is available'}
-                      height={'100%'}
-                    />
-                  )}
-                  <RecentActivitiesDashboardDrawer
-                    isDrawerOpen={isDrawerOpen}
-                    setIsDrawerOpen={setIsDrawerOpen}
-                  />
+                  <RecentActivities />
                 </Box>
               </Grid>
             </Grid>
@@ -197,59 +119,7 @@ const Dashboard = () => {
                   border={`1px solid ${theme?.palette?.grey?.[700]}`}
                   height="100%"
                 >
-                  <br />
-                  <Box>
-                    <AnnouncementHeader />
-                  </Box>
-
-                  {isLoading || isFetching ? (
-                    <SkeletonTable />
-                  ) : announcementDashboardCardData(customerAnnouncement)
-                      ?.length > 0 ? (
-                    <>
-                      <Box overflow={'scroll'} height={'29vh'}>
-                        {announcementDashboardCardData(
-                          customerAnnouncement,
-                        )?.map((item: any, index: any) => (
-                          <Box key={item?._id}>
-                            <AnnouncementDashboardCard
-                              icon={item?.icon}
-                              announcement={item?.announcement}
-                              announcementTime={item?.announcementTime}
-                              announcementAvatar={item?.announcementAvatar}
-                              isBorderBottom={
-                                announcementDashboardCardData?.length - 1 !==
-                                index
-                              }
-                            />
-                          </Box>
-                        ))}
-                      </Box>
-                      <Box
-                        display={'flex'}
-                        justifyContent={'center'}
-                        marginTop={2}
-                      >
-                        <Button
-                          variant="text"
-                          fullWidth
-                          onClick={handleAnnouncementIconButton}
-                        >
-                          View All
-                        </Button>
-                      </Box>
-                    </>
-                  ) : (
-                    <NoData
-                      image={NoAssociationFoundImage}
-                      message={'No data is available'}
-                      height={'100%'}
-                    />
-                  )}
-                  <AnnouncementDashboard
-                    isAnnouncementDrawerOpen={isAnnouncementDrawerOpen}
-                    setIsAnnouncementDrawerOpen={setIsAnnouncementDrawerOpen}
-                  />
+                  <Announcement />
                 </Box>
               </Grid>
             </Grid>

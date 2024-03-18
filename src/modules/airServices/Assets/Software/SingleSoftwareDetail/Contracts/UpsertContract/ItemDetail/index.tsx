@@ -17,8 +17,6 @@ import {
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export const ItemDetail: any = (props: any) => {
-  //TODO: as far as know no need to make hook file as it is small logics at the moment
-
   const { name } = props;
   const { control } = useFormContext();
   const { fields, append, remove } = useFieldArray({
@@ -30,7 +28,7 @@ export const ItemDetail: any = (props: any) => {
     <>
       <Box boxShadow={1}>
         <TableContainer>
-          <Table sx={{ minWidth: '1200px' }}>
+          <Table sx={{ minWidth: '1400px' }}>
             <TableHead>
               <TableRow>
                 {itemDetailColumns?.map((column: any) => (

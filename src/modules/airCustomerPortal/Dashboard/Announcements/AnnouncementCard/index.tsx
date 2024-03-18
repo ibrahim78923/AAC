@@ -1,4 +1,9 @@
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
 import { formatTimeDifference } from '@/utils/dateTime';
 import { Avatar, Box, Typography } from '@mui/material';
 
@@ -21,12 +26,11 @@ export const AnnouncementCard = (props: any) => {
         gap={1}
       >
         <Typography fontWeight={600} color={'blue.main'}>
-          {data?.title > 20 ? `${data?.title?.slice(0, 10)} ...` : data?.title}
+          {truncateText(data?.title)}
         </Typography>
         <Box display={'flex'} flexWrap={'wrap'} alignItems={'center'} gap={1}>
           <Avatar
             src={generateImage(data?.userAvatar)}
-            // src={data?.user?.profileImage}
             alt=""
             sx={{
               width: 28,
