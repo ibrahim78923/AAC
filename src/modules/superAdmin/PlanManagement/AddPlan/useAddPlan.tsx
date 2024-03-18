@@ -139,7 +139,11 @@ export const useAddPlan = () => {
   // }
 
   const onSubmitPlan = async (values: any) => {
-    if (isNullOrEmpty(values?.productId) || !isNullOrEmpty(values?.suite)) {
+    if (values?.suite?.length > 0 && values?.suite?.length < 2) {
+      enqueueSnackbar('Please select more then one product product', {
+        variant: 'error',
+      });
+    } else if (values?.suite?.length < 2 && isNullOrEmpty(values?.productId)) {
       enqueueSnackbar('Please select product', {
         variant: 'error',
       });
