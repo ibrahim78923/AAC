@@ -23,12 +23,12 @@ import { ROLES } from '@/constants/strings';
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
 export const upsertTicketValidationSchema = Yup?.object()?.shape({
-  requester: Yup?.mixed()?.nullable()?.required('Required'),
-  subject: Yup?.string()?.trim()?.required('Required'),
-  description: Yup?.string()?.trim()?.required('Required'),
+  requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
+  subject: Yup?.string()?.trim()?.required('Subject is required'),
+  description: Yup?.string()?.trim()?.required('Description is Required'),
   category: Yup?.mixed()?.nullable(),
-  status: Yup?.mixed()?.nullable()?.required('Required'),
-  priority: Yup?.mixed()?.nullable()?.required('Required'),
+  status: Yup?.mixed()?.nullable()?.required('Status is required'),
+  priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
   department: Yup?.mixed()?.nullable(),
   source: Yup?.mixed()?.nullable(),
   impact: Yup?.mixed()?.nullable(),

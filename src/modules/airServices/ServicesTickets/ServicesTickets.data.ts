@@ -77,7 +77,7 @@ export const ticketCategoryOptions = [
   TICKET_CATEGORY?.OFFICE_APPLICATION,
   TICKET_CATEGORY?.OFFICE_FURNITURE,
 ];
-export const ticketTypeOptions = [TICKET_TYPE.INC, TICKET_TYPE.SR];
+export const ticketTypeOptions = [TICKET_TYPE?.INC, TICKET_TYPE?.SR];
 export const ticketsSourceOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
 export const ticketImpact = ['LOW', 'MEDIUM', 'HIGH'];
 

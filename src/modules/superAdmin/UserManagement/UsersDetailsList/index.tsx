@@ -428,6 +428,7 @@ const UsersDetailsList = () => {
           setIsOpen={setIsOpenAddAccountDrawer}
           organizationId={organizationId}
           userId={employeeDataById}
+          organizationBasesProducts={organizationBasesProducts}
         />
       )}
       {isOpenDrawer && (

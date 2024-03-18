@@ -59,7 +59,7 @@ export const PurchaseOrder = () => {
                                   Cost:
                                 </Typography>
                                 <Typography>
-                                  {purchaseOrder?.costPerItem} $
+                                  ${purchaseOrder?.costPerItem}
                                 </Typography>
                               </Box>
                             </InventoryCard>

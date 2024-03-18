@@ -7,15 +7,15 @@ import { Box, Grid } from '@mui/material';
 import { useUsersFilter } from './useUsersFilter';
 
 export const UsersFilter = (props: any) => {
-  const { userFieldsData, methods } = useUsersFilter(props);
-  const [isFilterOpen, setIsFilterOpen] = React?.useState(false);
-  const openFilterDrawer = () => {
-    setIsFilterOpen(true);
-  };
-
-  const closeFilterDrawer = () => {
-    setIsFilterOpen(false);
-  };
+  const {
+    userFieldsData,
+    methods,
+    handleSubmit,
+    submitFilter,
+    openFilterDrawer,
+    closeFilterDrawer,
+    isFilterOpen,
+  } = useUsersFilter(props);
 
   return (
     <Box>
@@ -36,9 +36,10 @@ export const UsersFilter = (props: any) => {
         okText={'Apply'}
         footer={true}
         isOk={true}
+        submitHandler={handleSubmit(submitFilter)}
       >
         <Box mt={1}>
-          <FormProvider methods={methods}>
+          <FormProvider methods={methods} onSubmit={handleSubmit(submitFilter)}>
             <Grid container spacing={1}>
               {userFieldsData?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>

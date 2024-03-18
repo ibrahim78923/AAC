@@ -9,6 +9,14 @@ export const profileValidationSchema = Yup.object().shape({
   lastName: Yup.string().required('Field is Required'),
   postCode: Yup.string().required('Field is Required'),
   address: Yup.string().required('Field is Required'),
+  facebookUrl: Yup.string()?.matches(
+    /^(ftp|http|https):\/\/[^ "]+$/,
+    'Please enter a valid URL',
+  ),
+  twitterUrl: Yup.string()?.matches(
+    /^(ftp|http|https):\/\/[^ "]+$/,
+    'Please enter a valid URL',
+  ),
 });
 
 export const profileFields = [

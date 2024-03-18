@@ -18,6 +18,7 @@ import {
 } from './OrganizationTable.data';
 import useAuth from '@/hooks/useAuth';
 import { isNullOrEmpty } from '@/utils';
+import { PAGINATION } from '@/config';
 const useOrganizationTable = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -38,11 +39,21 @@ const useOrganizationTable = () => {
   const [updateOrganizationStatus] = useUpdateOrganizationStatusMutation();
   const [imageHandler, setImageHandler] = useState(false);
   const { user }: any = useAuth();
+
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetOrganizationQuery({
       organizationId: user?.organization?._id,
       search: value,
+      pages: page,
+      limit: pageLimit,
     });
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
 
   const deleteOrganizationCompany = async () => {
     try {
@@ -84,9 +95,6 @@ const useOrganizationTable = () => {
       } catch (_: any) {
         parsedAddress = null;
       }
-
-      // console.log("parsedAddress", parsedAddress === null ? (address?.composite ?? address ) : parsedAddress?.composite ?? parsedAddress)
-
       methods.setValue('accountName', accountName);
       methods.setValue('phoneNo', phoneNo);
       methods.setValue('postCode', postCode);
@@ -159,18 +167,19 @@ const useOrganizationTable = () => {
     setOpenEditDrawer(true);
   };
 
+  const tableRowData = data?.data?.organizationcompanyaccounts ?? [];
   const getRowValues = columns(
     setIsGetRowValues,
     setIsChecked,
-    isChecked,
     isGetRowValues,
     setEditData,
     updateOrganizationStatus,
+    tableRowData,
   );
 
   return {
     tableRow: data?.data?.organizationcompanyaccounts ?? [],
-    tablePagination: data?.meta?.pages,
+    tableInfo: data?.data?.meta,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenDelete,
@@ -208,6 +217,9 @@ const useOrganizationTable = () => {
     drawerHeading,
     setDrawerHeading,
     loadingAddCompanyAccount,
+    setPageLimit,
+    setPage,
+    handlePageChange,
   };
 };
 

@@ -52,14 +52,16 @@ const Header = (props: any) => {
         </PermissionsGuard>
       </Box>
       <Box>
-        <AddNewAssetTypesModal
-          open={openAddNewAssetTypesModal}
-          handleClose={setOpenAddNewAssetTypesModal}
-          methods={methods}
-          handleSubmit={handleSubmitAddForm}
-          isLoading={isLoading}
-          modalTitle="Add New Asset Type"
-        />
+        {openAddNewAssetTypesModal && (
+          <AddNewAssetTypesModal
+            open={openAddNewAssetTypesModal}
+            handleClose={setOpenAddNewAssetTypesModal}
+            methods={methods}
+            handleSubmit={handleSubmitAddForm}
+            isLoading={isLoading}
+            modalTitle="Add New Asset Type"
+          />
+        )}
       </Box>
     </>
   );

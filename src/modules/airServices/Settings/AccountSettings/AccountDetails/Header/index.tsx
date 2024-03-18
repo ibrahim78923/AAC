@@ -1,14 +1,19 @@
-import { Typography, Box, useTheme } from '@mui/material';
+import {
+  Typography,
+  Box,
+  useTheme,
+  Avatar,
+  CircularProgress,
+} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AIR_SERVICES } from '@/constants';
 import { EmailIcon, PhoneIcon } from '@/assets/icons';
-import { UserProfileImage } from '@/assets/images';
-import Image from 'next/image';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useHeader } from './useHeader';
 import Chip from '@mui/material/Chip';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
+import { generateImage } from '@/utils/avatarUtils';
 
 export const Header = (props: any) => {
   const theme = useTheme();
@@ -19,8 +24,8 @@ export const Header = (props: any) => {
     setIsHovered,
     fullScreenPosition,
     router,
+    patchProfileAvatarStatus,
   } = useHeader();
-
   return (
     <Box
       border={`.1rem solid ${theme?.palette?.grey?.[700]}`}
@@ -65,17 +70,25 @@ export const Header = (props: any) => {
                 accept="image/*"
                 style={{ display: 'none' }}
                 onChange={handleFileChange}
+                disabled={patchProfileAvatarStatus?.isLoading}
               />
-
-              <Image
-                src={
-                  `${process.env.NEXT_PUBLIC_IMG_URL}${profileDetail?.avatar?.url}` ||
-                  UserProfileImage
-                }
-                width={90}
-                height={90}
-                alt="user"
-              />
+              {!patchProfileAvatarStatus?.isLoading ? (
+                <Avatar
+                  src={generateImage(profileDetail?.avatar?.url)}
+                  sx={{ height: 90, width: 90 }}
+                  alt="user"
+                  variant="rounded"
+                />
+              ) : (
+                <Box
+                  sx={{ height: 90, width: 90 }}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent={'center'}
+                >
+                  <CircularProgress />
+                </Box>
+              )}
               {isHovered && (
                 <Box
                   position="absolute"

@@ -4,30 +4,20 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 
-import * as Yup from 'yup';
-
-export const userValidationSchema = Yup?.object()?.shape({
-  userName: Yup?.string(),
-  department: Yup?.string(),
-  userAssignedDate: Yup?.date(),
-  userFirstSeen: Yup?.string(),
-  userLastSeen: Yup?.string(),
-});
-
 export const userDefaultValues = (data: any) => {
   return {
-    userName: data?.userName ?? null,
+    name: data?.name ?? '',
     department: data?.department ?? null,
-    userAssignedDate: data?.department ?? null,
-    userFirstSeen: data?.userFirstSeen ?? null,
-    userLastSeen: data?.userLastSeen ?? null,
+    assignedDate: data?.assignedDate ?? '',
+    firstSeen: data?.firstSeen ?? 'NONE',
+    lastSeen: data?.lastSeen ?? 'NONE',
   };
 };
 
 export const userDataArray = (apiQueryDepartment: any) => [
   {
     componentProps: {
-      name: 'userName',
+      name: 'name',
       label: 'Name',
       fullWidth: true,
     },
@@ -47,7 +37,7 @@ export const userDataArray = (apiQueryDepartment: any) => [
   },
   {
     componentProps: {
-      name: 'userAssignedDate',
+      name: 'assignedDate',
       label: 'Assigned date',
       fullWidth: true,
       select: true,
@@ -67,7 +57,7 @@ export const userDataArray = (apiQueryDepartment: any) => [
 
   {
     componentProps: {
-      name: 'userFirstSeen',
+      name: 'firstSeen',
       label: 'First Seen',
       select: true,
       options: [
@@ -84,7 +74,7 @@ export const userDataArray = (apiQueryDepartment: any) => [
   },
   {
     componentProps: {
-      name: 'userLastSeen',
+      name: 'lastSeen',
       label: 'Last Seen',
       fullWidth: true,
       select: true,
