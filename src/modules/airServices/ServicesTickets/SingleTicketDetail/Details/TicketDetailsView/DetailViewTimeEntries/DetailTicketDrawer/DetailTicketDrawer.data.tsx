@@ -1,18 +1,15 @@
-import { SearchSharedIcon } from '@/assets/icons';
 import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
   RHFDatePicker,
   RHFEditor,
-  RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { ticketStatusOptions } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
-import { InputAdornment } from '@mui/material';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
-  task: Yup?.mixed()?.nullable()?.required('Field is Required'),
+  task: Yup?.mixed()?.nullable(),
   agent: Yup?.mixed()?.nullable()?.required('Field is Required'),
   hours: Yup?.mixed()?.nullable(),
   status: Yup?.mixed()?.nullable(),
@@ -22,33 +19,26 @@ export const validationSchema = Yup?.object()?.shape({
 
 export const addTimeDefaultValues = () => {
   return {
-    task: '',
+    task: null,
     agent: null,
-    hours: new Date(),
+    hours: '',
     status: null,
     on: new Date(),
     note: '',
   };
 };
-export const detailDrawerArray = (apiQueryAgent: any) => [
+export const detailDrawerArray = (apiQueryAgent: any, apiQueryTask: any) => [
   {
     id: 1,
     componentProps: {
       name: 'task',
       label: 'Task',
       fullWidth: true,
-      select: false,
-      placeholder: 'Search Here',
-      InputProps: {
-        endAdornment: (
-          <InputAdornment position="end">
-            <SearchSharedIcon />
-          </InputAdornment>
-        ),
-      },
+      apiQuery: apiQueryTask,
+      placeholder: 'Choose Task',
+      getOptionLabel: (option: any) => `${option?.title}`,
     },
-
-    component: RHFTextField,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
@@ -72,27 +62,10 @@ export const detailDrawerArray = (apiQueryAgent: any) => [
       name: 'hours',
       label: 'Hours',
       fullWidth: true,
-      select: true,
+      placeholder: 'Eg: 1h 10m',
     },
-    options: [
-      {
-        value: 'hr:mm',
-        label: 'hr:mm',
-      },
-      {
-        value: 'Pending',
-        label: 'Pending',
-      },
-      {
-        value: 'Resolved',
-        label: 'Resolved',
-      },
-      {
-        value: 'Closed',
-        label: 'Closed',
-      },
-    ],
-    component: RHFSelect,
+
+    component: RHFTextField,
     md: 12,
   },
   {
