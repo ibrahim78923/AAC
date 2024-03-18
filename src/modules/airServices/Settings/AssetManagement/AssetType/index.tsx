@@ -17,7 +17,6 @@ export const AssetType = () => {
     metaData,
     setPage,
     setPageLimit,
-    pageLimit,
     isLoading,
     isFetching,
   } = useAssetType();
@@ -91,7 +90,7 @@ export const AssetType = () => {
               totalRecords={metaData?.total}
               onPageChange={(page: any) => setPage(page)}
               currentPage={metaData?.page}
-              pageLimit={pageLimit}
+              pageLimit={metaData?.limit}
             />
           </Box>
         ) : (

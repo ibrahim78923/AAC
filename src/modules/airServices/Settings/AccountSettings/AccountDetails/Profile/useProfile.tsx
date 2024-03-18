@@ -43,8 +43,8 @@ export const useProfile = (props: any) => {
       successSnackbar(res?.message ?? 'Account Details Update Successfully');
       handleMoveBack();
       reset();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
   const handleMoveBack = () => {

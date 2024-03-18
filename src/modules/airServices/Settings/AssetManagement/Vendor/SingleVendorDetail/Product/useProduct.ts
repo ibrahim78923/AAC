@@ -31,7 +31,7 @@ export const useProduct = () => {
     isSuccess,
   } = useGetProductVendorListQuery(param, {
     refetchOnMountOrArgChange: true,
-    skip: !!!param,
+    skip: !!!vendorId,
   });
 
   const productListColumns = productColumns(
@@ -41,16 +41,17 @@ export const useProduct = () => {
     setDeleteId,
   );
 
-  const [deleteVendor] = useDeleteProductVendorMutation();
+  const [deleteVendorTrigger, deleteVendorStatus] =
+    useDeleteProductVendorMutation();
   const handleDeleteBtn = async () => {
     const updatedData = { queryParams: { id: deleteId } };
     try {
-      const res = await deleteVendor(updatedData)?.unwrap();
+      const res = await deleteVendorTrigger(updatedData)?.unwrap();
       setDeleteModalOpen(false);
       successSnackbar(res?.message ?? 'Vendor Deleted Successfully');
     } catch (error: any) {
       setDeleteModalOpen(false);
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -71,5 +72,6 @@ export const useProduct = () => {
     isFetching,
     isSuccess,
     setDeleteId,
+    deleteVendorStatus,
   };
 };

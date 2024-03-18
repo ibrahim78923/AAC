@@ -5,11 +5,11 @@ import {
   useGetAssociatesAssetsQuery,
   usePostTicketsAssociatesAssetsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/associates-assets';
-import { drawerTableColumns } from './AddAssociationsDrawer.data';
+import { drawerTableColumns } from './AddAssociations.data';
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
-export const useAssociationsDrawer = (props: any) => {
+export const useAddAssociations = (props: any) => {
   const { setDrawerOpen } = props;
   const router = useRouter();
   const theme = useTheme();

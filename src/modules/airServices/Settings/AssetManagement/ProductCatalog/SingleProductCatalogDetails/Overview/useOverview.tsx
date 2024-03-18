@@ -12,6 +12,10 @@ export const useOverview = () => {
 
   const { data, isLoading } = useGetProductCatalogByIdQuery(
     getSingleProductCatalogParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!productCatalogId,
+    },
   );
 
   const dataArray = OverviewData(data?.data?.[0]);

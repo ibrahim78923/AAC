@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { getVendorsColumns } from './Vendors.data';
 import {
   useDeleteProductCatalogVendorMutation,
@@ -8,6 +6,7 @@ import {
 } from '@/services/airServices/settings/asset-management/product-catalog';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useVendors = () => {
   const router = useRouter();
@@ -32,29 +31,29 @@ export const useVendors = () => {
   };
 
   const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetProductCatalogVendorListQuery(getProductCatalogVendorParameter);
+    useGetProductCatalogVendorListQuery(getProductCatalogVendorParameter, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!productCatalogId,
+    });
 
   const vendorsColumns = getVendorsColumns(
     setIsDeleteModalOpen,
     setIsUpsertModalOpen,
   );
 
-  const [deleteVendor] = useDeleteProductCatalogVendorMutation();
+  const [deleteVendorTrigger, deleteVendorStatus] =
+    useDeleteProductCatalogVendorMutation();
 
   const handleSubmitDelete = async () => {
     const updatedData = { queryParams: { id: isDeleteModalOpen?.id } };
 
     try {
-      const res = await deleteVendor(updatedData)?.unwrap();
+      await deleteVendorTrigger(updatedData)?.unwrap();
       setIsDeleteModalOpen?.({ open: false, id: '' });
-      enqueueSnackbar(res?.message ?? 'Vendor Deleted Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Vendor Deleted Successfully!');
     } catch (error: any) {
       setIsDeleteModalOpen?.({ open: false, id: '' });
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something Went Wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -72,5 +71,6 @@ export const useVendors = () => {
     isSuccess,
     setPage,
     setLimit,
+    deleteVendorStatus,
   };
 };

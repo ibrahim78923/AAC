@@ -11,11 +11,13 @@ import {
 } from '../ProductCatalog.data';
 
 export const upsertProductCatalogValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.trim()?.required('Required'),
-  assetType: Yup?.mixed()?.nullable()?.required('Required'),
-  manufacturer: Yup?.string()?.trim(),
-  status: Yup?.mixed()?.nullable()?.required('Required'),
-  modeOfProcurement: Yup?.mixed()?.nullable(),
+  name: Yup?.string()?.trim()?.required('Name is required'),
+  assetType: Yup?.mixed()?.nullable()?.required('Asset Type is required'),
+  manufacturer: Yup?.string()?.trim()?.required('Manufacturer is required'),
+  status: Yup?.mixed()?.nullable()?.required('Status is required'),
+  modeOfProcurement: Yup?.mixed()
+    ?.nullable()
+    ?.required('Mode of procurement is required'),
   description: Yup?.string(),
 });
 
@@ -23,7 +25,7 @@ export const upsertProductCatalogDefaultValuesFunction = (data?: any) => {
   return {
     name: data?.name ?? '',
     assetType: data?.assetType ?? null,
-    manufacturer: data?.manufacturer === '--' ? '' : data?.manufacturer ?? '',
+    manufacturer: data?.manufacturer ?? '',
     status: data?.status ?? null,
     modeOfProcurement: data?.modeOfProcurement ?? null,
     description: data?.description ?? '',
@@ -62,6 +64,7 @@ export const upsertProductCatalogFormFieldsDynamic = (
       name: 'manufacturer',
       label: 'Manufacturer',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 6,
@@ -84,6 +87,7 @@ export const upsertProductCatalogFormFieldsDynamic = (
       name: 'modeOfProcurement',
       label: 'Mode of Procurement',
       fullWidth: true,
+      required: true,
       options: modeOfProcurementOption,
     },
     component: RHFAutocomplete,
