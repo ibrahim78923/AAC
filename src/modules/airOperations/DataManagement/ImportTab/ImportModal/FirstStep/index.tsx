@@ -21,7 +21,7 @@ const FirstStep = () => {
           label="Product"
           size="small"
           placeholder="Select product"
-          options={[]}
+          options={['Sales', 'Services', 'Marketing']}
         />
       </Box>
       <Box
