@@ -34,7 +34,7 @@ export const useDeleteContract = (props: any) => {
       await getContractListData?.(newPage);
       setIsDeleteModalOpen?.(false);
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
       setSelectedContractList([]);
       setIsDeleteModalOpen?.(false);
     }

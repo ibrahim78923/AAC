@@ -1,6 +1,5 @@
-import { Box, DialogActions, Grid, Typography } from '@mui/material';
+import { DialogActions, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { RemoveRedEyeOutlined } from '@mui/icons-material';
 import { useUpsertWorkloadSchedule } from './useUpsertWorkloadSchedule';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { LoadingButton } from '@mui/lab';
@@ -50,9 +49,11 @@ export const UpsertWorkloadSchedule = () => {
               }}
             >
               {item?.componentProps && (
-                <item.component {...item?.componentProps} size={'small'} />
+                <item.component {...item?.componentProps} size={'small'}>
+                  {item?.heading ? item?.heading : null}
+                </item.component>
               )}
-              {item?.iconProps && (
+              {/* {item?.iconProps && (
                 <Box mt={1} gap={1} display={'flex'}>
                   {item?.iconProps && (
                     <RemoveRedEyeOutlined {...item?.iconProps} />
@@ -61,7 +62,7 @@ export const UpsertWorkloadSchedule = () => {
                     <Typography {...item?.textProps}>{item?.title}</Typography>
                   )}
                 </Box>
-              )}
+              )} */}
             </Grid>
           ))}
         </Grid>

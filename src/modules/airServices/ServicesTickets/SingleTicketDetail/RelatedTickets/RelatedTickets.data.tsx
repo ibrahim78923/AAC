@@ -3,7 +3,7 @@ import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import dayjs from 'dayjs';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { TICKET_STATUS } from '@/constants/strings';
-import { fullName } from '@/utils/avatarUtils';
+import { fullName, truncateText } from '@/utils/avatarUtils';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { errorSnackbar } from '@/utils/api';
 
@@ -92,7 +92,7 @@ export const columnsFunction: any = (
       id: 'subject',
       isSortable: true,
       header: 'Name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => truncateText(info?.getValue()),
     },
     {
       accessorFn: (row: any) => row?.childTicketDetails?.plannedEndDate,
@@ -123,10 +123,10 @@ export const columnsFunction: any = (
           status === TICKET_STATUS?.OPEN
             ? theme?.palette?.info?.main
             : status === TICKET_STATUS?.PENDING
-            ? theme?.palette?.warning?.main
-            : status === TICKET_STATUS?.RESOLVED
-            ? theme?.palette?.success?.main
-            : theme?.palette?.error?.main;
+              ? theme?.palette?.warning?.main
+              : status === TICKET_STATUS?.RESOLVED
+                ? theme?.palette?.success?.main
+                : theme?.palette?.error?.main;
         return (
           <Typography
             sx={{

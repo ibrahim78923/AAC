@@ -2,7 +2,6 @@ import { Box, Grid, InputAdornment, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { EditInputIcon } from '@/assets/icons';
-import useToggle from '@/hooks/useToggle';
 import { addUsersArray } from './AddUser.data';
 import { SUPER_ADMIN } from '@/constants/index';
 import useAddUser from './useAddUser';
@@ -18,8 +17,6 @@ const AddUser = ({
   setIsOpenAdduserDrawer,
   organizationId,
 }: any) => {
-  const [isToggled, setIsToggled] = useToggle(false);
-
   const useActionParams: any = {
     tabVal: tabVal,
     isOpenAddUserDrawer: isOpenAddUserDrawer,
@@ -28,8 +25,16 @@ const AddUser = ({
     organizationId: organizationId,
   };
 
-  const { pathName, methods, handleSubmit, onSubmit, userDetail, tabTitle } =
-    useAddUser(useActionParams);
+  const {
+    pathName,
+    methods,
+    handleSubmit,
+    onSubmit,
+    userDetail,
+    tabTitle,
+    isToggled,
+    setIsToggled,
+  } = useAddUser(useActionParams);
   return (
     <CommonDrawer
       isDrawerOpen={isOpenDrawer}
@@ -38,8 +43,8 @@ const AddUser = ({
         isOpenAddUserDrawer?.type === 'view'
           ? userDetail?.firstName
           : isOpenAddUserDrawer?.type === 'edit'
-          ? 'Edit User'
-          : 'Add User'
+            ? 'Edit User'
+            : 'Add User'
       }
       okText={isOpenAddUserDrawer?.type === 'edit' ? 'Update User' : 'Add'}
       isOk={isOpenAddUserDrawer?.type === 'view' ? false : true}

@@ -94,7 +94,8 @@ export const Timeline = ({ data, timelineIndex }: any) => {
                 },
               }}
             >
-              createdBy : {data?.name}
+              createdBy :{' '}
+              {data?.performedBy?.firstName + ' ' + data?.performedBy?.lastName}
             </Button>
           </Box>
         </Box>

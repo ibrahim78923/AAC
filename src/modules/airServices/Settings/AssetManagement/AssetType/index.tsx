@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import ChildBarWrapper from './ChildAssetTypes';
 import TitleBar from './TitleBar';
 import { useAssetType } from './useAssetType';
@@ -18,8 +18,10 @@ export const AssetType = () => {
     setPage,
     setPageLimit,
     pageLimit,
+    isLoading,
+    isFetching,
   } = useAssetType();
-
+  if (isLoading || isFetching) return <Skeleton />;
   return (
     <>
       <Box>

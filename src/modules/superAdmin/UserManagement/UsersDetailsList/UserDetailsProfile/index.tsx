@@ -12,6 +12,7 @@ import { EditInputIcon } from '@/assets/icons';
 import useUserManagement from '../../useUserManagement';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { enqueueSnackbar } from 'notistack';
 
 const UserDetailsProfile = (props: any) => {
   const { userDetails, setTabVal } = props;
@@ -22,9 +23,31 @@ const UserDetailsProfile = (props: any) => {
   const userProfileDefaultValues = {
     ...userDetails,
     compositeAddress: userDetails?.address?.composite
-      ? userDetails?.address?.composite
-      : `Flat # ${userDetails?.address?.flatNumber}, building # ${userDetails?.address?.buildingNumber} ,
-    ${userDetails?.address?.buildingName}, street # ${userDetails?.address?.streetName},${userDetails?.address?.city}, ${userDetails?.address?.country} `,
+      ? userDetails.address.composite
+      : `${
+          userDetails.address.flatNumber
+            ? `Flat # ${userDetails.address.flatNumber}, `
+            : ''
+        }` +
+        `${
+          userDetails.address.buildingNumber
+            ? `Building # ${userDetails.address.buildingNumber}, `
+            : ''
+        }` +
+        `${
+          userDetails.address.buildingName
+            ? `Building Name ${userDetails.address.buildingName}, `
+            : ''
+        }` +
+        `${
+          userDetails.address.streetName
+            ? `Street # ${userDetails.address.streetName}, `
+            : ''
+        }` +
+        `${userDetails.address.city ? `${userDetails.address.city}, ` : ''}` +
+        `${
+          userDetails.address.country ? `${userDetails.address.country}` : ''
+        }`,
     flat: userDetails?.address?.flatNumber ?? '',
     city: userDetails?.address?.city ?? '',
     country: userDetails?.address?.country ?? '',
@@ -75,13 +98,23 @@ const UserDetailsProfile = (props: any) => {
       'linkedInUrl',
       'departmentId',
       'avatar',
+      'email',
     ];
 
     for (const key of keysToDelete) {
       delete values[key];
     }
-    await updateUsers({ id: id, body: values })?.unwtap();
-    setTabVal(initialTab);
+    try {
+      await updateUsers({ id: id, body: values })?.unwrap();
+      enqueueSnackbar('User updated successfully', {
+        variant: 'success',
+      });
+      setTabVal(initialTab);
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
   };
 
   return (
@@ -140,8 +173,9 @@ const UserDetailsProfile = (props: any) => {
                       {...item.componentProps}
                       size={'small'}
                       disabled={
-                        isToggled &&
-                        item?.componentProps?.name === 'compositeAddress'
+                        (isToggled &&
+                          item?.componentProps?.name === 'compositeAddress') ||
+                        item?.componentProps?.name === 'email'
                           ? true
                           : false
                       }

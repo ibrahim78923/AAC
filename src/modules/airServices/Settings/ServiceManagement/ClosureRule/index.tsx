@@ -1,15 +1,15 @@
 import { Box, Button } from '@mui/material';
 import { Header } from './Header';
-import { useClosureRole } from './useClosureRole';
+import { useClosureRule } from './useClosureRule';
 import { FormProvider } from '@/components/ReactHookForm';
 import { IncidentServicesClosureRule } from './IncidentServicesClosureRule';
 import { LoadingButton } from '@mui/lab';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
-export const ClosureRole = () => {
+export const ClosureRule = () => {
   const {
-    closureRoleMethods,
-    handleSubmitClosureRole,
+    closureRuleMethods,
+    handleSubmitClosureRule,
     closeIncidentData,
     resolveIncidentData,
     serviceCloseData,
@@ -17,12 +17,12 @@ export const ClosureRole = () => {
     isLoading,
     getIsLoading,
     handleCancel,
-  } = useClosureRole();
+  } = useClosureRule();
 
   return (
     <FormProvider
-      methods={closureRoleMethods}
-      onSubmit={handleSubmitClosureRole}
+      methods={closureRuleMethods}
+      onSubmit={handleSubmitClosureRule}
     >
       <Header />
       <br />

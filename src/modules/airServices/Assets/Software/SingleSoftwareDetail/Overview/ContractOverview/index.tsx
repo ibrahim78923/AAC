@@ -23,12 +23,16 @@ function ContractOverview(props: any) {
           <Box sx={styles?.contentBox}>
             <Box sx={styles?.contentBoxData(theme)}>
               <Typography>{contractOverviewLabel?.subHeading1}</Typography>
-              <Typography>{`$${data?.data?.totalContractValue?.contractValue?.total}`}</Typography>
+              <Typography>{`$${
+                data?.data?.totalContractValue?.contractValue?.total ?? 0
+              }`}</Typography>
             </Box>
             <Box sx={styles?.contentBoxData(theme)}>
               <Typography>{contractOverviewLabel?.subHeading2}</Typography>
               <Typography>
-                {formatDate(data?.data?.upCommingExipiry?.upcomingExpiryDate)}
+                {data?.data?.upCommingExipiry?.upcomingExpiryDate
+                  ? formatDate(data?.data?.upCommingExipiry?.upcomingExpiryDate)
+                  : 'Not Specified'}
               </Typography>
             </Box>
           </Box>

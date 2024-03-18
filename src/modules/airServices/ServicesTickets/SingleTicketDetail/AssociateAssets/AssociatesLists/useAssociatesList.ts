@@ -3,13 +3,12 @@ import { useTheme } from '@emotion/react';
 import { PAGINATION } from '@/config';
 import {
   useDeleteTicketsAssociatesAssetsMutation,
-  useGetTicketsAssociatesAssetsQuery,
+  useLazyGetTicketsAssociatesAssetsQuery,
 } from '@/services/airServices/tickets/single-ticket-details/associates-assets';
 import { useRouter } from 'next/router';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 
-export const useAssociatesLists: any = (props: any) => {
-  const { setTotalAssets } = props;
+export const useAssociatesLists: any = () => {
   const theme = useTheme();
   const router = useRouter();
   const [deleteModal, setDeleteModal] = useState(false);
@@ -17,37 +16,47 @@ export const useAssociatesLists: any = (props: any) => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [selectedAsset, setSelectedAsset] = useState('');
-  const [deleteTicketsAssociatesAssetsTrigger] =
-    useDeleteTicketsAssociatesAssetsMutation();
+  const [
+    deleteTicketsAssociatesAssetsTrigger,
+    deleteTicketsAssociatesAssetsStatus,
+  ] = useDeleteTicketsAssociatesAssetsMutation();
   const { ticketId } = router?.query;
+  const [
+    lazyGetTicketsAssociatesAssetsTrigger,
+    { data, isLoading, isFetching, isError, isSuccess },
+  ] = useLazyGetTicketsAssociatesAssetsQuery<any>();
 
-  const getTicketsAssociatesAssetsParameter = {
-    queryParams: {
-      page,
-      limit: pageLimit,
-      ticketId,
-    },
+  const getTicketsAssociatesAssetsListData = async (
+    currentPage: any = page,
+  ) => {
+    const additionalParams = [
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+      ['ticketId', ticketId],
+    ];
+
+    const getTicketsAssociatesAssetsParam: any =
+      buildQueryParams(additionalParams);
+
+    const getTicketsAssociatesAssetsParameter = {
+      queryParams: getTicketsAssociatesAssetsParam,
+    };
+
+    try {
+      await lazyGetTicketsAssociatesAssetsTrigger(
+        getTicketsAssociatesAssetsParameter,
+      )?.unwrap();
+    } catch (error: any) {}
   };
 
-  const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetTicketsAssociatesAssetsQuery(getTicketsAssociatesAssetsParameter, {
-      refetchOnMountOrArgChange: true,
-    });
+  useEffect(() => {
+    getTicketsAssociatesAssetsListData();
+  }, [page, pageLimit]);
+
   const setAssetId = (id: any) => {
     setSelectedAsset(id);
     setDeleteModal(true);
   };
-
-  useEffect(() => {
-    setTotalAssets(
-      data?.data?.tickets?.length > 1
-        ? data?.data?.meta?.total
-        : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-        ? data?.data?.meta?.total
-        : 0,
-    );
-    return () => setTotalAssets('');
-  }, [data]);
 
   const deleteTicketsAssociatesAssets = async () => {
     const deleteTicketsAssociatesAssetsParameter = {
@@ -62,8 +71,11 @@ export const useAssociatesLists: any = (props: any) => {
       )?.unwrap();
       successSnackbar('Assets detach successfully');
       setDeleteModal?.(false);
+      const newPage = data?.data?.tickets?.length === 1 ? 1 : page;
+      setPage?.(newPage);
+      await getTicketsAssociatesAssetsListData?.(newPage);
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
       setDeleteModal?.(false);
     }
   };
@@ -83,5 +95,6 @@ export const useAssociatesLists: any = (props: any) => {
     deleteTicketsAssociatesAssets,
     setAssetId,
     router,
+    deleteTicketsAssociatesAssetsStatus,
   };
 };

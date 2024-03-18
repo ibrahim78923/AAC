@@ -51,12 +51,10 @@ export const DetailCard = () => {
               <div>
                 <Typography variant="body2" fontWeight={600}>
                   {' '}
-                  {detail?.data[0]?.requesterDetails?.firstName.length
-                    ? fullName(
-                        detail?.data[0]?.requesterDetails?.firstName,
-                        detail?.data[0]?.requesterDetails?.lastName,
-                      )
-                    : '-'}
+                  {fullName(
+                    detail?.data[0]?.requesterDetails?.firstName,
+                    detail?.data[0]?.requesterDetails?.lastName,
+                  )}
                 </Typography>
               </div>
             </Box>

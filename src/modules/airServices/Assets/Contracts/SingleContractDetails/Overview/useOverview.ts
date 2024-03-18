@@ -6,7 +6,8 @@ export const useOverview = () => {
   const theme = useTheme();
   const searchParams = useSearchParams();
   const contractId = searchParams?.get('contractId');
-  const { data } = useGetContractsOverviewQuery(contractId);
+  const { data, isLoading, isFetching } =
+    useGetContractsOverviewQuery(contractId);
   const contractData = data?.data;
   const contractItemDataArray = data?.data?.itemsDetail || [];
   const contractItemData = contractItemDataArray.find((item: any) => ({
@@ -26,5 +27,7 @@ export const useOverview = () => {
     contractData,
     contractItemData,
     approverName,
+    isLoading,
+    isFetching,
   };
 };

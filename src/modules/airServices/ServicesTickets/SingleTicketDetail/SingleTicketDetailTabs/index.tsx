@@ -16,7 +16,6 @@ import { Permissions } from '@/constants/permissions';
 export const SingleTicketDetailTabs = () => {
   const [totalRelatedTickets, setTotalRelatedTickets] = useState();
   const [totalAssets, setTotalAssets] = useState();
-
   return (
     <HorizontalTabs
       tabsDataArray={singleTicketDetailTabsData?.(

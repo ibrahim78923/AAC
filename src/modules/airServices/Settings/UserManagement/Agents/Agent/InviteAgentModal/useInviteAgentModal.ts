@@ -58,8 +58,8 @@ export const useInviteAgentModal = (props: any) => {
       try {
         const agentId = selectedAgentList.map((agent: any) => agent?._id);
         const res: any = await agentUpdate({
-          id: agentId,
           body: {
+            id: agentId,
             firstName: formData?.firstName ?? '',
             lastName: formData?.lastName ?? '',
             phoneNumber: formData?.phoneNumber ?? '',

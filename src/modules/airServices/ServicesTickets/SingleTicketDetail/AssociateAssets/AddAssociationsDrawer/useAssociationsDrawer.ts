@@ -68,7 +68,7 @@ export const useAssociationsDrawer = (props: any) => {
       successSnackbar('Associate assets successfully');
       closeAssetsAssociate?.();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
 

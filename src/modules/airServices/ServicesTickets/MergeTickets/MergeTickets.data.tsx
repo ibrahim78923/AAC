@@ -3,6 +3,7 @@ import {
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
 import { ROLES, TICKET_SELECTION_TYPE } from '@/constants/strings';
+import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
@@ -19,15 +20,16 @@ export const mergeTicketsFormDefaultValue: any = {
   searchTicket: [],
   requester: null,
 };
+
 const ticketSelectionType = [
   TICKET_SELECTION_TYPE?.REQUESTER,
   TICKET_SELECTION_TYPE?.SUBJECT,
   TICKET_SELECTION_TYPE?.ID,
 ];
+
 export const check: any = (
   apiQueryTicketBySubject: any,
   apiQueryTicketByRequester: any,
-  apiQueryTicketById: any,
   selectedSearchType: any,
 ) => {
   const respectiveParam: any = {
@@ -40,10 +42,11 @@ export const check: any = (
       queryKey: 'search',
     },
     [TICKET_SELECTION_TYPE?.ID]: {
-      apiQuery: apiQueryTicketById,
-      queryKey: 'ticketId',
+      apiQuery: apiQueryTicketByRequester,
+      queryKey: 'ticketIdNumber',
     },
   };
+
   if (!ticketSelectionType?.includes(selectedSearchType))
     return respectiveParam[TICKET_SELECTION_TYPE?.REQUESTER];
   return respectiveParam[selectedSearchType];
@@ -60,12 +63,12 @@ const ticketSelectionOptions = [
   },
   { _id: TICKET_SELECTION_TYPE?.ID, label: TICKET_SELECTION_TYPE?.ID },
 ];
+
 export const mergeTicketsFormFieldsDynamic = (
   watchForTicketSelection: any,
   apiQueryRequester: any,
   apiQueryTicketByRequester: any,
   apiQueryTicketBySubject: any,
-  apiQueryTicketById: any,
   getValues: any,
 ) => [
   {
@@ -85,7 +88,7 @@ export const mergeTicketsFormFieldsDynamic = (
           id: 3,
           componentProps: {
             name: 'requester',
-            label: 'Search Requester id',
+            label: 'Search requester id',
             fullWidth: true,
             required: true,
             apiQuery: apiQueryRequester,
@@ -101,7 +104,8 @@ export const mergeTicketsFormFieldsDynamic = (
           component: Typography,
           heading: `${
             !!getValues('requester')?._id
-              ? `The requester id is ${getValues('requester')?._id}`
+              ? `The requester id is ${getValues('requester')
+                  ?._id}. Paste this in below search field`
               : ``
           }`,
           componentProps: {
@@ -116,24 +120,22 @@ export const mergeTicketsFormFieldsDynamic = (
     component: RHFAutocompleteAsync,
     componentProps: {
       name: 'searchTicket',
-      label: 'Search Ticket',
+      label: 'Search ticket',
       fullWidth: true,
       required: true,
       multiple: watchForTicketSelection?._id !== TICKET_SELECTION_TYPE?.ID,
       queryKey: check(
         apiQueryTicketBySubject,
         apiQueryTicketByRequester,
-        apiQueryTicketById,
         watchForTicketSelection?._id,
       )?.queryKey,
       apiQuery: check(
         apiQueryTicketBySubject,
         apiQueryTicketByRequester,
-        apiQueryTicketById,
         watchForTicketSelection?._id,
       )?.apiQuery,
       getOptionLabel: (option: any) =>
-        `${option?.ticketIdNumber} ${option?.subject}`,
+        `${option?.ticketIdNumber} ${' '} ${truncateText(option?.subject)}`,
     },
   },
 ];

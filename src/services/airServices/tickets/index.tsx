@@ -40,7 +40,6 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         method: 'POST',
         body: postTicketParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     putTickets: builder?.mutation({
       query: (putTicketParameter: any) => ({
@@ -48,7 +47,6 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         method: 'PUT',
         body: putTicketParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     putSingleTicketStatus: builder?.mutation({
       query: (putSingleTicketStatusParameter: any) => ({
@@ -65,7 +63,6 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         params: patchBulkUpdateTicketsParameter?.queryParams,
         body: patchBulkUpdateTicketsParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     deleteTickets: builder?.mutation({
       query: (deleteTicketsParameter: any) => ({
@@ -179,7 +176,6 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
     }),
   }),
 });
-
 export const {
   usePostTicketsMutation,
   useGetTicketsQuery,

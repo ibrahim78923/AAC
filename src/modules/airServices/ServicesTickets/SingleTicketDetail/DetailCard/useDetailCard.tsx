@@ -1,6 +1,5 @@
 import { useGetSingleAttachmentQuery } from '@/services/airServices/tickets/attachments';
-import { useGetTicketsDetailsByIdQuery } from '@/services/airServices/tickets/single-ticket-details/details';
-
+import { useGetTicketsByIdQuery } from '@/services/airServices/tickets';
 import { useRouter } from 'next/router';
 
 export const useDetailsCard = () => {
@@ -18,11 +17,13 @@ export const useDetailsCard = () => {
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
-    useGetTicketsDetailsByIdQuery(getSingleTicketParameter, {
+  const { data, isLoading, isFetching, isError } = useGetTicketsByIdQuery(
+    getSingleTicketParameter,
+    {
       refetchOnMountOrArgChange: true,
       skip: !!!ticketId,
-    });
+    },
+  );
 
   const { data: attachFile }: any = useGetSingleAttachmentQuery(
     getSingleAttachmentParameter,

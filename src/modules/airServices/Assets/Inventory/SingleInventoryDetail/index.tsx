@@ -10,11 +10,19 @@ export const SingleInventoryDetail = () => {
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     submitDeleteHandler,
+    inventoryData,
+    isFetching,
+    isLoading,
   }: any = useSingleInventoryDetail();
 
   return (
     <>
-      <Header dropdownOptions={singleInventoryDetailActionDropdown} />
+      <Header
+        inventoryData={inventoryData}
+        isFetching={isFetching}
+        isLoading={isLoading}
+        dropdownOptions={singleInventoryDetailActionDropdown}
+      />
       <br />
 
       <SingleInventoryDetailsTabs />

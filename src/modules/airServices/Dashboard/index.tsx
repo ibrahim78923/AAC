@@ -1,7 +1,7 @@
 import { HeaderDashboard } from '@/modules/airServices/Dashboard/HeaderDashboard';
 import { RecentActivitiesDashboardCard } from '@/modules/airServices/Dashboard/RecentActivitiesDashboard/RecentActivitiesDashboardCard';
 import { TicketDashboardCards } from '@/modules/airServices/Dashboard/TicketDashboardCards';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
 import { AnnouncementDashboardCard } from '@/modules/airServices/Dashboard/AnnouncementDashboard/AnnouncementDashboardCard';
 import { TopPerformerDashboardCard } from '@/modules/airServices/Dashboard/TopPerformerDashboardCard';
 import { ticketDashboardCardsData } from './TicketDashboardCards/TicketDashboardCards.data';
@@ -18,6 +18,7 @@ import NoData from '@/components/NoData';
 import { NoAssociationFoundImage } from '@/assets/images';
 import { PieChart } from './Chart/PieChart';
 import { TicketBased } from './Chart/TicketBased';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const Dashboard = () => {
   const {
@@ -31,6 +32,8 @@ const Dashboard = () => {
     cardData,
     customerAnnouncement,
     recentActivities,
+    isLoading,
+    isFetching,
   } = useDashboard();
 
   return (
@@ -40,7 +43,9 @@ const Dashboard = () => {
       <Box>
         <HeaderDashboard />
         <br />
-        {ticketDashboardCardsData(cardData)?.length > 0 ? (
+        {isLoading || isFetching ? (
+          <Skeleton variant="text" height="100%" />
+        ) : ticketDashboardCardsData(cardData)?.length > 0 ? (
           <Grid container spacing={3}>
             {ticketDashboardCardsData(cardData)?.map((item: any) => (
               <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={item?._id}>
@@ -59,6 +64,7 @@ const Dashboard = () => {
             height={'100%'}
           />
         )}
+
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Grid container spacing={2}>
@@ -86,11 +92,15 @@ const Dashboard = () => {
                   <Box marginLeft={2}>
                     <Typography variant="h5">Recent Activities</Typography>
                   </Box>
-                  {recentActivitiesDashboardCardData(recentActivities)?.length >
-                  0 ? (
-                    <Box marginTop={2} overflow={'scroll'} height={'35vh'}>
-                      {recentActivitiesDashboardCardData(recentActivities)?.map(
-                        (item: any, index: any) => (
+                  {isLoading || isFetching ? (
+                    <SkeletonTable />
+                  ) : recentActivitiesDashboardCardData(recentActivities)
+                      .length > 0 ? (
+                    <>
+                      <Box marginTop={2} overflow={'scroll'} height={'35vh'}>
+                        {recentActivitiesDashboardCardData(
+                          recentActivities,
+                        )?.map((item: any, index: any, arr: any) => (
                           <Box key={item?._id}>
                             <RecentActivitiesDashboardCard
                               icon={item?.icon}
@@ -108,16 +118,25 @@ const Dashboard = () => {
                               recentActivityDateTime={
                                 item?.recentActivityDateTime
                               }
-                              isBorderBottom={
-                                recentActivitiesDashboardCardData?.length -
-                                  1 !==
-                                index
-                              }
+                              isBorderBottom={arr.length - 1 !== index}
                             />
                           </Box>
-                        ),
-                      )}
-                    </Box>
+                        ))}
+                      </Box>
+                      <Box
+                        display={'flex'}
+                        justifyContent={'center'}
+                        marginTop={4.9}
+                      >
+                        <Button
+                          variant="text"
+                          fullWidth
+                          onClick={handleIconButton}
+                        >
+                          View All
+                        </Button>
+                      </Box>
+                    </>
                   ) : (
                     <NoData
                       image={NoAssociationFoundImage}
@@ -129,11 +148,6 @@ const Dashboard = () => {
                     isDrawerOpen={isDrawerOpen}
                     setIsDrawerOpen={setIsDrawerOpen}
                   />
-                  <Box display={'flex'} justifyContent={'center'} marginTop={5}>
-                    <Button variant="text" fullWidth onClick={handleIconButton}>
-                      View All
-                    </Button>
-                  </Box>
                 </Box>
               </Grid>
             </Grid>
@@ -150,6 +164,7 @@ const Dashboard = () => {
                   <PieChart />
                 </Box>
               </Grid>
+
               <Grid item xs={12} lg={4}>
                 {topPerformerDashboardCardData &&
                 topPerformerDashboardCardData.length > 0 ? (
@@ -187,11 +202,15 @@ const Dashboard = () => {
                     <AnnouncementHeader />
                   </Box>
 
-                  {announcementDashboardCardData(customerAnnouncement)?.length >
-                  0 ? (
-                    <Box overflow={'scroll'} height={'26vh'}>
-                      {announcementDashboardCardData(customerAnnouncement)?.map(
-                        (item, index) => (
+                  {isLoading || isFetching ? (
+                    <SkeletonTable />
+                  ) : announcementDashboardCardData(customerAnnouncement)
+                      ?.length > 0 ? (
+                    <>
+                      <Box overflow={'scroll'} height={'29vh'}>
+                        {announcementDashboardCardData(
+                          customerAnnouncement,
+                        )?.map((item: any, index: any) => (
                           <Box key={item?._id}>
                             <AnnouncementDashboardCard
                               icon={item?.icon}
@@ -204,9 +223,22 @@ const Dashboard = () => {
                               }
                             />
                           </Box>
-                        ),
-                      )}
-                    </Box>
+                        ))}
+                      </Box>
+                      <Box
+                        display={'flex'}
+                        justifyContent={'center'}
+                        marginTop={2}
+                      >
+                        <Button
+                          variant="text"
+                          fullWidth
+                          onClick={handleAnnouncementIconButton}
+                        >
+                          View All
+                        </Button>
+                      </Box>
+                    </>
                   ) : (
                     <NoData
                       image={NoAssociationFoundImage}
@@ -218,15 +250,6 @@ const Dashboard = () => {
                     isAnnouncementDrawerOpen={isAnnouncementDrawerOpen}
                     setIsAnnouncementDrawerOpen={setIsAnnouncementDrawerOpen}
                   />
-                  <Box display={'flex'} justifyContent={'center'} marginTop={2}>
-                    <Button
-                      variant="text"
-                      fullWidth
-                      onClick={handleAnnouncementIconButton}
-                    >
-                      View All
-                    </Button>
-                  </Box>
                 </Box>
               </Grid>
             </Grid>

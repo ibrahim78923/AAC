@@ -2,7 +2,7 @@ import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 import { timeZone } from '@/constants/time-zone';
 import * as Yup from 'yup';
 
-export const accountDetailProfileValidationSchema = Yup?.object()?.shape({
+export const profileValidationSchema = Yup?.object()?.shape({
   firstName: Yup?.string()
     ?.required('Required')
     ?.max(30, 'First Name up to 30 characters'),
@@ -19,7 +19,7 @@ export const accountDetailProfileValidationSchema = Yup?.object()?.shape({
   twitterURL: Yup?.string(),
 });
 
-export const accountDetailProfileDefaultValues = (profileDetail: any) => {
+export const profileDefaultValues = (profileDetail: any) => {
   return {
     firstName: profileDetail?.firstName ?? '',
     lastName: profileDetail?.lastName ?? '',
