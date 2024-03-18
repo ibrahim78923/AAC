@@ -105,7 +105,10 @@ export const agentsListsColumnsFunction = (
           }
           router?.push({
             pathname: AIR_SERVICES?.SINGLE_AGENT_DETAILS,
-            query: { agentId: info?.row?.original?._id },
+            query: {
+              agentId: info?.row?.original?._id,
+              departmentId: info?.row?.original?.departmentId,
+            },
           });
         }}
       >

@@ -1,11 +1,9 @@
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
 import {
   newVendorDefaultValues,
   newVendorValidationSchema,
 } from './AddNewVendor.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useGetVendorsByIdQuery,
   usePatchNewVendorMutation,
@@ -13,13 +11,17 @@ import {
 } from '@/services/airServices/settings/asset-management/vendor';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAddNewVendor = (props: any) => {
   const router = useRouter();
   const { vendorId } = router?.query;
   const { setIsADrawerOpen } = props;
-  const [postNewVendorTrigger] = usePostNewVendorMutation();
-  const [patchNewVendorTrigger] = usePatchNewVendorMutation();
+  const [postNewVendorTrigger, postNewVendorStatus] =
+    usePostNewVendorMutation();
+  const [patchNewVendorTrigger, patchNewVendorStatus] =
+    usePatchNewVendorMutation();
+
   const { data: vinData, isLoading } = useGetVendorsByIdQuery({
     params: {
       id: vendorId,
@@ -45,19 +47,12 @@ export const useAddNewVendor = (props: any) => {
     }
 
     try {
-      const response = await postNewVendorTrigger({ body })?.unwrap();
-
-      enqueueSnackbar(response?.data?.message ?? 'Vendor Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      reset(newVendorDefaultValues);
+      await postNewVendorTrigger({ body })?.unwrap();
+      successSnackbar('Vendor Added Successfully');
+      handleClose?.();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
-
-    handleClose?.();
   };
 
   const submitUpdateNewVendor = async (data: any) => {
@@ -74,26 +69,18 @@ export const useAddNewVendor = (props: any) => {
       },
     };
     try {
-      const response = await patchNewVendorTrigger(
-        patchNewVendorParameter,
-      )?.unwrap();
-      enqueueSnackbar(
-        response?.data?.message ?? 'Vendor Updated Successfully!',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      await patchNewVendorTrigger(patchNewVendorParameter)?.unwrap();
+      successSnackbar('Vendor Updated Successfully!');
+      handleClose?.();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
-    setIsADrawerOpen(false);
   };
   const handleClose = () => {
     setIsADrawerOpen?.(false);
     reset?.();
   };
+
   return {
     methodsNewVendor,
     newVendorValidationSchema,
@@ -103,5 +90,7 @@ export const useAddNewVendor = (props: any) => {
     submitUpdateNewVendor,
     isLoading,
     handleClose,
+    patchNewVendorStatus,
+    postNewVendorStatus,
   };
 };

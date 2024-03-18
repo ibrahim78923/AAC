@@ -5,6 +5,7 @@ import { UpsertRelatedTicket } from './UpsertRelatedTicket';
 import { DeleteRelatedTicket } from './DeleteRelatedTicket';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const RelatedTickets = () => {
   const {
@@ -26,6 +27,8 @@ const RelatedTickets = () => {
     getChildTicketsListData,
     page,
   } = useRelatedTickets();
+
+  if (isLoading || isFetching) return <SkeletonForm />;
 
   return (
     <>

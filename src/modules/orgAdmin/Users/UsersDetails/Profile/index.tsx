@@ -17,18 +17,41 @@ const UserDetailsProfile = (props: any) => {
   const [isToggled, setIsToggled] = useToggle(false);
   const { updateUsers }: any = useUserManagement();
   const initialTab = 0;
+
   const profileDefaulValues = {
     ...profileData,
     address: profileData?.address?.composite
-      ? profileData?.address?.composite
-      : `Flat # ${profileData?.address?.flatNumber}, building # ${profileData?.address?.buildingNumber} ,
-      ${profileData?.address?.buildingName}, street # ${profileData?.address?.streetName},${profileData?.address?.city}, ${profileData?.address?.country} `,
-    flat: profileData?.address?.flatNumber ?? '',
-    city: profileData?.address?.city ?? '',
-    country: profileData?.address?.country ?? '',
-    buildingName: profileData?.address?.buildingName ?? '',
-    buildingNumber: profileData?.address?.buildingNumber ?? '',
-    streetName: profileData?.address?.streetName ?? '',
+      ? profileData.address.composite
+      : `${
+          profileData.address.flatNumber
+            ? `Flat # ${profileData.address.flatNumber}, `
+            : ''
+        }` +
+        `${
+          profileData.address.buildingNumber
+            ? `Building # ${profileData.address.buildingNumber}, `
+            : ''
+        }` +
+        `${
+          profileData.address.buildingName
+            ? `Building Name ${profileData.address.buildingName}, `
+            : ''
+        }` +
+        `${
+          profileData.address.streetName
+            ? `Street # ${profileData.address.streetName}, `
+            : ''
+        }` +
+        `${profileData.address.city ? `${profileData.address.city}, ` : ''}` +
+        `${
+          profileData.address.country ? `${profileData.address.country}` : ''
+        }`,
+    flat: profileData.address.flatNumber ?? '',
+    city: profileData.address.city ?? '',
+    country: profileData.address.country ?? '',
+    buildingName: profileData.address.buildingName ?? '',
+    buildingNumber: profileData.address.buildingNumber ?? '',
+    streetName: profileData.address.streetName ?? '',
   };
 
   const methods: any = useForm({
@@ -37,7 +60,6 @@ const UserDetailsProfile = (props: any) => {
   });
 
   const { handleSubmit } = methods;
-
   const onSubmit = async (values: any) => {
     if (isToggled) {
       values.address = {
@@ -50,7 +72,7 @@ const UserDetailsProfile = (props: any) => {
       };
     } else {
       values.address = {
-        composite: values?.compositeAddress,
+        composite: values?.address,
       };
     }
 
@@ -58,7 +80,6 @@ const UserDetailsProfile = (props: any) => {
       '_id',
       'products',
       'role',
-      'email',
       'organization',
       'createdAt',
       'createdBy',
@@ -74,6 +95,7 @@ const UserDetailsProfile = (props: any) => {
       'linkedInUrl',
       'departmentId',
       'avatar',
+      'email',
     ];
 
     for (const key of keysToDelete) {
@@ -91,6 +113,62 @@ const UserDetailsProfile = (props: any) => {
       });
     }
   };
+  // const onSubmit = async (values: any) => {
+  //   if (isToggled) {
+  //     values.address = {
+  //       flatNumber: values.flat,
+  //       buildingName: values?.buildingName,
+  //       buildingNumber: values?.buildingNumber,
+  //       streetName: values?.streetName,
+  //       city: values?.city,
+  //       country: values?.country,
+  //       composite: values?.address
+  //     };
+  //   }
+  //   else {
+  //     values.address = {
+  //       composite: values.address,
+  //     };
+  //   }
+
+  //   const keysToDelete = [
+  //     '_id',
+  //     'products',
+  //     'role',
+  //     'email',
+  //     'organization',
+  //     'createdAt',
+  //     'createdBy',
+  //     'updatedAt',
+  //     'status',
+  //     'flat',
+  //     'compositeAddress',
+  //     'buildingNumber',
+  //     'buildingName',
+  //     'city',
+  //     'country',
+  //     'streetName',
+  //     'linkedInUrl',
+  //     'departmentId',
+  //     'avatar',
+  //   ];
+
+  //   for (const key of keysToDelete) {
+  //     delete values[key];
+  //   }
+  //   console.log('values', values)
+  //   try {
+  //     await updateUsers({ id: profileData?._id, body: values })?.unwrap();
+  //     enqueueSnackbar('User updated successfully', {
+  //       variant: 'success',
+  //     });
+  //     setTabVal(initialTab);
+  //   } catch (error: any) {
+  //     enqueueSnackbar(error?.data?.message, {
+  //       variant: 'error',
+  //     });
+  //   }
+  // };
 
   return (
     <FormProvider methods={methods}>
@@ -133,7 +211,12 @@ const UserDetailsProfile = (props: any) => {
                 <item.component
                   {...item?.componentProps}
                   size={'small'}
-                  disabled={item?.componentProps?.name === 'email' && true}
+                  disabled={
+                    (isToggled && item?.componentProps?.name === 'address') ||
+                    item?.componentProps?.name === 'email'
+                      ? true
+                      : false
+                  }
                 >
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (

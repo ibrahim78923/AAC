@@ -20,7 +20,10 @@ export const useContract = () => {
     isError,
     isFetching,
     isSuccess,
-  } = useGetContractVendorListQuery({ param });
+  } = useGetContractVendorListQuery(
+    { param },
+    { refetchOnMountOrArgChange: true, skip: !!!vendorId },
+  );
 
   return {
     contractVendorData,

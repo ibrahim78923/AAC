@@ -23,11 +23,6 @@ export const RequestersHeader = (props: any) => {
     setIsDrawerOpen,
     requestorsDropdownOptions,
     submitDeleteModal,
-    handleSubmit,
-    submit,
-    methods,
-    handleClose,
-    isLoading,
   } = useRequestersHeader(props);
 
   return (
@@ -84,29 +79,29 @@ export const RequestersHeader = (props: any) => {
               Add Requestors
             </Button>
           </PermissionsGuard>
-          <UpsertRequesters
-            isDrawerOpen={isDrawerOpen}
-            setIsDrawerOpen={setIsDrawerOpen}
-            title={'Add Requestor'}
-            okText={'Submit'}
-            submitHandler={handleSubmit(submit)}
-            methods={methods}
-            handleClose={handleClose}
-            isLoading={isLoading}
-          />
-          <AgentConversionDelete
-            open={deleteModal}
-            handleClose={() => {
-              setDeleteModal(false);
-            }}
-            submitDeleteModal={submitDeleteModal}
-          />
-          <AgentConversionWarning
-            open={warningModal}
-            handleClose={() => {
-              setWarningModal(false);
-            }}
-          />
+          {isDrawerOpen && (
+            <UpsertRequesters
+              isDrawerOpen={isDrawerOpen}
+              setIsDrawerOpen={setIsDrawerOpen}
+            />
+          )}
+          {deleteModal && (
+            <AgentConversionDelete
+              open={deleteModal}
+              handleClose={() => {
+                setDeleteModal(false);
+              }}
+              submitDeleteModal={submitDeleteModal}
+            />
+          )}
+          {warningModal && (
+            <AgentConversionWarning
+              open={warningModal}
+              handleClose={() => {
+                setWarningModal(false);
+              }}
+            />
+          )}
         </Box>
       </Box>
     </Box>

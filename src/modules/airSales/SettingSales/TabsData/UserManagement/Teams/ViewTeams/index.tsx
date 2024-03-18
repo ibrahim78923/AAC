@@ -51,9 +51,9 @@ const ViewTeams = (props: any) => {
           <MemberDetails
             key={uuidv4()}
             img={item?.img}
-            name={item?.name}
-            email={item?.email}
-            designation={item?.designation}
+            name={`${item?.firstName ?? 'N/A'} ${item?.lastName}`}
+            email={item?.email ?? 'N/A'}
+            designation={item?.designation ?? 'N/A'}
           />
         ))}
       </>

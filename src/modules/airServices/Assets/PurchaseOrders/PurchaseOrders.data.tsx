@@ -1,6 +1,7 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { AIR_SERVICES } from '@/constants';
+import { AIR_SERVICES, DATE_TIME_FORMAT } from '@/constants';
 import { Checkbox, Typography } from '@mui/material';
+import dayjs from 'dayjs';
 
 export const purchaseOrderColumnsFunction = (
   purchaseOrderData: any,
@@ -97,7 +98,8 @@ export const purchaseOrderColumnsFunction = (
       id: 'expectedDeliveryDate',
       isSortable: true,
       header: <span>Expected Delivery Date</span>,
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) =>
+        dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row?.status,

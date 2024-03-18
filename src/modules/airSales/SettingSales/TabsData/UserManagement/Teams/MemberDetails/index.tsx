@@ -1,9 +1,8 @@
-import React from 'react';
 import Image from 'next/image';
-
 import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import useMemberDetails from './useMemberDetails';
+import { UserAvatarImage } from '@/assets/images';
 
 const MemberDetails = (props: any) => {
   const {
@@ -31,10 +30,15 @@ const MemberDetails = (props: any) => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            gap: '4px',
+            gap: 1.5,
           }}
         >
-          <Image src={props?.img} alt="--" width={40} height={40} />
+          <Image
+            src={props?.img ?? UserAvatarImage}
+            alt="img"
+            width={40}
+            height={40}
+          />
           <Box sx={{ display: 'grid' }}>
             <Typography
               variant="body3"

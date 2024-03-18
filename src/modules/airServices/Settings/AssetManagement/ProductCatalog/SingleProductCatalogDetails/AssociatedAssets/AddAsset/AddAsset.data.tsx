@@ -4,8 +4,8 @@ import * as Yup from 'yup';
 const assetStateOptions = ['IN_STOCK', 'IN_TRANSIT', 'IN_USE'];
 
 export const addAssetValidationSchema = Yup?.object()?.shape({
-  displayName: Yup?.string()?.trim()?.required('Required'),
-  state: Yup?.string()?.required('Required'),
+  displayName: Yup?.string()?.trim()?.required('Display name is required'),
+  state: Yup?.string()?.required('State is required'),
 });
 
 export const addAssetDefaultValues = {

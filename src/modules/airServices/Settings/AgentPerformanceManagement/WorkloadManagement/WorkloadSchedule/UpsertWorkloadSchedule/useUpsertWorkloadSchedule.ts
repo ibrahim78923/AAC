@@ -3,6 +3,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import {
   useGetWorkloadScheduleByIdQuery,
+  useLazyGetBusinessHourDropdownQuery,
+  useLazyGetWorkloadAgentDropdownQuery,
   usePatchWorkloadScheduleMutation,
   usePostWorkloadScheduleMutation,
 } from '@/services/airServices/settings/agent-performance-management/workload-management/workload-schedule';
@@ -24,8 +26,8 @@ export const useUpsertWorkloadSchedule = () => {
     usePatchWorkloadScheduleMutation();
 
   const getSingleWorkloadScheduleParameter = {
-    pathParam: {
-      workloadScheduleId,
+    queryParams: {
+      id: workloadScheduleId,
     },
   };
 
@@ -35,12 +37,12 @@ export const useUpsertWorkloadSchedule = () => {
       skip: !!!workloadScheduleId,
     });
 
-  const method: any = useForm<any>({
+  const method = useForm<any>({
     defaultValues: upsertWorkloadScheduleDefaultValues?.(),
     resolver: yupResolver(upsertWorkloadScheduleValidationSchema),
   });
 
-  const { reset, handleSubmit } = method;
+  const { reset, handleSubmit, getValues } = method;
 
   useEffect(() => {
     reset(() => upsertWorkloadScheduleDefaultValues(data?.data?.[0]));
@@ -49,7 +51,7 @@ export const useUpsertWorkloadSchedule = () => {
   const submitWorkloadSchedule = async (data: any) => {
     const body = {
       ...data,
-      agentsId: data?.agentsId?._id,
+      agentsId: data?.agentsId?.map((agent: any) => agent?._id),
       businessHoursId: data?.businessHoursId?._id,
     };
     const postWorkloadScheduleParameter = {
@@ -95,9 +97,15 @@ export const useUpsertWorkloadSchedule = () => {
   const moveBack = () => {
     router?.push(AIR_SERVICES?.WORKLOAD_MANAGEMENT_SETTINGS);
   };
-
+  const apiQueryAgent = useLazyGetWorkloadAgentDropdownQuery();
+  const apiQueryBusinessHours = useLazyGetBusinessHourDropdownQuery();
   const upsertWorkloadScheduleFormFields =
-    upsertWorkloadScheduleFormFieldsDynamic();
+    upsertWorkloadScheduleFormFieldsDynamic(
+      apiQueryAgent,
+      apiQueryBusinessHours,
+      getValues,
+      router,
+    );
   return {
     handleSubmit,
     method,

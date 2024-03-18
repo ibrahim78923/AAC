@@ -15,6 +15,7 @@ export const useTicketDelete = (props: any) => {
     getTicketsListData,
     totalRecords,
     page,
+    isMoveBack = false,
   } = props;
   const [deleteTicketsTrigger, deleteTicketsStatus] =
     useDeleteTicketsMutation();
@@ -47,6 +48,14 @@ export const useTicketDelete = (props: any) => {
     }
   };
   const closeTicketsDeleteModal = () => {
+    !isMoveBack &&
+      router?.push(
+        makePath({
+          path: router?.pathname,
+          skipQueries: ['ticketAction'],
+        }),
+      );
+    setSelectedTicketList?.([]);
     setDeleteModalOpen?.(false);
   };
 

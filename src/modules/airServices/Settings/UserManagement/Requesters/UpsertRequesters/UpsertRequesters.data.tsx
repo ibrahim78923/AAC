@@ -9,17 +9,17 @@ import { timeZone } from '@/constants/time-zone';
 import * as Yup from 'yup';
 
 export const upsertRequestersValidationSchema: any = Yup?.object()?.shape({
-  email: Yup.string()
-    .email('Invalid email address')
-    .required('Required')
-    .matches(/@/, 'Email must contain the @ symbol and Email not exist'),
-  firstName: Yup?.string()?.required('Required'),
-  lastName: Yup?.string()?.required('Required'),
+  email: Yup?.string()
+    ?.email('Invalid email address')
+    ?.required('Email is required')
+    ?.matches(/@/, 'Email must contain the @ symbol and Email not exist'),
+  firstName: Yup?.string()?.required('First name is required'),
+  lastName: Yup?.string()?.required('Last name is required'),
   timezone: Yup?.mixed()?.nullable(),
-  jobTitle: Yup.string().required('Required'),
-  phoneNumber: Yup.string()
-    .required('Required')
-    .matches(
+  jobTitle: Yup?.string()?.required('Job title is required'),
+  phoneNumber: Yup?.string()
+    ?.required('Phone number is required')
+    ?.matches(
       VALIDATION_CONSTANT.PHONE_NUMBER.regex,
       VALIDATION_CONSTANT.PHONE_NUMBER.message,
     ),
@@ -128,7 +128,7 @@ export const upsertRequestersArray = [
       name: 'timezone',
       label: 'Time Zone',
       placeholder: 'Select Time Zone',
-      options: timeZone?.map((timeZone) => timeZone?.label),
+      options: timeZone?.map((timeZone: any) => timeZone?.label),
     },
     gridLength: 12,
     component: RHFAutocomplete,

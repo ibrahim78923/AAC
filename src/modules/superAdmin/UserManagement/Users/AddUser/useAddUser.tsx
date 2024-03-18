@@ -13,8 +13,10 @@ import { useGetAuthCompaniesQuery } from '@/services/auth';
 import { SUPER_ADMIN } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import useUserDetailsList from '../../UsersDetailsList/useUserDetailsList';
+import useToggle from '@/hooks/useToggle';
 
 const useAddUser = (useActionParams?: any) => {
+  const [isToggled, setIsToggled] = useToggle(false);
   const {
     tabVal,
     organizationId,
@@ -66,21 +68,24 @@ const useAddUser = (useActionParams?: any) => {
   const formValues = watch();
 
   //make sum up of address fields
-  const addressValues = `${formValues?.flat ? 'Flat # ' : ''}${
-    formValues?.flat ?? ''
-  }${formValues?.flat ? ',' : ''}
-    ${formValues?.buildingName ? 'building name ' : ''}${
-      formValues?.buildingName ?? ''
-    }${formValues?.buildingName ? ',' : ''}${
-      formValues?.buildingNumber ? 'building # ' : ''
-    }${formValues?.buildingNumber ?? ''}
-    ${formValues?.buildingNumber ? ',' : ''}${
-      formValues?.streetName ? 'street name ' : ''
-    }${formValues?.streetName ?? ''}${formValues?.streetName ? ',' : ''}${
-      formValues?.city ?? ''
-    }${formValues?.city ? ',' : ''}${formValues?.country ?? ''}${
-      formValues?.country ? ',' : ''
-    }`;
+  const addressValues = formValues?.composite?.address
+    ? formValues?.composite?.address
+    : `${formValues?.flatNumber ? `Flat # ${formValues?.flatNumber}, ` : ''}` +
+      `${
+        formValues?.buildingNumber
+          ? `Building # ${formValues?.buildingNumber}, `
+          : ''
+      }` +
+      `${
+        formValues?.buildingName
+          ? `Building Name ${formValues?.buildingName}, `
+          : ''
+      }` +
+      `${
+        formValues?.streetName ? `Street # ${formValues?.streetName}, ` : ''
+      }` +
+      `${formValues?.city ? `${formValues?.city}, ` : ''}` +
+      `${formValues?.country ? `${formValues?.country}` : ''}`;
 
   // setValue of address values
   useEffect(() => {
@@ -120,7 +125,8 @@ const useAddUser = (useActionParams?: any) => {
     } else if (pathName === SUPER_ADMIN?.USERS_LIST) {
       values.role = 'ORG_EMPLOYEE';
     }
-    if (values?.country && values?.city) {
+
+    if (isToggled) {
       values.address = {
         flatNumber: values.flat,
         buildingName: values?.buildingName,
@@ -143,7 +149,6 @@ const useAddUser = (useActionParams?: any) => {
       'streetName',
       'compositeAddress',
     ];
-
     if (isOpenAddUserDrawer?.type === 'edit') {
       keysToDelete = keysToDelete.concat(
         '_id',
@@ -165,12 +170,12 @@ const useAddUser = (useActionParams?: any) => {
         ? (await postUsers({ body: values })?.unwrap(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
-        ? (await postUserEmployee({
-            id: organizationId,
-            body: values,
-          })?.unwrap(),
-          setIsOpenAdduserDrawer(false))
-        : await updateUsers({ id: updateUserId, body: values })?.unwrap();
+          ? (await postUserEmployee({
+              id: organizationId,
+              body: values,
+            })?.unwrap(),
+            setIsOpenAdduserDrawer(false))
+          : await updateUsers({ id: updateUserId, body: values })?.unwrap();
 
       enqueueSnackbar(
         `User ${
@@ -199,6 +204,8 @@ const useAddUser = (useActionParams?: any) => {
     onSubmit,
     userDetail,
     tabTitle,
+    isToggled,
+    setIsToggled,
   };
 };
 

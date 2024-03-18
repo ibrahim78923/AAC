@@ -32,6 +32,7 @@ export const jobPostingDataArray = [
       name: 'title',
       label: 'Job Title',
       fullWidth: true,
+      required: true,
     },
     component: RHFTextField,
     md: 12,
@@ -42,6 +43,7 @@ export const jobPostingDataArray = [
       label: 'Job Type',
       select: true,
       fullWidth: true,
+      required: true,
     },
     options: [
       { value: 'FULL_TIME', label: 'Full Time' },
@@ -58,6 +60,7 @@ export const jobPostingDataArray = [
       label: 'Category ',
       select: true,
       fullWidth: true,
+      required: true,
     },
     options: [
       { value: 'SALES', label: 'Sales' },
@@ -74,6 +77,7 @@ export const jobPostingDataArray = [
       name: 'experience',
       label: 'Experience Level',
       select: true,
+      required: true,
     },
     options: [
       { value: 'No Experience', label: 'No Experience' },
@@ -91,6 +95,7 @@ export const jobPostingDataArray = [
       label: 'Number of Vacancy',
       fullWidth: true,
       select: true,
+      required: true,
     },
     options: [
       { value: '1', label: '1' },
@@ -107,6 +112,7 @@ export const jobPostingDataArray = [
       name: 'deadline',
       label: 'Application Deadline Date',
       fullWidth: true,
+      required: true,
     },
     component: RHFDatePicker,
     md: 12,
@@ -116,6 +122,7 @@ export const jobPostingDataArray = [
       name: 'description',
       label: 'Job Discription',
       fullWidth: true,
+      required: true,
     },
     component: RHFEditor,
     md: 12,
