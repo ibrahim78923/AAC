@@ -42,7 +42,7 @@ export const Announcement = () => {
           <ViewDetailSharedIcon />
         </IconButton>
       </Box>
-      <Box height={'40vh'} overflow={'scroll'}>
+      <Box height={'30vh'} overflow={'auto'}>
         {isLoading || isFetching ? (
           <SkeletonForm />
         ) : isError ? (
