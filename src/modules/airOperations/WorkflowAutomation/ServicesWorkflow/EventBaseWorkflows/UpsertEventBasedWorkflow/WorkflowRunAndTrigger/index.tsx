@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { RHFAutocomplete, RHFRadioGroup } from '@/components/ReactHookForm';
 import {
   andRunOptions,
@@ -6,15 +6,9 @@ import {
   eventOptions,
   moduleOptions,
 } from './WorkflowRunAndTrigger.data';
-import { AddCircle, Delete } from '@mui/icons-material';
-import { useFieldArray } from 'react-hook-form';
 
 export const WorkflowRunAndTrigger = (props: any) => {
   const { register, palette, watch } = props;
-  const { append, fields, remove } = useFieldArray({
-    control: props?.control,
-    name: 'events',
-  });
   const moduleType = watch('module');
   const ASSETS_TYPE = 'Assets';
   return (
@@ -88,43 +82,18 @@ export const WorkflowRunAndTrigger = (props: any) => {
             When to Trigger this workflow?
           </Typography>
         </Box>
-        <Grid container>
-          <Grid item md={6}>
-            <>
-              {(fields?.length === 0 ? [{}] : fields)?.map(
-                (item: any, index: any) => (
-                  <Grid container p={1.5} spacing={2} key={item?.id}>
-                    <Grid item md={10} xs={10}>
-                      <RHFAutocomplete
-                        name={`events[${index}]`}
-                        size="small"
-                        placeholder="Select"
-                        label={`Event ${index + 1}`}
-                        options={eventOptions}
-                      />
-                    </Grid>
-                    <Grid item mt={4}>
-                      {index > 0 && (
-                        <Delete
-                          onClick={() => remove(index)}
-                          sx={{ color: 'error.main', cursor: 'pointer' }}
-                        />
-                      )}
-                    </Grid>
-                  </Grid>
-                ),
-              )}
-            </>
-
-            <Box ml={1}>
-              <Button
-                onClick={() => append({ eventName: '' })}
-                color="secondary"
-                startIcon={<AddCircle color="action" />}
-              >
-                Add Event
-              </Button>
-            </Box>
+        <Grid container p={1.5} spacing={2}>
+          <Grid item md={6} xs={10}>
+            <RHFAutocomplete
+              name="events"
+              size="small"
+              placeholder="Select"
+              required
+              // multiple
+              label="Event"
+              options={eventOptions}
+              getOptionLabel={({ label }: { label: string }) => label}
+            />
           </Grid>
           <Grid item md={6} xs={12} p={1.5}>
             <RHFAutocomplete

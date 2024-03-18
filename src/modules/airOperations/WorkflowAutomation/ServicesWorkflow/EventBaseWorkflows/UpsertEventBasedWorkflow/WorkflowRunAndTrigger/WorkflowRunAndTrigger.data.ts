@@ -4,13 +4,16 @@ export const moduleOptions = [
   { value: 'Tasks', label: 'Tasks' },
   { value: 'Meetings', label: 'Meetings' },
 ];
-export const andRunOptions = ['ONCE', 'Recurring, for the same record'];
-export const triggerOptions = [
-  'When a record is created',
-  'When a record is created or updated',
+export const andRunOptions = [
+  'Recurring, for the same record',
+  'Recurring, for the same record',
 ];
 
-export const eventOptions = ['created', 'updated', 'deleted'];
+export const eventOptions = [
+  { value: 'created', label: 'When a record is created' },
+  { value: 'updated', label: 'When a record is updated' },
+  { value: 'deleted', label: 'When a record is deleted' },
+];
 
 export const assetsOptions = [
   'Inventory',

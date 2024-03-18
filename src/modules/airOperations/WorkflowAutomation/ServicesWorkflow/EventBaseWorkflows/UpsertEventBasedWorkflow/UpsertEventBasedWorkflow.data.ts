@@ -8,8 +8,7 @@ export const eventBasedWorkflowSchema = Yup?.object()?.shape({
   // assetsType: Yup?.string(),
   runType: Yup?.string()?.required('Required'),
   module: Yup?.string(),
-  events: Yup?.string()?.required('Required'),
-  // trigger: Yup?.string(),
+  events: Yup?.mixed()?.nullable()?.required('Required'),
   // andRun: Yup?.string(),
   groups: Yup?.array()?.of(
     Yup?.object()?.shape({
@@ -18,7 +17,6 @@ export const eventBasedWorkflowSchema = Yup?.object()?.shape({
       // logicGate: Yup?.string(),
       conditions: Yup?.array()?.of(
         Yup?.object()?.shape({
-          // condition1: Yup?.string(),
           key: Yup?.string(),
           condition: Yup?.string(),
           value: Yup?.string(),
@@ -32,11 +30,10 @@ export const eventBasedWorkflowValues: any = {
   title: '',
   type: 'EVENT_BASE',
   description: '',
-  events: [],
+  events: null,
   // assetsType: '',
   runType: '',
   module: '',
-  // trigger: '',
   // andRun: '',
   groups: [
     {
