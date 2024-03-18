@@ -22,3 +22,4 @@ export const productData = [
 ];
 
 export const requiredColumns = ['Name', 'Deal Value'];
+export const productOptions = ['Sales', 'Services', 'Marketing'];

@@ -46,14 +46,8 @@ export const superAdminValidationSchema = Yup.object().shape({
     /^[A-Za-z]+$/,
     'Only alphabetic characters are allowed',
   ),
-  facebookUrl: Yup.string()?.matches(
-    /^(ftp|http|https):\/\/[^ "]+$/,
-    'Please enter a valid URL',
-  ),
-  linkedInUrl: Yup.string()?.matches(
-    /^(ftp|http|https):\/\/[^ "]+$/,
-    'Please enter a valid URL',
-  ),
+  facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
+  linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
 
 export const companyOwnerDefaultValues = {
@@ -175,7 +169,7 @@ export const addUsersArray = () => {
     },
     {
       componentProps: {
-        name: 'compositeAddress',
+        name: 'address',
         label: 'Address',
         required: true,
         placeholder: 'Address',
