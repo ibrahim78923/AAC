@@ -36,5 +36,8 @@ export const DealPipelineAPI = baseAPI.injectEndpoints({
   }),
 });
 
-export const { useGetDealsPipelineQuery, usePostDealsPipelineMutation } =
-  DealPipelineAPI;
+export const {
+  useGetDealsPipelineQuery,
+  usePostDealsPipelineMutation,
+  useDeleteDealsPipelineMutation,
+} = DealPipelineAPI;

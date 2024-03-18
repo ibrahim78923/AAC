@@ -12,6 +12,7 @@ import {
 } from './DealPipelines.data';
 
 import {
+  useDeleteDealsPipelineMutation,
   useGetDealsPipelineQuery,
   usePostDealsPipelineMutation,
 } from '@/services/airSales/deals/settings/deals-pipeline';
@@ -31,8 +32,11 @@ const useDealPipelines = () => {
     { name: 'Lost', probability: null },
     { name: 'Won', probability: null },
   ]);
+  const [checkedDeal, setCheckedDeal] = useState<string[]>([]);
+  const [selectedPipelines, setSelectedPipelines] = useState<any>([]);
 
   const [postDealsPipeline] = usePostDealsPipelineMutation();
+  const [deleteDealsPipeline] = useDeleteDealsPipelineMutation();
 
   const paramsObj: any = {};
   if (productSearch) paramsObj['search'] = productSearch;
@@ -48,18 +52,22 @@ const useDealPipelines = () => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleCloseDrawer = () => {
-    setIsDraweropen(false);
-  };
 
   const dealPipelines = useForm({
     resolver: yupResolver(dealPipelinesvalidationSchema),
     defaultValues: dealPipelinesDefaultValues,
   });
-  const { handleSubmit } = dealPipelines;
+  const { handleSubmit, reset } = dealPipelines;
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    reset();
+  };
+  const handleCloseDrawer = () => {
+    setIsDraweropen(false);
+    reset();
+  };
+
   const onSubmit = async (values: any) => {
     const payload = {
       name: values?.pipelineName,
@@ -69,7 +77,9 @@ const useDealPipelines = () => {
 
     try {
       await postDealsPipeline({ body: payload })?.unwrap();
-      enqueueSnackbar('Record Added Successfully', {
+      reset();
+      setIsDraweropen(false);
+      enqueueSnackbar('Pipeline has been Created Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
     } catch (error: any) {
@@ -85,8 +95,19 @@ const useDealPipelines = () => {
     setDeleteModalOpen(false);
   };
 
-  const handleDelete = () => {
-    setDeleteModalOpen(false);
+  const handleDelete = async () => {
+    try {
+      await deleteDealsPipeline({ id: checkedDeal }).unwrap();
+      setSelectedPipelines([]);
+      setDeleteModalOpen(false);
+      enqueueSnackbar('Deal Pipeline has been Deleted Successfully', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    } catch (error) {
+      enqueueSnackbar(`${error}`, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
   const getCheckbox = (event: any, value: any) => {
@@ -109,6 +130,19 @@ const useDealPipelines = () => {
     const values: any = [...inputFields];
     values[index][event?.target?.name] = event?.target?.value;
     setInputFields(values);
+  };
+
+  const togglePipeline = (pipeline: any) => {
+    const index = selectedPipelines?.findIndex(
+      (p: any) => p?._id === pipeline?._id,
+    );
+    if (index === -1) {
+      setSelectedPipelines([...selectedPipelines, pipeline]);
+    } else {
+      const updatedPipelines = [...selectedPipelines];
+      updatedPipelines?.splice(index, 1);
+      setSelectedPipelines(updatedPipelines);
+    }
   };
 
   return {
@@ -142,6 +176,11 @@ const useDealPipelines = () => {
     isLoading,
     inputFields,
     handleChangeInput,
+    checkedDeal,
+    setCheckedDeal,
+    selectedPipelines,
+    setSelectedPipelines,
+    togglePipeline,
   };
 };
 
