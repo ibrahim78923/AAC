@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { RHFAutocomplete } from '@/components/ReactHookForm';
 import { Box, Typography } from '@mui/material';
-import { productData } from '../ImportModal.data';
+import { productData, productOptions } from '../ImportModal.data';
 import CheckboxCard from '../CheckboxCard';
 
 const FirstStep = () => {
@@ -21,7 +21,7 @@ const FirstStep = () => {
           label="Product"
           size="small"
           placeholder="Select product"
-          options={['Sales', 'Services', 'Marketing']}
+          options={productOptions}
         />
       </Box>
       <Box
