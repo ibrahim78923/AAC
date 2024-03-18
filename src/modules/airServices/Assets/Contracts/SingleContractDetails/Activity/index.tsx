@@ -15,7 +15,7 @@ export const Activity = () => {
     setPageLimit,
     setPage,
     isFetching,
-    data: activityData,
+    contractHistory: activityData,
   } = useActivity();
   if (isLoading || isFetching) return <SkeletonTable />;
 
@@ -25,8 +25,8 @@ export const Activity = () => {
       <Grid container>
         <Grid item xs={12} md={0.5}></Grid>
         <Grid item xs={12} md={10.5}>
-          {activityData?.data?.activitylogs?.length > 0 ? (
-            activityData?.data?.activitylogs?.map((singleActivity: any) => (
+          {activityData?.length > 0 ? (
+            activityData?.map((singleActivity: any) => (
               <ActivityTimeline
                 activityData={singleActivity}
                 key={singleActivity?._id}

@@ -2,6 +2,7 @@ import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAttachFileCard } from './useAttachFileCard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { formatFileSize, truncateText } from '@/utils/avatarUtils';
 
 export const AttachFileCard = (props: any) => {
   const { data, onDelete, permissionKey, size } = props;
@@ -30,17 +31,18 @@ export const AttachFileCard = (props: any) => {
         flex={'auto'}
         alignItems={'center'}
         justifyContent={'space-between'}
+        flexWrap={'wrap'}
       >
         <Box>
-          <Typography variant="h6" whiteSpace={'nowrap'} color="slateBlue.main">
-            {data?.name}
+          <Typography variant="h6" color="slateBlue.main" whiteSpace={'nowrap'}>
+            {truncateText(data?.orignalName)}
           </Typography>
           <Typography
             variant="body3"
             color={theme?.palette?.grey?.[900]}
             whiteSpace={'nowrap'}
           >
-            {data?.size}
+            {formatFileSize(data?.fileSize)}
           </Typography>
         </Box>
         <PermissionsGuard permissions={permissionKey}>

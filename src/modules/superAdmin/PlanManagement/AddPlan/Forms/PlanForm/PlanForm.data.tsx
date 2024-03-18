@@ -10,7 +10,7 @@ export const defaultValues = {
   defaultUsers: '',
   defaultStorage: '',
   planPrice: '',
-  allowAdditionalUsers: '',
+  allowAdditionalUsers: 'No',
   additionalPerUserPrice: '',
   allowAdditionalStorage: 'No',
   additionalStoragePrice: '',
@@ -39,7 +39,7 @@ export const gpDetailsInfoFormSchema: any = Yup?.object()?.shape({
     ?.required('Required field')
     ?.min(1, 'Mininum 1 characters')
     ?.max(12, 'max is 12'),
-  allowAdditionalUsers: Yup?.string()?.required('Required field'),
+  allowAdditionalUsers: Yup?.string(),
   additionalPerUserPrice: Yup?.string()
     ?.matches(/^[0-9]*$/, 'must be a number')
     ?.required('Required field')
@@ -81,7 +81,11 @@ export const defaultValuesFunction = (data: any = defaultValues) => {
   };
 };
 
-export const dataArray = (_: any, AdditionalStorageValue: any) => {
+export const dataArray = (
+  _: any,
+  AdditionalStorageValue: any,
+  AdditionalUsereValue: any,
+) => {
   const { data: planTypeData } = useGetPlanTypesQuery<any>({
     refetchOnMountOrArgChange: true,
     pagination: `page=1&limit=10`,
@@ -192,6 +196,8 @@ export const dataArray = (_: any, AdditionalStorageValue: any) => {
         label: 'Additional Per User Price',
         fullWidth: true,
         placeholder: '£',
+        disabled: AdditionalUsereValue[0] === 'No',
+        required: AdditionalUsereValue[0] === 'No' ? false : true,
       },
       component: RHFTextField,
       md: 6,
@@ -221,7 +227,6 @@ export const dataArray = (_: any, AdditionalStorageValue: any) => {
         placeholder: 'Enter Additional Storage Price',
         disabled: AdditionalStorageValue[0] === 'No',
         required: AdditionalStorageValue[0] === 'No' ? false : true,
-        // value:AdditionalStorageValue[0] === 'No' ? '' : ''
       },
       component: RHFTextField,
       md: 6,

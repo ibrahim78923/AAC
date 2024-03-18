@@ -17,6 +17,14 @@ export const superAdminValidationSchema = Yup.object().shape({
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
   compositeAddress: Yup.string()?.required('Field is Required'),
+  linkedInUrl: Yup.string()?.matches(
+    /^(ftp|http|https):\/\/[^ "]+$/,
+    'Please enter a valid URL',
+  ),
+  twitterUrl: Yup.string()?.matches(
+    /^(ftp|http|https):\/\/[^ "]+$/,
+    'Please enter a valid URL',
+  ),
 });
 
 export const addUsersArray = [
@@ -59,6 +67,8 @@ export const addUsersArray = [
       label: 'Address',
       required: true,
       placeholder: 'Address',
+      multiline: true,
+      rows: 4,
       fullWidth: true,
     },
     component: RHFTextField,

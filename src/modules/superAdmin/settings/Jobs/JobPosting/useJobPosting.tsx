@@ -110,7 +110,16 @@ const useJobPosting = () => {
   });
   const { handleSubmit: handleMethodEditJobPosting } = methodsEditJobPosting;
   const [openEditJobPost, setOpenEditJobPost] = useState(false);
-  const handleOpenEditJobPost = () => {
+  const [drawerTitle, setDrawerTitle] = useState('Update');
+  const [isFieldsDisabled, setIsFieldsDisabled] = useState(false);
+
+  const handleOpenEditJobPost = (title: string) => {
+    setDrawerTitle(title);
+    if (title === 'View') {
+      setIsFieldsDisabled(true);
+    } else {
+      setIsFieldsDisabled(false);
+    }
     handleClose();
     const selectedItem =
       jopPostingData?.data?.jobs.find((item: any) => item?._id === rowId) || {};
@@ -232,6 +241,8 @@ const useJobPosting = () => {
     handleCloseEditJobPost,
     handleSubmitEditJobPost,
     loadingUpdateJobPost,
+    isFieldsDisabled,
+    drawerTitle,
     methodsEditJobPosting,
     handleUpdateStatus,
     selectedRow,

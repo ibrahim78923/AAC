@@ -6,18 +6,18 @@ import {
 import * as Yup from 'yup';
 
 export const upsertProductValidationSchema = Yup?.object()?.shape({
-  productCatalog: Yup?.object(),
+  productCatalog: Yup?.object()?.required('Required'),
   price: Yup?.number()
     ?.typeError('Price should be number')
     ?.required('Required'),
   years: Yup?.string()?.required('Required'),
   months: Yup?.string()?.required('Required'),
-  quantity: Yup?.number(),
+  quantity: Yup?.number()?.typeError('Quantity should be number'),
 });
 
 export const upsertProductDefaultValues = (data?: any) => {
   return {
-    productCatalog: data?.productCatalogId ? data : null,
+    productCatalog: data?.vendorproductcatalogsDetails ?? null,
     price: data?.price ?? null,
     years: data?.yrs ?? '',
     months: data?.months ?? '',
@@ -63,8 +63,8 @@ export const upsertProductDataArray = (
       label: 'Product Catalog',
       type: 'text',
       size: 'small',
+      required: true,
       disabled: editData?.length === 0 ? false : true,
-      placeholder: 'Catalog',
       fullWidth: true,
       apiQuery: apiQueryProductCatalog,
       externalParams: { meta: false, limit: 50, page: 1 },
@@ -114,7 +114,7 @@ export const upsertProductDataArray = (
     componentProps: {
       name: 'quantity',
       label: 'Quantity',
-      type: 'text',
+      type: 'number',
       size: 'small',
       fullWidth: true,
     },

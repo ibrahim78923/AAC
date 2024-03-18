@@ -8,6 +8,7 @@ import {
   usePatchBilingInvoicesMutation,
   usePostBilingInvoicesMutation,
 } from '@/services/superAdmin/billing-invoices';
+import { isNullOrEmpty } from '@/utils';
 
 const useEditForm = (
   isEditModal: any,
@@ -80,10 +81,17 @@ const useEditForm = (
   const productId = watch('product');
   const planTypeId = watch('planType');
 
-  const { data: planData, isSuccess } = useGetPlanIdQuery<any>({
-    proId: productId,
-    planTypeId: planTypeId,
-  });
+  const {
+    data: planData,
+    isSuccess,
+    isError,
+  } = useGetPlanIdQuery<any>(
+    {
+      proId: productId,
+      planTypeId: planTypeId,
+    },
+    { skip: isNullOrEmpty(planTypeId) },
+  );
 
   if (planData) {
     setValue('planPrice', isSuccess ? planData?.data?.planPrice : '');
@@ -135,6 +143,18 @@ const useEditForm = (
       });
     }
   };
+
+  if (isSuccess) {
+    enqueueSnackbar(`Success fetch plan data`, {
+      variant: 'success',
+    });
+  } else {
+    if (isError) {
+      enqueueSnackbar(`Please create plan agaist respective seleected value`, {
+        variant: 'error',
+      });
+    }
+  }
 
   useEffect(() => {
     if (isGetRowValues?.cell?.row?.original?.planProducts?.length > 1) {

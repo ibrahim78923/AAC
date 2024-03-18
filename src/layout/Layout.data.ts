@@ -45,6 +45,7 @@ import {
 import { Quick_Links_Routes } from '@/constants';
 import {
   Permissions,
+  orgAdminAllPermissions,
   superAdminAllPermissionsSetting,
 } from '@/constants/permissions';
 import {
@@ -141,7 +142,7 @@ export const OrgAdminRoutes: MenuItemI[] = [
     icon: ForecastImage,
     label: 'Role and Rights',
     role: 'org-admin',
-    permissions: Permissions?.ORG_ADMIN_USER,
+    permissions: Permissions?.ORG_ADMIN_ROLE_AND_RIGHTS,
   },
 ];
 
@@ -571,22 +572,22 @@ export const LowerOrgAdminRoutes = [
     icon: SettingImage,
     role: 'org-admin',
     key: '/org-admin/settings',
-    permissions: [],
+    permissions: orgAdminAllPermissions,
     textNames: [
       {
         key: '/org-admin/settings/sales-product-categories',
         label: 'Sales Product categories',
-        permissions: [],
+        permissions: Permissions?.ORG_ADMIN_SETTINGS_CATEGORIES,
       },
       {
         key: '/org-admin/settings/life-cycle-stage',
         label: 'Life Cycle Stage',
-        permissions: [],
+        permissions: Permissions?.ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES,
       },
       {
         key: '/org-admin/settings/contact-status',
         label: 'Contact Status',
-        permissions: [],
+        permissions: Permissions?.ORG_ADMIN_SETTINGS_CONTACT_STATUS,
       },
     ],
   },

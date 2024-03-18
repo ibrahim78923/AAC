@@ -60,6 +60,8 @@ const JobPosting = () => {
     isActionsDisabled,
     setRowId,
     rowId,
+    isFieldsDisabled,
+    drawerTitle,
   } = useJobPosting();
 
   const getColumns = columns(
@@ -125,7 +127,7 @@ const JobPosting = () => {
                 <MenuItem
                   style={{ fontSize: '14px' }}
                   disabled={!rowId}
-                  onClick={handleOpenEditJobPost}
+                  onClick={() => handleOpenEditJobPost('Update')}
                 >
                   Edit
                 </MenuItem>
@@ -138,7 +140,7 @@ const JobPosting = () => {
                 <MenuItem
                   style={{ fontSize: '14px' }}
                   disabled={!rowId}
-                  onClick={handleOpenEditJobPost}
+                  onClick={() => handleOpenEditJobPost('View')}
                 >
                   View
                 </MenuItem>
@@ -247,6 +249,8 @@ const JobPosting = () => {
         handleSubmit={handleSubmitEditJobPost}
         formMethods={methodsEditJobPosting}
         isLoading={loadingUpdateJobPost}
+        isFieldsDisabled={isFieldsDisabled}
+        title={drawerTitle}
       />
     </Box>
   );

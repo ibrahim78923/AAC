@@ -1,9 +1,5 @@
 import React from 'react';
 import { Box, Stack, Typography } from '@mui/material';
-import {
-  clientDetails,
-  cardDetails,
-} from '@/mock/modules/airSales/SalesInvoices';
 import { LogoSharedIcon } from '@/assets/icons';
 import { useTheme } from '@mui/material/styles';
 import { style } from '../EditDetail.style';
@@ -33,28 +29,44 @@ const DetailCard = ({ data }: any) => {
             <Box sx={{ mt: '5px' }}>
               <LogoSharedIcon />
             </Box>
-            {cardDetails?.map((item: any) => (
-              <Stack spacing="5px" key={uuidv4()}>
-                <Typography variant="h5">{item?.label}</Typography>
-                {item?.details?.map((val: any) => (
-                  <Typography key={uuidv4()} variant="body3">
-                    {val?.title}
-                  </Typography>
-                ))}
-              </Stack>
-            ))}
+            <Stack spacing="5px">
+              <Typography variant="h5">Air Apple Car</Typography>
+              <Typography variant="body3">
+                {isNullOrEmpty(data)
+                  ? '----'
+                  : data?.deal[0]?.companies[0]?.address}
+              </Typography>
+              <Typography variant="body3">
+                {isNullOrEmpty(data)
+                  ? '----'
+                  : data?.deal[0]?.companies[0]?.city}
+              </Typography>
+              <Typography variant="body3">
+                {isNullOrEmpty(data)
+                  ? '----'
+                  : data?.deal[0]?.companies[0]?.domain}
+              </Typography>
+            </Stack>
           </Stack>
           <Box>
-            {clientDetails?.map((item: any) => (
-              <Stack gap="5px" key={uuidv4()}>
-                <Typography variant="h5">{item?.label}</Typography>
-                {item?.details?.map((val: any) => (
-                  <Typography key={uuidv4()} variant="body3">
-                    {val?.title}
-                  </Typography>
-                ))}
-              </Stack>
-            ))}
+            <Stack spacing="5px">
+              <Typography variant="h5">Client Information</Typography>
+              <Typography variant="body3">
+                {isNullOrEmpty(data)
+                  ? '----'
+                  : data?.deal[0]?.companies[0]?.address}
+              </Typography>
+              <Typography variant="body3">
+                {isNullOrEmpty(data)
+                  ? '----'
+                  : data?.deal[0]?.companies[0]?.city}
+              </Typography>
+              <Typography variant="body3">
+                {isNullOrEmpty(data)
+                  ? '----'
+                  : data?.deal[0]?.companies[0]?.domain}
+              </Typography>
+            </Stack>
           </Box>
         </Stack>
       </Box>
