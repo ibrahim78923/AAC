@@ -40,33 +40,32 @@ const useAddUser = (useActionParams?: any) => {
   // for super admin form methods
   const superAdminValues = {
     ...userDetail,
-    address:
-      userDetail && userDetail?.address?.composite
-        ? userDetail.address.composite
-        : `${
-            userDetail.address.flatNumber
-              ? `Flat # ${userDetail.address.flatNumber}, `
-              : ''
-          }` +
-          `${
-            userDetail.address.buildingNumber
-              ? `Building # ${userDetail.address.buildingNumber}, `
-              : ''
-          }` +
-          `${
-            userDetail.address.buildingName
-              ? `Building Name ${userDetail.address.buildingName}, `
-              : ''
-          }` +
-          `${
-            userDetail.address.streetName
-              ? `Street # ${userDetail.address.streetName}, `
-              : ''
-          }` +
-          `${userDetail.address.city ? `${userDetail.address.city}, ` : ''}` +
-          `${
-            userDetail.address.country ? `${userDetail.address.country}` : ''
-          }`,
+    address: userDetail?.address?.composite
+      ? userDetail?.address?.composite
+      : `${
+          userDetail?.address?.flatNumber
+            ? `Flat # ${userDetail?.address?.flatNumber}, `
+            : ''
+        }` +
+        `${
+          userDetail?.address?.buildingNumber
+            ? `Building # ${userDetail?.address?.buildingNumber}, `
+            : ''
+        }` +
+        `${
+          userDetail?.address?.buildingName
+            ? `Building Name ${userDetail?.address?.buildingName}, `
+            : ''
+        }` +
+        `${
+          userDetail?.address?.streetName
+            ? `Street # ${userDetail?.address?.streetName}, `
+            : ''
+        }` +
+        `${userDetail?.address?.city ? `${userDetail?.address?.city}, ` : ''}` +
+        `${
+          userDetail?.address?.country ? `${userDetail?.address?.country}` : ''
+        }`,
     flat: userDetail?.address?.flatNumber ?? '',
     city: userDetail?.address?.city ?? '',
     country: userDetail?.address?.country ?? '',
@@ -107,7 +106,7 @@ const useAddUser = (useActionParams?: any) => {
   //make sum up of address fields
   const addressValues = formValues?.composite?.address
     ? formValues?.composite?.address
-    : `${formValues?.flatNumber ? `Flat # ${formValues?.flatNumber}, ` : ''}` +
+    : `${formValues?.flat ? `Flat # ${formValues?.flat}, ` : ''}` +
       `${
         formValues?.buildingNumber
           ? `Building # ${formValues?.buildingNumber}, `
@@ -126,7 +125,7 @@ const useAddUser = (useActionParams?: any) => {
 
   // setValue of address values
   useEffect(() => {
-    setValue('compositeAddress', addressValues?.trim());
+    setValue('address', addressValues?.trim());
   }, [addressValues]);
 
   // watch crn number from values
