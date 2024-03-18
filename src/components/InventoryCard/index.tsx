@@ -14,6 +14,7 @@ export const InventoryCard = ({
   handleDelete,
   setDelateRecord,
   deletedRecordId,
+  deleteIsLoading,
 }: CardPropsI) => {
   const theme: any = useTheme();
   const [showIcon, setShowIcon] = useState(false);
@@ -87,6 +88,7 @@ export const InventoryCard = ({
         handleClose={() => setOpenDeleteModal(false)}
         handleSubmitBtn={handleDelete}
         message="Are you sure want to delete this record?"
+        loading={deleteIsLoading}
       />
     </>
   );

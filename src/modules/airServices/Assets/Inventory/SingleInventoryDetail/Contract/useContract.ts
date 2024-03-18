@@ -1,4 +1,7 @@
-import { useGetInventoryContractsQuery } from '@/services/airServices/assets/inventory/single-inventory-details/contract';
+import {
+  useDeleteInventoryContractsMutation,
+  useGetInventoryContractsQuery,
+} from '@/services/airServices/assets/inventory/single-inventory-details/contract';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -9,32 +12,37 @@ export const useContract = () => {
   const theme: any = useTheme();
   const [deleteRecord, setDelateRecord] = useState();
   const router = useRouter();
-  const { data, isLoading } = useGetInventoryContractsQuery(
-    router?.query?.inventoryId,
-    {
+  const { data, isLoading, isFetching, isError } =
+    useGetInventoryContractsQuery(router?.query?.inventoryId, {
       refetchOnMountOrArgChange: true,
       skip: !!!router?.query?.inventoryId,
-    },
-  );
-  const AssetsInventoryContractsData = data?.data;
-
+    });
+  const [deleteInventoryContracts, deleteIsLoading] =
+    useDeleteInventoryContractsMutation();
   const handleDelete = async () => {
     try {
-      successSnackbar('Record deleted Successfully');
+      const params = {
+        id: router?.query?.inventoryId,
+        contractId: deleteRecord,
+      };
+      const res: any = await deleteInventoryContracts(params)?.unwrap();
+      successSnackbar(res?.message ?? 'Record deleted Successfully');
       setOpenDeleteModal(false);
     } catch (err: any) {
-      errorSnackbar();
+      errorSnackbar(err?.message ?? `Something went wrong`);
     }
   };
-
   return {
-    AssetsInventoryContractsData,
+    data,
     isLoading,
+    isError,
+    isFetching,
     openDeleteModal,
     setOpenDeleteModal,
     handleDelete,
     theme,
     setDelateRecord,
     deleteRecord,
+    deleteIsLoading,
   };
 };
