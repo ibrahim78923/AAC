@@ -8,27 +8,22 @@ import useTeams from '../Teams/useTeams';
 import useUsers from './useUsers';
 
 export const userValidationSchema = Yup?.object()?.shape({
-  firstName: Yup?.string()?.required('Field is Required'),
-  lastName: Yup?.string()?.required('Field is Required'),
+  firstName: Yup?.string()
+    ?.required('Field is Required')
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
+  lastName: Yup?.string()
+    ?.required('Field is Required')
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
   email: Yup?.string()?.trim()?.required('Field is Required'),
   team: Yup?.string()?.trim()?.required('Field is Required'),
   phoneNumber: Yup?.string()?.required('Field is Required'),
 });
-
-export const userDefaultValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  team: '',
-  address: '',
-  phoneNumber: '',
-  jobTitle: '',
-  role: '',
-  facebookUrl: '',
-  language: '',
-  twitterUrl: '',
-  linkedInUrl: '',
-};
 
 export const dataArray = () => {
   const { teamsData } = useTeams();
@@ -171,7 +166,7 @@ export const dataArray = () => {
     },
     {
       componentProps: {
-        name: 'linkedInURL',
+        name: 'linkedInUrl',
         label: 'Linkdin URL',
         placeholder: 'Enter LinkedIn URL',
         fullWidth: true,
