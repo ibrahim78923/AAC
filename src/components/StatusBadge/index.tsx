@@ -15,11 +15,11 @@ const StatusBadge = (props: BadgeStatusI) => {
       sx={{
         fontSize: '14px',
         backgroundColor:
-          value === 'ACTIVE' || value === 'open'
+          value === 'ACTIVE' || value === 'open' || value === 'active'
             ? 'rgba(71, 178, 99, 0.2)'
             : 'rgba(255, 74, 74, 0.2)',
         color:
-          value === 'ACTIVE' || value === 'open'
+          value === 'ACTIVE' || value === 'open' || value === 'active'
             ? theme?.palette?.success?.main
             : theme?.palette?.error?.main,
         ...styles.select(value, theme),
