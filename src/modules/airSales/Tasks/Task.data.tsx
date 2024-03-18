@@ -144,24 +144,24 @@ export const createTaskValidationSchema = Yup?.object()?.shape({
 });
 
 export const createTaskDefaultValues = ({ data }: any) => {
-  const inputDate = new Date(data?.dueDate);
-  const inputTime = new Date(data?.time);
+  const inputDate = new Date(data[0]?.dueDate);
+  const inputTime = new Date(data[0]?.time);
 
   function isValidDate(date: any) {
     return date instanceof Date && !isNaN(date?.getTime());
   }
 
   return {
-    name: data?.name ?? '',
-    type: data?.type ?? '',
-    priority: data?.priority ?? '',
-    status: data?.status ?? '',
-    dealsIds: data?.dealsIds ?? '',
-    assignTo: data?.assignTo ?? '',
+    name: data[0]?.name ?? '',
+    type: data[0]?.type ?? '',
+    priority: data[0]?.priority ?? '',
+    status: data[0]?.status ?? '',
+    dealsIds: data[0]?.dealsIds ?? '',
+    assignTo: data[0]?.assignTo ?? '',
     dueDate: isValidDate(inputDate) ? inputDate : null,
     time: isValidDate(inputTime) ? inputTime : null,
-    reminder: data?.reminder ?? '',
-    note: data?.note ?? '',
+    reminder: data[0]?.reminder ?? '',
+    note: data[0]?.note ?? '',
   };
 };
 
