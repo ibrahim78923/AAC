@@ -8,8 +8,18 @@ import useTeams from '../Teams/useTeams';
 import useUsers from './useUsers';
 
 export const userValidationSchema = Yup?.object()?.shape({
-  firstName: Yup?.string()?.required('Field is Required'),
-  lastName: Yup?.string()?.required('Field is Required'),
+  firstName: Yup?.string()
+    ?.required('Field is Required')
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
+  lastName: Yup?.string()
+    ?.required('Field is Required')
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
   email: Yup?.string()?.trim()?.required('Field is Required'),
   team: Yup?.string()?.trim()?.required('Field is Required'),
   phoneNumber: Yup?.string()?.required('Field is Required'),

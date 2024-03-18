@@ -11,7 +11,7 @@ import { enqueueSnackbar } from 'notistack';
 import { useGetCompanyAccountsRolesQuery } from '@/services/common-APIs';
 import { getSession } from '@/utils';
 
-const useUsers = (isAddUserDrawer?: any, setIsAddUserDrawer?: any) => {
+const useUsers: any = (isAddUserDrawer?: any, setIsAddUserDrawer?: any) => {
   const [checkedUser, setCheckedUser] = useState([]);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
