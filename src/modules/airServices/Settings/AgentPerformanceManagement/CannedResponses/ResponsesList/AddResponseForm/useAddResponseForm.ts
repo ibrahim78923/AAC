@@ -24,6 +24,7 @@ export const useAddResponseForm = (props: any) => {
   const [patchResponseTrigger, patchResponseStatus] =
     usePatchResponseMutation();
   const [openSelectAgentsModal, setOpenSelectAgentsModal] = useState(false);
+  const [hasAttachment, setHasAttachment] = useState(false);
   const [agents, setAgents] = useState<any>([]);
   const methodsAddResponseForm = useForm<any>({
     resolver: yupResolver(addResponseValidationSchema),
@@ -117,5 +118,7 @@ export const useAddResponseForm = (props: any) => {
     patchResponseStatus,
     availableForChanged,
     setValue,
+    hasAttachment,
+    setHasAttachment,
   };
 };
