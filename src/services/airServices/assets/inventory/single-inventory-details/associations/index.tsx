@@ -13,10 +13,37 @@ export const associationsAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getAssociationList: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.ASSETS_INVENTORY_Associations}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG],
+    }),
+    patchExistingIncident: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.INVENTORY_EXISTING_INCIDENT}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    deleteInventoryAssociationList: builder?.mutation({
+      query: (params: any) => ({
+        url: `${END_POINTS?.DELETE_INVENTORY_ASSOCIATIONS_LIST}`,
+        method: 'DELETE',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
 export const {
   useGetAssociationsTicketsQuery,
   useLazyGetAssociationsTicketsQuery,
+  useLazyGetAssociationListQuery,
+  usePatchExistingIncidentMutation,
+  useDeleteInventoryAssociationListMutation,
 } = associationsAPI;
