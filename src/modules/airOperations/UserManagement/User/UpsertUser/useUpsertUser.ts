@@ -8,9 +8,13 @@ import {
 import { useState } from 'react';
 import { usePostUserListMutation } from '@/services/airOperations/user-management/user';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import useAuth from '@/hooks/useAuth';
+import { useLazyGetDepartmentDropdownQuery } from '@/services/airServices/tickets';
 
 export const useUpsertUser = (setIsDrawerOpen: any) => {
-  const [postNewUserTrigger] = usePostUserListMutation();
+  const auth: any = useAuth();
+  const { _id: organizationId } = auth?.user?.organization;
+  const departmentDropdown = useLazyGetDepartmentDropdownQuery();
   const [userData, setUserData] = useState<any[]>(upsertUserData);
   const [disabled, setDisabled] = useState(true);
 
@@ -20,23 +24,28 @@ export const useUpsertUser = (setIsDrawerOpen: any) => {
   });
   const { handleSubmit, reset } = methods;
 
+  const [addListUsers] = usePostUserListMutation();
   const submit = async (data: any) => {
-    const body = {
-      ...data,
-    };
-    if (disabled) {
-      setDisabled(false);
-    } else {
-      try {
-        await postNewUserTrigger({ body })?.unwrap();
-        successSnackbar('user Added successfully');
-      } catch (error) {
-        errorSnackbar();
-      }
+    try {
+      const body = {
+        ...data,
+        role: data?.role?._id,
+        selectTeam: data?._id,
+        language: data?._id,
+      };
 
+      await addListUsers({ body, organizationId }).unwrap();
+      successSnackbar('Users List added successfully.');
       setIsDrawerOpen(false);
-      reset();
+    } catch (error: any) {
+      errorSnackbar();
     }
+    handleClose?.();
+  };
+
+  const handleClose = () => {
+    setIsDrawerOpen(false);
+    reset?.();
   };
 
   return {
@@ -47,5 +56,6 @@ export const useUpsertUser = (setIsDrawerOpen: any) => {
     disabled,
     setDisabled,
     userData,
+    departmentDropdown,
   };
 };

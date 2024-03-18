@@ -1,23 +1,16 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-
-const jobTitleOptions = [
-  'Senior HR Executive',
-  'Software Engineer',
-  'Software Developer',
-];
 
 export const upsertUserValidationSchema: any = Yup?.object()?.shape({
   firstName: Yup?.string()?.required('Required'),
-  middleName: Yup?.string(),
   lastName: Yup?.string()?.required('Required'),
   address: Yup?.string()?.required('Required'),
   email: Yup?.string()?.required('Required'),
   phoneNumber: Yup?.string(),
   jobTitle: Yup?.string(),
-  assignRole: Yup?.string()?.required('Required'),
-  selectTeam: Yup?.string()?.required('Required'),
-  language: Yup?.string(),
+  assignRole: Yup?.mixed()?.required('Required'),
+  selectTeam: Yup?.mixed()?.required('Required'),
+  language: Yup?.mixed(),
   facebookUrl: Yup?.string(),
   linkedinUrl: Yup?.string(),
   twitterUrl: Yup?.string(),
@@ -43,21 +36,20 @@ export const upsertUserData = [
 ];
 export const upsertUserDefaultValues: any = {
   firstName: '',
-  middleName: '',
   lastName: '',
   address: '',
   email: '',
   phoneNumber: '',
   jobTitle: '',
-  assignRole: '',
+  role: '',
   selectTeam: '',
   language: '',
   facebookUrl: '',
-  linkedinUrl: '',
+  linkedInUrl: '',
   twitterUrl: '',
 };
 
-export const upsertUserArray = [
+export const upsertUserArray = (departmentDropdown: any) => [
   {
     id: 1,
     subheading: 'Add a new user to this organization.',
@@ -74,17 +66,6 @@ export const upsertUserArray = [
   {
     id: 2,
     componentProps: {
-      name: 'middleName',
-      label: 'Middle name',
-      placeholder: 'Enter middle name',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 12,
-  },
-  {
-    id: 3,
-    componentProps: {
       name: 'lastName',
       label: 'Last name',
       placeholder: 'Enter last name',
@@ -95,7 +76,7 @@ export const upsertUserArray = [
     md: 12,
   },
   {
-    id: 4,
+    id: 3,
     componentProps: {
       name: 'address',
       label: 'Address',
@@ -107,7 +88,7 @@ export const upsertUserArray = [
     md: 12,
   },
   {
-    id: 5,
+    id: 4,
     componentProps: {
       name: 'email',
       label: 'Email',
@@ -119,7 +100,7 @@ export const upsertUserArray = [
     md: 12,
   },
   {
-    id: 6,
+    id: 5,
     componentProps: {
       name: 'phoneNumber',
       label: 'Phone number',
@@ -143,43 +124,43 @@ export const upsertUserArray = [
   {
     id: 7,
     componentProps: {
-      name: 'assignRole',
+      name: 'role',
       label: 'Assign role',
-      placeholder: 'Select role',
+      placeholder: 'Select',
       fullWidth: true,
       required: true,
-      options: jobTitleOptions,
+      apiQuery: departmentDropdown,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
-    id: 7,
+    id: 8,
     componentProps: {
       name: 'selectTeam',
       label: 'Select team',
       placeholder: 'Select',
       fullWidth: true,
       required: true,
-      options: jobTitleOptions,
+      apiQuery: departmentDropdown,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
-    id: 7,
+    id: 9,
     componentProps: {
       name: 'language',
       label: 'Language',
       placeholder: 'English',
       fullWidth: true,
-      options: jobTitleOptions,
+      apiQuery: departmentDropdown,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
   {
-    id: 8,
+    id: 10,
     componentProps: {
       name: 'facebookUrl',
       label: 'Facebook url',
@@ -190,9 +171,9 @@ export const upsertUserArray = [
     md: 12,
   },
   {
-    id: 9,
+    id: 11,
     componentProps: {
-      name: 'linkedinUrl',
+      name: 'linkedInUrl',
       label: 'Linkedin url',
       placeholder: 'paste URL',
       fullWidth: true,
@@ -201,7 +182,7 @@ export const upsertUserArray = [
     md: 12,
   },
   {
-    id: 10,
+    id: 12,
     componentProps: {
       name: 'twitterUrl',
       label: 'Twitter url',

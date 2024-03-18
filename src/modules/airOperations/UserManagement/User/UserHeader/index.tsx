@@ -16,6 +16,7 @@ export const UserHeader = ({ selectedUserList, setSearch }: any) => {
     deleteModal,
     setDeleteModal,
   } = useUser();
+
   return (
     <Box
       display={'flex'}

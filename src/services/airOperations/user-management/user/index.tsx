@@ -13,10 +13,10 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     postUserList: builder?.mutation({
-      query: ({ payload }) => ({
-        url: `${END_POINTS?.USER_LIST}`,
+      query: ({ body, organizationId }: any) => ({
+        url: `${END_POINTS?.ORG_ADMIN_EMP_LIST}/${organizationId}`,
         method: 'POST',
-        body: payload?.body,
+        body,
       }),
       invalidatesTags: [TAG],
     }),

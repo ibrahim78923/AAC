@@ -6,8 +6,6 @@ import {
   Select,
   Typography,
 } from '@mui/material';
-import { UserListI } from './User.interface';
-import { AvatarImage } from '@/assets/images';
 import { AntSwitch } from '@/components/AntSwitch';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
@@ -26,35 +24,7 @@ export const userDropdown = (setDeleteModal: any) => [
     },
   },
 ];
-export const userListData: UserListI[] = [
-  {
-    id: 1,
-    name: `Olivia Rhye`,
-    email: `Orcalo@airapple.co.uk`,
-    team: `Alfa`,
-    role: 'Sales manager',
-    status: true,
-    icon: AvatarImage,
-  },
-  {
-    id: 2,
-    name: `Olivia Rhye`,
-    email: `Orcalo@airapple.co.uk`,
-    team: `Orcalo`,
-    role: 'Sales manager',
-    status: false,
-    icon: AvatarImage,
-  },
-  {
-    id: 3,
-    name: `Olivia Rhye`,
-    email: `Orcalo@airapple.co.uk`,
-    team: `Test`,
-    role: 'Sales manager',
-    status: true,
-    icon: AvatarImage,
-  },
-];
+
 export const userList: any = (
   userData: any = [],
   selectedUserList: any,
@@ -138,7 +108,7 @@ export const userList: any = (
   },
   {
     accessorFn: (row: any) => row?.team,
-    id: 'team',
+    id: 'role',
     isSortable: true,
     header: 'Team',
     cell: (info: any) => (
@@ -159,16 +129,16 @@ export const userList: any = (
         }}
       >
         <MenuItem value="">
-          <em>{info?.row?.original?.team}</em>
+          <em>{info?.row?.original?.role}</em>
         </MenuItem>
-        <MenuItem value={info?.row?.original?.team}>
-          {info?.row?.original?.team}
+        <MenuItem value={info?.row?.original?.role}>
+          {info?.row?.original?.role}
         </MenuItem>
-        <MenuItem value={info?.row?.original?.team}>
-          {info?.row?.original?.team}
+        <MenuItem value={info?.row?.original?.role}>
+          {info?.row?.original?.role}
         </MenuItem>
-        <MenuItem value={info?.row?.original?.team}>
-          {info?.row?.original?.team}
+        <MenuItem value={info?.row?.original?.role}>
+          {info?.row?.original?.role}
         </MenuItem>
       </Select>
     ),

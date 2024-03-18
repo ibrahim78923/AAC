@@ -6,8 +6,15 @@ import { useUpsertUser } from './useUpsertUser';
 import { USER_MANAGEMENT } from '@/constants/strings';
 
 function UpsertUser({ isDrawerOpen, setIsDrawerOpen, title, okText }: any) {
-  const { methods, handleSubmit, submit, disabled, setDisabled, userData } =
-    useUpsertUser(setIsDrawerOpen);
+  const {
+    methods,
+    handleSubmit,
+    submit,
+    disabled,
+    setDisabled,
+    userData,
+    departmentDropdown,
+  } = useUpsertUser(setIsDrawerOpen);
 
   return (
     <>
@@ -38,7 +45,7 @@ function UpsertUser({ isDrawerOpen, setIsDrawerOpen, title, okText }: any) {
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={4}>
-              {upsertUserArray?.map((item: any) => (
+              {upsertUserArray(departmentDropdown)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   {item?.subheading && title !== USER_MANAGEMENT?.USERVIEW && (
                     <Typography variant="body2" sx={{ mb: 2 }}>
