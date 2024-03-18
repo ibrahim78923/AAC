@@ -4,6 +4,7 @@ import {
   Box,
   IconButton,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { AddCircle, MoreHoriz } from '@mui/icons-material';
 import {
@@ -17,38 +18,38 @@ import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { departmentActionDropdownFunction } from '../Departments.data';
 
 export const DepartmentCard = (props: any) => {
-  const { theme, setOpenEdit, item }: any = props;
-
+  const { handleAddMember, item }: any = props;
+  const theme = useTheme();
   return (
     <>
-      <Box
-        p={2}
-        borderRadius={3}
-        boxShadow={2}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-        }}
-      >
+      <Box p={2} borderRadius={3} boxShadow={2} height="100%">
         <Box
           display={'flex'}
           justifyContent={'space-between'}
           alignItems={'center'}
+          flexWrap={'wrap'}
         >
-          <Box display={'flex'} alignItems={'center'} gap={0.5}>
+          <Box
+            display={'flex'}
+            alignItems={'center'}
+            gap={0.5}
+            flexWrap={'wrap'}
+          >
             <Avatar
               sx={{
                 bgcolor: generateColorFromName(item?.name),
-                width: 25,
-                height: 25,
-                fontSize: 14,
+                width: 28,
+                height: 28,
               }}
               variant="rounded"
             >
-              {item?.name?.slice(0, 2)?.toUpperCase()}
+              <Typography variant="body2" textTransform={'uppercase'}>
+                {item?.name?.slice?.(0, 2)}
+              </Typography>
             </Avatar>
-            <Typography variant="h5">{truncateText(item?.name)}</Typography>
+            <Typography variant="h5" color="slateBlue.main">
+              {truncateText(item?.name)}
+            </Typography>
           </Box>
           <PermissionsGuard
             permissions={
@@ -57,62 +58,48 @@ export const DepartmentCard = (props: any) => {
           >
             <SingleDropdownButton
               dropdownOptions={departmentActionDropdownFunction?.()}
-              dropdownName={
-                <MoreHoriz
-                  sx={{ color: 'secondary.lighter' }}
-                  fontSize="medium"
-                />
-              }
+              dropdownName={<MoreHoriz />}
               hasEndIcon={false}
               btnVariant="text"
             />
           </PermissionsGuard>
         </Box>
         <Box
-          borderBottom={`1px solid ${theme?.palette?.custom?.off_white_one}`}
-          p="30px 0 30px 0"
-          mb={1}
-          overflow="hidden"
+          overflow="scroll"
           height="100px"
-          width="90%"
+          dangerouslySetInnerHTML={{
+            __html: item?.description,
+          }}
+          my={2}
+        />
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          flexWrap={'wrap'}
+          borderTop={`1px solid ${theme?.palette?.custom?.off_white_one}`}
+          pt={1}
         >
-          <Typography variant="body2">
-            <Box
-              dangerouslySetInnerHTML={{
-                __html: truncateText(item?.description, 95),
-              }}
-            />
-          </Typography>
-        </Box>
-        <Box display={'flex'} alignItems={'center'}>
           <AvatarGroup
-            max={5}
+            total={item?.membersListDetails?.length}
             sx={{
-              transform: 'scaleX(-1)',
-              '& .MuiAvatar-root': {
+              '.MuiAvatarGroup-avatar': {
                 width: 30,
                 height: 30,
-                border: 0,
-              },
-              '& .MuiAvatar-root:last-child': {
-                ml: '-6px !important',
+                color: 'slateBlue.main',
+                fontSize: '0.8rem',
               },
             }}
           >
             {item?.membersListDetails
               ?.slice(0, 4)
-              ?.map((ava: any) => (
-                <Avatar key={ava?._id} src={generateImage(ava?.avatar?.url)} />
+              ?.map((avatar: any) => (
+                <Avatar
+                  key={avatar?._id}
+                  src={generateImage(avatar?.avatar?.url)}
+                />
               ))}
           </AvatarGroup>
-          <IconButton
-            onClick={() =>
-              setOpenEdit?.({
-                item,
-                val: true,
-              })
-            }
-          >
+          <IconButton onClick={() => handleAddMember?.(item)}>
             <AddCircle color="primary" />
           </IconButton>
         </Box>
