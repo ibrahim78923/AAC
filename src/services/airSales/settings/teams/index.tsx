@@ -33,16 +33,16 @@ export const TeamsApi: any = baseAPI.injectEndpoints({
       invalidatesTags: ['TEAMS'],
     }),
 
-    // updateUsers: builder.mutation({
-    //   query: ({ id, body }: any) => {
-    //     return {
-    //       url: `${END_POINTS?.ADD_USER}/${id}`,
-    //       method: 'PATCH',
-    //       body: body,
-    //     };
-    //   },
-    //   invalidatesTags: ['USERS'],
-    // }),
+    updateTeams: builder.mutation({
+      query: ({ id, body }: any) => {
+        return {
+          url: `${END_POINTS?.SALES_TEAM}/${id}`,
+          method: 'PATCH',
+          body: body,
+        };
+      },
+      invalidatesTags: ['TEAMS'],
+    }),
 
     deleteTeams: builder.mutation({
       query: ({ id }: any) => ({
@@ -58,5 +58,6 @@ export const {
   useGetTeamsQuery,
   useGetTeamsByIdQuery,
   usePostTeamsMutation,
+  useUpdateTeamsMutation,
   useDeleteTeamsMutation,
 } = TeamsApi;
