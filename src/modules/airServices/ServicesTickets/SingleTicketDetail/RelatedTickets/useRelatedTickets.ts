@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useTheme } from '@mui/material';
 import { useLazyGetChildTicketsQuery } from '@/services/airServices/tickets/single-ticket-details/related-tickets';
 import {
   columnsFunction,
@@ -10,7 +9,6 @@ import { useRouter } from 'next/router';
 import { buildQueryParams } from '@/utils/api';
 
 export const useRelatedTickets = () => {
-  const theme = useTheme();
   const router = useRouter();
   const ticketId = router?.query?.ticketId;
   const [isDelete, setIsDelete] = useState(false);
@@ -48,11 +46,10 @@ export const useRelatedTickets = () => {
     data?.data?.tickets?.length > 1
       ? data?.data?.tickets
       : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
-        ? data?.data?.tickets
-        : [],
+      ? data?.data?.tickets
+      : [],
     selectedChildTickets,
     setSelectedChildTickets,
-    theme,
     router,
   );
   useEffect(() => {

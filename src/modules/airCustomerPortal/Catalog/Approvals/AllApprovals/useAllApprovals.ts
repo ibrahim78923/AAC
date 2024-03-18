@@ -29,6 +29,7 @@ export const useAllApprovals = () => {
       pathname: AIR_CUSTOMER_PORTAL?.APPROVALS_DETAIL,
       query: {
         approvalId: data?._id,
+        ticketId: data?.ticketId,
       },
     });
   };

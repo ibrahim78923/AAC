@@ -34,6 +34,7 @@ export const Users = () => {
     deAllocateLoading,
     allocateLoading,
     removeLoading,
+    setFilterValues,
   } = useUsers();
 
   return (
@@ -64,7 +65,7 @@ export const Users = () => {
             handleCsvExport={() => getUserListDataExport(EXPORT_TYPE?.CSV)}
             handleExcelExport={() => getUserListDataExport(EXPORT_TYPE?.XLS)}
           />
-          <UsersFilter />
+          <UsersFilter setFilterValues={setFilterValues} />
         </Box>
       </Box>
       {actionModalOpen && (
@@ -82,10 +83,10 @@ export const Users = () => {
             selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE
               ? 'Add Device'
               : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.DEALLOCATE
-                ? 'Deallocate Contract '
-                : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
-                  ? 'Remove Contract'
-                  : 'Add Device'
+              ? 'Deallocate Contract '
+              : selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.REMOVE
+              ? 'Remove Contract'
+              : 'Add Device'
           }
         >
           {selectedActionTitle === SOFTWARE_USER_ACTIONS_TYPES?.ALLOCATE && (

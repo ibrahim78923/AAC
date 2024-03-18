@@ -1,10 +1,17 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import { overviewData } from './Overview.data';
 import { styles } from './Overview.style';
 import { useOverview } from './useOverview';
 export const Overview = () => {
-  const { theme, contractData, contractItemData, approverName } = useOverview();
-
+  const {
+    theme,
+    contractData,
+    contractItemData,
+    approverName,
+    isLoading,
+    isFetching,
+  } = useOverview();
+  if (isLoading || isFetching) return <Skeleton />;
   return (
     <div>
       {overviewData({ contractData, contractItemData, approverName })?.map(

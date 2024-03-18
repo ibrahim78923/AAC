@@ -29,12 +29,14 @@ export const dashboardWidgetsFunction = () => [
     },
   },
   {
+    _id: 5,
     component: RecentTickets,
     componentProps: {
       lg: 6.5,
     },
   },
   {
+    _id: 6,
     component: Announcements,
     componentProps: {
       lg: 5.5,

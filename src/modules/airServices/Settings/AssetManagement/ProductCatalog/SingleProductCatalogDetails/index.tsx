@@ -11,6 +11,7 @@ export const SingleProductCatalogDetails = () => {
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     handleSubmitDelete,
+    deleteProductCatalogStatus,
   } = useSingleProductCatalogDetails();
 
   return (
@@ -28,6 +29,8 @@ export const SingleProductCatalogDetails = () => {
           handleClose={() => setIsDeleteModalOpen?.(false)}
           handleSubmitBtn={handleSubmitDelete}
           message="Are you sure want to delete this Product Catalog?"
+          loading={deleteProductCatalogStatus?.isLoading}
+          disableCancelBtn={deleteProductCatalogStatus?.isLoading}
         />
       )}
     </Fragment>

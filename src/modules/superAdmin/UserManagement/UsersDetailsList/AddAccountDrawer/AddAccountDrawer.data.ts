@@ -1,9 +1,11 @@
 import { RHFSelect } from '@/components/ReactHookForm';
-import useUserManagement from '../../useUserManagement';
 import * as Yup from 'yup';
 
-export const AddAccountArray = (companyAccounts: any, companyRoles: any) => {
-  const { products } = useUserManagement();
+export const AddAccountArray = (
+  organizationBasesProducts: any,
+  companyAccounts: any,
+  companyRoles: any,
+) => {
   return [
     {
       componentProps: {
@@ -13,7 +15,7 @@ export const AddAccountArray = (companyAccounts: any, companyRoles: any) => {
         fullWidth: true,
         select: true,
       },
-      options: products?.data?.map((item: any) => ({
+      options: organizationBasesProducts?.map((item: any) => ({
         value: item?._id,
         label: item?.name,
       })),

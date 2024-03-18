@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   Box,
@@ -59,8 +59,6 @@ const DealPipelines = () => {
     onSubmit,
     handleCloseDeleteModal,
     handleDelete,
-    getCheckbox,
-    isDisableButton,
     addField,
     deleteField,
     setAnchorEl,
@@ -70,6 +68,21 @@ const DealPipelines = () => {
     inputFields,
     handleChangeInput,
   } = useSalesProduct();
+
+  const [selectedPipelines, setSelectedPipelines] = useState<any>([]);
+
+  const togglePipeline = (pipeline: any) => {
+    const index = selectedPipelines?.findIndex(
+      (p: any) => p?._id === pipeline?._id,
+    );
+    if (index === -1) {
+      setSelectedPipelines([...selectedPipelines, pipeline]);
+    } else {
+      const updatedPipelines = [...selectedPipelines];
+      updatedPipelines?.splice(index, 1);
+      setSelectedPipelines(updatedPipelines);
+    }
+  };
 
   return (
     <>
@@ -230,7 +243,7 @@ const DealPipelines = () => {
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
               sx={styles?.actionBtn(theme)}
-              disabled={!isDisableButton}
+              disabled={selectedPipelines?.length !== 1}
             >
               Actions <ArrowDropDownIcon />
             </Button>
@@ -323,9 +336,15 @@ const DealPipelines = () => {
                   },
                 }}
               >
-                <Checkbox
+                {/* <Checkbox
                   value="default"
-                  onChange={(value) => getCheckbox(value, 'default')}
+                  // onChange={(value) => getCheckbox(value, 'default')}
+                /> */}
+                <Checkbox
+                  checked={selectedPipelines?.some(
+                    (p: any) => p?._id === dealPipeline?._id,
+                  )}
+                  onChange={() => togglePipeline(dealPipeline)}
                 />
                 <Typography
                   variant="h6"

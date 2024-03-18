@@ -137,7 +137,7 @@ export const SOFTWARE_STATUS = {
 
 export const SOFTWARE_TYPE = {
   DESKTOP: 'Desktop',
-  SASS: 'Sass',
+  SAAS: 'Saas',
   MOBILE: 'Mobile',
 };
 

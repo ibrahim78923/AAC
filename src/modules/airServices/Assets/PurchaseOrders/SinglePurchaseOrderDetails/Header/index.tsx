@@ -1,4 +1,4 @@
-import { Typography, Box, Button } from '@mui/material';
+import { Typography, Box, Button, Skeleton } from '@mui/material';
 import React from 'react';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { ViewDetailBackArrowIcon } from '@/assets/icons';
@@ -14,7 +14,8 @@ export const Header = (props: any) => {
     statusDropdownOptions,
     currentStatus,
   } = props;
-  const { push } = useHeader();
+  const { push, name, isLoading, isFetching } = useHeader();
+  if (isLoading || isFetching) return <Skeleton />;
   return (
     <>
       <Box
@@ -31,7 +32,7 @@ export const Header = (props: any) => {
           >
             <ViewDetailBackArrowIcon />
           </Box>
-          <Typography variant="h5">Dell Purchase Order Details</Typography>
+          <Typography variant="h5">{name}</Typography>
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <Button

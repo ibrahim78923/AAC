@@ -5,6 +5,7 @@ import { UpsertRelatedTicket } from './UpsertRelatedTicket';
 import { DeleteRelatedTicket } from './DeleteRelatedTicket';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const RelatedTickets = () => {
   const {
@@ -26,6 +27,8 @@ const RelatedTickets = () => {
     getChildTicketsListData,
     page,
   } = useRelatedTickets();
+
+  if (isLoading || isFetching) return <SkeletonForm />;
 
   return (
     <>
@@ -58,8 +61,8 @@ const RelatedTickets = () => {
             data?.data?.tickets?.length > 1
               ? data?.data?.tickets
               : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
-                ? data?.data?.tickets
-                : []
+              ? data?.data?.tickets
+              : []
           }
           activeCheck={selectedChildTickets}
           columns={relatedTicketsColumns}
@@ -71,22 +74,22 @@ const RelatedTickets = () => {
             data?.data?.tickets?.length > 1
               ? data?.data?.meta?.page
               : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
-                ? data?.data?.meta?.page
-                : 0
+              ? data?.data?.meta?.page
+              : 0
           }
           count={
             data?.data?.tickets?.length > 1
               ? data?.data?.meta?.pages
               : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
-                ? data?.data?.meta?.pages
-                : 0
+              ? data?.data?.meta?.pages
+              : 0
           }
           totalRecords={
             data?.data?.tickets?.length > 1
               ? data?.data?.meta?.total
               : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
-                ? data?.data?.meta?.total
-                : 0
+              ? data?.data?.meta?.total
+              : 0
           }
           onPageChange={(page: any) => setPage(page)}
           setPage={setPage}

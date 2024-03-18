@@ -17,6 +17,7 @@ export const SingleVendorDetail = () => {
     isADrawerOpen,
     setIsADrawerOpen,
     update,
+    deleteVendorStatus,
   } = useSingleVendorDetails();
 
   return (
@@ -38,14 +39,18 @@ export const SingleVendorDetail = () => {
           handleClose={() => setDeleteModalOpen(false)}
           handleSubmitBtn={handleDeleteBtn}
           message="Are you sure you want to delete this Vendor?"
+          loading={deleteVendorStatus?.isLoading}
+          disableCancelBtn={deleteVendorStatus?.isLoading}
         />
       )}
       <Box>
-        <AddNewVendor
-          update={update}
-          isADrawerOpen={isADrawerOpen}
-          setIsADrawerOpen={setIsADrawerOpen}
-        />
+        {isADrawerOpen && (
+          <AddNewVendor
+            update={update}
+            isADrawerOpen={isADrawerOpen}
+            setIsADrawerOpen={setIsADrawerOpen}
+          />
+        )}
       </Box>
     </>
   );

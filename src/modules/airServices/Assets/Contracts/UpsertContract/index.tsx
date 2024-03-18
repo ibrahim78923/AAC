@@ -98,6 +98,7 @@ export const UpsertContract = () => {
                     permissionKey={[
                       AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.ADD_CONTRACT,
                     ]}
+                    colSpan={{ sm: 12, lg: 12 }}
                   />
                 </Box>
               </>

@@ -16,13 +16,13 @@ export default function SoftwareFilter(props: any) {
         title={'Filters'}
         okText={'Apply'}
         isOk
-        cancelText={'Cancel'}
+        cancelText={'Reset'}
         submitHandler={handleSubmit(onSubmit)}
         footer
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
-            <Grid container spacing={4}>
+            <Grid container spacing={1}>
               {softwareFilterDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
