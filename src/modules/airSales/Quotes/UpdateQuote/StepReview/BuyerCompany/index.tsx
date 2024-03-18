@@ -1,8 +1,11 @@
 import { Box, Avatar, Typography } from '@mui/material';
 import { styles } from './BuyerCompany.style';
 import { AvatarCompanyImage } from '@/assets/images';
+import useUpdateQuote from '../../useUpdateQuote';
 
 const BuyerCompany = () => {
+  const { dataGetQuoteById } = useUpdateQuote();
+
   return (
     <>
       <Box sx={styles?.card}>
@@ -12,13 +15,14 @@ const BuyerCompany = () => {
           </Avatar>
           <Box>
             <Typography variant="h6" sx={styles?.title}>
-              One Care Media
+              {dataGetQuoteById?.data?.name}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              123 Street Address
+              {dataGetQuoteById?.data?.deal[0]?.companies[0]?.address}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
               {/* City | State | Zip Code */}
+              {` ${dataGetQuoteById?.data?.deal[0]?.companies[0]?.city}`}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
               Phone No

@@ -21,10 +21,12 @@ export const columns: any = [
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.purchasePrice,
-    id: 'purchasePrice',
+    accessorFn: ({ _id }: { _id: string }) => _id,
+    id: '_id',
     isSortable: true,
     header: 'Total Price',
-    cell: (info: any) => <>£{info?.getValue()}</>,
+    cell: ({ row: { original } }: any) => (
+      <>£{original?.unitPrice * original?.quantity}</>
+    ),
   },
 ];

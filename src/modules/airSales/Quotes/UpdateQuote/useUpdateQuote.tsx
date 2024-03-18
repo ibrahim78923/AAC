@@ -20,8 +20,8 @@ import { AIR_SALES } from '@/routesConstants/paths';
 const useUpdateQuote = () => {
   const router = useRouter();
   let quoteId;
-  if (router.query?.data) {
-    quoteId = router.query?.data;
+  if (router?.query?.data) {
+    quoteId = router?.query?.data;
   }
   // const id = router?.query?.data;
   // console.log(quoteId, 'quoteIdquoteIdquoteIdquoteId');

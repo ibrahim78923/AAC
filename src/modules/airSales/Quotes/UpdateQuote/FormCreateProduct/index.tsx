@@ -15,6 +15,7 @@ import {
   useGetQuoteByIdQuery,
   useLazyGetProductsByIdQuery,
   usePostProductMutation,
+  useUpdateProductByIdMutation,
 } from '@/services/airSales/quotes';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
@@ -28,6 +29,8 @@ const FormCreateProduct = ({ open, onClose }: any) => {
   const productId = params.get('productId');
 
   const [postProduct] = usePostProductMutation();
+  // const [getProductsById]=useGetProductsById()
+  const [updateProductById] = useUpdateProductByIdMutation();
 
   const { data: Quotenew } = useGetQuoteByIdQuery({ id: quoteId });
 
@@ -53,27 +56,50 @@ const FormCreateProduct = ({ open, onClose }: any) => {
     formData?.append('description', values?.description);
     formData?.append('unitPrice', values?.unitPrice);
     formData?.append('isActive', values?.isActive);
-
-    try {
-      await postProduct({ body: formData })
-        ?.unwrap()
-        .then((res: any) => {
-          const associationBody = {
-            dealId: Quotenew?.data?.dealId,
-            product: {
-              productId: res?.data?._id,
-              quantity: 1,
-            },
-          };
-          createAssociationQuote({ body: associationBody })?.unwrap();
-          enqueueSnackbar('Ticket Updated Successfully', {
-            variant: 'success',
+    if (actionType === 'edit') {
+      try {
+        await updateProductById({ id: productId, body: formData })
+          ?.unwrap()
+          .then((res: any) => {
+            const associationBody = {
+              dealId: Quotenew?.data?.dealId,
+              product: {
+                productId: res?.data?._id,
+                quantity: 1,
+              },
+            };
+            createAssociationQuote({ body: associationBody })?.unwrap();
+            enqueueSnackbar('Product Updated Successfully', {
+              variant: 'success',
+            });
           });
+      } catch (err: any) {
+        enqueueSnackbar(err?.data?.message, {
+          variant: 'error',
         });
-    } catch (err: any) {
-      enqueueSnackbar(err?.data?.message, {
-        variant: 'error',
-      });
+      }
+    } else {
+      try {
+        await postProduct({ body: formData })
+          ?.unwrap()
+          .then((res: any) => {
+            const associationBody = {
+              dealId: Quotenew?.data?.dealId,
+              product: {
+                productId: res?.data?._id,
+                quantity: 1,
+              },
+            };
+            createAssociationQuote({ body: associationBody })?.unwrap();
+            enqueueSnackbar('Product added Successfully', {
+              variant: 'success',
+            });
+          });
+      } catch (err: any) {
+        enqueueSnackbar(err?.data?.message, {
+          variant: 'error',
+        });
+      }
     }
   };
 

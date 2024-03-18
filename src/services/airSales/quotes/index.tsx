@@ -158,6 +158,15 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    updateProductById: builder.mutation({
+      query: ({ body, id }: any) => ({
+        url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -180,4 +189,5 @@ export const {
   useGetContactsQuery,
   useGetProductsByIdQuery,
   useLazyGetProductsByIdQuery,
+  useUpdateProductByIdMutation,
 } = quotesAPI;

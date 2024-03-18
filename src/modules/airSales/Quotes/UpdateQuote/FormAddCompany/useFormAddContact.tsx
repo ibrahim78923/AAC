@@ -38,8 +38,6 @@ const useFormAddContact = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async (values: any) => {
-    // const numberEmpl=parseInt(values?.noOfEmloyee?.toString())
-    // console.log(typeof values.noOfEmloyee, 'noOfEmloyee');
     const formData = new FormData();
     formData?.append('domain', values?.domain);
     formData?.append('profilePicture', values?.profilePicture);
@@ -54,15 +52,12 @@ const useFormAddContact = () => {
     formData?.append('address', values?.address);
     formData?.append('description', values?.description);
     formData?.append('linkedInUrl', values?.linkedInUrl);
-    // formData?.append('noOfEmloyee', '12');
-
-    // console.log('formData',formData);
 
     try {
-      postCompanies({ body: formData })?.then((res) => {
+      postCompanies({ body: formData })?.then((res: any) => {
         const associationBody = {
           dealId: dataGetQuoteById?.data?.dealId,
-          companyId: res,
+          companyId: res?.data?.data?._id,
         };
         createAssociationQuote({ body: associationBody })?.unwrap();
         enqueueSnackbar('Ticket Updated Successfully', {

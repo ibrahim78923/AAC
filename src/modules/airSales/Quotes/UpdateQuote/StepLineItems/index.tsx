@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import Search from '@/components/Search';
@@ -13,13 +13,17 @@ import { useRouter } from 'next/router';
 import { enqueueSnackbar } from 'notistack';
 
 const StepLineItems = ({ openCreateProduct }: any) => {
+  const [search, setSearch] = useState('');
+
   const router = useRouter();
   const { data } = router?.query;
   const { data: productsData } = useGetQuoteByIdQuery({
     id: data,
+    search,
   });
 
   const [deleteProducts] = useDeleteProductsMutation();
+
   const handleDeleteDeals = async (productId: string) => {
     try {
       const DelProdBody = {
@@ -44,6 +48,12 @@ const StepLineItems = ({ openCreateProduct }: any) => {
     router.push(`?data=${data}&productId=${id}&type=${action}`);
     openCreateProduct();
   };
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setSearch(value);
+  };
+
   const lineItemsColumns: any = [
     {
       accessorFn: (row: any) => row?.name,
@@ -135,7 +145,7 @@ const StepLineItems = ({ openCreateProduct }: any) => {
             Products
           </Typography>
           <Stack direction="row" spacing={'12px'}>
-            <Search placeholder="Search Here" />
+            <Search placeholder="Search Here" onChange={handleSearch} />
             <Button
               variant="contained"
               color="primary"
