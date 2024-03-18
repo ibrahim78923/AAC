@@ -8,20 +8,20 @@ import {
 } from '@/components/ReactHookForm';
 
 export const departmentFormValidation: any = Yup?.object()?.shape({
-  departmenProfilePicture: Yup?.string(),
-  name: Yup?.string()?.required('Required'),
-  departmentHeadDetails: Yup?.mixed()?.required('Required'),
+  fileUrl: Yup?.mixed()?.nullable(),
+  name: Yup?.string()?.required('Name is required'),
+  departmentHeadDetails: Yup?.mixed()?.required('Department head is required'),
   description: Yup?.string(),
-  membersListDetails: Yup?.array()?.min(1, 'Required'),
+  membersListDetails: Yup?.array()?.min(1, 'Member is Required'),
 });
 
 export const departmentFormValues: any = (data: any) => {
   return {
-    departmenProfilePicture: data?.departmenProfilePicture ?? '',
     name: data?.name ?? '',
     departmentHeadDetails: data?.departmentHeadDetails ?? null,
     description: data?.description ?? '',
     membersListDetails: data?.membersListDetails ?? [],
+    fileUrl: null,
   };
 };
 
@@ -32,7 +32,7 @@ export const departmentFormFields: any = (
   {
     id: 1,
     componentProps: {
-      name: 'departmenProfilePicture',
+      name: 'fileUrl',
       label: 'Image',
       accept: {
         'image/*': ['.png', '.jpg', '.svg'],

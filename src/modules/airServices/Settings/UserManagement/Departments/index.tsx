@@ -1,5 +1,11 @@
-import { DepartmentsDetail } from './DepartmentsDetail';
+import { DepartmentCard } from './DepartmentCard';
+import { DepartmentsHeader } from './DepartmentsHeader';
 
 export const Departments = () => {
-  return <DepartmentsDetail />;
+  return (
+    <>
+      <DepartmentsHeader />
+      <DepartmentCard />
+    </>
+  );
 };

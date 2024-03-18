@@ -3,7 +3,7 @@ import { baseAPI } from '../services/base-api';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import storage from 'redux-persist/lib/storage';
 import chatSlice from './slices/chat/slice';
-import authSlice from '. /slices/auth/slice';
+import authSlice from './slices/auth/slice';
 import SocialInboxSlice from './slices/socialInbox/index';
 import { persistReducer } from 'redux-persist';
 import planManagementSlice from './slices/planManagement/planManagementSlice';
