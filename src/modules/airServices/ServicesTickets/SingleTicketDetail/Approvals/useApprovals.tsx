@@ -1,6 +1,6 @@
 import { TICKET_APPROVALS } from '@/constants/strings';
 import {
-  useGetApprovalsTicketsQuery,
+  useGetAllApprovalsTicketsQuery,
   usePatchApprovalTicketsMutation,
 } from '@/services/airServices/tickets/single-ticket-details/approvals';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
@@ -11,18 +11,18 @@ export const useApprovals = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [selectedApproval, setSelectedApproval] = useState<any>({});
+
   const router = useRouter();
   const { ticketId } = router?.query;
-  const [patchApprovalTicketsTrigger, patchApprovalTicketsStatus] =
-    usePatchApprovalTicketsMutation();
 
+  const [patchApprovalTicketsTrigger] = usePatchApprovalTicketsMutation();
   const getApprovalsTicketsParameter = {
     queryParams: {
       id: ticketId,
       approvalStatus: 'ALL',
     },
   };
-  const { data, isLoading, isFetching, isError } = useGetApprovalsTicketsQuery(
+  const { data, isLoading, isFetching } = useGetAllApprovalsTicketsQuery(
     getApprovalsTicketsParameter,
     {
       refetchOnMountOrArgChange: true,
@@ -66,8 +66,6 @@ export const useApprovals = () => {
     data,
     isLoading,
     isFetching,
-    isError,
     updateRequestApprovalStatus,
-    patchApprovalTicketsStatus,
   };
 };

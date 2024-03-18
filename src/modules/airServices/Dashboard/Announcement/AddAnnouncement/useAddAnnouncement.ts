@@ -1,31 +1,29 @@
 import { usePostAnnouncementMutation } from '@/services/airServices/dashboard';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { useTheme } from '@emotion/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  createAddAnnouncementDefaultValues,
-  createAddAnnouncementValidationSchema,
-} from '../AddAnnouncement/AddAnnouncement.data';
+
 import { useLazyGetDepartmentDropdownQuery } from '@/services/airServices/tickets';
 import { useLazyGetUsersDropdownListQuery } from '@/services/airServices/settings/user-management/departments';
+import {
+  createAddAnnouncementDataArray,
+  createAddAnnouncementDefaultValues,
+  createAddAnnouncementValidationSchema,
+} from './AddAnnouncement.data';
 
-export const useAnnouncementHeader = () => {
-  const theme = useTheme();
-
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-
+export const useAddAnnouncement = (props: any) => {
+  const { setIsDrawerOpen } = props;
   const methods: any = useForm({
     resolver: yupResolver(createAddAnnouncementValidationSchema),
     defaultValues: createAddAnnouncementDefaultValues,
   });
   const { handleSubmit, reset } = methods;
 
-  const [addAnnouncements] = usePostAnnouncementMutation();
+  const [postAnnouncementTrigger, postAnnouncementStatus] =
+    usePostAnnouncementMutation();
   const submit = async (data: any) => {
     try {
-      const notifyMembers = !!data.notifyMembers;
+      const notifyMembers = !!data?.notifyMembers;
       const payload = {
         title: data?.title,
         description: data?.description,
@@ -34,20 +32,20 @@ export const useAnnouncementHeader = () => {
         notifyMembers: notifyMembers,
         additionalEmail: data?.additionalEmail,
         addMembers: data?.addMembers,
-        startDate: new Date(data.startDate).toISOString(),
-        endDate: new Date(data.endDate).toISOString(),
+        startDate: new Date(data?.startDate)?.toISOString(),
+        endDate: new Date(data?.endDate)?.toISOString(),
       };
       const postAnnouncementParameter = {
         body: payload,
       };
 
-      await addAnnouncements(postAnnouncementParameter).unwrap();
+      await postAnnouncementTrigger(postAnnouncementParameter)?.unwrap();
       successSnackbar('Announcements added successfully.');
       setIsDrawerOpen(false);
+      handleClose?.();
     } catch (error: any) {
-      errorSnackbar('Something went wrong');
+      errorSnackbar(error?.data?.message);
     }
-    handleClose?.();
   };
 
   const handleClose = () => {
@@ -55,23 +53,19 @@ export const useAnnouncementHeader = () => {
     reset?.();
   };
 
-  const handleIconButton = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
-
   const departmentDropdown = useLazyGetDepartmentDropdownQuery();
   const userDropdown = useLazyGetUsersDropdownListQuery();
-
-  return {
-    isDrawerOpen,
-    setIsDrawerOpen,
-    methods,
-    handleSubmit,
-    submit,
-    handleClose,
-    theme,
-    handleIconButton,
+  const createAddAnnouncementFormFields = createAddAnnouncementDataArray(
     departmentDropdown,
     userDropdown,
+  );
+
+  return {
+    createAddAnnouncementFormFields,
+    submit,
+    methods,
+    handleClose,
+    handleSubmit,
+    postAnnouncementStatus,
   };
 };

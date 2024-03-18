@@ -50,9 +50,10 @@ export const taskAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG_ONE],
     }),
     getAgentsDropdownList: builder?.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_AGENTS_LIST}`,
         method: 'GET',
+        params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data;

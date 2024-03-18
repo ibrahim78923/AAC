@@ -716,10 +716,10 @@ export const AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS = {
   SEARCH_IMPORT_EXPORT_CATEGORIES:
     'service-settings-search-import-export-categories',
   VIEW_PRODUCT_DETAILS: 'service-settings-view-product-details',
-  VIEW_PRODUCT_VENDORS: 'service-settings-view-product-vendors',
+  VIEW_PRODUCT_VENDORS: 'service-settings-vIew-product-vendors',
   VIEW_PRODUCT_ASSOCIATION_ASSETS:
     'service-settings-view-product-association-assets',
-  EDIT_DELETE_PRODUCTS: 'service-settings-edit-delete-products',
+  EDIT_DELETE_PRODUCTS: 'service-settings-edit-delete-Products',
   ADD_NEW_VENDOR: 'service-settings-add-new-vendor',
   SEARCH_IMPORT_EXPORT_VENDORS: 'service-settings-search-import-export-vendors',
   VIEW_VENDORS_LIST: 'service-settings-view-vendors-list',

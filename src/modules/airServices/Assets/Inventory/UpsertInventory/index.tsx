@@ -2,8 +2,6 @@ import { useUpsertInventory } from './useUpsertInventory';
 import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 
-import { useEffect } from 'react';
-
 import { LoadingButton } from '@mui/lab';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
@@ -15,20 +13,15 @@ export const UpsertInventory = () => {
     methods,
     handleSubmit,
     theme,
-    setFormType,
-    query,
     upsertInventoryFormFields,
     submitUpsertInventory,
     inventoryId,
-    setHasAttachment,
     isLoading,
     isFetching,
     moveBack,
+    postAddToInventoryStatus,
+    patchAddToInventoryStatus,
   } = useUpsertInventory();
-
-  useEffect(() => {
-    setFormType(query?.type);
-  }, [query?.update]);
   if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <>
@@ -77,10 +70,8 @@ export const UpsertInventory = () => {
                       <Attachments
                         recordId={inventoryId}
                         permissionKey={[
-                          AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_NEW_EXPENSE,
+                          AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSETS,
                         ]}
-                        hasAttachments={setHasAttachment}
-                        size={1024 * 1024 * 2.44}
                       />
                     </Box>
                   </>
@@ -98,13 +89,20 @@ export const UpsertInventory = () => {
                 variant="outlined"
                 color="secondary"
                 onClick={() => methods?.reset()}
+                disabled={
+                  postAddToInventoryStatus?.isLoading ||
+                  patchAddToInventoryStatus?.isLoading
+                }
               >
                 Cancel
               </LoadingButton>
               <LoadingButton
                 variant="contained"
                 type="submit"
-                sx={{ paddingX: '25px' }}
+                loading={
+                  postAddToInventoryStatus?.isLoading ||
+                  patchAddToInventoryStatus?.isLoading
+                }
               >
                 {!!inventoryId ? 'update' : 'save'}
               </LoadingButton>
@@ -128,10 +126,9 @@ export const UpsertInventory = () => {
                   <Attachments
                     recordId={inventoryId}
                     permissionKey={[
-                      AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_NEW_EXPENSE,
+                      AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSETS,
                     ]}
-                    hasAttachments={setHasAttachment}
-                    size={1024 * 1024 * 2.44}
+                    colSpan={{ sm: 12, lg: 12 }}
                   />
                 </Box>
               </>

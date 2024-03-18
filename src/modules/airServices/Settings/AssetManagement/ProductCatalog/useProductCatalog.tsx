@@ -19,6 +19,7 @@ import {
 } from '@/services/airServices/settings/asset-management/product-catalog';
 import { downloadFile } from '@/utils/file';
 import { useTheme } from '@mui/material';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useProductCatalog = () => {
   const [search, setSearch] = useState('');
@@ -83,16 +84,11 @@ export const useProductCatalog = () => {
         getProductCatalogExportParameter,
       )?.unwrap();
       downloadFile(response, 'productCatalogLists', EXPORT_FILE_TYPE?.[type]);
-      enqueueSnackbar(
+      successSnackbar(
         `Product exported successfully as ${MESSAGE_EXPORT_FILE_TYPE?.[type]}`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
       );
     } catch (error: any) {
-      enqueueSnackbar(`Product not exported as ${type}`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
 

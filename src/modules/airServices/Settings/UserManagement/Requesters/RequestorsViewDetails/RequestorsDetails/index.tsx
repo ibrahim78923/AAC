@@ -1,130 +1,175 @@
 import { EditRequestorsIcon } from '@/assets/icons';
-import { Avatar, Box, Grid, IconButton, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Grid,
+  IconButton,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import UpsertRequesters from '../../UpsertRequesters';
-import { useRequesters } from '../../useRequesters';
-import { profileInformation, profileRole } from './RequestorsDetails.data';
-import { ProfileImage } from '@/assets/images';
 import { RequestedTickets } from '../RequestedTickets';
+import { fullName, generateImage, truncateText } from '@/utils/avatarUtils';
+import dayjs from 'dayjs';
+import { useRequesterDetails } from './useRequesterDetails';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
+import { DATE_TIME_FORMAT } from '@/constants';
 
 export const RequestorsDetails = () => {
   const {
-    theme,
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    departmentDetails,
     isDrawerOpen,
     setIsDrawerOpen,
-    profileData,
-    handleSubmit,
-    submit,
-    methods,
-    handleClose,
-  } = useRequesters();
+  }: any = useRequesterDetails();
+  const theme = useTheme();
+  if (isLoading || isFetching) return <SkeletonForm />;
+  if (isError) return <ApiErrorState />;
   return (
     <>
       <Grid
         container
-        borderRadius={'0.5rem'}
-        border={`0.125rem solid ${theme?.palette?.custom?.off_white_three}`}
-        padding={'1.5rem'}
-        spacing={{ md: 0, xs: 2 }}
+        borderRadius={2}
+        border={`1px solid `}
+        padding={2}
+        borderColor={'custom.off_white_three'}
       >
         <Grid
           item
-          xl={1.7}
-          lg={2.3}
           xs={12}
-          display={'flex'}
-          justifyContent={{ lg: 'start', xs: 'center' }}
-          mb={{ lg: 0, md: 3 }}
-        >
-          {profileData && profileData.length > 0 ? (
-            <Avatar
-              sx={{ height: '9.125rem', width: '9.125rem' }}
-              src={profileData[0]?.avatar || ProfileImage?.src}
-            />
-          ) : (
-            <Avatar
-              sx={{ height: '9.125rem', width: '9.125rem' }}
-              src={ProfileImage?.src}
-            />
-          )}
-          <Box
-            display={{ lg: 'none', md: 'flex' }}
-            justifyContent={'flex-end'}
-            alignItems={'start'}
-          >
-            <IconButton onClick={() => setIsDrawerOpen(true)}>
-              <EditRequestorsIcon />
-            </IconButton>
-          </Box>
-        </Grid>
-        <Grid
-          item
-          xl={3.5}
-          lg={4}
-          md={6}
-          xs={12}
-          display={'flex'}
-          flexDirection={'column'}
-          gap={4}
+          md={5}
+          padding={1.5}
           borderRight={{
-            lg: `0.063rem solid ${theme?.palette?.custom?.off_white_three}`,
-            xs: 'none',
+            md: `1px solid  ${theme?.palette?.custom?.off_white_three}`,
+          }}
+          borderBottom={{
+            xs: `1px solid ${theme?.palette?.custom?.off_white_three}`,
+            md: 'none',
           }}
         >
-          {profileData &&
-            profileData[0] &&
-            profileInformation(profileData[0])?.map((item) => (
-              <Grid container spacing={{ sm: 4, xs: 1 }} key={item?.id}>
-                <Grid item md={5} xs={12}>
-                  <Typography variant="body4" noWrap>
-                    {item?.title}
+          <Box>
+            <Box
+              display={'flex'}
+              flexWrap={'wrap'}
+              alignItems={'center'}
+              gap={3}
+            >
+              <Avatar
+                sx={{
+                  bgcolor: 'blue.main',
+                  width: 150,
+                  height: 150,
+                }}
+                src={generateImage(data?.data?.avatar?.url)}
+              />
+              <Box
+                flex={1}
+                flexDirection={'column'}
+                display={'flex'}
+                flexWrap={'wrap'}
+              >
+                <Box my={2}>
+                  <Typography
+                    variant="h5"
+                    color="slateBlue.main"
+                    fontWeight={600}
+                  >
+                    {fullName(data?.data?.firstName, data?.data?.lastName)}
                   </Typography>
-                  <br />
-                  {item?.description && (
-                    <Typography variant="body3" noWrap>
-                      {item?.description}
-                    </Typography>
-                  )}
-                </Grid>
-                <Grid item md={5} xs={12}>
-                  <Typography variant="body4">{item?.detail}</Typography>
-                </Grid>
-              </Grid>
-            ))}
+                  <Typography variant="body3" fontWeight={500}>
+                    {' '}
+                    Joined on{' '}
+                    {dayjs(data?.data?.createdAt)?.format(
+                      DATE_TIME_FORMAT?.DMYHMSA,
+                    )}
+                  </Typography>
+                </Box>
+                <Box
+                  display={'flex'}
+                  flexWrap={'wrap'}
+                  justifyContent={'space-between'}
+                  marginBottom={1}
+                >
+                  <Typography variant="body2" fontWeight={600}>
+                    Email:
+                  </Typography>
+                  <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
+                    {data?.data?.email ?? '---'}
+                  </Typography>
+                </Box>
+                <Box
+                  display={'flex'}
+                  flexWrap={'wrap'}
+                  justifyContent={'space-between'}
+                  marginBottom={1}
+                >
+                  <Typography variant="body2" fontWeight={600}>
+                    Phone Number
+                  </Typography>
+                  <Typography variant="body2">
+                    {data?.data?.phoneNumber ?? '---'}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
         </Grid>
-        <Grid
-          item
-          xl={3.5}
-          lg={4}
-          md={6}
-          xs={12}
-          display={'flex'}
-          flexDirection={'column'}
-          gap={3}
-          ml={{ lg: 4, xs: 0 }}
-        >
-          {profileRole(profileData[0])?.map((item) => (
-            <Grid container spacing={{ sm: 4, xs: 1 }} key={item?.id}>
-              <Grid item md={5} xs={12}>
-                <Typography variant="body3" noWrap>
-                  {item?.title}
-                </Typography>
-              </Grid>
-              <Grid item md={5} xs={12}>
-                <Typography variant="body4">{item?.detail}</Typography>
-              </Grid>
-            </Grid>
-          ))}
-        </Grid>
-        <Grid item xl={2.7} lg={1.1} display={{ lg: 'block', xs: 'none' }}>
+        <Grid item xs={12} md={5} padding={1.5}>
+          <Box display={'flex'} flexWrap={'wrap'} gap={1} my={2}>
+            <Typography variant="body2" fontWeight={600}>
+              Department
+            </Typography>
+            <Typography variant="body2" sx={{ flex: '1' }} />
+            {truncateText(departmentDetails?.data?.data?.name)}
+          </Box>
           <Box
             display={'flex'}
-            justifyContent={'flex-end'}
-            alignItems={'start'}
+            flexWrap={'wrap'}
+            justifyContent={'space-between'}
+            my={2}
           >
-            <IconButton onClick={() => setIsDrawerOpen(true)}>
-              <EditRequestorsIcon />
-            </IconButton>
+            <Typography variant="body2" fontWeight={600}>
+              Email:
+            </Typography>
+            <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
+              {data?.data?.email ?? '---'}
+            </Typography>
           </Box>
+          <Box
+            display={'flex'}
+            flexWrap={'wrap'}
+            justifyContent={'space-between'}
+            my={2}
+          >
+            <Typography variant="body2" fontWeight={600}>
+              Title
+            </Typography>
+            <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
+              Mr.
+            </Typography>
+          </Box>
+          <Box
+            display={'flex'}
+            flexWrap={'wrap'}
+            justifyContent={'space-between'}
+            marginBottom={1}
+          >
+            <Typography variant="body2" fontWeight={600}>
+              Mobile Phone
+            </Typography>
+            <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
+              {data?.data?.phoneNumber ?? 'N/A'}
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={2} textAlign={'end'}>
+          <IconButton onClick={() => setIsDrawerOpen(true)}>
+            <EditRequestorsIcon />
+          </IconButton>
         </Grid>
       </Grid>
       <Box py={'18px'}>
@@ -139,11 +184,6 @@ export const RequestorsDetails = () => {
         <UpsertRequesters
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
-          title={'Edit Requestor'}
-          okText={'Update'}
-          submitHandler={handleSubmit(submit)}
-          methods={methods}
-          handleClose={handleClose}
         />
       )}
     </>

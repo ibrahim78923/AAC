@@ -7,8 +7,6 @@ import {
   upsertProductCatalogFormFieldsDynamic,
   upsertProductCatalogValidationSchema,
 } from './UpsertProductCatalog.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
 import {
   useGetProductCatalogByIdQuery,
@@ -17,7 +15,8 @@ import {
   usePostProductCatalogMutation,
 } from '@/services/airServices/settings/asset-management/product-catalog';
 import { useEffect } from 'react';
-//TODO: will need to fix data body after integration issue fix.
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+
 export const useUpsertProductCatalog = () => {
   const router = useRouter();
   const { productCatalogId } = router?.query;
@@ -56,6 +55,7 @@ export const useUpsertProductCatalog = () => {
       ...data,
       assetType: data?.assetType?._id,
     };
+
     if (!!productCatalogId) {
       submitUpdateProductCatalog(body);
       return;
@@ -65,21 +65,12 @@ export const useUpsertProductCatalog = () => {
     };
 
     try {
-      const response = await postProductCatalogTrigger(
-        postProductCatalogParameter,
-      )?.unwrap();
-      enqueueSnackbar(
-        response?.message ?? 'ProductCatalog Added Successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      await postProductCatalogTrigger(postProductCatalogParameter)?.unwrap();
+      successSnackbar('ProductCatalog Added Successfully');
       moveBack?.();
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -91,23 +82,15 @@ export const useUpsertProductCatalog = () => {
       },
     };
     try {
-      const response = await patchProductCatalogTrigger(
-        patchProductCatalogParameter,
-      )?.unwrap();
-      enqueueSnackbar(
-        response?.message ?? 'ProductCatalog Created Successfully!',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      await patchProductCatalogTrigger(patchProductCatalogParameter)?.unwrap();
+      successSnackbar('ProductCatalog Created Successfully!');
       moveBack?.();
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
+
   const apiQueryAssetType = useLazyGetAssetTypeQuery();
   const upsertProductCatalogFormFields =
     upsertProductCatalogFormFieldsDynamic(apiQueryAssetType);
