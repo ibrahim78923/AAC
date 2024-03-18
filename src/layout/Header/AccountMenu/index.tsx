@@ -3,19 +3,81 @@ import Image from 'next/image';
 
 import { Box, useTheme, Popover, Typography } from '@mui/material';
 
-import { isNullOrEmpty } from '@/utils';
-
-import { MyAccountData } from '@/mock/modules/superAdmin/SuperAdminDashboard';
+import {
+  getActivePermissionsSession,
+  isNullOrEmpty,
+  stringArraysEqual,
+} from '@/utils';
 
 import { CrossImage, HomeMenuImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './AccountMenu.style';
+import useAuth from '@/hooks/useAuth';
+import { useRouter } from 'next/router';
+import {
+  useGetAuthAccountsQuery,
+  usePostAuthAccountSelectMutation,
+} from '@/services/auth';
+import { getRoutes } from '@/layout/Layout.data';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const role = 'sales';
 const AccountMenu = () => {
   const theme = useTheme();
+  const { setActiveProduct, setPermissions } = useAuth();
+  const router = useRouter();
+  const { data: accountsData } = useGetAuthAccountsQuery({});
+  const [PostAuthAccountSelect] = usePostAuthAccountSelectMutation();
+  const [selectedProduct, setSelectedProduct] = useState<any>([]);
+  const [activePermissions, setActivePermissions] = useState<any>([]);
+
+  const findModulePermissionKey = async (product: any, id: string) => {
+    const payload = { account: id };
+    try {
+      const response = await PostAuthAccountSelect(payload)?.unwrap();
+
+      const routes = getRoutes(product);
+
+      if (response?.data && routes) {
+        setPermissions();
+        setSelectedProduct(routes);
+      } else {
+        enqueueSnackbar('No Permissions and Product Available', {
+          variant: NOTISTACK_VARIANTS?.ERROR,
+        });
+      }
+    } catch (error) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+    return false;
+  };
+
+  const permissionsFromLocalStorage = getActivePermissionsSession();
+  const permissionsHandler = () => {
+    for (const modulePermission of selectedProduct) {
+      const componentPermissionsDictionary: any = {};
+      modulePermission?.permissions?.forEach((value: any) => {
+        componentPermissionsDictionary[value] = true;
+      });
+      for (const permission of permissionsFromLocalStorage) {
+        if (componentPermissionsDictionary[permission]) {
+          return router?.push(modulePermission?.key);
+          // Return the module permission path
+        }
+      }
+    }
+  };
+  if (!stringArraysEqual(permissionsFromLocalStorage, activePermissions)) {
+    permissionsHandler();
+    setActivePermissions(permissionsFromLocalStorage);
+  }
   const [openPopver, setOpenPopover] = useState<
     (EventTarget & HTMLDivElement) | null
   >(null);
@@ -30,7 +92,6 @@ const AccountMenu = () => {
 
   const isOpenPopover = Boolean(openPopver);
   const id = isOpenPopover ? 'simple-popover' : undefined;
-
   return (
     <div>
       <Box onClick={handleClick}>
@@ -80,8 +141,8 @@ const AccountMenu = () => {
             </Typography>
           </Box>
           <Box>
-            {!isNullOrEmpty(MyAccountData) &&
-              MyAccountData?.map((item) => {
+            {!isNullOrEmpty(accountsData) &&
+              accountsData?.data?.map((item) => {
                 return (
                   <Box sx={{ px: 2 }} key={uuidv4()}>
                     <Box sx={styles?.mainBox(item, role, theme)}>
@@ -101,12 +162,12 @@ const AccountMenu = () => {
                         variant="subtitle1"
                         sx={{ marginLeft: '10px' }}
                       >
-                        {item?.title}
+                        {item?.name}
                       </Typography>
                     </Box>
 
                     <Box>
-                      {item?.children?.map((subitem) => {
+                      {item?.accounts?.map((subitem) => {
                         return (
                           <Box
                             sx={{
@@ -120,8 +181,17 @@ const AccountMenu = () => {
                               sx={styles?.radioCircle(theme)}
                             ></Typography>
                             <Box>
-                              <Typography variant="body1">
-                                {subitem?.company}
+                              <Typography
+                                variant="body1"
+                                onClick={() => {
+                                  findModulePermissionKey(
+                                    item?.name,
+                                    subitem?._id,
+                                  );
+                                  setActiveProduct(item);
+                                }}
+                              >
+                                {subitem?.company?.accountName}
                               </Typography>
                               <Typography variant="body2">
                                 {subitem?.websiteLink}

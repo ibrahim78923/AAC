@@ -414,7 +414,7 @@ export const AIR_MARKETER_SETTINGS_NOTIFICATIONS_WEBSITES_PERMISSIONS = {
 };
 
 export const AIR_SALES_DASHBOARD_PERMISSIONS = {
-  SALES_DASHBOARD_LIST: 'sales-dashboard-list',
+  SALES_DASHBOARD_LIST: 'sale-dashboard-list',
   CREATE_DASHBOARD: 'sale-create-dashboard',
   EDIT_DASBOARD: 'sale-edit-dashboard',
   SHARE_VIA_EMAIL: 'sale-share-dashboard-via-email',
