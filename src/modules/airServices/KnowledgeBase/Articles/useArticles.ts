@@ -50,7 +50,12 @@ export const useArticles: any = () => {
     getValueArticlesListData();
   }, [search, page, pageLimit, filterValues, selectedArticlesTab]);
 
-  const { data: folderData } = useGetFoldersQuery({});
+  const { data: folderData } = useGetFoldersQuery(
+    {},
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
 
   const foldersList = [
     { name: 'all', _id: 'all' },

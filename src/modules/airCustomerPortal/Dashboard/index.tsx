@@ -4,7 +4,7 @@ import { useDashboard } from './useDashboard';
 const Dashboard = () => {
   const { dashboardWidgets } = useDashboard();
   return (
-    <Grid container rowSpacing={1.6} columnSpacing={2.4}>
+    <Grid container spacing={2}>
       {dashboardWidgets?.map(
         ({ componentProps, component: Component, ...rest }: any) => (
           <Grid key={rest?._id} item xs={12} {...componentProps}>

@@ -1,16 +1,21 @@
 import {
-  RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { AIR_SERVICES } from '@/constants';
+import { errorSnackbar } from '@/utils/api';
+import { RemoveRedEyeOutlined } from '@mui/icons-material';
+
+import { Box, Typography } from '@mui/material';
 import * as Yup from 'yup';
 
 export const upsertWorkloadScheduleDefaultValues = (data?: any) => {
   return {
     name: data?.name ?? '',
     description: data?.description ?? '',
-    businessHoursId: data?.businessHoursDetails ?? null,
-    agentsId: data?.agentDetails ?? null,
+    businessHoursId: data?.bussinessHoursDetails ?? null,
+    agentsId: data?.agentsList ?? [],
   };
 };
 
@@ -21,17 +26,12 @@ export const upsertWorkloadScheduleValidationSchema = Yup?.object()?.shape({
   agentsId: Yup?.mixed()?.nullable(),
 });
 
-const businessOptions = [
-  { _id: 'Business Hour 1', label: 'Business Hour 1' },
-  { _id: 'Business Hour 2', label: 'Business Hour 2' },
-];
-const userOption = [
-  { _id: 'BE 1', label: 'BE 1' },
-  { _id: 'BE 2', label: 'BE 2' },
-  { _id: 'BE 3', label: 'BE 3' },
-];
-
-export const upsertWorkloadScheduleFormFieldsDynamic = () => [
+export const upsertWorkloadScheduleFormFieldsDynamic = (
+  apiQueryAgent: any,
+  apiQueryBusinessHours: any,
+  getValues: any,
+  router: any,
+) => [
   {
     _id: 1,
     md: 7,
@@ -56,26 +56,53 @@ export const upsertWorkloadScheduleFormFieldsDynamic = () => [
   },
   {
     _id: 3,
-    md: 8.4,
+    md: 7,
     componentProps: {
       name: 'businessHoursId',
       label: 'Business Hours',
       fullWidth: true,
-      options: businessOptions,
-      getOptionLabel: (option: any) => option?.label,
+      apiQuery: apiQueryBusinessHours,
+      placeholder: 'Choose Business Hour',
     },
-    iconProps: {
-      color: 'primary',
-    },
-    textProps: {
-      color: 'primary',
-      variant: 'body3',
-      whiteSpace: 'nowrap',
-    },
-    title: 'View Business Hours',
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
-
+  {
+    heading: (
+      <Box
+        display={'flex'}
+        flexWrap={'wrap'}
+        alignItems={'center'}
+        sx={{ cursor: 'pointer' }}
+        gap={0.5}
+        onClick={() => {
+          const businessHourId = getValues('businessHoursId');
+          if (!!!businessHourId?._id) {
+            errorSnackbar('Please select business hour');
+            return;
+          }
+          router?.push({
+            pathname: AIR_SERVICES?.UPSERT_BUSINESS_HOUR,
+            query: {
+              id: businessHourId?._id,
+            },
+          });
+        }}
+      >
+        <RemoveRedEyeOutlined color="primary" />
+        <Typography>View Business Hour</Typography>
+      </Box>
+    ),
+    md: 5,
+    component: Typography,
+    componentProps: {
+      variant: 'body3',
+      color: 'primary',
+      component: 'p',
+      display: 'flex',
+      alignItems: 'flex-end',
+      height: '75%',
+    },
+  },
   {
     _id: 4,
     md: 7,
@@ -83,9 +110,13 @@ export const upsertWorkloadScheduleFormFieldsDynamic = () => [
       name: 'agentsId',
       label: 'Add Users',
       fullWidth: true,
-      options: userOption,
-      getOptionLabel: (option: any) => option?.label,
+      multiple: true,
+      apiQuery: apiQueryAgent,
+      placeholder: 'Choose Agent',
+      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
 ];

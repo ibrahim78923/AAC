@@ -298,6 +298,8 @@ export const END_POINTS = {
   GET_TICKET_APPROVAL_DETAILS: `/air-services-dashboard/get-tickets-approval-dashboard-details`,
   ATTACHMENT_INVENTORY: 'attachment/get-attachment',
   UPDATE_CONTRACT: 'contract/renew-extend',
+  GET_WORKLOAD_SCHEDULE_LIST: `/Work-Shchedule/get-work-shchedule-list`,
+  GET_SINGLE_WORKLOAD_SCHEDULE_DETAILS: `/Work-Shchedule/get-work-shchedule-details`,
   PROFILE_DETAIL: '/users',
   PERMISSIONS_ROLE: '/permissions/role',
   GET_TICKET_BY_REQUESTER: '/ticket/requester-ticket',
@@ -305,6 +307,7 @@ export const END_POINTS = {
   MERGE_TICKET: '/ticket/merge-ticket',
   DELETE_ALL_ATTACHMENT: '/attachment/delete-all-attachment',
   DELETE_MULTIPLE_ATTACHMENT: '/attachment/delete-multiple-attachment',
+  SINGLE_DEPARTMENT_DETAIL: `/Department/get-by-id`,
 };
 
 export const superAdminBillingInvoices = {
