@@ -3,7 +3,7 @@ import Search from '@/components/Search';
 import { Box, Button } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
-import AgentFilter from './AgentFilter';
+import AgentFilter from '../FilterAgent';
 import { InviteAgentModel } from './InviteAgentModal';
 import { useAgent } from './useAgent';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';

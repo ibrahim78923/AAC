@@ -1,15 +1,29 @@
-import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Grid,
+  IconButton,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { useAgentBioData } from './useAgentBioData';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName, generateImage, truncateText } from '@/utils/avatarUtils';
+import { EditRequestorsIcon } from '@/assets/icons';
 
 export const AgentBioData = () => {
   const theme = useTheme();
-  const { data, isLoading, isFetching, isError, departmentDetails }: any =
-    useAgentBioData();
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    departmentDetails,
+    handleEditButtonClick,
+  }: any = useAgentBioData();
   if (isLoading || isFetching) return <SkeletonForm />;
   if (isError) return <ApiErrorState />;
 
@@ -25,7 +39,7 @@ export const AgentBioData = () => {
         <Grid
           item
           xs={12}
-          md={3.9}
+          md={4}
           padding={1.5}
           borderRight={{
             md: `1px solid ${theme?.palette?.custom?.off_white_three}`,
@@ -102,7 +116,7 @@ export const AgentBioData = () => {
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={12} md={3.9} padding={1.5}>
+        <Grid item xs={12} md={3.5} padding={1.5}>
           <Box display={'flex'} flexWrap={'wrap'} gap={1} my={2}>
             <Typography variant="body2" fontWeight={600}>
               Department
@@ -150,7 +164,12 @@ export const AgentBioData = () => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} md={3.9} padding={1.5}></Grid>
+        <Grid item xs={12} md={1} textAlign={'end'}>
+          <IconButton onClick={() => handleEditButtonClick?.()}>
+            <EditRequestorsIcon />
+          </IconButton>
+        </Grid>
+        <Grid item xs={12} md={3} padding={1.5}></Grid>
       </Grid>
     </Box>
   );

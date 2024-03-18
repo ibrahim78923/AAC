@@ -1,4 +1,5 @@
 import { AIR_SERVICES } from '@/constants';
+import { fullName, truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 
 export const softwareColumnsDynamic = (router: any): any => [
@@ -21,64 +22,64 @@ export const softwareColumnsDynamic = (router: any): any => [
         color="custom.bright"
         sx={{ cursor: 'pointer' }}
       >
-        {info?.getValue()}
+        {truncateText(info?.getValue())}
       </Typography>
     ),
   },
   {
-    accessorFn: (row: any) => row?.Status,
-    id: 'Status',
+    accessorFn: (row: any) => row?.status,
+    id: 'status',
     header: 'Status',
     isSortable: true,
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.Category,
-    id: 'Category',
+    accessorFn: (row: any) => row?.category,
+    id: 'category',
     isSortable: true,
     header: 'Category',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
-    accessorFn: (row: any) => row?.ContractValue,
-    id: 'Contract Value',
+    accessorFn: (row: any) => row?.contractValue,
+    id: 'contractValue',
     isSortable: true,
     header: 'Contract Value',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.ManagedBy,
-    id: 'Managed By',
+    accessorFn: (row: any) => row?.managedBy,
+    id: 'managedBy',
     isSortable: true,
     header: 'Managed By',
+    cell: (info: any) => fullName(info?.getValue()),
+  },
+  {
+    accessorFn: (row: any) => row?.users,
+    id: 'users',
+    isSortable: true,
+    header: ' Users',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.Users,
-    id: 'Users',
+    accessorFn: (row: any) => row?.installs,
+    id: 'installs',
     isSortable: true,
-    header: <span>Users</span>,
+    header: 'Installs',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.Installs,
-    id: 'Installs',
+    accessorFn: (row: any) => row?.type,
+    id: 'type',
     isSortable: true,
-    header: <span>Installs</span>,
+    header: 'Type',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.Type,
-    id: 'Type',
+    accessorFn: (row: any) => row?.publisherName,
+    id: 'publisherName',
     isSortable: true,
-    header: <span>Type</span>,
-    cell: (info: any) => info?.getValue(),
-  },
-  {
-    accessorFn: (row: any) => row?.publisher,
-    id: 'Publisher',
-    isSortable: true,
-    header: <span>Publisher</span>,
-    cell: (info: any) => info?.getValue(),
+    header: 'Publisher',
+    cell: (info: any) => fullName(info?.getValue()),
   },
 ];

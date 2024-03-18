@@ -16,7 +16,7 @@ export const RequestedTickets = () => {
 
   return (
     <>
-      <Typography variant="h4" color="SlateBlue.main">
+      <Typography variant="h4" color="slateBlue.main">
         Requested
       </Typography>
       <br />
