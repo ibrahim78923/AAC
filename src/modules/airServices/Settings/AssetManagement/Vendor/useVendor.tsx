@@ -12,11 +12,10 @@ import { PAGINATION } from '@/config';
 import {
   EXPORT_FILE_TYPE,
   MESSAGE_EXPORT_FILE_TYPE,
-  NOTISTACK_VARIANTS,
 } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
-import { enqueueSnackbar } from 'notistack';
 import ImportVendor from './ImportVendor';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useVendor = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -40,7 +39,8 @@ export const useVendor = () => {
     isError,
     isFetching,
     isSuccess,
-  } = useGetVendorsListQuery({ param });
+  } = useGetVendorsListQuery({ param }, { refetchOnMountOrArgChange: true });
+
   const [lazyGetExportNewVendorTrigger] = useLazyGetExportNewVendorQuery();
 
   const getNewVendorDataExport = async (type: any) => {
@@ -60,17 +60,11 @@ export const useVendor = () => {
         getNewVendorExportParameter,
       )?.unwrap();
       downloadFile(response, 'NewVendorLists', EXPORT_FILE_TYPE?.[type]);
-      enqueueSnackbar(
-        response?.message ??
-          `Vendor exported successfully as ${MESSAGE_EXPORT_FILE_TYPE?.[type]}`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
+      successSnackbar(
+        `Vendor exported successfully as ${MESSAGE_EXPORT_FILE_TYPE?.[type]}`,
       );
     } catch (error: any) {
-      enqueueSnackbar(error?.message ?? `Vendor not exported as ${type}`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
   const vendorListActionComponent: any = {

@@ -3,8 +3,8 @@ import { ROLES } from '@/constants/strings';
 import * as Yup from 'yup';
 
 export const moveTicketsValidationSchema = Yup?.object()?.shape({
-  department: Yup?.mixed()?.nullable()?.required('Required'),
-  agent: Yup?.mixed()?.nullable()?.required('Required'),
+  department: Yup?.mixed()?.nullable()?.required('Department is Required'),
+  agent: Yup?.mixed()?.nullable()?.required('Agent is Required'),
 });
 
 export const moveTicketsDefaultValue = {

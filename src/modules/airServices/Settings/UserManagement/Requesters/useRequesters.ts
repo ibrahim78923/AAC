@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import {
   useGetRequestersListQuery,
   useGetViewRequestersDetailsQuery,
-  usePatchRequesterMutation,
 } from '@/services/airServices/settings/user-management';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
@@ -15,7 +14,6 @@ import {
   upsertRequestersValidationSchema,
 } from './UpsertRequesters/UpsertRequesters.data';
 import { useSearchParams } from 'next/navigation';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ROLES } from '@/constants/strings';
 
 export const useRequesters = () => {
@@ -39,16 +37,7 @@ export const useRequesters = () => {
       refetchOnMountOrArgChange: true,
     });
 
-  const tableData = data?.data?.users;
-
   const metaData = data?.data?.meta;
-
-  const tableListData = tableData?.map(
-    (requester: { firstName: any; lastName: any }) => ({
-      ...requester,
-      fullName: `${requester.firstName} ${requester.lastName}`,
-    }),
-  );
 
   const profileId = useSearchParams()?.get('_id');
   const { data: viewRequestersData } = useGetViewRequestersDetailsQuery(
@@ -70,39 +59,13 @@ export const useRequesters = () => {
     setSelectedRequestersList,
     theme,
     router,
-    tableListData,
+    data?.data?.users,
   );
   const requestersDropdownOptions = requestersDropdown(
     setDeleteModal,
     setWarningModal,
   );
 
-  const [editRequester] = usePatchRequesterMutation();
-
-  const submit = async (data: any) => {
-    const formData = {
-      id: profileId,
-      firstName: data?.firstName,
-      lastName: data?.lastName,
-      jobTitle: data?.jobTitle,
-      phoneNumber: data?.phoneNumber,
-      timezone: data?.timezone,
-    };
-    try {
-      const res: any = await editRequester(formData).unwrap();
-      successSnackbar(
-        res?.data?.data?.message ?? 'Single Requesters Edit  Successfully',
-      );
-      setIsDrawerOpen(false);
-    } catch (error: any) {
-      errorSnackbar();
-    }
-    handleClose?.();
-  };
-  const handleClose = () => {
-    setIsDrawerOpen(false);
-    reset?.();
-  };
   return {
     theme,
     isDrawerOpen,
@@ -116,7 +79,7 @@ export const useRequesters = () => {
     requestersDropdownOptions,
     router,
     requestersListColumn,
-    tableListData,
+    data,
     metaData,
     setPage,
     setPageLimit,
@@ -129,7 +92,5 @@ export const useRequesters = () => {
     profileData,
     methods,
     handleSubmit,
-    submit,
-    handleClose,
   };
 };

@@ -59,6 +59,7 @@ const AddNewAssetTypesModal = (props: any) => {
                   variant="contained"
                   type="submit"
                   disabled={isLoading}
+                  loading={isLoading}
                 >
                   Save
                 </LoadingButton>

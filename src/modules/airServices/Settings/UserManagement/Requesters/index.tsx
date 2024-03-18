@@ -13,7 +13,7 @@ export const Requesters = () => {
     setSelectedRequestersList,
     requestersListColumn,
     router,
-    tableListData,
+    data,
     isLoading,
     isError,
     isFetching,
@@ -21,7 +21,6 @@ export const Requesters = () => {
     setPageLimit,
     setPage,
     metaData,
-    pageLimit,
   } = useRequesters();
   return (
     <>
@@ -50,7 +49,7 @@ export const Requesters = () => {
             ]}
           >
             <TanstackTable
-              data={tableListData}
+              data={data?.data?.users}
               columns={requestersListColumn}
               isPagination={true}
               isLoading={isLoading}
@@ -63,7 +62,7 @@ export const Requesters = () => {
               totalRecords={metaData?.total}
               onPageChange={(page: any) => setPage(page)}
               currentPage={metaData?.page}
-              pageLimit={pageLimit}
+              pageLimit={metaData?.limit}
             />
           </PermissionsGuard>
         </Box>

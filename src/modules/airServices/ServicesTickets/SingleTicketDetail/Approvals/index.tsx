@@ -20,8 +20,7 @@ export const Approvals = () => {
     isLoading,
     isFetching,
     updateRequestApprovalStatus,
-    isError,
-  } = useApprovals();
+  }: any = useApprovals();
 
   if (isLoading || isFetching) return <SkeletonForm />;
 
@@ -37,8 +36,6 @@ export const Approvals = () => {
           updateRequestApprovalStatus={(item: any): any =>
             updateRequestApprovalStatus?.(item)
           }
-          data={data?.data}
-          metaData={{ isLoading, isFetching, isError }}
         />
       ) : (
         <NoData message="No approvals found">
@@ -51,16 +48,20 @@ export const Approvals = () => {
           </Button>
         </NoData>
       )}
-      <AddRequestApproval
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-      />
-      <RequestConfirmForm
-        isConfirmModalOpen={isConfirmModalOpen}
-        setIsConfirmModalOpen={setIsConfirmModalOpen}
-        selectedApproval={selectedApproval}
-        setSelectedApproval={setSelectedApproval}
-      />
+      {isDrawerOpen && (
+        <AddRequestApproval
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+        />
+      )}
+      {isConfirmModalOpen && (
+        <RequestConfirmForm
+          isConfirmModalOpen={isConfirmModalOpen}
+          setIsConfirmModalOpen={setIsConfirmModalOpen}
+          selectedApproval={selectedApproval}
+          setSelectedApproval={setSelectedApproval}
+        />
+      )}
     </>
   );
 };

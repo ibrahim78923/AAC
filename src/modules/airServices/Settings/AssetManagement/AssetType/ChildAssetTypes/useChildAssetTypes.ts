@@ -20,7 +20,7 @@ export const useChildAssetTypes = (props: any) => {
   });
 
   const { handleSubmit, reset } = methods;
-  const [patchAssetTypeTrigger] = usePatchAssetTypeMutation();
+  const [patchAssetTypeTrigger, { isLoading }] = usePatchAssetTypeMutation();
   const submitServicesForm = async (formData: any) => {
     const assetChildData = {
       id: parentId ?? childId,
@@ -44,5 +44,6 @@ export const useChildAssetTypes = (props: any) => {
     palette,
     methods,
     handleSubmitServicesForm,
+    isLoading,
   };
 };
