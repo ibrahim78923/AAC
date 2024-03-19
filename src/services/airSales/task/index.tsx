@@ -86,6 +86,14 @@ export const taskApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getTaskColumns: builder.query({
+      query: ({ type }: any) => ({
+        url: `${END_POINTS?.TASK_CUSTOMIZE_COLUMN}?type=${type}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -100,4 +108,5 @@ export const {
   useDeleteTasksMutation,
   usePatchCreateTaskMutation,
   usePatchCreateTaskStatusMutation,
+  useGetTaskColumnsQuery,
 } = taskApi;

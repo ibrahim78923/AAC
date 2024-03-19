@@ -88,6 +88,7 @@ const useAddUser = (useActionParams?: any) => {
       return item?._id;
     }),
   };
+
   // for company owner form methods
   const companyOwnerMethods: any = useForm({
     resolver: yupResolver(CompanyOwnerValidationSchema),
@@ -131,9 +132,13 @@ const useAddUser = (useActionParams?: any) => {
   // watch crn number from values
   const organizationNumber = formValues?.crn;
   debouncedSearch(organizationNumber, setOrgNumber);
-  const { data, isSuccess, isError } = useGetAuthCompaniesQuery({
-    q: orgNumber,
-  });
+  const { data, isSuccess, isError } =
+    userDetail === undefined
+      ? useGetAuthCompaniesQuery({
+          q: orgNumber,
+        })
+      : { data: null, isSuccess: false, isError: false };
+
   let companyDetails: any = {};
   if (isSuccess) {
     companyDetails = data?.data;

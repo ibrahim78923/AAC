@@ -15,7 +15,7 @@ export const Assets = () => {
   }: any = useAssets();
   return (
     <>
-      <Typography variant="h4" color="SlateBlue.main">
+      <Typography variant="h4" color="slateBlue.main">
         Assets
       </Typography>
       <br />
