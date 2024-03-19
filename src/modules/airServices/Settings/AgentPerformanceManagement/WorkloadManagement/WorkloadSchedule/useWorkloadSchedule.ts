@@ -26,6 +26,7 @@ export const useWorkloadSchedule = () => {
     setSelectWorkloadSchedule?.(id);
     setOpenDeleteModal?.(true);
   };
+
   return {
     openDeleteModal,
     setOpenDeleteModal,
