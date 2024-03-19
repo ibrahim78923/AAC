@@ -21,8 +21,8 @@ const BuyerCompany = () => {
               {dataGetQuoteById?.data?.deal[0]?.companies[0]?.address}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {/* City | State | Zip Code */}
-              {` ${dataGetQuoteById?.data?.deal[0]?.companies[0]?.city}`}
+              City | State | Zip Code
+              {` ${dataGetQuoteById?.data?.deal[0]?.companies[0]?.city} | ${dataGetQuoteById?.data?.deal[0]?.companies[0]}`}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
               Phone No
