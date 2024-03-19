@@ -126,7 +126,9 @@ export const Associations = () => {
             <>
               {lazyGetIncidentStatus?.isLoading ||
               lazyGetIncidentStatus?.isFetching ? (
-                <SkeletonTable />
+                <Box mt={2}>
+                  <SkeletonTable />
+                </Box>
               ) : (
                 <>
                   {' '}
@@ -156,8 +158,8 @@ export const Associations = () => {
                             style={{ marginRight: '8px' }}
                             fontSize="small"
                             onClick={() => {
-                              setHoveredItemId(item._id);
-                              handleDelete(item._id);
+                              setHoveredItemId(item?._id);
+                              handleDelete(item?._id);
                             }}
                           />
                         )}
