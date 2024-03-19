@@ -5,18 +5,22 @@ import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const profileValidationSchema = Yup.object().shape({
-  firstName: Yup.string().required('Field is Required'),
-  lastName: Yup.string().required('Field is Required'),
+  firstName: Yup.string()
+    .required('Field is Required')
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
+  lastName: Yup.string()
+    .required('Field is Required')
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
   // postCode: Yup.string().required('Field is Required'),
   address: Yup.string().required('Field is Required'),
-  facebookUrl: Yup.string()?.matches(
-    /^(ftp|http|https):\/\/[^ "]+$/,
-    'Please enter a valid URL',
-  ),
-  linkedInUrl: Yup.string()?.matches(
-    /^(ftp|http|https):\/\/[^ "]+$/,
-    'Please enter a valid URL',
-  ),
+  facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
+  linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
 
 export const profileFields = [
