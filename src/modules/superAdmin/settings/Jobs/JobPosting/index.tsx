@@ -53,7 +53,6 @@ const JobPosting = () => {
     methodsEditJobPosting,
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,
@@ -200,7 +199,7 @@ const JobPosting = () => {
             totalRecords={jopPostingData?.data?.meta?.total}
             setPage={setPage}
             setPageLimit={setPageLimit}
-            onPageChange={handlePageChange}
+            onPageChange={(page: any) => setPage(page)}
             isPagination
           />
         </Box>
