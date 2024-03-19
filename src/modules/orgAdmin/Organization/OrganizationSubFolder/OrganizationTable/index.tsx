@@ -78,7 +78,7 @@ const OrganizationTable = () => {
   } = useOrganizationTable();
   const { user }: any = useAuth();
 
-  const getDateArray = dataArray({ drawerHeading });
+  const getDateArray = dataArray({ drawerHeading, isToggled });
 
   const isViewMode = drawerHeading === 'Company Account';
 
