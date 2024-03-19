@@ -8,7 +8,7 @@ export const styles = {
       },
       'svg path': {
         fill:
-          value === 'ACTIVE' || value === 'open'
+          value === 'ACTIVE' || value === 'open' || value === 'active'
             ? theme?.palette?.success?.main
             : theme?.palette?.error?.main,
       },
