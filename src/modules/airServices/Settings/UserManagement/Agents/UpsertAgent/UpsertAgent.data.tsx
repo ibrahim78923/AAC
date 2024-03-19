@@ -5,18 +5,21 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { timeZone } from '@/constants/time-zone';
-import { AGENTS, ROLE } from '@/constants/strings';
+import { ROLE } from '@/constants/strings';
 
 const roleOptions = [ROLE?.ORG_AGENT];
 
 export const validationSchemaAgentFields: any = yup?.object()?.shape({
-  firstName: yup?.string()?.required('Required'),
-  lastName: yup?.string()?.required('Required'),
-  email: yup?.string()?.required('Required'),
-  phoneNumber: yup?.string()?.required('Required'),
-  departmentId: yup?.mixed()?.required('Required'),
-  role: yup?.string()?.required('Required'),
-  timezone: yup?.string()?.required('Required'),
+  firstName: yup?.string()?.required('First name is required'),
+  lastName: yup?.string()?.required('Last name is required'),
+  email: yup
+    ?.string()
+    ?.email('Please provide valid email')
+    ?.required('Email is required'),
+  phoneNumber: yup?.string()?.required('Phone number is required'),
+  departmentId: yup?.mixed()?.required('Department is required'),
+  role: yup?.string()?.required('Role is required'),
+  timezone: yup?.string()?.required('TimeZone is required'),
 });
 
 export const defaultValues = (selectedAgentList: any) => {
@@ -33,7 +36,7 @@ export const defaultValues = (selectedAgentList: any) => {
 };
 
 export const agentFieldsData = (
-  editAgentModalTitle: any,
+  selectedAgentList: any,
   departmentDropdown: any,
 ) => [
   {
@@ -45,7 +48,7 @@ export const agentFieldsData = (
       label: 'First Name',
       required: true,
     },
-    gridLength: 5.6,
+    gridLength: 6,
     component: RHFTextField,
   },
   {
@@ -57,7 +60,7 @@ export const agentFieldsData = (
       label: 'Last Name',
       required: true,
     },
-    gridLength: 5.6,
+    gridLength: 6,
     component: RHFTextField,
   },
   {
@@ -65,7 +68,7 @@ export const agentFieldsData = (
     componentProps: {
       name: 'email',
       fullWidth: true,
-      disabled: editAgentModalTitle === AGENTS?.UPDATE_AGENT,
+      disabled: !!selectedAgentList?.length,
       placeholder: 'Email',
       label: 'Email',
       required: true,

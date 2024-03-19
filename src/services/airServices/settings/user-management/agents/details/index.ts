@@ -32,9 +32,8 @@ export const agentDetailsAPI = baseAPI?.injectEndpoints({
     }),
     getAgentSoftwareDetails: builder?.query({
       query: (getAgentSoftwareDetailsParameter: any) => ({
-        url: `${END_POINTS?.REQUESTER_VIEW_DETAILS}`,
+        url: `${END_POINTS?.AGENTS_SOFTWARE_LIST}/${getAgentSoftwareDetailsParameter?.pathParams?.id}`,
         method: 'GET',
-        params: getAgentSoftwareDetailsParameter?.queryParams,
       }),
     }),
     getSingleDepartmentDetails: builder?.query({

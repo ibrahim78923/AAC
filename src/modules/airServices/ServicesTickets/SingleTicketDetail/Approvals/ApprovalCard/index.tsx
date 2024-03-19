@@ -87,7 +87,7 @@ export const ApprovalCard = (props: any) => {
             </Box>
           </Box>
         </Box>
-        <Box>
+        <Box textAlign={'end'}>
           {data?.approvalStatus === TICKET_APPROVALS?.PENDING &&
             data?.createdBy === user?._id && (
               <SingleDropdownButton
