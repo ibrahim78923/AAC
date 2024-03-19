@@ -22,9 +22,10 @@ import { useAppSelector } from '@/redux/store';
 import { useGetPermissionsByProductsQuery } from '@/services/superAdmin/plan-mangement';
 import { useGetProductsPermissionsQuery } from '@/services/orgAdmin/roles-and-rights';
 import { useGetProductsQuery } from '@/services/common-APIs';
+import { isNullOrEmpty } from '@/utils';
 
 const Modules = ({ methods, handleSubmit }: any) => {
-  const { theme } = useModules();
+  const { theme, selectModule, handleValue } = useModules();
   let prevProductId: any = null;
 
   const { planManagement }: any = useAppSelector(
@@ -37,7 +38,11 @@ const Modules = ({ methods, handleSubmit }: any) => {
     id: planManagement?.addPlanForm?.productId,
   });
 
-  const productIdArray = planManagement?.addPlanForm?.suite;
+  let productIdArray: any = [];
+  if (!isNullOrEmpty(planManagement?.addPlanForm?.suite)) {
+    productIdArray = planManagement?.addPlanForm?.suite;
+  }
+
   const modulesPermissionsArray = [];
 
   for (const productId of productIdArray) {
@@ -112,7 +117,12 @@ const Modules = ({ methods, handleSubmit }: any) => {
             id="dashboard"
           >
             <Box display="flex" alignItems="center">
-              <FormControlLabel control={<SwitchBtn />} label="" />
+              <FormControlLabel
+                control={
+                  <SwitchBtn handleSwitchChange={() => handleValue(item)} />
+                }
+                label=""
+              />
               <Typography variant="h4" fontWeight={700}>
                 {item?.name}
               </Typography>
@@ -123,6 +133,7 @@ const Modules = ({ methods, handleSubmit }: any) => {
               subModules={item?.subModules}
               methods={methods}
               handleSubmit={handleSubmit}
+              selectModule={selectModule}
             />
           </AccordionDetails>
         </Accordion>
