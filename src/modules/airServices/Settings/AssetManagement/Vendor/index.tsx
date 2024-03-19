@@ -109,10 +109,12 @@ export const Vendor = () => {
           ]}
       </Box>
       <Box>
-        <AddNewVendor
-          isADrawerOpen={isADrawerOpen}
-          setIsADrawerOpen={setIsADrawerOpen}
-        />
+        {isADrawerOpen && (
+          <AddNewVendor
+            isADrawerOpen={isADrawerOpen}
+            setIsADrawerOpen={setIsADrawerOpen}
+          />
+        )}
       </Box>
     </>
   );

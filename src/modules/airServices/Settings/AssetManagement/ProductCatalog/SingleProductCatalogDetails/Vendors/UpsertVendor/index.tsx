@@ -4,11 +4,11 @@ import {
   DialogTitle,
   Typography,
   Grid,
-  Button,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertVendor } from './useUpsertVendor';
+import { LoadingButton } from '@mui/lab';
 
 export const UpsertAsset = (props: any) => {
   const { isUpsertModalOpen, setIsUpsertModalOpen } = props;
@@ -51,7 +51,7 @@ export const UpsertAsset = (props: any) => {
               </Grid>
             ))}
             <Grid item xs={12} textAlign={'end'}>
-              <Button
+              <LoadingButton
                 type={'button'}
                 variant={'outlined'}
                 color={'secondary'}
@@ -59,18 +59,24 @@ export const UpsertAsset = (props: any) => {
                 onClick={() =>
                   setIsUpsertModalOpen?.({ open: false, data: null })
                 }
+                disabled={
+                  postVendorStatus?.isLoading || patchVendorStatus?.isLoading
+                }
               >
                 Cancel
-              </Button>
-              <Button
+              </LoadingButton>
+              <LoadingButton
                 type={'submit'}
                 variant={'contained'}
                 disabled={
                   postVendorStatus?.isLoading || patchVendorStatus?.isLoading
                 }
+                loading={
+                  postVendorStatus?.isLoading || patchVendorStatus?.isLoading
+                }
               >
                 {isUpsertModalOpen?.data ? 'Update' : 'Save'}
-              </Button>
+              </LoadingButton>
             </Grid>
           </Grid>
         </FormProvider>

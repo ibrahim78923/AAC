@@ -1,6 +1,6 @@
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useGetSingleContractByIdQuery } from '@/services/airServices/assets/contracts';
+import { useGetSingleContractHistoryByIdQuery } from '@/services/airServices/assets/contracts/single-contract-details/contract-history';
 
 export const useContractHistory = () => {
   const theme = useTheme();
@@ -14,8 +14,8 @@ export const useContractHistory = () => {
   };
 
   const { data, isLoading, isFetching, isError }: any =
-    useGetSingleContractByIdQuery(getSingleContractParameter, {
-      // refetchOnMountOrArgChange: true,
+    useGetSingleContractHistoryByIdQuery(getSingleContractParameter, {
+      refetchOnMountOrArgChange: true,
       skip: !!!contractId,
     });
 

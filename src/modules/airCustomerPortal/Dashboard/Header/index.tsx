@@ -111,11 +111,13 @@ export const Header = () => {
           </Menu>
         </Box>
       </Box>
-      <ReportAnIssueModal
-        openReportAnIssueModal={openReportAnIssueModal}
-        setOpenReportAnIssueModal={setOpenReportAnIssueModal}
-        handleSubmitModal={handleSubmitModal}
-      />
+      {openReportAnIssueModal && (
+        <ReportAnIssueModal
+          openReportAnIssueModal={openReportAnIssueModal}
+          setOpenReportAnIssueModal={setOpenReportAnIssueModal}
+          handleSubmitModal={handleSubmitModal}
+        />
+      )}
     </>
   );
 };

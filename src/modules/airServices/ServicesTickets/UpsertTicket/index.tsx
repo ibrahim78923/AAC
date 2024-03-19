@@ -20,8 +20,7 @@ export const UpsertTicket = (props: any) => {
     putTicketStatus,
     postTicketStatus,
     isError,
-    setHasAttachment,
-  } = useUpsertTicket(props);
+  }: any = useUpsertTicket(props);
 
   return (
     <CommonDrawer
@@ -33,9 +32,12 @@ export const UpsertTicket = (props: any) => {
       isOk
       cancelText={'Cancel'}
       footer
-      isLoading={putTicketStatus?.isLoading || putTicketStatus?.isLoading}
+      isLoading={putTicketStatus?.isLoading || postTicketStatus?.isLoading}
       isDisabled={
-        isError || postTicketStatus?.isLoading || postTicketStatus?.isLoading
+        isError || postTicketStatus?.isLoading || putTicketStatus?.isLoading
+      }
+      disabledCancelBtn={
+        isError || postTicketStatus?.isLoading || putTicketStatus?.isLoading
       }
     >
       {isLoading || isFetching ? (
@@ -87,7 +89,7 @@ export const UpsertTicket = (props: any) => {
                       permissionKey={[
                         AIR_SERVICES_TICKETS_TICKETS_DETAILS?.UPDATE_INFO_EDIT_TICKET_DETAILS,
                       ]}
-                      hasAttachments={setHasAttachment}
+                      colSpan={{ sm: 12, lg: 12 }}
                     />
                   </Box>
                 </>

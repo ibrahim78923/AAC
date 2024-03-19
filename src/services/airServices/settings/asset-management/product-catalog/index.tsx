@@ -6,7 +6,7 @@ const TAG = 'PRODUCT_CATALOG';
 const TAG_TWO = 'DROPDOWN_ASSET_TYPE_LIST';
 
 export const productCatalogAPI: any = baseAPI?.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder: any) => ({
     getProductCatalog: builder?.query({
       query: (getProductCatalogParameter: any) => ({
         url: `${END_POINTS?.PRODUCT_CATALOG_LIST}`,
@@ -61,7 +61,6 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
 
-    // Vendors Tab
     getProductCatalogVendorList: builder?.query({
       query: (getProductCatalogVendorParameter: any) => ({
         url: `${END_POINTS?.PRODUCT_CATALOG_VENDOR_LIST}`,
@@ -98,7 +97,6 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
 
-    // Associated Assets Tab
     getProductCatalogAssociatedAssetList: builder?.query({
       query: (getProductCatalogAssociatedAssetParameter: any) => ({
         url: `${END_POINTS?.PRODUCT_CATALOG_LIST_ASSOCIATED_ASSET}`,
@@ -126,7 +124,6 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
 
-    // Dropdowns
     getAssetType: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_ASSET_TYPE_LIST}`,

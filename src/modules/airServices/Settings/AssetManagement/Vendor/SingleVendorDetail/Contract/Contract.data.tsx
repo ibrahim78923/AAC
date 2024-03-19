@@ -1,4 +1,4 @@
-import { Chip, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 
@@ -24,26 +24,14 @@ export const contractColumns = [
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => (
-      <Chip
-        sx={{
-          bgcolor:
-            info?.getValue() === 'APPROVED'
-              ? 'success.lighter'
-              : 'error.lighter',
-          color:
-            info?.getValue() === 'APPROVED' ? 'success.main' : 'error.main',
-        }}
-        label={info?.getValue()}
-      />
-    ),
+    cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.statusRenewExtend ?? '---',
+    accessorFn: (row: any) => row?.renewalStatus,
     id: 'statusRenewExtend',
     isSortable: true,
     header: 'Renewal Status',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.contractNumber,
