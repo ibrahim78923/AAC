@@ -10,40 +10,63 @@ const StatusBadge = (props: BadgeStatusI) => {
   const { options = undefined, onChange, value, defaultValue } = props;
   const theme = useTheme();
 
-  // const switchColor = (val:string) => {
-  //   let bgColor;
-  //   switch (val) {
-  //     case 'pending':
-  //       bgColor = "#BCC1CE";
-  //       break;
-  //       case 'rejected':
-  //         bgColor = "#FF4A4A";
-  //         break;
-  //       case 'shortlisted':
-  //         bgColor = "#FF4A4A";
-  //         break;
-  //     case 'interviewed':
-  //       bgColor = "#47B263";
-  //       break;
-  //     default:
-  //       bgColor = ''
-  //   }
-  //   return bgColor;
-  // }
+  const switchColor = (val: string = theme?.palette?.custom?.bluish_gray) => {
+    const colors: any = {
+      bgColor: theme?.palette?.custom?.bluish_gray,
+      color: theme?.palette?.common?.white,
+    };
+    switch (val) {
+      case 'ACTIVE':
+      case 'open':
+      case 'OPEN':
+        colors.bgColor = 'rgba(71, 178, 99, 0.2)';
+        colors.color = theme?.palette?.success?.main;
+        break;
+      case 'INACTIVE':
+      case 'close':
+      case 'CLOSE':
+        colors.bgColor = 'rgba(255, 74, 74, 0.2)';
+        colors.color = theme?.palette?.error?.main;
+        break;
+      case 'pending':
+        colors.bgColor = theme?.palette?.custom?.bluish_gray;
+        colors.color = theme?.palette?.common?.white;
+        break;
+      case 'rejected':
+        colors.bgColor = theme?.palette?.error?.main;
+        colors.color = theme?.palette?.common?.white;
+        break;
+      case 'shortlisted':
+        colors.bgColor = 'rgba(71, 178, 99, 0.2)';
+        colors.color = theme?.palette?.success?.main;
+        break;
+      case 'interviewed':
+        colors.bgColor = theme?.palette?.custom?.bluish_gray;
+        colors.color = theme?.palette?.common?.white;
+        break;
+      default:
+        colors.bgColor = theme?.palette?.custom?.bluish_gray;
+        colors.color = theme?.palette?.success?.main;
+    }
+    return colors;
+  };
+  const getColor = switchColor(value);
   return (
     <Select
       IconComponent={KeyboardArrowDown}
       sx={{
         fontSize: '14px',
-        backgroundColor:
-          value === 'ACTIVE' || value === 'open' || value === 'OPEN'
-            ? 'rgba(71, 178, 99, 0.2)'
-            : 'rgba(255, 74, 74, 0.2)',
-        color:
-          value === 'ACTIVE' || value === 'open' || value === 'OPEN'
-            ? theme?.palette?.success?.main
-            : theme?.palette?.error?.main,
-        ...styles.select(value, theme),
+        backgroundColor: getColor?.bgColor,
+        // backgroundColor:
+        //   value === 'ACTIVE' || value === 'open'
+        //     ? 'rgba(71, 178, 99, 0.2)'
+        //     : 'rgba(255, 74, 74, 0.2)',
+        color: getColor?.color,
+        // color:
+        //   value === 'ACTIVE' || value === 'open' || value === 'OPEN'
+        //     ? theme?.palette?.success?.main
+        //     : theme?.palette?.error?.main,
+        ...styles.select(getColor?.color),
       }}
       id="demo-simple-select"
       value={value}
