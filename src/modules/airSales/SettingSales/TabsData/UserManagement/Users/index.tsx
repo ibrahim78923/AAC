@@ -8,7 +8,8 @@ import useUserManagement from '../useUserManagement';
 import useUsers from './useUsers';
 
 const UserTable = (props: any) => {
-  const { setIsAddUserDrawer, isAddUserDrawer } = props;
+  const { setIsAddUserDrawer, isAddUserDrawer, checkedUser, setCheckedUser } =
+    props;
   const {
     isOpenDelete,
     setIsOpenDelete,
@@ -17,8 +18,6 @@ const UserTable = (props: any) => {
     theme,
     handleClick,
     handleClose,
-    checkedUser,
-    setCheckedUser,
   } = useUsers();
 
   const {
@@ -30,12 +29,6 @@ const UserTable = (props: any) => {
     isLoading,
     isSuccess,
   } = useUserManagement();
-
-  const handleFilterData = productsUsers?.data?.usercompanyaccounts?.filter(
-    (item: any) => {
-      return item?._id === checkedUser;
-    },
-  );
 
   return (
     <>
@@ -89,7 +82,6 @@ const UserTable = (props: any) => {
               setIsAddUserDrawer({
                 isToggle: true,
                 type: 'edit',
-                data: handleFilterData[0],
               });
               handleClose();
             }}

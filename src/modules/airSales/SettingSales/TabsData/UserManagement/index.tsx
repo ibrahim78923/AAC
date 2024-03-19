@@ -26,6 +26,8 @@ const Users = () => {
     handleDeleteTeam,
     isAddUserDrawer,
     setIsAddUserDrawer,
+    checkedUser,
+    setCheckedUser,
   } = useUserManagement();
 
   return (
@@ -55,7 +57,6 @@ const Users = () => {
                     ? setIsAddUserDrawer({
                         isToggle: true,
                         type: 'add',
-                        data: {},
                       })
                     : setIsAddTeam({ isToggle: true, type: 'add' });
                 }
@@ -87,6 +88,8 @@ const Users = () => {
             <UserTable
               isAddUserDrawer={isAddUserDrawer}
               setIsAddUserDrawer={setIsAddUserDrawer}
+              checkedUser={checkedUser}
+              setCheckedUser={setCheckedUser}
             />
 
             <TeamsTable
@@ -105,6 +108,8 @@ const Users = () => {
       <AddUsers
         isAddUserDrawer={isAddUserDrawer}
         setIsAddUserDrawer={setIsAddUserDrawer}
+        setCheckedUser={setCheckedUser}
+        checkedUser={checkedUser}
       />
       <AlertModals
         message={'Are you sure you want to delete this team?'}

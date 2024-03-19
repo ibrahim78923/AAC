@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 const useUserManagement = () => {
   const [teamId, setTeamId] = useState();
+  const [checkedUser, setCheckedUser] = useState();
   const [activeTab, setActiveTab] = useState(0);
   const [isAddTeam, setIsAddTeam] = useState({
     isToggle: false,
@@ -16,7 +17,6 @@ const useUserManagement = () => {
   const [isAddUserDrawer, setIsAddUserDrawer] = useState({
     isToggle: false,
     type: 'add',
-    data: {},
   });
   const [searchUser, setSearchUser] = useState('');
   const [deleteTeams] = useDeleteTeamsMutation();
@@ -68,6 +68,8 @@ const useUserManagement = () => {
     setPageLimit,
     isAddUserDrawer,
     setIsAddUserDrawer,
+    checkedUser,
+    setCheckedUser,
   };
 };
 

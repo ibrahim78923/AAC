@@ -23,6 +23,15 @@ export const userValidationSchema = Yup?.object()?.shape({
   email: Yup?.string()?.trim()?.required('Field is Required'),
   team: Yup?.string()?.trim()?.required('Field is Required'),
   phoneNumber: Yup?.string()?.required('Field is Required'),
+  facebookUrl: Yup.string()
+    .url('Please enter a valid URL starting with http://')
+    .optional(),
+  twitterUrl: Yup.string()
+    .url('Please enter a valid URL starting with http://')
+    .optional(),
+  linkedInUrl: Yup.string()
+    .url('Please enter a valid URL starting with http://')
+    .optional(),
 });
 
 export const dataArray = () => {
@@ -154,7 +163,7 @@ export const dataArray = () => {
     },
     {
       componentProps: {
-        name: 'faceBookUrl',
+        name: 'facebookUrl',
         label: 'Facebook URL',
         placeholder: 'Enter Facebook URL',
         fullWidth: true,

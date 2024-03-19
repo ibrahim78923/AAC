@@ -40,39 +40,39 @@ const useAddUser = (useActionParams?: any) => {
   // for super admin form methods
   const superAdminValues = {
     ...userDetail,
-    address: userDetail?.address?.composite
-      ? userDetail?.address?.composite
-      : `${
-          userDetail?.address?.flatNumber
-            ? `Flat # ${userDetail?.address?.flatNumber}, `
-            : ''
-        }` +
-        `${
-          userDetail?.address?.buildingNumber
-            ? `Building # ${userDetail?.address?.buildingNumber}, `
-            : ''
-        }` +
-        `${
-          userDetail?.address?.buildingName
-            ? `Building Name ${userDetail?.address?.buildingName}, `
-            : ''
-        }` +
-        `${
-          userDetail?.address?.streetName
-            ? `Street # ${userDetail?.address?.streetName}, `
-            : ''
-        }` +
-        `${userDetail?.address?.city ? `${userDetail?.address?.city}, ` : ''}` +
-        `${
-          userDetail?.address?.country ? `${userDetail?.address?.country}` : ''
-        }`,
-    flat: userDetail?.address?.flatNumber ?? '',
+    address: userDetail?.address?.composite ?? '',
+    // userDetail?.address?.composite
+    // ? userDetail?.address?.composite
+    // : `${userDetail?.address?.flat
+    //   ? `Flat # ${userDetail?.address?.flat}, `
+    //   : ''
+    // }` +
+    // `${userDetail?.address?.buildingNumber
+    //   ? `Building # ${userDetail?.address?.buildingNumber}, `
+    //   : ''
+    // }` +
+    // `${userDetail?.address?.buildingName
+    //   ? `Building Name ${userDetail?.address?.buildingName}, `
+    //   : ''
+    // }` +
+    // `${userDetail?.address?.streetName
+    //   ? `Street # ${userDetail?.address?.streetName}, `
+    //   : ''
+    // }` +
+    // `${userDetail?.address?.city ? `${userDetail?.address?.city}, ` : ''}` +
+    // `${userDetail?.address?.country ? `${userDetail?.address?.country}` : ''
+    // }`,
+    flat: userDetail?.address?.flat ?? '',
     city: userDetail?.address?.city ?? '',
     country: userDetail?.address?.country ?? '',
     buildingName: userDetail?.address?.buildingName ?? '',
     buildingNumber: userDetail?.address?.buildingNumber ?? '',
     streetName: userDetail?.address?.streetName ?? '',
   };
+
+  useEffect(() => {
+    reset(superAdminValues);
+  }, userDetail);
 
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
@@ -169,7 +169,7 @@ const useAddUser = (useActionParams?: any) => {
 
     if (isToggled) {
       values.address = {
-        flatNumber: values.flat,
+        flat: values.flat,
         buildingName: values?.buildingName,
         buildingNumber: values?.buildingNumber,
         streetName: values?.streetName,
@@ -178,7 +178,7 @@ const useAddUser = (useActionParams?: any) => {
       };
     } else {
       values.address = {
-        composite: values?.compositeAddress,
+        composite: values?.address,
       };
     }
     let keysToDelete: any = [

@@ -4,14 +4,13 @@ import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { dataArray } from '../Users.data';
 import useUsers from '../useUsers';
+import useAddUser from './useAddUser';
 
 const AddUsers = (props: any) => {
-  const { isAddUserDrawer, setIsAddUserDrawer } = props;
+  const { isAddUserDrawer, setIsAddUserDrawer, checkedUser } = props;
   const theme = useTheme();
-  const { methods, handleSubmit, onSubmit } = useUsers(
-    isAddUserDrawer,
-    setIsAddUserDrawer,
-  );
+  const { onSubmit } = useUsers(isAddUserDrawer, setIsAddUserDrawer);
+  const { methods, handleSubmit } = useAddUser(checkedUser);
 
   return (
     <CommonDrawer
