@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 
@@ -7,21 +7,26 @@ import { Theme, useTheme } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import {
-  dealPipelinesDefaultValues,
+  // dealPipelinesDefaultValues,
   dealPipelinesvalidationSchema,
 } from './DealPipelines.data';
 
 import {
   useDeleteDealsPipelineMutation,
   useGetDealsPipelineQuery,
+  useLazyGetDealsPipelineByIdQuery,
   usePostDealsPipelineMutation,
+  useUpdateDealsPipelineMutation,
 } from '@/services/airSales/deals/settings/deals-pipeline';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useDealPipelines = () => {
   const theme = useTheme<Theme>();
-  const [isDraweropen, setIsDraweropen] = useState(false);
+  const [isDraweropen, setIsDraweropen] = useState({
+    isToggle: false,
+    type: 'add',
+  });
   const [isEditMode, setIsEditMode] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [productSearch, setproductSearch] = useState<string>('');
@@ -32,11 +37,48 @@ const useDealPipelines = () => {
     { name: 'Lost', probability: null },
     { name: 'Won', probability: null },
   ]);
+
   const [checkedDeal, setCheckedDeal] = useState<string[]>([]);
   const [selectedPipelines, setSelectedPipelines] = useState<any>([]);
+  const [Loading, setLoading] = useState(false);
 
   const [postDealsPipeline] = usePostDealsPipelineMutation();
   const [deleteDealsPipeline] = useDeleteDealsPipelineMutation();
+  const [updateDealsPipeline] = useUpdateDealsPipelineMutation();
+
+  const [trigger, { data: pipelineById }] = useLazyGetDealsPipelineByIdQuery();
+
+  const DefaultValues: any = {
+    pipelineName: '',
+    defaultPipeline: false,
+    probability: null,
+  };
+
+  const dealPipelines = useForm({
+    resolver: yupResolver(dealPipelinesvalidationSchema),
+    defaultValues: DefaultValues,
+  });
+  const { handleSubmit, reset, setValue } = dealPipelines;
+
+  useEffect(() => {
+    trigger(checkedDeal);
+  }, [checkedDeal]);
+
+  useEffect(() => {
+    const data = pipelineById?.data[0];
+
+    const fieldsToSet: any = {
+      pipelineName: data?.name,
+      defaultPipeline: data?.isDefault,
+      stages: data?.stages?.map((item: any) => ({
+        name: item?.name,
+        probability: item?.probability,
+      })),
+    };
+    for (const key in fieldsToSet) {
+      setValue(key, fieldsToSet[key]);
+    }
+  }, [pipelineById]);
 
   const paramsObj: any = {};
   if (productSearch) paramsObj['search'] = productSearch;
@@ -53,19 +95,18 @@ const useDealPipelines = () => {
     setAnchorEl(event?.currentTarget);
   };
 
-  const dealPipelines = useForm({
-    resolver: yupResolver(dealPipelinesvalidationSchema),
-    defaultValues: dealPipelinesDefaultValues,
-  });
-  const { handleSubmit, reset } = dealPipelines;
-
   const handleClose = () => {
     setAnchorEl(null);
     reset();
   };
   const handleCloseDrawer = () => {
-    setIsDraweropen(false);
+    setIsDraweropen({ isToggle: false, type: '' });
     reset();
+    setInputFields([
+      { name: 'New', probability: null },
+      { name: 'Lost', probability: null },
+      { name: 'Won', probability: null },
+    ]);
   };
 
   const onSubmit = async (values: any) => {
@@ -76,18 +117,30 @@ const useDealPipelines = () => {
     };
 
     try {
-      await postDealsPipeline({ body: payload })?.unwrap();
-      reset();
-      setIsDraweropen(false);
-      enqueueSnackbar('Pipeline has been Created Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      setLoading(true);
+      if (isDraweropen?.type === 'add') {
+        await postDealsPipeline({ body: payload })?.unwrap();
+        reset();
+      } else {
+        await updateDealsPipeline({ id: checkedDeal, body: payload });
+      }
+      setIsDraweropen({ isToggle: false, type: '' });
+      enqueueSnackbar(
+        `Pipeline has been ${
+          isDraweropen?.type === 'edit' ? 'Updated' : 'Created'
+        } Successfully`,
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
     } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
       enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -97,6 +150,7 @@ const useDealPipelines = () => {
 
   const handleDelete = async () => {
     try {
+      setLoading(true);
       await deleteDealsPipeline({ id: checkedDeal }).unwrap();
       setSelectedPipelines([]);
       setDeleteModalOpen(false);
@@ -107,6 +161,8 @@ const useDealPipelines = () => {
       enqueueSnackbar(`${error}`, {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -126,10 +182,30 @@ const useDealPipelines = () => {
     values?.splice(index, 1);
     setInputFields(values);
   };
+  // const handleChangeInput = (index: any, event: any) => {
+  //   const values: any = [...inputFields];
+  //   values[index][event?.target?.name] = event?.target?.value;
+  //   setInputFields(values);
+  // };
+
   const handleChangeInput = (index: any, event: any) => {
-    const values: any = [...inputFields];
-    values[index][event?.target?.name] = event?.target?.value;
-    setInputFields(values);
+    const { name, value } = event.target;
+    // Validate if value is a positive number
+    const parsedValue = parseFloat(value);
+    if (!isNaN(parsedValue) && parsedValue >= 0) {
+      setInputFields((prevFields) => {
+        const updatedFields: any = [...prevFields];
+        updatedFields[index][name] = parsedValue;
+        return updatedFields;
+      });
+    } else {
+      // If value is not a positive number, set it to 0 or any other default value
+      setInputFields((prevFields) => {
+        const updatedFields: any = [...prevFields];
+        updatedFields[index][name] = 0; // You can set it to any default value you prefer
+        return updatedFields;
+      });
+    }
   };
 
   const togglePipeline = (pipeline: any) => {
@@ -181,6 +257,9 @@ const useDealPipelines = () => {
     selectedPipelines,
     setSelectedPipelines,
     togglePipeline,
+    Loading,
+    setLoading,
+    pipelineById,
   };
 };
 
