@@ -13,7 +13,7 @@ export const organizationAPI = baseAPI.injectEndpoints({
     }),
     getOrganization: builder.query({
       query: ({ organizationId, pages, limit, search = '' }: any) => ({
-        url: `${organization.GET_ORGANIZATION_ACCOUNT_ALL}/${organizationId}?page=${pages}&limit=${limit}&search=${search}`,
+        url: `${organization?.GET_ORGANIZATION_ACCOUNT_ALL}/${organizationId}?page=${pages}&limit=${limit}&search=${search}`,
         method: 'GET',
       }),
       providesTags: ['Organization'],

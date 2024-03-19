@@ -13,6 +13,7 @@ export const NewIncident = ({ openDrawer }: any) => {
     isLoading,
     isFetching,
     onClose,
+    postTicketStatus,
   } = useNewIncident();
   return (
     <CommonDrawer
@@ -23,6 +24,9 @@ export const NewIncident = ({ openDrawer }: any) => {
       isOk
       cancelText={'Cancel'}
       footer
+      isLoading={postTicketStatus?.isLoading}
+      isDisabled={postTicketStatus?.isLoading}
+      disabledCancelBtn={postTicketStatus?.isLoading}
       submitHandler={handleSubmit(onSubmit)}
     >
       {isLoading || isFetching ? (

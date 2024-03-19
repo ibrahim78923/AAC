@@ -16,7 +16,7 @@ const PlanDetails = ({
   const [limit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const params = {
     ...filterValues,
-    search: searchBy,
+    ...(searchBy && { search: searchBy }),
     page,
     limit,
   };

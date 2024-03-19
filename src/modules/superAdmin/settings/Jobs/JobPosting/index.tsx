@@ -194,12 +194,14 @@ const JobPosting = () => {
             columns={getColumns}
             data={jopPostingData?.data?.jobs}
             isLoading={loadingJobPosting}
-            isPagination
+            currentPage={jopPostingData?.data?.meta?.page}
             count={jopPostingData?.data?.meta?.pages}
+            pageLimit={jopPostingData?.data?.meta?.limit}
             totalRecords={jopPostingData?.data?.meta?.total}
-            onPageChange={handlePageChange}
             setPage={setPage}
             setPageLimit={setPageLimit}
+            onPageChange={handlePageChange}
+            isPagination
           />
         </Box>
       </PermissionsGuard>
