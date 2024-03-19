@@ -6,12 +6,10 @@ import {
   SignUpDefaultValues,
   SignUpValidationSchema,
   createPasswordFields,
-  getSignUpFormFields,
 } from './SignUp.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useAuthCustomerSignUpMutation,
-  useAuthIgVerificationMutation,
   useLazyGetCompanyDropdownQuery,
 } from '@/services/airCustomerPortal/auth';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
@@ -25,6 +23,8 @@ export default function useSignUp() {
   });
 
   const router: any = useRouter();
+
+  const { companyId } = router?.query;
 
   const method = useForm({
     resolver: yupResolver(SignUpValidationSchema),
@@ -67,10 +67,7 @@ export default function useSignUp() {
 
   const apiQueryCompany = useLazyGetCompanyDropdownQuery();
 
-  const SignUpFormFields = getSignUpFormFields({ apiQueryCompany });
-
   const [postSignUpTrigger, postSignUpStatus] = useAuthCustomerSignUpMutation();
-  const [postIgVerificationTrigger] = useAuthIgVerificationMutation();
 
   const onSubmit = async (data: any) => {
     const userDetails = {
@@ -84,19 +81,10 @@ export default function useSignUp() {
     };
 
     try {
-      const res: any = await postSignUpTrigger(userDetails)?.unwrap();
+      await postSignUpTrigger(userDetails)?.unwrap();
       successSnackbar('Account Created Successfully!');
       reset();
-      router?.push(
-        `${AIR_CUSTOMER_PORTAL?.CUSTOMER_PORTAL_VERIFICATION}?email=${userDetails?.email}`,
-      );
-      if (res?.data) {
-        try {
-          await postIgVerificationTrigger({
-            email: { email: userDetails?.email },
-          }).unwrap();
-        } catch (error: any) {}
-      }
+      router?.push(AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_LOGIN);
     } catch (error: any) {
       errorSnackbar();
     }
@@ -107,10 +95,11 @@ export default function useSignUp() {
     handleSubmit,
     onSubmit,
     stepState,
-    SignUpFormFields,
     onNext,
     createPasswordDataArray,
     setStepState,
     postSignUpStatus,
+    apiQueryCompany,
+    companyId,
   };
 }

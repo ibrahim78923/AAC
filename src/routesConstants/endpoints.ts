@@ -317,6 +317,7 @@ export const END_POINTS = {
   SINGLE_DEPARTMENT_DETAIL: `/Department/get-by-id`,
   DELETE_INVENTORY_PURCHASE_ORDER: '/assets/delete-purchase-association',
   DELETE_INVENTORY_CONTRACT: '/assets/delete-contract-association',
+  CUSTOMER_GET_COMPANY_ACCOUNTS: `/users/company-accounts`,
 };
 
 export const superAdminBillingInvoices = {

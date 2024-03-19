@@ -1,11 +1,12 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { CustomerPortalHeader } from '../CustomerPortalHeader';
-import { FormProvider } from '@/components/ReactHookForm';
+import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { SignUpImage } from '@/assets/images';
 import Image from 'next/image';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import useSignUp from './useSignUp';
+import { signUpFormFields } from './SignUp.data';
 
 export const SignUp = () => {
   const {
@@ -13,11 +14,12 @@ export const SignUp = () => {
     handleSubmit,
     onSubmit,
     stepState,
-    SignUpFormFields,
     onNext,
     createPasswordDataArray,
     setStepState,
     postSignUpStatus,
+    apiQueryCompany,
+    companyId,
   } = useSignUp();
 
   return (
@@ -56,13 +58,22 @@ export const SignUp = () => {
               >
                 {!stepState ? (
                   <>
-                    {SignUpFormFields.map((item: any) => (
+                    {signUpFormFields.map((item: any) => (
                       <item.component
                         {...item?.componentProps}
                         size={'small'}
                         key={item?.id}
                       />
                     ))}
+                    {!!!companyId && (
+                      <RHFAutocompleteAsync
+                        name={'companyName'}
+                        label={'Company Name'}
+                        placeholder={'Enter Company Name'}
+                        apiQuery={apiQueryCompany}
+                        queryKey={'product'}
+                      />
+                    )}
                     <Button
                       variant="contained"
                       fullWidth

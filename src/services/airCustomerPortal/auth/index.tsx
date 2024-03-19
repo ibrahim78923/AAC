@@ -21,21 +21,13 @@ export const authAPI = baseAPI.injectEndpoints({
 
     getCompanyDropdown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.GET_DROPDOWN_COMPANY}`,
+        url: `${END_POINTS?.CUSTOMER_GET_COMPANY_ACCOUNTS}`,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.data;
+        if (response) return response?.data?.usercompanyaccounts;
       },
-    }),
-
-    authIgVerification: builder.mutation({
-      query: ({ email }: any) => ({
-        url: END_POINTS.AUTH_IG_VERIFICATION,
-        method: 'POST',
-        body: email,
-      }),
     }),
   }),
 });
@@ -44,5 +36,4 @@ export const {
   useAuthCustomerLoginMutation,
   useAuthCustomerSignUpMutation,
   useLazyGetCompanyDropdownQuery,
-  useAuthIgVerificationMutation,
 } = authAPI;
