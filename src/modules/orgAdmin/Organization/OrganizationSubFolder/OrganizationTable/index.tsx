@@ -78,7 +78,7 @@ const OrganizationTable = () => {
   } = useOrganizationTable();
   const { user }: any = useAuth();
 
-  const getDateArray = dataArray({ drawerHeading });
+  const getDateArray = dataArray({ drawerHeading, isToggled });
 
   const isViewMode = drawerHeading === 'Company Account';
 
@@ -329,7 +329,7 @@ const OrganizationTable = () => {
                       setDrawerHeading('Edit Company');
                       setIsOpenDrawer(true);
                     }}
-                    disabled={isGetRowValues.length > 1}
+                    disabled={isGetRowValues?.length > 1}
                   >
                     Edit
                   </MenuItem>

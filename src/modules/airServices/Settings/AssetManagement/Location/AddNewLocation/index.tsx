@@ -11,35 +11,27 @@ import { addNewLocationDataFields } from './AddNewLocation.data';
 import { useAddNewLocation } from './useAddNewLocation';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { LoadingButton } from '@mui/lab';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const AddNewLocation = () => {
   const {
     AddNewLocationMethods,
-    onSubmit,
     moveToLocationPage,
     locationIsLoading,
     childLocationIsLoading,
-    locationId,
-    childOnsubmit,
-    editLocationId,
-    editOnSubmit,
-    childEditLocationId,
-    childEditOnSubmit,
+    parentId,
     handleCancel,
+    type,
+    handleSubmit,
+    isLoading,
+    isFetching,
   } = useAddNewLocation();
+  if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <>
       <FormProvider
         methods={AddNewLocationMethods}
-        onSubmit={
-          childEditLocationId
-            ? AddNewLocationMethods?.handleSubmit(childEditOnSubmit)
-            : editLocationId
-            ? AddNewLocationMethods?.handleSubmit(editOnSubmit)
-            : locationId
-            ? AddNewLocationMethods?.handleSubmit(childOnsubmit)
-            : AddNewLocationMethods?.handleSubmit(onSubmit)
-        }
+        onSubmit={AddNewLocationMethods?.handleSubmit(handleSubmit)}
       >
         <Grid container rowSpacing={1.8} columnSpacing={2}>
           <Grid item lg={9}>
@@ -54,13 +46,27 @@ const AddNewLocation = () => {
             </Box>
             <Grid item container xs={12} overflow="scroll">
               <Grid container rowSpacing={1.8} columnSpacing={3}>
-                {addNewLocationDataFields?.map((form: any) => (
-                  <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                    <form.component {...form?.componentProps} size="small">
-                      {form?.heading ? form?.heading : null}
-                    </form.component>
-                  </Grid>
-                ))}
+                {addNewLocationDataFields(type)?.map(
+                  (form: any, index: number) => (
+                    <Grid
+                      item
+                      xs={12}
+                      md={form?.gridLength}
+                      key={form?.id}
+                      sx={{
+                        display:
+                          (type === 'parent' || type === 'parent-edit') &&
+                          index === 1
+                            ? 'none'
+                            : 'block',
+                      }}
+                    >
+                      <form.component {...form?.componentProps} size="small">
+                        {form?.heading ? form?.heading : null}
+                      </form.component>
+                    </Grid>
+                  ),
+                )}
               </Grid>
             </Grid>
           </Grid>
@@ -71,7 +77,7 @@ const AddNewLocation = () => {
             Cancel
           </Button>
           <LoadingButton
-            disabled={locationId ? childLocationIsLoading : locationIsLoading}
+            disabled={parentId ? childLocationIsLoading : locationIsLoading}
             variant="contained"
             type="submit"
           >
