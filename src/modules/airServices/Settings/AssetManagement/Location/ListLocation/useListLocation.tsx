@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 export const useListLocation = () => {
   const theme: any = useTheme();
-  const { data, isLoading } = useGetLocationQuery(null);
+  const { data, isLoading, isFetching } = useGetLocationQuery(null);
   const [collapseItem, setIsCollapse] = useState<undefined | number>();
   const handleCollapse = (item: number) => {
     setIsCollapse(collapseItem !== item ? item : undefined);
@@ -16,5 +16,6 @@ export const useListLocation = () => {
     locationList,
     isLoading,
     collapseItem,
+    isFetching,
   };
 };
