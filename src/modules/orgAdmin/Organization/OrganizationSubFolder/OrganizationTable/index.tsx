@@ -329,7 +329,7 @@ const OrganizationTable = () => {
                       setDrawerHeading('Edit Company');
                       setIsOpenDrawer(true);
                     }}
-                    disabled={isGetRowValues.length > 1}
+                    disabled={isGetRowValues?.length > 1}
                   >
                     Edit
                   </MenuItem>
