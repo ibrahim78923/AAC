@@ -25,12 +25,13 @@ export const useNewEmailDrawer = (props: any) => {
   };
 
   const onSubmit = async (data: any) => {
-    const updatedData = {
-      ...data,
-      type: 'NEW_EMAIL',
-    };
+    const emailFormData = new FormData();
+    emailFormData?.append('recipients', data?.recipients);
+    emailFormData?.append('subject', data?.subject);
+    emailFormData?.append('html', data?.html);
+
     try {
-      await trigger(updatedData)?.unwrap();
+      await trigger(emailFormData)?.unwrap();
       successSnackbar('Email Sent Successfully!');
       reset(addEmailDefaultValues);
       setIsDrawerOpen?.(false);
