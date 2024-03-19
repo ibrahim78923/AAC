@@ -9,26 +9,26 @@ import {
 } from '@mui/material';
 import { CloseModalIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useInviteAgentModal } from './useInviteAgentModal';
-import { agentFieldsData } from './InviteAgentModal.data';
 import { LoadingButton } from '@mui/lab';
+import { useUpsertAgent } from './useUpsertAgent';
 
-export const InviteAgentModel = (props: any) => {
-  const { isAgentModalOpen, editAgentModalTitle } = props;
+export const UpsertAgent = (props: any) => {
+  const { isAgentModalOpen, selectedAgentList } = props;
   const {
-    inviteAgentMethods,
-    handleSubmitAgent,
-    handleAddAgentModal,
-    departmentDropdown,
-    isLoading,
-  } = useInviteAgentModal(props);
-
+    method,
+    handleSubmit,
+    handleUpsertAgentSubmit,
+    patchAgentStatus,
+    postAgentStatus,
+    handleClose,
+    upsertAgentFormFields,
+  } = useUpsertAgent(props);
   return (
     <>
       {isAgentModalOpen && (
         <Dialog
           open={isAgentModalOpen}
-          onClose={() => handleAddAgentModal?.()}
+          onClose={() => handleClose?.()}
           aria-labelledby="responsive-dialog-title"
           PaperProps={{
             style: {
@@ -38,8 +38,8 @@ export const InviteAgentModel = (props: any) => {
           }}
         >
           <FormProvider
-            methods={inviteAgentMethods}
-            onSubmit={handleSubmitAgent}
+            methods={method}
+            onSubmit={handleSubmit(handleUpsertAgentSubmit)}
           >
             <DialogTitle
               display={'flex'}
@@ -47,44 +47,49 @@ export const InviteAgentModel = (props: any) => {
               alignItems={'center'}
               pb={2.4}
             >
-              <Typography variant="h4" color="primary?.main">
-                {editAgentModalTitle}
+              <Typography variant="h4" color="primary.main">
+                {!!selectedAgentList?.length ? 'Edit Agent' : 'Invite Agent'}
               </Typography>
               <IconButton
-                onClick={() => handleAddAgentModal?.()}
+                onClick={() => handleClose?.()}
                 sx={{ cursor: 'pointer' }}
               >
                 <CloseModalIcon />
               </IconButton>
             </DialogTitle>
             <DialogContent sx={{ mt: 2 }}>
-              <Grid container gap={2.4}>
-                {agentFieldsData(editAgentModalTitle, departmentDropdown)?.map(
-                  (form: any) => (
-                    <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                      <form.component {...form?.componentProps} size="small" />
-                    </Grid>
-                  ),
-                )}
+              <Grid container spacing={2}>
+                {upsertAgentFormFields?.map((form: any) => (
+                  <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                    <form.component {...form?.componentProps} size="small" />
+                  </Grid>
+                ))}
               </Grid>
               <Box
                 display={'flex'}
                 justifyContent={'flex-end'}
                 gap={2}
-                mt={0.5}
+                flexWrap={'wrap'}
               >
                 <LoadingButton
-                  onClick={() => handleAddAgentModal?.()}
+                  onClick={() => handleClose?.()}
                   variant="outlined"
                   color="secondary"
-                  disabled={isLoading}
+                  disabled={
+                    patchAgentStatus?.isLoading || postAgentStatus?.isLoading
+                  }
                 >
                   Cancel
                 </LoadingButton>
                 <LoadingButton
                   type="submit"
                   variant="contained"
-                  disabled={isLoading}
+                  disabled={
+                    patchAgentStatus?.isLoading || postAgentStatus?.isLoading
+                  }
+                  loading={
+                    patchAgentStatus?.isLoading || postAgentStatus?.isLoading
+                  }
                 >
                   Save
                 </LoadingButton>
