@@ -1,12 +1,9 @@
-import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid, Typography } from '@mui/material';
 import CheckboxCard from '../CheckboxCard';
-import { useFirstStep } from './useFirstStep';
-import { importField, productData } from './FirstStep.data';
+import { importDataField, productData } from '../ImportModal.data';
 
-const FirstStep = () => {
-  const { handleSelect, value, handleSubmit, onSubmit, methods } =
-    useFirstStep();
+const FirstStep = (props: any) => {
+  const { handleSelect, importLog, product } = props;
 
   return (
     <>
@@ -14,15 +11,16 @@ const FirstStep = () => {
         Select Product and Object you’d like to Import
       </Typography>
       <Box my={2.4}>
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            {importField?.map((item: any) => (
-              <Grid item xs={12} key={item?.id}>
-                <item.component {...item?.componentProps} size={'small'} />
-              </Grid>
-            ))}
-          </Grid>
-        </FormProvider>
+        <Grid container>
+          {importDataField?.map(
+            (item: any) =>
+              item?.tag === 'product' && (
+                <Grid item xs={12} key={item?.id}>
+                  <item.component {...item?.componentProps} size={'small'} />
+                </Grid>
+              ),
+          )}
+        </Grid>
       </Box>
       <Box
         sx={{
@@ -32,14 +30,16 @@ const FirstStep = () => {
           gap: 1.2,
         }}
       >
-        {productData?.map?.((card) => (
-          <CheckboxCard
-            key={card?.title}
-            {...card}
-            value={value}
-            handleSelect={handleSelect}
-          />
-        ))}
+        {productData
+          ?.filter((card) => card?.import === product)
+          ?.map((card) => (
+            <CheckboxCard
+              key={card?.title}
+              {...card}
+              value={importLog}
+              handleSelect={handleSelect}
+            />
+          ))}
       </Box>
     </>
   );

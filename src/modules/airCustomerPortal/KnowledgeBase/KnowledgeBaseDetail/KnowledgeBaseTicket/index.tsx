@@ -20,24 +20,35 @@ export const KnowledgeBaseTicket = (props: any) => {
       display={'flex'}
       justifyContent={'space-between'}
       alignItems={'center'}
-      pr={4}
+      flexDirection={{ xs: 'column', md: 'column', lg: 'row' }}
       mb={2}
     >
-      <Box display={'flex'} gap={1.5}>
+      <Box
+        display={'flex'}
+        alignItems={'center'}
+        justifyContent={'center'}
+        flexDirection={{ xs: 'column', md: 'column', lg: 'row' }}
+        gap={1.5}
+      >
         <DocumentTextIcon />
         <Box
           display={'flex'}
-          justifyContent={'flex-start'}
+          justifyContent={'center'}
+          alignItems={'center'}
           flexDirection={'column'}
-          pr={4}
+          overflow={'auto'}
+          height={'3.5rem'}
         >
           <Typography variant="h6">{articlesTitle}</Typography>
           <Typography color="secondary">Modified on: {modifiedDate}</Typography>
         </Box>
         <Box
           display={'flex'}
-          justifyContent={'flex-start'}
+          justifyContent={'center'}
+          alignItems={'center'}
           flexDirection={'column'}
+          overflow={'auto'}
+          height={'3.5rem'}
         >
           <Typography variant="h6">Purpose:</Typography>
           <Typography color="secondary">{purposeDescription}</Typography>

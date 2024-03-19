@@ -17,10 +17,21 @@ const ImportModal = () => {
     resetImportModalForm,
     modalStep,
     handleClose,
+    handleSelect,
+    importLog,
+    product,
+    handleSubmit,
+    importDeals,
   } = useImportModal();
 
   const steps: any = {
-    1: <FirstStep />,
+    1: (
+      <FirstStep
+        handleSelect={handleSelect}
+        importLog={importLog}
+        product={product}
+      />
+    ),
     2: <SecondStep requiredColumns={requiredColumns} />,
     3: <ThirdStep />,
   };
@@ -41,7 +52,6 @@ const ImportModal = () => {
           onClose={handleClose}
           okText={modalStep === 3 ? 'Import' : 'Next'}
           title={'Import Data'}
-          submitHandler={submitImportModalForm}
           isOk={true}
           cancelText={modalStep === 1 ? 'Cancel' : 'Back'}
         >
@@ -70,7 +80,12 @@ const ImportModal = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={submitImportModalForm}
+              onClick={handleSubmit(submitImportModalForm)}
+              disabled={
+                !!!importLog ||
+                product === null ||
+                (modalStep === 2 && importDeals === null)
+              }
             >
               {modalStep === 3 ? 'Import' : 'Next'}
             </Button>
