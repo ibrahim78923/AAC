@@ -27,7 +27,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
 
     getQuoteById: builder.query({
       query: ({ id }: any) => ({
-        url: `${END_POINTS?.QUOTE}/${id}`,
+        url: `${END_POINTS?.QUOTE}/{id}?id=${id}`,
         method: 'GET',
       }),
       providesTags: TAG,
