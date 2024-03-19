@@ -10,4 +10,5 @@ export interface CardPropsI {
   handleDelete?: any;
   setDelateRecord?: any;
   deletedRecordId?: any;
+  deleteIsLoading?: boolean;
 }
