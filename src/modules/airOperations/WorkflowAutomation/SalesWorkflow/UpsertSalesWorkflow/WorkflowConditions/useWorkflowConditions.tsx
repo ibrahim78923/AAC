@@ -8,11 +8,11 @@ export const useWorkflowConditions = (props: any) => {
   const { control } = props;
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'workflowConditions',
+    name: 'groups',
   });
   const handleAddGroup = () => {
     if (fields.length < 5) {
-      append(salesValues?.workflowConditions[0]);
+      append(salesValues?.groups[0]);
     } else {
       enqueueSnackbar('Group limit exceeds', {
         variant: NOTISTACK_VARIANTS?.ERROR,

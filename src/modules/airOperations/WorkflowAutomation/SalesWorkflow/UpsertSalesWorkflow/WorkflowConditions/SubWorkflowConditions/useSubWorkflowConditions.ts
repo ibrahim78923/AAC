@@ -7,7 +7,7 @@ export const useSubWorkflowConditions = (props: any) => {
   const { control, index, parentField, removeParent } = props;
   const { fields, remove, append } = useFieldArray({
     control,
-    name: `workflowConditions.${index}.conditions`,
+    name: `groups.${index}.conditions`,
   });
   const handleDeleteClick = (subIndex: any) => {
     if (parentField?.length === 2 && fields?.length < 2) {
@@ -25,7 +25,7 @@ export const useSubWorkflowConditions = (props: any) => {
   };
   const handleAppend = () => {
     if (fields?.length < 10) {
-      append(salesValues?.workflowConditions?.[0]?.conditions);
+      append(salesValues?.groups?.[0]?.conditions);
     } else {
       enqueueSnackbar('Condition limit exceeds', {
         variant: NOTISTACK_VARIANTS?.ERROR,

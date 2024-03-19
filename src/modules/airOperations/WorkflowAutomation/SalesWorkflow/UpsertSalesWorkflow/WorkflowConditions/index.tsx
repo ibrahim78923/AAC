@@ -30,18 +30,15 @@ export const WorkflowConditions = (props: any) => {
           <Box key={item?.id} p={1.5}>
             {index !== 0 && (
               <Box sx={styles?.logicBtnContainer(palette)}>
-                <RHFButtonGroup
-                  name={`workflowConditions.${index}.logicGate`}
-                  sx={{ gap: 0 }}
-                >
+                <RHFButtonGroup name="groupCondition" sx={{ gap: 0 }}>
                   <ToggleButton
-                    value={'and'}
+                    value={'AND'}
                     sx={styles?.logicAndButtons(palette)}
                   >
                     AND
                   </ToggleButton>
                   <ToggleButton
-                    value={'or'}
+                    value={'OR'}
                     sx={styles?.logicOrButtons(palette)}
                   >
                     OR

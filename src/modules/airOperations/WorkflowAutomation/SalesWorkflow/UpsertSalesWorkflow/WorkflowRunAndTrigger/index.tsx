@@ -31,7 +31,7 @@ export const WorkflowRunAndTrigger = (props: any) => {
               display: 'flex',
               justifyContent: 'space-between',
             }}
-            name="moduleType"
+            name="module"
             options={moduleOptions}
             inputRef={register}
           />
@@ -54,20 +54,24 @@ export const WorkflowRunAndTrigger = (props: any) => {
         <Grid container p={1.5} spacing={2}>
           <Grid item md={6} xs={12}>
             <RHFAutocomplete
-              name="trigger"
+              name="events"
               size="small"
               label="Trigger"
               required
               options={triggerOptions}
+              placeholder="Select"
+              getOptionLabel={(option: any) => option?.label}
             />
           </Grid>
           <Grid item md={6} xs={12}>
             <RHFAutocomplete
-              name="andRun"
+              name="runType"
               size="small"
               label="And Run"
+              placeholder="Select"
               required
               options={andRunOptions}
+              getOptionLabel={(option: any) => option?.label}
             />
           </Grid>
         </Grid>

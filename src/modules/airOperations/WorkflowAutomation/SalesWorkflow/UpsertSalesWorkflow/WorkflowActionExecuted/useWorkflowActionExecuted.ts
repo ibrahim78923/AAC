@@ -6,7 +6,7 @@ import { salesValues } from '../UpsertSalesWorkflow.data';
 
 export const useWorkflowActionExecuted = () => {
   const { fields, append, remove } = useFieldArray({
-    name: 'actionsExecuted',
+    name: 'actions',
   });
   const handleDeleteClick = (index: any) => {
     if (fields?.length <= 1) {
@@ -21,7 +21,7 @@ export const useWorkflowActionExecuted = () => {
   };
   const handleAppend = () => {
     if (fields?.length < 5) {
-      append(salesValues?.actionsExecuted);
+      append(salesValues?.actions);
     } else {
       enqueueSnackbar('Action limit exceeds', {
         variant: NOTISTACK_VARIANTS?.ERROR,

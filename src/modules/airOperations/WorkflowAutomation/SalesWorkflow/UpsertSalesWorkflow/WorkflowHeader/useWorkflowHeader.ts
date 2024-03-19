@@ -15,7 +15,7 @@ export const useWorkflowHeader = (props: any) => {
       variant: NOTISTACK_VARIANTS?.SUCCESS,
     });
   };
-  const scheduleWorkflow = watch('scheduleWorkflow');
+  const scheduleWorkflow = watch('type');
   return {
     openWorkflowModal,
     setOpenWorkflowModal,

@@ -25,7 +25,7 @@ export const WorkflowSchedule = (props: any) => {
     <>
       <Grid item lg={5.6} sm={8.6}>
         <RHFRadioGroup
-          name="scheduleWorkflow"
+          name="type"
           options={radioOptions}
           inputRef={register}
           sx={{
@@ -87,7 +87,7 @@ export const WorkflowSchedule = (props: any) => {
           <Grid item xs={12} md={6.5}>
             {selectedSchedule === scheduleTypes?.customRange && (
               <RHFDateRangePicker
-                name="scheduleDateRange"
+                name="custom"
                 size="small"
                 label="Custom Range"
               />
@@ -100,12 +100,7 @@ export const WorkflowSchedule = (props: any) => {
               selectedSchedule === scheduleTypes?.customRange ||
               selectedSchedule === scheduleTypes?.annually ||
               selectedSchedule === scheduleTypes?.monthly) && (
-              <RHFTimePicker
-                name="scheduleTime"
-                label="Time"
-                size="small"
-                fullWidth
-              />
+              <RHFTimePicker name="time" label="Time" size="small" fullWidth />
             )}
           </Grid>
         </PermissionsGuard>

@@ -9,7 +9,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { RHFTextField } from '@/components/ReactHookForm';
 
-const SCHEDULE = 'Schedule';
+const SCHEDULE = 'SCHEDULED';
 export const WorkflowHeader = (props: any) => {
   const {
     handleMoveBack,
@@ -48,6 +48,7 @@ export const WorkflowHeader = (props: any) => {
               variant="outlined"
               color="secondary"
               onClick={handleSaveDefault}
+              type="submit"
             >
               Save as Draft
             </LoadingButton>
@@ -76,6 +77,7 @@ export const WorkflowHeader = (props: any) => {
                 startIcon={<WhiteBookIcon />}
                 variant="contained"
                 type="submit"
+                loading={props?.isLoading}
               >
                 Enable
               </LoadingButton>
@@ -84,7 +86,13 @@ export const WorkflowHeader = (props: any) => {
         </Box>
       </Box>
       <Box py={2} maxWidth={{ md: '54%', xs: '100%' }}>
-        <RHFTextField name="title" size="small" label="Title" required />
+        <RHFTextField
+          name="title"
+          size="small"
+          label="Title"
+          placeholder="Title"
+          required
+        />
       </Box>
       <TestWorkflow
         openWorkflowModal={openWorkflowModal}

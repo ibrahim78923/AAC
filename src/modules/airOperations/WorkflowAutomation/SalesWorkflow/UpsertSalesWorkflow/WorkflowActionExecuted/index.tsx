@@ -38,7 +38,7 @@ export const WorkflowActionExecuted = () => {
                 ))}
               </Grid>
               <Delete
-                sx={{ color: palette?.error?.main, cursor: 'pointer' }}
+                sx={{ color: palette?.error?.main, cursor: 'pointer', mb: 1 }}
                 onClick={() => handleDeleteClick?.(index)}
               />
             </Box>

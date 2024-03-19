@@ -5,70 +5,62 @@ export const salesSchema: any = Yup?.object()?.shape({
   scheduleMonth: Yup?.date(),
   scheduleDay: Yup?.string(),
   scheduleDate: Yup?.date(),
-  scheduleTime: Yup?.date(),
-  scheduleDateRange: Yup?.object(),
-  scheduleWorkflow: Yup?.string(),
-  moduleType: Yup?.string(),
-  trigger: Yup?.string()?.required('Required'),
-  andRun: Yup?.string()?.required('Required'),
-  workflowConditions: Yup?.array()?.of(
+  time: Yup?.date(),
+  custom: Yup?.object(),
+  type: Yup?.string(),
+  module: Yup?.string()?.required('Required'),
+  events: Yup?.mixed()?.nullable()?.required('Required'),
+  runType: Yup?.mixed()?.nullable()?.required('Required'),
+  groupCondition: Yup?.string(),
+  groups: Yup?.array()?.of(
     Yup?.object()?.shape({
       name: Yup?.string()?.required('Required'),
-      conditionType: Yup?.string(),
-      logicGate: Yup?.string(),
+      conditionType: Yup?.mixed()?.required('Required'),
       conditions: Yup?.array()?.of(
         Yup?.object()?.shape({
-          condition1: Yup?.string()?.required('Required'),
-          condition2: Yup?.string()?.required('Required'),
-          condition3: Yup?.string()?.required('Required'),
-          condition4: Yup?.string()?.required('Required'),
+          key: Yup?.string()?.required('Required'),
+          condition: Yup?.string()?.required('Required'),
+          value: Yup?.string()?.required('Required'),
         }),
       ),
     }),
   ),
-  actionsExecuted: Yup?.array()?.of(
+  actions: Yup?.array()?.of(
     Yup?.object()?.shape({
-      action1: Yup?.string()?.required('Required'),
-      action2: Yup?.string()?.required('Required'),
-      action3: Yup?.string()?.required('Required'),
-      action4: Yup?.string()?.required('Required'),
+      key: Yup?.string()?.required('Required'),
+      value: Yup?.string()?.required('Required'),
     }),
   ),
 });
 
 export const salesValues = {
   title: '',
-  scheduleWorkflow: 'Enable Now',
-  schedule: '',
+  type: 'EVENT_BASE',
+  schedule: 'DAILY',
   scheduleMonth: new Date(),
-  scheduleDay: '',
+  scheduleDay: 'Monday',
   scheduleDate: new Date(),
-  scheduleTime: new Date(),
-  scheduleDateRange: {
+  time: new Date(),
+  custom: {
     startDate: new Date(),
     endDate: new Date(),
     key: 'selection',
   },
-  moduleType: 'Deals',
-  trigger: '',
-  andRun: '',
-  workflowConditions: [
+  module: '',
+  events: null,
+  runType: null,
+  groupCondition: 'OR',
+  groups: [
     {
       name: '',
-      conditionType: 'Match ALL condition in this group',
-      logicGate: 'and',
-      conditions: [
-        { condition1: '', condition2: '', condition3: '', condition4: '' },
-      ],
+      conditionType: null,
+      conditions: [{ key: '', condition: '', value: '' }],
     },
     {
       name: '',
-      conditionType: 'Match ALL condition in this group',
-      logicGate: 'and',
-      conditions: [
-        { condition1: '', condition2: '', condition3: '', condition4: '' },
-      ],
+      conditionType: null,
+      conditions: [{ key: '', condition: '', value: '' }],
     },
   ],
-  actionsExecuted: [{ action1: '', action2: '', action3: '', action4: '' }],
+  actions: [{ key: '', value: '' }],
 };
