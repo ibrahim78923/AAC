@@ -35,6 +35,7 @@ const CommonDrawer = ({
   isLoading,
   isDisabled,
   variant,
+  disabledCancelBtn,
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
 
@@ -137,6 +138,7 @@ const CommonDrawer = ({
                         '&:hover': { bgcolor: theme?.palette?.grey[400] },
                       }}
                       onClick={cancelBtnHandler ? cancelBtnHandler : onClose}
+                      disabled={disabledCancelBtn}
                     >
                       {cancelText ? cancelText : 'Cancel'}
                     </Button>

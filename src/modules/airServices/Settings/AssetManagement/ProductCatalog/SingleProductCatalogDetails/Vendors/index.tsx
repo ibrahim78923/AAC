@@ -22,6 +22,7 @@ export const Vendors = () => {
     isSuccess,
     setPage,
     setLimit,
+    deleteVendorStatus,
   } = useVendors();
 
   return (
@@ -67,6 +68,8 @@ export const Vendors = () => {
           handleClose={() => setIsDeleteModalOpen?.({ open: false, id: '' })}
           handleSubmitBtn={handleSubmitDelete}
           message="Are you sure want to delete this Vendor?"
+          loading={deleteVendorStatus?.isLoading}
+          disableCancelBtn={deleteVendorStatus?.isLoading}
         />
       )}
 

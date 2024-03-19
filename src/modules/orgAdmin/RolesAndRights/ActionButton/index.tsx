@@ -34,17 +34,24 @@ const ActionButton = (props?: any) => {
         open={Boolean(selectedValue)}
         onClose={handleClose}
       >
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            navigate?.push({
-              pathname: ORG_ADMIN?.ADD_ROLE,
-              query: { id: checkedRows, type: 'view' },
-            });
-          }}
+        <PermissionsGuard
+          permissions={[
+            ORG_ADMIN_ROLE_AND_RIGHTS_PERMISSIONS?.VIEW_ROLE_AND_RIGHTS,
+          ]}
         >
-          View
-        </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              navigate?.push({
+                pathname: ORG_ADMIN?.ADD_ROLE,
+                query: { id: checkedRows, type: 'view' },
+              });
+            }}
+          >
+            View
+          </MenuItem>
+        </PermissionsGuard>
+
         <PermissionsGuard
           permissions={[
             ORG_ADMIN_ROLE_AND_RIGHTS_PERMISSIONS?.EDIT_ROLE_AND_RIGHTS,

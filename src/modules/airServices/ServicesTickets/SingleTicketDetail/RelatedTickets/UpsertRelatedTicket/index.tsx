@@ -3,6 +3,8 @@ import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { useUpsertRelatedTicket } from './useUpsertRelatedTicket';
+import { Attachments } from '@/components/Attachments';
+import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 
 export const UpsertRelatedTicket = (props: any) => {
   const { isDrawerOpen, childTicketId } = props;
@@ -33,6 +35,11 @@ export const UpsertRelatedTicket = (props: any) => {
         postChildTicketStatus?.isLoading || putChildTicketStatus?.isLoading
       }
       isDisabled={
+        isError ||
+        postChildTicketStatus?.isLoading ||
+        putChildTicketStatus?.isLoading
+      }
+      disabledCancelBtn={
         isError ||
         postChildTicketStatus?.isLoading ||
         putChildTicketStatus?.isLoading
@@ -68,6 +75,29 @@ export const UpsertRelatedTicket = (props: any) => {
                   </Grid>
                 ))}
               </Grid>
+              <br />
+              {!!childTicketId && (
+                <>
+                  <Typography
+                    variant="body1"
+                    fontWeight={500}
+                    color="slateBlue.main"
+                    mb={2}
+                  >
+                    {' '}
+                    Attachments{' '}
+                  </Typography>
+                  <Box maxHeight={'20vh'}>
+                    <Attachments
+                      recordId={childTicketId}
+                      permissionKey={[
+                        AIR_SERVICES_TICKETS_TICKETS_DETAILS?.EDIT_CHILD_TICKETS,
+                      ]}
+                      colSpan={{ sm: 12, lg: 12 }}
+                    />
+                  </Box>
+                </>
+              )}
             </FormProvider>
           </Box>
         </>

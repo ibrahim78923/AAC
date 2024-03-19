@@ -6,6 +6,7 @@ import { AIR_SERVICES } from '@/constants';
 import { useHeader } from './useHeader';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { truncateText } from '@/utils/avatarUtils';
 
 export const Header = (props: any) => {
   const { dropdownOptions } = props;
@@ -28,7 +29,9 @@ export const Header = (props: any) => {
             });
           }}
         />
-        <Typography variant="h5">{singleVendorName}</Typography>
+        <Typography variant="h5">
+          {truncateText(singleVendorName, 35)}
+        </Typography>
       </Box>
       <Box>
         <PermissionsGuard

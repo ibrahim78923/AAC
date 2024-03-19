@@ -21,4 +21,5 @@ export interface CommonDrawerPropsI {
   isDisabled?: boolean;
   cancelBtnHandler?: any;
   variant?: any;
+  disabledCancelBtn?: boolean;
 }
