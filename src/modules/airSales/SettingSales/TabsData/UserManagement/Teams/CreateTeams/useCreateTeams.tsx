@@ -1,21 +1,37 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { teamsValidationSchema } from './CreateTeams.data';
+import { teamsDefaultValues, teamsValidationSchema } from './CreateTeams.data';
 import { usePostTeamsMutation } from '@/services/airSales/settings/teams';
 import { enqueueSnackbar } from 'notistack';
 import useUserManagement from '../../useUserManagement';
+import { useEffect } from 'react';
 
-const useCreateTeams = (editData: any, setIsAddTeam: any) => {
+const useCreateTeams = (teamDataById: any, setIsAddTeam: any) => {
   const { productsUsers } = useUserManagement();
   const [postTeams] = usePostTeamsMutation();
+
   const methods: any = useForm({
     resolver: yupResolver(teamsValidationSchema),
-    defaultValues: editData?.data,
+    defaultValues: teamsDefaultValues,
   });
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, setValue } = methods;
+
+  useEffect(() => {
+    const data = teamDataById?.data;
+    const fieldsToSet: any = {
+      name: data?.name,
+      userAccounts: data?.users?.map((item: any) => {
+        return item?._id;
+      }),
+    };
+
+    for (const key in fieldsToSet) {
+      setValue(key, fieldsToSet[key]);
+    }
+  }, [teamDataById]);
+
   const onSubmit = async (values: any) => {
-    values.userAccounts = [values.userAccounts];
     try {
       await postTeams({ body: values })?.unwrap();
       reset();

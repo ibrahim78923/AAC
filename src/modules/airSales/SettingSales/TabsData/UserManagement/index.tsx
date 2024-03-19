@@ -28,6 +28,7 @@ const Users = () => {
     setIsAddUserDrawer,
     checkedUser,
     setCheckedUser,
+    teamDataById,
   } = useUserManagement();
 
   return (
@@ -100,11 +101,16 @@ const Users = () => {
               setIsOpenDelete={setIsOpenDelete}
               setIsTeamDrawer={setIsTeamDrawer}
               isTeamDrawer={isTeamDrawer}
+              teamDataById={teamDataById}
             />
           </CommonTabs>
         </Box>
       </Box>
-      <CreateTeams isAddTeam={isAddTeam} setIsAddTeam={setIsAddTeam} />
+      <CreateTeams
+        isAddTeam={isAddTeam}
+        setIsAddTeam={setIsAddTeam}
+        teamDataById={teamDataById}
+      />
       <AddUsers
         isAddUserDrawer={isAddUserDrawer}
         setIsAddUserDrawer={setIsAddUserDrawer}

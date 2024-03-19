@@ -6,9 +6,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { teamsDataArray } from './CreateTeams.data';
 
 const CreateTeams = (props?: any) => {
-  const { isAddTeam, setIsAddTeam, teamsDataById } = props;
+  const { isAddTeam, setIsAddTeam, teamDataById } = props;
   const { methods, handleSubmit, onSubmit, productsUsers } = useCreateTeams(
-    teamsDataById,
+    teamDataById,
     setIsAddTeam,
   );
 

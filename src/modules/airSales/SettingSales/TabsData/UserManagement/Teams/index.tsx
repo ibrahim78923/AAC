@@ -15,6 +15,7 @@ const Teams = (props: any) => {
     setIsOpenDelete,
     setIsTeamDrawer,
     isTeamDrawer,
+    teamDataById,
   } = props;
   const {
     theme,
@@ -25,7 +26,6 @@ const Teams = (props: any) => {
     isLoading,
     searchBy,
     setSearchBy,
-    teamDataById,
   } = useTeams(teamId);
 
   const columnsProps = {
@@ -72,8 +72,6 @@ const Teams = (props: any) => {
             />
           </PermissionsGuard>
         </Grid>
-
-        {/* <CreateTeams isAddTeam={isAddTeam} setIsAddTeam={setIsAddTeam} teamsDataById={teamDataById} /> */}
         <ViewTeams
           isTeamDrawer={isTeamDrawer}
           setIsTeamDrawer={setIsTeamDrawer}

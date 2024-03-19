@@ -1,5 +1,8 @@
 import { PAGINATION } from '@/config';
-import { useDeleteTeamsMutation } from '@/services/airSales/settings/teams';
+import {
+  useDeleteTeamsMutation,
+  useGetTeamsByIdQuery,
+} from '@/services/airSales/settings/teams';
 import { useGetProductsUsersQuery } from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
@@ -22,6 +25,7 @@ const useUserManagement = () => {
   const [deleteTeams] = useDeleteTeamsMutation();
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const { data: teamDataById } = useGetTeamsByIdQuery(teamId);
 
   const productUserParams = {
     page: page,
@@ -70,6 +74,7 @@ const useUserManagement = () => {
     setIsAddUserDrawer,
     checkedUser,
     setCheckedUser,
+    teamDataById,
   };
 };
 
