@@ -25,7 +25,6 @@ const JobApplication = () => {
     handleFiltersSubmit,
     setPageLimit,
     setPage,
-    handlePageChange,
   } = useJobApplication();
   const theme = useTheme();
   const getColumns = columns(theme);
@@ -82,12 +81,14 @@ const JobApplication = () => {
             columns={getColumns}
             data={data?.data?.jobApplications}
             isLoading={isLoading}
-            isPagination
+            currentPage={data?.data?.meta?.page}
             count={data?.data?.meta?.pages}
+            pageLimit={data?.data?.meta?.limit}
             totalRecords={data?.data?.meta?.total}
-            onPageChange={handlePageChange}
             setPage={setPage}
             setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
           />
         </Box>
       </PermissionsGuard>
