@@ -6,7 +6,6 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { useAgentBioData } from './useAgentBioData';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import dayjs from 'dayjs';
@@ -14,7 +13,7 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName, generateImage, truncateText } from '@/utils/avatarUtils';
 import { EditRequestorsIcon } from '@/assets/icons';
 
-export const AgentBioData = () => {
+export const AgentBioData = (props: any) => {
   const theme = useTheme();
   const {
     data,
@@ -23,7 +22,7 @@ export const AgentBioData = () => {
     isError,
     departmentDetails,
     handleEditButtonClick,
-  }: any = useAgentBioData();
+  }: any = props;
   if (isLoading || isFetching) return <SkeletonForm />;
   if (isError) return <ApiErrorState />;
 

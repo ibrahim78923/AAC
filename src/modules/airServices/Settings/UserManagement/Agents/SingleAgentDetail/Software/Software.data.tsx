@@ -4,8 +4,8 @@ import { Typography } from '@mui/material';
 
 export const softwareColumnsDynamic = (router: any): any => [
   {
-    accessorFn: (row: any) => row?.Software,
-    id: 'Software',
+    accessorFn: (row: any) => row?.name,
+    id: 'name',
     isSortable: true,
     header: 'Software',
     cell: (info: any) => (
