@@ -1,14 +1,12 @@
-import { useState } from 'react';
-import { RHFAutocomplete } from '@/components/ReactHookForm';
-import { Box, Typography } from '@mui/material';
-import { productData, productOptions } from '../ImportModal.data';
+import { FormProvider } from '@/components/ReactHookForm';
+import { Box, Grid, Typography } from '@mui/material';
 import CheckboxCard from '../CheckboxCard';
+import { useFirstStep } from './useFirstStep';
+import { importField, productData } from './FirstStep.data';
 
 const FirstStep = () => {
-  const [value, setValue] = useState('');
-  const handleSelect = (selectedValue: any) => {
-    setValue(selectedValue);
-  };
+  const { handleSelect, value, handleSubmit, onSubmit, methods } =
+    useFirstStep();
 
   return (
     <>
@@ -16,13 +14,15 @@ const FirstStep = () => {
         Select Product and Object you’d like to Import
       </Typography>
       <Box my={2.4}>
-        <RHFAutocomplete
-          name="product"
-          label="Product"
-          size="small"
-          placeholder="Select product"
-          options={productOptions}
-        />
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2}>
+            {importField?.map((item: any) => (
+              <Grid item xs={12} key={item?.id}>
+                <item.component {...item?.componentProps} size={'small'} />
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
       </Box>
       <Box
         sx={{
