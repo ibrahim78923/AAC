@@ -6,15 +6,6 @@ export const settingsValidationSchema = Yup?.object()?.shape({
   dateFormat: Yup?.string(),
   timeFormat: Yup?.string(),
   primaryLanguage: Yup?.string(),
-  cartLogin: Yup?.boolean(),
-  passwordPolicy: Yup?.boolean(),
-  googleLogin: Yup?.boolean(),
-  sSOLogin: Yup?.boolean(),
-  sessionTimeout: Yup?.boolean(),
-  publicURLS: Yup?.boolean(),
-  adminNotification: Yup?.string(),
-  time: Yup?.number(),
-  days: Yup?.string(),
 });
 
 export const settingsDefaultValues = {
@@ -23,13 +14,4 @@ export const settingsDefaultValues = {
   dateFormat: '',
   timeFormat: '',
   primaryLanguage: '',
-  cartLogin: false,
-  passwordPolicy: false,
-  googleLogin: false,
-  sSOLogin: false,
-  sessionTimeout: false,
-  publicURLS: false,
-  adminNotification: '',
-  time: 0,
-  days: '',
 };
