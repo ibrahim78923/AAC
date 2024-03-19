@@ -33,8 +33,8 @@ import { styles } from './TabToobar.style';
 import { v4 as uuidv4 } from 'uuid';
 import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS } from '@/constants/permission-keys';
+// import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+// import { AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS } from '@/constants/permission-keys';
 
 const TabToolbar = () => {
   const dispatch: any = useAppDispatch();
@@ -169,41 +169,41 @@ const TabToolbar = () => {
           >
             Actions
           </Button>
-          <PermissionsGuard
+          {/* <PermissionsGuard
             permissions={[AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS?.EDIT_TASK]}
+          > */}
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
           >
-            <Popover
-              id={id}
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-            >
-              {menuItems?.map((item: any) => {
-                const isAbleToEdit =
-                  selectedTaskIds?.length > 1 &&
-                  (item?.name === 'edit' ||
-                    item?.name === 'viewActivity' ||
-                    item?.name === 'changeStatus');
-                return (
-                  <MenuItem
-                    disabled={isAbleToEdit}
-                    onClick={menuFunctionsToRender[item?.name]}
-                    key={item?.item}
-                  >
-                    {item?.item}
-                  </MenuItem>
-                );
-              })}
-            </Popover>
-          </PermissionsGuard>
+            {menuItems?.map((item: any) => {
+              const isAbleToEdit =
+                selectedTaskIds?.length > 1 &&
+                (item?.name === 'edit' ||
+                  item?.name === 'viewActivity' ||
+                  item?.name === 'changeStatus');
+              return (
+                <MenuItem
+                  disabled={isAbleToEdit}
+                  onClick={menuFunctionsToRender[item?.name]}
+                  key={item?.item}
+                >
+                  {item?.item}
+                </MenuItem>
+              );
+            })}
+          </Popover>
+          {/* </PermissionsGuard> */}
 
           <Button
             className="small"

@@ -12,6 +12,7 @@ import { setSelectedTaskIds } from '@/redux/slices/taskManagement/taskManagement
 import SearchableTabsSelect from './searchableTabsSelect';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
+import useTaskCustomize from './EditColumn/useTaskCustomize';
 
 export const filterDefaultValues = {
   assignTo: '',
@@ -144,24 +145,24 @@ export const createTaskValidationSchema = Yup?.object()?.shape({
 });
 
 export const createTaskDefaultValues = ({ data }: any) => {
-  const inputDate = new Date(data?.dueDate);
-  const inputTime = new Date(data?.time);
+  const inputDate = new Date(data[0]?.dueDate);
+  const inputTime = new Date(data[0]?.time);
 
   function isValidDate(date: any) {
     return date instanceof Date && !isNaN(date?.getTime());
   }
 
   return {
-    name: data?.name ?? '',
-    type: data?.type ?? '',
-    priority: data?.priority ?? '',
-    status: data?.status ?? '',
-    dealsIds: data?.dealsIds ?? '',
-    assignTo: data?.assignTo ?? '',
+    name: data[0]?.name ?? '',
+    type: data[0]?.type ?? '',
+    priority: data[0]?.priority ?? '',
+    status: data[0]?.status ?? '',
+    dealsIds: data[0]?.dealsIds ?? '',
+    assignTo: data[0]?.assignTo ?? '',
     dueDate: isValidDate(inputDate) ? inputDate : null,
     time: isValidDate(inputTime) ? inputTime : null,
-    reminder: data?.reminder ?? '',
-    note: data?.note ?? '',
+    reminder: data[0]?.reminder ?? '',
+    note: data[0]?.note ?? '',
   };
 };
 
@@ -303,10 +304,10 @@ export const createTaskData = ({ data }: any) => {
 export const TasksData = () => {
   const dispatch: any = useAppDispatch();
 
+  const { order } = useTaskCustomize({});
   const selectedTaskIds = useAppSelector(
     (state: any) => state?.task?.selectedTaskIds,
   );
-
   const handleClick = (itemId: any) => {
     if (selectedTaskIds.includes(itemId)) {
       dispatch(
@@ -316,69 +317,89 @@ export const TasksData = () => {
       dispatch(setSelectedTaskIds([...selectedTaskIds, itemId]));
     }
   };
+  const columns =
+    order &&
+    order
+      .filter((item: any) => item.active)
+      .sort((a: any, b: any) => a.order - b.order)
+      .map((column: any) => {
+        switch (column.attributes) {
+          case 'name':
+            return {
+              accessorFn: (row?: any) => row?.name,
+              id: 'name',
+              cell: (info?: any) => info?.getValue(),
+              header: 'Task Name',
+              isSortable: true,
+            };
+          case 'status':
+            return {
+              accessorFn: (row?: any) => row?.status,
+              id: 'status',
+              isSortable: true,
+              header: 'Task Status',
+              cell: (info?: any) => info?.row?.original?.status ?? '-',
+            };
+          case 'contactedPerson.name contactedPerson.email contactedPerson.profileImage':
+            return {
+              accessorFn: (row?: any) => row?.name, // TODO Need to discuss
+              id: 'associate',
+              isSortable: true,
+              header: 'Linked Company',
+              cell: (info?: any) => info?.row?.original?.company ?? '-',
+            };
+          case 'assignTo':
+            return {
+              accessorFn: (row?: any) => row?.assignTo,
+              id: 'assignTo',
+              isSortable: true,
+              header: 'Assigned User',
+              cell: (info?: any) =>
+                info?.row?.original?.assignTo
+                  ? info?.row?.original?.assignTo?.firstName +
+                    ' ' +
+                    info?.row?.original?.assignTo?.lastName
+                  : '-',
+            };
+          case 'type':
+            return {
+              accessorFn: (row?: any) => row?.type,
+              id: 'type',
+              isSortable: true,
+              header: 'Task Type',
+              cell: (info?: any) => info?.getValue(),
+            };
+          case 'dueDate':
+            return {
+              accessorFn: (row?: any) => row?.updatedAt,
+              id: 'updatedAt',
+              isSortable: true,
+              header: 'Last Date',
+              cell: (info?: any) =>
+                dayjs(info?.row?.original?.updatedAt).format(
+                  DATE_TIME_FORMAT?.YMDHM,
+                ),
+            };
+          default:
+            return null;
+        }
+      });
+  const fixedColumn = {
+    accessorFn: (row?: any) => row?._id,
+    id: '_id',
+    cell: (info: any) => (
+      <Checkbox
+        checked={selectedTaskIds?.includes(info?.row?.original?._id)}
+        color="primary"
+        name={info?.getValue()}
+        onClick={() => handleClick(info?.row?.original?._id)}
+      />
+    ),
+    header: <Checkbox color="primary" name="Id" />,
+    isSortable: false,
+  };
 
-  return [
-    {
-      accessorFn: (row?: any) => row?.Id,
-      id: '_id',
-      cell: (info: any) => (
-        <Checkbox
-          checked={selectedTaskIds?.includes(info?.row?.original?._id)}
-          color="primary"
-          name={info?.getValue()}
-          onClick={() => handleClick(info?.row?.original?._id)}
-        />
-      ),
-      header: <Checkbox color="primary" name="Id" />,
-      isSortable: false,
-    },
-    {
-      accessorFn: (row?: any) => row?.name,
-      id: 'name',
-      cell: (info?: any) => info?.getValue(),
-      header: 'Task Name',
-      isSortable: true,
-    },
-    {
-      accessorFn: (row?: any) => row?.status,
-      id: 'status',
-      isSortable: true,
-      header: 'Task Status',
-      cell: (info?: any) => info?.row?.original?.status ?? '-',
-    },
-    {
-      accessorFn: (row?: any) => row?.name, // TODO Need to discuss
-      id: 'associate',
-      isSortable: true,
-      header: 'Linked Company',
-      cell: (info?: any) => info?.row?.original?.company ?? '-',
-    },
-    {
-      accessorFn: (row?: any) => row?.assignTo,
-      id: 'assignTo',
-      isSortable: true,
-      header: 'Assigned User',
-      cell: (info?: any) =>
-        info?.row?.original?.assignTo
-          ? info?.row?.original?.assignTo?.firstName +
-            ' ' +
-            info?.row?.original?.assignTo?.lastName
-          : '-',
-    },
-    {
-      accessorFn: (row?: any) => row?.type,
-      id: 'type',
-      isSortable: true,
-      header: 'Task Type',
-      cell: (info?: any) => info?.getValue(),
-    },
-    {
-      accessorFn: (row?: any) => row?.updatedAt,
-      id: 'updatedAt',
-      isSortable: true,
-      header: 'last Date',
-      cell: (info?: any) =>
-        dayjs(info?.row?.original?.updatedAt).format(DATE_TIME_FORMAT?.YMDHM),
-    },
-  ];
+  columns && columns?.unshift(fixedColumn);
+
+  return columns;
 };
