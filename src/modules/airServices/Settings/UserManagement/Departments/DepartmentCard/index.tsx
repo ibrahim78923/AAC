@@ -15,10 +15,9 @@ import {
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { departmentActionDropdownFunction } from '../Departments.data';
 
 export const DepartmentCard = (props: any) => {
-  const { handleAddMember, item }: any = props;
+  const { handleAddMember, item, departmentActionDropdown }: any = props;
   const theme = useTheme();
   return (
     <>
@@ -57,7 +56,7 @@ export const DepartmentCard = (props: any) => {
             }
           >
             <SingleDropdownButton
-              dropdownOptions={departmentActionDropdownFunction?.()}
+              dropdownOptions={departmentActionDropdown?.(item)}
               dropdownName={<MoreHoriz />}
               hasEndIcon={false}
               btnVariant="text"

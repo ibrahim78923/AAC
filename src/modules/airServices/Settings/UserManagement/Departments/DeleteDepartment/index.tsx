@@ -3,12 +3,12 @@ import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteDepartment } from './useDeleteDepartment';
 
 export const DeleteDepartment = (props: any) => {
-  const { openDelete } = props;
+  const { openDeleteModal } = props;
   const { handleDeleteSubmit, deleteDepartmentStatus, handleClose } =
     useDeleteDepartment(props);
   return (
     <AlertModals
-      open={openDelete?.val}
+      open={openDeleteModal}
       handleClose={() => handleClose?.()}
       handleSubmitBtn={handleDeleteSubmit}
       message="Are you sure you want to delete this Department?"

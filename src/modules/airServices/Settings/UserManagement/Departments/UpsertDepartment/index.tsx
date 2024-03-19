@@ -15,7 +15,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertDepartment } from './useUpsertDepartment';
 
 export const UpsertDepartment = (props: any) => {
-  const { open } = props;
+  const { openUpsertModal } = props;
   const {
     handleClose,
     handleSubmit,
@@ -25,7 +25,12 @@ export const UpsertDepartment = (props: any) => {
     method,
   } = useUpsertDepartment(props);
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog
+      open={openUpsertModal}
+      onClose={handleClose}
+      maxWidth={'sm'}
+      fullWidth
+    >
       <Box p={2}>
         <DialogTitle>
           <Box

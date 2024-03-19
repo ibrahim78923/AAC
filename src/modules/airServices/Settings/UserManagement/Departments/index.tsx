@@ -6,13 +6,31 @@ import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
 import { Grid } from '@mui/material';
 import CustomPagination from '@/components/CustomPagination';
+import { DeleteDepartment } from './DeleteDepartment';
+import { UpsertDepartment } from './UpsertDepartment';
 
 export const Departments = () => {
-  const { setSearch, setPageLimit, setPage, lazyGetDepartmentStatus } =
-    useDepartments();
+  const {
+    setSearch,
+    setPageLimit,
+    setPage,
+    lazyGetDepartmentStatus,
+    openDeleteModal,
+    setOpenDeleteModal,
+    openUpsertModal,
+    setOpenUpsertModal,
+    selectedDepartment,
+    setSelectedDepartment,
+    actionDropdownData,
+  } = useDepartments();
   return (
     <>
-      <DepartmentsHeader setSearch={setSearch} />
+      <DepartmentsHeader
+        setSearch={setSearch}
+        setOpenUpsertModal={setOpenUpsertModal}
+        setOpenDeleteModal={setOpenDeleteModal}
+        setSelectedDepartment={setSelectedDepartment}
+      />
       <br />
       {lazyGetDepartmentStatus?.isLoading ||
       lazyGetDepartmentStatus?.isFetching ? (
@@ -20,18 +38,50 @@ export const Departments = () => {
       ) : lazyGetDepartmentStatus?.isError ? (
         <ApiErrorState />
       ) : !!lazyGetDepartmentStatus?.data?.data?.departments?.length ? (
-        <Grid container spacing={2}>
-          {lazyGetDepartmentStatus?.data?.data?.departments?.map(
-            (department: any) => (
-              <Grid item xs={12} md={4} key={department?._id}>
-                <DepartmentCard item={department} />
-              </Grid>
-            ),
-          )}
-          <CustomPagination setPageLimit={setPageLimit} setPage={setPage} />
-        </Grid>
+        <>
+          <Grid container spacing={2}>
+            {lazyGetDepartmentStatus?.data?.data?.departments?.map(
+              (department: any) => (
+                <Grid item xs={12} md={4} key={department?._id}>
+                  <DepartmentCard
+                    item={department}
+                    setOpenUpsertModal={setOpenUpsertModal}
+                    setOpenDeleteModal={setOpenDeleteModal}
+                    departmentActionDropdown={actionDropdownData}
+                  />
+                </Grid>
+              ),
+            )}
+          </Grid>
+          <br />
+          <CustomPagination
+            count={lazyGetDepartmentStatus?.data?.data?.meta?.pages}
+            pageLimit={lazyGetDepartmentStatus?.data?.data?.meta?.limit}
+            currentPage={lazyGetDepartmentStatus?.data?.data?.meta?.page}
+            totalRecords={lazyGetDepartmentStatus?.data?.data?.meta?.total}
+            onPageChange={(page: any) => setPage?.(page)}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+          />
+        </>
       ) : (
         <NoData />
+      )}
+      {openDeleteModal && (
+        <DeleteDepartment
+          openDeleteModal={openDeleteModal}
+          setOpenDeleteModal={setOpenDeleteModal}
+          selectedDepartment={selectedDepartment}
+          setSelectedDepartment={setSelectedDepartment}
+        />
+      )}
+      {openUpsertModal && (
+        <UpsertDepartment
+          openUpsertModal={openUpsertModal}
+          setOpenUpsertModal={setOpenUpsertModal}
+          selectedDepartment={selectedDepartment}
+          setSelectedDepartment={setSelectedDepartment}
+        />
       )}
     </>
   );

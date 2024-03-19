@@ -1,8 +1,10 @@
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const departmentActionDropdownFunction = (
-  setIsPrintDrawerOpen?: any,
-  setDeleteModalOpen?: any,
+  item?: any,
+  setOpenUpsertModal?: any,
+  setOpenDeleteModal?: any,
+  setSelectedDepartment?: any,
 ) => [
   {
     id: 1,
@@ -11,7 +13,8 @@ export const departmentActionDropdownFunction = (
     ],
     title: 'Edit',
     handleClick: (closeMenu: any) => {
-      setIsPrintDrawerOpen?.(true);
+      setOpenUpsertModal?.(true);
+      setSelectedDepartment?.(item);
       closeMenu?.();
     },
   },
@@ -22,7 +25,8 @@ export const departmentActionDropdownFunction = (
       AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.DELETE_DEPARTMENT,
     ],
     handleClick: (closeMenu: any) => {
-      setDeleteModalOpen?.(true);
+      setOpenDeleteModal?.(true);
+      setSelectedDepartment?.(item);
       closeMenu?.();
     },
   },

@@ -12,7 +12,7 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useLazyGetUsersDropdownListQuery } from '@/services/airServices/settings/user-management/departments';
 
 export const useUpsertDepartment = (props: any) => {
-  const { setOpenAddModal } = props;
+  const { setOpenUpsertModal } = props;
   const [postDepartmentTrigger, postDepartmentStatus] =
     usePostDepartmentMutation();
   const [updateDepartmentTrigger, updateDepartmentStatus] =
@@ -69,7 +69,7 @@ export const useUpsertDepartment = (props: any) => {
   };
 
   const handleClose = () => {
-    setOpenAddModal?.(false);
+    setOpenUpsertModal?.(false);
     reset();
   };
 
