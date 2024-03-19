@@ -32,7 +32,7 @@ export const associationsAPI = baseAPI?.injectEndpoints({
     deleteInventoryAssociationList: builder?.mutation({
       query: (params: any) => ({
         url: `${END_POINTS?.DELETE_INVENTORY_ASSOCIATIONS_LIST}`,
-        method: 'DELETE',
+        method: 'PATCH',
         params,
       }),
       invalidatesTags: [TAG],
