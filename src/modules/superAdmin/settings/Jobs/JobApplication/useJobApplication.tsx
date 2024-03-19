@@ -13,28 +13,28 @@ import { PAGINATION } from '@/config';
 const useJobApplication = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [searchValue, setSearchValue] = useState(null);
   const defaultParams = {
     page: PAGINATION?.CURRENT_PAGE,
     limit: PAGINATION?.PAGE_LIMIT,
   };
-  let searchParam;
-  if (searchValue) {
-    searchParam = { search: searchValue };
-  }
+  const [searchValue, setSearchValue] = useState(null);
   const [filterParams, setFilterParams] = useState({
     page: page,
     limit: pageLimit,
   });
-  const [openDrawerFilter, setOpenDrawerFilter] = useState(false);
+  let searchPayLoad;
+  if (searchValue) {
+    searchPayLoad = { search: searchValue };
+  }
   const { data, isLoading } = useGetJobAppsQuery({
-    params: { ...filterParams, ...searchParam },
+    params: { ...filterParams, ...searchPayLoad },
   });
   const { data: dataUniqueCandidate } = useGetUniqueCandidateQuery({});
   const methodsFilter: any = useForm();
   const { handleSubmit: handleMethodFilter, reset: ressetFilterForm } =
     methodsFilter;
 
+  // HANDLE REFRESH
   const handleRefresh = () => {
     setFilterParams(defaultParams);
     ressetFilterForm();
@@ -51,11 +51,14 @@ const useJobApplication = () => {
     });
   };
 
+  // OPEN/CLOSE FILTER DRAWER
+  const [openDrawerFilter, setOpenDrawerFilter] = useState(false);
   const handleOpenFilters = () => {
     setOpenDrawerFilter(true);
   };
   const handleCloseFilters = () => {
     setOpenDrawerFilter(false);
+    ressetFilterForm();
   };
 
   const onSubmitFilters = async (values: any) => {
