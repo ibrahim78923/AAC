@@ -44,7 +44,7 @@ export const useAddPlan = () => {
   const [skip, setSkip] = useState(true);
   const [productIdModules, setProductIdModules] = useState([]);
 
-  const [postPlanMangement] = usePostPlanMangementMutation();
+  const [postPlanMangement, isLoading] = usePostPlanMangementMutation();
   const [updatePlanMangement] = useUpdatePlanMangementMutation();
   const router: any = useRouter();
   let parsedRowData: any;
@@ -286,7 +286,8 @@ export const useAddPlan = () => {
             variant: 'success',
           });
         }, 5000);
-        persistor?.purge();
+        router?.push('/super-admin/plan-management');
+        // persistor?.purge();
         reset();
       } catch (error: any) {
         enqueueSnackbar('An error occured', {
@@ -316,7 +317,6 @@ export const useAddPlan = () => {
       handlePlanModules();
       reset();
       persistor?.purge();
-      router?.push('/super-admin/plan-management');
       return;
     }
   };
@@ -389,5 +389,6 @@ export const useAddPlan = () => {
     handleCompleteStep,
     setAddPlanFormValues,
     hanldeGoPreviousBack,
+    isLoading: isLoading?.isLoading,
   };
 };
