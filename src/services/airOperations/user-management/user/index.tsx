@@ -4,24 +4,24 @@ import { baseAPI } from '@/services/base-api';
 const TAG = 'USER_LIST';
 export const userManagementAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getUserList: builder?.query({
+    getProductUserList: builder?.query({
       query: ({ param }) => ({
-        url: `${END_POINTS?.USER_LIST}`,
+        url: `${END_POINTS?.PRODUCTS_USERS}`,
         method: 'GET',
         params: param,
       }),
       providesTags: [TAG],
     }),
-    postUserList: builder?.mutation({
-      query: ({ body, organizationId }: any) => ({
-        url: `${END_POINTS?.ORG_ADMIN_EMP_LIST}/${organizationId}`,
+    postProductUserList: builder?.mutation({
+      query: (postAnnouncementParameter: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}`,
         method: 'POST',
-        body,
+        body: postAnnouncementParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
   }),
 });
 
-export const { useGetUserListQuery, usePostUserListMutation } =
+export const { useGetProductUserListQuery, usePostProductUserListMutation } =
   userManagementAPI;

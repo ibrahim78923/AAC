@@ -2,27 +2,25 @@ import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { upsertUserArray } from './UpsertUser.data';
 import CommonDrawer from '@/components/CommonDrawer';
-import { useUpsertUser } from './useUpsertUser';
 import { USER_MANAGEMENT } from '@/constants/strings';
+import { useUser } from '../useUser';
 
-function UpsertUser({ isDrawerOpen, setIsDrawerOpen, title, okText }: any) {
+function UpsertUser({ isDrawerOpen, title, okText, setIsDrawerOpen }: any) {
   const {
     methods,
     handleSubmit,
     submit,
     disabled,
     setDisabled,
-    userData,
+    usersData,
     departmentDropdown,
-  } = useUpsertUser(setIsDrawerOpen);
+  } = useUser();
 
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
-        onClose={() => {
-          setIsDrawerOpen(false);
-        }}
+        onClose={() => setIsDrawerOpen?.(false)}
         title={title}
         submitHandler={() => {
           title === USER_MANAGEMENT?.USERVIEW && disabled
@@ -58,8 +56,8 @@ function UpsertUser({ isDrawerOpen, setIsDrawerOpen, title, okText }: any) {
                     disabled={title === USER_MANAGEMENT?.USERVIEW && disabled}
                     placeholder={
                       title === USER_MANAGEMENT?.USERVIEW &&
-                      userData?.length > 0
-                        ? (userData?.[0]?.[
+                      usersData?.length > 0
+                        ? (usersData?.[0]?.[
                             item?.componentProps?.name
                           ] as string)
                         : item?.componentProps?.placeholder
