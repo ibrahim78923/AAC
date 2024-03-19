@@ -41,7 +41,11 @@ export const installationTableColumns: any = (
         <Checkbox
           icon={<CheckboxIcon />}
           checkedIcon={<CheckboxCheckedIcon />}
-          checked={activeCheck?.length === installationData?.length}
+          checked={
+            !!installationData?.length
+              ? activeCheck?.length === installationData?.length
+              : false
+          }
           onChange={(e: any) => {
             e?.target?.checked
               ? setActiveCheck([...installationData])

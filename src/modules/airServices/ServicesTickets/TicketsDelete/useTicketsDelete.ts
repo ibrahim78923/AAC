@@ -15,6 +15,7 @@ export const useTicketDelete = (props: any) => {
     getTicketsListData,
     totalRecords,
     page,
+    isMoveBack = false,
   } = props;
   const [deleteTicketsTrigger, deleteTicketsStatus] =
     useDeleteTicketsMutation();
@@ -41,12 +42,20 @@ export const useTicketDelete = (props: any) => {
       );
       closeTicketsDeleteModal?.();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
       setSelectedTicketList?.([]);
       closeTicketsDeleteModal?.();
     }
   };
   const closeTicketsDeleteModal = () => {
+    !isMoveBack &&
+      router?.push(
+        makePath({
+          path: router?.pathname,
+          skipQueries: ['ticketAction'],
+        }),
+      );
+    setSelectedTicketList?.([]);
     setDeleteModalOpen?.(false);
   };
 

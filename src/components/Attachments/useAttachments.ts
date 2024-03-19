@@ -12,8 +12,10 @@ export const useAttachments = (props: any) => {
   const [deleteAttachmentTrigger, deleteAttachmentStatus] =
     useDeleteSingleAttachmentMutation();
 
-  const [getSingleAttachmentTrigger, { data, isFetching, isLoading, isError }] =
-    useLazyGetSingleAttachmentQuery();
+  const [
+    getSingleAttachmentTrigger,
+    { data, isFetching, isLoading, isError },
+  ]: any = useLazyGetSingleAttachmentQuery();
 
   const getSingleAttachment = async () => {
     const getSingleAttachmentParameter = {
@@ -23,7 +25,7 @@ export const useAttachments = (props: any) => {
     };
 
     try {
-      const response = await getSingleAttachmentTrigger(
+      const response: any = await getSingleAttachmentTrigger(
         getSingleAttachmentParameter,
       )?.unwrap();
       hasAttachments?.(!!response?.data?.length);
@@ -32,7 +34,7 @@ export const useAttachments = (props: any) => {
 
   useEffect(() => {
     getSingleAttachment();
-  }, [data?.data?.length]);
+  }, []);
 
   const deleteAttachmentSubmit = async () => {
     const deleteSingleAttachmentParameter = {
@@ -44,9 +46,10 @@ export const useAttachments = (props: any) => {
     try {
       await deleteAttachmentTrigger(deleteSingleAttachmentParameter)?.unwrap();
       successSnackbar('Attachment Deleted Successfully!');
+      getSingleAttachment?.();
       setDeleteModal({ open: false, id: '' });
-    } catch (err: any) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
       setDeleteModal({ open: false, id: '' });
     }
   };

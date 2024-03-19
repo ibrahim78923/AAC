@@ -11,7 +11,7 @@ import { useSoftware } from './useSoftware';
 import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
-function Software() {
+const Software = () => {
   const {
     router,
     isError,
@@ -27,21 +27,13 @@ function Software() {
     setOpenAssignModal,
     searchValue,
     setSearchValue,
-    page,
     setPage,
-    pageLimit,
     setPageLimit,
-    handlePageChange,
     paginationData,
     setFilterValues,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
     filterValues,
-    methods,
-    submitHandler,
-    upsertLoading,
-    onClose,
-    userQuery,
   } = useSoftware();
 
   return (
@@ -124,10 +116,9 @@ function Software() {
             isPagination
             count={paginationData?.pages}
             totalRecords={paginationData?.total}
-            pageLimit={pageLimit}
-            currentPage={page}
-            rowsPerPageOptions={[10, 20]}
-            onPageChange={handlePageChange}
+            pageLimit={paginationData?.limit}
+            currentPage={paginationData?.page}
+            onPageChange={(page: any) => setPage(page)}
             setPageLimit={setPageLimit}
             setPage={setPage}
           />
@@ -142,22 +133,21 @@ function Software() {
           filterValues={filterValues}
         />
       )}
-
-      <SoftwareAssignCategory
-        openAssignModal={openAssignModal}
-        setOpenAssignModal={setOpenAssignModal}
-        selectedSoftware={softwareData}
-      />
-      <UpsertSoftware
-        isDrawerOpen={isAddDrawerOpen}
-        onClose={onClose}
-        methods={methods}
-        submitHandler={submitHandler}
-        isLoading={upsertLoading}
-        userQuery={userQuery}
-      />
+      {openAssignModal && (
+        <SoftwareAssignCategory
+          openAssignModal={openAssignModal}
+          setOpenAssignModal={setOpenAssignModal}
+          selectedSoftware={softwareData}
+        />
+      )}
+      {isAddDrawerOpen && (
+        <UpsertSoftware
+          isAddDrawerOpen={isAddDrawerOpen}
+          setIsAddDrawerOpen={setIsAddDrawerOpen}
+        />
+      )}
     </>
   );
-}
+};
 
 export default Software;

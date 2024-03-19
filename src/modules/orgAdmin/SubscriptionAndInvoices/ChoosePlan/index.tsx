@@ -100,7 +100,6 @@ const ChoosePlan = () => {
                   })
                 : null}
             </TableRow>
-
             <TableRow sx={styles?.planDetailText}>
               {getData?.length
                 ? getData?.map((choosePlan: any) => {

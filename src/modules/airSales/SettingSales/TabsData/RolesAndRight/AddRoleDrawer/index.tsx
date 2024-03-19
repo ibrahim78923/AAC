@@ -8,8 +8,15 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 const AddRoleDrawer = (props: any) => {
   const { isDrawerOpen, onClose } = props;
-  const { methods, theme, onSubmit, handleSubmit, viewPerdetails, isLoading } =
-    useAddRoleDrawer(isDrawerOpen, onClose);
+  const {
+    methods,
+    theme,
+    onSubmit,
+    handleSubmit,
+    viewPerdetails,
+    isLoading,
+    disabled,
+  } = useAddRoleDrawer(isDrawerOpen, onClose);
 
   return (
     <CommonDrawer
@@ -59,11 +66,11 @@ const AddRoleDrawer = (props: any) => {
           {isLoading ? (
             <Skeleton variant="rectangular" height={60} />
           ) : (
-            <PermissionsAccordion permissionsData={viewPerdetails} />
+            <PermissionsAccordion
+              permissionsData={viewPerdetails}
+              disabled={disabled}
+            />
           )}
-          {/* {viewPerdetails?.data?.permissions?.length > 0 ?
-            <PermissionsAccordion permissionsData={viewPerdetails} />
-            : <Typography variant='body1'>No permissions found</Typography>} */}
         </FormProvider>
       </Box>
     </CommonDrawer>

@@ -6,8 +6,9 @@ import NoData from '@/components/NoData';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import dayjs from 'dayjs';
-import { AIR_CUSTOMER_PORTAL, DATE_FORMAT, TIME_FORMAT } from '@/constants';
+import { AIR_CUSTOMER_PORTAL, DATE_TIME_FORMAT } from '@/constants';
 import { TICKET_TYPE } from '@/constants/strings';
+import { generateImage } from '@/utils/avatarUtils';
 
 export const RecentTickets = () => {
   const { palette }: any = useTheme();
@@ -71,7 +72,7 @@ export const RecentTickets = () => {
                     }}
                   >
                     <Avatar
-                      src={ticket?.icon}
+                      src={generateImage(ticket?.requesterDetails?.avatar?.url)}
                       sx={{ bgcolor: 'blue.main', width: 25, height: 25 }}
                     />
                     <Typography
@@ -89,9 +90,9 @@ export const RecentTickets = () => {
                     color={'blue.main'}
                     fontWeight={500}
                   >
-                    {`Created On  ${dayjs(ticket?.CreatedAt)?.format(
-                      DATE_FORMAT?.UI,
-                    )}, ${dayjs(ticket?.CreatedAt)?.format(TIME_FORMAT?.UI)} `}
+                    {`Created On  ${dayjs(ticket?.createdAt)?.format(
+                      DATE_TIME_FORMAT?.UI,
+                    )}`}
                     <Typography
                       component="span"
                       fontWeight={500}
@@ -103,7 +104,7 @@ export const RecentTickets = () => {
                   </Typography>
                 </Box>
                 <Chip
-                  label={ticket?.status}
+                  label={ticket?.status ?? '---'}
                   sx={{
                     backgroundColor: 'grey.400',
                     color: 'slateBlue.main',

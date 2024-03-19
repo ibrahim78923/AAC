@@ -4,10 +4,14 @@ import React from 'react';
 
 import { usePrintDrawer } from './usePrint';
 import { Box, Divider, Grid, Typography } from '@mui/material';
-import { printData } from './print.data';
+
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { fullName } from '@/utils/avatarUtils';
 
 export const PrintDrawer = (props: any) => {
-  const { onSubmit, isPrintDrawerOpen, onClose, data } = usePrintDrawer(props);
+  const { onSubmit, isPrintDrawerOpen, onClose, data, printDataField } =
+    usePrintDrawer(props);
   return (
     <CommonDrawer
       isDrawerOpen={isPrintDrawerOpen}
@@ -18,54 +22,59 @@ export const PrintDrawer = (props: any) => {
       isOk={true}
       okText="Print"
     >
-      <Box flexWrap={'wrap'}>
-        <Box
-          justifyContent={'space-between'}
-          display={'flex'}
-          flexDirection={'row'}
+      <Box>
+        <Typography variant="body1" fontWeight={600}>
+          {' '}
+          TIcket ID: {data?.data?.[0]?.ticketIdNumber}
+        </Typography>
+        <Typography
+          variant="body1"
+          fontWeight={600}
+          sx={{ wordBreak: 'break-all' }}
         >
-          <Typography variant="body3">
-            31/03/2023 ,{' '}
-            <Typography variant="body3" component={'span'}>
-              11:54
-            </Typography>
-          </Typography>
-          <Typography variant="body3">
-            https://airapplecartt.atlassian.net/browse/STDAT-11
-          </Typography>
-        </Box>
-        <Typography variant="h5" marginTop={1}>
-          {data?.data?.[0]?.subject}{' '}
-          <Typography variant="h5" component={'span'} marginLeft={1}>
-            {' '}
-            {data?.data?.[0]?.ticketIdNumber}
-          </Typography>
+          {'  '}
+          Subject : {data?.data?.[0]?.subject}
         </Typography>
-        <Typography variant="body3">by</Typography>
+        <Typography variant="body3">by </Typography>
         <Typography variant="body3" fontWeight={'bold'}>
-          azfar ahmed{' '}
+          {fullName(
+            data?.data?.[0]?.requesterDetails?.firstName,
+            data?.data?.[0]?.requesterDetails?.lastName,
+          ) ?? '-'}{' '}
         </Typography>
-        <Typography variant="body3">(dihosB02BD@huvackq.com) on </Typography>
+        <Typography variant="body3">
+          ({data?.data?.[0]?.requesterDetails?.email ?? '-'} ) on{' '}
+        </Typography>
         <Typography variant="body3" fontWeight={'bold'}>
-          Tue,28,Mar 11:22 AM
+          {dayjs(data?.data?.[0]?.requesterDetails?.createdAt)?.format(
+            DATE_TIME_FORMAT?.DDMYHMA,
+          ) ?? '-'}
+          ,{' '}
         </Typography>{' '}
-        <Typography variant="body3">via </Typography>
-        <Typography variant="body3" fontWeight={'bold'}>
-          Phone
-        </Typography>
+        {!!data?.data?.[0]?.source && (
+          <>
+            <Typography variant="body3">via </Typography>
+            <Typography variant="body3" fontWeight={'bold'}>
+              {data?.data?.[0]?.source ?? '-'}
+            </Typography>
+          </>
+        )}
         <Typography variant="h6">
           Requestor For :{' '}
           <Typography variant="h4" component={'span'}>
-            azfar ahmed{' '}
+            {fullName(
+              data?.data?.[0]?.requesterDetails?.firstName,
+              data?.data?.[0]?.requesterDetails?.lastName,
+            ) ?? '-'}{' '}
             <Typography variant="body3" component={'span'}>
-              (dihosB02BD@huvackq.com)
+              ({data?.data?.[0]?.requesterDetails?.email ?? '-'} )
             </Typography>
           </Typography>
         </Typography>
         <Divider sx={{ marginTop: '1rem', marginBottom: '1rem' }} />
-        <Typography variant="h4"> TICKET PROPERTIES</Typography>
+        <Typography variant="h4"> TICKET PROPERTIES </Typography>
         <Grid container mt={1}>
-          {printData?.map((item) => (
+          {printDataField?.map((item: any) => (
             <Grid key={item?.id} xs={12} lg={3.5}>
               <Box display={'flex'} flexDirection={'row'}>
                 <Box display={'flex'} flexDirection={'column'}>
@@ -82,7 +91,12 @@ export const PrintDrawer = (props: any) => {
         </Grid>
         <Divider sx={{ marginTop: '2rem' }} />
         <Typography variant="h4"> DESCRIPTION</Typography>
-        <Typography variant="h6"> dsadas</Typography>
+        <Typography
+          variant="h6"
+          dangerouslySetInnerHTML={
+            { __html: data?.data?.[0]?.description } ?? '-'
+          }
+        />{' '}
         <Divider sx={{ marginTop: '2rem' }} />
       </Box>
     </CommonDrawer>

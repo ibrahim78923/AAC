@@ -12,7 +12,18 @@ export const InventoryPurchaseOrderAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    deleteInventoryPurchaseOrder: builder?.mutation({
+      query: (params: any) => ({
+        url: END_POINTS?.DELETE_INVENTORY_PURCHASE_ORDER,
+        method: 'PATCH',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
-export const { useGetInventoryPurchaseOrderQuery } = InventoryPurchaseOrderAPI;
+export const {
+  useGetInventoryPurchaseOrderQuery,
+  useDeleteInventoryPurchaseOrderMutation,
+} = InventoryPurchaseOrderAPI;

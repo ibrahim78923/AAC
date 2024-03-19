@@ -35,7 +35,11 @@ export const ContractsDetails = () => {
         flexWrap={'wrap'}
         gap={2}
       >
-        <Search label="Search" searchBy={searchBy} setSearchBy={setSearchBy} />
+        <Search
+          label="Search Here"
+          searchBy={searchBy}
+          setSearchBy={setSearchBy}
+        />
         <Button
           startIcon={<AddCircleBlackIcon />}
           color="secondary"

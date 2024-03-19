@@ -13,8 +13,10 @@ import { useGetAuthCompaniesQuery } from '@/services/auth';
 import { SUPER_ADMIN } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import useUserDetailsList from '../../UsersDetailsList/useUserDetailsList';
+import useToggle from '@/hooks/useToggle';
 
 const useAddUser = (useActionParams?: any) => {
+  const [isToggled, setIsToggled] = useToggle(false);
   const {
     tabVal,
     organizationId,
@@ -36,9 +38,45 @@ const useAddUser = (useActionParams?: any) => {
   const tabTitle = tabVal === initialTab ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
 
   // for super admin form methods
+  const superAdminValues = {
+    ...userDetail,
+    address: userDetail?.address?.composite
+      ? userDetail?.address?.composite
+      : `${
+          userDetail?.address?.flatNumber
+            ? `Flat # ${userDetail?.address?.flatNumber}, `
+            : ''
+        }` +
+        `${
+          userDetail?.address?.buildingNumber
+            ? `Building # ${userDetail?.address?.buildingNumber}, `
+            : ''
+        }` +
+        `${
+          userDetail?.address?.buildingName
+            ? `Building Name ${userDetail?.address?.buildingName}, `
+            : ''
+        }` +
+        `${
+          userDetail?.address?.streetName
+            ? `Street # ${userDetail?.address?.streetName}, `
+            : ''
+        }` +
+        `${userDetail?.address?.city ? `${userDetail?.address?.city}, ` : ''}` +
+        `${
+          userDetail?.address?.country ? `${userDetail?.address?.country}` : ''
+        }`,
+    flat: userDetail?.address?.flatNumber ?? '',
+    city: userDetail?.address?.city ?? '',
+    country: userDetail?.address?.country ?? '',
+    buildingName: userDetail?.address?.buildingName ?? '',
+    buildingNumber: userDetail?.address?.buildingNumber ?? '',
+    streetName: userDetail?.address?.streetName ?? '',
+  };
+
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
-    defaultValues: userDetail,
+    defaultValues: superAdminValues,
   });
 
   // for company awner form values
@@ -66,25 +104,28 @@ const useAddUser = (useActionParams?: any) => {
   const formValues = watch();
 
   //make sum up of address fields
-  const addressValues = `${formValues?.flat ? 'Flat # ' : ''}${
-    formValues?.flat ?? ''
-  }${formValues?.flat ? ',' : ''}
-    ${formValues?.buildingName ? 'building name ' : ''}${
-      formValues?.buildingName ?? ''
-    }${formValues?.buildingName ? ',' : ''}${
-      formValues?.buildingNumber ? 'building # ' : ''
-    }${formValues?.buildingNumber ?? ''}
-    ${formValues?.buildingNumber ? ',' : ''}${
-      formValues?.streetName ? 'street name ' : ''
-    }${formValues?.streetName ?? ''}${formValues?.streetName ? ',' : ''}${
-      formValues?.city ?? ''
-    }${formValues?.city ? ',' : ''}${formValues?.country ?? ''}${
-      formValues?.country ? ',' : ''
-    }`;
+  const addressValues = formValues?.composite?.address
+    ? formValues?.composite?.address
+    : `${formValues?.flat ? `Flat # ${formValues?.flat}, ` : ''}` +
+      `${
+        formValues?.buildingNumber
+          ? `Building # ${formValues?.buildingNumber}, `
+          : ''
+      }` +
+      `${
+        formValues?.buildingName
+          ? `Building Name ${formValues?.buildingName}, `
+          : ''
+      }` +
+      `${
+        formValues?.streetName ? `Street # ${formValues?.streetName}, ` : ''
+      }` +
+      `${formValues?.city ? `${formValues?.city}, ` : ''}` +
+      `${formValues?.country ? `${formValues?.country}` : ''}`;
 
   // setValue of address values
   useEffect(() => {
-    setValue('compositeAddress', addressValues?.trim());
+    setValue('address', addressValues?.trim());
   }, [addressValues]);
 
   // watch crn number from values
@@ -120,7 +161,8 @@ const useAddUser = (useActionParams?: any) => {
     } else if (pathName === SUPER_ADMIN?.USERS_LIST) {
       values.role = 'ORG_EMPLOYEE';
     }
-    if (values?.country && values?.city) {
+
+    if (isToggled) {
       values.address = {
         flatNumber: values.flat,
         buildingName: values?.buildingName,
@@ -142,9 +184,7 @@ const useAddUser = (useActionParams?: any) => {
       'country',
       'streetName',
       'compositeAddress',
-      'email',
     ];
-
     if (isOpenAddUserDrawer?.type === 'edit') {
       keysToDelete = keysToDelete.concat(
         '_id',
@@ -153,6 +193,7 @@ const useAddUser = (useActionParams?: any) => {
         'products',
         'role',
         'organization',
+        'email',
       );
     }
 
@@ -199,6 +240,8 @@ const useAddUser = (useActionParams?: any) => {
     onSubmit,
     userDetail,
     tabTitle,
+    isToggled,
+    setIsToggled,
   };
 };
 

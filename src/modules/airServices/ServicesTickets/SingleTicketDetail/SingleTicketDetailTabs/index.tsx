@@ -1,7 +1,6 @@
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { singleTicketDetailTabsData } from './SingleTicketDetailTabs.data';
 import { Tasks } from '../Tasks';
-import { Meetings } from '../Meetings';
 import { Approvals } from '../Approvals';
 import RelatedTickets from '../RelatedTickets';
 import { AssociateAssets } from '../AssociateAssets';
@@ -12,11 +11,11 @@ import { useState } from 'react';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
+import { Meeting } from '../Meeting';
 
 export const SingleTicketDetailTabs = () => {
   const [totalRelatedTickets, setTotalRelatedTickets] = useState();
   const [totalAssets, setTotalAssets] = useState();
-
   return (
     <HorizontalTabs
       tabsDataArray={singleTicketDetailTabsData?.(
@@ -52,7 +51,7 @@ export const SingleTicketDetailTabs = () => {
       <PermissionsGuard
         permissions={Permissions?.AIR_SERVICES_TICKETS_TICKETS_DETAILS_MEETINGS}
       >
-        <Meetings />
+        <Meeting />
       </PermissionsGuard>
       <PermissionsGuard
         permissions={[

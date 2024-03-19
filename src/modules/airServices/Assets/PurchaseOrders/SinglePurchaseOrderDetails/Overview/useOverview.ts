@@ -9,7 +9,8 @@ export const useOverview = () => {
   const theme = useTheme();
   const router = useRouter();
   const purchaseOrderId = router?.query?.purchaseOrderId;
-  const { data } = useGetPurchaseOrderOverviewQuery(purchaseOrderId);
+  const { data, isLoading, isFetching } =
+    useGetPurchaseOrderOverviewQuery(purchaseOrderId);
   const purchaseOrderData = data?.data;
   const purchaseOrderDetailData = data?.data?.purchaseDetails;
   const itemName = data?.data?.productDetails?.find(
@@ -46,5 +47,7 @@ export const useOverview = () => {
     orderStatus,
     handleDownload,
     uniqueNumber,
+    isLoading,
+    isFetching,
   };
 };

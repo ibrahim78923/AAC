@@ -2,7 +2,7 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchemaAddNewAssetTypes: any = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Required'),
+  name: Yup?.string()?.required('Name is required'),
   description: Yup?.string(),
 });
 

@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import { overviewData } from './Overview.data';
 import { styles } from './Overview.style';
 import { overviewTableColumns } from './Overview.data';
@@ -17,7 +17,10 @@ export const Overview = () => {
     itemName,
     handleDownload,
     uniqueNumber,
+    isLoading,
+    isFetching,
   } = useOverview();
+  if (isLoading || isFetching) return <Skeleton />;
   return (
     <Box>
       {overviewData(purchaseOrderData)?.map((item: any) => (

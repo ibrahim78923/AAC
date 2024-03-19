@@ -17,9 +17,19 @@ export const ActivityTimeline = ({ activityData }: any) => {
         gap={1.25}
         marginBottom={1.5}
       >
-        <Typography variant="body3" sx={{ flex: 0.15 }}>
-          {activityData?.createdAt}
-        </Typography>
+        <Box sx={{ flex: 0.15 }}>
+          <Typography
+            variant="body2"
+            color="textPrimary"
+            component={'span'}
+            mr="0.625rem"
+          >
+            {dayjs(activityData?.createdAt)?.format(DATE_FORMAT?.UI)}
+          </Typography>
+          <Typography variant="body2" color="textPrimary" component={'span'}>
+            {dayjs(activityData?.createdAt)?.format(TIME_FORMAT?.UI)}
+          </Typography>
+        </Box>
         <IconButton
           disabled
           color="primary"

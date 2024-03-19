@@ -2,6 +2,34 @@ import { Checkbox, Typography } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName } from '@/utils/avatarUtils';
+import {
+  SOFTWARE_STATUS,
+  SOFTWARE_TYPE,
+  TIME_PERIODS,
+} from '@/constants/strings';
+
+export const softwareStatusOptions = [
+  SOFTWARE_STATUS?.RESTRICTED,
+  SOFTWARE_STATUS?.IGNORED,
+  SOFTWARE_STATUS?.MANAGED,
+  SOFTWARE_STATUS?.DISABLED,
+  SOFTWARE_STATUS?.IN_REVIEW,
+];
+
+export const softwareTypeOptions = [
+  SOFTWARE_TYPE?.DESKTOP,
+  SOFTWARE_TYPE?.SAAS,
+  SOFTWARE_TYPE?.MOBILE,
+];
+
+export const softwareDateOptions = [
+  TIME_PERIODS?.NONE,
+  TIME_PERIODS?.ALL_TIME,
+  TIME_PERIODS?.TODAY,
+  TIME_PERIODS?.YESTERDAY,
+  TIME_PERIODS?.PREVIOUS_WEEK,
+  TIME_PERIODS?.PREVIOUS_MONTH,
+];
 
 export const columns = (
   softwareData: any,
@@ -56,7 +84,7 @@ export const columns = (
           router?.push({
             pathname: AIR_SERVICES?.ASSETS_SOFTWARE_DETAIL,
             query: {
-              softwareId: info?.row?.original?.id,
+              softwareId: info?.row?.original?._id,
             },
           })
         }

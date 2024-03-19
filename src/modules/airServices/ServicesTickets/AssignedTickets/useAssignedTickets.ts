@@ -17,6 +17,9 @@ export const useAssignedTickets = (props: any) => {
     setSelectedTicketList,
     selectedTicketList,
     singleTicketDetail,
+    setFilterTicketLists,
+    getTicketsListData,
+    setPage,
   } = props;
 
   const [putTicketTrigger, putTicketStatus] = usePutTicketsMutation();
@@ -27,7 +30,7 @@ export const useAssignedTickets = (props: any) => {
     },
     resolver: yupResolver(
       Yup?.object()?.shape({
-        user: Yup?.mixed()?.nullable()?.required('Required'),
+        user: Yup?.mixed()?.nullable()?.required('Agent is Required'),
       }),
     ),
   });
@@ -54,9 +57,12 @@ export const useAssignedTickets = (props: any) => {
       await putTicketTrigger(putTicketParameter)?.unwrap();
       successSnackbar('Ticket assigned Successfully');
       reset();
+      getTicketsListData(1, {});
+      setFilterTicketLists?.({});
+      setPage?.(1);
       closeTicketsAssignedModal?.();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 

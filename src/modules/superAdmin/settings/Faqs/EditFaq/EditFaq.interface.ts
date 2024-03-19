@@ -4,4 +4,6 @@ export interface EditFaqPropsI {
   handleSubmit: any;
   formMethods: any;
   isLoading?: boolean;
+  title?: string;
+  onViewDisabled: boolean;
 }

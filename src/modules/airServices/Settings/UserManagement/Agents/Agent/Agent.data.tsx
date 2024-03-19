@@ -70,7 +70,11 @@ export const agentsListsColumnsFunction = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={selectedAgentList?.length === processedAgentListData?.length}
+        checked={
+          !!processedAgentListData?.length
+            ? selectedAgentList?.length === processedAgentListData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedAgentList([...processedAgentListData])
@@ -101,7 +105,10 @@ export const agentsListsColumnsFunction = (
           }
           router?.push({
             pathname: AIR_SERVICES?.SINGLE_AGENT_DETAILS,
-            query: { agentId: info?.row?.original?._id },
+            query: {
+              agentId: info?.row?.original?._id,
+              departmentId: info?.row?.original?.departmentId,
+            },
           });
         }}
       >

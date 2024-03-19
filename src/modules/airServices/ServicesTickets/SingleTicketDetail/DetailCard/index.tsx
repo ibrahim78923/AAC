@@ -4,7 +4,12 @@ import { useDetailsCard } from './useDetailCard';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
-import { fullName, generateImage } from '@/utils/avatarUtils';
+import {
+  formatFileSize,
+  fullName,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
 
 export const DetailCard = () => {
   const { data: detail, isLoading, isFetching, attachFile } = useDetailsCard();
@@ -51,12 +56,10 @@ export const DetailCard = () => {
               <div>
                 <Typography variant="body2" fontWeight={600}>
                   {' '}
-                  {detail?.data[0]?.requesterDetails?.firstName.length
-                    ? fullName(
-                        detail?.data[0]?.requesterDetails?.firstName,
-                        detail?.data[0]?.requesterDetails?.lastName,
-                      )
-                    : '-'}
+                  {fullName(
+                    detail?.data[0]?.requesterDetails?.firstName,
+                    detail?.data[0]?.requesterDetails?.lastName,
+                  )}
                 </Typography>
               </div>
             </Box>
@@ -131,10 +134,10 @@ export const DetailCard = () => {
 
                 <Box>
                   <Typography variant="body2" color="slateBlue.main">
-                    {detail?.filename ?? 'file-name-0.txt'}
+                    {truncateText(attachFile?.data?.[0]?.orignalName)}
                   </Typography>
                   <Typography variant="body3" color="grey.500">
-                    {detail?.size ?? '1Kb'}
+                    {formatFileSize(attachFile?.data?.[0]?.fileSize)}
                   </Typography>
                 </Box>
               </Box>

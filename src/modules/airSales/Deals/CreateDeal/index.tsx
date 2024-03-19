@@ -18,7 +18,8 @@ const CreateDeal = ({ open, onClose }: any) => {
 
   const methods = useForm({});
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, watch } = methods;
+  const dealPiplineId = watch('dealPiplineId');
 
   const onSubmit = async (values: any) => {
     values.addLineItemId = '6538bb480b3f9e9d83d4a2ce'; // need get api for addLineItem but missing this api so i am using static id
@@ -32,6 +33,8 @@ const CreateDeal = ({ open, onClose }: any) => {
     onClose();
   };
 
+  const dealDataArray = createDealData({ dealPiplineId });
+
   return (
     <CommonDrawer
       isDrawerOpen={open}
@@ -44,7 +47,7 @@ const CreateDeal = ({ open, onClose }: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={1}>
-          {createDealData()?.map((item: any) => (
+          {dealDataArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               <item.component {...item?.componentProps} size={'small'}>
                 {item?.componentProps?.select &&

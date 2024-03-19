@@ -54,8 +54,8 @@ export const useApprovals = () => {
           ? 1
           : page;
       await getValueArticlesListData?.(newPage);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 

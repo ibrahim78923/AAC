@@ -75,7 +75,11 @@ export const requestersList: any = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={selectedRequestersList?.length === tableListData?.length}
+        checked={
+          !!tableListData?.length
+            ? selectedRequestersList?.length === tableListData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedRequestersList([...tableListData])
@@ -101,7 +105,7 @@ export const requestersList: any = (
         gap={1}
         onClick={() => {
           if (info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE) {
-            errorSnackbar('This agent is not active');
+            errorSnackbar('This requester is not active');
             return;
           }
           router?.push({
@@ -135,27 +139,7 @@ export const requestersList: any = (
     id: 'email',
     isSortable: true,
     header: 'Email',
-
-    cell: (info: any) => {
-      return (
-        <Typography
-          style={{
-            textTransform: 'lowercase',
-            cursor: 'pointer',
-            textDecoration:
-              info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE
-                ? 'underline'
-                : 'none',
-          }}
-          onClick={() =>
-            info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE &&
-            router?.push(`mailto:${info?.getValue()}`)
-          }
-        >
-          {info?.getValue()}
-        </Typography>
-      );
-    },
+    cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -173,19 +157,20 @@ export const requestersList: any = (
 
       return (
         <Typography
+          variant="body2"
+          color="slateBlue.main"
           sx={{
             color: color,
-            width: 'fit-content',
           }}
         >
-          {status}
+          {info?.getValue()}
         </Typography>
       );
     },
   },
   {
-    accessorFn: (row: any) => row?.role,
-    id: 'role',
+    accessorFn: (row: any) => row?.jobTitle,
+    id: 'jobTitle',
     isSortable: true,
     header: 'Job Title',
     cell: (info: any) => info?.getValue(),

@@ -1,44 +1,19 @@
-import { useState } from 'react';
 import { useTheme } from '@mui/material';
-import {
-  useGetDashboardCardsTicketsQuery,
-  useGetRecentActivitiesQuery,
-} from '@/services/airServices/dashboard';
-import { useGetCustomerAnnouncementQuery } from '@/services/airServices/dashboard';
+import { useGetDashboardCardsTicketsQuery } from '@/services/airServices/dashboard';
 
-export function useDashboard() {
+export const useDashboard = () => {
   const theme = useTheme();
-  const [isbarchart, setIsBarChart] = useState(true);
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [isAnnouncementDrawerOpen, setIsAnnouncementDrawerOpen] =
-    useState<boolean>(false);
-  const handleIconButton = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
-  const handleAnnouncementIconButton = () => {
-    setIsAnnouncementDrawerOpen(!isAnnouncementDrawerOpen);
-  };
-  const { data: cardsData } = useGetDashboardCardsTicketsQuery(null);
+  const {
+    data: cardsData,
+    isLoading,
+    isFetching,
+  } = useGetDashboardCardsTicketsQuery(null);
   const cardData = cardsData?.data;
 
-  const { data } = useGetCustomerAnnouncementQuery(null);
-  const customerAnnouncement = data?.annoucements;
-
-  const { data: recentActivitie } = useGetRecentActivitiesQuery(null);
-  const recentActivities = recentActivitie?.data;
-
   return {
-    setIsDrawerOpen,
-    isDrawerOpen,
     theme,
-    handleIconButton,
-    isbarchart,
-    setIsBarChart,
-    handleAnnouncementIconButton,
-    isAnnouncementDrawerOpen,
-    setIsAnnouncementDrawerOpen,
     cardData,
-    customerAnnouncement,
-    recentActivities,
+    isLoading,
+    isFetching,
   };
-}
+};

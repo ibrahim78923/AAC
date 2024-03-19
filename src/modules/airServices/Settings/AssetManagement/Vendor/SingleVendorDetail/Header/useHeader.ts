@@ -4,11 +4,19 @@ import { useGetDetailVendorsListQuery } from '@/services/airServices/settings/as
 export const useHeader = () => {
   const router = useRouter();
   const { vendorId } = router?.query;
-  const { data } = useGetDetailVendorsListQuery({ vendorId });
+  const { data, isLoading, isFetching } = useGetDetailVendorsListQuery(
+    { vendorId },
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!vendorId,
+    },
+  );
   const singleVendorName = data?.data?.name;
 
   return {
     router,
     singleVendorName,
+    isLoading,
+    isFetching,
   };
 };

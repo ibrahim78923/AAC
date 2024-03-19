@@ -17,17 +17,21 @@ import { v4 as uuidv4 } from 'uuid';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const PermissionsAccordion = (props: any) => {
-  const { permissionsData } = props;
+  const { permissionsData, query } = props;
   const {
     theme,
     // commented for future use
     // isAccordionExpanded,
     //  handleExpandAccordionChange
   } = usePermissionAccordion();
+  const dataArray =
+    query?.type === 'view'
+      ? permissionsData?.permissions
+      : permissionsData?.data;
 
   return (
     <Stack gap={3}>
-      {permissionsData?.data?.map((item: any) => (
+      {dataArray?.map((item: any) => (
         <Accordion
           key={uuidv4()}
           // expanded={isAccordionExpanded === item?.module?.toLowerCase()}

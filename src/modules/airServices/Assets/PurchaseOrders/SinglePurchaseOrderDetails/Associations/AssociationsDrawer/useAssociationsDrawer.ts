@@ -56,6 +56,7 @@ export const useAssociationsDrawer = (props: AssociationsDrawerPropsI) => {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
       setSelectedTicketList([]);
+      setDrawerOpen(false);
     } catch (error) {
       enqueueSnackbar('Something went wrong', {
         variant: NOTISTACK_VARIANTS?.ERROR,

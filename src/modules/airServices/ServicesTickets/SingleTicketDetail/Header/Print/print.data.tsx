@@ -1,71 +1,61 @@
-export const printData = [
-  {
-    id: 1,
-    heading: 'Workspace',
-    text: 'IT',
-  },
-  {
-    id: 2,
-    heading: 'Urgency',
-    text: 'Low',
-  },
+import { DATE_TIME_FORMAT } from '@/constants';
+import { fullName } from '@/utils/avatarUtils';
+import dayjs from 'dayjs';
+
+export const printData = (data: any) => [
   {
     id: 3,
     heading: 'Impact',
-    text: 'Low',
+    text: data?.data?.[0]?.impact ?? '-',
   },
   {
     id: 4,
     heading: 'Priority',
-    text: 'Low',
+    text: data?.data?.[0]?.pirority ?? '-',
   },
   {
     id: 5,
     heading: 'status',
-    text: 'Open',
+    text: data?.data?.[0]?.status ?? '-',
   },
   {
     id: 6,
     heading: 'Source',
-    text: 'Phone',
+    text: data?.data?.[0]?.source ?? '-',
   },
   {
     id: 7,
     heading: 'Type',
-    text: 'Incident',
-  },
-  {
-    id: 8,
-    heading: 'Group',
-    text: '--',
+    text: data?.data?.[0]?.ticketType ?? '-',
   },
   {
     id: 9,
     heading: 'Agent',
-    text: '--',
+    text:
+      fullName(
+        data?.data?.[0]?.agentDetails?.firstName,
+        data?.data?.[0]?.agentDetails?.lastName,
+      ) ?? '-',
   },
 
   {
     id: 10,
     heading: 'Department',
-    text: '--',
+    text: data?.data?.[0]?.departmentDetails?.name ?? '-',
   },
 
   {
     id: 11,
     heading: 'Category',
-    text: '--',
-  },
-
-  {
-    id: 12,
-    heading: 'Sub-category',
-    text: '--',
+    text: data?.data?.[0]?.categoryDetails?.categoryName ?? '-',
   },
 
   {
     id: 13,
     heading: 'Due by ',
-    text: 'Fri, 7 Apr 2:00 AM',
+    text:
+      dayjs(data?.data[0]?.requesterDetails?.createdAt)?.format(
+        DATE_TIME_FORMAT?.DDMYHMA,
+      ) ?? '-',
   },
 ];

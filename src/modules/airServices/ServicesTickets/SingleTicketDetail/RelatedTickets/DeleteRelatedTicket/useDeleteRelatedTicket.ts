@@ -7,6 +7,9 @@ export const useDeleteRelatedTicket = (props: any) => {
     selectedChildTickets,
     setSelectedChildTickets,
     setPage,
+    getChildTicketsListData,
+    page,
+    totalRecords,
   } = props;
   const [deleteChildTicketsTrigger, deleteChildTicketsStatus] =
     useDeleteChildTicketsMutation();
@@ -23,10 +26,12 @@ export const useDeleteRelatedTicket = (props: any) => {
       await deleteChildTicketsTrigger(deleteTicketsParameter)?.unwrap();
       successSnackbar('Child Ticket deleted successfully');
       setSelectedChildTickets?.([]);
-      setPage?.(1);
+      const newPage = selectedChildTickets?.length === totalRecords ? 1 : page;
+      setPage?.(newPage);
+      await getChildTicketsListData?.(newPage);
       closeTicketsDeleteModal?.();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
       setSelectedChildTickets?.([]);
       closeTicketsDeleteModal?.();
     }

@@ -7,10 +7,15 @@ import {
 import { useGetUsersListQuery } from '@/services/airSales/deals';
 import useDealTab from '../DealTab/useDealTab';
 
-export const createDealData = () => {
+export const createDealData = ({ dealPiplineId }: any) => {
   const userRole = 'ORG_EMPLOYEE';
-  const { pipelineData, DealsLifecycleStageData } = useDealTab();
+  const { pipelineData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: userRole });
+
+  const filteredStages =
+    pipelineData?.data?.dealpipelines.find(
+      (pipeline: any) => pipeline?._id === dealPiplineId,
+    )?.stages || [];
 
   return [
     {
@@ -42,12 +47,10 @@ export const createDealData = () => {
         select: true,
         required: true,
       },
-      options: DealsLifecycleStageData?.data?.lifecycleStages?.map(
-        (item: any) => ({
-          value: item?._id,
-          label: item?.name,
-        }),
-      ),
+      options: filteredStages?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
       component: RHFSelect,
     },
     {

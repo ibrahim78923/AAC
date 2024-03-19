@@ -1,8 +1,10 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useGetInventoryContractsQuery } from '@/services/airServices/assets/inventory/single-inventory-details/contract';
+import {
+  useDeleteInventoryContractsMutation,
+  useGetInventoryContractsQuery,
+} from '@/services/airServices/assets/inventory/single-inventory-details/contract';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 export const useContract = () => {
@@ -10,32 +12,37 @@ export const useContract = () => {
   const theme: any = useTheme();
   const [deleteRecord, setDelateRecord] = useState();
   const router = useRouter();
-  const { data, isLoading } = useGetInventoryContractsQuery(
-    router?.query?.inventoryId,
-  );
-  const AssetsInventoryContractsData = data?.data;
-
+  const { data, isLoading, isFetching, isError } =
+    useGetInventoryContractsQuery(router?.query?.inventoryId, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!router?.query?.inventoryId,
+    });
+  const [deleteInventoryContracts, deleteIsLoading] =
+    useDeleteInventoryContractsMutation();
   const handleDelete = async () => {
     try {
-      enqueueSnackbar('Record deleted Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      const params = {
+        id: router?.query?.inventoryId,
+        contractId: deleteRecord,
+      };
+      const res: any = await deleteInventoryContracts(params)?.unwrap();
+      successSnackbar(res?.message ?? 'Record deleted Successfully');
       setOpenDeleteModal(false);
     } catch (err: any) {
-      enqueueSnackbar(`Something went wrong`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(err?.message ?? `Something went wrong`);
     }
   };
-
   return {
-    AssetsInventoryContractsData,
+    data,
     isLoading,
+    isError,
+    isFetching,
     openDeleteModal,
     setOpenDeleteModal,
     handleDelete,
     theme,
     setDelateRecord,
     deleteRecord,
+    deleteIsLoading,
   };
 };

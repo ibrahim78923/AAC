@@ -1,50 +1,64 @@
-import { Avatar, Box, Skeleton, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import LinearProgress from '@mui/material/LinearProgress';
+import { Avatar, Box, Typography } from '@mui/material';
+import LinearProgress, {
+  linearProgressClasses,
+} from '@mui/material/LinearProgress';
 import { FirstAidKitIcon } from '@/assets/icons';
-import { styles } from './TicketCard.style';
-import { TICKET_TYPE, TICKET_TYPE_DETAIL, totalSum } from './TicketCard.data';
 
 export const TicketCard = (props: any) => {
-  const { totalCount, data, isLoading, isFetching }: any = props;
-  const { palette }: any = useTheme();
-  const { mainWrapper, contentWrapper, progressBar }: any = styles;
-
-  if (isLoading || isFetching) return <Skeleton />;
-
-  if (TICKET_TYPE?.TOTAL === data?.[0]) return;
+  const { totalCount, data }: any = props;
 
   return (
-    <Box sx={mainWrapper}>
-      <Box sx={contentWrapper}>
+    <Box
+      sx={{
+        p: 1.2,
+        borderRadius: '0.5rem',
+        background: 'white',
+        flex: 1,
+        minWidth: 180,
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 1.2,
+          pb: 1.2,
+        }}
+      >
         <Avatar
           sx={{
             width: 36,
             height: 36,
-            backgroundColor: TICKET_TYPE_DETAIL(data)?.[data?.[0]]?.color,
+            backgroundColor: data?.color,
           }}
         >
           <FirstAidKitIcon />
         </Avatar>
         <Box>
           <Typography variant="h3" fontWeight={700} color="blue.main">
-            {TICKET_TYPE_DETAIL(data)?.[data?.[0]]?.count}
+            {data?.count}
           </Typography>
           <Typography fontSize={'0.75rem'} color="blue.light">
-            {TICKET_TYPE_DETAIL(data)?.[data?.[0]]?.label}
+            {data?.label}
           </Typography>
         </Box>
       </Box>
       <LinearProgress
-        value={totalSum(data, totalCount)}
+        value={Math?.floor((data?.count / totalCount) * 100)}
         variant="determinate"
-        sx={progressBar(palette, TICKET_TYPE_DETAIL(data)?.[data?.[0]]?.color)}
+        sx={{
+          height: 6,
+          borderRadius: 5,
+          [`&.${linearProgressClasses?.colorPrimary}`]: {
+            backgroundColor: 'grey.0',
+          },
+          [`& .${linearProgressClasses?.bar}`]: {
+            borderRadius: 5,
+            backgroundColor: data?.color,
+          },
+        }}
       />
       <Typography variant="body2" pt={1} color="blue.main">
-        Tickets Done:{' '}
-        {`${TICKET_TYPE_DETAIL(data)?.[data?.[0]]?.count}/${totalCount?.[
-          TICKET_TYPE?.TOTAL
-        ]}`}
+        Tickets Done: {`${data?.count}/${totalCount}`}
       </Typography>
     </Box>
   );

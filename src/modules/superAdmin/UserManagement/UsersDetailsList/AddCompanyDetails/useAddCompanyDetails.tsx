@@ -1,14 +1,10 @@
-import { FeaturedImage } from '@/assets/images';
-import { CommonAPIS } from '@/services/common-APIs';
-import { Card, Typography, useTheme } from '@mui/material';
-import { styles } from './AddCompanyDetails.style';
-import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema, defaultValues } from './AddCompanyDetails.data';
 import { userListApi } from '@/services/superAdmin/user-management/UserList';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
+import { useTheme } from '@mui/material';
 
 const useAddCompanyDetails = (
   organizationId: any,
@@ -16,21 +12,9 @@ const useAddCompanyDetails = (
   isToggled: any,
 ) => {
   const theme = useTheme();
-  const { useGetProductsQuery } = CommonAPIS;
   const { usePostCompanyMutation } = userListApi;
   const [postCompany] = usePostCompanyMutation();
-  const { data: products } = useGetProductsQuery({});
   const [companyImg, setCompanyImg] = useState<any>();
-
-  const productsList = products?.data?.map((item: any) => ({
-    value: item?._id,
-    label: (
-      <Card sx={styles?.productCard}>
-        <Image src={FeaturedImage} alt="sales-image" />
-        <Typography>{item?.name}</Typography>
-      </Card>
-    ),
-  }));
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
@@ -65,8 +49,8 @@ const useAddCompanyDetails = (
   }, [addressValues]);
 
   const onSubmit = async (values: any) => {
-    // let formData = new FormData();
-    // values.file = companyImg;
+    const formData = new FormData();
+    values.file = companyImg;
     values.organizationId = organizationId;
     if (isToggled) {
       values.address = {
@@ -91,28 +75,28 @@ const useAddCompanyDetails = (
     delete values['compositeAddress'];
     values.isActive = false;
 
-    // formData?.append('logoUrl', values?.file)
-    // formData?.append('organizationId', values?.organizationId)
-    // formData?.append('address', values?.address)
-    // formData?.append('accountName', values?.accountName)
-    // formData?.append('phoneNo', values?.phoneNo)
-    // formData?.append('postCode', values?.postCode)
-    // formData?.append('products', values?.products)
-    // formData?.append('isActive', values?.isActive)
+    formData?.append('image', values?.file);
+    formData?.append('organizationId', values?.organizationId);
+    formData?.append('address', values?.address);
+    formData?.append('accountName', values?.accountName);
+    formData?.append('phoneNo', values?.phoneNo);
+    formData?.append('postCode', values?.postCode);
+    formData?.append('products', values?.products);
+    formData?.append('isActive', values?.isActive);
 
     try {
-      postCompany({ body: values })?.unwrap();
-      setISOpenCompanyDrawer(false);
+      await postCompany({ body: formData })?.unwrap();
       enqueueSnackbar('Company Added Successfully', { variant: 'success' });
       reset();
-    } catch {
-      enqueueSnackbar('Company not added', { variant: 'error' });
+      setISOpenCompanyDrawer(false);
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, { variant: 'error' });
     }
   };
 
   return {
     theme,
-    productsList,
+    // productsList,
     methods,
     handleSubmit,
     onSubmit,

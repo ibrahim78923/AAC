@@ -91,6 +91,7 @@ export const useUpdateContract = () => {
     apiQueryApprover,
     actionRenewExtend,
   );
+
   return {
     methods,
     handleSubmit,

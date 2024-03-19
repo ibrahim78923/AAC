@@ -13,5 +13,9 @@ const QuotesPage = () => {
 export default QuotesPage;
 
 QuotesPage.getLayout = function getLayout(page: any) {
-  return <Layout permissions={Permissions?.AIR_SALES_QUOTES}>{page}</Layout>;
+  return (
+    <Layout guardRoute permissions={Permissions?.AIR_SALES_QUOTES}>
+      {page}
+    </Layout>
+  );
 };

@@ -1,8 +1,10 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useGetInventoryPurchaseOrderQuery } from '@/services/airServices/assets/inventory/single-inventory-details/purchase-order';
+import {
+  useDeleteInventoryPurchaseOrderMutation,
+  useGetInventoryPurchaseOrderQuery,
+} from '@/services/airServices/assets/inventory/single-inventory-details/purchase-order';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 export const usePurchaseOrders = () => {
@@ -10,32 +12,37 @@ export const usePurchaseOrders = () => {
   const theme: any = useTheme();
   const [deleteRecord, setDelateRecord] = useState();
   const router = useRouter();
-  const { data, isLoading } = useGetInventoryPurchaseOrderQuery(
-    router?.query?.inventoryId,
-  );
-  const AssetsInventoryPurchaseOrderData = data?.data;
-
+  const { data, isLoading, isFetching, isError } =
+    useGetInventoryPurchaseOrderQuery(router?.query?.inventoryId, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!router?.query?.inventoryId,
+    });
+  const [deleteInventoryPurchaseOrder, deleteIsLoading] =
+    useDeleteInventoryPurchaseOrderMutation();
   const handleDelete = async () => {
     try {
-      enqueueSnackbar('Record deleted Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      const params = {
+        id: router?.query?.inventoryId,
+        purchaseId: deleteRecord,
+      };
+      const res: any = await deleteInventoryPurchaseOrder(params)?.unwrap();
+      successSnackbar(res?.message ?? 'Record deleted Successfully');
       setOpenDeleteModal(false);
     } catch (err: any) {
-      enqueueSnackbar(`Something went wrong`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(err?.message ?? `Something went wrong`);
     }
   };
-
   return {
-    AssetsInventoryPurchaseOrderData,
+    data,
     isLoading,
+    isError,
+    isFetching,
     openDeleteModal,
     setOpenDeleteModal,
     handleDelete,
     theme,
     setDelateRecord,
     deleteRecord,
+    deleteIsLoading,
   };
 };

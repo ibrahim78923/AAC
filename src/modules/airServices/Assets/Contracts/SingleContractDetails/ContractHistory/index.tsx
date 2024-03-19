@@ -3,9 +3,15 @@ import NoData from '@/components/NoData';
 import { NoAssociationFoundImage } from '@/assets/images';
 import { Timeline } from './Timeline';
 import { useContractHistory } from './useContractHistory';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const ContractHistory = () => {
-  const { contractHistory } = useContractHistory();
+  const { contractHistory, isLoading, isFetching, isError } =
+    useContractHistory();
+  if (isLoading || isFetching) return <SkeletonTable />;
+
+  if (isError) return <ApiErrorState />;
   return (
     <Grid container>
       <Grid item xs={12} md={0.5}></Grid>

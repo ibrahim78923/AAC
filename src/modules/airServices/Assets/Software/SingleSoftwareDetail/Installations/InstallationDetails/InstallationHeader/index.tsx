@@ -29,7 +29,7 @@ export const InstallationHeader = (props: any) => {
       >
         <Box>
           <Search
-            label="Search"
+            label="Search Here"
             searchBy={searchBy}
             setSearchBy={setSearchBy}
           />
