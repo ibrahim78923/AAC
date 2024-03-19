@@ -17,12 +17,14 @@ const StatusBadge = (props: BadgeStatusI) => {
     };
     switch (val) {
       case 'ACTIVE':
+      case 'active':
       case 'open':
       case 'OPEN':
         colors.bgColor = 'rgba(71, 178, 99, 0.2)';
         colors.color = theme?.palette?.success?.main;
         break;
       case 'INACTIVE':
+      case 'inactive':
       case 'close':
       case 'CLOSE':
         colors.bgColor = 'rgba(255, 74, 74, 0.2)';

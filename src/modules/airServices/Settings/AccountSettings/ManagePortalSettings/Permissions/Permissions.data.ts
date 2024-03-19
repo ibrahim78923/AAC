@@ -1,30 +1,30 @@
 import * as Yup from 'yup';
 
 export const permissionValidation = Yup?.object()?.shape({
-  allowUserSignUp: Yup?.string()?.trim(),
-  whoCanSubmit: Yup?.string()?.trim(),
-  whoCanView: Yup?.string()?.trim(),
+  allowUserSignUp: Yup?.string(),
+  whoCanSubmit: Yup?.string(),
+  whoCanView: Yup?.string(),
   autoSuggest: Yup?.boolean(),
-  allowLoggedIn: Yup?.string()?.trim(),
-  allowRequester: Yup?.string()?.trim(),
-  whoCanLogIn: Yup?.string()?.trim(),
+  allowLoggedIn: Yup?.string(),
+  allowRequester: Yup?.string(),
+  whoCanLogIn: Yup?.string(),
 });
 
 export const permissionValue = {
-  allowUserSignUp: '',
-  whoCanSubmit: '',
-  whoCanView: '',
-  autoSuggest: false,
-  allowLoggedIn: '',
-  allowRequester: '',
-  whoCanLogIn: '',
+  allowUserSignUp: 'yes',
+  whoCanSubmit: 'loggedInUsers',
+  whoCanView: 'loggedInUsers',
+  autoSuggest: true,
+  allowLoggedIn: 'yes',
+  allowRequester: 'yes',
+  whoCanLogIn: 'userFromAnyDomain',
 };
 
 const headingProp = {
   variant: 'h5',
   color: 'secondary.main',
   fontWeight: 500,
-  pb: 1,
+  mb: 1,
 };
 
 export const permissionData = [
@@ -34,7 +34,7 @@ export const permissionData = [
     heading: 'Allow user to Sign Up from the customer portal',
     mainHeadingProp: {
       variant: 'h5',
-      pb: 1,
+      mb: 1,
       color: 'secondary.main',
     },
     headingProp: headingProp,
@@ -60,7 +60,7 @@ export const permissionData = [
       ],
     },
     tooltipProps: {
-      title: '(CAPTA will be shown to logged out users to help avoid spam)',
+      title: '(CAPTCHA will be shown to logged out users to help avoid spam)',
     },
   },
   {

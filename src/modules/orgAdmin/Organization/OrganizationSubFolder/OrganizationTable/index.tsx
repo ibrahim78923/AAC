@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Image from 'next/image';
 
 import {
@@ -25,7 +23,6 @@ import {
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
 
 import { dataArray } from './OrganizationTable.data';
@@ -33,7 +30,7 @@ import { dataArray } from './OrganizationTable.data';
 import useOrganizationTable from './useOrganizationTable';
 
 import { FeaturedImage, AddCircleImage } from '@/assets/images';
-import { AddPenIcon, EraserIcon } from '@/assets/icons';
+import { AddPenIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -60,7 +57,6 @@ const OrganizationTable = () => {
     handleSubmit,
     methods,
     onSubmit,
-    tablePagination,
     getRowValues,
     isGetRowValues,
     deleteOrganizationCompany,
@@ -73,8 +69,18 @@ const OrganizationTable = () => {
     loadingAddCompanyAccount,
     editData,
     setEditData,
+    setIsGetRowValues,
+    setPageLimit,
+    setPage,
+    tableInfo,
+    handlePageChange,
+    isLoading,
   } = useOrganizationTable();
   const { user }: any = useAuth();
+
+  const getDateArray = dataArray({ drawerHeading, isToggled });
+
+  const isViewMode = drawerHeading === 'Company Account';
 
   return (
     <>
@@ -86,7 +92,7 @@ const OrganizationTable = () => {
         title={`${drawerHeading}`}
         okText={drawerHeading === 'Edit Company' ? 'Update' : 'Add'}
         isOk
-        footer={true}
+        footer={isViewMode ? false : true}
         submitHandler={handleSubmit(onSubmit)}
         isLoading={loadingAddCompanyAccount}
       >
@@ -137,6 +143,7 @@ const OrganizationTable = () => {
                     defaultChecked={editData?.products?.some(
                       (p: any) => p?._id === product?._id,
                     )}
+                    disabled={isViewMode}
                     sx={{
                       marginLeft: '7rem',
                     }}
@@ -149,7 +156,7 @@ const OrganizationTable = () => {
               ))}
             </Box>
             <Grid container spacing={1}>
-              {dataArray?.map((item: any) => (
+              {getDateArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   {item?.componentProps?.name === 'address' && (
                     <Box
@@ -175,7 +182,7 @@ const OrganizationTable = () => {
                             alignItems: 'center',
                           }}
                         >
-                          <EraserIcon />
+                          {/* <EraserIcon /> */}
                           <BorderColorIcon
                             onClick={() => {
                               toggle(true);
@@ -322,6 +329,7 @@ const OrganizationTable = () => {
                       setDrawerHeading('Edit Company');
                       setIsOpenDrawer(true);
                     }}
+                    disabled={isGetRowValues?.length > 1}
                   >
                     Edit
                   </MenuItem>
@@ -331,7 +339,16 @@ const OrganizationTable = () => {
                     ORG_ADMIN_ORGANIZATION_PERMISSIONS?.VIEW_ACCOUNT,
                   ]}
                 >
-                  <MenuItem onClick={handleClose}>View</MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      handleClose();
+                      setDrawerHeading('Company Account');
+                      setIsOpenDrawer(true);
+                    }}
+                    disabled={isGetRowValues.length > 1}
+                  >
+                    View
+                  </MenuItem>
                 </PermissionsGuard>
                 <MenuItem
                   onClick={() => {
@@ -353,6 +370,7 @@ const OrganizationTable = () => {
                     setDrawerHeading('Create Company');
                     setIsOpenDrawer(true);
                     setEditData({});
+                    setIsGetRowValues([]);
                   }}
                   variant="contained"
                   className="small"
@@ -370,11 +388,16 @@ const OrganizationTable = () => {
         </Grid>
       </Box>
       <Grid sx={{ marginTop: '1rem' }}>
-        <TanstackTable columns={getRowValues} data={tableRow} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={tablePagination}
-          entriePages={1}
+        <TanstackTable
+          isPagination
+          columns={getRowValues}
+          data={tableRow}
+          totalRecords={tableInfo?.total}
+          count={tableInfo?.pages}
+          onPageChange={handlePageChange}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          isLoading={isLoading}
         />
       </Grid>
       <AlertModals

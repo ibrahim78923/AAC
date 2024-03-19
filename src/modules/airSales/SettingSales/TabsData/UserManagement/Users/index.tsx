@@ -30,6 +30,13 @@ const UserTable = (props: any) => {
     isLoading,
     isSuccess,
   } = useUserManagement();
+
+  const handleFilterData = productsUsers?.data?.usercompanyaccounts?.filter(
+    (item: any) => {
+      return item?._id === checkedUser;
+    },
+  );
+
   return (
     <>
       <Box
@@ -80,9 +87,9 @@ const UserTable = (props: any) => {
           <MenuItem
             onClick={() => {
               setIsAddUserDrawer({
-                ...isAddUserDrawer,
                 isToggle: true,
                 type: 'edit',
+                data: handleFilterData[0],
               });
               handleClose();
             }}
