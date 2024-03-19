@@ -1,7 +1,6 @@
-import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { agentsListsColumnsFunction, agentActionsDropdown } from './Agent.data';
-import { ACTIONS_TYPES, NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
+import { ROLES } from '@/constants/strings';
 import { useLazyGetAgentsQuery } from '@/services/airServices/settings/user-management/agents';
 import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
@@ -11,7 +10,6 @@ export const useAgent = () => {
   const [selectedAgentList, setSelectedAgentList] = useState([]);
   const [isAgentFilterDrawerOpen, setAgentFilterDrawerOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string>('');
-  const [editAgentModalTitle, setEditAgentModalTitle] = useState('Edit');
   const [isAgentModalOpen, setIsAgentModalOpen] = useState<boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -42,39 +40,14 @@ export const useAgent = () => {
     try {
       await lazyGetAgentsTrigger(getAgentsListParameter)?.unwrap();
       setSelectedAgentList([]);
-    } catch (error: any) {}
+    } catch (error: any) {
+      setSelectedAgentList([]);
+    }
   };
 
   useEffect(() => {
     getAgentsListData();
   }, [searchValue, page, pageLimit, filterAgentData]);
-
-  const handleOpenDrawer = () => {
-    setAgentFilterDrawerOpen(true);
-  };
-
-  const handleActionClick = async (ActionType: string) => {
-    if (ActionType === ACTIONS_TYPES?.DELETE) {
-      setOpenDeleteModal(true);
-    } else {
-      if (selectedAgentList?.length > 1) {
-        enqueueSnackbar(`Can't update multiple records`, {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        });
-        return;
-      }
-      setEditAgentModalTitle('Update Agent');
-      setIsAgentModalOpen(true);
-    }
-  };
-
-  const handleAddAgentModal = (isOpen?: boolean) => {
-    if (isOpen) {
-      setEditAgentModalTitle('Invite Agent');
-      return setIsAgentModalOpen(true);
-    }
-    setIsAgentModalOpen(false);
-  };
 
   const agentListsColumns = agentsListsColumnsFunction(
     selectedAgentList,
@@ -83,29 +56,30 @@ export const useAgent = () => {
     router,
   );
 
-  const dropdownOptions = agentActionsDropdown(handleActionClick);
+  const dropdownOptions = agentActionsDropdown(
+    setOpenDeleteModal,
+    setIsAgentModalOpen,
+    selectedAgentList,
+  );
 
   return {
-    selectedAgentList,
     agentListsColumns,
     dropdownOptions,
     setSearchValue,
-    handleOpenDrawer,
     isAgentFilterDrawerOpen,
     setAgentFilterDrawerOpen,
     isAgentModalOpen,
-    setEditAgentModalTitle,
-    editAgentModalTitle,
-    handleAddAgentModal,
     lazyGetAgentsStatus,
     setPageLimit,
     setPage,
     pageLimit,
-    setSelectedAgentList,
     setFilterAgentData,
-    openDeleteModal,
-    setOpenDeleteModal,
+    selectedAgentList,
+    setSelectedAgentList,
     getAgentsListData,
     page,
+    openDeleteModal,
+    setOpenDeleteModal,
+    setIsAgentModalOpen,
   };
 };

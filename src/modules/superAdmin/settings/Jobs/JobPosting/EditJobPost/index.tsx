@@ -19,10 +19,10 @@ const EditJobPost = ({
     <CommonDrawer
       isDrawerOpen={isModalOpen}
       onClose={onClose}
-      title={`${title} Job`}
+      title={`${title} a Job`}
       okText="Update"
       isOk={true}
-      footer={true}
+      footer={title === 'Update'}
       submitHandler={handleSubmit}
       isLoading={isLoading}
     >

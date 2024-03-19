@@ -251,6 +251,7 @@ const TaxCalculation = () => {
         isOk={true}
         footer={true}
         submitHandler={handleFiltersSubmit}
+        isLoading={loagingGetTaxCalculation}
       >
         <>
           <FormProvider methods={methodsFilter}>
@@ -308,7 +309,7 @@ const TaxCalculation = () => {
         isDrawerOpen={openDrawerEditTax}
         onClose={handleCloseDrawerEditTax}
         title="Tax Form"
-        okText="Apply"
+        okText="Update"
         isOk={true}
         footer={true}
         submitHandler={handleSubmitEditTax}

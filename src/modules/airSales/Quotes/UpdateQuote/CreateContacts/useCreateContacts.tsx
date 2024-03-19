@@ -72,7 +72,7 @@ const useCreateContacts = (dealId: any) => {
     try {
       const response = await postContacts({ body: formData })
         ?.unwrap()
-        .then((res) => {
+        .then((res: any) => {
           const associationBody = {
             dealId: dataGetQuoteById?.data?.dealId,
             contactId: res?.data?._id,
@@ -100,7 +100,7 @@ const useCreateContacts = (dealId: any) => {
   const { handleSubmit, reset } = methodscontacts;
 
   const submitContact = (closeDrawer: any) =>
-    handleSubmit((values) => onSubmit(values, closeDrawer));
+    handleSubmit((values: any) => onSubmit(values, closeDrawer));
   return {
     handleSubmit,
     onSubmit,
