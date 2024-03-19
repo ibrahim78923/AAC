@@ -5,10 +5,18 @@ import {
   eventBasedWorkflowValues,
 } from './UpsertEventBasedWorkflow.data';
 import { useTheme } from '@mui/material';
-import { usePostServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { usePostServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
+import { useRouter } from 'next/router';
+import { AIR_OPERATIONS } from '@/constants';
 
 export const useUpsertEventBasedWorkflow = () => {
+  const router = useRouter();
+  const movePage = () => {
+    router.push({
+      pathname: AIR_OPERATIONS?.SERVICES_WORKFLOW,
+    });
+  };
   const eventMethod = useForm({
     defaultValues: eventBasedWorkflowValues,
     resolver: yupResolver(eventBasedWorkflowSchema),
@@ -17,13 +25,25 @@ export const useUpsertEventBasedWorkflow = () => {
     eventMethod;
   const [postWorkflowTrigger] = usePostServicesWorkflowMutation();
   const handleFormSubmit = async (data: any) => {
+    // const { options , ...rest } = data;
+    const body = {
+      // ...rest,
+      events: [data?.events?.value],
+      runType: data?.runType?.value,
+      groups:
+        data?.groups?.map((group: any) => ({
+          ...group,
+          conditionType: group?.conditionType?.value,
+        })) ?? [],
+    };
     try {
-      await postWorkflowTrigger(data).unwrap();
+      await postWorkflowTrigger(body).unwrap();
       successSnackbar('Workflow Enabled Successfully');
+      reset();
+      movePage();
     } catch (error) {
       errorSnackbar();
     }
-    reset();
   };
   const { palette } = useTheme();
   const moduleType = watch('module');

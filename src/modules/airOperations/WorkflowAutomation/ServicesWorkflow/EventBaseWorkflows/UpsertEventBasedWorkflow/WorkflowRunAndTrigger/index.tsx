@@ -10,7 +10,7 @@ import {
 export const WorkflowRunAndTrigger = (props: any) => {
   const { register, palette, watch } = props;
   const moduleType = watch('module');
-  const ASSETS_TYPE = 'Assets';
+  const ASSETS_TYPE = 'ASSETS';
   return (
     <>
       <Grid
@@ -103,6 +103,7 @@ export const WorkflowRunAndTrigger = (props: any) => {
               label="And Run"
               required
               options={andRunOptions}
+              getOptionLabel={({ label }: { label: string }) => label}
             />
           </Grid>
         </Grid>

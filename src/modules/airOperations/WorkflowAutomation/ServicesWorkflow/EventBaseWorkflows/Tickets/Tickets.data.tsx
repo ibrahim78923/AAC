@@ -1,9 +1,11 @@
 import { AntSwitch } from '@/components/AntSwitch';
-import { Avatar, Box, Checkbox, Chip } from '@mui/material';
+import { Avatar, Box, Checkbox, Chip, Typography } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import dayjs from 'dayjs';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 
 export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
   {
@@ -37,46 +39,22 @@ export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
     },
   },
 ];
-export const ticketsListData: any = [
+export const ticketsListsColumnsFunction = ({
+  selectedTicketsList,
+  setSelectedTicketsList,
+  ticketsListData,
+  theme,
+}: any): any => [
   {
-    id: 1,
-    workflowName: 'Update Assets',
-    status: true,
-    createdBy: 'Jane Cooper',
-    createdOn: '2023-12-14T11:59:08.238Z',
-    lastActivity: 'Update by Andrew',
-  },
-  {
-    id: 2,
-    workflowName: 'Update Task',
-    status: false,
-    createdBy: 'Esther Howard',
-    createdOn: '2023-12-14T11:59:08.238Z',
-    lastActivity: 'Update by Shaw',
-  },
-  {
-    id: 3,
-    workflowName: 'Update Task',
-    createdBy: 'Esther Howard',
-    createdOn: '2023-12-14T11:59:08.238Z',
-    lastActivity: 'Update by Shaw',
-    draft: true,
-  },
-];
-export const ticketsListsColumnsFunction = (
-  selectedTicketsList: any,
-  setSelectedTicketsList: any,
-  listData: any,
-  theme: any,
-): any => [
-  {
-    accessorFn: (row: any) => row?.id,
+    accessorFn: (row: any) => row?._id,
     id: 'id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!selectedTicketsList?.find(
-            (item: any) => item?.id === info?.getValue(),
+            (item: any) => item?._id === info?.getValue(),
           )
         }
         onChange={(e: any) => {
@@ -84,12 +62,12 @@ export const ticketsListsColumnsFunction = (
             ? setSelectedTicketsList([
                 ...selectedTicketsList,
                 ticketsListData?.find(
-                  (item: any) => item?.id === info?.getValue(),
+                  (item: any) => item?._id === info?.getValue(),
                 ),
               ])
             : setSelectedTicketsList(
                 selectedTicketsList?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
+                  return item?._id !== info?.getValue();
                 }),
               );
         }}
@@ -99,10 +77,16 @@ export const ticketsListsColumnsFunction = (
     ),
     header: (
       <Checkbox
-        checked={selectedTicketsList?.length === listData?.length}
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        checked={
+          !!ticketsListData?.length
+            ? selectedTicketsList?.length === ticketsListData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedTicketsList([...listData])
+            ? setSelectedTicketsList([...ticketsListData])
             : setSelectedTicketsList([]);
         }}
         color="primary"
@@ -112,8 +96,8 @@ export const ticketsListsColumnsFunction = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.workflowName,
-    id: 'workflowName',
+    accessorFn: (row: any) => row?.title,
+    id: 'title',
     isSortable: false,
     header: 'Workflow Name',
     cell: (info: any) => (
@@ -156,8 +140,23 @@ export const ticketsListsColumnsFunction = (
     header: 'Created By',
     cell: (info: any) => (
       <Box display={'flex'} gap={1} alignItems={'center'}>
-        <Avatar />
-        {info?.getValue()}
+        <Avatar
+          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
+          src={generateImage(info?.row?.original?.avatar?.url)}
+        >
+          <Typography variant="body3" textTransform={'uppercase'}>
+            {fullNameInitial(
+              info?.row?.original?.firstName,
+              info?.row?.original?.lastName,
+            )}
+          </Typography>
+        </Avatar>
+        <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+          {fullName(
+            info?.row?.original?.firstName,
+            info?.row?.original?.lastName,
+          )}
+        </Typography>
       </Box>
     ),
   },
@@ -170,10 +169,11 @@ export const ticketsListsColumnsFunction = (
       dayjs(info?.getValue())?.format('MMMM DD, YYYY: hh:mm'),
   },
   {
-    accessorFn: (row: any) => row?.lastActivity,
-    id: 'lastActivity',
+    accessorFn: (row: any) => row?.updatedAt,
+    id: 'updatedAt',
     isSortable: false,
     header: 'Last Activity',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      dayjs(info?.getValue())?.format('MMMM DD, YYYY: hh:mm'),
   },
 ];

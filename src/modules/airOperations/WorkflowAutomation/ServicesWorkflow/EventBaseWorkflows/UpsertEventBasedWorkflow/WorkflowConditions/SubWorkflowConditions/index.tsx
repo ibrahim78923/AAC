@@ -9,18 +9,14 @@ import { fieldOptions, statusOptions } from './SubWorkflowConditions.data';
 
 export const SubWorkflowConditions = (props: any) => {
   const { index, conditionType } = props;
-  const {
-    append,
-    fields,
-    handleDeleteClick,
-    conditionOption,
-    ticketsFieldsOptions,
-  } = useSubWorkflowConditions(props);
+  const { append, fields, handleDeleteClick, dropdownOptions, modulesOptions } =
+    useSubWorkflowConditions(props);
+
   return (
     <>
-      {fields?.map((item, subIndex) => {
+      {fields?.map((item: any, subIndex: any) => {
         return (
-          <Box key={item?.id}>
+          <Box key={item}>
             {subIndex !== 0 && (
               <Divider
                 sx={{
@@ -41,24 +37,24 @@ export const SubWorkflowConditions = (props: any) => {
                 <Grid container spacing={1}>
                   <Grid item md={3}>
                     <RHFAutocomplete
-                      name="options"
+                      name={`options`}
                       size="small"
                       placeholder="Select"
-                      options={Object.keys(conditionOption)}
+                      options={Object.keys(modulesOptions)}
                     />
                   </Grid>
                   <>
                     <Grid item md={3}>
                       <RHFAutocomplete
-                        name={`groups.${index}.conditions.${index}.key`}
+                        name={`groups.${index}.conditions.${subIndex}.key`}
                         size="small"
                         placeholder="Select"
-                        options={ticketsFieldsOptions}
+                        options={dropdownOptions}
                       />
                     </Grid>
                     <Grid item md={3}>
                       <RHFAutocomplete
-                        name={`groups.${index}.conditions.${index}.condition`}
+                        name={`groups.${index}.conditions.${subIndex}.condition`}
                         size="small"
                         placeholder="Select"
                         options={fieldOptions}
@@ -66,7 +62,7 @@ export const SubWorkflowConditions = (props: any) => {
                     </Grid>
                     <Grid item md={3}>
                       <RHFAutocomplete
-                        name={`groups.${index}.conditions.${index}.value`}
+                        name={`groups.${index}.conditions.${subIndex}.value`}
                         size="small"
                         placeholder="Select"
                         options={statusOptions}

@@ -415,4 +415,6 @@ export const TICKET_SOURCE = {
 
 export const SCHEMA_KEYS = {
   TICKETS: 'TICKETS',
+  TICKETS_TASKS: 'TICKETS_TASKS',
+  ASSETS: 'ASSETS',
 };

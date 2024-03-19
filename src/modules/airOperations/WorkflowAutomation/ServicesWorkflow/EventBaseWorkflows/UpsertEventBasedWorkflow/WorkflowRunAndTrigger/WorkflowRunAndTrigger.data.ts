@@ -1,12 +1,11 @@
 export const moduleOptions = [
   { value: 'TICKETS', label: 'Tickets' },
-  { value: 'Assets', label: 'Assets' },
-  { value: 'Tasks', label: 'Tasks' },
-  { value: 'Meetings', label: 'Meetings' },
+  { value: 'ASSETS', label: 'Assets' },
+  { value: 'TICKETS_TASKS', label: 'Tasks' },
 ];
 export const andRunOptions = [
-  'Recurring, for the same record',
-  'Recurring, for the same record',
+  { value: 'ONCE', label: 'Once, for each record' },
+  { value: 'RECURRENT', label: 'Recurring, for the same record' },
 ];
 
 export const eventOptions = [

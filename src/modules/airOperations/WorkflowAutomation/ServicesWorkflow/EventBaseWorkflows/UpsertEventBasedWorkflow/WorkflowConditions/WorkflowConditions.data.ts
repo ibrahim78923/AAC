@@ -1,6 +1,9 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 
-export const conditionTypeOptions = ['AND', 'OR'];
+export const conditionTypeOptions = [
+  { value: 'AND', label: 'Match ALL condition in this group' },
+  { value: 'OR', label: 'Match ANY condition in this group' },
+];
 
 export const workflowConditionsGroupDataArray = (index: any) => [
   {
@@ -23,6 +26,7 @@ export const workflowConditionsGroupDataArray = (index: any) => [
       size: 'small',
       placeholder: 'Select',
       options: conditionTypeOptions,
+      getOptionLabel: ({ label }: { label: string }) => label,
     },
     component: RHFAutocomplete,
   },

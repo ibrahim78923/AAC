@@ -1,9 +1,11 @@
 import { AntSwitch } from '@/components/AntSwitch';
-import { Avatar, Box, Checkbox, Chip } from '@mui/material';
+import { Avatar, Box, Checkbox, Chip, Typography } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import dayjs from 'dayjs';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
   {
@@ -37,52 +39,35 @@ export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
     },
   },
 ];
-
-export const tasksListData: any = [
-  {
-    id: 1,
-    workflowName: 'Update Tasks',
-    status: true,
-    createdBy: 'Jane Cooper',
-    createdOn: '2023-12-14T11:59:08.238Z',
-    lastActivity: 'Update by Andrew',
-  },
-  {
-    id: 2,
-    workflowName: 'Update Task',
-    status: false,
-    createdBy: 'Esther Howard',
-    createdOn: '2023-12-14T11:59:08.238Z',
-    lastActivity: 'Update by Shaw',
-  },
-];
 export const tasksListsColumnsFunction = (
   selectedTasksList: any,
   setSelectedTasksList: any,
-  listData: any,
+  taskListData: any,
   theme: any,
 ): any => [
   {
-    accessorFn: (row: any) => row?.id,
+    accessorFn: (row: any) => row?._id,
     id: 'id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!selectedTasksList?.find(
-            (item: any) => item?.id === info?.getValue(),
+            (item: any) => item?._id === info?.getValue(),
           )
         }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedTasksList([
                 ...selectedTasksList,
-                tasksListData?.find(
-                  (item: any) => item?.id === info?.getValue(),
+                taskListData?.find(
+                  (item: any) => item?._id === info?.getValue(),
                 ),
               ])
             : setSelectedTasksList(
                 selectedTasksList?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
+                  return item?._id !== info?.getValue();
                 }),
               );
         }}
@@ -92,10 +77,16 @@ export const tasksListsColumnsFunction = (
     ),
     header: (
       <Checkbox
-        checked={selectedTasksList?.length === listData?.length}
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        checked={
+          !!taskListData
+            ? selectedTasksList?.length === taskListData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedTasksList([...listData])
+            ? setSelectedTasksList([...taskListData])
             : setSelectedTasksList([]);
         }}
         color="primary"
@@ -105,8 +96,8 @@ export const tasksListsColumnsFunction = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.workflowName,
-    id: 'workflowName',
+    accessorFn: (row: any) => row?.title,
+    id: 'title',
     isSortable: false,
     header: 'Workflow Name',
     cell: (info: any) => (
@@ -138,7 +129,7 @@ export const tasksListsColumnsFunction = (
           AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.ENABLE_DISABLE,
         ]}
       >
-        <AntSwitch values={info?.getValue()} />{' '}
+        <AntSwitch values={info?.getValue()} />
       </PermissionsGuard>
     ),
   },
@@ -149,8 +140,23 @@ export const tasksListsColumnsFunction = (
     header: 'Created By',
     cell: (info: any) => (
       <Box display={'flex'} gap={1} alignItems={'center'}>
-        <Avatar />
-        {info?.getValue()}
+        <Avatar
+          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
+          src={generateImage(info?.row?.original?.avatar?.url)}
+        >
+          <Typography variant="body3" textTransform={'uppercase'}>
+            {fullNameInitial(
+              info?.row?.original?.firstName,
+              info?.row?.original?.lastName,
+            )}
+          </Typography>
+        </Avatar>
+        <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+          {fullName(
+            info?.row?.original?.firstName,
+            info?.row?.original?.lastName,
+          )}
+        </Typography>
       </Box>
     ),
   },
@@ -163,10 +169,11 @@ export const tasksListsColumnsFunction = (
       dayjs(info?.getValue())?.format('MMMM DD, YYYY: hh:mm'),
   },
   {
-    accessorFn: (row: any) => row?.lastActivity,
-    id: 'lastActivity',
+    accessorFn: (row: any) => row?.updatedAt,
+    id: 'updatedAt',
     isSortable: false,
     header: 'Last Activity',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      dayjs(info?.getValue())?.format('MMMM DD, YYYY: hh:mm'),
   },
 ];

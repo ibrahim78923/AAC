@@ -1,9 +1,28 @@
-export const conditionOptions = [
-  'Ticket Fields',
-  'Requester Fields',
-  'Requested for Fields',
+export const assetsFieldsOption = [
+  'Name',
+  'Asset Type',
+  'Location',
+  'Used By',
+  'Department',
+  'Managed By',
+  'Impact',
+  'End of Life',
+  'Created By',
+  'Assigned On',
+  'Description',
 ];
-
+export const taskFieldsOption = [
+  'Title',
+  'Description',
+  'Departments',
+  'Assign To',
+  'Status',
+  'Notify Before',
+  'Planned Start Date and time',
+  'Planned End Date and time',
+  'Planned Effort',
+  'Select Department',
+];
 export const ticketsFields = [
   'Select Department',
   'Type',
@@ -38,14 +57,14 @@ export const fieldOptions = [
   'equal',
   'not equal',
   'contains',
-  'Not Contains',
-  'Contains Words',
-  'Not Contains Words',
-  'Starts with',
-  'Ends with',
-  'Is Empty',
-  'Is not empty',
+  'not contains',
+  'contains words',
+  'not contains words',
+  'starts with',
+  'ends with',
+  'is empty',
+  'is not empty',
   'included',
-  'Not include',
+  'not include',
 ];
 export const statusOptions = ['open', 'pending', 'resolved', 'close'];
