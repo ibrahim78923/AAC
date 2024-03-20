@@ -167,6 +167,22 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    getCustomizeColumn: builder.query({
+      query: (params) => ({
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+    putCustomizedColumns: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -190,4 +206,6 @@ export const {
   useGetProductsByIdQuery,
   useLazyGetProductsByIdQuery,
   useUpdateProductByIdMutation,
+  usePutCustomizedColumnsMutation,
+  useGetCustomizeColumnQuery,
 } = quotesAPI;

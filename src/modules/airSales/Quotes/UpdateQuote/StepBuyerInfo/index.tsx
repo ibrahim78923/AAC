@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, Button, Avatar } from '@mui/material';
+import { Box, Grid, Typography, Button, Avatar, Checkbox } from '@mui/material';
 import TemplateFrame from '../TemplateFrame';
 import TemplateBasic from '../TemplateBasic';
 import {
@@ -26,12 +26,34 @@ const StepBuyerInfo = ({
   openAddCompany,
 }: any) => {
   const [deleteModal, setDeleteModal] = useState(false);
+
+  const [selectedId, setSelectedId] = useState<string[]>([]);
+  const [selectedCompany, setSelectedCompany] = useState<string[]>([]);
+
   const handleDeleteModal = () => {
     setDeleteModal(!deleteModal);
   };
-  // const {dataGetQuoteById}=useUpdateQuote()
+  const handleChange = (e: any, id: any) => {
+    if (e.target.checked) {
+      setSelectedId([...selectedId, id]);
+    } else {
+      const filteredId = selectedId.filter((item: string) => item !== id);
+      setSelectedId(filteredId);
+    }
+  };
+
   const { dataGetQuoteById }: any = useUpdateQuote();
   const contactData = dataGetQuoteById?.data?.deal;
+
+  const handleCompanyChange = (e: any, id: any) => {
+    if (e.target.checked) {
+      setSelectedCompany([...selectedCompany, id]);
+    } else {
+      const filteredCompanyId = selectedCompany?.filter((val) => val !== id);
+      setSelectedCompany(filteredCompanyId);
+    }
+  };
+  // console.log(selectedCompany);
 
   return (
     <>
@@ -83,9 +105,15 @@ const StepBuyerInfo = ({
                               onClick={handleDeleteModal}
                             />
                           </Box>
-                          {/* <Box sx={styles?.itemText}>{item?.name}</Box> */}
+                          <Box sx={styles?.itemText}>{item?.name}</Box>
                           <Box sx={styles?.itemText}>{item?.email}</Box>
                           <Box sx={styles?.itemText}>{item?.phoneNumber}</Box>
+                        </Box>
+                        <Box mt={-0.7}>
+                          <Checkbox
+                            checked={selectedId?.includes(item?._id)}
+                            onChange={(e: any) => handleChange(e, item?._id)}
+                          />
                         </Box>
                       </Box>
                     ))}
@@ -139,9 +167,19 @@ const StepBuyerInfo = ({
                             />
                           </Box>
                         </Box>
-                        <Box sx={styles?.itemText}>{item?.title}</Box>
-                        <Box sx={styles?.itemText}>{item?.email}</Box>
-                        <Box sx={styles?.itemText}>{item?.phoneNumber}</Box>
+                        <Box sx={styles?.itemText}> {item?.name}</Box>
+                        <Box sx={styles?.itemText}>{item?.owner[0]?.email}</Box>
+                        <Box sx={styles?.itemText}>
+                          {item?.owner[0]?.phoneNumber}
+                        </Box>
+                      </Box>
+                      <Box mt={-0.7}>
+                        <Checkbox
+                          checked={selectedCompany?.includes(item?._id)}
+                          onChange={(e: any) =>
+                            handleCompanyChange(e, item._id)
+                          }
+                        />
                       </Box>
                     </Box>
                   ))}

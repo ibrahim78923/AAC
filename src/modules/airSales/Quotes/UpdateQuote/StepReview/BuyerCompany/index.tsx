@@ -2,9 +2,11 @@ import { Box, Avatar, Typography } from '@mui/material';
 import { styles } from './BuyerCompany.style';
 import { AvatarCompanyImage } from '@/assets/images';
 import useUpdateQuote from '../../useUpdateQuote';
+import { getSession } from '@/utils';
 
 const BuyerCompany = () => {
   const { dataGetQuoteById } = useUpdateQuote();
+  const getUserData = getSession();
 
   return (
     <>
@@ -18,17 +20,20 @@ const BuyerCompany = () => {
               {dataGetQuoteById?.data?.name}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {dataGetQuoteById?.data?.deal[0]?.companies[0]?.address}
+              {`${getUserData?.user?.address?.flatNumber ?? ''} ${
+                getUserData?.user?.address?.buildingName ?? ''
+              } ${getUserData?.user?.address?.buildingNumber ?? ''}` ?? ''}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              City | State | Zip Code
-              {` ${dataGetQuoteById?.data?.deal[0]?.companies[0]?.city} | ${dataGetQuoteById?.data?.deal[0]?.companies[0]}`}
+              {`${getUserData?.user?.address?.city ?? ''} | ${
+                getUserData?.user?.address?.streetName ?? ''
+              } | ${getUserData?.user?.postCode ?? ''}`}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              Phone No
+              {getUserData?.user?.phoneNumber ?? ''}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              Company Email
+              {getUserData?.user?.email ?? ''}
             </Typography>
           </Box>
         </Box>

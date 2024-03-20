@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 
 const QuoteInfo = () => {
   const { dataGetQuoteById } = useUpdateQuote();
+
   return (
     <>
       <Box sx={styles?.quoteInfo}>
@@ -18,7 +19,8 @@ const QuoteInfo = () => {
           </Grid>
           <Grid item xs={4}>
             <Box sx={styles?.quoteInfoTitle}>
-              Prepared By: <Box component="span">Adil Khan</Box>
+              Prepared By:{' '}
+              <Box component="span">{`${dataGetQuoteById?.data?.createdBy[0]?.firstName} ${dataGetQuoteById?.data?.createdBy[0]?.lastName}`}</Box>
             </Box>
           </Grid>
           <Grid item xs={4}>

@@ -4,6 +4,7 @@ import useUpdateQuote from '../../useUpdateQuote';
 
 const Quotation = () => {
   const { dataGetQuoteById } = useUpdateQuote();
+  // console.log(dataGetQuoteById?.data?.products,'dataGetQuoteById?.data?.products');
 
   const sum = dataGetQuoteById?.data?.products.reduce(
     (accumulator: any, currentValue: any) =>
