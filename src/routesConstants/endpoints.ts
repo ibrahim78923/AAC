@@ -369,6 +369,7 @@ export const ORG_ADMIN = {
   PRODUCT_PLAN_LIST: '/plan/product-plan-list',
   ACTIVITY_LOG: '/activity-log',
   ACTIVITY_LOG_SUB: '/activity-log/sub-activities',
+  SETTINGS_CONTACT_STATUS: '/contact-status',
 };
 
 export const COMMON_DOCUMENTS = {
