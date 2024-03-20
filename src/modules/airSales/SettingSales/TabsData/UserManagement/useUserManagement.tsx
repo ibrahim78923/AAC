@@ -1,31 +1,24 @@
 import { PAGINATION } from '@/config';
-import {
-  useDeleteTeamsMutation,
-  useGetTeamsByIdQuery,
-} from '@/services/airSales/settings/teams';
 import { useGetProductsUsersQuery } from '@/services/airSales/settings/users';
-import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 const useUserManagement = () => {
   const [teamId, setTeamId] = useState();
   const [checkedUser, setCheckedUser] = useState();
   const [activeTab, setActiveTab] = useState(0);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isAddTeam, setIsAddTeam] = useState({
     isToggle: false,
     type: 'add',
   });
   const [isTeamDrawer, setIsTeamDrawer] = useState(false);
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isAddUserDrawer, setIsAddUserDrawer] = useState({
     isToggle: false,
     type: 'add',
   });
   const [searchUser, setSearchUser] = useState('');
-  const [deleteTeams] = useDeleteTeamsMutation();
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const { data: teamDataById } = useGetTeamsByIdQuery(teamId);
 
   const productUserParams = {
     page: page,
@@ -38,19 +31,6 @@ const useUserManagement = () => {
     isSuccess,
   } = useGetProductsUsersQuery(productUserParams);
 
-  const handleDeleteTeam = async (id: any) => {
-    try {
-      await deleteTeams({ id: id })?.unwrap();
-      enqueueSnackbar('Team deleted successfully', {
-        variant: 'success',
-      });
-    } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, {
-        variant: 'error',
-      });
-    }
-  };
-
   return {
     activeTab,
     setActiveTab,
@@ -60,9 +40,6 @@ const useUserManagement = () => {
     setTeamId,
     isTeamDrawer,
     setIsTeamDrawer,
-    isOpenDelete,
-    setIsOpenDelete,
-    handleDeleteTeam,
     productsUsers,
     searchUser,
     setSearchUser,
@@ -74,7 +51,8 @@ const useUserManagement = () => {
     setIsAddUserDrawer,
     checkedUser,
     setCheckedUser,
-    teamDataById,
+    isOpenDelete,
+    setIsOpenDelete,
   };
 };
 

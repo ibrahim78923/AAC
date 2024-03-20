@@ -6,17 +6,19 @@ import { columnsTeams } from './Teams.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 import ViewTeams from './ViewTeams';
+import CreateTeams from './CreateTeams';
 
 const Teams = (props: any) => {
   const {
+    isAddTeam,
     setIsAddTeam,
     setTeamId,
     teamId,
-    setIsOpenDelete,
     setIsTeamDrawer,
     isTeamDrawer,
-    teamDataById,
+    setIsOpenDelete,
   } = props;
+
   const {
     theme,
     teamsData,
@@ -26,14 +28,15 @@ const Teams = (props: any) => {
     isLoading,
     searchBy,
     setSearchBy,
+    teamDataById,
   } = useTeams(teamId);
 
   const columnsProps = {
     setIsTeamDrawer: setIsTeamDrawer,
-    setIsOpenDelete: setIsOpenDelete,
     theme: theme,
     setTeamId: setTeamId,
     setIsAddTeam: setIsAddTeam,
+    setIsOpenDelete,
   };
 
   return (
@@ -76,6 +79,11 @@ const Teams = (props: any) => {
           isTeamDrawer={isTeamDrawer}
           setIsTeamDrawer={setIsTeamDrawer}
           teamData={teamDataById}
+        />
+        <CreateTeams
+          isAddTeam={isAddTeam}
+          setIsAddTeam={setIsAddTeam}
+          teamDataById={teamDataById}
         />
       </Box>
     </>
