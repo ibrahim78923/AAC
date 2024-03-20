@@ -1,19 +1,27 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 // import { useTheme } from '@mui/material';
 // import { PAGINATION } from '@/config';
 import {
-  // usePostGroupMutation,
+  usePostGroupMutation,
   useGetGroupsQuery,
   // useUpdateGroupMutation,
   // useDeleteGroupMutation,
 } from '@/services/commonFeatures/contact-groups';
-// import { useForm } from 'react-hook-form';
-// import { enqueueSnackbar } from 'notistack';
-// import { getSession } from '@/utils';
-// import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import { enqueueSnackbar } from 'notistack';
+import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  createGroupDefaultValues,
+  createGroupValidationSchema,
+} from './CreateGroupModal/CreateGroupModal.data';
+import { useGetContactsQuery } from '@/services/commonFeatures/contacts';
+
 // import { parseISO } from 'date-fns';
 
 const useContactsGroup = () => {
+  const [, setSearchValue] = useState(null);
+  const { data: dataGetContacts, isLoading: loadingGetContacts } =
+    useGetContactsQuery({ params: {} });
   // const { user } = getSession();
   // Actions Dropdown Menu
   // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -46,43 +54,71 @@ const useContactsGroup = () => {
   const { data: dataGetContactGroups, isLoading: loadingGetGroups } =
     useGetGroupsQuery({});
 
-  // Add Call
-  // const [postAddCall, { isLoading: loadingAddCall }] = usePostCallMutation();
-  // const [openDrawerAddCall, setOpenDrawerAddCall] = useState(false);
-  // const methodsAddCall = useForm({
-  //   resolver: yupResolver(addCallValidationSchema),
-  // });
+  // Create Group
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  // const [searchTerm, setSearchTerm] = useState('');
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('Create');
+  const [postCreateGroup, { isLoading: loadingCreateGroup }] =
+    usePostGroupMutation();
+  // const [updateGroup, { isLoading: loadingUpdateGroup }] = useUpdateGroupMutation();
+  const methodsCreateGroup = useForm({
+    resolver: yupResolver(createGroupValidationSchema),
+    defaultValues: createGroupDefaultValues,
+  });
 
-  // const { handleSubmit: handleMethodAddCall, reset: resetAddCallForm } =
-  //   methodsAddCall;
+  const { handleSubmit: handleMethodCreateGroup, reset: resetAddGroupForm } =
+    methodsCreateGroup;
 
-  // const handleOpenDrawerAddCall = () => {
-  //   setOpenDrawerAddCall(true);
-  // };
-  // const handleCloseDrawerAddCall = () => {
-  //   setOpenDrawerAddCall(false);
-  //   resetAddCallForm();
-  // };
+  const handleOpenModalCreate = (title: string, data: any) => {
+    if (data != null) {
+      methodsCreateGroup.setValue('name', data?.name);
+      setSelectedUsers(data?.contacts.map((obj: any) => obj._id));
+    }
+    setModalTitle(title);
+    setIsCreateModalOpen(true);
+  };
+  const handleCloseModalCreate = () => {
+    setIsCreateModalOpen(false);
+    resetAddGroupForm();
+    setSelectedUsers([]);
+  };
 
-  // const onSubmitAddCall = async (values: any) => {
-  //   const payload = {
-  //     recordType: 'contacts',
-  //     contactId: contactId,
-  //     recordId: contactId,
-  //   };
-  //   try {
-  //     await postAddCall({ body: { ...values, ...payload } })?.unwrap();
-  //     handleCloseDrawerAddCall();
-  //     enqueueSnackbar('Call has been added successfully', {
-  //       variant: 'success',
-  //     });
-  //   } catch (error: any) {
-  //     enqueueSnackbar('An error occured', {
-  //       variant: 'error',
-  //     });
-  //   }
-  // };
-  // const handleAddCallSubmit = handleMethodAddCall(onSubmitAddCall);
+  const onSubmitCreatGroup = async (values: any) => {
+    if (modalTitle === 'Create') {
+      const payload = {
+        name: values?.name,
+        contactIds: selectedUsers,
+      };
+      try {
+        await postCreateGroup({ body: payload })?.unwrap();
+        handleCloseModalCreate();
+        enqueueSnackbar('Group created successfully', {
+          variant: 'success',
+        });
+        setSelectedUsers([]);
+      } catch (error: any) {
+        enqueueSnackbar('An error occured', {
+          variant: 'error',
+        });
+      }
+    }
+    if (modalTitle === 'Edit') {
+      // try {
+      //   await updateGroup({ id: rowId, body: values })?.unwrap();
+      //   handleCloseDrawerEditCall();
+      //   setSelectedRow([]);
+      //   enqueueSnackbar('Call has been updated successfully', {
+      //     variant: 'success',
+      //   });
+      // } catch (error: any) {
+      //   enqueueSnackbar('An error occured', {
+      //     variant: 'error',
+      //   });
+      // }
+    }
+  };
+  const handleCreateGroupSubmit = handleMethodCreateGroup(onSubmitCreatGroup);
 
   // Edit/View Call
   // const methodsEditCall = useForm({});
@@ -222,8 +258,20 @@ const useContactsGroup = () => {
   // const handleSubmitOutcomeCall = handleMethodOutcome(onSubmitOutcome);
 
   return {
+    loadingGetContacts,
+    dataGetContacts,
     loadingGetGroups,
     dataGetContactGroups,
+    isCreateModalOpen,
+    modalTitle,
+    handleOpenModalCreate,
+    handleCloseModalCreate,
+    methodsCreateGroup,
+    handleCreateGroupSubmit,
+    loadingCreateGroup,
+    selectedUsers,
+    setSelectedUsers,
+    setSearchValue,
   };
 };
 
