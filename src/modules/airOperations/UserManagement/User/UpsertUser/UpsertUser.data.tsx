@@ -49,7 +49,11 @@ export const upsertUserDefaultValues: any = {
   twitterUrl: '',
 };
 
-export const upsertUserArray = (departmentDropdown: any) => [
+export const upsertUserArray = (
+  departmentDropdown: any,
+  rolesDropdown: any,
+  usersTeamDropdown: any,
+) => [
   {
     id: 1,
     subheading: 'Add a new user to this organization.',
@@ -142,7 +146,8 @@ export const upsertUserArray = (departmentDropdown: any) => [
       placeholder: 'Select',
       fullWidth: true,
       required: true,
-      apiQuery: departmentDropdown,
+      apiQuery: usersTeamDropdown,
+      getOptionLabel: (option: any) => `${option?.name}`,
     },
     component: RHFAutocompleteAsync,
     md: 12,
@@ -156,6 +161,7 @@ export const upsertUserArray = (departmentDropdown: any) => [
       fullWidth: true,
       apiQuery: departmentDropdown,
     },
+
     component: RHFAutocompleteAsync,
     md: 12,
   },

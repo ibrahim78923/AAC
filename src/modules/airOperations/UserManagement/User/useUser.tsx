@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { userDropdown, userList } from './User.data';
 import {
   useGetProductUserListQuery,
+  useLazyGetCompanyAccountsRolesQuery,
+  useLazyGetTeamUserListQuery,
   usePostProductUserListMutation,
 } from '@/services/airOperations/user-management/user';
 import { PAGINATION } from '@/config';
@@ -47,6 +49,8 @@ export const useUser = () => {
   );
 
   const departmentDropdown = useLazyGetDepartmentDropdownQuery();
+  const rolesDropdown = useLazyGetCompanyAccountsRolesQuery();
+  const usersTeamDropdown = useLazyGetTeamUserListQuery();
 
   const methods: any = useForm({
     resolver: yupResolver(upsertUserValidationSchema),
@@ -60,7 +64,7 @@ export const useUser = () => {
       const body = {
         ...data,
         role: data?.role?._id,
-        selectTeam: data?._id,
+        team: data?.team?._id,
         language: data?._id,
       };
 
@@ -106,5 +110,7 @@ export const useUser = () => {
     departmentDropdown,
     handleClose,
     metaData,
+    rolesDropdown,
+    usersTeamDropdown,
   };
 };

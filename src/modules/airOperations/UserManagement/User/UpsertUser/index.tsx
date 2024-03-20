@@ -14,6 +14,8 @@ function UpsertUser({ isDrawerOpen, title, okText, setIsDrawerOpen }: any) {
     setDisabled,
     usersData,
     departmentDropdown,
+    rolesDropdown,
+    usersTeamDropdown,
   } = useUser();
 
   return (
@@ -43,7 +45,11 @@ function UpsertUser({ isDrawerOpen, title, okText, setIsDrawerOpen }: any) {
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={4}>
-              {upsertUserArray(departmentDropdown)?.map((item: any) => (
+              {upsertUserArray(
+                departmentDropdown,
+                rolesDropdown,
+                usersTeamDropdown,
+              )?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   {item?.subheading && title !== USER_MANAGEMENT?.USERVIEW && (
                     <Typography variant="body2" sx={{ mb: 2 }}>
