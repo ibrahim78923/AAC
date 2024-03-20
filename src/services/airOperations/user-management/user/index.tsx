@@ -43,6 +43,14 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
+    deleteProductUsers: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}`,
+        method: 'DELETE',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -51,4 +59,5 @@ export const {
   usePostProductUserListMutation,
   useLazyGetCompanyAccountsRolesQuery,
   useLazyGetTeamUserListQuery,
+  useDeleteProductUsersMutation,
 } = userManagementAPI;

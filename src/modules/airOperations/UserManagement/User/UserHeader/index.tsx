@@ -6,14 +6,17 @@ import { useUser } from '../useUser';
 import UpsertUser from '../UpsertUser';
 import { AgentConversionDelete } from '../../AgentConversionDelete';
 
-export const UserHeader = ({ selectedUserList, setSearch }: any) => {
+export const UserHeader = (props: any) => {
+  const { selectedUserList } = props;
   const {
     isDrawerOpen,
     setIsDrawerOpen,
     userDropdownOptions,
     deleteModal,
     setDeleteModal,
-  } = useUser();
+    submitDeleteModal,
+    setSearch,
+  } = useUser(props);
 
   return (
     <Box
@@ -48,13 +51,16 @@ export const UserHeader = ({ selectedUserList, setSearch }: any) => {
           title={'Add User'}
           okText={'Add'}
         />
-        <AgentConversionDelete
-          message={'Are you sure you want to delete this User?'}
-          open={deleteModal}
-          handleClose={() => {
-            setDeleteModal(false);
-          }}
-        />
+        {deleteModal && (
+          <AgentConversionDelete
+            message={'Are you sure you want to delete this User?'}
+            open={deleteModal}
+            handleClose={() => {
+              setDeleteModal(false);
+            }}
+            submitDeleteModal={submitDeleteModal}
+          />
+        )}
       </Box>
     </Box>
   );
