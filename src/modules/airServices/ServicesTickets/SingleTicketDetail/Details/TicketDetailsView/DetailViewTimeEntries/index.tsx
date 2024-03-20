@@ -131,7 +131,7 @@ const DetailViewTimeEntries = (data: any) => {
             timeEntryData?.data?.response?.map((item: any) => (
               <Box key={item?._id}>
                 <Box display="flex" mt={'1rem'} mb={'2rem'}>
-                  <Avatar src={generateImage(item?.fileUrl)} />
+                  <Avatar src={generateImage(item?.avatar?.url)} />
                   <Typography
                     variant="body1"
                     component="span"
