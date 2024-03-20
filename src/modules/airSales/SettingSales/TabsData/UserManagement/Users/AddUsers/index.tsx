@@ -8,7 +8,10 @@ import useAddUser from './useAddUser';
 const AddUsers = (props: any) => {
   const { isAddUserDrawer, setIsAddUserDrawer, checkedUser } = props;
   const theme = useTheme();
-  const { methods, handleSubmit, onSubmit } = useAddUser(checkedUser);
+  const { methods, handleSubmit, onSubmit } = useAddUser(
+    checkedUser,
+    isAddUserDrawer?.type,
+  );
 
   return (
     <CommonDrawer
@@ -39,7 +42,13 @@ const AddUsers = (props: any) => {
                 <item.component
                   {...item.componentProps}
                   size={'small'}
-                  disabled={isAddUserDrawer?.type === 'view' ? true : false}
+                  disabled={
+                    isAddUserDrawer?.type === 'view' ||
+                    (isAddUserDrawer?.type === 'edit' &&
+                      item?.componentProps?.name === 'email')
+                      ? true
+                      : false
+                  }
                 >
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (

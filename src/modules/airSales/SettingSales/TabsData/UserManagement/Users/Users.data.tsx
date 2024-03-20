@@ -21,8 +21,9 @@ export const userValidationSchema = Yup?.object()?.shape({
       'Only alphabetic characters and spaces are allowed',
     ),
   email: Yup?.string()?.trim()?.required('Field is Required'),
+  address: Yup?.string()?.trim()?.required('Field is Required'),
   team: Yup?.string()?.trim()?.required('Field is Required'),
-  phoneNumber: Yup?.string()?.required('Field is Required'),
+  role: Yup?.string()?.trim()?.required('Field is Required'),
   facebookUrl: Yup.string()
     .url('Please enter a valid URL starting with http://')
     .optional(),
@@ -44,6 +45,7 @@ export const dataArray = () => {
         label: 'First Name',
         fullWidth: true,
         placeholder: 'Enter First Name',
+        required: true,
         select: false,
       },
       component: RHFTextField,
@@ -53,6 +55,7 @@ export const dataArray = () => {
       componentProps: {
         name: 'lastName',
         label: 'Last Name',
+        required: true,
         placeholder: 'Enter Last Name',
         fullWidth: true,
       },
@@ -63,6 +66,7 @@ export const dataArray = () => {
       componentProps: {
         name: 'address',
         label: 'Address',
+        required: true,
         placeholder: 'Enter Address',
         fullWidth: true,
         select: false,
@@ -75,6 +79,7 @@ export const dataArray = () => {
         name: 'email',
         label: 'Email',
         fullWidth: true,
+        required: true,
         placeholder: 'Enter Email',
         select: false,
       },
@@ -108,6 +113,7 @@ export const dataArray = () => {
         name: 'role',
         label: 'Assign role',
         fullWidth: true,
+        required: true,
         select: true,
       },
       options: rolesByCompanyId?.data?.map((item: any) => ({
@@ -121,6 +127,7 @@ export const dataArray = () => {
       componentProps: {
         name: 'team',
         label: 'Select Team',
+        required: true,
         fullWidth: true,
         select: true,
       },
@@ -222,20 +229,6 @@ export const columnsUser = (
 
   return [
     {
-      // accessorFn: (row: any) => row?.Id,
-      // id: 'Id',
-      // cell: (info: any) => (
-      //   <Checkbox
-      //     color="primary"
-      //     name={info?.getValue()}
-      //     defaultChecked={checkedUser === info?.row?.original?._id}
-      //     onChange={(e: any) =>
-      //       handleCheckboxChange(e, info?.row?.original?._id)
-      //     }
-      //   />
-      // ),
-      // header: <Checkbox color="primary" name="Id" />,
-      // isSortable: false,
       accessorFn: (row: any) => row?._id,
       id: 'Id',
       cell: ({ row: { original } }: any) => (

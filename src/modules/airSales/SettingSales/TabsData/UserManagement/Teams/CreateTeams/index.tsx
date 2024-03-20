@@ -8,8 +8,14 @@ import useUserManagement from '../../useUserManagement';
 
 const CreateTeams = (props?: any) => {
   const { isAddTeam, setIsAddTeam, teamDataById, teamByIdLoading } = props;
-  const { methods, handleSubmit, onSubmit, productsUsers, postTeamLoading } =
-    useCreateTeams(teamDataById, setIsAddTeam, isAddTeam?.type);
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    productsUsers,
+    postTeamLoading,
+    updateTeamLoading,
+  } = useCreateTeams(teamDataById, setIsAddTeam, isAddTeam?.type);
   const { skeletonLines } = useUserManagement();
 
   return (
@@ -20,7 +26,9 @@ const CreateTeams = (props?: any) => {
       okText={isAddTeam?.type === 'add' ? 'Add' : 'Edit'}
       footer={true}
       isOk={true}
-      isLoading={postTeamLoading}
+      isLoading={
+        isAddTeam?.type === 'add' ? postTeamLoading : updateTeamLoading
+      }
       submitHandler={handleSubmit(onSubmit)}
     >
       {teamByIdLoading ? (

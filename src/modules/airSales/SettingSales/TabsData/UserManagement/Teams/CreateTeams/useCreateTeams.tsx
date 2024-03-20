@@ -1,7 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { teamsDefaultValues, teamsValidationSchema } from './CreateTeams.data';
-import { usePostTeamsMutation } from '@/services/airSales/settings/teams';
+import {
+  usePostTeamsMutation,
+  useUpdateTeamsMutation,
+} from '@/services/airSales/settings/teams';
 import { enqueueSnackbar } from 'notistack';
 import useUserManagement from '../../useUserManagement';
 import { useEffect } from 'react';
@@ -13,6 +16,8 @@ const useCreateTeams = (
 ) => {
   const { productsUsers } = useUserManagement();
   const [postTeams, { isLoading: postTeamLoading }] = usePostTeamsMutation();
+  const [updateTeams, { isLoading: updateTeamLoading }] =
+    useUpdateTeamsMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(teamsValidationSchema),
@@ -37,11 +42,21 @@ const useCreateTeams = (
 
   const onSubmit = async (values: any) => {
     try {
-      await postTeams({ body: values })?.unwrap();
-      reset();
-      enqueueSnackbar('Team created successfully', {
-        variant: 'success',
-      });
+      if (drawerType === 'add') {
+        await postTeams({ body: values })?.unwrap();
+        reset();
+        enqueueSnackbar('Team created successfully', {
+          variant: 'success',
+        });
+      } else {
+        await updateTeams({
+          id: teamDataById?.data?._id,
+          body: values,
+        })?.unwrap();
+        enqueueSnackbar('Team updated successfully', {
+          variant: 'success',
+        });
+      }
       setIsAddTeam({ isToggle: false });
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
@@ -56,6 +71,7 @@ const useCreateTeams = (
     onSubmit,
     productsUsers,
     postTeamLoading,
+    updateTeamLoading,
   };
 };
 

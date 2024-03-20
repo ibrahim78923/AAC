@@ -5,11 +5,13 @@ import { userValidationSchema } from '../Users.data';
 import {
   useGetproductUsersByIdQuery,
   usePostPoductUserMutation,
+  useUpdateProductsUsersMutation,
 } from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
 
-const useAddUser = (checkedUser: any) => {
+const useAddUser = (checkedUser: any, drawerType: any) => {
   const [postPoductUser] = usePostPoductUserMutation();
+  const [updateProductsUsers] = useUpdateProductsUsersMutation();
 
   const defaultValues = {
     firstName: '',
@@ -49,7 +51,7 @@ const useAddUser = (checkedUser: any) => {
       phoneNumber: data?.user?.phoneNumber,
       jobTitle: data?.user?.jobTitle,
       language: data?.user?.language,
-      timeZone: data?.user?.timezone,
+      timezone: data?.user?.timezone,
       facebookUrl: data?.user?.facebookUrl,
       linkedInUrl: data?.user?.linkedInUrl,
       twitterUrl: data?.user?.twitterUrl,
@@ -63,12 +65,24 @@ const useAddUser = (checkedUser: any) => {
   }, [productUsersById?.data]);
 
   const onSubmit = async (values: any) => {
+    values.address = {
+      composite: values?.address,
+    };
     try {
-      await postPoductUser({ body: values })?.unwrap();
-      reset();
-      enqueueSnackbar('User added successfully', {
-        variant: 'success',
-      });
+      if (drawerType === 'add') {
+        await postPoductUser({ body: values })?.unwrap();
+        reset();
+        enqueueSnackbar('User added successfully', {
+          variant: 'success',
+        });
+      } else {
+        delete values['email'];
+        delete values['timeZone'];
+        await updateProductsUsers({ id: checkedUser, body: values })?.unwrap();
+        enqueueSnackbar('User updated successfully', {
+          variant: 'success',
+        });
+      }
       // setIsAddUserDrawer({ isToggle: false, type: 'add' });
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {

@@ -52,7 +52,6 @@ const useUserManagement = () => {
     }
   };
   // for skeleton
-
   for (let i = 0; i < 5; i++) {
     skeletonLines.push(
       <Skeleton key={i} animation="wave" height={60} sx={{ mb: 1 }} />,

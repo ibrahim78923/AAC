@@ -44,13 +44,13 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
       invalidatesTags: ['PRODUCT_USER'],
     }),
 
-    //     deleteProductUser: builder.mutation({
-    //       query: ({ id }: any) => ({
-    //         url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
-    //         method: 'DELETE',
-    //       }),
-    //       invalidatesTags: ['PRODUCT_USER'],
-    //     }),
+    deleteProductUser: builder.mutation({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['PRODUCT_USER'],
+    }),
   }),
 });
 
@@ -59,5 +59,5 @@ export const {
   useGetproductUsersByIdQuery,
   usePostPoductUserMutation,
   useUpdateProductsUsersMutation,
-  // useDeleteTeamsMutation,
+  useDeleteProductUserMutation,
 } = ProductUsersApi;
