@@ -30,7 +30,7 @@ export const useAssignedTickets = (props: any) => {
     },
     resolver: yupResolver(
       Yup?.object()?.shape({
-        user: Yup?.mixed()?.nullable()?.required('Required'),
+        user: Yup?.mixed()?.nullable()?.required('Agent is Required'),
       }),
     ),
   });

@@ -49,12 +49,6 @@ export default function useTicketInfoCard({
       ? `Closed: ${closedTimeDiff}h ago`
       : `Closed: ${dayjs(details?.closedAt)?.format(DATE_FORMAT?.UI)}`;
 
-  const truncatedSubject = details?.subject
-    ? details?.subject.length > 60
-      ? `${details.subject.slice(0, 60)}...`
-      : details?.subject
-    : '-';
-
   const [deleteTicketsTrigger, deleteTicketsStatus] =
     useDeleteTicketsMutation();
 
@@ -92,7 +86,6 @@ export default function useTicketInfoCard({
     pendingMessage,
     CLOSED,
     closedMessage,
-    truncatedSubject,
     setDeleteId,
     handleSubmitDelete,
     deleteTicketsStatus,

@@ -7,7 +7,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 
 import useSalesProduct from './useSalesProductCategories';
@@ -17,6 +16,8 @@ import { dataArray } from './SalesProductCategories.data';
 import { styles } from './SalesProductCategories.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import { ORG_ADMIN_SETTINGS_PRODUCT_CATEGORIES_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const SalesProductCategories = () => {
   const {
@@ -38,6 +39,10 @@ const SalesProductCategories = () => {
     isGetRowValues,
     getRowValues,
     tableRow,
+    setPage,
+    setPageLimit,
+    isLoading,
+    isSuccess,
   } = useSalesProduct();
   return (
     <>
@@ -86,19 +91,25 @@ const SalesProductCategories = () => {
           }}
         >
           <Typography variant="h4">Sales Product Categories</Typography>
-          <Button
-            variant="contained"
-            sx={styles?.createBtn}
-            onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
+          <PermissionsGuard
+            permissions={[
+              ORG_ADMIN_SETTINGS_PRODUCT_CATEGORIES_PERMISSIONS?.ADD_SALES_PRODUCT_CATEGORIES,
+            ]}
           >
-            <AddCircleIcon
-              sx={{
-                color: `${theme?.palette?.common?.white}`,
-                fontSize: '16px',
-              }}
-            />{' '}
-            Product Category
-          </Button>
+            <Button
+              variant="contained"
+              sx={styles?.createBtn}
+              onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
+            >
+              <AddCircleIcon
+                sx={{
+                  color: `${theme?.palette?.common?.white}`,
+                  fontSize: '16px',
+                }}
+              />{' '}
+              Product Category
+            </Button>
+          </PermissionsGuard>
         </Box>
         <Box sx={styles?.searchAction}>
           <Search
@@ -107,40 +118,60 @@ const SalesProductCategories = () => {
             setSearchBy={setproductSearch}
             width="260px"
           />
-          <Button
-            id="basic-button"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-            sx={styles?.actionBtn(theme)}
-            disabled={isGetRowValues?.length === 0}
+          <PermissionsGuard
+            permissions={[
+              ORG_ADMIN_SETTINGS_PRODUCT_CATEGORIES_PERMISSIONS?.SALES_PRODUCT_CATEGORIES_ACTION,
+            ]}
           >
-            Actions <ArrowDropDownIcon />
-          </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            <MenuItem
-              onClick={() => (setIsEditMode(true), setIsDraweropen(true))}
+            <Button
+              id="basic-button"
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
+              sx={styles?.actionBtn(theme)}
+              disabled={isGetRowValues?.length === 0}
             >
-              Edit
-            </MenuItem>
-          </Menu>
+              Actions <ArrowDropDownIcon />
+            </Button>
+
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem
+                onClick={() => (setIsEditMode(true), setIsDraweropen(true))}
+              >
+                Edit
+              </MenuItem>
+            </Menu>
+          </PermissionsGuard>
         </Box>
         <Grid>
-          <TanstackTable columns={getRowValues} data={tableRow} />
-          <CustomPagination
-            count={1}
-            rowsPerPageOptions={[1, 2]}
-            entriePages={1}
-          />
+          <PermissionsGuard
+            permissions={[
+              ORG_ADMIN_SETTINGS_PRODUCT_CATEGORIES_PERMISSIONS?.PRODUCT_CATEGORIES_GRIDVIEW,
+            ]}
+          >
+            <TanstackTable
+              columns={getRowValues}
+              data={tableRow?.data?.productcategories}
+              totalRecords={tableRow?.data?.meta?.total}
+              onPageChange={(page: any) => setPage(page)}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              count={tableRow?.data?.meta?.pages}
+              isPagination
+              pageLimit={tableRow?.data?.meta?.limit}
+              isLoading={isLoading}
+              isSuccess={isSuccess}
+            />
+          </PermissionsGuard>
         </Grid>
       </Box>
     </>

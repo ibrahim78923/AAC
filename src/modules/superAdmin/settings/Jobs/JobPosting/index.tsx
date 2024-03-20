@@ -53,13 +53,14 @@ const JobPosting = () => {
     methodsEditJobPosting,
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,
     isActionsDisabled,
     setRowId,
     rowId,
+    isFieldsDisabled,
+    drawerTitle,
   } = useJobPosting();
 
   const getColumns = columns(
@@ -125,7 +126,7 @@ const JobPosting = () => {
                 <MenuItem
                   style={{ fontSize: '14px' }}
                   disabled={!rowId}
-                  onClick={handleOpenEditJobPost}
+                  onClick={() => handleOpenEditJobPost('Update')}
                 >
                   Edit
                 </MenuItem>
@@ -138,7 +139,7 @@ const JobPosting = () => {
                 <MenuItem
                   style={{ fontSize: '14px' }}
                   disabled={!rowId}
-                  onClick={handleOpenEditJobPost}
+                  onClick={() => handleOpenEditJobPost('View')}
                 >
                   View
                 </MenuItem>
@@ -192,12 +193,14 @@ const JobPosting = () => {
             columns={getColumns}
             data={jopPostingData?.data?.jobs}
             isLoading={loadingJobPosting}
-            isPagination
+            currentPage={jopPostingData?.data?.meta?.page}
             count={jopPostingData?.data?.meta?.pages}
+            pageLimit={jopPostingData?.data?.meta?.limit}
             totalRecords={jopPostingData?.data?.meta?.total}
-            onPageChange={handlePageChange}
             setPage={setPage}
             setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
           />
         </Box>
       </PermissionsGuard>
@@ -247,6 +250,8 @@ const JobPosting = () => {
         handleSubmit={handleSubmitEditJobPost}
         formMethods={methodsEditJobPosting}
         isLoading={loadingUpdateJobPost}
+        isFieldsDisabled={isFieldsDisabled}
+        title={drawerTitle}
       />
     </Box>
   );

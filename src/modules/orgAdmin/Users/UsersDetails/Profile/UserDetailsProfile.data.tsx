@@ -5,10 +5,22 @@ import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 
 export const profileValidationSchema = Yup.object().shape({
-  firstName: Yup.string().required('Field is Required'),
-  lastName: Yup.string().required('Field is Required'),
+  firstName: Yup.string()
+    .required('Field is Required')
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
+  lastName: Yup.string()
+    .required('Field is Required')
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
   postCode: Yup.string().required('Field is Required'),
   address: Yup.string().required('Field is Required'),
+  facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
+  twitterUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
 
 export const profileFields = [

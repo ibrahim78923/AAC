@@ -6,7 +6,11 @@ import { errorSnackbar } from '@/utils/api';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 
-export const agentActionsDropdown = (handleActionClick: any) => [
+export const agentActionsDropdown = (
+  setOpenDeleteModal: any,
+  setIsAgentModalOpen: any,
+  selectedAgentList: any,
+) => [
   {
     id: 1,
     title: 'Edit',
@@ -14,8 +18,12 @@ export const agentActionsDropdown = (handleActionClick: any) => [
       AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_AGENTS,
     ],
     handleClick: (close: any) => {
-      handleActionClick('edit');
-      close?.(false);
+      if (selectedAgentList?.length > 1) {
+        errorSnackbar(`Can't update multiple records`);
+        return;
+      }
+      setIsAgentModalOpen(true);
+      close?.();
     },
   },
   {
@@ -24,8 +32,9 @@ export const agentActionsDropdown = (handleActionClick: any) => [
     permissionKey: [
       AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_AGENTS,
     ],
-    handleClick: () => {
-      handleActionClick?.('delete');
+    handleClick: (close: any) => {
+      setOpenDeleteModal?.(true);
+      close?.();
     },
   },
 ];
@@ -105,7 +114,10 @@ export const agentsListsColumnsFunction = (
           }
           router?.push({
             pathname: AIR_SERVICES?.SINGLE_AGENT_DETAILS,
-            query: { agentId: info?.row?.original?._id },
+            query: {
+              agentId: info?.row?.original?._id,
+              departmentId: info?.row?.original?.departmentId,
+            },
           });
         }}
       >

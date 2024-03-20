@@ -50,8 +50,8 @@ const AddRole = () => {
           {query?.type === 'add'
             ? 'Add New Role'
             : query?.type === 'edit'
-            ? 'Edit Role'
-            : 'Role Details'}
+              ? 'Edit Role'
+              : 'Role Details'}
         </Typography>
       </Box>
       <Box sx={{ my: 3 }}>
@@ -87,6 +87,8 @@ const AddRole = () => {
               <Grid item xs={12} lg={10} mt={2}>
                 {isLoading ? (
                   <Skeleton height={80} />
+                ) : viewPerdetails?.data?.permissions?.length === 0 ? (
+                  'No permissions found'
                 ) : (
                   <PermissionsAccordion
                     query={query}

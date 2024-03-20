@@ -18,6 +18,7 @@ import {
 } from './OrganizationTable.data';
 import useAuth from '@/hooks/useAuth';
 import { isNullOrEmpty } from '@/utils';
+import { PAGINATION } from '@/config';
 const useOrganizationTable = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -27,7 +28,7 @@ const useOrganizationTable = () => {
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isToggled, toggle] = useToggle(false);
   const [openEditDrawer, setOpenEditDrawer] = useState(false);
-  const [value, setValue] = useState('search here');
+  const [value, setValue] = useState('');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme<Theme>();
@@ -38,8 +39,21 @@ const useOrganizationTable = () => {
   const [updateOrganizationStatus] = useUpdateOrganizationStatusMutation();
   const [imageHandler, setImageHandler] = useState(false);
   const { user }: any = useAuth();
+
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetOrganizationQuery({ organizationId: user?.organization?._id });
+    useGetOrganizationQuery({
+      organizationId: user?.organization?._id,
+      search: value,
+      pages: page,
+      limit: pageLimit,
+    });
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
 
   const deleteOrganizationCompany = async () => {
     try {
@@ -75,14 +89,27 @@ const useOrganizationTable = () => {
   useEffect(() => {
     if (editData) {
       const { accountName, phoneNo, address, postCode } = editData;
+      let parsedAddress;
+      try {
+        parsedAddress = JSON.parse(address);
+      } catch (_: any) {
+        parsedAddress = null;
+      }
       methods.setValue('accountName', accountName);
       methods.setValue('phoneNo', phoneNo);
       methods.setValue('postCode', postCode);
-      methods.setValue('address', address);
+      methods.setValue(
+        'address',
+        parsedAddress === null
+          ? address?.composite ?? address
+          : parsedAddress?.composite ?? parsedAddress,
+      );
     }
   }, [editData, methods]);
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, watch } = methods;
+
+  const addressLength = watch('address');
 
   const onSubmit = async (data: any) => {
     const products: any = [];
@@ -142,18 +169,19 @@ const useOrganizationTable = () => {
     setOpenEditDrawer(true);
   };
 
+  const tableRowData = data?.data?.organizationcompanyaccounts ?? [];
   const getRowValues = columns(
     setIsGetRowValues,
     setIsChecked,
-    isChecked,
     isGetRowValues,
     setEditData,
     updateOrganizationStatus,
+    tableRowData,
   );
 
   return {
     tableRow: data?.data?.organizationcompanyaccounts ?? [],
-    tablePagination: data?.meta?.pages,
+    tableInfo: data?.data?.meta,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenDelete,
@@ -191,6 +219,10 @@ const useOrganizationTable = () => {
     drawerHeading,
     setDrawerHeading,
     loadingAddCompanyAccount,
+    setPageLimit,
+    setPage,
+    handlePageChange,
+    addressLength,
   };
 };
 

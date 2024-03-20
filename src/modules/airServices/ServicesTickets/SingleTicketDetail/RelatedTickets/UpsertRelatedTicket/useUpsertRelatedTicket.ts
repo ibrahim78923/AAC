@@ -165,5 +165,6 @@ export const useUpsertRelatedTicket: any = (props: any) => {
     ticketId,
     upsertTicketFormFields,
     isError,
+    childTicketId,
   };
 };

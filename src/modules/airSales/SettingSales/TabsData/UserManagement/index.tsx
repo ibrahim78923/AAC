@@ -88,6 +88,7 @@ const Users = () => {
               isAddUserDrawer={isAddUserDrawer}
               setIsAddUserDrawer={setIsAddUserDrawer}
             />
+
             <TeamsTable
               isAddTeam={isAddTeam}
               teamId={teamId}

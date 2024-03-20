@@ -1,15 +1,28 @@
-import { Avatar, Box, Grid, Typography, useTheme } from '@mui/material';
-import { useAgentBioData } from './useAgentBioData';
+import {
+  Avatar,
+  Box,
+  Grid,
+  IconButton,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import ApiErrorState from '@/components/ApiErrorState';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
-import { fullName, generateImage } from '@/utils/avatarUtils';
+import { fullName, generateImage, truncateText } from '@/utils/avatarUtils';
+import { EditRequestorsIcon } from '@/assets/icons';
 
-export const AgentBioData = () => {
+export const AgentBioData = (props: any) => {
   const theme = useTheme();
-  const { data, isLoading, isFetching, isError }: any = useAgentBioData();
-
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    departmentDetails,
+    handleEditButtonClick,
+  }: any = props;
   if (isLoading || isFetching) return <SkeletonForm />;
   if (isError) return <ApiErrorState />;
 
@@ -25,7 +38,7 @@ export const AgentBioData = () => {
         <Grid
           item
           xs={12}
-          md={3.9}
+          md={4}
           padding={1.5}
           borderRight={{
             md: `1px solid ${theme?.palette?.custom?.off_white_three}`,
@@ -82,7 +95,7 @@ export const AgentBioData = () => {
                     Email:
                   </Typography>
                   <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-                    {data?.data?.email}
+                    {data?.data?.email ?? '---'}
                   </Typography>
                 </Box>
                 <Box
@@ -95,20 +108,20 @@ export const AgentBioData = () => {
                     Phone Number
                   </Typography>
                   <Typography variant="body2">
-                    {data?.data?.phoneNumber ?? 'N/A'}
+                    {data?.data?.phoneNumber ?? '---'}
                   </Typography>
                 </Box>
               </Box>
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={12} md={3.9} padding={1.5}>
+        <Grid item xs={12} md={3.5} padding={1.5}>
           <Box display={'flex'} flexWrap={'wrap'} gap={1} my={2}>
             <Typography variant="body2" fontWeight={600}>
               Department
             </Typography>
             <Typography variant="body2" sx={{ flex: '1' }} />
-            IT
+            {truncateText(departmentDetails?.data?.data?.name)}
           </Box>
           <Box
             display={'flex'}
@@ -120,7 +133,7 @@ export const AgentBioData = () => {
               Email:
             </Typography>
             <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-              {data?.data?.email}
+              {data?.data?.email ?? '---'}
             </Typography>
           </Box>
           <Box
@@ -150,7 +163,12 @@ export const AgentBioData = () => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} md={3.9} padding={1.5}></Grid>
+        <Grid item xs={12} md={1} textAlign={'end'}>
+          <IconButton onClick={() => handleEditButtonClick?.()}>
+            <EditRequestorsIcon />
+          </IconButton>
+        </Grid>
+        <Grid item xs={12} md={3} padding={1.5}></Grid>
       </Grid>
     </Box>
   );

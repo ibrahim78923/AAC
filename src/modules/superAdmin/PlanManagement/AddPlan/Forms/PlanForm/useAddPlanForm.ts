@@ -3,13 +3,17 @@ import { dataArray } from './PlanForm.data';
 import { useState } from 'react';
 import { useGetProductsQuery } from '@/services/superAdmin/plan-mangement';
 
-export const useAddPlanForm = (AdditionalStorageValue: any) => {
+export const useAddPlanForm = (
+  AdditionalStorageValue: any,
+  AdditionalUsereValue: any,
+) => {
   const router = useRouter();
   const [selectProductSuite, setSelectProductSuite] = useState('product');
   const { data } = useGetProductsQuery({});
   const formDefaultValuesFunction = dataArray(
     router?.query?.action === 'view',
     AdditionalStorageValue,
+    AdditionalUsereValue,
   );
 
   const productsOptions = data?.data?.map((product: any) => ({

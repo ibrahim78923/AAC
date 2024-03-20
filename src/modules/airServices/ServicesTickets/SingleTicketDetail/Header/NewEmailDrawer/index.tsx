@@ -15,22 +15,16 @@ export const NewEmailDrawer = (props: any) => {
       onClose={onClose}
       title="New Email"
       submitHandler={handleSubmit(onSubmit)}
-      footer={true}
-      isOk={true}
+      footer
+      isOk
       okText="Send"
     >
       <FormProvider methods={methods}>
-        <Grid container spacing={4}>
+        <Grid container spacing={2}>
           {addEmailDataArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.id}>
               <item.component {...item?.componentProps} size={'small'}>
-                {item?.componentProps?.select
-                  ? item?.options?.map((option: any) => (
-                      <option key={item?.id} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))
-                  : item?.buttonGroup
+                {item?.buttonGroup
                   ? item?.options?.map((option: any) => (
                       <ToggleButton
                         sx={{

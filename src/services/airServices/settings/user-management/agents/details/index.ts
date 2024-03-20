@@ -32,9 +32,14 @@ export const agentDetailsAPI = baseAPI?.injectEndpoints({
     }),
     getAgentSoftwareDetails: builder?.query({
       query: (getAgentSoftwareDetailsParameter: any) => ({
-        url: `${END_POINTS?.REQUESTER_VIEW_DETAILS}`,
+        url: `${END_POINTS?.AGENTS_SOFTWARE_LIST}/${getAgentSoftwareDetailsParameter?.pathParams?.id}`,
         method: 'GET',
-        params: getAgentSoftwareDetailsParameter?.queryParams,
+      }),
+    }),
+    getSingleDepartmentDetails: builder?.query({
+      query: (getSingleDepartmentDetailsParameter: any) => ({
+        url: `${END_POINTS?.SINGLE_DEPARTMENT_DETAIL}/${getSingleDepartmentDetailsParameter?.pathParams?.id}`,
+        method: 'GET',
       }),
     }),
   }),
@@ -46,4 +51,5 @@ export const {
   useGetAgentTaskDetailsQuery,
   useGetAgentTicketDetailsQuery,
   useGetSingleAgentDetailsQuery,
+  useGetSingleDepartmentDetailsQuery,
 } = agentDetailsAPI;

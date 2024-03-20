@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Modules from './Forms/Modules';
@@ -25,6 +25,7 @@ import store, { useAppSelector } from '@/redux/store';
 
 import {
   useGetPermissionsByProductsQuery,
+  useGetPlanMangementByIdQuery,
   usePostPlanMangementMutation,
   useUpdatePlanMangementMutation,
 } from '@/services/superAdmin/plan-mangement';
@@ -50,6 +51,9 @@ export const useAddPlan = () => {
   if (router.query.data) {
     parsedRowData = JSON.parse(router.query.data);
   }
+  const { data: singlePlan } = useGetPlanMangementByIdQuery({
+    id: parsedRowData?._id,
+  });
 
   const dispatch = useDispatch();
   const hanldeGoBack = () => {
@@ -73,13 +77,11 @@ export const useAddPlan = () => {
           additionalPerUserPrice,
           additionalStoragePrice,
           description,
-          allowAdditionalUsers,
-          allowAdditionalStorage,
           planProducts,
           planType,
         } = parsedRowData;
         if (!isNullOrEmpty(planProducts)) {
-          const productId = planProducts[0].name;
+          const productId = planProducts[0]?._id;
           const planTypeId = { value: planType?.name, label: planType?.name };
           return {
             defaultUsers,
@@ -88,8 +90,12 @@ export const useAddPlan = () => {
             additionalPerUserPrice,
             additionalStoragePrice,
             description,
-            allowAdditionalUsers,
-            allowAdditionalStorage,
+            allowAdditionalUsers: !isNullOrEmpty(additionalPerUserPrice)
+              ? 'Yes'
+              : 'No',
+            allowAdditionalStorage: !isNullOrEmpty(additionalStoragePrice)
+              ? 'Yes'
+              : 'No',
             productId,
             planTypeId,
           };
@@ -107,10 +113,11 @@ export const useAddPlan = () => {
     defaultValues: defaultValuesModules,
   });
 
-  const { handleSubmit, reset, watch } = methodsPlan;
+  const { handleSubmit, reset, watch, setValue } = methodsPlan;
   const { handleSubmit: handleSubmitPlanFeatures } = methodsPlanFeatures;
   const { handleSubmit: handleSubmitPlanModules } = methodsPlanModules;
   const AdditionalStorageValue = watch(['allowAdditionalStorage']);
+  const AdditionalUsereValue = watch(['allowAdditionalUsers']);
 
   const planForm: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.addPlanForm,
@@ -132,23 +139,46 @@ export const useAddPlan = () => {
   // }
 
   const onSubmitPlan = async (values: any) => {
-    dispatch(addPlanFormData(values));
-    setActiveStep((previous) => previous + 1);
+    if (values?.suite?.length > 0 && values?.suite?.length < 2) {
+      enqueueSnackbar('Please select more then one product product', {
+        variant: 'error',
+      });
+    } else if (values?.suite?.length < 2 && isNullOrEmpty(values?.productId)) {
+      enqueueSnackbar('Please select product', {
+        variant: 'error',
+      });
+    } else if (
+      values?.allowAdditionalUsers === 'Yes' &&
+      isNullOrEmpty(values?.additionalPerUserPrice)
+    ) {
+      enqueueSnackbar('Please enter additional Per User Price', {
+        variant: 'error',
+      });
+    } else if (
+      values?.allowAdditionalStorage === 'Yes' &&
+      isNullOrEmpty(values?.additionalStoragePrice)
+    ) {
+      enqueueSnackbar('Please enter additional Storage Price', {
+        variant: 'error',
+      });
+    } else {
+      dispatch(addPlanFormData(values));
+      setActiveStep((previous) => previous + 1);
 
-    enqueueSnackbar('Plan Details Added Successfully', {
-      variant: 'success',
-    });
-    const productIdArray = values?.suite;
-    const modulesPermissionsArray = [];
+      enqueueSnackbar('Plan Details Added Successfully', {
+        variant: 'success',
+      });
+      const productIdArray = values?.suite;
+      const modulesPermissionsArray = [];
+      if (!isNullOrEmpty(productIdArray)) {
+        for (const productId of productIdArray) {
+          setSkip(false);
+          setProductIdModules(productId);
 
-    for (const productId of productIdArray) {
-      setSkip(false);
-      setProductIdModules(productId);
-
-      modulesPermissionsArray?.push(modulesData);
+          modulesPermissionsArray?.push(modulesData);
+        }
+      }
     }
-
-    reset();
   };
   const onSubmitPlanFeaturesHandler = async (values: any) => {
     const featuresData = values?.features?.map((item: any) => {
@@ -251,9 +281,11 @@ export const useAddPlan = () => {
                 ...transformedModulesFormData,
               },
             })?.unwrap();
-        enqueueSnackbar('Plan Modules Details Added Successfully', {
-          variant: 'success',
-        });
+        setTimeout(function () {
+          enqueueSnackbar('Plan Added Successfully', {
+            variant: 'success',
+          });
+        }, 5000);
         persistor?.purge();
         reset();
       } catch (error: any) {
@@ -298,6 +330,7 @@ export const useAddPlan = () => {
           methods={methodsPlan}
           handleSubmit={handlePlanForm}
           AdditionalStorageValue={AdditionalStorageValue}
+          AdditionalUsereValue={AdditionalUsereValue}
         />
       ),
 
@@ -310,6 +343,7 @@ export const useAddPlan = () => {
         <PlanFeaturesForm
           methods={methodsPlanFeatures}
           handleSubmit={handlePlanFeatures}
+          editPlan={singlePlan?.data}
         />
       ),
       componentProps: { addPlanFormValues, setAddPlanFormValues },
@@ -334,6 +368,14 @@ export const useAddPlan = () => {
     }
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+
+  useEffect(() => {
+    if (AdditionalStorageValue[0] === 'No') {
+      setValue('additionalStoragePrice', 0);
+    } else if (AdditionalUsereValue[0] === 'No') {
+      setValue('additionalPerUserPrice', 0);
+    }
+  }, [AdditionalStorageValue, AdditionalUsereValue, setValue]);
 
   return {
     methods,

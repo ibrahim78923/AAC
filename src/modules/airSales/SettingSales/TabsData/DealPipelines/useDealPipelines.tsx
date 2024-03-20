@@ -72,7 +72,7 @@ const useDealPipelines = () => {
       enqueueSnackbar('Record Added Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-    } catch (error) {
+    } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
       enqueueSnackbar(errMessage ?? 'Error occurred', {

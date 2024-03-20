@@ -1,5 +1,10 @@
 import { TICKET_APPROVALS } from '@/constants/strings';
-import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import { APPROVAL_CARD_STATUS } from './ApprovalCard.data';
 import { formatTimeDifference } from '@/utils/dateTime';
@@ -32,8 +37,8 @@ export const ApprovalCard = (props: any) => {
             Request for :
           </Typography>
           <Typography variant="body3" fontWeight={400} color={'grey.800'}>
-            {`${data?.ticketDetails?.ticketIdNumber ?? ''}, ${' '} ${
-              data?.ticketDetails?.subject ?? ''
+            {`${data?.ticketDetails?.ticketIdNumber ?? '---'}, ${' '} ${
+              truncateText(data?.ticketDetails?.subject, 30) ?? '---'
             }`}
           </Typography>
         </Box>
@@ -48,7 +53,7 @@ export const ApprovalCard = (props: any) => {
           <Box display={'flex'} gap={1} flexWrap={'wrap'} alignItems={'center'}>
             <Avatar
               sx={{ bgcolor: 'blue.main', width: 25, height: 25 }}
-              src={data?.requesterDetails?.profileImg?.src}
+              src={generateImage(data?.requesterDetails?.avatar?.url)}
             >
               <Typography variant="body4" textTransform={'uppercase'}>
                 {fullNameInitial(
@@ -68,7 +73,7 @@ export const ApprovalCard = (props: any) => {
                 data?.requesterDetails?.firstName,
                 data?.requesterDetails?.lastName,
               ) === 'None'
-                ? ''
+                ? 'None'
                 : `${fullName(
                     data?.requesterDetails?.firstName,
                     data?.requesterDetails?.lastName,
