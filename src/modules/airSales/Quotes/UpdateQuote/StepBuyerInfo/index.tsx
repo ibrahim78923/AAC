@@ -15,44 +15,39 @@ import {
 import { styles } from './StepBuyerInfo.style';
 import Image from 'next/image';
 import { AlertModals } from '@/components/AlertModals';
-import { useState } from 'react';
+import React, { useState } from 'react';
 // import useUpdateQuote from '../useUpdateQuote';
 import useUpdateQuote from '../useUpdateQuote';
 
 const StepBuyerInfo = ({
-  // dataContacts,
-  // dataCompanies,
   openAddContact,
   openAddCompany,
+  handleBuyerContactChange,
+  selectedBuyerContactIds,
+  handleCompanyChange,
+  selectedCompanyIds,
 }: any) => {
   const [deleteModal, setDeleteModal] = useState(false);
+  // const {
 
-  const [selectedId, setSelectedId] = useState<string[]>([]);
-  const [selectedCompany, setSelectedCompany] = useState<string[]>([]);
-
+  // } = useUpdateQuote();
   const handleDeleteModal = () => {
     setDeleteModal(!deleteModal);
-  };
-  const handleChange = (e: any, id: any) => {
-    if (e.target.checked) {
-      setSelectedId([...selectedId, id]);
-    } else {
-      const filteredId = selectedId.filter((item: string) => item !== id);
-      setSelectedId(filteredId);
-    }
   };
 
   const { dataGetQuoteById }: any = useUpdateQuote();
   const contactData = dataGetQuoteById?.data?.deal;
 
-  const handleCompanyChange = (e: any, id: any) => {
-    if (e.target.checked) {
-      setSelectedCompany([...selectedCompany, id]);
-    } else {
-      const filteredCompanyId = selectedCompany?.filter((val) => val !== id);
-      setSelectedCompany(filteredCompanyId);
-    }
-  };
+  // const handleCompanyChange = (e: any, id: any) => {
+  //   console.log(id, 'id');
+
+  //   if (e.target.checked) {
+  //     setSelectedCompany([...selectedCompany, id]);
+  //   } else {
+  //     const filteredCompanyId = selectedCompany?.filter((val) => val !== id);
+  //     setSelectedCompany(filteredCompanyId);
+  //   }
+  // };
   // console.log(selectedCompany);
 
   return (
@@ -93,11 +88,9 @@ const StepBuyerInfo = ({
                             src={AvatarContactImage?.src}
                             sx={styles?.itemAvatar}
                           ></Avatar>
-                          {/* <CrossCircleImage /> */}
                         </Box>
                         <Box sx={styles?.itemDetail}>
                           <Box sx={styles?.itemTitle}>
-                            {/* {item?.owner} */}
                             {item?.name}
                             <Image
                               src={CrossCircleImage}
@@ -111,8 +104,9 @@ const StepBuyerInfo = ({
                         </Box>
                         <Box mt={-0.7}>
                           <Checkbox
-                            checked={selectedId?.includes(item?._id)}
-                            onChange={(e: any) => handleChange(e, item?._id)}
+                            checked={selectedBuyerContactIds === item?._id}
+                            value={item?._id}
+                            onChange={() => handleBuyerContactChange(item?._id)}
                           />
                         </Box>
                       </Box>
@@ -175,10 +169,8 @@ const StepBuyerInfo = ({
                       </Box>
                       <Box mt={-0.7}>
                         <Checkbox
-                          checked={selectedCompany?.includes(item?._id)}
-                          onChange={(e: any) =>
-                            handleCompanyChange(e, item._id)
-                          }
+                          checked={selectedCompanyIds === item?._id}
+                          onChange={() => handleCompanyChange(item._id)}
                         />
                       </Box>
                     </Box>
@@ -194,13 +186,15 @@ const StepBuyerInfo = ({
           </TemplateFrame>
         </Grid>
       </Grid>
-      <AlertModals
-        message="Are u sure u wnat to delete this?"
-        type="delete"
-        open={deleteModal}
-        handleClose={handleDeleteModal}
-        handleSubmitBtn={handleDeleteModal}
-      />
+      {deleteModal && (
+        <AlertModals
+          message="Are u sure u wnat to delete this?"
+          type="delete"
+          open={deleteModal}
+          handleClose={handleDeleteModal}
+          handleSubmitBtn={handleDeleteModal}
+        />
+      )}
     </>
   );
 };

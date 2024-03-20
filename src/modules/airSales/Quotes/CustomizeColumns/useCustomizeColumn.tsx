@@ -77,7 +77,7 @@ const useCustomizeColumn = ({ onClose }: any) => {
     setColumns(newArr);
   };
   useEffect(() => {
-    setColumns(JSON.parse(JSON.stringify(columnsData)));
+    // setColumns(JSON.parse(JSON.stringify(columnsData)));
     setSelected(
       columnsData
         ?.filter((col: { active: boolean }) => col?.active)
