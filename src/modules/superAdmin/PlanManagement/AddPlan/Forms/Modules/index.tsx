@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   Accordion,
@@ -23,8 +23,9 @@ import { useGetPermissionsByProductsQuery } from '@/services/superAdmin/plan-man
 import { useGetProductsPermissionsQuery } from '@/services/orgAdmin/roles-and-rights';
 import { useGetProductsQuery } from '@/services/common-APIs';
 import { isNullOrEmpty } from '@/utils';
+import { enqueueSnackbar } from 'notistack';
 
-const Modules = ({ methods, handleSubmit }: any) => {
+const Modules = ({ methods, handleSubmit, errors }: any) => {
   const { theme, selectModule, handleValue } = useModules();
   let prevProductId: any = null;
 
@@ -88,6 +89,15 @@ const Modules = ({ methods, handleSubmit }: any) => {
     value: product?._id,
     label: product?.name,
   }));
+
+  useEffect(() => {
+    if (!isNullOrEmpty(errors?.permissionSlugs?.message)) {
+      enqueueSnackbar('Please select atleast one modules permission', {
+        variant: 'error',
+      });
+    }
+  }, [errors?.permissionSlugs?.message]);
+
   return (
     <div>
       {productPermissionsData?.data?.map((item: any) => (

@@ -115,7 +115,10 @@ export const useAddPlan = () => {
 
   const { handleSubmit, reset, watch, setValue } = methodsPlan;
   const { handleSubmit: handleSubmitPlanFeatures } = methodsPlanFeatures;
-  const { handleSubmit: handleSubmitPlanModules } = methodsPlanModules;
+  const {
+    handleSubmit: handleSubmitPlanModules,
+    formState: { errors },
+  } = methodsPlanModules;
   const AdditionalStorageValue = watch(['allowAdditionalStorage']);
   const AdditionalUsereValue = watch(['allowAdditionalUsers']);
 
@@ -355,6 +358,7 @@ export const useAddPlan = () => {
         <Modules
           methods={methodsPlanModules}
           handleSubmit={handlePlanModules}
+          errors={errors}
         />
       ),
       componentProps: { addPlanFormValues, setAddPlanFormValues },
