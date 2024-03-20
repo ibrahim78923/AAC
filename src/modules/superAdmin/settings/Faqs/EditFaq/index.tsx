@@ -19,6 +19,7 @@ const EditFaq = ({
     <CommonModal
       open={isModalOpen}
       handleClose={onClose}
+      handleCancel={onClose}
       handleSubmit={handleSubmit}
       title={`${title} FAQ`}
       okText="Update"

@@ -9,66 +9,34 @@ import {
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
-
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {
-  TICKET_IMPACT,
-  TICKET_PRIORITY,
-  TICKET_STATUS,
-} from '@/constants/strings';
+  ticketImpactOptions,
+  ticketPriorityOptions,
+  ticketSourceOptions,
+  ticketStatusOptions,
+} from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { Box, Typography } from '@mui/material';
+import { ROLES } from '@/constants/strings';
 
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
-const incidentStatusOptions = [
-  {
-    _id: TICKET_STATUS?.OPEN,
-    label: TICKET_STATUS?.OPEN,
-  },
-  {
-    _id: TICKET_STATUS?.PENDING,
-    label: TICKET_STATUS?.PENDING,
-  },
-  {
-    _id: TICKET_STATUS?.RESOLVED,
-    label: TICKET_STATUS?.RESOLVED,
-  },
-  {
-    _id: TICKET_STATUS?.CLOSED,
-    label: TICKET_STATUS?.CLOSED,
-  },
-];
-const incidentPriorityOptions = [
-  TICKET_PRIORITY?.LOW,
-  TICKET_PRIORITY?.MEDIUM,
-  TICKET_PRIORITY?.HIGH,
-  TICKET_PRIORITY?.URGENT,
-];
-
-const incidentImpactOptions = [
-  TICKET_IMPACT?.LOW,
-  TICKET_IMPACT?.MEDIUM,
-  TICKET_IMPACT?.HIGH,
-];
-
-const incidentSourceOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
-
 export const newIncidentValidationSchema = Yup?.object()?.shape({
-  requester: Yup?.mixed()?.nullable()?.required('Required'),
-  subject: Yup?.string()?.trim()?.required('Required'),
-  description: Yup?.string(),
+  requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
+  subject: Yup?.string()?.trim()?.required('Subject is required'),
+  description: Yup?.string()?.trim()?.required('Description is Required'),
   category: Yup?.mixed()?.nullable(),
-  status: Yup?.mixed()?.nullable()?.required('Required'),
-  priority: Yup?.mixed()?.nullable()?.required('Required'),
+  status: Yup?.mixed()?.nullable()?.required('Status is required'),
+  priority: Yup?.mixed()?.nullable()?.required('Priority is Required'),
   department: Yup?.mixed()?.nullable(),
   source: Yup?.mixed()?.nullable(),
   impact: Yup?.mixed()?.nullable(),
   agent: Yup?.mixed()?.nullable(),
   plannedStartDate: Yup?.date(),
-  plannedStartTime: Yup?.date(),
-  plannedEndDate: Yup?.date(),
-  plannedEndTime: Yup?.date(),
+  plannedStartTime: Yup?.date()?.nullable(),
+  plannedEndDate: Yup?.date()?.nullable(),
+  plannedEndTime: Yup?.date()?.nullable(),
   plannedEffort: Yup?.string()?.trim(),
   associatesAssets: Yup?.mixed()?.nullable(),
   attachFile: Yup?.mixed()?.nullable(),
@@ -76,28 +44,44 @@ export const newIncidentValidationSchema = Yup?.object()?.shape({
 
 export const newIncidentsDefaultValuesFunction = (data?: any) => {
   return {
-    requester: data?.requester ?? null,
+    requester: !!Object?.keys(data?.requesterDetails ?? {})?.length
+      ? data?.requesterDetails
+      : null,
     subject: data?.subject ?? '',
     description: data?.description ?? '',
-    category: data?.category ?? null,
-    status: data?.status ?? null,
-    priority: data?.priority ?? null,
-    department: data?.department ?? null,
-    source: data?.source ?? null,
-    impact: data?.impact ?? null,
-    agent: data?.agent ?? null,
+    category: data?.categoryDetails ?? null,
+    status: data?.status ? { _id: data?.status, label: data?.status } : null,
+    priority: data?.pirority
+      ? { _id: data?.pirority, label: data?.pirority }
+      : null,
+    department: !!Object?.keys(data?.departmentDetails ?? {})?.length
+      ? data?.departmentDetails
+      : null,
+    source: data?.source ? { _id: data?.source, label: data?.source } : null,
+    impact: data?.impact ? { _id: data?.impact, label: data?.impact } : null,
+    agent: !!Object?.keys(data?.agentDetails ?? {})?.length
+      ? data?.agentDetails
+      : null,
     plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
-    plannedStartTime: new Date(),
-    plannedEndDate: new Date(data?.plannedEndDate ?? todayDate),
-    plannedEndTime: new Date(),
-    plannedEffort: !!data?.plannedEffort?.length ? data?.plannedEffort : '',
-    associatesAssets: !!data?.associatesAsset?.length
-      ? data?.associatesAsset
+    plannedStartTime:
+      typeof data?.plannedStartDate === 'string'
+        ? new Date(data?.plannedStartDate)
+        : new Date(),
+    plannedEndDate:
+      typeof data?.plannedEndDate === 'string'
+        ? new Date(data?.plannedEndDate)
+        : null,
+    plannedEndTime:
+      typeof data?.plannedEndDate === 'string'
+        ? new Date(data?.plannedEndDate)
+        : null,
+    plannedEffort: data?.plannedEffort ?? '',
+    associatesAssets: !!data?.associateAssets?.length
+      ? data?.associateAssetsDetails
       : [],
     attachFile: null,
   };
 };
-
 export const newIncidentFormFieldsDynamic = (
   apiQueryRequester?: any,
   apiQueryDepartment?: any,
@@ -115,7 +99,7 @@ export const newIncidentFormFieldsDynamic = (
       required: true,
       apiQuery: apiQueryRequester,
       EndIcon: AddCircleIcon,
-      externalParams: { limit: 50, role: 'ORG_REQUESTER' },
+      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
       endIconClick: () => {
@@ -166,7 +150,7 @@ export const newIncidentFormFieldsDynamic = (
       fullWidth: true,
       required: true,
       placeholder: 'Choose Status',
-      options: incidentStatusOptions,
+      options: ticketStatusOptions,
       getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
@@ -179,7 +163,8 @@ export const newIncidentFormFieldsDynamic = (
       fullWidth: true,
       required: true,
       placeholder: 'Choose Priority',
-      options: incidentPriorityOptions,
+      options: ticketPriorityOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -201,7 +186,8 @@ export const newIncidentFormFieldsDynamic = (
       label: 'Source',
       fullWidth: true,
       placeholder: 'Choose Source',
-      options: incidentSourceOptions,
+      options: ticketSourceOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -212,7 +198,8 @@ export const newIncidentFormFieldsDynamic = (
       label: 'Impact',
       fullWidth: true,
       placeholder: 'Choose Impact',
-      options: incidentImpactOptions,
+      options: ticketImpactOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     component: RHFAutocomplete,
   },
@@ -224,7 +211,7 @@ export const newIncidentFormFieldsDynamic = (
       fullWidth: true,
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      externalParams: { limit: 50, role: ROLES?.ORG_AGENT },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },
@@ -270,6 +257,7 @@ export const newIncidentFormFieldsDynamic = (
       name: 'plannedEndTime',
       label: '\u00a0\u00a0',
       fullWidth: true,
+      textFieldProps: { readOnly: true },
     },
     component: RHFTimePicker,
     md: 4.5,
@@ -319,6 +307,7 @@ export const newIncidentFormFieldsDynamic = (
       ),
       placeholder: 'Choose Assets',
       EndIcon: AddCircleIcon,
+
       endIconSx: { color: 'primary.main' },
       endIconClick: () => {
         router?.push(AIR_SERVICES?.UPSERT_INVENTORY);

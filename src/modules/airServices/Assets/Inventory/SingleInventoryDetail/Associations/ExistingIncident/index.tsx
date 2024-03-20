@@ -30,6 +30,7 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
     page,
     setPage,
     metaData,
+    isLoading,
   } = useExistingIncident({ onClose });
 
   return (
@@ -40,6 +41,7 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
       okText={'Associate'}
       isOk
       cancelText={'Cancel'}
+      isLoading={isLoading}
       footer
       submitHandler={handleSubmit}
     >
