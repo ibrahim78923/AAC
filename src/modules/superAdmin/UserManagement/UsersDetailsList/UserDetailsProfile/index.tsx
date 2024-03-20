@@ -25,9 +25,7 @@ const UserDetailsProfile = (props: any) => {
     compositeAddress: userDetails?.address?.composite
       ? userDetails.address.composite
       : `${
-          userDetails.address.flatNumber
-            ? `Flat # ${userDetails.address.flatNumber}, `
-            : ''
+          userDetails.address.flat ? `Flat # ${userDetails.address.flat}, ` : ''
         }` +
         `${
           userDetails.address.buildingNumber
@@ -48,7 +46,7 @@ const UserDetailsProfile = (props: any) => {
         `${
           userDetails.address.country ? `${userDetails.address.country}` : ''
         }`,
-    flat: userDetails?.address?.flatNumber ?? '',
+    flat: userDetails?.address?.flat ?? '',
     city: userDetails?.address?.city ?? '',
     country: userDetails?.address?.country ?? '',
     buildingName: userDetails?.address?.buildingName ?? '',
