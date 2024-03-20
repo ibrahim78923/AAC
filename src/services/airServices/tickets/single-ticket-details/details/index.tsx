@@ -71,6 +71,13 @@ const ticketsDetailsAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    putTicketsTime: builder?.mutation({
+      query: (putTicketTimeParameter: any) => ({
+        url: `${END_POINTS?.TICKET_UPDATE_TIME_ENTRIES}`,
+        method: 'PATCH',
+        body: putTicketTimeParameter?.body,
+      }),
+    }),
   }),
 });
 
@@ -83,4 +90,5 @@ export const {
   usePostTicketsTimeMutation,
   useLazyGetTaskByIdDropDownQuery,
   useGetTicketsTimeEntriesByIdQuery,
+  usePutTicketsTimeMutation,
 } = ticketsDetailsAPI;

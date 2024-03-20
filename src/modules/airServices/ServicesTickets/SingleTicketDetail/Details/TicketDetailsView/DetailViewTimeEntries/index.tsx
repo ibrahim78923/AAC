@@ -1,6 +1,4 @@
-import { Grid, Typography, Box, Divider } from '@mui/material';
-import { useState } from 'react';
-import DetailTimePicker from '../../../Header/TimePicker';
+import { Typography, Box, Divider, Avatar } from '@mui/material';
 import { Button } from '@mui/material';
 import { CirclePlusIcon, ViewDetailVuesaxIcon } from '@/assets/icons';
 import { styles } from './DetailViewTimeEntries.style';
@@ -9,14 +7,35 @@ import Image from 'next/image';
 import { VuesaxErrorImage } from '@/assets/images';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
+import { useDetailViewTimeEntries } from './useDetailViewTimeEntries';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
+import StopWatch from './StopWatch';
+import { fullName, generateImage } from '@/utils/avatarUtils';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
 const DetailViewTimeEntries = (data: any) => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [isIconVisible, setIsIconVisible] = useState(true);
+  const {
+    isLoading,
+    timeEntryData,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    isIconVisible,
+    setIsIconVisible,
+    toggleView,
+    totalSeconds,
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    reset,
+    handleSubmit,
+    handleSubmitPause,
+  } = useDetailViewTimeEntries(data);
 
-  const toggleView = () => {
-    setIsIconVisible(!isIconVisible);
-  };
   return (
     <>
       <Box borderRadius={2} border={1} borderColor={'custom.off_white_three'}>
@@ -39,18 +58,32 @@ const DetailViewTimeEntries = (data: any) => {
             >
               <Box sx={styles?.iconBoxStyling} onClick={toggleView}>
                 {isIconVisible ? (
-                  <ViewDetailVuesaxIcon />
+                  <Box onClick={handleSubmitPause}>
+                    <ViewDetailVuesaxIcon />
+                  </Box>
                 ) : (
-                  <Image
-                    src={VuesaxErrorImage}
-                    alt={'VuesaxErrorImage'}
-                    height={24}
-                    width={24}
-                  />
+                  <Box onClick={handleSubmit}>
+                    <Image
+                      src={VuesaxErrorImage}
+                      alt={'VuesaxErrorImage'}
+                      height={24}
+                      width={24}
+                    />
+                  </Box>
                 )}
               </Box>
               <Box sx={styles?.iconBoxTimerStyling}>
-                <DetailTimePicker />
+                <StopWatch
+                  totalSeconds={totalSeconds}
+                  seconds={seconds}
+                  minutes={minutes}
+                  hours={hours}
+                  days={days}
+                  isRunning={isRunning}
+                  start={start}
+                  pause={pause}
+                  reset={reset}
+                />
               </Box>
             </PermissionsGuard>
             <Box sx={styles?.buttonStyleOFTimeEntries}>
@@ -71,43 +104,114 @@ const DetailViewTimeEntries = (data: any) => {
                 isDrawerOpen={isDrawerOpen}
                 setIsDrawerOpen={setIsDrawerOpen}
                 data={data}
+                start={start}
+                pause={pause}
+                reset={reset}
+                setIsIconVisible={setIsIconVisible}
+                isLoading={isLoading}
               />
             </Box>
           </Box>
         </Box>
         <Divider />
-        <Grid container sx={styles?.timeEnterSecGride}>
-          <Grid xs={12} md={2.5} item sx={styles?.timeEnterInnerSecGrid}>
-            <Box sx={styles?.timeEnterInnerBox}>
-              <Typography variant="body1"> Total Time track</Typography>
-              <Typography variant="body1" component="span" sx={{ ml: '1rem' }}>
-                03h:01m
-              </Typography>
-            </Box>
-            <Box sx={styles?.timeEnterInnerSecBox}>
-              <Typography variant="body1"> Start Time</Typography>
-              <Typography variant="body1" component="span" sx={{ ml: '1rem' }}>
-                07:00AM
-              </Typography>
-            </Box>
-            <Box sx={styles?.timeEnterInnerSecBox}>
-              <Typography variant="body1"> End Time </Typography>
-              <Typography variant="body1" component="span" sx={{ ml: '1rem' }}>
-                00:00AM
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid xs={12} md={2.5} item sx={styles?.timeEnterInnerThirdGrid}>
-            <Box sx={styles?.timeEnterInnerThirdBox}>
-              <Typography variant="subtitle1">
-                Wednesday,22 September
-              </Typography>
-              <Typography variant="body1" sx={styles?.timeEnterInnerTypography}>
-                00:00 - 00:00
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
+        <Box sx={styles?.timeEnterInnerBox}>
+          <Typography variant="body1"> Total Time track</Typography>
+          <Typography variant="body1" component="span" sx={{ ml: '4rem' }}>
+            {timeEntryData?.data?.totalTimeTrack ?? '-'}
+          </Typography>
+        </Box>
+        <Box
+          display="flex"
+          flexDirection={'column'}
+          justifyContent="start"
+          m="2rem"
+          sx={{ overflow: 'auto', maxHeight: '18rem' }}
+        >
+          {timeEntryData?.data ? (
+            timeEntryData?.data?.response?.map((item: any) => (
+              <Box key={item?._id}>
+                <Box display="flex" mt={'1rem'} mb={'2rem'}>
+                  <Avatar src={generateImage(item?.fileUrl)} />
+                  <Typography
+                    variant="body1"
+                    component="span"
+                    sx={{ ml: '1rem', mt: '0.5rem' }}
+                  >
+                    {fullName(
+                      item?.agentDetails?.firstName,
+                      item?.agentDetails?.lastName,
+                    )}
+                  </Typography>
+                </Box>
+
+                <Box display="flex" mt={'1rem'} mb={'2rem'}>
+                  <Typography variant="body1"> Total Time track</Typography>
+                  <Typography
+                    variant="body1"
+                    component="span"
+                    sx={{ ml: '4rem' }}
+                  >
+                    {dayjs(item?.totalTimeTrack)?.format(
+                      TIME_FORMAT?.TIME_VALIDATION,
+                    ) ?? '-'}
+                    {item?.counter}
+                  </Typography>
+                </Box>
+
+                {!!!item?.counter ? (
+                  <>
+                    <Box display="flex" mt={'1rem'} mb={'2rem'}>
+                      <Typography variant="body1"> Start Time</Typography>
+                      <Typography
+                        variant="body1"
+                        component="span"
+                        sx={{ ml: '6.5rem' }}
+                      >
+                        {dayjs(item?.startTime)?.format(
+                          TIME_FORMAT?.TIME_VALIDATION,
+                        ) ?? '-'}
+                      </Typography>
+                    </Box>
+                    <Box display="flex" mt={'1rem'} mb={'2rem'}>
+                      <Typography variant="body1"> End Time </Typography>
+                      <Typography
+                        variant="body1"
+                        component="span"
+                        sx={{ ml: '7rem' }}
+                      >
+                        {dayjs(item?.endTime)?.format(
+                          TIME_FORMAT?.TIME_VALIDATION,
+                        ) ?? '-'}
+                      </Typography>
+                    </Box>
+                  </>
+                ) : null}
+                <Box
+                  display="flex"
+                  mt={'1rem'}
+                  mb={'1rem'}
+                  justifyContent={'end'}
+                >
+                  <Typography variant="subtitle1">
+                    {dayjs(item?.on)?.format(DATE_TIME_FORMAT?.WDM) ?? '-'}
+                  </Typography>
+                </Box>
+                <Box
+                  display="flex"
+                  mt={'1rem'}
+                  mb={'1rem'}
+                  justifyContent={'end'}
+                >
+                  <Typography variant="body1">
+                    {dayjs(item?.on)?.format(TIME_FORMAT?.UI) ?? '-'}
+                  </Typography>
+                </Box>
+              </Box>
+            ))
+          ) : (
+            <SkeletonForm />
+          )}
+        </Box>
       </Box>
     </>
   );

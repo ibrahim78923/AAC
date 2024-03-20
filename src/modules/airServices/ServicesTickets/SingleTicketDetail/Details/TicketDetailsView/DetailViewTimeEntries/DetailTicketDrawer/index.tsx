@@ -14,6 +14,8 @@ export const DetailTicketDrawer = (props: any) => {
     ticketDetailsFormFields,
     isDrawerOpen,
     setIsDrawerOpen,
+    booleanVar,
+    isLoading,
   } = useDetailTicketDrawer(props);
   return (
     <CommonDrawer
@@ -25,7 +27,8 @@ export const DetailTicketDrawer = (props: any) => {
       submitHandler={handleSubmit(onSubmit)}
       footer={true}
       isOk={true}
-      okText="Start timer"
+      okText={booleanVar === true ? 'submit' : 'Start timer'}
+      isLoading={isLoading}
     >
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={1}>

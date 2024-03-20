@@ -13,7 +13,7 @@ export const validationSchema = Yup?.object()?.shape({
   agent: Yup?.mixed()?.nullable()?.required('Field is Required'),
   hours: Yup?.mixed()?.nullable(),
   status: Yup?.mixed()?.nullable(),
-  on: Yup?.date(),
+  on: Yup?.date()?.required('Field is Required'),
   note: Yup?.mixed()?.nullable(),
 });
 
@@ -47,6 +47,7 @@ export const detailDrawerArray = (apiQueryAgent: any, apiQueryTask: any) => [
       name: 'agent',
       label: 'Agent',
       fullWidth: true,
+      required: true,
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
       externalParams: { limit: 50, role: 'ORG_AGENT' },
@@ -64,7 +65,6 @@ export const detailDrawerArray = (apiQueryAgent: any, apiQueryTask: any) => [
       fullWidth: true,
       placeholder: 'Eg: 1h 10m',
     },
-
     component: RHFTextField,
     md: 12,
   },
@@ -74,7 +74,6 @@ export const detailDrawerArray = (apiQueryAgent: any, apiQueryTask: any) => [
       name: 'status',
       label: 'Status',
       fullWidth: true,
-      required: true,
       placeholder: 'Choose Status',
       options: ticketStatusOptions,
       getOptionLabel: (option: any) => option?.label,

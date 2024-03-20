@@ -4,7 +4,7 @@ import {
   detailDrawerArray,
   validationSchema,
 } from './DetailTicketDrawer.data';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import {
   useLazyGetAgentDropdownQuery,
   useLazyGetTaskByIdDropDownQuery,
@@ -16,9 +16,16 @@ import { useRouter } from 'next/router';
 
 export const useDetailTicketDrawer = (props: any) => {
   const [postTicketsTimeTrigger] = usePostTicketsTimeMutation();
-  const { isDrawerOpen, setIsDrawerOpen } = props;
+  const {
+    isDrawerOpen,
+    setIsDrawerOpen,
+    start,
+    pause,
+    setIsIconVisible,
+    isLoading,
+  } = props;
   const router = useRouter();
-
+  let booleanVar = false;
   const { ticketId } = router?.query;
   const apiQueryAgent = useLazyGetAgentDropdownQuery();
 
@@ -28,13 +35,28 @@ export const useDetailTicketDrawer = (props: any) => {
   });
   const apiQueryTask = useLazyGetTaskByIdDropDownQuery();
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, control } = methods;
   const ticketDetailsFormFields = detailDrawerArray(
     apiQueryAgent,
     apiQueryTask,
   );
+  const results = useWatch({ control, name: 'hours' });
+
+  if (results.length > 0) {
+    booleanVar = true;
+  } else {
+    booleanVar = false;
+  }
 
   const onSubmit = async (data: any) => {
+    if (booleanVar === true) {
+      setIsIconVisible(true);
+      pause();
+    } else {
+      setIsIconVisible(false);
+      start();
+    }
+
     const postData = {
       ticketId: ticketId,
       taskId: '65e9435fb36acb14e0443372',
@@ -65,5 +87,8 @@ export const useDetailTicketDrawer = (props: any) => {
     ticketDetailsFormFields,
     isDrawerOpen,
     setIsDrawerOpen,
+    booleanVar,
+    results,
+    isLoading,
   };
 };
