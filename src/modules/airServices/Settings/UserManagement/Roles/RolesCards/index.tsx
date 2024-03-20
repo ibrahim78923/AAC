@@ -11,6 +11,7 @@ import NoData from '@/components/NoData';
 import { AssociationsImage } from '@/assets/images';
 import useRolesCards from './useRolesCards';
 import { AlertModals } from '@/components/AlertModals';
+import GroupIcon from '@mui/icons-material/Group';
 
 const RolesCards = ({
   data,
@@ -54,10 +55,8 @@ const RolesCards = ({
               borderColor={'grey.0'}
               borderRadius={2}
               p={3}
-              maxHeight={'20vh'}
               height={'100%'}
               sx={{ cursor: 'pointer' }}
-              overflow={'auto'}
               onClick={() =>
                 router?.push(AIR_SERVICES?.USER_UPSERT_ROLES_SETTINGS)
               }
@@ -86,9 +85,7 @@ const RolesCards = ({
                 borderColor={'grey.0'}
                 borderRadius={2}
                 p={3}
-                maxHeight={'20vh'}
                 height={'100%'}
-                overflow={'auto'}
               >
                 <Box display={'flex'} justifyContent={'space-between'} mb={1}>
                   <Typography variant="h5">{item?.name}</Typography>
@@ -110,8 +107,27 @@ const RolesCards = ({
                     __html: item?.description,
                   }}
                   color={'custom.mulled_wine'}
+                  maxHeight={'10vh'}
+                  overflow={'auto'}
+                  sx={{
+                    '&::-webkit-scrollbar': {
+                      width: 2,
+                      height: 2,
+                    },
+                  }}
                 />
+
                 <Divider sx={{ my: 2 }} />
+
+                <Box display={'flex'} alignItems={'center'} gap={1}>
+                  <GroupIcon
+                    fontSize={'small'}
+                    sx={{ color: 'custom.mulled_wine' }}
+                  />
+                  <Typography variant={'body2'} color={'custom.mulled_wine'}>
+                    {item?.agents ?? '0'} Agents
+                  </Typography>
+                </Box>
               </Box>
             </Grid>
           ))
