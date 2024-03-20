@@ -25,7 +25,6 @@ const Software = () => {
     setSoftwareData,
     openAssignModal,
     setOpenAssignModal,
-    searchValue,
     setSearchValue,
     setPage,
     setPageLimit,
@@ -44,7 +43,10 @@ const Software = () => {
         createPermissionKey={[
           AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.NEW_SOFTWARE,
         ]}
-        handleAction={() => setIsAddDrawerOpen(true)}
+        handleAction={() => {
+          setSoftwareData?.([]);
+          setIsAddDrawerOpen(true);
+        }}
       />
       <Box
         display={'flex'}
@@ -59,12 +61,7 @@ const Software = () => {
               AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SEARCH_AND_FILTER,
             ]}
           >
-            <Search
-              label="Search Here"
-              width="100%"
-              searchBy={searchValue}
-              setSearchBy={setSearchValue}
-            />
+            <Search label="Search Here" setSearchBy={setSearchValue} />
           </PermissionsGuard>
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
@@ -72,9 +69,7 @@ const Software = () => {
             color="secondary"
             variant="outlined"
             disabled={!!!softwareData?.length}
-            onClick={() => {
-              setOpenAssignModal(true);
-            }}
+            onClick={() => setOpenAssignModal?.(true)}
           >
             Assign Category
           </Button>
@@ -131,6 +126,7 @@ const Software = () => {
           setIsOpenFilterDrawer={setIsOpenFilterDrawer}
           setFilterValues={setFilterValues}
           filterValues={filterValues}
+          setPage={setPage}
         />
       )}
       {openAssignModal && (
@@ -138,6 +134,7 @@ const Software = () => {
           openAssignModal={openAssignModal}
           setOpenAssignModal={setOpenAssignModal}
           selectedSoftware={softwareData}
+          setSoftwareData={setSoftwareData}
         />
       )}
       {isAddDrawerOpen && (

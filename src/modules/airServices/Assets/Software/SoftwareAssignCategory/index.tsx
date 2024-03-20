@@ -1,19 +1,25 @@
 import {
   Box,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
-  Grid,
+  DialogTitle,
   Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { FormProvider, RHFTextField } from '@/components/ReactHookForm';
 import { useSoftwareAssignCategory } from './useSoftwareAssignCategory';
+import { LoadingButton } from '@mui/lab';
 
 export const SoftwareAssignCategory = (params: any) => {
   const { openAssignModal, setOpenAssignModal } = params;
-  const { onSubmit, handleSubmit, methods } = useSoftwareAssignCategory(params);
+  const {
+    onSubmit,
+    handleSubmit,
+    methods,
+    putSoftwareAssignCategoryStatus,
+    handleClose,
+  } = useSoftwareAssignCategory(params);
 
   return (
     <Dialog
@@ -22,38 +28,50 @@ export const SoftwareAssignCategory = (params: any) => {
       maxWidth={'sm'}
       fullWidth
     >
-      <Box>
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2} p={2}>
-            <Box
-              display={'flex'}
-              justifyContent={'space-between'}
-              flexWrap={'wrap'}
-              gap={2}
-            >
-              <Typography variant="h4">Assign Category</Typography>
-              <CloseIcon
-                sx={{ color: 'custom.darker', cursor: 'pointer' }}
-                onClick={() => setOpenAssignModal(false)}
-              />
-            </Box>
-            <DialogContent>
-              <RHFTextField name="category" required fullWidth />
-            </DialogContent>
-            <DialogActions>
-              <Button
-                variant="outlined"
-                onClick={() => setOpenAssignModal(false)}
-              >
-                Cancel
-              </Button>
-              <Button variant="contained" type="submit">
-                Assign
-              </Button>
-            </DialogActions>
-          </Grid>
-        </FormProvider>
-      </Box>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <DialogTitle>
+          <Box
+            display={'flex'}
+            justifyContent={'space-between'}
+            flexWrap={'wrap'}
+            gap={2}
+            mb={1.5}
+          >
+            <Typography variant="h4">Assign Category</Typography>
+            <CloseIcon
+              sx={{ color: 'custom.darker', cursor: 'pointer' }}
+              onClick={() => handleClose?.()}
+            />
+          </Box>
+        </DialogTitle>
+        <DialogContent>
+          <RHFTextField
+            name="category"
+            size="small"
+            required
+            fullWidth
+            label="Category"
+          />
+        </DialogContent>
+        <DialogActions>
+          <LoadingButton
+            variant="outlined"
+            color="inherit"
+            onClick={() => handleClose?.()}
+            disabled={putSoftwareAssignCategoryStatus?.isLoading}
+          >
+            Cancel
+          </LoadingButton>
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            disabled={putSoftwareAssignCategoryStatus?.isLoading}
+            loading={putSoftwareAssignCategoryStatus?.isLoading}
+          >
+            Assign
+          </LoadingButton>
+        </DialogActions>
+      </FormProvider>
     </Dialog>
   );
 };
