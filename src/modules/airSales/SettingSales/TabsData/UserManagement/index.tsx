@@ -8,7 +8,6 @@ import { AlertModals } from '@/components/AlertModals';
 import AddUsers from './Users/AddUsers';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
-import useTeams from './Teams/useTeams';
 
 const Users = () => {
   const theme = useTheme<Theme>();
@@ -27,8 +26,9 @@ const Users = () => {
     setCheckedUser,
     isOpenDelete,
     setIsOpenDelete,
+    handleDeleteTeam,
+    deleteTeamLoading,
   } = useUserManagement();
-  const { handleDeleteTeam } = useTeams();
 
   return (
     <>
@@ -118,9 +118,9 @@ const Users = () => {
           open={isOpenDelete}
           submitBtnText="Delete"
           cancelBtnText="Cancel"
+          loading={deleteTeamLoading}
           handleClose={() => setIsOpenDelete(false)}
           handleSubmitBtn={() => {
-            setIsOpenDelete(false);
             handleDeleteTeam(teamId);
           }}
         />

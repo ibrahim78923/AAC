@@ -1,5 +1,7 @@
 import { PAGINATION } from '@/config';
+import { useDeleteTeamsMutation } from '@/services/airSales/settings/teams';
 import { useGetProductsUsersQuery } from '@/services/airSales/settings/users';
+import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 const useUserManagement = () => {
@@ -7,6 +9,8 @@ const useUserManagement = () => {
   const [checkedUser, setCheckedUser] = useState();
   const [activeTab, setActiveTab] = useState(0);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [deleteTeams, { isLoading: deleteTeamLoading }] =
+    useDeleteTeamsMutation();
   const [isAddTeam, setIsAddTeam] = useState({
     isToggle: false,
     type: 'add',
@@ -31,6 +35,21 @@ const useUserManagement = () => {
     isSuccess,
   } = useGetProductsUsersQuery(productUserParams);
 
+  //handler delete team
+  const handleDeleteTeam = async (id: any) => {
+    try {
+      await deleteTeams({ id: id })?.unwrap();
+      setIsOpenDelete(false);
+      enqueueSnackbar('Team deleted successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
+  };
+
   return {
     activeTab,
     setActiveTab,
@@ -53,6 +72,8 @@ const useUserManagement = () => {
     setCheckedUser,
     isOpenDelete,
     setIsOpenDelete,
+    handleDeleteTeam,
+    deleteTeamLoading,
   };
 };
 

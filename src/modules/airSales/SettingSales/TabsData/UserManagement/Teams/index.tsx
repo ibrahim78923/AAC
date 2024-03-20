@@ -25,7 +25,7 @@ const Teams = (props: any) => {
     setPage,
     setLimit,
     isSuccess,
-    isLoading,
+    teamsDataLoading,
     searchBy,
     setSearchBy,
     teamDataById,
@@ -70,7 +70,7 @@ const Teams = (props: any) => {
               count={teamsData?.data?.meta?.pages}
               pageLimit={teamsData?.data?.meta?.limit}
               totalRecords={teamsData?.data?.meta?.total}
-              isLoading={isLoading}
+              isLoading={teamsDataLoading}
               isSuccess={isSuccess}
             />
           </PermissionsGuard>
@@ -80,11 +80,14 @@ const Teams = (props: any) => {
           setIsTeamDrawer={setIsTeamDrawer}
           teamData={teamDataById}
         />
-        <CreateTeams
-          isAddTeam={isAddTeam}
-          setIsAddTeam={setIsAddTeam}
-          teamDataById={teamDataById}
-        />
+
+        {isAddTeam && (
+          <CreateTeams
+            isAddTeam={isAddTeam}
+            setIsAddTeam={setIsAddTeam}
+            teamDataById={teamDataById}
+          />
+        )}
       </Box>
     </>
   );

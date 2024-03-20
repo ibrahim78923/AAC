@@ -6,9 +6,13 @@ import { enqueueSnackbar } from 'notistack';
 import useUserManagement from '../../useUserManagement';
 import { useEffect } from 'react';
 
-const useCreateTeams = (teamDataById: any, setIsAddTeam: any) => {
+const useCreateTeams = (
+  teamDataById: any,
+  setIsAddTeam: any,
+  drawerType: any,
+) => {
   const { productsUsers } = useUserManagement();
-  const [postTeams] = usePostTeamsMutation();
+  const [postTeams, { isLoading: postTeamLoading }] = usePostTeamsMutation();
 
   const methods: any = useForm({
     resolver: yupResolver(teamsValidationSchema),
@@ -18,16 +22,18 @@ const useCreateTeams = (teamDataById: any, setIsAddTeam: any) => {
   const { handleSubmit, reset, setValue } = methods;
 
   useEffect(() => {
-    const data = teamDataById?.data;
-    const fieldsToSet: any = {
-      name: data?.name,
-      userAccounts: data?.users?.map((item: any) => {
-        return item?._id;
-      }),
-    };
+    if (drawerType === 'edit') {
+      const data = teamDataById?.data;
+      const fieldsToSet: any = {
+        name: data?.name,
+        userAccounts: data?.users?.map((item: any) => {
+          return item?._id;
+        }),
+      };
 
-    for (const key in fieldsToSet) {
-      setValue(key, fieldsToSet[key]);
+      for (const key in fieldsToSet) {
+        setValue(key, fieldsToSet[key]);
+      }
     }
   }, [teamDataById]);
 
@@ -51,6 +57,7 @@ const useCreateTeams = (teamDataById: any, setIsAddTeam: any) => {
     handleSubmit,
     onSubmit,
     productsUsers,
+    postTeamLoading,
   };
 };
 
