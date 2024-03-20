@@ -14,7 +14,6 @@ export const UpsertSalesWorkflow = () => {
     register,
     handleSubmit,
     palette,
-    moduleType,
     setValue,
     control,
     watch,
@@ -37,7 +36,7 @@ export const UpsertSalesWorkflow = () => {
         </Grid>
         <WorkflowConditions
           control={control}
-          moduleType={moduleType}
+          setValue={setValue}
           watch={watch}
         />
         <WorkflowActionExecuted />

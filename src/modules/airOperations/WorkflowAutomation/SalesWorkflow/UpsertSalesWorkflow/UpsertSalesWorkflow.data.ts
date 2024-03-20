@@ -46,7 +46,7 @@ export const salesValues = {
     endDate: new Date(),
     key: 'selection',
   },
-  module: '',
+  module: 'DEALS',
   events: null,
   runType: null,
   groupCondition: 'OR',

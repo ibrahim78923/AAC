@@ -70,14 +70,12 @@ export const useUpsertSalesWorkflow = () => {
     }
   };
   const { palette } = useTheme();
-  const moduleType = watch('module');
   return {
     salesMethod,
     handleFormSubmit,
     register,
     handleSubmit,
     palette,
-    moduleType,
     setValue,
     watch,
     control,

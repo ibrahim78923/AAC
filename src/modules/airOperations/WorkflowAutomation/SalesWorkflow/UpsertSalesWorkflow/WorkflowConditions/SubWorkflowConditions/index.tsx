@@ -8,7 +8,7 @@ import {
 import { useSubWorkflowConditions } from './useSubWorkflowConditions';
 
 export const SubWorkflowConditions = (props: any) => {
-  const { moduleType, index, conditionType } = props;
+  const { index, conditionType, watch, setValue } = props;
   const { handleAppend, fields, handleDeleteClick } =
     useSubWorkflowConditions(props);
   return (
@@ -33,13 +33,16 @@ export const SubWorkflowConditions = (props: any) => {
             )}
             <Box pt={1} display={'flex'} alignItems={'center'} gap={1}>
               <Grid container spacing={2}>
-                {workflowConditionsDataArray(moduleType, index, subIndex)?.map(
-                  (item) => (
-                    <Grid item xs={12} lg={item?.gridLength} key={item?._id}>
-                      <item.component {...item?.componentProps} />
-                    </Grid>
-                  ),
-                )}
+                {workflowConditionsDataArray(
+                  setValue,
+                  index,
+                  subIndex,
+                  watch,
+                )?.map((item) => (
+                  <Grid item xs={12} lg={item?.gridLength} key={item?._id}>
+                    <item.component {...item?.componentProps} />
+                  </Grid>
+                ))}
               </Grid>
               <Box>
                 <DeleteIcon
