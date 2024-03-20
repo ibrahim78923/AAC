@@ -26,16 +26,14 @@ const useCreateTeams = (
       const data = teamDataById?.data;
       const fieldsToSet: any = {
         name: data?.name,
-        userAccounts: data?.users?.map((item: any) => {
-          return item?._id;
-        }),
+        userAccounts: data?.accounts?.map((item: any) => item?._id) ?? [],
       };
 
       for (const key in fieldsToSet) {
         setValue(key, fieldsToSet[key]);
       }
     }
-  }, [teamDataById]);
+  }, [teamDataById?.data]);
 
   const onSubmit = async (values: any) => {
     try {

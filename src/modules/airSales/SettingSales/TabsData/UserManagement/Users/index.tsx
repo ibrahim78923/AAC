@@ -6,6 +6,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { columnsUser } from './Users.data';
 import useUserManagement from '../useUserManagement';
 import useUsers from './useUsers';
+import { DeleteIcon } from '@/assets/icons';
 
 const UserTable = (props: any) => {
   const { setIsAddUserDrawer, isAddUserDrawer, checkedUser, setCheckedUser } =
@@ -18,6 +19,7 @@ const UserTable = (props: any) => {
     theme,
     handleClick,
     handleClose,
+    updateUserLoading,
   } = useUsers();
 
   const {
@@ -47,27 +49,39 @@ const UserTable = (props: any) => {
           label={'Search here'}
           setSearchBy={setSearchUser}
         />
-        <Button
-          id="basic-button"
-          aria-controls={open ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
-          disabled={checkedUser?.length > 0 ? false : true}
-          sx={{
-            border: `1px solid ${theme?.palette?.grey[700]}`,
-            borderRadius: '4px',
-            color: `${theme?.palette?.custom.main}`,
-            display: 'flex',
-            alignItems: 'center',
-            padding: '0.7rem',
-            fontWeight: 500,
-            marginY: { xs: '10px', sm: '0px' },
-            width: { xs: '100%', sm: 'fit-content' },
-          }}
-        >
-          Actions <ArrowDropDownIcon />
-        </Button>
+        {checkedUser?.length > 1 ? (
+          <Button
+            className="small"
+            variant="outlined"
+            color="inherit"
+            startIcon={<DeleteIcon />}
+            // onClick={handleDelete}
+          >
+            Delete
+          </Button>
+        ) : (
+          <Button
+            id="basic-button"
+            aria-controls={open ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+            disabled={checkedUser?.length > 0 ? false : true}
+            sx={{
+              border: `1px solid ${theme?.palette?.grey[700]}`,
+              borderRadius: '4px',
+              color: `${theme?.palette?.custom.main}`,
+              display: 'flex',
+              alignItems: 'center',
+              padding: '0.7rem',
+              fontWeight: 500,
+              marginY: { xs: '10px', sm: '0px' },
+              width: { xs: '100%', sm: 'fit-content' },
+            }}
+          >
+            Actions <ArrowDropDownIcon />
+          </Button>
+        )}
         <Menu
           id="basic-menu"
           anchorEl={anchorEl}
@@ -111,7 +125,12 @@ const UserTable = (props: any) => {
         </Menu>
       </Box>
       <TanstackTable
-        columns={columnsUser(checkedUser, setCheckedUser)}
+        columns={columnsUser(
+          checkedUser,
+          setCheckedUser,
+          updateUserLoading,
+          productsUsers?.data?.usercompanyaccounts,
+        )}
         data={productsUsers?.data?.usercompanyaccounts}
         isPagination
         onPageChange={(page: any) => setPage(page)}

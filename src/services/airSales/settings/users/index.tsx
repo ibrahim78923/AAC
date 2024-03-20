@@ -9,7 +9,7 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['USER'],
+      providesTags: ['PRODUCT_USER'],
     }),
 
     getproductUsersById: builder.query({
@@ -19,7 +19,7 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
           method: 'GET',
         };
       },
-      providesTags: ['TEAMS'],
+      providesTags: ['PRODUCT_USER'],
     }),
 
     postPoductUser: builder.mutation({
@@ -30,26 +30,26 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['USER'],
+      invalidatesTags: ['PRODUCT_USER'],
     }),
 
-    updateUsers: builder.mutation({
+    updateProductsUsers: builder.mutation({
       query: ({ id, body }: any) => {
         return {
-          url: `${END_POINTS?.ADD_USER}/${id}`,
+          url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
           method: 'PATCH',
           body: body,
         };
       },
-      invalidatesTags: ['USERS'],
+      invalidatesTags: ['PRODUCT_USER'],
     }),
 
-    //     deleteTeams: builder.mutation({
+    //     deleteProductUser: builder.mutation({
     //       query: ({ id }: any) => ({
-    //         url: `${END_POINTS?.SALES_TEAM}/${id}`,
+    //         url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
     //         method: 'DELETE',
     //       }),
-    //       invalidatesTags: ['TEAMS'],
+    //       invalidatesTags: ['PRODUCT_USER'],
     //     }),
   }),
 });
@@ -57,8 +57,7 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
 export const {
   useGetProductsUsersQuery,
   useGetproductUsersByIdQuery,
-  useLazyGetproductUsersByIdQuery,
   usePostPoductUserMutation,
-  useUpdateUsersMutation,
+  useUpdateProductsUsersMutation,
   // useDeleteTeamsMutation,
 } = ProductUsersApi;

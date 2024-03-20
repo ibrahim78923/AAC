@@ -24,9 +24,10 @@ const useTeams = (teamId?: any) => {
     isSuccess,
     isLoading: teamsDataLoading,
   } = useGetTeamsQuery(params);
-  const { data: teamDataById } =
-    teamId !== undefined ? useGetTeamsByIdQuery(teamId) : { data: null };
-
+  const { data: teamDataById, isLoading: teamByIdLoading } =
+    teamId !== undefined
+      ? useGetTeamsByIdQuery(teamId)
+      : { data: null, isLoading: false };
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
@@ -52,6 +53,7 @@ const useTeams = (teamId?: any) => {
     searchBy,
     setSearchBy,
     teamDataById,
+    teamByIdLoading,
   };
 };
 

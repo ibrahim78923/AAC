@@ -1,20 +1,16 @@
 import { useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
-import {
-  usePostPoductUserMutation,
-  useUpdateUsersMutation,
-} from '@/services/airSales/settings/users';
+import { useUpdateProductsUsersMutation } from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
 import { getSession } from '@/utils';
 import { useGetCompanyAccountsRolesQuery } from '@/services/common-APIs';
 
-const useUsers: any = (setIsAddUserDrawer?: any) => {
+const useUsers: any = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const theme = useTheme<Theme>();
-  const [postPoductUser] = usePostPoductUserMutation();
   const open = Boolean(anchorEl);
-  const [updateUsers] = useUpdateUsersMutation();
+  const [updateProductsUsers] = useUpdateProductsUsersMutation();
   const { user } = getSession();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -28,24 +24,13 @@ const useUsers: any = (setIsAddUserDrawer?: any) => {
     organizationId: user?.organization?._id,
   });
 
-  const onSubmit = async (values: any) => {
-    try {
-      await postPoductUser({ body: values })?.unwrap();
-      enqueueSnackbar('User added successfully', {
-        variant: 'success',
-      });
-      setIsAddUserDrawer({ isToggle: false, type: 'add', data: {} });
-    } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, {
-        variant: 'error',
-      });
-    }
-  };
-
   const handleUpdateStatus = async (id: any, value: any) => {
     const statusVal = value?.target?.checked ? 'ACTIVE' : 'INACTIVE';
     try {
-      await updateUsers({ id: id, body: { status: statusVal } })?.unwrap();
+      await updateProductsUsers({
+        id: id,
+        body: { status: statusVal },
+      })?.unwrap();
       enqueueSnackbar('Status updated successfully', {
         variant: 'success',
       });
@@ -65,10 +50,8 @@ const useUsers: any = (setIsAddUserDrawer?: any) => {
     theme,
     handleClick,
     handleClose,
-    onSubmit,
     rolesByCompanyId,
     handleUpdateStatus,
-    // productUsersDataById
   };
 };
 

@@ -1,12 +1,14 @@
 import { PAGINATION } from '@/config';
 import { useDeleteTeamsMutation } from '@/services/airSales/settings/teams';
 import { useGetProductsUsersQuery } from '@/services/airSales/settings/users';
+import { Skeleton } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 const useUserManagement = () => {
+  const skeletonLines = [];
   const [teamId, setTeamId] = useState();
-  const [checkedUser, setCheckedUser] = useState();
+  const [checkedUser, setCheckedUser] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState(0);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [deleteTeams, { isLoading: deleteTeamLoading }] =
@@ -49,6 +51,13 @@ const useUserManagement = () => {
       });
     }
   };
+  // for skeleton
+
+  for (let i = 0; i < 5; i++) {
+    skeletonLines.push(
+      <Skeleton key={i} animation="wave" height={60} sx={{ mb: 1 }} />,
+    );
+  }
 
   return {
     activeTab,
@@ -74,6 +83,7 @@ const useUserManagement = () => {
     setIsOpenDelete,
     handleDeleteTeam,
     deleteTeamLoading,
+    skeletonLines,
   };
 };
 

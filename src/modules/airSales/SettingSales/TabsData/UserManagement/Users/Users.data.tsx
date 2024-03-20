@@ -1,4 +1,4 @@
-import { Checkbox } from '@mui/material';
+import { Box, Checkbox } from '@mui/material';
 
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
@@ -200,27 +200,62 @@ export const dataArray = () => {
   ];
 };
 
-export const columnsUser = (checkedUser: any, setCheckedUser: any) => {
+export const columnsUser = (
+  checkedUser: any,
+  setCheckedUser: any,
+  updateUserLoading: any,
+  tableData: any,
+) => {
   const { handleUpdateStatus } = useUsers();
-  const handleCheckboxChange = (val: any, rowId: string) => {
-    const recordId = val?.target?.checked ? rowId : null;
-    setCheckedUser(recordId);
+
+  const handleSelectCompaniesById = (checked: boolean, id: string): void => {
+    if (checked) {
+      setCheckedUser([...checkedUser, id]);
+    } else {
+      setCheckedUser(checkedUser?.filter((_id: any) => _id !== id));
+    }
   };
+
+  const handleSelectAllCompanies = (checked: boolean): void => {
+    setCheckedUser(checked ? tableData?.map(({ _id }: any) => _id) : []);
+  };
+
   return [
     {
-      accessorFn: (row: any) => row?.Id,
+      // accessorFn: (row: any) => row?.Id,
+      // id: 'Id',
+      // cell: (info: any) => (
+      //   <Checkbox
+      //     color="primary"
+      //     name={info?.getValue()}
+      //     defaultChecked={checkedUser === info?.row?.original?._id}
+      //     onChange={(e: any) =>
+      //       handleCheckboxChange(e, info?.row?.original?._id)
+      //     }
+      //   />
+      // ),
+      // header: <Checkbox color="primary" name="Id" />,
+      // isSortable: false,
+      accessorFn: (row: any) => row?._id,
       id: 'Id',
-      cell: (info: any) => (
+      cell: ({ row: { original } }: any) => (
         <Checkbox
-          color="primary"
-          name={info?.getValue()}
-          defaultChecked={checkedUser === info?.row?.original?._id}
-          onChange={(e: any) =>
-            handleCheckboxChange(e, info?.row?.original?._id)
+          checked={checkedUser?.includes(original?._id)}
+          onChange={({ target }) => {
+            handleSelectCompaniesById(target.checked, original?._id);
+          }}
+        />
+      ),
+      header: (
+        <Checkbox
+          onChange={({ target }) => {
+            handleSelectAllCompanies(target.checked);
+          }}
+          checked={
+            tableData?.length && checkedUser?.length === tableData?.length
           }
         />
       ),
-      header: <Checkbox color="primary" name="Id" />,
       isSortable: false,
     },
     {
@@ -244,13 +279,21 @@ export const columnsUser = (checkedUser: any, setCheckedUser: any) => {
       isSortable: true,
       header: 'Status',
       cell: (info: any) => (
-        <SwitchBtn
-          defaultChecked={info?.row?.original?.status}
-          name={info?.getValue()}
-          handleSwitchChange={(val: any) =>
-            handleUpdateStatus(info?.row?.original?._id, val)
-          }
-        />
+        <Box>
+          {updateUserLoading ? (
+            <Box>Loading...</Box>
+          ) : (
+            <SwitchBtn
+              defaultChecked={
+                info?.row?.original?.status === 'ACTIVE' ? true : false
+              }
+              name={info?.getValue()}
+              handleSwitchChange={(val: any) =>
+                handleUpdateStatus(info?.row?.original?._id, val)
+              }
+            />
+          )}
+        </Box>
       ),
     },
   ];

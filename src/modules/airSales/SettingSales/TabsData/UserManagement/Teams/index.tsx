@@ -29,13 +29,14 @@ const Teams = (props: any) => {
     searchBy,
     setSearchBy,
     teamDataById,
+    teamByIdLoading,
   } = useTeams(teamId);
 
   const columnsProps = {
-    setIsTeamDrawer: setIsTeamDrawer,
-    theme: theme,
-    setTeamId: setTeamId,
-    setIsAddTeam: setIsAddTeam,
+    setIsTeamDrawer,
+    theme,
+    setTeamId,
+    setIsAddTeam,
     setIsOpenDelete,
   };
 
@@ -79,6 +80,7 @@ const Teams = (props: any) => {
           isTeamDrawer={isTeamDrawer}
           setIsTeamDrawer={setIsTeamDrawer}
           teamData={teamDataById}
+          teamByIdLoading={teamByIdLoading}
         />
 
         {isAddTeam && (
@@ -86,6 +88,7 @@ const Teams = (props: any) => {
             isAddTeam={isAddTeam}
             setIsAddTeam={setIsAddTeam}
             teamDataById={teamDataById}
+            teamByIdLoading={teamByIdLoading}
           />
         )}
       </Box>
