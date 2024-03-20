@@ -75,10 +75,11 @@ const OrganizationTable = () => {
     tableInfo,
     handlePageChange,
     isLoading,
+    addressLength,
   } = useOrganizationTable();
   const { user }: any = useAuth();
 
-  const getDateArray = dataArray({ drawerHeading });
+  const getDateArray = dataArray({ drawerHeading, isToggled });
 
   const isViewMode = drawerHeading === 'Company Account';
 
@@ -111,6 +112,7 @@ const OrganizationTable = () => {
                       '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
                   }}
                 ></Box>
+
                 <Box
                   onClick={() => {
                     setImageHandler(true);
@@ -156,8 +158,9 @@ const OrganizationTable = () => {
               ))}
             </Box>
             <Grid container spacing={1}>
-              {getDateArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {getDateArray?.map((item: any, index: any) => (
+                // eslint-disable-next-line
+                <Grid item xs={12} md={item?.md} key={index}>
                   {item?.componentProps?.name === 'address' && (
                     <Box
                       sx={{
@@ -180,15 +183,26 @@ const OrganizationTable = () => {
                             display: 'flex',
                             gap: '10px',
                             alignItems: 'center',
+                            mt: 2,
                           }}
                         >
                           {/* <EraserIcon /> */}
-                          <BorderColorIcon
-                            onClick={() => {
-                              toggle(true);
-                            }}
-                            sx={{ cursor: 'pointer', fontSize: '20px' }}
-                          />
+                          {addressLength?.length > 0 ? (
+                            <BorderColorIcon
+                              sx={{
+                                cursor: 'not-allowed',
+                                fontSize: '20px',
+                                color: 'lightgrey',
+                              }}
+                            />
+                          ) : (
+                            <BorderColorIcon
+                              onClick={() => {
+                                toggle(true);
+                              }}
+                              sx={{ cursor: 'pointer', fontSize: '20px' }}
+                            />
+                          )}
                         </Box>
                       </InputAdornment>
                     </Box>
@@ -207,6 +221,7 @@ const OrganizationTable = () => {
             <CommonModal
               open={imageHandler}
               handleClose={() => setImageHandler(false)}
+              handleCancel={() => setImageHandler(false)}
               handleSubmit={() => setImageHandler(false)}
               title="Upload Logo"
               footer={true}
@@ -329,7 +344,7 @@ const OrganizationTable = () => {
                       setDrawerHeading('Edit Company');
                       setIsOpenDrawer(true);
                     }}
-                    disabled={isGetRowValues.length > 1}
+                    disabled={isGetRowValues?.length > 1}
                   >
                     Edit
                   </MenuItem>

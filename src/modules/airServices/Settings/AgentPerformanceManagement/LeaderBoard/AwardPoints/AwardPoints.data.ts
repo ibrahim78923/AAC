@@ -80,7 +80,7 @@ export const agentResolveTicketData = [
       fullWidth: true,
       required: true,
       name: 'onTime',
-      label: 'on time',
+      label: 'On-time (within SLA)',
     },
   },
   {

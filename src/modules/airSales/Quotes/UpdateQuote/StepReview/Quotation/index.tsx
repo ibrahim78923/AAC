@@ -1,12 +1,27 @@
 import { Box } from '@mui/material';
 import { styles } from './Quotation.style';
+import useUpdateQuote from '../../useUpdateQuote';
 
 const Quotation = () => {
+  const { dataGetQuoteById } = useUpdateQuote();
+
+  const sum = dataGetQuoteById?.data?.products.reduce(
+    (accumulator: any, currentValue: any) =>
+      accumulator + currentValue?.unitPrice * currentValue?.quantity,
+    0,
+  );
+
+  const unitDiscount = dataGetQuoteById?.data?.products.reduce(
+    (accumulator: any, currentValue: any) =>
+      accumulator + currentValue?.unitDiscount * currentValue?.quantity,
+    0,
+  );
+
   return (
     <Box sx={styles?.box}>
       <Box sx={styles?.bRow}>
         <Box sx={styles?.bHead}>Sub Total</Box>
-        <Box sx={styles?.bCell}>£75</Box>
+        <Box sx={styles?.bCell}>£{sum}</Box>
       </Box>
 
       <Box sx={styles?.bRow}>
@@ -16,12 +31,12 @@ const Quotation = () => {
 
       <Box sx={styles?.bRow}>
         <Box sx={styles?.bHead}>Unit Discount</Box>
-        <Box sx={styles?.bCell}>30 GBP</Box>
+        <Box sx={styles?.bCell}>{unitDiscount} GBP</Box>
       </Box>
 
       <Box sx={styles?.bRowTotal}>
         <Box sx={styles?.bHead}>Total</Box>
-        <Box sx={styles?.bHead}>£122</Box>
+        <Box sx={styles?.bHead}>£{sum - unitDiscount}</Box>
       </Box>
 
       <Box sx={styles?.signatureCard}>

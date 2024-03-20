@@ -23,15 +23,13 @@ const useFaqs = () => {
   const [modalTitle, setModalTitle] = useState('FAQ');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const defaultParams = {
-    page: PAGINATION?.CURRENT_PAGE,
-    limit: PAGINATION?.PAGE_LIMIT,
-  };
   const [searchValue, setSearchValue] = useState(null);
-  const [filterParams, setFilterParams] = useState({
+  const [filterParams, setFilterParams] = useState({});
+  const paginationParams = {
     page: page,
     limit: pageLimit,
-  });
+  };
+
   let searchPayLoad;
   if (searchValue) {
     searchPayLoad = { search: searchValue };
@@ -40,7 +38,7 @@ const useFaqs = () => {
   const { handleSubmit: handleMethodFilter, reset: resetFilters } =
     methodsFilter;
   const { data: dataGetFaqs, isLoading: loagingGetFaqs } = useGetFaqsQuery({
-    params: { ...filterParams, ...searchPayLoad },
+    params: { ...filterParams, ...searchPayLoad, ...paginationParams },
   });
 
   // Dropdown Menu
@@ -91,19 +89,10 @@ const useFaqs = () => {
 
   // Refresh
   const handleRefresh = () => {
-    setFilterParams(defaultParams);
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setFilterParams({});
     resetFilters();
-  };
-
-  // Hadle PAGE CHANGE
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-    setFilterParams((prev) => {
-      return {
-        ...prev,
-        page: newPage,
-      };
-    });
   };
 
   // Add FAQ
@@ -256,7 +245,6 @@ const useFaqs = () => {
     methodsEditFaq,
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,

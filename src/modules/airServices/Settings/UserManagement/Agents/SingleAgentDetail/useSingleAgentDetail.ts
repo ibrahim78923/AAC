@@ -3,9 +3,11 @@ import {
   useGetSingleDepartmentDetailsQuery,
 } from '@/services/airServices/settings/user-management/agents/details';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
-export const useAgentBioData = () => {
+export const useSingleAgentDetail = () => {
   const router = useRouter();
+  const [isAgentModalOpen, setIsAgentModalOpen] = useState(false);
   const { agentId, departmentId } = router?.query;
   const getSingleAgentDetailsParameter = {
     pathParams: {
@@ -39,5 +41,7 @@ export const useAgentBioData = () => {
     isFetching,
     isError,
     departmentDetails,
+    isAgentModalOpen,
+    setIsAgentModalOpen,
   };
 };

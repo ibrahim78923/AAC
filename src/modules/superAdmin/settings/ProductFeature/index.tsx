@@ -192,7 +192,7 @@ const ProductFeature = () => {
         isDrawerOpen={openDrawerAddFeature}
         onClose={handleCloseDrawerAddFeature}
         title={'Add Product Feature form'}
-        okText="Apply"
+        okText="Add"
         isOk={true}
         footer={true}
         submitHandler={handleAddFeatureSubmit}

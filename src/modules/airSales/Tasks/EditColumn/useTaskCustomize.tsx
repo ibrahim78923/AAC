@@ -1,3 +1,4 @@
+// import { useGetTaskColumnsQuery } from '@/services/airSales/task';
 import { useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 
@@ -9,9 +10,9 @@ const useTaskCustomize = () => {
   const [selected, setSelected] = useState<any[]>([]);
   // customize columns code starts here
   // const columnsParams = {
-  //     type: 'deals',
+  //     type: 'task',
   // };
-  //   const { data: dealCustomzieCol } = useGetCustomizeColumnQuery(columnsParams);
+  // const { data: taskCustomizeCol } = useGetTaskColumnsQuery(columnsParams);
 
   const columnsData = [
     {
