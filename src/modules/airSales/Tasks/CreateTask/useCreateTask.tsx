@@ -59,40 +59,40 @@ const useCreateTask = ({ creationMode }: any) => {
   });
 
   useEffect(() => {
-    if (taskData?.data[0]?.contactsIds) {
+    if (taskData?.data?.contactsIds) {
       dispatch(
         setContactsSelectedIds(
-          taskData?.data[0]?.contactsIds.map((item: any) => ({
+          taskData?.data?.contactsIds.map((item: any) => ({
             label: item?.name,
             id: item?._id,
           })),
         ),
       );
     }
-    if (taskData?.data[0]?.ticketsIds) {
+    if (taskData?.data?.ticketsIds) {
       dispatch(
         setTicketsSelectedIds(
-          taskData?.data[0]?.ticketsIds.map((item: any) => ({
+          taskData?.data?.ticketsIds.map((item: any) => ({
             label: item?.name,
             id: item?._id,
           })),
         ),
       );
     }
-    if (taskData?.data[0]?.companiesIds) {
+    if (taskData?.data?.companiesIds) {
       dispatch(
         setCompaniesSelectedIds(
-          taskData?.data[0]?.companiesIds.map((item: any) => ({
+          taskData?.data?.companiesIds.map((item: any) => ({
             label: item?.name,
             id: item?._id,
           })),
         ),
       );
     }
-    if (taskData?.data[0]?.dealsIds) {
+    if (taskData?.data?.dealsIds) {
       dispatch(
         setDealsSelectedIds(
-          taskData?.data[0]?.dealsIds.map((item: any) => ({
+          taskData?.data?.dealsIds.map((item: any) => ({
             label: item?.name,
             id: item?._id,
           })),

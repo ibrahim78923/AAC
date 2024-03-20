@@ -90,7 +90,11 @@ const EditColumn = ({ onClose, open }: any) => {
                                   }}
                                   name={col?.attributes}
                                   onChange={({ target }: any) =>
-                                    handleCheckboxChange(target.checked, col, i)
+                                    handleCheckboxChange(
+                                      target?.checked,
+                                      col,
+                                      i,
+                                    )
                                   }
                                   control={<Checkbox />}
                                   label={col?.slug}

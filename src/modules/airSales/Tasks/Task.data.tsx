@@ -145,23 +145,23 @@ export const createTaskValidationSchema = Yup?.object()?.shape({
 });
 
 export const createTaskDefaultValues = ({ data }: any) => {
-  const inputDate = new Date(data[0]?.dueDate);
-  const inputTime = new Date(data[0]?.time);
+  const inputDate = new Date(data?.dueDate);
+  const inputTime = new Date(data?.time);
 
   function isValidDate(date: any) {
     return date instanceof Date && !isNaN(date?.getTime());
   }
 
   return {
-    name: data[0]?.name ?? '',
-    type: data[0]?.type ?? '',
-    priority: data[0]?.priority ?? '',
-    status: data[0]?.status ?? '',
-    assignTo: data[0]?.assignTo ?? '',
+    name: data?.name ?? '',
+    type: data?.type ?? '',
+    priority: data?.priority ?? '',
+    status: data?.status ?? '',
+    assignTo: data?.assignTo ?? '',
     dueDate: isValidDate(inputDate) ? inputDate : null,
     time: isValidDate(inputTime) ? inputTime : null,
-    reminder: data[0]?.reminder ?? '',
-    note: data[0]?.note ?? '',
+    reminder: data?.reminder ?? '',
+    note: data?.note ?? '',
   };
 };
 
@@ -306,10 +306,10 @@ export const TasksData = () => {
   const columns =
     order &&
     order
-      .filter((item: any) => item.active)
-      .sort((a: any, b: any) => a.order - b.order)
-      .map((column: any) => {
-        switch (column.attributes) {
+      ?.filter((item: any) => item?.active)
+      ?.sort((a: any, b: any) => a?.order - b?.order)
+      ?.map((column: any) => {
+        switch (column?.attributes) {
           case 'name':
             return {
               accessorFn: (row?: any) => row?.name,
