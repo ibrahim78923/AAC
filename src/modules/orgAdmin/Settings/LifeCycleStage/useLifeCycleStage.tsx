@@ -32,8 +32,6 @@ const useLifeCycleStage = () => {
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
-  const [deleteSettingLifeCycleStage] =
-    useDeleteSettingLifeCycleStageMutation();
   const params = {
     page: page,
     limit: pageLimit,
@@ -55,11 +53,12 @@ const useLifeCycleStage = () => {
     setRowId(id);
     setIsOpenAlert(true);
   };
+
+  const [deleteSettingLifeCycleStage, { isLoading: loadingDelete }] =
+    useDeleteSettingLifeCycleStageMutation();
   const deleteStageLifeCycle = async () => {
     try {
-      await deleteSettingLifeCycleStage({
-        id: rowId,
-      }).unwrap();
+      await deleteSettingLifeCycleStage(rowId).unwrap();
 
       enqueueSnackbar('Stage Deleted Successfully', {
         variant: 'success',
@@ -165,6 +164,7 @@ const useLifeCycleStage = () => {
     handleDeleteRecord,
     setPage,
     setPageLimit,
+    loadingDelete,
   };
 };
 
