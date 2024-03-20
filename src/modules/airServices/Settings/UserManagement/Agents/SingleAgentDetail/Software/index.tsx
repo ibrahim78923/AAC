@@ -16,13 +16,13 @@ export const Software = () => {
 
   return (
     <>
-      <Typography variant="h4" color="SlateBlue.main">
+      <Typography variant="h4" color="slateBlue.main">
         Software
       </Typography>
       <br />
       <TanstackTable
         columns={softwareColumns}
-        data={data?.data?.tickets}
+        data={data?.data}
         isLoading={isLoading}
         currentPage={data?.data?.meta?.page}
         count={data?.data?.meta?.pages}

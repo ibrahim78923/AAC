@@ -66,7 +66,7 @@ export const columns = (
       ),
       header: (
         <Checkbox
-          checked={tableRowData.length === isGetRowValues?.length}
+          checked={tableRowData?.length === isGetRowValues?.length}
           color="primary"
           name="Id"
           onChange={handleSelectAllRows}
@@ -105,7 +105,7 @@ export const columns = (
                 {info?.row?.original?.products?.map((item: any) => (
                   <Avatar
                     key={uuidv4()}
-                    alt="recipient_avatar"
+                    alt="product-image"
                     src={`${process?.env?.NEXT_PUBLIC_IMG_URL}${item?.logo?.url}`}
                   />
                 ))}

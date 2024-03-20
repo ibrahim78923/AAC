@@ -10,54 +10,74 @@ import { NewIncident } from './NewIncident';
 import { NoAssociationFoundImage } from '@/assets/images';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { AlertModals } from '@/components/AlertModals';
-import { useLazyGetAssociationsTicketsQuery } from '@/services/airServices/assets/inventory/single-inventory-details/associations';
+import {
+  useDeleteInventoryAssociationListMutation,
+  useLazyGetAssociationListQuery,
+} from '@/services/airServices/assets/inventory/single-inventory-details/associations';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
-import { PAGINATION } from '@/config';
-import CustomPagination from '@/components/CustomPagination';
+// import { PAGINATION } from '@/config';
+// import CustomPagination from '@/components/CustomPagination';
+import { useRouter } from 'next/router';
 export const Associations = () => {
   const theme: any = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [openNewIncident, setNewIncident] = useState(false);
   const [openExistingIncident, setExistingIncident] = useState(false);
+  const [InventoryIncidentId, setInventoryIncidentId] = useState('');
   const [hoveredItemId, setHoveredItemId] = useState(null);
-  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
-
+  const router = useRouter();
+  const associationsInventoryId = router.query.inventoryId;
+  // const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  // const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  // const params = useSearchParams();
+  const [deleteInventoryAssociationListTrigger, { isLoading }] =
+    useDeleteInventoryAssociationListMutation();
   const handleMouseOver = (itemId: any) => {
     setHoveredItemId(itemId);
   };
 
   const [lazyGetIncidentTrigger, lazyGetIncidentStatus] =
-    useLazyGetAssociationsTicketsQuery();
+    useLazyGetAssociationListQuery();
   const getIncidentListData = async () => {
     const getIncidentParams = new URLSearchParams();
-    // getIncidentParams?.append('ticketType', 'SR');
-    getIncidentParams?.append('page', page + '');
-    getIncidentParams?.append('limit', limit + '');
-    getIncidentParams?.append('metaData', 'true');
+    getIncidentParams?.append('id', associationsInventoryId + '');
+    // getIncidentParams?.append('page', page + '');
+    // getIncidentParams?.append('limit', limit + '');
+    // getIncidentParams?.append('metaData', 'true');
+
     const getInventoryParameters = {
-      queryParams: getIncidentParams,
+      params: getIncidentParams,
     };
-    try {
-      await lazyGetIncidentTrigger(getInventoryParameters)?.unwrap();
-    } catch (error: any) {}
+    await lazyGetIncidentTrigger(getInventoryParameters)?.unwrap();
   };
-  const getInventoryListData = lazyGetIncidentStatus?.data?.data?.tickets;
-  const metaData = lazyGetIncidentStatus?.data?.data?.meta;
+  const getInventoryListData =
+    lazyGetIncidentStatus?.data?.data[0]?.associationList;
+  // const metaData = lazyGetIncidentStatus?.data?.data?.meta;
 
   useEffect(() => {
     getIncidentListData();
-  }, [page, limit]);
+  }, [lazyGetIncidentTrigger?.toString(), openExistingIncident]);
   const handleMouseLeave = () => {
     setHoveredItemId(null);
   };
   const handleCloseDeleteModal = () => {
     setIsDeleteModalOpen(false);
   };
-  const handleDelete = () => {
+  const handleDelete = (id: any) => {
     setIsDeleteModalOpen(true);
+    setInventoryIncidentId(id);
+  };
+  const handleConfirmDelete = async () => {
+    try {
+      await deleteInventoryAssociationListTrigger({
+        id: associationsInventoryId,
+        ticketId: InventoryIncidentId,
+      }).unwrap();
+    } catch (error) {}
+    setIsDeleteModalOpen(false);
+    setHoveredItemId(null);
   };
   return (
     <Fragment>
@@ -106,7 +126,9 @@ export const Associations = () => {
             <>
               {lazyGetIncidentStatus?.isLoading ||
               lazyGetIncidentStatus?.isFetching ? (
-                <SkeletonTable />
+                <Box mt={2}>
+                  <SkeletonTable />
+                </Box>
               ) : (
                 <>
                   {' '}
@@ -135,7 +157,10 @@ export const Associations = () => {
                           <RemoveCircleOutlineIcon
                             style={{ marginRight: '8px' }}
                             fontSize="small"
-                            onClick={handleDelete}
+                            onClick={() => {
+                              setHoveredItemId(item?._id);
+                              handleDelete(item?._id);
+                            }}
                           />
                         )}
                         <Typography variant="body2" fontWeight={600}>
@@ -152,7 +177,7 @@ export const Associations = () => {
                       />
                     </Box>
                   ))}
-                  {metaData && (
+                  {/* {metaData && (
                     <Box>
                       <CustomPagination
                         currentPage={page}
@@ -164,7 +189,7 @@ export const Associations = () => {
                         setPageLimit={setLimit}
                       />
                     </Box>
-                  )}
+                  )} */}
                 </>
               )}
             </>
@@ -172,12 +197,14 @@ export const Associations = () => {
         </Fragment>
       )}
       <AlertModals
-        message="Are you sure you want to delete dashboard"
+        message="Are you sure you want to delete this item?"
         type="delete"
         open={isDeleteModalOpen}
         handleClose={handleCloseDeleteModal}
-        handleSubmit={handleDelete}
+        handleSubmitBtn={handleConfirmDelete}
+        loading={isLoading}
       />
+
       <DialogBox
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}

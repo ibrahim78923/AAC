@@ -112,7 +112,9 @@ const useOrganizationTable = () => {
     }
   }, [editData, methods]);
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, watch } = methods;
+
+  const addressLength = watch('address');
 
   const onSubmit = async (data: any) => {
     const products: any = [];
@@ -224,6 +226,7 @@ const useOrganizationTable = () => {
     setPageLimit,
     setPage,
     handlePageChange,
+    addressLength,
   };
 };
 

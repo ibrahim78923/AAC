@@ -6,7 +6,6 @@ import useViewQuotes from '../useViewQuote';
 
 const ProductsAndServices = () => {
   const { QuotesProduct } = useViewQuotes();
-  // console.log(QuotesProduct?.data?.products, 'QuotesProduct');
   return (
     <Box sx={styles?.wrapper}>
       <Typography variant="h5" sx={styles?.heading}>

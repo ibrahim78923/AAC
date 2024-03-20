@@ -57,6 +57,9 @@ export const END_POINTS = {
   CREATE_ASSOCIATION: '/deals/create-association',
   DELETE_ASSOCIATION: '/deals/delete-association',
   ASSETS_INVENTORY: '/assets/inventory',
+  INVENTORY_EXISTING_INCIDENT: '/assets/assets-associate-existing-tickets',
+  DELETE_INVENTORY_ASSOCIATIONS_LIST: '/assets/delete-ticket-association',
+  ASSETS_INVENTORY_Associations: '/assets/inventory-association-list',
   QUOTE: '/quote',
   GET_COMPANY_ORGANIZATION_DROPDOWN: '/dropdown/organizations',
   GET_COMPANY_ACCOUNTS: '/company-accounts',
@@ -158,6 +161,9 @@ export const END_POINTS = {
   PATCH_ASSET_TYPE: '/asset-type/add-child-asset-type',
   EDIT_ASSET_TYPE: '/asset-type/edit-assset-type',
   PUT_LOCATION: '/location/edit-location',
+  DELETE_CHILD_LOCATION: '/location/delete-child-location',
+  GET_BY_ID_LOCATION: '/location/get-location-details',
+  DELETE_PARENT_LOCATION: '/location/delete-parent-location',
   DROPDOWN_REQUESTERS: `/requester/requester-list`,
   DROPDOWN_AGENTS: `/requester/requester-list`,
   DROPDOWN_ASSOCIATE_ASSET: `/assets/inventory`,
@@ -311,6 +317,7 @@ export const END_POINTS = {
   SINGLE_DEPARTMENT_DETAIL: `/Department/get-by-id`,
   DELETE_INVENTORY_PURCHASE_ORDER: '/assets/delete-purchase-association',
   DELETE_INVENTORY_CONTRACT: '/assets/delete-contract-association',
+  AGENTS_SOFTWARE_LIST: `/agent/agent-software-list`,
 };
 
 export const superAdminBillingInvoices = {
@@ -362,6 +369,7 @@ export const ORG_ADMIN = {
   PRODUCT_PLAN_LIST: '/plan/product-plan-list',
   ACTIVITY_LOG: '/activity-log',
   ACTIVITY_LOG_SUB: '/activity-log/sub-activities',
+  SETTINGS_CONTACT_STATUS: '/contact-status',
 };
 
 export const COMMON_DOCUMENTS = {

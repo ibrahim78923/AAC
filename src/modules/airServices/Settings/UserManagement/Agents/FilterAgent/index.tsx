@@ -5,16 +5,18 @@ import { useAgentFilter } from './useAgentFilter';
 
 const AgentFilter = (props: any) => {
   const { isAgentFilterDrawerOpen } = props;
+
   const {
     onSubmit,
     handleCloseDrawer,
     agentFilterDrawerMethods,
     agentFilterFormFields,
   } = useAgentFilter(props);
+
   return (
     <>
       <CommonDrawer
-        footer={true}
+        footer
         isDrawerOpen={isAgentFilterDrawerOpen}
         onClose={handleCloseDrawer}
         title="Filters"

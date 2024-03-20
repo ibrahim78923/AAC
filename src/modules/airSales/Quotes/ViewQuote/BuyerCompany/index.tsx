@@ -4,7 +4,8 @@ import { AvatarCompanyImage } from '@/assets/images';
 import useViewQuotes from '../useViewQuote';
 
 const BuyerCompany = () => {
-  const { QuotesProduct } = useViewQuotes();
+  const { viewQuotesData } = useViewQuotes();
+
   return (
     <>
       <Box sx={styles?.card}>
@@ -14,13 +15,14 @@ const BuyerCompany = () => {
           </Avatar>
           <Box>
             <Typography variant="h6" sx={styles?.title}>
-              {QuotesProduct?.data?.name}
+              {viewQuotesData?.data?.name}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              123 Street Address
+              {viewQuotesData?.data?.deal[0]?.companies[0]?.address}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              City | State | Zip Code
+              {` ${viewQuotesData?.data?.deal[0]?.companies[0]?.city} `}
+              {/* ${State} | ${Zip Code} */}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
               Phone No
