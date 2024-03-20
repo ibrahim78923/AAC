@@ -38,6 +38,11 @@ export const eventBasedWorkflowValues: any = {
       conditionType: null,
       conditions: [{ key: '', condition: '', value: '' }],
     },
+    {
+      name: '',
+      conditionType: null,
+      conditions: [{ key: '', condition: '', value: '' }],
+    },
   ],
 };
 export const EventBasedWorkflowDataArray = [
