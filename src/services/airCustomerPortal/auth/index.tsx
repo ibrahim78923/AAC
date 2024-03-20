@@ -18,22 +18,8 @@ export const authAPI = baseAPI.injectEndpoints({
         body,
       }),
     }),
-
-    getCompanyDropdown: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.CUSTOMER_GET_COMPANY_ACCOUNTS}`,
-        method: 'GET',
-        params,
-      }),
-      transformResponse: (response: any) => {
-        if (response) return response?.data?.usercompanyaccounts;
-      },
-    }),
   }),
 });
 
-export const {
-  useAuthCustomerLoginMutation,
-  useAuthCustomerSignUpMutation,
-  useLazyGetCompanyDropdownQuery,
-} = authAPI;
+export const { useAuthCustomerLoginMutation, useAuthCustomerSignUpMutation } =
+  authAPI;

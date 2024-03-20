@@ -1,12 +1,13 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { CustomerPortalHeader } from '../CustomerPortalHeader';
-import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
+import { FormProvider } from '@/components/ReactHookForm';
 import { LoadingButton } from '@mui/lab';
 import { SignUpImage } from '@/assets/images';
 import Image from 'next/image';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import useSignUp from './useSignUp';
 import { signUpFormFields } from './SignUp.data';
+import PermissionDenied from '@/components/PermisisonDenied';
 
 export const SignUp = () => {
   const {
@@ -18,9 +19,20 @@ export const SignUp = () => {
     createPasswordDataArray,
     setStepState,
     postSignUpStatus,
-    apiQueryCompany,
     companyId,
   } = useSignUp();
+
+  if (!!!companyId)
+    return (
+      <Box
+        height={'100vh'}
+        display={'flex'}
+        alignItems={'center'}
+        justifyContent={'center'}
+      >
+        <PermissionDenied />
+      </Box>
+    );
 
   return (
     <>
@@ -65,15 +77,6 @@ export const SignUp = () => {
                         key={item?.id}
                       />
                     ))}
-                    {!!!companyId && (
-                      <RHFAutocompleteAsync
-                        name={'companyName'}
-                        label={'Company Name'}
-                        placeholder={'Enter Company Name'}
-                        apiQuery={apiQueryCompany}
-                        queryKey={'product'}
-                      />
-                    )}
                     <Button
                       variant="contained"
                       fullWidth

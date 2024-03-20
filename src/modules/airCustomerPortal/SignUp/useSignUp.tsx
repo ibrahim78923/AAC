@@ -8,10 +8,7 @@ import {
   createPasswordFields,
 } from './SignUp.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import {
-  useAuthCustomerSignUpMutation,
-  useLazyGetCompanyDropdownQuery,
-} from '@/services/airCustomerPortal/auth';
+import { useAuthCustomerSignUpMutation } from '@/services/airCustomerPortal/auth';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
 export default function useSignUp() {
@@ -65,16 +62,16 @@ export default function useSignUp() {
     setStepState(true);
   };
 
-  const apiQueryCompany = useLazyGetCompanyDropdownQuery();
-
   const [postSignUpTrigger, postSignUpStatus] = useAuthCustomerSignUpMutation();
+
+  const decryptedId = atob(companyId ?? '');
 
   const onSubmit = async (data: any) => {
     const userDetails = {
       firstName: data?.firstName,
       lastName: data?.lastName,
       role: 'ORG_REQUESTER',
-      companyId: data?.companyName?._id,
+      companyId: decryptedId,
       email: data?.email,
       phoneNumber: data?.phoneNumber,
       password: data?.password,
@@ -99,7 +96,6 @@ export default function useSignUp() {
     createPasswordDataArray,
     setStepState,
     postSignUpStatus,
-    apiQueryCompany,
     companyId,
   };
 }
