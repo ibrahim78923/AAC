@@ -12,17 +12,17 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useLazyGetUsersDropdownListQuery } from '@/services/airServices/settings/user-management/departments';
 
 export const useUpsertDepartment = (props: any) => {
-  const { setOpenUpsertModal } = props;
+  const { setOpenUpsertModal, selectedDepartment, setSelectedDepartment } =
+    props;
   const [postDepartmentTrigger, postDepartmentStatus] =
     usePostDepartmentMutation();
   const [updateDepartmentTrigger, updateDepartmentStatus] =
     useUpdateDepartmentMutation();
   const method = useForm({
     resolver: yupResolver(departmentFormValidation),
-    defaultValues: departmentFormValues(null),
+    defaultValues: departmentFormValues(selectedDepartment),
   });
   const { handleSubmit, reset } = method;
-
   const submitUpsertDepartment = async (formData: any) => {
     const departmentFormData = new FormData();
     departmentFormData?.append('name', formData?.name);
@@ -38,15 +38,16 @@ export const useUpsertDepartment = (props: any) => {
         'members',
         formData?.membersListDetails?.map((value: any) => value?._id),
       );
-    if (true) {
+    if (!!selectedDepartment?._id) {
       submitEditForm(departmentFormData);
       return;
     }
     const postDepartmentApiParameters = {
       body: departmentFormData,
     };
+
     try {
-      await postDepartmentTrigger(postDepartmentApiParameters);
+      await postDepartmentTrigger(postDepartmentApiParameters)?.unwrap();
       successSnackbar('Department Added Successfully');
       handleClose?.();
     } catch (error: any) {
@@ -55,11 +56,11 @@ export const useUpsertDepartment = (props: any) => {
   };
 
   const submitEditForm = async (departmentFormData: any) => {
-    departmentFormData?.append('id', '');
+    departmentFormData?.append('id', selectedDepartment?._id);
     const updateDepartmentParameter = {
       body: departmentFormData,
     };
-    await updateDepartmentTrigger(updateDepartmentParameter);
+    await updateDepartmentTrigger(updateDepartmentParameter)?.unwrap();
     try {
       successSnackbar('Department Updated Successfully');
       handleClose?.();
@@ -70,6 +71,7 @@ export const useUpsertDepartment = (props: any) => {
 
   const handleClose = () => {
     setOpenUpsertModal?.(false);
+    setSelectedDepartment?.('');
     reset();
   };
 

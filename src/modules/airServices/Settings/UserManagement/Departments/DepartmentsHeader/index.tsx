@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
 
 export const DepartmentsHeader = (props: any) => {
-  const { setSearchBy, setOpenAddModal } = props;
+  const { setSearch, setOpenUpsertModal, setSelectedDepartment } = props;
   const router = useRouter();
   return (
     <Box
@@ -32,7 +32,7 @@ export const DepartmentsHeader = (props: any) => {
         flexWrap={'wrap'}
         gap={1}
       >
-        <Search placeholder="Search Here" setSearchBy={setSearchBy} />
+        <Search placeholder="Search Here" setSearchBy={setSearch} />
         <PermissionsGuard
           permissions={[
             AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.ADD_DEPARTMENTS,
@@ -41,7 +41,10 @@ export const DepartmentsHeader = (props: any) => {
           <Button
             startIcon={<PlusSharedColorIcon />}
             variant="contained"
-            onClick={() => setOpenAddModal?.(true)}
+            onClick={() => {
+              setOpenUpsertModal?.(true);
+              setSelectedDepartment?.('');
+            }}
           >
             Add New Department
           </Button>

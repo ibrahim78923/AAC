@@ -73,6 +73,7 @@ export const departmentFormFields: any = (
       label: 'Description',
       name: 'description',
       fullWidth: true,
+      style: { height: '150px' },
     },
     component: RHFEditor,
   },

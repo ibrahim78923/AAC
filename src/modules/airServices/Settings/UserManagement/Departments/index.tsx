@@ -22,15 +22,18 @@ export const Departments = () => {
     selectedDepartment,
     setSelectedDepartment,
     actionDropdownData,
+    handleAddMember,
+    page,
+    getDepartmentListData,
   } = useDepartments();
   return (
     <>
       <DepartmentsHeader
         setSearch={setSearch}
         setOpenUpsertModal={setOpenUpsertModal}
-        setOpenDeleteModal={setOpenDeleteModal}
         setSelectedDepartment={setSelectedDepartment}
       />
+
       <br />
       {lazyGetDepartmentStatus?.isLoading ||
       lazyGetDepartmentStatus?.isFetching ? (
@@ -48,6 +51,7 @@ export const Departments = () => {
                     setOpenUpsertModal={setOpenUpsertModal}
                     setOpenDeleteModal={setOpenDeleteModal}
                     departmentActionDropdown={actionDropdownData}
+                    handleAddMember={(item: any) => handleAddMember?.(item)}
                   />
                 </Grid>
               ),
@@ -65,7 +69,7 @@ export const Departments = () => {
           />
         </>
       ) : (
-        <NoData />
+        <NoData message="No department found" />
       )}
       {openDeleteModal && (
         <DeleteDepartment
@@ -73,6 +77,12 @@ export const Departments = () => {
           setOpenDeleteModal={setOpenDeleteModal}
           selectedDepartment={selectedDepartment}
           setSelectedDepartment={setSelectedDepartment}
+          setPage={setPage}
+          page={page}
+          getDepartmentListData={getDepartmentListData}
+          totalRecords={
+            lazyGetDepartmentStatus?.data?.data?.departments?.length
+          }
         />
       )}
       {openUpsertModal && (

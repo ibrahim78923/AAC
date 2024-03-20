@@ -6,6 +6,7 @@ export const DeleteDepartment = (props: any) => {
   const { openDeleteModal } = props;
   const { handleDeleteSubmit, deleteDepartmentStatus, handleClose } =
     useDeleteDepartment(props);
+
   return (
     <AlertModals
       open={openDeleteModal}
@@ -14,6 +15,7 @@ export const DeleteDepartment = (props: any) => {
       message="Are you sure you want to delete this Department?"
       type={ALERT_MODALS_TYPE?.DELETE}
       loading={deleteDepartmentStatus?.isLoading}
+      disableCancelBtn={deleteDepartmentStatus?.isLoading}
     />
   );
 };

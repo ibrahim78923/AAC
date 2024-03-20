@@ -42,6 +42,11 @@ export const useDepartments = () => {
     return actionDropdown;
   };
 
+  const handleAddMember = (item: any) => {
+    setSelectedDepartment(item);
+    setOpenUpsertModal?.(true);
+  };
+
   return {
     setSearch,
     setPageLimit,
@@ -56,5 +61,6 @@ export const useDepartments = () => {
     selectedDepartment,
     setSelectedDepartment,
     actionDropdownData,
+    handleAddMember,
   };
 };

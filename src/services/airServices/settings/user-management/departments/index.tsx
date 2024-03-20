@@ -23,8 +23,8 @@ export const departmentAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     updateDepartment: builder.mutation({
-      query: ({ body, id }: any) => ({
-        url: `${END_POINTS?.DEPARTMENT_UPDATE}/${id}`,
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.DEPARTMENT_UPDATE}/{id}`,
         method: 'PATCH',
         body,
       }),
@@ -36,7 +36,6 @@ export const departmentAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params,
       }),
-      invalidatesTags: [TAG],
     }),
     getUsersDropdownList: builder?.query({
       query: ({ params }: any) => ({
