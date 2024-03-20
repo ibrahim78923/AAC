@@ -55,7 +55,6 @@ const Quotes = () => {
   useEffect(() => {
     setcheckedColumns(getQuotesColumns?.map((column: any) => column.id));
   }, []);
-
   return (
     <>
       <Box sx={styles?.TableWrapper}>

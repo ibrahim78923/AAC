@@ -12,7 +12,7 @@ export const WorkloadScheduleDelete = (props: any) => {
   return (
     <AlertModals
       type={ALERT_MODALS_TYPE?.DELETE}
-      message="Are you sure you want to delete this workLoad schedule?"
+      message="Are you sure you want to delete this workload schedule?"
       open={openDeleteModal}
       handleClose={() => closeWorkloadScheduleDeleteModal()}
       handleSubmitBtn={() => {

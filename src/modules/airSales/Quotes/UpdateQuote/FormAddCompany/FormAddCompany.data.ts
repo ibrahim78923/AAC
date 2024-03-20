@@ -1,12 +1,8 @@
 import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
-import useFormAddContact from './useFormAddContact';
-
 export const createComapnySchema = Yup?.object()?.shape({
   domain: Yup?.string()?.required('Field is Required'),
-  noOfEmloyee: Yup?.number(),
-  totalRevenue: Yup?.number(),
 });
 
 export const defaultCreateCompanyValues = {
@@ -15,8 +11,8 @@ export const defaultCreateCompanyValues = {
   ownerId: '',
   industry: '',
   type: '',
-  noOfEmloyee: 0,
-  totalRevenue: 0,
+  noOfEmloyee: 10,
+  totalRevenue: 20,
   city: '',
   postalCode: '',
   address: '',
@@ -24,8 +20,8 @@ export const defaultCreateCompanyValues = {
   linkedInUrl: '',
 };
 
-export const dataArray = () => {
-  const { companiesOwner } = useFormAddContact();
+export const dataArray = ({ contacts }: any) => {
+  // const { companiesOwner } = useFormAddContact();
   return [
     {
       componentProps: {
@@ -57,9 +53,9 @@ export const dataArray = () => {
         fullWidth: true,
         select: true,
       },
-      options: companiesOwner?.data?.map((item: any) => ({
+      options: contacts?.data?.contacts?.map((item: any) => ({
         value: item?._id,
-        label: `${item?.name}`,
+        label: `${item?.firstName} ${item?.lastName}`,
       })),
       component: RHFSelect,
       md: 12,
@@ -101,6 +97,7 @@ export const dataArray = () => {
         label: 'No of Employees',
         placeholder: 'Enter here',
         fullWidth: true,
+        type: 'number',
       },
       md: 12,
       component: RHFTextField,
@@ -113,6 +110,7 @@ export const dataArray = () => {
         label: 'Total Revenue',
         placeholder: 'Enter here',
         fullWidth: true,
+        type: 'number',
       },
     },
     {
