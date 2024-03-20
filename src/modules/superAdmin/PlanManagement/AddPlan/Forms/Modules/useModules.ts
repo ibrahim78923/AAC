@@ -15,8 +15,12 @@ export const useModules = () => {
       setIsAccordionExpanded(newExpanded ? panel : false);
     };
 
-  const handleValue = (value: any) => {
-    setSelectModule(value);
+  const handleValue = (value: any, e: any) => {
+    if (e?.target?.checked) {
+      setSelectModule(value);
+    } else {
+      setSelectModule([]);
+    }
   };
   return {
     theme,

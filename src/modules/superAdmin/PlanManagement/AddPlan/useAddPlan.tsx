@@ -43,6 +43,7 @@ export const useAddPlan = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [skip, setSkip] = useState(true);
   const [productIdModules, setProductIdModules] = useState([]);
+  const [crmValue, setCrmValue] = useState<any | null>(null);
 
   const [postPlanMangement, isLoading] = usePostPlanMangementMutation();
   const [updatePlanMangement] = useUpdatePlanMangementMutation();
@@ -230,6 +231,7 @@ export const useAddPlan = () => {
         productId: planForm?.productId,
 
         ...(isNullOrEmpty(planForm?.productId) && { suite: planForm?.suite }),
+        ...(isNullOrEmpty(planForm?.productId) && { name: crmValue?.label }),
         planTypeId: planForm?.planTypeId,
         description: planForm?.description,
         defaultUsers: parseInt(planForm?.defaultUsers),
@@ -334,6 +336,8 @@ export const useAddPlan = () => {
           handleSubmit={handlePlanForm}
           AdditionalStorageValue={AdditionalStorageValue}
           AdditionalUsereValue={AdditionalUsereValue}
+          crmValue={crmValue}
+          setCrmValue={setCrmValue}
         />
       ),
 

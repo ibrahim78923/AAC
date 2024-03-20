@@ -129,7 +129,11 @@ const Modules = ({ methods, handleSubmit, errors }: any) => {
             <Box display="flex" alignItems="center">
               <FormControlLabel
                 control={
-                  <SwitchBtn handleSwitchChange={() => handleValue(item)} />
+                  <SwitchBtn
+                    handleSwitchChange={(e) =>
+                      handleValue(item?.subModules[0]?.permissions, e)
+                    }
+                  />
                 }
                 label=""
               />
