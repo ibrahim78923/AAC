@@ -4,6 +4,7 @@ import { NOTISTACK_VARIANTS, REQUESTORS_STATUS } from '@/constants/strings';
 import { AntSwitch } from '@/components/AntSwitch';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { fullName } from '@/utils/avatarUtils';
 
 export const salesWorkflowActionDropdownDynamic = (
   selectedSalesWorkflowLists: any,
@@ -116,11 +117,15 @@ export const salesWorkflowListsColumnDynamic: any = (
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.updatedAt,
-      id: 'updatedAt',
+      accessorFn: (row: any) => row?.activity,
+      id: 'activity',
       isSortable: true,
       header: 'Last Activity',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) =>
+        fullName(
+          info?.getValue()?.type ? info?.getValue()?.type + ' ' + 'by' : null,
+          info?.getValue()?.user?.firstName + info?.getValue()?.user?.lastName,
+        ),
     },
     {
       accessorFn: (row: any) => row?.status,
@@ -146,7 +151,8 @@ export const salesWorkflowListsColumnDynamic: any = (
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) =>
+        fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
     },
   ];
 };

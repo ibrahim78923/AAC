@@ -35,6 +35,7 @@ export const useDeal = () => {
   const workflowParams = {
     page,
     limit,
+    search,
     module: 'DEALS',
   };
   const handleWorkflow = async () => {

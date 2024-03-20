@@ -35,6 +35,7 @@ export const useTask = () => {
   const workflowParams = {
     page,
     limit,
+    search,
     module: 'SALES_TASKS',
   };
   const handleWorkflow = async () => {

@@ -35,6 +35,7 @@ export const useQuote = () => {
   const workflowParams = {
     page,
     limit,
+    search,
     module: 'QUOTES',
   };
   const handleWorkflow = async () => {
