@@ -331,6 +331,7 @@ export const superAdminBillingInvoices = {
   PATCH_ASSIGN_PLAN: '/super-admin/update-assign-plan',
   GET_ALL_INVOICE: '/super-admin/get-all-invoice',
   UPDATE_INVOICE: '/super-admin/update-invoice',
+  GET_CRM: '/super-admin/get-all-crm-plans',
 };
 
 export const organization = {

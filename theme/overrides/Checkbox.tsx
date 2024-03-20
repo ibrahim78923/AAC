@@ -5,7 +5,7 @@ const Checkbox = (theme: any) => {
         root: {
           padding: theme.spacing(1),
           '&.Mui-checked.Mui-disabled, &.Mui-disabled': {
-            color: theme.palette.action.disabled,
+            color: theme?.palette?.custom?.light_greyish_low,
           },
           '& .MuiSvgIcon-fontSizeMedium': {
             width: 20,
