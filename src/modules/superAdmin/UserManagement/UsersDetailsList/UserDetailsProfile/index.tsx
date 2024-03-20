@@ -64,7 +64,7 @@ const UserDetailsProfile = (props: any) => {
   const onSubmit = async (values: any) => {
     if (isToggled) {
       values.address = {
-        flatNumber: values.flat,
+        flat: values.flat,
         buildingName: values?.buildingName,
         buildingNumber: values?.buildingNumber,
         streetName: values?.streetName,
