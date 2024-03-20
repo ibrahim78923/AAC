@@ -66,7 +66,7 @@ const RolesCards = ({
                 justifyContent={'space-between'}
                 height={'100%'}
               >
-                <Typography variant="h5">Add New</Typography>
+                <Typography variant={'h5'}>Add New</Typography>
 
                 <Box height={'100%'} display={'flex'} alignItems={'end'}>
                   <AddRoleIcon />
@@ -87,8 +87,13 @@ const RolesCards = ({
                 p={3}
                 height={'100%'}
               >
-                <Box display={'flex'} justifyContent={'space-between'} mb={1}>
-                  <Typography variant="h5">{item?.name}</Typography>
+                <Box
+                  display={'flex'}
+                  justifyContent={'space-between'}
+                  alignItems={'center'}
+                  mb={1}
+                >
+                  <Typography variant={'h5'}>{item?.name}</Typography>
 
                   <Box>
                     <MoreHorizIcon
@@ -97,6 +102,7 @@ const RolesCards = ({
                         setAnchorEl(event?.currentTarget);
                         setRoleId(item?._id);
                       }}
+                      fontSize={'large'}
                       sx={{ cursor: 'pointer', color: 'grey.600' }}
                     />
                   </Box>
@@ -134,7 +140,7 @@ const RolesCards = ({
         ) : (
           <Grid item xs={12}>
             <NoData
-              message="No data is available"
+              message={'No data is available'}
               image={AssociationsImage}
               height={'50vh'}
             />
