@@ -34,8 +34,8 @@ export const DealPipelineAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['SETTINGS_DEAL_PIPELINE'],
     }),
     deleteDealsPipeline: builder?.mutation({
-      query: ({ id }) => ({
-        url: `${END_POINTS?.DEAL_PIPELINE}/${id}`,
+      query: ({ ids }) => ({
+        url: `${END_POINTS?.DEAL_PIPELINE}?ids=${ids}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['SETTINGS_DEAL_PIPELINE'],

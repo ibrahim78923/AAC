@@ -49,8 +49,8 @@ export const setStatus = (
       creatorUserId === authUserId
         ? APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.REQUESTED]
         : receiverUserId === authUserId
-          ? APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.RECEIVED]
-          : APPROVAL_CARD_INFO?.[status];
+        ? APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.RECEIVED]
+        : APPROVAL_CARD_INFO?.[status];
     return setApprovalStatus;
   }
   return APPROVAL_CARD_INFO?.[status];

@@ -1,49 +1,55 @@
 import React from 'react';
-
 import {
   Box,
   Typography,
   Button,
   MenuItem,
   Menu,
-  Grid,
+  // Grid,
   Accordion,
   AccordionSummary,
   AccordionDetails,
   Checkbox,
-  IconButton,
-  InputAdornment,
+  // IconButton,
+  // InputAdornment,
   Divider,
   // TextField,
 } from '@mui/material';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
+// import CancelIcon from '@mui/icons-material/Cancel';
 
-import {
-  FormProvider,
-  RHFCheckbox,
-  RHFTextField,
-} from '@/components/ReactHookForm';
-import CommonDrawer from '@/components/CommonDrawer';
+// import {
+//   FormProvider,
+//   RHFCheckbox,
+//   RHFTextField,
+// } from '@/components/ReactHookForm';
+// import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 
-import useSalesProduct from './useDealPipelines';
+import useDealPipelines from './useDealPipelines';
 
 import { styles } from './DealPipelines.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import { BlueInfoIcon, DeleteIcon, PercentageCircleIcon } from '@/assets/icons';
+import {
+  BlueInfoIcon,
+  DeleteIcon,
+  // PercentageCircleIcon
+} from '@/assets/icons';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 import { Info } from '@mui/icons-material';
 import NoData from '@/components/NoData';
+// import { useFieldArray, useForm } from 'react-hook-form';
+import { CustomField } from './custom';
 
 const DealPipelines = () => {
   const {
+    handleSelectDealsById,
     isDraweropen,
     setIsDraweropen,
     isEditMode,
@@ -58,28 +64,34 @@ const DealPipelines = () => {
     handleClick,
     handleClose,
     handleCloseDrawer,
-    dealPipelines,
-    handleSubmit,
+    // dealPipelines,
+    // handleSubmit,
     onSubmit,
     handleCloseDeleteModal,
     handleDelete,
-    addField,
-    deleteField,
+    // addField,
+    // deleteField,
     setAnchorEl,
     isdefaultValue,
     dealPipelinesData,
     isLoading,
-    inputFields,
-    setCheckedDeal,
-    handleChangeInput,
-    selectedPipelines,
-    togglePipeline,
-    Loading,
-    pipelineById,
-  } = useSalesProduct();
-  const pipleLineStages =
-    isDraweropen?.type === 'add' ? inputFields : pipelineById?.data[0]?.stages;
+    // inputFields,
+    // setCheckedDeal,
+    // handleChangeInput,
+    // selectedPipelines,
+    // togglePipeline,
+    // Loading,
+    postDealLoading,
+    deleteDealLoading,
+    // pipelineById,
+    checkedDeal,
 
+    // handleChangeInputStage
+  } = useDealPipelines();
+  // const pipleLineStages =
+  //   isDraweropen?.type === 'add' ? inputFields : pipelineById?.data[0]?.stages;
+
+  // console.log('pipelineById', pipelineById)
   return (
     <>
       <Box>
@@ -102,13 +114,13 @@ const DealPipelines = () => {
               },
             }}
           >
-            {selectedPipelines?.length > 1 ? (
+            {checkedDeal?.length > 1 ? (
               <Button
                 className="small"
                 variant="outlined"
                 color="inherit"
                 startIcon={<DeleteIcon />}
-                onClick={() => {}}
+                onClick={handleDelete}
               >
                 Delete
               </Button>
@@ -121,7 +133,7 @@ const DealPipelines = () => {
                   aria-expanded={open ? 'true' : undefined}
                   onClick={handleClick}
                   sx={styles?.actionBtn(theme)}
-                  disabled={selectedPipelines?.length !== 1}
+                  disabled={checkedDeal?.length !== 1}
                   endIcon={<ArrowDropDownIcon />}
                 >
                   Actions
@@ -238,13 +250,17 @@ const DealPipelines = () => {
                 }}
               >
                 <Checkbox
-                  checked={selectedPipelines?.some(
-                    (p: any) => p?._id === dealPipeline?._id,
-                  )}
-                  onChange={() => {
-                    togglePipeline(dealPipeline);
-                    setCheckedDeal(dealPipeline?._id);
+                  checked={checkedDeal?.includes(dealPipeline?._id)}
+                  // checked={selectedPipelines?.some(
+                  //   (p: any) => p?._id === dealPipeline?._id,
+                  // )}
+                  onChange={({ target }) => {
+                    handleSelectDealsById(target.checked, dealPipeline?._id);
                   }}
+                  // onChange={() => {
+                  //   togglePipeline(dealPipeline);
+                  //   setCheckedDeal(dealPipeline?._id);
+                  // }}
                 />
                 <Typography
                   variant="h5"
@@ -300,7 +316,7 @@ const DealPipelines = () => {
         )}
       </Box>
 
-      {isDraweropen?.isToggle && (
+      {/* {isDraweropen?.isToggle && (
         <CommonDrawer
           isDrawerOpen={isDraweropen?.isToggle}
           onClose={handleCloseDrawer}
@@ -311,7 +327,7 @@ const DealPipelines = () => {
           submitHandler={handleSubmit(onSubmit)}
           isLoading={Loading}
         >
-          <Box sx={{ paddingTop: '1rem !important' }}>
+          {/* <Box sx={{ paddingTop: '1rem !important' }}>
             <FormProvider methods={dealPipelines}>
               <Grid
                 container
@@ -343,26 +359,30 @@ const DealPipelines = () => {
                           name="name"
                           label={index === 0 ? 'Deal Stage' : ''}
                           size="small"
-                          required={true}
+                          required
                           placeholder="Stage"
-                          value={inputField?.name}
-                          onChange={(event: any) =>
-                            handleChangeInput(index, event)
-                          }
+                        // value={inputField?.name}
+                        // onChange={(event: any) =>
+                        //   handleChangeInputStage(index, event)
+                        // }
                         />
                       </Grid>
                       <Grid item xs={12} md={5}>
                         <RHFTextField
-                          name="probability"
+                          name={`probability`}
                           label={index === 0 ? 'Stage Probability' : ''}
                           size="small"
-                          required={true}
+                          required
                           type="number"
-                          value={inputField?.probability}
-                          onChange={(event: any) =>
-                            handleChangeInput(index, event)
-                          }
+                          // value={inputField?.probability}
+                          // onChange={(event: any) =>
+                          //   handleChangeInputStage(index, event)
+                          // }
                           placeholder="Probability"
+                          inputProps={{
+                            min: 0,
+                            max: 100
+                          }}
                           InputProps={{
                             endAdornment: (
                               <InputAdornment position="end">
@@ -394,14 +414,14 @@ const DealPipelines = () => {
                           }
                         >
                           <CancelIcon
-                            sx={{
-                              color:
-                                index === 0 ||
-                                index === inputFields?.length - 1 ||
-                                index === inputFields?.length - 2
-                                  ? theme?.palette?.custom?.main
-                                  : theme?.palette?.error?.main,
-                            }}
+                          // sx={{
+                          //   color:
+                          //     index === 0 ||
+                          //       index === inputFields?.length - 1 ||
+                          //       index === inputFields?.length - 2
+                          //       ? theme?.palette?.custom?.main
+                          //       : theme?.palette?.error?.main,
+                          // }}
                           />
                         </Button>
                       </Grid>
@@ -420,8 +440,20 @@ const DealPipelines = () => {
                 Add Deal stage
               </Button>
             </FormProvider>
-          </Box>
-        </CommonDrawer>
+          </Box> */}
+      {/* </CommonDrawer > */}
+      {/* )} */}
+      {isDraweropen?.isToggle && (
+        <CustomField
+          key="deals pipline"
+          open={isDraweropen?.isToggle}
+          onClose={handleCloseDrawer}
+          isEditMode={isEditMode}
+          loading={postDealLoading}
+          onSubmit={onSubmit}
+          id={checkedDeal}
+          // isDraweropen={isDraweropen}
+        />
       )}
 
       {isDeleteModalOpen && (
@@ -436,7 +468,7 @@ const DealPipelines = () => {
           handleClose={handleCloseDeleteModal}
           handleSubmitBtn={handleDelete}
           typeImage={<BlueInfoIcon />}
-          loading={Loading}
+          loading={deleteDealLoading}
         />
       )}
     </>

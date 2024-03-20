@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { useForm } from 'react-hook-form';
+// import { useForm } from 'react-hook-form';
 
 import { Theme, useTheme } from '@mui/material';
 
-import { yupResolver } from '@hookform/resolvers/yup';
+// import { yupResolver } from '@hookform/resolvers/yup';
 
-import {
-  // dealPipelinesDefaultValues,
-  dealPipelinesvalidationSchema,
-} from './DealPipelines.data';
+// import {
+//   // dealPipelinesDefaultValues,
+//   dealPipelinesvalidationSchema,
+// } from './DealPipelines.data';
 
 import {
   useDeleteDealsPipelineMutation,
   useGetDealsPipelineQuery,
-  useLazyGetDealsPipelineByIdQuery,
+  // useLazyGetDealsPipelineByIdQuery,
   usePostDealsPipelineMutation,
   useUpdateDealsPipelineMutation,
 } from '@/services/airSales/deals/settings/deals-pipeline';
@@ -32,53 +32,55 @@ const useDealPipelines = () => {
   const [productSearch, setproductSearch] = useState<string>('');
   const [isDisableButton, setDisableButton] = useState(false);
   const [isdefaultValue, setdefaultValue] = useState(false);
-  const [inputFields, setInputFields] = useState([
-    { name: 'New', probability: null },
-    { name: 'Lost', probability: null },
-    { name: 'Won', probability: null },
-  ]);
+  // const [inputFields, setInputFields] = useState([
+  //   { name: 'New', probability: null },
+  //   { name: 'Lost', probability: null },
+  //   { name: 'Won', probability: null },
+  // ]);
 
   const [checkedDeal, setCheckedDeal] = useState<string[]>([]);
-  const [selectedPipelines, setSelectedPipelines] = useState<any>([]);
-  const [Loading, setLoading] = useState(false);
+  // const [selectedPipelines, setSelectedPipelines] = useState<any>([]);
+  // const [Loading, setLoading] = useState(false);
 
-  const [postDealsPipeline] = usePostDealsPipelineMutation();
-  const [deleteDealsPipeline] = useDeleteDealsPipelineMutation();
+  const [postDealsPipeline, { isLoading: postDealLoading }] =
+    usePostDealsPipelineMutation();
+  const [deleteDealsPipeline, { isLoading: deleteDealLoading }] =
+    useDeleteDealsPipelineMutation();
   const [updateDealsPipeline] = useUpdateDealsPipelineMutation();
 
-  const [trigger, { data: pipelineById }] = useLazyGetDealsPipelineByIdQuery();
+  // const [trigger, { data: pipelineById }] = useLazyGetDealsPipelineByIdQuery();
 
-  const DefaultValues: any = {
-    pipelineName: '',
-    defaultPipeline: false,
-    probability: null,
-  };
+  // const DefaultValues: any = {
+  //   pipelineName: '',
+  //   defaultPipeline: false,
+  //   probability: null
+  // };
 
-  const dealPipelines = useForm({
-    resolver: yupResolver(dealPipelinesvalidationSchema),
-    defaultValues: DefaultValues,
-  });
-  const { handleSubmit, reset, setValue } = dealPipelines;
+  // const dealPipelines = useForm({
+  //   resolver: yupResolver(dealPipelinesvalidationSchema),
+  //   defaultValues: DefaultValues,
+  // });
+  // const { handleSubmit, reset, setValue } = dealPipelines;
 
-  useEffect(() => {
-    trigger(checkedDeal);
-  }, [checkedDeal]);
+  // useEffect(() => {
+  //   trigger(checkedDeal);
+  // }, [checkedDeal]);
 
-  useEffect(() => {
-    const data = pipelineById?.data[0];
+  // useEffect(() => {
+  //   const data = pipelineById?.data[0];
 
-    const fieldsToSet: any = {
-      pipelineName: data?.name,
-      defaultPipeline: data?.isDefault,
-      stages: data?.stages?.map((item: any) => ({
-        name: item?.name,
-        probability: item?.probability,
-      })),
-    };
-    for (const key in fieldsToSet) {
-      setValue(key, fieldsToSet[key]);
-    }
-  }, [pipelineById]);
+  //   const fieldsToSet: any = {
+  //     pipelineName: data?.name,
+  //     defaultPipeline: data?.isDefault,
+  //     stages: data?.stages?.map((item: any) => ({
+  //       name: item?.name,
+  //       probability: item?.probability,
+  //     })),
+  //   };
+  //   for (const key in fieldsToSet) {
+  //     setValue(key, fieldsToSet[key]);
+  //   }
+  // }, [pipelineById]);
 
   const paramsObj: any = {};
   if (productSearch) paramsObj['search'] = productSearch;
@@ -97,34 +99,35 @@ const useDealPipelines = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
-    reset();
+    // reset();
   };
+
   const handleCloseDrawer = () => {
     setIsDraweropen({ isToggle: false, type: '' });
-    reset();
-    setInputFields([
-      { name: 'New', probability: null },
-      { name: 'Lost', probability: null },
-      { name: 'Won', probability: null },
-    ]);
+    // reset();
   };
 
   const onSubmit = async (values: any) => {
     const payload = {
       name: values?.pipelineName,
       isDefault: values?.defaultPipeline,
-      dealStages: inputFields,
+      dealStages: values?.dealStages,
     };
 
     try {
-      setLoading(true);
+      // setLoading(true);
       if (isDraweropen?.type === 'add') {
         await postDealsPipeline({ body: payload })?.unwrap();
-        reset();
+        // reset();
       } else {
         await updateDealsPipeline({ id: checkedDeal, body: payload });
       }
       setIsDraweropen({ isToggle: false, type: '' });
+      // setInputFields([
+      //   { name: 'New', probability: null },
+      //   { name: 'Lost', probability: null },
+      //   { name: 'Won', probability: null },
+      // ]);
       enqueueSnackbar(
         `Pipeline has been ${
           isDraweropen?.type === 'edit' ? 'Updated' : 'Created'
@@ -140,7 +143,7 @@ const useDealPipelines = () => {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -148,11 +151,24 @@ const useDealPipelines = () => {
     setDeleteModalOpen(false);
   };
 
+  // check box function
+
+  const handleSelectDealsById = (checked: boolean, id: string): void => {
+    if (checked) {
+      setCheckedDeal([...checkedDeal, id]);
+    } else {
+      setCheckedDeal(checkedDeal?.filter((_id: any) => _id !== id));
+    }
+  };
+
+  // console.log('checkedDeal', checkedDeal)
+
   const handleDelete = async () => {
     try {
-      setLoading(true);
-      await deleteDealsPipeline({ id: checkedDeal }).unwrap();
-      setSelectedPipelines([]);
+      // setLoading(true);
+      await deleteDealsPipeline({ ids: checkedDeal }).unwrap();
+      // setSelectedPipelines([]);
+      setCheckedDeal([]);
       setDeleteModalOpen(false);
       enqueueSnackbar('Deal Pipeline has been Deleted Successfully', {
         variant: NOTISTACK_VARIANTS?.ERROR,
@@ -162,7 +178,7 @@ const useDealPipelines = () => {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -171,57 +187,60 @@ const useDealPipelines = () => {
     setdefaultValue(value === 'default');
   };
 
-  const addField = () => {
-    const newInputFields = [...inputFields];
-    const indexToInsert = inputFields?.length - 2;
-    newInputFields?.splice(indexToInsert, 0, { name: '', probability: null });
-    setInputFields(newInputFields);
-  };
-  const deleteField = (index: any) => {
-    const values = [...inputFields];
-    values?.splice(index, 1);
-    setInputFields(values);
-  };
-  // const handleChangeInput = (index: any, event: any) => {
+  // const addField = () => {
+  //   const newInputFields = [...inputFields];
+  //   const indexToInsert = inputFields?.length - 2;
+  //   newInputFields?.splice(indexToInsert, 0, { name: '', probability: null });
+  //   setInputFields(newInputFields);
+  // };
+
+  // const deleteField = (index: any) => {
+  //   const values = [...inputFields];
+  //   values?.splice(index, 1);
+  //   setInputFields(values);
+  // };
+
+  // const handleChangeInputStage = (index: any, event: any) => {
   //   const values: any = [...inputFields];
   //   values[index][event?.target?.name] = event?.target?.value;
   //   setInputFields(values);
   // };
 
-  const handleChangeInput = (index: any, event: any) => {
-    const { name, value } = event.target;
-    // Validate if value is a positive number
-    const parsedValue = parseFloat(value);
-    if (!isNaN(parsedValue) && parsedValue >= 0) {
-      setInputFields((prevFields) => {
-        const updatedFields: any = [...prevFields];
-        updatedFields[index][name] = parsedValue;
-        return updatedFields;
-      });
-    } else {
-      // If value is not a positive number, set it to 0 or any other default value
-      setInputFields((prevFields) => {
-        const updatedFields: any = [...prevFields];
-        updatedFields[index][name] = 0; // You can set it to any default value you prefer
-        return updatedFields;
-      });
-    }
-  };
+  // const handleChangeInput = (index: any, event: any) => {
+  //   const { name, value } = event.target;
+  //   // Validate if value is a positive number
+  //   const parsedValue = parseFloat(value);
+  //   if (!isNaN(parsedValue) && parsedValue >= 0) {
+  //     setInputFields((prevFields) => {
+  //       const updatedFields: any = [...prevFields];
+  //       updatedFields[index][name] = parsedValue;
+  //       return updatedFields;
+  //     });
+  //   } else {
+  //     // If value is not a positive number, set it to 0 or any other default value
+  //     setInputFields((prevFields) => {
+  //       const updatedFields: any = [...prevFields];
+  //       updatedFields[index][name] = 0; // You can set it to any default value you prefer
+  //       return updatedFields;
+  //     });
+  //   }
+  // };
 
-  const togglePipeline = (pipeline: any) => {
-    const index = selectedPipelines?.findIndex(
-      (p: any) => p?._id === pipeline?._id,
-    );
-    if (index === -1) {
-      setSelectedPipelines([...selectedPipelines, pipeline]);
-    } else {
-      const updatedPipelines = [...selectedPipelines];
-      updatedPipelines?.splice(index, 1);
-      setSelectedPipelines(updatedPipelines);
-    }
-  };
+  // const togglePipeline = (pipeline: any) => {
+  //   const index = selectedPipelines?.findIndex(
+  //     (p: any) => p?._id === pipeline?._id,
+  //   );
+  //   if (index === -1) {
+  //     setSelectedPipelines([...selectedPipelines, pipeline]);
+  //   } else {
+  //     const updatedPipelines = [...selectedPipelines];
+  //     updatedPipelines?.splice(index, 1);
+  //     setSelectedPipelines(updatedPipelines);
+  //   }
+  // };
 
   return {
+    handleSelectDealsById,
     isDraweropen,
     setIsDraweropen,
     isEditMode,
@@ -237,29 +256,30 @@ const useDealPipelines = () => {
     handleClick,
     handleClose,
     handleCloseDrawer,
-    dealPipelines,
-    handleSubmit,
+    // dealPipelines,
+    // handleSubmit,
     onSubmit,
     handleCloseDeleteModal,
     handleDelete,
     getCheckbox,
     setDisableButton,
     isDisableButton,
-    addField,
-    deleteField,
+    // addField,
+    // deleteField,
     setAnchorEl,
     isdefaultValue,
     isLoading,
-    inputFields,
-    handleChangeInput,
+    // inputFields,
+    // handleChangeInput,
     checkedDeal,
     setCheckedDeal,
-    selectedPipelines,
-    setSelectedPipelines,
-    togglePipeline,
-    Loading,
-    setLoading,
-    pipelineById,
+    // selectedPipelines,
+    // setSelectedPipelines,
+    // togglePipeline,
+    postDealLoading,
+    // pipelineById,
+    // handleChangeInputStage
+    deleteDealLoading,
   };
 };
 
