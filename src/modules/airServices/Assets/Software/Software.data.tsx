@@ -1,7 +1,7 @@
 import { Checkbox, Typography } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { fullName } from '@/utils/avatarUtils';
+import { fullName, truncateText } from '@/utils/avatarUtils';
 import {
   SOFTWARE_STATUS,
   SOFTWARE_TYPE,
@@ -91,36 +91,33 @@ export const columns = (
         color="custom.bright"
         sx={{ cursor: 'pointer' }}
       >
-        {info?.getValue()}
+        {truncateText(info?.getValue())}
       </Typography>
     ),
   },
   {
-    accessorFn: (row: any) => row?.status ?? '---',
+    accessorFn: (row: any) => row?.status,
     id: 'status',
     header: 'Status',
     isSortable: true,
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.category,
+    accessorFn: (row: any) => row?.details,
     id: 'category',
     isSortable: true,
     header: 'Category',
-    cell: (info: any) =>
-      info?.row?.original?.details?.category === ''
-        ? '---'
-        : info?.row?.original?.details?.category,
+    cell: (info: any) => truncateText(info?.getValue()?.category) || '---',
   },
   {
-    accessorFn: (row: any) => row?.contractValue ?? '---',
+    accessorFn: (row: any) => row?.contractValue,
     id: 'contractValue',
     isSortable: true,
     header: 'Contract Value',
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.managedByDetails ?? '---',
+    accessorFn: (row: any) => row?.managedByDetails,
     id: 'managedByDetails',
     isSortable: true,
     header: 'Managed By',
@@ -131,34 +128,31 @@ export const columns = (
       ),
   },
   {
-    accessorFn: (row: any) => row?.users ?? '---',
+    accessorFn: (row: any) => row?.users,
     id: 'users',
     isSortable: true,
     header: <span>Users</span>,
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.installs ?? '---',
+    accessorFn: (row: any) => row?.installs,
     id: 'installs',
     isSortable: true,
     header: <span>Installs</span>,
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.type ?? '---',
+    accessorFn: (row: any) => row?.type,
     id: 'type',
     isSortable: true,
     header: <span>Type</span>,
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.publisher,
+    accessorFn: (row: any) => row?.details,
     id: 'publisher',
     isSortable: true,
     header: <span>Publisher</span>,
-    cell: (info: any) =>
-      info?.row?.original?.details?.publisher === ''
-        ? '---'
-        : info?.row?.original?.details?.publisher,
+    cell: (info: any) => truncateText(info?.getValue()?.publisher) || '---',
   },
 ];

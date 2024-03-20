@@ -15,6 +15,7 @@ const StepOne = () => {
           label="First Name"
           placeholder="Enter First Name"
           size="small"
+          required={true}
         />
       </Grid>
       <Grid item xs={12} md={6}>
@@ -22,6 +23,7 @@ const StepOne = () => {
           name="lastName"
           label="Last Name"
           placeholder="Enter Last Name"
+          required={true}
           size="small"
         />
       </Grid>
@@ -31,6 +33,7 @@ const StepOne = () => {
           label="Email Address"
           placeholder="Enter Email"
           size="small"
+          required={true}
         />
       </Grid>
       <Grid item xs={12}>
@@ -39,6 +42,7 @@ const StepOne = () => {
           label="Organization Number"
           placeholder="Enter Organization Number"
           size="small"
+          required={true}
         />
       </Grid>
 
@@ -49,6 +53,7 @@ const StepOne = () => {
           placeholder="Enter Organization Name"
           size="small"
           disabled
+          required={true}
         />
       </Grid>
 
@@ -57,6 +62,7 @@ const StepOne = () => {
           name="numberOfEmployees"
           label="Number of Employees"
           size="small"
+          required={true}
         >
           {noOfEmployee?.map((option: any) => (
             <option key={uuidv4()} value={option?.value}>
@@ -78,6 +84,7 @@ const StepOne = () => {
           label="Phone Number"
           size="small"
           placeholder="Enter Phone Number"
+          required={true}
         />
       </Grid>
     </Grid>

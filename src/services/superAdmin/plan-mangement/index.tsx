@@ -91,6 +91,13 @@ export const planManagementAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    getCrm: builder.query({
+      query: () => ({
+        url: `${superAdminBillingInvoices?.GET_CRM}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -106,4 +113,5 @@ export const {
   useGetProductsFeaturesQuery,
   useGetProductsFeaturesAllQuery,
   useGetPermissionsByProductsQuery,
+  useGetCrmQuery,
 } = planManagementAPI;

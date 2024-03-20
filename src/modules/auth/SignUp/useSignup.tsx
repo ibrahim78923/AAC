@@ -113,6 +113,14 @@ const useSignup = () => {
   });
 
   useEffect(() => {
+    if (isError) {
+      enqueueSnackbar('Please enter correct Organization Number', {
+        variant: 'error',
+      });
+    }
+  }, [data, isError]);
+
+  useEffect(() => {
     setValue('organizationName', companyDetails?.company_name);
     setOrgNumber(organizationNumber);
   }, [data, isError]);
