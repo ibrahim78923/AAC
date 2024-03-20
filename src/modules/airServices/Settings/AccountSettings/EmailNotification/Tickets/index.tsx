@@ -1,12 +1,9 @@
 import { Box, Divider, Typography } from '@mui/material';
 import { AntSwitch } from '@/components/AntSwitch';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { ticketDataArray } from './Tickets.data';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 export const Tickets = () => {
-  const [showIcon, setShowIcon] = useState<any>(null);
-
   const onSwitchChange = (id: any) => {
     alert(id);
   };
@@ -30,9 +27,6 @@ export const Tickets = () => {
               bgcolor={'custom.white_fifty'}
               display={'flex'}
               justifyContent={'space-between'}
-              onMouseEnter={() => setShowIcon(item)}
-              onMouseLeave={() => setShowIcon(null)}
-              sx={{ cursor: 'pointer' }}
             >
               {item.value}
               <Typography
@@ -43,16 +37,10 @@ export const Tickets = () => {
                 {item?.title}
               </Typography>
 
-              <Box display={'flex'} alignItems={'center'} gap={1}>
-                {showIcon === item && (
-                  <BorderColorIcon sx={{ color: 'custom.dim_blue' }} />
-                )}
-
-                <AntSwitch
-                  onChange={() => onSwitchChange(item?._id)}
-                  checked={item?.value}
-                />
-              </Box>
+              <AntSwitch
+                onChange={() => onSwitchChange(item?._id)}
+                checked={item?.value}
+              />
             </Box>
           ))}
         </Fragment>

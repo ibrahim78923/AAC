@@ -1,12 +1,9 @@
 import { Box, Divider, Typography } from '@mui/material';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { taskData } from './Task.data';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { AntSwitch } from '@/components/AntSwitch';
 
 export const Tasks = () => {
-  const [showIcon, setShowIcon] = useState<any>(null);
-
   const onSwitchChange = (id: any) => {
     alert(id);
   };
@@ -30,9 +27,6 @@ export const Tasks = () => {
               bgcolor={'custom.white_fifty'}
               display={'flex'}
               justifyContent={'space-between'}
-              onMouseEnter={() => setShowIcon(item)}
-              onMouseLeave={() => setShowIcon(null)}
-              sx={{ cursor: 'pointer' }}
             >
               {item.value}
               <Typography
@@ -43,16 +37,10 @@ export const Tasks = () => {
                 {item?.title}
               </Typography>
 
-              <Box display={'flex'} alignItems={'center'} gap={1}>
-                {showIcon === item && (
-                  <BorderColorIcon sx={{ color: 'custom.dim_blue' }} />
-                )}
-
-                <AntSwitch
-                  onChange={() => onSwitchChange(item?._id)}
-                  checked={item?.value}
-                />
-              </Box>
+              <AntSwitch
+                onChange={() => onSwitchChange(item?._id)}
+                checked={item?.value}
+              />
             </Box>
           ))}
         </Fragment>
