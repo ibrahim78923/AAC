@@ -8,7 +8,7 @@ export const Tasks = () => {
 
   return (
     <>
-      <Typography variant="h4" color="SlateBlue.main">
+      <Typography variant="h4" color="slateBlue.main">
         Tasks
       </Typography>
       <br />
