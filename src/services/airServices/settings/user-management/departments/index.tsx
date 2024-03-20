@@ -14,7 +14,7 @@ export const departmentAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
-    postDepartment: builder.mutation({
+    postDepartment: builder?.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.DEPARTMENT}`,
         method: 'POST',
@@ -22,7 +22,7 @@ export const departmentAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    updateDepartment: builder.mutation({
+    updateDepartment: builder?.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.DEPARTMENT_UPDATE}/{id}`,
         method: 'PATCH',
