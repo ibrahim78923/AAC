@@ -157,7 +157,6 @@ export const createTaskDefaultValues = ({ data }: any) => {
     type: data[0]?.type ?? '',
     priority: data[0]?.priority ?? '',
     status: data[0]?.status ?? '',
-    dealsIds: data[0]?.dealsIds ?? '',
     assignTo: data[0]?.assignTo ?? '',
     dueDate: isValidDate(inputDate) ? inputDate : null,
     time: isValidDate(inputTime) ? inputTime : null,
@@ -222,20 +221,7 @@ export const createTaskData = ({ data }: any) => {
       ],
       component: RHFSelect,
     },
-    {
-      md: 12,
-      componentProps: {
-        label: 'Select Deal (Optional)',
-        name: 'dealsIds',
-        select: true,
-      },
-      options: [
-        { label: 'Laptop Purchase', value: 'Laptop Purchase' },
-        { label: 'Mouse Repair', value: 'Mouse Repair' },
-        { label: 'AC Purchase', value: 'AC Purchase' },
-      ],
-      component: RHFSelect,
-    },
+
     {
       md: 12,
       componentProps: {

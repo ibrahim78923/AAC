@@ -1,4 +1,4 @@
-import { useAppSelector } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
   useGetTaskDetailsQuery,
   usePatchCreateTaskMutation,
@@ -16,9 +16,17 @@ import {
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
+import { useEffect } from 'react';
+import {
+  setCompaniesSelectedIds,
+  setContactsSelectedIds,
+  setDealsSelectedIds,
+  setTicketsSelectedIds,
+} from '@/redux/slices/taskManagement/taskManagementSlice';
 
 const useCreateTask = ({ creationMode }: any) => {
   const theme = useTheme();
+  const dispatch: any = useAppDispatch();
 
   const [postCreateTask] = usePostCreateTaskMutation();
   const [patchCreateTask] = usePatchCreateTaskMutation();
@@ -49,6 +57,49 @@ const useCreateTask = ({ creationMode }: any) => {
     resolver: yupResolver(createTaskValidationSchema),
     defaultValues: createTaskDefaultValues({ data: taskData?.data }),
   });
+
+  useEffect(() => {
+    if (taskData?.data[0]?.contactsIds) {
+      dispatch(
+        setContactsSelectedIds(
+          taskData?.data[0]?.contactsIds.map((item: any) => ({
+            label: item?.name,
+            id: item?._id,
+          })),
+        ),
+      );
+    }
+    if (taskData?.data[0]?.ticketsIds) {
+      dispatch(
+        setTicketsSelectedIds(
+          taskData?.data[0]?.ticketsIds.map((item: any) => ({
+            label: item?.name,
+            id: item?._id,
+          })),
+        ),
+      );
+    }
+    if (taskData?.data[0]?.companiesIds) {
+      dispatch(
+        setCompaniesSelectedIds(
+          taskData?.data[0]?.companiesIds.map((item: any) => ({
+            label: item?.name,
+            id: item?._id,
+          })),
+        ),
+      );
+    }
+    if (taskData?.data[0]?.dealsIds) {
+      dispatch(
+        setDealsSelectedIds(
+          taskData?.data[0]?.dealsIds.map((item: any) => ({
+            label: item?.name,
+            id: item?._id,
+          })),
+        ),
+      );
+    }
+  }, [taskData?.data]);
 
   const { handleSubmit: handleMethodFilter } = methodsFilter;
 

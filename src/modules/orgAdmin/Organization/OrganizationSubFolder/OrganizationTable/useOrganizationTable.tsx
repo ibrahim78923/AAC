@@ -86,24 +86,29 @@ const useOrganizationTable = () => {
     },
   });
 
+  //   {
+  //     "flatNumber": "4",
+  //     "buildingName": "5A",
+  //     "buildingNumber": "23",
+  //     "streetName": "Baker street",
+  //     "city": "Manchester",
+  //     "country": "United Kingdom"
+  // }
+
   useEffect(() => {
     if (editData) {
       const { accountName, phoneNo, address, postCode } = editData;
-      let parsedAddress;
-      try {
-        parsedAddress = JSON.parse(address);
-      } catch (_: any) {
-        parsedAddress = null;
-      }
+
       methods.setValue('accountName', accountName);
       methods.setValue('phoneNo', phoneNo);
       methods.setValue('postCode', postCode);
-      methods.setValue(
-        'address',
-        parsedAddress === null
-          ? address?.composite ?? address
-          : parsedAddress?.composite ?? parsedAddress,
-      );
+      methods.setValue('unit', address?.country);
+      methods.setValue('buildingName', address?.buildingName);
+      methods.setValue('buildingNumber', address?.buildingNumber);
+      methods.setValue('streetName', address?.streetName);
+      methods.setValue('city', address?.city);
+      methods.setValue('country', address?.country);
+      methods.setValue('address', address?.composite ? address?.composite : '');
     }
   }, [editData, methods]);
 
@@ -131,7 +136,6 @@ const useOrganizationTable = () => {
     formData.append('phoneNo', data?.phoneNo);
     formData.append('postCode', data?.postCode);
     formData.append('address', JSON.stringify(address));
-    formData.append('postCode', data?.postCode);
     formData.append('organizationId', user?.organization?._id);
     formData.append('isActive', 'true');
 
