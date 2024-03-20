@@ -7,6 +7,7 @@ import { columnsUser } from './Users.data';
 import useUserManagement from '../useUserManagement';
 import useUsers from './useUsers';
 import { DeleteIcon } from '@/assets/icons';
+import { LoadingButton } from '@mui/lab';
 
 const UserTable = (props: any) => {
   const { setIsAddUserDrawer, isAddUserDrawer, checkedUser, setCheckedUser } =
@@ -20,6 +21,8 @@ const UserTable = (props: any) => {
     handleClick,
     handleClose,
     updateUserLoading,
+    deleteHandler,
+    deleteProductUsersLoading,
   } = useUsers();
 
   const {
@@ -50,15 +53,16 @@ const UserTable = (props: any) => {
           setSearchBy={setSearchUser}
         />
         {checkedUser?.length > 1 ? (
-          <Button
+          <LoadingButton
             className="small"
             variant="outlined"
             color="inherit"
             startIcon={<DeleteIcon />}
-            // onClick={handleDelete}
+            loading={deleteProductUsersLoading}
+            onClick={() => deleteHandler(checkedUser)}
           >
             Delete
-          </Button>
+          </LoadingButton>
         ) : (
           <Button
             id="basic-button"
@@ -143,13 +147,12 @@ const UserTable = (props: any) => {
         isSuccess={isSuccess}
       />
       <AlertModals
-        message={'Are you sure you want to delete this role?'}
+        message={'Are you sure you want to delete this user?'}
         type={'delete'}
         open={isOpenDelete}
         handleClose={() => setIsOpenDelete(false)}
-        handleSubmit={function (): void {
-          throw new Error('Function not implemented.');
-        }}
+        loading={deleteProductUsersLoading}
+        handleSubmitBtn={() => deleteHandler(checkedUser)}
       />
     </>
   );

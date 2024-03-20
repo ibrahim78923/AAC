@@ -45,9 +45,10 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
     }),
 
     deleteProductUser: builder.mutation({
-      query: ({ id }: any) => ({
-        url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}`,
         method: 'DELETE',
+        body: body,
       }),
       invalidatesTags: ['PRODUCT_USER'],
     }),

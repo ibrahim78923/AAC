@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
-import { useUpdateProductsUsersMutation } from '@/services/airSales/settings/users';
+import {
+  useDeleteProductUserMutation,
+  useUpdateProductsUsersMutation,
+} from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
 import { getSession } from '@/utils';
 import { useGetCompanyAccountsRolesQuery } from '@/services/common-APIs';
@@ -11,6 +14,8 @@ const useUsers: any = () => {
   const theme = useTheme<Theme>();
   const open = Boolean(anchorEl);
   const [updateProductsUsers] = useUpdateProductsUsersMutation();
+  const [deleteProductUser, { isLoading: deleteProductUsersLoading }] =
+    useDeleteProductUserMutation();
   const { user } = getSession();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -41,6 +46,19 @@ const useUsers: any = () => {
     }
   };
 
+  const deleteHandler = async (ids: any) => {
+    try {
+      await deleteProductUser({ body: { ids: ids } })?.unwrap();
+      enqueueSnackbar('Users deleted successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
+  };
+
   return {
     isOpenDelete,
     setIsOpenDelete,
@@ -52,6 +70,8 @@ const useUsers: any = () => {
     handleClose,
     rolesByCompanyId,
     handleUpdateStatus,
+    deleteHandler,
+    deleteProductUsersLoading,
   };
 };
 
