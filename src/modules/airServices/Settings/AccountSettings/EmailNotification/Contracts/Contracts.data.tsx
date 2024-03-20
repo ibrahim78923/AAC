@@ -5,22 +5,22 @@ export const contractsData = [
     details: [
       {
         _id: 1,
-        title: '(SYSTEM) Contact Expiry Notification',
+        title: '(SYSTEM) Contract Expiry Notification',
         value: false,
       },
       {
         _id: 2,
-        title: '(SYSTEM) Request for Contact Approval Notification',
+        title: '(SYSTEM) Request for Contract Approval Notification',
         value: true,
       },
       {
         _id: 3,
-        title: '(SYSTEM) Contact Approval Status Notification',
+        title: '(SYSTEM) Contract Approval Status Notification',
         value: true,
       },
       {
         _id: 4,
-        title: '(SYSTEM) Contact Renewal Notification',
+        title: '(SYSTEM) Contract Renewal Notification',
         value: true,
       },
     ],
