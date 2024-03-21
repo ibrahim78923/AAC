@@ -6,17 +6,25 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { usePostDealsMutation } from '@/services/airSales/deals';
 
-import { createDealData } from './CreateDeal.data';
+import {
+  createDealData,
+  defaultValues,
+  validationSchema,
+} from './CreateDeal.data';
 import { v4 as uuidv4 } from 'uuid';
 
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const CreateDeal = ({ open, onClose }: any) => {
   const [postDeals] = usePostDealsMutation();
   const startDate = 0;
 
-  const methods = useForm({});
+  const methods = useForm<any>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: defaultValues,
+  });
 
   const { handleSubmit, reset, watch } = methods;
   const dealPiplineId = watch('dealPiplineId');
