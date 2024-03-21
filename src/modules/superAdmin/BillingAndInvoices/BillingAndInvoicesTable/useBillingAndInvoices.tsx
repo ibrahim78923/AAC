@@ -27,9 +27,15 @@ const useBillingAndInvoices = () => {
 
   const searchObject = { search: searchByClientName };
 
-  const { data: assignPlanTableData } = useGetBilingInvoicesQuery<any>({
-    params: { ...filterValues, ...searchObject, page: page, limit: pageLimit },
-  });
+  const { data: assignPlanTableData, isLoading } =
+    useGetBilingInvoicesQuery<any>({
+      params: {
+        ...filterValues,
+        ...searchObject,
+        page: page,
+        limit: pageLimit,
+      },
+    });
 
   const methods: any = useForm({
     resolver: yupResolver(validationSchema),
@@ -77,6 +83,7 @@ const useBillingAndInvoices = () => {
     setIsEditModal,
     isEditModal,
     assignPlanTableData,
+    isLoading,
     handleSubmit,
     onSubmit,
     methods,

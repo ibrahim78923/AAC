@@ -4,11 +4,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import {
+  useGetExistingCrmQuery,
   useGetPlanIdQuery,
   usePatchBilingInvoicesMutation,
   usePostBilingInvoicesMutation,
 } from '@/services/superAdmin/billing-invoices';
 import { isNullOrEmpty } from '@/utils';
+import { useGetCrmQuery } from '@/services/superAdmin/plan-mangement';
 
 const useEditForm = (
   isEditModal: any,
@@ -76,27 +78,82 @@ const useEditForm = (
     },
   });
 
+  const { data: getCRM } = useGetCrmQuery({});
+
+  const crmOptions = getCRM?.data?.map((product: any) => ({
+    value: product?._id,
+    label: product?.name,
+  }));
+
   const { handleSubmit, reset, watch, setValue } = methods;
 
   const productId = watch('product');
   const planTypeId = watch('planType');
 
-  const {
-    data: planData,
-    isSuccess,
-    isError,
-  } = useGetPlanIdQuery<any>(
-    {
-      proId: productId,
-      planTypeId: planTypeId,
-    },
-    { skip: isNullOrEmpty(planTypeId) },
-  );
+  let planData: any;
+  let isSuccessPlan;
+  let isErrorPlan;
+
+  if (selectProductSuite != 'CRM') {
+    const { data, isSuccess, isError } = useGetPlanIdQuery<any>(
+      {
+        proId: getCRM?.data?.find((product: any) => product?._id === productId),
+        planTypeId: planTypeId,
+      },
+      { skip: isNullOrEmpty(planTypeId) },
+    );
+
+    planData = data;
+    isSuccessPlan = isSuccess;
+    isErrorPlan = isError;
+  }
+
+  let ExistingplanData: any;
+  let ExistingisSuccessPlan;
+  let ExistingisErrorPlan;
+
+  if (selectProductSuite === 'CRM') {
+    const { data, isSuccess, isError } = useGetExistingCrmQuery<any>(
+      {
+        crmName: productId,
+        planTypeId: planTypeId,
+      },
+      { skip: isNullOrEmpty(planTypeId) },
+    );
+
+    ExistingplanData = data;
+    ExistingisSuccessPlan = isSuccess;
+    ExistingisErrorPlan = isError;
+  }
 
   if (planData) {
-    setValue('planPrice', isSuccess ? planData?.data?.planPrice : '');
-    setValue('defaultUser', isSuccess ? planData?.data?.defaultUsers : '');
-    setValue('defaultUserTwo', isSuccess ? planData?.data?.defaultUsers : '');
+    setValue('planPrice', isSuccessPlan ? planData?.data?.planPrice : '');
+    setValue('defaultUser', isSuccessPlan ? planData?.data?.defaultUsers : '');
+    setValue(
+      'defaultUserTwo',
+      isSuccessPlan ? planData?.data?.defaultUsers : '',
+    );
+  }
+
+  if (ExistingplanData) {
+    setValue(
+      'planPrice',
+      ExistingisSuccessPlan ? ExistingplanData?.data?.planPrice : '',
+    );
+    setValue(
+      'defaultUser',
+      ExistingisSuccessPlan ? ExistingplanData?.data?.defaultUsers : '',
+    );
+    setValue(
+      'defaultUserTwo',
+      ExistingisSuccessPlan ? ExistingplanData?.data?.defaultUsers : '',
+    );
+  }
+
+  if (selectProductSuite === 'CRM') {
+    setValue('planPrice', '');
+    setValue('defaultUser', '');
+    setValue('defaultUserTwo', '');
   }
 
   const onSubmit = async (values: any) => {
@@ -144,15 +201,18 @@ const useEditForm = (
     }
   };
 
-  if (isSuccess) {
+  if (isSuccessPlan || ExistingisSuccessPlan) {
     enqueueSnackbar(`Success fetch plan data`, {
       variant: 'success',
     });
   } else {
-    if (isError) {
-      enqueueSnackbar(`Please create plan agaist respective seleected value`, {
-        variant: 'error',
-      });
+    if (isErrorPlan || ExistingisErrorPlan) {
+      enqueueSnackbar(
+        `Please create plan agaist respective selected product and product type`,
+        {
+          variant: 'error',
+        },
+      );
     }
   }
 
@@ -169,6 +229,7 @@ const useEditForm = (
     handleSubmit,
     onSubmit,
     reset,
+    crmOptions,
   };
 };
 

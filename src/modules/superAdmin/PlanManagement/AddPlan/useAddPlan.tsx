@@ -37,6 +37,7 @@ import {
 } from './Forms/Modules/PlanFeatures.data';
 import { isNullOrEmpty } from '@/utils';
 import { SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { useGetExistingCrmQuery } from '@/services/superAdmin/billing-invoices';
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
@@ -44,6 +45,7 @@ export const useAddPlan = () => {
   const [skip, setSkip] = useState(true);
   const [productIdModules, setProductIdModules] = useState([]);
   const [crmValue, setCrmValue] = useState<any | null>(null);
+  const [ifCrmExist, setIfCrmExist] = useState(false);
 
   const [postPlanMangement, isLoading] = usePostPlanMangementMutation();
   const [updatePlanMangement] = useUpdatePlanMangementMutation();
@@ -123,14 +125,12 @@ export const useAddPlan = () => {
   const AdditionalStorageValue = watch(['allowAdditionalStorage']);
   const AdditionalUsereValue = watch(['allowAdditionalUsers']);
 
-  // const planTypeId = watch('planTypeId');
+  const planTypeId = watch('planTypeId');
 
-  // const { data:crmData } = useGetExistingCrmQuery<any>(
-  //   {
-  //     crmName: crmValue?.label,
-  //     planTypeId: planTypeId,
-  //   },{ skip: isNullOrEmpty(planTypeId) },
-  // );
+  const { data: crmData } = useGetExistingCrmQuery<any>({
+    crmName: crmValue?.label,
+    planTypeId: planTypeId,
+  });
 
   const planForm: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.addPlanForm,
@@ -387,6 +387,20 @@ export const useAddPlan = () => {
   };
 
   useEffect(() => {
+    if (!isNullOrEmpty(crmData?.data)) {
+      enqueueSnackbar(
+        'CRM suite with same name and same Plantype has already exist',
+        {
+          variant: 'error',
+        },
+      );
+      setIfCrmExist(true);
+    } else {
+      setIfCrmExist(false);
+    }
+  });
+
+  useEffect(() => {
     if (AdditionalStorageValue[0] === 'No') {
       setValue('additionalStoragePrice', 0);
     } else if (AdditionalUsereValue[0] === 'No') {
@@ -407,5 +421,6 @@ export const useAddPlan = () => {
     setAddPlanFormValues,
     hanldeGoPreviousBack,
     isLoading: isLoading?.isLoading,
+    ifCrmExist,
   };
 };
