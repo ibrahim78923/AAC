@@ -319,6 +319,7 @@ export const END_POINTS = {
   DELETE_MULTIPLE_ATTACHMENT: '/attachment/delete-multiple-attachment',
   WORKFLOWS: 'workflows',
   SINGLE_DEPARTMENT_DETAIL: `/Department/get-by-id`,
+  TICKET_NEW_EMAIL: `/email`,
   DELETE_INVENTORY_PURCHASE_ORDER: '/assets/delete-purchase-association',
   DELETE_INVENTORY_CONTRACT: '/assets/delete-contract-association',
   CUSTOMER_GET_COMPANY_ACCOUNTS: `/users/company-accounts`,
