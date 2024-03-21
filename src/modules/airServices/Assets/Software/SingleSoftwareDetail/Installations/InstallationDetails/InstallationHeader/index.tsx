@@ -61,6 +61,7 @@ export const InstallationHeader = (props: any) => {
         handleSubmitBtn={submitDeleteModel}
         type={ALERT_MODALS_TYPE?.DELETE}
         loading={isLoading}
+        disableCancelBtn={isLoading}
       />
     </>
   );

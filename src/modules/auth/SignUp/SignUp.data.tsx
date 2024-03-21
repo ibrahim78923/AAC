@@ -12,7 +12,9 @@ export const validationSchema = Yup?.object()?.shape({
   organizationName: Yup?.string()?.required('Required field'),
   crn: Yup?.string()?.required('Required field'),
   numberOfEmployees: Yup?.string()?.required('Required field'),
-  phoneNumber: Yup?.string()?.required('Required field'),
+  phoneNumber: Yup?.string()
+    ?.required('Required field')
+    .matches(/^\+\d{1,}$/, 'Invalid phone number'),
   products: Yup?.array()?.min(1, 'Required field')?.required('Required field'),
   password: Yup?.string()
     ?.required('Required field')
@@ -21,7 +23,7 @@ export const validationSchema = Yup?.object()?.shape({
       'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and be at least 8 characters long',
     ),
   confirmPassword: Yup?.string()
-    ?.oneOf([Yup?.ref('password'), ''], 'Passwords must match')
+    ?.oneOf([Yup?.ref('password'), ''], 'Passwords do not match')
     ?.required('Required field'),
 });
 

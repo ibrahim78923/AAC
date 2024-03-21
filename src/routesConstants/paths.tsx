@@ -88,6 +88,7 @@ export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
   PLAN_TYPE_LIST: 'plan/plan-type-list',
   PRODUCT_FEATURES: 'product-features?page=1&limit=10',
   ADD_PLAN: '/super-admin/plan-management/add-plan',
+  PLAN_MANAGEMENT_GRID: '/super-admin/plan-management',
 };
 
 export const orgAdminSubcriptionInvoices = {

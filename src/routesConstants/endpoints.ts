@@ -318,6 +318,7 @@ export const END_POINTS = {
   DELETE_INVENTORY_PURCHASE_ORDER: '/assets/delete-purchase-association',
   DELETE_INVENTORY_CONTRACT: '/assets/delete-contract-association',
   AGENTS_SOFTWARE_LIST: `/agent/agent-software-list`,
+  EDIT_SOFTWARE_CATEGORY: `/assets/edit-software-category`,
 };
 
 export const superAdminBillingInvoices = {
@@ -330,6 +331,7 @@ export const superAdminBillingInvoices = {
   PATCH_ASSIGN_PLAN: '/super-admin/update-assign-plan',
   GET_ALL_INVOICE: '/super-admin/get-all-invoice',
   UPDATE_INVOICE: '/super-admin/update-invoice',
+  GET_CRM: '/super-admin/get-all-crm-plans',
 };
 
 export const organization = {
