@@ -44,6 +44,17 @@ export const useDeal = () => {
   useEffect(() => {
     handleWorkflow();
   }, [page, search, limit]);
+  const onSubmitFilter = async (filterData: any) => {
+    const filterParams: any = {
+      ...workflowParams,
+      createdBy: filterData?.createdBy?._id,
+    };
+    if (filterData?.status) {
+      filterParams.status = filterData?.status;
+    }
+    await getWorkflowListTrigger(filterParams);
+    setIsFilterOpen(false);
+  };
   const tableData = data?.data?.workFlows;
   const meta = data?.data?.meta;
   const tableColumns = salesWorkflowListsColumnDynamic(
@@ -71,5 +82,6 @@ export const useDeal = () => {
     page,
     setPage,
     activeCheck,
+    onSubmitFilter,
   };
 };

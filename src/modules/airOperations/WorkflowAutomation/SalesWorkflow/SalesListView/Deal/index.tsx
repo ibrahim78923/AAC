@@ -24,6 +24,7 @@ export const Deal = () => {
     page,
     setPage,
     activeCheck,
+    onSubmitFilter,
   } = useDeal();
   return (
     <>
@@ -34,6 +35,8 @@ export const Deal = () => {
         salesWorkflowActionDropdown={actionDropdown}
         isFilterOpen={isFilterOpen}
         setIsFilterOpen={setIsFilterOpen}
+        onSubmit={onSubmitFilter}
+        loading={isLoading || isFetching}
       />
       <br />
       <TanstackTable

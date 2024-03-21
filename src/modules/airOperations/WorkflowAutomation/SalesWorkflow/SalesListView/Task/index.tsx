@@ -24,6 +24,7 @@ export const Task = () => {
     page,
     setPage,
     activeCheck,
+    onSubmitFilter,
   } = useTask();
   return (
     <>
@@ -34,6 +35,8 @@ export const Task = () => {
         salesWorkflowActionDropdown={actionDropdown}
         isFilterOpen={isFilterOpen}
         setIsFilterOpen={setIsFilterOpen}
+        onSubmit={onSubmitFilter}
+        loading={isLoading || isFetching}
       />
       <br />
       <TanstackTable

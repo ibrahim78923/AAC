@@ -24,6 +24,7 @@ export const Quote = () => {
     page,
     setPage,
     activeCheck,
+    onSubmitFilter,
   } = useQuote();
   return (
     <>
@@ -34,6 +35,8 @@ export const Quote = () => {
         salesWorkflowActionDropdown={actionDropdown}
         isFilterOpen={isFilterOpen}
         setIsFilterOpen={setIsFilterOpen}
+        onSubmit={onSubmitFilter}
+        loading={isLoading || isFetching}
       />
       <br />
       <TanstackTable
