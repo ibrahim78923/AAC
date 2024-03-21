@@ -52,7 +52,6 @@ const UsersSidebar = (props: any) => {
     employeeMetaData,
     handleEmpListPaginationChange,
   } = useUsers();
-
   const { handleUserSwitchChange } = useUserManagement();
 
   return (

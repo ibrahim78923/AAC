@@ -17,12 +17,14 @@ import {
 import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
-import { CONTRACT_ACTION } from '@/constants/strings';
+import { CONTRACT_ACTION, MODULE_TYPE } from '@/constants/strings';
+import { usePostAttachmentsMutation } from '@/services/airServices/tickets/attachments';
 
 export const useUpdateContract = () => {
   const theme = useTheme();
   const router = useRouter();
   const [patchAddToContractTrigger] = usePatchContractRenewExtendMutation();
+  const [postAttachmentsTrigger] = usePostAttachmentsMutation();
   const { contractId } = router?.query;
   const getSingleContractParameter = {
     pathParam: {
@@ -52,6 +54,21 @@ export const useUpdateContract = () => {
   };
 
   const submitUpdateContractForm = async (data: any) => {
+    if (data?.attachment) {
+      const ContractAttachment = new FormData();
+      ContractAttachment?.append('fileUrl', data?.attachment);
+      ContractAttachment?.append('recordId', contractId as string);
+      ContractAttachment?.append('module', MODULE_TYPE?.CONTRACTS);
+      const postContractAttachmentParameter = {
+        body: ContractAttachment,
+      };
+      try {
+        await postAttachmentsTrigger(postContractAttachmentParameter)?.unwrap();
+      } catch (error: any) {
+        errorSnackbar?.(error?.data?.message);
+      }
+    }
+
     const ContractDetailsData = new FormData();
     ContractDetailsData?.append('id', contractId as string);
     ContractDetailsData?.append(
@@ -100,5 +117,6 @@ export const useUpdateContract = () => {
     theme,
     handleCancelBtn,
     updateContractFormFields,
+    contractId,
   };
 };
