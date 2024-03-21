@@ -39,7 +39,7 @@ const MediaAssets = ({ data, status }: any) => {
           </>
         ) : (
           <>
-            {groupedData.length ? (
+            {groupedData?.length ? (
               groupedData?.map((group) => (
                 <Box key={uuidv4()}>
                   <Typography variant="body3" sx={{ fontWeight: '600' }}>

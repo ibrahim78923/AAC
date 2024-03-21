@@ -40,7 +40,7 @@ const DocumentAssets = ({ data, status }: any) => {
         </>
       ) : (
         <Box>
-          {groupedDocuments.length ? (
+          {groupedDocuments?.length ? (
             groupedDocuments?.map((group: any) => (
               <Box key={uuidv4()}>
                 <Typography variant="body3" sx={{ fontWeight: '600' }}>
