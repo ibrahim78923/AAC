@@ -118,6 +118,27 @@ const setActiveAccountSession = (product: any) => {
   }
 };
 
+export const stringArraysEqual = (arr1: string[], arr2: string[]): boolean => {
+  // Check if both arrays are of equal length
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+
+  // Sort the arrays to ensure that the order of elements doesn't affect the comparison
+  const sortedArr1 = arr1.slice().sort();
+  const sortedArr2 = arr2.slice().sort();
+
+  // Compare each element of the sorted arrays
+  for (let i = 0; i < sortedArr1.length; i++) {
+    if (sortedArr1[i] !== sortedArr2[i]) {
+      return false;
+    }
+  }
+
+  // If all elements match, return true
+  return true;
+};
+
 export {
   getSession,
   setSession,

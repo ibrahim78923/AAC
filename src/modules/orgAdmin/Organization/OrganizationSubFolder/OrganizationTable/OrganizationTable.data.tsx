@@ -66,7 +66,7 @@ export const columns = (
       ),
       header: (
         <Checkbox
-          checked={tableRowData.length === isGetRowValues?.length}
+          checked={tableRowData?.length === isGetRowValues?.length}
           color="primary"
           name="Id"
           onChange={handleSelectAllRows}
@@ -105,7 +105,7 @@ export const columns = (
                 {info?.row?.original?.products?.map((item: any) => (
                   <Avatar
                     key={uuidv4()}
-                    alt="recipient_avatar"
+                    alt="product-image"
                     src={`${process?.env?.NEXT_PUBLIC_IMG_URL}${item?.logo?.url}`}
                   />
                 ))}
@@ -138,10 +138,16 @@ export const columns = (
         }
         return (
           <>
-            {parsedAddress === null
-              ? info?.row?.original?.address?.composite ??
-                info?.row?.original?.address
-              : parsedAddress?.composite ?? parsedAddress}
+            {info?.row?.original?.address?.city ? (
+              info?.row?.original?.address?.city
+            ) : (
+              <>
+                {parsedAddress === null
+                  ? info?.row?.original?.address?.composite ??
+                    info?.row?.original?.address
+                  : parsedAddress?.composite ?? parsedAddress}
+              </>
+            )}
           </>
         );
       },
@@ -196,7 +202,7 @@ export const defaultValuesOrganization = {
   // country: '',
 };
 
-export const dataArray = ({ drawerHeading }: any) => {
+export const dataArray = ({ drawerHeading, isToggled }: any) => {
   const isViewMode = drawerHeading === 'Company Account';
   return [
     {
@@ -242,7 +248,7 @@ export const dataArray = ({ drawerHeading }: any) => {
         multiline: true,
         rows: 3,
         required: true,
-        disabled: isViewMode,
+        disabled: isViewMode || isToggled,
       },
     },
   ];

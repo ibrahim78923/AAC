@@ -1,27 +1,25 @@
-import { Box, Divider, Typography, useTheme } from '@mui/material';
-import React, { useState } from 'react';
+import { Box, Divider, Typography } from '@mui/material';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { AlertModals } from '@/components/AlertModals';
-import { enqueueSnackbar } from 'notistack';
-import { ALERT_MODALS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import router from 'next/router';
 import { AIR_SERVICES } from '@/constants';
+import { useSubListLocation } from './useSubListLocation';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
-export const SubListLocation = ({ country, childEditData, data }: any) => {
-  const theme: any = useTheme();
-  const [showIcon, setShowIcon] = useState(false);
-  const [isOpenAlert, setIsOpenAlert] = useState(false);
-  const handleDeleteSubmit = () => {
-    enqueueSnackbar('Delete successfully', {
-      variant: NOTISTACK_VARIANTS?.ERROR,
-    });
-    setIsOpenAlert(false);
-  };
-
+export const SubListLocation = (props: any) => {
+  const { country, childId, parentId } = props;
+  const {
+    showIcon,
+    setShowIcon,
+    theme,
+    setIsOpenAlert,
+    isOpenAlert,
+    handleDeleteSubmit,
+  } = useSubListLocation(props);
   return (
     <>
       <Box
@@ -63,7 +61,7 @@ export const SubListLocation = ({ country, childEditData, data }: any) => {
                   router?.push({
                     pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
                     query: {
-                      data: JSON.stringify(data),
+                      parentId: parentId,
                     },
                   })
                 }
@@ -77,7 +75,9 @@ export const SubListLocation = ({ country, childEditData, data }: any) => {
                   router?.push({
                     pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
                     query: {
-                      childEditData: JSON.stringify(childEditData),
+                      type: 'child-edit',
+                      parentId: parentId,
+                      childId: childId,
                     },
                   })
                 }
@@ -98,7 +98,9 @@ export const SubListLocation = ({ country, childEditData, data }: any) => {
         type={ALERT_MODALS_TYPE?.DELETE}
         open={isOpenAlert}
         handleClose={() => setIsOpenAlert(false)}
-        handleSubmitBtn={handleDeleteSubmit}
+        handleSubmitBtn={() => {
+          handleDeleteSubmit(parentId, childId);
+        }}
       />
     </>
   );

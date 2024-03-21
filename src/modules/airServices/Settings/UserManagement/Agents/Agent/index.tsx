@@ -3,26 +3,22 @@ import Search from '@/components/Search';
 import { Box, Button } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import TanstackTable from '@/components/Table/TanstackTable';
-import AgentFilter from './AgentFilter';
-import { InviteAgentModel } from './InviteAgentModal';
+import AgentFilter from '../FilterAgent';
 import { useAgent } from './useAgent';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
 import { DeleteAgent } from '../DeleteAgent';
+import { UpsertAgent } from '../UpsertAgent';
 
 const Agent = () => {
   const {
     agentListsColumns,
     dropdownOptions,
     setSearchValue,
-    handleOpenDrawer,
     isAgentFilterDrawerOpen,
     setAgentFilterDrawerOpen,
     isAgentModalOpen,
-    setEditAgentModalTitle,
-    editAgentModalTitle,
-    handleAddAgentModal,
     lazyGetAgentsStatus,
     setPageLimit,
     setPage,
@@ -34,6 +30,7 @@ const Agent = () => {
     page,
     openDeleteModal,
     setOpenDeleteModal,
+    setIsAgentModalOpen,
   } = useAgent();
   return (
     <>
@@ -63,7 +60,7 @@ const Agent = () => {
               color="secondary"
               variant="outlined"
               startIcon={<FilterSharedIcon />}
-              onClick={handleOpenDrawer}
+              onClick={() => setAgentFilterDrawerOpen(true)}
             >
               Filter
             </Button>
@@ -87,7 +84,7 @@ const Agent = () => {
               variant="contained"
               startIcon={<PlusSharedColorIcon />}
               onClick={() => {
-                handleAddAgentModal?.(true);
+                setIsAgentModalOpen?.(true);
                 setSelectedAgentList([]);
               }}
             >
@@ -120,11 +117,9 @@ const Agent = () => {
       </PermissionsGuard>
       <Box>
         {isAgentModalOpen && (
-          <InviteAgentModel
+          <UpsertAgent
             isAgentModalOpen={isAgentModalOpen}
-            setEditAgentModalTitle={setEditAgentModalTitle}
-            editAgentModalTitle={editAgentModalTitle}
-            handleAddAgentModal={handleAddAgentModal}
+            setIsAgentModalOpen={setIsAgentModalOpen}
             selectedAgentList={selectedAgentList}
             setSelectedAgentList={setSelectedAgentList}
           />

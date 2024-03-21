@@ -17,6 +17,7 @@ const AddPlan = () => {
     AddPlanStepperData,
     setAddPlanFormValues,
     hanldeGoPreviousBack,
+    isLoading,
   } = useAddPlan();
 
   return (
@@ -64,7 +65,9 @@ const AddPlan = () => {
                 variant="contained"
                 fullWidth
                 onClick={handleCompleteStep}
-                disabled={activeStep === AddPlanStepperData?.length}
+                disabled={
+                  activeStep === AddPlanStepperData?.length || isLoading
+                }
               >
                 {activeStep === AddPlanStepperData?.length - 1
                   ? 'Finish'
