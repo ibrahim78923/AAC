@@ -18,14 +18,17 @@ export default function useRoles() {
     auth?.product?.accounts?.[0]?.company;
   const { _id: organizationId } = auth?.user?.organization;
 
-  const { data, isLoading, isFetching, isError } = useGetPermissionsRoleQuery({
-    page,
-    limit: pageLimit,
-    search: searchValue,
-    organizationCompanyAccountId,
-    organizationId,
-    productId,
-  });
+  const { data, isLoading, isFetching, isError } = useGetPermissionsRoleQuery(
+    {
+      page,
+      limit: pageLimit,
+      search: searchValue,
+      organizationCompanyAccountId,
+      organizationId,
+      productId,
+    },
+    { refetchOnMountOrArgChange: true },
+  );
 
   return {
     router,
