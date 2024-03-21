@@ -167,6 +167,7 @@ const SignUp = () => {
                             GridView={6}
                             label="Select Product(s)"
                             options={products}
+                            required={true}
                           />
                         </Grid>
 
@@ -205,6 +206,7 @@ const SignUp = () => {
                                 </InputAdornment>
                               ),
                             }}
+                            required={true}
                           />
                         </Grid>
 
@@ -234,6 +236,7 @@ const SignUp = () => {
                                 </InputAdornment>
                               ),
                             }}
+                            required={true}
                           />
                         </Grid>
 

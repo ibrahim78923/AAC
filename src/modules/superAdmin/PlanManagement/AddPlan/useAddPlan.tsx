@@ -37,14 +37,16 @@ import {
 } from './Forms/Modules/PlanFeatures.data';
 import { isNullOrEmpty } from '@/utils';
 import { SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
   const [activeStep, setActiveStep] = useState(0);
   const [skip, setSkip] = useState(true);
   const [productIdModules, setProductIdModules] = useState([]);
+  const [crmValue, setCrmValue] = useState<any | null>(null);
 
-  const [postPlanMangement] = usePostPlanMangementMutation();
+  const [postPlanMangement, isLoading] = usePostPlanMangementMutation();
   const [updatePlanMangement] = useUpdatePlanMangementMutation();
   const router: any = useRouter();
   let parsedRowData: any;
@@ -115,7 +117,10 @@ export const useAddPlan = () => {
 
   const { handleSubmit, reset, watch, setValue } = methodsPlan;
   const { handleSubmit: handleSubmitPlanFeatures } = methodsPlanFeatures;
-  const { handleSubmit: handleSubmitPlanModules } = methodsPlanModules;
+  const {
+    handleSubmit: handleSubmitPlanModules,
+    formState: { errors },
+  } = methodsPlanModules;
   const AdditionalStorageValue = watch(['allowAdditionalStorage']);
   const AdditionalUsereValue = watch(['allowAdditionalUsers']);
 
@@ -227,6 +232,7 @@ export const useAddPlan = () => {
         productId: planForm?.productId,
 
         ...(isNullOrEmpty(planForm?.productId) && { suite: planForm?.suite }),
+        ...(isNullOrEmpty(planForm?.productId) && { name: crmValue?.label }),
         planTypeId: planForm?.planTypeId,
         description: planForm?.description,
         defaultUsers: parseInt(planForm?.defaultUsers),
@@ -286,7 +292,8 @@ export const useAddPlan = () => {
             variant: 'success',
           });
         }, 5000);
-        persistor?.purge();
+        router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
+        // persistor?.purge();
         reset();
       } catch (error: any) {
         enqueueSnackbar('An error occured', {
@@ -316,7 +323,6 @@ export const useAddPlan = () => {
       handlePlanModules();
       reset();
       persistor?.purge();
-      router?.push('/super-admin/plan-management');
       return;
     }
   };
@@ -331,6 +337,8 @@ export const useAddPlan = () => {
           handleSubmit={handlePlanForm}
           AdditionalStorageValue={AdditionalStorageValue}
           AdditionalUsereValue={AdditionalUsereValue}
+          crmValue={crmValue}
+          setCrmValue={setCrmValue}
         />
       ),
 
@@ -355,6 +363,7 @@ export const useAddPlan = () => {
         <Modules
           methods={methodsPlanModules}
           handleSubmit={handlePlanModules}
+          errors={errors}
         />
       ),
       componentProps: { addPlanFormValues, setAddPlanFormValues },
@@ -389,5 +398,6 @@ export const useAddPlan = () => {
     handleCompleteStep,
     setAddPlanFormValues,
     hanldeGoPreviousBack,
+    isLoading: isLoading?.isLoading,
   };
 };

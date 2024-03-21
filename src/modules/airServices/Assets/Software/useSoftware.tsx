@@ -25,8 +25,8 @@ export const useSoftware = () => {
   const { data, isLoading, isError, isSuccess, isFetching } =
     useGetAssetsSoftwareQuery(apiDataParameter, {
       refetchOnMountOrArgChange: true,
-      skip: !!!apiDataParameter,
     });
+
   const assetsSoftwares = data?.data?.assetssoftwares;
   const paginationData = data?.data?.meta;
 

@@ -1,63 +1,56 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  assignCategoryValidationSchema,
-  assignCategoryDefaultValues,
-  assignCategoryFieldFunction,
-} from './SoftwareAssignCategory.data';
-import {
-  useLazyGetCategoriesDropdownQuery,
-  usePutSoftwareAssignCategoryMutation,
-} from '@/services/airServices/assets/software';
+import { usePutSoftwareAssignCategoryMutation } from '@/services/airServices/assets/software';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import * as Yup from 'yup';
 
 export const useSoftwareAssignCategory = (params: any) => {
-  const { setOpenAssignModal, selectedSoftware } = params;
+  const { setOpenAssignModal, selectedSoftware, setSoftwareData } = params;
+
   const methods: any = useForm<any>({
-    resolver: yupResolver(assignCategoryValidationSchema),
-    defaultValues: assignCategoryDefaultValues(),
+    resolver: yupResolver(
+      Yup?.object()?.shape({
+        category: Yup?.mixed()?.required(' Category is required'),
+      }),
+    ),
+    defaultValues: { category: '' },
   });
 
   const { handleSubmit, reset } = methods;
 
-  const assignCategoryDropdownApi = useLazyGetCategoriesDropdownQuery();
-  const assignCategoryField = assignCategoryFieldFunction(
-    assignCategoryDropdownApi,
-  );
   const [putSoftwareAssignCategoryTrigger, putSoftwareAssignCategoryStatus] =
     usePutSoftwareAssignCategoryMutation();
 
   const onSubmit = async (data: any) => {
-    const assignCategoryData = {
-      categoryId: data?.category?._id,
-    };
-    const selectedSoftwareIds = selectedSoftware.map(
-      (software: any) => software,
-    );
-    const putAssignCategoryParameter = {
-      ids: selectedSoftwareIds,
-      body: assignCategoryData,
+    const putAssignCategoryApiParameter = {
+      body: {
+        softwareIds: selectedSoftware,
+        category: data?.category,
+      },
     };
 
     try {
-      const response = await putSoftwareAssignCategoryTrigger(
-        putAssignCategoryParameter,
+      await putSoftwareAssignCategoryTrigger(
+        putAssignCategoryApiParameter,
       )?.unwrap();
-      successSnackbar(response?.message ?? 'Category Assign Successfully');
-      reset(assignCategoryDefaultValues());
-      setOpenAssignModal?.(false);
+      successSnackbar('Category Assign Successfully');
+      handleClose?.();
     } catch (error: any) {
-      errorSnackbar(error?.data?.error ?? 'Something went wrong');
-      reset(assignCategoryDefaultValues());
-      setOpenAssignModal?.(false);
+      errorSnackbar(error?.data?.message);
     }
+  };
+
+  const handleClose = () => {
+    reset();
+    setOpenAssignModal?.(false);
+    setSoftwareData?.([]);
   };
 
   return {
     onSubmit,
     handleSubmit,
     methods,
-    assignCategoryField,
     putSoftwareAssignCategoryStatus,
+    handleClose,
   };
 };

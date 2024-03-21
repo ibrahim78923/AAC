@@ -12,7 +12,6 @@ import {
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-
 import {
   FormProvider,
   RHFCheckbox,
@@ -75,6 +74,7 @@ const OrganizationTable = () => {
     tableInfo,
     handlePageChange,
     isLoading,
+    addressLength,
   } = useOrganizationTable();
   const { user }: any = useAuth();
 
@@ -156,8 +156,9 @@ const OrganizationTable = () => {
               ))}
             </Box>
             <Grid container spacing={1}>
-              {getDateArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {getDateArray?.map((item: any, index: any) => (
+                // eslint-disable-next-line
+                <Grid item xs={12} md={item?.md} key={index}>
                   {item?.componentProps?.name === 'address' && (
                     <Box
                       sx={{
@@ -180,15 +181,26 @@ const OrganizationTable = () => {
                             display: 'flex',
                             gap: '10px',
                             alignItems: 'center',
+                            mt: 2,
                           }}
                         >
                           {/* <EraserIcon /> */}
-                          <BorderColorIcon
-                            onClick={() => {
-                              toggle(true);
-                            }}
-                            sx={{ cursor: 'pointer', fontSize: '20px' }}
-                          />
+                          {addressLength?.length > 0 ? (
+                            <BorderColorIcon
+                              sx={{
+                                cursor: 'not-allowed',
+                                fontSize: '20px',
+                                color: 'lightgrey',
+                              }}
+                            />
+                          ) : (
+                            <BorderColorIcon
+                              onClick={() => {
+                                toggle(true);
+                              }}
+                              sx={{ cursor: 'pointer', fontSize: '20px' }}
+                            />
+                          )}
                         </Box>
                       </InputAdornment>
                     </Box>
@@ -207,11 +219,12 @@ const OrganizationTable = () => {
             <CommonModal
               open={imageHandler}
               handleClose={() => setImageHandler(false)}
+              handleCancel={() => setImageHandler(false)}
               handleSubmit={() => setImageHandler(false)}
               title="Upload Logo"
               footer={true}
               okText="Add"
-              cancelText="Cancle"
+              cancelText="Cancel"
             >
               <RHFDropZone name="logoUrl" />
             </CommonModal>

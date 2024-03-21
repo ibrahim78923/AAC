@@ -46,8 +46,8 @@ export const useRelatedTickets = () => {
     data?.data?.tickets?.length > 1
       ? data?.data?.tickets
       : !!data?.data?.tickets?.[0]?.childTicketDetails?._id
-        ? data?.data?.tickets
-        : [],
+      ? data?.data?.tickets
+      : [],
     selectedChildTickets,
     setSelectedChildTickets,
     router,

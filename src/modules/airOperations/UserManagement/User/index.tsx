@@ -12,8 +12,15 @@ export const User = () => {
     userListColumn,
     isDrawerOpen,
     setIsDrawerOpen,
-    userData,
+    usersData,
     setSearch,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
+    setPageLimit,
+    setPage,
+    metaData,
   } = useUser();
   return (
     <Box>
@@ -25,9 +32,20 @@ export const User = () => {
           ]}
         >
           <TanstackTable
-            data={userData}
+            data={usersData}
             columns={userListColumn}
             isPagination={true}
+            isLoading={isLoading}
+            isError={isError}
+            isFetching={isFetching}
+            isSuccess={isSuccess}
+            setPageLimit={setPageLimit}
+            setPage={setPage}
+            count={metaData?.pages}
+            totalRecords={metaData?.total}
+            onPageChange={(page: any) => setPage(page)}
+            currentPage={metaData?.page}
+            pageLimit={metaData?.limit}
           />
         </PermissionsGuard>
         <UpsertUser
@@ -35,6 +53,7 @@ export const User = () => {
           setIsDrawerOpen={setIsDrawerOpen}
           title={'User View'}
           okText={'Save'}
+          // handleClose={handleClose}
         />
       </Box>
     </Box>
