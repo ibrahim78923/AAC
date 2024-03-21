@@ -156,3 +156,5 @@ export const salesWorkflowListsColumnDynamic: any = (
     },
   ];
 };
+
+export const tabsData = ['Deals', 'Quotes', 'Tasks'];

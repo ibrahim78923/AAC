@@ -5,6 +5,7 @@ import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { Deal } from './SalesListView/Deal';
 import { Quote } from './SalesListView/Quote';
 import { Task } from './SalesListView/Task';
+import { tabsData } from './SalesWorkflow.data';
 
 export const SalesWorkflow = () => {
   const { handleBack, handleCreateWorkflow } = useSalesWorkflow();
@@ -21,7 +22,7 @@ export const SalesWorkflow = () => {
         ]}
       />
       <br />
-      <HorizontalTabs tabsDataArray={['Deals', 'Quotes', 'Tasks']}>
+      <HorizontalTabs tabsDataArray={tabsData}>
         <Deal />
         <Quote />
         <Task />
