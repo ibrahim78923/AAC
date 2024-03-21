@@ -4,6 +4,8 @@ import { useUpdateContract } from './useUpdateContract';
 import { LoadingButton } from '@mui/lab';
 import { ViewDetailBackArrowIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
+import { Attachments } from '@/components/Attachments';
+import { AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const UpdateContract = () => {
   const {
@@ -14,6 +16,7 @@ export const UpdateContract = () => {
     theme,
     handleCancelBtn,
     updateContractFormFields,
+    contractId,
   } = useUpdateContract();
 
   return (
@@ -81,6 +84,28 @@ export const UpdateContract = () => {
           <Grid item xs={12} md={0.5}></Grid>
           <Grid item xs={12} md={4} mt={{ xs: 1, md: 0 }} mb={1}>
             <RHFDropZone name="attachment" />
+            <br />
+            {!!contractId && (
+              <>
+                <Typography
+                  variant="body1"
+                  fontWeight={500}
+                  color="slateBlue.main"
+                  mb={2}
+                >
+                  {' '}
+                  Attachments{' '}
+                </Typography>
+                <Box maxHeight={'20vh'}>
+                  <Attachments
+                    recordId={contractId}
+                    permissionKey={[
+                      AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.VIEW_TASK_DETAILS,
+                    ]}
+                  />
+                </Box>
+              </>
+            )}
           </Grid>
         </Grid>
         <br />
