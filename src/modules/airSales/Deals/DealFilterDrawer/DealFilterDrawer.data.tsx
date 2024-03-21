@@ -13,9 +13,14 @@ export const defaultValues = {
   date: null,
 };
 
-export const FilterData = () => {
-  const { DealsLifecycleStageData, pipelineData } = useDealTab();
+export const FilterData = (dealPiplineId: any) => {
+  const { pipelineData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: 'ORG_EMPLOYEE' });
+
+  const filteredStages =
+    pipelineData?.data?.dealpipelines?.find(
+      (pipeline: any) => pipeline?._id === dealPiplineId,
+    )?.stages || [];
 
   const { data } = useGetDealsListQuery({});
 
@@ -77,12 +82,16 @@ export const FilterData = () => {
         label: 'Deal Stage',
         select: true,
       },
-      options: DealsLifecycleStageData?.data?.lifecycleStages?.map(
-        (item: any) => ({
-          value: item?._id,
-          label: item?.name,
-        }),
-      ),
+      options: filteredStages?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      // options: DealsLifecycleStageData?.data?.lifecycleStages?.map(
+      //   (item: any) => ({
+      //     value: item?._id,
+      //     label: item?.name,
+      //   }),
+      // ),
       component: RHFSelect,
     },
   ];

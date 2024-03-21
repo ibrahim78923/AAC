@@ -13,6 +13,7 @@ export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
   dealPiplineId: Yup?.string()?.required('Field is Required'),
   dealOwnerId: Yup?.string()?.required('Field is Required'),
+  sharedWith: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
@@ -20,11 +21,15 @@ export const defaultValues = {
   dealPiplineId: '',
   dealOwnerId: '',
   dealStageId: '',
+  sharedWith: '',
 };
 
-export const CreateViewData = () => {
-  const { pipelineData, DealsLifecycleStageData } = useDealTab();
+export const CreateViewData = (dealPiplineId: string | null) => {
+  const { pipelineData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: 'ORG_EMPLOYEE' });
+  const filteredStages = pipelineData?.data?.dealpipelines?.find(
+    (obj: { _id: string }) => obj?._id === dealPiplineId,
+  )?.stages;
 
   return [
     {
@@ -77,12 +82,10 @@ export const CreateViewData = () => {
         select: true,
         defaultValue: 'Select',
       },
-      options: DealsLifecycleStageData?.data?.lifecycleStages?.map(
-        (item: any) => ({
-          value: item?._id,
-          label: item?.name,
-        }),
-      ),
+      options: filteredStages?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
       component: RHFSelect,
     },
     {
