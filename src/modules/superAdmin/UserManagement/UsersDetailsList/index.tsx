@@ -244,6 +244,7 @@ const UsersDetailsList = () => {
                     onClick={() => {
                       setEmployeeDataById(item?._id);
                       setIsActiveEmp(index);
+                      setSearchAccount('');
                     }}
                   >
                     <Box
@@ -361,11 +362,15 @@ const UsersDetailsList = () => {
                         <CommonTabs
                           getTabVal={(val: number) => setTabVal(val)}
                           activeTab={tabVal}
-                          searchBarProps={{
-                            label: 'Search Here',
-                            setSearchBy: setSearchAccount,
-                            searchBy: searchAccount,
-                          }}
+                          isSearchBar={
+                            <Search
+                              placeholder="Search here"
+                              value={searchAccount}
+                              onChange={(val: any) =>
+                                setSearchAccount(val?.target?.value)
+                              }
+                            />
+                          }
                           isHeader={tabVal === 0 ? true : false}
                           tabsArray={[
                             'Company Accounts',

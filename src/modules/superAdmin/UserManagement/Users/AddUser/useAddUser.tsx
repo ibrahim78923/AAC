@@ -40,28 +40,7 @@ const useAddUser = (useActionParams?: any) => {
   // for super admin form methods
   const superAdminValues = {
     ...userDetail,
-    address: userDetail?.address?.composite ?? '',
-    // userDetail?.address?.composite
-    // ? userDetail?.address?.composite
-    // : `${userDetail?.address?.flat
-    //   ? `Flat # ${userDetail?.address?.flat}, `
-    //   : ''
-    // }` +
-    // `${userDetail?.address?.buildingNumber
-    //   ? `Building # ${userDetail?.address?.buildingNumber}, `
-    //   : ''
-    // }` +
-    // `${userDetail?.address?.buildingName
-    //   ? `Building Name ${userDetail?.address?.buildingName}, `
-    //   : ''
-    // }` +
-    // `${userDetail?.address?.streetName
-    //   ? `Street # ${userDetail?.address?.streetName}, `
-    //   : ''
-    // }` +
-    // `${userDetail?.address?.city ? `${userDetail?.address?.city}, ` : ''}` +
-    // `${userDetail?.address?.country ? `${userDetail?.address?.country}` : ''
-    // }`,
+    compositeAddress: userDetail?.address?.composite ?? '',
     flat: userDetail?.address?.flat ?? '',
     city: userDetail?.address?.city ?? '',
     country: userDetail?.address?.country ?? '',
@@ -69,7 +48,6 @@ const useAddUser = (useActionParams?: any) => {
     buildingNumber: userDetail?.address?.buildingNumber ?? '',
     streetName: userDetail?.address?.streetName ?? '',
   };
-
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
     defaultValues: superAdminValues,
