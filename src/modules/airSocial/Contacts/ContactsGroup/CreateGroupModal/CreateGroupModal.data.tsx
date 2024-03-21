@@ -1,19 +1,21 @@
 import { RHFTextField } from '@/components/ReactHookForm';
 import { Box, Checkbox } from '@mui/material';
 import * as Yup from 'yup';
+
 export const createGroupValidationSchema = Yup?.object()?.shape({
-  groupName: Yup?.string()?.trim()?.required('Field is Required'),
+  name: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const createGroupDefaultValues = {
-  groupName: '',
+  name: '',
 };
 
-export const createGroupFiltersDataArray = [
+export const createGroupFiltersDataArray = (title: string) => [
   {
     componentProps: {
-      name: 'groupName',
+      name: 'name',
       label: 'Group Name',
+      disabled: title === 'View',
     },
     component: RHFTextField,
     md: 12,
@@ -23,56 +25,80 @@ export const createGroupFiltersDataArray = [
 export const columns: any = ({
   selectedUsers,
   setSelectedUsers,
-  smsMarketingContactsData,
+  title,
 }: any) => {
-  const isAllUsersSelected =
-    selectedUsers?.length === smsMarketingContactsData?.length;
-  const handleUserSelection = (userId: any, isSelected: any) => {
-    setSelectedUsers((prevSelectedUserIds: any) => {
-      if (isSelected) {
-        if (!prevSelectedUserIds?.includes(userId)) {
-          return [...prevSelectedUserIds, userId];
-        }
-      } else {
-        return prevSelectedUserIds?.filter((id: any) => id !== userId);
-      }
-      return prevSelectedUserIds;
-    });
-  };
-  const handleSelectAllUsers = () => {
-    if (isAllUsersSelected) {
-      setSelectedUsers([]);
-    } else {
-      const allUserIds = smsMarketingContactsData?.map((user: any) => user?.id);
-      setSelectedUsers(allUserIds);
+  const handleRowClick = (id: any) => {
+    const selectedIndex = selectedUsers?.indexOf(id);
+    let newSelected: any = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selectedUsers, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selectedUsers.slice(1));
+    } else if (selectedIndex === selectedUsers.length - 1) {
+      newSelected = newSelected.concat(selectedUsers.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selectedUsers.slice(0, selectedIndex),
+        selectedUsers.slice(selectedIndex + 1),
+      );
     }
+    setSelectedUsers(newSelected);
   };
+
+  // Select All Row
+  const handleSelectAllClick = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    rows: any,
+  ) => {
+    if (event?.target?.checked) {
+      const newSelected = rows?.map((n: any) => n?._id);
+      setSelectedUsers(newSelected);
+      return;
+    }
+    setSelectedUsers([]);
+  };
+
+  const isSelected = (id: any) => selectedUsers?.indexOf(id) !== -1;
 
   return [
     {
-      accessorFn: (row: any) => row?.id,
-      id: 'id',
-      cell: (info: any) => (
-        <Checkbox
-          color="primary"
-          checked={selectedUsers?.includes(info?.row?.original?.id)}
-          onChange={(e) => {
-            handleUserSelection(info?.row?.original?.id, e?.target?.checked);
-          }}
-        />
-      ),
-      header: (
-        <Checkbox
-          color="primary"
-          name="Id"
-          checked={isAllUsersSelected}
-          onChange={handleSelectAllUsers}
-        />
-      ),
+      accessorFn: (row: any) => row._id,
+      id: '_id',
+      cell: (info: any) => {
+        return (
+          <Checkbox
+            color="primary"
+            checked={isSelected(info?.cell?.row?.original?._id)}
+            name={info?.cell?.row?.original?._id}
+            onClick={() => {
+              handleRowClick(info?.cell?.row?.original?._id);
+            }}
+            disabled={title === 'View'}
+          />
+        );
+      },
+      header: (info: any) => {
+        const rows = info?.table?.options?.data;
+        return (
+          <Checkbox
+            color="primary"
+            indeterminate={
+              selectedUsers?.length > 0 && selectedUsers?.length < rows?.length
+            }
+            checked={
+              rows?.length > 0 &&
+              selectedUsers?.length === info?.table?.options?.data?.length
+            }
+            onChange={(event) => handleSelectAllClick(event, rows)}
+            disabled={title === 'View'}
+          />
+        );
+      },
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.name,
+      accessorFn: (row: any) => `${row?.firstName} ${row?.lastName}`,
       id: 'name',
       header: 'name',
       cell: (info: any) => (
@@ -82,8 +108,8 @@ export const columns: any = ({
       ),
     },
     {
-      accessorFn: (row: any) => row?.phoneNo,
-      id: 'phoneNo',
+      accessorFn: (row: any) => row?.phoneNumber,
+      id: 'phoneNumber',
       header: 'Phone Number',
       cell: (info: any) => info?.getValue(),
     },

@@ -55,11 +55,10 @@ const Dashboard = () => {
                   border={`1px solid ${theme?.palette?.grey?.[700]}`}
                   height="100%"
                 >
-                  <br />
                   <Box marginLeft={2}>
                     <Box marginTop={2} marginBottom={2}>
                       <TicketBased />
-                    </Box>{' '}
+                    </Box>
                   </Box>
                 </Box>
               </Grid>

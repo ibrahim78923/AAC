@@ -1,24 +1,21 @@
-import React, { useState } from 'react';
-import { userValidationSchema } from './Users.data';
+import { useState } from 'react';
 import { Theme, useTheme } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  usePostPoductUserMutation,
-  useUpdateUsersMutation,
+  useDeleteProductUserMutation,
+  useUpdateProductsUsersMutation,
 } from '@/services/airSales/settings/users';
 import { enqueueSnackbar } from 'notistack';
-import { useGetCompanyAccountsRolesQuery } from '@/services/common-APIs';
 import { getSession } from '@/utils';
+import { useGetCompanyAccountsRolesQuery } from '@/services/common-APIs';
 
-const useUsers: any = (isAddUserDrawer?: any, setIsAddUserDrawer?: any) => {
-  const [checkedUser, setCheckedUser] = useState([]);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+const useUsers: any = () => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const theme = useTheme<Theme>();
-  const [postPoductUser] = usePostPoductUserMutation();
   const open = Boolean(anchorEl);
-  const [updateUsers] = useUpdateUsersMutation();
+  const [updateProductsUsers] = useUpdateProductsUsersMutation();
+  const [deleteProductUser, { isLoading: deleteProductUsersLoading }] =
+    useDeleteProductUserMutation();
   const { user } = getSession();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -32,35 +29,16 @@ const useUsers: any = (isAddUserDrawer?: any, setIsAddUserDrawer?: any) => {
     organizationId: user?.organization?._id,
   });
 
-  const defaultValues: any = {
-    firstName: isAddUserDrawer?.data?.user?.firstName,
-    lastName: isAddUserDrawer?.data?.user?.lastName,
-    email: isAddUserDrawer?.data?.user?.email,
-    address: '',
-    phoneNumber: '',
-    jobTitle: 'dev',
-    role: isAddUserDrawer?.data?.role?.name,
-    team: isAddUserDrawer?.data?.team?.name,
-    language: '',
-    timezone: '',
-    faceBookUrl: '',
-    linkedInUrl: '',
-    twitterUrl: '',
-  };
-
-  const methods: any = useForm({
-    resolver: yupResolver(userValidationSchema),
-    defaultValues: defaultValues,
-  });
-
-  const { handleSubmit } = methods;
-  const onSubmit = async (values: any) => {
+  const handleUpdateStatus = async (id: any, value: any) => {
+    const statusVal = value?.target?.checked ? 'ACTIVE' : 'INACTIVE';
     try {
-      await postPoductUser({ body: values })?.unwrap();
-      enqueueSnackbar('User added successfully', {
+      await updateProductsUsers({
+        id: id,
+        body: { status: statusVal },
+      })?.unwrap();
+      enqueueSnackbar('Status updated successfully', {
         variant: 'success',
       });
-      setIsAddUserDrawer({ isToggle: false, type: 'add', data: {} });
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
         variant: 'error',
@@ -68,11 +46,10 @@ const useUsers: any = (isAddUserDrawer?: any, setIsAddUserDrawer?: any) => {
     }
   };
 
-  const handleUpdateStatus = async (id: any, value: any) => {
-    const statusVal = value?.target?.checked ? 'ACTIVE' : 'INACTIVE';
+  const deleteHandler = async (ids: any) => {
     try {
-      await updateUsers({ id: id, body: { status: statusVal } })?.unwrap();
-      enqueueSnackbar('Status updated successfully', {
+      await deleteProductUser({ body: { ids: ids } })?.unwrap();
+      enqueueSnackbar('Users deleted successfully', {
         variant: 'success',
       });
     } catch (error: any) {
@@ -91,13 +68,10 @@ const useUsers: any = (isAddUserDrawer?: any, setIsAddUserDrawer?: any) => {
     theme,
     handleClick,
     handleClose,
-    methods,
-    handleSubmit,
-    onSubmit,
-    checkedUser,
-    setCheckedUser,
     rolesByCompanyId,
     handleUpdateStatus,
+    deleteHandler,
+    deleteProductUsersLoading,
   };
 };
 
