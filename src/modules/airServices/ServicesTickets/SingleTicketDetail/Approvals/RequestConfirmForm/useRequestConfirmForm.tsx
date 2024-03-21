@@ -41,8 +41,8 @@ export const useRequestConfirmForm = (props: any) => {
       await patchApprovalTicketsTrigger(patchParameterData)?.unwrap();
       successSnackbar?.(toastMessage);
       setModalClose?.();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
   const setModalClose = () => {

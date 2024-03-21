@@ -20,8 +20,8 @@ import { AIR_SALES } from '@/routesConstants/paths';
 const useUpdateQuote = () => {
   const router = useRouter();
   let quoteId;
-  if (router.query?.data) {
-    quoteId = router.query?.data;
+  if (router?.query?.data) {
+    quoteId = router?.query?.data;
   }
   // const id = router?.query?.data;
   // console.log(quoteId, 'quoteIdquoteIdquoteIdquoteId');
@@ -69,10 +69,10 @@ const useUpdateQuote = () => {
   const [isOpenFormCreateProduct, setIsOpenFormCreateProduct] = useState(false);
   const [isOpenDialog, setIsOpenDialog] = useState(false);
   const handleStepNext = async () => {
-    setActiveStep((prev) => prev + 1);
+    setActiveStep((prev: any) => prev + 1);
   };
   const handleStepBack = () => {
-    setActiveStep((prev) => prev - 1);
+    setActiveStep((prev: any) => prev - 1);
   };
   const handleStepperCancel = () => {
     router.push(AIR_SALES?.QUOTES);

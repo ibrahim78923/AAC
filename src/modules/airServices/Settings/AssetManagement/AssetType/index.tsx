@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Skeleton } from '@mui/material';
 import ChildBarWrapper from './ChildAssetTypes';
 import TitleBar from './TitleBar';
 import { useAssetType } from './useAssetType';
@@ -17,9 +17,10 @@ export const AssetType = () => {
     metaData,
     setPage,
     setPageLimit,
-    pageLimit,
+    isLoading,
+    isFetching,
   } = useAssetType();
-
+  if (isLoading || isFetching) return <Skeleton />;
   return (
     <>
       <Box>
@@ -89,7 +90,7 @@ export const AssetType = () => {
               totalRecords={metaData?.total}
               onPageChange={(page: any) => setPage(page)}
               currentPage={metaData?.page}
-              pageLimit={pageLimit}
+              pageLimit={metaData?.limit}
             />
           </Box>
         ) : (

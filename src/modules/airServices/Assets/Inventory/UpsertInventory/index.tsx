@@ -2,36 +2,34 @@ import { useUpsertInventory } from './useUpsertInventory';
 import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider, RHFDropZone } from '@/components/ReactHookForm';
 
-import { useEffect } from 'react';
-
 import { LoadingButton } from '@mui/lab';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
-import { ViewDetailBackArrowIcon } from '@/assets/icons';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export const UpsertInventory = () => {
   const {
     methods,
     handleSubmit,
     theme,
-    setFormType,
-    query,
     upsertInventoryFormFields,
     submitUpsertInventory,
     inventoryId,
-    setHasAttachment,
     isLoading,
     isFetching,
     moveBack,
+    postAddToInventoryStatus,
+    patchAddToInventoryStatus,
   } = useUpsertInventory();
-
-  useEffect(() => {
-    setFormType(query?.type);
-  }, [query?.update]);
   if (isLoading || isFetching) return <SkeletonForm />;
   return (
     <>
+      <PageTitledHeader
+        moveBack={() => moveBack?.()}
+        canMovedBack
+        title={!!inventoryId ? ' Update Inventory' : ' Add New Inventory'}
+      />
       <FormProvider
         methods={methods}
         onSubmit={handleSubmit(submitUpsertInventory)}
@@ -43,26 +41,6 @@ export const UpsertInventory = () => {
               borderRadius={3}
               border={`2px solid ${theme?.palette?.custom?.off_white_three}`}
             >
-              <Box
-                sx={{
-                  display: 'flex',
-                  gap: 1,
-                }}
-              >
-                <Box onClick={moveBack} sx={{ cursor: 'pointer' }} mt={0.5}>
-                  <ViewDetailBackArrowIcon />
-                </Box>
-                {!!inventoryId ? (
-                  <Typography variant="h3" color="slateblue.main">
-                    Update
-                  </Typography>
-                ) : (
-                  <Typography variant="h3" color="slateblue.main">
-                    Add New
-                  </Typography>
-                )}
-              </Box>
-              <br />
               <Grid item container xs={12} overflow="scroll">
                 <Grid container rowSpacing={1.8} columnSpacing={3}>
                   {upsertInventoryFormFields?.map((form: any) => (
@@ -92,10 +70,8 @@ export const UpsertInventory = () => {
                       <Attachments
                         recordId={inventoryId}
                         permissionKey={[
-                          AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_NEW_EXPENSE,
+                          AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSETS,
                         ]}
-                        hasAttachments={setHasAttachment}
-                        size={1024 * 1024 * 2.44}
                       />
                     </Box>
                   </>
@@ -113,13 +89,20 @@ export const UpsertInventory = () => {
                 variant="outlined"
                 color="secondary"
                 onClick={() => methods?.reset()}
+                disabled={
+                  postAddToInventoryStatus?.isLoading ||
+                  patchAddToInventoryStatus?.isLoading
+                }
               >
                 Cancel
               </LoadingButton>
               <LoadingButton
                 variant="contained"
                 type="submit"
-                sx={{ paddingX: '25px' }}
+                loading={
+                  postAddToInventoryStatus?.isLoading ||
+                  patchAddToInventoryStatus?.isLoading
+                }
               >
                 {!!inventoryId ? 'update' : 'save'}
               </LoadingButton>
@@ -143,10 +126,9 @@ export const UpsertInventory = () => {
                   <Attachments
                     recordId={inventoryId}
                     permissionKey={[
-                      AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_NEW_EXPENSE,
+                      AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS?.ADD_ASSETS,
                     ]}
-                    hasAttachments={setHasAttachment}
-                    size={1024 * 1024 * 2.44}
+                    colSpan={{ sm: 12, lg: 12 }}
                   />
                 </Box>
               </>

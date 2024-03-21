@@ -52,8 +52,8 @@ export const useMoveFolder = (props: any) => {
       successSnackbar('Article moved to a new folder successfully');
       setSelectedArticlesData?.([]);
       closeMoveFolderModal?.();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 

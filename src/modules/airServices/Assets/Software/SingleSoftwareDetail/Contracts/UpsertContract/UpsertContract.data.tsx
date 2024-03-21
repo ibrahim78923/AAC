@@ -15,8 +15,9 @@ import {
   LICENSE_TYPE,
 } from '@/constants/strings';
 import { ItemDetail } from './ItemDetail';
+import { DATE_FORMAT } from '@/constants';
 
-const todayDate = dayjs()?.format('MM/DD/YYYY');
+const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
 export const dropdownDummy = [
   {
@@ -175,7 +176,7 @@ export const upsertContractFormDefaultValuesFunction: any = (
 };
 
 export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
-  contractName: Yup?.string()?.trim()?.required('Required'),
+  contractName: Yup?.string()?.trim()?.required('Contract name is required'),
   contractNumber: Yup?.string(),
   type: Yup?.mixed()?.nullable()?.required('Required'),
   cost: Yup?.number()
@@ -193,23 +194,23 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
     ?.ensure()
     ?.when('notifyExpiry', {
       is: (value: any) => value,
-      then: (schema: any) => schema?.required('Required'),
+      then: (schema: any) => schema?.required('Notify before is required'),
       otherwise: (schema) => schema,
     }),
   notifyTo: Yup?.mixed()
     ?.nullable()
     ?.when('notifyExpiry', {
       is: (value: any) => value,
-      then: (schema: any) => schema?.required('Required'),
+      then: (schema: any) => schema?.required('Notify to is required'),
       otherwise: (schema: any) => schema,
     }),
-  software: Yup?.mixed()?.nullable()?.required('Required'),
-  billingCycle: Yup?.mixed()?.nullable()?.required('Required'),
-  licenseType: Yup?.mixed()?.nullable()?.required('Required'),
+  software: Yup?.mixed()?.nullable()?.required('Software is required'),
+  billingCycle: Yup?.mixed()?.nullable()?.required('Billing cycle is required'),
+  licenseType: Yup?.mixed()?.nullable()?.required('License type is required'),
   licenseKey: Yup?.string()
     ?.trim()
-    ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string')
-    ?.required('Required'),
+    ?.required('License key is required')
+    ?.matches(/^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/, 'must be a string'),
   itemDetail: Yup?.array()
     ?.of(
       Yup?.object()?.shape({
@@ -226,12 +227,16 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
         return Yup?.array()
           ?.of(
             Yup?.object()?.shape({
-              serviceName: Yup?.string()?.required('Required'),
-              priceModel: Yup?.mixed()?.nullable()?.required('Required'),
+              serviceName: Yup?.string()?.required('Service name is required'),
+              priceModel: Yup?.mixed()
+                ?.nullable()
+                ?.required('price model is required'),
               cost: Yup?.number()
+                ?.required('cost is required')
                 ?.positive('Greater than zero')
                 ?.typeError('Not a number'),
               count: Yup?.number()
+                ?.required('count is required')
                 ?.positive('Greater than zero')
                 ?.typeError('Not a number'),
               comments: Yup?.string(),
@@ -246,7 +251,6 @@ export const upsertContractFormSchemaFunction: any = Yup?.object()?.shape({
 export const upsertContractFormFieldsDataFunction = (
   watchForNotifyExpiry = false,
   apiQueryVendor: any,
-  apiQueryAsset: any,
   apiQueryApprover: any,
   apiQuerySoftware: any,
 ) => [
@@ -513,6 +517,7 @@ export const upsertContractFormFieldsDataFunction = (
     md: 6,
     componentProps: {
       fullWidth: true,
+      required: true,
       name: 'licenseKey',
       label: 'License Key',
     },

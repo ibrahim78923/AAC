@@ -6,10 +6,14 @@ export const useOverview = () => {
   const theme = useTheme();
   const searchParams = useSearchParams();
   const inventoryId = searchParams?.get('inventoryId');
-  const { data } = useGetInventoryOverviewQuery(inventoryId);
+  const { data, isLoading, isFetching } =
+    useGetInventoryOverviewQuery(inventoryId);
   const inventoryData = data?.data?.[0];
+
   return {
     theme,
     inventoryData,
+    isLoading,
+    isFetching,
   };
 };

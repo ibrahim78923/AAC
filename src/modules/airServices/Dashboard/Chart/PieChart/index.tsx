@@ -5,10 +5,20 @@ import { FormProvider, RHFAutocompleteAsync } from '@/components/ReactHookForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import { usePieChart } from './usePieChart';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import NoData from '@/components/NoData';
+import { NoAssociationFoundImage } from '@/assets/images';
 
 export const PieChart = () => {
-  const { departmentDropdown, methods, pieChartData, theme, pieChartSeries } =
-    usePieChart();
+  const {
+    departmentDropdown,
+    methods,
+    pieChartData,
+    theme,
+    pieChartSeries,
+    isLoading,
+    isFetching,
+  } = usePieChart();
   return (
     <>
       <>
@@ -59,12 +69,33 @@ export const PieChart = () => {
         </Box>
       </>
       <Box sx={{ marginTop: 2 }}>
-        <CustomChart
-          options={{ ...pieChartDataOptions(theme), legend: { show: false } }}
-          series={pieChartSeries}
-          type="pie"
-          height={212}
-        />
+        {isLoading || isFetching ? (
+          <SkeletonTable />
+        ) : (
+          <>
+            {pieChartHeader(theme, pieChartData).every(
+              (department) => department.titleNumber === 0,
+            ) ? (
+              <NoData
+                image={NoAssociationFoundImage}
+                message={'No data is available'}
+                height={'100%'}
+              />
+            ) : (
+              pieChartSeries.length > 0 && (
+                <CustomChart
+                  options={{
+                    ...pieChartDataOptions(theme),
+                    legend: { show: false },
+                  }}
+                  series={pieChartSeries}
+                  type="pie"
+                  height={212}
+                />
+              )
+            )}
+          </>
+        )}
       </Box>
     </>
   );

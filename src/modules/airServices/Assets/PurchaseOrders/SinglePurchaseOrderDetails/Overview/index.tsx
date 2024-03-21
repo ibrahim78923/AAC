@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import { overviewData } from './Overview.data';
 import { styles } from './Overview.style';
 import { overviewTableColumns } from './Overview.data';
@@ -17,7 +17,12 @@ export const Overview = () => {
     itemName,
     handleDownload,
     uniqueNumber,
+    isLoading,
+    isFetching,
+    handleRowClick,
+    rowData,
   } = useOverview();
+  if (isLoading || isFetching) return <Skeleton />;
   return (
     <Box>
       {overviewData(purchaseOrderData)?.map((item: any) => (
@@ -55,7 +60,7 @@ export const Overview = () => {
         <TanstackTable
           data={purchaseOrderDetailData}
           columns={overviewTableColumns(
-            setOpenOverviewModal,
+            handleRowClick,
             purchaseOrderDetailData,
             itemName,
             theme,
@@ -70,17 +75,20 @@ export const Overview = () => {
         />
       </Box>
       <Box>
-        <OverviewModel
-          openOverviewModal={openOverviewModal}
-          setOpenOverviewModal={setOpenOverviewModal}
-          purchaseOrderDetailData={purchaseOrderDetailData}
-          purchaseOrderData={purchaseOrderData}
-          theme={theme}
-          orderStatus={orderStatus}
-          handleDownload={handleDownload}
-          uniqueNumber={uniqueNumber}
-          itemName={itemName}
-        />
+        {openOverviewModal && (
+          <OverviewModel
+            openOverviewModal={openOverviewModal}
+            setOpenOverviewModal={setOpenOverviewModal}
+            purchaseOrderDetailData={purchaseOrderDetailData}
+            purchaseOrderData={purchaseOrderData}
+            theme={theme}
+            orderStatus={orderStatus}
+            handleDownload={handleDownload}
+            uniqueNumber={uniqueNumber}
+            itemName={itemName}
+            rowData={rowData}
+          />
+        )}
       </Box>
     </Box>
   );

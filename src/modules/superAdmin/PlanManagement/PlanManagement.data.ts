@@ -1,6 +1,6 @@
 import { IAVATARGROUPDATA } from '@/types/shared/AvatarGroup';
 
-import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
+import { RHFDatePicker, RHFSelect } from '@/components/ReactHookForm';
 import {
   useGetPlanTypesQuery,
   useGetProductsQuery,
@@ -42,15 +42,13 @@ export const avatarGroupMockData: IAVATARGROUPDATA[] = [
 ];
 
 export const planManagementFilterValidationSchema = Yup?.object()?.shape({
-  productId: Yup?.string()?.trim()?.required('Field is Required'),
-  planTypeId: Yup.string()?.trim()?.required('Field is Required'),
-  createdAt: Yup?.string()?.trim()?.required('Field is Required'),
+  productId: Yup?.string(),
+  planTypeId: Yup.string(),
 });
 
 export const planManagementFilterDefaultValues = {
   productId: '',
   planTypeId: '',
-  createdAt: null,
 };
 
 export const planManagementFilterFiltersDataArray = () => {
@@ -101,7 +99,7 @@ export const planManagementFilterFiltersDataArray = () => {
         label: 'Created Date',
         fullWidth: true,
       },
-      component: RHFSwitchableDatepicker,
+      component: RHFDatePicker,
       md: 12,
     },
   ];

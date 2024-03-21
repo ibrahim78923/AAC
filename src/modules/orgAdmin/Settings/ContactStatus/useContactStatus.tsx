@@ -22,16 +22,30 @@ import { isNullOrEmpty } from '@/utils';
 
 const useContactStatus = () => {
   const [isDraweropen, setIsDraweropen] = useState(false);
-  const [productSearch, setproductSearch] = useState<string>('');
   const [isOpenAlert, setIsOpenAlert] = useState(false);
   const [rowId, setRowId] = useState<string>('');
   const [editData, setEditData] = useState<any>({});
   const [isModalHeading, setIsModalHeading] = useState('Create');
   const [postContactStatus] = usePostContactStatusMutation();
-  const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetContactStatusQuery([]);
+
+  // GET CONTACT STATUS LIST
+  const [searchValue, setSearchValue] = useState(null);
+  let searchPayLoad;
+  if (searchValue) {
+    searchPayLoad = { search: searchValue };
+  }
+  const {
+    data,
+    refetch: refetchContactStatus,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
+  } = useGetContactStatusQuery(searchPayLoad);
+
   const [deleteContactStatus] = useDeleteContactStatusMutation();
-  const [updateContactStatus] = useUpdateContactStatusMutation();
+  const [updateContactStatus, { isLoading: loadingUpdateContactStatus }] =
+    useUpdateContactStatusMutation();
 
   const theme = useTheme<Theme>();
 
@@ -88,6 +102,7 @@ const useContactStatus = () => {
     }
   }, [editData, ContactStatus]);
   const { handleSubmit, reset } = ContactStatus;
+
   const onSubmit = async (data: any) => {
     const settingContactStatus = {
       ...data,
@@ -98,6 +113,7 @@ const useContactStatus = () => {
           body: settingContactStatus,
           id: editData?._id,
         }).unwrap();
+        refetchContactStatus();
 
         setIsDraweropen(false);
         enqueueSnackbar('Status Updated Successfully', {
@@ -107,6 +123,7 @@ const useContactStatus = () => {
         await postContactStatus({
           body: settingContactStatus,
         }).unwrap();
+        refetchContactStatus();
         enqueueSnackbar('Status Added Successfully', {
           variant: 'success',
         });
@@ -129,6 +146,7 @@ const useContactStatus = () => {
   );
 
   return {
+    setSearchValue,
     tableRow: data?.data?.conatactStatus,
     isLoading,
     isError,
@@ -136,8 +154,6 @@ const useContactStatus = () => {
     isSuccess,
     isDraweropen,
     setIsDraweropen,
-    productSearch,
-    setproductSearch,
     theme,
     handleCloseDrawer,
     ContactStatus,
@@ -149,6 +165,7 @@ const useContactStatus = () => {
     isModalHeading,
     setIsModalHeading,
     deleteContactsStatus,
+    loadingUpdateContactStatus,
   };
 };
 

@@ -25,6 +25,7 @@ const useUsers = () => {
   const [actionModalOpen, setActionModalOpen] = useState(false);
   const [selectedActionTitle, setSelectedActionTitle] = useState(null);
   const [search, setSearch] = useState('');
+  const [filterValues, setFilterValues] = useState({});
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const getUserArray = usersData?.find((item: any) => item);
@@ -42,17 +43,27 @@ const useUsers = () => {
     getUserListTrigger,
     { data: getSoftwareUsers, isLoading, isFetching, isSuccess, isError },
   ] = useLazyGetSoftwareUsersDetailsQuery();
-  const getUserListParam = new URLSearchParams();
-  getUserListParam?.append('page', page?.toString());
-  getUserListParam?.append('limit', limit?.toString());
-  getUserListParam?.append('id', softwareId + '');
-  getUserListParam?.append('search', search?.toString());
   useEffect(() => {
+    const getUserListParam = new URLSearchParams();
+    getUserListParam?.append('page', page?.toString());
+    getUserListParam?.append('limit', limit?.toString());
+    getUserListParam?.append('id', softwareId + '');
+    getUserListParam?.append('search', search?.toString());
+    Object?.entries(filterValues)?.forEach(([key, value]: any) => {
+      getUserListParam?.append(
+        key,
+        key === 'department' && value
+          ? value?.name
+          : value
+            ? value?.toString()
+            : '',
+      );
+    });
     const handleGetUser = async () => {
       await getUserListTrigger(getUserListParam);
     };
     handleGetUser();
-  }, [softwareId, page, limit, search]);
+  }, [softwareId, page, limit, search, filterValues, getUserListTrigger]);
   const metaData = getSoftwareUsers?.data?.meta;
 
   const [getExportUserTrigger] = useLazyGetExportSoftwareUsersQuery();
@@ -203,6 +214,7 @@ const useUsers = () => {
     deAllocateLoading,
     allocateLoading,
     removeLoading,
+    setFilterValues,
   };
 };
 

@@ -10,32 +10,38 @@ export const useSoftware = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteRecord, setDelateRecord] = useState();
   const router = useRouter();
-  const { data, isLoading } = useGetInventorySoftwareQuery(
+  const { data, isLoading, isFetching, isError } = useGetInventorySoftwareQuery(
     router?.query?.inventoryId,
     {
       refetchOnMountOrArgChange: true,
       skip: !!!router?.query?.inventoryId,
     },
   );
-  const AssetsInventorySoftwareData = data?.data?.inventories;
-  const [deleteInventorySoftware] = useDeleteInventorySoftwareMutation();
-
+  const [deleteInventorySoftware, deleteIsLoading] =
+    useDeleteInventorySoftwareMutation();
   const handleDelete = async () => {
     try {
-      const res: any = await deleteInventorySoftware(deleteRecord);
+      const res: any = await deleteInventorySoftware({
+        body: {
+          softwareId: router?.query?.inventoryId,
+          id: deleteRecord,
+        },
+      })?.unwrap();
       successSnackbar(res?.message ?? 'Record deleted Successfully');
       setOpenDeleteModal(false);
     } catch (err: any) {
       errorSnackbar(err?.message ?? `Something went wrong`);
     }
   };
-
   return {
-    AssetsInventorySoftwareData,
     isLoading,
     openDeleteModal,
     setOpenDeleteModal,
     handleDelete,
     setDelateRecord,
+    data,
+    isFetching,
+    isError,
+    deleteIsLoading,
   };
 };

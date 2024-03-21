@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Image from 'next/image';
 
 import {
@@ -14,7 +12,6 @@ import {
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-
 import {
   FormProvider,
   RHFCheckbox,
@@ -25,7 +22,6 @@ import {
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import { AlertModals } from '@/components/AlertModals';
 
 import { dataArray } from './OrganizationTable.data';
@@ -33,7 +29,7 @@ import { dataArray } from './OrganizationTable.data';
 import useOrganizationTable from './useOrganizationTable';
 
 import { FeaturedImage, AddCircleImage } from '@/assets/images';
-import { AddPenIcon, EraserIcon } from '@/assets/icons';
+import { AddPenIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -60,7 +56,6 @@ const OrganizationTable = () => {
     handleSubmit,
     methods,
     onSubmit,
-    tablePagination,
     getRowValues,
     isGetRowValues,
     deleteOrganizationCompany,
@@ -71,8 +66,21 @@ const OrganizationTable = () => {
     drawerHeading,
     setDrawerHeading,
     loadingAddCompanyAccount,
+    editData,
+    setEditData,
+    setIsGetRowValues,
+    setPageLimit,
+    setPage,
+    tableInfo,
+    handlePageChange,
+    isLoading,
+    addressLength,
   } = useOrganizationTable();
   const { user }: any = useAuth();
+
+  const getDateArray = dataArray({ drawerHeading, isToggled });
+
+  const isViewMode = drawerHeading === 'Company Account';
 
   return (
     <>
@@ -84,7 +92,7 @@ const OrganizationTable = () => {
         title={`${drawerHeading}`}
         okText={drawerHeading === 'Edit Company' ? 'Update' : 'Add'}
         isOk
-        footer={true}
+        footer={isViewMode ? false : true}
         submitHandler={handleSubmit(onSubmit)}
         isLoading={loadingAddCompanyAccount}
       >
@@ -132,6 +140,10 @@ const OrganizationTable = () => {
                 <Box sx={styles?.productCard} key={product?._id}>
                   <RHFCheckbox
                     name={product?._id}
+                    defaultChecked={editData?.products?.some(
+                      (p: any) => p?._id === product?._id,
+                    )}
+                    disabled={isViewMode}
                     sx={{
                       marginLeft: '7rem',
                     }}
@@ -144,8 +156,9 @@ const OrganizationTable = () => {
               ))}
             </Box>
             <Grid container spacing={1}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              {getDateArray?.map((item: any, index: any) => (
+                // eslint-disable-next-line
+                <Grid item xs={12} md={item?.md} key={index}>
                   {item?.componentProps?.name === 'address' && (
                     <Box
                       sx={{
@@ -168,15 +181,26 @@ const OrganizationTable = () => {
                             display: 'flex',
                             gap: '10px',
                             alignItems: 'center',
+                            mt: 2,
                           }}
                         >
-                          <EraserIcon />
-                          <BorderColorIcon
-                            onClick={() => {
-                              toggle(true);
-                            }}
-                            sx={{ cursor: 'pointer', fontSize: '20px' }}
-                          />
+                          {/* <EraserIcon /> */}
+                          {addressLength?.length > 0 ? (
+                            <BorderColorIcon
+                              sx={{
+                                cursor: 'not-allowed',
+                                fontSize: '20px',
+                                color: 'lightgrey',
+                              }}
+                            />
+                          ) : (
+                            <BorderColorIcon
+                              onClick={() => {
+                                toggle(true);
+                              }}
+                              sx={{ cursor: 'pointer', fontSize: '20px' }}
+                            />
+                          )}
                         </Box>
                       </InputAdornment>
                     </Box>
@@ -195,11 +219,12 @@ const OrganizationTable = () => {
             <CommonModal
               open={imageHandler}
               handleClose={() => setImageHandler(false)}
+              handleCancel={() => setImageHandler(false)}
               handleSubmit={() => setImageHandler(false)}
               title="Upload Logo"
               footer={true}
               okText="Add"
-              cancelText="Cancle"
+              cancelText="Cancel"
             >
               <RHFDropZone name="logoUrl" />
             </CommonModal>
@@ -317,6 +342,7 @@ const OrganizationTable = () => {
                       setDrawerHeading('Edit Company');
                       setIsOpenDrawer(true);
                     }}
+                    disabled={isGetRowValues?.length > 1}
                   >
                     Edit
                   </MenuItem>
@@ -326,7 +352,16 @@ const OrganizationTable = () => {
                     ORG_ADMIN_ORGANIZATION_PERMISSIONS?.VIEW_ACCOUNT,
                   ]}
                 >
-                  <MenuItem onClick={handleClose}>View</MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      handleClose();
+                      setDrawerHeading('Company Account');
+                      setIsOpenDrawer(true);
+                    }}
+                    disabled={isGetRowValues.length > 1}
+                  >
+                    View
+                  </MenuItem>
                 </PermissionsGuard>
                 <MenuItem
                   onClick={() => {
@@ -345,7 +380,10 @@ const OrganizationTable = () => {
                 <Button
                   onClick={() => {
                     handleClose();
+                    setDrawerHeading('Create Company');
                     setIsOpenDrawer(true);
+                    setEditData({});
+                    setIsGetRowValues([]);
                   }}
                   variant="contained"
                   className="small"
@@ -363,11 +401,16 @@ const OrganizationTable = () => {
         </Grid>
       </Box>
       <Grid sx={{ marginTop: '1rem' }}>
-        <TanstackTable columns={getRowValues} data={tableRow} />
-        <CustomPagination
-          count={1}
-          rowsPerPageOptions={tablePagination}
-          entriePages={1}
+        <TanstackTable
+          isPagination
+          columns={getRowValues}
+          data={tableRow}
+          totalRecords={tableInfo?.total}
+          count={tableInfo?.pages}
+          onPageChange={handlePageChange}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          isLoading={isLoading}
         />
       </Grid>
       <AlertModals

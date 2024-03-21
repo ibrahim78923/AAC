@@ -137,7 +137,7 @@ export const SOFTWARE_STATUS = {
 
 export const SOFTWARE_TYPE = {
   DESKTOP: 'Desktop',
-  SASS: 'Sass',
+  SAAS: 'Saas',
   MOBILE: 'Mobile',
 };
 
@@ -404,4 +404,11 @@ export const TICKET_SELECTION_TYPE = {
 export const TICKET_GRAPH_TYPES = {
   STATUS: 'status',
   PRIORITY: 'pirority',
+};
+
+export const TICKET_SOURCE = {
+  PHONE: 'PHONE',
+  EMAIL: 'EMAIL',
+  PORTAL: 'PORTAL',
+  CHAT: 'CHAT',
 };

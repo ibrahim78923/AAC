@@ -1,3 +1,6 @@
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+
 export const overviewData = (inventoryData: any) => [
   {
     id: inventoryData?._id,
@@ -11,9 +14,17 @@ export const overviewData = (inventoryData: any) => [
         name: 'Department',
         detail: inventoryData?.departmentDetails?.name ?? '---',
       },
-      { name: 'End of Life', detail: inventoryData?.assetLifeExpiry ?? '---' },
+      {
+        name: 'End of Life',
+        detail:
+          dayjs(inventoryData?.assetLifeExpiry)?.format(DATE_FORMAT?.UI) ??
+          '---',
+      },
       { name: ' Impact', detail: inventoryData?.impact ?? '---' },
-      { name: 'Discovery Enabled', detail: inventoryData?.createdAt ?? '---' },
+      {
+        name: 'Discovery Enabled',
+        detail: dayjs(inventoryData?.created)?.format(DATE_FORMAT?.UI) ?? '---',
+      },
       {
         name: 'Location',
         detail: inventoryData?.locationDetails?.locationName ?? '---',

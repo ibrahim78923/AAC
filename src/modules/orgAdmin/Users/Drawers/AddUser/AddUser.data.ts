@@ -5,10 +5,16 @@ import * as Yup from 'yup';
 export const superAdminValidationSchema = Yup.object().shape({
   firstName: Yup.string()
     .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
   lastName: Yup.string()
     .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
   email: Yup.string()
     .required('Field is Required')
     .email('Invalid email address'),
@@ -17,6 +23,8 @@ export const superAdminValidationSchema = Yup.object().shape({
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
   compositeAddress: Yup.string()?.required('Field is Required'),
+  linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
+  twitterUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
 
 export const addUsersArray = [
@@ -59,6 +67,8 @@ export const addUsersArray = [
       label: 'Address',
       required: true,
       placeholder: 'Address',
+      multiline: true,
+      rows: 4,
       fullWidth: true,
     },
     component: RHFTextField,

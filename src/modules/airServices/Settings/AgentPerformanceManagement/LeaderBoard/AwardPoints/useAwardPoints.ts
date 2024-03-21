@@ -36,7 +36,7 @@ export const useAwardPoints = () => {
       await addAwardPointsTrigger(values)?.unwrap();
       successSnackbar('Award points added successfully!');
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
 

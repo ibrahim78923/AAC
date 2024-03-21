@@ -1,12 +1,20 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const TAG = 'SALES_WORKFLOW';
-export const salesWorkflowApi = baseAPI?.injectEndpoints({
+const TAG = 'WORKFLOWS';
+export const salesWorkflowAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
+    getWorkflowList: builder?.query({
+      query: (params) => ({
+        url: `${END_POINTS?.WORKFLOWS}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG],
+    }),
     postSalesWorkflow: builder?.mutation({
       query: (body) => ({
-        url: END_POINTS?.SALES_WORKFLOW,
+        url: END_POINTS?.WORKFLOWS,
         method: 'POST',
         body,
       }),
@@ -15,4 +23,5 @@ export const salesWorkflowApi = baseAPI?.injectEndpoints({
   }),
 });
 
-export const { usePostSalesWorkflowMutation } = salesWorkflowApi;
+export const { useLazyGetWorkflowListQuery, usePostSalesWorkflowMutation } =
+  salesWorkflowAPI;

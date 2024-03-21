@@ -21,6 +21,7 @@ export const ApprovalDetail = () => {
     isError,
     data,
     openTicketDetail,
+    ticketDetails,
   } = useApprovalDetail();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -43,17 +44,25 @@ export const ApprovalDetail = () => {
         showStatus={data?.data?.approvalStatus !== TICKET_APPROVALS?.PENDING}
         setApproval={(approvalData: any) => setApproval?.(approvalData)}
       />
-
-      <RequestConfirmForm
-        isConfirmModalOpen={isConfirmModalOpen}
-        setIsConfirmModalOpen={setIsConfirmModalOpen}
-        selectedApproval={selectedApproval}
-        setSelectedApproval={setSelectedApproval}
-      />
-      <DetailCard
-        data={data?.data}
-        openTicketDetail={(data: any) => openTicketDetail?.(data)}
-      />
+      {isConfirmModalOpen && (
+        <RequestConfirmForm
+          isConfirmModalOpen={isConfirmModalOpen}
+          setIsConfirmModalOpen={setIsConfirmModalOpen}
+          selectedApproval={selectedApproval}
+          setSelectedApproval={setSelectedApproval}
+        />
+      )}
+      {ticketDetails?.isLoading || ticketDetails?.isFetching ? (
+        <SkeletonForm />
+      ) : ticketDetails?.isError ? (
+        <ApiErrorState />
+      ) : (
+        <DetailCard
+          data={ticketDetails?.data?.data?.[0]}
+          approvalInfo={data?.data}
+          openTicketDetail={(data: any) => openTicketDetail?.(data)}
+        />
+      )}
     </>
   );
 };

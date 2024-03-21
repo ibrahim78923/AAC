@@ -10,7 +10,7 @@ import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName } from '@/utils/avatarUtils';
 
 export const PrintDrawer = (props: any) => {
-  const { onSubmit, isPrintDrawerOpen, onClose, data, printDataField, router } =
+  const { onSubmit, isPrintDrawerOpen, onClose, data, printDataField } =
     usePrintDrawer(props);
   return (
     <CommonDrawer
@@ -22,31 +22,20 @@ export const PrintDrawer = (props: any) => {
       isOk={true}
       okText="Print"
     >
-      <Box flexWrap={'wrap'}>
-        <Box
-          justifyContent={'space-between'}
-          display={'flex'}
-          flexDirection={'row'}
-        >
-          <Typography variant="body3">
-            {dayjs(data?.data?.[0]?.requesterDetails?.createdAt)?.format(
-              DATE_TIME_FORMAT?.DDMYHMA,
-            ) ?? '-'}
-            ,{' '}
-          </Typography>
-          <Typography variant="body3">
-            https://airapplecartt.atlassian.net/browse/STDAT-11
-            {router?.pathname}
-          </Typography>
-        </Box>
-        <Typography variant="h5" marginTop={1}>
-          {data?.data?.[0]?.subject}{' '}
-          <Typography variant="h5" component={'span'} marginLeft={1}>
-            {' '}
-            {data?.data?.[0]?.ticketIdNumber}
-          </Typography>
+      <Box>
+        <Typography variant="body1" fontWeight={600}>
+          {' '}
+          TIcket ID: {data?.data?.[0]?.ticketIdNumber}
         </Typography>
-        <Typography variant="body3">by</Typography>
+        <Typography
+          variant="body1"
+          fontWeight={600}
+          sx={{ wordBreak: 'break-all' }}
+        >
+          {'  '}
+          Subject : {data?.data?.[0]?.subject}
+        </Typography>
+        <Typography variant="body3">by </Typography>
         <Typography variant="body3" fontWeight={'bold'}>
           {fullName(
             data?.data?.[0]?.requesterDetails?.firstName,
@@ -62,10 +51,14 @@ export const PrintDrawer = (props: any) => {
           ) ?? '-'}
           ,{' '}
         </Typography>{' '}
-        <Typography variant="body3">via </Typography>
-        <Typography variant="body3" fontWeight={'bold'}>
-          {data?.data?.[0]?.source ?? '-'}
-        </Typography>
+        {!!data?.data?.[0]?.source && (
+          <>
+            <Typography variant="body3">via </Typography>
+            <Typography variant="body3" fontWeight={'bold'}>
+              {data?.data?.[0]?.source ?? '-'}
+            </Typography>
+          </>
+        )}
         <Typography variant="h6">
           Requestor For :{' '}
           <Typography variant="h4" component={'span'}>
@@ -79,9 +72,9 @@ export const PrintDrawer = (props: any) => {
           </Typography>
         </Typography>
         <Divider sx={{ marginTop: '1rem', marginBottom: '1rem' }} />
-        <Typography variant="h4"> TICKET PROPERTIES</Typography>
+        <Typography variant="h4"> TICKET PROPERTIES </Typography>
         <Grid container mt={1}>
-          {printDataField?.map((item) => (
+          {printDataField?.map((item: any) => (
             <Grid key={item?.id} xs={12} lg={3.5}>
               <Box display={'flex'} flexDirection={'row'}>
                 <Box display={'flex'} flexDirection={'column'}>

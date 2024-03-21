@@ -35,6 +35,7 @@ const CommonDrawer = ({
   isLoading,
   isDisabled,
   variant,
+  disabledCancelBtn,
 }: CommonDrawerPropsI) => {
   const theme = useTheme();
 
@@ -76,7 +77,9 @@ const CommonDrawer = ({
               }}
             >
               {headerIcon}
-              <Typography variant="subtitle1">{title}</Typography>
+              <Typography variant="subtitle1" textTransform="capitalize">
+                {title}
+              </Typography>
             </Box>
             <Box onClick={onClose} sx={{ cursor: 'pointer' }}>
               <CloseIcon />
@@ -137,6 +140,7 @@ const CommonDrawer = ({
                         '&:hover': { bgcolor: theme?.palette?.grey[400] },
                       }}
                       onClick={cancelBtnHandler ? cancelBtnHandler : onClose}
+                      disabled={disabledCancelBtn}
                     >
                       {cancelText ? cancelText : 'Cancel'}
                     </Button>

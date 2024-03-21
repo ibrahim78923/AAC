@@ -1,6 +1,14 @@
 import React from 'react';
 
-import { Box, Button, Grid, Typography } from '@mui/material';
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Typography,
+  createFilterOptions,
+} from '@mui/material';
 
 import { useAddPlanForm } from './useAddPlanForm';
 
@@ -12,7 +20,6 @@ import {
   FormProvider,
   RHFMultiSearchableSelect,
   RHFSelect,
-  RHFTextField,
 } from '@/components/ReactHookForm';
 import { selectProductSuites } from './PlanForm.data';
 
@@ -20,6 +27,9 @@ const AddPlanForm = ({
   handleSubmit,
   methods,
   AdditionalStorageValue,
+  AdditionalUsereValue,
+  crmValue,
+  setCrmValue,
 }: any) => {
   const {
     formDefaultValuesFunction,
@@ -28,7 +38,10 @@ const AddPlanForm = ({
     productsOptions,
     planLabelRender,
     planNameRender,
-  } = useAddPlanForm(AdditionalStorageValue);
+    crmOptions,
+  } = useAddPlanForm(AdditionalStorageValue, AdditionalUsereValue);
+
+  const filter = createFilterOptions<any>();
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit}>
@@ -97,13 +110,83 @@ const AddPlanForm = ({
 
             {item?.componentProps.name == selectProductSuites?.planTypeId &&
               selectProductSuite === selectProductSuites?.crm && (
-                <RHFTextField
-                  name="name"
-                  label="Name"
-                  size="small"
-                  placeholder="Enter Name"
-                  required={true}
-                />
+                // <RHFTextField
+                //   name="name"
+                //   label="Name"
+                //   size="small"
+                //   placeholder="Enter Name"
+                //   required={true}
+                // />
+                <>
+                  <label style={{ marginTop: '20px' }}>Name</label>
+                  <Autocomplete
+                    value={crmValue}
+                    onChange={(event, newValue) => {
+                      if (typeof newValue === 'string') {
+                        setCrmValue({
+                          label: newValue,
+                        });
+                      } else if (newValue && newValue?.inputValue) {
+                        // Create a new value from the user input
+                        setCrmValue({
+                          label: newValue?.inputValue,
+                        });
+                      } else {
+                        setCrmValue(newValue);
+                      }
+                    }}
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params);
+
+                      const { inputValue } = params;
+                      // Suggest the creation of a new value
+                      const isExisting = options?.some(
+                        (option) => inputValue === option.label,
+                      );
+                      if (inputValue !== '' && !isExisting) {
+                        filtered?.push({
+                          inputValue,
+                          label: `Add "${inputValue}"`,
+                        });
+                      }
+
+                      return filtered;
+                    }}
+                    selectOnFocus
+                    clearOnBlur
+                    handleHomeEndKeys
+                    id="free-solo-with-text-demo"
+                    options={crmOptions}
+                    getOptionLabel={(option) => {
+                      if (typeof option === 'string') {
+                        return option;
+                      }
+                      if (option?.inputValue) {
+                        return option?.inputValue;
+                      }
+                      return option?.label;
+                    }}
+                    renderOption={(props, option) => (
+                      <li style={{ border: '1px solid lightgray' }} {...props}>
+                        {option?.label}
+                      </li>
+                    )}
+                    sx={{ height: 70, marginTop: '5px' }}
+                    freeSolo
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        name="name"
+                        sx={{
+                          '& .MuiOutlinedInput-root': {
+                            padding: '2px',
+                            borderRadius: '5px',
+                          },
+                        }}
+                      />
+                    )}
+                  />
+                </>
               )}
             <item.component {...item?.componentProps} size={'small'}>
               {!isNullOrEmpty(item?.componentProps?.select) &&

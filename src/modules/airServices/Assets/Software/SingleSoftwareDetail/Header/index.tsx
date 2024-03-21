@@ -1,9 +1,9 @@
 import { Button, MenuItem, Menu, Box, Skeleton } from '@mui/material';
 import { ActionButtonIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
-import { AlertModals } from '@/components/AlertModals';
 import { useHeader } from './useHeader';
 import { UpsertSoftware } from '../../UpsertSoftware';
+import { DeleteSoftware } from '../../DeleteSoftware';
 
 export default function Header() {
   const {
@@ -15,19 +15,14 @@ export default function Header() {
     handleClose,
     open,
     anchorEl,
-    deleteSoftware,
-    isLoading,
     moveBackArrow,
-    submitHandler,
-    userQuery,
-    onClose,
-    methods,
-    editLoading,
-    softwareFetching,
-    softwareLoading,
-    softwareData,
+    data,
+    isLoading,
+    isFetching,
   } = useHeader();
-  if (softwareFetching || softwareLoading) return <Skeleton height={50} />;
+
+  if (isLoading || isFetching) return <Skeleton height={50} />;
+
   return (
     <>
       <Box
@@ -40,7 +35,7 @@ export default function Header() {
         <PageTitledHeader
           canMovedBack
           moveBack={moveBackArrow}
-          title={softwareData?.name}
+          title={data?.data?.[0]?.name}
         />
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <Button
@@ -79,25 +74,18 @@ export default function Header() {
         </Box>
       </Box>
       {deleteModalOpen && (
-        <AlertModals
-          type="delete"
-          open={deleteModalOpen}
-          loading={isLoading}
-          handleClose={() => setDeleteModalOpen(false)}
-          handleSubmitBtn={deleteSoftware}
-          message="Are you sure  want to delete this Software ?"
+        <DeleteSoftware
+          deleteModalOpen={deleteModalOpen}
+          setDeleteModalOpen={setDeleteModalOpen}
         />
       )}
       {isDrawerOpen && (
         <UpsertSoftware
-          isDrawerOpen={isDrawerOpen}
-          onClose={onClose}
-          methods={methods}
-          submitHandler={submitHandler}
-          isLoading={editLoading}
-          userQuery={userQuery}
-          title="Edit Software"
-          okText="Update"
+          isAddDrawerOpen={isDrawerOpen}
+          setIsAddDrawerOpen={setIsDrawerOpen}
+          data={data?.data?.[0]}
+          isLoading={isLoading}
+          isFetching={isFetching}
         />
       )}
     </>

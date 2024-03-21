@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { useMergedTickets } from './useMergeTickets';
 import { fullName } from '@/utils/avatarUtils';
+import { formatTimeDifference } from '@/utils/dateTime';
 
 export const MergeTickets = (props: any) => {
   const theme = useTheme();
@@ -77,10 +78,10 @@ export const MergeTickets = (props: any) => {
           </Grid>
           <br />
           <Typography
-            variant="body2"
+            variant="h6"
+            mb={0.5}
             fontWeight={600}
             color="slateBlue.main"
-            mb={1}
           >
             Primary
           </Typography>
@@ -157,7 +158,7 @@ export const MergeTickets = (props: any) => {
             <Typography color="grey.0">
               Created :{' '}
               <Typography component={'span'} color="secondary" variant="body1">
-                12 hours ago
+                {formatTimeDifference(singleTicketDetail?.createdAt)}
               </Typography>
             </Typography>
           </Box>

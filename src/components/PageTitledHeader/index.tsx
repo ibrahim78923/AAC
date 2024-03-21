@@ -1,4 +1,4 @@
-import { Box, Button, useTheme, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { PlusSharedColorIcon, ImportIcon } from '@/assets/icons';
 import { ExportButton } from '../ExportButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -21,7 +21,6 @@ export const PageTitledHeader = ({
   exportPermissionKey,
   importPermissionKey,
 }: any) => {
-  const theme: any = useTheme();
   return (
     <>
       <Box
@@ -41,7 +40,7 @@ export const PageTitledHeader = ({
               }}
             />
           )}
-          <Typography variant="h4" color={theme?.palette?.slateBlue?.main}>
+          <Typography variant="h4" color="SlateBlue.main">
             {title}
           </Typography>
         </Box>

@@ -31,18 +31,18 @@ export const agentsAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     postAddAgent: builder?.mutation({
-      query: (body: any) => ({
+      query: (apiDataParameter: any) => ({
         url: `${ADD_AGENT}`,
         method: 'POST',
-        body,
+        body: apiDataParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
     patchAgent: builder?.mutation({
-      query: ({ id, body }: any) => ({
-        url: `${EDIT_AGENT}/${id}`,
+      query: (apiDataParameter: any) => ({
+        url: `${EDIT_AGENT}`,
         method: 'PATCH',
-        body,
+        body: apiDataParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
@@ -63,10 +63,10 @@ export const agentsAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     deleteAgent: builder?.mutation({
-      query: (deleteArticlesParameter: any) => ({
+      query: (apiDataParameter: any) => ({
         url: `${DELETE_AGENT}`,
         method: 'DELETE',
-        body: deleteArticlesParameter?.body,
+        body: apiDataParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),

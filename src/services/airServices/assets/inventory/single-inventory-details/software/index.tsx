@@ -14,9 +14,10 @@ export const InventoryAPI = baseAPI?.injectEndpoints({
     }),
 
     deleteInventorySoftware: builder?.mutation({
-      query: (deleteInventorySoftwareId: any) => ({
-        url: `${END_POINTS?.DELETE_INVENTORY_SOFTWARE}/${deleteInventorySoftwareId}`,
-        method: 'DELETE',
+      query: ({ body }: any) => ({
+        url: END_POINTS?.REMOVE_SOFTWARE_INSTALLATION,
+        method: 'PATCH',
+        body,
       }),
       invalidatesTags: [TAG],
     }),
