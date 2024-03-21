@@ -12,36 +12,55 @@ import { useEffect, useState } from 'react';
 import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
 import {
-  useLazyGetCategoriesDropdownQuery,
+  useLazyGetCategoriesAgentDropdownQuery,
   useLazyGetCategoriesRequesterDropdownQuery,
   usePostAddServiceCatalogMutation,
+  useLazyGetCategoriesDropdownQuery,
 } from '@/services/airServices/settings/service-management/service-catalog';
-import { useLazyGetAgentDropdownQuery } from '@/services/airServices/tickets/single-ticket-details/details';
 
 const useUpsertService = () => {
-  const apiQueryAgent = useLazyGetAgentDropdownQuery();
+  const apiQueryAgent = useLazyGetCategoriesAgentDropdownQuery();
+  const apiRequestorQuery = useLazyGetCategoriesRequesterDropdownQuery();
+
+  const router = useRouter();
+  const apiQueryCategory = useLazyGetCategoriesDropdownQuery();
+  const upsertServiceFormField = upsertServiceData(apiQueryCategory);
+
   const [results, setResults] = useState<any[]>(
-    categoriesOfServices(apiQueryAgent),
+    categoriesOfServices(
+      apiQueryAgent,
+      apiRequestorQuery,
+      router,
+      apiQueryCategory,
+    ),
   );
   const [postAddServiceCatalogTrigger] = usePostAddServiceCatalogMutation();
   const methods: any = useForm<any>({
     resolver: yupResolver(upsertServiceValidationSchema),
     defaultValues: upsertServiceDefaultValues,
   });
-  const router = useRouter();
+
   const { handleSubmit, watch, reset } = methods;
   const assetsType = watch('assetType');
   useEffect(() => {
     let filteredServices;
 
     if (assetsType === ASSET_TYPE?.HARDWARE_CONSUMABLE) {
-      filteredServices = categoriesOfServices(apiQueryAgent).filter(
+      filteredServices = categoriesOfServices(
+        apiQueryAgent,
+        apiRequestorQuery,
+        router,
+        apiQueryCategory,
+      ).filter(
         (service: any) => service?.text === ASSET_TYPE?.HARDWARE_CONSUMABLE,
       );
     } else {
-      filteredServices = categoriesOfServices(apiQueryAgent).filter(
-        (service: any) => service?.text === ASSET_TYPE?.SOFTWARE,
-      );
+      filteredServices = categoriesOfServices(
+        apiQueryAgent,
+        apiRequestorQuery,
+        router,
+        apiQueryCategory,
+      ).filter((service: any) => service?.text === ASSET_TYPE?.SOFTWARE);
     }
 
     setResults(filteredServices);
@@ -82,12 +101,12 @@ const useUpsertService = () => {
     }, 2000);
   };
 
-  const apiRequestorQuery = useLazyGetCategoriesRequesterDropdownQuery();
-  const apiCategoryQuery = useLazyGetCategoriesDropdownQuery();
-
-  const apiQueryCategory = useLazyGetCategoriesDropdownQuery();
-  const upsertServiceFormField = upsertServiceData();
-  const categoriesOfServicesFormField = categoriesOfServices(apiQueryAgent);
+  const categoriesOfServicesFormField = categoriesOfServices(
+    apiQueryAgent,
+    apiRequestorQuery,
+    router,
+    apiQueryCategory,
+  );
   return {
     methods,
     handleSubmit,
@@ -97,7 +116,6 @@ const useUpsertService = () => {
     upsertServiceFormField,
     categoriesOfServicesFormField,
     apiQueryCategory,
-    apiCategoryQuery,
     apiRequestorQuery,
   };
 };
