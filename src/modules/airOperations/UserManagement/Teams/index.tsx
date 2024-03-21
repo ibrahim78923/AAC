@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
 import { TeamsHeader } from './TeamsHeader';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { teamListData } from './Teams.data';
 import { useTeams } from './useTeams';
 import UpsertTeams from './UpsertTeams';
 import { AgentConversionDelete } from '../AgentConversionDelete';
@@ -18,6 +17,14 @@ export const Teams = () => {
     setDeleteModal,
     isTeamDrawerOpen,
     setIsTeamDrawerOpen,
+    metaData,
+    data,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
+    setPageLimit,
+    setPage,
   } = useTeams();
 
   return (
@@ -31,9 +38,20 @@ export const Teams = () => {
           ]}
         >
           <TanstackTable
-            data={teamListData}
+            data={data?.data?.userTeams}
             columns={teamListColumn}
             isPagination={true}
+            isLoading={isLoading}
+            isError={isError}
+            isFetching={isFetching}
+            isSuccess={isSuccess}
+            setPageLimit={setPageLimit}
+            setPage={setPage}
+            count={metaData?.pages}
+            totalRecords={metaData?.total}
+            onPageChange={(page: any) => setPage(page)}
+            currentPage={metaData?.page}
+            pageLimit={metaData?.limit}
           />
         </PermissionsGuard>
         <TeamsDetails
@@ -50,7 +68,7 @@ export const Teams = () => {
         />
         <AgentConversionDelete
           message={'Are you sure you want to delete this Team?'}
-          open={deleteModal}
+          open={deleteModal?.val}
           handleClose={() => {
             setDeleteModal(false);
           }}

@@ -1,11 +1,11 @@
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
-import { userDropdown, userList } from './User.data';
+import { userList } from './User.data';
 import {
-  useDeleteProductUsersMutation,
   useGetProductUserListQuery,
   useLazyGetCompanyAccountsRolesQuery,
   useLazyGetTeamUserListQuery,
+  usePatchProductUsersMutation,
   usePostProductUserListMutation,
 } from '@/services/airOperations/user-management/user';
 import { PAGINATION } from '@/config';
@@ -18,21 +18,20 @@ import {
   upsertUserDefaultValues,
   upsertUserValidationSchema,
 } from './UpsertUser/UpsertUser.data';
+import { useRouter } from 'next/router';
 
-export const useUser = (props: any) => {
-  const { selectedUserList, setSelectedUserList } = props;
+export const useUser = () => {
+  const router = useRouter();
+  const { _id } = router?.query;
+  const [selectedUserList, setSelectedUserList] = useState<any[]>([]);
   const theme = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [searchValue, setSearchValue] = useState<string>('');
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [userData, setUserData] = useState<any[]>(upsertUserData);
-
   const [disabled, setDisabled] = useState(true);
-
-  const [deleteUserProducts] = useDeleteProductUsersMutation();
 
   const param = {
     page: page,
@@ -44,19 +43,6 @@ export const useUser = (props: any) => {
 
   const usersData = data?.data?.usercompanyaccounts;
   const metaData = data?.data?.meta;
-
-  const userDropdownOptions = userDropdown(setDeleteModal);
-
-  const deleteIds = selectedUserList?.map((list: any) => list?._id);
-  const submitDeleteModal = async () => {
-    try {
-      await deleteUserProducts({ ids: deleteIds });
-      successSnackbar('Delete Successfully');
-      setSelectedUserList([]);
-    } catch (error: any) {
-      errorSnackbar(error?.data?.message);
-    }
-  };
 
   const userListColumn = userList(
     userData,
@@ -74,7 +60,7 @@ export const useUser = (props: any) => {
     defaultValues: upsertUserDefaultValues,
   });
   const { handleSubmit, reset } = methods;
-
+  const [patchProductUsersTrigger] = usePatchProductUsersMutation();
   const [addListUsers] = usePostProductUserListMutation();
   const submit = async (data: any) => {
     try {
@@ -84,7 +70,10 @@ export const useUser = (props: any) => {
         team: data?.team?._id,
         language: data?._id,
       };
-
+      if (!!_id) {
+        editProductUsersDetails?.(body);
+        return;
+      }
       await addListUsers({ body }).unwrap();
       successSnackbar('Users List added successfully.');
       handleClose?.();
@@ -98,17 +87,29 @@ export const useUser = (props: any) => {
     reset?.();
   };
 
+  const editProductUsersDetails = async (data: any) => {
+    const formData = {
+      id: _id,
+      ...data,
+    };
+    try {
+      await patchProductUsersTrigger(formData)?.unwrap();
+      successSnackbar('Products Users Edit  Successfully');
+      setIsDrawerOpen(false);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+    handleClose?.();
+  };
+
   return {
     usersData,
     theme,
     selectedUserList,
     setSelectedUserList,
     userListColumn,
-    searchValue,
-    setSearchValue,
     isDrawerOpen,
     setIsDrawerOpen,
-    userDropdownOptions,
     deleteModal,
     setDeleteModal,
     setSearch,
@@ -129,6 +130,5 @@ export const useUser = (props: any) => {
     metaData,
     rolesDropdown,
     usersTeamDropdown,
-    submitDeleteModal,
   };
 };

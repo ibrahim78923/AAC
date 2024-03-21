@@ -51,6 +51,30 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    patchProductUsers: builder.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getTeamList: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.SALES_TEAM}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG],
+    }),
+    deleteTeamUsers: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.SALES_TEAM}`,
+        method: 'DELETE',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -60,4 +84,7 @@ export const {
   useLazyGetCompanyAccountsRolesQuery,
   useLazyGetTeamUserListQuery,
   useDeleteProductUsersMutation,
+  usePatchProductUsersMutation,
+  useGetTeamListQuery,
+  useDeleteTeamUsersMutation,
 } = userManagementAPI;

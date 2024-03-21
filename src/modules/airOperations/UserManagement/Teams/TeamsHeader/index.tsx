@@ -9,7 +9,8 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const TeamsHeader = () => {
   const {
-    setSearchValue,
+    search,
+    setSearch,
     isDrawerOpen,
     setIsDrawerOpen,
     deleteModal,
@@ -31,7 +32,8 @@ export const TeamsHeader = () => {
           <Search
             label="Search Here"
             width={'16.25rem'}
-            setSearchBy={setSearchValue}
+            setSearchBy={setSearch}
+            searchBy={search}
           />
         </PermissionsGuard>
       </Box>

@@ -1,41 +1,8 @@
 import { Box, Typography } from '@mui/material';
-import { TeamListI } from './Teams.interface';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import { AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
-export const teamDropdown = (setDeleteModal: any) => [
-  {
-    id: 1,
-    title: 'Delete',
-    permissionKey: [AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS?.DELETE],
-    handleClick: (close: any) => {
-      setDeleteModal(true);
-      close(null);
-    },
-  },
-];
-
-export const teamListData: TeamListI[] = [
-  {
-    id: 1,
-    teamName: `Test`,
-    teamMembers: 4,
-    actions: '',
-  },
-  {
-    id: 2,
-    teamName: `Test1`,
-    teamMembers: 2,
-    actions: '',
-  },
-  {
-    id: 3,
-    teamName: `Orcalo`,
-    teamMembers: 1,
-    actions: '',
-  },
-];
 export const teamList: any = (
   selectedTeamList: any,
   setSelectedTeamList: any,
@@ -45,8 +12,8 @@ export const teamList: any = (
   setDeleteModal: any,
 ) => [
   {
-    accessorFn: (row: any) => row?.teamName,
-    id: 'teamName',
+    accessorFn: (row: any) => row?.name,
+    id: 'name',
     isSortable: true,
     header: 'Team Name',
     cell: (info: any) => (
@@ -67,7 +34,7 @@ export const teamList: any = (
     id: 'actions',
     isSortable: true,
     header: 'Action',
-    cell: () => (
+    cell: (info: any) => (
       <Box sx={{ display: 'flex', gap: 1 }}>
         <Box
           sx={{ cursor: 'pointer' }}
@@ -90,7 +57,12 @@ export const teamList: any = (
             <EditPenIcon />
           </PermissionsGuard>
         </Box>
-        <Box sx={{ cursor: 'pointer' }} onClick={() => setDeleteModal(true)}>
+        <Box
+          sx={{ cursor: 'pointer' }}
+          onClick={() =>
+            setDeleteModal({ val: true, rowId: info?.row?.original?._id })
+          }
+        >
           <PermissionsGuard
             permissions={[
               AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS?.DELETE,
