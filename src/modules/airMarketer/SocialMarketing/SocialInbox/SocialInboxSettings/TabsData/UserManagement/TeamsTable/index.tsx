@@ -5,9 +5,7 @@ import { Box, Grid } from '@mui/material';
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
 
-import { teamsTableData } from '@/mock/modules/airSales/SettingSales';
-
-import { columnsTeams } from './TeamsTable.data';
+import { columnsTeams, teamsDataArray } from './TeamsTable.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_MARKETER_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
 
@@ -29,7 +27,7 @@ const TeamsTable = () => {
       <Grid sx={{ paddingTop: '1rem' }}>
         <TanstackTable
           columns={columnsTeams}
-          data={teamsTableData}
+          data={teamsDataArray}
           isPagination
         />
       </Grid>
