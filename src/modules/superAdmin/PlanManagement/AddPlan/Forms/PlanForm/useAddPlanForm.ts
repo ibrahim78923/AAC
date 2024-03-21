@@ -1,7 +1,10 @@
 import { useRouter } from 'next/router';
 import { dataArray } from './PlanForm.data';
 import { useState } from 'react';
-import { useGetProductsQuery } from '@/services/superAdmin/plan-mangement';
+import {
+  useGetCrmQuery,
+  useGetProductsQuery,
+} from '@/services/superAdmin/plan-mangement';
 
 export const useAddPlanForm = (
   AdditionalStorageValue: any,
@@ -10,6 +13,8 @@ export const useAddPlanForm = (
   const router = useRouter();
   const [selectProductSuite, setSelectProductSuite] = useState('product');
   const { data } = useGetProductsQuery({});
+  const { data: getCRM } = useGetCrmQuery({});
+
   const formDefaultValuesFunction = dataArray(
     router?.query?.action === 'view',
     AdditionalStorageValue,
@@ -25,6 +30,11 @@ export const useAddPlanForm = (
     selectProductSuite == 'product' ? 'productId' : 'suite';
   const planNameRender = selectProductSuite == 'product' ? 'Product' : 'Suite';
 
+  const crmOptions = getCRM?.data?.map((product: any) => ({
+    value: product?._id,
+    label: product?.name,
+  }));
+
   return {
     formDefaultValuesFunction,
     selectProductSuite,
@@ -32,5 +42,6 @@ export const useAddPlanForm = (
     productsOptions,
     planLabelRender,
     planNameRender,
+    crmOptions,
   };
 };

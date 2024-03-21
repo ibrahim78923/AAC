@@ -6,14 +6,9 @@ import {
   SignUpDefaultValues,
   SignUpValidationSchema,
   createPasswordFields,
-  getSignUpFormFields,
 } from './SignUp.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import {
-  useAuthCustomerSignUpMutation,
-  useAuthIgVerificationMutation,
-  useLazyGetCompanyDropdownQuery,
-} from '@/services/airCustomerPortal/auth';
+import { useAuthCustomerSignUpMutation } from '@/services/airCustomerPortal/auth';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
 export default function useSignUp() {
@@ -25,6 +20,8 @@ export default function useSignUp() {
   });
 
   const router: any = useRouter();
+
+  const { companyId } = router?.query;
 
   const method = useForm({
     resolver: yupResolver(SignUpValidationSchema),
@@ -65,38 +62,26 @@ export default function useSignUp() {
     setStepState(true);
   };
 
-  const apiQueryCompany = useLazyGetCompanyDropdownQuery();
-
-  const SignUpFormFields = getSignUpFormFields({ apiQueryCompany });
-
   const [postSignUpTrigger, postSignUpStatus] = useAuthCustomerSignUpMutation();
-  const [postIgVerificationTrigger] = useAuthIgVerificationMutation();
+
+  const decryptedId = atob(companyId ?? '');
 
   const onSubmit = async (data: any) => {
     const userDetails = {
       firstName: data?.firstName,
       lastName: data?.lastName,
       role: 'ORG_REQUESTER',
-      companyId: data?.companyName?._id,
+      companyId: decryptedId,
       email: data?.email,
       phoneNumber: data?.phoneNumber,
       password: data?.password,
     };
 
     try {
-      const res: any = await postSignUpTrigger(userDetails)?.unwrap();
+      await postSignUpTrigger(userDetails)?.unwrap();
       successSnackbar('Account Created Successfully!');
       reset();
-      router?.push(
-        `${AIR_CUSTOMER_PORTAL?.CUSTOMER_PORTAL_VERIFICATION}?email=${userDetails?.email}`,
-      );
-      if (res?.data) {
-        try {
-          await postIgVerificationTrigger({
-            email: { email: userDetails?.email },
-          }).unwrap();
-        } catch (error: any) {}
-      }
+      router?.push(AIR_CUSTOMER_PORTAL?.AIR_CUSTOMER_PORTAL_LOGIN);
     } catch (error: any) {
       errorSnackbar();
     }
@@ -107,10 +92,10 @@ export default function useSignUp() {
     handleSubmit,
     onSubmit,
     stepState,
-    SignUpFormFields,
     onNext,
     createPasswordDataArray,
     setStepState,
     postSignUpStatus,
+    companyId,
   };
 }

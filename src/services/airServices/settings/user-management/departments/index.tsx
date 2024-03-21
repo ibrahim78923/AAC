@@ -5,26 +5,26 @@ const TAG = 'DEPARTMENT';
 const TAG_TWO = 'USERS_DROPDOWN';
 
 export const departmentAPI = baseAPI?.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder: any) => ({
     getDepartment: builder?.query({
-      query: (ap: any) => ({
+      query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.DEPARTMENT_LIST}`,
         method: 'GET',
-        params: ap?.queryParams,
+        params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
-    postDepartment: builder.mutation({
-      query: ({ body }) => ({
+    postDepartment: builder?.mutation({
+      query: ({ body }: any) => ({
         url: `${END_POINTS?.DEPARTMENT}`,
         method: 'POST',
         body,
       }),
       invalidatesTags: [TAG],
     }),
-    updateDepartment: builder.mutation({
-      query: ({ body, id }) => ({
-        url: `${END_POINTS?.DEPARTMENT_UPDATE}/${id}`,
+    updateDepartment: builder?.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.DEPARTMENT_UPDATE}/{id}`,
         method: 'PATCH',
         body,
       }),
@@ -36,7 +36,6 @@ export const departmentAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params,
       }),
-      invalidatesTags: [TAG],
     }),
     getUsersDropdownList: builder?.query({
       query: ({ params }: any) => ({
