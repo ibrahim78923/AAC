@@ -5,27 +5,15 @@ import {
   Button,
   MenuItem,
   Menu,
-  // Grid,
   Accordion,
   AccordionSummary,
   AccordionDetails,
   Checkbox,
-  // IconButton,
-  // InputAdornment,
   Divider,
-  // TextField,
 } from '@mui/material';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-// import CancelIcon from '@mui/icons-material/Cancel';
-
-// import {
-//   FormProvider,
-//   RHFCheckbox,
-//   RHFTextField,
-// } from '@/components/ReactHookForm';
-// import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 
@@ -34,17 +22,12 @@ import useDealPipelines from './useDealPipelines';
 import { styles } from './DealPipelines.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import {
-  BlueInfoIcon,
-  DeleteIcon,
-  // PercentageCircleIcon
-} from '@/assets/icons';
+import { BlueInfoIcon, DeleteIcon } from '@/assets/icons';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 import { Info } from '@mui/icons-material';
 import NoData from '@/components/NoData';
-// import { useFieldArray, useForm } from 'react-hook-form';
 import { CustomField } from './custom';
 
 const DealPipelines = () => {
@@ -64,34 +47,18 @@ const DealPipelines = () => {
     handleClick,
     handleClose,
     handleCloseDrawer,
-    // dealPipelines,
-    // handleSubmit,
     onSubmit,
     handleCloseDeleteModal,
     handleDelete,
-    // addField,
-    // deleteField,
     setAnchorEl,
     isdefaultValue,
     dealPipelinesData,
     isLoading,
-    // inputFields,
-    // setCheckedDeal,
-    // handleChangeInput,
-    // selectedPipelines,
-    // togglePipeline,
-    // Loading,
     postDealLoading,
     deleteDealLoading,
-    // pipelineById,
     checkedDeal,
-
-    // handleChangeInputStage
   } = useDealPipelines();
-  // const pipleLineStages =
-  //   isDraweropen?.type === 'add' ? inputFields : pipelineById?.data[0]?.stages;
 
-  // console.log('pipelineById', pipelineById)
   return (
     <>
       <Box>
@@ -316,133 +283,6 @@ const DealPipelines = () => {
         )}
       </Box>
 
-      {/* {isDraweropen?.isToggle && (
-        <CommonDrawer
-          isDrawerOpen={isDraweropen?.isToggle}
-          onClose={handleCloseDrawer}
-          title={isEditMode ? 'Edit Pipeline' : 'Create Pipeline'}
-          okText={isEditMode ? 'Edit' : 'Add'}
-          footer={true}
-          isOk={true}
-          submitHandler={handleSubmit(onSubmit)}
-          isLoading={Loading}
-        >
-          {/* <Box sx={{ paddingTop: '1rem !important' }}>
-            <FormProvider methods={dealPipelines}>
-              <Grid
-                container
-                spacing={1}
-                sx={{
-                  borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-                }}
-              >
-                <Grid item xs={12}>
-                  <RHFTextField
-                    name="pipelineName"
-                    label="Pipeline Name"
-                    size="small"
-                    required={true}
-                    placeholder="Inbound Sales"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <RHFCheckbox
-                    label="Mark as Default Pipeline"
-                    name="defaultPipeline"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  {pipleLineStages?.map((inputField: any, index: any) => (
-                    <Grid container spacing={1} key={inputField?.name}>
-                      <Grid item xs={12} md={5}>
-                        <RHFTextField
-                          name="name"
-                          label={index === 0 ? 'Deal Stage' : ''}
-                          size="small"
-                          required
-                          placeholder="Stage"
-                        // value={inputField?.name}
-                        // onChange={(event: any) =>
-                        //   handleChangeInputStage(index, event)
-                        // }
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={5}>
-                        <RHFTextField
-                          name={`probability`}
-                          label={index === 0 ? 'Stage Probability' : ''}
-                          size="small"
-                          required
-                          type="number"
-                          // value={inputField?.probability}
-                          // onChange={(event: any) =>
-                          //   handleChangeInputStage(index, event)
-                          // }
-                          placeholder="Probability"
-                          inputProps={{
-                            min: 0,
-                            max: 100
-                          }}
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <IconButton>
-                                  <PercentageCircleIcon />
-                                </IconButton>
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={2}>
-                        {index === 0 && (
-                          <Typography
-                            sx={{
-                              color: 'inherit',
-                              marginBottom: 0.6,
-                            }}
-                          >
-                            Action
-                          </Typography>
-                        )}
-                        <Button
-                          onClick={() => deleteField(index)}
-                          disabled={
-                            index === 0 ||
-                            index === inputFields?.length - 1 ||
-                            index === inputFields?.length - 2
-                          }
-                        >
-                          <CancelIcon
-                          // sx={{
-                          //   color:
-                          //     index === 0 ||
-                          //       index === inputFields?.length - 1 ||
-                          //       index === inputFields?.length - 2
-                          //       ? theme?.palette?.custom?.main
-                          //       : theme?.palette?.error?.main,
-                          // }}
-                          />
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Grid>
-              <Button
-                onClick={addField}
-                sx={{
-                  color: theme?.palette?.slateBlue?.main,
-                  marginTop: '15px',
-                }}
-              >
-                <AddCircleIcon sx={{ marginRight: '8px' }} />
-                Add Deal stage
-              </Button>
-            </FormProvider>
-          </Box> */}
-      {/* </CommonDrawer > */}
-      {/* )} */}
       {isDraweropen?.isToggle && (
         <CustomField
           key="deals pipline"

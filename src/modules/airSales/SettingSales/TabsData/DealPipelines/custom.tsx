@@ -6,7 +6,6 @@ import {
   FormLabel,
   Grid,
   IconButton,
-  Skeleton,
   TextField,
   Theme,
   Typography,
@@ -15,9 +14,13 @@ import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import CancelIcon from '@mui/icons-material/Cancel';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useLazyGetDealsPipelineByIdQuery } from '@/services/airSales/deals/settings/deals-pipeline';
+import useDealPipelines from './useDealPipelines';
+import {
+  dealPipelinesvalidationSchema,
+  dealPipelinesDefaultValues,
+} from './DealPipelines.data';
 
 interface Props {
   open: boolean;
@@ -26,7 +29,6 @@ interface Props {
   isEditMode: boolean;
   onSubmit: (data: any) => void;
   id: string[];
-  // isDraweropen: any;
 }
 
 export function CustomField({
@@ -35,7 +37,7 @@ export function CustomField({
   onClose,
   open,
   onSubmit,
-  id, // isDraweropen,
+  id,
 }: Props) {
   const {
     register,
@@ -46,35 +48,13 @@ export function CustomField({
       errors: { dealStages, pipelineName },
     },
   } = useForm({
-    resolver: yupResolver(
-      Yup.object().shape({
-        dealStages: Yup.array()
-          .of(
-            Yup.object().shape({
-              name: Yup.string().required('Field is Required'),
-              probability: Yup.string().required('Field is Required'),
-            }),
-          )
-          .required('At least one deal stage is required'),
-        pipelineName: Yup.string().required('Field is required'),
-        defaultPipeline: Yup.boolean().optional(),
-      }),
-    ),
-
-    defaultValues: {
-      dealStages: [
-        { name: 'New', probability: '' },
-        { name: 'Lost', probability: '' },
-        { name: 'Won', probability: '' },
-      ],
-      pipelineName: '',
-      defaultPipeline: false,
-    },
+    resolver: yupResolver(dealPipelinesvalidationSchema),
+    defaultValues: dealPipelinesDefaultValues,
   });
 
   const [getDealsPipelineByIdQuery, { isLoading }] =
     useLazyGetDealsPipelineByIdQuery();
-
+  const { disabled, skeletonLines, theme } = useDealPipelines();
   useEffect(() => {
     if (id.length > 0) {
       getDealsPipelineByIdQuery(id)
@@ -105,12 +85,6 @@ export function CustomField({
     name: 'dealStages',
   });
 
-  const disabled: { [key: number]: boolean } = {
-    0: true,
-    1: true,
-    2: true,
-  };
-
   return (
     <CommonDrawer
       isDrawerOpen={open}
@@ -123,16 +97,18 @@ export function CustomField({
       isLoading={loading}
     >
       {isLoading ? (
-        <Skeleton animation="wave" />
+        skeletonLines
       ) : (
         <form>
           <Grid item xs={12}>
-            <FormLabel>Pipeline Name</FormLabel>
+            <FormLabel>
+              <Typography variant="body2">Pipeline Name</Typography>
+            </FormLabel>
             <Controller
               render={({ field }) => (
                 <TextField
                   size="small"
-                  placeholder="Probability"
+                  placeholder="Pipeline name"
                   fullWidth
                   error={Boolean(pipelineName?.message)}
                   helperText={pipelineName?.message}
@@ -164,18 +140,24 @@ export function CustomField({
                 <>
                   <Grid item xs={5}>
                     <FormLabel sx={{ display: 'flex' }}>
-                      Deal Stage{' '}
-                      <Typography sx={{ color: 'red' }}>*</Typography>
+                      <Typography variant="body2"> Deal Stage</Typography>
+                      <Typography sx={{ color: theme?.palette?.error?.main }}>
+                        *
+                      </Typography>
                     </FormLabel>
                   </Grid>
                   <Grid item xs={5}>
                     <FormLabel sx={{ display: 'flex' }}>
-                      Stage Probability
-                      <Typography sx={{ color: 'red' }}>*</Typography>{' '}
+                      <Typography variant="body2">Stage Probability</Typography>
+                      <Typography sx={{ color: theme?.palette?.error?.main }}>
+                        *
+                      </Typography>
                     </FormLabel>
                   </Grid>
                   <Grid item xs={1}>
-                    <FormLabel>Actions</FormLabel>
+                    <FormLabel>
+                      <Typography variant="body2">Actions</Typography>
+                    </FormLabel>
                   </Grid>
                 </>
               )}
