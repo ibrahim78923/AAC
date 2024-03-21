@@ -10,6 +10,7 @@ import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/user
 import { IMG_URL } from '@/config';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_USERS_PERMISSIONS } from '@/constants/permission-keys';
+import Search from '@/components/Search';
 
 const UsersDetails = (props: any) => {
   const { employeeDataById, searchAccount, setSearchAccount } = props;
@@ -49,7 +50,6 @@ const UsersDetails = (props: any) => {
             />
           </PermissionsGuard>
         </Grid>
-
         <Grid item xs={12}>
           <Box
             p="10px"
@@ -67,11 +67,16 @@ const UsersDetails = (props: any) => {
                   setSearchAccount('');
                 }}
                 tabsArray={['Accounts', 'Profile']}
-                searchBarProps={{
-                  label: 'Search Here',
-                  setSearchBy: setSearchAccount,
-                  searchBy: searchAccount,
-                }}
+                isSearchBar={
+                  <Search
+                    placeholder="Search by Name"
+                    size="small"
+                    value={searchAccount}
+                    onChange={(val: any) =>
+                      setSearchAccount(val?.target?.value)
+                    }
+                  />
+                }
                 headerChildren={
                   <>
                     <PermissionsGuard

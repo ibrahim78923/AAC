@@ -57,6 +57,8 @@ export const dataArray = [
       placeholder: 'Enter Address',
       name: 'compositeAddress',
       fullWidth: true,
+      multiline: true,
+      rows: 4,
       required: true,
     },
     component: RHFTextField,
