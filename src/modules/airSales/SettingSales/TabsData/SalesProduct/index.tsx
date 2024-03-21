@@ -44,17 +44,11 @@ const SalesProduct = () => {
     isLoading,
     isSuccess,
     setSelectedCheckboxes,
+    deleteProduct,
   } = useSalesProduct();
 
   return (
     <>
-      <AlertModals
-        message="Are you sure, you want to delete this product?"
-        type="delete"
-        open={isDeleteModalOpen}
-        handleClose={handleCloseDeleteModal}
-        handleSubmitBtn={handleDelete}
-      />
       <Box
         sx={{
           border: `1px solid ${theme?.palette?.grey[700]}`,
@@ -77,13 +71,15 @@ const SalesProduct = () => {
               sx={styles?.createBtn}
               onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
               className="small"
+              startIcon={
+                <AddCircleIcon
+                  sx={{
+                    color: `${theme?.palette?.common?.white}`,
+                    fontSize: '16px',
+                  }}
+                />
+              }
             >
-              <AddCircleIcon
-                sx={{
-                  color: `${theme?.palette?.common?.white}`,
-                  fontSize: '16px',
-                }}
-              />
               Create Product
             </Button>
           </PermissionsGuard>
@@ -106,9 +102,46 @@ const SalesProduct = () => {
             onClick={handleClick}
             sx={styles?.actionBtn(theme)}
             disabled={selectedCheckboxes?.length === 0}
+            endIcon={<ArrowDropDownIcon />}
           >
-            Actions <ArrowDropDownIcon />
+            Actions
           </Button>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+            sx={{
+              '.MuiPopover-paper': {
+                minWidth: '110px',
+              },
+            }}
+          >
+            <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.EDIT]}>
+              <MenuItem
+                onClick={() => {
+                  setIsEditMode(true), setIsDraweropen(true);
+                  setAnchorEl(null);
+                }}
+                disabled={selectedCheckboxes?.length > 1}
+              >
+                Edit
+              </MenuItem>
+            </PermissionsGuard>
+            <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.DELETE]}>
+              <MenuItem
+                onClick={() => {
+                  setDeleteModalOpen(true);
+                  setAnchorEl(null);
+                }}
+              >
+                Delete
+              </MenuItem>
+            </PermissionsGuard>
+          </Menu>
         </Box>
         <Grid>
           <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.PRODUCT_LIST]}>
@@ -130,38 +163,6 @@ const SalesProduct = () => {
         </Grid>
       </Box>
 
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.EDIT]}>
-          <MenuItem
-            onClick={() => {
-              setIsEditMode(true), setIsDraweropen(true);
-              setAnchorEl(null);
-            }}
-            disabled={selectedCheckboxes?.length > 1}
-          >
-            Edit
-          </MenuItem>
-        </PermissionsGuard>
-        <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.DELETE]}>
-          <MenuItem
-            onClick={() => {
-              setDeleteModalOpen(true);
-              setAnchorEl(null);
-            }}
-          >
-            Delete
-          </MenuItem>
-        </PermissionsGuard>
-      </Menu>
-
       {isDraweropen && (
         <SalesEditorDrawer
           isDraweropen={isDraweropen}
@@ -170,6 +171,17 @@ const SalesProduct = () => {
           handleCloseDrawer={handleCloseDrawer}
           setSelectedCheckboxes={setSelectedCheckboxes}
           selectedCheckboxes={selectedCheckboxes}
+        />
+      )}
+
+      {isDeleteModalOpen && (
+        <AlertModals
+          message="Are you sure, you want to delete this product?"
+          type="delete"
+          open={isDeleteModalOpen}
+          handleClose={handleCloseDeleteModal}
+          handleSubmitBtn={handleDelete}
+          loading={deleteProduct}
         />
       )}
     </>

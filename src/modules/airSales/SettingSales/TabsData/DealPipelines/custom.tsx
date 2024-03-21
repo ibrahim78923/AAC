@@ -56,7 +56,7 @@ export function CustomField({
     useLazyGetDealsPipelineByIdQuery();
   const { disabled, skeletonLines, theme } = useDealPipelines();
   useEffect(() => {
-    if (id.length > 0) {
+    if (id.length > 0 && isEditMode) {
       getDealsPipelineByIdQuery(id)
         .unwrap()
         .then((res) => {
