@@ -18,7 +18,10 @@ const QuoteInfo = () => {
           </Grid>
           <Grid item xs={4}>
             <Box sx={styles?.quoteInfoTitle}>
-              Prepared By: <Box component="span">Adil Khan</Box>
+              Prepared By:{' '}
+              <Box component="span">{`${
+                viewQuotesData?.data?.createdBy?.firstName ?? 'N/A'
+              } ${viewQuotesData?.data?.createdBy?.lastName ?? 'N/A'}`}</Box>
             </Box>
           </Grid>
           <Grid item xs={4}>
@@ -30,11 +33,6 @@ const QuoteInfo = () => {
               </Box>
             </Box>
           </Grid>
-          {/* <Grid item xs={3}>
-            <Box sx={styles?.quoteInfoTitle}>
-              Prepared For: <Box component="span">Techcave Sample</Box>
-            </Box>
-          </Grid> */}
         </Grid>
       </Box>
     </>

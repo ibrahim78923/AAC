@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 
 const QuoteInfo = () => {
   const { dataGetQuoteById } = useUpdateQuote();
+
   return (
     <>
       <Box sx={styles?.quoteInfo}>
@@ -13,27 +14,27 @@ const QuoteInfo = () => {
           <Grid item xs={4}>
             <Box sx={styles?.quoteInfoTitle}>
               Quote No:{' '}
-              <Box component="span">{dataGetQuoteById?.data?._id}</Box>
+              <Box component="span">{dataGetQuoteById?.data?._id ?? 'N/A'}</Box>
             </Box>
           </Grid>
           <Grid item xs={4}>
             <Box sx={styles?.quoteInfoTitle}>
-              Prepared By: <Box component="span">Adil Khan</Box>
+              Prepared By:{' '}
+              <Box component="span">{`${
+                dataGetQuoteById?.data?.createdBy?.firstName ?? 'N/A'
+              } ${dataGetQuoteById?.data?.createdBy?.lastName ?? 'N/A'}`}</Box>
             </Box>
           </Grid>
           <Grid item xs={4}>
             <Box sx={styles?.quoteInfoTitle}>
               Valid Till:{' '}
               <Box component="span">
-                {dayjs(dataGetQuoteById?.expiryDate)?.format(DATE_FORMAT?.API)}
+                {dayjs(dataGetQuoteById?.expiryDate)?.format(
+                  DATE_FORMAT?.API,
+                ) ?? 'N/A'}
               </Box>
             </Box>
           </Grid>
-          {/* <Grid item xs={3}>
-            <Box sx={styles?.quoteInfoTitle}>
-              Prepared For: <Box component="span">Techcave Sample</Box>
-            </Box>
-          </Grid> */}
         </Grid>
       </Box>
     </>

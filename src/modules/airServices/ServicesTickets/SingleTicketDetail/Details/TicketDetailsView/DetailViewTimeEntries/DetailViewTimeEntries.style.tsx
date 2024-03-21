@@ -59,8 +59,9 @@ export const styles: any = {
   },
   timeEnterInnerBox: {
     display: 'flex',
-    justifyContent: 'space-between',
-    m: '4px',
+    justifyContent: 'start',
+
+    m: '2rem',
     flexDirection: 'row',
   },
   timeEnterInnerSecBox: {

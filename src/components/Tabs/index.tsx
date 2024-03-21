@@ -42,6 +42,7 @@ const CommonTabs = (props: CommonTabsPropsI) => {
     onAddClick = () => {},
     activeTab = 0,
     headerChildren,
+    isSearchBar,
     searchBarProps = {},
     isHeader = false,
   } = props;
@@ -109,7 +110,7 @@ const CommonTabs = (props: CommonTabsPropsI) => {
       </Box>
       {isHeader && (
         <Box sx={styles.headerWrapper}>
-          <Search size="small" {...searchBarProps} />
+          {isSearchBar ?? <Search size="small" {...searchBarProps} />}
           <Box sx={styles.headerChild}>{headerChildren}</Box>
         </Box>
       )}
