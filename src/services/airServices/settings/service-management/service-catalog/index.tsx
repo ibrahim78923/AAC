@@ -99,6 +99,6 @@ export const {
   useGetServiceCatalogCategoriesQuery,
   usePatchServiceCatalogMutation,
   useLazyGetCategoriesDropdownQuery,
-  useGetCategoriesRequesterDropdownQuery,
-  useGetCategoriesAgentDropdownQuery,
+  useLazyGetCategoriesRequesterDropdownQuery,
+  useLazyGetCategoriesAgentDropdownQuery,
 } = serviceCatalogAPI;
