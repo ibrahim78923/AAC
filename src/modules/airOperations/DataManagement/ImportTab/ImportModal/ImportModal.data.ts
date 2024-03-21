@@ -1,6 +1,4 @@
 import { RHFAutocomplete, RHFFileImport } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
-
 export const requiredColumns = ['Name', 'Deal Value'];
 export const productOptions = ['Sales', 'Services', 'Marketing'];
 export const productData = [
@@ -25,7 +23,7 @@ export const productData = [
   {
     icon: {},
     import: 'Services',
-    title: 'Contacts',
+    title: 'Catalog',
     desc: 'The people you work with, commonly called leads or customers',
   },
   {
@@ -47,17 +45,11 @@ export const productData = [
     desc: 'The revenue connected to a company, which is commonly called an opportunity',
   },
 ];
-
-export const importValidationSchema = Yup?.object()?.shape({
-  product: Yup?.mixed()?.required('Required'),
-  //importDeals: Yup?.mixed()?.required('Required'),
-});
-
 export const importDefaultValues = {
   product: null,
   importDeals: null,
+  crmFields: null,
 };
-
 export const importDataField = [
   {
     id: 6457,
@@ -78,7 +70,6 @@ export const importDataField = [
     componentProps: {
       name: 'importDeals',
       label: 'Import Deals',
-      required: true,
     },
     component: RHFFileImport,
     md: 12,

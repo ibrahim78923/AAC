@@ -20,24 +20,22 @@ export const KnowledgeBaseTicket = (props: any) => {
       display={'flex'}
       justifyContent={'space-between'}
       alignItems={'center'}
-      flexDirection={{ xs: 'column', md: 'column', lg: 'row' }}
-      mb={2}
+      flexDirection={{ xs: 'column', lg: 'row' }}
+      mb={{ xs: 4, lg: 2 }}
     >
       <Box
         display={'flex'}
         alignItems={'center'}
         justifyContent={'center'}
-        flexDirection={{ xs: 'column', md: 'column', lg: 'row' }}
+        flexDirection={{ xs: 'column', lg: 'row' }}
         gap={1.5}
       >
         <DocumentTextIcon />
         <Box
           display={'flex'}
           justifyContent={'center'}
-          alignItems={'center'}
+          alignItems={{ xs: 'center', lg: 'flex-start' }}
           flexDirection={'column'}
-          overflow={'auto'}
-          height={'3.5rem'}
         >
           <Typography variant="h6">{articlesTitle}</Typography>
           <Typography color="secondary">Modified on: {modifiedDate}</Typography>
@@ -45,13 +43,21 @@ export const KnowledgeBaseTicket = (props: any) => {
         <Box
           display={'flex'}
           justifyContent={'center'}
-          alignItems={'center'}
+          alignItems={{ xs: 'center', lg: 'flex-start' }}
           flexDirection={'column'}
-          overflow={'auto'}
-          height={'3.5rem'}
         >
           <Typography variant="h6">Purpose:</Typography>
-          <Typography color="secondary">{purposeDescription}</Typography>
+          <Typography
+            color="secondary"
+            sx={{
+              overflowX: 'auto',
+              maxWidth: { xs: '10rem', sm: '20rem', md: '30rem', lg: '38rem' },
+              width: '100%',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {purposeDescription}
+          </Typography>
         </Box>
       </Box>
       <VisibilityIcon

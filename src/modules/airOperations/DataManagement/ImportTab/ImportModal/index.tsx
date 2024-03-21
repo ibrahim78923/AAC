@@ -3,7 +3,6 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { Box, Button, Chip } from '@mui/material';
 import { useImportModal } from './useImportModal';
 import { FormProvider } from '@/components/ReactHookForm';
-
 import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
 import ThirdStep from './ThirdStep';
@@ -22,6 +21,8 @@ const ImportModal = () => {
     product,
     handleSubmit,
     importDeals,
+    csvFileData,
+    handleImportTable,
   } = useImportModal();
 
   const steps: any = {
@@ -33,7 +34,13 @@ const ImportModal = () => {
       />
     ),
     2: <SecondStep requiredColumns={requiredColumns} />,
-    3: <ThirdStep />,
+    3: (
+      <ThirdStep
+        csvFileData={csvFileData}
+        importLog={importLog}
+        handleImportTable={handleImportTable}
+      />
+    ),
   };
 
   return (
