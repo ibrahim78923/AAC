@@ -91,10 +91,11 @@ const UpdateQuote = () => {
                   >
                     Cancel
                   </Button>
+
                   <Button
                     variant="contained"
                     onClick={handleUpdateDetails}
-                    disabled={!disabledSaveAndContinueBtn}
+                    disabled={!disabledSaveAndContinueBtn && activeStep === 1}
                   >
                     Save & Continue
                   </Button>

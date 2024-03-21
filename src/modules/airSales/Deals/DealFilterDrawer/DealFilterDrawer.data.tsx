@@ -86,12 +86,6 @@ export const FilterData = (dealPiplineId: any) => {
         value: item?._id,
         label: item?.name,
       })),
-      // options: DealsLifecycleStageData?.data?.lifecycleStages?.map(
-      //   (item: any) => ({
-      //     value: item?._id,
-      //     label: item?.name,
-      //   }),
-      // ),
       component: RHFSelect,
     },
   ];

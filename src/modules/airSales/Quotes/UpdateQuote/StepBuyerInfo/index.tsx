@@ -28,9 +28,6 @@ const StepBuyerInfo = ({
   selectedCompanyIds,
 }: any) => {
   const [deleteModal, setDeleteModal] = useState(false);
-  // const {
-
-  // } = useUpdateQuote();
   const handleDeleteModal = () => {
     setDeleteModal(!deleteModal);
   };
@@ -38,24 +35,11 @@ const StepBuyerInfo = ({
   const { dataGetQuoteById }: any = useUpdateQuote();
   const contactData = dataGetQuoteById?.data?.deal;
 
-  // const handleCompanyChange = (e: any, id: any) => {
-  //   console.log(id, 'id');
-
-  //   if (e.target.checked) {
-  //     setSelectedCompany([...selectedCompany, id]);
-  //   } else {
-  //     const filteredCompanyId = selectedCompany?.filter((val) => val !== id);
-  //     setSelectedCompany(filteredCompanyId);
-  //   }
-  // };
-  // console.log(selectedCompany);
-
   return (
     <>
       <Grid container spacing={'40px'}>
         <Grid item xs={5}>
           <Box>
-            {/* {dataContacts?.length !== 0 && ( */}
             <>
               <Box sx={styles?.rowBuyerInfo}>
                 <Typography variant="h4" sx={styles?.buyerInfoTitle}>
@@ -114,15 +98,6 @@ const StepBuyerInfo = ({
                 </Box>
               </Box>
             </>
-            {/* )} */}
-            {/* {dataContacts?.length === 0 && (
-            <Box sx={styles?.button} onClick={openAddContact}>
-              <Box sx={{ mr: '8px', display: 'inline-flex' }}>
-                <ProfileCircleIcon />
-              </Box>
-              Add Contact
-            </Box>
-          )} */}
           </Box>
           <Box sx={styles?.companyInformation}>
             <Box sx={styles?.contactsCont}>

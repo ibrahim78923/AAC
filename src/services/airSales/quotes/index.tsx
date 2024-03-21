@@ -183,6 +183,14 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    // deleteContacts: builder.mutation({
+    //   query: (body:any) => ({
+    //     url: `${END_POINTS?.CONTACTS}`,
+    //     method: 'DELETE',
+    //     body,
+    //   }),
+    //   invalidatesTags: TAG,
+    // }),
   }),
 });
 

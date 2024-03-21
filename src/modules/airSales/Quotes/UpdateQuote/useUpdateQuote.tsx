@@ -133,10 +133,10 @@ const useUpdateQuote = () => {
             buyerCompanyId: selectedCompanyIds && selectedCompanyIds,
           },
         })?.unwrap();
-
-        enqueueSnackbar('Deal & Details updated successfully', {
+        enqueueSnackbar('Buyer Info updated successfully', {
           variant: 'success',
         });
+
         handleStepNext();
       } catch (error: any) {
         enqueueSnackbar('An error occured', {
