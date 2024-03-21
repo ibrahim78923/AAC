@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import { useSingleDropdownButton } from './useSingleDropdownButton';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
@@ -13,13 +13,14 @@ export const SingleDropdownButton = (props: any) => {
     dropdownName = 'Actions',
     hasEndIcon = true,
     btnVariant = 'outlined',
+    Variant = hasEndIcon ? Button : IconButton,
     ...buttonProps
   } = props;
   const { anchorEl, open, theme, handleClick, handleClose } =
     useSingleDropdownButton();
   return (
     <>
-      <Button
+      <Variant
         variant={btnVariant}
         id="demo-positioned-button"
         aria-controls={open ? 'demo-positioned-menu' : undefined}
@@ -33,7 +34,7 @@ export const SingleDropdownButton = (props: any) => {
         {...buttonProps}
       >
         {dropdownName}
-      </Button>
+      </Variant>
       <Menu
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"

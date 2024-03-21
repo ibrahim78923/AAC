@@ -1,4 +1,4 @@
-import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
+import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 import { IconButton, InputAdornment } from '@mui/material';
 import { EyeIcon, EyeSlashIcon } from '@/assets/icons';
@@ -36,7 +36,7 @@ export const SignUpValidationSchema: any = Yup?.object()?.shape({
     ?.oneOf([Yup.ref('password')], 'Passwords do not match'),
 });
 
-export const getSignUpFormFields = ({ apiQueryCompany }: any) => [
+export const signUpFormFields = [
   {
     id: 1,
     componentProps: {
@@ -77,17 +77,6 @@ export const getSignUpFormFields = ({ apiQueryCompany }: any) => [
       required: true,
     },
     component: RHFTextField,
-  },
-  {
-    id: 5,
-    componentProps: {
-      name: 'companyName',
-      label: 'Company Name',
-      placeholder: 'Enter Company Name',
-      apiQuery: apiQueryCompany,
-      queryKey: 'product',
-    },
-    component: RHFAutocompleteAsync,
   },
 ];
 
