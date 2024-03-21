@@ -2,7 +2,6 @@ import { AlertModalCloseIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
 import {
   Box,
-  Button,
   Dialog,
   Divider,
   Grid,
@@ -11,17 +10,23 @@ import {
 } from '@mui/material';
 import { rejectedModalField } from './RejectedModal.data';
 import { useRejectedModal } from './useRejectedModal';
+import { LoadingButton } from '@mui/lab';
 
 const RejectedModal = (props: any) => {
   const { openRejectedModal } = props;
-  const { handleCloseModal, onSubmit, rejectedRequestMethods } =
-    useRejectedModal(props);
+  const {
+    handleCloseModal,
+    onSubmit,
+    rejectedRequestMethods,
+    patchRejectRequestStatus,
+  } = useRejectedModal(props);
   return (
     <>
       <Dialog
         fullWidth
         open={openRejectedModal?.val}
         onClose={handleCloseModal}
+        maxWidth={'sm'}
       >
         <FormProvider
           methods={rejectedRequestMethods}
@@ -33,12 +38,10 @@ const RejectedModal = (props: any) => {
               justifyContent={'space-between'}
               alignItems={'center'}
               mb={1}
+              flexWrap="wrap"
             >
               <Typography variant="h4">Rejected</Typography>
-              <IconButton
-                onClick={handleCloseModal}
-                style={{ cursor: 'pointer' }}
-              >
+              <IconButton onClick={handleCloseModal} sx={{ cursor: 'pointer' }}>
                 <AlertModalCloseIcon />
               </IconButton>
             </Box>
@@ -50,17 +53,29 @@ const RejectedModal = (props: any) => {
               ))}
             </Grid>
             <Divider />
-            <Box display={'flex'} justifyContent={'flex-end'} gap={1} pt={1}>
-              <Button
+            <Box
+              display={'flex'}
+              justifyContent={'flex-end'}
+              gap={1}
+              pt={1}
+              flexWrap="wrap"
+            >
+              <LoadingButton
+                disabled={patchRejectRequestStatus?.isLoading}
                 variant="outlined"
                 color="secondary"
                 onClick={handleCloseModal}
               >
                 Cancel
-              </Button>
-              <Button variant="contained" type="submit">
+              </LoadingButton>
+              <LoadingButton
+                variant="contained"
+                type="submit"
+                disabled={patchRejectRequestStatus?.isLoading}
+                loading={patchRejectRequestStatus?.isLoading}
+              >
                 Submit
-              </Button>
+              </LoadingButton>
             </Box>
           </Box>
         </FormProvider>

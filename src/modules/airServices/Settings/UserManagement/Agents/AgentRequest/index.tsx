@@ -5,9 +5,12 @@ import { useAgentRequest } from './useAgentRequest';
 import { AGENT_REQUEST_STATUS } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
+import { LoadingButton } from '@mui/lab';
 
 const AgentRequest = () => {
   const {
@@ -16,12 +19,20 @@ const AgentRequest = () => {
     openRejectedModal,
     setOpenRejectedModal,
     handleOpenModal,
-    requesterData,
+    isLoading,
+    isFetching,
+    isError,
+    data,
+    patchApprovedRequestStatus,
   } = useAgentRequest();
+
+  if (isLoading || isFetching) return <SkeletonForm />;
+  if (isError) return <ApiErrorState />;
+
   return (
     <>
       <Grid container spacing={2}>
-        {requesterData?.map((item: any) => (
+        {data?.data?.map((item: any) => (
           <Grid item xs={12} sm={6} md={4} xl={3} key={item?._id}>
             <Card sx={styles?.cardStyling}>
               <Avatar
@@ -42,7 +53,10 @@ const AgentRequest = () => {
                 </Typography>
               </Avatar>
               <Typography variant="h4" py={0.5} fontWeight={700}>
-                {`${item?.userDetails?.firstName} ${item?.userDetails?.lastName}`}
+                {fullName(
+                  item?.userDetails?.firstName,
+                  item?.userDetails?.lastName,
+                )}
               </Typography>
               <Typography variant="body2">{item?.role}</Typography>
               <Typography variant="subtitle2">{item?.date}</Typography>
@@ -78,22 +92,21 @@ const AgentRequest = () => {
                     py={2}
                     mt={2}
                   >
-                    <Typography
-                      variant="body2"
-                      color={theme?.palette?.success?.main}
-                      sx={{ cursor: 'pointer' }}
+                    <LoadingButton
                       onClick={() => handlerStatusApprove(item?._id)}
+                      color={'success'}
+                      disabled={patchApprovedRequestStatus?.isLoading}
+                      loading={patchApprovedRequestStatus?.isLoading}
                     >
                       Approve
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color={theme?.palette?.error?.main}
-                      sx={{ cursor: 'pointer' }}
+                    </LoadingButton>
+                    <LoadingButton
                       onClick={() => handleOpenModal(item?._id)}
+                      color={'error'}
+                      disabled={patchApprovedRequestStatus?.isLoading}
                     >
                       Reject
-                    </Typography>
+                    </LoadingButton>
                   </Box>
                 </PermissionsGuard>
               )}
@@ -101,11 +114,12 @@ const AgentRequest = () => {
           </Grid>
         ))}
       </Grid>
-      <RejectedModal
-        requesterData={requesterData}
-        openRejectedModal={openRejectedModal}
-        setOpenRejectedModal={setOpenRejectedModal}
-      />
+      {openRejectedModal && (
+        <RejectedModal
+          openRejectedModal={openRejectedModal}
+          setOpenRejectedModal={setOpenRejectedModal}
+        />
+      )}
     </>
   );
 };

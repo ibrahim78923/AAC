@@ -13,26 +13,26 @@ export const useRejectedModal = (props: any) => {
     resolver: yupResolver(validationSchemaRejectedModal),
     defaultValues: defaultValuesRejectedModal,
   });
+
   const handleCloseModal = () => {
     setOpenRejectedModal(false);
     rejectedRequestMethods?.reset();
   };
-  const session: any = window?.localStorage?.getItem('session');
-  const companyId = JSON?.parse(session)?.user?._id;
-  const [patchRejectRequestTrigger] = usePatchRejectRequestMutation();
+
+  const [patchRejectRequestTrigger, patchRejectRequestStatus] =
+    usePatchRejectRequestMutation();
   const onSubmit = async (formData: any) => {
     const rejectRequestParameter = {
       id: openRejectedModal?.id,
       reason: formData?.rejected,
-      companyId: companyId,
     };
     try {
       await patchRejectRequestTrigger(rejectRequestParameter)?.unwrap();
       successSnackbar('Rejected Successfully');
       setOpenRejectedModal(false);
       rejectedRequestMethods?.reset();
-    } catch (err: any) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -40,5 +40,6 @@ export const useRejectedModal = (props: any) => {
     handleCloseModal,
     onSubmit,
     rejectedRequestMethods,
+    patchRejectRequestStatus,
   };
 };

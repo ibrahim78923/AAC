@@ -5,9 +5,6 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { timeZone } from '@/constants/time-zone';
-import { ROLE } from '@/constants/strings';
-
-const roleOptions = [ROLE?.ORG_AGENT];
 
 export const validationSchemaAgentFields: any = yup?.object()?.shape({
   firstName: yup?.string()?.required('First name is required'),
@@ -18,7 +15,7 @@ export const validationSchemaAgentFields: any = yup?.object()?.shape({
     ?.required('Email is required'),
   phoneNumber: yup?.string()?.required('Phone number is required'),
   departmentId: yup?.mixed()?.required('Department is required'),
-  role: yup?.string()?.required('Role is required'),
+  permissionsRole: yup?.mixed()?.nullable()?.required('Role is required'),
   timezone: yup?.string()?.required('TimeZone is required'),
 });
 
@@ -30,7 +27,7 @@ export const defaultValues = (selectedAgentList: any) => {
     email: updateData?.email ?? '',
     phoneNumber: updateData?.phoneNumber ?? '',
     departmentId: updateData?.departmentData ?? null,
-    role: updateData?.role ?? '',
+    permissionsRole: updateData?.permissionsRole ?? null,
     timezone: updateData?.timezone ?? '',
   };
 };
@@ -38,6 +35,8 @@ export const defaultValues = (selectedAgentList: any) => {
 export const agentFieldsData = (
   selectedAgentList: any,
   departmentDropdown: any,
+  roleApiQuery: any,
+  roleApiQueryParams: any,
 ) => [
   {
     id: 1,
@@ -105,14 +104,15 @@ export const agentFieldsData = (
     id: 6,
     componentProps: {
       fullWidth: true,
-      name: 'role',
+      name: 'permissionsRole',
       label: 'Role',
       placeholder: 'Select Role',
-      options: roleOptions,
       required: true,
+      apiQuery: roleApiQuery,
+      externalParams: roleApiQueryParams,
     },
     gridLength: 12,
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
   {
     id: 7,
@@ -122,7 +122,7 @@ export const agentFieldsData = (
       label: 'Time Zone',
       placeholder: 'Select Time Zone',
       required: true,
-      options: timeZone?.map((timeZone) => timeZone?.label),
+      options: timeZone?.map((timeZone: any) => timeZone?.label),
     },
     gridLength: 12,
     component: RHFAutocomplete,

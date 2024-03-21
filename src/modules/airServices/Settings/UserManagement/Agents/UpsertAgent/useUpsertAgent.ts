@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useLazyGetDepartmentDropdownListQuery,
+  useLazyGetPermissionsRoleForUpsertAgentQuery,
   usePatchAgentMutation,
   usePostAddAgentMutation,
 } from '@/services/airServices/settings/user-management/agents';
@@ -12,8 +13,23 @@ import {
   validationSchemaAgentFields,
 } from './UpsertAgent.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { ROLE } from '@/constants/strings';
+import useAuth from '@/hooks/useAuth';
 
 export const useUpsertAgent = (props: any) => {
+  const auth: any = useAuth();
+  const { _id: productId } = auth?.product;
+  const { _id: organizationCompanyAccountId } =
+    auth?.product?.accounts?.[0]?.company;
+  const { _id: organizationId } = auth?.user?.organization;
+
+  const roleApiQueryParams = {
+    productId,
+    organizationCompanyAccountId,
+    organizationId,
+    limit: 50,
+  };
+
   const { selectedAgentList, setIsAgentModalOpen, setSelectedAgentList } =
     props;
 
@@ -31,6 +47,7 @@ export const useUpsertAgent = (props: any) => {
   }, [selectedAgentList, reset]);
 
   const departmentDropdown = useLazyGetDepartmentDropdownListQuery();
+  const roleApiQuery = useLazyGetPermissionsRoleForUpsertAgentQuery?.();
 
   const [postAgentTrigger, postAgentStatus] = usePostAddAgentMutation();
 
@@ -41,7 +58,8 @@ export const useUpsertAgent = (props: any) => {
       phoneNumber: formData?.phoneNumber,
       email: formData?.email,
       departmentId: formData?.departmentId?._id,
-      role: formData?.role,
+      permissionsRole: formData?.permissionsRole?._id,
+      role: ROLE?.ORG_AGENT,
       timezone: formData?.timezone,
     };
 
@@ -92,6 +110,8 @@ export const useUpsertAgent = (props: any) => {
   const upsertAgentFormFields = agentFieldsData(
     selectedAgentList,
     departmentDropdown,
+    roleApiQuery,
+    roleApiQueryParams,
   );
 
   return {

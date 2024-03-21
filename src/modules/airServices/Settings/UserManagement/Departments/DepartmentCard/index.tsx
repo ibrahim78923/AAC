@@ -41,6 +41,7 @@ export const DepartmentCard = (props: any) => {
                 height: 28,
               }}
               variant="rounded"
+              src={generateImage(item?.attachment?.[0]?.fileUrl)}
             >
               <Typography variant="body2" textTransform={'uppercase'}>
                 {item?.name?.slice?.(0, 2)}
