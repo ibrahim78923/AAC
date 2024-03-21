@@ -164,7 +164,7 @@ export const columns = (
             try {
               await updateOrganizationStatus({
                 id: info?.row?.original?._id,
-                isActive: typeof !info?.row?.original?.isActive,
+                isActive: !info?.row?.original?.isActive,
               }).unwrap();
 
               enqueueSnackbar('Status Updated Successfully', {

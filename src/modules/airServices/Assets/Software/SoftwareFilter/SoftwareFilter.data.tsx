@@ -8,12 +8,12 @@ import {
 
 export const softwareFilterDefaultValues = (filterValues: any) => {
   return {
-    type: filterValues?.type,
-    status: filterValues?.status,
-    category: filterValues?.category,
-    publisher: filterValues?.publisher,
-    createdDate: filterValues?.createdDate,
-    updatedDate: filterValues?.updatedDate,
+    type: filterValues?.type ?? null,
+    status: filterValues?.status ?? null,
+    category: filterValues?.category ?? '',
+    publisher: filterValues?.publisher ?? '',
+    createdDate: filterValues?.createdDate ?? null,
+    updatedDate: filterValues?.updatedDate ?? null,
   };
 };
 
@@ -25,9 +25,9 @@ export const softwareFilterDataArray = [
       label: 'Status',
       fullWidth: true,
       options: softwareStatusOptions,
+      placeholder: 'Select status',
     },
     component: RHFAutocomplete,
-    md: 12,
   },
   {
     id: 6546,
@@ -36,9 +36,9 @@ export const softwareFilterDataArray = [
       label: 'Type',
       fullWidth: true,
       options: softwareTypeOptions,
+      placeholder: 'Select type',
     },
     component: RHFAutocomplete,
-    md: 12,
   },
 
   {
@@ -49,7 +49,6 @@ export const softwareFilterDataArray = [
       fullWidth: true,
     },
     component: RHFTextField,
-    md: 12,
   },
 
   {
@@ -60,7 +59,6 @@ export const softwareFilterDataArray = [
       fullWidth: true,
     },
     component: RHFTextField,
-    md: 12,
   },
 
   {
@@ -73,7 +71,6 @@ export const softwareFilterDataArray = [
       options: softwareDateOptions,
     },
     component: RHFAutocomplete,
-    md: 12,
   },
 
   {
@@ -86,6 +83,5 @@ export const softwareFilterDataArray = [
       options: softwareDateOptions,
     },
     component: RHFAutocomplete,
-    md: 12,
   },
 ];
