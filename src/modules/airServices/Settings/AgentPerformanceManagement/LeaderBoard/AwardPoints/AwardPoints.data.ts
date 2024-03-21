@@ -21,7 +21,7 @@ export const awardPointsSchema = yup?.object()?.shape({
     ?.typeError('Positive number required'),
   late: yup
     ?.number()
-    ?.positive('Positive number required')
+    ?.negative('Negative number required')
     ?.required('Required')
     ?.typeError('Positive number required'),
   firstCallResolution: yup
@@ -36,7 +36,7 @@ export const awardPointsSchema = yup?.object()?.shape({
     ?.typeError('Positive number required'),
   unHappyCustomer: yup
     ?.number()
-    ?.positive('Positive number required')
+    ?.negative('Negative number required')
     ?.required('Required')
     ?.typeError('Positive number required'),
 });
@@ -80,7 +80,7 @@ export const agentResolveTicketData = [
       fullWidth: true,
       required: true,
       name: 'onTime',
-      label: 'on time',
+      label: 'On-time (within SLA)',
     },
   },
   {

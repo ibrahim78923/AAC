@@ -5,13 +5,10 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 import { attachmentsDataArray } from './AttachmentsEditorDrawer.data';
 
-import useAttachmentsEditorDrawer from './useAttachmentEditorDrawer';
-
 import { v4 as uuidv4 } from 'uuid';
 
 const AttachmentsEditorDrawer = (props: any) => {
-  const { isOpen, onClose, title, methods } = props;
-  const { handleSubmit, onSubmit } = useAttachmentsEditorDrawer();
+  const { isOpen, onClose, title, methods, handleSubmit, loading } = props;
 
   return (
     <div>
@@ -22,9 +19,11 @@ const AttachmentsEditorDrawer = (props: any) => {
         okText={title === 'Add' ? 'Add' : title === 'Edit' ? 'Edit' : 'View'}
         isOk={true}
         footer={title === 'View' ? false : true}
+        submitHandler={handleSubmit}
+        isLoading={loading}
       >
         <Box>
-          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <FormProvider methods={methods}>
             <Grid
               container
               sx={{

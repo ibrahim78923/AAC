@@ -21,6 +21,8 @@ import { NotesAvatarImage } from '@/assets/images';
 import { styles } from './ViewDetails.style';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { useSearchParams } from 'next/navigation';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const ViewDetails = () => {
   const theme = useTheme();
@@ -175,9 +177,26 @@ const ViewDetails = () => {
               defaultValue={Number(searchParams) ?? 0}
             >
               <Details />
-              <ActivityLog />
+              <PermissionsGuard
+                permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_ACTIVITY_LOG]}
+              >
+                <ActivityLog />
+              </PermissionsGuard>
+
+              {/* <PermissionsGuard
+                permissions={[
+                  AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_CONTACT,
+                ]}
+              > */}
               <Associations />
+              {/* </PermissionsGuard> */}
+              {/* <PermissionsGuard
+                permissions={[
+                  AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_CONTACT,
+                ]}
+              > */}
               <Tasks />
+              {/* </PermissionsGuard> */}
               <Notes />
               <Calls />
               <Meetings />

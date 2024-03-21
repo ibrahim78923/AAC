@@ -12,6 +12,7 @@ import {
   ticketStatusOptions,
   ticketsTypeOptions,
 } from '../ServicesTickets.data';
+import { ROLES } from '@/constants/strings';
 
 export const sendIdOptions = [
   'ticketType',
@@ -107,7 +108,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Agent',
       placeholder: 'Choose Agent',
       apiQuery: apiQueryAgent,
-      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      externalParams: { limit: 50, role: ROLES?.ORG_AGENT },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },
@@ -121,7 +122,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       fullWidth: true,
       placeholder: 'Choose Requester',
       apiQuery: apiQueryRequester,
-      externalParams: { limit: 50, role: 'ORG_REQUESTER' },
+      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

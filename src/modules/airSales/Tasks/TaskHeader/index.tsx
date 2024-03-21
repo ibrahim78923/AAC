@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Box, Button, Typography, useTheme } from '@mui/material';
-import Import from '../Import';
+
 import ActivityAndPerformance from '../ActivityAndPerformance';
 import CreateTask from '../CreateTask';
 import { PlusIcon, UmbrellaIcon } from '@/assets/icons';
+import ImportTaskDrawer from '../ImportTaskDrawer';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS } from '@/constants/permission-keys';
 const TaskHeader = () => {
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -40,24 +43,32 @@ const TaskHeader = () => {
           width: { xs: '100%', sm: 'auto' },
         }}
       >
-        <Button
-          variant="outlined"
-          className="small"
-          color="inherit"
-          startIcon={<UmbrellaIcon />}
-          onClick={() => setIsOpen(true)}
+        <PermissionsGuard
+          permissions={[AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS?.IMPORT_TASK]}
         >
-          Import
-        </Button>
+          <Button
+            variant="outlined"
+            className="small"
+            color="inherit"
+            startIcon={<UmbrellaIcon />}
+            onClick={() => setIsOpen(true)}
+          >
+            Import
+          </Button>
+        </PermissionsGuard>
         <ActivityAndPerformance />
-        <Button
-          onClick={() => setIsCreateTaskDrawerOpen(true)}
-          className="small"
-          variant="contained"
-          startIcon={<PlusIcon />}
+        <PermissionsGuard
+          permissions={[AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS?.CRAETE_TASK]}
         >
-          Create Task
-        </Button>
+          <Button
+            onClick={() => setIsCreateTaskDrawerOpen(true)}
+            className="small"
+            variant="contained"
+            startIcon={<PlusIcon />}
+          >
+            Create Task
+          </Button>
+        </PermissionsGuard>
         {isCreateTaskDrawerOpen && (
           <CreateTask
             isCreateTaskDrawerOpen={isCreateTaskDrawerOpen}
@@ -66,7 +77,9 @@ const TaskHeader = () => {
           />
         )}
       </Box>
-      {isOpen && <Import setIsOpen={setIsOpen} isOpen={isOpen} />}
+      {isOpen && (
+        <ImportTaskDrawer onClose={() => setIsOpen(false)} open={isOpen} />
+      )}
     </Box>
   );
 };

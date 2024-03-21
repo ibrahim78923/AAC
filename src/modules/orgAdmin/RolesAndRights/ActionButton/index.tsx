@@ -2,6 +2,8 @@ import { Box, Button, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import useRolesAndRights from '../useRolesAndRights';
 import { ORG_ADMIN } from '@/constants';
+import { ORG_ADMIN_ROLE_AND_RIGHTS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const ActionButton = (props?: any) => {
   const { checkedRows } = props;
@@ -32,28 +34,41 @@ const ActionButton = (props?: any) => {
         open={Boolean(selectedValue)}
         onClose={handleClose}
       >
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            navigate?.push({
-              pathname: ORG_ADMIN?.ADD_ROLE,
-              query: { id: checkedRows, type: 'view' },
-            });
-          }}
+        <PermissionsGuard
+          permissions={[
+            ORG_ADMIN_ROLE_AND_RIGHTS_PERMISSIONS?.VIEW_ROLE_AND_RIGHTS,
+          ]}
         >
-          View
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            navigate?.push({
-              pathname: ORG_ADMIN?.ADD_ROLE,
-              query: { id: checkedRows, type: 'edit' },
-            });
-          }}
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              navigate?.push({
+                pathname: ORG_ADMIN?.ADD_ROLE,
+                query: { id: checkedRows, type: 'view' },
+              });
+            }}
+          >
+            View
+          </MenuItem>
+        </PermissionsGuard>
+
+        <PermissionsGuard
+          permissions={[
+            ORG_ADMIN_ROLE_AND_RIGHTS_PERMISSIONS?.EDIT_ROLE_AND_RIGHTS,
+          ]}
         >
-          Edit
-        </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              navigate?.push({
+                pathname: ORG_ADMIN?.ADD_ROLE,
+                query: { id: checkedRows, type: 'edit' },
+              });
+            }}
+          >
+            Edit
+          </MenuItem>
+        </PermissionsGuard>
       </Menu>
     </Box>
   );

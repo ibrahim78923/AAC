@@ -17,6 +17,7 @@ const AddFaq = ({
     <CommonModal
       open={isAddModalOpen}
       handleClose={onClose}
+      handleCancel={onClose}
       handleSubmit={handleSubmit}
       title={'Add a New FAQ'}
       okText="Add"

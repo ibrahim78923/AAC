@@ -7,10 +7,22 @@ import { DATE_FORMAT } from '@/constants';
 import {
   useGetContactsQuery,
   useDeleteContactMutation,
+  useUpdateContactOwnerMutation,
 } from '@/services/commonFeatures/contacts';
 import { enqueueSnackbar } from 'notistack';
+import useAuth from '@/hooks/useAuth';
+import { useGetOrganizationUsersQuery } from '@/services/dropdowns';
 
 const useContactsSaleSite = () => {
+  const { user }: any = useAuth();
+  const { data: ContactOwners } = useGetOrganizationUsersQuery(
+    user?.organization?._id,
+  );
+  const contactOwnerData = ContactOwners?.data?.users?.map((user: any) => ({
+    value: user?._id,
+    label: `${user?.firstName} ${user?.lastName}`,
+  }));
+
   const [selectedRow, setSelectedRow]: any = useState([]);
   const [isActionsDisabled, setIsActionsDisabled] = useState(true);
   const [rowId, setRowId] = useState(null);
@@ -134,14 +146,42 @@ const useContactsSaleSite = () => {
   };
 
   // Re-Asign
+  const [reAssignContactOwner, { isLoading: loadingReassign }] =
+    useUpdateContactOwnerMutation();
+  const methodsReAssign = useForm({});
+  const { handleSubmit: handleMethodReAssign } = methodsReAssign;
   const [isReAssign, setIsReAssign] = useState(false);
   const handleOpenModalReAssign = () => {
     handleActionsMenuClose();
+    const selectedItem =
+      dataGetContacts?.data?.contacts?.find(
+        (item: any) => item?._id === rowId,
+      ) || {};
+
+    if (selectedItem) {
+      methodsReAssign.setValue('contactOwnerId', selectedItem?.contactOwnerId);
+    }
     setIsReAssign(true);
   };
   const handleCloseModalReAssign = () => {
     setIsReAssign(false);
   };
+
+  const onSubmitReAssign = async (values: any) => {
+    try {
+      await reAssignContactOwner({ id: rowId, body: values })?.unwrap();
+      handleCloseModalReAssign();
+      setSelectedRow([]);
+      enqueueSnackbar('Contact updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+  const handleSubmitReAssign = handleMethodReAssign(onSubmitReAssign);
 
   // Modal export
   const [openModalExport, setOpenModalExport] = useState(false);
@@ -159,6 +199,7 @@ const useContactsSaleSite = () => {
   const handleDealCustomize = () => setIsDealCustomize(!isDealCustomize);
 
   return {
+    contactOwnerData,
     anchorEl,
     actionMenuOpen,
     handleActionsMenuClick,
@@ -187,9 +228,12 @@ const useContactsSaleSite = () => {
     handleCloseModalDelete,
     handleDeleteContact,
     loadingDelete,
+    methodsReAssign,
     isReAssign,
     handleOpenModalReAssign,
     handleCloseModalReAssign,
+    handleSubmitReAssign,
+    loadingReassign,
     openModalExport,
     handleOpenModalExport,
     handleCloseModalExport,

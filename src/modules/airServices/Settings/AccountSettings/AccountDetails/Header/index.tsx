@@ -1,27 +1,31 @@
-import { Typography, Box, useTheme } from '@mui/material';
+import {
+  Typography,
+  Box,
+  useTheme,
+  Avatar,
+  CircularProgress,
+} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AIR_SERVICES } from '@/constants';
 import { EmailIcon, PhoneIcon } from '@/assets/icons';
-import { UserProfileImage } from '@/assets/images';
-import Image from 'next/image';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useHeader } from './useHeader';
 import Chip from '@mui/material/Chip';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ACCOUNT_SETTINGS_PERMISSIONS } from '@/constants/permission-keys';
+import { generateImage } from '@/utils/avatarUtils';
 
-export const Header = () => {
+export const Header = (props: any) => {
   const theme = useTheme();
-
+  const { profileDetail } = props;
   const {
     handleFileChange,
-    uploadedImage,
     isHovered,
     setIsHovered,
     fullScreenPosition,
     router,
+    patchProfileAvatarStatus,
   } = useHeader();
-
   return (
     <Box
       border={`.1rem solid ${theme?.palette?.grey?.[700]}`}
@@ -66,13 +70,25 @@ export const Header = () => {
                 accept="image/*"
                 style={{ display: 'none' }}
                 onChange={handleFileChange}
+                disabled={patchProfileAvatarStatus?.isLoading}
               />
-              <Image
-                src={uploadedImage || UserProfileImage}
-                width={90}
-                height={90}
-                alt="user"
-              />
+              {!patchProfileAvatarStatus?.isLoading ? (
+                <Avatar
+                  src={generateImage(profileDetail?.avatar?.url)}
+                  sx={{ height: 90, width: 90 }}
+                  alt="user"
+                  variant="rounded"
+                />
+              ) : (
+                <Box
+                  sx={{ height: 90, width: 90 }}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent={'center'}
+                >
+                  <CircularProgress />
+                </Box>
+              )}
               {isHovered && (
                 <Box
                   position="absolute"
@@ -95,9 +111,9 @@ export const Header = () => {
             gap={1}
           >
             <Box display={'flex'} gap={1}>
-              <Typography variant="h4">John Doe</Typography>
+              <Typography variant="h4">{profileDetail?.firstName}</Typography>
               <Chip
-                label={'Admin'}
+                label={profileDetail?.role}
                 sx={{
                   backgroundColor: 'success.lighter',
                   color: 'success.main',
@@ -111,11 +127,13 @@ export const Header = () => {
             >
               <Box display={'flex'} gap={1}>
                 <EmailIcon />
-                <Typography variant="body2">Johndoe@gmail.com</Typography>
+                <Typography variant="body2">{profileDetail?.email}</Typography>
               </Box>
               <Box display={'flex'} gap={1}>
                 <PhoneIcon />
-                <Typography variant="body2">(316) 555-0116</Typography>
+                <Typography variant="body2">
+                  {profileDetail?.phoneNumber}
+                </Typography>
               </Box>
             </Box>
           </Box>

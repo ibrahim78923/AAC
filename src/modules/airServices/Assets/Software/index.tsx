@@ -11,12 +11,13 @@ import { useSoftware } from './useSoftware';
 import { AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
-function Software() {
+const Software = () => {
   const {
     router,
     isError,
     isLoading,
     isSuccess,
+    isFetching,
     assetsSoftwares,
     isAddDrawerOpen,
     setIsAddDrawerOpen,
@@ -24,23 +25,14 @@ function Software() {
     setSoftwareData,
     openAssignModal,
     setOpenAssignModal,
-    searchValue,
     setSearchValue,
-    page,
     setPage,
-    pageLimit,
     setPageLimit,
-    handlePageChange,
     paginationData,
     setFilterValues,
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
     filterValues,
-    methods,
-    submitHandler,
-    upsertLoading,
-    onClose,
-    userQuery,
   } = useSoftware();
 
   return (
@@ -51,7 +43,10 @@ function Software() {
         createPermissionKey={[
           AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.NEW_SOFTWARE,
         ]}
-        handleAction={() => setIsAddDrawerOpen(true)}
+        handleAction={() => {
+          setSoftwareData?.([]);
+          setIsAddDrawerOpen(true);
+        }}
       />
       <Box
         display={'flex'}
@@ -66,12 +61,7 @@ function Software() {
               AIR_SERVICES_ASSETS_SOFTWARE_PERMISSIONS?.SEARCH_AND_FILTER,
             ]}
           >
-            <Search
-              label="search"
-              width="100%"
-              searchBy={searchValue}
-              setSearchBy={setSearchValue}
-            />
+            <Search label="Search Here" setSearchBy={setSearchValue} />
           </PermissionsGuard>
         </Box>
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1.5}>
@@ -79,9 +69,7 @@ function Software() {
             color="secondary"
             variant="outlined"
             disabled={!!!softwareData?.length}
-            onClick={() => {
-              setOpenAssignModal(true);
-            }}
+            onClick={() => setOpenAssignModal?.(true)}
           >
             Assign Category
           </Button>
@@ -112,6 +100,7 @@ function Software() {
             isError={isError}
             isSuccess={isSuccess}
             isLoading={isLoading}
+            isFetching={isFetching}
             data={assetsSoftwares}
             columns={columns(
               softwareData,
@@ -122,10 +111,9 @@ function Software() {
             isPagination
             count={paginationData?.pages}
             totalRecords={paginationData?.total}
-            pageLimit={pageLimit}
-            currentPage={page}
-            rowsPerPageOptions={[10, 20]}
-            onPageChange={handlePageChange}
+            pageLimit={paginationData?.limit}
+            currentPage={paginationData?.page}
+            onPageChange={(page: any) => setPage(page)}
             setPageLimit={setPageLimit}
             setPage={setPage}
           />
@@ -138,24 +126,25 @@ function Software() {
           setIsOpenFilterDrawer={setIsOpenFilterDrawer}
           setFilterValues={setFilterValues}
           filterValues={filterValues}
+          setPage={setPage}
         />
       )}
-
-      <SoftwareAssignCategory
-        openAssignModal={openAssignModal}
-        setOpenAssignModal={setOpenAssignModal}
-        selectedSoftware={softwareData}
-      />
-      <UpsertSoftware
-        isDrawerOpen={isAddDrawerOpen}
-        onClose={onClose}
-        methods={methods}
-        submitHandler={submitHandler}
-        isLoading={upsertLoading}
-        userQuery={userQuery}
-      />
+      {openAssignModal && (
+        <SoftwareAssignCategory
+          openAssignModal={openAssignModal}
+          setOpenAssignModal={setOpenAssignModal}
+          selectedSoftware={softwareData}
+          setSoftwareData={setSoftwareData}
+        />
+      )}
+      {isAddDrawerOpen && (
+        <UpsertSoftware
+          isAddDrawerOpen={isAddDrawerOpen}
+          setIsAddDrawerOpen={setIsAddDrawerOpen}
+        />
+      )}
     </>
   );
-}
+};
 
 export default Software;

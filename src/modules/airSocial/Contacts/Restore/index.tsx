@@ -40,10 +40,12 @@ const Restore = () => {
     handleOpenModalDelete,
     handleCloseModalDelete,
     handleDeleteContact,
+    loadingDelete,
     isRestoreModal,
     handleOpenModalRestore,
     handleSubmitRestoreContact,
     handleCloseModalRestore,
+    loadingRestore,
     theme,
   } = useRestore();
 
@@ -156,12 +158,14 @@ const Restore = () => {
         open={isDeleteModal}
         onClose={handleCloseModalDelete}
         handlePermanantDelete={handleDeleteContact}
+        loading={loadingDelete}
       />
 
       <RestoreModal
         open={isRestoreModal}
         onClose={handleCloseModalRestore}
         handleSubmit={handleSubmitRestoreContact}
+        loading={loadingRestore}
       />
     </>
   );

@@ -22,6 +22,7 @@ export const AssociatedAssets = () => {
     isSuccess,
     setPage,
     setLimit,
+    deleteAssociateAssetStatus,
   } = useAssociatedAssets();
 
   return (
@@ -60,6 +61,8 @@ export const AssociatedAssets = () => {
           handleClose={() => setIsDeleteModalOpen?.({ open: false, id: '' })}
           handleSubmitBtn={handleSubmitDelete}
           message="Are you sure want to delete this Asset?"
+          loading={deleteAssociateAssetStatus?.isLoading}
+          disableCancelBtn={deleteAssociateAssetStatus?.isLoading}
         />
       )}
 

@@ -29,7 +29,7 @@ export const InstallationHeader = (props: any) => {
       >
         <Box>
           <Search
-            label="Search"
+            label="Search Here"
             searchBy={searchBy}
             setSearchBy={setSearchBy}
           />
@@ -61,6 +61,7 @@ export const InstallationHeader = (props: any) => {
         handleSubmitBtn={submitDeleteModel}
         type={ALERT_MODALS_TYPE?.DELETE}
         loading={isLoading}
+        disableCancelBtn={isLoading}
       />
     </>
   );

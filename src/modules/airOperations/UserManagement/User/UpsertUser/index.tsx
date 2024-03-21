@@ -2,20 +2,27 @@ import { Box, Grid, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { upsertUserArray } from './UpsertUser.data';
 import CommonDrawer from '@/components/CommonDrawer';
-import { useUpsertUser } from './useUpsertUser';
 import { USER_MANAGEMENT } from '@/constants/strings';
+import { useUser } from '../useUser';
 
-function UpsertUser({ isDrawerOpen, setIsDrawerOpen, title, okText }: any) {
-  const { methods, handleSubmit, submit, disabled, setDisabled, userData } =
-    useUpsertUser(setIsDrawerOpen);
+function UpsertUser({ isDrawerOpen, title, okText, setIsDrawerOpen }: any) {
+  const {
+    methods,
+    handleSubmit,
+    submit,
+    disabled,
+    setDisabled,
+    usersData,
+    departmentDropdown,
+    rolesDropdown,
+    usersTeamDropdown,
+  } = useUser();
 
   return (
     <>
       <CommonDrawer
         isDrawerOpen={isDrawerOpen}
-        onClose={() => {
-          setIsDrawerOpen(false);
-        }}
+        onClose={() => setIsDrawerOpen?.(false)}
         title={title}
         submitHandler={() => {
           title === USER_MANAGEMENT?.USERVIEW && disabled
@@ -38,7 +45,11 @@ function UpsertUser({ isDrawerOpen, setIsDrawerOpen, title, okText }: any) {
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={4}>
-              {upsertUserArray?.map((item: any) => (
+              {upsertUserArray(
+                departmentDropdown,
+                rolesDropdown,
+                usersTeamDropdown,
+              )?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   {item?.subheading && title !== USER_MANAGEMENT?.USERVIEW && (
                     <Typography variant="body2" sx={{ mb: 2 }}>
@@ -51,8 +62,8 @@ function UpsertUser({ isDrawerOpen, setIsDrawerOpen, title, okText }: any) {
                     disabled={title === USER_MANAGEMENT?.USERVIEW && disabled}
                     placeholder={
                       title === USER_MANAGEMENT?.USERVIEW &&
-                      userData?.length > 0
-                        ? (userData?.[0]?.[
+                      usersData?.length > 0
+                        ? (usersData?.[0]?.[
                             item?.componentProps?.name
                           ] as string)
                         : item?.componentProps?.placeholder

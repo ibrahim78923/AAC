@@ -2,6 +2,7 @@ import { useDeleteInventoryMutation } from '@/services/airServices/assets/invent
 import { useRouter } from 'next/router';
 import usePath from '@/hooks/usePath';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { AIR_SERVICES } from '@/constants';
 
 export const useDeleteInventory = (props: any) => {
   const {
@@ -12,6 +13,7 @@ export const useDeleteInventory = (props: any) => {
     totalRecords,
     page,
     getInventoryListData,
+    isMoveBack = false,
   } = props;
   const [deleteInventoryTrigger, deleteInventoryStatus] =
     useDeleteInventoryMutation();
@@ -31,28 +33,37 @@ export const useDeleteInventory = (props: any) => {
     try {
       await deleteInventoryTrigger(deleteInventoryParameter)?.unwrap();
       successSnackbar('Record delete successfully');
-      setSelectedInventoryLists([]);
-      setPage?.(selectedInventoryLists?.length === totalRecords ? 1 : page);
+      setSelectedInventoryLists?.([]);
       const newPage =
         selectedInventoryLists?.length === totalRecords ? 1 : page;
+      setPage?.(newPage);
       await getInventoryListData?.(newPage);
-      closeTicketsDeleteModal?.();
+      router?.push(
+        makePath({
+          path: AIR_SERVICES?.ASSETS_INVENTORY,
+          skipQueries: ['inventoryListsAction'],
+        }),
+      );
+      closeInventoryDeleteModal?.();
     } catch (error: any) {
-      errorSnackbar();
-      closeTicketsDeleteModal?.();
+      errorSnackbar(error?.data?.message);
+      closeInventoryDeleteModal?.();
     }
   };
-  const closeTicketsDeleteModal = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['inventoryListsAction'],
-      }),
-    );
+  const closeInventoryDeleteModal = () => {
+    !isMoveBack &&
+      router?.push(
+        makePath({
+          path: router?.pathname,
+          skipQueries: ['inventoryListsAction'],
+        }),
+      );
+    setSelectedInventoryLists?.([]);
     setDeleteModalOpen?.(false);
   };
   return {
     deleteInventory,
     deleteInventoryStatus,
+    closeInventoryDeleteModal,
   };
 };

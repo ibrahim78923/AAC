@@ -1,10 +1,7 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-
 import { Box, Button, SvgIcon, Typography, useTheme } from '@mui/material';
-
 import Search from '@/components/Search';
-import { SUPER_ADMIN } from '@/constants';
 
 import CreatedTable from './CreatedTable';
 import ContactsCustomize from './CreatedCustomize';
@@ -22,6 +19,7 @@ import {
   FilterIcon,
   RestoreIcon,
 } from '@/assets/icons';
+import { AIR_SOCIAL } from '@/routesConstants/paths';
 
 const ImportRecordCreated = () => {
   const theme = useTheme();
@@ -46,7 +44,7 @@ const ImportRecordCreated = () => {
         <SvgIcon
           cursor="pointer"
           onClick={() => {
-            route.push(SUPER_ADMIN?.AIRSALES_IMPORTHISTORY);
+            route.push(AIR_SOCIAL?.IMPORTHISTORY);
           }}
         >
           <BackArrIcon />
@@ -71,7 +69,7 @@ const ImportRecordCreated = () => {
             disableActionBtn={false}
             onChange={handleActions}
           />
-          <Link href={SUPER_ADMIN?.IMPORTRECORD_RESTORE}>
+          <Link href={AIR_SOCIAL?.IMPORT_RECORD_RESTORE}>
             <Button
               variant="outlined"
               sx={{ height: '30px', color: theme?.palette?.custom['main'] }}

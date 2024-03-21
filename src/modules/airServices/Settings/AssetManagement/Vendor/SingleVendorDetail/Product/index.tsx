@@ -23,6 +23,7 @@ export const Product = () => {
     isError,
     isFetching,
     isSuccess,
+    deleteVendorStatus,
   } = useProduct();
 
   return (
@@ -62,20 +63,25 @@ export const Product = () => {
         onPageChange={(page: any) => setPage(page)}
       />
 
-      <UpsertProduct
-        upsertProductModal={upsertProductModal}
-        setUpsertProductModal={setUpsertProductModal}
-        editData={editData}
-        setEditData={setEditData}
-      />
-
-      <AlertModals
-        type={ALERT_MODALS_TYPE?.DELETE}
-        open={deleteModalOpen}
-        handleClose={() => setDeleteModalOpen(false)}
-        handleSubmitBtn={handleDeleteBtn}
-        message="Are you sure you want to delete this Product?"
-      />
+      {upsertProductModal && (
+        <UpsertProduct
+          upsertProductModal={upsertProductModal}
+          setUpsertProductModal={setUpsertProductModal}
+          editData={editData}
+          setEditData={setEditData}
+        />
+      )}
+      {deleteModalOpen && (
+        <AlertModals
+          type={ALERT_MODALS_TYPE?.DELETE}
+          open={deleteModalOpen}
+          handleClose={() => setDeleteModalOpen(false)}
+          handleSubmitBtn={handleDeleteBtn}
+          message="Are you sure you want to delete this Product?"
+          loading={deleteVendorStatus?.isLoading}
+          disableCancelBtn={deleteVendorStatus?.isLoading}
+        />
+      )}
     </>
   );
 };

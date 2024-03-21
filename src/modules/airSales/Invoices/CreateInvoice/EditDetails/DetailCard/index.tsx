@@ -1,20 +1,15 @@
 import React from 'react';
 import { Box, Stack, Typography } from '@mui/material';
-import {
-  clientDetails,
-  cardDetails,
-} from '@/mock/modules/airSales/SalesInvoices';
 import { LogoSharedIcon } from '@/assets/icons';
 import { useTheme } from '@mui/material/styles';
 import { style } from '../EditDetail.style';
 import { v4 as uuidv4 } from 'uuid';
-import useDetailCard from './useDetailCard';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '../../../../../../constants/index';
+import { isNullOrEmpty } from '@/utils';
 
-const DetailCard = () => {
+const DetailCard = ({ data }: any) => {
   const theme = useTheme();
-  const { user } = useDetailCard();
 
   const calculateDueDate = (invoiceDate: any) => {
     return dayjs(invoiceDate)
@@ -34,28 +29,44 @@ const DetailCard = () => {
             <Box sx={{ mt: '5px' }}>
               <LogoSharedIcon />
             </Box>
-            {cardDetails?.map((item: any) => (
-              <Stack spacing="5px" key={uuidv4()}>
-                <Typography variant="h5">{item?.label}</Typography>
-                {item?.details?.map((val: any) => (
-                  <Typography key={uuidv4()} variant="body3">
-                    {val?.title}
-                  </Typography>
-                ))}
-              </Stack>
-            ))}
+            <Stack spacing="5px">
+              <Typography variant="h5">Air Apple Car</Typography>
+              <Typography variant="body3">
+                {isNullOrEmpty(data)
+                  ? '----'
+                  : data?.deal[0]?.companies[0]?.address}
+              </Typography>
+              <Typography variant="body3">
+                {isNullOrEmpty(data)
+                  ? '----'
+                  : data?.deal[0]?.companies[0]?.city}
+              </Typography>
+              <Typography variant="body3">
+                {isNullOrEmpty(data)
+                  ? '----'
+                  : data?.deal[0]?.companies[0]?.domain}
+              </Typography>
+            </Stack>
           </Stack>
           <Box>
-            {clientDetails?.map((item: any) => (
-              <Stack gap="5px" key={uuidv4()}>
-                <Typography variant="h5">{item?.label}</Typography>
-                {item?.details?.map((val: any) => (
-                  <Typography key={uuidv4()} variant="body3">
-                    {val?.title}
-                  </Typography>
-                ))}
-              </Stack>
-            ))}
+            <Stack spacing="5px">
+              <Typography variant="h5">Client Information</Typography>
+              <Typography variant="body3">
+                {isNullOrEmpty(data)
+                  ? '----'
+                  : data?.deal[0]?.companies[0]?.address}
+              </Typography>
+              <Typography variant="body3">
+                {isNullOrEmpty(data)
+                  ? '----'
+                  : data?.deal[0]?.companies[0]?.city}
+              </Typography>
+              <Typography variant="body3">
+                {isNullOrEmpty(data)
+                  ? '----'
+                  : data?.deal[0]?.companies[0]?.domain}
+              </Typography>
+            </Stack>
           </Box>
         </Stack>
       </Box>
@@ -75,14 +86,18 @@ const DetailCard = () => {
             <Typography variant="body2" fontWeight={500}>
               Invoice No:
             </Typography>
-            <Typography variant="body2">---</Typography>
+            <Typography variant="body2">
+              {isNullOrEmpty(data) ? '----' : data?.invoiceNo}
+            </Typography>
           </Stack>
           <Stack direction="row" gap="3px" key={uuidv4()}>
             <Typography variant="body2" fontWeight={500}>
               Invoice Date:
             </Typography>
             <Typography variant="body2">
-              {dayjs(user?.createdAt).format(DATE_FORMAT?.UI)}
+              {isNullOrEmpty(data)
+                ? '----'
+                : dayjs(data?.createdAt).format(DATE_FORMAT?.UI)}
             </Typography>
           </Stack>
           <Stack direction="row" gap="3px" key={uuidv4()}>
@@ -90,7 +105,9 @@ const DetailCard = () => {
               Due Date:
             </Typography>
             <Typography variant="body2">
-              {calculateDueDate(user?.createdAt)}
+              {isNullOrEmpty(data)
+                ? '----'
+                : calculateDueDate(data?.expiryDate)}
             </Typography>
           </Stack>
           <Stack direction="row" gap="3px" key={uuidv4()}>
@@ -98,7 +115,7 @@ const DetailCard = () => {
               Prepared By:
             </Typography>
             <Typography variant="body2">
-              {user?.firstName} {user?.lastName}
+              {isNullOrEmpty(data) ? '----' : data?.name}
             </Typography>
           </Stack>
         </Stack>

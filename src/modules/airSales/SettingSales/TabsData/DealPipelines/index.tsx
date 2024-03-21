@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   Box,
@@ -35,6 +35,8 @@ import { styles } from './DealPipelines.style';
 import { v4 as uuidv4 } from 'uuid';
 import { BlueInfoIcon, PercentageCircleIcon } from '@/assets/icons';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 
 const DealPipelines = () => {
   const {
@@ -57,8 +59,6 @@ const DealPipelines = () => {
     onSubmit,
     handleCloseDeleteModal,
     handleDelete,
-    getCheckbox,
-    isDisableButton,
     addField,
     deleteField,
     setAnchorEl,
@@ -68,6 +68,21 @@ const DealPipelines = () => {
     inputFields,
     handleChangeInput,
   } = useSalesProduct();
+
+  const [selectedPipelines, setSelectedPipelines] = useState<any>([]);
+
+  const togglePipeline = (pipeline: any) => {
+    const index = selectedPipelines?.findIndex(
+      (p: any) => p?._id === pipeline?._id,
+    );
+    if (index === -1) {
+      setSelectedPipelines([...selectedPipelines, pipeline]);
+    } else {
+      const updatedPipelines = [...selectedPipelines];
+      updatedPipelines?.splice(index, 1);
+      setSelectedPipelines(updatedPipelines);
+    }
+  };
 
   return (
     <>
@@ -115,7 +130,9 @@ const DealPipelines = () => {
                         required={true}
                         placeholder="Inbound Sales"
                         value={inputField?.name}
-                        onChange={(event) => handleChangeInput(index, event)}
+                        onChange={(event: any) =>
+                          handleChangeInput(index, event)
+                        }
                       />
                     </Grid>
                     <Grid item xs={12} md={5}>
@@ -126,7 +143,9 @@ const DealPipelines = () => {
                         required={true}
                         type="number"
                         value={inputField?.probability}
-                        onChange={(event) => handleChangeInput(index, event)}
+                        onChange={(event: any) =>
+                          handleChangeInput(index, event)
+                        }
                         placeholder="Inbound Sales"
                         InputProps={{
                           endAdornment: (
@@ -224,7 +243,7 @@ const DealPipelines = () => {
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
               sx={styles?.actionBtn(theme)}
-              disabled={!isDisableButton}
+              disabled={selectedPipelines?.length !== 1}
             >
               Actions <ArrowDropDownIcon />
             </Button>
@@ -237,46 +256,61 @@ const DealPipelines = () => {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem
-                onClick={() => (
-                  setIsEditMode(true), setIsDraweropen(true), setAnchorEl(null)
-                )}
+              <PermissionsGuard
+                permissions={[AIR_SALES_SETTINGS?.EDIT_PIPELINE]}
               >
-                Edit
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  setDeleteModalOpen(true), setAnchorEl(null);
-                }}
+                <MenuItem
+                  onClick={() => (
+                    setIsEditMode(true),
+                    setIsDraweropen(true),
+                    setAnchorEl(null)
+                  )}
+                >
+                  Edit
+                </MenuItem>
+              </PermissionsGuard>
+              <PermissionsGuard
+                permissions={[AIR_SALES_SETTINGS?.DELETE_PIPELINE]}
               >
-                Delete
-              </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setDeleteModalOpen(true), setAnchorEl(null);
+                  }}
+                >
+                  Delete
+                </MenuItem>
+              </PermissionsGuard>
             </Menu>
-
-            <Button
-              variant="contained"
-              sx={styles?.createBtn}
-              onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
-              className="small"
+            <PermissionsGuard
+              permissions={[AIR_SALES_SETTINGS?.CREATE_PIPELINE]}
             >
-              <AddCircleIcon
-                sx={{
-                  color: `${theme?.palette?.common.white}`,
-                  fontSize: '16px',
-                }}
-              />
-              Create Pipeline
-            </Button>
+              <Button
+                variant="contained"
+                sx={styles?.createBtn}
+                onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
+                className="small"
+              >
+                <AddCircleIcon
+                  sx={{
+                    color: `${theme?.palette?.common.white}`,
+                    fontSize: '16px',
+                  }}
+                />
+                Create Pipeline
+              </Button>
+            </PermissionsGuard>
           </Box>
         </Box>
 
         <Box sx={{ marginTop: '1rem', marginBottom: '1rem' }}>
-          <Search
-            label={'Search here'}
-            searchBy={productSearch}
-            setSearchBy={setproductSearch}
-            size="small"
-          />
+          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.SEARCH_PIPELINE]}>
+            <Search
+              label={'Search here'}
+              searchBy={productSearch}
+              setSearchBy={setproductSearch}
+              size="small"
+            />
+          </PermissionsGuard>
         </Box>
         {isLoading ? (
           <SkeletonForm />
@@ -302,9 +336,15 @@ const DealPipelines = () => {
                   },
                 }}
               >
-                <Checkbox
+                {/* <Checkbox
                   value="default"
-                  onChange={(value) => getCheckbox(value, 'default')}
+                  // onChange={(value) => getCheckbox(value, 'default')}
+                /> */}
+                <Checkbox
+                  checked={selectedPipelines?.some(
+                    (p: any) => p?._id === dealPipeline?._id,
+                  )}
+                  onChange={() => togglePipeline(dealPipeline)}
                 />
                 <Typography
                   variant="h6"

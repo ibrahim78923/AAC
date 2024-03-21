@@ -24,7 +24,6 @@ import { DATE_FORMAT, SOCIAL_COMPONENTS } from '@/constants';
 import { useState } from 'react';
 import UploadImageModal from './UploadImageModal';
 import { useRouter } from 'next/router';
-
 const ViewDetails = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isUploadImageOpen, setIsUploadImageOpen] = useState(false);

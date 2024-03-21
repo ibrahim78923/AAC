@@ -75,7 +75,7 @@ export const Vendor = () => {
             AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.SEARCH_IMPORT_EXPORT_VENDORS,
           ]}
         >
-          <Search label="search" setSearchBy={setSearch} />
+          <Search label="Search Here" setSearchBy={setSearch} />
         </PermissionsGuard>
       </Box>
 
@@ -109,10 +109,12 @@ export const Vendor = () => {
           ]}
       </Box>
       <Box>
-        <AddNewVendor
-          isADrawerOpen={isADrawerOpen}
-          setIsADrawerOpen={setIsADrawerOpen}
-        />
+        {isADrawerOpen && (
+          <AddNewVendor
+            isADrawerOpen={isADrawerOpen}
+            setIsADrawerOpen={setIsADrawerOpen}
+          />
+        )}
       </Box>
     </>
   );

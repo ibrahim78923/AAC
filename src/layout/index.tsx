@@ -29,6 +29,9 @@ export default function Layout({
         </AuthGuard>
       );
       break;
+    case 'public':
+      layout = <DashboardLayout>{children}</DashboardLayout>;
+      break;
     default:
       layout = children;
       break;

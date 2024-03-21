@@ -9,6 +9,7 @@ import {
   signatureInitValues,
 } from './UpdateQuote.data';
 import {
+  useCreateAssociationQuoteMutation,
   useGetDealsQuery,
   useGetQuoteByIdQuery,
   // usePostAddbuyerInfoMutation,
@@ -19,10 +20,13 @@ import { AIR_SALES } from '@/routesConstants/paths';
 const useUpdateQuote = () => {
   const router = useRouter();
   let quoteId;
-  if (router.query?.data) {
-    quoteId = router.query?.data;
+  if (router?.query?.data) {
+    quoteId = router?.query?.data;
   }
   // const id = router?.query?.data;
+  // console.log(quoteId, 'quoteIdquoteIdquoteIdquoteId');
+  const [createAssociationQuote] = useCreateAssociationQuoteMutation();
+
   const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 100 });
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
 
@@ -65,10 +69,10 @@ const useUpdateQuote = () => {
   const [isOpenFormCreateProduct, setIsOpenFormCreateProduct] = useState(false);
   const [isOpenDialog, setIsOpenDialog] = useState(false);
   const handleStepNext = async () => {
-    setActiveStep((prev) => prev + 1);
+    setActiveStep((prev: any) => prev + 1);
   };
   const handleStepBack = () => {
-    setActiveStep((prev) => prev - 1);
+    setActiveStep((prev: any) => prev - 1);
   };
   const handleStepperCancel = () => {
     router.push(AIR_SALES?.QUOTES);
@@ -181,6 +185,7 @@ const useUpdateQuote = () => {
     methodsSignature,
     handleUpdateDetails,
     loadingUpdateQuote,
+    createAssociationQuote,
   };
 };
 

@@ -7,6 +7,8 @@ import { Box } from '@mui/material';
 import TanstackTable from '@/components/Table/TanstackTable';
 import GridView from '../GridView';
 import { useAppSelector } from '@/redux/store';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS } from '@/constants/permission-keys';
 
 const Tabs = ({ tabValue, assignTo }: any) => {
   const {
@@ -50,14 +52,18 @@ const Tabs = ({ tabValue, assignTo }: any) => {
           alignItems: 'center',
         }}
       >
-        <Search
-          label={'Search here'}
-          placeholder="Search by name"
-          searchBy={searchTask}
-          setSearchBy={setSearchTask}
-          width="260px"
-          size="small"
-        />
+        <PermissionsGuard
+          permissions={[AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS?.SEARCH_FILTER]}
+        >
+          <Search
+            label={'Search here'}
+            placeholder="Search by name"
+            searchBy={searchTask}
+            setSearchBy={setSearchTask}
+            width="260px"
+            size="small"
+          />
+        </PermissionsGuard>
         <Filter />
       </Box>
 

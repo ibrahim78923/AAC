@@ -1,4 +1,4 @@
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, Skeleton } from '@mui/material';
 
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { useRouter } from 'next/router';
@@ -7,8 +7,9 @@ import { AIR_SERVICES } from '@/constants';
 import { Permissions } from '@/constants/permissions';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 export const Header = (props: any) => {
-  const { dropdownOptions } = props;
+  const { dropdownOptions, inventoryData, isFetching, isLoading } = props;
   const router = useRouter();
+  if (isLoading || isFetching) return <Skeleton />;
   return (
     <>
       <Box
@@ -31,7 +32,7 @@ export const Header = (props: any) => {
           >
             <ViewDetailBackArrowIcon />
           </Box>
-          <Typography variant="h5">Logitech Mouse</Typography>
+          <Typography variant="h5">{inventoryData?.displayName}</Typography>
         </Box>
         <Box>
           <PermissionsGuard

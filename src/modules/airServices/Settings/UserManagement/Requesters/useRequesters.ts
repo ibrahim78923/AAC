@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import {
   useGetRequestersListQuery,
   useGetViewRequestersDetailsQuery,
-  usePatchRequesterMutation,
 } from '@/services/airServices/settings/user-management';
 import { PAGINATION } from '@/config';
 import { useForm } from 'react-hook-form';
@@ -14,9 +13,8 @@ import {
   upsertRequestersDefaultValues,
   upsertRequestersValidationSchema,
 } from './UpsertRequesters/UpsertRequesters.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS, ROLES } from '@/constants/strings';
 import { useSearchParams } from 'next/navigation';
+import { ROLES } from '@/constants/strings';
 
 export const useRequesters = () => {
   const theme = useTheme();
@@ -35,18 +33,11 @@ export const useRequesters = () => {
   };
 
   const { data, isLoading, isError, isFetching, isSuccess }: any =
-    useGetRequestersListQuery(params);
-
-  const tableData = data?.data?.users;
+    useGetRequestersListQuery(params, {
+      refetchOnMountOrArgChange: true,
+    });
 
   const metaData = data?.data?.meta;
-
-  const tableListData = tableData?.map(
-    (requester: { firstName: any; lastName: any }) => ({
-      ...requester,
-      fullName: `${requester.firstName} ${requester.lastName}`,
-    }),
-  );
 
   const profileId = useSearchParams()?.get('_id');
   const { data: viewRequestersData } = useGetViewRequestersDetailsQuery(
@@ -68,44 +59,13 @@ export const useRequesters = () => {
     setSelectedRequestersList,
     theme,
     router,
-    tableListData,
+    data?.data?.users,
   );
   const requestersDropdownOptions = requestersDropdown(
     setDeleteModal,
     setWarningModal,
   );
 
-  const [editRequester] = usePatchRequesterMutation();
-
-  const submit = async (data: any) => {
-    const formData = {
-      id: profileId,
-      firstName: data?.firstName,
-      lastName: data?.lastName,
-      jobTitle: data?.jobTitle,
-      phoneNumber: data?.phoneNumber,
-      timezone: data?.timezone,
-    };
-    try {
-      const res: any = await editRequester(formData).unwrap();
-      enqueueSnackbar(
-        res?.data?.data?.message ?? 'Single Requesters Edit  Successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
-      setIsDrawerOpen(false);
-    } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
-    }
-    handleClose?.();
-  };
-  const handleClose = () => {
-    setIsDrawerOpen(false);
-    reset?.();
-  };
   return {
     theme,
     isDrawerOpen,
@@ -119,7 +79,7 @@ export const useRequesters = () => {
     requestersDropdownOptions,
     router,
     requestersListColumn,
-    tableListData,
+    data,
     metaData,
     setPage,
     setPageLimit,
@@ -132,7 +92,5 @@ export const useRequesters = () => {
     profileData,
     methods,
     handleSubmit,
-    submit,
-    handleClose,
   };
 };

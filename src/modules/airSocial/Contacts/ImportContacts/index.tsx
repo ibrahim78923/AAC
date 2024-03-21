@@ -12,9 +12,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import useImportDeal from './useImportCreated';
 import { useRouter } from 'next/router';
-import { SUPER_ADMIN } from '@/constants';
-
 import { ImportIcon } from '@/assets/icons';
+import { AIR_SOCIAL } from '@/routesConstants/paths';
 
 const ImportContacts = () => {
   const route = useRouter();
@@ -32,7 +31,7 @@ const ImportContacts = () => {
         <Typography variant="h3">Import Contacts</Typography>
         <Button
           onClick={() => {
-            route.push(SUPER_ADMIN?.AIRSALES_IMPORTHISTORY);
+            route.push(AIR_SOCIAL?.IMPORTHISTORY);
           }}
           startIcon={<ImportIcon />}
           variant="outlined"
@@ -77,13 +76,16 @@ const ImportContacts = () => {
             ))}
           </Grid>
           <Box textAlign="end">
-            <Button variant="outlined" onClick={() => window.history.back()}>
+            <Button
+              variant="outlined"
+              onClick={() => route?.push(AIR_SOCIAL?.CONTACTS)}
+            >
               Cancel
             </Button>
             <Button
               variant="contained"
               sx={{ ml: '10px' }}
-              onClick={() => route?.push(SUPER_ADMIN?.CONTCATS_COLUMN)}
+              onClick={() => route?.push(AIR_SOCIAL?.CONTCATS_COLUMN)}
             >
               Next
             </Button>

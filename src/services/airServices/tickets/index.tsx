@@ -40,7 +40,6 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         method: 'POST',
         body: postTicketParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     putTickets: builder?.mutation({
       query: (putTicketParameter: any) => ({
@@ -48,7 +47,6 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         method: 'PUT',
         body: putTicketParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     putSingleTicketStatus: builder?.mutation({
       query: (putSingleTicketStatusParameter: any) => ({
@@ -65,7 +63,6 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         params: patchBulkUpdateTicketsParameter?.queryParams,
         body: patchBulkUpdateTicketsParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     deleteTickets: builder?.mutation({
       query: (deleteTicketsParameter: any) => ({
@@ -73,7 +70,6 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: deleteTicketsParameter?.queryParams,
       }),
-      invalidatesTags: [TAG],
     }),
     getRequesterDropdown: builder?.query({
       query: ({ params }: any) => ({
@@ -130,9 +126,56 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_SIX],
     }),
+    getTicketByRequester: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_TICKET_BY_REQUESTER}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_THREE],
+    }),
+    getTicketBySubject: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.GET_TICKET_BY_SUBJECT}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response)
+          return Object?.keys(response?.data)?.length ? [response?.data] : [];
+      },
+      providesTags: [TAG_THREE],
+    }),
+    getTicketsSearchById: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.TICKET}/${params?.ticketId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
+    postMergeTickets: builder?.mutation({
+      query: (postMergeTicketParameter: any) => ({
+        url: `${END_POINTS?.MERGE_TICKET}`,
+        method: 'POST',
+        params: postMergeTicketParameter?.queryParams,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getAttachmentsById: builder?.query({
+      query: (getAttachmentsByIdParameter: any) => ({
+        url: `${END_POINTS?.GET_ATTACHMENT}/${getAttachmentsByIdParameter?.pathParam?.id}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
-
 export const {
   usePostTicketsMutation,
   useGetTicketsQuery,
@@ -148,4 +191,9 @@ export const {
   useLazyGetAssociateAssetsDropdownQuery,
   useLazyGetCategoriesDropdownQuery,
   usePutSingleTicketStatusMutation,
+  useLazyGetTicketByRequesterQuery,
+  useLazyGetTicketBySubjectQuery,
+  useLazyGetTicketsSearchByIdQuery,
+  usePostMergeTicketsMutation,
+  useGetAttachmentsByIdQuery,
 } = ticketsAPI;

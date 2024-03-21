@@ -41,7 +41,6 @@ export const Meetings = () => {
 
   return (
     <>
-      <br />
       <div className="meeting">
         <AddMeetingsDrawer open={drawerOpen} setDrawerOpen={setDrawerOpen} />
         <AddOutcomeModal
@@ -184,7 +183,7 @@ export const Meetings = () => {
         </Box>
         <br />
         <Grid mb="20px" container spacing={3}>
-          {widgetsData?.map((item) => (
+          {widgetsData?.map((item: any) => (
             <Grid item key={item?.id} sm={4} xs={12}>
               <Box sx={styles?.widgetsBox}>
                 <Box sx={styles?.coloredWidgetsDiv(item?.color)}></Box>

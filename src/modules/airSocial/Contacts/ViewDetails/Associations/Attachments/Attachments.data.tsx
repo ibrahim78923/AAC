@@ -1,9 +1,11 @@
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { DATE_FORMAT } from '@/constants';
 import { Box } from '@mui/material';
+import dayjs from 'dayjs';
 export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
   return [
     {
-      accessorFn: (row: any) => row?.title,
+      accessorFn: (row: any) => row?.fileType,
       id: 'contact_id',
       cell: (info: any) => info?.getValue(),
       header: 'Title',
@@ -11,16 +13,16 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
     },
 
     {
-      accessorFn: (row: any) => row?.createdDate,
+      accessorFn: (row: any) => row?.createdAt,
       id: 'createdDate',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
     },
 
     {
-      accessorFn: (row: any) => row?.assignedTo,
-      id: 'assignedTo',
+      accessorFn: (row: any) => row?.actions,
+      id: 'actions',
       isSortable: false,
       header: 'Actions',
       cell: () => (

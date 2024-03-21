@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import Image from 'next/image';
 
 import {
@@ -14,10 +13,8 @@ import {
 
 import { useTheme } from '@mui/material';
 
-import { ProductSuiteCardData } from './ProductSuite.data';
-
 import { CompanyLogoIcon } from '@/assets/icons';
-import { AvatarImage } from '@/assets/images';
+// import { AvatarImage } from '@/assets/images';
 
 import { v4 as uuidv4 } from 'uuid';
 import { getRoutes } from '@/layout/Layout.data';
@@ -29,8 +26,8 @@ import {
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
-import { getActivePermissionsSession } from '@/utils';
-import { IMG_URL } from '@/config';
+import { getActivePermissionsSession, setActiveAccountSession } from '@/utils';
+// import { IMG_URL } from '@/config';
 import useAuth from '@/hooks/useAuth';
 
 const ProductSuite = () => {
@@ -65,7 +62,6 @@ const ProductSuite = () => {
     }
     return false;
   };
-
   const permissions = getActivePermissionsSession();
 
   useEffect(() => {
@@ -117,7 +113,8 @@ const ProductSuite = () => {
           </Button>
           <Avatar
             alt="Remy Sharp"
-            src={AvatarImage?.src}
+            // src={AvatarImage?.src}
+            src={''}
             sx={{ marginLeft: '20px' }}
           ></Avatar>
         </Box>
@@ -179,7 +176,8 @@ const ProductSuite = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   {product?.logo && (
                     <Image
-                      src={`${IMG_URL}${product?.logo?.url}`}
+                      // src={`${IMG_URL}${product?.logo?.url}`}
+                      src={``}
                       width={25}
                       height={25}
                       alt="product"
@@ -210,6 +208,7 @@ const ProductSuite = () => {
                         onClick={() => {
                           findModulePermissionKey(product?.name, account?._id);
                           setActiveProduct(product);
+                          setActiveAccountSession(account);
                         }}
                       >
                         {account?.company?.accountName}
@@ -305,68 +304,6 @@ const ProductSuite = () => {
             </Card>
           </Grid>
         ))} */}
-
-        {ProductSuiteCardData?.map((card: any) => (
-          <Grid item xs={12} sm={6} md={6} lg={3} key={uuidv4()}>
-            <Card
-              className="card-hover-color cursor-pointer"
-              sx={{
-                boxShadow: 'none',
-                borderRadius: '6px',
-                '&:hover': {
-                  transition: '0.3s',
-                  outline: `1.5px solid ${theme?.palette?.primary?.main}`,
-                  boxShadow: '0px 1px 1px -1px',
-                },
-                height: '270px',
-              }}
-            >
-              <CardActionArea
-                disableRipple
-                sx={{
-                  display: 'flex',
-                  color: '#212121',
-                  pt: 4,
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                  '&:hover': {
-                    '.MuiCardActionArea-focusHighlight': {
-                      opacity: '0',
-                    },
-                  },
-                }}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {card?.icon && <card.icon />}
-                  <Typography variant="h5" sx={{ marginLeft: '20px' }}>
-                    {card?.title}
-                  </Typography>
-                </Box>
-
-                <CardContent
-                  sx={{
-                    display: 'block',
-                    padding: '0px',
-                    color: theme?.palette?.custom?.main,
-                  }}
-                >
-                  {card?.companyList?.map((company: any) => (
-                    <Box
-                      sx={{
-                        marginTop: '15px',
-                        fontSize: '15px',
-                        color: '#6B7280',
-                      }}
-                      key={uuidv4()}
-                    >
-                      <Link href={company?.path}>{company?.name}</Link>
-                    </Box>
-                  ))}
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        ))}
       </Grid>
     </Box>
   );

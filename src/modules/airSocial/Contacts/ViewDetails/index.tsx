@@ -38,7 +38,9 @@ const ContactViewDetails = () => {
               }}
             >
               <Typography variant="h4">Ahmed Khan</Typography>
-              <Link href={'/air-sales/contacts/view-details/restore-activties'}>
+              <Link
+                href={`${AIR_SOCIAL?.CONTACTS}/${contactId}/${AIR_SOCIAL?.RESTORE_ACTIVITIES}`}
+              >
                 <Button
                   variant="outlined"
                   sx={{ height: '30px', color: theme?.palette?.custom['main'] }}

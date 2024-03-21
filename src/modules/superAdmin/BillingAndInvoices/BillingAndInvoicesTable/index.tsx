@@ -166,7 +166,7 @@ const BillingAndInvoicesTable = () => {
       <Grid item xs={12} sm={12} mt={1}>
         <TanstackTable
           columns={getRowValues}
-          data={assignPlanTableData?.data}
+          data={assignPlanTableData?.data?.organizationplans}
           totalRecords={assignPlanTableData?.data?.meta?.total}
           onPageChange={(page: any) => setPage(page)}
           setPage={setPage}

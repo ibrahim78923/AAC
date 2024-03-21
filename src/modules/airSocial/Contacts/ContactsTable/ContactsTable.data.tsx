@@ -99,12 +99,7 @@ export const ContactsColumns = (
         const email = info?.cell?.row?.original?.email;
         return (
           <Box
-            onClick={() =>
-              router.push({
-                pathname: AIR_SOCIAL?.CONTACTS_VIEW_DETAILS,
-                query: { contactId: contactId },
-              })
-            }
+            onClick={() => router.push(`${AIR_SOCIAL?.CONTACTS}/${contactId}`)}
             sx={{
               display: 'flex',
               alignItems: 'center',

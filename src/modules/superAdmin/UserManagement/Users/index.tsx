@@ -15,7 +15,7 @@ const Users = (props: any) => {
     role: 'ORG_ADMIN',
     search: searchVal ?? '',
     products: filterValues?.products ?? '',
-    // organization: filterValues?.organization ?? '',
+    organization: filterValues?.organization ?? '',
     createdAt: filterValues?.createdDate
       ? dayjs(filterValues?.createdDate).format(DATE_FORMAT?.API)
       : undefined,

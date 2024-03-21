@@ -6,6 +6,8 @@ import useRoleAndRight from './useRoleAndRight';
 import Search from '@/components/Search';
 import ActionButton from './ActionButton';
 import AddRoleDrawer from './AddRoleDrawer';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 
 const RolesRight = () => {
   const {
@@ -47,14 +49,16 @@ const RolesRight = () => {
           gap={1}
         >
           <Typography variant="h3">Roles and Rights</Typography>
-          <Button
-            className="small"
-            variant="contained"
-            startIcon={<AddCircleIcon />}
-            onClick={() => setIsDraweropen({ isToggle: true, type: 'add' })}
-          >
-            Add New Role
-          </Button>
+          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.ADD_NEW_ROLE]}>
+            <Button
+              className="small"
+              variant="contained"
+              startIcon={<AddCircleIcon />}
+              onClick={() => setIsDraweropen({ isToggle: true, type: 'add' })}
+            >
+              Add New Role
+            </Button>
+          </PermissionsGuard>
         </Stack>
         <Stack
           direction={{ sm: 'row', xs: 'column' }}
@@ -62,13 +66,15 @@ const RolesRight = () => {
           gap={1}
           my={2}
         >
-          <Search
-            placeholder="Search Here"
-            size="small"
-            onChange={(e: any) => {
-              setFilterValues({ ...filterValues, search: e?.target?.value });
-            }}
-          />
+          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.SEARCH_ROLE]}>
+            <Search
+              placeholder="Search Here"
+              size="small"
+              onChange={(e: any) => {
+                setFilterValues({ ...filterValues, search: e?.target?.value });
+              }}
+            />
+          </PermissionsGuard>
 
           <ActionButton
             checkedRows={checkedRows}

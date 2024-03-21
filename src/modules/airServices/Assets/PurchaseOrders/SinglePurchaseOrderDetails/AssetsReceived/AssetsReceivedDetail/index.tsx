@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 import CustomPagination from '@/components/CustomPagination';
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
@@ -22,53 +21,62 @@ export const AssetsReceivedDetail = () => {
     theme,
     MIN_META,
     purchaseOrderIdData,
+    purchaseFetching,
+    purchaseLoading,
   } = useAssetsReceivedDetail();
   return (
     <>
-      {purchaseOrderIdData?.data?.orderName && (
-        <Box mb={2}>
-          <Typography variant="h4">
-            {purchaseOrderIdData?.data?.orderName}
-          </Typography>
-          <Typography
-            variant="body2"
-            color={theme?.palette?.custom?.main}
-            fontWeight={500}
-          >
-            Assets which are received and added to inventory are shown here
-          </Typography>
-        </Box>
-      )}
-      {isError ? (
-        <ApiErrorState />
-      ) : isSuccess && (!assetsReceivedData || !assetsReceivedData?.length) ? (
-        <NoData message="Received items have not been added to inventory yet" />
-      ) : isLoading || isFetching ? (
+      {purchaseFetching || purchaseLoading ? (
         <SkeletonTable />
       ) : (
-        assetsReceivedData?.map((item: any) => (
-          <Box key={uuidv4()} sx={styles?.assetsCard(theme)}>
-            <Box sx={styles?.cardDetail}>
+        purchaseOrderIdData?.data?.orderName && (
+          <>
+            <Box mb={2}>
+              <Typography variant="h4">
+                {purchaseOrderIdData?.data?.orderName}
+              </Typography>
               <Typography
                 variant="body2"
-                fontWeight={600}
-                sx={styles?.cardText}
+                color={theme?.palette?.custom?.main}
+                fontWeight={500}
               >
-                #ASSET-{item?._id?.slice(-2)?.toUpperCase()}
-              </Typography>
-              <Box sx={styles?.cardLine(theme)} />
-            </Box>
-            <Box sx={styles?.cardDetail}>
-              <Typography variant="body3" sx={styles?.cardText}>
-                {item?.assetName}
+                Assets which are received and added to inventory are shown here
               </Typography>
             </Box>
-            <Box sx={styles?.cardLine(theme)} />
-            <Typography variant="body3" sx={styles?.cardText}>
-              Location:- {item?.locationName}
-            </Typography>
-          </Box>
-        ))
+            {isError ? (
+              <ApiErrorState />
+            ) : isSuccess &&
+              (!assetsReceivedData || !assetsReceivedData?.length) ? (
+              <NoData message="Received items have not been added to inventory yet" />
+            ) : isLoading || isFetching ? (
+              <SkeletonTable />
+            ) : (
+              assetsReceivedData?.map((item: any) => (
+                <Box key={item?._id} sx={styles?.assetsCard(theme)}>
+                  <Box sx={styles?.cardDetail}>
+                    <Typography
+                      variant="body2"
+                      fontWeight={600}
+                      sx={styles?.cardText}
+                    >
+                      #ASSET-{item?._id?.slice(-2)?.toUpperCase()}
+                    </Typography>
+                    <Box sx={styles?.cardLine(theme)} />
+                  </Box>
+                  <Box sx={styles?.cardDetail}>
+                    <Typography variant="body3" sx={styles?.cardText}>
+                      {item?.assetName}
+                    </Typography>
+                  </Box>
+                  <Box sx={styles?.cardLine(theme)} />
+                  <Typography variant="body3" sx={styles?.cardText}>
+                    Location:- {item?.locationName}
+                  </Typography>
+                </Box>
+              ))
+            )}
+          </>
+        )
       )}
       {assetsReceivedMeta && assetsReceivedMeta?.total > MIN_META && (
         <CustomPagination

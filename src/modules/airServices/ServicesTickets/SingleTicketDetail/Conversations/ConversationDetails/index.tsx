@@ -16,7 +16,7 @@ const ConversationsDetails = () => {
   } = UseConversation();
 
   return (
-    <Box marginTop={'1.25rem'}>
+    <Box>
       {renderSelectedComponent()}
       <Box
         display={'flex'}

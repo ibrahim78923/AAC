@@ -14,6 +14,8 @@ import { isNullOrEmpty } from '@/utils';
 import { EmailTestingData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { styles } from './EmailActionDropDown.style';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const EmailActionDropDown = (props: any) => {
   const { setOpenDrawer, selectedCheckboxes } = props;
@@ -61,10 +63,26 @@ const EmailActionDropDown = (props: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleOpenReassignAlert}>View Thread</MenuItem>
-        <MenuItem onClick={handleOpenForwardDrawer}>Forward</MenuItem>
-        <MenuItem onClick={handleOpenReplyDrawer}>Reply</MenuItem>
-        <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_THREAD]}
+        >
+          <MenuItem onClick={handleOpenReassignAlert}>View Thread</MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_FORWARD_EMAIL]}
+        >
+          <MenuItem onClick={handleOpenForwardDrawer}>Forward</MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_REPLY_EMAIL]}
+        >
+          <MenuItem onClick={handleOpenReplyDrawer}>Reply</MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_DELETE_EMAIL]}
+        >
+          <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+        </PermissionsGuard>
       </Menu>
 
       <ScheduleModals

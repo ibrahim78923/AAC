@@ -1,51 +1,88 @@
 import React, { useState } from 'react';
-import { columnsUser, defaultValues, validationSchema } from './Users.data';
+import { userValidationSchema } from './Users.data';
 import { Theme, useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  usePostPoductUserMutation,
+  useUpdateUsersMutation,
+} from '@/services/airSales/settings/users';
+import { enqueueSnackbar } from 'notistack';
+import { useGetCompanyAccountsRolesQuery } from '@/services/common-APIs';
+import { getSession } from '@/utils';
 
-const useUserTable = ({ initialValueProps = defaultValues }: any) => {
-  const [team, setTeam] = React.useState('Alfa');
-  const [role, setRole] = React.useState('AccountAdmin');
+const useUsers: any = (isAddUserDrawer?: any, setIsAddUserDrawer?: any) => {
+  const [checkedUser, setCheckedUser] = useState([]);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
-  const [isEditOpen, setIsEditOpen] = useState(false);
   const theme = useTheme<Theme>();
-
+  const [postPoductUser] = usePostPoductUserMutation();
   const open = Boolean(anchorEl);
+  const [updateUsers] = useUpdateUsersMutation();
+  const { user } = getSession();
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
-    setIsEditOpen(true);
   };
+  const { data: rolesByCompanyId } = useGetCompanyAccountsRolesQuery({
+    organizationId: user?.organization?._id,
+  });
 
-  const handleCloseDrawer = () => {
-    setIsEditOpen(false);
+  const defaultValues: any = {
+    firstName: isAddUserDrawer?.data?.user?.firstName,
+    lastName: isAddUserDrawer?.data?.user?.lastName,
+    email: isAddUserDrawer?.data?.user?.email,
+    address: '',
+    phoneNumber: '',
+    jobTitle: 'dev',
+    role: isAddUserDrawer?.data?.role?.name,
+    team: isAddUserDrawer?.data?.team?.name,
+    language: '',
+    timezone: '',
+    faceBookUrl: '',
+    linkedInUrl: '',
+    twitterUrl: '',
   };
 
   const methods: any = useForm({
-    resolver: yupResolver(validationSchema),
-    defaultValues: initialValueProps,
+    resolver: yupResolver(userValidationSchema),
+    defaultValues: defaultValues,
   });
 
-  const handleTeam = (event: any) => {
-    setTeam(event?.target?.value);
-  };
-  const handleRole = (event: any) => {
-    setRole(event?.target?.value);
+  const { handleSubmit } = methods;
+  const onSubmit = async (values: any) => {
+    try {
+      await postPoductUser({ body: values })?.unwrap();
+      enqueueSnackbar('User added successfully', {
+        variant: 'success',
+      });
+      setIsAddUserDrawer({ isToggle: false, type: 'add', data: {} });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
   };
 
-  const getRowValues: any = columnsUser(handleTeam, handleRole, team, role);
+  const handleUpdateStatus = async (id: any, value: any) => {
+    const statusVal = value?.target?.checked ? 'ACTIVE' : 'INACTIVE';
+    try {
+      await updateUsers({ id: id, body: { status: statusVal } })?.unwrap();
+      enqueueSnackbar('Status updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
+  };
+
   return {
-    team,
-    setTeam,
-    handleTeam,
-    role,
-    setRole,
-    handleRole,
-    getRowValues,
     isOpenDelete,
     setIsOpenDelete,
     anchorEl,
@@ -55,10 +92,13 @@ const useUserTable = ({ initialValueProps = defaultValues }: any) => {
     handleClick,
     handleClose,
     methods,
-    handleCloseDrawer,
-    isEditOpen,
-    setIsEditOpen,
+    handleSubmit,
+    onSubmit,
+    checkedUser,
+    setCheckedUser,
+    rolesByCompanyId,
+    handleUpdateStatus,
   };
 };
 
-export default useUserTable;
+export default useUsers;

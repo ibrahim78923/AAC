@@ -12,22 +12,24 @@ const EditJobPost = ({
   handleSubmit,
   formMethods,
   isLoading,
+  title,
+  isFieldsDisabled,
 }: EditJobPostPropsI) => {
   return (
     <CommonDrawer
       isDrawerOpen={isModalOpen}
       onClose={onClose}
-      title="Update a Job"
+      title={`${title} a Job`}
       okText="Update"
       isOk={true}
-      footer={true}
+      footer={title === 'Update'}
       submitHandler={handleSubmit}
       isLoading={isLoading}
     >
       <>
         <FormProvider methods={formMethods}>
           <Grid container spacing={4}>
-            {jobPostingDataArray?.map((item: any) => (
+            {jobPostingDataArray(isFieldsDisabled)?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select

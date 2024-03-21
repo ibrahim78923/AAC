@@ -2,8 +2,9 @@ import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import { REQUESTORS_STATUS } from '@/constants/strings';
 import { AIR_SERVICES } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
-import { ProfileImage } from '@/assets/images';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { errorSnackbar } from '@/utils/api';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 
 export const requestersDropdown = (
   setDeleteModal: any,
@@ -74,7 +75,11 @@ export const requestersList: any = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={selectedRequestersList?.length === tableListData?.length}
+        checked={
+          !!tableListData?.length
+            ? selectedRequestersList?.length === tableListData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedRequestersList([...tableListData])
@@ -92,24 +97,39 @@ export const requestersList: any = (
     header: 'Name',
     isSortable: true,
     cell: (info: any) => (
-      <Box display={'flex'} alignItems={'center'} gap={1}>
-        <Avatar
-          src={info?.row?.original?.icon?.src || ProfileImage}
-          alt={info?.row?.original?.icon?.name}
-        />
-        <Typography
-          sx={{
-            color: 'blue.main',
-            cursor: 'pointer',
-          }}
-          onClick={() =>
-            router?.push({
-              pathname: AIR_SERVICES?.SINGLE_REQUESTERS_DETAILS,
-              query: { _id: info?.row?.original?._id },
-            })
+      <Box
+        display={'flex'}
+        flexWrap={'wrap'}
+        alignItems={'center'}
+        sx={{ cursor: 'pointer' }}
+        gap={1}
+        onClick={() => {
+          if (info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE) {
+            errorSnackbar('This requester is not active');
+            return;
           }
+          router?.push({
+            pathname: AIR_SERVICES?.SINGLE_REQUESTERS_DETAILS,
+            query: { _id: info?.row?.original?._id },
+          });
+        }}
+      >
+        <Avatar
+          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
+          src={generateImage(info?.row?.original?.avatar?.url)}
         >
-          {info?.getValue()}
+          <Typography variant="body3" textTransform={'uppercase'}>
+            {fullNameInitial(
+              info?.row?.original?.firstName,
+              info?.row?.original?.lastName,
+            )}
+          </Typography>
+        </Avatar>
+        <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+          {fullName(
+            info?.row?.original?.firstName,
+            info?.row?.original?.lastName,
+          )}
         </Typography>
       </Box>
     ),
@@ -119,27 +139,7 @@ export const requestersList: any = (
     id: 'email',
     isSortable: true,
     header: 'Email',
-
-    cell: (info: any) => {
-      return (
-        <Typography
-          style={{
-            textTransform: 'lowercase',
-            cursor: 'pointer',
-            textDecoration:
-              info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE
-                ? 'underline'
-                : 'none',
-          }}
-          onClick={() =>
-            info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE &&
-            router?.push(`mailto:${info?.getValue()}`)
-          }
-        >
-          {info?.getValue()}
-        </Typography>
-      );
-    },
+    cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.status,
@@ -152,24 +152,25 @@ export const requestersList: any = (
         status === REQUESTORS_STATUS?.ACTIVE
           ? theme?.palette?.success?.main
           : status === REQUESTORS_STATUS?.INACTIVE
-            ? theme?.palette?.warning?.main
-            : '';
+          ? theme?.palette?.warning?.main
+          : '';
 
       return (
         <Typography
+          variant="body2"
+          color="slateBlue.main"
           sx={{
             color: color,
-            width: 'fit-content',
           }}
         >
-          {status}
+          {info?.getValue()}
         </Typography>
       );
     },
   },
   {
-    accessorFn: (row: any) => row?.role,
-    id: 'role',
+    accessorFn: (row: any) => row?.jobTitle,
+    id: 'jobTitle',
     isSortable: true,
     header: 'Job Title',
     cell: (info: any) => info?.getValue(),

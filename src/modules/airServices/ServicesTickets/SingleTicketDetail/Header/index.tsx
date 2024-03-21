@@ -4,13 +4,11 @@ import DetailTimePicker from './TimePicker';
 import {
   ViewDetailBackArrowIcon,
   ViewDetailCallIcon,
-  ViewDetailMeetingIcon,
   ViewDetailVuesaxIcon,
 } from '@/assets/icons';
 import { styles } from './Header.style';
 import { SmsImage, VuesaxErrorImage } from '@/assets/images';
 import { AIR_SERVICES } from '@/constants';
-import { AddMeetingsDrawer } from '../Meetings/AddMeetingsDrawer';
 import { NewEmailDrawer } from './NewEmailDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
@@ -21,6 +19,8 @@ import {
   AIR_SERVICES_TICKETS_TICKETS_DETAILS,
   AIR_SERVICES_TICKETS_TICKET_LISTS,
 } from '@/constants/permission-keys';
+import { TicketsDelete } from '../../TicketsDelete';
+import { truncateText } from '@/utils/avatarUtils';
 
 const Header = () => {
   const {
@@ -28,13 +28,14 @@ const Header = () => {
     router,
     toggleView,
     isIconVisible,
-    setDrawerOpen,
-    drawerOpen,
     setIsDrawerOpen,
     isDrawerOpen,
     ticketsApprovalDropdown,
     isPrintDrawerOpen,
     setIsPrintDrawerOpen,
+    deleteModalOpen,
+    setDeleteModalOpen,
+    ticketId,
   } = useHeader();
 
   return (
@@ -61,13 +62,13 @@ const Header = () => {
             <ViewDetailBackArrowIcon />
           </Box>
           <Typography variant="h6" color="primary.main">
-            {data?.data?.[0]?.ticketIdNumber}
+            {data?.data?.[0]?.ticketIdNumber ?? '---'}
           </Typography>
           <Typography variant="h6" component="span">
-            {data?.data?.[0]?.subject}
+            {truncateText(data?.data?.[0]?.subject)}
           </Typography>
         </Grid>
-        <Grid item sx={{ display: 'flex' }}>
+        <Grid item sx={{ display: 'flex', cursor: 'pointer' }}>
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_TICKETS_TICKETS_DETAILS?.TIME_TRACK_PLAY_PAUSE,
@@ -89,7 +90,8 @@ const Header = () => {
               <DetailTimePicker />
             </Box>
           </PermissionsGuard>
-          <PermissionsGuard
+          {/* TODO: comment for now. will be used if third party api is provided */}
+          {/* <PermissionsGuard
             permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_MEETING]}
           >
             <Box
@@ -98,8 +100,8 @@ const Header = () => {
             >
               <ViewDetailMeetingIcon />
             </Box>
-          </PermissionsGuard>
-          <AddMeetingsDrawer open={drawerOpen} setDrawerOpen={setDrawerOpen} />
+          </PermissionsGuard> */}
+          {/* <AddMeetingsDrawer open={drawerOpen} setDrawerOpen={setDrawerOpen} /> */}
           <PermissionsGuard
             permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.CALLS]}
           >
@@ -117,10 +119,12 @@ const Header = () => {
               <Image src={SmsImage} width={24} height={24} alt="Badge" />
             </Box>
           </PermissionsGuard>
-          <NewEmailDrawer
-            isDrawerOpen={isDrawerOpen}
-            setIsDrawerOpen={setIsDrawerOpen}
-          />
+          {isDrawerOpen && (
+            <NewEmailDrawer
+              isDrawerOpen={isDrawerOpen}
+              setIsDrawerOpen={setIsDrawerOpen}
+            />
+          )}
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS,
@@ -137,12 +141,21 @@ const Header = () => {
                 <PrintDrawer
                   isPrintDrawerOpen={isPrintDrawerOpen}
                   setISPrintDrawerOpen={setIsPrintDrawerOpen}
+                  data={data}
                 />
               )}
             </Box>
           </PermissionsGuard>
         </Grid>
       </Grid>
+      {deleteModalOpen && (
+        <TicketsDelete
+          deleteModalOpen={deleteModalOpen}
+          setDeleteModalOpen={setDeleteModalOpen}
+          selectedTicketList={[ticketId]}
+          isMoveBack
+        />
+      )}
     </>
   );
 };

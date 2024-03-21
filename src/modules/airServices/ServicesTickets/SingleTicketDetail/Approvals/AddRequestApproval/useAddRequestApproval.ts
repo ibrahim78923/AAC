@@ -46,8 +46,8 @@ export const useAddRequestApproval = (props: any) => {
       await postApprovalTicketsTrigger(postApprovalTicketsParameters)?.unwrap();
       successSnackbar('Request for approval sent successfully');
       onClose?.();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
       onClose?.();
     }
   };

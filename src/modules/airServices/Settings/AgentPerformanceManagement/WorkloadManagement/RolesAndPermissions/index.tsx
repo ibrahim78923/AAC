@@ -1,6 +1,7 @@
-import { Box, Button, Divider, Tooltip, Typography } from '@mui/material';
+import { Box, Divider, Tooltip, Typography } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { AIR_SERVICES } from '@/constants';
 
 export const RolesAndPermissions = () => {
   return (
@@ -65,28 +66,18 @@ export const RolesAndPermissions = () => {
           </Tooltip>
         </Box>
         <Divider variant="middle" style={{ margin: '1rem 0' }} />
-        <Box display={'flex'} gap={1} pt={2}>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          gap={1}
+          pt={2}
+          flexWrap={'wrap'}
+          component={'a'}
+          href={`${AIR_SERVICES?.USER_ROLES_SETTINGS}`}
+        >
           <VisibilityIcon color={'primary'} />
           <Typography color={'primary'}>View Roles and Permissions</Typography>
         </Box>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          gap: 2,
-          justifyContent: 'flex-end',
-          position: 'absolute',
-          right: 24,
-          bottom: 8,
-          zIndex: 50,
-        }}
-      >
-        <Button variant="outlined" color="secondary">
-          Cancel
-        </Button>
-        <Button variant="contained" color="primary">
-          Save
-        </Button>
       </Box>
     </>
   );

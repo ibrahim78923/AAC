@@ -19,6 +19,7 @@ import {
 } from '@/services/orgAdmin/settings/life-cycle-stage';
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
+import { PAGINATION } from '@/config';
 
 const useLifeCycleStage = () => {
   const [isDraweropen, setIsDraweropen] = useState(false);
@@ -28,10 +29,16 @@ const useLifeCycleStage = () => {
   const [postSettingLifeCycleStage] = usePostSettingLifeCycleStageMutation();
   const [rowId, setRowId] = useState<string>('');
   const [editData, setEditData] = useState<any>({});
-  const [deleteSettingLifeCycleStage] =
-    useDeleteSettingLifeCycleStageMutation();
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+
+  const params = {
+    page: page,
+    limit: pageLimit,
+    ...(productSearch && { search: productSearch }),
+  };
   const { data, isLoading, isError, isFetching, isSuccess } =
-    useGetSettingLifeCycleStageQuery([]);
+    useGetSettingLifeCycleStageQuery({ params });
   const [updateSettingLifeCycleStage] =
     useUpdateSettingLifeCycleStageMutation();
   const theme = useTheme<Theme>();
@@ -46,11 +53,12 @@ const useLifeCycleStage = () => {
     setRowId(id);
     setIsOpenAlert(true);
   };
+
+  const [deleteSettingLifeCycleStage, { isLoading: loadingDelete }] =
+    useDeleteSettingLifeCycleStageMutation();
   const deleteStageLifeCycle = async () => {
     try {
-      await deleteSettingLifeCycleStage({
-        id: rowId,
-      }).unwrap();
+      await deleteSettingLifeCycleStage(rowId).unwrap();
 
       enqueueSnackbar('Stage Deleted Successfully', {
         variant: 'success',
@@ -92,7 +100,8 @@ const useLifeCycleStage = () => {
   const { handleSubmit, reset } = LifeCycleStage;
   const onSubmit = async (data: any) => {
     const settingLifeCycleStage = {
-      ...data,
+      name: data?.name,
+      description: data?.description,
     };
     try {
       if (Object?.keys(editData)[0]) {
@@ -104,6 +113,7 @@ const useLifeCycleStage = () => {
         enqueueSnackbar('Status Updated Successfully', {
           variant: 'success',
         });
+        handleCloseDrawer();
       } else {
         await postSettingLifeCycleStage({
           body: settingLifeCycleStage,
@@ -111,7 +121,7 @@ const useLifeCycleStage = () => {
         enqueueSnackbar('Satge Added Successfully', {
           variant: 'success',
         });
-        reset(LifeCycleStagevalidationSchema);
+        handleCloseDrawer();
         setIsDraweropen(false);
       }
     } catch (error: any) {
@@ -131,7 +141,7 @@ const useLifeCycleStage = () => {
   );
 
   return {
-    tableRow: data?.data?.lifecycleStages,
+    tableRow: data,
     isLoading,
     isError,
     isFetching,
@@ -152,6 +162,9 @@ const useLifeCycleStage = () => {
     setIsModalHeading,
     deleteStageLifeCycle,
     handleDeleteRecord,
+    setPage,
+    setPageLimit,
+    loadingDelete,
   };
 };
 

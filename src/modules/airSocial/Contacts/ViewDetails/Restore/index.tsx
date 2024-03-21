@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 import { Box, Button, Paper, Typography } from '@mui/material';
 
 import CustomPagination from '@/components/CustomPagination';
@@ -17,8 +15,10 @@ import RestoreAssignModalBox from './RestoreAssignModalBox';
 import RestoreActions from '../ContactsActions';
 
 import { BackArrIcon, FilterIcon } from '@/assets/icons';
+import { useRouter } from 'next/router';
 
 const RestoreActivities = () => {
+  const router = useRouter();
   const {
     handleRestoreFilter,
     isRestoreFilter,
@@ -44,9 +44,9 @@ const RestoreActivities = () => {
         }}
       >
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-          <Link href={'/air-sales/contacts/view-details'}>
+          <Box sx={{ cursor: 'pointer' }} onClick={() => router.back()}>
             <BackArrIcon />
-          </Link>
+          </Box>
           <Box>
             <Typography
               variant="subtitle1"

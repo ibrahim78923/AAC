@@ -1,4 +1,6 @@
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import { Box } from '@mui/material';
 export const columns: any = () => {
   return [
@@ -32,12 +34,20 @@ export const columns: any = () => {
       header: 'Actions',
       cell: () => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box sx={{ cursor: 'pointer' }}>
-            <ViewEyeIcon />
-          </Box>
-          <Box sx={{ cursor: 'pointer' }}>
-            <DeleteCrossIcon />
-          </Box>
+          <PermissionsGuard
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_QUOTE]}
+          >
+            <Box sx={{ cursor: 'pointer' }}>
+              <ViewEyeIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_REMOVE_QUOTE]}
+          >
+            <Box sx={{ cursor: 'pointer' }}>
+              <DeleteCrossIcon />
+            </Box>
+          </PermissionsGuard>
         </Box>
       ),
     },

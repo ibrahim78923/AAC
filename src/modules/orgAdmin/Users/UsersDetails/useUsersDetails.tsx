@@ -9,7 +9,6 @@ const useUsersDetails = () => {
   const [isOpenAddAccountDrawer, setIsOpenAddAccountDrawer] = useState(false);
   const { useUpdateUserImgMutation } = userListApi;
   const [updateUserImg] = useUpdateUserImgMutation();
-  const [searchAccount, setSearchAccount] = useState('');
 
   // function for select user image
   const handleChangeImg = async (e: any, id: any) => {
@@ -36,8 +35,6 @@ const useUsersDetails = () => {
     setIsOpenAddAccountDrawer,
     theme,
     handleChangeImg,
-    searchAccount,
-    setSearchAccount,
   };
 };
 

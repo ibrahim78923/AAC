@@ -1,5 +1,6 @@
-import { useAppSelector } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import {
+  useGetTaskDetailsQuery,
   usePatchCreateTaskMutation,
   usePostCreateTaskMutation,
 } from '@/services/airSales/task';
@@ -15,9 +16,17 @@ import {
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
+import { useEffect } from 'react';
+import {
+  setCompaniesSelectedIds,
+  setContactsSelectedIds,
+  setDealsSelectedIds,
+  setTicketsSelectedIds,
+} from '@/redux/slices/taskManagement/taskManagementSlice';
 
-const useCreateTask = ({ creationMode, taskData }: any) => {
+const useCreateTask = ({ creationMode }: any) => {
   const theme = useTheme();
+  const dispatch: any = useAppDispatch();
 
   const [postCreateTask] = usePostCreateTaskMutation();
   const [patchCreateTask] = usePatchCreateTaskMutation();
@@ -29,6 +38,11 @@ const useCreateTask = ({ creationMode, taskData }: any) => {
   const contactsSelectedIds = useAppSelector(
     (state: any) => state?.task?.contactsSelectedIds,
   );
+
+  const { data: taskData } = useGetTaskDetailsQuery({
+    id: selectedTaskIds?.length === 1 && selectedTaskIds[0],
+  });
+
   const dealsSelectedIds = useAppSelector(
     (state: any) => state?.task?.dealsSelectedIds,
   );
@@ -43,6 +57,49 @@ const useCreateTask = ({ creationMode, taskData }: any) => {
     resolver: yupResolver(createTaskValidationSchema),
     defaultValues: createTaskDefaultValues({ data: taskData?.data }),
   });
+
+  useEffect(() => {
+    if (taskData?.data?.contactsIds) {
+      dispatch(
+        setContactsSelectedIds(
+          taskData?.data?.contactsIds?.map((item: any) => ({
+            label: item?.name,
+            id: item?._id,
+          })),
+        ),
+      );
+    }
+    if (taskData?.data?.ticketsIds) {
+      dispatch(
+        setTicketsSelectedIds(
+          taskData?.data?.ticketsIds?.map((item: any) => ({
+            label: item?.name,
+            id: item?._id,
+          })),
+        ),
+      );
+    }
+    if (taskData?.data?.companiesIds) {
+      dispatch(
+        setCompaniesSelectedIds(
+          taskData?.data?.companiesIds?.map((item: any) => ({
+            label: item?.name,
+            id: item?._id,
+          })),
+        ),
+      );
+    }
+    if (taskData?.data?.dealsIds) {
+      dispatch(
+        setDealsSelectedIds(
+          taskData?.data?.dealsIds?.map((item: any) => ({
+            label: item?.name,
+            id: item?._id,
+          })),
+        ),
+      );
+    }
+  }, [taskData?.data]);
 
   const { handleSubmit: handleMethodFilter } = methodsFilter;
 

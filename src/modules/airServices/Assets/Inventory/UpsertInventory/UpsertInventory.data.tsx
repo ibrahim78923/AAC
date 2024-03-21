@@ -19,8 +19,8 @@ export const assetsImpactOptions = [
 ];
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 export const UpsertInventoryValidationSchema: any = Yup?.object()?.shape({
-  displayName: Yup?.string()?.trim()?.required('Required'),
-  assetType: Yup?.mixed()?.nullable()?.required('Required'),
+  displayName: Yup?.string()?.trim()?.required('Display name is required'),
+  assetType: Yup?.mixed()?.nullable()?.required('Asset type is required'),
   description: Yup?.string(),
   impact: Yup?.mixed()?.nullable(),
   department: Yup?.mixed()?.nullable(),
@@ -28,26 +28,28 @@ export const UpsertInventoryValidationSchema: any = Yup?.object()?.shape({
   usedBy: Yup?.mixed()?.nullable(),
   assignedOnTime: Yup?.date()?.nullable(),
   assignedOnDate: Yup?.date()?.nullable(),
+  fileUrl: Yup?.mixed()?.nullable(),
 });
+
 export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
   return {
-    displayName: data?.data?.[0]?.displayName ?? '',
-    assetType: data?.data?.[0]?.assetTypeDetails ?? null,
-    impact: data?.data?.[0]?.impact ?? '',
+    displayName: data?.displayName ?? '',
+    assetType: data?.assetTypeDetails ?? null,
+    impact: data?.impact ?? ASSET_IMPACT?.LOW,
     assetLifeExpiry:
-      typeof data?.data?.[0]?.assetLifeExpiry === 'string'
-        ? new Date(data?.data?.[0]?.assetLifeExpiry ?? todayDate)
+      typeof data?.assetLifeExpiry === 'string'
+        ? new Date(data?.assetLifeExpiry ?? todayDate)
         : new Date(),
-    description: data?.data?.[0]?.description ?? '',
-    location: data?.data?.[0]?.locationDetails ?? null,
-    department: data?.data?.[0]?.departmentDetails ?? null,
-    assignedOnDate: new Date(data?.data?.[0]?.assignedOnDate ?? todayDate),
+    description: data?.description ?? '',
+    location: data?.locationDetails ?? null,
+    department: data?.departmentDetails ?? null,
+    assignedOnDate: new Date(data?.assignedOnDate ?? todayDate),
     assignedOnTime:
-      typeof data?.data?.[0]?.assignedOnTime === 'string'
-        ? new Date(data?.data?.[0]?.assignedOnTime)
+      typeof data?.assignedOnTime === 'string'
+        ? new Date(data?.assignedOnTime)
         : null,
-    usedBy: data?.data?.[0]?.usedByDetails ?? null,
-    attachFile: data?.data?.[0]?.attachFile ?? '',
+    usedBy: data?.usedByDetails ?? null,
+    fileUrl: null,
   };
 };
 export const editInventoryDefaultValues = {
@@ -60,7 +62,6 @@ export const editInventoryDefaultValues = {
   assignedOnDate: '',
   assignedOnTime: '',
   usedBy: '',
-  attachFile: '',
 };
 export const upsertInventoryFormFieldsDynamic = (
   apiQueryAssetType: any,
@@ -88,6 +89,7 @@ export const upsertInventoryFormFieldsDynamic = (
       label: 'Asset Type',
       placeholder: 'All Assets',
       fullWidth: true,
+      required: true,
       apiQuery: apiQueryAssetType,
       externalParams: { meta: false, limit: 50 },
     },
@@ -112,6 +114,8 @@ export const upsertInventoryFormFieldsDynamic = (
       fullWidth: true,
       name: 'description',
       label: 'Description',
+
+      style: { height: '200px' },
     },
     gridLength: 12,
     component: RHFEditor,
@@ -122,7 +126,7 @@ export const upsertInventoryFormFieldsDynamic = (
     componentProps: {
       fullWidth: true,
       name: 'assetLifeExpiry',
-      label: 'Asset life expire on',
+      label: 'Expiry date',
       select: true,
     },
     md: 6,
@@ -142,7 +146,6 @@ export const upsertInventoryFormFieldsDynamic = (
       name: 'location',
       label: 'Location',
       fullWidth: true,
-      required: true,
       apiQuery: apiQueryLocationType,
 
       getOptionLabel: (option: any) => option?.locationName,
@@ -156,7 +159,6 @@ export const upsertInventoryFormFieldsDynamic = (
       name: 'department',
       label: 'Department',
       fullWidth: true,
-      required: true,
       apiQuery: apiQueryDepartmentType,
     },
     component: RHFAutocompleteAsync,

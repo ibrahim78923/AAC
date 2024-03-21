@@ -9,6 +9,8 @@ import useTasks from './useTasks';
 import { columns } from './Tasks.data';
 
 import { PlusIcon } from '@/assets/icons';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Tasks = () => {
   const {
@@ -45,14 +47,18 @@ const Tasks = () => {
               setSelectedCheckboxes={setSelectedCheckboxes}
               setOpenDrawer={setOpenDrawer}
             />
-            <Button
-              variant="contained"
-              sx={{ minWidth: '0px', gap: 0.5 }}
-              onClick={() => setOpenDrawer('Add')}
-              className="small"
+            <PermissionsGuard
+              permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_TASK]}
             >
-              <PlusIcon /> Add New Task
-            </Button>
+              <Button
+                variant="contained"
+                sx={{ minWidth: '0px', gap: 0.5 }}
+                onClick={() => setOpenDrawer('Add')}
+                className="small"
+              >
+                <PlusIcon /> Add New Task
+              </Button>
+            </PermissionsGuard>
           </Box>
         </Grid>
         <Grid item xs={12}>

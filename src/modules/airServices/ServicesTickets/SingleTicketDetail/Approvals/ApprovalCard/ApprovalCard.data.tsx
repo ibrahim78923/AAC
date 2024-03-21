@@ -1,4 +1,5 @@
 import { ReceivedFileIcon, SharedIcon } from '@/assets/icons';
+import { AIR_SERVICES_TICKETS_TICKET_LISTS } from '@/constants/permission-keys';
 import { TICKET_APPROVALS } from '@/constants/strings';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -49,8 +50,8 @@ export const setStatus = (
       creatorUserId === authUserId
         ? APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.REQUESTED]
         : receiverUserId === authUserId
-          ? APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.RECEIVED]
-          : APPROVAL_CARD_INFO?.[status];
+        ? APPROVAL_CARD_INFO?.[TICKET_APPROVALS?.RECEIVED]
+        : APPROVAL_CARD_INFO?.[status];
     return setApprovalStatus;
   }
   return APPROVAL_CARD_INFO?.[status];
@@ -70,7 +71,7 @@ export const setUserDetails = (
       data?.receiverDetails?.firstName,
       data?.receiverDetails?.lastName,
     );
-    const avatar = generateImage(data?.imgSrc?.src);
+    const avatar = generateImage(data?.receiverDetails?.avatar?.url);
     return { name, nameInitial, avatar };
   }
   const name = fullName(
@@ -81,7 +82,7 @@ export const setUserDetails = (
     data?.requesterDetails?.firstName,
     data?.requesterDetails?.lastName,
   );
-  const avatar = generateImage(data?.imgSrc?.src);
+  const avatar = generateImage(data?.requesterDetails?.avatar?.url);
   return { name, nameInitial, avatar };
 };
 export const ticketsApprovalDropdownFunction = (
@@ -89,6 +90,8 @@ export const ticketsApprovalDropdownFunction = (
   data?: any,
 ) => [
   {
+    id: 1,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
     title: 'Send Reminder',
     handleClick: (closeMenu: any) => {
       getUpdateStatus?.({ ...data, state: TICKET_APPROVALS?.REMINDER });
@@ -96,6 +99,8 @@ export const ticketsApprovalDropdownFunction = (
     },
   },
   {
+    id: 2,
+    permissionKey: [AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS],
     title: 'Cancel Approval',
     handleClick: (closeMenu: any) => {
       getUpdateStatus?.({ ...data, state: TICKET_APPROVALS?.CANCEL });

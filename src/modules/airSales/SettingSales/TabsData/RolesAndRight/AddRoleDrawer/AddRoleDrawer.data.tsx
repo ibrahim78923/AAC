@@ -2,28 +2,15 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
-  // roleId: Yup?.string()?.required('Field is Required'),
   name: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const defaultValues = {
-  // roleId: '',
   name: '',
   description: '',
 };
 
 export const dataArray = [
-  // {
-  //   componentProps: {
-  //     label: 'Role ID',
-  //     name: 'roleId',
-  //     placeholder: 'Role ID',
-  //     fullWidth: true,
-  //     required: true,
-  //   },
-  //   component: RHFTextField,
-  //   md: 12,
-  // },
   {
     componentProps: {
       label: 'Role Name',

@@ -10,13 +10,6 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['PRODUCTS'],
     }),
-    getProductsUsers: builder.query({
-      query: () => ({
-        url: END_POINTS?.PRODUCTS_USERS,
-        method: 'GET',
-      }),
-      providesTags: ['PRODUCTS'],
-    }),
     getOrganizations: builder.query({
       query: () => ({
         url: END_POINTS?.ORGANIZATIONS,
@@ -62,7 +55,6 @@ export const CommonAPIS = baseAPI.injectEndpoints({
 
 export const {
   useGetProductsQuery,
-  useGetProductsUsersQuery,
   useGetOrganizationsQuery,
   useGetCompanyAccountsQuery,
   useGetCompanyAccountsRolesQuery,

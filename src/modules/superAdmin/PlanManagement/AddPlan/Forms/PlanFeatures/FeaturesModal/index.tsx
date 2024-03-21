@@ -86,7 +86,9 @@ const FeaturesModal = ({
                   ))}
                 </Grid>
                 <Box sx={styles?.buttonBox} mt={2}>
-                  <Button variant="outlined">No</Button>
+                  <Button variant="outlined" onClick={handleCloseFeaturesModal}>
+                    No
+                  </Button>
                   <Button
                     variant="contained"
                     type="submit"

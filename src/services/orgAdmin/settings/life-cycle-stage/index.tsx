@@ -12,9 +12,10 @@ export const lifeCycleStageAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['SettingLifeCycleStage'],
     }),
     getSettingLifeCycleStage: builder.query({
-      query: () => ({
+      query: ({ params }: any) => ({
         url: `${settingLifeCycleStage.GET_LIFE_CYCLE_STAGE}`,
         method: 'GET',
+        params: params,
       }),
       providesTags: ['SettingLifeCycleStage'],
     }),
@@ -27,7 +28,7 @@ export const lifeCycleStageAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['SettingLifeCycleStage'],
     }),
     deleteSettingLifeCycleStage: builder.mutation({
-      query: ({ id }) => ({
+      query: (id) => ({
         url: `${settingLifeCycleStage.DELETE_LIFE_CYCLE_STAGE}/${id}`,
         method: 'DELETE',
       }),

@@ -1,42 +1,47 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useDeleteInventorySoftwareMutation,
   useGetInventorySoftwareQuery,
 } from '@/services/airServices/assets/inventory/single-inventory-details/software';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 export const useSoftware = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteRecord, setDelateRecord] = useState();
   const router = useRouter();
-  const { data, isLoading } = useGetInventorySoftwareQuery(
+  const { data, isLoading, isFetching, isError } = useGetInventorySoftwareQuery(
     router?.query?.inventoryId,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!router?.query?.inventoryId,
+    },
   );
-  const AssetsInventorySoftwareData = data?.data?.inventories;
-  const [deleteInventorySoftware] = useDeleteInventorySoftwareMutation();
-
+  const [deleteInventorySoftware, deleteIsLoading] =
+    useDeleteInventorySoftwareMutation();
   const handleDelete = async () => {
     try {
-      const res: any = await deleteInventorySoftware(deleteRecord);
-      enqueueSnackbar(res?.message ?? 'Record deleted Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      const res: any = await deleteInventorySoftware({
+        body: {
+          softwareId: router?.query?.inventoryId,
+          id: deleteRecord,
+        },
+      })?.unwrap();
+      successSnackbar(res?.message ?? 'Record deleted Successfully');
       setOpenDeleteModal(false);
     } catch (err: any) {
-      enqueueSnackbar(err?.message ?? `Something went wrong`, {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(err?.message ?? `Something went wrong`);
     }
   };
-
   return {
-    AssetsInventorySoftwareData,
     isLoading,
     openDeleteModal,
     setOpenDeleteModal,
     handleDelete,
     setDelateRecord,
+    data,
+    isFetching,
+    isError,
+    deleteIsLoading,
   };
 };

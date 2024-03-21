@@ -8,15 +8,14 @@ import CommonDrawer from '@/components/CommonDrawer';
 const CreateTask = ({
   isCreateTaskDrawerOpen,
   setIsCreateTaskDrawerOpen,
-  creationMode,
-  taskData,
+  creationMode, // taskData,
 }: any) => {
   const {
     handleFiltersSubmit,
     getCreateTaskData,
     methodsFilter,
     onSubmitHandler,
-  } = useCreateTask({ creationMode, taskData });
+  } = useCreateTask({ creationMode });
 
   return (
     <CommonDrawer

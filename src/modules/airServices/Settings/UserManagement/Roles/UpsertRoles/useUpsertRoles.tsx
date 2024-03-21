@@ -10,7 +10,8 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { AIR_SERVICES } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import {
-  useGetPermissionsByProductQuery,
+  useGetPermissionsRoleByIdQuery,
+  usePatchPermissionsRoleByIdMutation,
   usePostPermissionsRoleMutation,
 } from '@/services/airServices/settings/user-management/roles';
 import { useEffect } from 'react';
@@ -24,33 +25,9 @@ export default function useUpsertRoles() {
   const auth: any = useAuth();
 
   const { _id: productId } = auth?.product;
-  const { _id: organizationCompanyAccountId } = auth?.product?.accounts?.[0];
+  const { _id: organizationCompanyAccountId } =
+    auth?.product?.accounts?.[0]?.company;
   const { _id: organizationId } = auth?.user?.organization;
-
-  const {
-    data: getPermissionsData,
-    isLoading: getPermissionsIsLoading,
-    isFetching: getPermissionsIsFetching,
-    isError: getPermissionsIsError,
-  } = useGetPermissionsByProductQuery({
-    productId,
-  });
-
-  const getSlugs = () => {
-    const slugs = getPermissionsData?.data?.flatMap(
-      (parent: any) =>
-        parent?.subModules?.flatMap(
-          (subModule: any) =>
-            subModule?.permissions?.map((item: any) => item?.slug),
-        ),
-    );
-    const slugsObject = slugs?.reduce((acc: any, slug: any) => {
-      acc[slug] = false;
-      return acc;
-    }, {});
-
-    return slugsObject;
-  };
 
   const methods: any = useForm({
     resolver: yupResolver(upsertRolesValidationSchema),
@@ -59,11 +36,41 @@ export default function useUpsertRoles() {
 
   const { handleSubmit, reset } = methods;
 
-  useEffect(() => {
-    reset(upsertRolesDefaultValues(getSlugs()));
-  }, [getPermissionsData, reset]);
+  const {
+    data: getRolesData,
+    isLoading: getRolesIsLoading,
+    isFetching: getRolesIsFetching,
+    isError: getRolesIsError,
+  } = useGetPermissionsRoleByIdQuery(roleId, {
+    skip: !roleId,
+    refetchOnMountOrArgChange: true,
+  });
 
-  const [postPermissionTrigger] = usePostPermissionsRoleMutation();
+  useEffect(() => {
+    const slugs = getRolesData?.data?.permissions?.flatMap(
+      (parent: any) =>
+        parent?.subModules?.flatMap(
+          (subModule: any) =>
+            subModule?.permissions?.map((item: any) => item?.slug),
+        ),
+    );
+
+    const slugsObject = slugs?.reduce((acc: any, slug: any) => {
+      acc[slug] = true;
+      return acc;
+    }, {});
+
+    const name = getRolesData?.data?.name;
+    const description = getRolesData?.data?.description;
+
+    reset(upsertRolesDefaultValues({ name, description, ...slugsObject }));
+  }, [reset, getRolesData, roleId]);
+
+  const [postPermissionTrigger, postPermissionsStatus] =
+    usePostPermissionsRoleMutation();
+
+  const [patchPermissionTrigger, patchPermissionsStatus] =
+    usePatchPermissionsRoleByIdMutation();
 
   const onSubmit = async (data: any) => {
     const permissionKeys = Object?.entries(data ?? {})
@@ -72,7 +79,7 @@ export default function useUpsertRoles() {
       )
       ?.map(([item]: any) => item);
 
-    const updatedData = {
+    const updatedPostData = {
       organizationId,
       organizationCompanyAccountId,
       productId,
@@ -82,9 +89,23 @@ export default function useUpsertRoles() {
       permissions: permissionKeys,
     };
 
+    const updatedPatchData = {
+      companyAccountRoleId: organizationId,
+      organizationCompanyAccountId,
+      productId,
+      status: 'ACTIVE',
+      name: data?.name,
+      description: data?.description,
+      permissions: permissionKeys,
+    };
+
     try {
-      await postPermissionTrigger(updatedData)?.unwrap();
-      successSnackbar('Role Added Successfully!');
+      if (roleId) {
+        await patchPermissionTrigger({ updatedPatchData, roleId })?.unwrap();
+      } else {
+        await postPermissionTrigger(updatedPostData)?.unwrap();
+      }
+      successSnackbar(`Role ${roleId ? 'Updated' : 'Added'} Successfully!`);
       router?.push(AIR_SERVICES?.USER_ROLES_SETTINGS);
     } catch (error) {
       errorSnackbar();
@@ -98,9 +119,10 @@ export default function useUpsertRoles() {
     handleSubmit,
     onSubmit,
     theme,
-    getPermissionsIsLoading,
-    getPermissionsIsFetching,
-    getPermissionsIsError,
-    getPermissionsData,
+    postPermissionsStatus,
+    getRolesIsLoading,
+    getRolesIsFetching,
+    patchPermissionsStatus,
+    getRolesIsError,
   };
 }

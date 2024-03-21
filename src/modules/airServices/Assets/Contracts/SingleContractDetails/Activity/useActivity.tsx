@@ -1,25 +1,39 @@
-import dayjs from 'dayjs';
-import { useGetActivityLogQuery } from '@/services/airServices/tickets/single-ticket-details/activities';
 import { useTheme } from '@mui/material';
+import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { PAGINATION } from '@/config';
+import { useGetSingleContractsActivityLogQuery } from '@/services/airServices/assets/contracts/single-contract-details/activity';
+import { MODULE_TYPE } from '@/constants/strings';
 
 export const useActivity = () => {
   const theme = useTheme();
-  const { data } = useGetActivityLogQuery(null);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
-  const activitiesData =
-    data?.data?.activitylogs?.map((activity: any) => ({
-      createdBy: activity?.performedByName || '---',
-      createdByOne:
-        `${activity?.activityType} ${activity?.moduleName}` || '---',
-      timeOne:
-        (activity?.createdAt &&
-          dayjs(activity?.createdAt)?.format('ddd, D MMM, YYYY h:mm A')) ||
-        '---',
-      timeTwo: activity?.activityType || '---',
-    })) || [];
+  const contractId = useSearchParams()?.get('contractId');
+
+  const getSingleContractActivityParameter = {
+    queryParams: {
+      page,
+      limit: pageLimit,
+      moduleId: contractId,
+      module: MODULE_TYPE?.CONTRACTS,
+    },
+  };
+
+  const { data, isLoading, isFetching, isError }: any =
+    useGetSingleContractsActivityLogQuery(getSingleContractActivityParameter, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!contractId,
+    });
 
   return {
-    activitiesData,
+    isLoading,
+    isError,
+    isFetching,
     theme,
+    data,
+    setPage,
+    setPageLimit,
   };
 };

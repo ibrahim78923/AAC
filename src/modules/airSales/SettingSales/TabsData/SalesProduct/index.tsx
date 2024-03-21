@@ -14,6 +14,8 @@ import SalesEditorDrawer from './SalesEdItorDrawer';
 import useSalesProduct from './useSalesProduct';
 
 import { styles } from './SalesProduct.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 
 const SalesProduct = () => {
   const {
@@ -69,28 +71,32 @@ const SalesProduct = () => {
           }}
         >
           <Typography variant="h4">Sales Product</Typography>
-          <Button
-            variant="contained"
-            sx={styles?.createBtn}
-            onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
-            className="small"
-          >
-            <AddCircleIcon
-              sx={{
-                color: `${theme?.palette?.common?.white}`,
-                fontSize: '16px',
-              }}
-            />
-            Create Product
-          </Button>
+          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.CREATE_PRODUCT]}>
+            <Button
+              variant="contained"
+              sx={styles?.createBtn}
+              onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
+              className="small"
+            >
+              <AddCircleIcon
+                sx={{
+                  color: `${theme?.palette?.common?.white}`,
+                  fontSize: '16px',
+                }}
+              />
+              Create Product
+            </Button>
+          </PermissionsGuard>
         </Box>
         <Box sx={styles?.searchAction}>
-          <Search
-            label={'Search here'}
-            searchBy={productSearch}
-            setSearchBy={setproductSearch}
-            size="small"
-          />
+          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.SEARCH]}>
+            <Search
+              label={'Search here'}
+              searchBy={productSearch}
+              setSearchBy={setproductSearch}
+              size="small"
+            />
+          </PermissionsGuard>
           <Button
             id="basic-button"
             className="small"
@@ -105,20 +111,22 @@ const SalesProduct = () => {
           </Button>
         </Box>
         <Grid>
-          <TanstackTable
-            columns={getRowValues}
-            data={salesProductData?.salesproducts}
-            setPage={setPage}
-            setPageLimit={setPageLimit}
-            isPagination
-            isLoading={isLoading}
-            currentPage={salesProductData?.meta?.pages}
-            count={salesProductData?.meta?.total}
-            pageLimit={salesProductData?.meta?.limit}
-            totalRecords={salesProductData?.meta?.total}
-            isSuccess={isSuccess || true}
-            onPageChange={(page: any) => setPage(page)}
-          />
+          <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.PRODUCT_LIST]}>
+            <TanstackTable
+              columns={getRowValues}
+              data={salesProductData?.salesproducts}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              isPagination
+              isLoading={isLoading}
+              currentPage={salesProductData?.meta?.pages}
+              count={salesProductData?.meta?.total}
+              pageLimit={salesProductData?.meta?.limit}
+              totalRecords={salesProductData?.meta?.total}
+              isSuccess={isSuccess || true}
+              onPageChange={(page: any) => setPage(page)}
+            />
+          </PermissionsGuard>
         </Grid>
       </Box>
 
@@ -131,23 +139,27 @@ const SalesProduct = () => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem
-          onClick={() => {
-            setIsEditMode(true), setIsDraweropen(true);
-            setAnchorEl(null);
-          }}
-          disabled={selectedCheckboxes?.length > 1}
-        >
-          Edit
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setDeleteModalOpen(true);
-            setAnchorEl(null);
-          }}
-        >
-          Delete
-        </MenuItem>
+        <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.EDIT]}>
+          <MenuItem
+            onClick={() => {
+              setIsEditMode(true), setIsDraweropen(true);
+              setAnchorEl(null);
+            }}
+            disabled={selectedCheckboxes?.length > 1}
+          >
+            Edit
+          </MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.DELETE]}>
+          <MenuItem
+            onClick={() => {
+              setDeleteModalOpen(true);
+              setAnchorEl(null);
+            }}
+          >
+            Delete
+          </MenuItem>
+        </PermissionsGuard>
       </Menu>
 
       {isDraweropen && (

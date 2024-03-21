@@ -57,6 +57,8 @@ const Faqs = () => {
     handleOpenModalDelete,
     handleCloseModalDelete,
     openModalEditFaq,
+    drawerTitle,
+    onViewDisabled,
     handleOpenModalEditFaq,
     handleCloseModalEditFaq,
     handleSubmitUpdateFaq,
@@ -64,7 +66,6 @@ const Faqs = () => {
     methodsEditFaq,
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,
@@ -155,7 +156,7 @@ const Faqs = () => {
                 >
                   <MenuItem
                     disabled={!rowId}
-                    onClick={() => handleOpenModalEditFaq()}
+                    onClick={() => handleOpenModalEditFaq('Edit')}
                     style={{ fontSize: '14px' }}
                   >
                     Edit
@@ -169,7 +170,7 @@ const Faqs = () => {
                 >
                   <MenuItem
                     disabled={!rowId}
-                    onClick={() => handleOpenModalEditFaq()}
+                    onClick={() => handleOpenModalEditFaq('View')}
                     style={{ fontSize: '14px' }}
                   >
                     View
@@ -226,12 +227,14 @@ const Faqs = () => {
             columns={getFaqsTableColumns}
             data={dataGetFaqs?.data?.faqs}
             isLoading={loagingGetFaqs}
-            isPagination
+            currentPage={dataGetFaqs?.data?.meta?.page}
             count={dataGetFaqs?.data?.meta?.pages}
+            pageLimit={dataGetFaqs?.data?.meta?.limit}
             totalRecords={dataGetFaqs?.data?.meta?.total}
-            onPageChange={handlePageChange}
             setPage={setPage}
             setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
           />
         </Box>
       </PermissionsGuard>
@@ -285,6 +288,8 @@ const Faqs = () => {
         formMethods={methodsEditFaq}
         handleSubmit={handleSubmitUpdateFaq}
         isLoading={loadingUpdateFaq}
+        title={drawerTitle}
+        onViewDisabled={onViewDisabled}
       />
     </Box>
   );

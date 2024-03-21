@@ -29,7 +29,7 @@ export const useAgentLevelsPoints = () => {
       await addAgentLevelsPointsTrigger(values)?.unwrap();
       successSnackbar('Agent levels points added successfully!');
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
 

@@ -91,7 +91,7 @@ export const useInventory = () => {
       downloadFile(response, 'InventoryLists', EXPORT_FILE_TYPE?.[type]);
       successSnackbar('File export successfully');
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {

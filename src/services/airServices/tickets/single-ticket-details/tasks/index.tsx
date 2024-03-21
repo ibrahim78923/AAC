@@ -32,10 +32,9 @@ export const taskAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     deleteTask: builder.mutation({
-      query: (params: any) => ({
-        url: `${END_POINTS?.TASK}/id`,
+      query: (ids: any) => ({
+        url: `${END_POINTS?.TASK}/${ids}`,
         method: 'DELETE',
-        params,
       }),
       invalidatesTags: [TAG],
     }),
@@ -50,10 +49,11 @@ export const taskAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_ONE],
     }),
-    getAgentsDropdownList: builder?.query({
-      query: () => ({
-        url: `${END_POINTS?.DROPDOWN_AGENTS_LIST}`,
+    getUsersDropdownList: builder?.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.USERS_DROPDOWN}`,
         method: 'GET',
+        params,
       }),
       transformResponse: (response: any) => {
         if (response) return response?.data;
@@ -69,5 +69,5 @@ export const {
   usePostTaskByIdMutation,
   useDeleteTaskMutation,
   useLazyGetDepartmentDropdownListQuery,
-  useLazyGetAgentsDropdownListQuery,
+  useLazyGetUsersDropdownListQuery,
 } = taskAPI;

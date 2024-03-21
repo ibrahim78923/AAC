@@ -1,10 +1,9 @@
-import { Typography, Button, MenuItem, Menu, Box } from '@mui/material';
+import { Button, MenuItem, Menu, Box, Skeleton } from '@mui/material';
 import { ActionButtonIcon } from '@/assets/icons';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { useHeader } from './useHeader';
-import React from 'react';
-import { AlertModals } from '@/components/AlertModals';
 import { UpsertSoftware } from '../../UpsertSoftware';
+import { DeleteSoftware } from '../../DeleteSoftware';
 
 export default function Header() {
   const {
@@ -16,15 +15,13 @@ export default function Header() {
     handleClose,
     open,
     anchorEl,
-    deleteSoftware,
-    isLoading,
     moveBackArrow,
-    submitHandler,
-    userQuery,
-    onClose,
-    methods,
-    editLoading,
+    data,
+    isLoading,
+    isFetching,
   } = useHeader();
+
+  if (isLoading || isFetching) return <Skeleton height={50} />;
 
   return (
     <>
@@ -35,12 +32,11 @@ export default function Header() {
         flexWrap={'wrap'}
         gap={2}
       >
-        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
-          <ArrowBackIcon onClick={moveBackArrow} />
-          <Typography variant="h5" component="span">
-            Software
-          </Typography>
-        </Box>
+        <PageTitledHeader
+          canMovedBack
+          moveBack={moveBackArrow}
+          title={data?.data?.[0]?.name}
+        />
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <Button
             variant="outlined"
@@ -78,23 +74,20 @@ export default function Header() {
         </Box>
       </Box>
       {deleteModalOpen && (
-        <AlertModals
-          type="delete"
-          open={deleteModalOpen}
-          loading={isLoading}
-          handleClose={() => setDeleteModalOpen(false)}
-          handleSubmitBtn={deleteSoftware}
-          message="Are you sure  want to delete this Software ?"
+        <DeleteSoftware
+          deleteModalOpen={deleteModalOpen}
+          setDeleteModalOpen={setDeleteModalOpen}
         />
       )}
-      <UpsertSoftware
-        isDrawerOpen={isDrawerOpen}
-        onClose={onClose}
-        methods={methods}
-        submitHandler={submitHandler}
-        isLoading={editLoading}
-        userQuery={userQuery}
-      />
+      {isDrawerOpen && (
+        <UpsertSoftware
+          isAddDrawerOpen={isDrawerOpen}
+          setIsAddDrawerOpen={setIsDrawerOpen}
+          data={data?.data?.[0]}
+          isLoading={isLoading}
+          isFetching={isFetching}
+        />
+      )}
     </>
   );
 }

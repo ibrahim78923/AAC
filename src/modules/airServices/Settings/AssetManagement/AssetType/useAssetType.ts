@@ -26,9 +26,9 @@ export const useAssetType = () => {
     meta: true,
   };
 
-  const { data } = useGetAssetTypeQuery(param);
+  const { data, isLoading, isFetching } = useGetAssetTypeQuery(param);
   const assetTypeData = data?.data?.assettypes;
-  const metaData = data?.meta;
+  const metaData = data?.data?.meta;
 
   return {
     collapseItem,
@@ -43,5 +43,7 @@ export const useAssetType = () => {
     pageLimit,
     setSelectedId,
     selectedId,
+    isLoading,
+    isFetching,
   };
 };

@@ -1,9 +1,7 @@
-import { Checkbox, Stack, TextField } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
-import { StatusDropdown } from './InvoicesCommonComponents/StatusDropDown';
-import { QuantityNumber } from './InvoicesCommonComponents/QuantityNumber';
-import { SelectUnit } from './InvoicesCommonComponents/SelectUnit';
+// import { StatusDropdown } from './InvoicesCommonComponents/StatusDropDown';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 
@@ -66,23 +64,25 @@ export const invoicesTableColumns: any = [
     id: 'status',
     isSortable: true,
     header: 'Status',
-    cell: (info: any) => {
-      return <StatusDropdown data={info} />;
-    },
+    // cell: (info: any) => {
+    //   return <StatusDropdown data={info} />;
+    // },
+    cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.linkedQuote,
     id: 'linkedQuote',
     isSortable: true,
     header: 'Linked Quote',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.row?.original?.quote?.name,
   },
   {
     accessorFn: (row: any) => row?.createdBy,
     id: 'createdBy',
     isSortable: true,
     header: 'Created By',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      `${info?.row?.original?.preparedBy?.firstName} ${info?.row?.original?.preparedBy?.lastName}`,
   },
   {
     accessorFn: (row: any) => row?.createdAt,
@@ -158,19 +158,23 @@ export const invoicesTableData: any = [
 export const invoiceFilterFields = [
   {
     componentProps: {
-      name: 'requester',
-      label: 'Requester',
+      name: 'Status',
+      label: 'Status',
       fullWidth: true,
       select: true,
     },
-    options: [{ value: 'BE', label: 'BE' }],
+    options: [
+      { value: 'Paid', label: 'Paid' },
+      { value: 'Draft', label: 'Draft' },
+      { value: 'Published', label: 'Published' },
+    ],
     component: RHFSelect,
     md: 12,
   },
   {
     componentProps: {
-      name: 'plannedEndDat e',
-      label: 'Planned End Date',
+      name: 'CreatedDate',
+      label: 'CreatedDate',
       fullWidth: true,
     },
     component: RHFDatePicker,
@@ -178,8 +182,8 @@ export const invoiceFilterFields = [
   },
   {
     componentProps: {
-      name: 'impact',
-      label: 'Impact',
+      name: 'Created By',
+      label: 'Created By',
       fullWidth: true,
       select: true,
     },
@@ -225,35 +229,29 @@ export const productsTableColumns = () =>
       id: 'quantity',
       isSortable: true,
       header: 'Quantity',
-      cell: (info: any) => {
-        return <QuantityNumber data={info} />;
-      },
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.unitDiscount,
       id: 'unitDiscount',
       isSortable: true,
       header: 'Unit Discount',
-      cell: (info: any) => {
-        return (
-          <Stack direction="row" gap={2}>
-            <SelectUnit data={info} />
-            <TextField
-              type="text"
-              size="small"
-              value={20}
-              sx={{ width: '100px' }}
-            />
-          </Stack>
-        );
-      },
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.totalPrice,
       id: 'totalPrice',
       isSortable: true,
       header: 'Total Price',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => {
+        return (
+          <>
+            {' '}
+            {info?.row?.original?.unitPrice *
+              info?.row?.original?.quantity}{' '}
+          </>
+        );
+      },
     },
     {
       accessorFn: (row: any) => dayjs(row?.createdAt)?.format(DATE_FORMAT?.UI),

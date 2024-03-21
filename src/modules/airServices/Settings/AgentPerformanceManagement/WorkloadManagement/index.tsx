@@ -2,7 +2,6 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
-import { WorkloadLevel } from './WorkloadLevel';
 import { RolesAndPermissions } from './RolesAndPermissions';
 import { WorkloadSchedule } from './WorkloadSchedule';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -20,19 +19,8 @@ export const WorkloadManagement = () => {
         }}
       />
       <HorizontalTabs
-        tabsDataArray={[
-          'Workload Level',
-          'Roles And Permission',
-          'Workload Schedule',
-        ]}
+        tabsDataArray={['Roles And Permission', 'Workload Schedule']}
       >
-        <PermissionsGuard
-          permissions={[
-            AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_WORKLOAD_LEVELS,
-          ]}
-        >
-          <WorkloadLevel />
-        </PermissionsGuard>
         <PermissionsGuard
           permissions={[
             AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.VIEW_ROLES_AND_PERMISSIONS,

@@ -4,6 +4,8 @@ import { Box, Typography } from '@mui/material';
 
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import { NotesAvatarImage } from '@/assets/images';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const columns: any = ({
   setOpenDrawer,
@@ -64,30 +66,45 @@ export const columns: any = ({
       header: 'Actions',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setOpenDrawer('View'), setContactRecord(info?.row?.original);
-            }}
+          <PermissionsGuard
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_CONTACT]}
           >
-            <ViewEyeIcon />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setOpenDrawer('Edit'), setContactRecord(info?.row?.original);
-            }}
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setOpenDrawer('View'), setContactRecord(info?.row?.original);
+              }}
+            >
+              <ViewEyeIcon />
+            </Box>
+          </PermissionsGuard>
+
+          <PermissionsGuard
+            permissions={[
+              AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_CONTACT,
+            ]}
           >
-            <EditPenIcon />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setIsOpenAlert(true), setContactRecord(info?.row?.original);
-            }}
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setOpenDrawer('Edit'), setContactRecord(info?.row?.original);
+              }}
+            >
+              <EditPenIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_REMOVE_CONTACT]}
           >
-            <DeleteCrossIcon />
-          </Box>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setIsOpenAlert(true), setContactRecord(info?.row?.original);
+              }}
+            >
+              <DeleteCrossIcon />
+            </Box>
+          </PermissionsGuard>
         </Box>
       ),
     },

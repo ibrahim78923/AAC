@@ -58,8 +58,13 @@ export const SOCIAL_FEATURES = {
 export const AIR_SOCIAL = {
   CONTACTS: `${AIR_SOCIAL_PAGE}/contacts`,
   CONTACTS_VIEW_DETAILS: `${AIR_SOCIAL_PAGE}/contacts/view-details`,
+  RESTORE_ACTIVITIES: `restore-activties`,
   CONTACTS_RESTORE: `${AIR_SOCIAL_PAGE}/contacts/restore`,
   CONTACTS_IMPORT: `${AIR_SOCIAL_PAGE}/contacts/import`,
+  CONTCATS_COLUMN: `${AIR_SOCIAL_PAGE}/contacts/import/import-column`,
+  IMPORTHISTORY: `${AIR_SOCIAL_PAGE}/contacts/import/import-history`,
+  IMPORT_RECORD_CREATED: `${AIR_SOCIAL_PAGE}/contacts/import/import-history/import-record-created`,
+  IMPORT_RECORD_RESTORE: `${AIR_SOCIAL_PAGE}/contacts/import/import-history/import-record-created/restore`,
 };
 
 export const AIR_SALES = {
@@ -83,6 +88,7 @@ export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
   PLAN_TYPE_LIST: 'plan/plan-type-list',
   PRODUCT_FEATURES: 'product-features?page=1&limit=10',
   ADD_PLAN: '/super-admin/plan-management/add-plan',
+  PLAN_MANAGEMENT_GRID: '/super-admin/plan-management',
 };
 
 export const orgAdminSubcriptionInvoices = {

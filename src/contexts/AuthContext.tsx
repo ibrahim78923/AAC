@@ -187,7 +187,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   const setActiveProduct = (product: any) => {
     setActiveProductSession(product);
-
     dispatch({
       type: 'ACTIVE_PRODUCT',
       payload: {

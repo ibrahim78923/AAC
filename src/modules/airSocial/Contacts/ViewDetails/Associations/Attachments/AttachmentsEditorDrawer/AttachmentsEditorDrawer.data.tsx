@@ -2,16 +2,19 @@ import { RHFDropZone } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
-export const attachmentsValidationSchema = Yup?.object()?.shape({});
+export const attachmentsValidationSchema = Yup?.object()?.shape({
+  fileUrl: Yup.string().trim().required('Field is Required'),
+});
 
 export const attachmentsDefaultValues = {
-  attachment: '',
+  fileUrl: '',
 };
 
 export const attachmentsDataArray = [
   {
+    id: 'fileUrl',
     componentProps: {
-      name: 'attachment',
+      name: 'fileUrl',
       label: '',
       fullWidth: true,
     },
@@ -19,13 +22,3 @@ export const attachmentsDataArray = [
     md: 12,
   },
 ];
-
-export const drawerTitle: any = {
-  Add: 'Add Attachments',
-  Edit: 'Edit Attachments',
-  View: 'View Attachments',
-};
-export const drawerButtonTitle: any = {
-  Add: 'Add',
-  Edit: 'Edit',
-};

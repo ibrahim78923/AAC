@@ -13,6 +13,8 @@ import { companiesData } from '@/mock/modules/airSales/Deals/ViewDetails';
 import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Companies = () => {
   const {
@@ -57,14 +59,20 @@ const Companies = () => {
               label="Search By Name"
               size="medium"
             />
-            <Button
-              variant="contained"
-              className="medium"
-              sx={{ minWidth: '0px', gap: 0.5 }}
-              onClick={() => setOpenDrawer('Add')}
+            <PermissionsGuard
+              permissions={[
+                AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_COMPANY,
+              ]}
             >
-              <PlusIcon /> Add Companies
-            </Button>
+              <Button
+                variant="contained"
+                className="medium"
+                sx={{ minWidth: '0px', gap: 0.5 }}
+                onClick={() => setOpenDrawer('Add')}
+              >
+                <PlusIcon /> Add Companies
+              </Button>
+            </PermissionsGuard>
           </Box>
         </Grid>
         <Grid item xs={12}>

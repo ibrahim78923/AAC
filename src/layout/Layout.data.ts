@@ -42,7 +42,12 @@ import {
   WorkFlowAutomationImage,
   WorkLoadImage,
 } from '@/assets/images';
-import { Permissions } from '@/constants/permissions';
+import { Quick_Links_Routes } from '@/constants';
+import {
+  Permissions,
+  orgAdminAllPermissions,
+  superAdminAllPermissionsSetting,
+} from '@/constants/permissions';
 import {
   AIR_MARKETER,
   AIR_OPERATION,
@@ -137,7 +142,7 @@ export const OrgAdminRoutes: MenuItemI[] = [
     icon: ForecastImage,
     label: 'Role and Rights',
     role: 'org-admin',
-    permissions: Permissions?.ORG_ADMIN_USER,
+    permissions: Permissions?.ORG_ADMIN_ROLE_AND_RIGHTS,
   },
 ];
 
@@ -478,14 +483,14 @@ export const SalesRoutes: any = [
     icon: QuotesImage,
     label: 'Quotes',
     role: 'AIR_SALES',
-    permissions: [],
+    permissions: Permissions?.AIR_SALES_QUOTES,
   },
   {
     key: '/air-sales/tasks',
     icon: PlanManagementImage,
     label: 'Tasks',
     role: 'AIR_SALES',
-    permissions: [],
+    permissions: Permissions?.AIR_SALES_TASKS,
   },
 
   {
@@ -493,7 +498,7 @@ export const SalesRoutes: any = [
     icon: BillingInvoiceImage,
     label: 'Invoices',
     role: 'AIR_SALES',
-    permissions: [],
+    permissions: Permissions?.AIR_SALES_INVOICES,
   },
   {
     key: '/air-sales/reports',
@@ -510,7 +515,7 @@ export const LowerSuperAdminRoutes = [
     icon: SettingImage,
     role: 'super-admin',
     key: '/super-admin/settings',
-    permissions: [],
+    permissions: superAdminAllPermissionsSetting,
     textNames: [
       {
         key: '/super-admin/settings/jobs',
@@ -567,22 +572,22 @@ export const LowerOrgAdminRoutes = [
     icon: SettingImage,
     role: 'org-admin',
     key: '/org-admin/settings',
-    permissions: [],
+    permissions: orgAdminAllPermissions,
     textNames: [
       {
         key: '/org-admin/settings/sales-product-categories',
         label: 'Sales Product categories',
-        permissions: [],
+        permissions: Permissions?.ORG_ADMIN_SETTINGS_CATEGORIES,
       },
       {
         key: '/org-admin/settings/life-cycle-stage',
         label: 'Life Cycle Stage',
-        permissions: [],
+        permissions: Permissions?.ORG_ADMIN_SETTINGS_LIFECYCLE_STAGES,
       },
       {
         key: '/org-admin/settings/contact-status',
         label: 'Contact Status',
-        permissions: [],
+        permissions: Permissions?.ORG_ADMIN_SETTINGS_CONTACT_STATUS,
       },
     ],
   },
@@ -595,7 +600,7 @@ export const LowerSalesRoutes = [
     icon: SettingImage,
     role: 'AIR_SALES',
     key: '/air-sales/settings',
-    permissions: [],
+    permissions: Permissions?.AIR_SALES_SETTINGS,
   },
 ];
 
@@ -722,7 +727,8 @@ export const QuickLinkData = [
   {
     key: '1',
     icon: CallImage,
-    path: '/social-components/calling',
+    path: Quick_Links_Routes?.CALLING,
+    permissions: Permissions?.SOCIAL_COMPONENTS_CALLING,
   },
   {
     key: '2',
@@ -737,17 +743,17 @@ export const QuickLinkData = [
   {
     key: '4',
     icon: DocumentImage,
-    path: '',
+    path: Quick_Links_Routes?.CALLING,
   },
   {
     key: '5',
     icon: MailImage,
-    path: '/social-components/chat',
+    path: Quick_Links_Routes?.CHAT,
   },
   {
     key: '6',
     icon: MessageImage,
-    path: '',
+    path: Quick_Links_Routes?.EMAIL,
   },
   {
     key: '7',
@@ -757,10 +763,10 @@ export const QuickLinkData = [
 ];
 
 const PRODUCT__ROUTES: any = {
-  SUPER_ADMIN: SuperAdminRoutes,
+  'Super Admin': SuperAdminRoutes,
   'Air Sales': SalesRoutes,
   'Air Services': ServicesRoutes,
-  ORG_ADMIN: OrgAdminRoutes,
+  'Org Admin': OrgAdminRoutes,
   'Customer Portal': CustomerPortalRoutes,
   'Air Operations': AirOperationsRoutes,
   'Air Marketer': AirMarketingRoutes,

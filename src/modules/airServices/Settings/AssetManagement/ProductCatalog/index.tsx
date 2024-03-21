@@ -47,6 +47,15 @@ export const ProductCatalog = () => {
             pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
           })
         }
+        createPermissionKey={[
+          AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.ADD_PRODUCT_CATEGORIES,
+        ]}
+        exportPermissionKey={[
+          AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.SEARCH_IMPORT_EXPORT_CATEGORIES,
+        ]}
+        importPermissionKey={[
+          AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.SEARCH_IMPORT_EXPORT_CATEGORIES,
+        ]}
       />
       <Box
         py={2}
@@ -54,9 +63,15 @@ export const ProductCatalog = () => {
         boxShadow={1}
         border={`1px solid ${theme?.palette?.custom?.off_white_three}`}
       >
-        <Box px={2}>
-          <Search label="Search Here" setSearchBy={setSearch} />
-        </Box>
+        <PermissionsGuard
+          permissions={[
+            AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS?.SEARCH_IMPORT_EXPORT_CATEGORIES,
+          ]}
+        >
+          <Box px={2}>
+            <Search label="Search Here" setSearchBy={setSearch} />
+          </Box>
+        </PermissionsGuard>
         <Box marginY={3} />
         <PermissionsGuard
           permissions={[

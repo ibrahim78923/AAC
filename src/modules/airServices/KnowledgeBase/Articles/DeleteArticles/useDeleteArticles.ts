@@ -33,7 +33,7 @@ export const useDeleteArticles = (props: any) => {
       closeArticleDeleteModal?.();
       moveBack && moveToArticleList?.();
     } catch (error: any) {
-      errorSnackbar?.();
+      errorSnackbar(error?.data?.message);
       setSelectedArticlesData?.([]);
       closeArticleDeleteModal?.();
     }

@@ -1,28 +1,45 @@
+import useAuth from '@/hooks/useAuth';
+import { usePatchProfileAvatarMutation } from '@/services/airServices/settings/account-settings/account-details';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 
 export const useHeader = () => {
   const router = useRouter();
-  const [uploadedImage, setUploadedImage] = useState<string | undefined>(
-    undefined,
-  );
+  const user: any = useAuth();
   const [isHovered, setIsHovered] = useState(false);
   const fullScreenPosition = { top: 0, left: 0, right: 0, bottom: 0 };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event?.target?.files?.[0];
-    if (file) {
-      const imageUrl = URL?.createObjectURL(file);
-      setUploadedImage(imageUrl);
+    if (!!!event?.target?.files?.length) return;
+    isSubmit(event?.target?.files?.[0]);
+  };
+
+  const [patchProfileAvatarTrigger, patchProfileAvatarStatus] =
+    usePatchProfileAvatarMutation();
+  const isSubmit = async (file: any) => {
+    const reportAnIssueData: any = new FormData();
+    reportAnIssueData?.append('avatar', file);
+
+    const payload = {
+      id: user?.user?._id,
+      removeAvatar: false,
+      body: reportAnIssueData,
+    };
+    try {
+      const res: any = await patchProfileAvatarTrigger(payload)?.unwrap();
+      successSnackbar(res?.message ?? 'Profile Update Successfully');
+    } catch (error) {
+      errorSnackbar();
     }
   };
 
   return {
     handleFileChange,
-    uploadedImage,
     isHovered,
     setIsHovered,
     fullScreenPosition,
     router,
+    patchProfileAvatarStatus,
   };
 };

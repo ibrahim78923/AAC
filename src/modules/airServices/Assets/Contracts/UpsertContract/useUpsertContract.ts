@@ -122,7 +122,7 @@ export const useUpsertContract = () => {
       successSnackbar('Contract created successfully');
       handleCancelBtn?.();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -137,8 +137,8 @@ export const useUpsertContract = () => {
       await putContractTrigger(putContractParameter)?.unwrap();
       successSnackbar('Contract updated successfully');
       handleCancelBtn?.();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -168,5 +168,6 @@ export const useUpsertContract = () => {
     isLoading,
     isFetching,
     isError,
+    contractId,
   };
 };

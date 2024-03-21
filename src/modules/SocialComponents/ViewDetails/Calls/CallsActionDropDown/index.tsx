@@ -11,6 +11,8 @@ import {
 } from './CallsActionDropDown.data';
 
 import { v4 as uuidv4 } from 'uuid';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS } from '@/constants/permission-keys';
 
 const CallsActionDropdown = (props: any) => {
   const {
@@ -74,31 +76,68 @@ const CallsActionDropdown = (props: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem
-          onClick={handleOpenViewDrawer}
-          disabled={selectedCheckboxes?.length > 1}
+        <PermissionsGuard
+          permissions={[
+            SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.VIEW_CALLS,
+          ]}
         >
-          View
-        </MenuItem>
-        <MenuItem
-          onClick={handleOpenEditDrawer}
-          disabled={selectedCheckboxes?.length > 1}
+          <MenuItem
+            onClick={handleOpenViewDrawer}
+            disabled={selectedCheckboxes?.length > 1}
+          >
+            View
+          </MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.EDIT_CALLS,
+          ]}
         >
-          Edit
-        </MenuItem>
-        <MenuItem
-          onClick={handleOpenReassignModal}
-          disabled={selectedCheckboxes?.length > 1}
+          <MenuItem
+            onClick={handleOpenEditDrawer}
+            disabled={selectedCheckboxes?.length > 1}
+          >
+            Edit
+          </MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.RESCHEDULE_CALLS,
+          ]}
         >
-          Reschedule
-        </MenuItem>
-        <MenuItem
-          onClick={handleOpenOutcomeModal}
-          disabled={selectedCheckboxes?.length > 1}
+          <MenuItem
+            onClick={handleOpenReassignModal}
+            disabled={selectedCheckboxes?.length > 1}
+          >
+            Reschedule
+          </MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.ADD_CALLS_OUTCOME,
+          ]}
         >
-          Add outcomes
-        </MenuItem>
-        <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+          <MenuItem
+            onClick={handleOpenOutcomeModal}
+            disabled={selectedCheckboxes?.length > 1}
+          >
+            Add outcomes
+          </MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.ADD_CALLS_OUTCOME,
+          ]}
+        >
+          <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.DELETE_CALLS,
+          ]}
+        >
+          <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+        </PermissionsGuard>
       </Menu>
 
       <AlertModals

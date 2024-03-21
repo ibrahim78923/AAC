@@ -25,6 +25,8 @@ const Attachments = ({ contactId }: any) => {
     handleOpenDrawer,
     handleCloseDrawer,
     methodsAttachments,
+    handleAddAttachmentSubmit,
+    loadingAddCompanyAccount,
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,
@@ -84,6 +86,8 @@ const Attachments = ({ contactId }: any) => {
         isOpen={openDrawer}
         onClose={handleCloseDrawer}
         methods={methodsAttachments}
+        handleSubmit={handleAddAttachmentSubmit}
+        loading={loadingAddCompanyAccount}
       />
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}

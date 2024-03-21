@@ -10,6 +10,8 @@ import { assigneeDataArray } from './ActionDropDown.data';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
+import { SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS } from '@/constants/permission-keys';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 const ActionDropdown = (props: any) => {
   const { setOpenDrawer, selectedCheckboxes, setSelectedCheckboxes } = props;
@@ -62,20 +64,45 @@ const ActionDropdown = (props: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem
-          onClick={handleOpenViewDrawer}
-          disabled={selectedCheckboxes?.length > 1}
+        <PermissionsGuard
+          permissions={[
+            SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.VIEW_TASK,
+          ]}
         >
-          View
-        </MenuItem>
-        <MenuItem
-          onClick={handleOpenEditDrawer}
-          disabled={selectedCheckboxes?.length > 1}
+          <MenuItem
+            onClick={handleOpenViewDrawer}
+            disabled={selectedCheckboxes?.length > 1}
+          >
+            View
+          </MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.EDIT_TASK,
+          ]}
         >
-          Edit
-        </MenuItem>
-        <MenuItem onClick={handleOpenReassignAlert}>Re-assign</MenuItem>
-        <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+          <MenuItem
+            onClick={handleOpenEditDrawer}
+            disabled={selectedCheckboxes?.length > 1}
+          >
+            Edit
+          </MenuItem>
+        </PermissionsGuard>
+
+        <PermissionsGuard
+          permissions={[
+            SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.REASSIGN_TASK,
+          ]}
+        >
+          <MenuItem onClick={handleOpenReassignAlert}>Re-assign</MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[
+            SOCIAL_COMPONENTS_COMPANIES_VIEW_DETAILS_PERMISSIONS?.DELETE_TASK,
+          ]}
+        >
+          <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+        </PermissionsGuard>
       </Menu>
 
       <ScheduleModals

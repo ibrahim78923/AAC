@@ -138,7 +138,11 @@ const Chat = () => {
     );
   };
 
-  const handelUserExists = () => {};
+  const handelUserExists = () => {
+    enqueueSnackbar('User already exists', {
+      variant: 'info',
+    });
+  };
 
   return (
     <Box sx={{ position: 'relative' }}>

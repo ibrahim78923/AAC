@@ -1,6 +1,8 @@
 import { Box, TextField } from '@mui/material';
 
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
@@ -53,30 +55,46 @@ export const columns: any = ({
       header: 'Actions',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setOpenDrawer('View'), setSelectedCheckboxes(info?.row?.original);
-            }}
+          <PermissionsGuard
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_PRODUCT]}
           >
-            <ViewEyeIcon />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setOpenDrawer('Edit'), setSelectedCheckboxes(info?.row?.original);
-            }}
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setOpenDrawer('View'),
+                  setSelectedCheckboxes(info?.row?.original);
+              }}
+            >
+              <ViewEyeIcon />
+            </Box>
+          </PermissionsGuard>
+
+          <PermissionsGuard
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_PRODUCT]}
           >
-            <EditPenIcon />
-          </Box>
-          <Box
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              setIsOpenAlert(true), setSelectedCheckboxes(info?.row?.original);
-            }}
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setOpenDrawer('Edit'),
+                  setSelectedCheckboxes(info?.row?.original);
+              }}
+            >
+              <EditPenIcon />
+            </Box>
+          </PermissionsGuard>
+          <PermissionsGuard
+            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_REMOVE_PRODUCT]}
           >
-            <DeleteCrossIcon />
-          </Box>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setIsOpenAlert(true),
+                  setSelectedCheckboxes(info?.row?.original);
+              }}
+            >
+              <DeleteCrossIcon />
+            </Box>
+          </PermissionsGuard>
         </Box>
       ),
     },

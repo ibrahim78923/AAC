@@ -1,8 +1,16 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { AIR_SERVICES } from '@/constants';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { Avatar, Box, Checkbox } from '@mui/material';
+import { REQUESTORS_STATUS } from '@/constants/strings';
+import { errorSnackbar } from '@/utils/api';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 
-export const agentActionsDropdown = (handleActionClick: any) => [
+export const agentActionsDropdown = (
+  setOpenDeleteModal: any,
+  setIsAgentModalOpen: any,
+  selectedAgentList: any,
+) => [
   {
     id: 1,
     title: 'Edit',
@@ -10,8 +18,12 @@ export const agentActionsDropdown = (handleActionClick: any) => [
       AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_AGENTS,
     ],
     handleClick: (close: any) => {
-      handleActionClick('edit');
-      close?.(false);
+      if (selectedAgentList?.length > 1) {
+        errorSnackbar(`Can't update multiple records`);
+        return;
+      }
+      setIsAgentModalOpen(true);
+      close?.();
     },
   },
   {
@@ -20,8 +32,9 @@ export const agentActionsDropdown = (handleActionClick: any) => [
     permissionKey: [
       AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DELETE_AGENTS,
     ],
-    handleClick: () => {
-      handleActionClick?.('delete');
+    handleClick: (close: any) => {
+      setOpenDeleteModal?.(true);
+      close?.();
     },
   },
 ];
@@ -30,6 +43,7 @@ export const agentsListsColumnsFunction = (
   selectedAgentList: any,
   setSelectedAgentList: any,
   processedAgentListData: any,
+  router: any,
 ): any => [
   {
     accessorFn: (row: any) => row?._id,
@@ -65,7 +79,11 @@ export const agentsListsColumnsFunction = (
       <Checkbox
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
-        checked={selectedAgentList?.length === processedAgentListData?.length}
+        checked={
+          !!processedAgentListData?.length
+            ? selectedAgentList?.length === processedAgentListData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
             ? setSelectedAgentList([...processedAgentListData])
@@ -83,9 +101,43 @@ export const agentsListsColumnsFunction = (
     isSortable: true,
     header: 'Name',
     cell: (info: any) => (
-      <Box display={'flex'} gap={1} alignItems={'center'}>
-        <Avatar sx={{ backgroundColor: 'gray' }} />
-        {info?.getValue()}
+      <Box
+        display={'flex'}
+        flexWrap={'wrap'}
+        alignItems={'center'}
+        sx={{ cursor: 'pointer' }}
+        gap={1}
+        onClick={() => {
+          if (info?.row?.original?.status === REQUESTORS_STATUS?.INACTIVE) {
+            errorSnackbar('This agent is not active');
+            return;
+          }
+          router?.push({
+            pathname: AIR_SERVICES?.SINGLE_AGENT_DETAILS,
+            query: {
+              agentId: info?.row?.original?._id,
+              departmentId: info?.row?.original?.departmentId,
+            },
+          });
+        }}
+      >
+        <Avatar
+          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
+          src={generateImage(info?.row?.original?.avatar?.url)}
+        >
+          <Typography variant="body3" textTransform={'uppercase'}>
+            {fullNameInitial(
+              info?.row?.original?.firstName,
+              info?.row?.original?.lastName,
+            )}
+          </Typography>
+        </Avatar>
+        <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+          {fullName(
+            info?.row?.original?.firstName,
+            info?.row?.original?.lastName,
+          )}
+        </Typography>
       </Box>
     ),
   },

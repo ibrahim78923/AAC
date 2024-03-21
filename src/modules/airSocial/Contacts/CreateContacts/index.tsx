@@ -9,6 +9,7 @@ import useCreateContacts from './useCreateContacts';
 
 const CreateContacts = ({ open, onClose }: any) => {
   const {
+    loadingCreateContact,
     submitCreateContact,
     methodscontacts,
     contactOwnerData,
@@ -31,6 +32,7 @@ const CreateContacts = ({ open, onClose }: any) => {
       okText="Create"
       submitHandler={submitCreateContact(onClose)}
       isOk
+      isLoading={loadingCreateContact}
     >
       <Box sx={{ pt: 2 }}>
         <FormProvider methods={methodscontacts}>

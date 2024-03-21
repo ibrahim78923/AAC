@@ -70,7 +70,7 @@ export const useContracts = () => {
       downloadFile(response, 'ContractLists', EXPORT_FILE_TYPE?.[type]);
       successSnackbar('File Exported successfully');
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
 

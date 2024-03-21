@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { useGetActivityLogQuery } from '@/services/airServices/tickets/single-ticket-details/activities';
 import { PAGINATION } from '@/config';
+import { MODULE_TYPE } from '@/constants/strings';
+import { useRouter } from 'next/router';
 
 export const useActivities = () => {
-  const ticketId = useSearchParams()?.get('ticketId');
-
+  const router = useRouter();
+  const { ticketId } = router?.query;
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -15,10 +16,11 @@ export const useActivities = () => {
       page,
       limit: pageLimit,
       moduleId: ticketId,
-      module: 'TICKETS',
+      module: MODULE_TYPE?.TICKETS,
     },
     {
       refetchOnMountOrArgChange: true,
+      skip: !!!ticketId,
     },
   );
 

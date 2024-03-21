@@ -28,7 +28,8 @@ const useCreateContacts = () => {
 
   const { data: ContactsStatus } = useGetContactsStatusQuery({});
 
-  const [postContacts] = usePostContactsMutation();
+  const [postContacts, { isLoading: loadingCreateContact }] =
+    usePostContactsMutation();
 
   const contactOwnerData = ContactOwners?.data?.users?.map((user: any) => ({
     value: user?._id,
@@ -79,7 +80,9 @@ const useCreateContacts = () => {
       if (contactResponse?.data) {
         closeDrawer();
         reset();
-        enqueueSnackbar('Success message', { variant: 'success' });
+        enqueueSnackbar('Contact has been Added Successfully', {
+          variant: 'success',
+        });
       }
     } catch (error: any) {
       const errMsg = error?.data?.message;
@@ -90,6 +93,7 @@ const useCreateContacts = () => {
     handleSubmit((values) => onSubmit(values, closeDrawer));
 
   return {
+    loadingCreateContact,
     submitCreateContact,
     methodscontacts,
     contactOwnerData,

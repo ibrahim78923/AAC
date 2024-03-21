@@ -48,38 +48,54 @@ export const debouncedSearch = debounce((value: any, setSearchBy: any) => {
 }, DEBOUNCE_DELAY);
 
 const getSession = () => {
-  const sessionJSON = localStorage?.getItem('session');
+  let session = {
+    accessToken: '',
+    refreshToken: '',
+    user: null,
+  };
 
-  if (sessionJSON) return JSON.parse(sessionJSON);
-  // return {};
+  if (typeof localStorage !== 'undefined') {
+    const sessionJSON = localStorage.getItem('session');
+    if (sessionJSON) {
+      session = JSON.parse(sessionJSON);
+    }
+  }
+
+  return session;
 };
 
 // const setSession = (userData: any) => {
 const setSession = (userData: any) => {
-  if (userData) {
-    localStorage.setItem('session', JSON.stringify(userData));
-    // axios.defaults.headers.common.Authorization = `Bearer ${authToken}`;
-    // This function below will handle when token is expired
-    // const { exp } = jwtDecode(authToken);
-    // handleTokenExpired(exp);
-  } else {
-    localStorage.removeItem('session');
-    // delete axios.defaults.headers.common.Authorization;
+  if (typeof localStorage !== 'undefined') {
+    if (userData) {
+      localStorage.setItem('session', JSON.stringify(userData));
+      // axios.defaults.headers.common.Authorization = `Bearer ${authToken}`;
+      // This function below will handle when token is expired
+      // const { exp } = jwtDecode(authToken);
+      // handleTokenExpired(exp);
+    } else {
+      localStorage.removeItem('session');
+      // delete axios.defaults.headers.common.Authorization;
+    }
   }
 };
 const setActiveProductSession = (product: any) => {
-  if (product) {
-    localStorage.setItem('ActiveProduct', JSON.stringify(product));
-  } else {
-    localStorage.removeItem('ActiveProduct');
+  if (typeof localStorage !== 'undefined') {
+    if (product) {
+      localStorage.setItem('ActiveProduct', JSON.stringify(product));
+    } else {
+      localStorage.removeItem('ActiveProduct');
+    }
   }
 };
 
 const getActiveProductSession = () => {
-  const sessionJSON = localStorage?.getItem('ActiveProduct');
+  if (typeof localStorage !== 'undefined') {
+    const sessionJSON = localStorage?.getItem('ActiveProduct');
 
-  if (sessionJSON) return JSON.parse(sessionJSON);
-  return {};
+    if (sessionJSON) return JSON.parse(sessionJSON);
+    return {};
+  }
 };
 
 const setActivePermissionsSession = (permissions: any) => {
@@ -97,8 +113,52 @@ const getActivePermissionsSession = () => {
     const sessionJSON = localStorage?.getItem('ActivePermissions');
 
     if (sessionJSON) return JSON.parse(sessionJSON);
+    return [];
+  }
+  return [];
+};
+
+const getActiveAccountSession = () => {
+  if (typeof localStorage !== 'undefined') {
+    const sessionJSON = localStorage?.getItem('ActiveAccount');
+
+    if (sessionJSON) return JSON.parse(sessionJSON);
     return {};
   }
+};
+
+const setActiveAccountSession = (product: any) => {
+  if (typeof localStorage !== 'undefined') {
+    if (product) {
+      localStorage.setItem('ActiveAccount', JSON.stringify(product));
+    } else {
+      localStorage.removeItem('ActiveAccount');
+    }
+  }
+};
+
+export const stringArraysEqual = (arr1: string[], arr2: string[]): boolean => {
+  // Check if both arrays are of equal length
+  if (arr1 === undefined || arr2 === undefined) {
+    return false;
+  }
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+
+  // Sort the arrays to ensure that the order of elements doesn't affect the comparison
+  const sortedArr1 = arr1.slice().sort();
+  const sortedArr2 = arr2.slice().sort();
+
+  // Compare each element of the sorted arrays
+  for (let i = 0; i < sortedArr1.length; i++) {
+    if (sortedArr1[i] !== sortedArr2[i]) {
+      return false;
+    }
+  }
+
+  // If all elements match, return true
+  return true;
 };
 
 export {
@@ -109,4 +169,6 @@ export {
   getActiveProductSession,
   setActivePermissionsSession,
   getActivePermissionsSession,
+  getActiveAccountSession,
+  setActiveAccountSession,
 };

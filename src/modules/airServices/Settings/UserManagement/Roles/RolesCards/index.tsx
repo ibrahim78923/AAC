@@ -10,6 +10,7 @@ import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import NoData from '@/components/NoData';
 import { AssociationsImage } from '@/assets/images';
 import useRolesCards from './useRolesCards';
+import { AlertModals } from '@/components/AlertModals';
 
 const RolesCards = ({
   data,
@@ -19,8 +20,20 @@ const RolesCards = ({
   isLoading,
   isFetching,
 }: any) => {
-  const { router, setAnchorEl, setRoleId, id, open, anchorEl, theme, roleId } =
-    useRolesCards();
+  const {
+    router,
+    setAnchorEl,
+    setRoleId,
+    id,
+    open,
+    anchorEl,
+    theme,
+    roleId,
+    setOpenDeleteModal,
+    openDeleteModal,
+    handleSubmitDelete,
+    deleteRolesStatus,
+  } = useRolesCards();
 
   if (isError) return <ApiErrorState />;
 
@@ -41,8 +54,10 @@ const RolesCards = ({
               borderColor={'grey.0'}
               borderRadius={2}
               p={3}
+              maxHeight={'20vh'}
               height={'100%'}
               sx={{ cursor: 'pointer' }}
+              overflow={'auto'}
               onClick={() =>
                 router?.push(AIR_SERVICES?.USER_UPSERT_ROLES_SETTINGS)
               }
@@ -71,8 +86,9 @@ const RolesCards = ({
                 borderColor={'grey.0'}
                 borderRadius={2}
                 p={3}
+                maxHeight={'20vh'}
                 height={'100%'}
-                overflow={'hidden'}
+                overflow={'auto'}
               >
                 <Box display={'flex'} justifyContent={'space-between'} mb={1}>
                   <Typography variant="h5">{item?.name}</Typography>
@@ -90,7 +106,9 @@ const RolesCards = ({
                 </Box>
 
                 <Box
-                  dangerouslySetInnerHTML={{ __html: item?.description }}
+                  dangerouslySetInnerHTML={{
+                    __html: item?.description,
+                  }}
                   color={'custom.mulled_wine'}
                 />
                 <Divider sx={{ my: 2 }} />
@@ -155,12 +173,12 @@ const RolesCards = ({
               },
             }}
             onClick={() => {
-              setAnchorEl(null);
               router?.push({
                 pathname: AIR_SERVICES?.USER_UPSERT_ROLES_SETTINGS,
                 query: { roleId: roleId },
               });
               setRoleId(null);
+              setAnchorEl(null);
             }}
           >
             Edit
@@ -182,14 +200,28 @@ const RolesCards = ({
               },
             }}
             onClick={() => {
+              setOpenDeleteModal(true);
               setAnchorEl(null);
-              setRoleId(null);
             }}
           >
             Delete
           </Typography>
         </PermissionsGuard>
       </Popover>
+
+      {openDeleteModal && (
+        <AlertModals
+          message={'Are you sure you want to delete this role?'}
+          type={'delete'}
+          open={openDeleteModal}
+          handleClose={() => {
+            setOpenDeleteModal(false);
+          }}
+          handleSubmitBtn={handleSubmitDelete}
+          loading={deleteRolesStatus?.isLoading}
+          disableCancelBtn={deleteRolesStatus?.isLoading}
+        />
+      )}
     </>
   );
 };

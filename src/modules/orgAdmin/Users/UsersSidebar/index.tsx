@@ -32,7 +32,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_USERS_PERMISSIONS } from '@/constants/permission-keys';
 
 const UsersSidebar = (props: any) => {
-  const { setEmployeeDataById } = props;
+  const { setEmployeeDataById, setSearchAccount } = props;
   const {
     isOpenFilterDrawer,
     setIsOpenFilterDrawer,
@@ -147,6 +147,7 @@ const UsersSidebar = (props: any) => {
               onClick={() => {
                 setEmployeeDataById(item?._id);
                 setIsActiveEmp(index);
+                setSearchAccount('');
               }}
             >
               <Box

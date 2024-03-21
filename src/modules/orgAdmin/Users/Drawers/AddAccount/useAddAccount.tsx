@@ -8,19 +8,17 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { usePostUsersAccountMutation } from '@/services/superAdmin/user-management/UserList';
+import { useEffect, useState } from 'react';
 
 const useAddAccount = (
   employeeDataById?: any,
   setIsOpenAddAccountDrawer?: any,
 ) => {
   const { user } = useUsers();
+  const [companyVal, setCompanyVal] = useState('');
   const [postUsersAccount] = usePostUsersAccountMutation();
-  const {
-    useGetProductsQuery,
-    useGetCompanyAccountsQuery,
-    useGetCompanyAccountsRolesQuery,
-  } = CommonAPIS;
-  const { data: products } = useGetProductsQuery({});
+  const { useGetCompanyAccountsQuery, useGetCompanyAccountsRolesQuery } =
+    CommonAPIS;
   const { data: companyAccounts } = useGetCompanyAccountsQuery({
     orgId: user?.organization?._id,
   });
@@ -32,6 +30,19 @@ const useAddAccount = (
 
   const { handleSubmit, reset, watch } = methods;
   const companyAccountValue = watch('company');
+
+  useEffect(() => {
+    setCompanyVal(companyAccountValue);
+  }, [companyAccountValue]);
+
+  if (companyVal !== companyAccountValue) {
+    methods.setValue('role', '');
+  }
+
+  const roleParams = {
+    organizationCompanyAccountId: companyAccountValue,
+  };
+  const { data: companyRoles } = useGetCompanyAccountsRolesQuery(roleParams);
 
   const onSubmit = async (values: any) => {
     values.user = employeeDataById;
@@ -52,13 +63,7 @@ const useAddAccount = (
     }
   };
 
-  const roleParams = {
-    organizationCompanyAccountId: companyAccountValue,
-  };
-  const { data: companyRoles } = useGetCompanyAccountsRolesQuery(roleParams);
-
   return {
-    products,
     companyAccounts,
     companyRoles,
     handleSubmit,

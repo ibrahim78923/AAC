@@ -4,6 +4,8 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { AlertModals } from '@/components/AlertModals';
 
 import useNotesActionDropdown from './useNotesActionDropDown';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const NotesActionDropdown = (props: any) => {
   const { setOpenDrawer, selectedCheckboxes, setSelectedCheckboxes } = props;
@@ -52,19 +54,31 @@ const NotesActionDropdown = (props: any) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem
-          disabled={selectedCheckboxes?.length > 1}
-          onClick={handleOpenViewDrawer}
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_NOTE]}
         >
-          View
-        </MenuItem>
-        <MenuItem
-          disabled={selectedCheckboxes?.length > 1}
-          onClick={handleOpenEditDrawer}
+          <MenuItem
+            disabled={selectedCheckboxes?.length > 1}
+            onClick={handleOpenViewDrawer}
+          >
+            View
+          </MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_NOTE]}
         >
-          Edit
-        </MenuItem>
-        <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+          <MenuItem
+            disabled={selectedCheckboxes?.length > 1}
+            onClick={handleOpenEditDrawer}
+          >
+            Edit
+          </MenuItem>
+        </PermissionsGuard>
+        <PermissionsGuard
+          permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_DELETE_NOTE]}
+        >
+          <MenuItem onClick={handleOpenDeleteAlert}>Delete</MenuItem>
+        </PermissionsGuard>
       </Menu>
 
       <AlertModals
