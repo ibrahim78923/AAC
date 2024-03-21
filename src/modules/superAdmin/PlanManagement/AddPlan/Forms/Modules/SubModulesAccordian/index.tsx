@@ -12,7 +12,12 @@ import { RHFMultiCheckbox } from '@/components/ReactHookForm';
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 
-const SubModulesAccordion = ({ subModules, methods, handleSubmit }: any) => {
+const SubModulesAccordion = ({
+  subModules,
+  methods,
+  handleSubmit,
+  selectModule,
+}: any) => {
   return (
     <>
       {subModules?.map((item: any) => (
@@ -36,6 +41,7 @@ const SubModulesAccordion = ({ subModules, methods, handleSubmit }: any) => {
                     value: item?.slug,
                   }))}
                   GridView={3}
+                  selectModule={selectModule}
                 />
               </FormProvider>
             </Grid>

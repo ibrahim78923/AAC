@@ -1,23 +1,20 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import {
-  FilterSalesWorkflow,
-  salesWorkflowsFilterValues,
-} from './FilterSalesWorkflow.data';
+import { salesWorkflowsFilterValues } from './FilterSalesWorkflow.data';
+import { useLazyGetUsersDropdownListQuery } from '@/services/airServices/settings/user-management/departments';
 
-export const useFilterSalesWorkflow = (props: any) => {
-  const { setIsFilterOpen } = props;
+export const useFilterSalesWorkflow = () => {
   const filterMethod = useForm({
-    resolver: yupResolver(FilterSalesWorkflow),
     defaultValues: salesWorkflowsFilterValues,
   });
-  const { handleSubmit } = filterMethod;
-  const onSubmit = () => {
-    setIsFilterOpen(false);
-  };
+  const { handleSubmit, watch } = filterMethod;
+  const userDropdown = useLazyGetUsersDropdownListQuery();
+  const statusValue = watch('status');
+  const createdByValue = watch('createdBy');
   return {
     handleSubmit,
-    onSubmit,
     filterMethod,
+    userDropdown,
+    statusValue,
+    createdByValue,
   };
 };

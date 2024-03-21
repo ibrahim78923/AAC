@@ -1,13 +1,13 @@
 import { IMG_URL } from '@/config';
 
-const colorLoop = (str: string) => {
+const colorLoop = (str: string = '') => {
   let a = 1;
   let b = 0;
   let i = 0;
-  const l = str.length;
+  const l = str?.length;
   const m = 65521;
   for (; i < l; i++) {
-    a = (a + str.charCodeAt(i)) % m;
+    a = (a + str?.charCodeAt(i)) % m;
     b = (b + a) % m;
   }
   return (b << 16) | a;

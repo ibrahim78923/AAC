@@ -6,34 +6,38 @@ import { columnsTeams } from './Teams.data';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 import ViewTeams from './ViewTeams';
+import CreateTeams from './CreateTeams';
 
 const Teams = (props: any) => {
   const {
+    isAddTeam,
     setIsAddTeam,
     setTeamId,
     teamId,
-    setIsOpenDelete,
     setIsTeamDrawer,
     isTeamDrawer,
+    setIsOpenDelete,
   } = props;
+
   const {
     theme,
     teamsData,
     setPage,
     setLimit,
     isSuccess,
-    isLoading,
+    teamsDataLoading,
     searchBy,
     setSearchBy,
     teamDataById,
+    teamByIdLoading,
   } = useTeams(teamId);
 
   const columnsProps = {
-    setIsTeamDrawer: setIsTeamDrawer,
-    setIsOpenDelete: setIsOpenDelete,
-    theme: theme,
-    setTeamId: setTeamId,
-    setIsAddTeam: setIsAddTeam,
+    setIsTeamDrawer,
+    theme,
+    setTeamId,
+    setIsAddTeam,
+    setIsOpenDelete,
   };
 
   return (
@@ -67,18 +71,26 @@ const Teams = (props: any) => {
               count={teamsData?.data?.meta?.pages}
               pageLimit={teamsData?.data?.meta?.limit}
               totalRecords={teamsData?.data?.meta?.total}
-              isLoading={isLoading}
+              isLoading={teamsDataLoading}
               isSuccess={isSuccess}
             />
           </PermissionsGuard>
         </Grid>
-
-        {/* <CreateTeams isAddTeam={isAddTeam} setIsAddTeam={setIsAddTeam} teamsDataById={teamDataById} /> */}
         <ViewTeams
           isTeamDrawer={isTeamDrawer}
           setIsTeamDrawer={setIsTeamDrawer}
           teamData={teamDataById}
+          teamByIdLoading={teamByIdLoading}
         />
+
+        {isAddTeam && (
+          <CreateTeams
+            isAddTeam={isAddTeam}
+            setIsAddTeam={setIsAddTeam}
+            teamDataById={teamDataById}
+            teamByIdLoading={teamByIdLoading}
+          />
+        )}
       </Box>
     </>
   );

@@ -31,7 +31,7 @@ const AddAnnouncement = (props: any) => {
             <Grid container spacing={2}>
               {createAddAnnouncementFormFields?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
-                  <item.component {...item.componentProps} size={'small'}>
+                  <item.component {...item?.componentProps} size={'small'}>
                     {item?.heading ? item?.heading : null}
                   </item.component>
                 </Grid>

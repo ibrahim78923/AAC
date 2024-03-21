@@ -5,7 +5,6 @@ import { dataArray } from './AddCompanyDetails.data';
 import UploadLogo from './UploadLogo';
 import { styles } from './AddCompanyDetails.style';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { EraserIcon } from '@/assets/icons';
 import useToggle from '@/hooks/useToggle';
 import useAddCompanyDetails from './useAddCompanyDetails';
 import Image from 'next/image';
@@ -94,34 +93,18 @@ export default function AddCompanyDetails({
                     <InputAdornment
                       sx={{
                         position: 'absolute',
-                        top: -28,
+                        top: -95,
                         right: 20,
                         zIndex: 9999,
                       }}
                       position="end"
                     >
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          gap: '10px',
-                          alignItems: 'center',
+                      <BorderColorIcon
+                        onClick={() => {
+                          setIsToggled(true);
                         }}
-                      >
-                        <Box
-                          sx={{ cursor: 'pointer' }}
-                          onClick={() => {
-                            setIsToggled(false);
-                          }}
-                        >
-                          <EraserIcon />
-                        </Box>
-                        <BorderColorIcon
-                          onClick={() => {
-                            setIsToggled(true);
-                          }}
-                          sx={{ cursor: 'pointer', fontSize: '20px' }}
-                        />
-                      </Box>
+                        sx={{ cursor: 'pointer', fontSize: '20px' }}
+                      />
                     </InputAdornment>
                   </Box>
                 )}
