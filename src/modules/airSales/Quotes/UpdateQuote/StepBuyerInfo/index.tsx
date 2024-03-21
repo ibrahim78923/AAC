@@ -162,9 +162,9 @@ const StepBuyerInfo = ({
                           </Box>
                         </Box>
                         <Box sx={styles?.itemText}> {item?.name}</Box>
-                        <Box sx={styles?.itemText}>{item?.owner[0]?.email}</Box>
+                        <Box sx={styles?.itemText}>{item?.owner?.email}</Box>
                         <Box sx={styles?.itemText}>
-                          {item?.owner[0]?.phoneNumber}
+                          {item?.owner?.phoneNumber}
                         </Box>
                       </Box>
                       <Box mt={-0.7}>
