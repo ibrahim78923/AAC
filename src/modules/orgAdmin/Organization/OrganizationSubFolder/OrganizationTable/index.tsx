@@ -12,7 +12,6 @@ import {
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-
 import {
   FormProvider,
   RHFCheckbox,
@@ -112,7 +111,6 @@ const OrganizationTable = () => {
                       '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
                   }}
                 ></Box>
-
                 <Box
                   onClick={() => {
                     setImageHandler(true);
@@ -226,7 +224,7 @@ const OrganizationTable = () => {
               title="Upload Logo"
               footer={true}
               okText="Add"
-              cancelText="Cancle"
+              cancelText="Cancel"
             >
               <RHFDropZone name="logoUrl" />
             </CommonModal>

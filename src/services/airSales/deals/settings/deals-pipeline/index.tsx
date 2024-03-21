@@ -10,6 +10,13 @@ export const DealPipelineAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['SETTINGS_DEAL_PIPELINE'],
     }),
+    getDealsPipelineById: builder.query({
+      query: (id: any) => ({
+        url: `${END_POINTS?.DEAL_PIPELINE}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['SETTINGS_DEAL_PIPELINE'],
+    }),
     postDealsPipeline: builder.mutation({
       query: ({ body }: any) => ({
         url: `${END_POINTS?.DEAL_PIPELINE}`,
@@ -27,8 +34,8 @@ export const DealPipelineAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['SETTINGS_DEAL_PIPELINE'],
     }),
     deleteDealsPipeline: builder?.mutation({
-      query: ({ id }) => ({
-        url: `${END_POINTS?.DEAL_PIPELINE}/${id}`,
+      query: ({ ids }) => ({
+        url: `${END_POINTS?.DEAL_PIPELINE}?ids=${ids}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['SETTINGS_DEAL_PIPELINE'],
@@ -36,5 +43,11 @@ export const DealPipelineAPI = baseAPI.injectEndpoints({
   }),
 });
 
-export const { useGetDealsPipelineQuery, usePostDealsPipelineMutation } =
-  DealPipelineAPI;
+export const {
+  useGetDealsPipelineQuery,
+  usePostDealsPipelineMutation,
+  useDeleteDealsPipelineMutation,
+  useUpdateDealsPipelineMutation,
+  useGetDealsPipelineByIdQuery,
+  useLazyGetDealsPipelineByIdQuery,
+} = DealPipelineAPI;

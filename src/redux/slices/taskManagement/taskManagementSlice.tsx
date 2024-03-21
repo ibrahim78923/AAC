@@ -36,51 +36,66 @@ const taskManagementSlice = createSlice({
     },
 
     setContactsSelectedIds: (state: any, action: PayloadAction<any>) => {
-      const newItem = action?.payload;
-      const existingItemIndex = state?.contactsSelectedIds?.findIndex(
-        (item: any) => item?.id === newItem?.id,
-      );
-
-      if (existingItemIndex !== -1) {
-        state?.contactsSelectedIds?.splice(existingItemIndex, 1);
+      if (Array.isArray(action?.payload)) {
+        state.contactsSelectedIds = action?.payload;
       } else {
-        state?.contactsSelectedIds?.push(newItem);
+        const newItem = action?.payload;
+        const existingItemIndex = state?.contactsSelectedIds?.findIndex(
+          (item: any) => item?.id === newItem?.id,
+        );
+        if (existingItemIndex !== -1) {
+          state?.contactsSelectedIds?.splice(existingItemIndex, 1);
+        } else {
+          state?.contactsSelectedIds?.push(newItem);
+        }
       }
     },
     setCompaniesSelectedIds: (state: any, action: PayloadAction<any>) => {
-      const newItem = action?.payload;
-      const existingItemIndex = state?.companiesSelectedIds?.findIndex(
-        (item: any) => item?.id === newItem?.id,
-      );
-
-      if (existingItemIndex !== -1) {
-        state?.companiesSelectedIds?.splice(existingItemIndex, 1);
+      if (Array.isArray(action?.payload)) {
+        state.companiesSelectedIds = action?.payload;
       } else {
-        state?.companiesSelectedIds?.push(newItem);
+        const newItem = action?.payload;
+        const existingItemIndex = state?.companiesSelectedIds?.findIndex(
+          (item: any) => item?.id === newItem?.id,
+        );
+
+        if (existingItemIndex !== -1) {
+          state?.companiesSelectedIds?.splice(existingItemIndex, 1);
+        } else {
+          state?.companiesSelectedIds?.push(newItem);
+        }
       }
     },
     setDealsSelectedIds: (state: any, action: PayloadAction<any>) => {
-      const newItem = action?.payload;
-      const existingItemIndex = state?.dealsSelectedIds?.findIndex(
-        (item: any) => item?.id === newItem?.id,
-      );
-
-      if (existingItemIndex !== -1) {
-        state?.dealsSelectedIds?.splice(existingItemIndex, 1);
+      if (Array.isArray(action?.payload)) {
+        state.dealsSelectedIds = action?.payload;
       } else {
-        state?.dealsSelectedIds?.push(newItem);
+        const newItem = action?.payload;
+        const existingItemIndex = state?.dealsSelectedIds?.findIndex(
+          (item: any) => item?.id === newItem?.id,
+        );
+
+        if (existingItemIndex !== -1) {
+          state?.dealsSelectedIds?.splice(existingItemIndex, 1);
+        } else {
+          state?.dealsSelectedIds?.push(newItem);
+        }
       }
     },
     setTicketsSelectedIds: (state: any, action: PayloadAction<any>) => {
-      const newItem = action?.payload;
-      const existingItemIndex = state?.ticketsSelectedIds?.findIndex(
-        (item: any) => item?.id === newItem?.id,
-      );
-
-      if (existingItemIndex !== -1) {
-        state?.ticketsSelectedIds?.splice(existingItemIndex, 1);
+      if (Array.isArray(action?.payload)) {
+        state.ticketsSelectedIds = action?.payload;
       } else {
-        state?.ticketsSelectedIds?.push(newItem);
+        const newItem = action?.payload;
+        const existingItemIndex = state?.ticketsSelectedIds?.findIndex(
+          (item: any) => item?.id === newItem?.id,
+        );
+
+        if (existingItemIndex !== -1) {
+          state?.ticketsSelectedIds?.splice(existingItemIndex, 1);
+        } else {
+          state?.ticketsSelectedIds?.push(newItem);
+        }
       }
     },
     setTaskDataArray: (state: any, action: PayloadAction<any>) => {

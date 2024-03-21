@@ -209,12 +209,12 @@ const TaskViewCard = () => {
                                             'low'
                                               ? theme?.palette?.success?.main
                                               : col?.priority?.toLowerCase() ===
-                                                  'medium'
-                                                ? theme?.palette?.warning?.main
-                                                : col?.priority?.toLowerCase() ===
-                                                    'high'
-                                                  ? theme?.palette?.error?.main
-                                                  : '',
+                                                'medium'
+                                              ? theme?.palette?.warning?.main
+                                              : col?.priority?.toLowerCase() ===
+                                                'high'
+                                              ? theme?.palette?.error?.main
+                                              : '',
                                         }}
                                       >
                                         {col?.priority}

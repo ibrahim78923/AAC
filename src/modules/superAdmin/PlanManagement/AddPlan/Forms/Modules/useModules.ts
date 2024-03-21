@@ -4,6 +4,7 @@ import { useTheme } from '@mui/material';
 
 export const useModules = () => {
   const theme = useTheme();
+  const [selectModule, setSelectModule] = useState();
 
   const [isAccordionExpanded, setIsAccordionExpanded] = useState<
     string | false
@@ -14,10 +15,19 @@ export const useModules = () => {
       setIsAccordionExpanded(newExpanded ? panel : false);
     };
 
+  const handleValue = (value: any, e: any) => {
+    if (e?.target?.checked) {
+      setSelectModule(value);
+    } else {
+      setSelectModule([]);
+    }
+  };
   return {
     theme,
     isAccordionExpanded,
     setIsAccordionExpanded,
     handleExpandAccordionChange,
+    selectModule,
+    handleValue,
   };
 };

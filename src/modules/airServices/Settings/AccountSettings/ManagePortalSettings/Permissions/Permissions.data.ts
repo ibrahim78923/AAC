@@ -40,7 +40,6 @@ export const permissionData = [
     headingProp: headingProp,
     componentProps: {
       name: 'allowUserSignUp',
-      fullWidth: true,
       options: [
         { value: 'yes', label: 'Yes' },
         { value: 'no', label: 'No' },
@@ -53,7 +52,6 @@ export const permissionData = [
     headingProp: headingProp,
     componentProps: {
       name: 'whoCanSubmit',
-      fullWidth: true,
       options: [
         { value: 'loggedInUsers', label: 'Logged In Users' },
         { value: 'everyone', label: 'Everyone' },
@@ -69,7 +67,6 @@ export const permissionData = [
     headingProp: headingProp,
     componentProps: {
       name: 'whoCanView',
-      fullWidth: true,
       options: [
         { value: 'loggedInUsers', label: 'Logged In Users' },
         { value: 'everyone', label: 'Everyone' },
@@ -90,7 +87,6 @@ export const permissionData = [
     headingProp: headingProp,
     componentProps: {
       name: 'allowLoggedIn',
-      fullWidth: true,
       options: [
         { value: 'yes', label: 'Yes' },
         { value: 'no', label: 'No' },
@@ -103,7 +99,6 @@ export const permissionData = [
     headingProp: headingProp,
     componentProps: {
       name: 'allowRequester',
-      fullWidth: true,
       options: [
         { value: 'yes', label: 'Yes' },
         { value: 'no', label: 'No' },
@@ -122,7 +117,6 @@ export const permissionData = [
     headingProp: headingProp,
     componentProps: {
       name: 'whoCanLogIn',
-      fullWidth: true,
       options: [
         { value: 'userFromAnyDomain', label: 'User from any domain' },
         {
