@@ -108,7 +108,7 @@ export const END_POINTS = {
   REQUESTER_LIST: `/requester/requester-list`,
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
-  DEPARTMENT: '/department',
+  DEPARTMENT: '/department/add-department',
   DROPDOWN_DEPARTMENT: `/Department/department-list`,
   TICKETS_ASSOCIATES_ASSETS: '/ticket/associate-assets',
   DROPDOWN_VENDORS_LIST: `/vendors/get-vendors`,
@@ -318,6 +318,7 @@ export const END_POINTS = {
   TICKET_NEW_EMAIL: `/email`,
   DELETE_INVENTORY_PURCHASE_ORDER: '/assets/delete-purchase-association',
   DELETE_INVENTORY_CONTRACT: '/assets/delete-contract-association',
+  CUSTOMER_GET_COMPANY_ACCOUNTS: `/users/company-accounts`,
   AGENTS_SOFTWARE_LIST: `/agent/agent-software-list`,
   EDIT_SOFTWARE_CATEGORY: `/assets/edit-software-category`,
 };

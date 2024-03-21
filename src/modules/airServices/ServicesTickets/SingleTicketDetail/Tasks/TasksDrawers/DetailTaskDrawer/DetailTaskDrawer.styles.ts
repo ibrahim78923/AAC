@@ -12,8 +12,8 @@ export const styles: any = {
     marginRight: '8px',
   }),
   detailDrawerImg: {
-    height: '16px',
-    width: '16px',
+    height: '25px',
+    width: '25px',
     marginRight: '8px',
   },
   detailDrawerGridCenter: { display: 'flex', alignItems: 'center' },

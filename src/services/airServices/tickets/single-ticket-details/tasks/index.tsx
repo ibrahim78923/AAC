@@ -49,9 +49,9 @@ export const taskAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_ONE],
     }),
-    getAgentsDropdownList: builder?.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_AGENTS_LIST}`,
+    getUsersDropdownList: builder?.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.USERS_DROPDOWN}`,
         method: 'GET',
         params,
       }),
@@ -69,5 +69,5 @@ export const {
   usePostTaskByIdMutation,
   useDeleteTaskMutation,
   useLazyGetDepartmentDropdownListQuery,
-  useLazyGetAgentsDropdownListQuery,
+  useLazyGetUsersDropdownListQuery,
 } = taskAPI;
