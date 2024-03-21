@@ -111,6 +111,7 @@ const useUserDeatilProfile = (userprofileParams: any) => {
     handleSubmit,
     onSubmit,
     initialTab,
+    addressVal: formValues?.compositeAddress,
   };
 };
 

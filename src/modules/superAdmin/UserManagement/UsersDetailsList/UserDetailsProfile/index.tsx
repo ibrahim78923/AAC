@@ -1,4 +1,11 @@
-import { Box, Button, Grid, InputAdornment, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  InputAdornment,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { profileFields } from './UserDetailsProfile.data';
 import useToggle from '@/hooks/useToggle';
@@ -10,13 +17,14 @@ import { v4 as uuidv4 } from 'uuid';
 
 const UserDetailsProfile = (props: any) => {
   const { userDetails, setTabVal } = props;
+  const theme = useTheme();
   const [isToggled, setIsToggled] = useToggle(false);
   const userProfileParams = {
     isToggled,
     userDetails,
     setTabVal,
   };
-  const { methods, handleSubmit, onSubmit, initialTab } =
+  const { methods, handleSubmit, onSubmit, initialTab, addressVal } =
     useUserDeatilProfile(userProfileParams);
 
   return (
@@ -59,18 +67,23 @@ const UserDetailsProfile = (props: any) => {
                       <InputAdornment
                         sx={{
                           position: 'absolute',
-                          top: 50,
-                          right: 15,
+                          top: 53,
+                          right: 0,
                           zIndex: 9999,
                         }}
                         position="end"
                       >
-                        <Box
-                          sx={{ cursor: 'pointer' }}
+                        <Button
                           onClick={() => setIsToggled(true)}
+                          disabled={!addressVal ? false : true}
+                          sx={{
+                            backgroundColor:
+                              addressVal && theme?.palette?.grey[700],
+                            margin: 0,
+                          }}
                         >
                           <EditInputIcon />
-                        </Box>
+                        </Button>
                       </InputAdornment>
                     </Box>
                   )}
