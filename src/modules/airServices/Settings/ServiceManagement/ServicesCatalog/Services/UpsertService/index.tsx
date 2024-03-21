@@ -1,11 +1,12 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 
 import useUpsertService from './useUpsertService';
-import { upsertServiceData } from './UpsertService.data';
+
 import { FormProvider } from '@/components/ReactHookForm';
 
 export const UpsertService = () => {
-  const { methods, results, handleSubmit, onSubmit } = useUpsertService();
+  const { methods, results, handleSubmit, onSubmit, upsertServiceFormField } =
+    useUpsertService();
 
   return (
     <>
@@ -14,7 +15,7 @@ export const UpsertService = () => {
       </Box>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={3} mt={2}>
-          {upsertServiceData?.map((item: any) => (
+          {upsertServiceFormField?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.id}>
               {item?.componentProps?.heading && (
                 <Typography mt={4}>{item?.componentProps?.heading}</Typography>

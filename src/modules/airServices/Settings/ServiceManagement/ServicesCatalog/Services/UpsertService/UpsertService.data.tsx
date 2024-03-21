@@ -1,5 +1,6 @@
 import {
   RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDropZone,
   RHFRadioGroup,
   RHFTextField,
@@ -63,7 +64,7 @@ export const upsertServiceDefaultValues = {
   assetType: 'HardWare/Consumable',
   selectAssetsCategories: '',
   software: '',
-  agentVisibilty: '',
+  agentVisibilty: null,
   requestedFor: '',
   serviceCategorys: '',
   selectAgentVisibility: '',
@@ -84,7 +85,7 @@ export const requesterVisibiltyCategories = [
   'All Requesters',
   'Requestor Groups',
 ];
-export const upsertServiceData = [
+export const upsertServiceData = () => [
   {
     id: 1,
     componentProps: {
@@ -196,7 +197,7 @@ export const upsertServiceData = [
     md: 12,
   },
 ];
-export const categoriesOfServices = [
+export const categoriesOfServices = (apiQueryAgent: any) => [
   {
     id: 9,
     componentProps: {
@@ -230,15 +231,19 @@ export const categoriesOfServices = [
     componentProps: {
       name: 'agentVisibilty',
       label: 'Agent Visibility',
-      placeholder: 'All Agent',
+      fullWidth: true,
+      apiQuery: apiQueryAgent,
+      placeholder: 'Choose Agent',
       required: true,
-      select: true,
-      options: agentVisibilityCategories,
+      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option?.lastName}`,
     },
+    component: RHFAutocompleteAsync,
     text: 'software',
-    component: RHFAutocomplete,
     md: 6,
   },
+
   {
     id: 12,
     componentProps: {
