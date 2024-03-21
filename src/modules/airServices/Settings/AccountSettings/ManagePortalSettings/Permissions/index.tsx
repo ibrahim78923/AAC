@@ -1,5 +1,4 @@
-import { Box, DialogActions, Grid, Tooltip, Typography } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Box, Grid, Tooltip, Typography } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import {
   FormProvider,
@@ -10,25 +9,21 @@ import { permissionData } from './Permissions.data';
 import { usePermissions } from './usePermissions';
 
 export const Permissions = () => {
-  const { permissionsMethod, handleSubmitPermissions, reset, palette } =
-    usePermissions();
+  const { permissionsMethod, palette } = usePermissions();
+
   return (
-    <Box>
-      <Typography variant="h3" color="blue.main">
+    <>
+      <Typography variant={'h3'} color={'blue.main'} mb={2}>
         Permissions
       </Typography>
-      <br />
-      <FormProvider
-        methods={permissionsMethod}
-        onSubmit={handleSubmitPermissions}
-      >
+
+      <FormProvider methods={permissionsMethod}>
         <Grid container spacing={2}>
           {permissionData?.map((item: any) => (
             <Grid
               item
               xs={12}
               key={item?.id}
-              pb={2}
               borderBottom={`1px solid ${palette?.grey?.[700]}`}
             >
               {item?.mainHeading && (
@@ -38,9 +33,9 @@ export const Permissions = () => {
               )}
               <Typography {...item?.headingProp}>{item?.heading}</Typography>
               <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'}>
-                <RHFRadioGroup {...item?.componentProps} />
+                <RHFRadioGroup {...item?.componentProps} disabled />
                 {item?.checkboxProps && (
-                  <RHFCheckbox {...item?.checkboxProps} />
+                  <RHFCheckbox {...item?.checkboxProps} disabled />
                 )}
                 {item?.tooltipProps && (
                   <Tooltip {...item?.tooltipProps}>
@@ -51,20 +46,7 @@ export const Permissions = () => {
             </Grid>
           ))}
         </Grid>
-        <br />
-        <DialogActions>
-          <LoadingButton
-            variant="outlined"
-            color="secondary"
-            onClick={() => reset()}
-          >
-            cancel
-          </LoadingButton>
-          <LoadingButton variant="contained" type="submit">
-            Save
-          </LoadingButton>
-        </DialogActions>
       </FormProvider>
-    </Box>
+    </>
   );
 };

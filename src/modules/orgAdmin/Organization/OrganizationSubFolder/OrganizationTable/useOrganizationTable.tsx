@@ -18,6 +18,7 @@ import {
 } from './OrganizationTable.data';
 import useAuth from '@/hooks/useAuth';
 import { isNullOrEmpty } from '@/utils';
+import { PAGINATION } from '@/config';
 const useOrganizationTable = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -38,11 +39,21 @@ const useOrganizationTable = () => {
   const [updateOrganizationStatus] = useUpdateOrganizationStatusMutation();
   const [imageHandler, setImageHandler] = useState(false);
   const { user }: any = useAuth();
+
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetOrganizationQuery({
       organizationId: user?.organization?._id,
       search: value,
+      pages: page,
+      limit: pageLimit,
     });
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
 
   const deleteOrganizationCompany = async () => {
     try {
@@ -75,31 +86,35 @@ const useOrganizationTable = () => {
     },
   });
 
+  //   {
+  //     "flatNumber": "4",
+  //     "buildingName": "5A",
+  //     "buildingNumber": "23",
+  //     "streetName": "Baker street",
+  //     "city": "Manchester",
+  //     "country": "United Kingdom"
+  // }
+
   useEffect(() => {
     if (editData) {
       const { accountName, phoneNo, address, postCode } = editData;
-      let parsedAddress;
-      try {
-        parsedAddress = JSON.parse(address);
-      } catch (_: any) {
-        parsedAddress = null;
-      }
-
-      // console.log("parsedAddress", parsedAddress === null ? (address?.composite ?? address ) : parsedAddress?.composite ?? parsedAddress)
 
       methods.setValue('accountName', accountName);
       methods.setValue('phoneNo', phoneNo);
       methods.setValue('postCode', postCode);
-      methods.setValue(
-        'address',
-        parsedAddress === null
-          ? address?.composite ?? address
-          : parsedAddress?.composite ?? parsedAddress,
-      );
+      methods.setValue('unit', address?.country);
+      methods.setValue('buildingName', address?.buildingName);
+      methods.setValue('buildingNumber', address?.buildingNumber);
+      methods.setValue('streetName', address?.streetName);
+      methods.setValue('city', address?.city);
+      methods.setValue('country', address?.country);
+      methods.setValue('address', address?.composite ? address?.composite : '');
     }
   }, [editData, methods]);
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, watch } = methods;
+
+  const addressLength = watch('address');
 
   const onSubmit = async (data: any) => {
     const products: any = [];
@@ -123,7 +138,6 @@ const useOrganizationTable = () => {
     formData.append('phoneNo', data?.phoneNo);
     formData.append('postCode', data?.postCode);
     formData.append('address', JSON.stringify(address));
-    formData.append('postCode', data?.postCode);
     formData.append('organizationId', user?.organization?._id);
     formData.append('isActive', 'true');
 
@@ -159,18 +173,19 @@ const useOrganizationTable = () => {
     setOpenEditDrawer(true);
   };
 
+  const tableRowData = data?.data?.organizationcompanyaccounts ?? [];
   const getRowValues = columns(
     setIsGetRowValues,
     setIsChecked,
-    isChecked,
     isGetRowValues,
     setEditData,
     updateOrganizationStatus,
+    tableRowData,
   );
 
   return {
     tableRow: data?.data?.organizationcompanyaccounts ?? [],
-    tablePagination: data?.meta?.pages,
+    tableInfo: data?.data?.meta,
     isOpenDrawer,
     setIsOpenDrawer,
     isOpenDelete,
@@ -208,6 +223,10 @@ const useOrganizationTable = () => {
     drawerHeading,
     setDrawerHeading,
     loadingAddCompanyAccount,
+    setPageLimit,
+    setPage,
+    handlePageChange,
+    addressLength,
   };
 };
 

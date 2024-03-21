@@ -1,24 +1,19 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
 
-import * as Yup from 'yup';
-
-export const softwareFilterValidationSchema = Yup?.object()?.shape({
-  status: Yup?.string(),
-  type: Yup?.string(),
-  category: Yup?.string(),
-  publisher: Yup?.string(),
-  createdDate: Yup?.date(),
-  updatedDate: Yup?.date(),
-});
+import {
+  softwareDateOptions,
+  softwareStatusOptions,
+  softwareTypeOptions,
+} from '../Software.data';
 
 export const softwareFilterDefaultValues = (filterValues: any) => {
   return {
-    type: filterValues?.type,
-    status: filterValues?.status,
-    category: filterValues?.category,
-    publisher: filterValues?.publisher,
-    createdDate: filterValues?.createdDate,
-    updatedDate: filterValues?.updatedDate,
+    type: filterValues?.type ?? null,
+    status: filterValues?.status ?? null,
+    category: filterValues?.category ?? '',
+    publisher: filterValues?.publisher ?? '',
+    createdDate: filterValues?.createdDate ?? null,
+    updatedDate: filterValues?.updatedDate ?? null,
   };
 };
 
@@ -29,11 +24,10 @@ export const softwareFilterDataArray = [
       name: 'status',
       label: 'Status',
       fullWidth: true,
-      select: true,
-      options: ['Restricted', 'Ignored', 'Managed', 'disabled', 'InReview'],
+      options: softwareStatusOptions,
+      placeholder: 'Select status',
     },
     component: RHFAutocomplete,
-    md: 12,
   },
   {
     id: 6546,
@@ -41,11 +35,10 @@ export const softwareFilterDataArray = [
       name: 'type',
       label: 'Type',
       fullWidth: true,
-      select: true,
-      options: ['Desktop', 'SaaS', 'Mobile'],
+      options: softwareTypeOptions,
+      placeholder: 'Select type',
     },
     component: RHFAutocomplete,
-    md: 12,
   },
 
   {
@@ -54,10 +47,8 @@ export const softwareFilterDataArray = [
       name: 'category',
       label: 'Category',
       fullWidth: true,
-      select: false,
     },
     component: RHFTextField,
-    md: 12,
   },
 
   {
@@ -66,10 +57,8 @@ export const softwareFilterDataArray = [
       name: 'publisher',
       label: 'Publisher',
       fullWidth: true,
-      select: false,
     },
     component: RHFTextField,
-    md: 12,
   },
 
   {
@@ -78,19 +67,10 @@ export const softwareFilterDataArray = [
       name: 'createdDate',
       label: 'Created Date',
       fullWidth: true,
-      select: true,
       placeholder: 'Select a time period',
-      options: [
-        'NONE',
-        'ALL_TIME',
-        'TODAY',
-        'YESTERDAY',
-        'PREVIOUS_WEEK',
-        'PREVIOUS_MONTH',
-      ],
+      options: softwareDateOptions,
     },
     component: RHFAutocomplete,
-    md: 12,
   },
 
   {
@@ -99,18 +79,9 @@ export const softwareFilterDataArray = [
       name: 'updatedDate',
       label: 'Updated Date',
       fullWidth: true,
-      select: true,
       placeholder: 'Select a time period',
-      options: [
-        'NONE',
-        'ALL_TIME',
-        'TODAY',
-        'YESTERDAY',
-        'PREVIOUS_WEEK',
-        'PREVIOUS_MONTH',
-      ],
+      options: softwareDateOptions,
     },
     component: RHFAutocomplete,
-    md: 12,
   },
 ];

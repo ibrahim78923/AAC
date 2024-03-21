@@ -9,8 +9,15 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 const AddNewVendor = (props: any) => {
   const { isADrawerOpen, update } = props;
 
-  const { methodsNewVendor, handleSubmit, onSubmit, isLoading, handleClose } =
-    useAddNewVendor(props);
+  const {
+    methodsNewVendor,
+    handleSubmit,
+    onSubmit,
+    isLoading,
+    handleClose,
+    patchNewVendorStatus,
+    postNewVendorStatus,
+  } = useAddNewVendor(props);
 
   if (isLoading) return <SkeletonForm />;
   return (
@@ -23,6 +30,15 @@ const AddNewVendor = (props: any) => {
         okText="Save"
         isOk
         submitHandler={handleSubmit(onSubmit)}
+        isLoading={
+          patchNewVendorStatus?.isLoading || postNewVendorStatus?.isLoading
+        }
+        isDisabled={
+          postNewVendorStatus?.isLoading || patchNewVendorStatus?.isLoading
+        }
+        disabledCancelBtn={
+          postNewVendorStatus?.isLoading || patchNewVendorStatus?.isLoading
+        }
       >
         <Box>
           <FormProvider

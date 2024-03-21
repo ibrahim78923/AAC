@@ -7,26 +7,19 @@ import { ChangeEvent, useState } from 'react';
 export const useHeader = () => {
   const router = useRouter();
   const user: any = useAuth();
-  const [uploadedImage, setUploadedImage] = useState<string | undefined>(
-    undefined,
-  );
   const [isHovered, setIsHovered] = useState(false);
   const fullScreenPosition = { top: 0, left: 0, right: 0, bottom: 0 };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const fileInput = event?.target;
-
-    if (fileInput && fileInput?.files && fileInput?.files?.length > 0) {
-      const file: any = fileInput?.files[0];
-      setUploadedImage(file);
-      isSubmit();
-    }
+    if (!!!event?.target?.files?.length) return;
+    isSubmit(event?.target?.files?.[0]);
   };
 
-  const [patchProfileAvatarTrigger] = usePatchProfileAvatarMutation();
-  const isSubmit = async () => {
+  const [patchProfileAvatarTrigger, patchProfileAvatarStatus] =
+    usePatchProfileAvatarMutation();
+  const isSubmit = async (file: any) => {
     const reportAnIssueData: any = new FormData();
-    reportAnIssueData?.append('avatar', uploadedImage);
+    reportAnIssueData?.append('avatar', file);
 
     const payload = {
       id: user?.user?._id,
@@ -47,5 +40,6 @@ export const useHeader = () => {
     setIsHovered,
     fullScreenPosition,
     router,
+    patchProfileAvatarStatus,
   };
 };

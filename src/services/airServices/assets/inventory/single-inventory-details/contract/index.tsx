@@ -12,7 +12,18 @@ export const InventoryContractsAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    deleteInventoryContracts: builder?.mutation({
+      query: (params: any) => ({
+        url: END_POINTS?.DELETE_INVENTORY_CONTRACT,
+        method: 'PATCH',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
-export const { useGetInventoryContractsQuery } = InventoryContractsAPI;
+export const {
+  useGetInventoryContractsQuery,
+  useDeleteInventoryContractsMutation,
+} = InventoryContractsAPI;

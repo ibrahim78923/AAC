@@ -38,9 +38,45 @@ const useAddUser = (useActionParams?: any) => {
   const tabTitle = tabVal === initialTab ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
 
   // for super admin form methods
+  const superAdminValues = {
+    ...userDetail,
+    address: userDetail?.address?.composite
+      ? userDetail?.address?.composite
+      : `${
+          userDetail?.address?.flatNumber
+            ? `Flat # ${userDetail?.address?.flatNumber}, `
+            : ''
+        }` +
+        `${
+          userDetail?.address?.buildingNumber
+            ? `Building # ${userDetail?.address?.buildingNumber}, `
+            : ''
+        }` +
+        `${
+          userDetail?.address?.buildingName
+            ? `Building Name ${userDetail?.address?.buildingName}, `
+            : ''
+        }` +
+        `${
+          userDetail?.address?.streetName
+            ? `Street # ${userDetail?.address?.streetName}, `
+            : ''
+        }` +
+        `${userDetail?.address?.city ? `${userDetail?.address?.city}, ` : ''}` +
+        `${
+          userDetail?.address?.country ? `${userDetail?.address?.country}` : ''
+        }`,
+    flat: userDetail?.address?.flatNumber ?? '',
+    city: userDetail?.address?.city ?? '',
+    country: userDetail?.address?.country ?? '',
+    buildingName: userDetail?.address?.buildingName ?? '',
+    buildingNumber: userDetail?.address?.buildingNumber ?? '',
+    streetName: userDetail?.address?.streetName ?? '',
+  };
+
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
-    defaultValues: userDetail,
+    defaultValues: superAdminValues,
   });
 
   // for company awner form values
@@ -52,6 +88,7 @@ const useAddUser = (useActionParams?: any) => {
       return item?._id;
     }),
   };
+
   // for company owner form methods
   const companyOwnerMethods: any = useForm({
     resolver: yupResolver(CompanyOwnerValidationSchema),
@@ -70,7 +107,7 @@ const useAddUser = (useActionParams?: any) => {
   //make sum up of address fields
   const addressValues = formValues?.composite?.address
     ? formValues?.composite?.address
-    : `${formValues?.flatNumber ? `Flat # ${formValues?.flatNumber}, ` : ''}` +
+    : `${formValues?.flat ? `Flat # ${formValues?.flat}, ` : ''}` +
       `${
         formValues?.buildingNumber
           ? `Building # ${formValues?.buildingNumber}, `
@@ -89,15 +126,19 @@ const useAddUser = (useActionParams?: any) => {
 
   // setValue of address values
   useEffect(() => {
-    setValue('compositeAddress', addressValues?.trim());
+    setValue('address', addressValues?.trim());
   }, [addressValues]);
 
   // watch crn number from values
   const organizationNumber = formValues?.crn;
   debouncedSearch(organizationNumber, setOrgNumber);
-  const { data, isSuccess, isError } = useGetAuthCompaniesQuery({
-    q: orgNumber,
-  });
+  const { data, isSuccess, isError } =
+    userDetail === undefined
+      ? useGetAuthCompaniesQuery({
+          q: orgNumber,
+        })
+      : { data: null, isSuccess: false, isError: false };
+
   let companyDetails: any = {};
   if (isSuccess) {
     companyDetails = data?.data;
@@ -170,12 +211,12 @@ const useAddUser = (useActionParams?: any) => {
         ? (await postUsers({ body: values })?.unwrap(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
-          ? (await postUserEmployee({
-              id: organizationId,
-              body: values,
-            })?.unwrap(),
-            setIsOpenAdduserDrawer(false))
-          : await updateUsers({ id: updateUserId, body: values })?.unwrap();
+        ? (await postUserEmployee({
+            id: organizationId,
+            body: values,
+          })?.unwrap(),
+          setIsOpenAdduserDrawer(false))
+        : await updateUsers({ id: updateUserId, body: values })?.unwrap();
 
       enqueueSnackbar(
         `User ${

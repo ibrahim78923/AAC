@@ -66,7 +66,6 @@ const Faqs = () => {
     methodsEditFaq,
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,
@@ -228,12 +227,14 @@ const Faqs = () => {
             columns={getFaqsTableColumns}
             data={dataGetFaqs?.data?.faqs}
             isLoading={loagingGetFaqs}
-            isPagination
+            currentPage={dataGetFaqs?.data?.meta?.page}
             count={dataGetFaqs?.data?.meta?.pages}
+            pageLimit={dataGetFaqs?.data?.meta?.limit}
             totalRecords={dataGetFaqs?.data?.meta?.total}
-            onPageChange={handlePageChange}
             setPage={setPage}
             setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
           />
         </Box>
       </PermissionsGuard>

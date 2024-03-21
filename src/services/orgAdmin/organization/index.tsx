@@ -12,8 +12,8 @@ export const organizationAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['Organization'],
     }),
     getOrganization: builder.query({
-      query: ({ organizationId, pages = 1, limit = 10, search = '' }: any) => ({
-        url: `${organization.GET_ORGANIZATION_ACCOUNT_ALL}/${organizationId}?page=${pages}&limit=${limit}&search=${search}`,
+      query: ({ organizationId, pages, limit, search = '' }: any) => ({
+        url: `${organization?.GET_ORGANIZATION_ACCOUNT_ALL}/${organizationId}?page=${pages}&limit=${limit}&search=${search}`,
         method: 'GET',
       }),
       providesTags: ['Organization'],

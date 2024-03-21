@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 
 export const mergeTicketsFormValidationSchema = Yup?.object()?.shape({
   ticketSelection: Yup?.mixed()?.nullable()?.required('Required'),
-  searchTicket: Yup?.mixed()?.nullable()?.required('Required'),
+  searchTicket: Yup?.mixed()?.nullable()?.required('Ticket id is Required'),
 });
 
 export const mergeTicketsFormDefaultValue: any = {

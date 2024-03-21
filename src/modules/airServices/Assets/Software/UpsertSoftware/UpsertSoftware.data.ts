@@ -4,26 +4,18 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-
-const statusOptions = [
-  'Restricted',
-  'Ignored',
-  'Managed',
-  'Disabled',
-  'InReview',
-];
-const typeOptions = ['Desktop', 'Saas', 'Mobile'];
+import { softwareStatusOptions, softwareTypeOptions } from '../Software.data';
 
 export const upsertSoftwareFormValidationSchema: any = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Required'),
+  name: Yup?.string()?.required('Name is required'),
   description: Yup?.string(),
-  type: Yup?.string()?.required('Required'),
-  status: Yup?.string()?.required('Required'),
+  type: Yup?.string()?.required('Type is Required'),
+  status: Yup?.string()?.required('Status is Required'),
   publisher: Yup?.string(),
   category: Yup?.string(),
 });
 
-export const upsertSoftwareFormDefaultValues = (data: any) => {
+export const upsertSoftwareFormDefaultValues = (data?: any) => {
   return {
     name: data?.name ?? '',
     description: data?.details?.description ?? '',
@@ -67,7 +59,7 @@ export const upsertSoftwareFormFields = (userQuery: any) => [
       label: 'Status',
       fullWidth: true,
       required: true,
-      options: statusOptions,
+      options: softwareStatusOptions,
     },
     component: RHFAutocomplete,
     md: 12,
@@ -79,7 +71,7 @@ export const upsertSoftwareFormFields = (userQuery: any) => [
       label: 'Type',
       fullWidth: true,
       required: true,
-      options: typeOptions,
+      options: softwareTypeOptions,
     },
     component: RHFAutocomplete,
     md: 12,
