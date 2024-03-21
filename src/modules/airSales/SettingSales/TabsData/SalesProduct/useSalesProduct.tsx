@@ -24,7 +24,8 @@ const useSalesProduct = () => {
     setAnchorEl(event?.currentTarget);
   };
 
-  const [deleteSalesProduct] = useDeleteSalesProductMutation();
+  const [deleteSalesProduct, { isLoading: deleteProduct }] =
+    useDeleteSalesProductMutation();
 
   const paramsObj: any = {};
   if (productSearch) paramsObj['search'] = productSearch;
@@ -111,6 +112,7 @@ const useSalesProduct = () => {
     salesProductData: data?.data,
     isLoading,
     isSuccess,
+    deleteProduct,
   };
 };
 
