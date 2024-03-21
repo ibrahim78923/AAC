@@ -64,7 +64,7 @@ const SalesProduct = () => {
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="h4">Sales Product</Typography>
+          <Typography variant="h3">Sales Product</Typography>
           <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.CREATE_PRODUCT]}>
             <Button
               variant="contained"

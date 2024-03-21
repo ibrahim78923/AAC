@@ -25,6 +25,7 @@ const SalesEditorDrawer = ({
       setIsDraweropen,
       setSelectedCheckboxes,
     });
+
   return (
     <>
       <CommonDrawer

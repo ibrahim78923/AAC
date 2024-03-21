@@ -48,5 +48,5 @@ export const {
   usePostSalesProductMutation,
   useUpdateSalesProductMutation,
   useDeleteSalesProductMutation,
-  useLazyGetSalesProductByIdQuery,
+  useGetSalesProductByIdQuery,
 } = SalesProductAPI;
