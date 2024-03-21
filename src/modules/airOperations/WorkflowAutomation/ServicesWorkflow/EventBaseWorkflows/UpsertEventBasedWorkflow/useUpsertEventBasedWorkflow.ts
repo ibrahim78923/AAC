@@ -25,9 +25,9 @@ export const useUpsertEventBasedWorkflow = () => {
     eventMethod;
   const [postWorkflowTrigger] = usePostServicesWorkflowMutation();
   const handleFormSubmit = async (data: any) => {
-    // const { options , ...rest } = data;
+    const { options, ...rest } = data;
     const body = {
-      // ...rest,
+      ...rest,
       events: [data?.events?.value],
       runType: data?.runType?.value,
       groups:
@@ -41,6 +41,7 @@ export const useUpsertEventBasedWorkflow = () => {
       successSnackbar('Workflow Enabled Successfully');
       reset();
       movePage();
+      return options;
     } catch (error) {
       errorSnackbar();
     }

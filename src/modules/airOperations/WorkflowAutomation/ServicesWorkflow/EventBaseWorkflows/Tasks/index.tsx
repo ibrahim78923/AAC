@@ -11,13 +11,25 @@ const Tasks = () => {
     isLoading,
     isSuccess,
     isFetching,
-    setPageLimit,
     setPage,
-    pageLimit,
+    limit,
+    setLimit,
+    setSearch,
+    search,
+    onSubmitTaskFilter,
+    isDrawerOpen,
+    setIsDrawerOpen,
   } = useTasks();
   return (
     <>
-      <TasksHeader selectedTasksList={selectedTasksList} />
+      <TasksHeader
+        selectedTasksList={selectedTasksList}
+        setSearch={setSearch}
+        search={search}
+        onSubmitTaskFilter={onSubmitTaskFilter}
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+      />
       <TanstackTable
         data={taskListData}
         columns={tasksListsColumns}
@@ -25,13 +37,13 @@ const Tasks = () => {
         isFetching={isFetching}
         isSuccess={isSuccess}
         isLoading={isLoading}
-        setPageLimit={setPageLimit}
+        setLimit={setLimit}
         setPage={setPage}
         count={taskData?.meta?.pages}
         totalRecords={taskData?.meta?.total}
         onPageChange={(page: any) => setPage(page)}
         currentPage={taskData?.meta?.page}
-        pageLimit={pageLimit}
+        limit={limit}
       />
     </>
   );

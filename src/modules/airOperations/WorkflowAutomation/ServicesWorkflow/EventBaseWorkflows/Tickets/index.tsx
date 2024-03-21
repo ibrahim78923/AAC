@@ -10,14 +10,26 @@ const Tickets = () => {
     isLoading,
     isSuccess,
     isFetching,
-    setPageLimit,
+    setLimit,
     setPage,
     ticketsData,
-    pageLimit,
+    limit,
+    setSearch,
+    search,
+    onSubmitFilter,
+    isDrawerOpen,
+    setIsDrawerOpen,
   } = useTickets();
   return (
     <>
-      <TicketsHeader selectedTicketsList={selectedTicketsList} />
+      <TicketsHeader
+        selectedTicketsList={selectedTicketsList}
+        setSearch={setSearch}
+        search={search}
+        onSubmitFilter={onSubmitFilter}
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+      />
       <TanstackTable
         data={ticketsListData}
         columns={ticketsListsColumns}
@@ -25,13 +37,13 @@ const Tickets = () => {
         isFetching={isFetching}
         isSuccess={isSuccess}
         isLoading={isLoading}
-        setPageLimit={setPageLimit}
+        setLimit={setLimit}
         setPage={setPage}
         count={ticketsData?.meta?.pages}
         totalRecords={ticketsData?.meta?.total}
         onPageChange={(page: any) => setPage(page)}
         currentPage={ticketsData?.meta?.page}
-        pageLimit={pageLimit}
+        limit={limit}
       />
     </>
   );

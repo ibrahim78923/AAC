@@ -143,19 +143,19 @@ export const assetsListsColumnsFunction = (
       <Box display={'flex'} gap={1} alignItems={'center'}>
         <Avatar
           sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
-          src={generateImage(info?.row?.original?.avatar?.url)}
+          src={generateImage(info?.row?.original?.createdBy?.avatar?.url)}
         >
           <Typography variant="body3" textTransform={'uppercase'}>
             {fullNameInitial(
-              info?.row?.original?.firstName,
-              info?.row?.original?.lastName,
+              info?.row?.original?.createdBy?.firstName,
+              info?.row?.original?.createdBy?.lastName,
             )}
           </Typography>
         </Avatar>
         <Typography variant="body2" fontWeight={600} color="slateBlue.main">
           {fullName(
-            info?.row?.original?.firstName,
-            info?.row?.original?.lastName,
+            info?.row?.original?.createdBy?.firstName,
+            info?.row?.original?.createdBy?.lastName,
           )}
         </Typography>
       </Box>
@@ -175,6 +175,9 @@ export const assetsListsColumnsFunction = (
     isSortable: false,
     header: 'Last Activity',
     cell: (info: any) =>
-      dayjs(info?.getValue())?.format('MMMM DD, YYYY: hh:mm'),
+      fullName(
+        info?.getValue()?.type ? info?.getValue()?.type + ' ' + 'by' : null,
+        info?.getValue()?.user?.firstName + info?.getValue()?.user?.lastName,
+      ),
   },
 ];

@@ -11,13 +11,25 @@ const Assets = () => {
     isLoading,
     isSuccess,
     isFetching,
-    setPageLimit,
     setPage,
-    pageLimit,
+    limit,
+    setLimit,
+    setSearch,
+    search,
+    onSubmitAssetsFilter,
+    isDrawerOpen,
+    setIsDrawerOpen,
   } = useAssets();
   return (
     <>
-      <AssetsHeader selectedAssetsList={selectedAssetsList} />
+      <AssetsHeader
+        selectedAssetsList={selectedAssetsList}
+        setSearch={setSearch}
+        search={search}
+        onSubmitAssetsFilter={onSubmitAssetsFilter}
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+      />
       <TanstackTable
         data={assetsListData}
         columns={assetsListsColumns}
@@ -25,13 +37,13 @@ const Assets = () => {
         isFetching={isFetching}
         isSuccess={isSuccess}
         isLoading={isLoading}
-        setPageLimit={setPageLimit}
+        setPageLimit={setLimit}
         setPage={setPage}
         count={assetsData?.meta?.pages}
         totalRecords={assetsData?.meta?.total}
         onPageChange={(page: any) => setPage(page)}
         currentPage={assetsData?.meta?.page}
-        pageLimit={pageLimit}
+        pageLimit={limit}
       />
     </>
   );

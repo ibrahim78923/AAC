@@ -3,61 +3,65 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { SCHEMA_KEYS } from '@/constants/strings';
 
 export const assetsFieldsOption = [
   'Name',
-  'Asset Type',
-  'Location',
-  'Used By',
-  'Department',
-  'Managed By',
-  'Impact',
-  'End of Life',
-  'Created By',
-  'Assigned On',
-  'Description',
+  'assetType',
+  'location',
+  'usedBy',
+  'department',
+  'managedBy',
+  'impact',
+  'endOFLife',
+  'createdBy',
+  'assignedOn',
+  'description',
 ];
+
 export const taskFieldsOption = [
   'Title',
-  'Description',
-  'Departments',
-  'Assign To',
-  'Status',
-  'Notify Before',
-  'Planned Start Date and time',
-  'Planned End Date and time',
-  'Planned Effort',
+  'description',
+  'departments',
+  'assignTo',
+  'status',
+  'notifyBefore',
+  'plannedStartDate',
+  'plannedEndDate',
+  'plannedEffort',
   'Select Department',
 ];
+
 export const ticketsFields = [
-  'Select Department',
-  'Type',
-  'Add Requester',
-  'Subject',
-  'Source',
-  'Status',
-  'Priority',
-  'Agent',
-  'Description',
-  'Planned Start Date and Time',
-  'Planned End Date and Time',
-  'Planned Effort',
+  'selectDepartment',
+  'type',
+  'subject',
+  'source',
+  'status',
+  'priority',
+  'agent',
+  'plannedStartDate',
+  'plannedEndDate',
+  'plannedEffort',
 ];
+
 export const requesterFieldOptions = [
-  'Email',
-  'Full Name',
-  'Job Title',
-  'Phone Number',
-  'Date of Joining',
+  'email',
+  'jobTitle',
+  'phoneNumber',
+  'dateOfJoining',
 ];
+
 export const requestedForFieldOptions = [
-  'Email',
-  'Full Name',
-  'Job Title',
-  'Phone Number',
-  'Date of Joining',
+  'email',
+  'fullName',
+  'jobTitle',
+  'phoneNumber',
+  'dateOfJoining',
 ];
+
 export const statusOptions = ['open', 'pending', 'resolved', 'close'];
+
 export const fieldOptions = [
   'is',
   'is not',
@@ -102,30 +106,28 @@ export const subWorkflowData = (index: any, subIndex: any, watch: any) => {
     'Requested for Fields': requestedForFieldOptions,
   };
   const modulesOptions =
-    moduleSelectedOption === 'ASSETS'
+    moduleSelectedOption === SCHEMA_KEYS?.ASSETS
       ? assetsModule || []
-      : moduleSelectedOption === 'TICKETS'
+      : moduleSelectedOption === SCHEMA_KEYS?.TICKETS
         ? ticketsModule || []
         : taskModule || [];
   const selectedOption = watch('options');
   const dropdownOptions = modulesOptions[selectedOption] || [];
-
   const operatorsOption = watch(`groups.${index}.conditions.${subIndex}.key`);
   let singleOperatorsOptions = [];
 
   if (
     [
-      'Planned Start Date and Time',
-      'Planned End Date and Time',
-      'Planned Effort',
-      'Date of Joining',
-      'End of life',
-      'Assigned On',
+      'plannedStartDate',
+      'plannedEndDate',
+      'dateOfJoining',
+      'endOFLife',
+      'assignedOn',
     ].includes(operatorsOption)
   ) {
     singleOperatorsOptions = dateOperators;
   } else if (
-    ['Subject', 'Description', 'Title', 'Planned Effort', 'Name'].includes(
+    ['subject', 'description', 'title', 'plannedEffort', 'Name'].includes(
       operatorsOption,
     )
   ) {
@@ -135,12 +137,27 @@ export const subWorkflowData = (index: any, subIndex: any, watch: any) => {
   }
   let valueComponent;
   if (
+    ['subject', 'description', 'title', 'plannedEffort', 'Name'].includes(
+      operatorsOption,
+    )
+  ) {
+    valueComponent = {
+      _id: 5,
+      gridLength: 3,
+      componentProps: {
+        name: `groups.${index}.conditions.${subIndex}.value`,
+        size: 'small',
+        placeholder: 'Enter Text',
+      },
+      component: RHFTextField,
+    };
+  } else if (
     [
-      'Planned Start Date and Time',
-      'Planned End Date and Time',
-      'Date of Joining',
-      'End of life',
-      'Assigned On',
+      'plannedStartDate',
+      'plannedEndDate',
+      'dateOfJoining',
+      'endOFLife',
+      'assignedOn',
     ].includes(operatorsOption)
   ) {
     valueComponent = {
@@ -152,26 +169,6 @@ export const subWorkflowData = (index: any, subIndex: any, watch: any) => {
       },
       gridLength: 3,
       component: RHFDatePicker,
-    };
-  } else if (
-    [
-      'Subject',
-      'Description',
-      'Title',
-      'Planned Effort',
-      'Name',
-      'Planned Effort',
-    ].includes(operatorsOption)
-  ) {
-    valueComponent = {
-      _id: 5,
-      gridLength: 3,
-      componentProps: {
-        name: `groups.${index}.conditions.${subIndex}.value`,
-        size: 'small',
-        placeholder: 'Enter Text',
-      },
-      component: RHFTextField,
     };
   } else {
     valueComponent = {
