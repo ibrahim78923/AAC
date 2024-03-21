@@ -49,6 +49,7 @@ export const SUPER_ADMIN_SETTINGS: any = {
   TAX_CALCULATION: '/tax-calculation',
   PRODUCT_FEATURES: '/product-features',
   PRODUCTS: '/products',
+  QUICK_LINKS: '/quick-links',
 };
 
 export const SOCIAL_FEATURES = {

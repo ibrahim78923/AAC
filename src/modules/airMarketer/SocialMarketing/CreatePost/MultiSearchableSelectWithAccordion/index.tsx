@@ -225,8 +225,8 @@ export default function RHFMultiSearchableSelectWithAccordion({
                               backgroundColor: isCheckBox
                                 ? 'transparent'
                                 : selectedValues?.includes(option?.value)
-                                ? theme?.palette?.custom?.hex_grey
-                                : 'transparent',
+                                  ? theme?.palette?.custom?.hex_grey
+                                  : 'transparent',
                               '&:hover': {
                                 backgroundColor:
                                   theme?.palette?.custom?.hex_grey,
