@@ -59,7 +59,7 @@ export const useDetailTicketDrawer = (props: any) => {
 
     const postData = {
       ticketId: ticketId,
-      taskId: '65e9435fb36acb14e0443372',
+      taskId: data?.task?._id,
       agentId: data?.agent?._id,
       hours: data?.hours,
       status: data?.status?._id,
