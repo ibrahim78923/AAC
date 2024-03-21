@@ -18,7 +18,7 @@ export const RecentActivitiesCard = (props: any) => {
         borderBottom: data?.data?.length - 1 !== index ? `1px solid` : 'none',
         borderColor: 'grey.700',
       }}
-      overflow={'scroll'}
+      py={2}
     >
       <Box marginLeft={2}>
         <Avatar
