@@ -1,15 +1,8 @@
-import {
-  Box,
-  Button,
-  Grid,
-  InputAdornment,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, Button, Grid, InputAdornment, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { profileFields } from './UserDetailsProfile.data';
 import useToggle from '@/hooks/useToggle';
-import { EditInputIcon } from '@/assets/icons';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import useUserDeatilProfile from './useUserDeatilProfile';
@@ -17,7 +10,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 const UserDetailsProfile = (props: any) => {
   const { userDetails, setTabVal } = props;
-  const theme = useTheme();
   const [isToggled, setIsToggled] = useToggle(false);
   const userProfileParams = {
     isToggled,
@@ -73,17 +65,22 @@ const UserDetailsProfile = (props: any) => {
                         }}
                         position="end"
                       >
-                        <Button
-                          onClick={() => setIsToggled(true)}
-                          disabled={!addressVal ? false : true}
-                          sx={{
-                            backgroundColor:
-                              addressVal && theme?.palette?.grey[700],
-                            margin: 0,
-                          }}
-                        >
-                          <EditInputIcon />
-                        </Button>
+                        {addressVal?.length > 0 ? (
+                          <BorderColorIcon
+                            sx={{
+                              cursor: 'not-allowed',
+                              fontSize: '20px',
+                              color: 'lightgrey',
+                            }}
+                          />
+                        ) : (
+                          <BorderColorIcon
+                            onClick={() => {
+                              setIsToggled(true);
+                            }}
+                            sx={{ cursor: 'pointer', fontSize: '20px' }}
+                          />
+                        )}
                       </InputAdornment>
                     </Box>
                   )}

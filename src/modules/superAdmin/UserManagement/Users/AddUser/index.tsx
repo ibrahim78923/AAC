@@ -1,12 +1,12 @@
 import { Box, Grid, InputAdornment, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { EditInputIcon } from '@/assets/icons';
 import { addUsersArray } from './AddUser.data';
 import { SUPER_ADMIN } from '@/constants/index';
 import useAddUser from './useAddUser';
 import { v4 as uuidv4 } from 'uuid';
 import { style } from '../Users.style';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 const AddUser = ({
   isOpenDrawer,
@@ -34,6 +34,7 @@ const AddUser = ({
     tabTitle,
     isToggled,
     setIsToggled,
+    addressVal,
   } = useAddUser(useActionParams);
   return (
     <CommonDrawer
@@ -77,14 +78,22 @@ const AddUser = ({
                         }}
                         position="end"
                       >
-                        <Box
-                          onClick={() => {
-                            setIsToggled(true);
-                          }}
-                          sx={{ cursor: 'pointer', fontSize: '20px' }}
-                        >
-                          <EditInputIcon />
-                        </Box>
+                        {addressVal?.length > 0 ? (
+                          <BorderColorIcon
+                            sx={{
+                              cursor: 'not-allowed',
+                              fontSize: '20px',
+                              color: 'lightgrey',
+                            }}
+                          />
+                        ) : (
+                          <BorderColorIcon
+                            onClick={() => {
+                              setIsToggled(true);
+                            }}
+                            sx={{ cursor: 'pointer', fontSize: '20px' }}
+                          />
+                        )}
                       </InputAdornment>
                     </Box>
                   )}

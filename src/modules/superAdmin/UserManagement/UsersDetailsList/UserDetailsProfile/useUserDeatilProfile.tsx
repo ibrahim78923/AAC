@@ -11,16 +11,28 @@ const useUserDeatilProfile = (userprofileParams: any) => {
   const id = userDetails?._id;
   const initialTab = 0;
 
-  const profileDefaultValues = {
-    ...userDetails,
-    compositeAddress: userDetails?.address?.composite ?? '',
-    flat: userDetails?.address?.flatNumber ?? '',
-    city: userDetails?.address?.city ?? '',
-    country: userDetails?.address?.country ?? '',
-    buildingName: userDetails?.address?.buildingName ?? '',
-    buildingNumber: userDetails?.address?.buildingNumber ?? '',
-    streetName: userDetails?.address?.streetName ?? '',
+  const profileDefaultValues: any = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    compositeAddress: '',
+    phoneNumber: '',
+    jobTitle: '',
+    postCode: '',
+    facebookUrl: '',
+    twitterUrl: '',
   };
+
+  // const profileDefaultValues = {
+  //   ...userDetails,
+  //   compositeAddress: userDetails?.address?.composite ?? '',
+  //   flat: userDetails?.address?.flatNumber ?? '',
+  //   city: userDetails?.address?.city ?? '',
+  //   country: userDetails?.address?.country ?? '',
+  //   buildingName: userDetails?.address?.buildingName ?? '',
+  //   buildingNumber: userDetails?.address?.buildingNumber ?? '',
+  //   streetName: userDetails?.address?.streetName ?? '',
+  // };
 
   const methods: any = useForm({
     resolver: yupResolver(profileValidationSchema),
@@ -48,6 +60,31 @@ const useUserDeatilProfile = (userprofileParams: any) => {
   useEffect(() => {
     setValue('compositeAddress', addressValues);
   }, [addressValues]);
+
+  useEffect(() => {
+    // if (drawerType === 'edit') {
+    const fieldsToSet: any = {
+      firstName: userDetails?.firstName,
+      lastName: userDetails?.lastName,
+      email: userDetails?.email,
+      compositeAddress: userDetails?.address?.composite,
+      flat: userDetails?.address?.flatNumber ?? '',
+      city: userDetails?.address?.city ?? '',
+      country: userDetails?.address?.country ?? '',
+      buildingName: userDetails?.address?.buildingName ?? '',
+      buildingNumber: userDetails?.address?.buildingNumber ?? '',
+      streetName: userDetails?.address?.streetName ?? '',
+      postCode: userDetails?.postCode,
+      phoneNumber: userDetails?.phoneNumber,
+      jobTitle: userDetails?.jobTitle,
+      facebookUrl: userDetails?.facebookUrl,
+      linkedInUrl: userDetails?.linkedInUrl,
+    };
+    for (const key in fieldsToSet) {
+      setValue(key, fieldsToSet[key]);
+    }
+    // }
+  }, [userDetails]);
 
   //submission and hit post api
   const onSubmit = async (values: any) => {

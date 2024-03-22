@@ -94,6 +94,7 @@ const useAddUser = (useActionParams?: any) => {
     onSubmit,
     isToggled,
     setIsToggled,
+    addressVal: formValues.compositeAddress,
   };
 };
 

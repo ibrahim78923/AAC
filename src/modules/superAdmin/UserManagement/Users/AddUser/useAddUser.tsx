@@ -221,6 +221,7 @@ const useAddUser = (useActionParams?: any) => {
     tabTitle,
     isToggled,
     setIsToggled,
+    addressVal: formValues.address,
   };
 };
 
