@@ -1,12 +1,12 @@
 import { DATE_FORMAT } from '@/constants';
-import { fullName } from '@/utils/avatarUtils';
+import { fullName, truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
 export const FIRST_ELEMENT = 0;
 export const knowledgeInsightsRelatedTicketColumns = [
   {
-    accessorFn: (row: any) => row?.subject,
+    accessorFn: (row: any) => row?.insertedTickets,
     id: 'subject',
     header: `Subject`,
     cell: (info: any) => (
@@ -15,12 +15,12 @@ export const knowledgeInsightsRelatedTicketColumns = [
         fontWeight={'fontWeightMedium'}
         sx={{ cursor: 'pointer' }}
       >
-        {info?.getValue() ?? '---'}
+        {truncateText(info?.getValue()?.subject)}
       </Typography>
     ),
   },
   {
-    accessorFn: (row: any) => row?.agentDetails,
+    accessorFn: (row: any) => row?.insertedTickets,
     id: 'agentDetails',
     isSortable: true,
     header: 'Assigned to',
@@ -28,10 +28,11 @@ export const knowledgeInsightsRelatedTicketColumns = [
       fullName(info?.getValue()?.firstName, info?.getValue()?.lastName),
   },
   {
-    accessorFn: (row: any) => row?.createdAt,
+    accessorFn: (row: any) => row?.insertedTickets,
     id: 'createdAt',
     isSortable: true,
     header: 'Created On',
-    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
+    cell: (info: any) =>
+      dayjs(info?.getValue()?.createdAt)?.format(DATE_FORMAT?.UI),
   },
 ];
