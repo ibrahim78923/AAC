@@ -6,6 +6,7 @@ import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/consta
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { REQUESTORS_STATUS } from '@/constants/strings';
 
 export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
   {
@@ -123,15 +124,19 @@ export const tasksListsColumnsFunction = (
     id: 'status',
     header: 'Status',
     isSortable: false,
-    cell: (info: any) => (
-      <PermissionsGuard
-        permissions={[
-          AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.ENABLE_DISABLE,
-        ]}
-      >
-        <AntSwitch values={info?.getValue()} />
-      </PermissionsGuard>
-    ),
+    cell: (info: any) => {
+      const getValues =
+        info?.getValue() === REQUESTORS_STATUS?.ACTIVE ? true : false;
+      return (
+        <PermissionsGuard
+          permissions={[
+            AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.ENABLE_DISABLE,
+          ]}
+        >
+          <AntSwitch checked={getValues} />
+        </PermissionsGuard>
+      );
+    },
   },
   {
     accessorFn: (row: any) => row?.createdBy,
