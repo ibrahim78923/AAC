@@ -1,11 +1,15 @@
-import { Avatar, Box, Card, Grid, Typography } from '@mui/material';
-import { styles } from './AgentRequest.style';
+import { Avatar, Box, Grid, Typography } from '@mui/material';
 import RejectedModal from './RejectedModal';
 import { useAgentRequest } from './useAgentRequest';
 import { AGENT_REQUEST_STATUS } from '@/constants/strings';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
@@ -24,6 +28,8 @@ const AgentRequest = () => {
     isError,
     data,
     patchApprovedRequestStatus,
+    selectedAgentRequest,
+    setSelectedAgentRequest,
   } = useAgentRequest();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -34,7 +40,16 @@ const AgentRequest = () => {
       <Grid container spacing={2}>
         {data?.data?.map((item: any) => (
           <Grid item xs={12} sm={6} md={4} xl={3} key={item?._id}>
-            <Card sx={styles?.cardStyling}>
+            <Box
+              textAlign={'center'}
+              display={'flex'}
+              flexDirection={'column'}
+              border={'1px solid'}
+              borderColor={'custom.off_white'}
+              borderRadius={3}
+              p={1}
+              height={'100%'}
+            >
               <Avatar
                 sx={{
                   bgcolor: theme?.palette?.blue?.main,
@@ -42,10 +57,11 @@ const AgentRequest = () => {
                   height: 80,
                   border: '2px solid',
                   borderColor: 'primary.main',
+                  margin: 'auto',
                 }}
                 src={generateImage(item?.userDetails?.avatar?.url)}
               >
-                <Typography variant="body2" textTransform={'uppercase'}>
+                <Typography textTransform={'uppercase'}>
                   {fullNameInitial(
                     item?.userDetails?.firstName,
                     item?.userDetails?.lastName,
@@ -58,11 +74,15 @@ const AgentRequest = () => {
                   item?.userDetails?.lastName,
                 )}
               </Typography>
-              <Typography variant="body2">{item?.role}</Typography>
-              <Typography variant="subtitle2">{item?.date}</Typography>
+              <Typography variant="body2" color="slateBlue.main">
+                {truncateText(item?.userDetails?.jobTitle)}
+              </Typography>
+              <Typography variant="subtitle2" mb={1} color="slateBlue.main">
+                {dayjs(item?.userDetails?.createdAt)?.format(DATE_FORMAT?.UI)}
+              </Typography>
               {item?.status === AGENT_REQUEST_STATUS?.APPROVED ||
               item?.status === AGENT_REQUEST_STATUS?.REJECTED ? (
-                <Box py={2} textAlign={'center'}>
+                <Box alignItems={'self-end'}>
                   <Typography
                     variant="body2"
                     color={
@@ -74,9 +94,7 @@ const AgentRequest = () => {
                     {item?.status}
                   </Typography>
                   <Typography variant="body2">
-                    {dayjs(item?.userDetails?.createdAt)?.format(
-                      DATE_FORMAT?.UI,
-                    )}
+                    {dayjs(item?.updatedAt)?.format(DATE_FORMAT?.UI)}
                   </Typography>
                 </Box>
               ) : (
@@ -88,9 +106,8 @@ const AgentRequest = () => {
                   <Box
                     display={'flex'}
                     justifyContent={'space-around'}
-                    width={'90%'}
-                    py={2}
-                    mt={2}
+                    flexGrow={1}
+                    alignItems={'self-end'}
                   >
                     <LoadingButton
                       onClick={() => handlerStatusApprove(item?._id)}
@@ -110,7 +127,7 @@ const AgentRequest = () => {
                   </Box>
                 </PermissionsGuard>
               )}
-            </Card>
+            </Box>
           </Grid>
         ))}
       </Grid>
@@ -118,6 +135,8 @@ const AgentRequest = () => {
         <RejectedModal
           openRejectedModal={openRejectedModal}
           setOpenRejectedModal={setOpenRejectedModal}
+          selectedAgentRequest={selectedAgentRequest}
+          setSelectedAgentRequest={setSelectedAgentRequest}
         />
       )}
     </>

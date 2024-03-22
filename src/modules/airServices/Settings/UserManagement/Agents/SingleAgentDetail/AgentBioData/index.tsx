@@ -140,19 +140,6 @@ export const AgentBioData = (props: any) => {
             display={'flex'}
             flexWrap={'wrap'}
             justifyContent={'space-between'}
-            my={2}
-          >
-            <Typography variant="body2" fontWeight={600}>
-              Title
-            </Typography>
-            <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-              Mr.
-            </Typography>
-          </Box>
-          <Box
-            display={'flex'}
-            flexWrap={'wrap'}
-            justifyContent={'space-between'}
             marginBottom={1}
           >
             <Typography variant="body2" fontWeight={600}>

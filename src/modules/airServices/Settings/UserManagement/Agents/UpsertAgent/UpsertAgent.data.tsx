@@ -27,7 +27,7 @@ export const defaultValues = (selectedAgentList: any) => {
     email: updateData?.email ?? '',
     phoneNumber: updateData?.phoneNumber ?? '',
     departmentId: updateData?.departmentData ?? null,
-    permissionsRole: updateData?.permissionsRole ?? null,
+    permissionsRole: updateData?.permissionsList ?? null,
     timezone: updateData?.timezone ?? '',
   };
 };

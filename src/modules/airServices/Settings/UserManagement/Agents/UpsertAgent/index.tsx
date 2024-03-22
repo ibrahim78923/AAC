@@ -25,79 +25,72 @@ export const UpsertAgent = (props: any) => {
   } = useUpsertAgent(props);
   return (
     <>
-      {isAgentModalOpen && (
-        <Dialog
-          open={isAgentModalOpen}
-          onClose={() => handleClose?.()}
-          aria-labelledby="responsive-dialog-title"
-          PaperProps={{
-            style: {
-              width: 510,
-              borderRadius: 8,
-            },
-          }}
+      <Dialog
+        open={isAgentModalOpen}
+        onClose={() => handleClose?.()}
+        fullWidth
+        maxWidth={'sm'}
+      >
+        <FormProvider
+          methods={method}
+          onSubmit={handleSubmit(handleUpsertAgentSubmit)}
         >
-          <FormProvider
-            methods={method}
-            onSubmit={handleSubmit(handleUpsertAgentSubmit)}
+          <DialogTitle
+            display={'flex'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
+            flexWrap={'wrap'}
           >
-            <DialogTitle
-              display={'flex'}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-              pb={2.4}
+            <Typography variant="h4" color="primary.main">
+              {!!selectedAgentList?.length ? 'Edit Agent' : 'Invite Agent'}
+            </Typography>
+            <IconButton
+              onClick={() => handleClose?.()}
+              sx={{ cursor: 'pointer' }}
             >
-              <Typography variant="h4" color="primary.main">
-                {!!selectedAgentList?.length ? 'Edit Agent' : 'Invite Agent'}
-              </Typography>
-              <IconButton
+              <CloseModalIcon />
+            </IconButton>
+          </DialogTitle>
+          <DialogContent sx={{ mt: 2 }}>
+            <Grid container spacing={2}>
+              {upsertAgentFormFields?.map((form: any) => (
+                <Grid item xs={12} md={form?.gridLength} key={form?.id}>
+                  <form.component {...form?.componentProps} size="small" />
+                </Grid>
+              ))}
+            </Grid>
+            <Box
+              display={'flex'}
+              justifyContent={'flex-end'}
+              gap={2}
+              flexWrap={'wrap'}
+            >
+              <LoadingButton
                 onClick={() => handleClose?.()}
-                sx={{ cursor: 'pointer' }}
+                variant="outlined"
+                color="secondary"
+                disabled={
+                  patchAgentStatus?.isLoading || postAgentStatus?.isLoading
+                }
               >
-                <CloseModalIcon />
-              </IconButton>
-            </DialogTitle>
-            <DialogContent sx={{ mt: 2 }}>
-              <Grid container spacing={2}>
-                {upsertAgentFormFields?.map((form: any) => (
-                  <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                    <form.component {...form?.componentProps} size="small" />
-                  </Grid>
-                ))}
-              </Grid>
-              <Box
-                display={'flex'}
-                justifyContent={'flex-end'}
-                gap={2}
-                flexWrap={'wrap'}
+                Cancel
+              </LoadingButton>
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                disabled={
+                  patchAgentStatus?.isLoading || postAgentStatus?.isLoading
+                }
+                loading={
+                  patchAgentStatus?.isLoading || postAgentStatus?.isLoading
+                }
               >
-                <LoadingButton
-                  onClick={() => handleClose?.()}
-                  variant="outlined"
-                  color="secondary"
-                  disabled={
-                    patchAgentStatus?.isLoading || postAgentStatus?.isLoading
-                  }
-                >
-                  Cancel
-                </LoadingButton>
-                <LoadingButton
-                  type="submit"
-                  variant="contained"
-                  disabled={
-                    patchAgentStatus?.isLoading || postAgentStatus?.isLoading
-                  }
-                  loading={
-                    patchAgentStatus?.isLoading || postAgentStatus?.isLoading
-                  }
-                >
-                  Save
-                </LoadingButton>
-              </Box>
-            </DialogContent>
-          </FormProvider>
-        </Dialog>
-      )}
+                Save
+              </LoadingButton>
+            </Box>
+          </DialogContent>
+        </FormProvider>
+      </Dialog>
     </>
   );
 };

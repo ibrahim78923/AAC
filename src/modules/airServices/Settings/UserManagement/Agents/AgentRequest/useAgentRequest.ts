@@ -8,10 +8,8 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import useAuth from '@/hooks/useAuth';
 
 export const useAgentRequest = () => {
-  const [openRejectedModal, setOpenRejectedModal] = useState({
-    val: false,
-    id: null,
-  });
+  const [openRejectedModal, setOpenRejectedModal] = useState(false);
+  const [selectedAgentRequest, setSelectedAgentRequest] = useState('');
 
   const auth: any = useAuth();
 
@@ -23,15 +21,15 @@ export const useAgentRequest = () => {
       skip: !!!companyId,
     });
 
-  // const userDetails = requesterData?.map((item: any) => item?.userDetails);
-
-  const handleOpenModal = (_id: any) => {
-    setOpenRejectedModal({ val: true, id: _id });
+  const handleOpenModal = (agent: any) => {
+    setSelectedAgentRequest(agent);
+    setOpenRejectedModal?.(true);
   };
 
   const theme = useTheme();
   const [patchApprovedRequestTrigger, patchApprovedRequestStatus] =
     usePatchApprovedRequestMutation();
+
   const handlerStatusApprove = async (_id: any) => {
     const approvedRequestParams = new URLSearchParams();
     approvedRequestParams?.append('id', _id);
@@ -52,11 +50,12 @@ export const useAgentRequest = () => {
     openRejectedModal,
     setOpenRejectedModal,
     handleOpenModal,
-    // userDetails,
     isLoading,
     isFetching,
     isError,
     data,
     patchApprovedRequestStatus,
+    selectedAgentRequest,
+    setSelectedAgentRequest,
   };
 };

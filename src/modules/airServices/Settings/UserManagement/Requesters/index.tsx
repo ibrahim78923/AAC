@@ -1,7 +1,6 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { RequestersHeader } from './RequestersHeader';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { ArrowBackIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
 import { useRequesters } from './useRequesters';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
@@ -9,6 +8,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ConvertToAgent } from './ConvertToAgent';
 import { DeleteRequester } from './DeleteRequester';
 import UpsertRequesters from './UpsertRequesters';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
 export const Requesters = () => {
   const {
@@ -33,19 +33,15 @@ export const Requesters = () => {
 
   return (
     <>
-      <Box display={'flex'} alignItems={'center'} gap={2}>
-        <Box
-          sx={{ cursor: 'pointer' }}
-          onClick={() =>
-            router?.push({ pathname: AIR_SERVICES?.USER_MANAGEMENT })
-          }
-        >
-          <ArrowBackIcon />
-        </Box>
-        <Box mb={1}>
-          <Typography variant="h3">Requesters</Typography>
-        </Box>
-      </Box>
+      <PageTitledHeader
+        moveBack={() =>
+          router?.push({
+            pathname: AIR_SERVICES?.USER_MANAGEMENT,
+          })
+        }
+        canMovedBack
+        title={'Requesters'}
+      />
       <Box mt={2}>
         <RequestersHeader
           selectedRequestersList={selectedRequestersList}

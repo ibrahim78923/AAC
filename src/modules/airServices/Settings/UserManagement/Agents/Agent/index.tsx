@@ -31,6 +31,7 @@ const Agent = () => {
     openDeleteModal,
     setOpenDeleteModal,
     setIsAgentModalOpen,
+    filterAgentData,
   } = useAgent();
   return (
     <>
@@ -142,6 +143,8 @@ const Agent = () => {
           isAgentFilterDrawerOpen={isAgentFilterDrawerOpen}
           setAgentFilterDrawerOpen={setAgentFilterDrawerOpen}
           setFilterAgentData={setFilterAgentData}
+          filterAgentData={filterAgentData}
+          setPage={setPage}
         />
       )}
     </>
