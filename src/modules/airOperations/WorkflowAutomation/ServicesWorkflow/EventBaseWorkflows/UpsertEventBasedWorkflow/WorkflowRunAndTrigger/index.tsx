@@ -2,15 +2,12 @@ import { Box, Grid, Typography } from '@mui/material';
 import { RHFAutocomplete, RHFRadioGroup } from '@/components/ReactHookForm';
 import {
   andRunOptions,
-  assetsOptions,
   eventOptions,
   moduleOptions,
 } from './WorkflowRunAndTrigger.data';
 
 export const WorkflowRunAndTrigger = (props: any) => {
-  const { register, palette, watch } = props;
-  const moduleType = watch('module');
-  const ASSETS_TYPE = 'ASSETS';
+  const { register, palette } = props;
   return (
     <>
       <Grid
@@ -48,17 +45,6 @@ export const WorkflowRunAndTrigger = (props: any) => {
             />
           </Grid>
         </Box>
-        {moduleType === ASSETS_TYPE && (
-          <Grid md={6} p={1}>
-            <RHFAutocomplete
-              name="assetsType"
-              size="small"
-              label="Assets Type"
-              // required
-              options={assetsOptions}
-            />
-          </Grid>
-        )}
       </Grid>
       <Grid
         item

@@ -1,16 +1,24 @@
 import {
   RHFAutocomplete,
+  RHFAutocompleteAsync,
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { SCHEMA_KEYS } from '@/constants/strings';
+import { useLazyGetLocationsDropdownQuery } from '@/services/airServices/assets/inventory';
+import {
+  useLazyGetDepartmentDropdownQuery,
+  useLazyGetRequesterDropdownQuery,
+} from '@/services/airServices/tickets';
+import { useLazyGetAgentsQuery } from '@/services/dropdowns';
+import { useEffect } from 'react';
 
 export const assetsFieldsOption = [
-  'Name',
+  'name',
   'assetType',
   'location',
   'usedBy',
-  'department',
+  'selectDepartment',
   'managedBy',
   'impact',
   'endOFLife',
@@ -20,23 +28,24 @@ export const assetsFieldsOption = [
 ];
 
 export const taskFieldsOption = [
-  'Title',
+  'title',
   'description',
-  'departments',
   'assignTo',
   'status',
   'notifyBefore',
   'plannedStartDate',
   'plannedEndDate',
   'plannedEffort',
-  'Select Department',
+  'selectDepartment',
 ];
 
 export const ticketsFields = [
   'selectDepartment',
   'type',
+  'addRequester',
   'subject',
   'source',
+  'impacts',
   'status',
   'priority',
   'agent',
@@ -59,6 +68,8 @@ export const requestedForFieldOptions = [
   'phoneNumber',
   'dateOfJoining',
 ];
+export const priority = ['HIGH', 'MEDIUM', 'LOW'];
+export const status = ['ACTIVE', 'INACTIVE'];
 
 export const statusOptions = ['open', 'pending', 'resolved', 'close'];
 
@@ -78,6 +89,14 @@ export const fieldOptions = [
   'included',
   'not include',
 ];
+export const assetsOptions = [
+  'Inventory',
+  'Contracts',
+  'Purchase Orders',
+  'Software',
+];
+export const typeOptions = ['INC', 'SR'];
+export const sourcesOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
 
 export const commonOperators = ['is', 'is not', 'included', 'not include'];
 export const dateOperators = [
@@ -91,7 +110,23 @@ export const dateOperators = [
   'Less than or equal to',
 ];
 
-export const subWorkflowData = (index: any, subIndex: any, watch: any) => {
+export const subWorkflowData = ({ index, subIndex, watch, setValue }: any) => {
+  const agentApiQuery = useLazyGetAgentsQuery();
+  const departmentApiQuery = useLazyGetDepartmentDropdownQuery();
+  const requestersApiQuery = useLazyGetRequesterDropdownQuery();
+  const apiQueryLocations = useLazyGetLocationsDropdownQuery();
+  const useApiQuery = (operatorsOption: string) => {
+    if (operatorsOption === 'agent') {
+      return agentApiQuery;
+    } else if (operatorsOption === 'addRequester') {
+      return requestersApiQuery;
+    } else if (operatorsOption === 'selectDepartment') {
+      return departmentApiQuery;
+    } else if (operatorsOption === 'location') {
+      return apiQueryLocations;
+    }
+    return null;
+  };
   const moduleSelectedOption = watch('module');
   const taskModule: any = {
     'Task Fields': taskFieldsOption,
@@ -112,10 +147,24 @@ export const subWorkflowData = (index: any, subIndex: any, watch: any) => {
         ? ticketsModule || []
         : taskModule || [];
   const selectedOption = watch('options');
-  const dropdownOptions = modulesOptions[selectedOption] || [];
+  const moduleListOptions = modulesOptions[selectedOption] || [];
   const operatorsOption = watch(`groups.${index}.conditions.${subIndex}.key`);
+  useEffect(() => {
+    setValue(`groups.${index}.conditions.${subIndex}.condition`, ''),
+      setValue(`groups.${index}.conditions.${subIndex}.value`, null);
+  }, [operatorsOption, setValue]);
   let singleOperatorsOptions = [];
-
+  const apiQuery = useApiQuery(operatorsOption);
+  const valuesOptions =
+    operatorsOption === 'priority' || operatorsOption === 'impacts'
+      ? priority
+      : operatorsOption === 'assetType'
+        ? assetsOptions
+        : operatorsOption === 'source'
+          ? sourcesOptions
+          : operatorsOption === 'type'
+            ? typeOptions
+            : status;
   if (
     [
       'plannedStartDate',
@@ -127,9 +176,17 @@ export const subWorkflowData = (index: any, subIndex: any, watch: any) => {
   ) {
     singleOperatorsOptions = dateOperators;
   } else if (
-    ['subject', 'description', 'title', 'plannedEffort', 'Name'].includes(
-      operatorsOption,
-    )
+    [
+      'subject',
+      'description',
+      'title',
+      'plannedEffort',
+      'name',
+      'email',
+      'phoneNumber',
+      'jobTitle',
+      'fullName',
+    ].includes(operatorsOption)
   ) {
     singleOperatorsOptions = fieldOptions;
   } else {
@@ -137,9 +194,17 @@ export const subWorkflowData = (index: any, subIndex: any, watch: any) => {
   }
   let valueComponent;
   if (
-    ['subject', 'description', 'title', 'plannedEffort', 'Name'].includes(
-      operatorsOption,
-    )
+    [
+      'subject',
+      'description',
+      'title',
+      'plannedEffort',
+      'name',
+      'email',
+      'phoneNumber',
+      'jobTitle',
+      'fullName',
+    ].includes(operatorsOption)
   ) {
     valueComponent = {
       _id: 5,
@@ -150,6 +215,38 @@ export const subWorkflowData = (index: any, subIndex: any, watch: any) => {
         placeholder: 'Enter Text',
       },
       component: RHFTextField,
+    };
+  } else if (
+    operatorsOption === 'agent' ||
+    operatorsOption === 'addRequester' ||
+    operatorsOption === 'location'
+  ) {
+    valueComponent = {
+      _id: 6,
+      gridLength: 3,
+      componentProps: {
+        name: `groups.${index}.conditions.${subIndex}.value`,
+        size: 'small',
+        placeholder: 'Select',
+        apiQuery: apiQuery,
+        getOptionLabel:
+          operatorsOption === 'location'
+            ? (option: any) => option?.locationName
+            : (option: any) => `${option?.firstName} ${option?.lastName}`,
+      },
+      component: RHFAutocompleteAsync,
+    };
+  } else if (operatorsOption === 'selectDepartment') {
+    valueComponent = {
+      _id: 6,
+      gridLength: 3,
+      componentProps: {
+        name: `groups.${index}.conditions.${subIndex}.value`,
+        size: 'small',
+        placeholder: 'Select',
+        apiQuery: apiQuery,
+      },
+      component: RHFAutocompleteAsync,
     };
   } else if (
     [
@@ -172,18 +269,17 @@ export const subWorkflowData = (index: any, subIndex: any, watch: any) => {
     };
   } else {
     valueComponent = {
-      _id: 6,
+      _id: 9,
       gridLength: 3,
       componentProps: {
         name: `groups.${index}.conditions.${subIndex}.value`,
         size: 'small',
         placeholder: 'Select',
-        options: statusOptions,
+        options: valuesOptions,
       },
       component: RHFAutocomplete,
     };
   }
-
   return [
     {
       _id: 1,
@@ -203,7 +299,7 @@ export const subWorkflowData = (index: any, subIndex: any, watch: any) => {
         name: `groups.${index}.conditions.${subIndex}.key`,
         size: 'small',
         placeholder: 'Select',
-        options: dropdownOptions,
+        options: moduleListOptions,
       },
       component: RHFAutocomplete,
     },

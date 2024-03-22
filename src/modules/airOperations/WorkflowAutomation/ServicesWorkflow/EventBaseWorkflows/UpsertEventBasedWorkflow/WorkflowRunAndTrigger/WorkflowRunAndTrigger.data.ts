@@ -13,10 +13,3 @@ export const eventOptions = [
   { value: 'updated', label: 'When a record is updated' },
   { value: 'deleted', label: 'When a record is deleted' },
 ];
-
-export const assetsOptions = [
-  'Inventory',
-  'Contracts',
-  'Purchase Orders',
-  'Software',
-];

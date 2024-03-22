@@ -17,6 +17,7 @@ export const UpsertEventBasedWorkflow = () => {
     moduleType,
     control,
     watch,
+    setValue,
   } = useUpsertEventBasedWorkflow();
   return (
     <Box>
@@ -43,6 +44,7 @@ export const UpsertEventBasedWorkflow = () => {
           control={control}
           moduleType={moduleType}
           watch={watch}
+          setValue={setValue}
         />
         <WorkflowActionExecuted />
       </FormProvider>
