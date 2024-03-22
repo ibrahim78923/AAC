@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './AddRoleDrawer.data';
 import {
   airSalesRolesAndRightsAPI,
+  useGetPermissionsRolesByIdQuery,
   usePostPermissionRoleMutation,
   useUpdateRoleRightsMutation,
 } from '@/services/airSales/roles-and-rights';
@@ -21,7 +22,6 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   const theme = useTheme<Theme>();
 
   const disabled = isDrawerOpen?.type === 'view';
-
   const activeProduct = getActiveProductSession();
   const activeAccount = getActiveAccountSession();
 
@@ -32,6 +32,29 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
 
   const [trigger, { data: viewPerdetails, isLoading }] =
     useLazyGetPermissionsRolesByIdQuery();
+
+  const { data: defaultPermissions } = useGetPermissionsRolesByIdQuery(
+    isDrawerOpen?.id,
+  );
+
+  const defaultActivePermissions =
+    defaultPermissions?.data?.permissions?.flatMap((p: any) => {
+      return p?.subModules?.flatMap((per: any) => {
+        return per?.permissions?.map((slg: any) => {
+          return slg?.slug;
+        });
+      });
+    });
+
+  const filteredPermissions = viewPerdetails?.data?.permissions?.flatMap(
+    (rec: any) => {
+      return rec?.subModules?.flatMap((item: any) => {
+        return item?.permissions?.filter((e: any) => {
+          return defaultActivePermissions?.includes(e?.slug);
+        });
+      });
+    },
+  );
 
   const roleDefaultValues: any = {
     name: '',
@@ -55,23 +78,25 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
   useEffect(() => {
     const data = viewPerdetails?.data;
 
-    const permissionsArray =
-      // isDrawerOpen?.type !== 'add'
-      isDrawerOpen?.type === 'view' || isDrawerOpen?.type === 'edit'
-        ? data?.permissions?.flatMap(
-            (item: any) =>
-              item?.subModules?.flatMap(
-                (mod: any) => mod?.permissions?.map((slg: any) => slg?.slug),
-              ),
-          )
-        : [];
+    // const permissionsArray =
+    //   // isDrawerOpen?.type !== 'add'
+    //   isDrawerOpen?.type === 'view' || isDrawerOpen?.type === 'edit'
+    //     ? data?.permissions?.flatMap(
+    //       (item: any) =>
+    //         item?.subModules?.flatMap(
+    //           (mod: any) => mod?.permissions?.map((slg: any) => slg?.slug),
+    //         ),
+    //     )
+    //     : [];
 
     const fieldsToSet: any = {
       name: isDrawerOpen?.type === 'add' ? '' : data?.name,
       description: isDrawerOpen?.type === 'add' ? '' : data?.description,
-      permissions: permissionsArray || [],
+      permissions:
+        filteredPermissions?.map((item: any) => {
+          return item?.slug;
+        }) || [],
     };
-
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);
     }
@@ -105,8 +130,8 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
           variant: NOTISTACK_VARIANTS?.SUCCESS,
         },
       );
-    } catch (error) {
-      enqueueSnackbar(`${error}`, {
+    } catch (error: any) {
+      enqueueSnackbar(`${error?.data?.message}`, {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
