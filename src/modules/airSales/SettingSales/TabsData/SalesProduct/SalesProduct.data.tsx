@@ -33,7 +33,7 @@ export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
       id: 'SKU',
       isSortable: true,
       header: 'SKU',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => (info?.getValue() === '' ? 'N/A' : info?.getValue()),
     },
     {
       accessorFn: (row: any) => row?.unitPrice,
@@ -54,7 +54,7 @@ export const columns = ({ handleCheckboxChange, selectedCheckboxes }: any) => {
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.createdAt,
