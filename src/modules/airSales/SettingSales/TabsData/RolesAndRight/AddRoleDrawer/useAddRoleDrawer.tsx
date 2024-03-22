@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useTheme, Theme } from '@mui/material';
+import { useTheme, Theme, Skeleton } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './AddRoleDrawer.data';
@@ -13,9 +13,11 @@ import {
   getActiveProductSession,
   getSession,
 } from '@/utils';
+import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
-  const { user } = getSession();
+  const { user }: any = getSession();
   const theme = useTheme<Theme>();
 
   const disabled = isDrawerOpen?.type === 'view';
@@ -25,7 +27,8 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
 
   const { useLazyGetPermissionsRolesByIdQuery } = airSalesRolesAndRightsAPI;
 
-  const [postPermissionRole] = usePostPermissionRoleMutation();
+  const [postPermissionRole, { isLoading: postRoleLoading }] =
+    usePostPermissionRoleMutation();
 
   const [trigger, { data: viewPerdetails, isLoading }] =
     useLazyGetPermissionsRolesByIdQuery();
@@ -45,7 +48,7 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
 
   useEffect(() => {
     trigger(
-      isDrawerOpen?.type !== 'add' ? isDrawerOpen?.id : activeAccount?.role,
+      isDrawerOpen?.type === 'view' ? isDrawerOpen?.id : activeAccount?.role,
     );
   }, [isDrawerOpen]);
 
@@ -53,7 +56,8 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
     const data = viewPerdetails?.data;
 
     const permissionsArray =
-      isDrawerOpen?.type !== 'add'
+      // isDrawerOpen?.type !== 'add'
+      isDrawerOpen?.type === 'view' || isDrawerOpen?.type === 'edit'
         ? data?.permissions?.flatMap(
             (item: any) =>
               item?.subModules?.flatMap(
@@ -79,20 +83,41 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
     const organizationId = user?.organization?._id;
     const organizationCompanyAccountId = activeAccount?.company?._id;
     const productId = activeProduct?._id;
-
-    if (isDrawerOpen?.type === 'add') {
-      values.organizationId = organizationId;
-      values.organizationCompanyAccountId = organizationCompanyAccountId;
-      values.productId = productId;
-      values.status = 'ACTIVE';
-      postPermissionRole({ body: values });
+    try {
+      if (isDrawerOpen?.type === 'add') {
+        values.organizationId = organizationId;
+        values.organizationCompanyAccountId = organizationCompanyAccountId;
+        values.productId = productId;
+        values.status = 'ACTIVE';
+        await postPermissionRole({ body: values });
+        reset();
+      } else {
+        await updateRoleRights({ id: isDrawerOpen?.id, body: values });
+      }
       onClose();
-      reset();
-    } else {
-      updateRoleRights({ id: isDrawerOpen?.id, body: values });
-      onClose();
+      enqueueSnackbar(
+        `${
+          isDrawerOpen?.type === 'edit'
+            ? 'Changes save successfully'
+            : 'New role added successfully'
+        }`,
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
+    } catch (error) {
+      enqueueSnackbar(`${error}`, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
+
+  const skeletonLines = [];
+  for (let i = 0; i < 5; i++) {
+    skeletonLines.push(
+      <Skeleton key={i} animation="wave" height={60} sx={{ mb: 1 }} />,
+    );
+  }
 
   return {
     theme,
@@ -103,6 +128,8 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
     activeAccount,
     isLoading,
     disabled,
+    postRoleLoading,
+    skeletonLines,
   };
 };
 
