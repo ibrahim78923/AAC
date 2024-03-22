@@ -108,6 +108,7 @@ export const AddResponseForm = (props: any) => {
                     <Box maxHeight={'20vh'}>
                       <Attachments
                         recordId={editableObj?._id}
+                        colSpan={{ sm: 12, lg: 12 }}
                         permissionKey={[
                           AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
                         ]}

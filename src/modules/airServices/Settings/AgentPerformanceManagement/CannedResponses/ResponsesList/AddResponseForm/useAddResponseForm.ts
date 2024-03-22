@@ -40,6 +40,9 @@ export const useAddResponseForm = (props: any) => {
   };
   const submitAddResponse = async (data: any) => {
     delete data?.folder;
+    if (!data?.fileUrl) {
+      delete data?.fileUrl;
+    }
     const upsertResponseFormData = new FormData();
     Object?.entries?.(data || {})?.forEach(
       ([key, value]: any) => upsertResponseFormData?.append(key, value),

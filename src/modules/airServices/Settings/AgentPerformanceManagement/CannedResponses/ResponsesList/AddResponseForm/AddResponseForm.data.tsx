@@ -24,7 +24,7 @@ const availableForOptions = [
 export const addResponseValidationSchema = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
   message: Yup?.string()?.required('Required'),
-  fileUrl: Yup?.mixed()?.required('Required'),
+  fileUrl: Yup?.mixed()?.nullable(),
   availableFor: Yup?.string()?.required('Required'),
 });
 
@@ -33,7 +33,7 @@ export const addResponseDefaultValues: any = (folderName: any, data?: any) => {
     title: data?.title ?? '',
     folder: folderName,
     message: data?.message ?? '',
-    fileUrl: data?.attachmentsDetails?.[0] ?? null,
+    fileUrl: null,
     availableFor: data?.availableFor ?? '',
   };
 };
@@ -103,7 +103,6 @@ export const addResponseDataArray = (
       name: 'fileUrl',
       label: 'Attach a file',
       fullWidth: true,
-      required: true,
       disabled: hasAttachment,
       fileType: 'PNG or JPG  (max 2.44 MB)',
       maxSize: 1024 * 1024 * 2.44,
