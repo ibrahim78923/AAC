@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 const FormAddCompany = ({ open, onClose }: any) => {
   const theme = useTheme();
   const { onSubmit, handleSubmit, methods } = useFormAddContact();
+  const contacts = useFormAddContact();
 
   return (
     <CommonDrawer
@@ -38,7 +39,7 @@ const FormAddCompany = ({ open, onClose }: any) => {
         </Alert>
         <FormProvider methods={methods}>
           <Grid container spacing={1}>
-            {dataArray()?.map((item: any) => (
+            {dataArray(contacts)?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={item?.name}>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&

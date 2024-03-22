@@ -73,11 +73,11 @@ const useAddCompanyDetails = (
       };
     }
     delete values['compositeAddress'];
-    values.isActive = false;
+    values.isActive = true;
 
     formData?.append('image', values?.file);
     formData?.append('organizationId', values?.organizationId);
-    formData?.append('address', values?.address);
+    formData?.append('address', JSON.stringify(values?.address));
     formData?.append('accountName', values?.accountName);
     formData?.append('phoneNo', values?.phoneNo);
     formData?.append('postCode', values?.postCode);

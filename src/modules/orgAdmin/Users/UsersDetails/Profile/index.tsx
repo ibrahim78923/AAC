@@ -1,174 +1,22 @@
 import { Box, Button, Grid, InputAdornment, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import {
-  profileFields,
-  profileValidationSchema,
-} from './UserDetailsProfile.data';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { v4 as uuidv4 } from 'uuid';
+import { profileFields } from './UserDetailsProfile.data';
 import useToggle from '@/hooks/useToggle';
 import { EditInputIcon } from '@/assets/icons';
-import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManagement';
-import { enqueueSnackbar } from 'notistack';
+import useProfile from './useProfile';
 
 const UserDetailsProfile = (props: any) => {
   const { profileData, setTabVal } = props;
   const [isToggled, setIsToggled] = useToggle(false);
-  const { updateUsers }: any = useUserManagement();
-  const initialTab = 0;
 
-  const profileDefaulValues = {
-    ...profileData,
-    address: profileData?.address?.composite
-      ? profileData.address.composite
-      : `${
-          profileData.address.flatNumber
-            ? `Flat # ${profileData.address.flatNumber}, `
-            : ''
-        }` +
-        `${
-          profileData.address.buildingNumber
-            ? `Building # ${profileData.address.buildingNumber}, `
-            : ''
-        }` +
-        `${
-          profileData.address.buildingName
-            ? `Building Name ${profileData.address.buildingName}, `
-            : ''
-        }` +
-        `${
-          profileData.address.streetName
-            ? `Street # ${profileData.address.streetName}, `
-            : ''
-        }` +
-        `${profileData.address.city ? `${profileData.address.city}, ` : ''}` +
-        `${
-          profileData.address.country ? `${profileData.address.country}` : ''
-        }`,
-    flat: profileData.address.flatNumber ?? '',
-    city: profileData.address.city ?? '',
-    country: profileData.address.country ?? '',
-    buildingName: profileData.address.buildingName ?? '',
-    buildingNumber: profileData.address.buildingNumber ?? '',
-    streetName: profileData.address.streetName ?? '',
+  const profileParams = {
+    isToggled,
+    setTabVal,
+    profileData,
   };
 
-  const methods: any = useForm({
-    resolver: yupResolver(profileValidationSchema),
-    defaultValues: profileDefaulValues,
-  });
-
-  const { handleSubmit } = methods;
-  const onSubmit = async (values: any) => {
-    if (isToggled) {
-      values.address = {
-        flatNumber: values.flat,
-        buildingName: values?.buildingName,
-        buildingNumber: values?.buildingNumber,
-        streetName: values?.streetName,
-        city: values?.city,
-        country: values?.country,
-      };
-    } else {
-      values.address = {
-        composite: values?.address,
-      };
-    }
-
-    const keysToDelete = [
-      '_id',
-      'products',
-      'role',
-      'organization',
-      'createdAt',
-      'createdBy',
-      'updatedAt',
-      'status',
-      'flat',
-      'compositeAddress',
-      'buildingNumber',
-      'buildingName',
-      'city',
-      'country',
-      'streetName',
-      'linkedInUrl',
-      'departmentId',
-      'avatar',
-      'email',
-    ];
-
-    for (const key of keysToDelete) {
-      delete values[key];
-    }
-    try {
-      await updateUsers({ id: profileData?._id, body: values })?.unwrap();
-      enqueueSnackbar('User updated successfully', {
-        variant: 'success',
-      });
-      setTabVal(initialTab);
-    } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, {
-        variant: 'error',
-      });
-    }
-  };
-  // const onSubmit = async (values: any) => {
-  //   if (isToggled) {
-  //     values.address = {
-  //       flatNumber: values.flat,
-  //       buildingName: values?.buildingName,
-  //       buildingNumber: values?.buildingNumber,
-  //       streetName: values?.streetName,
-  //       city: values?.city,
-  //       country: values?.country,
-  //       composite: values?.address
-  //     };
-  //   }
-  //   else {
-  //     values.address = {
-  //       composite: values.address,
-  //     };
-  //   }
-
-  //   const keysToDelete = [
-  //     '_id',
-  //     'products',
-  //     'role',
-  //     'email',
-  //     'organization',
-  //     'createdAt',
-  //     'createdBy',
-  //     'updatedAt',
-  //     'status',
-  //     'flat',
-  //     'compositeAddress',
-  //     'buildingNumber',
-  //     'buildingName',
-  //     'city',
-  //     'country',
-  //     'streetName',
-  //     'linkedInUrl',
-  //     'departmentId',
-  //     'avatar',
-  //   ];
-
-  //   for (const key of keysToDelete) {
-  //     delete values[key];
-  //   }
-  //   console.log('values', values)
-  //   try {
-  //     await updateUsers({ id: profileData?._id, body: values })?.unwrap();
-  //     enqueueSnackbar('User updated successfully', {
-  //       variant: 'success',
-  //     });
-  //     setTabVal(initialTab);
-  //   } catch (error: any) {
-  //     enqueueSnackbar(error?.data?.message, {
-  //       variant: 'error',
-  //     });
-  //   }
-  // };
+  const { methods, handleSubmit, onSubmit, initialTab } =
+    useProfile(profileParams);
 
   return (
     <FormProvider methods={methods}>
@@ -176,7 +24,7 @@ const UserDetailsProfile = (props: any) => {
       <Grid container spacing={1} sx={{ mt: '5px' }}>
         {profileFields?.map((item: any) => {
           return (
-            <Grid item xs={12} md={item?.md} key={uuidv4()}>
+            <Grid item xs={12} md={item?.md} key={item?.compoentProps?.name}>
               {item?.componentProps?.heading && (
                 <Typography variant="h5">
                   {item?.componentProps?.heading}
@@ -220,7 +68,10 @@ const UserDetailsProfile = (props: any) => {
                 >
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
+                      <option
+                        key={item?.compoentProps?.name}
+                        value={option?.value}
+                      >
                         {option?.label}
                       </option>
                     ))}
@@ -230,7 +81,10 @@ const UserDetailsProfile = (props: any) => {
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
+                      <option
+                        key={option?.compoentProps?.name}
+                        value={option?.value}
+                      >
                         {option?.label}
                       </option>
                     ))}

@@ -25,8 +25,6 @@ const ContactStatus = () => {
   const {
     isDraweropen,
     setIsDraweropen,
-    productSearch,
-    setproductSearch,
     theme,
     handleCloseDrawer,
     ContactStatus,
@@ -39,6 +37,8 @@ const ContactStatus = () => {
     setIsModalHeading,
     tableRow,
     deleteContactsStatus,
+    loadingUpdateContactStatus,
+    setSearchValue,
   } = useContactStatus();
 
   return (
@@ -51,6 +51,7 @@ const ContactStatus = () => {
         footer={isModalHeading === 'View' ? false : true}
         isOk={true}
         submitHandler={handleSubmit(onSubmit)}
+        isLoading={loadingUpdateContactStatus}
       >
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={ContactStatus}>
@@ -110,8 +111,7 @@ const ContactStatus = () => {
         <Box sx={styles?.searchAction}>
           <Search
             label={'Search here'}
-            searchBy={productSearch}
-            setSearchBy={setproductSearch}
+            setSearchBy={setSearchValue}
             width="260px"
           />
         </Box>

@@ -52,6 +52,7 @@ const PlanManagement = () => {
     tableRowValues,
     setTableRowValues,
     filterValues,
+    handleRefresh,
   } = usePlanManagement();
 
   const getPlanManagementRowData = PlanDetailsDataColumnFunction(
@@ -138,7 +139,12 @@ const PlanManagement = () => {
             Actions <ArrowDropDownIcon />
           </Button>
           <Tooltip title={'Refresh Filter'}>
-            <Button variant="outlined" color="inherit" className="small">
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={handleRefresh}
+            >
               <RefreshTasksIcon />
             </Button>
           </Tooltip>

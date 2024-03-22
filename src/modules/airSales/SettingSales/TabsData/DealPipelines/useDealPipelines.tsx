@@ -1,38 +1,32 @@
 import React, { useState } from 'react';
-
-import { useForm } from 'react-hook-form';
-
-import { Theme, useTheme } from '@mui/material';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-
+import { Skeleton, Theme, useTheme } from '@mui/material';
 import {
-  dealPipelinesDefaultValues,
-  dealPipelinesvalidationSchema,
-} from './DealPipelines.data';
-
-import {
+  useDeleteDealsPipelineMutation,
   useGetDealsPipelineQuery,
   usePostDealsPipelineMutation,
+  useUpdateDealsPipelineMutation,
 } from '@/services/airSales/deals/settings/deals-pipeline';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useDealPipelines = () => {
   const theme = useTheme<Theme>();
-  const [isDraweropen, setIsDraweropen] = useState(false);
+  const [isDraweropen, setIsDraweropen] = useState({
+    isToggle: false,
+    type: 'add',
+  });
   const [isEditMode, setIsEditMode] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [productSearch, setproductSearch] = useState<string>('');
   const [isDisableButton, setDisableButton] = useState(false);
   const [isdefaultValue, setdefaultValue] = useState(false);
-  const [inputFields, setInputFields] = useState([
-    { name: 'New', probability: null },
-    { name: 'Lost', probability: null },
-    { name: 'Won', probability: null },
-  ]);
+  const [checkedDeal, setCheckedDeal] = useState<string[]>([]);
 
-  const [postDealsPipeline] = usePostDealsPipelineMutation();
+  const [postDealsPipeline, { isLoading: postDealLoading }] =
+    usePostDealsPipelineMutation();
+  const [deleteDealsPipeline, { isLoading: deleteDealLoading }] =
+    useDeleteDealsPipelineMutation();
+  const [updateDealsPipeline] = useUpdateDealsPipelineMutation();
 
   const paramsObj: any = {};
   if (productSearch) paramsObj['search'] = productSearch;
@@ -48,30 +42,37 @@ const useDealPipelines = () => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const handleCloseDrawer = () => {
-    setIsDraweropen(false);
+    setIsDraweropen({ isToggle: false, type: '' });
   };
 
-  const dealPipelines = useForm({
-    resolver: yupResolver(dealPipelinesvalidationSchema),
-    defaultValues: dealPipelinesDefaultValues,
-  });
-  const { handleSubmit } = dealPipelines;
   const onSubmit = async (values: any) => {
     const payload = {
       name: values?.pipelineName,
       isDefault: values?.defaultPipeline,
-      dealStages: inputFields,
+      dealStages: values?.dealStages,
     };
 
     try {
-      await postDealsPipeline({ body: payload })?.unwrap();
-      enqueueSnackbar('Record Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      if (isDraweropen?.type === 'add') {
+        await postDealsPipeline({ body: payload })?.unwrap();
+      } else {
+        await updateDealsPipeline({ id: checkedDeal, body: payload });
+      }
+      setIsDraweropen({ isToggle: false, type: '' });
+      enqueueSnackbar(
+        `Pipeline has been ${
+          isDraweropen?.type === 'edit' ? 'Updated' : 'Created'
+        } Successfully`,
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
     } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
@@ -85,63 +86,75 @@ const useDealPipelines = () => {
     setDeleteModalOpen(false);
   };
 
-  const handleDelete = () => {
-    setDeleteModalOpen(false);
+  // check box function
+
+  const handleSelectDealsById = (checked: boolean, id: string): void => {
+    if (checked) {
+      setCheckedDeal([...checkedDeal, id]);
+    } else {
+      setCheckedDeal(checkedDeal?.filter((_id: any) => _id !== id));
+    }
   };
 
-  const getCheckbox = (event: any, value: any) => {
-    setDisableButton(event?.target?.checked);
-    setdefaultValue(value === 'default');
+  const handleDelete = async () => {
+    try {
+      await deleteDealsPipeline({ ids: checkedDeal }).unwrap();
+      setCheckedDeal([]);
+      setDeleteModalOpen(false);
+      enqueueSnackbar('Deal Pipeline has been Deleted Successfully', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    } catch (error) {
+      enqueueSnackbar(`${error}`, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
-  const addField = () => {
-    const newInputFields = [...inputFields];
-    const indexToInsert = inputFields?.length - 2;
-    newInputFields?.splice(indexToInsert, 0, { name: '', probability: null });
-    setInputFields(newInputFields);
+  const disabled: { [key: number]: boolean } = {
+    0: true,
+    1: true,
+    2: true,
   };
-  const deleteField = (index: any) => {
-    const values = [...inputFields];
-    values?.splice(index, 1);
-    setInputFields(values);
-  };
-  const handleChangeInput = (index: any, event: any) => {
-    const values: any = [...inputFields];
-    values[index][event?.target?.name] = event?.target?.value;
-    setInputFields(values);
-  };
+  const skeletonLines = [];
+  for (let i = 0; i < 5; i++) {
+    skeletonLines.push(
+      <Skeleton key={i} animation="wave" height={60} sx={{ mb: 1 }} />,
+    );
+  }
 
   return {
-    isDraweropen,
-    setIsDraweropen,
-    isEditMode,
     dealPipelinesData: data?.data,
-    setIsEditMode,
-    isDeleteModalOpen,
-    setDeleteModalOpen,
-    productSearch,
-    setproductSearch,
-    theme,
-    anchorEl,
-    open,
-    handleClick,
-    handleClose,
-    handleCloseDrawer,
-    dealPipelines,
-    handleSubmit,
-    onSubmit,
     handleCloseDeleteModal,
-    handleDelete,
-    getCheckbox,
+    handleSelectDealsById,
+    setDeleteModalOpen,
+    isDeleteModalOpen,
+    handleCloseDrawer,
+    deleteDealLoading,
+    setproductSearch,
+    setIsDraweropen,
     setDisableButton,
+    postDealLoading,
+    setCheckedDeal,
     isDisableButton,
-    addField,
-    deleteField,
-    setAnchorEl,
+    isDraweropen,
+    setIsEditMode,
+    productSearch,
     isdefaultValue,
+    handleDelete,
+    skeletonLines,
+    checkedDeal,
+    handleClose,
+    isEditMode,
+    handleClick,
+    setAnchorEl,
+    setdefaultValue,
+    onSubmit,
     isLoading,
-    inputFields,
-    handleChangeInput,
+    disabled,
+    anchorEl,
+    theme,
+    open,
   };
 };
 

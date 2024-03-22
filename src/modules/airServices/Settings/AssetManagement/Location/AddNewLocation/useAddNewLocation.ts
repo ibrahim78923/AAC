@@ -5,42 +5,38 @@ import {
   locationDefaultValues,
 } from './AddNewLocation.data';
 import { AIR_SERVICES } from '@/constants';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useRouter } from 'next/router';
 import {
   usePostChildLocationMutation,
   usePostLocationMutation,
   usePutLocationMutation,
   usePutChildLocationMutation,
+  useGetByIdLocationQuery,
 } from '@/services/airServices/settings/asset-management/location';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useEffect } from 'react';
 
 export const useAddNewLocation = () => {
   const router = useRouter();
-  const { data, editData, childEditData }: any = router.query;
-
-  let dataArray, editDataArray, childEditDataArray;
-  try {
-    dataArray = data ? JSON.parse(data) : [];
-    editDataArray = editData ? JSON.parse(editData) : [];
-    childEditDataArray = childEditData ? JSON.parse(childEditData) : [];
-  } catch {
-    dataArray = [];
-    editDataArray = [];
-    childEditDataArray = [];
-  }
-
-  const locationId = dataArray?._id;
-  const editLocationId = editDataArray?._id;
-  const childEditLocationId = childEditDataArray?._id;
-
+  const { parentId, childId, type }: any = router.query;
+  const { data, isLoading, isFetching } = useGetByIdLocationQuery(parentId);
+  const { data: childData } = useGetByIdLocationQuery(childId);
+  const childLocationData = childData?.data;
+  const locationData = data?.data;
+  const parentD = { parentLocation: locationData?.locationName };
   const AddNewLocationMethods = useForm({
     resolver: yupResolver(validationSchemaAddNewLocation),
-    defaultValues: locationDefaultValues({
-      editDataArray,
-      childEditDataArray,
-    }),
+    defaultValues: locationDefaultValues(
+      type === 'parent-edit'
+        ? locationData
+        : type === 'child'
+        ? parentD
+        : type === 'child-edit'
+        ? childLocationData
+        : null,
+    ),
   });
+  const { reset } = AddNewLocationMethods;
   const [postLocationTrigger, postLocationProgress] = usePostLocationMutation();
   const [postChildLocationTrigger, postChildLocationProgress] =
     usePostChildLocationMutation();
@@ -57,151 +53,89 @@ export const useAddNewLocation = () => {
   };
 
   const childOnsubmit = async (data: any) => {
-    const locationData = {
-      locationName: data?.locationName,
-      parentLocation: data?.parentLocation,
-      contactName: data?.contactName,
-      email: data?.email,
-      phone: data?.phone,
-      address: {
-        addressLine1: data?.addressLine1,
-        addressLine2: data?.addressLine2,
-        city: data?.city,
-        country: data?.country,
-        state: data?.state,
-        zipCode: data?.zipCode,
-      },
-    };
     const postChildLocationParameter = {
-      body: locationData,
-      id: locationId,
+      body: data,
+      id: parentId,
     };
     try {
-      const res: any = await postChildLocationTrigger(
-        postChildLocationParameter,
-      ).unwrap();
-      enqueueSnackbar(res?.message ?? 'Child Location Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postChildLocationTrigger(postChildLocationParameter).unwrap();
+      successSnackbar('Child Location Added Successfully');
       moveToLocationPage();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
-    AddNewLocationMethods?.reset?.();
+    reset();
   };
 
   const onSubmit = async (data: any) => {
-    const locationData = {
-      locationName: data?.locationName,
-      parentLocation: data?.parentLocation,
-      contactName: data?.contactName,
-      email: data?.email,
-      phone: data?.phone,
-      address: {
-        addressLine1: data?.addressLine1,
-        addressLine2: data?.addressLine2,
-        city: data?.city,
-        country: data?.country,
-        state: data?.state,
-        zipCode: data?.zipCode,
-      },
-    };
     try {
-      const res: any = await postLocationTrigger(locationData).unwrap();
-      enqueueSnackbar(res?.message && 'Location Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      AddNewLocationMethods?.reset?.();
+      await postLocationTrigger(data).unwrap();
+      successSnackbar('Location Added Successfully');
       moveToLocationPage();
-      AddNewLocationMethods?.reset?.();
+      reset();
     } catch (error: any) {
-      enqueueSnackbar(
-        ((Array.isArray(error?.data?.message) && error?.data?.message?.[0]) ||
-          error?.data?.message) ??
-          'Something went wrong!',
-        {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        },
-      );
+      errorSnackbar();
     }
   };
 
   const editOnSubmit = async (data: any) => {
-    const locationData = {
-      locationName: data?.locationName,
-      parentLocation: data?.parentLocation,
-      contactName: data?.contactName,
-      email: data?.email,
-      phone: data?.phone,
-      address: {
-        addressLine1: data?.addressLine1,
-        addressLine2: data?.addressLine2,
-        city: data?.city,
-        country: data?.country,
-        state: data?.state,
-        zipCode: data?.zipCode,
-      },
-    };
     const putLocationParameter = {
-      body: locationData,
-      id: editLocationId,
+      body: data,
+      id: parentId,
     };
     try {
-      const res: any = await putLocationTrigger(putLocationParameter).unwrap();
-      enqueueSnackbar(res?.message ?? 'Location Edit Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await putLocationTrigger(putLocationParameter).unwrap();
+      successSnackbar('Location Edit Successfully');
       moveToLocationPage();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
-    AddNewLocationMethods?.reset?.();
+    reset();
   };
 
   const childEditOnSubmit = async (data: any) => {
-    const locationData = {
-      locationName: data?.locationName,
-      parentLocation: data?.parentLocation,
-      contactName: data?.contactName,
-      email: data?.email,
-      phone: data?.phone,
-      address: {
-        addressLine1: data?.addressLine1,
-        addressLine2: data?.addressLine2,
-        city: data?.city,
-        country: data?.country,
-        state: data?.state,
-        zipCode: data?.zipCode,
-      },
-    };
     const putChildLocationParameter = {
-      body: locationData,
-      id: childEditLocationId,
+      body: data,
+      id: childId,
     };
     try {
-      const res: any = await putChildLocationTrigger(
-        putChildLocationParameter,
-      ).unwrap();
-      enqueueSnackbar(res?.message ?? 'Child Location Edit Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await putChildLocationTrigger(putChildLocationParameter).unwrap();
+      successSnackbar('Child Location Edit Successfully');
       moveToLocationPage();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
-    AddNewLocationMethods?.reset?.();
+    reset();
   };
   const handleCancel = () => {
-    AddNewLocationMethods?.reset?.();
+    reset();
     moveToLocationPage();
   };
 
+  useEffect(() => {
+    reset(
+      locationDefaultValues(
+        type === 'parent-edit'
+          ? locationData
+          : type === 'child'
+          ? parentD
+          : type === 'child-edit'
+          ? childLocationData
+          : null,
+      ),
+    );
+  }, [data, type, locationData, childLocationData]);
+
+  let handleSubmit;
+  if (type === 'parent-edit') {
+    handleSubmit = editOnSubmit;
+  } else if (type === 'child') {
+    handleSubmit = childOnsubmit;
+  } else if (type === 'child-edit') {
+    handleSubmit = childEditOnSubmit;
+  } else {
+    handleSubmit = onSubmit;
+  }
   return {
     AddNewLocationMethods,
     moveToLocationPage,
@@ -210,10 +144,13 @@ export const useAddNewLocation = () => {
     editOnSubmit,
     locationIsLoading,
     childLocationIsLoading,
-    locationId,
-    editLocationId,
-    childEditLocationId,
+    parentId,
+    childId,
     childEditOnSubmit,
     handleCancel,
+    type,
+    handleSubmit,
+    isLoading,
+    isFetching,
   };
 };

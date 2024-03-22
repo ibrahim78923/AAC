@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Tooltip, Typography } from '@mui/material';
+import { Box, Divider, Tooltip, Typography } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { AIR_SERVICES } from '@/constants';
@@ -78,24 +78,6 @@ export const RolesAndPermissions = () => {
           <VisibilityIcon color={'primary'} />
           <Typography color={'primary'}>View Roles and Permissions</Typography>
         </Box>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          gap: 2,
-          justifyContent: 'flex-end',
-          position: 'absolute',
-          right: 24,
-          bottom: 8,
-          zIndex: 50,
-        }}
-      >
-        <Button variant="outlined" color="secondary">
-          Cancel
-        </Button>
-        <Button variant="contained" color="primary">
-          Save
-        </Button>
       </Box>
     </>
   );

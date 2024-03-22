@@ -19,7 +19,8 @@ const useSalesEditorDrawer = ({
   setIsDraweropen,
 }: any) => {
   const editRowValue = selectedCheckboxes && selectedCheckboxes[0];
-  const [postSalesProduct] = usePostSalesProductMutation();
+  const [postSalesProduct, { isLoading: productLoading }] =
+    usePostSalesProductMutation();
   const [updateSalesProduct] = useUpdateSalesProductMutation();
 
   const salesProduct = useForm({
@@ -96,6 +97,7 @@ const useSalesEditorDrawer = ({
     handleSubmit,
     onSubmit,
     salesProduct,
+    productLoading,
   };
 };
 

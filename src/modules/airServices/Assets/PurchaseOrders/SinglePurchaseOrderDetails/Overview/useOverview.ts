@@ -6,6 +6,12 @@ import { useEffect, useState } from 'react';
 
 export const useOverview = () => {
   const [openOverviewModal, setOpenOverviewModal] = useState(false);
+  const [rowData, setRowData] = useState(null);
+  const handleRowClick = (rowData: any) => {
+    setRowData(rowData);
+    setOpenOverviewModal(true);
+  };
+
   const theme = useTheme();
   const router = useRouter();
   const purchaseOrderId = router?.query?.purchaseOrderId;
@@ -49,5 +55,7 @@ export const useOverview = () => {
     uniqueNumber,
     isLoading,
     isFetching,
+    handleRowClick,
+    rowData,
   };
 };

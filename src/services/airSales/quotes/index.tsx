@@ -27,7 +27,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
 
     getQuoteById: builder.query({
       query: ({ id }: any) => ({
-        url: `${END_POINTS?.QUOTE}/${id}`,
+        url: `${END_POINTS?.QUOTE}/{id}?id=${id}`,
         method: 'GET',
       }),
       providesTags: TAG,
@@ -136,6 +136,61 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getContacts: builder.query({
+      query: () => ({
+        url: END_POINTS?.CONTACTS,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    getProductsById: builder.query({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+    updateSalesProductQuote: builder.mutation({
+      query: ({ body }: any) => ({
+        // url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
+
+    updateProductById: builder.mutation({
+      query: ({ body, id }: any) => ({
+        url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: TAG,
+    }),
+    getCustomizeColumn: builder.query({
+      query: (params) => ({
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+    putCustomizedColumns: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: TAG,
+    }),
+    // deleteContacts: builder.mutation({
+    //   query: (body:any) => ({
+    //     url: `${END_POINTS?.CONTACTS}`,
+    //     method: 'DELETE',
+    //     body,
+    //   }),
+    //   invalidatesTags: TAG,
+    // }),
   }),
 });
 
@@ -155,4 +210,10 @@ export const {
   useCreateAssociationQuoteMutation,
   useGetProductCatagoriesQuery,
   useDeleteProductsMutation,
+  useGetContactsQuery,
+  useGetProductsByIdQuery,
+  useLazyGetProductsByIdQuery,
+  useUpdateProductByIdMutation,
+  usePutCustomizedColumnsMutation,
+  useGetCustomizeColumnQuery,
 } = quotesAPI;

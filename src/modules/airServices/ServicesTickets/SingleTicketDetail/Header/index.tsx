@@ -114,6 +114,7 @@ const Header = () => {
           >
             <Box
               sx={styles?.iconBoxStyling}
+              marginRight={'15px !important'}
               onClick={() => setIsDrawerOpen(true)}
             >
               <Image src={SmsImage} width={24} height={24} alt="Badge" />
