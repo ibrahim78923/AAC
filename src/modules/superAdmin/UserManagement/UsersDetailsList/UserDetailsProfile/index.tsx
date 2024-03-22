@@ -59,8 +59,8 @@ const UserDetailsProfile = (props: any) => {
                       <InputAdornment
                         sx={{
                           position: 'absolute',
-                          top: 53,
-                          right: 0,
+                          top: 50,
+                          right: 15,
                           zIndex: 9999,
                         }}
                         position="end"

@@ -38,16 +38,18 @@ const useAddUser = (useActionParams?: any) => {
   const tabTitle = tabVal === initialTab ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
 
   // for super admin form methods
-  const superAdminValues = {
-    ...userDetail,
-    compositeAddress: userDetail?.address?.composite ?? '',
-    flat: userDetail?.address?.flat ?? '',
-    city: userDetail?.address?.city ?? '',
-    country: userDetail?.address?.country ?? '',
-    buildingName: userDetail?.address?.buildingName ?? '',
-    buildingNumber: userDetail?.address?.buildingNumber ?? '',
-    streetName: userDetail?.address?.streetName ?? '',
+  const superAdminValues: any = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    compositeAddress: '',
+    phoneNumber: '',
+    jobTitle: '',
+    postCode: '',
+    facebookUrl: '',
+    twitterUrl: '',
   };
+
   const superAdminMethods: any = useForm({
     resolver: yupResolver(superAdminValidationSchema),
     defaultValues: superAdminValues,
@@ -102,6 +104,31 @@ const useAddUser = (useActionParams?: any) => {
   useEffect(() => {
     setValue('address', addressValues?.trim());
   }, [addressValues]);
+
+  useEffect(() => {
+    // if (drawerType === 'edit') {
+    const fieldsToSet: any = {
+      firstName: userDetail?.firstName,
+      lastName: userDetail?.lastName,
+      email: userDetail?.email,
+      address: userDetail?.address?.composite,
+      flat: userDetail?.address?.flatNumber ?? '',
+      city: userDetail?.address?.city ?? '',
+      country: userDetail?.address?.country ?? '',
+      buildingName: userDetail?.address?.buildingName ?? '',
+      buildingNumber: userDetail?.address?.buildingNumber ?? '',
+      streetName: userDetail?.address?.streetName ?? '',
+      postCode: userDetail?.postCode,
+      phoneNumber: userDetail?.phoneNumber,
+      jobTitle: userDetail?.jobTitle,
+      facebookUrl: userDetail?.facebookUrl,
+      linkedInUrl: userDetail?.linkedInUrl,
+    };
+    for (const key in fieldsToSet) {
+      setValue(key, fieldsToSet[key]);
+    }
+    // }
+  }, [userDetail]);
 
   // watch crn number from values
   const organizationNumber = formValues?.crn;
@@ -183,12 +210,14 @@ const useAddUser = (useActionParams?: any) => {
     try {
       isOpenAddUserDrawer?.type === 'add'
         ? (await postUsers({ body: values })?.unwrap(),
+          reset(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
         ? (await postUserEmployee({
             id: organizationId,
             body: values,
           })?.unwrap(),
+          reset(),
           setIsOpenAdduserDrawer(false))
         : await updateUsers({ id: updateUserId, body: values })?.unwrap();
 
