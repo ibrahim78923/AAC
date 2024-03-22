@@ -9,6 +9,7 @@ import {
   Card,
   Tooltip,
   Pagination,
+  Skeleton,
 } from '@mui/material';
 
 import Search from '@/components/Search';
@@ -84,7 +85,8 @@ const UsersDetailsList = () => {
   const { handleUserSwitchChange } = useUserManagement();
 
   const { id } = navigate.query;
-  const { data: userDataById } = useGetUsersByIdQuery(id);
+  const { data: userDataById, isLoading: userDataLoading } =
+    useGetUsersByIdQuery(id);
 
   const organizationId = userDataById?.data?.organization?._id;
   const organizationBasesProducts = userDataById?.data?.products;
@@ -133,15 +135,19 @@ const UsersDetailsList = () => {
               py={1}
               sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
             >
-              <Stack direction={'row'} gap={1} alignItems="center">
-                <ArrowBack
-                  onClick={() => {
-                    navigate.push(SUPER_ADMIN.USERMANAGMENT);
-                  }}
-                  sx={{ cursor: 'pointer' }}
-                />
-                <Typography variant="h3">{`${userDataById?.data?.firstName} ${userDataById?.data?.firstName}`}</Typography>
-              </Stack>
+              {userDataLoading ? (
+                <Skeleton animation="wave" height={50} width="100%" />
+              ) : (
+                <Stack direction={'row'} gap={1} alignItems="center">
+                  <ArrowBack
+                    onClick={() => {
+                      navigate.push(SUPER_ADMIN.USERMANAGMENT);
+                    }}
+                    sx={{ cursor: 'pointer' }}
+                  />
+                  <Typography variant="h3">{`${userDataById?.data?.firstName} ${userDataById?.data?.firstName}`}</Typography>
+                </Stack>
+              )}
               <Stack direction={{ sm: 'row' }} gap={1}>
                 <PermissionsGuard
                   permissions={[

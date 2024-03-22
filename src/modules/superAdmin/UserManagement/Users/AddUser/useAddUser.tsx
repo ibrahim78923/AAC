@@ -27,7 +27,7 @@ const useAddUser = (useActionParams?: any) => {
   const [orgNumber, setOrgNumber] = useState('');
   const pathName = window?.location?.pathname;
   const { usePostUsersMutation, useUpdateUsersMutation } = usersApi;
-  const [postUsers] = usePostUsersMutation();
+  const [postUsers, { isLoading: postUserLoading }] = usePostUsersMutation();
   const [updateUsers] = useUpdateUsersMutation();
   const [postUserEmployee] = usePostUserEmployeeMutation();
   const { setIsOpenAdduserDrawer: setIsAddEmployyeDrawer } =
@@ -230,7 +230,6 @@ const useAddUser = (useActionParams?: any) => {
         },
       );
       setIsAddEmployyeDrawer(false);
-      reset();
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
         variant: 'error',
@@ -251,6 +250,7 @@ const useAddUser = (useActionParams?: any) => {
     isToggled,
     setIsToggled,
     addressVal: formValues.address,
+    postUserLoading,
   };
 };
 

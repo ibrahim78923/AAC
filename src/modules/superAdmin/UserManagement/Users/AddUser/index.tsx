@@ -35,6 +35,7 @@ const AddUser = ({
     isToggled,
     setIsToggled,
     addressVal,
+    postUserLoading,
   } = useAddUser(useActionParams);
   return (
     <CommonDrawer
@@ -50,6 +51,7 @@ const AddUser = ({
       okText={isOpenAddUserDrawer?.type === 'edit' ? 'Update User' : 'Add'}
       isOk={isOpenAddUserDrawer?.type === 'view' ? false : true}
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={postUserLoading}
       footer
     >
       <FormProvider methods={methods}>
