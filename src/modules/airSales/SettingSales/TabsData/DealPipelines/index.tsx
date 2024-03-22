@@ -69,7 +69,7 @@ const DealPipelines = () => {
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="h4">Deal Pipelines</Typography>
+          <Typography variant="h3">Deal Pipelines</Typography>
           <Box
             sx={{
               display: 'flex',
