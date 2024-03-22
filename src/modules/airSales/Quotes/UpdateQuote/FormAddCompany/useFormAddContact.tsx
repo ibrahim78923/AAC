@@ -13,20 +13,11 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { companiesAPI } from '@/services/commonFeatures/companies';
 import useUpdateQuote from '../useUpdateQuote';
 
-const useFormAddContact = () => {
+const useFormAddContact = (onClose: () => void) => {
   const { usePostCompaniesMutation } = companiesAPI;
   const { data: contacts } = useGetContactsQuery({});
 
   const { dataGetQuoteById, createAssociationQuote } = useUpdateQuote();
-  // const { user } = getSession();
-
-  // const params = {
-  //   page: 1,
-  //   limit: 10,
-  //   contactOwnerId: user?._id,
-  // };
-
-  // const { data: getCompanyContacts } = useGetCompanyContactsQuery(params);
 
   const { data: companiesOwner } = useGetCompaniesOwnersQuery({});
 
@@ -52,7 +43,6 @@ const useFormAddContact = () => {
     formData?.append('address', values?.address);
     formData?.append('description', values?.description);
     formData?.append('linkedInUrl', values?.linkedInUrl);
-
     try {
       postCompanies({ body: formData })?.then((res: any) => {
         const associationBody = {
@@ -64,27 +54,13 @@ const useFormAddContact = () => {
           variant: 'success',
         });
       });
-      enqueueSnackbar(`Company Created Successfully`, {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      // setIsOpenDrawer(false);
       reset();
     } catch (error) {
       enqueueSnackbar(`Something went wrong`, {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
-
-    // try {
-    //   const response = await companiesPost({ body: values })?.unwrap();
-
-    //   enqueueSnackbar('Ticket Updated Successfully', {
-    //     variant: 'success',
-    //   });
-    // } catch (error: any) {
-    //   const errMsg = error?.data?.message;
-    //   enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
-    // }
+    onClose();
   };
   return {
     // getCompanyContacts,

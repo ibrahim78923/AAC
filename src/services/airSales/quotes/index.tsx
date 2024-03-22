@@ -26,9 +26,10 @@ export const quotesAPI = baseAPI.injectEndpoints({
     }),
 
     getQuoteById: builder.query({
-      query: ({ id }: any) => ({
+      query: ({ id, productSearchKeyword }: any) => ({
         url: `${END_POINTS?.QUOTE}/{id}?id=${id}`,
         method: 'GET',
+        params: { productSearchKeyword },
       }),
       providesTags: TAG,
     }),

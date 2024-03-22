@@ -31,15 +31,19 @@ const useUpdateQuote = () => {
   const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 100 });
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
 
-  const [selectedBuyerContactIds, setSelectedBuyerContactIds] = useState('');
-  const [selectedCompanyIds, setSelectedCompanyIds] = useState('');
+  const [selectedBuyerContactIds, setSelectedBuyerContactIds] = useState<
+    string | null
+  >('');
+  const [selectedCompanyIds, setSelectedCompanyIds] = useState<string | null>(
+    '',
+  );
 
   const handleBuyerContactChange = (id: any) => {
-    setSelectedBuyerContactIds(id);
+    setSelectedBuyerContactIds(selectedBuyerContactIds === id ? null : id);
   };
 
   const handleCompanyChange = (id: any) => {
-    setSelectedCompanyIds(id);
+    setSelectedCompanyIds(selectedCompanyIds === id ? null : id);
   };
 
   const [postAddbuyerInfo] = usePostAddbuyerInfoMutation();
@@ -221,7 +225,7 @@ const useUpdateQuote = () => {
     handleCompanyChange,
     selectedCompanyIds,
     disabledSaveAndContinueBtn: Boolean(
-      selectedBuyerContactIds || selectedCompanyIds,
+      selectedBuyerContactIds && selectedCompanyIds,
     ),
   };
 };
