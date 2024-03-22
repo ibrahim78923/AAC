@@ -28,7 +28,7 @@ const useEditForm = (
     clientName: isGetRowValues?.cell?.row?.original?.organizationId,
     product:
       isGetRowValues?.cell?.row?.original?.planProducts?.length > 1
-        ? 'CRM2'
+        ? isGetRowValues?.cell?.row?.original?.plans?._id
         : isGetRowValues?.cell?.row?.original?.planProducts[0]?._id,
     planType: isGetRowValues?.cell?.row?.original?.plantypes?._id,
     additionalUser: isGetRowValues?.cell?.row?.original?.additionalUsers,
@@ -97,7 +97,7 @@ const useEditForm = (
   if (selectProductSuite != 'CRM') {
     const { data, isSuccess, isError } = useGetPlanIdQuery<any>(
       {
-        proId: getCRM?.data?.find((product: any) => product?._id === productId),
+        proId: productId,
         planTypeId: planTypeId,
       },
       { skip: isNullOrEmpty(planTypeId) },
@@ -115,7 +115,9 @@ const useEditForm = (
   if (selectProductSuite === 'CRM') {
     const { data, isSuccess, isError } = useGetExistingCrmQuery<any>(
       {
-        crmName: productId,
+        crmName: getCRM?.data?.find(
+          (product: any) => product?._id === productId,
+        )?.name,
         planTypeId: planTypeId,
       },
       { skip: isNullOrEmpty(planTypeId) },
@@ -150,11 +152,14 @@ const useEditForm = (
     );
   }
 
-  if (selectProductSuite === 'CRM') {
-    setValue('planPrice', '');
-    setValue('defaultUser', '');
-    setValue('defaultUserTwo', '');
-  }
+  useEffect(() => {
+    if (selectProductSuite === 'CRM') {
+      setValue('planPrice', '');
+      setValue('defaultUser', '');
+      setValue('defaultUserTwo', '');
+      setValue('planTypeId', '');
+    }
+  }, [selectProductSuite]);
 
   const onSubmit = async (values: any) => {
     const originalDate = values?.date;
@@ -167,7 +172,10 @@ const useEditForm = (
 
     const assignPlanPayload = {
       organizationId: values?.clientName,
-      planId: planData?.data?._id,
+      planId:
+        selectProductSuite === 'CRM'
+          ? ExistingplanData?.data?._id
+          : planData?.data?._id,
       additionalUsers: parseInt(values?.additionalUser),
       additionalStorage: parseInt(values?.additionalStorage),
       planDiscount: parseInt(values?.discount),
@@ -201,19 +209,18 @@ const useEditForm = (
     }
   };
 
-  if (isSuccessPlan || ExistingisSuccessPlan) {
-    enqueueSnackbar(`Success fetch plan data`, {
-      variant: 'success',
-    });
-  } else {
-    if (isErrorPlan || ExistingisErrorPlan) {
-      enqueueSnackbar(
-        `Please create plan agaist respective selected product and product type`,
-        {
-          variant: 'error',
-        },
-      );
-    }
+  // if (isSuccessPlan || ExistingisSuccessPlan) {
+  //   enqueueSnackbar(`Success fetch plan data`, {
+  //     variant: 'success',
+  //   });
+  // } else {  }
+  if (isErrorPlan || ExistingisErrorPlan) {
+    enqueueSnackbar(
+      `Please create plan agaist respective selected product and product type`,
+      {
+        variant: 'error',
+      },
+    );
   }
 
   useEffect(() => {
