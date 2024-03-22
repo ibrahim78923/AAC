@@ -1,5 +1,4 @@
 import {
-  RHFAutocomplete,
   RHFAutocompleteAsync,
   RHFDropZone,
   RHFRadioGroup,
@@ -13,18 +12,18 @@ import * as Yup from 'yup';
 export const upsertServiceValidationSchema = Yup?.object()?.shape({
   itemName: Yup?.string()?.required(),
   cost: Yup?.number(),
-  serviceCategory: Yup?.mixed()?.nullable()?.required(),
+  serviceCategory: Yup?.mixed()?.nullable(),
   estimatedDelivery: Yup?.string(),
   description: Yup?.string()?.nullable(),
   assetType: Yup?.string()?.nullable(),
-  selectAssetsCategories: Yup?.string()
+  selectAssetsCategories: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
       is: (value: any) => value === 'HardWare/Consumable',
-      then: (schema: any) => schema?.required(),
+      //  then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema,
     }),
-  software: Yup?.string()
+  software: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
       is: (value: any) => value === 'software',
@@ -45,13 +44,13 @@ export const upsertServiceValidationSchema = Yup?.object()?.shape({
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema,
     }),
-  serviceCategorys: Yup?.mixed()
-    ?.nullable()
-    ?.when('assetType', {
-      is: (value: any) => value === 'software',
-      then: (schema: any) => schema?.required(),
-      otherwise: (schema) => schema,
-    }),
+  // serviceCategorys: Yup?.mixed()
+  //   ?.nullable()
+  //   ?.when('assetType', {
+  //     is: (value: any) => value === 'software',
+  //       then: (schema: any) => schema?.required(),
+  //     otherwise: (schema) => schema,
+  //   }),
   selectAgentVisibility: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
@@ -59,7 +58,7 @@ export const upsertServiceValidationSchema = Yup?.object()?.shape({
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema,
     }),
-  product: Yup?.string()
+  product: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
       is: (value: any) => value === 'HardWare/Consumable',
@@ -81,13 +80,13 @@ export const upsertServiceDefaultValues = {
   estimatedDelivery: '',
   description: '',
   assetType: 'HardWare/Consumable',
-  selectAssetsCategories: '',
-  software: '',
+  selectAssetsCategories: null,
+  software: null,
   agentVisibilty: null,
   requestedFor: null,
-  serviceCategorys: null,
+  // serviceCategorys: null,
   selectAgentVisibility: null,
-  product: '',
+  product: null,
   requesterVisibilty: null,
 };
 export const serviceCategoriesOptions = ['Software Solutions'];
@@ -104,7 +103,7 @@ export const requesterVisibiltyCategories = [
   'All Requesters',
   'Requestor Groups',
 ];
-export const upsertServiceData = (apiQueryCategory: any) => [
+export const upsertServiceData = (apiServiceCategoryQuery: any) => [
   {
     id: 1,
     componentProps: {
@@ -131,7 +130,7 @@ export const upsertServiceData = (apiQueryCategory: any) => [
       name: 'serviceCategory',
       label: 'Service Categories',
       fullWidth: true,
-      apiQuery: apiQueryCategory,
+      apiQuery: apiServiceCategoryQuery,
       placeholder: 'Choose Category',
       getOptionLabel: (option: any) => option?.categoryName,
     },
@@ -165,7 +164,13 @@ export const upsertServiceData = (apiQueryCategory: any) => [
     id: 6,
     componentProps: {
       name: 'fileUrl',
-      label: '',
+
+      fullWidth: true,
+      fileType: 'PNG or JPG  (max 2.44 MB)',
+      maxSize: 1024 * 1024 * 2.44,
+      accept: {
+        'image/*': ['.png', '.jpg'],
+      },
     },
     component: RHFDropZone,
     md: 6,
@@ -220,43 +225,51 @@ export const categoriesOfServices = (
   apiQueryAgent: any,
   apiRequestorQuery: any,
   router: any,
-  apiQueryCategory: any,
+  // apiQueryCategory: any,
+  apiServiceCategoryAgentQuery: any,
+  apiQueryRequester: any,
+  apiQueryAssetType: any,
+  apiQuerySoftware: any,
+  apiQueryProductCatalog: any,
 ) => [
   {
     id: 9,
+    component: RHFAutocompleteAsync,
     componentProps: {
+      fullWidth: true,
       name: 'selectAssetsCategories',
       label: 'Select Assets Categories',
-      placeholder: 'Choose',
-      required: true,
-      select: true,
-      options: assetsHardwareCategoriesOptions,
+      placeholder: 'All Assets',
+      apiQuery: apiQueryAssetType,
+      externalParams: { meta: false, limit: 50 },
     },
     text: 'HardWare/Consumable',
-    component: RHFAutocomplete,
     md: 6,
   },
   {
     id: 10,
+    component: RHFAutocompleteAsync,
+    md: 6,
     componentProps: {
+      fullWidth: true,
       name: 'software',
       label: 'Choose Software',
       placeholder: 'Choose',
       required: true,
-      select: true,
-      options: softwareCategories,
+      apiQuery: apiQuerySoftware,
+      externalParams: { limit: 50 },
+      getOptionLabel: (option: any) => option?.name,
     },
     text: 'software',
-    component: RHFAutocomplete,
-    md: 6,
   },
+
   {
     id: 11,
     componentProps: {
       name: 'agentVisibilty',
       label: 'Agent Visibility',
       fullWidth: true,
-      apiQuery: apiQueryAgent,
+      apiQuery: apiServiceCategoryAgentQuery,
       placeholder: 'Choose Agent',
       required: true,
       externalParams: { limit: 50, role: ROLES?.ORG_AGENT },
@@ -274,7 +287,7 @@ export const categoriesOfServices = (
       label: 'Requested For',
       fullWidth: true,
       required: true,
-      apiQuery: apiRequestorQuery,
+      apiQuery: apiQueryRequester,
       EndIcon: AddCircleIcon,
       externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
       getOptionLabel: (option: any) =>
@@ -288,20 +301,20 @@ export const categoriesOfServices = (
     text: 'software',
     md: 6,
   },
-  {
-    id: 13,
-    componentProps: {
-      name: 'serviceCategorys',
-      label: 'Service Category',
-      fullWidth: true,
-      apiQuery: apiQueryCategory,
-      placeholder: 'Choose Category',
-      getOptionLabel: (option: any) => option?.categoryName,
-    },
-    component: RHFAutocompleteAsync,
-    text: 'software',
-    md: 6,
-  },
+  // {
+  //   id: 13,
+  //   componentProps: {
+  //     name: 'serviceCategorys',
+  //     label: 'Service Category',
+  //     fullWidth: true,
+  //     apiQuery: apiQueryCategory,
+  //     placeholder: 'Choose Category',
+  //     getOptionLabel: (option: any) => option?.categoryName,
+  //   },
+  //   component: RHFAutocompleteAsync,
+  //   text: 'software',
+  //   md: 6,
+  // },
 
   {
     id: 14,
@@ -320,21 +333,25 @@ export const categoriesOfServices = (
     text: 'HardWare/Consumable',
     md: 6,
   },
-
   {
     id: 15,
     componentProps: {
       name: 'product',
       label: 'Select Product',
       placeholder: 'Choose',
+      type: 'text',
+      size: 'small',
       required: true,
-      select: true,
-      options: productHardwareCategories,
+      fullWidth: true,
+      apiQuery: apiQueryProductCatalog,
+      externalParams: { meta: false, limit: 50, page: 1 },
+      getOptionLabel: (option: any) => option?.name,
     },
+    component: RHFAutocompleteAsync,
     text: 'HardWare/Consumable',
-    component: RHFAutocomplete,
     md: 6,
   },
+
   {
     id: 16,
     componentProps: {

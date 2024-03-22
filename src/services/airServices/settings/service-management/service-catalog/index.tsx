@@ -5,6 +5,10 @@ const TAG = 'SERVICE-CATALOG';
 const TAG_TWO = 'SERVICE_CATALOG_DROPDOWN';
 const TAG_THREE = 'DROPDOWN_REQUESTER';
 const TAG_FOUR = 'DROPDOWN_AGENT';
+const TAG_FIVE = 'DROPDOWN_ASSETS';
+const transformResponse = (response: any) => {
+  if (response) return response?.data?.productcatalogs;
+};
 export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getServiceCatalog: builder?.query({
@@ -47,6 +51,18 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+
+    getAgentDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_AGENTS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG_THREE],
+    }),
     patchServiceCatalog: builder?.mutation({
       query: (putServiceCatalogParameter: any) => ({
         url: `${END_POINTS?.EDIT_SERVICE_CATALOG}`,
@@ -56,6 +72,17 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     getCategoriesDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_CATEGORIES}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.servicecategories;
+      },
+      providesTags: [TAG_TWO],
+    }),
+    getServiceCategoriesDropdown: builder?.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.DROPDOWN_CATEGORIES}`,
         method: 'GET',
@@ -88,6 +115,46 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_FOUR],
     }),
+    getRequesterDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_REQUESTERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.users;
+      },
+      providesTags: [TAG_TWO],
+    }),
+    getAssetType: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_ASSET_TYPE_LIST}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => transformResponse(response),
+      providesTags: [TAG_TWO],
+    }),
+    getSoftwareDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_SOFTWARE}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.assetssoftwares;
+      },
+      providesTags: [TAG_FIVE],
+    }),
+    getProductDropdown: builder?.query({
+      query: ({ param }) => ({
+        url: `${END_POINTS?.GET_PRODUCT_DROPDOWN}`,
+        method: 'GET',
+        params: param,
+      }),
+      transformResponse: (response: any) => transformResponse(response),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -104,4 +171,10 @@ export const {
   useGetCategoriesAgentDropdownQuery,
   useGetCategoriesRequesterDropdownQuery,
   useGetCategoriesDropdownQuery,
+  useLazyGetServiceCategoriesDropdownQuery,
+  useLazyGetAgentDropdownQuery,
+  useLazyGetRequesterDropdownQuery,
+  useLazyGetAssetTypeQuery,
+  useLazyGetSoftwareDropdownQuery,
+  useLazyGetProductDropdownQuery,
 } = serviceCatalogAPI;

@@ -57,7 +57,13 @@ const Services = () => {
           gap={2}
           mb={4}
         >
-          <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={1}>
+          <Box
+            display={'flex'}
+            alignItems={'center'}
+            flexWrap={'wrap'}
+            gap={1}
+            sx={{ cursor: 'pointer' }}
+          >
             <ArrowBackIcon
               onClick={() => {
                 const isMatch = categories?.some(
@@ -72,8 +78,8 @@ const Services = () => {
                 }
               }}
             />
-            <Typography variant="h3">Service Management</Typography>
-            <ArrowForwardIosIcon fontSize="small" />
+            {/* <Typography variant="h3">Service Management</Typography> */}
+            {/* <ArrowForwardIosIcon fontSize="small" /> */}
             <Typography variant="h3">Service Catalog</Typography>
             {router?.query?.categoryName && (
               <>
@@ -212,11 +218,10 @@ const Services = () => {
         </Grid>
 
         <CustomPagination
-          count={categories?.meta?.count}
-          pageLimit={categories?.meta?.pageLimit}
-          rowsPerPageOptions={categories?.meta?.rowsPerPageOptions}
-          currentPage={categories?.meta?.currentPage}
-          totalRecords={categories?.meta?.totalRecords}
+          count={categories?.meta?.pages}
+          pageLimit={categories?.meta?.limit}
+          currentPage={categories?.meta?.page}
+          totalRecords={categories?.meta?.total}
           onPageChange={handlePageChange}
           setPage={setPage}
           setPageLimit={setPageLimit}
@@ -247,7 +252,10 @@ const Services = () => {
             >
               <Box display={'flex'} alignItems={'center'} gap={1}>
                 <Checkbox
-                  checked={results?.length === selectedCheckboxes?.length}
+                  checked={
+                    selectedCheckboxes?.length !== 0 &&
+                    results?.length === selectedCheckboxes?.length
+                  }
                   onChange={(e: any) => {
                     e?.target?.checked
                       ? setSelectedCheckboxes(

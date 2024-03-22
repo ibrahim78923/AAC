@@ -15,23 +15,38 @@ import {
   useLazyGetCategoriesAgentDropdownQuery,
   useLazyGetCategoriesRequesterDropdownQuery,
   usePostAddServiceCatalogMutation,
-  useLazyGetCategoriesDropdownQuery,
+  useLazyGetServiceCategoriesDropdownQuery,
+  useLazyGetAgentDropdownQuery,
+  useLazyGetRequesterDropdownQuery,
+  useLazyGetAssetTypeQuery,
+  useLazyGetSoftwareDropdownQuery,
+  useLazyGetProductDropdownQuery,
 } from '@/services/airServices/settings/service-management/service-catalog';
 
 const useUpsertService = () => {
+  const router = useRouter();
+  const { categoryId } = router?.query;
   const apiQueryAgent = useLazyGetCategoriesAgentDropdownQuery();
   const apiRequestorQuery = useLazyGetCategoriesRequesterDropdownQuery();
-
-  const router = useRouter();
-  const apiQueryCategory = useLazyGetCategoriesDropdownQuery();
-  const upsertServiceFormField = upsertServiceData(apiQueryCategory);
-
+  const apiServiceCategoryQuery = useLazyGetServiceCategoriesDropdownQuery();
+  const apiQueryRequester = useLazyGetRequesterDropdownQuery();
+  // const apiQueryCategory = useLazyGetCategoriesDropdownQuery();
+  const apiServiceCategoryAgentQuery = useLazyGetAgentDropdownQuery();
+  const apiQueryAssetType = useLazyGetAssetTypeQuery();
+  const apiQuerySoftware = useLazyGetSoftwareDropdownQuery();
+  const upsertServiceFormField = upsertServiceData(apiServiceCategoryQuery);
+  const apiQueryProductCatalog = useLazyGetProductDropdownQuery();
   const [results, setResults] = useState<any[]>(
     categoriesOfServices(
       apiQueryAgent,
       apiRequestorQuery,
       router,
-      apiQueryCategory,
+      // apiQueryCategory,
+      apiServiceCategoryAgentQuery,
+      apiQueryRequester,
+      apiQueryAssetType,
+      apiQuerySoftware,
+      apiQueryProductCatalog,
     ),
   );
   const [postAddServiceCatalogTrigger] = usePostAddServiceCatalogMutation();
@@ -50,7 +65,12 @@ const useUpsertService = () => {
         apiQueryAgent,
         apiRequestorQuery,
         router,
-        apiQueryCategory,
+        // apiQueryCategory,
+        apiServiceCategoryAgentQuery,
+        apiQueryRequester,
+        apiQueryAssetType,
+        apiQuerySoftware,
+        apiQueryProductCatalog,
       ).filter(
         (service: any) => service?.text === ASSET_TYPE?.HARDWARE_CONSUMABLE,
       );
@@ -59,7 +79,12 @@ const useUpsertService = () => {
         apiQueryAgent,
         apiRequestorQuery,
         router,
-        apiQueryCategory,
+        // apiQueryCategory,
+        apiServiceCategoryAgentQuery,
+        apiQueryRequester,
+        apiQueryAssetType,
+        apiQuerySoftware,
+        apiQueryProductCatalog,
       ).filter((service: any) => service?.text === ASSET_TYPE?.SOFTWARE);
     }
 
@@ -70,18 +95,30 @@ const useUpsertService = () => {
     const upsertServiceFormData = new FormData();
     upsertServiceFormData?.append('itemName', data?.itemName);
     upsertServiceFormData?.append('cost', data?.cost);
-    upsertServiceFormData?.append('serviceCategory', data?.serviceCategory);
+    upsertServiceFormData?.append(
+      'serviceCategory',
+      data?.serviceCategory?._id ?? '65fd00d618a17a26a86b8e1e',
+    );
     upsertServiceFormData?.append('estimatedDelivery', data?.estimatedDelivery);
     upsertServiceFormData?.append('description', data?.description);
-    upsertServiceFormData?.append('fileUrl', data?.fileUrl);
-    upsertServiceFormData?.append('assetType', data?.assetType);
-    upsertServiceFormData?.append('agentVisibilty', data?.agentVisibilty);
-    upsertServiceFormData?.append('product', data?.product);
+    !!data?.fileUrl?.length &&
+      upsertServiceFormData?.append('fileUrl', data?.fileUrl);
+    upsertServiceFormData?.append(
+      'assetType',
+      data?.assetType?._id ?? '65fd00d618a17a26a86b8e1e',
+    );
+    upsertServiceFormData?.append(
+      'agentVisibilty',
+      data?.selectAgentVisibility?._id ?? data?.agentVisibilty?._id,
+    );
+    !!data?.product?.length &&
+      upsertServiceFormData?.append('product', data?.product?._id);
     upsertServiceFormData?.append(
       'requesterVisibilty',
-      data?.requesterVisibilty,
+      data?.requesterVisibilty?._id ?? data?.requestedFor?._id,
     );
-    upsertServiceFormData?.append('software', data?.software);
+    !!data?.software?.length &&
+      upsertServiceFormData?.append('software', data?.software?._id);
     try {
       const response = await postAddServiceCatalogTrigger({
         body: upsertServiceFormData,
@@ -105,7 +142,12 @@ const useUpsertService = () => {
     apiQueryAgent,
     apiRequestorQuery,
     router,
-    apiQueryCategory,
+    // apiQueryCategory,
+    apiServiceCategoryAgentQuery,
+    apiQueryRequester,
+    apiQueryAssetType,
+    apiQuerySoftware,
+    apiQueryProductCatalog,
   );
   return {
     methods,
@@ -115,8 +157,9 @@ const useUpsertService = () => {
     results,
     upsertServiceFormField,
     categoriesOfServicesFormField,
-    apiQueryCategory,
+    // apiQueryCategory,
     apiRequestorQuery,
+    categoryId,
   };
 };
 export default useUpsertService;

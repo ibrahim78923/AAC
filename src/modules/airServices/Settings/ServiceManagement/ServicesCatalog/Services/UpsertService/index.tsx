@@ -3,10 +3,18 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import useUpsertService from './useUpsertService';
 
 import { FormProvider } from '@/components/ReactHookForm';
+import { Attachments } from '@/components/Attachments';
+import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const UpsertService = () => {
-  const { methods, results, handleSubmit, onSubmit, upsertServiceFormField } =
-    useUpsertService();
+  const {
+    methods,
+    results,
+    handleSubmit,
+    onSubmit,
+    upsertServiceFormField,
+    categoryId,
+  } = useUpsertService();
 
   return (
     <>
@@ -38,6 +46,7 @@ export const UpsertService = () => {
             </Grid>
           ))}
         </Grid>
+
         <Grid container spacing={4} mt={2}>
           <Box
             display={'flex'}
@@ -55,6 +64,30 @@ export const UpsertService = () => {
             </Button>
           </Box>
         </Grid>
+        <br />
+
+        {!!categoryId && (
+          <>
+            <Typography
+              variant="body1"
+              fontWeight={500}
+              color="slateBlue.main"
+              mb={2}
+            >
+              {' '}
+              Attachments{' '}
+            </Typography>
+            <Box maxHeight={'20vh'}>
+              <Attachments
+                recordId={categoryId}
+                permissionKey={[
+                  AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS?.ADD_NEW_SERVICE,
+                ]}
+                colSpan={{ sm: 12, lg: 12 }}
+              />
+            </Box>
+          </>
+        )}
       </FormProvider>
     </>
   );
