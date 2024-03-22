@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Button, Box, Grid } from '@mui/material';
 import Search from '@/components/Search';
-import { v4 as uuidv4 } from 'uuid';
 import PlusSharedIconColor from '@/assets/icons/shared/plus-shared-color';
 import { TICKETS_CONVERSATION_MODAL_TYPE } from '@/constants/strings';
 import { useRouter } from 'next/router';
@@ -92,15 +91,19 @@ const ConversationSelectModal = ({ theme, onAddButtonClick, title }: any) => {
         {isLoading ? (
           <SkeletonTable />
         ) : (
-          filteredContent.map((item) => (
+          filteredContent.map((item: any) => (
             <Box
               marginTop={2}
-              key={uuidv4()}
+              key={item?._id}
               border={`.1rem solid ${theme.palette.grey[700]}`}
               borderRadius={2}
               padding={1}
             >
-              <Typography>{item.description || item.details}</Typography>
+              <Typography
+                dangerouslySetInnerHTML={{
+                  __html: item.description || item.details,
+                }}
+              />
               <Box display="flex" alignItems="center" marginTop={1}>
                 <Button
                   variant="outlined"
