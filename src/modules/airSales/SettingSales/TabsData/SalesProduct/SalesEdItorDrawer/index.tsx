@@ -18,14 +18,19 @@ const SalesEditorDrawer = ({
   setSelectedCheckboxes,
   selectedCheckboxes,
 }: any) => {
-  const { handleSubmit, onSubmit, salesProduct, productLoading } =
-    useSalesEditorDrawer({
-      selectedCheckboxes,
-      isEditMode,
-      setIsDraweropen,
-      setSelectedCheckboxes,
-    });
-
+  const {
+    handleSubmit,
+    onSubmit,
+    salesProduct,
+    productLoading,
+    productsDataLoading,
+    skeletonLines,
+  } = useSalesEditorDrawer({
+    selectedCheckboxes,
+    isEditMode,
+    setIsDraweropen,
+    setSelectedCheckboxes,
+  });
   return (
     <>
       <CommonDrawer
@@ -38,24 +43,28 @@ const SalesEditorDrawer = ({
         submitHandler={handleSubmit(onSubmit)}
         isLoading={productLoading}
       >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={salesProduct}>
-            <Grid container spacing={1}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
+        {productsDataLoading ? (
+          skeletonLines
+        ) : (
+          <Box sx={{ paddingTop: '1rem' }}>
+            <FormProvider methods={salesProduct}>
+              <Grid container spacing={1}>
+                {dataArray?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component {...item.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          </Box>
+        )}
       </CommonDrawer>
     </>
   );
