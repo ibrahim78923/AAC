@@ -2,16 +2,17 @@ import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'REQUESTERS';
-export const userManagementRequesterAPI = baseAPI.injectEndpoints({
+export const userManagementRequesterAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    getRequestersList: builder.query({
-      query: (params: any) => ({
+    getRequestersList: builder?.query({
+      query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.REQUESTER_LIST}`,
         method: 'GET',
-        params,
+        params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
+
     deleteRequester: builder?.mutation({
       query: (body: any) => ({
         url: `${END_POINTS?.DELETE_REQUESTER}`,
@@ -20,14 +21,14 @@ export const userManagementRequesterAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getViewRequestersDetails: builder.query({
+    getViewRequestersDetails: builder?.query({
       query: (id: any) => ({
         url: `${END_POINTS?.REQUESTER_VIEW_DETAILS}${id}`,
         method: 'GET',
       }),
       providesTags: [TAG],
     }),
-    postAddRequester: builder.mutation({
+    postAddRequester: builder?.mutation({
       query: (body: any) => ({
         url: `${END_POINTS?.ADD_REQUESTER}`,
         method: 'POST',
@@ -35,13 +36,20 @@ export const userManagementRequesterAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    patchRequester: builder.mutation({
+    patchRequester: builder?.mutation({
       query: (body: any) => ({
         url: `${END_POINTS?.EDIT_REQUESTER}`,
         method: 'PATCH',
         body,
       }),
       invalidatesTags: [TAG],
+    }),
+    convertToAgent: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: END_POINTS?.CONVERT_TO_AGENT,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
     }),
   }),
 });
@@ -52,4 +60,6 @@ export const {
   useGetViewRequestersDetailsQuery,
   usePostAddRequesterMutation,
   usePatchRequesterMutation,
+  useLazyGetRequestersListQuery,
+  useConvertToAgentMutation,
 } = userManagementRequesterAPI;

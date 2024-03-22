@@ -6,11 +6,12 @@ import {
   upsertRequestersDefaultValues,
   upsertRequestersValidationSchema,
 } from './UpsertRequesters.data';
+
+import { useRouter } from 'next/router';
 import {
   usePatchRequesterMutation,
   usePostAddRequesterMutation,
-} from '@/services/airServices/settings/user-management';
-import { useRouter } from 'next/router';
+} from '@/services/airServices/settings/user-management/requesters';
 
 export const useUpsertRequester = (props: any) => {
   const { setIsDrawerOpen } = props;
@@ -56,7 +57,7 @@ export const useUpsertRequester = (props: any) => {
     };
     try {
       await patchRequesterTrigger(formData)?.unwrap();
-      successSnackbar('Single Requesters Edit  Successfully');
+      successSnackbar('Requesters edit successfully');
       setIsDrawerOpen(false);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

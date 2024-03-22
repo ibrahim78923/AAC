@@ -6,9 +6,10 @@ import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/p
 import { errorSnackbar } from '@/utils/api';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 
-export const requestersDropdown = (
-  setDeleteModal: any,
-  setWarningModal: any,
+export const requestersDropdown: any = (
+  setDeleteModalOpen: any,
+  setIsAgentConvert: any,
+  selectedRequestersList: any,
 ) => [
   {
     id: 1,
@@ -17,8 +18,8 @@ export const requestersDropdown = (
       AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.DELETE_REQUESTER,
     ],
     handleClick: (close: any) => {
-      setDeleteModal(true);
-      close(null);
+      setDeleteModalOpen(true);
+      close();
     },
   },
   {
@@ -28,8 +29,12 @@ export const requestersDropdown = (
       AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.CONVERT_TO_AGENT_REQUESTER,
     ],
     handleClick: (close: any) => {
-      setWarningModal(true);
-      close(null);
+      if (selectedRequestersList?.length > 1) {
+        errorSnackbar('Please select only 1 requester');
+        return;
+      }
+      setIsAgentConvert(true);
+      close();
     },
   },
 ];
@@ -152,8 +157,8 @@ export const requestersList: any = (
         status === REQUESTORS_STATUS?.ACTIVE
           ? theme?.palette?.success?.main
           : status === REQUESTORS_STATUS?.INACTIVE
-            ? theme?.palette?.warning?.main
-            : '';
+          ? theme?.palette?.warning?.main
+          : '';
 
       return (
         <Typography

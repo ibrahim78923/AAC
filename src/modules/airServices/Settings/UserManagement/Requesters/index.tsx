@@ -6,6 +6,9 @@ import { AIR_SERVICES } from '@/constants';
 import { useRequesters } from './useRequesters';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ConvertToAgent } from './ConvertToAgent';
+import { DeleteRequester } from './DeleteRequester';
+import UpsertRequesters from './UpsertRequesters';
 
 export const Requesters = () => {
   const {
@@ -13,15 +16,21 @@ export const Requesters = () => {
     setSelectedRequestersList,
     requestersListColumn,
     router,
-    data,
-    isLoading,
-    isError,
-    isFetching,
-    isSuccess,
     setPageLimit,
     setPage,
-    metaData,
+    lazyGetRequestersStatus,
+    requestersDropdownOptions,
+    deleteModalOpen,
+    setDeleteModalOpen,
+    isAgentConvert,
+    setIsAgentConvert,
+    isDrawerOpen,
+    setSearch,
+    setIsDrawerOpen,
+    getRequestersListData,
+    page,
   } = useRequesters();
+
   return (
     <>
       <Box display={'flex'} alignItems={'center'} gap={2}>
@@ -41,32 +50,68 @@ export const Requesters = () => {
         <RequestersHeader
           selectedRequestersList={selectedRequestersList}
           setSelectedRequestersList={setSelectedRequestersList}
+          requestersDropdownOptions={requestersDropdownOptions}
+          setSearch={setSearch}
+          setIsDrawerOpen={setIsDrawerOpen}
         />
-        <Box mt={3} mb={1}>
+        <Box mt={3}>
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.VIEW_REQUESTERS_LIST,
             ]}
           >
             <TanstackTable
-              data={data?.data?.users}
+              data={lazyGetRequestersStatus?.data?.data?.users}
               columns={requestersListColumn}
-              isPagination={true}
-              isLoading={isLoading}
-              isError={isError}
-              isFetching={isFetching}
-              isSuccess={isSuccess}
+              isPagination
+              isLoading={lazyGetRequestersStatus?.isLoading}
+              isError={lazyGetRequestersStatus?.isError}
+              isFetching={lazyGetRequestersStatus?.isFetching}
+              isSuccess={lazyGetRequestersStatus?.isSuccess}
               setPageLimit={setPageLimit}
               setPage={setPage}
-              count={metaData?.pages}
-              totalRecords={metaData?.total}
+              count={lazyGetRequestersStatus?.data?.data?.meta?.pages}
+              totalRecords={lazyGetRequestersStatus?.data?.data?.meta?.total}
               onPageChange={(page: any) => setPage(page)}
-              currentPage={metaData?.page}
-              pageLimit={metaData?.limit}
+              currentPage={lazyGetRequestersStatus?.data?.data?.meta?.page}
+              pageLimit={lazyGetRequestersStatus?.data?.data?.meta?.limit}
             />
           </PermissionsGuard>
         </Box>
       </Box>
+
+      {isDrawerOpen && (
+        <UpsertRequesters
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+        />
+      )}
+
+      {deleteModalOpen && (
+        <DeleteRequester
+          deleteModalOpen={deleteModalOpen}
+          setDeleteModalOpen={setDeleteModalOpen}
+          selectedRequesterList={selectedRequestersList}
+          setSelectedRequesterList={setSelectedRequestersList}
+          setPage={setPage}
+          page={page}
+          getRequestersListData={getRequestersListData}
+          totalRecords={lazyGetRequestersStatus?.data?.data?.users?.length}
+        />
+      )}
+
+      {isAgentConvert && (
+        <ConvertToAgent
+          isAgentConvert={isAgentConvert}
+          setIsAgentConvert={setIsAgentConvert}
+          selectedRequesterList={selectedRequestersList}
+          setSelectedRequesterList={setSelectedRequestersList}
+          setPage={setPage}
+          page={page}
+          getRequestersListData={getRequestersListData}
+          totalRecords={lazyGetRequestersStatus?.data?.data?.users?.length}
+        />
+      )}
     </>
   );
 };

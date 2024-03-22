@@ -325,6 +325,7 @@ export const END_POINTS = {
   CUSTOMER_GET_COMPANY_ACCOUNTS: `/users/company-accounts`,
   AGENTS_SOFTWARE_LIST: `/agent/agent-software-list`,
   EDIT_SOFTWARE_CATEGORY: `/assets/edit-software-category`,
+  CONVERT_TO_AGENT: `/requester/agent-requests`,
 };
 
 export const superAdminBillingInvoices = {

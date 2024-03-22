@@ -26,9 +26,11 @@ export const RequestorsDetails = () => {
     isDrawerOpen,
     setIsDrawerOpen,
   }: any = useRequesterDetails();
+
   const theme = useTheme();
   if (isLoading || isFetching) return <SkeletonForm />;
   if (isError) return <ApiErrorState />;
+
   return (
     <>
       <Grid
