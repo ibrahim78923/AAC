@@ -101,4 +101,7 @@ export const {
   useLazyGetCategoriesDropdownQuery,
   useLazyGetCategoriesRequesterDropdownQuery,
   useLazyGetCategoriesAgentDropdownQuery,
+  useGetCategoriesAgentDropdownQuery,
+  useGetCategoriesRequesterDropdownQuery,
+  useGetCategoriesDropdownQuery,
 } = serviceCatalogAPI;
