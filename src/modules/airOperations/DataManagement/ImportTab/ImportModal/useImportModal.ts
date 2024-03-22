@@ -1,40 +1,32 @@
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { importDefaultValues } from './ImportModal.data';
+import { useFieldArray, useForm } from 'react-hook-form';
+import {
+  importDefaultValues,
+  importValidationSchema,
+} from './ImportModal.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export const useImportModal = () => {
-  const [selectedValues, setSelectedValues] = useState([]);
   const [csvFileData, setCsvFileData] = useState<any[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isNewImport, setIsNewImport] = useState(true);
   const [modalStep, setModalStep] = useState(1);
   const [importLog, setImportLog] = useState('');
-  const handleSelect = (selectedValue: any) => {
-    setImportLog(selectedValue);
-  };
-  const methodsImportModalForm: any = useForm<any>({
+
+  const methodsImportModalForm = useForm<any>({
+    resolver: yupResolver(importValidationSchema(modalStep)),
     defaultValues: importDefaultValues,
   });
+
   const product = methodsImportModalForm?.watch()?.product;
   const importDeals = methodsImportModalForm?.watch()?.importDeals;
 
-  useEffect(() => {
-    {
-      importDeals != null && handleFileChange(importDeals);
-    }
-    {
-      product === null && (methodsImportModalForm?.reset(), setImportLog(''));
-    }
-    {
-      importDeals != null &&
-        modalStep === 1 &&
-        methodsImportModalForm?.setValue('importDeals', null);
-    }
-    {
-      modalStep === 2 && selectedValues != undefined && setSelectedValues([]);
-    }
-  }, [importDeals, product, importLog, modalStep]);
+  const { control } = methodsImportModalForm;
+  const { fields } = useFieldArray({
+    control,
+    name: 'importedFields',
+  });
 
   const { handleSubmit, reset } = methodsImportModalForm;
   const submitImportModalForm = async () => {
@@ -50,6 +42,7 @@ export const useImportModal = () => {
       errorSnackbar(error?.message);
     }
   };
+
   const handleClose = () => {
     setIsDrawerOpen(false);
     setModalStep(1);
@@ -61,6 +54,10 @@ export const useImportModal = () => {
     if (modalStep > 1) {
       setModalStep((prev) => --prev);
     } else handleClose();
+  };
+
+  const handleSelect = (selectedValue: any) => {
+    setImportLog(selectedValue);
   };
 
   const handleFileChange = (event: any) => {
@@ -79,12 +76,28 @@ export const useImportModal = () => {
       reader?.readAsText(event);
     }
   };
-  const handleImportTable = (fieldName: string, selectedValue: string) => {
-    setSelectedValues((prevSelectedValues) => ({
-      ...prevSelectedValues,
-      [fieldName]: selectedValue,
+
+  useEffect(() => {
+    const importedFiles = csvFileData?.map((item: any) => ({
+      fileColumn: item?.column,
+      crmFields: null,
     }));
-  };
+    methodsImportModalForm?.setValue('importedFields', importedFiles);
+  }, [csvFileData]);
+
+  useEffect(() => {
+    {
+      importDeals != null && handleFileChange(importDeals);
+    }
+    {
+      product === null && (methodsImportModalForm?.reset(), setImportLog(''));
+    }
+    {
+      importDeals != null &&
+        modalStep === 1 &&
+        methodsImportModalForm?.setValue('importDeals', null);
+    }
+  }, [importDeals, product, importLog, modalStep]);
 
   return {
     isDrawerOpen,
@@ -101,7 +114,6 @@ export const useImportModal = () => {
     product,
     handleSubmit,
     importDeals,
-    csvFileData,
-    handleImportTable,
+    fields,
   };
 };

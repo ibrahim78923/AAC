@@ -1,8 +1,16 @@
-import { Box, Typography } from '@mui/material';
-import { stepsColumn } from './ThirdStep.data';
-import TanstackTable from '@/components/Table/TanstackTable';
+import {
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
+import { importTableFields, importTableHeader } from '../ImportModal.data';
 const ThirdStep = (props: any) => {
-  const { csvFileData, importLog, handleImportTable } = props;
+  const { methodsImportModalForm, importLog, fields } = props;
 
   return (
     <>
@@ -10,12 +18,35 @@ const ThirdStep = (props: any) => {
         Map Columns from your file to the right CRM fields. Your 5 unmapped
         columns won’t be imported
       </Typography>
-      <Box mt={1.6} height={'70vh'} overflow={'scroll'}>
-        <TanstackTable
-          columns={stepsColumn(importLog, handleImportTable)}
-          data={csvFileData}
-        />
-      </Box>
+      <Grid display={'flex'} flexDirection={'row'} justifyContent={'center'}>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {importTableHeader?.map((column: any) => (
+                  <TableCell key={column}>{column}</TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {fields?.map((item: any, index: any) => {
+                return (
+                  <TableRow key={item?.id}>
+                    {importTableFields?.(
+                      methodsImportModalForm?.control,
+                      'importedFields',
+                      index,
+                      importLog,
+                    )?.map((singleField: any) => (
+                      <TableCell key={item?.id}>{singleField?.data}</TableCell>
+                    ))}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Grid>
     </>
   );
 };

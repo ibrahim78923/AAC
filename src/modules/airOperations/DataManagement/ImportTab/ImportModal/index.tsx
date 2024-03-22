@@ -21,8 +21,7 @@ const ImportModal = () => {
     product,
     handleSubmit,
     importDeals,
-    csvFileData,
-    handleImportTable,
+    fields,
   } = useImportModal();
 
   const steps: any = {
@@ -36,9 +35,9 @@ const ImportModal = () => {
     2: <SecondStep requiredColumns={requiredColumns} />,
     3: (
       <ThirdStep
-        csvFileData={csvFileData}
         importLog={importLog}
-        handleImportTable={handleImportTable}
+        methodsImportModalForm={methodsImportModalForm}
+        fields={fields}
       />
     ),
   };
