@@ -1,76 +1,65 @@
 import {
-  RHFButtonGroup,
+  RHFAutocomplete,
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-import { ZoomLogoImage, TeamsLogoImage } from '@/assets/images';
+import { pxToRem } from '@/utils/getFontValue';
+import { Box } from '@mui/material';
 
 export const addEmailValidationSchema = Yup?.object()?.shape({
-  to: Yup?.string()?.required('Field is Required'),
-  subject: Yup?.string()?.required('Field is Required'),
-  addVideoConferencing: Yup?.string(),
+  recipients: Yup?.array()
+    ?.of(Yup?.string())
+    ?.test('is-emails-valid', 'Enter valid email formats', function (value) {
+      if (!value || value.length === 0) {
+        return false; // 'To is Required' error message will be triggered
+      }
+      return value.every((email) => Yup?.string().email().isValidSync(email));
+    }),
+  subject: Yup?.string()?.trim()?.required('Subject is Required'),
+  html: Yup?.string()?.trim()?.required('Note is Required'),
 });
 
 export const addEmailDefaultValues = {
-  to: '',
+  recipients: [],
   subject: '',
-  addVideoConferencing: '',
+  html: '',
 };
 
 export const addEmailDataArray = [
   {
     id: 1,
     componentProps: {
-      name: 'to',
+      name: 'recipients',
       label: 'To',
-      fullWidth: true,
+      placeholder: 'Enter Recipients',
       required: true,
+      freeSolo: true,
+      options: [],
+      multiple: true,
+      isOptionEqualToValue: () => {},
+      endAdornment: <Box color={'grey.900'}>From CC BCC</Box>,
     },
-    component: RHFTextField,
-    md: 12,
+    component: RHFAutocomplete,
   },
-
   {
     id: 2,
     componentProps: {
       name: 'subject',
       label: 'Subject',
-      fullWidth: true,
+      placeholder: 'Write a Subject Line',
       required: true,
     },
     component: RHFTextField,
-    md: 12,
   },
-
   {
     id: 3,
     componentProps: {
-      name: 'addVideoConferencing',
-      label: 'Add Video Conferencing',
-    },
-    buttonGroup: true,
-    options: [
-      { value: 'gmail', label: 'Gmail', img: ZoomLogoImage },
-      {
-        value: 'microsoftOutlook',
-        label: 'Microsoft Outlook',
-        img: TeamsLogoImage,
-      },
-      { value: 'others', label: 'Others', img: ZoomLogoImage },
-    ],
-    component: RHFButtonGroup,
-    md: 12,
-  },
-
-  {
-    id: 4,
-    componentProps: {
-      name: 'meetingNotes',
-      label: 'Meeting Notes',
-      fullWidth: true,
+      name: 'html',
+      label: 'Note',
+      required: true,
+      style: { height: pxToRem(200) },
     },
     component: RHFEditor,
-    md: 12,
   },
 ];

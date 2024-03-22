@@ -6,14 +6,32 @@ import {
 
 import { useGetUsersListQuery } from '@/services/airSales/deals';
 import useDealTab from '../DealTab/useDealTab';
+import * as Yup from 'yup';
 
+export const validationSchema = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Field is Required'),
+  dealPiplineId: Yup?.string()?.required('Field is Required'),
+  dealStageId: Yup?.string()?.required('Field is Required'),
+  amount: Yup?.number()
+    ?.typeError('Please enter a valid number')
+    ?.min(0, 'please Enter positive value')
+    ?.positive('Please enter a positive number')
+    ?.required('Please enter a number'),
+});
+
+export const defaultValues = {
+  name: '',
+  dealPiplineId: '',
+  dealOwnerId: '',
+  dealStageId: '',
+};
 export const createDealData = ({ dealPiplineId }: any) => {
   const userRole = 'ORG_EMPLOYEE';
   const { pipelineData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: userRole });
 
   const filteredStages =
-    pipelineData?.data?.dealpipelines.find(
+    pipelineData?.data?.dealpipelines?.find(
       (pipeline: any) => pipeline?._id === dealPiplineId,
     )?.stages || [];
 

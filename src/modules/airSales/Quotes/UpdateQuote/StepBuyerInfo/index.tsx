@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, Button, Avatar } from '@mui/material';
+import { Box, Grid, Typography, Button, Avatar, Checkbox } from '@mui/material';
 import TemplateFrame from '../TemplateFrame';
 import TemplateBasic from '../TemplateBasic';
 import {
@@ -15,21 +15,23 @@ import {
 import { styles } from './StepBuyerInfo.style';
 import Image from 'next/image';
 import { AlertModals } from '@/components/AlertModals';
-import { useState } from 'react';
+import React, { useState } from 'react';
 // import useUpdateQuote from '../useUpdateQuote';
 import useUpdateQuote from '../useUpdateQuote';
 
 const StepBuyerInfo = ({
-  // dataContacts,
-  // dataCompanies,
   openAddContact,
   openAddCompany,
+  handleBuyerContactChange,
+  selectedBuyerContactIds,
+  handleCompanyChange,
+  selectedCompanyIds,
 }: any) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const handleDeleteModal = () => {
     setDeleteModal(!deleteModal);
   };
-  // const {dataGetQuoteById}=useUpdateQuote()
+
   const { dataGetQuoteById }: any = useUpdateQuote();
   const contactData = dataGetQuoteById?.data?.deal;
 
@@ -38,7 +40,6 @@ const StepBuyerInfo = ({
       <Grid container spacing={'40px'}>
         <Grid item xs={5}>
           <Box>
-            {/* {dataContacts?.length !== 0 && ( */}
             <>
               <Box sx={styles?.rowBuyerInfo}>
                 <Typography variant="h4" sx={styles?.buyerInfoTitle}>
@@ -71,11 +72,9 @@ const StepBuyerInfo = ({
                             src={AvatarContactImage?.src}
                             sx={styles?.itemAvatar}
                           ></Avatar>
-                          {/* <CrossCircleImage /> */}
                         </Box>
                         <Box sx={styles?.itemDetail}>
                           <Box sx={styles?.itemTitle}>
-                            {/* {item?.owner} */}
                             {item?.name}
                             <Image
                               src={CrossCircleImage}
@@ -83,24 +82,22 @@ const StepBuyerInfo = ({
                               onClick={handleDeleteModal}
                             />
                           </Box>
-                          {/* <Box sx={styles?.itemText}>{item?.name}</Box> */}
+                          <Box sx={styles?.itemText}>{item?.name}</Box>
                           <Box sx={styles?.itemText}>{item?.email}</Box>
                           <Box sx={styles?.itemText}>{item?.phoneNumber}</Box>
+                        </Box>
+                        <Box mt={-0.7}>
+                          <Checkbox
+                            checked={selectedBuyerContactIds === item?._id}
+                            value={item?._id}
+                            onChange={() => handleBuyerContactChange(item?._id)}
+                          />
                         </Box>
                       </Box>
                     ))}
                 </Box>
               </Box>
             </>
-            {/* )} */}
-            {/* {dataContacts?.length === 0 && (
-            <Box sx={styles?.button} onClick={openAddContact}>
-              <Box sx={{ mr: '8px', display: 'inline-flex' }}>
-                <ProfileCircleIcon />
-              </Box>
-              Add Contact
-            </Box>
-          )} */}
           </Box>
           <Box sx={styles?.companyInformation}>
             <Box sx={styles?.contactsCont}>
@@ -139,9 +136,17 @@ const StepBuyerInfo = ({
                             />
                           </Box>
                         </Box>
-                        <Box sx={styles?.itemText}>{item?.title}</Box>
-                        <Box sx={styles?.itemText}>{item?.email}</Box>
-                        <Box sx={styles?.itemText}>{item?.phoneNumber}</Box>
+                        <Box sx={styles?.itemText}> {item?.name}</Box>
+                        <Box sx={styles?.itemText}>{item?.owner?.email}</Box>
+                        <Box sx={styles?.itemText}>
+                          {item?.owner?.phoneNumber}
+                        </Box>
+                      </Box>
+                      <Box mt={-0.7}>
+                        <Checkbox
+                          checked={selectedCompanyIds === item?._id}
+                          onChange={() => handleCompanyChange(item._id)}
+                        />
                       </Box>
                     </Box>
                   ))}
@@ -156,13 +161,15 @@ const StepBuyerInfo = ({
           </TemplateFrame>
         </Grid>
       </Grid>
-      <AlertModals
-        message="Are u sure u wnat to delete this?"
-        type="delete"
-        open={deleteModal}
-        handleClose={handleDeleteModal}
-        handleSubmitBtn={handleDeleteModal}
-      />
+      {deleteModal && (
+        <AlertModals
+          message="Are u sure u wnat to delete this?"
+          type="delete"
+          open={deleteModal}
+          handleClose={handleDeleteModal}
+          handleSubmitBtn={handleDeleteModal}
+        />
+      )}
     </>
   );
 };

@@ -78,6 +78,7 @@ export const singleContractDetailsActionDropdownFunction = (
       AIR_SERVICES_ASSETS_CONTRACTS_PERMISSIONS?.VIEW_TASK_DETAILS,
     ],
     title: 'Terminate',
+    disabled: data?.data?.status === CONTRACT_STATUS?.TERMINATED,
     handleClick: (closeMenu: any) => {
       setTerminateModalOpen?.(true);
       closeMenu?.();

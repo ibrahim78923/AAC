@@ -78,7 +78,7 @@ const useCreateContacts = (dealId: any) => {
             contactId: res?.data?._id,
           };
           createAssociationQuote({ body: associationBody })?.unwrap();
-          enqueueSnackbar('Ticket Updated Successfully', {
+          enqueueSnackbar('Contact Created Successfully', {
             variant: 'success',
           });
         });
