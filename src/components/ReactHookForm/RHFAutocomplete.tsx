@@ -18,6 +18,7 @@ export default function RHFAutocomplete({
   placeholder,
   freeSolo = false,
   limitTags = 3,
+  endAdornment = false,
   isOptionEqualToValue = (option: any, newValue: any) =>
     option?._id === newValue?._id,
   getOptionLabel = (option: any) => option?.replaceAll?.('_', ' '),
@@ -99,7 +100,10 @@ export default function RHFAutocomplete({
                   InputProps={{
                     ...params?.InputProps,
                     endAdornment: (
-                      <Fragment>{params?.InputProps?.endAdornment}</Fragment>
+                      <Fragment>
+                        {endAdornment && endAdornment}
+                        {params?.InputProps?.endAdornment}
+                      </Fragment>
                     ),
                   }}
                 />
