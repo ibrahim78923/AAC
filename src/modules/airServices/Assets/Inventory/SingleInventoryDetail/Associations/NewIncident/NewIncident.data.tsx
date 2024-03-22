@@ -78,7 +78,7 @@ export const newIncidentsDefaultValuesFunction = (data?: any) => {
     plannedEffort: data?.plannedEffort ?? '',
     associatesAssets: !!data?.associateAssets?.length
       ? data?.associateAssetsDetails
-      : [],
+      : null,
     attachFile: null,
   };
 };
@@ -279,7 +279,7 @@ export const newIncidentFormFieldsDynamic = (
       name: 'associatesAssets',
       label: 'Associate Assets',
       fullWidth: true,
-      multiple: true,
+      multiple: false,
       apiQuery: apiQueryAssociateAsset,
       externalParams: { limit: 50 },
       getOptionLabel: (option: any) => option?.displayName,

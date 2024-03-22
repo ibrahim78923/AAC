@@ -3,8 +3,8 @@ const STATUS_COLORS: { [key: string]: string } = {
   CLOSED: 'error',
   RESOLVED: 'success',
   PENDING: 'warning',
-  SPAM: 'default',
+  SPAMS: 'error',
 };
 export const chipColor = (status: string): string => {
-  return STATUS_COLORS[status] || 'default';
+  return STATUS_COLORS[status] || 'error';
 };
