@@ -6,7 +6,7 @@ const KnowledgeBaseDetailPage = () => {
 };
 
 KnowledgeBaseDetailPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return <Layout variant="public">{page}</Layout>;
 };
 
 export default KnowledgeBaseDetailPage;

@@ -4,13 +4,19 @@ import { Box, Grid } from '@mui/material';
 import useCreateTeams from './useCreateTeams';
 import { v4 as uuidv4 } from 'uuid';
 import { teamsDataArray } from './CreateTeams.data';
+import useUserManagement from '../../useUserManagement';
 
 const CreateTeams = (props?: any) => {
-  const { isAddTeam, setIsAddTeam, teamsDataById } = props;
-  const { methods, handleSubmit, onSubmit, productsUsers } = useCreateTeams(
-    teamsDataById,
-    setIsAddTeam,
-  );
+  const { isAddTeam, setIsAddTeam, teamDataById, teamByIdLoading } = props;
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    productsUsers,
+    postTeamLoading,
+    updateTeamLoading,
+  } = useCreateTeams(teamDataById, setIsAddTeam, isAddTeam?.type);
+  const { skeletonLines } = useUserManagement();
 
   return (
     <CommonDrawer
@@ -20,26 +26,38 @@ const CreateTeams = (props?: any) => {
       okText={isAddTeam?.type === 'add' ? 'Add' : 'Edit'}
       footer={true}
       isOk={true}
+      isLoading={
+        isAddTeam?.type === 'add' ? postTeamLoading : updateTeamLoading
+      }
       submitHandler={handleSubmit(onSubmit)}
     >
-      <Box sx={{ paddingTop: '1rem' }}>
-        <FormProvider methods={methods}>
-          <Grid container spacing={1}>
-            {teamsDataArray(productsUsers)?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={item?.componentProps?.name}>
-                <item.component {...item.componentProps} size={'small'}>
-                  {item?.componentProps?.select &&
-                    item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
-                        {option?.label}
-                      </option>
-                    ))}
-                </item.component>
-              </Grid>
-            ))}
-          </Grid>
-        </FormProvider>
-      </Box>
+      {teamByIdLoading ? (
+        <Box>{skeletonLines}</Box>
+      ) : (
+        <Box sx={{ paddingTop: '1rem' }}>
+          <FormProvider methods={methods}>
+            <Grid container spacing={1}>
+              {teamsDataArray(productsUsers)?.map((item: any) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
+                  <item.component {...item.componentProps} size={'small'}>
+                    {item?.componentProps?.select &&
+                      item?.options?.map((option: any) => (
+                        <option key={uuidv4()} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))}
+                  </item.component>
+                </Grid>
+              ))}
+            </Grid>
+          </FormProvider>
+        </Box>
+      )}
     </CommonDrawer>
   );
 };

@@ -204,7 +204,6 @@ const TabToolbar = () => {
               })}
             </Popover>
           </PermissionsGuard>
-
           <Button
             className="small"
             color={'inherit'}

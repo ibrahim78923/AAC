@@ -6,6 +6,8 @@ import { SignUpImage } from '@/assets/images';
 import Image from 'next/image';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import useSignUp from './useSignUp';
+import { signUpFormFields } from './SignUp.data';
+import PermissionDenied from '@/components/PermisisonDenied';
 
 export const SignUp = () => {
   const {
@@ -13,12 +15,24 @@ export const SignUp = () => {
     handleSubmit,
     onSubmit,
     stepState,
-    SignUpFormFields,
     onNext,
     createPasswordDataArray,
     setStepState,
     postSignUpStatus,
+    companyId,
   } = useSignUp();
+
+  if (!!!companyId)
+    return (
+      <Box
+        height={'100vh'}
+        display={'flex'}
+        alignItems={'center'}
+        justifyContent={'center'}
+      >
+        <PermissionDenied />
+      </Box>
+    );
 
   return (
     <>
@@ -56,7 +70,7 @@ export const SignUp = () => {
               >
                 {!stepState ? (
                   <>
-                    {SignUpFormFields.map((item: any) => (
+                    {signUpFormFields.map((item: any) => (
                       <item.component
                         {...item?.componentProps}
                         size={'small'}

@@ -9,18 +9,18 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['USER'],
+      providesTags: ['PRODUCT_USER'],
     }),
 
-    // getTeamsById: builder.query({
-    //   query: (id: any) => {
-    //     return {
-    //       url: `${END_POINTS?.SALES_TEAM}/${id}`,
-    //       method: 'GET',
-    //     };
-    //   },
-    //   providesTags: ['TEAMS'],
-    // }),
+    getproductUsersById: builder.query({
+      query: ({ id }: any) => {
+        return {
+          url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
+          method: 'GET',
+        };
+      },
+      providesTags: ['PRODUCT_USER'],
+    }),
 
     postPoductUser: builder.mutation({
       query: ({ body }: any) => {
@@ -30,34 +30,35 @@ export const ProductUsersApi: any = baseAPI.injectEndpoints({
           body: body,
         };
       },
-      invalidatesTags: ['USER'],
+      invalidatesTags: ['PRODUCT_USER'],
     }),
 
-    updateUsers: builder.mutation({
+    updateProductsUsers: builder.mutation({
       query: ({ id, body }: any) => {
         return {
-          url: `${END_POINTS?.ADD_USER}/${id}`,
+          url: `${END_POINTS?.PRODUCTS_USERS}/${id}`,
           method: 'PATCH',
           body: body,
         };
       },
-      invalidatesTags: ['USERS'],
+      invalidatesTags: ['PRODUCT_USER'],
     }),
 
-    //     deleteTeams: builder.mutation({
-    //       query: ({ id }: any) => ({
-    //         url: `${END_POINTS?.SALES_TEAM}/${id}`,
-    //         method: 'DELETE',
-    //       }),
-    //       invalidatesTags: ['TEAMS'],
-    //     }),
+    deleteProductUser: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}`,
+        method: 'DELETE',
+        body: body,
+      }),
+      invalidatesTags: ['PRODUCT_USER'],
+    }),
   }),
 });
 
 export const {
   useGetProductsUsersQuery,
-  // useGetTeamsByIdQuery,
+  useGetproductUsersByIdQuery,
   usePostPoductUserMutation,
-  useUpdateUsersMutation,
-  // useDeleteTeamsMutation,
+  useUpdateProductsUsersMutation,
+  useDeleteProductUserMutation,
 } = ProductUsersApi;

@@ -23,7 +23,7 @@ export const taskTicketFormValidationSchema: any = Yup?.object()?.shape({
   startDate: Yup?.date(),
   startDateTime: Yup?.date(),
   endDate: Yup?.date()?.nullable()?.required('Required'),
-  endDateTime: Yup?.date()?.nullable(),
+  endDateTime: Yup?.date()?.nullable()?.required('Required'),
   plannedEffort: Yup?.string(),
 });
 

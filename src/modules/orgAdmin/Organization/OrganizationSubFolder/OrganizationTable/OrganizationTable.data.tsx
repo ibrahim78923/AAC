@@ -130,19 +130,24 @@ export const columns = (
       isSortable: true,
       header: 'Address',
       cell: (info: any) => {
-        // let parsedAddress;
-        // try {
-        //   parsedAddress = JSON.parse(info?.row?.original?.address);
-        // } catch (_: any) {
-        //   parsedAddress = null;
-        // }
+        let parsedAddress;
+        try {
+          parsedAddress = JSON.parse(info?.row?.original?.address);
+        } catch (_: any) {
+          parsedAddress = null;
+        }
         return (
           <>
-            {/* {parsedAddress === null
-              ? info?.row?.original?.address?.composite ??
-                info?.row?.original?.address
-              : parsedAddress?.composite ?? parsedAddress} */}
-            {info?.row?.original?.address?.buildingName}
+            {info?.row?.original?.address?.city ? (
+              info?.row?.original?.address?.city
+            ) : (
+              <>
+                {parsedAddress === null
+                  ? info?.row?.original?.address?.composite ??
+                    info?.row?.original?.address
+                  : parsedAddress?.composite ?? parsedAddress}
+              </>
+            )}
           </>
         );
       },
@@ -159,7 +164,7 @@ export const columns = (
             try {
               await updateOrganizationStatus({
                 id: info?.row?.original?._id,
-                isActive: typeof !info?.row?.original?.isActive,
+                isActive: !info?.row?.original?.isActive,
               }).unwrap();
 
               enqueueSnackbar('Status Updated Successfully', {

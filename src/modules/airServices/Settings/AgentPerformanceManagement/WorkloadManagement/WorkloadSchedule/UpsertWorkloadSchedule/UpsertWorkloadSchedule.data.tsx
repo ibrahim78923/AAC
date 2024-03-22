@@ -4,6 +4,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { AIR_SERVICES } from '@/constants';
+import { ROLE } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
 import { RemoveRedEyeOutlined } from '@mui/icons-material';
 
@@ -20,7 +21,7 @@ export const upsertWorkloadScheduleDefaultValues = (data?: any) => {
 };
 
 export const upsertWorkloadScheduleValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Required'),
+  name: Yup?.string()?.required('Name is required'),
   description: Yup?.string(),
   businessHoursId: Yup?.mixed()?.nullable(),
   agentsId: Yup?.mixed()?.nullable(),
@@ -104,6 +105,18 @@ export const upsertWorkloadScheduleFormFieldsDynamic = (
     },
   },
   {
+    _id: 17,
+    componentProps: {
+      color: 'slateBlue.main',
+      variant: 'body3',
+    },
+    heading:
+      'The selected business hours will be used to create the work schedule',
+    md: 12,
+    p: 0,
+    component: Typography,
+  },
+  {
     _id: 4,
     md: 7,
     componentProps: {
@@ -113,7 +126,7 @@ export const upsertWorkloadScheduleFormFieldsDynamic = (
       multiple: true,
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      externalParams: { limit: 50, role: ROLE?.ORG_AGENT },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

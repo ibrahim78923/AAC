@@ -1,4 +1,4 @@
-export const barChartDataOptions = (theme: any) => ({
+export const barChartDataOptions: any = (theme: any) => ({
   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
   colors: [
     theme?.palette?.custom?.bright,

@@ -32,7 +32,7 @@ export const upsertRolesFormData = [
       name: 'description',
       placeholder: 'Enter Role Description',
       required: true,
-      style: { height: '20vh' },
+      style: { minHeight: '20vh' },
     },
     component: RHFEditor,
   },

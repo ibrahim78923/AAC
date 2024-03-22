@@ -40,33 +40,29 @@ const useAddUser = (useActionParams?: any) => {
   // for super admin form methods
   const superAdminValues = {
     ...userDetail,
-    address: userDetail?.address?.composite
-      ? userDetail?.address?.composite
-      : `${
-          userDetail?.address?.flatNumber
-            ? `Flat # ${userDetail?.address?.flatNumber}, `
-            : ''
-        }` +
-        `${
-          userDetail?.address?.buildingNumber
-            ? `Building # ${userDetail?.address?.buildingNumber}, `
-            : ''
-        }` +
-        `${
-          userDetail?.address?.buildingName
-            ? `Building Name ${userDetail?.address?.buildingName}, `
-            : ''
-        }` +
-        `${
-          userDetail?.address?.streetName
-            ? `Street # ${userDetail?.address?.streetName}, `
-            : ''
-        }` +
-        `${userDetail?.address?.city ? `${userDetail?.address?.city}, ` : ''}` +
-        `${
-          userDetail?.address?.country ? `${userDetail?.address?.country}` : ''
-        }`,
-    flat: userDetail?.address?.flatNumber ?? '',
+    address: userDetail?.address?.composite ?? '',
+    // userDetail?.address?.composite
+    // ? userDetail?.address?.composite
+    // : `${userDetail?.address?.flat
+    //   ? `Flat # ${userDetail?.address?.flat}, `
+    //   : ''
+    // }` +
+    // `${userDetail?.address?.buildingNumber
+    //   ? `Building # ${userDetail?.address?.buildingNumber}, `
+    //   : ''
+    // }` +
+    // `${userDetail?.address?.buildingName
+    //   ? `Building Name ${userDetail?.address?.buildingName}, `
+    //   : ''
+    // }` +
+    // `${userDetail?.address?.streetName
+    //   ? `Street # ${userDetail?.address?.streetName}, `
+    //   : ''
+    // }` +
+    // `${userDetail?.address?.city ? `${userDetail?.address?.city}, ` : ''}` +
+    // `${userDetail?.address?.country ? `${userDetail?.address?.country}` : ''
+    // }`,
+    flat: userDetail?.address?.flat ?? '',
     city: userDetail?.address?.city ?? '',
     country: userDetail?.address?.country ?? '',
     buildingName: userDetail?.address?.buildingName ?? '',
@@ -169,7 +165,7 @@ const useAddUser = (useActionParams?: any) => {
 
     if (isToggled) {
       values.address = {
-        flatNumber: values.flat,
+        flat: values.flat,
         buildingName: values?.buildingName,
         buildingNumber: values?.buildingNumber,
         streetName: values?.streetName,
@@ -178,7 +174,7 @@ const useAddUser = (useActionParams?: any) => {
       };
     } else {
       values.address = {
-        composite: values?.compositeAddress,
+        composite: values?.address,
       };
     }
     let keysToDelete: any = [
@@ -211,12 +207,12 @@ const useAddUser = (useActionParams?: any) => {
         ? (await postUsers({ body: values })?.unwrap(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
-          ? (await postUserEmployee({
-              id: organizationId,
-              body: values,
-            })?.unwrap(),
-            setIsOpenAdduserDrawer(false))
-          : await updateUsers({ id: updateUserId, body: values })?.unwrap();
+        ? (await postUserEmployee({
+            id: organizationId,
+            body: values,
+          })?.unwrap(),
+          setIsOpenAdduserDrawer(false))
+        : await updateUsers({ id: updateUserId, body: values })?.unwrap();
 
       enqueueSnackbar(
         `User ${

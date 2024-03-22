@@ -1,4 +1,4 @@
-import { DialogActions, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertWorkloadSchedule } from './useUpsertWorkloadSchedule';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
@@ -20,6 +20,7 @@ export const UpsertWorkloadSchedule = () => {
   }: any = useUpsertWorkloadSchedule();
 
   if (isLoading || isFetching) return <SkeletonForm />;
+
   return (
     <>
       <PageTitledHeader
@@ -29,7 +30,6 @@ export const UpsertWorkloadSchedule = () => {
         canMovedBack
         moveBack={() => moveBack?.()}
       />
-      <br />
       <FormProvider
         methods={method}
         onSubmit={handleSubmit(submitWorkloadSchedule)}
@@ -41,32 +41,22 @@ export const UpsertWorkloadSchedule = () => {
               key={item?._id}
               md={item?.md}
               xs={12}
-              sx={{
-                display: item?.iconProps && 'flex',
-                alignItems: item?.iconProps && 'center',
-                gap: item?.iconProps && 1,
-                mt: item?.iconProps && 1,
-              }}
+              sx={{ pt: `${item?.p} !important` }}
             >
-              {item?.componentProps && (
-                <item.component {...item?.componentProps} size={'small'}>
-                  {item?.heading ? item?.heading : null}
-                </item.component>
-              )}
-              {/* {item?.iconProps && (
-                <Box mt={1} gap={1} display={'flex'}>
-                  {item?.iconProps && (
-                    <RemoveRedEyeOutlined {...item?.iconProps} />
-                  )}
-                  {item?.textProps && (
-                    <Typography {...item?.textProps}>{item?.title}</Typography>
-                  )}
-                </Box>
-              )} */}
+              <item.component {...item?.componentProps} size={'small'}>
+                {item?.heading ? item?.heading : null}
+              </item.component>
             </Grid>
           ))}
         </Grid>
-        <DialogActions>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'flex-end'}
+          flexWrap={'wrap'}
+          gap={2}
+          mt={{ xs: 0.5, md: 4 }}
+        >
           <LoadingButton
             type="button"
             variant="outlined"
@@ -89,7 +79,7 @@ export const UpsertWorkloadSchedule = () => {
           >
             {!!workloadScheduleId ? 'Update' : 'Save'}
           </LoadingButton>
-        </DialogActions>
+        </Box>
       </FormProvider>
     </>
   );

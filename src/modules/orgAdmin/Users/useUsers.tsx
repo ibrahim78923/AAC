@@ -3,7 +3,7 @@ import { getSession } from '@/utils';
 import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 
 const useUsers = () => {
-  const { user } = getSession();
+  const { user }: any = getSession();
   const [employeeDataById, setEmployeeDataById] = useState();
   const [searchEmployee, setSearchEmployee] = useState('');
   const [employeeFilter, setEmployeeFilter] = useState({
