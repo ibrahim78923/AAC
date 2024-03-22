@@ -1,21 +1,15 @@
-import { RHFAutocomplete } from '@/components/ReactHookForm';
-import * as Yup from 'yup';
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+} from '@/components/ReactHookForm';
 
-export const FilterSalesWorkflow = Yup?.object()?.shape({
-  status: Yup?.string(),
-  type: Yup?.string(),
-  createdBy: Yup?.string(),
-});
 export const salesWorkflowsFilterValues = {
   status: '',
-  type: '',
-  createdBy: '',
+  createdBy: null,
 };
-const statusOption = ['Enabled', 'Disabled', 'Draft'];
-const typeOption = ['Deal', 'Quotes', 'Tasks', 'Meetings'];
-const createdByOption = ['Jerome bell', 'Tom Curran', 'David Boon'];
+const statusOption = ['ACTIVE', 'INACTIVE', 'DRAFT'];
 
-export const salesWorkflowFilterFields = [
+export const salesWorkflowFilterFields = (userDropdown: any) => [
   {
     id: 434,
     componentProps: {
@@ -28,25 +22,16 @@ export const salesWorkflowFilterFields = [
     component: RHFAutocomplete,
   },
   {
-    id: 565,
-    componentProps: {
-      name: 'type',
-      label: 'Type',
-      fullWidth: true,
-      placeholder: 'Select',
-      options: typeOption,
-    },
-    component: RHFAutocomplete,
-  },
-  {
     id: 865,
     componentProps: {
       name: 'createdBy',
       label: 'Created By',
       fullWidth: true,
       placeholder: 'Select',
-      options: createdByOption,
+      apiQuery: userDropdown,
+      getOptionLabel: (option: any) =>
+        option?.firstName + ' ' + option?.lastName,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
 ];

@@ -55,8 +55,8 @@ const useUsers = () => {
         key === 'department' && value
           ? value?.name
           : value
-          ? value?.toString()
-          : '',
+            ? value?.toString()
+            : '',
       );
     });
     const handleGetUser = async () => {
