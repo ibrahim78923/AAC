@@ -4,24 +4,20 @@ export const contractsData = [
     heading: 'Requester Notification',
     details: [
       {
-        _id: 1,
+        _id: 'contractsExpiry',
         title: '(SYSTEM) Contract Expiry Notification',
-        value: false,
       },
       {
-        _id: 2,
+        _id: 'contractsRequestforApproval',
         title: '(SYSTEM) Request for Contract Approval Notification',
-        value: true,
       },
       {
-        _id: 3,
+        _id: 'contractsApprovalStatus',
         title: '(SYSTEM) Contract Approval Status Notification',
-        value: true,
       },
       {
-        _id: 4,
+        _id: 'contractsRenewal',
         title: '(SYSTEM) Contract Renewal Notification',
-        value: true,
       },
     ],
   },

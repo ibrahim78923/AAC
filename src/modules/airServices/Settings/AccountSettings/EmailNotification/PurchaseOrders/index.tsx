@@ -1,12 +1,24 @@
 import { AntSwitch } from '@/components/AntSwitch';
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, CircularProgress, Divider, Typography } from '@mui/material';
 import { Fragment } from 'react';
 import { purchaseOrdersData } from './PurchaseOrders.data';
+import ApiErrorState from '@/components/ApiErrorState';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import usePurchaseOrders from './usePurchaseOrders';
 
 export const PurchaseOrders = () => {
-  const onSwitchChange = (id: any) => {
-    alert(id);
-  };
+  const {
+    isError,
+    isLoading,
+    isFetching,
+    switchLoading,
+    onSwitchChange,
+    data,
+  } = usePurchaseOrders();
+
+  if (isError) return <ApiErrorState />;
+
+  if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
     <>
@@ -37,10 +49,14 @@ export const PurchaseOrders = () => {
                 {item?.title}
               </Typography>
 
-              <AntSwitch
-                onChange={() => onSwitchChange(item?._id)}
-                checked={item?.value}
-              />
+              {switchLoading[item?._id] ? (
+                <CircularProgress size={20} />
+              ) : (
+                <AntSwitch
+                  onChange={() => onSwitchChange(item?._id)}
+                  checked={!data?.data?.notificationsOff?.[item?._id]}
+                />
+              )}
             </Box>
           ))}
         </Fragment>

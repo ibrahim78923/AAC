@@ -106,6 +106,7 @@ export const TAGS = [
   'DASHBOARD_RECENT_ACTIVITIES',
   'DASHBOARD_AGENT_AVAILABILITY',
   'WORKFLOWS',
+  'EMAIL_NOTIFICATION',
 ];
 
 const baseQuery = fetchBaseQuery({
