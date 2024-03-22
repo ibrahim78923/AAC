@@ -1,10 +1,11 @@
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
 import { teamList } from './Teams.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { PAGINATION } from '@/config';
-import { useGetTeamListQuery } from '@/services/airOperations/user-management/user';
+import {
+  useDeleteTeamUsersMutation,
+  useGetTeamListQuery,
+} from '@/services/airOperations/user-management/user';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useTeams = () => {
@@ -20,6 +21,9 @@ export const useTeams = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [search, setSearch] = useState<string>('');
+
+  const [deleteTeamUsersTrigger, deleteTeamUsersStatus] =
+    useDeleteTeamUsersMutation();
 
   const param = {
     page: page,
@@ -41,6 +45,7 @@ export const useTeams = () => {
 
   const submitDeleteModal = async () => {
     try {
+      await deleteTeamUsersTrigger(deleteModal?.rowId)?.unwrap();
       successSnackbar('Delete Successfully');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -48,16 +53,18 @@ export const useTeams = () => {
   };
 
   const submit = async () => {
-    enqueueSnackbar('Team Add Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    setIsDrawerOpen(false);
+    try {
+      successSnackbar('Team Add Successfully');
+      setIsDrawerOpen(false);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
 
   const teamListColumn = teamList(
+    data?.data?.userTeams,
     selectedTeamList,
     setSelectedTeamList,
-    data?.data?.userTeams,
     setIsTeamDrawerOpen,
     setIsDrawerOpen,
     setDeleteModal,
@@ -88,5 +95,6 @@ export const useTeams = () => {
     isSuccess,
     setPageLimit,
     setPage,
+    deleteTeamUsersStatus,
   };
 };

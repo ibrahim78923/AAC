@@ -25,6 +25,8 @@ export const Teams = () => {
     isSuccess,
     setPageLimit,
     setPage,
+    submitDeleteModal,
+    deleteTeamUsersStatus,
   } = useTeams();
 
   return (
@@ -66,13 +68,17 @@ export const Teams = () => {
           title={'Edit Team'}
           okText={'Save'}
         />
-        <AgentConversionDelete
-          message={'Are you sure you want to delete this Team?'}
-          open={deleteModal?.val}
-          handleClose={() => {
-            setDeleteModal(false);
-          }}
-        />
+        {deleteModal && (
+          <AgentConversionDelete
+            message={'Are you sure you want to delete this Team?'}
+            loading={deleteTeamUsersStatus?.isLoading}
+            open={deleteModal?.val}
+            handleClose={() => {
+              setDeleteModal(false);
+            }}
+            submitDeleteModal={submitDeleteModal}
+          />
+        )}
       </Box>
     </Box>
   );

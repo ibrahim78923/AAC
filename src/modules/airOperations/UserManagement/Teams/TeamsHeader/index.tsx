@@ -3,19 +3,11 @@ import Search from '@/components/Search';
 import { Box, Button } from '@mui/material';
 import { useTeams } from '../useTeams';
 import UpsertTeams from '../UpsertTeams';
-import { AgentConversionDelete } from '../../AgentConversionDelete';
 import { AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const TeamsHeader = () => {
-  const {
-    search,
-    setSearch,
-    isDrawerOpen,
-    setIsDrawerOpen,
-    deleteModal,
-    setDeleteModal,
-  } = useTeams();
+  const { search, setSearch, isDrawerOpen, setIsDrawerOpen } = useTeams();
   return (
     <Box
       display={'flex'}
@@ -58,13 +50,6 @@ export const TeamsHeader = () => {
           setIsDrawerOpen={setIsDrawerOpen}
           title={'Create Team'}
           okText={'Add'}
-        />
-        <AgentConversionDelete
-          message={'Are you sure you want to delete this Team?'}
-          open={deleteModal}
-          handleClose={() => {
-            setDeleteModal(false);
-          }}
         />
       </Box>
     </Box>
