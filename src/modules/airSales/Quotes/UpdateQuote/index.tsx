@@ -38,9 +38,14 @@ const UpdateQuote = () => {
     isOpenDialog,
     methodsSignature,
     handleUpdateDetails,
+    disabledSaveAndContinueBtn,
+    handleBuyerContactChange,
+    selectedBuyerContactIds,
+    handleCompanyChange,
+    selectedCompanyIds,
   } = useUpdateQuote();
 
-  const stepsArgs = {
+  const stepsArgs: any = {
     data: dataGetQuoteById?.data,
     dealList: dataGetDeals?.data?.deals,
     detailValues: detailsValues,
@@ -50,6 +55,10 @@ const UpdateQuote = () => {
     openAddCompany: handleOpenFormAddCompany,
     openCreateProduct: handleOpenFormCreateProduct,
     methodsSignature: methodsSignature,
+    handleBuyerContactChange: handleBuyerContactChange,
+    selectedBuyerContactIds: selectedBuyerContactIds,
+    handleCompanyChange: handleCompanyChange,
+    selectedCompanyIds: selectedCompanyIds,
   };
   const steps = updateQuoteSteps(stepsArgs);
 
@@ -82,7 +91,12 @@ const UpdateQuote = () => {
                   >
                     Cancel
                   </Button>
-                  <Button variant="contained" onClick={handleUpdateDetails}>
+
+                  <Button
+                    variant="contained"
+                    onClick={handleUpdateDetails}
+                    disabled={!disabledSaveAndContinueBtn && activeStep === 1}
+                  >
                     Save & Continue
                   </Button>
                   <Button

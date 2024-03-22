@@ -60,7 +60,7 @@ const useFormAddContact = () => {
           companyId: res?.data?.data?._id,
         };
         createAssociationQuote({ body: associationBody })?.unwrap();
-        enqueueSnackbar('Ticket Updated Successfully', {
+        enqueueSnackbar('Company Updated Successfully', {
           variant: 'success',
         });
       });

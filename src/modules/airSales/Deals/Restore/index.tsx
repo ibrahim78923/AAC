@@ -150,7 +150,12 @@ const Restore = () => {
             checkedRows={checkedAll}
           />
           <Tooltip title={'Refresh Filter'}>
-            <Button variant="outlined" color="inherit" className="small">
+            <Button
+              variant="outlined"
+              color="inherit"
+              className="small"
+              onClick={() => setRestoreFilter({})}
+            >
               <RefreshTasksIcon />
             </Button>
           </Tooltip>

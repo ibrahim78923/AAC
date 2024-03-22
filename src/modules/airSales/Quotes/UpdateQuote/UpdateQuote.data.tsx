@@ -159,6 +159,10 @@ interface QuotesUpdateI {
   openCreateProduct?: any;
   // signatureValue?: any;
   methodsSignature?: any;
+  handleBuyerContactChange: any;
+  selectedBuyerContactIds: any;
+  handleCompanyChange: any;
+  selectedCompanyIds: any;
 }
 export const updateQuoteSteps = (params: QuotesUpdateI) => {
   return [
@@ -182,6 +186,10 @@ export const updateQuoteSteps = (params: QuotesUpdateI) => {
           dataCompanies={params?.data?.deal?.companiesIds || []}
           openAddContact={params?.openAddContact}
           openAddCompany={params?.openAddCompany}
+          handleBuyerContactChange={params?.handleBuyerContactChange}
+          selectedBuyerContactIds={params?.selectedBuyerContactIds}
+          handleCompanyChange={params?.handleCompanyChange}
+          selectedCompanyIds={params?.selectedCompanyIds}
         />
       ),
     },
