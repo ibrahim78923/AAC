@@ -6,6 +6,8 @@ import { orgAdminSubcriptionInvoices } from '@/routesConstants/paths';
 import Link from 'next/link';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
+import { useAppDispatch } from '@/redux/store';
+import { setSelectedPlanData } from '@/redux/slices/orgAdmin/SubscriptionAndInvoices';
 
 const PlanCard: FC<PlanCardI> = ({
   status,
@@ -21,6 +23,8 @@ const PlanCard: FC<PlanCardI> = ({
   id,
   plan,
 }) => {
+  const dispatch: any = useAppDispatch();
+
   return (
     <Box sx={styles?.planCard}>
       <Box sx={styles?.planStatus}>
@@ -72,11 +76,17 @@ const PlanCard: FC<PlanCardI> = ({
           <Link
             href={{
               pathname: `${orgAdminSubcriptionInvoices.manage_plan}`,
-              query: { data: JSON?.stringify(plan) },
+              // query: { data: JSON?.stringify(plan) },
             }}
-            as={`${orgAdminSubcriptionInvoices.manage_plan}`}
+            // as={`${orgAdminSubcriptionInvoices.manage_plan}`}
           >
-            <Button variant="outlined" sx={styles?.buttonOutlineGrey}>
+            <Button
+              variant="outlined"
+              sx={styles?.buttonOutlineGrey}
+              onClick={() => {
+                dispatch(setSelectedPlanData(plan));
+              }}
+            >
               Manage Plan
             </Button>
           </Link>
