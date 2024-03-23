@@ -107,6 +107,7 @@ const Agent = () => {
           isFetching={lazyGetAgentsStatus?.isFetching}
           isSuccess={lazyGetAgentsStatus?.isSuccess}
           isLoading={lazyGetAgentsStatus?.isLoading}
+          isError={lazyGetAgentsStatus?.isError}
           setPageLimit={setPageLimit}
           setPage={setPage}
           count={lazyGetAgentsStatus?.data?.data?.meta?.pages}

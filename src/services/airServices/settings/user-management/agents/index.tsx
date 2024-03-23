@@ -68,7 +68,6 @@ export const agentsAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         body: apiDataParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     getDepartmentDropdownList: builder?.query({
       query: ({ params }: any) => ({

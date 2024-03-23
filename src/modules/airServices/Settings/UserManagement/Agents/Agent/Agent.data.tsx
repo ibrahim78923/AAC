@@ -47,7 +47,7 @@ export const agentActionsDropdown = (
 export const agentsListsColumnsFunction = (
   selectedAgentList: any,
   setSelectedAgentList: any,
-  processedAgentListData: any,
+  processedAgentListData: any = [],
   router: any,
 ): any => [
   {

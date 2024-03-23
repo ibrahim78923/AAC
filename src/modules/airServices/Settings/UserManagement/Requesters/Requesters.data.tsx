@@ -4,7 +4,12 @@ import { AIR_SERVICES } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { errorSnackbar } from '@/utils/api';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
 
 export const requestersDropdown: any = (
   setDeleteModalOpen: any,
@@ -44,7 +49,7 @@ export const requestersList: any = (
   setSelectedRequestersList: any,
   theme: any,
   router: any,
-  tableListData: any,
+  tableListData: any = [],
 ) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -87,7 +92,9 @@ export const requestersList: any = (
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedRequestersList([...tableListData])
+            ? setSelectedRequestersList(
+                tableListData?.map((item: any) => item?._id),
+              )
             : setSelectedRequestersList([]);
         }}
         color="primary"
@@ -157,8 +164,8 @@ export const requestersList: any = (
         status === REQUESTORS_STATUS?.ACTIVE
           ? theme?.palette?.success?.main
           : status === REQUESTORS_STATUS?.INACTIVE
-          ? theme?.palette?.warning?.main
-          : '';
+            ? theme?.palette?.warning?.main
+            : '';
 
       return (
         <Typography
@@ -178,6 +185,6 @@ export const requestersList: any = (
     id: 'jobTitle',
     isSortable: true,
     header: 'Job Title',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()),
   },
 ];

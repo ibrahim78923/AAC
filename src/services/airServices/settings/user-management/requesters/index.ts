@@ -14,12 +14,11 @@ export const userManagementRequesterAPI = baseAPI?.injectEndpoints({
     }),
 
     deleteRequester: builder?.mutation({
-      query: (body: any) => ({
+      query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.DELETE_REQUESTER}`,
         method: 'DELETE',
-        body,
+        body: apiDataParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     getViewRequestersDetails: builder?.query({
       query: (id: any) => ({

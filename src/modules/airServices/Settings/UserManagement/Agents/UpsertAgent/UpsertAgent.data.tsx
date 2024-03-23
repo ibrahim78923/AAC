@@ -5,6 +5,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { timeZone } from '@/constants/time-zone';
+import { VALIDATION_CONSTANT } from '@/constants';
 
 export const validationSchemaAgentFields: any = yup?.object()?.shape({
   firstName: yup?.string()?.required('First name is required'),
@@ -13,10 +14,17 @@ export const validationSchemaAgentFields: any = yup?.object()?.shape({
     ?.string()
     ?.email('Please provide valid email')
     ?.required('Email is required'),
-  phoneNumber: yup?.string()?.required('Phone number is required'),
+  phoneNumber: yup
+    ?.string()
+    ?.trim()
+    ?.required('Phone number is required')
+    ?.matches(
+      VALIDATION_CONSTANT?.PHONE_NUMBER?.regex,
+      VALIDATION_CONSTANT?.PHONE_NUMBER?.message,
+    ),
   departmentId: yup?.mixed()?.required('Department is required'),
   permissionsRole: yup?.mixed()?.nullable()?.required('Role is required'),
-  timezone: yup?.string()?.required('TimeZone is required'),
+  timezone: yup?.mixed()?.nullable()?.required('TimeZone is required'),
 });
 
 export const defaultValues = (selectedAgentList: any) => {
@@ -28,7 +36,7 @@ export const defaultValues = (selectedAgentList: any) => {
     phoneNumber: updateData?.phoneNumber ?? '',
     departmentId: updateData?.departmentData ?? null,
     permissionsRole: updateData?.permissionsList ?? null,
-    timezone: updateData?.timezone ?? '',
+    timezone: updateData?.timezone ?? null,
   };
 };
 

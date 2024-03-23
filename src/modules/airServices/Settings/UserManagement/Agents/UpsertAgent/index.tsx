@@ -1,6 +1,7 @@
 import {
   Box,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
@@ -23,6 +24,7 @@ export const UpsertAgent = (props: any) => {
     handleClose,
     upsertAgentFormFields,
   } = useUpsertAgent(props);
+
   return (
     <>
       <Dialog
@@ -35,60 +37,58 @@ export const UpsertAgent = (props: any) => {
           methods={method}
           onSubmit={handleSubmit(handleUpsertAgentSubmit)}
         >
-          <DialogTitle
-            display={'flex'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-            flexWrap={'wrap'}
-          >
-            <Typography variant="h4" color="primary.main">
-              {!!selectedAgentList?.length ? 'Edit Agent' : 'Invite Agent'}
-            </Typography>
-            <IconButton
-              onClick={() => handleClose?.()}
-              sx={{ cursor: 'pointer' }}
+          <DialogTitle>
+            <Box
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              flexWrap={'wrap'}
+              mb={2}
             >
-              <CloseModalIcon />
-            </IconButton>
+              <Typography variant="h4" color="primary.main">
+                {!!selectedAgentList?.length ? 'Edit Agent' : 'Invite Agent'}
+              </Typography>
+              <IconButton
+                onClick={() => handleClose?.()}
+                sx={{ cursor: 'pointer' }}
+              >
+                <CloseModalIcon />
+              </IconButton>
+            </Box>
           </DialogTitle>
-          <DialogContent sx={{ mt: 2 }}>
-            <Grid container spacing={2}>
+          <DialogContent>
+            <Grid container spacing={1}>
               {upsertAgentFormFields?.map((form: any) => (
                 <Grid item xs={12} md={form?.gridLength} key={form?.id}>
                   <form.component {...form?.componentProps} size="small" />
                 </Grid>
               ))}
             </Grid>
-            <Box
-              display={'flex'}
-              justifyContent={'flex-end'}
-              gap={2}
-              flexWrap={'wrap'}
-            >
-              <LoadingButton
-                onClick={() => handleClose?.()}
-                variant="outlined"
-                color="secondary"
-                disabled={
-                  patchAgentStatus?.isLoading || postAgentStatus?.isLoading
-                }
-              >
-                Cancel
-              </LoadingButton>
-              <LoadingButton
-                type="submit"
-                variant="contained"
-                disabled={
-                  patchAgentStatus?.isLoading || postAgentStatus?.isLoading
-                }
-                loading={
-                  patchAgentStatus?.isLoading || postAgentStatus?.isLoading
-                }
-              >
-                Save
-              </LoadingButton>
-            </Box>
           </DialogContent>
+          <DialogActions>
+            <LoadingButton
+              onClick={() => handleClose?.()}
+              variant="outlined"
+              color="secondary"
+              disabled={
+                patchAgentStatus?.isLoading || postAgentStatus?.isLoading
+              }
+            >
+              Cancel
+            </LoadingButton>
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              disabled={
+                patchAgentStatus?.isLoading || postAgentStatus?.isLoading
+              }
+              loading={
+                patchAgentStatus?.isLoading || postAgentStatus?.isLoading
+              }
+            >
+              Save
+            </LoadingButton>
+          </DialogActions>
         </FormProvider>
       </Dialog>
     </>

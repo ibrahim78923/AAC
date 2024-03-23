@@ -6,7 +6,6 @@ import {
   usePatchAgentMutation,
   usePostAddAgentMutation,
 } from '@/services/airServices/settings/user-management/agents';
-import { useEffect } from 'react';
 import {
   agentFieldsData,
   defaultValues,
@@ -41,10 +40,6 @@ export const useUpsertAgent = (props: any) => {
   });
 
   const { handleSubmit, reset } = method;
-
-  useEffect(() => {
-    reset(defaultValues(selectedAgentList));
-  }, [selectedAgentList, reset]);
 
   const departmentDropdown = useLazyGetDepartmentDropdownListQuery();
   const roleApiQuery = useLazyGetPermissionsRoleForUpsertAgentQuery?.();

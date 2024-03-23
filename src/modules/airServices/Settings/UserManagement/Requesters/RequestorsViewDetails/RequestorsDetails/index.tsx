@@ -172,6 +172,7 @@ export const RequestorsDetails = () => {
         <UpsertRequesters
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
+          singleRequesterDetails={data?.data}
         />
       )}
     </>

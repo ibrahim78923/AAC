@@ -10,7 +10,7 @@ export const tasksTableColumns: any = (
   setActiveCheck: any,
   setIsDetailDrawerOpen: any,
   theme: any,
-  tableData: any,
+  tableData: any = [],
 ) => {
   return [
     {
