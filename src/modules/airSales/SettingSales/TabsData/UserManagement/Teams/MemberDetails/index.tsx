@@ -1,20 +1,9 @@
-import React from 'react';
 import Image from 'next/image';
-
-import { Box, Button, Menu, MenuItem, Typography } from '@mui/material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import useMemberDetails from './useMemberDetails';
+import { Box, Typography, useTheme } from '@mui/material';
+import { UserAvatarImage } from '@/assets/images';
 
 const MemberDetails = (props: any) => {
-  const {
-    theme,
-    setIsTeamDrawer,
-    setIsOpenDelete,
-    anchorEl,
-    open,
-    handleClick,
-    handleClose,
-  } = useMemberDetails();
+  const theme = useTheme();
   return (
     <>
       <Box
@@ -31,10 +20,15 @@ const MemberDetails = (props: any) => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            gap: '4px',
+            gap: 1.5,
           }}
         >
-          <Image src={props?.img} alt="--" width={40} height={40} />
+          <Image
+            src={props?.img ?? UserAvatarImage}
+            alt="img"
+            width={40}
+            height={40}
+          />
           <Box sx={{ display: 'grid' }}>
             <Typography
               variant="body3"
@@ -65,44 +59,6 @@ const MemberDetails = (props: any) => {
             </Typography>
           </Box>
         </Box>
-
-        <Button
-          aria-controls={open ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
-        >
-          <KeyboardArrowDownIcon
-            sx={{ color: `${theme?.palette?.custom?.main}` }}
-          />
-        </Button>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-        >
-          <MenuItem
-            onClick={() => {
-              handleClose();
-              setIsTeamDrawer(false);
-            }}
-          >
-            Details
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              handleClose();
-              setIsTeamDrawer(false);
-              setIsOpenDelete(true);
-            }}
-          >
-            Delete
-          </MenuItem>
-        </Menu>
       </Box>
     </>
   );

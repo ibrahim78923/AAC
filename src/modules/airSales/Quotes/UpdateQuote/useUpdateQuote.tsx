@@ -12,6 +12,7 @@ import {
   useCreateAssociationQuoteMutation,
   useGetDealsQuery,
   useGetQuoteByIdQuery,
+  usePostAddbuyerInfoMutation,
   // usePostAddbuyerInfoMutation,
   useUpdateQuoteMutation,
 } from '@/services/airSales/quotes';
@@ -19,9 +20,9 @@ import { AIR_SALES } from '@/routesConstants/paths';
 
 const useUpdateQuote = () => {
   const router = useRouter();
-  let quoteId;
-  if (router.query?.data) {
-    quoteId = router.query?.data;
+  let quoteId: any;
+  if (router?.query?.data) {
+    quoteId = router?.query?.data;
   }
   // const id = router?.query?.data;
   // console.log(quoteId, 'quoteIdquoteIdquoteIdquoteId');
@@ -30,7 +31,18 @@ const useUpdateQuote = () => {
   const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 100 });
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
 
-  // const [postAddbuyerInfo] = usePostAddbuyerInfoMutation();
+  const [selectedBuyerContactIds, setSelectedBuyerContactIds] = useState('');
+  const [selectedCompanyIds, setSelectedCompanyIds] = useState('');
+
+  const handleBuyerContactChange = (id: any) => {
+    setSelectedBuyerContactIds(id);
+  };
+
+  const handleCompanyChange = (id: any) => {
+    setSelectedCompanyIds(id);
+  };
+
+  const [postAddbuyerInfo] = usePostAddbuyerInfoMutation();
   const methodsUpdateQuote = useForm<any>({
     resolver: yupResolver(dealValidationSchema),
     defaultValues: dealInitValues,
@@ -69,10 +81,10 @@ const useUpdateQuote = () => {
   const [isOpenFormCreateProduct, setIsOpenFormCreateProduct] = useState(false);
   const [isOpenDialog, setIsOpenDialog] = useState(false);
   const handleStepNext = async () => {
-    setActiveStep((prev) => prev + 1);
+    setActiveStep((prev: any) => prev + 1);
   };
   const handleStepBack = () => {
-    setActiveStep((prev) => prev - 1);
+    setActiveStep((prev: any) => prev - 1);
   };
   const handleStepperCancel = () => {
     router.push(AIR_SALES?.QUOTES);
@@ -82,6 +94,7 @@ const useUpdateQuote = () => {
   const [updateQuote, { isLoading: loadingUpdateQuote }] =
     useUpdateQuoteMutation();
   const { handleSubmit: handleMethodUpdateQuote } = methodsUpdateQuote;
+
   const onSubmitEditQuote = async (values: any) => {
     try {
       await updateQuote({ id: router?.query?.data, body: values })?.unwrap();
@@ -111,9 +124,26 @@ const useUpdateQuote = () => {
         await handleEditQuoteSubmit();
       }
     }
-    // if(activeStep === 1){
-    //   // await postAddbuyerInfo(body:)
-    // }
+    if (activeStep === 1) {
+      try {
+        await postAddbuyerInfo({
+          body: {
+            id: quoteId,
+            buyerContactId: selectedBuyerContactIds && selectedBuyerContactIds,
+            buyerCompanyId: selectedCompanyIds && selectedCompanyIds,
+          },
+        })?.unwrap();
+        enqueueSnackbar('Buyer Info updated successfully', {
+          variant: 'success',
+        });
+
+        handleStepNext();
+      } catch (error: any) {
+        enqueueSnackbar('An error occured', {
+          variant: 'error',
+        });
+      }
+    }
   };
 
   const handleOpenFormCreateDeal = () => {
@@ -186,6 +216,13 @@ const useUpdateQuote = () => {
     handleUpdateDetails,
     loadingUpdateQuote,
     createAssociationQuote,
+    handleBuyerContactChange,
+    selectedBuyerContactIds,
+    handleCompanyChange,
+    selectedCompanyIds,
+    disabledSaveAndContinueBtn: Boolean(
+      selectedBuyerContactIds || selectedCompanyIds,
+    ),
   };
 };
 

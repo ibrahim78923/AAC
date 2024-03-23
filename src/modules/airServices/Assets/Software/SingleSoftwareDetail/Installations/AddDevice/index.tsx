@@ -57,7 +57,7 @@ const AddDevice = () => {
               placeholder="Search or add category"
               size="small"
               label="Device"
-              required={true}
+              required
               apiQuery={devicesQuery}
               getOptionLabel={(option: any) => option?.displayName}
             />
@@ -69,15 +69,17 @@ const AddDevice = () => {
                 gap: 2,
               }}
             >
-              <Button
+              <LoadingButton
                 onClick={handleCloseModal}
                 variant="outlined"
                 color="secondary"
+                disabled={isLoading}
               >
                 Cancel
-              </Button>
+              </LoadingButton>
               <LoadingButton
                 loading={isLoading}
+                disabled={isLoading}
                 type="submit"
                 variant="contained"
               >

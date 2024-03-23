@@ -4,13 +4,11 @@ import DetailTimePicker from './TimePicker';
 import {
   ViewDetailBackArrowIcon,
   ViewDetailCallIcon,
-  ViewDetailMeetingIcon,
   ViewDetailVuesaxIcon,
 } from '@/assets/icons';
 import { styles } from './Header.style';
 import { SmsImage, VuesaxErrorImage } from '@/assets/images';
 import { AIR_SERVICES } from '@/constants';
-import { AddMeetingsDrawer } from '../Meetings/AddMeetingsDrawer';
 import { NewEmailDrawer } from './NewEmailDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { MoreVert } from '@mui/icons-material';
@@ -30,8 +28,6 @@ const Header = () => {
     router,
     toggleView,
     isIconVisible,
-    setDrawerOpen,
-    drawerOpen,
     setIsDrawerOpen,
     isDrawerOpen,
     ticketsApprovalDropdown,
@@ -94,7 +90,8 @@ const Header = () => {
               <DetailTimePicker />
             </Box>
           </PermissionsGuard>
-          <PermissionsGuard
+          {/* TODO: comment for now. will be used if third party api is provided */}
+          {/* <PermissionsGuard
             permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_MEETING]}
           >
             <Box
@@ -103,8 +100,8 @@ const Header = () => {
             >
               <ViewDetailMeetingIcon />
             </Box>
-          </PermissionsGuard>
-          <AddMeetingsDrawer open={drawerOpen} setDrawerOpen={setDrawerOpen} />
+          </PermissionsGuard> */}
+          {/* <AddMeetingsDrawer open={drawerOpen} setDrawerOpen={setDrawerOpen} /> */}
           <PermissionsGuard
             permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.CALLS]}
           >
@@ -117,15 +114,18 @@ const Header = () => {
           >
             <Box
               sx={styles?.iconBoxStyling}
+              marginRight={'15px !important'}
               onClick={() => setIsDrawerOpen(true)}
             >
               <Image src={SmsImage} width={24} height={24} alt="Badge" />
             </Box>
           </PermissionsGuard>
-          <NewEmailDrawer
-            isDrawerOpen={isDrawerOpen}
-            setIsDrawerOpen={setIsDrawerOpen}
-          />
+          {isDrawerOpen && (
+            <NewEmailDrawer
+              isDrawerOpen={isDrawerOpen}
+              setIsDrawerOpen={setIsDrawerOpen}
+            />
+          )}
           <PermissionsGuard
             permissions={[
               AIR_SERVICES_TICKETS_TICKET_LISTS?.VIEW_TICKETS_DETAILS,

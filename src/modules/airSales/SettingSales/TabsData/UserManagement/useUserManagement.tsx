@@ -1,25 +1,28 @@
 import { PAGINATION } from '@/config';
 import { useDeleteTeamsMutation } from '@/services/airSales/settings/teams';
 import { useGetProductsUsersQuery } from '@/services/airSales/settings/users';
+import { Skeleton } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { useState } from 'react';
 
 const useUserManagement = () => {
+  const skeletonLines = [];
   const [teamId, setTeamId] = useState();
+  const [checkedUser, setCheckedUser] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState(0);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [deleteTeams, { isLoading: deleteTeamLoading }] =
+    useDeleteTeamsMutation();
   const [isAddTeam, setIsAddTeam] = useState({
     isToggle: false,
     type: 'add',
   });
   const [isTeamDrawer, setIsTeamDrawer] = useState(false);
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isAddUserDrawer, setIsAddUserDrawer] = useState({
     isToggle: false,
     type: 'add',
-    data: {},
   });
   const [searchUser, setSearchUser] = useState('');
-  const [deleteTeams] = useDeleteTeamsMutation();
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
@@ -34,9 +37,11 @@ const useUserManagement = () => {
     isSuccess,
   } = useGetProductsUsersQuery(productUserParams);
 
+  //handler delete team
   const handleDeleteTeam = async (id: any) => {
     try {
       await deleteTeams({ id: id })?.unwrap();
+      setIsOpenDelete(false);
       enqueueSnackbar('Team deleted successfully', {
         variant: 'success',
       });
@@ -46,6 +51,12 @@ const useUserManagement = () => {
       });
     }
   };
+  // for skeleton
+  for (let i = 0; i < 5; i++) {
+    skeletonLines.push(
+      <Skeleton key={i} animation="wave" height={60} sx={{ mb: 1 }} />,
+    );
+  }
 
   return {
     activeTab,
@@ -56,9 +67,6 @@ const useUserManagement = () => {
     setTeamId,
     isTeamDrawer,
     setIsTeamDrawer,
-    isOpenDelete,
-    setIsOpenDelete,
-    handleDeleteTeam,
     productsUsers,
     searchUser,
     setSearchUser,
@@ -68,6 +76,13 @@ const useUserManagement = () => {
     setPageLimit,
     isAddUserDrawer,
     setIsAddUserDrawer,
+    checkedUser,
+    setCheckedUser,
+    isOpenDelete,
+    setIsOpenDelete,
+    handleDeleteTeam,
+    deleteTeamLoading,
+    skeletonLines,
   };
 };
 

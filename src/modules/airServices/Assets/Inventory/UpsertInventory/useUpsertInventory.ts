@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   UpsertInventoryValidationSchema,
@@ -25,19 +25,17 @@ export const useUpsertInventory = () => {
   const router = useRouter();
   const { inventoryId } = router?.query;
   const theme = useTheme();
-  const [formType, setFormType] = useState<string>('');
   const [patchAddToInventoryTrigger, patchAddToInventoryStatus] =
     usePatchAddToInventoryMutation();
   const [postAddToInventoryTrigger, postAddToInventoryStatus] =
     usePostInventoryMutation();
-  const [hasAttachment, setHasAttachment] = useState(false);
   const getSingleInventoryDetailsParameter = {
     pathParam: {
       inventoryId,
     },
   };
 
-  const { data, isLoading, isFetching, isError } =
+  const { data, isLoading, isFetching, isError }: any =
     useGetAddToInventoryByIdQuery(getSingleInventoryDetailsParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!inventoryId,
@@ -68,7 +66,7 @@ export const useUpsertInventory = () => {
       'assignedOn',
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
     );
-    typeof data?.fileUrl !== 'string' &&
+    data?.fileUrl !== null &&
       inventoryDetailsData?.append('attachment', data?.fileUrl);
     const body = inventoryDetailsData;
     if (!!inventoryId) {
@@ -85,11 +83,11 @@ export const useUpsertInventory = () => {
       moveBack?.();
       reset();
     } catch (error: any) {
-      errorSnackbar?.();
+      errorSnackbar?.(error?.data?.message);
     }
   };
   useEffect(() => {
-    reset(() => upsertInventoryFieldsDefaultValuesFunction(data));
+    reset(() => upsertInventoryFieldsDefaultValuesFunction(data?.data?.[0]));
   }, [data, reset]);
 
   const submitUpdateInventory = async (data: any) => {
@@ -114,7 +112,7 @@ export const useUpsertInventory = () => {
       'assignedOn',
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
     );
-    typeof data?.fileUrl !== 'string' &&
+    data?.fileUrl !== null &&
       inventoryEditData?.append('fileUrl', data?.fileUrl);
     const body = inventoryEditData;
 
@@ -128,7 +126,7 @@ export const useUpsertInventory = () => {
       moveBack?.();
       reset();
     } catch (error: any) {
-      errorSnackbar?.();
+      errorSnackbar?.(error?.data?.message);
     }
   };
 
@@ -161,8 +159,6 @@ export const useUpsertInventory = () => {
   return {
     methods,
     query,
-    formType,
-    setFormType,
     theme,
     submitUpsertInventory,
     handleSubmit,
@@ -172,9 +168,7 @@ export const useUpsertInventory = () => {
     isFetching,
     isError,
     postAddToInventoryStatus,
-    hasAttachment,
     inventoryId,
-    setHasAttachment,
     router,
     moveBack,
   };

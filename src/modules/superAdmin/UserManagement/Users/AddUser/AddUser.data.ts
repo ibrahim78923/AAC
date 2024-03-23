@@ -7,10 +7,16 @@ import * as Yup from 'yup';
 export const CompanyOwnerValidationSchema = Yup.object().shape({
   firstName: Yup.string()
     .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
   lastName: Yup.string()
     .required('Field is Required')
-    .matches(/^[A-Za-z]+$/, 'Only alphabetic characters are allowed'),
+    .matches(
+      /^[A-Za-z\s]+$/,
+      'Only alphabetic characters and spaces are allowed',
+    ),
   email: Yup.string()
     .required('Field is Required')
     .email('Invalid email address'),
@@ -41,19 +47,13 @@ export const superAdminValidationSchema = Yup.object().shape({
   postCode: Yup.string()
     .required('Field is Required')
     .matches(/^[0-9]+$/, 'Must be a number'),
-  compositeAddress: Yup.string()?.required('Field is Required'),
+  address: Yup.string()?.optional(),
   jobTitle: Yup.string().matches(
     /^[A-Za-z]+$/,
     'Only alphabetic characters are allowed',
   ),
-  facebookUrl: Yup.string()?.matches(
-    /^(ftp|http|https):\/\/[^ "]+$/,
-    'Please enter a valid URL',
-  ),
-  linkedInUrl: Yup.string()?.matches(
-    /^(ftp|http|https):\/\/[^ "]+$/,
-    'Please enter a valid URL',
-  ),
+  facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
+  linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
 
 export const companyOwnerDefaultValues = {
@@ -175,7 +175,7 @@ export const addUsersArray = () => {
     },
     {
       componentProps: {
-        name: 'compositeAddress',
+        name: 'address',
         label: 'Address',
         required: true,
         placeholder: 'Address',

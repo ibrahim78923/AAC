@@ -13,49 +13,40 @@ import { PAGINATION } from '@/config';
 const useJobApplication = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [searchValue, setSearchValue] = useState(null);
-  const defaultParams = {
-    page: PAGINATION?.CURRENT_PAGE,
-    limit: PAGINATION?.PAGE_LIMIT,
-  };
-  let searchParam;
-  if (searchValue) {
-    searchParam = { search: searchValue };
-  }
-  const [filterParams, setFilterParams] = useState({
+  const paginationParams = {
     page: page,
     limit: pageLimit,
-  });
-  const [openDrawerFilter, setOpenDrawerFilter] = useState(false);
+  };
+  const [searchValue, setSearchValue] = useState(null);
+  const [filterParams, setFilterParams] = useState({});
+  let searchPayLoad;
+  if (searchValue) {
+    searchPayLoad = { search: searchValue };
+  }
   const { data, isLoading } = useGetJobAppsQuery({
-    params: { ...filterParams, ...searchParam },
+    params: { ...filterParams, ...searchPayLoad, ...paginationParams },
   });
   const { data: dataUniqueCandidate } = useGetUniqueCandidateQuery({});
   const methodsFilter: any = useForm();
   const { handleSubmit: handleMethodFilter, reset: ressetFilterForm } =
     methodsFilter;
 
+  // HANDLE REFRESH
   const handleRefresh = () => {
-    setFilterParams(defaultParams);
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setFilterParams({});
     ressetFilterForm();
   };
 
-  // Hadle PAGE CHANGE
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-    setFilterParams((prev) => {
-      return {
-        ...prev,
-        page: newPage,
-      };
-    });
-  };
-
+  // OPEN/CLOSE FILTER DRAWER
+  const [openDrawerFilter, setOpenDrawerFilter] = useState(false);
   const handleOpenFilters = () => {
     setOpenDrawerFilter(true);
   };
   const handleCloseFilters = () => {
     setOpenDrawerFilter(false);
+    ressetFilterForm();
   };
 
   const onSubmitFilters = async (values: any) => {
@@ -116,7 +107,6 @@ const useJobApplication = () => {
     dataUniqueCandidate,
     setPageLimit,
     setPage,
-    handlePageChange,
   };
 };
 

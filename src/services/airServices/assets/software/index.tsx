@@ -32,10 +32,8 @@ export const assetsSoftwareAPI = baseAPI?.injectEndpoints({
     }),
     putSoftwareAssignCategory: builder?.mutation({
       query: (putAssignCategoryParameter: any) => {
-        const assignCategoryIds =
-          putAssignCategoryParameter?.ids?.join('&ids=');
         return {
-          url: `${END_POINTS?.SOFTWARE_ASSIGN_CATEGORY}?ids=${assignCategoryIds}`,
+          url: `${END_POINTS?.EDIT_SOFTWARE_CATEGORY}`,
           method: 'PUT',
           body: putAssignCategoryParameter?.body,
         };
@@ -97,4 +95,5 @@ export const {
   useEditSoftwareMutation,
   useLazyGetUserDropdownQuery,
   useLazyGetSoftwareByIdQuery,
+  useGetSoftwareByIdQuery,
 } = assetsSoftwareAPI;

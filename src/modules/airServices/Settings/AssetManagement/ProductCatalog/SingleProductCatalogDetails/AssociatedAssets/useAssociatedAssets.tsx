@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { getAssociatedAssetsColumns } from './AssociatedAssets.data';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
@@ -8,6 +6,7 @@ import {
   useDeleteProductCatalogAssociatedAssetMutation,
   useGetProductCatalogAssociatedAssetListQuery,
 } from '@/services/airServices/settings/asset-management/product-catalog';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAssociatedAssets = () => {
   const router = useRouter();
@@ -38,9 +37,14 @@ export const useAssociatedAssets = () => {
   const { data, isLoading, isFetching, isError, isSuccess } =
     useGetProductCatalogAssociatedAssetListQuery(
       getProductCatalogAssociatedAssetParameter,
+      {
+        refetchOnMountOrArgChange: true,
+        skip: !!!productCatalogId,
+      },
     );
 
-  const [deleteVendor] = useDeleteProductCatalogAssociatedAssetMutation();
+  const [deleteAssociateAssetTrigger, deleteAssociateAssetStatus] =
+    useDeleteProductCatalogAssociatedAssetMutation();
 
   const handleSubmitDelete = async () => {
     const updatedData = {
@@ -48,16 +52,12 @@ export const useAssociatedAssets = () => {
     };
 
     try {
-      const res = await deleteVendor(updatedData)?.unwrap();
+      await deleteAssociateAssetTrigger(updatedData)?.unwrap();
       setIsDeleteModalOpen?.({ open: false, id: '' });
-      enqueueSnackbar(res?.message ?? 'Asset Deleted Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Asset Deleted Successfully!');
     } catch (error: any) {
       setIsDeleteModalOpen?.({ open: false, id: '' });
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something Went Wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -75,5 +75,6 @@ export const useAssociatedAssets = () => {
     isSuccess,
     setPage,
     setLimit,
+    deleteAssociateAssetStatus,
   };
 };

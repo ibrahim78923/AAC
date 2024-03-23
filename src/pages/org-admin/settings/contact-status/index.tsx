@@ -10,6 +10,7 @@ export default ContactStatusPage;
 ContactStatusPage.getLayout = function getLayout(page: any) {
   return (
     <SuperAdminLayout
+      guardRoute
       permissions={Permissions?.ORG_ADMIN_SETTINGS_CONTACT_STATUS_PERMISSIONS}
     >
       {page}

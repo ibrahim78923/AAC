@@ -41,6 +41,7 @@ const LifeCycleStage = () => {
     setPageLimit,
     isSuccess,
     isLoading,
+    loadingDelete,
   } = useLifeCycleStage();
 
   return (
@@ -140,11 +141,12 @@ const LifeCycleStage = () => {
         </Grid>
 
         <AlertModals
-          message={"You're about to delete the lifecycle stage Lead."}
+          message={"You're about to delete the lifecycle stage."}
           type={'delete'}
           open={isOpenAlert}
           handleClose={handleCloseAlert}
-          handleSubmitBtn={() => deleteStageLifeCycle()}
+          handleSubmitBtn={deleteStageLifeCycle}
+          loading={loadingDelete}
         />
       </Box>
     </>
