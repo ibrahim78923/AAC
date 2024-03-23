@@ -78,7 +78,8 @@ export const columns = ({
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.createdBy,
+      accessorFn: (row: any) =>
+        `${row?.createdBy?.firstName} ${row?.createdBy?.lastName}`,
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',
@@ -101,7 +102,6 @@ export const columns = ({
           defaultChecked={info?.row?.original?.isActive === true ? true : false}
         />
       ),
-      // name={info?.getValue()}
     },
   ];
 };

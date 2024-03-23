@@ -1,6 +1,14 @@
 import React from 'react';
 
-import { Box, Typography, Button, MenuItem, Menu, Grid } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Button,
+  MenuItem,
+  Menu,
+  Grid,
+  CircularProgress,
+} from '@mui/material';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -99,7 +107,13 @@ const SalesProduct = () => {
               className="small"
               variant="outlined"
               color="inherit"
-              startIcon={<DeleteIcon />}
+              startIcon={
+                deleteProduct ? (
+                  <CircularProgress size={18} color="inherit" />
+                ) : (
+                  <DeleteIcon />
+                )
+              }
               onClick={handleDelete}
             >
               Delete

@@ -70,20 +70,32 @@ const useSalesEditorDrawer = ({
     formData.append('image', values?.image);
 
     try {
-      isEditMode
-        ? await updateSalesProduct({
-            body: formData,
-            id: selectedCheckboxes,
-          }).unwrap()
-        : (await postSalesProduct({ body: formData })?.unwrap(),
-          setSelectedCheckboxes([]),
-          setIsDraweropen(false),
-          enqueueSnackbar(
-            `Product ${isEditMode ? 'Updated ' : 'Added'} Successfully`,
-            {
-              variant: NOTISTACK_VARIANTS?.SUCCESS,
-            },
-          ));
+      if (isEditMode) {
+        await updateSalesProduct({
+          body: formData,
+          id: selectedCheckboxes,
+        })?.unwrap();
+      } else {
+        await postSalesProduct({ body: formData })?.unwrap();
+      }
+      setSelectedCheckboxes([]),
+        setIsDraweropen(false),
+        enqueueSnackbar(
+          `Product ${isEditMode ? 'Updated ' : 'Added'} Successfully`,
+          {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          },
+        );
+      // isEditMode ? await updateSalesProduct({ body: formData, id: selectedCheckboxes })?.unwrap() :
+      //   await postSalesProduct({ body: formData })?.unwrap(),
+      //   setSelectedCheckboxes([]),
+      //   setIsDraweropen(false),
+      //   enqueueSnackbar(
+      //     `Product ${isEditMode ? 'Updated ' : 'Added'} Successfully`,
+      //     {
+      //       variant: NOTISTACK_VARIANTS?.SUCCESS,
+      //     },
+      //   );
     } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
