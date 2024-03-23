@@ -21,12 +21,14 @@ const Counter: FC<CounterI> = ({
   };
 
   const decrement = () => {
-    setValue((prev) => prev - 1);
+    if (value > 0) {
+      setValue((prev) => prev - 1);
+    }
   };
 
   return (
     <Box sx={styles?.counterHolder}>
-      <Box sx={styles?.decrementBtn} onClick={decrement}>
+      <Box sx={styles?.decrementBtn(value)} onClick={decrement}>
         <MinusCircleIcon />
       </Box>
 
