@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
-import { useRef } from 'react';
 import { useTheme } from '@mui/material';
+import { successSnackbar } from '@/utils/api';
 
 export const useSingleTicketForm = () => {
   const methods: any = useForm({
@@ -11,23 +10,15 @@ export const useSingleTicketForm = () => {
   const { handleSubmit, reset } = methods;
 
   const onSubmit = async () => {
-    enqueueSnackbar('Your reply has been sent!', {
-      variant: 'success',
-    });
+    successSnackbar('Your reply has been sent!');
     reset();
   };
 
-  const fileImport: any = useRef();
-  const handleImport = () => {
-    fileImport?.current?.click();
-  };
   const theme = useTheme();
   return {
     methods,
     handleSubmit,
     onSubmit,
-    fileImport,
-    handleImport,
     theme,
   };
 };

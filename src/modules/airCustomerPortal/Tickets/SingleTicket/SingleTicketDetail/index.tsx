@@ -1,5 +1,4 @@
-import { Box, Divider, Typography, useTheme } from '@mui/material';
-import Chip from '@mui/material/Chip';
+import { Box, Chip, Divider, Typography, useTheme } from '@mui/material';
 
 export const SingleTicketDetail = ({
   status,
@@ -7,9 +6,9 @@ export const SingleTicketDetail = ({
 }: any) => {
   const theme = useTheme();
   return (
-    <Box display={'flex'} flexDirection={{ xs: 'column', sm: 'row' }}>
+    <Box display={'flex'} gap={1} flexWrap={'wrap'}>
       <Box
-        width={{ xs: '100%', sm: '70%' }}
+        flex={0.8}
         height={'20rem'}
         overflow={'scroll'}
         dangerouslySetInnerHTML={{ __html: singleTicketDetailContent }}
@@ -23,14 +22,13 @@ export const SingleTicketDetail = ({
           backgroundColor: 'transparent',
         }}
       />
-      <Box
-        gap={1}
-        display={'flex'}
-        flexDirection={'column'}
-        width={{ xs: '100%', sm: '30%' }}
-        padding={2}
-      >
-        <Typography variant="body1" fontWeight={700} mt={2}>
+      <Box>
+        <Typography
+          variant="body1"
+          fontWeight={700}
+          color="slateBlue.main"
+          mb={1}
+        >
           Status
         </Typography>
         <Box>
