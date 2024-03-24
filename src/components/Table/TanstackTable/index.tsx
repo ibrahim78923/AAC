@@ -65,7 +65,9 @@ const TanstackTable = (props: any) => {
                   <TableRow key={uuidv4()}>
                     {headerGroup?.headers?.map((header: any) => (
                       <StyledTableCell key={uuidv4()}>
-                        <Box sx={styles?.cell}>
+                        <Box
+                          sx={styles?.cell(header?.column?.columnDef?.align)}
+                        >
                           {header?.isPlaceholder
                             ? null
                             : flexRender(

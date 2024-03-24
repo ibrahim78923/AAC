@@ -24,15 +24,21 @@ import { enqueueSnackbar } from 'notistack';
 import Link from 'next/link';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { useAppSelector } from '@/redux/store';
 
 const ManagePlan = () => {
   const router = useRouter();
   const [value, setValue] = useState('');
 
-  let parsedManageData: any;
-  if (router.query.data) {
-    parsedManageData = JSON.parse(router.query.data);
-  }
+  // let parsedManageData: any;
+  // if (router.query.data) {
+  //   parsedManageData = JSON.parse(router.query.data);
+  // }
+
+  const parsedManageData = useAppSelector(
+    (state) => state?.subscriptionAndInvoices?.selectedPlanData,
+  );
+
   const [updateSubscription] = useUpdateSubscriptionMutation({});
 
   const handleChange = (event: SelectChangeEvent) => {
