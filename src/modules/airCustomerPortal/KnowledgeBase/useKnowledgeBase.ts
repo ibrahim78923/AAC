@@ -9,6 +9,7 @@ export const useKnowledgeBase = () => {
     useState<boolean>(false);
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<any>(null);
+  const [search, setSearch] = useState('');
 
   const handleKnowledgeBaseDetail = (folderId: any, folderName: any) => {
     router?.push({
@@ -25,10 +26,17 @@ export const useKnowledgeBase = () => {
   const handleClose = () => {
     setAnchorEl(null);
     setOpen(false);
-    setOpenReportAnIssueModal(true);
   };
 
-  const { data, isLoading } = useGetKnowledgeBaseFolderQuery(null);
+  const apiDataParameter = {
+    queryParams: {
+      search,
+    },
+  };
+  const { data, isLoading, isFetching, isError } =
+    useGetKnowledgeBaseFolderQuery(apiDataParameter, {
+      refetchOnMountOrArgChange: true,
+    });
   const KnowledgeBaseFolderData = data?.data;
 
   return {
@@ -41,5 +49,8 @@ export const useKnowledgeBase = () => {
     setOpenReportAnIssueModal,
     KnowledgeBaseFolderData,
     isLoading,
+    isFetching,
+    isError,
+    setSearch,
   };
 };
