@@ -22,25 +22,37 @@ export const useAddNewVendor = (props: any) => {
   const [patchNewVendorTrigger, patchNewVendorStatus] =
     usePatchNewVendorMutation();
 
-  const { data: vinData, isLoading } = useGetVendorsByIdQuery({
-    params: {
-      id: vendorId,
+  const { data: vinData, isLoading } = useGetVendorsByIdQuery(
+    {
+      params: {
+        id: vendorId,
+      },
     },
-  });
+    {
+      skip: !!!vendorId,
+    },
+  );
 
   const methodsNewVendor: any = useForm<any>({
     resolver: yupResolver(newVendorValidationSchema),
-    defaultValues: newVendorDefaultValues,
+    defaultValues: newVendorDefaultValues?.(),
   });
 
   const { handleSubmit, reset } = methodsNewVendor;
+
   useEffect(() => {
-    reset(() => vinData?.data);
-  }, [vinData]);
+    reset(() => newVendorDefaultValues(vinData?.data));
+  }, [vinData, reset]);
+
   const onSubmit = async (data: any) => {
-    const body = {
-      ...data,
-    };
+    const filteredEmptyData: any = Object?.entries(data || {})
+      ?.filter(
+        ([, value]: any) => value !== undefined && value != '' && value != null,
+      )
+      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+
+    const body = filteredEmptyData;
+
     if (!!vendorId) {
       submitUpdateNewVendor(body);
       return;
@@ -56,16 +68,10 @@ export const useAddNewVendor = (props: any) => {
   };
 
   const submitUpdateNewVendor = async (data: any) => {
-    const updateData: any = {};
-    for (const key in newVendorDefaultValues) {
-      if (data?.[key] !== undefined) {
-        updateData[key] = data?.[key];
-      }
-    }
     const patchNewVendorParameter = {
       body: {
         id: vendorId,
-        ...updateData,
+        ...data,
       },
     };
     try {

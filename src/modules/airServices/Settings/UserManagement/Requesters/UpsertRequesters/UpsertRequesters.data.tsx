@@ -27,23 +27,23 @@ export const upsertRequestersValidationSchema: any = Yup?.object()?.shape({
 
 export const upsertRequestersDefaultValues: any = (profileData: any) => {
   return {
-    email: profileData?.[0]?.email ?? '',
-    firstName: profileData?.[0]?.firstName ?? '',
-    lastName: profileData?.[0]?.lastName ?? '',
-    jobTitle: profileData?.[0]?.jobTitle ?? '',
-    phoneNumber: profileData?.[0]?.phoneNumber ?? '',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    timezone: profileData?.[0]?.timezone ?? null,
+    email: profileData?.email ?? '',
+    firstName: profileData?.firstName ?? '',
+    lastName: profileData?.lastName ?? '',
+    jobTitle: profileData?.jobTitle ?? '',
+    phoneNumber: profileData?.phoneNumber ?? '',
+    timezone: profileData?.timezone ?? null,
+    createdAt: new Date(profileData?.createdAt ?? new Date()),
   };
 };
 
-export const upsertRequestersArray = [
+export const upsertRequestersArray = (selectedRequester: any) => [
   {
     id: 1,
     componentProps: {
       name: 'email',
       label: 'Email',
+      disabled: !!selectedRequester?._id,
       fullWidth: true,
       required: true,
       placeholder: 'Email',
@@ -113,7 +113,7 @@ export const upsertRequestersArray = [
   {
     id: 7,
     componentProps: {
-      name: 'updatedAt',
+      name: 'createdAt',
       label: '\u00a0\u00a0',
       fullWidth: true,
       disabled: true,
