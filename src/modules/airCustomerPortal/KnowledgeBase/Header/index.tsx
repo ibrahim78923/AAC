@@ -4,11 +4,9 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useRouter } from 'next/router';
 import Search from '@/components/Search';
-import { useState } from 'react';
 import ReportAnIssueModal from '../../Dashboard/ReportAnIssueModal';
 
 export const Header = (props: any) => {
-  const [search, setSearch] = useState('');
   const { push } = useRouter();
   const {
     handleButtonClick,
@@ -18,6 +16,7 @@ export const Header = (props: any) => {
     openReportAnIssueModal,
     setOpenReportAnIssueModal,
     handleSubmitModal,
+    setSearch,
   } = props;
   return (
     <>
@@ -25,10 +24,12 @@ export const Header = (props: any) => {
         display={'flex'}
         justifyContent={'space-between'}
         alignItems={'center'}
-        flexDirection={{ xs: 'column', sm: 'row' }}
         gap={0.5}
+        flexWrap={'wrap'}
       >
-        <Typography variant="h4">Knowledge Base</Typography>
+        <Typography variant="h4" color="slateBlue.main">
+          Knowledge Base
+        </Typography>
         <Button
           id="demo-customized-button"
           aria-controls={open ? 'demo-customized-menu' : undefined}
@@ -56,7 +57,14 @@ export const Header = (props: any) => {
           }}
           sx={{ mt: '0.5rem' }}
         >
-          <MenuItem onClick={handleClose}>Report an Issue</MenuItem>
+          <MenuItem
+            onClick={() => {
+              setOpenReportAnIssueModal?.(true);
+              handleClose?.();
+            }}
+          >
+            Report an Issue
+          </MenuItem>
           <MenuItem
             onClick={() =>
               push({
@@ -69,17 +77,15 @@ export const Header = (props: any) => {
         </Popover>
       </Box>
       <Box mb={2} mt={2}>
-        <Search
-          label="Search Here"
-          value={search}
-          onChange={(e: any) => setSearch(e?.target?.value)}
-        />
+        <Search label="Search Here" setSearchBy={setSearch} />
       </Box>
-      <ReportAnIssueModal
-        openReportAnIssueModal={openReportAnIssueModal}
-        setOpenReportAnIssueModal={setOpenReportAnIssueModal}
-        handleSubmitModal={handleSubmitModal}
-      />
+      {openReportAnIssueModal && (
+        <ReportAnIssueModal
+          openReportAnIssueModal={openReportAnIssueModal}
+          setOpenReportAnIssueModal={setOpenReportAnIssueModal}
+          handleSubmitModal={handleSubmitModal}
+        />
+      )}
     </>
   );
 };

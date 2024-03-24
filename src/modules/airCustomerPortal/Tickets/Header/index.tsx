@@ -19,6 +19,7 @@ export const Header = (props: any) => {
     handleClose,
     anchorEl,
     open,
+    ticketStatus,
   } = props;
   return (
     <>
@@ -37,7 +38,7 @@ export const Header = (props: any) => {
           >
             <SingleDropdownButton
               dropdownOptions={allTicketsDropdownFunction}
-              dropdownName={'All Tickets'}
+              dropdownName={ticketStatus}
             />
           </PermissionsGuard>
           <Button

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useLazyGetCustomerPortalTicketsQuery } from '@/services/airCustomerPortal/Tickets';
 import { PAGINATION } from '@/config';
 import useAuth from '@/hooks/useAuth';
+import { allTicketsDropdownFunction, ticketStatuses } from './Tickets.data';
 
 export const useTickets = () => {
   const router = useRouter();
@@ -13,7 +14,7 @@ export const useTickets = () => {
   const [anchorEl, setAnchorEl] = useState<any>(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-
+  const [ticketStatus, setTicketStatus] = useState('All tickets');
   const { user }: any = useAuth();
   const requesterId = user?._id;
 
@@ -28,6 +29,12 @@ export const useTickets = () => {
     getTicketsParam?.append('limit', pageLimit + '');
     getTicketsParam?.append('metaData', true + '');
     getTicketsParam?.append('requester', requesterId + '');
+    ticketStatuses?.includes(ticketStatus) &&
+      getTicketsParam?.append(
+        'status',
+        ticketStatuses?.includes(ticketStatus) ? ticketStatus : '',
+      );
+
     try {
       await lazyGetTicketsTrigger(getTicketsParam)?.unwrap();
     } catch (error) {}
@@ -35,7 +42,7 @@ export const useTickets = () => {
 
   useEffect(() => {
     getTicketsData?.();
-  }, [page, pageLimit]);
+  }, [page, pageLimit, ticketStatus]);
 
   const ticketData = data?.data?.tickets;
   const metaData = data?.data?.meta;
@@ -56,7 +63,7 @@ export const useTickets = () => {
     setAnchorEl(null);
     setOpen(false);
   };
-
+  const allTicketsDropdown = allTicketsDropdownFunction?.(setTicketStatus);
   return {
     handleSingleTickets,
     handleButtonClick,
@@ -75,5 +82,7 @@ export const useTickets = () => {
     isError,
     isFetching,
     isSuccess,
+    allTicketsDropdown,
+    ticketStatus,
   };
 };

@@ -28,11 +28,9 @@ export const SingleTicket = () => {
         setOpenShareModal={setOpenShareModal}
       />
       <br />
-      <SingleTicketDetail
-        status={singleTicketData?.status}
-        singleTicketDetailContent={singleTicketData?.description}
-      />
 
+      <SingleTicketDetail singleTicketData={singleTicketData} />
+      <br />
       <SingleTicketForm singleTicketData={singleTicketData} />
 
       {openShareModal && (

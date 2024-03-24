@@ -28,6 +28,20 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    postReplyToConversationEmail: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.TICKET_NEW_EMAIL}`,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+    }),
+    getSingleTicketConversations: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.TICKET_NEW_EMAIL}`,
+        method: 'GET',
+        body: apiDataParameter?.body,
+      }),
+    }),
   }),
 });
 
@@ -36,4 +50,6 @@ export const {
   useLazyGetCustomerPortalTicketsByIdQuery,
   useEditTicketStatusMutation,
   useGetCustomerPortalTicketsByIdQuery,
+  useGetSingleTicketConversationsQuery,
+  usePostReplyToConversationEmailMutation,
 } = ticketsAPI;

@@ -1,10 +1,7 @@
 import CustomPagination from '@/components/CustomPagination';
 import { Header } from './Header';
 import { TicketsCard } from './TicketCard';
-import {
-  newTicketsDropdownFunction,
-  allTicketsDropdownFunction,
-} from './Tickets.data';
+import { newTicketsDropdownFunction } from './Tickets.data';
 import ApiErrorState from '@/components/ApiErrorState';
 import NoData from '@/components/NoData';
 import { useTickets } from './useTickets';
@@ -26,19 +23,22 @@ export const Tickets = () => {
     isLoading,
     isError,
     isFetching,
+    allTicketsDropdown,
+    ticketStatus,
   } = useTickets();
 
   return (
     <>
       <Header
         newTicketsDropdownFunction={newTicketsDropdownFunction}
-        allTicketsDropdownFunction={allTicketsDropdownFunction}
+        allTicketsDropdownFunction={allTicketsDropdown}
         setOpenReportAnIssueModal={setOpenReportAnIssueModal}
         openReportAnIssueModal={openReportAnIssueModal}
         handleButtonClick={handleButtonClick}
         handleClose={handleClose}
         anchorEl={anchorEl}
         open={open}
+        ticketStatus={ticketStatus}
       />
       {isLoading || isFetching ? (
         <SkeletonForm />
