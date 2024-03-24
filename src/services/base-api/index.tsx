@@ -107,6 +107,7 @@ export const TAGS = [
   'DASHBOARD_RECENT_ACTIVITIES',
   'DASHBOARD_AGENT_AVAILABILITY',
   'WORKFLOWS',
+  'PURCHASE_ORDER',
 ];
 
 const baseQuery = fetchBaseQuery({
