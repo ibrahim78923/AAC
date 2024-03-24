@@ -413,7 +413,10 @@ export const useAddPlan = () => {
   };
 
   useEffect(() => {
-    if (!isNullOrEmpty(crmData?.data) || !isNullOrEmpty(planExist?.data)) {
+    if (
+      !isNullOrEmpty(crmData?.data) ||
+      (!isNullOrEmpty(planExist?.data) && isNullOrEmpty(router.query.data))
+    ) {
       enqueueSnackbar(
         'Product with same name and same Plantype has already exist',
         {
