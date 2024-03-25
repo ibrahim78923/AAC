@@ -1,34 +1,28 @@
-import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
+import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
-const teamMembersOptions = [
-  'Senior HR Executive',
-  'Software Engineer',
-  'Software Developer',
-];
-
 export const upsertTeamValidationSchema: any = Yup?.object()?.shape({
-  teamName: Yup?.string()?.required('Required'),
-  teamMembers: Yup?.string(),
+  name: Yup?.string()?.required('Required'),
+  userAccounts: Yup?.array()?.nullable(),
 });
 
 export const upsertTeamData = [
   {
     id: 1,
-    teamName: 'John',
-    teamMembers: 'E',
+    name: 'John',
+    team: 'E',
   },
 ];
 export const upsertTeamDefaultValues: any = {
-  teamName: '',
-  teamMembers: '',
+  name: '',
+  userAccounts: [],
 };
 
-export const upsertTeamArray = [
+export const upsertTeamArray = (usersTeamDropdown: any) => [
   {
     id: 1,
     componentProps: {
-      name: 'teamName',
+      name: 'name',
       label: 'Team Name',
       placeholder: 'Team Name',
       fullWidth: true,
@@ -40,13 +34,16 @@ export const upsertTeamArray = [
   {
     id: 2,
     componentProps: {
-      name: 'teamMembers',
-      label: 'Team Members',
+      name: 'userAccounts',
+      label: 'Select team',
       placeholder: 'Select',
       fullWidth: true,
-      options: teamMembersOptions,
+      required: true,
+      apiQuery: usersTeamDropdown,
+      getOptionLabel: (option: any) =>
+        `${option?.firstName} ${option.lastName}`,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
     md: 12,
   },
 ];
