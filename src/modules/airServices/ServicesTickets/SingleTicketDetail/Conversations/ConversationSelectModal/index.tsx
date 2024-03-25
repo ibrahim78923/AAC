@@ -47,22 +47,22 @@ const ConversationSelectModal = ({ theme, onAddButtonClick, title }: any) => {
   ]);
 
   useEffect(() => {
-    if (title === TICKETS_CONVERSATION_MODAL_TYPE.ARTICLE) {
+    if (title === TICKETS_CONVERSATION_MODAL_TYPE?.ARTICLE) {
       setFilteredContent(articlesData);
-    } else if (title === TICKETS_CONVERSATION_MODAL_TYPE.CANNED) {
+    } else if (title === TICKETS_CONVERSATION_MODAL_TYPE?.CANNED) {
       setFilteredContent(cannedResponses);
     }
   }, [title, articlesData, cannedResponses]);
 
   const currentMetaData =
-    title === TICKETS_CONVERSATION_MODAL_TYPE.ARTICLE
+    title === TICKETS_CONVERSATION_MODAL_TYPE?.ARTICLE
       ? articlesQueryData?.data?.meta
       : cannedResponsesQueryData?.data?.meta;
 
   const navigationHandler = () => {
-    if (title === TICKETS_CONVERSATION_MODAL_TYPE.CANNED) {
+    if (title === TICKETS_CONVERSATION_MODAL_TYPE?.CANNED) {
       push(AIR_SERVICES?.NEW_PURCHASE_ORDER);
-    } else if (title === TICKETS_CONVERSATION_MODAL_TYPE.ARTICLE) {
+    } else if (title === TICKETS_CONVERSATION_MODAL_TYPE?.ARTICLE) {
       push(AIR_SERVICES?.KNOWLEDGE_BASE);
     }
   };
@@ -91,17 +91,17 @@ const ConversationSelectModal = ({ theme, onAddButtonClick, title }: any) => {
         {isLoading ? (
           <SkeletonTable />
         ) : (
-          filteredContent.map((item: any) => (
+          filteredContent?.map((item: any) => (
             <Box
               marginTop={2}
               key={item?._id}
-              border={`.1rem solid ${theme.palette.grey[700]}`}
+              border={`.1rem solid ${theme?.palette?.grey[700]}`}
               borderRadius={2}
               padding={1}
             >
               <Typography
                 dangerouslySetInnerHTML={{
-                  __html: item.description || item.details,
+                  __html: item?.description || item?.details,
                 }}
               />
               <Box display="flex" alignItems="center" marginTop={1}>
@@ -110,7 +110,7 @@ const ConversationSelectModal = ({ theme, onAddButtonClick, title }: any) => {
                   size="small"
                   sx={{
                     height: 30,
-                    background: `${theme.palette.primary.main}50`,
+                    background: `${theme?.palette?.primary?.main}50`,
                     fontSize: 12,
                     fontWeight: 500,
                   }}
@@ -126,8 +126,8 @@ const ConversationSelectModal = ({ theme, onAddButtonClick, title }: any) => {
         <CustomPagination
           setPageLimit={setLimit}
           setPage={setPage}
-          count={currentMetaData?.pages || PAGINATION.PAGE_COUNT}
-          totalRecords={currentMetaData?.total || PAGINATION.TOTAL_RECORDS}
+          count={currentMetaData?.pages || PAGINATION?.PAGE_COUNT}
+          totalRecords={currentMetaData?.total || PAGINATION?.TOTAL_RECORDS}
           onPageChange={(newPage: any) => setPage(newPage)}
           currentPage={page}
           pageLimit={limit}
