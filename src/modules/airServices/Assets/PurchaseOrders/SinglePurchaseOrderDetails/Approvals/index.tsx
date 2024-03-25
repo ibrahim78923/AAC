@@ -20,6 +20,7 @@ import { useApprovals } from './useApprovals';
 import { Fragment } from 'react';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { CancelRequest } from './CancelRequest';
+import { generateImage } from '@/utils/avatarUtils';
 
 export const Approvals = () => {
   const {
@@ -90,16 +91,32 @@ export const Approvals = () => {
                     mb={{ xs: 2, md: 'unset' }}
                   >
                     <Avatar
-                      alt={`${item?.approverName} ${item?.approverName}`}
+                      alt={`${
+                        user?._id !== item?.approverId
+                          ? item?.approverName
+                          : item?.createdName
+                      }`}
                       sx={{ color: theme?.palette?.grey[600], fontWeight: 500 }}
-                      src={item?.attachments}
+                      src={generateImage(
+                        user?._id !== item?.approverId
+                          ? item?.approverByImg
+                          : item?.createdByImg,
+                      )}
                       {...stringAvatar(
-                        `${item?.approverName} ${item?.approverName}`,
+                        `${
+                          user?._id !== item?.approverId
+                            ? item?.approverName
+                            : item?.createdName
+                        }`,
                       )}
                     />
                     <Box>
                       <Typography variant="body1" fontWeight={500}>
-                        {`${item?.approverName}`}
+                        {`${
+                          user?._id !== item?.approverId
+                            ? item?.approverName
+                            : item?.createdName
+                        }`}
                       </Typography>
                       <Typography
                         variant="body2"
@@ -137,7 +154,6 @@ export const Approvals = () => {
                       !approvalStatus?.includes(item?.approvalStatus) && (
                         <Fragment>
                           <ApproveForm approvalId={item?._id} />
-
                           <RejectForm approvalId={item?._id} />
                         </Fragment>
                       )}

@@ -19,6 +19,7 @@ export const Header = (props: any) => {
     handleClose,
     anchorEl,
     open,
+    ticketStatus,
   } = props;
   return (
     <>
@@ -27,7 +28,7 @@ export const Header = (props: any) => {
         display={'flex'}
         justifyContent={'space-between'}
         alignItems={'center'}
-        flexDirection={{ xs: 'column', sm: 'row' }}
+        flexWrap={'wrap'}
         gap={0.5}
       >
         <Typography variant="h4">All tickets</Typography>
@@ -37,7 +38,7 @@ export const Header = (props: any) => {
           >
             <SingleDropdownButton
               dropdownOptions={allTicketsDropdownFunction}
-              dropdownName={'All Tickets'}
+              dropdownName={ticketStatus}
             />
           </PermissionsGuard>
           <Button
@@ -67,7 +68,14 @@ export const Header = (props: any) => {
             }}
             sx={{ mt: '0.5rem' }}
           >
-            <MenuItem onClick={handleClose}>Report an Issue</MenuItem>
+            <MenuItem
+              onClick={() => {
+                setOpenReportAnIssueModal?.(true);
+                handleClose?.();
+              }}
+            >
+              Report an Issue
+            </MenuItem>
             <MenuItem
               onClick={() =>
                 push({
@@ -80,11 +88,13 @@ export const Header = (props: any) => {
           </Popover>
         </Box>
       </Box>
-      <ReportAnIssueModal
-        openReportAnIssueModal={openReportAnIssueModal}
-        setOpenReportAnIssueModal={setOpenReportAnIssueModal}
-        handleSubmitModal={handleSubmitModal}
-      />
+      {openReportAnIssueModal && (
+        <ReportAnIssueModal
+          openReportAnIssueModal={openReportAnIssueModal}
+          setOpenReportAnIssueModal={setOpenReportAnIssueModal}
+          handleSubmitModal={handleSubmitModal}
+        />
+      )}
     </>
   );
 };

@@ -39,12 +39,7 @@ export const defaultValues = {
   date: new Date(),
 };
 
-const CRMSuite = [
-  { value: 'CRM1', label: 'CRM1' },
-  { value: 'CRM2', label: 'CRM2' },
-  { value: 'CRM3', label: 'CRM3' },
-];
-export const assignPlanData = (selectProductSuite: string) => {
+export const assignPlanData = (selectProductSuite: string, crmOptions: any) => {
   const { data: productData } = useGetProductsQuery<any>({
     refetchOnMountOrArgChange: true,
     pagination: `page=1&limit=10`,
@@ -75,7 +70,7 @@ export const assignPlanData = (selectProductSuite: string) => {
     label: Organizations?.name,
   }));
 
-  const options = selectProductSuite === 'product' ? productSuite : CRMSuite;
+  const options = selectProductSuite === 'product' ? productSuite : crmOptions;
 
   return [
     {

@@ -3,7 +3,8 @@ import { AIR_CUSTOMER_PORTAL } from '@/constants';
 import { useEffect, useState } from 'react';
 import { useLazyGetCustomerPortalTicketsQuery } from '@/services/airCustomerPortal/Tickets';
 import { PAGINATION } from '@/config';
-import { getSession } from '@/utils';
+import useAuth from '@/hooks/useAuth';
+import { allTicketsDropdownFunction, ticketStatuses } from './Tickets.data';
 
 export const useTickets = () => {
   const router = useRouter();
@@ -13,26 +14,39 @@ export const useTickets = () => {
   const [anchorEl, setAnchorEl] = useState<any>(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const {
-    user: { _id: requesterId },
-  } = getSession();
-  const getTicketsParam = new URLSearchParams();
-  getTicketsParam?.append('page', page + '');
-  getTicketsParam?.append('limit', pageLimit + '');
-  getTicketsParam?.append('metaData', true + '');
-  getTicketsParam?.append('requester', requesterId + '');
+  const [ticketStatus, setTicketStatus] = useState('All tickets');
+  const { user }: any = useAuth();
+  const requesterId = user?._id;
+
   const [
     lazyGetTicketsTrigger,
     { data, isLoading, isFetching, isError, isSuccess },
   ] = useLazyGetCustomerPortalTicketsQuery();
+
+  const getTicketsData = async (currentPage = page) => {
+    const getTicketsParam = new URLSearchParams();
+    getTicketsParam?.append('page', currentPage + '');
+    getTicketsParam?.append('limit', pageLimit + '');
+    getTicketsParam?.append('metaData', true + '');
+    getTicketsParam?.append('requester', requesterId + '');
+    ticketStatuses?.includes(ticketStatus) &&
+      getTicketsParam?.append(
+        'status',
+        ticketStatuses?.includes(ticketStatus) ? ticketStatus : '',
+      );
+
+    try {
+      await lazyGetTicketsTrigger(getTicketsParam)?.unwrap();
+    } catch (error) {}
+  };
+
   useEffect(() => {
-    const handleGetTicket = async () => {
-      await lazyGetTicketsTrigger(getTicketsParam);
-    };
-    handleGetTicket();
-  }, [page, pageLimit]);
+    getTicketsData?.();
+  }, [page, pageLimit, ticketStatus]);
+
   const ticketData = data?.data?.tickets;
   const metaData = data?.data?.meta;
+
   const handleSingleTickets = (id: any) => {
     router?.push({
       pathname: AIR_CUSTOMER_PORTAL?.SINGLE_TICKETS,
@@ -48,8 +62,8 @@ export const useTickets = () => {
   const handleClose = () => {
     setAnchorEl(null);
     setOpen(false);
-    setOpenReportAnIssueModal(true);
   };
+  const allTicketsDropdown = allTicketsDropdownFunction?.(setTicketStatus);
   return {
     handleSingleTickets,
     handleButtonClick,
@@ -68,5 +82,7 @@ export const useTickets = () => {
     isError,
     isFetching,
     isSuccess,
+    allTicketsDropdown,
+    ticketStatus,
   };
 };

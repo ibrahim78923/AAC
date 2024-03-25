@@ -34,9 +34,10 @@ export const SalesProductAPI = baseAPI.injectEndpoints({
       invalidatesTags: ['SETTINGS_SALE_PRODUCT'],
     }),
     deleteSalesProduct: builder?.mutation({
-      query: ({ id }) => ({
-        url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
+      query: (ids) => ({
+        url: `${END_POINTS?.SALE_PRODUCTS}`,
         method: 'DELETE',
+        body: ids,
       }),
       invalidatesTags: ['SETTINGS_SALE_PRODUCT'],
     }),
@@ -49,4 +50,5 @@ export const {
   useUpdateSalesProductMutation,
   useDeleteSalesProductMutation,
   useGetSalesProductByIdQuery,
+  useLazyGetSalesProductByIdQuery,
 } = SalesProductAPI;
