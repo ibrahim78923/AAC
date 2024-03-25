@@ -41,7 +41,7 @@ const ViewDetails = () => {
                 variant="body2"
                 sx={{ color: theme?.palette?.custom?.main }}
               >
-                Amount: £20
+                Amount:
               </Typography>
             </Box>
           </Box>
