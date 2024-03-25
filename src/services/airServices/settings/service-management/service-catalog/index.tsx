@@ -1,7 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const TAG = 'SERVICE-CATALOG';
+const TAG = 'CATALOG';
 const TAG_TWO = 'SERVICE_CATALOG_DROPDOWN';
 const TAG_THREE = 'DROPDOWN_REQUESTER';
 const TAG_FOUR = 'DROPDOWN_AGENT';
@@ -10,9 +10,9 @@ const transformResponse = (response: any) => {
   if (response) return response?.data?.productcatalogs;
 };
 export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder: any) => ({
     getServiceCatalog: builder?.query({
-      query: (getServiceCatalogCategoriesParameter) => ({
+      query: (getServiceCatalogCategoriesParameter: any) => ({
         url: `${END_POINTS?.SERVICE_CATALOG}`,
         method: 'GET',
         params: getServiceCatalogCategoriesParameter?.queryParam,
@@ -20,7 +20,7 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getServiceCatalogCategories: builder?.query({
-      query: ({ param }) => ({
+      query: ({ param }: any) => ({
         url: `${END_POINTS?.SERVICE_CATALOG_CATEGORIES}`,
         method: 'GET',
         params: param,
@@ -36,7 +36,7 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     postServiceCatalog: builder?.mutation({
-      query: (payload) => ({
+      query: (payload: any) => ({
         url: `${END_POINTS?.ADD_SERVICE_CATALOG}`,
         method: 'POST',
         body: payload?.body,
@@ -44,7 +44,7 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     postAddServiceCatalog: builder?.mutation({
-      query: (payload) => ({
+      query: (payload: any) => ({
         url: `${END_POINTS?.UPSERT_SERVICES_CATALOG}`,
         method: 'POST',
         body: payload?.body,
@@ -61,7 +61,7 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.users;
       },
-      providesTags: [TAG_THREE],
+      providesTags: [TAG_FOUR],
     }),
     patchServiceCatalog: builder?.mutation({
       query: (putServiceCatalogParameter: any) => ({
@@ -124,7 +124,7 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data?.users;
       },
-      providesTags: [TAG_TWO],
+      providesTags: [TAG_THREE],
     }),
     getAssetType: builder?.query({
       query: ({ params }: any) => ({
@@ -133,7 +133,7 @@ export const serviceCatalogAPI: any = baseAPI?.injectEndpoints({
         params,
       }),
       transformResponse: (response: any) => transformResponse(response),
-      providesTags: [TAG_TWO],
+      providesTags: [TAG_FIVE],
     }),
     getSoftwareDropdown: builder?.query({
       query: ({ params }: any) => ({

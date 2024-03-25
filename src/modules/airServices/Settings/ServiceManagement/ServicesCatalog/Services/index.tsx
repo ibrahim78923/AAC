@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Checkbox,
@@ -25,6 +26,7 @@ import NoData from '@/components/NoData';
 import CustomPagination from '@/components/CustomPagination';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { generateImage } from '@/utils/avatarUtils';
 const Services = () => {
   const router = useRouter();
   const theme = useTheme();
@@ -40,6 +42,7 @@ const Services = () => {
     setPageLimit,
     setPage,
     handlePageChange,
+    paginationData,
   } = useServices();
 
   return (
@@ -78,8 +81,7 @@ const Services = () => {
                 }
               }}
             />
-            {/* <Typography variant="h3">Service Management</Typography> */}
-            {/* <ArrowForwardIosIcon fontSize="small" /> */}
+
             <Typography variant="h3">Service Catalog</Typography>
             {router?.query?.categoryName && (
               <>
@@ -120,6 +122,7 @@ const Services = () => {
               display={'flex'}
               justifyContent={'center'}
               sx={{ cursor: 'pointer' }}
+              onClick={handleClickOpen}
             >
               <PermissionsGuard
                 permissions={[
@@ -218,10 +221,10 @@ const Services = () => {
         </Grid>
 
         <CustomPagination
-          count={categories?.meta?.pages}
-          pageLimit={categories?.meta?.limit}
-          currentPage={categories?.meta?.page}
-          totalRecords={categories?.meta?.total}
+          count={paginationData?.pages}
+          pageLimit={paginationData?.limit}
+          currentPage={paginationData?.page}
+          totalRecords={paginationData?.total}
           onPageChange={handlePageChange}
           setPage={setPage}
           setPageLimit={setPageLimit}
@@ -322,11 +325,9 @@ const Services = () => {
                           }}
                         />
                       </Box>
-                      <Image
-                        src={result?.image}
-                        height={60}
-                        width={60}
-                        alt={`result ${result?._id} Image`}
+                      <Avatar
+                        sx={{ height: '4rem', width: '4rem' }}
+                        src={generateImage(result?.attachmentDetails?.fileUrl)}
                       />
                     </Box>
                     <Box alignItems={'center'} display={'flex'}>
@@ -338,7 +339,7 @@ const Services = () => {
                         mr={1}
                         mt={2}
                       >
-                        {result?.itemName}
+                        {result?.itemName ?? '--'}
                       </Typography>
                     </Box>
                     <Box alignItems={'center'} display={'flex'}>
@@ -350,7 +351,7 @@ const Services = () => {
                         mr={1}
                       >
                         cost
-                        {result?.cost && `: ${result?.cost}`}
+                        {(result?.cost && `: ${result?.cost}`) ?? '--'}
                       </Typography>
                     </Box>
                     <Box alignItems={'center'} display={'flex'}>
@@ -375,20 +376,23 @@ const Services = () => {
                         ml={6.5}
                       >
                         Description
-                        {result?.description && `: ${result?.description}`}
+                        {(result?.description && `: ${result?.description}`) ??
+                          '--'}
                       </Typography>
                     </Box>
                     <Box alignItems={'center'} display={'flex'}>
-                      <Typography
-                        variant="body3"
-                        align="center"
-                        gutterBottom
-                        mr={1}
-                        ml={6.5}
-                      >
-                        Status
-                        {result?.status && `: ${result?.status}`}
-                      </Typography>
+                      {result?.status && (
+                        <Typography
+                          variant="body3"
+                          align="center"
+                          gutterBottom
+                          mr={1}
+                          ml={6.5}
+                        >
+                          Status
+                          {result?.status && `: ${result?.status}`}
+                        </Typography>
+                      )}
                     </Box>
                   </Box>
                 </Grid>
@@ -397,7 +401,7 @@ const Services = () => {
               <>
                 <NoData
                   image={NoAssociationFoundImage}
-                  message={'no Data Found'}
+                  message={'No Data Found'}
                 />
               </>
             )}

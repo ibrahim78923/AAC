@@ -20,7 +20,7 @@ export const upsertServiceValidationSchema = Yup?.object()?.shape({
     ?.nullable()
     ?.when('assetType', {
       is: (value: any) => value === 'HardWare/Consumable',
-      //  then: (schema: any) => schema?.required(),
+      then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema,
     }),
   software: Yup?.mixed()
@@ -44,13 +44,6 @@ export const upsertServiceValidationSchema = Yup?.object()?.shape({
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema,
     }),
-  // serviceCategorys: Yup?.mixed()
-  //   ?.nullable()
-  //   ?.when('assetType', {
-  //     is: (value: any) => value === 'software',
-  //       then: (schema: any) => schema?.required(),
-  //     otherwise: (schema) => schema,
-  //   }),
   selectAgentVisibility: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
@@ -84,7 +77,6 @@ export const upsertServiceDefaultValues = {
   software: null,
   agentVisibilty: null,
   requestedFor: null,
-  // serviceCategorys: null,
   selectAgentVisibility: null,
   product: null,
   requesterVisibilty: null,
@@ -155,7 +147,8 @@ export const upsertServiceData = (apiServiceCategoryQuery: any) => [
       fullWidth: true,
       placeholder: 'Description',
       multiline: true,
-      minRows: 4,
+      minRows: 5,
+      style: { minHeight: '100px' },
     },
     component: RHFTextField,
     md: 6,
@@ -164,7 +157,6 @@ export const upsertServiceData = (apiServiceCategoryQuery: any) => [
     id: 6,
     componentProps: {
       name: 'fileUrl',
-
       fullWidth: true,
       fileType: 'PNG or JPG  (max 2.44 MB)',
       maxSize: 1024 * 1024 * 2.44,
@@ -225,7 +217,6 @@ export const categoriesOfServices = (
   apiQueryAgent: any,
   apiRequestorQuery: any,
   router: any,
-  // apiQueryCategory: any,
   apiServiceCategoryAgentQuery: any,
   apiQueryRequester: any,
   apiQueryAssetType: any,
@@ -301,20 +292,6 @@ export const categoriesOfServices = (
     text: 'software',
     md: 6,
   },
-  // {
-  //   id: 13,
-  //   componentProps: {
-  //     name: 'serviceCategorys',
-  //     label: 'Service Category',
-  //     fullWidth: true,
-  //     apiQuery: apiQueryCategory,
-  //     placeholder: 'Choose Category',
-  //     getOptionLabel: (option: any) => option?.categoryName,
-  //   },
-  //   component: RHFAutocompleteAsync,
-  //   text: 'software',
-  //   md: 6,
-  // },
 
   {
     id: 14,
@@ -325,7 +302,7 @@ export const categoriesOfServices = (
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
       required: true,
-      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },
@@ -361,7 +338,7 @@ export const categoriesOfServices = (
       required: true,
       apiQuery: apiRequestorQuery,
       EndIcon: AddCircleIcon,
-      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
+      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
       endIconClick: () => {

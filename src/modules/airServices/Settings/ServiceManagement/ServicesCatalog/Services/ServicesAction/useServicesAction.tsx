@@ -90,5 +90,6 @@ export const useServicesAction = (props: any) => {
     handleVisibility,
     openVisibilityE1,
     isDisabled,
+    setSelectedCheckboxes,
   };
 };

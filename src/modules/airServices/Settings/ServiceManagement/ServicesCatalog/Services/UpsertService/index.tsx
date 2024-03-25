@@ -1,10 +1,13 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 import useUpsertService from './useUpsertService';
 
 import { FormProvider } from '@/components/ReactHookForm';
 import { Attachments } from '@/components/Attachments';
 import { AIR_SERVICES_SETTINGS_SERVICE_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { AIR_SERVICES } from '@/constants';
+import { LoadingButton } from '@mui/lab';
 
 export const UpsertService = () => {
   const {
@@ -14,11 +17,23 @@ export const UpsertService = () => {
     onSubmit,
     upsertServiceFormField,
     categoryId,
+    router,
+    handleCancelBtn,
+    postAddServiceCatalogStatus,
   } = useUpsertService();
 
   return (
     <>
-      <Box display={'flex'}>
+      <Box
+        display={'flex'}
+        alignItems={'center'}
+        flexWrap={'wrap'}
+        gap={1}
+        sx={{ cursor: 'pointer' }}
+      >
+        <ArrowBackIcon
+          onClick={() => router.push(AIR_SERVICES?.SERVICE_CATALOG)}
+        />
         <Typography variant="h4">General Details</Typography>
       </Box>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -57,11 +72,23 @@ export const UpsertService = () => {
             right={'2rem'}
             marginLeft={'auto'}
           >
-            <Button>cancel</Button>
+            <LoadingButton
+              sx={{ marginRight: '1rem' }}
+              type="button"
+              color="secondary"
+              onClick={() => handleCancelBtn?.()}
+              disabled={postAddServiceCatalogStatus?.isLoading}
+            >
+              cancel
+            </LoadingButton>
 
-            <Button variant="contained" type="submit">
+            <LoadingButton
+              variant="contained"
+              type="submit"
+              loading={postAddServiceCatalogStatus?.isLoading}
+            >
               Save
-            </Button>
+            </LoadingButton>
           </Box>
         </Grid>
         <br />

@@ -150,6 +150,7 @@ export const END_POINTS = {
   EDIT_REQUESTER: '/requester/edit-requester',
   EDIT_ATTACHMENT: '/attachment/edit_attachment',
   USERS_LIST_ADMIN: '/users',
+  CATALOG_SERVICES: '/service-catalog/get-category-list',
   SERVICE_CATALOG: '/service-catalog/get-category-list',
   ADD_SERVICE_CATALOG: '/service-catalog/add-category',
   DELETE_SERVICE: '/service-catalog/delete-service',

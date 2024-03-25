@@ -30,7 +30,6 @@ const useUpsertService = () => {
   const apiRequestorQuery = useLazyGetCategoriesRequesterDropdownQuery();
   const apiServiceCategoryQuery = useLazyGetServiceCategoriesDropdownQuery();
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();
-  // const apiQueryCategory = useLazyGetCategoriesDropdownQuery();
   const apiServiceCategoryAgentQuery = useLazyGetAgentDropdownQuery();
   const apiQueryAssetType = useLazyGetAssetTypeQuery();
   const apiQuerySoftware = useLazyGetSoftwareDropdownQuery();
@@ -41,7 +40,6 @@ const useUpsertService = () => {
       apiQueryAgent,
       apiRequestorQuery,
       router,
-      // apiQueryCategory,
       apiServiceCategoryAgentQuery,
       apiQueryRequester,
       apiQueryAssetType,
@@ -49,13 +47,17 @@ const useUpsertService = () => {
       apiQueryProductCatalog,
     ),
   );
-  const [postAddServiceCatalogTrigger] = usePostAddServiceCatalogMutation();
+  const [postAddServiceCatalogTrigger, postAddServiceCatalogStatus] =
+    usePostAddServiceCatalogMutation();
   const methods: any = useForm<any>({
     resolver: yupResolver(upsertServiceValidationSchema),
     defaultValues: upsertServiceDefaultValues,
   });
 
   const { handleSubmit, watch, reset } = methods;
+  const handleCancelBtn = () => {
+    router?.push({ pathname: AIR_SERVICES?.SERVICE_CATALOG });
+  };
   const assetsType = watch('assetType');
   useEffect(() => {
     let filteredServices;
@@ -65,7 +67,6 @@ const useUpsertService = () => {
         apiQueryAgent,
         apiRequestorQuery,
         router,
-        // apiQueryCategory,
         apiServiceCategoryAgentQuery,
         apiQueryRequester,
         apiQueryAssetType,
@@ -79,7 +80,6 @@ const useUpsertService = () => {
         apiQueryAgent,
         apiRequestorQuery,
         router,
-        // apiQueryCategory,
         apiServiceCategoryAgentQuery,
         apiQueryRequester,
         apiQueryAssetType,
@@ -97,16 +97,13 @@ const useUpsertService = () => {
     upsertServiceFormData?.append('cost', data?.cost);
     upsertServiceFormData?.append(
       'serviceCategory',
-      data?.serviceCategory?._id ?? '65fd00d618a17a26a86b8e1e',
+      data?.serviceCategory?._id,
     );
     upsertServiceFormData?.append('estimatedDelivery', data?.estimatedDelivery);
     upsertServiceFormData?.append('description', data?.description);
     !!data?.fileUrl?.length &&
       upsertServiceFormData?.append('fileUrl', data?.fileUrl);
-    upsertServiceFormData?.append(
-      'assetType',
-      data?.assetType?._id ?? '65fd00d618a17a26a86b8e1e',
-    );
+    upsertServiceFormData?.append('assetType', data?.assetType?._id);
     upsertServiceFormData?.append(
       'agentVisibilty',
       data?.selectAgentVisibility?._id ?? data?.agentVisibilty?._id,
@@ -142,7 +139,6 @@ const useUpsertService = () => {
     apiQueryAgent,
     apiRequestorQuery,
     router,
-    // apiQueryCategory,
     apiServiceCategoryAgentQuery,
     apiQueryRequester,
     apiQueryAssetType,
@@ -157,9 +153,11 @@ const useUpsertService = () => {
     results,
     upsertServiceFormField,
     categoriesOfServicesFormField,
-    // apiQueryCategory,
     apiRequestorQuery,
     categoryId,
+    router,
+    handleCancelBtn,
+    postAddServiceCatalogStatus,
   };
 };
 export default useUpsertService;
