@@ -20,7 +20,7 @@ export const knowledgeInsightsRelatedTicketColumns = [
     ),
   },
   {
-    accessorFn: (row: any) => row?.insertedTickets,
+    accessorFn: (row: any) => row?.insertedTickets?.agentDetails,
     id: 'agentDetails',
     isSortable: true,
     header: 'Assigned to',
