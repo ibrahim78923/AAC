@@ -10,15 +10,15 @@ import dayjs from 'dayjs';
 import * as Yup from 'yup';
 
 export const validationSchemaReportAnIssueModal = Yup?.object()?.shape({
-  requester: Yup?.mixed()?.nullable()?.required('Required'),
-  subject: Yup?.string()?.trim()?.required('Required'),
-  description: Yup?.string()?.trim()?.required('Required'),
+  requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
+  subject: Yup?.string()?.trim()?.required('subject is required'),
+  description: Yup?.string()?.trim()?.required('description is required'),
   associatesAssets: Yup?.mixed()?.nullable(),
   attachFile: Yup?.mixed()?.nullable(),
 });
 
 export const defaultValues = {
-  requester: '',
+  requester: null,
   subject: '',
   description: '',
   associatesAssets: [],

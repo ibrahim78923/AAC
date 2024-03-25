@@ -38,6 +38,7 @@ const BillingAndInvoicesTable = () => {
     setIsEditModal,
     isEditModal,
     assignPlanTableData,
+    isLoading,
     setIsGetRowValues,
     isGetRowValues,
     handleSubmit,
@@ -173,6 +174,7 @@ const BillingAndInvoicesTable = () => {
           setPageLimit={setPageLimit}
           count={assignPlanTableData?.data?.meta?.pages}
           isPagination
+          isLoading={isLoading}
         />
       </Grid>
       {/* <CustomPagination count={1} rowsPerPageOptions={[1, 2]} entriePages={1} /> */}
