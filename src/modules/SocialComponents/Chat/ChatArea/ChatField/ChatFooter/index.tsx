@@ -77,6 +77,11 @@ const ChatFooter = ({ setChangeScroll }: any) => {
   const open = Boolean(anchorElAttachment);
   const idOpen = open ? 'simple-popover' : undefined;
 
+  const isLink = (text: any) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return urlRegex.test(text);
+  };
+
   const setAddMessageHandler = () => {
     const addMessagePayloadFrGroup = {
       chatId: activeChatId && activeChatId,
@@ -87,7 +92,10 @@ const ChatFooter = ({ setChangeScroll }: any) => {
       chatId: activeChatId && activeChatId,
       content: messageText,
       media: imageToUpload,
-      ...(imageToUpload.length > 0 && { type: attachmentType ?? 'text' }),
+      ...(imageToUpload?.length > 0 && { type: attachmentType }),
+      ...(imageToUpload?.length <= 0 && {
+        type: isLink(messageText) ? 'link' : 'text',
+      }),
     };
     const addMessageReplyPayload = {
       receiverId: activeReceiverId && activeReceiverId[0],
@@ -95,9 +103,13 @@ const ChatFooter = ({ setChangeScroll }: any) => {
       content: messageText,
       parentMessage: activeReply?.chatId,
       media: imageToUpload,
-      ...(imageToUpload.length > 0 && { type: attachmentType ?? 'text' }),
+      ...(imageToUpload?.length > 0 && {
+        type: attachmentType ?? isLink(messageText) ? 'link' : 'text',
+      }),
+      ...(imageToUpload?.length <= 0 && {
+        type: isLink(messageText) ? 'link' : 'text',
+      }),
     };
-
     socket.emit(
       'add-message',
       activeReply?.content
