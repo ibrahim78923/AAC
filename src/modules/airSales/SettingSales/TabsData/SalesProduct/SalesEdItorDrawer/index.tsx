@@ -10,6 +10,8 @@ import useSalesEditorDrawer from './useSalesEditorDrawer';
 
 import { v4 as uuidv4 } from 'uuid';
 
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+
 const SalesEditorDrawer = ({
   isDraweropen,
   isEditMode,
@@ -18,14 +20,18 @@ const SalesEditorDrawer = ({
   setSelectedCheckboxes,
   selectedCheckboxes,
 }: any) => {
-  const { handleSubmit, onSubmit, salesProduct, productLoading } =
-    useSalesEditorDrawer({
-      selectedCheckboxes,
-      isEditMode,
-      setIsDraweropen,
-      setSelectedCheckboxes,
-    });
-
+  const {
+    handleSubmit,
+    onSubmit,
+    salesProduct,
+    productLoading,
+    productsDataLoading,
+  } = useSalesEditorDrawer({
+    selectedCheckboxes,
+    isEditMode,
+    setIsDraweropen,
+    setSelectedCheckboxes,
+  });
   return (
     <>
       <CommonDrawer
@@ -38,24 +44,28 @@ const SalesEditorDrawer = ({
         submitHandler={handleSubmit(onSubmit)}
         isLoading={productLoading}
       >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <FormProvider methods={salesProduct}>
-            <Grid container spacing={1}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
+        {productsDataLoading ? (
+          <SkeletonTable />
+        ) : (
+          <Box sx={{ paddingTop: '1rem' }}>
+            <FormProvider methods={salesProduct}>
+              <Grid container spacing={1}>
+                {dataArray?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component {...item.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          </Box>
+        )}
       </CommonDrawer>
     </>
   );

@@ -397,3 +397,8 @@ export const INVOICE = {
   POST_INVOICE_QUOTE: '/quote-invoice',
   GET_INVOICE_QUOTE_LIST: '/quote',
 };
+
+export const OPERATION = {
+  OPERATION_WORKFLOW: '/workflows',
+  SCHEMA_KEYS: '/workflows/schema-keys',
+};
