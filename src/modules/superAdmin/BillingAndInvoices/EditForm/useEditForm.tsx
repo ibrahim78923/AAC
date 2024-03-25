@@ -4,11 +4,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import {
+  useGetExistingCrmQuery,
   useGetPlanIdQuery,
   usePatchBilingInvoicesMutation,
   usePostBilingInvoicesMutation,
 } from '@/services/superAdmin/billing-invoices';
 import { isNullOrEmpty } from '@/utils';
+import { useGetCrmQuery } from '@/services/superAdmin/plan-mangement';
 
 const useEditForm = (
   isEditModal: any,
@@ -26,7 +28,7 @@ const useEditForm = (
     clientName: isGetRowValues?.cell?.row?.original?.organizationId,
     product:
       isGetRowValues?.cell?.row?.original?.planProducts?.length > 1
-        ? 'CRM2'
+        ? isGetRowValues?.cell?.row?.original?.plans?._id
         : isGetRowValues?.cell?.row?.original?.planProducts[0]?._id,
     planType: isGetRowValues?.cell?.row?.original?.plantypes?._id,
     additionalUser: isGetRowValues?.cell?.row?.original?.additionalUsers,
@@ -76,28 +78,88 @@ const useEditForm = (
     },
   });
 
+  const { data: getCRM } = useGetCrmQuery({});
+
+  const crmOptions = getCRM?.data?.map((product: any) => ({
+    value: product?._id,
+    label: product?.name,
+  }));
+
   const { handleSubmit, reset, watch, setValue } = methods;
 
   const productId = watch('product');
   const planTypeId = watch('planType');
 
-  const {
-    data: planData,
-    isSuccess,
-    isError,
-  } = useGetPlanIdQuery<any>(
-    {
-      proId: productId,
-      planTypeId: planTypeId,
-    },
-    { skip: isNullOrEmpty(planTypeId) },
-  );
+  let planData: any;
+  let isSuccessPlan;
+  let isErrorPlan;
+
+  if (selectProductSuite != 'CRM') {
+    const { data, isSuccess, isError } = useGetPlanIdQuery<any>(
+      {
+        proId: productId,
+        planTypeId: planTypeId,
+      },
+      { skip: isNullOrEmpty(planTypeId) },
+    );
+
+    planData = data;
+    isSuccessPlan = isSuccess;
+    isErrorPlan = isError;
+  }
+
+  let ExistingplanData: any;
+  let ExistingisSuccessPlan;
+  let ExistingisErrorPlan;
+
+  if (selectProductSuite === 'CRM') {
+    const { data, isSuccess, isError } = useGetExistingCrmQuery<any>(
+      {
+        crmName: getCRM?.data?.find(
+          (product: any) => product?._id === productId,
+        )?.name,
+        planTypeId: planTypeId,
+      },
+      { skip: isNullOrEmpty(planTypeId) },
+    );
+
+    ExistingplanData = data;
+    ExistingisSuccessPlan = isSuccess;
+    ExistingisErrorPlan = isError;
+  }
 
   if (planData) {
-    setValue('planPrice', isSuccess ? planData?.data?.planPrice : '');
-    setValue('defaultUser', isSuccess ? planData?.data?.defaultUsers : '');
-    setValue('defaultUserTwo', isSuccess ? planData?.data?.defaultUsers : '');
+    setValue('planPrice', isSuccessPlan ? planData?.data?.planPrice : '');
+    setValue('defaultUser', isSuccessPlan ? planData?.data?.defaultUsers : '');
+    setValue(
+      'defaultUserTwo',
+      isSuccessPlan ? planData?.data?.defaultUsers : '',
+    );
   }
+
+  if (ExistingplanData) {
+    setValue(
+      'planPrice',
+      ExistingisSuccessPlan ? ExistingplanData?.data?.planPrice : '',
+    );
+    setValue(
+      'defaultUser',
+      ExistingisSuccessPlan ? ExistingplanData?.data?.defaultUsers : '',
+    );
+    setValue(
+      'defaultUserTwo',
+      ExistingisSuccessPlan ? ExistingplanData?.data?.defaultUsers : '',
+    );
+  }
+
+  useEffect(() => {
+    if (selectProductSuite === 'CRM') {
+      setValue('planPrice', '');
+      setValue('defaultUser', '');
+      setValue('defaultUserTwo', '');
+      setValue('planTypeId', '');
+    }
+  }, [selectProductSuite]);
 
   const onSubmit = async (values: any) => {
     const originalDate = values?.date;
@@ -110,7 +172,10 @@ const useEditForm = (
 
     const assignPlanPayload = {
       organizationId: values?.clientName,
-      planId: planData?.data?._id,
+      planId:
+        selectProductSuite === 'CRM'
+          ? ExistingplanData?.data?._id
+          : planData?.data?._id,
       additionalUsers: parseInt(values?.additionalUser),
       additionalStorage: parseInt(values?.additionalStorage),
       planDiscount: parseInt(values?.discount),
@@ -144,16 +209,18 @@ const useEditForm = (
     }
   };
 
-  if (isSuccess) {
-    enqueueSnackbar(`Success fetch plan data`, {
-      variant: 'success',
-    });
-  } else {
-    if (isError) {
-      enqueueSnackbar(`Please create plan agaist respective seleected value`, {
+  // if (isSuccessPlan || ExistingisSuccessPlan) {
+  //   enqueueSnackbar(`Success fetch plan data`, {
+  //     variant: 'success',
+  //   });
+  // } else {  }
+  if (isErrorPlan || ExistingisErrorPlan) {
+    enqueueSnackbar(
+      `Please create plan agaist respective selected product and product type`,
+      {
         variant: 'error',
-      });
-    }
+      },
+    );
   }
 
   useEffect(() => {
@@ -169,6 +236,7 @@ const useEditForm = (
     handleSubmit,
     onSubmit,
     reset,
+    crmOptions,
   };
 };
 

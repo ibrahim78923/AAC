@@ -37,6 +37,10 @@ import {
 } from './Forms/Modules/PlanFeatures.data';
 import { isNullOrEmpty } from '@/utils';
 import { SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  useGetExistingCrmQuery,
+  useGetPlanIdQuery,
+} from '@/services/superAdmin/billing-invoices';
 import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
 
 export const useAddPlan = () => {
@@ -45,6 +49,8 @@ export const useAddPlan = () => {
   const [skip, setSkip] = useState(true);
   const [productIdModules, setProductIdModules] = useState([]);
   const [crmValue, setCrmValue] = useState<any | null>(null);
+  const [ifCrmExist, setIfCrmExist] = useState(false);
+  const [selectProductSuite, setSelectProductSuite] = useState('product');
 
   const [postPlanMangement, isLoading] = usePostPlanMangementMutation();
   const [updatePlanMangement] = useUpdatePlanMangementMutation();
@@ -84,7 +90,7 @@ export const useAddPlan = () => {
         } = parsedRowData;
         if (!isNullOrEmpty(planProducts)) {
           const productId = planProducts[0]?._id;
-          const planTypeId = { value: planType?.name, label: planType?.name };
+          const planTypeId = planType?._id;
           return {
             defaultUsers,
             defaultStorage,
@@ -124,6 +130,32 @@ export const useAddPlan = () => {
   const AdditionalStorageValue = watch(['allowAdditionalStorage']);
   const AdditionalUsereValue = watch(['allowAdditionalUsers']);
 
+  const planTypeId = watch('planTypeId');
+  const productId = watch('productId');
+  let crmData: any;
+
+  if (selectProductSuite === 'CRM') {
+    const { data } = useGetExistingCrmQuery<any>(
+      {
+        crmName: crmValue?.label,
+        planTypeId: planTypeId,
+      },
+      { skip: isNullOrEmpty(planTypeId) },
+    );
+    crmData = data;
+  }
+  let planExist: any;
+  if (selectProductSuite === 'product') {
+    const { data } = useGetPlanIdQuery<any>(
+      {
+        proId: productId,
+        planTypeId: planTypeId,
+      },
+      { skip: isNullOrEmpty(planTypeId) },
+    );
+    planExist = data;
+  }
+
   const planForm: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.addPlanForm,
   );
@@ -145,7 +177,7 @@ export const useAddPlan = () => {
 
   const onSubmitPlan = async (values: any) => {
     if (values?.suite?.length > 0 && values?.suite?.length < 2) {
-      enqueueSnackbar('Please select more then one product product', {
+      enqueueSnackbar('Please select more then one product', {
         variant: 'error',
       });
     } else if (values?.suite?.length < 2 && isNullOrEmpty(values?.productId)) {
@@ -339,6 +371,8 @@ export const useAddPlan = () => {
           AdditionalUsereValue={AdditionalUsereValue}
           crmValue={crmValue}
           setCrmValue={setCrmValue}
+          selectProductSuite={selectProductSuite}
+          setSelectProductSuite={setSelectProductSuite}
         />
       ),
 
@@ -364,6 +398,7 @@ export const useAddPlan = () => {
           methods={methodsPlanModules}
           handleSubmit={handlePlanModules}
           errors={errors}
+          editPlan={singlePlan?.data}
         />
       ),
       componentProps: { addPlanFormValues, setAddPlanFormValues },
@@ -377,6 +412,23 @@ export const useAddPlan = () => {
     }
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+
+  useEffect(() => {
+    if (
+      !isNullOrEmpty(crmData?.data) ||
+      (!isNullOrEmpty(planExist?.data) && isNullOrEmpty(router.query.data))
+    ) {
+      enqueueSnackbar(
+        'Product with same name and same Plantype has already exist',
+        {
+          variant: 'error',
+        },
+      );
+      setIfCrmExist(true);
+    } else {
+      setIfCrmExist(false);
+    }
+  });
 
   useEffect(() => {
     if (AdditionalStorageValue[0] === 'No') {
@@ -399,5 +451,6 @@ export const useAddPlan = () => {
     setAddPlanFormValues,
     hanldeGoPreviousBack,
     isLoading: isLoading?.isLoading,
+    ifCrmExist,
   };
 };
