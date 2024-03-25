@@ -39,7 +39,7 @@ export const UpsertSalesWorkflow = () => {
           setValue={setValue}
           watch={watch}
         />
-        <WorkflowActionExecuted />
+        <WorkflowActionExecuted watch={watch} setValue={setValue} />
       </FormProvider>
     </Box>
   );

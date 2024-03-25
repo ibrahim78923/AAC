@@ -20,7 +20,7 @@ export const salesSchema: any = Yup?.object()?.shape({
         Yup?.object()?.shape({
           key: Yup?.string()?.required('Required'),
           condition: Yup?.string()?.required('Required'),
-          value: Yup?.string()?.required('Required'),
+          value: Yup?.mixed()?.nullable()?.required('Required'),
         }),
       ),
     }),
@@ -54,13 +54,13 @@ export const salesValues = {
     {
       name: '',
       conditionType: null,
-      conditions: [{ key: '', condition: '', value: '' }],
+      conditions: [{ key: '', condition: '', value: [] }],
     },
-    {
-      name: '',
-      conditionType: null,
-      conditions: [{ key: '', condition: '', value: '' }],
-    },
+    // {
+    //   name: '',
+    //   conditionType: null,
+    //   conditions: [{ key: '', condition: '' }],
+    // },
   ],
   actions: [{ key: '', value: '' }],
 };

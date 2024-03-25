@@ -1,10 +1,17 @@
+import { useEffect } from 'react';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { useFieldArray } from 'react-hook-form';
 import { salesValues } from '../UpsertSalesWorkflow.data';
+import {
+  useLazyGetContactDropdownListQuery,
+  useLazyGetDealDropdownListQuery,
+  useLazyGetProductsDropdownListQuery,
+} from '@/services/airOperations/workflow-automation/sales-workflow';
 
-export const useWorkflowActionExecuted = () => {
+export const useWorkflowActionExecuted = (props: any) => {
+  const { watch, setValue } = props;
   const { fields, append, remove } = useFieldArray({
     name: 'actions',
   });
@@ -29,10 +36,23 @@ export const useWorkflowActionExecuted = () => {
     }
   };
   const { palette } = useTheme();
+  const dealsDropdown = useLazyGetDealDropdownListQuery();
+  const contactDropdown = useLazyGetContactDropdownListQuery();
+  const productDropdown = useLazyGetProductsDropdownListQuery();
+  const moduleType = watch('module');
+  useEffect(() => {
+    fields?.forEach((_, index) => {
+      setValue(`actions.${index}.key`, '');
+      setValue(`actions.${index}.value`, '');
+    });
+  }, [moduleType]);
   return {
     fields,
     handleAppend,
     palette,
     handleDeleteClick,
+    dealsDropdown,
+    contactDropdown,
+    productDropdown,
   };
 };

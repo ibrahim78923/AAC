@@ -24,7 +24,7 @@ export const WorkflowRunAndTrigger = (props: any) => {
         >
           Run this workflow for
         </Typography>
-        <Grid lg={8} p={1.5}>
+        <Grid item lg={8} p={1.5}>
           <RHFRadioGroup
             label={<Typography variant="h5">Module</Typography>}
             sx={{

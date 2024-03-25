@@ -8,9 +8,14 @@ import {
 import { useSubWorkflowConditions } from './useSubWorkflowConditions';
 
 export const SubWorkflowConditions = (props: any) => {
-  const { index, conditionType, watch, setValue } = props;
-  const { handleAppend, fields, handleDeleteClick } =
-    useSubWorkflowConditions(props);
+  const { index, conditionType, watch } = props;
+  const {
+    handleAppend,
+    fields,
+    handleDeleteClick,
+    dealDropdown,
+    contactDropdown,
+  } = useSubWorkflowConditions(props);
   return (
     <>
       {fields?.map((item, subIndex) => {
@@ -34,10 +39,11 @@ export const SubWorkflowConditions = (props: any) => {
             <Box pt={1} display={'flex'} alignItems={'center'} gap={1}>
               <Grid container spacing={2}>
                 {workflowConditionsDataArray(
-                  setValue,
                   index,
                   subIndex,
                   watch,
+                  dealDropdown,
+                  contactDropdown,
                 )?.map((item) => (
                   <Grid item xs={12} lg={item?.gridLength} key={item?._id}>
                     <item.component {...item?.componentProps} />

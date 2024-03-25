@@ -3,9 +3,17 @@ import { AddCircle, Delete } from '@mui/icons-material';
 import { actionsExecutedFields } from './WorkflowActionExecuted.data';
 import { useWorkflowActionExecuted } from './useWorkflowActionExecuted';
 
-export const WorkflowActionExecuted = () => {
-  const { handleAppend, fields, palette, handleDeleteClick } =
-    useWorkflowActionExecuted();
+export const WorkflowActionExecuted = (props: any) => {
+  const { watch } = props;
+  const {
+    handleAppend,
+    fields,
+    palette,
+    handleDeleteClick,
+    dealsDropdown,
+    contactDropdown,
+    productDropdown,
+  } = useWorkflowActionExecuted(props);
   return (
     <Box
       border={`1px solid ${palette?.custom?.off_white_three}`}
@@ -31,7 +39,13 @@ export const WorkflowActionExecuted = () => {
             )}
             <Box display={'flex'} alignItems={'center'} gap={1} pt={1.5}>
               <Grid container spacing={2}>
-                {actionsExecutedFields(index)?.map((item) => (
+                {actionsExecutedFields(
+                  index,
+                  watch,
+                  dealsDropdown,
+                  contactDropdown,
+                  productDropdown,
+                )?.map((item) => (
                   <Grid item xs={12} lg={item?.gridLength} key={item?._id}>
                     <item.component {...item?.componentProps} size="small" />
                   </Grid>

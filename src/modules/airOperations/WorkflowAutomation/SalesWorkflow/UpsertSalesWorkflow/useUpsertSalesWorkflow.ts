@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { usePostSalesWorkflowMutation } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 
 export const useUpsertSalesWorkflow = () => {
   const { back } = useRouter();
@@ -18,7 +19,7 @@ export const useUpsertSalesWorkflow = () => {
   const [postSalesWorkflowTrigger, { isLoading }] =
     usePostSalesWorkflowMutation();
   const handleFormSubmit = async (data: any) => {
-    const time = dayjs(data?.time)?.format('h:mm A');
+    const time = dayjs(data?.time)?.format(TIME_FORMAT?.API);
     const modifiedData = {
       title: data?.title,
       module: data?.module,
@@ -34,12 +35,12 @@ export const useUpsertSalesWorkflow = () => {
           time: time,
         },
         monthly: {
-          day: Number(dayjs(data?.scheduleDate)?.format('d')),
+          day: Number(dayjs(data?.scheduleDate)?.format(DATE_TIME_FORMAT?.D)),
           time: time,
         },
         annually: {
           month: dayjs(data?.scheduleMonth)
-            ?.format('MMMM')
+            ?.format(DATE_TIME_FORMAT?.MMMM)
             ?.toLowerCase(),
           time: time,
         },
