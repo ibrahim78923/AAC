@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import {
   INVENTORY_LIST_ACTIONS,
-  inventoryListsData,
   inventoryListsColumnsFunction,
   inventoryListsInitialColumns,
 } from './Inventory.data';
