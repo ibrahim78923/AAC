@@ -15,7 +15,6 @@ function UpsertUser({ isDrawerOpen, title, okText, setIsDrawerOpen }: any) {
     usersData,
     departmentDropdown,
     rolesDropdown,
-    usersTeamDropdown,
   } = useUser();
 
   return (
@@ -45,32 +44,31 @@ function UpsertUser({ isDrawerOpen, title, okText, setIsDrawerOpen }: any) {
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={4}>
-              {upsertUserArray(
-                departmentDropdown,
-                rolesDropdown,
-                usersTeamDropdown,
-              )?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
-                  {item?.subheading && title !== USER_MANAGEMENT?.USERVIEW && (
-                    <Typography variant="body2" sx={{ mb: 2 }}>
-                      {item?.subheading}
-                    </Typography>
-                  )}
-                  <item.component
-                    {...item?.componentProps}
-                    size={'small'}
-                    disabled={title === USER_MANAGEMENT?.USERVIEW && disabled}
-                    placeholder={
-                      title === USER_MANAGEMENT?.USERVIEW &&
-                      usersData?.length > 0
-                        ? (usersData?.[0]?.[
-                            item?.componentProps?.name
-                          ] as string)
-                        : item?.componentProps?.placeholder
-                    }
-                  />
-                </Grid>
-              ))}
+              {upsertUserArray(departmentDropdown, rolesDropdown)?.map(
+                (item: any) => (
+                  <Grid item xs={12} md={item?.md} key={item?.id}>
+                    {item?.subheading &&
+                      title !== USER_MANAGEMENT?.USERVIEW && (
+                        <Typography variant="body2" sx={{ mb: 2 }}>
+                          {item?.subheading}
+                        </Typography>
+                      )}
+                    <item.component
+                      {...item?.componentProps}
+                      size={'small'}
+                      disabled={title === USER_MANAGEMENT?.USERVIEW && disabled}
+                      placeholder={
+                        title === USER_MANAGEMENT?.USERVIEW &&
+                        usersData?.length > 0
+                          ? (usersData?.[0]?.[
+                              item?.componentProps?.name
+                            ] as string)
+                          : item?.componentProps?.placeholder
+                      }
+                    />
+                  </Grid>
+                ),
+              )}
             </Grid>
           </FormProvider>
         </Box>
