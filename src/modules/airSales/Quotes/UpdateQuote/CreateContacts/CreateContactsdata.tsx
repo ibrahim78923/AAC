@@ -62,6 +62,7 @@ export const contactsDataArray = (
         name: 'email',
         label: 'Email',
         placeholder: 'Search or Enter Email',
+        require: true,
       },
       md: 12,
       component: RHFTextField,
@@ -81,6 +82,7 @@ export const contactsDataArray = (
         name: 'firstName',
         label: 'First Name',
         placeholder: 'Enter Email',
+        require: true,
       },
       md: 12,
       component: RHFTextField,
@@ -90,7 +92,7 @@ export const contactsDataArray = (
       componentProps: {
         name: 'lastName',
         label: 'Last Name',
-        placeholder: 'Enter Email',
+        placeholder: 'Enter Last Name',
         type: 'text',
       },
       md: 12,
@@ -100,7 +102,7 @@ export const contactsDataArray = (
       componentProps: {
         name: 'address',
         label: 'Address',
-        placeholder: 'Enter Email',
+        placeholder: 'Enter Address',
       },
       md: 12,
       component: RHFTextField,
@@ -119,7 +121,7 @@ export const contactsDataArray = (
       componentProps: {
         name: 'phoneNumber',
         label: 'Phone Number',
-        placeholder: 'Enter Phone Email',
+        placeholder: 'Enter Phone Number',
         // type: 'number',
       },
       md: 12,

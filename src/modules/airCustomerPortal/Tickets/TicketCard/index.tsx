@@ -1,86 +1,81 @@
-import Image from 'next/image';
-import { Box, Typography, useTheme, Chip } from '@mui/material';
+import { Box, Typography, Chip, Avatar } from '@mui/material';
 import dayjs from 'dayjs';
-import { IncTicketIcon } from '@/assets/icons';
-import { DATE_TIME_FORMAT } from '@/constants';
-import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { AIR_CUSTOMER_PORTAL, DATE_TIME_FORMAT } from '@/constants';
+import { useRouter } from 'next/router';
+import { generateImage } from '@/utils/avatarUtils';
+import { TICKET_TYPE } from '@/constants/strings';
 
 export const TicketsCard = (props: any) => {
-  const {
-    id,
-    heading,
-    created,
-    status,
-    icon,
-    ticketIdNumber,
-    source,
-    associateAssetsDetails,
-    handleSingleTickets,
-    isLoading,
-    isFetching,
-  } = props;
-  const theme = useTheme();
-  if (isLoading || isFetching) return <SkeletonTable />;
+  const { ticket } = props;
+
+  const router = useRouter();
+
   return (
     <Box
-      gap={2}
-      borderRadius={3}
-      p={1.6}
-      display={'flex'}
-      flexDirection={{ xs: 'column', sm: 'row' }}
-      justifyContent={{
-        xs: 'center',
-        sm: 'space-between',
-        lg: 'space-between',
+      key={ticket?._id}
+      sx={{
+        p: 1,
+        backgroundColor: 'grey.100',
+        borderRadius: 3,
+        mb: 1,
+        display: 'flex',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: 1,
+        justifyContent: 'space-between',
+        cursor: 'pointer',
       }}
-      alignItems={'center'}
-      width={'100%'}
-      height={'auto'}
-      bgcolor={theme?.palette?.grey?.[100]}
-      sx={{ cursor: 'pointer' }}
-      onClick={() => handleSingleTickets(id)}
+      onClick={() => {
+        router?.push({
+          pathname: AIR_CUSTOMER_PORTAL?.SINGLE_TICKETS,
+          query: {
+            id: ticket?._id,
+          },
+        });
+      }}
     >
-      <Box
-        display={'flex'}
-        justifyContent={'center'}
-        flexDirection={'column'}
-        gap={0.6}
-      >
-        <Typography variant="h5">{heading}</Typography>
-        <Typography
-          width={'100%'}
-          gap={1}
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'flex-start'}
-          variant="body1"
-        >
-          {icon ? (
-            <Image src={icon} alt={ticketIdNumber} height={25} width={25} />
-          ) : (
-            <IncTicketIcon />
-          )}
-          {
-            associateAssetsDetails?.find((item: any) => item?.displayName)
-              ?.displayName
-          }{' '}
-          {ticketIdNumber}
+      <Box>
+        <Typography fontWeight={600} variant="body2" color={'blue.main'}>
+          {ticket?.subject}
         </Typography>
-
         <Box
-          display={'flex'}
-          alignItems={'center'}
-          flexDirection={{ xs: 'column', sm: 'row' }}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: 1,
+            my: 0.5,
+          }}
         >
-          <Typography variant="body2">
-            Created On {dayjs(created)?.format(DATE_TIME_FORMAT?.DMYhmma)} -{' '}
-          </Typography>
-          <Typography variant="body2" color="primary.main">
-            Via {source ?? '.....'}
-          </Typography>
+          <Avatar
+            src={generateImage(ticket?.requesterDetails?.avatar?.url)}
+            sx={{ bgcolor: 'blue.main', width: 25, height: 25 }}
+          />
+          <Typography variant="body2" color={'blue.main'} fontWeight={500}>{` ${
+            ticket?.ticketType === TICKET_TYPE?.INC ? '' : ticket?.ticketTitle
+          } ${ticket?.ticketIdNumber}`}</Typography>
         </Box>
+        <Typography variant="body2" color={'blue.main'} fontWeight={500}>
+          {`Created On  ${dayjs(ticket?.createdAt)?.format(
+            DATE_TIME_FORMAT?.UI,
+          )}`}
+          <Typography
+            component="span"
+            fontWeight={500}
+            variant="body2"
+            color="primary.main"
+          >
+            {!!ticket?.source ? `- Via ${ticket?.source}` : ''}
+          </Typography>
+        </Typography>
       </Box>
-      <Chip label={status} />
+      <Chip
+        label={ticket?.status ?? '---'}
+        sx={{
+          backgroundColor: 'grey.400',
+          color: 'slateBlue.main',
+        }}
+      />
     </Box>
   );
 };
