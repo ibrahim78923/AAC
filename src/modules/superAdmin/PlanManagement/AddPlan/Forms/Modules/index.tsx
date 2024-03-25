@@ -25,7 +25,7 @@ import { useGetProductsQuery } from '@/services/common-APIs';
 import { isNullOrEmpty } from '@/utils';
 import { enqueueSnackbar } from 'notistack';
 
-const Modules = ({ methods, handleSubmit, errors }: any) => {
+const Modules = ({ methods, handleSubmit, errors, editPlan }: any) => {
   const { theme, selectModule, handleValue } = useModules();
   let prevProductId: any = null;
 
@@ -148,6 +148,7 @@ const Modules = ({ methods, handleSubmit, errors }: any) => {
               methods={methods}
               handleSubmit={handleSubmit}
               selectModule={selectModule}
+              editPlan={editPlan?.planProductPermissions[0]?.permissionSlugs}
             />
           </AccordionDetails>
         </Accordion>

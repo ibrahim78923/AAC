@@ -1,17 +1,15 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { defaultValues } from './PurchaseOrderFilter/PurchaseOrderFilter.data';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AIR_SERVICES } from '@/constants';
 import { PAGINATION } from '@/config';
-import { EXPORT_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { EXPORT_FILE_TYPE } from '@/constants/strings';
 import { downloadFile } from '@/utils/file';
-import { enqueueSnackbar } from 'notistack';
 import {
-  useGetPurchaseOrderListQuery,
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetVendorDropdownQuery,
+  useLazyGetExportPurchaseOrderListQuery,
+  useLazyGetPurchaseOrderListQuery,
 } from '@/services/airServices/assets/purchase-orders';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
+import { purchaseOrderColumnsFunction } from './PurchaseOrders.data';
 
 const { NEW_PURCHASE_ORDER } = AIR_SERVICES;
 
@@ -24,141 +22,87 @@ const usePurchaseOrders = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [SelectedExportType, setSelectedExportType] = useState(
-    EXPORT_TYPE?.XLS,
-  );
+  const [purchaseOrderFilter, setPurchaseOrderFilter] = useState({});
 
-  const params = {
-    page: page,
-    limit: pageLimit,
-    search: searchValue,
-  };
-
-  const { data, isLoading, isError, isFetching, isSuccess }: any =
-    useGetPurchaseOrderListQuery(params);
-
-  const purchaseData = data?.data?.purchases;
-
-  const metaData = data?.data?.meta;
-
-  const methodsPurchaseOrderFilterForm = useForm({
-    defaultValues,
-  });
   const handleNewPurchaseOrder = () => {
     router?.push(NEW_PURCHASE_ORDER);
   };
 
-  const submitPurchaseOrderFilterForm = async () => {};
+  const [lazyGetPurchaseOrderListTrigger, lazyGetPurchaseOrderListStatus] =
+    useLazyGetPurchaseOrderListQuery<any>();
 
-  const resetPurchaseOrderFilterForm = async () => {
-    methodsPurchaseOrderFilterForm?.reset();
-    setIsDrawerOpen(false);
-  };
-  const excelExportHandler = async () => {
+  const [lazyGetExportPurchaseOrderListTrigger] =
+    useLazyGetExportPurchaseOrderListQuery();
+
+  const getPurchaseOrderListData = async (currentPage: any = page) => {
+    const additionalParams = [
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+      ['search', searchValue],
+    ];
+    const getPurchaseOrderListParam: any = buildQueryParams(
+      additionalParams,
+      purchaseOrderFilter,
+    );
+
+    const getPurchaseOrderListParameter = {
+      queryParams: getPurchaseOrderListParam,
+    };
+
     try {
-      const purchases = purchaseData || [];
+      await lazyGetPurchaseOrderListTrigger(
+        getPurchaseOrderListParameter,
+      )?.unwrap();
+      setPurchaseOrderData([]);
+    } catch (error: any) {}
+  };
 
-      const formattedData = purchases.reduce((result: any, purchase: any) => {
-        const orderDetails = {
-          'Order Number': purchase.orderNumber,
-          'Order Name': purchase.orderName,
-          Vendor: purchase.vendorId,
-          'Expected Delivery Date': purchase.expectedDeliveryDate,
-          Status: purchase.status,
-          'Total Cost (£)': purchase.subTotal,
-        };
+  const getPurchaseOrderListDataExport = async (type: any) => {
+    const exportInventoryParams = new URLSearchParams();
 
-        return [...result, orderDetails];
-      }, []);
+    exportInventoryParams?.append('exportType', type);
+    exportInventoryParams?.append('page', page + '');
+    exportInventoryParams?.append('limit', pageLimit + '');
+    exportInventoryParams?.append('search', searchValue);
 
-      const headings = [
-        'Order Number',
-        'Order Name',
-        'Vendor',
-        'Expected Delivery Date',
-        'Status',
-        'Total Cost (£)',
-      ];
+    const getInventoryExportParameter = {
+      queryParams: exportInventoryParams,
+    };
 
-      const csvContent = [
-        headings.join(','),
-        ...formattedData.map(
-          (row: any) =>
-            headings.map((key) => String(row[key])).join(',') + '\n',
-        ),
-      ];
-
-      await downloadFile(csvContent, 'excel-export.csv', SelectedExportType);
-
-      enqueueSnackbar('XLS File Download successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-    } catch (error) {
-      enqueueSnackbar('Error exporting XLS file', {
-        variant: purchaseData?.error ?? NOTISTACK_VARIANTS?.ERROR,
-      });
+    try {
+      const response: any = await lazyGetExportPurchaseOrderListTrigger(
+        getInventoryExportParameter,
+      )?.unwrap();
+      downloadFile(response, 'Purchase Order Lists', EXPORT_FILE_TYPE?.[type]);
+      successSnackbar('File export successfully');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
-  const csvExportHandler = async () => {
-    try {
-      const purchases = purchaseData || [];
+  useEffect(() => {
+    getPurchaseOrderListData();
+  }, [searchValue, page, pageLimit, purchaseOrderFilter]);
 
-      const formattedData = purchases.reduce((result: any, purchase: any) => {
-        const orderDetails = {
-          'Order Number': purchase.orderNumber,
-          'Order Name': purchase.orderName,
-          Vendor: purchase.vendorId,
-          'Expected Delivery Date': purchase.expectedDeliveryDate,
-          Status: purchase.status,
-          'Total Cost (£)': purchase.subTotal,
-        };
+  const purchaseOrderColumns = purchaseOrderColumnsFunction(
+    purchaseOrderData,
+    setPurchaseOrderData,
+    lazyGetPurchaseOrderListStatus?.data?.data?.purchases,
+    router,
+  );
 
-        return [...result, orderDetails];
-      }, []);
-
-      const headings = [
-        'Order Number',
-        'Order Name',
-        'Vendor',
-        'Expected Delivery Date',
-        'Status',
-        'Total Cost (£)',
-      ];
-
-      const csvContent = [
-        headings.join(','),
-        ...formattedData.map(
-          (row: any) =>
-            headings.map((key) => String(row[key])).join(',') + '\n',
-        ),
-      ];
-
-      await downloadFile(csvContent, 'csv-export.csv', SelectedExportType);
-
-      enqueueSnackbar('CSV File Download Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-    } catch (error) {
-      enqueueSnackbar('Error exporting CSV file', {
-        variant: purchaseData?.error ?? NOTISTACK_VARIANTS?.ERROR,
-      });
+  const onDeleteClick = () => {
+    if (purchaseOrderData?.length > 1) {
+      errorSnackbar('Please select only 1');
+      return;
     }
+    setDeleteModalOpen?.(true);
   };
 
-  const departmentDropdown = useLazyGetDepartmentDropdownQuery();
-  const vendorDropdown = useLazyGetVendorDropdownQuery();
-
-  const handleExportTypeClick = (type: any) => {
-    setSelectedExportType(type);
-  };
   return {
     isDrawerOpen,
     setIsDrawerOpen,
     handleNewPurchaseOrder,
-    methodsPurchaseOrderFilterForm,
-    submitPurchaseOrderFilterForm,
-    resetPurchaseOrderFilterForm,
     isNewPurchaseOrder,
     setIsNewPurchaseOrder,
     router,
@@ -166,23 +110,19 @@ const usePurchaseOrders = () => {
     setDeleteModalOpen,
     purchaseOrderData,
     setPurchaseOrderData,
-    metaData,
     setPage,
     setPageLimit,
-    isLoading,
-    isError,
-    isFetching,
-    isSuccess,
     page,
     pageLimit,
-    purchaseData,
     searchValue,
     setSearchValue,
-    handleExportTypeClick,
-    csvExportHandler,
-    excelExportHandler,
-    departmentDropdown,
-    vendorDropdown,
+    lazyGetPurchaseOrderListStatus,
+    purchaseOrderColumns,
+    getPurchaseOrderListDataExport,
+    purchaseOrderFilter,
+    setPurchaseOrderFilter,
+    getPurchaseOrderListData,
+    onDeleteClick,
   };
 };
 export default usePurchaseOrders;

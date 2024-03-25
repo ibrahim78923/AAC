@@ -1,6 +1,7 @@
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import { AntSwitch } from '@/components/AntSwitch';
 import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 export const userDropdown = (setDeleteModal: any) => [
   {
@@ -14,7 +15,7 @@ export const userDropdown = (setDeleteModal: any) => [
 ];
 
 export const userList = (
-  userData: any = [],
+  usersData: any = [],
   selectedUserList: any,
   setSelectedUserList: any,
   setIsDrawerOpen: any,
@@ -24,34 +25,43 @@ export const userList = (
     id: '_id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         color="primary"
         name={info?.getValue()}
         checked={
-          !!selectedUserList?.find((item: any) => item === info?.getValue())
+          !!selectedUserList?.find(
+            (item: any) => item?._id === info?.getValue(),
+          )
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedUserList([...selectedUserList, info?.getValue()])
+            ? setSelectedUserList([
+                ...selectedUserList,
+                usersData?.find((item: any) => item?._id === info?.getValue()),
+              ])
             : setSelectedUserList(
-                selectedUserList?.filter(
-                  (item: any) => item !== info?.getValue(),
-                ),
+                selectedUserList?.filter((item: any) => {
+                  return item?._id !== info?.getValue();
+                }),
               );
         }}
       />
     ),
     header: (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         color="primary"
         name="_id"
         checked={
-          userData?.length
-            ? selectedUserList?.length === userData?.length
+          !!usersData?.length
+            ? selectedUserList?.length === usersData?.length
             : false
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedUserList(userData?.map((user: any) => user?._id))
+            ? setSelectedUserList([...usersData])
             : setSelectedUserList([]);
         }}
       />

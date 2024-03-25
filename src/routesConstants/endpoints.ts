@@ -109,6 +109,7 @@ export const END_POINTS = {
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
   TICKET_DETAILS: '/ticket',
   REQUESTER_LIST: `/requester/requester-list`,
+
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
   DEPARTMENT: '/department/add-department',
@@ -338,6 +339,7 @@ export const superAdminBillingInvoices = {
   GET_ALL_INVOICE: '/super-admin/get-all-invoice',
   UPDATE_INVOICE: '/super-admin/update-invoice',
   GET_CRM: '/super-admin/get-all-crm-plans',
+  FIND_CRM: '/super-admin/find-crm',
 };
 
 export const organization = {
@@ -395,4 +397,9 @@ export const INVOICE = {
   GET_QUOTE_ID: '/quote',
   POST_INVOICE_QUOTE: '/quote-invoice',
   GET_INVOICE_QUOTE_LIST: '/quote',
+};
+
+export const OPERATION = {
+  OPERATION_WORKFLOW: '/workflows',
+  SCHEMA_KEYS: '/workflows/schema-keys',
 };

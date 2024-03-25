@@ -4,7 +4,7 @@ import { useSingleTicketHeader } from './useSingleTicketHeader';
 import { LoadingButton } from '@mui/lab';
 
 export const SingleTicketHeader = (props: any) => {
-  const { setOpenPopup, ticketNumber } = props;
+  const { setOpenShareModal, ticketNumber } = props;
   const { isLoading, handleStatsChange, handleBack } =
     useSingleTicketHeader(props);
 
@@ -12,16 +12,10 @@ export const SingleTicketHeader = (props: any) => {
     <Box
       display={'flex'}
       justifyContent={'space-between'}
-      flexWrap={{ xs: 'wrap' }}
+      flexWrap={'wrap'}
       alignItems={'center'}
-      padding={1}
     >
-      <Box
-        display={'flex'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        gap={1}
-      >
+      <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
         <ArrowBack
           onClick={handleBack}
           color="action"
@@ -30,8 +24,8 @@ export const SingleTicketHeader = (props: any) => {
         <Typography variant="h6" color="primary">
           Tickets
         </Typography>
-        <Typography variant="h6">
-          {'>'}&ensp;{ticketNumber}
+        <Typography variant="h6" color="slateBlue.main">
+          {'>'} &ensp; {ticketNumber}
         </Typography>
       </Box>
       <Box
@@ -39,12 +33,12 @@ export const SingleTicketHeader = (props: any) => {
         justifyContent={'center'}
         alignItems={'center'}
         gap={1}
-        margin={{ xs: 1, sm: 1 }}
+        flexWrap={'wrap'}
       >
         <Button
           variant="outlined"
           color="secondary"
-          onClick={() => setOpenPopup(true)}
+          onClick={() => setOpenShareModal?.(true)}
         >
           Share
         </Button>

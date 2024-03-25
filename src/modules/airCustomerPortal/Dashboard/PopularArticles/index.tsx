@@ -58,7 +58,8 @@ export const PopularArticles = () => {
                   router?.push({
                     pathname: AIR_CUSTOMER_PORTAL?.KNOWLEDGE_BASE_TICKET_DETAIL,
                     query: {
-                      id: article?._id,
+                      articleId: article?._id,
+                      folderId: article?.folder?._id,
                     },
                   });
                 }}

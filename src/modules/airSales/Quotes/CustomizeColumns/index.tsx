@@ -42,36 +42,6 @@ const CustomizeColumns = ({ open, onClose }: any) => {
       cancelText={'Cancel'}
       submitHandler={handleUpdateColumns}
     >
-      {/* <List sx={styles?.columnsList}>
-        {columns?.map((col: any) => {
-          if (col?.id === 'cellCheckbox') {
-            return null;
-          }
-          return (
-            <ListItem key={col?.id} disablePadding>
-              <ListItemButton
-                className={
-                  checkedColumns?.indexOf(col?.id) !== -1 ? 'selected' : ''
-                }
-                role={undefined}
-                onClick={handleToggleColumns(col?.id)}
-                dense
-              >
-                <ListItemIcon>
-                  <DragSharedIcon />
-                </ListItemIcon>
-                <ListItemText primary={col?.header} />
-                <Checkbox
-                  edge="start"
-                  checked={checkedColumns?.indexOf(col?.id) !== -1}
-                  tabIndex={-1}
-                  disableRipple
-                />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
-      </List> */}
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
           key={uuidv4()}
