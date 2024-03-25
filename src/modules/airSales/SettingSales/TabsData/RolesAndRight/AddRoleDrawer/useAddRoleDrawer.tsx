@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useTheme, Theme, Skeleton } from '@mui/material';
+import { useTheme, Theme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { validationSchema } from './AddRoleDrawer.data';
@@ -137,13 +137,6 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
     }
   };
 
-  const skeletonLines = [];
-  for (let i = 0; i < 5; i++) {
-    skeletonLines.push(
-      <Skeleton key={i} animation="wave" height={60} sx={{ mb: 1 }} />,
-    );
-  }
-
   return {
     theme,
     methods,
@@ -154,7 +147,6 @@ const useAddRoleDrawer: any = (isDrawerOpen: any, onClose: any) => {
     isLoading,
     disabled,
     postRoleLoading,
-    skeletonLines,
   };
 };
 

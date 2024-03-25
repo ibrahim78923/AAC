@@ -14,7 +14,6 @@ import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 import { useEffect } from 'react';
-import { Skeleton } from '@mui/material';
 
 const useSalesEditorDrawer = ({
   selectedCheckboxes,
@@ -86,16 +85,6 @@ const useSalesEditorDrawer = ({
             variant: NOTISTACK_VARIANTS?.SUCCESS,
           },
         );
-      // isEditMode ? await updateSalesProduct({ body: formData, id: selectedCheckboxes })?.unwrap() :
-      //   await postSalesProduct({ body: formData })?.unwrap(),
-      //   setSelectedCheckboxes([]),
-      //   setIsDraweropen(false),
-      //   enqueueSnackbar(
-      //     `Product ${isEditMode ? 'Updated ' : 'Added'} Successfully`,
-      //     {
-      //       variant: NOTISTACK_VARIANTS?.SUCCESS,
-      //     },
-      //   );
     } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
@@ -105,20 +94,12 @@ const useSalesEditorDrawer = ({
     }
   };
 
-  const skeletonLines = [];
-  for (let i = 0; i < 5; i++) {
-    skeletonLines.push(
-      <Skeleton key={i} animation="wave" height={60} sx={{ mb: 1 }} />,
-    );
-  }
-
   return {
     handleSubmit,
     onSubmit,
     salesProduct,
     productLoading,
     productsDataLoading,
-    skeletonLines,
   };
 };
 

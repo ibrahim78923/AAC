@@ -10,6 +10,8 @@ import useSalesEditorDrawer from './useSalesEditorDrawer';
 
 import { v4 as uuidv4 } from 'uuid';
 
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+
 const SalesEditorDrawer = ({
   isDraweropen,
   isEditMode,
@@ -24,7 +26,6 @@ const SalesEditorDrawer = ({
     salesProduct,
     productLoading,
     productsDataLoading,
-    skeletonLines,
   } = useSalesEditorDrawer({
     selectedCheckboxes,
     isEditMode,
@@ -44,7 +45,7 @@ const SalesEditorDrawer = ({
         isLoading={productLoading}
       >
         {productsDataLoading ? (
-          skeletonLines
+          <SkeletonTable />
         ) : (
           <Box sx={{ paddingTop: '1rem' }}>
             <FormProvider methods={salesProduct}>

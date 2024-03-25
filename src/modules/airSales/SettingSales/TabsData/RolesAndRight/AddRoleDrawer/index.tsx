@@ -5,6 +5,7 @@ import useAddRoleDrawer from './useAddRoleDrawer';
 import { dataArray } from './AddRoleDrawer.data';
 import PermissionsAccordion from '../PermissionsAccordion';
 import { FormProvider } from '@/components/ReactHookForm';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const AddRoleDrawer = (props: any) => {
   const { isDrawerOpen, onClose } = props;
@@ -17,7 +18,6 @@ const AddRoleDrawer = (props: any) => {
     isLoading,
     disabled,
     postRoleLoading,
-    skeletonLines,
   } = useAddRoleDrawer(isDrawerOpen, onClose);
 
   return (
@@ -36,7 +36,7 @@ const AddRoleDrawer = (props: any) => {
       isLoading={postRoleLoading}
     >
       {isLoading ? (
-        skeletonLines
+        <SkeletonTable />
       ) : (
         <Box sx={{ paddingTop: '1rem' }}>
           <FormProvider methods={methods}>
