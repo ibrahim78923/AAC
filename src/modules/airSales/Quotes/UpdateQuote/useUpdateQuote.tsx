@@ -10,6 +10,8 @@ import {
 } from './UpdateQuote.data';
 import {
   useCreateAssociationQuoteMutation,
+  useDeleteCompaniesMutation,
+  useDeleteContactsMutation,
   useGetDealsQuery,
   useGetQuoteByIdQuery,
   usePostAddbuyerInfoMutation,
@@ -26,20 +28,41 @@ const useUpdateQuote = () => {
   }
   // const id = router?.query?.data;
   // console.log(quoteId, 'quoteIdquoteIdquoteIdquoteId');
+  // const [selectedRow, setSelectedRow]: any = useState([]);
+
   const [createAssociationQuote] = useCreateAssociationQuoteMutation();
 
   const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 100 });
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
+  const [deleteCompaniesMutation, { isLoading: isCompanyDeleteLoading }] =
+    useDeleteCompaniesMutation();
+  const [deleteContacts, { isLoading: isContactDeleteLoading }] =
+    useDeleteContactsMutation();
 
-  const [selectedBuyerContactIds, setSelectedBuyerContactIds] = useState('');
-  const [selectedCompanyIds, setSelectedCompanyIds] = useState('');
+  const [selectedBuyerContactIds, setSelectedBuyerContactIds] = useState<
+    string | null
+  >('');
+  const [selectedCompanyIds, setSelectedCompanyIds] = useState<string | null>(
+    '',
+  );
+
+  const [deleteModalId, setDeleteModal] = useState<string | null>(null);
+  const handleDeleteModal = (id: string | null) => {
+    setDeleteModal(id);
+  };
+  const [deleteContactModalId, setDeleteContactModalId] = useState<
+    string | null
+  >(null);
+  const handleContactDeleteModal = (id: string | null) => {
+    setDeleteContactModalId(id);
+  };
 
   const handleBuyerContactChange = (id: any) => {
-    setSelectedBuyerContactIds(id);
+    setSelectedBuyerContactIds(selectedBuyerContactIds === id ? null : id);
   };
 
   const handleCompanyChange = (id: any) => {
-    setSelectedCompanyIds(id);
+    setSelectedCompanyIds(selectedCompanyIds === id ? null : id);
   };
 
   const [postAddbuyerInfo] = usePostAddbuyerInfoMutation();
@@ -72,6 +95,36 @@ const useUpdateQuote = () => {
     });
   };
 
+  const handleDeleteCompanies = async () => {
+    try {
+      await deleteCompaniesMutation(deleteModalId)?.unwrap();
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+      setSelectedCompanyIds(null);
+      // setIsActionsDisabled(true);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
+  const handleDeleteContacts = async () => {
+    try {
+      await deleteContacts({ contactIds: [deleteContactModalId] })?.unwrap();
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+      setDeleteContactModalId(null);
+      // setIsActionsDisabled(true);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
   const handleFormSubmit = handleSubmit(onSubmit);
 
   const [activeStep, setActiveStep] = useState(1);
@@ -80,6 +133,7 @@ const useUpdateQuote = () => {
   const [isOpenFormAddCompany, setIsOpenFormAddCompany] = useState(false);
   const [isOpenFormCreateProduct, setIsOpenFormCreateProduct] = useState(false);
   const [isOpenDialog, setIsOpenDialog] = useState(false);
+
   const handleStepNext = async () => {
     setActiveStep((prev: any) => prev + 1);
   };
@@ -221,8 +275,17 @@ const useUpdateQuote = () => {
     handleCompanyChange,
     selectedCompanyIds,
     disabledSaveAndContinueBtn: Boolean(
-      selectedBuyerContactIds || selectedCompanyIds,
+      selectedBuyerContactIds && selectedCompanyIds,
     ),
+    handleDeleteCompanies,
+    // isLoading,
+    handleDeleteModal,
+    deleteModalId,
+    isCompanyDeleteLoading,
+    handleDeleteContacts,
+    isContactDeleteLoading,
+    handleContactDeleteModal,
+    deleteContactModalId,
   };
 };
 

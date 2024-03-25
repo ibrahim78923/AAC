@@ -1,126 +1,3 @@
-// import {
-//   RHFDatePicker,
-//   RHFTextField,
-//   RHFSelect,
-// } from '@/components/ReactHookForm';
-// import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
-// import { useGetUsersListQuery } from '@/services/airSales/deals';
-// import * as Yup from 'yup';
-
-// export const validationSchema = Yup?.object()?.shape({
-//   dealName: Yup?.string()?.required('Field is Required'),
-//   dealPipeline: Yup?.string()?.required('Field is Required'),
-//   dealStage: Yup?.string()?.required('Field is Required'),
-// });
-
-// export const initValues = {
-//   dealName: '',
-//   dealPipeline: '',
-//   dealStage: '',
-//   amount: '',
-//   closeDate: new Date(),
-//   dealOwner: '',
-//   priority: '',
-//   lineItem: '',
-// };
-
-// export const createDealData = () => {
-//   const userRole = 'ORG_EMPLOYEE';
-//   const { pipelineData, DealsLifecycleStageData } = useDealTab();
-//   const { data: UserListData } = useGetUsersListQuery({ role: userRole });
-//   return [
-//     {
-//       component: RHFTextField,
-//       componentProps: {
-//         name: 'dealName',
-//         label: 'Deal Name',
-//       },
-//     },
-//     {
-//       component: RHFSelect,
-//       componentProps: {
-//         name: 'dealPipeline',
-//         label: 'Deal Pipeline',
-//         select: true,
-//       },
-//       options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
-//         value: item?._id,
-//         label: item?.name,
-//       })) ?? [{ label: '', value: '' }],
-//     },
-//     {
-//       component: RHFSelect,
-//       componentProps: {
-//         name: 'dealStage',
-//         label: 'Deal Stage',
-//         select: true,
-//       },
-//       options: DealsLifecycleStageData?.data?.lifecycleStages?.map(
-//         (item: any) => ({
-//           value: item?._id,
-//           label: item?.name,
-//         }),
-//       ),
-//     },
-//     {
-//       component: RHFTextField,
-//       componentProps: {
-//         name: 'amount',
-//         label: 'Amount',
-//         type: 'number',
-//       },
-//     },
-//     {
-//       component: RHFDatePicker,
-//       componentProps: {
-//         name: 'closeDate',
-//         label: 'Close Date',
-//         fullWidth: true,
-//       },
-//     },
-//     {
-//       component: RHFSelect,
-//       componentProps: {
-//         name: 'dealOwner',
-//         label: 'Deal Owner',
-//         select: true,
-//       },
-//       options: UserListData?.data?.users?.map((item: any) => ({
-//         value: item?._id,
-//         label: `${item?.firstName} ${item?.lastName}`,
-//       })) ?? [{ label: '', value: '' }],
-//     },
-//     {
-//       component: RHFSelect,
-//       componentProps: {
-//         name: 'priority',
-//         label: 'Priority',
-//         select: true,
-//       },
-//       options: [
-//         { value: 'Low', label: 'Low' },
-//         { value: 'Medium', label: 'Medium' },
-//         { value: 'High', label: 'High' },
-//       ],
-//     },
-//     {
-//       component: RHFSelect,
-//       componentProps: {
-//         name: 'lineItem',
-//         label: 'Add Line Item',
-//         select: true,
-//       },
-//       options: [
-//         { value: 'Sample Product: £20', label: 'Sample Product: £20' },
-//         {
-//           value: 'Orcalo Product: £5/month',
-//           label: 'Orcalo Product: £5/month',
-//         },
-//       ],
-//     },
-//   ];
-// };
-
 import {
   RHFSelect,
   RHFSwitchableDatepicker,
@@ -129,11 +6,34 @@ import {
 import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 
 import { useGetUsersListQuery } from '@/services/airSales/deals';
+import * as Yup from 'yup';
 
-export const createDealData = () => {
+export const validationSchema = Yup?.object()?.shape({
+  name: Yup?.string()?.required('Field is Required'),
+  dealPiplineId: Yup?.string()?.required('Field is Required'),
+  dealStageId: Yup?.string()?.required('Field is Required'),
+  amount: Yup?.number()
+    ?.typeError('Please enter a valid number')
+    ?.min(0, 'please Enter positive value')
+    ?.positive('Please enter a positive number')
+    ?.required('Please enter a number'),
+});
+
+export const defaultValues = {
+  name: '',
+  dealPiplineId: '',
+  dealOwnerId: '',
+  dealStageId: '',
+};
+export const createDealData = (dealPiplineId: any) => {
   const userRole = 'ORG_EMPLOYEE';
-  const { pipelineData, DealsLifecycleStageData } = useDealTab();
+  const { pipelineData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: userRole });
+
+  const filteredStages =
+    pipelineData?.data?.dealpipelines?.find(
+      (pipeline: any) => pipeline?._id === dealPiplineId,
+    )?.stages || [];
 
   return [
     {
@@ -165,12 +65,10 @@ export const createDealData = () => {
         select: true,
         required: true,
       },
-      options: DealsLifecycleStageData?.data?.lifecycleStages?.map(
-        (item: any) => ({
-          value: item?._id,
-          label: item?.name,
-        }),
-      ),
+      options: filteredStages?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
       component: RHFSelect,
     },
     {
