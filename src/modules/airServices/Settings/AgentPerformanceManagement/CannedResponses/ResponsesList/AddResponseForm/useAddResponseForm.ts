@@ -24,6 +24,7 @@ export const useAddResponseForm = (props: any) => {
   const [patchResponseTrigger, patchResponseStatus] =
     usePatchResponseMutation();
   const [openSelectAgentsModal, setOpenSelectAgentsModal] = useState(false);
+  const [hasAttachment, setHasAttachment] = useState(false);
   const [agents, setAgents] = useState<any>([]);
   const methodsAddResponseForm = useForm<any>({
     resolver: yupResolver(addResponseValidationSchema),
@@ -39,6 +40,9 @@ export const useAddResponseForm = (props: any) => {
   };
   const submitAddResponse = async (data: any) => {
     delete data?.folder;
+    if (!data?.fileUrl) {
+      delete data?.fileUrl;
+    }
     const upsertResponseFormData = new FormData();
     Object?.entries?.(data || {})?.forEach(
       ([key, value]: any) => upsertResponseFormData?.append(key, value),
@@ -117,5 +121,7 @@ export const useAddResponseForm = (props: any) => {
     patchResponseStatus,
     availableForChanged,
     setValue,
+    hasAttachment,
+    setHasAttachment,
   };
 };
