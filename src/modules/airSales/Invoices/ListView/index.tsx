@@ -48,7 +48,23 @@ const ListView = () => {
     isLoading,
     setPage,
     setPageLimit,
+
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
+
+    employeeListData,
   } = useListView();
+
+  const getTableColumns = invoicesTableColumns(
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    setRowId,
+  );
 
   return (
     <>
@@ -91,6 +107,7 @@ const ListView = () => {
                 variant="outlined"
                 color="inherit"
                 className="small"
+                disabled={isActionsDisabled}
               >
                 Actions
                 <ArrowDropDown />
@@ -106,7 +123,9 @@ const ListView = () => {
                     AIR_SALES_INVOICES_PERMISSIONS?.SALE_VIEW_INVOICE,
                   ]}
                 >
-                  <MenuItem onClick={handleIsViewPage}>View</MenuItem>
+                  <MenuItem disabled={!rowId} onClick={handleIsViewPage}>
+                    View
+                  </MenuItem>
                 </PermissionsGuard>
                 <PermissionsGuard
                   permissions={[
@@ -158,7 +177,7 @@ const ListView = () => {
       </Grid>
       <Box sx={{ marginTop: '15px' }}>
         <TanstackTable
-          columns={invoicesTableColumns}
+          columns={getTableColumns}
           data={InvoiceData?.data?.quoteinvoices}
           isLoading={isLoading}
           currentPage={InvoiceData?.data?.meta?.page}
@@ -187,10 +206,11 @@ const ListView = () => {
         cancelText="Cancel"
         footer={true}
         submitHandler={handleFiltersSubmit}
+        isLoading={isLoading}
       >
         <FormProvider methods={methodsFilter}>
           <Grid container spacing={1}>
-            {invoiceFilterFields?.map((item: any) => (
+            {invoiceFilterFields(employeeListData)?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&

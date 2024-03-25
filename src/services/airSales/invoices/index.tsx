@@ -23,8 +23,8 @@ export const invoiceAPI = baseAPI.injectEndpoints({
       }),
       providesTags: ['INVOICE'],
     }),
-    getInvoiceId: builder.query({
-      query: ({ id = '' }: any) => ({
+    getInvoiceById: builder.query({
+      query: ({ id }: any) => ({
         url: `${INVOICE.GET_QUOTE_ID}/${id}`,
         method: 'GET',
       }),
@@ -44,6 +44,6 @@ export const invoiceAPI = baseAPI.injectEndpoints({
 export const {
   usePostInvoiceMutation,
   useLazyGetInvoiceQoutesListQuery,
-  useGetInvoiceIdQuery,
+  useGetInvoiceByIdQuery,
   useGetInvoiceQuery,
 } = invoiceAPI;

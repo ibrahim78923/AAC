@@ -20,11 +20,16 @@ import { productsTableColumns, productsTableData } from './ViewInvoice.data';
 import { productTotalDetails } from '../CreateInvoice/EditDetails/EditDetails.data';
 import { style } from './ViewInvoice.style';
 import { v4 as uuidv4 } from 'uuid';
+// import useViewInvoice from './useViewInvoice';
 
 export const ViewInvoice = (props?: any) => {
+  const router = useRouter();
+  // const invoiceId = router?.query?.invoiceId;
+  // const { data } = useViewInvoice(invoiceId);
+
   const { isOnlyView } = props;
   const theme = useTheme();
-  const router = useRouter();
+
   return (
     <Box>
       {!isOnlyView && (

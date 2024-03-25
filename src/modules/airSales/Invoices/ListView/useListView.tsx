@@ -6,12 +6,24 @@ import { useGetInvoiceQuery } from '@/services/airSales/invoices';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
+import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
+import useAuth from '@/hooks/useAuth';
 
 const useListView = () => {
   const router = useRouter();
-  // const [selectedRow, setSelectedRow]: any = useState([]);
-  // const [isActionsDisabled, setIsActionsDisabled] = useState(true);
-  // const [rowId, setRowId] = useState(null);
+  const { user }: any = useAuth();
+
+  const { data: employeeList } = useGetEmployeeListQuery({
+    orgId: user?.organization?._id,
+  });
+  const employeeListData = employeeList?.data?.users?.map((user: any) => ({
+    value: user?._id,
+    label: `${user?.firstName} ${user?.lastName}`,
+  }));
+
+  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
+  const [rowId, setRowId] = useState(null);
   const [searchBy, setSearchBy] = useState(null);
   const [filterParams, setFilterParams] = useState({});
   const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -56,24 +68,17 @@ const useListView = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    const { createdAt, ...others } = values;
-    const dateStart = createdAt?.[0]
-      ? dayjs(createdAt[0]).format(DATE_FORMAT.API)
-      : null;
-    const dateEnd = createdAt?.[1]
-      ? dayjs(createdAt[1]).format(DATE_FORMAT.API)
-      : null;
-    setFilterParams((prev) => {
+    const { creationDate, ...others } = values;
+    setFilterParams((prev: any) => {
       const updatedParams = {
         ...prev,
         ...others,
       };
-
-      if (dateStart !== null && dateEnd !== null) {
-        updatedParams.dateStart = dateStart;
-        updatedParams.dateEnd = dateEnd;
+      if (creationDate !== null) {
+        updatedParams.creationDate = dayjs(creationDate).format(
+          DATE_FORMAT.API,
+        );
       }
-
       return updatedParams;
     });
     handleCloseFilters();
@@ -90,7 +95,7 @@ const useListView = () => {
 
   const handleIsViewPage = () => {
     handleActionsMenuClose();
-    router.push(AIR_SALES?.SALES_VIEW_INVOICES);
+    router.push(`${AIR_SALES?.SALES_INVOICES}/${rowId}`);
   };
 
   const handleDeleteModal = () => {
@@ -136,6 +141,15 @@ const useListView = () => {
     onSubmit,
     handleSubmit,
     methods,
+
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
+
+    employeeListData,
   };
 };
 
