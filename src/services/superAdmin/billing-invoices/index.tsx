@@ -78,6 +78,13 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['bilingInvoices'],
     }),
+    getExistingCrm: builder.query({
+      query: ({ crmName, planTypeId }) => ({
+        url: `${superAdminBillingInvoices.FIND_CRM}?name=${crmName}&planTypeId=${planTypeId}`,
+        method: 'GET',
+      }),
+      providesTags: ['bilingInvoices'],
+    }),
   }),
 });
 
@@ -91,4 +98,5 @@ export const {
   usePatchBilingInvoicesMutation,
   useGetBillingHistoryQuery,
   usePatchUpdateInvoicesMutation,
+  useGetExistingCrmQuery,
 } = bilingInvoicesAPI;

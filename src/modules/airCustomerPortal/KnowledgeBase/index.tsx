@@ -1,10 +1,10 @@
 import { KnowledgeBaseCard } from './KnowledgeBaseCard';
 import { Grid } from '@mui/material';
 import NoData from '@/components/NoData';
-import { NoAssociationFoundImage } from '@/assets/images';
 import { Header } from './Header';
 import { useKnowledgeBase } from './useKnowledgeBase';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const KnowledgeBase = () => {
   const {
@@ -16,6 +16,10 @@ export const KnowledgeBase = () => {
     setOpenReportAnIssueModal,
     KnowledgeBaseFolderData,
     isLoading,
+    isFetching,
+    isError,
+    setSearch,
+    handleKnowledgeBaseDetail,
   } = useKnowledgeBase();
 
   return (
@@ -27,29 +31,28 @@ export const KnowledgeBase = () => {
         handleClose={handleClose}
         anchorEl={anchorEl}
         open={open}
+        setSearch={setSearch}
       />
-      {isLoading ? (
+      {isLoading || isFetching ? (
         <SkeletonTable />
+      ) : isError ? (
+        <ApiErrorState />
       ) : (
-        <Grid container display={'flex'} justifyContent={'center'} spacing={2}>
+        <Grid container spacing={2}>
           {!!KnowledgeBaseFolderData?.length ? (
             KnowledgeBaseFolderData?.map((option: any) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={option?.id}>
+              <Grid item xs={12} sm={6} md={4} lg={3} key={option?._id}>
                 <KnowledgeBaseCard
                   folderId={option?._id}
                   name={option?.name}
                   createdBy={option?.createdBy?.firstName}
-                  createdDate={new Date(option?.createdAt).toLocaleDateString(
-                    'en-GB',
-                  )}
+                  createdDate={option?.createdAt}
+                  handleKnowledgeBaseDetail={handleKnowledgeBaseDetail}
                 />
               </Grid>
             ))
           ) : (
-            <NoData
-              message="There are no knowledge base articles available"
-              image={NoAssociationFoundImage}
-            />
+            <NoData message="There are no knowledge base articles available" />
           )}
         </Grid>
       )}

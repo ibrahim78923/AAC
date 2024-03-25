@@ -1,54 +1,41 @@
-import { Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { FilterSharedIcon } from '@/assets/icons';
-import { filterFields } from './PurchaseOrderFilter.data';
+import { usePurchaseOrderFilter } from './usePurchaseOrderFilter';
 
 export const PurchaseOrderFilter = (props: any) => {
+  const { isDrawerOpen } = props;
   const {
+    purchaseOrderFilterFormFieldsData,
     methods,
-    isDrawerOpen,
-    setIsDrawerOpen,
-    handleSubmit = () => {},
-    handleReset,
-    departmentDropdown,
-    vendorDropdown,
-  } = props;
-
+    submitPurchaseOrderFilterForm,
+    handleSubmit,
+    closePurchaseOrderFilterForm,
+    resetPurchaseOrderFilterForm,
+  } = usePurchaseOrderFilter(props);
   return (
     <>
-      <Button
-        variant="outlined"
-        startIcon={<FilterSharedIcon />}
-        color="secondary"
-        onClick={() => setIsDrawerOpen(true)}
+      <CommonDrawer
+        isDrawerOpen={isDrawerOpen}
+        onClose={() => closePurchaseOrderFilterForm?.()}
+        okText={'Apply'}
+        title={'Filter'}
+        submitHandler={() => handleSubmit(submitPurchaseOrderFilterForm)()}
+        isOk
+        cancelText={'Reset'}
+        footer
+        cancelBtnHandler={() => resetPurchaseOrderFilterForm?.()}
       >
-        Filter
-      </Button>
-      {isDrawerOpen && (
-        <CommonDrawer
-          isDrawerOpen={isDrawerOpen}
-          onClose={handleReset}
-          okText={'Apply'}
-          title={'Filter'}
-          submitHandler={handleSubmit}
-          isOk={true}
-          cancelText={'Reset'}
-          footer
-        >
-          <FormProvider methods={methods}>
-            <Grid container rowSpacing={2.6} columnSpacing={2} mt={-1}>
-              {filterFields(departmentDropdown, vendorDropdown)?.map(
-                (form: any) => (
-                  <Grid item xs={12} md={form?.gridLength} key={form?.id}>
-                    <form.component {...form?.componentProps} size="small" />
-                  </Grid>
-                ),
-              )}
-            </Grid>
-          </FormProvider>
-        </CommonDrawer>
-      )}
+        <FormProvider methods={methods}>
+          <Grid container spacing={1}>
+            {purchaseOrderFilterFormFieldsData?.map((form: any) => (
+              <Grid item xs={12} key={form?.id}>
+                <form.component {...form?.componentProps} size="small" />
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
+      </CommonDrawer>
     </>
   );
 };

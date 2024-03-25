@@ -32,6 +32,7 @@ const Modules = ({
   selectedPermission,
   selectAllPermissions,
   getModulePermissions,
+  editPlan,
 }: any) => {
   const { theme } = useModules();
   let prevProductId: any = null;
@@ -158,6 +159,7 @@ const Modules = ({
               subModules={item?.subModules}
               methods={methods}
               handleSubmit={handleSubmit}
+              editPlan={editPlan?.planProductPermissions[0]?.permissionSlugs}
             />
           </AccordionDetails>
         </Accordion>
