@@ -44,13 +44,12 @@ const ChatInfoModal = ({
   const activeChatId = useAppSelector(
     (state: any) => state?.chat?.activeChatId,
   );
-  const { data: chatsData } = useGetUserChatsInfoQuery({
+  const { data: chatsData, status } = useGetUserChatsInfoQuery({
     activeChatId: activeChatId,
     limit: '100',
     isGroup: chatMode === 'groupChat' ? true : false,
     mediaType: toggleSwitchActive,
   });
-
   const handleSelection = (_: any, newValue: any) => {
     if (newValue !== null) {
       setToggleSwitchActive(newValue);
@@ -128,12 +127,14 @@ const ChatInfoModal = ({
         </Box>
         <Box>
           {toggleSwitchActive === 'image' && (
-            <MediaAssets data={chatsData?.data?.messages} />
+            <MediaAssets data={chatsData?.data?.messages} status={status} />
           )}
           {toggleSwitchActive === 'docs' && (
-            <DocumentAssets data={chatsData?.data?.messages} />
+            <DocumentAssets data={chatsData?.data?.messages} status={status} />
           )}
-          {toggleSwitchActive === 'link' && <LinksAssets />}
+          {toggleSwitchActive === 'link' && (
+            <LinksAssets data={chatsData?.data?.messages} status={status} />
+          )}
           {toggleSwitchActive === 'members' && <Members />}
         </Box>
       </Box>

@@ -1,5 +1,5 @@
 import { IMG_URL } from '@/config';
-import { Box, Typography, Grid } from '@mui/material';
+import { Box, Typography, Grid, CircularProgress } from '@mui/material';
 import Image from 'next/image';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -25,35 +25,49 @@ const groupImagesByDate = (data: any) => {
   return result;
 };
 
-const MediaAssets = ({ data }: any) => {
+const MediaAssets = ({ data, status }: any) => {
   const groupedData = groupImagesByDate(data);
 
   return (
     <>
       <Box>
-        {groupedData?.map((group) => (
-          <Box key={uuidv4()}>
-            <Typography variant="body3" sx={{ fontWeight: '600' }}>
-              {group?.dateGroup} {/* Display the date */}
-            </Typography>
-            <Grid
-              container
-              spacing={1}
-              sx={{ marginTop: '1px', marginBottom: '2px' }}
-            >
-              {group?.images?.map((image: any) => (
-                <Grid item lg={4} key={uuidv4()}>
-                  <Image
-                    src={`${IMG_URL}${image?.url}`}
-                    height={100}
-                    width={300}
-                    alt="media"
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        ))}
+        {status === 'pending' ? (
+          <>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <CircularProgress />
+            </Box>
+          </>
+        ) : (
+          <>
+            {groupedData?.length ? (
+              groupedData?.map((group) => (
+                <Box key={uuidv4()}>
+                  <Typography variant="body3" sx={{ fontWeight: '600' }}>
+                    {group?.dateGroup} {/* Display the date */}
+                  </Typography>
+                  <Grid
+                    container
+                    spacing={1}
+                    sx={{ marginTop: '1px', marginBottom: '2px' }}
+                  >
+                    {group?.images?.map((image: any) => (
+                      <Grid item lg={4} key={uuidv4()}>
+                        <Image
+                          src={`${IMG_URL}${image?.url}`}
+                          height={100}
+                          width={300}
+                          alt="media"
+                        />
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
+              ))
+            ) : (
+              <>No records found</>
+            )}
+          </>
+        )}
       </Box>
     </>
   );
