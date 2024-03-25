@@ -1,6 +1,14 @@
 import React from 'react';
 
-import { Box, Typography, Button, MenuItem, Menu, Grid } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Button,
+  MenuItem,
+  Menu,
+  Grid,
+  CircularProgress,
+} from '@mui/material';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -16,45 +24,40 @@ import useSalesProduct from './useSalesProduct';
 import { styles } from './SalesProduct.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
+import { DeleteIcon } from '@/assets/icons';
 
 const SalesProduct = () => {
   const {
-    isEditMode,
+    handleCloseDeleteModal,
+    setSelectedCheckboxes,
+    setDeleteModalOpen,
     selectedCheckboxes,
-    setIsDraweropen,
-    salesProductData,
-    isDraweropen,
-    setIsEditMode,
     isDeleteModalOpen,
     handleCloseDrawer,
-    setDeleteModalOpen,
-    productSearch,
+    salesProductData,
     setproductSearch,
-    theme,
-    anchorEl,
-    open,
-    handleClick,
-    handleClose,
-    handleCloseDeleteModal,
+    setIsDraweropen,
+    setIsEditMode,
+    productSearch,
+    deleteProduct,
+    setPageLimit,
     handleDelete,
     getRowValues,
+    isDraweropen,
+    handleClick,
+    handleClose,
     setAnchorEl,
-    setPageLimit,
-    setPage,
+    isEditMode,
     isLoading,
     isSuccess,
-    setSelectedCheckboxes,
+    anchorEl,
+    setPage,
+    theme,
+    open,
   } = useSalesProduct();
 
   return (
     <>
-      <AlertModals
-        message="Are you sure, you want to delete this product?"
-        type="delete"
-        open={isDeleteModalOpen}
-        handleClose={handleCloseDeleteModal}
-        handleSubmitBtn={handleDelete}
-      />
       <Box
         sx={{
           border: `1px solid ${theme?.palette?.grey[700]}`,
@@ -70,20 +73,22 @@ const SalesProduct = () => {
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="h4">Sales Product</Typography>
+          <Typography variant="h3">Sales Product</Typography>
           <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.CREATE_PRODUCT]}>
             <Button
               variant="contained"
               sx={styles?.createBtn}
               onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
               className="small"
+              startIcon={
+                <AddCircleIcon
+                  sx={{
+                    color: `${theme?.palette?.common?.white}`,
+                    fontSize: '16px',
+                  }}
+                />
+              }
             >
-              <AddCircleIcon
-                sx={{
-                  color: `${theme?.palette?.common?.white}`,
-                  fontSize: '16px',
-                }}
-              />
               Create Product
             </Button>
           </PermissionsGuard>
@@ -97,70 +102,93 @@ const SalesProduct = () => {
               size="small"
             />
           </PermissionsGuard>
-          <Button
-            id="basic-button"
-            className="small"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-            sx={styles?.actionBtn(theme)}
-            disabled={selectedCheckboxes?.length === 0}
-          >
-            Actions <ArrowDropDownIcon />
-          </Button>
+          {selectedCheckboxes?.length > 1 ? (
+            <Button
+              className="small"
+              variant="outlined"
+              color="inherit"
+              startIcon={
+                deleteProduct ? (
+                  <CircularProgress size={18} color="inherit" />
+                ) : (
+                  <DeleteIcon />
+                )
+              }
+              onClick={handleDelete}
+            >
+              Delete
+            </Button>
+          ) : (
+            <>
+              <Button
+                id="basic-button"
+                className="small"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+                sx={styles?.actionBtn(theme)}
+                disabled={selectedCheckboxes?.length === 0}
+                endIcon={<ArrowDropDownIcon />}
+              >
+                Actions
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+                sx={{
+                  '.MuiPopover-paper': {
+                    minWidth: '110px',
+                  },
+                }}
+              >
+                <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.EDIT]}>
+                  <MenuItem
+                    onClick={() => {
+                      setIsEditMode(true), setIsDraweropen(true);
+                      setAnchorEl(null);
+                    }}
+                  >
+                    Edit
+                  </MenuItem>
+                </PermissionsGuard>
+                <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.DELETE]}>
+                  <MenuItem
+                    onClick={() => {
+                      setDeleteModalOpen(true);
+                      setAnchorEl(null);
+                    }}
+                  >
+                    Delete
+                  </MenuItem>
+                </PermissionsGuard>
+              </Menu>
+            </>
+          )}
         </Box>
         <Grid>
           <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.PRODUCT_LIST]}>
             <TanstackTable
               columns={getRowValues}
               data={salesProductData?.salesproducts}
+              totalRecords={salesProductData?.meta?.total}
+              onPageChange={(page: any) => setPage(page)}
               setPage={setPage}
               setPageLimit={setPageLimit}
+              count={salesProductData?.meta?.pages}
               isPagination
-              isLoading={isLoading}
-              currentPage={salesProductData?.meta?.pages}
-              count={salesProductData?.meta?.total}
               pageLimit={salesProductData?.meta?.limit}
-              totalRecords={salesProductData?.meta?.total}
-              isSuccess={isSuccess || true}
-              onPageChange={(page: any) => setPage(page)}
+              isLoading={isLoading}
+              isSuccess={isSuccess}
             />
           </PermissionsGuard>
         </Grid>
       </Box>
-
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.EDIT]}>
-          <MenuItem
-            onClick={() => {
-              setIsEditMode(true), setIsDraweropen(true);
-              setAnchorEl(null);
-            }}
-            disabled={selectedCheckboxes?.length > 1}
-          >
-            Edit
-          </MenuItem>
-        </PermissionsGuard>
-        <PermissionsGuard permissions={[AIR_SALES_SETTINGS?.DELETE]}>
-          <MenuItem
-            onClick={() => {
-              setDeleteModalOpen(true);
-              setAnchorEl(null);
-            }}
-          >
-            Delete
-          </MenuItem>
-        </PermissionsGuard>
-      </Menu>
 
       {isDraweropen && (
         <SalesEditorDrawer
@@ -170,6 +198,17 @@ const SalesProduct = () => {
           handleCloseDrawer={handleCloseDrawer}
           setSelectedCheckboxes={setSelectedCheckboxes}
           selectedCheckboxes={selectedCheckboxes}
+        />
+      )}
+
+      {isDeleteModalOpen && (
+        <AlertModals
+          message="Are you sure, you want to delete this product?"
+          type="delete"
+          open={isDeleteModalOpen}
+          handleClose={handleCloseDeleteModal}
+          handleSubmitBtn={handleDelete}
+          loading={deleteProduct}
         />
       )}
     </>

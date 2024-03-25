@@ -26,7 +26,8 @@ const CreateView = ({ open, onClose }: any) => {
     defaultValues: defaultValues,
   });
   const [createViewDeals] = useCreateViewDealsMutation();
-  const { handleSubmit } = methods;
+  const { handleSubmit, watch } = methods;
+  const dealPiplineId = watch('dealPiplineId');
 
   const onSubmit = (values: any) => {
     // values.sharedWith;
@@ -64,7 +65,7 @@ const CreateView = ({ open, onClose }: any) => {
       >
         <FormProvider methods={methods}>
           <Grid container spacing={2}>
-            {CreateViewData()?.map((item: any) => (
+            {CreateViewData(dealPiplineId)?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item?.componentProps} size={'small'}>
                   {item?.componentProps?.select &&

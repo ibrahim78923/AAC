@@ -1,18 +1,22 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
+import { SCHEMA_KEYS } from '@/constants/strings';
+import { useGetSchemaKeysQuery } from '@/services/common-APIs';
+import { errorSnackbar } from '@/utils/api';
 import { useFieldArray } from 'react-hook-form';
 
 export const useSubWorkflowConditions = (props: any) => {
   const { control, index, parentField, removeParent } = props;
+  const params = {
+    collectionName: SCHEMA_KEYS?.TICKETS,
+  };
+  const { data } = useGetSchemaKeysQuery(params);
+  const schemaKeysData = data?.data;
   const { fields, remove, append } = useFieldArray({
     control,
-    name: `workflowConditions.${index}.conditions`,
+    name: `groups.${index}.conditions`,
   });
   const handleDeleteClick = (subIndex: any) => {
-    if (parentField?.length === 2 && fields?.length < 2) {
-      enqueueSnackbar('Cannot Delete', {
-        variant: NOTISTACK_VARIANTS?.WARNING,
-      });
+    if (parentField?.length === 1 && fields?.length < 2) {
+      errorSnackbar('Cannot Delete');
       return;
     }
     if (fields?.length > 1) {
@@ -26,5 +30,6 @@ export const useSubWorkflowConditions = (props: any) => {
     fields,
     append,
     handleDeleteClick,
+    schemaKeysData,
   };
 };

@@ -1,32 +1,36 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
+import useAuth from '@/hooks/useAuth';
 import {
-  settingsValidationSchema,
+  getSettingsDataArray,
   settingsDefaultValues,
+  settingsValidationSchema,
 } from './Settings.data';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 export const useSettings = () => {
+  const domain = window.location.hostname;
+
+  const auth: any = useAuth();
+
+  const { _id: companyId } = auth?.product?.accounts?.[0]?.company;
+
+  const encryptedValue = btoa(companyId);
+
   const settingsMethods = useForm({
     resolver: yupResolver(settingsValidationSchema),
-    defaultValues: settingsDefaultValues,
+    defaultValues: settingsDefaultValues({ domain, encryptedValue }),
   });
 
-  const isSubmit = async () => {
-    enqueueSnackbar('Settings Saved Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+  const { getValues }: any = settingsMethods;
+
+  const handleTextFieldClick = () => {
+    navigator.clipboard.writeText(getValues('portalURL'));
   };
 
-  const timeOut = settingsMethods?.watch()?.sessionTimeout;
-  const { handleSubmit, reset } = settingsMethods;
-  const handleSubmitSettings = handleSubmit(isSubmit);
+  const settingsDataArray = getSettingsDataArray(handleTextFieldClick);
 
   return {
     settingsMethods,
-    timeOut,
-    reset,
-    handleSubmitSettings,
+    settingsDataArray,
   };
 };

@@ -4,20 +4,22 @@ import {
   filterWorkflowsValidationSchema,
   defaultValues,
 } from './FilterWorkflow.data';
+import { useLazyGetUsersDropdownListQuery } from '@/services/airServices/settings/user-management/departments';
 
-export const useFilterWorkflow = (props: any) => {
-  const { setIsDrawerOpen } = props;
+export const useFilterWorkflow = () => {
   const methods = useForm({
     resolver: yupResolver(filterWorkflowsValidationSchema),
     defaultValues,
   });
-  const { handleSubmit } = methods;
-  const onSubmit = async () => {
-    setIsDrawerOpen(false);
-  };
+  const { handleSubmit, watch } = methods;
+  const userDropdown = useLazyGetUsersDropdownListQuery();
+  const statusValue = watch('status');
+  const createdByValue = watch('createdBy');
   return {
     handleSubmit,
-    onSubmit,
     methods,
+    userDropdown,
+    statusValue,
+    createdByValue,
   };
 };

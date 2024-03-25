@@ -27,7 +27,7 @@ export const styles = {
     return {
       display: '-webkit-box',
       gap: '20px',
-      overflow: 'scroll',
+      overflowX: 'auto',
       pt: 1,
       pb: 2,
     };

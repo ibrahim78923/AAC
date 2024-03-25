@@ -49,6 +49,7 @@ export const SUPER_ADMIN_SETTINGS: any = {
   TAX_CALCULATION: '/tax-calculation',
   PRODUCT_FEATURES: '/product-features',
   PRODUCTS: '/products',
+  QUICK_LINKS: '/quick-links',
 };
 
 export const SOCIAL_FEATURES = {
@@ -88,6 +89,7 @@ export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
   PLAN_TYPE_LIST: 'plan/plan-type-list',
   PRODUCT_FEATURES: 'product-features?page=1&limit=10',
   ADD_PLAN: '/super-admin/plan-management/add-plan',
+  PLAN_MANAGEMENT_GRID: '/super-admin/plan-management',
 };
 
 export const orgAdminSubcriptionInvoices = {

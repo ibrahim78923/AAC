@@ -17,6 +17,9 @@ export const styles = {
           },
         },
       },
+      '.MuiFormControlLabel-root': {
+        width: 'fit-content !important',
+      },
     };
   },
   productCard: (theme: any) => {

@@ -1,45 +1,38 @@
-import React, { useState } from 'react';
-
+import React from 'react';
 import {
   Box,
   Typography,
   Button,
   MenuItem,
   Menu,
-  Grid,
   Accordion,
   AccordionSummary,
   AccordionDetails,
   Checkbox,
-  IconButton,
-  InputAdornment,
+  Divider,
+  CircularProgress,
 } from '@mui/material';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
-
-import {
-  FormProvider,
-  RHFCheckbox,
-  RHFTextField,
-} from '@/components/ReactHookForm';
-import CommonDrawer from '@/components/CommonDrawer';
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 
-import useSalesProduct from './useDealPipelines';
+import useDealPipelines from './useDealPipelines';
 
 import { styles } from './DealPipelines.style';
 
 import { v4 as uuidv4 } from 'uuid';
-import { BlueInfoIcon, PercentageCircleIcon } from '@/assets/icons';
+import { BlueInfoIcon, DeleteIcon } from '@/assets/icons';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
+import NoData from '@/components/NoData';
+import { CustomField } from './custom';
 
 const DealPipelines = () => {
   const {
+    handleSelectDealsById,
     isDraweropen,
     setIsDraweropen,
     isEditMode,
@@ -54,168 +47,20 @@ const DealPipelines = () => {
     handleClick,
     handleClose,
     handleCloseDrawer,
-    dealPipelines,
-    handleSubmit,
     onSubmit,
     handleCloseDeleteModal,
     handleDelete,
-    addField,
-    deleteField,
     setAnchorEl,
     isdefaultValue,
     dealPipelinesData,
     isLoading,
-    inputFields,
-    handleChangeInput,
-  } = useSalesProduct();
-
-  const [selectedPipelines, setSelectedPipelines] = useState<any>([]);
-
-  const togglePipeline = (pipeline: any) => {
-    const index = selectedPipelines?.findIndex(
-      (p: any) => p?._id === pipeline?._id,
-    );
-    if (index === -1) {
-      setSelectedPipelines([...selectedPipelines, pipeline]);
-    } else {
-      const updatedPipelines = [...selectedPipelines];
-      updatedPipelines?.splice(index, 1);
-      setSelectedPipelines(updatedPipelines);
-    }
-  };
+    postDealLoading,
+    deleteDealLoading,
+    checkedDeal,
+  } = useDealPipelines();
 
   return (
     <>
-      <CommonDrawer
-        isDrawerOpen={isDraweropen}
-        onClose={handleCloseDrawer}
-        title={isEditMode ? 'Edit Pipeline' : 'Create Pipeline'}
-        okText={'Add'}
-        footer={true}
-        isOk={true}
-        submitHandler={handleSubmit(onSubmit)}
-      >
-        <Box sx={{ paddingTop: '1rem !important' }}>
-          <FormProvider methods={dealPipelines}>
-            <Grid
-              container
-              spacing={1}
-              sx={{
-                borderBottom: `1px solid ${theme?.palette?.custom?.off_white_three}`,
-              }}
-            >
-              <Grid item xs={12}>
-                <RHFTextField
-                  name="pipelineName"
-                  label="Pipeline Name"
-                  size="small"
-                  required={true}
-                  placeholder="Inbound Sales"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <RHFCheckbox
-                  label="Mark as Default Pipeline"
-                  name="defaultPipeline"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                {inputFields?.map((inputField, index) => (
-                  <Grid container spacing={1} key={uuidv4()}>
-                    <Grid item xs={12} md={5}>
-                      <RHFTextField
-                        name="name"
-                        label={index === 0 ? 'Name' : ''}
-                        size="small"
-                        required={true}
-                        placeholder="Inbound Sales"
-                        value={inputField?.name}
-                        onChange={(event: any) =>
-                          handleChangeInput(index, event)
-                        }
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={5}>
-                      <RHFTextField
-                        name="probability"
-                        label={index === 0 ? 'Probability' : ''}
-                        size="small"
-                        required={true}
-                        type="number"
-                        value={inputField?.probability}
-                        onChange={(event: any) =>
-                          handleChangeInput(index, event)
-                        }
-                        placeholder="Inbound Sales"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton>
-                                <PercentageCircleIcon />
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={2}>
-                      {index === 0 && (
-                        <Typography
-                          sx={{
-                            color: 'inherit',
-                            marginBottom: 0.6,
-                          }}
-                        >
-                          Action
-                        </Typography>
-                      )}
-                      <Button
-                        onClick={() => deleteField(index)}
-                        disabled={
-                          index === 0 ||
-                          index === inputFields?.length - 1 ||
-                          index === inputFields?.length - 2
-                        }
-                      >
-                        <CancelIcon
-                          sx={{
-                            color:
-                              index === 0 ||
-                              index === inputFields?.length - 1 ||
-                              index === inputFields?.length - 2
-                                ? theme?.palette?.custom?.main
-                                : theme?.palette?.error?.main,
-                          }}
-                        />
-                      </Button>
-                    </Grid>
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-            <Button
-              onClick={addField}
-              sx={{ color: theme?.palette?.slateBlue?.main, marginTop: '15px' }}
-            >
-              <AddCircleIcon sx={{ marginRight: '8px' }} />
-              Add Deal stage
-            </Button>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
-
-      <AlertModals
-        message={
-          isdefaultValue
-            ? 'You cannot delete default pipeline'
-            : "You're about to delete Pipeline. Are you sure?"
-        }
-        type={isdefaultValue ? 'Alert' : 'delete'}
-        open={isDeleteModalOpen}
-        handleClose={handleCloseDeleteModal}
-        handleSubmit={handleDelete}
-        typeImage={<BlueInfoIcon />}
-      />
       <Box>
         <Box
           sx={{
@@ -224,7 +69,7 @@ const DealPipelines = () => {
             flexWrap: 'wrap',
           }}
         >
-          <Typography variant="h4">Deal Pipelines</Typography>
+          <Typography variant="h3">Deal Pipelines</Typography>
           <Box
             sx={{
               display: 'flex',
@@ -236,58 +81,88 @@ const DealPipelines = () => {
               },
             }}
           >
-            <Button
-              id="basic-button"
-              aria-controls={open ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleClick}
-              sx={styles?.actionBtn(theme)}
-              disabled={selectedPipelines?.length !== 1}
-            >
-              Actions <ArrowDropDownIcon />
-            </Button>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              <PermissionsGuard
-                permissions={[AIR_SALES_SETTINGS?.EDIT_PIPELINE]}
+            {checkedDeal?.length > 1 ? (
+              <Button
+                className="small"
+                variant="outlined"
+                color="inherit"
+                startIcon={
+                  deleteDealLoading ? (
+                    <CircularProgress size={18} color="inherit" />
+                  ) : (
+                    <DeleteIcon />
+                  )
+                }
+                onClick={handleDelete}
               >
-                <MenuItem
-                  onClick={() => (
-                    setIsEditMode(true),
-                    setIsDraweropen(true),
-                    setAnchorEl(null)
-                  )}
+                Delete
+              </Button>
+            ) : (
+              <>
+                <Button
+                  id="basic-button"
+                  aria-controls={open ? 'basic-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  onClick={handleClick}
+                  sx={styles?.actionBtn(theme)}
+                  disabled={checkedDeal?.length !== 1}
+                  endIcon={<ArrowDropDownIcon />}
                 >
-                  Edit
-                </MenuItem>
-              </PermissionsGuard>
-              <PermissionsGuard
-                permissions={[AIR_SALES_SETTINGS?.DELETE_PIPELINE]}
-              >
-                <MenuItem
-                  onClick={() => {
-                    setDeleteModalOpen(true), setAnchorEl(null);
+                  Actions
+                </Button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                  sx={{
+                    '.MuiPopover-paper': {
+                      minWidth: '110px',
+                    },
                   }}
                 >
-                  Delete
-                </MenuItem>
-              </PermissionsGuard>
-            </Menu>
+                  <PermissionsGuard
+                    permissions={[AIR_SALES_SETTINGS?.EDIT_PIPELINE]}
+                  >
+                    <MenuItem
+                      onClick={() => (
+                        setIsEditMode(true),
+                        setIsDraweropen({ isToggle: true, type: 'edit' }),
+                        setAnchorEl(null)
+                      )}
+                    >
+                      Edit
+                    </MenuItem>
+                  </PermissionsGuard>
+                  <PermissionsGuard
+                    permissions={[AIR_SALES_SETTINGS?.DELETE_PIPELINE]}
+                  >
+                    <MenuItem
+                      onClick={() => {
+                        setDeleteModalOpen(true), setAnchorEl(null);
+                      }}
+                    >
+                      Delete
+                    </MenuItem>
+                  </PermissionsGuard>
+                </Menu>
+              </>
+            )}
+
             <PermissionsGuard
               permissions={[AIR_SALES_SETTINGS?.CREATE_PIPELINE]}
             >
               <Button
                 variant="contained"
                 sx={styles?.createBtn}
-                onClick={() => (setIsDraweropen(true), setIsEditMode(false))}
+                onClick={() => (
+                  setIsDraweropen({ isToggle: true, type: 'add' }),
+                  setIsEditMode(false)
+                )}
                 className="small"
               >
                 <AddCircleIcon
@@ -314,6 +189,8 @@ const DealPipelines = () => {
         </Box>
         {isLoading ? (
           <SkeletonForm />
+        ) : dealPipelinesData?.length === 0 ? (
+          <NoData />
         ) : (
           dealPipelinesData?.map((dealPipeline: any) => (
             <Accordion
@@ -321,42 +198,52 @@ const DealPipelines = () => {
               sx={{
                 boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.10)',
                 borderRadius: '10px',
+                mt: 2,
+                px: 1,
               }}
             >
               <AccordionSummary
-                expandIcon={<ArrowDropDownIcon sx={{ fontSize: '40px' }} />}
+                expandIcon={
+                  <ArrowDropDownIcon
+                    sx={{
+                      fontSize: '30px',
+                      color: theme?.palette?.custom?.steel_blue_alpha,
+                    }}
+                  />
+                }
                 aria-controls="panel1a-content"
                 id="panel1a-header"
                 sx={{
                   padding: '0px',
-                  borderBottom: `1px solid  ${theme?.palette?.grey[700]}`,
                   '& .MuiAccordionSummary-content': {
                     alignItems: 'center',
                     margin: '8px 0',
                   },
+                  alignItems: 'center',
                 }}
               >
-                {/* <Checkbox
-                  value="default"
-                  // onChange={(value) => getCheckbox(value, 'default')}
-                /> */}
                 <Checkbox
-                  checked={selectedPipelines?.some(
-                    (p: any) => p?._id === dealPipeline?._id,
-                  )}
-                  onChange={() => togglePipeline(dealPipeline)}
+                  checked={checkedDeal?.includes(dealPipeline?._id)}
+                  // checked={selectedPipelines?.some(
+                  //   (p: any) => p?._id === dealPipeline?._id,
+                  // )}
+                  onChange={({ target }) => {
+                    handleSelectDealsById(target.checked, dealPipeline?._id);
+                  }}
+                  // onChange={() => {
+                  //   togglePipeline(dealPipeline);
+                  //   setCheckedDeal(dealPipeline?._id);
+                  // }}
                 />
                 <Typography
-                  variant="h6"
-                  sx={{
-                    color: theme?.palette?.slateBlue?.main,
-                    fontWeight: '600',
-                  }}
+                  variant="h5"
+                  sx={{ color: theme?.palette?.slateBlue?.main }}
                 >
                   {dealPipeline?.name}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
+                <Divider sx={{ mb: 1 }} />
                 <Box
                   sx={{
                     display: 'flex',
@@ -367,11 +254,12 @@ const DealPipelines = () => {
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Checkbox checked={dealPipeline?.isDefault} />
-                    <Typography variant="body2">
+                    <Typography variant="body1">
                       Marked as default pipeline
                     </Typography>
                   </Box>
                 </Box>
+
                 {dealPipeline?.stages?.map((stage: any) => (
                   <Box sx={styles?.BoxStyling} key={uuidv4()}>
                     <Typography variant="body2" sx={{ fontWeight: '600' }}>
@@ -390,6 +278,35 @@ const DealPipelines = () => {
           ))
         )}
       </Box>
+
+      {isDraweropen?.isToggle && (
+        <CustomField
+          key="deals pipline"
+          open={isDraweropen?.isToggle}
+          onClose={handleCloseDrawer}
+          isEditMode={isEditMode}
+          loading={postDealLoading}
+          onSubmit={onSubmit}
+          id={checkedDeal}
+          // isDraweropen={isDraweropen}
+        />
+      )}
+
+      {isDeleteModalOpen && (
+        <AlertModals
+          message={
+            isdefaultValue
+              ? 'You cannot delete default pipeline'
+              : "You're about to delete Pipeline. Are you sure?"
+          }
+          type={isdefaultValue ? 'Alert' : 'delete'}
+          open={isDeleteModalOpen}
+          handleClose={handleCloseDeleteModal}
+          handleSubmitBtn={handleDelete}
+          typeImage={<BlueInfoIcon />}
+          loading={deleteDealLoading}
+        />
+      )}
     </>
   );
 };
