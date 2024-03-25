@@ -263,7 +263,7 @@ export const categoriesOfServices = (
       apiQuery: apiServiceCategoryAgentQuery,
       placeholder: 'Choose Agent',
       required: true,
-      externalParams: { limit: 50, role: ROLES?.ORG_AGENT },
+      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

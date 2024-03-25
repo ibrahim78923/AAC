@@ -346,6 +346,7 @@ export const CONTRACT_ACTION = {
   RENEW: 'renew',
   EXTEND: 'extend',
 };
+
 export enum ROLES {
   ORG_REQUESTER = 'ORG_REQUESTER',
   ORG_AGENT = 'ORG_AGENT',
@@ -359,10 +360,12 @@ export const TICKETS_STATE = {
   RESPONSE_DUE: 'Response due',
   OVERDUE: 'Overdue',
 };
+
 export const ROLE = {
   ORG_REQUESTER: 'ORG_REQUESTER',
-  ORG_AGENT: 'ORG_AGENT',
+  ORG_AGENT: 'ORG_EMPLOYEE',
 };
+
 export const WORKLOAD_SCHEDULE = {
   CREATE: 'Create',
   EDIT: 'Edit',

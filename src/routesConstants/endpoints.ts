@@ -112,7 +112,7 @@ export const END_POINTS = {
 
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
-  DEPARTMENT: '/department/add-department',
+  DEPARTMENT: '/Department/add-department',
   DROPDOWN_DEPARTMENT: `/Department/department-list`,
   TICKETS_ASSOCIATES_ASSETS: '/ticket/associate-assets',
   DROPDOWN_VENDORS_LIST: `/vendors/get-vendors`,
@@ -248,8 +248,8 @@ export const END_POINTS = {
   DROPDOWN_ASSETS: '/dropdown/all-assets',
   ASSETS_INVENTORY_PURCHASE_ORDER: '/assets/inventory-purchase-order-list',
   ASSETS_INVENTORY_CONTRACTS: '/assets/inventory-contract-list',
-  DEPARTMENT_UPDATE: '/department/update',
-  DEPARTMENT_DELETE: '/department/delete-department',
+  DEPARTMENT_UPDATE: '/Department/update',
+  DEPARTMENT_DELETE: '/Department/delete-department',
   ASSETS_PURCHASEORDER_DETAIL: '/assets/purchaseorder',
   ASSETS_PURCHASEORDER: '/assets/purchase_order_inventory',
   EDIT_NEW_PURCHASEORDER: '/assets/update_purchase_order_inventory',
@@ -329,6 +329,7 @@ export const END_POINTS = {
   CUSTOMER_GET_COMPANY_ACCOUNTS: `/users/company-accounts`,
   AGENTS_SOFTWARE_LIST: `/agent/agent-software-list`,
   EDIT_SOFTWARE_CATEGORY: `/assets/edit-software-category`,
+  CONVERT_TO_AGENT: `/requester/agent-requests`,
   SERVICES_PATCH_EMAIL_NOTIFICATION: `/notifications/settings`,
   SERVICES_GET_EMAIL_NOTIFICATION: `/notifications/get-notification-settings`,
 };

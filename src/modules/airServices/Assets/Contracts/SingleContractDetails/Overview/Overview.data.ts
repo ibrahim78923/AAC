@@ -11,7 +11,7 @@ export const overviewData = ({
     heading: 'General Details',
     detailsData: [
       { name: 'Contact Number', detail: contractData?.contractNumber ?? '--' },
-      { name: 'Vendor', detail: contractData?.vendorDetails?.name ?? '--' },
+      { name: 'Vendor', detail: contractData?.vendor?.name ?? '--' },
       { name: 'Type', detail: contractData?.contractType ?? '--' },
       { name: 'Status', detail: contractData?.status ?? '--' },
       { name: 'Cost', detail: contractData?.cost ?? '--' },
