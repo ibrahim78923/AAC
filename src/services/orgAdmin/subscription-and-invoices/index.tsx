@@ -35,7 +35,7 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
     }),
     getProductFeatures: builder.query({
       query: ({ id }) => ({
-        url: `${SUPER_ADMIN_PLAN_MANAGEMENT?.PRODUCT_FEATURES}&productId=${id}`,
+        url: `${SUPER_ADMIN_PLAN_MANAGEMENT?.PRODUCT_FEATURES}&productIds=${id}`,
         method: 'GET',
       }),
       providesTags: TAG,
