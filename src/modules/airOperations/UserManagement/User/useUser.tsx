@@ -30,7 +30,7 @@ export const useUser = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [userData, setUserData] = useState<any[]>(upsertUserData);
+  const [setUserData] = useState<any[]>(upsertUserData);
   const [disabled, setDisabled] = useState(true);
 
   const param = {
@@ -45,7 +45,7 @@ export const useUser = () => {
   const metaData = data?.data?.meta;
 
   const userListColumn = userList(
-    userData,
+    usersData,
     selectedUserList,
     setSelectedUserList,
     setIsDrawerOpen,
@@ -60,8 +60,9 @@ export const useUser = () => {
     defaultValues: upsertUserDefaultValues,
   });
   const { handleSubmit, reset } = methods;
-  const [patchProductUsersTrigger] = usePatchProductUsersMutation();
-  const [addListUsers] = usePostProductUserListMutation();
+  const [patchProductUsersTrigger, patchProductUsersStatus] =
+    usePatchProductUsersMutation();
+  const [addListUsers, addUsersListStatus] = usePostProductUserListMutation();
   const submit = async (data: any) => {
     try {
       const body = {
@@ -130,5 +131,7 @@ export const useUser = () => {
     metaData,
     rolesDropdown,
     usersTeamDropdown,
+    patchProductUsersStatus,
+    addUsersListStatus,
   };
 };

@@ -39,7 +39,6 @@ export const upsertTeamArray = (usersTeamDropdown: any) => [
       placeholder: 'Select',
       fullWidth: true,
       required: true,
-      multiple: true,
       apiQuery: usersTeamDropdown,
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option.lastName}`,

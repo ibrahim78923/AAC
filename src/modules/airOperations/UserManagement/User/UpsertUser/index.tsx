@@ -15,6 +15,8 @@ function UpsertUser({ isDrawerOpen, title, okText, setIsDrawerOpen }: any) {
     usersData,
     departmentDropdown,
     rolesDropdown,
+    patchProductUsersStatus,
+    addUsersListStatus,
   } = useUser();
 
   return (
@@ -39,6 +41,12 @@ function UpsertUser({ isDrawerOpen, title, okText, setIsDrawerOpen }: any) {
           title === USER_MANAGEMENT?.USERVIEW && disabled
             ? USER_MANAGEMENT?.BACK
             : USER_MANAGEMENT?.CANCEL
+        }
+        isLoading={
+          addUsersListStatus?.isLoading || patchProductUsersStatus?.isLoading
+        }
+        isDisabled={
+          addUsersListStatus?.isLoading || patchProductUsersStatus?.isLoading
         }
       >
         <Box mt={1}>

@@ -15,7 +15,7 @@ export const userDropdown = (setDeleteModal: any) => [
 ];
 
 export const userList = (
-  userData: any = [],
+  usersData: any = [],
   selectedUserList: any,
   setSelectedUserList: any,
   setIsDrawerOpen: any,
@@ -38,7 +38,7 @@ export const userList = (
           e?.target?.checked
             ? setSelectedUserList([
                 ...selectedUserList,
-                userData?.find((item: any) => item?._id === info?.getValue()),
+                usersData?.find((item: any) => item?._id === info?.getValue()),
               ])
             : setSelectedUserList(
                 selectedUserList?.filter((item: any) => {
@@ -55,13 +55,13 @@ export const userList = (
         color="primary"
         name="_id"
         checked={
-          !!userData?.length
-            ? selectedUserList?.length === userData?.length
+          !!usersData?.length
+            ? selectedUserList?.length === usersData?.length
             : false
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedUserList([...userData])
+            ? setSelectedUserList([...usersData])
             : setSelectedUserList([]);
         }}
       />

@@ -1,7 +1,5 @@
 import { Box, Typography } from '@mui/material';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
-import { AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS } from '@/constants/permission-keys';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
 export const teamList: any = (
   selectedTeamList: any,
@@ -40,22 +38,10 @@ export const teamList: any = (
           sx={{ cursor: 'pointer' }}
           onClick={() => setIsTeamDrawerOpen(true)}
         >
-          <PermissionsGuard
-            permissions={[
-              AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS?.VIEW,
-            ]}
-          >
-            <ViewEyeIcon />
-          </PermissionsGuard>
+          <ViewEyeIcon />
         </Box>
         <Box sx={{ cursor: 'pointer' }} onClick={() => setIsDrawerOpen(true)}>
-          <PermissionsGuard
-            permissions={[
-              AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS?.EDIT,
-            ]}
-          >
-            <EditPenIcon />
-          </PermissionsGuard>
+          <EditPenIcon />
         </Box>
         <Box
           sx={{ cursor: 'pointer' }}
@@ -63,13 +49,7 @@ export const teamList: any = (
             setDeleteModal({ val: true, rowId: info?.row?.original?._id })
           }
         >
-          <PermissionsGuard
-            permissions={[
-              AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS?.DELETE,
-            ]}
-          >
-            <DeleteCrossIcon />
-          </PermissionsGuard>
+          <DeleteCrossIcon />
         </Box>
       </Box>
     ),
