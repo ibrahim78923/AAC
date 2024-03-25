@@ -13,7 +13,7 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
-    marginTop: '2rem',
+    marginTop: '1rem',
     marginBottom: '1rem',
     '@media (max-width: 500px)': {
       marginTop: '15px',

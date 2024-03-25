@@ -16,6 +16,7 @@ const DetailsViewPropertiesSection = () => {
     ticketDetailsFormFields,
     isLoading,
     isFetching,
+    data,
   } = useDetailsViewPropertiesSection();
   return (
     <>
@@ -56,7 +57,7 @@ const DetailsViewPropertiesSection = () => {
                 }
               >
                 <br />
-                <DetailViewTimeEntries />
+                <DetailViewTimeEntries data={data} />
               </PermissionsGuard>
               <PermissionsGuard
                 permissions={[

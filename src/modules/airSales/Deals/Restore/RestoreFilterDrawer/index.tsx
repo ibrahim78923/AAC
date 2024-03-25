@@ -17,7 +17,7 @@ const RestoreFilterDrawer = ({
   const onSubmit = (values: any) => {
     setRestoreFilter({
       dateStart: values?.startDate,
-      dateEnd: values?.closeDate,
+      dateEnd: values?.endDate,
     });
     setIsRestoreFilterDrawer(false);
   };

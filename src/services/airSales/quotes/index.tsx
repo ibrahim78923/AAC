@@ -26,9 +26,10 @@ export const quotesAPI = baseAPI.injectEndpoints({
     }),
 
     getQuoteById: builder.query({
-      query: ({ id }: any) => ({
+      query: ({ id, productSearchKeyword }: any) => ({
         url: `${END_POINTS?.QUOTE}/{id}?id=${id}`,
         method: 'GET',
+        params: { productSearchKeyword },
       }),
       providesTags: TAG,
     }),
@@ -167,6 +168,37 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    getCustomizeColumn: builder.query({
+      query: (params) => ({
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+    putCustomizedColumns: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: TAG,
+    }),
+    deleteCompanies: builder.mutation({
+      query: (ids: any) => ({
+        url: `${END_POINTS?.COMPANY}/${ids}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: TAG,
+    }),
+    deleteContacts: builder.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.CONTACTS}`,
+        method: 'DELETE',
+        body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -190,4 +222,8 @@ export const {
   useGetProductsByIdQuery,
   useLazyGetProductsByIdQuery,
   useUpdateProductByIdMutation,
+  usePutCustomizedColumnsMutation,
+  useGetCustomizeColumnQuery,
+  useDeleteCompaniesMutation,
+  useDeleteContactsMutation,
 } = quotesAPI;

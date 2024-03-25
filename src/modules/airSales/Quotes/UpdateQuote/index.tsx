@@ -38,9 +38,14 @@ const UpdateQuote = () => {
     isOpenDialog,
     methodsSignature,
     handleUpdateDetails,
+    disabledSaveAndContinueBtn,
+    handleBuyerContactChange,
+    selectedBuyerContactIds,
+    handleCompanyChange,
+    selectedCompanyIds,
   } = useUpdateQuote();
 
-  const stepsArgs = {
+  const stepsArgs: any = {
     data: dataGetQuoteById?.data,
     dealList: dataGetDeals?.data?.deals,
     detailValues: detailsValues,
@@ -50,6 +55,10 @@ const UpdateQuote = () => {
     openAddCompany: handleOpenFormAddCompany,
     openCreateProduct: handleOpenFormCreateProduct,
     methodsSignature: methodsSignature,
+    handleBuyerContactChange: handleBuyerContactChange,
+    selectedBuyerContactIds: selectedBuyerContactIds,
+    handleCompanyChange: handleCompanyChange,
+    selectedCompanyIds: selectedCompanyIds,
   };
   const steps = updateQuoteSteps(stepsArgs);
 
@@ -82,9 +91,16 @@ const UpdateQuote = () => {
                   >
                     Cancel
                   </Button>
-                  <Button variant="contained" onClick={handleUpdateDetails}>
-                    Save & Continue
-                  </Button>
+
+                  {activeStep !== 2 && activeStep !== 3 && (
+                    <Button
+                      variant="contained"
+                      onClick={handleUpdateDetails}
+                      disabled={!disabledSaveAndContinueBtn}
+                    >
+                      Save & Continue
+                    </Button>
+                  )}
                   <Button
                     onClick={handleStepNext}
                     variant="outlined"
@@ -117,32 +133,42 @@ const UpdateQuote = () => {
         }
       />
 
-      <DialogSendToCustomer open={isOpenDialog} onClose={handleCloseDialog} />
+      {isOpenDialog && (
+        <DialogSendToCustomer open={isOpenDialog} onClose={handleCloseDialog} />
+      )}
 
-      <FormCreateDeal
-        open={isOpenFormCreateDeal}
-        onClose={handleCloseFormCreateDeal}
-      />
+      {isOpenFormCreateDeal && (
+        <FormCreateDeal
+          open={isOpenFormCreateDeal}
+          onClose={handleCloseFormCreateDeal}
+        />
+      )}
 
-      <CreateContacts
-        open={isOpenFormAddContact}
-        onClose={handleCloseFormAddContact}
-        dealId={dataGetQuoteById?.data?.dealId}
-      />
+      {isOpenFormAddContact && (
+        <CreateContacts
+          open={isOpenFormAddContact}
+          onClose={handleCloseFormAddContact}
+          dealId={dataGetQuoteById?.data?.dealId}
+        />
+      )}
       {/* <FormAddContact
         open={isOpenFormAddContact}
         onClose={handleCloseFormAddContact}
       /> */}
 
-      <FormAddCompany
-        open={isOpenFormAddCompany}
-        onClose={handleCloseFormAddCompany}
-      />
+      {isOpenFormAddCompany && (
+        <FormAddCompany
+          open={isOpenFormAddCompany}
+          onClose={handleCloseFormAddCompany}
+        />
+      )}
 
-      <FormCreateProduct
-        open={isOpenFormCreateProduct}
-        onClose={handleCloseFormCreateProduct}
-      />
+      {isOpenFormCreateProduct && (
+        <FormCreateProduct
+          open={isOpenFormCreateProduct}
+          onClose={handleCloseFormCreateProduct}
+        />
+      )}
     </>
   );
 };

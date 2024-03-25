@@ -17,10 +17,23 @@ const StepLineItems = ({ openCreateProduct }: any) => {
 
   const router = useRouter();
   const { data } = router?.query;
+
   const { data: productsData } = useGetQuoteByIdQuery({
     id: data,
-    search,
+    ...(search && { productSearchKeyword: search }),
   });
+
+  const sum = productsData?.data?.products?.reduce(
+    (accumulator: any, currentValue: any) =>
+      accumulator + currentValue?.unitPrice * currentValue?.quantity,
+    0,
+  );
+
+  const unitDiscount = productsData?.data?.products?.reduce(
+    (accumulator: any, currentValue: any) =>
+      accumulator + currentValue?.unitDiscount * currentValue?.quantity,
+    0,
+  );
 
   const [deleteProducts] = useDeleteProductsMutation();
 
@@ -45,15 +58,13 @@ const StepLineItems = ({ openCreateProduct }: any) => {
     }
   };
   const handleAction = (id: string, action: string) => {
-    router.push(`?data=${data}&productId=${id}&type=${action}`);
+    router.push(
+      `?data=${data}${
+        action === 'create' ? '' : `&productId=${id}`
+      }&type=${action}`,
+    );
     openCreateProduct();
   };
-
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setSearch(value);
-  };
-
   const lineItemsColumns: any = [
     {
       accessorFn: (row: any) => row?.name,
@@ -106,8 +117,8 @@ const StepLineItems = ({ openCreateProduct }: any) => {
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.productId,
-      id: 'productId',
+      accessorFn: ({ _id }: { _id: string }) => _id,
+      id: '_id',
       header: 'Actions',
       cell: ({ getValue }: any) => (
         <Stack direction="row" gap="8px">
@@ -145,7 +156,10 @@ const StepLineItems = ({ openCreateProduct }: any) => {
             Products
           </Typography>
           <Stack direction="row" spacing={'12px'}>
-            <Search placeholder="Search Here" onChange={handleSearch} />
+            <Search
+              placeholder="Search Here"
+              setSearchBy={(value: string) => setSearch(value)}
+            />
             <Button
               variant="contained"
               color="primary"
@@ -170,17 +184,17 @@ const StepLineItems = ({ openCreateProduct }: any) => {
         <Box sx={styles?.voucher}>
           <Box sx={styles?.voucherHeader}>
             <Box sx={styles?.vHeadCell}>Subtotal:</Box>
-            <Box sx={styles?.vHeadCell}>£75</Box>
+            <Box sx={styles?.vHeadCell}>£{sum}</Box>
           </Box>
 
           <Box sx={styles?.voucherBody}>
-            <Box sx={styles?.vRow}>
+            {/* <Box sx={styles?.vRow}>
               <Box sx={styles?.bodyCell}>V.A.T %</Box>
               <Box sx={styles?.bodyCellH}>£ 20</Box>
-            </Box>
+            </Box> */}
             <Box sx={styles?.vRow}>
               <Box sx={styles?.bodyCell}>Unit Discount</Box>
-              <Box sx={styles?.bodyCellH}>£ 30</Box>
+              <Box sx={styles?.bodyCellH}>£ {unitDiscount}</Box>
             </Box>
             <Box sx={styles?.vRow}>
               <Box sx={styles?.bodyCell}>Total Discount</Box>
@@ -190,7 +204,7 @@ const StepLineItems = ({ openCreateProduct }: any) => {
 
           <Box sx={styles?.voucherFooter}>
             <Box sx={styles?.fCell}>Total</Box>
-            <Box sx={styles?.fCell}>£50</Box>
+            <Box sx={styles?.fCell}>£{sum - unitDiscount}</Box>
           </Box>
         </Box>
       </Box>

@@ -2,85 +2,126 @@ import {
   RHFAutocomplete,
   RHFAutocompleteAsync,
 } from '@/components/ReactHookForm';
-
-export const venderOptions = [
-  {
-    label: 'Dell',
-    value: 'Dell',
-  },
-  {
-    label: 'Apple',
-    value: 'Apple',
-  },
-  {
-    label: 'Microsoft',
-    value: 'Microsoft',
-  },
-  {
-    label: 'Huawei',
-    value: 'Huawei',
-  },
-  {
-    label: 'Hp',
-    value: 'Hp',
-  },
-];
+import { PURCHASE_ORDER_STATUS, TIME_PERIODS } from '@/constants/strings';
 
 export const statusOptions = [
-  'Approved',
-
-  'Cancelled',
-
-  'Closed',
-  'Open',
-
-  'Ordered',
-  'Partly Received',
-  'Pending approval',
-  'Received',
-  'Rejected',
-];
-
-export const createdDateOptions = [
-  'None',
-  'AllTime',
-  'Today',
-  'Yesterday',
-  'Previous Week',
-  'Previous Month',
-];
-
-export const deliveryDateOptions = [
-  ...createdDateOptions,
-  'Next Month',
-
-  'Next week',
-];
-
-export const departmentOptions = [
   {
-    label: 'IT',
-    value: 'IT',
+    label: PURCHASE_ORDER_STATUS?.APPROVED,
+    _id: PURCHASE_ORDER_STATUS?.APPROVED,
   },
   {
-    label: 'Operations',
-    value: 'Operations',
+    label: PURCHASE_ORDER_STATUS?.CANCELLED,
+    _id: PURCHASE_ORDER_STATUS?.CANCELLED,
   },
   {
-    label: 'Microsoft',
-    value: 'Microsoft',
+    label: PURCHASE_ORDER_STATUS?.CLOSED,
+    _id: PURCHASE_ORDER_STATUS?.CLOSED,
+  },
+  {
+    label: PURCHASE_ORDER_STATUS?.DRAFT,
+    _id: PURCHASE_ORDER_STATUS?.DRAFT,
+  },
+  {
+    label: PURCHASE_ORDER_STATUS?.OPEN,
+    _id: PURCHASE_ORDER_STATUS?.OPEN,
+  },
+  {
+    label: PURCHASE_ORDER_STATUS?.ORDERED,
+    _id: PURCHASE_ORDER_STATUS?.ORDERED,
+  },
+  {
+    _id: PURCHASE_ORDER_STATUS?.PARTLY_RECEIVED,
+    label: PURCHASE_ORDER_STATUS?.PARTLY_RECEIVED,
+  },
+  {
+    label: PURCHASE_ORDER_STATUS?.PENDING_APPROVAL,
+    _id: PURCHASE_ORDER_STATUS?.PENDING_APPROVAL,
+  },
+  {
+    _id: PURCHASE_ORDER_STATUS?.RECEIVED,
+    label: PURCHASE_ORDER_STATUS?.RECEIVED,
+  },
+  {
+    _id: PURCHASE_ORDER_STATUS?.REJECTED,
+    label: PURCHASE_ORDER_STATUS?.REJECTED,
   },
 ];
 
-export const defaultValues = {
-  vendor: '',
-  status: '',
-  createdDate: '',
-  deliverDate: '',
-  department: '',
+export const dateOptions = [
+  {
+    _id: TIME_PERIODS?.NONE,
+    label: TIME_PERIODS?.NONE,
+  },
+  {
+    _id: TIME_PERIODS?.ALL_TIME,
+    label: TIME_PERIODS?.ALL_TIME,
+  },
+  {
+    _id: TIME_PERIODS?.TODAY,
+    label: TIME_PERIODS?.TODAY,
+  },
+  {
+    _id: TIME_PERIODS?.YESTERDAY,
+    label: TIME_PERIODS?.YESTERDAY,
+  },
+  {
+    _id: TIME_PERIODS?.PREVIOUS_WEEK,
+    label: TIME_PERIODS?.PREVIOUS_WEEK,
+  },
+  {
+    _id: TIME_PERIODS?.PREVIOUS_MONTH,
+    label: TIME_PERIODS?.PREVIOUS_MONTH,
+  },
+];
+export const expectedDeliveryDateOptions = [
+  {
+    _id: TIME_PERIODS?.NONE,
+    label: TIME_PERIODS?.NONE,
+  },
+  {
+    _id: TIME_PERIODS?.ALL_TIME,
+    label: TIME_PERIODS?.ALL_TIME,
+  },
+  {
+    _id: TIME_PERIODS?.TODAY,
+    label: TIME_PERIODS?.TODAY,
+  },
+  {
+    _id: TIME_PERIODS?.YESTERDAY,
+    label: TIME_PERIODS?.YESTERDAY,
+  },
+  {
+    _id: TIME_PERIODS?.PREVIOUS_WEEK,
+    label: TIME_PERIODS?.PREVIOUS_WEEK,
+  },
+  {
+    _id: TIME_PERIODS?.PREVIOUS_MONTH,
+    label: TIME_PERIODS?.PREVIOUS_MONTH,
+  },
+  {
+    _id: TIME_PERIODS?.NEXT_WEEK,
+    label: TIME_PERIODS?.NEXT_WEEK,
+  },
+  {
+    _id: TIME_PERIODS?.NEXT_MONTH,
+    label: TIME_PERIODS?.NEXT_MONTH,
+  },
+];
+
+export const purchaseOrderFilterFormDefaultValues = (data: any) => {
+  return {
+    vendorId: data?.vendorId ?? null,
+    status: data?.status ?? null,
+    createdAt: data?.createdAt ?? null,
+    expectedDeliveryDate: data?.expectedDeliveryDate ?? null,
+    departmentId: data?.departmentId ?? null,
+  };
 };
 
-export const filterFields = (vendorDropdown: any, departmentDropdown: any) => [
+export const purchaseOrderFilterFieldsDynamic = (
+  vendorDropdown: any,
+  departmentDropdown: any,
+) => [
   {
     id: 2,
     component: RHFAutocompleteAsync,
@@ -88,9 +129,10 @@ export const filterFields = (vendorDropdown: any, departmentDropdown: any) => [
     componentProps: {
       placeholder: 'Select Vendor',
       fullWidth: true,
-      name: 'vendor',
+      name: 'vendorId',
       label: 'Vendor',
       apiQuery: vendorDropdown,
+      externalParams: { meta: false, limit: 50 },
     },
   },
   {
@@ -101,6 +143,7 @@ export const filterFields = (vendorDropdown: any, departmentDropdown: any) => [
       name: 'status',
       label: 'Status',
       options: statusOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     gridLength: 12,
     component: RHFAutocomplete,
@@ -110,9 +153,10 @@ export const filterFields = (vendorDropdown: any, departmentDropdown: any) => [
     componentProps: {
       placeholder: 'Select time period',
       fullWidth: true,
-      name: 'createdDate',
+      name: 'createdAt',
       label: 'Created Date',
-      options: createdDateOptions,
+      options: dateOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
     gridLength: 12,
     component: RHFAutocomplete,
@@ -124,9 +168,10 @@ export const filterFields = (vendorDropdown: any, departmentDropdown: any) => [
     componentProps: {
       placeholder: 'Select time period',
       fullWidth: true,
-      name: 'deliverDate',
+      name: 'expectedDeliveryDate',
       label: 'Deliver Date',
-      options: deliveryDateOptions,
+      options: expectedDeliveryDateOptions,
+      getOptionLabel: (option: any) => option?.label,
     },
   },
   {
@@ -134,7 +179,7 @@ export const filterFields = (vendorDropdown: any, departmentDropdown: any) => [
     componentProps: {
       placeholder: 'Select Department',
       fullWidth: true,
-      name: 'department',
+      name: 'departmentId',
       label: 'Department',
       apiQuery: departmentDropdown,
     },

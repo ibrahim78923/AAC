@@ -9,7 +9,7 @@ import { EventBasedWorkflowDataArray } from './UpsertEventBasedWorkflow.data';
 
 export const UpsertEventBasedWorkflow = () => {
   const {
-    salesMethod,
+    eventMethod,
     handleFormSubmit,
     register,
     handleSubmit,
@@ -17,11 +17,12 @@ export const UpsertEventBasedWorkflow = () => {
     moduleType,
     control,
     watch,
+    setValue,
   } = useUpsertEventBasedWorkflow();
   return (
     <Box>
       <FormProvider
-        methods={salesMethod}
+        methods={eventMethod}
         onSubmit={handleSubmit(handleFormSubmit)}
       >
         <WorkflowHeader />
@@ -43,6 +44,7 @@ export const UpsertEventBasedWorkflow = () => {
           control={control}
           moduleType={moduleType}
           watch={watch}
+          setValue={setValue}
         />
         <WorkflowActionExecuted />
       </FormProvider>

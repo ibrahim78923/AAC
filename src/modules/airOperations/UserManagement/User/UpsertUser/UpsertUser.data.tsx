@@ -51,7 +51,6 @@ export const upsertUserDefaultValues: any = {
 
 export const upsertUserArray = (
   departmentDropdown: any,
-  rolesDropdown: any,
   usersTeamDropdown: any,
 ) => [
   {

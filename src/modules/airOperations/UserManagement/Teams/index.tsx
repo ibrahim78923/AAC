@@ -1,13 +1,12 @@
 import { Box } from '@mui/material';
 import { TeamsHeader } from './TeamsHeader';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { teamListData } from './Teams.data';
 import { useTeams } from './useTeams';
 import UpsertTeams from './UpsertTeams';
 import { AgentConversionDelete } from '../AgentConversionDelete';
 import TeamsDetails from './TeamsDetails';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS } from '@/constants/permission-keys';
+import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Teams = () => {
   const {
@@ -18,6 +17,16 @@ export const Teams = () => {
     setDeleteModal,
     isTeamDrawerOpen,
     setIsTeamDrawerOpen,
+    metaData,
+    data,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
+    setPageLimit,
+    setPage,
+    submitDeleteModal,
+    deleteTeamUsersStatus,
   } = useTeams();
 
   return (
@@ -27,13 +36,24 @@ export const Teams = () => {
       <Box mt={'0.75rem'}>
         <PermissionsGuard
           permissions={[
-            AIR_OPERATIONS_USER_MANAGEMENT_TEAMS_PERMISSIONS?.TEAM_LIST,
+            AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.USER_LIST,
           ]}
         >
           <TanstackTable
-            data={teamListData}
+            data={data?.data?.userTeams}
             columns={teamListColumn}
             isPagination={true}
+            isLoading={isLoading}
+            isError={isError}
+            isFetching={isFetching}
+            isSuccess={isSuccess}
+            setPageLimit={setPageLimit}
+            setPage={setPage}
+            count={metaData?.pages}
+            totalRecords={metaData?.total}
+            onPageChange={(page: any) => setPage(page)}
+            currentPage={metaData?.page}
+            pageLimit={metaData?.limit}
           />
         </PermissionsGuard>
         <TeamsDetails
@@ -48,13 +68,17 @@ export const Teams = () => {
           title={'Edit Team'}
           okText={'Save'}
         />
-        <AgentConversionDelete
-          message={'Are you sure you want to delete this Team?'}
-          open={deleteModal}
-          handleClose={() => {
-            setDeleteModal(false);
-          }}
-        />
+        {deleteModal && (
+          <AgentConversionDelete
+            message={'Are you sure you want to delete this Team?'}
+            loading={deleteTeamUsersStatus?.isLoading}
+            open={deleteModal?.val}
+            handleClose={() => {
+              setDeleteModal(false);
+            }}
+            submitDeleteModal={submitDeleteModal}
+          />
+        )}
       </Box>
     </Box>
   );

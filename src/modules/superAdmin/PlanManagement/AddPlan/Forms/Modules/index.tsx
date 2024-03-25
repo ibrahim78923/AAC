@@ -25,8 +25,16 @@ import { useGetProductsQuery } from '@/services/common-APIs';
 import { isNullOrEmpty } from '@/utils';
 import { enqueueSnackbar } from 'notistack';
 
-const Modules = ({ methods, handleSubmit, errors }: any) => {
-  const { theme, selectModule, handleValue } = useModules();
+const Modules = ({
+  methods,
+  handleSubmit,
+  errors,
+  selectedPermission,
+  selectAllPermissions,
+  getModulePermissions,
+  editPlan,
+}: any) => {
+  const { theme } = useModules();
   let prevProductId: any = null;
 
   const { planManagement }: any = useAppSelector(
@@ -130,9 +138,13 @@ const Modules = ({ methods, handleSubmit, errors }: any) => {
               <FormControlLabel
                 control={
                   <SwitchBtn
-                    handleSwitchChange={(e) =>
-                      handleValue(item?.subModules[0]?.permissions, e)
-                    }
+                    checked={getModulePermissions(item?.subModules)?.every(
+                      (permission: any) =>
+                        selectedPermission?.includes(permission),
+                    )}
+                    onClick={() => {
+                      selectAllPermissions(item?.subModules);
+                    }}
                   />
                 }
                 label=""
@@ -147,7 +159,7 @@ const Modules = ({ methods, handleSubmit, errors }: any) => {
               subModules={item?.subModules}
               methods={methods}
               handleSubmit={handleSubmit}
-              selectModule={selectModule}
+              editPlan={editPlan?.planProductPermissions[0]?.permissionSlugs}
             />
           </AccordionDetails>
         </Accordion>

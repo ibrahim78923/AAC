@@ -6,10 +6,9 @@ export const useWorkflowConditions = (props: any) => {
   const { control } = props;
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'workflowConditions',
+    name: 'groups',
   });
-  const handleAddGroup = () =>
-    append(eventBasedWorkflowValues?.workflowConditions[0]);
+  const handleAddGroup = () => append(eventBasedWorkflowValues?.groups[0]);
   const { palette } = useTheme();
   return { fields, append, remove, palette, handleAddGroup };
 };
