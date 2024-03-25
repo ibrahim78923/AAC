@@ -48,7 +48,7 @@ export default function EditForm({
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={4} sx={{ position: 'relative' }}>
-            {assignPlanData(selectProductSuite, crmOptions)?.map(
+            {assignPlanData(selectProductSuite, crmOptions, isEditModal)?.map(
               (item: any, index: any) => (
                 <Grid
                   item

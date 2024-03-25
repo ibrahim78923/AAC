@@ -39,7 +39,11 @@ export const defaultValues = {
   date: new Date(),
 };
 
-export const assignPlanData = (selectProductSuite: string, crmOptions: any) => {
+export const assignPlanData = (
+  selectProductSuite: string,
+  crmOptions: any,
+  isEditModal: any,
+) => {
   const { data: productData } = useGetProductsQuery<any>({
     refetchOnMountOrArgChange: true,
     pagination: `page=1&limit=10`,
@@ -79,6 +83,7 @@ export const assignPlanData = (selectProductSuite: string, crmOptions: any) => {
         label: 'Client Name & Organization',
         fullWidth: true,
         select: true,
+        disabled: isEditModal,
       },
 
       options: Organizations,

@@ -89,66 +89,75 @@ const useEditForm = (
 
   const productId = watch('product');
   const planTypeId = watch('planType');
+  const organizationId = watch('clientName');
 
   let planData: any;
-  let isSuccessPlan;
-  let isErrorPlan;
+  let isSuccessPlan: any;
+  const productName = getCRM?.data?.find(
+    (product: any) => product?._id === productId,
+  )?.name;
+
+  const queryParameters = {
+    ...(organizationId && { organizationId: organizationId }),
+    planTypeId: planTypeId,
+    productId: selectProductSuite === 'CRM' ? undefined : productId,
+    name: selectProductSuite === 'CRM' ? productName : undefined,
+  };
 
   if (selectProductSuite != 'CRM') {
-    const { data, isSuccess, isError } = useGetPlanIdQuery<any>(
-      {
-        proId: productId,
-        planTypeId: planTypeId,
-      },
+    const { data, isSuccess } = useGetPlanIdQuery<any>(
+      { params: queryParameters },
       { skip: isNullOrEmpty(planTypeId) },
     );
 
     planData = data;
     isSuccessPlan = isSuccess;
-    isErrorPlan = isError;
   }
 
   let ExistingplanData: any;
   let ExistingisSuccessPlan;
-  let ExistingisErrorPlan;
 
   if (selectProductSuite === 'CRM') {
-    const { data, isSuccess, isError } = useGetExistingCrmQuery<any>(
-      {
-        crmName: getCRM?.data?.find(
-          (product: any) => product?._id === productId,
-        )?.name,
-        planTypeId: planTypeId,
-      },
+    const { data, isSuccess } = useGetExistingCrmQuery<any>(
+      { params: queryParameters },
       { skip: isNullOrEmpty(planTypeId) },
     );
 
     ExistingplanData = data;
     ExistingisSuccessPlan = isSuccess;
-    ExistingisErrorPlan = isError;
   }
 
-  if (planData) {
-    setValue('planPrice', isSuccessPlan ? planData?.data?.planPrice : '');
-    setValue('defaultUser', isSuccessPlan ? planData?.data?.defaultUsers : '');
-    setValue(
-      'defaultUserTwo',
-      isSuccessPlan ? planData?.data?.defaultUsers : '',
-    );
-  }
-
-  if (ExistingplanData) {
+  if (planData?.data?.plans) {
     setValue(
       'planPrice',
-      ExistingisSuccessPlan ? ExistingplanData?.data?.planPrice : '',
+      isSuccessPlan ? planData?.data?.plans[0]?.planPrice : '',
     );
     setValue(
       'defaultUser',
-      ExistingisSuccessPlan ? ExistingplanData?.data?.defaultUsers : '',
+      isSuccessPlan ? planData?.data?.plans[0]?.defaultUsers : '',
     );
     setValue(
       'defaultUserTwo',
-      ExistingisSuccessPlan ? ExistingplanData?.data?.defaultUsers : '',
+      isSuccessPlan ? planData?.data?.plans[0]?.defaultUsers : '',
+    );
+  }
+
+  if (ExistingplanData?.data?.plans) {
+    setValue(
+      'planPrice',
+      ExistingisSuccessPlan ? ExistingplanData?.data?.plans[0]?.planPrice : '',
+    );
+    setValue(
+      'defaultUser',
+      ExistingisSuccessPlan
+        ? ExistingplanData?.data?.plans[0]?.defaultUsers
+        : '',
+    );
+    setValue(
+      'defaultUserTwo',
+      ExistingisSuccessPlan
+        ? ExistingplanData?.data?.plans[0]?.defaultUsers
+        : '',
     );
   }
 
@@ -174,14 +183,19 @@ const useEditForm = (
       organizationId: values?.clientName,
       planId:
         selectProductSuite === 'CRM'
-          ? ExistingplanData?.data?._id
-          : planData?.data?._id,
+          ? ExistingplanData?.data?.plans[0]?._id
+          : planData?.data?.plans[0]?._id,
       additionalUsers: parseInt(values?.additionalUser),
       additionalStorage: parseInt(values?.additionalStorage),
       planDiscount: parseInt(values?.discount),
       billingCycle: values?.billingCycle,
       billingDate: formattedDate,
+      isCRM: selectProductSuite === 'CRM' ? true : false,
     };
+
+    if (isEditModal) {
+      delete assignPlanPayload.organizationId;
+    }
 
     try {
       isEditModal
@@ -209,14 +223,38 @@ const useEditForm = (
     }
   };
 
-  // if (isSuccessPlan || ExistingisSuccessPlan) {
-  //   enqueueSnackbar(`Success fetch plan data`, {
-  //     variant: 'success',
-  //   });
-  // } else {  }
-  if (isErrorPlan || ExistingisErrorPlan) {
+  if (isNullOrEmpty(planData?.data?.plans) && isSuccessPlan) {
     enqueueSnackbar(
       `Please create plan agaist respective selected product and product type`,
+      {
+        variant: 'error',
+      },
+    );
+  } else if (
+    !isNullOrEmpty(planData?.data?.organizationAssignPlan) &&
+    isSuccessPlan
+  ) {
+    enqueueSnackbar(
+      `Plan agaist selected Client Name & Organization already created`,
+      {
+        variant: 'error',
+      },
+    );
+  }
+
+  if (isNullOrEmpty(ExistingplanData?.data?.plans) && ExistingisSuccessPlan) {
+    enqueueSnackbar(
+      `Please create plan agaist respective selected product and product type`,
+      {
+        variant: 'error',
+      },
+    );
+  } else if (
+    !isNullOrEmpty(ExistingplanData?.data?.organizationAssignPlan) &&
+    ExistingisSuccessPlan
+  ) {
+    enqueueSnackbar(
+      `Plan agaist selected Client Name & Organization already created`,
       {
         variant: 'error',
       },
