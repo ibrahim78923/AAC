@@ -30,6 +30,7 @@ const AddRole = () => {
     isLoading,
     navigate,
     onSubmit,
+    disabled,
     methods,
     theme,
     viewPerdetails,
@@ -104,6 +105,7 @@ const AddRole = () => {
                     getModulePermissions={getModulePermissions}
                     selectAllPermissions={selectAllPermissions}
                     watch={watch}
+                    disabled={disabled}
                   />
                 )}
               </Grid>

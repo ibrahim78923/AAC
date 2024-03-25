@@ -48,8 +48,9 @@ export const StyledTableRow = styled(TableRow)((theme: any) => ({
 }));
 
 export const styles = {
-  cell: {
+  cell: (align: string) => ({
     display: 'flex',
     alignItems: 'center',
-  },
+    justifyContent: align || 'left',
+  }),
 };

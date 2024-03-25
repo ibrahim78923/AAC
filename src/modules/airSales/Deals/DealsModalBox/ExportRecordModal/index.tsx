@@ -23,7 +23,9 @@ const ExportRecordModal = ({ open, onClose }: any) => {
   });
 
   const { handleSubmit } = methods;
-  const onSubmit = async () => {};
+  const onSubmit = async () => {
+    onClose();
+  };
 
   return (
     <CommonModal
@@ -33,8 +35,9 @@ const ExportRecordModal = ({ open, onClose }: any) => {
       title="Export Record"
       okText={'Export'}
       cancelText={'Cancel'}
-      footer={true}
+      footer
       headerIcon={<ExportRecordIcon />}
+      handleCancel={onClose}
     >
       <FormProvider methods={methods}>
         {recordData?.map((item: any) => {

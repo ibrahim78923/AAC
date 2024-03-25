@@ -9,12 +9,12 @@ const actionsOptions = [
 ];
 const statusOptions = ['Open', 'Pending', 'Resolved', 'Closed'];
 
-export const actionsExecutedFields = [
+export const actionsData = [
   {
     _id: 565,
     gridLength: 3,
     componentProps: {
-      name: 'deal2',
+      name: 'key',
       size: 'small',
       placeholder: 'Select',
       options: actionsOptions,
@@ -25,7 +25,7 @@ export const actionsExecutedFields = [
     _id: 456,
     gridLength: 3,
     componentProps: {
-      name: 'deal3',
+      name: 'value',
       size: 'small',
       placeholder: 'Select',
       options: statusOptions,

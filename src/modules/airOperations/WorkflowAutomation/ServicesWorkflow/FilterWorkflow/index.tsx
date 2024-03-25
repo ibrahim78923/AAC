@@ -5,8 +5,9 @@ import { useFilterWorkflow } from './useFilterWorkflow';
 import { filterWorkflowsDataFields } from './FilterWorkflow.data';
 
 const FilterWorkflow = (props: any) => {
-  const { isDrawerOpen, setIsDrawerOpen } = props;
-  const { handleSubmit, onSubmit, methods } = useFilterWorkflow(props);
+  const { isDrawerOpen, setIsDrawerOpen, onSubmitFilter } = props;
+  const { handleSubmit, methods, userDropdown, statusValue, createdByValue } =
+    useFilterWorkflow();
   return (
     <>
       <CommonDrawer
@@ -17,12 +18,13 @@ const FilterWorkflow = (props: any) => {
         okText="Apply"
         cancelText="Reset"
         isOk
-        submitHandler={handleSubmit(onSubmit)}
+        submitHandler={handleSubmit(onSubmitFilter)}
+        isDisabled={!(statusValue || createdByValue)}
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={3}>
-              {filterWorkflowsDataFields?.map((item: any) => (
+              {filterWorkflowsDataFields(userDropdown)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
                 </Grid>

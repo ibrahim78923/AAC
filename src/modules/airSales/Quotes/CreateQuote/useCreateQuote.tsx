@@ -12,8 +12,9 @@ import {
 import { AIR_SALES } from '@/routesConstants/paths';
 const useCreateQuote = () => {
   const router = useRouter();
+
   const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 20 });
-  const methodsAddQuote = useForm({
+  const methodsAddQuote = useForm<any>({
     resolver: yupResolver(dealValidationSchema),
     defaultValues: dealInitValues,
   });
@@ -25,6 +26,7 @@ const useCreateQuote = () => {
     methodsAddQuote;
 
   const [postAddQuote, { isLoading: loadingAddQuote }] = usePostQuoteMutation();
+
   const onSubmitCreateQuote = async (values: any) => {
     try {
       const response = await postAddQuote({ body: values })?.unwrap();

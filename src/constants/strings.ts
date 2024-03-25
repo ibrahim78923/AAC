@@ -412,3 +412,9 @@ export const TICKET_SOURCE = {
   PORTAL: 'PORTAL',
   CHAT: 'CHAT',
 };
+
+export const SCHEMA_KEYS = {
+  TICKETS: 'TICKETS',
+  TICKETS_TASKS: 'TICKETS_TASKS',
+  ASSETS: 'ASSETS',
+};
