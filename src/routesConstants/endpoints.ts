@@ -11,6 +11,9 @@ export const END_POINTS = {
   INVENTORY_EXPENSE: '/expense/add-expense',
   GET_INVENTORY_EXPENSE: '/expense/get-expense',
   TICKET: '/ticket',
+  TICKET_TIME_ENTRIES: '/ticket/add-time-entries',
+  TICKET_UPDATE_TIME_ENTRIES: '/ticket/update-time-entries',
+  TICKET_TIME_LIST: '/ticket/get-time-entries',
   TICKET_STATUS: '/ticket/status',
   TICKET_BULK_UPDATE: '/ticket/bulk-ticket-update',
   USER_LIST: '/users',
@@ -108,7 +111,7 @@ export const END_POINTS = {
   REQUESTER_LIST: `/requester/requester-list`,
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
-  DEPARTMENT: '/department',
+  DEPARTMENT: '/department/add-department',
   DROPDOWN_DEPARTMENT: `/Department/department-list`,
   TICKETS_ASSOCIATES_ASSETS: '/ticket/associate-assets',
   DROPDOWN_VENDORS_LIST: `/vendors/get-vendors`,
@@ -314,10 +317,14 @@ export const END_POINTS = {
   MERGE_TICKET: '/ticket/merge-ticket',
   DELETE_ALL_ATTACHMENT: '/attachment/delete-all-attachment',
   DELETE_MULTIPLE_ATTACHMENT: '/attachment/delete-multiple-attachment',
+  WORKFLOWS: 'workflows',
   SINGLE_DEPARTMENT_DETAIL: `/Department/get-by-id`,
+  TICKET_NEW_EMAIL: `/email`,
   DELETE_INVENTORY_PURCHASE_ORDER: '/assets/delete-purchase-association',
   DELETE_INVENTORY_CONTRACT: '/assets/delete-contract-association',
+  CUSTOMER_GET_COMPANY_ACCOUNTS: `/users/company-accounts`,
   AGENTS_SOFTWARE_LIST: `/agent/agent-software-list`,
+  EDIT_SOFTWARE_CATEGORY: `/assets/edit-software-category`,
 };
 
 export const superAdminBillingInvoices = {

@@ -22,6 +22,18 @@ const StepLineItems = ({ openCreateProduct }: any) => {
     search,
   });
 
+  const sum = productsData?.data?.products?.reduce(
+    (accumulator: any, currentValue: any) =>
+      accumulator + currentValue?.unitPrice * currentValue?.quantity,
+    0,
+  );
+
+  const unitDiscount = productsData?.data?.products?.reduce(
+    (accumulator: any, currentValue: any) =>
+      accumulator + currentValue?.unitDiscount * currentValue?.quantity,
+    0,
+  );
+
   const [deleteProducts] = useDeleteProductsMutation();
 
   const handleDeleteDeals = async (productId: string) => {
@@ -170,17 +182,17 @@ const StepLineItems = ({ openCreateProduct }: any) => {
         <Box sx={styles?.voucher}>
           <Box sx={styles?.voucherHeader}>
             <Box sx={styles?.vHeadCell}>Subtotal:</Box>
-            <Box sx={styles?.vHeadCell}>£75</Box>
+            <Box sx={styles?.vHeadCell}>£{sum}</Box>
           </Box>
 
           <Box sx={styles?.voucherBody}>
-            <Box sx={styles?.vRow}>
+            {/* <Box sx={styles?.vRow}>
               <Box sx={styles?.bodyCell}>V.A.T %</Box>
               <Box sx={styles?.bodyCellH}>£ 20</Box>
-            </Box>
+            </Box> */}
             <Box sx={styles?.vRow}>
               <Box sx={styles?.bodyCell}>Unit Discount</Box>
-              <Box sx={styles?.bodyCellH}>£ 30</Box>
+              <Box sx={styles?.bodyCellH}>£ {unitDiscount}</Box>
             </Box>
             <Box sx={styles?.vRow}>
               <Box sx={styles?.bodyCell}>Total Discount</Box>
@@ -190,7 +202,7 @@ const StepLineItems = ({ openCreateProduct }: any) => {
 
           <Box sx={styles?.voucherFooter}>
             <Box sx={styles?.fCell}>Total</Box>
-            <Box sx={styles?.fCell}>£50</Box>
+            <Box sx={styles?.fCell}>£{sum - unitDiscount}</Box>
           </Box>
         </Box>
       </Box>

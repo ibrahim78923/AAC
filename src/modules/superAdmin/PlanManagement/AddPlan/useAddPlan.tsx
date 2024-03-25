@@ -41,6 +41,7 @@ import {
   useGetExistingCrmQuery,
   useGetPlanIdQuery,
 } from '@/services/superAdmin/billing-invoices';
+import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
@@ -323,7 +324,7 @@ export const useAddPlan = () => {
             variant: 'success',
           });
         }, 5000);
-        router?.push('/super-admin/plan-management');
+        router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
         // persistor?.purge();
         reset();
       } catch (error: any) {

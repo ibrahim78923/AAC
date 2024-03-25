@@ -21,30 +21,22 @@ const useAddUser = (useActionParams?: any) => {
   //constant methods for both forms
   const { watch, setValue, handleSubmit, reset } = methods;
 
-  //watch all values from forms
+  // Watch all values from forms
   const formValues = watch();
 
-  //make sum up of address fields
-  const addressValues = formValues?.composite?.address
-    ? formValues?.composite?.address
-    : `${formValues?.flat ? `Flat # ${formValues?.flat}, ` : ''}` +
-      `${
-        formValues?.buildingNumber
-          ? `Building # ${formValues?.buildingNumber}, `
-          : ''
-      }` +
-      `${
-        formValues?.buildingName
-          ? `Building Name ${formValues?.buildingName}, `
-          : ''
-      }` +
-      `${
-        formValues?.streetName ? `Street # ${formValues?.streetName}, ` : ''
-      }` +
-      `${formValues?.city ? `${formValues?.city}, ` : ''}` +
-      `${formValues?.country ? `${formValues?.country}` : ''}`;
+  // Make sum up of address fields
+  const addressValues = [
+    formValues.flat && `Flat # ${formValues.flat}, `,
+    formValues.buildingName && `Building Name ${formValues.buildingName}, `,
+    formValues.buildingNumber && `Building # ${formValues.buildingNumber}, `,
+    formValues.streetName && `Street # ${formValues.streetName}, `,
+    formValues.city && `${formValues.city}, `,
+    formValues.country && formValues.country,
+  ]
+    .filter(Boolean)
+    .join('');
 
-  // setValue of address values
+  // Set value of address fields
   useEffect(() => {
     setValue('compositeAddress', addressValues);
   }, [addressValues]);

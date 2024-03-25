@@ -96,6 +96,7 @@ const CUSTOM_COLORS = {
   steel_blue: '#79839E99',
   steel_blue_alpha: '#79839E',
   light_greyish: '#EAEAEA',
+  light_greyish_low: '#d7d7d9',
   light_grayish_blue: '#E9EAEF',
   shade_grey: '#1018281A',
   turquoise_Blue: '#4CCFBC',

@@ -1,20 +1,26 @@
-import { useState } from 'react';
-
+import { useStopwatch } from 'react-timer-hook';
 const useTimePicker = () => {
-  const [time, setTime] = useState<string>('');
-
-  const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputTime = event?.target?.value;
-    if (inputTime === '') {
-      setTime('');
-    } else if (/^\d{2}:\d{2}$/.test(inputTime)) {
-      setTime(inputTime);
-    }
-  };
-
+  const {
+    totalSeconds,
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    reset,
+  } = useStopwatch({ autoStart: true });
   return {
-    time,
-    handleTimeChange,
+    totalSeconds,
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    reset,
   };
 };
 
