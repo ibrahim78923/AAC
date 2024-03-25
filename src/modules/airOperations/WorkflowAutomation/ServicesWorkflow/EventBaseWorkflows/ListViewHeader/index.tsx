@@ -2,24 +2,25 @@ import { FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
-import FilterWorkflow from '../../../FilterWorkflow';
-import { useTasksHeader } from './useTasksHeader';
 import { AIR_OPERATIONS } from '@/constants';
-import { EventBasedWorkflowDelete } from '../../EventBasedWorkflowDelete';
-import { Permissions } from '@/constants/permissions';
-import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
+import { Permissions } from '@/constants/permissions';
+import FilterWorkflow from '../../FilterWorkflow';
+import { EventBasedWorkflowDelete } from '../EventBasedWorkflowDelete';
 
-const TasksHeader = ({
-  selectedTasksList,
+const ListViewHeader = ({
+  selectedList,
   setSearch,
   search,
-  onSubmitTaskFilter,
+  onSubmitListFilter,
   isDrawerOpen,
   setIsDrawerOpen,
+  dropdownOptions,
+  router,
+  setDeleteWorkflow,
+  deleteWorkflow,
 }: any) => {
-  const { dropdownOptions, router, setDeleteWorkflow, deleteWorkflow } =
-    useTasksHeader();
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -44,7 +45,7 @@ const TasksHeader = ({
           >
             <SingleDropdownButton
               dropdownOptions={dropdownOptions}
-              disabled={!!!selectedTasksList?.length}
+              disabled={selectedList}
             />
           </PermissionsGuard>
           <PermissionsGuard
@@ -80,7 +81,7 @@ const TasksHeader = ({
       <FilterWorkflow
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
-        onSubmitFilter={onSubmitTaskFilter}
+        onSubmitFilter={onSubmitListFilter}
       />
       <EventBasedWorkflowDelete
         deleteWorkflow={deleteWorkflow}
@@ -90,4 +91,4 @@ const TasksHeader = ({
   );
 };
 
-export default TasksHeader;
+export default ListViewHeader;

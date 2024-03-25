@@ -21,8 +21,19 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    deleteWorkflow: builder?.query({
+      query: (queryParams: any) => ({
+        url: `${OPERATION_WORKFLOW}`,
+        method: 'DELETE',
+        params: queryParams,
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
-export const { usePostServicesWorkflowMutation, useGetWorkflowQuery } =
-  servicesWorkflowAPI;
+export const {
+  usePostServicesWorkflowMutation,
+  useGetWorkflowQuery,
+  useDeleteWorkflowQuery,
+} = servicesWorkflowAPI;

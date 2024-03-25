@@ -46,7 +46,7 @@ export const UpsertEventBasedWorkflow = () => {
           watch={watch}
           setValue={setValue}
         />
-        <WorkflowActionExecuted />
+        <WorkflowActionExecuted watch={watch} setValue={setValue} />
       </FormProvider>
     </Box>
   );

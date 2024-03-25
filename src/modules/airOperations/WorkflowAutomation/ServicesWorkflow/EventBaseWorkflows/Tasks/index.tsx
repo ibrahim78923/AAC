@@ -1,12 +1,12 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useTasks } from './useTasks';
-import TasksHeader from './TasksHeader';
+import ListViewHeader from '../ListViewHeader';
 
 const Tasks = () => {
   const {
-    selectedTasksList,
+    selectedAction,
     tasksListsColumns,
-    taskListData,
+    listData,
     taskData,
     isLoading,
     isSuccess,
@@ -16,22 +16,30 @@ const Tasks = () => {
     setLimit,
     setSearch,
     search,
-    onSubmitTaskFilter,
+    onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,
+    router,
+    deleteWorkflow,
+    setDeleteWorkflow,
+    dropdownOptions,
   } = useTasks();
   return (
     <>
-      <TasksHeader
-        selectedTasksList={selectedTasksList}
+      <ListViewHeader
+        selectedList={!!!selectedAction?.length}
         setSearch={setSearch}
         search={search}
-        onSubmitTaskFilter={onSubmitTaskFilter}
+        onSubmitListFilter={onSubmitListFilter}
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
+        router={router}
+        deleteWorkflow={deleteWorkflow}
+        setDeleteWorkflow={setDeleteWorkflow}
+        dropdownOptions={dropdownOptions}
       />
       <TanstackTable
-        data={taskListData}
+        data={listData}
         columns={tasksListsColumns}
         isPagination
         isFetching={isFetching}
