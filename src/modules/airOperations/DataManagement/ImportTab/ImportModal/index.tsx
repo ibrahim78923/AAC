@@ -3,7 +3,6 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { Box, Button, Chip } from '@mui/material';
 import { useImportModal } from './useImportModal';
 import { FormProvider } from '@/components/ReactHookForm';
-
 import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
 import ThirdStep from './ThirdStep';
@@ -17,12 +16,30 @@ const ImportModal = () => {
     resetImportModalForm,
     modalStep,
     handleClose,
+    handleSelect,
+    importLog,
+    product,
+    handleSubmit,
+    importDeals,
+    fields,
   } = useImportModal();
 
   const steps: any = {
-    1: <FirstStep />,
+    1: (
+      <FirstStep
+        handleSelect={handleSelect}
+        importLog={importLog}
+        product={product}
+      />
+    ),
     2: <SecondStep requiredColumns={requiredColumns} />,
-    3: <ThirdStep />,
+    3: (
+      <ThirdStep
+        importLog={importLog}
+        methodsImportModalForm={methodsImportModalForm}
+        fields={fields}
+      />
+    ),
   };
 
   return (
@@ -41,7 +58,6 @@ const ImportModal = () => {
           onClose={handleClose}
           okText={modalStep === 3 ? 'Import' : 'Next'}
           title={'Import Data'}
-          submitHandler={submitImportModalForm}
           isOk={true}
           cancelText={modalStep === 1 ? 'Cancel' : 'Back'}
         >
@@ -70,7 +86,12 @@ const ImportModal = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={submitImportModalForm}
+              onClick={handleSubmit(submitImportModalForm)}
+              disabled={
+                !!!importLog ||
+                product === null ||
+                (modalStep === 2 && importDeals === null)
+              }
             >
               {modalStep === 3 ? 'Import' : 'Next'}
             </Button>

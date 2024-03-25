@@ -21,7 +21,7 @@ export const KnowledgeInsights = () => {
   } = useKnowledgeInsights();
 
   if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) <ApiErrorState />;
+  if (isError) return <ApiErrorState />;
 
   return (
     <>

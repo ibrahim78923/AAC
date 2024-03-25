@@ -3,6 +3,7 @@ import {
   RHFSelect,
   // RHFRadioGroup,
   RHFCheckbox,
+  RHFEditor,
 } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
@@ -70,13 +71,15 @@ export const addContactFields = (productCatagories: any) => [
     })),
   },
   {
-    id: 'description',
-    component: RHFTextField,
     componentProps: {
       name: 'description',
-      // label: 'Description',
+      label: 'Description',
+      fullWidth: true,
     },
+    component: RHFEditor,
+    md: 12,
   },
+
   {
     id: 'isActive',
     component: RHFCheckbox,

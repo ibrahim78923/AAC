@@ -1,5 +1,5 @@
-import { Box, Grid, Typography } from '@mui/material';
-import Image from 'next/image';
+import { Avatar, Box, Grid, Typography } from '@mui/material';
+
 import useCatalog from './useCatalog';
 import { FolderIcon } from '@/assets/icons';
 import CustomPagination from '@/components/CustomPagination';
@@ -8,9 +8,11 @@ import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { Permissions } from '@/constants/permissions';
 import { AIR_CUSTOMER_PORTAL_CATALOG_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { generateImage } from '@/utils/avatarUtils';
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
+import { CATALOG_SERVICE_TYPES } from '@/constants/strings';
 export const Catalog = () => {
   const {
-    handleClick,
     result,
     handleClickService,
     data,
@@ -19,6 +21,7 @@ export const Catalog = () => {
     setPage,
     isLoading,
     isFetching,
+    router,
   } = useCatalog();
 
   return (
@@ -42,7 +45,14 @@ export const Catalog = () => {
               textAlign="center"
               mt={4}
               sx={{ cursor: 'pointer' }}
-              onClick={() => handleClick('ALL Services')}
+              onClick={() => {
+                router.push({
+                  pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
+                  query: {
+                    categoryName: CATALOG_SERVICE_TYPES?.ALL,
+                  },
+                });
+              }}
             >
               <Box
                 alignItems={'center'}
@@ -77,7 +87,15 @@ export const Catalog = () => {
               data?.data?.servicecategories?.map((service: any) => (
                 <Grid item xs={12} md={6} lg={3} key={service?._id}>
                   <Box
-                    onClick={() => handleClick(service?._id)}
+                    onClick={() => {
+                      router.push({
+                        pathname: AIR_CUSTOMER_PORTAL?.CATALOG_SERVICES,
+                        query: {
+                          categoryId: service?._id,
+                          categoryName: service?.categoryName,
+                        },
+                      });
+                    }}
                     borderRadius={2}
                     border={'0.2rem solid'}
                     borderColor={'primary.lighter'}
@@ -120,13 +138,10 @@ export const Catalog = () => {
               ))}
           </Grid>
           <CustomPagination
-            count={data?.data?.servicecategories?.meta?.count}
-            pageLimit={data?.data?.servicecategories?.meta?.pageLimit}
-            rowsPerPageOptions={
-              data?.data?.servicecategories?.meta?.rowsPerPageOptions
-            }
-            currentPage={data?.data?.servicecategories?.meta?.currentPage}
-            totalRecords={data?.data?.servicecategories?.meta?.totalRecords}
+            count={data?.data?.meta?.pages}
+            pageLimit={data?.data?.meta?.limit}
+            currentPage={data?.data?.meta?.page}
+            totalRecords={data?.data?.meta?.total}
             onPageChange={handlePageChange}
             setPage={setPage}
             setPageLimit={setPageLimit}
@@ -166,11 +181,11 @@ export const Catalog = () => {
                       justifyContent={'flex-start'}
                       p={2}
                     >
-                      <Image
-                        src={allService?.image}
-                        height={56}
-                        width={58}
-                        alt={`Service ${allService?.id} Image`}
+                      <Avatar
+                        sx={{ height: '4rem', width: '4rem' }}
+                        src={generateImage(
+                          allService?.attachmentDetails?.fileUrl,
+                        )}
                       />
                     </Box>
                     <Box

@@ -40,7 +40,14 @@ const GroupActions = ({
         >
           Edit
         </MenuItem>
-        <MenuItem onClick={handleDelete}>Delete</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleDelete(groupData?._id);
+            handleCloseActions();
+          }}
+        >
+          Delete
+        </MenuItem>
       </Menu>
     </>
   );

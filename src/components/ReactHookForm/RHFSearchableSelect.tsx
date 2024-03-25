@@ -140,7 +140,10 @@ export default function RHFSearchableSelect({
                 <Box
                   color={theme?.palette?.primary?.main}
                   sx={{ marginLeft: '10px', cursor: 'pointer' }}
-                  onClick={footerActionHandler}
+                  onClick={() => {
+                    footerActionHandler();
+                    handleClose();
+                  }}
                 >
                   <Typography variant="body1" fontWeight={500}>
                     {footerText}

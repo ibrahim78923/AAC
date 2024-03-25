@@ -17,13 +17,21 @@ import { v4 as uuidv4 } from 'uuid';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const PermissionsAccordion = (props: any) => {
-  const { permissionsData, query } = props;
+  const {
+    permissionsData,
+    query,
+    getModulePermissions,
+    selectAllPermissions,
+    watch,
+    disabled,
+  } = props;
   const {
     theme,
     // commented for future use
     // isAccordionExpanded,
     //  handleExpandAccordionChange
   } = usePermissionAccordion();
+
   const dataArray =
     query?.type === 'view'
       ? permissionsData?.permissions
@@ -62,14 +70,30 @@ const PermissionsAccordion = (props: any) => {
             id="dashboard"
           >
             <Box display="flex" alignItems="center">
-              <FormControlLabel control={<SwitchBtn />} label="" />
+              <FormControlLabel
+                control={
+                  <SwitchBtn
+                    checked={getModulePermissions(item.subModules).every(
+                      (permission: any) =>
+                        watch('permissions').includes(permission),
+                    )}
+                    handleSwitchChange={() =>
+                      selectAllPermissions(item?.subModules)
+                    }
+                  />
+                }
+                label=""
+              />
               <Typography variant="h4" fontWeight={700}>
                 {item?.name}
               </Typography>
             </Box>
           </AccordionSummary>
           <AccordionDetails>
-            <DashboardAccordion subModules={item?.subModules} />
+            <DashboardAccordion
+              subModules={item?.subModules}
+              disabled={disabled}
+            />
           </AccordionDetails>
         </Accordion>
       ))}

@@ -1,16 +1,319 @@
-export const conditionOptions = [
-  'Ticket Fields',
-  'Requester Fields',
-  'Requested for Fields',
+import {
+  RHFAutocomplete,
+  RHFAutocompleteAsync,
+  RHFDatePicker,
+  RHFTextField,
+} from '@/components/ReactHookForm';
+import { SCHEMA_KEYS } from '@/constants/strings';
+import { useLazyGetLocationsDropdownQuery } from '@/services/airServices/assets/inventory';
+import {
+  useLazyGetDepartmentDropdownQuery,
+  useLazyGetRequesterDropdownQuery,
+} from '@/services/airServices/tickets';
+import { useLazyGetAgentsQuery } from '@/services/dropdowns';
+import { useEffect } from 'react';
+
+export const assetsFieldsOption = [
+  'name',
+  'assetType',
+  'location',
+  'usedBy',
+  'selectDepartment',
+  'managedBy',
+  'impact',
+  'endOFLife',
+  'createdBy',
+  'assignedOn',
+  'description',
 ];
 
-export const ticketsFieldsOptions = [
-  'From Email',
-  'To Email',
-  'Ticket CC',
-  'workspace',
-  'Status',
+export const taskFieldsOption = [
+  'title',
+  'description',
+  'assignTo',
+  'status',
+  'notifyBefore',
+  'plannedStartDate',
+  'plannedEndDate',
+  'plannedEffort',
+  'selectDepartment',
 ];
-export const fieldOptions = ['Is', 'Is not', 'Equal', 'Not equal', 'Contains'];
-export const statusOptions = ['Open', 'Pending', 'Resolved', 'Close'];
-export const TICKET_FIELDS = 'Ticket Fields';
+
+export const ticketsFields = [
+  'selectDepartment',
+  'type',
+  'addRequester',
+  'subject',
+  'source',
+  'impacts',
+  'status',
+  'priority',
+  'agent',
+  'plannedStartDate',
+  'plannedEndDate',
+  'plannedEffort',
+];
+
+export const requesterFieldOptions = [
+  'email',
+  'jobTitle',
+  'phoneNumber',
+  'dateOfJoining',
+];
+
+export const requestedForFieldOptions = [
+  'email',
+  'fullName',
+  'jobTitle',
+  'phoneNumber',
+  'dateOfJoining',
+];
+export const priority = ['HIGH', 'MEDIUM', 'LOW'];
+export const status = ['ACTIVE', 'INACTIVE'];
+
+export const statusOptions = ['open', 'pending', 'resolved', 'close'];
+
+export const fieldOptions = [
+  'is',
+  'is not',
+  'equal',
+  'not equal',
+  'contains',
+  'not contains',
+  'contains words',
+  'not contains words',
+  'starts with',
+  'ends with',
+  'is empty',
+  'is not empty',
+  'included',
+  'not include',
+];
+export const assetsOptions = [
+  'Inventory',
+  'Contracts',
+  'Purchase Orders',
+  'Software',
+];
+export const typeOptions = ['INC', 'SR'];
+export const sourcesOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
+
+export const commonOperators = ['is', 'is not', 'included', 'not include'];
+export const dateOperators = [
+  'is',
+  'is not',
+  'is empty',
+  'is not empty',
+  'Greater than',
+  'Less than',
+  'Greater than or equal to',
+  'Less than or equal to',
+];
+
+export const subWorkflowData = ({ index, subIndex, watch, setValue }: any) => {
+  const agentApiQuery = useLazyGetAgentsQuery();
+  const departmentApiQuery = useLazyGetDepartmentDropdownQuery();
+  const requestersApiQuery = useLazyGetRequesterDropdownQuery();
+  const apiQueryLocations = useLazyGetLocationsDropdownQuery();
+  const useApiQuery = (operatorsOption: string) => {
+    if (operatorsOption === 'agent') {
+      return agentApiQuery;
+    } else if (operatorsOption === 'addRequester') {
+      return requestersApiQuery;
+    } else if (operatorsOption === 'selectDepartment') {
+      return departmentApiQuery;
+    } else if (operatorsOption === 'location') {
+      return apiQueryLocations;
+    }
+    return null;
+  };
+  const moduleSelectedOption = watch('module');
+  const taskModule: any = {
+    'Task Fields': taskFieldsOption,
+    'Ticket Fields': ticketsFields,
+  };
+  const assetsModule: any = {
+    'Assets Fields': assetsFieldsOption,
+  };
+  const ticketsModule: any = {
+    'Ticket Fields': ticketsFields,
+    'Requester Fields': requesterFieldOptions,
+    'Requested for Fields': requestedForFieldOptions,
+  };
+  const modulesOptions =
+    moduleSelectedOption === SCHEMA_KEYS?.ASSETS
+      ? assetsModule || []
+      : moduleSelectedOption === SCHEMA_KEYS?.TICKETS
+      ? ticketsModule || []
+      : taskModule || [];
+  const selectedOption = watch('options');
+  const moduleListOptions = modulesOptions[selectedOption] || [];
+  const operatorsOption = watch(`groups.${index}.conditions.${subIndex}.key`);
+  useEffect(() => {
+    setValue(`groups.${index}.conditions.${subIndex}.condition`, ''),
+      setValue(`groups.${index}.conditions.${subIndex}.value`, null);
+  }, [operatorsOption, setValue]);
+  let singleOperatorsOptions = [];
+  const apiQuery = useApiQuery(operatorsOption);
+  const valuesOptions =
+    operatorsOption === 'priority' || operatorsOption === 'impacts'
+      ? priority
+      : operatorsOption === 'assetType'
+      ? assetsOptions
+      : operatorsOption === 'source'
+      ? sourcesOptions
+      : operatorsOption === 'type'
+      ? typeOptions
+      : status;
+  if (
+    [
+      'plannedStartDate',
+      'plannedEndDate',
+      'dateOfJoining',
+      'endOFLife',
+      'assignedOn',
+    ].includes(operatorsOption)
+  ) {
+    singleOperatorsOptions = dateOperators;
+  } else if (
+    [
+      'subject',
+      'description',
+      'title',
+      'plannedEffort',
+      'name',
+      'email',
+      'phoneNumber',
+      'jobTitle',
+      'fullName',
+    ].includes(operatorsOption)
+  ) {
+    singleOperatorsOptions = fieldOptions;
+  } else {
+    singleOperatorsOptions = commonOperators;
+  }
+  let valueComponent;
+  if (
+    [
+      'subject',
+      'description',
+      'title',
+      'plannedEffort',
+      'name',
+      'email',
+      'phoneNumber',
+      'jobTitle',
+      'fullName',
+    ].includes(operatorsOption)
+  ) {
+    valueComponent = {
+      _id: 5,
+      gridLength: 3,
+      componentProps: {
+        name: `groups.${index}.conditions.${subIndex}.value`,
+        size: 'small',
+        placeholder: 'Enter Text',
+      },
+      component: RHFTextField,
+    };
+  } else if (
+    operatorsOption === 'agent' ||
+    operatorsOption === 'addRequester' ||
+    operatorsOption === 'location'
+  ) {
+    valueComponent = {
+      _id: 6,
+      gridLength: 3,
+      componentProps: {
+        name: `groups.${index}.conditions.${subIndex}.value`,
+        size: 'small',
+        placeholder: 'Select',
+        apiQuery: apiQuery,
+        getOptionLabel:
+          operatorsOption === 'location'
+            ? (option: any) => option?.locationName
+            : (option: any) => `${option?.firstName} ${option?.lastName}`,
+      },
+      component: RHFAutocompleteAsync,
+    };
+  } else if (operatorsOption === 'selectDepartment') {
+    valueComponent = {
+      _id: 6,
+      gridLength: 3,
+      componentProps: {
+        name: `groups.${index}.conditions.${subIndex}.value`,
+        size: 'small',
+        placeholder: 'Select',
+        apiQuery: apiQuery,
+      },
+      component: RHFAutocompleteAsync,
+    };
+  } else if (
+    [
+      'plannedStartDate',
+      'plannedEndDate',
+      'dateOfJoining',
+      'endOFLife',
+      'assignedOn',
+    ].includes(operatorsOption)
+  ) {
+    valueComponent = {
+      _id: 4,
+      componentProps: {
+        fullWidth: true,
+        name: `groups.${index}.conditions.${subIndex}.value`,
+        size: 'small',
+      },
+      gridLength: 3,
+      component: RHFDatePicker,
+    };
+  } else {
+    valueComponent = {
+      _id: 9,
+      gridLength: 3,
+      componentProps: {
+        name: `groups.${index}.conditions.${subIndex}.value`,
+        size: 'small',
+        placeholder: 'Select',
+        options: valuesOptions,
+      },
+      component: RHFAutocomplete,
+    };
+  }
+  return [
+    {
+      _id: 1,
+      gridLength: 3,
+      componentProps: {
+        name: `options`,
+        size: 'small',
+        placeholder: 'Select',
+        options: Object.keys(modulesOptions),
+      },
+      component: RHFAutocomplete,
+    },
+    {
+      _id: 2,
+      gridLength: 3,
+      componentProps: {
+        name: `groups.${index}.conditions.${subIndex}.key`,
+        size: 'small',
+        placeholder: 'Select',
+        options: moduleListOptions,
+      },
+      component: RHFAutocomplete,
+    },
+    {
+      _id: 3,
+      gridLength: 3,
+      componentProps: {
+        name: `groups.${index}.conditions.${subIndex}.condition`,
+        size: 'small',
+        placeholder: 'Select',
+        options: singleOperatorsOptions,
+      },
+      component: RHFAutocomplete,
+    },
+    valueComponent,
+  ];
+};

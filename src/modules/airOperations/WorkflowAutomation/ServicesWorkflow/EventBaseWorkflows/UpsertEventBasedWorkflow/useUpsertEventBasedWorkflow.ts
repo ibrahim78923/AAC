@@ -5,26 +5,51 @@ import {
   eventBasedWorkflowValues,
 } from './UpsertEventBasedWorkflow.data';
 import { useTheme } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { usePostServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
+import { useRouter } from 'next/router';
+import { AIR_OPERATIONS } from '@/constants';
 
 export const useUpsertEventBasedWorkflow = () => {
-  const salesMethod = useForm({
+  const router = useRouter();
+  const movePage = () => {
+    router.push({
+      pathname: AIR_OPERATIONS?.SERVICES_WORKFLOW,
+    });
+  };
+  const eventMethod = useForm({
     defaultValues: eventBasedWorkflowValues,
     resolver: yupResolver(eventBasedWorkflowSchema),
   });
   const { reset, watch, register, handleSubmit, setValue, control } =
-    salesMethod;
-  const handleFormSubmit = () => {
-    enqueueSnackbar('Workflow Enabled Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    reset();
+    eventMethod;
+  const [postWorkflowTrigger] = usePostServicesWorkflowMutation();
+  const handleFormSubmit = async (data: any) => {
+    const { options, ...rest } = data;
+    const body = {
+      ...rest,
+      events: [data?.events?.value],
+      runType: data?.runType?.value,
+      groups:
+        data?.groups?.map((group: any) => ({
+          ...group,
+          conditionType: group?.conditionType?.value,
+        })) ?? [],
+    };
+    try {
+      await postWorkflowTrigger(body).unwrap();
+      successSnackbar('Workflow Enabled Successfully');
+      reset();
+      movePage();
+      return options;
+    } catch (error) {
+      errorSnackbar();
+    }
   };
   const { palette } = useTheme();
-  const moduleType = watch('moduleType');
+  const moduleType = watch('module');
   return {
-    salesMethod,
+    eventMethod,
     handleFormSubmit,
     register,
     handleSubmit,

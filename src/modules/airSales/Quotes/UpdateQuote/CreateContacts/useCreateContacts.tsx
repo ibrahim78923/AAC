@@ -18,7 +18,7 @@ import {
 import { useGetUsersQuery } from '@/services/superAdmin/user-management/users';
 import useUpdateQuote from '../useUpdateQuote';
 
-const useCreateContacts = (dealId: any) => {
+const useCreateContacts = (dealId: any, onClose: () => void) => {
   const userRole = 'ORG_ADMIN';
   const { dataGetQuoteById, createAssociationQuote } = useUpdateQuote();
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
@@ -46,7 +46,7 @@ const useCreateContacts = (dealId: any) => {
     },
   });
 
-  const onSubmit = async (values: any, closeDrawer: any) => {
+  const onSubmit = async (values: any) => {
     const formData = new FormData();
     formData?.append('profilePicture', values?.profilePicture);
     formData?.append('email', values?.email);
@@ -70,7 +70,7 @@ const useCreateContacts = (dealId: any) => {
     formData?.append('recordType', 'deals');
 
     try {
-      const response = await postContacts({ body: formData })
+      await postContacts({ body: formData })
         ?.unwrap()
         .then((res: any) => {
           const associationBody = {
@@ -83,24 +83,18 @@ const useCreateContacts = (dealId: any) => {
           });
         });
 
-      if (response?.data) {
-        closeDrawer();
-        reset();
-        enqueueSnackbar('Success message', { variant: 'success' });
-      }
+      reset();
     } catch (error: any) {
       const errMsg = error?.data?.message;
       enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
     }
+    onClose();
   };
 
   const onCloseHandler = () => {
     reset();
   };
   const { handleSubmit, reset } = methodscontacts;
-
-  const submitContact = (closeDrawer: any) =>
-    handleSubmit((values: any) => onSubmit(values, closeDrawer));
   return {
     handleSubmit,
     onSubmit,
@@ -110,7 +104,6 @@ const useCreateContacts = (dealId: any) => {
     onCloseHandler,
     userList,
     contactsStatus,
-    submitContact,
   };
 };
 

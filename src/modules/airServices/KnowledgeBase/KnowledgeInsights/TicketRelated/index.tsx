@@ -22,11 +22,10 @@ export const TicketRelated = (props: any) => {
   } = useTicketRelated(props);
 
   if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) <ApiErrorState />;
+  if (isError) return <ApiErrorState />;
 
   return (
     <>
-      <br />
       {data?.data?.articles?.length ? (
         <Box>
           <PageTitledHeader

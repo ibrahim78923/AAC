@@ -20,7 +20,7 @@ export const defaultCreateCompanyValues = {
   linkedInUrl: '',
 };
 
-export const dataArray = ({ contacts }: any) => {
+export const dataArray = (contacts: any) => {
   // const { companiesOwner } = useFormAddContact();
   return [
     {

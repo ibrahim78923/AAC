@@ -10,17 +10,16 @@ import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/consta
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 
-const TicketsHeader = ({ selectedTicketsList }: any) => {
-  const {
-    searchValue,
-    setSearchValue,
-    dropdownOptions,
-    isDrawerOpen,
-    setIsDrawerOpen,
-    router,
-    setDeleteWorkflow,
-    deleteWorkflow,
-  } = useTicketsHeader();
+const TicketsHeader = ({
+  selectedTicketsList,
+  setSearch,
+  search,
+  onSubmitFilter,
+  isDrawerOpen,
+  setIsDrawerOpen,
+}: any) => {
+  const { dropdownOptions, router, setDeleteWorkflow, deleteWorkflow } =
+    useTicketsHeader();
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -31,10 +30,9 @@ const TicketsHeader = ({ selectedTicketsList }: any) => {
             ]}
           >
             <Search
-              value={searchValue}
               label="Search Here"
-              setSearchBy={setSearchValue}
-              onChange={(e: any) => setSearchValue(e?.target?.value)}
+              searchBy={search}
+              setSearchBy={setSearch}
             />
           </PermissionsGuard>
         </Box>
@@ -82,6 +80,7 @@ const TicketsHeader = ({ selectedTicketsList }: any) => {
       <FilterWorkflow
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
+        onSubmitFilter={onSubmitFilter}
       />
       <EventBasedWorkflowDelete
         deleteWorkflow={deleteWorkflow}
