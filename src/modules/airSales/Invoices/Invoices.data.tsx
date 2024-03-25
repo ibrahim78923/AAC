@@ -46,7 +46,7 @@ export const invoicesTableColumns: any = [
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.invoiceName,
+    accessorFn: (row: any) => row?.quote?.name,
     id: 'invoiceName',
     cell: (info: any) => info?.getValue(),
     header: 'Invoice Name',

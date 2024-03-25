@@ -26,24 +26,28 @@ import { v4 as uuidv4 } from 'uuid';
 const ListView = () => {
   const navigate = useRouter();
   const {
-    selectedValue,
-    handleClose,
+    anchorEl,
+    actionMenuOpen,
+    handleActionsMenuClick,
+    handleActionsMenuClose,
+
     isDeleteModal,
     setIsDeleteModal,
-    searchBy,
+
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    methodsFilter,
+    handleFiltersSubmit,
+    handleRefresh,
     setSearchBy,
+
     handleIsViewPage,
     handleDeleteModal,
-    handleClick,
     InvoiceData,
     isLoading,
     setPage,
     setPageLimit,
-    isDrawerOpen,
-    setIsDrawerOpen,
-    onSubmit,
-    handleSubmit,
-    methods,
   } = useListView();
 
   return (
@@ -73,7 +77,6 @@ const ListView = () => {
             <Search
               label="Search Here"
               size="small"
-              searchBy={searchBy}
               setSearchBy={setSearchBy}
               width={240}
             />
@@ -84,9 +87,7 @@ const ListView = () => {
           <Stack direction="row" justifyContent="end" gap={1}>
             <Box>
               <Button
-                //  disabled={selected.length > 0 ? false : true}
-                disabled={true}
-                onClick={handleClick}
+                onClick={handleActionsMenuClick}
                 variant="outlined"
                 color="inherit"
                 className="small"
@@ -96,9 +97,9 @@ const ListView = () => {
               </Button>
               <Menu
                 id="simple-menu"
-                anchorEl={selectedValue}
-                open={Boolean(selectedValue)}
-                onClose={handleClose}
+                anchorEl={anchorEl}
+                open={actionMenuOpen}
+                onClose={handleActionsMenuClose}
               >
                 <PermissionsGuard
                   permissions={[
@@ -112,7 +113,7 @@ const ListView = () => {
                     AIR_SALES_INVOICES_PERMISSIONS?.SALE_INVOICE_DOWNLOAD,
                   ]}
                 >
-                  <MenuItem onClick={handleClose}>Download</MenuItem>
+                  <MenuItem onClick={handleActionsMenuClose}>Download</MenuItem>
                 </PermissionsGuard>
                 <PermissionsGuard
                   permissions={[
@@ -132,6 +133,7 @@ const ListView = () => {
                 width: '50px',
                 cursor: 'pointer',
               }}
+              onClick={handleRefresh}
             >
               <RefreshIcon />
             </Box>
@@ -146,7 +148,7 @@ const ListView = () => {
                 color="inherit"
                 className="small"
                 startIcon={<FilterAlt />}
-                onClick={() => setIsDrawerOpen(true)}
+                onClick={handleOpenFilters}
               >
                 Filter
               </Button>
@@ -159,13 +161,14 @@ const ListView = () => {
           columns={invoicesTableColumns}
           data={InvoiceData?.data?.quoteinvoices}
           isLoading={isLoading}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-          isPagination
-          currentPage={InvoiceData?.data?.meta?.pages}
+          currentPage={InvoiceData?.data?.meta?.page}
           count={InvoiceData?.data?.meta?.pages}
           pageLimit={InvoiceData?.data?.meta?.limit}
           totalRecords={InvoiceData?.data?.meta?.total}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          onPageChange={(page: any) => setPage(page)}
+          isPagination
         />
       </Box>
       <AlertModals
@@ -176,16 +179,16 @@ const ListView = () => {
         handleSubmit={() => setIsDeleteModal(false)}
       />
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
+        isDrawerOpen={openFilters}
+        onClose={handleCloseFilters}
         title="Filters"
         isOk={true}
         okText="Apply"
         cancelText="Cancel"
         footer={true}
-        submitHandler={handleSubmit(onSubmit)}
+        submitHandler={handleFiltersSubmit}
       >
-        <FormProvider methods={methods}>
+        <FormProvider methods={methodsFilter}>
           <Grid container spacing={1}>
             {invoiceFilterFields?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
