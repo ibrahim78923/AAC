@@ -166,7 +166,6 @@ export const useInventory = () => {
     setInventoryAction,
     inventoryActionComponent,
     inventoryListsColumns,
-    inventoryListsData,
     selectedInventoryLists,
     setSelectedInventoryLists,
     getInventoryListDataExport,
