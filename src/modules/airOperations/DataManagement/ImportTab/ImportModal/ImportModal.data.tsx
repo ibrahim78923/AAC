@@ -17,7 +17,7 @@ export const productData = [
   {
     icon: {},
     import: 'Services',
-    title: 'Product_Catalog',
+    title: 'Catalog',
     desc: 'The businesses you work with, which are commonly called accounts or organization',
   },
   {
@@ -76,7 +76,7 @@ export const stepsData: any = {
     'State',
     'Zip Code',
   ],
-  Product_Catalog: [
+  Catalog: [
     'Name',
     'Asset Type',
     'Manufacturer',
@@ -103,10 +103,19 @@ export const importTableHeader = ['File Column', 'Crm Fields', 'Mapped'];
 export const requiredColumns = ['Name', 'Deal Value'];
 export const productOptions = ['Sales', 'Services', 'Marketing'];
 
-export const importValidationSchema: any = () =>
-  Yup?.object()?.shape({
-    importedFields: Yup.string().required('Required'),
-  });
+export const importValidationSchema = (modalStep: any) => {
+  let schema;
+  modalStep === 3
+    ? (schema = Yup.object().shape({
+        importedFields: Yup.array().of(
+          Yup.object().shape({
+            crmFields: Yup.string().required('Required'),
+          }),
+        ),
+      }))
+    : (schema = Yup.object().shape({}));
+  return schema;
+};
 
 export const importDefaultValues = {
   product: null,
@@ -169,7 +178,7 @@ export const importTableFields = (
           name={`${name}.${index}.crmFields`}
           size="small"
           options={stepsData[importLog]}
-          fullWidth={true}
+          fullWidth
           required={true}
           placeholder={'Select'}
         />
