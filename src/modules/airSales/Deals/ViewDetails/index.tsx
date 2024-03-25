@@ -1,8 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
-
-import { Box, Grid, Typography, useTheme } from '@mui/material';
-
+import { Avatar, Box, Grid, Skeleton, Typography } from '@mui/material';
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import Details from './Details';
 import ActivityLog from './ActivityLog';
@@ -12,21 +9,22 @@ import Calls from './Calls';
 import Emails from './Emails';
 import Meetings from './Meetings';
 import Associations from './Associations';
-
 import { singleUserDealTabsData } from './ViewDetails.data';
-
 import { ArrowBackIcon } from '@/assets/icons';
-import { NotesAvatarImage } from '@/assets/images';
-
 import { styles } from './ViewDetails.style';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { useSearchParams } from 'next/navigation';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import useViewDetails from './useViewDetails';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from '@/constants';
+import { IMG_URL } from '@/config';
 
 const ViewDetails = () => {
-  const theme = useTheme();
+  const { theme, viewDeal, isLoading, id } = useViewDetails();
   const searchParams = useSearchParams().get('tab-value');
+
   return (
     <Box>
       <Grid container spacing={2}>
@@ -35,139 +33,167 @@ const ViewDetails = () => {
             <Link href={AIR_SALES?.DEAL} style={{ paddingTop: '6px' }}>
               <ArrowBackIcon />
             </Link>
-            <Box>
-              <Typography variant="h4">Share My Dine</Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: theme?.palette?.custom?.main }}
-              >
-                Amount:
-              </Typography>
-            </Box>
+            {isLoading ? (
+              <Skeleton width="15%" height="60px" />
+            ) : (
+              <Box>
+                <Typography variant="h4">{viewDeal?.name}</Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: theme?.palette?.custom?.main }}
+                >
+                  Amount: {viewDeal?.amount ?? 'N/A'}
+                </Typography>
+              </Box>
+            )}
           </Box>
         </Grid>
 
         <Grid item xs={12} sm={6} lg={3}>
-          <Box sx={styles?.detailsBox}>
-            <Box sx={{ display: 'flex', gap: 1, marginBottom: '7px' }}>
-              <Image
-                src={NotesAvatarImage}
-                width={40}
-                height={40}
-                alt="NotesAvatarImage"
-              />
-              <Box>
-                <Typography variant="body2" sx={{ fontWeight: '600' }}>
-                  Olivia Rhye
+          {isLoading ? (
+            <Skeleton variant="rectangular" width={323} height={195} />
+          ) : (
+            <Box sx={styles?.detailsBox}>
+              <Box sx={{ display: 'flex', gap: 1, marginBottom: '7px' }}>
+                <Avatar
+                  alt="Remy Sharp"
+                  src={`${
+                    viewDeal?.owner?.avatar
+                      ? `${IMG_URL}${viewDeal?.owner?.avatar?.url}`
+                      : ''
+                  }`}
+                />
+                <Box>
+                  <Typography variant="body2" sx={{ fontWeight: '600' }}>
+                    {viewDeal?.owner?.firstName ?? 'N/A'}{' '}
+                    {viewDeal?.owner?.lastName}
+                  </Typography>
+                  <Typography
+                    variant="body3"
+                    sx={{ color: theme?.palette?.custom?.main }}
+                  >
+                    Created on{' '}
+                    {dayjs(viewDeal?.owner?.createdAt)?.format(
+                      DATE_TIME_FORMAT?.DMDMHA,
+                    )}
+                  </Typography>
+                </Box>
+              </Box>
+              <hr style={styles?.salesBox} />
+              <Box sx={styles?.salesBox}>
+                <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                  Email
                 </Typography>
-                <Typography
-                  variant="body3"
-                  sx={{ color: theme?.palette?.custom?.main }}
-                >
-                  Created on Sun, 5 Mar 9:41 PM
+                <Typography variant="body3" sx={styles?.salesHeading(theme)}>
+                  {viewDeal?.owner?.email ?? 'N/A'}
+                </Typography>
+              </Box>
+              <Box sx={styles?.salesBox}>
+                <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                  Phone Number
+                </Typography>
+                <Typography variant="body3" sx={styles?.salesHeading(theme)}>
+                  {viewDeal?.owner?.phoneNumber ?? 'N/A'}
+                </Typography>
+              </Box>
+              <Box sx={styles?.salesBox}>
+                <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                  Deal Stage
+                </Typography>
+                <Typography variant="body3" sx={styles?.salesPriority(theme)}>
+                  {viewDeal?.stage?.name ?? 'N/A'}
                 </Typography>
               </Box>
             </Box>
-            <hr style={styles?.salesBox} />
-            <Box sx={styles?.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Email
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                olivia@gmail.com
-              </Typography>
-            </Box>
-            <Box sx={styles?.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Phone Number
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                +44 063556245
-              </Typography>
-            </Box>
-            <Box sx={styles?.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Deal Type
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesPriority(theme)}>
-                New Business
-              </Typography>
-            </Box>
-          </Box>
+          )}
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
-          <Box sx={styles?.detailsBox}>
-            <Typography variant="body2" sx={{ fontWeight: 600 }}>
-              Products
-            </Typography>
-            <Box sx={styles?.noproductBox}>
-              <Typography
-                variant="body3"
-                sx={{ color: theme?.palette?.grey[900] }}
-              >
-                No products to show
+          {isLoading ? (
+            <Skeleton variant="rectangular" width={323} height={195} />
+          ) : (
+            <Box sx={styles?.detailsBox}>
+              <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                Products
               </Typography>
+              <Box sx={styles?.noproductBox}>
+                <Typography
+                  variant="body3"
+                  sx={{ color: theme?.palette?.grey[900] }}
+                >
+                  No products to show
+                </Typography>
+              </Box>
             </Box>
-          </Box>
+          )}
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
-          <Box sx={styles?.detailsBox}>
-            <Typography variant="body2" sx={{ fontWeight: 600 }}>
-              Upcoming Meetings
-            </Typography>
-            <Box sx={styles?.noproductBox}>
-              <Typography
-                variant="body3"
-                sx={{ color: theme?.palette?.grey[900] }}
-              >
-                No Meeting Found
+          {isLoading ? (
+            <Skeleton variant="rectangular" width={323} height={195} />
+          ) : (
+            <Box sx={styles?.detailsBox}>
+              <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                Upcoming Meetings
               </Typography>
+              <Box sx={styles?.noproductBox}>
+                <Typography
+                  variant="body3"
+                  sx={{ color: theme?.palette?.grey[900] }}
+                >
+                  No Meeting Found
+                </Typography>
+              </Box>
             </Box>
-          </Box>
+          )}
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
-          <Box sx={styles?.detailsBox}>
-            <Box sx={styles?.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Stage
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                New
-              </Typography>
+          {isLoading ? (
+            <Skeleton variant="rectangular" width={323} height={195} />
+          ) : (
+            <Box sx={styles?.detailsBox}>
+              <Box sx={styles?.salesBox}>
+                <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                  Stage
+                </Typography>
+                <Typography variant="body3" sx={styles?.salesHeading(theme)}>
+                  {viewDeal?.stage?.name ?? 'N/A'}
+                </Typography>
+              </Box>
+              <Box sx={styles?.salesBox}>
+                <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                  Pipeline
+                </Typography>
+                <Typography variant="body3" sx={styles?.salesHeading(theme)}>
+                  {viewDeal?.pipeline?.name ?? 'N/A'}
+                </Typography>
+              </Box>
+              <Box sx={styles?.salesBox}>
+                <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                  Priority
+                </Typography>
+                <Typography variant="body3" sx={styles?.salesPriority(theme)}>
+                  {viewDeal?.priority ?? 'N/A'}
+                </Typography>
+              </Box>
+              <Box sx={styles?.salesBox}>
+                <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                  Created Date
+                </Typography>
+                <Typography variant="body3" sx={styles?.salesHeading(theme)}>
+                  {dayjs(viewDeal?.createdAt)?.format(DATE_TIME_FORMAT?.DMDMHA)}
+                </Typography>
+              </Box>
+              <Box sx={styles?.salesBox}>
+                <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
+                  Closes Date
+                </Typography>
+                <Typography variant="body3" sx={styles?.salesHeading(theme)}>
+                  {dayjs(viewDeal?.closeDate)?.format(
+                    DATE_TIME_FORMAT?.DMDMHA,
+                  ) ?? 'N/A'}
+                </Typography>
+              </Box>
             </Box>
-            <Box sx={styles?.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Pipeline
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                Sales Pipeline
-              </Typography>
-            </Box>
-            <Box sx={styles?.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Priority
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesPriority(theme)}>
-                Low
-              </Typography>
-            </Box>
-            <Box sx={styles?.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Created Date
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                Fri, 10 Mar 09:00 AM
-              </Typography>
-            </Box>
-            <Box sx={styles?.salesBox}>
-              <Typography variant="body3" sx={styles?.salesTextBox(theme)}>
-                Closes Date
-              </Typography>
-              <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                Tue, 14 Mar 10:00 AM
-              </Typography>
-            </Box>
-          </Box>
+          )}
         </Grid>
 
         <Grid item xs={12}>
@@ -176,7 +202,7 @@ const ViewDetails = () => {
               tabsDataArray={singleUserDealTabsData}
               defaultValue={Number(searchParams) ?? 0}
             >
-              <Details />
+              <Details selected={id} />
               <PermissionsGuard
                 permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_ACTIVITY_LOG]}
               >

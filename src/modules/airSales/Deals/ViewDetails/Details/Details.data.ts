@@ -7,21 +7,28 @@ import {
 import * as Yup from 'yup';
 
 export const detailsValidationSchema = Yup?.object()?.shape({
-  candidates: Yup?.string()?.trim()?.required('Field is Required'),
-  applyDate: Yup?.string()?.trim()?.required('Field is Required'),
-  status: Yup?.string()?.trim()?.required('Field is Required'),
+  // name: Yup?.string()
 });
 
 export const detailsDefaultValues = {
-  candidates: '',
-  applyDate: '',
-  status: '',
+  dealName: '',
+  amount: '',
+  dealOwner: '',
+  dealType: '',
+  priority: '',
+  stage: '',
+  pipeline: '',
+  lastContacted: '',
+  contactedMode: '',
+  lastActivity: '',
+  createdDate: '',
+  closedDate: '',
 };
 
 export const detailsDataArray = [
   {
     componentProps: {
-      name: 'deal-name',
+      name: 'dealName',
       label: 'Deal Name',
       placeholder: 'Name',
       fullWidth: true,
@@ -42,7 +49,7 @@ export const detailsDataArray = [
   },
   {
     componentProps: {
-      name: 'deal-owner',
+      name: 'dealOwner',
       label: 'Deal Owner',
       placeholder: 'Deal Owner',
 
@@ -53,7 +60,7 @@ export const detailsDataArray = [
   },
   {
     componentProps: {
-      name: 'deal-type',
+      name: 'dealType',
       label: 'Deal Type',
       select: true,
     },
@@ -80,7 +87,7 @@ export const detailsDataArray = [
   },
   {
     componentProps: {
-      name: 'new',
+      name: 'stage',
       label: 'Stage',
       select: true,
     },
@@ -108,7 +115,7 @@ export const detailsDataArray = [
   },
   {
     componentProps: {
-      name: 'last-contacted-person',
+      name: 'lastContacted',
       label: 'Last Contacted Person',
       select: true,
     },
@@ -122,7 +129,7 @@ export const detailsDataArray = [
   },
   {
     componentProps: {
-      name: 'contacted-mode',
+      name: 'contactedMode',
       label: 'Contacted Mode',
       select: true,
     },
@@ -136,7 +143,7 @@ export const detailsDataArray = [
   },
   {
     componentProps: {
-      name: 'last-activity',
+      name: 'lastActivity',
       label: 'Last Activity',
 
       placeholder: 'Last Activity',
@@ -148,7 +155,7 @@ export const detailsDataArray = [
   },
   {
     componentProps: {
-      name: 'created-date',
+      name: 'createdDate',
       label: 'Created Date',
       fullWidth: true,
     },
@@ -157,17 +164,16 @@ export const detailsDataArray = [
   },
   {
     componentProps: {
-      name: 'closed-date',
+      name: 'closedDate',
       label: 'Closed Date',
       fullWidth: true,
     },
     component: RHFDatePicker,
     md: 4,
   },
-
   {
     componentProps: {
-      name: 'last-activity-date',
+      name: 'lastActivityDate',
       label: 'Last Activity Date',
       fullWidth: true,
     },

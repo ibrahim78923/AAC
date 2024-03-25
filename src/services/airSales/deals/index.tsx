@@ -209,6 +209,7 @@ export const {
   // useGetDealsUserListQuery,
   useGetDealsGridViewQuery,
   useGetDealsActionPreviewQuery,
+  useLazyGetDealsActionPreviewQuery,
   useGetDealsViewsQuery,
   useLazyGetDealsViewsQuery,
   useGetRestoreDealsQuery,

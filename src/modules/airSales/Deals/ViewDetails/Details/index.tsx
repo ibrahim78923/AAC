@@ -16,54 +16,61 @@ import { detailsDataArray } from './Details.data';
 import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
-const Details = () => {
-  const { theme, methodsDetails, onSubmit, handleSubmit } = useDetails();
+const Details = (props: any) => {
+  const { selected } = props;
+  const { theme, methodsDetails, onSubmit, handleSubmit, isLoading } =
+    useDetails({ selected });
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Details</Typography>
-      <Box sx={styles?.horizontalTabsInnnerBox}>
-        <FormProvider
-          methods={methodsDetails}
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <Grid container spacing={4}>
-            {detailsDataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item?.componentProps} size={'small'}>
-                  {item?.componentProps?.select
-                    ? item?.options?.map((option: any) => (
-                        <option key={option?.value} value={option?.value}>
-                          {option?.label}
-                        </option>
-                      ))
-                    : null}
-                </item.component>
+      {isLoading ? (
+        <SkeletonForm />
+      ) : (
+        <Box sx={styles?.horizontalTabsInnnerBox}>
+          <FormProvider
+            methods={methodsDetails}
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Grid container spacing={4}>
+              {detailsDataArray?.map((item: any) => (
+                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                  <item.component {...item?.componentProps} size={'small'}>
+                    {item?.componentProps?.select
+                      ? item?.options?.map((option: any) => (
+                          <option key={option?.value} value={option?.value}>
+                            {option?.label}
+                          </option>
+                        ))
+                      : null}
+                  </item.component>
+                </Grid>
+              ))}
+              <Grid item xs={12}>
+                <Divider sx={{ borderColor: theme?.palette?.grey[700] }} />
               </Grid>
-            ))}
-            <Grid item xs={12}>
-              <Divider sx={{ borderColor: theme?.palette?.grey[700] }} />
+              <Grid item xs={12}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'end',
+                    gap: 1.5,
+                  }}
+                >
+                  <ButtonGroup>
+                    <Button sx={{ height: '35px' }}>Cancel</Button>
+                  </ButtonGroup>
+                  <ButtonGroup variant="contained" color="primary">
+                    <Button sx={{ height: '35px' }}>Update</Button>
+                  </ButtonGroup>
+                </Box>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'end',
-                  gap: 1.5,
-                }}
-              >
-                <ButtonGroup>
-                  <Button sx={{ height: '35px' }}>Cancel</Button>
-                </ButtonGroup>
-                <ButtonGroup variant="contained" color="primary">
-                  <Button sx={{ height: '35px' }}>Update</Button>
-                </ButtonGroup>
-              </Box>
-            </Grid>
-          </Grid>
-        </FormProvider>
-      </Box>
+          </FormProvider>
+        </Box>
+      )}
     </Box>
   );
 };
