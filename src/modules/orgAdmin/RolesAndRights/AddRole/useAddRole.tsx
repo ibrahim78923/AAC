@@ -21,10 +21,10 @@ import { getSession } from '@/utils';
 const useAddRole = () => {
   const theme = useTheme();
   const navigate = useRouter();
-  const roleId = useSearchParams().get('id');
-  const { user } = getSession();
+  const roleId = useSearchParams()?.get('id');
+  const { user }: any = getSession();
   const { query } = navigate;
-
+  const disabled = query?.type === 'view';
   const { useLazyGetPermissionsRolesByIdQuery, usePostPermissionRoleMutation } =
     rolesAndRightsAPI;
   const [postPermissionRole] = usePostPermissionRoleMutation();
@@ -132,6 +132,7 @@ const useAddRole = () => {
     isLoading,
     navigate,
     onSubmit,
+    disabled,
     methods,
     theme,
   };

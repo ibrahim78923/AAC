@@ -1,9 +1,12 @@
 import { AntSwitch } from '@/components/AntSwitch';
-import { Avatar, Box, Checkbox, Chip } from '@mui/material';
+import { Avatar, Box, Checkbox, Chip, Typography } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import dayjs from 'dayjs';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import { REQUESTORS_STATUS } from '@/constants/strings';
 
 export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
   {
@@ -38,38 +41,22 @@ export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
   },
 ];
 
-export const assetsListData: any = [
-  {
-    id: 1,
-    workflowName: 'Update Assets',
-    status: true,
-    createdBy: 'Jane Cooper',
-    createdOn: '2023-12-14T11:59:08.238Z',
-    lastActivity: 'Update by Andrew',
-  },
-  {
-    id: 2,
-    workflowName: 'Update Task',
-    status: false,
-    createdBy: 'Esther Howard',
-    createdOn: '2023-12-14T11:59:08.238Z',
-    lastActivity: 'Update by Shaw',
-  },
-];
 export const assetsListsColumnsFunction = (
   selectedAssetsList: any,
   setSelectedAssetsList: any,
-  listData: any,
+  assetsListData: any,
   theme: any,
 ): any => [
   {
-    accessorFn: (row: any) => row?.id,
+    accessorFn: (row: any) => row?._id,
     id: 'id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!selectedAssetsList?.find(
-            (item: any) => item?.id === info?.getValue(),
+            (item: any) => item?._id === info?.getValue(),
           )
         }
         onChange={(e: any) => {
@@ -77,12 +64,12 @@ export const assetsListsColumnsFunction = (
             ? setSelectedAssetsList([
                 ...selectedAssetsList,
                 assetsListData?.find(
-                  (item: any) => item?.id === info?.getValue(),
+                  (item: any) => item?._id === info?.getValue(),
                 ),
               ])
             : setSelectedAssetsList(
                 selectedAssetsList?.filter((item: any) => {
-                  return item?.id !== info?.getValue();
+                  return item?._id !== info?.getValue();
                 }),
               );
         }}
@@ -92,10 +79,16 @@ export const assetsListsColumnsFunction = (
     ),
     header: (
       <Checkbox
-        checked={selectedAssetsList?.length === listData?.length}
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
+        checked={
+          !!assetsListData?.length
+            ? selectedAssetsList?.length === assetsListData?.length
+            : false
+        }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedAssetsList([...listData])
+            ? setSelectedAssetsList([...assetsListData])
             : setSelectedAssetsList([]);
         }}
         color="primary"
@@ -105,8 +98,8 @@ export const assetsListsColumnsFunction = (
     isSortable: false,
   },
   {
-    accessorFn: (row: any) => row?.workflowName,
-    id: 'workflowName',
+    accessorFn: (row: any) => row?.title,
+    id: 'title',
     isSortable: false,
     header: 'Workflow Name',
     cell: (info: any) => (
@@ -132,15 +125,19 @@ export const assetsListsColumnsFunction = (
     id: 'status',
     header: 'Status',
     isSortable: false,
-    cell: (info: any) => (
-      <PermissionsGuard
-        permissions={[
-          AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.ENABLE_DISABLE,
-        ]}
-      >
-        <AntSwitch values={info?.getValue()} />{' '}
-      </PermissionsGuard>
-    ),
+    cell: (info: any) => {
+      const getValues =
+        info?.getValue() === REQUESTORS_STATUS?.ACTIVE ? true : false;
+      return (
+        <PermissionsGuard
+          permissions={[
+            AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.ENABLE_DISABLE,
+          ]}
+        >
+          <AntSwitch checked={getValues} />
+        </PermissionsGuard>
+      );
+    },
   },
   {
     accessorFn: (row: any) => row?.createdBy,
@@ -149,8 +146,23 @@ export const assetsListsColumnsFunction = (
     header: 'Created By',
     cell: (info: any) => (
       <Box display={'flex'} gap={1} alignItems={'center'}>
-        <Avatar />
-        {info?.getValue()}
+        <Avatar
+          sx={{ bgcolor: 'blue.main', width: 28, height: 28 }}
+          src={generateImage(info?.row?.original?.createdBy?.avatar?.url)}
+        >
+          <Typography variant="body3" textTransform={'uppercase'}>
+            {fullNameInitial(
+              info?.row?.original?.createdBy?.firstName,
+              info?.row?.original?.createdBy?.lastName,
+            )}
+          </Typography>
+        </Avatar>
+        <Typography variant="body2" fontWeight={600} color="slateBlue.main">
+          {fullName(
+            info?.row?.original?.createdBy?.firstName,
+            info?.row?.original?.createdBy?.lastName,
+          )}
+        </Typography>
       </Box>
     ),
   },
@@ -163,10 +175,14 @@ export const assetsListsColumnsFunction = (
       dayjs(info?.getValue())?.format('MMMM DD, YYYY: hh:mm'),
   },
   {
-    accessorFn: (row: any) => row?.lastActivity,
-    id: 'lastActivity',
+    accessorFn: (row: any) => row?.updatedAt,
+    id: 'updatedAt',
     isSortable: false,
     header: 'Last Activity',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) =>
+      fullName(
+        info?.getValue()?.type ? info?.getValue()?.type + ' ' + 'by' : null,
+        info?.getValue()?.user?.firstName + info?.getValue()?.user?.lastName,
+      ),
   },
 ];

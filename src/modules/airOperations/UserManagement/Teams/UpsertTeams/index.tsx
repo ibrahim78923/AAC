@@ -6,8 +6,15 @@ import { useUpsertTeams } from './useUpsertTeams';
 import { USER_MANAGEMENT } from '@/constants/strings';
 
 function UpsertTeams({ isDrawerOpen, setIsDrawerOpen, title, okText }: any) {
-  const { methods, handleSubmit, submit, disabled, setDisabled, teamData } =
-    useUpsertTeams(setIsDrawerOpen);
+  const {
+    methods,
+    handleSubmit,
+    submit,
+    disabled,
+    setDisabled,
+    teamData,
+    usersTeamDropdown,
+  } = useUpsertTeams(setIsDrawerOpen);
 
   return (
     <>
@@ -33,7 +40,7 @@ function UpsertTeams({ isDrawerOpen, setIsDrawerOpen, title, okText }: any) {
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={4}>
-              {upsertTeamArray?.map((item: any) => (
+              {upsertTeamArray(usersTeamDropdown)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   {item?.subheading && title !== USER_MANAGEMENT?.EDIT_TEAM && (
                     <Typography variant="body2" sx={{ mb: 2 }}>

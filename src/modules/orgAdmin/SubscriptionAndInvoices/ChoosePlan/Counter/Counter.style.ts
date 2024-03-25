@@ -4,10 +4,10 @@ export const styles = {
     alignItems: 'center',
     justifyContent: 'center',
   }),
-  decrementBtn: () => ({
+  decrementBtn: (value: any) => ({
     height: '32px',
     width: '32px',
-    cursor: 'pointer',
+    cursor: value > 0 ? 'pointer' : 'not-allowed',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
