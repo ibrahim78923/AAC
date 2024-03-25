@@ -23,8 +23,8 @@ const PermissionsAccordion = (props: any) => {
     getModulePermissions,
     selectAllPermissions,
     watch,
+    disabled,
   } = props;
-  const { permissionsData, query, disabled } = props;
   const {
     theme,
     // commented for future use
