@@ -80,6 +80,7 @@ const RolesRight = () => {
             checkedRows={checkedRows}
             setIsDraweropen={setIsDraweropen}
             setIsOpenDelete={setIsOpenDelete}
+            // permissions={getPermissions?.}
           />
         </Stack>
         <Grid>

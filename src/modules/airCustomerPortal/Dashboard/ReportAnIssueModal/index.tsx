@@ -1,16 +1,9 @@
 import { AlertModalCloseIcon } from '@/assets/icons';
 import { FormProvider } from '@/components/ReactHookForm';
-import {
-  Box,
-  Button,
-  Dialog,
-  Grid,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { Box, Dialog, Grid, IconButton, Typography } from '@mui/material';
 import { useReportAnIssueModal } from './useReportAnIssueModal';
 import { reportAnIssueModalFormFields } from './ReportAnIssueModal.data';
-import { styles } from './ReportAnIssueModal.style';
+import { LoadingButton } from '@mui/lab';
 
 const ReportAnIssueModal = (props: any) => {
   const { openReportAnIssueModal, setOpenReportAnIssueModal } = props;
@@ -21,11 +14,12 @@ const ReportAnIssueModal = (props: any) => {
     apiQueryAssociateAsset,
     apiQueryRequester,
   } = useReportAnIssueModal(props);
+
   return (
     <>
       <Dialog
         fullWidth
-        sx={styles?.modalSizing}
+        maxWidth={'sm'}
         open={openReportAnIssueModal}
         onClose={() => setOpenReportAnIssueModal?.(false)}
       >
@@ -38,7 +32,7 @@ const ReportAnIssueModal = (props: any) => {
               mb={1}
             >
               <Typography variant="h3">Report an issue</Typography>
-              <IconButton style={{ cursor: 'pointer' }}>
+              <IconButton sx={{ cursor: 'pointer' }}>
                 <AlertModalCloseIcon
                   onClick={() => setOpenReportAnIssueModal?.(false)}
                 />
@@ -65,17 +59,22 @@ const ReportAnIssueModal = (props: any) => {
               gap={1}
               mt={'0.625rem'}
             >
-              <Button
+              <LoadingButton
                 variant="outlined"
                 color="secondary"
                 onClick={() => setOpenReportAnIssueModal?.(false)}
                 disabled={isLoading}
               >
                 Cancel
-              </Button>
-              <Button variant="contained" type="submit" disabled={isLoading}>
+              </LoadingButton>
+              <LoadingButton
+                variant="contained"
+                type="submit"
+                disabled={isLoading}
+                loading={isLoading}
+              >
                 Submit
-              </Button>
+              </LoadingButton>
             </Box>
           </Box>
         </FormProvider>

@@ -10,6 +10,7 @@ import {
   AccordionDetails,
   Checkbox,
   Divider,
+  CircularProgress,
 } from '@mui/material';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -26,7 +27,6 @@ import { BlueInfoIcon, DeleteIcon } from '@/assets/icons';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
-import { Info } from '@mui/icons-material';
 import NoData from '@/components/NoData';
 import { CustomField } from './custom';
 
@@ -86,7 +86,13 @@ const DealPipelines = () => {
                 className="small"
                 variant="outlined"
                 color="inherit"
-                startIcon={<DeleteIcon />}
+                startIcon={
+                  deleteDealLoading ? (
+                    <CircularProgress size={18} color="inherit" />
+                  ) : (
+                    <DeleteIcon />
+                  )
+                }
                 onClick={handleDelete}
               >
                 Delete
@@ -250,16 +256,6 @@ const DealPipelines = () => {
                     <Checkbox checked={dealPipeline?.isDefault} />
                     <Typography variant="body1">
                       Marked as default pipeline
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <Info sx={{ color: theme?.palette?.custom?.custom_red }} />
-                    <Typography
-                      variant="body1"
-                      fontWeight={500}
-                      color={theme?.palette?.custom?.custom_red}
-                    >
-                      Deals rots after 30 days
                     </Typography>
                   </Box>
                 </Box>
