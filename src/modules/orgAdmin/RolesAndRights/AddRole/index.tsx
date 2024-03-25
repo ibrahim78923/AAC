@@ -30,6 +30,7 @@ const AddRole = () => {
     isLoading,
     navigate,
     onSubmit,
+    disabled,
     methods,
     theme,
     viewPerdetails,
@@ -97,6 +98,7 @@ const AddRole = () => {
                         ? viewPerdetails?.data
                         : productPermissionsData
                     }
+                    disabled={disabled}
                   />
                 )}
               </Grid>

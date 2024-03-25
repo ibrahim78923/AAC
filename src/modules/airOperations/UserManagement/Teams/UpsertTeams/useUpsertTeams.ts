@@ -5,10 +5,12 @@ import {
   upsertTeamDefaultValues,
   upsertTeamValidationSchema,
 } from './UpsertTeams.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useState } from 'react';
-
+import {
+  useLazyGetProductUserListDropdownQuery,
+  usePostCreateTeamMutation,
+} from '@/services/airOperations/user-management/user';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 export const useUpsertTeams = (setIsDrawerOpen: any) => {
   const [teamData, setTeamData] = useState<any[]>(upsertTeamData);
   const [disabled, setDisabled] = useState(true);
@@ -18,17 +20,26 @@ export const useUpsertTeams = (setIsDrawerOpen: any) => {
     defaultValues: upsertTeamDefaultValues,
   });
   const { handleSubmit, reset } = methods;
+  const usersTeamDropdown = useLazyGetProductUserListDropdownQuery();
 
-  const submit = async () => {
-    if (disabled) {
-      setDisabled(false);
-    } else {
-      enqueueSnackbar('Team Add Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      setIsDrawerOpen(false);
-      reset();
+  const [addTeamUsers] = usePostCreateTeamMutation();
+  const submit = async (data: any) => {
+    const { userAccounts, ...rest } = data;
+    try {
+      const body = {
+        ...rest,
+        userAccounts: userAccounts?.map((item: any) => item?.user?._id),
+      };
+      await addTeamUsers({ body }).unwrap();
+      successSnackbar('Team added successfully.');
+      handleClose?.();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
+  };
+  const handleClose = () => {
+    setIsDrawerOpen(false);
+    reset?.();
   };
 
   return {
@@ -39,5 +50,6 @@ export const useUpsertTeams = (setIsDrawerOpen: any) => {
     disabled,
     setDisabled,
     teamData,
+    usersTeamDropdown,
   };
 };

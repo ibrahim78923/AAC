@@ -17,7 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const PermissionsAccordion = (props: any) => {
-  const { permissionsData, query } = props;
+  const { permissionsData, query, disabled } = props;
   const {
     theme,
     // commented for future use
@@ -69,7 +69,10 @@ const PermissionsAccordion = (props: any) => {
             </Box>
           </AccordionSummary>
           <AccordionDetails>
-            <DashboardAccordion subModules={item?.subModules} />
+            <DashboardAccordion
+              subModules={item?.subModules}
+              disabled={disabled}
+            />
           </AccordionDetails>
         </Accordion>
       ))}

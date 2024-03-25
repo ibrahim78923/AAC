@@ -1,5 +1,5 @@
 import { baseAPI } from '@/services/base-api';
-import { END_POINTS } from '@/routesConstants/endpoints';
+import { END_POINTS, OPERATION } from '@/routesConstants/endpoints';
 
 export const CommonAPIS = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
@@ -50,6 +50,14 @@ export const CommonAPIS = baseAPI.injectEndpoints({
       }),
       providesTags: ['CONTACTS'],
     }),
+    getSchemaKeys: builder.query({
+      query: (params: any) => ({
+        url: OPERATION?.SCHEMA_KEYS,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['SCHEMA_KEYS'],
+    }),
   }),
 });
 
@@ -60,4 +68,5 @@ export const {
   useGetCompanyAccountsRolesQuery,
   useGetDepartmentQuery,
   useGetCompanyContactsQuery,
+  useGetSchemaKeysQuery,
 } = CommonAPIS;
