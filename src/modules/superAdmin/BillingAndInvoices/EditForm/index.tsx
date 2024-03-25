@@ -24,6 +24,7 @@ export default function EditForm({
     onSubmit,
     reset,
     crmOptions,
+    isExistingPlan,
   } = useEditForm(
     isEditModal,
     isGetRowValues,
@@ -44,6 +45,7 @@ export default function EditForm({
       cancelText={'Cancel'}
       footer
       submitHandler={handleSubmit(onSubmit)}
+      isDisabled={isExistingPlan}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>

@@ -132,14 +132,18 @@ export const useAddPlan = () => {
 
   const planTypeId = watch('planTypeId');
   const productId = watch('productId');
+
+  const queryParameters = {
+    planTypeId: planTypeId,
+    productId: selectProductSuite === 'CRM' ? undefined : productId,
+    name: selectProductSuite === 'CRM' ? crmValue?.label : undefined,
+  };
+
   let crmData: any;
 
   if (selectProductSuite === 'CRM') {
     const { data } = useGetExistingCrmQuery<any>(
-      {
-        crmName: crmValue?.label,
-        planTypeId: planTypeId,
-      },
+      { params: queryParameters },
       { skip: isNullOrEmpty(planTypeId) },
     );
     crmData = data;
@@ -147,10 +151,7 @@ export const useAddPlan = () => {
   let planExist: any;
   if (selectProductSuite === 'product') {
     const { data } = useGetPlanIdQuery<any>(
-      {
-        proId: productId,
-        planTypeId: planTypeId,
-      },
+      { params: queryParameters },
       { skip: isNullOrEmpty(planTypeId) },
     );
     planExist = data;
@@ -415,11 +416,11 @@ export const useAddPlan = () => {
 
   useEffect(() => {
     if (
-      !isNullOrEmpty(crmData?.data) ||
-      (!isNullOrEmpty(planExist?.data) && isNullOrEmpty(router.query.data))
+      !isNullOrEmpty(crmData?.data?.plans[0]) &&
+      isNullOrEmpty(router.query.data)
     ) {
       enqueueSnackbar(
-        'Product with same name and same Plantype has already exist',
+        'Plan with same CRM/Suite name and same Plantype has already exist',
         {
           variant: 'error',
         },
@@ -428,7 +429,22 @@ export const useAddPlan = () => {
     } else {
       setIfCrmExist(false);
     }
-  });
+
+    if (
+      !isNullOrEmpty(planExist?.data?.plans[0]) &&
+      isNullOrEmpty(router.query.data)
+    ) {
+      enqueueSnackbar(
+        'Plan with selected product and selected Plantype has already exist',
+        {
+          variant: 'error',
+        },
+      );
+      setIfCrmExist(true);
+    } else {
+      setIfCrmExist(false);
+    }
+  }, [crmData, planExist]);
 
   useEffect(() => {
     if (AdditionalStorageValue[0] === 'No') {

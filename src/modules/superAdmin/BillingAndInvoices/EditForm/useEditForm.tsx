@@ -20,6 +20,7 @@ const useEditForm = (
   setIsChecked: any,
 ) => {
   const [selectProductSuite, setSelectProductSuite] = useState('product');
+  const [isExistingPlan, setIsExistingPlan] = useState(false);
 
   const [addAssignPlan] = usePostBilingInvoicesMutation();
   const [updateAssignPlan] = usePatchBilingInvoicesMutation();
@@ -104,6 +105,10 @@ const useEditForm = (
     name: selectProductSuite === 'CRM' ? productName : undefined,
   };
 
+  if (isEditModal) {
+    delete queryParameters.organizationId;
+  }
+
   if (selectProductSuite != 'CRM') {
     const { data, isSuccess } = useGetPlanIdQuery<any>(
       { params: queryParameters },
@@ -115,7 +120,7 @@ const useEditForm = (
   }
 
   let ExistingplanData: any;
-  let ExistingisSuccessPlan;
+  let ExistingisSuccessPlan: any;
 
   if (selectProductSuite === 'CRM') {
     const { data, isSuccess } = useGetExistingCrmQuery<any>(
@@ -223,43 +228,55 @@ const useEditForm = (
     }
   };
 
-  if (isNullOrEmpty(planData?.data?.plans) && isSuccessPlan) {
-    enqueueSnackbar(
-      `Please create plan agaist respective selected product and product type`,
-      {
-        variant: 'error',
-      },
-    );
-  } else if (
-    !isNullOrEmpty(planData?.data?.organizationAssignPlan) &&
-    isSuccessPlan
-  ) {
-    enqueueSnackbar(
-      `Plan agaist selected Client Name & Organization already created`,
-      {
-        variant: 'error',
-      },
-    );
-  }
+  useEffect(() => {
+    if (isNullOrEmpty(planData?.data?.plans) && isSuccessPlan) {
+      enqueueSnackbar(
+        `Please create plan agaist respective selected product and product type`,
+        {
+          variant: 'error',
+        },
+      );
+      setIsExistingPlan(true);
+    } else if (
+      !isNullOrEmpty(planData?.data?.organizationAssignPlan) &&
+      isSuccessPlan
+    ) {
+      enqueueSnackbar(
+        `Plan agaist selected Client Name & Organization already created`,
+        {
+          variant: 'error',
+        },
+      );
+      setIsExistingPlan(true);
+    } else {
+      setIsExistingPlan(false);
+    }
+  }, [planData, isSuccessPlan]);
 
-  if (isNullOrEmpty(ExistingplanData?.data?.plans) && ExistingisSuccessPlan) {
-    enqueueSnackbar(
-      `Please create plan agaist respective selected product and product type`,
-      {
-        variant: 'error',
-      },
-    );
-  } else if (
-    !isNullOrEmpty(ExistingplanData?.data?.organizationAssignPlan) &&
-    ExistingisSuccessPlan
-  ) {
-    enqueueSnackbar(
-      `Plan agaist selected Client Name & Organization already created`,
-      {
-        variant: 'error',
-      },
-    );
-  }
+  useEffect(() => {
+    if (isNullOrEmpty(ExistingplanData?.data?.plans) && ExistingisSuccessPlan) {
+      enqueueSnackbar(
+        `Please create plan agaist respective selected product and product type`,
+        {
+          variant: 'error',
+        },
+      );
+      setIsExistingPlan(true);
+    } else if (
+      !isNullOrEmpty(ExistingplanData?.data?.organizationAssignPlan) &&
+      ExistingisSuccessPlan
+    ) {
+      enqueueSnackbar(
+        `Plan agaist selected Client Name & Organization already created`,
+        {
+          variant: 'error',
+        },
+      );
+      setIsExistingPlan(true);
+    } else {
+      setIsExistingPlan(false);
+    }
+  }, [ExistingplanData, ExistingisSuccessPlan]);
 
   useEffect(() => {
     if (isGetRowValues?.cell?.row?.original?.planProducts?.length > 1) {
@@ -275,6 +292,7 @@ const useEditForm = (
     onSubmit,
     reset,
     crmOptions,
+    isExistingPlan,
   };
 };
 
