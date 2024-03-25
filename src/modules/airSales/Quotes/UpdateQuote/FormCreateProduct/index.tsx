@@ -94,6 +94,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
             enqueueSnackbar('Product added Successfully', {
               variant: 'success',
             });
+            reset();
           });
       } catch (err: any) {
         enqueueSnackbar(err?.data?.message, {
@@ -101,6 +102,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
         });
       }
     }
+    onClose();
   };
 
   useEffect(() => {
@@ -133,7 +135,7 @@ const FormCreateProduct = ({ open, onClose }: any) => {
       onClose={onClose}
       isOk
       cancelText={'Cancel'}
-      footer
+      footer={actionType === 'view' ? false : true}
       submitHandler={handleSubmit(onSubmit)}
     >
       <Box sx={{ pt: '27px' }}>

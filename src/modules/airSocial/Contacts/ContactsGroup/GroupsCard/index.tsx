@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-
 import { Avatar, AvatarGroup, Box, Typography, useTheme } from '@mui/material';
-
 import { styles } from '../Contacts.style';
-import { AlertModals } from '@/components/AlertModals';
-import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import GroupActions from './GroupActions';
 
-const GroupsCard = ({ info, handleOpenModal }: any) => {
+const GroupsCard = ({ info, handleOpenModal, handleOpenDeleteAlert }: any) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openActions = Boolean(anchorEl);
@@ -16,11 +12,6 @@ const GroupsCard = ({ info, handleOpenModal }: any) => {
   };
   const handleCloseActions = () => {
     setAnchorEl(null);
-  };
-  const [isDeleteModal, setIsDeleteModal] = useState(false);
-
-  const handleDelete = () => {
-    setIsDeleteModal(true);
   };
 
   return (
@@ -64,24 +55,16 @@ const GroupsCard = ({ info, handleOpenModal }: any) => {
           <Box>
             <GroupActions
               handleOpenModal={handleOpenModal}
+              handleDelete={handleOpenDeleteAlert}
               anchorEl={anchorEl}
               openActions={openActions}
               handleClickActions={handleClickActions}
               handleCloseActions={handleCloseActions}
-              handleDelete={handleDelete}
               groupData={info}
             />
           </Box>
         </Box>
       </Box>
-
-      <AlertModals
-        type={ALERT_MODALS_TYPE?.DELETE}
-        open={isDeleteModal}
-        handleClose={() => setIsDeleteModal(false)}
-        handleSubmitBtn={() => setIsDeleteModal(false)}
-        message="Are you sure you want to delete this group?"
-      />
     </>
   );
 };

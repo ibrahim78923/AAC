@@ -21,6 +21,7 @@ const useCustomizeColumn = ({ onClose }: any) => {
   const [putCustomizedColumns] = usePutCustomizedColumnsMutation();
 
   const columnsData = QuoteCustomzieCol?.data?.columns;
+
   const [order, setOrder] = useState(columnsData);
 
   const onDragEnd = (result: any) => {
