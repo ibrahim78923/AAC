@@ -114,22 +114,22 @@ const useOrganizationTable = () => {
   const countryField = watch('country');
 
   const addressValues =
-    (unitField !== undefined && unitField.length > 0
+    (unitField !== undefined && unitField?.length > 0
       ? 'Flat # ' + unitField
       : '') +
-    (buildingNameField !== undefined && buildingNameField.length > 0
+    (buildingNameField !== undefined && buildingNameField?.length > 0
       ? ' ,Building Name # ' + buildingNameField
       : '') +
-    (buildingNumberField !== undefined && buildingNumberField.length > 0
+    (buildingNumberField !== undefined && buildingNumberField?.length > 0
       ? ' ,Building Number # ' + buildingNumberField
       : '') +
-    (streetNameField !== undefined && streetNameField.length > 0
+    (streetNameField !== undefined && streetNameField?.length > 0
       ? ' ,Street Name # ' + streetNameField
       : '') +
-    (cityField !== undefined && cityField.length > 0
+    (cityField !== undefined && cityField?.length > 0
       ? ' ,City # ' + cityField
       : '') +
-    (countryField !== undefined && countryField.length > 0
+    (countryField !== undefined && countryField?.length > 0
       ? ' ,Country # ' + countryField
       : '');
 

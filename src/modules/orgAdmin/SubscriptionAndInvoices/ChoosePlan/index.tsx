@@ -52,8 +52,6 @@ const ChoosePlan = () => {
           <ArrowBackIcon />
         </Box>
         <Typography variant="h4">Choose a plan</Typography>
-        {/* <Typography variant="h4">Choose a plan</Typography> */}
-        {/* <Typography variant="h4">Choose a plan</Typography> */}
       </Box>
 
       {isLoading ? (
