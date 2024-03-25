@@ -1,32 +1,55 @@
 import React from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
+
+import { v4 as uuidv4 } from 'uuid';
 
 import { LinkBoldIcon } from '@/assets/icons';
 
-const LinksAssets = () => {
+const LinksAssets = ({ data, status }: any) => {
   return (
-    <Box>
-      <Typography variant="body3" sx={{ fontWeight: '600' }}>
-        June
-      </Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <LinkBoldIcon />
-          <Box>
-            <Typography variant="body3" sx={{ fontWeight: '500' }}>
-              https://www.myretail.com/products/elektrobritva-philips-s5420-06-20032485
-            </Typography>
+    <>
+      {status === 'pending' ? (
+        <>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <CircularProgress />
+          </Box>
+        </>
+      ) : (
+        <Box>
+          {/* <Typography variant="body3" sx={{ fontWeight: '600' }}>
+            June
+          </Typography> */}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            {data?.length ? (
+              data?.map((item: any) => (
+                <Box
+                  sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+                  key={uuidv4()}
+                >
+                  <LinkBoldIcon />
+                  <Box>
+                    <a href={item?.content}>
+                      <Typography variant="body3" sx={{ fontWeight: '500' }}>
+                        {item?.content}
+                      </Typography>
+                    </a>
+                  </Box>
+                </Box>
+              ))
+            ) : (
+              <>No records found</>
+            )}
           </Box>
         </Box>
-      </Box>
-    </Box>
+      )}
+    </>
   );
 };
 

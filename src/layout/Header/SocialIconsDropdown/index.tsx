@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Link from 'next/link';
 import { styles } from './SocialIconsDropdown.style';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 
 const SocialIconsDropdown = () => {
   const theme = useTheme();
@@ -32,7 +33,7 @@ const SocialIconsDropdown = () => {
   return (
     <>
       <Box onClick={dropDownOpenHandler} sx={styles?.xsQuickLinkBox(theme)}>
-        Social
+        <SpeedDialIcon />
       </Box>
       <Popover
         id={'10'}

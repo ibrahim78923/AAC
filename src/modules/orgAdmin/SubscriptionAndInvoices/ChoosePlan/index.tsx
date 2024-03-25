@@ -23,6 +23,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 const ChoosePlan = () => {
   const router = useRouter();
+
   const { data } = useGetProductPlanListProductIdQuery({
     id: router?.query?.data,
   });
@@ -67,6 +68,8 @@ const ChoosePlan = () => {
                   Everything your sales team need to work better and together.
                 </Typography>
               </TableCell>
+              {/* default free  */}
+              <TableCell component="th">Free Plan</TableCell>
               {getData?.length
                 ? getData?.map((choosePlan: any) => {
                     return (
@@ -78,6 +81,16 @@ const ChoosePlan = () => {
                 : null}
             </TableRow>
             <TableRow>
+              {/* default  free */}
+              <TableCell width={300} sx={styles?.planBox} key={uuidv4()}>
+                <Box>
+                  <Typography variant="h3">
+                    <Box>Free Trail</Box>
+                    <Box component={'span'}>1 Month</Box>
+                  </Typography>
+                </Box>
+              </TableCell>
+
               {getData?.length
                 ? getData?.map((choosePlan: any) => {
                     return (
@@ -101,6 +114,13 @@ const ChoosePlan = () => {
                 : null}
             </TableRow>
             <TableRow sx={styles?.planDetailText}>
+              <TableCell key={uuidv4()}>
+                <Typography variant="body2">
+                  Essential tools to put your customers first and deliver
+                  authethic services
+                </Typography>
+              </TableCell>
+
               {getData?.length
                 ? getData?.map((choosePlan: any) => {
                     return (
@@ -115,6 +135,11 @@ const ChoosePlan = () => {
             </TableRow>
             <TableRow>
               <TableCell sx={styles?.sideHeader}>Users</TableCell>
+              {/* default  free */}
+              <TableCell key={uuidv4()} sx={styles?.userIncludes}>
+                <Typography variant="h6">Includes 1 users</Typography>
+              </TableCell>
+
               {getData?.length
                 ? getData?.map((choosePlan: any) => {
                     return (
@@ -139,6 +164,8 @@ const ChoosePlan = () => {
               <TableCell sx={styles?.sideHeader}>
                 Max Additional Users
               </TableCell>
+              {/* default  free */}
+              <TableCell sx={styles?.sideHeader}>-</TableCell>
               {getData?.length
                 ? getData?.map(() => {
                     return (
@@ -160,6 +187,8 @@ const ChoosePlan = () => {
               <TableCell sx={styles?.sideHeader}>
                 Max Additional Srorage
               </TableCell>
+              {/* default  free */}
+              <TableCell sx={styles?.sideHeader}>-</TableCell>
               {getData?.length
                 ? getData?.map(() => {
                     return (
@@ -202,6 +231,16 @@ const ChoosePlan = () => {
                 </TableRow>
               );
             })}
+
+            {/* <TableRow >
+              <TableCell sx={styles?.salesActivities}>
+                <Typography variant="h6">rfrr</Typography>
+              </TableCell>
+              <TableCell align="center">
+                <TickCircleIcon />
+              </TableCell>
+
+            </TableRow> */}
           </TableBody>
         </Table>
       </TableContainer>
