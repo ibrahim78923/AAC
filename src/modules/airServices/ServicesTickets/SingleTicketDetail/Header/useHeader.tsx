@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { headerDropdownFunction } from './Header.data';
 import { usePutSingleTicketStatusMutation } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useStopwatch } from 'react-timer-hook';
 
 export const useHeader = () => {
   const router = useRouter();
@@ -53,7 +54,17 @@ export const useHeader = () => {
     refetchOnMountOrArgChange: true,
     skip: !!!ticketId,
   });
-
+  const {
+    totalSeconds,
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    reset,
+  } = useStopwatch({ autoStart: true });
   return {
     data,
     router,
@@ -69,5 +80,14 @@ export const useHeader = () => {
     deleteModalOpen,
     setDeleteModalOpen,
     ticketId,
+    totalSeconds,
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    reset,
   };
 };

@@ -1,3 +1,5 @@
+import { Box } from '@mui/material';
+
 export const columns: any = [
   {
     accessorFn: (row: any) => row?.planId,
@@ -24,14 +26,20 @@ export const columns: any = [
     accessorFn: (row: any) => row?.defaultUsers,
     id: 'defaultUsers',
     isSortable: true,
+    align: 'center',
     header: 'Default Users',
-    cell: (info: any) => info.getValue(),
+    cell: (info: any) => (
+      <Box sx={{ textAlign: 'center' }}>{info.getValue()}</Box>
+    ),
   },
   {
     accessorFn: (row: any) => row?.planPrice,
     id: 'planPrice',
     isSortable: true,
     header: 'Plan Price',
-    cell: (info: any) => info?.getValue(),
+    align: 'center',
+    cell: (info: any) => (
+      <Box sx={{ textAlign: 'center' }}>{info?.getValue()}</Box>
+    ),
   },
 ];

@@ -30,10 +30,10 @@ export const useAddNewLocation = () => {
       type === 'parent-edit'
         ? locationData
         : type === 'child'
-        ? parentD
-        : type === 'child-edit'
-        ? childLocationData
-        : null,
+          ? parentD
+          : type === 'child-edit'
+            ? childLocationData
+            : null,
     ),
   });
   const { reset } = AddNewLocationMethods;
@@ -118,10 +118,10 @@ export const useAddNewLocation = () => {
         type === 'parent-edit'
           ? locationData
           : type === 'child'
-          ? parentD
-          : type === 'child-edit'
-          ? childLocationData
-          : null,
+            ? parentD
+            : type === 'child-edit'
+              ? childLocationData
+              : null,
       ),
     );
   }, [data, type, locationData, childLocationData]);

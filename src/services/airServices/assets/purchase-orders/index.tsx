@@ -77,13 +77,12 @@ export const purchaseOrderAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.PURCHASE_ORDER}/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: [TAG_FIVE],
     }),
     getPurchaseOrderList: builder.query({
-      query: (params: any) => ({
+      query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.PURCHASE_ORDER_LIST}`,
         method: 'GET',
-        params,
+        params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG_FIVE],
     }),
@@ -94,6 +93,14 @@ export const purchaseOrderAPI = baseAPI.injectEndpoints({
         params,
       }),
       invalidatesTags: [TAG_FIVE],
+    }),
+    getExportPurchaseOrderList: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.PURCHASE_ORDER_LIST}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+        responseHandler: (response: any) => response?.blob(),
+      }),
     }),
   }),
 });
@@ -110,4 +117,6 @@ export const {
   useDeletePurchaseOrderMutation,
   useGetPurchaseOrderListQuery,
   usePutPurchaseOrderStatusMutation,
+  useLazyGetPurchaseOrderListQuery,
+  useLazyGetExportPurchaseOrderListQuery,
 } = purchaseOrderAPI;

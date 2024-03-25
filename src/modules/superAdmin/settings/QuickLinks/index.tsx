@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
   Box,
   Button,
@@ -11,71 +10,71 @@ import {
   MenuItem,
   Tooltip,
 } from '@mui/material';
-
 import Search from '@/components/Search';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-
-import { useForm } from 'react-hook-form';
-
 import { isNullOrEmpty } from '@/utils';
-
-import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '@/components/ReactHookForm';
 import { AlertModals } from '@/components/AlertModals';
-
-import {
-  quickLinksData,
-  quickLinksTableData,
-} from '@/mock/modules/superAdmin/Settings/QuickLinks';
+import { quickLinksData } from '@/mock/modules/superAdmin/Settings/QuickLinks';
 import { columns, quickLinksFilterFiltersDataArray } from './QuickLinks.data';
-import {
-  jobApplicationDefaultValues,
-  jobApplicationValidationSchema,
-} from '../Jobs/JobApplication/JobApplication.data';
-
 import {
   ArrowLeftIcon,
   DownIcon,
   FilterSharedIcon,
   RefreshSharedIcon,
 } from '@/assets/icons';
-
 import PlusShared from '@/assets/icons/shared/plus-shared';
-
 import { styles } from './QuickLinks.style';
 import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_SETTINGS_QUICK_LINKS_PERMISSIONS } from '@/constants/permission-keys';
+import useQuickLinks from './useQuickLinks';
 
 const QuickLinks = () => {
   const theme = useTheme();
-  const [isQuickLinksFilterDrawerOpen, setIsQuickLinksFilterDrawerOpen] =
-    useState(false);
-  const [quickLinksSearch, setQuickLinksSearch] = useState('');
+  const {
+    loagingGetQuickLinks,
+    dataGetQuickLinks,
+
+    anchorEl,
+    actionMenuOpen,
+    handleActionsMenuClick,
+    handleActionsMenuClose,
+
+    setSearchValue,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    methodsFilter,
+    handleFiltersSubmit,
+    handleRefresh,
+
+    loadingDelete,
+    handleDeleteQuickLink,
+    isLinkDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+
+    setPageLimit,
+    setPage,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    // rowId,
+  } = useQuickLinks();
+
+  const getQuickLinksTableColumns = columns(
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    setRowId,
+  );
+
   const [isManageQuickLinks, setIsManageQuickLinks] = useState<boolean>(false);
-  const [isQuickLinksDeleteModal, setisQuickLinksDeleteModal] = useState(false);
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const actionMenuOpen = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
-
-  const methodsJobApplication = useForm({
-    resolver: yupResolver(jobApplicationValidationSchema),
-    defaultValues: jobApplicationDefaultValues,
-  });
-
-  const onSubmit = () => {
-    setIsQuickLinksFilterDrawerOpen(false);
-  };
-  const { handleSubmit } = methodsJobApplication;
 
   return (
     <>
@@ -113,11 +112,10 @@ const QuickLinks = () => {
               >
                 <Box sx={styles?.search}>
                   <Search
-                    label={'Search here'}
-                    searchBy={quickLinksSearch}
-                    setSearchBy={setQuickLinksSearch}
-                    width="260px"
+                    setSearchBy={setSearchValue}
+                    label="Search Here"
                     size="small"
+                    width={'100%'}
                   />
                 </Box>
               </PermissionsGuard>
@@ -128,9 +126,10 @@ const QuickLinks = () => {
                   aria-controls={actionMenuOpen ? 'basic-menu' : undefined}
                   aria-haspopup="true"
                   aria-expanded={actionMenuOpen ? 'true' : undefined}
-                  onClick={handleClick}
+                  onClick={handleActionsMenuClick}
                   sx={styles?.actionBtn}
                   className="small"
+                  disabled={isActionsDisabled}
                 >
                   Actions &nbsp; <DownIcon />
                 </Button>
@@ -138,7 +137,7 @@ const QuickLinks = () => {
                   id="basic-menu"
                   anchorEl={anchorEl}
                   open={actionMenuOpen}
-                  onClose={handleClose}
+                  onClose={handleActionsMenuClose}
                   MenuListProps={{
                     'aria-labelledby': 'basic-button',
                   }}
@@ -155,7 +154,7 @@ const QuickLinks = () => {
                   >
                     <MenuItem
                       style={{ fontSize: '14px' }}
-                      onClick={() => setisQuickLinksDeleteModal(true)}
+                      onClick={handleOpenModalDelete}
                     >
                       Delete
                     </MenuItem>
@@ -167,7 +166,11 @@ const QuickLinks = () => {
                   ]}
                 >
                   <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
-                    <Button sx={styles?.refreshButton} className="small">
+                    <Button
+                      sx={styles?.refreshButton}
+                      className="small"
+                      onClick={handleRefresh}
+                    >
                       <RefreshSharedIcon />
                     </Button>
                   </Tooltip>
@@ -181,7 +184,7 @@ const QuickLinks = () => {
                   <Button
                     sx={styles?.filterButton}
                     className="small"
-                    onClick={() => setIsQuickLinksFilterDrawerOpen(true)}
+                    onClick={handleOpenFilters}
                   >
                     <FilterSharedIcon /> &nbsp; Filter
                   </Button>
@@ -196,28 +199,33 @@ const QuickLinks = () => {
           >
             <Box>
               <TanstackTable
-                columns={columns}
-                data={quickLinksTableData}
-                isPagination={true}
+                columns={getQuickLinksTableColumns}
+                data={dataGetQuickLinks?.data?.quicklinks}
+                isLoading={loagingGetQuickLinks}
+                currentPage={dataGetQuickLinks?.data?.meta?.page}
+                count={dataGetQuickLinks?.data?.meta?.pages}
+                pageLimit={dataGetQuickLinks?.data?.meta?.limit}
+                totalRecords={dataGetQuickLinks?.data?.meta?.total}
+                setPage={setPage}
+                setPageLimit={setPageLimit}
+                onPageChange={(page: any) => setPage(page)}
+                isPagination
               />
             </Box>
           </PermissionsGuard>
 
           <CommonDrawer
-            isDrawerOpen={isQuickLinksFilterDrawerOpen}
-            onClose={() => setIsQuickLinksFilterDrawerOpen(false)}
+            isDrawerOpen={openFilters}
+            onClose={handleCloseFilters}
             title="Filters"
             okText="Apply"
             isOk={true}
             footer={true}
-            submitHandler={() => setIsQuickLinksFilterDrawerOpen(false)}
+            submitHandler={handleFiltersSubmit}
           >
             <>
-              <FormProvider
-                methods={methodsJobApplication}
-                onSubmit={handleSubmit(onSubmit)}
-              >
-                <Grid container spacing={4}>
+              <FormProvider methods={methodsFilter}>
+                <Grid container spacing={'22px'}>
                   {quickLinksFilterFiltersDataArray?.map((item: any) => (
                     <Grid item xs={12} md={item?.md} key={uuidv4()}>
                       <item.component {...item.componentProps} size={'small'}>
@@ -285,9 +293,10 @@ const QuickLinks = () => {
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
         type="delete"
-        open={isQuickLinksDeleteModal}
-        handleClose={() => setisQuickLinksDeleteModal(false)}
-        handleSubmit={() => setisQuickLinksDeleteModal(false)}
+        open={isLinkDeleteModal}
+        handleClose={handleCloseModalDelete}
+        handleSubmit={handleDeleteQuickLink}
+        isLoading={loadingDelete}
       />
     </>
   );
