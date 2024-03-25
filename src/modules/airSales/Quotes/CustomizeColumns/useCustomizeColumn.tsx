@@ -10,35 +10,39 @@ import { useEffect, useState } from 'react';
 
 const useCustomizeColumn = ({ onClose }: any) => {
   const theme = useTheme();
+  const { user }: any = getSession();
   const [columns, setColumns] = useState<any[]>([]);
   const [selected, setSelected] = useState<any[]>([]);
-  const { user }: any = getSession();
 
   const columnsParams = {
     type: 'quotes',
   };
-  const { data: QuoteCustomzieCol } = useGetCustomizeColumnQuery(columnsParams);
-  const [putCustomizedColumns] = usePutCustomizedColumnsMutation();
+  const { data: getCustomizeColumns } =
+    useGetCustomizeColumnQuery(columnsParams);
 
-  const columnsData = QuoteCustomzieCol?.data?.columns;
+  const columnsData = getCustomizeColumns?.data?.columns;
+
+  const activeColumns = getCustomizeColumns?.data?.columns?.filter(
+    (column: any) => column?.active === true,
+  );
+
   const [order, setOrder] = useState(columnsData);
 
   const onDragEnd = (result: any) => {
-    try {
-      if (!result?.destination) return;
-      const items = Array.from(order);
-      const [reOrderItem] = items?.splice(result?.source?.index, 1);
-      items.splice(result?.destination?.index, 0, reOrderItem);
-      setOrder(items);
-    } catch (error) {}
+    const items = Array.from(order);
+    const [reOrderItem] = items?.splice(result?.source?.index, 1);
+    items?.splice(result?.destination?.index, 0, reOrderItem);
+    setOrder(items);
   };
+  const [putCustomizedColumns] = usePutCustomizedColumnsMutation();
+
   const handleUpdateColumns = async () => {
     if (selected?.length > 0) {
       try {
         await putCustomizedColumns({
           body: {
             userId: user?._id,
-            type: 'quotes',
+            type: 'companies',
             columns,
           },
         })
@@ -49,7 +53,6 @@ const useCustomizeColumn = ({ onClose }: any) => {
               enqueueSnackbar(`Columns customized successfully`, {
                 variant: NOTISTACK_VARIANTS?.SUCCESS,
               });
-              order;
             }
           });
       } catch (error) {
@@ -61,7 +64,6 @@ const useCustomizeColumn = ({ onClose }: any) => {
       });
     }
   };
-
   const handleChackboxChange = (checked: boolean, col: any, i: number) => {
     const newArr = [...columns];
     if (checked) {
@@ -76,24 +78,27 @@ const useCustomizeColumn = ({ onClose }: any) => {
     }
     setColumns(newArr);
   };
+
   useEffect(() => {
-    // setColumns(JSON.parse(JSON.stringify(columnsData)));
-    setSelected(
-      columnsData
-        ?.filter((col: { active: boolean }) => col?.active)
-        ?.map((obj: { slug: string }) => obj?.slug),
-    );
+    if (columnsData) {
+      setColumns(JSON.parse(JSON.stringify(columnsData)));
+      setSelected(
+        columnsData
+          ?.filter((col: { active: boolean }) => col?.active)
+          ?.map((obj: { slug: string }) => obj?.slug),
+      );
+      setOrder(columnsData);
+    }
   }, [columnsData]);
 
   return {
-    QuoteCustomzieCol,
+    theme,
+    onDragEnd,
+    order,
+    selected,
     handleChackboxChange,
     handleUpdateColumns,
-    columnsData,
-    selected,
-    theme,
-    order,
-    onDragEnd,
+    activeColumns,
   };
 };
 

@@ -168,7 +168,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
       invalidatesTags: TAG,
     }),
     getCustomizeColumn: builder.query({
-      query: (params) => ({
+      query: (params: any) => ({
         url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'GET',
         params: params,
