@@ -109,6 +109,7 @@ export const END_POINTS = {
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
   TICKET_DETAILS: '/ticket',
   REQUESTER_LIST: `/requester/requester-list`,
+
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
   DEPARTMENT: '/Department/add-department',
@@ -150,6 +151,7 @@ export const END_POINTS = {
   EDIT_REQUESTER: '/requester/edit-requester',
   EDIT_ATTACHMENT: '/attachment/edit_attachment',
   USERS_LIST_ADMIN: '/users',
+  CATALOG_SERVICES: '/service-catalog/get-category-list',
   SERVICE_CATALOG: '/service-catalog/get-category-list',
   ADD_SERVICE_CATALOG: '/service-catalog/add-category',
   DELETE_SERVICE: '/service-catalog/delete-service',
@@ -169,6 +171,7 @@ export const END_POINTS = {
   DELETE_PARENT_LOCATION: '/location/delete-parent-location',
   DROPDOWN_REQUESTERS: `/requester/requester-list`,
   DROPDOWN_AGENTS: `/requester/requester-list`,
+  DROPDOWN_ASSET: 'dropdown/all-assets',
   DROPDOWN_ASSOCIATE_ASSET: `/assets/inventory`,
   DROPDOWN_CATEGORIES: `/service-catalog/get-categories`,
   GET_CHILD_TICKETS: `/ticket/get-child-tickets`,
@@ -187,6 +190,7 @@ export const END_POINTS = {
   SOFTWARE_CONTRACT_VALUE: '/assets/software-contract-value',
   SOFTWARE_ASSIGN_CATEGORY: '/assets/assign-category',
   GET_PRODUCT_VENDOR_DROPDOWN: '/product-catalog/list',
+  GET_PRODUCT_DROPDOWN: '/product-catalog/list',
   CALL_WIDGET: `/calls/get-scheduled-call-widget`,
   GET_AGENT_REQUESTER: '/agent/agent-requester-list',
   GET_ASSETS_CONTRACT: '/contract/get-contracts',
@@ -326,6 +330,8 @@ export const END_POINTS = {
   AGENTS_SOFTWARE_LIST: `/agent/agent-software-list`,
   EDIT_SOFTWARE_CATEGORY: `/assets/edit-software-category`,
   CONVERT_TO_AGENT: `/requester/agent-requests`,
+  SERVICES_PATCH_EMAIL_NOTIFICATION: `/notifications/settings`,
+  SERVICES_GET_EMAIL_NOTIFICATION: `/notifications/get-notification-settings`,
 };
 
 export const superAdminBillingInvoices = {
@@ -339,6 +345,7 @@ export const superAdminBillingInvoices = {
   GET_ALL_INVOICE: '/super-admin/get-all-invoice',
   UPDATE_INVOICE: '/super-admin/update-invoice',
   GET_CRM: '/super-admin/get-all-crm-plans',
+  FIND_CRM: '/super-admin/find-crm',
 };
 
 export const organization = {
@@ -396,4 +403,9 @@ export const INVOICE = {
   GET_QUOTE_ID: '/quote',
   POST_INVOICE_QUOTE: '/quote-invoice',
   GET_INVOICE_QUOTE_LIST: '/quote',
+};
+
+export const OPERATION = {
+  OPERATION_WORKFLOW: '/workflows',
+  SCHEMA_KEYS: '/workflows/schema-keys',
 };

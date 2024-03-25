@@ -22,7 +22,7 @@ export const validationSchema = Yup?.object()?.shape({
 export const defaultValues = {
   name: '',
   dealPiplineId: '',
-  dealOwnerId: '',
+  ownerId: '',
   dealStageId: '',
 };
 export const createDealData = ({ dealPiplineId }: any) => {

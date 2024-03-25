@@ -30,16 +30,21 @@ const AddPlanForm = ({
   AdditionalUsereValue,
   crmValue,
   setCrmValue,
+  selectProductSuite,
+  setSelectProductSuite,
 }: any) => {
   const {
     formDefaultValuesFunction,
-    selectProductSuite,
-    setSelectProductSuite,
     productsOptions,
     planLabelRender,
     planNameRender,
     crmOptions,
-  } = useAddPlanForm(AdditionalStorageValue, AdditionalUsereValue);
+  } = useAddPlanForm(
+    AdditionalStorageValue,
+    AdditionalUsereValue,
+    selectProductSuite,
+    setSelectProductSuite,
+  );
 
   const filter = createFilterOptions<any>();
 

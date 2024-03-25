@@ -77,7 +77,14 @@ const PlanManagement = () => {
           permissions={[SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS_KEYS?.ADD_PLAN]}
         >
           <Box sx={styles?.linkStyle}>
-            <Link href={`${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`}>
+            <Link
+              href={{
+                pathname: `${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`,
+                query: {
+                  type: 'add',
+                },
+              }}
+            >
               <Button
                 variant="contained"
                 className="small"
@@ -167,6 +174,7 @@ const PlanManagement = () => {
                   pathname: `${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`,
                   query: {
                     data: JSON?.stringify(tableRowValues?.row?.original),
+                    type: 'edit',
                   },
                 }}
                 as={`${SUPER_ADMIN_PLAN_MANAGEMENT?.ADD_PLAN}`}

@@ -1,9 +1,9 @@
 import { ViewDetailBackArrowIcon } from '@/assets/icons';
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Image from 'next/image';
+
 import { allServices } from '../Catalog.data';
 import { CatalogRequest } from '../CatalogRequest';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,6 +14,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { Permissions } from '@/constants/permissions';
 import { AIR_CUSTOMER_PORTAL_CATALOG_PERMISSIONS } from '@/constants/permission-keys';
 import CatalogServiceDetails from '../CatalogServiceDetails';
+import { generateImage } from '@/utils/avatarUtils';
 
 const CatalogService = () => {
   const router = useRouter();
@@ -79,11 +80,11 @@ const CatalogService = () => {
                   justifyContent={'flex-start'}
                   p={2}
                 >
-                  <Image
-                    src={servicesDetails?.data?.image || ''}
-                    height={56}
-                    width={58}
-                    alt={`Service ${servicesDetails?.data?._id} Image`}
+                  <Avatar
+                    sx={{ height: '4rem', width: '4rem' }}
+                    src={generateImage(
+                      servicesDetails?.data?.attachmentDetails?.fileUrl,
+                    )}
                   />
                 </Box>
                 <Box

@@ -1,6 +1,4 @@
 import { Grid, Box, Alert, useTheme } from '@mui/material';
-// import { useForm } from 'react-hook-form';
-// import { enqueueSnackbar } from 'notistack';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { dataArray } from './FormAddCompany.data';
@@ -9,8 +7,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 const FormAddCompany = ({ open, onClose }: any) => {
   const theme = useTheme();
-  const { onSubmit, handleSubmit, methods } = useFormAddContact();
-  const contacts = useFormAddContact();
+  const { onSubmit, handleSubmit, methods, contacts } =
+    useFormAddContact(onClose);
 
   return (
     <CommonDrawer
@@ -18,9 +16,10 @@ const FormAddCompany = ({ open, onClose }: any) => {
       okText="Add"
       isDrawerOpen={open}
       onClose={onClose}
-      isOk={true}
+      cancelBtnHandler={onClose}
+      isOk
       cancelText={'Cancel'}
-      footer={true}
+      footer
       submitHandler={handleSubmit(onSubmit)}
     >
       <Box sx={{ pt: '27px' }}>
