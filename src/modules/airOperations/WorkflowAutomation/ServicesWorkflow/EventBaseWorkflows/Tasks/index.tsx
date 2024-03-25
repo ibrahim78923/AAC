@@ -23,6 +23,7 @@ const Tasks = () => {
     deleteWorkflow,
     setDeleteWorkflow,
     dropdownOptions,
+    setSelectedAction,
   } = useTasks();
   return (
     <>
@@ -37,6 +38,8 @@ const Tasks = () => {
         deleteWorkflow={deleteWorkflow}
         setDeleteWorkflow={setDeleteWorkflow}
         dropdownOptions={dropdownOptions}
+        selectedAction={selectedAction}
+        setSelectedAction={setSelectedAction}
       />
       <TanstackTable
         data={listData}

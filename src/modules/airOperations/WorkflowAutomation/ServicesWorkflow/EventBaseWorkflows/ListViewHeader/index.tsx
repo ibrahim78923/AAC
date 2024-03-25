@@ -8,19 +8,22 @@ import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/consta
 import { Permissions } from '@/constants/permissions';
 import FilterWorkflow from '../../FilterWorkflow';
 import { EventBasedWorkflowDelete } from '../EventBasedWorkflowDelete';
+import { useListHeader } from './useListHeader';
 
-const ListViewHeader = ({
-  selectedList,
-  setSearch,
-  search,
-  onSubmitListFilter,
-  isDrawerOpen,
-  setIsDrawerOpen,
-  dropdownOptions,
-  router,
-  setDeleteWorkflow,
-  deleteWorkflow,
-}: any) => {
+const ListViewHeader = (props: any) => {
+  const {
+    selectedList,
+    setSearch,
+    search,
+    onSubmitListFilter,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    dropdownOptions,
+    router,
+    setDeleteWorkflow,
+    deleteWorkflow,
+  } = props;
+  const { handleDelete } = useListHeader(props);
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -86,6 +89,7 @@ const ListViewHeader = ({
       <EventBasedWorkflowDelete
         deleteWorkflow={deleteWorkflow}
         setDeleteWorkflow={setDeleteWorkflow}
+        handleDelete={handleDelete}
       />
     </>
   );

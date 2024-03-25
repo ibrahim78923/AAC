@@ -23,6 +23,7 @@ const Assets = () => {
     setDeleteWorkflow,
     dropdownOptions,
     selectedAction,
+    setSelectedAction,
   } = useAssets();
   return (
     <>
@@ -37,6 +38,8 @@ const Assets = () => {
         deleteWorkflow={deleteWorkflow}
         setDeleteWorkflow={setDeleteWorkflow}
         dropdownOptions={dropdownOptions}
+        selectedAction={selectedAction}
+        setSelectedAction={setSelectedAction}
       />
       <TanstackTable
         data={listData}

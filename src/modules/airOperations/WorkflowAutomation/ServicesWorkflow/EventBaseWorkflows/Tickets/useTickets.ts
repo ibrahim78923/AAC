@@ -20,7 +20,7 @@ export const useTickets = () => {
   const [selectedAction, setSelectedAction] = useState([]);
   const [deleteWorkflow, setDeleteWorkflow] = useState(false);
   const EDIT_WORKFLOW = 'edit';
-
+  const selectedId = selectedAction?.map((item: any) => item?._id);
   const [getWorkflowListTrigger, { data, isLoading, isFetching, isSuccess }] =
     useLazyGetWorkflowListQuery();
   const workflowParams = {
@@ -63,6 +63,7 @@ export const useTickets = () => {
         pathname: AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW,
         query: {
           action: EDIT_WORKFLOW,
+          id: selectedId,
         },
       });
     }
@@ -89,5 +90,6 @@ export const useTickets = () => {
     setDeleteWorkflow,
     dropdownOptions,
     listData,
+    setSelectedAction,
   };
 };

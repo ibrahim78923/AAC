@@ -1,10 +1,10 @@
 import { OPERATION } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const TAG = 'SERVICES_WORKFLOW';
+const TAG = 'WORKFLOWS';
 const { OPERATION_WORKFLOW } = OPERATION;
 export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder: any) => ({
     postServicesWorkflow: builder?.mutation({
       query: (body: any) => ({
         url: `${OPERATION_WORKFLOW}`,
@@ -13,27 +13,37 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
-    getWorkflow: builder?.query({
-      query: (queryParams: any) => ({
-        url: `${OPERATION_WORKFLOW}`,
+    getByIdWorkflow: builder?.query({
+      query: (id: any) => ({
+        url: `${OPERATION_WORKFLOW}/${id}`,
         method: 'GET',
-        params: queryParams,
       }),
       providesTags: [TAG],
     }),
-    deleteWorkflow: builder?.query({
-      query: (queryParams: any) => ({
+    deleteWorkflow: builder?.mutation({
+      query: (params: any) => {
+        const selectedId = params?.ids.join('&ids=');
+        return {
+          url: `${OPERATION_WORKFLOW}?ids=${selectedId}`,
+          method: 'DELETE',
+        };
+      },
+      invalidatesTags: [TAG],
+    }),
+    updateWorkflow: builder?.mutation({
+      query: (body: any) => ({
         url: `${OPERATION_WORKFLOW}`,
-        method: 'DELETE',
-        params: queryParams,
+        method: 'PUT',
+        body,
       }),
-      providesTags: [TAG],
+      invalidatesTags: [TAG],
     }),
   }),
 });
 
 export const {
   usePostServicesWorkflowMutation,
-  useGetWorkflowQuery,
-  useDeleteWorkflowQuery,
+  useGetByIdWorkflowQuery,
+  useDeleteWorkflowMutation,
+  useUpdateWorkflowMutation,
 } = servicesWorkflowAPI;

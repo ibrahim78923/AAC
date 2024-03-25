@@ -69,27 +69,43 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
   ),
 });
 
-export const eventBasedWorkflowValues: any = {
-  title: '',
-  type: 'EVENT_BASE',
-  description: '',
-  events: null,
-  runType: null,
-  module: 'TICKETS',
-  groupCondition: '',
-  groups: [
-    {
-      name: '',
-      conditionType: null,
-      conditions: [{ key: '', condition: '', value: null }],
-    },
-    {
-      name: '',
-      conditionType: null,
-      conditions: [{ key: '', condition: '', value: null }],
-    },
-  ],
-  actions: [{ key: '', value: null }],
+export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
+  return {
+    title: singleWorkflowData?.title ?? '',
+    type: 'EVENT_BASE',
+    description: singleWorkflowData?.description ?? '',
+    events: singleWorkflowData?.events?.[0] ?? null,
+    runType: singleWorkflowData?.runType ?? null,
+    module: singleWorkflowData?.module ?? 'TICKETS',
+    groupCondition: singleWorkflowData?.groupCondition ?? '',
+    groups: [
+      {
+        name: singleWorkflowData?.groups[0]?.name ?? '',
+        conditionType: singleWorkflowData?.groups[0]?.conditionType ?? null,
+        conditions: [
+          {
+            key: singleWorkflowData?.groups[0]?.conditions[0]?.key ?? '',
+            condition:
+              singleWorkflowData?.groups[0]?.conditions[0]?.condition ?? '',
+            value: singleWorkflowData?.groups[0]?.conditions[0]?.value ?? null,
+          },
+        ],
+      },
+      {
+        name: singleWorkflowData?.groups[0]?.name ?? '',
+        conditionType: singleWorkflowData?.groups[0]?.conditionType ?? null,
+        conditions: [
+          {
+            key: singleWorkflowData?.groups[0]?.conditions[0]?.key ?? '',
+            condition:
+              singleWorkflowData?.groups[0]?.conditions[0]?.condition ?? '',
+            value: singleWorkflowData?.groups[0]?.conditions[0]?.value ?? null,
+          },
+        ],
+      },
+    ],
+    actions: [{ key: '', value: null }],
+  };
 };
 export const EventBasedWorkflowDataArray = [
   {

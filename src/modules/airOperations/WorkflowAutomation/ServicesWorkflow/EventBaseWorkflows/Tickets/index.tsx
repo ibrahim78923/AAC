@@ -23,6 +23,7 @@ const Tickets = () => {
     deleteWorkflow,
     setDeleteWorkflow,
     dropdownOptions,
+    setSelectedAction,
   } = useTickets();
   return (
     <>
@@ -37,6 +38,8 @@ const Tickets = () => {
         deleteWorkflow={deleteWorkflow}
         setDeleteWorkflow={setDeleteWorkflow}
         dropdownOptions={dropdownOptions}
+        selectedAction={selectedAction}
+        setSelectedAction={setSelectedAction}
       />
       <TanstackTable
         data={listData}

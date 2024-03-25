@@ -20,6 +20,7 @@ export const useTasks = () => {
   const [selectedAction, setSelectedAction] = useState([]);
   const [deleteWorkflow, setDeleteWorkflow] = useState(false);
   const EDIT_WORKFLOW = 'edit';
+  const selectedId = selectedAction?.map((item: any) => item?._id);
 
   const [getWorkflowListTrigger, { data, isLoading, isFetching, isSuccess }] =
     useLazyGetWorkflowListQuery();
@@ -62,6 +63,7 @@ export const useTasks = () => {
         pathname: AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW,
         query: {
           action: EDIT_WORKFLOW,
+          id: selectedId,
         },
       });
     }
@@ -88,5 +90,6 @@ export const useTasks = () => {
     dropdownOptions,
     selectedAction,
     tasksListsColumns,
+    setSelectedAction,
   };
 };
