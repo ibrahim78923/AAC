@@ -1,6 +1,6 @@
 import { DocumentIcon, FileJpgIcon } from '@/assets/icons';
 import { DATE_FORMAT } from '@/constants';
-import { Box, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -28,51 +28,72 @@ const groupDocumentsByDate = (data: any) => {
   return result;
 };
 
-const DocumentAssets = ({ data }: any) => {
+const DocumentAssets = ({ data, status }: any) => {
   const groupedDocuments = groupDocumentsByDate(data);
   return (
     <>
-      <Box>
-        {groupedDocuments.map((group) => (
-          <Box key={uuidv4()}>
-            <Typography variant="body3" sx={{ fontWeight: '600' }}>
-              {group.dateGroup} {/* Display the date */}
-            </Typography>
-            {group.documents.map((document: any) => (
-              <Box
-                key={uuidv4()}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Box
-                  sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}
-                >
-                  <FileJpgIcon />
-                  <Box>
-                    <Typography variant="body3" sx={{ fontWeight: '500' }}>
-                      {document?.orignalName}
-                    </Typography>
-                    <Typography sx={{ fontSize: '10px' }}>
-                      {dayjs(data?.createdAt).format(DATE_FORMAT.UI)}
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box
-                  sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}
-                >
-                  <Typography variant="body3" sx={{ fontWeight: '500' }}>
-                    {(document?.size / 1024).toFixed(2)} KB
-                  </Typography>
-                  <DocumentIcon />
-                </Box>
-              </Box>
-            ))}
+      {status === 'pending' ? (
+        <>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <CircularProgress />
           </Box>
-        ))}
-      </Box>
+        </>
+      ) : (
+        <Box>
+          {groupedDocuments?.length ? (
+            groupedDocuments?.map((group: any) => (
+              <Box key={uuidv4()}>
+                <Typography variant="body3" sx={{ fontWeight: '600' }}>
+                  {group?.dateGroup} {/* Display the date */}
+                </Typography>
+                {group?.documents?.map((document: any) => (
+                  <Box
+                    key={uuidv4()}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                      }}
+                    >
+                      <FileJpgIcon />
+                      <Box>
+                        <Typography variant="body3" sx={{ fontWeight: '500' }}>
+                          {document?.orignalName}
+                        </Typography>
+                        <Typography sx={{ fontSize: '10px' }}>
+                          {dayjs(data?.createdAt).format(DATE_FORMAT?.UI)}
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                      }}
+                    >
+                      <Typography variant="body3" sx={{ fontWeight: '500' }}>
+                        {(document?.size / 1024)?.toFixed(2)} KB
+                      </Typography>
+                      <DocumentIcon />
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
+            ))
+          ) : (
+            <>No records found</>
+          )}
+        </Box>
+      )}
+
       {/* <Box>
       <Typography variant="body3" sx={{ fontWeight: '600' }}>
         June
