@@ -112,7 +112,7 @@ export const END_POINTS = {
 
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
-  DEPARTMENT: '/department/add-department',
+  DEPARTMENT: '/Department/add-department',
   DROPDOWN_DEPARTMENT: `/Department/department-list`,
   TICKETS_ASSOCIATES_ASSETS: '/ticket/associate-assets',
   DROPDOWN_VENDORS_LIST: `/vendors/get-vendors`,
@@ -151,6 +151,7 @@ export const END_POINTS = {
   EDIT_REQUESTER: '/requester/edit-requester',
   EDIT_ATTACHMENT: '/attachment/edit_attachment',
   USERS_LIST_ADMIN: '/users',
+  CATALOG_SERVICES: '/service-catalog/get-category-list',
   SERVICE_CATALOG: '/service-catalog/get-category-list',
   ADD_SERVICE_CATALOG: '/service-catalog/add-category',
   DELETE_SERVICE: '/service-catalog/delete-service',
@@ -170,6 +171,7 @@ export const END_POINTS = {
   DELETE_PARENT_LOCATION: '/location/delete-parent-location',
   DROPDOWN_REQUESTERS: `/requester/requester-list`,
   DROPDOWN_AGENTS: `/requester/requester-list`,
+  DROPDOWN_ASSET: 'dropdown/all-assets',
   DROPDOWN_ASSOCIATE_ASSET: `/assets/inventory`,
   DROPDOWN_CATEGORIES: `/service-catalog/get-categories`,
   GET_CHILD_TICKETS: `/ticket/get-child-tickets`,
@@ -188,6 +190,7 @@ export const END_POINTS = {
   SOFTWARE_CONTRACT_VALUE: '/assets/software-contract-value',
   SOFTWARE_ASSIGN_CATEGORY: '/assets/assign-category',
   GET_PRODUCT_VENDOR_DROPDOWN: '/product-catalog/list',
+  GET_PRODUCT_DROPDOWN: '/product-catalog/list',
   CALL_WIDGET: `/calls/get-scheduled-call-widget`,
   GET_AGENT_REQUESTER: '/agent/agent-requester-list',
   GET_ASSETS_CONTRACT: '/contract/get-contracts',
@@ -245,8 +248,8 @@ export const END_POINTS = {
   DROPDOWN_ASSETS: '/dropdown/all-assets',
   ASSETS_INVENTORY_PURCHASE_ORDER: '/assets/inventory-purchase-order-list',
   ASSETS_INVENTORY_CONTRACTS: '/assets/inventory-contract-list',
-  DEPARTMENT_UPDATE: '/department/update',
-  DEPARTMENT_DELETE: '/department/delete-department',
+  DEPARTMENT_UPDATE: '/Department/update',
+  DEPARTMENT_DELETE: '/Department/delete-department',
   ASSETS_PURCHASEORDER_DETAIL: '/assets/purchaseorder',
   ASSETS_PURCHASEORDER: '/assets/purchase_order_inventory',
   EDIT_NEW_PURCHASEORDER: '/assets/update_purchase_order_inventory',
@@ -326,6 +329,9 @@ export const END_POINTS = {
   CUSTOMER_GET_COMPANY_ACCOUNTS: `/users/company-accounts`,
   AGENTS_SOFTWARE_LIST: `/agent/agent-software-list`,
   EDIT_SOFTWARE_CATEGORY: `/assets/edit-software-category`,
+  CONVERT_TO_AGENT: `/requester/agent-requests`,
+  SERVICES_PATCH_EMAIL_NOTIFICATION: `/notifications/settings`,
+  SERVICES_GET_EMAIL_NOTIFICATION: `/notifications/get-notification-settings`,
 };
 
 export const superAdminBillingInvoices = {

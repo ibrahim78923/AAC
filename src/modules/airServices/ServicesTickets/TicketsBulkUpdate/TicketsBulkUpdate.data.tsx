@@ -140,7 +140,7 @@ export const ticketsBulkUpdateFormFieldsDynamic = (
       label: 'Agent',
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: ROLES?.ORG_AGENT },
+      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

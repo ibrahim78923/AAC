@@ -2,7 +2,7 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const validationSchemaRejectedModal = Yup?.object()?.shape({
-  rejected: Yup?.string()?.required('Field is Required'),
+  rejected: Yup?.string()?.required('Reason is required'),
 });
 
 export const defaultValuesRejectedModal = {

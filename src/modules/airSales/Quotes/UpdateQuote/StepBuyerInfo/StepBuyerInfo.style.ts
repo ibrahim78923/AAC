@@ -61,6 +61,7 @@ export const styles = {
     color: theme?.palette?.slateBlue?.main,
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
   }),
   itemText: (theme: any) => ({
     fontSize: '12px',

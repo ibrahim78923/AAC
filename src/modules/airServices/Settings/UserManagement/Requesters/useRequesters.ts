@@ -2,68 +2,61 @@ import { useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { requestersList, requestersDropdown } from './Requesters.data';
 import { useRouter } from 'next/router';
-import {
-  useGetRequestersListQuery,
-  useGetViewRequestersDetailsQuery,
-} from '@/services/airServices/settings/user-management';
 import { PAGINATION } from '@/config';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  upsertRequestersDefaultValues,
-  upsertRequestersValidationSchema,
-} from './UpsertRequesters/UpsertRequesters.data';
-import { useSearchParams } from 'next/navigation';
 import { ROLES } from '@/constants/strings';
+import { useLazyGetRequestersListQuery } from '@/services/airServices/settings/user-management/requesters';
 
 export const useRequesters = () => {
   const theme = useTheme();
   const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [selectedRequestersList, setSelectedRequestersList] = useState<any>([]);
-  const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const [warningModal, setWarningModal] = useState<boolean>(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [isAgentConvert, setIsAgentConvert] = useState<boolean>(false);
+
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState('');
 
-  const params = {
-    page: page,
-    limit: pageLimit,
-    role: ROLES?.ORG_REQUESTER,
+  const [lazyGetRequestersTrigger, lazyGetRequestersStatus]: any =
+    useLazyGetRequestersListQuery();
+
+  const getRequestersListData = async (currentPage = page) => {
+    const queryParams = {
+      page: currentPage,
+      limit: pageLimit,
+      search: search,
+      role: ROLES?.ORG_REQUESTER,
+    };
+
+    const getRequestersListParameter = {
+      queryParams,
+    };
+
+    try {
+      await lazyGetRequestersTrigger(getRequestersListParameter)?.unwrap();
+      setSelectedRequestersList([]);
+    } catch (error: any) {
+      setSelectedRequestersList([]);
+    }
   };
 
-  const { data, isLoading, isError, isFetching, isSuccess }: any =
-    useGetRequestersListQuery(params, {
-      refetchOnMountOrArgChange: true,
-    });
-
-  const metaData = data?.data?.meta;
-
-  const profileId = useSearchParams()?.get('_id');
-  const { data: viewRequestersData } = useGetViewRequestersDetailsQuery(
-    profileId,
-  ) as { data: any };
-  const profileData = [viewRequestersData?.data];
-  const methods: any = useForm({
-    resolver: yupResolver(upsertRequestersValidationSchema),
-    defaultValues: upsertRequestersDefaultValues(profileData),
-  });
-  const { handleSubmit, reset } = methods;
-
   useEffect(() => {
-    reset(upsertRequestersDefaultValues(profileData));
-  }, [viewRequestersData]);
+    getRequestersListData();
+  }, [search, page, pageLimit]);
 
   const requestersListColumn = requestersList(
     selectedRequestersList,
     setSelectedRequestersList,
     theme,
     router,
-    data?.data?.users,
+    lazyGetRequestersStatus?.data?.data?.users,
   );
+
   const requestersDropdownOptions = requestersDropdown(
-    setDeleteModal,
-    setWarningModal,
+    setDeleteModalOpen,
+    setIsAgentConvert,
+    selectedRequestersList,
   );
 
   return {
@@ -72,25 +65,19 @@ export const useRequesters = () => {
     setIsDrawerOpen,
     selectedRequestersList,
     setSelectedRequestersList,
-    deleteModal,
-    setDeleteModal,
-    warningModal,
-    setWarningModal,
+    deleteModalOpen,
+    setDeleteModalOpen,
+    isAgentConvert,
+    setIsAgentConvert,
     requestersDropdownOptions,
     router,
     requestersListColumn,
-    data,
-    metaData,
     setPage,
     setPageLimit,
-    isLoading,
-    isError,
-    isFetching,
-    isSuccess,
+    lazyGetRequestersStatus,
     page,
     pageLimit,
-    profileData,
-    methods,
-    handleSubmit,
+    setSearch,
+    getRequestersListData,
   };
 };

@@ -4,39 +4,32 @@ export const purchaseOrdersData = [
     heading: 'Requester Notification',
     details: [
       {
-        _id: 1,
+        _id: 'poItemsOrdered',
         title: 'Notify when items are ordered',
-        value: false,
       },
       {
-        _id: 2,
+        _id: 'poItemsReceived',
         title: 'Notify when items are received',
-        value: true,
       },
       {
-        _id: 3,
+        _id: 'poCancelled',
         title: 'Notify when a purchase order is cancelled',
-        value: true,
       },
       {
-        _id: 4,
+        _id: 'poAssociatedToServicReport',
         title: 'Notify when a purchase order is associated to Service Report',
-        value: true,
       },
       {
-        _id: 5,
+        _id: 'poOverdue',
         title: 'Notify when a purchase order is overdue',
-        value: true,
       },
       {
-        _id: 6,
+        _id: 'poApprovedRejected',
         title: 'Notify when a purchase order is approved or rejected',
-        value: true,
       },
       {
-        _id: 7,
+        _id: 'poSentForApproval',
         title: 'Notify when a purchase order is sent for approval',
-        value: true,
       },
     ],
   },

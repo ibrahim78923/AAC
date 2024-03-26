@@ -8,6 +8,8 @@ import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { PlusRoundedIcon } from '@/assets/icons';
 import { styles } from './Contacts.style';
 import useContactsGroup from './useContactsGroup';
+import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 const ContactsGroup = () => {
   const theme = useTheme();
@@ -25,6 +27,11 @@ const ContactsGroup = () => {
     selectedUsers,
     setSelectedUsers,
     setSearchValue,
+    isGroupAlert,
+    handleOpenAlertDelete,
+    handleCloseAlertDelete,
+    handleDeleteGroup,
+    loadingDelete,
   } = useContactsGroup();
 
   const {
@@ -71,6 +78,7 @@ const ContactsGroup = () => {
                 key={group?._id}
                 info={group}
                 handleOpenModal={handleOpenModalCreate}
+                handleOpenDeleteAlert={handleOpenAlertDelete}
               />
             ))}
           </>
@@ -97,6 +105,15 @@ const ContactsGroup = () => {
         setSelectedUsers={setSelectedUsers}
         setSearchValue={setSearchValue}
         loadingPost={loadingCreateGroup}
+      />
+
+      <AlertModals
+        type={ALERT_MODALS_TYPE?.DELETE}
+        open={isGroupAlert}
+        handleClose={handleCloseAlertDelete}
+        handleSubmitBtn={handleDeleteGroup}
+        message="Are you sure you want to delete this group?"
+        loading={loadingDelete}
       />
     </>
   );

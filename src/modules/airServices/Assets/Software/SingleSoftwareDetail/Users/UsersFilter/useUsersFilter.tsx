@@ -4,9 +4,9 @@ import { useLazyGetDepartmentDropdownQuery } from '@/services/airServices/assets
 import { useState } from 'react';
 
 export const useUsersFilter = (props: any) => {
-  const { userDetailsFilterLists, setFilterValues } = props;
+  const { filterValues, setFilterValues } = props;
   const methods: any = useForm({
-    defaultValues: userDefaultValues(userDetailsFilterLists),
+    defaultValues: userDefaultValues(filterValues),
   });
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -17,10 +17,15 @@ export const useUsersFilter = (props: any) => {
   const closeFilterDrawer = () => {
     setIsFilterOpen(false);
   };
-  const { handleSubmit, reset } = methods;
+  const resetFormAndCloseDrawer = () => {
+    methods.reset(userDefaultValues({}));
+    setFilterValues({});
+    setIsFilterOpen(false);
+  };
+
+  const { handleSubmit } = methods;
   const submitFilter = (data: any) => {
     setFilterValues(data);
-    reset();
     closeFilterDrawer();
   };
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
@@ -31,10 +36,10 @@ export const useUsersFilter = (props: any) => {
     userFieldsData,
     methods,
     handleSubmit,
-    reset,
     submitFilter,
     openFilterDrawer,
     closeFilterDrawer,
     isFilterOpen,
+    resetFormAndCloseDrawer,
   };
 };

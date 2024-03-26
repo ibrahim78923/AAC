@@ -15,24 +15,24 @@ const CreateContacts = ({ open, onClose, dealId }: any) => {
     methodscontacts,
     lifeCycleStagesData,
     contactStatusData,
-    userList,
-    submitContact,
-  }: any = useCreateContacts(dealId);
+    userList, // submitContact,
+  }: any = useCreateContacts(dealId, onClose);
 
   return (
     <CommonDrawer
       isDrawerOpen={open}
       onClose={onClose}
+      cancelBtnHandler={onClose}
       title="Create Contact"
       footer
       okText="Create"
-      submitHandler={submitContact(onClose)}
+      submitHandler={handleSubmit(onSubmit)}
       isOk
     >
       <Box sx={{ pt: 2 }}>
         <FormProvider
           methods={methodscontacts}
-          onSubmit={handleSubmit(onSubmit)}
+          // onSubmit={handleSubmit(onSubmit)}
         >
           <Grid container spacing={2}>
             {contactsDataArray(
