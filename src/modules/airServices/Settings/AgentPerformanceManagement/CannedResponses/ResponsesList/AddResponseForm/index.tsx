@@ -1,10 +1,19 @@
-import { Avatar, AvatarGroup, Box, Grid, Tooltip } from '@mui/material';
+import {
+  Avatar,
+  AvatarGroup,
+  Box,
+  Grid,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { addResponseDataArray, stringAvatar } from './AddResponseForm.data';
 import { SelectAgentsModal } from './SelectAgentsModal';
 import { useAddResponseForm } from './useAddResponseForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import { CANNED_RESPONSES } from '@/constants/strings';
+import { Attachments } from '@/components/Attachments';
+import { AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const AddResponseForm = (props: any) => {
   const {
@@ -22,6 +31,8 @@ export const AddResponseForm = (props: any) => {
     patchResponseStatus,
     availableForChanged,
     setValue,
+    hasAttachment,
+    setHasAttachment,
   } = useAddResponseForm(props);
   return (
     <>
@@ -48,6 +59,7 @@ export const AddResponseForm = (props: any) => {
               {addResponseDataArray(
                 availableForChanged,
                 setOpenSelectAgentsModal,
+                hasAttachment,
               )?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?.id}>
                   <item.component {...item?.componentProps} size={'small'} />
@@ -81,6 +93,31 @@ export const AddResponseForm = (props: any) => {
                     )}
                 </Grid>
               ))}
+              <Grid item xs={12}>
+                {!!editableObj && (
+                  <>
+                    <Typography
+                      variant="body1"
+                      fontWeight={500}
+                      color="slateBlue.main"
+                      mb={2}
+                    >
+                      {' '}
+                      Attachments{' '}
+                    </Typography>
+                    <Box maxHeight={'20vh'}>
+                      <Attachments
+                        recordId={editableObj?._id}
+                        colSpan={{ sm: 12, lg: 12 }}
+                        permissionKey={[
+                          AIR_SERVICES_SETTINGS_AGENT_PRODUCTIVITY_AND_WORKLOAD_MANAGEMENT_PERMISSIONS?.SEARCH_EDIT_DELETE_CANNED_RESPONSES,
+                        ]}
+                        hasAttachments={setHasAttachment}
+                      />
+                    </Box>
+                  </>
+                )}
+              </Grid>
             </Grid>
           </FormProvider>
         </Box>

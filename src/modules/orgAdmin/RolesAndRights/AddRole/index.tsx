@@ -34,7 +34,11 @@ const AddRole = () => {
     methods,
     theme,
     viewPerdetails,
+    getModulePermissions,
+    selectAllPermissions,
   } = useAddRole();
+
+  const { watch } = methods;
 
   const { query } = navigate;
 
@@ -98,6 +102,9 @@ const AddRole = () => {
                         ? viewPerdetails?.data
                         : productPermissionsData
                     }
+                    getModulePermissions={getModulePermissions}
+                    selectAllPermissions={selectAllPermissions}
+                    watch={watch}
                     disabled={disabled}
                   />
                 )}

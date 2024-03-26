@@ -1,17 +1,39 @@
 import { useTheme } from '@mui/material';
 import { useState } from 'react';
-import { teamDropdown, teamList, teamListData } from './Teams.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { teamList } from './Teams.data';
+import { PAGINATION } from '@/config';
+import {
+  useDeleteTeamUsersMutation,
+  useGetTeamListQuery,
+} from '@/services/airOperations/user-management/user';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useTeams = () => {
   const theme = useTheme();
-  const [searchValue, setSearchValue] = useState<string>('');
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isTeamDrawerOpen, setIsTeamDrawerOpen] = useState<boolean>(false);
   const [selectedTeamList, setSelectedTeamList] = useState<any>([]);
-  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [deleteModal, setDeleteModal] = useState<any>({
+    val: false,
+    rowId: null,
+  });
   const [anchorEl, setAnchorEl] = useState(null);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [search, setSearch] = useState<string>('');
+
+  const [deleteTeamUsersTrigger, deleteTeamUsersStatus] =
+    useDeleteTeamUsersMutation();
+
+  const param = {
+    page: page,
+    limit: pageLimit,
+    search,
+  };
+  const { data, isLoading, isError, isFetching, isSuccess } =
+    useGetTeamListQuery({ param });
+
+  const metaData = data?.data?.meta;
 
   const handleMenuClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -20,34 +42,37 @@ export const useTeams = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-  const submitDeleteModal = () => {
-    enqueueSnackbar('Delete Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    setDeleteModal(false);
+
+  const submitDeleteModal = async () => {
+    try {
+      await deleteTeamUsersTrigger(deleteModal?.rowId)?.unwrap();
+      successSnackbar('Delete Successfully');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
-  const teamDropdownOptions = teamDropdown(setDeleteModal);
 
   const submit = async () => {
-    enqueueSnackbar('Team Add Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
-    setIsDrawerOpen(false);
+    try {
+      successSnackbar('Team Add Successfully');
+      setIsDrawerOpen(false);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
   };
 
   const teamListColumn = teamList(
+    data?.data?.userTeams,
     selectedTeamList,
     setSelectedTeamList,
-    teamListData,
     setIsTeamDrawerOpen,
     setIsDrawerOpen,
     setDeleteModal,
   );
-
   return {
     theme,
-    searchValue,
-    setSearchValue,
+    search,
+    setSearch,
     selectedTeamList,
     setSelectedTeamList,
     teamListColumn,
@@ -56,12 +81,20 @@ export const useTeams = () => {
     deleteModal,
     setDeleteModal,
     submitDeleteModal,
-    teamDropdownOptions,
     isTeamDrawerOpen,
     setIsTeamDrawerOpen,
     handleMenuClick,
     handleMenuClose,
     anchorEl,
     submit,
+    metaData,
+    data,
+    isLoading,
+    isError,
+    isFetching,
+    isSuccess,
+    setPageLimit,
+    setPage,
+    deleteTeamUsersStatus,
   };
 };

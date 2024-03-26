@@ -35,6 +35,7 @@ export const ServicesAction = (props: any) => {
     handleVisibility,
     setAnchorEl,
     isDisabled,
+    setSelectedCheckboxes,
   } = useServicesAction(props);
 
   return (
@@ -136,7 +137,14 @@ export const ServicesAction = (props: any) => {
           message="Are you sure you want to delete this field ?"
         />
       )}
-      {open && <MoveToCategory open={open} setOpen={setOpen} id={props} />}
+      {open && (
+        <MoveToCategory
+          open={open}
+          setOpen={setOpen}
+          id={props}
+          setSelectedCheckboxes={setSelectedCheckboxes}
+        />
+      )}
       {openStatus && (
         <ChangeStatus
           openStatus={openStatus}

@@ -1,8 +1,8 @@
 import { Box, Divider, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import { CardPropsI } from './InventoryCard.interface';
 import { AlertModals } from '../AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const InventoryCard = ({
   heading,
@@ -15,7 +15,8 @@ export const InventoryCard = ({
   setDelateRecord,
   deletedRecordId,
   deleteIsLoading,
-}: CardPropsI) => {
+  hasDeleteIcon = true,
+}: any) => {
   const theme: any = useTheme();
   const [showIcon, setShowIcon] = useState(false);
   const handleDeleteIcon = () => {
@@ -43,29 +44,36 @@ export const InventoryCard = ({
           onMouseEnter={() => setShowIcon(true)}
           onMouseLeave={() => setShowIcon(false)}
         >
-          {showIcon && <RemoveCircleOutlineIcon onClick={handleDeleteIcon} />}
+          {hasDeleteIcon && showIcon && (
+            <RemoveCircleOutlineIcon onClick={handleDeleteIcon} />
+          )}
           <Typography variant="h6" color={theme?.palette?.primary?.main}>
             {heading}
           </Typography>
         </Box>
-        <Divider
-          orientation="vertical"
-          flexItem
-          sx={{
-            margin: '0 2rem',
-            border: `.1rem solid ${theme?.palette?.grey[700]}`,
-            backgroundColor: 'transparent',
-          }}
-        />
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyItems={'center'}
-          gap={'.3rem'}
-        >
-          <Typography color={theme?.palette?.grey[900]}>Status:</Typography>
-          <Typography>{status}</Typography>
-        </Box>
+        {status && (
+          <>
+            <Divider
+              orientation="vertical"
+              flexItem
+              sx={{
+                margin: '0 2rem',
+                border: `.1rem solid ${theme?.palette?.grey[700]}`,
+                backgroundColor: 'transparent',
+              }}
+            />
+
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              justifyItems={'center'}
+              gap={'.3rem'}
+            >
+              <Typography color={theme?.palette?.grey[900]}>Status:</Typography>
+              <Typography>{status}</Typography>
+            </Box>
+          </>
+        )}
         {showChild && (
           <>
             <Divider
@@ -81,15 +89,17 @@ export const InventoryCard = ({
           </>
         )}
       </Box>
-
-      <AlertModals
-        type="delete"
-        open={openDeleteModal}
-        handleClose={() => setOpenDeleteModal(false)}
-        handleSubmitBtn={handleDelete}
-        message="Are you sure want to delete this record?"
-        loading={deleteIsLoading}
-      />
+      {openDeleteModal && (
+        <AlertModals
+          type={ALERT_MODALS_TYPE?.DELETE}
+          open={openDeleteModal}
+          handleClose={() => setOpenDeleteModal(false)}
+          handleSubmitBtn={handleDelete}
+          message="Are you sure want to delete this record?"
+          loading={deleteIsLoading}
+          disableCancelBtn={deleteIsLoading}
+        />
+      )}
     </>
   );
 };

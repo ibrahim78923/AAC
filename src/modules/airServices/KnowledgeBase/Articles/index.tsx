@@ -10,6 +10,8 @@ import { DeleteArticles } from './DeleteArticles';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_KNOWLEDGE_BASE_ARTICLES_LIST_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
+import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const Articles = () => {
   const {
@@ -35,6 +37,9 @@ export const Articles = () => {
     setFolder,
     page,
     getValueArticlesListData,
+    isLoading,
+    isFetching,
+    isError,
   } = useArticles();
 
   return (
@@ -53,42 +58,48 @@ export const Articles = () => {
                 overflowY: 'auto',
               }}
             >
-              {foldersList?.map((tab: any) => (
-                <Box
-                  key={tab?._id}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1,
-                    p: 1,
-                    background:
-                      tab?._id === selectedArticlesTab
-                        ? theme?.palette?.grey?.['400']
-                        : 'white',
-                    borderRadius: '0.5rem',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => setFolder(tab?._id)}
-                >
-                  <FolderGreyIcon
-                    fill={
-                      theme?.palette?.grey?.[
-                        tab?._id === selectedArticlesTab ? '800' : '900'
-                      ]
-                    }
-                  />
-                  <Typography
-                    color={
-                      theme?.palette?.grey?.[
-                        tab?._id === selectedArticlesTab ? '800' : '900'
-                      ]
-                    }
-                    textTransform={'capitalize'}
+              {isLoading || isFetching ? (
+                <SkeletonForm />
+              ) : isError ? (
+                <ApiErrorState />
+              ) : (
+                foldersList?.map((tab: any) => (
+                  <Box
+                    key={tab?._id}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1,
+                      p: 1,
+                      background:
+                        tab?._id === selectedArticlesTab
+                          ? theme?.palette?.grey?.['400']
+                          : 'white',
+                      borderRadius: '0.5rem',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => setFolder(tab?._id)}
                   >
-                    {tab?.name}
-                  </Typography>
-                </Box>
-              ))}
+                    <FolderGreyIcon
+                      fill={
+                        theme?.palette?.grey?.[
+                          tab?._id === selectedArticlesTab ? '800' : '900'
+                        ]
+                      }
+                    />
+                    <Typography
+                      color={
+                        theme?.palette?.grey?.[
+                          tab?._id === selectedArticlesTab ? '800' : '900'
+                        ]
+                      }
+                      textTransform={'capitalize'}
+                    >
+                      {tab?.name}
+                    </Typography>
+                  </Box>
+                ))
+              )}
             </Box>
           </PermissionsGuard>
         </Grid>

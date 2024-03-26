@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { dataArray } from './PlanForm.data';
-import { useState } from 'react';
 import {
   useGetCrmQuery,
   useGetProductsQuery,
@@ -9,9 +8,10 @@ import {
 export const useAddPlanForm = (
   AdditionalStorageValue: any,
   AdditionalUsereValue: any,
+  selectProductSuite: any,
+  setSelectProductSuite: any,
 ) => {
   const router = useRouter();
-  const [selectProductSuite, setSelectProductSuite] = useState('product');
   const { data } = useGetProductsQuery({});
   const { data: getCRM } = useGetCrmQuery({});
 

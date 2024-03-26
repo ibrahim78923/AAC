@@ -17,9 +17,10 @@ const StepLineItems = ({ openCreateProduct }: any) => {
 
   const router = useRouter();
   const { data } = router?.query;
+
   const { data: productsData } = useGetQuoteByIdQuery({
     id: data,
-    search,
+    ...(search && { productSearchKeyword: search }),
   });
 
   const sum = productsData?.data?.products?.reduce(
@@ -57,15 +58,13 @@ const StepLineItems = ({ openCreateProduct }: any) => {
     }
   };
   const handleAction = (id: string, action: string) => {
-    router.push(`?data=${data}&productId=${id}&type=${action}`);
+    router.push(
+      `?data=${data}${
+        action === 'create' ? '' : `&productId=${id}`
+      }&type=${action}`,
+    );
     openCreateProduct();
   };
-
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setSearch(value);
-  };
-
   const lineItemsColumns: any = [
     {
       accessorFn: (row: any) => row?.name,
@@ -118,8 +117,8 @@ const StepLineItems = ({ openCreateProduct }: any) => {
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.productId,
-      id: 'productId',
+      accessorFn: ({ _id }: { _id: string }) => _id,
+      id: '_id',
       header: 'Actions',
       cell: ({ getValue }: any) => (
         <Stack direction="row" gap="8px">
@@ -157,7 +156,10 @@ const StepLineItems = ({ openCreateProduct }: any) => {
             Products
           </Typography>
           <Stack direction="row" spacing={'12px'}>
-            <Search placeholder="Search Here" onChange={handleSearch} />
+            <Search
+              placeholder="Search Here"
+              setSearchBy={(value: string) => setSearch(value)}
+            />
             <Button
               variant="contained"
               color="primary"

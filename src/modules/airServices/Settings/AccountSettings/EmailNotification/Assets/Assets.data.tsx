@@ -4,9 +4,8 @@ export const assetsData = [
     heading: 'Asset Notification',
     details: [
       {
-        _id: 1,
+        _id: 'assetsNotificationHardwareWarranty',
         title: 'Hardware Warranty Expiry Notification',
-        value: false,
       },
     ],
   },

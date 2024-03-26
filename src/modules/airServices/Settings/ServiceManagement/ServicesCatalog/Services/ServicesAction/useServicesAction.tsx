@@ -11,13 +11,12 @@ export const useServicesAction = (props: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openVisibilityE1, setOpenVisibilityE1] = useState(false);
   const openMenu = Boolean(anchorEl);
-  // const router = useRouter();
+
   const [deleteServiceCatalog] = useDeleteServiceCatalogMutation({});
   const handleClickMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const { selectedCheckboxes, setSelectedCheckboxes, isDisabled } = props;
-  // const { categoryId } = router?.query;
 
   const handleClickVisibility = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -91,5 +90,6 @@ export const useServicesAction = (props: any) => {
     handleVisibility,
     openVisibilityE1,
     isDisabled,
+    setSelectedCheckboxes,
   };
 };

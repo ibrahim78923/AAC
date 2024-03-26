@@ -2,6 +2,7 @@ import { Box, Divider, Tooltip, Typography } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { AIR_SERVICES } from '@/constants';
+import Link from 'next/link';
 
 export const RolesAndPermissions = () => {
   return (
@@ -66,18 +67,14 @@ export const RolesAndPermissions = () => {
           </Tooltip>
         </Box>
         <Divider variant="middle" style={{ margin: '1rem 0' }} />
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          gap={1}
-          pt={2}
-          flexWrap={'wrap'}
-          component={'a'}
-          href={`${AIR_SERVICES?.USER_ROLES_SETTINGS}`}
-        >
-          <VisibilityIcon color={'primary'} />
-          <Typography color={'primary'}>View Roles and Permissions</Typography>
-        </Box>
+        <Link href={AIR_SERVICES?.USER_ROLES_SETTINGS}>
+          <Box display={'flex'} alignItems={'center'} gap={1} mt={2}>
+            <VisibilityIcon color={'primary'} />
+            <Typography color={'primary'}>
+              View Roles and Permissions
+            </Typography>
+          </Box>
+        </Link>
       </Box>
     </>
   );
