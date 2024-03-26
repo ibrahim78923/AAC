@@ -21,9 +21,10 @@ export const locationAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getByIdLocation: builder.query({
-      query: (id: any) => ({
-        url: `${GET_BY_ID_LOCATION}/{id}?id=${id}`,
+      query: (apiDataParameter: any) => ({
+        url: `${GET_BY_ID_LOCATION}/{id}`,
         method: 'GET',
+        params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
@@ -63,7 +64,7 @@ export const locationAPI = baseAPI?.injectEndpoints({
       query: (apiDataParameter: any) => ({
         url: `${DELETE_CHILD_LOCATION}`,
         method: 'PUT',
-        body: apiDataParameter,
+        body: apiDataParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),

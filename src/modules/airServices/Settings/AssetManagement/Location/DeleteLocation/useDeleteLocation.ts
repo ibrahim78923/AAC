@@ -13,18 +13,19 @@ export const useDeleteLocation = (props: any) => {
     useDeleteChildLocationMutation();
 
   const handleParentDeleteLocation = async () => {
-    if (!!selectedLocation?.childId) {
+    if (!!selectedLocation?.isChild) {
       handleChildDeleteLocation?.();
       return;
     }
     const apiDataParameter = {
       queryParams: {
-        id: selectedLocation,
+        id: selectedLocation?.parentId,
       },
     };
     try {
       await deleteParentLocationTrigger(apiDataParameter)?.unwrap();
-      successSnackbar('Delete successfully');
+      successSnackbar('Location delete successfully');
+      closeDeleteModal?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -38,11 +39,9 @@ export const useDeleteLocation = (props: any) => {
       },
     };
     try {
-      await deleteChildLocationTrigger({
-        apiDataParameter,
-      })?.unwrap();
-
-      successSnackbar('Delete successfully');
+      await deleteChildLocationTrigger(apiDataParameter)?.unwrap();
+      successSnackbar('Child location delete successfully');
+      closeDeleteModal?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

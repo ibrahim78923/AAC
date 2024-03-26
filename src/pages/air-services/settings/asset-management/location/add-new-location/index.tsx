@@ -1,6 +1,6 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import AddNewLocation from '@/modules/airServices/Settings/AssetManagement/Location/AddNewLocation';
+import AddNewLocation from '@/modules/airServices/Settings/AssetManagement/Location/UpsertLocation';
 
 const AddNewLocationPage = () => {
   return <AddNewLocation />;

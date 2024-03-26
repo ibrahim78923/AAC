@@ -17,10 +17,10 @@ export const validationSchemaAddNewLocation = yup.object().shape({
   }),
 });
 
-export const locationDefaultValues: any = (locationData: any) => {
+export const locationDefaultValues: any = (locationData?: any) => {
   return {
     locationName: locationData?.locationName ?? '',
-    parentLocation: locationData?.parentLocation,
+    parentLocation: locationData?.parentLocation ?? '',
     contactName: locationData?.contactName ?? '',
     email: locationData?.email ?? null,
     phone: locationData?.phone ?? null,

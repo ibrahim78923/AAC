@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import {
   validationSchemaAddNewLocation,
   locationDefaultValues,
-} from './AddNewLocation.data';
+} from './UpsertLocation.data';
 import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
 import {
@@ -16,25 +16,32 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useEffect } from 'react';
 
-export const useAddNewLocation = () => {
+export const useUpsertLocation = () => {
   const router = useRouter();
-  const { parentId, childId, type }: any = router.query;
-  const { data, isLoading, isFetching } = useGetByIdLocationQuery(parentId);
-  const { data: childData } = useGetByIdLocationQuery(childId);
-  const childLocationData = childData?.data;
-  const locationData = data?.data;
-  const parentD = { parentLocation: locationData?.locationName };
+  const { parentId, childId, type }: any = router?.query;
+
+  const apiDataParameter = {
+    queryParams: {
+      id: !!childId ? childId : parentId,
+    },
+  };
+
+  const { data, isLoading, isFetching } = useGetByIdLocationQuery(
+    apiDataParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!parentId && !!!childId,
+    },
+  );
+  // const { data: childData } = useGetByIdLocationQuery(childId);
+  // const childData: any = {};
+  // const childLocationData = childData?.data;
+  // const locationData = data?.data;
+  // const parentD = { parentLocation: locationData?.locationName };
+
   const AddNewLocationMethods = useForm({
     resolver: yupResolver(validationSchemaAddNewLocation),
-    defaultValues: locationDefaultValues(
-      type === 'parent-edit'
-        ? locationData
-        : type === 'child'
-          ? parentD
-          : type === 'child-edit'
-            ? childLocationData
-            : null,
-    ),
+    defaultValues: locationDefaultValues(),
   });
   const { reset } = AddNewLocationMethods;
   const [postLocationTrigger, postLocationProgress] = usePostLocationMutation();
@@ -113,18 +120,8 @@ export const useAddNewLocation = () => {
   };
 
   useEffect(() => {
-    reset(
-      locationDefaultValues(
-        type === 'parent-edit'
-          ? locationData
-          : type === 'child'
-            ? parentD
-            : type === 'child-edit'
-              ? childLocationData
-              : null,
-      ),
-    );
-  }, [data, type, locationData, childLocationData]);
+    reset(() => locationDefaultValues(data?.data));
+  }, [data, reset]);
 
   let handleSubmit;
   if (type === 'parent-edit') {

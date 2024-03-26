@@ -1,12 +1,12 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Divider, Grid } from '@mui/material';
-import { addNewLocationDataFields } from './AddNewLocation.data';
-import { useAddNewLocation } from './useAddNewLocation';
+import { addNewLocationDataFields } from './UpsertLocation.data';
+import { useUpsertLocation } from './useUpsertLocation';
 import { LoadingButton } from '@mui/lab';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 
-const AddNewLocation = () => {
+const UpsertLocation = () => {
   const {
     AddNewLocationMethods,
     moveToLocationPage,
@@ -18,8 +18,10 @@ const AddNewLocation = () => {
     handleSubmit,
     isLoading,
     isFetching,
-  } = useAddNewLocation();
+  } = useUpsertLocation();
+
   if (isLoading || isFetching) return <SkeletonForm />;
+
   return (
     <>
       <FormProvider
@@ -82,4 +84,4 @@ const AddNewLocation = () => {
   );
 };
 
-export default AddNewLocation;
+export default UpsertLocation;
