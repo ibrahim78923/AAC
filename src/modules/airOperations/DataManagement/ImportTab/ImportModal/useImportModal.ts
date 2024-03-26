@@ -77,6 +77,13 @@ export const useImportModal = () => {
     }
   };
 
+  const handlePreview = () => {
+    if (importDeals) {
+      const fileURL = URL.createObjectURL(importDeals);
+      window.open(fileURL);
+    }
+  };
+
   useEffect(() => {
     const importedFiles = csvFileData?.map((item: any) => ({
       fileColumn: item?.column,
@@ -115,5 +122,6 @@ export const useImportModal = () => {
     handleSubmit,
     importDeals,
     fields,
+    handlePreview,
   };
 };

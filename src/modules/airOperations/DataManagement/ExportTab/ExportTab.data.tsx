@@ -1,3 +1,4 @@
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { DATE_FORMAT } from '@/constants';
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
@@ -12,6 +13,8 @@ export const exportTabColumnsFunction: any = (
     id: 'id',
     cell: (info: any) => (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={
           !!selectedExportList?.find(
             (item: any) => item?.id === info?.getValue(),
@@ -35,6 +38,8 @@ export const exportTabColumnsFunction: any = (
     ),
     header: (
       <Checkbox
+        icon={<CheckboxIcon />}
+        checkedIcon={<CheckboxCheckedIcon />}
         checked={selectedExportList?.length === exportList?.length}
         onChange={(e: any) => {
           e?.target?.checked
