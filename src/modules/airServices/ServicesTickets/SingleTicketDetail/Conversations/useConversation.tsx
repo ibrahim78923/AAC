@@ -3,21 +3,27 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
-import { v4 as uuidv4 } from 'uuid';
 import ConversationDiscuss from './ConversationDiscuss';
 import ConversationAddComponent from './ConversationAddComponent';
 import {
   conversationAddArticleData,
   conversationForwardArray,
+  conversationModalsDefaultValues,
   conversationNoteArray,
   conversationReplyArray,
   conversationValidationSchema,
   menuOptionsAddConversation,
 } from './Conversation.data';
+import { useSearchParams } from 'next/navigation';
 import {
   NOTISTACK_VARIANTS,
   TICKETS_CONVERSATION_TYPE,
 } from '@/constants/strings';
+import {
+  useGetConversationQuery,
+  usePostConversationMutation,
+} from '@/services/airServices/tickets/single-ticket-details/conversation';
+// import { useSearchParams } from 'next/navigation';
 
 export const UseConversation = () => {
   const [isConversation] = useState<boolean>(true);
@@ -28,19 +34,32 @@ export const UseConversation = () => {
   const [selectedItem, setSelectedItem] = useState(
     menuOptionsAddConversation[0]?.value,
   );
-  const [searchTerm, setSearchTerm] = useState('');
   const [title, setTitle] = useState('');
-  const [filteredContent, setFilteredContent] = useState(
-    conversationAddArticleData,
-  );
+  const [postConversation, { isLoading }] = usePostConversationMutation();
+
   const [editConversationItem, setEditConversationItem] = useState(false);
   const [selectedValues, setSelectedValues] = useState<any>({});
   const theme = useTheme();
-
+  const searchParams = useSearchParams();
   const addConversationModal: any = useForm({
     resolver: yupResolver(conversationValidationSchema(selectedItem)),
-    defaultValues: {},
+    defaultValues: conversationModalsDefaultValues(null),
   });
+  const ticketId = searchParams?.get?.('ticketId');
+  const getEmailParams = {
+    queryParams: {
+      recordId: ticketId,
+    },
+  };
+
+  const {
+    data: emailData,
+    // isFetching,
+    // isError,
+  } = useGetConversationQuery(getEmailParams, {
+    refetchOnMountOrArgChange: true,
+  });
+  // console.log(emailData);
 
   const open = Boolean(addConversation);
 
@@ -54,24 +73,24 @@ export const UseConversation = () => {
   };
   const { handleSubmit, setValue, getValues, reset } = addConversationModal;
 
-  const onSubmit = async () => {
-    try {
-      const successMessage = `${selectedItem} Added Successfully!`;
-      const values = await getValues();
-      setSelectedValues((prevValues: any) => {
-        return {
-          ...prevValues,
-          [uuidv4()]: values,
-        };
-      });
+  // const onSubmit = async () => {
+  //   try {
+  //     const successMessage = `${selectedItem} Added Successfully!`;
+  //     const values = await getValues();
+  //     setSelectedValues((prevValues: any) => {
+  //       return {
+  //         ...prevValues,
+  //         [uuidv4()]: values,
+  //       };
+  //     });
 
-      enqueueSnackbar(successMessage, {
-        variant: NOTISTACK_VARIANTS.SUCCESS,
-      });
-      reset();
-      setShow(false);
-    } catch (error) {}
-  };
+  //     enqueueSnackbar(successMessage, {
+  //       variant: NOTISTACK_VARIANTS.SUCCESS,
+  //     });
+  //     reset();
+  //     setShow(false);
+  //   } catch (error) {}
+  // };
 
   const handleCloseButtonMenu = (e: any = '') => {
     e && setSelectedItem(e);
@@ -79,6 +98,41 @@ export const UseConversation = () => {
     setAddConversation(null);
     setTitle(e);
     e && setValue(e?.toLocaleLowerCase?.(), e);
+  };
+
+  const submitConversation = async (data: any) => {
+    const formData = new FormData();
+    formData.append('type', data.type);
+    formData.append('recipients', data.recipients);
+    formData.append('ccRecipients', data.ccRecipients);
+    formData.append('subject', 'Subject');
+    formData.append('text', data.text);
+    // const params = {
+    //   type: data?.type,
+    //   recaipients: data?.recaipients,
+    //   ccRecipients: data?.ccRecipients,
+    //   subject: 'ghg',
+    //   text: data?.text,
+    //   attachments: data?.attachments,
+    // };
+    // console.log('Data submitted to the API: ', data);
+    // console.log(formData);
+
+    try {
+      const res = await postConversation(formData)?.unwrap();
+      enqueueSnackbar(res?.message && 'Add Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      // addConversationModal?.reset();
+    } catch (error: any) {
+      enqueueSnackbar(error?.error?.message ?? 'An error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
+  const onSubmit = () => {
+    addConversationModal.handleSubmit(submitConversation)();
   };
 
   const getArrayByTitle = (title: any) => {
@@ -118,13 +172,6 @@ export const UseConversation = () => {
   };
 
   useEffect(() => {
-    const filteredData = conversationAddArticleData?.filter(
-      (item) => item?.title?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
-    );
-    setFilteredContent(filteredData);
-  }, [searchTerm]);
-
-  useEffect(() => {
     renderSelectedComponent();
   }, [selectedItem]);
 
@@ -144,13 +191,15 @@ export const UseConversation = () => {
     title,
     renderSelectedComponent,
     theme,
-    searchTerm,
-    filteredContent,
-    setSearchTerm,
     conversationAddArticleData,
     setValue,
     selectedValues,
     editConversationItem,
     handleEdit,
+    isLoading,
+    setSelectedValues,
+    reset,
+    getValues,
+    emailData,
   };
 };

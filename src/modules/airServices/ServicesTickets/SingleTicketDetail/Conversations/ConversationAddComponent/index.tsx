@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
+
 import CommonDrawer from '@/components/CommonDrawer';
 import ConversationArticleSelect from '../ConversationArticleSelect';
 
@@ -27,7 +27,13 @@ const ConversationAddComponent = ({
       <FormProvider methods={addConversationModal}>
         <Grid container spacing={2}>
           {dataArray?.map((item: any) => (
-            <Grid item xs={12} md={item?.md} key={uuidv4()} mb={item?.mb || ''}>
+            <Grid
+              item
+              xs={12}
+              md={item?.md}
+              key={item?._id}
+              mb={item?.mb || ''}
+            >
               <Grid item xs={12} md={item?.md}>
                 <item.component
                   {...item?.componentProps}
@@ -36,7 +42,7 @@ const ConversationAddComponent = ({
                 >
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
-                      <option key={uuidv4()} value={option?.value}>
+                      <option key={item?._id} value={option?.value}>
                         {option?.label}
                       </option>
                     ))}

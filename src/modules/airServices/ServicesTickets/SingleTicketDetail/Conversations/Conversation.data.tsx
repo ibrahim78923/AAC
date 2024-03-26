@@ -10,44 +10,47 @@ export const conversationValidationSchema = (action: any) => {
   switch (action) {
     case TICKETS_CONVERSATION_TYPE?.NOTE:
       return Yup?.object()?.shape({
-        note: Yup?.string()?.required('Required Field'),
-        notify: Yup?.string()?.required('Required Field'),
-        description: Yup?.string()?.trim()?.required('Required Field'),
-        file: Yup?.string()?.trim()?.required('Required Field'),
+        type: Yup?.string()?.required('Required Field'),
+        recaipients: Yup?.string()?.required('Required Field'),
+        text: Yup?.string()?.trim()?.required('Required Field'),
+        attachments: Yup?.string()?.trim()?.required('Required Field'),
       });
     case TICKETS_CONVERSATION_TYPE?.REPLY:
       return Yup?.object()?.shape({
-        reply: Yup?.string()?.required('Required Field'),
-        replyFrom: Yup?.string()?.required('Required Field'),
-        replyTo: Yup?.string()?.required('Required Field'),
-        description: Yup?.string()?.trim()?.required('Required Field'),
-        file: Yup?.string()?.trim()?.required('Required Field'),
+        type: Yup?.string()?.required('Required Field'),
+        recaipients: Yup?.string()?.required('Required Field'),
+        ccRecipients: Yup?.string()?.required('Required Field'),
       });
     case TICKETS_CONVERSATION_TYPE?.FORWARD:
       return Yup?.object()?.shape({
-        forward: Yup?.string()?.required('Required Field'),
-        forwardFrom: Yup?.string()?.required('Required Field'),
-        forwardTo: Yup?.string()?.required('Required Field'),
-        description: Yup?.string()?.trim()?.required('Required Field'),
-        file: Yup?.string()?.required('Required Field'),
+        type: Yup?.string()?.required('Required Field'),
+        recaipients: Yup?.string()?.required('Required Field'),
+        ccRecipients: Yup?.string()?.required('Required Field'),
       });
     default:
       return Yup?.object()?.shape({});
   }
 };
 
-export const conversationModalsDefaultValues: any = {
-  note: '',
-  notify: '',
-  description: '',
-  file: '',
-  reply: '',
-  replyFrom: '',
-  replyTo: '',
-  forward: '',
-  forwardFrom: '',
-  forwardTo: '',
+export const conversationModalsDefaultValues = (data: any) => {
+  const taskData = data?.[0];
+  return {
+    type: taskData?.type ?? '',
+    recaipients: taskData?.recaipients ?? '',
+    text: taskData?.text ?? null,
+    ccRecipients: taskData?.ccRecipients ?? '',
+    attachments: taskData?.attachments ?? '',
+  };
 };
+// export const conversationModalsDefaultValues: any = {
+//   type: '',
+//   recaipients: '',
+//   text: '',
+//   attachments: '',
+//   // reply: '',
+//   ccRecipients: '',
+//   // forward: '',
+// };
 
 export const conversationOptions = [
   { value: 'Forward', label: 'Forward' },
@@ -58,7 +61,7 @@ export const conversationOptions = [
 export const conversationNoteArray = [
   {
     componentProps: {
-      name: 'note',
+      name: 'type',
       label: 'Note',
       fullWidth: true,
       select: true,
@@ -72,7 +75,7 @@ export const conversationNoteArray = [
   },
   {
     componentProps: {
-      name: 'notify',
+      name: 'recaipients',
       label: 'Notify to',
       placeholder: 'Search Email',
       fullWidth: true,
@@ -83,7 +86,7 @@ export const conversationNoteArray = [
   },
   {
     componentProps: {
-      name: 'description',
+      name: 'text',
       label: 'Description',
       fullWidth: true,
       required: true,
@@ -95,7 +98,7 @@ export const conversationNoteArray = [
   },
   {
     componentProps: {
-      name: 'file',
+      name: 'attachments',
       label: '',
       fullWidth: true,
     },
@@ -120,7 +123,7 @@ export const conversationReplyArray = [
   },
   {
     componentProps: {
-      name: 'replyFrom',
+      name: 'recaipients',
       label: 'From',
       fullWidth: true,
     },
@@ -138,7 +141,7 @@ export const conversationReplyArray = [
   },
   {
     componentProps: {
-      name: 'description',
+      name: 'text',
       label: 'Description',
       fullWidth: true,
       style: { height: '20vh' },
@@ -149,7 +152,7 @@ export const conversationReplyArray = [
   },
   {
     componentProps: {
-      name: 'file',
+      name: 'attachments',
       label: '',
       fullWidth: true,
     },
@@ -172,7 +175,7 @@ export const conversationForwardArray = [
   },
   {
     componentProps: {
-      name: 'forwardFrom',
+      name: 'recaipients',
       label: 'From',
       fullWidth: true,
     },
@@ -181,7 +184,7 @@ export const conversationForwardArray = [
   },
   {
     componentProps: {
-      name: 'forwardTo',
+      name: 'ccRecipients',
       label: 'From to',
       fullWidth: true,
     },
@@ -190,7 +193,7 @@ export const conversationForwardArray = [
   },
   {
     componentProps: {
-      name: 'description',
+      name: 'text',
       label: 'Description',
       fullWidth: true,
       style: { height: '20vh' },
@@ -201,7 +204,7 @@ export const conversationForwardArray = [
   },
   {
     componentProps: {
-      name: 'file',
+      name: 'attachments',
       label: '',
       fullWidth: true,
     },
