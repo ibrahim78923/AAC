@@ -33,7 +33,7 @@ const CustomizeColumns = ({ open, onClose }: any) => {
             droppableId={`columnWrapper`}
             direction="vertical"
           >
-            {(provided) => (
+            {(provided: any) => (
               <Box
                 sx={{ userSelect: 'none', width: '100%' }}
                 ref={provided?.innerRef}
@@ -47,7 +47,7 @@ const CustomizeColumns = ({ open, onClose }: any) => {
                         draggableId={col?.slug}
                         index={i}
                       >
-                        {(provided) => (
+                        {(provided: any) => (
                           <Box
                             ref={provided?.innerRef}
                             {...provided?.draggableProps}

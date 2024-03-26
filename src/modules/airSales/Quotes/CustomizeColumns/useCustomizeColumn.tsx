@@ -22,8 +22,8 @@ const useCustomizeColumn = ({ onClose }: any) => {
 
   const columnsData = getCustomizeColumns?.data?.columns;
 
-  const activeColumns = getCustomizeColumns?.data?.columns?.filter(
-    (column: any) => column?.active === true,
+  const activeColumns = columnsData?.filter(
+    (column: { active: boolean }) => column?.active,
   );
 
   const [order, setOrder] = useState(columnsData);
@@ -42,12 +42,12 @@ const useCustomizeColumn = ({ onClose }: any) => {
         await putCustomizedColumns({
           body: {
             userId: user?._id,
-            type: 'companies',
+            type: 'quotes',
             columns,
           },
         })
           .unwrap()
-          .then((data) => {
+          .then((data: any) => {
             if (data?.data) {
               onClose();
               enqueueSnackbar(`Columns customized successfully`, {
@@ -67,11 +67,11 @@ const useCustomizeColumn = ({ onClose }: any) => {
   const handleChackboxChange = (checked: boolean, col: any, i: number) => {
     const newArr = [...columns];
     if (checked) {
-      setSelected((prevSelected) => [...prevSelected, col?.slug]);
+      setSelected((prevSelected: any) => [...prevSelected, col?.slug]);
       newArr[i].active = checked;
     } else if (selected?.includes(col?.slug)) {
       setSelected(
-        (prevSelected) =>
+        (prevSelected: any) =>
           prevSelected?.filter((val: string) => val !== col?.slug),
       );
       newArr[i].active = false;

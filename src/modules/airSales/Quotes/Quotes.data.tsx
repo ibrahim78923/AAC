@@ -1,4 +1,6 @@
+import { DATE_FORMAT } from '@/constants';
 import { Box, Checkbox } from '@mui/material';
+import dayjs from 'dayjs';
 
 export const quotesColumns = (
   selectedRow: any,
@@ -60,19 +62,23 @@ export const quotesColumns = (
       return info?.row?.original?.deal.amount ?? 'N/A';
     } else if (attribute === 'status') {
       return info?.row?.original?.status ?? 'N/A';
-    } else if (attribute === 'assignTo') {
-      return info?.row?.original?.assignTo ?? 'N/A';
+    } else if (attribute === 'deal.name') {
+      return info?.row?.original?.deal?.name ?? 'N/A';
+    } else if (attribute?.includes('createdBy')) {
+      const name =
+        info?.row?.original?.createdBy?.firstName +
+        ' ' +
+        info?.row?.original?.createdBy?.lastName;
+      return name ?? 'N/A';
+    } else if (attribute === 'createdAt') {
+      return info?.row?.original?.createdAt ?? 'N/A';
+    } else if (attribute === 'expiryDate') {
+      return (
+        dayjs(info?.row?.original?.expiryDate).format(DATE_FORMAT?.API) ?? 'N/A'
+      );
+    } else {
+      return info?.row?.original[attribute] ?? 'N/A';
     }
-    // else if (attribute === 'createdBy') {
-    //   return  info?.row?.original?.createdBy ?? 'N/A';
-
-    // }
-    //  else if (attribute === 'createdBy.firstName createdBy.lastName') {
-    //   const url = info?.row?.original?.createdBy;
-    //   return <></>;
-    // } else {
-    //   return info?.row?.original[attribute] ?? 'N/A';
-    // }
   };
 
   const checkboxColumn = {
@@ -90,17 +96,19 @@ export const quotesColumns = (
     ),
     header: (info: any) => {
       const rows = info?.table?.options?.data;
-      <Checkbox
-        color="primary"
-        indeterminate={
-          selectedRow?.length > 0 && selectedRow?.length < rows?.length
-        }
-        checked={
-          rows?.length > 0 &&
-          selectedRow?.length === info?.table?.options?.data?.length
-        }
-        onChange={(event) => handleSelectAllClick(event, rows)}
-      />;
+      return (
+        <Checkbox
+          color="primary"
+          indeterminate={
+            selectedRow?.length > 0 && selectedRow?.length < rows?.length
+          }
+          checked={
+            rows?.length > 0 &&
+            selectedRow?.length === info?.table?.options?.data?.length
+          }
+          onChange={(event) => handleSelectAllClick(event, rows)}
+        />
+      );
     },
     isSortable: false,
   };

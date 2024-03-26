@@ -12,6 +12,7 @@ import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
+import { useGetSalesProductlineItemQuery } from '@/services/airSales/quotes';
 
 interface Filters {
   page: number;
@@ -81,6 +82,7 @@ const useDealTab = () => {
     const dateEnd = obj?.apiUrl?.match(/dateEnd=([^&]*)/)[1];
     return { dateStart, dateEnd, name: obj?.name };
   });
+  const { data: salesProduct } = useGetSalesProductlineItemQuery({});
 
   const tabsArray = [{ name: 'All Deals', dateStart: '', dateEnd: '' }]?.concat(
     dealListApiUrl,
@@ -261,6 +263,7 @@ const useDealTab = () => {
     pipelineData,
     dealCustomzieCol,
     activeColumns,
+    salesProduct,
   };
 };
 

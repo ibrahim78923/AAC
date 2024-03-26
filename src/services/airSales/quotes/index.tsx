@@ -151,13 +151,13 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
-    updateSalesProductQuote: builder.mutation({
+    getSalesProductlineItem: builder.query({
       query: ({ body }: any) => ({
-        // url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
-        method: 'PATCH',
+        url: `${END_POINTS?.SALE_PRODUCTS}`,
+        method: 'GET',
         body: body,
       }),
-      invalidatesTags: TAG,
+      providesTags: TAG,
     }),
 
     updateProductById: builder.mutation({
@@ -199,6 +199,14 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    putSubmitQuote: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.QUOTE_SUBMIT}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -226,4 +234,6 @@ export const {
   useGetCustomizeColumnQuery,
   useDeleteCompaniesMutation,
   useDeleteContactsMutation,
+  useGetSalesProductlineItemQuery,
+  usePutSubmitQuoteMutation,
 } = quotesAPI;

@@ -27,9 +27,8 @@ export const defaultValues = {
 };
 export const createDealData = ({ dealPiplineId }: any) => {
   const userRole = 'ORG_EMPLOYEE';
-  const { pipelineData } = useDealTab();
+  const { pipelineData, salesProduct } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: userRole });
-
   const filteredStages =
     pipelineData?.data?.dealpipelines?.find(
       (pipeline: any) => pipeline?._id === dealPiplineId,
@@ -121,13 +120,10 @@ export const createDealData = ({ dealPiplineId }: any) => {
         label: 'Add Line Item',
         select: true,
       },
-      options: [
-        { value: 'Sample Product: £20', label: 'Sample Product: £20' },
-        {
-          value: 'Orcalo Product: £5/month',
-          label: 'Orcalo Product: £5/month',
-        },
-      ],
+      options: salesProduct?.data?.salesproducts?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.name}`,
+      })) ?? [{ label: '', value: '' }],
       component: RHFSelect,
     },
     {

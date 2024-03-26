@@ -15,10 +15,12 @@ import {
   useGetDealsQuery,
   useGetQuoteByIdQuery,
   usePostAddbuyerInfoMutation,
+  usePutSubmitQuoteMutation,
   // usePostAddbuyerInfoMutation,
   useUpdateQuoteMutation,
 } from '@/services/airSales/quotes';
 import { AIR_SALES } from '@/routesConstants/paths';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useUpdateQuote = () => {
   const router = useRouter();
@@ -26,18 +28,15 @@ const useUpdateQuote = () => {
   if (router?.query?.data) {
     quoteId = router?.query?.data;
   }
-  // const id = router?.query?.data;
-  // console.log(quoteId, 'quoteIdquoteIdquoteIdquoteId');
-  // const [selectedRow, setSelectedRow]: any = useState([]);
 
   const [createAssociationQuote] = useCreateAssociationQuoteMutation();
-
   const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 100 });
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
   const [deleteCompaniesMutation, { isLoading: isCompanyDeleteLoading }] =
     useDeleteCompaniesMutation();
   const [deleteContacts, { isLoading: isContactDeleteLoading }] =
     useDeleteContactsMutation();
+  const [putSubmitQuote] = usePutSubmitQuoteMutation();
 
   const [selectedBuyerContactIds, setSelectedBuyerContactIds] = useState<
     string | null
@@ -90,9 +89,16 @@ const useUpdateQuote = () => {
   }, [singleQuote]);
 
   const onSubmit = async () => {
-    enqueueSnackbar('Form Submitted', {
-      variant: 'success',
-    });
+    try {
+      putSubmitQuote({ id: quoteId, isSubmitted: true });
+      enqueueSnackbar('Save as draft submit later', {
+        variant: 'success',
+      });
+    } catch (error) {
+      enqueueSnackbar(`Something went wrong`, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
   const handleDeleteCompanies = async () => {

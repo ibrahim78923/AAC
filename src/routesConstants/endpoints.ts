@@ -64,6 +64,7 @@ export const END_POINTS = {
   DELETE_INVENTORY_ASSOCIATIONS_LIST: '/assets/delete-ticket-association',
   ASSETS_INVENTORY_Associations: '/assets/inventory-association-list',
   QUOTE: '/quote',
+  QUOTE_SUBMIT: '/quote/submit',
   GET_COMPANY_ORGANIZATION_DROPDOWN: '/dropdown/organizations',
   GET_COMPANY_ACCOUNTS: '/company-accounts',
   SALE_PRODUCTS: '/sales-product',
