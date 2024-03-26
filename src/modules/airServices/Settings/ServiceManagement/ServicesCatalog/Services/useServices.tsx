@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
-//import { allServicesData } from './Services.data';
 import {
   useGetServiceCatalogCategoriesQuery,
   useGetServiceCatalogQuery,
@@ -12,7 +11,7 @@ const useServices = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  // const subQuery = router?.query?.subQuery;
+
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
   const [open, setOpen] = useState(false);
 
@@ -51,6 +50,8 @@ const useServices = () => {
   );
 
   const results = data?.data;
+  const paginationData = Categories?.data?.meta;
+
   const isAnyCheckboxSelected = () => {
     return selectedCheckboxes.length > 0;
   };
@@ -71,6 +72,7 @@ const useServices = () => {
     isSuccess,
     handlePageChange,
     isAnyCheckboxSelected,
+    paginationData,
   };
 };
 

@@ -55,6 +55,7 @@ export const useAddPlan = () => {
   const [postPlanMangement, isLoading] = usePostPlanMangementMutation();
   const [updatePlanMangement] = useUpdatePlanMangementMutation();
   const router: any = useRouter();
+  const { query } = router;
   let parsedRowData: any;
   if (router?.query?.data) {
     parsedRowData = JSON.parse(router?.query?.data);
@@ -126,6 +127,8 @@ export const useAddPlan = () => {
   const {
     handleSubmit: handleSubmitPlanModules,
     formState: { errors },
+    watch: watchPermissionSlugs,
+    setValue: setPermissionSlugs,
   } = methodsPlanModules;
   const AdditionalStorageValue = watch(['allowAdditionalStorage']);
   const AdditionalUsereValue = watch(['allowAdditionalUsers']);
@@ -213,6 +216,37 @@ export const useAddPlan = () => {
       }
     }
   };
+  useEffect(() => {
+    if (singlePlan && query.type === 'edit') {
+      setPermissionSlugs(
+        'permissionSlugs',
+        singlePlan.data.planProductPermissions[0].permissionSlugs,
+      );
+    }
+  }, [singlePlan]);
+  const selectedPermission = watchPermissionSlugs('permissionSlugs');
+
+  const getModulePermissions = (subModules: any) => {
+    return subModules?.flatMap((firstItem: any) => {
+      return firstItem?.permissions?.map((item: any) => item?.slug);
+    });
+  };
+  const selectAllPermissions = (subModules: any) => {
+    let permissionsArray = [];
+    const modulePermissions = getModulePermissions(subModules);
+    if (
+      !modulePermissions?.every(
+        (permission: any) => selectedPermission?.includes(permission),
+      )
+    ) {
+      permissionsArray = modulePermissions?.concat(selectedPermission);
+    } else {
+      permissionsArray = selectedPermission?.filter(
+        (permission: any) => !modulePermissions?.includes(permission),
+      );
+    }
+    setPermissionSlugs('permissionSlugs', permissionsArray);
+  };
   const onSubmitPlanFeaturesHandler = async (values: any) => {
     const featuresData = values?.features?.map((item: any) => {
       // const productId = productFeatures?.data?.productfeatures?.find(
@@ -241,10 +275,11 @@ export const useAddPlan = () => {
     const permissionSlugToFind: any = values?.permissionSlugs;
     const productNamesWithPermissions: any = [];
 
-    SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS?.forEach((permissionData) => {
-      permissionData.Sub_Modules?.forEach((subModule) => {
+    SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS?.forEach((permissionData: any) => {
+      permissionData.Sub_Modules?.forEach((subModule: any) => {
         const matchingPermissions = subModule?.permissions?.filter(
-          (permission) => permissionSlugToFind?.includes(permission?.value),
+          (permission: any) =>
+            permissionSlugToFind?.includes(permission?.value),
         );
 
         if (!isNullOrEmpty(matchingPermissions)) {
@@ -395,6 +430,9 @@ export const useAddPlan = () => {
           methods={methodsPlanModules}
           handleSubmit={handlePlanModules}
           errors={errors}
+          selectAllPermissions={selectAllPermissions}
+          getModulePermissions={getModulePermissions}
+          selectedPermission={selectedPermission}
           editPlan={singlePlan?.data}
         />
       ),
@@ -456,7 +494,7 @@ export const useAddPlan = () => {
     activeStep,
     handleSubmit,
     hanldeGoBack,
-
+    watchPermissionSlugs,
     addPlanFormValues,
     AddPlanStepperData,
     handleCompleteStep,

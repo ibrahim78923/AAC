@@ -1,12 +1,13 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES, DATE_TIME_FORMAT } from '@/constants';
+import { truncateText } from '@/utils/avatarUtils';
 import { Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
 export const purchaseOrderColumnsFunction = (
   purchaseOrderData: any,
   setPurchaseOrderData: any,
-  purchaseData: any,
+  purchaseData: any = [],
   router: any,
 ): any => {
   return [
@@ -60,7 +61,7 @@ export const purchaseOrderColumnsFunction = (
       accessorFn: (row: any) => row?.orderNumber,
       id: 'orderNumber',
       isSortable: true,
-      header: <span>Order Number</span>,
+      header: 'Order Number',
       cell: (info: any) => (
         <Typography
           component="span"
@@ -82,22 +83,22 @@ export const purchaseOrderColumnsFunction = (
     {
       accessorFn: (row: any) => row?.orderName,
       id: 'orderName',
-      header: <span>Order Name</span>,
+      header: 'Order Name',
       isSortable: true,
       cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.vendorId,
+      accessorFn: (row: any) => row?.vendors,
       id: 'vendorId',
       isSortable: true,
-      header: <span>Vendor</span>,
-      cell: (info: any) => info?.getValue(),
+      header: 'Vendor',
+      cell: (info: any) => truncateText(info?.getValue()?.name),
     },
     {
       accessorFn: (row: any) => row?.expectedDeliveryDate,
       id: 'expectedDeliveryDate',
       isSortable: true,
-      header: <span>Expected Delivery Date</span>,
+      header: 'Expected Delivery Date',
       cell: (info: any) =>
         dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
     },
@@ -105,14 +106,14 @@ export const purchaseOrderColumnsFunction = (
       accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
-      header: <span>Status</span>,
+      header: 'Status',
       cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.subTotal,
       id: 'subTotal',
       isSortable: true,
-      header: <span>Total Cost (£)</span>,
+      header: 'Total Cost (£)',
       cell: (info: any) => info?.getValue(),
     },
   ];

@@ -1,3 +1,4 @@
+import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
 import { EmailNotification } from '@/modules/airServices/Settings/AccountSettings/EmailNotification';
 
@@ -8,5 +9,11 @@ const EmailNotificationPage = () => {
 export default EmailNotificationPage;
 
 EmailNotificationPage.getLayout = function getLayout(page: any) {
-  return <Layout>{page}</Layout>;
+  return (
+    <Layout
+      permissions={Permissions?.AIR_SERVICES_SETTINGS_EMAIL_NOTIFICATIONS}
+    >
+      {page}
+    </Layout>
+  );
 };

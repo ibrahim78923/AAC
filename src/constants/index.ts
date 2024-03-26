@@ -37,7 +37,7 @@ export const DATE_TIME_FORMAT = {
 
 export const VALIDATION_CONSTANT = {
   PHONE_NUMBER: {
-    regex: /^\+44[0-9]{10}$/,
+    regex: /^\+447[0-9]{9}$/,
     message: 'Only UK phone number',
   },
 };
@@ -128,6 +128,7 @@ export const AIR_SERVICES = {
 };
 
 export const AIR_CUSTOMER_PORTAL = {
+  DASHBOARD: `/air-customer-portal`,
   TICKETS: `/air-customer-portal/tickets`,
   SINGLE_TICKETS: `/air-customer-portal/tickets/single-ticket`,
   KNOWLEDGE_BASE: '/air-customer-portal/knowledge-base',

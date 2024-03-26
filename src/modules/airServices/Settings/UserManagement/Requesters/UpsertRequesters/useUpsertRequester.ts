@@ -3,22 +3,24 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
+  upsertRequestersArray,
   upsertRequestersDefaultValues,
   upsertRequestersValidationSchema,
 } from './UpsertRequesters.data';
+
+import { useRouter } from 'next/router';
 import {
   usePatchRequesterMutation,
   usePostAddRequesterMutation,
-} from '@/services/airServices/settings/user-management';
-import { useRouter } from 'next/router';
+} from '@/services/airServices/settings/user-management/requesters';
 
 export const useUpsertRequester = (props: any) => {
-  const { setIsDrawerOpen } = props;
+  const { setIsDrawerOpen, singleRequesterDetails } = props;
   const router = useRouter();
   const { _id } = router?.query;
   const methods: any = useForm({
     resolver: yupResolver(upsertRequestersValidationSchema),
-    defaultValues: upsertRequestersDefaultValues(null),
+    defaultValues: upsertRequestersDefaultValues(singleRequesterDetails),
   });
   const { handleSubmit, reset } = methods;
   const [patchRequesterTrigger, patchRequesterStatus] =
@@ -41,7 +43,7 @@ export const useUpsertRequester = (props: any) => {
       return;
     }
     try {
-      await addRequesterTrigger(payload).unwrap();
+      await addRequesterTrigger(payload)?.unwrap();
       successSnackbar('Requesters Added Successfully');
       handleClose?.();
     } catch (error: any) {
@@ -50,24 +52,30 @@ export const useUpsertRequester = (props: any) => {
   };
 
   const editRequesterDetails = async (data: any) => {
+    delete data?.email;
+    delete data?.role;
     const formData = {
       id: _id,
       ...data,
     };
     try {
       await patchRequesterTrigger(formData)?.unwrap();
-      successSnackbar('Single Requesters Edit  Successfully');
-      setIsDrawerOpen(false);
+      successSnackbar('Requesters edit successfully');
+      handleClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
-    handleClose?.();
   };
 
   const handleClose = () => {
     setIsDrawerOpen(false);
     reset?.();
   };
+
+  const upsertRequestersFormFields = upsertRequestersArray?.(
+    singleRequesterDetails,
+  );
+
   return {
     handleClose,
     methods,
@@ -76,5 +84,6 @@ export const useUpsertRequester = (props: any) => {
     addRequesterStatus,
     patchRequesterStatus,
     _id,
+    upsertRequestersFormFields,
   };
 };

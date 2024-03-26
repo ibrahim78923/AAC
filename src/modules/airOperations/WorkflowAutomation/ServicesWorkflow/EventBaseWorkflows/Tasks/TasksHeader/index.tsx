@@ -10,17 +10,16 @@ import { Permissions } from '@/constants/permissions';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 
-const TasksHeader = ({ selectedTasksList }: any) => {
-  const {
-    searchValue,
-    setSearchValue,
-    dropdownOptions,
-    isDrawerOpen,
-    setIsDrawerOpen,
-    router,
-    setDeleteWorkflow,
-    deleteWorkflow,
-  } = useTasksHeader();
+const TasksHeader = ({
+  selectedTasksList,
+  setSearch,
+  search,
+  onSubmitTaskFilter,
+  isDrawerOpen,
+  setIsDrawerOpen,
+}: any) => {
+  const { dropdownOptions, router, setDeleteWorkflow, deleteWorkflow } =
+    useTasksHeader();
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -31,10 +30,9 @@ const TasksHeader = ({ selectedTasksList }: any) => {
             ]}
           >
             <Search
-              value={searchValue}
               label="Search Here"
-              setSearchBy={setSearchValue}
-              onChange={(e: any) => setSearchValue(e?.target?.value)}
+              searchBy={search}
+              setSearchBy={setSearch}
             />
           </PermissionsGuard>
         </Box>
@@ -82,6 +80,7 @@ const TasksHeader = ({ selectedTasksList }: any) => {
       <FilterWorkflow
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
+        onSubmitFilter={onSubmitTaskFilter}
       />
       <EventBasedWorkflowDelete
         deleteWorkflow={deleteWorkflow}

@@ -49,6 +49,7 @@ import { styles } from './Layout.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { enqueueSnackbar } from 'notistack';
 import { CHAT_SOCKETS } from '@/routesConstants/paths';
+import { AIR_CUSTOMER_PORTAL } from '@/constants';
 
 const drawerWidth = 230;
 
@@ -91,17 +92,27 @@ const DashboardLayout = ({ children, window }: any) => {
   const theme = useTheme();
 
   const router = useRouter();
+  const currentPath = router.pathname;
+  const pathSegments = currentPath.slice(1).split('/');
 
-  const product = getActiveProductSession();
+  const basePath = pathSegments[0];
+
+  let productName = '';
+  if (`/${basePath}` === AIR_CUSTOMER_PORTAL.DASHBOARD) {
+    productName = 'Customer Portal';
+  } else {
+    productName = getActiveProductSession()?.name;
+  }
+
   //   const findRoleByEmail = ({ user, array }: any) => {
   //     return array?.find((skill: any) => skill?.email === user?.email);
   //   };
 
   // const findEmail: any = findRoleByEmail({ user, array });
 
-  const routes = getRoutes(product?.name);
+  const routes = getRoutes(productName);
 
-  const lowerRoutes = getLowerRoutes(product?.name);
+  const lowerRoutes = getLowerRoutes(productName);
   const pathname = usePathname();
 
   const routerPathName = pathname?.split('/')[2] ?? pathname?.split('/')[1];
@@ -137,7 +148,7 @@ const DashboardLayout = ({ children, window }: any) => {
                 textTransform: 'uppercase',
               }}
             >
-              {product?.name}
+              {productName}
             </Typography>
           </Box>
         </Box>
@@ -244,7 +255,9 @@ const DashboardLayout = ({ children, window }: any) => {
                         <Link key={uuidv4()} href={`${link?.key}`}>
                           <ListItem
                             sx={{ padding: '6px 0px 6px 0px' }}
-                            onClick={() => setDropDownOpen({})}
+                            onClick={() => {
+                              setDropDownOpen({});
+                            }}
                           >
                             <ListItemButton
                               sx={styles?.mainNavLink(

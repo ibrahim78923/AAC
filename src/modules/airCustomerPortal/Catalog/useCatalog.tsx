@@ -43,6 +43,7 @@ const useCatalog = () => {
   });
 
   const results = services?.data;
+
   useEffect(() => {
     if (results) {
       setResult(results);
@@ -94,6 +95,7 @@ const useCatalog = () => {
     setSearch,
     open,
     setOpen,
+    router,
   };
 };
 

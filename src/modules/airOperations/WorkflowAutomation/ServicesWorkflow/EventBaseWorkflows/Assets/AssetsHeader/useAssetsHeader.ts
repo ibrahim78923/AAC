@@ -6,8 +6,6 @@ import { ACTIONS_TYPES } from '@/constants/strings';
 
 export const useAssetsHeader = () => {
   const router = useRouter();
-  const [searchValue, setSearchValue] = useState<string>('');
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [deleteWorkflow, setDeleteWorkflow] = useState(false);
   const EDIT_WORKFLOW = 'edit';
 
@@ -25,10 +23,6 @@ export const useAssetsHeader = () => {
   };
   const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);
   return {
-    searchValue,
-    setSearchValue,
-    isDrawerOpen,
-    setIsDrawerOpen,
     dropdownOptions,
     router,
     setDeleteWorkflow,

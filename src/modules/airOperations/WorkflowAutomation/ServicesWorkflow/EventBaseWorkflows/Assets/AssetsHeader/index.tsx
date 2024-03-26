@@ -10,17 +10,16 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
 
-const AssetsHeader = ({ selectedAssetsList }: any) => {
-  const {
-    searchValue,
-    setSearchValue,
-    isDrawerOpen,
-    setIsDrawerOpen,
-    dropdownOptions,
-    router,
-    setDeleteWorkflow,
-    deleteWorkflow,
-  } = useAssetsHeader();
+const AssetsHeader = ({
+  selectedAssetsList,
+  setSearch,
+  search,
+  onSubmitAssetsFilter,
+  isDrawerOpen,
+  setIsDrawerOpen,
+}: any) => {
+  const { dropdownOptions, router, setDeleteWorkflow, deleteWorkflow } =
+    useAssetsHeader();
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -31,10 +30,9 @@ const AssetsHeader = ({ selectedAssetsList }: any) => {
             ]}
           >
             <Search
-              value={searchValue}
               label="Search Here"
-              setSearchBy={setSearchValue}
-              onChange={(e: any) => setSearchValue(e?.target?.value)}
+              searchBy={search}
+              setSearchBy={setSearch}
             />
           </PermissionsGuard>
         </Box>
@@ -82,6 +80,7 @@ const AssetsHeader = ({ selectedAssetsList }: any) => {
       <FilterWorkflow
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
+        onSubmitFilter={onSubmitAssetsFilter}
       />
       <EventBasedWorkflowDelete
         deleteWorkflow={deleteWorkflow}

@@ -21,6 +21,7 @@ import {
   dealPipelinesvalidationSchema,
   dealPipelinesDefaultValues,
 } from './DealPipelines.data';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 interface Props {
   open: boolean;
@@ -54,7 +55,7 @@ export function CustomField({
 
   const [getDealsPipelineByIdQuery, { isLoading }] =
     useLazyGetDealsPipelineByIdQuery();
-  const { disabled, skeletonLines, theme } = useDealPipelines();
+  const { disabled, theme } = useDealPipelines();
   useEffect(() => {
     if (id?.length > 0 && isEditMode) {
       getDealsPipelineByIdQuery(id)
@@ -97,7 +98,7 @@ export function CustomField({
       isLoading={loading}
     >
       {isLoading ? (
-        skeletonLines
+        <SkeletonTable />
       ) : (
         <form>
           <Grid item xs={12}>

@@ -12,7 +12,7 @@ export const departmentFormValidation: any = Yup?.object()?.shape({
   name: Yup?.string()?.required('Name is required'),
   departmentHeadDetails: Yup?.mixed()?.required('Department head is required'),
   description: Yup?.string(),
-  membersListDetails: Yup?.array()?.min(1, 'Member is Required'),
+  membersListDetails: Yup?.array()?.min(1, 'Member is required'),
 });
 
 export const departmentFormValues: any = (data: any) => {
