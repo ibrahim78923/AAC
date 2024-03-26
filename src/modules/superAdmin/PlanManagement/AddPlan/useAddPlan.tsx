@@ -231,8 +231,8 @@ export const useAddPlan = () => {
       return firstItem?.permissions?.map((item: any) => item?.slug);
     });
   };
+  let permissionsArray: any = [];
   const selectAllPermissions = (subModules: any) => {
-    let permissionsArray = [];
     const modulePermissions = getModulePermissions(subModules);
     if (
       !modulePermissions?.every(
@@ -272,7 +272,8 @@ export const useAddPlan = () => {
   };
 
   const onSubmitPlanModulesHandler = async (values: any) => {
-    const permissionSlugToFind: any = values?.permissionSlugs;
+    const permissionSlugToFind: any =
+      values?.permissionSlugs ?? permissionsArray;
     const productNamesWithPermissions: any = [];
 
     SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS?.forEach((permissionData: any) => {
@@ -351,9 +352,14 @@ export const useAddPlan = () => {
               },
             })?.unwrap();
         setTimeout(function () {
-          enqueueSnackbar('Plan Added Successfully', {
-            variant: 'success',
-          });
+          enqueueSnackbar(
+            parsedRowData
+              ? 'Plan Updated Successfully'
+              : 'Plan Added Successfully',
+            {
+              variant: 'success',
+            },
+          );
         }, 5000);
         router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
         // persistor?.purge();
