@@ -93,6 +93,7 @@ export default function EditForm({
                           borderRadius: '10px',
                           boxShadow: 'none',
                         }}
+                        disabled={isEditModal}
                       >
                         <Typography variant="body3">Product</Typography>{' '}
                       </Button>
@@ -106,6 +107,7 @@ export default function EditForm({
                           borderRadius: '10px',
                           boxShadow: 'none',
                         }}
+                        disabled={isEditModal}
                       >
                         <Typography variant="body3">CRM Suite</Typography>
                       </Button>

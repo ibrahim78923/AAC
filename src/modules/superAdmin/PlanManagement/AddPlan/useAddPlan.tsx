@@ -56,10 +56,10 @@ export const useAddPlan = () => {
   const [updatePlanMangement] = useUpdatePlanMangementMutation();
   const router: any = useRouter();
   let parsedRowData: any;
-  if (router.query.data) {
-    parsedRowData = JSON.parse(router.query.data);
+  if (router?.query?.data) {
+    parsedRowData = JSON.parse(router?.query?.data);
   }
-  const { data: singlePlan } = useGetPlanMangementByIdQuery({
+  const { data: singlePlan, isSuccess } = useGetPlanMangementByIdQuery({
     id: parsedRowData?._id,
   });
 
@@ -166,15 +166,10 @@ export const useAddPlan = () => {
   const featuresFormData: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.planFeature,
   );
-  // const { data, isSuccess } = useGetProductsFeaturesAllQuery({});
   const { data: modulesData } = useGetPermissionsByProductsQuery({
     id: productIdModules,
     skip,
   });
-  // let productFeatures: any;
-  // if (isSuccess) {
-  //   productFeatures = data;
-  // }
 
   const onSubmitPlan = async (values: any) => {
     if (values?.suite?.length > 0 && values?.suite?.length < 2) {
@@ -374,6 +369,7 @@ export const useAddPlan = () => {
           setCrmValue={setCrmValue}
           selectProductSuite={selectProductSuite}
           setSelectProductSuite={setSelectProductSuite}
+          isSuccess={isSuccess}
         />
       ),
 
@@ -417,7 +413,7 @@ export const useAddPlan = () => {
   useEffect(() => {
     if (
       !isNullOrEmpty(crmData?.data?.plans[0]) &&
-      isNullOrEmpty(router.query.data)
+      isNullOrEmpty(router?.query?.data)
     ) {
       enqueueSnackbar(
         'Plan with same CRM/Suite name and same Plantype has already exist',
@@ -432,7 +428,7 @@ export const useAddPlan = () => {
 
     if (
       !isNullOrEmpty(planExist?.data?.plans[0]) &&
-      isNullOrEmpty(router.query.data)
+      isNullOrEmpty(router?.query?.data)
     ) {
       enqueueSnackbar(
         'Plan with selected product and selected Plantype has already exist',
