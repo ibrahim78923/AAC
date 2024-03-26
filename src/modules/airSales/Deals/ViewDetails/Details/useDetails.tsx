@@ -44,7 +44,6 @@ const useDetails = ({ selected }: any) => {
 
   useEffect(() => {
     const fieldsData = data?.data;
-
     reset({
       name: fieldsData?.name,
       amount: fieldsData?.amount,
