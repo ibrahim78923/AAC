@@ -1,4 +1,5 @@
 import { EditYellowBGPenIcon } from '@/assets/icons';
+import { truncateText } from '@/utils/avatarUtils';
 import { DeleteForever } from '@mui/icons-material';
 import { Box } from '@mui/material';
 
@@ -11,14 +12,14 @@ export const getVendorsColumns = (
     id: 'vendorName',
     isSortable: true,
     header: 'Vendor Name',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.price,
     id: 'price',
     isSortable: true,
     header: 'Price',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.months,
@@ -26,14 +27,16 @@ export const getVendorsColumns = (
     isSortable: true,
     header: 'Warranty/Validity',
     cell: (info: any) =>
-      `${info?.row?.original?.yrs}Yrs  ${info?.getValue()}Months`,
+      `${!!info?.row?.original?.yrs ? info?.row?.original?.yrs : '0'} Yrs  ${
+        info?.getValue() ? info.getValue() : '0'
+      } Months`,
   },
   {
     accessorFn: (row: any) => row?.quantity,
     id: 'quantity',
     isSortable: true,
     header: 'Quantity',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?._id,

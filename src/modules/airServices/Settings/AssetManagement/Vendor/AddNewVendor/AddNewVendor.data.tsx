@@ -2,7 +2,7 @@ import { RHFTextField } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
 
 export const newVendorValidationSchema = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Name is required'),
+  name: Yup?.string()?.trim()?.required('Name is required'),
   contactName: Yup?.string(),
   phone: Yup?.string(),
   mobiles: Yup?.string(),
@@ -24,18 +24,20 @@ export const newVendorDefaultValuesFunction = (data?: any) => {
     description: data?.description ?? '',
   };
 };
-export const newVendorDefaultValues = {
-  name: '',
-  contactName: '',
-  phone: '',
-  mobile: '',
-  email: '',
-  description: '',
-  address: '',
-  country: '',
-  state: '',
-  city: '',
-  zipCode: '',
+export const newVendorDefaultValues = (data?: any) => {
+  return {
+    name: data?.name ?? '',
+    contactName: data?.contactName ?? '',
+    phone: data?.phone ?? '',
+    mobile: data?.mobile ?? '',
+    email: data?.email ?? '',
+    description: data?.description ?? '',
+    address: data?.address ?? '',
+    country: data?.country ?? '',
+    state: data?.state ?? '',
+    city: data?.city ?? '',
+    zipCode: data?.zipCode ?? '',
+  };
 };
 
 export const newVendorDataArray = [

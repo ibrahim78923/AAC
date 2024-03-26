@@ -15,8 +15,7 @@ const CreateContacts = ({ open, onClose, dealId }: any) => {
     methodscontacts,
     lifeCycleStagesData,
     contactStatusData,
-    userList,
-    // submitContact,
+    userList, // submitContact,
   }: any = useCreateContacts(dealId, onClose);
 
   return (

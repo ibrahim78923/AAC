@@ -50,7 +50,12 @@ export const useArticles: any = () => {
     getValueArticlesListData();
   }, [search, page, pageLimit, filterValues, selectedArticlesTab]);
 
-  const { data: folderData } = useGetFoldersQuery(
+  const {
+    data: folderData,
+    isLoading,
+    isFetching,
+    isError,
+  } = useGetFoldersQuery(
     {},
     {
       refetchOnMountOrArgChange: true,
@@ -121,5 +126,8 @@ export const useArticles: any = () => {
     lazyGetArticlesTrigger,
     search,
     getValueArticlesListData,
+    isLoading,
+    isFetching,
+    isError,
   };
 };

@@ -34,7 +34,7 @@ export const softwareDateOptions = [
 export const columns = (
   softwareData: any,
   setSoftwareData: any,
-  data: any,
+  data: any = [],
   router: any,
 ): any => [
   {

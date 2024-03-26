@@ -1,15 +1,24 @@
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, CircularProgress, Divider, Typography } from '@mui/material';
 import { AntSwitch } from '@/components/AntSwitch';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { ticketDataArray } from './Tickets.data';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
+import ApiErrorState from '@/components/ApiErrorState';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import useTickets from './useTickets';
 
 export const Tickets = () => {
-  const [showIcon, setShowIcon] = useState<any>(null);
+  const {
+    isError,
+    isLoading,
+    isFetching,
+    switchLoading,
+    onSwitchChange,
+    data,
+  } = useTickets();
 
-  const onSwitchChange = (id: any) => {
-    alert(id);
-  };
+  if (isError) return <ApiErrorState />;
+
+  if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
     <>
@@ -30,9 +39,7 @@ export const Tickets = () => {
               bgcolor={'custom.white_fifty'}
               display={'flex'}
               justifyContent={'space-between'}
-              onMouseEnter={() => setShowIcon(item)}
-              onMouseLeave={() => setShowIcon(null)}
-              sx={{ cursor: 'pointer' }}
+              alignItems={'center'}
             >
               {item.value}
               <Typography
@@ -43,16 +50,14 @@ export const Tickets = () => {
                 {item?.title}
               </Typography>
 
-              <Box display={'flex'} alignItems={'center'} gap={1}>
-                {showIcon === item && (
-                  <BorderColorIcon sx={{ color: 'custom.dim_blue' }} />
-                )}
-
+              {switchLoading[item?._id] ? (
+                <CircularProgress size={20} />
+              ) : (
                 <AntSwitch
                   onChange={() => onSwitchChange(item?._id)}
-                  checked={item?.value}
+                  checked={!data?.data?.notificationsOff?.[item?._id]}
                 />
-              </Box>
+              )}
             </Box>
           ))}
         </Fragment>

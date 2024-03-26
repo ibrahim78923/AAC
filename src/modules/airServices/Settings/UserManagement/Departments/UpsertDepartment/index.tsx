@@ -15,7 +15,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertDepartment } from './useUpsertDepartment';
 
 export const UpsertDepartment = (props: any) => {
-  const { openUpsertModal } = props;
+  const { openUpsertModal, selectedDepartment } = props;
   const {
     handleClose,
     handleSubmit,
@@ -41,7 +41,7 @@ export const UpsertDepartment = (props: any) => {
           gap={1}
         >
           <Typography variant="h4" color="slateBlue.main">
-            {'Add Department'}
+            {!!selectedDepartment?._id ? 'Edit Department' : 'Add Department'}
           </Typography>
           <Box sx={{ cursor: 'pointer' }} onClick={handleClose}>
             <CloseIcon color="secondary" />
