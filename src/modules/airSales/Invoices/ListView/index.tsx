@@ -31,24 +31,18 @@ const ListView = () => {
     handleActionsMenuClick,
     handleActionsMenuClose,
 
-    isDeleteModal,
-    setIsDeleteModal,
-
+    setSearchBy,
     openFilters,
     handleOpenFilters,
     handleCloseFilters,
     methodsFilter,
     handleFiltersSubmit,
     handleRefresh,
-    setSearchBy,
 
-    handleIsViewPage,
-    handleDeleteModal,
     InvoiceData,
     isLoading,
     setPage,
     setPageLimit,
-
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,
@@ -56,7 +50,14 @@ const ListView = () => {
     setRowId,
     rowId,
 
+    isDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteInvoice,
+    loadingDelete,
+
     employeeListData,
+    handleIsViewPage,
   } = useListView();
 
   const getTableColumns = invoicesTableColumns(
@@ -139,7 +140,7 @@ const ListView = () => {
                     AIR_SALES_INVOICES_PERMISSIONS?.SALE_DELETE_INVOICE,
                   ]}
                 >
-                  <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
+                  <MenuItem onClick={handleOpenModalDelete}>Delete</MenuItem>
                 </PermissionsGuard>
               </Menu>
             </Box>
@@ -190,13 +191,16 @@ const ListView = () => {
           isPagination
         />
       </Box>
+
       <AlertModals
         message="You're about to delete all record. Deleted records can't be restored after 90 days."
         type="delete"
         open={isDeleteModal}
-        handleClose={() => setIsDeleteModal(false)}
-        handleSubmit={() => setIsDeleteModal(false)}
+        handleClose={handleCloseModalDelete}
+        handleSubmitBtn={handleDeleteInvoice}
+        loading={loadingDelete}
       />
+
       <CommonDrawer
         isDrawerOpen={openFilters}
         onClose={handleCloseFilters}

@@ -1,4 +1,4 @@
-import { INVOICE } from '@/routesConstants/endpoints';
+import { AIR_SALES, INVOICE } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const transformResponse = (response: any) => {
@@ -9,7 +9,7 @@ export const invoiceAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     postInvoice: builder.mutation({
       query: ({ body }: any) => ({
-        url: `${INVOICE.POST_INVOICE_QUOTE}`,
+        url: `${AIR_SALES?.INVOICES}`,
         method: 'POST',
         body: body,
       }),
@@ -17,15 +17,15 @@ export const invoiceAPI = baseAPI.injectEndpoints({
     }),
     getInvoice: builder.query({
       query: ({ params }: any) => ({
-        url: `${INVOICE?.POST_INVOICE_QUOTE}`,
+        url: `${AIR_SALES?.INVOICES}`,
         method: 'GET',
         params: params,
       }),
       providesTags: ['INVOICE'],
     }),
     getInvoiceById: builder.query({
-      query: ({ id }: any) => ({
-        url: `${INVOICE.GET_QUOTE_ID}/${id}`,
+      query: (id: any) => ({
+        url: `${AIR_SALES?.INVOICES}/${id}`,
         method: 'GET',
       }),
       providesTags: ['INVOICE'],
@@ -38,6 +38,14 @@ export const invoiceAPI = baseAPI.injectEndpoints({
       transformResponse: (response: any) => transformResponse(response),
       providesTags: ['INVOICE'],
     }),
+
+    deleteInvoice: builder.mutation({
+      query: (id: any) => ({
+        url: `${AIR_SALES?.INVOICES}/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['INVOICE'],
+    }),
   }),
 });
 
@@ -46,4 +54,5 @@ export const {
   useLazyGetInvoiceQoutesListQuery,
   useGetInvoiceByIdQuery,
   useGetInvoiceQuery,
+  useDeleteInvoiceMutation,
 } = invoiceAPI;

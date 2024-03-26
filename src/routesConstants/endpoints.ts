@@ -403,3 +403,7 @@ export const OPERATION = {
   OPERATION_WORKFLOW: '/workflows',
   SCHEMA_KEYS: '/workflows/schema-keys',
 };
+
+export const AIR_SALES = {
+  INVOICES: '/quote-invoice',
+};

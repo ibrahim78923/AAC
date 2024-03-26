@@ -2,12 +2,16 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { PAGINATION } from '@/config';
-import { useGetInvoiceQuery } from '@/services/airSales/invoices';
+import {
+  useDeleteInvoiceMutation,
+  useGetInvoiceQuery,
+} from '@/services/airSales/invoices';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
 import useAuth from '@/hooks/useAuth';
+import { enqueueSnackbar } from 'notistack';
 
 const useListView = () => {
   const router = useRouter();
@@ -26,8 +30,6 @@ const useListView = () => {
   const [rowId, setRowId] = useState(null);
   const [searchBy, setSearchBy] = useState(null);
   const [filterParams, setFilterParams] = useState({});
-  const [isDeleteModal, setIsDeleteModal] = useState(false);
-
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
@@ -98,17 +100,34 @@ const useListView = () => {
     router.push(`${AIR_SALES?.SALES_INVOICES}/${rowId}`);
   };
 
-  const handleDeleteModal = () => {
+  // Delete Invoices
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [deleteInvoice, { isLoading: loadingDelete }] =
+    useDeleteInvoiceMutation();
+  const handleOpenModalDelete = () => {
     handleActionsMenuClose();
     setIsDeleteModal(true);
   };
+  const handleCloseModalDelete = () => {
+    setIsDeleteModal(false);
+  };
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const onSubmit = () => {};
-
-  const methods: any = useForm();
-  const { handleSubmit } = methods;
+  const handleDeleteInvoice = async () => {
+    const items = await selectedRow?.join(',');
+    try {
+      await deleteInvoice(items)?.unwrap();
+      handleCloseModalDelete();
+      setSelectedRow([]);
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+      setIsActionsDisabled(true);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
 
   return {
     anchorEl,
@@ -116,9 +135,7 @@ const useListView = () => {
     handleActionsMenuClick,
     handleActionsMenuClose,
 
-    searchBy,
     setSearchBy,
-
     openFilters,
     handleOpenFilters,
     handleCloseFilters,
@@ -126,22 +143,10 @@ const useListView = () => {
     handleFiltersSubmit,
     handleRefresh,
 
-    isDeleteModal,
-    setIsDeleteModal,
-
-    handleIsViewPage,
-    handleDeleteModal,
-
     InvoiceData,
     isLoading,
     setPage,
     setPageLimit,
-    isDrawerOpen,
-    setIsDrawerOpen,
-    onSubmit,
-    handleSubmit,
-    methods,
-
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,
@@ -149,7 +154,14 @@ const useListView = () => {
     setRowId,
     rowId,
 
+    isDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteInvoice,
+    loadingDelete,
+
     employeeListData,
+    handleIsViewPage,
   };
 };
 
