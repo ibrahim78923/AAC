@@ -9,6 +9,7 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useGetByIdWorkflowQuery,
   usePostServicesWorkflowMutation,
+  useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
@@ -24,7 +25,8 @@ export const useUpsertEventBasedWorkflow = () => {
     });
   };
   const EDIT_WORKFLOW = 'edit';
-  const { data }: any = useGetByIdWorkflowQuery(singleId);
+  const { data, isLoading, isFetching }: any =
+    useGetByIdWorkflowQuery(singleId);
   const singleWorkflowData = data?.data;
   const eventMethod = useForm({
     defaultValues: eventBasedWorkflowValues(singleWorkflowData),
@@ -33,6 +35,7 @@ export const useUpsertEventBasedWorkflow = () => {
   const { reset, watch, register, handleSubmit, setValue, control } =
     eventMethod;
   const [postWorkflowTrigger] = usePostServicesWorkflowMutation();
+  const [updateWorkflowTrigger] = useUpdateWorkflowMutation();
   const handleFormSubmit = async (data: any) => {
     if (pageActionType === EDIT_WORKFLOW) {
       const { options, ...rest } = data;
@@ -48,8 +51,8 @@ export const useUpsertEventBasedWorkflow = () => {
           })) ?? [],
       };
       try {
-        await postWorkflowTrigger(body).unwrap();
-        successSnackbar('Workflow Enabled Successfully');
+        await updateWorkflowTrigger(body).unwrap();
+        successSnackbar('Workflow Update Successfully');
         reset();
         movePage();
         return options;
@@ -84,6 +87,7 @@ export const useUpsertEventBasedWorkflow = () => {
   }, [reset, singleWorkflowData]);
   const { palette } = useTheme();
   const moduleType = watch('module');
+
   return {
     eventMethod,
     handleFormSubmit,
@@ -94,5 +98,7 @@ export const useUpsertEventBasedWorkflow = () => {
     setValue,
     watch,
     control,
+    isLoading,
+    isFetching,
   };
 };

@@ -2,8 +2,12 @@ import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import { AddCircle, Delete as DeleteIcon } from '@mui/icons-material';
 import { actionsData } from './WorkflowActionExecuted.data';
 import { useFieldArray } from 'react-hook-form';
-import { eventBasedWorkflowValues } from '../UpsertEventBasedWorkflow.data';
 import { errorSnackbar } from '@/utils/api';
+import { useLazyGetAgentsQuery } from '@/services/dropdowns';
+import {
+  useLazyGetCategoriesDropdownQuery,
+  useLazyGetDepartmentDropdownQuery,
+} from '@/services/airServices/tickets';
 
 export const WorkflowActionExecuted = ({ watch, setValue }: any) => {
   const { fields, append, remove } = useFieldArray({
@@ -18,7 +22,9 @@ export const WorkflowActionExecuted = ({ watch, setValue }: any) => {
       remove(index);
     }
   };
-
+  const agentApiQuery = useLazyGetAgentsQuery();
+  const departmentApiQuery = useLazyGetDepartmentDropdownQuery();
+  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
   return (
     <Box
       border={`1px solid ${theme?.palette?.custom?.off_white_three}`}
@@ -42,7 +48,14 @@ export const WorkflowActionExecuted = ({ watch, setValue }: any) => {
       {fields.map((item: any, index: number) => (
         <Box key={item?._id} display={'flex'} p={2}>
           <Grid container spacing={1}>
-            {actionsData({ index, watch, setValue }).map((actionItem: any) => (
+            {actionsData({
+              index,
+              watch,
+              setValue,
+              agentApiQuery,
+              departmentApiQuery,
+              apiQueryCategories,
+            }).map((actionItem: any) => (
               <Grid
                 item
                 xs={12}
@@ -62,9 +75,7 @@ export const WorkflowActionExecuted = ({ watch, setValue }: any) => {
       <Box px={1}>
         <Button
           color="secondary"
-          onClick={() =>
-            append(eventBasedWorkflowValues?.actions?.[0]?.conditions)
-          }
+          onClick={() => append({ key: '', value: null })}
           startIcon={<AddCircle color="action" />}
         >
           Add Condition

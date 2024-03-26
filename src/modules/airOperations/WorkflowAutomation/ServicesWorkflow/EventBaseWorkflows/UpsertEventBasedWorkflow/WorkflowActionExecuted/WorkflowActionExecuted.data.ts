@@ -4,12 +4,6 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import {
-  useLazyGetCategoriesDropdownQuery,
-  useLazyGetDepartmentDropdownQuery,
-} from '@/services/airServices/tickets';
-import { useLazyGetAgentsQuery } from '@/services/dropdowns';
-import { useEffect } from 'react';
 
 const actionsOptions = [
   'Set Priority as',
@@ -32,15 +26,17 @@ const priority = ['HIGH', 'MEDIUM', 'LOW', 'URGENT'];
 const typeOptions = ['INC', 'SR'];
 const sourcesOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
 
-export const actionsData = ({ index, setValue, watch }: any) => {
-  const agentApiQuery = useLazyGetAgentsQuery();
-  const departmentApiQuery = useLazyGetDepartmentDropdownQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
-
+export const actionsData = ({
+  index,
+  watch,
+  agentApiQuery,
+  departmentApiQuery,
+  apiQueryCategories,
+}: any) => {
   const selectedOptionsKey = watch(`actions.${index}.key`);
-  useEffect(() => {
-    setValue(`actions.${index}.value`, null);
-  }, [setValue, selectedOptionsKey]);
+  // useEffect(() => {
+  //   setValue(`actions.${index}.value`, null);
+  // }, [setValue, selectedOptionsKey]);
   const useApiQuery = (selectedOptionsKey: string) => {
     if (selectedOptionsKey === 'Assign to Agent') {
       return agentApiQuery;
@@ -51,7 +47,6 @@ export const actionsData = ({ index, setValue, watch }: any) => {
     }
     return null;
   };
-  const apiQuery = useApiQuery(selectedOptionsKey);
 
   const valuesOptions =
     selectedOptionsKey === 'Set Priority as' ||
@@ -63,6 +58,7 @@ export const actionsData = ({ index, setValue, watch }: any) => {
           ? typeOptions
           : statusOptions;
   let valueComponent;
+  const apiQuery = useApiQuery(selectedOptionsKey);
   if (
     [
       'Add Task',
