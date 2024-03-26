@@ -35,18 +35,31 @@ const useInsightCard = () => {
     },
   };
 
+  const parseDate = (dateString: any) => {
+    const [month, day, year] = dateString.split('/');
+    return new Date(`${year}-${month}-${day}`).getTime();
+  };
+
   const chartData = [
     {
-      x: new Date('2022-01-01').getTime(),
-      y: 0,
+      x: parseDate('3/37/2'),
+      y: 0.1,
     },
     {
-      x: new Date('2022-01-02').getTime(),
+      x: parseDate('3/37/3'),
       y: 30,
     },
     {
-      x: new Date('2022-01-03').getTime(),
+      x: parseDate('3/37/4'),
       y: 0,
+    },
+    {
+      x: parseDate('3/37/5'),
+      y: 20,
+    },
+    {
+      x: parseDate('3/37/6'),
+      y: 40,
     },
   ];
 
