@@ -144,8 +144,8 @@ export const subWorkflowData = ({ index, subIndex, watch, setValue }: any) => {
     moduleSelectedOption === SCHEMA_KEYS?.ASSETS
       ? assetsModule || []
       : moduleSelectedOption === SCHEMA_KEYS?.TICKETS
-        ? ticketsModule || []
-        : taskModule || [];
+      ? ticketsModule || []
+      : taskModule || [];
   const selectedOption = watch('options');
   const moduleListOptions = modulesOptions[selectedOption] || [];
   const operatorsOption = watch(`groups.${index}.conditions.${subIndex}.key`);
@@ -159,12 +159,12 @@ export const subWorkflowData = ({ index, subIndex, watch, setValue }: any) => {
     operatorsOption === 'priority' || operatorsOption === 'impacts'
       ? priority
       : operatorsOption === 'assetType'
-        ? assetsOptions
-        : operatorsOption === 'source'
-          ? sourcesOptions
-          : operatorsOption === 'type'
-            ? typeOptions
-            : status;
+      ? assetsOptions
+      : operatorsOption === 'source'
+      ? sourcesOptions
+      : operatorsOption === 'type'
+      ? typeOptions
+      : status;
   if (
     [
       'plannedStartDate',

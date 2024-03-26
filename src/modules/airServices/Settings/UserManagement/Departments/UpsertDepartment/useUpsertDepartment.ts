@@ -33,11 +33,11 @@ export const useUpsertDepartment = (props: any) => {
     );
     formData?.fileUrl !== null &&
       departmentFormData?.append('fileUrl', formData?.fileUrl);
-    !!formData?.membersListDetails?.length &&
-      departmentFormData?.append(
-        'members',
-        formData?.membersListDetails?.map((value: any) => value?._id),
-      );
+    departmentFormData?.append(
+      'members',
+      formData?.membersListDetails?.map((value: any) => value?._id),
+    );
+
     if (!!selectedDepartment?._id) {
       submitEditForm(departmentFormData);
       return;
@@ -60,8 +60,9 @@ export const useUpsertDepartment = (props: any) => {
     const updateDepartmentParameter = {
       body: departmentFormData,
     };
-    await updateDepartmentTrigger(updateDepartmentParameter)?.unwrap();
+
     try {
+      await updateDepartmentTrigger(updateDepartmentParameter)?.unwrap();
       successSnackbar('Department Updated Successfully');
       handleClose?.();
     } catch (error: any) {

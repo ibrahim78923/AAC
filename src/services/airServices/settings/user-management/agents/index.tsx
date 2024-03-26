@@ -68,7 +68,6 @@ export const agentsAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         body: apiDataParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     getDepartmentDropdownList: builder?.query({
       query: ({ params }: any) => ({
@@ -80,6 +79,17 @@ export const agentsAPI = baseAPI?.injectEndpoints({
         if (response) return response?.data?.departments;
       },
       providesTags: [TAG_ONE],
+    }),
+    getPermissionsRoleForUpsertAgent: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.PERMISSIONS_ROLE}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.companyaccountroles;
+      },
+      providesTags: [TAG],
     }),
   }),
 });
@@ -95,4 +105,5 @@ export const {
   usePatchApprovedRequestMutation,
   usePatchRejectRequestMutation,
   useLazyGetAgentsQuery,
+  useLazyGetPermissionsRoleForUpsertAgentQuery,
 } = agentsAPI;

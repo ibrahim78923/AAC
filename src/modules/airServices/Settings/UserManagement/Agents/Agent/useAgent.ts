@@ -25,7 +25,7 @@ export const useAgent = () => {
       ['page', currentPage + ''],
       ['limit', pageLimit + ''],
       ['search', searchValue],
-      ['role', ROLES?.ORG_AGENT],
+      ['role', ROLES?.ORG_EMPLOYEE],
     ];
 
     const getAgentsListParam: any = buildQueryParams(
@@ -81,5 +81,6 @@ export const useAgent = () => {
     openDeleteModal,
     setOpenDeleteModal,
     setIsAgentModalOpen,
+    filterAgentData,
   };
 };

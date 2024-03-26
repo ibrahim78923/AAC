@@ -1,4 +1,4 @@
-export const emailNotificationDetailTabsData = [
+export const emailNotificationDetailsTabData = [
   'Tickets',
   'Assets',
   'Contracts',
