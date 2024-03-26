@@ -5,179 +5,193 @@ import {
 } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
+import useDealTab from '../../DealTab/useDealTab';
+import { useGetUsersListQuery } from '@/services/airSales/deals';
+import useDetails from './useDetails';
 
 export const detailsValidationSchema = Yup?.object()?.shape({
   // name: Yup?.string()
 });
 
 export const detailsDefaultValues = {
-  dealName: '',
+  name: '',
   amount: '',
-  dealOwner: '',
-  dealType: '',
+  ownerId: '',
+  type: '',
   priority: '',
-  stage: '',
-  pipeline: '',
-  lastContacted: '',
-  contactedMode: '',
+  dealStageId: '',
+  dealPiplineId: '',
+  contactedPersonId: '',
+  contactMode: '',
   lastActivity: '',
   createdDate: '',
-  closedDate: '',
+  closeDate: '',
 };
 
-export const detailsDataArray = [
-  {
-    componentProps: {
-      name: 'dealName',
-      label: 'Deal Name',
-      placeholder: 'Name',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'amount',
-      label: 'Amount',
-      placeholder: '£',
-      type: 'number',
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'dealOwner',
-      label: 'Deal Owner',
-      placeholder: 'Deal Owner',
+export const detailsDataArray = (dealPiplineId: any) => {
+  const userRole = 'ORG_EMPLOYEE';
+  const { getDealOwnerContacts } = useDetails({});
+  const { pipelineData } = useDealTab();
+  const { data: UserListData } = useGetUsersListQuery({ role: userRole });
 
-      fullWidth: true,
-    },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'dealType',
-      label: 'Deal Type',
-      select: true,
-    },
-    options: [
-      { value: 'New Business', label: 'New Business' },
-      { value: 'Existing Business', label: 'Existing Business' },
-    ],
-    component: RHFSelect,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'priority',
-      label: 'Priority',
-      select: true,
-    },
-    options: [
-      { value: '-', label: '-' },
-      { value: 'Low', label: 'Low' },
-      { value: 'Medium', label: 'Medium' },
-    ],
-    component: RHFSelect,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'stage',
-      label: 'Stage',
-      select: true,
-    },
-    options: [
-      { value: 'New', label: 'New' },
-      { value: 'Follow Up', label: 'Follow Up' },
-      { value: 'Under Review', label: 'Under Review' },
-    ],
-    component: RHFSelect,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'pipeline',
-      label: 'Pipeline',
-      select: true,
-    },
-    options: [
-      { value: 'Sale Pipeline', label: 'Sale Pipeline' },
-      { value: 'Recruitment Pipeline', label: 'Recruitment Pipeline' },
-      { value: 'Test Pipeline', label: 'Test Pipeline' },
-    ],
-    component: RHFSelect,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'lastContacted',
-      label: 'Last Contacted Person',
-      select: true,
-    },
-    options: [
-      { value: 'Jack', label: 'Jack' },
-      { value: 'John Doe', label: 'John Doe' },
-      { value: 'Rachel Stalk', label: 'Rachel Stalk' },
-    ],
-    component: RHFSelect,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'contactedMode',
-      label: 'Contacted Mode',
-      select: true,
-    },
-    options: [
-      { value: 'Email', label: 'Email' },
-      { value: 'Call', label: 'Call' },
-      { value: 'Meeting', label: 'Meeting' },
-    ],
-    component: RHFSelect,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'lastActivity',
-      label: 'Last Activity',
+  const filteredStages =
+    pipelineData?.data?.dealpipelines?.find(
+      (pipeline: any) => pipeline?._id === dealPiplineId,
+    )?.stages || [];
 
-      placeholder: 'Last Activity',
+  return [
+    {
+      componentProps: {
+        name: 'name',
+        label: 'Deal Name',
+        placeholder: 'Name',
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 4,
+    },
+    {
+      componentProps: {
+        name: 'amount',
+        label: 'Amount',
+        placeholder: '£',
+        type: 'number',
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 4,
+    },
+    {
+      componentProps: {
+        name: 'ownerId',
+        label: 'Deal Owner',
+        select: true,
+      },
+      options: UserListData?.data?.users?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })) ?? [{ label: '', value: '' }],
+      component: RHFSelect,
+      md: 4,
+    },
+    {
+      componentProps: {
+        name: 'type',
+        label: 'Deal Type',
+        select: true,
+      },
+      options: [
+        { value: 'new business', label: 'New Business' },
+        { value: 'existing business', label: 'Existing Business' },
+      ],
+      component: RHFSelect,
+      md: 4,
+    },
+    {
+      componentProps: {
+        name: 'priority',
+        label: 'Priority',
+        select: true,
+      },
+      options: [
+        { value: 'Low', label: 'Low' },
+        { value: 'Medium', label: 'Medium' },
+        { value: 'High', label: 'High' },
+      ],
+      component: RHFSelect,
+      md: 4,
+    },
+    {
+      componentProps: {
+        name: 'dealPiplineId',
+        label: 'Pipeline',
+        select: true,
+      },
+      options: pipelineData?.data?.dealpipelines?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })) ?? [{ label: '', value: '' }],
+      component: RHFSelect,
+      md: 4,
+    },
+    {
+      componentProps: {
+        name: 'dealStageId',
+        label: 'Stage',
+        select: true,
+      },
+      options: filteredStages?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
+      component: RHFSelect,
+      md: 4,
+    },
+    {
+      componentProps: {
+        name: 'contactedPersonId',
+        label: 'Last Contacted Person',
+        select: true,
+      },
+      options: getDealOwnerContacts?.data?.contacts?.map((item: any) => ({
+        value: item?._id,
+        label: `${item?.firstName} ${item?.lastName}`,
+      })) ?? [{ label: '', value: '' }],
+      component: RHFSelect,
+      md: 4,
+    },
+    {
+      componentProps: {
+        name: 'contactMode',
+        label: 'Contacted Mode',
+        select: true,
+      },
+      options: [
+        { value: 'Email', label: 'Email' },
+        { value: 'Call', label: 'Call' },
+        { value: 'Meeting', label: 'Meeting' },
+      ],
+      component: RHFSelect,
+      md: 4,
+    },
+    {
+      componentProps: {
+        name: 'lastActivity',
+        label: 'Last Activity',
 
-      fullWidth: true,
+        placeholder: 'Last Activity',
+
+        fullWidth: true,
+      },
+      component: RHFTextField,
+      md: 4,
     },
-    component: RHFTextField,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'createdDate',
-      label: 'Created Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'createdAt',
+        label: 'Created Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 4,
     },
-    component: RHFDatePicker,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'closedDate',
-      label: 'Closed Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'closeDate',
+        label: 'Closed Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 4,
     },
-    component: RHFDatePicker,
-    md: 4,
-  },
-  {
-    componentProps: {
-      name: 'lastActivityDate',
-      label: 'Last Activity Date',
-      fullWidth: true,
+    {
+      componentProps: {
+        name: 'updatedAt',
+        label: 'Last Activity Date',
+        fullWidth: true,
+      },
+      component: RHFDatePicker,
+      md: 4,
     },
-    component: RHFDatePicker,
-    md: 4,
-  },
-];
+  ];
+};

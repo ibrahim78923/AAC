@@ -1,11 +1,4 @@
-import {
-  Box,
-  Typography,
-  Grid,
-  Button,
-  ButtonGroup,
-  Divider,
-} from '@mui/material';
+import { Box, Typography, Grid, Button, Divider } from '@mui/material';
 
 import { FormProvider } from '@/components/ReactHookForm';
 
@@ -17,11 +10,19 @@ import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { LoadingButton } from '@mui/lab';
 
 const Details = (props: any) => {
   const { selected } = props;
-  const { theme, methodsDetails, onSubmit, handleSubmit, isLoading } =
-    useDetails({ selected });
+  const {
+    theme,
+    methodsDetails,
+    onSubmit,
+    handleSubmit,
+    isLoading,
+    dealPiplineId,
+    updateLoading,
+  } = useDetails({ selected });
 
   return (
     <Box sx={styles?.horizontalTabsBox}>
@@ -30,12 +31,9 @@ const Details = (props: any) => {
         <SkeletonForm />
       ) : (
         <Box sx={styles?.horizontalTabsInnnerBox}>
-          <FormProvider
-            methods={methodsDetails}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodsDetails}>
             <Grid container spacing={4}>
-              {detailsDataArray?.map((item: any) => (
+              {detailsDataArray(dealPiplineId)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
@@ -56,15 +54,20 @@ const Details = (props: any) => {
                   sx={{
                     display: 'flex',
                     justifyContent: 'end',
-                    gap: 1.5,
+                    gap: 1,
                   }}
                 >
-                  <ButtonGroup>
-                    <Button sx={{ height: '35px' }}>Cancel</Button>
-                  </ButtonGroup>
-                  <ButtonGroup variant="contained" color="primary">
-                    <Button sx={{ height: '35px' }}>Update</Button>
-                  </ButtonGroup>
+                  <Button className="small" variant="outlined">
+                    Cancel
+                  </Button>
+                  <LoadingButton
+                    className="small"
+                    variant="contained"
+                    onClick={handleSubmit(onSubmit)}
+                    loading={updateLoading}
+                  >
+                    Update
+                  </LoadingButton>
                 </Box>
               </Grid>
             </Grid>
