@@ -1,5 +1,4 @@
 import { Box, Divider, Typography } from '@mui/material';
-import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { AlertModals } from '@/components/AlertModals';
@@ -19,7 +18,7 @@ export const SubListLocation = (props: any) => {
     setIsOpenAlert,
     isOpenAlert,
     handleDeleteSubmit,
-  } = useSubListLocation(props);
+  }: any = useSubListLocation();
   return (
     <>
       <Box
@@ -54,20 +53,6 @@ export const SubListLocation = (props: any) => {
         >
           <Box gap={1} display={'flex'}>
             {showIcon && (
-              <AddCircleRoundedIcon
-                color="primary"
-                fontSize="small"
-                onClick={() =>
-                  router?.push({
-                    pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
-                    query: {
-                      parentId: parentId,
-                    },
-                  })
-                }
-              />
-            )}
-            {showIcon && (
               <BorderColorIcon
                 fontSize="small"
                 color="primary"
@@ -93,15 +78,17 @@ export const SubListLocation = (props: any) => {
           </Box>
         </PermissionsGuard>
       </Box>
-      <AlertModals
-        message={'Are you sure you want to delete this list?'}
-        type={ALERT_MODALS_TYPE?.DELETE}
-        open={isOpenAlert}
-        handleClose={() => setIsOpenAlert(false)}
-        handleSubmitBtn={() => {
-          handleDeleteSubmit(parentId, childId);
-        }}
-      />
+      {isOpenAlert && (
+        <AlertModals
+          message={'Are you sure you want to delete this list?'}
+          type={ALERT_MODALS_TYPE?.DELETE}
+          open={isOpenAlert}
+          handleClose={() => setIsOpenAlert(false)}
+          handleSubmitBtn={() => {
+            handleDeleteSubmit(parentId, childId);
+          }}
+        />
+      )}
     </>
   );
 };

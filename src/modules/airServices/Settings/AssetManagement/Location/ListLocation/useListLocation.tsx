@@ -9,6 +9,13 @@ export const useListLocation = () => {
   const handleCollapse = (item: number) => {
     setIsCollapse(collapseItem !== item ? item : undefined);
   };
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState('');
+
+  const setDeleteRecord = (id: any) => {
+    setSelectedLocation?.(id);
+    setDeleteModalOpen?.(true);
+  };
   const locationList = data?.data;
   return {
     theme,
@@ -17,5 +24,10 @@ export const useListLocation = () => {
     isLoading,
     collapseItem,
     isFetching,
+    deleteModalOpen,
+    setDeleteModalOpen,
+    selectedLocation,
+    setSelectedLocation,
+    setDeleteRecord,
   };
 };

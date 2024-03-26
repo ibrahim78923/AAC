@@ -60,18 +60,18 @@ export const locationAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     deleteChildLocation: builder.mutation({
-      query: ({ ...body }) => ({
+      query: (apiDataParameter: any) => ({
         url: `${DELETE_CHILD_LOCATION}`,
         method: 'PUT',
-        body,
+        body: apiDataParameter,
       }),
       invalidatesTags: [TAG],
     }),
     deleteParentLocation: builder.mutation({
-      query: (params: any) => ({
+      query: (apiDataParameter: any) => ({
         url: `${DELETE_PARENT_LOCATION}/{id}`,
         method: 'DELETE',
-        params,
+        params: apiDataParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
     }),

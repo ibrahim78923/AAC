@@ -13,7 +13,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const SingleListLocation = (props: any) => {
-  const { continents, handleCollapse, parentId } = props;
+  const { continents, handleCollapse, parentId, setDeleteRecord } = props;
   const { theme, setIsOpenAlert, isOpenAlert, handleDeleteSubmit } =
     useSingleListLocation(props);
   return (
@@ -90,7 +90,7 @@ export const SingleListLocation = (props: any) => {
             <DeleteIcon
               fontSize="small"
               color="primary"
-              onClick={() => setIsOpenAlert(true)}
+              onClick={() => setDeleteRecord?.(parentId)}
             />
           </Box>
         </PermissionsGuard>

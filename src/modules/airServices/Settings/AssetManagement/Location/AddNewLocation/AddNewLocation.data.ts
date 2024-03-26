@@ -53,7 +53,7 @@ export const addNewLocationDataFields = (type: string) => [
     gridLength: 6,
     componentProps: {
       fullWidth: true,
-      disabled: type === 'child' || 'child-edit' ? true : false,
+      disabled: type === 'child' || type === 'child-edit' ? true : false,
       name: 'parentLocation',
       label: 'Parent Location',
     },

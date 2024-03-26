@@ -5,6 +5,7 @@ import { Box, Skeleton } from '@mui/material';
 import { useListLocation } from './useListLocation';
 import NoData from '@/components/NoData';
 import { NoAssociationFoundImage } from '@/assets/images';
+import { DeleteLocation } from '../DeleteLocation';
 
 export const ListLocation = () => {
   const {
@@ -14,8 +15,14 @@ export const ListLocation = () => {
     isLoading,
     collapseItem,
     isFetching,
+    deleteModalOpen,
+    setDeleteModalOpen,
+    selectedLocation,
+    setSelectedLocation,
   } = useListLocation();
+
   if (isLoading || isFetching) return <Skeleton />;
+
   return (
     <>
       {locationList?.length ? (
@@ -28,14 +35,14 @@ export const ListLocation = () => {
                   continents={item?.locationName}
                   handleCollapse={() => handleCollapse(index)}
                 />
-                {collapseItem === index && !!item?.childLocations && (
+                {collapseItem === index && !!item?.childLocaions && (
                   <SubListWrapper
                     parentId={item?._id}
-                    ChildId={item?.childLocations?.map(
+                    ChildId={item?.childLocaions?.map(
                       (subItem: any) => subItem?._id,
                     )}
                   >
-                    {item?.childLocations?.map((subItem: any) => (
+                    {item?.childLocaions?.map((subItem: any) => (
                       <Box key={subItem?._id}>
                         <SubListLocation
                           country={subItem?.locationName}
@@ -52,6 +59,14 @@ export const ListLocation = () => {
         </Box>
       ) : (
         <NoData message="Data Not Found" image={NoAssociationFoundImage} />
+      )}
+      {deleteModalOpen && (
+        <DeleteLocation
+          deleteModalOpen={deleteModalOpen}
+          setDeleteModalOpen={setDeleteModalOpen}
+          selectedLocation={selectedLocation}
+          setSelectedLocation={setSelectedLocation}
+        />
       )}
     </>
   );
