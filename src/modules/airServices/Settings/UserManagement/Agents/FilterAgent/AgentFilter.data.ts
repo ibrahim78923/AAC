@@ -1,28 +1,21 @@
-import {
-  RHFAutocomplete,
-  RHFAutocompleteAsync,
-} from '@/components/ReactHookForm';
-import { ROLE } from '@/constants/strings';
+import { RHFAutocompleteAsync } from '@/components/ReactHookForm';
 
-import * as Yup from 'yup';
-
-const roleOptions = [ROLE?.ORG_AGENT];
-
-export const validationSchemaAgentFilterFields = Yup?.object()?.shape({
-  department: Yup?.mixed()?.nullable(),
-  role: Yup?.mixed()?.nullable(),
-});
-
-export const defaultValuesAgentFilter = {
-  department: null,
-  role: null,
+export const defaultValuesAgentFilter = (data: any) => {
+  return {
+    departmentId: data?.departmentId ?? null,
+    permissionsRole: data?.permissionsRole ?? null,
+  };
 };
 
-export const agentFilterFields = (apiQueryDepartment: any) => [
+export const agentFilterFields = (
+  apiQueryDepartment: any,
+  roleApiQuery: any,
+  roleApiQueryParams: any,
+) => [
   {
     id: 7,
     componentProps: {
-      name: 'department',
+      name: 'departmentId',
       label: 'Department',
       fullWidth: true,
       apiQuery: apiQueryDepartment,
@@ -31,14 +24,15 @@ export const agentFilterFields = (apiQueryDepartment: any) => [
     component: RHFAutocompleteAsync,
   },
   {
-    id: 2,
+    id: 6,
     componentProps: {
-      name: 'role',
-      label: 'Role',
       fullWidth: true,
+      name: 'permissionsRole',
+      label: 'Role',
       placeholder: 'Select Role',
-      options: roleOptions,
+      apiQuery: roleApiQuery,
+      externalParams: roleApiQueryParams,
     },
-    component: RHFAutocomplete,
+    component: RHFAutocompleteAsync,
   },
 ];

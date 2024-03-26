@@ -13,6 +13,16 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getProductUserListDropdown: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+    }),
     postProductUserList: builder?.mutation({
       query: (postAnnouncementParameter: any) => ({
         url: `${END_POINTS?.PRODUCTS_USERS}`,
@@ -43,12 +53,57 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG],
     }),
+    deleteProductUsers: builder?.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}`,
+        method: 'DELETE',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    patchProductUsers: builder.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    getTeamList: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.SALES_TEAM}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG],
+    }),
+    deleteTeamUsers: builder?.mutation({
+      query: (deleteId: any) => ({
+        url: `${END_POINTS?.SALES_TEAM}/${deleteId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [TAG],
+    }),
+    postCreateTeam: builder?.mutation({
+      query: (postAnnouncementParameter: any) => ({
+        url: `${END_POINTS?.SALES_TEAM}`,
+        method: 'POST',
+        body: postAnnouncementParameter?.body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
 export const {
   useGetProductUserListQuery,
+  useLazyGetProductUserListDropdownQuery,
   usePostProductUserListMutation,
   useLazyGetCompanyAccountsRolesQuery,
   useLazyGetTeamUserListQuery,
+  useDeleteProductUsersMutation,
+  usePatchProductUsersMutation,
+  useGetTeamListQuery,
+  useDeleteTeamUsersMutation,
+  usePostCreateTeamMutation,
 } = userManagementAPI;

@@ -167,6 +167,13 @@ export const ticketsAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    postAddReplyToBulkUpdate: builder?.mutation({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.TICKET_NEW_EMAIL}`,
+        method: 'POST',
+        body: apiDataParameter?.body,
+      }),
+    }),
     getAttachmentsById: builder?.query({
       query: (getAttachmentsByIdParameter: any) => ({
         url: `${END_POINTS?.GET_ATTACHMENT}/${getAttachmentsByIdParameter?.pathParam?.id}`,
@@ -196,4 +203,5 @@ export const {
   useLazyGetTicketsSearchByIdQuery,
   usePostMergeTicketsMutation,
   useGetAttachmentsByIdQuery,
+  usePostAddReplyToBulkUpdateMutation,
 } = ticketsAPI;

@@ -3,7 +3,6 @@ import {
   validationSchemaReportAnIssueModal,
 } from './ReportAnIssueModal.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { useTheme } from '@mui/material';
 import {
@@ -12,40 +11,44 @@ import {
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { usePostReportAnIssueMutation } from '@/services/airCustomerPortal/Dashboard/reportAnIssue';
+import { TICKET_STATUS, TICKET_TYPE } from '@/constants/strings';
 
 export const useReportAnIssueModal = (props: any) => {
   const { setOpenReportAnIssueModal } = props;
-  const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
+
   const apiQueryAssociateAsset = useLazyGetAssociateAssetsDropdownQuery();
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();
-  const methods = useForm({
+
+  const methods = useForm<any>({
     resolver: yupResolver(validationSchemaReportAnIssueModal),
     defaultValues,
   });
+
   const { handleSubmit, reset } = methods;
   const [postTrigger, postProgress] = usePostReportAnIssueMutation();
   const isLoading = postProgress?.isLoading;
+
   const onSubmit = async (data: any) => {
     const reportAnIssueData = new FormData();
     reportAnIssueData?.append('requester', data?.requester?._id);
     reportAnIssueData?.append('subject', data?.subject);
-    !!data?.description &&
-      reportAnIssueData?.append('description', data?.description);
-    reportAnIssueData?.append('status', 'OPEN');
+    reportAnIssueData?.append('description', data?.description);
+    reportAnIssueData?.append('status', TICKET_STATUS?.OPEN);
     !!data?.associatesAssets?.length &&
       reportAnIssueData?.append(
         'associateAssets',
         data?.associatesAssets?.map((asset: any) => asset?._id),
       );
     reportAnIssueData?.append('moduleType', 'CUSTOMER_PORTAL');
-    reportAnIssueData?.append('ticketType', 'INC');
+    reportAnIssueData?.append('ticketType', TICKET_TYPE?.INC);
     data?.attachFile !== null &&
-      typeof data?.attachFile !== 'string' &&
       reportAnIssueData?.append('fileUrl', data?.attachFile);
+
     const postReportAnIssueParameter = {
       body: reportAnIssueData,
     };
+
     try {
       await postTrigger(postReportAnIssueParameter)?.unwrap();
       successSnackbar('Issue Report Successfully');
@@ -53,8 +56,8 @@ export const useReportAnIssueModal = (props: any) => {
       if (setOpenReportAnIssueModal) {
         setOpenReportAnIssueModal?.(false);
       }
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -64,7 +67,6 @@ export const useReportAnIssueModal = (props: any) => {
     methods,
     validationSchemaReportAnIssueModal,
     defaultValues,
-    enqueueSnackbar,
     handleSubmit,
     handleSubmitIssue,
     theme,

@@ -31,6 +31,7 @@ const Agent = () => {
     openDeleteModal,
     setOpenDeleteModal,
     setIsAgentModalOpen,
+    filterAgentData,
   } = useAgent();
   return (
     <>
@@ -106,6 +107,7 @@ const Agent = () => {
           isFetching={lazyGetAgentsStatus?.isFetching}
           isSuccess={lazyGetAgentsStatus?.isSuccess}
           isLoading={lazyGetAgentsStatus?.isLoading}
+          isError={lazyGetAgentsStatus?.isError}
           setPageLimit={setPageLimit}
           setPage={setPage}
           count={lazyGetAgentsStatus?.data?.data?.meta?.pages}
@@ -142,6 +144,8 @@ const Agent = () => {
           isAgentFilterDrawerOpen={isAgentFilterDrawerOpen}
           setAgentFilterDrawerOpen={setAgentFilterDrawerOpen}
           setFilterAgentData={setFilterAgentData}
+          filterAgentData={filterAgentData}
+          setPage={setPage}
         />
       )}
     </>

@@ -1,6 +1,7 @@
+import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 
-export const knowledgeInsightsColumnsDynamic = (router: any) => [
+export const knowledgeInsightsColumnsDynamic = (setSelectedArticle: any) => [
   {
     accessorFn: (row: any) => row?.title,
     id: 'title',
@@ -10,16 +11,9 @@ export const knowledgeInsightsColumnsDynamic = (router: any) => [
         variant="body2"
         fontWeight={'fontWeightMedium'}
         sx={{ cursor: 'pointer' }}
-        onClick={() =>
-          router?.push({
-            pathname: router?.pathname,
-            query: {
-              knowledgeInsightId: info?.row?.original?._id,
-            },
-          })
-        }
+        onClick={() => setSelectedArticle(info?.row?.original)}
       >
-        {info?.getValue() ?? '---'}
+        {truncateText(info?.getValue())}
       </Typography>
     ),
   },
