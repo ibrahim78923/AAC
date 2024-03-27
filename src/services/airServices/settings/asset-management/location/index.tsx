@@ -29,10 +29,10 @@ export const locationAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     postLocation: builder.mutation({
-      query: (body: any) => ({
+      query: (apiDataParameter: any) => ({
         url: `${ADD_LOCATION}`,
         method: 'POST',
-        body,
+        body: apiDataParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),

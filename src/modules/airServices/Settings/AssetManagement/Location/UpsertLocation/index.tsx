@@ -1,6 +1,6 @@
 import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Divider, Grid } from '@mui/material';
-import { addNewLocationDataFields } from './UpsertLocation.data';
+import { LOCATION_TYPE, addNewLocationDataFields } from './UpsertLocation.data';
 import { useUpsertLocation } from './useUpsertLocation';
 import { LoadingButton } from '@mui/lab';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
@@ -10,14 +10,16 @@ const UpsertLocation = () => {
   const {
     AddNewLocationMethods,
     moveToLocationPage,
-    locationIsLoading,
-    childLocationIsLoading,
-    parentId,
     handleCancel,
     type,
-    handleSubmit,
+    parentId,
+    childId,
     isLoading,
     isFetching,
+    upsertLocation,
+    postLocationStatus,
+    putLocationStatus,
+    postChildLocationStatus,
   } = useUpsertLocation();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -26,16 +28,22 @@ const UpsertLocation = () => {
     <>
       <FormProvider
         methods={AddNewLocationMethods}
-        onSubmit={AddNewLocationMethods?.handleSubmit(handleSubmit)}
+        onSubmit={AddNewLocationMethods?.handleSubmit(upsertLocation)}
       >
         <Grid container spacing={2}>
           <Grid item lg={9}>
             <PageTitledHeader
-              title={'New Location'}
+              title={
+                !!childId
+                  ? 'Edit child location'
+                  : !!parentId && type === LOCATION_TYPE?.PARENT
+                  ? 'Edit location'
+                  : `Add new ${type} location`
+              }
               canMovedBack
               moveBack={() => moveToLocationPage?.()}
             />
-            <Grid item container xs={12} overflow="scroll">
+            <Grid item container xs={12} overflow="auto">
               <Grid container spacing={2}>
                 {addNewLocationDataFields(type)?.map((form: any) => (
                   <Grid
@@ -45,7 +53,7 @@ const UpsertLocation = () => {
                     key={form?.id}
                     sx={{
                       display:
-                        (type === 'parent' || type === 'parent-edit') &&
+                        type === LOCATION_TYPE?.PARENT &&
                         form?.componentProps?.name === 'parentLocation'
                           ? 'none'
                           : 'block',
@@ -66,13 +74,25 @@ const UpsertLocation = () => {
             variant="outlined"
             color="secondary"
             onClick={handleCancel}
-            disabled={parentId ? childLocationIsLoading : locationIsLoading}
+            disabled={
+              postLocationStatus?.isLoading ||
+              putLocationStatus?.isLoading ||
+              postChildLocationStatus?.isLoading
+            }
           >
             Cancel
           </LoadingButton>
           <LoadingButton
-            disabled={parentId ? childLocationIsLoading : locationIsLoading}
-            loading={parentId ? childLocationIsLoading : locationIsLoading}
+            disabled={
+              postLocationStatus?.isLoading ||
+              putLocationStatus?.isLoading ||
+              postChildLocationStatus?.isLoading
+            }
+            loading={
+              postLocationStatus?.isLoading ||
+              putLocationStatus?.isLoading ||
+              postChildLocationStatus?.isLoading
+            }
             variant="contained"
             type="submit"
           >
