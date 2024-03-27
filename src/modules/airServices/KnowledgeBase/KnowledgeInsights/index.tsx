@@ -16,10 +16,12 @@ export const KnowledgeInsights = () => {
     setPageLimit,
     setPage,
     knowledgeInsightsColumns,
-    knowledgeInsightId,
+    selectedArticle,
+    setSelectedArticle,
   } = useKnowledgeInsights();
+
   if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) <ApiErrorState />;
+  if (isError) return <ApiErrorState />;
 
   return (
     <>
@@ -27,9 +29,9 @@ export const KnowledgeInsights = () => {
         <NoData message={'No Knowledge Insights found'} />
       ) : (
         <>
-          {!!!knowledgeInsightId ? (
+          {!!!selectedArticle?._id ? (
             <Box>
-              <Typography variant="h5" py={'0.625rem'}>
+              <Typography variant="h5" py={1}>
                 Trending insights
               </Typography>
 
@@ -51,7 +53,10 @@ export const KnowledgeInsights = () => {
               />
             </Box>
           ) : (
-            <TicketRelated />
+            <TicketRelated
+              selectedArticle={selectedArticle}
+              setSelectedArticle={setSelectedArticle}
+            />
           )}
         </>
       )}

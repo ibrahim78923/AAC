@@ -5,6 +5,7 @@ import {
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { ROLE } from '@/constants/strings';
 import { ticketStatusOptions } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
 import * as Yup from 'yup';
 
@@ -50,7 +51,7 @@ export const detailDrawerArray = (apiQueryAgent: any, apiQueryTask: any) => [
       required: true,
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      externalParams: { limit: 50, role: ROLE?.ORG_AGENT },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

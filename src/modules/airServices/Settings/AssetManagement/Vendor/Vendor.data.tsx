@@ -5,6 +5,7 @@ import { Typography } from '@mui/material';
 export const VENDOR_LISTS_ACTION_CONSTANTS = {
   IMPORT: 'import',
 };
+
 export const vendorListsColumnsFunction = (router: any): any => [
   {
     accessorFn: (row: any) => row?.name,
@@ -34,20 +35,20 @@ export const vendorListsColumnsFunction = (router: any): any => [
     id: 'email',
     header: 'Email',
     isSortable: true,
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.phone,
     id: 'phone',
     isSortable: true,
     header: 'Phone',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.mobile,
     id: ' Mobile',
     isSortable: true,
     header: ' Mobile',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
 ];

@@ -1,6 +1,5 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { upsertRequestersArray } from './UpsertRequesters.data';
 import CommonDrawer from '@/components/CommonDrawer';
 import { useUpsertRequester } from './useUpsertRequester';
 
@@ -14,6 +13,7 @@ const UpsertRequesters = (props: any) => {
     addRequesterStatus,
     patchRequesterStatus,
     _id,
+    upsertRequestersFormFields,
   }: any = useUpsertRequester(props);
   return (
     <>
@@ -31,11 +31,14 @@ const UpsertRequesters = (props: any) => {
         isDisabled={
           addRequesterStatus?.isLoading || patchRequesterStatus?.isLoading
         }
+        disabledCancelBtn={
+          addRequesterStatus?.isLoading || patchRequesterStatus?.isLoading
+        }
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={2}>
-              {upsertRequestersArray?.map((item: any) => (
+              {upsertRequestersFormFields?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={item?._id}>
                   <item.component {...item.componentProps} size={'small'} />
                 </Grid>

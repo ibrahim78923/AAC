@@ -9,8 +9,8 @@ export const userDefaultValues = (data: any) => {
     name: data?.name ?? '',
     department: data?.department ?? null,
     assignedDate: data?.assignedDate ?? '',
-    firstSeen: data?.firstSeen ?? 'NONE',
-    lastSeen: data?.lastSeen ?? 'NONE',
+    firstSeen: data?.firstSeen ?? 'ALL_TIME',
+    lastSeen: data?.lastSeen ?? 'ALL_TIME',
   };
 };
 

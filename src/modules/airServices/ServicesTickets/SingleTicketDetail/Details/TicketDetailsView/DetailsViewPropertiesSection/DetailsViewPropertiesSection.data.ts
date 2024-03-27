@@ -5,6 +5,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { DATE_FORMAT } from '@/constants';
+import { ROLES } from '@/constants/strings';
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
@@ -126,7 +127,7 @@ export const dataArray = (apiQueryAgent: any, apiQueryCategory: any) => [
       fullWidth: true,
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

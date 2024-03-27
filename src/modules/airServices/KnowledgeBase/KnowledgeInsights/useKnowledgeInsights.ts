@@ -7,9 +7,11 @@ import { knowledgeInsightsColumnsDynamic } from './KnowledgeInsights.data';
 export const useKnowledgeInsights = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [selectedArticle, setSelectedArticle] = useState<any>({});
 
   const router = useRouter();
   const { knowledgeInsightId } = router?.query;
+
   const getKnowledgeInsightsParameters = {
     queryParams: {
       page: page,
@@ -22,7 +24,8 @@ export const useKnowledgeInsights = () => {
       refetchOnMountOrArgChange: true,
     });
 
-  const knowledgeInsightsColumns = knowledgeInsightsColumnsDynamic?.(router);
+  const knowledgeInsightsColumns =
+    knowledgeInsightsColumnsDynamic?.(setSelectedArticle);
   return {
     data,
     isLoading,
@@ -33,5 +36,7 @@ export const useKnowledgeInsights = () => {
     setPage,
     knowledgeInsightsColumns,
     knowledgeInsightId,
+    selectedArticle,
+    setSelectedArticle,
   };
 };

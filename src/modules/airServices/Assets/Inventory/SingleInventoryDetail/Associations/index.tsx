@@ -16,8 +16,6 @@ import {
 } from '@/services/airServices/assets/inventory/single-inventory-details/associations';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
-// import { PAGINATION } from '@/config';
-// import CustomPagination from '@/components/CustomPagination';
 import { useRouter } from 'next/router';
 export const Associations = () => {
   const theme: any = useTheme();
@@ -29,9 +27,7 @@ export const Associations = () => {
   const [hoveredItemId, setHoveredItemId] = useState(null);
   const router = useRouter();
   const associationsInventoryId = router.query.inventoryId;
-  // const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  // const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  // const params = useSearchParams();
+
   const [deleteInventoryAssociationListTrigger, { isLoading }] =
     useDeleteInventoryAssociationListMutation();
   const handleMouseOver = (itemId: any) => {
@@ -42,10 +38,7 @@ export const Associations = () => {
     useLazyGetAssociationListQuery();
   const getIncidentListData = async () => {
     const getIncidentParams = new URLSearchParams();
-    getIncidentParams?.append('id', associationsInventoryId + '');
-    // getIncidentParams?.append('page', page + '');
-    // getIncidentParams?.append('limit', limit + '');
-    // getIncidentParams?.append('metaData', 'true');
+    getIncidentParams?.append('inventoryId', associationsInventoryId + '');
 
     const getInventoryParameters = {
       params: getIncidentParams,
@@ -53,8 +46,7 @@ export const Associations = () => {
     await lazyGetIncidentTrigger(getInventoryParameters)?.unwrap();
   };
   const getInventoryListData =
-    lazyGetIncidentStatus?.data?.data[0]?.associationList;
-  // const metaData = lazyGetIncidentStatus?.data?.data?.meta;
+    lazyGetIncidentStatus?.data?.data?.associationList;
 
   useEffect(() => {
     getIncidentListData();
@@ -177,19 +169,6 @@ export const Associations = () => {
                       />
                     </Box>
                   ))}
-                  {/* {metaData && (
-                    <Box>
-                      <CustomPagination
-                        currentPage={page}
-                        count={metaData?.pages}
-                        pageLimit={limit}
-                        totalRecords={metaData?.total}
-                        onPageChange={(page: any) => setPage(page)}
-                        setPage={setPage}
-                        setPageLimit={setLimit}
-                      />
-                    </Box>
-                  )} */}
                 </>
               )}
             </>

@@ -1,15 +1,24 @@
 import { AntSwitch } from '@/components/AntSwitch';
-import { Box, Divider, Typography } from '@mui/material';
-import { Fragment, useState } from 'react';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { Box, CircularProgress, Divider, Typography } from '@mui/material';
+import { Fragment } from 'react';
 import { purchaseOrdersData } from './PurchaseOrders.data';
+import ApiErrorState from '@/components/ApiErrorState';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import usePurchaseOrders from './usePurchaseOrders';
 
 export const PurchaseOrders = () => {
-  const [showIcon, setShowIcon] = useState<any>(null);
+  const {
+    isError,
+    isLoading,
+    isFetching,
+    switchLoading,
+    onSwitchChange,
+    data,
+  } = usePurchaseOrders();
 
-  const onSwitchChange = (id: any) => {
-    alert(id);
-  };
+  if (isError) return <ApiErrorState />;
+
+  if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
     <>
@@ -30,9 +39,6 @@ export const PurchaseOrders = () => {
               bgcolor={'custom.white_fifty'}
               display={'flex'}
               justifyContent={'space-between'}
-              onMouseEnter={() => setShowIcon(item)}
-              onMouseLeave={() => setShowIcon(null)}
-              sx={{ cursor: 'pointer' }}
             >
               {item.value}
               <Typography
@@ -43,16 +49,14 @@ export const PurchaseOrders = () => {
                 {item?.title}
               </Typography>
 
-              <Box display={'flex'} alignItems={'center'} gap={1}>
-                {showIcon === item && (
-                  <BorderColorIcon sx={{ color: 'custom.dim_blue' }} />
-                )}
-
+              {switchLoading[item?._id] ? (
+                <CircularProgress size={20} />
+              ) : (
                 <AntSwitch
                   onChange={() => onSwitchChange(item?._id)}
-                  checked={item?.value}
+                  checked={!data?.data?.notificationsOff?.[item?._id]}
                 />
-              </Box>
+              )}
             </Box>
           ))}
         </Fragment>

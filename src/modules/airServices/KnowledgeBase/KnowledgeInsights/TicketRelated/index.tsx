@@ -1,17 +1,18 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useTicketRelated } from './useTicketRelated';
 import TanstackTable from '@/components/Table/TanstackTable';
 import {
-  FIRST_ELEMENT,
+  NO_DATA_MESSAGE,
   knowledgeInsightsRelatedTicketColumns,
 } from './TicketRelated.data';
 import NoData from '@/components/NoData';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { truncateText } from '@/utils/avatarUtils';
 
-export const TicketRelated = () => {
+export const TicketRelated = (props: any) => {
+  const { selectedArticle, setSelectedArticle } = props;
   const {
     data,
     isLoading,
@@ -20,28 +21,38 @@ export const TicketRelated = () => {
     isSuccess,
     setPageLimit,
     setPage,
-    router,
-  } = useTicketRelated();
+    error,
+  }: any = useTicketRelated(props);
 
   if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) <ApiErrorState />;
 
+  if (isError)
+    return (
+      <>
+        <PageTitledHeader
+          moveBack={() => setSelectedArticle?.({})}
+          canMovedBack
+        />
+        <NoData
+          message={
+            error?.data?.message === NO_DATA_MESSAGE
+              ? error?.data?.message
+              : 'SOMETHING WENT WRONG'
+          }
+        />
+      </>
+    );
   return (
     <>
-      <br />
       {data?.data?.articles?.length ? (
         <Box>
           <PageTitledHeader
-            moveBack={() =>
-              router?.push({
-                pathname: router?.pathname,
-              })
-            }
+            moveBack={() => setSelectedArticle?.({})}
             canMovedBack
-            title={data?.data?.articles?.[FIRST_ELEMENT]?.title}
+            title={truncateText?.(selectedArticle?.title)}
           />
           <TanstackTable
-            data={data?.data?.articles?.[FIRST_ELEMENT]?.insertedTickets}
+            data={data?.data?.articles}
             columns={knowledgeInsightsRelatedTicketColumns}
             isLoading={isLoading}
             currentPage={data?.data?.meta?.page}

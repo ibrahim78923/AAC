@@ -86,7 +86,7 @@ export const UpsertProduct = (props: any) => {
             <LoadingButton
               type="submit"
               variant="contained"
-              disabled={isLoading}
+              disabled={editData?._id ? isEditLoading : isLoading}
               onClick={
                 editData?._id
                   ? handleSubmit(editSubmit)

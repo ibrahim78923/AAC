@@ -1,15 +1,24 @@
-import { Box, Divider, Typography } from '@mui/material';
-import { Fragment, useState } from 'react';
+import { Box, CircularProgress, Divider, Typography } from '@mui/material';
+import { Fragment } from 'react';
 import { assetsData } from './Assets.data';
 import { AntSwitch } from '@/components/AntSwitch';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
+import useAssets from './useAssets';
+import ApiErrorState from '@/components/ApiErrorState';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 export const Assets = () => {
-  const [showIcon, setShowIcon] = useState<any>(null);
+  const {
+    isError,
+    isLoading,
+    isFetching,
+    switchLoading,
+    onSwitchChange,
+    data,
+  } = useAssets();
 
-  const onSwitchChange = (id: any) => {
-    alert(id);
-  };
+  if (isError) return <ApiErrorState />;
+
+  if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
     <>
@@ -30,9 +39,6 @@ export const Assets = () => {
               bgcolor={'custom.white_fifty'}
               display={'flex'}
               justifyContent={'space-between'}
-              onMouseEnter={() => setShowIcon(item)}
-              onMouseLeave={() => setShowIcon(null)}
-              sx={{ cursor: 'pointer' }}
             >
               {item.value}
               <Typography
@@ -43,16 +49,14 @@ export const Assets = () => {
                 {item?.title}
               </Typography>
 
-              <Box display={'flex'} alignItems={'center'} gap={1}>
-                {showIcon === item && (
-                  <BorderColorIcon sx={{ color: 'custom.dim_blue' }} />
-                )}
-
+              {switchLoading[item?._id] ? (
+                <CircularProgress size={20} />
+              ) : (
                 <AntSwitch
                   onChange={() => onSwitchChange(item?._id)}
-                  checked={item?.value}
+                  checked={!data?.data?.notificationsOff?.[item?._id]}
                 />
-              </Box>
+              )}
             </Box>
           ))}
         </Fragment>
