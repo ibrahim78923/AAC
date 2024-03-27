@@ -22,14 +22,20 @@ export const AllDealColumns = ({
   activeColumns: any;
 }) => {
   const theme = useTheme();
-  const DEAL_OWNER_ATTRIBUTE = 'dealOwner';
-  const DEAL_NAME_ATTRIBUTE = 'name';
-  const DEAL_CLOSEDATE_ATTRIBUTE = 'closeDate';
-  const DEAL_CREATEDAT_ATTRIBUTE = 'createdAt';
+  const DEAL_ATTRIBUTES = {
+    DEAL_OWNER: 'dealOwner',
+    DEAL_NAME: 'name',
+    DEAL_CLOSEDATE: 'closeDate',
+    DEAL_CREATEDAT: 'createdAt',
+  };
+  // const DEAL_OWNER_ATTRIBUTE = 'dealOwner';
+  // const DEAL_NAME_ATTRIBUTE = 'name';
+  // const DEAL_CLOSEDATE_ATTRIBUTE = 'closeDate';
+  // const DEAL_CREATEDAT_ATTRIBUTE = 'createdAt';
 
   const activeColumnsData = (attribute: any, info: any) => {
     const navigate = useRouter();
-    if (attribute?.includes(DEAL_OWNER_ATTRIBUTE)) {
+    if (attribute?.includes(DEAL_ATTRIBUTES?.DEAL_OWNER)) {
       return (
         <Box sx={{ display: 'flex', gap: '5px' }}>
           <Avatar
@@ -53,7 +59,7 @@ export const AllDealColumns = ({
           </Box>
         </Box>
       );
-    } else if (attribute === DEAL_NAME_ATTRIBUTE) {
+    } else if (attribute === DEAL_ATTRIBUTES?.DEAL_NAME) {
       return (
         <Box
           sx={{ cursor: 'pointer' }}
@@ -75,11 +81,11 @@ export const AllDealColumns = ({
           </Typography>
         </Box>
       );
-    } else if (attribute === DEAL_CLOSEDATE_ATTRIBUTE) {
+    } else if (attribute === DEAL_ATTRIBUTES?.DEAL_CLOSEDATE) {
       return (
         dayjs(info?.row?.original?.closeDate)?.format(DATE_FORMAT?.UI) ?? 'N/A'
       );
-    } else if (attribute === DEAL_CREATEDAT_ATTRIBUTE) {
+    } else if (attribute === DEAL_ATTRIBUTES?.DEAL_CREATEDAT) {
       return (
         dayjs(info?.row?.original?.createdAt)?.format(DATE_FORMAT?.UI) ?? 'N/A'
       );

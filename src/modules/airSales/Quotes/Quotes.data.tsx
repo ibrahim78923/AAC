@@ -51,38 +51,46 @@ export const quotesColumns = (
 
   const isSelected = (id: any) => selectedRow?.indexOf(id) !== -1;
 
-  const DEAL_AMOUNT_ATTRIBUTE = 'deal.amount';
-  const DEAL_NAME_ATTRIBUTE = 'name';
-  const DEAL_STATUS_ATTRIBUTE = 'status';
-  const DEAL_DEAL_NAME_ATTRIBUTE = 'deal.name';
-  const DEAL_CREATEDBY_ATTRIBUTE = 'createdBy';
-  const DEAL_CREATEDAT_ATTRIBUTE = 'createdAt';
-  const DEAL_EXPIRY_ATTRIBUTE = 'expiryDate';
-
+  // const DEAL_AMOUNT_ATTRIBUTE = 'deal.amount';
+  // const DEAL_NAME_ATTRIBUTE = 'name';
+  // const DEAL_STATUS_ATTRIBUTE = 'status';
+  // const DEAL_DEAL_NAME_ATTRIBUTE = 'deal.name';
+  // const DEAL_CREATEDBY_ATTRIBUTE = 'createdBy';
+  // const DEAL_CREATEDAT_ATTRIBUTE = 'createdAt';
+  // const DEAL_EXPIRY_ATTRIBUTE = 'expiryDate';
+  const DEAL_ATTRIBUTES = {
+    DEAL_AMOUNT: 'deal.amount',
+    DEAL_NAME: 'name',
+    DEAL_STATUS: 'status',
+    DEAL_DEAL_NAME: 'deal.name',
+    DEAL_CREATED_BY: 'createdBy',
+    DEAL_CREATED_AT: 'createdAt',
+    DEAL_EXPIRY: 'expiryDate',
+  };
   const activeColumnsData = (attribute: any, info: any) => {
-    if (attribute === DEAL_NAME_ATTRIBUTE) {
+    if (attribute === DEAL_ATTRIBUTES?.DEAL_AMOUNT) {
       return (
         <Box sx={{ cursor: 'pointer' }}>
           {info?.row?.original?.name ?? 'N/A'}
         </Box>
       );
-    } else if (attribute === DEAL_AMOUNT_ATTRIBUTE) {
+    } else if (attribute === DEAL_ATTRIBUTES?.DEAL_NAME) {
       return info?.row?.original?.deal.amount ?? 'N/A';
-    } else if (attribute === DEAL_STATUS_ATTRIBUTE) {
+    } else if (attribute === DEAL_ATTRIBUTES?.DEAL_STATUS) {
       return info?.row?.original?.status ?? 'N/A';
-    } else if (attribute === DEAL_DEAL_NAME_ATTRIBUTE) {
+    } else if (attribute === DEAL_ATTRIBUTES?.DEAL_DEAL_NAME) {
       return info?.row?.original?.deal?.name ?? 'N/A';
-    } else if (attribute?.includes(DEAL_CREATEDBY_ATTRIBUTE)) {
+    } else if (attribute?.includes(DEAL_ATTRIBUTES?.DEAL_CREATED_BY)) {
       const name =
         info?.row?.original?.createdBy?.firstName +
         ' ' +
         info?.row?.original?.createdBy?.lastName;
       return name ?? 'N/A';
-    } else if (attribute === DEAL_CREATEDAT_ATTRIBUTE) {
+    } else if (attribute === DEAL_ATTRIBUTES?.DEAL_CREATED_AT) {
       return (
         dayjs(info?.row?.original?.createdAt)?.format(DATE_FORMAT?.API) ?? 'N/A'
       );
-    } else if (attribute === DEAL_EXPIRY_ATTRIBUTE) {
+    } else if (attribute === DEAL_ATTRIBUTES?.DEAL_EXPIRY) {
       return (
         dayjs(info?.row?.original?.expiryDate)?.format(DATE_FORMAT?.API) ??
         'N/A'
