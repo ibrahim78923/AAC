@@ -27,8 +27,6 @@ const Insights = () => {
   const { data: taskInsightsData, isLoading } = useGetTaskInsightsQuery({
     params: {
       companyId: user?.organization?._id ? user?.organization?._id : '',
-      // startDate: datePickerVal ? datePickerVal[0] : '',
-      // endDate:datePickerVal ? datePickerVal[1] : '',
     },
   });
   const taskInsights = taskInsightsData?.data?.Pending;

@@ -9,13 +9,14 @@ import {
 } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { UserDefault } from '@/assets/images';
-import UserList from './UserList';
+
 import {
   useGetTaskFeedQuery,
   useGetTasksQuery,
 } from '@/services/airSales/task';
 import { PAGINATION } from '@/config';
 import { getSession } from '@/utils';
+import UserList from './UserList';
 
 const Feed = () => {
   const { user }: { accessToken: string; refreshToken: string; user: any } =
@@ -24,8 +25,6 @@ const Feed = () => {
   const { data: taskFeedData, isLoading } = useGetTaskFeedQuery({
     params: {
       companyId: user?.organization?._id ? user?.organization?._id : '',
-      // startDate: datePickerVal ? datePickerVal[0] : '',
-      // endDate:datePickerVal ? datePickerVal[1] : '',
     },
   });
 
@@ -79,7 +78,7 @@ const Feed = () => {
                 name={item?.user?.firstName + ' ' + item?.user?.lastName}
                 email={item?.user?.email}
                 desc={item?.name}
-                date={'22-03-2023'}
+                date={item?.date}
               />
             ))
           ) : (

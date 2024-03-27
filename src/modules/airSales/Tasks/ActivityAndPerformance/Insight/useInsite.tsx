@@ -1,3 +1,4 @@
+import { parseDate } from '@/utils/parseDate';
 import { Theme, useTheme } from '@mui/material';
 
 const useInsightCard = () => {
@@ -33,11 +34,6 @@ const useInsightCard = () => {
     fill: {
       opacity: 0.8,
     },
-  };
-
-  const parseDate = (dateString: any) => {
-    const [month, day, year] = dateString.split('/');
-    return new Date(`${year}-${month}-${day}`).getTime();
   };
 
   const chartData = [
