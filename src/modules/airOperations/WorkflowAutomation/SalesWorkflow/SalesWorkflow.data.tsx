@@ -5,6 +5,7 @@ import { AntSwitch } from '@/components/AntSwitch';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { fullName } from '@/utils/avatarUtils';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 export const salesWorkflowActionDropdownDynamic = (
   selectedSalesWorkflowLists: any,
@@ -64,6 +65,8 @@ export const salesWorkflowListsColumnDynamic: any = (
       id: '_id',
       cell: (info: any) => (
         <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           checked={
             !!activeCheck?.find((item: any) => item?._id === info?.getValue())
           }
@@ -87,6 +90,8 @@ export const salesWorkflowListsColumnDynamic: any = (
       ),
       header: (
         <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           checked={
             tableData?.length
               ? activeCheck?.length === tableData?.length
