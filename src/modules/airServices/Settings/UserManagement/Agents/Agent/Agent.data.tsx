@@ -122,6 +122,7 @@ export const agentsListsColumnsFunction = (
             query: {
               agentId: info?.row?.original?._id,
               departmentId: info?.row?.original?.departmentId,
+              roleId: info?.row?.original?.permissionsRole,
             },
           });
         }}
@@ -161,7 +162,7 @@ export const agentsListsColumnsFunction = (
     cell: (info: any) => truncateText(info?.getValue()),
   },
   {
-    accessorFn: (row: any) => row?.permissionsList,
+    accessorFn: (row: any) => row?.accountsPermissions,
     id: 'permissionsList',
     isSortable: true,
     header: 'Role',
