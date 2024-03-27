@@ -23,7 +23,7 @@ export const validationSchema = Yup?.object()?.shape({
   source: Yup?.mixed()?.nullable(),
   impact: Yup?.mixed()?.nullable(),
   agent: Yup?.mixed()?.nullable(),
-  plannedStartDate: Yup?.date(),
+  plannedStartDate: Yup?.date().nullable(),
   plannedEndDate: Yup?.date()?.nullable(),
   plannedEffort: Yup?.string()?.trim(),
 });
@@ -43,7 +43,7 @@ export const ticketsDetailsDefaultValuesFunction = (data?: any) => {
     plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
 
     plannedEndDate:
-      typeof data?.plannedStartDate === 'string'
+      typeof data?.plannedEndDate === 'string'
         ? new Date(data?.plannedEndDate)
         : null,
 

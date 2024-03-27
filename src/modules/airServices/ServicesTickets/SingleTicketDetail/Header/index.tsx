@@ -1,13 +1,9 @@
 import Image from 'next/image';
 import { Grid, Typography, Box } from '@mui/material';
-import DetailTimePicker from './TimePicker';
-import {
-  ViewDetailBackArrowIcon,
-  ViewDetailCallIcon,
-  ViewDetailVuesaxIcon,
-} from '@/assets/icons';
+
+import { ViewDetailBackArrowIcon, ViewDetailCallIcon } from '@/assets/icons';
 import { styles } from './Header.style';
-import { SmsImage, VuesaxErrorImage } from '@/assets/images';
+import { SmsImage } from '@/assets/images';
 import { AIR_SERVICES } from '@/constants';
 import { NewEmailDrawer } from './NewEmailDrawer';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
@@ -26,8 +22,7 @@ const Header = () => {
   const {
     data,
     router,
-    toggleView,
-    isIconVisible,
+
     setIsDrawerOpen,
     isDrawerOpen,
     ticketsApprovalDropdown,
@@ -69,7 +64,7 @@ const Header = () => {
           </Typography>
         </Grid>
         <Grid item sx={{ display: 'flex', cursor: 'pointer' }}>
-          <PermissionsGuard
+          {/* <PermissionsGuard
             permissions={[
               AIR_SERVICES_TICKETS_TICKETS_DETAILS?.TIME_TRACK_PLAY_PAUSE,
             ]}
@@ -89,7 +84,7 @@ const Header = () => {
             <Box sx={styles?.iconBoxTimerStyling}>
               <DetailTimePicker />
             </Box>
-          </PermissionsGuard>
+          </PermissionsGuard> */}
           {/* TODO: comment for now. will be used if third party api is provided */}
           {/* <PermissionsGuard
             permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_MEETING]}

@@ -294,7 +294,7 @@ export const categoriesOfServices = (
   },
 
   {
-    id: 14,
+    id: 13,
     componentProps: {
       name: 'selectAgentVisibility',
       label: 'Agent Visibility',
@@ -302,16 +302,17 @@ export const categoriesOfServices = (
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
       required: true,
-      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
+      externalParams: { limit: 50, role: ROLES?.ORG_AGENT },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },
     component: RHFAutocompleteAsync,
     text: 'HardWare/Consumable',
+
     md: 6,
   },
   {
-    id: 15,
+    id: 14,
     componentProps: {
       name: 'product',
       label: 'Select Product',
@@ -330,7 +331,7 @@ export const categoriesOfServices = (
   },
 
   {
-    id: 16,
+    id: 15,
     componentProps: {
       name: 'requesterVisibilty',
       label: 'Requester Visibility',
@@ -338,7 +339,7 @@ export const categoriesOfServices = (
       required: true,
       apiQuery: apiRequestorQuery,
       EndIcon: AddCircleIcon,
-      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
+      externalParams: { limit: 50, role: ROLES?.ORG_REQUESTER },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
       endIconClick: () => {

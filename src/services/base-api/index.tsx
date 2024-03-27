@@ -111,6 +111,7 @@ export const TAGS = [
   'SERVICE_CATALOG',
   'CATALOG',
   'PURCHASE_ORDER',
+  'TICKET_TIME_ENTRIES',
 ];
 
 const baseQuery = fetchBaseQuery({
