@@ -72,10 +72,10 @@ export const useQuote = () => {
         : REQUESTORS_STATUS?.ACTIVE;
     setSwitchLoading((prevState: any) => ({
       ...prevState,
-      [rowData._id]: true,
+      [rowData?._id]: true,
     }));
     const response: any = await changeStatusTrigger({
-      id: rowData._id,
+      id: rowData?._id,
       body: { status },
     });
     try {
@@ -87,7 +87,7 @@ export const useQuote = () => {
     } catch (error) {
       errorSnackbar(response?.error?.data?.message);
     } finally {
-      setSwitchLoading({ ...switchLoading, [rowData._id]: false });
+      setSwitchLoading({ ...switchLoading, [rowData?._id]: false });
     }
   };
   const tableColumns = salesWorkflowListsColumnDynamic(
