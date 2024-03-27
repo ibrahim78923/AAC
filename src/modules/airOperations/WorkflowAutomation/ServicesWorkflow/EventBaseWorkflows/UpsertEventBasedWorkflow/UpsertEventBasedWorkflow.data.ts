@@ -1,4 +1,5 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
+import { MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
 
 export const moduleOptions = [
@@ -93,7 +94,7 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
 export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
   return {
     title: singleWorkflowData?.title ?? '',
-    type: 'EVENT_BASE',
+    type: MODULES?.EVENT_BASE,
     description: singleWorkflowData?.description ?? '',
     events: singleWorkflowData?.events?.[0]
       ? eventOptions?.find(
@@ -109,7 +110,7 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
       ? moduleOptions?.find(
           (item: any) => item?.value === singleWorkflowData?.module,
         )
-      : 'TICKETS',
+      : SCHEMA_KEYS?.TICKETS,
     groupCondition: singleWorkflowData?.groupCondition ?? '',
     groups: singleWorkflowData?.groups?.map((group: any) => {
       return {
