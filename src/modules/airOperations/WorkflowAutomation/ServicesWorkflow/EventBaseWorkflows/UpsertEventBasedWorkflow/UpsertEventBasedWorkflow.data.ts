@@ -105,7 +105,11 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
           (item: any) => item?.value === singleWorkflowData?.runType,
         )
       : null,
-    module: singleWorkflowData?.module ?? 'TICKETS',
+    module: singleWorkflowData?.module
+      ? moduleOptions?.find(
+          (item: any) => item?.value === singleWorkflowData?.module,
+        )
+      : 'TICKETS',
     groupCondition: singleWorkflowData?.groupCondition ?? '',
     groups: singleWorkflowData?.groups?.map((group: any) => {
       return {
