@@ -169,7 +169,10 @@ const useDealTab = () => {
         handleExportRecord();
         break;
       case 'View Details':
-        router.push({ pathname: AIR_SALES?.VIEW_DETAILS });
+        router.push({
+          pathname: AIR_SALES?.VIEW_DETAILS,
+          query: { id: selectedRows },
+        });
         break;
       default:
         break;
