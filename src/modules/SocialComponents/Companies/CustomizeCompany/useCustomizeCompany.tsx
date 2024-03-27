@@ -10,7 +10,7 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useCustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
   const theme = useTheme();
-  const { user } = getSession();
+  const { user }: any = getSession();
   const [columns, setColumns] = useState<any[]>([]);
   const [selected, setSelected] = useState<any[]>([]);
 
@@ -23,6 +23,7 @@ const useCustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
   const columnsData = getCustomizeColumns?.data?.columns;
 
   const [order, setOrder] = useState(columnsData);
+
   const onDragEnd = (result: any) => {
     const items = Array.from(order);
     const [reOrderItem] = items?.splice(result?.source?.index, 1);

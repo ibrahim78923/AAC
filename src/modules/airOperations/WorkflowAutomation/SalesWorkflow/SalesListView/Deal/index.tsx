@@ -25,6 +25,8 @@ export const Deal = () => {
     setPage,
     activeCheck,
     onSubmitFilter,
+    handleDelete,
+    deleteLoading,
   } = useDeal();
   return (
     <>
@@ -58,6 +60,8 @@ export const Deal = () => {
       <DeleteSalesWorkflow
         deleteWorkflow={openDelete}
         setDeleteWorkflow={setOpenDelete}
+        handleSubmit={handleDelete}
+        loading={deleteLoading}
       />
     </>
   );

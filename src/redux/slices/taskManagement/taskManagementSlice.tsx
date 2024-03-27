@@ -15,7 +15,6 @@ interface TaskManagementStateI {
 const initialState: TaskManagementStateI = {
   toggleTableView: 'listView',
   selectedTaskIds: [],
-
   contactsSelectedIds: [],
   companiesSelectedIds: [],
   dealsSelectedIds: [],
