@@ -11,6 +11,7 @@ import {
 } from '@/services/superAdmin/billing-invoices';
 import { isNullOrEmpty } from '@/utils';
 import { useGetCrmQuery } from '@/services/superAdmin/plan-mangement';
+import { productSuiteName } from '@/constants';
 
 const useEditForm = (
   isEditModal: any,
@@ -101,15 +102,17 @@ const useEditForm = (
   const queryParameters = {
     ...(organizationId && { organizationId: organizationId }),
     planTypeId: planTypeId,
-    productId: selectProductSuite === 'CRM' ? undefined : productId,
-    name: selectProductSuite === 'CRM' ? productName : undefined,
+    productId:
+      selectProductSuite === productSuiteName?.crm ? undefined : productId,
+    name:
+      selectProductSuite === productSuiteName?.crm ? productName : undefined,
   };
 
   if (isEditModal) {
     delete queryParameters.organizationId;
   }
 
-  if (selectProductSuite != 'CRM') {
+  if (selectProductSuite != productSuiteName?.crm) {
     const { data, isSuccess } = useGetPlanIdQuery<any>(
       { params: queryParameters },
       { skip: isNullOrEmpty(planTypeId) },
@@ -120,9 +123,9 @@ const useEditForm = (
   }
 
   let ExistingplanData: any;
-  let ExistingisSuccessPlan: any;
+  let ExistingisSuccessPlan: boolean;
 
-  if (selectProductSuite === 'CRM') {
+  if (selectProductSuite === productSuiteName?.crm) {
     const { data, isSuccess } = useGetExistingCrmQuery<any>(
       { params: queryParameters },
       { skip: isNullOrEmpty(planTypeId) },
@@ -135,34 +138,30 @@ const useEditForm = (
   if (planData?.data?.plans) {
     setValue(
       'planPrice',
-      isSuccessPlan ? planData?.data?.plans[0]?.planPrice : '',
+      isSuccessPlan ? planData?.data?.plans?.planPrice : '',
     );
     setValue(
       'defaultUser',
-      isSuccessPlan ? planData?.data?.plans[0]?.defaultUsers : '',
+      isSuccessPlan ? planData?.data?.plans?.defaultUsers : '',
     );
     setValue(
       'defaultUserTwo',
-      isSuccessPlan ? planData?.data?.plans[0]?.defaultUsers : '',
+      isSuccessPlan ? planData?.data?.plans?.defaultUsers : '',
     );
   }
 
   if (ExistingplanData?.data?.plans) {
     setValue(
       'planPrice',
-      ExistingisSuccessPlan ? ExistingplanData?.data?.plans[0]?.planPrice : '',
+      ExistingisSuccessPlan ? ExistingplanData?.data?.plans?.planPrice : '',
     );
     setValue(
       'defaultUser',
-      ExistingisSuccessPlan
-        ? ExistingplanData?.data?.plans[0]?.defaultUsers
-        : '',
+      ExistingisSuccessPlan ? ExistingplanData?.data?.plans?.defaultUsers : '',
     );
     setValue(
       'defaultUserTwo',
-      ExistingisSuccessPlan
-        ? ExistingplanData?.data?.plans[0]?.defaultUsers
-        : '',
+      ExistingisSuccessPlan ? ExistingplanData?.data?.plans?.defaultUsers : '',
     );
   }
 
@@ -188,18 +187,18 @@ const useEditForm = (
       organizationId: values?.clientName,
       planId:
         selectProductSuite === 'CRM'
-          ? ExistingplanData?.data?.plans[0]?._id
-          : planData?.data?.plans[0]?._id,
+          ? ExistingplanData?.data?.plans?._id
+          : planData?.data?.plans?._id,
       additionalUsers: parseInt(values?.additionalUser),
       additionalStorage: parseInt(values?.additionalStorage),
       planDiscount: parseInt(values?.discount),
       billingCycle: values?.billingCycle,
       billingDate: formattedDate,
-      isCRM: selectProductSuite === 'CRM' ? true : false,
+      isCRM: selectProductSuite === productSuiteName?.crm ? true : false,
     };
 
     if (isEditModal) {
-      delete assignPlanPayload.organizationId;
+      delete assignPlanPayload?.organizationId;
     }
 
     try {

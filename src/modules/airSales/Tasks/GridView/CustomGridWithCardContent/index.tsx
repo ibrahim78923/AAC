@@ -30,7 +30,10 @@ export const CustomGridWithCardContent = ({
               </Box>
 
               <CustomBox label={'Linked Company'} value={obj?.associate} />
-              <CustomBox label={'Assigned User'} value={obj?.assignTo} />
+              <CustomBox
+                label={'Assigned User'}
+                value={obj?.assignTo?.firstName + '' + obj?.assignTo?.lastName}
+              />
               <CustomBox
                 label={'Task Status'}
                 value={obj?.status}

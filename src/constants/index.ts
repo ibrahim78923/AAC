@@ -195,3 +195,7 @@ export const Quick_Links_Routes = {
   CHAT: '/social-components/chat',
   EMAIL: '/social-components/email',
 };
+
+export const productSuiteName = {
+  crm: 'CRM',
+};
