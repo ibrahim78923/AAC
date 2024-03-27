@@ -3,7 +3,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { salesSchema, salesValues } from './UpsertSalesWorkflow.data';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { usePostSalesWorkflowMutation } from '@/services/airOperations/workflow-automation/sales-workflow';
+import {
+  usePostSalesWorkflowMutation,
+  usePostSaveDraftWorkflowMutation,
+} from '@/services/airOperations/workflow-automation/sales-workflow';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
@@ -16,9 +19,16 @@ export const useUpsertSalesWorkflow = () => {
   });
   const { reset, watch, register, handleSubmit, setValue, control } =
     salesMethod;
+  const scheduleType = watch('type');
   const [postSalesWorkflowTrigger, { isLoading }] =
     usePostSalesWorkflowMutation();
+  const [postSaveDraftWorkflowTrigger, { isLoading: saveDraftLoading }] =
+    usePostSaveDraftWorkflowMutation();
   const handleFormSubmit = async (data: any) => {
+    const successSnackbarMessage =
+      scheduleType === 'EVENT_BASE'
+        ? 'Workflow Enabled Successfully'
+        : 'Workflow Saved as Draft Successfully';
     const time = dayjs(data?.time)?.format(TIME_FORMAT?.API);
     const modifiedData = {
       title: data?.title,
@@ -59,15 +69,17 @@ export const useUpsertSalesWorkflow = () => {
       groupCondition: data?.groupCondition,
       actions: [...data?.actions],
     };
+    const response: any =
+      scheduleType === 'EVENT_BASE'
+        ? await postSalesWorkflowTrigger(modifiedData)
+        : await postSaveDraftWorkflowTrigger(modifiedData);
     try {
-      const response: any = await postSalesWorkflowTrigger(modifiedData);
-      successSnackbar(
-        response?.data?.message && 'Workflow Enabled Successfully',
-      );
+      response;
+      successSnackbar(response?.data?.message && successSnackbarMessage);
       reset();
       back();
-    } catch (error: any) {
-      errorSnackbar(error?.data?.error);
+    } catch (e) {
+      errorSnackbar(response?.error?.data?.message);
     }
   };
   const { palette } = useTheme();
@@ -81,5 +93,6 @@ export const useUpsertSalesWorkflow = () => {
     watch,
     control,
     isLoading,
+    saveDraftLoading,
   };
 };

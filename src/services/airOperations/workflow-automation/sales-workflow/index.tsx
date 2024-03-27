@@ -22,6 +22,14 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    postSaveDraftWorkflow: builder?.mutation({
+      query: (body) => ({
+        url: END_POINTS?.SAVE_DRAFT_WORKFLOW,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
     getDealDropdownList: builder?.query({
       query: ({ params }) => ({
         url: `${END_POINTS?.DEALS_PIPELINE}`,
@@ -62,4 +70,5 @@ export const {
   useLazyGetDealDropdownListQuery,
   useLazyGetContactDropdownListQuery,
   useLazyGetProductsDropdownListQuery,
+  usePostSaveDraftWorkflowMutation,
 } = salesWorkflowAPI;

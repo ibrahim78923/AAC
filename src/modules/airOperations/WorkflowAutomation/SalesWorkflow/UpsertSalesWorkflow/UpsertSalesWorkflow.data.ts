@@ -56,11 +56,11 @@ export const salesValues = {
       conditionType: null,
       conditions: [{ key: '', condition: '', value: [] }],
     },
-    // {
-    //   name: '',
-    //   conditionType: null,
-    //   conditions: [{ key: '', condition: '' }],
-    // },
+    {
+      name: '',
+      conditionType: null,
+      conditions: [{ key: '', condition: '', value: [] }],
+    },
   ],
   actions: [{ key: '', value: '' }],
 };

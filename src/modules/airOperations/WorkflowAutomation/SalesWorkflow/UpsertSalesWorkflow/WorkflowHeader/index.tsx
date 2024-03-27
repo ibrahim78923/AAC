@@ -16,7 +16,6 @@ export const WorkflowHeader = (props: any) => {
     openWorkflowModal,
     setOpenWorkflowModal,
     scheduleWorkflow,
-    handleSaveDefault,
     handleCancel,
   } = useWorkflowHeader(props);
   return (
@@ -47,7 +46,7 @@ export const WorkflowHeader = (props: any) => {
               startIcon={<GrayBookIcon />}
               variant="outlined"
               color="secondary"
-              onClick={handleSaveDefault}
+              loading={props?.isLoading}
               type="submit"
             >
               Save as Draft

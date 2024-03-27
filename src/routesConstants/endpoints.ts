@@ -315,6 +315,7 @@ export const END_POINTS = {
   DELETE_ALL_ATTACHMENT: '/attachment/delete-all-attachment',
   DELETE_MULTIPLE_ATTACHMENT: '/attachment/delete-multiple-attachment',
   WORKFLOWS: '/workflows',
+  SAVE_DRAFT_WORKFLOW: '/workflows/save',
   SINGLE_DEPARTMENT_DETAIL: `/Department/get-by-id`,
   DELETE_INVENTORY_PURCHASE_ORDER: '/assets/delete-purchase-association',
   DELETE_INVENTORY_CONTRACT: '/assets/delete-contract-association',
