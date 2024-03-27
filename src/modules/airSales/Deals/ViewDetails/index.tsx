@@ -214,7 +214,7 @@ const ViewDetails = () => {
                   AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_CONTACT,
                 ]}
               > */}
-              <Associations />
+              <Associations selected={id} />
               {/* </PermissionsGuard> */}
               {/* <PermissionsGuard
                 permissions={[

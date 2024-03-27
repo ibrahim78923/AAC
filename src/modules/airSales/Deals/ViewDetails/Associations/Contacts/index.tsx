@@ -15,20 +15,21 @@ import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const Contacts = ({ contactsData }: any) => {
+const Contacts = ({ contactsData, dealId }: any) => {
   const {
     theme,
     isOpenAlert,
     setIsOpenAlert,
-    searchName,
-    setSearchName,
+    // searchName,
+    // setSearchName,
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
     contactRecord,
     setContactRecord,
     deleteContactHandler,
-  } = useContacts();
+    contactLoading,
+  } = useContacts(dealId);
 
   return (
     <Box
@@ -41,7 +42,9 @@ const Contacts = ({ contactsData }: any) => {
       <Grid container spacing={2}>
         <Grid item md={4} xs={12} sx={styles?.countBox}>
           <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
+            {contactsData?.length < 10
+              ? `0${contactsData?.length}`
+              : contactsData?.length}
           </Typography>
 
           <Typography variant="h5">Contacts</Typography>
@@ -56,8 +59,8 @@ const Contacts = ({ contactsData }: any) => {
             }}
           >
             <Search
-              searchBy={searchName}
-              setSearchBy={setSearchName}
+              // searchBy={searchName}
+              // setSearchBy={setSearchName}
               label="Search By Name"
               size="medium"
             />
@@ -93,6 +96,7 @@ const Contacts = ({ contactsData }: any) => {
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
           contactRecord={contactRecord}
+          dealId={dealId}
         />
       )}
       <AlertModals
@@ -101,6 +105,7 @@ const Contacts = ({ contactsData }: any) => {
         open={isOpenAlert}
         handleClose={handleCloseAlert}
         handleSubmitBtn={deleteContactHandler}
+        isLoading={contactLoading}
       />
     </Box>
   );
