@@ -42,6 +42,7 @@ import {
   useGetPlanIdQuery,
 } from '@/services/superAdmin/billing-invoices';
 import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
+import { productSuiteName } from '@/constants';
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
@@ -138,13 +139,17 @@ export const useAddPlan = () => {
 
   const queryParameters = {
     planTypeId: planTypeId,
-    productId: selectProductSuite === 'CRM' ? undefined : productId,
-    name: selectProductSuite === 'CRM' ? crmValue?.label : undefined,
+    productId:
+      selectProductSuite === productSuiteName?.crm ? undefined : productId,
+    name:
+      selectProductSuite === productSuiteName?.crm
+        ? crmValue?.label
+        : undefined,
   };
 
   let crmData: any;
 
-  if (selectProductSuite === 'CRM') {
+  if (selectProductSuite === productSuiteName?.crm) {
     const { data } = useGetExistingCrmQuery<any>(
       { params: queryParameters },
       { skip: isNullOrEmpty(planTypeId) },
