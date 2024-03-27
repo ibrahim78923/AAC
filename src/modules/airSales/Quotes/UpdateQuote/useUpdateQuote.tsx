@@ -21,6 +21,7 @@ import {
 } from '@/services/airSales/quotes';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { PAGINATION } from '@/config';
 
 const useUpdateQuote = () => {
   const router = useRouter();
@@ -28,8 +29,15 @@ const useUpdateQuote = () => {
   if (router?.query?.data) {
     quoteId = router?.query?.data;
   }
+
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+
   const [createAssociationQuote] = useCreateAssociationQuoteMutation();
-  const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 100 });
+  const { data: dataGetDeals } = useGetDealsQuery({
+    page: page,
+    limit: pageLimit,
+  });
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
   const [deleteCompaniesMutation, { isLoading: isCompanyDeleteLoading }] =
     useDeleteCompaniesMutation();
@@ -126,6 +134,7 @@ const useUpdateQuote = () => {
         variant: 'success',
       });
       setSelectedCompanyIds(null);
+      handleDeleteModal(null);
       // setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
@@ -142,6 +151,7 @@ const useUpdateQuote = () => {
       });
       setDeleteContactModalId(null);
       // setIsActionsDisabled(true);
+      handleContactDeleteModal(null);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -311,6 +321,8 @@ const useUpdateQuote = () => {
     handleContactDeleteModal,
     deleteContactModalId,
     handleSubmitBtn,
+    setPage,
+    setPageLimit,
   };
 };
 

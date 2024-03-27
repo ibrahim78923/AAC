@@ -72,7 +72,7 @@ const useDealTab = () => {
   });
 
   const activeColumns = dealCustomzieCol?.data?.columns?.filter(
-    (column: { active: boolean }) => column.active,
+    (column: { active: boolean }) => column?.active,
   );
 
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});

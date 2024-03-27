@@ -21,17 +21,20 @@ export const AllDealColumns = ({
   isAllSelected: boolean;
   activeColumns: any;
 }) => {
-  // const { activeColumns } = useDealTab();
-
   const theme = useTheme();
+  const DEAL_OWNER_ATTRIBUTE = 'dealOwner';
+  const DEAL_NAME_ATTRIBUTE = 'name';
+  const DEAL_CLOSEDATE_ATTRIBUTE = 'closeDate';
+  const DEAL_CREATEDAT_ATTRIBUTE = 'createdAt';
+
   const activeColumnsData = (attribute: any, info: any) => {
     const navigate = useRouter();
-    if (attribute.includes('dealOwner')) {
+    if (attribute?.includes(DEAL_OWNER_ATTRIBUTE)) {
       return (
         <Box sx={{ display: 'flex', gap: '5px' }}>
           <Avatar
             alt="user"
-            sx={{ background: '#ccc' }}
+            sx={{ background: theme?.palette?.custom?.dim_grey }}
             src={
               info?.row?.original?.dealOwner?.avatar?.url
                 ? IMG_URL + info?.row?.original?.dealOwner?.avatar?.url
@@ -50,7 +53,7 @@ export const AllDealColumns = ({
           </Box>
         </Box>
       );
-    } else if (attribute === 'name') {
+    } else if (attribute === DEAL_NAME_ATTRIBUTE) {
       return (
         <Box
           sx={{ cursor: 'pointer' }}
@@ -72,11 +75,11 @@ export const AllDealColumns = ({
           </Typography>
         </Box>
       );
-    } else if (attribute === 'closeDate') {
+    } else if (attribute === DEAL_CLOSEDATE_ATTRIBUTE) {
       return (
         dayjs(info?.row?.original?.closeDate)?.format(DATE_FORMAT?.UI) ?? 'N/A'
       );
-    } else if (attribute === 'createdAt') {
+    } else if (attribute === DEAL_CREATEDAT_ATTRIBUTE) {
       return (
         dayjs(info?.row?.original?.createdAt)?.format(DATE_FORMAT?.UI) ?? 'N/A'
       );
@@ -102,10 +105,6 @@ export const AllDealColumns = ({
           handleSelectAllCheckbox(target?.checked);
         }}
         checked={isAllSelected}
-        // checked={
-        //   isAllSelected?.data?.companies?.length &&
-        //   checkedRows?.length === companiesData?.data?.companies?.length
-        // }
       />
     ),
     isSortable: false,

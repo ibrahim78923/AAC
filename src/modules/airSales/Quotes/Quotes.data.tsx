@@ -51,30 +51,38 @@ export const quotesColumns = (
 
   const isSelected = (id: any) => selectedRow?.indexOf(id) !== -1;
 
+  const DEAL_AMOUNT_ATTRIBUTE = 'deal.amount';
+  const DEAL_NAME_ATTRIBUTE = 'name';
+  const DEAL_STATUS_ATTRIBUTE = 'status';
+  const DEAL_DEAL_NAME_ATTRIBUTE = 'deal.name';
+  const DEAL_CREATEDBY_ATTRIBUTE = 'createdBy';
+  const DEAL_CREATEDAT_ATTRIBUTE = 'createdAt';
+  const DEAL_EXPIRY_ATTRIBUTE = 'expiryDate';
+
   const activeColumnsData = (attribute: any, info: any) => {
-    if (attribute === 'name') {
+    if (attribute === DEAL_NAME_ATTRIBUTE) {
       return (
         <Box sx={{ cursor: 'pointer' }}>
           {info?.row?.original?.name ?? 'N/A'}
         </Box>
       );
-    } else if (attribute === 'deal.amount') {
+    } else if (attribute === DEAL_AMOUNT_ATTRIBUTE) {
       return info?.row?.original?.deal.amount ?? 'N/A';
-    } else if (attribute === 'status') {
+    } else if (attribute === DEAL_STATUS_ATTRIBUTE) {
       return info?.row?.original?.status ?? 'N/A';
-    } else if (attribute === 'deal.name') {
+    } else if (attribute === DEAL_DEAL_NAME_ATTRIBUTE) {
       return info?.row?.original?.deal?.name ?? 'N/A';
-    } else if (attribute?.includes('createdBy')) {
+    } else if (attribute?.includes(DEAL_CREATEDBY_ATTRIBUTE)) {
       const name =
         info?.row?.original?.createdBy?.firstName +
         ' ' +
         info?.row?.original?.createdBy?.lastName;
       return name ?? 'N/A';
-    } else if (attribute === 'createdAt') {
+    } else if (attribute === DEAL_CREATEDAT_ATTRIBUTE) {
       return (
         dayjs(info?.row?.original?.createdAt)?.format(DATE_FORMAT?.API) ?? 'N/A'
       );
-    } else if (attribute === 'expiryDate') {
+    } else if (attribute === DEAL_EXPIRY_ATTRIBUTE) {
       return (
         dayjs(info?.row?.original?.expiryDate)?.format(DATE_FORMAT?.API) ??
         'N/A'
@@ -128,97 +136,4 @@ export const quotesColumns = (
   const columns = [checkboxColumn, ...tableActiveColumns];
 
   return columns;
-  // return [
-  //   {
-  //     accessorFn: (row: any) => row?._id,
-  //     id: 'cellCheckbox',
-  //     cell: (info: any) => {
-  //       return (
-  //         <Checkbox
-  //           color="primary"
-  //           checked={isSelected(info?.cell?.row?.original?._id)}
-  //           name={info?.cell?.row?.original?._id}
-  //           onClick={() => {
-  //             handleRowClick(info?.cell?.row?.original?._id);
-  //           }}
-  //         />
-  //       );
-  //     },
-  //     header: (info: any) => {
-  //       const rows = info?.table?.options?.data;
-  //       return (
-  //         <Checkbox
-  //           color="primary"
-  //           indeterminate={
-  //             selectedRow?.length > 0 && selectedRow?.length < rows?.length
-  //           }
-  //           checked={
-  //             rows?.length > 0 &&
-  //             selectedRow?.length === info?.table?.options?.data?.length
-  //           }
-  //           onChange={(event) => handleSelectAllClick(event, rows)}
-  //         />
-  //       );
-  //     },
-  //     isSortable: false,
-  //   },
-  //   {
-  //     accessorFn: (row: any) => row?.name,
-  //     id: 'name',
-  //     cell: (info: any) => info?.getValue(),
-  //     header: 'Quote Name',
-  //     isSortable: true,
-  //   },
-  //   {
-  //     accessorFn: (row: any) => row?.deal,
-  //     id: 'deal',
-  //     isSortable: true,
-  //     header: 'Quote Amount',
-  //     cell: (info: any) => {
-  //       return <>£{info?.getValue()?.amount}</>;
-  //     },
-  //   },
-  //   {
-  //     accessorFn: (row: any) => row?.isSubmitted,
-  //     id: 'isSubmitted',
-  //     isSortable: true,
-  //     header: 'Status',
-  //     cell: (info: any) => {
-  //       if (info?.getValue()) {
-  //         return <Box sx={{ color: 'success.main' }}>Published</Box>;
-  //       } else {
-  //         return <>Draft</>;
-  //       }
-  //     },
-  //   },
-  //   {
-  //     accessorFn: (row: any) => row?.deal,
-  //     id: 'deal',
-  //     isSortable: true,
-  //     header: 'Deal Name',
-  //     cell: (info: any) => info?.getValue()?.name,
-  //   },
-  //   {
-  //     accessorFn: (row: any) => row?.createdBy,
-  //     id: 'createdBy',
-  //     isSortable: true,
-  //     header: 'Created By',
-  //     cell: (info: any) =>
-  //       `${info?.getValue()?.firstName} ${info?.getValue()?.lastName}`,
-  //   },
-  //   {
-  //     accessorFn: (row: any) => row?.createdAt,
-  //     id: 'createdAt',
-  //     isSortable: true,
-  //     header: 'Created Date',
-  //     cell: (info: any) => dayjs(info?.getValue()).format(DATE_FORMAT?.UI),
-  //   },
-  //   {
-  //     accessorFn: (row: any) => row?.expiryDate,
-  //     id: 'expiryDate',
-  //     isSortable: true,
-  //     header: 'Expiration Date',
-  //     cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
-  //   },
-  // ];
 };

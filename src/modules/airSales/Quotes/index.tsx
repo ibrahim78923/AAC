@@ -99,10 +99,6 @@ const Quotes = () => {
         <CustomizeColumns
           open={openCustomizeColumns}
           onClose={handleCloseCustomizeColumns}
-          // columns={getQuotesColumns}
-          // onSubmit={handleApplyColumns}
-          // checkedColumns={checkedColumns}
-          // handleToggleColumns={handleToggleColumns}
         />
       )}
       {openDeleteQuote && (

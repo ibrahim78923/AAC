@@ -18,7 +18,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 const CreateDeal = ({ open, onClose }: any) => {
   const [postDeals] = usePostDealsMutation();
-  // const startDate = 0;
 
   const methods = useForm<any>({
     resolver: yupResolver(validationSchema),
