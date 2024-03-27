@@ -12,7 +12,9 @@ import { PlusIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const Tasks = () => {
+const Tasks = (props: any) => {
+  const { selectedRecId } = props;
+
   const {
     openDrawer,
     setOpenDrawer,
@@ -20,7 +22,7 @@ const Tasks = () => {
     selectedCheckboxes,
     taskData,
     setSelectedCheckboxes,
-  } = useTasks();
+  } = useTasks(selectedRecId);
   return (
     <Box
       sx={{

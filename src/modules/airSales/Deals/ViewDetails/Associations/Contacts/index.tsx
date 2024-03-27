@@ -20,8 +20,8 @@ const Contacts = ({ contactsData, dealId }: any) => {
     theme,
     isOpenAlert,
     setIsOpenAlert,
-    // searchName,
-    // setSearchName,
+    searchName,
+    setSearchName,
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
@@ -59,8 +59,8 @@ const Contacts = ({ contactsData, dealId }: any) => {
             }}
           >
             <Search
-              // searchBy={searchName}
-              // setSearchBy={setSearchName}
+              searchBy={searchName}
+              setSearchBy={setSearchName}
               label="Search By Name"
               size="medium"
             />

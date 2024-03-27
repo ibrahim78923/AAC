@@ -5,12 +5,13 @@ import {
 } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
-import useDealTab from '../../DealTab/useDealTab';
+import useDealTab from '@/modules/airSales/Deals/DealTab/useDealTab';
 import { useGetUsersListQuery } from '@/services/airSales/deals';
 import useDetails from './useDetails';
+import { ROLES } from '@/constants/strings';
 
 export const detailsValidationSchema = Yup?.object()?.shape({
-  // name: Yup?.string()
+  name: Yup?.string(),
 });
 
 export const detailsDefaultValues = {
@@ -29,7 +30,7 @@ export const detailsDefaultValues = {
 };
 
 export const detailsDataArray = (dealPiplineId: any) => {
-  const userRole = 'ORG_EMPLOYEE';
+  const userRole = ROLES?.ORG_EMPLOYEE;
   const { getDealOwnerContacts } = useDetails({});
   const { pipelineData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: userRole });

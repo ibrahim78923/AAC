@@ -10,6 +10,7 @@ const useContacts = (dealId: any) => {
   const [openDrawer, setOpenDrawer] = useState('');
   const [isOpenAlert, setIsOpenAlert] = useState(false);
   const [contactRecord, setContactRecord] = useState({});
+  const [searchName, setSearchName] = useState('');
 
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
@@ -22,7 +23,6 @@ const useContacts = (dealId: any) => {
     try {
       await deleteAssociation({
         body: {
-          // dealId: '655b2b2ecd318b576d7d71e8',
           dealId: dealId,
           contactId: contactRecord,
         },
@@ -46,6 +46,8 @@ const useContacts = (dealId: any) => {
     contactRecord,
     setContactRecord,
     contactLoading,
+    searchName,
+    setSearchName,
   };
 };
 

@@ -209,20 +209,10 @@ const ViewDetails = () => {
                 <ActivityLog />
               </PermissionsGuard>
 
-              {/* <PermissionsGuard
-                permissions={[
-                  AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_CONTACT,
-                ]}
-              > */}
               <Associations selected={id} />
-              {/* </PermissionsGuard> */}
-              {/* <PermissionsGuard
-                permissions={[
-                  AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_CONTACT,
-                ]}
-              > */}
-              <Tasks />
-              {/* </PermissionsGuard> */}
+
+              <Tasks selectedRecId={id} />
+
               <Notes />
               <Calls />
               <Meetings />
