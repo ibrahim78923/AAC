@@ -79,9 +79,9 @@ const PermissionsAccordion = (props: any) => {
                 <FormControlLabel
                   control={
                     <SwitchBtn
-                      checked={getModulePermissions(item.subModules).every(
+                      checked={getModulePermissions(item?.subModules)?.every(
                         (permission: any) =>
-                          watch('permissions').includes(permission),
+                          watch('permissions')?.includes(permission),
                       )}
                       handleSwitchChange={() =>
                         selectAllPermissions(item?.subModules)
