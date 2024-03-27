@@ -112,6 +112,7 @@ export const TAGS = [
   'SERVICE_CATALOG',
   'CATALOG',
   'PURCHASE_ORDER',
+  'DROPDOWN_FOLDER',
 ];
 
 const baseQuery = fetchBaseQuery({

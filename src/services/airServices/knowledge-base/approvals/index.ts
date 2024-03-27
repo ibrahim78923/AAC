@@ -1,7 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-export const articlesAPI = baseAPI?.injectEndpoints({
+export const articlesApprovalAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getUnapprovedArticles: builder?.query({
       query: (getUnapprovedArticlesParameter: any) => ({
@@ -22,4 +22,4 @@ export const articlesAPI = baseAPI?.injectEndpoints({
 export const {
   useLazyGetUnapprovedArticlesQuery,
   usePostArticleApprovalMutation,
-} = articlesAPI;
+} = articlesApprovalAPI;
