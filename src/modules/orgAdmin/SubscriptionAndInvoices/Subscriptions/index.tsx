@@ -83,12 +83,7 @@ const Subscriptions = () => {
                 <PlanCard
                   status={plan?.status}
                   icon={getProductIcon(plan?.product)}
-                  title={
-                    // 'plan?.planProducts?.map(
-                    //   (product: { name: string }) => product?.name,
-                    // ) ?? plan?.name'
-                    plan?.name || plan?.productName
-                  }
+                  title={plan?.name || plan?.productName}
                   planDuration={plan?.planDuration}
                   planUsers={plan?.additionalUsers}
                   planData={plan?.billingCycle}
