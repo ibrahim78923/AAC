@@ -123,7 +123,8 @@ export const useAddPlan = () => {
   });
 
   const { handleSubmit, reset, watch, setValue } = methodsPlan;
-  const { handleSubmit: handleSubmitPlanFeatures } = methodsPlanFeatures;
+  const { handleSubmit: handleSubmitPlanFeatures, setValue: setPlanFeatures } =
+    methodsPlanFeatures;
   const {
     handleSubmit: handleSubmitPlanModules,
     formState: { errors },
@@ -220,7 +221,15 @@ export const useAddPlan = () => {
     if (singlePlan && query.type === 'edit') {
       setPermissionSlugs(
         'permissionSlugs',
-        singlePlan.data.planProductPermissions[0].permissionSlugs,
+        singlePlan?.data?.planProductPermissions[0]?.permissionSlugs?.map(
+          (obj: any) => obj?.slug,
+        ),
+      );
+      setPlanFeatures(
+        'features',
+        singlePlan?.data?.planProductFeatures?.map(
+          (obj: any) => obj?.featureId,
+        ),
       );
     }
   }, [singlePlan]);
