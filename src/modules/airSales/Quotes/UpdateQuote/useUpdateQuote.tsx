@@ -28,7 +28,6 @@ const useUpdateQuote = () => {
   if (router?.query?.data) {
     quoteId = router?.query?.data;
   }
-
   const [createAssociationQuote] = useCreateAssociationQuoteMutation();
   const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 100 });
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
@@ -90,7 +89,26 @@ const useUpdateQuote = () => {
 
   const onSubmit = async () => {
     try {
-      putSubmitQuote({ id: quoteId, isSubmitted: true });
+      putSubmitQuote({
+        id: quoteId,
+        body: { id: quoteId, isSubmitted: false },
+      });
+      enqueueSnackbar('Save as draft submit later', {
+        variant: 'success',
+      });
+    } catch (error) {
+      enqueueSnackbar(`Something went wrong`, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
+  const handleSubmitBtn = async () => {
+    try {
+      putSubmitQuote({
+        id: quoteId,
+        body: { id: quoteId, isSubmitted: true },
+      });
       enqueueSnackbar('Save as draft submit later', {
         variant: 'success',
       });
@@ -233,10 +251,10 @@ const useUpdateQuote = () => {
   const handleCloseFormCreateProduct = () => {
     setIsOpenFormCreateProduct(false);
   };
-
   const handleOpenDialog = () => {
     setIsOpenDialog(true);
   };
+
   const handleCloseDialog = () => {
     setIsOpenDialog(false);
   };
@@ -292,6 +310,7 @@ const useUpdateQuote = () => {
     isContactDeleteLoading,
     handleContactDeleteModal,
     deleteContactModalId,
+    handleSubmitBtn,
   };
 };
 

@@ -17,6 +17,7 @@ export const validationSchema = Yup?.object()?.shape({
     ?.min(0, 'please Enter positive value')
     ?.positive('Please enter a positive number')
     ?.required('Please enter a number'),
+  addLineItemId: Yup.string().optional(),
 });
 
 export const defaultValues = {
@@ -24,6 +25,7 @@ export const defaultValues = {
   dealPiplineId: '',
   ownerId: '',
   dealStageId: '',
+  addLineItemId: '',
 };
 export const createDealData = ({ dealPiplineId }: any) => {
   const userRole = 'ORG_EMPLOYEE';

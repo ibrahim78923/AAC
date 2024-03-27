@@ -1,7 +1,4 @@
-import {
-  useGetCompaniesOwnersQuery,
-  useGetContactsQuery,
-} from '@/services/airSales/quotes';
+import { useGetContactsQuery } from '@/services/airSales/quotes';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
@@ -18,9 +15,6 @@ const useFormAddContact = (onClose: () => void) => {
   const { data: contacts } = useGetContactsQuery({});
 
   const { dataGetQuoteById, createAssociationQuote } = useUpdateQuote();
-
-  const { data: companiesOwner } = useGetCompaniesOwnersQuery({});
-
   const [postCompanies] = usePostCompaniesMutation();
   const methods: any = useForm<any>({
     resolver: yupResolver(createComapnySchema),
@@ -67,7 +61,6 @@ const useFormAddContact = (onClose: () => void) => {
     onSubmit,
     handleSubmit,
     methods,
-    companiesOwner,
     contacts,
   };
 };

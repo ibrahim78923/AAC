@@ -71,10 +71,13 @@ export const quotesColumns = (
         info?.row?.original?.createdBy?.lastName;
       return name ?? 'N/A';
     } else if (attribute === 'createdAt') {
-      return info?.row?.original?.createdAt ?? 'N/A';
+      return (
+        dayjs(info?.row?.original?.createdAt)?.format(DATE_FORMAT?.API) ?? 'N/A'
+      );
     } else if (attribute === 'expiryDate') {
       return (
-        dayjs(info?.row?.original?.expiryDate).format(DATE_FORMAT?.API) ?? 'N/A'
+        dayjs(info?.row?.original?.expiryDate)?.format(DATE_FORMAT?.API) ??
+        'N/A'
       );
     } else {
       return info?.row?.original[attribute] ?? 'N/A';

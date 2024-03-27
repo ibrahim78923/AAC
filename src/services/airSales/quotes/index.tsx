@@ -79,13 +79,6 @@ export const quotesAPI = baseAPI.injectEndpoints({
       },
       invalidatesTags: ['COMPANY'],
     }),
-    getCompaniesOwners: builder.query({
-      query: () => ({
-        url: END_POINTS?.COMPANIES_OWNER,
-        method: 'GET',
-      }),
-      // providesTags: TAG,
-    }),
     getUsersList: builder.query({
       query: (params: any) => ({
         url: `${END_POINTS?.USERS_LIST_ADMIN}`,
@@ -219,7 +212,6 @@ export const {
   usePostCompaniesMutation,
   useDeleteQuotesMutation,
   useGetUserListQuery,
-  useGetCompaniesOwnersQuery,
   useGetUsersListQuery,
   usePostProductMutation,
   usePostAddbuyerInfoMutation,

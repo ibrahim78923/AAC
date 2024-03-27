@@ -43,6 +43,7 @@ const UpdateQuote = () => {
     selectedBuyerContactIds,
     handleCompanyChange,
     selectedCompanyIds,
+    // handleSubmitBtn,
   } = useUpdateQuote();
 
   const stepsArgs: any = {
@@ -116,13 +117,13 @@ const UpdateQuote = () => {
                   <Button onClick={handleFormSubmit} variant="contained">
                     Save & Submit Later
                   </Button>
-                  <Button
+                  {/* <Button
                     onClick={handleStepBack}
                     variant="outlined"
                     sx={styles?.btnBack}
                   >
                     Review
-                  </Button>
+                  </Button> */}
                   <Button onClick={handleOpenDialog} variant="contained">
                     Submit
                   </Button>
