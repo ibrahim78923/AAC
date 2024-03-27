@@ -17,7 +17,9 @@ export const addItemDefaultValuesFunction = (data: any) => {
   return {
     receivedItem: !!data?.data?.purchaseDetails?.length
       ? data?.data?.purchaseDetails?.map((x: any) => ({
-          itemName: data?.data?.vendorDetails?.name ?? '',
+          itemName:
+            data?.data?.productDetails?.[0]?.vendorproductcatalogsDetails
+              ?.name ?? '',
           received: null,
           quantity: x?.quantity ?? '',
           pending: x?.quantity ?? '',
