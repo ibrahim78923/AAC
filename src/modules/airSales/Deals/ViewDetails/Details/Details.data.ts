@@ -29,11 +29,12 @@ export const detailsDefaultValues = {
   closeDate: '',
 };
 
-export const detailsDataArray = (dealPiplineId: any) => {
-  const userRole = ROLES?.ORG_EMPLOYEE;
+export const detailsDataArray = (dealPiplineId: string) => {
   const { getDealOwnerContacts } = useDetails({});
   const { pipelineData } = useDealTab();
-  const { data: UserListData } = useGetUsersListQuery({ role: userRole });
+  const { data: UserListData } = useGetUsersListQuery({
+    role: ROLES?.ORG_EMPLOYEE,
+  });
 
   const filteredStages =
     pipelineData?.data?.dealpipelines?.find(
