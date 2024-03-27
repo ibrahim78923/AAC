@@ -17,8 +17,8 @@ import {
 
 export const useClosureRule = () => {
   const router = useRouter();
-  const { data, isLoading: getIsLoading } = useGetClosureRulesQuery(null);
-  const getClosureRuleValues = data?.data;
+  const { data, isLoading, isFetching, isError } =
+    useGetClosureRulesQuery(null);
 
   const ticket = {
     incidentClose: 0,
@@ -28,12 +28,11 @@ export const useClosureRule = () => {
   };
 
   const closureRuleMethods = useForm({
-    defaultValues: closureRuleDefaultValues(getClosureRuleValues, ticket),
+    defaultValues: closureRuleDefaultValues(data?.data, ticket),
   });
 
   const [postClosureRuleTrigger, postClosureRuleProgress] =
     usePostClosureRuleMutation();
-  const isLoading = postClosureRuleProgress?.isLoading;
 
   const isSubmit = async (data: any) => {
     const payload = {
@@ -154,8 +153,10 @@ export const useClosureRule = () => {
     resolveIncidentData,
     serviceCloseData,
     serviceResolveData,
+    postClosureRuleProgress,
     isLoading,
-    getIsLoading,
     handleCancel,
+    isError,
+    isFetching,
   };
 };

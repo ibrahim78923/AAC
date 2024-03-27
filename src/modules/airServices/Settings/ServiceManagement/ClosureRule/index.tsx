@@ -5,6 +5,7 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { IncidentServicesClosureRule } from './IncidentServicesClosureRule';
 import { LoadingButton } from '@mui/lab';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const ClosureRule = () => {
   const {
@@ -14,10 +15,14 @@ export const ClosureRule = () => {
     resolveIncidentData,
     serviceCloseData,
     serviceResolveData,
+    postClosureRuleProgress,
     isLoading,
-    getIsLoading,
     handleCancel,
+    isError,
+    isFetching,
   } = useClosureRule();
+  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isError) return <ApiErrorState />;
 
   return (
     <FormProvider
@@ -26,22 +31,22 @@ export const ClosureRule = () => {
     >
       <Header />
       <br />
-      {getIsLoading ? (
-        <SkeletonTable />
-      ) : (
-        <IncidentServicesClosureRule
-          closeIncidentData={closeIncidentData}
-          resolveIncidentData={resolveIncidentData}
-          serviceCloseData={serviceCloseData}
-          serviceResolveData={serviceResolveData}
-        />
-      )}
+      <IncidentServicesClosureRule
+        closeIncidentData={closeIncidentData}
+        resolveIncidentData={resolveIncidentData}
+        serviceCloseData={serviceCloseData}
+        serviceResolveData={serviceResolveData}
+      />
       <Box display={'flex'} justifyContent={'end'} gap={1} mt={1}>
-        <LoadingButton disabled={isLoading} variant="contained" type="submit">
+        <LoadingButton
+          disabled={postClosureRuleProgress?.isLoading}
+          variant="contained"
+          type="submit"
+        >
           Save
         </LoadingButton>
         <Button variant="outlined" onClick={handleCancel} color="secondary">
-          cancel
+          Cancel
         </Button>
       </Box>
     </FormProvider>
