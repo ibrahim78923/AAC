@@ -1,12 +1,12 @@
 import { Box, Grid } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { WorkflowConditions } from './WorkflowConditions';
 import { WorkflowHeader } from './WorkflowHeader';
-import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
-import { WorkflowActionExecuted } from './WorkflowActionExecuted';
 import { scheduledWorkflowDataArray } from './UpsertScheduledWorkflow.data';
 import { useUpsertScheduledWorkflow } from './useUpsertScheduledWorkflow';
 import { WorkflowSchedule } from './WorkflowSchedule';
+import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
+import { WorkflowConditions } from './WorkflowConditions';
+import { WorkflowActionExecuted } from './WorkflowActionExecuted';
 
 export const UpsertScheduledWorkflow = () => {
   const {
@@ -55,7 +55,7 @@ export const UpsertScheduledWorkflow = () => {
           moduleType={moduleType}
           watch={watch}
         />
-        <WorkflowActionExecuted />
+        <WorkflowActionExecuted watch={watch} setValue={setValue} />
       </FormProvider>
     </Box>
   );

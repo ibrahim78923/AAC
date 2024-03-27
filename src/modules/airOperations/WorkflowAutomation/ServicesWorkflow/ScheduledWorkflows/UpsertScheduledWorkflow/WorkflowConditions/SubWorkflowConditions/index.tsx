@@ -1,29 +1,26 @@
 import { Box, Button, Chip, Divider, Grid } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AddCircle } from '@mui/icons-material';
-import { conditionTypeOptions } from '../WorkflowConditions.data';
 import { useSubWorkflowConditions } from './useSubWorkflowConditions';
-import { RHFAutocomplete } from '@/components/ReactHookForm';
-import {
-  TICKET_FIELDS,
-  conditionOptions,
-  fieldOptions,
-  statusOptions,
-  ticketsFieldsOptions,
-} from './SubWorkflowConditions.data';
-import { scheduledWorkflowValues } from '../../UpsertScheduledWorkflow.data';
+import { subWorkflowData } from './SubWorkflowConditions.data';
+import { conditionTypeOptions } from '../WorkflowConditions.data';
 
 export const SubWorkflowConditions = (props: any) => {
-  const { index, conditionType, watch, register } = props;
-  const { append, fields, handleDeleteClick } = useSubWorkflowConditions(props);
+  const { index, conditionType, watch, setValue } = props;
+  const {
+    append,
+    fields,
+    handleDeleteClick,
+    agentApiQuery,
+    departmentApiQuery,
+    requestersApiQuery,
+    apiQueryLocations,
+  } = useSubWorkflowConditions(props);
   return (
     <>
-      {fields?.map((item, subIndex) => {
-        const workflowConditions = watch(
-          `workflowConditions.${index}.nestedArray.${subIndex}.condition1`,
-        );
+      {fields?.map((item: any, subIndex: any) => {
         return (
-          <Box key={item?.id}>
+          <Box key={item?._id}>
             {subIndex !== 0 && (
               <Divider
                 sx={{
@@ -42,43 +39,20 @@ export const SubWorkflowConditions = (props: any) => {
             <Box pt={1} display={'flex'} alignItems={'center'} gap={1}>
               <>
                 <Grid container spacing={1}>
-                  <Grid item md={3}>
-                    <RHFAutocomplete
-                      name={`workflowConditions.${index}.nestedArray.${subIndex}.condition1`}
-                      size="small"
-                      placeholder="Select"
-                      options={conditionOptions}
-                      inputRef={register}
-                    />
-                  </Grid>
-                  {workflowConditions === TICKET_FIELDS && (
-                    <>
-                      <Grid item md={3}>
-                        <RHFAutocomplete
-                          name={`workflowConditions.${index}.nestedArray.${subIndex}.condition2`}
-                          size="small"
-                          placeholder="Select"
-                          options={ticketsFieldsOptions}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <RHFAutocomplete
-                          name={`workflowConditions.${index}.nestedArray.${subIndex}.condition3`}
-                          size="small"
-                          placeholder="Select"
-                          options={fieldOptions}
-                        />
-                      </Grid>
-                      <Grid item md={3}>
-                        <RHFAutocomplete
-                          name={`workflowConditions.${index}.nestedArray.${subIndex}.condition4`}
-                          size="small"
-                          placeholder="Select"
-                          options={statusOptions}
-                        />
-                      </Grid>
-                    </>
-                  )}
+                  {subWorkflowData({
+                    index,
+                    subIndex,
+                    watch,
+                    setValue,
+                    agentApiQuery,
+                    departmentApiQuery,
+                    requestersApiQuery,
+                    apiQueryLocations,
+                  })?.map((item: any) => (
+                    <Grid item xs={12} md={item?.gridLength} key={item?._id}>
+                      <item.component {...item?.componentProps} />
+                    </Grid>
+                  ))}
                 </Grid>
               </>
               <DeleteIcon
@@ -90,9 +64,7 @@ export const SubWorkflowConditions = (props: any) => {
         );
       })}
       <Button
-        onClick={() =>
-          append(scheduledWorkflowValues?.workflowConditions?.[0]?.conditions)
-        }
+        onClick={() => append({ key: '', condition: '', value: null })}
         color="secondary"
         startIcon={<AddCircle color="action" />}
       >
