@@ -1,10 +1,12 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import ApiErrorState from '@/components/ApiErrorState';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useTicketRelated } from './useTicketRelated';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { knowledgeInsightsRelatedTicketColumns } from './TicketRelated.data';
+import {
+  NO_DATA_MESSAGE,
+  knowledgeInsightsRelatedTicketColumns,
+} from './TicketRelated.data';
 import NoData from '@/components/NoData';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { truncateText } from '@/utils/avatarUtils';
@@ -19,11 +21,27 @@ export const TicketRelated = (props: any) => {
     isSuccess,
     setPageLimit,
     setPage,
-  } = useTicketRelated(props);
+    error,
+  }: any = useTicketRelated(props);
 
   if (isLoading || isFetching) return <SkeletonTable />;
-  if (isError) return <ApiErrorState />;
 
+  if (isError)
+    return (
+      <>
+        <PageTitledHeader
+          moveBack={() => setSelectedArticle?.({})}
+          canMovedBack
+        />
+        <NoData
+          message={
+            error?.data?.message === NO_DATA_MESSAGE
+              ? error?.data?.message
+              : 'SOMETHING WENT WRONG'
+          }
+        />
+      </>
+    );
   return (
     <>
       {data?.data?.articles?.length ? (
