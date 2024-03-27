@@ -23,7 +23,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
         url: `${END_POINTS?.GET_COMPANY_ORGANIZATION_DROPDOWN}/${orgId}${END_POINTS?.GET_COMPANY_ACCOUNTS}`,
         method: 'GET',
       }),
-      providesTags: ['USERS'],
+      providesTags: ['USERS', 'PERMISSIONS'],
     }),
 
     getCompanyAccountsRoles: builder.query({
@@ -32,7 +32,7 @@ export const CommonAPIS = baseAPI.injectEndpoints({
         method: 'GET',
         params: params,
       }),
-      providesTags: ['USERS'],
+      providesTags: ['USERS', 'PERMISSIONS'],
     }),
     getDepartment: builder.query({
       query: (params: any) => ({
