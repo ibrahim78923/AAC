@@ -138,34 +138,30 @@ const useEditForm = (
   if (planData?.data?.plans) {
     setValue(
       'planPrice',
-      isSuccessPlan ? planData?.data?.plans[0]?.planPrice : '',
+      isSuccessPlan ? planData?.data?.plans?.planPrice : '',
     );
     setValue(
       'defaultUser',
-      isSuccessPlan ? planData?.data?.plans[0]?.defaultUsers : '',
+      isSuccessPlan ? planData?.data?.plans?.defaultUsers : '',
     );
     setValue(
       'defaultUserTwo',
-      isSuccessPlan ? planData?.data?.plans[0]?.defaultUsers : '',
+      isSuccessPlan ? planData?.data?.plans?.defaultUsers : '',
     );
   }
 
   if (ExistingplanData?.data?.plans) {
     setValue(
       'planPrice',
-      ExistingisSuccessPlan ? ExistingplanData?.data?.plans[0]?.planPrice : '',
+      ExistingisSuccessPlan ? ExistingplanData?.data?.plans?.planPrice : '',
     );
     setValue(
       'defaultUser',
-      ExistingisSuccessPlan
-        ? ExistingplanData?.data?.plans[0]?.defaultUsers
-        : '',
+      ExistingisSuccessPlan ? ExistingplanData?.data?.plans?.defaultUsers : '',
     );
     setValue(
       'defaultUserTwo',
-      ExistingisSuccessPlan
-        ? ExistingplanData?.data?.plans[0]?.defaultUsers
-        : '',
+      ExistingisSuccessPlan ? ExistingplanData?.data?.plans?.defaultUsers : '',
     );
   }
 
@@ -191,8 +187,8 @@ const useEditForm = (
       organizationId: values?.clientName,
       planId:
         selectProductSuite === 'CRM'
-          ? ExistingplanData?.data?.plans[0]?._id
-          : planData?.data?.plans[0]?._id,
+          ? ExistingplanData?.data?.plans?._id
+          : planData?.data?.plans?._id,
       additionalUsers: parseInt(values?.additionalUser),
       additionalStorage: parseInt(values?.additionalStorage),
       planDiscount: parseInt(values?.discount),

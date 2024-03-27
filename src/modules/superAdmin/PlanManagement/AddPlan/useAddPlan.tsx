@@ -461,7 +461,7 @@ export const useAddPlan = () => {
 
   useEffect(() => {
     if (
-      !isNullOrEmpty(crmData?.data?.plans[0]) &&
+      !isNullOrEmpty(crmData?.data?.plans) &&
       isNullOrEmpty(router?.query?.data)
     ) {
       enqueueSnackbar(
@@ -476,7 +476,7 @@ export const useAddPlan = () => {
     }
 
     if (
-      !isNullOrEmpty(planExist?.data?.plans[0]) &&
+      !isNullOrEmpty(planExist?.data?.plans) &&
       isNullOrEmpty(router?.query?.data)
     ) {
       enqueueSnackbar(
