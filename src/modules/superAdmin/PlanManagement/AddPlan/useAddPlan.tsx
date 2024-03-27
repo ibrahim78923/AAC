@@ -53,7 +53,8 @@ export const useAddPlan = () => {
   const [selectProductSuite, setSelectProductSuite] = useState('product');
 
   const [postPlanMangement, isLoading] = usePostPlanMangementMutation();
-  const [updatePlanMangement] = useUpdatePlanMangementMutation();
+  const [updatePlanMangement, { isLoading: updatePlanLoading }] =
+    useUpdatePlanMangementMutation();
   const router: any = useRouter();
   const { query } = router;
   let parsedRowData: any;
@@ -517,5 +518,6 @@ export const useAddPlan = () => {
     hanldeGoPreviousBack,
     isLoading: isLoading?.isLoading,
     ifCrmExist,
+    updatePlanLoading,
   };
 };
