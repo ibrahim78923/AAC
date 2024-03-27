@@ -11,8 +11,11 @@ import { debouncedSearch } from '@/utils';
 import { useGetProductsQuery } from '@/services/superAdmin/billing-invoices';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useRouter } from 'next/router';
 
 const useSignup = () => {
+  const { push } = useRouter();
+
   const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
   const methodsSignup = useForm({
     resolver: yupResolver(validationSchema),
@@ -74,6 +77,7 @@ const useSignup = () => {
       if (response?.data) {
         try {
           await authCompanyVerification({ email: { email: email } }).unwrap();
+          push('/login');
         } catch (error: any) {
           const errMsg = error?.data?.message;
           enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
