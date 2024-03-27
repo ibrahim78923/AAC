@@ -79,8 +79,8 @@ export const useImportModal = () => {
 
   const handlePreview = () => {
     if (importDeals) {
-      const fileURL = URL.createObjectURL(importDeals);
-      window.open(fileURL);
+      const fileURL = URL?.createObjectURL(importDeals);
+      window?.open(fileURL);
     }
   };
 
