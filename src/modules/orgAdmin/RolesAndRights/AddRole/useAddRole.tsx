@@ -71,7 +71,7 @@ const useAddRole = () => {
         (permission: any) => !modulePermissions?.includes(permission),
       );
     }
-    setPayload(permissionsArray);
+    setValue('permissions', permissionsArray);
   };
 
   const setPayload = (permissionsArray: any) => {
@@ -149,7 +149,6 @@ const useAddRole = () => {
       },
     );
   };
-
   return {
     productPermissionsData,
     viewPerdetails,
