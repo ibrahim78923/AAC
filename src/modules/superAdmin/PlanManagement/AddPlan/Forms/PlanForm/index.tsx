@@ -32,6 +32,7 @@ const AddPlanForm = ({
   setCrmValue,
   selectProductSuite,
   setSelectProductSuite,
+  isSuccess,
 }: any) => {
   const {
     formDefaultValuesFunction,
@@ -62,6 +63,7 @@ const AddPlanForm = ({
           onClick={() => setSelectProductSuite('product')}
           variant={`${selectProductSuite === 'product' ? 'contained' : 'text'}`}
           sx={{ height: '25px', borderRadius: '10px' }}
+          disabled={isSuccess}
         >
           <Typography>Product</Typography>{' '}
         </Button>
@@ -69,6 +71,7 @@ const AddPlanForm = ({
           onClick={() => setSelectProductSuite('CRM')}
           variant={`${selectProductSuite === 'CRM' ? 'contained' : 'text'}`}
           sx={{ height: '25px', borderRadius: '10px' }}
+          disabled={isSuccess}
         >
           <Typography>CRM Suite</Typography>
         </Button>
@@ -104,6 +107,7 @@ const AddPlanForm = ({
                 label={planNameRender}
                 size="small"
                 required={true}
+                disabled={isSuccess}
               >
                 {productsOptions?.map((option: any) => (
                   <option key={uuidv4()} value={option?.value}>
@@ -115,13 +119,6 @@ const AddPlanForm = ({
 
             {item?.componentProps.name == selectProductSuites?.planTypeId &&
               selectProductSuite === selectProductSuites?.crm && (
-                // <RHFTextField
-                //   name="name"
-                //   label="Name"
-                //   size="small"
-                //   placeholder="Enter Name"
-                //   required={true}
-                // />
                 <>
                   <label style={{ marginTop: '20px' }}>Name</label>
                   <Autocomplete
