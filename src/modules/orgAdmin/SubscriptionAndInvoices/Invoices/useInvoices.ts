@@ -21,7 +21,7 @@ const useInvoices = () => {
   const [filterValues, setFilterValues] = useState({});
   const [searchByInvoices, setSearchByInvoices] = useState('');
 
-  const searchParam = { seacrh: searchByInvoices };
+  const searchParam = { search: searchByInvoices };
   const { data } = useGetInvoicesQuery({
     params: { ...filterValues, ...searchParam },
   });

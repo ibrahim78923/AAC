@@ -55,6 +55,8 @@ export const END_POINTS = {
   GET_PERMISSIONS_ROLES: '/permissions/role',
   TASK_MANAGEMENT: '/task/management',
   TASK_CUSTOMIZE_COLUMN: '/customized-columns',
+  TASK_MANAGEMENT_INSIGHTS: '/task/task-management-insights',
+  TASK_MANAGEMENT_FEED: '/task/task-management-feed',
   DEALS_ASSOCIATION: '/deals/get-associations',
   ENQUIRIES: '/enquiries/',
   CREATE_ASSOCIATION: '/deals/create-association',
