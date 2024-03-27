@@ -4,6 +4,7 @@ import { Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
 export const FIRST_ELEMENT = 0;
+export const NO_DATA_MESSAGE = 'No inserted tickets found';
 export const knowledgeInsightsRelatedTicketColumns = [
   {
     accessorFn: (row: any) => row?.insertedTickets,
