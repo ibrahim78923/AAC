@@ -15,7 +15,12 @@ const Associations = (props: any) => {
   const { selected } = props;
 
   const sectionId = useSearchParams().get('section-id');
-  const { assocaitionData, isLoading } = useAssociations(selected);
+  const {
+    assocaitionData,
+    isLoading,
+    handleContactSearch,
+    handleComapnySearch,
+  } = useAssociations(selected);
 
   const router = useRouter();
   useEffect(() => {
@@ -33,6 +38,7 @@ const Associations = (props: any) => {
               contactsData={assocaitionData?.contacts}
               dealId={selected}
               isLoading={isLoading}
+              handleSearch={handleContactSearch}
             />
           </Grid>
           <Grid item xs={12}>
@@ -40,8 +46,10 @@ const Associations = (props: any) => {
           </Grid>
           <Grid item xs={12} id="companies">
             <Companies
-              contactsData={assocaitionData?.companies}
+              companiesData={assocaitionData?.companies}
+              dealId={selected}
               isLoading={isLoading}
+              handleSearch={handleComapnySearch}
             />
           </Grid>
           <Grid item xs={12}>

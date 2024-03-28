@@ -15,13 +15,11 @@ import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const Contacts = ({ contactsData, dealId, isLoading }: any) => {
+const Contacts = ({ contactsData, dealId, isLoading, handleSearch }: any) => {
   const {
     theme,
     isOpenAlert,
     setIsOpenAlert,
-    searchName,
-    setSearchName,
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
@@ -64,10 +62,8 @@ const Contacts = ({ contactsData, dealId, isLoading }: any) => {
             }}
           >
             <Search
-              searchBy={searchName}
-              setSearchBy={setSearchName}
-              label="Search By Name"
-              size="medium"
+              placeholder="Search By Name"
+              onChange={({ target }) => handleSearch(target.value)}
             />
             <PermissionsGuard
               permissions={[

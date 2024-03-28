@@ -8,7 +8,7 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import useCompanies from './useCompanies';
 
 import { columns } from './Companies.data';
-import { companiesData } from '@/mock/modules/airSales/Deals/ViewDetails';
+// import { companiesData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
 import { PlusIcon } from '@/assets/icons';
 
@@ -16,13 +16,11 @@ import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const Companies = ({ contactsData, isLoading }: any) => {
+const Companies = ({ companiesData, dealId, isLoading, handleSearch }: any) => {
   const {
     theme,
     isOpenAlert,
     setIsOpenAlert,
-    searchName,
-    setSearchName,
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
@@ -43,9 +41,9 @@ const Companies = ({ contactsData, isLoading }: any) => {
           ) : (
             <>
               <Typography sx={styles?.associationCount(theme)} variant="body3">
-                {contactsData?.length < 10
-                  ? `0${contactsData?.length}`
-                  : contactsData?.length}
+                {companiesData?.length < 10
+                  ? `0${companiesData?.length}`
+                  : companiesData?.length}
               </Typography>
               <Typography variant="h5">Companies</Typography>
             </>
@@ -61,10 +59,8 @@ const Companies = ({ contactsData, isLoading }: any) => {
             }}
           >
             <Search
-              searchBy={searchName}
-              setSearchBy={setSearchName}
-              label="Search By Name"
-              size="medium"
+              placeholder="Search By Name"
+              onChange={({ target }) => handleSearch(target.value)}
             />
             <PermissionsGuard
               permissions={[
@@ -89,10 +85,13 @@ const Companies = ({ contactsData, isLoading }: any) => {
           />
         </Grid>
       </Grid>
-      <CompaniesEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
+      {openDrawer && (
+        <CompaniesEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          dealId={dealId}
+        />
+      )}
       <AlertModals
         message={"You're about to remove a record. Are you sure?"}
         type={'delete'}

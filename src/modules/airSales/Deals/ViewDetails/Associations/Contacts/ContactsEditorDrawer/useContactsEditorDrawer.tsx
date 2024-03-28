@@ -126,7 +126,7 @@ const useContactsEditorDrawer = ({
           await createAssociation({
             body: {
               //TODO:temporary id data come from backend
-              dealId: '655b2b2ecd318b576d7d71e8',
+              dealId: dealId,
               contactId: response?.data?._id,
             },
           }).unwrap();
@@ -147,7 +147,7 @@ const useContactsEditorDrawer = ({
           });
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
       enqueueSnackbar(errMessage ?? 'Error occurred', {

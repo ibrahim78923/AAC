@@ -1,8 +1,8 @@
 import {
-  RHFDatePicker,
+  // RHFDatePicker,
   RHFSelect,
   RHFTextField,
-  RHFTimePicker,
+  // RHFTimePicker,
 } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
@@ -172,26 +172,26 @@ export const companiesDataArray = (getCompanyContacts: any) => {
         fullWidth: true,
       },
     },
-    {
-      md: 6,
-      component: RHFDatePicker,
-      componentProps: {
-        name: 'dateOfJoining',
-        label: 'Date of Joining',
-        placeholder: 'Enter here',
-        fullWidth: true,
-      },
-    },
-    {
-      md: 6,
-      component: RHFTimePicker,
-      componentProps: {
-        name: 'time',
-        label: 'Time of Joining',
-        placeholder: 'Enter here',
-        fullWidth: true,
-      },
-    },
+    // {
+    //   md: 6,
+    //   component: RHFDatePicker,
+    //   componentProps: {
+    //     name: 'dateOfJoining',
+    //     label: 'Date of Joining',
+    //     placeholder: 'Enter here',
+    //     fullWidth: true,
+    //   },
+    // },
+    // {
+    //   md: 6,
+    //   component: RHFTimePicker,
+    //   componentProps: {
+    //     name: 'time',
+    //     label: 'Time of Joining',
+    //     placeholder: 'Enter here',
+    //     fullWidth: true,
+    //   },
+    // },
   ];
 };
 

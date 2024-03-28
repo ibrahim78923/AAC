@@ -16,7 +16,7 @@ import useCompaniesEditorDrawer from './useCompaniesEditorDrawer';
 import Search from '@/components/Search';
 
 const CompaniesEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
+  const { openDrawer, setOpenDrawer, dealId } = props;
   const {
     handleSubmit,
     onSubmit,
@@ -25,7 +25,7 @@ const CompaniesEditorDrawer = (props: any) => {
     watchCompany,
     searchTicket,
     setSearchTicket,
-  } = useCompaniesEditorDrawer(openDrawer);
+  } = useCompaniesEditorDrawer({ openDrawer, setOpenDrawer, dealId });
 
   return (
     <div>
