@@ -99,8 +99,8 @@ export const useClosureRule = () => {
       successSnackbar(res?.message ?? 'Saved Successfully');
       handleBack();
       reset();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.message);
     }
   };
 
