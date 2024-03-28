@@ -13,7 +13,13 @@ export const TicketBased = () => {
     useTicketBased();
   return (
     <>
-      <Box display={'flex'} justifyContent={'space-between'} marginRight={3}>
+      <Box
+        display={'flex'}
+        flexWrap={'wrap'}
+        justifyContent={'space-between'}
+        gap={2}
+        mr={2}
+      >
         <Typography variant="h5">
           Tickets based on{' '}
           <Typography textTransform="capitalize" component="span" variant="h5">

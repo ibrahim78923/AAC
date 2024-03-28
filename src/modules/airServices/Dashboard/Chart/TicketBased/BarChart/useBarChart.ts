@@ -31,7 +31,7 @@ export const useBarChart = ({ chartData }: any) => {
   const months = Object?.keys(groupedData || {})?.sort(
     (a: any, b: any) => a - b,
   );
-  const seriesData = ['RESOLVED', 'CLOSED', 'OPEN', 'PENDING'].map(
+  const seriesData = ['RESOLVED', 'CLOSED', 'OPEN', 'PENDING']?.map(
     (status) => ({
       name: status,
       data: months?.map((month) => groupedData[month]?.[status] || 0),
@@ -40,7 +40,7 @@ export const useBarChart = ({ chartData }: any) => {
 
   const options = {
     xaxis: {
-      categories: months.map(
+      categories: months?.map(
         (month) => monthAbbreviations[parseInt(month) - 1],
       ),
     },
