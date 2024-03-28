@@ -14,7 +14,7 @@ export const ChangePassword = () => {
     reset,
     handleSubmitChangePassword,
     theme,
-    isLoading,
+    postChangePasswordProgress,
   } = useChangePassword();
   return (
     <Box
@@ -48,7 +48,7 @@ export const ChangePassword = () => {
             </Grid>
             <Box display={'flex'} justifyContent={'end'} gap={1}>
               <LoadingButton
-                disabled={isLoading}
+                disabled={postChangePasswordProgress?.isLoading}
                 variant="contained"
                 type="submit"
               >
