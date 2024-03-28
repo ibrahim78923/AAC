@@ -8,12 +8,6 @@ import { isNullOrEmpty } from '@/utils';
 const DetailCard = ({ buyerCompany, buyerContact }: any) => {
   const theme = useTheme();
 
-  // const calculateDueDate = (invoiceDate: any) => {
-  //   return dayjs(invoiceDate)
-  //     ?.add(15, 'day')
-  //     ?.format(DATE_FORMAT?.UI);
-  // };
-
   return (
     <Box>
       <Box sx={style?.cardDetails} className="air-apple-card">

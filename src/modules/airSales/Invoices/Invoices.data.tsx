@@ -87,7 +87,7 @@ export const invoicesTableColumns: any = (
 
   return [
     {
-      accessorFn: (row: any) => row._id,
+      accessorFn: (row: any) => row?._id,
       id: '_id',
       cell: (info: any) => {
         return (
@@ -138,9 +138,6 @@ export const invoicesTableColumns: any = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      // cell: (info: any) => {
-      //   return <StatusDropdown data={info} />;
-      // },
       cell: (info: any) =>
         info?.getValue() === 'PUBLISHED'
           ? 'Published'

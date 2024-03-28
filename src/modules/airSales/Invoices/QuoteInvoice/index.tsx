@@ -157,7 +157,7 @@ const QuoteInvoice = ({ quoteId }: any) => {
                 padding: '14px 20px',
                 display: 'flex',
                 justifyContent: 'space-between',
-                backgroundColor: '#E5E7EB',
+                backgroundColor: (theme: any) => theme?.palette?.grey[700],
               }}
             >
               <Typography variant="h5" fontWeight={500}>
@@ -179,7 +179,7 @@ const QuoteInvoice = ({ quoteId }: any) => {
             IconComponent={KeyboardArrowDownIcon}
             value={accountNo}
             onChange={(event: SelectChangeEvent<typeof accountNo>) =>
-              setAccountNo(event.target.value)
+              setAccountNo(event?.target?.value)
             }
           >
             {receiversData?.data?.receiverbankaccounts?.map((account: any) => (
