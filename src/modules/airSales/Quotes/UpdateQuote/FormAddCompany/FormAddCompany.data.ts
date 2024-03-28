@@ -21,7 +21,6 @@ export const defaultCreateCompanyValues = {
 };
 
 export const dataArray = (contacts: any) => {
-  // const { companiesOwner } = useFormAddContact();
   return [
     {
       componentProps: {
