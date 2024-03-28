@@ -5,13 +5,6 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { SCHEMA_KEYS } from '@/constants/strings';
-import { useLazyGetLocationsDropdownQuery } from '@/services/airServices/assets/inventory';
-import {
-  useLazyGetDepartmentDropdownQuery,
-  useLazyGetRequesterDropdownQuery,
-} from '@/services/airServices/tickets';
-import { useLazyGetAgentsQuery } from '@/services/dropdowns';
-import { useEffect } from 'react';
 
 export const assetsFieldsOption = [
   'name',
@@ -110,11 +103,15 @@ export const dateOperators = [
   'Less than or equal to',
 ];
 
-export const subWorkflowData = ({ index, subIndex, watch, setValue }: any) => {
-  const agentApiQuery = useLazyGetAgentsQuery();
-  const departmentApiQuery = useLazyGetDepartmentDropdownQuery();
-  const requestersApiQuery = useLazyGetRequesterDropdownQuery();
-  const apiQueryLocations = useLazyGetLocationsDropdownQuery();
+export const subWorkflowData = ({
+  index,
+  subIndex,
+  watch,
+  agentApiQuery,
+  departmentApiQuery,
+  requestersApiQuery,
+  apiQueryLocations,
+}: any) => {
   const useApiQuery = (operatorsOption: string) => {
     if (operatorsOption === 'agent') {
       return agentApiQuery;
@@ -137,8 +134,6 @@ export const subWorkflowData = ({ index, subIndex, watch, setValue }: any) => {
   };
   const ticketsModule: any = {
     'Ticket Fields': ticketsFields,
-    'Requester Fields': requesterFieldOptions,
-    'Requested for Fields': requestedForFieldOptions,
   };
   const modulesOptions =
     moduleSelectedOption === SCHEMA_KEYS?.ASSETS
@@ -149,10 +144,6 @@ export const subWorkflowData = ({ index, subIndex, watch, setValue }: any) => {
   const selectedOption = watch('options');
   const moduleListOptions = modulesOptions[selectedOption] || [];
   const operatorsOption = watch(`groups.${index}.conditions.${subIndex}.key`);
-  useEffect(() => {
-    setValue(`groups.${index}.conditions.${subIndex}.condition`, ''),
-      setValue(`groups.${index}.conditions.${subIndex}.value`, null);
-  }, [operatorsOption, setValue]);
   let singleOperatorsOptions = [];
   const apiQuery = useApiQuery(operatorsOption);
   const valuesOptions =
