@@ -59,6 +59,7 @@ export const AddToInventory = (props: any) => {
     methodsTwo,
     apiQueryLocations,
     fields,
+    receivedItem,
   } = useAddToInventoryDrawer(props);
 
   return (
@@ -106,8 +107,17 @@ export const AddToInventory = (props: any) => {
                   Total items received:
                 </Typography>
                 <Typography variant="h6" component="span" mt={1} ml={1}>
-                  {purchaseOrderDetail?.purchaseDetails?.[0]?.received}/
-                  {purchaseOrderDetail?.purchaseDetails?.[0]?.quantity}
+                  {purchaseOrderDetail?.purchaseDetails?.[0]?.received ? (
+                    <>
+                      {purchaseOrderDetail?.purchaseDetails?.[0]?.received}/
+                      {purchaseOrderDetail?.purchaseDetails?.[0]?.quantity}
+                    </>
+                  ) : (
+                    <>
+                      {receivedItem}/
+                      {purchaseOrderDetail?.purchaseDetails?.[0]?.quantity}
+                    </>
+                  )}
                 </Typography>
               </Box>
             </Grid>
