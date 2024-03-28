@@ -61,7 +61,7 @@ const useUpsertService = () => {
       apiQueryAssetType,
       apiQuerySoftware,
       apiQueryProductCatalog,
-    ).filter(
+    )?.filter(
       (service: any) => service?.text === ASSET_TYPE?.HARDWARE_CONSUMABLE,
     );
   } else {
@@ -74,7 +74,7 @@ const useUpsertService = () => {
       apiQueryAssetType,
       apiQuerySoftware,
       apiQueryProductCatalog,
-    ).filter((service: any) => service?.text === ASSET_TYPE?.SOFTWARE);
+    )?.filter((service: any) => service?.text === ASSET_TYPE?.SOFTWARE);
   }
 
   const onSubmit = async (data: any) => {
@@ -87,9 +87,9 @@ const useUpsertService = () => {
     );
     upsertServiceFormData?.append('estimatedDelivery', data?.estimatedDelivery);
     upsertServiceFormData?.append('description', data?.description);
-    !!data?.fileUrl?.length &&
+    !!data?.fileUrl !== null &&
       upsertServiceFormData?.append('fileUrl', data?.fileUrl);
-    !!data?.assetType &&
+    !!data?.selectAssetsCategories?.length &&
       upsertServiceFormData?.append(
         'assetType',
         data?.selectAssetsCategories?._id,

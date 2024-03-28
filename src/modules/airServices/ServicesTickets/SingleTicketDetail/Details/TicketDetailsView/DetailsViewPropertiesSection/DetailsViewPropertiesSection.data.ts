@@ -24,7 +24,7 @@ export const validationSchema = Yup?.object()?.shape({
   source: Yup?.mixed()?.nullable(),
   impact: Yup?.mixed()?.nullable(),
   agent: Yup?.mixed()?.nullable(),
-  plannedStartDate: Yup?.date().nullable(),
+  plannedStartDate: Yup?.date()?.nullable(),
   plannedEndDate: Yup?.date()?.nullable(),
   plannedEffort: Yup?.string()?.trim(),
 });

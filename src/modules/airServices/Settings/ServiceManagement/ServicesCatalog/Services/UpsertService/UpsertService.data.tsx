@@ -65,6 +65,7 @@ export const upsertServiceValidationSchema = Yup?.object()?.shape({
       then: (schema: any) => schema?.required(),
       otherwise: (schema) => schema,
     }),
+  fileUrl: Yup?.mixed()?.nullable(),
 });
 export const upsertServiceDefaultValues = {
   itemName: '',
@@ -80,6 +81,7 @@ export const upsertServiceDefaultValues = {
   selectAgentVisibility: null,
   product: null,
   requesterVisibilty: null,
+  fileUrl: null,
 };
 export const serviceCategoriesOptions = ['Software Solutions'];
 export const softwareCategories = ['Microsoft Office 360', 'Excel'];
@@ -302,7 +304,7 @@ export const categoriesOfServices = (
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
       required: true,
-      externalParams: { limit: 50, role: ROLES?.ORG_AGENT },
+      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },
