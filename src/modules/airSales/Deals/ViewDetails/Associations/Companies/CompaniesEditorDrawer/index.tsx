@@ -16,7 +16,7 @@ import useCompaniesEditorDrawer from './useCompaniesEditorDrawer';
 import Search from '@/components/Search';
 
 const CompaniesEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, dealId } = props;
+  const { openDrawer, setOpenDrawer, dealId, companyRecord } = props;
   const {
     handleSubmit,
     onSubmit,
@@ -25,7 +25,13 @@ const CompaniesEditorDrawer = (props: any) => {
     watchCompany,
     searchTicket,
     setSearchTicket,
-  } = useCompaniesEditorDrawer({ openDrawer, setOpenDrawer, dealId });
+    postCompanyLoading,
+  } = useCompaniesEditorDrawer({
+    openDrawer,
+    setOpenDrawer,
+    dealId,
+    companyRecord,
+  });
 
   return (
     <div>
@@ -37,6 +43,7 @@ const CompaniesEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
+        isLoading={postCompanyLoading}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider

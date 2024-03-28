@@ -6,10 +6,7 @@ import CompaniesEditorDrawer from './CompaniesEditorDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
 
 import useCompanies from './useCompanies';
-
 import { columns } from './Companies.data';
-// import { companiesData } from '@/mock/modules/airSales/Deals/ViewDetails';
-
 import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
@@ -24,7 +21,11 @@ const Companies = ({ companiesData, dealId, isLoading, handleSearch }: any) => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
-  } = useCompanies();
+    companyRecord,
+    setCompanyRecord,
+    loadingDelete,
+    deleteCompanyHandler,
+  } = useCompanies(dealId);
 
   return (
     <Box
@@ -80,7 +81,11 @@ const Companies = ({ companiesData, dealId, isLoading, handleSearch }: any) => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
+            columns={columns({
+              setOpenDrawer,
+              setIsOpenAlert,
+              setCompanyRecord,
+            })}
             data={companiesData}
           />
         </Grid>
@@ -90,6 +95,7 @@ const Companies = ({ companiesData, dealId, isLoading, handleSearch }: any) => {
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
           dealId={dealId}
+          companyRecord={companyRecord}
         />
       )}
       <AlertModals
@@ -97,7 +103,8 @@ const Companies = ({ companiesData, dealId, isLoading, handleSearch }: any) => {
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}
-        handleSubmit={() => {}}
+        handleSubmitBtn={deleteCompanyHandler}
+        loading={loadingDelete}
       />
     </Box>
   );

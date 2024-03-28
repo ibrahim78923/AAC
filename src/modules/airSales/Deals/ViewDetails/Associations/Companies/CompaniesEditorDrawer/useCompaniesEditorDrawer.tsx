@@ -8,7 +8,7 @@ import {
 import { useGetCompanyContactsQuery } from '@/services/common-APIs';
 import { getSession } from '@/utils';
 import {
-  // useCompanyUpdateMutation,
+  useCompanyUpdateMutation,
   usePostCompaniesMutation,
 } from '@/services/commonFeatures/companies';
 import { enqueueSnackbar } from 'notistack';
@@ -21,6 +21,7 @@ const useCompaniesEditorDrawer = ({
   openDrawer,
   setOpenDrawer,
   dealId,
+  companyRecord,
 }: any) => {
   const [searchTicket, setSearchTicket] = useState('');
   const { user }: any = getSession();
@@ -32,14 +33,53 @@ const useCompaniesEditorDrawer = ({
 
   const { data: getCompanyContacts } = useGetCompanyContactsQuery(params);
 
-  const [postCompanies] = usePostCompaniesMutation();
-  // const [CompanyUpdate] = useCompanyUpdateMutation();
+  const [postCompanies, { isLoading: postCompanyLoading }] =
+    usePostCompaniesMutation();
+  const [CompanyUpdate] = useCompanyUpdateMutation();
   const [createAssociation] = useCreateAssociationMutation();
+
+  // const methodsCompanies = useForm({
+  //   resolver: yupResolver(companiesValidationSchema),
+  //   defaultValues: companiesDefaultValues,
+  // });
 
   const methodsCompanies = useForm({
     resolver: yupResolver(companiesValidationSchema),
-    defaultValues: companiesDefaultValues,
+    defaultValues: async () => {
+      if (openDrawer !== 'Add' && companyRecord) {
+        const {
+          domain,
+          name,
+          ownerId,
+          industry,
+          type,
+          noOfEmloyee,
+          totalRevenue,
+          city,
+          postalCode,
+          address,
+          description,
+          linkedInUrl,
+        } = companyRecord;
+        return {
+          domain,
+          name,
+          ownerId,
+          industry,
+          type,
+          noOfEmloyee,
+          totalRevenue,
+          city,
+          postalCode,
+          address,
+          description,
+          linkedInUrl,
+        };
+      }
+      return companiesDefaultValues;
+    },
   });
+
   const { handleSubmit, reset, watch }: any = methodsCompanies;
   const watchCompany = watch(['companyStatus']);
 
@@ -63,12 +103,11 @@ const useCompaniesEditorDrawer = ({
     try {
       const response =
         openDrawer === 'Edit'
-          ? 'edited'
-          : // await CompanyUpdate({
-            //   body: formData,
-            //   Id: contactRecord?._id,
-            // }).unwrap()
-            await postCompanies({ body: formData })?.unwrap();
+          ? await CompanyUpdate({
+              body: formData,
+              Id: companyRecord?._id,
+            }).unwrap()
+          : await postCompanies({ body: formData })?.unwrap();
       if (response?.data) {
         try {
           await createAssociation({
@@ -112,6 +151,7 @@ const useCompaniesEditorDrawer = ({
     watchCompany,
     searchTicket,
     setSearchTicket,
+    postCompanyLoading,
   };
 };
 

@@ -19,7 +19,7 @@ const Associations = (props: any) => {
     assocaitionData,
     isLoading,
     handleContactSearch,
-    handleComapnySearch,
+    handleComapanySearch,
   } = useAssociations(selected);
 
   const router = useRouter();
@@ -49,7 +49,7 @@ const Associations = (props: any) => {
               companiesData={assocaitionData?.companies}
               dealId={selected}
               isLoading={isLoading}
-              handleSearch={handleComapnySearch}
+              handleSearch={handleComapanySearch}
             />
           </Grid>
           <Grid item xs={12}>

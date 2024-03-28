@@ -10,7 +10,7 @@ const useAssociations = (selected: any) => {
   const handleContactSearch = (val: string) => {
     setSearch({ ...search, searchContacts: val });
   };
-  const handleComapnySearch = (val: string) => {
+  const handleComapanySearch = (val: string) => {
     setSearch({ ...search, searchCompanies: val });
   };
   const associationParams = {
@@ -25,7 +25,7 @@ const useAssociations = (selected: any) => {
     assocaitionData,
     isLoading,
     handleContactSearch,
-    handleComapnySearch,
+    handleComapanySearch,
   };
 };
 

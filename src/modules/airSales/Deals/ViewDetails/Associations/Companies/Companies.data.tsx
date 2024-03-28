@@ -9,9 +9,11 @@ import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
+  setCompanyRecord,
 }: {
   setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
   setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
+  setCompanyRecord: any;
 }) => {
   return [
     {
@@ -56,14 +58,16 @@ export const columns: any = ({
       id: 'assignedTo',
       isSortable: false,
       header: 'Actions',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
           <PermissionsGuard
             permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_COMPANY]}
           >
             <Box
               sx={{ cursor: 'pointer' }}
-              onClick={() => setOpenDrawer('View')}
+              onClick={() => {
+                setOpenDrawer('View'), setCompanyRecord(info?.row?.original);
+              }}
             >
               <ViewEyeIcon />
             </Box>
@@ -73,7 +77,9 @@ export const columns: any = ({
           >
             <Box
               sx={{ cursor: 'pointer' }}
-              onClick={() => setOpenDrawer('Edit')}
+              onClick={() => {
+                setOpenDrawer('Edit'), setCompanyRecord(info?.row?.original);
+              }}
             >
               <EditPenIcon />
             </Box>
@@ -83,7 +89,9 @@ export const columns: any = ({
           >
             <Box
               sx={{ cursor: 'pointer' }}
-              onClick={() => setIsOpenAlert(true)}
+              onClick={() => {
+                setIsOpenAlert(true), setCompanyRecord(info?.row?.original);
+              }}
             >
               <DeleteCrossIcon />
             </Box>
