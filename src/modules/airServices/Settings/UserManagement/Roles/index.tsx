@@ -11,12 +11,11 @@ export const Roles = () => {
   const {
     router,
     setSearchValue,
-    data,
-    isLoading,
-    isFetching,
-    isError,
+    permissionsRoleStatus,
     setPage,
     setPageLimit,
+    rolesListData,
+    page,
   } = useRoles();
 
   return (
@@ -48,12 +47,14 @@ export const Roles = () => {
       </Box>
 
       <RolesCards
-        data={data}
+        data={permissionsRoleStatus?.data}
         setPage={setPage}
+        page={page}
         setPageLimit={setPageLimit}
-        isError={isError}
-        isLoading={isLoading}
-        isFetching={isFetching}
+        rolesListData={rolesListData}
+        isError={permissionsRoleStatus?.isError}
+        isLoading={permissionsRoleStatus?.isLoading}
+        isFetching={permissionsRoleStatus?.isFetching}
       />
     </>
   );
