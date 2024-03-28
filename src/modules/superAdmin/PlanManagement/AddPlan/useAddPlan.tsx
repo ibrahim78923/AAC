@@ -311,7 +311,9 @@ export const useAddPlan = () => {
         productId: planForm?.productId,
 
         ...(isNullOrEmpty(planForm?.productId) && { suite: planForm?.suite }),
-        ...(isNullOrEmpty(planForm?.productId) && { name: crmValue?.label }),
+        ...(isNullOrEmpty(planForm?.productId) && {
+          name: crmValue?.label.toLowerCase(),
+        }),
         planTypeId: planForm?.planTypeId,
         description: planForm?.description,
         defaultUsers: parseInt(planForm?.defaultUsers),
