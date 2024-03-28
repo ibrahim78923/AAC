@@ -1,12 +1,10 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
 import { useFieldArray } from 'react-hook-form';
-import { salesValues } from '../../UpsertSalesWorkflow.data';
 import { useEffect } from 'react';
 import {
   useLazyGetContactDropdownListQuery,
   useLazyGetDealDropdownListQuery,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
+import { errorSnackbar, warningSnackbar } from '@/utils/api';
 
 export const useSubWorkflowConditions = (props: any) => {
   const { control, index, parentField, removeParent, setValue, watch } = props;
@@ -16,9 +14,7 @@ export const useSubWorkflowConditions = (props: any) => {
   });
   const handleDeleteClick = (subIndex: any) => {
     if (parentField?.length === 2 && fields?.length < 2) {
-      enqueueSnackbar('Cannot Delete', {
-        variant: NOTISTACK_VARIANTS?.WARNING,
-      });
+      warningSnackbar('Cannot Delete');
       return;
     }
     if (fields?.length > 1) {
@@ -30,11 +26,9 @@ export const useSubWorkflowConditions = (props: any) => {
   };
   const handleAppend = () => {
     if (fields?.length < 10) {
-      append(salesValues?.groups?.[0]?.conditions);
+      append({ key: '', condition: '', value: null });
     } else {
-      enqueueSnackbar('Condition limit exceeds', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar('Condition limit exceeds');
     }
   };
   const dealDropdown = useLazyGetDealDropdownListQuery();
