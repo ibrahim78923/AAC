@@ -227,7 +227,7 @@ export const useAddPlan = () => {
     if (singlePlan && query.type === 'edit') {
       setPermissionSlugs(
         'permissionSlugs',
-        singlePlan?.data?.planProductPermissions[0]?.permissionSlugs?.map(
+        singlePlan?.data?.planProductPermissions?.permissionSlugs?.map(
           (obj: any) => obj?.slug,
         ),
       );
