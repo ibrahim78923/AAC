@@ -334,6 +334,7 @@ export const END_POINTS = {
   CONVERT_TO_AGENT: `/requester/agent-requests`,
   SERVICES_PATCH_EMAIL_NOTIFICATION: `/notifications/settings`,
   SERVICES_GET_EMAIL_NOTIFICATION: `/notifications/get-notification-settings`,
+  GET_TOP_PERFORMER: `/air-services-dashboard/get-top-performer`,
 };
 
 export const superAdminBillingInvoices = {
