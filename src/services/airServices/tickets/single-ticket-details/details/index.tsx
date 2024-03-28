@@ -4,6 +4,7 @@ import { baseAPI } from '@/services/base-api';
 const TAG = 'TICKET_DETAILS';
 const TAG_THREE = 'DROPDOWN_AGENT';
 const TAG_SIX = 'DROPDOWN_CATEGORIES';
+const TAG_FIVE = 'DROPDOWN_TASK';
 const TAG_FOUR = 'TICKET_TIME_ENTRIES';
 
 const ticketsDetailsAPI = baseAPI?.injectEndpoints({
@@ -55,14 +56,14 @@ const ticketsDetailsAPI = baseAPI?.injectEndpoints({
     }),
     getTaskByIdDropDown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.WORKLOAD}`,
+        url: `${END_POINTS?.DROPDOWN_TASK}`,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.title;
+        if (response) return response?.data;
       },
-      providesTags: [TAG],
+      providesTags: [TAG_FIVE],
     }),
     getTicketsTimeEntriesById: builder?.query({
       query: (apiDataParameter: any) => ({
