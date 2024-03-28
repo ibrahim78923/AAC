@@ -421,3 +421,6 @@ export const SCHEMA_KEYS = {
   TICKETS_TASKS: 'TICKETS_TASKS',
   ASSETS: 'ASSETS',
 };
+export const MODULES = {
+  EVENT_BASE: 'EVENT_BASE',
+};
