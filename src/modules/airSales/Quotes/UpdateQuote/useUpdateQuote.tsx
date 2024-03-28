@@ -18,6 +18,7 @@ import {
   usePutSubmitQuoteMutation,
   // usePostAddbuyerInfoMutation,
   useUpdateQuoteMutation,
+  useUpdateSubmitEmailQuoteMutation,
 } from '@/services/airSales/quotes';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
@@ -44,6 +45,7 @@ const useUpdateQuote = () => {
   const [deleteContacts, { isLoading: isContactDeleteLoading }] =
     useDeleteContactsMutation();
   const [putSubmitQuote] = usePutSubmitQuoteMutation();
+  const [updateSubmitEmailQuote] = useUpdateSubmitEmailQuoteMutation();
 
   const [selectedBuyerContactIds, setSelectedBuyerContactIds] = useState<
     string | null
@@ -114,7 +116,6 @@ const useUpdateQuote = () => {
   const handleSubmitBtn = async () => {
     try {
       putSubmitQuote({
-        id: quoteId,
         body: { id: quoteId, isSubmitted: true },
       });
       enqueueSnackbar('Save as draft submit later', {
@@ -323,6 +324,8 @@ const useUpdateQuote = () => {
     handleSubmitBtn,
     setPage,
     setPageLimit,
+    updateSubmitEmailQuote,
+    quoteId,
   };
 };
 

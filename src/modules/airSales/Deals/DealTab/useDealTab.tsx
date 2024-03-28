@@ -55,7 +55,8 @@ const useDealTab = () => {
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [listView, setListView] = useState<string>('listView');
 
-  const [deleteDealsMutation] = useDeleteDealsMutation();
+  const [deleteDealsMutation, { isLoading: deleteDealLoading }] =
+    useDeleteDealsMutation();
 
   const { data: dealViewsData } = useGetDealsViewsQuery({});
   const {
@@ -67,9 +68,10 @@ const useDealTab = () => {
   const params = {
     meta: true,
   };
-  const { data: dealCustomzieCol } = useGetCustomizeColumnQuery({
-    type: 'deals',
-  });
+  const { data: dealCustomzieCol, isLoading: customizeLoading } =
+    useGetCustomizeColumnQuery({
+      type: 'deals',
+    });
 
   const activeColumns = dealCustomzieCol?.data?.columns?.filter(
     (column: { active: boolean }) => column?.active,
@@ -268,6 +270,8 @@ const useDealTab = () => {
     dealCustomzieCol,
     activeColumns,
     salesProduct,
+    deleteDealLoading,
+    customizeLoading,
   };
 };
 

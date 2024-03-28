@@ -22,6 +22,10 @@ import {
 } from './DialogSendToCustomer.data';
 import { styles } from './DialogSendToCustomer.style';
 import { AIR_SALES } from '@/routesConstants/paths';
+import useUpdateQuote from '../useUpdateQuote';
+import { useUpdateQuoteSubmisionMutation } from '@/services/airSales/quotes';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
 
 const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
   const router = useRouter();
@@ -30,13 +34,36 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
     defaultValues: initValues,
   });
   const { handleSubmit } = methods;
+  const { quoteId, dataGetQuoteById } = useUpdateQuote();
+  const [updateQuoteSubmision] = useUpdateQuoteSubmisionMutation();
 
-  const onSubmit = async () => {
-    enqueueSnackbar('Quote sent successfully', {
-      variant: 'success',
-    });
-    onClose();
-    router.push(AIR_SALES?.QUOTES);
+  const onSubmit = async (values: { email: string }) => {
+    const body = {
+      id: quoteId,
+      isSubmitted: true,
+      email: values?.email,
+      quoteNumber: dataGetQuoteById?.data?.createdBy?._id,
+      validTill: dayjs(dataGetQuoteById?.data?.expiryDate)?.format(
+        DATE_FORMAT?.API,
+      ),
+    };
+    try {
+      await updateQuoteSubmision(body)
+        ?.unwrap()
+        ?.then((data) => {
+          if (data) {
+            enqueueSnackbar('Quote sent successfully', {
+              variant: 'success',
+            });
+            onClose();
+            router?.push(AIR_SALES?.QUOTES);
+          }
+        });
+    } catch (error) {
+      enqueueSnackbar('Quote not sent', {
+        variant: 'error',
+      });
+    }
   };
 
   return (

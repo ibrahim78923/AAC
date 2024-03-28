@@ -17,7 +17,8 @@ import dayjs from 'dayjs';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const CreateDeal = ({ open, onClose }: any) => {
-  const [postDeals] = usePostDealsMutation();
+  const [postDeals, { isLoading: isCreateDealLodaing }] =
+    usePostDealsMutation();
 
   const methods = useForm<any>({
     resolver: yupResolver(validationSchema),
@@ -48,6 +49,7 @@ const CreateDeal = ({ open, onClose }: any) => {
       okText="Create"
       isOk
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={isCreateDealLodaing}
     >
       <FormProvider methods={methods}>
         <Grid container spacing={1}>
