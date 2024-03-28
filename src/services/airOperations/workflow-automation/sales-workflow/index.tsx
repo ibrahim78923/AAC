@@ -32,7 +32,7 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
     }),
     postSalesWorkflow: builder?.mutation({
       query: (body) => ({
-        url: END_POINTS?.WORKFLOWS,
+        url: OPERATION?.OPERATION_WORKFLOW,
         method: 'POST',
         body,
       }),
@@ -40,7 +40,7 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
     }),
     postSaveDraftWorkflow: builder?.mutation({
       query: (body) => ({
-        url: END_POINTS?.SAVE_DRAFT_WORKFLOW,
+        url: OPERATION?.SAVE_DRAFT_WORKFLOW,
         method: 'POST',
         body,
       }),
