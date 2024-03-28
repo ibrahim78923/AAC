@@ -51,13 +51,6 @@ export const quotesColumns = (
 
   const isSelected = (id: any) => selectedRow?.indexOf(id) !== -1;
 
-  // const DEAL_AMOUNT_ATTRIBUTE = 'deal.amount';
-  // const DEAL_NAME_ATTRIBUTE = 'name';
-  // const DEAL_STATUS_ATTRIBUTE = 'status';
-  // const DEAL_DEAL_NAME_ATTRIBUTE = 'deal.name';
-  // const DEAL_CREATEDBY_ATTRIBUTE = 'createdBy';
-  // const DEAL_CREATEDAT_ATTRIBUTE = 'createdAt';
-  // const DEAL_EXPIRY_ATTRIBUTE = 'expiryDate';
   const DEAL_ATTRIBUTES = {
     DEAL_AMOUNT: 'deal.amount',
     DEAL_NAME: 'name',

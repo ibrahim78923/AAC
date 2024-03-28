@@ -28,11 +28,6 @@ export const AllDealColumns = ({
     DEAL_CLOSEDATE: 'closeDate',
     DEAL_CREATEDAT: 'createdAt',
   };
-  // const DEAL_OWNER_ATTRIBUTE = 'dealOwner';
-  // const DEAL_NAME_ATTRIBUTE = 'name';
-  // const DEAL_CLOSEDATE_ATTRIBUTE = 'closeDate';
-  // const DEAL_CREATEDAT_ATTRIBUTE = 'createdAt';
-
   const activeColumnsData = (attribute: any, info: any) => {
     const navigate = useRouter();
     if (attribute?.includes(DEAL_ATTRIBUTES?.DEAL_OWNER)) {
