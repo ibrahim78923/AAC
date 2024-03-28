@@ -1,50 +1,65 @@
 import { useTheme } from '@mui/material';
 
-export const useBarChart = (props: any) => {
-  const { chartData } = props;
+export const useBarChart = ({ chartData }: any) => {
   const theme = useTheme();
-  const resolvedData: number[] = [];
-  const closedData: number[] = [];
-  const openData: number[] = [];
-  const pendingData: number[] = [];
-  chartData?.statusStats?.forEach((ele: any) => {
-    switch (ele?.status) {
-      case 'RESOLVED':
-        resolvedData?.push(ele?.count);
-        break;
-      case 'CLOSED':
-        closedData?.push(ele?.count);
-        break;
-      case 'OPEN':
-        openData?.push(ele?.count);
-        break;
-      case 'PENDING':
-        pendingData?.push(ele?.count);
-      default:
-        break;
-    }
-  });
 
-  const barChartData = () => [
-    {
-      data: pendingData,
-      name: 'Pending',
-    },
-    {
-      data: closedData,
-      name: 'Closed',
-    },
-    {
-      data: openData,
-      name: 'Open',
-    },
-    {
-      data: resolvedData,
-      name: 'Resolved',
-    },
+  // Group data by month and status
+  const groupedData = chartData?.statusStats?.reduce((acc: any, curr: any) => {
+    const { month, status, count } = curr;
+    acc[month] = acc[month] || { RESOLVED: 0, CLOSED: 0, OPEN: 0, PENDING: 0 };
+    acc[month][status] = count;
+    return acc;
+  }, {});
+
+  // Array of month abbreviations
+  const monthAbbreviations = [
+    'JAN',
+    'FEB',
+    'MAR',
+    'APR',
+    'MAY',
+    'JUN',
+    'JUL',
+    'AUG',
+    'SEP',
+    'OCT',
+    'NOV',
+    'DEC',
   ];
-  return {
-    theme,
-    barChartData,
+
+  // Extract counts for each status for every month
+  const months = Object?.keys(groupedData || {})?.sort(
+    (a: any, b: any) => a - b,
+  );
+  const seriesData = ['RESOLVED', 'CLOSED', 'OPEN', 'PENDING'].map(
+    (status) => ({
+      name: status,
+      data: months?.map((month) => groupedData[month]?.[status] || 0),
+    }),
+  );
+
+  const options = {
+    xaxis: {
+      categories: months.map(
+        (month) => monthAbbreviations[parseInt(month) - 1],
+      ),
+    },
+    colors: [
+      theme?.palette?.custom?.bright,
+      theme?.palette?.error?.main,
+      theme?.palette?.warning?.main,
+      theme?.palette?.success?.main,
+    ],
+    plotOptions: {
+      bar: {
+        columnWidth: '30%',
+        borderRadius: 2,
+      },
+    },
+    legend: {
+      offsetY: 5,
+    },
   };
+
+  return { options, seriesData };
 };
