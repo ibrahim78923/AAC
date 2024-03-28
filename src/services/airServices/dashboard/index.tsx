@@ -72,7 +72,7 @@ export const dashboardAPI = baseAPI.injectEndpoints({
       transformResponse: (response: any) => {
         if (response)
           return response?.data?.find(
-            (performer: any) => !performer?.topPerformer,
+            (performer: any) => performer?.topPerformer,
           );
       },
     }),
