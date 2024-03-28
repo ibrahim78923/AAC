@@ -1,14 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
-import { ACTIONS_TYPES, SCHEMA_KEYS } from '@/constants/strings';
-import { useLazyGetWorkflowListQuery } from '@/services/airOperations/workflow-automation/sales-workflow';
+import {
+  ACTIONS_TYPES,
+  MODULES,
+  REQUESTORS_STATUS,
+  SCHEMA_KEYS,
+} from '@/constants/strings';
+import {
+  useChangeStatusWorkflowMutation,
+  useLazyGetWorkflowListQuery,
+} from '@/services/airOperations/workflow-automation/sales-workflow';
 import {
   EventBaseWorkflowActionsDropdown,
   listsColumnsFunction,
 } from '../EventBaseWorkflow.data';
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useTasks = () => {
   const theme = useTheme();
@@ -19,6 +28,7 @@ export const useTasks = () => {
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [selectedAction, setSelectedAction] = useState([]);
   const [deleteWorkflow, setDeleteWorkflow] = useState(false);
+  const [switchLoading, setSwitchLoading] = useState<any>({});
   const EDIT_WORKFLOW = 'edit';
   const selectedId = selectedAction?.map((item: any) => item?._id);
 
@@ -29,6 +39,7 @@ export const useTasks = () => {
     limit,
     search,
     module: SCHEMA_KEYS?.TICKETS_TASKS,
+    type: MODULES?.EVENT_BASE,
   };
   const handleWorkflow = async () => {
     await getWorkflowListTrigger(workflowParams);
@@ -49,11 +60,39 @@ export const useTasks = () => {
   };
   const taskData = data?.data;
   const listData = data?.data?.workFlows;
+  const [changeStatusTrigger] = useChangeStatusWorkflowMutation();
+  const handleChangeStatus = async (rowData: any) => {
+    const status =
+      rowData?.status === REQUESTORS_STATUS?.ACTIVE
+        ? REQUESTORS_STATUS?.INACTIVE
+        : REQUESTORS_STATUS?.ACTIVE;
+    setSwitchLoading((prevState: any) => ({
+      ...prevState,
+      [rowData?._id]: true,
+    }));
+    const response: any = await changeStatusTrigger({
+      id: rowData?._id,
+      body: { status },
+    });
+    try {
+      response;
+      successSnackbar(
+        response?.data?.message &&
+          `${rowData?.title} ${status?.toLocaleLowerCase()} successfully`,
+      );
+    } catch (error) {
+      errorSnackbar(response?.error?.data?.message);
+    } finally {
+      setSwitchLoading({ ...switchLoading, [rowData?._id]: false });
+    }
+  };
   const tasksListsColumns = listsColumnsFunction(
     selectedAction,
     setSelectedAction,
     listData,
     theme,
+    handleChangeStatus,
+    switchLoading,
   );
   const handleActionClick = (actionType: string) => {
     if (actionType === ACTIONS_TYPES?.DELETE) {

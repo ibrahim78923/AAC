@@ -49,6 +49,8 @@ export const listsColumnsFunction = (
   setSelectedAction: any,
   listData: any,
   theme: any,
+  handleChangeStatus: any,
+  switchLoading: any,
 ): any => [
   {
     accessorFn: (row: any) => row?._id,
@@ -133,7 +135,11 @@ export const listsColumnsFunction = (
             AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.ENABLE_DISABLE,
           ]}
         >
-          <AntSwitch checked={getValues} />
+          <AntSwitch
+            checked={getValues}
+            isLoading={switchLoading?.[info?.row?.original?._id]}
+            onClick={() => handleChangeStatus?.(info?.row?.original)}
+          />
         </PermissionsGuard>
       );
     },
@@ -186,9 +192,4 @@ export const listsColumnsFunction = (
   },
 ];
 
-export const eventBaseWorkflowTabsData = [
-  'Tickets',
-  'Assets',
-  'Tasks',
-  // 'Meetings',
-];
+export const eventBaseWorkflowTabsData = ['Tickets', 'Assets', 'Tasks'];
