@@ -116,7 +116,7 @@ export const AIR_SERVICES = {
   WORKLOAD_MANAGEMENT_SETTINGS: `/air-services/settings/agent-performance-management/workload-management`,
   USER_UPSERT_ROLES_SETTINGS: `/air-services/settings/user-management/roles/upsert-roles`,
   UPSERT_BUSINESS_HOUR: `/air-services/settings/service-management/business-hours/upsert-business-hour`,
-  ADD_NEW_LOCATION: `/air-services/settings/asset-management/location/add-new-location`,
+  ADD_NEW_LOCATION: `/air-services/settings/asset-management/location/upsert-location`,
   UPSERT_INVENTORY: `/air-services/assets/inventory/upsert-inventory`,
   UPSERT_SERVICE:
     '/air-services/settings/service-management/services-catalog/upsert-service',
