@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
@@ -16,7 +16,7 @@ import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const Companies = () => {
+const Companies = ({ contactsData, isLoading }: any) => {
   const {
     theme,
     isOpenAlert,
@@ -38,11 +38,18 @@ const Companies = () => {
     >
       <Grid container spacing={2}>
         <Grid item md={4} xs={12} sx={styles?.countBox}>
-          <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
-          </Typography>
-
-          <Typography variant="h5">Companies</Typography>
+          {isLoading ? (
+            <Skeleton variant="text" height={40} width={120} />
+          ) : (
+            <>
+              <Typography sx={styles?.associationCount(theme)} variant="body3">
+                {contactsData?.length < 10
+                  ? `0${contactsData?.length}`
+                  : contactsData?.length}
+              </Typography>
+              <Typography variant="h5">Companies</Typography>
+            </>
+          )}
         </Grid>
         <Grid item md={8} xs={12}>
           <Box
