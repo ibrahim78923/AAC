@@ -2,11 +2,16 @@ import * as yup from 'yup';
 import { RHFTextField } from '@/components/ReactHookForm';
 import { Typography } from '@mui/material';
 
-export const validationSchemaAddNewLocation = yup.object().shape({
-  locationName: yup?.string()?.required('Required'),
+export const LOCATION_TYPE = {
+  PARENT: 'parent',
+  CHILD: 'child',
+};
+
+export const validationSchemaAddNewLocation = yup?.object()?.shape({
+  locationName: yup?.string()?.trim()?.required('Location name is required'),
   contactName: yup?.string(),
-  email: yup?.string()?.nullable(),
-  phone: yup?.string()?.nullable(),
+  email: yup?.string()?.email('Please provide valid email'),
+  phone: yup?.string(),
   address: yup?.object()?.shape({
     addressLine1: yup?.string(),
     addressLine2: yup?.string(),
@@ -17,13 +22,40 @@ export const validationSchemaAddNewLocation = yup.object().shape({
   }),
 });
 
-export const locationDefaultValues: any = (locationData: any) => {
+export const locationFormDefaultValues = {
+  locationName: '',
+  contactName: '',
+  email: '',
+  phone: '',
+  address: {
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    country: '',
+    state: '',
+    zipCode: '',
+  },
+};
+
+export const locationDefaultValues: any = (
+  locationData?: any,
+  queryParams?: any,
+) => {
+  if (
+    queryParams?.type === LOCATION_TYPE?.CHILD &&
+    !!queryParams?.parentId &&
+    !!!queryParams?.childId
+  )
+    return {
+      parentLocation: locationData?.locationName ?? '',
+      ...locationFormDefaultValues,
+    };
   return {
     locationName: locationData?.locationName ?? '',
-    parentLocation: locationData?.parentLocation,
+    parentLocation: locationData?.parentLocation ?? '',
     contactName: locationData?.contactName ?? '',
-    email: locationData?.email ?? null,
-    phone: locationData?.phone ?? null,
+    email: locationData?.email ?? '',
+    phone: locationData?.phone ?? '',
     address: {
       addressLine1: locationData?.address?.addressLine1 ?? '',
       addressLine2: locationData?.address?.addressLine2 ?? '',
@@ -46,20 +78,22 @@ export const addNewLocationDataFields = (type: string) => [
       required: true,
     },
     component: RHFTextField,
-    md: 6,
   },
-  {
-    id: 2,
-    gridLength: 6,
-    componentProps: {
-      fullWidth: true,
-      disabled: type === 'child' || 'child-edit' ? true : false,
-      name: 'parentLocation',
-      label: 'Parent Location',
-    },
-    component: RHFTextField,
-    md: 6,
-  },
+  ...(type === LOCATION_TYPE?.CHILD
+    ? [
+        {
+          id: 2,
+          gridLength: 6,
+          componentProps: {
+            fullWidth: true,
+            disabled: type === LOCATION_TYPE?.CHILD,
+            name: 'parentLocation',
+            label: 'Parent Location',
+          },
+          component: RHFTextField,
+        },
+      ]
+    : []),
   {
     id: 3,
     componentProps: {
@@ -69,7 +103,6 @@ export const addNewLocationDataFields = (type: string) => [
     },
     component: RHFTextField,
     gridLength: 6,
-    md: 6,
   },
   {
     id: 4,
@@ -80,7 +113,6 @@ export const addNewLocationDataFields = (type: string) => [
       label: 'Email',
     },
     component: RHFTextField,
-    md: 6,
   },
   {
     id: 5,
@@ -96,9 +128,7 @@ export const addNewLocationDataFields = (type: string) => [
     id: 6,
     componentProps: {
       variant: 'h4',
-      fontSize: '1.25rem',
       fontWeight: 600,
-      lineHeight: '1.875rem',
     },
     heading: 'Address',
     gridLength: 12,
@@ -112,7 +142,6 @@ export const addNewLocationDataFields = (type: string) => [
       label: 'Address Line 1',
     },
     gridLength: 6,
-    md: 6,
     component: RHFTextField,
   },
   {
@@ -123,7 +152,6 @@ export const addNewLocationDataFields = (type: string) => [
       label: 'Address Line 2',
     },
     gridLength: 6,
-    md: 6,
     component: RHFTextField,
   },
   {
@@ -134,7 +162,6 @@ export const addNewLocationDataFields = (type: string) => [
       label: 'City',
     },
     gridLength: 6,
-    md: 6,
     component: RHFTextField,
   },
   {
@@ -146,7 +173,6 @@ export const addNewLocationDataFields = (type: string) => [
     },
     component: RHFTextField,
     gridLength: 6,
-    md: 6,
   },
   {
     id: 11,
@@ -157,7 +183,6 @@ export const addNewLocationDataFields = (type: string) => [
     },
     component: RHFTextField,
     gridLength: 6,
-    md: 6,
   },
   {
     id: 12,
@@ -168,6 +193,5 @@ export const addNewLocationDataFields = (type: string) => [
     },
     component: RHFTextField,
     gridLength: 6,
-    md: 6,
   },
 ];
