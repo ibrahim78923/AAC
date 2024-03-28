@@ -12,6 +12,7 @@ import { useGetProductsQuery } from '@/services/superAdmin/billing-invoices';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useRouter } from 'next/router';
+import { AUTH } from '@/constants';
 
 const useSignup = () => {
   const { push } = useRouter();
@@ -77,7 +78,7 @@ const useSignup = () => {
       if (response?.data) {
         try {
           await authCompanyVerification({ email: { email: email } }).unwrap();
-          push('/login');
+          push(AUTH.LOGIN);
         } catch (error: any) {
           const errMsg = error?.data?.message;
           enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
