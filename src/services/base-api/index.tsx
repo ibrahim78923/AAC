@@ -5,6 +5,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // Tags
 export const TAGS = [
+  'ACCOUNTS',
   'USERS',
   'PLAN_MANEGEMENT',
   'Organization',
