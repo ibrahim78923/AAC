@@ -5,7 +5,7 @@ import { PopularArticles } from './PopularArticles';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const NonRegisterDashboard = () => {
-  const { articlesData, handleViewMore, isLoading, theme } =
+  const { articlesData, handleViewMore, isLoading, isFetching, theme } =
     useNonRegisterDashboard();
   return (
     <Box
@@ -19,7 +19,7 @@ const NonRegisterDashboard = () => {
       </Typography>
       <Grid container borderRadius={2} sx={{ backgroundColor: 'white' }}>
         <Grid item xs={12}>
-          {isLoading ? (
+          {isLoading || isFetching ? (
             <SkeletonTable />
           ) : (
             <PopularArticles
