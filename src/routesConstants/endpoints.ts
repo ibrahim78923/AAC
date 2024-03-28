@@ -55,6 +55,8 @@ export const END_POINTS = {
   GET_PERMISSIONS_ROLES: '/permissions/role',
   TASK_MANAGEMENT: '/task/management',
   TASK_CUSTOMIZE_COLUMN: '/customized-columns',
+  TASK_MANAGEMENT_INSIGHTS: '/task/task-management-insights',
+  TASK_MANAGEMENT_FEED: '/task/task-management-feed',
   DEALS_ASSOCIATION: '/deals/get-associations',
   ENQUIRIES: '/enquiries/',
   CREATE_ASSOCIATION: '/deals/create-association',
@@ -321,7 +323,6 @@ export const END_POINTS = {
   MERGE_TICKET: '/ticket/merge-ticket',
   DELETE_ALL_ATTACHMENT: '/attachment/delete-all-attachment',
   DELETE_MULTIPLE_ATTACHMENT: '/attachment/delete-multiple-attachment',
-  WORKFLOWS: 'workflows',
   SINGLE_DEPARTMENT_DETAIL: `/Department/get-by-id`,
   TICKET_NEW_EMAIL: `/email`,
   DELETE_INVENTORY_PURCHASE_ORDER: '/assets/delete-purchase-association',
@@ -408,4 +409,5 @@ export const INVOICE = {
 export const OPERATION = {
   OPERATION_WORKFLOW: '/workflows',
   SCHEMA_KEYS: '/workflows/schema-keys',
+  STATUS_WORKFLOW: '/workflows/change-status',
 };

@@ -1,9 +1,12 @@
 import { useGetDealsAssociationsQuery } from '@/services/airSales/deals';
 
-const useAssociations = () => {
-  const { data } = useGetDealsAssociationsQuery({});
+const useAssociations = (selected: any) => {
+  const { data: assocaitionsCompleteData } = useGetDealsAssociationsQuery({
+    id: selected,
+  });
+  const assocaitionData = assocaitionsCompleteData?.data;
   return {
-    assocaitionData: data?.data,
+    assocaitionData,
   };
 };
 

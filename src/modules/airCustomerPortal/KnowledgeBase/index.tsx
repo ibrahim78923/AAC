@@ -5,6 +5,8 @@ import { Header } from './Header';
 import { useKnowledgeBase } from './useKnowledgeBase';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import ApiErrorState from '@/components/ApiErrorState';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS } from '@/constants/permission-keys';
 
 export const KnowledgeBase = () => {
   const {
@@ -23,7 +25,11 @@ export const KnowledgeBase = () => {
   } = useKnowledgeBase();
 
   return (
-    <>
+    <PermissionsGuard
+      permissions={[
+        AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS?.VIEW_ARTICLES_DIFFERENT_CATEGORY,
+      ]}
+    >
       <Header
         handleButtonClick={handleButtonClick}
         setOpenReportAnIssueModal={setOpenReportAnIssueModal}
@@ -56,6 +62,6 @@ export const KnowledgeBase = () => {
           )}
         </Grid>
       )}
-    </>
+    </PermissionsGuard>
   );
 };
