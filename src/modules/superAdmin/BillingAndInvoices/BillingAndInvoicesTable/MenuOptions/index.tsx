@@ -13,8 +13,13 @@ const MenuItems = ({
   isChecked,
   setIsEditModal,
 }: any) => {
-  const { handleClickActions, handleCloseMenuOptions, anchorEl, openDropDown } =
-    useMenuOptions();
+  const {
+    handleClickActions,
+    handleCloseMenuOptions,
+    anchorEl,
+    openDropDown,
+    setAnchorEl,
+  } = useMenuOptions();
   const theme = useTheme();
   return (
     <>
@@ -54,6 +59,7 @@ const MenuItems = ({
             onClick={() => {
               setIsOpenDrawer(true);
               setIsEditModal(true);
+              setAnchorEl(null);
             }}
           >
             Edit Plan

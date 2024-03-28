@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import {
   Accordion,
@@ -23,10 +23,16 @@ import { useGetPermissionsByProductsQuery } from '@/services/superAdmin/plan-man
 import { useGetProductsPermissionsQuery } from '@/services/orgAdmin/roles-and-rights';
 import { useGetProductsQuery } from '@/services/common-APIs';
 import { isNullOrEmpty } from '@/utils';
-import { enqueueSnackbar } from 'notistack';
 
-const Modules = ({ methods, handleSubmit, errors }: any) => {
-  const { theme, selectModule, handleValue } = useModules();
+const Modules = ({
+  methods,
+  handleSubmit,
+  selectedPermission,
+  selectAllPermissions,
+  getModulePermissions,
+  editPlan,
+}: any) => {
+  const { theme } = useModules();
   let prevProductId: any = null;
 
   const { planManagement }: any = useAppSelector(
@@ -90,14 +96,6 @@ const Modules = ({ methods, handleSubmit, errors }: any) => {
     label: product?.name,
   }));
 
-  useEffect(() => {
-    if (!isNullOrEmpty(errors?.permissionSlugs?.message)) {
-      enqueueSnackbar('Please select atleast one modules permission', {
-        variant: 'error',
-      });
-    }
-  }, [errors?.permissionSlugs?.message]);
-
   return (
     <div>
       {productPermissionsData?.data?.map((item: any) => (
@@ -130,9 +128,13 @@ const Modules = ({ methods, handleSubmit, errors }: any) => {
               <FormControlLabel
                 control={
                   <SwitchBtn
-                    handleSwitchChange={(e) =>
-                      handleValue(item?.subModules[0]?.permissions, e)
-                    }
+                    checked={getModulePermissions(item?.subModules)?.every(
+                      (permission: any) =>
+                        selectedPermission?.includes(permission),
+                    )}
+                    onClick={() => {
+                      selectAllPermissions(item?.subModules);
+                    }}
                   />
                 }
                 label=""
@@ -147,7 +149,7 @@ const Modules = ({ methods, handleSubmit, errors }: any) => {
               subModules={item?.subModules}
               methods={methods}
               handleSubmit={handleSubmit}
-              selectModule={selectModule}
+              editPlan={editPlan?.planProductPermissions[0]?.permissionSlugs}
             />
           </AccordionDetails>
         </Accordion>

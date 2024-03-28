@@ -1,56 +1,27 @@
 import React, { useState } from 'react';
-
-import {
-  Avatar,
-  AvatarGroup,
-  Box,
-  Button,
-  Menu,
-  MenuItem,
-  Typography,
-  useTheme,
-} from '@mui/material';
-
-import { ThreeDotsIcon } from '@/assets/icons';
-
+import { Avatar, AvatarGroup, Box, Typography, useTheme } from '@mui/material';
 import { styles } from '../Contacts.style';
-import { AlertModals } from '@/components/AlertModals';
-import { ALERT_MODALS_TYPE } from '@/constants/strings';
+import GroupActions from './GroupActions';
 
-const GroupsCard = ({ info, setGroupModalType, setIsCreateModalOpen }: any) => {
+const GroupsCard = ({ info, handleOpenModal, handleOpenDeleteAlert }: any) => {
   const theme = useTheme();
-  const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const openActions = Boolean(anchorEl);
+  const handleClickActions = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
-  const handleClose = () => {
+  const handleCloseActions = () => {
     setAnchorEl(null);
-  };
-  const handleView = () => {
-    setAnchorEl(null);
-    setIsCreateModalOpen(true);
-    setGroupModalType('view');
-  };
-  const handleEdit = () => {
-    setAnchorEl(null);
-    setIsCreateModalOpen(true);
-    setGroupModalType('edit');
-  };
-  const handleDelete = () => {
-    handleClose();
-    setIsDeleteModal(true);
   };
 
   return (
     <>
       <Box sx={styles?.groupsCard}>
         <Typography variant="body1" fontWeight={600}>
-          {info?.groupTitle}
+          {info?.name}
         </Typography>
         <Typography variant="body1" fontSize={'12'}>
-          Contacts ({info?.contacts})
+          Contacts ({info?.contacts?.length})
         </Typography>
         <Box
           sx={{
@@ -77,44 +48,23 @@ const GroupsCard = ({ info, setGroupModalType, setIsCreateModalOpen }: any) => {
               },
             }}
           >
-            {info?.users?.map((user: any) => (
-              <Avatar key={user?.id} src={user?.srcImage} />
+            {info?.contacts?.map((user: any) => (
+              <Avatar key={user?._id} src={user?.srcImage} />
             ))}
           </AvatarGroup>
-
-          <Button
-            id="basic-button"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-            sx={styles?.btnRounded}
-          >
-            <ThreeDotsIcon color="black" />
-          </Button>
+          <Box>
+            <GroupActions
+              handleOpenModal={handleOpenModal}
+              handleDelete={handleOpenDeleteAlert}
+              anchorEl={anchorEl}
+              openActions={openActions}
+              handleClickActions={handleClickActions}
+              handleCloseActions={handleCloseActions}
+              groupData={info}
+            />
+          </Box>
         </Box>
       </Box>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <MenuItem onClick={handleView}>View</MenuItem>
-        <MenuItem onClick={handleEdit}>Edit</MenuItem>
-        <MenuItem onClick={handleDelete}>Delete</MenuItem>
-      </Menu>
-
-      <AlertModals
-        type={ALERT_MODALS_TYPE?.DELETE}
-        open={isDeleteModal}
-        handleClose={() => setIsDeleteModal(false)}
-        handleSubmitBtn={() => setIsDeleteModal(false)}
-        message="Are you sure you want to delete this group?"
-      />
     </>
   );
 };

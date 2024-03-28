@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 export const contractsListsColumnsFunction = (
   selectedContractList: any,
   setSelectedContractList: any,
-  mainContractsData: any,
+  mainContractsData: any = [],
   router: any,
 ): any => [
   {

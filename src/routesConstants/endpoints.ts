@@ -11,6 +11,9 @@ export const END_POINTS = {
   INVENTORY_EXPENSE: '/expense/add-expense',
   GET_INVENTORY_EXPENSE: '/expense/get-expense',
   TICKET: '/ticket',
+  TICKET_TIME_ENTRIES: '/ticket/add-time-entries',
+  TICKET_UPDATE_TIME_ENTRIES: '/ticket/update-time-entries',
+  TICKET_TIME_LIST: '/ticket/get-time-entries',
   TICKET_STATUS: '/ticket/status',
   TICKET_BULK_UPDATE: '/ticket/bulk-ticket-update',
   USER_LIST: '/users',
@@ -52,6 +55,8 @@ export const END_POINTS = {
   GET_PERMISSIONS_ROLES: '/permissions/role',
   TASK_MANAGEMENT: '/task/management',
   TASK_CUSTOMIZE_COLUMN: '/customized-columns',
+  TASK_MANAGEMENT_INSIGHTS: '/task/task-management-insights',
+  TASK_MANAGEMENT_FEED: '/task/task-management-feed',
   DEALS_ASSOCIATION: '/deals/get-associations',
   ENQUIRIES: '/enquiries/',
   CREATE_ASSOCIATION: '/deals/create-association',
@@ -61,6 +66,7 @@ export const END_POINTS = {
   DELETE_INVENTORY_ASSOCIATIONS_LIST: '/assets/delete-ticket-association',
   ASSETS_INVENTORY_Associations: '/assets/inventory-association-list',
   QUOTE: '/quote',
+  QUOTE_SUBMIT: '/quote/submit',
   GET_COMPANY_ORGANIZATION_DROPDOWN: '/dropdown/organizations',
   GET_COMPANY_ACCOUNTS: '/company-accounts',
   SALE_PRODUCTS: '/sales-product',
@@ -106,9 +112,10 @@ export const END_POINTS = {
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
   TICKET_DETAILS: '/ticket',
   REQUESTER_LIST: `/requester/requester-list`,
+
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
-  DEPARTMENT: '/department/add-department',
+  DEPARTMENT: '/Department/add-department',
   DROPDOWN_DEPARTMENT: `/Department/department-list`,
   TICKETS_ASSOCIATES_ASSETS: '/ticket/associate-assets',
   DROPDOWN_VENDORS_LIST: `/vendors/get-vendors`,
@@ -147,6 +154,7 @@ export const END_POINTS = {
   EDIT_REQUESTER: '/requester/edit-requester',
   EDIT_ATTACHMENT: '/attachment/edit_attachment',
   USERS_LIST_ADMIN: '/users',
+  CATALOG_SERVICES: '/service-catalog/get-category-list',
   SERVICE_CATALOG: '/service-catalog/get-category-list',
   ADD_SERVICE_CATALOG: '/service-catalog/add-category',
   DELETE_SERVICE: '/service-catalog/delete-service',
@@ -166,6 +174,7 @@ export const END_POINTS = {
   DELETE_PARENT_LOCATION: '/location/delete-parent-location',
   DROPDOWN_REQUESTERS: `/requester/requester-list`,
   DROPDOWN_AGENTS: `/requester/requester-list`,
+  DROPDOWN_ASSET: 'dropdown/all-assets',
   DROPDOWN_ASSOCIATE_ASSET: `/assets/inventory`,
   DROPDOWN_CATEGORIES: `/service-catalog/get-categories`,
   GET_CHILD_TICKETS: `/ticket/get-child-tickets`,
@@ -184,6 +193,7 @@ export const END_POINTS = {
   SOFTWARE_CONTRACT_VALUE: '/assets/software-contract-value',
   SOFTWARE_ASSIGN_CATEGORY: '/assets/assign-category',
   GET_PRODUCT_VENDOR_DROPDOWN: '/product-catalog/list',
+  GET_PRODUCT_DROPDOWN: '/product-catalog/list',
   CALL_WIDGET: `/calls/get-scheduled-call-widget`,
   GET_AGENT_REQUESTER: '/agent/agent-requester-list',
   GET_ASSETS_CONTRACT: '/contract/get-contracts',
@@ -241,8 +251,8 @@ export const END_POINTS = {
   DROPDOWN_ASSETS: '/dropdown/all-assets',
   ASSETS_INVENTORY_PURCHASE_ORDER: '/assets/inventory-purchase-order-list',
   ASSETS_INVENTORY_CONTRACTS: '/assets/inventory-contract-list',
-  DEPARTMENT_UPDATE: '/department/update',
-  DEPARTMENT_DELETE: '/department/delete-department',
+  DEPARTMENT_UPDATE: '/Department/update',
+  DEPARTMENT_DELETE: '/Department/delete-department',
   ASSETS_PURCHASEORDER_DETAIL: '/assets/purchaseorder',
   ASSETS_PURCHASEORDER: '/assets/purchase_order_inventory',
   EDIT_NEW_PURCHASEORDER: '/assets/update_purchase_order_inventory',
@@ -317,11 +327,15 @@ export const END_POINTS = {
   WORKFLOWS: '/workflows',
   SAVE_DRAFT_WORKFLOW: '/workflows/save',
   SINGLE_DEPARTMENT_DETAIL: `/Department/get-by-id`,
+  TICKET_NEW_EMAIL: `/email`,
   DELETE_INVENTORY_PURCHASE_ORDER: '/assets/delete-purchase-association',
   DELETE_INVENTORY_CONTRACT: '/assets/delete-contract-association',
   CUSTOMER_GET_COMPANY_ACCOUNTS: `/users/company-accounts`,
   AGENTS_SOFTWARE_LIST: `/agent/agent-software-list`,
   EDIT_SOFTWARE_CATEGORY: `/assets/edit-software-category`,
+  CONVERT_TO_AGENT: `/requester/agent-requests`,
+  SERVICES_PATCH_EMAIL_NOTIFICATION: `/notifications/settings`,
+  SERVICES_GET_EMAIL_NOTIFICATION: `/notifications/get-notification-settings`,
 };
 
 export const superAdminBillingInvoices = {
@@ -335,6 +349,7 @@ export const superAdminBillingInvoices = {
   GET_ALL_INVOICE: '/super-admin/get-all-invoice',
   UPDATE_INVOICE: '/super-admin/update-invoice',
   GET_CRM: '/super-admin/get-all-crm-plans',
+  FIND_CRM: '/super-admin/find-crm',
 };
 
 export const organization = {
@@ -392,4 +407,10 @@ export const INVOICE = {
   GET_QUOTE_ID: '/quote',
   POST_INVOICE_QUOTE: '/quote-invoice',
   GET_INVOICE_QUOTE_LIST: '/quote',
+};
+
+export const OPERATION = {
+  OPERATION_WORKFLOW: '/workflows',
+  SCHEMA_KEYS: '/workflows/schema-keys',
+  STATUS_WORKFLOW: '/workflows/change-status',
 };

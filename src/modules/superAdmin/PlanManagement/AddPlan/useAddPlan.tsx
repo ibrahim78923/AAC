@@ -37,7 +37,12 @@ import {
 } from './Forms/Modules/PlanFeatures.data';
 import { isNullOrEmpty } from '@/utils';
 import { SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import {
+  useGetExistingCrmQuery,
+  useGetPlanIdQuery,
+} from '@/services/superAdmin/billing-invoices';
 import { SUPER_ADMIN_PLAN_MANAGEMENT } from '@/routesConstants/paths';
+import { productSuiteName } from '@/constants';
 
 export const useAddPlan = () => {
   const [addPlanFormValues, setAddPlanFormValues] = useState({});
@@ -45,15 +50,18 @@ export const useAddPlan = () => {
   const [skip, setSkip] = useState(true);
   const [productIdModules, setProductIdModules] = useState([]);
   const [crmValue, setCrmValue] = useState<any | null>(null);
+  const [ifCrmExist, setIfCrmExist] = useState(false);
+  const [selectProductSuite, setSelectProductSuite] = useState('product');
 
   const [postPlanMangement, isLoading] = usePostPlanMangementMutation();
   const [updatePlanMangement] = useUpdatePlanMangementMutation();
   const router: any = useRouter();
+  const { query } = router;
   let parsedRowData: any;
-  if (router.query.data) {
-    parsedRowData = JSON.parse(router.query.data);
+  if (router?.query?.data) {
+    parsedRowData = JSON.parse(router?.query?.data);
   }
-  const { data: singlePlan } = useGetPlanMangementByIdQuery({
+  const { data: singlePlan, isSuccess } = useGetPlanMangementByIdQuery({
     id: parsedRowData?._id,
   });
 
@@ -84,7 +92,7 @@ export const useAddPlan = () => {
         } = parsedRowData;
         if (!isNullOrEmpty(planProducts)) {
           const productId = planProducts[0]?._id;
-          const planTypeId = { value: planType?.name, label: planType?.name };
+          const planTypeId = planType?._id;
           return {
             defaultUsers,
             defaultStorage,
@@ -120,9 +128,42 @@ export const useAddPlan = () => {
   const {
     handleSubmit: handleSubmitPlanModules,
     formState: { errors },
+    watch: watchPermissionSlugs,
+    setValue: setPermissionSlugs,
   } = methodsPlanModules;
   const AdditionalStorageValue = watch(['allowAdditionalStorage']);
   const AdditionalUsereValue = watch(['allowAdditionalUsers']);
+
+  const planTypeId = watch('planTypeId');
+  const productId = watch('productId');
+
+  const queryParameters = {
+    planTypeId: planTypeId,
+    productId:
+      selectProductSuite === productSuiteName?.crm ? undefined : productId,
+    name:
+      selectProductSuite === productSuiteName?.crm
+        ? crmValue?.label
+        : undefined,
+  };
+
+  let crmData: any;
+
+  if (selectProductSuite === productSuiteName?.crm) {
+    const { data } = useGetExistingCrmQuery<any>(
+      { params: queryParameters },
+      { skip: isNullOrEmpty(planTypeId) },
+    );
+    crmData = data;
+  }
+  let planExist: any;
+  if (selectProductSuite === 'product') {
+    const { data } = useGetPlanIdQuery<any>(
+      { params: queryParameters },
+      { skip: isNullOrEmpty(planTypeId) },
+    );
+    planExist = data;
+  }
 
   const planForm: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.addPlanForm,
@@ -133,19 +174,14 @@ export const useAddPlan = () => {
   const featuresFormData: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.planFeature,
   );
-  // const { data, isSuccess } = useGetProductsFeaturesAllQuery({});
   const { data: modulesData } = useGetPermissionsByProductsQuery({
     id: productIdModules,
     skip,
   });
-  // let productFeatures: any;
-  // if (isSuccess) {
-  //   productFeatures = data;
-  // }
 
   const onSubmitPlan = async (values: any) => {
     if (values?.suite?.length > 0 && values?.suite?.length < 2) {
-      enqueueSnackbar('Please select more then one product product', {
+      enqueueSnackbar('Please select more then one product', {
         variant: 'error',
       });
     } else if (values?.suite?.length < 2 && isNullOrEmpty(values?.productId)) {
@@ -185,6 +221,37 @@ export const useAddPlan = () => {
       }
     }
   };
+  useEffect(() => {
+    if (singlePlan && query.type === 'edit') {
+      setPermissionSlugs(
+        'permissionSlugs',
+        singlePlan.data.planProductPermissions[0].permissionSlugs,
+      );
+    }
+  }, [singlePlan]);
+  const selectedPermission = watchPermissionSlugs('permissionSlugs');
+
+  const getModulePermissions = (subModules: any) => {
+    return subModules?.flatMap((firstItem: any) => {
+      return firstItem?.permissions?.map((item: any) => item?.slug);
+    });
+  };
+  let permissionsArray: any = [];
+  const selectAllPermissions = (subModules: any) => {
+    const modulePermissions = getModulePermissions(subModules);
+    if (
+      !modulePermissions?.every(
+        (permission: any) => selectedPermission?.includes(permission),
+      )
+    ) {
+      permissionsArray = modulePermissions?.concat(selectedPermission);
+    } else {
+      permissionsArray = selectedPermission?.filter(
+        (permission: any) => !modulePermissions?.includes(permission),
+      );
+    }
+    setPermissionSlugs('permissionSlugs', permissionsArray);
+  };
   const onSubmitPlanFeaturesHandler = async (values: any) => {
     const featuresData = values?.features?.map((item: any) => {
       // const productId = productFeatures?.data?.productfeatures?.find(
@@ -210,13 +277,15 @@ export const useAddPlan = () => {
   };
 
   const onSubmitPlanModulesHandler = async (values: any) => {
-    const permissionSlugToFind: any = values?.permissionSlugs;
+    const permissionSlugToFind: any =
+      values?.permissionSlugs ?? permissionsArray;
     const productNamesWithPermissions: any = [];
 
-    SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS?.forEach((permissionData) => {
-      permissionData.Sub_Modules?.forEach((subModule) => {
+    SUPER_ADMIN_PLAN_MANAGEMENT_PERMISSIONS?.forEach((permissionData: any) => {
+      permissionData.Sub_Modules?.forEach((subModule: any) => {
         const matchingPermissions = subModule?.permissions?.filter(
-          (permission) => permissionSlugToFind?.includes(permission?.value),
+          (permission: any) =>
+            permissionSlugToFind?.includes(permission?.value),
         );
 
         if (!isNullOrEmpty(matchingPermissions)) {
@@ -288,9 +357,14 @@ export const useAddPlan = () => {
               },
             })?.unwrap();
         setTimeout(function () {
-          enqueueSnackbar('Plan Added Successfully', {
-            variant: 'success',
-          });
+          enqueueSnackbar(
+            parsedRowData
+              ? 'Plan Updated Successfully'
+              : 'Plan Added Successfully',
+            {
+              variant: 'success',
+            },
+          );
         }, 5000);
         router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
         // persistor?.purge();
@@ -339,6 +413,9 @@ export const useAddPlan = () => {
           AdditionalUsereValue={AdditionalUsereValue}
           crmValue={crmValue}
           setCrmValue={setCrmValue}
+          selectProductSuite={selectProductSuite}
+          setSelectProductSuite={setSelectProductSuite}
+          isSuccess={isSuccess}
         />
       ),
 
@@ -364,6 +441,10 @@ export const useAddPlan = () => {
           methods={methodsPlanModules}
           handleSubmit={handlePlanModules}
           errors={errors}
+          selectAllPermissions={selectAllPermissions}
+          getModulePermissions={getModulePermissions}
+          selectedPermission={selectedPermission}
+          editPlan={singlePlan?.data}
         />
       ),
       componentProps: { addPlanFormValues, setAddPlanFormValues },
@@ -379,6 +460,38 @@ export const useAddPlan = () => {
   };
 
   useEffect(() => {
+    if (
+      !isNullOrEmpty(crmData?.data?.plans) &&
+      isNullOrEmpty(router?.query?.data)
+    ) {
+      enqueueSnackbar(
+        'Plan with same CRM/Suite name and same Plantype has already exist',
+        {
+          variant: 'error',
+        },
+      );
+      setIfCrmExist(true);
+    } else {
+      setIfCrmExist(false);
+    }
+
+    if (
+      !isNullOrEmpty(planExist?.data?.plans) &&
+      isNullOrEmpty(router?.query?.data)
+    ) {
+      enqueueSnackbar(
+        'Plan with selected product and selected Plantype has already exist',
+        {
+          variant: 'error',
+        },
+      );
+      setIfCrmExist(true);
+    } else {
+      setIfCrmExist(false);
+    }
+  }, [crmData, planExist]);
+
+  useEffect(() => {
     if (AdditionalStorageValue[0] === 'No') {
       setValue('additionalStoragePrice', 0);
     } else if (AdditionalUsereValue[0] === 'No') {
@@ -392,12 +505,13 @@ export const useAddPlan = () => {
     activeStep,
     handleSubmit,
     hanldeGoBack,
-
+    watchPermissionSlugs,
     addPlanFormValues,
     AddPlanStepperData,
     handleCompleteStep,
     setAddPlanFormValues,
     hanldeGoPreviousBack,
     isLoading: isLoading?.isLoading,
+    ifCrmExist,
   };
 };

@@ -6,26 +6,30 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { usePostDealsMutation } from '@/services/airSales/deals';
 
-import { createDealData } from './CreateDeal.data';
+import {
+  createDealData,
+  defaultValues,
+  validationSchema,
+} from './CreateDeal.data';
 import { v4 as uuidv4 } from 'uuid';
 
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const CreateDeal = ({ open, onClose }: any) => {
   const [postDeals] = usePostDealsMutation();
-  const startDate = 0;
 
-  const methods = useForm({});
+  const methods = useForm<any>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: defaultValues,
+  });
 
   const { handleSubmit, reset, watch } = methods;
   const dealPiplineId = watch('dealPiplineId');
 
   const onSubmit = async (values: any) => {
-    values.addLineItemId = '6538bb480b3f9e9d83d4a2ce'; // need get api for addLineItem but missing this api so i am using static id
-    values.closeDate = dayjs(values?.closeDate[startDate])?.format(
-      DATE_FORMAT?.API,
-    );
+    const [closeDate] = values?.closeDate;
+    values.closeDate = dayjs(closeDate)?.toISOString();
     try {
       await postDeals({ body: values })?.unwrap();
       reset();

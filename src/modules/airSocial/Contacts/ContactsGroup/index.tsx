@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Button, Typography, useTheme } from '@mui/material';
 import CreateGroupModal from './CreateGroupModal';
 import GroupsCard from './GroupsCard';
@@ -7,13 +7,32 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { PlusRoundedIcon } from '@/assets/icons';
 import { styles } from './Contacts.style';
-// import { v4 as uuidv4 } from 'uuid';
-// import { contactGroups } from './Contacts.data';
 import useContactsGroup from './useContactsGroup';
+import { AlertModals } from '@/components/AlertModals';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 const ContactsGroup = () => {
   const theme = useTheme();
-  const { dataGetContactGroups } = useContactsGroup();
+  const {
+    dataGetContactGroups,
+    isCreateModalOpen,
+    modalTitle,
+    handleOpenModalCreate,
+    handleCloseModalCreate,
+    methodsCreateGroup,
+    handleCreateGroupSubmit,
+    loadingCreateGroup,
+    loadingGetContacts,
+    dataGetContacts,
+    selectedUsers,
+    setSelectedUsers,
+    setSearchValue,
+    isGroupAlert,
+    handleOpenAlertDelete,
+    handleCloseAlertDelete,
+    handleDeleteGroup,
+    loadingDelete,
+  } = useContactsGroup();
 
   const {
     containerRef,
@@ -21,9 +40,6 @@ const ContactsGroup = () => {
     isRightButtonDisabled,
     isLeftButtonDisabled,
   } = useScroll();
-
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [groupModalType, setGroupModalType] = useState('');
 
   return (
     <>
@@ -43,10 +59,7 @@ const ContactsGroup = () => {
         <Box sx={styles?.flexCards} ref={containerRef}>
           <Box
             sx={styles?.createGroupCard}
-            onClick={() => {
-              setIsCreateModalOpen(true);
-              setGroupModalType('create');
-            }}
+            onClick={() => handleOpenModalCreate('Create', null)}
           >
             <PlusRoundedIcon />
             <Typography
@@ -62,10 +75,10 @@ const ContactsGroup = () => {
           <>
             {dataGetContactGroups?.data?.contactgroups?.map((group: any) => (
               <GroupsCard
-                info={group}
                 key={group?._id}
-                setGroupModalType={setGroupModalType}
-                setIsCreateModalOpen={setIsCreateModalOpen}
+                info={group}
+                handleOpenModal={handleOpenModalCreate}
+                handleOpenDeleteAlert={handleOpenAlertDelete}
               />
             ))}
           </>
@@ -81,9 +94,26 @@ const ContactsGroup = () => {
       </Box>
 
       <CreateGroupModal
-        groupModalType={groupModalType}
-        isCreateModalOpen={isCreateModalOpen}
-        setIsCreateModalOpen={setIsCreateModalOpen}
+        title={modalTitle}
+        isOpen={isCreateModalOpen}
+        onClose={handleCloseModalCreate}
+        methods={methodsCreateGroup}
+        onSubmit={handleCreateGroupSubmit}
+        contactList={dataGetContacts?.data?.contacts}
+        loadingTable={loadingGetContacts}
+        selectedUsers={selectedUsers}
+        setSelectedUsers={setSelectedUsers}
+        setSearchValue={setSearchValue}
+        loadingPost={loadingCreateGroup}
+      />
+
+      <AlertModals
+        type={ALERT_MODALS_TYPE?.DELETE}
+        open={isGroupAlert}
+        handleClose={handleCloseAlertDelete}
+        handleSubmitBtn={handleDeleteGroup}
+        message="Are you sure you want to delete this group?"
+        loading={loadingDelete}
       />
     </>
   );

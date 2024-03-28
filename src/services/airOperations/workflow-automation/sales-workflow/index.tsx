@@ -1,4 +1,4 @@
-import { END_POINTS } from '@/routesConstants/endpoints';
+import { END_POINTS, OPERATION } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 import { transformResponse } from '@/utils/api';
 
@@ -8,11 +8,27 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getWorkflowList: builder?.query({
       query: (params) => ({
-        url: `${END_POINTS?.WORKFLOWS}`,
+        url: `${OPERATION?.OPERATION_WORKFLOW}`,
         method: 'GET',
         params,
       }),
       providesTags: [TAG],
+    }),
+    deleteWorkflow: builder?.mutation({
+      query: (params) => ({
+        url: `${OPERATION?.OPERATION_WORKFLOW}`,
+        method: 'DELETE',
+        params,
+      }),
+      invalidatesTags: [TAG],
+    }),
+    changeStatusWorkflow: builder?.mutation({
+      query: ({ id, body }) => ({
+        url: `${OPERATION?.STATUS_WORKFLOW}/${id}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
     }),
     postSalesWorkflow: builder?.mutation({
       query: (body) => ({
@@ -66,6 +82,8 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
 
 export const {
   useLazyGetWorkflowListQuery,
+  useDeleteWorkflowMutation,
+  useChangeStatusWorkflowMutation,
   usePostSalesWorkflowMutation,
   useLazyGetDealDropdownListQuery,
   useLazyGetContactDropdownListQuery,

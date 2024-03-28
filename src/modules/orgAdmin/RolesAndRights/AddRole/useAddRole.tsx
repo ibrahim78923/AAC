@@ -21,10 +21,10 @@ import { getSession } from '@/utils';
 const useAddRole = () => {
   const theme = useTheme();
   const navigate = useRouter();
-  const roleId = useSearchParams().get('id');
-  const { user } = getSession();
+  const roleId = useSearchParams()?.get('id');
+  const { user }: any = getSession();
   const { query } = navigate;
-
+  const disabled = query?.type === 'view';
   const { useLazyGetPermissionsRolesByIdQuery, usePostPermissionRoleMutation } =
     rolesAndRightsAPI;
   const [postPermissionRole] = usePostPermissionRoleMutation();
@@ -51,21 +51,31 @@ const useAddRole = () => {
   const { handleSubmit, watch, setValue } = methods;
   const productVal = watch('productId');
 
-  useEffect(() => {
-    trigger(query?.type !== 'add' && roleId);
-  }, [roleId]);
+  const getModulePermissions = (subModules: any) => {
+    return subModules?.flatMap((firstItem: any) => {
+      return firstItem?.permissions?.map((item: any) => item?.slug);
+    });
+  };
 
-  useEffect(() => {
+  const selectAllPermissions = (subModules: any) => {
+    let permissionsArray = [];
+    const modulePermissions = getModulePermissions(subModules);
+    if (
+      !modulePermissions?.every(
+        (permission: any) => watch('permissions')?.includes(permission),
+      )
+    ) {
+      permissionsArray = modulePermissions?.concat(watch('permissions'));
+    } else {
+      permissionsArray = watch('permissions')?.filter(
+        (permission: any) => !modulePermissions?.includes(permission),
+      );
+    }
+    setValue('permissions', permissionsArray);
+  };
+
+  const setPayload = (permissionsArray: any) => {
     const data = viewPerdetails?.data;
-    const permissionsArray =
-      query?.type === 'view' || query?.type === 'edit'
-        ? data?.permissions?.flatMap(
-            (item: any) =>
-              item?.subModules?.flatMap(
-                (mod: any) => mod?.permissions?.map((slg: any) => slg?.slug),
-              ),
-          )
-        : [];
     const fieldsToSet: any = {
       productId: query?.type !== 'add' ? data?.productDetails?.id : '',
       organizationCompanyAccountId:
@@ -78,6 +88,25 @@ const useAddRole = () => {
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);
     }
+  };
+
+  useEffect(() => {
+    trigger(query?.type !== 'add' && roleId);
+  }, [roleId]);
+
+  useEffect(() => {
+    const data = viewPerdetails?.data;
+
+    const permissionsArray =
+      query?.type === 'view' || query?.type === 'edit'
+        ? data?.permissions?.flatMap(
+            (item: any) =>
+              item?.subModules?.flatMap(
+                (mod: any) => mod?.permissions?.map((slg: any) => slg?.slug),
+              ),
+          )
+        : [];
+    setPayload(permissionsArray);
   }, [viewPerdetails]);
 
   const handleSwitch = () => {
@@ -120,7 +149,6 @@ const useAddRole = () => {
       },
     );
   };
-
   return {
     productPermissionsData,
     viewPerdetails,
@@ -132,8 +160,11 @@ const useAddRole = () => {
     isLoading,
     navigate,
     onSubmit,
+    disabled,
     methods,
     theme,
+    selectAllPermissions,
+    getModulePermissions,
   };
 };
 

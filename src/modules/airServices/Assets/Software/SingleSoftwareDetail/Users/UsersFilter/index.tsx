@@ -15,6 +15,7 @@ export const UsersFilter = (props: any) => {
     openFilterDrawer,
     closeFilterDrawer,
     isFilterOpen,
+    resetFormAndCloseDrawer,
   } = useUsersFilter(props);
 
   return (
@@ -34,9 +35,11 @@ export const UsersFilter = (props: any) => {
         onClose={closeFilterDrawer}
         title={'Filters'}
         okText={'Apply'}
+        cancelText={'Reset'}
         footer={true}
         isOk={true}
         submitHandler={handleSubmit(submitFilter)}
+        cancelBtnHandler={handleSubmit(resetFormAndCloseDrawer)}
       >
         <Box mt={1}>
           <FormProvider methods={methods} onSubmit={handleSubmit(submitFilter)}>

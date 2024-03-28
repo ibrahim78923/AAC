@@ -1,21 +1,21 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const TAG = 'SERVICE-CATALOG';
+const TAG = 'SERVICE_CATALOG';
 const TAG_TWO = 'DROPDOWN_REQUESTER';
 const TAG_THREE = 'TICKETS';
 export const catalogAPI: any = baseAPI?.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder: any) => ({
     getServiceCatalog: builder?.query({
-      query: (getServiceCatalogCategoriesParameter) => ({
-        url: `${END_POINTS?.SERVICE_CATALOG}`,
+      query: (getServiceCatalogCategoriesParameter: any) => ({
+        url: `${END_POINTS?.CATALOG_SERVICES}`,
         method: 'GET',
         params: getServiceCatalogCategoriesParameter?.queryParam,
       }),
       providesTags: [TAG],
     }),
     getServiceCatalogCategories: builder?.query({
-      query: ({ param }) => ({
+      query: ({ param }: any) => ({
         url: `${END_POINTS?.SERVICE_CATALOG_CATEGORIES}`,
         method: 'GET',
         params: param,
@@ -23,7 +23,7 @@ export const catalogAPI: any = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getServiceCatalogCategoriesDetails: builder?.query({
-      query: (getServiceCatalogCategoriesDetailsParameter) => ({
+      query: (getServiceCatalogCategoriesDetailsParameter: any) => ({
         url: `${END_POINTS?.SERVICE_CATALOG_CATEGORIES_DETAILS}`,
         method: 'GET',
         params: getServiceCatalogCategoriesDetailsParameter?.queryParam,

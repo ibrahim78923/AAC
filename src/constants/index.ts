@@ -33,11 +33,12 @@ export const DATE_TIME_FORMAT = {
   DMMMY: 'D MMM, YYYY',
   DMDHMA: 'ddd, MMM D, YYYY, h:mm A',
   MMMM: 'MMMM',
+  WDM: 'dddd, DD MMMM',
 };
 
 export const VALIDATION_CONSTANT = {
   PHONE_NUMBER: {
-    regex: /^\+44[0-9]{10}$/,
+    regex: /^\+447[0-9]{9}$/,
     message: 'Only UK phone number',
   },
 };
@@ -116,7 +117,7 @@ export const AIR_SERVICES = {
   WORKLOAD_MANAGEMENT_SETTINGS: `/air-services/settings/agent-performance-management/workload-management`,
   USER_UPSERT_ROLES_SETTINGS: `/air-services/settings/user-management/roles/upsert-roles`,
   UPSERT_BUSINESS_HOUR: `/air-services/settings/service-management/business-hours/upsert-business-hour`,
-  ADD_NEW_LOCATION: `/air-services/settings/asset-management/location/add-new-location`,
+  ADD_NEW_LOCATION: `/air-services/settings/asset-management/location/upsert-location`,
   UPSERT_INVENTORY: `/air-services/assets/inventory/upsert-inventory`,
   UPSERT_SERVICE:
     '/air-services/settings/service-management/services-catalog/upsert-service',
@@ -128,6 +129,7 @@ export const AIR_SERVICES = {
 };
 
 export const AIR_CUSTOMER_PORTAL = {
+  DASHBOARD: `/air-customer-portal`,
   TICKETS: `/air-customer-portal/tickets`,
   SINGLE_TICKETS: `/air-customer-portal/tickets/single-ticket`,
   KNOWLEDGE_BASE: '/air-customer-portal/knowledge-base',
@@ -193,4 +195,8 @@ export const Quick_Links_Routes = {
   DOCUMENT: '/social-components/my-documents',
   CHAT: '/social-components/chat',
   EMAIL: '/social-components/email',
+};
+
+export const productSuiteName = {
+  crm: 'CRM',
 };

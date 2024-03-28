@@ -3,14 +3,14 @@ import { FormProvider } from '@/components/ReactHookForm';
 import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { dataArray } from '../Users.data';
-import useUsers from '../useUsers';
+import useAddUser from './useAddUser';
 
 const AddUsers = (props: any) => {
-  const { isAddUserDrawer, setIsAddUserDrawer } = props;
+  const { isAddUserDrawer, setIsAddUserDrawer, checkedUser } = props;
   const theme = useTheme();
-  const { methods, handleSubmit, onSubmit } = useUsers(
-    isAddUserDrawer,
-    setIsAddUserDrawer,
+  const { methods, handleSubmit, onSubmit } = useAddUser(
+    checkedUser,
+    isAddUserDrawer?.type,
   );
 
   return (
@@ -19,8 +19,8 @@ const AddUsers = (props: any) => {
       onClose={() =>
         setIsAddUserDrawer({ ...isAddUserDrawer, isToggle: false })
       }
-      title={'Add User'}
-      okText={'Add'}
+      title={isAddUserDrawer?.type === 'edit' ? 'Edit User' : 'Add User'}
+      okText={isAddUserDrawer?.type === 'edit' ? 'Edit' : 'Add'}
       footer={true}
       isOk={true}
       submitHandler={handleSubmit(onSubmit)}
@@ -39,7 +39,17 @@ const AddUsers = (props: any) => {
           <Grid container spacing={1}>
             {dataArray()?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                <item.component {...item.componentProps} size={'small'}>
+                <item.component
+                  {...item.componentProps}
+                  size={'small'}
+                  disabled={
+                    isAddUserDrawer?.type === 'view' ||
+                    (isAddUserDrawer?.type === 'edit' &&
+                      item?.componentProps?.name === 'email')
+                      ? true
+                      : false
+                  }
+                >
                   {item?.componentProps?.select &&
                     item?.options?.map((option: any) => (
                       <option key={uuidv4()} value={option?.value}>

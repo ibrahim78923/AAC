@@ -3,7 +3,12 @@ import { AIR_SERVICES } from '@/constants';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { REQUESTORS_STATUS } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
 import { Avatar, Box, Checkbox, Typography } from '@mui/material';
 
 export const agentActionsDropdown = (
@@ -42,7 +47,7 @@ export const agentActionsDropdown = (
 export const agentsListsColumnsFunction = (
   selectedAgentList: any,
   setSelectedAgentList: any,
-  processedAgentListData: any,
+  processedAgentListData: any = [],
   router: any,
 ): any => [
   {
@@ -117,6 +122,7 @@ export const agentsListsColumnsFunction = (
             query: {
               agentId: info?.row?.original?._id,
               departmentId: info?.row?.original?.departmentId,
+              roleId: info?.row?.original?.permissionsRole,
             },
           });
         }}
@@ -153,13 +159,13 @@ export const agentsListsColumnsFunction = (
     id: 'name',
     isSortable: true,
     header: 'Department',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
-    accessorFn: (row: any) => row?.role,
-    id: 'role',
+    accessorFn: (row: any) => row?.accountsPermissions,
+    id: 'permissionsList',
     isSortable: true,
     header: 'Role',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()?.name),
   },
 ];

@@ -206,10 +206,12 @@ const DealsTab = () => {
             Filter
           </Button>
           {/* </PermissionsGuard> */}
-          <ButtonGroup variant="outlined" aria-label="outlined button group">
+          <ButtonGroup
+            variant="outlined"
+            color="inherit"
+            aria-label="outlined button group"
+          >
             <Button
-              variant="contained"
-              color="inherit"
               className="small"
               onClick={() => handleListViewClick('listView')}
             >
@@ -220,8 +222,6 @@ const DealsTab = () => {
             >
               <Button
                 onClick={() => handleListViewClick('gridView')}
-                variant="contained"
-                color="inherit"
                 className="small"
               >
                 <GridViewIcon />

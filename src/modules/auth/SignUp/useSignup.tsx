@@ -32,6 +32,7 @@ const useSignup = () => {
 
   const allValuesNotEmpty = () => {
     const valuesNotEmpty = watchField?.every((value) => value?.trim() !== '');
+
     if (!valuesNotEmpty) {
       enqueueSnackbar('All Fields are Required', {
         variant: NOTISTACK_VARIANTS?.ERROR,
@@ -135,6 +136,7 @@ const useSignup = () => {
     isVerifiedSuccess,
     isStepComplete,
     setIsStepComplete,
+    isError,
   };
 };
 

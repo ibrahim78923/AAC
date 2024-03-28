@@ -29,15 +29,13 @@ export const RecentActivities = () => {
       ) : isError ? (
         <ApiErrorState height="100%" />
       ) : data?.data?.length ? (
-        <>
-          <Box overflow={'scroll'} height={'40vh'}>
-            {data?.data?.map((item: any, index: any) => (
-              <Fragment key={item?._id}>
-                <RecentActivitiesCard data={item} index={index} />
-              </Fragment>
-            ))}
-          </Box>
-        </>
+        <Box overflow={'auto'} height={'40vh'}>
+          {data?.data?.map((item: any, index: any) => (
+            <Fragment key={item?._id}>
+              <RecentActivitiesCard data={item} index={index} />
+            </Fragment>
+          ))}
+        </Box>
       ) : (
         <NoData message={'No recent activities found'} height={'100%'} />
       )}

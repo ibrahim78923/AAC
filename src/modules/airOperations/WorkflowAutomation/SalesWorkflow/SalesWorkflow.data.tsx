@@ -5,6 +5,7 @@ import { AntSwitch } from '@/components/AntSwitch';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { fullName } from '@/utils/avatarUtils';
+import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
 export const salesWorkflowActionDropdownDynamic = (
   selectedSalesWorkflowLists: any,
@@ -57,6 +58,8 @@ export const salesWorkflowListsColumnDynamic: any = (
   activeCheck: any,
   setActiveCheck: any,
   tableData: any,
+  handleChangeStatus: any,
+  switchLoading: any,
 ) => {
   return [
     {
@@ -64,6 +67,8 @@ export const salesWorkflowListsColumnDynamic: any = (
       id: '_id',
       cell: (info: any) => (
         <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           checked={
             !!activeCheck?.find((item: any) => item?._id === info?.getValue())
           }
@@ -87,6 +92,8 @@ export const salesWorkflowListsColumnDynamic: any = (
       ),
       header: (
         <Checkbox
+          icon={<CheckboxIcon />}
+          checkedIcon={<CheckboxCheckedIcon />}
           checked={
             tableData?.length
               ? activeCheck?.length === tableData?.length
@@ -121,11 +128,20 @@ export const salesWorkflowListsColumnDynamic: any = (
       id: 'activity',
       isSortable: true,
       header: 'Last Activity',
-      cell: (info: any) =>
-        fullName(
-          info?.getValue()?.type ? info?.getValue()?.type + ' ' + 'by' : null,
-          info?.getValue()?.user?.firstName + info?.getValue()?.user?.lastName,
-        ),
+      cell: (info: any) => {
+        const capitalizeFirstLetter = (type: any) =>
+          type.charAt(0).toUpperCase() + type.slice(1);
+        const type = info?.getValue()?.type;
+        const capitalizedType = type
+          ? capitalizeFirstLetter(type.toLowerCase())
+          : '';
+        return fullName(
+          capitalizedType ? capitalizedType + ' by' : null,
+          info?.getValue()?.user?.firstName +
+            ' ' +
+            info?.getValue()?.user?.lastName,
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.status,
@@ -141,7 +157,11 @@ export const salesWorkflowListsColumnDynamic: any = (
               AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.ACTIVE_INACTIVE_WORKFLOW,
             ]}
           >
-            <AntSwitch checked={getValues} />
+            <AntSwitch
+              checked={getValues}
+              isLoading={switchLoading?.[info?.row?.original?._id]}
+              onClick={() => handleChangeStatus?.(info?.row?.original)}
+            />
           </PermissionsGuard>
         );
       },

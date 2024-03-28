@@ -19,10 +19,15 @@ const useTeams = (teamId?: any) => {
     limit: limit,
     search: searchBy,
   };
-  const { data: teamsData, isSuccess, isLoading } = useGetTeamsQuery(params);
-
-  const { data: teamDataById } = useGetTeamsByIdQuery(teamId);
-
+  const {
+    data: teamsData,
+    isSuccess,
+    isLoading: teamsDataLoading,
+  } = useGetTeamsQuery(params);
+  const { data: teamDataById, isLoading: teamByIdLoading } =
+    teamId !== undefined
+      ? useGetTeamsByIdQuery(teamId)
+      : { data: null, isLoading: false };
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event?.currentTarget);
   };
@@ -32,7 +37,6 @@ const useTeams = (teamId?: any) => {
   };
 
   return {
-    // getRowValues,
     theme,
     anchorEl,
     setAnchorEl,
@@ -45,10 +49,11 @@ const useTeams = (teamId?: any) => {
     limit,
     setLimit,
     isSuccess,
-    isLoading,
+    teamsDataLoading,
     searchBy,
     setSearchBy,
     teamDataById,
+    teamByIdLoading,
   };
 };
 

@@ -39,15 +39,18 @@ export const defaultValues = {
   date: new Date(),
 };
 
-const CRMSuite = [
-  { value: 'CRM1', label: 'CRM1' },
-  { value: 'CRM2', label: 'CRM2' },
-  { value: 'CRM3', label: 'CRM3' },
-];
-export const assignPlanData = (selectProductSuite: string) => {
+interface CRMOption {
+  value: string;
+  label: string;
+}
+
+export const assignPlanData = (
+  selectProductSuite: string,
+  crmOptions: CRMOption[],
+  isEditModal: boolean,
+) => {
   const { data: productData } = useGetProductsQuery<any>({
     refetchOnMountOrArgChange: true,
-    pagination: `page=1&limit=10`,
   });
 
   const productSuite = productData?.data?.map((product: any) => ({
@@ -57,7 +60,6 @@ export const assignPlanData = (selectProductSuite: string) => {
 
   const { data: planTypeData } = useGetPlanTypeQuery<any>({
     refetchOnMountOrArgChange: true,
-    pagination: `page=1&limit=10`,
   });
 
   const planType = planTypeData?.data?.map((planType: any) => ({
@@ -67,7 +69,6 @@ export const assignPlanData = (selectProductSuite: string) => {
 
   const { data: OrganizationsData } = useGetOrganizationsQuery<any>({
     refetchOnMountOrArgChange: true,
-    pagination: `page=1&limit=10`,
   });
 
   const Organizations = OrganizationsData?.data?.map((Organizations: any) => ({
@@ -75,7 +76,7 @@ export const assignPlanData = (selectProductSuite: string) => {
     label: Organizations?.name,
   }));
 
-  const options = selectProductSuite === 'product' ? productSuite : CRMSuite;
+  const options = selectProductSuite === 'product' ? productSuite : crmOptions;
 
   return [
     {
@@ -84,6 +85,7 @@ export const assignPlanData = (selectProductSuite: string) => {
         label: 'Client Name & Organization',
         fullWidth: true,
         select: true,
+        disabled: isEditModal,
       },
 
       options: Organizations,

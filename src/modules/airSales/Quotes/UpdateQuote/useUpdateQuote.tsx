@@ -10,27 +10,68 @@ import {
 } from './UpdateQuote.data';
 import {
   useCreateAssociationQuoteMutation,
+  useDeleteCompaniesMutation,
+  useDeleteContactsMutation,
   useGetDealsQuery,
   useGetQuoteByIdQuery,
+  usePostAddbuyerInfoMutation,
+  usePutSubmitQuoteMutation,
   // usePostAddbuyerInfoMutation,
   useUpdateQuoteMutation,
 } from '@/services/airSales/quotes';
 import { AIR_SALES } from '@/routesConstants/paths';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { PAGINATION } from '@/config';
 
 const useUpdateQuote = () => {
   const router = useRouter();
-  let quoteId;
+  let quoteId: any;
   if (router?.query?.data) {
     quoteId = router?.query?.data;
   }
-  // const id = router?.query?.data;
-  // console.log(quoteId, 'quoteIdquoteIdquoteIdquoteId');
+
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+
   const [createAssociationQuote] = useCreateAssociationQuoteMutation();
-
-  const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 100 });
+  const { data: dataGetDeals } = useGetDealsQuery({
+    page: page,
+    limit: pageLimit,
+  });
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
+  const [deleteCompaniesMutation, { isLoading: isCompanyDeleteLoading }] =
+    useDeleteCompaniesMutation();
+  const [deleteContacts, { isLoading: isContactDeleteLoading }] =
+    useDeleteContactsMutation();
+  const [putSubmitQuote] = usePutSubmitQuoteMutation();
 
-  // const [postAddbuyerInfo] = usePostAddbuyerInfoMutation();
+  const [selectedBuyerContactIds, setSelectedBuyerContactIds] = useState<
+    string | null
+  >('');
+  const [selectedCompanyIds, setSelectedCompanyIds] = useState<string | null>(
+    '',
+  );
+
+  const [deleteModalId, setDeleteModal] = useState<string | null>(null);
+  const handleDeleteModal = (id: string | null) => {
+    setDeleteModal(id);
+  };
+  const [deleteContactModalId, setDeleteContactModalId] = useState<
+    string | null
+  >(null);
+  const handleContactDeleteModal = (id: string | null) => {
+    setDeleteContactModalId(id);
+  };
+
+  const handleBuyerContactChange = (id: any) => {
+    setSelectedBuyerContactIds(selectedBuyerContactIds === id ? null : id);
+  };
+
+  const handleCompanyChange = (id: any) => {
+    setSelectedCompanyIds(selectedCompanyIds === id ? null : id);
+  };
+
+  const [postAddbuyerInfo] = usePostAddbuyerInfoMutation();
   const methodsUpdateQuote = useForm<any>({
     resolver: yupResolver(dealValidationSchema),
     defaultValues: dealInitValues,
@@ -55,9 +96,67 @@ const useUpdateQuote = () => {
   }, [singleQuote]);
 
   const onSubmit = async () => {
-    enqueueSnackbar('Form Submitted', {
-      variant: 'success',
-    });
+    try {
+      putSubmitQuote({
+        id: quoteId,
+        body: { id: quoteId, isSubmitted: false },
+      });
+      enqueueSnackbar('Save as draft submit later', {
+        variant: 'success',
+      });
+    } catch (error) {
+      enqueueSnackbar(`Something went wrong`, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
+  const handleSubmitBtn = async () => {
+    try {
+      putSubmitQuote({
+        id: quoteId,
+        body: { id: quoteId, isSubmitted: true },
+      });
+      enqueueSnackbar('Save as draft submit later', {
+        variant: 'success',
+      });
+    } catch (error) {
+      enqueueSnackbar(`Something went wrong`, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
+  const handleDeleteCompanies = async () => {
+    try {
+      await deleteCompaniesMutation(deleteModalId)?.unwrap();
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+      setSelectedCompanyIds(null);
+      handleDeleteModal(null);
+      // setIsActionsDisabled(true);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
+  const handleDeleteContacts = async () => {
+    try {
+      await deleteContacts({ contactIds: [deleteContactModalId] })?.unwrap();
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+      setDeleteContactModalId(null);
+      // setIsActionsDisabled(true);
+      handleContactDeleteModal(null);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
   };
 
   const handleFormSubmit = handleSubmit(onSubmit);
@@ -68,6 +167,7 @@ const useUpdateQuote = () => {
   const [isOpenFormAddCompany, setIsOpenFormAddCompany] = useState(false);
   const [isOpenFormCreateProduct, setIsOpenFormCreateProduct] = useState(false);
   const [isOpenDialog, setIsOpenDialog] = useState(false);
+
   const handleStepNext = async () => {
     setActiveStep((prev: any) => prev + 1);
   };
@@ -82,6 +182,7 @@ const useUpdateQuote = () => {
   const [updateQuote, { isLoading: loadingUpdateQuote }] =
     useUpdateQuoteMutation();
   const { handleSubmit: handleMethodUpdateQuote } = methodsUpdateQuote;
+
   const onSubmitEditQuote = async (values: any) => {
     try {
       await updateQuote({ id: router?.query?.data, body: values })?.unwrap();
@@ -111,9 +212,26 @@ const useUpdateQuote = () => {
         await handleEditQuoteSubmit();
       }
     }
-    // if(activeStep === 1){
-    //   // await postAddbuyerInfo(body:)
-    // }
+    if (activeStep === 1) {
+      try {
+        await postAddbuyerInfo({
+          body: {
+            id: quoteId,
+            buyerContactId: selectedBuyerContactIds && selectedBuyerContactIds,
+            buyerCompanyId: selectedCompanyIds && selectedCompanyIds,
+          },
+        })?.unwrap();
+        enqueueSnackbar('Buyer Info updated successfully', {
+          variant: 'success',
+        });
+
+        handleStepNext();
+      } catch (error: any) {
+        enqueueSnackbar('An error occured', {
+          variant: 'error',
+        });
+      }
+    }
   };
 
   const handleOpenFormCreateDeal = () => {
@@ -143,10 +261,10 @@ const useUpdateQuote = () => {
   const handleCloseFormCreateProduct = () => {
     setIsOpenFormCreateProduct(false);
   };
-
   const handleOpenDialog = () => {
     setIsOpenDialog(true);
   };
+
   const handleCloseDialog = () => {
     setIsOpenDialog(false);
   };
@@ -186,6 +304,25 @@ const useUpdateQuote = () => {
     handleUpdateDetails,
     loadingUpdateQuote,
     createAssociationQuote,
+    handleBuyerContactChange,
+    selectedBuyerContactIds,
+    handleCompanyChange,
+    selectedCompanyIds,
+    disabledSaveAndContinueBtn: Boolean(
+      selectedBuyerContactIds && selectedCompanyIds,
+    ),
+    handleDeleteCompanies,
+    // isLoading,
+    handleDeleteModal,
+    deleteModalId,
+    isCompanyDeleteLoading,
+    handleDeleteContacts,
+    isContactDeleteLoading,
+    handleContactDeleteModal,
+    deleteContactModalId,
+    handleSubmitBtn,
+    setPage,
+    setPageLimit,
   };
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid } from '@mui/material';
+import { Box, Grid, Skeleton } from '@mui/material';
 import PlanCard from './PlanCard';
 import BillingDetail from './BillingDetail';
 import {
@@ -12,6 +12,8 @@ import {
 import { useGetSubscriptionsAndInvoicesQuery } from '@/services/orgAdmin/subscription-and-invoices';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const getProductIcon = (product: any) => {
   let iconProduct;
@@ -40,7 +42,8 @@ const getProductIcon = (product: any) => {
 const Subscriptions = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [subscriptionId, setSubscriptionId] = useState('');
-  const { data: getSubscriptionData } = useGetSubscriptionsAndInvoicesQuery({});
+  const { data: getSubscriptionData, isLoading: loadingSubscriptionData } =
+    useGetSubscriptionsAndInvoicesQuery({});
   const handleDrawerOpen = (id: any) => {
     setSubscriptionId(id);
     setIsOpenDrawer(true);
@@ -52,36 +55,50 @@ const Subscriptions = () => {
 
   return (
     <>
-      <Grid
-        container
-        rowSpacing={'24px'}
-        columnSpacing={{ xs: '24px', xl: '60px' }}
-      >
-        {getSubscriptionData?.data?.map((plan: any) => {
-          return (
-            <Grid item key={plan?.id} xs={12} md={6} lg={4}>
-              <PlanCard
-                status={plan?.status}
-                icon={getProductIcon(plan?.product)}
-                title={
-                  plan?.planProducts?.map(
-                    (product: { name: string }) => product?.name,
-                  ) ?? plan?.name
-                }
-                planDuration={plan?.planDuration}
-                planUsers={plan?.additionalUsers}
-                planData={plan?.billingCycle}
-                price={plan?.plans?.planPrice ?? 0}
-                billOn={dayjs(plan?.billingDate).format(DATE_FORMAT?.UI)}
-                type={plan?.plantypes?.name ?? plan?.plan}
-                handleBillingDetail={handleDrawerOpen}
-                id={plan?._id}
-                plan={plan}
-              />
-            </Grid>
-          );
-        })}
-      </Grid>
+      {loadingSubscriptionData ? (
+        <>
+          <Grid
+            container
+            rowSpacing={'24px'}
+            columnSpacing={{ xs: '24px', xl: '60px' }}
+          >
+            {[1, 2, 3, 4, 5]?.map(() => (
+              <Grid item key={uuidv4()}>
+                <Box sx={{ width: 480 }}>
+                  <Skeleton variant="rectangular" height={300} />
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      ) : (
+        <Grid
+          container
+          rowSpacing={'24px'}
+          columnSpacing={{ xs: '24px', xl: '60px' }}
+        >
+          {getSubscriptionData?.data?.map((plan: any) => {
+            return (
+              <Grid item key={plan?.id} xs={12} md={6} lg={4}>
+                <PlanCard
+                  status={plan?.status}
+                  icon={getProductIcon(plan?.product)}
+                  title={plan?.name || plan?.productName}
+                  planDuration={plan?.planDuration}
+                  planUsers={plan?.additionalUsers}
+                  planData={plan?.billingCycle}
+                  price={plan?.planData?.planPrice ?? 0}
+                  billOn={dayjs(plan?.billingDate).format(DATE_FORMAT?.UI)}
+                  type={plan?.planTypeName ?? plan?.plan}
+                  handleBillingDetail={handleDrawerOpen}
+                  id={plan?._id}
+                  plan={plan}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
+      )}
 
       <BillingDetail
         open={isOpenDrawer}

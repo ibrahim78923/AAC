@@ -1,8 +1,9 @@
-import { Checkbox } from '@mui/material';
+import { Box, Checkbox, Typography } from '@mui/material';
 
 import { avatarGroupMockData } from '../PlanManagement.data';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
 
 export const TABLE_CONSTANTS = {
   CUSTOMIZE_COLUMN: 'customize-column',
@@ -76,7 +77,32 @@ export const PlanDetailsDataColumnFunction: any = (
       header: <Checkbox color="primary" name="id" />,
       isSortable: false,
     },
-
+    {
+      accessorFn: (row: any) => row?.planProducts,
+      id: 'productsSuite',
+      isSortable: true,
+      header: 'Products/Suite',
+      cell: (info: any) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          {info?.row?.original?.planProducts?.length > 1 ? (
+            <>
+              <Typography variant="body3">CRM</Typography>
+              {info?.row?.original?.planProducts?.map((data: any) => (
+                <Typography variant="body3" key={uuidv4()}>
+                  {data?.name}
+                </Typography>
+              ))}
+            </>
+          ) : (
+            info?.row?.original?.planProducts?.map((data: any) => (
+              <Typography variant="body3" key={uuidv4()}>
+                {data?.name}{' '}
+              </Typography>
+            ))
+          )}
+        </Box>
+      ),
+    },
     {
       accessorFn: (row: any) => row?.planType?.name,
       id: 'planType',

@@ -1,16 +1,18 @@
 import { InfoCircleGreenIcon } from '@/assets/icons';
-import { RHFFileImport } from '@/components/ReactHookForm';
 import {
   Box,
   Button,
+  Grid,
   List,
   ListItem,
   Typography,
   useTheme,
 } from '@mui/material';
 import { style } from './SecondStep.style';
+import { importDataField } from '../ImportModal.data';
 
-const SecondStep = ({ requiredColumns = [] }: any) => {
+const SecondStep = (props: any) => {
+  const { handlePreview, requiredColumns = [] } = props;
   const { palette } = useTheme();
   return (
     <>
@@ -28,12 +30,22 @@ const SecondStep = ({ requiredColumns = [] }: any) => {
         <Typography fontWeight={500} color="grey.600" pb={1.2}>
           Import Deals
         </Typography>
-        <RHFFileImport name="importDeals" label="Import Deals" />
+        <Grid container>
+          {importDataField?.map(
+            (item: any) =>
+              item?.tag === 'import' && (
+                <Grid item xs={12} key={item?.id}>
+                  <item.component {...item?.componentProps} />
+                </Grid>
+              ),
+          )}
+        </Grid>
       </Box>
       <Button
         variant="text"
         sx={{ fontWeight: 500 }}
         startIcon={<InfoCircleGreenIcon />}
+        onClick={handlePreview}
       >
         Click here to preview Sample File.
       </Button>

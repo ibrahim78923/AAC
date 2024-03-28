@@ -16,7 +16,7 @@ import { styles } from '../ViewDetails.style';
 
 import { v4 as uuidv4 } from 'uuid';
 import { IMG_URL } from '@/config';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_TIME_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
 import CustomPagination from '@/components/CustomPagination';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
@@ -38,7 +38,7 @@ const Notes = () => {
     <Box sx={styles?.horizontalTabsBox}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h4"> Notes</Typography>
+          <Typography variant="h4">Notes</Typography>
         </Grid>
         <Grid item xs={12}>
           <Box sx={styles?.headingSpacingBetween}>
@@ -83,7 +83,7 @@ const Notes = () => {
             >
               <MessageIcon />
               <Typography variant="body3">
-                There are no notes available{' '}
+                There are no notes available
               </Typography>
               <Button
                 variant="contained"
@@ -159,8 +159,7 @@ const Notes = () => {
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    {dayjs(item?.createdAt).format(DATE_FORMAT.UI)}
-                    <></>
+                    {dayjs(item?.createdAt)?.format(DATE_TIME_FORMAT?.DMYhmma)}
                   </Typography>
                   <Typography
                     variant="body2"

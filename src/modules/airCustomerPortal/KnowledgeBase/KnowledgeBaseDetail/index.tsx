@@ -5,76 +5,83 @@ import { useKnowledgeBaseDetail } from './useKnowledgeBaseDetail';
 import { KnowledgeBaseTicket } from './KnowledgeBaseTicket';
 import CustomPagination from '@/components/CustomPagination';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
+import NoData from '@/components/NoData';
+import dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from '@/constants';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS } from '@/constants/permission-keys';
 
 export const KnowledgeBaseDetail = () => {
   const {
     handleKnowledgeBase,
-    searchValue,
     SetSearchValue,
-    theme,
-    page,
-    pageLimit,
     setPage,
     setPageLimit,
     articlesData,
     articlesMetaData,
-    handlePageChange,
-    formatDateTime,
     isLoading,
     folderId,
     folderName,
+    isFetching,
+    isError,
   } = useKnowledgeBaseDetail();
 
+  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isError) return <ApiErrorState />;
+
   return (
-    <Box
-      border={`.1rem solid ${theme?.palette?.grey?.[700]}`}
-      p={2}
-      borderRadius={2}
+    <PermissionsGuard
+      permissions={[
+        AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS?.VIEW_ARTICLES_DIFFERENT_CATEGORY,
+      ]}
     >
-      <Box
-        display={'flex'}
-        justifyContent={'flex-start'}
-        alignItems={'center'}
-        gap={1}
-        sx={{ cursor: 'pointer' }}
-      >
-        <ArrowBackIcon onClick={() => handleKnowledgeBase()} />
-        <Typography variant="h4">Knowledge Base - {folderName}</Typography>
-      </Box>
-      <Box mt={2} mb={4}>
-        <Search
-          label="Search Here"
-          searchBy={searchValue}
-          setSearchBy={SetSearchValue}
-        />
-      </Box>
-      {isLoading ? (
-        <SkeletonTable />
-      ) : (
-        <>
-          {articlesData?.map((item: any) => (
+      <Box border={`1px solid`} borderColor="grey.700" p={2} borderRadius={2}>
+        <Box
+          display={'flex'}
+          justifyContent={'flex-start'}
+          alignItems={'center'}
+          gap={1}
+        >
+          <ArrowBackIcon
+            onClick={() => handleKnowledgeBase()}
+            sx={{ cursor: 'pointer' }}
+          />
+          <Typography variant="h4">Knowledge Base - {folderName}</Typography>
+        </Box>
+        <br />
+        <Box>
+          <Search label="Search Here" setSearchBy={SetSearchValue} />
+        </Box>
+        <br />
+        {!!articlesData?.length ? (
+          articlesData?.map((item: any) => (
             <KnowledgeBaseTicket
               key={item?._id}
               articleId={item?._id}
               folderId={folderId}
               articlesTitle={item?.title}
               folderName={folderName}
-              modifiedDate={formatDateTime(item?.updatedAt)}
+              modifiedDate={dayjs(item?.updatedAt)?.format(
+                DATE_TIME_FORMAT?.UI,
+              )}
               purposeDescription={item?.folder?.description}
             />
-          ))}
-        </>
-      )}
-      <CustomPagination
-        count={articlesMetaData?.pages}
-        totalRecords={articlesMetaData?.total}
-        pageLimit={pageLimit}
-        currentPage={page}
-        rowsPerPageOptions={[10, 20]}
-        onPageChange={handlePageChange}
-        setPageLimit={setPageLimit}
-        setPage={setPage}
-      />
-    </Box>
+          ))
+        ) : (
+          <NoData message="No articles found" />
+        )}
+        <br />
+        <CustomPagination
+          count={articlesMetaData?.pages}
+          totalRecords={articlesMetaData?.total}
+          pageLimit={articlesMetaData?.limit}
+          currentPage={articlesMetaData?.page}
+          onPageChange={(page: any) => setPage(page)}
+          setPageLimit={setPageLimit}
+          setPage={setPage}
+        />
+      </Box>
+    </PermissionsGuard>
   );
 };

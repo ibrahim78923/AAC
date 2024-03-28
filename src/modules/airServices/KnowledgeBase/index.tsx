@@ -11,10 +11,12 @@ export const KnowledgeBase = () => {
       <Header setIsFolderFormOpen={setIsFolderFormOpen} />
       <br />
       <KnowledgeBaseTabs />
-      <UpsertFolder
-        openDialog={isFolderFormOpen}
-        setOpenDialog={setIsFolderFormOpen}
-      />
+      {isFolderFormOpen && (
+        <UpsertFolder
+          openDialog={isFolderFormOpen}
+          setOpenDialog={setIsFolderFormOpen}
+        />
+      )}
     </>
   );
 };

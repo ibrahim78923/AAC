@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Skeleton } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertEventBasedWorkflow } from './useUpsertEventBasedWorkflow';
 import { WorkflowConditions } from './WorkflowConditions';
@@ -9,7 +9,7 @@ import { EventBasedWorkflowDataArray } from './UpsertEventBasedWorkflow.data';
 
 export const UpsertEventBasedWorkflow = () => {
   const {
-    salesMethod,
+    eventMethod,
     handleFormSubmit,
     register,
     handleSubmit,
@@ -17,11 +17,15 @@ export const UpsertEventBasedWorkflow = () => {
     moduleType,
     control,
     watch,
+    setValue,
+    isLoading,
+    isFetching,
   } = useUpsertEventBasedWorkflow();
+  if (isLoading || isFetching) return <Skeleton />;
   return (
     <Box>
       <FormProvider
-        methods={salesMethod}
+        methods={eventMethod}
         onSubmit={handleSubmit(handleFormSubmit)}
       >
         <WorkflowHeader />
@@ -43,8 +47,9 @@ export const UpsertEventBasedWorkflow = () => {
           control={control}
           moduleType={moduleType}
           watch={watch}
+          setValue={setValue}
         />
-        <WorkflowActionExecuted />
+        <WorkflowActionExecuted watch={watch} setValue={setValue} />
       </FormProvider>
     </Box>
   );

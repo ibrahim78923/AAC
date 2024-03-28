@@ -5,13 +5,13 @@ import useUpdateQuote from '../../useUpdateQuote';
 const Quotation = () => {
   const { dataGetQuoteById } = useUpdateQuote();
 
-  const sum = dataGetQuoteById?.data?.products.reduce(
+  const sum = dataGetQuoteById?.data?.products?.reduce(
     (accumulator: any, currentValue: any) =>
       accumulator + currentValue?.unitPrice * currentValue?.quantity,
     0,
   );
 
-  const unitDiscount = dataGetQuoteById?.data?.products.reduce(
+  const unitDiscount = dataGetQuoteById?.data?.products?.reduce(
     (accumulator: any, currentValue: any) =>
       accumulator + currentValue?.unitDiscount * currentValue?.quantity,
     0,

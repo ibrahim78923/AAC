@@ -1,65 +1,114 @@
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Checkbox,
-} from '@mui/material';
+import { Box, Checkbox, FormControlLabel, Grid } from '@mui/material';
 import CommonDrawer from '@/components/CommonDrawer';
-import { DragSharedIcon } from '@/assets/icons';
+import { v4 as uuidv4 } from 'uuid';
+import { DragIcon } from '@/assets/icons';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { styles } from './CustomizeColumns.style';
+import useCustomizeColumn from './useCustomizeColumn';
 
-const CustomizeColumns = ({
-  open,
-  onClose,
-  columns,
-  checkedColumns,
-  handleToggleColumns,
-  onSubmit,
-}: any) => {
+const CustomizeColumns = ({ open, onClose }: any) => {
+  const {
+    onDragEnd,
+    order,
+    theme,
+    selected,
+    handleChackboxChange,
+    handleUpdateColumns,
+  } = useCustomizeColumn({ onClose });
+
   return (
-    <CommonDrawer
-      isDrawerOpen={open}
-      onClose={onClose}
-      title={'Edit Columns'}
-      footer
-      okText={'Apply'}
-      isOk
-      cancelText={'Cancel'}
-      submitHandler={onSubmit}
-    >
-      <List sx={styles?.columnsList}>
-        {columns?.map((col: any) => {
-          if (col?.id === 'cellCheckbox') {
-            return null;
-          }
-          return (
-            <ListItem key={col?.id} disablePadding>
-              <ListItemButton
-                className={
-                  checkedColumns?.indexOf(col?.id) !== -1 ? 'selected' : ''
-                }
-                role={undefined}
-                onClick={handleToggleColumns(col?.id)}
-                dense
+    <>
+      <CommonDrawer
+        isDrawerOpen={open}
+        onClose={onClose}
+        title="Customize Columns"
+        okText="Save"
+        submitHandler={handleUpdateColumns}
+        isOk
+        footer
+      >
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable
+            key={uuidv4()}
+            droppableId={`columnWrapper`}
+            direction="vertical"
+          >
+            {(provided: any) => (
+              <Box
+                sx={{ userSelect: 'none', width: '100%' }}
+                ref={provided?.innerRef}
+                {...provided?.droppableProps}
               >
-                <ListItemIcon>
-                  <DragSharedIcon />
-                </ListItemIcon>
-                <ListItemText primary={col?.header} />
-                <Checkbox
-                  edge="start"
-                  checked={checkedColumns?.indexOf(col?.id) !== -1}
-                  tabIndex={-1}
-                  disableRipple
-                />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
-      </List>
-    </CommonDrawer>
+                <Box sx={{ paddingTop: '1rem', width: '100%' }}>
+                  <Grid container>
+                    {order?.map((col: any, i: number) => (
+                      <Draggable
+                        key={uuidv4()}
+                        draggableId={col?.slug}
+                        index={i}
+                      >
+                        {(provided: any) => (
+                          <Box
+                            ref={provided?.innerRef}
+                            {...provided?.draggableProps}
+                            {...provided?.dragHandleProps}
+                            sx={{
+                              cursor: 'grabbing',
+                              width: '100%',
+                            }}
+                          >
+                            <Grid item xs={12} key={uuidv4()}>
+                              <Box
+                                sx={{
+                                  ...styles?.column(
+                                    theme?.palette,
+                                    col?.active,
+                                  ),
+                                  width: '100%',
+                                }}
+                              >
+                                <Box
+                                  sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 2,
+                                    flex: 1,
+                                  }}
+                                >
+                                  <DragIcon />
+                                  <FormControlLabel
+                                    key={uuidv4()}
+                                    checked={selected?.includes(col?.slug)}
+                                    classes={{
+                                      root: '_root',
+                                      label: '_label',
+                                    }}
+                                    name={col?.attributes}
+                                    onChange={({ target }: any) =>
+                                      handleChackboxChange(
+                                        target.checked,
+                                        col,
+                                        i,
+                                      )
+                                    }
+                                    control={<Checkbox />}
+                                    label={col?.slug}
+                                  />
+                                </Box>
+                              </Box>
+                            </Grid>
+                          </Box>
+                        )}
+                      </Draggable>
+                    ))}
+                  </Grid>
+                </Box>
+              </Box>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </CommonDrawer>
+    </>
   );
 };
 

@@ -108,7 +108,7 @@ export const ticketsFilterFormFieldsDataFunction = (
       label: 'Agent',
       placeholder: 'Choose Agent',
       apiQuery: apiQueryAgent,
-      externalParams: { limit: 50, role: ROLES?.ORG_AGENT },
+      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

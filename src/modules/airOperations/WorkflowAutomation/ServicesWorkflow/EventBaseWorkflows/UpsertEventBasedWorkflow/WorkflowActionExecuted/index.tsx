@@ -1,13 +1,30 @@
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
-import { AddCircle, Delete } from '@mui/icons-material';
-import { actionsExecutedFields } from './WorkflowActionExecuted.data';
+import { AddCircle, Delete as DeleteIcon } from '@mui/icons-material';
+import { actionsData } from './WorkflowActionExecuted.data';
 import { useFieldArray } from 'react-hook-form';
+import { errorSnackbar } from '@/utils/api';
+import { useLazyGetAgentsQuery } from '@/services/dropdowns';
+import {
+  useLazyGetCategoriesDropdownQuery,
+  useLazyGetDepartmentDropdownQuery,
+} from '@/services/airServices/tickets';
 
-export const WorkflowActionExecuted = () => {
+export const WorkflowActionExecuted = ({ watch, setValue }: any) => {
   const { fields, append, remove } = useFieldArray({
-    name: 'actionsExecuted',
+    name: 'actions',
   });
   const theme = useTheme();
+
+  const handleDelete = (index: number) => {
+    if (fields?.length === 1) {
+      errorSnackbar('Cannot Delete');
+    } else {
+      remove(index);
+    }
+  };
+  const agentApiQuery = useLazyGetAgentsQuery();
+  const departmentApiQuery = useLazyGetDepartmentDropdownQuery();
+  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
   return (
     <Box
       border={`1px solid ${theme?.palette?.custom?.off_white_three}`}
@@ -28,60 +45,42 @@ export const WorkflowActionExecuted = () => {
           Actions
         </Typography>
       </Box>
-      {fields?.length === 0 ? (
-        <Box
-          p={2}
-          display={'flex'}
-          alignItems={'center'}
-          gap={1}
-          borderBottom={`1px solid ${theme?.palette?.custom?.off_white_three}`}
-        >
-          <Grid container spacing={2}>
-            {actionsExecutedFields?.map((item: any) => (
-              <Grid item xs={12} lg={item?.gridLength} key={item?._id}>
-                <item.component
-                  {...item?.componentProps}
-                  name={`actionsExecuted[0].${item?.componentProps?.name}`}
-                />
+      {fields?.map((item: any, index: number) => (
+        <Box key={item?._id} display={'flex'} p={2}>
+          <Grid container spacing={1}>
+            {actionsData({
+              index,
+              watch,
+              setValue,
+              agentApiQuery,
+              departmentApiQuery,
+              apiQueryCategories,
+            })?.map((actionItem: any) => (
+              <Grid
+                item
+                xs={12}
+                md={actionItem?.gridLength}
+                key={actionItem?._id}
+              >
+                <actionItem.component {...actionItem?.componentProps} />
               </Grid>
             ))}
           </Grid>
+          <DeleteIcon
+            sx={{ color: 'error.main', cursor: 'pointer' }}
+            onClick={() => handleDelete(index)}
+          />
         </Box>
-      ) : (
-        fields?.map((field, index) => (
-          <Box
-            key={field?.id}
-            pt={1}
-            display={'flex'}
-            alignItems={'center'}
-            borderBottom={`1px solid ${theme?.palette?.custom?.off_white_three}`}
-            gap={1}
-          >
-            <Grid container spacing={2}>
-              {actionsExecutedFields?.map((item) => (
-                <Grid item xs={12} lg={item?.gridLength} key={item?._id}>
-                  <item.component
-                    {...item?.componentProps}
-                    {...field}
-                    name={`actionsExecuted[${index}].${item?.componentProps?.name}`}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-            <Delete
-              onClick={() => remove(index)}
-              sx={{ color: 'error.main', cursor: 'pointer' }}
-            />
-          </Box>
-        ))
-      )}
-      <Button
-        color="secondary"
-        onClick={() => append({})}
-        startIcon={<AddCircle color="action" />}
-      >
-        Add Condition
-      </Button>
+      ))}
+      <Box px={1}>
+        <Button
+          color="secondary"
+          onClick={() => append({ key: '', value: null })}
+          startIcon={<AddCircle color="action" />}
+        >
+          Add Condition
+        </Button>
+      </Box>
     </Box>
   );
 };
