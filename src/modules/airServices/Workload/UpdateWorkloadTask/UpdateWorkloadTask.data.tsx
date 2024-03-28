@@ -6,6 +6,7 @@ import {
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
+import { ROLES } from '@/constants/strings';
 import { pxToRem } from '@/utils/getFontValue';
 import * as Yup from 'yup';
 
@@ -89,6 +90,7 @@ export const getWorkloadDataArray = ({
         apiQuery: apiQueryAssignTo,
         getOptionLabel: (option: any) =>
           option?.firstName + ' ' + option?.lastName,
+        externalParams: { role: ROLES?.ORG_EMPLOYEE, limit: 50 },
       },
       component: RHFAutocompleteAsync,
     },
