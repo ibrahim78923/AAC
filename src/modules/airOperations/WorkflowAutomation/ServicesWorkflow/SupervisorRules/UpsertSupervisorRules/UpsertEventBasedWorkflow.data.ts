@@ -1,5 +1,5 @@
 import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
-import { SCHEMA_KEYS } from '@/constants/strings';
+import { MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import * as Yup from 'yup';
 
 export const moduleOptions = [
@@ -94,7 +94,7 @@ export const rulesWorkflowSchema = Yup?.object()?.shape({
 export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
   return {
     title: singleWorkflowData?.title ?? '',
-    type: 'SUPERVISOR_RULES',
+    type: MODULES?.SUPERVISOR_RULES,
     description: singleWorkflowData?.description ?? '',
     events: singleWorkflowData?.events?.[0]
       ? eventOptions?.find(

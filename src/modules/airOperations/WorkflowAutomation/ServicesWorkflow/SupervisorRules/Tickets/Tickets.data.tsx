@@ -7,8 +7,12 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { REQUESTORS_STATUS } from '@/constants/strings';
+import { errorSnackbar } from '@/utils/api';
 
-export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
+export const EventBaseWorkflowActionsDropdown = (
+  handleActionClick: any,
+  selectedAction: any,
+) => [
   {
     id: 1,
     title: 'Edit',
@@ -16,6 +20,10 @@ export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.EDIT_WORKFLOW,
     ],
     handleClick: (close: any) => {
+      if (selectedAction?.length > 1) {
+        errorSnackbar(`Can't update multiple records`);
+        return;
+      }
       handleActionClick('edit');
       close?.(false);
     },

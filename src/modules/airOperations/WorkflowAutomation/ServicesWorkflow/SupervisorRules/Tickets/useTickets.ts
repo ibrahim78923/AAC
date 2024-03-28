@@ -3,6 +3,7 @@ import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
 import {
   ACTIONS_TYPES,
+  MODULES,
   REQUESTORS_STATUS,
   SCHEMA_KEYS,
 } from '@/constants/strings';
@@ -37,6 +38,7 @@ export const useTickets = () => {
     limit,
     search,
     module: SCHEMA_KEYS?.TICKETS,
+    type: MODULES?.SUPERVISOR_RULES,
   };
   const handleWorkflow = async () => {
     await getWorkflowListTrigger(workflowParams);
@@ -98,7 +100,7 @@ export const useTickets = () => {
       setDeleteWorkflow(true);
     } else if (actionType === ACTIONS_TYPES?.EDIT) {
       router?.push({
-        pathname: AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW,
+        pathname: AIR_OPERATIONS?.UPSERT_SUPERVISOR_RULES,
         query: {
           action: EDIT_WORKFLOW,
           id: selectedId,
@@ -106,7 +108,10 @@ export const useTickets = () => {
       });
     }
   };
-  const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);
+  const dropdownOptions = EventBaseWorkflowActionsDropdown(
+    handleActionClick,
+    selectedAction,
+  );
   return {
     ticketsListsColumns,
     isLoading,

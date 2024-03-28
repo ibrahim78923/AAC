@@ -13,6 +13,8 @@ export const SubWorkflowConditions = (props: any) => {
     handleDeleteClick,
     agentApiQuery,
     departmentApiQuery,
+    requestersApiQuery,
+    apiQueryLocations,
   } = useSubWorkflowConditions(props);
   return (
     <>
@@ -44,6 +46,8 @@ export const SubWorkflowConditions = (props: any) => {
                     setValue,
                     agentApiQuery,
                     departmentApiQuery,
+                    requestersApiQuery,
+                    apiQueryLocations,
                   })?.map((item: any) => (
                     <Grid item xs={12} md={item?.gridLength} key={item?._id}>
                       <item.component {...item?.componentProps} />

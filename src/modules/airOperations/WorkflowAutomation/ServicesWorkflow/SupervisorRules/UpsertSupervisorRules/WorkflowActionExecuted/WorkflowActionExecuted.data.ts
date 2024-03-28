@@ -26,6 +26,20 @@ const priority = ['HIGH', 'MEDIUM', 'LOW', 'URGENT'];
 const typeOptions = ['INC', 'SR'];
 const sourcesOptions = ['PHONE', 'EMAIL', 'PORTAL', 'CHAT'];
 
+const optionsConstant = {
+  agent: 'Assign to Agent',
+  department: 'Set Department as',
+  category: 'Set Category as',
+  priority: 'Set Category as',
+  impact: 'Set Impact as',
+  source: 'Set Source as',
+  type: 'Set Type as',
+  task: 'Add Task',
+  tag: 'Add Tag',
+  agentEmail: 'Send Email to Agent',
+  requesterEmail: 'Send Email to Requester',
+  date: 'Set Due Date as',
+};
 export const actionsData = ({
   index,
   watch,
@@ -34,38 +48,35 @@ export const actionsData = ({
   apiQueryCategories,
 }: any) => {
   const selectedOptionsKey = watch(`actions.${index}.key`);
-  // useEffect(() => {
-  //   setValue(`actions.${index}.value`, null);
-  // }, [setValue, selectedOptionsKey]);
   const useApiQuery = (selectedOptionsKey: string) => {
-    if (selectedOptionsKey === 'Assign to Agent') {
+    if (selectedOptionsKey === optionsConstant?.agent) {
       return agentApiQuery;
-    } else if (selectedOptionsKey === 'Set Department as') {
+    } else if (selectedOptionsKey === optionsConstant?.department) {
       return departmentApiQuery;
-    } else if (selectedOptionsKey === 'Set Category as') {
+    } else if (selectedOptionsKey === optionsConstant?.category) {
       return apiQueryCategories;
     }
     return null;
   };
 
   const valuesOptions =
-    selectedOptionsKey === 'Set Priority as' ||
-    selectedOptionsKey === 'Set Impact as'
+    selectedOptionsKey === optionsConstant?.priority ||
+    selectedOptionsKey === optionsConstant?.impact
       ? priority
-      : selectedOptionsKey === 'Set Source as'
+      : selectedOptionsKey === optionsConstant?.source
         ? sourcesOptions
-        : selectedOptionsKey === 'Set Type as'
+        : selectedOptionsKey === optionsConstant?.type
           ? typeOptions
           : statusOptions;
   let valueComponent;
   const apiQuery = useApiQuery(selectedOptionsKey);
   if (
     [
-      'Add Task',
-      'Add Tag',
-      'Send Email to Agent',
-      'Send Email to Requester',
-    ].includes(selectedOptionsKey)
+      optionsConstant?.task,
+      optionsConstant?.tag,
+      optionsConstant?.agentEmail,
+      optionsConstant?.requesterEmail,
+    ]?.includes(selectedOptionsKey)
   ) {
     valueComponent = {
       _id: 5,
@@ -78,8 +89,8 @@ export const actionsData = ({
       component: RHFTextField,
     };
   } else if (
-    selectedOptionsKey === 'Assign to Agent' ||
-    selectedOptionsKey === 'Set Category as'
+    selectedOptionsKey === optionsConstant?.agent ||
+    selectedOptionsKey === optionsConstant?.category
   ) {
     valueComponent = {
       _id: 6,
@@ -90,13 +101,13 @@ export const actionsData = ({
         placeholder: 'Select',
         apiQuery: apiQuery,
         getOptionLabel:
-          selectedOptionsKey === 'Assign to Agent'
+          selectedOptionsKey === optionsConstant?.agent
             ? (option: any) => `${option?.firstName} ${option?.lastName}`
             : (option: any) => option?.categoryName,
       },
       component: RHFAutocompleteAsync,
     };
-  } else if (selectedOptionsKey === 'Set Department as') {
+  } else if (selectedOptionsKey === optionsConstant?.department) {
     valueComponent = {
       _id: 6,
       gridLength: 3,
@@ -108,7 +119,7 @@ export const actionsData = ({
       },
       component: RHFAutocompleteAsync,
     };
-  } else if (['Set Due Date as'].includes(selectedOptionsKey)) {
+  } else if ([optionsConstant?.date]?.includes(selectedOptionsKey)) {
     valueComponent = {
       _id: 4,
       componentProps: {

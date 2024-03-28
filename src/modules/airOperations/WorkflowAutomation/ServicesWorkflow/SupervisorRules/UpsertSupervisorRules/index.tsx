@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Skeleton } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertSupervisorRules } from './useUpsertEventBasedWorkflow';
 import { WorkflowConditions } from './WorkflowConditions';
@@ -19,7 +19,10 @@ export const UpsertSupervisorRules = () => {
     watch,
     setValue,
     postWorkflowProgress,
+    isLoading,
+    isFetching,
   } = useUpsertSupervisorRules();
+  if (isLoading || isFetching) return <Skeleton />;
   return (
     <Box>
       <FormProvider

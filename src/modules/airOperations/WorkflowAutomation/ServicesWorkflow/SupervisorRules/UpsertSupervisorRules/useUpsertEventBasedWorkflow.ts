@@ -6,7 +6,11 @@ import {
 } from './UpsertEventBasedWorkflow.data';
 import { useTheme } from '@mui/material';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { usePostServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
+import {
+  useGetByIdWorkflowQuery,
+  usePostServicesWorkflowMutation,
+  useUpdateWorkflowMutation,
+} from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
 import { useEffect } from 'react';
@@ -15,24 +19,29 @@ export const useUpsertSupervisorRules = () => {
   const router = useRouter();
   const pageActionType = router?.query?.action;
   const singleId = router?.query?.id;
+
   const movePage = () => {
     router.push({
       pathname: AIR_OPERATIONS?.SERVICES_WORKFLOW,
     });
   };
   const EDIT_WORKFLOW = 'edit';
-  // const { data, isLoading, isFetching }: any =
-  //   useGetByIdWorkflowQuery(singleId);
-  const singleWorkflowData = {};
+  const { data, isLoading, isFetching }: any =
+    useGetByIdWorkflowQuery(singleId);
+  const singleWorkflowData = data?.data;
+
   const rulesMethod = useForm({
     defaultValues: rulesWorkflowValues(singleWorkflowData),
     resolver: yupResolver(rulesWorkflowSchema),
   });
+
   const { reset, watch, register, handleSubmit, setValue, control } =
     rulesMethod;
+
   const [postWorkflowTrigger, postWorkflowProgress] =
     usePostServicesWorkflowMutation();
-  // const [updateWorkflowTrigger] = useUpdateWorkflowMutation(); marge the code
+  const [updateWorkflowTrigger] = useUpdateWorkflowMutation();
+
   const handleFormSubmit = async (data: any) => {
     if (pageActionType === EDIT_WORKFLOW) {
       const { options, ...rest } = data;
@@ -48,7 +57,7 @@ export const useUpsertSupervisorRules = () => {
           })) ?? [],
       };
       try {
-        await postWorkflowTrigger(body).unwrap();
+        await updateWorkflowTrigger(body).unwrap();
         successSnackbar('Workflow Update Successfully');
         reset();
         movePage();
@@ -82,6 +91,7 @@ export const useUpsertSupervisorRules = () => {
   useEffect(() => {
     reset(rulesWorkflowValues(singleWorkflowData));
   }, [reset, singleWorkflowData]);
+
   const { palette } = useTheme();
   const moduleType = watch('module');
   return {
@@ -95,5 +105,7 @@ export const useUpsertSupervisorRules = () => {
     watch,
     control,
     postWorkflowProgress,
+    isLoading,
+    isFetching,
   };
 };
