@@ -92,7 +92,12 @@ export const useAddPlan = () => {
           planType,
         } = parsedRowData;
         if (!isNullOrEmpty(planProducts)) {
-          const productId = planProducts[0]?._id;
+          let productId;
+          let suite;
+
+          singlePlan?.data?.isCRM
+            ? (suite = planProducts?.map((product: any) => product?._id))
+            : (productId = planProducts?.map((product: any) => product?._id));
           const planTypeId = planType?._id;
           return {
             defaultUsers,
@@ -108,6 +113,7 @@ export const useAddPlan = () => {
               ? 'Yes'
               : 'No',
             productId,
+            suite,
             planTypeId,
           };
         }
@@ -224,11 +230,19 @@ export const useAddPlan = () => {
     }
   };
   useEffect(() => {
+    if (singlePlan?.data?.isCRM) {
+      setSelectProductSuite('CRM');
+      setCrmValue(parsedRowData?.name);
+    }
+
     if (singlePlan && query.type === 'edit') {
       setPermissionSlugs(
         'permissionSlugs',
-        singlePlan?.data?.planProductPermissions?.permissionSlugs?.map(
-          (obj: any) => obj?.slug,
+        // singlePlan?.data?.planProductPermissions?.permissionSlugs?.map(
+        //   (obj: any) => obj?.slug,
+        // ),
+        singlePlan?.data?.planProductPermissions?.flatMap((permission: any) =>
+          permission.permissionSlugs.map((slugObject: any) => slugObject.slug),
         ),
       );
       setPlanFeatures(
@@ -312,7 +326,7 @@ export const useAddPlan = () => {
 
         ...(isNullOrEmpty(planForm?.productId) && { suite: planForm?.suite }),
         ...(isNullOrEmpty(planForm?.productId) && {
-          name: crmValue?.label.toLowerCase(),
+          name: crmValue?.label,
         }),
         planTypeId: planForm?.planTypeId,
         description: planForm?.description,
