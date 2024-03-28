@@ -55,6 +55,7 @@ export const contactsDefaultValues = {
 export const contactsDataArray = ({
   lifeCycleStagesData,
   contactStatusData,
+  contactOwnerData,
 }: any) => {
   return [
     {
@@ -146,13 +147,14 @@ export const contactsDataArray = ({
       component: RHFTextField,
     },
     {
+      id: 'Contact Owner',
       title: 'Contact Owner',
       componentProps: {
         name: 'contactOwner',
         label: 'Contact Owner',
         select: true,
-        options: [],
       },
+      options: contactOwnerData,
       md: 12,
       component: RHFSelect,
     },

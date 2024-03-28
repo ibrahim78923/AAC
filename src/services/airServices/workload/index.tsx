@@ -57,14 +57,14 @@ export const workloadAPI = baseAPI.injectEndpoints({
       providesTags: [TAG],
     }),
 
-    getAssignTo: builder?.query({
+    getAssignToAgents: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.DROPDOWN_AGENTS_LIST}`,
+        url: `${END_POINTS?.GET_AGENT}`,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data;
+        if (response) return response?.data?.users;
       },
       providesTags: [TAG_TWO],
     }),
@@ -96,7 +96,7 @@ export const {
   useLazyGetWorkloadQuery,
   useLazyGetWorkloadFilterQuery,
   useGetWorkloadQuery,
-  useLazyGetAssignToQuery,
+  useLazyGetAssignToAgentsQuery,
   useLazyGetDepartmentDropdownQuery,
   usePatchTaskMutation,
 } = workloadAPI;

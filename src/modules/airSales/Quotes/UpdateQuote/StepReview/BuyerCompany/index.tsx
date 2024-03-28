@@ -16,23 +16,21 @@ const BuyerCompany = () => {
           </Avatar>
           <Box>
             <Typography variant="h6" sx={styles?.title}>
-              {dataGetQuoteById?.data?.name}
+              {dataGetQuoteById?.data?.name ?? 'N/A'}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {/* {`${getUserData?.user?.address?.flatNumber ?? ''} ${
-                getUserData?.user?.address?.buildingName ?? ''
-              } ${getUserData?.user?.address?.buildingNumber ?? ''}` ?? ''} */}
+              {dataGetQuoteById?.data?.deal[0]?.companies[0]?.address ?? 'N/A'}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {/* {`${getUserData?.user?.address?.city ?? ''} | ${
-                getUserData?.user?.address?.streetName ?? ''
-              } | ${getUserData?.user?.postCode ?? ''}`} */}
+              {` ${dataGetQuoteById?.data?.deal[0]?.companies[0]?.city} | ${dataGetQuoteById?.data?.deal[0]?.companies[0]?.postalCode}`}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {dataGetQuoteById?.data?.createdBy?.phoneNumber ?? 'N/A'}
+              {dataGetQuoteById?.data?.deal[0]?.companies[0]?.owner
+                ?.phoneNumber ?? 'N/A'}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {dataGetQuoteById?.data?.createdBy?.email ?? 'N/A'}
+              {dataGetQuoteById?.data?.deal[0]?.companies[0]?.owner?.email ??
+                'N/A'}
             </Typography>
           </Box>
         </Box>

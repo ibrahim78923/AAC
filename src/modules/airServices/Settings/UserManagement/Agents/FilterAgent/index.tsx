@@ -9,8 +9,10 @@ const AgentFilter = (props: any) => {
   const {
     onSubmit,
     handleCloseDrawer,
-    agentFilterDrawerMethods,
     agentFilterFormFields,
+    resetAgentFilterForm,
+    handleSubmit,
+    agentFilterDrawerMethods,
   } = useAgentFilter(props);
 
   return (
@@ -22,11 +24,13 @@ const AgentFilter = (props: any) => {
         title="Filters"
         okText="Apply"
         isOk
-        submitHandler={agentFilterDrawerMethods?.handleSubmit?.(onSubmit)}
+        submitHandler={() => handleSubmit?.(onSubmit)()}
+        cancelText={'Reset'}
+        cancelBtnHandler={() => resetAgentFilterForm?.()}
       >
         <Box mt={1}>
           <FormProvider methods={agentFilterDrawerMethods}>
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
               {agentFilterFormFields?.map((form: any) => (
                 <Grid item xs={12} key={form?.id}>
                   <form.component {...form?.componentProps} size="small" />

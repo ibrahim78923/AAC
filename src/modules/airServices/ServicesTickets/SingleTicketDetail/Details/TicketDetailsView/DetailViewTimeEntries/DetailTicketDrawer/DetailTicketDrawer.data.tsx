@@ -5,6 +5,7 @@ import {
   RHFEditor,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { ROLES } from '@/constants/strings';
 import { ticketStatusOptions } from '@/modules/airServices/ServicesTickets/ServicesTickets.data';
 import * as Yup from 'yup';
 
@@ -27,7 +28,11 @@ export const addTimeDefaultValues = () => {
     note: '',
   };
 };
-export const detailDrawerArray = (apiQueryAgent: any, apiQueryTask: any) => [
+export const detailDrawerArray = (
+  apiQueryAgent: any,
+  apiQueryTask: any,
+  ticketId: any,
+) => [
   {
     id: 1,
     componentProps: {
@@ -36,6 +41,11 @@ export const detailDrawerArray = (apiQueryAgent: any, apiQueryTask: any) => [
       fullWidth: true,
       apiQuery: apiQueryTask,
       placeholder: 'Choose Task',
+      externalParams: {
+        limit: 50,
+        meta: 'false',
+        ticketId: ticketId,
+      },
       getOptionLabel: (option: any) => `${option?.title}`,
     },
     component: RHFAutocompleteAsync,
@@ -50,7 +60,7 @@ export const detailDrawerArray = (apiQueryAgent: any, apiQueryTask: any) => [
       required: true,
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

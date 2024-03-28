@@ -25,6 +25,8 @@ export const Task = () => {
     setPage,
     activeCheck,
     onSubmitFilter,
+    handleDelete,
+    deleteLoading,
   } = useTask();
   return (
     <>
@@ -58,6 +60,8 @@ export const Task = () => {
       <DeleteSalesWorkflow
         deleteWorkflow={openDelete}
         setDeleteWorkflow={setOpenDelete}
+        handleSubmit={handleDelete}
+        loading={deleteLoading}
       />
     </>
   );

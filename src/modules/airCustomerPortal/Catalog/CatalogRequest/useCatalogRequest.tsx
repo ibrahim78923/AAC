@@ -22,11 +22,13 @@ const useCatalogRequest = (servicesDetails: any, setOpen: any) => {
   const router = useRouter();
   const { serviceId } = router?.query;
   const [postTicketTrigger] = usePostTicketsMutation();
+
   const CategoryType =
     servicesDetails?.data?.categoryDetails?.categoryName ||
     servicesDetails?.data?.itemName;
 
   const searchStringLowerCase = CategoryType?.toLowerCase();
+
   const methodRequest = useForm<any>({
     resolver: yupResolver(
       placeRequestValidationSchema?.(searchStringLowerCase),

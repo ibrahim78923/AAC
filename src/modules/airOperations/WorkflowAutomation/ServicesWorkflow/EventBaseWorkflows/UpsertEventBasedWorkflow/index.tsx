@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Skeleton } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertEventBasedWorkflow } from './useUpsertEventBasedWorkflow';
 import { WorkflowConditions } from './WorkflowConditions';
@@ -18,7 +18,10 @@ export const UpsertEventBasedWorkflow = () => {
     control,
     watch,
     setValue,
+    isLoading,
+    isFetching,
   } = useUpsertEventBasedWorkflow();
+  if (isLoading || isFetching) return <Skeleton />;
   return (
     <Box>
       <FormProvider
@@ -46,7 +49,7 @@ export const UpsertEventBasedWorkflow = () => {
           watch={watch}
           setValue={setValue}
         />
-        <WorkflowActionExecuted />
+        <WorkflowActionExecuted watch={watch} setValue={setValue} />
       </FormProvider>
     </Box>
   );

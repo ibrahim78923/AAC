@@ -1,3 +1,4 @@
+import { truncateText } from '@/utils/avatarUtils';
 import { DeleteForever } from '@mui/icons-material';
 
 export const getAssociatedAssetsColumns = (setIsDeleteModalOpen: any) => [
@@ -6,14 +7,14 @@ export const getAssociatedAssetsColumns = (setIsDeleteModalOpen: any) => [
     id: 'displayName',
     isSortable: true,
     header: 'Display Name',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.associatedAssets?.state,
     id: 'state',
     isSortable: true,
     header: 'Asset State',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()),
   },
   {
     accessorFn: (row: any) => row?.associatedAssets?._id,

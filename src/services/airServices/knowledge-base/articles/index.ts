@@ -9,8 +9,9 @@ const {
   CREATE_FOLDER,
   DELETE_KNOWLEDGE_BASE_ARTICLES,
 } = END_POINTS;
+const TAG_FOLDER = 'DROPDOWN_FOLDER';
 export const articlesAPI = baseAPI?.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder: any) => ({
     getArticles: builder?.query({
       query: (getArticlesParameter: any) => ({
         url: KNOWLEDGE_BASE_ARTICLES,
@@ -47,18 +48,10 @@ export const articlesAPI = baseAPI?.injectEndpoints({
         params: deleteArticlesParameter?.queryParams,
       }),
     }),
-    getFolders: builder?.query({
+    getArticlesFoldersForFilter: builder?.query({
       query: () => ({
         url: ARTICLES_FOLDERS,
         method: 'GET',
-      }),
-      providesTags: [TAG],
-    }),
-    getUnapprovedArticles: builder?.query({
-      query: (getUnapprovedArticlesParameter: any) => ({
-        url: END_POINTS?.GET_UNAPPROVED_ARTICLES,
-        method: 'GET',
-        params: getUnapprovedArticlesParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
@@ -79,7 +72,7 @@ export const articlesAPI = baseAPI?.injectEndpoints({
       transformResponse: (response: any) => {
         if (response) return response?.data;
       },
-      providesTags: [TAG],
+      providesTags: [TAG_FOLDER],
     }),
     getUsersDropdown: builder?.query({
       query: ({ params }: any) => ({
@@ -101,10 +94,9 @@ export const {
   useGetArticlesQuery,
   useDeleteArticleMutation,
   useGetArticleByIdQuery,
-  useGetFoldersQuery,
   usePostFolderMutation,
   useLazyGetArticlesQuery,
   useLazyGetFoldersDropdownQuery,
   useLazyGetUsersDropdownQuery,
-  useGetUnapprovedArticlesQuery,
+  useGetArticlesFoldersForFilterQuery,
 } = articlesAPI;

@@ -86,15 +86,6 @@ const useOrganizationTable = () => {
     },
   });
 
-  //   {
-  //     "flatNumber": "4",
-  //     "buildingName": "5A",
-  //     "buildingNumber": "23",
-  //     "streetName": "Baker street",
-  //     "city": "Manchester",
-  //     "country": "United Kingdom"
-  // }
-
   useEffect(() => {
     if (editData) {
       const { accountName, phoneNo, address, postCode } = editData;
@@ -115,6 +106,36 @@ const useOrganizationTable = () => {
   const { handleSubmit, reset, watch } = methods;
 
   const addressLength = watch('address');
+  const unitField = watch('unit');
+  const buildingNameField = watch('buildingName');
+  const buildingNumberField = watch('buildingNumber');
+  const streetNameField = watch('streetName');
+  const cityField = watch('city');
+  const countryField = watch('country');
+
+  const addressValues =
+    (unitField !== undefined && unitField?.length > 0
+      ? 'Flat # ' + unitField
+      : '') +
+    (buildingNameField !== undefined && buildingNameField?.length > 0
+      ? ' ,Building Name # ' + buildingNameField
+      : '') +
+    (buildingNumberField !== undefined && buildingNumberField?.length > 0
+      ? ' ,Building Number # ' + buildingNumberField
+      : '') +
+    (streetNameField !== undefined && streetNameField?.length > 0
+      ? ' ,Street Name # ' + streetNameField
+      : '') +
+    (cityField !== undefined && cityField?.length > 0
+      ? ' ,City # ' + cityField
+      : '') +
+    (countryField !== undefined && countryField?.length > 0
+      ? ' ,Country # ' + countryField
+      : '');
+
+  useEffect(() => {
+    methods.setValue('address', addressValues);
+  }, [addressValues]);
 
   const onSubmit = async (data: any) => {
     const products: any = [];
@@ -227,6 +248,12 @@ const useOrganizationTable = () => {
     setPage,
     handlePageChange,
     addressLength,
+    unitField,
+    buildingNameField,
+    buildingNumberField,
+    streetNameField,
+    cityField,
+    countryField,
   };
 };
 
