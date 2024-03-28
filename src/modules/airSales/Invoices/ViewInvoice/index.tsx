@@ -41,7 +41,7 @@ export const ViewInvoice = (props?: any) => {
         </Box>
         <TanstackTable
           columns={productsTableColumns}
-          data={data?.data?.quote?.deal?.products}
+          data={data?.data?.quote?.products}
         />
       </Card>
       <Grid container spacing={2}>

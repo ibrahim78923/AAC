@@ -1,25 +1,22 @@
+import { Box } from '@mui/material';
+
 // products table data
 export const productsTableColumns: any = [
   {
-    accessorFn: (row: any) => row?.Sr,
-    id: 'Sr',
-    cell: (info: any) => info?.getValue(),
-    header: 'Sr#',
-    isSortable: false,
-  },
-  {
-    accessorFn: (row: any) => row?.productName,
+    accessorFn: (row: any) => row?.name,
     id: 'productName',
-    cell: (info: any) => info?.getValue(),
     header: 'Product Name',
     isSortable: true,
+    cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.description,
     id: 'description',
     isSortable: true,
     header: 'Description',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Box dangerouslySetInnerHTML={{ __html: info?.getValue() }}></Box>
+    ),
   },
   {
     accessorFn: (row: any) => row?.quantity,
@@ -36,11 +33,12 @@ export const productsTableColumns: any = [
     cell: (info: any) => info?.getValue(),
   },
   {
-    accessorFn: (row: any) => row?.totalPrice,
+    accessorFn: ({ _id }: { _id: string }) => _id,
     id: 'totalPrice',
     isSortable: true,
     header: 'Total Price',
-    cell: (info: any) => info?.getValue(),
+    cell: ({ row: { original } }: any) =>
+      `£${original?.unitPrice * original?.quantity}`,
   },
 ];
 
