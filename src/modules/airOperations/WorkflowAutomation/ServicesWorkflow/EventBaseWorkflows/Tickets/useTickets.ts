@@ -1,18 +1,26 @@
 import { useEffect, useState } from 'react';
-import { ticketsListsColumnsFunction } from './Tickets.data';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
-import { SCHEMA_KEYS } from '@/constants/strings';
+import { ACTIONS_TYPES, SCHEMA_KEYS } from '@/constants/strings';
 import { useLazyGetWorkflowListQuery } from '@/services/airOperations/workflow-automation/sales-workflow';
+import {
+  EventBaseWorkflowActionsDropdown,
+  listsColumnsFunction,
+} from '../EventBaseWorkflow.data';
+import { useRouter } from 'next/router';
+import { AIR_OPERATIONS } from '@/constants';
 
 export const useTickets = () => {
   const theme = useTheme();
-  const [selectedTicketsList, setSelectedTicketsList] = useState([]);
+  const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
-
+  const [selectedAction, setSelectedAction] = useState([]);
+  const [deleteWorkflow, setDeleteWorkflow] = useState(false);
+  const EDIT_WORKFLOW = 'edit';
+  const selectedId = selectedAction?.map((item: any) => item?._id);
   const [getWorkflowListTrigger, { data, isLoading, isFetching, isSuccess }] =
     useLazyGetWorkflowListQuery();
   const workflowParams = {
@@ -27,7 +35,7 @@ export const useTickets = () => {
   useEffect(() => {
     handleWorkflow();
   }, [page, search, limit]);
-  const onSubmitFilter = async (filterData: any) => {
+  const onSubmitListFilter = async (filterData: any) => {
     const filterParams: any = {
       ...workflowParams,
       createdBy: filterData?.createdBy?._id,
@@ -39,17 +47,30 @@ export const useTickets = () => {
     setIsDrawerOpen?.(false);
   };
   const ticketsData = data?.data;
-  const ticketsListData = data?.data?.workFlows;
-  const ticketsListsColumns = ticketsListsColumnsFunction({
-    selectedTicketsList,
-    setSelectedTicketsList,
-    ticketsListData,
+  const listData = data?.data?.workFlows;
+
+  const ticketsListsColumns = listsColumnsFunction(
+    selectedAction,
+    setSelectedAction,
+    listData,
     theme,
-  });
+  );
+  const handleActionClick = (actionType: string) => {
+    if (actionType === ACTIONS_TYPES?.DELETE) {
+      setDeleteWorkflow(true);
+    } else if (actionType === ACTIONS_TYPES?.EDIT) {
+      router?.push({
+        pathname: AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW,
+        query: {
+          action: EDIT_WORKFLOW,
+          id: selectedId,
+        },
+      });
+    }
+  };
+  const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);
   return {
     ticketsListsColumns,
-    selectedTicketsList,
-    ticketsListData,
     isLoading,
     isSuccess,
     isFetching,
@@ -60,8 +81,15 @@ export const useTickets = () => {
     setLimit,
     setSearch,
     search,
-    onSubmitFilter,
+    onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,
+    selectedAction,
+    router,
+    deleteWorkflow,
+    setDeleteWorkflow,
+    dropdownOptions,
+    listData,
+    setSelectedAction,
   };
 };
