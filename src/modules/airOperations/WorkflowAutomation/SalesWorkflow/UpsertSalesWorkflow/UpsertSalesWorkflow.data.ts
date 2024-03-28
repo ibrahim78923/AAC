@@ -64,3 +64,7 @@ export const salesValues = {
   ],
   actions: [{ key: '', value: null }],
 };
+
+export const workflowTypes = {
+  eventBase: 'EVENT_BASE',
+};

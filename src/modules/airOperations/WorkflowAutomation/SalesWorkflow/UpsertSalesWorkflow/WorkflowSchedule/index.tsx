@@ -17,7 +17,6 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 
 export const WorkflowSchedule = (props: any) => {
-  const { register } = props;
   const { selectedSchedule, selectedScheduleRadio, selectedScheduleWeek } =
     useWorkflowSchedule(props);
 
@@ -27,7 +26,6 @@ export const WorkflowSchedule = (props: any) => {
         <RHFRadioGroup
           name="type"
           options={radioOptions}
-          inputRef={register}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -47,7 +45,6 @@ export const WorkflowSchedule = (props: any) => {
               size="small"
               placeholder="Select"
               options={scheduleOptions}
-              inputRef={register}
               fullWidth
             />
           </Grid>
@@ -78,7 +75,6 @@ export const WorkflowSchedule = (props: any) => {
                 name="scheduleDay"
                 size="small"
                 label="Day of week"
-                inputRef={register}
                 options={weekOptions}
                 fullWidth
               />

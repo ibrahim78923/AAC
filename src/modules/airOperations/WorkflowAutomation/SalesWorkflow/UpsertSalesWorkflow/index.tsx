@@ -11,7 +11,6 @@ export const UpsertSalesWorkflow = () => {
   const {
     salesMethod,
     handleFormSubmit,
-    register,
     handleSubmit,
     palette,
     setValue,
@@ -31,12 +30,8 @@ export const UpsertSalesWorkflow = () => {
           isLoading={isLoading || saveDraftLoading}
         />
         <Grid container>
-          <WorkflowSchedule
-            register={register}
-            watch={watch}
-            setValue={setValue}
-          />
-          <WorkflowRunAndTrigger palette={palette} register={register} />
+          <WorkflowSchedule watch={watch} setValue={setValue} />
+          <WorkflowRunAndTrigger palette={palette} />
         </Grid>
         <WorkflowConditions
           control={control}

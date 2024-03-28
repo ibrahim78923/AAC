@@ -7,7 +7,7 @@ import {
 } from './WorkflowRunAndTrigger.data';
 
 export const WorkflowRunAndTrigger = (props: any) => {
-  const { register, palette } = props;
+  const { palette } = props;
   return (
     <>
       <Grid
@@ -33,7 +33,6 @@ export const WorkflowRunAndTrigger = (props: any) => {
             }}
             name="module"
             options={moduleOptions}
-            inputRef={register}
           />
         </Grid>
       </Grid>

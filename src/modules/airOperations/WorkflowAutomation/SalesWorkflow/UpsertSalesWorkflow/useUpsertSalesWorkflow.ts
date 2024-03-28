@@ -1,6 +1,10 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { salesSchema, salesValues } from './UpsertSalesWorkflow.data';
+import {
+  salesSchema,
+  salesValues,
+  workflowTypes,
+} from './UpsertSalesWorkflow.data';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import {
@@ -17,8 +21,7 @@ export const useUpsertSalesWorkflow = () => {
     defaultValues: salesValues,
     resolver: yupResolver(salesSchema),
   });
-  const { reset, watch, register, handleSubmit, setValue, control } =
-    salesMethod;
+  const { reset, watch, handleSubmit, setValue, control } = salesMethod;
   const scheduleType = watch('type');
   const [postSalesWorkflowTrigger, { isLoading }] =
     usePostSalesWorkflowMutation();
@@ -26,7 +29,7 @@ export const useUpsertSalesWorkflow = () => {
     usePostSaveDraftWorkflowMutation();
   const handleFormSubmit = async (data: any) => {
     const successSnackbarMessage =
-      scheduleType === 'EVENT_BASE'
+      scheduleType === workflowTypes?.eventBase
         ? 'Workflow Enabled Successfully'
         : 'Workflow Saved as Draft Successfully';
     const time = dayjs(data?.time)?.format(TIME_FORMAT?.API);
@@ -70,7 +73,7 @@ export const useUpsertSalesWorkflow = () => {
       actions: [...data?.actions],
     };
     const response: any =
-      scheduleType === 'EVENT_BASE'
+      scheduleType === workflowTypes?.eventBase
         ? await postSalesWorkflowTrigger(modifiedData)
         : await postSaveDraftWorkflowTrigger(modifiedData);
     try {
@@ -86,7 +89,6 @@ export const useUpsertSalesWorkflow = () => {
   return {
     salesMethod,
     handleFormSubmit,
-    register,
     handleSubmit,
     palette,
     setValue,
