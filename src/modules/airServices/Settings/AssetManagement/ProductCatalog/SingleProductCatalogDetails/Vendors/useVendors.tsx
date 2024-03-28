@@ -1,20 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getVendorsColumns } from './Vendors.data';
 import {
   useDeleteProductCatalogVendorMutation,
-  useGetProductCatalogVendorListQuery,
+  useLazyGetProductCatalogVendorListQuery,
 } from '@/services/airServices/settings/asset-management/product-catalog';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useVendors = () => {
   const router = useRouter();
 
   const { productCatalogId } = router?.query;
 
-  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
-  const [limit, setLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<any>({
     open: false,
@@ -26,15 +26,32 @@ export const useVendors = () => {
     data: null,
   });
 
-  const getProductCatalogVendorParameter = {
-    queryParams: { productId: productCatalogId, page: page, limit: limit },
+  const [productCatalogVendorListTrigger, productCatalogVendorListStatus] =
+    useLazyGetProductCatalogVendorListQuery();
+
+  const productCatalogVendorListData = async (currentPage: any = page) => {
+    const additionalParams = [
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+      ['productId', productCatalogId],
+    ];
+    const productCatalogVendorListParam: any =
+      buildQueryParams(additionalParams);
+
+    const getProductCatalogVendorParameter = {
+      queryParams: productCatalogVendorListParam,
+    };
+
+    try {
+      await productCatalogVendorListTrigger(
+        getProductCatalogVendorParameter,
+      )?.unwrap();
+    } catch (error: any) {}
   };
 
-  const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetProductCatalogVendorListQuery(getProductCatalogVendorParameter, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!productCatalogId,
-    });
+  useEffect(() => {
+    productCatalogVendorListData?.();
+  }, [page, pageLimit]);
 
   const vendorsColumns = getVendorsColumns(
     setIsDeleteModalOpen,
@@ -50,6 +67,13 @@ export const useVendors = () => {
     try {
       await deleteVendorTrigger(updatedData)?.unwrap();
       setIsDeleteModalOpen?.({ open: false, id: '' });
+      const newPage =
+        productCatalogVendorListStatus?.data?.data?.vendorproductcatalogs
+          ?.length === 1
+          ? 1
+          : page;
+      setPage?.(newPage);
+      await productCatalogVendorListData?.(newPage);
       successSnackbar('Vendor Deleted Successfully!');
     } catch (error: any) {
       setIsDeleteModalOpen?.({ open: false, id: '' });
@@ -64,13 +88,9 @@ export const useVendors = () => {
     handleSubmitDelete,
     setIsUpsertModalOpen,
     isUpsertModalOpen,
-    data,
-    isLoading,
-    isFetching,
-    isError,
-    isSuccess,
+    productCatalogVendorListStatus,
     setPage,
-    setLimit,
+    setPageLimit,
     deleteVendorStatus,
   };
 };
