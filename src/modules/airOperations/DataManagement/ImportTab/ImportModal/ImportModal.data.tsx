@@ -12,7 +12,7 @@ export const productData = [
     icon: {},
     import: 'Services',
     title: 'Inventory',
-    desc: 'The people you work with, commonly called leads or customers',
+    desc: 'The businesses you work with, which are commonly called accounts or organization',
   },
   {
     icon: {},
@@ -24,24 +24,18 @@ export const productData = [
     icon: {},
     import: 'Services',
     title: 'Location',
-    desc: 'The people you work with, commonly called leads or customers',
+    desc: 'The businesses you work with, which are commonly called accounts or organization',
   },
   {
     icon: {},
     import: 'Services',
     title: 'Vendor',
-    desc: 'The people you work with, commonly called leads or customers',
+    desc: 'The businesses you work with, which are commonly called accounts or organization',
   },
   {
     icon: {},
-    import: 'Marketing',
-    title: 'Tickets',
-    desc: 'The issue created form a customer’s request for help',
-  },
-  {
-    icon: {},
-    import: 'Marketing',
-    title: 'Deals',
+    import: 'Sales',
+    title: 'Tasks',
     desc: 'The revenue connected to a company, which is commonly called an opportunity',
   },
   {
@@ -97,11 +91,28 @@ export const stepsData: any = {
     'City',
     'Zip Code',
   ],
+  Deals: [
+    'Deal Owner',
+    'Deal Name',
+    'Amount',
+    'Deal Stage',
+    'Deal Pipeline',
+    'Closed Date',
+    'Email',
+  ],
+  Tasks: [
+    'Task Name',
+    'Task Status',
+    'Linked Company',
+    'Assigned User',
+    'Task Type',
+    'Last Date',
+  ],
 };
 
 export const importTableHeader = ['File Column', 'Crm Fields', 'Mapped'];
 export const requiredColumns = ['Name', 'Deal Value'];
-export const productOptions = ['Sales', 'Services', 'Marketing'];
+export const productOptions = ['Sales', 'Services'];
 
 export const importValidationSchema = (modalStep: any) => {
   let schema;

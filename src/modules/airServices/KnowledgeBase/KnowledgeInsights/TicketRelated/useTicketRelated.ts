@@ -15,7 +15,7 @@ export const useTicketRelated = (props: any) => {
     },
   };
 
-  const { data, isLoading, isFetching, isError, isSuccess } =
+  const { data, isLoading, isFetching, isError, isSuccess, error } =
     useGetKnowledgeInsightsDetailsQuery(getKnowledgeInsightsDetailsParameters, {
       refetchOnMountOrArgChange: true,
       skip: !!!selectedArticle?._id,
@@ -29,5 +29,6 @@ export const useTicketRelated = (props: any) => {
     isSuccess,
     setPageLimit,
     setPage,
+    error,
   };
 };
