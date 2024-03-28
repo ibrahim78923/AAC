@@ -206,6 +206,7 @@ export const {
   useGetDealsQuery,
   useGetQuotesQuery,
   useGetQuoteByIdQuery,
+  useLazyGetQuoteByIdQuery,
   useUpdateQuoteMutation,
   usePostQuoteMutation,
   usePostCompaniesMutation,

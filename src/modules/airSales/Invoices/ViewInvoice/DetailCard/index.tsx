@@ -2,20 +2,19 @@ import React from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { LogoSharedIcon } from '@/assets/icons';
 import { useTheme } from '@mui/material/styles';
-import { style } from '../EditDetail.style';
+import { style } from './DetailCard.style';
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '../../../../../../constants/index';
 import { isNullOrEmpty } from '@/utils';
+import { DATE_FORMAT } from '@/constants';
 
 const DetailCard = ({ data }: any) => {
   const theme = useTheme();
-
-  const calculateDueDate = (invoiceDate: any) => {
-    return dayjs(invoiceDate)
-      ?.add(15, 'day')
-      ?.format(DATE_FORMAT?.UI);
-  };
+  // const calculateDueDate = (invoiceDate: any) => {
+  //   return dayjs(invoiceDate)
+  //     ?.add(15, 'day')
+  //     ?.format(DATE_FORMAT?.UI);
+  // };
 
   return (
     <Box>
@@ -30,21 +29,21 @@ const DetailCard = ({ data }: any) => {
               <LogoSharedIcon />
             </Box>
             <Stack spacing="5px">
-              <Typography variant="h5">Air Apple Car</Typography>
-              <Typography variant="body3">
-                {isNullOrEmpty(data)
-                  ? '----'
-                  : data?.deal[0]?.companies[0]?.address}
+              <Typography variant="h5">
+                {data?.quote?.buyerCompany?.name}
               </Typography>
               <Typography variant="body3">
                 {isNullOrEmpty(data)
                   ? '----'
-                  : data?.deal[0]?.companies[0]?.city}
+                  : data?.quote?.buyerCompany?.address}
+              </Typography>
+              <Typography variant="body3">
+                {isNullOrEmpty(data) ? '----' : data?.quote?.buyerCompany?.city}
               </Typography>
               <Typography variant="body3">
                 {isNullOrEmpty(data)
                   ? '----'
-                  : data?.deal[0]?.companies[0]?.domain}
+                  : data?.quote?.buyerCompany?.linkedInUrl}
               </Typography>
             </Stack>
           </Stack>
@@ -54,17 +53,17 @@ const DetailCard = ({ data }: any) => {
               <Typography variant="body3">
                 {isNullOrEmpty(data)
                   ? '----'
-                  : data?.deal[0]?.companies[0]?.address}
+                  : data?.quote?.buyerContact?.address}
               </Typography>
               <Typography variant="body3">
                 {isNullOrEmpty(data)
                   ? '----'
-                  : data?.deal[0]?.companies[0]?.city}
+                  : data?.quote?.buyerContact?.phoneNumber}
               </Typography>
               <Typography variant="body3">
                 {isNullOrEmpty(data)
                   ? '----'
-                  : data?.deal[0]?.companies[0]?.domain}
+                  : data?.quote?.buyerContact?.email}
               </Typography>
             </Stack>
           </Box>
@@ -107,7 +106,7 @@ const DetailCard = ({ data }: any) => {
             <Typography variant="body2">
               {isNullOrEmpty(data)
                 ? '----'
-                : calculateDueDate(data?.expiryDate)}
+                : dayjs(data?.dueDate).format(DATE_FORMAT?.UI)}
             </Typography>
           </Stack>
           <Stack direction="row" gap="3px" key={uuidv4()}>
@@ -115,7 +114,11 @@ const DetailCard = ({ data }: any) => {
               Prepared By:
             </Typography>
             <Typography variant="body2">
-              {isNullOrEmpty(data) ? '----' : data?.name}
+              {isNullOrEmpty(data)
+                ? '----'
+                : data?.preparedBy?.firstName +
+                  ' ' +
+                  data?.preparedBy?.lastName}
             </Typography>
           </Stack>
         </Stack>

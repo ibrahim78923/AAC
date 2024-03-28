@@ -120,14 +120,14 @@ export const invoicesTableColumns: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row?.quote?.name,
-      id: 'invoiceName',
+      accessorFn: (row: any) => row?.invoiceNo,
+      id: 'invoiceNo',
       cell: (info: any) => info?.getValue(),
-      header: 'Invoice Name',
+      header: 'Invoice Number',
       isSortable: true,
     },
     {
-      accessorFn: (row: any) => row?.invoiceAmount,
+      accessorFn: (row: any) => row?.quote?.deal?.amount,
       id: 'invoiceAmount',
       isSortable: true,
       header: 'Invoice Amount',
@@ -149,19 +149,19 @@ export const invoicesTableColumns: any = (
             : 'Paid',
     },
     {
-      accessorFn: (row: any) => row?.linkedQuote,
+      accessorFn: (row: any) => row?.quote?.name,
       id: 'linkedQuote',
       isSortable: true,
       header: 'Linked Quote',
-      cell: (info: any) => info?.row?.original?.quote?.name,
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row?.createdBy,
+      accessorFn: (row: any) =>
+        `${row?.preparedBy?.firstName} ${row?.preparedBy?.lastName}`,
       id: 'createdBy',
       isSortable: true,
       header: 'Created By',
-      cell: (info: any) =>
-        `${info?.row?.original?.preparedBy?.firstName} ${info?.row?.original?.preparedBy?.lastName}`,
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.createdAt,

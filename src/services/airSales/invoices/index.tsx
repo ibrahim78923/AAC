@@ -53,6 +53,7 @@ export const {
   usePostInvoiceMutation,
   useLazyGetInvoiceQoutesListQuery,
   useGetInvoiceByIdQuery,
+  useLazyGetInvoiceByIdQuery,
   useGetInvoiceQuery,
   useDeleteInvoiceMutation,
 } = invoiceAPI;

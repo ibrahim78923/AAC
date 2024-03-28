@@ -1,104 +1,87 @@
+import { useRouter } from 'next/router';
 import {
   Box,
-  Stack,
-  Typography,
-  TextareaAutosize,
+  Button,
   Card,
   CardActions,
   CardContent,
-  InputAdornment,
-  Button,
-  Grid,
   Divider,
+  Grid,
   InputLabel,
-  Select,
   MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  TextField,
+  Typography,
+  useTheme,
 } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { productTotalDetails } from '../EditDetails.data';
-import TanstackTable from '@/components/Table/TanstackTable';
-import { productsTableColumns } from '../../../Invoices.data';
-import AddProducts from '../AddProducts';
-import { AlertModals } from '@/components/AlertModals';
-import useInvoices from '../../../useInvoices';
 import { v4 as uuidv4 } from 'uuid';
-import { ArrowDownIcon } from '@/assets/icons';
-import { useRouter } from 'next/router';
-import { isNullOrEmpty } from '@/utils';
-import { useGetReceiverBankAccountsQuery } from '@/services/orgAdmin/settings/receivers-bank-acconts';
-import { usePostInvoiceMutation } from '@/services/airSales/invoices';
-import { enqueueSnackbar } from 'notistack';
+import DetailCard from './DetailCard';
+import TanstackTable from '@/components/Table/TanstackTable';
+import {
+  productTotalDetails,
+  productsTableColumns,
+  sendEmailFormField,
+} from './QuoteInvoice.data';
+import useQuoteInvoice from './useQuoteInvoice';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { ScheduleModals } from '@/components/ScheduleModals';
+import { FormProvider } from '@/components/ReactHookForm';
 import { AIR_SALES } from '@/routesConstants/paths';
-import { useState } from 'react';
 
-const ProductsTable = (data: any) => {
+const QuoteInvoice = ({ quoteId }: any) => {
   const theme = useTheme();
   const router = useRouter();
-  const [commentValue, setCommentValue] = useState();
-  const { isDeleteModal, setIsDeleteModal, isDrawerOpen, setIsDrawerOpen } =
-    useInvoices();
-  const getTableColumns = productsTableColumns();
-  // setIsDeleteModal,
-  // setIsDrawerOpen,
-  const receiversParams = {};
-
-  const { data: receiversData } =
-    useGetReceiverBankAccountsQuery(receiversParams);
-
-  const [postCreateInvoice] = usePostInvoiceMutation();
-
-  const handleInvoice = async () => {
-    if (!isNullOrEmpty(data?.data?._id)) {
-      alert('value filled');
-      const values = {
-        quoteId: data?.data?._id,
-        comments: commentValue,
-        customerEmail: 'demmy@orcalo.co.uk',
-        status: 'DRAFT',
-      };
-      try {
-        await postCreateInvoice({ body: values })?.unwrap();
-        enqueueSnackbar('Invoice added successfully', {
-          variant: 'success',
-        });
-        router.push(AIR_SALES?.SALES_INVOICES);
-      } catch (error: any) {
-        enqueueSnackbar('An error occured', {
-          variant: 'error',
-        });
-      }
-    } else {
-      enqueueSnackbar('Please select Quote', {
-        variant: 'error',
-      });
-    }
-  };
+  const {
+    quoteDataById,
+    receiversData,
+    handleAddInvoiceSubmit,
+    comments,
+    setComments,
+    setAccountNo,
+    accountNo,
+    isEmailModal,
+    openModalEmail,
+    closeModalEmail,
+    methodsSendEmail,
+    loadingPostInvoice,
+  } = useQuoteInvoice(quoteId);
 
   return (
-    <Box my={3}>
-      <Box my={3}>
-        {isNullOrEmpty(data?.data) ? (
-          ''
-        ) : (
-          <TanstackTable
-            columns={getTableColumns}
-            data={data?.data?.products}
-          />
-        )}
-      </Box>
+    <Box>
+      <DetailCard
+        buyerCompany={quoteDataById?.buyerCompany || []}
+        buyerContact={quoteDataById?.buyerContact || []}
+      />
+      <Card sx={{ my: '20px' }}>
+        <Box p="16px 24px">
+          <Typography variant="h5">Products & Services</Typography>
+        </Box>
+        <TanstackTable
+          columns={productsTableColumns}
+          data={quoteDataById?.products}
+        />
+      </Card>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={7} lg={8} xl={9}>
-          <TextareaAutosize
-            value={commentValue}
-            placeholder="Comments"
-            style={{
-              width: '100%',
-              height: '203px',
-              padding: '16px',
-              fontSize: '14px',
+          <Box
+            sx={{
+              height: '100%',
             }}
-            onChange={(e) => setCommentValue(e?.target?.value)}
-          />
+          >
+            <TextField
+              fullWidth
+              value={comments}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setComments(event.target.value);
+              }}
+              sx={{ height: '100%' }}
+              placeholder="Comments..."
+              multiline
+              rows={7}
+            />
+          </Box>
         </Grid>
         <Grid item xs={12} sm={5} lg={4} xl={3}>
           <Card
@@ -122,7 +105,7 @@ const ProductsTable = (data: any) => {
                       {item?.title}
                     </Typography>
                     <Typography variant="h5" fontWeight={500}>
-                      {data?.data?.deal[0]?.companies[0]?.totalRevenue}
+                      {item?.value}
                     </Typography>
                   </Stack>
                   <Stack my={1} gap={1}>
@@ -174,41 +157,34 @@ const ProductsTable = (data: any) => {
                 padding: '14px 20px',
                 display: 'flex',
                 justifyContent: 'space-between',
-                backgroundColor: `${theme?.palette?.grey[700]}`,
+                backgroundColor: '#E5E7EB',
               }}
             >
               <Typography variant="h5" fontWeight={500}>
                 Total
               </Typography>
               <Typography variant="h5" fontWeight={500}>
-                {isNullOrEmpty(data)
-                  ? '----'
-                  : data?.data?.deal[0]?.companies[0]?.totalRevenue}
+                £50
               </Typography>
             </CardActions>
           </Card>
         </Grid>
+
         <Grid item lg={4} md={4} sm={12} xs={12}>
           <InputLabel id="demo-simple-select-label">
             Select Bank Account
           </InputLabel>
           <Select
-            sx={{
-              '& .css-2kf82o-MuiSvgIcon-root-MuiSelect-icon': {
-                display: 'none',
-              },
-            }}
             fullWidth
-            labelId="demo-simple-select-label"
-            endAdornment={
-              <InputAdornment position="end">
-                <ArrowDownIcon />
-              </InputAdornment>
+            IconComponent={KeyboardArrowDownIcon}
+            value={accountNo}
+            onChange={(event: SelectChangeEvent<typeof accountNo>) =>
+              setAccountNo(event.target.value)
             }
           >
             {receiversData?.data?.receiverbankaccounts?.map((account: any) => (
               <MenuItem key={account._id} value={account.accountNumber}>
-                {`${account.accountNumber}`}
+                {`${account?.companyAccountName} -- ${account?.accountNumber}`}
               </MenuItem>
             ))}
           </Select>
@@ -231,7 +207,7 @@ const ProductsTable = (data: any) => {
                 color: `${theme?.palette?.custom?.main}`,
               },
             }}
-            onClick={() => router?.back()}
+            onClick={() => router.push(AIR_SALES?.SALES_INVOICES)}
           >
             Back
           </Button>
@@ -254,36 +230,51 @@ const ProductsTable = (data: any) => {
                   color: `${theme?.palette?.custom?.main}`,
                 },
               }}
-              onClick={() => router?.back()}
+              onClick={() => router.push(AIR_SALES?.SALES_INVOICES)}
             >
               Cancel
             </Button>
             <Button
               variant="contained"
               className="medium"
-              onClick={handleInvoice}
+              onClick={openModalEmail}
+              disabled={accountNo === ''}
             >
               Send to Customer
             </Button>
           </Stack>
         </Grid>
       </Grid>
-      {/* delete modal */}
-      {isDeleteModal && (
-        <AlertModals
-          message="You're about to delete all record. Deleted records can't be restored after 90 days."
-          type="delete"
-          open={isDeleteModal}
-          handleClose={() => setIsDeleteModal(false)}
-          handleSubmit={() => setIsDeleteModal(false)}
-        />
-      )}
-      <AddProducts
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-      />
+
+      <ScheduleModals
+        type="assign"
+        open={isEmailModal}
+        handleClose={closeModalEmail}
+        handleSubmit={handleAddInvoiceSubmit}
+        submitButonText="Send"
+        isFooter
+        loading={loadingPostInvoice}
+      >
+        <FormProvider methods={methodsSendEmail}>
+          <Grid container spacing={4}>
+            {sendEmailFormField?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <item.component {...item.componentProps} size={'small'}>
+                  {item?.componentProps?.select
+                    ? item?.options?.map((option: any) => (
+                        <option key={option?.value} value={option?.value}>
+                          {option?.label}
+                        </option>
+                      ))
+                    : null}
+                </item.component>
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
+      </ScheduleModals>
     </Box>
   );
 };
 
-export default ProductsTable;
+export default QuoteInvoice;

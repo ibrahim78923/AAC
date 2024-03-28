@@ -67,15 +67,13 @@ const useListView = () => {
   };
   const handleCloseFilters = () => {
     setOpenFilters(false);
+    resetFilters();
   };
 
   const onSubmitFilters = async (values: any) => {
     const { creationDate, ...others } = values;
-    setFilterParams((prev: any) => {
-      const updatedParams = {
-        ...prev,
-        ...others,
-      };
+    setFilterParams(() => {
+      const updatedParams = { ...others };
       if (creationDate !== null) {
         updatedParams.creationDate = dayjs(creationDate).format(
           DATE_FORMAT.API,
@@ -113,9 +111,9 @@ const useListView = () => {
   };
 
   const handleDeleteInvoice = async () => {
-    const items = await selectedRow?.join(',');
+    const ids = await selectedRow;
     try {
-      await deleteInvoice(items)?.unwrap();
+      await deleteInvoice(ids)?.unwrap();
       handleCloseModalDelete();
       setSelectedRow([]);
       enqueueSnackbar('Record has been deleted.', {

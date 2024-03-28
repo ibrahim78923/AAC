@@ -133,7 +133,9 @@ const ListView = () => {
                     AIR_SALES_INVOICES_PERMISSIONS?.SALE_INVOICE_DOWNLOAD,
                   ]}
                 >
-                  <MenuItem onClick={handleActionsMenuClose}>Download</MenuItem>
+                  <MenuItem disabled={!rowId} onClick={handleActionsMenuClose}>
+                    Download
+                  </MenuItem>
                 </PermissionsGuard>
                 <PermissionsGuard
                   permissions={[
