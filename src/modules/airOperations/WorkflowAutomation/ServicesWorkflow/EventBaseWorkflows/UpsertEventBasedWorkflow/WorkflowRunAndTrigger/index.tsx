@@ -4,7 +4,7 @@ import {
   andRunOptions,
   eventOptions,
   moduleOptions,
-} from './WorkflowRunAndTrigger.data';
+} from '../UpsertEventBasedWorkflow.data';
 
 export const WorkflowRunAndTrigger = (props: any) => {
   const { register, palette } = props;
