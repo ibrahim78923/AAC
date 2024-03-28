@@ -1,14 +1,12 @@
-import { Box, Button, Typography } from '@mui/material';
-import { useState } from 'react';
+import { Box, Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { ImportLocation } from '../ImportLocation';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
 
-export const Header = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+export const LocationHeader = (props: any) => {
+  const { setIsDrawerOpen } = props;
   const router = useRouter();
 
   return (
@@ -17,23 +15,19 @@ export const Header = () => {
         display={'flex'}
         alignItems={'center'}
         justifyContent={'space-between'}
+        flexWrap={'wrap'}
+        gap={2}
       >
-        <Box
-          sx={{ cursor: 'pointer' }}
-          display={'flex'}
-          alignItems={'center'}
-          gap={1}
-        >
-          <ArrowBackIcon
-            onClick={() => {
-              router?.push({
-                pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
-              });
-            }}
-          />
-          <Typography variant="h5">Location</Typography>
-        </Box>
-        <Box display={'flex'} alignItems={'center'} gap={1}>
+        <PageTitledHeader
+          title={'Location'}
+          canMovedBack
+          moveBack={() => {
+            router?.push({
+              pathname: AIR_SERVICES?.ASSET_MANAGEMENT_SETTINGS,
+            });
+          }}
+        />
+        <Box display={'flex'} alignItems={'center'} gap={1} flexWrap={'wrap'}>
           <Button
             variant="outlined"
             color="secondary"
@@ -62,10 +56,6 @@ export const Header = () => {
           </PermissionsGuard>
         </Box>
       </Box>
-      <ImportLocation
-        setIsDrawerOpen={setIsDrawerOpen}
-        isDrawerOpen={isDrawerOpen}
-      />
     </>
   );
 };
