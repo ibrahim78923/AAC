@@ -31,6 +31,10 @@ const Modules = ({
   selectAllPermissions,
   getModulePermissions,
   editPlan,
+  handleExpandAccordionChange,
+  handleChangeSubModule,
+  selectedModule,
+  selectedSubModule,
 }: any) => {
   const { theme } = useModules();
   let prevProductId: any = null;
@@ -102,6 +106,7 @@ const Modules = ({
         <Accordion
           key={uuidv4()}
           disableGutters
+          expanded={selectedModule === item?.name?.toLowerCase()}
           sx={{
             '&.MuiAccordion': {
               '&.Mui-expanded': {
@@ -120,7 +125,13 @@ const Modules = ({
           }}
         >
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={
+              <ExpandMoreIcon
+                onClick={() => {
+                  handleExpandAccordionChange(item?.name?.toLowerCase());
+                }}
+              />
+            }
             aria-controls="dashboard"
             id="dashboard"
           >
@@ -150,6 +161,8 @@ const Modules = ({
               methods={methods}
               handleSubmit={handleSubmit}
               editPlan={editPlan?.planProductPermissions[0]?.permissionSlugs}
+              handleChangeSubModule={handleChangeSubModule}
+              selectedSubModule={selectedSubModule}
             />
           </AccordionDetails>
         </Accordion>

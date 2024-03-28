@@ -52,6 +52,24 @@ export const useAddPlan = () => {
   const [crmValue, setCrmValue] = useState<any | null>(null);
   const [ifCrmExist, setIfCrmExist] = useState(false);
   const [selectProductSuite, setSelectProductSuite] = useState('product');
+  const [selectedModule, setSelectedModule] = useState<string>();
+  const [selectedSubModule, setSelectedSubModule] = useState<string>();
+
+  const handleExpandAccordionChange = (module: string) => {
+    if (module === selectedModule) {
+      setSelectedModule('');
+    } else {
+      setSelectedModule(module);
+    }
+  };
+
+  const handleChangeSubModule = (subModule) => {
+    if (subModule === selectedSubModule) {
+      setSelectedSubModule('');
+    } else {
+      setSelectedSubModule(subModule);
+    }
+  };
 
   const [postPlanMangement, isLoading] = usePostPlanMangementMutation();
   const [updatePlanMangement] = useUpdatePlanMangementMutation();
@@ -445,6 +463,10 @@ export const useAddPlan = () => {
           getModulePermissions={getModulePermissions}
           selectedPermission={selectedPermission}
           editPlan={singlePlan?.data}
+          handleExpandAccordionChange={handleExpandAccordionChange}
+          handleChangeSubModule={handleChangeSubModule}
+          selectedModule={selectedModule}
+          selectedSubModule={selectedSubModule}
         />
       ),
       componentProps: { addPlanFormValues, setAddPlanFormValues },
