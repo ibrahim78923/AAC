@@ -64,27 +64,6 @@ const Header = () => {
           </Typography>
         </Grid>
         <Grid item sx={{ display: 'flex', cursor: 'pointer' }}>
-          {/* <PermissionsGuard
-            permissions={[
-              AIR_SERVICES_TICKETS_TICKETS_DETAILS?.TIME_TRACK_PLAY_PAUSE,
-            ]}
-          >
-            <Box sx={styles?.iconBoxStyling} onClick={toggleView}>
-              {isIconVisible ? (
-                <ViewDetailVuesaxIcon />
-              ) : (
-                <Image
-                  src={VuesaxErrorImage}
-                  alt={'VuesaxErrorImage'}
-                  height={24}
-                  width={24}
-                />
-              )}
-            </Box>
-            <Box sx={styles?.iconBoxTimerStyling}>
-              <DetailTimePicker />
-            </Box>
-          </PermissionsGuard> */}
           {/* TODO: comment for now. will be used if third party api is provided */}
           {/* <PermissionsGuard
             permissions={[AIR_SERVICES_TICKETS_TICKETS_DETAILS?.ADD_MEETING]}
