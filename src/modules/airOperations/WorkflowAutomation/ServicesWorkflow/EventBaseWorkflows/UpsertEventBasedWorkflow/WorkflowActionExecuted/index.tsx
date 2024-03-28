@@ -45,7 +45,7 @@ export const WorkflowActionExecuted = ({ watch, setValue }: any) => {
           Actions
         </Typography>
       </Box>
-      {fields.map((item: any, index: number) => (
+      {fields?.map((item: any, index: number) => (
         <Box key={item?._id} display={'flex'} p={2}>
           <Grid container spacing={1}>
             {actionsData({
@@ -55,7 +55,7 @@ export const WorkflowActionExecuted = ({ watch, setValue }: any) => {
               agentApiQuery,
               departmentApiQuery,
               apiQueryCategories,
-            }).map((actionItem: any) => (
+            })?.map((actionItem: any) => (
               <Grid
                 item
                 xs={12}

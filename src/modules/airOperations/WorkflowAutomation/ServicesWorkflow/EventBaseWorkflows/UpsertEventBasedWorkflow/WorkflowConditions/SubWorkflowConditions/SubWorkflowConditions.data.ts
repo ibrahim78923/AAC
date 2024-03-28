@@ -134,8 +134,6 @@ export const subWorkflowData = ({
   };
   const ticketsModule: any = {
     'Ticket Fields': ticketsFields,
-    // 'Requester Fields': requesterFieldOptions,
-    // 'Requested for Fields': requestedForFieldOptions,
   };
   const modulesOptions =
     moduleSelectedOption === SCHEMA_KEYS?.ASSETS
@@ -146,10 +144,6 @@ export const subWorkflowData = ({
   const selectedOption = watch('options');
   const moduleListOptions = modulesOptions[selectedOption] || [];
   const operatorsOption = watch(`groups.${index}.conditions.${subIndex}.key`);
-  // useEffect(() => {
-  //   setValue(`groups.${index}.conditions.${subIndex}.condition`, ''),
-  //     setValue(`groups.${index}.conditions.${subIndex}.value`, null);
-  // }, [operatorsOption, setValue]);
   let singleOperatorsOptions = [];
   const apiQuery = useApiQuery(operatorsOption);
   const valuesOptions =
