@@ -9,6 +9,7 @@ import CustomizeColumns from './CustomizeColumns';
 import { quotesColumns } from './Quotes.data';
 import { styles } from './Quotes.style';
 import { useEffect } from 'react';
+import useCustomizeColumn from './CustomizeColumns/useCustomizeColumn';
 
 const Quotes = () => {
   const {
@@ -28,10 +29,7 @@ const Quotes = () => {
     openCustomizeColumns,
     handleOpenCustomizeColumns,
     handleCloseCustomizeColumns,
-    checkedColumns,
     setcheckedColumns,
-    handleToggleColumns,
-    handleApplyColumns,
     handleEditQuote,
     handleViewQuote,
     openDeleteQuote,
@@ -45,15 +43,18 @@ const Quotes = () => {
     handleDeleteQoute,
   } = useQuotes();
 
+  const { activeColumns } = useCustomizeColumn({});
+
   const getQuotesColumns = quotesColumns(
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,
     setRowId,
+    activeColumns,
   );
 
   useEffect(() => {
-    setcheckedColumns(getQuotesColumns?.map((column: any) => column.id));
+    setcheckedColumns(getQuotesColumns?.map((column: any) => column?.id));
   }, []);
   return (
     <>
@@ -85,29 +86,30 @@ const Quotes = () => {
         />
       </Box>
 
-      <FilterQuotes
-        open={openFilters}
-        onClose={handleCloseFilters}
-        methods={methodsFilter}
-        onFilterSubmit={handleFiltersSubmit}
-      />
+      {openFilters && (
+        <FilterQuotes
+          open={openFilters}
+          onClose={handleCloseFilters}
+          methods={methodsFilter}
+          onFilterSubmit={handleFiltersSubmit}
+        />
+      )}
 
-      <CustomizeColumns
-        open={openCustomizeColumns}
-        onClose={handleCloseCustomizeColumns}
-        columns={getQuotesColumns}
-        onSubmit={handleApplyColumns}
-        checkedColumns={checkedColumns}
-        handleToggleColumns={handleToggleColumns}
-      />
-
-      <AlertModals
-        message="You're about to delete a record. Are you sure?"
-        type="delete"
-        open={openDeleteQuote}
-        handleClose={handleCloseDeleteQuote}
-        handleSubmitBtn={handleDeleteQoute}
-      />
+      {openCustomizeColumns && (
+        <CustomizeColumns
+          open={openCustomizeColumns}
+          onClose={handleCloseCustomizeColumns}
+        />
+      )}
+      {openDeleteQuote && (
+        <AlertModals
+          message="You're about to delete a record. Are you sure?"
+          type="delete"
+          open={openDeleteQuote}
+          handleClose={handleCloseDeleteQuote}
+          handleSubmitBtn={handleDeleteQoute}
+        />
+      )}
     </>
   );
 };

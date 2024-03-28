@@ -4,8 +4,8 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import dayjs from 'dayjs';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { REQUESTORS_STATUS } from '@/constants/strings';
 
 export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
@@ -15,8 +15,9 @@ export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.EDIT_WORKFLOW,
     ],
-    handleClick: () => {
+    handleClick: (close: any) => {
       handleActionClick('edit');
+      close?.(false);
     },
   },
   {
@@ -25,8 +26,9 @@ export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.CLONE_WORKFLOW,
     ],
-    handleClick: () => {
+    handleClick: (close: any) => {
       handleActionClick('clone');
+      close?.(false);
     },
   },
   {
@@ -35,16 +37,20 @@ export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
     permissionKey: [
       AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.DELETE,
     ],
-    handleClick: () => {
+    handleClick: (close: any) => {
       handleActionClick?.('delete');
+      close?.(false);
     },
   },
 ];
-export const tasksListsColumnsFunction = (
-  selectedTasksList: any,
-  setSelectedTasksList: any,
-  taskListData: any,
+
+export const listsColumnsFunction = (
+  selectedAction: any,
+  setSelectedAction: any,
+  listData: any,
   theme: any,
+  handleChangeStatus: any,
+  switchLoading: any,
 ): any => [
   {
     accessorFn: (row: any) => row?._id,
@@ -54,20 +60,16 @@ export const tasksListsColumnsFunction = (
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          !!selectedTasksList?.find(
-            (item: any) => item?._id === info?.getValue(),
-          )
+          !!selectedAction?.find((item: any) => item?._id === info?.getValue())
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedTasksList([
-                ...selectedTasksList,
-                taskListData?.find(
-                  (item: any) => item?._id === info?.getValue(),
-                ),
+            ? setSelectedAction([
+                ...selectedAction,
+                listData?.find((item: any) => item?._id === info?.getValue()),
               ])
-            : setSelectedTasksList(
-                selectedTasksList?.filter((item: any) => {
+            : setSelectedAction(
+                selectedAction?.filter((item: any) => {
                   return item?._id !== info?.getValue();
                 }),
               );
@@ -81,14 +83,14 @@ export const tasksListsColumnsFunction = (
         icon={<CheckboxIcon />}
         checkedIcon={<CheckboxCheckedIcon />}
         checked={
-          !!taskListData?.length
-            ? selectedTasksList?.length === taskListData?.length
+          !!listData?.length
+            ? selectedAction?.length === listData?.length
             : false
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedTasksList([...taskListData])
-            : setSelectedTasksList([]);
+            ? setSelectedAction([...listData])
+            : setSelectedAction([]);
         }}
         color="primary"
         name="id"
@@ -133,7 +135,11 @@ export const tasksListsColumnsFunction = (
             AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS?.ENABLE_DISABLE,
           ]}
         >
-          <AntSwitch checked={getValues} />
+          <AntSwitch
+            checked={getValues}
+            isLoading={switchLoading?.[info?.row?.original?._id]}
+            onClick={() => handleChangeStatus?.(info?.row?.original)}
+          />
         </PermissionsGuard>
       );
     },
@@ -185,3 +191,5 @@ export const tasksListsColumnsFunction = (
       ),
   },
 ];
+
+export const eventBaseWorkflowTabsData = ['Tickets', 'Assets', 'Tasks'];

@@ -24,8 +24,8 @@ export const agentsAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getAgentRequester: builder?.query({
-      query: (id: any) => ({
-        url: `${GET_AGENT_REQUESTER}/${id}`,
+      query: () => ({
+        url: `${GET_AGENT_REQUESTER}`,
         method: 'GET',
       }),
       providesTags: [TAG],

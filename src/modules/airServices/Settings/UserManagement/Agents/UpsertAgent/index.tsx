@@ -86,7 +86,7 @@ export const UpsertAgent = (props: any) => {
                 patchAgentStatus?.isLoading || postAgentStatus?.isLoading
               }
             >
-              Save
+              {!!selectedAgentList?.length ? 'Update' : 'Save'}
             </LoadingButton>
           </DialogActions>
         </FormProvider>

@@ -5,21 +5,18 @@ import {
   usePatchApprovedRequestMutation,
 } from '@/services/airServices/settings/user-management/agents';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import useAuth from '@/hooks/useAuth';
 
 export const useAgentRequest = () => {
   const [openRejectedModal, setOpenRejectedModal] = useState(false);
   const [selectedAgentRequest, setSelectedAgentRequest] = useState('');
 
-  const auth: any = useAuth();
-
-  const { _id: companyId } = auth?.product?.accounts?.[0]?.company;
-
   const { data, isLoading, isFetching, isError }: any =
-    useGetAgentRequesterQuery(companyId, {
-      refetchOnMountOrArgChange: true,
-      skip: !!!companyId,
-    });
+    useGetAgentRequesterQuery(
+      {},
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
 
   const handleOpenModal = (agent: any) => {
     setSelectedAgentRequest(agent);
