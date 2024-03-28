@@ -26,8 +26,8 @@ const CustomizeCompany = ({ setIsCustomize, isCustomize }: any) => {
         title="Customize Columns"
         okText="Save"
         submitHandler={handleUpdateColumns}
-        isOk={true}
-        footer={true}
+        isOk
+        footer
       >
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable

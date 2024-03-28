@@ -46,13 +46,13 @@ const Login = () => {
 
   const { login } = useAuth();
   const [authLogin, { isLoading }] = useAuthLoginMutation();
-
+  let res: any;
   const onSubmit = async (credentials: any) => {
     try {
-      const res: any = await authLogin(credentials)?.unwrap();
+      res = await authLogin(credentials)?.unwrap();
       login(res);
     } catch (error: any) {
-      const errMsg = error?.data?.message;
+      const errMsg = res?.message;
       enqueueSnackbar(errMsg ?? 'Error occured', { variant: 'error' });
     }
   };
