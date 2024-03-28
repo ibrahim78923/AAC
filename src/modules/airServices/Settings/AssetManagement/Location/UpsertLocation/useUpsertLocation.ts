@@ -13,7 +13,11 @@ import {
   usePutLocationMutation,
   useGetByIdLocationQuery,
 } from '@/services/airServices/settings/asset-management/location';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import {
+  errorSnackbar,
+  filteredEmptyValues,
+  successSnackbar,
+} from '@/utils/api';
 import { useEffect } from 'react';
 
 export const useUpsertLocation = () => {
@@ -52,16 +56,13 @@ export const useUpsertLocation = () => {
   };
 
   const upsertLocation = async (data: any) => {
-    const filteredEmptyData: any = Object?.entries(data || {})
-      ?.filter(
-        ([, value]: any) => value !== undefined && value != '' && value != null,
-      )
-      ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+    const filteredEmptyData = filteredEmptyValues?.(data);
 
     if (type === LOCATION_TYPE?.CHILD) {
       upsertChildLocation?.(filteredEmptyData);
       return;
     }
+
     delete filteredEmptyData?.parentLocation;
     const parentLocationApiData = {
       body: filteredEmptyData,

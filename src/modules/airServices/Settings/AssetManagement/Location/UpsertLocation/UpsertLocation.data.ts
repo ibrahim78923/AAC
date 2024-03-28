@@ -8,10 +8,10 @@ export const LOCATION_TYPE = {
 };
 
 export const validationSchemaAddNewLocation = yup?.object()?.shape({
-  locationName: yup?.string()?.required('Location name is required'),
+  locationName: yup?.string()?.trim()?.required('Location name is required'),
   contactName: yup?.string(),
-  email: yup?.string()?.nullable(),
-  phone: yup?.string()?.nullable(),
+  email: yup?.string()?.email('Please provide valid email'),
+  phone: yup?.string(),
   address: yup?.object()?.shape({
     addressLine1: yup?.string(),
     addressLine2: yup?.string(),
@@ -79,17 +79,21 @@ export const addNewLocationDataFields = (type: string) => [
     },
     component: RHFTextField,
   },
-  {
-    id: 2,
-    gridLength: 6,
-    componentProps: {
-      fullWidth: true,
-      disabled: type === LOCATION_TYPE?.CHILD,
-      name: 'parentLocation',
-      label: 'Parent Location',
-    },
-    component: RHFTextField,
-  },
+  ...(type === LOCATION_TYPE?.CHILD
+    ? [
+        {
+          id: 2,
+          gridLength: 6,
+          componentProps: {
+            fullWidth: true,
+            disabled: type === LOCATION_TYPE?.CHILD,
+            name: 'parentLocation',
+            label: 'Parent Location',
+          },
+          component: RHFTextField,
+        },
+      ]
+    : []),
   {
     id: 3,
     componentProps: {

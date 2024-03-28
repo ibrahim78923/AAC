@@ -37,8 +37,8 @@ const UpsertLocation = () => {
                 !!childId
                   ? 'Edit child location'
                   : !!parentId && type === LOCATION_TYPE?.PARENT
-                  ? 'Edit location'
-                  : `Add new ${type} location`
+                    ? 'Edit location'
+                    : `Add new ${type} location`
               }
               canMovedBack
               moveBack={() => moveToLocationPage?.()}
@@ -46,19 +46,7 @@ const UpsertLocation = () => {
             <Grid item container xs={12} overflow="auto">
               <Grid container spacing={2}>
                 {addNewLocationDataFields(type)?.map((form: any) => (
-                  <Grid
-                    item
-                    xs={12}
-                    md={form?.gridLength}
-                    key={form?.id}
-                    sx={{
-                      display:
-                        type === LOCATION_TYPE?.PARENT &&
-                        form?.componentProps?.name === 'parentLocation'
-                          ? 'none'
-                          : 'block',
-                    }}
-                  >
+                  <Grid item xs={12} md={form?.gridLength} key={form?.id}>
                     <form.component {...form?.componentProps} size="small">
                       {form?.heading ? form?.heading : null}
                     </form.component>
