@@ -12,6 +12,7 @@ import { PAGINATION } from '@/config';
 import { enqueueSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
+import { useGetSalesProductlineItemQuery } from '@/services/airSales/quotes';
 
 interface Filters {
   page: number;
@@ -71,8 +72,9 @@ const useDealTab = () => {
   });
 
   const activeColumns = dealCustomzieCol?.data?.columns?.filter(
-    (column: any) => column?.active === true,
+    (column: { active: boolean }) => column?.active,
   );
+
   const { data: DealsLifecycleStageData } = useGetDealsLifecycleStageQuery({});
   const { data: pipelineData } = useGetDealPipeLineQuery(params);
 
@@ -81,6 +83,7 @@ const useDealTab = () => {
     const dateEnd = obj?.apiUrl?.match(/dateEnd=([^&]*)/)[1];
     return { dateStart, dateEnd, name: obj?.name };
   });
+  const { data: salesProduct } = useGetSalesProductlineItemQuery({});
 
   const tabsArray = [{ name: 'All Deals', dateStart: '', dateEnd: '' }]?.concat(
     dealListApiUrl,
@@ -169,7 +172,10 @@ const useDealTab = () => {
         handleExportRecord();
         break;
       case 'View Details':
-        router.push({ pathname: AIR_SALES?.VIEW_DETAILS });
+        router.push({
+          pathname: AIR_SALES?.VIEW_DETAILS,
+          query: { id: selectedRows },
+        });
         break;
       default:
         break;
@@ -195,37 +201,6 @@ const useDealTab = () => {
     selectedRows,
     activeColumns,
   });
-
-  // function reorderArrayOfObjects(
-  //   originalArray: any[],
-  //   customColumns: any[],
-  // ): any[] {
-  //   const propertyOrderMap: Record<string, number> = {};
-
-  //   customColumns?.forEach((column) => {
-  //     const properties = column?.attributes?.split(' ');
-  //     properties?.forEach((property: any) => {
-  //       propertyOrderMap[property] = column?.order;
-  //     });
-  //   });
-
-  //   const reorderedArray = originalArray?.map((originalObject) => {
-  //     const sortedProperties = Object?.keys(originalObject)?.sort(
-  //       (a, b) =>
-  //         (propertyOrderMap[a] || Number?.MAX_SAFE_INTEGER) -
-  //         (propertyOrderMap[b] || Number?.MAX_SAFE_INTEGER),
-  //     );
-
-  //     const reorderedObject: any = {};
-  //     sortedProperties?.forEach((property) => {
-  //       reorderedObject[property] = originalObject[property];
-  //     });
-
-  //     return reorderedObject;
-  //   });
-
-  //   return reorderedArray;
-  // }
 
   const dealTableData = {
     columns: allDealsColumns,
@@ -292,6 +267,7 @@ const useDealTab = () => {
     pipelineData,
     dealCustomzieCol,
     activeColumns,
+    salesProduct,
   };
 };
 

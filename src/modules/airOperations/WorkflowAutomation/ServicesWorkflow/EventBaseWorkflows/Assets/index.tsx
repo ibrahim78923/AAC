@@ -1,12 +1,11 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useAssets } from './useAssets';
-import AssetsHeader from './AssetsHeader';
+import ListViewHeader from '../ListViewHeader';
 
 const Assets = () => {
   const {
     assetsListsColumns,
-    selectedAssetsList,
-    assetsListData,
+    listData,
     assetsData,
     isLoading,
     isSuccess,
@@ -16,22 +15,34 @@ const Assets = () => {
     setLimit,
     setSearch,
     search,
-    onSubmitAssetsFilter,
+    onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,
+    router,
+    deleteWorkflow,
+    setDeleteWorkflow,
+    dropdownOptions,
+    selectedAction,
+    setSelectedAction,
   } = useAssets();
   return (
     <>
-      <AssetsHeader
-        selectedAssetsList={selectedAssetsList}
+      <ListViewHeader
+        selectedList={!!!selectedAction?.length}
         setSearch={setSearch}
         search={search}
-        onSubmitAssetsFilter={onSubmitAssetsFilter}
+        onSubmitListFilter={onSubmitListFilter}
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
+        router={router}
+        deleteWorkflow={deleteWorkflow}
+        setDeleteWorkflow={setDeleteWorkflow}
+        dropdownOptions={dropdownOptions}
+        selectedAction={selectedAction}
+        setSelectedAction={setSelectedAction}
       />
       <TanstackTable
-        data={assetsListData}
+        data={listData}
         columns={assetsListsColumns}
         isPagination
         isFetching={isFetching}

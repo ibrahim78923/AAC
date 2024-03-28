@@ -420,7 +420,7 @@ export const CustomerPortalRoutes: any = [
     icon: KnowledgeBaseImage,
     label: 'Knowledge Base',
     role: 'CUSTOMER_PORTAL',
-    permissions: [],
+    permissions: Permissions?.AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE,
   },
   {
     key: '/air-customer-portal/catalog',

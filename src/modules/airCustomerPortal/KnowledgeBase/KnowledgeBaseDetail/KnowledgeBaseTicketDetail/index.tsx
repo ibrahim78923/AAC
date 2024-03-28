@@ -6,6 +6,8 @@ import { LoadingButton } from '@mui/lab';
 import { FormProvider } from '@/components/ReactHookForm';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS } from '@/constants/permission-keys';
 
 export const KnowledgeBaseTicketDetail = () => {
   const {
@@ -27,7 +29,11 @@ export const KnowledgeBaseTicketDetail = () => {
     feedbackIsLoading,
   } = useKnowledgeBaseTicketDetail();
   return (
-    <>
+    <PermissionsGuard
+      permissions={[
+        AIR_CUSTOMER_PORTAL_KNOWLEDGE_BASE_PERMISSIONS?.VIEW_ARTICLES_DIFFERENT_CATEGORY,
+      ]}
+    >
       <Grid container spacing={1} justifyContent={'space-between'}>
         <Grid item xs={12} lg={8.9}>
           <Box
@@ -208,6 +214,6 @@ export const KnowledgeBaseTicketDetail = () => {
           </Box>
         </Grid>
       </Grid>
-    </>
+    </PermissionsGuard>
   );
 };
