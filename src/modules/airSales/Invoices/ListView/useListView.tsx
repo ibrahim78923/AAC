@@ -5,6 +5,7 @@ import { PAGINATION } from '@/config';
 import {
   useDeleteInvoiceMutation,
   useGetInvoiceQuery,
+  useUpdateInvoiceMutation,
 } from '@/services/airSales/invoices';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
@@ -127,6 +128,28 @@ const useListView = () => {
     }
   };
 
+  // Update Status
+  const [updateInvoice, { isLoading: loadingUpdateInvoice }] =
+    useUpdateInvoiceMutation();
+  const handleUpdateStatus = async (status: string, id: any) => {
+    const payLoad = {
+      status: status,
+    };
+    try {
+      await updateInvoice({ id: id, body: payLoad })?.unwrap();
+      enqueueSnackbar(
+        `This job is ${status === 'OPEN' ? 'open' : 'close'} now`,
+        {
+          variant: 'success',
+        },
+      );
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
   return {
     anchorEl,
     actionMenuOpen,
@@ -160,6 +183,8 @@ const useListView = () => {
 
     employeeListData,
     handleIsViewPage,
+    handleUpdateStatus,
+    loadingUpdateInvoice,
   };
 };
 
