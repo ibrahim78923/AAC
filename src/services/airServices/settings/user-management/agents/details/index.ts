@@ -57,6 +57,13 @@ export const agentDetailsAPI = baseAPI?.injectEndpoints({
         method: 'GET',
         params: getAgentDetailLevelParameter?.queryParams,
       }),
+      transformResponse: (response: any, _: any, apiDataParameter: any) => {
+        if (response)
+          return response?.data?.find(
+            (performer: any) =>
+              performer?._id === apiDataParameter?.queryParams?.agent,
+          );
+      },
     }),
   }),
 });

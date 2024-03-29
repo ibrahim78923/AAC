@@ -18,7 +18,6 @@ import {
   usePostAddReplyToBulkUpdateMutation,
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { EMAIL_SENT_TYPE } from '@/constants/strings';
 
 export const useTicketBulkUpdate = (props: any) => {
   const {
@@ -53,7 +52,6 @@ export const useTicketBulkUpdate = (props: any) => {
     emailFormData?.append('recipients', formData?.to);
     emailFormData?.append('html', formData?.description);
     emailFormData?.append('subject', 'bulk updated');
-    emailFormData?.append('type', EMAIL_SENT_TYPE?.REPLY);
     formData?.file !== null &&
       emailFormData?.append('attachments', formData?.file);
 
