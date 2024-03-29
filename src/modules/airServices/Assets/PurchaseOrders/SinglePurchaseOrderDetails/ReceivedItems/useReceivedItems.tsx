@@ -50,25 +50,22 @@ export const useReceivedItems = (props: any) => {
   });
 
   const submitHandler = async (data: any) => {
-    let purchaseOrderStatus: any;
-    const checkStatus = data?.receivedItem?.every(
-      (x: any) => x?.received == x.quantity,
+    const isReceivedComplete = data?.receivedItem?.every(
+      (receiveItem: any) => receiveItem?.received == receiveItem.quantity,
     );
 
-    const dr = data?.receivedItem?.some(
-      (x: any) => x?.received == 0 || x?.received > x?.quantity,
+    const isReceivedItemNullOrMore = data?.receivedItem?.some(
+      (receiveItem: any) =>
+        receiveItem?.received == 0 ||
+        receiveItem?.received > receiveItem?.quantity,
     );
 
-    if (dr) {
+    if (isReceivedItemNullOrMore) {
       setErrorOccurred(true);
       setIsDrawerOpen(false);
       return;
     }
-    if (checkStatus) {
-      purchaseOrderStatus = PURCHASE_ORDER_STATUS?.RECEIVED;
-    } else {
-      purchaseOrderStatus = PURCHASE_ORDER_STATUS?.PARTLY_RECEIVED;
-    }
+
     const sendData = data?.receivedItem?.map((item: any) => {
       const purchaseDetails = item?.data?.purchaseDetails?.map(
         (secondItem: any) => ({
@@ -76,6 +73,7 @@ export const useReceivedItems = (props: any) => {
           received: item?.received,
         }),
       );
+
       return {
         id: item?.data?._id,
         orderName: item?.data?.orderName,
@@ -87,7 +85,9 @@ export const useReceivedItems = (props: any) => {
         departmentId: item?.data?.departmentId,
         termAndCondition: item?.data?.termAndCondition,
         subTotal: item?.data?.subTotal,
-        status: purchaseOrderStatus,
+        status: isReceivedComplete
+          ? PURCHASE_ORDER_STATUS?.RECEIVED
+          : PURCHASE_ORDER_STATUS?.PARTLY_RECEIVED,
         purchaseDetails: purchaseDetails,
       };
     });
