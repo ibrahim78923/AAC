@@ -46,6 +46,15 @@ export const invoiceAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['INVOICE'],
     }),
+
+    updateInvoice: builder.mutation({
+      query: ({ id, body }: any) => ({
+        url: `${AIR_SALES?.INVOICES}/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['INVOICE'],
+    }),
   }),
 });
 
@@ -56,4 +65,5 @@ export const {
   useLazyGetInvoiceByIdQuery,
   useGetInvoiceQuery,
   useDeleteInvoiceMutation,
+  useUpdateInvoiceMutation,
 } = invoiceAPI;

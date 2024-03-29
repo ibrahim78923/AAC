@@ -62,13 +62,13 @@ export const productsTableData: any = [
   },
 ];
 
-export const productTotalDetails = [
+export const productTotalDetails = (subtotal: any, unitDiscount: any) => [
   {
     title: 'Subtotal',
-    value: '£75',
+    value: `£${subtotal}`,
     detail: [
       { title: 'Tax', value: '20%' },
-      { title: 'Unit Discount', value: '30 GBP' },
+      { title: 'Unit Discount', value: `${unitDiscount} GBP` },
     ],
   },
 ];

@@ -20,13 +20,21 @@ import { style } from './ViewInvoice.style';
 import { v4 as uuidv4 } from 'uuid';
 import useViewInvoice from './useViewInvoice';
 
-export const ViewInvoice = (props?: any) => {
+export const ViewInvoice = () => {
   const router = useRouter();
   const invoiceId = router?.query?.invoiceId;
   const { data } = useViewInvoice(invoiceId);
-
-  const { isOnlyView } = props;
   const theme = useTheme();
+
+  const subtotal = data?.data?.quote?.products?.reduce(
+    (acc: any, curr: any) => acc + curr?.unitPrice * curr?.quantity,
+    0,
+  );
+
+  const unitDiscount = data?.data?.quote?.products?.reduce(
+    (acc: any, curr: any) => acc + curr?.unitDiscount * curr?.quantity,
+    0,
+  );
 
   return (
     <Box>
@@ -70,7 +78,7 @@ export const ViewInvoice = (props?: any) => {
             }}
           >
             <CardContent sx={{ padding: '11px 20px' }}>
-              {productTotalDetails?.map((item: any) => (
+              {productTotalDetails(subtotal, unitDiscount)?.map((item: any) => (
                 <Box key={uuidv4()}>
                   <Stack
                     direction="row"
@@ -113,7 +121,6 @@ export const ViewInvoice = (props?: any) => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '10px',
-                    cursor: 'pointer',
                   }}
                 >
                   <Typography variant="body2" fontWeight={500}>
@@ -141,32 +148,31 @@ export const ViewInvoice = (props?: any) => {
                 Total
               </Typography>
               <Typography variant="h5" fontWeight={500}>
-                £50
+                £{subtotal - unitDiscount}
               </Typography>
             </CardActions>
           </Card>
         </Grid>
       </Grid>
-      {!isOnlyView && (
-        <Box mt={3}>
-          <Divider />
-          <Stack
-            direction={{ xs: 'column', md: 'row' }}
-            justifyContent="space-between"
-            alignItems="center"
-            gap={1}
-            mt={2}
+
+      <Box mt={3}>
+        <Divider />
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          justifyContent="space-between"
+          alignItems="center"
+          gap={1}
+          mt={2}
+        >
+          <Button
+            sx={style.cancelButton(theme?.palette)}
+            onClick={() => router?.push(AIR_SALES?.SALES_INVOICES)}
           >
-            <Button
-              sx={style.cancelButton(theme?.palette)}
-              onClick={() => router?.push(AIR_SALES?.SALES_INVOICES)}
-            >
-              Back
-            </Button>
-            <Button variant="contained">Download</Button>
-          </Stack>
-        </Box>
-      )}
+            Back
+          </Button>
+          <Button variant="contained">Download</Button>
+        </Stack>
+      </Box>
     </Box>
   );
 };
