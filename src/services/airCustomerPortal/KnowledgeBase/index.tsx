@@ -6,9 +6,10 @@ const TAG = 'CUSTOMER_PORTAL_KNOWLEDGE_BASE';
 export const knowledgeBaseAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getKnowledgeBaseFolder: builder?.query({
-      query: () => ({
+      query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.GET_KNOWLEDGE_BASE_FOLDER}`,
         method: 'GET',
+        params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),

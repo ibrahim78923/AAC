@@ -11,7 +11,6 @@ const DASHBOARD_ROOT_PAGE = '/dashboard';
 const SOCIAL_ROOT_PAGE = '/social-components';
 const AIR_SOCIAL_PAGE = '/air-social';
 const AIR_SALES_PAGE = '/air-sales';
-
 // ======================================================================
 
 export const PATH_AUTH = {

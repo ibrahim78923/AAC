@@ -21,10 +21,16 @@ const useInvoices = () => {
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
-  const { data: allInvoicesTableData } = useGetBillingHistoryQuery<any>({
-    pagination: `page=1&limit=10`,
-    params: { ...filterValues, ...searchObject, page: page, limit: pageLimit },
-  });
+  const { data: allInvoicesTableData, isLoading } =
+    useGetBillingHistoryQuery<any>({
+      pagination: `page=1&limit=10`,
+      params: {
+        ...filterValues,
+        ...searchObject,
+        page: page,
+        limit: pageLimit,
+      },
+    });
 
   const handleActionsClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event?.currentTarget);
@@ -114,6 +120,7 @@ const useInvoices = () => {
     setIsChecked,
     isChecked,
     allInvoicesTableData,
+    isLoading,
     isGetRowValues,
     searchByClientName,
     setSearchByClientName,

@@ -23,6 +23,8 @@ export default function EditForm({
     handleSubmit,
     onSubmit,
     reset,
+    crmOptions,
+    isExistingPlan,
   } = useEditForm(
     isEditModal,
     isGetRowValues,
@@ -43,11 +45,12 @@ export default function EditForm({
       cancelText={'Cancel'}
       footer
       submitHandler={handleSubmit(onSubmit)}
+      isDisabled={isExistingPlan}
     >
       <Box mt={1}>
         <FormProvider methods={methods}>
           <Grid container spacing={4} sx={{ position: 'relative' }}>
-            {assignPlanData(selectProductSuite)?.map(
+            {assignPlanData(selectProductSuite, crmOptions, isEditModal)?.map(
               (item: any, index: any) => (
                 <Grid
                   item
@@ -90,6 +93,7 @@ export default function EditForm({
                           borderRadius: '10px',
                           boxShadow: 'none',
                         }}
+                        disabled={isEditModal}
                       >
                         <Typography variant="body3">Product</Typography>{' '}
                       </Button>
@@ -103,6 +107,7 @@ export default function EditForm({
                           borderRadius: '10px',
                           boxShadow: 'none',
                         }}
+                        disabled={isEditModal}
                       >
                         <Typography variant="body3">CRM Suite</Typography>
                       </Button>

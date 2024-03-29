@@ -45,9 +45,10 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
     }),
 
     getPlanId: builder.query({
-      query: ({ proId, planTypeId }) => ({
-        url: `${superAdminBillingInvoices.GET_PLAN_ID}?productId=${proId}&planTypeId=${planTypeId}`,
+      query: ({ params }) => ({
+        url: `${superAdminBillingInvoices.GET_PLAN_ID}`,
         method: 'GET',
+        params: params,
       }),
       providesTags: ['bilingInvoices'],
     }),
@@ -78,6 +79,14 @@ export const bilingInvoicesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['bilingInvoices'],
     }),
+    getExistingCrm: builder.query({
+      query: ({ params }) => ({
+        url: `${superAdminBillingInvoices.FIND_CRM}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: ['bilingInvoices'],
+    }),
   }),
 });
 
@@ -91,4 +100,5 @@ export const {
   usePatchBilingInvoicesMutation,
   useGetBillingHistoryQuery,
   usePatchUpdateInvoicesMutation,
+  useGetExistingCrmQuery,
 } = bilingInvoicesAPI;

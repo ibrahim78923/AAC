@@ -12,13 +12,14 @@ export const useNonRegisterDashboard = () => {
     return push(KNOWLEDGE_BASE);
   };
 
-  const { data, isLoading } = useGetNonRegisterDashboardQuery(null);
+  const { data, isLoading, isFetching } = useGetNonRegisterDashboardQuery(null);
   const articlesData = data?.data?.articles;
 
   return {
     articlesData,
     handleViewMore,
     isLoading,
+    isFetching,
     theme,
   };
 };

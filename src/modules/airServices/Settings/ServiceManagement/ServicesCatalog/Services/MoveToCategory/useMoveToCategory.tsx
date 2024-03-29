@@ -13,7 +13,7 @@ import {
 
 const useMoveToCategory = (prop: any) => {
   const [patchServiceCatalogTrigger] = usePatchServiceCatalogMutation();
-  const { open, setOpen, id } = prop;
+  const { open, setOpen, id, setSelectedCheckboxes } = prop;
   const methodAdd = useForm({
     resolver: yupResolver(moveToCategoryValidationSchema),
     defaultValues: moveToCategoryDefaultValues,
@@ -41,6 +41,7 @@ const useMoveToCategory = (prop: any) => {
       });
     }
     setOpen(false);
+    setSelectedCheckboxes([]);
   };
   const apiQueryCategroy = useLazyGetCategoriesDropdownQuery();
   return {

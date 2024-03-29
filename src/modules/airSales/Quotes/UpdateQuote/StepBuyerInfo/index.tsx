@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Grid, Typography, Button, Avatar, Checkbox } from '@mui/material';
 import TemplateFrame from '../TemplateFrame';
 import TemplateBasic from '../TemplateBasic';
@@ -15,7 +16,6 @@ import {
 import { styles } from './StepBuyerInfo.style';
 import Image from 'next/image';
 import { AlertModals } from '@/components/AlertModals';
-import React, { useState } from 'react';
 // import useUpdateQuote from '../useUpdateQuote';
 import useUpdateQuote from '../useUpdateQuote';
 
@@ -27,13 +27,18 @@ const StepBuyerInfo = ({
   handleCompanyChange,
   selectedCompanyIds,
 }: any) => {
-  const [deleteModal, setDeleteModal] = useState(false);
-  const handleDeleteModal = () => {
-    setDeleteModal(!deleteModal);
-  };
-
-  const { dataGetQuoteById }: any = useUpdateQuote();
-  const contactData = dataGetQuoteById?.data?.deal;
+  const {
+    handleDeleteCompanies,
+    dataGetQuoteById,
+    handleDeleteModal,
+    deleteModalId,
+    isCompanyDeleteLoading,
+    isContactDeleteLoading,
+    handleContactDeleteModal,
+    deleteContactModalId,
+    handleDeleteContacts,
+  } = useUpdateQuote();
+  const contactData: any = dataGetQuoteById?.data?.deal;
 
   return (
     <>
@@ -79,7 +84,9 @@ const StepBuyerInfo = ({
                             <Image
                               src={CrossCircleImage}
                               alt="delIcon"
-                              onClick={handleDeleteModal}
+                              onClick={() =>
+                                handleContactDeleteModal(item?._id)
+                              }
                             />
                           </Box>
                           <Box sx={styles?.itemText}>{item?.name}</Box>
@@ -132,7 +139,7 @@ const StepBuyerInfo = ({
                             <Image
                               src={CrossCircleImage}
                               alt="delIcon"
-                              onClick={handleDeleteModal}
+                              onClick={() => handleDeleteModal(item?._id)}
                             />
                           </Box>
                         </Box>
@@ -161,13 +168,24 @@ const StepBuyerInfo = ({
           </TemplateFrame>
         </Grid>
       </Grid>
-      {deleteModal && (
+      {deleteModalId && (
         <AlertModals
-          message="Are u sure u wnat to delete this?"
+          message="Are you sure you want to delete this?"
           type="delete"
-          open={deleteModal}
-          handleClose={handleDeleteModal}
-          handleSubmitBtn={handleDeleteModal}
+          open={Boolean(deleteModalId)}
+          handleClose={() => handleDeleteModal(null)}
+          handleSubmitBtn={handleDeleteCompanies}
+          loading={isCompanyDeleteLoading}
+        />
+      )}
+      {deleteContactModalId && (
+        <AlertModals
+          message="Are you sure you want to delete this?"
+          type="delete"
+          open={Boolean(deleteContactModalId)}
+          handleClose={() => handleContactDeleteModal(null)}
+          handleSubmitBtn={handleDeleteContacts}
+          loading={isContactDeleteLoading}
         />
       )}
     </>

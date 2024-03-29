@@ -5,6 +5,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { DATE_FORMAT } from '@/constants';
+import { ROLES } from '@/constants/strings';
 import {
   ticketImpactOptions,
   ticketPriorityOptions,
@@ -23,7 +24,7 @@ export const validationSchema = Yup?.object()?.shape({
   source: Yup?.mixed()?.nullable(),
   impact: Yup?.mixed()?.nullable(),
   agent: Yup?.mixed()?.nullable(),
-  plannedStartDate: Yup?.date(),
+  plannedStartDate: Yup?.date()?.nullable(),
   plannedEndDate: Yup?.date()?.nullable(),
   plannedEffort: Yup?.string()?.trim(),
 });
@@ -43,7 +44,7 @@ export const ticketsDetailsDefaultValuesFunction = (data?: any) => {
     plannedStartDate: new Date(data?.plannedStartDate ?? todayDate),
 
     plannedEndDate:
-      typeof data?.plannedStartDate === 'string'
+      typeof data?.plannedEndDate === 'string'
         ? new Date(data?.plannedEndDate)
         : null,
 
@@ -126,7 +127,7 @@ export const dataArray = (apiQueryAgent: any, apiQueryCategory: any) => [
       fullWidth: true,
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: 'ORG_AGENT' },
+      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

@@ -7,12 +7,19 @@ export const useOverview = () => {
   const theme = useTheme();
   const router = useRouter();
   const { vendorId } = router.query;
-  const { data, isLoading } = useGetDetailVendorsListQuery({ vendorId });
+  const { data, isLoading, isFetching } = useGetDetailVendorsListQuery(
+    { vendorId },
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!vendorId,
+    },
+  );
   const overviewData = overviewDataArray(data?.data);
 
   return {
     theme,
     isLoading,
     overviewData,
+    isFetching,
   };
 };

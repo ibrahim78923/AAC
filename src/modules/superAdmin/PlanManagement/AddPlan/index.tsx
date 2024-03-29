@@ -18,6 +18,8 @@ const AddPlan = () => {
     setAddPlanFormValues,
     hanldeGoPreviousBack,
     isLoading,
+    ifCrmExist,
+    updatePlanLoading,
   } = useAddPlan();
 
   return (
@@ -66,7 +68,10 @@ const AddPlan = () => {
                 fullWidth
                 onClick={handleCompleteStep}
                 disabled={
-                  activeStep === AddPlanStepperData?.length || isLoading
+                  activeStep === AddPlanStepperData?.length ||
+                  isLoading ||
+                  updatePlanLoading ||
+                  ifCrmExist
                 }
               >
                 {activeStep === AddPlanStepperData?.length - 1

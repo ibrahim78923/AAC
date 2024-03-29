@@ -2,72 +2,164 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { PAGINATION } from '@/config';
-import { useGetInvoiceQuery } from '@/services/airSales/invoices';
+import {
+  useDeleteInvoiceMutation,
+  useGetInvoiceQuery,
+} from '@/services/airSales/invoices';
 import { useForm } from 'react-hook-form';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
+import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/UserList';
+import useAuth from '@/hooks/useAuth';
+import { enqueueSnackbar } from 'notistack';
 
 const useListView = () => {
   const router = useRouter();
-  const [selectedValue, setSelectedValue] = useState(null);
-  const [searchBy, setSearchBy] = useState('');
-  const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const { user }: any = useAuth();
 
+  const { data: employeeList } = useGetEmployeeListQuery({
+    orgId: user?.organization?._id,
+  });
+  const employeeListData = employeeList?.data?.users?.map((user: any) => ({
+    value: user?._id,
+    label: `${user?.firstName} ${user?.lastName}`,
+  }));
+
+  const [selectedRow, setSelectedRow]: any = useState([]);
+  const [isActionsDisabled, setIsActionsDisabled] = useState(true);
+  const [rowId, setRowId] = useState(null);
+  const [searchBy, setSearchBy] = useState(null);
+  const [filterParams, setFilterParams] = useState({});
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
-  const [limit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
-  const params = {
-    ...(searchBy && { search: searchBy }),
-    page,
-    limit,
+  const paginationParams = {
+    page: page,
+    limit: pageLimit,
   };
+  let searchPayLoad;
+  if (searchBy) {
+    searchPayLoad = { search: searchBy };
+  }
+  const methodsFilter: any = useForm();
+  const { handleSubmit: handleMethodFilter, reset: resetFilters } =
+    methodsFilter;
   const { data: InvoiceData, isLoading } = useGetInvoiceQuery({
-    params: params,
+    params: { ...paginationParams, ...searchPayLoad, ...filterParams },
   });
 
-  const handleClose = () => {
-    setSelectedValue(null);
+  // Dropdown Menu
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const actionMenuOpen = Boolean(anchorEl);
+  const handleActionsMenuClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    setAnchorEl(event?.currentTarget);
+  };
+  const handleActionsMenuClose = () => {
+    setAnchorEl(null);
   };
 
-  const handleClick = (event: any) => {
-    setSelectedValue(event?.currentTarget);
+  // Filters
+  const [openFilters, setOpenFilters] = useState(false);
+  const handleOpenFilters = () => {
+    setOpenFilters(true);
+  };
+  const handleCloseFilters = () => {
+    setOpenFilters(false);
+    resetFilters();
+  };
+
+  const onSubmitFilters = async (values: any) => {
+    const { creationDate, ...others } = values;
+    setFilterParams(() => {
+      const updatedParams = { ...others };
+      if (creationDate !== null) {
+        updatedParams.creationDate = dayjs(creationDate).format(
+          DATE_FORMAT.API,
+        );
+      }
+      return updatedParams;
+    });
+    handleCloseFilters();
+  };
+  const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
+
+  // Refresh
+  const handleRefresh = () => {
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setFilterParams({});
+    resetFilters();
   };
 
   const handleIsViewPage = () => {
-    handleClose;
-    router.push(AIR_SALES?.SALES_VIEW_INVOICES);
+    handleActionsMenuClose();
+    router.push(`${AIR_SALES?.SALES_INVOICES}/${rowId}`);
   };
 
-  const handleDeleteModal = () => {
-    handleClose();
+  // Delete Invoices
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [deleteInvoice, { isLoading: loadingDelete }] =
+    useDeleteInvoiceMutation();
+  const handleOpenModalDelete = () => {
+    handleActionsMenuClose();
     setIsDeleteModal(true);
   };
+  const handleCloseModalDelete = () => {
+    setIsDeleteModal(false);
+  };
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const onSubmit = () => {};
-
-  const methods: any = useForm();
-  const { handleSubmit } = methods;
+  const handleDeleteInvoice = async () => {
+    const ids = await selectedRow;
+    try {
+      await deleteInvoice(ids)?.unwrap();
+      handleCloseModalDelete();
+      setSelectedRow([]);
+      enqueueSnackbar('Record has been deleted.', {
+        variant: 'success',
+      });
+      setIsActionsDisabled(true);
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
 
   return {
-    selectedValue,
-    searchBy,
-    isDeleteModal,
+    anchorEl,
+    actionMenuOpen,
+    handleActionsMenuClick,
+    handleActionsMenuClose,
+
     setSearchBy,
-    setSelectedValue,
-    setIsDeleteModal,
-    handleClose,
-    handleClick,
-    handleIsViewPage,
-    handleDeleteModal,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    methodsFilter,
+    handleFiltersSubmit,
+    handleRefresh,
+
     InvoiceData,
     isLoading,
     setPage,
     setPageLimit,
-    isDrawerOpen,
-    setIsDrawerOpen,
-    onSubmit,
-    handleSubmit,
-    methods,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
+
+    isDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteInvoice,
+    loadingDelete,
+
+    employeeListData,
+    handleIsViewPage,
   };
 };
 

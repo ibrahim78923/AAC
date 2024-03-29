@@ -1,6 +1,5 @@
 import { useTheme } from '@mui/material';
 import { useFieldArray } from 'react-hook-form';
-import { eventBasedWorkflowValues } from '../UpsertEventBasedWorkflow.data';
 
 export const useWorkflowConditions = (props: any) => {
   const { control } = props;
@@ -8,7 +7,18 @@ export const useWorkflowConditions = (props: any) => {
     control,
     name: 'groups',
   });
-  const handleAddGroup = () => append(eventBasedWorkflowValues?.groups[0]);
+  const handleAddGroup = () =>
+    append({
+      name: '',
+      conditionType: null,
+      conditions: [
+        {
+          key: '',
+          condition: '',
+          value: null,
+        },
+      ],
+    });
   const { palette } = useTheme();
   return { fields, append, remove, palette, handleAddGroup };
 };

@@ -104,8 +104,10 @@ const useDealPipelines = () => {
       enqueueSnackbar('Deal Pipeline has been Deleted Successfully', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
-    } catch (error) {
-      enqueueSnackbar(`${error}`, {
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }

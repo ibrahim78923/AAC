@@ -46,6 +46,7 @@ const SignUp = () => {
     allValuesNotEmpty,
     isStepComplete,
     setIsStepComplete,
+    isError,
   } = useSignup();
 
   const products = productData?.data.map((product: any) => {
@@ -152,8 +153,11 @@ const SignUp = () => {
                             variant="contained"
                             sx={{ width: '100%', marginTop: '15px' }}
                             onClick={() =>
-                              allValuesNotEmpty() && setIsStepComplete(true)
+                              allValuesNotEmpty()
+                                ? setIsStepComplete(true)
+                                : setIsStepComplete(false)
                             }
+                            disabled={isError}
                           >
                             Next
                           </Button>

@@ -1,18 +1,36 @@
 import { useEffect, useState } from 'react';
-import { assetsListsColumnsFunction } from './Assets.data';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
-import { SCHEMA_KEYS } from '@/constants/strings';
-import { useLazyGetWorkflowListQuery } from '@/services/airOperations/workflow-automation/sales-workflow';
+import {
+  ACTIONS_TYPES,
+  MODULES,
+  REQUESTORS_STATUS,
+  SCHEMA_KEYS,
+} from '@/constants/strings';
+import {
+  useChangeStatusWorkflowMutation,
+  useLazyGetWorkflowListQuery,
+} from '@/services/airOperations/workflow-automation/sales-workflow';
+import { useRouter } from 'next/router';
+import { AIR_OPERATIONS } from '@/constants';
+import {
+  EventBaseWorkflowActionsDropdown,
+  listsColumnsFunction,
+} from '../EventBaseWorkflow.data';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAssets = () => {
   const theme = useTheme();
-  const [selectedAssetsList, setSelectedAssetsList] = useState([]);
+  const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [limit, setLimit] = useState(PAGINATION?.PAGE_LIMIT);
-
+  const [selectedAction, setSelectedAction] = useState([]);
+  const [deleteWorkflow, setDeleteWorkflow] = useState(false);
+  const [switchLoading, setSwitchLoading] = useState<any>({});
+  const EDIT_WORKFLOW = 'edit';
+  const selectedId = selectedAction?.map((item: any) => item?._id);
   const [getWorkflowListTrigger, { data, isLoading, isFetching, isSuccess }] =
     useLazyGetWorkflowListQuery();
   const workflowParams = {
@@ -20,6 +38,7 @@ export const useAssets = () => {
     limit,
     search,
     module: SCHEMA_KEYS?.ASSETS,
+    type: MODULES?.EVENT_BASE,
   };
   const handleWorkflow = async () => {
     await getWorkflowListTrigger(workflowParams);
@@ -27,7 +46,7 @@ export const useAssets = () => {
   useEffect(() => {
     handleWorkflow();
   }, [page, search, limit]);
-  const onSubmitAssetsFilter = async (filterData: any) => {
+  const onSubmitListFilter = async (filterData: any) => {
     const filterParams: any = {
       ...workflowParams,
       createdBy: filterData?.createdBy?._id,
@@ -39,17 +58,59 @@ export const useAssets = () => {
     setIsDrawerOpen?.(false);
   };
   const assetsData = data?.data;
-  const assetsListData = data?.data?.workFlows;
-  const assetsListsColumns = assetsListsColumnsFunction(
-    selectedAssetsList,
-    setSelectedAssetsList,
-    assetsListData,
+  const listData = data?.data?.workFlows;
+  const [changeStatusTrigger] = useChangeStatusWorkflowMutation();
+  const handleChangeStatus = async (rowData: any) => {
+    const status =
+      rowData?.status === REQUESTORS_STATUS?.ACTIVE
+        ? REQUESTORS_STATUS?.INACTIVE
+        : REQUESTORS_STATUS?.ACTIVE;
+    setSwitchLoading((prevState: any) => ({
+      ...prevState,
+      [rowData?._id]: true,
+    }));
+    const response: any = await changeStatusTrigger({
+      id: rowData?._id,
+      body: { status },
+    });
+    try {
+      response;
+      successSnackbar(
+        response?.data?.message &&
+          `${rowData?.title} ${status?.toLocaleLowerCase()} successfully`,
+      );
+    } catch (error) {
+      errorSnackbar(response?.error?.data?.message);
+    } finally {
+      setSwitchLoading({ ...switchLoading, [rowData?._id]: false });
+    }
+  };
+  const assetsListsColumns = listsColumnsFunction(
+    selectedAction,
+    setSelectedAction,
+    listData,
     theme,
+    handleChangeStatus,
+    switchLoading,
   );
+  const handleActionClick = (actionType: string) => {
+    if (actionType === ACTIONS_TYPES?.DELETE) {
+      setDeleteWorkflow(true);
+    } else if (actionType === ACTIONS_TYPES?.EDIT) {
+      router?.push({
+        pathname: AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW,
+        query: {
+          action: EDIT_WORKFLOW,
+          id: selectedId,
+        },
+      });
+    }
+  };
+  const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);
   return {
     assetsListsColumns,
-    selectedAssetsList,
-    assetsListData,
+    selectedAction,
+    listData,
     assetsData,
     isLoading,
     isSuccess,
@@ -59,8 +120,13 @@ export const useAssets = () => {
     setLimit,
     setSearch,
     search,
-    onSubmitAssetsFilter,
+    onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,
+    router,
+    deleteWorkflow,
+    setDeleteWorkflow,
+    dropdownOptions,
+    setSelectedAction,
   };
 };

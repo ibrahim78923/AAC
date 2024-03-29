@@ -21,6 +21,7 @@ export const SingleAgentDetail = () => {
     departmentDetails,
     isAgentModalOpen,
     setIsAgentModalOpen,
+    permissionRoleDetails,
   }: any = useSingleAgentDetail();
   return (
     <>
@@ -57,7 +58,11 @@ export const SingleAgentDetail = () => {
           isAgentModalOpen={isAgentModalOpen}
           setIsAgentModalOpen={setIsAgentModalOpen}
           selectedAgentList={[
-            { ...data?.data, departmentData: departmentDetails?.data?.data },
+            {
+              ...data?.data,
+              departmentData: departmentDetails?.data?.data,
+              accountsPermissions: permissionRoleDetails?.data?.data,
+            },
           ]}
         />
       )}

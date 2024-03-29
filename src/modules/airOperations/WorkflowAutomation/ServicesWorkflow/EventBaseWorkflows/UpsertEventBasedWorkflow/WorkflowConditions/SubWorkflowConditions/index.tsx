@@ -1,14 +1,24 @@
 import { Box, Button, Chip, Divider, Grid } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AddCircle } from '@mui/icons-material';
-import { conditionTypeOptions } from '../WorkflowConditions.data';
-import { eventBasedWorkflowValues } from '../../UpsertEventBasedWorkflow.data';
+import {
+  conditionTypeOptions,
+  eventBasedWorkflowValues,
+} from '../../UpsertEventBasedWorkflow.data';
 import { useSubWorkflowConditions } from './useSubWorkflowConditions';
 import { subWorkflowData } from './SubWorkflowConditions.data';
 
 export const SubWorkflowConditions = (props: any) => {
   const { index, conditionType, watch, setValue } = props;
-  const { append, fields, handleDeleteClick } = useSubWorkflowConditions(props);
+  const {
+    append,
+    fields,
+    handleDeleteClick,
+    agentApiQuery,
+    departmentApiQuery,
+    requestersApiQuery,
+    apiQueryLocations,
+  } = useSubWorkflowConditions(props);
   return (
     <>
       {fields?.map((item: any, subIndex: any) => {
@@ -32,13 +42,20 @@ export const SubWorkflowConditions = (props: any) => {
             <Box pt={1} display={'flex'} alignItems={'center'} gap={1}>
               <>
                 <Grid container spacing={1}>
-                  {subWorkflowData({ index, subIndex, watch, setValue })?.map(
-                    (item: any) => (
-                      <Grid item xs={12} md={item?.gridLength} key={item?._id}>
-                        <item.component {...item?.componentProps} />
-                      </Grid>
-                    ),
-                  )}
+                  {subWorkflowData({
+                    index,
+                    subIndex,
+                    watch,
+                    setValue,
+                    agentApiQuery,
+                    departmentApiQuery,
+                    requestersApiQuery,
+                    apiQueryLocations,
+                  })?.map((item: any) => (
+                    <Grid item xs={12} md={item?.gridLength} key={item?._id}>
+                      <item.component {...item?.componentProps} />
+                    </Grid>
+                  ))}
                 </Grid>
               </>
               <DeleteIcon

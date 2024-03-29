@@ -5,6 +5,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 // Tags
 export const TAGS = [
+  'ACCOUNTS',
   'USERS',
   'PLAN_MANEGEMENT',
   'Organization',
@@ -33,6 +34,7 @@ export const TAGS = [
   'PRODUCT_CATALOG',
   'AGENTS',
   'TASK',
+  'DROPDOWN_TASK',
   'CANNED_RESPONSES',
   'RESPONSES_LIST',
   'BUSINESS_HOUR',
@@ -41,7 +43,6 @@ export const TAGS = [
   'DROPDOWN_ASSET_TYPE_LIST',
   'VENDOR_PRODUCT_DETAIL',
   'TICKET_DETAILS',
-  'SERVICE-CATALOG',
   'LEADER_BOARD_AWARD_POINTS',
   'LEADER_BOARD_AGENT_LEVELS',
   'GET-SOFTWARE-USERS-DETAILS',
@@ -109,6 +110,12 @@ export const TAGS = [
   'DASHBOARD_AGENT_AVAILABILITY',
   'SCHEMA_KEYS',
   'WORKFLOWS',
+  'EMAIL_NOTIFICATION',
+  'SERVICE_CATALOG',
+  'CATALOG',
+  'PURCHASE_ORDER',
+  'TICKET_TIME_ENTRIES',
+  'DROPDOWN_FOLDER',
 ];
 
 const baseQuery = fetchBaseQuery({

@@ -30,16 +30,22 @@ const AddPlanForm = ({
   AdditionalUsereValue,
   crmValue,
   setCrmValue,
+  selectProductSuite,
+  setSelectProductSuite,
+  isSuccess,
 }: any) => {
   const {
     formDefaultValuesFunction,
-    selectProductSuite,
-    setSelectProductSuite,
     productsOptions,
     planLabelRender,
     planNameRender,
     crmOptions,
-  } = useAddPlanForm(AdditionalStorageValue, AdditionalUsereValue);
+  } = useAddPlanForm(
+    AdditionalStorageValue,
+    AdditionalUsereValue,
+    selectProductSuite,
+    setSelectProductSuite,
+  );
 
   const filter = createFilterOptions<any>();
 
@@ -57,6 +63,7 @@ const AddPlanForm = ({
           onClick={() => setSelectProductSuite('product')}
           variant={`${selectProductSuite === 'product' ? 'contained' : 'text'}`}
           sx={{ height: '25px', borderRadius: '10px' }}
+          disabled={isSuccess}
         >
           <Typography>Product</Typography>{' '}
         </Button>
@@ -64,6 +71,7 @@ const AddPlanForm = ({
           onClick={() => setSelectProductSuite('CRM')}
           variant={`${selectProductSuite === 'CRM' ? 'contained' : 'text'}`}
           sx={{ height: '25px', borderRadius: '10px' }}
+          disabled={isSuccess}
         >
           <Typography>CRM Suite</Typography>
         </Button>
@@ -110,26 +118,26 @@ const AddPlanForm = ({
 
             {item?.componentProps.name == selectProductSuites?.planTypeId &&
               selectProductSuite === selectProductSuites?.crm && (
-                // <RHFTextField
-                //   name="name"
-                //   label="Name"
-                //   size="small"
-                //   placeholder="Enter Name"
-                //   required={true}
-                // />
                 <>
                   <label style={{ marginTop: '20px' }}>Name</label>
                   <Autocomplete
                     value={crmValue}
                     onChange={(event, newValue) => {
-                      if (typeof newValue === 'string') {
+                      if (
+                        typeof newValue === 'string' &&
+                        !/^\d+$/.test(newValue)
+                      ) {
                         setCrmValue({
-                          label: newValue,
+                          label: newValue?.toLowerCase(),
                         });
-                      } else if (newValue && newValue?.inputValue) {
+                      } else if (
+                        newValue &&
+                        newValue?.inputValue &&
+                        !/^\d+$/.test(newValue?.inputValue)
+                      ) {
                         // Create a new value from the user input
                         setCrmValue({
-                          label: newValue?.inputValue,
+                          label: newValue?.inputValue?.toLowerCase(),
                         });
                       } else {
                         setCrmValue(newValue);
@@ -141,11 +149,17 @@ const AddPlanForm = ({
                       const { inputValue } = params;
                       // Suggest the creation of a new value
                       const isExisting = options?.some(
-                        (option) => inputValue === option.label,
+                        (option) =>
+                          inputValue?.toLowerCase() ===
+                          option?.label?.toLowerCase(),
                       );
-                      if (inputValue !== '' && !isExisting) {
+                      if (
+                        inputValue !== '' &&
+                        !isExisting &&
+                        !/^\d+$/.test(inputValue)
+                      ) {
                         filtered?.push({
-                          inputValue,
+                          inputValue: inputValue?.toLowerCase(),
                           label: `Add "${inputValue}"`,
                         });
                       }
