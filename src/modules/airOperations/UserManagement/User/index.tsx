@@ -22,6 +22,7 @@ export const User = () => {
     setPageLimit,
     setPage,
     metaData,
+    methods,
   } = useUser();
   return (
     <Box>
@@ -58,6 +59,7 @@ export const User = () => {
           setIsDrawerOpen={setIsDrawerOpen}
           title={'User View'}
           okText={'Save'}
+          methods={methods}
         />
       </Box>
     </Box>
