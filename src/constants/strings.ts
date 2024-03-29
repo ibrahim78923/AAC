@@ -426,3 +426,17 @@ export const MODULES = {
   SCHEDULED: 'SCHEDULED',
   SUPERVISOR_RULES: 'SUPERVISOR_RULES',
 };
+
+export const AGENT_LEVELS = {
+  BEGINNER: 'beginner',
+  INTERMEDIATE: 'intermediate',
+  PROFESSIONAL: 'professional',
+  EXPERT: 'expert',
+  MASTER: 'master',
+};
+
+export const EMAIL_SENT_TYPE = {
+  REPLY: 'REPLY',
+  FORWARD: 'FORWARD',
+  NOTE: 'Note',
+};

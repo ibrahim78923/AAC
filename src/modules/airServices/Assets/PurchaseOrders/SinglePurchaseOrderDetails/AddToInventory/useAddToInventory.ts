@@ -31,7 +31,7 @@ export default function useAddToInventoryDrawer(props: any) {
   const router = useRouter();
   const [search, setSearch] = useState('');
   const { purchaseOrderId } = router?.query;
-
+  const receivedItem = 0;
   const { setIsADrawerOpen } = props;
   const [postPurchaseOrderTrigger] = usePostAssetPurchaseOrderMutation();
   const [patchNewInventoryTrigger] = usePatchAddToPurchaseOrderMutation();
@@ -104,7 +104,7 @@ export default function useAddToInventoryDrawer(props: any) {
       })?.unwrap();
       successSnackbar('Item Added to Inventory  Successfully');
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
     setIsADrawerOpen(false);
     setSelectedAssetId?.(null);
@@ -131,8 +131,8 @@ export default function useAddToInventoryDrawer(props: any) {
     try {
       await postPurchaseOrderTrigger(postPurchaseOrderParameter)?.unwrap();
       successSnackbar('Item Added to Inventory  Successfully');
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
 
     setIsADrawerOpen(false);
@@ -191,5 +191,6 @@ export default function useAddToInventoryDrawer(props: any) {
     apiQueryLocations,
     apiQueryDepartment,
     fields,
+    receivedItem,
   };
 }

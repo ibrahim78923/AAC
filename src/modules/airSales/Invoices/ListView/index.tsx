@@ -26,25 +26,48 @@ import { v4 as uuidv4 } from 'uuid';
 const ListView = () => {
   const navigate = useRouter();
   const {
-    selectedValue,
-    handleClose,
-    isDeleteModal,
-    setIsDeleteModal,
-    searchBy,
+    anchorEl,
+    actionMenuOpen,
+    handleActionsMenuClick,
+    handleActionsMenuClose,
+
     setSearchBy,
-    handleIsViewPage,
-    handleDeleteModal,
-    handleClick,
+    openFilters,
+    handleOpenFilters,
+    handleCloseFilters,
+    methodsFilter,
+    handleFiltersSubmit,
+    handleRefresh,
+
     InvoiceData,
     isLoading,
     setPage,
     setPageLimit,
-    isDrawerOpen,
-    setIsDrawerOpen,
-    onSubmit,
-    handleSubmit,
-    methods,
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    isActionsDisabled,
+    setRowId,
+    rowId,
+
+    isDeleteModal,
+    handleOpenModalDelete,
+    handleCloseModalDelete,
+    handleDeleteInvoice,
+    loadingDelete,
+
+    employeeListData,
+    handleIsViewPage,
+    handleUpdateStatus,
   } = useListView();
+
+  const getTableColumns = invoicesTableColumns(
+    selectedRow,
+    setSelectedRow,
+    setIsActionsDisabled,
+    setRowId,
+    handleUpdateStatus,
+  );
 
   return (
     <>
@@ -73,7 +96,6 @@ const ListView = () => {
             <Search
               label="Search Here"
               size="small"
-              searchBy={searchBy}
               setSearchBy={setSearchBy}
               width={240}
             />
@@ -84,42 +106,45 @@ const ListView = () => {
           <Stack direction="row" justifyContent="end" gap={1}>
             <Box>
               <Button
-                //  disabled={selected.length > 0 ? false : true}
-                disabled={true}
-                onClick={handleClick}
+                onClick={handleActionsMenuClick}
                 variant="outlined"
                 color="inherit"
                 className="small"
+                disabled={isActionsDisabled}
               >
                 Actions
                 <ArrowDropDown />
               </Button>
               <Menu
                 id="simple-menu"
-                anchorEl={selectedValue}
-                open={Boolean(selectedValue)}
-                onClose={handleClose}
+                anchorEl={anchorEl}
+                open={actionMenuOpen}
+                onClose={handleActionsMenuClose}
               >
                 <PermissionsGuard
                   permissions={[
                     AIR_SALES_INVOICES_PERMISSIONS?.SALE_VIEW_INVOICE,
                   ]}
                 >
-                  <MenuItem onClick={handleIsViewPage}>View</MenuItem>
+                  <MenuItem disabled={!rowId} onClick={handleIsViewPage}>
+                    View
+                  </MenuItem>
                 </PermissionsGuard>
                 <PermissionsGuard
                   permissions={[
                     AIR_SALES_INVOICES_PERMISSIONS?.SALE_INVOICE_DOWNLOAD,
                   ]}
                 >
-                  <MenuItem onClick={handleClose}>Download</MenuItem>
+                  <MenuItem disabled={!rowId} onClick={handleActionsMenuClose}>
+                    Download
+                  </MenuItem>
                 </PermissionsGuard>
                 <PermissionsGuard
                   permissions={[
                     AIR_SALES_INVOICES_PERMISSIONS?.SALE_DELETE_INVOICE,
                   ]}
                 >
-                  <MenuItem onClick={handleDeleteModal}>Delete</MenuItem>
+                  <MenuItem onClick={handleOpenModalDelete}>Delete</MenuItem>
                 </PermissionsGuard>
               </Menu>
             </Box>
@@ -132,6 +157,7 @@ const ListView = () => {
                 width: '50px',
                 cursor: 'pointer',
               }}
+              onClick={handleRefresh}
             >
               <RefreshIcon />
             </Box>
@@ -146,7 +172,7 @@ const ListView = () => {
                 color="inherit"
                 className="small"
                 startIcon={<FilterAlt />}
-                onClick={() => setIsDrawerOpen(true)}
+                onClick={handleOpenFilters}
               >
                 Filter
               </Button>
@@ -156,38 +182,43 @@ const ListView = () => {
       </Grid>
       <Box sx={{ marginTop: '15px' }}>
         <TanstackTable
-          columns={invoicesTableColumns}
+          columns={getTableColumns}
           data={InvoiceData?.data?.quoteinvoices}
           isLoading={isLoading}
-          setPage={setPage}
-          setPageLimit={setPageLimit}
-          isPagination
-          currentPage={InvoiceData?.data?.meta?.pages}
+          currentPage={InvoiceData?.data?.meta?.page}
           count={InvoiceData?.data?.meta?.pages}
           pageLimit={InvoiceData?.data?.meta?.limit}
           totalRecords={InvoiceData?.data?.meta?.total}
+          setPage={setPage}
+          setPageLimit={setPageLimit}
+          onPageChange={(page: any) => setPage(page)}
+          isPagination
         />
       </Box>
+
       <AlertModals
         message="You're about to delete all record. Deleted records can't be restored after 90 days."
         type="delete"
         open={isDeleteModal}
-        handleClose={() => setIsDeleteModal(false)}
-        handleSubmit={() => setIsDeleteModal(false)}
+        handleClose={handleCloseModalDelete}
+        handleSubmitBtn={handleDeleteInvoice}
+        loading={loadingDelete}
       />
+
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
+        isDrawerOpen={openFilters}
+        onClose={handleCloseFilters}
         title="Filters"
         isOk={true}
         okText="Apply"
         cancelText="Cancel"
         footer={true}
-        submitHandler={handleSubmit(onSubmit)}
+        submitHandler={handleFiltersSubmit}
+        isLoading={isLoading}
       >
-        <FormProvider methods={methods}>
+        <FormProvider methods={methodsFilter}>
           <Grid container spacing={1}>
-            {invoiceFilterFields?.map((item: any) => (
+            {invoiceFilterFields(employeeListData)?.map((item: any) => (
               <Grid item xs={12} md={item?.md} key={uuidv4()}>
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select &&

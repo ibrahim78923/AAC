@@ -35,8 +35,8 @@ export const useNewEmailDrawer = (props: any) => {
       successSnackbar('Email Sent Successfully!');
       reset(addEmailDefaultValues);
       setIsDrawerOpen?.(false);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
       reset(addEmailDefaultValues);
       setIsDrawerOpen?.(false);
     }

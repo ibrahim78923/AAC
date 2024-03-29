@@ -94,7 +94,6 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: deleteVendorParameter?.queryParams,
       }),
-      invalidatesTags: [TAG],
     }),
 
     getProductCatalogAssociatedAssetList: builder?.query({
@@ -121,7 +120,6 @@ export const productCatalogAPI: any = baseAPI?.injectEndpoints({
         method: 'DELETE',
         params: deleteAssociatedAssetParameter?.queryParams,
       }),
-      invalidatesTags: [TAG],
     }),
 
     getAssetType: builder?.query({
@@ -154,11 +152,11 @@ export const {
   usePatchProductCatalogMutation,
   useDeleteProductCatalogMutation,
   useLazyGetExportProductCatalogQuery,
-  useGetProductCatalogVendorListQuery,
+  useLazyGetProductCatalogVendorListQuery,
   usePostVendorMutation,
   usePatchVendorMutation,
   useDeleteProductCatalogVendorMutation,
-  useGetProductCatalogAssociatedAssetListQuery,
+  useLazyGetProductCatalogAssociatedAssetListQuery,
   usePostAssociatedAssetMutation,
   useDeleteProductCatalogAssociatedAssetMutation,
   useLazyGetAssetTypeQuery,

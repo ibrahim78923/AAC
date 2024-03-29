@@ -9,10 +9,12 @@ export const useHeader = () => {
     pathParam: { productCatalogId: productCatalogId },
   };
 
-  const { data, isLoading } = useGetProductCatalogByIdQuery(
-    getSingleProductCatalogParameter,
-  );
+  const { data, isLoading, isFetching, isError } =
+    useGetProductCatalogByIdQuery(getSingleProductCatalogParameter, {
+      skip: !!!productCatalogId,
+      refetchOnMountOrArgChange: true,
+    });
 
   const title = data?.data?.[0]?.name;
-  return { isLoading, router, title };
+  return { isLoading, router, title, isFetching, isError };
 };

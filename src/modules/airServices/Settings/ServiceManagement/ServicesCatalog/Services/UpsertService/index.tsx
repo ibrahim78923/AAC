@@ -12,14 +12,14 @@ import { LoadingButton } from '@mui/lab';
 export const UpsertService = () => {
   const {
     methods,
-    results,
     handleSubmit,
     onSubmit,
     upsertServiceFormField,
     categoryId,
     router,
-    handleCancelBtn,
+
     postAddServiceCatalogStatus,
+    filteredServices,
   } = useUpsertService();
 
   return (
@@ -43,19 +43,12 @@ export const UpsertService = () => {
               {item?.componentProps?.heading && (
                 <Typography mt={4}>{item?.componentProps?.heading}</Typography>
               )}
-              <item.component {...item?.componentProps} size={'small'}>
-                {item?.componentProps?.select &&
-                  item?.options?.map((option: any) => (
-                    <option key={option?.value} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-              </item.component>
+              <item.component {...item?.componentProps} size={'small'} />
             </Grid>
           ))}
         </Grid>
         <Grid container spacing={2} mt={1}>
-          {results?.map((item: any) => (
+          {filteredServices?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.id}>
               <item.component {...item?.componentProps} size={'small'} />
             </Grid>
@@ -76,7 +69,7 @@ export const UpsertService = () => {
               sx={{ marginRight: '1rem' }}
               type="button"
               color="secondary"
-              onClick={() => handleCancelBtn?.()}
+              onClick={() => methods?.reset()}
               disabled={postAddServiceCatalogStatus?.isLoading}
             >
               cancel
