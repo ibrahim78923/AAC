@@ -172,7 +172,7 @@ export const AgentBioData = (props: any) => {
               <Avatar
                 src={AGENT_LEVELS_IMAGES?.[agentLevelDetail?.data?.badges]?.src}
                 sx={{ width: 30, height: 30 }}
-                alt="agentLevelDetail.data.badges"
+                alt={agentLevelDetail?.data?.badges}
               />
               <Typography
                 variant="body2"
