@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   Box,
@@ -29,11 +29,6 @@ import { useAppSelector } from '@/redux/store';
 const ManagePlan = () => {
   const router = useRouter();
   const [value, setValue] = useState('');
-
-  // let parsedManageData: any;
-  // if (router.query.data) {
-  //   parsedManageData = JSON.parse(router.query.data);
-  // }
 
   const parsedManageData = useAppSelector(
     (state) => state?.subscriptionAndInvoices?.selectedPlanData,
@@ -72,15 +67,22 @@ const ManagePlan = () => {
     }
   };
 
-  const planPrice = parsedManageData?.planData?.planPrice || 0;
+  const planPrice =
+    parsedManageData?.planData?.planPrice ||
+    parsedManageData?.planPrice ||
+    parsedManageData?.plans?.planPrice ||
+    0;
   const additionalUsers =
     (parsedManageData?.additionalUsers || 0) *
-    parsedManageData?.planData?.additionalPerUserPrice;
+      parsedManageData?.planData?.additionalPerUserPrice ||
+    parsedManageData?.plans?.additionalPerUserPrice;
   const additionalStorage =
     (parsedManageData?.additionalStorage || 0) *
-    parsedManageData?.planData?.additionalStoragePrice;
+      parsedManageData?.planData?.additionalStoragePrice ||
+    parsedManageData?.plans?.additionalStoragePrice;
   const planDiscount = parsedManageData?.planDiscount || 0;
-  const planTax = 0.2;
+  const planTax = 0.2; // By default 20% discount
+
   const convertedPlanDiscount = planDiscount / 100;
   const totalCostBeforeDiscount =
     planPrice + additionalUsers + additionalStorage;
@@ -89,6 +91,12 @@ const ManagePlan = () => {
   const discountApplied = totalCostBeforeDiscount - discountedPriceBeforeTax;
   const taxAmount = discountedPriceBeforeTax * planTax;
   const finalPrice = discountedPriceBeforeTax + taxAmount;
+
+  useEffect(() => {
+    if (Object.keys(parsedManageData)?.length === 0) {
+      router.push(`${orgAdminSubcriptionInvoices?.back_subscription_invoices}`);
+    }
+  }, [parsedManageData]);
 
   return (
     <>
@@ -109,9 +117,9 @@ const ManagePlan = () => {
               <Link
                 href={{
                   pathname: `${orgAdminSubcriptionInvoices.choose_plan}`,
-                  query: { data: parsedManageData?._id },
+                  query: { data: parsedManageData?.productId },
                 }}
-                as={`${orgAdminSubcriptionInvoices.choose_plan}`}
+                as={`${orgAdminSubcriptionInvoices?.choose_plan}`}
               >
                 <Button>Change Plan</Button>
               </Link>
@@ -229,7 +237,7 @@ const ManagePlan = () => {
               ({planDiscount} %)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>-£ {discountApplied ?? 0}</Box>
+          <Box sx={styles?.planTableTh}>-£ {discountApplied || 0}</Box>
         </Box>
 
         <Box sx={styles?.planTableRow}>
@@ -239,14 +247,14 @@ const ManagePlan = () => {
               (Vat 20%)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ {taxAmount}</Box>
+          <Box sx={styles?.planTableTh}>£ {taxAmount || 0}</Box>
         </Box>
 
         <Box sx={styles?.divider}></Box>
 
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>Total Cost</Box>
-          <Box sx={styles?.planTableTh}>£ {finalPrice}</Box>
+          <Box sx={styles?.planTableTh}>£ {finalPrice || 0}</Box>
         </Box>
       </Box>
       <PermissionsGuard
