@@ -112,9 +112,11 @@ function AuthProvider({ children }: { children: ReactNode }) {
     );
   }
   useEffect(() => {
-    setActivePermissionsSession(
-      permissionsData?.data?.account?.role?.permissions,
-    );
+    if (permissionsData?.data?.account?.role?.permissions) {
+      setActivePermissionsSession(
+        permissionsData?.data?.account?.role?.permissions,
+      );
+    }
   }, [permissionsData]);
   // const [logoutTrigger] = useLogoutMutation();
 

@@ -32,6 +32,7 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
     handleOpenFeaturesModal,
     setAccordianId,
     accordianId,
+    editPlan,
   } = usePlanFeatures();
   const { planManagement }: any = useAppSelector(
     (state) => state?.planManagementForms,
@@ -142,10 +143,14 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
         // : planManagement?.addPlanForm?.productId?.map((feature: string) => ())
         <Accordion
           expanded={
-            expandedAccordion === planManagement?.addPlanForm?.productId
+            expandedAccordion === !isNullOrEmpty(editPlan)
+              ? planManagement?.addPlanForm?.productId
+              : planManagement?.addPlanForm?.productId[0]
           }
           onChange={handleExpandAccordionChange(
-            planManagement?.addPlanForm?.productId,
+            !isNullOrEmpty(editPlan)
+              ? planManagement?.addPlanForm?.productId
+              : planManagement?.addPlanForm?.productId[0],
           )}
           key={uuidv4()}
           disableGutters
@@ -174,9 +179,10 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
           >
             <Typography variant="h4">
               {productList &&
-                productsOptions?.find(
-                  (obj: any) =>
-                    obj?.value === planManagement?.addPlanForm?.productId,
+                productsOptions?.find((obj: any) =>
+                  obj?.value === !isNullOrEmpty(editPlan)
+                    ? planManagement?.addPlanForm?.productId
+                    : planManagement?.addPlanForm?.productId[0],
                 )?.label}
             </Typography>
           </AccordionSummary>
