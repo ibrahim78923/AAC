@@ -18,17 +18,17 @@ export const salesSchema: any = Yup?.object()?.shape({
       conditionType: Yup?.mixed()?.required('Required'),
       conditions: Yup?.array()?.of(
         Yup?.object()?.shape({
-          key: Yup?.string()?.required('Required'),
+          fieldName: Yup?.string()?.required('Required'),
           condition: Yup?.string()?.required('Required'),
-          value: Yup?.mixed()?.nullable()?.required('Required'),
+          fieldValue: Yup?.mixed()?.nullable()?.required('Required'),
         }),
       ),
     }),
   ),
   actions: Yup?.array()?.of(
     Yup?.object()?.shape({
-      key: Yup?.string()?.required('Required'),
-      value: Yup?.mixed()?.nullable()?.required('Required'),
+      fieldName: Yup?.string()?.required('Required'),
+      fieldValue: Yup?.mixed()?.nullable()?.required('Required'),
     }),
   ),
 });
@@ -54,17 +54,18 @@ export const salesValues = {
     {
       name: '',
       conditionType: null,
-      conditions: [{ key: '', condition: '', value: null }],
+      conditions: [{ fieldName: '', condition: '', fieldValue: null }],
     },
     {
       name: '',
       conditionType: null,
-      conditions: [{ key: '', condition: '', value: null }],
+      conditions: [{ fieldName: '', condition: '', fieldValue: null }],
     },
   ],
-  actions: [{ key: '', value: null }],
+  actions: [{ fieldName: '', fieldValue: null }],
 };
 
 export const workflowTypes = {
   eventBase: 'EVENT_BASE',
+  scheduled: 'SCHEDULED',
 };

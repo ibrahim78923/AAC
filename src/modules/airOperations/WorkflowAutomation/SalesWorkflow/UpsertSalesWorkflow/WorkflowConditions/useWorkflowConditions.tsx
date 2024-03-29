@@ -13,7 +13,7 @@ export const useWorkflowConditions = (props: any) => {
       append({
         name: '',
         conditionType: null,
-        conditions: [{ key: '', condition: '', value: null }],
+        conditions: [{ fieldName: '', condition: '', fieldValue: null }],
       });
     } else {
       errorSnackbar('Group limit exceeds');

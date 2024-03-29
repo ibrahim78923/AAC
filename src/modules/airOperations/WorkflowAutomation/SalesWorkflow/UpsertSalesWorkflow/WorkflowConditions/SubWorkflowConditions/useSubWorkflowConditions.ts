@@ -26,7 +26,7 @@ export const useSubWorkflowConditions = (props: any) => {
   };
   const handleAppend = () => {
     if (fields?.length < 10) {
-      append({ key: '', condition: '', value: null });
+      append({ fieldName: '', condition: '', fieldValue: null });
     } else {
       errorSnackbar('Condition limit exceeds');
     }
@@ -36,9 +36,9 @@ export const useSubWorkflowConditions = (props: any) => {
   const moduleType = watch('module');
   useEffect(() => {
     fields?.forEach((_, subIndex) => {
-      setValue(`groups.${index}.conditions.${subIndex}.key`, '');
+      setValue(`groups.${index}.conditions.${subIndex}.fieldName`, '');
       setValue(`groups.${index}.conditions.${subIndex}.condition`, '');
-      setValue(`groups.${index}.conditions.${subIndex}.value`, '');
+      setValue(`groups.${index}.conditions.${subIndex}.fieldValue`, '');
     });
   }, [moduleType]);
   return {

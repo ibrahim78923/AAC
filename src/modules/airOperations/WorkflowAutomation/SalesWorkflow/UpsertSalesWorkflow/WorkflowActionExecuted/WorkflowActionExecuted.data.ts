@@ -37,7 +37,7 @@ export const actionsExecutedFields = (
 ) => {
   const moduleType = watch('module');
   const keyOptions = actionKeys[moduleType] || [];
-  const watchKey = watch(`actions.${index}.key`);
+  const watchKey = watch(`actions.${index}.fieldName`);
   let component = RHFTextField;
   let componentProps: any = {};
   if (moduleType === 'DEALS') {
@@ -159,7 +159,7 @@ export const actionsExecutedFields = (
       _id: 456,
       gridLength: 6,
       componentProps: {
-        name: `actions.${index}.key`,
+        name: `actions.${index}.fieldName`,
         placeholder: 'Select',
         options: keyOptions,
       },
@@ -169,7 +169,7 @@ export const actionsExecutedFields = (
       _id: 565,
       gridLength: 6,
       componentProps: {
-        name: `actions.${index}.value`,
+        name: `actions.${index}.fieldValue`,
         ...componentProps,
       },
       component: component,

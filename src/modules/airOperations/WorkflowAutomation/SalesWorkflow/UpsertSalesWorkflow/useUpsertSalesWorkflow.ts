@@ -67,6 +67,18 @@ export const useUpsertSalesWorkflow = () => {
       groups:
         data?.groups?.map((group: any) => ({
           ...group,
+          conditions: group?.conditions?.map((condition: any) => ({
+            ...condition,
+            fieldType:
+              condition?.fieldValue instanceof Date
+                ? 'Date'
+                : typeof condition?.fieldValue === 'string' &&
+                    !isNaN(Date.parse(condition?.fieldValue))
+                  ? 'number'
+                  : typeof condition?.fieldValue === 'string'
+                    ? 'string'
+                    : typeof condition?.fieldValue === 'object' && 'objectId',
+          })),
           conditionType: group?.conditionType?.value,
         })) ?? [],
       groupCondition: data?.groupCondition,

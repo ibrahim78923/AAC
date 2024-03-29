@@ -130,10 +130,10 @@ export const salesWorkflowListsColumnDynamic: any = (
       header: 'Last Activity',
       cell: (info: any) => {
         const capitalizeFirstLetter = (type: any) =>
-          type.charAt(0).toUpperCase() + type.slice(1);
+          type?.charAt(0)?.toUpperCase() + type?.slice(1);
         const type = info?.getValue()?.type;
         const capitalizedType = type
-          ? capitalizeFirstLetter(type.toLowerCase())
+          ? capitalizeFirstLetter(type?.toLowerCase())
           : '';
         return fullName(
           capitalizedType ? capitalizedType + ' by' : null,

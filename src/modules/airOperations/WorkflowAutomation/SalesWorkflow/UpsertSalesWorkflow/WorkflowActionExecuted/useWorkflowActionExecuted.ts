@@ -37,8 +37,8 @@ export const useWorkflowActionExecuted = (props: any) => {
   const moduleType = watch('module');
   useEffect(() => {
     fields?.forEach((_, index) => {
-      setValue(`actions.${index}.key`, '');
-      setValue(`actions.${index}.value`, '');
+      setValue(`actions.${index}.fieldName`, '');
+      setValue(`actions.${index}.fieldValue`, '');
     });
   }, [moduleType]);
   return {

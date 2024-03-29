@@ -59,7 +59,7 @@ export const workflowConditionsDataArray = (
 ) => {
   const moduleType = watch('module');
   const keyDropdown = workflowModuleOption[moduleType] || [];
-  const watchKey = watch(`groups.${index}.conditions.${subIndex}.key`);
+  const watchKey = watch(`groups.${index}.conditions.${subIndex}.fieldName`);
   let conditionOptions: string[] = [];
   if (moduleType === conditionNames?.deals) {
     const dealConditionIndex = dealConditionIndexMap[watchKey];
@@ -112,11 +112,7 @@ export const workflowConditionsDataArray = (
         placeholder: 'Enter Value',
         type: 'number',
       };
-    } else if (
-      watchKey === conditionNames?.accountName &&
-      (watchCondition === conditionNames?.is ||
-        watchCondition === conditionNames?.isNot)
-    ) {
+    } else if (watchKey === conditionNames?.accountName) {
       component;
       componentProps;
     } else if (
@@ -206,17 +202,17 @@ export const workflowConditionsDataArray = (
       ) {
         component;
         componentProps;
+      } else if (
+        watchCondition === conditionNames?.isEmpty ||
+        watchCondition === conditionNames?.isNotEmpty ||
+        watchCondition === conditionNames?.isChanged
+      ) {
+        component = RHFAutocomplete;
+        componentProps = {
+          placeholder: 'Select',
+          options: activityTypeDropdown,
+        };
       }
-    } else if (
-      watchCondition === conditionNames?.isEmpty ||
-      watchCondition === conditionNames?.isNotEmpty ||
-      watchCondition === conditionNames?.isChanged
-    ) {
-      component = RHFAutocomplete;
-      componentProps = {
-        placeholder: 'Select',
-        options: activityTypeDropdown,
-      };
     }
   } else if (moduleType === conditionNames?.quotes) {
     if (watchKey === conditionNames?.updateQuoteName) {
@@ -432,7 +428,7 @@ export const workflowConditionsDataArray = (
       _id: 5465,
       gridLength: 4,
       componentProps: {
-        name: `groups.${index}.conditions.${subIndex}.key`,
+        name: `groups.${index}.conditions.${subIndex}.fieldName`,
         size: 'small',
         placeholder: 'Select',
         options: keyDropdown,
@@ -454,7 +450,7 @@ export const workflowConditionsDataArray = (
       _id: 2545,
       gridLength: 4,
       componentProps: {
-        name: `groups.${index}.conditions.${subIndex}.value`,
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         ...componentProps,
       },
