@@ -107,10 +107,7 @@ export const useTasks = () => {
       });
     }
   };
-  const dropdownOptions = EventBaseWorkflowActionsDropdown(
-    handleActionClick,
-    selectedAction,
-  );
+  const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);
   return {
     listData,
     taskData,

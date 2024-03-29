@@ -111,10 +111,7 @@ export const useTickets = () => {
       }
     }
   };
-  const dropdownOptions = EventBaseWorkflowActionsDropdown(
-    handleActionClick,
-    selectedAction,
-  );
+  const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);
   return {
     ticketsListsColumns,
     isLoading,

@@ -106,10 +106,7 @@ export const useAssets = () => {
       });
     }
   };
-  const dropdownOptions = EventBaseWorkflowActionsDropdown(
-    handleActionClick,
-    selectedAction,
-  );
+  const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);
   return {
     assetsListsColumns,
     selectedAction,
