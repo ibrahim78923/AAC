@@ -50,6 +50,13 @@ export const userManagementRequesterAPI = baseAPI?.injectEndpoints({
         body: apiDataParameter?.body,
       }),
     }),
+    getSingleRequesterDetailsById: builder?.query({
+      query: (getSingleRequesterDetailsByIdParameter: any) => ({
+        url: `${END_POINTS?.REQUESTER_VIEW_DETAILS}${getSingleRequesterDetailsByIdParameter?.pathParams?.id}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -61,4 +68,5 @@ export const {
   usePatchRequesterMutation,
   useLazyGetRequestersListQuery,
   useConvertToAgentMutation,
+  useGetSingleRequesterDetailsByIdQuery,
 } = userManagementRequesterAPI;
