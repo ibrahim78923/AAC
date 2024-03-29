@@ -23,7 +23,7 @@ import { ROLES } from '@/constants/strings';
 const todayDate = dayjs()?.format(DATE_FORMAT?.UI);
 
 export const upsertTicketValidationSchema = Yup?.object()?.shape({
-  requester: Yup?.mixed()?.nullable()?.required('Requester is required'),
+  requester: Yup?.mixed()?.nullable(),
   subject: Yup?.string()?.trim()?.required('Subject is Required'),
   description: Yup?.string()?.trim()?.required('Description is Required'),
   category: Yup?.mixed()?.nullable(),
@@ -269,7 +269,7 @@ export const upsertTicketFormFieldsDynamic = (
       label: 'Planned Effort',
       fullWidth: true,
       multiple: true,
-      placeholder: 'Eg: 1h 10m',
+      placeholder: 'Eg: 1h10m',
     },
     component: RHFTextField,
   },
