@@ -4,9 +4,9 @@ import {
   addServiceCatalogDefaultValues,
   addServiceCatalogValidationSchema,
 } from './AddServiceCatalog.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+
 import { usePostServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 const useAddServiceCatalog = (prop: any) => {
   const { open, setOpen } = prop;
@@ -18,17 +18,13 @@ const useAddServiceCatalog = (prop: any) => {
   const { handleSubmit, reset } = methodAdd;
   const onSubmit = async (data: any) => {
     try {
-      const response = await postServiceCatalogTrigger({
+      await postServiceCatalogTrigger({
         body: data,
       })?.unwrap();
-      enqueueSnackbar(response?.data?.message ?? 'Service Add Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Service Add Successfully');
       reset(addServiceCatalogDefaultValues);
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
     setOpen(false);
   };
