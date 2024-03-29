@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
-import { ACTIONS_TYPES, SCHEMA_KEYS } from '@/constants/strings';
+import { ACTIONS_TYPES, MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import { useLazyGetWorkflowListQuery } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
@@ -28,6 +28,7 @@ export const useAssets = () => {
     limit,
     search,
     module: SCHEMA_KEYS?.ASSETS,
+    type: MODULES?.EVENT_BASE,
   };
   const handleWorkflow = async () => {
     await getWorkflowListTrigger(workflowParams);

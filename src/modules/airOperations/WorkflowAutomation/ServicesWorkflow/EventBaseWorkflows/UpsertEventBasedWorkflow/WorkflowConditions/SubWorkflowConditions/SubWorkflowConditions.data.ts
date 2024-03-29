@@ -103,6 +103,35 @@ export const dateOperators = [
   'Less than or equal to',
 ];
 
+const constantApiOptions = {
+  agent: 'agent',
+  requester: 'addRequester',
+  department: 'selectDepartment',
+  location: 'location',
+};
+
+const optionsConstants = {
+  priority: 'priority',
+  impacts: 'impacts',
+  assetType: 'assetType',
+  source: 'source',
+  type: 'type',
+  plannedStartDate: 'plannedStartDate',
+  plannedEndDate: 'plannedEndDate',
+  dateOfJoining: 'dateOfJoining',
+  endOFLife: 'endOFLife',
+  assignedOn: 'assignedOn',
+  subject: 'subject',
+  description: 'description',
+  title: 'title',
+  plannedEffort: 'plannedEffort',
+  name: 'name',
+  email: 'email',
+  phoneNumber: 'phoneNumber',
+  jobTitle: 'jobTitle',
+  fullName: 'fullName',
+};
+
 export const subWorkflowData = ({
   index,
   subIndex,
@@ -113,13 +142,13 @@ export const subWorkflowData = ({
   apiQueryLocations,
 }: any) => {
   const useApiQuery = (operatorsOption: string) => {
-    if (operatorsOption === 'agent') {
+    if (operatorsOption === constantApiOptions?.agent) {
       return agentApiQuery;
-    } else if (operatorsOption === 'addRequester') {
+    } else if (operatorsOption === constantApiOptions?.requester) {
       return requestersApiQuery;
-    } else if (operatorsOption === 'selectDepartment') {
+    } else if (operatorsOption === constantApiOptions?.department) {
       return departmentApiQuery;
-    } else if (operatorsOption === 'location') {
+    } else if (operatorsOption === constantApiOptions?.location) {
       return apiQueryLocations;
     }
     return null;
@@ -143,41 +172,44 @@ export const subWorkflowData = ({
         : taskModule || [];
   const selectedOption = watch('options');
   const moduleListOptions = modulesOptions[selectedOption] || [];
-  const operatorsOption = watch(`groups.${index}.conditions.${subIndex}.key`);
+  const operatorsOption = watch(
+    `groups.${index}.conditions.${subIndex}.fieldName`,
+  );
   let singleOperatorsOptions = [];
   const apiQuery = useApiQuery(operatorsOption);
   const valuesOptions =
-    operatorsOption === 'priority' || operatorsOption === 'impacts'
+    operatorsOption === optionsConstants?.priority ||
+    operatorsOption === optionsConstants?.impacts
       ? priority
-      : operatorsOption === 'assetType'
+      : operatorsOption === optionsConstants?.assetType
         ? assetsOptions
-        : operatorsOption === 'source'
+        : operatorsOption === optionsConstants?.source
           ? sourcesOptions
-          : operatorsOption === 'type'
+          : operatorsOption === optionsConstants?.type
             ? typeOptions
             : status;
   if (
     [
-      'plannedStartDate',
-      'plannedEndDate',
-      'dateOfJoining',
-      'endOFLife',
-      'assignedOn',
-    ].includes(operatorsOption)
+      optionsConstants?.plannedStartDate,
+      optionsConstants?.plannedEndDate,
+      optionsConstants?.dateOfJoining,
+      optionsConstants?.endOFLife,
+      optionsConstants?.assignedOn,
+    ]?.includes(operatorsOption)
   ) {
     singleOperatorsOptions = dateOperators;
   } else if (
     [
-      'subject',
-      'description',
-      'title',
-      'plannedEffort',
-      'name',
-      'email',
-      'phoneNumber',
-      'jobTitle',
-      'fullName',
-    ].includes(operatorsOption)
+      optionsConstants?.subject,
+      optionsConstants?.description,
+      optionsConstants?.title,
+      optionsConstants?.plannedEffort,
+      optionsConstants?.name,
+      optionsConstants?.email,
+      optionsConstants?.phoneNumber,
+      optionsConstants?.jobTitle,
+      optionsConstants?.fullName,
+    ]?.includes(operatorsOption)
   ) {
     singleOperatorsOptions = fieldOptions;
   } else {
@@ -186,53 +218,53 @@ export const subWorkflowData = ({
   let valueComponent;
   if (
     [
-      'subject',
-      'description',
-      'title',
-      'plannedEffort',
-      'name',
-      'email',
-      'phoneNumber',
-      'jobTitle',
-      'fullName',
-    ].includes(operatorsOption)
+      optionsConstants?.subject,
+      optionsConstants?.description,
+      optionsConstants?.title,
+      optionsConstants?.plannedEffort,
+      optionsConstants?.name,
+      optionsConstants?.email,
+      optionsConstants?.phoneNumber,
+      optionsConstants?.jobTitle,
+      optionsConstants?.fullName,
+    ]?.includes(operatorsOption)
   ) {
     valueComponent = {
       _id: 5,
       gridLength: 3,
       componentProps: {
-        name: `groups.${index}.conditions.${subIndex}.value`,
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         placeholder: 'Enter Text',
       },
       component: RHFTextField,
     };
   } else if (
-    operatorsOption === 'agent' ||
-    operatorsOption === 'addRequester' ||
-    operatorsOption === 'location'
+    operatorsOption === constantApiOptions?.agent ||
+    operatorsOption === constantApiOptions?.requester ||
+    operatorsOption === constantApiOptions?.location
   ) {
     valueComponent = {
       _id: 6,
       gridLength: 3,
       componentProps: {
-        name: `groups.${index}.conditions.${subIndex}.value`,
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
         getOptionLabel:
-          operatorsOption === 'location'
+          operatorsOption === constantApiOptions?.location
             ? (option: any) => option?.locationName
             : (option: any) => `${option?.firstName} ${option?.lastName}`,
       },
       component: RHFAutocompleteAsync,
     };
-  } else if (operatorsOption === 'selectDepartment') {
+  } else if (operatorsOption === constantApiOptions?.department) {
     valueComponent = {
       _id: 6,
       gridLength: 3,
       componentProps: {
-        name: `groups.${index}.conditions.${subIndex}.value`,
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
@@ -241,18 +273,18 @@ export const subWorkflowData = ({
     };
   } else if (
     [
-      'plannedStartDate',
-      'plannedEndDate',
-      'dateOfJoining',
-      'endOFLife',
-      'assignedOn',
-    ].includes(operatorsOption)
+      optionsConstants?.plannedStartDate,
+      optionsConstants?.plannedEndDate,
+      optionsConstants?.dateOfJoining,
+      optionsConstants?.endOFLife,
+      optionsConstants?.assignedOn,
+    ]?.includes(operatorsOption)
   ) {
     valueComponent = {
       _id: 4,
       componentProps: {
         fullWidth: true,
-        name: `groups.${index}.conditions.${subIndex}.value`,
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
       },
       gridLength: 3,
@@ -263,7 +295,7 @@ export const subWorkflowData = ({
       _id: 9,
       gridLength: 3,
       componentProps: {
-        name: `groups.${index}.conditions.${subIndex}.value`,
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
         options: valuesOptions,
@@ -287,7 +319,7 @@ export const subWorkflowData = ({
       _id: 2,
       gridLength: 3,
       componentProps: {
-        name: `groups.${index}.conditions.${subIndex}.key`,
+        name: `groups.${index}.conditions.${subIndex}.fieldName`,
         size: 'small',
         placeholder: 'Select',
         options: moduleListOptions,

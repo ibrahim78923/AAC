@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material';
 import { PAGINATION } from '@/config';
-import { ACTIONS_TYPES, SCHEMA_KEYS } from '@/constants/strings';
+import { ACTIONS_TYPES, MODULES, SCHEMA_KEYS } from '@/constants/strings';
 import { useLazyGetWorkflowListQuery } from '@/services/airOperations/workflow-automation/sales-workflow';
 import {
   EventBaseWorkflowActionsDropdown,
@@ -29,6 +29,7 @@ export const useTasks = () => {
     limit,
     search,
     module: SCHEMA_KEYS?.TICKETS_TASKS,
+    type: MODULES?.EVENT_BASE,
   };
   const handleWorkflow = async () => {
     await getWorkflowListTrigger(workflowParams);
