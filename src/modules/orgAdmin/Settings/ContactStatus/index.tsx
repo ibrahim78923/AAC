@@ -6,7 +6,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-import CustomPagination from '@/components/CustomPagination';
 import Search from '@/components/Search';
 
 import { AlertModals } from '@/components/AlertModals';
@@ -23,6 +22,8 @@ import { ORG_ADMIN_SETTINGS_CONTACT_STATUS_PERMISSIONS } from '@/constants/permi
 
 const ContactStatus = () => {
   const {
+    setPageLimit,
+    setPage,
     isDraweropen,
     setIsDraweropen,
     theme,
@@ -36,6 +37,7 @@ const ContactStatus = () => {
     isModalHeading,
     setIsModalHeading,
     tableRow,
+    loadingList,
     deleteContactsStatus,
     loadingUpdateContactStatus,
     setSearchValue,
@@ -121,11 +123,18 @@ const ContactStatus = () => {
               ORG_ADMIN_SETTINGS_CONTACT_STATUS_PERMISSIONS?.GRIDVIEW,
             ]}
           >
-            <TanstackTable columns={getRowValues} data={tableRow} />
-            <CustomPagination
-              count={1}
-              rowsPerPageOptions={[1, 2]}
-              entriePages={1}
+            <TanstackTable
+              columns={getRowValues}
+              data={tableRow?.conatactStatus}
+              isLoading={loadingList}
+              currentPage={tableRow?.meta?.page}
+              count={tableRow?.meta?.pages}
+              pageLimit={tableRow?.meta?.limit}
+              totalRecords={tableRow?.meta?.total}
+              setPage={setPage}
+              setPageLimit={setPageLimit}
+              onPageChange={(page: any) => setPage(page)}
+              isPagination
             />
           </PermissionsGuard>
         </Grid>

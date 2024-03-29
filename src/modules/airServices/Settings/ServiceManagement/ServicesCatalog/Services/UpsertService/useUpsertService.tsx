@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
-import { ASSET_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
+
+import { ASSET_TYPE } from '@/constants/strings';
 import {
   categoriesOfServices,
   upsertServiceData,
@@ -22,6 +22,7 @@ import {
   useLazyGetSoftwareDropdownQuery,
   useLazyGetProductDropdownQuery,
 } from '@/services/airServices/settings/service-management/service-catalog';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 const useUpsertService = () => {
   const router = useRouter();
@@ -107,17 +108,13 @@ const useUpsertService = () => {
     !!data?.software &&
       upsertServiceFormData?.append('software', data?.software?._id);
     try {
-      const response = await postAddServiceCatalogTrigger({
+      await postAddServiceCatalogTrigger({
         body: upsertServiceFormData,
       })?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Service Add Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Service Add Successfully');
       reset(upsertServiceDefaultValues);
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
 
     setTimeout(() => {

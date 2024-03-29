@@ -412,6 +412,7 @@ export const OPERATION = {
   OPERATION_WORKFLOW: '/workflows',
   SCHEMA_KEYS: '/workflows/schema-keys',
   STATUS_WORKFLOW: '/workflows/change-status',
+  SAVE_WORKFLOW: '/workflows/save',
 };
 
 export const AIR_SALES = {

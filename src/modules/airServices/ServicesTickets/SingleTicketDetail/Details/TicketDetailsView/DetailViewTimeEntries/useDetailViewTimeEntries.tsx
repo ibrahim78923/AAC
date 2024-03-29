@@ -79,8 +79,8 @@ export const useDetailViewTimeEntries = (data: any) => {
         successSnackbar(' ticket Time upDated successfully');
 
         reset();
-      } catch (error) {
-        errorSnackbar();
+      } catch (error: any) {
+        errorSnackbar(error?.data?.message);
       }
     }
     reset();
@@ -105,8 +105,8 @@ export const useDetailViewTimeEntries = (data: any) => {
 
       successSnackbar(' ticket Time Added successfully');
       setIsDrawerOpen(false);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
       setIsDrawerOpen(false);
     }
     reset();
