@@ -112,9 +112,11 @@ function AuthProvider({ children }: { children: ReactNode }) {
     );
   }
   useEffect(() => {
-    setActivePermissionsSession(
-      permissionsData?.data?.account?.role?.permissions,
-    );
+    if (permissionsData?.data?.account?.role?.permissions) {
+      setActivePermissionsSession(
+        permissionsData?.data?.account?.role?.permissions,
+      );
+    }
   }, [permissionsData]);
   // const [logoutTrigger] = useLogoutMutation();
 
@@ -217,7 +219,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     setActiveProductSession(null);
     setSession(null);
-    setActivePermissionsSession(null);
     setActivePermissionsSession(null);
     setActiveAccountSession(null);
     dispatch({ type: 'LOGOUT' });
