@@ -175,6 +175,7 @@ export const subWorkflowData = ({
   const operatorsOption = watch(
     `groups.${index}.conditions.${subIndex}.fieldName`,
   );
+
   let singleOperatorsOptions = [];
   const apiQuery = useApiQuery(operatorsOption);
   const valuesOptions =

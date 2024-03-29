@@ -98,16 +98,23 @@ export const useTickets = () => {
     if (actionType === ACTIONS_TYPES?.DELETE) {
       setDeleteWorkflow(true);
     } else if (actionType === ACTIONS_TYPES?.EDIT) {
-      router?.push({
-        pathname: AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW,
-        query: {
-          action: EDIT_WORKFLOW,
-          id: selectedId,
-        },
-      });
+      if (selectedAction?.length > 1) {
+        errorSnackbar(`Can't update multiple records`);
+      } else {
+        router?.push({
+          pathname: AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW,
+          query: {
+            action: EDIT_WORKFLOW,
+            id: selectedId,
+          },
+        });
+      }
     }
   };
-  const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);
+  const dropdownOptions = EventBaseWorkflowActionsDropdown(
+    handleActionClick,
+    selectedAction,
+  );
   return {
     ticketsListsColumns,
     isLoading,

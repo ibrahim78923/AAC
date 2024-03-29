@@ -9,6 +9,7 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useGetByIdWorkflowQuery,
   usePostServicesWorkflowMutation,
+  useSaveWorkflowMutation,
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
@@ -42,7 +43,7 @@ export const useUpsertEventBasedWorkflow = () => {
     resolver: yupResolver(eventBasedWorkflowSchema),
   });
 
-  const { reset, watch, register, handleSubmit, setValue, control } =
+  const { reset, watch, register, handleSubmit, setValue, control, getValues } =
     eventMethod;
 
   const mapField = (field: any, typeData: any) => {
@@ -79,6 +80,7 @@ export const useUpsertEventBasedWorkflow = () => {
 
   const [postWorkflowTrigger] = usePostServicesWorkflowMutation();
   const [updateWorkflowTrigger] = useUpdateWorkflowMutation();
+  const [saveWorkflowTrigger] = useSaveWorkflowMutation();
 
   const handleFormSubmit = async (data: any) => {
     if (pageActionType === EDIT_WORKFLOW) {
@@ -124,6 +126,24 @@ export const useUpsertEventBasedWorkflow = () => {
       }
     }
   };
+
+  const handleSaveAsDraft = async (data: any) => {
+    const title = getValues('title');
+    if (!title) {
+      errorSnackbar('Title is required');
+      return;
+    } else {
+      try {
+        await saveWorkflowTrigger(data)?.unwrap();
+        successSnackbar('Workflow Updated Successfully');
+        reset();
+        movePage();
+      } catch (error) {
+        errorSnackbar();
+      }
+    }
+  };
+
   useEffect(() => {
     reset(eventBasedWorkflowValues(singleWorkflowData));
   }, [reset, singleWorkflowData]);
@@ -142,5 +162,6 @@ export const useUpsertEventBasedWorkflow = () => {
     control,
     isLoading,
     isFetching,
+    handleSaveAsDraft,
   };
 };
