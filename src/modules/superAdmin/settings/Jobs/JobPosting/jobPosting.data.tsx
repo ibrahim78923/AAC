@@ -309,12 +309,12 @@ export const columns = (
           info?.getValue() === 'SALES'
             ? 'Sales'
             : info?.getValue() === 'MARKETING'
-            ? 'Marketing'
-            : info?.getValue() === 'SERVICES'
-            ? 'Services'
-            : info?.getValue() === 'OPERATIONS'
-            ? 'Operations'
-            : 'Loyalty Program';
+              ? 'Marketing'
+              : info?.getValue() === 'SERVICES'
+                ? 'Services'
+                : info?.getValue() === 'OPERATIONS'
+                  ? 'Operations'
+                  : 'Loyalty Program';
         return <>{category}</>;
       },
     },
