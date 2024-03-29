@@ -52,9 +52,28 @@ export const useAddPlan = () => {
   const [crmValue, setCrmValue] = useState<any | null>(null);
   const [ifCrmExist, setIfCrmExist] = useState(false);
   const [selectProductSuite, setSelectProductSuite] = useState('product');
+  const [selectedModule, setSelectedModule] = useState<string>();
+  const [selectedSubModule, setSelectedSubModule] = useState<string>();
+
+  const handleExpandAccordionChange = (module: string) => {
+    if (module === selectedModule) {
+      setSelectedModule('');
+    } else {
+      setSelectedModule(module);
+    }
+  };
+
+  const handleChangeSubModule = (subModule) => {
+    if (subModule === selectedSubModule) {
+      setSelectedSubModule('');
+    } else {
+      setSelectedSubModule(subModule);
+    }
+  };
 
   const [postPlanMangement, isLoading] = usePostPlanMangementMutation();
-  const [updatePlanMangement] = useUpdatePlanMangementMutation();
+  const [updatePlanMangement, { isLoading: updatePlanLoading }] =
+    useUpdatePlanMangementMutation();
   const router: any = useRouter();
   const { query } = router;
   let parsedRowData: any;
@@ -91,7 +110,12 @@ export const useAddPlan = () => {
           planType,
         } = parsedRowData;
         if (!isNullOrEmpty(planProducts)) {
-          const productId = planProducts[0]?._id;
+          let productId;
+          let suite;
+
+          singlePlan?.data?.isCRM
+            ? (suite = planProducts?.map((product: any) => product?._id))
+            : (productId = planProducts?.map((product: any) => product?._id));
           const planTypeId = planType?._id;
           return {
             defaultUsers,
@@ -107,6 +131,7 @@ export const useAddPlan = () => {
               ? 'Yes'
               : 'No',
             productId,
+            suite,
             planTypeId,
           };
         }
@@ -124,7 +149,8 @@ export const useAddPlan = () => {
   });
 
   const { handleSubmit, reset, watch, setValue } = methodsPlan;
-  const { handleSubmit: handleSubmitPlanFeatures } = methodsPlanFeatures;
+  const { handleSubmit: handleSubmitPlanFeatures, setValue: setPlanFeatures } =
+    methodsPlanFeatures;
   const {
     handleSubmit: handleSubmitPlanModules,
     formState: { errors },
@@ -222,10 +248,26 @@ export const useAddPlan = () => {
     }
   };
   useEffect(() => {
+    if (singlePlan?.data?.isCRM) {
+      setSelectProductSuite('CRM');
+      setCrmValue(parsedRowData?.name);
+    }
+
     if (singlePlan && query.type === 'edit') {
       setPermissionSlugs(
         'permissionSlugs',
-        singlePlan.data.planProductPermissions[0].permissionSlugs,
+        // singlePlan?.data?.planProductPermissions?.permissionSlugs?.map(
+        //   (obj: any) => obj?.slug,
+        // ),
+        singlePlan?.data?.planProductPermissions?.flatMap((permission: any) =>
+          permission.permissionSlugs.map((slugObject: any) => slugObject.slug),
+        ),
+      );
+      setPlanFeatures(
+        'features',
+        singlePlan?.data?.planProductFeatures?.map(
+          (obj: any) => obj?.featureId,
+        ),
       );
     }
   }, [singlePlan]);
@@ -301,7 +343,9 @@ export const useAddPlan = () => {
         productId: planForm?.productId,
 
         ...(isNullOrEmpty(planForm?.productId) && { suite: planForm?.suite }),
-        ...(isNullOrEmpty(planForm?.productId) && { name: crmValue?.label }),
+        ...(isNullOrEmpty(planForm?.productId) && {
+          name: crmValue?.label,
+        }),
         planTypeId: planForm?.planTypeId,
         description: planForm?.description,
         defaultUsers: parseInt(planForm?.defaultUsers),
@@ -445,6 +489,10 @@ export const useAddPlan = () => {
           getModulePermissions={getModulePermissions}
           selectedPermission={selectedPermission}
           editPlan={singlePlan?.data}
+          handleExpandAccordionChange={handleExpandAccordionChange}
+          handleChangeSubModule={handleChangeSubModule}
+          selectedModule={selectedModule}
+          selectedSubModule={selectedSubModule}
         />
       ),
       componentProps: { addPlanFormValues, setAddPlanFormValues },
@@ -513,5 +561,6 @@ export const useAddPlan = () => {
     hanldeGoPreviousBack,
     isLoading: isLoading?.isLoading,
     ifCrmExist,
+    updatePlanLoading,
   };
 };

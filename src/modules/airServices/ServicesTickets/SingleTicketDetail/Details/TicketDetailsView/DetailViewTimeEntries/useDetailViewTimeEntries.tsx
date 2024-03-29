@@ -8,7 +8,7 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useStopwatch } from 'react-timer-hook';
 
 export const useDetailViewTimeEntries = (data: any) => {
@@ -19,11 +19,12 @@ export const useDetailViewTimeEntries = (data: any) => {
   const [isIconVisible, setIsIconVisible] = useState(true);
   const [putTicketParameterTrigger] = usePutTicketsTimeMutation();
   const [postTicketsTimeTrigger] = usePostTicketsTimeMutation();
+  const [hasExecuted, setHasExecuted] = useState(false);
+
   const router = useRouter();
   const toggleView = () => {
     setIsIconVisible(!isIconVisible);
   };
-
   const { ticketId } = router?.query;
   const {
     totalSeconds,
@@ -50,23 +51,22 @@ export const useDetailViewTimeEntries = (data: any) => {
     refetchOnMountOrArgChange: true,
     skip: !!!ticketId,
   });
+
   const objectWithTrueCounter = timeEntryData?.data?.response?.find(
     (obj: { counter: boolean }) => obj?.counter === true,
   );
-  const trueCounterId = objectWithTrueCounter?._id;
-  useEffect(() => {
-    if (trueCounterId) {
-      start();
-      setIsIconVisible(false);
-      setCheckId(true);
-    }
-  }, [trueCounterId]);
 
+  if (objectWithTrueCounter?._id && !hasExecuted) {
+    start();
+    setIsIconVisible(false);
+    setCheckId(true);
+    setHasExecuted(true);
+  }
   const handleSubmit = async () => {
     pause();
     if (isCheckId === true) {
       const upDateData = {
-        id: trueCounterId,
+        id: objectWithTrueCounter?._id,
         ticketId: ticketId,
       };
 
@@ -112,6 +112,7 @@ export const useDetailViewTimeEntries = (data: any) => {
     reset();
     start();
   };
+
   return {
     isLoading,
     isFetching,

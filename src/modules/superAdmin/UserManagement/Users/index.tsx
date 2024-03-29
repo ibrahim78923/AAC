@@ -51,6 +51,7 @@ const Users = (props: any) => {
         totalRecords={data?.data?.meta?.total}
         isLoading={isLoading}
         isSuccess={isSuccess}
+        currentPage={data?.data?.meta?.page}
       />
     </>
   );

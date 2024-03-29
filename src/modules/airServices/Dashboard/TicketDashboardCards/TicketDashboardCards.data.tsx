@@ -5,24 +5,34 @@ import { FourAidKitImage } from '@/assets/images';
 import { FiveAidKitImage } from '@/assets/images';
 
 export const ticketDashboardCardsData = (cardData: any) => [
-  { id: 1, icon: FirstAidKitImage, count: cardData?.overDue, label: 'Overdue' },
+  {
+    id: 1,
+    icon: FirstAidKitImage,
+    count: cardData?.overDue ?? 0,
+    label: 'Overdue',
+  },
   {
     id: 2,
     icon: SecondAidKitImage,
-    count: cardData?.dueToday,
+    count: cardData?.dueToday ?? 0,
     label: 'Due Today',
   },
   {
     id: 3,
     icon: ThirdAidKitImage,
-    count: cardData?.unResolved,
+    count: cardData?.unResolved ?? 0,
     label: 'Unresolved',
   },
-  { id: 4, icon: FourAidKitImage, count: cardData?.onHold, label: 'OnHold' },
+  {
+    id: 4,
+    icon: FourAidKitImage,
+    count: cardData?.onHold ?? 0,
+    label: 'OnHold',
+  },
   {
     id: 5,
     icon: FiveAidKitImage,
-    count: cardData?.openTicketsTotal,
+    count: cardData?.openTicketsTotal ?? 0,
     label: 'Open Tickets',
   },
 ];

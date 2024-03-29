@@ -112,7 +112,7 @@ export const END_POINTS = {
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
   TICKET_DETAILS: '/ticket',
   REQUESTER_LIST: `/requester/requester-list`,
-
+  DROPDOWN_TASK: '/task',
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
   DEPARTMENT: '/Department/add-department',
@@ -334,6 +334,7 @@ export const END_POINTS = {
   CONVERT_TO_AGENT: `/requester/agent-requests`,
   SERVICES_PATCH_EMAIL_NOTIFICATION: `/notifications/settings`,
   SERVICES_GET_EMAIL_NOTIFICATION: `/notifications/get-notification-settings`,
+  GET_TOP_PERFORMER: `/air-services-dashboard/get-top-performer`,
 };
 
 export const superAdminBillingInvoices = {
@@ -411,4 +412,8 @@ export const OPERATION = {
   OPERATION_WORKFLOW: '/workflows',
   SCHEMA_KEYS: '/workflows/schema-keys',
   STATUS_WORKFLOW: '/workflows/change-status',
+};
+
+export const AIR_SALES = {
+  INVOICES: '/quote-invoice',
 };
