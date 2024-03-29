@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 
 import Search from '@/components/Search';
 import TanstackTable from '@/components/Table/TanstackTable';
@@ -7,11 +7,11 @@ import TanstackTable from '@/components/Table/TanstackTable';
 import { columns } from './Quotes.data';
 import { quotesData } from '@/mock/modules/airSales/Deals/ViewDetails';
 
-import { PlusIcon } from '@/assets/icons';
+// import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
-import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+// import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+// import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
 const Quotes = () => {
   const theme = useTheme();
@@ -47,7 +47,7 @@ const Quotes = () => {
               label="Search By Name"
               size="medium"
             />
-            <PermissionsGuard
+            {/* <PermissionsGuard
               permissions={[
                 AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_QUOTE,
               ]}
@@ -59,7 +59,7 @@ const Quotes = () => {
               >
                 <PlusIcon /> Add Quotes
               </Button>
-            </PermissionsGuard>
+            </PermissionsGuard> */}
           </Box>
         </Grid>
         <Grid item xs={12}>

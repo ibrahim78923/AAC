@@ -49,7 +49,7 @@ const ContactsEditorDrawer = (props: any) => {
             methods={methodscontacts}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={2}>
               {contactsDataArray({
                 lifeCycleStagesData,
                 contactStatusData,

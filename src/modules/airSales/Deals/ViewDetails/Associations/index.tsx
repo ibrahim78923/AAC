@@ -12,7 +12,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
 const Associations = (props: any) => {
-  const { selected } = props;
+  const { selected, viewDeal } = props;
 
   const sectionId = useSearchParams().get('section-id');
   const {
@@ -28,6 +28,7 @@ const Associations = (props: any) => {
       router.push('/air-sales/deals/view-details?tab-value=2#companies');
     }
   }, [sectionId]);
+
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Associations </Typography>
@@ -53,7 +54,12 @@ const Associations = (props: any) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Products />
+            <Products
+              productsData={assocaitionData?.products}
+              viewDeal={viewDeal}
+              isLoading={isLoading}
+              dealId={selected}
+            />
           </Grid>
           <Grid item xs={12}>
             <Quotes />

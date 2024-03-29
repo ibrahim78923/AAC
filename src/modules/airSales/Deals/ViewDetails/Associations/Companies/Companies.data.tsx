@@ -1,11 +1,8 @@
-import Image from 'next/image';
-
-import { Box, Typography } from '@mui/material';
-
-import { NotesAvatarImage } from '@/assets/images';
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { Avatar, Box, Typography } from '@mui/material';
+import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { IMG_URL } from '@/config';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
@@ -21,7 +18,12 @@ export const columns: any = ({
       id: 'contact_id',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-          <Image src={NotesAvatarImage} width={40} height={40} alt="avatar" />
+          <Avatar
+            alt="Remy Sharp"
+            src={`${
+              info?.row?.original ? `${IMG_URL}${info?.row?.original?.url}` : ''
+            }`}
+          />
           <Box>
             <Typography variant="body3" sx={{ color: '#111827' }}>
               {info?.row?.original?.name}
@@ -38,7 +40,7 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row?.phoneNumber,
+      accessorFn: (row: any) => row?.owner[0]?.phoneNumber,
       id: 'Phone Number',
       isSortable: true,
       header: ' Phone Number',
@@ -46,7 +48,8 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row?.owner,
+      accessorFn: (row: any) =>
+        `${row?.owner[0]?.firstName} ${row?.owner[0]?.lastName}`,
       id: 'owner',
       isSortable: true,
       header: 'Company Owner',
@@ -72,7 +75,7 @@ export const columns: any = ({
               <ViewEyeIcon />
             </Box>
           </PermissionsGuard>
-          <PermissionsGuard
+          {/* <PermissionsGuard
             permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_TICKET]}
           >
             <Box
@@ -83,7 +86,7 @@ export const columns: any = ({
             >
               <EditPenIcon />
             </Box>
-          </PermissionsGuard>
+          </PermissionsGuard> */}
           <PermissionsGuard
             permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_REMOVE_COMPANY]}
           >

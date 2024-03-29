@@ -1,24 +1,16 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
-
+import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
 import { AlertModals } from '@/components/AlertModals';
-
 import Search from '@/components/Search';
 import ProductEditorDrawer from './ProductEditorDrawer';
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import useProducts from './useProducts';
-
 import { columns } from './Products.data';
-
-import { productsData } from '@/mock/modules/airSales/Deals/ViewDetails';
-
 import { PlusIcon } from '@/assets/icons';
-
 import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const Products = () => {
+const Products = ({ productsData, isLoading, viewDeal, dealId }: any) => {
   const {
     theme,
     isOpenAlert,
@@ -28,7 +20,6 @@ const Products = () => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
-    selectedCheckboxes,
     setSelectedCheckboxes,
   } = useProducts();
 
@@ -42,11 +33,18 @@ const Products = () => {
     >
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
-          <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
-          </Typography>
-
-          <Typography variant="h5">Products</Typography>
+          {isLoading ? (
+            <Skeleton variant="text" height={40} width={120} />
+          ) : (
+            <>
+              <Typography sx={styles?.associationCount(theme)} variant="body3">
+                {productsData?.length < 10
+                  ? `0${productsData?.length}`
+                  : productsData?.length}
+              </Typography>
+              <Typography variant="h5">Products</Typography>
+            </>
+          )}
         </Grid>
         <Grid item md={8} xs={12}>
           <Box
@@ -85,6 +83,7 @@ const Products = () => {
         <Grid item xs={12}>
           <TanstackTable
             columns={columns({
+              viewDeal,
               setOpenDrawer,
               setIsOpenAlert,
               setSelectedCheckboxes,
@@ -97,7 +96,7 @@ const Products = () => {
         <ProductEditorDrawer
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
-          selectedCheckboxes={selectedCheckboxes}
+          dealId={dealId}
         />
       )}
       <AlertModals

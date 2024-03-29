@@ -8,7 +8,7 @@ import {
 import { useGetCompanyContactsQuery } from '@/services/common-APIs';
 import { getSession } from '@/utils';
 import {
-  useCompanyUpdateMutation,
+  // useCompanyUpdateMutation,
   usePostCompaniesMutation,
 } from '@/services/commonFeatures/companies';
 import { enqueueSnackbar } from 'notistack';
@@ -35,13 +35,8 @@ const useCompaniesEditorDrawer = ({
 
   const [postCompanies, { isLoading: postCompanyLoading }] =
     usePostCompaniesMutation();
-  const [CompanyUpdate] = useCompanyUpdateMutation();
+  // const [CompanyUpdate] = useCompanyUpdateMutation();
   const [createAssociation] = useCreateAssociationMutation();
-
-  // const methodsCompanies = useForm({
-  //   resolver: yupResolver(companiesValidationSchema),
-  //   defaultValues: companiesDefaultValues,
-  // });
 
   const methodsCompanies = useForm({
     resolver: yupResolver(companiesValidationSchema),
@@ -102,12 +97,13 @@ const useCompaniesEditorDrawer = ({
     formData?.append('recordId', dealId);
     try {
       const response =
-        openDrawer === 'Edit'
-          ? await CompanyUpdate({
-              body: formData,
-              Id: companyRecord?._id,
-            }).unwrap()
-          : await postCompanies({ body: formData })?.unwrap();
+        // openDrawer === 'Edit'
+        //   ? await CompanyUpdate({
+        //       body: formData,
+        //       Id: companyRecord?._id,
+        //     }).unwrap()
+        //   :
+        await postCompanies({ body: formData })?.unwrap();
       if (response?.data) {
         try {
           await createAssociation({
@@ -118,14 +114,9 @@ const useCompaniesEditorDrawer = ({
           }).unwrap();
           setOpenDrawer(false);
           reset();
-          enqueueSnackbar(
-            ` Companies ${
-              openDrawer === 'Edit' ? 'Updated' : 'Added'
-            } Successfully`,
-            {
-              variant: NOTISTACK_VARIANTS?.SUCCESS,
-            },
-          );
+          enqueueSnackbar(` Companies added Successfully`, {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
         } catch (error: any) {
           const errMsg = error?.data?.message;
           const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;

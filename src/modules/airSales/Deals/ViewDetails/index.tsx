@@ -58,21 +58,21 @@ const ViewDetails = () => {
                 <Avatar
                   alt="Remy Sharp"
                   src={`${
-                    viewDeal?.owner?.avatar
-                      ? `${IMG_URL}${viewDeal?.owner?.avatar?.url}`
+                    viewDeal?.dealOwner?.avatar
+                      ? `${IMG_URL}${viewDeal?.dealOwner?.avatar?.url}`
                       : ''
                   }`}
                 />
                 <Box>
                   <Typography variant="body2" sx={{ fontWeight: '600' }}>
-                    {viewDeal?.owner?.firstName ?? 'N/A'}{' '}
-                    {viewDeal?.owner?.lastName}
+                    {viewDeal?.dealOwner?.name ?? 'N/A'}
+                    {/* {viewDeal?.dealOwner?.lastName} */}
                   </Typography>
                   <Typography
                     variant="body3"
                     sx={{ color: theme?.palette?.custom?.main }}
                   >
-                    Created on{' '}
+                    Created on
                     {dayjs(viewDeal?.owner?.createdAt)?.format(
                       DATE_TIME_FORMAT?.DMDMHA,
                     )}
@@ -85,7 +85,7 @@ const ViewDetails = () => {
                   Email
                 </Typography>
                 <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                  {viewDeal?.owner?.email ?? 'N/A'}
+                  {viewDeal?.dealOwner?.email ?? 'N/A'}
                 </Typography>
               </Box>
               <Box sx={styles?.salesBox}>
@@ -93,7 +93,7 @@ const ViewDetails = () => {
                   Phone Number
                 </Typography>
                 <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                  {viewDeal?.owner?.phoneNumber ?? 'N/A'}
+                  {viewDeal?.dealOwner?.phoneNumber ?? 'N/A'}
                 </Typography>
               </Box>
               <Box sx={styles?.salesBox}>
@@ -101,7 +101,7 @@ const ViewDetails = () => {
                   Deal Stage
                 </Typography>
                 <Typography variant="body3" sx={styles?.salesPriority(theme)}>
-                  {viewDeal?.stage?.name ?? 'N/A'}
+                  {viewDeal?.dealStage ?? 'N/A'}
                 </Typography>
               </Box>
             </Box>
@@ -155,7 +155,7 @@ const ViewDetails = () => {
                   Stage
                 </Typography>
                 <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                  {viewDeal?.stage?.name ?? 'N/A'}
+                  {viewDeal?.dealStage ?? 'N/A'}
                 </Typography>
               </Box>
               <Box sx={styles?.salesBox}>
@@ -163,7 +163,7 @@ const ViewDetails = () => {
                   Pipeline
                 </Typography>
                 <Typography variant="body3" sx={styles?.salesHeading(theme)}>
-                  {viewDeal?.pipeline?.name ?? 'N/A'}
+                  {viewDeal?.dealPipeline ?? 'N/A'}
                 </Typography>
               </Box>
               <Box sx={styles?.salesBox}>
@@ -209,7 +209,7 @@ const ViewDetails = () => {
                 <ActivityLog />
               </PermissionsGuard>
 
-              <Associations selected={id} />
+              <Associations selected={id} viewDeal={viewDeal} />
 
               <Tasks selectedRecId={id} />
 

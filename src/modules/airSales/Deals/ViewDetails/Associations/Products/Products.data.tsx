@@ -1,22 +1,24 @@
-import { Box, TextField } from '@mui/material';
+import { Box } from '@mui/material';
 
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
   setSelectedCheckboxes,
+  viewDeal,
 }: {
   setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
   setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedCheckboxes: any;
+  viewDeal: any;
 }) => {
   return [
     {
       accessorFn: (row: any) => row?.name,
       id: 'product_name',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
       header: 'Product Name',
       isSortable: true,
     },
@@ -26,26 +28,15 @@ export const columns: any = ({
       id: 'quantity',
       isSortable: true,
       header: 'Quantity',
-      cell: (info: any) => (
-        <TextField
-          defaultValue={info?.getValue()}
-          inputProps={{
-            min: 1,
-            max: 100,
-          }}
-          type="number"
-          size="small"
-          sx={{ width: '200px' }}
-        />
-      ),
+      cell: () => '01',
     },
 
     {
-      accessorFn: (row: any) => row?.amount,
+      accessorFn: (row: any) => row,
       id: 'phonenumber',
       isSortable: true,
       header: 'Amount',
-      cell: (info: any) => info?.getValue(),
+      cell: () => viewDeal?.amount ?? 'N/A',
     },
 
     {
@@ -61,25 +52,10 @@ export const columns: any = ({
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() => {
-                setOpenDrawer('View'),
-                  setSelectedCheckboxes(info?.row?.original);
+                setOpenDrawer('View'), setSelectedCheckboxes(viewDeal);
               }}
             >
               <ViewEyeIcon />
-            </Box>
-          </PermissionsGuard>
-
-          <PermissionsGuard
-            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_PRODUCT]}
-          >
-            <Box
-              sx={{ cursor: 'pointer' }}
-              onClick={() => {
-                setOpenDrawer('Edit'),
-                  setSelectedCheckboxes(info?.row?.original);
-              }}
-            >
-              <EditPenIcon />
             </Box>
           </PermissionsGuard>
           <PermissionsGuard
