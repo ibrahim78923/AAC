@@ -37,13 +37,13 @@ export const TopPerformer = () => {
               badgeContent={
                 <Avatar
                   alt={data?.badges}
-                  src={AGENT_LEVELS_IMAGES?.[data?.badges ?? 'beginner']?.src}
+                  src={AGENT_LEVELS_IMAGES?.[data?.badges]?.src}
                   sx={{ width: 22, height: 22 }}
                 />
               }
             >
               <Avatar
-                alt=""
+                alt={fullName(data?.name)}
                 src={generateImage(data?.userAvatar)}
                 sx={{
                   width: 40,
