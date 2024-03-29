@@ -65,6 +65,7 @@ const NewsAndEvents = () => {
     isNewsAndEventsDeleteModal,
     setisNewsAndEventsDeleteModal,
     setAnchorEl,
+    handleUpdateStatus,
   } = useNewsAndEvents();
 
   return (
@@ -138,8 +139,22 @@ const NewsAndEvents = () => {
                 <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
               </PermissionsGuard>
 
-              <MenuItem>Active</MenuItem>
-              <MenuItem>Inactive</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleUpdateStatus('active');
+                  setAnchorEl(null);
+                }}
+              >
+                Active
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleUpdateStatus('inactive');
+                  setAnchorEl(null);
+                }}
+              >
+                Inactive
+              </MenuItem>
               <PermissionsGuard
                 permissions={[
                   SUPER_ADMIN_SETTINGS_NEWS_AND_EVENTS_PERMISSIONS?.Delete,

@@ -2,6 +2,7 @@ import { PAGINATION } from '@/config';
 import {
   useDeleteNewsEventsMutation,
   useGetNewsEventsQuery,
+  useUpdateNewsEventsMutation,
 } from '@/services/superAdmin/settings/news-events';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
@@ -45,6 +46,7 @@ const useNewsAndEvents = () => {
   const { data: NewsEventsData, isLoading } = useGetNewsEventsQuery({
     params: { ...paginationParams, ...searchPayLoad, ...filterParams },
   });
+  const [updateNewsEvents] = useUpdateNewsEventsMutation();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -102,6 +104,41 @@ const useNewsAndEvents = () => {
     }
   };
 
+  const handleUpdateStatus = async (status: string) => {
+    if (tableRowValues?.row?.original?.status === status) {
+      enqueueSnackbar(
+        `${tableRowValues?.row?.original?.name} is already ${status}`,
+        {
+          variant: 'error',
+        },
+      );
+      setTableRowValues('');
+      setIsDisabled(false);
+    } else {
+      try {
+        await updateNewsEvents({
+          id: tableRowValues?.row?.original?._id,
+          body: { status: status },
+        })?.unwrap();
+        enqueueSnackbar(
+          `${tableRowValues?.row?.original?.name} is ${status} now`,
+          {
+            variant: status === 'active' ? 'success' : 'error',
+          },
+        );
+        setAnchorEl(null);
+        setIsNewsAndEventAddModal(false);
+        setTableRowValues('');
+        setIsDisabled(false);
+        reset();
+      } catch (error: any) {
+        enqueueSnackbar('An error occured', {
+          variant: 'error',
+        });
+      }
+    }
+  };
+
   return {
     anchorEl,
     actionMenuOpen,
@@ -134,6 +171,7 @@ const useNewsAndEvents = () => {
     isNewsAndEventsDeleteModal,
     setisNewsAndEventsDeleteModal,
     setAnchorEl,
+    handleUpdateStatus,
   };
 };
 export default useNewsAndEvents;
