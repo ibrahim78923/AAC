@@ -7,11 +7,10 @@ import {
 import { useGetSchemaKeysQuery } from '@/services/common-APIs';
 import { useLazyGetAgentsQuery } from '@/services/dropdowns';
 import { errorSnackbar } from '@/utils/api';
-import { useEffect } from 'react';
 import { useFieldArray } from 'react-hook-form';
 
 export const useSubWorkflowConditions = (props: any) => {
-  const { control, index, parentField, removeParent, watch, setValue } = props;
+  const { control, index, parentField, removeParent } = props;
   const params = {
     collectionName: SCHEMA_KEYS?.TICKETS,
   };
@@ -37,16 +36,6 @@ export const useSubWorkflowConditions = (props: any) => {
   const departmentApiQuery = useLazyGetDepartmentDropdownQuery();
   const requestersApiQuery = useLazyGetRequesterDropdownQuery();
   const apiQueryLocations = useLazyGetLocationsDropdownQuery();
-
-  const operatorsOption = watch(
-    fields.map((_, subIndex) => `groups.${index}.conditions.${subIndex}.key`),
-  );
-  useEffect(() => {
-    fields?.forEach((_, subIndex) => {
-      setValue(`groups.${index}.conditions.${subIndex}.condition`, '');
-      setValue(`groups.${index}.conditions.${subIndex}.value`, null);
-    });
-  }, [operatorsOption]);
   return {
     fields,
     append,

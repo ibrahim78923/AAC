@@ -89,15 +89,14 @@ export const useUpsertSupervisorRules = () => {
       }
     }
   };
-  const handleSaveAsDraft = async () => {
+  const handleSaveAsDraft = async (data: any) => {
     const title = getValues('title');
-    const values = getValues();
     if (!title) {
       errorSnackbar('Title is required');
       return;
     } else {
       try {
-        await saveWorkflowTrigger(values)?.unwrap();
+        await saveWorkflowTrigger(data)?.unwrap();
         successSnackbar('Workflow Updated Successfully');
         reset();
         movePage();

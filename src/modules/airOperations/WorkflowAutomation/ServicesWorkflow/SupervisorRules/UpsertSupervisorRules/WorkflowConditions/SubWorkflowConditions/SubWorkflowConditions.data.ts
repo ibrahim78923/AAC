@@ -5,6 +5,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { SCHEMA_KEYS } from '@/constants/strings';
+import { useEffect } from 'react';
 
 export const assetsFieldsOption = [
   'name',
@@ -140,6 +141,7 @@ export const subWorkflowData = ({
   departmentApiQuery,
   requestersApiQuery,
   apiQueryLocations,
+  setValue,
 }: any) => {
   const useApiQuery = (operatorsOption: string) => {
     if (operatorsOption === constantApiOptions?.agent) {
@@ -173,6 +175,11 @@ export const subWorkflowData = ({
   const selectedOption = watch('options');
   const moduleListOptions = modulesOptions[selectedOption] || [];
   const operatorsOption = watch(`groups.${index}.conditions.${subIndex}.key`);
+  useEffect(() => {
+    setValue(`groups.${index}.conditions.${subIndex}.condition`, '');
+    setValue(`groups.${index}.conditions.${subIndex}.value`, null);
+  }, [operatorsOption]);
+
   let singleOperatorsOptions = [];
   const apiQuery = useApiQuery(operatorsOption);
   const valuesOptions =
