@@ -2,6 +2,7 @@ import { Checkbox } from '@mui/material';
 import RHFDatePicker from '@/components/ReactHookForm/RHFDatePicker';
 import RHFSelect from '@/components/ReactHookForm/RHFSelect';
 // import { StatusDropdown } from './InvoicesCommonComponents/StatusDropDown';
+import StatusBadge from '@/components/StatusBadge';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 
@@ -42,6 +43,7 @@ export const invoicesTableColumns: any = (
   setSelectedRow: any,
   setIsActionsDisabled: (value: boolean) => void,
   setRowId: any,
+  handleUpdateStatus: any,
 ) => {
   const handleRowClick = (id: any) => {
     const selectedIndex = selectedRow?.indexOf(id);
@@ -138,12 +140,30 @@ export const invoicesTableColumns: any = (
       id: 'status',
       isSortable: true,
       header: 'Status',
-      cell: (info: any) =>
-        info?.getValue() === 'PUBLISHED'
-          ? 'Published'
-          : info?.getValue() === 'DRAFT'
-            ? 'Draft'
-            : 'Paid',
+      cell: (info: any) => {
+        return (
+          <StatusBadge
+            value={info?.row?.original?.status}
+            onChange={(e: any) => {
+              handleUpdateStatus(e?.target?.value, info?.row?.original?._id);
+            }}
+            options={[
+              {
+                label: 'Paid',
+                value: 'PAID',
+              },
+              {
+                label: 'Published',
+                value: 'PUBLISHED',
+              },
+              {
+                label: 'Draft',
+                value: 'DRAFT',
+              },
+            ]}
+          />
+        );
+      },
     },
     {
       accessorFn: (row: any) => row?.quote?.name,
@@ -169,66 +189,6 @@ export const invoicesTableColumns: any = (
     },
   ];
 };
-
-//invoices table data
-export const invoicesTableData: any = [
-  {
-    invoiceName: 'Iphone accessories',
-    invoiceAmount: '£20',
-    status: 'Published',
-    linkedQuote: 'Iphone import from Uk',
-    createdBy: 'Azeem Aslam',
-    createdDate: '23/09/2023',
-  },
-  {
-    invoiceName: 'Tablet accessories',
-    invoiceAmount: '£20',
-    status: 'Published',
-    linkedQuote: 'Iphone import from Uk',
-    createdBy: 'Azeem Aslam',
-    createdDate: '23/09/2023',
-  },
-  {
-    invoiceName: 'Computer accessories',
-    invoiceAmount: '£20',
-    status: 'paid',
-    linkedQuote: 'Iphone import from Uk',
-    createdBy: 'Azeem Aslam',
-    createdDate: '23/09/2023',
-  },
-  {
-    invoiceName: 'Mobile accessories',
-    invoiceAmount: '£20',
-    status: 'Draft',
-    linkedQuote: 'Iphone import from Uk',
-    createdBy: 'Azeem Aslam',
-    createdDate: '23/09/2023',
-  },
-  {
-    invoiceName: 'Mac accessories',
-    invoiceAmount: '£20',
-    status: 'View',
-    linkedQuote: 'Iphone import from Uk',
-    createdBy: 'Azeem Aslam',
-    createdDate: '23/09/2023',
-  },
-  {
-    invoiceName: 'Electric accessories',
-    invoiceAmount: '£20',
-    status: 'paid',
-    linkedQuote: 'Iphone import from Uk',
-    createdBy: 'Azeem Aslam',
-    createdDate: '23/09/2023',
-  },
-  {
-    invoiceName: 'Electronic accessories',
-    invoiceAmount: '£20',
-    status: 'Published',
-    linkedQuote: 'Iphone import from Uk',
-    createdBy: 'Azeem Aslam',
-    createdDate: '23/09/2023',
-  },
-];
 
 //filter drawer form
 export const invoiceFilterFields = (employeeListData: any) => [

@@ -48,7 +48,7 @@ const StatusBadge = (props: BadgeStatusI) => {
         break;
       default:
         colors.bgColor = theme?.palette?.custom?.bluish_gray;
-        colors.color = theme?.palette?.success?.main;
+        colors.color = theme?.palette?.common?.white;
     }
     return colors;
   };
