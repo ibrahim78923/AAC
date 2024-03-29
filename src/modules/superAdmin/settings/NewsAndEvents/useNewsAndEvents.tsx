@@ -73,7 +73,10 @@ const useNewsAndEvents = () => {
       ...(value?.status && { status: value?.status }),
       ...(value?.type && { type: value?.type }),
       ...(value?.createdDate && {
-        createdDate: dayjs(value?.createdDate)?.format(DATE_FORMAT?.API),
+        dateStart: dayjs(value?.createdDate)?.format(DATE_FORMAT?.API),
+      }),
+      ...(value?.createdDate && {
+        dateEnd: dayjs(value?.createdDate)?.format(DATE_FORMAT?.API),
       }),
     };
     setFilterParams(filterNewsAndEventsValues);
