@@ -8,46 +8,57 @@ import {
   Divider,
   Grid,
   Stack,
-  TextareaAutosize,
   Typography,
 } from '@mui/material';
 
 import { AIR_SALES } from '@/routesConstants/paths';
 import { useTheme } from '@mui/material/styles';
 import TanstackTable from '@/components/Table/TanstackTable';
-import DetailCard from '../CreateInvoice/EditDetails/DetailCard';
-import { productsTableColumns, productsTableData } from './ViewInvoice.data';
-import { productTotalDetails } from '../CreateInvoice/EditDetails/EditDetails.data';
+import DetailCard from './DetailCard';
+import { productsTableColumns, productTotalDetails } from './ViewInvoice.data';
 import { style } from './ViewInvoice.style';
 import { v4 as uuidv4 } from 'uuid';
+import useViewInvoice from './useViewInvoice';
 
 export const ViewInvoice = (props?: any) => {
+  const router = useRouter();
+  const invoiceId = router?.query?.invoiceId;
+  const { data } = useViewInvoice(invoiceId);
+
   const { isOnlyView } = props;
   const theme = useTheme();
-  const router = useRouter();
+
   return (
     <Box>
-      {!isOnlyView && (
-        <Typography variant="h3" mb={3}>
-          Invoice
-        </Typography>
-      )}
-      <DetailCard />
+      <Typography variant="h3" mb={3}>
+        Invoice
+      </Typography>
+
+      <DetailCard data={data?.data} />
       <Card sx={{ my: '20px' }}>
         <Box p="16px 24px">
           <Typography variant="h5">Products & Services</Typography>
         </Box>
         <TanstackTable
           columns={productsTableColumns}
-          data={productsTableData}
+          data={data?.data?.quote?.deal?.products}
         />
       </Card>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={7} lg={8} xl={9}>
-          <TextareaAutosize
-            placeholder="Comments"
-            style={{ width: '100%', height: '203px', padding: '16px' }}
-          />
+          <Box
+            sx={{
+              borderRadius: '8px',
+              border: (theme: any) =>
+                `1.5px solid ${theme?.palette?.grey[700]}`,
+              p: '10px 16px',
+              height: '100%',
+              color: () => theme?.palette?.grey[900],
+              fontSize: '14px',
+            }}
+          >
+            {data?.data?.comments}
+          </Box>
         </Grid>
         <Grid item xs={12} sm={5} lg={4} xl={3}>
           <Card

@@ -7,7 +7,7 @@ import {
 } from './UpdateWorkloadTask.data';
 import { useEffect } from 'react';
 import {
-  useLazyGetAssignToQuery,
+  useLazyGetAssignToAgentsQuery,
   useLazyGetDepartmentDropdownQuery,
   usePatchTaskMutation,
 } from '@/services/airServices/workload';
@@ -50,7 +50,7 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
   }, [dataGet, reset]);
 
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
-  const apiQueryAssignTo = useLazyGetAssignToQuery();
+  const apiQueryAssignTo = useLazyGetAssignToAgentsQuery();
 
   const workloadDataArray = getWorkloadDataArray({
     apiQueryDepartment,

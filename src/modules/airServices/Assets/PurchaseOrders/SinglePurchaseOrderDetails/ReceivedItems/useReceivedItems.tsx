@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  useGetAddToPurchaseOrderByIdQuery,
+  useGetAddToPurchaseOrderByIdForReceivedItemsQuery,
   usePatchAddToItemMutation,
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
 
@@ -25,7 +25,7 @@ export const useReceivedItems = (props: any) => {
     },
   };
 
-  const { data } = useGetAddToPurchaseOrderByIdQuery(
+  const { data } = useGetAddToPurchaseOrderByIdForReceivedItemsQuery(
     getSingleAddToPurchaseOrderParameter,
     {
       refetchOnMountOrArgChange: true,
@@ -38,9 +38,11 @@ export const useReceivedItems = (props: any) => {
     defaultValues: addItemDefaultValuesFunction(data),
   });
   const { handleSubmit, reset, control } = method;
+
   useEffect(() => {
     reset(() => addItemDefaultValuesFunction(data));
-  }, [data, reset]);
+  }, [reset, data]);
+
   const { fields } = useFieldArray({
     control,
     name: 'receivedItem',

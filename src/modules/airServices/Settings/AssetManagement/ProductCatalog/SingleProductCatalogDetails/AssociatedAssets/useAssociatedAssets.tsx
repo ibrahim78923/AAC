@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getAssociatedAssetsColumns } from './AssociatedAssets.data';
 import { useRouter } from 'next/router';
 import { PAGINATION } from '@/config';
 import {
   useDeleteProductCatalogAssociatedAssetMutation,
-  useGetProductCatalogAssociatedAssetListQuery,
+  useLazyGetProductCatalogAssociatedAssetListQuery,
 } from '@/services/airServices/settings/asset-management/product-catalog';
-import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { buildQueryParams, errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAssociatedAssets = () => {
   const router = useRouter();
 
-  const [page, setPage] = useState<number>(PAGINATION?.CURRENT_PAGE);
-  const [limit, setLimit] = useState<number>(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
 
   const { productCatalogId } = router?.query;
 
@@ -26,22 +26,36 @@ export const useAssociatedAssets = () => {
   const associatedAssetsColumns =
     getAssociatedAssetsColumns(setIsDeleteModalOpen);
 
-  const getProductCatalogAssociatedAssetParameter = {
-    queryParams: {
-      productCatalogId: productCatalogId,
-      page: page,
-      limit: limit,
-    },
+  const [
+    productCatalogAssociatedAssetListTrigger,
+    productCatalogAssociatedAssetListStatus,
+  ] = useLazyGetProductCatalogAssociatedAssetListQuery();
+
+  const productCatalogAssociatedAssetListData = async (
+    currentPage: any = page,
+  ) => {
+    const additionalParams = [
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+      ['productCatalogId', productCatalogId],
+    ];
+    const productCatalogAssociatedAssetListParam: any =
+      buildQueryParams(additionalParams);
+
+    const getProductCatalogAssociatedAssetParameter = {
+      queryParams: productCatalogAssociatedAssetListParam,
+    };
+
+    try {
+      await productCatalogAssociatedAssetListTrigger(
+        getProductCatalogAssociatedAssetParameter,
+      )?.unwrap();
+    } catch (error: any) {}
   };
 
-  const { data, isLoading, isFetching, isError, isSuccess } =
-    useGetProductCatalogAssociatedAssetListQuery(
-      getProductCatalogAssociatedAssetParameter,
-      {
-        refetchOnMountOrArgChange: true,
-        skip: !!!productCatalogId,
-      },
-    );
+  useEffect(() => {
+    productCatalogAssociatedAssetListData?.();
+  }, [page, pageLimit]);
 
   const [deleteAssociateAssetTrigger, deleteAssociateAssetStatus] =
     useDeleteProductCatalogAssociatedAssetMutation();
@@ -54,6 +68,13 @@ export const useAssociatedAssets = () => {
     try {
       await deleteAssociateAssetTrigger(updatedData)?.unwrap();
       setIsDeleteModalOpen?.({ open: false, id: '' });
+      const newPage =
+        productCatalogAssociatedAssetListStatus?.data?.data?.productcatalogs
+          ?.length === 1
+          ? 1
+          : page;
+      setPage?.(newPage);
+      await productCatalogAssociatedAssetListData?.(newPage);
       successSnackbar('Asset Deleted Successfully!');
     } catch (error: any) {
       setIsDeleteModalOpen?.({ open: false, id: '' });
@@ -68,13 +89,9 @@ export const useAssociatedAssets = () => {
     handleSubmitDelete,
     setAddModalOpen,
     addModalOpen,
-    data,
-    isLoading,
-    isFetching,
-    isError,
-    isSuccess,
+    productCatalogAssociatedAssetListStatus,
     setPage,
-    setLimit,
+    setPageLimit,
     deleteAssociateAssetStatus,
   };
 };

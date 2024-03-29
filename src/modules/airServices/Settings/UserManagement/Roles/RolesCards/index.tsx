@@ -20,6 +20,8 @@ const RolesCards = ({
   isError,
   isLoading,
   isFetching,
+  page,
+  rolesListData,
 }: any) => {
   const {
     router,
@@ -34,7 +36,12 @@ const RolesCards = ({
     openDeleteModal,
     handleSubmitDelete,
     deleteRolesStatus,
-  } = useRolesCards();
+  } = useRolesCards({
+    page,
+    setPage,
+    rolesListData,
+    data,
+  });
 
   if (isError) return <ApiErrorState />;
 
@@ -95,17 +102,15 @@ const RolesCards = ({
                 >
                   <Typography variant={'h5'}>{item?.name}</Typography>
 
-                  <Box>
-                    <MoreHorizIcon
-                      onClick={(event: any) => {
-                        event.stopPropagation();
-                        setAnchorEl(event?.currentTarget);
-                        setRoleId(item?._id);
-                      }}
-                      fontSize={'large'}
-                      sx={{ cursor: 'pointer', color: 'grey.600' }}
-                    />
-                  </Box>
+                  <MoreHorizIcon
+                    onClick={(event: any) => {
+                      event.stopPropagation();
+                      setAnchorEl(event?.currentTarget);
+                      setRoleId(item?._id);
+                    }}
+                    fontSize={'large'}
+                    sx={{ cursor: 'pointer', color: 'grey.600' }}
+                  />
                 </Box>
 
                 <Box

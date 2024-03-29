@@ -4,7 +4,12 @@ import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-export default function useRolesCards() {
+export default function useRolesCards({
+  page,
+  setPage,
+  rolesListData,
+  data,
+}: any) {
   const router: any = useRouter();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [roleId, setRoleId] = useState<any>(null);
@@ -22,8 +27,11 @@ export default function useRolesCards() {
       successSnackbar('Role Deleted Successfully!');
       setRoleId(null);
       setOpenDeleteModal(false);
+      const newPage = data?.data?.companyaccountroles?.length === 1 ? 1 : page;
+      setPage?.(newPage);
+      await rolesListData?.(newPage);
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
       setRoleId(null);
       setOpenDeleteModal(false);
     }
