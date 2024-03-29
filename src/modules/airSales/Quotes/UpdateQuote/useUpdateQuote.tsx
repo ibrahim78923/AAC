@@ -15,10 +15,13 @@ import {
   useGetDealsQuery,
   useGetQuoteByIdQuery,
   usePostAddbuyerInfoMutation,
+  usePutSubmitQuoteMutation,
   // usePostAddbuyerInfoMutation,
   useUpdateQuoteMutation,
 } from '@/services/airSales/quotes';
 import { AIR_SALES } from '@/routesConstants/paths';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { PAGINATION } from '@/config';
 
 const useUpdateQuote = () => {
   const router = useRouter();
@@ -26,18 +29,21 @@ const useUpdateQuote = () => {
   if (router?.query?.data) {
     quoteId = router?.query?.data;
   }
-  // const id = router?.query?.data;
-  // console.log(quoteId, 'quoteIdquoteIdquoteIdquoteId');
-  // const [selectedRow, setSelectedRow]: any = useState([]);
+
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
 
   const [createAssociationQuote] = useCreateAssociationQuoteMutation();
-
-  const { data: dataGetDeals } = useGetDealsQuery({ page: 1, limit: 100 });
+  const { data: dataGetDeals } = useGetDealsQuery({
+    page: page,
+    limit: pageLimit,
+  });
   const { data: dataGetQuoteById } = useGetQuoteByIdQuery({ id: quoteId });
   const [deleteCompaniesMutation, { isLoading: isCompanyDeleteLoading }] =
     useDeleteCompaniesMutation();
   const [deleteContacts, { isLoading: isContactDeleteLoading }] =
     useDeleteContactsMutation();
+  const [putSubmitQuote] = usePutSubmitQuoteMutation();
 
   const [selectedBuyerContactIds, setSelectedBuyerContactIds] = useState<
     string | null
@@ -90,9 +96,35 @@ const useUpdateQuote = () => {
   }, [singleQuote]);
 
   const onSubmit = async () => {
-    enqueueSnackbar('Form Submitted', {
-      variant: 'success',
-    });
+    try {
+      putSubmitQuote({
+        id: quoteId,
+        body: { id: quoteId, isSubmitted: false },
+      });
+      enqueueSnackbar('Save as draft submit later', {
+        variant: 'success',
+      });
+    } catch (error) {
+      enqueueSnackbar(`Something went wrong`, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
+  };
+
+  const handleSubmitBtn = async () => {
+    try {
+      putSubmitQuote({
+        id: quoteId,
+        body: { id: quoteId, isSubmitted: true },
+      });
+      enqueueSnackbar('Save as draft submit later', {
+        variant: 'success',
+      });
+    } catch (error) {
+      enqueueSnackbar(`Something went wrong`, {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
   const handleDeleteCompanies = async () => {
@@ -102,6 +134,7 @@ const useUpdateQuote = () => {
         variant: 'success',
       });
       setSelectedCompanyIds(null);
+      handleDeleteModal(null);
       // setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
@@ -118,6 +151,7 @@ const useUpdateQuote = () => {
       });
       setDeleteContactModalId(null);
       // setIsActionsDisabled(true);
+      handleContactDeleteModal(null);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -227,10 +261,10 @@ const useUpdateQuote = () => {
   const handleCloseFormCreateProduct = () => {
     setIsOpenFormCreateProduct(false);
   };
-
   const handleOpenDialog = () => {
     setIsOpenDialog(true);
   };
+
   const handleCloseDialog = () => {
     setIsOpenDialog(false);
   };
@@ -286,6 +320,9 @@ const useUpdateQuote = () => {
     isContactDeleteLoading,
     handleContactDeleteModal,
     deleteContactModalId,
+    handleSubmitBtn,
+    setPage,
+    setPageLimit,
   };
 };
 

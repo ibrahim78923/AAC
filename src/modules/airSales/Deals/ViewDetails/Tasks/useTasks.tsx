@@ -3,11 +3,16 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { useGetDealsTasksManagementQuery } from '@/services/airSales/deals/view-details/tasks';
 
-const useTasks = () => {
+const useTasks = (selectedRecId: any) => {
   const theme = useTheme();
   const [openDrawer, setOpenDrawer] = useState('');
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
-  const { data: taskData } = useGetDealsTasksManagementQuery({});
+
+  const tasksParams = {
+    recordId: selectedRecId,
+  };
+
+  const { data: taskData } = useGetDealsTasksManagementQuery(tasksParams);
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,

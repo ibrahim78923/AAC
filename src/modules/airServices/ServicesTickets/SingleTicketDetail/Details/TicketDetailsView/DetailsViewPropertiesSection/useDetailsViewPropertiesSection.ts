@@ -51,7 +51,8 @@ export const useDetailsViewPropertiesSection = () => {
     ticketDetailsData.append('ticketType', data?.ticketType);
     !!data?.impact && ticketDetailsData.append('impact', data?.impact?._id);
     !!data?.agent && ticketDetailsData.append('agent', data?.agent?._id);
-    ticketDetailsData.append('category', data?.category?._id);
+    !!data?.category &&
+      ticketDetailsData.append('category', data?.category?._id);
     ticketDetailsData?.append('moduleType', 'TICKETS');
 
     (!!data?.plannedEndDate || !!data?.plannedEndTime) &&
@@ -71,8 +72,8 @@ export const useDetailsViewPropertiesSection = () => {
       router?.push(AIR_SERVICES?.TICKETS);
       successSnackbar(' ticket updated successfully');
       reset();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 

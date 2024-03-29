@@ -83,17 +83,13 @@ const Subscriptions = () => {
                 <PlanCard
                   status={plan?.status}
                   icon={getProductIcon(plan?.product)}
-                  title={
-                    plan?.planProducts?.map(
-                      (product: { name: string }) => product?.name,
-                    ) ?? plan?.name
-                  }
+                  title={plan?.name || plan?.productName}
                   planDuration={plan?.planDuration}
                   planUsers={plan?.additionalUsers}
                   planData={plan?.billingCycle}
-                  price={plan?.plans?.planPrice ?? 0}
+                  price={plan?.planData?.planPrice ?? 0}
                   billOn={dayjs(plan?.billingDate).format(DATE_FORMAT?.UI)}
-                  type={plan?.plantypes?.name ?? plan?.plan}
+                  type={plan?.planTypeName ?? plan?.plan}
                   handleBillingDetail={handleDrawerOpen}
                   id={plan?._id}
                   plan={plan}

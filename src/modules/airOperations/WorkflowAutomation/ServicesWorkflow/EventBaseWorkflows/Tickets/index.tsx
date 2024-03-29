@@ -1,12 +1,11 @@
 import TanstackTable from '@/components/Table/TanstackTable';
 import { useTickets } from './useTickets';
-import TicketsHeader from './TicketsHeader';
+import ListViewHeader from '../ListViewHeader';
 
 const Tickets = () => {
   const {
     ticketsListsColumns,
-    selectedTicketsList,
-    ticketsListData,
+    listData,
     isLoading,
     isSuccess,
     isFetching,
@@ -16,22 +15,34 @@ const Tickets = () => {
     limit,
     setSearch,
     search,
-    onSubmitFilter,
+    onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,
+    selectedAction,
+    router,
+    deleteWorkflow,
+    setDeleteWorkflow,
+    dropdownOptions,
+    setSelectedAction,
   } = useTickets();
   return (
     <>
-      <TicketsHeader
-        selectedTicketsList={selectedTicketsList}
+      <ListViewHeader
+        selectedList={!!!selectedAction?.length}
         setSearch={setSearch}
         search={search}
-        onSubmitFilter={onSubmitFilter}
+        onSubmitListFilter={onSubmitListFilter}
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
+        router={router}
+        deleteWorkflow={deleteWorkflow}
+        setDeleteWorkflow={setDeleteWorkflow}
+        dropdownOptions={dropdownOptions}
+        selectedAction={selectedAction}
+        setSelectedAction={setSelectedAction}
       />
       <TanstackTable
-        data={ticketsListData}
+        data={listData}
         columns={ticketsListsColumns}
         isPagination
         isFetching={isFetching}

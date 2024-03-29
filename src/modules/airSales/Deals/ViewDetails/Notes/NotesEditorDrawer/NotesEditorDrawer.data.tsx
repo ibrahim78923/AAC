@@ -19,6 +19,7 @@ export const dealsNotesDataArray = [
     componentProps: {
       name: 'title',
       label: 'Task Name',
+      placeholder: 'Title Here',
       fullWidth: true,
     },
     component: RHFTextField,

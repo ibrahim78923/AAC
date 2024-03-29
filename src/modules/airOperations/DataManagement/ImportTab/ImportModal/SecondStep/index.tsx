@@ -11,7 +11,8 @@ import {
 import { style } from './SecondStep.style';
 import { importDataField } from '../ImportModal.data';
 
-const SecondStep = ({ requiredColumns = [] }: any) => {
+const SecondStep = (props: any) => {
+  const { handlePreview, requiredColumns = [] } = props;
   const { palette } = useTheme();
   return (
     <>
@@ -44,6 +45,7 @@ const SecondStep = ({ requiredColumns = [] }: any) => {
         variant="text"
         sx={{ fontWeight: 500 }}
         startIcon={<InfoCircleGreenIcon />}
+        onClick={handlePreview}
       >
         Click here to preview Sample File.
       </Button>

@@ -11,9 +11,11 @@ import useAssociations from './useAssociations';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
-const Associations = () => {
+const Associations = (props: any) => {
+  const { selected } = props;
+
   const sectionId = useSearchParams().get('section-id');
-  const { assocaitionData } = useAssociations();
+  const { assocaitionData } = useAssociations(selected);
   const router = useRouter();
   useEffect(() => {
     if (sectionId) {
@@ -26,7 +28,10 @@ const Associations = () => {
       <Box sx={styles?.horizontalTabsInnnerBox}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Contacts contactsData={assocaitionData?.contacts} />
+            <Contacts
+              contactsData={assocaitionData?.contacts}
+              dealId={selected}
+            />
           </Grid>
           <Grid item xs={12}>
             <Tickets />

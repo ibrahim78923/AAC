@@ -4,7 +4,8 @@ import { baseAPI } from '@/services/base-api';
 const TAG = 'TICKET_DETAILS';
 const TAG_THREE = 'DROPDOWN_AGENT';
 const TAG_SIX = 'DROPDOWN_CATEGORIES';
-const TAG_TWO = 'WORKLOAD';
+const TAG_FIVE = 'DROPDOWN_TASK';
+const TAG_FOUR = 'TICKET_TIME_ENTRIES';
 
 const ticketsDetailsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
@@ -51,17 +52,18 @@ const ticketsDetailsAPI = baseAPI?.injectEndpoints({
         method: 'POST',
         body: postTicketTimeParameter?.body,
       }),
+      invalidatesTags: [TAG_FOUR],
     }),
     getTaskByIdDropDown: builder?.query({
       query: ({ params }: any) => ({
-        url: `${END_POINTS?.WORKLOAD}`,
+        url: `${END_POINTS?.DROPDOWN_TASK}`,
         method: 'GET',
         params,
       }),
       transformResponse: (response: any) => {
-        if (response) return response?.data?.title;
+        if (response) return response?.data;
       },
-      providesTags: [TAG_TWO],
+      providesTags: [TAG_FIVE],
     }),
     getTicketsTimeEntriesById: builder?.query({
       query: (apiDataParameter: any) => ({
@@ -69,7 +71,7 @@ const ticketsDetailsAPI = baseAPI?.injectEndpoints({
         method: 'GET',
         params: apiDataParameter?.queryParams,
       }),
-      providesTags: [TAG],
+      providesTags: [TAG_FOUR],
     }),
     putTicketsTime: builder?.mutation({
       query: (putTicketTimeParameter: any) => ({
@@ -77,6 +79,7 @@ const ticketsDetailsAPI = baseAPI?.injectEndpoints({
         method: 'PATCH',
         body: putTicketTimeParameter?.body,
       }),
+      invalidatesTags: [TAG_FOUR],
     }),
   }),
 });

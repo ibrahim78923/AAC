@@ -33,13 +33,9 @@ const PlanDetails = ({
           setPageLimit={setPageLimit}
           isPagination
           isLoading={isLoading}
-          currentPage={tableRowData?.data?.meta?.pages}
           count={tableRowData?.data?.meta?.pages}
-          pageLimit={tableRowData?.data?.meta?.limit}
           totalRecords={tableRowData?.data?.meta?.total}
-          isSuccess={true}
-          // onPageChange={(page: any) => setPage(page)}
-          onPageChange={() => setPageLimit(tableRowData?.data?.meta?.limit)}
+          onPageChange={(page: any) => setPage(page)}
         />
       </PermissionsGuard>
     </div>

@@ -6,6 +6,7 @@ import {
   getActiveProductSession,
   getSession,
   isTokenValidationCheck,
+  setActiveAccountSession,
   setActivePermissionsSession,
   setActiveProductSession,
   setSession,
@@ -99,16 +100,24 @@ function AuthProvider({ children }: { children: ReactNode }) {
   //TODO:reducer to keep an eye on specific called reducer function which method from handler called
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const { data: permissionsData, refetch } = useGetAuthMyAccountQuery(
-    {},
-    { skip: !state?.isPermissions },
-  );
+  const {
+    data: permissionsData,
+    refetch,
+    isLoading: authMeLoadingState,
+  } = useGetAuthMyAccountQuery({}, { skip: !state?.isPermissions });
 
   if (state?.isPermissions) {
     setActivePermissionsSession(
       permissionsData?.data?.account?.role?.permissions,
     );
   }
+  useEffect(() => {
+    if (permissionsData?.data?.account?.role?.permissions) {
+      setActivePermissionsSession(
+        permissionsData?.data?.account?.role?.permissions,
+      );
+    }
+  }, [permissionsData]);
   // const [logoutTrigger] = useLogoutMutation();
 
   const appDispatch = useAppDispatch();
@@ -211,6 +220,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     setActiveProductSession(null);
     setSession(null);
     setActivePermissionsSession(null);
+    setActiveAccountSession(null);
     dispatch({ type: 'LOGOUT' });
     appDispatch({ type: 'auth/logout' });
   };
@@ -224,6 +234,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
         logout,
         setActiveProduct,
         setPermissions,
+        authMeLoadingState,
       }}
     >
       {children}

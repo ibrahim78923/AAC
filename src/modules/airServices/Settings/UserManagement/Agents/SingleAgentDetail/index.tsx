@@ -21,6 +21,8 @@ export const SingleAgentDetail = () => {
     departmentDetails,
     isAgentModalOpen,
     setIsAgentModalOpen,
+    permissionRoleDetails,
+    agentLevelDetail,
   }: any = useSingleAgentDetail();
   return (
     <>
@@ -40,6 +42,7 @@ export const SingleAgentDetail = () => {
         isError={isError}
         departmentDetails={departmentDetails}
         handleEditButtonClick={() => setIsAgentModalOpen?.(true)}
+        agentLevelDetail={agentLevelDetail}
       />
       <Typography my={3} variant="h3" color="slateBlue.main">
         Associations
@@ -57,7 +60,11 @@ export const SingleAgentDetail = () => {
           isAgentModalOpen={isAgentModalOpen}
           setIsAgentModalOpen={setIsAgentModalOpen}
           selectedAgentList={[
-            { ...data?.data, departmentData: departmentDetails?.data?.data },
+            {
+              ...data?.data,
+              departmentData: departmentDetails?.data?.data,
+              accountsPermissions: permissionRoleDetails?.data?.data,
+            },
           ]}
         />
       )}

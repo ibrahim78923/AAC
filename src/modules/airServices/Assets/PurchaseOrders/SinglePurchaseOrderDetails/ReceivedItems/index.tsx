@@ -65,6 +65,7 @@ export const ReceivedItems = (props: any) => {
                     {itemDetailFormFieldsFunction?.(
                       control,
                       'receivedItem',
+                      fields,
                       index,
                     )?.map((singleField: any) => (
                       <TableCell key={item.id}>{singleField?.data}</TableCell>

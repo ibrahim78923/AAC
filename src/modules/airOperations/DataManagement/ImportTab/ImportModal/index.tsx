@@ -22,6 +22,7 @@ const ImportModal = () => {
     handleSubmit,
     importDeals,
     fields,
+    handlePreview,
   } = useImportModal();
 
   const steps: any = {
@@ -32,7 +33,12 @@ const ImportModal = () => {
         product={product}
       />
     ),
-    2: <SecondStep requiredColumns={requiredColumns} />,
+    2: (
+      <SecondStep
+        requiredColumns={requiredColumns}
+        handlePreview={handlePreview}
+      />
+    ),
     3: (
       <ThirdStep
         importLog={importLog}

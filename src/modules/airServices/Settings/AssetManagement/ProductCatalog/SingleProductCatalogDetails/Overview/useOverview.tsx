@@ -7,18 +7,16 @@ export const useOverview = () => {
   const { productCatalogId } = router?.query;
 
   const getSingleProductCatalogParameter = {
-    pathParam: { productCatalogId: productCatalogId },
+    pathParam: { productCatalogId },
   };
 
-  const { data, isLoading } = useGetProductCatalogByIdQuery(
-    getSingleProductCatalogParameter,
-    {
+  const { data, isLoading, isFetching, isError } =
+    useGetProductCatalogByIdQuery(getSingleProductCatalogParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!productCatalogId,
-    },
-  );
+    });
 
   const dataArray = OverviewData(data?.data?.[0]);
 
-  return { isLoading, dataArray };
+  return { isLoading, dataArray, isFetching, isError };
 };

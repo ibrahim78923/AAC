@@ -14,9 +14,12 @@ import {
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { ROLE } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
+import { useRouter } from 'next/router';
+import { AIR_SERVICES } from '@/constants';
 
 export const useUpsertAgent = (props: any) => {
   const auth: any = useAuth();
+  const router = useRouter();
   const { _id: productId } = auth?.product;
   const { _id: organizationCompanyAccountId } =
     auth?.product?.accounts?.[0]?.company;
@@ -88,10 +91,12 @@ export const useUpsertAgent = (props: any) => {
     };
 
     try {
-      await patchAgentTrigger(apiDataParameter)?.unwrap();
+      const response: any = await patchAgentTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Update Agent Successfully!');
       handleClose?.();
-      setSelectedAgentList?.([]);
+      if (router?.pathname === AIR_SERVICES?.SINGLE_AGENT_DETAILS) {
+        updateRoute?.(response?.data);
+      }
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -102,6 +107,18 @@ export const useUpsertAgent = (props: any) => {
     reset?.();
     setSelectedAgentList?.([]);
   };
+
+  const updateRoute = (response: any) => {
+    router?.push({
+      pathname: router?.pathname,
+      query: {
+        agentId: response?._id,
+        roleId: response?.permissionsRole,
+        departmentId: response?.departmentId,
+      },
+    });
+  };
+
   const upsertAgentFormFields = agentFieldsData(
     selectedAgentList,
     departmentDropdown,

@@ -2,7 +2,6 @@ import { Box, Button, Stack } from '@mui/material';
 import AppHorizontalStepper from '@/components/Stepper';
 import FormCreateDeal from './FormCreateDeal';
 import useUpdateQuote from './useUpdateQuote';
-// import FormAddContact from './FormAddContact';
 import FormAddCompany from './FormAddCompany';
 import FormCreateProduct from './FormCreateProduct';
 import DialogSendToCustomer from './DialogSendToCustomer';
@@ -116,13 +115,6 @@ const UpdateQuote = () => {
                   <Button onClick={handleFormSubmit} variant="contained">
                     Save & Submit Later
                   </Button>
-                  <Button
-                    onClick={handleStepBack}
-                    variant="outlined"
-                    sx={styles?.btnBack}
-                  >
-                    Review
-                  </Button>
                   <Button onClick={handleOpenDialog} variant="contained">
                     Submit
                   </Button>
@@ -151,10 +143,6 @@ const UpdateQuote = () => {
           dealId={dataGetQuoteById?.data?.dealId}
         />
       )}
-      {/* <FormAddContact
-        open={isOpenFormAddContact}
-        onClose={handleCloseFormAddContact}
-      /> */}
 
       {isOpenFormAddCompany && (
         <FormAddCompany

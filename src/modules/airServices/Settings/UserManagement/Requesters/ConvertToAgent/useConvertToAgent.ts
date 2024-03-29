@@ -25,13 +25,13 @@ export const useConvertToAgent = (props: any) => {
     try {
       await convertToAgentTrigger(ConvertToAgentArticlesParameter)?.unwrap();
       successSnackbar('Requester converted to agent successfully');
+      closeRequesterConvertToAgentModal?.();
       setSelectedRequesterList?.([]);
       const newPage = selectedRequesterList?.length === totalRecords ? 1 : page;
       setPage?.(newPage);
       await getRequestersListData?.(newPage);
-      closeRequesterConvertToAgentModal?.();
     } catch (error: any) {
-      errorSnackbar?.();
+      errorSnackbar?.(error?.data?.message);
     }
   };
 

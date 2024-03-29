@@ -72,6 +72,24 @@ const ManagePlan = () => {
     }
   };
 
+  const planPrice = parsedManageData?.planData?.planPrice || 0;
+  const additionalUsers =
+    (parsedManageData?.additionalUsers || 0) *
+    parsedManageData?.planData?.additionalPerUserPrice;
+  const additionalStorage =
+    (parsedManageData?.additionalStorage || 0) *
+    parsedManageData?.planData?.additionalStoragePrice;
+  const planDiscount = parsedManageData?.planDiscount || 0;
+  const planTax = 0.2;
+  const convertedPlanDiscount = planDiscount / 100;
+  const totalCostBeforeDiscount =
+    planPrice + additionalUsers + additionalStorage;
+  const discountedPriceBeforeTax =
+    totalCostBeforeDiscount - totalCostBeforeDiscount * convertedPlanDiscount;
+  const discountApplied = totalCostBeforeDiscount - discountedPriceBeforeTax;
+  const taxAmount = discountedPriceBeforeTax * planTax;
+  const finalPrice = discountedPriceBeforeTax + taxAmount;
+
   return (
     <>
       <Box sx={styles?.card}>
@@ -184,9 +202,7 @@ const ManagePlan = () => {
 
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>Plan Price</Box>
-          <Box sx={styles?.planTableTh}>
-            £ {parsedManageData?.plans?.planPrice}
-          </Box>
+          <Box sx={styles?.planTableTh}>£ {planPrice}</Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
@@ -195,9 +211,7 @@ const ManagePlan = () => {
               (£ 15/user)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>
-            £ {parsedManageData?.additionalUsers * 15}
-          </Box>
+          <Box sx={styles?.planTableTh}>£ {additionalUsers || 0}</Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
@@ -206,19 +220,18 @@ const ManagePlan = () => {
               (£ 1/GB)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>
-            £ {1 * parsedManageData?.additionalStorage}
-          </Box>
+          <Box sx={styles?.planTableTh}>£ {additionalStorage || 0}</Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>
             Discount{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (10%)
+              ({planDiscount} %)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>-£ 10</Box>
+          <Box sx={styles?.planTableTh}>-£ {discountApplied ?? 0}</Box>
         </Box>
+
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>
             Tax{' '}
@@ -226,14 +239,14 @@ const ManagePlan = () => {
               (Vat 20%)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ 27</Box>
+          <Box sx={styles?.planTableTh}>£ {taxAmount}</Box>
         </Box>
 
         <Box sx={styles?.divider}></Box>
 
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>Total Cost</Box>
-          <Box sx={styles?.planTableTh}>£ 158</Box>
+          <Box sx={styles?.planTableTh}>£ {finalPrice}</Box>
         </Box>
       </Box>
       <PermissionsGuard
