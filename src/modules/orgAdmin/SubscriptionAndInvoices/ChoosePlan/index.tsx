@@ -91,7 +91,9 @@ const ChoosePlan = () => {
                   sx={{ width: '228px', pl: '32px', pr: '32px' }}
                 >
                   <Typography variant="h3" sx={styles?.productBoxTitle}>
-                    Sales
+                    {parsedManageData?.planName ||
+                      parsedManageData?.name ||
+                      parsedManageData?.productName}
                   </Typography>
                   <Typography variant="body1" sx={styles?.productBoxText}>
                     Everything your sales team need to work better and together.

@@ -29,6 +29,11 @@ const Insights = () => {
       companyId: user?.organization?._id ? user?.organization?._id : '',
     },
   });
+  // const { data: taskInsightsData, isLoading } = useGetTaskInsightsQuery({
+  //   params: {
+  //     companyId: user?.organization?._id ? user?.organization?._id : '',
+  //   },
+  // });
   const taskInsights = taskInsightsData?.data?.Pending;
 
   return (
