@@ -10,11 +10,6 @@ import { DATE_FORMAT } from '@/constants';
 
 const DetailCard = ({ data }: any) => {
   const theme = useTheme();
-  // const calculateDueDate = (invoiceDate: any) => {
-  //   return dayjs(invoiceDate)
-  //     ?.add(15, 'day')
-  //     ?.format(DATE_FORMAT?.UI);
-  // };
 
   return (
     <Box>
