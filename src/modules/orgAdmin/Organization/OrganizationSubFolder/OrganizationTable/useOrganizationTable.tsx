@@ -20,6 +20,7 @@ import useAuth from '@/hooks/useAuth';
 import { isNullOrEmpty } from '@/utils';
 import { PAGINATION } from '@/config';
 const useOrganizationTable = () => {
+  const [imageToUpload, setImageToUpload] = useState<any>();
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [editData, setEditData] = useState<any>({});
@@ -137,6 +138,14 @@ const useOrganizationTable = () => {
     methods.setValue('address', addressValues);
   }, [addressValues]);
 
+  const formData = new FormData();
+
+  const handleImageChange = async (e: any) => {
+    const selectedImage = e?.target?.files[0];
+    setImageToUpload(selectedImage);
+    formData.append('image', selectedImage);
+  };
+
   const onSubmit = async (data: any) => {
     const products: any = [];
     user?.products.forEach((product: any) => {
@@ -152,8 +161,7 @@ const useOrganizationTable = () => {
       composite: data?.address,
     };
 
-    const formData = new FormData();
-    formData.append('image', data?.image);
+    formData.append('image', imageToUpload);
     formData.append('products', products);
     formData.append('accountName', data?.accountName);
     formData.append('phoneNo', data?.phoneNo);
@@ -254,6 +262,9 @@ const useOrganizationTable = () => {
     streetNameField,
     cityField,
     countryField,
+    setImageToUpload,
+    imageToUpload,
+    handleImageChange,
   };
 };
 

@@ -383,8 +383,11 @@ export const settingContactStatus = {
 };
 export const ORG_ADMIN = {
   SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
+  SUBSCRIPTION_AND_INVOICES_CRM:
+    '/org-admin/subscriptions/get-all-crm-with-subscription',
   GET_INVOICES: '/org-admin/invoices',
   PRODUCT_PLAN_LIST: '/plan/product-plan-list',
+  PRODUCT_CRM_PLAN_LIST: '/super-admin/get-one-crm-plans',
   ACTIVITY_LOG: '/activity-log',
   ACTIVITY_LOG_SUB: '/activity-log/sub-activities',
   SETTINGS_CONTACT_STATUS: '/contact-status',
