@@ -20,7 +20,7 @@ const Details = (props: any) => {
     onSubmit,
     handleSubmit,
     isLoading,
-    dealPiplineId,
+    dealPipelineId,
     updateLoading,
   } = useDetails({ selected });
 
@@ -33,7 +33,7 @@ const Details = (props: any) => {
         <Box sx={styles?.horizontalTabsInnnerBox}>
           <FormProvider methods={methodsDetails}>
             <Grid container spacing={4}>
-              {detailsDataArray(dealPiplineId)?.map((item: any) => (
+              {detailsDataArray(dealPipelineId)?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item?.componentProps} size={'small'}>
                     {item?.componentProps?.select
