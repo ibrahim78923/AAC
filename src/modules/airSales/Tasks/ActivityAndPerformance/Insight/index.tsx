@@ -14,11 +14,16 @@ import { getSession } from '@/utils';
 
 const Insights = () => {
   const { activity, dateRange, activityReportDate } = styles(useTheme());
-  const { chartOptions, chartData } = useInsightCard();
+  const [datePickerVal, setDatePickerVal] = useState<any>();
+
+  const { chartOptions, transformedData } = useInsightCard({
+    startDate: dayjs(datePickerVal ? datePickerVal[0] : Date.now())?.format(
+      DATE_FORMAT?.API,
+    ),
+  });
   const ReactApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
   });
-  const [datePickerVal, setDatePickerVal] = useState<any>();
   const [toggleDatePicker, setToggleDatePicker] = useState(false);
 
   const { user }: { accessToken: string; refreshToken: string; user: any } =
@@ -29,11 +34,6 @@ const Insights = () => {
       companyId: user?.organization?._id ? user?.organization?._id : '',
     },
   });
-  // const { data: taskInsightsData, isLoading } = useGetTaskInsightsQuery({
-  //   params: {
-  //     companyId: user?.organization?._id ? user?.organization?._id : '',
-  //   },
-  // });
   const taskInsights = taskInsightsData?.data?.Pending;
 
   return (
@@ -95,7 +95,7 @@ const Insights = () => {
           <Box mt={2}>
             <ReactApexChart
               options={chartOptions}
-              series={[{ data: chartData }]}
+              series={[{ data: transformedData }]}
               type="bar"
               height={450}
             />
