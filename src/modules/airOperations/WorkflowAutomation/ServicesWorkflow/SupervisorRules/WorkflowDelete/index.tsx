@@ -2,7 +2,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { ALERT_MODALS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
 import { enqueueSnackbar } from 'notistack';
 
-export const SupervisorRulesDelete = (props: any) => {
+export const WorkflowDelete = (props: any) => {
   const { deleteWorkflow, setDeleteWorkflow } = props;
   return (
     <>

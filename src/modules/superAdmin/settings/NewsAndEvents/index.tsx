@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   Box,
   Button,
   Typography,
-  useTheme,
   Grid,
   Menu,
   MenuItem,
@@ -21,15 +20,8 @@ import { FormProvider } from '@/components/ReactHookForm';
 
 import {
   columns,
-  newsAndEventsDateDefaultValues,
   newsAndEventsDateFiltersDataArray,
-  newsAndEventsDateValidationSchema,
 } from './NewsAndEvents.data';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-
-import { newsAndEventsTabledata } from '@/mock/modules/superAdmin/Settings/NewsAndEvents';
 
 import PlusShared from '@/assets/icons/shared/plus-shared';
 import { DownIcon, FilterSharedIcon, RefreshSharedIcon } from '@/assets/icons';
@@ -41,14 +33,6 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_SETTINGS_NEWS_AND_EVENTS_PERMISSIONS } from '@/constants/permission-keys';
 
 const NewsAndEvents = () => {
-  const theme = useTheme();
-  const [isNewsAndEventsFilterDrawerOpen, setIsNewsAndEventsFilterDrawerOpen] =
-    useState(false);
-  const [newsAndEventsSearch, setNewsAndEventsSearch] = useState('');
-  const [isNewsAndEventsDeleteModal, setisNewsAndEventsDeleteModal] =
-    useState(false);
-  const [isNewsAndEventAddModal, setIsNewsAndEventAddModal] = useState(false);
-
   const {
     anchorEl,
     actionMenuOpen,
@@ -61,16 +45,28 @@ const NewsAndEvents = () => {
     isOpenEditDrawer,
     handleOpenEditDrawer,
     handleCloseEditDrawer,
+    NewsEventsData,
+    isLoading,
+    setPageLimit,
+    setPage,
+    searchValue,
+    setSearchValue,
+    methodsNewsAndEventsFilters,
+    handleSubmit,
+    setIsNewsAndEventsFilterDrawerOpen,
+    isNewsAndEventsFilterDrawerOpen,
+    onSubmit,
+    handleRefresh,
+    theme,
+    isNewsAndEventAddModal,
+    setIsNewsAndEventAddModal,
+    isNewsAndEventAdd,
+    handleDelete,
+    isNewsAndEventsDeleteModal,
+    setisNewsAndEventsDeleteModal,
+    setAnchorEl,
+    handleUpdateStatus,
   } = useNewsAndEvents();
-
-  const methodsNewsAndEventsFilters = useForm({
-    resolver: yupResolver(newsAndEventsDateValidationSchema),
-    defaultValues: newsAndEventsDateDefaultValues,
-  });
-  const onSubmit = () => {
-    setIsNewsAndEventsFilterDrawerOpen(false);
-  };
-  const { handleSubmit } = methodsNewsAndEventsFilters;
 
   return (
     <Box
@@ -101,8 +97,8 @@ const NewsAndEvents = () => {
             <Box sx={styles?.search}>
               <Search
                 label={'Search here'}
-                searchBy={newsAndEventsSearch}
-                setSearchBy={setNewsAndEventsSearch}
+                searchBy={searchValue}
+                setSearchBy={setSearchValue}
                 width="100%"
               />
             </Box>
@@ -143,14 +139,33 @@ const NewsAndEvents = () => {
                 <MenuItem onClick={handleOpenEditDrawer}>Edit</MenuItem>
               </PermissionsGuard>
 
-              <MenuItem>Active</MenuItem>
-              <MenuItem>Inactive</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleUpdateStatus('active');
+                  setAnchorEl(null);
+                }}
+              >
+                Active
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleUpdateStatus('inactive');
+                  setAnchorEl(null);
+                }}
+              >
+                Inactive
+              </MenuItem>
               <PermissionsGuard
                 permissions={[
                   SUPER_ADMIN_SETTINGS_NEWS_AND_EVENTS_PERMISSIONS?.Delete,
                 ]}
               >
-                <MenuItem onClick={() => setisNewsAndEventsDeleteModal(true)}>
+                <MenuItem
+                  onClick={() => {
+                    setisNewsAndEventsDeleteModal(true);
+                    setAnchorEl(null);
+                  }}
+                >
                   Delete
                 </MenuItem>
               </PermissionsGuard>
@@ -161,7 +176,11 @@ const NewsAndEvents = () => {
               ]}
             >
               <Tooltip title={'Refresh Filter'} placement="top-start" arrow>
-                <Button sx={styles?.refreshButton(theme)} className="small">
+                <Button
+                  sx={styles?.refreshButton(theme)}
+                  className="small"
+                  onClick={handleRefresh}
+                >
                   <RefreshSharedIcon />
                 </Button>
               </Tooltip>
@@ -215,9 +234,18 @@ const NewsAndEvents = () => {
               setIsDisabled,
               tableRowValues,
               setTableRowValues,
+              theme,
             )}
-            data={newsAndEventsTabledata}
-            isPagination={true}
+            data={NewsEventsData?.data?.newsandevents}
+            isLoading={isLoading}
+            currentPage={NewsEventsData?.data?.meta?.page}
+            count={NewsEventsData?.data?.meta?.pages}
+            pageLimit={NewsEventsData?.data?.meta?.limit}
+            totalRecords={NewsEventsData?.data?.meta?.total}
+            setPage={setPage}
+            setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
           />
         </Box>
       </PermissionsGuard>
@@ -258,17 +286,24 @@ const NewsAndEvents = () => {
         </>
       </CommonDrawer>
 
-      <NewsAndEventsModal
-        isNewsAndEventAddModal={isNewsAndEventAddModal}
-        setIsNewsAndEventAddModal={setIsNewsAndEventAddModal}
-      />
+      {isNewsAndEventAddModal && (
+        <NewsAndEventsModal
+          isNewsAndEventAddModal={isNewsAndEventAddModal}
+          setIsNewsAndEventAddModal={setIsNewsAndEventAddModal}
+          isNewsAndEventAdd={isNewsAndEventAdd}
+          tableRowValues={tableRowValues}
+          setTableRowValues={setTableRowValues}
+          setIsDisabled={setIsDisabled}
+        />
+      )}
 
       <AlertModals
         message={'Are you sure you want to delete this entry ?'}
         type="delete"
         open={isNewsAndEventsDeleteModal}
         handleClose={() => setisNewsAndEventsDeleteModal(false)}
-        handleSubmit={() => setisNewsAndEventsDeleteModal(false)}
+        handleSubmit={handleDelete}
+        handleSubmitBtn={handleDelete}
       />
     </Box>
   );

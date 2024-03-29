@@ -65,7 +65,9 @@ const DetailsViewPropertiesSection = () => {
                 ]}
               >
                 <Box textAlign={'end'} p={2}>
-                  <Button variant={'outlined'}>Cancel</Button>
+                  <Button variant={'outlined'} onClick={() => methods?.reset()}>
+                    Cancel
+                  </Button>
                   <Button variant={'contained'} type={'submit'} sx={{ ml: 2 }}>
                     Submit
                   </Button>

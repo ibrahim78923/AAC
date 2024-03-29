@@ -1,4 +1,5 @@
 import {
+  useGetAgentDetailLevelQuery,
   useGetPermissionsRoleByIdForAgentQuery,
   useGetSingleAgentDetailsQuery,
   useGetSingleDepartmentDetailsForAgentQuery,
@@ -49,6 +50,20 @@ export const useSingleAgentDetail = () => {
       refetchOnMountOrArgChange: true,
     },
   );
+
+  const getAgentDetailLevelParameter = {
+    queryParams: {
+      agent: agentId,
+    },
+  };
+  const agentLevelDetail = useGetAgentDetailLevelQuery(
+    getAgentDetailLevelParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!agentId,
+    },
+  );
+
   return {
     data,
     isLoading,
@@ -58,5 +73,6 @@ export const useSingleAgentDetail = () => {
     isAgentModalOpen,
     setIsAgentModalOpen,
     permissionRoleDetails,
+    agentLevelDetail,
   };
 };
