@@ -15,7 +15,7 @@ const {
 
 export const agentsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    getAgents: builder?.query({
+    getServicesUserAgents: builder?.query({
       query: (getAgentsListParameter: any) => ({
         url: `${GET_AGENT}`,
         method: 'GET',
@@ -95,7 +95,7 @@ export const agentsAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useGetAgentsQuery,
+  useGetServicesUserAgentsQuery,
   usePostAddAgentMutation,
   useDeleteAgentMutation,
   usePatchAgentMutation,
@@ -104,6 +104,6 @@ export const {
   useLazyGetDepartmentDropdownListQuery,
   usePatchApprovedRequestMutation,
   usePatchRejectRequestMutation,
-  useLazyGetAgentsQuery,
+  useLazyGetServicesUserAgentsQuery,
   useLazyGetPermissionsRoleForUpsertAgentQuery,
 } = agentsAPI;

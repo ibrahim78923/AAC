@@ -1,7 +1,7 @@
 import {
   useGetPermissionsRoleByIdForAgentQuery,
   useGetSingleAgentDetailsQuery,
-  useGetSingleDepartmentDetailsQuery,
+  useGetSingleDepartmentDetailsForAgentQuery,
 } from '@/services/airServices/settings/user-management/agents/details';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -28,7 +28,7 @@ export const useSingleAgentDetail = () => {
     },
   };
 
-  const departmentDetails = useGetSingleDepartmentDetailsQuery(
+  const departmentDetails = useGetSingleDepartmentDetailsForAgentQuery(
     getSingleDepartmentDetailsParameter,
     {
       refetchOnMountOrArgChange: true,

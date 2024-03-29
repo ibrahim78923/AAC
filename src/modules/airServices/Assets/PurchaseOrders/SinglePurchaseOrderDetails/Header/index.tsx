@@ -49,7 +49,7 @@ export const Header = (props: any) => {
             color="secondary"
             variant="outlined"
             onClick={() => handleAddToInventory?.()}
-            disabled={currentStatus !== PURCHASE_ORDER_STATUS?.ORDERED}
+            disabled={currentStatus === PURCHASE_ORDER_STATUS?.ORDERED}
           >
             Add to Inventory
           </Button>
