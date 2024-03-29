@@ -107,15 +107,14 @@ export const AddToInventory = (props: any) => {
                   Total items received:
                 </Typography>
                 <Typography variant="h6" component="span" mt={1} ml={1}>
-                  {purchaseOrderDetail?.purchaseDetails?.[0]?.received ? (
+                  {purchaseOrderDetail?.totalReceived ? (
                     <>
-                      {purchaseOrderDetail?.purchaseDetails?.[0]?.received}/
-                      {purchaseOrderDetail?.purchaseDetails?.[0]?.quantity}
+                      {purchaseOrderDetail?.totalReceived}/
+                      {purchaseOrderDetail?.totalQuantity}
                     </>
                   ) : (
                     <>
-                      {receivedItem}/
-                      {purchaseOrderDetail?.purchaseDetails?.[0]?.quantity}
+                      {receivedItem}/{purchaseOrderDetail?.totalQuantity}
                     </>
                   )}
                 </Typography>

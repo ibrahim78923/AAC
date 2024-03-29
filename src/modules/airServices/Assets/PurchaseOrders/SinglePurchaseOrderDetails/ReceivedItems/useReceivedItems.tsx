@@ -90,8 +90,8 @@ export const useReceivedItems = (props: any) => {
 
       successSnackbar('Purchase Order items count updated successfully');
       setIsDrawerOpen(false);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
     setErrorOccurred(false);
     method?.reset?.();
