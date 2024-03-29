@@ -1,8 +1,8 @@
 import {
   RHFTextField,
-  RHFSelect,
   RHFEditor,
   RHFDropZone,
+  RHFSelect,
 } from '@/components/ReactHookForm';
 import { TICKETS_CONVERSATION_TYPE } from '@/constants/strings';
 import * as Yup from 'yup';
@@ -40,33 +40,29 @@ export const conversationModalsDefaultValues = (data: any) => {
     text: taskData?.text ?? null,
     ccRecipients: taskData?.ccRecipients ?? '',
     attachments: taskData?.attachments ?? '',
+    note: taskData?.note ?? '',
+    reply: taskData?.reply ?? '',
+    forward: taskData?.forward ?? '',
   };
 };
-// export const conversationModalsDefaultValues: any = {
-//   type: '',
-//   recaipients: '',
-//   text: '',
-//   attachments: '',
-//   // reply: '',
-//   ccRecipients: '',
-//   // forward: '',
-// };
 
 export const conversationOptions = [
-  { value: 'Forward', label: 'Forward' },
   { value: 'Note', label: 'Note' },
+  { value: 'Forward', label: 'Forward' },
   { value: 'Reply', label: 'Reply' },
 ];
 
 export const conversationNoteArray = [
   {
     componentProps: {
-      name: 'type',
+      name: 'note',
       label: 'Note',
       fullWidth: true,
       select: true,
+      value: 'Note',
+      type: 'Note',
+      disabled: true,
     },
-    defaultValue: 'Reply',
     options: conversationOptions,
 
     component: RHFSelect,
@@ -113,6 +109,9 @@ export const conversationReplyArray = [
       label: 'Reply',
       fullWidth: true,
       select: true,
+      value: 'Reply',
+      type: 'Reply',
+      disabled: true,
     },
 
     options: conversationOptions,
@@ -167,6 +166,9 @@ export const conversationForwardArray = [
       label: 'Forward',
       fullWidth: true,
       select: true,
+      value: 'Forward',
+      type: 'Forward',
+      disabled: true,
     },
     options: conversationOptions,
     component: RHFSelect,
@@ -225,60 +227,10 @@ export const conversationDrawerTitle: any = {
   View: 'View Tickets',
 };
 
-export const conversationAddArticleData = [
-  {
-    title: 'Guide to how to design your site footer like we did...',
-    link: 'Add link',
-  },
-  {
-    title: 'Another article title',
-    link: 'Another link',
-  },
-  {
-    title: 'Yet another article title',
-    link: 'Yet another link',
-  },
-];
-
-export const modules = {
-  toolbar: {
-    container: [
-      ['bold', 'italic', 'underline'],
-      [{ align: 'center' }, { align: 'right' }, { align: 'justify' }],
-      [{ list: 'bullet' }, { list: 'ordered' }],
-      [{ color: [] }],
-      ['image'],
-      ['capitalize'],
-    ],
-  },
-};
-export const conversationAttachmentFileData = [
-  {
-    name: 'Picture.pdf',
-    size: '12KB',
-    type: 'pdf',
-  },
-];
 export const stepsDiscuss = [
   {
     id: '1',
     message: 'Hello Air AppleCart',
     end: true,
-  },
-];
-export const conversationData = [
-  {
-    image: 'image1',
-    sender: 'John',
-    action: 'reply',
-    to: 'nickofl@gmail.com',
-    message:
-      'Hi Guys We have been facing issues when we try to reach the email server 3 Hi Guys .',
-    time: '11:02 PM-5 March,  2023',
-    noteFile: {
-      name: 'Picture.pdf',
-      size: '12KB',
-      type: 'pdf',
-    },
   },
 ];

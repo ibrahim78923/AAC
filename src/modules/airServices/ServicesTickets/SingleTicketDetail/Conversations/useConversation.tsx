@@ -6,7 +6,6 @@ import { enqueueSnackbar } from 'notistack';
 import ConversationDiscuss from './ConversationDiscuss';
 import ConversationAddComponent from './ConversationAddComponent';
 import {
-  conversationAddArticleData,
   conversationForwardArray,
   conversationModalsDefaultValues,
   conversationNoteArray,
@@ -14,7 +13,6 @@ import {
   conversationValidationSchema,
   menuOptionsAddConversation,
 } from './Conversation.data';
-import { useSearchParams } from 'next/navigation';
 import {
   NOTISTACK_VARIANTS,
   TICKETS_CONVERSATION_TYPE,
@@ -23,74 +21,47 @@ import {
   useGetConversationQuery,
   usePostConversationMutation,
 } from '@/services/airServices/tickets/single-ticket-details/conversation';
-// import { useSearchParams } from 'next/navigation';
-
+import { useRouter } from 'next/router';
 export const UseConversation = () => {
   const [isConversation] = useState<boolean>(true);
   const [show, setShow] = useState(false);
-  const [addConversation, setAddConversation] = useState<null | HTMLElement>(
-    null,
-  );
+  const [addConversation, setAddConversation] = useState(null);
   const [selectedItem, setSelectedItem] = useState(
     menuOptionsAddConversation[0]?.value,
   );
   const [title, setTitle] = useState('');
   const [postConversation, { isLoading }] = usePostConversationMutation();
+  const router = useRouter();
 
   const [editConversationItem, setEditConversationItem] = useState(false);
   const [selectedValues, setSelectedValues] = useState<any>({});
   const theme = useTheme();
-  const searchParams = useSearchParams();
   const addConversationModal: any = useForm({
     resolver: yupResolver(conversationValidationSchema(selectedItem)),
     defaultValues: conversationModalsDefaultValues(null),
   });
-  const ticketId = searchParams?.get?.('ticketId');
-  const getEmailParams = {
-    queryParams: {
-      recordId: ticketId,
-    },
+  const { ticketId } = router?.query;
+  const queryParams = {
+    recordId: ticketId,
   };
 
   const {
     data: emailData,
-    // isFetching,
-    // isError,
-  } = useGetConversationQuery(getEmailParams, {
+    isFetching,
+    isError,
+  } = useGetConversationQuery(queryParams, {
     refetchOnMountOrArgChange: true,
   });
-  // console.log(emailData);
 
   const open = Boolean(addConversation);
 
-  const handleClickButtonMenu = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
+  const handleClickButtonMenu = (event: any) => {
     setAddConversation(event?.currentTarget);
   };
   const handleEdit = () => {
     setEditConversationItem(true);
   };
   const { handleSubmit, setValue, getValues, reset } = addConversationModal;
-
-  // const onSubmit = async () => {
-  //   try {
-  //     const successMessage = `${selectedItem} Added Successfully!`;
-  //     const values = await getValues();
-  //     setSelectedValues((prevValues: any) => {
-  //       return {
-  //         ...prevValues,
-  //         [uuidv4()]: values,
-  //       };
-  //     });
-
-  //     enqueueSnackbar(successMessage, {
-  //       variant: NOTISTACK_VARIANTS.SUCCESS,
-  //     });
-  //     reset();
-  //     setShow(false);
-  //   } catch (error) {}
-  // };
 
   const handleCloseButtonMenu = (e: any = '') => {
     e && setSelectedItem(e);
@@ -101,38 +72,27 @@ export const UseConversation = () => {
   };
 
   const submitConversation = async (data: any) => {
-    const formData = new FormData();
-    formData.append('type', data.type);
-    formData.append('recipients', data.recipients);
-    formData.append('ccRecipients', data.ccRecipients);
-    formData.append('subject', 'Subject');
-    formData.append('text', data.text);
-    // const params = {
-    //   type: data?.type,
-    //   recaipients: data?.recaipients,
-    //   ccRecipients: data?.ccRecipients,
-    //   subject: 'ghg',
-    //   text: data?.text,
-    //   attachments: data?.attachments,
-    // };
-    // console.log('Data submitted to the API: ', data);
-    // console.log(formData);
-
+    const body = {
+      type: 'NOTE',
+      recipients: [data?.recaipients],
+      ccRecipients: [],
+      subject: 'ghg',
+      text: data?.text,
+      attachments: data?.attachments,
+      recordId: ticketId,
+      articlesIds: [],
+    };
     try {
-      const res = await postConversation(formData)?.unwrap();
+      const res = await postConversation({ body })?.unwrap();
       enqueueSnackbar(res?.message && 'Add Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-      // addConversationModal?.reset();
+      addConversationModal?.reset();
     } catch (error: any) {
       enqueueSnackbar(error?.error?.message ?? 'An error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
-  };
-
-  const onSubmit = () => {
-    addConversationModal.handleSubmit(submitConversation)();
   };
 
   const getArrayByTitle = (title: any) => {
@@ -158,7 +118,7 @@ export const UseConversation = () => {
             show={show}
             setShow={setShow}
             addConversationModal={addConversationModal}
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={submitConversation}
             dataArray={getArrayByTitle?.(selectedItem)}
           />
         );
@@ -172,8 +132,8 @@ export const UseConversation = () => {
   };
 
   useEffect(() => {
-    renderSelectedComponent();
-  }, [selectedItem]);
+    reset(conversationModalsDefaultValues(selectedItem));
+  }, [selectedItem, reset]);
 
   return {
     isConversation,
@@ -186,12 +146,11 @@ export const UseConversation = () => {
     setSelectedItem,
     addConversationModal,
     selectedItem,
-    onSubmit,
+    // onSubmit,
     handleSubmit,
     title,
     renderSelectedComponent,
     theme,
-    conversationAddArticleData,
     setValue,
     selectedValues,
     editConversationItem,
@@ -201,5 +160,7 @@ export const UseConversation = () => {
     reset,
     getValues,
     emailData,
+    isFetching,
+    isError,
   };
 };

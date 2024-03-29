@@ -20,9 +20,7 @@ const ConversationAddComponent = ({
       okText={'Add Note'}
       footer={true}
       isOk={true}
-      submitHandler={() => {
-        addConversationModal?.handleSubmit(onSubmit)();
-      }}
+      submitHandler={addConversationModal?.handleSubmit(onSubmit)}
     >
       <FormProvider methods={addConversationModal}>
         <Grid container spacing={2}>

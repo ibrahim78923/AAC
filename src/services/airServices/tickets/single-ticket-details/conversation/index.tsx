@@ -32,12 +32,12 @@ export const conversationAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG_TWO],
     }),
     getConversation: builder.query({
-      query: ({ params }: any) => ({
-        url: `${END_POINTS?.GET_CANNED_RESPONSES}`,
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_CONVERSATION_EMAIL}`,
         method: 'GET',
-        params: params,
+        params,
       }),
-      providesTags: [TAG_ONE],
+      providesTags: [TAG_TWO],
     }),
   }),
 });

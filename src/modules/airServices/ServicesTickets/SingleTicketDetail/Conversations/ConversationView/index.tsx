@@ -1,216 +1,122 @@
-import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { Box, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
-import { v4 as uuidv4 } from 'uuid';
+import { ConversationSelectedValuesI } from '../Conversation.interface';
 import {
   AvatarConversationImage,
   NoAssociationFoundImage,
 } from '@/assets/images';
 import { styles } from '../Conversation.styles';
 import NoData from '@/components/NoData';
-import { ConversationSelectedValuesI } from '../Conversation.interface';
-import { useConversationView } from './useConversationView';
-import { menuOptionsAddConversation } from '../Conversation.data';
 import ConversationMenu from '../ConversationMenu';
-import { AlertModals } from '@/components/AlertModals';
-import { TICKETS_CONVERSATION_VALUE } from '@/constants/strings';
+import { UseConversation } from '../useConversation';
 
 const ConversationView: React.FC<{
   selectedValues: ConversationSelectedValuesI;
   open: boolean;
-  handleClickButtonMenu: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleClickButtonMenu: (event: any) => void;
   addConversation: HTMLElement | null;
   handleCloseButtonMenu: (e: any) => void;
   setSelectedItem: (value: any) => void;
 }> = ({
-  selectedValues,
+  // selectedValues,
   open,
   handleClickButtonMenu,
   addConversation,
   handleCloseButtonMenu,
   setSelectedItem,
 }) => {
-  const {
-    conversationActionIcon,
-    isDeleteModalOpen,
-    handleCloseDeleteModal,
-    handleDelete,
-  } = useConversationView();
+  const { emailData } = UseConversation();
+  // const theme = useTheme();
 
-  const theme = useTheme();
+  // const [currentTime, setCurrentTime] = useState<string>(
+  //   dayjs().format('h:mm A -D MMMM, YYYY'),
+  // );
 
-  const [currentTime, setCurrentTime] = useState<string>(
-    dayjs().format('h:mm A -D MMMM, YYYY'),
-  );
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentTime(dayjs().format('h:mm A -D MMMM, YYYY'));
+  //   }, 1000 * 60);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(dayjs().format('h:mm A -D MMMM, YYYY'));
-    }, 1000 * 60);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const renderConversationItem = ([id, conversationData]: any) => {
-    const transformedData = Object?.entries(conversationData)?.map(
-      ([key, value]: any) => {
-        const itemData = () => {
-          switch (key) {
-            case TICKETS_CONVERSATION_VALUE.FILE: {
-              return {
-                name: value?.name,
-                size: value?.size,
-                type: value?.type,
-              };
-            }
-            case TICKETS_CONVERSATION_VALUE.DESCRIPTION: {
-              return { description: value };
-            }
-            default:
-              return value;
-          }
-        };
-
-        return itemData();
-      },
-    );
-
-    const actionType =
-      conversationData?.note ||
-      conversationData?.reply ||
-      conversationData?.forward;
+  //   return () => clearInterval(interval);
+  // }, []);
+  const renderConversationItem = (email: any) => {
+    const { _id, recipients, subject, html, createdAt, performedBy } = email;
 
     return (
-      <>
-        <Grid
-          container
-          justifyContent="space-between"
-          sx={styles?.parent}
-          mb="1.25rem"
-          key={id}
-          gap={2}
-          alignItems={'center'}
-          flexWrap={'wrap'}
-        >
-          <Grid item xl={5} xs={12} paddingTop="0 !important" flex={1}>
-            <Box sx={styles?.leftSideParent}>
-              <Box
-                display="flex"
-                sx={{ flexDirection: { md: 'row', xs: 'column' } }}
-              >
-                <Image
-                  src={AvatarConversationImage?.src}
-                  alt="logo"
-                  width={32}
-                  height={32}
-                />
-                <Box sx={{ ml: { md: 2, xs: 0 } }}>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: { md: 'row', xs: 'column' },
-                      mt: { md: 0, xs: 2 },
+      <Grid
+        container
+        justifyContent="space-between"
+        sx={styles?.parent}
+        mb="1.25rem"
+        key={_id}
+        gap={2}
+        alignItems={'center'}
+        flexWrap={'wrap'}
+      >
+        <Grid item xs={12} paddingTop="0 !important" flex={1}>
+          <Box sx={styles?.leftSideParent}>
+            <Box
+              display="flex"
+              sx={{ flexDirection: { md: 'row', xs: 'column' } }}
+            >
+              <Image
+                src={AvatarConversationImage?.src}
+                alt="logo"
+                width={32}
+                height={32}
+              />
+              <Box sx={{ ml: { md: 2, xs: 0 } }}>
+                <Typography variant="subtitle1">{subject}</Typography>
+                <Typography variant="body2">
+                  {performedBy.firstName} {performedBy.lastName}{' '}
+                  <span
+                    style={{
+                      fontSize: '1rem',
+                      color: 'black',
+                      fontWeight: 600,
                     }}
                   >
-                    {transformedData
-                      ?.filter((value: any) => !value?.name && !value?.size)
-                      ?.map((value: any) => (
-                        <Typography
-                          key={uuidv4()}
-                          component="span"
-                          sx={{
-                            mr: 1,
-                            color: theme?.palette?.primary?.main,
-                          }}
-                        >
-                          {!value?.description && (
-                            <Typography>{value}</Typography>
-                          )}
-                        </Typography>
-                      ))}
-                  </Box>
-                  <Typography sx={styles?.date}>{currentTime}</Typography>
-                </Box>
-              </Box>
-              <Box>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: transformedData?.find(
-                      (value: any) => value?.description,
-                    )?.description,
-                  }}
-                ></div>
-              </Box>
-            </Box>
-          </Grid>
-          <Grid xl={3} xs={12}>
-            {transformedData
-              ?.filter((value: any) => value?.name || value?.size)
-              ?.map((value: any) => (
-                <Typography
-                  key={uuidv4()}
-                  component="span"
-                  sx={{
-                    mr: 1,
-                    color: theme?.palette?.primary?.main,
-                  }}
-                >
-                  <>
-                    <Typography> {value?.name} </Typography>
-                    {value?.size && (
-                      <Typography>
-                        {' '}
-                        {`${(value?.size / 1024).toFixed(2)} KB`}{' '}
-                      </Typography>
-                    )}
-                  </>
+                    notify to{' '}
+                  </span>
+                  {recipients.join(', ')}
                 </Typography>
-              ))}
-          </Grid>
-          <Grid item xl={3} xs={12} paddingTop="0 !important">
-            <Box sx={styles?.buttonBox}>
-              {conversationActionIcon(actionType)}
+                {/* <Typography variant="body2">
+                  To: {recipients.join(', ')}
+                </Typography> */}
+                <Typography sx={styles?.date}>
+                  {dayjs(createdAt).format('h:mm A - D MMMM, YYYY')}
+                </Typography>
+              </Box>
             </Box>
-          </Grid>
+            <Box mt={2}>
+              <div dangerouslySetInnerHTML={{ __html: html }}></div>
+            </Box>
+          </Box>
         </Grid>
-        <Box>
-          <AlertModals
-            message="Are you sure you want to delete this conversation?"
-            type="delete"
-            open={isDeleteModalOpen}
-            handleClose={handleCloseDeleteModal}
-            handleSubmit={handleDelete}
-          />
-        </Box>
-      </>
+      </Grid>
     );
   };
-
   return (
     <Box>
-      {Object?.entries(selectedValues)?.length > 0 ? (
-        <Grid container marginTop={2}>
-          {Object?.entries(selectedValues)?.map(renderConversationItem)}
-        </Grid>
+      {emailData?.length > 0 ? (
+        emailData?.map((email: any) => renderConversationItem(email))
       ) : (
-        <>
-          <Box marginTop={-10}>
-            <NoData
-              message="There are no conversation available"
-              image={NoAssociationFoundImage}
-            >
-              <ConversationMenu
-                open={open}
-                handleClickButtonMenu={handleClickButtonMenu}
-                addConversation={addConversation}
-                handleCloseButtonMenu={handleCloseButtonMenu}
-                setSelectedItem={setSelectedItem}
-                menuOptionsAddConversation={menuOptionsAddConversation}
-              />
-            </NoData>
-          </Box>
-        </>
+        <Box marginTop={-10}>
+          <NoData
+            message="There are no conversation available"
+            image={NoAssociationFoundImage}
+          >
+            <ConversationMenu
+              open={open}
+              handleClickButtonMenu={handleClickButtonMenu}
+              addConversation={addConversation}
+              handleCloseButtonMenu={handleCloseButtonMenu}
+              setSelectedItem={setSelectedItem}
+              menuOptionsAddConversation={emailData}
+            />
+          </NoData>
+        </Box>
       )}
     </Box>
   );
