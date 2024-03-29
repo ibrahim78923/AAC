@@ -11,6 +11,7 @@ import {
 } from '@/services/superAdmin/settings/quick-links';
 import { DATE_FORMAT } from '@/constants';
 import { PAGINATION } from '@/config';
+import { useGetProductsQuery } from '@/services/superAdmin/plan-mangement';
 
 const useFaqs = () => {
   const [selectedRow, setSelectedRow]: any = useState([]);
@@ -34,7 +35,12 @@ const useFaqs = () => {
     methodsFilter;
   const { data: dataGetQuickLinks, isLoading: loagingGetQuickLinks } =
     useGetQuickLinksQuery({
-      params: { ...filterParams, ...searchPayLoad, ...paginationParams },
+      params: {
+        type: 'SUPER_ADMIN',
+        ...filterParams,
+        ...searchPayLoad,
+        ...paginationParams,
+      },
     });
 
   // Dropdown Menu
@@ -59,12 +65,12 @@ const useFaqs = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    const { createdDate, ...others } = values;
-    const dateStart = createdDate?.[0]
-      ? dayjs(createdDate[0]).format(DATE_FORMAT.API)
+    const { createdAt, ...others } = values;
+    const dateStart = createdAt?.[0]
+      ? dayjs(createdAt[0]).format(DATE_FORMAT.API)
       : null;
-    const dateEnd = createdDate?.[1]
-      ? dayjs(createdDate[1]).format(DATE_FORMAT.API)
+    const dateEnd = createdAt?.[1]
+      ? dayjs(createdAt[1]).format(DATE_FORMAT.API)
       : null;
     setFilterParams((prev) => {
       const updatedParams = {
@@ -120,6 +126,12 @@ const useFaqs = () => {
     }
   };
 
+  const { data: getActiveProducts } = useGetProductsQuery({});
+  const selectProductOptions = getActiveProducts?.data?.map((product: any) => ({
+    value: product?._id,
+    label: product?.name,
+  }));
+
   return {
     anchorEl,
     actionMenuOpen,
@@ -150,6 +162,8 @@ const useFaqs = () => {
     isActionsDisabled,
     setRowId,
     rowId,
+
+    selectProductOptions,
   };
 };
 

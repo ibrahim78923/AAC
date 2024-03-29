@@ -1,22 +1,12 @@
 import { RHFSelect, RHFSwitchableDatepicker } from '@/components/ReactHookForm';
+import { DATE_FORMAT } from '@/constants';
 import { Checkbox } from '@mui/material';
-import * as Yup from 'yup';
+import dayjs from 'dayjs';
 
-export const quickLinksFilterValidationSchema = Yup.object().shape({
-  candidates: Yup.string().trim().required('Field is Required'),
-  applyDate: Yup.string().trim().required('Field is Required'),
-  status: Yup.string().trim().required('Field is Required'),
-});
-
-export const quickLinksFilterDefaultValues = {
-  createdDate: '',
-  candidates: '',
-};
-
-export const quickLinksFilterFiltersDataArray = [
+export const quickLinksFilterFiltersDataArray = (selectProductOptions: any) => [
   {
     componentProps: {
-      name: 'createdDate',
+      name: 'createdAt',
       label: 'Created Date',
       fullWidth: true,
     },
@@ -25,17 +15,11 @@ export const quickLinksFilterFiltersDataArray = [
   },
   {
     componentProps: {
-      name: 'candidates',
-      label: 'Candidates',
+      name: 'productId',
+      label: 'Select Product',
       select: true,
     },
-    options: [
-      { value: 'Sales', label: 'Sales' },
-      { value: 'Marketing', label: 'Marketing' },
-      { value: 'Service', label: 'Service' },
-      { value: 'Operations', label: 'Operations' },
-      { value: 'Loyalty Program', label: 'Loyalty Program' },
-    ],
+    options: selectProductOptions,
     component: RHFSelect,
     md: 12,
   },
@@ -122,25 +106,25 @@ export const columns: any = (
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.product,
-      id: 'product',
+      accessorFn: (row: any) => row.productName,
+      id: 'productName',
       cell: (info: any) => info.getValue(),
       header: 'Product',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.moduleName,
-      id: 'moduleName',
+      accessorFn: (row: any) => row.parent,
+      id: 'parent',
       isSortable: true,
       header: 'Module/Sub Module Name',
       cell: (info: any) => info.getValue(),
     },
     {
-      accessorFn: (row: any) => row.createdDate,
-      id: 'createdDate',
+      accessorFn: (row: any) => row.createdAt,
+      id: 'createdAt',
       isSortable: true,
       header: 'Created at',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => dayjs(info.getValue()).format(DATE_FORMAT?.UI),
     },
     {
       accessorFn: (row: any) => row.url,
