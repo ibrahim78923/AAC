@@ -80,7 +80,7 @@ const PlanCard: FC<PlanCardI> = ({
             >
               <Link
                 href={{
-                  pathname: `${orgAdminSubcriptionInvoices.manage_plan}`,
+                  pathname: `${orgAdminSubcriptionInvoices?.manage_plan}`,
                 }}
               >
                 <Button
