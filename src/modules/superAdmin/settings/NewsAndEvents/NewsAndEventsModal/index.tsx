@@ -97,7 +97,13 @@ const NewsAndEventsModal = ({
         >
           <Grid container spacing={4}>
             {newsAndEventsFormFiltersDataArray?.map((item: any) => (
-              <Grid item xs={12} md={item?.md} key={uuidv4()}>
+              <Grid
+                item
+                xs={12}
+                md={item?.md}
+                key={uuidv4()}
+                sx={{ paddingTop: '10px !important' }}
+              >
                 <item.component {...item.componentProps} size={'small'}>
                   {item?.componentProps?.select
                     ? item?.options?.map((option: any) => (
