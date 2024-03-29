@@ -66,6 +66,7 @@ export const END_POINTS = {
   DELETE_INVENTORY_ASSOCIATIONS_LIST: '/assets/delete-ticket-association',
   ASSETS_INVENTORY_Associations: '/assets/inventory-association-list',
   QUOTE: '/quote',
+  QUOTE_SUBMIT: '/quote/submit',
   GET_COMPANY_ORGANIZATION_DROPDOWN: '/dropdown/organizations',
   GET_COMPANY_ACCOUNTS: '/company-accounts',
   SALE_PRODUCTS: '/sales-product',
@@ -111,7 +112,7 @@ export const END_POINTS = {
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
   TICKET_DETAILS: '/ticket',
   REQUESTER_LIST: `/requester/requester-list`,
-
+  DROPDOWN_TASK: '/task',
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
   DEPARTMENT: '/Department/add-department',
@@ -333,6 +334,7 @@ export const END_POINTS = {
   CONVERT_TO_AGENT: `/requester/agent-requests`,
   SERVICES_PATCH_EMAIL_NOTIFICATION: `/notifications/settings`,
   SERVICES_GET_EMAIL_NOTIFICATION: `/notifications/get-notification-settings`,
+  GET_TOP_PERFORMER: `/air-services-dashboard/get-top-performer`,
 };
 
 export const superAdminBillingInvoices = {
@@ -410,4 +412,9 @@ export const OPERATION = {
   OPERATION_WORKFLOW: '/workflows',
   SCHEMA_KEYS: '/workflows/schema-keys',
   STATUS_WORKFLOW: '/workflows/change-status',
+  SAVE_WORKFLOW: '/workflows/save',
+};
+
+export const AIR_SALES = {
+  INVOICES: '/quote-invoice',
 };

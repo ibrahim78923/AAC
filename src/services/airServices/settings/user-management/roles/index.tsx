@@ -6,10 +6,10 @@ const TAG = 'AIR_SERVICES_ROLES';
 export const servicesPermissionsRole = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     getPermissionsRole: builder.query({
-      query: (params: any) => ({
+      query: (getRolesParameter: any) => ({
         url: `${END_POINTS?.PERMISSIONS_ROLE}`,
         method: 'GET',
-        params,
+        params: getRolesParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
@@ -48,13 +48,12 @@ export const servicesPermissionsRole = baseAPI.injectEndpoints({
         url: `${END_POINTS?.PERMISSIONS_ROLE}/${roleId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: [TAG],
     }),
   }),
 });
 
 export const {
-  useGetPermissionsRoleQuery,
+  useLazyGetPermissionsRoleQuery,
   useGetPermissionsByProductQuery,
   usePostPermissionsRoleMutation,
   useGetPermissionsRoleByIdQuery,

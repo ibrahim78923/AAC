@@ -21,14 +21,13 @@ const BuyerCompany = () => {
               {viewQuotesData?.data?.deal[0]?.companies[0]?.address}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {` ${viewQuotesData?.data?.deal[0]?.companies[0]?.city} `}
-              {/* ${State} | ${Zip Code} */}
+              {` ${viewQuotesData?.data?.deal[0]?.companies[0]?.city} | ${viewQuotesData?.data?.deal[0]?.companies[0]?.postalCode}`}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              Phone No
+              {viewQuotesData?.data?.deal[0]?.companies[0]?.owner?.phoneNumber}
             </Typography>
             <Typography variant="body3" sx={styles?.infoSubtitle}>
-              Company Email
+              {viewQuotesData?.data?.deal[0]?.companies[0]?.owner?.email}
             </Typography>
           </Box>
         </Box>

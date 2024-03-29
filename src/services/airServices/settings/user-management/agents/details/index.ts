@@ -1,6 +1,8 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
+const TAG = 'AGENTS';
+
 export const agentDetailsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getSingleAgentDetails: builder?.query({
@@ -8,6 +10,7 @@ export const agentDetailsAPI = baseAPI?.injectEndpoints({
         url: `${END_POINTS?.REQUESTER_VIEW_DETAILS}${getSingleAgentDetailsParameter?.pathParams?.id}`,
         method: 'GET',
       }),
+      providesTags: [TAG],
     }),
     getAgentTicketDetails: builder?.query({
       query: (getAgentTicketDetailsParameter: any) => ({
@@ -42,6 +45,26 @@ export const agentDetailsAPI = baseAPI?.injectEndpoints({
         method: 'GET',
       }),
     }),
+    getPermissionsRoleByIdForAgent: builder?.query({
+      query: (getPermissionsRoleByIdForAgentParameter: any) => ({
+        url: `${END_POINTS?.PERMISSIONS_ROLE}/${getPermissionsRoleByIdForAgentParameter?.pathParams?.roleId}`,
+        method: 'GET',
+      }),
+    }),
+    getAgentDetailLevel: builder?.query({
+      query: (getAgentDetailLevelParameter: any) => ({
+        url: END_POINTS?.GET_TOP_PERFORMER,
+        method: 'GET',
+        params: getAgentDetailLevelParameter?.queryParams,
+      }),
+      transformResponse: (response: any, _: any, apiDataParameter: any) => {
+        if (response)
+          return response?.data?.find(
+            (performer: any) =>
+              performer?._id === apiDataParameter?.queryParams?.agent,
+          );
+      },
+    }),
   }),
 });
 
@@ -52,4 +75,6 @@ export const {
   useGetAgentTicketDetailsQuery,
   useGetSingleAgentDetailsQuery,
   useGetSingleDepartmentDetailsQuery,
+  useGetPermissionsRoleByIdForAgentQuery,
+  useGetAgentDetailLevelQuery,
 } = agentDetailsAPI;

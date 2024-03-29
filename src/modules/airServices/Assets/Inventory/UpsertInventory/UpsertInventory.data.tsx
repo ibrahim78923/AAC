@@ -43,11 +43,8 @@ export const upsertInventoryFieldsDefaultValuesFunction = (data?: any) => {
     description: data?.description ?? '',
     location: data?.locationDetails ?? null,
     department: data?.departmentDetails ?? null,
-    assignedOnDate: new Date(data?.assignedOnDate ?? todayDate),
-    assignedOnTime:
-      typeof data?.assignedOnTime === 'string'
-        ? new Date(data?.assignedOnTime)
-        : null,
+    assignedOnDate: new Date(data?.assignedOn ?? todayDate),
+    assignedOnTime: new Date(data?.assignedOn ?? todayDate),
     usedBy: data?.usedByDetails ?? null,
     fileUrl: null,
   };

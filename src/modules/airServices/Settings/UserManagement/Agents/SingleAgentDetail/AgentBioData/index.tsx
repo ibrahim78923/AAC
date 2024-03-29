@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { fullName, generateImage, truncateText } from '@/utils/avatarUtils';
 import { EditRequestorsIcon } from '@/assets/icons';
+import { AGENT_LEVELS_IMAGES } from '@/constants/images';
 
 export const AgentBioData = (props: any) => {
   const theme = useTheme();
@@ -22,7 +23,9 @@ export const AgentBioData = (props: any) => {
     isError,
     departmentDetails,
     handleEditButtonClick,
+    agentLevelDetail,
   }: any = props;
+
   if (isLoading || isFetching) return <SkeletonForm />;
   if (isError) return <ApiErrorState />;
 
@@ -150,12 +153,39 @@ export const AgentBioData = (props: any) => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} md={1} textAlign={'end'}>
+        <Grid item xs={12} md={1} textAlign={'center'}>
           <IconButton onClick={() => handleEditButtonClick?.()}>
             <EditRequestorsIcon />
           </IconButton>
         </Grid>
-        <Grid item xs={12} md={3} padding={1.5}></Grid>
+        <Grid item xs={12} md={3} padding={1.5} textAlign={'end'}>
+          {!!agentLevelDetail?.data ? (
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              flexWrap={'wrap'}
+              gap={1}
+              border={'1px solid'}
+              borderColor={'custom.off_white'}
+              p={1.5}
+            >
+              <Avatar
+                src={AGENT_LEVELS_IMAGES?.[agentLevelDetail?.data?.badges]?.src}
+                sx={{ width: 30, height: 30 }}
+                alt={agentLevelDetail?.data?.badges}
+              />
+              <Typography
+                variant="body2"
+                textTransform={'capitalize'}
+                color="slateBlue.main"
+              >
+                {agentLevelDetail?.data?.badges}
+              </Typography>
+            </Box>
+          ) : (
+            <></>
+          )}
+        </Grid>
       </Grid>
     </Box>
   );

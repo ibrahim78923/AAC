@@ -80,6 +80,7 @@ export const authAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
+      invalidatesTags: ['ACCOUNTS'],
     }),
 
     getAuthMyAccount: builder.query({
@@ -87,7 +88,7 @@ export const authAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.AUTH_MY_ACCOUNT}`,
         method: 'GET',
       }),
-      providesTags: ['companies'],
+      providesTags: ['companies', 'ACCOUNTS'],
     }),
   }),
 });

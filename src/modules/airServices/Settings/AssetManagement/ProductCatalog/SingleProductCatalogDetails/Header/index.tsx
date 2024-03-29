@@ -7,9 +7,11 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_SETTINGS_ASSETS_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const Header = ({ dropdownOptions }: any) => {
-  const { isLoading, router, title } = useHeader();
+  const { isLoading, router, title, isFetching, isError } = useHeader();
 
-  if (isLoading) return <Skeleton height={50} />;
+  if (isError) return <center>Something Went Wrong</center>;
+
+  if (isLoading || isFetching) return <Skeleton height={50} />;
 
   return (
     <Box

@@ -19,8 +19,11 @@ import {
 } from '@/services/orgAdmin/settings/contact-status';
 import { enqueueSnackbar } from 'notistack';
 import { isNullOrEmpty } from '@/utils';
+import { PAGINATION } from '@/config';
 
 const useContactStatus = () => {
+  const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
+  const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [isDraweropen, setIsDraweropen] = useState(false);
   const [isOpenAlert, setIsOpenAlert] = useState(false);
   const [rowId, setRowId] = useState<string>('');
@@ -29,6 +32,10 @@ const useContactStatus = () => {
   const [postContactStatus] = usePostContactStatusMutation();
 
   // GET CONTACT STATUS LIST
+  const paginationParams = {
+    page: page,
+    limit: pageLimit,
+  };
   const [searchValue, setSearchValue] = useState(null);
   let searchPayLoad;
   if (searchValue) {
@@ -37,11 +44,11 @@ const useContactStatus = () => {
   const {
     data,
     refetch: refetchContactStatus,
-    isLoading,
+    isLoading: loadingList,
     isError,
     isFetching,
     isSuccess,
-  } = useGetContactStatusQuery(searchPayLoad);
+  } = useGetContactStatusQuery({ ...searchPayLoad, ...paginationParams });
 
   const [deleteContactStatus] = useDeleteContactStatusMutation();
   const [updateContactStatus, { isLoading: loadingUpdateContactStatus }] =
@@ -146,9 +153,11 @@ const useContactStatus = () => {
   );
 
   return {
+    setPageLimit,
+    setPage,
     setSearchValue,
-    tableRow: data?.data?.conatactStatus,
-    isLoading,
+    tableRow: data?.data,
+    loadingList,
     isError,
     isFetching,
     isSuccess,
