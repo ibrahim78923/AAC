@@ -2,25 +2,28 @@ import { FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
-import { useHeader } from './useHeader';
-import FilterWorkflow from '../../FilterWorkflow';
 import { AIR_OPERATIONS } from '@/constants';
-import { SupervisorRulesDelete } from '../SupervisorRulesDelete';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
+import FilterWorkflow from '../../../FilterWorkflow';
+import { WorkflowDelete } from '../../WorkflowDelete';
+import { useTicketsHeader } from './useTicketsHeader';
 
-const Header = ({ selectedSupervisorList }: any) => {
+const TicketsHeader = (props: any) => {
   const {
-    searchValue,
-    setSearchValue,
-    dropdownOptions,
+    selectedList,
+    setSearch,
+    search,
+    onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,
+    dropdownOptions,
     router,
-    deleteWorkflow,
     setDeleteWorkflow,
-  } = useHeader();
+    deleteWorkflow,
+  } = props;
+  const { handleDelete } = useTicketsHeader(props);
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -31,10 +34,9 @@ const Header = ({ selectedSupervisorList }: any) => {
             ]}
           >
             <Search
-              value={searchValue}
               label="Search Here"
-              setSearchBy={setSearchValue}
-              onChange={(e: any) => setSearchValue(e?.target?.value)}
+              searchBy={search}
+              setSearchBy={setSearch}
             />
           </PermissionsGuard>
         </Box>
@@ -46,7 +48,7 @@ const Header = ({ selectedSupervisorList }: any) => {
           >
             <SingleDropdownButton
               dropdownOptions={dropdownOptions}
-              disabled={!!!selectedSupervisorList?.length}
+              disabled={selectedList}
             />
           </PermissionsGuard>
           <PermissionsGuard
@@ -82,13 +84,15 @@ const Header = ({ selectedSupervisorList }: any) => {
       <FilterWorkflow
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
+        onSubmitFilter={onSubmitListFilter}
       />
-      <SupervisorRulesDelete
+      <WorkflowDelete
         deleteWorkflow={deleteWorkflow}
         setDeleteWorkflow={setDeleteWorkflow}
+        handleDelete={handleDelete}
       />
     </>
   );
 };
 
-export default Header;
+export default TicketsHeader;
