@@ -106,6 +106,7 @@ const AddPlanForm = ({
                 name={planLabelRender}
                 label={planNameRender}
                 size="small"
+                disabled={isSuccess}
                 required={true}
               >
                 {productsOptions?.map((option: any) => (

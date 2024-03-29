@@ -21,6 +21,7 @@ import { useAppSelector } from '@/redux/store';
 import { v4 as uuidv4 } from 'uuid';
 import { useGetProductsFeaturesQuery } from '@/services/superAdmin/plan-mangement';
 import { useGetProductsQuery } from '@/services/common-APIs';
+import { useRouter } from 'next/router';
 
 const PlanFeatures = ({ methods, handleSubmit }: any) => {
   const {
@@ -32,7 +33,6 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
     handleOpenFeaturesModal,
     setAccordianId,
     accordianId,
-    editPlan,
   } = usePlanFeatures();
   const { planManagement }: any = useAppSelector(
     (state) => state?.planManagementForms,
@@ -60,6 +60,9 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
     value: product?._id,
     label: product?.name,
   }));
+
+  const router = useRouter();
+  const { type } = router.query;
 
   return (
     <div>
@@ -143,12 +146,12 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
         // : planManagement?.addPlanForm?.productId?.map((feature: string) => ())
         <Accordion
           expanded={
-            expandedAccordion === !isNullOrEmpty(editPlan)
+            expandedAccordion === (type === 'add')
               ? planManagement?.addPlanForm?.productId
               : planManagement?.addPlanForm?.productId[0]
           }
           onChange={handleExpandAccordionChange(
-            !isNullOrEmpty(editPlan)
+            type === 'add'
               ? planManagement?.addPlanForm?.productId
               : planManagement?.addPlanForm?.productId[0],
           )}
@@ -179,11 +182,25 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
           >
             <Typography variant="h4">
               {productList &&
-                productsOptions?.find((obj: any) =>
-                  obj?.value === !isNullOrEmpty(editPlan)
-                    ? planManagement?.addPlanForm?.productId
-                    : planManagement?.addPlanForm?.productId[0],
+                type === 'add' &&
+                productsOptions?.find(
+                  (obj: any) =>
+                    obj?.value === planManagement?.addPlanForm?.productId,
                 )?.label}
+              {/* {productList && type === 'edit' &&
+                productsOptions?.find((obj: any) =>
+                  obj?.value === planManagement?.addPlanForm?.productId[0],
+                )?.label} */}
+              {productList &&
+                type === 'edit' &&
+                planManagement?.addPlanForm?.productId.map((id: string) => (
+                  <div key={id}>
+                    {
+                      productsOptions?.find((obj: any) => obj?.value === id)
+                        ?.label
+                    }
+                  </div>
+                ))}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
