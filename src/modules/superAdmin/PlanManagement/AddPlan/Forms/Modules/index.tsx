@@ -125,13 +125,10 @@ const Modules = ({
           }}
         >
           <AccordionSummary
-            expandIcon={
-              <ExpandMoreIcon
-                onClick={() => {
-                  handleExpandAccordionChange(item?.name?.toLowerCase());
-                }}
-              />
-            }
+            onClick={() => {
+              handleExpandAccordionChange(item?.name?.toLowerCase());
+            }}
+            expandIcon={<ExpandMoreIcon />}
             aria-controls="dashboard"
             id="dashboard"
           >
@@ -143,7 +140,8 @@ const Modules = ({
                       (permission: any) =>
                         selectedPermission?.includes(permission),
                     )}
-                    onClick={() => {
+                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                      event.stopPropagation();
                       selectAllPermissions(item?.subModules);
                     }}
                   />
