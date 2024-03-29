@@ -1,15 +1,14 @@
-import { useBarChart } from './useBarChart';
 import { CustomChart } from '@/components/Chart';
-import { barChartDataOptions } from './BarChart.data';
+import { useBarChart } from './useBarChart';
 
-export const BarChart = (props: any) => {
-  const { theme, barChartData } = useBarChart(props);
+export const BarChart = ({ chartData }: any) => {
+  const { options, seriesData } = useBarChart({ chartData });
 
   return (
     <CustomChart
-      options={barChartDataOptions(theme)}
-      series={barChartData()}
-      type="bar"
+      options={options}
+      series={seriesData}
+      type={'bar'}
       height={348}
     />
   );

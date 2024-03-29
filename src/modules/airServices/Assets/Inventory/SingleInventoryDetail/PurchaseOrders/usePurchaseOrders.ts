@@ -29,7 +29,7 @@ export const usePurchaseOrders = () => {
       successSnackbar(res?.message ?? 'Record deleted Successfully');
       setOpenDeleteModal(false);
     } catch (err: any) {
-      errorSnackbar(err?.message ?? `Something went wrong`);
+      errorSnackbar(err?.message);
     }
   };
   return {

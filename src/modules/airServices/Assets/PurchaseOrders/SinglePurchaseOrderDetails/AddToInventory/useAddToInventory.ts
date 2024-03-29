@@ -31,7 +31,7 @@ export default function useAddToInventoryDrawer(props: any) {
   const router = useRouter();
   const [search, setSearch] = useState('');
   const { purchaseOrderId } = router?.query;
-
+  const receivedItem = 0;
   const { setIsADrawerOpen } = props;
   const [postPurchaseOrderTrigger] = usePostAssetPurchaseOrderMutation();
   const [patchNewInventoryTrigger] = usePatchAddToPurchaseOrderMutation();
@@ -191,5 +191,6 @@ export default function useAddToInventoryDrawer(props: any) {
     apiQueryLocations,
     apiQueryDepartment,
     fields,
+    receivedItem,
   };
 }

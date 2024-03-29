@@ -78,6 +78,13 @@ export const singlePurchaseOrderAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG_FIVE],
     }),
+    getAddToPurchaseOrderByIdForReceivedItems: builder?.query({
+      query: (getSingleAddToPurchaseOrderParameter: any) => ({
+        url: `${END_POINTS?.ASSETS_PURCHASEORDER_DETAIL}/${getSingleAddToPurchaseOrderParameter?.pathParam?.purchaseOrderId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
   }),
 });
 
@@ -90,4 +97,5 @@ export const {
   useGetAllAssetsListQuery,
   usePatchAddToPurchaseOrderMutation,
   usePatchAddToItemMutation,
+  useGetAddToPurchaseOrderByIdForReceivedItemsQuery,
 } = singlePurchaseOrderAPI;
