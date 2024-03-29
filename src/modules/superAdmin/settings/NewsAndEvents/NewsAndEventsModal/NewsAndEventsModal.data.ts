@@ -2,9 +2,9 @@ import { RHFEditor, RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 export const newsAndEventsFormValidationSchema = Yup.object().shape({
-  type: Yup.string().trim().required('Field is Required'),
-  name: Yup.string().trim().required('Field is Required'),
-  description: Yup.string().trim().required('Field is Required'),
+  type: Yup?.string()?.trim()?.required('Field is Required'),
+  name: Yup?.string()?.trim().required('Field is Required'),
+  description: Yup?.string()?.trim().required('Field is Required'),
 });
 
 export const newsAndEventsFormDefaultValues = {

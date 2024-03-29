@@ -4,9 +4,9 @@ import { Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
 export const newsAndEventsDateValidationSchema = Yup.object().shape({
-  createdDate: Yup.string(),
-  status: Yup.string(),
-  type: Yup.string(),
+  createdDate: Yup?.string(),
+  status: Yup?.string(),
+  type: Yup?.string(),
 });
 
 export const newsAndEventsDateDefaultValues = {
@@ -71,7 +71,7 @@ export const columns = (
             info?.cell?.row?.original?._id ===
               tableRowValues?.cell?.row?.original?._id && isDisabled
           }
-          name={info.getValue()}
+          name={info?.getValue()}
           onClick={() => {
             setTableRowValues(info), setIsDisabled(!isDisabled);
           }}
@@ -83,33 +83,33 @@ export const columns = (
     {
       accessorFn: (row: any) => row.name,
       id: 'name',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
       header: 'Name',
       isSortable: false,
     },
     {
-      accessorFn: (row: any) => row.description,
+      accessorFn: (row: any) => row?.description,
       id: 'description',
       isSortable: true,
       header: 'Description',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.type,
+      accessorFn: (row: any) => row?.type,
       id: 'type',
       isSortable: true,
       header: 'Type',
-      cell: (info: any) => info.getValue(),
+      cell: (info: any) => info?.getValue(),
     },
     {
-      accessorFn: (row: any) => row.createdAt,
+      accessorFn: (row: any) => row?.createdAt,
       id: 'createdAt',
       isSortable: true,
       header: 'Created Date & Time',
-      cell: (info: any) => dayjs(info.getValue())?.format(DATE_FORMAT?.UI),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
     {
-      accessorFn: (row: any) => row.status,
+      accessorFn: (row: any) => row?.status,
       id: 'status',
       isSortable: true,
       header: 'Status',
@@ -124,7 +124,9 @@ export const columns = (
                 ? theme?.palette?.error?.main
                 : theme?.palette?.success?.main,
             backgroundColor:
-              info?.getValue() === 'inactive' ? '#FF4A4A33' : '#47B26333',
+              info?.getValue() === 'inactive'
+                ? theme?.palette?.custom?.inactive_bg
+                : theme?.palette?.custom?.active_bg,
           }}
         >
           {info?.getValue()}
