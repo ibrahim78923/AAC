@@ -20,7 +20,7 @@ export const upsertUserDefaultValues = (data?: any) => {
   return {
     firstName: data?.user?.firstName ?? '',
     lastName: data?.user?.lastName ?? '',
-    address: typeof data?.user?.address === 'string' ? data?.user?.address : '',
+    address: data?.address?.composite,
     email: data?.user?.email ?? '',
     phoneNumber: data?.user?.phoneNumber ?? '',
     jobTitle: data?.user?.jobTitle ?? '',
