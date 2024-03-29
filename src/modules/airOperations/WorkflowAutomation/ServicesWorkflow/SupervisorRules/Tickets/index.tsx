@@ -24,6 +24,7 @@ const Tickets = () => {
     setDeleteWorkflow,
     dropdownOptions,
     setSelectedAction,
+    isError,
   } = useTickets();
   return (
     <>
@@ -48,6 +49,7 @@ const Tickets = () => {
         isFetching={isFetching}
         isSuccess={isSuccess}
         isLoading={isLoading}
+        isError={isError}
         setLimit={setLimit}
         setPage={setPage}
         count={ticketsData?.meta?.pages}

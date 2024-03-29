@@ -31,8 +31,10 @@ export const useTickets = () => {
   const [deleteWorkflow, setDeleteWorkflow] = useState(false);
   const EDIT_WORKFLOW = 'edit';
   const selectedId = selectedAction?.map((item: any) => item?._id);
-  const [getWorkflowListTrigger, { data, isLoading, isFetching, isSuccess }] =
-    useLazyGetWorkflowListQuery();
+  const [
+    getWorkflowListTrigger,
+    { data, isLoading, isFetching, isSuccess, isError },
+  ] = useLazyGetWorkflowListQuery();
   const workflowParams = {
     page,
     limit,
@@ -46,6 +48,7 @@ export const useTickets = () => {
   useEffect(() => {
     handleWorkflow();
   }, [page, search, limit]);
+
   const onSubmitListFilter = async (filterData: any) => {
     const filterParams: any = {
       ...workflowParams,
@@ -134,5 +137,6 @@ export const useTickets = () => {
     dropdownOptions,
     listData,
     setSelectedAction,
+    isError,
   };
 };

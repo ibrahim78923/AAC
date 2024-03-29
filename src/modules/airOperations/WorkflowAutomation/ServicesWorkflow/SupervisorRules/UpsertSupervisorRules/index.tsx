@@ -21,6 +21,7 @@ export const UpsertSupervisorRules = () => {
     postWorkflowProgress,
     isLoading,
     isFetching,
+    handleSaveAsDraft,
   } = useUpsertSupervisorRules();
   if (isLoading || isFetching) return <Skeleton />;
   return (
@@ -29,7 +30,10 @@ export const UpsertSupervisorRules = () => {
         methods={rulesMethod}
         onSubmit={handleSubmit(handleFormSubmit)}
       >
-        <WorkflowHeader postWorkflowProgress={postWorkflowProgress} />
+        <WorkflowHeader
+          postWorkflowProgress={postWorkflowProgress}
+          handleSaveAsDraft={handleSaveAsDraft}
+        />
         <Grid container spacing={2}>
           {rulesWorkflowDataArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.id}>

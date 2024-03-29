@@ -9,6 +9,7 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import {
   useGetByIdWorkflowQuery,
   usePostServicesWorkflowMutation,
+  useSaveWorkflowMutation,
   useUpdateWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
@@ -35,9 +36,9 @@ export const useUpsertSupervisorRules = () => {
     resolver: yupResolver(rulesWorkflowSchema),
   });
 
-  const { reset, watch, register, handleSubmit, setValue, control } =
+  const { reset, watch, register, handleSubmit, setValue, control, getValues } =
     rulesMethod;
-
+  const [saveWorkflowTrigger] = useSaveWorkflowMutation();
   const [postWorkflowTrigger, postWorkflowProgress] =
     usePostServicesWorkflowMutation();
   const [updateWorkflowTrigger] = useUpdateWorkflowMutation();
@@ -57,7 +58,7 @@ export const useUpsertSupervisorRules = () => {
           })) ?? [],
       };
       try {
-        await updateWorkflowTrigger(body).unwrap();
+        await updateWorkflowTrigger(body)?.unwrap();
         successSnackbar('Workflow Update Successfully');
         reset();
         movePage();
@@ -78,11 +79,28 @@ export const useUpsertSupervisorRules = () => {
           })) ?? [],
       };
       try {
-        await postWorkflowTrigger(body).unwrap();
+        await postWorkflowTrigger(body)?.unwrap();
         successSnackbar('Workflow Enabled Successfully');
         reset();
         movePage();
         return options;
+      } catch (error) {
+        errorSnackbar();
+      }
+    }
+  };
+  const handleSaveAsDraft = async () => {
+    const title = getValues('title');
+    const values = getValues();
+    if (!title) {
+      errorSnackbar('Title is required');
+      return;
+    } else {
+      try {
+        await saveWorkflowTrigger(values)?.unwrap();
+        successSnackbar('Workflow Updated Successfully');
+        reset();
+        movePage();
       } catch (error) {
         errorSnackbar();
       }
@@ -107,5 +125,6 @@ export const useUpsertSupervisorRules = () => {
     postWorkflowProgress,
     isLoading,
     isFetching,
+    handleSaveAsDraft,
   };
 };

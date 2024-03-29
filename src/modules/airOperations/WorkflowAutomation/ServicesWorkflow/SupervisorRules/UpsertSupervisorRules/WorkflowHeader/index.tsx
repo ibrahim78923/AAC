@@ -5,10 +5,18 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TestWorkflow } from '../TestWorkflow';
 import { useWorkflowHeader } from './useWorkflowHeader';
 
-export const WorkflowHeader = (postWorkflowProgress: any) => {
+export const WorkflowHeader = ({
+  postWorkflowProgress,
+  handleSaveAsDraft,
+}: any) => {
   const { handleMoveBack, openWorkflowModal, setOpenWorkflowModal, action } =
     useWorkflowHeader();
   const EDIT_WORKFLOW = 'edit';
+  const mainTitle = {
+    edit: 'Edit Rules',
+    create: 'Create Rules',
+    update: 'Update',
+  };
   return (
     <Box>
       <Box
@@ -19,7 +27,7 @@ export const WorkflowHeader = (postWorkflowProgress: any) => {
         gap={1}
       >
         <PageTitledHeader
-          title={action === EDIT_WORKFLOW ? 'Edit Rules' : 'Create Rules'}
+          title={action === EDIT_WORKFLOW ? mainTitle?.edit : mainTitle?.create}
           canMovedBack
           moveBack={handleMoveBack}
         />
@@ -36,6 +44,7 @@ export const WorkflowHeader = (postWorkflowProgress: any) => {
             startIcon={<GrayBookIcon />}
             variant="outlined"
             color="secondary"
+            onClick={handleSaveAsDraft}
           >
             Save as Draft
           </LoadingButton>
@@ -45,7 +54,7 @@ export const WorkflowHeader = (postWorkflowProgress: any) => {
             type="submit"
             disabled={postWorkflowProgress?.isLoading}
           >
-            {action === EDIT_WORKFLOW ? 'Update' : 'Create'}
+            {action === EDIT_WORKFLOW ? mainTitle?.update : mainTitle?.create}
           </LoadingButton>
         </Box>
       </Box>
