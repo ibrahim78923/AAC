@@ -12,6 +12,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
+import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 
 export const useReceivedItems = (props: any) => {
   const router = useRouter();
@@ -49,6 +50,11 @@ export const useReceivedItems = (props: any) => {
   });
 
   const submitHandler = async (data: any) => {
+    let purchaseOrderStatus: any;
+    const checkStatus = data?.receivedItem?.every(
+      (x: any) => x?.received == x.quantity,
+    );
+
     const dr = data?.receivedItem?.some(
       (x: any) => x?.received == 0 || x?.received > x?.quantity,
     );
@@ -58,9 +64,13 @@ export const useReceivedItems = (props: any) => {
       setIsDrawerOpen(false);
       return;
     }
-
+    if (checkStatus) {
+      purchaseOrderStatus = PURCHASE_ORDER_STATUS?.RECEIVED;
+    } else {
+      purchaseOrderStatus = PURCHASE_ORDER_STATUS?.PARTLY_RECEIVED;
+    }
     const sendData = data?.receivedItem?.map((item: any) => {
-      const purchaseDetails = item?.data?.purchaseDetails.map(
+      const purchaseDetails = item?.data?.purchaseDetails?.map(
         (secondItem: any) => ({
           ...secondItem,
           received: item?.received,
@@ -77,7 +87,7 @@ export const useReceivedItems = (props: any) => {
         departmentId: item?.data?.departmentId,
         termAndCondition: item?.data?.termAndCondition,
         subTotal: item?.data?.subTotal,
-        status: item?.data?.status,
+        status: purchaseOrderStatus,
         purchaseDetails: purchaseDetails,
       };
     });
