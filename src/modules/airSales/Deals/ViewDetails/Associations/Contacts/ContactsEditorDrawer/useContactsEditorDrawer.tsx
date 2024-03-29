@@ -17,19 +17,32 @@ import { useCreateAssociationMutation } from '@/services/airSales/deals/view-det
 import { DATE_FORMAT } from '@/constants';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useUpdateContactStatusMutation } from '@/services/orgAdmin/settings/contact-status';
+import useAuth from '@/hooks/useAuth';
+import { useGetOrganizationUsersQuery } from '@/services/dropdowns';
 
 const useContactsEditorDrawer = ({
   openDrawer,
   contactRecord,
   setOpenDrawer,
+  dealId,
 }: any) => {
   const { data: lifeCycleStages } = useGetLifeCycleQuery({});
-
   const { data: ContactsStatus } = useGetContactsStatusQuery({});
+  const { user }: any = useAuth();
 
-  const [postContacts] = usePostContactsMutation();
+  const { data: ContactOwners } = useGetOrganizationUsersQuery(
+    user?.organization?._id,
+  );
+
+  const [postContacts, { isLoading: postContactLoading }] =
+    usePostContactsMutation();
   const [updateContacts] = useUpdateContactStatusMutation();
   const [createAssociation] = useCreateAssociationMutation();
+
+  const contactOwnerData = ContactOwners?.data?.users?.map((user: any) => ({
+    value: user?._id,
+    label: `${user?.firstName} ${user?.lastName}`,
+  }));
 
   const contactStatusData = ContactsStatus?.data?.conatactStatus?.map(
     (lifecycle: any) => ({ value: lifecycle?._id, label: lifecycle?.name }),
@@ -77,6 +90,7 @@ const useContactsEditorDrawer = ({
   });
 
   const onSubmit = async (values: any) => {
+    const recordType = 'deals';
     const formData = new FormData();
     formData.append('profilePicture', values?.profilePicture);
     formData.append('email', values?.email);
@@ -95,8 +109,9 @@ const useContactsEditorDrawer = ({
     formData.append(
       'dateOfJoinig',
       dayjs(values?.dataOfJoining)?.format(DATE_FORMAT?.API),
-    );
-
+    ),
+      formData.append('recordType', recordType),
+      formData.append('recordId', dealId);
     try {
       const response =
         openDrawer === 'Edit'
@@ -116,7 +131,7 @@ const useContactsEditorDrawer = ({
             },
           }).unwrap();
           enqueueSnackbar(
-            ` Connect ${
+            ` Contact ${
               openDrawer === 'Edit' ? 'Updated' : 'Added'
             } Successfully`,
             {
@@ -153,6 +168,8 @@ const useContactsEditorDrawer = ({
     lifeCycleStagesData,
     contactStatusData,
     onCloseHandler,
+    contactOwnerData,
+    postContactLoading,
   };
 };
 

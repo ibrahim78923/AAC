@@ -15,13 +15,9 @@ export const Vendors = () => {
     handleSubmitDelete,
     setIsUpsertModalOpen,
     isUpsertModalOpen,
-    data,
-    isLoading,
-    isFetching,
-    isError,
-    isSuccess,
+    productCatalogVendorListStatus,
     setPage,
-    setLimit,
+    setPageLimit,
     deleteVendorStatus,
   } = useVendors();
 
@@ -44,20 +40,22 @@ export const Vendors = () => {
         borderColor={'custom.off_white_three'}
       >
         <TanstackTable
-          data={data?.data?.vendorproductcatalogs}
+          data={
+            productCatalogVendorListStatus?.data?.data?.vendorproductcatalogs
+          }
           columns={vendorsColumns}
           isPagination
-          currentPage={data?.data?.meta?.page}
-          count={data?.data?.meta?.pages}
-          pageLimit={data?.data?.meta?.limit}
-          totalRecords={data?.data?.meta?.total}
+          currentPage={productCatalogVendorListStatus?.data?.data?.meta?.page}
+          count={productCatalogVendorListStatus?.data?.data?.meta?.pages}
+          pageLimit={productCatalogVendorListStatus?.data?.data?.meta?.limit}
+          totalRecords={productCatalogVendorListStatus?.data?.data?.meta?.total}
           onPageChange={(page: any) => setPage(page)}
           setPage={setPage}
-          setPageLimit={setLimit}
-          isLoading={isLoading}
-          isFetching={isFetching}
-          isError={isError}
-          isSuccess={isSuccess}
+          setPageLimit={setPageLimit}
+          isLoading={productCatalogVendorListStatus?.isLoading}
+          isFetching={productCatalogVendorListStatus?.isFetching}
+          isError={productCatalogVendorListStatus?.isError}
+          isSuccess={productCatalogVendorListStatus?.isSuccess}
         />
       </Box>
 

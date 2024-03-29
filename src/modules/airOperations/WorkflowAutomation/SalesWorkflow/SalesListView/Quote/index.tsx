@@ -25,6 +25,8 @@ export const Quote = () => {
     setPage,
     activeCheck,
     onSubmitFilter,
+    handleDelete,
+    deleteLoading,
   } = useQuote();
   return (
     <>
@@ -58,6 +60,8 @@ export const Quote = () => {
       <DeleteSalesWorkflow
         deleteWorkflow={openDelete}
         setDeleteWorkflow={setOpenDelete}
+        handleSubmit={handleDelete}
+        loading={deleteLoading}
       />
     </>
   );

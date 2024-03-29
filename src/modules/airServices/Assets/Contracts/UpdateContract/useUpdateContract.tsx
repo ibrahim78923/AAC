@@ -97,7 +97,7 @@ export const useUpdateContract = () => {
       router?.push(AIR_SERVICES?.ASSETS_CONTRACTS);
       reset?.();
     } catch (error: any) {
-      errorSnackbar?.();
+      errorSnackbar?.(error?.data?.message);
     }
   };
   useEffect(() => {

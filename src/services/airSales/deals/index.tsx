@@ -12,9 +12,9 @@ export const dealsApi = baseAPI.injectEndpoints({
       providesTags: ['DEALS'],
     }),
     getDealsAssociations: builder.query({
-      query: () => ({
+      query: ({ id }) => ({
         // todo: used this id to impement all view Details cases temporarily
-        url: `${END_POINTS?.DEALS_ASSOCIATION}/${'655b2b2ecd318b576d7d71e8'}`,
+        url: `${END_POINTS?.DEALS_ASSOCIATION}/${id}`,
         method: 'GET',
       }),
       providesTags: ['DEALS_ASSOCIATION'],
@@ -209,6 +209,7 @@ export const {
   // useGetDealsUserListQuery,
   useGetDealsGridViewQuery,
   useGetDealsActionPreviewQuery,
+  useLazyGetDealsActionPreviewQuery,
   useGetDealsViewsQuery,
   useLazyGetDealsViewsQuery,
   useGetRestoreDealsQuery,

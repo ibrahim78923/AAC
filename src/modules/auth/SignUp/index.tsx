@@ -153,10 +153,11 @@ const SignUp = () => {
                             variant="contained"
                             sx={{ width: '100%', marginTop: '15px' }}
                             onClick={() =>
-                              allValuesNotEmpty() && isError
-                                ? setIsStepComplete(false)
-                                : setIsStepComplete(true)
+                              allValuesNotEmpty()
+                                ? setIsStepComplete(true)
+                                : setIsStepComplete(false)
                             }
+                            disabled={isError}
                           >
                             Next
                           </Button>

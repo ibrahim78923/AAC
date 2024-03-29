@@ -1,14 +1,12 @@
 import { HeaderDashboard } from '@/modules/airServices/Dashboard/HeaderDashboard';
 import { TicketDashboardCards } from '@/modules/airServices/Dashboard/TicketDashboardCards';
 import { Box, Grid, Skeleton } from '@mui/material';
-import { TopPerformerDashboardCard } from '@/modules/airServices/Dashboard/TopPerformerDashboardCard';
+import { TopPerformer } from '@/modules/airServices/Dashboard/TopPerformer';
 import { ticketDashboardCardsData } from './TicketDashboardCards/TicketDashboardCards.data';
-import { topPerformerDashboardCardData } from './TopPerformerDashboardCard/TopPerformerDashboardCard.data';
 import { useDashboard } from './useDashboard';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import NoData from '@/components/NoData';
-import { NoAssociationFoundImage } from '@/assets/images';
 import { PieChart } from './Chart/PieChart';
 import { TicketBased } from './Chart/TicketBased';
 import { Announcement } from './Announcement';
@@ -39,11 +37,7 @@ const Dashboard = () => {
             ))}
           </Grid>
         ) : (
-          <NoData
-            image={NoAssociationFoundImage}
-            message={'No data is available'}
-            height={'100%'}
-          />
+          <NoData message={'No data is available'} height={'100%'} />
         )}
 
         <Grid container spacing={2}>
@@ -87,29 +81,7 @@ const Dashboard = () => {
               </Grid>
 
               <Grid item xs={12} lg={4}>
-                {topPerformerDashboardCardData &&
-                topPerformerDashboardCardData.length > 0 ? (
-                  topPerformerDashboardCardData.map((item: any) => (
-                    <TopPerformerDashboardCard
-                      key={item?._id}
-                      userImage={item?.userImage}
-                      badgeImage={item?.badgeImage}
-                      badgeNextImage={item?.badgeNextImage}
-                      userImageText={item?.userImageText}
-                      userImageDescription={item?.userImageDescription}
-                      progressBarText={item?.progressBarText}
-                      ProgressBarDescription={item?.ProgressBarDescription}
-                      badgeText={item?.badgeText}
-                      badgeNextText={item?.badgeNextText}
-                    />
-                  ))
-                ) : (
-                  <NoData
-                    image={NoAssociationFoundImage}
-                    message={'No data is available'}
-                    height={'100%'}
-                  />
-                )}
+                <TopPerformer />
               </Grid>
 
               <Grid item xs={12} lg={4}>

@@ -1,4 +1,6 @@
 import {
+  useGetAgentDetailLevelQuery,
+  useGetPermissionsRoleByIdForAgentQuery,
   useGetSingleAgentDetailsQuery,
   useGetSingleDepartmentDetailsQuery,
 } from '@/services/airServices/settings/user-management/agents/details';
@@ -8,7 +10,7 @@ import { useState } from 'react';
 export const useSingleAgentDetail = () => {
   const router = useRouter();
   const [isAgentModalOpen, setIsAgentModalOpen] = useState(false);
-  const { agentId, departmentId } = router?.query;
+  const { agentId, departmentId, roleId } = router?.query;
   const getSingleAgentDetailsParameter = {
     pathParams: {
       id: agentId,
@@ -35,6 +37,33 @@ export const useSingleAgentDetail = () => {
     },
   );
 
+  const getPermissionsRoleByIdForAgentParameter = {
+    pathParams: {
+      roleId,
+    },
+  };
+
+  const permissionRoleDetails = useGetPermissionsRoleByIdForAgentQuery(
+    getPermissionsRoleByIdForAgentParameter,
+    {
+      skip: !roleId,
+      refetchOnMountOrArgChange: true,
+    },
+  );
+
+  const getAgentDetailLevelParameter = {
+    queryParams: {
+      agent: agentId,
+    },
+  };
+  const agentLevelDetail = useGetAgentDetailLevelQuery(
+    getAgentDetailLevelParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!agentId,
+    },
+  );
+
   return {
     data,
     isLoading,
@@ -43,5 +72,7 @@ export const useSingleAgentDetail = () => {
     departmentDetails,
     isAgentModalOpen,
     setIsAgentModalOpen,
+    permissionRoleDetails,
+    agentLevelDetail,
   };
 };

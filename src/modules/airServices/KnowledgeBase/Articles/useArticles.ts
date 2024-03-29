@@ -4,7 +4,7 @@ import { useTheme } from '@mui/material';
 import { AIR_SERVICES } from '@/constants';
 import { actionBtnData, articlesColumnsFunction } from './Articles.data';
 import {
-  useGetFoldersQuery,
+  useGetArticlesFoldersForFilterQuery,
   useLazyGetArticlesQuery,
 } from '@/services/airServices/knowledge-base/articles';
 import { PAGINATION } from '@/config';
@@ -24,7 +24,7 @@ export const useArticles: any = () => {
   const [search, setSearch] = useState('');
 
   const [filterValues, setFilterValues] = useState<any>({});
-  const [lazyGetArticlesTrigger, lazyGetArticlesStatus] =
+  const [lazyGetArticlesTrigger, lazyGetArticlesStatus]: any =
     useLazyGetArticlesQuery();
 
   const getValueArticlesListData = async (pages = page) => {
@@ -55,7 +55,7 @@ export const useArticles: any = () => {
     isLoading,
     isFetching,
     isError,
-  } = useGetFoldersQuery(
+  }: any = useGetArticlesFoldersForFilterQuery(
     {},
     {
       refetchOnMountOrArgChange: true,

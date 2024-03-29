@@ -19,6 +19,7 @@ const AddPlan = () => {
     hanldeGoPreviousBack,
     isLoading,
     ifCrmExist,
+    updatePlanLoading,
   } = useAddPlan();
 
   return (
@@ -69,6 +70,7 @@ const AddPlan = () => {
                 disabled={
                   activeStep === AddPlanStepperData?.length ||
                   isLoading ||
+                  updatePlanLoading ||
                   ifCrmExist
                 }
               >

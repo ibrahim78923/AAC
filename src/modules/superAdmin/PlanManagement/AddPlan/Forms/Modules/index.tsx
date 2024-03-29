@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import {
   Accordion,
@@ -23,16 +23,18 @@ import { useGetPermissionsByProductsQuery } from '@/services/superAdmin/plan-man
 import { useGetProductsPermissionsQuery } from '@/services/orgAdmin/roles-and-rights';
 import { useGetProductsQuery } from '@/services/common-APIs';
 import { isNullOrEmpty } from '@/utils';
-import { enqueueSnackbar } from 'notistack';
 
 const Modules = ({
   methods,
   handleSubmit,
-  errors,
   selectedPermission,
   selectAllPermissions,
   getModulePermissions,
   editPlan,
+  handleExpandAccordionChange,
+  handleChangeSubModule,
+  selectedModule,
+  selectedSubModule,
 }: any) => {
   const { theme } = useModules();
   let prevProductId: any = null;
@@ -98,20 +100,13 @@ const Modules = ({
     label: product?.name,
   }));
 
-  useEffect(() => {
-    if (!isNullOrEmpty(errors?.permissionSlugs?.message)) {
-      enqueueSnackbar('Please select atleast one modules permission', {
-        variant: 'error',
-      });
-    }
-  }, [errors?.permissionSlugs?.message]);
-
   return (
     <div>
       {productPermissionsData?.data?.map((item: any) => (
         <Accordion
           key={uuidv4()}
           disableGutters
+          expanded={selectedModule === item?.name?.toLowerCase()}
           sx={{
             '&.MuiAccordion': {
               '&.Mui-expanded': {
@@ -130,6 +125,9 @@ const Modules = ({
           }}
         >
           <AccordionSummary
+            onClick={() => {
+              handleExpandAccordionChange(item?.name?.toLowerCase());
+            }}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="dashboard"
             id="dashboard"
@@ -142,7 +140,8 @@ const Modules = ({
                       (permission: any) =>
                         selectedPermission?.includes(permission),
                     )}
-                    onClick={() => {
+                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                      event.stopPropagation();
                       selectAllPermissions(item?.subModules);
                     }}
                   />
@@ -160,6 +159,8 @@ const Modules = ({
               methods={methods}
               handleSubmit={handleSubmit}
               editPlan={editPlan?.planProductPermissions[0]?.permissionSlugs}
+              handleChangeSubModule={handleChangeSubModule}
+              selectedSubModule={selectedSubModule}
             />
           </AccordionDetails>
         </Accordion>
@@ -220,7 +221,20 @@ const Modules = ({
                 id="dashboard"
               >
                 <Box display="flex" alignItems="center">
-                  <FormControlLabel control={<SwitchBtn />} label="" />
+                  <FormControlLabel
+                    control={
+                      <SwitchBtn
+                        checked={getModulePermissions(item?.subModules)?.every(
+                          (permission: any) =>
+                            selectedPermission?.includes(permission),
+                        )}
+                        onClick={() => {
+                          selectAllPermissions(item?.subModules);
+                        }}
+                      />
+                    }
+                    label=""
+                  />
                   <Typography variant="h4" fontWeight={700}>
                     {item?.name}
                   </Typography>
