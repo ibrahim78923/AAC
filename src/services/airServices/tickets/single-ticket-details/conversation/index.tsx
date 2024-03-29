@@ -3,6 +3,8 @@ import { baseAPI } from '@/services/base-api';
 
 const TAG = 'CANNED_RESPONSES';
 const TAG_ONE = '/articles/get-all-articles';
+const TAG_TWO = '/email';
+
 export const conversationAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getCannedResponses: builder?.query({
@@ -21,6 +23,22 @@ export const conversationAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG_ONE],
     }),
+    postConversation: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.CONVERSATION_EMAIL}`,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: [TAG_TWO],
+    }),
+    getConversation: builder.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.GET_CONVERSATION_EMAIL}`,
+        method: 'GET',
+        params,
+      }),
+      providesTags: [TAG_TWO],
+    }),
   }),
 });
 
@@ -29,4 +47,6 @@ export const {
   useLazyGetCannedResponsesQuery,
   useLazyGetConversationAllArticlesQuery,
   useGetConversationAllArticlesQuery,
+  usePostConversationMutation,
+  useGetConversationQuery,
 } = conversationAPI;

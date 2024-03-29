@@ -3,12 +3,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
-import { v4 as uuidv4 } from 'uuid';
 import ConversationDiscuss from './ConversationDiscuss';
 import ConversationAddComponent from './ConversationAddComponent';
 import {
-  conversationAddArticleData,
   conversationForwardArray,
+  conversationModalsDefaultValues,
   conversationNoteArray,
   conversationReplyArray,
   conversationValidationSchema,
@@ -18,35 +17,45 @@ import {
   NOTISTACK_VARIANTS,
   TICKETS_CONVERSATION_TYPE,
 } from '@/constants/strings';
-
+import {
+  useGetConversationQuery,
+  usePostConversationMutation,
+} from '@/services/airServices/tickets/single-ticket-details/conversation';
+import { useRouter } from 'next/router';
 export const UseConversation = () => {
   const [isConversation] = useState<boolean>(true);
   const [show, setShow] = useState(false);
-  const [addConversation, setAddConversation] = useState<null | HTMLElement>(
-    null,
-  );
+  const [addConversation, setAddConversation] = useState(null);
   const [selectedItem, setSelectedItem] = useState(
     menuOptionsAddConversation[0]?.value,
   );
-  const [searchTerm, setSearchTerm] = useState('');
   const [title, setTitle] = useState('');
-  const [filteredContent, setFilteredContent] = useState(
-    conversationAddArticleData,
-  );
+  const [postConversation, { isLoading }] = usePostConversationMutation();
+  const router = useRouter();
+
   const [editConversationItem, setEditConversationItem] = useState(false);
   const [selectedValues, setSelectedValues] = useState<any>({});
   const theme = useTheme();
-
   const addConversationModal: any = useForm({
     resolver: yupResolver(conversationValidationSchema(selectedItem)),
-    defaultValues: {},
+    defaultValues: conversationModalsDefaultValues(null),
+  });
+  const { ticketId } = router?.query;
+  const queryParams = {
+    recordId: ticketId,
+  };
+
+  const {
+    data: emailData,
+    isFetching,
+    isError,
+  } = useGetConversationQuery(queryParams, {
+    refetchOnMountOrArgChange: true,
   });
 
   const open = Boolean(addConversation);
 
-  const handleClickButtonMenu = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
+  const handleClickButtonMenu = (event: any) => {
     setAddConversation(event?.currentTarget);
   };
   const handleEdit = () => {
@@ -54,31 +63,36 @@ export const UseConversation = () => {
   };
   const { handleSubmit, setValue, getValues, reset } = addConversationModal;
 
-  const onSubmit = async () => {
-    try {
-      const successMessage = `${selectedItem} Added Successfully!`;
-      const values = await getValues();
-      setSelectedValues((prevValues: any) => {
-        return {
-          ...prevValues,
-          [uuidv4()]: values,
-        };
-      });
-
-      enqueueSnackbar(successMessage, {
-        variant: NOTISTACK_VARIANTS.SUCCESS,
-      });
-      reset();
-      setShow(false);
-    } catch (error) {}
-  };
-
   const handleCloseButtonMenu = (e: any = '') => {
     e && setSelectedItem(e);
     setShow(true);
     setAddConversation(null);
     setTitle(e);
     e && setValue(e?.toLocaleLowerCase?.(), e);
+  };
+
+  const submitConversation = async (data: any) => {
+    const body = {
+      type: 'NOTE',
+      recipients: [data?.recaipients],
+      ccRecipients: [],
+      subject: 'ghg',
+      text: data?.text,
+      attachments: data?.attachments,
+      recordId: ticketId,
+      articlesIds: [],
+    };
+    try {
+      const res = await postConversation({ body })?.unwrap();
+      enqueueSnackbar(res?.message && 'Add Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+      addConversationModal?.reset();
+    } catch (error: any) {
+      enqueueSnackbar(error?.error?.message ?? 'An error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
   const getArrayByTitle = (title: any) => {
@@ -104,7 +118,7 @@ export const UseConversation = () => {
             show={show}
             setShow={setShow}
             addConversationModal={addConversationModal}
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={submitConversation}
             dataArray={getArrayByTitle?.(selectedItem)}
           />
         );
@@ -118,15 +132,8 @@ export const UseConversation = () => {
   };
 
   useEffect(() => {
-    const filteredData = conversationAddArticleData?.filter(
-      (item) => item?.title?.toLowerCase()?.includes(searchTerm?.toLowerCase()),
-    );
-    setFilteredContent(filteredData);
-  }, [searchTerm]);
-
-  useEffect(() => {
-    renderSelectedComponent();
-  }, [selectedItem]);
+    reset(conversationModalsDefaultValues(selectedItem));
+  }, [selectedItem, reset]);
 
   return {
     isConversation,
@@ -139,18 +146,21 @@ export const UseConversation = () => {
     setSelectedItem,
     addConversationModal,
     selectedItem,
-    onSubmit,
+    // onSubmit,
     handleSubmit,
     title,
     renderSelectedComponent,
     theme,
-    searchTerm,
-    filteredContent,
-    setSearchTerm,
-    conversationAddArticleData,
     setValue,
     selectedValues,
     editConversationItem,
     handleEdit,
+    isLoading,
+    setSelectedValues,
+    reset,
+    getValues,
+    emailData,
+    isFetching,
+    isError,
   };
 };

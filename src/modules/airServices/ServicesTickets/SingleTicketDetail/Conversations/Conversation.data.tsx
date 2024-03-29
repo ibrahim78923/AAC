@@ -1,8 +1,8 @@
 import {
   RHFTextField,
-  RHFSelect,
   RHFEditor,
   RHFDropZone,
+  RHFSelect,
 } from '@/components/ReactHookForm';
 import { TICKETS_CONVERSATION_TYPE } from '@/constants/strings';
 import * as Yup from 'yup';
@@ -10,48 +10,45 @@ export const conversationValidationSchema = (action: any) => {
   switch (action) {
     case TICKETS_CONVERSATION_TYPE?.NOTE:
       return Yup?.object()?.shape({
-        note: Yup?.string()?.required('Required Field'),
-        notify: Yup?.string()?.required('Required Field'),
-        description: Yup?.string()?.trim()?.required('Required Field'),
-        file: Yup?.string()?.trim()?.required('Required Field'),
+        type: Yup?.string()?.required('Required Field'),
+        recaipients: Yup?.string()?.required('Required Field'),
+        text: Yup?.string()?.trim()?.required('Required Field'),
+        attachments: Yup?.string()?.trim()?.required('Required Field'),
       });
     case TICKETS_CONVERSATION_TYPE?.REPLY:
       return Yup?.object()?.shape({
-        reply: Yup?.string()?.required('Required Field'),
-        replyFrom: Yup?.string()?.required('Required Field'),
-        replyTo: Yup?.string()?.required('Required Field'),
-        description: Yup?.string()?.trim()?.required('Required Field'),
-        file: Yup?.string()?.trim()?.required('Required Field'),
+        type: Yup?.string()?.required('Required Field'),
+        recaipients: Yup?.string()?.required('Required Field'),
+        ccRecipients: Yup?.string()?.required('Required Field'),
       });
     case TICKETS_CONVERSATION_TYPE?.FORWARD:
       return Yup?.object()?.shape({
-        forward: Yup?.string()?.required('Required Field'),
-        forwardFrom: Yup?.string()?.required('Required Field'),
-        forwardTo: Yup?.string()?.required('Required Field'),
-        description: Yup?.string()?.trim()?.required('Required Field'),
-        file: Yup?.string()?.required('Required Field'),
+        type: Yup?.string()?.required('Required Field'),
+        recaipients: Yup?.string()?.required('Required Field'),
+        ccRecipients: Yup?.string()?.required('Required Field'),
       });
     default:
       return Yup?.object()?.shape({});
   }
 };
 
-export const conversationModalsDefaultValues: any = {
-  note: '',
-  notify: '',
-  description: '',
-  file: '',
-  reply: '',
-  replyFrom: '',
-  replyTo: '',
-  forward: '',
-  forwardFrom: '',
-  forwardTo: '',
+export const conversationModalsDefaultValues = (data: any) => {
+  const taskData = data?.[0];
+  return {
+    type: taskData?.type ?? '',
+    recaipients: taskData?.recaipients ?? '',
+    text: taskData?.text ?? null,
+    ccRecipients: taskData?.ccRecipients ?? '',
+    attachments: taskData?.attachments ?? '',
+    note: taskData?.note ?? '',
+    reply: taskData?.reply ?? '',
+    forward: taskData?.forward ?? '',
+  };
 };
 
 export const conversationOptions = [
-  { value: 'Forward', label: 'Forward' },
   { value: 'Note', label: 'Note' },
+  { value: 'Forward', label: 'Forward' },
   { value: 'Reply', label: 'Reply' },
 ];
 
@@ -62,8 +59,10 @@ export const conversationNoteArray = [
       label: 'Note',
       fullWidth: true,
       select: true,
+      value: 'Note',
+      type: 'Note',
+      disabled: true,
     },
-    defaultValue: 'Reply',
     options: conversationOptions,
 
     component: RHFSelect,
@@ -72,7 +71,7 @@ export const conversationNoteArray = [
   },
   {
     componentProps: {
-      name: 'notify',
+      name: 'recaipients',
       label: 'Notify to',
       placeholder: 'Search Email',
       fullWidth: true,
@@ -83,7 +82,7 @@ export const conversationNoteArray = [
   },
   {
     componentProps: {
-      name: 'description',
+      name: 'text',
       label: 'Description',
       fullWidth: true,
       required: true,
@@ -95,7 +94,7 @@ export const conversationNoteArray = [
   },
   {
     componentProps: {
-      name: 'file',
+      name: 'attachments',
       label: '',
       fullWidth: true,
     },
@@ -110,6 +109,9 @@ export const conversationReplyArray = [
       label: 'Reply',
       fullWidth: true,
       select: true,
+      value: 'Reply',
+      type: 'Reply',
+      disabled: true,
     },
 
     options: conversationOptions,
@@ -120,7 +122,7 @@ export const conversationReplyArray = [
   },
   {
     componentProps: {
-      name: 'replyFrom',
+      name: 'recaipients',
       label: 'From',
       fullWidth: true,
     },
@@ -138,7 +140,7 @@ export const conversationReplyArray = [
   },
   {
     componentProps: {
-      name: 'description',
+      name: 'text',
       label: 'Description',
       fullWidth: true,
       style: { height: '20vh' },
@@ -149,7 +151,7 @@ export const conversationReplyArray = [
   },
   {
     componentProps: {
-      name: 'file',
+      name: 'attachments',
       label: '',
       fullWidth: true,
     },
@@ -164,6 +166,9 @@ export const conversationForwardArray = [
       label: 'Forward',
       fullWidth: true,
       select: true,
+      value: 'Forward',
+      type: 'Forward',
+      disabled: true,
     },
     options: conversationOptions,
     component: RHFSelect,
@@ -172,7 +177,7 @@ export const conversationForwardArray = [
   },
   {
     componentProps: {
-      name: 'forwardFrom',
+      name: 'recaipients',
       label: 'From',
       fullWidth: true,
     },
@@ -181,7 +186,7 @@ export const conversationForwardArray = [
   },
   {
     componentProps: {
-      name: 'forwardTo',
+      name: 'ccRecipients',
       label: 'From to',
       fullWidth: true,
     },
@@ -190,7 +195,7 @@ export const conversationForwardArray = [
   },
   {
     componentProps: {
-      name: 'description',
+      name: 'text',
       label: 'Description',
       fullWidth: true,
       style: { height: '20vh' },
@@ -201,7 +206,7 @@ export const conversationForwardArray = [
   },
   {
     componentProps: {
-      name: 'file',
+      name: 'attachments',
       label: '',
       fullWidth: true,
     },
@@ -222,60 +227,10 @@ export const conversationDrawerTitle: any = {
   View: 'View Tickets',
 };
 
-export const conversationAddArticleData = [
-  {
-    title: 'Guide to how to design your site footer like we did...',
-    link: 'Add link',
-  },
-  {
-    title: 'Another article title',
-    link: 'Another link',
-  },
-  {
-    title: 'Yet another article title',
-    link: 'Yet another link',
-  },
-];
-
-export const modules = {
-  toolbar: {
-    container: [
-      ['bold', 'italic', 'underline'],
-      [{ align: 'center' }, { align: 'right' }, { align: 'justify' }],
-      [{ list: 'bullet' }, { list: 'ordered' }],
-      [{ color: [] }],
-      ['image'],
-      ['capitalize'],
-    ],
-  },
-};
-export const conversationAttachmentFileData = [
-  {
-    name: 'Picture.pdf',
-    size: '12KB',
-    type: 'pdf',
-  },
-];
 export const stepsDiscuss = [
   {
     id: '1',
     message: 'Hello Air AppleCart',
     end: true,
-  },
-];
-export const conversationData = [
-  {
-    image: 'image1',
-    sender: 'John',
-    action: 'reply',
-    to: 'nickofl@gmail.com',
-    message:
-      'Hi Guys We have been facing issues when we try to reach the email server 3 Hi Guys .',
-    time: '11:02 PM-5 March,  2023',
-    noteFile: {
-      name: 'Picture.pdf',
-      size: '12KB',
-      type: 'pdf',
-    },
   },
 ];
