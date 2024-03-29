@@ -15,8 +15,10 @@ import {
   useLazyGetAgentDropdownQuery,
   useLazyGetCategoriesDropdownQuery,
   usePatchBulkUpdateTicketsMutation,
+  usePostAddReplyToBulkUpdateMutation,
 } from '@/services/airServices/tickets';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { EMAIL_SENT_TYPE } from '@/constants/strings';
 
 export const useTicketBulkUpdate = (props: any) => {
   const {
@@ -43,6 +45,30 @@ export const useTicketBulkUpdate = (props: any) => {
   });
 
   const { handleSubmit, reset } = methodsBulkUpdateForm;
+  const [postAddReplyToBulkUpdateTrigger, postAddReplyToBulkUpdateStatus] =
+    usePostAddReplyToBulkUpdateMutation();
+
+  const submitReply = async (formData: any) => {
+    const emailFormData = new FormData();
+    emailFormData?.append('recipients', formData?.to);
+    emailFormData?.append('html', formData?.description);
+    emailFormData?.append('subject', 'bulk updated');
+    emailFormData?.append('type', EMAIL_SENT_TYPE?.REPLY);
+    formData?.file !== null &&
+      emailFormData?.append('attachments', formData?.file);
+
+    const apiDataParameter = {
+      body: emailFormData,
+    };
+
+    try {
+      await postAddReplyToBulkUpdateTrigger(apiDataParameter)?.unwrap();
+      successSnackbar('Your reply has been sent!');
+      reset();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
 
   const submitTicketBulkUpdateForm = async (data: any) => {
     const body: any = Object?.entries(data || {})
@@ -69,11 +95,14 @@ export const useTicketBulkUpdate = (props: any) => {
     try {
       await patchBulkUpdateTicketsTrigger(bulkUpdateTicketsParameter)?.unwrap();
       successSnackbar('Ticket Updated Successfully');
-      reset();
+      setIsDrawerOpen?.(false);
       getTicketsListData(1, {});
       setFilterTicketLists?.({});
       setPage?.(1);
-      setIsDrawerOpen?.(false);
+      if (!!data?.to && !!data?.description) {
+        submitReply?.(data);
+      }
+      reset();
       setSelectedTicketList?.([]);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -109,5 +138,6 @@ export const useTicketBulkUpdate = (props: any) => {
     setIsReplyAdded,
     onClose,
     patchBulkUpdateTicketsStatus,
+    postAddReplyToBulkUpdateStatus,
   };
 };

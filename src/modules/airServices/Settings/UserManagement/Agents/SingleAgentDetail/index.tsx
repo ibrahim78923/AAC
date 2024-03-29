@@ -22,6 +22,7 @@ export const SingleAgentDetail = () => {
     isAgentModalOpen,
     setIsAgentModalOpen,
     permissionRoleDetails,
+    agentLevelDetail,
   }: any = useSingleAgentDetail();
   return (
     <>
@@ -41,6 +42,7 @@ export const SingleAgentDetail = () => {
         isError={isError}
         departmentDetails={departmentDetails}
         handleEditButtonClick={() => setIsAgentModalOpen?.(true)}
+        agentLevelDetail={agentLevelDetail}
       />
       <Typography my={3} variant="h3" color="slateBlue.main">
         Associations

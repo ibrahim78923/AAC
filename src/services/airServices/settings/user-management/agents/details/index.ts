@@ -51,6 +51,13 @@ export const agentDetailsAPI = baseAPI?.injectEndpoints({
         method: 'GET',
       }),
     }),
+    getAgentDetailLevel: builder?.query({
+      query: (getAgentDetailLevelParameter: any) => ({
+        url: END_POINTS?.GET_TOP_PERFORMER,
+        method: 'GET',
+        params: getAgentDetailLevelParameter?.queryParams,
+      }),
+    }),
   }),
 });
 
@@ -62,4 +69,5 @@ export const {
   useGetSingleAgentDetailsQuery,
   useGetSingleDepartmentDetailsQuery,
   useGetPermissionsRoleByIdForAgentQuery,
+  useGetAgentDetailLevelQuery,
 } = agentDetailsAPI;
