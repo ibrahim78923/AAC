@@ -166,13 +166,17 @@ const useEditForm = (
   }
 
   useEffect(() => {
-    if (selectProductSuite === 'CRM') {
+    if (
+      selectProductSuite === 'CRM' ||
+      isNullOrEmpty(ExistingplanData?.data?.plans) ||
+      isNullOrEmpty(planData?.data?.plans)
+    ) {
       setValue('planPrice', '');
       setValue('defaultUser', '');
       setValue('defaultUserTwo', '');
       setValue('planTypeId', '');
     }
-  }, [selectProductSuite]);
+  }, [selectProductSuite, ExistingplanData, planData]);
 
   const onSubmit = async (values: any) => {
     const originalDate = values?.date;

@@ -66,6 +66,7 @@ export const useUpsertInventory = () => {
       'assignedOn',
       makeDateTime(data?.assignedOnDate, data?.assignedOnTime)?.toISOString(),
     );
+
     data?.fileUrl !== null &&
       inventoryDetailsData?.append('attachment', data?.fileUrl);
     const body = inventoryDetailsData;

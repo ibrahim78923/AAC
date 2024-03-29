@@ -39,6 +39,7 @@ export const useDetailTicketDrawer = (props: any) => {
   const ticketDetailsFormFields = detailDrawerArray(
     apiQueryAgent,
     apiQueryTask,
+    ticketId,
   );
   const results = useWatch({ control, name: 'hours' });
 

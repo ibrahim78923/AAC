@@ -107,7 +107,6 @@ const AddPlanForm = ({
                 label={planNameRender}
                 size="small"
                 required={true}
-                disabled={isSuccess}
               >
                 {productsOptions?.map((option: any) => (
                   <option key={uuidv4()} value={option?.value}>
@@ -124,14 +123,21 @@ const AddPlanForm = ({
                   <Autocomplete
                     value={crmValue}
                     onChange={(event, newValue) => {
-                      if (typeof newValue === 'string') {
+                      if (
+                        typeof newValue === 'string' &&
+                        !/^\d+$/.test(newValue)
+                      ) {
                         setCrmValue({
-                          label: newValue,
+                          label: newValue?.toLowerCase(),
                         });
-                      } else if (newValue && newValue?.inputValue) {
+                      } else if (
+                        newValue &&
+                        newValue?.inputValue &&
+                        !/^\d+$/.test(newValue?.inputValue)
+                      ) {
                         // Create a new value from the user input
                         setCrmValue({
-                          label: newValue?.inputValue,
+                          label: newValue?.inputValue?.toLowerCase(),
                         });
                       } else {
                         setCrmValue(newValue);
@@ -143,11 +149,17 @@ const AddPlanForm = ({
                       const { inputValue } = params;
                       // Suggest the creation of a new value
                       const isExisting = options?.some(
-                        (option) => inputValue === option.label,
+                        (option) =>
+                          inputValue?.toLowerCase() ===
+                          option?.label?.toLowerCase(),
                       );
-                      if (inputValue !== '' && !isExisting) {
+                      if (
+                        inputValue !== '' &&
+                        !isExisting &&
+                        !/^\d+$/.test(inputValue)
+                      ) {
                         filtered?.push({
-                          inputValue,
+                          inputValue: inputValue?.toLowerCase(),
                           label: `Add "${inputValue}"`,
                         });
                       }

@@ -2,11 +2,14 @@ import { Box, Typography } from '@mui/material';
 import { Fragment } from 'react';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import { useOverview } from './useOverview';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const Overview = () => {
-  const { isLoading, dataArray } = useOverview();
+  const { isLoading, dataArray, isFetching, isError } = useOverview();
 
-  if (isLoading) return <SkeletonTable />;
+  if (isError) return <ApiErrorState />;
+
+  if (isLoading || isFetching) return <SkeletonTable />;
 
   return (
     <Fragment>

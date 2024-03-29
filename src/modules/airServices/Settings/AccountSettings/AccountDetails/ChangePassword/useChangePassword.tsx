@@ -21,7 +21,6 @@ export const useChangePassword = () => {
 
   const [postChangePasswordTrigger, postChangePasswordProgress] =
     usePostChangePasswordMutation();
-  const isLoading = postChangePasswordProgress?.isLoading;
 
   const isSubmit = async (data: any) => {
     const payload = {
@@ -61,6 +60,6 @@ export const useChangePassword = () => {
     theme,
     changePasswordDataArray,
     changePasswordFields,
-    isLoading,
+    postChangePasswordProgress,
   };
 };
