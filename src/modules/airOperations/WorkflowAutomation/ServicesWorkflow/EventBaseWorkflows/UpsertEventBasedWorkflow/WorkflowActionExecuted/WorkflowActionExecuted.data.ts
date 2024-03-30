@@ -64,10 +64,10 @@ export const actionsData = ({
     selectedOptionsKey === optionsConstant?.impact
       ? priority
       : selectedOptionsKey === optionsConstant?.source
-      ? sourcesOptions
-      : selectedOptionsKey === optionsConstant?.type
-      ? typeOptions
-      : statusOptions;
+        ? sourcesOptions
+        : selectedOptionsKey === optionsConstant?.type
+          ? typeOptions
+          : statusOptions;
   let valueComponent;
   const apiQuery = useApiQuery(selectedOptionsKey);
   if (

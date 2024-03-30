@@ -22,10 +22,11 @@ const CompaniesEditorDrawer = (props: any) => {
     onSubmit,
     methodsCompanies,
     getCompanyContacts,
-    watchCompany,
+    // watchCompany,
     searchTicket,
     setSearchTicket,
     postCompanyLoading,
+    defaultValue,
   } = useCompaniesEditorDrawer({
     openDrawer,
     setOpenDrawer,
@@ -54,14 +55,19 @@ const CompaniesEditorDrawer = (props: any) => {
               <Grid item xs={12}>
                 <RHFRadioGroup
                   options={companiesOptions}
-                  name={'companyStatus'}
+                  name="company"
                   label={false}
+                  defaultValue={defaultValue}
                 />
               </Grid>
-              {watchCompany[0] === 'new-Company' ? (
+              {defaultValue === 'new-Company' ? (
                 companiesDataArray(getCompanyContacts)?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                    <item.component {...item?.componentProps} size={'small'}>
+                    <item.component
+                      disabled={openDrawer === 'View' ? true : false}
+                      {...item?.componentProps}
+                      size={'small'}
+                    >
                       {item?.componentProps?.select
                         ? item?.options?.map((option: any) => (
                             <option key={option?.value} value={option?.value}>

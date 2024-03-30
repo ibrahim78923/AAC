@@ -66,7 +66,6 @@ const ViewDetails = () => {
                 <Box>
                   <Typography variant="body2" sx={{ fontWeight: '600' }}>
                     {viewDeal?.dealOwner?.name ?? 'N/A'}
-                    {/* {viewDeal?.dealOwner?.lastName} */}
                   </Typography>
                   <Typography
                     variant="body3"

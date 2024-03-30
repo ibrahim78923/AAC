@@ -62,7 +62,11 @@ const Associations = (props: any) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Quotes />
+            <Quotes
+              quotesData={assocaitionData?.quotes}
+              isLoading={isLoading}
+              dealId={selected}
+            />
           </Grid>
           <Grid item xs={12}>
             <Attachments />

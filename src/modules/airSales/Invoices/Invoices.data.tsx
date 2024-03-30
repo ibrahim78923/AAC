@@ -142,8 +142,8 @@ export const invoicesTableColumns: any = (
         info?.getValue() === 'PUBLISHED'
           ? 'Published'
           : info?.getValue() === 'DRAFT'
-          ? 'Draft'
-          : 'Paid',
+            ? 'Draft'
+            : 'Paid',
     },
     {
       accessorFn: (row: any) => row?.quote?.name,

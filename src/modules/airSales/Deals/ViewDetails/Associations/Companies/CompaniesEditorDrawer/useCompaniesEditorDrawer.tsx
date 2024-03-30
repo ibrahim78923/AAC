@@ -1,5 +1,3 @@
-import { useForm } from 'react-hook-form';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   companiesDefaultValues,
@@ -16,6 +14,7 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { PAGINATION } from '@/config';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 const useCompaniesEditorDrawer = ({
   openDrawer,
@@ -24,6 +23,7 @@ const useCompaniesEditorDrawer = ({
   companyRecord,
 }: any) => {
   const [searchTicket, setSearchTicket] = useState('');
+  const [defaultValue, setDefaultValue] = useState('new-Company');
   const { user }: any = getSession();
   const params = {
     page: PAGINATION?.PAGE_COUNT,
@@ -76,7 +76,7 @@ const useCompaniesEditorDrawer = ({
   });
 
   const { handleSubmit, reset, watch }: any = methodsCompanies;
-  const watchCompany = watch(['companyStatus']);
+  const watchCompany = watch('company');
 
   const onSubmit = async (values: any) => {
     const type = 'deals';
@@ -143,6 +143,8 @@ const useCompaniesEditorDrawer = ({
     searchTicket,
     setSearchTicket,
     postCompanyLoading,
+    defaultValue,
+    setDefaultValue,
   };
 };
 

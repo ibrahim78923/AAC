@@ -6,12 +6,12 @@ import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
-  setSelectedCheckboxes,
+  setSelectedProduct,
   viewDeal,
 }: {
   setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
   setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedCheckboxes: any;
+  setSelectedProduct: any;
   viewDeal: any;
 }) => {
   return [
@@ -52,7 +52,7 @@ export const columns: any = ({
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() => {
-                setOpenDrawer('View'), setSelectedCheckboxes(viewDeal);
+                setOpenDrawer('View'), setSelectedProduct(info?.row?.original);
               }}
             >
               <ViewEyeIcon />
@@ -64,8 +64,7 @@ export const columns: any = ({
             <Box
               sx={{ cursor: 'pointer' }}
               onClick={() => {
-                setIsOpenAlert(true),
-                  setSelectedCheckboxes(info?.row?.original);
+                setIsOpenAlert(true), setSelectedProduct(info?.row?.original);
               }}
             >
               <DeleteCrossIcon />

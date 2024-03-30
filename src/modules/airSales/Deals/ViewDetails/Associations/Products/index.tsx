@@ -20,8 +20,11 @@ const Products = ({ productsData, isLoading, viewDeal, dealId }: any) => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
-    setSelectedCheckboxes,
-  } = useProducts();
+    setSelectedProduct,
+    selectedProduct,
+    productLoading,
+    deleteProductHandler,
+  } = useProducts(dealId);
 
   return (
     <Box
@@ -72,7 +75,7 @@ const Products = ({ productsData, isLoading, viewDeal, dealId }: any) => {
                 className="medium"
                 sx={{ minWidth: '0px', gap: 0.5 }}
                 onClick={() => {
-                  setOpenDrawer('Add'), setSelectedCheckboxes({});
+                  setOpenDrawer('Add'), setSelectedProduct({});
                 }}
               >
                 <PlusIcon /> Add Products
@@ -86,7 +89,7 @@ const Products = ({ productsData, isLoading, viewDeal, dealId }: any) => {
               viewDeal,
               setOpenDrawer,
               setIsOpenAlert,
-              setSelectedCheckboxes,
+              setSelectedProduct,
             })}
             data={productsData}
           />
@@ -97,6 +100,7 @@ const Products = ({ productsData, isLoading, viewDeal, dealId }: any) => {
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
           dealId={dealId}
+          selectedProduct={selectedProduct}
         />
       )}
       <AlertModals
@@ -104,7 +108,8 @@ const Products = ({ productsData, isLoading, viewDeal, dealId }: any) => {
         type={'delete'}
         open={isOpenAlert}
         handleClose={handleCloseAlert}
-        handleSubmit={() => {}}
+        handleSubmitBtn={deleteProductHandler}
+        loading={productLoading}
       />
     </Box>
   );

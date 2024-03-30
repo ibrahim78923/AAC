@@ -13,10 +13,10 @@ import {
 } from './ProductEditorDrawer.data';
 
 const ProductEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, selectedCheckboxes, dealId } = props;
+  const { openDrawer, setOpenDrawer, selectedProduct, dealId } = props;
   const { handleSubmit, onSubmit, methodsProducts, addProductLoading } =
     useProductEditorDrawer({
-      selectedCheckboxes,
+      selectedProduct,
       openDrawer,
       setOpenDrawer,
       dealId,
@@ -42,7 +42,11 @@ const ProductEditorDrawer = (props: any) => {
             <Grid container spacing={1}>
               {productsDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
+                  <item.component
+                    disabled={openDrawer === 'View' ? true : false}
+                    {...item?.componentProps}
+                    size={'small'}
+                  >
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
                           <option key={option?.value} value={option?.value}>

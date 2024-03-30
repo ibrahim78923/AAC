@@ -11,11 +11,11 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 
 const useProductsEditorDrawer = ({
-  selectedCheckboxes,
+  selectedProduct,
+  openDrawer,
   setOpenDrawer,
   dealId,
 }: any) => {
-  const editRowValue = selectedCheckboxes && selectedCheckboxes;
   const [postSalesProduct, { isLoading: addProductLoading }] =
     usePostSalesProductMutation();
   const [createAssociation] = useCreateAssociationMutation();
@@ -23,7 +23,7 @@ const useProductsEditorDrawer = ({
   const methodsProducts = useForm({
     resolver: yupResolver(productsValidationSchema),
     defaultValues: async () => {
-      if (editRowValue) {
+      if (openDrawer !== 'Add' && selectedProduct) {
         const {
           name,
           sku,
@@ -33,7 +33,7 @@ const useProductsEditorDrawer = ({
           description,
           isActive,
           unitPrice,
-        } = editRowValue;
+        } = selectedProduct;
         return {
           name,
           sku,
