@@ -339,6 +339,10 @@ export const END_POINTS = {
   SERVICES_PATCH_EMAIL_NOTIFICATION: `/notifications/settings`,
   SERVICES_GET_EMAIL_NOTIFICATION: `/notifications/get-notification-settings`,
   GET_TOP_PERFORMER: `/air-services-dashboard/get-top-performer`,
+  GET_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/get-discussion`,
+  ADD_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/add_discussion`,
+  UPDATE_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/update-discussion`,
+  DELETE_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/delete-discussion`,
 };
 
 export const superAdminBillingInvoices = {

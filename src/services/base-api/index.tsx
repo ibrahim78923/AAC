@@ -116,6 +116,7 @@ export const TAGS = [
   'PURCHASE_ORDER',
   'TICKET_TIME_ENTRIES',
   'DROPDOWN_FOLDER',
+  'TICKET_CONVERSATION_DISCUSSION',
 ];
 
 const baseQuery = fetchBaseQuery({

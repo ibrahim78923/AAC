@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTheme } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
-import ConversationDiscuss from './ConversationDiscuss';
 import ConversationAddComponent from './ConversationAddComponent';
 import {
   conversationForwardArray,
@@ -22,6 +21,7 @@ import {
   usePostConversationMutation,
 } from '@/services/airServices/tickets/single-ticket-details/conversation';
 import { useRouter } from 'next/router';
+import { Discuss } from './Discuss';
 export const UseConversation = () => {
   const [isConversation] = useState<boolean>(true);
   const [show, setShow] = useState(false);
@@ -124,7 +124,11 @@ export const UseConversation = () => {
         );
       case TICKETS_CONVERSATION_TYPE.DISCUSS:
         return (
-          <ConversationDiscuss resetSelectedItem={() => setSelectedItem('')} />
+          <Discuss
+            isDrawerOpen={show}
+            setIsDrawerOpen={setShow}
+            resetSelectedItem={() => setSelectedItem('')}
+          />
         );
       default:
         return null;
