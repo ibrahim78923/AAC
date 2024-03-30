@@ -27,7 +27,7 @@ const useOrganizationTable = () => {
   const [drawerHeading, setDrawerHeading] = useState('Create Company');
   const [isGetRowValues, setIsGetRowValues] = useState<any>([]);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
-  const [isToggled, toggle] = useToggle(false);
+
   const [openEditDrawer, setOpenEditDrawer] = useState(false);
   const [value, setValue] = useState('');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -91,16 +91,24 @@ const useOrganizationTable = () => {
     if (editData) {
       const { accountName, phoneNo, address, postCode } = editData;
 
+      // const addressOthFields = address && JSON.parse(address)
+      let addressOthFields;
+
+      if (typeof address === 'string') {
+        addressOthFields = JSON.parse(address);
+      } else {
+        addressOthFields = address;
+      }
       methods.setValue('accountName', accountName);
       methods.setValue('phoneNo', phoneNo);
       methods.setValue('postCode', postCode);
-      methods.setValue('unit', address?.country);
-      methods.setValue('buildingName', address?.buildingName);
-      methods.setValue('buildingNumber', address?.buildingNumber);
-      methods.setValue('streetName', address?.streetName);
-      methods.setValue('city', address?.city);
-      methods.setValue('country', address?.country);
-      methods.setValue('address', address?.composite ? address?.composite : '');
+      methods.setValue('unit', addressOthFields?.flatNumber);
+      methods.setValue('buildingName', addressOthFields?.buildingName);
+      methods.setValue('buildingNumber', addressOthFields?.buildingNumber);
+      methods.setValue('streetName', addressOthFields?.streetName);
+      methods.setValue('city', addressOthFields?.city);
+      methods.setValue('country', addressOthFields?.country);
+      methods.setValue('address', addressOthFields?.composite);
     }
   }, [editData, methods]);
 
@@ -113,6 +121,12 @@ const useOrganizationTable = () => {
   const streetNameField = watch('streetName');
   const cityField = watch('city');
   const countryField = watch('country');
+
+  const addressDefaultValuesCheck =
+    unitField?.length ||
+    buildingNameField?.length ||
+    buildingNumberField?.length;
+  const [isToggled, toggle] = useToggle(false);
 
   const addressValues =
     (unitField !== undefined && unitField?.length > 0
@@ -145,7 +159,6 @@ const useOrganizationTable = () => {
     setImageToUpload(selectedImage);
     formData.append('image', selectedImage);
   };
-
   const onSubmit = async (data: any) => {
     const products: any = [];
     user?.products.forEach((product: any) => {
@@ -192,16 +205,13 @@ const useOrganizationTable = () => {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
   };
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
     setOpenEditDrawer(true);
   };
-
   const tableRowData = data?.data?.organizationcompanyaccounts ?? [];
   const getRowValues = columns(
     setIsGetRowValues,
@@ -265,6 +275,8 @@ const useOrganizationTable = () => {
     setImageToUpload,
     imageToUpload,
     handleImageChange,
+    addressDefaultValuesCheck,
+    reset,
   };
 };
 
