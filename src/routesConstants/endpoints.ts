@@ -56,7 +56,7 @@ export const END_POINTS = {
   TASK_MANAGEMENT: '/task/management',
   TASK_CUSTOMIZE_COLUMN: '/customized-columns',
   TASK_MANAGEMENT_INSIGHTS: '/task/task-management-insights',
-  TASK_MANAGEMENT_FEED: '/task/task-management-feed',
+  TASK_MANAGEMENT_FEED: '/activity-log',
   TASK_MANAGEMENT_INSIGHTS_NEW: '/task/task-management-insights-new',
   DEALS_ASSOCIATION: '/deals/get-associations',
   ENQUIRIES: '/enquiries/',
