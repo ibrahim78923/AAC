@@ -1,10 +1,10 @@
-import { Typography, Box, Button, Skeleton } from '@mui/material';
-import React from 'react';
+import { Box, Button, Skeleton } from '@mui/material';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
-import { ViewDetailBackArrowIcon } from '@/assets/icons';
 import { AIR_SERVICES } from '@/constants';
 import { useHeader } from './useHeader';
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import { PageTitledHeader } from '@/components/PageTitledHeader';
+import { truncateText } from '@/utils/avatarUtils';
 
 export const Header = (props: any) => {
   const {
@@ -12,10 +12,12 @@ export const Header = (props: any) => {
     handleAddToInventory,
     handleReceived,
     statusDropdownOptions,
-    currentStatus,
   } = props;
-  const { push, name, isLoading, isFetching } = useHeader();
+
+  const { router, data, isLoading, isFetching } = useHeader();
+
   if (isLoading || isFetching) return <Skeleton />;
+
   return (
     <>
       <Box
@@ -25,38 +27,52 @@ export const Header = (props: any) => {
         flexWrap={'wrap'}
         gap={1.5}
       >
+        <PageTitledHeader
+          moveBack={() => router?.push(AIR_SERVICES?.PURCHASE_ORDER)}
+          canMovedBack
+          title={truncateText(data?.data?.orderName)}
+        />
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
-          <Box
-            onClick={() => push(AIR_SERVICES?.PURCHASE_ORDER)}
-            sx={{ cursor: 'pointer' }}
-          >
-            <ViewDetailBackArrowIcon />
-          </Box>
-          <Typography variant="h5">{name}</Typography>
-        </Box>
-        <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
-          <Button
-            color="secondary"
-            variant="outlined"
-            onClick={() => {
-              handleReceived?.();
-            }}
-            disabled={currentStatus !== PURCHASE_ORDER_STATUS?.ORDERED}
-          >
-            Received item
-          </Button>
-          <Button
-            color="secondary"
-            variant="outlined"
-            onClick={() => handleAddToInventory?.()}
-            disabled={currentStatus === PURCHASE_ORDER_STATUS?.ORDERED}
-          >
-            Add to Inventory
-          </Button>
-          <SingleDropdownButton
-            dropdownOptions={statusDropdownOptions}
-            dropdownName={currentStatus}
-          />
+          {data?.data?.status !== PURCHASE_ORDER_STATUS?.OPEN &&
+            data?.data?.status !== PURCHASE_ORDER_STATUS?.CANCELLED && (
+              <>
+                <Button
+                  color="secondary"
+                  variant="outlined"
+                  onClick={() => {
+                    handleReceived?.();
+                  }}
+                  disabled={
+                    data?.data?.status !== PURCHASE_ORDER_STATUS?.ORDERED
+                  }
+                >
+                  Received item
+                </Button>
+                <Button
+                  color="secondary"
+                  variant="outlined"
+                  onClick={() => handleAddToInventory?.()}
+                  disabled={
+                    data?.data?.status === PURCHASE_ORDER_STATUS?.ORDERED
+                  }
+                >
+                  Add to Inventory
+                </Button>
+              </>
+            )}
+
+          {data?.data?.status !== PURCHASE_ORDER_STATUS?.OPEN && (
+            <Button color="secondary" variant="outlined">
+              {data?.data?.status}
+            </Button>
+          )}
+
+          {data?.data?.status === PURCHASE_ORDER_STATUS?.OPEN && (
+            <SingleDropdownButton
+              dropdownOptions={statusDropdownOptions}
+              dropdownName={PURCHASE_ORDER_STATUS?.OPEN}
+            />
+          )}
 
           <SingleDropdownButton dropdownOptions={dropdownOptions} />
         </Box>
