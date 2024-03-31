@@ -46,8 +46,8 @@ export const styles = {
   chatTextarea: () => {
     return {
       width: '100%',
-      '& .css-1d3z3hw-MuiOutlinedInput-notchedOutline': {
-        border: '0px',
+      '& .MuiOutlinedInput-notchedOutline': {
+        border: '0px solid #fff !important',
       },
     };
   },
