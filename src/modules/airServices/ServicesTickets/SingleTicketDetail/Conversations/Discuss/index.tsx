@@ -28,7 +28,7 @@ export const Discuss = (props: any) => {
             height: '60vh',
             minHeight: '60vh',
             bottom: '0 !important',
-            width: { lg: '350px', xs: '100vw' },
+            width: { sm: '350px', xs: '100vw' },
             top: 'unset',
             display: 'flex',
             flexDirection: 'column',
