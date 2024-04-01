@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { useDeleteAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { enqueueSnackbar } from 'notistack';
+import { useGetQuoteByIdQuery } from '@/services/airSales/quotes';
 
 const useQuotes = (dealId: any) => {
   const theme = useTheme();
@@ -10,6 +11,11 @@ const useQuotes = (dealId: any) => {
   const [openDrawer, setOpenDrawer] = useState('');
   const [selectedQuote, setSelectedQuote] = useState<any>({});
   const [isOpenAlert, setIsOpenAlert] = useState(false);
+
+  const { data: getQuoteById, isLoading: quoteDetailsLoading } =
+    useGetQuoteByIdQuery({ id: selectedQuote?._id, params: searchName });
+
+  const quotesDetails = getQuoteById?.data;
 
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
@@ -47,6 +53,8 @@ const useQuotes = (dealId: any) => {
     setSelectedQuote,
     deleteQuoteHandler,
     quoteLoading,
+    quotesDetails,
+    quoteDetailsLoading,
   };
 };
 

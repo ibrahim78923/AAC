@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
@@ -8,15 +8,13 @@ import AttachmentsEditorDrawer from './AttachmentsEditorDrawer';
 import useAttachments from './useAttachments';
 
 import { columns } from './Attachments.data';
-import { attachmentData } from '@/mock/modules/airSales/Deals/ViewDetails';
-
 import { PlusIcon } from '@/assets/icons';
 
 import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const Attachments = () => {
+const Attachments = ({ attachmentsData, isLoading }: any) => {
   const {
     theme,
     isOpenAlert,
@@ -38,11 +36,18 @@ const Attachments = () => {
     >
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
-          <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
-          </Typography>
-
-          <Typography variant="h5">Attachments</Typography>
+          {isLoading ? (
+            <Skeleton variant="text" height={40} width={120} />
+          ) : (
+            <>
+              <Typography sx={styles?.associationCount(theme)} variant="body3">
+                {attachmentsData?.length < 10
+                  ? `0${attachmentsData?.length}`
+                  : attachmentsData?.length}
+              </Typography>
+              <Typography variant="h5">Attachments</Typography>
+            </>
+          )}
         </Grid>
         <Grid item md={8} xs={12}>
           <Box
@@ -78,7 +83,7 @@ const Attachments = () => {
         <Grid item xs={12}>
           <TanstackTable
             columns={columns({ setOpenDrawer, setIsOpenAlert })}
-            data={attachmentData}
+            data={attachmentsData}
           />
         </Grid>
       </Grid>

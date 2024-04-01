@@ -20,6 +20,8 @@ const Quotes = ({ quotesData, isLoading, dealId }: any) => {
     deleteQuoteHandler,
     quoteLoading,
     setSelectedQuote,
+    quotesDetails,
+    quoteDetailsLoading,
   } = useQuotes(dealId);
   return (
     <Box
@@ -74,7 +76,12 @@ const Quotes = ({ quotesData, isLoading, dealId }: any) => {
       </Grid>
 
       {openDrawer && (
-        <QuotesDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
+        <QuotesDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          quotesDetails={quotesDetails}
+          isLoading={quoteDetailsLoading}
+        />
       )}
 
       {isOpenAlert && (

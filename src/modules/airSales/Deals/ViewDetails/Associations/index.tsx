@@ -69,7 +69,10 @@ const Associations = (props: any) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Attachments />
+            <Attachments
+              attachmentsData={assocaitionData?.attachments}
+              isLoading={isLoading}
+            />
           </Grid>
         </Grid>
       </Box>

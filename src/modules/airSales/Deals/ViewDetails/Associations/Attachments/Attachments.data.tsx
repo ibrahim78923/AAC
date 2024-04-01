@@ -3,6 +3,9 @@ import { Box } from '@mui/material';
 import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { DATE_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
@@ -12,7 +15,7 @@ export const columns: any = ({
 }) => {
   return [
     {
-      accessorFn: (row: any) => row?.title,
+      accessorFn: (row: any) => row?.orignalName,
       id: 'contact_id',
       cell: (info: any) => info?.getValue(),
       header: 'Title',
@@ -20,11 +23,11 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row?.createdDate,
+      accessorFn: (row: any) => row?.createdAt,
       id: 'createdDate',
       isSortable: true,
       header: 'Created Date',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => dayjs(info?.getValue())?.format(DATE_FORMAT?.UI),
     },
 
     {
