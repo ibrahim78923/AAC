@@ -9,7 +9,10 @@ import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { REQUESTORS_STATUS } from '@/constants/strings';
 import { DATE_TIME_FORMAT } from '@/constants';
 
-export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
+export const EventBaseWorkflowActionsDropdown = (
+  handleActionClick: any,
+  handleCloneWorkflow: any,
+) => [
   {
     id: 1,
     title: 'Edit',
@@ -29,6 +32,7 @@ export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
     ],
     handleClick: (close: any) => {
       handleActionClick('clone');
+      handleCloneWorkflow();
       close?.(false);
     },
   },

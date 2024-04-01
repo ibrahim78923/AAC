@@ -18,6 +18,7 @@ import {
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useCloneServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
 
 export const useTickets = () => {
   const theme = useTheme();
@@ -111,7 +112,21 @@ export const useTickets = () => {
       }
     }
   };
-  const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);
+
+  const [workflowCloneTrigger] = useCloneServicesWorkflowMutation();
+  const handleCloneWorkflow = async () => {
+    try {
+      await workflowCloneTrigger(selectedId).unwrap();
+      successSnackbar('Workflow Clone Successfully');
+    } catch (error) {
+      errorSnackbar();
+    }
+  };
+
+  const dropdownOptions = EventBaseWorkflowActionsDropdown(
+    handleActionClick,
+    handleCloneWorkflow,
+  );
   return {
     ticketsListsColumns,
     isLoading,

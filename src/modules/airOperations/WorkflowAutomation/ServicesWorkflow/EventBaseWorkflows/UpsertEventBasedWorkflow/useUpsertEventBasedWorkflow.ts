@@ -21,7 +21,7 @@ export const useUpsertEventBasedWorkflow = () => {
     string: 'string',
     number: 'number',
     object: 'object',
-    date: 'date',
+    date: 'Date',
     objectId: 'objectId',
   };
   const router = useRouter();
@@ -34,8 +34,13 @@ export const useUpsertEventBasedWorkflow = () => {
   };
 
   const EDIT_WORKFLOW = 'edit';
-  const { data, isLoading, isFetching }: any =
-    useGetByIdWorkflowQuery(singleId);
+  const { data, isLoading, isFetching }: any = useGetByIdWorkflowQuery(
+    singleId,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!singleId,
+    },
+  );
   const singleWorkflowData = data?.data;
 
   const eventMethod = useForm({
@@ -47,17 +52,20 @@ export const useUpsertEventBasedWorkflow = () => {
     eventMethod;
 
   const mapField = (field: any, typeData: any) => {
-    switch (typeof field?.fieldValue) {
-      case typeData?.string:
-        return typeData?.string;
-      case typeData?.object:
-        return typeData?.objectId;
-      case typeData?.number:
-        return typeData?.number;
-      default:
-        return field?.fieldName?.includes(typeData?.date)
-          ? typeData?.date
-          : null;
+    const fieldValue = field?.fieldValue;
+    if (fieldValue instanceof Date) {
+      return typeData?.date;
+    } else if (
+      typeof fieldValue === typeData?.string &&
+      !isNaN(Date.parse(fieldValue))
+    ) {
+      return typeData?.number;
+    } else if (typeof fieldValue === typeData?.string) {
+      return typeData?.string;
+    } else if (typeof fieldValue === typeData?.object) {
+      return typeData?.objectId;
+    } else {
+      return null;
     }
   };
 
@@ -67,7 +75,6 @@ export const useUpsertEventBasedWorkflow = () => {
       ...condition,
       fieldValue: condition?.fieldValue?._id,
       fieldType: mapField(condition, typeData),
-      collectionName: 'tickets',
     })),
     conditionType: group?.conditionType?.value,
   });
@@ -75,7 +82,6 @@ export const useUpsertEventBasedWorkflow = () => {
   const mapAction = (action: any, typeData: any) => ({
     ...action,
     fieldType: mapField(action, typeData),
-    collectionName: 'tickets',
   });
 
   const [postWorkflowTrigger] = usePostServicesWorkflowMutation();
