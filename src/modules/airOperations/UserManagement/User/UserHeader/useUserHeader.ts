@@ -8,6 +8,7 @@ export const useUserHeader = (props: any) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [isAddDrawerOpen, setIsAddDrawerOpen] = useState<boolean>(false);
 
   const [deleteUserProducts] = useDeleteProductUsersMutation();
 
@@ -34,5 +35,7 @@ export const useUserHeader = (props: any) => {
     setDeleteModal,
     userDropdownOptions,
     submitDeleteModal,
+    isAddDrawerOpen,
+    setIsAddDrawerOpen,
   };
 };

@@ -21,7 +21,7 @@ export const detailsDefaultValues = {
   type: '',
   priority: '',
   dealStageId: '',
-  dealPiplineId: '',
+  dealPipelineId: '',
   contactedPersonId: '',
   contactMode: '',
   lastActivity: '',
@@ -29,7 +29,7 @@ export const detailsDefaultValues = {
   closeDate: '',
 };
 
-export const detailsDataArray = (dealPiplineId: string) => {
+export const detailsDataArray = (dealPipelineId: string) => {
   const { getDealOwnerContacts } = useDetails({});
   const { pipelineData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({
@@ -38,7 +38,7 @@ export const detailsDataArray = (dealPiplineId: string) => {
 
   const filteredStages =
     pipelineData?.data?.dealpipelines?.find(
-      (pipeline: any) => pipeline?._id === dealPiplineId,
+      (pipeline: any) => pipeline?._id === dealPipelineId,
     )?.stages || [];
 
   return [
@@ -105,7 +105,7 @@ export const detailsDataArray = (dealPiplineId: string) => {
     },
     {
       componentProps: {
-        name: 'dealPiplineId',
+        name: 'dealPipelineId',
         label: 'Pipeline',
         select: true,
       },

@@ -40,7 +40,7 @@ const useDetails = ({ selected }: any) => {
   });
   const { handleSubmit, reset, watch }: any = methodsDetails;
 
-  const dealPiplineId = watch('dealPiplineId');
+  const dealPipelineId = watch('dealPipelineId');
 
   useEffect(() => {
     const fieldsData = data?.data;
@@ -53,7 +53,7 @@ const useDetails = ({ selected }: any) => {
       type: fieldsData?.type,
       contactMode: fieldsData?.contactMode,
       contactedPersonId: fieldsData?.contactedPersonId,
-      dealPiplineId: fieldsData?.dealPiplineId,
+      dealPipelineId: fieldsData?.dealPipelineId,
       updatedAt: new Date(fieldsData?.updatedAt),
       createdAt: new Date(fieldsData?.createdAt),
       closeDate: new Date(fieldsData?.closeDate),
@@ -83,7 +83,7 @@ const useDetails = ({ selected }: any) => {
     onSubmit,
     handleSubmit,
     isLoading,
-    dealPiplineId,
+    dealPipelineId,
     getDealOwnerContacts,
     updateLoading,
     setPage,
