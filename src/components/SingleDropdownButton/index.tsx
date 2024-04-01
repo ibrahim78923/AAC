@@ -14,6 +14,7 @@ export const SingleDropdownButton = (props: any) => {
     hasEndIcon = true,
     btnVariant = 'outlined',
     Variant = hasEndIcon ? Button : IconButton,
+    menuSxProps,
     ...buttonProps
   } = props;
   const { anchorEl, open, theme, handleClick, handleClose } =
@@ -41,7 +42,7 @@ export const SingleDropdownButton = (props: any) => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        sx={{ padding: 2 }}
+        sx={{ padding: 2, ...menuSxProps }}
       >
         {dropdownOptions?.map((singleOption: any) => (
           <PermissionsGuard
