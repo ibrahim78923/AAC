@@ -9,15 +9,15 @@ import { CanlendarButtonIcon } from '@/assets/icons';
 import { useGetTaskInsightsQuery } from '@/services/airSales/task';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, DATE_RANGE } from '@/constants';
 import { getSession } from '@/utils';
 
 const Insights = () => {
   const { activity, dateRange, activityReportDate } = styles(useTheme());
-  const [datePickerVal, setDatePickerVal] = useState<any>();
+  const [datePickerValue, setDatePickerValue] = useState<any>();
 
   const { chartOptions, transformedData } = useInsightCard({
-    startDate: dayjs(datePickerVal ? datePickerVal[0] : Date.now())?.format(
+    startDate: dayjs(datePickerValue ? datePickerValue[0] : Date.now())?.format(
       DATE_FORMAT?.API,
     ),
   });
@@ -54,8 +54,8 @@ const Insights = () => {
 
           <SwitchableDatepicker
             isCalendarOpen={toggleDatePicker}
-            dateValue={datePickerVal}
-            setDateValue={setDatePickerVal}
+            dateValue={datePickerValue}
+            setDateValue={setDatePickerValue}
           />
 
           <CustomBox
@@ -83,13 +83,17 @@ const Insights = () => {
           </Typography>
           <Typography sx={activityReportDate}>
             Date Range: From{' '}
-            {dayjs(datePickerVal ? datePickerVal[0] : Date.now())?.format(
-              DATE_FORMAT?.API,
-            )}{' '}
+            {dayjs(
+              datePickerValue
+                ? datePickerValue[DATE_RANGE?.START_DATE]
+                : Date.now(),
+            )?.format(DATE_FORMAT?.API)}{' '}
             to{' '}
-            {dayjs(datePickerVal ? datePickerVal[1] : Date.now())?.format(
-              DATE_FORMAT?.API,
-            )}{' '}
+            {dayjs(
+              datePickerValue
+                ? datePickerValue[DATE_RANGE?.END_DATE]
+                : Date.now(),
+            )?.format(DATE_FORMAT?.API)}{' '}
             | Frequency: Daily
           </Typography>
           <Box mt={2}>
