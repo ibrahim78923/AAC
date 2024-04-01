@@ -16,7 +16,6 @@ import dayjs from 'dayjs';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { DATE_FORMAT } from '@/constants';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-// import { useUpdateContactStatusMutation } from '@/services/orgAdmin/settings/contact-status';
 import useAuth from '@/hooks/useAuth';
 import { useGetOrganizationUsersQuery } from '@/services/dropdowns';
 
@@ -36,7 +35,6 @@ const useContactsEditorDrawer = ({
 
   const [postContacts, { isLoading: postContactLoading }] =
     usePostContactsMutation();
-  // const [updateContacts] = useUpdateContactStatusMutation();
   const [createAssociation] = useCreateAssociationMutation();
 
   const contactOwnerData = ContactOwners?.data?.users?.map((user: any) => ({
@@ -115,14 +113,7 @@ const useContactsEditorDrawer = ({
       formData.append('recordType', recordType),
       formData.append('recordId', dealId);
     try {
-      const response =
-        //   openDrawer === 'Edit'
-        //     ? await updateContacts({
-        //         body: formData,
-        //         contactId: contactRecord?._id,
-        //       }).unwrap()
-        //     :
-        await postContacts({ body: formData }).unwrap();
+      const response = await postContacts({ body: formData }).unwrap();
 
       if (response?.data) {
         try {

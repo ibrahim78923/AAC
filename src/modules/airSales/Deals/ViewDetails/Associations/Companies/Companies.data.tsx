@@ -1,4 +1,4 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import { Avatar, Box, Typography, useTheme } from '@mui/material';
 import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
@@ -12,6 +12,8 @@ export const columns: any = ({
   setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
   setCompanyRecord: any;
 }) => {
+  const theme = useTheme();
+  const index = 0;
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -25,7 +27,10 @@ export const columns: any = ({
             }`}
           />
           <Box>
-            <Typography variant="body3" sx={{ color: '#111827' }}>
+            <Typography
+              variant="body3"
+              sx={{ color: theme?.palette?.blue?.dull_blue }}
+            >
               {info?.row?.original?.name}
             </Typography>
             <br />
@@ -40,7 +45,7 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row?.owner[0]?.phoneNumber,
+      accessorFn: (row: any) => row?.owner[index]?.phoneNumber,
       id: 'Phone Number',
       isSortable: true,
       header: ' Phone Number',
@@ -49,7 +54,7 @@ export const columns: any = ({
 
     {
       accessorFn: (row: any) =>
-        `${row?.owner[0]?.firstName} ${row?.owner[0]?.lastName}`,
+        `${row?.owner[index]?.firstName} ${row?.owner[index]?.lastName}`,
       id: 'owner',
       isSortable: true,
       header: 'Company Owner',
@@ -75,18 +80,7 @@ export const columns: any = ({
               <ViewEyeIcon />
             </Box>
           </PermissionsGuard>
-          {/* <PermissionsGuard
-            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_TICKET]}
-          >
-            <Box
-              sx={{ cursor: 'pointer' }}
-              onClick={() => {
-                setOpenDrawer('Edit'), setCompanyRecord(info?.row?.original);
-              }}
-            >
-              <EditPenIcon />
-            </Box>
-          </PermissionsGuard> */}
+
           <PermissionsGuard
             permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_REMOVE_COMPANY]}
           >
