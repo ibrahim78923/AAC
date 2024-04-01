@@ -72,6 +72,7 @@ const OrganizationTable = () => {
     isLoading,
     addressLength,
     handleImageChange,
+    imagePreview,
   } = useOrganizationTable();
   const { user }: any = useAuth();
 
@@ -107,7 +108,17 @@ const OrganizationTable = () => {
                     boxShadow:
                       '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
                   }}
-                ></Box>
+                >
+                  {imagePreview && (
+                    <Image
+                      src={imagePreview}
+                      alt="selected"
+                      width={120}
+                      height={120}
+                      style={{ borderRadius: '50%' }}
+                    />
+                  )}
+                </Box>
                 <input
                   hidden={true}
                   id="upload-group-image"

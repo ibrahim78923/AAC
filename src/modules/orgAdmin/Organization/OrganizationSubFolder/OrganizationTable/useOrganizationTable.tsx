@@ -30,6 +30,7 @@ const useOrganizationTable = () => {
   const [isToggled, toggle] = useToggle(false);
   const [openEditDrawer, setOpenEditDrawer] = useState(false);
   const [value, setValue] = useState('');
+  const [imagePreview, setImagePreview] = useState<any>();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme<Theme>();
@@ -144,6 +145,12 @@ const useOrganizationTable = () => {
     const selectedImage = e?.target?.files[0];
     setImageToUpload(selectedImage);
     formData.append('image', selectedImage);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(selectedImage);
   };
 
   const onSubmit = async (data: any) => {
@@ -265,6 +272,7 @@ const useOrganizationTable = () => {
     setImageToUpload,
     imageToUpload,
     handleImageChange,
+    imagePreview,
   };
 };
 
