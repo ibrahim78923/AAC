@@ -26,6 +26,7 @@ import store, { useAppSelector } from '@/redux/store';
 import {
   useGetPermissionsByProductsQuery,
   useGetPlanMangementByIdQuery,
+  useGetProductsFeaturesAllQuery,
   usePostPlanMangementMutation,
   useUpdatePlanMangementMutation,
 } from '@/services/superAdmin/plan-mangement';
@@ -194,9 +195,9 @@ export const useAddPlan = () => {
   const planForm: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.addPlanForm,
   );
-  const featureDetails: any = useAppSelector(
-    (state) => state?.planManagementForms?.planManagement?.featureDetails,
-  );
+  // const featureDetails: any = useAppSelector(
+  //   (state) => state?.planManagementForms?.planManagement?.featureDetails,
+  // );
   const featuresFormData: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.planFeature,
   );
@@ -294,22 +295,48 @@ export const useAddPlan = () => {
     }
     setPermissionSlugs('permissionSlugs', permissionsArray);
   };
-  const onSubmitPlanFeaturesHandler = async (values: any) => {
-    const featuresData = values?.features?.map((item: any) => {
-      // const productId = productFeatures?.data?.productfeatures?.find(
-      //   (id: any) => id?._id === item,
-      // );
 
-      return {
-        features: [
-          {
-            dealsAssociationsDetail: featureDetails?.dealsAssociationsDetail,
+  const { data: productFeatures } = useGetProductsFeaturesAllQuery({
+    id: planForm?.suite,
+  });
+
+  const onSubmitPlanFeaturesHandler = async (values: any) => {
+    let featuresData;
+    if (isNullOrEmpty(planForm?.productId)) {
+      featuresData = planForm?.suite?.map((productIdItem: any) => {
+        return {
+          features: values?.features
+            ?.map((item: any) => {
+              const productId = productFeatures?.data?.productfeatures?.find(
+                (id: any) => id?._id === item,
+              );
+              if (productId?.productId === productIdItem) {
+                return {
+                  dealsAssociationsDetail: productId?.name,
+                  featureId: item,
+                };
+              }
+              return undefined;
+            })
+            .filter(Boolean),
+          productId: productIdItem,
+        };
+      });
+    } else {
+      featuresData = {
+        features: values?.features?.map((item: any) => {
+          const productId = productFeatures?.data?.productfeatures?.find(
+            (id: any) => id?._id === item,
+          );
+
+          return {
+            dealsAssociationsDetail: productId?.name,
             featureId: item,
-          },
-        ],
+          };
+        }),
         productId: planForm?.productId || null,
       };
-    });
+    }
     dispatch(planFeaturesFormData(featuresData));
     setActiveStep((previous) => previous + 1);
     enqueueSnackbar('Plan Features Details Added Successfully', {
@@ -354,26 +381,28 @@ export const useAddPlan = () => {
         additionalPerUserPrice: parseInt(planForm?.additionalPerUserPrice),
         additionalStoragePrice: parseInt(planForm?.additionalStoragePrice),
       };
-      const planFeaturesFormData = featuresFormData?.map(
-        (item: any) =>
-          item?.features?.map((feature: any) => ({
-            features: [
-              {
-                dealsAssociationsDetail:
-                  featureDetails?.dealsAssociationsDetail,
-                featureId: feature?.featureId,
-              },
-            ],
-            productId: item?.productId,
-          })),
-      );
 
-      const transformedFeaturesFormData = {
-        planFeature: planFeaturesFormData?.flat()?.map((item: any) => ({
-          features: item?.features,
-          productId: item?.productId,
-        })),
-      };
+      // const planFeaturesFormData = featuresFormData?.features?.map(
+      //   (item: any) =>
+      //     item?.features?.map((feature: any) => ({
+      //       features: [
+      //         {
+      //           dealsAssociationsDetail:
+      //             featureDetails?.dealsAssociationsDetail,
+      //           featureId: feature?.featureId,
+      //         },
+      //       ],
+      //       productId: item?.productId,
+      //     })),
+      // );
+
+      // const transformedFeaturesFormData = {
+      //   planFeature: planFeaturesFormData?.flat()?.map((item: any) => ({
+      //     features: item?.features,
+      //     productId: item?.productId,
+      //   })),
+      // };
+
       const transformedModulesFormData = {
         planPermission: [
           {
@@ -389,14 +418,14 @@ export const useAddPlan = () => {
               id: parsedRowData?._id,
               body: {
                 ...planFormData,
-                ...transformedFeaturesFormData,
+                planFeature: featuresFormData,
                 ...transformedModulesFormData,
               },
             })
           : postPlanMangement({
               body: {
                 ...planFormData,
-                ...transformedFeaturesFormData,
+                planFeature: featuresFormData,
                 ...transformedModulesFormData,
               },
             })?.unwrap();
