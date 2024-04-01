@@ -20,10 +20,11 @@ const Quotation = () => {
   const gettingDiscount = dataGetQuoteById?.data?.products[0]?.unitDiscount;
 
   let totalPercentage = 0;
-  for (const tax of taxCalculationPerc) {
-    totalPercentage += tax.percentage;
+  if (taxCalculationPerc && Array.isArray(taxCalculationPerc)) {
+    for (const tax of taxCalculationPerc) {
+      totalPercentage += tax.percentage;
+    }
   }
-
   const percentageOfSubtotal = sum * (totalPercentage / 100);
 
   const FinalTotal = percentageOfSubtotal - gettingDiscount;

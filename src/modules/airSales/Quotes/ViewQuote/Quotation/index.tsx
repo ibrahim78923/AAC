@@ -21,8 +21,10 @@ const Quotation = () => {
   const gettingDiscount = viewQuotesData?.data?.products[0]?.unitDiscount;
 
   let totalPercentage = 0;
-  for (const tax of taxCalculationPerc) {
-    totalPercentage += tax.percentage;
+  if (taxCalculationPerc && Array.isArray(taxCalculationPerc)) {
+    for (const tax of taxCalculationPerc) {
+      totalPercentage += tax.percentage;
+    }
   }
 
   const percentageOfSubtotal = sum * (totalPercentage / 100);

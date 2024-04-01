@@ -14,21 +14,26 @@ const BuyerCompany = () => {
             OM
           </Avatar>
           <Box>
-            <Typography variant="h6" sx={styles?.title}>
-              {viewQuotesData?.data?.name}
-            </Typography>
-            <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {viewQuotesData?.data?.deal[0]?.companies[0]?.address}
-            </Typography>
-            <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {` ${viewQuotesData?.data?.deal[0]?.companies[0]?.city} | ${viewQuotesData?.data?.deal[0]?.companies[0]?.postalCode}`}
-            </Typography>
-            <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {viewQuotesData?.data?.deal[0]?.companies[0]?.owner?.phoneNumber}
-            </Typography>
-            <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {viewQuotesData?.data?.deal[0]?.companies[0]?.owner?.email}
-            </Typography>
+            {viewQuotesData?.data?.buyerCompany?.map((item: any) => (
+              <>
+                <Typography variant="h6" sx={styles?.title}>
+                  {item?.name ?? 'N/A'}
+                </Typography>
+                <Typography variant="body3" sx={styles?.infoSubtitle}>
+                  {item?.address ?? 'N/A'}
+                </Typography>
+
+                <Typography variant="body3" sx={styles?.infoSubtitle}>
+                  {` ${item?.city} | ${item?.postalCode}`}
+                </Typography>
+                <Typography variant="body3" sx={styles?.infoSubtitle}>
+                  {item?.phoneNumber ?? 'N/A'}
+                </Typography>
+                <Typography variant="body3" sx={styles?.infoSubtitle}>
+                  {item?.email ?? 'N/A'}
+                </Typography>
+              </>
+            ))}
           </Box>
         </Box>
       </Box>
