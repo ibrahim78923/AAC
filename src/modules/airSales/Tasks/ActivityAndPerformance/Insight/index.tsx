@@ -14,10 +14,10 @@ import { getSession } from '@/utils';
 
 const Insights = () => {
   const { activity, dateRange, activityReportDate } = styles(useTheme());
-  const [datePickerVal, setDatePickerVal] = useState<any>();
+  const [datePickerValue, setDatePickerValue] = useState<any>();
 
   const { chartOptions, transformedData } = useInsightCard({
-    startDate: dayjs(datePickerVal ? datePickerVal[0] : Date.now())?.format(
+    startDate: dayjs(datePickerValue ? datePickerValue[0] : Date.now())?.format(
       DATE_FORMAT?.API,
     ),
   });
@@ -54,8 +54,8 @@ const Insights = () => {
 
           <SwitchableDatepicker
             isCalendarOpen={toggleDatePicker}
-            dateValue={datePickerVal}
-            setDateValue={setDatePickerVal}
+            dateValue={datePickerValue}
+            setDateValue={setDatePickerValue}
           />
 
           <CustomBox
@@ -83,11 +83,11 @@ const Insights = () => {
           </Typography>
           <Typography sx={activityReportDate}>
             Date Range: From{' '}
-            {dayjs(datePickerVal ? datePickerVal[0] : Date.now())?.format(
+            {dayjs(datePickerValue ? datePickerValue[0] : Date.now())?.format(
               DATE_FORMAT?.API,
             )}{' '}
             to{' '}
-            {dayjs(datePickerVal ? datePickerVal[1] : Date.now())?.format(
+            {dayjs(datePickerValue ? datePickerValue[1] : Date.now())?.format(
               DATE_FORMAT?.API,
             )}{' '}
             | Frequency: Daily
