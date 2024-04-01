@@ -14,7 +14,7 @@ import {
   TICKET_CONVERSATIONS_RESPONSE_TYPE,
 } from '@/constants/strings';
 import { ArticlesList } from '../ArticlesList';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CannedResponsesList } from '../CannedResponsesList';
 import { AIR_SERVICES } from '@/constants';
 import { useTheme } from '@mui/material';
@@ -157,6 +157,12 @@ export const useUpsertConversation = (props: any) => {
     }
     return null;
   };
+
+  useEffect(() => {
+    reset(
+      () => upsertConversationFormDefaultValues?.(selectedConversationType),
+    );
+  }, [reset, selectedConversationType]);
 
   const upsertConversationFormFields = upsertConversationFormFieldsDynamic?.(
     selectedConversationType,

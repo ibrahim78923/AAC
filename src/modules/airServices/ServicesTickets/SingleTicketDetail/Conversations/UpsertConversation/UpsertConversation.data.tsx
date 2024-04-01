@@ -10,9 +10,17 @@ import { CONVERSATION_TYPE_MODIFY } from '../Conversations.data';
 
 export const upsertConversationFormDefaultValues = (data?: any) => {
   return {
-    type: data?.type ?? null,
-    recipients: data?.recipients ?? '',
-    html: data?.html ?? '',
+    type: data?.conversationType
+      ? {
+          _id: data?.conversationType,
+          label: data?.conversationType,
+        }
+      : null,
+    recipients: data?.isEdit ? data?.recipients : '',
+    html:
+      data?.conversationType != TICKET_CONVERSATIONS_TYPE?.REPLY
+        ? data?.html
+        : '',
     attachments: null,
     from: data?.from ?? '',
   };

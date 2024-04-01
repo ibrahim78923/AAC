@@ -6,8 +6,6 @@ import { useUpsertConversation } from './useUpsertConversation';
 import { AIR_SERVICES_TICKETS_TICKETS_DETAILS } from '@/constants/permission-keys';
 import { CONVERSATION_TYPE_MODIFY } from '../Conversations.data';
 import { ArticleModalIcon, CannedResponseModalIcon } from '@/assets/icons';
-import { ArticlesList } from '../ArticlesList';
-import { CannedResponsesList } from '../CannedResponsesList';
 import { TICKET_CONVERSATIONS_RESPONSE_TYPE } from '@/constants/strings';
 
 export const UpsertConversation = (props: any) => {
@@ -90,8 +88,6 @@ export const UpsertConversation = (props: any) => {
                 <ArticleModalIcon />
               </Box>
             </Box>
-            <ArticlesList isModalOpen={false} />
-            <CannedResponsesList isModalOpen />
             {!!singleConversation?._id && (
               <>
                 <Typography
