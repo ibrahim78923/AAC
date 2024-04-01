@@ -199,3 +199,8 @@ export const Quick_Links_Routes = {
 export const productSuiteName = {
   crm: 'CRM',
 };
+
+export const DATE_RANGE = {
+  START_DATE: 0,
+  END_DATE: 1,
+};
