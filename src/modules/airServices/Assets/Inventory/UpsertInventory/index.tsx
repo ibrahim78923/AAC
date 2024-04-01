@@ -53,7 +53,15 @@ export const UpsertInventory = () => {
                 </Grid>
               </Grid>
               <Box sx={{ display: { lg: 'none', xs: 'block' } }}>
-                <RHFDropZone name="fileUrl" />
+                <RHFDropZone
+                  name="fileUrl"
+                  fullWidth={true}
+                  fileType={'PNG or JPG  (max 2.44 MB)'}
+                  maxSize={1024 * 1024 * 2.44}
+                  accept={{
+                    'image/*': ['.png', '.jpg'],
+                  }}
+                />
                 <br />
                 {!!inventoryId && (
                   <>
@@ -109,7 +117,15 @@ export const UpsertInventory = () => {
             </Box>
           </Grid>
           <Grid item lg={3} sx={{ display: { xs: 'none', lg: 'block' } }}>
-            <RHFDropZone name="fileUrl" />
+            <RHFDropZone
+              name="fileUrl"
+              fullWidth={true}
+              fileType={'PNG or JPG  (max 2.44 MB)'}
+              maxSize={1024 * 1024 * 2.44}
+              accept={{
+                'image/*': ['.png', '.jpg'],
+              }}
+            />
             <br />
             {!!inventoryId && (
               <>

@@ -4,25 +4,26 @@ import { useTheme } from '@mui/material';
 import { useDeleteAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { enqueueSnackbar } from 'notistack';
 
-const useProducts = (dealId: any) => {
+const useQuotes = (dealId: any) => {
   const theme = useTheme();
   const [searchName, setSearchName] = useState('');
   const [openDrawer, setOpenDrawer] = useState('');
-  const [selectedProduct, setSelectedProduct] = useState<any>({});
+  const [selectedQuote, setSelectedQuote] = useState<any>({});
   const [isOpenAlert, setIsOpenAlert] = useState(false);
+
   const handleCloseAlert = () => {
     setIsOpenAlert(false);
   };
 
-  const [deleteAssociation, { isLoading: productLoading }] =
+  const [deleteAssociation, { isLoading: quoteLoading }] =
     useDeleteAssociationMutation();
 
-  const deleteProductHandler = async () => {
+  const deleteQuoteHandler = async () => {
     try {
       await deleteAssociation({
         body: {
           dealId: dealId,
-          product: { productId: selectedProduct?._id },
+          quoteId: selectedQuote?._id,
         },
       })?.unwrap();
       enqueueSnackbar('Record Deleted Successfully', { variant: 'success' });
@@ -32,6 +33,7 @@ const useProducts = (dealId: any) => {
       enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
     }
   };
+
   return {
     theme,
     isOpenAlert,
@@ -41,11 +43,11 @@ const useProducts = (dealId: any) => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
-    selectedProduct,
-    setSelectedProduct,
-    productLoading,
-    deleteProductHandler,
+    selectedQuote,
+    setSelectedQuote,
+    deleteQuoteHandler,
+    quoteLoading,
   };
 };
 
-export default useProducts;
+export default useQuotes;

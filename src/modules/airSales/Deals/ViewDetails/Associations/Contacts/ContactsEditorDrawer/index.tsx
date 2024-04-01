@@ -49,14 +49,18 @@ const ContactsEditorDrawer = (props: any) => {
             methods={methodscontacts}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={2}>
               {contactsDataArray({
                 lifeCycleStagesData,
                 contactStatusData,
                 contactOwnerData,
               })?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
+                  <item.component
+                    disabled={openDrawer === 'View' ? true : false}
+                    {...item?.componentProps}
+                    size={'small'}
+                  >
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
                           <option key={option?.value} value={option?.value}>

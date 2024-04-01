@@ -20,6 +20,7 @@ export const UpsertEventBasedWorkflow = () => {
     setValue,
     isLoading,
     isFetching,
+    handleSaveAsDraft,
   } = useUpsertEventBasedWorkflow();
   if (isLoading || isFetching) return <Skeleton />;
   return (
@@ -28,7 +29,7 @@ export const UpsertEventBasedWorkflow = () => {
         methods={eventMethod}
         onSubmit={handleSubmit(handleFormSubmit)}
       >
-        <WorkflowHeader />
+        <WorkflowHeader handleSaveAsDraft={handleSaveAsDraft} />
         <Grid container spacing={2}>
           {EventBasedWorkflowDataArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={item?.id}>

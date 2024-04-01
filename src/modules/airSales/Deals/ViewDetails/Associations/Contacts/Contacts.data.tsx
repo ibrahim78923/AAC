@@ -1,11 +1,8 @@
-import Image from 'next/image';
-
-import { Box, Typography } from '@mui/material';
-
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
-import { NotesAvatarImage } from '@/assets/images';
+import { Avatar, Box, Typography } from '@mui/material';
+import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { IMG_URL } from '@/config';
 
 export const columns: any = ({
   setOpenDrawer,
@@ -29,14 +26,23 @@ export const columns: any = ({
       id: 'name',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-          <Image src={NotesAvatarImage} width={40} height={40} alt="avatar" />
+          <Avatar
+            alt="Remy Sharp"
+            src={`${
+              info?.row?.original?.profilePicture
+                ? `${IMG_URL}${info?.row?.original?.profilePicture?.url}`
+                : ''
+            }`}
+          />
           <Box>
             <Typography variant="body3" sx={{ color: '#111827' }}>
-              {info?.row?.original?.firstName} {info?.row?.original?.lastName}
+              {`${info?.row?.original?.firstName ?? 'N/A'} ${
+                info?.row?.original?.lastName ?? 'N/A'
+              }`}
             </Typography>
             <br />
             <Typography variant="body3">
-              {info?.row?.original?.email}
+              {info?.row?.original?.email ?? 'N/A'}
             </Typography>
           </Box>
         </Box>
@@ -49,14 +55,14 @@ export const columns: any = ({
       id: 'phoneNumber',
       isSortable: true,
       header: 'Phone Number',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.jobTitle,
       id: 'jobTitle',
       isSortable: true,
       header: 'Job Title ',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => info?.getValue() ?? 'N/A',
     },
 
     {
@@ -79,7 +85,7 @@ export const columns: any = ({
             </Box>
           </PermissionsGuard>
 
-          <PermissionsGuard
+          {/* <PermissionsGuard
             permissions={[
               AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_CONTACT,
             ]}
@@ -92,7 +98,7 @@ export const columns: any = ({
             >
               <EditPenIcon />
             </Box>
-          </PermissionsGuard>
+          </PermissionsGuard> */}
           <PermissionsGuard
             permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_REMOVE_CONTACT]}
           >
