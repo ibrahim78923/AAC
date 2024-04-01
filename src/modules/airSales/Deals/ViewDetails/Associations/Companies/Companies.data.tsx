@@ -13,7 +13,6 @@ export const columns: any = ({
   setCompanyRecord: any;
 }) => {
   const theme = useTheme();
-  const index = 0;
   return [
     {
       accessorFn: (row: any) => row?.name,
@@ -45,7 +44,7 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row?.owner[index]?.phoneNumber,
+      accessorFn: (row: any) => row?.owner?.phoneNumber,
       id: 'Phone Number',
       isSortable: true,
       header: ' Phone Number',
@@ -54,7 +53,7 @@ export const columns: any = ({
 
     {
       accessorFn: (row: any) =>
-        `${row?.owner[index]?.firstName} ${row?.owner[index]?.lastName}`,
+        `${row?.owner?.firstName} ${row?.owner?.lastName}`,
       id: 'owner',
       isSortable: true,
       header: 'Company Owner',
