@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  fieldTypes,
   salesSchema,
   salesValues,
   workflowTypes,
@@ -69,15 +70,20 @@ export const useUpsertSalesWorkflow = () => {
           ...group,
           conditions: group?.conditions?.map((condition: any) => ({
             ...condition,
+            fieldValue:
+              typeof condition?.fieldValue === fieldTypes?.object
+                ? condition?.fieldValue?._id
+                : condition?.fieldValue,
             fieldType:
               condition?.fieldValue instanceof Date
-                ? 'Date'
-                : typeof condition?.fieldValue === 'string' &&
-                    !isNaN(Date.parse(condition?.fieldValue))
-                  ? 'number'
-                  : typeof condition?.fieldValue === 'string'
-                    ? 'string'
-                    : typeof condition?.fieldValue === 'object' && 'objectId',
+                ? fieldTypes?.date
+                : typeof condition?.fieldValue === fieldTypes?.string &&
+                    !isNaN(Date?.parse(condition?.fieldValue))
+                  ? fieldTypes?.number
+                  : typeof condition?.fieldValue === fieldTypes?.string
+                    ? fieldTypes?.string
+                    : typeof condition?.fieldValue === fieldTypes?.object &&
+                      fieldTypes?.objectId,
           })),
           conditionType: group?.conditionType?.value,
         })) ?? [],

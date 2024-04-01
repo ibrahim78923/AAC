@@ -69,3 +69,10 @@ export const workflowTypes = {
   eventBase: 'EVENT_BASE',
   scheduled: 'SCHEDULED',
 };
+export const fieldTypes = {
+  object: 'object',
+  objectId: 'objectId',
+  date: 'date',
+  number: 'number',
+  string: 'string',
+};

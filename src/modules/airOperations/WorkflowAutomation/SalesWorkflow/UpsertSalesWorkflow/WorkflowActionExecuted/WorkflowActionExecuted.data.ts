@@ -40,33 +40,33 @@ export const actionsExecutedFields = (
   const watchKey = watch(`actions.${index}.fieldName`);
   let component = RHFTextField;
   let componentProps: any = {};
-  if (moduleType === 'DEALS') {
-    if (watchKey === 'Set Deal Pipeline') {
+  if (moduleType === actionName?.deals) {
+    if (watchKey === actionName?.setDealPipeline) {
       (component = RHFAutocompleteAsync),
         (componentProps = {
           apiQuery: dealsDropdown,
           externalParams: { meta: false },
           placeholder: 'Select',
         });
-    } else if (watchKey === 'Set Deal Stage') {
+    } else if (watchKey === actionName?.setDealStage) {
       (component = RHFAutocomplete),
         (componentProps = {
           options: setDealStageOption,
           placeholder: 'Select',
         });
-    } else if (watchKey === 'Set Amount') {
+    } else if (watchKey === actionName?.setAmount) {
       (component = RHFTextField),
         (componentProps = {
           type: 'number',
           placeholder: 'Enter Amount',
         });
-    } else if (watchKey === 'Set Close Date') {
+    } else if (watchKey === actionName?.setCloseDate) {
       (component = RHFDatePicker),
         (componentProps = {
           disablePast: true,
           fullWidth: true,
         });
-    } else if (watchKey === 'Set Deal Owner') {
+    } else if (watchKey === actionName?.setDealOwner) {
       (component = RHFAutocompleteAsync),
         (componentProps = {
           apiQuery: contactDropdown,
@@ -81,72 +81,72 @@ export const actionsExecutedFields = (
           options: setPriorityOption,
           placeholder: 'Select',
         });
-    } else if (watchKey === 'Add line item') {
+    } else if (watchKey === actionName?.addLineItem) {
       (component = RHFAutocompleteAsync),
         (componentProps = {
           apiQuery: productDropdown,
           externalParams: { limit: 50 },
           placeholder: 'Select',
         });
-    } else if (watchKey === 'Set Billing Frequency') {
+    } else if (watchKey === actionName?.setBillingFrequency) {
       (component = RHFAutocomplete),
         (componentProps = {
           options: setBillOption,
           placeholder: 'Select',
         });
     }
-  } else if (moduleType === 'SALES_TASKS') {
-    if (watchKey === 'Set Task Type') {
+  } else if (moduleType === actionName?.salesTasks) {
+    if (watchKey === actionName?.setTaskType) {
       (component = RHFAutocomplete),
         (componentProps = {
           options: setTaskTypeOption,
           placeholder: 'Select',
         });
-    } else if (watchKey === 'Set Priority') {
+    } else if (watchKey === actionName?.setPriority) {
       (component = RHFAutocomplete),
         (componentProps = {
           options: setPriorityOption,
           placeholder: 'Select',
         });
-    } else if (watchKey === 'Set Task Status') {
+    } else if (watchKey === actionName?.setTaskStatus) {
       (component = RHFAutocomplete),
         (componentProps = {
           options: setTaskStatusOption,
           placeholder: 'Select',
         });
-    } else if (watchKey === 'Select deal') {
+    } else if (watchKey === actionName?.selectDeal) {
       (component = RHFAutocompleteAsync),
         (componentProps = {
           apiQuery: dealsDropdown,
           externalParams: { meta: false },
           placeholder: 'Select',
         });
-    } else if (watchKey === 'Associate with records') {
+    } else if (watchKey === actionName?.associateWithRecords) {
       (component = RHFAutocomplete),
         (componentProps = {
           options: associateOption,
           placeholder: 'Select',
         });
-    } else if (watchKey === 'Set Assigned to') {
+    } else if (watchKey === actionName?.setAssignedTo) {
       (component = RHFAutocompleteAsync),
         (componentProps = {
-          apiQuery: dealsDropdown, // sales user list
+          apiQuery: dealsDropdown, // require sales user list
           externalParams: { meta: false },
           placeholder: 'Select',
         });
-    } else if (watchKey === 'Set Due Date') {
+    } else if (watchKey === actionName?.setDueDate) {
       (component = RHFDatePicker),
         (componentProps = {
           disablePast: true,
           fullWidth: true,
         });
-    } else if (watchKey === 'Set Reminder') {
+    } else if (watchKey === actionName?.setReminder) {
       (component = RHFAutocomplete),
         (componentProps = {
           options: reminderOption,
           placeholder: 'Select',
         });
-    } else if (watchKey === 'Add Note') {
+    } else if (watchKey === actionName?.addNote) {
       (component = RHFTextField),
         (componentProps = {
           placeholder: 'Write Note here',
@@ -202,4 +202,24 @@ export const actionKeys: any = {
     'Add Note',
     'Send Email to contacts',
   ],
+};
+export const actionName = {
+  deals: 'DEALS',
+  salesTasks: 'SALES_TASKS',
+  setDealPipeline: 'Set Deal Pipeline',
+  setDealStage: 'Set Deal Stage',
+  setAmount: 'Set Amount',
+  setCloseDate: 'Set Close Date',
+  setDealOwner: 'Set Deal Owner',
+  setPriority: 'Set Priority',
+  addLineItem: 'Add line item',
+  setBillingFrequency: 'Set Billing Frequency',
+  setTaskType: 'Set Task Type',
+  setTaskStatus: 'Set Task Status',
+  selectDeal: 'Select deal',
+  associateWithRecords: 'Associate with records',
+  setAssignedTo: 'Set Assigned to',
+  setDueDate: 'Set Due Date',
+  setReminder: 'Set Reminder',
+  addNote: 'Add Note',
 };

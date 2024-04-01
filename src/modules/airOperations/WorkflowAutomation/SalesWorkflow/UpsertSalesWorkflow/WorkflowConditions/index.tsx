@@ -23,9 +23,7 @@ export const WorkflowConditions = (props: any) => {
         What Conditions should be met?
       </Typography>
       {fields?.map((item, index) => {
-        const conditionType = watch(
-          `workflowConditions.${index}.conditionType`,
-        );
+        const conditionType = watch(`groups.${index}.conditionType`);
         return (
           <Box key={item?.id} p={1.5}>
             {index !== 0 && (

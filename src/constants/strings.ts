@@ -426,3 +426,7 @@ export const MODULES = {
   SCHEDULED: 'SCHEDULED',
   SUPERVISOR_RULES: 'SUPERVISOR_RULES',
 };
+export const WORKFLOW_CONDITION_TYPE = {
+  AND: 'AND',
+  OR: 'OR',
+};
