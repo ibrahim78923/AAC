@@ -51,7 +51,6 @@ const NotificationDropdown = () => {
           </Badge>
         }
       </Box>
-
       <Popover
         // id={id}
         open={isOpenPopover}

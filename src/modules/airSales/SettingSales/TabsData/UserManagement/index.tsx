@@ -54,10 +54,11 @@ const Users = () => {
               onClick={() => {
                 {
                   activeTab === 0
-                    ? setIsAddUserDrawer({
+                    ? (setIsAddUserDrawer({
                         isToggle: true,
                         type: 'add',
-                      })
+                      }),
+                      setCheckedUser([]))
                     : setIsAddTeam({ isToggle: true, type: 'add' });
                 }
               }}
