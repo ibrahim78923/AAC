@@ -85,6 +85,7 @@ export const END_POINTS = {
   PRODUCT_CATALOG_VENDOR_LIST: '/product-catalog/vendor-list',
   ADD_CANNED_RESPONSES: '/canned-responses/add-canned-response',
   GET_CANNED_RESPONSES: '/canned-responses/get-canned-response',
+  GET_CONVERSATION_EMAIL: '/email',
   UPDATE_CANNED_RESPONSES: '/canned-responses/update-canned-response',
   DELETE_CANNED_RESPONSES: '/canned-responses/delete-canned-response',
   GET_RESPONSES_LIST: '/canned-responses/get-responses',
@@ -115,6 +116,8 @@ export const END_POINTS = {
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
   TICKET_DETAILS: '/ticket',
   REQUESTER_LIST: `/requester/requester-list`,
+  CONVERSATION_EMAIL: `/email`,
+
   DROPDOWN_TASK: '/task',
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
@@ -338,6 +341,10 @@ export const END_POINTS = {
   SERVICES_PATCH_EMAIL_NOTIFICATION: `/notifications/settings`,
   SERVICES_GET_EMAIL_NOTIFICATION: `/notifications/get-notification-settings`,
   GET_TOP_PERFORMER: `/air-services-dashboard/get-top-performer`,
+  GET_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/get-discussion`,
+  ADD_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/add_discussion`,
+  UPDATE_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/update-discussion`,
+  DELETE_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/delete-discussion`,
 };
 
 export const superAdminBillingInvoices = {
