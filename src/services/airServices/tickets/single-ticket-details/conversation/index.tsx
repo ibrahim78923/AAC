@@ -1,9 +1,9 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-const TAG = 'CANNED_RESPONSES';
-const TAG_ONE = '/articles/get-all-articles';
-const TAG_TWO = '/email';
+const TAG = 'TICKETS_CONVERSATION_CANNED_RESPONSES';
+const TAG_ONE = 'TICKETS_CONVERSATION_ARTICLES';
+const TAG_TWO = 'TICKETS_CONVERSATION';
 
 export const conversationAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
