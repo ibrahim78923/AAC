@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Skeleton } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { WorkflowHeader } from './WorkflowHeader';
 import { scheduledWorkflowDataArray } from './UpsertScheduledWorkflow.data';
@@ -19,7 +19,13 @@ export const UpsertScheduledWorkflow = () => {
     control,
     watch,
     setValue,
+    isLoading,
+    isFetching,
+    handleSaveAsDraft,
   } = useUpsertScheduledWorkflow();
+
+  if (isLoading || isFetching) return <Skeleton />;
+
   return (
     <Box>
       <FormProvider
@@ -27,7 +33,7 @@ export const UpsertScheduledWorkflow = () => {
         onSubmit={handleSubmit(handleFormSubmit)}
       >
         <Box mb={2}>
-          <WorkflowHeader />
+          <WorkflowHeader handleSaveAsDraft={handleSaveAsDraft} />
         </Box>
         <Grid container spacing={2}>
           {scheduledWorkflowDataArray?.map((item: any) => (

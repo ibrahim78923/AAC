@@ -3,7 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { AddCircle } from '@mui/icons-material';
 import { useSubWorkflowConditions } from './useSubWorkflowConditions';
 import { subWorkflowData } from './SubWorkflowConditions.data';
-import { conditionTypeOptions } from '../WorkflowConditions.data';
+import { conditionTypeOptions } from '../../UpsertScheduledWorkflow.data';
 
 export const SubWorkflowConditions = (props: any) => {
   const { index, conditionType, watch, setValue } = props;
@@ -64,7 +64,13 @@ export const SubWorkflowConditions = (props: any) => {
         );
       })}
       <Button
-        onClick={() => append({ key: '', condition: '', value: null })}
+        onClick={() =>
+          append({
+            fieldName: '',
+            condition: '',
+            fieldValue: null,
+          })
+        }
         color="secondary"
         startIcon={<AddCircle color="action" />}
       >

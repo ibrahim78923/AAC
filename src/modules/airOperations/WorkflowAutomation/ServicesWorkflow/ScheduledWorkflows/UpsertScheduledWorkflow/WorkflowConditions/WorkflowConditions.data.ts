@@ -1,9 +1,5 @@
 import { RHFAutocomplete, RHFTextField } from '@/components/ReactHookForm';
-
-export const conditionTypeOptions = [
-  { value: 'AND', label: 'Match ALL condition in this group' },
-  { value: 'OR', label: 'Match ANY condition in this group' },
-];
+import { conditionTypeOptions } from '../UpsertScheduledWorkflow.data';
 
 export const workflowConditionsGroupDataArray = (index: any) => [
   {
