@@ -1,16 +1,20 @@
-import { useGetPurchaseOrderOverviewQuery } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/overview';
+import { useGetPurchaseOrderStatusByIdQuery } from '@/services/airServices/assets/purchase-orders';
 import { useRouter } from 'next/router';
 
 export const useHeader = () => {
-  const { push } = useRouter();
   const router = useRouter();
-  const purchaseOrderId = router?.query?.purchaseOrderId;
-  const { data, isLoading, isFetching } =
-    useGetPurchaseOrderOverviewQuery(purchaseOrderId);
-  const name = data?.data?.orderName;
+
+  const { purchaseOrderId } = router?.query;
+
+  const { data, isLoading, isFetching }: any =
+    useGetPurchaseOrderStatusByIdQuery(purchaseOrderId, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!purchaseOrderId,
+    });
+
   return {
-    push,
-    name,
+    router,
+    data,
     isLoading,
     isFetching,
   };
