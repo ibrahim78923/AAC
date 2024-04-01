@@ -21,17 +21,18 @@ export const locationAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getByIdLocation: builder.query({
-      query: (id: any) => ({
-        url: `${GET_BY_ID_LOCATION}/{id}?id=${id}`,
+      query: (apiDataParameter: any) => ({
+        url: `${GET_BY_ID_LOCATION}/{id}`,
         method: 'GET',
+        params: apiDataParameter?.queryParams,
       }),
       providesTags: [TAG],
     }),
     postLocation: builder.mutation({
-      query: (body: any) => ({
+      query: (apiDataParameter: any) => ({
         url: `${ADD_LOCATION}`,
         method: 'POST',
-        body,
+        body: apiDataParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
@@ -60,18 +61,18 @@ export const locationAPI = baseAPI?.injectEndpoints({
       invalidatesTags: [TAG],
     }),
     deleteChildLocation: builder.mutation({
-      query: ({ ...body }) => ({
+      query: (apiDataParameter: any) => ({
         url: `${DELETE_CHILD_LOCATION}`,
         method: 'PUT',
-        body,
+        body: apiDataParameter?.body,
       }),
       invalidatesTags: [TAG],
     }),
     deleteParentLocation: builder.mutation({
-      query: (params: any) => ({
+      query: (apiDataParameter: any) => ({
         url: `${DELETE_PARENT_LOCATION}/{id}`,
         method: 'DELETE',
-        params,
+        params: apiDataParameter?.queryParams,
       }),
       invalidatesTags: [TAG],
     }),

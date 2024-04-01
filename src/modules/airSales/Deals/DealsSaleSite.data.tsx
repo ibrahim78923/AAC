@@ -59,10 +59,7 @@ export const dealsColumns: any = (columnsProps: any) => {
       header: 'owner',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar
-            alt="Remy Sharp"
-            // src={}
-          />
+          <Avatar alt="Remy Sharp" />
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography
               variant="body4"

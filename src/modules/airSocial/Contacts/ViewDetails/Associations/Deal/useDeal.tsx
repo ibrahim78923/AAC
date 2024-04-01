@@ -48,7 +48,7 @@ const useDeal = (contactId: any) => {
     setIsDisabledFields(flag);
     if (data) {
       methodsEditDeal.setValue('name', data?.name);
-      methodsEditDeal.setValue('dealPiplineId', data?.dealPiplineId);
+      methodsEditDeal.setValue('dealPipelineId', data?.dealPipelineId);
       methodsEditDeal.setValue('dealStageId', data?.dealStageId);
       methodsEditDeal.setValue('amount', data?.amount);
       methodsEditDeal.setValue('closeDate', new Date(data?.closeDate));

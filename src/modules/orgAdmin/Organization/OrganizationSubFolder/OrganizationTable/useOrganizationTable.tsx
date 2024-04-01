@@ -20,6 +20,7 @@ import useAuth from '@/hooks/useAuth';
 import { isNullOrEmpty } from '@/utils';
 import { PAGINATION } from '@/config';
 const useOrganizationTable = () => {
+  const [imageToUpload, setImageToUpload] = useState<any>();
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [editData, setEditData] = useState<any>({});
@@ -86,15 +87,6 @@ const useOrganizationTable = () => {
     },
   });
 
-  //   {
-  //     "flatNumber": "4",
-  //     "buildingName": "5A",
-  //     "buildingNumber": "23",
-  //     "streetName": "Baker street",
-  //     "city": "Manchester",
-  //     "country": "United Kingdom"
-  // }
-
   useEffect(() => {
     if (editData) {
       const { accountName, phoneNo, address, postCode } = editData;
@@ -115,6 +107,44 @@ const useOrganizationTable = () => {
   const { handleSubmit, reset, watch } = methods;
 
   const addressLength = watch('address');
+  const unitField = watch('unit');
+  const buildingNameField = watch('buildingName');
+  const buildingNumberField = watch('buildingNumber');
+  const streetNameField = watch('streetName');
+  const cityField = watch('city');
+  const countryField = watch('country');
+
+  const addressValues =
+    (unitField !== undefined && unitField?.length > 0
+      ? 'Flat # ' + unitField
+      : '') +
+    (buildingNameField !== undefined && buildingNameField?.length > 0
+      ? ' ,Building Name # ' + buildingNameField
+      : '') +
+    (buildingNumberField !== undefined && buildingNumberField?.length > 0
+      ? ' ,Building Number # ' + buildingNumberField
+      : '') +
+    (streetNameField !== undefined && streetNameField?.length > 0
+      ? ' ,Street Name # ' + streetNameField
+      : '') +
+    (cityField !== undefined && cityField?.length > 0
+      ? ' ,City # ' + cityField
+      : '') +
+    (countryField !== undefined && countryField?.length > 0
+      ? ' ,Country # ' + countryField
+      : '');
+
+  useEffect(() => {
+    methods.setValue('address', addressValues);
+  }, [addressValues]);
+
+  const formData = new FormData();
+
+  const handleImageChange = async (e: any) => {
+    const selectedImage = e?.target?.files[0];
+    setImageToUpload(selectedImage);
+    formData.append('image', selectedImage);
+  };
 
   const onSubmit = async (data: any) => {
     const products: any = [];
@@ -131,8 +161,7 @@ const useOrganizationTable = () => {
       composite: data?.address,
     };
 
-    const formData = new FormData();
-    formData.append('image', data?.image);
+    formData.append('image', imageToUpload);
     formData.append('products', products);
     formData.append('accountName', data?.accountName);
     formData.append('phoneNo', data?.phoneNo);
@@ -227,6 +256,15 @@ const useOrganizationTable = () => {
     setPage,
     handlePageChange,
     addressLength,
+    unitField,
+    buildingNameField,
+    buildingNumberField,
+    streetNameField,
+    cityField,
+    countryField,
+    setImageToUpload,
+    imageToUpload,
+    handleImageChange,
   };
 };
 

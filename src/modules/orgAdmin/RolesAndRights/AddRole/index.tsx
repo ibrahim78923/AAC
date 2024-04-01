@@ -30,10 +30,15 @@ const AddRole = () => {
     isLoading,
     navigate,
     onSubmit,
+    disabled,
     methods,
     theme,
     viewPerdetails,
+    getModulePermissions,
+    selectAllPermissions,
   } = useAddRole();
+
+  const { watch } = methods;
 
   const { query } = navigate;
 
@@ -50,8 +55,8 @@ const AddRole = () => {
           {query?.type === 'add'
             ? 'Add New Role'
             : query?.type === 'edit'
-              ? 'Edit Role'
-              : 'Role Details'}
+            ? 'Edit Role'
+            : 'Role Details'}
         </Typography>
       </Box>
       <Box sx={{ my: 3 }}>
@@ -97,6 +102,10 @@ const AddRole = () => {
                         ? viewPerdetails?.data
                         : productPermissionsData
                     }
+                    getModulePermissions={getModulePermissions}
+                    selectAllPermissions={selectAllPermissions}
+                    watch={watch}
+                    disabled={disabled}
                   />
                 )}
               </Grid>

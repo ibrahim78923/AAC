@@ -1,10 +1,11 @@
 import { useTheme } from '@mui/material';
-import { useState } from 'react';
-import { userDropdown, userList } from './User.data';
+import { useEffect, useState } from 'react';
+import { userList } from './User.data';
 import {
   useGetProductUserListQuery,
   useLazyGetCompanyAccountsRolesQuery,
   useLazyGetTeamUserListQuery,
+  usePatchProductUsersMutation,
   usePostProductUserListMutation,
 } from '@/services/airOperations/user-management/user';
 import { PAGINATION } from '@/config';
@@ -13,22 +14,24 @@ import { useLazyGetDepartmentDropdownQuery } from '@/services/airServices/ticket
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
-  upsertUserData,
   upsertUserDefaultValues,
   upsertUserValidationSchema,
 } from './UpsertUser/UpsertUser.data';
+import { useRouter } from 'next/router';
 
 export const useUser = () => {
+  const router = useRouter();
+  const { _id } = router?.query;
+  const [selectedUserList, setSelectedUserList] = useState<any[]>([]);
   const theme = useTheme();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [searchValue, setSearchValue] = useState<string>('');
-  const [selectedUserList, setSelectedUserList] = useState([]);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [userData, setUserData] = useState<any[]>(upsertUserData);
+  const [setUserData] = useState<any[]>();
   const [disabled, setDisabled] = useState(true);
+  const [tabData, setTabData] = useState({});
 
   const param = {
     page: page,
@@ -40,12 +43,12 @@ export const useUser = () => {
 
   const usersData = data?.data?.usercompanyaccounts;
   const metaData = data?.data?.meta;
-  const userDropdownOptions = userDropdown(setDeleteModal);
   const userListColumn = userList(
-    userData,
+    usersData,
     selectedUserList,
     setSelectedUserList,
     setIsDrawerOpen,
+    setTabData,
   );
 
   const departmentDropdown = useLazyGetDepartmentDropdownQuery();
@@ -54,11 +57,15 @@ export const useUser = () => {
 
   const methods: any = useForm({
     resolver: yupResolver(upsertUserValidationSchema),
-    defaultValues: upsertUserDefaultValues,
+    defaultValues: upsertUserDefaultValues(tabData),
   });
   const { handleSubmit, reset } = methods;
-
-  const [addListUsers] = usePostProductUserListMutation();
+  useEffect(() => {
+    reset(upsertUserDefaultValues(tabData));
+  }, [isDrawerOpen]);
+  const [patchProductUsersTrigger, patchProductUsersStatus] =
+    usePatchProductUsersMutation();
+  const [addListUsers, addUsersListStatus] = usePostProductUserListMutation();
   const submit = async (data: any) => {
     try {
       const body = {
@@ -67,7 +74,10 @@ export const useUser = () => {
         team: data?.team?._id,
         language: data?._id,
       };
-
+      if (!!_id) {
+        editProductUsersDetails?.(body);
+        return;
+      }
       await addListUsers({ body }).unwrap();
       successSnackbar('Users List added successfully.');
       handleClose?.();
@@ -81,17 +91,29 @@ export const useUser = () => {
     reset?.();
   };
 
+  const editProductUsersDetails = async (data: any) => {
+    const formData = {
+      id: _id,
+      ...data,
+    };
+    try {
+      await patchProductUsersTrigger(formData)?.unwrap();
+      successSnackbar('Products Users Edit  Successfully');
+      setIsDrawerOpen(false);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+    handleClose?.();
+  };
+
   return {
     usersData,
     theme,
     selectedUserList,
     setSelectedUserList,
     userListColumn,
-    searchValue,
-    setSearchValue,
     isDrawerOpen,
     setIsDrawerOpen,
-    userDropdownOptions,
     deleteModal,
     setDeleteModal,
     setSearch,
@@ -112,5 +134,7 @@ export const useUser = () => {
     metaData,
     rolesDropdown,
     usersTeamDropdown,
+    patchProductUsersStatus,
+    addUsersListStatus,
   };
 };

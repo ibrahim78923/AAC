@@ -2,18 +2,22 @@ import { CirclePlusIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
-import { useUser } from '../useUser';
 import UpsertUser from '../UpsertUser';
 import { AgentConversionDelete } from '../../AgentConversionDelete';
+import { useUserHeader } from './useUserHeader';
 
-export const UserHeader = ({ selectedUserList, setSearch }: any) => {
+export const UserHeader = (props: any) => {
+  const { selectedUserList, methods, handleSubmit, submit } = props;
   const {
-    isDrawerOpen,
-    setIsDrawerOpen,
-    userDropdownOptions,
+    isAddDrawerOpen,
+    setIsAddDrawerOpen,
     deleteModal,
     setDeleteModal,
-  } = useUser();
+    userDropdownOptions,
+    submitDeleteModal,
+    search,
+    setSearch,
+  } = useUserHeader(props);
 
   return (
     <Box
@@ -27,6 +31,7 @@ export const UserHeader = ({ selectedUserList, setSearch }: any) => {
           label="Search Here"
           width={'16.25rem'}
           setSearchBy={setSearch}
+          searchBy={search}
         />
       </Box>
       <Box display={'flex'} gap={1} mt={{ xs: 2, sm: 0 }}>
@@ -38,23 +43,29 @@ export const UserHeader = ({ selectedUserList, setSearch }: any) => {
         <Button
           startIcon={<CirclePlusIcon />}
           variant="contained"
-          onClick={() => setIsDrawerOpen(true)}
+          onClick={() => setIsAddDrawerOpen(true)}
         >
           Add User
         </Button>
         <UpsertUser
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
+          isDrawerOpen={isAddDrawerOpen}
+          setIsDrawerOpen={setIsAddDrawerOpen}
           title={'Add User'}
           okText={'Add'}
+          methods={methods}
+          handleSubmit={handleSubmit}
+          submit={submit}
         />
-        <AgentConversionDelete
-          message={'Are you sure you want to delete this User?'}
-          open={deleteModal}
-          handleClose={() => {
-            setDeleteModal(false);
-          }}
-        />
+        {deleteModal && (
+          <AgentConversionDelete
+            message={'Are you sure you want to delete this User?'}
+            open={deleteModal}
+            handleClose={() => {
+              setDeleteModal(false);
+            }}
+            submitDeleteModal={submitDeleteModal}
+          />
+        )}
       </Box>
     </Box>
   );

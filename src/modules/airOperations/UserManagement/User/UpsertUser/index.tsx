@@ -5,17 +5,23 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { USER_MANAGEMENT } from '@/constants/strings';
 import { useUser } from '../useUser';
 
-function UpsertUser({ isDrawerOpen, title, okText, setIsDrawerOpen }: any) {
+function UpsertUser({
+  isDrawerOpen,
+  title,
+  okText,
+  setIsDrawerOpen,
+  usersData,
+  methods,
+}: any) {
   const {
-    methods,
     handleSubmit,
     submit,
     disabled,
     setDisabled,
-    usersData,
     departmentDropdown,
     rolesDropdown,
-    usersTeamDropdown,
+    patchProductUsersStatus,
+    addUsersListStatus,
   } = useUser();
 
   return (
@@ -41,36 +47,41 @@ function UpsertUser({ isDrawerOpen, title, okText, setIsDrawerOpen }: any) {
             ? USER_MANAGEMENT?.BACK
             : USER_MANAGEMENT?.CANCEL
         }
+        isLoading={
+          addUsersListStatus?.isLoading || patchProductUsersStatus?.isLoading
+        }
+        isDisabled={
+          addUsersListStatus?.isLoading || patchProductUsersStatus?.isLoading
+        }
       >
         <Box mt={1}>
           <FormProvider methods={methods}>
             <Grid container spacing={4}>
-              {upsertUserArray(
-                departmentDropdown,
-                rolesDropdown,
-                usersTeamDropdown,
-              )?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
-                  {item?.subheading && title !== USER_MANAGEMENT?.USERVIEW && (
-                    <Typography variant="body2" sx={{ mb: 2 }}>
-                      {item?.subheading}
-                    </Typography>
-                  )}
-                  <item.component
-                    {...item?.componentProps}
-                    size={'small'}
-                    disabled={title === USER_MANAGEMENT?.USERVIEW && disabled}
-                    placeholder={
-                      title === USER_MANAGEMENT?.USERVIEW &&
-                      usersData?.length > 0
-                        ? (usersData?.[0]?.[
-                            item?.componentProps?.name
-                          ] as string)
-                        : item?.componentProps?.placeholder
-                    }
-                  />
-                </Grid>
-              ))}
+              {upsertUserArray(departmentDropdown, rolesDropdown)?.map(
+                (item: any) => (
+                  <Grid item xs={12} md={item?.md} key={item?.id}>
+                    {item?.subheading &&
+                      title !== USER_MANAGEMENT?.USERVIEW && (
+                        <Typography variant="body2" sx={{ mb: 2 }}>
+                          {item?.subheading}
+                        </Typography>
+                      )}
+                    <item.component
+                      {...item?.componentProps}
+                      size={'small'}
+                      disabled={title === USER_MANAGEMENT?.USERVIEW && disabled}
+                      placeholder={
+                        title === USER_MANAGEMENT?.USERVIEW &&
+                        usersData?.length > 0
+                          ? (usersData?.[0]?.[
+                              item?.componentProps?.name
+                            ] as string)
+                          : item?.componentProps?.placeholder
+                      }
+                    />
+                  </Grid>
+                ),
+              )}
             </Grid>
           </FormProvider>
         </Box>

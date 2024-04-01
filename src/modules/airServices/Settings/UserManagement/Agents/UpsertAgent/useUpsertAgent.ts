@@ -2,18 +2,36 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useLazyGetDepartmentDropdownListQuery,
+  useLazyGetPermissionsRoleForUpsertAgentQuery,
   usePatchAgentMutation,
   usePostAddAgentMutation,
 } from '@/services/airServices/settings/user-management/agents';
-import { useEffect } from 'react';
 import {
   agentFieldsData,
   defaultValues,
   validationSchemaAgentFields,
 } from './UpsertAgent.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { ROLE } from '@/constants/strings';
+import useAuth from '@/hooks/useAuth';
+import { useRouter } from 'next/router';
+import { AIR_SERVICES } from '@/constants';
 
 export const useUpsertAgent = (props: any) => {
+  const auth: any = useAuth();
+  const router = useRouter();
+  const { _id: productId } = auth?.product;
+  const { _id: organizationCompanyAccountId } =
+    auth?.product?.accounts?.[0]?.company;
+  const { _id: organizationId } = auth?.user?.organization;
+
+  const roleApiQueryParams = {
+    productId,
+    organizationCompanyAccountId,
+    organizationId,
+    limit: 50,
+  };
+
   const { selectedAgentList, setIsAgentModalOpen, setSelectedAgentList } =
     props;
 
@@ -26,11 +44,8 @@ export const useUpsertAgent = (props: any) => {
 
   const { handleSubmit, reset } = method;
 
-  useEffect(() => {
-    reset(defaultValues(selectedAgentList));
-  }, [selectedAgentList, reset]);
-
   const departmentDropdown = useLazyGetDepartmentDropdownListQuery();
+  const roleApiQuery = useLazyGetPermissionsRoleForUpsertAgentQuery?.();
 
   const [postAgentTrigger, postAgentStatus] = usePostAddAgentMutation();
 
@@ -41,7 +56,8 @@ export const useUpsertAgent = (props: any) => {
       phoneNumber: formData?.phoneNumber,
       email: formData?.email,
       departmentId: formData?.departmentId?._id,
-      role: formData?.role,
+      permissionsRole: formData?.permissionsRole?._id,
+      role: ROLE?.ORG_AGENT,
       timezone: formData?.timezone,
     };
 
@@ -75,10 +91,12 @@ export const useUpsertAgent = (props: any) => {
     };
 
     try {
-      await patchAgentTrigger(apiDataParameter)?.unwrap();
+      const response: any = await patchAgentTrigger(apiDataParameter)?.unwrap();
       successSnackbar('Update Agent Successfully!');
       handleClose?.();
-      setSelectedAgentList?.([]);
+      if (router?.pathname === AIR_SERVICES?.SINGLE_AGENT_DETAILS) {
+        updateRoute?.(response?.data);
+      }
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -89,9 +107,23 @@ export const useUpsertAgent = (props: any) => {
     reset?.();
     setSelectedAgentList?.([]);
   };
+
+  const updateRoute = (response: any) => {
+    router?.push({
+      pathname: router?.pathname,
+      query: {
+        agentId: response?._id,
+        roleId: response?.permissionsRole,
+        departmentId: response?.departmentId,
+      },
+    });
+  };
+
   const upsertAgentFormFields = agentFieldsData(
     selectedAgentList,
     departmentDropdown,
+    roleApiQuery,
+    roleApiQueryParams,
   );
 
   return {

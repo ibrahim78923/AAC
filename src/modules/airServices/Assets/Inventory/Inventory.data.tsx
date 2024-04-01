@@ -1,21 +1,9 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { ASSET_IMPACT, ASSET_TYPE, TIME_PERIODS } from '@/constants/strings';
-import { fullName } from '@/utils/avatarUtils';
+import { fullName, truncateText } from '@/utils/avatarUtils';
 import { Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
-
-export const inventoryListsData: any = [
-  {
-    _id: 1,
-    displayName: 'Logitech Mouse',
-    assetType: 'Hardware',
-    locationId: 'UK',
-    UsedBy: 'john Doe',
-    departmentId: 'IT',
-    impact: 'Low',
-  },
-];
 
 export const assetTypeOptions = [
   ASSET_TYPE?.SERVICES,
@@ -119,7 +107,7 @@ export const INVENTORY_LIST_ACTIONS = {
 export const inventoryListsColumnsFunction: any = (
   selectedInventoryLists: any,
   setSelectedInventoryLists: any,
-  inventoryLists: any,
+  inventoryLists: any = [],
   router: any,
 ): any => [
   {
@@ -191,7 +179,7 @@ export const inventoryListsColumnsFunction: any = (
         color="custom.bright"
         sx={{ cursor: 'pointer' }}
       >
-        {info?.getValue()}
+        {truncateText(info?.getValue())}
       </Typography>
     ),
   },
@@ -200,14 +188,14 @@ export const inventoryListsColumnsFunction: any = (
     id: 'assetType',
     header: 'Asset Type',
     isSortable: true,
-    cell: (info: any) => info?.getValue()?.name ?? '--',
+    cell: (info: any) => truncateText(info?.getValue()?.name),
   },
   {
     accessorFn: (row: any) => row?.locationDetails,
     id: 'locationId',
     isSortable: true,
     header: 'Location',
-    cell: (info: any) => info?.getValue()?.locationName ?? '--',
+    cell: (info: any) => truncateText(info?.getValue()?.locationName),
   },
   {
     accessorFn: (row: any) => row?.userDetails,
@@ -222,7 +210,7 @@ export const inventoryListsColumnsFunction: any = (
     id: 'departmentId',
     isSortable: true,
     header: 'Department',
-    cell: (info: any) => info?.getValue()?.name ?? '--',
+    cell: (info: any) => truncateText(info?.getValue()?.name),
   },
   {
     accessorFn: (row: any) => row?.impact,

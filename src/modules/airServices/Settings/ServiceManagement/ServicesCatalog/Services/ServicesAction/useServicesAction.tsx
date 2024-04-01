@@ -1,8 +1,6 @@
 import { useState } from 'react';
-
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useDeleteServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useServicesAction = (props: any) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -11,13 +9,12 @@ export const useServicesAction = (props: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openVisibilityE1, setOpenVisibilityE1] = useState(false);
   const openMenu = Boolean(anchorEl);
-  // const router = useRouter();
+
   const [deleteServiceCatalog] = useDeleteServiceCatalogMutation({});
   const handleClickMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const { selectedCheckboxes, setSelectedCheckboxes, isDisabled } = props;
-  // const { categoryId } = router?.query;
 
   const handleClickVisibility = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -34,16 +31,12 @@ export const useServicesAction = (props: any) => {
     };
 
     try {
-      const res = await deleteServiceCatalog(updatedData)?.unwrap();
+      await deleteServiceCatalog(updatedData)?.unwrap();
       setSelectedCheckboxes?.([]);
       setDeleteModalOpen?.(false);
-      enqueueSnackbar(res?.message ?? 'Service Deleted Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Service Deleted Successfully!');
     } catch (error: any) {
-      enqueueSnackbar(error?.message ?? 'Something Went Wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
       setSelectedCheckboxes?.([]);
       setDeleteModalOpen?.(false);
     }
@@ -91,5 +84,6 @@ export const useServicesAction = (props: any) => {
     handleVisibility,
     openVisibilityE1,
     isDisabled,
+    setSelectedCheckboxes,
   };
 };

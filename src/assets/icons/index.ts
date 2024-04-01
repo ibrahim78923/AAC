@@ -444,3 +444,5 @@ export { default as StatusAwayIcon } from './modules/airCallCenter/Settings/Gene
 export { default as StatusInfoIcon } from './modules/airCallCenter/Settings/GeneralSettings/status-info-icon';
 export { default as StatusEditIcon } from './modules/airCallCenter/Settings/GeneralSettings/edit-icon';
 export { default as SmsMainIcon } from './modules/airMarketer/SMSMarketing/sms-main-icon';
+export { default as PremiumIcon } from './shared/premium-icon';
+export { default as CrmSuiteIcon } from './modules/orgAdmin/SubscriptionAndInvoices/crm-suite-icon';

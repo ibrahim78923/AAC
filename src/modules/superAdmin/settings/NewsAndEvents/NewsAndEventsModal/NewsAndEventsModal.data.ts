@@ -2,20 +2,22 @@ import { RHFEditor, RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 export const newsAndEventsFormValidationSchema = Yup.object().shape({
-  type: Yup.string().trim().required('Field is Required'),
-  question: Yup.string().trim().required('Field is Required'),
+  type: Yup?.string()?.trim()?.required('Field is Required'),
+  name: Yup?.string()?.trim().required('Field is Required'),
+  description: Yup?.string()?.trim().required('Field is Required'),
 });
 
 export const newsAndEventsFormDefaultValues = {
   type: '',
-  question: '',
+  name: '',
+  description: '',
 };
 
 export const newsAndEventsFormFiltersDataArray = [
   {
     componentProps: {
-      name: 'question',
-      label: 'Question',
+      name: 'name',
+      label: 'Name',
     },
     component: RHFTextField,
     md: 12,
@@ -35,7 +37,7 @@ export const newsAndEventsFormFiltersDataArray = [
   },
   {
     componentProps: {
-      name: 'answer',
+      name: 'description',
       label: 'Description',
     },
     component: RHFEditor,

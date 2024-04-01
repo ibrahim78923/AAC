@@ -37,40 +37,38 @@ const AgentLevels = () => {
           Set points to be achieved by an agent to reach a level
         </Typography>
         <Grid item container xs={12} md={10} lg={7} mt={2.4} spacing={2}>
-          {agentLevelCardData?.map?.((card) => (
+          {agentLevelCardData?.map?.((card: any) => (
             <Grid item xs={12} key={card?.points}>
               <AgentLevelCard {...card} />
             </Grid>
           ))}
         </Grid>
-        <Grid
-          item
-          container
-          xs={12}
-          md={8}
-          xl={4}
-          mt={2.4}
-          sx={{ justifyContent: { sm: 'flex-end' } }}
+
+        <Box
+          display={'flex'}
+          gap={2}
+          alignItems={'center'}
+          justifyContent={'flex-end'}
+          flexWrap={'wrap'}
+          mt={2}
         >
-          <Box display={'flex'} gap={2} alignItems={'center'} flexWrap={'wrap'}>
-            <LoadingButton
-              disabled={addAgentLevelsPointsStatus?.isLoading}
-              type="button"
-              variant="outlined"
-              color="inherit"
-            >
-              Cancel
-            </LoadingButton>
-            <LoadingButton
-              loading={addAgentLevelsPointsStatus?.isLoading}
-              disableElevation
-              type="submit"
-              variant="contained"
-            >
-              Save
-            </LoadingButton>
-          </Box>
-        </Grid>
+          <LoadingButton
+            disabled={addAgentLevelsPointsStatus?.isLoading}
+            type="button"
+            variant="outlined"
+            color="inherit"
+          >
+            Cancel
+          </LoadingButton>
+          <LoadingButton
+            loading={addAgentLevelsPointsStatus?.isLoading}
+            disableElevation
+            type="submit"
+            variant="contained"
+          >
+            Save
+          </LoadingButton>
+        </Box>
       </FormProvider>
     </PermissionsGuard>
   );

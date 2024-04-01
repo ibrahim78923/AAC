@@ -15,13 +15,9 @@ export const AssociatedAssets = () => {
     handleSubmitDelete,
     setAddModalOpen,
     addModalOpen,
-    data,
-    isLoading,
-    isFetching,
-    isError,
-    isSuccess,
+    productCatalogAssociatedAssetListStatus,
     setPage,
-    setLimit,
+    setPageLimit,
     deleteAssociateAssetStatus,
   } = useAssociatedAssets();
 
@@ -38,20 +34,56 @@ export const AssociatedAssets = () => {
       </Box>
 
       <TanstackTable
-        data={data?.data?.productcatalogs}
+        data={
+          productCatalogAssociatedAssetListStatus?.data?.data?.productcatalogs
+            ?.length > 1
+            ? productCatalogAssociatedAssetListStatus?.data?.data
+                ?.productcatalogs
+            : productCatalogAssociatedAssetListStatus?.data?.data
+                ?.productcatalogs?.[0]?.associatedAssets?._id
+            ? productCatalogAssociatedAssetListStatus?.data?.data
+                ?.productcatalogs
+            : []
+        }
         columns={associatedAssetsColumns}
         isPagination
-        currentPage={data?.data?.meta?.page}
-        count={data?.data?.meta?.pages}
-        pageLimit={data?.data?.meta?.limit}
-        totalRecords={data?.data?.meta?.total}
+        currentPage={
+          productCatalogAssociatedAssetListStatus?.data?.data?.productcatalogs
+            ?.length > 1
+            ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.page
+            : productCatalogAssociatedAssetListStatus?.data?.data
+                ?.productcatalogs?.[0]?.associatedAssets?._id
+            ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.page
+            : 0
+        }
+        count={
+          productCatalogAssociatedAssetListStatus?.data?.data?.productcatalogs
+            ?.length > 1
+            ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.pages
+            : productCatalogAssociatedAssetListStatus?.data?.data
+                ?.productcatalogs?.[0]?.associatedAssets?._id
+            ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.pages
+            : 0
+        }
+        pageLimit={
+          productCatalogAssociatedAssetListStatus?.data?.data?.meta?.limit
+        }
+        totalRecords={
+          productCatalogAssociatedAssetListStatus?.data?.data?.productcatalogs
+            ?.length > 1
+            ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.total
+            : productCatalogAssociatedAssetListStatus?.data?.data
+                ?.productcatalogs?.[0]?.associatedAssets?._id
+            ? productCatalogAssociatedAssetListStatus?.data?.data?.meta?.total
+            : 0
+        }
         onPageChange={(page: any) => setPage(page)}
         setPage={setPage}
-        setPageLimit={setLimit}
-        isLoading={isLoading}
-        isFetching={isFetching}
-        isError={isError}
-        isSuccess={isSuccess}
+        setPageLimit={setPageLimit}
+        isLoading={productCatalogAssociatedAssetListStatus?.isLoading}
+        isFetching={productCatalogAssociatedAssetListStatus?.isFetching}
+        isError={productCatalogAssociatedAssetListStatus?.isError}
+        isSuccess={productCatalogAssociatedAssetListStatus?.isSuccess}
       />
 
       {isDeleteModalOpen && (

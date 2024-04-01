@@ -11,7 +11,6 @@ const DASHBOARD_ROOT_PAGE = '/dashboard';
 const SOCIAL_ROOT_PAGE = '/social-components';
 const AIR_SOCIAL_PAGE = '/air-social';
 const AIR_SALES_PAGE = '/air-sales';
-
 // ======================================================================
 
 export const PATH_AUTH = {
@@ -49,6 +48,8 @@ export const SUPER_ADMIN_SETTINGS: any = {
   TAX_CALCULATION: '/tax-calculation',
   PRODUCT_FEATURES: '/product-features',
   PRODUCTS: '/products',
+  QUICK_LINKS: '/quick-links',
+  NEWS_EVENTS: 'news-and-events',
 };
 
 export const SOCIAL_FEATURES = {

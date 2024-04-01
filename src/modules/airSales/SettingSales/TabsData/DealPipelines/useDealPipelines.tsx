@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Skeleton, Theme, useTheme } from '@mui/material';
+import { Theme, useTheme } from '@mui/material';
 import {
   useDeleteDealsPipelineMutation,
   useGetDealsPipelineQuery,
@@ -104,8 +104,10 @@ const useDealPipelines = () => {
       enqueueSnackbar('Deal Pipeline has been Deleted Successfully', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
-    } catch (error) {
-      enqueueSnackbar(`${error}`, {
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
         variant: NOTISTACK_VARIANTS?.ERROR,
       });
     }
@@ -116,12 +118,6 @@ const useDealPipelines = () => {
     1: true,
     2: true,
   };
-  const skeletonLines = [];
-  for (let i = 0; i < 5; i++) {
-    skeletonLines.push(
-      <Skeleton key={i} animation="wave" height={60} sx={{ mb: 1 }} />,
-    );
-  }
 
   return {
     dealPipelinesData: data?.data,
@@ -142,7 +138,6 @@ const useDealPipelines = () => {
     productSearch,
     isdefaultValue,
     handleDelete,
-    skeletonLines,
     checkedDeal,
     handleClose,
     isEditMode,

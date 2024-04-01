@@ -26,9 +26,10 @@ export const quotesAPI = baseAPI.injectEndpoints({
     }),
 
     getQuoteById: builder.query({
-      query: ({ id }: any) => ({
+      query: ({ id, productSearchKeyword }: any) => ({
         url: `${END_POINTS?.QUOTE}/{id}?id=${id}`,
         method: 'GET',
+        params: { productSearchKeyword },
       }),
       providesTags: TAG,
     }),
@@ -77,13 +78,6 @@ export const quotesAPI = baseAPI.injectEndpoints({
         };
       },
       invalidatesTags: ['COMPANY'],
-    }),
-    getCompaniesOwners: builder.query({
-      query: () => ({
-        url: END_POINTS?.COMPANIES_OWNER,
-        method: 'GET',
-      }),
-      // providesTags: TAG,
     }),
     getUsersList: builder.query({
       query: (params: any) => ({
@@ -150,13 +144,13 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
-    updateSalesProductQuote: builder.mutation({
+    getSalesProductlineItem: builder.query({
       query: ({ body }: any) => ({
-        // url: `${END_POINTS?.SALE_PRODUCTS}/${id}`,
-        method: 'PATCH',
+        url: `${END_POINTS?.SALE_PRODUCTS}`,
+        method: 'GET',
         body: body,
       }),
-      invalidatesTags: TAG,
+      providesTags: TAG,
     }),
 
     updateProductById: builder.mutation({
@@ -168,7 +162,7 @@ export const quotesAPI = baseAPI.injectEndpoints({
       invalidatesTags: TAG,
     }),
     getCustomizeColumn: builder.query({
-      query: (params) => ({
+      query: (params: any) => ({
         url: `${END_POINTS?.CUSTOMIZE_COLUMNS}`,
         method: 'GET',
         params: params,
@@ -183,14 +177,29 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
-    // deleteContacts: builder.mutation({
-    //   query: (body:any) => ({
-    //     url: `${END_POINTS?.CONTACTS}`,
-    //     method: 'DELETE',
-    //     body,
-    //   }),
-    //   invalidatesTags: TAG,
-    // }),
+    deleteCompanies: builder.mutation({
+      query: (ids: any) => ({
+        url: `${END_POINTS?.COMPANY}/${ids}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: TAG,
+    }),
+    deleteContacts: builder.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.CONTACTS}`,
+        method: 'DELETE',
+        body,
+      }),
+      invalidatesTags: TAG,
+    }),
+    putSubmitQuote: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.QUOTE_SUBMIT}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -198,12 +207,12 @@ export const {
   useGetDealsQuery,
   useGetQuotesQuery,
   useGetQuoteByIdQuery,
+  useLazyGetQuoteByIdQuery,
   useUpdateQuoteMutation,
   usePostQuoteMutation,
   usePostCompaniesMutation,
   useDeleteQuotesMutation,
   useGetUserListQuery,
-  useGetCompaniesOwnersQuery,
   useGetUsersListQuery,
   usePostProductMutation,
   usePostAddbuyerInfoMutation,
@@ -216,4 +225,8 @@ export const {
   useUpdateProductByIdMutation,
   usePutCustomizedColumnsMutation,
   useGetCustomizeColumnQuery,
+  useDeleteCompaniesMutation,
+  useDeleteContactsMutation,
+  useGetSalesProductlineItemQuery,
+  usePutSubmitQuoteMutation,
 } = quotesAPI;

@@ -217,7 +217,6 @@ const useAddUser = (useActionParams?: any) => {
             id: organizationId,
             body: values,
           })?.unwrap(),
-          reset(),
           setIsOpenAdduserDrawer(false))
         : await updateUsers({ id: updateUserId, body: values })?.unwrap();
 

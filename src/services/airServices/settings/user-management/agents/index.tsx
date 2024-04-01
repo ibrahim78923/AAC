@@ -15,7 +15,7 @@ const {
 
 export const agentsAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    getAgents: builder?.query({
+    getServicesUserAgents: builder?.query({
       query: (getAgentsListParameter: any) => ({
         url: `${GET_AGENT}`,
         method: 'GET',
@@ -24,8 +24,8 @@ export const agentsAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     getAgentRequester: builder?.query({
-      query: (id: any) => ({
-        url: `${GET_AGENT_REQUESTER}/${id}`,
+      query: () => ({
+        url: `${GET_AGENT_REQUESTER}`,
         method: 'GET',
       }),
       providesTags: [TAG],
@@ -68,7 +68,6 @@ export const agentsAPI = baseAPI?.injectEndpoints({
         method: 'DELETE',
         body: apiDataParameter?.body,
       }),
-      invalidatesTags: [TAG],
     }),
     getDepartmentDropdownList: builder?.query({
       query: ({ params }: any) => ({
@@ -81,11 +80,22 @@ export const agentsAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_ONE],
     }),
+    getPermissionsRoleForUpsertAgent: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.PERMISSIONS_ROLE}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.companyaccountroles;
+      },
+      providesTags: [TAG],
+    }),
   }),
 });
 
 export const {
-  useGetAgentsQuery,
+  useGetServicesUserAgentsQuery,
   usePostAddAgentMutation,
   useDeleteAgentMutation,
   usePatchAgentMutation,
@@ -94,5 +104,6 @@ export const {
   useLazyGetDepartmentDropdownListQuery,
   usePatchApprovedRequestMutation,
   usePatchRejectRequestMutation,
-  useLazyGetAgentsQuery,
+  useLazyGetServicesUserAgentsQuery,
+  useLazyGetPermissionsRoleForUpsertAgentQuery,
 } = agentsAPI;

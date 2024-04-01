@@ -8,6 +8,7 @@ const Counter: FC<CounterI> = ({
   inputValue,
   fixedText,
   inputWidth = '58px',
+  disabled,
 }) => {
   const [value, setValue] = useState<number>(inputValue);
 
@@ -21,28 +22,52 @@ const Counter: FC<CounterI> = ({
   };
 
   const decrement = () => {
-    setValue((prev) => prev - 1);
+    if (value > 0) {
+      setValue((prev) => prev - 1);
+    }
   };
 
   return (
-    <Box sx={styles?.counterHolder}>
-      <Box sx={styles?.decrementBtn} onClick={decrement}>
-        <MinusCircleIcon />
-      </Box>
+    <>
+      {disabled ? (
+        <Box sx={styles?.counterHolder}>
+          <Box sx={styles?.decrementBtn(value)}>
+            <MinusCircleIcon />
+          </Box>
 
-      <Box sx={styles?.textField}>
-        <input
-          type="text"
-          value={fixedText ? `${value} ${fixedText}` : value}
-          onChange={handleChange}
-          style={{ width: inputWidth }}
-        />
-      </Box>
+          <Box sx={styles?.textField}>
+            <input
+              type="text"
+              value={fixedText ? `${value} ${fixedText}` : value}
+              style={{ width: inputWidth }}
+            />
+          </Box>
 
-      <Box sx={styles?.incrementBtn} onClick={increment}>
-        <AddCircleIcon />
-      </Box>
-    </Box>
+          <Box sx={styles?.incrementBtn}>
+            <AddCircleIcon color="#D1D5DB" />
+          </Box>
+        </Box>
+      ) : (
+        <Box sx={styles?.counterHolder}>
+          <Box sx={styles?.decrementBtn(value)} onClick={decrement}>
+            <MinusCircleIcon />
+          </Box>
+
+          <Box sx={styles?.textField}>
+            <input
+              type="text"
+              value={fixedText ? `${value} ${fixedText}` : value}
+              onChange={handleChange}
+              style={{ width: inputWidth }}
+            />
+          </Box>
+
+          <Box sx={styles?.incrementBtn} onClick={increment}>
+            <AddCircleIcon />
+          </Box>
+        </Box>
+      )}
+    </>
   );
 };
 

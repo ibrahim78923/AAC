@@ -22,13 +22,14 @@ export const RequestorsDetails = () => {
     isLoading,
     isFetching,
     isError,
-    departmentDetails,
     isDrawerOpen,
     setIsDrawerOpen,
   }: any = useRequesterDetails();
+
   const theme = useTheme();
   if (isLoading || isFetching) return <SkeletonForm />;
   if (isError) return <ApiErrorState />;
+
   return (
     <>
       <Grid
@@ -121,10 +122,10 @@ export const RequestorsDetails = () => {
         <Grid item xs={12} md={5} padding={1.5}>
           <Box display={'flex'} flexWrap={'wrap'} gap={1} my={2}>
             <Typography variant="body2" fontWeight={600}>
-              Department
+              Job Title
             </Typography>
             <Typography variant="body2" sx={{ flex: '1' }} />
-            {truncateText(departmentDetails?.data?.data?.name)}
+            {truncateText(data?.data?.jobTitle)}
           </Box>
           <Box
             display={'flex'}
@@ -137,19 +138,6 @@ export const RequestorsDetails = () => {
             </Typography>
             <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
               {data?.data?.email ?? '---'}
-            </Typography>
-          </Box>
-          <Box
-            display={'flex'}
-            flexWrap={'wrap'}
-            justifyContent={'space-between'}
-            my={2}
-          >
-            <Typography variant="body2" fontWeight={600}>
-              Title
-            </Typography>
-            <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-              Mr.
             </Typography>
           </Box>
           <Box
@@ -184,6 +172,7 @@ export const RequestorsDetails = () => {
         <UpsertRequesters
           isDrawerOpen={isDrawerOpen}
           setIsDrawerOpen={setIsDrawerOpen}
+          singleRequesterDetails={data?.data}
         />
       )}
     </>

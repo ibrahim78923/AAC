@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { agentsListsColumnsFunction, agentActionsDropdown } from './Agent.data';
 import { ROLES } from '@/constants/strings';
-import { useLazyGetAgentsQuery } from '@/services/airServices/settings/user-management/agents';
+import { useLazyGetServicesUserAgentsQuery } from '@/services/airServices/settings/user-management/agents';
 import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
 import { buildQueryParams } from '@/utils/api';
@@ -18,14 +18,14 @@ export const useAgent = () => {
   const router = useRouter();
 
   const [lazyGetAgentsTrigger, lazyGetAgentsStatus]: any =
-    useLazyGetAgentsQuery();
+    useLazyGetServicesUserAgentsQuery();
 
   const getAgentsListData = async (currentPage = page) => {
     const additionalParams = [
       ['page', currentPage + ''],
       ['limit', pageLimit + ''],
       ['search', searchValue],
-      ['role', ROLES?.ORG_AGENT],
+      ['role', ROLES?.ORG_EMPLOYEE],
     ];
 
     const getAgentsListParam: any = buildQueryParams(
@@ -81,5 +81,6 @@ export const useAgent = () => {
     openDeleteModal,
     setOpenDeleteModal,
     setIsAgentModalOpen,
+    filterAgentData,
   };
 };

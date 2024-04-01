@@ -70,7 +70,7 @@ export const AssignedTickets = (props: any) => {
             apiQuery={apiQueryAgent}
             size="small"
             placeholder="Choose Agent"
-            externalParams={{ limit: 50, role: ROLES?.ORG_AGENT }}
+            externalParams={{ limit: 50, role: ROLES?.ORG_EMPLOYEE }}
             getOptionLabel={(option: any) =>
               `${option?.firstName} ${option?.lastName}`
             }

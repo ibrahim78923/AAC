@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  useGetAddToPurchaseOrderByIdQuery,
+  useGetAddToPurchaseOrderByIdForReceivedItemsQuery,
   usePatchAddToItemMutation,
 } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details';
 
@@ -12,6 +12,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
+import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 
 export const useReceivedItems = (props: any) => {
   const router = useRouter();
@@ -25,7 +26,7 @@ export const useReceivedItems = (props: any) => {
     },
   };
 
-  const { data } = useGetAddToPurchaseOrderByIdQuery(
+  const { data } = useGetAddToPurchaseOrderByIdForReceivedItemsQuery(
     getSingleAddToPurchaseOrderParameter,
     {
       refetchOnMountOrArgChange: true,
@@ -38,32 +39,41 @@ export const useReceivedItems = (props: any) => {
     defaultValues: addItemDefaultValuesFunction(data),
   });
   const { handleSubmit, reset, control } = method;
+
   useEffect(() => {
     reset(() => addItemDefaultValuesFunction(data));
-  }, [data, reset]);
+  }, [reset, data]);
+
   const { fields } = useFieldArray({
     control,
     name: 'receivedItem',
   });
 
   const submitHandler = async (data: any) => {
-    const dr = data?.receivedItem?.some(
-      (x: any) => x?.received == 0 || x?.received > x?.quantity,
+    const isReceivedComplete = data?.receivedItem?.every(
+      (receiveItem: any) => receiveItem?.received == receiveItem.quantity,
     );
 
-    if (dr) {
+    const isReceivedItemNullOrMore = data?.receivedItem?.some(
+      (receiveItem: any) =>
+        receiveItem?.received == 0 ||
+        receiveItem?.received > receiveItem?.quantity,
+    );
+
+    if (isReceivedItemNullOrMore) {
       setErrorOccurred(true);
       setIsDrawerOpen(false);
       return;
     }
 
     const sendData = data?.receivedItem?.map((item: any) => {
-      const purchaseDetails = item?.data?.purchaseDetails.map(
+      const purchaseDetails = item?.data?.purchaseDetails?.map(
         (secondItem: any) => ({
           ...secondItem,
           received: item?.received,
         }),
       );
+
       return {
         id: item?.data?._id,
         orderName: item?.data?.orderName,
@@ -75,7 +85,9 @@ export const useReceivedItems = (props: any) => {
         departmentId: item?.data?.departmentId,
         termAndCondition: item?.data?.termAndCondition,
         subTotal: item?.data?.subTotal,
-        status: item?.data?.status,
+        status: isReceivedComplete
+          ? PURCHASE_ORDER_STATUS?.RECEIVED
+          : PURCHASE_ORDER_STATUS?.PARTLY_RECEIVED,
         purchaseDetails: purchaseDetails,
       };
     });
@@ -88,8 +100,8 @@ export const useReceivedItems = (props: any) => {
 
       successSnackbar('Purchase Order items count updated successfully');
       setIsDrawerOpen(false);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
     setErrorOccurred(false);
     method?.reset?.();

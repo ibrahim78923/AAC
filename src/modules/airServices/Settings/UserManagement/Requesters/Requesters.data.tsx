@@ -4,11 +4,17 @@ import { AIR_SERVICES } from '@/constants';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import { errorSnackbar } from '@/utils/api';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import {
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
 
-export const requestersDropdown = (
-  setDeleteModal: any,
-  setWarningModal: any,
+export const requestersDropdown: any = (
+  setDeleteModalOpen: any,
+  setIsAgentConvert: any,
+  selectedRequestersList: any,
 ) => [
   {
     id: 1,
@@ -17,8 +23,8 @@ export const requestersDropdown = (
       AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.DELETE_REQUESTER,
     ],
     handleClick: (close: any) => {
-      setDeleteModal(true);
-      close(null);
+      setDeleteModalOpen(true);
+      close();
     },
   },
   {
@@ -28,8 +34,12 @@ export const requestersDropdown = (
       AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.CONVERT_TO_AGENT_REQUESTER,
     ],
     handleClick: (close: any) => {
-      setWarningModal(true);
-      close(null);
+      if (selectedRequestersList?.length > 1) {
+        errorSnackbar('Please select only 1 requester');
+        return;
+      }
+      setIsAgentConvert(true);
+      close();
     },
   },
 ];
@@ -39,7 +49,7 @@ export const requestersList: any = (
   setSelectedRequestersList: any,
   theme: any,
   router: any,
-  tableListData: any,
+  tableListData: any = [],
 ) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -82,7 +92,7 @@ export const requestersList: any = (
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedRequestersList([...tableListData])
+            ? setSelectedRequestersList(tableListData?.map((item: any) => item))
             : setSelectedRequestersList([]);
         }}
         color="primary"
@@ -152,8 +162,8 @@ export const requestersList: any = (
         status === REQUESTORS_STATUS?.ACTIVE
           ? theme?.palette?.success?.main
           : status === REQUESTORS_STATUS?.INACTIVE
-            ? theme?.palette?.warning?.main
-            : '';
+          ? theme?.palette?.warning?.main
+          : '';
 
       return (
         <Typography
@@ -173,6 +183,6 @@ export const requestersList: any = (
     id: 'jobTitle',
     isSortable: true,
     header: 'Job Title',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => truncateText(info?.getValue()),
   },
 ];

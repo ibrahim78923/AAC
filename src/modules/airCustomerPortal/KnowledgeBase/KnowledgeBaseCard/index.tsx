@@ -1,45 +1,38 @@
 import { FolderIcon } from '@/assets/icons';
-import { Box, Typography, useTheme } from '@mui/material';
-import { useKnowledgeBase } from '../useKnowledgeBase';
+import { Avatar, Box, Typography } from '@mui/material';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 
 export const KnowledgeBaseCard = (props: any) => {
-  const { folderId, name, createdBy, createdDate } = props;
-  const { handleKnowledgeBaseDetail } = useKnowledgeBase();
-  const theme = useTheme();
+  const { folderId, name, createdBy, createdDate, handleKnowledgeBaseDetail } =
+    props;
+
   return (
     <Box
       gap={1}
       padding={2.5}
       borderRadius={3}
       display={'flex'}
-      justifyContent={'center'}
       flexDirection={'column'}
-      alignItems={'center'}
-      maxWidth={{ xs: '32rem', sm: '25rem', lg: '18rem', xl: '34rem' }}
-      width={'100%'}
-      height={'auto'}
-      border={`.1rem solid ${theme?.palette?.grey?.[700]}`}
+      height={'100%'}
+      textAlign={'center'}
+      border={`1px solid`}
+      borderColor="custom.off_white"
       sx={{ cursor: 'pointer' }}
       onClick={() => handleKnowledgeBaseDetail(folderId, name)}
     >
-      <Box
-        display={'flex'}
-        justifyContent={'center'}
-        padding={2}
-        bgcolor={theme?.palette?.grey?.[400]}
-      >
+      <Avatar sx={{ margin: 'auto' }} variant="rounded">
         <FolderIcon />
-      </Box>
-      <Typography variant="h5">{name}</Typography>
-      <Box
-        display={'flex'}
-        justifyContent={'center'}
-        flexDirection={'column'}
-        alignItems={'center'}
-      >
-        <Typography variant="body2">Created By: {createdBy}</Typography>
-        <Typography variant="body2">Created Date: {createdDate}</Typography>
-      </Box>
+      </Avatar>
+      <Typography variant="h5" color="slateBlue.main">
+        {name}
+      </Typography>
+      <Typography variant="body2" color="slateBlue.main">
+        Created By: {createdBy}
+      </Typography>
+      <Typography variant="body2" color="slateBlue.main">
+        Created Date: {dayjs(createdDate)?.format(DATE_FORMAT?.UI)}
+      </Typography>
     </Box>
   );
 };

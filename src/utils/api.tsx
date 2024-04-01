@@ -26,6 +26,16 @@ export const warningSnackbar = (message: any) => {
   });
 };
 
+export const filteredEmptyValues = (data = {}) => {
+  const filteredObject: any = Object?.entries(data || {})
+    ?.filter(
+      ([, value]: any) => value !== undefined && value != '' && value != null,
+    )
+    ?.reduce((acc: any, [key, value]: any) => ({ ...acc, [key]: value }), {});
+
+  return filteredObject;
+};
+
 export const buildQueryParams = (
   additionalParams: any,
   filterLists: any = {},

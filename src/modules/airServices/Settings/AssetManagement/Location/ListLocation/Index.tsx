@@ -1,46 +1,101 @@
-import { SingleListLocation } from './SingleListLocation';
 import { SubListWrapper } from './SubListWrapper';
-import { SubListLocation } from './SubListLocation';
-import { Box, Skeleton } from '@mui/material';
+import { Box } from '@mui/material';
 import { useListLocation } from './useListLocation';
 import NoData from '@/components/NoData';
-import { NoAssociationFoundImage } from '@/assets/images';
+import { DeleteLocation } from '../DeleteLocation';
+import { AIR_SERVICES } from '@/constants';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
+import { LocationCard } from '../LocationCard';
 
 export const ListLocation = () => {
   const {
-    theme,
     handleCollapse,
     locationList,
     isLoading,
     collapseItem,
     isFetching,
+    deleteModalOpen,
+    setDeleteModalOpen,
+    selectedLocation,
+    setSelectedLocation,
+    setDeleteRecord,
+    router,
+    isError,
   } = useListLocation();
-  if (isLoading || isFetching) return <Skeleton />;
+
+  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isError) return <ApiErrorState />;
+
   return (
     <>
-      {locationList?.length ? (
-        <Box bgcolor={theme?.palette?.grey[400]} p={2} borderRadius={2}>
+      {!!locationList?.length ? (
+        <Box bgcolor={'grey.400'} p={2} borderRadius={2}>
           <>
             {locationList?.map((item: any, index: any) => (
               <Box key={item?._id}>
-                <SingleListLocation
+                <LocationCard
                   parentId={item?._id}
                   continents={item?.locationName}
                   handleCollapse={() => handleCollapse(index)}
+                  setDeleteRecord={(id: any) => setDeleteRecord?.(id)}
+                  onAddClick={() =>
+                    router?.push({
+                      pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
+                      query: {
+                        type: 'parent',
+                      },
+                    })
+                  }
+                  onEditClick={() =>
+                    router?.push({
+                      pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
+                      query: {
+                        type: 'parent',
+                        parentId: item?._id,
+                      },
+                    })
+                  }
                 />
-                {collapseItem === index && !!item?.childLocations && (
+                {collapseItem === index && (
                   <SubListWrapper
-                    parentId={item?._id}
-                    ChildId={item?.childLocations?.map(
-                      (subItem: any) => subItem?._id,
-                    )}
+                    onAddClick={() =>
+                      router?.push({
+                        pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
+                        query: {
+                          type: 'child',
+                          parentId: item?._id,
+                        },
+                      })
+                    }
                   >
-                    {item?.childLocations?.map((subItem: any) => (
+                    {item?.childLocaions?.map((subItem: any) => (
                       <Box key={subItem?._id}>
-                        <SubListLocation
-                          country={subItem?.locationName}
-                          childId={subItem?._id}
+                        <LocationCard
+                          isChild
                           parentId={item?._id}
+                          childId={subItem?._id}
+                          continents={subItem?.locationName}
+                          setDeleteRecord={(id: any) => setDeleteRecord?.(id)}
+                          onAddClick={() =>
+                            router?.push({
+                              pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
+                              query: {
+                                type: 'child',
+                                parentId: item?._id,
+                              },
+                            })
+                          }
+                          onEditClick={() =>
+                            router?.push({
+                              pathname: AIR_SERVICES?.ADD_NEW_LOCATION,
+                              query: {
+                                type: 'child',
+                                parentId: item?._id,
+                                childId: subItem?._id,
+                              },
+                            })
+                          }
                         />
                       </Box>
                     ))}
@@ -51,7 +106,16 @@ export const ListLocation = () => {
           </>
         </Box>
       ) : (
-        <NoData message="Data Not Found" image={NoAssociationFoundImage} />
+        <NoData message="No location Found" />
+      )}
+
+      {deleteModalOpen && (
+        <DeleteLocation
+          deleteModalOpen={deleteModalOpen}
+          setDeleteModalOpen={setDeleteModalOpen}
+          selectedLocation={selectedLocation}
+          setSelectedLocation={setSelectedLocation}
+        />
       )}
     </>
   );

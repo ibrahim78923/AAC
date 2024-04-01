@@ -11,6 +11,14 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getSubscriptionsAllCrmWithSubscriptions: builder.query({
+      query: () => ({
+        url: `${ORG_ADMIN?.SUBSCRIPTION_AND_INVOICES_CRM}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+
     getInvoices: builder.query({
       query: ({ params }) => ({
         url: `${ORG_ADMIN?.GET_INVOICES}`,
@@ -33,9 +41,16 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+    getCRMPlanList: builder.query({
+      query: ({ name }: any) => ({
+        url: `${ORG_ADMIN?.PRODUCT_CRM_PLAN_LIST}?name=${name}`,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
     getProductFeatures: builder.query({
       query: ({ id }) => ({
-        url: `${SUPER_ADMIN_PLAN_MANAGEMENT?.PRODUCT_FEATURES}&productId=${id}`,
+        url: `${SUPER_ADMIN_PLAN_MANAGEMENT?.PRODUCT_FEATURES}&productIds=${id}`,
         method: 'GET',
       }),
       providesTags: TAG,
@@ -67,4 +82,6 @@ export const {
   useGetProductPlanListProductIdQuery,
   useGetProductFeaturesQuery,
   usePostSubscriptionMutation,
+  useGetSubscriptionsAllCrmWithSubscriptionsQuery,
+  useGetCRMPlanListQuery,
 } = subscriptionAndInvoicesAPI;

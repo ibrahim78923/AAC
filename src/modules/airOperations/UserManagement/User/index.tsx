@@ -9,6 +9,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 export const User = () => {
   const {
     selectedUserList,
+    setSelectedUserList,
     userListColumn,
     isDrawerOpen,
     setIsDrawerOpen,
@@ -21,10 +22,18 @@ export const User = () => {
     setPageLimit,
     setPage,
     metaData,
+    methods,
+    handleSubmit,
+    submit,
   } = useUser();
   return (
     <Box>
-      <UserHeader selectedUserList={selectedUserList} setSearch={setSearch} />
+      <UserHeader
+        selectedUserList={selectedUserList}
+        setSelectedUserList={setSelectedUserList}
+        setSearch={setSearch}
+        methods={methods}
+      />
       <Box mt={'0.75rem'}>
         <PermissionsGuard
           permissions={[
@@ -53,7 +62,9 @@ export const User = () => {
           setIsDrawerOpen={setIsDrawerOpen}
           title={'User View'}
           okText={'Save'}
-          // handleClose={handleClose}
+          methods={methods}
+          handleSubmit={handleSubmit}
+          submit={submit}
         />
       </Box>
     </Box>
