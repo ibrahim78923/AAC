@@ -16,16 +16,23 @@ import useCompaniesEditorDrawer from './useCompaniesEditorDrawer';
 import Search from '@/components/Search';
 
 const CompaniesEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer } = props;
+  const { openDrawer, setOpenDrawer, dealId, companyRecord } = props;
   const {
     handleSubmit,
     onSubmit,
     methodsCompanies,
     getCompanyContacts,
-    watchCompany,
+    // watchCompany,
     searchTicket,
     setSearchTicket,
-  } = useCompaniesEditorDrawer(openDrawer);
+    postCompanyLoading,
+    defaultValue,
+  } = useCompaniesEditorDrawer({
+    openDrawer,
+    setOpenDrawer,
+    dealId,
+    companyRecord,
+  });
 
   return (
     <div>
@@ -37,6 +44,7 @@ const CompaniesEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer]}
         isOk={true}
         footer={openDrawer === 'View' ? false : true}
+        isLoading={postCompanyLoading}
       >
         <Box sx={{ pt: 2 }}>
           <FormProvider
@@ -47,14 +55,19 @@ const CompaniesEditorDrawer = (props: any) => {
               <Grid item xs={12}>
                 <RHFRadioGroup
                   options={companiesOptions}
-                  name={'companyStatus'}
+                  name="company"
                   label={false}
+                  defaultValue={defaultValue}
                 />
               </Grid>
-              {watchCompany[0] === 'new-Company' ? (
+              {defaultValue === 'new-Company' ? (
                 companiesDataArray(getCompanyContacts)?.map((item: any) => (
                   <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                    <item.component {...item?.componentProps} size={'small'}>
+                    <item.component
+                      disabled={openDrawer === 'View' ? true : false}
+                      {...item?.componentProps}
+                      size={'small'}
+                    >
                       {item?.componentProps?.select
                         ? item?.options?.map((option: any) => (
                             <option key={option?.value} value={option?.value}>

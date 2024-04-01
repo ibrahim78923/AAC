@@ -1,10 +1,7 @@
 import { Box, Button, Chip, Divider, Grid } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AddCircle } from '@mui/icons-material';
-import {
-  conditionTypeOptions,
-  eventBasedWorkflowValues,
-} from '../../UpsertEventBasedWorkflow.data';
+import { conditionTypeOptions } from '../../UpsertEventBasedWorkflow.data';
 import { useSubWorkflowConditions } from './useSubWorkflowConditions';
 import { subWorkflowData } from './SubWorkflowConditions.data';
 
@@ -68,7 +65,11 @@ export const SubWorkflowConditions = (props: any) => {
       })}
       <Button
         onClick={() =>
-          append(eventBasedWorkflowValues?.groups?.[0]?.conditions)
+          append({
+            fieldName: '',
+            condition: '',
+            fieldValue: null,
+          })
         }
         color="secondary"
         startIcon={<AddCircle color="action" />}

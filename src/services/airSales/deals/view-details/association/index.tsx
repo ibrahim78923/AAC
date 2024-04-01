@@ -1,7 +1,7 @@
 import { END_POINTS } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
-export const exampleExampleAPI = baseAPI.injectEndpoints({
+export const associationAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
     createAssociation: builder.mutation({
       query: ({ body }: any) => ({
@@ -24,4 +24,4 @@ export const exampleExampleAPI = baseAPI.injectEndpoints({
 });
 
 export const { useCreateAssociationMutation, useDeleteAssociationMutation } =
-  exampleExampleAPI;
+  associationAPI;

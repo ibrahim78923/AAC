@@ -2,7 +2,7 @@ import { OPERATION } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 const TAG = 'WORKFLOWS';
-const { OPERATION_WORKFLOW, SAVE_WORKFLOW } = OPERATION;
+const { OPERATION_WORKFLOW, SAVE_WORKFLOW, CLONE_WORKFLOW } = OPERATION;
 export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     postServicesWorkflow: builder?.mutation({
@@ -46,6 +46,13 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    cloneServicesWorkflow: builder?.mutation({
+      query: (id: any) => ({
+        url: `${CLONE_WORKFLOW}/${id}`,
+        method: 'POST',
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -55,4 +62,5 @@ export const {
   useDeleteWorkflowMutation,
   useUpdateWorkflowMutation,
   useSaveWorkflowMutation,
+  useCloneServicesWorkflowMutation,
 } = servicesWorkflowAPI;
