@@ -27,7 +27,7 @@ const Feed = () => {
   const [selectedTask, setSelectedTask] = useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSelectedTask(event.target.value as string);
+    setSelectedTask(event?.target?.value as string);
   };
 
   const {
