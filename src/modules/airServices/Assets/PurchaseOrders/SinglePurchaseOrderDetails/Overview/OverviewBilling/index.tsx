@@ -69,11 +69,13 @@ const OverviewBilling = ({
               sx={{
                 width: 70,
                 height: 44,
+                maxHeight: 44,
                 border: '1px solid black',
                 padding: '8px',
                 mt: 1,
                 borderRadius: 1,
                 textAlign: 'center',
+                overflow: 'auto',
               }}
               key={item?.value}
             >

@@ -6,7 +6,7 @@ const TAG_TWO = 'USERS_DROPDOWN';
 
 export const departmentAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
-    getDepartment: builder?.query({
+    getServicesDepartmentList: builder?.query({
       query: (apiDataParameter: any) => ({
         url: `${END_POINTS?.DEPARTMENT_LIST}`,
         method: 'GET',
@@ -53,7 +53,7 @@ export const departmentAPI = baseAPI?.injectEndpoints({
 
 export const {
   usePostDepartmentMutation,
-  useLazyGetDepartmentQuery,
+  useLazyGetServicesDepartmentListQuery,
   useUpdateDepartmentMutation,
   useDeleteDepartmentMutation,
   useLazyGetUsersDropdownListQuery,

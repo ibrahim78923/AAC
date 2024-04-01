@@ -32,6 +32,7 @@ export const TicketsBulkUpdate = (props: any) => {
         footer
         isLoading={patchBulkUpdateTicketsStatus?.isLoading}
         isDisabled={patchBulkUpdateTicketsStatus?.isLoading}
+        disabledCancelBtn={patchBulkUpdateTicketsStatus?.isLoading}
       >
         {!isReplyAdded && (
           <Button

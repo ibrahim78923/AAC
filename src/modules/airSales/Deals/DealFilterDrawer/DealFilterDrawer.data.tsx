@@ -6,20 +6,20 @@ import {
 import useDealTab from '../DealTab/useDealTab';
 
 export const defaultValues = {
-  dealPiplineId: '',
+  dealPipelineId: '',
   name: '',
   dealOwnerId: '',
   dealStageId: '',
   date: null,
 };
 
-export const FilterData = (dealPiplineId: any) => {
+export const FilterData = (dealPipelineId: any) => {
   const { pipelineData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: 'ORG_EMPLOYEE' });
 
   const filteredStages =
     pipelineData?.data?.dealpipelines?.find(
-      (pipeline: any) => pipeline?._id === dealPiplineId,
+      (pipeline: any) => pipeline?._id === dealPipelineId,
     )?.stages || [];
 
   const { data } = useGetDealsListQuery({});
@@ -28,7 +28,7 @@ export const FilterData = (dealPiplineId: any) => {
     {
       componentProps: {
         label: 'Deal Pipeline',
-        name: 'dealPiplineId',
+        name: 'dealPipelineId',
         fullWidth: true,
         select: true,
       },

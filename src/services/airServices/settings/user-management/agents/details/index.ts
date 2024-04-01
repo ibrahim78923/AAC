@@ -39,7 +39,7 @@ export const agentDetailsAPI = baseAPI?.injectEndpoints({
         method: 'GET',
       }),
     }),
-    getSingleDepartmentDetails: builder?.query({
+    getSingleDepartmentDetailsForAgent: builder?.query({
       query: (getSingleDepartmentDetailsParameter: any) => ({
         url: `${END_POINTS?.SINGLE_DEPARTMENT_DETAIL}/${getSingleDepartmentDetailsParameter?.pathParams?.id}`,
         method: 'GET',
@@ -51,6 +51,20 @@ export const agentDetailsAPI = baseAPI?.injectEndpoints({
         method: 'GET',
       }),
     }),
+    getAgentDetailLevel: builder?.query({
+      query: (getAgentDetailLevelParameter: any) => ({
+        url: END_POINTS?.GET_TOP_PERFORMER,
+        method: 'GET',
+        params: getAgentDetailLevelParameter?.queryParams,
+      }),
+      transformResponse: (response: any, _: any, apiDataParameter: any) => {
+        if (response)
+          return response?.data?.find(
+            (performer: any) =>
+              performer?._id === apiDataParameter?.queryParams?.agent,
+          );
+      },
+    }),
   }),
 });
 
@@ -60,6 +74,7 @@ export const {
   useGetAgentTaskDetailsQuery,
   useGetAgentTicketDetailsQuery,
   useGetSingleAgentDetailsQuery,
-  useGetSingleDepartmentDetailsQuery,
+  useGetSingleDepartmentDetailsForAgentQuery,
   useGetPermissionsRoleByIdForAgentQuery,
+  useGetAgentDetailLevelQuery,
 } = agentDetailsAPI;

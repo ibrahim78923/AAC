@@ -22,6 +22,9 @@ export const User = () => {
     setPageLimit,
     setPage,
     metaData,
+    methods,
+    handleSubmit,
+    submit,
   } = useUser();
   return (
     <Box>
@@ -29,6 +32,7 @@ export const User = () => {
         selectedUserList={selectedUserList}
         setSelectedUserList={setSelectedUserList}
         setSearch={setSearch}
+        methods={methods}
       />
       <Box mt={'0.75rem'}>
         <PermissionsGuard
@@ -58,6 +62,9 @@ export const User = () => {
           setIsDrawerOpen={setIsDrawerOpen}
           title={'User View'}
           okText={'Save'}
+          methods={methods}
+          handleSubmit={handleSubmit}
+          submit={submit}
         />
       </Box>
     </Box>

@@ -21,8 +21,8 @@ export const columns = (handleOpenDrawer: any, handleOpenAlert: any) => {
     },
 
     {
-      accessorFn: (row: any) => row?.dealPiplineId,
-      id: 'dealPiplineId',
+      accessorFn: (row: any) => row?.dealPipelineId,
+      id: 'dealPipelineId',
       isSortable: true,
       header: 'Pipeline',
       cell: (info: any) => info?.getValue(),

@@ -16,37 +16,21 @@ export const upsertUserValidationSchema: any = Yup?.object()?.shape({
   twitterUrl: Yup?.string(),
 });
 
-export const upsertUserData = [
-  {
-    id: 1,
-    firstName: 'John',
-    middleName: 'E',
-    lastName: 'Doe',
-    address: 'Enter business address',
-    email: '746 SpringfieldRoad',
-    phoneNumber: '+447975777666',
-    jobTitle: 'UI UX Designer',
-    assignRole: 'Designer',
-    selectTeam: 'Alfa',
-    language: 'English',
-    facebookUrl: 'facebook.com/johnDoe',
-    linkedinUrl: 'Linkedin.com/johnDoe',
-    twitterUrl: 'Twitter.com/johnDoe',
-  },
-];
-export const upsertUserDefaultValues: any = {
-  firstName: '',
-  lastName: '',
-  address: '',
-  email: '',
-  phoneNumber: '',
-  jobTitle: '',
-  role: null,
-  team: null,
-  language: null,
-  facebookUrl: '',
-  linkedInUrl: '',
-  twitterUrl: '',
+export const upsertUserDefaultValues = (data?: any) => {
+  return {
+    firstName: data?.user?.firstName ?? '',
+    lastName: data?.user?.lastName ?? '',
+    address: data?.address?.composite,
+    email: data?.user?.email ?? '',
+    phoneNumber: data?.user?.phoneNumber ?? '',
+    jobTitle: data?.user?.jobTitle ?? '',
+    role: data?.role ?? null,
+    team: data?.team ?? null,
+    language: data?.user?.language ?? null,
+    facebookUrl: data?.user?.facebookUrl ?? '',
+    linkedInUrl: data?.user?.linkedInUrl ?? '',
+    twitterUrl: data?.user?.twitterUrl ?? '',
+  };
 };
 
 export const upsertUserArray = (
@@ -156,12 +140,10 @@ export const upsertUserArray = (
     componentProps: {
       name: 'language',
       label: 'Language',
-      placeholder: 'English',
-      fullWidth: true,
-      apiQuery: departmentDropdown,
+      type: 'text',
+      size: 'small',
     },
-
-    component: RHFAutocompleteAsync,
+    component: RHFTextField,
     md: 12,
   },
   {
