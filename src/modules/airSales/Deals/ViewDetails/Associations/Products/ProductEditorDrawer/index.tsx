@@ -13,12 +13,14 @@ import {
 } from './ProductEditorDrawer.data';
 
 const ProductEditorDrawer = (props: any) => {
-  const { openDrawer, setOpenDrawer, selectedCheckboxes } = props;
-  const { handleSubmit, onSubmit, methodsProducts } = useProductEditorDrawer({
-    selectedCheckboxes,
-    openDrawer,
-    setOpenDrawer,
-  });
+  const { openDrawer, setOpenDrawer, selectedProduct, dealId } = props;
+  const { handleSubmit, onSubmit, methodsProducts, addProductLoading } =
+    useProductEditorDrawer({
+      selectedProduct,
+      openDrawer,
+      setOpenDrawer,
+      dealId,
+    });
 
   return (
     <div>
@@ -29,17 +31,22 @@ const ProductEditorDrawer = (props: any) => {
         okText={drawerButtonTitle[openDrawer]}
         submitHandler={handleSubmit(onSubmit)}
         isOk={true}
+        isLoading={addProductLoading}
         footer={openDrawer === 'View' ? false : true}
       >
-        <Box sx={{ pt: 2 }}>
+        <Box>
           <FormProvider
             methods={methodsProducts}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={1}>
               {productsDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
+                  <item.component
+                    disabled={openDrawer === 'View' ? true : false}
+                    {...item?.componentProps}
+                    size={'small'}
+                  >
                     {item?.componentProps?.select
                       ? item?.options?.map((option: any) => (
                           <option key={option?.value} value={option?.value}>
