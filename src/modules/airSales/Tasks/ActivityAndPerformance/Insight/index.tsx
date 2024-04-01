@@ -9,7 +9,7 @@ import { CanlendarButtonIcon } from '@/assets/icons';
 import { useGetTaskInsightsQuery } from '@/services/airSales/task';
 import SwitchableDatepicker from '@/components/SwitchableDatepicker';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, DATE_RANGE } from '@/constants';
 import { getSession } from '@/utils';
 
 const Insights = () => {
@@ -83,13 +83,17 @@ const Insights = () => {
           </Typography>
           <Typography sx={activityReportDate}>
             Date Range: From{' '}
-            {dayjs(datePickerValue ? datePickerValue[0] : Date.now())?.format(
-              DATE_FORMAT?.API,
-            )}{' '}
+            {dayjs(
+              datePickerValue
+                ? datePickerValue[DATE_RANGE?.START_DATE]
+                : Date.now(),
+            )?.format(DATE_FORMAT?.API)}{' '}
             to{' '}
-            {dayjs(datePickerValue ? datePickerValue[1] : Date.now())?.format(
-              DATE_FORMAT?.API,
-            )}{' '}
+            {dayjs(
+              datePickerValue
+                ? datePickerValue[DATE_RANGE?.END_DATE]
+                : Date.now(),
+            )?.format(DATE_FORMAT?.API)}{' '}
             | Frequency: Daily
           </Typography>
           <Box mt={2}>
