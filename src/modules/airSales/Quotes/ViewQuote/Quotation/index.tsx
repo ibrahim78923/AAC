@@ -3,7 +3,8 @@ import { styles } from './Quotation.style';
 import useViewQuotes from '../useViewQuote';
 
 const Quotation = () => {
-  const { viewQuotesData } = useViewQuotes();
+  const { viewQuotesData, taxCalculation } = useViewQuotes();
+
   const sum = viewQuotesData?.data?.products?.reduce(
     (accumulator: any, currentValue: any) =>
       accumulator + currentValue?.unitPrice * currentValue?.quantity,
@@ -15,6 +16,19 @@ const Quotation = () => {
       accumulator + currentValue?.unitDiscount * currentValue?.quantity,
     0,
   );
+
+  const taxCalculationPerc = taxCalculation?.data?.taxCalculations;
+  const gettingDiscount = viewQuotesData?.data?.products[0]?.unitDiscount;
+
+  let totalPercentage = 0;
+  for (const tax of taxCalculationPerc) {
+    totalPercentage += tax.percentage;
+  }
+
+  const percentageOfSubtotal = sum * (totalPercentage / 100);
+
+  const FinalTotal = percentageOfSubtotal - gettingDiscount;
+
   return (
     <Box sx={styles?.box}>
       <Box sx={styles?.bRow}>
@@ -22,10 +36,12 @@ const Quotation = () => {
         <Box sx={styles?.bCell}>£{sum}</Box>
       </Box>
 
-      {/* <Box sx={styles?.bRow}>
-        <Box sx={styles?.bHead}>V.A.T</Box>
-        <Box sx={styles?.bCell}>20%</Box>
-      </Box> */}
+      <Box sx={styles?.bRow}>
+        <Box sx={styles?.bHead}>
+          {taxCalculation?.data?.taxCalculations[1]?.name}
+        </Box>
+        <Box sx={styles?.bCell}>{totalPercentage}</Box>
+      </Box>
 
       <Box sx={styles?.bRow}>
         <Box sx={styles?.bHead}>Unit Discount</Box>
@@ -34,7 +50,7 @@ const Quotation = () => {
 
       <Box sx={styles?.bRowTotal}>
         <Box sx={styles?.bHead}>Total</Box>
-        <Box sx={styles?.bHead}>£{sum - unitDiscount}</Box>
+        <Box sx={styles?.bHead}>£{FinalTotal}</Box>
       </Box>
 
       <Box sx={styles?.signatureCard}>

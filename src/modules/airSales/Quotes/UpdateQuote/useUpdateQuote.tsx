@@ -14,6 +14,7 @@ import {
   useDeleteContactsMutation,
   useGetDealsQuery,
   useGetQuoteByIdQuery,
+  useGetTaxCalculationsQuery,
   usePostAddbuyerInfoMutation,
   usePutSubmitQuoteMutation,
   // usePostAddbuyerInfoMutation,
@@ -30,6 +31,10 @@ const useUpdateQuote = () => {
   if (router?.query?.data) {
     quoteId = router?.query?.data;
   }
+  const param = {
+    applyOn: 'quotes',
+  };
+  const { data: taxCalculation } = useGetTaxCalculationsQuery(param);
 
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -170,6 +175,16 @@ const useUpdateQuote = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
 
   const handleStepNext = async () => {
+    // const input: any = document.getElementById('pdf-content');
+    // Specify the id of the element you want to convert to PDF
+    // html2canvas(input).then((canvas) => {
+    //   const imgData = canvas.toDataURL('image/png');
+    //   const pdf = new jsPDF();
+    //   pdf?.addImage(imgData, 'PNG', 0, 0);
+    //   pdf.save('downloaded-file.pdf');
+    //   // Specify the name of the downloaded PDF file
+    // });
+
     setActiveStep((prev: any) => prev + 1);
   };
   const handleStepBack = () => {
@@ -326,6 +341,7 @@ const useUpdateQuote = () => {
     setPageLimit,
     updateSubmitEmailQuote,
     quoteId,
+    taxCalculation,
   };
 };
 

@@ -96,8 +96,8 @@ export const CreateViewData = (dealPiplineId: string | null) => {
         row: false,
         options: [
           { label: 'Private', value: 'PRIVATE' },
-          { label: 'My Teams (worked)', value: 'my teams' },
-          { label: 'Everyone', value: 'everyone' },
+          { label: 'My Teams (worked)', value: 'MYTEAMS' },
+          { label: 'Everyone', value: 'EVERYONE' },
         ],
       },
       component: RHFRadioGroup,

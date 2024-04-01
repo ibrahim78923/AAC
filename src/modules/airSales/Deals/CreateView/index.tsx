@@ -33,23 +33,28 @@ const CreateView = ({ open, onClose }: any) => {
     // values.sharedWith;
     values.apiUrl = `${AIR_SALES?.DEAL_LIST_VIEW}?dateStart=${dayjs()?.format(
       DATE_FORMAT?.API,
-    )}&dateEnd=${dayjs(values?.CloseDate)?.format(DATE_FORMAT?.API)}`;
+    )}&dateEnd=${dayjs(values?.CloseDate)?.format(
+      DATE_FORMAT?.API,
+    )}&dealPiplineId=${values?.dealPiplineId}&dealOwnerId=${values?.dealOwnerId}&dealStageId=${values?.dealStageId}`;
+
     const obj = {
       name: values?.name,
       apiUrl: values?.apiUrl,
       sharedWith: values?.sharedWith,
     };
+    // console.log(obj, 'values');
+
     try {
       createViewDeals({ body: obj })?.unwrap();
       enqueueSnackbar('Deal created successfully', {
         variant: 'success',
       });
-      onClose();
     } catch (error) {
       enqueueSnackbar('Error while creating deal', {
         variant: 'error',
       });
     }
+    onClose();
   };
   return (
     <>

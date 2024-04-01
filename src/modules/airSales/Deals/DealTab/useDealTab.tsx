@@ -20,7 +20,7 @@ interface Filters {
   search?: string;
   dealPiplineId?: string;
   name?: string;
-  dealOwnerId?: string;
+  ownerId?: string;
   dealStageId?: string;
   dateStart?: string;
   dateEnd?: string;
@@ -83,14 +83,33 @@ const useDealTab = () => {
   const dealListApiUrl = dealViewsData?.data?.map((obj: any) => {
     const dateStart = obj?.apiUrl?.match(/dateStart=([^&]*)/)[1];
     const dateEnd = obj?.apiUrl?.match(/dateEnd=([^&]*)/)[1];
-    return { dateStart, dateEnd, name: obj?.name };
+    let dealPiplineId;
+    let dealOwnerId;
+    let dealStageId;
+
+    if (obj?.apiUrl?.match(/dealPiplineId=([^&]*)/)) {
+      dealPiplineId = obj?.apiUrl?.match(/dealPiplineId=([^&]*)/)[1];
+    }
+    if (obj?.apiUrl?.match(/dealOwnerId=([^&]*)/)) {
+      dealOwnerId = obj?.apiUrl?.match(/dealOwnerId=([^&]*)/)[1];
+    }
+    if (obj?.apiUrl?.match(/dealStageId=([^&]*)/)) {
+      dealStageId = obj?.apiUrl?.match(/dealStageId=([^&]*)/)[1];
+    }
+    return {
+      dateStart,
+      dateEnd,
+      name: obj?.name,
+      ...(dealPiplineId && { dealPiplineId }),
+      ...(dealOwnerId && { dealOwnerId }),
+      ...(dealStageId && { dealStageId }),
+    };
   });
   const { data: salesProduct } = useGetSalesProductlineItemQuery({});
 
   const tabsArray = [{ name: 'All Deals', dateStart: '', dateEnd: '' }]?.concat(
     dealListApiUrl,
   );
-
   const handleFilter = () => {
     setIsFilterDrawer(!isFilterDrawer);
   };
@@ -106,18 +125,16 @@ const useDealTab = () => {
     else setFilters(filterValues);
   };
   const handleTabChange = (tab: any) => {
-    const startEndDate = {
-      dateStart: tab?.dateStart,
-      dateEnd: tab?.dateEnd,
-    };
-    // setDateRange(tab?.name === 'All Deals' ? {} : startEndDate);
-    if (tab?.name === 'All Deals') {
+    const tabName = tab?.name;
+    const ownerId = tab?.dealOwnerId;
+    delete tab?.name;
+    delete tab?.dealOwnerId;
+    if (tabName === 'All Deals') {
       setFilters(filterValues);
     } else {
       setFilters({
-        ...filters,
-        dateStart: startEndDate?.dateStart,
-        dateEnd: startEndDate?.dateEnd,
+        ...tab,
+        ownerId,
       });
     }
   };

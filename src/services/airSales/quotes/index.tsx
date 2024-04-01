@@ -216,6 +216,14 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    getTaxCalculations: builder.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.TAX_CALCULATION}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -247,4 +255,5 @@ export const {
   usePutSubmitQuoteMutation,
   useUpdateSubmitEmailQuoteMutation,
   useUpdateQuoteSubmisionMutation,
+  useGetTaxCalculationsQuery,
 } = quotesAPI;
