@@ -76,8 +76,8 @@ export const useDetailTicketDrawer = (props: any) => {
       successSnackbar(' ticket Time Added successfully');
       setIsDrawerOpen(false);
       reset();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
       setIsDrawerOpen(false);
     }
   };

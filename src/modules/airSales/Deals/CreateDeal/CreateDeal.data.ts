@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
-  dealPiplineId: Yup?.string()?.required('Field is Required'),
+  dealPipelineId: Yup?.string()?.required('Field is Required'),
   dealStageId: Yup?.string()?.required('Field is Required'),
   amount: Yup?.number()
     ?.typeError('Please enter a valid number')
@@ -22,18 +22,18 @@ export const validationSchema = Yup?.object()?.shape({
 
 export const defaultValues = {
   name: '',
-  dealPiplineId: '',
+  dealPipelineId: '',
   ownerId: '',
   dealStageId: '',
   addLineItemId: '',
 };
-export const createDealData = ({ dealPiplineId }: any) => {
+export const createDealData = ({ dealPipelineId }: any) => {
   const userRole = 'ORG_EMPLOYEE';
   const { pipelineData, salesProduct } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: userRole });
   const filteredStages =
     pipelineData?.data?.dealpipelines?.find(
-      (pipeline: any) => pipeline?._id === dealPiplineId,
+      (pipeline: any) => pipeline?._id === dealPipelineId,
     )?.stages || [];
 
   return [
@@ -48,7 +48,7 @@ export const createDealData = ({ dealPiplineId }: any) => {
     },
     {
       componentProps: {
-        name: 'dealPiplineId',
+        name: 'dealPipelineId',
         label: 'Deal Pipeline',
         select: true,
         required: true,

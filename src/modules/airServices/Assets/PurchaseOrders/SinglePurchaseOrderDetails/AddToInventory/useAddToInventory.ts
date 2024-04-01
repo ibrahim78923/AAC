@@ -104,7 +104,7 @@ export default function useAddToInventoryDrawer(props: any) {
       })?.unwrap();
       successSnackbar('Item Added to Inventory  Successfully');
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
     setIsADrawerOpen(false);
     setSelectedAssetId?.(null);
@@ -131,8 +131,8 @@ export default function useAddToInventoryDrawer(props: any) {
     try {
       await postPurchaseOrderTrigger(postPurchaseOrderParameter)?.unwrap();
       successSnackbar('Item Added to Inventory  Successfully');
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
 
     setIsADrawerOpen(false);

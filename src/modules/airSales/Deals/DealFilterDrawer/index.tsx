@@ -18,7 +18,7 @@ const DealFilterDrawer = ({ open, onClose, handleApply }: any) => {
     defaultValues: defaultValues,
   });
   const { handleSubmit, watch } = methods;
-  const dealPiplineId = watch('dealPiplineId');
+  const dealPipelineId = watch('dealPipelineId');
 
   const onSubmit = (values: any) => {
     const obj = {
@@ -47,7 +47,7 @@ const DealFilterDrawer = ({ open, onClose, handleApply }: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
-          {FilterData(dealPiplineId)?.map((item: any) => (
+          {FilterData(dealPipelineId)?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               <item.component {...item?.componentProps} size={'small'}>
                 {item?.componentProps?.select &&

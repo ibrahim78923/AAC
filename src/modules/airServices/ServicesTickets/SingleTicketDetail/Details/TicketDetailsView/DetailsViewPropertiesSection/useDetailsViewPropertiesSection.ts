@@ -72,8 +72,8 @@ export const useDetailsViewPropertiesSection = () => {
       router?.push(AIR_SERVICES?.TICKETS);
       successSnackbar(' ticket updated successfully');
       reset();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 

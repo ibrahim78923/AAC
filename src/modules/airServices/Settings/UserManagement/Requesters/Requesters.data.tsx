@@ -92,9 +92,7 @@ export const requestersList: any = (
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedRequestersList(
-                tableListData?.map((item: any) => item?._id),
-              )
+            ? setSelectedRequestersList(tableListData?.map((item: any) => item))
             : setSelectedRequestersList([]);
         }}
         color="primary"
@@ -164,8 +162,8 @@ export const requestersList: any = (
         status === REQUESTORS_STATUS?.ACTIVE
           ? theme?.palette?.success?.main
           : status === REQUESTORS_STATUS?.INACTIVE
-            ? theme?.palette?.warning?.main
-            : '';
+          ? theme?.palette?.warning?.main
+          : '';
 
       return (
         <Typography
