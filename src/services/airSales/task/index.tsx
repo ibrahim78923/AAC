@@ -112,6 +112,16 @@ export const taskApi = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+
+    getTaskGraphData: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT_INSIGHTS_NEW}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
     getTaskFeed: builder.query({
       query: ({ params }: any) => ({
         url: `${END_POINTS?.TASK_MANAGEMENT_FEED}`,
@@ -138,4 +148,5 @@ export const {
   usePutTaskCustomizedColumnsMutation,
   useGetTaskInsightsQuery,
   useGetTaskFeedQuery,
+  useGetTaskGraphDataQuery,
 } = taskApi;

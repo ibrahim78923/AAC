@@ -16,37 +16,58 @@ import Counter from './Counter';
 import { styles } from './ChoosePlan.style';
 import { orgAdminSubcriptionInvoices } from '@/routesConstants/paths';
 import {
+  useGetCRMPlanListQuery,
   useGetProductFeaturesQuery,
   useGetProductPlanListProductIdQuery,
 } from '@/services/orgAdmin/subscription-and-invoices';
 import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
+import { useAppSelector } from '@/redux/store';
 const ChoosePlan = () => {
   const router = useRouter();
 
+  const parsedManageData = useAppSelector(
+    (state) => state?.subscriptionAndInvoices?.selectedPlanData,
+  );
+  const isCRM = parsedManageData?.isCRM;
+
   const { data, isLoading } = useGetProductPlanListProductIdQuery({
-    id: router?.query?.data,
+    id: parsedManageData?.productId,
   });
+  const { data: crmPlanData, isLoading: isCRMplanLoading } =
+    useGetCRMPlanListQuery({
+      name: parsedManageData?.planName || parsedManageData?.name,
+    });
   const { data: featuresData } = useGetProductFeaturesQuery({
-    id: router?.query?.data,
+    id: parsedManageData?.productId,
   });
 
   const [getData, setGetData] = useState<any>([]);
 
   useEffect(() => {
-    if (data?.data) {
-      setGetData(Object?.values(data?.data));
+    if (isCRM) {
+      if (crmPlanData?.data) {
+        setGetData(crmPlanData?.data);
+      }
+    } else {
+      if (data?.data) {
+        setGetData(Object?.values(data?.data));
+      }
     }
-  }, [data]);
+  }, [data, crmPlanData]);
+
+  useEffect(() => {
+    if (Object.keys(parsedManageData)?.length === 0) {
+      router.push(`${orgAdminSubcriptionInvoices?.back_subscription_invoices}`);
+    }
+  }, [parsedManageData]);
 
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: '27px' }}>
         <Box
-          onClick={() =>
-            router.push(`${orgAdminSubcriptionInvoices?.manage_plan}`)
-          }
+          onClick={() => history.back()}
           sx={{ cursor: 'pointer', lineHeight: '1', mr: '12px' }}
         >
           <ArrowBackIcon />
@@ -54,7 +75,7 @@ const ChoosePlan = () => {
         <Typography variant="h4">Choose a plan</Typography>
       </Box>
 
-      {isLoading ? (
+      {isLoading || isCRMplanLoading ? (
         <>
           <Box sx={{ width: '100%' }}>
             <LinearProgress />
@@ -70,7 +91,9 @@ const ChoosePlan = () => {
                   sx={{ width: '228px', pl: '32px', pr: '32px' }}
                 >
                   <Typography variant="h3" sx={styles?.productBoxTitle}>
-                    Sales
+                    {parsedManageData?.planName ||
+                      parsedManageData?.name ||
+                      parsedManageData?.productName}
                   </Typography>
                   <Typography variant="body1" sx={styles?.productBoxText}>
                     Everything your sales team need to work better and together.
@@ -93,7 +116,7 @@ const ChoosePlan = () => {
                 <TableCell width={300} sx={styles?.planBox} key={uuidv4()}>
                   <Box>
                     <Typography variant="h3">
-                      <Box>Free Trail</Box>
+                      <Box>Free Trial</Box>
                       <Box component={'span'}>1 Month</Box>
                     </Typography>
                   </Box>
@@ -175,7 +198,7 @@ const ChoosePlan = () => {
                 {/* default  free */}
                 <TableCell sx={styles?.sideHeader}>-</TableCell>
                 {getData?.length
-                  ? getData?.map(() => {
+                  ? getData?.map((item: any) => {
                       return (
                         <TableCell key={uuidv4()} sx={styles?.userIncludes}>
                           <PermissionsGuard
@@ -183,7 +206,14 @@ const ChoosePlan = () => {
                               ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_USER,
                             ]}
                           >
-                            <Counter inputValue={0} />
+                            {item?.defaultUsers === 0 ? (
+                              <Counter inputValue={0} disabled />
+                            ) : (
+                              <Counter
+                                inputValue={0}
+                                defaultUsers={item?.defaultUsers}
+                              />
+                            )}
                           </PermissionsGuard>
                         </TableCell>
                       );
@@ -193,12 +223,12 @@ const ChoosePlan = () => {
 
               <TableRow>
                 <TableCell sx={styles?.sideHeader}>
-                  Max Additional Srorage
+                  Max Additional Storage
                 </TableCell>
                 {/* default  free */}
                 <TableCell sx={styles?.sideHeader}>-</TableCell>
                 {getData?.length
-                  ? getData?.map(() => {
+                  ? getData?.map((item: any) => {
                       return (
                         <TableCell key={uuidv4()} sx={styles?.userIncludes}>
                           <PermissionsGuard
@@ -206,11 +236,15 @@ const ChoosePlan = () => {
                               ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_STORAGE,
                             ]}
                           >
-                            <Counter
-                              inputValue={0}
-                              fixedText="GB"
-                              inputWidth="74px"
-                            />
+                            {item?.defaultStorage === 0 ? (
+                              <Counter inputValue={0} disabled />
+                            ) : (
+                              <Counter
+                                inputValue={0}
+                                fixedText="GB"
+                                inputWidth="74px"
+                              />
+                            )}
                           </PermissionsGuard>
                         </TableCell>
                       );

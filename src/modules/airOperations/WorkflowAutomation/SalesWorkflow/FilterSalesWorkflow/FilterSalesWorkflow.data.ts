@@ -6,8 +6,10 @@ import {
 export const salesWorkflowsFilterValues = {
   status: '',
   createdBy: null,
+  type: '',
 };
 const statusOption = ['ACTIVE', 'INACTIVE', 'DRAFT'];
+const typeOptions = ['EVENT_BASE', 'SCHEDULED'];
 
 export const salesWorkflowFilterFields = (userDropdown: any) => [
   {
@@ -33,5 +35,16 @@ export const salesWorkflowFilterFields = (userDropdown: any) => [
         option?.firstName + ' ' + option?.lastName,
     },
     component: RHFAutocompleteAsync,
+  },
+  {
+    id: 238,
+    componentProps: {
+      name: 'type',
+      label: 'Type',
+      fullWidth: true,
+      placeholder: 'Select',
+      options: typeOptions,
+    },
+    component: RHFAutocomplete,
   },
 ];

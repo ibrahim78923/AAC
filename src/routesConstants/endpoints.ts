@@ -58,7 +58,8 @@ export const END_POINTS = {
   TASK_MANAGEMENT: '/task/management',
   TASK_CUSTOMIZE_COLUMN: '/customized-columns',
   TASK_MANAGEMENT_INSIGHTS: '/task/task-management-insights',
-  TASK_MANAGEMENT_FEED: '/task/task-management-feed',
+  TASK_MANAGEMENT_FEED: '/activity-log',
+  TASK_MANAGEMENT_INSIGHTS_NEW: '/task/task-management-insights-new',
   DEALS_ASSOCIATION: '/deals/get-associations',
   ENQUIRIES: '/enquiries/',
   CREATE_ASSOCIATION: '/deals/create-association',
@@ -386,8 +387,11 @@ export const settingContactStatus = {
 };
 export const ORG_ADMIN = {
   SUBSCRIPTION_AND_INVOICES: '/org-admin/subscriptions',
+  SUBSCRIPTION_AND_INVOICES_CRM:
+    '/org-admin/subscriptions/get-all-crm-with-subscription',
   GET_INVOICES: '/org-admin/invoices',
   PRODUCT_PLAN_LIST: '/plan/product-plan-list',
+  PRODUCT_CRM_PLAN_LIST: '/super-admin/get-one-crm-plans',
   ACTIVITY_LOG: '/activity-log',
   ACTIVITY_LOG_SUB: '/activity-log/sub-activities',
   SETTINGS_CONTACT_STATUS: '/contact-status',
@@ -414,6 +418,8 @@ export const OPERATION = {
   OPERATION_WORKFLOW: '/workflows',
   SCHEMA_KEYS: '/workflows/schema-keys',
   STATUS_WORKFLOW: '/workflows/change-status',
+  SAVE_WORKFLOW: '/workflows/save',
+  CLONE_WORKFLOW: '/workflows/clone',
 };
 
 export const AIR_SALES = {

@@ -26,7 +26,7 @@ const CreateDeal = ({ open, onClose }: any) => {
   });
 
   const { handleSubmit, reset, watch } = methods;
-  const dealPiplineId = watch('dealPiplineId');
+  const dealPipelineId = watch('dealPipelineId');
 
   const onSubmit = async (values: any) => {
     const [closeDate] = values?.closeDate;
@@ -38,7 +38,7 @@ const CreateDeal = ({ open, onClose }: any) => {
     onClose();
   };
 
-  const dealDataArray = createDealData({ dealPiplineId });
+  const dealDataArray = createDealData({ dealPipelineId });
 
   return (
     <CommonDrawer

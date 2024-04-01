@@ -142,6 +142,8 @@ const CUSTOM_COLORS = {
   navy_blue: '#20315E',
   lighter_navy_blue: '#1018283d',
   greenish_blue: '#1018280d',
+  inactive_bg: '#FF4A4A33',
+  active_bg: '#47B26333',
 };
 const GRAPH = {
   cyan: 'blue',

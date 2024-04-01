@@ -39,24 +39,24 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
         Yup?.lazy((value: any) => {
           if (value?.key === 'email') {
             return Yup?.object()?.shape({
-              key: Yup?.string()?.required('Required'),
+              fieldName: Yup?.string()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
-              value: Yup?.string()
+              fieldValue: Yup?.string()
                 ?.email('Invalid email')
                 ?.nullable()
                 ?.required('Required'),
             });
           } else if (value?.key === 'number') {
             return Yup?.object()?.shape({
-              key: Yup?.string()?.required('Required'),
+              fieldName: Yup?.string()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
-              value: Yup?.number()?.nullable()?.required('Required'),
+              fieldValue: Yup?.number()?.nullable()?.required('Required'),
             });
           } else {
             return Yup?.object()?.shape({
-              key: Yup?.string()?.required('Required'),
+              fieldName: Yup?.string()?.required('Required'),
               condition: Yup?.string()?.required('Required'),
-              value: Yup?.mixed()?.nullable()?.required('Required'),
+              fieldValue: Yup?.mixed()?.nullable()?.required('Required'),
             });
           }
         }),
@@ -66,25 +66,28 @@ export const eventBasedWorkflowSchema = Yup.object().shape({
   actions: Yup?.array()?.of(
     Yup.lazy((value: any) => {
       if (
-        value?.key === 'Send Email to Requester' ||
-        value?.key === 'Send Email to Agent'
+        value?.fieldName === 'Send Email to Requester' ||
+        value?.fieldName === 'Send Email to Agent'
       ) {
         return Yup?.object()?.shape({
-          key: Yup?.string()?.required('Required'),
-          value: Yup?.string()
+          fieldName: Yup?.string()?.required('Required'),
+          fieldValue: Yup?.string()
             ?.email('Invalid email')
             ?.nullable()
             ?.required('Required'),
         });
-      } else if (value?.key === 'Add Task' || value?.key === 'Add Tag') {
+      } else if (
+        value?.fieldName === 'Add Task' ||
+        value?.fieldName === 'Add Tag'
+      ) {
         return Yup?.object()?.shape({
-          key: Yup?.string()?.required('Required'),
-          value: Yup?.string()?.nullable()?.required('Required'),
+          fieldName: Yup?.string()?.required('Required'),
+          fieldValue: Yup?.string()?.nullable()?.required('Required'),
         });
       } else {
         return Yup?.object()?.shape({
-          key: Yup?.string()?.required('Required'),
-          value: Yup?.mixed()?.nullable()?.required('Required'),
+          fieldName: Yup?.string()?.required('Required'),
+          fieldValue: Yup?.mixed()?.nullable()?.required('Required'),
         });
       }
     }),
@@ -122,9 +125,9 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
           : null,
         conditions: group?.conditions?.map((condition: any) => {
           return {
-            key: condition?.key ?? '',
+            fieldName: condition?.fieldName ?? '',
             condition: condition?.condition ?? '',
-            value: condition?.value ?? null,
+            fieldValue: condition?.fieldValue ?? null,
           };
         }),
       };
@@ -134,9 +137,9 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
         conditionType: null,
         conditions: [
           {
-            key: '',
+            fieldName: '',
             condition: '',
-            value: null,
+            fieldValue: null,
           },
         ],
       },
@@ -145,9 +148,9 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
         conditionType: null,
         conditions: [
           {
-            key: '',
+            fieldName: '',
             condition: '',
-            value: null,
+            fieldValue: null,
           },
         ],
       },
@@ -155,10 +158,10 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
     actions: singleWorkflowData?.actionValues?.map((action: any) => {
       const [actionName, actionData] = Object.entries(action)[0];
       return {
-        key: actionName ?? '',
-        value: actionData ?? null,
+        fieldName: actionName ?? '',
+        fieldValue: actionData ?? null,
       };
-    }) ?? [{ key: '', value: null }],
+    }) ?? [{ fieldName: '', fieldValue: null }],
   };
 };
 export const EventBasedWorkflowDataArray = [

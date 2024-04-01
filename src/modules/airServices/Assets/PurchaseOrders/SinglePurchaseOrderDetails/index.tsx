@@ -1,10 +1,10 @@
 import { Header } from './Header';
 import { useSinglePurchaseDetail } from './useSinglePurchaseDetail';
-import { AlertModals } from '@/components/AlertModals';
 import { ReceivedItems } from './ReceivedItems';
 import { AddToInventory } from './AddToInventory';
 import { SinglePurchaseOrderDetailTabs } from './SinglePurchaseOrderDetailTabs';
-import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import { DeletePurchaseOrder } from '../DeletePurchaseOrder';
+
 export const SinglePurchaseOrderDetail = () => {
   const {
     singlePurchaseDetailActionDropdown,
@@ -15,9 +15,7 @@ export const SinglePurchaseOrderDetail = () => {
     isADrawerOpen,
     setIsADrawerOpen,
     singlePurchaseDetailStatusDropdown,
-    deletePurchaseOrder,
-    isLoading,
-    statusData,
+    purchaseOrderId,
   }: any = useSinglePurchaseDetail();
 
   return (
@@ -26,31 +24,34 @@ export const SinglePurchaseOrderDetail = () => {
         <Header
           dropdownOptions={singlePurchaseDetailActionDropdown}
           statusDropdownOptions={singlePurchaseDetailStatusDropdown}
-          currentStatus={statusData || PURCHASE_ORDER_STATUS.OPEN}
           handleReceived={() => setIsADrawerOpen(true)}
           handleAddToInventory={() => setIsDrawerOpen(true)}
         />
       </>
       <SinglePurchaseOrderDetailTabs />
+
       {isDeleteModalOpen && (
-        <AlertModals
-          type="delete"
-          open={isDeleteModalOpen}
-          handleClose={() => setIsDeleteModalOpen(false)}
-          handleSubmitBtn={deletePurchaseOrder}
-          loading={isLoading}
-          message="Are you sure  want to delete this purchase order ?"
+        <DeletePurchaseOrder
+          deleteModalOpen={isDeleteModalOpen}
+          setDeleteModalOpen={setIsDeleteModalOpen}
+          purchaseOrderData={[{ _id: purchaseOrderId }]}
+          canMoveBack
         />
       )}
 
-      <AddToInventory
-        isADrawerOpen={isDrawerOpen}
-        setIsADrawerOpen={setIsDrawerOpen}
-      />
-      <ReceivedItems
-        isDrawerOpen={isADrawerOpen}
-        setIsDrawerOpen={setIsADrawerOpen}
-      />
+      {isDrawerOpen && (
+        <AddToInventory
+          isADrawerOpen={isDrawerOpen}
+          setIsADrawerOpen={setIsDrawerOpen}
+        />
+      )}
+
+      {isADrawerOpen && (
+        <ReceivedItems
+          isDrawerOpen={isADrawerOpen}
+          setIsDrawerOpen={setIsADrawerOpen}
+        />
+      )}
     </>
   );
 };

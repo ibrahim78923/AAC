@@ -1,7 +1,8 @@
 import {
+  useGetAgentDetailLevelQuery,
   useGetPermissionsRoleByIdForAgentQuery,
   useGetSingleAgentDetailsQuery,
-  useGetSingleDepartmentDetailsQuery,
+  useGetSingleDepartmentDetailsForAgentQuery,
 } from '@/services/airServices/settings/user-management/agents/details';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -28,7 +29,7 @@ export const useSingleAgentDetail = () => {
     },
   };
 
-  const departmentDetails = useGetSingleDepartmentDetailsQuery(
+  const departmentDetails = useGetSingleDepartmentDetailsForAgentQuery(
     getSingleDepartmentDetailsParameter,
     {
       refetchOnMountOrArgChange: true,
@@ -49,6 +50,20 @@ export const useSingleAgentDetail = () => {
       refetchOnMountOrArgChange: true,
     },
   );
+
+  const getAgentDetailLevelParameter = {
+    queryParams: {
+      agent: agentId,
+    },
+  };
+  const agentLevelDetail = useGetAgentDetailLevelQuery(
+    getAgentDetailLevelParameter,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !!!agentId,
+    },
+  );
+
   return {
     data,
     isLoading,
@@ -58,5 +73,6 @@ export const useSingleAgentDetail = () => {
     isAgentModalOpen,
     setIsAgentModalOpen,
     permissionRoleDetails,
+    agentLevelDetail,
   };
 };

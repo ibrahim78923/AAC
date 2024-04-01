@@ -11,7 +11,7 @@ import * as Yup from 'yup';
 export const productsValidationSchema = Yup?.object()?.shape({
   dealStatus: Yup?.string(),
   name: Yup?.string()?.trim()?.required('Field is Required'),
-  dealPiplineId: Yup?.string()?.trim()?.required('Field is Required'),
+  dealPipelineId: Yup?.string()?.trim()?.required('Field is Required'),
   dealStageId: Yup?.string()?.trim()?.required('Field is Required'),
   amount: Yup?.string(),
   closeDate: Yup?.string(),
@@ -23,7 +23,7 @@ export const productsValidationSchema = Yup?.object()?.shape({
 export const productsDefaultValues = {
   dealStatus: 'New Deal',
   name: '',
-  dealPiplineId: '',
+  dealPipelineId: '',
   dealStageId: '',
   amount: '',
   closeDate: '',
@@ -58,7 +58,7 @@ export const productsDataArray = (openDrawer: any) => {
     },
     {
       componentProps: {
-        name: 'dealPiplineId',
+        name: 'dealPipelineId',
         label: 'Deal Pipeline',
         select: true,
         required: true,

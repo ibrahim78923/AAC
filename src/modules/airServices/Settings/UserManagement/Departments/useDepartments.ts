@@ -1,5 +1,5 @@
 import { PAGINATION } from '@/config';
-import { useLazyGetDepartmentQuery } from '@/services/airServices/settings/user-management/departments';
+import { useLazyGetServicesDepartmentListQuery } from '@/services/airServices/settings/user-management/departments';
 import { useEffect, useState } from 'react';
 import { departmentActionDropdownFunction } from './Departments.data';
 
@@ -12,7 +12,7 @@ export const useDepartments = () => {
   const [selectedDepartment, setSelectedDepartment] = useState('');
 
   const [lazyGetDepartmentTrigger, lazyGetDepartmentStatus]: any =
-    useLazyGetDepartmentQuery();
+    useLazyGetServicesDepartmentListQuery();
 
   const getDepartmentListData = async (currentPage = page) => {
     const getDepartmentParam = new URLSearchParams();
