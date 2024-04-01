@@ -92,6 +92,21 @@ export const userManagementAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    getViewProductUsers: builder.query({
+      query: (id: any) => ({
+        url: `${END_POINTS?.PRODUCTS_USERS}${id}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
+    patchTeamUsers: builder.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.SALES_TEAM}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -106,4 +121,6 @@ export const {
   useGetTeamListQuery,
   useDeleteTeamUsersMutation,
   usePostCreateTeamMutation,
+  useGetViewProductUsersQuery,
+  usePatchTeamUsersMutation,
 } = userManagementAPI;

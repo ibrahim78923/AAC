@@ -58,6 +58,7 @@ const ListView = () => {
 
     employeeListData,
     handleIsViewPage,
+    handleUpdateStatus,
   } = useListView();
 
   const getTableColumns = invoicesTableColumns(
@@ -65,6 +66,7 @@ const ListView = () => {
     setSelectedRow,
     setIsActionsDisabled,
     setRowId,
+    handleUpdateStatus,
   );
 
   return (

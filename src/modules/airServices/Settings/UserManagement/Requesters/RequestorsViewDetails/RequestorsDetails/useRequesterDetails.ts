@@ -1,4 +1,4 @@
-import { useGetSingleAgentDetailsQuery } from '@/services/airServices/settings/user-management/agents/details';
+import { useGetSingleRequesterDetailsByIdQuery } from '@/services/airServices/settings/user-management/requesters';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -13,7 +13,7 @@ export const useRequesterDetails = () => {
   };
 
   const { data, isLoading, isFetching, isError } =
-    useGetSingleAgentDetailsQuery(getSingleAgentDetailsParameter, {
+    useGetSingleRequesterDetailsByIdQuery(getSingleAgentDetailsParameter, {
       refetchOnMountOrArgChange: true,
       skip: !!!_id,
     });

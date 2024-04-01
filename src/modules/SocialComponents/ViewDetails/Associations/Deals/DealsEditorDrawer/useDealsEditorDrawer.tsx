@@ -33,7 +33,7 @@ const useDealsEditorDrawer = ({
       if (dealRecord) {
         const {
           name,
-          dealPiplineId,
+          dealPipelineId,
           dealStageId,
           amount,
           closeDate,
@@ -43,7 +43,7 @@ const useDealsEditorDrawer = ({
         } = dealRecord;
         return {
           name,
-          dealPiplineId,
+          dealPipelineId,
           dealStageId,
           amount,
           closeDate: new Date(closeDate),

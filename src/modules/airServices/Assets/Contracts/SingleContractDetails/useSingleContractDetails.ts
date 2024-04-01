@@ -56,7 +56,7 @@ export const useSingleContractDetails = () => {
       router?.push(AIR_SERVICES?.ASSETS_CONTRACTS);
       successSnackbar('Contract Deleted Successfully!');
     } catch (error: any) {
-      errorSnackbar?.();
+      errorSnackbar?.(error?.data?.message);
       setDeleteModalOpen?.(false);
     }
   };

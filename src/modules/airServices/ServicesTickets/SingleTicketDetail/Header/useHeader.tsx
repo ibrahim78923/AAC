@@ -36,7 +36,7 @@ export const useHeader = () => {
       )?.unwrap();
       successSnackbar('Ticket marked as close successfully');
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
 

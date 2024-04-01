@@ -56,7 +56,7 @@ const useAttachments = (contactId: any) => {
     // }
     if (data) {
       // methodsAttachments.setValue('name', data?.name);
-      // methodsAttachments.setValue('dealPiplineId', data?.dealPiplineId);
+      // methodsAttachments.setValue('dealPipelineId', data?.dealPipelineId);
       // methodsAttachments.setValue('dealStageId', data?.dealStageId);
       // methodsAttachments.setValue('amount', data?.amount);
       // methodsAttachments.setValue('closeDate', new Date(data?.closeDate));
