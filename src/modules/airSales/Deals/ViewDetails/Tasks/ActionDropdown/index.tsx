@@ -31,6 +31,7 @@ const ActionDropdown = (props: any) => {
     handleDeleteHandler,
     onSubmit,
     methodsAssignee,
+    deleteTaskLoading,
   } = useActionDropdown({
     setOpenDrawer,
     selectedCheckboxes,
@@ -137,6 +138,7 @@ const ActionDropdown = (props: any) => {
         open={openAlertModal === 'Delete'}
         handleClose={handleCloseAlert}
         handleSubmitBtn={handleDeleteHandler}
+        loading={deleteTaskLoading}
       />
     </div>
   );

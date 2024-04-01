@@ -47,7 +47,7 @@ export const actionsData = ({
   departmentApiQuery,
   apiQueryCategories,
 }: any) => {
-  const selectedOptionsKey = watch(`actions.${index}.key`);
+  const selectedOptionsKey = watch(`actions.${index}.fieldName`);
   const useApiQuery = (selectedOptionsKey: string) => {
     if (selectedOptionsKey === optionsConstant?.agent) {
       return agentApiQuery;
@@ -82,7 +82,7 @@ export const actionsData = ({
       _id: 5,
       gridLength: 3,
       componentProps: {
-        name: `actions.${index}.value`,
+        name: `actions.${index}.fieldValue`,
         size: 'small',
         placeholder: 'Enter Text',
       },
@@ -96,7 +96,7 @@ export const actionsData = ({
       _id: 6,
       gridLength: 3,
       componentProps: {
-        name: `actions.${index}.value`,
+        name: `actions.${index}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
@@ -112,7 +112,7 @@ export const actionsData = ({
       _id: 6,
       gridLength: 3,
       componentProps: {
-        name: `actions.${index}.value`,
+        name: `actions.${index}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
@@ -124,7 +124,7 @@ export const actionsData = ({
       _id: 4,
       componentProps: {
         fullWidth: true,
-        name: `actions.${index}.value`,
+        name: `actions.${index}.fieldValue`,
         size: 'small',
       },
       gridLength: 3,
@@ -135,7 +135,7 @@ export const actionsData = ({
       _id: 9,
       gridLength: 3,
       componentProps: {
-        name: `actions.${index}.value`,
+        name: `actions.${index}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
         options: valuesOptions,
@@ -148,7 +148,7 @@ export const actionsData = ({
       _id: 565,
       gridLength: 3,
       componentProps: {
-        name: `actions.${index}.key`,
+        name: `actions.${index}.fieldName`,
         size: 'small',
         placeholder: 'Select',
         options: actionsOptions,

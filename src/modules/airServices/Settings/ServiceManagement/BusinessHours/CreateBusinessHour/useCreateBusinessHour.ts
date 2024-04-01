@@ -37,7 +37,7 @@ export const useCreateBusinessHour = () => {
   const [dateRange, setDateRange] = useState<any>([
     {
       startDate: new Date('2022-01-01'),
-      endDate: new Date(),
+      endDate: dayjs()?.add(2, 'year'),
       key: 'selection',
     },
   ]);
