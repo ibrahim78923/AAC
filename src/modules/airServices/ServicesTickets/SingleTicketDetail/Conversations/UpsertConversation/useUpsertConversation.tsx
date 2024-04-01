@@ -34,8 +34,8 @@ export const useUpsertConversation = (props: any) => {
   const methods = useForm<any>({
     defaultValues: upsertConversationFormDefaultValues?.({
       type: {
-        _id: selectedConversationType?.type,
-        label: selectedConversationType?.type,
+        _id: selectedConversationType?.conversationType,
+        label: selectedConversationType?.conversationType,
       },
       from: user?.email,
     }),
@@ -43,6 +43,7 @@ export const useUpsertConversation = (props: any) => {
   });
 
   const { handleSubmit, reset, setValue, getValues } = methods;
+
   const submitUpsertConversation = async (formData: any) => {
     const articleIds = findAttributeValues(
       formData?.html,
@@ -56,8 +57,14 @@ export const useUpsertConversation = (props: any) => {
       [formData?.recipients]?.toString(),
     );
 
-    conversationFormData?.append('subject', selectedConversationType?.type);
-    conversationFormData?.append('type', selectedConversationType?.type);
+    conversationFormData?.append(
+      'subject',
+      selectedConversationType?.conversationType,
+    );
+    conversationFormData?.append(
+      'type',
+      selectedConversationType?.conversationType,
+    );
     conversationFormData?.append('html', formData?.html);
     conversationFormData?.append('recordId', ticketId as string);
     !!articleIds?.length &&
@@ -65,8 +72,29 @@ export const useUpsertConversation = (props: any) => {
     formData?.attachments !== null &&
       conversationFormData?.append('attachments', formData?.attachments);
 
+    if (!!selectedConversationType?.conversationId) {
+      editConversation?.(conversationFormData);
+      return;
+    }
+
     const apiDataParameter = {
       body: conversationFormData,
+    };
+
+    try {
+      const response =
+        await postConversationTrigger(apiDataParameter)?.unwrap();
+      reset?.();
+      closeConversationDrawer?.();
+      successSnackbar(response?.message);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  const editConversation = async (formData: any) => {
+    const apiDataParameter = {
+      body: formData,
     };
 
     try {
@@ -78,9 +106,8 @@ export const useUpsertConversation = (props: any) => {
       errorSnackbar(error?.data?.message);
     }
   };
-
   const closeConversationDrawer = () => {
-    setIsDrawerOpen?.(false);
+    setIsDrawerOpen?.();
     reset?.();
   };
 

@@ -48,7 +48,9 @@ export const upsertConversationFormFieldsDynamic = (
     id: 1,
     componentProps: {
       name: 'type',
-      label: CONVERSATION_TYPE_MODIFY?.[selectedConversationType?.type]?.label,
+      label:
+        CONVERSATION_TYPE_MODIFY?.[selectedConversationType?.conversationType]
+          ?.label,
       fullWidth: true,
       disabled: true,
       options: conversationTypesOptions,
@@ -56,7 +58,8 @@ export const upsertConversationFormFieldsDynamic = (
     },
     component: RHFAutocomplete,
   },
-  ...(selectedConversationType?.type !== TICKET_CONVERSATIONS_TYPE?.NOTE
+  ...(selectedConversationType?.conversationType !==
+  TICKET_CONVERSATIONS_TYPE?.NOTE
     ? [
         {
           id: 2,
@@ -75,8 +78,9 @@ export const upsertConversationFormFieldsDynamic = (
     id: 3,
     componentProps: {
       name: 'recipients',
-      label: `${CONVERSATION_TYPE_MODIFY?.[selectedConversationType?.type]
-        ?.recipients}`,
+      label: `${CONVERSATION_TYPE_MODIFY?.[
+        selectedConversationType?.conversationType
+      ]?.recipients}`,
       fullWidth: true,
       required: true,
     },

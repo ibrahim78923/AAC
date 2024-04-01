@@ -42,7 +42,7 @@ export const addConversationDropdownButtonDynamic = (
     ],
     handleClick: (closeMenu: any) => {
       setSelectedConversationType({
-        type: TICKET_CONVERSATIONS_TYPE?.NOTE,
+        conversationType: TICKET_CONVERSATIONS_TYPE?.NOTE,
         isOpen: true,
       });
       closeMenu();
@@ -56,7 +56,7 @@ export const addConversationDropdownButtonDynamic = (
     ],
     handleClick: (closeMenu: any) => {
       setSelectedConversationType({
-        type: TICKET_CONVERSATIONS_TYPE?.REPLY,
+        conversationType: TICKET_CONVERSATIONS_TYPE?.REPLY,
         isOpen: true,
       });
       closeMenu();
@@ -70,7 +70,7 @@ export const addConversationDropdownButtonDynamic = (
     ],
     handleClick: (closeMenu: any) => {
       setSelectedConversationType({
-        type: TICKET_CONVERSATIONS_TYPE?.FORWARD,
+        conversationType: TICKET_CONVERSATIONS_TYPE?.FORWARD,
         isOpen: true,
       });
       closeMenu();
@@ -84,7 +84,7 @@ export const addConversationDropdownButtonDynamic = (
     ],
     handleClick: (closeMenu: any) => {
       setSelectedConversationType({
-        type: TICKET_CONVERSATIONS_TYPE?.DISCUSS,
+        conversationType: TICKET_CONVERSATIONS_TYPE?.DISCUSS,
         isOpen: true,
       });
       closeMenu();

@@ -31,7 +31,11 @@ export const useConversations = () => {
   );
 
   const openConversationTypeContext = () => {
-    if (upsertConversationTypes?.includes(selectedConversationType?.type)) {
+    if (
+      upsertConversationTypes?.includes(
+        selectedConversationType?.conversationType,
+      )
+    ) {
       return (
         <UpsertConversation
           isDrawerOpen={selectedConversationType?.isOpen}
@@ -40,7 +44,10 @@ export const useConversations = () => {
         />
       );
     }
-    if (selectedConversationType?.type === TICKET_CONVERSATIONS_TYPE?.DISCUSS) {
+    if (
+      selectedConversationType?.conversationType ===
+      TICKET_CONVERSATIONS_TYPE?.DISCUSS
+    ) {
       return (
         <Discuss
           isDrawerOpen={selectedConversationType?.isOpen}
@@ -58,5 +65,6 @@ export const useConversations = () => {
     addConversationDropdownButton,
     openConversationTypeContext,
     selectedConversationType,
+    setSelectedConversationType,
   };
 };

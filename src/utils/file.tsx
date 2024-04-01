@@ -24,7 +24,7 @@ export const findAttributeValues = (
   const doc = parser?.parseFromString(htmlContent, 'text/html');
 
   const elements = doc?.querySelectorAll(selectorPattern);
-  const dummyDomainForURL = 'http:xyz.yop/';
+  const dummyDomainForURL = window?.location?.origin;
   const values = Array?.from(elements)?.map((element) => {
     const attributes = element.getAttribute(attribute);
     const url = new URL(`${dummyDomainForURL}${attributes}`);

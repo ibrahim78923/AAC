@@ -31,14 +31,17 @@ export const UpsertConversation = (props: any) => {
         isDrawerOpen={isDrawerOpen}
         onClose={() => closeConversationDrawer?.()}
         title={
-          CONVERSATION_TYPE_MODIFY?.[selectedConversationType?.type]?.label
+          CONVERSATION_TYPE_MODIFY?.[selectedConversationType?.conversationType]
+            ?.label
         }
         okText={
           !!singleConversation?._id
-            ? `${CONVERSATION_TYPE_MODIFY?.[selectedConversationType?.type]
-                ?.edit}`
-            : `${CONVERSATION_TYPE_MODIFY?.[selectedConversationType?.type]
-                ?.add}`
+            ? `${CONVERSATION_TYPE_MODIFY?.[
+                selectedConversationType?.conversationType
+              ]?.edit}`
+            : `${CONVERSATION_TYPE_MODIFY?.[
+                selectedConversationType?.conversationType
+              ]?.add}`
         }
         footer
         isOk

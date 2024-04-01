@@ -8,6 +8,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { Box } from '@mui/material';
 import { pxToRem } from '@/utils/getFontValue';
 import { Fragment } from 'react';
+import { DeleteConversation } from './DeleteConversation';
 
 export const Conversations = () => {
   const {
@@ -17,6 +18,7 @@ export const Conversations = () => {
     addConversationDropdownButton,
     openConversationTypeContext,
     selectedConversationType,
+    setSelectedConversationType,
   }: any = useConversations();
 
   if (isLoading || isFetching) return <SkeletonTable />;
@@ -45,7 +47,7 @@ export const Conversations = () => {
             <PageTitledHeader title={'Conversation'} />
             <SingleDropdownButton
               dropdownOptions={addConversationDropdownButton}
-              dropdownName={'ADD Conversation'}
+              dropdownName={'Add Conversation'}
               btnVariant="contained"
               color="primary"
               endIcon={<></>}
@@ -56,13 +58,24 @@ export const Conversations = () => {
           <Box maxHeight={'50vh'} overflow={'auto'}>
             {data?.data?.map((conversation: any) => (
               <Fragment key={conversation?._id}>
-                <ConversationCard data={conversation} />
+                <ConversationCard
+                  data={conversation}
+                  setSelectedConversationType={setSelectedConversationType}
+                />
               </Fragment>
             ))}
           </Box>
         </>
       )}
       {selectedConversationType?.isOpen && openConversationTypeContext()}
+
+      {selectedConversationType?.isDelete && (
+        <DeleteConversation
+          isDrawerOpen={selectedConversationType?.isDelete}
+          setIsDrawerOpen={setSelectedConversationType}
+          selectedConversationType={selectedConversationType}
+        />
+      )}
     </>
   );
 };

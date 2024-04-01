@@ -12,7 +12,7 @@ import { CONVERSATION_TYPE_MODIFY } from '../Conversations.data';
 import { TICKET_CONVERSATIONS_TYPE } from '@/constants/strings';
 
 export const ConversationCard = (props: any) => {
-  const { data } = props;
+  const { data, setSelectedConversationType } = props;
   return (
     <Box
       border={'3px solid'}
@@ -63,20 +63,55 @@ export const ConversationCard = (props: any) => {
           </Box>
         </Box>
         <Box display={'flex'} gap={1.5}>
-          <Box>
+          <Box
+            onClick={() =>
+              setSelectedConversationType({
+                ...data,
+                conversationType: TICKET_CONVERSATIONS_TYPE?.REPLY,
+                isOpen: true,
+              })
+            }
+            sx={{ cursor: 'pointer' }}
+          >
             <ShortcutSharpLeftIcon />
           </Box>
-          <Box>
+          <Box
+            sx={{ cursor: 'pointer' }}
+            onClick={() =>
+              setSelectedConversationType({
+                ...data,
+                conversationType: TICKET_CONVERSATIONS_TYPE?.FORWARD,
+                isOpen: true,
+              })
+            }
+          >
             <ShortcutSharpRightIcon />
           </Box>
           {data?.type === TICKET_CONVERSATIONS_TYPE?.NOTE && (
-            <Box>
+            <Box
+              sx={{ cursor: 'pointer' }}
+              onClick={() =>
+                setSelectedConversationType({
+                  ...data,
+                  conversationType: data?.type,
+                  isOpen: true,
+                  isEdit: true,
+                })
+              }
+            >
               <EditBlackIcon />
             </Box>
           )}
           <DeleteIcon
+            onClick={() =>
+              setSelectedConversationType({
+                ...data,
+                isDelete: true,
+              })
+            }
             sx={{
               color: 'custom.main',
+              cursor: 'pointer',
               '&:hover': {
                 color: 'error.main',
               },
