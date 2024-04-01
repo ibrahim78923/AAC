@@ -6,6 +6,7 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
 import { SwitchBtn } from '@/components/SwitchButton';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { v4 as uuidv4 } from 'uuid';
 
 const Notification = () => {
   const { theme, notificationList, getDataLoading, handleSwitchNotifications } =
