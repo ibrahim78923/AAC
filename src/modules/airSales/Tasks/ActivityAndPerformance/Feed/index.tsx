@@ -1,10 +1,12 @@
 import Search from '@/components/Search';
 import {
   Box,
+  CircularProgress,
   FormControl,
   LinearProgress,
   MenuItem,
   Select,
+  SelectChangeEvent,
   Typography,
 } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
@@ -15,16 +17,30 @@ import {
   useGetTasksQuery,
 } from '@/services/airSales/task';
 import { PAGINATION } from '@/config';
-import { getSession } from '@/utils';
 import UserList from './UserList';
+import { DATE_TIME_FORMAT } from '@/constants';
+import dayjs from 'dayjs';
+import { useState } from 'react';
 
 const Feed = () => {
-  const { user }: { accessToken: string; refreshToken: string; user: any } =
-    getSession();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedTask, setSelectedTask] = useState('');
 
-  const { data: taskFeedData, isLoading } = useGetTaskFeedQuery({
+  const handleChange = (event: SelectChangeEvent) => {
+    setSelectedTask(event?.target?.value as string);
+  };
+
+  const {
+    data: taskFeedData,
+    isLoading,
+    status,
+  } = useGetTaskFeedQuery({
     params: {
-      companyId: user?.organization?._id ? user?.organization?._id : '',
+      page: PAGINATION?.CURRENT_PAGE,
+      limit: PAGINATION?.PAGE_LIMIT,
+      module: 'TASKS_MANAGEMENT',
+      search: searchTerm,
+      moduleId: selectedTask,
     },
   });
 
@@ -52,15 +68,32 @@ const Feed = () => {
             mb={'28px'}
           >
             <Typography variant="subtitle1">Contact activity feed</Typography>
-            <Search size="small" width={'216px'} placeholder="Search" />
+            <Box sx={{ width: '216px' }}>
+              <Search
+                searchBy={searchTerm}
+                setSearchBy={setSearchTerm}
+                label="Search By Name"
+                fullWidth
+                size="small"
+              />
+            </Box>
           </Box>
 
           <FormControl fullWidth sx={{ mb: 2 }}>
             <Typography variant="body2">Select Task</Typography>
-            <Select labelId="" id="demo-simple-select">
+            <Select
+              labelId=""
+              id="demo-simple-select"
+              value={selectedTask}
+              onChange={handleChange}
+              placeholder="Select Option"
+              sx={{
+                height: '40px',
+              }}
+            >
               {taskData?.data?.taskmanagements &&
                 taskData?.data?.taskmanagements?.map((item: any) => (
-                  <MenuItem value={item?.id} key={uuidv4()}>
+                  <MenuItem value={item?._id} key={uuidv4()}>
                     {item?.name}
                   </MenuItem>
                 ))}
@@ -70,19 +103,28 @@ const Feed = () => {
           <Typography variant="subtitle1" mb={'24px'}>
             Sample activity
           </Typography>
-          {taskFeedData?.data?.length ? (
-            taskFeedData?.data?.map((item: any) => (
-              <UserList
-                key={uuidv4()}
-                img={UserDefault}
-                name={item?.user?.firstName + ' ' + item?.user?.lastName}
-                email={item?.user?.email}
-                desc={item?.name}
-                date={item?.date}
-              />
-            ))
+
+          {status === 'pending' ? (
+            <Box sx={{ mt: 2 }}>
+              <CircularProgress />
+            </Box>
           ) : (
-            <>No record found</>
+            <>
+              {taskFeedData?.data?.activitylogs?.length ? (
+                taskFeedData?.data?.activitylogs?.map((item: any) => (
+                  <UserList
+                    key={uuidv4()}
+                    img={UserDefault}
+                    name={item?.performedByName}
+                    email={item?.email}
+                    desc={item?.moduleName}
+                    date={dayjs(item?.createdAt)?.format(DATE_TIME_FORMAT?.DMY)}
+                  />
+                ))
+              ) : (
+                <>No record found</>
+              )}
+            </>
           )}
         </>
       )}

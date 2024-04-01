@@ -5,7 +5,8 @@ const TAG_TWO = 'LOCATION';
 const TAG_THREE = 'VENDOR_DROPDOWN';
 const TAG_FOUR = 'DROPDOWN_DEPARTMENT';
 const TAG_FIVE = 'PURCHASE_ORDER';
-export const purchaseOrderAPI = baseAPI.injectEndpoints({
+
+export const purchaseOrderAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     getDepartmentDropdown: builder?.query({
       query: ({ params }: any) => ({
@@ -102,6 +103,13 @@ export const purchaseOrderAPI = baseAPI.injectEndpoints({
         responseHandler: (response: any) => response?.blob(),
       }),
     }),
+    getPurchaseOrderStatusById: builder?.query({
+      query: (purchaseOrderId: any) => ({
+        url: `${END_POINTS?.PURCHASE_ORDER}/${purchaseOrderId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG_FIVE],
+    }),
   }),
 });
 
@@ -119,4 +127,5 @@ export const {
   usePutPurchaseOrderStatusMutation,
   useLazyGetPurchaseOrderListQuery,
   useLazyGetExportPurchaseOrderListQuery,
+  useGetPurchaseOrderStatusByIdQuery,
 } = purchaseOrderAPI;
