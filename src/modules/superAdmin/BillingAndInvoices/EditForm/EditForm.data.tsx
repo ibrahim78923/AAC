@@ -39,10 +39,18 @@ export const defaultValues = {
   date: new Date(),
 };
 
-export const assignPlanData = (selectProductSuite: string, crmOptions: any) => {
+interface CRMOption {
+  value: string;
+  label: string;
+}
+
+export const assignPlanData = (
+  selectProductSuite: string,
+  crmOptions: CRMOption[],
+  isEditModal: boolean,
+) => {
   const { data: productData } = useGetProductsQuery<any>({
     refetchOnMountOrArgChange: true,
-    pagination: `page=1&limit=10`,
   });
 
   const productSuite = productData?.data?.map((product: any) => ({
@@ -52,7 +60,6 @@ export const assignPlanData = (selectProductSuite: string, crmOptions: any) => {
 
   const { data: planTypeData } = useGetPlanTypeQuery<any>({
     refetchOnMountOrArgChange: true,
-    pagination: `page=1&limit=10`,
   });
 
   const planType = planTypeData?.data?.map((planType: any) => ({
@@ -62,7 +69,6 @@ export const assignPlanData = (selectProductSuite: string, crmOptions: any) => {
 
   const { data: OrganizationsData } = useGetOrganizationsQuery<any>({
     refetchOnMountOrArgChange: true,
-    pagination: `page=1&limit=10`,
   });
 
   const Organizations = OrganizationsData?.data?.map((Organizations: any) => ({
@@ -79,6 +85,7 @@ export const assignPlanData = (selectProductSuite: string, crmOptions: any) => {
         label: 'Client Name & Organization',
         fullWidth: true,
         select: true,
+        disabled: isEditModal,
       },
 
       options: Organizations,

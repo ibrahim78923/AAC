@@ -103,6 +103,33 @@ export const taskApi = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getTaskInsights: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT_INSIGHTS}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
+    getTaskGraphData: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT_INSIGHTS_NEW}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
+    getTaskFeed: builder.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.TASK_MANAGEMENT_FEED}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
   }),
 });
 
@@ -119,4 +146,7 @@ export const {
   usePatchCreateTaskStatusMutation,
   useGetTaskColumnsQuery,
   usePutTaskCustomizedColumnsMutation,
+  useGetTaskInsightsQuery,
+  useGetTaskFeedQuery,
+  useGetTaskGraphDataQuery,
 } = taskApi;

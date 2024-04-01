@@ -18,6 +18,7 @@ import {
 } from '@/services/airServices/assets/purchase-orders';
 import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 
 const { PURCHASE_ORDER } = AIR_SERVICES;
 
@@ -59,6 +60,7 @@ const useNewPurchaseOrders = () => {
         locationId: location?._id,
         vendorId: vendor?._id,
         departmentId: department?._id,
+        status: PURCHASE_ORDER_STATUS?.OPEN,
         purchaseDetails: purchaseDetails?.map((purchaseDetail: any) => {
           const name = purchaseDetail?.itemName?._id;
           delete purchaseDetail?.itemName;

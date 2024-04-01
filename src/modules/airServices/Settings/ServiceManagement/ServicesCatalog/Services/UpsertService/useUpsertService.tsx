@@ -1,14 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
-import { ASSET_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
+
+import { ASSET_TYPE } from '@/constants/strings';
 import {
   categoriesOfServices,
   upsertServiceData,
   upsertServiceDefaultValues,
   upsertServiceValidationSchema,
 } from './UpsertService.data';
-import { useEffect, useState } from 'react';
+
 import { AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
 import {
@@ -22,6 +22,7 @@ import {
   useLazyGetSoftwareDropdownQuery,
   useLazyGetProductDropdownQuery,
 } from '@/services/airServices/settings/service-management/service-catalog';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 const useUpsertService = () => {
   const router = useRouter();
@@ -35,18 +36,7 @@ const useUpsertService = () => {
   const apiQuerySoftware = useLazyGetSoftwareDropdownQuery();
   const upsertServiceFormField = upsertServiceData(apiServiceCategoryQuery);
   const apiQueryProductCatalog = useLazyGetProductDropdownQuery();
-  const [results, setResults] = useState<any[]>(
-    categoriesOfServices(
-      apiQueryAgent,
-      apiRequestorQuery,
-      router,
-      apiServiceCategoryAgentQuery,
-      apiQueryRequester,
-      apiQueryAssetType,
-      apiQuerySoftware,
-      apiQueryProductCatalog,
-    ),
-  );
+
   const [postAddServiceCatalogTrigger, postAddServiceCatalogStatus] =
     usePostAddServiceCatalogMutation();
   const methods: any = useForm<any>({
@@ -59,37 +49,34 @@ const useUpsertService = () => {
     router?.push({ pathname: AIR_SERVICES?.SERVICE_CATALOG });
   };
   const assetsType = watch('assetType');
-  useEffect(() => {
-    let filteredServices;
 
-    if (assetsType === ASSET_TYPE?.HARDWARE_CONSUMABLE) {
-      filteredServices = categoriesOfServices(
-        apiQueryAgent,
-        apiRequestorQuery,
-        router,
-        apiServiceCategoryAgentQuery,
-        apiQueryRequester,
-        apiQueryAssetType,
-        apiQuerySoftware,
-        apiQueryProductCatalog,
-      ).filter(
-        (service: any) => service?.text === ASSET_TYPE?.HARDWARE_CONSUMABLE,
-      );
-    } else {
-      filteredServices = categoriesOfServices(
-        apiQueryAgent,
-        apiRequestorQuery,
-        router,
-        apiServiceCategoryAgentQuery,
-        apiQueryRequester,
-        apiQueryAssetType,
-        apiQuerySoftware,
-        apiQueryProductCatalog,
-      ).filter((service: any) => service?.text === ASSET_TYPE?.SOFTWARE);
-    }
+  let filteredServices;
 
-    setResults(filteredServices);
-  }, [assetsType, categoriesOfServices]);
+  if (assetsType === ASSET_TYPE?.HARDWARE_CONSUMABLE) {
+    filteredServices = categoriesOfServices(
+      apiQueryAgent,
+      apiRequestorQuery,
+      router,
+      apiServiceCategoryAgentQuery,
+      apiQueryRequester,
+      apiQueryAssetType,
+      apiQuerySoftware,
+      apiQueryProductCatalog,
+    )?.filter(
+      (service: any) => service?.text === ASSET_TYPE?.HARDWARE_CONSUMABLE,
+    );
+  } else {
+    filteredServices = categoriesOfServices(
+      apiQueryAgent,
+      apiRequestorQuery,
+      router,
+      apiServiceCategoryAgentQuery,
+      apiQueryRequester,
+      apiQueryAssetType,
+      apiQuerySoftware,
+      apiQueryProductCatalog,
+    )?.filter((service: any) => service?.text === ASSET_TYPE?.SOFTWARE);
+  }
 
   const onSubmit = async (data: any) => {
     const upsertServiceFormData = new FormData();
@@ -101,9 +88,13 @@ const useUpsertService = () => {
     );
     upsertServiceFormData?.append('estimatedDelivery', data?.estimatedDelivery);
     upsertServiceFormData?.append('description', data?.description);
-    !!data?.fileUrl?.length &&
+    !!data?.fileUrl !== null &&
       upsertServiceFormData?.append('fileUrl', data?.fileUrl);
-    upsertServiceFormData?.append('assetType', data?.assetType?._id);
+    !!data?.selectAssetsCategories?.length &&
+      upsertServiceFormData?.append(
+        'assetType',
+        data?.selectAssetsCategories?._id,
+      );
     upsertServiceFormData?.append(
       'agentVisibilty',
       data?.selectAgentVisibility?._id ?? data?.agentVisibilty?._id,
@@ -114,20 +105,16 @@ const useUpsertService = () => {
       'requesterVisibilty',
       data?.requesterVisibilty?._id ?? data?.requestedFor?._id,
     );
-    !!data?.software?.length &&
+    !!data?.software &&
       upsertServiceFormData?.append('software', data?.software?._id);
     try {
-      const response = await postAddServiceCatalogTrigger({
+      await postAddServiceCatalogTrigger({
         body: upsertServiceFormData,
       })?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Service Add Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Service Add Successfully');
       reset(upsertServiceDefaultValues);
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
 
     setTimeout(() => {
@@ -150,7 +137,7 @@ const useUpsertService = () => {
     handleSubmit,
     onSubmit,
     assetsType,
-    results,
+
     upsertServiceFormField,
     categoriesOfServicesFormField,
     apiRequestorQuery,
@@ -158,6 +145,7 @@ const useUpsertService = () => {
     router,
     handleCancelBtn,
     postAddServiceCatalogStatus,
+    filteredServices,
   };
 };
 export default useUpsertService;

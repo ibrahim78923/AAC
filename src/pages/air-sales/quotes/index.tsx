@@ -9,7 +9,6 @@ const QuotesPage = () => {
     </>
   );
 };
-
 export default QuotesPage;
 
 QuotesPage.getLayout = function getLayout(page: any) {

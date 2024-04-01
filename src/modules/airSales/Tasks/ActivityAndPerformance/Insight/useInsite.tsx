@@ -1,7 +1,21 @@
+import { useGetTaskGraphDataQuery } from '@/services/airSales/task';
 import { Theme, useTheme } from '@mui/material';
 
-const useInsightCard = () => {
+const useInsightCard = ({ startDate }: any) => {
   const theme = useTheme<Theme>();
+
+  const { data: taskInsightsGraphData } = useGetTaskGraphDataQuery({
+    params: {
+      startDate: startDate,
+    },
+  });
+
+  const transformedData =
+    taskInsightsGraphData &&
+    taskInsightsGraphData?.data?.map((item: any) => ({
+      x: item?.date,
+      y: item?.count,
+    }));
 
   const chartOptions: any = {
     chart: {
@@ -35,24 +49,9 @@ const useInsightCard = () => {
     },
   };
 
-  const chartData = [
-    {
-      x: new Date('2022-01-01').getTime(),
-      y: 0,
-    },
-    {
-      x: new Date('2022-01-02').getTime(),
-      y: 30,
-    },
-    {
-      x: new Date('2022-01-03').getTime(),
-      y: 0,
-    },
-  ];
-
   return {
     chartOptions,
-    chartData,
+    transformedData,
     theme,
   };
 };

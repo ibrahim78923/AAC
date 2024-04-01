@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+
+import { successSnackbar } from '@/utils/api';
 
 export const useImportVendor = (props: any) => {
   const { setIsDrawerOpen } = props;
@@ -8,9 +8,7 @@ export const useImportVendor = (props: any) => {
   const methodsAttachments = useForm({});
   const { handleSubmit } = methodsAttachments;
   const onSubmit = async () => {
-    enqueueSnackbar('Import Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+    successSnackbar('Import Successfully');
     setIsDrawerOpen(false);
   };
   const onClose = () => {

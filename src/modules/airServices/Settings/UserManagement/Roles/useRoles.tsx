@@ -1,8 +1,9 @@
 import { PAGINATION } from '@/config';
 import useAuth from '@/hooks/useAuth';
-import { useGetPermissionsRoleQuery } from '@/services/airServices/settings/user-management/roles';
+import { useLazyGetPermissionsRoleQuery } from '@/services/airServices/settings/user-management/roles';
+import { buildQueryParams } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function useRoles() {
   const router: any = useRouter();
@@ -18,26 +19,40 @@ export default function useRoles() {
     auth?.product?.accounts?.[0]?.company;
   const { _id: organizationId } = auth?.user?.organization;
 
-  const { data, isLoading, isFetching, isError } = useGetPermissionsRoleQuery(
-    {
-      page,
-      limit: pageLimit,
-      search: searchValue,
-      organizationCompanyAccountId,
-      organizationId,
-      productId,
-    },
-    { refetchOnMountOrArgChange: true },
-  );
+  const [permissionsRoleTrigger, permissionsRoleStatus] =
+    useLazyGetPermissionsRoleQuery();
+
+  const rolesListData = async (currentPage: any = page) => {
+    const additionalParams = [
+      ['page', currentPage + ''],
+      ['limit', pageLimit + ''],
+      ['search', searchValue + ''],
+      ['organizationCompanyAccountId', organizationCompanyAccountId + ''],
+      ['organizationId', organizationId + ''],
+      ['productId', productId],
+    ];
+    const rolesListParam: any = buildQueryParams(additionalParams);
+
+    const getRolesParameter = {
+      queryParams: rolesListParam,
+    };
+
+    try {
+      await permissionsRoleTrigger(getRolesParameter)?.unwrap();
+    } catch (error: any) {}
+  };
+
+  useEffect(() => {
+    rolesListData?.();
+  }, [page, pageLimit, searchValue]);
 
   return {
     router,
     setSearchValue,
-    data,
-    isLoading,
-    isFetching,
-    isError,
+    permissionsRoleStatus,
     setPage,
     setPageLimit,
+    rolesListData,
+    page,
   };
 }
