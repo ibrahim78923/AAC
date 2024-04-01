@@ -1,5 +1,5 @@
 import { DATE_TIME_FORMAT } from '@/constants';
-import { fullName, fullNameInitial } from '@/utils/avatarUtils';
+import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { Avatar, Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -30,7 +30,7 @@ export const ConversationCard = (props: any) => {
               height: 40,
               backgroundColor: 'primary.light',
             }}
-            src={data?.performedBy?.avatar?.url}
+            src={generateImage(data?.performedBy?.avatar?.url)}
           >
             <Typography
               variant="body2"
