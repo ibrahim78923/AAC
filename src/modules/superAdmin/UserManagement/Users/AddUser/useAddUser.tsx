@@ -129,12 +129,12 @@ const useAddUser = (useActionParams?: any) => {
     }
     // }
   }, [userDetail]);
-
   // watch crn number from values
   const organizationNumber = formValues?.crn;
+
   debouncedSearch(organizationNumber, setOrgNumber);
   const { data, isSuccess, isError } =
-    userDetail === undefined
+    tabVal === initialTab
       ? useGetAuthCompaniesQuery({
           q: orgNumber,
         })
