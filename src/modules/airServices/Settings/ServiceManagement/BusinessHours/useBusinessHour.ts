@@ -2,7 +2,9 @@ import { useGetBusinessHourQuery } from '@/services/airServices/settings/service
 import { useRouter } from 'next/router';
 export const useBusinessHour = () => {
   const router = useRouter();
-  const { data, isLoading } = useGetBusinessHourQuery();
+  const { data, isLoading } = useGetBusinessHourQuery({
+    refetchOnMountOrArgChange: true,
+  });
   const businessHoursList = data?.data;
   return {
     router,
