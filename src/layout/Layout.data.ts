@@ -548,13 +548,8 @@ export const LowerSuperAdminRoutes = [
         permissions: Permissions?.SETTING_NEWS_EVENTS,
       },
       {
-        key: '/super-admin/settings/module-creation',
-        label: 'Module Creation',
-        permissions: Permissions?.SETTING_MODULE_CREATION,
-      },
-      {
         key: '/super-admin/settings/product-list',
-        label: 'Product List',
+        label: 'Module Creation',
         permissions: Permissions?.SETTING_PRODUCT_LIST,
       },
       {

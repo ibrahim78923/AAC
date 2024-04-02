@@ -64,7 +64,7 @@ export const WorkflowActionExecuted = (props: any) => {
       <Box px={1}>
         <Button
           color="secondary"
-          onClick={() => append({ key: '', value: null })}
+          onClick={() => append({ key: null, value: null })}
           startIcon={<AddCircle color="action" />}
         >
           Add Condition
