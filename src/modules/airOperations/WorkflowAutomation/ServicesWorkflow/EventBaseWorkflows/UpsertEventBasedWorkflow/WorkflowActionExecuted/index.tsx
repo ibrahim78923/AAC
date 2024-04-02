@@ -1,30 +1,19 @@
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { AddCircle, Delete as DeleteIcon } from '@mui/icons-material';
 import { actionsData } from './WorkflowActionExecuted.data';
-import { useFieldArray } from 'react-hook-form';
-import { errorSnackbar } from '@/utils/api';
-import { useLazyGetAgentsQuery } from '@/services/dropdowns';
-import {
-  useLazyGetCategoriesDropdownQuery,
-  useLazyGetDepartmentDropdownQuery,
-} from '@/services/airServices/tickets';
+import { useWorkflowActionExecuted } from './useWorkflowActionExecuted';
 
-export const WorkflowActionExecuted = ({ watch, setValue }: any) => {
-  const { fields, append, remove } = useFieldArray({
-    name: 'actions',
-  });
-  const theme = useTheme();
-
-  const handleDelete = (index: number) => {
-    if (fields?.length === 1) {
-      errorSnackbar('Cannot Delete');
-    } else {
-      remove(index);
-    }
-  };
-  const agentApiQuery = useLazyGetAgentsQuery();
-  const departmentApiQuery = useLazyGetDepartmentDropdownQuery();
-  const apiQueryCategories = useLazyGetCategoriesDropdownQuery();
+export const WorkflowActionExecuted = (props: any) => {
+  const { watch, setValue } = props;
+  const {
+    fields,
+    append,
+    theme,
+    handleDelete,
+    agentApiQuery,
+    departmentApiQuery,
+    apiQueryCategories,
+  } = useWorkflowActionExecuted(props);
   return (
     <Box
       border={`1px solid ${theme?.palette?.custom?.off_white_three}`}
@@ -75,7 +64,7 @@ export const WorkflowActionExecuted = ({ watch, setValue }: any) => {
       <Box px={1}>
         <Button
           color="secondary"
-          onClick={() => append({ key: '', value: null })}
+          onClick={() => append({ key: null, value: null })}
           startIcon={<AddCircle color="action" />}
         >
           Add Condition

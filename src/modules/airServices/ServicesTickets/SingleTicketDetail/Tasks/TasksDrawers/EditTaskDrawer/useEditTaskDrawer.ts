@@ -10,8 +10,7 @@ import {
   useLazyGetDepartmentDropdownListQuery,
   usePatchTaskByIdMutation,
 } from '@/services/airServices/tickets/single-ticket-details/tasks';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useEditTaskDrawer = (props: any) => {
   const { activeCheck, isDrawerOpen, onClose, setActiveCheck } = props;
@@ -20,7 +19,16 @@ export const useEditTaskDrawer = (props: any) => {
     defaultValues: taskTicketFormDefaultValues(activeCheck),
   });
   const [patchMutation, { isLoading }] = usePatchTaskByIdMutation();
+
   const submitEditTicket = async (data: any) => {
+    const { plannedEffort } = methodsEditTicketForm?.getValues();
+    if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
+      errorSnackbar(
+        'Invalid format for Planned Effort. Please use format like 1h10m',
+      );
+      return;
+    }
+
     const editData = {
       data: {
         ...data,
@@ -33,16 +41,12 @@ export const useEditTaskDrawer = (props: any) => {
       id: activeCheck?.[0]?._id,
     };
     try {
-      const res: any = await patchMutation(editData)?.unwrap();
-      enqueueSnackbar(res?.message ?? 'Task updated successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await patchMutation(editData)?.unwrap();
+      successSnackbar('Task Updated Successfully!');
       setActiveCheck([]);
       onClose(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.error ?? 'An error', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.error?.message);
     }
   };
   useEffect(() => {

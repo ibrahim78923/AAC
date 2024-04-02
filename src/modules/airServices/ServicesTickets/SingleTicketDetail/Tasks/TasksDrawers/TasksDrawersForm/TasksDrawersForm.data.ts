@@ -16,15 +16,15 @@ const notifyBeforeOption = [
 ];
 const statusOptions = ['Todo', 'In-Progress', 'Done'];
 export const taskTicketFormValidationSchema: any = Yup?.object()?.shape({
-  title: Yup?.string()?.trim()?.required('Required'),
-  description: Yup?.string()?.trim()?.required('Required'),
-  departmentId: Yup?.mixed()?.required('Required'),
-  status: Yup?.string()?.required('Required'),
+  title: Yup?.string()?.trim()?.required('Title is Required'),
+  description: Yup?.string()?.trim()?.required('Description is Required'),
+  departmentId: Yup?.mixed()?.required('Department is Required'),
+  status: Yup?.string()?.required('Status is Required'),
   startDate: Yup?.date(),
   startDateTime: Yup?.date(),
-  endDate: Yup?.date()?.nullable()?.required('Required'),
-  endDateTime: Yup?.date()?.nullable()?.required('Required'),
-  plannedEffort: Yup?.string(),
+  endDate: Yup?.date()?.nullable()?.required('End Date is Required'),
+  endDateTime: Yup?.date()?.nullable()?.required('End Time is Required'),
+  plannedEffort: Yup?.string()?.trim(),
 });
 
 export const taskTicketFormDefaultValues = (data: any) => {

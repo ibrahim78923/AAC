@@ -8,14 +8,14 @@ import * as Yup from 'yup';
 
 export const productsValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.trim()?.required('Field is Required'),
-  dealPiplineId: Yup?.string()?.trim()?.required('Field is Required'),
+  dealPipelineId: Yup?.string()?.trim()?.required('Field is Required'),
   dealStageId: Yup?.string()?.trim()?.required('Field is Required'),
   amount: Yup?.string()?.trim()?.required('Field is Required'),
 });
 
 export const productsDefaultValues = {
   name: '',
-  dealPiplineId: '',
+  dealPipelineId: '',
   dealStageId: '',
   amount: '',
   closeDate: null,
@@ -45,9 +45,9 @@ export const dealDataArray = (
     },
 
     {
-      id: 'dealPiplineId',
+      id: 'dealPipelineId',
       componentProps: {
-        name: 'dealPiplineId',
+        name: 'dealPipelineId',
         label: 'Deal PipeLine',
         fullWidth: true,
         select: true,

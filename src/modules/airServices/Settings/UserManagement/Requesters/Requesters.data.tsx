@@ -92,9 +92,7 @@ export const requestersList: any = (
         }
         onChange={(e: any) => {
           e?.target?.checked
-            ? setSelectedRequestersList(
-                tableListData?.map((item: any) => item?._id),
-              )
+            ? setSelectedRequestersList(tableListData?.map((item: any) => item))
             : setSelectedRequestersList([]);
         }}
         color="primary"

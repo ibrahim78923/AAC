@@ -39,10 +39,10 @@ export const Header = (props: any) => {
         alignItems={'center'}
         flexWrap={'wrap'}
         gap={2}
-        sx={{ cursor: 'pointer' }}
       >
         <Box display={'flex'} alignItems={'center'} flexWrap={'wrap'} gap={2}>
           <ArrowBackIcon
+            sx={{ cursor: 'pointer' }}
             onClick={() => {
               router?.push({
                 pathname: AIR_SERVICES?.ACCOUNT_SETTINGS,
@@ -96,10 +96,9 @@ export const Header = (props: any) => {
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
-                  borderRadius={3}
-                  sx={{ background: 'black', opacity: 0.5 }}
+                  sx={{ background: 'white', opacity: 0.5 }}
                 >
-                  <BorderColorIcon sx={{ color: 'white' }} />
+                  <BorderColorIcon sx={{ color: 'black' }} />
                 </Box>
               )}
             </label>
@@ -110,8 +109,14 @@ export const Header = (props: any) => {
             justifyContent={'center'}
             gap={1}
           >
-            <Box display={'flex'} gap={1}>
-              <Typography variant="h4">{profileDetail?.firstName}</Typography>
+            <Box
+              display={'flex'}
+              flexDirection={{ xs: 'column', sm: 'row' }}
+              gap={1}
+            >
+              <Typography variant="h4">
+                {profileDetail?.firstName + ' ' + profileDetail?.lastName}
+              </Typography>
               <Chip
                 label={profileDetail?.role}
                 sx={{
