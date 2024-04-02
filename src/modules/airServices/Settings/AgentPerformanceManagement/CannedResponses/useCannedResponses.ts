@@ -1,8 +1,7 @@
 import { PAGINATION } from '@/config';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useLazyGetCannedResponsesQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 
 export const useCannedResponses = () => {
@@ -30,19 +29,12 @@ export const useCannedResponses = () => {
     lazyGetCannedResponsesStatus?.data?.data?.meta;
   const getCannedResponsesListData = async () => {
     try {
-      const response = await lazyGetCannedResponsesTrigger(
+      await lazyGetCannedResponsesTrigger(
         getCannedResponsesParameter,
       )?.unwrap();
-      enqueueSnackbar(
-        response?.message ?? 'Canned Responses Retrieved successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      successSnackbar('Canned Responses Retrieved successfully');
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Error', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
   useEffect(() => {

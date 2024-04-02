@@ -6,12 +6,11 @@ import {
   upsertFolderDefaultValuesFunction,
 } from './CreateNewFolder.data';
 import { useEffect } from 'react';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   usePatchCannedResponseMutation,
   usePostCannedResponsesMutation,
 } from '@/services/airServices/settings/agent-performance-management/canned-responses';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useCreateNewFolder = (props: any) => {
   const { openCreateNewFolderModal, closeCreateNewFolderModal } = props;
@@ -36,35 +35,22 @@ export const useCreateNewFolder = (props: any) => {
       return;
     }
     try {
-      const response = await postCannedResponseTrigger(
-        postCannedResponseParameter,
-      )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Folder Created Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postCannedResponseTrigger(postCannedResponseParameter)?.unwrap();
+      successSnackbar('Folder Created Successfully!');
       closeCreateNewFolderModal();
       reset();
     } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
   const submitUpdateCannedResponse = async (data: any) => {
     try {
-      const response = await patchCannedResponseTrigger(data)?.unwrap();
-      enqueueSnackbar(
-        response?.message ?? 'Canned Response Updated Successfully!',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      await patchCannedResponseTrigger(data)?.unwrap();
+      successSnackbar('Canned Response Updated Successfully!');
       closeCreateNewFolderModal();
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
     }
   };
   useEffect(() => {
