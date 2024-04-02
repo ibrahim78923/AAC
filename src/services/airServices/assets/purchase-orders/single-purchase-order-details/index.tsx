@@ -5,6 +5,7 @@ const TAG = 'ASSETS_PURCHASEORDER';
 const TAG_FIVE = 'ASSETS_ITEM_ADDED';
 const TAG_FOUR = 'DROPDOWN_DEPARTMENT';
 const TAG_TWO = 'DROPDOWN_ALL_ASSETS';
+const TAG_THREE = 'PURCHASE_ORDER';
 export const singlePurchaseOrderAPI = baseAPI?.injectEndpoints({
   endpoints: (builder: any) => ({
     postAssetPurchaseOrder: builder?.mutation({
@@ -76,7 +77,7 @@ export const singlePurchaseOrderAPI = baseAPI?.injectEndpoints({
         method: 'PATCH',
         body: putAddToItemParameter?.body,
       }),
-      invalidatesTags: [TAG_FIVE],
+      invalidatesTags: [TAG_FIVE, TAG_THREE],
     }),
     getAddToPurchaseOrderByIdForReceivedItems: builder?.query({
       query: (getSingleAddToPurchaseOrderParameter: any) => ({

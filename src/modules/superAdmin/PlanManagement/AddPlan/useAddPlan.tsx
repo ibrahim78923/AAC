@@ -254,13 +254,14 @@ export const useAddPlan = () => {
     }
 
     if (singlePlan && query.type === 'edit') {
+      const tempData = [...singlePlan?.data?.planProductPermissions];
       setPermissionSlugs(
         'permissionSlugs',
-        // singlePlan?.data?.planProductPermissions?.permissionSlugs?.map(
-        //   (obj: any) => obj?.slug,
-        // ),
-        singlePlan?.data?.planProductPermissions?.flatMap((permission: any) =>
-          permission.permissionSlugs.map((slugObject: any) => slugObject.slug),
+
+        tempData?.flatMap((permission: any) =>
+          permission?.permissionSlugs?.map(
+            (slugObject: any) => `${permission?.productId}:${slugObject?.slug}`,
+          ),
         ),
       );
       setPlanFeatures(
@@ -272,18 +273,20 @@ export const useAddPlan = () => {
     }
   }, [singlePlan]);
   const selectedPermission = watchPermissionSlugs('permissionSlugs');
-
   const getModulePermissions = (subModules: any) => {
-    return subModules?.flatMap((firstItem: any) => {
-      return firstItem?.permissions?.map((item: any) => item?.slug);
+    const permissions = subModules?.flatMap((firstItem: any) => {
+      return firstItem?.permissions?.map(
+        (item: any) => `${item?.productId}:${item?.slug}`,
+      );
     });
+    return permissions;
   };
   let permissionsArray: any = [];
   const selectAllPermissions = (subModules: any) => {
     const modulePermissions = getModulePermissions(subModules);
     if (
-      !modulePermissions?.every(
-        (permission: any) => selectedPermission?.includes(permission),
+      !modulePermissions?.every((permission: any) =>
+        selectedPermission?.includes(permission),
       )
     ) {
       permissionsArray = modulePermissions?.concat(selectedPermission);
@@ -354,18 +357,16 @@ export const useAddPlan = () => {
         additionalPerUserPrice: parseInt(planForm?.additionalPerUserPrice),
         additionalStoragePrice: parseInt(planForm?.additionalStoragePrice),
       };
-      const planFeaturesFormData = featuresFormData?.map(
-        (item: any) =>
-          item?.features?.map((feature: any) => ({
-            features: [
-              {
-                dealsAssociationsDetail:
-                  featureDetails?.dealsAssociationsDetail,
-                featureId: feature?.featureId,
-              },
-            ],
-            productId: item?.productId,
-          })),
+      const planFeaturesFormData = featuresFormData?.map((item: any) =>
+        item?.features?.map((feature: any) => ({
+          features: [
+            {
+              dealsAssociationsDetail: featureDetails?.dealsAssociationsDetail,
+              featureId: feature?.featureId,
+            },
+          ],
+          productId: item?.productId,
+        })),
       );
 
       const transformedFeaturesFormData = {
@@ -374,15 +375,27 @@ export const useAddPlan = () => {
           productId: item?.productId,
         })),
       };
-      const transformedModulesFormData = {
-        planPermission: [
-          {
-            permissionSlugs: values?.permissionSlugs,
-            //Todo: getting product id at index 0
-            productId: planForm?.productId,
-          },
-        ],
-      };
+
+      const planPermission = values?.permissionSlugs.reduce((acc, item) => {
+        const [productId, permissionSlug] = item.split(':');
+        const existingProduct = acc?.find(
+          (entry) => entry?.productId === productId,
+        );
+
+        if (existingProduct) {
+          existingProduct?.permissionSlugs?.push(permissionSlug);
+        } else {
+          acc?.push({
+            productId,
+            permissionSlugs: [permissionSlug],
+          });
+        }
+
+        return acc;
+      }, []);
+
+      const transformedModulesFormData = { planPermission };
+
       try {
         parsedRowData
           ? updatePlanMangement({
@@ -422,7 +435,6 @@ export const useAddPlan = () => {
 
     reset();
   };
-
   const handlePlanForm = handleSubmit(onSubmitPlan);
   const handlePlanFeatures = handleSubmitPlanFeatures(
     onSubmitPlanFeaturesHandler,

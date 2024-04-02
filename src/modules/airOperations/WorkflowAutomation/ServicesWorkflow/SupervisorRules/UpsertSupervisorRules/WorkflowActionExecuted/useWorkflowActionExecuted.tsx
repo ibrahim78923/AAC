@@ -1,7 +1,7 @@
 import {
   useLazyGetCategoriesDropdownQuery,
   useLazyGetDepartmentDropdownQuery,
-} from '@/services/airServices/tickets';
+} from '@/services/airOperations/workflow-automation/services-workflow';
 import { useLazyGetAgentsQuery } from '@/services/dropdowns';
 import { errorSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';

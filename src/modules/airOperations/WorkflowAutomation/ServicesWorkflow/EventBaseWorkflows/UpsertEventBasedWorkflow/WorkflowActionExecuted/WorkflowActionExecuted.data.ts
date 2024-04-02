@@ -4,23 +4,8 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
+import { actionsOptions } from '../UpsertEventBasedWorkflow.data';
 
-const actionsOptions = [
-  'Set Priority as',
-  'Set Impact as',
-  'Set Type as',
-  'Set Status as',
-  'Set Due Date as',
-  'Set Category as',
-  'Set Status as',
-  'Set Source as',
-  'Set Department as',
-  'Add Task',
-  'Add Tag',
-  'Send Email to Agent',
-  'Send Email to Requester',
-  'Assign to Agent',
-];
 const statusOptions = ['Open', 'Pending', 'Resolved', 'Closed'];
 const priority = ['HIGH', 'MEDIUM', 'LOW', 'URGENT'];
 const typeOptions = ['INC', 'SR'];
@@ -48,35 +33,36 @@ export const actionsData = ({
   apiQueryCategories,
 }: any) => {
   const selectedOptionsKey = watch(`actions.${index}.fieldName`);
-  const useApiQuery = (selectedOptionsKey: string) => {
-    if (selectedOptionsKey === optionsConstant?.agent) {
+  const selectedLabel = selectedOptionsKey?.label;
+  const useApiQuery = (selectedLabel: string) => {
+    if (selectedLabel === optionsConstant?.agent) {
       return agentApiQuery;
-    } else if (selectedOptionsKey === optionsConstant?.department) {
+    } else if (selectedLabel === optionsConstant?.department) {
       return departmentApiQuery;
-    } else if (selectedOptionsKey === optionsConstant?.category) {
+    } else if (selectedLabel === optionsConstant?.category) {
       return apiQueryCategories;
     }
     return null;
   };
 
   const valuesOptions =
-    selectedOptionsKey === optionsConstant?.priority ||
-    selectedOptionsKey === optionsConstant?.impact
+    selectedLabel === optionsConstant?.priority ||
+    selectedLabel === optionsConstant?.impact
       ? priority
-      : selectedOptionsKey === optionsConstant?.source
-      ? sourcesOptions
-      : selectedOptionsKey === optionsConstant?.type
-      ? typeOptions
-      : statusOptions;
+      : selectedLabel === optionsConstant?.source
+        ? sourcesOptions
+        : selectedLabel === optionsConstant?.type
+          ? typeOptions
+          : statusOptions;
   let valueComponent;
-  const apiQuery = useApiQuery(selectedOptionsKey);
+  const apiQuery = useApiQuery(selectedLabel);
   if (
     [
       optionsConstant?.task,
       optionsConstant?.tag,
       optionsConstant?.agentEmail,
       optionsConstant?.requesterEmail,
-    ]?.includes(selectedOptionsKey)
+    ]?.includes(selectedLabel)
   ) {
     valueComponent = {
       _id: 5,
@@ -89,8 +75,8 @@ export const actionsData = ({
       component: RHFTextField,
     };
   } else if (
-    selectedOptionsKey === optionsConstant?.agent ||
-    selectedOptionsKey === optionsConstant?.category
+    selectedLabel === optionsConstant?.agent ||
+    selectedLabel === optionsConstant?.category
   ) {
     valueComponent = {
       _id: 6,
@@ -101,13 +87,13 @@ export const actionsData = ({
         placeholder: 'Select',
         apiQuery: apiQuery,
         getOptionLabel:
-          selectedOptionsKey === optionsConstant?.agent
+          selectedLabel === optionsConstant?.agent
             ? (option: any) => `${option?.firstName} ${option?.lastName}`
             : (option: any) => option?.categoryName,
       },
       component: RHFAutocompleteAsync,
     };
-  } else if (selectedOptionsKey === optionsConstant?.department) {
+  } else if (selectedLabel === optionsConstant?.department) {
     valueComponent = {
       _id: 6,
       gridLength: 3,
@@ -119,7 +105,7 @@ export const actionsData = ({
       },
       component: RHFAutocompleteAsync,
     };
-  } else if ([optionsConstant?.date]?.includes(selectedOptionsKey)) {
+  } else if ([optionsConstant?.date]?.includes(selectedLabel)) {
     valueComponent = {
       _id: 4,
       componentProps: {
@@ -152,6 +138,7 @@ export const actionsData = ({
         size: 'small',
         placeholder: 'Select',
         options: actionsOptions,
+        getOptionLabel: ({ label }: { label: string }) => label,
       },
       component: RHFAutocomplete,
     },
