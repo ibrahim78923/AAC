@@ -17,6 +17,7 @@ import {
   TableRow,
 } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 export const ReceivedItems = (props: any) => {
   const { isDrawerOpen, setIsDrawerOpen } = props;
 
@@ -27,6 +28,8 @@ export const ReceivedItems = (props: any) => {
     fields,
     control,
     method,
+    isLoading,
+    patchIsLoading,
   } = useReceivedItems(props);
 
   return (
@@ -40,42 +43,48 @@ export const ReceivedItems = (props: any) => {
       footer={true}
       isOk={true}
       okText="Receive"
+      isLoading={patchIsLoading}
     >
       <>
-        {errorOccurred && (
+        {!!errorOccurred && (
           <Alert severity="error" style={{ marginBottom: '10px' }}>
             The received item quantity should not exceed the pending item
             quantity
           </Alert>
         )}
-        <FormProvider methods={method}>
-          {' '}
-          <TableContainer>
-            <Table sx={{ minWidth: '100px' }}>
-              <TableHead>
-                <TableRow>
-                  {itemDetailColumns?.map((column: any) => (
-                    <TableCell key={column}>{column}</TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {fields?.map((item: any, index: any) => (
-                  <TableRow key={item?.id}>
-                    {itemDetailFormFieldsFunction?.(
-                      control,
-                      'receivedItem',
-                      fields,
-                      index,
-                    )?.map((singleField: any) => (
-                      <TableCell key={item.id}>{singleField?.data}</TableCell>
+        {isLoading ? (
+          <SkeletonTable />
+        ) : (
+          <FormProvider methods={method}>
+            <TableContainer>
+              <Table sx={{ minWidth: '100px' }}>
+                <TableHead>
+                  <TableRow>
+                    {itemDetailColumns?.map((column: any) => (
+                      <TableCell key={column}>{column}</TableCell>
                     ))}
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </FormProvider>
+                </TableHead>
+                <TableBody>
+                  {fields?.map((item: any, index: any) => (
+                    <TableRow key={item?.id}>
+                      {itemDetailFormFieldsFunction?.(
+                        control,
+                        'receivedItem',
+                        fields,
+                        index,
+                      )?.map((singleField: any) => (
+                        <TableCell key={item?.id}>
+                          {singleField?.data}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </FormProvider>
+        )}
       </>
     </CommonDrawer>
   );
