@@ -366,6 +366,7 @@ export const superAdminBillingInvoices = {
 export const organization = {
   POST_ORGANIZATION_ACCOUNT: '/org-company-account',
   GET_ORGANIZATION_ACCOUNT_ALL: '/org-company-account/get-accounts',
+  GET_PRODUCTS_ALL: '/products',
   GET_ORGANIZATION_ACCOUNT_ID: '/org-company-account',
   GET_MAIN_ORGANIZATION: '/organization',
   UPDATE_ORGANIZATION_ACCOUNT: '/org-company-account',
