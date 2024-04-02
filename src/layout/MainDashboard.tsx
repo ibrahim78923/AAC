@@ -383,7 +383,7 @@ const DashboardLayout = ({ children, window }: any) => {
                         <Link key={uuidv4()} href={`${link?.key}`}>
                           <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                             <ListItemButton
-                              sx={styles?.mainNavLink(link, router, theme)}
+                              sx={styles?.mainNavLink(router, theme)}
                             >
                               <ListItemIcon sx={{ minWidth: 20 }}>
                                 <Image
@@ -432,6 +432,25 @@ const DashboardLayout = ({ children, window }: any) => {
                   </div>
                 );
               })}
+            {isNullOrEmpty(lowerRoutes) && (
+              <ListItem sx={{ padding: '6px 0px 6px 0px' }} onClick={logout}>
+                <ListItemButton sx={styles?.mainNavLink('link', router, theme)}>
+                  <ListItemIcon sx={{ minWidth: 20, marginRight: '10px' }}>
+                    <Image
+                      src={LogoutImage}
+                      alt={'LogoutImage'}
+                      style={{
+                        opacity: '0.4',
+                      }}
+                    />
+                  </ListItemIcon>
+                  <Typography fontWeight={500} fontSize={14}>
+                    {' '}
+                    Logout
+                  </Typography>
+                </ListItemButton>
+              </ListItem>
+            )}
           </List>
         </Box>
       </Box>
