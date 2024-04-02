@@ -21,9 +21,9 @@ export const UpsertProduct = (props: any) => {
     isSubmit,
     editSubmit,
     handleCancel,
-    isLoading,
-    isEditLoading,
     upsertProductFields,
+    putProductVendorProgress,
+    postProductVendorProgress,
   } = useUpsertProduct(props);
 
   return (
@@ -76,7 +76,11 @@ export const UpsertProduct = (props: any) => {
             gap={'1rem'}
           >
             <LoadingButton
-              disabled={editData?._id ? isEditLoading : isLoading}
+              disabled={
+                editData?._id
+                  ? putProductVendorProgress?.isLoading
+                  : postProductVendorProgress?.isLoading
+              }
               variant="outlined"
               color="secondary"
               onClick={handleCancel}
@@ -86,7 +90,11 @@ export const UpsertProduct = (props: any) => {
             <LoadingButton
               type="submit"
               variant="contained"
-              disabled={editData?._id ? isEditLoading : isLoading}
+              disabled={
+                editData?._id
+                  ? putProductVendorProgress?.isLoading
+                  : postProductVendorProgress?.isLoading
+              }
               onClick={
                 editData?._id
                   ? handleSubmit(editSubmit)

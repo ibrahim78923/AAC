@@ -269,7 +269,7 @@ export const upsertTicketFormFieldsDynamic = (
       label: 'Planned Effort',
       fullWidth: true,
       multiple: true,
-      placeholder: 'Eg: 1h 10m',
+      placeholder: 'Eg: 1h10m',
     },
     component: RHFTextField,
   },

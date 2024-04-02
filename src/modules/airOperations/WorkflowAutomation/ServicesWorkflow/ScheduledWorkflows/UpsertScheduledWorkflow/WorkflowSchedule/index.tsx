@@ -89,12 +89,7 @@ export const WorkflowSchedule = (props: any) => {
           <Grid item xs={12} md={6.5}>
             {(selectedSchedule === scheduleTypes?.daily ||
               selectedScheduleWeek) && (
-              <RHFTimePicker
-                name="scheduleTime"
-                label="Time"
-                size="small"
-                fullWidth
-              />
+              <RHFTimePicker name="time" label="Time" size="small" fullWidth />
             )}
             {selectedSchedule === scheduleTypes?.customRange && (
               <WorkflowDateRange setValue={setValue} />
