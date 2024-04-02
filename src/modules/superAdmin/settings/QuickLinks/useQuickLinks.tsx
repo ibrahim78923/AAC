@@ -4,13 +4,13 @@ import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
 import {
   useGetQuickLinksQuery,
-  // useGetQuickLinkByIdQuery,
-  // usePostQuickLinkMutation,
-  // useUpdateQuickLinkMutation,
+  useGetGroupQuickLinksQuery,
+  useUpdateQuickLinkMutation,
   useDeleteQuickLinkMutation,
 } from '@/services/superAdmin/settings/quick-links';
 import { DATE_FORMAT } from '@/constants';
 import { PAGINATION } from '@/config';
+import { useGetProductsQuery } from '@/services/superAdmin/plan-mangement';
 
 const useFaqs = () => {
   const [selectedRow, setSelectedRow]: any = useState([]);
@@ -34,7 +34,11 @@ const useFaqs = () => {
     methodsFilter;
   const { data: dataGetQuickLinks, isLoading: loagingGetQuickLinks } =
     useGetQuickLinksQuery({
-      params: { ...filterParams, ...searchPayLoad, ...paginationParams },
+      params: {
+        ...filterParams,
+        ...searchPayLoad,
+        ...paginationParams,
+      },
     });
 
   // Dropdown Menu
@@ -59,26 +63,30 @@ const useFaqs = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    const { createdDate, ...others } = values;
-    const dateStart = createdDate?.[0]
-      ? dayjs(createdDate[0]).format(DATE_FORMAT.API)
-      : null;
-    const dateEnd = createdDate?.[1]
-      ? dayjs(createdDate[1]).format(DATE_FORMAT.API)
-      : null;
-    setFilterParams((prev) => {
-      const updatedParams = {
-        ...prev,
-        ...others,
-      };
+    const { createdAt, productId } = values;
 
-      if (dateStart !== null && dateEnd !== null) {
-        updatedParams.dateStart = dateStart;
-        updatedParams.dateEnd = dateEnd;
-      }
+    const formattedDates = createdAt?.map((date: any) =>
+      date ? dayjs(date).format(DATE_FORMAT?.API) : null,
+    );
+    const [dateStart, dateEnd] = formattedDates ?? [null, null];
 
-      return updatedParams;
-    });
+    const updatedParams: any = {};
+
+    if (dateStart !== null && dateEnd !== null) {
+      updatedParams.dateStart = dateStart;
+      updatedParams.dateEnd = dateEnd;
+    }
+
+    if (productId) {
+      updatedParams.productId = productId;
+      updatedParams.type = 'PRODUCT';
+    }
+
+    setFilterParams((prev) => ({
+      ...prev,
+      ...updatedParams,
+    }));
+
     handleCloseFilters();
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
@@ -120,6 +128,56 @@ const useFaqs = () => {
     }
   };
 
+  const { data: getActiveProducts } = useGetProductsQuery({});
+  const selectProductOptions = getActiveProducts?.data?.map((product: any) => ({
+    value: product?._id,
+    label: product?.name,
+  }));
+
+  const {
+    data: dataGetGroupQuickLinks,
+    isLoading: loagingGroupLinks,
+    isSuccess,
+  } = useGetGroupQuickLinksQuery({});
+  const mergedProducts: any[] = isSuccess
+    ? [
+        ...dataGetGroupQuickLinks?.data?.productsData,
+        ...dataGetGroupQuickLinks?.data?.nonProductData,
+      ]
+    : [];
+
+  const [updateFaq, { isLoading: loadingUpdateQuickLink }] =
+    useUpdateQuickLinkMutation();
+  const handleSwitchChange = async (id: string, isActive: boolean) => {
+    const payload = {
+      isActive: !isActive,
+    };
+
+    try {
+      await updateFaq({ id: id, body: payload })?.unwrap();
+      enqueueSnackbar('Quick Link updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
+  function convertFormat(str: string) {
+    if (str?.includes('_')) {
+      return str
+        .split('_')
+        .map(
+          (word) => word?.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+        )
+        .join(' ');
+    } else {
+      return str;
+    }
+  }
+
   return {
     anchorEl,
     actionMenuOpen,
@@ -150,6 +208,13 @@ const useFaqs = () => {
     isActionsDisabled,
     setRowId,
     rowId,
+
+    selectProductOptions,
+    mergedProducts,
+    loagingGroupLinks,
+    handleSwitchChange,
+    loadingUpdateQuickLink,
+    convertFormat,
   };
 };
 

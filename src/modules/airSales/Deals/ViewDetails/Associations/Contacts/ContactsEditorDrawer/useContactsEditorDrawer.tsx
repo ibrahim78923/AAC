@@ -16,7 +16,6 @@ import dayjs from 'dayjs';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { DATE_FORMAT } from '@/constants';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { useUpdateContactStatusMutation } from '@/services/orgAdmin/settings/contact-status';
 import useAuth from '@/hooks/useAuth';
 import { useGetOrganizationUsersQuery } from '@/services/dropdowns';
 
@@ -36,7 +35,6 @@ const useContactsEditorDrawer = ({
 
   const [postContacts, { isLoading: postContactLoading }] =
     usePostContactsMutation();
-  const [updateContacts] = useUpdateContactStatusMutation();
   const [createAssociation] = useCreateAssociationMutation();
 
   const contactOwnerData = ContactOwners?.data?.users?.map((user: any) => ({
@@ -69,6 +67,7 @@ const useContactsEditorDrawer = ({
           lifeCycleStageId,
           jobTitle,
           statusId,
+          dateOfJoinig,
         } = contactRecord;
         return {
           firstName,
@@ -83,6 +82,7 @@ const useContactsEditorDrawer = ({
           lifeCycleStageId,
           jobTitle,
           statusId,
+          dateOfJoinig: new Date(dateOfJoinig),
         };
       }
       return contactsDefaultValues;
@@ -113,31 +113,19 @@ const useContactsEditorDrawer = ({
       formData.append('recordType', recordType),
       formData.append('recordId', dealId);
     try {
-      const response =
-        openDrawer === 'Edit'
-          ? await updateContacts({
-              body: formData,
-              contactId: contactRecord?._id,
-            }).unwrap()
-          : await postContacts({ body: formData }).unwrap();
+      const response = await postContacts({ body: formData }).unwrap();
 
       if (response?.data) {
         try {
           await createAssociation({
             body: {
-              //TODO:temporary id data come from backend
-              dealId: '655b2b2ecd318b576d7d71e8',
+              dealId: dealId,
               contactId: response?.data?._id,
             },
           }).unwrap();
-          enqueueSnackbar(
-            ` Contact ${
-              openDrawer === 'Edit' ? 'Updated' : 'Added'
-            } Successfully`,
-            {
-              variant: NOTISTACK_VARIANTS?.SUCCESS,
-            },
-          );
+          enqueueSnackbar(`Contact Added Successfully`, {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
           onCloseHandler();
         } catch (error: any) {
           const errMsg = error?.data?.message;
@@ -147,7 +135,7 @@ const useContactsEditorDrawer = ({
           });
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
       enqueueSnackbar(errMessage ?? 'Error occurred', {

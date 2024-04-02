@@ -1,21 +1,13 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { RHFAutocomplete, RHFRadioGroup } from '@/components/ReactHookForm';
 import {
-  assetsOptions,
+  andRunOptions,
   eventOptions,
   moduleOptions,
-} from './WorkflowRunAndTrigger.data';
-import { AddCircle, Delete } from '@mui/icons-material';
-import { useFieldArray } from 'react-hook-form';
+} from '../UpsertScheduledWorkflow.data';
 
 export const WorkflowRunAndTrigger = (props: any) => {
-  const { register, palette, watch } = props;
-  const { append, fields, remove } = useFieldArray({
-    control: props?.control,
-    name: 'events',
-  });
-  const moduleType = watch('moduleType');
-  const ASSETS_TYPE = 'Assets';
+  const { register, palette } = props;
   return (
     <>
       <Grid
@@ -37,32 +29,22 @@ export const WorkflowRunAndTrigger = (props: any) => {
             p={1.5}
             borderBottom={`1px solid ${palette?.custom?.off_white_three}`}
           >
-            When to trigger this workflow
+            Module
           </Typography>
         </Box>
-        <Grid lg={8} p={1.5}>
-          <RHFRadioGroup
-            label={<Typography variant="h5">Module</Typography>}
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-            name="moduleType"
-            options={moduleOptions}
-            inputRef={register}
-          />
-        </Grid>
-        {moduleType === ASSETS_TYPE && (
-          <Grid md={6} p={1}>
-            <RHFAutocomplete
-              name="assetsType"
-              size="small"
-              label="Assets Type"
-              required
-              options={assetsOptions}
+        <Box>
+          <Grid lg={8} p={1.5}>
+            <RHFRadioGroup
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+              }}
+              name="module"
+              options={moduleOptions}
+              inputRef={register}
             />
           </Grid>
-        )}
+        </Box>
       </Grid>
       <Grid
         item
@@ -86,39 +68,31 @@ export const WorkflowRunAndTrigger = (props: any) => {
             When to Trigger this workflow?
           </Typography>
         </Box>
-        <>
-          {(fields?.length === 0 ? [{}] : fields)?.map(
-            (item: any, index: any) => (
-              <Grid container p={1.5} spacing={2} key={item?.id}>
-                <Grid item md={6} xs={10}>
-                  <RHFAutocomplete
-                    name={`events[${index}].eventName`}
-                    size="small"
-                    label={`Event ${index + 1}`}
-                    options={eventOptions}
-                  />
-                </Grid>
-                <Grid item mt={4}>
-                  {index > 0 && (
-                    <Delete
-                      onClick={() => remove(index)}
-                      sx={{ color: 'error.main', cursor: 'pointer' }}
-                    />
-                  )}
-                </Grid>
-              </Grid>
-            ),
-          )}
-        </>
-        <Box ml={1}>
-          <Button
-            onClick={() => append({ eventName: '' })}
-            color="secondary"
-            startIcon={<AddCircle color="action" />}
-          >
-            Add Event
-          </Button>
-        </Box>
+        <Grid container p={1.5} spacing={2}>
+          <Grid item md={6} xs={10}>
+            <RHFAutocomplete
+              name="events"
+              size="small"
+              placeholder="Select"
+              required
+              // multiple
+              label="Event"
+              options={eventOptions}
+              getOptionLabel={({ label }: { label: string }) => label}
+            />
+          </Grid>
+          <Grid item md={6} xs={12} p={1.5}>
+            <RHFAutocomplete
+              name="runType"
+              size="small"
+              placeholder="Select"
+              label="And Run"
+              required
+              options={andRunOptions}
+              getOptionLabel={({ label }: { label: string }) => label}
+            />
+          </Grid>
+        </Grid>
       </Grid>
     </>
   );

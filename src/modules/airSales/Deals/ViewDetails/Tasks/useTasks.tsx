@@ -7,12 +7,16 @@ const useTasks = (selectedRecId: any) => {
   const theme = useTheme();
   const [openDrawer, setOpenDrawer] = useState('');
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<any>([]);
+  const taskType = 'deals';
 
   const tasksParams = {
     recordId: selectedRecId,
+    recordType: taskType,
   };
 
-  const { data: taskData } = useGetDealsTasksManagementQuery(tasksParams);
+  const { data: taskData } = useGetDealsTasksManagementQuery({
+    query: tasksParams,
+  });
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,

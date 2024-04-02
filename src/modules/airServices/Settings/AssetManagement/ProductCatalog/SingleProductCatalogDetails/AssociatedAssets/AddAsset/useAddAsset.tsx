@@ -1,5 +1,3 @@
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -8,6 +6,7 @@ import {
 } from './AddAsset.data';
 import { usePostAssociatedAssetMutation } from '@/services/airServices/settings/asset-management/product-catalog';
 import { useRouter } from 'next/router';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAddAsset = (setAddModalOpen: any) => {
   const router: any = useRouter();
@@ -32,21 +31,12 @@ export const useAddAsset = (setAddModalOpen: any) => {
     };
 
     try {
-      const response: any = await postAssociatedAssetTrigger(
-        postAssociatedAssetParameter,
-      )?.unwrap();
+      await postAssociatedAssetTrigger(postAssociatedAssetParameter)?.unwrap();
       setAddModalOpen?.(false);
-      enqueueSnackbar(
-        response?.message ?? `Associated Asset Added Successfully!`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      successSnackbar('Associated Asset Added Successfully!');
     } catch (error: any) {
       setAddModalOpen?.(false);
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something Went Wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
 

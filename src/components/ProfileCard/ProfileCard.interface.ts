@@ -8,5 +8,6 @@ export default interface CardPropsI {
   handleEditProfile?: () => void;
   handleEditImage?: () => void;
   editBtn?: boolean;
+  isLoading?: boolean;
   handleChangeImg?: any;
 }

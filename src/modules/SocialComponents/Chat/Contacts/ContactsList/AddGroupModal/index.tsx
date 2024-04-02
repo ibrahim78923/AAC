@@ -51,6 +51,7 @@ const AddGroupModal = ({
   const [participantsIdsValues, setParticipantsIdsValues] = useState<any>();
   const [groupAdmins, setGroupAdmins] = useState<any>([]);
   const [imageToUpload, setImageToUpload] = useState<any>();
+  const [imagePreview, setImagePreview] = useState<any>();
 
   const { user }: { user: any } = getSession();
 
@@ -65,7 +66,7 @@ const AddGroupModal = ({
   const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
     id: item?._id,
     label: `${item?.firstName} ${item?.lastName}`,
-    value: item._id,
+    value: item?._id,
     image: UserDefault,
   }));
 
@@ -120,11 +121,15 @@ const AddGroupModal = ({
   };
 
   const handleImageChange = async (e: any) => {
-    // formData.append('groupImage', e?.target?.files[0]);
-
     const selectedImage = e?.target?.files[0];
     setImageToUpload(selectedImage);
-    formData.append('groupImage', selectedImage);
+    formData?.append('groupImage', selectedImage);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImagePreview(reader?.result);
+    };
+    reader.readAsDataURL(selectedImage);
   };
 
   return (
@@ -155,11 +160,21 @@ const AddGroupModal = ({
             onChange={(e: any) => handleImageChange(e)}
           />
           <label htmlFor="upload-group-image">
-            <Image
-              src={AddRoundedImage}
-              alt="upload"
-              style={{ cursor: 'pointer' }}
-            />
+            {imagePreview ? (
+              <Image
+                src={imagePreview}
+                width={100}
+                height={100}
+                style={{ borderRadius: '50%' }}
+                alt="selected image"
+              />
+            ) : (
+              <Image
+                src={AddRoundedImage}
+                alt="upload"
+                style={{ cursor: 'pointer' }}
+              />
+            )}
             <Typography sx={{ cursor: 'pointer' }} variant="h6">
               Add Photo
             </Typography>
