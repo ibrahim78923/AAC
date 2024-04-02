@@ -33,6 +33,9 @@ const ChoosePlan = () => {
   const [isBuyPlan, setIsBuyPlan] = useState(false);
   const [activePlanToBuy, setActivePlanToBuy] = useState<any>();
 
+  const [maxAdditionalUsers, setMaxAdditionalUsers] = useState();
+  const [maxAdditionalStorage, setMaxAdditionalStorage] = useState();
+
   const parsedManageData = useAppSelector(
     (state) => state?.subscriptionAndInvoices?.selectedPlanData,
   );
@@ -55,14 +58,13 @@ const ChoosePlan = () => {
   const onSubmit = async () => {
     const payload = {
       planId: activePlanToBuy?._id,
-      additionalUsers: 1,
-      additionalStorage: 2,
+      additionalUsers: maxAdditionalUsers,
+      additionalStorage: maxAdditionalStorage,
       planDiscount: 0,
       billingDate: '2023-10-20',
       status: 'ACTIVE',
       billingCycle: 'MONTHLY',
     };
-
     try {
       await postSubscriptionPlan({ body: payload }).unwrap();
       enqueueSnackbar('Request Successful', {
@@ -244,9 +246,10 @@ const ChoosePlan = () => {
                 {/* default  free */}
                 <TableCell sx={styles?.sideHeader}>-</TableCell>
                 {getData?.length
-                  ? getData?.map((item: any) => {
+                  ? getData?.map((item: any, index: any) => {
                       return (
-                        <TableCell key={uuidv4()} sx={styles?.userIncludes}>
+                        // eslint-disable-next-line
+                        <TableCell key={index} sx={styles?.userIncludes}>
                           <PermissionsGuard
                             permissions={[
                               ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_USER,
@@ -255,9 +258,11 @@ const ChoosePlan = () => {
                             {item?.defaultUsers === 0 ? (
                               <Counter inputValue={0} disabled />
                             ) : (
-                              <Counter
-                                inputValue={0}
+                              <CounterMaxUser
                                 defaultUsers={item?.defaultUsers}
+                                setMaxAdditionalUsers={setMaxAdditionalUsers}
+                                mainId={activePlanToBuy?._id}
+                                mapId={item?._id}
                               />
                             )}
                           </PermissionsGuard>
@@ -274,9 +279,10 @@ const ChoosePlan = () => {
                 {/* default  free */}
                 <TableCell sx={styles?.sideHeader}>-</TableCell>
                 {getData?.length
-                  ? getData?.map((item: any) => {
+                  ? getData?.map((item: any, index: any) => {
                       return (
-                        <TableCell key={uuidv4()} sx={styles?.userIncludes}>
+                        // eslint-disable-next-line
+                        <TableCell key={index} sx={styles?.userIncludes}>
                           <PermissionsGuard
                             permissions={[
                               ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_STORAGE,
@@ -285,10 +291,13 @@ const ChoosePlan = () => {
                             {item?.defaultStorage === 0 ? (
                               <Counter inputValue={0} disabled />
                             ) : (
-                              <Counter
-                                inputValue={0}
-                                fixedText="GB"
-                                inputWidth="74px"
+                              <CounterAdditionalStorage
+                                defaultUsers={item?.defaultStorage}
+                                setMaxAdditionalStorage={
+                                  setMaxAdditionalStorage
+                                }
+                                mainId={activePlanToBuy?._id}
+                                mapId={item?._id}
                               />
                             )}
                           </PermissionsGuard>
@@ -297,6 +306,7 @@ const ChoosePlan = () => {
                     })
                   : null}
               </TableRow>
+
               {featuresData?.data?.productfeatures?.map((feature: any) => {
                 return (
                   <TableRow key={uuidv4()}>
@@ -324,20 +334,52 @@ const ChoosePlan = () => {
                   </TableRow>
                 );
               })}
-
-              {/* <TableRow >
-        <TableCell sx={styles?.salesActivities}>
-          <Typography variant="h6">rfrr</Typography>
-        </TableCell>
-        <TableCell align="center">
-          <TickCircleIcon />
-        </TableCell>
-
-      </TableRow> */}
             </TableBody>
           </Table>
         </TableContainer>
       )}
+    </>
+  );
+};
+
+const CounterMaxUser = ({
+  defaultUsers,
+  mapId,
+  mainId,
+  setMaxAdditionalUsers,
+}: any) => {
+  const [value, setValue] = useState<any>(defaultUsers);
+  useEffect(() => {
+    if (mapId === mainId) {
+      setMaxAdditionalUsers(value);
+    }
+  }, [mainId, value]);
+  return (
+    <>
+      <Counter value={value} setValue={setValue} inputValue={0} />
+    </>
+  );
+};
+const CounterAdditionalStorage = ({
+  defaultUsers,
+  mapId,
+  mainId,
+  setMaxAdditionalStorage,
+}: any) => {
+  const [value, setValue] = useState<any>(defaultUsers);
+  useEffect(() => {
+    if (mapId === mainId) {
+      setMaxAdditionalStorage(value);
+    }
+  }, [mainId, value]);
+  return (
+    <>
+      <Counter
+        value={value}
+        setValue={setValue}
+        inputValue={0}
+        fixedText="GB"
+      />
     </>
   );
 };

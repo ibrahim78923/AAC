@@ -1,8 +1,10 @@
 export interface CounterI {
   inputValue: number;
-  fixedText?: string;
+  fixedText?: any;
   inputWidth?: string;
   defaultUsers?: any;
   defaultStorage?: any;
   disabled?: any;
+  value?: any;
+  setValue?: any;
 }

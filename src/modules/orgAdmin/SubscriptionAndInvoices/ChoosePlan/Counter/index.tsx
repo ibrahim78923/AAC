@@ -1,29 +1,27 @@
-import React, { useState, ChangeEvent, FC } from 'react';
+import React, { ChangeEvent, FC } from 'react';
 import { Box } from '@mui/material';
-import { CounterI } from './Counter.interface';
 import { AddCircleIcon, MinusCircleIcon } from '@/assets/icons';
 import { styles } from './Counter.style';
 
-const Counter: FC<CounterI> = ({
-  inputValue,
+const Counter: FC<any> = ({
   fixedText,
   inputWidth = '58px',
   disabled,
+  value,
+  setValue,
 }) => {
-  const [value, setValue] = useState<number>(inputValue);
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value);
     setValue(isNaN(newValue) ? 0 : newValue);
   };
 
   const increment = () => {
-    setValue((prev) => prev + 1);
+    setValue((prev: any) => prev + 1);
   };
 
   const decrement = () => {
     if (value > 0) {
-      setValue((prev) => prev - 1);
+      setValue((prev: any) => prev - 1);
     }
   };
 
