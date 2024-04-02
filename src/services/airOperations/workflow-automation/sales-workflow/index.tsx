@@ -28,6 +28,13 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
       }),
       invalidatesTags: [TAG],
     }),
+    cloneWorkflow: builder?.mutation({
+      query: (id) => ({
+        url: `${OPERATION?.CLONE_WORKFLOW}/${id}`,
+        method: 'POST',
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -35,4 +42,5 @@ export const {
   useLazyGetWorkflowListQuery,
   useDeleteWorkflowMutation,
   useChangeStatusWorkflowMutation,
+  useCloneWorkflowMutation,
 } = salesWorkflowAPI;

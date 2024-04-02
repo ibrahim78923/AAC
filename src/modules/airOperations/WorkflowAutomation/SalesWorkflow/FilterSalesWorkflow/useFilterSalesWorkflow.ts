@@ -6,15 +6,11 @@ export const useFilterSalesWorkflow = () => {
   const filterMethod = useForm({
     defaultValues: salesWorkflowsFilterValues,
   });
-  const { handleSubmit, watch } = filterMethod;
+  const { handleSubmit } = filterMethod;
   const userDropdown = useLazyGetUsersDropdownListQuery();
-  const statusValue = watch('status');
-  const createdByValue = watch('createdBy');
   return {
     handleSubmit,
     filterMethod,
     userDropdown,
-    statusValue,
-    createdByValue,
   };
 };

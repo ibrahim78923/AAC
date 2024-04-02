@@ -5,6 +5,7 @@ import Search from '@/components/Search';
 import NoData from '@/components/NoData';
 import { AssociationsImage } from '@/assets/images';
 import useProfile from './useProfile';
+import { fullName, fullNameInitial } from '@/utils/avatarUtils';
 
 export const Profile = ({ selected, setSelected }: any) => {
   const {
@@ -67,8 +68,7 @@ export const Profile = ({ selected, setSelected }: any) => {
                 src={`${IMG_URL}${item?.img}`}
                 onClick={() => addToArray?.(item)}
               >
-                {item?.firstName?.[0] ?? '-'}
-                {item?.lastName?.[0]}
+                {fullNameInitial(item?.firstName, item?.lastName)}
               </Avatar>
             </Tooltip>
           )}
@@ -151,11 +151,10 @@ export const Profile = ({ selected, setSelected }: any) => {
                   }}
                   src={`${IMG_URL}${item?.img}`}
                 >
-                  {item?.firstName?.[0] ?? '-'}
-                  {item?.lastName?.[0]}
+                  {fullNameInitial(item?.firstName, item?.lastName)}
                 </Avatar>
                 <Typography variant={'body1'}>
-                  {item?.firstName} {item?.lastName}
+                  {fullName(item?.firstName, item?.lastName)}
                 </Typography>
               </Box>
             ))
