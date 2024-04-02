@@ -57,9 +57,17 @@ export const useUpsertTicket = (props: any) => {
     defaultValues: upsertTicketDefaultValuesFunction(),
   });
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, getValues } = methods;
 
   const submitUpsertTicket = async (formData: any) => {
+    const { plannedEffort } = getValues();
+    if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
+      errorSnackbar(
+        'Invalid format for Planned Effort. Please use format like 1h10m',
+      );
+      return;
+    }
+
     const upsertTicketFormData = new FormData();
     upsertTicketFormData?.append('requester', formData?.requester?._id);
     upsertTicketFormData?.append('subject', formData?.subject);

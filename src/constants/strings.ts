@@ -180,6 +180,7 @@ export const TICKETS_CONVERSATION_TYPE = {
   DISCUSS: 'Discuss',
   NOTE: 'Note',
 };
+
 export const TICKETS_CONVERSATION_VALUE = {
   FILE: 'file',
   DESCRIPTION: 'description',
@@ -425,4 +426,35 @@ export const MODULES = {
   EVENT_BASE: 'EVENT_BASE',
   SCHEDULED: 'SCHEDULED',
   SUPERVISOR_RULES: 'SUPERVISOR_RULES',
+};
+
+export const AGENT_LEVELS = {
+  BEGINNER: 'beginner',
+  INTERMEDIATE: 'intermediate',
+  PROFESSIONAL: 'professional',
+  EXPERT: 'expert',
+  MASTER: 'master',
+};
+
+export const EMAIL_SENT_TYPE = {
+  REPLY: 'REPLY',
+  FORWARD: 'FORWARD',
+  NOTE: 'NOTE',
+};
+
+export const TICKET_CONVERSATIONS_TYPE = {
+  REPLY: 'REPLY',
+  FORWARD: 'FORWARD',
+  NOTE: 'NOTE',
+  DISCUSS: 'DISCUSS',
+};
+
+export const TICKET_CONVERSATIONS_RESPONSE_TYPE = {
+  ARTICLE: 'ARTICLE',
+  CANNED_RESPONSES: 'CANNED RESPONSES',
+};
+
+export const TICKET_CONVERSATIONS_CONTENT_TYPE = {
+  LINK: 'LINK',
+  CONTENT: 'CONTENT',
 };

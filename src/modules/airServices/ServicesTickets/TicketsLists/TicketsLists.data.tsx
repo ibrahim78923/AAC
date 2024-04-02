@@ -214,15 +214,16 @@ export const ticketsListsColumnFunction: any = (
             alignItems={'center'}
           >
             <Avatar
+              variant="rounded"
               sx={{
                 bgcolor: theme?.palette?.blue?.main,
-                borderRadius: 1.25,
                 width: 25,
                 height: 25,
               }}
-              src={
-                info?.row?.original?.departmentsDetails?.departmenProfilePicture
-              }
+              src={generateImage(
+                info?.row?.original?.departmentsDetails?.attachment?.[0]
+                  ?.fileUrl,
+              )}
             >
               <Typography variant="body2" textTransform={'uppercase'}>
                 {info?.row?.original?.departmentsDetails?.name?.[0] ?? '-'}

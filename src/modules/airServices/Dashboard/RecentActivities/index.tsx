@@ -27,7 +27,7 @@ export const RecentActivities = () => {
       {isLoading || isFetching ? (
         <SkeletonTable />
       ) : isError ? (
-        <ApiErrorState height="100%" />
+        <ApiErrorState height={'40vh'} />
       ) : data?.data?.length ? (
         <Box overflow={'auto'} height={'40vh'}>
           {data?.data?.map((item: any, index: any) => (

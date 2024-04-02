@@ -4,10 +4,9 @@ import {
   changeStatusDefaultValues,
   changeStatusValidationSchema,
 } from './ChangeStatus.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 import { usePatchServiceCatalogMutation } from '@/services/airServices/settings/service-management/service-catalog';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 const useChangeStatus = (prop: any) => {
   const { openStatus, setOpenStatus, id } = prop;
@@ -28,17 +27,11 @@ const useChangeStatus = (prop: any) => {
 
     const patchServiceCatalogParameter = { body };
     try {
-      const response = await patchServiceCatalogTrigger(
-        patchServiceCatalogParameter,
-      )?.unwrap();
+      await patchServiceCatalogTrigger(patchServiceCatalogParameter)?.unwrap();
 
-      enqueueSnackbar(response?.data?.message ?? 'Service Status Updated ', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      successSnackbar('Service Status Updated ');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
 
     setOpenStatus(false);

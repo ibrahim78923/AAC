@@ -18,7 +18,7 @@ interface Filters {
   page: number;
   limit: number;
   search?: string;
-  dealPiplineId?: string;
+  dealPipelineId?: string;
   name?: string;
   dealOwnerId?: string;
   dealStageId?: string;

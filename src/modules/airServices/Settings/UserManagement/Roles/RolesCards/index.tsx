@@ -136,7 +136,7 @@ const RolesCards = ({
                     sx={{ color: 'custom.mulled_wine' }}
                   />
                   <Typography variant={'body2'} color={'custom.mulled_wine'}>
-                    {item?.agents ?? '0'} Agents
+                    {item?.userCount ?? '0'} Agents
                   </Typography>
                 </Box>
               </Box>

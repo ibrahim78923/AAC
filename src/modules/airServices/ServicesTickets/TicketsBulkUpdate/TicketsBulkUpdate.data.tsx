@@ -31,7 +31,7 @@ export const isReplyAddedNeglect = ['to', 'description', 'file'];
 export const ticketsBulkUpdateToFormSchema: any = {
   to: Yup?.string(),
   description: Yup?.mixed(),
-  file: Yup?.mixed(),
+  file: Yup?.mixed()?.nullable(),
 };
 
 export const ticketsBulkUpdateAddReplyFormFieldsData = [
@@ -75,7 +75,7 @@ export const ticketsBulkUpdateDefaultFormValues = {
   category: null,
   to: '',
   description: '',
-  file: '',
+  file: null,
 };
 
 export const ticketsBulkUpdateFormValidationSchemaFunction: any = (
@@ -91,7 +91,7 @@ export const ticketsBulkUpdateFormValidationSchemaFunction: any = (
     ...(isReplyAdded && {
       to: Yup?.string()?.required(),
       description: Yup?.mixed()?.required(),
-      file: Yup?.mixed(),
+      file: Yup?.mixed()?.nullable(),
     }),
   });
 

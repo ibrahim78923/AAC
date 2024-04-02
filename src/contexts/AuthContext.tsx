@@ -220,7 +220,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
     setActiveProductSession(null);
     setSession(null);
     setActivePermissionsSession(null);
-    setActivePermissionsSession(null);
     setActiveAccountSession(null);
     dispatch({ type: 'LOGOUT' });
     appDispatch({ type: 'auth/logout' });

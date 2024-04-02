@@ -42,8 +42,8 @@ export const useHeader = () => {
         statusApproval: CONTRACT_STATUS?.PENDING_APPROVAL,
       })?.unwrap();
       successSnackbar('Contract was sent for Approval');
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
   const handleSubmitForApprove = async () => {
@@ -63,8 +63,8 @@ export const useHeader = () => {
     try {
       await patchContractApproveTrigger(putContractSubmitApprove)?.unwrap();
       successSnackbar('Contract was  Approved');
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
 

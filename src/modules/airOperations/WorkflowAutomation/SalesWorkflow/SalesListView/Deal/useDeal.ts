@@ -5,6 +5,7 @@ import {
   useLazyGetWorkflowListQuery,
   useDeleteWorkflowMutation,
   useChangeStatusWorkflowMutation,
+  useCloneWorkflowMutation,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 import {
   salesWorkflowActionDropdownDynamic,
@@ -30,10 +31,23 @@ export const useDeal = () => {
       query: { id: workflowId?._id },
     });
   };
+  const [cloneWorkflowTrigger] = useCloneWorkflowMutation();
+  const handleClone = async () => {
+    const response: any = await cloneWorkflowTrigger(workflowId?._id);
+    try {
+      successSnackbar(
+        response?.data?.message && `${workflowId?.title} clone successfully`,
+      );
+      setActiveCheck([]);
+    } catch (error) {
+      errorSnackbar(response?.error?.data?.message);
+    }
+  };
   const actionDropdown = salesWorkflowActionDropdownDynamic(
     activeCheck,
     setOpenDelete,
     handleEditWorkflow,
+    handleClone,
   );
   const [
     getWorkflowListTrigger,
@@ -58,6 +72,9 @@ export const useDeal = () => {
     };
     if (filterData?.status) {
       filterParams.status = filterData?.status;
+    }
+    if (filterData?.type) {
+      filterParams.type = filterData?.type;
     }
     await getWorkflowListTrigger(filterParams);
     setIsFilterOpen(false);

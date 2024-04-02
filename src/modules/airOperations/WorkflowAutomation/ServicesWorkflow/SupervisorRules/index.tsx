@@ -1,18 +1,16 @@
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Typography, useTheme } from '@mui/material';
+import Tickets from './Tickets';
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
-import Header from './Header';
-import { useSupervisorRules } from './useSupervisorRules';
-import { supervisorListData } from './SupervisorRules.data';
-import TanstackTable from '@/components/Table/TanstackTable';
 
-const SupervisorRules = () => {
-  const { supervisorListsColumns, selectedSupervisorList, theme } =
-    useSupervisorRules();
+const EventBaseWorkflows = () => {
+  const theme = useTheme();
   return (
     <>
       <Box
         border={`1px solid ${theme?.palette?.grey?.[700]}`}
-        borderRadius={'0.375rem'}
+        borderRadius={2}
+        boxShadow={1}
+        p={2}
       >
         <Box
           height={48}
@@ -33,17 +31,10 @@ const SupervisorRules = () => {
             rules.
           </Typography>
         </Box>
-        <Box px={2}>
-          <Header selectedSupervisorList={selectedSupervisorList} />
-        </Box>
-        <TanstackTable
-          data={supervisorListData}
-          columns={supervisorListsColumns}
-          isPagination
-        />
+        <Tickets />
       </Box>
     </>
   );
 };
 
-export default SupervisorRules;
+export default EventBaseWorkflows;
