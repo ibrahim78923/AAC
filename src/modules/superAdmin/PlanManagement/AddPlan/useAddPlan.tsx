@@ -18,6 +18,7 @@ import {
   addPlanFormData,
   planFeaturesFormData,
   modulesFormData,
+  setFeatureDetails,
 } from '@/redux/slices/planManagement/planManagementSlice';
 import { useDispatch } from 'react-redux';
 import { persistStore } from 'redux-persist';
@@ -431,14 +432,20 @@ export const useAddPlan = () => {
               id: parsedRowData?._id,
               body: {
                 ...planFormData,
-                planFeature: [featuresFormData],
+                planFeature:
+                  selectProductSuite === productSuiteName?.crm
+                    ? featuresFormData
+                    : [featuresFormData],
                 ...transformedModulesFormData,
               },
             })
           : postPlanMangement({
               body: {
                 ...planFormData,
-                planFeature: [featuresFormData],
+                planFeature:
+                  selectProductSuite === productSuiteName?.crm
+                    ? featuresFormData
+                    : [featuresFormData],
                 ...transformedModulesFormData,
               },
             })?.unwrap();
@@ -453,6 +460,7 @@ export const useAddPlan = () => {
           );
         }, 5000);
         router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
+        dispatch(setFeatureDetails(''));
         // persistor?.purge();
         reset();
       } catch (error: any) {
