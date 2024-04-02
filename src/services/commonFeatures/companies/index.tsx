@@ -49,10 +49,10 @@ export const companiesAPI = baseAPI.injectEndpoints({
     }),
 
     CompanyUpdate: builder.mutation({
-      query: ({ body, Id }: any) => ({
-        url: `${END_POINTS?.COMPANY}/${Id}`,
+      query: ({ body, id }: any) => ({
+        url: `${END_POINTS?.COMPANY}/${id}`,
         method: 'PATCH',
-        body: body,
+        body,
       }),
       invalidatesTags: ['COMPANY'],
     }),

@@ -14,7 +14,7 @@ import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const Attachments = ({ attachmentsData, isLoading }: any) => {
+const Attachments = ({ attachmentsData, isLoading, dealId }: any) => {
   const {
     theme,
     isOpenAlert,
@@ -24,7 +24,11 @@ const Attachments = ({ attachmentsData, isLoading }: any) => {
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
-  } = useAttachments();
+    attachmentRecord,
+    setAttachmentRecord,
+    loadingDelete,
+    deleteAttachmentHandler,
+  } = useAttachments(dealId);
 
   return (
     <Box
@@ -82,22 +86,33 @@ const Attachments = ({ attachmentsData, isLoading }: any) => {
         </Grid>
         <Grid item xs={12}>
           <TanstackTable
-            columns={columns({ setOpenDrawer, setIsOpenAlert })}
+            columns={columns({
+              setOpenDrawer,
+              setIsOpenAlert,
+              setAttachmentRecord,
+            })}
             data={attachmentsData}
           />
         </Grid>
       </Grid>
-      <AttachmentsEditorDrawer
-        openDrawer={openDrawer}
-        setOpenDrawer={setOpenDrawer}
-      />
-      <AlertModals
-        message={"You're about to remove a record. Are you sure?"}
-        type={'delete'}
-        open={isOpenAlert}
-        handleClose={handleCloseAlert}
-        handleSubmit={() => {}}
-      />
+      {openDrawer && (
+        <AttachmentsEditorDrawer
+          openDrawer={openDrawer}
+          setOpenDrawer={setOpenDrawer}
+          attachmentRecord={attachmentRecord}
+          dealId={dealId}
+        />
+      )}
+      {isOpenAlert && (
+        <AlertModals
+          message={"You're about to remove a record. Are you sure?"}
+          type={'delete'}
+          open={isOpenAlert}
+          handleClose={handleCloseAlert}
+          handleSubmitBtn={deleteAttachmentHandler}
+          loading={loadingDelete}
+        />
+      )}
     </Box>
   );
 };

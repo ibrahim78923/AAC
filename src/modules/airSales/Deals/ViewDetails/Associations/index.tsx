@@ -72,6 +72,7 @@ const Associations = (props: any) => {
             <Attachments
               attachmentsData={assocaitionData?.attachments}
               isLoading={isLoading}
+              dealId={selected}
             />
           </Grid>
         </Grid>
