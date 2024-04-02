@@ -1,17 +1,16 @@
-import React from 'react';
-
-import { Box, Typography, Switch } from '@mui/material';
-
+import { Box, Typography } from '@mui/material';
 import useNotification from './useNotification';
-
 import { styles } from './Notification.style';
-
-import { DealsIcon, NotificationIcon, QuotesIcon } from '@/assets/icons';
+import { NotificationIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_SETTINGS } from '@/constants/permission-keys';
+import { SwitchBtn } from '@/components/SwitchButton';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { v4 as uuidv4 } from 'uuid';
 
 const Notification = () => {
-  const { theme } = useNotification();
+  const { theme, notificationList, getDataLoading, handleSwitchNotifications } =
+    useNotification();
 
   return (
     <>
@@ -59,65 +58,53 @@ const Notification = () => {
               AIR_SALES_SETTINGS?.ACTIVE_INACTIVE_EMAIL_NOTIFICATION,
             ]}
           >
-            <Switch defaultChecked />
+            <SwitchBtn />
           </PermissionsGuard>
         </Box>
         <Typography variant="h6" sx={{ marginY: '20px', fontWeight: '600' }}>
           Notification List
         </Typography>
-        <Box sx={styles?.BoxStyling(theme)}>
-          <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-            <DealsIcon />
-            <Box sx={{ marginLeft: '15px' }}>
-              <Typography
-                variant="h6"
-                sx={{ color: theme?.palette?.slateBlue?.main }}
-              >
-                Deals
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: theme?.palette?.custom?.main }}
-              >
-                Deals notification will be sent to your inbox.{' '}
-              </Typography>
-            </Box>
+        {getDataLoading ? (
+          <SkeletonTable />
+        ) : (
+          <Box display="flex" gap={2} flexDirection="column">
+            {notificationList?.map((item: any) => (
+              <Box sx={styles?.BoxStyling(theme)} key={uuidv4()}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                  }}
+                >
+                  {item?.icon}
+                  <Box sx={{ marginLeft: '15px' }}>
+                    <Typography
+                      variant="h6"
+                      sx={{ color: theme?.palette?.slateBlue?.main }}
+                    >
+                      {item?.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{ color: theme?.palette?.custom?.main }}
+                    >
+                      {item?.description}
+                    </Typography>
+                  </Box>
+                </Box>
+                <PermissionsGuard permissions={[item?.permission]}>
+                  <SwitchBtn
+                    defaultChecked={item?.status}
+                    handleSwitchChange={(val: any) => {
+                      handleSwitchNotifications(val, item?.title);
+                    }}
+                  />
+                </PermissionsGuard>
+              </Box>
+            ))}
           </Box>
-          <PermissionsGuard
-            permissions={[
-              AIR_SALES_SETTINGS?.ACTIVE_INACTIVE_DEALS_NOTIFICATION,
-            ]}
-          >
-            <Switch defaultChecked />
-          </PermissionsGuard>
-        </Box>
-
-        <Box sx={styles?.BoxStyling(theme)} style={{ marginTop: '25px' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-            <QuotesIcon />
-            <Box sx={{ marginLeft: '15px' }}>
-              <Typography
-                variant="h6"
-                sx={{ color: theme?.palette?.slateBlue?.main }}
-              >
-                Quotes
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: theme?.palette?.custom?.main }}
-              >
-                Quotes notification will be sent to your inbox.
-              </Typography>
-            </Box>
-          </Box>
-          <PermissionsGuard
-            permissions={[
-              AIR_SALES_SETTINGS?.ACTIVE_INACTIVE_QUOTES_NOTIFICATION,
-            ]}
-          >
-            <Switch defaultChecked />
-          </PermissionsGuard>
-        </Box>
+        )}
       </Box>
     </>
   );

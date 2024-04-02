@@ -25,10 +25,11 @@ const useUsers = () => {
     status: employeeFilter?.status ? employeeFilter?.status : undefined,
   };
 
-  const { data: employeeList } = useGetEmployeeListQuery({
-    orgId: user?.organization?._id,
-    values: empListParams,
-  });
+  const { data: employeeList, isLoading: employeeListLoading } =
+    useGetEmployeeListQuery({
+      orgId: user?.organization?._id,
+      values: empListParams,
+    });
   const employeeDetails = employeeList?.data?.users;
   const employeeMetaData = employeeList?.data?.meta;
 
@@ -66,6 +67,7 @@ const useUsers = () => {
     employeeMetaData,
     searchAccount,
     setSearchAccount,
+    employeeListLoading,
   };
 };
 
