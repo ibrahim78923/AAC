@@ -5,9 +5,7 @@ import { enqueueSnackbar } from 'notistack';
 import {
   useGetQuickLinksQuery,
   useGetGroupQuickLinksQuery,
-  // useGetQuickLinkByIdQuery,
-  // usePostQuickLinkMutation,
-  // useUpdateQuickLinkMutation,
+  useUpdateQuickLinkMutation,
   useDeleteQuickLinkMutation,
 } from '@/services/superAdmin/settings/quick-links';
 import { DATE_FORMAT } from '@/constants';
@@ -37,7 +35,6 @@ const useFaqs = () => {
   const { data: dataGetQuickLinks, isLoading: loagingGetQuickLinks } =
     useGetQuickLinksQuery({
       params: {
-        type: 'SUPER_ADMIN',
         ...filterParams,
         ...searchPayLoad,
         ...paginationParams,
@@ -66,26 +63,30 @@ const useFaqs = () => {
   };
 
   const onSubmitFilters = async (values: any) => {
-    const { createdAt, ...others } = values;
-    const dateStart = createdAt?.[0]
-      ? dayjs(createdAt[0]).format(DATE_FORMAT.API)
-      : null;
-    const dateEnd = createdAt?.[1]
-      ? dayjs(createdAt[1]).format(DATE_FORMAT.API)
-      : null;
-    setFilterParams((prev) => {
-      const updatedParams = {
-        ...prev,
-        ...others,
-      };
+    const { createdAt, productId } = values;
 
-      if (dateStart !== null && dateEnd !== null) {
-        updatedParams.dateStart = dateStart;
-        updatedParams.dateEnd = dateEnd;
-      }
+    const formattedDates = createdAt?.map((date: any) =>
+      date ? dayjs(date).format(DATE_FORMAT?.API) : null,
+    );
+    const [dateStart, dateEnd] = formattedDates ?? [null, null];
 
-      return updatedParams;
-    });
+    const updatedParams: any = {};
+
+    if (dateStart !== null && dateEnd !== null) {
+      updatedParams.dateStart = dateStart;
+      updatedParams.dateEnd = dateEnd;
+    }
+
+    if (productId) {
+      updatedParams.productId = productId;
+      updatedParams.type = 'PRODUCT';
+    }
+
+    setFilterParams((prev) => ({
+      ...prev,
+      ...updatedParams,
+    }));
+
     handleCloseFilters();
   };
   const handleFiltersSubmit = handleMethodFilter(onSubmitFilters);
@@ -133,26 +134,49 @@ const useFaqs = () => {
     label: product?.name,
   }));
 
-  const { data: dataGetGroupQuickLinks, isLoading: loagingGroupLinks } =
-    useGetGroupQuickLinksQuery({});
+  const {
+    data: dataGetGroupQuickLinks,
+    isLoading: loagingGroupLinks,
+    isSuccess,
+  } = useGetGroupQuickLinksQuery({});
+  const mergedProducts: any[] = isSuccess
+    ? [
+        ...dataGetGroupQuickLinks?.data?.productsData,
+        ...dataGetGroupQuickLinks?.data?.nonProductData,
+      ]
+    : [];
 
-  // const [switchChecked, setSwitchChecked] = useState(false);
-  // const handleSwitchChange = (
-  //   event: React.ChangeEvent<HTMLInputElement>,
-  //   link: any,
-  // ) => {
-  //   const newCheckedValue = event.target.checked;
-  //   console.log(`event.target.name ${event.target.name}`);
-  // };
+  const [updateFaq, { isLoading: loadingUpdateQuickLink }] =
+    useUpdateQuickLinkMutation();
+  const handleSwitchChange = async (id: string, isActive: boolean) => {
+    const payload = {
+      isActive: !isActive,
+    };
 
-  // const getQuickLinksData = () => {
-  //   getActiveProducts.map((product:any) => (
-  //     {
-  //       _id: product?._id,
-  //       productName:
-  //     }
-  //   ))
-  // }
+    try {
+      await updateFaq({ id: id, body: payload })?.unwrap();
+      enqueueSnackbar('Quick Link updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('An error occured', {
+        variant: 'error',
+      });
+    }
+  };
+
+  function convertFormat(str: string) {
+    if (str?.includes('_')) {
+      return str
+        .split('_')
+        .map(
+          (word) => word?.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+        )
+        .join(' ');
+    } else {
+      return str;
+    }
+  }
 
   return {
     anchorEl,
@@ -186,9 +210,11 @@ const useFaqs = () => {
     rowId,
 
     selectProductOptions,
-    dataGetGroupQuickLinks,
+    mergedProducts,
     loagingGroupLinks,
-    // handleSwitchChange,
+    handleSwitchChange,
+    loadingUpdateQuickLink,
+    convertFormat,
   };
 };
 
