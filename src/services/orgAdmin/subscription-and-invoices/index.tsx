@@ -35,8 +35,8 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
     getProductPlanListProductId: builder.query({
-      query: ({ id, isCrm }: any) => ({
-        url: `${ORG_ADMIN?.PRODUCT_PLAN_LIST}/${id}?isCrm=${isCrm}`,
+      query: ({ id }: any) => ({
+        url: `${ORG_ADMIN?.PRODUCT_PLAN_LIST}/${id}`,
         method: 'GET',
       }),
       providesTags: TAG,
