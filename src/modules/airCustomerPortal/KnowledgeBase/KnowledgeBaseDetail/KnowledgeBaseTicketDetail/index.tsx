@@ -27,6 +27,8 @@ export const KnowledgeBaseTicketDetail = () => {
     handleRelatedArticles,
     singleArticleId,
     feedbackIsLoading,
+    isFetching,
+    fetchingArticles,
   } = useKnowledgeBaseTicketDetail();
   return (
     <PermissionsGuard
@@ -55,7 +57,7 @@ export const KnowledgeBaseTicketDetail = () => {
               {singleArticlesData?.title}
             </Typography>
           </Box>
-          {isLoading ? (
+          {isLoading || isFetching ? (
             <SkeletonTable />
           ) : (
             <Box
@@ -91,7 +93,7 @@ export const KnowledgeBaseTicketDetail = () => {
                   height={showFeedbackField ? '14rem' : '33rem'}
                   overflow={'scroll'}
                 >
-                  {loadingArticles ? (
+                  {loadingArticles || fetchingArticles ? (
                     <SkeletonTable />
                   ) : (
                     <>
