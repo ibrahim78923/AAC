@@ -18,7 +18,7 @@ export const upsertProductValidationSchema = Yup?.object()?.shape({
 export const upsertProductDefaultValues = (data?: any) => {
   return {
     productCatalog: data?.vendorproductcatalogsDetails ?? null,
-    price: data?.price ?? null,
+    price: data?.price ?? '',
     years: data?.yrs ?? '',
     months: data?.months ?? '',
     quantity: data?.quantity ?? 0,
