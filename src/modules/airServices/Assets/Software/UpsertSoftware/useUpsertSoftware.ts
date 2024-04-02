@@ -47,7 +47,7 @@ export const useUpsertSoftware = (props: any) => {
     }
     try {
       await postSoftwareTrigger(modifiedData);
-      successSnackbar('Software Createds Successfully');
+      successSnackbar('Software Created Successfully');
       onClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
