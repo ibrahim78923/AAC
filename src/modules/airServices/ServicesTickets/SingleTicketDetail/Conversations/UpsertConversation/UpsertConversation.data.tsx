@@ -18,9 +18,11 @@ export const upsertConversationFormDefaultValues = (data?: any) => {
       : null,
     recipients: data?.isEdit ? data?.recipients : '',
     html:
-      data?.conversationType != TICKET_CONVERSATIONS_TYPE?.REPLY
-        ? data?.html
-        : '',
+      data?.conversationType === TICKET_CONVERSATIONS_TYPE?.REPLY
+        ? ''
+        : data?.html
+          ? data?.html
+          : '',
     attachments: null,
     from: data?.from ?? '',
   };

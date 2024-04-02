@@ -33,10 +33,7 @@ export const useUpsertConversation = (props: any) => {
 
   const methods = useForm<any>({
     defaultValues: upsertConversationFormDefaultValues?.({
-      type: {
-        _id: selectedConversationType?.conversationType,
-        label: selectedConversationType?.conversationType,
-      },
+      conversationType: selectedConversationType?.conversationType,
       from: user?.email,
     }),
     resolver: yupResolver(upsertConversationFormValidationSchema),
