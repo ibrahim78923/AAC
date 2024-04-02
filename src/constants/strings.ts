@@ -180,6 +180,7 @@ export const TICKETS_CONVERSATION_TYPE = {
   DISCUSS: 'Discuss',
   NOTE: 'Note',
 };
+
 export const TICKETS_CONVERSATION_VALUE = {
   FILE: 'file',
   DESCRIPTION: 'description',
@@ -438,5 +439,22 @@ export const AGENT_LEVELS = {
 export const EMAIL_SENT_TYPE = {
   REPLY: 'REPLY',
   FORWARD: 'FORWARD',
-  NOTE: 'Note',
+  NOTE: 'NOTE',
+};
+
+export const TICKET_CONVERSATIONS_TYPE = {
+  REPLY: 'REPLY',
+  FORWARD: 'FORWARD',
+  NOTE: 'NOTE',
+  DISCUSS: 'DISCUSS',
+};
+
+export const TICKET_CONVERSATIONS_RESPONSE_TYPE = {
+  ARTICLE: 'ARTICLE',
+  CANNED_RESPONSES: 'CANNED RESPONSES',
+};
+
+export const TICKET_CONVERSATIONS_CONTENT_TYPE = {
+  LINK: 'LINK',
+  CONTENT: 'CONTENT',
 };

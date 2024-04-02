@@ -1,119 +1,23 @@
 import { Box, Button, Grid, InputAdornment, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import {
-  profileFields,
-  profileValidationSchema,
-} from './UserDetailsProfile.data';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { v4 as uuidv4 } from 'uuid';
+import { profileFields } from './UserDetailsProfile.data';
 import useToggle from '@/hooks/useToggle';
-import { EditInputIcon } from '@/assets/icons';
-import useUserManagement from '../../useUserManagement';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
-import { enqueueSnackbar } from 'notistack';
+import useUserDeatilProfile from './useUserDeatilProfile';
+import { v4 as uuidv4 } from 'uuid';
 
 const UserDetailsProfile = (props: any) => {
   const { userDetails, setTabVal } = props;
-  const { updateUsers, initialTab }: any = useUserManagement();
   const [isToggled, setIsToggled] = useToggle(false);
-  const id = userDetails?._id;
-
-  const userProfileDefaultValues = {
-    ...userDetails,
-    compositeAddress: userDetails?.address?.composite
-      ? userDetails.address.composite
-      : `${
-          userDetails.address.flat ? `Flat # ${userDetails.address.flat}, ` : ''
-        }` +
-        `${
-          userDetails.address.buildingNumber
-            ? `Building # ${userDetails.address.buildingNumber}, `
-            : ''
-        }` +
-        `${
-          userDetails.address.buildingName
-            ? `Building Name ${userDetails.address.buildingName}, `
-            : ''
-        }` +
-        `${
-          userDetails.address.streetName
-            ? `Street # ${userDetails.address.streetName}, `
-            : ''
-        }` +
-        `${userDetails.address.city ? `${userDetails.address.city}, ` : ''}` +
-        `${
-          userDetails.address.country ? `${userDetails.address.country}` : ''
-        }`,
-    flat: userDetails?.address?.flat ?? '',
-    city: userDetails?.address?.city ?? '',
-    country: userDetails?.address?.country ?? '',
-    buildingName: userDetails?.address?.buildingName ?? '',
-    buildingNumber: userDetails?.address?.buildingNumber ?? '',
-    streetName: userDetails?.address?.streetName ?? '',
+  const userProfileParams = {
+    isToggled,
+    userDetails,
+    setTabVal,
   };
-
-  const methods: any = useForm({
-    resolver: yupResolver(profileValidationSchema),
-    defaultValues: userProfileDefaultValues,
-  });
-
-  const { handleSubmit } = methods;
-
-  const onSubmit = async (values: any) => {
-    if (isToggled) {
-      values.address = {
-        flat: values.flat,
-        buildingName: values?.buildingName,
-        buildingNumber: values?.buildingNumber,
-        streetName: values?.streetName,
-        city: values?.city,
-        country: values?.country,
-      };
-    } else {
-      values.address = {
-        composite: values?.compositeAddress,
-      };
-    }
-
-    const keysToDelete = [
-      '_id',
-      'products',
-      'role',
-      'organization',
-      'createdAt',
-      'createdBy',
-      'updatedAt',
-      'status',
-      'flat',
-      'compositeAddress',
-      'buildingNumber',
-      'buildingName',
-      'city',
-      'country',
-      'streetName',
-      'linkedInUrl',
-      'departmentId',
-      'avatar',
-      'email',
-    ];
-
-    for (const key of keysToDelete) {
-      delete values[key];
-    }
-    try {
-      await updateUsers({ id: id, body: values })?.unwrap();
-      enqueueSnackbar('User updated successfully', {
-        variant: 'success',
-      });
-      setTabVal(initialTab);
-    } catch (error: any) {
-      enqueueSnackbar(error?.data?.message, {
-        variant: 'error',
-      });
-    }
-  };
+  const { methods, handleSubmit, onSubmit, initialTab, addressVal } =
+    useUserDeatilProfile(userProfileParams);
 
   return (
     <FormProvider methods={methods}>
@@ -132,7 +36,12 @@ const UserDetailsProfile = (props: any) => {
           <Grid container spacing={2} sx={{ mt: '5px' }}>
             {profileFields?.map((item: any) => {
               return (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                <Grid
+                  item
+                  xs={12}
+                  md={item?.md}
+                  key={item?.componentProps?.name}
+                >
                   {item?.componentProps?.heading && (
                     <Typography variant="h5">
                       {item?.componentProps?.heading}
@@ -156,12 +65,22 @@ const UserDetailsProfile = (props: any) => {
                         }}
                         position="end"
                       >
-                        <Box
-                          sx={{ cursor: 'pointer' }}
-                          onClick={() => setIsToggled(true)}
-                        >
-                          <EditInputIcon />
-                        </Box>
+                        {addressVal?.length > 0 ? (
+                          <BorderColorIcon
+                            sx={{
+                              cursor: 'not-allowed',
+                              fontSize: '20px',
+                              color: 'lightgrey',
+                            }}
+                          />
+                        ) : (
+                          <BorderColorIcon
+                            onClick={() => {
+                              setIsToggled(true);
+                            }}
+                            sx={{ cursor: 'pointer', fontSize: '20px' }}
+                          />
+                        )}
                       </InputAdornment>
                     </Box>
                   )}
@@ -190,7 +109,10 @@ const UserDetailsProfile = (props: any) => {
                     <item.component {...item.componentProps} size={'small'}>
                       {item?.componentProps?.select &&
                         item?.options?.map((option: any) => (
-                          <option key={uuidv4()} value={option?.value}>
+                          <option
+                            key={option?.componentProps?.name}
+                            value={option?.value}
+                          >
                             {option?.label}
                           </option>
                         ))}

@@ -84,7 +84,6 @@ export const BusinessHours = () => {
                 border="0.06rem solid"
                 borderColor="primary.main"
                 borderRadius=".5rem"
-                sx={{ cursor: 'pointer' }}
                 overflow="hidden"
               >
                 <FolderMenu businessHourId={businessHour?._id} />

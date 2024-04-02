@@ -18,6 +18,7 @@ import {
   listsColumnsFunction,
 } from '../EventBaseWorkflow.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useCloneServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
 
 export const useAssets = () => {
   const theme = useTheme();
@@ -97,16 +98,33 @@ export const useAssets = () => {
     if (actionType === ACTIONS_TYPES?.DELETE) {
       setDeleteWorkflow(true);
     } else if (actionType === ACTIONS_TYPES?.EDIT) {
-      router?.push({
-        pathname: AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW,
-        query: {
-          action: EDIT_WORKFLOW,
-          id: selectedId,
-        },
-      });
+      if (selectedAction?.length > 1) {
+        errorSnackbar(`Can't update multiple records`);
+      } else {
+        router?.push({
+          pathname: AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW,
+          query: {
+            action: EDIT_WORKFLOW,
+            id: selectedId,
+          },
+        });
+      }
     }
   };
-  const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);
+  const [workflowCloneTrigger] = useCloneServicesWorkflowMutation();
+  const handleCloneWorkflow = async () => {
+    try {
+      await workflowCloneTrigger(selectedId).unwrap();
+      successSnackbar('Workflow Clone Successfully');
+    } catch (error) {
+      errorSnackbar();
+    }
+  };
+
+  const dropdownOptions = EventBaseWorkflowActionsDropdown(
+    handleActionClick,
+    handleCloneWorkflow,
+  );
   return {
     assetsListsColumns,
     selectedAction,

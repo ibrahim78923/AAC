@@ -9,8 +9,10 @@ import * as Yup from 'yup';
 export const usePieChart = () => {
   const theme = useTheme();
   const departmentDropdown = useLazyGetDepartmentDropdownListQuery();
-  const [getDashboardAgentTrigger, { data: pieChart, isLoading, isFetching }] =
-    useLazyGetDashboardAgentQuery();
+  const [
+    getDashboardAgentTrigger,
+    { data: pieChart, isLoading, isFetching, isError },
+  ] = useLazyGetDashboardAgentQuery();
   const methods = useForm({
     defaultValues: { departmentId: null },
     resolver: yupResolver(
@@ -45,5 +47,6 @@ export const usePieChart = () => {
     pieChartSeries,
     isLoading,
     isFetching,
+    isError,
   };
 };

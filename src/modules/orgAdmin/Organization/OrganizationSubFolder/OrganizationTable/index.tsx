@@ -73,6 +73,7 @@ const OrganizationTable = () => {
     addressLength,
     handleImageChange,
     imagePreview,
+    reset,
   } = useOrganizationTable();
   const { user }: any = useAuth();
 
@@ -86,6 +87,11 @@ const OrganizationTable = () => {
         isDrawerOpen={isOpenDrawer}
         onClose={() => {
           setIsOpenDrawer(false);
+          if (drawerHeading === 'Edit Company') {
+            null;
+          } else {
+            reset();
+          }
         }}
         title={`${drawerHeading}`}
         okText={drawerHeading === 'Edit Company' ? 'Update' : 'Add'}
@@ -230,18 +236,7 @@ const OrganizationTable = () => {
                 </Grid>
               ))}
             </Grid>
-            {/* <CommonModal
-              open={imageHandler}
-              handleClose={() => setImageHandler(false)}
-              handleCancel={() => setImageHandler(false)}
-              handleSubmit={() => setImageHandler(false)}
-              title="Upload Logo"
-              footer={true}
-              okText="Add"
-              cancelText="Cancel"
-            >
-              <RHFDropZone name="logoUrl" />
-            </CommonModal> */}
+
             {isToggled && (
               <Grid container spacing={2} sx={{ paddingTop: '1rem' }}>
                 <Grid item xs={12}>
@@ -250,6 +245,7 @@ const OrganizationTable = () => {
                     label="Flat/Unit"
                     fullWidth={true}
                     select={false}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -258,6 +254,7 @@ const OrganizationTable = () => {
                     label="Building Name"
                     fullWidth={true}
                     select={false}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -266,6 +263,7 @@ const OrganizationTable = () => {
                     label="Building Number"
                     fullWidth={true}
                     select={false}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -274,6 +272,7 @@ const OrganizationTable = () => {
                     label="Street Name"
                     fullWidth={true}
                     select={false}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -282,6 +281,7 @@ const OrganizationTable = () => {
                     label="Town/City"
                     fullWidth={true}
                     select={false}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12}>

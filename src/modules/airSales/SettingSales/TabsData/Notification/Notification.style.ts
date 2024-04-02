@@ -7,6 +7,7 @@ export const styles = {
       borderRadius: '8px',
       display: 'flex',
       justifyContent: 'space-between',
+      alignItems: 'center',
       flexWrap: 'wrap',
     };
   },
