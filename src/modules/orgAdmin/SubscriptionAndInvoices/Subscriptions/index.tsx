@@ -19,7 +19,7 @@ import dayjs from 'dayjs';
 
 import { v4 as uuidv4 } from 'uuid';
 
-const getProductIcon = (product: any) => {
+export const getProductIcon = (product: any) => {
   let iconProduct;
   switch (product) {
     case 'Air Sales':

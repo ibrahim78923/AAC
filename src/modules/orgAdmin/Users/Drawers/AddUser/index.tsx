@@ -1,11 +1,11 @@
 import { Box, Grid, InputAdornment, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import CommonDrawer from '@/components/CommonDrawer';
-import { EditInputIcon } from '@/assets/icons';
 import { addUsersArray } from './AddUser.data';
 import { v4 as uuidv4 } from 'uuid';
 import useAddUser from './useAddUsers';
 import useUsers from '../../useUsers';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 const AddUser = ({ isOpenDrawer, onClose, setIsOpenAdduserDrawer }: any) => {
   const { user } = useUsers();
@@ -15,8 +15,14 @@ const AddUser = ({ isOpenDrawer, onClose, setIsOpenAdduserDrawer }: any) => {
     organizationId: organizationId,
   };
 
-  const { methods, handleSubmit, onSubmit, isToggled, setIsToggled } =
-    useAddUser(useActionParams);
+  const {
+    methods,
+    handleSubmit,
+    onSubmit,
+    isToggled,
+    setIsToggled,
+    addressVal,
+  } = useAddUser(useActionParams);
 
   return (
     <CommonDrawer
@@ -52,14 +58,22 @@ const AddUser = ({ isOpenDrawer, onClose, setIsOpenAdduserDrawer }: any) => {
                       }}
                       position="end"
                     >
-                      <Box
-                        onClick={() => {
-                          setIsToggled(true);
-                        }}
-                        sx={{ cursor: 'pointer', fontSize: '20px' }}
-                      >
-                        <EditInputIcon />
-                      </Box>
+                      {addressVal?.length > 0 ? (
+                        <BorderColorIcon
+                          sx={{
+                            cursor: 'not-allowed',
+                            fontSize: '20px',
+                            color: 'lightgrey',
+                          }}
+                        />
+                      ) : (
+                        <BorderColorIcon
+                          onClick={() => {
+                            setIsToggled(true);
+                          }}
+                          sx={{ cursor: 'pointer', fontSize: '20px' }}
+                        />
+                      )}
                     </InputAdornment>
                   </Box>
                 )}

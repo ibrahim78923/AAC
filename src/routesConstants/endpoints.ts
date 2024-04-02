@@ -83,6 +83,7 @@ export const END_POINTS = {
   PRODUCT_CATALOG_VENDOR_LIST: '/product-catalog/vendor-list',
   ADD_CANNED_RESPONSES: '/canned-responses/add-canned-response',
   GET_CANNED_RESPONSES: '/canned-responses/get-canned-response',
+  GET_CONVERSATION_EMAIL: '/email',
   UPDATE_CANNED_RESPONSES: '/canned-responses/update-canned-response',
   DELETE_CANNED_RESPONSES: '/canned-responses/delete-canned-response',
   GET_RESPONSES_LIST: '/canned-responses/get-responses',
@@ -113,6 +114,8 @@ export const END_POINTS = {
   DROPDOWN_ASSET_TYPE_LIST: `/asset-type/assset-type-list`,
   TICKET_DETAILS: '/ticket',
   REQUESTER_LIST: `/requester/requester-list`,
+  CONVERSATION_EMAIL: `/email`,
+
   DROPDOWN_TASK: '/task',
   PURCHASE_ORDER_LIST: `/assets/purchaseorderlist`,
   GET_SOFTWARE_USER: '/assets/software-users-details',
@@ -332,10 +335,18 @@ export const END_POINTS = {
   CUSTOMER_GET_COMPANY_ACCOUNTS: `/users/company-accounts`,
   AGENTS_SOFTWARE_LIST: `/agent/agent-software-list`,
   EDIT_SOFTWARE_CATEGORY: `/assets/edit-software-category`,
+  HEADER_NOTIFICATIONS: '/notifications',
+  SEEN_NOTIFICATIONS: '/notifications/seen',
   CONVERT_TO_AGENT: `/requester/agent-requests`,
   SERVICES_PATCH_EMAIL_NOTIFICATION: `/notifications/settings`,
   SERVICES_GET_EMAIL_NOTIFICATION: `/notifications/get-notification-settings`,
   GET_TOP_PERFORMER: `/air-services-dashboard/get-top-performer`,
+  GET_SETTING_NOTIFICATIONS: '/notifications/get-notification-settings',
+  UPDATE_SETTING_NOTIFICATIONS: '/notifications/settings',
+  GET_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/get-discussion`,
+  ADD_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/add_discussion`,
+  UPDATE_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/update-discussion`,
+  DELETE_DISCUSSION_OF_TICKET_CONVERSATION: `/discussion/delete-discussion`,
 };
 
 export const superAdminBillingInvoices = {
@@ -355,6 +366,7 @@ export const superAdminBillingInvoices = {
 export const organization = {
   POST_ORGANIZATION_ACCOUNT: '/org-company-account',
   GET_ORGANIZATION_ACCOUNT_ALL: '/org-company-account/get-accounts',
+  GET_PRODUCTS_ALL: '/products',
   GET_ORGANIZATION_ACCOUNT_ID: '/org-company-account',
   GET_MAIN_ORGANIZATION: '/organization',
   UPDATE_ORGANIZATION_ACCOUNT: '/org-company-account',
@@ -417,6 +429,7 @@ export const OPERATION = {
   SCHEMA_KEYS: '/workflows/schema-keys',
   STATUS_WORKFLOW: '/workflows/change-status',
   SAVE_WORKFLOW: '/workflows/save',
+  CLONE_WORKFLOW: '/workflows/clone',
 };
 
 export const AIR_SALES = {

@@ -5,28 +5,25 @@ import {
   productsDefaultValues,
   productsValidationSchema,
 } from './ProductEditorDrawer.data';
-import {
-  usePostSalesProductMutation,
-  useUpdateSalesProductMutation,
-} from '@/services/airSales/deals/settings/sales-product';
+import { usePostSalesProductMutation } from '@/services/airSales/deals/settings/sales-product';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 
 const useProductsEditorDrawer = ({
-  selectedCheckboxes,
+  selectedProduct,
   openDrawer,
   setOpenDrawer,
+  dealId,
 }: any) => {
-  const editRowValue = selectedCheckboxes && selectedCheckboxes;
-  const [postSalesProduct] = usePostSalesProductMutation();
-  const [updateSalesProduct] = useUpdateSalesProductMutation();
+  const [postSalesProduct, { isLoading: addProductLoading }] =
+    usePostSalesProductMutation();
   const [createAssociation] = useCreateAssociationMutation();
 
   const methodsProducts = useForm({
     resolver: yupResolver(productsValidationSchema),
     defaultValues: async () => {
-      if (editRowValue) {
+      if (openDrawer !== 'Add' && selectedProduct) {
         const {
           name,
           sku,
@@ -35,11 +32,8 @@ const useProductsEditorDrawer = ({
           associate,
           description,
           isActive,
-          fileUrl,
-          // createdBy,
           unitPrice,
-          note,
-        } = editRowValue;
+        } = selectedProduct;
         return {
           name,
           sku,
@@ -48,10 +42,7 @@ const useProductsEditorDrawer = ({
           description,
           associate,
           isActive,
-          fileUrl,
-          // createdBy: new Date(createdBy),
           unitPrice,
-          note,
         };
       }
       return productsDefaultValues;
@@ -60,43 +51,29 @@ const useProductsEditorDrawer = ({
 
   const onSubmit = async (values: any) => {
     const formData = new FormData();
-
+    formData.append('name', values?.name);
+    formData.append('sku', values?.sku);
+    formData.append('purchasePrice', values?.purchasePrice);
     formData.append('category', values?.category);
     formData.append('description', values?.description);
-    formData.append('isActive', values?.isActive);
-    formData.append('name', values?.name);
-    formData.append('purchasePrice', values?.purchasePrice);
-    formData.append('sku', values?.sku);
     formData.append('unitPrice', values?.unitPrice);
+    formData.append('isActive', values?.isActive);
     formData.append('image', values?.file);
 
     try {
-      const response =
-        openDrawer === 'Edit'
-          ? await updateSalesProduct({
-              body: formData,
-              id: editRowValue?._id,
-            }).unwrap()
-          : await postSalesProduct({ body: formData })?.unwrap();
+      const response = await postSalesProduct({ body: formData })?.unwrap();
       setOpenDrawer('');
-
       if (response?.data) {
         try {
           await createAssociation({
             body: {
-              //TODO:temporary id data come from backend
-              dealId: '655b2b2ecd318b576d7d71e8',
-              productId: response?.data?._id,
+              dealId: dealId,
+              product: { productId: response?.data?._id },
             },
           }).unwrap();
-          enqueueSnackbar(
-            ` Product ${
-              openDrawer === 'Edit' ? 'Updated' : 'Added'
-            } Successfully`,
-            {
-              variant: NOTISTACK_VARIANTS?.SUCCESS,
-            },
-          );
+          enqueueSnackbar(` Product Added Successfully`, {
+            variant: NOTISTACK_VARIANTS?.SUCCESS,
+          });
         } catch (error: any) {
           const errMsg = error?.data?.message;
           enqueueSnackbar(errMsg ?? 'Error occurred', {
@@ -104,7 +81,7 @@ const useProductsEditorDrawer = ({
           });
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
       enqueueSnackbar(errMessage ?? 'Error occurred', {
@@ -118,6 +95,7 @@ const useProductsEditorDrawer = ({
     handleSubmit,
     onSubmit,
     methodsProducts,
+    addProductLoading,
   };
 };
 

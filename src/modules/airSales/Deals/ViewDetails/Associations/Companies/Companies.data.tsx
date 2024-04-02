@@ -1,27 +1,35 @@
-import Image from 'next/image';
-
-import { Box, Typography } from '@mui/material';
-
-import { NotesAvatarImage } from '@/assets/images';
-import { DeleteCrossIcon, EditPenIcon, ViewEyeIcon } from '@/assets/icons';
+import { Avatar, Box, Typography, useTheme } from '@mui/material';
+import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
+import { IMG_URL } from '@/config';
 export const columns: any = ({
   setOpenDrawer,
   setIsOpenAlert,
+  setCompanyRecord,
 }: {
   setOpenDrawer: React.Dispatch<React.SetStateAction<string>>;
   setIsOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
+  setCompanyRecord: any;
 }) => {
+  const theme = useTheme();
   return [
     {
       accessorFn: (row: any) => row?.name,
       id: 'contact_id',
       cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-          <Image src={NotesAvatarImage} width={40} height={40} alt="avatar" />
+          <Avatar
+            alt="Remy Sharp"
+            src={`${
+              info?.row?.original ? `${IMG_URL}${info?.row?.original?.url}` : ''
+            }`}
+          />
           <Box>
-            <Typography variant="body3" sx={{ color: '#111827' }}>
+            <Typography
+              variant="body3"
+              sx={{ color: theme?.palette?.blue?.dull_blue }}
+            >
               {info?.row?.original?.name}
             </Typography>
             <br />
@@ -36,7 +44,7 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row?.phoneNumber,
+      accessorFn: (row: any) => row?.owner?.phoneNumber,
       id: 'Phone Number',
       isSortable: true,
       header: ' Phone Number',
@@ -44,7 +52,8 @@ export const columns: any = ({
     },
 
     {
-      accessorFn: (row: any) => row?.owner,
+      accessorFn: (row: any) =>
+        `${row?.owner?.firstName} ${row?.owner?.lastName}`,
       id: 'owner',
       isSortable: true,
       header: 'Company Owner',
@@ -56,34 +65,29 @@ export const columns: any = ({
       id: 'assignedTo',
       isSortable: false,
       header: 'Actions',
-      cell: () => (
+      cell: (info: any) => (
         <Box sx={{ display: 'flex', gap: 0.5 }}>
           <PermissionsGuard
             permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_VIEW_COMPANY]}
           >
             <Box
               sx={{ cursor: 'pointer' }}
-              onClick={() => setOpenDrawer('View')}
+              onClick={() => {
+                setOpenDrawer('View'), setCompanyRecord(info?.row?.original);
+              }}
             >
               <ViewEyeIcon />
             </Box>
           </PermissionsGuard>
-          <PermissionsGuard
-            permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_EDIT_TICKET]}
-          >
-            <Box
-              sx={{ cursor: 'pointer' }}
-              onClick={() => setOpenDrawer('Edit')}
-            >
-              <EditPenIcon />
-            </Box>
-          </PermissionsGuard>
+
           <PermissionsGuard
             permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_REMOVE_COMPANY]}
           >
             <Box
               sx={{ cursor: 'pointer' }}
-              onClick={() => setIsOpenAlert(true)}
+              onClick={() => {
+                setIsOpenAlert(true), setCompanyRecord(info?.row?.original);
+              }}
             >
               <DeleteCrossIcon />
             </Box>

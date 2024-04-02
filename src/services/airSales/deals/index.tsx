@@ -12,10 +12,10 @@ export const dealsApi = baseAPI.injectEndpoints({
       providesTags: ['DEALS'],
     }),
     getDealsAssociations: builder.query({
-      query: ({ id }) => ({
-        // todo: used this id to impement all view Details cases temporarily
+      query: ({ id, params }) => ({
         url: `${END_POINTS?.DEALS_ASSOCIATION}/${id}`,
         method: 'GET',
+        params: params,
       }),
       providesTags: ['DEALS_ASSOCIATION'],
     }),
