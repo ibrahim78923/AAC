@@ -1,20 +1,21 @@
+import { useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { profileValidationSchema } from './UserDetailsProfile.data';
 import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManagement';
-import { enqueueSnackbar } from 'notistack';
-import { useEffect } from 'react';
 
-const useProfile = (profileParams: any) => {
-  const { isToggled, setTabVal, profileData } = profileParams;
+const useUserDeatilProfile = (userprofileParams: any) => {
+  const { isToggled, userDetails, setTabVal } = userprofileParams;
   const { updateUsers }: any = useUserManagement();
+  const id = userDetails?._id;
   const initialTab = 0;
 
-  const defaultValues = {
+  const profileDefaultValues: any = {
     firstName: '',
     lastName: '',
     email: '',
-    address: '',
+    compositeAddress: '',
     phoneNumber: '',
     jobTitle: '',
     postCode: '',
@@ -24,7 +25,7 @@ const useProfile = (profileParams: any) => {
 
   const methods: any = useForm({
     resolver: yupResolver(profileValidationSchema),
-    defaultValues: defaultValues,
+    defaultValues: profileDefaultValues,
   });
 
   const { handleSubmit, watch, setValue } = methods;
@@ -46,37 +47,37 @@ const useProfile = (profileParams: any) => {
 
   // Set value of address fields
   useEffect(() => {
-    setValue('address', addressValues);
+    setValue('compositeAddress', addressValues);
   }, [addressValues]);
 
   useEffect(() => {
-    const data = profileData;
     const fieldsToSet: any = {
-      firstName: data?.firstName,
-      lastName: data?.lastName,
-      email: data?.email,
-      address: data?.address?.composite,
-      flat: profileData?.address?.flatNumber ?? '',
-      city: profileData?.address?.city ?? '',
-      country: profileData?.address?.country ?? '',
-      buildingName: profileData?.address?.buildingName ?? '',
-      buildingNumber: profileData?.address?.buildingNumber ?? '',
-      streetName: profileData?.address?.streetName ?? '',
-      postCode: data?.postCode,
-      phoneNumber: data?.phoneNumber,
-      jobTitle: data?.jobTitle,
-      facebookUrl: data?.facebookUrl,
-      linkedInUrl: data?.linkedInUrl,
+      firstName: userDetails?.firstName,
+      lastName: userDetails?.lastName,
+      email: userDetails?.email,
+      compositeAddress: userDetails?.address?.composite,
+      flat: userDetails?.address?.flatNumber ?? '',
+      city: userDetails?.address?.city ?? '',
+      country: userDetails?.address?.country ?? '',
+      buildingName: userDetails?.address?.buildingName ?? '',
+      buildingNumber: userDetails?.address?.buildingNumber ?? '',
+      streetName: userDetails?.address?.streetName ?? '',
+      postCode: userDetails?.postCode,
+      phoneNumber: userDetails?.phoneNumber,
+      jobTitle: userDetails?.jobTitle,
+      facebookUrl: userDetails?.facebookUrl,
+      linkedInUrl: userDetails?.linkedInUrl,
     };
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);
     }
-  }, [profileData]);
+  }, [userDetails]);
 
+  //submission and hit post api
   const onSubmit = async (values: any) => {
     if (!isToggled) {
       values.address = {
-        composite: values?.address,
+        composite: values?.compositeAddress,
       };
     } else {
       values.address = {
@@ -86,7 +87,7 @@ const useProfile = (profileParams: any) => {
         streetName: values?.streetName,
         city: values?.city,
         country: values?.country,
-        composite: values?.address,
+        composite: values?.compositeAddress,
       };
     }
 
@@ -117,7 +118,7 @@ const useProfile = (profileParams: any) => {
     }
 
     try {
-      await updateUsers({ id: profileData?._id, body: values })?.unwrap();
+      await updateUsers({ id: id, body: values })?.unwrap();
       enqueueSnackbar('User updated successfully', {
         variant: 'success',
       });
@@ -134,8 +135,8 @@ const useProfile = (profileParams: any) => {
     handleSubmit,
     onSubmit,
     initialTab,
-    addressVal: formValues.address,
+    addressVal: formValues?.compositeAddress,
   };
 };
 
-export default useProfile;
+export default useUserDeatilProfile;

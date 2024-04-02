@@ -384,6 +384,17 @@ export const useAddPlan = () => {
         additionalPerUserPrice: parseInt(planForm?.additionalPerUserPrice),
         additionalStoragePrice: parseInt(planForm?.additionalStoragePrice),
       };
+      // const planFeaturesFormData = featuresFormData?.map((item: any) =>
+      //   item?.features?.map((feature: any) => ({
+      //     features: [
+      //       {
+      //         dealsAssociationsDetail: featureDetails?.dealsAssociationsDetail,
+      //         featureId: feature?.featureId,
+      //       },
+      //     ],
+      //     productId: item?.productId,
+      //   })),
+      // );
 
       // const planFeaturesFormData = featuresFormData?.features?.map(
       //   (item: any) =>

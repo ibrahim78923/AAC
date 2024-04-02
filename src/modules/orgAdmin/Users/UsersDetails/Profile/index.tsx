@@ -2,8 +2,8 @@ import { Box, Button, Grid, InputAdornment, Typography } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
 import { profileFields } from './UserDetailsProfile.data';
 import useToggle from '@/hooks/useToggle';
-import { EditInputIcon } from '@/assets/icons';
 import useProfile from './useProfile';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 const UserDetailsProfile = (props: any) => {
   const { profileData, setTabVal } = props;
@@ -15,7 +15,7 @@ const UserDetailsProfile = (props: any) => {
     profileData,
   };
 
-  const { methods, handleSubmit, onSubmit, initialTab } =
+  const { methods, handleSubmit, onSubmit, initialTab, addressVal } =
     useProfile(profileParams);
 
   return (
@@ -46,12 +46,22 @@ const UserDetailsProfile = (props: any) => {
                     }}
                     position="end"
                   >
-                    <Box
-                      onClick={() => setIsToggled(true)}
-                      sx={{ cursor: 'pointer', fontSize: '20px' }}
-                    >
-                      <EditInputIcon />
-                    </Box>
+                    {addressVal?.length > 0 ? (
+                      <BorderColorIcon
+                        sx={{
+                          cursor: 'not-allowed',
+                          fontSize: '20px',
+                          color: 'lightgrey',
+                        }}
+                      />
+                    ) : (
+                      <BorderColorIcon
+                        onClick={() => {
+                          setIsToggled(true);
+                        }}
+                        sx={{ cursor: 'pointer', fontSize: '20px' }}
+                      />
+                    )}
                   </InputAdornment>
                 </Box>
               )}
