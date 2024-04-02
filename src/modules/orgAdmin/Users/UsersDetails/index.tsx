@@ -7,12 +7,12 @@ import AddAccount from '../Drawers/AddAccount';
 import useUsersDetails from './useUsersDetails';
 import { AddCircle } from '@mui/icons-material';
 import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/users';
-import { IMG_URL } from '@/config';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_USERS_PERMISSIONS } from '@/constants/permission-keys';
 import Search from '@/components/Search';
 import SkeletonComponent from '@/components/CardSkeletons';
 import useUsers from '../useUsers';
+import { generateImage } from '@/utils/avatarUtils';
 
 const UsersDetails = (props: any) => {
   const { employeeDataById, searchAccount, setSearchAccount } = props;
@@ -47,7 +47,7 @@ const UsersDetails = (props: any) => {
               isLoading={profileDataLoading}
               src={`${
                 profileData?.data?.avatar
-                  ? `${IMG_URL}${profileData?.data?.avatar?.url}`
+                  ? generateImage(profileData?.data?.avatar?.url)
                   : ''
               }`}
               handleChangeImg={(e: any) => handleChangeImg(e, employeeDataById)}
