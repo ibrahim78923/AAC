@@ -19,19 +19,24 @@ import {
   useGetCRMPlanListQuery,
   useGetProductFeaturesQuery,
   useGetProductPlanListProductIdQuery,
+  usePostSubscriptionPlanMutation,
 } from '@/services/orgAdmin/subscription-and-invoices';
 import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 import { useAppSelector } from '@/redux/store';
+import { enqueueSnackbar } from 'notistack';
+import { getSession } from '@/utils';
 const ChoosePlan = () => {
   const router = useRouter();
+
+  const { user }: { accessToken: string; refreshToken: string; user: any } =
+    getSession();
 
   const parsedManageData = useAppSelector(
     (state) => state?.subscriptionAndInvoices?.selectedPlanData,
   );
   const isCRM = parsedManageData?.isCRM;
-
   const { data, isLoading } = useGetProductPlanListProductIdQuery({
     id: parsedManageData?.productId,
   });
@@ -44,6 +49,30 @@ const ChoosePlan = () => {
   });
 
   const [getData, setGetData] = useState<any>([]);
+
+  const [postSubscriptionPlan] = usePostSubscriptionPlanMutation();
+
+  const onSubmit = async (ele: any) => {
+    const payload = {
+      organizationId: user?.organization?._id,
+      planId: ele?._id,
+      additionalUsers: 1,
+      additionalStorage: 2,
+      planDiscount: 0,
+      billingDate: '2023-10-20',
+      status: 'ACTIVE',
+      billingCycle: 'MONTHLY',
+    };
+
+    try {
+      await postSubscriptionPlan({ body: payload }).unwrap();
+      enqueueSnackbar('Plan Created', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
 
   useEffect(() => {
     if (isCRM) {
@@ -135,7 +164,11 @@ const ChoosePlan = () => {
                               ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_BUY_PLAN,
                             ]}
                           >
-                            <Button variant="contained" color="primary">
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => onSubmit(choosePlan)}
+                            >
                               Buy Plan
                             </Button>
                           </PermissionsGuard>
@@ -265,7 +298,7 @@ const ChoosePlan = () => {
                               <TickCircleIcon />
                             </TableCell>
                           ) : (
-                            <TableCell align="center"> </TableCell>
+                            <TableCell align="center">-</TableCell>
                           );
                         },
                       );

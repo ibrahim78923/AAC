@@ -35,8 +35,8 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
     getProductPlanListProductId: builder.query({
-      query: ({ id }) => ({
-        url: `${ORG_ADMIN?.PRODUCT_PLAN_LIST}/${id}`,
+      query: ({ id, isCrm }: any) => ({
+        url: `${ORG_ADMIN?.PRODUCT_PLAN_LIST}/${id}?isCrm=${isCrm}`,
         method: 'GET',
       }),
       providesTags: TAG,
@@ -71,6 +71,14 @@ export const subscriptionAndInvoicesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    postSubscriptionPlan: builder.mutation({
+      query: ({ body }) => ({
+        url: `${ORG_ADMIN?.SUBSCRIPTION_AND_INVOICES}`,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -84,4 +92,5 @@ export const {
   usePostSubscriptionMutation,
   useGetSubscriptionsAllCrmWithSubscriptionsQuery,
   useGetCRMPlanListQuery,
+  usePostSubscriptionPlanMutation,
 } = subscriptionAndInvoicesAPI;
