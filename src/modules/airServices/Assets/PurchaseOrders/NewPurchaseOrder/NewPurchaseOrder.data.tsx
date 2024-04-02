@@ -11,9 +11,18 @@ export const currencyOptions = ['Pound', 'Dollar'];
 const purchaseDetailSchema = yup?.object()?.shape({
   itemName: yup?.object()?.nullable(),
   description: yup?.string()?.default(''),
-  quantity: yup?.number(),
-  costPerItem: yup?.number(),
-  taxRate: yup?.number(),
+  quantity: yup
+    ?.number()
+    ?.positive('Greater than zero')
+    ?.typeError('Not a number'),
+  costPerItem: yup
+    ?.number()
+    ?.positive('Greater than zero')
+    ?.typeError('Not a number'),
+  taxRate: yup
+    ?.number()
+    ?.positive('Greater than zero')
+    ?.typeError('Not a number'),
   total: yup?.number(),
 });
 // form validation schema
