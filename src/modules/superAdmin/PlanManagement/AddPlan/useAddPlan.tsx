@@ -258,12 +258,10 @@ export const useAddPlan = () => {
       setPermissionSlugs(
         'permissionSlugs',
 
-        tempData?.flatMap(
-          (permission: any) =>
-            permission?.permissionSlugs?.map(
-              (slugObject: any) =>
-                `${permission?.productId}:${slugObject?.slug}`,
-            ),
+        tempData?.flatMap((permission: any) =>
+          permission?.permissionSlugs?.map(
+            (slugObject: any) => `${permission?.productId}:${slugObject?.slug}`,
+          ),
         ),
       );
       setPlanFeatures(
@@ -287,8 +285,8 @@ export const useAddPlan = () => {
   const selectAllPermissions = (subModules: any) => {
     const modulePermissions = getModulePermissions(subModules);
     if (
-      !modulePermissions?.every(
-        (permission: any) => selectedPermission?.includes(permission),
+      !modulePermissions?.every((permission: any) =>
+        selectedPermission?.includes(permission),
       )
     ) {
       permissionsArray = modulePermissions?.concat(selectedPermission);
@@ -359,18 +357,16 @@ export const useAddPlan = () => {
         additionalPerUserPrice: parseInt(planForm?.additionalPerUserPrice),
         additionalStoragePrice: parseInt(planForm?.additionalStoragePrice),
       };
-      const planFeaturesFormData = featuresFormData?.map(
-        (item: any) =>
-          item?.features?.map((feature: any) => ({
-            features: [
-              {
-                dealsAssociationsDetail:
-                  featureDetails?.dealsAssociationsDetail,
-                featureId: feature?.featureId,
-              },
-            ],
-            productId: item?.productId,
-          })),
+      const planFeaturesFormData = featuresFormData?.map((item: any) =>
+        item?.features?.map((feature: any) => ({
+          features: [
+            {
+              dealsAssociationsDetail: featureDetails?.dealsAssociationsDetail,
+              featureId: feature?.featureId,
+            },
+          ],
+          productId: item?.productId,
+        })),
       );
 
       const transformedFeaturesFormData = {
