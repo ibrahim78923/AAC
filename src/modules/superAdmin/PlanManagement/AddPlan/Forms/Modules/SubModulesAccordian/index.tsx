@@ -46,7 +46,7 @@ const SubModulesAccordion = ({
                   name="permissionSlugs"
                   options={item?.permissions?.map((item: any) => ({
                     label: item?.name,
-                    value: item?.slug,
+                    value: `${item?.productId}:${item?.slug}`,
                   }))}
                   GridView={3}
                 />
