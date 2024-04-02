@@ -49,6 +49,7 @@ export const SUPER_ADMIN_SETTINGS: any = {
   PRODUCT_FEATURES: '/product-features',
   PRODUCTS: '/products',
   QUICK_LINKS: '/quick-links',
+  QUICK_LINKS_GROUP: '/quick-links/get-group-quick-links',
   NEWS_EVENTS: 'news-and-events',
 };
 
