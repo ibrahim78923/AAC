@@ -36,12 +36,16 @@ export const UpsertConversation = (props: any) => {
         }
         okText={
           !!singleConversation?._id
-            ? `${CONVERSATION_TYPE_MODIFY?.[
-                selectedConversationType?.conversationType
-              ]?.edit}`
-            : `${CONVERSATION_TYPE_MODIFY?.[
-                selectedConversationType?.conversationType
-              ]?.add}`
+            ? `${
+                CONVERSATION_TYPE_MODIFY?.[
+                  selectedConversationType?.conversationType
+                ]?.edit
+              }`
+            : `${
+                CONVERSATION_TYPE_MODIFY?.[
+                  selectedConversationType?.conversationType
+                ]?.add
+              }`
         }
         footer
         isOk

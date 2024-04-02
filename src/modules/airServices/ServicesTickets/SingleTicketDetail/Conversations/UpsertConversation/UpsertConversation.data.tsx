@@ -78,9 +78,10 @@ export const upsertConversationFormFieldsDynamic = (
     id: 3,
     componentProps: {
       name: 'recipients',
-      label: `${CONVERSATION_TYPE_MODIFY?.[
-        selectedConversationType?.conversationType
-      ]?.recipients}`,
+      label: `${
+        CONVERSATION_TYPE_MODIFY?.[selectedConversationType?.conversationType]
+          ?.recipients
+      }`,
       fullWidth: true,
       required: true,
     },

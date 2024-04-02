@@ -171,30 +171,28 @@ const Modules = ({
 
       {modulesPermissionsArray?.map((perProduct: any) => (
         <>
-          {perProduct?.data?.map(
-            (itema: any) =>
-              itema?.subModules?.map(
-                (itemb: any) =>
-                  itemb?.permissions?.map((itemc: any) => {
-                    const currentProductId = itemc?.productId;
-                    const productName =
-                      productList &&
-                      productsOptions?.find(
-                        (obj: any) => obj?.value === currentProductId,
-                      )?.label;
+          {perProduct?.data?.map((itema: any) =>
+            itema?.subModules?.map((itemb: any) =>
+              itemb?.permissions?.map((itemc: any) => {
+                const currentProductId = itemc?.productId;
+                const productName =
+                  productList &&
+                  productsOptions?.find(
+                    (obj: any) => obj?.value === currentProductId,
+                  )?.label;
 
-                    if (currentProductId !== prevProductId) {
-                      prevProductId = currentProductId;
-                      return (
-                        <Typography variant="h4" my={2} key={uuidv4()}>
-                          {productName}
-                        </Typography>
-                      );
-                    } else {
-                      return null;
-                    }
-                  }),
-              ),
+                if (currentProductId !== prevProductId) {
+                  prevProductId = currentProductId;
+                  return (
+                    <Typography variant="h4" my={2} key={uuidv4()}>
+                      {productName}
+                    </Typography>
+                  );
+                } else {
+                  return null;
+                }
+              }),
+            ),
           )}
 
           {perProduct?.data?.map((item: any) => (

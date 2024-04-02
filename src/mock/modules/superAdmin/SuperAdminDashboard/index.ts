@@ -1,4 +1,4 @@
-import { IcLinkImage, NotificationAvatarImage } from '@/assets/images';
+import { IcLinkImage } from '@/assets/images';
 
 export const MyAccountData = [
   {
@@ -25,24 +25,6 @@ export const MyAccountData = [
     title: 'Organization  Admin Portal',
     role: 'organization',
     icon: IcLinkImage,
-  },
-];
-
-export const NotificationData = [
-  {
-    message: 'You have received a notification from Usman Saeed.',
-    date: 'Dec 29 at 9:56 AM',
-    icon: NotificationAvatarImage,
-  },
-  {
-    message: 'You have received a notification from Usman Saeed.',
-    date: 'Dec 29 at 9:56 AM',
-    icon: NotificationAvatarImage,
-  },
-  {
-    message: 'You have received a notification from Usman Saeed.',
-    date: 'Dec 29 at 9:56 AM',
-    icon: NotificationAvatarImage,
   },
 ];
 
