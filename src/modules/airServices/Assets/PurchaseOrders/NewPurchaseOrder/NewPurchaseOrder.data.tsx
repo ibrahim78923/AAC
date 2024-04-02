@@ -18,12 +18,18 @@ const purchaseDetailSchema = yup?.object()?.shape({
 });
 // form validation schema
 export const validationSchema: any = yup?.object()?.shape({
-  orderName: yup?.string()?.required('Required'),
-  orderNumber: yup?.string()?.min(1).required('Required'),
-  vendor: yup?.object()?.required('Required'),
-  currency: yup?.string()?.required('Required'),
+  orderName: yup?.string()?.required('Order Name Required'),
+  orderNumber: yup
+    ?.number()
+    ?.positive('Greater than zero')
+    ?.typeError('Not a number'),
+  vendor: yup?.object()?.required('Vendor is Required'),
+  currency: yup?.string()?.required('Currency is Required'),
   department: yup?.object()?.nullable(),
-  expectedDeliveryDate: yup?.date()?.nullable()?.required('Required'),
+  expectedDeliveryDate: yup
+    ?.date()
+    ?.nullable()
+    ?.required('Delivery Date is Required'),
   location: yup?.object()?.nullable(),
   termAndCondition: yup?.string(),
   subTotal: yup?.number(),
