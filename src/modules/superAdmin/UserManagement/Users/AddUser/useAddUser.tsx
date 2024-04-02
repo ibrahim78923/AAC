@@ -27,7 +27,7 @@ const useAddUser = (useActionParams?: any) => {
   const [orgNumber, setOrgNumber] = useState('');
   const pathName = window?.location?.pathname;
   const { usePostUsersMutation, useUpdateUsersMutation } = usersApi;
-  const [postUsers] = usePostUsersMutation();
+  const [postUsers, { isLoading: postUserLoading }] = usePostUsersMutation();
   const [updateUsers] = useUpdateUsersMutation();
   const [postUserEmployee] = usePostUserEmployeeMutation();
   const { setIsOpenAdduserDrawer: setIsAddEmployyeDrawer } =
@@ -38,36 +38,16 @@ const useAddUser = (useActionParams?: any) => {
   const tabTitle = tabVal === initialTab ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
 
   // for super admin form methods
-  const superAdminValues = {
-    ...userDetail,
-    address: userDetail?.address?.composite ?? '',
-    // userDetail?.address?.composite
-    // ? userDetail?.address?.composite
-    // : `${userDetail?.address?.flat
-    //   ? `Flat # ${userDetail?.address?.flat}, `
-    //   : ''
-    // }` +
-    // `${userDetail?.address?.buildingNumber
-    //   ? `Building # ${userDetail?.address?.buildingNumber}, `
-    //   : ''
-    // }` +
-    // `${userDetail?.address?.buildingName
-    //   ? `Building Name ${userDetail?.address?.buildingName}, `
-    //   : ''
-    // }` +
-    // `${userDetail?.address?.streetName
-    //   ? `Street # ${userDetail?.address?.streetName}, `
-    //   : ''
-    // }` +
-    // `${userDetail?.address?.city ? `${userDetail?.address?.city}, ` : ''}` +
-    // `${userDetail?.address?.country ? `${userDetail?.address?.country}` : ''
-    // }`,
-    flat: userDetail?.address?.flat ?? '',
-    city: userDetail?.address?.city ?? '',
-    country: userDetail?.address?.country ?? '',
-    buildingName: userDetail?.address?.buildingName ?? '',
-    buildingNumber: userDetail?.address?.buildingNumber ?? '',
-    streetName: userDetail?.address?.streetName ?? '',
+  const superAdminValues: any = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    compositeAddress: '',
+    phoneNumber: '',
+    jobTitle: '',
+    postCode: '',
+    facebookUrl: '',
+    twitterUrl: '',
   };
 
   const superAdminMethods: any = useForm({
@@ -125,11 +105,36 @@ const useAddUser = (useActionParams?: any) => {
     setValue('address', addressValues?.trim());
   }, [addressValues]);
 
+  useEffect(() => {
+    // if (drawerType === 'edit') {
+    const fieldsToSet: any = {
+      firstName: userDetail?.firstName,
+      lastName: userDetail?.lastName,
+      email: userDetail?.email,
+      address: userDetail?.address?.composite,
+      flat: userDetail?.address?.flatNumber ?? '',
+      city: userDetail?.address?.city ?? '',
+      country: userDetail?.address?.country ?? '',
+      buildingName: userDetail?.address?.buildingName ?? '',
+      buildingNumber: userDetail?.address?.buildingNumber ?? '',
+      streetName: userDetail?.address?.streetName ?? '',
+      postCode: userDetail?.postCode,
+      phoneNumber: userDetail?.phoneNumber,
+      jobTitle: userDetail?.jobTitle,
+      facebookUrl: userDetail?.facebookUrl,
+      linkedInUrl: userDetail?.linkedInUrl,
+    };
+    for (const key in fieldsToSet) {
+      setValue(key, fieldsToSet[key]);
+    }
+    // }
+  }, [userDetail]);
   // watch crn number from values
   const organizationNumber = formValues?.crn;
+
   debouncedSearch(organizationNumber, setOrgNumber);
   const { data, isSuccess, isError } =
-    userDetail === undefined
+    tabVal === initialTab
       ? useGetAuthCompaniesQuery({
           q: orgNumber,
         })
@@ -205,6 +210,7 @@ const useAddUser = (useActionParams?: any) => {
     try {
       isOpenAddUserDrawer?.type === 'add'
         ? (await postUsers({ body: values })?.unwrap(),
+          reset(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
           ? (await postUserEmployee({
@@ -223,7 +229,6 @@ const useAddUser = (useActionParams?: any) => {
         },
       );
       setIsAddEmployyeDrawer(false);
-      reset();
     } catch (error: any) {
       enqueueSnackbar(error?.data?.message, {
         variant: 'error',
@@ -243,6 +248,8 @@ const useAddUser = (useActionParams?: any) => {
     tabTitle,
     isToggled,
     setIsToggled,
+    addressVal: formValues.address,
+    postUserLoading,
   };
 };
 
