@@ -26,7 +26,7 @@ export const TeamsHeader = () => {
           startIcon={<CirclePlusIcon />}
           variant="contained"
           onClick={() => {
-            setIsDrawerOpen(true);
+            setIsDrawerOpen({ val: true });
           }}
         >
           Create Team

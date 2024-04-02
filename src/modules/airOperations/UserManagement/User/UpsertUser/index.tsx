@@ -12,10 +12,10 @@ function UpsertUser({
   setIsDrawerOpen,
   usersData,
   methods,
+  handleSubmit,
+  submit,
 }: any) {
   const {
-    handleSubmit,
-    submit,
     disabled,
     setDisabled,
     departmentDropdown,
@@ -51,6 +51,9 @@ function UpsertUser({
           addUsersListStatus?.isLoading || patchProductUsersStatus?.isLoading
         }
         isDisabled={
+          addUsersListStatus?.isLoading || patchProductUsersStatus?.isLoading
+        }
+        disabledCancelBtn={
           addUsersListStatus?.isLoading || patchProductUsersStatus?.isLoading
         }
       >

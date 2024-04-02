@@ -103,6 +103,13 @@ export const userList = (
     ),
   },
   {
+    accessorFn: (row: any) => row?.team?.email,
+    id: 'email',
+    isSortable: true,
+    header: 'Email',
+    cell: (info: any) => info?.getValue(),
+  },
+  {
     accessorFn: (row: any) => row?.team?.name,
     id: 'team',
     isSortable: true,
