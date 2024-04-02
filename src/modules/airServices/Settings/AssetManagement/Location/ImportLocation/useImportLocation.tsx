@@ -6,8 +6,7 @@ import {
   importLocationValidationSchema,
   importLocationDefaultValue,
 } from './ImportLocation.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useImportLocation = (props: any) => {
   const { setIsDrawerOpen } = props;
@@ -23,20 +22,16 @@ export const useImportLocation = (props: any) => {
   const { handleSubmit, reset } = methods;
   const submitImportLocation = async () => {
     try {
-      enqueueSnackbar('Import Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-      reset();
+      successSnackbar('Import Successfully');
+      reset(importLocationDefaultValue);
       setIsDrawerOpen?.(false);
     } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error);
     }
   };
 
   const onClose = () => {
-    reset();
+    reset(importLocationDefaultValue);
     setIsDrawerOpen(false);
   };
 
