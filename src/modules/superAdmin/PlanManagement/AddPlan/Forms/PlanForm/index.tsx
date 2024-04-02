@@ -18,7 +18,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import {
   FormProvider,
-  // RHFMultiSearchableSelect,
+  RHFMultiSearchableSelect,
   RHFSelect,
 } from '@/components/ReactHookForm';
 import { selectProductSuites } from './PlanForm.data';
@@ -87,12 +87,13 @@ const AddPlanForm = ({
             item
             xs={12}
             md={item?.md}
-            key={uuidv4()}
+            // eslint-disable-next-line
+            key={index}
             sx={{
               paddingTop: (index === 0 || index === 1) && '0px !important',
             }}
           >
-            {/* {selectProductSuite === 'CRM' && index === 0 && !isSuccess && (
+            {selectProductSuite === 'CRM' && index === 0 && !isSuccess && (
               <RHFMultiSearchableSelect
                 size="small"
                 name={planLabelRender}
@@ -100,7 +101,7 @@ const AddPlanForm = ({
                 options={productsOptions}
                 required={true}
               />
-            )} */}
+            )}
 
             {selectProductSuite === 'CRM' && index === 0 && isSuccess && (
               <>
