@@ -2,13 +2,27 @@ import { useDeleteWorkflowMutation } from '@/services/airOperations/workflow-aut
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useTicketsHeader = (props: any) => {
-  const { selectedAction, setDeleteWorkflow, setSelectedAction } = props;
-  const selectedId = selectedAction?.map((item: any) => item?._id);
-  const [deleteTrigger] = useDeleteWorkflowMutation();
+  const {
+    selectedAction,
+    setDeleteWorkflow,
+    setSelectedAction,
+    totalRecords,
+    page,
+    setPage,
+    listData,
+  } = props;
+
+  const [deleteTrigger, deleteStatus] = useDeleteWorkflowMutation();
   const handleDelete = async () => {
+    const deleteParams = selectedAction
+      ?.map((item: any) => `ids=${item?._id}`)
+      ?.join('&');
     try {
-      await deleteTrigger({ ids: selectedId });
+      await deleteTrigger(deleteParams);
       successSnackbar('Workflow deleted successfully');
+      const newPage = selectedAction?.length === totalRecords ? 1 : page;
+      setPage?.(newPage);
+      await listData?.(newPage);
       setDeleteWorkflow(false);
       setSelectedAction([]);
     } catch (err: any) {
@@ -17,5 +31,6 @@ export const useTicketsHeader = (props: any) => {
   };
   return {
     handleDelete,
+    deleteStatus,
   };
 };
