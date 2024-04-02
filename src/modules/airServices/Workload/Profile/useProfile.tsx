@@ -44,9 +44,14 @@ export default function useProfile({ setSelected }: any) {
 
   useEffect(() => {
     setUsers(usersStatus?.data?.slice(0, MAX_LIMIT));
-    setUsersExtra(
-      usersExtraStatus?.data?.slice(MAX_LIMIT, usersStatus?.data?.length),
-    );
+    if (usersStatus?.data?.length > MAX_LIMIT) {
+      setUsersExtra(
+        usersExtraStatus?.data?.slice(MAX_LIMIT, usersStatus?.data?.length),
+      );
+    }
+    if (searchBy?.length) {
+      setUsersExtra(usersExtraStatus?.data);
+    }
   }, [usersStatus?.data, usersExtraStatus?.data]);
 
   return {
@@ -60,5 +65,6 @@ export default function useProfile({ setSelected }: any) {
     id,
     debouncedSearch,
     handleClose,
+    usersExtraStatus,
   };
 }
