@@ -67,7 +67,10 @@ const PlanCard: FC<PlanCardI> = ({
             >
               <Button
                 variant="contained"
-                onClick={() => handleBillingDetail(plan?.orgPlanId)}
+                onClick={() => {
+                  handleBillingDetail(plan?.orgPlanId),
+                    dispatch(setSelectedPlanData(plan));
+                }}
               >
                 Billing Details
               </Button>

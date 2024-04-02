@@ -202,6 +202,7 @@ const ProductSuite = () => {
                     {product?.logo && (
                       <Image
                         src={generateImage(product?.logo?.url)}
+                        // src=''
                         width={25}
                         height={25}
                         alt="product"
