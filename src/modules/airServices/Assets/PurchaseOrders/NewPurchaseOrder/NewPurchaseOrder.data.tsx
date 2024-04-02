@@ -37,7 +37,7 @@ export const validationSchema: any = yup?.object()?.shape({
   shipping: yup?.number(),
   discount: yup?.number(),
   total: yup?.number(),
-  purchaseDetails: yup.array().of(purchaseDetailSchema),
+  purchaseDetails: yup?.array()?.of(purchaseDetailSchema),
 });
 
 export const defaultValues = (data?: any) => ({
