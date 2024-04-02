@@ -265,7 +265,7 @@ export const AddToInventory = (props: any) => {
                         sx={{ maxHeight: '300px', overflowY: 'auto' }}
                       >
                         {updateDate ? (
-                          updateDate.map((asset: any) => (
+                          updateDate?.map((asset: any) => (
                             <Card key={asset?._id}>
                               <CardContent>
                                 <FormControl component="fieldset">
