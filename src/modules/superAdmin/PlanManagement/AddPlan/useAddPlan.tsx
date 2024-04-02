@@ -195,9 +195,9 @@ export const useAddPlan = () => {
   const planForm: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.addPlanForm,
   );
-  // const featureDetails: any = useAppSelector(
-  //   (state) => state?.planManagementForms?.planManagement?.featureDetails,
-  // );
+  const featureDetails: any = useAppSelector(
+    (state) => state?.planManagementForms?.planManagement?.featureDetails,
+  );
   const featuresFormData: any = useAppSelector(
     (state) => state?.planManagementForms?.planManagement?.planFeature,
   );
@@ -312,7 +312,8 @@ export const useAddPlan = () => {
               );
               if (productId?.productId === productIdItem) {
                 return {
-                  dealsAssociationsDetail: productId?.name,
+                  dealsAssociationsDetail:
+                    featureDetails?.dealsAssociationsDetail,
                   featureId: item,
                 };
               }
@@ -325,12 +326,8 @@ export const useAddPlan = () => {
     } else {
       featuresData = {
         features: values?.features?.map((item: any) => {
-          const productId = productFeatures?.data?.productfeatures?.find(
-            (id: any) => id?._id === item,
-          );
-
           return {
-            dealsAssociationsDetail: productId?.name,
+            dealsAssociationsDetail: featureDetails?.dealsAssociationsDetail,
             featureId: item,
           };
         }),
@@ -418,14 +415,14 @@ export const useAddPlan = () => {
               id: parsedRowData?._id,
               body: {
                 ...planFormData,
-                planFeature: featuresFormData,
+                planFeature: [featuresFormData],
                 ...transformedModulesFormData,
               },
             })
           : postPlanMangement({
               body: {
                 ...planFormData,
-                planFeature: featuresFormData,
+                planFeature: [featuresFormData],
                 ...transformedModulesFormData,
               },
             })?.unwrap();
@@ -489,6 +486,7 @@ export const useAddPlan = () => {
           selectProductSuite={selectProductSuite}
           setSelectProductSuite={setSelectProductSuite}
           isSuccess={isSuccess}
+          editPlan={singlePlan?.data}
         />
       ),
 

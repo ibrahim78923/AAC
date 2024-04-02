@@ -33,6 +33,7 @@ const AddPlanForm = ({
   selectProductSuite,
   setSelectProductSuite,
   isSuccess,
+  editPlan,
 }: any) => {
   const {
     formDefaultValuesFunction,
@@ -91,7 +92,7 @@ const AddPlanForm = ({
               paddingTop: (index === 0 || index === 1) && '0px !important',
             }}
           >
-            {selectProductSuite === 'CRM' && index === 0 && (
+            {selectProductSuite === 'CRM' && index === 0 && !isSuccess && (
               <RHFMultiSearchableSelect
                 size="small"
                 name={planLabelRender}
@@ -99,6 +100,17 @@ const AddPlanForm = ({
                 options={productsOptions}
                 required={true}
               />
+            )}
+
+            {selectProductSuite === 'CRM' && index === 0 && isSuccess && (
+              <>
+                <label style={{ marginTop: '20px' }}>Suite</label>
+                <TextField
+                  value={editPlan?.planProducts?.map((item: any) => item?.name)}
+                  disabled={isSuccess}
+                  fullWidth
+                />
+              </>
             )}
 
             {selectProductSuite === 'product' && index === 0 && (
