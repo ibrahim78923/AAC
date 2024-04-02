@@ -1,5 +1,5 @@
 import usePath from '@/hooks/usePath';
-import { successSnackbar } from '@/utils/api';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
@@ -12,8 +12,12 @@ export const useImportInventory = (props: any) => {
   const { handleSubmit, reset } = importFormMethod;
 
   const submitImportFile = () => {
-    successSnackbar('File Uploaded Successfully');
-    onClose?.();
+    try {
+      successSnackbar('File Uploaded Successfully');
+      onClose?.();
+    } catch (error) {
+      errorSnackbar(error);
+    }
   };
 
   const onClose = () => {

@@ -86,7 +86,7 @@ export const PlanDetailsDataColumnFunction: any = (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           {info?.row?.original?.planProducts?.length > 1 ? (
             <>
-              <Typography variant="body3">
+              <Typography variant="body2" sx={{ fontWeight: '700' }}>
                 {info?.row?.original?.name}
               </Typography>
               {info?.row?.original?.planProducts?.map((data: any) => (

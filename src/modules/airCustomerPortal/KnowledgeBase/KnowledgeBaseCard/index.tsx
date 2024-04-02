@@ -19,7 +19,7 @@ export const KnowledgeBaseCard = (props: any) => {
       border={`1px solid`}
       borderColor="custom.off_white"
       sx={{ cursor: 'pointer' }}
-      onClick={() => handleKnowledgeBaseDetail(folderId, name)}
+      onClick={() => handleKnowledgeBaseDetail(folderId)}
     >
       <Avatar sx={{ margin: 'auto' }} variant="rounded">
         <FolderIcon />

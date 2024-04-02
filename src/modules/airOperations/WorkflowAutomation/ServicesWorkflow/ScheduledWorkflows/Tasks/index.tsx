@@ -1,17 +1,60 @@
 import TanstackTable from '@/components/Table/TanstackTable';
-import { assetsListData } from '../Assets/Assets.data';
 import { useTasks } from './useTasks';
-import TasksHeader from './TasksHeader';
+import ListViewHeader from '../ListViewHeader';
 
 const Tasks = () => {
-  const { selectedTasksList, tasksListsColumns } = useTasks();
+  const {
+    selectedAction,
+    tasksListsColumns,
+    listData,
+    taskData,
+    isLoading,
+    isSuccess,
+    isFetching,
+    setPage,
+    limit,
+    setLimit,
+    setSearch,
+    search,
+    onSubmitListFilter,
+    isDrawerOpen,
+    setIsDrawerOpen,
+    router,
+    deleteWorkflow,
+    setDeleteWorkflow,
+    dropdownOptions,
+    setSelectedAction,
+  } = useTasks();
   return (
     <>
-      <TasksHeader selectedTasksList={selectedTasksList} />
+      <ListViewHeader
+        selectedList={!!!selectedAction?.length}
+        setSearch={setSearch}
+        search={search}
+        onSubmitListFilter={onSubmitListFilter}
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+        router={router}
+        deleteWorkflow={deleteWorkflow}
+        setDeleteWorkflow={setDeleteWorkflow}
+        dropdownOptions={dropdownOptions}
+        selectedAction={selectedAction}
+        setSelectedAction={setSelectedAction}
+      />
       <TanstackTable
-        data={assetsListData}
+        data={listData}
         columns={tasksListsColumns}
         isPagination
+        isFetching={isFetching}
+        isSuccess={isSuccess}
+        isLoading={isLoading}
+        setLimit={setLimit}
+        setPage={setPage}
+        count={taskData?.meta?.pages}
+        totalRecords={taskData?.meta?.total}
+        onPageChange={(page: any) => setPage(page)}
+        currentPage={taskData?.meta?.page}
+        limit={limit}
       />
     </>
   );

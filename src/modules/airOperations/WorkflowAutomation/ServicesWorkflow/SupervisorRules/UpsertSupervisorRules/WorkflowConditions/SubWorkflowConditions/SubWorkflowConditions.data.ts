@@ -5,7 +5,6 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { SCHEMA_KEYS } from '@/constants/strings';
-import { useEffect } from 'react';
 
 export const assetsFieldsOption = [
   'name',
@@ -141,7 +140,6 @@ export const subWorkflowData = ({
   departmentApiQuery,
   requestersApiQuery,
   apiQueryLocations,
-  setValue,
 }: any) => {
   const useApiQuery = (operatorsOption: string) => {
     if (operatorsOption === constantApiOptions?.agent) {
@@ -170,15 +168,13 @@ export const subWorkflowData = ({
     moduleSelectedOption === SCHEMA_KEYS?.ASSETS
       ? assetsModule || []
       : moduleSelectedOption === SCHEMA_KEYS?.TICKETS
-        ? ticketsModule || []
-        : taskModule || [];
+      ? ticketsModule || []
+      : taskModule || [];
   const selectedOption = watch('options');
   const moduleListOptions = modulesOptions[selectedOption] || [];
-  const operatorsOption = watch(`groups.${index}.conditions.${subIndex}.key`);
-  useEffect(() => {
-    setValue(`groups.${index}.conditions.${subIndex}.condition`, '');
-    setValue(`groups.${index}.conditions.${subIndex}.value`, null);
-  }, [operatorsOption]);
+  const operatorsOption = watch(
+    `groups.${index}.conditions.${subIndex}.fieldName`,
+  );
 
   let singleOperatorsOptions = [];
   const apiQuery = useApiQuery(operatorsOption);
@@ -187,12 +183,12 @@ export const subWorkflowData = ({
     operatorsOption === optionsConstants?.impacts
       ? priority
       : operatorsOption === optionsConstants?.assetType
-        ? assetsOptions
-        : operatorsOption === optionsConstants?.source
-          ? sourcesOptions
-          : operatorsOption === optionsConstants?.type
-            ? typeOptions
-            : status;
+      ? assetsOptions
+      : operatorsOption === optionsConstants?.source
+      ? sourcesOptions
+      : operatorsOption === optionsConstants?.type
+      ? typeOptions
+      : status;
   if (
     [
       optionsConstants?.plannedStartDate,
@@ -238,7 +234,7 @@ export const subWorkflowData = ({
       _id: 5,
       gridLength: 3,
       componentProps: {
-        name: `groups.${index}.conditions.${subIndex}.value`,
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         placeholder: 'Enter Text',
       },
@@ -253,7 +249,7 @@ export const subWorkflowData = ({
       _id: 6,
       gridLength: 3,
       componentProps: {
-        name: `groups.${index}.conditions.${subIndex}.value`,
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
@@ -269,7 +265,7 @@ export const subWorkflowData = ({
       _id: 6,
       gridLength: 3,
       componentProps: {
-        name: `groups.${index}.conditions.${subIndex}.value`,
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
         apiQuery: apiQuery,
@@ -289,7 +285,7 @@ export const subWorkflowData = ({
       _id: 4,
       componentProps: {
         fullWidth: true,
-        name: `groups.${index}.conditions.${subIndex}.value`,
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
       },
       gridLength: 3,
@@ -300,7 +296,7 @@ export const subWorkflowData = ({
       _id: 9,
       gridLength: 3,
       componentProps: {
-        name: `groups.${index}.conditions.${subIndex}.value`,
+        name: `groups.${index}.conditions.${subIndex}.fieldValue`,
         size: 'small',
         placeholder: 'Select',
         options: valuesOptions,
@@ -324,7 +320,7 @@ export const subWorkflowData = ({
       _id: 2,
       gridLength: 3,
       componentProps: {
-        name: `groups.${index}.conditions.${subIndex}.key`,
+        name: `groups.${index}.conditions.${subIndex}.fieldName`,
         size: 'small',
         placeholder: 'Select',
         options: moduleListOptions,

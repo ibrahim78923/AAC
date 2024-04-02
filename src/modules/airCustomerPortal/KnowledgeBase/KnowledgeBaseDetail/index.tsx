@@ -27,7 +27,6 @@ export const KnowledgeBaseDetail = () => {
     isError,
   } = useKnowledgeBaseDetail();
 
-  if (isLoading || isFetching) return <SkeletonTable />;
   if (isError) return <ApiErrorState />;
 
   return (
@@ -47,40 +46,47 @@ export const KnowledgeBaseDetail = () => {
             onClick={() => handleKnowledgeBase()}
             sx={{ cursor: 'pointer' }}
           />
-          <Typography variant="h4">Knowledge Base - {folderName}</Typography>
+          <Typography variant="h4">
+            {folderName ? `Knowledge Base - ${folderName}` : 'Knowledge Base'}
+          </Typography>
         </Box>
         <br />
         <Box>
           <Search label="Search Here" setSearchBy={SetSearchValue} />
         </Box>
         <br />
-        {!!articlesData?.length ? (
-          articlesData?.map((item: any) => (
-            <KnowledgeBaseTicket
-              key={item?._id}
-              articleId={item?._id}
-              folderId={folderId}
-              articlesTitle={item?.title}
-              folderName={folderName}
-              modifiedDate={dayjs(item?.updatedAt)?.format(
-                DATE_TIME_FORMAT?.UI,
-              )}
-              purposeDescription={item?.folder?.description}
-            />
-          ))
+        {isLoading || isFetching ? (
+          <SkeletonTable />
         ) : (
-          <NoData message="No articles found" />
+          <>
+            {!!articlesData?.length ? (
+              articlesData?.map((item: any) => (
+                <KnowledgeBaseTicket
+                  key={item?._id}
+                  articleId={item?._id}
+                  folderId={folderId}
+                  articlesTitle={item?.title}
+                  modifiedDate={dayjs(item?.updatedAt)?.format(
+                    DATE_TIME_FORMAT?.UI,
+                  )}
+                  purposeDescription={item?.folder?.description}
+                />
+              ))
+            ) : (
+              <NoData message="No articles found" />
+            )}
+            <br />
+            <CustomPagination
+              count={articlesMetaData?.pages}
+              totalRecords={articlesMetaData?.total}
+              pageLimit={articlesMetaData?.limit}
+              currentPage={articlesMetaData?.page}
+              onPageChange={(page: any) => setPage(page)}
+              setPageLimit={setPageLimit}
+              setPage={setPage}
+            />
+          </>
         )}
-        <br />
-        <CustomPagination
-          count={articlesMetaData?.pages}
-          totalRecords={articlesMetaData?.total}
-          pageLimit={articlesMetaData?.limit}
-          currentPage={articlesMetaData?.page}
-          onPageChange={(page: any) => setPage(page)}
-          setPageLimit={setPageLimit}
-          setPage={setPage}
-        />
       </Box>
     </PermissionsGuard>
   );

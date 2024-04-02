@@ -2,25 +2,28 @@ import { FilterSharedIcon } from '@/assets/icons';
 import Search from '@/components/Search';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { Box, Button } from '@mui/material';
-import FilterWorkflow from '../../../FilterWorkflow';
-import { useAssetsHeader } from './useAssetsHeader';
 import { AIR_OPERATIONS } from '@/constants';
-import { ScheduledWorkflowDelete } from '../../ScheduledWorkflowDelete';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SERVICES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import { Permissions } from '@/constants/permissions';
+import FilterWorkflow from '../../FilterWorkflow';
+import { useListHeader } from './useListHeader';
+import { EventBasedWorkflowDelete } from '../../EventBaseWorkflows/EventBasedWorkflowDelete';
 
-const AssetsHeader = ({ selectedAssetsList }: any) => {
+const ListViewHeader = (props: any) => {
   const {
-    searchValue,
-    setSearchValue,
+    selectedList,
+    setSearch,
+    search,
+    onSubmitListFilter,
     isDrawerOpen,
     setIsDrawerOpen,
     dropdownOptions,
     router,
     setDeleteWorkflow,
     deleteWorkflow,
-  } = useAssetsHeader();
+  } = props;
+  const { handleDelete } = useListHeader(props);
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -31,10 +34,9 @@ const AssetsHeader = ({ selectedAssetsList }: any) => {
             ]}
           >
             <Search
-              value={searchValue}
               label="Search Here"
-              setSearchBy={setSearchValue}
-              onChange={(e: any) => setSearchValue(e?.target?.value)}
+              searchBy={search}
+              setSearchBy={setSearch}
             />
           </PermissionsGuard>
         </Box>
@@ -46,7 +48,7 @@ const AssetsHeader = ({ selectedAssetsList }: any) => {
           >
             <SingleDropdownButton
               dropdownOptions={dropdownOptions}
-              disabled={!!!selectedAssetsList?.length}
+              disabled={selectedList}
             />
           </PermissionsGuard>
           <PermissionsGuard
@@ -74,7 +76,7 @@ const AssetsHeader = ({ selectedAssetsList }: any) => {
                 router?.push(AIR_OPERATIONS?.UPSERT_SCHEDULE_WORKFLOW)
               }
             >
-              Create Scheduled workflows
+              Create Schedule Workflow
             </Button>
           </PermissionsGuard>
         </Box>
@@ -82,13 +84,15 @@ const AssetsHeader = ({ selectedAssetsList }: any) => {
       <FilterWorkflow
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
+        onSubmitFilter={onSubmitListFilter}
       />
-      <ScheduledWorkflowDelete
+      <EventBasedWorkflowDelete
         deleteWorkflow={deleteWorkflow}
         setDeleteWorkflow={setDeleteWorkflow}
+        handleDelete={handleDelete}
       />
     </>
   );
 };
 
-export default AssetsHeader;
+export default ListViewHeader;

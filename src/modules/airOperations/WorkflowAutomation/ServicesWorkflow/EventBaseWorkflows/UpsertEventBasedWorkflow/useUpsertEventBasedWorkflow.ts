@@ -81,6 +81,7 @@ export const useUpsertEventBasedWorkflow = () => {
 
   const mapAction = (action: any, typeData: any) => ({
     ...action,
+    fieldName: action?.fieldName?.value,
     fieldType: mapField(action, typeData),
   });
 
