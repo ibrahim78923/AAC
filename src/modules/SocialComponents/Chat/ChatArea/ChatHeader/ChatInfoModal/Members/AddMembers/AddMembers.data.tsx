@@ -1,7 +1,7 @@
 import { RHFMultiSearchableSelect } from '@/components/ReactHookForm';
 import * as Yup from 'yup';
-export const addMembersValidationSchema = Yup.object().shape({
-  members: Yup.string().required('Field is Required'),
+export const addMembersValidationSchema = Yup?.object()?.shape({
+  members: Yup?.string()?.required('Field is Required'),
 });
 
 export const addMembersDefaultValues = {

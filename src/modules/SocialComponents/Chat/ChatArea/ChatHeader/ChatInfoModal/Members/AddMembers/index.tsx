@@ -44,7 +44,7 @@ const AddMembers = ({ setIsAddMembers }: AddMembersPropsI) => {
   const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
     id: item?._id,
     label: `${item?.firstName} ${item?.lastName}`,
-    value: item._id,
+    value: item?._id,
     image: UserDefault,
   }));
 

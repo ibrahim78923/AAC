@@ -26,12 +26,12 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 import { useAppSelector } from '@/redux/store';
 import { enqueueSnackbar } from 'notistack';
-import { getSession } from '@/utils';
+import { AlertModals } from '@/components/AlertModals';
 const ChoosePlan = () => {
   const router = useRouter();
 
-  const { user }: { accessToken: string; refreshToken: string; user: any } =
-    getSession();
+  const [isBuyPlan, setIsBuyPlan] = useState(false);
+  const [activePlanToBuy, setActivePlanToBuy] = useState<any>();
 
   const parsedManageData = useAppSelector(
     (state) => state?.subscriptionAndInvoices?.selectedPlanData,
@@ -52,10 +52,9 @@ const ChoosePlan = () => {
 
   const [postSubscriptionPlan] = usePostSubscriptionPlanMutation();
 
-  const onSubmit = async (ele: any) => {
+  const onSubmit = async () => {
     const payload = {
-      organizationId: user?.organization?._id,
-      planId: ele?._id,
+      planId: activePlanToBuy?._id,
       additionalUsers: 1,
       additionalStorage: 2,
       planDiscount: 0,
@@ -66,9 +65,10 @@ const ChoosePlan = () => {
 
     try {
       await postSubscriptionPlan({ body: payload }).unwrap();
-      enqueueSnackbar('Plan Created', {
+      enqueueSnackbar('Request Successful', {
         variant: 'success',
       });
+      setIsBuyPlan(false);
     } catch (error: any) {
       enqueueSnackbar('Something went wrong !', { variant: 'error' });
     }
@@ -94,6 +94,16 @@ const ChoosePlan = () => {
 
   return (
     <>
+      <AlertModals
+        message={'Are you sure you want to buy this plan ?'}
+        type={'Confirmation'}
+        open={isBuyPlan}
+        submitBtnText="Buy Plan"
+        cancelBtnText="Cancel"
+        handleClose={() => setIsBuyPlan(false)}
+        handleSubmitBtn={onSubmit}
+      />
+
       <Box sx={{ display: 'flex', alignItems: 'center', mb: '27px' }}>
         <Box
           onClick={() => history.back()}
@@ -167,7 +177,10 @@ const ChoosePlan = () => {
                             <Button
                               variant="contained"
                               color="primary"
-                              onClick={() => onSubmit(choosePlan)}
+                              onClick={() => {
+                                setActivePlanToBuy(choosePlan),
+                                  setIsBuyPlan(true);
+                              }}
                             >
                               Buy Plan
                             </Button>
@@ -290,15 +303,20 @@ const ChoosePlan = () => {
                     <TableCell sx={styles?.salesActivities}>
                       <Typography variant="h6">{feature?.name}</Typography>
                     </TableCell>
+                    <TableCell component="th">-</TableCell>
                     {getData?.map((planFeature: any) => {
                       return planFeature?.planProductFeatures?.map(
                         (planFeatureId: any) => {
-                          return planFeatureId?.featureId === feature?._id ? (
-                            <TableCell align="center">
-                              <TickCircleIcon />
-                            </TableCell>
-                          ) : (
-                            <TableCell align="center">-</TableCell>
+                          return (
+                            <>
+                              {planFeatureId?.featureId === feature?._id ? (
+                                <TableCell align="center">
+                                  <TickCircleIcon />
+                                </TableCell>
+                              ) : (
+                                <TableCell align="center">-</TableCell>
+                              )}
+                            </>
                           );
                         },
                       );

@@ -66,7 +66,7 @@ const AddGroupModal = ({
   const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
     id: item?._id,
     label: `${item?.firstName} ${item?.lastName}`,
-    value: item._id,
+    value: item?._id,
     image: UserDefault,
   }));
 
@@ -123,11 +123,11 @@ const AddGroupModal = ({
   const handleImageChange = async (e: any) => {
     const selectedImage = e?.target?.files[0];
     setImageToUpload(selectedImage);
-    formData.append('groupImage', selectedImage);
+    formData?.append('groupImage', selectedImage);
 
     const reader = new FileReader();
     reader.onload = () => {
-      setImagePreview(reader.result);
+      setImagePreview(reader?.result);
     };
     reader.readAsDataURL(selectedImage);
   };

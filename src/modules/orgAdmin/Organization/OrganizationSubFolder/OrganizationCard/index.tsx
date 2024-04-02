@@ -344,7 +344,7 @@ const OrganizationCard = () => {
                 >
                   {isLoading ? (
                     <>
-                      {[1, 2, 3, 4, 5].map(() => (
+                      {[1, 2, 3, 4, 5]?.map(() => (
                         <Box
                           sx={{
                             display: 'flex',
@@ -386,9 +386,9 @@ const OrganizationCard = () => {
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
-                                  filter: user?.products.some(
+                                  filter: user?.products?.some(
                                     (userProduct: any) =>
-                                      userProduct._id === item._id,
+                                      userProduct?._id === item?._id,
                                   )
                                     ? 'none'
                                     : 'grayscale(1) brightness(1.0) opacity(0.8)',
@@ -399,7 +399,7 @@ const OrganizationCard = () => {
                               <Typography
                                 variant="body2"
                                 sx={{
-                                  color: `${item.color}`,
+                                  color: `${item?.color}`,
                                   fontWeight: 600,
                                   lineHeight: '20PX',
                                   paddingTop: '10px',

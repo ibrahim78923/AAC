@@ -162,14 +162,14 @@ const useOrganizationTable = () => {
 
     const reader = new FileReader();
     reader.onload = () => {
-      setImagePreview(reader.result);
+      setImagePreview(reader?.result);
     };
-    reader.readAsDataURL(selectedImage);
+    reader?.readAsDataURL(selectedImage);
   };
   const onSubmit = async (data: any) => {
     const products: any = [];
-    user?.products.forEach((product: any) => {
-      if (data[product?._id]) products.push(product?._id);
+    user?.products?.forEach((product: any) => {
+      if (data[product?._id]) products?.push(product?._id);
     });
     const address = {
       flatNumber: data?.unit,

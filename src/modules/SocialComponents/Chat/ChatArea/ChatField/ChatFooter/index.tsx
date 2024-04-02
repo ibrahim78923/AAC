@@ -285,13 +285,13 @@ const ChatFooter = ({ setChangeScroll }: any) => {
 
           <TextField
             placeholder="Write message"
-            sx={styles?.chatTextarea}
+            sx={styles?.chatTextarea(theme)}
             value={messageText}
             onChange={(e) => setMessageText(e?.target?.value)}
             onInput={() => handleTypingStart()}
             onBlur={() => handleTypingStop()}
             onKeyPress={(e: any) => {
-              if (e.key === 'Enter') {
+              if (e?.key === 'Enter') {
                 setAddMessageHandler();
               }
             }}
