@@ -19,19 +19,24 @@ import {
   useGetCRMPlanListQuery,
   useGetProductFeaturesQuery,
   useGetProductPlanListProductIdQuery,
+  usePostSubscriptionPlanMutation,
 } from '@/services/orgAdmin/subscription-and-invoices';
 import { v4 as uuidv4 } from 'uuid';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 import { useAppSelector } from '@/redux/store';
+import { enqueueSnackbar } from 'notistack';
+import { AlertModals } from '@/components/AlertModals';
 const ChoosePlan = () => {
   const router = useRouter();
+
+  const [isBuyPlan, setIsBuyPlan] = useState(false);
+  const [activePlanToBuy, setActivePlanToBuy] = useState<any>();
 
   const parsedManageData = useAppSelector(
     (state) => state?.subscriptionAndInvoices?.selectedPlanData,
   );
   const isCRM = parsedManageData?.isCRM;
-
   const { data, isLoading } = useGetProductPlanListProductIdQuery({
     id: parsedManageData?.productId,
   });
@@ -44,6 +49,30 @@ const ChoosePlan = () => {
   });
 
   const [getData, setGetData] = useState<any>([]);
+
+  const [postSubscriptionPlan] = usePostSubscriptionPlanMutation();
+
+  const onSubmit = async () => {
+    const payload = {
+      planId: activePlanToBuy?._id,
+      additionalUsers: 1,
+      additionalStorage: 2,
+      planDiscount: 0,
+      billingDate: '2023-10-20',
+      status: 'ACTIVE',
+      billingCycle: 'MONTHLY',
+    };
+
+    try {
+      await postSubscriptionPlan({ body: payload }).unwrap();
+      enqueueSnackbar('Request Successful', {
+        variant: 'success',
+      });
+      setIsBuyPlan(false);
+    } catch (error: any) {
+      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    }
+  };
 
   useEffect(() => {
     if (isCRM) {
@@ -65,6 +94,16 @@ const ChoosePlan = () => {
 
   return (
     <>
+      <AlertModals
+        message={'Are you sure you want to buy this plan ?'}
+        type={'Confirmation'}
+        open={isBuyPlan}
+        submitBtnText="Buy Plan"
+        cancelBtnText="Cancel"
+        handleClose={() => setIsBuyPlan(false)}
+        handleSubmitBtn={onSubmit}
+      />
+
       <Box sx={{ display: 'flex', alignItems: 'center', mb: '27px' }}>
         <Box
           onClick={() => history.back()}
@@ -135,7 +174,14 @@ const ChoosePlan = () => {
                               ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_BUY_PLAN,
                             ]}
                           >
-                            <Button variant="contained" color="primary">
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => {
+                                setActivePlanToBuy(choosePlan),
+                                  setIsBuyPlan(true);
+                              }}
+                            >
                               Buy Plan
                             </Button>
                           </PermissionsGuard>
@@ -257,15 +303,20 @@ const ChoosePlan = () => {
                     <TableCell sx={styles?.salesActivities}>
                       <Typography variant="h6">{feature?.name}</Typography>
                     </TableCell>
+                    <TableCell component="th">-</TableCell>
                     {getData?.map((planFeature: any) => {
                       return planFeature?.planProductFeatures?.map(
                         (planFeatureId: any) => {
-                          return planFeatureId?.featureId === feature?._id ? (
-                            <TableCell align="center">
-                              <TickCircleIcon />
-                            </TableCell>
-                          ) : (
-                            <TableCell align="center"> </TableCell>
+                          return (
+                            <>
+                              {planFeatureId?.featureId === feature?._id ? (
+                                <TableCell align="center">
+                                  <TickCircleIcon />
+                                </TableCell>
+                              ) : (
+                                <TableCell align="center">-</TableCell>
+                              )}
+                            </>
                           );
                         },
                       );

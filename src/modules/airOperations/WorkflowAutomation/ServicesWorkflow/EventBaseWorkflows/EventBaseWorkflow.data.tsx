@@ -7,8 +7,12 @@ import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
 import { REQUESTORS_STATUS } from '@/constants/strings';
+import { DATE_TIME_FORMAT } from '@/constants';
 
-export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
+export const EventBaseWorkflowActionsDropdown = (
+  handleActionClick: any,
+  handleCloneWorkflow: any,
+) => [
   {
     id: 1,
     title: 'Edit',
@@ -28,6 +32,7 @@ export const EventBaseWorkflowActionsDropdown = (handleActionClick: any) => [
     ],
     handleClick: (close: any) => {
       handleActionClick('clone');
+      handleCloneWorkflow();
       close?.(false);
     },
   },
@@ -176,8 +181,7 @@ export const listsColumnsFunction = (
     id: 'createdOn',
     isSortable: false,
     header: 'Created On',
-    cell: (info: any) =>
-      dayjs(info?.getValue())?.format('MMMM DD, YYYY: hh:mm'),
+    cell: (info: any) => dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
   },
   {
     accessorFn: (row: any) => row?.updatedAt,

@@ -33,7 +33,7 @@ export const WorkflowConditions = (props: any) => {
       {fields?.map((item: any, index: any) => {
         const conditionType = watch(`groups.${index}.conditionType`);
         return (
-          <Box key={item?.id} p={1.5}>
+          <Box key={item?._id} p={1.5}>
             {index !== 0 && (
               <Box sx={styles?.logicBtnContainer(palette)}>
                 <RHFButtonGroup name={`groupCondition`} sx={{ gap: 0 }}>

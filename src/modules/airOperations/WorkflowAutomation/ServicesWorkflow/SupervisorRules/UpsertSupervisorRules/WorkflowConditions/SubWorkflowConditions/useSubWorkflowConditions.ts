@@ -1,9 +1,9 @@
 import { SCHEMA_KEYS } from '@/constants/strings';
-import { useLazyGetLocationsDropdownQuery } from '@/services/airServices/assets/inventory';
 import {
   useLazyGetDepartmentDropdownQuery,
+  useLazyGetLocationsDropdownQuery,
   useLazyGetRequesterDropdownQuery,
-} from '@/services/airServices/tickets';
+} from '@/services/airOperations/workflow-automation/services-workflow';
 import { useGetSchemaKeysQuery } from '@/services/common-APIs';
 import { useLazyGetAgentsQuery } from '@/services/dropdowns';
 import { errorSnackbar } from '@/utils/api';

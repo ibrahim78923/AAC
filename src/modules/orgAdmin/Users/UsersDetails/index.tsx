@@ -11,9 +11,12 @@ import { IMG_URL } from '@/config';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_USERS_PERMISSIONS } from '@/constants/permission-keys';
 import Search from '@/components/Search';
+import SkeletonComponent from '@/components/CardSkeletons';
+import useUsers from '../useUsers';
 
 const UsersDetails = (props: any) => {
   const { employeeDataById, searchAccount, setSearchAccount } = props;
+  const { employeeListLoading } = useUsers();
 
   const {
     tabValue,
@@ -24,8 +27,8 @@ const UsersDetails = (props: any) => {
     handleChangeImg,
   } = useUsersDetails();
 
-  const { data: profileData } = useGetUsersByIdQuery(employeeDataById);
-
+  const { data: profileData, isLoading: profileDataLoading } =
+    useGetUsersByIdQuery(employeeDataById);
   return (
     <Box>
       <Grid container spacing={2}>
@@ -41,6 +44,7 @@ const UsersDetails = (props: any) => {
               email={profileData?.data?.email}
               phone={profileData?.data?.phoneNumber}
               handleEditProfile={() => setTabVal(1)}
+              isLoading={profileDataLoading}
               src={`${
                 profileData?.data?.avatar
                   ? `${IMG_URL}${profileData?.data?.avatar?.url}`
@@ -59,62 +63,70 @@ const UsersDetails = (props: any) => {
             }}
           >
             <Card sx={{ padding: '0px 24px' }}>
-              <CommonTabs
-                isHeader={tabValue === 0 ? true : false}
-                activeTab={tabValue}
-                getTabVal={(val: number) => {
-                  setTabVal(val);
-                  setSearchAccount('');
-                }}
-                tabsArray={['Accounts', 'Profile']}
-                isSearchBar={
-                  <Search
-                    placeholder="Search by Name"
-                    size="small"
-                    value={searchAccount}
-                    onChange={(val: any) =>
-                      setSearchAccount(val?.target?.value)
-                    }
-                  />
-                }
-                headerChildren={
-                  <>
-                    <PermissionsGuard
-                      permissions={[ORG_ADMIN_USERS_PERMISSIONS?.ADD_ACCOUNTS]}
-                    >
-                      <Button
-                        className="small"
-                        variant="outlined"
-                        color="inherit"
-                        onClick={() => setIsOpenAddAccountDrawer(true)}
-                        startIcon={<AddCircle />}
+              {employeeListLoading ? (
+                <SkeletonComponent numberOfSkeletons={7} />
+              ) : (
+                <CommonTabs
+                  isHeader={tabValue === 0 ? true : false}
+                  activeTab={tabValue}
+                  getTabVal={(val: number) => {
+                    setTabVal(val);
+                    setSearchAccount('');
+                  }}
+                  tabsArray={['Accounts', 'Profile']}
+                  isSearchBar={
+                    <Search
+                      placeholder="Search by Name"
+                      size="small"
+                      value={searchAccount}
+                      onChange={(val: any) =>
+                        setSearchAccount(val?.target?.value)
+                      }
+                    />
+                  }
+                  headerChildren={
+                    <>
+                      <PermissionsGuard
+                        permissions={[
+                          ORG_ADMIN_USERS_PERMISSIONS?.ADD_ACCOUNTS,
+                        ]}
                       >
-                        Add account
-                      </Button>
-                    </PermissionsGuard>
-                  </>
-                }
-              >
-                <PermissionsGuard
-                  permissions={[
-                    ORG_ADMIN_USERS_PERMISSIONS?.VIEW_COMPONY_ACCOUNTS,
-                  ]}
+                        <Button
+                          className="small"
+                          variant="outlined"
+                          color="inherit"
+                          onClick={() => setIsOpenAddAccountDrawer(true)}
+                          startIcon={<AddCircle />}
+                        >
+                          Add account
+                        </Button>
+                      </PermissionsGuard>
+                    </>
+                  }
                 >
-                  <Accounts
-                    employeeDataById={employeeDataById}
-                    searchAccount={searchAccount}
-                  />
-                </PermissionsGuard>
+                  <PermissionsGuard
+                    permissions={[
+                      ORG_ADMIN_USERS_PERMISSIONS?.VIEW_COMPONY_ACCOUNTS,
+                    ]}
+                  >
+                    <Accounts
+                      employeeDataById={employeeDataById}
+                      searchAccount={searchAccount}
+                    />
+                  </PermissionsGuard>
 
-                <PermissionsGuard
-                  permissions={[ORG_ADMIN_USERS_PERMISSIONS?.VIEW_USER_PROFILE]}
-                >
-                  <Profile
-                    profileData={profileData?.data}
-                    setTabVal={setTabVal}
-                  />
-                </PermissionsGuard>
-              </CommonTabs>
+                  <PermissionsGuard
+                    permissions={[
+                      ORG_ADMIN_USERS_PERMISSIONS?.VIEW_USER_PROFILE,
+                    ]}
+                  >
+                    <Profile
+                      profileData={profileData?.data}
+                      setTabVal={setTabVal}
+                    />
+                  </PermissionsGuard>
+                </CommonTabs>
+              )}
             </Card>
           </Box>
         </Grid>

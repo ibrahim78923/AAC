@@ -30,6 +30,7 @@ const useOrganizationTable = () => {
 
   const [openEditDrawer, setOpenEditDrawer] = useState(false);
   const [value, setValue] = useState('');
+  const [imagePreview, setImagePreview] = useState<any>();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const theme = useTheme<Theme>();
@@ -158,11 +159,17 @@ const useOrganizationTable = () => {
     const selectedImage = e?.target?.files[0];
     setImageToUpload(selectedImage);
     formData.append('image', selectedImage);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImagePreview(reader?.result);
+    };
+    reader?.readAsDataURL(selectedImage);
   };
   const onSubmit = async (data: any) => {
     const products: any = [];
-    user?.products.forEach((product: any) => {
-      if (data[product?._id]) products.push(product?._id);
+    user?.products?.forEach((product: any) => {
+      if (data[product?._id]) products?.push(product?._id);
     });
     const address = {
       flatNumber: data?.unit,
@@ -275,6 +282,7 @@ const useOrganizationTable = () => {
     setImageToUpload,
     imageToUpload,
     handleImageChange,
+    imagePreview,
     addressDefaultValuesCheck,
     reset,
   };

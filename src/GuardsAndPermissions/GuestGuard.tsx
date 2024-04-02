@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import useAuth from '../hooks/useAuth';
 import LoadingScreen from '@/components/LoadingScreen';
 import { ROLES } from '@/constants/strings';
-import { SUPER_ADMIN, ORG_ADMIN, AUTH } from '@/constants';
+import { SUPER_ADMIN, ORG_ADMIN, AUTH, AIR_CUSTOMER_PORTAL } from '@/constants';
 import { setActivePermissionsSession, setActiveProductSession } from '@/utils';
 import {
   orgAdminAllPermissions,
@@ -46,6 +46,9 @@ export default function GuestGuard({ children }: any) {
   let pathVariable: string;
 
   switch (user?.role) {
+    case ROLES.ORG_REQUESTER:
+      pathVariable = AIR_CUSTOMER_PORTAL.DASHBOARD;
+      break;
     case ROLES.ORG_EMPLOYEE:
       pathVariable = '/';
       break;

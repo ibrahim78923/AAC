@@ -13,6 +13,7 @@ import { DATE_TIME_FORMAT } from '@/constants';
 export const EventBaseWorkflowActionsDropdown = (
   handleActionClick: any,
   selectedAction: any,
+  handleCloneWorkflow: any,
 ) => [
   {
     id: 1,
@@ -37,6 +38,7 @@ export const EventBaseWorkflowActionsDropdown = (
     ],
     handleClick: (close: any) => {
       handleActionClick('clone');
+      handleCloneWorkflow();
       close?.(false);
     },
   },

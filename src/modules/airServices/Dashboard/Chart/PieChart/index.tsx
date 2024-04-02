@@ -8,6 +8,7 @@ import { usePieChart } from './usePieChart';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import NoData from '@/components/NoData';
 import { NoAssociationFoundImage } from '@/assets/images';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const PieChart = () => {
   const {
@@ -18,6 +19,7 @@ export const PieChart = () => {
     pieChartSeries,
     isLoading,
     isFetching,
+    isError,
   } = usePieChart();
   return (
     <>
@@ -71,6 +73,8 @@ export const PieChart = () => {
       <Box sx={{ marginTop: 2 }}>
         {isLoading || isFetching ? (
           <SkeletonTable />
+        ) : isError ? (
+          <ApiErrorState height={'100%'} />
         ) : (
           <>
             {pieChartHeader(theme, pieChartData).every(

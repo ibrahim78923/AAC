@@ -1,9 +1,4 @@
-import {
-  RHFDatePicker,
-  RHFSelect,
-  RHFTextField,
-  RHFTimePicker,
-} from '@/components/ReactHookForm';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
@@ -168,26 +163,6 @@ export const companiesDataArray = (getCompanyContacts: any) => {
       componentProps: {
         name: 'linkedInUrl',
         label: 'LinkdIn Company Page',
-        placeholder: 'Enter here',
-        fullWidth: true,
-      },
-    },
-    {
-      md: 6,
-      component: RHFDatePicker,
-      componentProps: {
-        name: 'dateOfJoining',
-        label: 'Date of Joining',
-        placeholder: 'Enter here',
-        fullWidth: true,
-      },
-    },
-    {
-      md: 6,
-      component: RHFTimePicker,
-      componentProps: {
-        name: 'time',
-        label: 'Time of Joining',
         placeholder: 'Enter here',
         fullWidth: true,
       },

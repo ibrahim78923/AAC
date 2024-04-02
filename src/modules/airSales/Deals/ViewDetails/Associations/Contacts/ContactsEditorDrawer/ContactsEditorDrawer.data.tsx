@@ -9,7 +9,6 @@ import {
 // Define your Yup validation schema
 export const contactsValidationSchema = Yup?.object()?.shape({
   email: Yup?.string()?.email('Invalid email')?.required('Required Field'),
-  profilePicture: Yup?.string()?.trim()?.required('Required Field'),
   firstName: Yup?.string()
     ?.trim()
     ?.matches(/^[a-zA-Z]*$/, 'Alphabets Only')
@@ -31,7 +30,7 @@ export const contactsValidationSchema = Yup?.object()?.shape({
   // contactOwner: Yup?.string()?.trim()?.required('Required Field'),
   statusId: Yup?.string()?.trim()?.required('Required Field'),
   jobTitle: Yup?.string()?.trim()?.required('Required Field'),
-  dateOfJoining: Yup?.string()?.nullable()?.required('Required Field'),
+  dateOfJoinig: Yup?.string()?.nullable()?.required('Required Field'),
   dateOfBirth: Yup?.string()?.nullable()?.required('Required Field'),
 });
 
@@ -48,7 +47,7 @@ export const contactsDefaultValues = {
   lifeCycleStageId: '',
   contactOwner: '',
   statusId: '',
-  dateOfJoining: null,
+  dateOfJoinig: null,
   dateOfBirth: null,
 };
 
@@ -192,7 +191,7 @@ export const contactsDataArray = ({
     {
       title: 'Date of Joining',
       componentProps: {
-        name: 'dateOfJoining',
+        name: 'dateOfJoinig',
         label: 'Date of Joining',
         fullWidth: true,
       },
