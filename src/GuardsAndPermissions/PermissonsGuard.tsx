@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-
 import PermissionDenied from '@/components/PermisisonDenied';
 import { getActivePermissionsSession } from '@/utils';
 import { Box } from '@mui/material';
