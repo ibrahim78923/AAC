@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { enqueueSnackbar } from 'notistack';
 import {
   useGetQuickLinksQuery,
+  useGetGroupQuickLinksQuery,
   // useGetQuickLinkByIdQuery,
   // usePostQuickLinkMutation,
   // useUpdateQuickLinkMutation,
@@ -132,6 +133,27 @@ const useFaqs = () => {
     label: product?.name,
   }));
 
+  const { data: dataGetGroupQuickLinks, isLoading: loagingGroupLinks } =
+    useGetGroupQuickLinksQuery({});
+
+  // const [switchChecked, setSwitchChecked] = useState(false);
+  // const handleSwitchChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>,
+  //   link: any,
+  // ) => {
+  //   const newCheckedValue = event.target.checked;
+  //   console.log(`event.target.name ${event.target.name}`);
+  // };
+
+  // const getQuickLinksData = () => {
+  //   getActiveProducts.map((product:any) => (
+  //     {
+  //       _id: product?._id,
+  //       productName:
+  //     }
+  //   ))
+  // }
+
   return {
     anchorEl,
     actionMenuOpen,
@@ -164,6 +186,9 @@ const useFaqs = () => {
     rowId,
 
     selectProductOptions,
+    dataGetGroupQuickLinks,
+    loagingGroupLinks,
+    // handleSwitchChange,
   };
 };
 

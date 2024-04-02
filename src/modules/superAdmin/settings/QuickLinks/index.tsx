@@ -66,6 +66,9 @@ const QuickLinks = () => {
     // rowId,
 
     selectProductOptions,
+    dataGetGroupQuickLinks,
+    // loagingGroupLinks,
+    // handleSwitchChange,
   } = useQuickLinks();
 
   const getQuickLinksTableColumns = columns(
@@ -267,7 +270,41 @@ const QuickLinks = () => {
               Quick Links
             </Typography>
           </Box>
+
           <Grid container spacing={2} sx={{ marginTop: '40px' }}>
+            {!isNullOrEmpty(dataGetGroupQuickLinks?.data?.productsData) &&
+              dataGetGroupQuickLinks?.data?.productsData.map((product: any) => (
+                <Grid item xs={12} sm={6} md={6} lg={4} key={uuidv4()}>
+                  <Box sx={styles.quickLinksCard(theme)}>
+                    <Box sx={styles.quickLinksCardHead(theme)}>
+                      <Typography variant="h6">
+                        {product?.productName}
+                      </Typography>
+                    </Box>
+                    {product?.data.map((link: any) => (
+                      <Box
+                        key={uuidv4()}
+                        sx={{
+                          padding: '4px 16px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <Typography sx={{ fontWeight: '500' }}>
+                          {link?.moduleSlug}
+                        </Typography>
+                        <Switch
+                          name={link?._id}
+                          {...label}
+                          checked={link.isActive}
+                          // onChange={(event) => handleSwitchChange(event, link)}
+                        />
+                      </Box>
+                    ))}
+                  </Box>
+                </Grid>
+              ))}
             {!isNullOrEmpty(quickLinksData) &&
               quickLinksData.map((item: any) => (
                 <Grid item xs={12} sm={6} md={6} lg={4} key={uuidv4()}>

@@ -13,6 +13,14 @@ export const settingsQuickLinksAPI = baseAPI.injectEndpoints({
       providesTags: TAG,
     }),
 
+    getGroupQuickLinks: builder.query({
+      query: () => ({
+        url: SUPER_ADMIN_SETTINGS?.QUICK_LINKS_GROUP,
+        method: 'GET',
+      }),
+      providesTags: TAG,
+    }),
+
     getQuickLinkById: builder.query({
       query: (id: any) => ({
         url: `${SUPER_ADMIN_SETTINGS?.QUICK_LINKS}/${id}`,
@@ -51,6 +59,7 @@ export const settingsQuickLinksAPI = baseAPI.injectEndpoints({
 
 export const {
   useGetQuickLinksQuery,
+  useGetGroupQuickLinksQuery,
   useGetQuickLinkByIdQuery,
   useUpdateQuickLinkMutation,
   usePostQuickLinkMutation,
