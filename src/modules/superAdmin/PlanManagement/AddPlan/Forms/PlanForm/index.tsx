@@ -87,7 +87,8 @@ const AddPlanForm = ({
             item
             xs={12}
             md={item?.md}
-            key={uuidv4()}
+            // eslint-disable-next-line
+            key={index}
             sx={{
               paddingTop: (index === 0 || index === 1) && '0px !important',
             }}
