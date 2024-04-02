@@ -18,6 +18,7 @@ import {
   addPlanFormData,
   planFeaturesFormData,
   modulesFormData,
+  setFeatureDetails,
 } from '@/redux/slices/planManagement/planManagementSlice';
 import { useDispatch } from 'react-redux';
 import { persistStore } from 'redux-persist';
@@ -26,6 +27,7 @@ import store, { useAppSelector } from '@/redux/store';
 import {
   useGetPermissionsByProductsQuery,
   useGetPlanMangementByIdQuery,
+  useGetProductsFeaturesAllQuery,
   usePostPlanMangementMutation,
   useUpdatePlanMangementMutation,
 } from '@/services/superAdmin/plan-mangement';
@@ -299,22 +301,45 @@ export const useAddPlan = () => {
     }
     setPermissionSlugs('permissionSlugs', permissionsArray);
   };
-  const onSubmitPlanFeaturesHandler = async (values: any) => {
-    const featuresData = values?.features?.map((item: any) => {
-      // const productId = productFeatures?.data?.productfeatures?.find(
-      //   (id: any) => id?._id === item,
-      // );
 
-      return {
-        features: [
-          {
+  const { data: productFeatures } = useGetProductsFeaturesAllQuery({
+    id: planForm?.suite,
+  });
+
+  const onSubmitPlanFeaturesHandler = async (values: any) => {
+    let featuresData;
+    if (isNullOrEmpty(planForm?.productId)) {
+      featuresData = planForm?.suite?.map((productIdItem: any) => {
+        return {
+          features: values?.features
+            ?.map((item: any) => {
+              const productId = productFeatures?.data?.productfeatures?.find(
+                (id: any) => id?._id === item,
+              );
+              if (productId?.productId === productIdItem) {
+                return {
+                  dealsAssociationsDetail:
+                    featureDetails?.dealsAssociationsDetail,
+                  featureId: item,
+                };
+              }
+              return undefined;
+            })
+            .filter(Boolean),
+          productId: productIdItem,
+        };
+      });
+    } else {
+      featuresData = {
+        features: values?.features?.map((item: any) => {
+          return {
             dealsAssociationsDetail: featureDetails?.dealsAssociationsDetail,
             featureId: item,
-          },
-        ],
+          };
+        }),
         productId: planForm?.productId || null,
       };
-    });
+    }
     dispatch(planFeaturesFormData(featuresData));
     setActiveStep((previous) => previous + 1);
     enqueueSnackbar('Plan Features Details Added Successfully', {
@@ -359,26 +384,6 @@ export const useAddPlan = () => {
         additionalPerUserPrice: parseInt(planForm?.additionalPerUserPrice),
         additionalStoragePrice: parseInt(planForm?.additionalStoragePrice),
       };
-      const planFeaturesFormData = featuresFormData?.map(
-        (item: any) =>
-          item?.features?.map((feature: any) => ({
-            features: [
-              {
-                dealsAssociationsDetail:
-                  featureDetails?.dealsAssociationsDetail,
-                featureId: feature?.featureId,
-              },
-            ],
-            productId: item?.productId,
-          })),
-      );
-
-      const transformedFeaturesFormData = {
-        planFeature: planFeaturesFormData?.flat()?.map((item: any) => ({
-          features: item?.features,
-          productId: item?.productId,
-        })),
-      };
 
       const planPermission = values?.permissionSlugs.reduce((acc, item) => {
         const [productId, permissionSlug] = item.split(':');
@@ -406,14 +411,20 @@ export const useAddPlan = () => {
               id: parsedRowData?._id,
               body: {
                 ...planFormData,
-                ...transformedFeaturesFormData,
+                planFeature:
+                  selectProductSuite === productSuiteName?.crm
+                    ? featuresFormData
+                    : [featuresFormData],
                 ...transformedModulesFormData,
               },
             })
           : postPlanMangement({
               body: {
                 ...planFormData,
-                ...transformedFeaturesFormData,
+                planFeature:
+                  selectProductSuite === productSuiteName?.crm
+                    ? featuresFormData
+                    : [featuresFormData],
                 ...transformedModulesFormData,
               },
             })?.unwrap();
@@ -428,6 +439,7 @@ export const useAddPlan = () => {
           );
         }, 5000);
         router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
+        dispatch(setFeatureDetails(''));
         // persistor?.purge();
         reset();
       } catch (error: any) {
@@ -476,6 +488,7 @@ export const useAddPlan = () => {
           selectProductSuite={selectProductSuite}
           setSelectProductSuite={setSelectProductSuite}
           isSuccess={isSuccess}
+          editPlan={singlePlan?.data}
         />
       ),
 
