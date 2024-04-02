@@ -46,11 +46,11 @@ const CreateView = ({ open, onClose }: any) => {
 
     try {
       createViewDeals({ body: obj })?.unwrap();
-      enqueueSnackbar('Deal created successfully', {
+      enqueueSnackbar('View created successfully', {
         variant: 'success',
       });
     } catch (error) {
-      enqueueSnackbar('Error while creating deal', {
+      enqueueSnackbar('Error while creating View', {
         variant: 'error',
       });
     }

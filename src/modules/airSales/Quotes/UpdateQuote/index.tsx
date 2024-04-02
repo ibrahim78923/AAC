@@ -42,6 +42,7 @@ const UpdateQuote = () => {
     selectedBuyerContactIds,
     handleCompanyChange,
     selectedCompanyIds,
+    // handleDownload
   } = useUpdateQuote();
 
   const stepsArgs: any = {

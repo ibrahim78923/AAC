@@ -95,6 +95,7 @@ const StepBuyerInfo = ({
                         </Box>
                         <Box mt={-0.7}>
                           <Checkbox
+                            defaultChecked
                             checked={selectedBuyerContactIds === item?._id}
                             value={item?._id}
                             onChange={() => handleBuyerContactChange(item?._id)}

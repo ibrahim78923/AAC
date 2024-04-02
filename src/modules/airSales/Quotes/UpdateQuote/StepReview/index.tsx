@@ -7,7 +7,7 @@ import { Box } from '@mui/material';
 
 const ViewQuote = () => {
   return (
-    <Box id="pdf-content">
+    <Box id="quote-invoice">
       <BuyerCompany />
       <QuoteInfo />
       <QuoteCreatedFor />

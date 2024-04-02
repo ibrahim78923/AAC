@@ -224,6 +224,15 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       providesTags: TAG,
     }),
+
+    postAttachmentQuote: builder.mutation({
+      query: ({ body }: any) => ({
+        url: END_POINTS?.QUOTE,
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -256,4 +265,5 @@ export const {
   useUpdateSubmitEmailQuoteMutation,
   useUpdateQuoteSubmisionMutation,
   useGetTaxCalculationsQuery,
+  usePostAttachmentQuoteMutation,
 } = quotesAPI;

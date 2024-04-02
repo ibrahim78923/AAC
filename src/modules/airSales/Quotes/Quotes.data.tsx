@@ -1,6 +1,7 @@
 import { DATE_FORMAT } from '@/constants';
 import { Box, Checkbox } from '@mui/material';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/router';
 
 export const quotesColumns = (
   selectedRow: any,
@@ -9,7 +10,9 @@ export const quotesColumns = (
   setRowId: any,
   activeColumns: any,
 ) => {
-  const handleRowClick = (id: any) => {
+  const router = useRouter();
+
+  const handleRowClick = (id: any, status: any) => {
     const selectedIndex = selectedRow?.indexOf(id);
     let newSelected: any = [];
 
@@ -32,6 +35,13 @@ export const quotesColumns = (
     } else {
       setRowId(null);
     }
+    router.push({
+      ...(newSelected?.length > 0 && {
+        query: { status: status ? 'published' : 'draft' },
+      }),
+    });
+
+    // console.log(newSelected);
   };
 
   // Select All Row
@@ -96,16 +106,19 @@ export const quotesColumns = (
   const checkboxColumn = {
     accessorFn: (row: any) => row?._id,
     id: 'Id',
-    cell: (info: any) => (
-      <Checkbox
-        color="primary"
-        checked={isSelected(info?.cell?.row?.original?._id)}
-        name={info?.cell?.row?.original?._id}
-        onClick={() => {
-          handleRowClick(info?.cell?.row?.original?._id);
-        }}
-      />
-    ),
+    cell: (info: any) => {
+      const checked = info?.cell?.row?.original;
+      return (
+        <Checkbox
+          color="primary"
+          checked={isSelected(checked?._id)}
+          name={checked?._id}
+          onClick={() => {
+            handleRowClick(checked?._id, checked?.isSubmitted);
+          }}
+        />
+      );
+    },
     header: (info: any) => {
       const rows = info?.table?.options?.data;
       return (

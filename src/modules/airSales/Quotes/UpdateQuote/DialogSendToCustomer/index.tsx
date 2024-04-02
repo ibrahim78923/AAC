@@ -23,9 +23,13 @@ import {
 import { styles } from './DialogSendToCustomer.style';
 import { AIR_SALES } from '@/routesConstants/paths';
 import useUpdateQuote from '../useUpdateQuote';
-import { useUpdateQuoteSubmisionMutation } from '@/services/airSales/quotes';
+import {
+  // usePostAttachmentQuoteMutation,
+  useUpdateQuoteSubmisionMutation,
+} from '@/services/airSales/quotes';
 import { DATE_FORMAT } from '@/constants';
 import dayjs from 'dayjs';
+import jsPDF from 'jspdf';
 
 const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
   const router = useRouter();
@@ -36,8 +40,31 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
   const { handleSubmit } = methods;
   const { quoteId, dataGetQuoteById } = useUpdateQuote();
   const [updateQuoteSubmision] = useUpdateQuoteSubmisionMutation();
+  // const [postAttachmentQuote] = usePostAttachmentQuoteMutation(); used in future
 
   const onSubmit = async (values: { email: string }) => {
+    const invoice: any = new jsPDF('portrait', 'px', 'a1');
+    const style = document.createElement('style');
+    style.innerHTML = `
+        #quote-invoice {
+            margin: 10px;
+            width: 95.8%;
+        }
+    `;
+    document.head.appendChild(style);
+
+    invoice.html(document.getElementById('quote-invoice')).then(() => {
+      // const pdfBlob = invoice.output('dataurl');
+      invoice.save('quote-invoice.pdf');
+
+      document.head.removeChild(style);
+    });
+    // const formData = new FormData();
+    //   formData.append('fileUrl', pdfBlob, 'invoice.pdf');
+    //   formData.append('module', pdfBlob, 'invoice.pdf');
+    //   formData.append('recordType', pdfBlob, 'invoice.pdf');
+    //   formData.append('recordId', pdfBlob, 'invoice.pdf');
+
     const body = {
       id: quoteId,
       isSubmitted: true,
