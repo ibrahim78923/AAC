@@ -49,50 +49,7 @@ const useProfile = (profileParams: any) => {
     setValue('address', addressValues);
   }, [addressValues]);
 
-  // default values of profile
-  // var profileDefaultValues = {
-  //   ...profileData,
-  //   address:
-  //     profileData?.address?.composite &&
-  //       !profileData?.address?.flatNumber &&
-  //       !profileData?.address?.city &&
-  //       !profileData?.address?.country &&
-  //       !profileData?.address?.buildingName &&
-  //       !profileData?.address?.buildingNumber &&
-  //       !profileData?.address?.streetName
-  //       ? profileData.address.composite
-  //       : `${profileData?.address?.flatNumber
-  //         ? `Flat # ${profileData?.address?.flatNumber}, `
-  //         : ''
-  //       }` +
-  //       `${profileData?.address?.buildingNumber
-  //         ? `Building # ${profileData?.address?.buildingNumber}, `
-  //         : ''
-  //       }` +
-  //       `${profileData?.address?.buildingName
-  //         ? `Building Name ${profileData?.address?.buildingName}, `
-  //         : ''
-  //       }` +
-  //       `${profileData?.address?.streetName
-  //         ? `Street # ${profileData?.address?.streetName}, `
-  //         : ''
-  //       }` +
-  //       `${profileData?.address?.city ? `${profileData?.address?.city}, ` : ''
-  //       }` +
-  //       `${profileData?.address?.country
-  //         ? `${profileData?.address?.country}`
-  //         : ''
-  //       }`,
-  //   flat: profileData?.address?.flatNumber ?? '',
-  //   city: profileData?.address?.city ?? '',
-  //   country: profileData?.address?.country ?? '',
-  //   buildingName: profileData?.address?.buildingName ?? '',
-  //   buildingNumber: profileData?.address?.buildingNumber ?? '',
-  //   streetName: profileData?.address?.streetName ?? '',
-  // };
-
   useEffect(() => {
-    // if (drawerType === 'edit') {
     const data = profileData;
     const fieldsToSet: any = {
       firstName: data?.firstName,
@@ -114,7 +71,6 @@ const useProfile = (profileParams: any) => {
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);
     }
-    // }
   }, [profileData]);
 
   const onSubmit = async (values: any) => {

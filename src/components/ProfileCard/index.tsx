@@ -1,9 +1,6 @@
 import { Box, Typography, Button, useTheme, Avatar } from '@mui/material';
-
 import CardPropsI from './ProfileCard.interface';
-
 import { styles } from './ProfileCard.style';
-
 import {
   EmailIcon,
   PhoneIcon,
@@ -12,7 +9,7 @@ import {
 } from '@/assets/icons';
 import { ORG_ADMIN_USERS_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
-import SkeletonComponent from '../CardSkeletons';
+import SkeletonComponent from '@/components/CardSkeletons';
 
 const ProfileCard = (props: CardPropsI) => {
   const theme = useTheme();

@@ -45,11 +45,11 @@ import { useGetEmployeeListQuery } from '@/services/superAdmin/user-management/U
 import { useGetUsersByIdQuery } from '@/services/superAdmin/user-management/users';
 import NoData from '@/components/NoData';
 import useUserManagement from '../useUserManagement';
-import { IMG_URL } from '@/config';
 import { useEffect } from 'react';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 import SkeletonComponent from '@/components/CardSkeletons';
+import { generateImage } from '@/utils/avatarUtils';
 
 const UsersDetailsList = () => {
   const {
@@ -278,7 +278,7 @@ const UsersDetailsList = () => {
                           }}
                         >
                           <Avatar
-                            src={`${IMG_URL}${item?.avatar?.url}`}
+                            src={generateImage(item?.avatar?.url)}
                             sx={{
                               color: theme?.palette?.grey[600],
                               fontWeight: 500,
@@ -360,7 +360,7 @@ const UsersDetailsList = () => {
                       handleEditProfile={() => setTabVal(1)}
                       src={`${
                         profileData?.data?.avatar
-                          ? `${IMG_URL}${profileData?.data?.avatar?.url}`
+                          ? generateImage(profileData?.data?.avatar?.url)
                           : ''
                       }`}
                       isLoading={profileDataLoading}

@@ -1,9 +1,9 @@
+import { useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import { profileValidationSchema } from './UserDetailsProfile.data';
-import useUserManagement from '../../useUserManagement';
-import { useEffect } from 'react';
+import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManagement';
 
 const useUserDeatilProfile = (userprofileParams: any) => {
   const { isToggled, userDetails, setTabVal } = userprofileParams;
@@ -22,17 +22,6 @@ const useUserDeatilProfile = (userprofileParams: any) => {
     facebookUrl: '',
     twitterUrl: '',
   };
-
-  // const profileDefaultValues = {
-  //   ...userDetails,
-  //   compositeAddress: userDetails?.address?.composite ?? '',
-  //   flat: userDetails?.address?.flatNumber ?? '',
-  //   city: userDetails?.address?.city ?? '',
-  //   country: userDetails?.address?.country ?? '',
-  //   buildingName: userDetails?.address?.buildingName ?? '',
-  //   buildingNumber: userDetails?.address?.buildingNumber ?? '',
-  //   streetName: userDetails?.address?.streetName ?? '',
-  // };
 
   const methods: any = useForm({
     resolver: yupResolver(profileValidationSchema),
@@ -62,7 +51,6 @@ const useUserDeatilProfile = (userprofileParams: any) => {
   }, [addressValues]);
 
   useEffect(() => {
-    // if (drawerType === 'edit') {
     const fieldsToSet: any = {
       firstName: userDetails?.firstName,
       lastName: userDetails?.lastName,
@@ -83,7 +71,6 @@ const useUserDeatilProfile = (userprofileParams: any) => {
     for (const key in fieldsToSet) {
       setValue(key, fieldsToSet[key]);
     }
-    // }
   }, [userDetails]);
 
   //submission and hit post api
