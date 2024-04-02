@@ -27,16 +27,14 @@ export const useDeleteContract = (props: any) => {
 
     try {
       await deleteContractTrigger(deleteContractParameter)?.unwrap();
-      setSelectedContractList([]);
       successSnackbar('Record deleted successfully');
-      setPage?.(selectedContractList?.length === totalRecords ? 1 : page);
-      const newPage = selectedContractList?.length === totalRecords ? 1 : page;
-      await getContractListData?.(newPage);
+      setSelectedContractList?.([]);
       setIsDeleteModalOpen?.(false);
+      const newPage = selectedContractList?.length === totalRecords ? 1 : page;
+      setPage?.(newPage);
+      await getContractListData?.(newPage);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
-      setSelectedContractList([]);
-      setIsDeleteModalOpen?.(false);
     }
   };
 

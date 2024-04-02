@@ -1,7 +1,6 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import usePath from '@/hooks/usePath';
+import { successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 
 export const useImportInventory = (props: any) => {
@@ -13,9 +12,7 @@ export const useImportInventory = (props: any) => {
   const { handleSubmit, reset } = importFormMethod;
 
   const submitImportFile = () => {
-    enqueueSnackbar('File Uploaded Successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+    successSnackbar('File Uploaded Successfully');
     onClose?.();
   };
 

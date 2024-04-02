@@ -28,6 +28,7 @@ export const useUpsertSoftware = (props: any) => {
     defaultValues: upsertSoftwareFormDefaultValues(),
   });
   const { handleSubmit, reset } = methods;
+
   const submitUpsertSoftware = async (formData: any) => {
     const modifiedData = {
       name: formData?.name,
@@ -45,10 +46,8 @@ export const useUpsertSoftware = (props: any) => {
       return;
     }
     try {
-      const response: any = await postSoftwareTrigger(modifiedData);
-      successSnackbar(
-        response?.data?.message ?? 'Software Created Successfully',
-      );
+      await postSoftwareTrigger(modifiedData);
+      successSnackbar('Software Createds Successfully');
       onClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -61,10 +60,8 @@ export const useUpsertSoftware = (props: any) => {
       body: formData,
     };
     try {
-      const response: any = await editSoftwareTrigger(editSoftwareParams);
-      successSnackbar(
-        response?.data?.message ?? 'Software Updated Successfully',
-      );
+      await editSoftwareTrigger(editSoftwareParams);
+      successSnackbar('Software Updated Successfully');
       onClose?.();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -76,7 +73,7 @@ export const useUpsertSoftware = (props: any) => {
   }, [reset, data]);
 
   const onClose = () => {
-    setIsAddDrawerOpen(false);
+    setIsAddDrawerOpen?.(false);
     reset();
   };
 

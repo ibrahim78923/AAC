@@ -72,12 +72,17 @@ export const useInventory = () => {
   };
 
   const getInventoryListDataExport = async (type: any) => {
-    const exportInventoryParams = new URLSearchParams();
+    const additionalParams = [
+      ['page', page + ''],
+      ['limit', pageLimit + ''],
+      ['search', search],
+      ['exportType', type],
+    ];
 
-    exportInventoryParams?.append('exportType', type);
-    exportInventoryParams?.append('page', page + '');
-    exportInventoryParams?.append('limit', pageLimit + '');
-    exportInventoryParams?.append('search', search);
+    const exportInventoryParams: any = buildQueryParams(
+      additionalParams,
+      inventoryFilterLists,
+    );
 
     const getInventoryExportParameter = {
       queryParams: exportInventoryParams,

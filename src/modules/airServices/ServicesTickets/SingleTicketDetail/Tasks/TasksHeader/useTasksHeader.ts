@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useDeleteTaskMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
@@ -53,9 +51,7 @@ export const useTasksHeader = (props: any) => {
   };
   const openEditDrawer = () => {
     if (activeCheck?.length > 1) {
-      enqueueSnackbar('Cannot edit multiple tasks', {
-        variant: NOTISTACK_VARIANTS?.WARNING,
-      });
+      errorSnackbar('Cannot edit multiple tasks');
     } else {
       setIsEditDrawerOpen(true);
       setActionPop(null);
