@@ -383,7 +383,7 @@ const DashboardLayout = ({ children, window }: any) => {
                         <Link key={uuidv4()} href={`${link?.key}`}>
                           <ListItem sx={{ padding: '6px 0px 6px 0px' }}>
                             <ListItemButton
-                              sx={styles?.mainNavLink(router, theme)}
+                              sx={styles?.mainNavLink(link, router, theme)}
                             >
                               <ListItemIcon sx={{ minWidth: 20 }}>
                                 <Image

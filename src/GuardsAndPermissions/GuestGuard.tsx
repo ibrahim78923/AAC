@@ -65,7 +65,6 @@ export default function GuestGuard({ children }: any) {
       setActivePermissionsSession(superAdminAllPermissions);
       break;
     default:
-      // pathVariable = 'air-customer-portal';
       pathVariable = AUTH.LOGIN;
       break;
   }
