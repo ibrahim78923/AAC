@@ -13,6 +13,7 @@ export const WorkflowActionExecuted = (props: any) => {
     dealsDropdown,
     contactDropdown,
     productDropdown,
+    userDropdown,
   } = useWorkflowActionExecuted(props);
   return (
     <Box
@@ -45,6 +46,7 @@ export const WorkflowActionExecuted = (props: any) => {
                   dealsDropdown,
                   contactDropdown,
                   productDropdown,
+                  userDropdown,
                 )?.map((item) => (
                   <Grid item xs={12} lg={item?.gridLength} key={item?._id}>
                     <item.component {...item?.componentProps} size="small" />

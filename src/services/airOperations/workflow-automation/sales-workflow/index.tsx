@@ -3,7 +3,7 @@ import { baseAPI } from '@/services/base-api';
 import { transformResponse } from '@/utils/api';
 
 const TAG = 'WORKFLOWS';
-const TAG_ONE = 'CONTACTS';
+const TAG_ONE = 'DROPDOWNS';
 export const salesWorkflowAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
     getWorkflowList: builder?.query({
@@ -77,6 +77,15 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
       },
       providesTags: [TAG_ONE],
     }),
+    getUserDropdownList: builder?.query({
+      query: ({ params }) => ({
+        url: `${END_POINTS?.DROPDOWN_USERS}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse,
+      providesTags: [TAG_ONE],
+    }),
   }),
 });
 
@@ -89,4 +98,5 @@ export const {
   useLazyGetContactDropdownListQuery,
   useLazyGetProductsDropdownListQuery,
   usePostSaveDraftWorkflowMutation,
+  useLazyGetUserDropdownListQuery,
 } = salesWorkflowAPI;

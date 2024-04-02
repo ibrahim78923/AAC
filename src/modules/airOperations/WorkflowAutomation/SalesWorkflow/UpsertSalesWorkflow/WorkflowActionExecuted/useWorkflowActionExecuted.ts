@@ -7,6 +7,7 @@ import {
   useLazyGetContactDropdownListQuery,
   useLazyGetDealDropdownListQuery,
   useLazyGetProductsDropdownListQuery,
+  useLazyGetUserDropdownListQuery,
 } from '@/services/airOperations/workflow-automation/sales-workflow';
 
 export const useWorkflowActionExecuted = (props: any) => {
@@ -34,6 +35,7 @@ export const useWorkflowActionExecuted = (props: any) => {
   const dealsDropdown = useLazyGetDealDropdownListQuery();
   const contactDropdown = useLazyGetContactDropdownListQuery();
   const productDropdown = useLazyGetProductsDropdownListQuery();
+  const userDropdown = useLazyGetUserDropdownListQuery();
   const moduleType = watch('module');
   useEffect(() => {
     fields?.forEach((_, index) => {
@@ -49,5 +51,6 @@ export const useWorkflowActionExecuted = (props: any) => {
     dealsDropdown,
     contactDropdown,
     productDropdown,
+    userDropdown,
   };
 };

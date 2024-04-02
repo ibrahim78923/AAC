@@ -34,6 +34,7 @@ export const actionsExecutedFields = (
   dealsDropdown: any,
   contactDropdown: any,
   productDropdown: any,
+  userDropdown: any,
 ) => {
   const moduleType = watch('module');
   const keyOptions = actionKeys[moduleType] || [];
@@ -130,8 +131,9 @@ export const actionsExecutedFields = (
     } else if (watchKey === actionName?.setAssignedTo) {
       (component = RHFAutocompleteAsync),
         (componentProps = {
-          apiQuery: dealsDropdown, // require sales user list
-          externalParams: { meta: false },
+          apiQuery: userDropdown,
+          getOptionLabel: (option: any) =>
+            fullName(option?.firstName, option?.lastName),
           placeholder: 'Select',
         });
     } else if (watchKey === actionName?.setDueDate) {
