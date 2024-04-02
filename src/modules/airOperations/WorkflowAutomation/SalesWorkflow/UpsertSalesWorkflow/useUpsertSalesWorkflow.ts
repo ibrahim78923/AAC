@@ -70,10 +70,9 @@ export const useUpsertSalesWorkflow = () => {
           ...group,
           conditions: group?.conditions?.map((condition: any) => ({
             ...condition,
-            fieldValue:
-              typeof condition?.fieldValue === fieldTypes?.object
-                ? condition?.fieldValue?._id
-                : condition?.fieldValue,
+            fieldValue: condition?.fieldValue?._id
+              ? condition?.fieldValue?._id
+              : condition?.fieldValue,
             fieldType:
               condition?.fieldValue instanceof Date
                 ? fieldTypes?.date
