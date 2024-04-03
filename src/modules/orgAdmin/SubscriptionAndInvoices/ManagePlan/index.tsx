@@ -149,7 +149,7 @@ const ManagePlan = () => {
               sx={{ color: 'secondary.main', mr: '24px' }}
             >
               <Box>Plan</Box>
-              <Box sx={{ mt: '12px' }}>Growth</Box>
+              <Box sx={{ mt: '12px' }}>{parsedManageData?.planTypeName}</Box>
             </Typography>
 
             <Box sx={styles?.planSelectionForm}>
