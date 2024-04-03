@@ -30,19 +30,6 @@ export const departmentFormFields: any = (
   userListMember: any,
 ) => [
   {
-    id: 1,
-    componentProps: {
-      name: 'fileUrl',
-      label: 'Image',
-      accept: {
-        'image/*': ['.png', '.jpg', '.svg'],
-      },
-      fileName: 'Upload File',
-      fileType: 'SVG, PNG or JPG (max 2 MB)',
-    },
-    component: RHFDropZone,
-  },
-  {
     id: 2,
     componentProps: {
       label: 'Name',
@@ -98,5 +85,18 @@ export const departmentFormFields: any = (
       required: true,
     },
     component: RHFAutocompleteAsync,
+  },
+  {
+    id: 1,
+    componentProps: {
+      name: 'fileUrl',
+      label: 'Image',
+      accept: {
+        'image/*': ['.png', '.jpg', '.svg'],
+      },
+      fileName: 'Upload File',
+      fileType: 'SVG, PNG or JPG (max 2 MB)',
+    },
+    component: RHFDropZone,
   },
 ];

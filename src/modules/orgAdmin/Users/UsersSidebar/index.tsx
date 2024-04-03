@@ -30,6 +30,7 @@ import useUserManagement from '@/modules/superAdmin/UserManagement/useUserManage
 import { IMG_URL } from '@/config';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_USERS_PERMISSIONS } from '@/constants/permission-keys';
+import SkeletonComponent from '@/components/CardSkeletons';
 
 const UsersSidebar = (props: any) => {
   const { setEmployeeDataById, setSearchAccount } = props;
@@ -51,6 +52,7 @@ const UsersSidebar = (props: any) => {
     resetFilter,
     employeeMetaData,
     handleEmpListPaginationChange,
+    employeeListLoading,
   } = useUsers();
   const { handleUserSwitchChange } = useUserManagement();
 
@@ -123,104 +125,117 @@ const UsersSidebar = (props: any) => {
           </Button>
         </Box>
       </PermissionsGuard>
-      {(employeeDetails === undefined || employeeDetails?.length < 1) && (
-        <NoData
-          image={NoAssociationFoundImage}
-          message={'No data is available'}
-        />
-      )}
-      <PermissionsGuard permissions={[ORG_ADMIN_USERS_PERMISSIONS?.VIEW_USERS]}>
-        <Box sx={{ height: `calc(70vh - ${15}px)`, overflow: 'auto' }}>
-          {employeeDetails?.map((item: any, index: number) => (
-            <Box
-              className="users-wrapper"
-              sx={{
-                my: 2,
-                backgroundColor:
-                  isActiveEmp === index ? theme?.palette?.grey[400] : '',
-                borderRadius: '4px',
-                padding: '11px 8px',
-                width: '100%',
-              }}
-              key={uuidv4()}
-              onClick={() => {
-                setEmployeeDataById(item?._id);
-                setIsActiveEmp(index);
-                setSearchAccount('');
-              }}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  gap: '10px',
-                  alignItems: 'center',
-                  cursor: 'pointer',
-                  flexWrap: {
-                    xs: 'wrap',
-                    sm: 'nowrap',
-                    lg: 'wrap',
-                    xl: 'nowrap',
-                  },
-                }}
-              >
-                <Avatar
+      {employeeListLoading ? (
+        <SkeletonComponent numberOfSkeletons={7} />
+      ) : (
+        <Box>
+          {(employeeDetails === undefined || employeeDetails?.length < 1) && (
+            <NoData
+              image={NoAssociationFoundImage}
+              message={'No data is available'}
+            />
+          )}
+          <PermissionsGuard
+            permissions={[ORG_ADMIN_USERS_PERMISSIONS?.VIEW_USERS]}
+          >
+            <Box sx={{ height: `calc(70vh - ${15}px)`, overflow: 'auto' }}>
+              {employeeDetails?.map((item: any, index: number) => (
+                <Box
+                  className="users-wrapper"
                   sx={{
-                    color: theme?.palette?.grey[600],
-                    fontSize: '16px',
-                    fontWeight: 500,
+                    my: 2,
+                    backgroundColor:
+                      isActiveEmp === index ? theme?.palette?.grey[400] : '',
+                    borderRadius: '4px',
+                    padding: '11px 8px',
+                    width: '100%',
                   }}
-                  src={item?.avatar && `${IMG_URL}${item?.avatar?.url}`}
+                  key={uuidv4()}
+                  onClick={() => {
+                    setEmployeeDataById(item?._id);
+                    setIsActiveEmp(index);
+                    setSearchAccount('');
+                  }}
                 >
-                  {`${item?.firstName?.charAt(0)?.toUpperCase()}${item?.lastName
-                    ?.charAt(0)
-                    ?.toUpperCase()}`}
-                </Avatar>
-                <Box sx={{ width: '100%' }}>
                   <Box
-                    sx={{ display: 'flex', justifyContent: 'space-between' }}
+                    sx={{
+                      display: 'flex',
+                      gap: '10px',
+                      alignItems: 'center',
+                      cursor: 'pointer',
+                      flexWrap: {
+                        xs: 'wrap',
+                        sm: 'nowrap',
+                        lg: 'wrap',
+                        xl: 'nowrap',
+                      },
+                    }}
                   >
-                    <Typography>
-                      {item?.firstName} {item?.lastName}
-                    </Typography>
-                    <PermissionsGuard
-                      permissions={[
-                        ORG_ADMIN_USERS_PERMISSIONS?.ACTIVE_INACTIVE_USERS,
-                      ]}
+                    <Avatar
+                      sx={{
+                        color: theme?.palette?.grey[600],
+                        fontSize: '16px',
+                        fontWeight: 500,
+                      }}
+                      src={item?.avatar && `${IMG_URL}${item?.avatar?.url}`}
                     >
-                      <StatusBadge
-                        value={item?.status}
-                        onChange={(e: any) =>
-                          handleUserSwitchChange(e, item?._id)
-                        }
-                        options={[
-                          {
-                            label: 'Active',
-                            value: 'ACTIVE',
-                            color: theme?.palette?.success?.main,
-                          },
-                          {
-                            label: 'Inactive',
-                            value: 'INACTIVE',
-                            color: theme?.palette?.error?.main,
-                          },
-                        ]}
-                      />
-                    </PermissionsGuard>
+                      {`${item?.firstName
+                        ?.charAt(0)
+                        ?.toUpperCase()}${item?.lastName
+                        ?.charAt(0)
+                        ?.toUpperCase()}`}
+                    </Avatar>
+                    <Box sx={{ width: '100%' }}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <Typography>
+                          {item?.firstName} {item?.lastName}
+                        </Typography>
+                        <PermissionsGuard
+                          permissions={[
+                            ORG_ADMIN_USERS_PERMISSIONS?.ACTIVE_INACTIVE_USERS,
+                          ]}
+                        >
+                          <StatusBadge
+                            value={item?.status}
+                            onChange={(e: any) =>
+                              handleUserSwitchChange(e, item?._id)
+                            }
+                            options={[
+                              {
+                                label: 'Active',
+                                value: 'ACTIVE',
+                                color: theme?.palette?.success?.main,
+                              },
+                              {
+                                label: 'Inactive',
+                                value: 'INACTIVE',
+                                color: theme?.palette?.error?.main,
+                              },
+                            ]}
+                          />
+                        </PermissionsGuard>
+                      </Box>
+                      <Typography>{item?.email}</Typography>
+                    </Box>
                   </Box>
-                  <Typography>{item?.email}</Typography>
                 </Box>
-              </Box>
+              ))}
             </Box>
-          ))}
+            <Pagination
+              count={employeeMetaData?.pages}
+              variant="outlined"
+              shape="rounded"
+              onChange={handleEmpListPaginationChange}
+              sx={{ display: 'flex', justifyContent: 'flex-end' }}
+            />
+          </PermissionsGuard>
         </Box>
-        <Pagination
-          count={employeeMetaData?.pages}
-          variant="outlined"
-          shape="rounded"
-          onChange={handleEmpListPaginationChange}
-          sx={{ display: 'flex', justifyContent: 'flex-end' }}
-        />
-      </PermissionsGuard>
+      )}
       {isOpenFilterDrawer && (
         <FilterUser
           isOpenDrawer={isOpenFilterDrawer}

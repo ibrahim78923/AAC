@@ -42,7 +42,7 @@ export const useFilterInventory = (props: any) => {
       setInventoryFilterLists?.(inventoryFilteredFields);
       return;
     }
-    setPage(1);
+    setPage?.(1);
     setInventoryFilterLists?.(inventoryFilteredFields);
     closeInventoryFilterForm();
   };

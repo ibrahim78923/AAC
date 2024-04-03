@@ -30,26 +30,21 @@ export const WorkflowConditions = (props: any) => {
           What Conditions should be met?
         </Typography>
       </Box>
-      {fields?.map((item, index) => {
-        const conditionType = watch(
-          `workflowConditions.${index}.conditionType`,
-        );
+      {fields?.map((item: any, index: any) => {
+        const conditionType = watch(`groups.${index}.conditionType`);
         return (
           <Box key={item?.id} p={1.5}>
             {index !== 0 && (
               <Box sx={styles?.logicBtnContainer(palette)}>
-                <RHFButtonGroup
-                  name={`workflowConditions.${index}.logicGate`}
-                  sx={{ gap: 0 }}
-                >
+                <RHFButtonGroup name={`groupCondition`} sx={{ gap: 0 }}>
                   <ToggleButton
-                    value={'and'}
+                    value={'AND'}
                     sx={styles?.logicAndButtons(palette)}
                   >
                     AND
                   </ToggleButton>
                   <ToggleButton
-                    value={'or'}
+                    value={'OR'}
                     sx={styles?.logicOrButtons(palette)}
                   >
                     OR
@@ -60,7 +55,7 @@ export const WorkflowConditions = (props: any) => {
             <Box display={'flex'} alignItems={'center'} gap={1} mt={2}>
               <Box sx={styles?.groupNumber(palette)}>{index + 1}</Box>
               <Grid container spacing={{ md: 2, xs: 0 }}>
-                {workflowConditionsGroupDataArray(index)?.map((item) => (
+                {workflowConditionsGroupDataArray(index)?.map((item: any) => (
                   <Grid item xs={12} md={item?.gridLength} key={item?._id}>
                     <item.component {...item?.componentProps} />
                   </Grid>

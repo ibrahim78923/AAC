@@ -6,6 +6,7 @@ import { useGetOrganizationMainIdQuery } from '@/services/orgAdmin/organization'
 const useOrganizationCard = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const theme = useTheme<Theme>();
+
   const { data, isLoading, isError, isFetching, isSuccess } =
     useGetOrganizationMainIdQuery({ id: '6540b33a0637653df4a4f8ac' });
 

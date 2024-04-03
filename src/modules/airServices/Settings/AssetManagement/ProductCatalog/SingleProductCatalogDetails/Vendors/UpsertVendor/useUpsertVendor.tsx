@@ -1,6 +1,4 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
 import { useForm } from 'react-hook-form';
 import {
   getUpsertVendorDataArray,
@@ -13,6 +11,7 @@ import {
   usePostVendorMutation,
 } from '@/services/airServices/settings/asset-management/product-catalog';
 import { useRouter } from 'next/router';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useUpsertVendor = (
   setIsUpsertModalOpen: any,
@@ -52,21 +51,14 @@ export const useUpsertVendor = (
     const postVendorParameter = { body };
 
     try {
-      const response: any =
-        await postVendorTrigger(postVendorParameter)?.unwrap();
+      await postVendorTrigger(postVendorParameter)?.unwrap();
       setIsUpsertModalOpen?.(false);
-      enqueueSnackbar(
-        response?.message ??
-          `Vendor ${isUpsertModalOpen?.id ? 'Updated' : 'Added'} Successfully!`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
+      successSnackbar(
+        `Vendor ${isUpsertModalOpen?.id ? 'Updated' : 'Added'} Successfully!`,
       );
     } catch (error: any) {
       setIsUpsertModalOpen?.(false);
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something Went Wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -85,21 +77,14 @@ export const useUpsertVendor = (
     const patchVendorParameter = { body };
 
     try {
-      const response: any =
-        await patchVendorTrigger(patchVendorParameter)?.unwrap();
+      await patchVendorTrigger(patchVendorParameter)?.unwrap();
       setIsUpsertModalOpen?.(false);
-      enqueueSnackbar(
-        response?.message ??
-          `Vendor ${isUpsertModalOpen?.id ? 'Updated' : 'Added'} Successfully!`,
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
+      successSnackbar(
+        `Vendor ${isUpsertModalOpen?.id ? 'Updated' : 'Added'} Successfully!`,
       );
     } catch (error: any) {
       setIsUpsertModalOpen?.(false);
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something Went Wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
 

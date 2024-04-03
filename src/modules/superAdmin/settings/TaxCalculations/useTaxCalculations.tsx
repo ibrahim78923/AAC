@@ -22,15 +22,13 @@ const useTaxCalculations = () => {
   const [rowId, setRowId] = useState(null);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const defaultParams = {
-    page: PAGINATION?.CURRENT_PAGE,
-    limit: PAGINATION?.PAGE_LIMIT,
-  };
   const [searchValue, setSearchValue] = useState(null);
-  const [filterParams, setFilterParams] = useState({
+  const [filterParams, setFilterParams] = useState({});
+  const paginationParams = {
     page: page,
     limit: pageLimit,
-  });
+  };
+
   let searchPayLoad;
   if (searchValue) {
     searchPayLoad = { search: searchValue };
@@ -40,7 +38,7 @@ const useTaxCalculations = () => {
     methodsFilter;
   const { data: dataGetTaxCalculation, isLoading: loagingGetTaxCalculation } =
     useGetTaxCalculationQuery({
-      params: { ...filterParams, ...searchPayLoad },
+      params: { ...filterParams, ...searchPayLoad, ...paginationParams },
     });
 
   // Dropdown Menu
@@ -92,19 +90,10 @@ const useTaxCalculations = () => {
 
   // Refresh
   const handleRefresh = () => {
-    setFilterParams(defaultParams);
+    setPageLimit(PAGINATION?.PAGE_LIMIT);
+    setPage(PAGINATION?.CURRENT_PAGE);
+    setFilterParams({});
     resetFilters();
-  };
-
-  // Hadle PAGE CHANGE
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-    setFilterParams((prev) => {
-      return {
-        ...prev,
-        page: newPage,
-      };
-    });
   };
 
   // Add Tax
@@ -254,7 +243,6 @@ const useTaxCalculations = () => {
     handleRefresh,
     setPageLimit,
     setPage,
-    handlePageChange,
     isAddTaxCalculationDrawerOpen,
     handleOpenAddDrawer,
     handleCloseAddDrawer,
