@@ -10,6 +10,7 @@ import {
   useTheme,
   IconButton,
   Dialog,
+  Avatar,
 } from '@mui/material';
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -21,22 +22,23 @@ import NotificationDropdown from './NotificationDropDown';
 import SocialIconsDropdown from './SocialIconsDropdown';
 import ProfilMenu from './ProfileMenu';
 
-import { isNullOrEmpty } from '@/utils';
+import { getSession, isNullOrEmpty } from '@/utils';
 
 import { QuickLinkData } from '../Layout.data';
 
 import { SearchSharedIcon } from '@/assets/icons';
-import { AvatarImage } from '@/assets/images';
 
 import { styles } from './Header.style';
 
 import { v4 as uuidv4 } from 'uuid';
+import { generateImage } from '@/utils/avatarUtils';
 
 const role = 'super-admin';
 
 const Header = (props: any) => {
   const { handleDrawerToggle } = props;
   const theme = useTheme();
+  const { user } = getSession();
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -141,7 +143,12 @@ const Header = (props: any) => {
               Orcalo Limited
             </Typography>
           )}
-          <Image src={AvatarImage} alt="Avatar" />
+          <Avatar
+            src={generateImage(user?.avatar?.url)}
+            sx={{ width: 30, height: 30 }}
+          >
+            {`${user?.firstName?.charAt(0)}${user?.lastName?.charAt(0)}`}
+          </Avatar>
           <ProfilMenu />
         </Box>
       </Box>
