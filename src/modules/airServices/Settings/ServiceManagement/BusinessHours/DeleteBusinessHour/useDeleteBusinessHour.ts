@@ -1,6 +1,5 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useDeleteBusinessHourMutation } from '@/services/airServices/settings/service-management/business-hours';
-import { enqueueSnackbar } from 'notistack';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useState } from 'react';
 
 export const useDeleteBusinessHour = (props: any) => {
@@ -20,17 +19,10 @@ export const useDeleteBusinessHour = (props: any) => {
     };
     try {
       await deleteBusinessHourTrigger(deleteBusinessHourParameter)?.unwrap();
-      enqueueSnackbar('Business Hour deleted successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Business Hour deleted successfully');
       closeBusinessHourDeleteModal?.();
     } catch (error: any) {
-      enqueueSnackbar(
-        error?.data?.message?.error ?? 'Business Hour not deleted',
-        {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        },
-      );
+      errorSnackbar(error?.data?.message);
       closeBusinessHourDeleteModal?.();
     }
   };

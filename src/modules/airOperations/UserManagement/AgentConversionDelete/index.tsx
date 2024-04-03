@@ -6,7 +6,7 @@ export const AgentConversionDelete = ({
   handleClose,
   message,
   submitDeleteModal,
-  loading,
+  deleteStatus,
 }: any) => {
   return (
     <>
@@ -14,11 +14,10 @@ export const AgentConversionDelete = ({
         type={ALERT_MODALS_TYPE?.DELETE}
         message={message}
         open={open}
-        loading={loading}
+        disabled={deleteStatus?.isLoading}
         handleClose={handleClose}
         handleSubmitBtn={() => {
           submitDeleteModal();
-          handleClose();
         }}
       />
     </>

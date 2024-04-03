@@ -17,6 +17,10 @@ import { AddMembersPropsI } from './AddMembers.interface';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useForm } from 'react-hook-form';
+import { useGetChatUsersQuery } from '@/services/chat';
+import { PAGINATION } from '@/config';
+import { getSession } from '@/utils';
+import { UserDefault } from '@/assets/images';
 
 const AddMembers = ({ setIsAddMembers }: AddMembersPropsI) => {
   const methodsAddGroup = useForm({
@@ -28,7 +32,26 @@ const AddMembers = ({ setIsAddMembers }: AddMembersPropsI) => {
 
   const { handleSubmit } = methodsAddGroup;
 
-  const getAddMembersDataArray = addMembersDataArray(setIsAddMembers);
+  const { user }: { user: any } = getSession();
+  const { data: chatsUsers } = useGetChatUsersQuery({
+    params: {
+      organization: user?.organization?._id,
+      page: PAGINATION?.CURRENT_PAGE,
+      limit: PAGINATION?.PAGE_LIMIT,
+      role: user?.role,
+    },
+  });
+  const transformedData = chatsUsers?.data?.users?.map((item: any) => ({
+    id: item?._id,
+    label: `${item?.firstName} ${item?.lastName}`,
+    value: item?._id,
+    image: UserDefault,
+  }));
+
+  const getAddMembersDataArray = addMembersDataArray(
+    setIsAddMembers,
+    transformedData,
+  );
 
   return (
     <FormProvider methods={methodsAddGroup} onSubmit={handleSubmit(onSubmit)}>

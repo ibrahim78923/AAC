@@ -11,19 +11,31 @@ export const currencyOptions = ['Pound', 'Dollar'];
 const purchaseDetailSchema = yup?.object()?.shape({
   itemName: yup?.object()?.nullable(),
   description: yup?.string()?.default(''),
-  quantity: yup?.number(),
-  costPerItem: yup?.number(),
-  taxRate: yup?.number(),
+  quantity: yup
+    ?.number()
+    ?.positive('Greater than zero')
+    ?.typeError('Not a number'),
+  costPerItem: yup
+    ?.number()
+    ?.positive('Greater than zero')
+    ?.typeError('Not a number'),
+  taxRate: yup
+    ?.number()
+    ?.positive('Greater than zero')
+    ?.typeError('Not a number'),
   total: yup?.number(),
 });
 // form validation schema
 export const validationSchema: any = yup?.object()?.shape({
-  orderName: yup?.string()?.required('Required'),
-  orderNumber: yup?.string()?.min(1).required('Required'),
-  vendor: yup?.object()?.required('Required'),
-  currency: yup?.string()?.required('Required'),
+  orderName: yup?.string()?.required('Order Name is Required'),
+  orderNumber: yup?.string()?.required('Order Number is Required'),
+  vendor: yup?.object()?.required('Vendor is Required'),
+  currency: yup?.string()?.required('Currency is Required'),
   department: yup?.object()?.nullable(),
-  expectedDeliveryDate: yup?.date()?.nullable()?.required('Required'),
+  expectedDeliveryDate: yup
+    ?.date()
+    ?.nullable()
+    ?.required('Delivery Date is Required'),
   location: yup?.object()?.nullable(),
   termAndCondition: yup?.string(),
   subTotal: yup?.number(),
@@ -31,12 +43,12 @@ export const validationSchema: any = yup?.object()?.shape({
   shipping: yup?.number(),
   discount: yup?.number(),
   total: yup?.number(),
-  purchaseDetails: yup.array().of(purchaseDetailSchema),
+  purchaseDetails: yup?.array()?.of(purchaseDetailSchema),
 });
 
 export const defaultValues = (data?: any) => ({
   orderName: data?.orderName ?? '',
-  orderNumber: data?.orderNumber ?? 0,
+  orderNumber: data?.orderNumber ?? '',
   vendor: data?.vendorDetails ?? null,
   currency: data?.currency ?? '',
   department: data?.departmentDetails ?? null,
@@ -100,7 +112,6 @@ export const newPurchaseFieldsFunction = (
           min: 0,
         },
       },
-      type: 'number',
     },
   },
   {

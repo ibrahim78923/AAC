@@ -19,6 +19,7 @@ const PendingForApprovals = () => {
     setSelectedApproval,
     setApproval,
     openApprovalDetail,
+    refetch,
   } = usePendingForApprovals();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -50,6 +51,7 @@ const PendingForApprovals = () => {
         setIsConfirmModalOpen={setIsConfirmModalOpen}
         selectedApproval={selectedApproval}
         setSelectedApproval={setSelectedApproval}
+        refetch={refetch}
       />
     </>
   );

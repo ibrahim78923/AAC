@@ -85,7 +85,7 @@ export const purchaseOrderColumnsFunction = (
       id: 'orderName',
       header: 'Order Name',
       isSortable: true,
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => truncateText(info?.getValue()),
     },
     {
       accessorFn: (row: any) => row?.vendors,

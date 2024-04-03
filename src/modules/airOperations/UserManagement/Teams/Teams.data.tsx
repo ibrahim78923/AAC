@@ -6,7 +6,7 @@ export const teamList: any = (
   setSelectedTeamList: any,
   teamListData: any,
   setIsTeamDrawerOpen: any,
-  setIsDrawerOpen: any,
+  setIsEditDrawerOpen: any,
   setDeleteModal: any,
 ) => [
   {
@@ -36,11 +36,15 @@ export const teamList: any = (
       <Box sx={{ display: 'flex', gap: 1 }}>
         <Box
           sx={{ cursor: 'pointer' }}
-          onClick={() => setIsTeamDrawerOpen(true)}
+          onClick={() => setIsTeamDrawerOpen(info?.row?.original?._id)}
         >
           <ViewEyeIcon />
         </Box>
-        <Box sx={{ cursor: 'pointer' }} onClick={() => setIsDrawerOpen(true)}>
+
+        <Box
+          sx={{ cursor: 'pointer' }}
+          onClick={() => setIsEditDrawerOpen(true)}
+        >
           <EditPenIcon />
         </Box>
         <Box

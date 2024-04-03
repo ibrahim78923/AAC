@@ -4,10 +4,9 @@ import {
   moveFolderDefaultValues,
   moveFolderSchema,
 } from './MoveFolderModal.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useLazyGetFoldersQuery } from '@/services/dropdowns';
 import { useMoveResponsesMutation } from '@/services/airServices/settings/agent-performance-management/canned-responses';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useMoveFolderModal = (props: any) => {
   const {
@@ -33,21 +32,16 @@ export const useMoveFolderModal = (props: any) => {
       body: upsertCannedResponseFormData,
     };
     try {
-      const response = await moveResponsesTrigger(
-        moveResponsesParameter,
-      )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Moved Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await moveResponsesTrigger(moveResponsesParameter)?.unwrap();
+      successSnackbar('Moved Successfully!');
       closeMoveFolderModal();
       setSelectedData([]);
       reset();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
+
   return {
     method,
     onSubmit,

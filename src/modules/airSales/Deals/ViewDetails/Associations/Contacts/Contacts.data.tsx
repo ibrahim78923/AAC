@@ -3,6 +3,7 @@ import { DeleteCrossIcon, ViewEyeIcon } from '@/assets/icons';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 import { IMG_URL } from '@/config';
+import { convertIdToShortNumber } from '@/utils';
 
 export const columns: any = ({
   setOpenDrawer,
@@ -19,7 +20,7 @@ export const columns: any = ({
       id: 'contact_id',
       isSortable: true,
       header: 'Contact ID',
-      cell: (info: any) => info?.getValue(),
+      cell: (info: any) => convertIdToShortNumber(info?.getValue()) ?? 'N/A',
     },
     {
       accessorFn: (row: any) => row?.name,
@@ -84,21 +85,6 @@ export const columns: any = ({
               <ViewEyeIcon />
             </Box>
           </PermissionsGuard>
-
-          {/* <PermissionsGuard
-            permissions={[
-              AIR_SALES_DEALS_PERMISSIONS?.DEAL_ADD_ASSOCIATE_CONTACT,
-            ]}
-          >
-            <Box
-              sx={{ cursor: 'pointer' }}
-              onClick={() => {
-                setOpenDrawer('Edit'), setContactRecord(info?.row?.original);
-              }}
-            >
-              <EditPenIcon />
-            </Box>
-          </PermissionsGuard> */}
           <PermissionsGuard
             permissions={[AIR_SALES_DEALS_PERMISSIONS?.DEAL_REMOVE_CONTACT]}
           >

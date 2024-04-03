@@ -1,5 +1,6 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
+import { truncateText } from '@/utils/avatarUtils';
 import { Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
@@ -76,9 +77,7 @@ export const contractsListsColumnsFunction = (
         color="custom.bright"
         sx={{ cursor: 'pointer' }}
       >
-        {info?.getValue()?.length > 30
-          ? `${info?.getValue()?.slice?.(0, 29)} ... `
-          : info?.getValue()}
+        {truncateText(info?.getValue())}
       </Typography>
     ),
   },
@@ -87,14 +86,14 @@ export const contractsListsColumnsFunction = (
     id: 'contractType',
     header: 'Type',
     isSortable: false,
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.status,
     id: 'status',
     isSortable: false,
     header: 'Status',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => info?.getValue() ?? '---',
   },
   {
     accessorFn: (row: any) => row?.renewalStatus,
@@ -115,7 +114,7 @@ export const contractsListsColumnsFunction = (
     id: 'vendor',
     isSortable: false,
     header: 'Vendor',
-    cell: (info: any) => info?.getValue()?.name ?? '---',
+    cell: (info: any) => truncateText(info?.getValue()?.name),
   },
   {
     accessorFn: (row: any) => row?.endDate,

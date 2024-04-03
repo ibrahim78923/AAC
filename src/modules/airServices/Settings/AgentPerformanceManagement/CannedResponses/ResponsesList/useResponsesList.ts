@@ -1,11 +1,11 @@
 import { PAGINATION } from '@/config';
 import { useRouter } from 'next/router';
-import { enqueueSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { responsesTableColumns } from './ResponsesList.data';
-import { CANNED_RESPONSES, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { CANNED_RESPONSES } from '@/constants/strings';
 import { useLazyGetResponsesListQuery } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { useSearchParams } from 'next/navigation';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useResponsesList = () => {
   const router = useRouter();
@@ -33,19 +33,10 @@ export const useResponsesList = () => {
   const responsesListMetaData = lazyGetResponsesListStatus?.data?.data?.meta;
   const getResponsesListListData = async () => {
     try {
-      const response = await lazyGetResponsesListTrigger(
-        getResponsesListParameter,
-      )?.unwrap();
-      enqueueSnackbar(
-        response?.message ?? 'Canned Responses Retrieved successfully',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
+      await lazyGetResponsesListTrigger(getResponsesListParameter)?.unwrap();
+      successSnackbar('Canned Responses Retrieved successfully');
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Error', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {
@@ -60,9 +51,7 @@ export const useResponsesList = () => {
     }
     if (ActionType === CANNED_RESPONSES?.EDIT) {
       if (selectedData?.length > 1) {
-        enqueueSnackbar(`Can't update multiple records`, {
-          variant: 'error',
-        });
+        errorSnackbar(`Can't update multiple records`);
         return;
       }
       return setOpenAddResponseDrawer(true);
