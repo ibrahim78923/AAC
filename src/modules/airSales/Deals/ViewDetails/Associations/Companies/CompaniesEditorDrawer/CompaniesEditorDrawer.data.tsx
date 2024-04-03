@@ -9,18 +9,20 @@ export const companiesValidationSchema = Yup?.object()?.shape({
 });
 
 export const companiesDefaultValues = {
+  company: 'new-Company',
   domain: '',
-  name: '',
-  ownerId: '',
-  industry: '',
-  type: '',
-  noOfEmloyee: 0,
-  totalRevenue: 0,
-  city: '',
-  postalCode: '',
-  address: '',
-  description: '',
-  linkedInUrl: '',
+  // commented for future use porpuse
+  // name: '',
+  // ownerId: '',
+  // industry: '',
+  // type: '',
+  noOfEmloyee: null,
+  totalRevenue: null,
+  // city: '',
+  // postalCode: '',
+  // address: '',
+  // description: '',
+  // linkedInUrl: '',
 };
 
 export const companiesDataArray = (getCompanyContacts: any) => {

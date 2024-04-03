@@ -16,9 +16,11 @@ import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
 
 export const useReceivedItems = (props: any) => {
   const router = useRouter();
-  const { purchaseOrderId } = router?.query;
-  const [patchAddToItemTrigger] = usePatchAddToItemMutation();
   const [errorOccurred, setErrorOccurred] = useState(false);
+  const { purchaseOrderId } = router?.query;
+  const [patchAddToItemTrigger, { isLoading: patchIsLoading }] =
+    usePatchAddToItemMutation();
+
   const { setIsDrawerOpen } = props;
   const getSingleAddToPurchaseOrderParameter = {
     pathParam: {
@@ -26,7 +28,7 @@ export const useReceivedItems = (props: any) => {
     },
   };
 
-  const { data } = useGetAddToPurchaseOrderByIdForReceivedItemsQuery(
+  const { data, isLoading } = useGetAddToPurchaseOrderByIdForReceivedItemsQuery(
     getSingleAddToPurchaseOrderParameter,
     {
       refetchOnMountOrArgChange: true,
@@ -55,17 +57,13 @@ export const useReceivedItems = (props: any) => {
     );
 
     const isReceivedItemNullOrMore = data?.receivedItem?.some(
-      (receiveItem: any) =>
-        receiveItem?.received == 0 ||
-        receiveItem?.received > receiveItem?.quantity,
+      (receiveItem: any) => receiveItem?.received > receiveItem?.quantity,
     );
 
     if (isReceivedItemNullOrMore) {
       setErrorOccurred(true);
-      setIsDrawerOpen(false);
       return;
     }
-
     const sendData = data?.receivedItem?.map((item: any) => {
       const purchaseDetails = item?.data?.purchaseDetails?.map(
         (secondItem: any) => ({
@@ -114,5 +112,7 @@ export const useReceivedItems = (props: any) => {
     fields,
     control,
     method,
+    isLoading,
+    patchIsLoading,
   };
 };

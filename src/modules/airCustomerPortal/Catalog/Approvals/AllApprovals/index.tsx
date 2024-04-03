@@ -20,6 +20,7 @@ const AllApprovals = () => {
     setSelectedApproval,
     setApproval,
     openApprovalDetail,
+    refetch,
   } = useAllApprovals();
 
   if (isLoading || isFetching) return <SkeletonForm />;
@@ -51,6 +52,7 @@ const AllApprovals = () => {
         setIsConfirmModalOpen={setIsConfirmModalOpen}
         selectedApproval={selectedApproval}
         setSelectedApproval={setSelectedApproval}
+        refetch={refetch}
       />
     </>
   );

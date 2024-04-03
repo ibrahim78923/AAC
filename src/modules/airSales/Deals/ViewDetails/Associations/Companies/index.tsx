@@ -98,14 +98,16 @@ const Companies = ({ companiesData, dealId, isLoading, handleSearch }: any) => {
           companyRecord={companyRecord}
         />
       )}
-      <AlertModals
-        message={"You're about to remove a record. Are you sure?"}
-        type={'delete'}
-        open={isOpenAlert}
-        handleClose={handleCloseAlert}
-        handleSubmitBtn={deleteCompanyHandler}
-        loading={loadingDelete}
-      />
+      {isOpenAlert && (
+        <AlertModals
+          message={"You're about to remove a record. Are you sure?"}
+          type={'delete'}
+          open={isOpenAlert}
+          handleClose={handleCloseAlert}
+          handleSubmitBtn={deleteCompanyHandler}
+          loading={loadingDelete}
+        />
+      )}
     </Box>
   );
 };

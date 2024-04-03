@@ -38,8 +38,8 @@ export const AssociateAssets = () => {
           data?.data?.tickets?.length > 1
             ? data?.data?.meta?.total
             : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-              ? data?.data?.meta?.total
-              : 0
+            ? data?.data?.meta?.total
+            : 0
         })`}
         addTitle={'Add Associations'}
         handleAction={() => setOpenDrawer(true)}
@@ -60,8 +60,8 @@ export const AssociateAssets = () => {
             data?.data?.tickets?.length > 1
               ? data?.data?.tickets
               : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.tickets
-                : []
+              ? data?.data?.tickets
+              : []
           }
           isPagination
           isSuccess={isSuccess}
@@ -72,22 +72,22 @@ export const AssociateAssets = () => {
             data?.data?.tickets?.length > 1
               ? data?.data?.meta?.page
               : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.meta?.page
-                : 0
+              ? data?.data?.meta?.page
+              : 0
           }
           count={
             data?.data?.tickets?.length > 1
               ? data?.data?.meta?.pages
               : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.meta?.pages
-                : 0
+              ? data?.data?.meta?.pages
+              : 0
           }
           totalRecords={
             data?.data?.tickets?.length > 1
               ? data?.data?.meta?.total
               : !!data?.data?.tickets?.[0]?.associateAssetsDetails?._id
-                ? data?.data?.meta?.total
-                : 0
+              ? data?.data?.meta?.total
+              : 0
           }
           pageLimit={data?.data?.meta?.limit}
           onPageChange={(page: any) => setPage(page)}

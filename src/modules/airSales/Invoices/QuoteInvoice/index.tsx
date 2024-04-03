@@ -48,6 +48,16 @@ const QuoteInvoice = ({ quoteId }: any) => {
     loadingPostInvoice,
   } = useQuoteInvoice(quoteId);
 
+  const subtotal = quoteDataById?.products?.reduce(
+    (acc: any, curr: any) => acc + curr?.unitPrice * curr?.quantity,
+    0,
+  );
+
+  const unitDiscount = quoteDataById?.products?.reduce(
+    (acc: any, curr: any) => acc + curr?.unitDiscount * curr?.quantity,
+    0,
+  );
+
   return (
     <Box>
       <DetailCard
@@ -93,7 +103,7 @@ const QuoteInvoice = ({ quoteId }: any) => {
             }}
           >
             <CardContent sx={{ padding: '11px 20px' }}>
-              {productTotalDetails?.map((item: any) => (
+              {productTotalDetails(subtotal, unitDiscount)?.map((item: any) => (
                 <Box key={uuidv4()}>
                   <Stack
                     direction="row"
@@ -164,7 +174,7 @@ const QuoteInvoice = ({ quoteId }: any) => {
                 Total
               </Typography>
               <Typography variant="h5" fontWeight={500}>
-                £50
+                £{subtotal - unitDiscount}
               </Typography>
             </CardActions>
           </Card>

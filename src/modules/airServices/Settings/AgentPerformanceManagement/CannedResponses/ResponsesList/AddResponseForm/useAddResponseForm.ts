@@ -5,14 +5,14 @@ import {
   addResponseDefaultValues,
   addResponseValidationSchema,
 } from './AddResponseForm.data';
-import { enqueueSnackbar } from 'notistack';
-import { CANNED_RESPONSES, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { CANNED_RESPONSES } from '@/constants/strings';
 import {
   usePatchResponseMutation,
   usePostResponseMutation,
 } from '@/services/airServices/settings/agent-performance-management/canned-responses';
 import { useSearchParams } from 'next/navigation';
 import { getSession } from '@/utils';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useAddResponseForm = (props: any) => {
   const { open, setDrawerOpen, folderName, selectedData, setSelectedData } =
@@ -50,9 +50,7 @@ export const useAddResponseForm = (props: any) => {
     upsertResponseFormData?.append('folderId', cannedResponseId);
     if (availableForChanged === CANNED_RESPONSES?.SELECT_AGENTS) {
       if (!!!agents?.length) {
-        enqueueSnackbar('Please select Agents', {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        });
+        errorSnackbar('Please select Agents');
         return;
       }
       upsertResponseFormData?.append(
@@ -61,7 +59,7 @@ export const useAddResponseForm = (props: any) => {
       );
     }
     if (availableForChanged === CANNED_RESPONSES?.MY_SELF) {
-      const { user } = getSession();
+      const { user }: any = getSession();
       upsertResponseFormData?.append('agents', user?._id);
     }
     const responseParameter = {
@@ -74,15 +72,11 @@ export const useAddResponseForm = (props: any) => {
     }
 
     try {
-      const response = await postResponseTrigger(responseParameter)?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Response Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await postResponseTrigger(responseParameter)?.unwrap();
+      successSnackbar('Response Added Successfully');
       closeDrawer();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
   const submitUpdateResponse = async (data: any) => {
@@ -90,15 +84,11 @@ export const useAddResponseForm = (props: any) => {
       body: data,
     };
     try {
-      const response = await patchResponseTrigger(responseParameter)?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Response Updated Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await patchResponseTrigger(responseParameter)?.unwrap();
+      successSnackbar('Response Updated Successfully!');
       closeDrawer();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {

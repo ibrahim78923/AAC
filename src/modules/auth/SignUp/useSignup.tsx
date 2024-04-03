@@ -77,9 +77,11 @@ const useSignup = () => {
     try {
       const response: any = await signUpValue({ user }).unwrap();
       if (response?.data) {
+        // bypassing the ig varification in future routing should be done on successful varification
+        push(AUTH.LOGIN);
+
         try {
           await authCompanyVerification({ email: { email: email } }).unwrap();
-          push(AUTH.LOGIN);
         } catch (error: any) {
           const errMsg = error?.data?.message;
           enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });

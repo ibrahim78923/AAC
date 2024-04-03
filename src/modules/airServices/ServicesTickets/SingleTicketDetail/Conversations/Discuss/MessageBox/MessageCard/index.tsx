@@ -1,4 +1,3 @@
-import { LogoImage } from '@/assets/images';
 import { SingleDropdownButton } from '@/components/SingleDropdownButton';
 import { generateImage } from '@/utils/avatarUtils';
 import { MoreVert } from '@mui/icons-material';
@@ -19,11 +18,7 @@ export const MessageCard = (props: any) => {
     >
       <Avatar
         sx={{ backgroundColor: 'primary.light', width: 40, height: 40 }}
-        src={
-          authUser?._id === message?.createdBy
-            ? generateImage(authUser?.avatar?.url)
-            : LogoImage?.src
-        }
+        src={generateImage(message?.createdByAvatar)}
       />
       <Box bgcolor={'primary.light'} p={1} borderRadius={2}>
         <Box>

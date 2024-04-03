@@ -63,7 +63,6 @@ const useContactsEditorDrawer = ({
           phoneNumber,
           dateOfBirth,
           contactOwnerId,
-          recordStatus,
           lifeCycleStageId,
           jobTitle,
           statusId,
@@ -78,7 +77,6 @@ const useContactsEditorDrawer = ({
           whatsAppNumber,
           dateOfBirth: new Date(dateOfBirth),
           contactOwnerId,
-          recordStatus,
           lifeCycleStageId,
           jobTitle,
           statusId,
@@ -112,6 +110,7 @@ const useContactsEditorDrawer = ({
     ),
       formData.append('recordType', recordType),
       formData.append('recordId', dealId);
+    formData.append('contactOwnerId', values?.contactOwnerId);
     try {
       const response = await postContacts({ body: formData }).unwrap();
 

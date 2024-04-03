@@ -442,7 +442,7 @@ export const AirOperationsRoutes: any = [
   {
     key: AIR_OPERATION?.WORK_FLOW,
     icon: WorkFlowAutomationImage,
-    label: 'Workflow',
+    label: 'Workflow Automation',
     role: 'AIR_OPERATIONS',
     permissions: Permissions?.AIR_OPERATIONS_WORKFLOWS,
   },
