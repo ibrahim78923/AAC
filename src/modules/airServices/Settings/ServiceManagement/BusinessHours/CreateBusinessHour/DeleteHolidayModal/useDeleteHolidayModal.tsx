@@ -12,7 +12,7 @@ export default function useDeleteHolidayModal({ id, setHolidaysData }: any) {
   const deleteHoliday = async () => {
     if (!!!businessHourId) {
       setHolidaysData((pervState: any) =>
-        pervState.filter((item: any) => item.uuid !== id),
+        pervState.filter((item: any) => item?.uuid !== id),
       );
       errorSnackbar('Holiday deleted successfully');
       setOpenDeleteModal(false);
