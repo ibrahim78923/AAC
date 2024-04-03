@@ -26,6 +26,7 @@ function TeamsDetails(props: any) {
     teamDataArray,
     data,
     isLoading,
+    theme,
   } = useTeamsDetails(props);
   return (
     <>
@@ -52,7 +53,7 @@ function TeamsDetails(props: any) {
                   <Box
                     py={'1.5rem'}
                     borderRadius={'0.625rem'}
-                    sx={{ background: '#BCC1CE' }}
+                    sx={{ background: theme?.palette?.custom?.bluish_gray }}
                   >
                     <Box
                       display={'flex'}

@@ -1,7 +1,9 @@
 import { useGetTeamsByIdQuery } from '@/services/airSales/settings/teams';
 import { useState } from 'react';
+import { useTheme } from '@mui/material';
 
 export const useTeamsDetails = (props: any) => {
+  const theme = useTheme();
   const { isTeamDrawerOpen } = props;
   const teamId = isTeamDrawerOpen?.rowId;
   const [anchorEl, setAnchorEl] = useState(null);
@@ -22,5 +24,6 @@ export const useTeamsDetails = (props: any) => {
     teamDataArray,
     data,
     isLoading,
+    theme,
   };
 };
