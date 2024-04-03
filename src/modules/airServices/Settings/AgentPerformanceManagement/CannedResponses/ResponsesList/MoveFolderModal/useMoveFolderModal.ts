@@ -38,9 +38,10 @@ export const useMoveFolderModal = (props: any) => {
       setSelectedData([]);
       reset();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
+
   return {
     method,
     onSubmit,

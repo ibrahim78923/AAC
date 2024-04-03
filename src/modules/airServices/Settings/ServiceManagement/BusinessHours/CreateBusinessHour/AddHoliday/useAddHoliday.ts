@@ -54,7 +54,7 @@ export const useAddHoliday = (props: any) => {
       successSnackbar('Holiday Added Successfully');
       closeHolidayModal();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   });
   return {

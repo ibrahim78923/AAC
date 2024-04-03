@@ -59,7 +59,7 @@ export const useAddResponseForm = (props: any) => {
       );
     }
     if (availableForChanged === CANNED_RESPONSES?.MY_SELF) {
-      const { user } = getSession();
+      const { user }: any = getSession();
       upsertResponseFormData?.append('agents', user?._id);
     }
     const responseParameter = {

@@ -22,7 +22,7 @@ export const useDeleteBusinessHour = (props: any) => {
       successSnackbar('Business Hour deleted successfully');
       closeBusinessHourDeleteModal?.();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
       closeBusinessHourDeleteModal?.();
     }
   };

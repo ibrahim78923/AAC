@@ -60,7 +60,7 @@ export const useCreateBusinessHour = () => {
       await lazyGetHolidaysTrigger(getHolidaysParam)?.unwrap();
       successSnackbar('Holidays Retrieved successfully');
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
 
@@ -110,7 +110,7 @@ export const useCreateBusinessHour = () => {
       router?.push(AIR_SERVICES?.BUSINESS_HOURS_SETTINGS);
       reset();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   });
   const submitUpdateBusinessHour = async (data: any) => {
@@ -122,8 +122,8 @@ export const useCreateBusinessHour = () => {
       successSnackbar('Business Hour Updated Successfully!');
       router?.push(AIR_SERVICES?.BUSINESS_HOURS_SETTINGS);
       reset();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {

@@ -24,7 +24,7 @@ export const useDeleteFolderModal = (props: any) => {
       successSnackbar('Folder deleted successfully');
       closeCannedResponseDeleteModal?.();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
       closeCannedResponseDeleteModal?.();
     }
   };
