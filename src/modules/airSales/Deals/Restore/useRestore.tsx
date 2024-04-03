@@ -37,7 +37,8 @@ const useRestore = () => {
     params: restoeApiParam,
   });
 
-  const [updateRestoreMutation] = useUpdateRestoreDealsMutation();
+  const [updateRestoreMutation, { isLoading: restoreLoading }] =
+    useUpdateRestoreDealsMutation();
 
   const handlePermanantDelete = () => {
     setIsPermanantlyDel(!isPermanantlyDel);
@@ -112,6 +113,7 @@ const useRestore = () => {
     restoreFilter,
     setIsRestoreFilterDrawer,
     setCheckedAll,
+    restoreLoading,
   };
 };
 

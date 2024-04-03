@@ -16,7 +16,6 @@ import {
 import { styles } from './StepBuyerInfo.style';
 import Image from 'next/image';
 import { AlertModals } from '@/components/AlertModals';
-// import useUpdateQuote from '../useUpdateQuote';
 import useUpdateQuote from '../useUpdateQuote';
 
 const StepBuyerInfo = ({
@@ -95,6 +94,7 @@ const StepBuyerInfo = ({
                         </Box>
                         <Box mt={-0.7}>
                           <Checkbox
+                            defaultChecked
                             checked={selectedBuyerContactIds === item?._id}
                             value={item?._id}
                             onChange={() => handleBuyerContactChange(item?._id)}

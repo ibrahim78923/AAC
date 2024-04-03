@@ -50,10 +50,10 @@ export const actionsData = ({
     selectedLabel === optionsConstant?.impact
       ? priority
       : selectedLabel === optionsConstant?.source
-      ? sourcesOptions
-      : selectedLabel === optionsConstant?.type
-      ? typeOptions
-      : statusOptions;
+        ? sourcesOptions
+        : selectedLabel === optionsConstant?.type
+          ? typeOptions
+          : statusOptions;
   let valueComponent;
   const apiQuery = useApiQuery(selectedLabel);
   if (
