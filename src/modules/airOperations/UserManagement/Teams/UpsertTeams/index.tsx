@@ -19,7 +19,7 @@ function UpsertTeams({ isDrawerOpen, setIsDrawerOpen, title, okText }: any) {
   return (
     <>
       <CommonDrawer
-        isDrawerOpen={isDrawerOpen?.val ? true : false}
+        isDrawerOpen={isDrawerOpen}
         onClose={() => {
           setIsDrawerOpen(false);
         }}

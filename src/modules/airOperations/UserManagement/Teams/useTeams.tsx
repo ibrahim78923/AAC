@@ -10,10 +10,7 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useTeams = () => {
   const theme = useTheme();
-  const [isDrawerOpen, setIsDrawerOpen] = useState<any>({
-    val: false,
-    rowId: null,
-  });
+  const [isDrawerOpen, setIsDrawerOpen] = useState<any>();
   const [isCreateDrawerOpen, setIsCreateDrawerOpen] = useState<boolean>(false);
   const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false);
   const [isTeamDrawerOpen, setIsTeamDrawerOpen] = useState<boolean>(false);

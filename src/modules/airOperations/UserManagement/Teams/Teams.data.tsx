@@ -36,12 +36,11 @@ export const teamList: any = (
       <Box sx={{ display: 'flex', gap: 1 }}>
         <Box
           sx={{ cursor: 'pointer' }}
-          onClick={() =>
-            setIsTeamDrawerOpen({ rowId: info?.row?.original?._id })
-          }
+          onClick={() => setIsTeamDrawerOpen(info?.row?.original?._id)}
         >
           <ViewEyeIcon />
         </Box>
+
         <Box
           sx={{ cursor: 'pointer' }}
           onClick={() => setIsEditDrawerOpen(true)}
