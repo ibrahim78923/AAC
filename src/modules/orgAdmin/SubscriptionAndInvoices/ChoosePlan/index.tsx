@@ -19,6 +19,7 @@ import {
   useGetCRMPlanListQuery,
   useGetProductFeaturesQuery,
   useGetProductPlanListProductIdQuery,
+  usePatchSubscriptionPlanMutation,
   usePostSubscriptionPlanMutation,
 } from '@/services/orgAdmin/subscription-and-invoices';
 import { v4 as uuidv4 } from 'uuid';
@@ -53,7 +54,18 @@ const ChoosePlan = () => {
 
   const [getData, setGetData] = useState<any>([]);
 
-  const [postSubscriptionPlan] = usePostSubscriptionPlanMutation();
+  const freePlanIndex = getData?.findIndex(
+    (plan: any) => plan?.planType?.name === 'Free',
+  );
+  if (freePlanIndex !== -1 && freePlanIndex !== 0) {
+    const freePlan = getData?.splice(freePlanIndex, 1)[0];
+    getData?.unshift(freePlan);
+  }
+
+  const [postSubscriptionPlan, { isLoading: PostSubscriptionLoading }] =
+    usePostSubscriptionPlanMutation();
+  const [patchSubscriptionPlan, { isLoading: PatchSubscriptionLoading }] =
+    usePatchSubscriptionPlanMutation();
 
   const onSubmit = async () => {
     const payload = {
@@ -65,14 +77,36 @@ const ChoosePlan = () => {
       status: 'ACTIVE',
       billingCycle: 'MONTHLY',
     };
-    try {
-      await postSubscriptionPlan({ body: payload }).unwrap();
-      enqueueSnackbar('Request Successful', {
-        variant: 'success',
-      });
-      setIsBuyPlan(false);
-    } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+
+    if (parsedManageData?.orgPlanId) {
+      try {
+        await patchSubscriptionPlan({
+          body: payload,
+          organizationPlanId: parsedManageData?.orgPlanId,
+        }).unwrap();
+        enqueueSnackbar('Plan Update Successful', {
+          variant: 'success',
+        });
+        setIsBuyPlan(false);
+        router.push(
+          `${orgAdminSubcriptionInvoices?.back_subscription_invoices}`,
+        );
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      }
+    } else {
+      try {
+        await postSubscriptionPlan({ body: payload }).unwrap();
+        enqueueSnackbar('Request Successful', {
+          variant: 'success',
+        });
+        setIsBuyPlan(false);
+        router.push(
+          `${orgAdminSubcriptionInvoices?.back_subscription_invoices}`,
+        );
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      }
     }
   };
 
@@ -100,10 +134,15 @@ const ChoosePlan = () => {
         message={'Are you sure you want to buy this plan ?'}
         type={'Confirmation'}
         open={isBuyPlan}
-        submitBtnText="Buy Plan"
+        submitBtnText={parsedManageData?.orgPlanId ? 'Update Plan' : 'Buy Plan'}
         cancelBtnText="Cancel"
         handleClose={() => setIsBuyPlan(false)}
         handleSubmitBtn={onSubmit}
+        loading={
+          parsedManageData?.orgPlanId
+            ? PatchSubscriptionLoading
+            : PostSubscriptionLoading
+        }
       />
 
       <Box sx={{ display: 'flex', alignItems: 'center', mb: '27px' }}>
@@ -141,7 +180,7 @@ const ChoosePlan = () => {
                   </Typography>
                 </TableCell>
                 {/* default free  */}
-                <TableCell component="th">Free Plan</TableCell>
+                {/* <TableCell component="th">Free Plan</TableCell> */}
                 {getData?.length
                   ? getData?.map((choosePlan: any) => {
                       return (
@@ -153,16 +192,6 @@ const ChoosePlan = () => {
                   : null}
               </TableRow>
               <TableRow>
-                {/* default  free */}
-                <TableCell width={300} sx={styles?.planBox} key={uuidv4()}>
-                  <Box>
-                    <Typography variant="h3">
-                      <Box>Free Trial</Box>
-                      <Box component={'span'}>1 Month</Box>
-                    </Typography>
-                  </Box>
-                </TableCell>
-
                 {getData?.length
                   ? getData?.map((choosePlan: any) => {
                       return (
@@ -171,35 +200,52 @@ const ChoosePlan = () => {
                             £{choosePlan?.planPrice}
                             <Box component={'span'}>/Month</Box>
                           </Typography>
-                          <PermissionsGuard
-                            permissions={[
-                              ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_BUY_PLAN,
-                            ]}
-                          >
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() => {
-                                setActivePlanToBuy(choosePlan),
-                                  setIsBuyPlan(true);
-                              }}
-                            >
-                              Buy Plan
-                            </Button>
-                          </PermissionsGuard>
+                          {choosePlan?.planType?.name === 'Free' ? null : (
+                            <>
+                              {parsedManageData.planData?.planTypeId ===
+                              choosePlan?.planType?._id ? (
+                                <PermissionsGuard
+                                  permissions={[
+                                    ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_BUY_PLAN,
+                                  ]}
+                                >
+                                  <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => {
+                                      setActivePlanToBuy(choosePlan),
+                                        setIsBuyPlan(true);
+                                    }}
+                                  >
+                                    Subscribed
+                                  </Button>
+                                </PermissionsGuard>
+                              ) : (
+                                <PermissionsGuard
+                                  permissions={[
+                                    ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_BUY_PLAN,
+                                  ]}
+                                >
+                                  <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => {
+                                      setActivePlanToBuy(choosePlan),
+                                        setIsBuyPlan(true);
+                                    }}
+                                  >
+                                    Buy Plan
+                                  </Button>
+                                </PermissionsGuard>
+                              )}
+                            </>
+                          )}
                         </TableCell>
                       );
                     })
                   : null}
               </TableRow>
               <TableRow sx={styles?.planDetailText}>
-                <TableCell key={uuidv4()}>
-                  <Typography variant="body2">
-                    Essential tools to put your customers first and deliver
-                    authethic services
-                  </Typography>
-                </TableCell>
-
                 {getData?.length
                   ? getData?.map((choosePlan: any) => {
                       return (
@@ -214,10 +260,6 @@ const ChoosePlan = () => {
               </TableRow>
               <TableRow>
                 <TableCell sx={styles?.sideHeader}>Users</TableCell>
-                {/* default  free */}
-                <TableCell key={uuidv4()} sx={styles?.userIncludes}>
-                  <Typography variant="h6">Includes 1 users</Typography>
-                </TableCell>
 
                 {getData?.length
                   ? getData?.map((choosePlan: any) => {
@@ -244,7 +286,7 @@ const ChoosePlan = () => {
                   Max Additional Users
                 </TableCell>
                 {/* default  free */}
-                <TableCell sx={styles?.sideHeader}>-</TableCell>
+                {/* <TableCell sx={styles?.sideHeader}>-</TableCell> */}
                 {getData?.length
                   ? getData?.map((item: any, index: any) => {
                       return (
@@ -277,7 +319,7 @@ const ChoosePlan = () => {
                   Max Additional Storage
                 </TableCell>
                 {/* default  free */}
-                <TableCell sx={styles?.sideHeader}>-</TableCell>
+                {/* <TableCell sx={styles?.sideHeader}>-</TableCell> */}
                 {getData?.length
                   ? getData?.map((item: any, index: any) => {
                       return (
@@ -313,23 +355,25 @@ const ChoosePlan = () => {
                     <TableCell sx={styles?.salesActivities}>
                       <Typography variant="h6">{feature?.name}</Typography>
                     </TableCell>
-                    <TableCell component="th">-</TableCell>
                     {getData?.map((planFeature: any) => {
-                      return planFeature?.planProductFeatures?.map(
-                        (planFeatureId: any) => {
-                          return (
-                            <>
-                              {planFeatureId?.featureId === feature?._id ? (
-                                <TableCell align="center">
-                                  <TickCircleIcon />
-                                </TableCell>
-                              ) : (
-                                <TableCell align="center">-</TableCell>
-                              )}
-                            </>
-                          );
-                        },
-                      );
+                      const isFeatureIncluded =
+                        planFeature?.planProductFeatures?.some(
+                          (row: any) => row?.featureId === feature?._id,
+                        );
+                      if (isFeatureIncluded) {
+                        return (
+                          <TableCell key={uuidv4()} align="center">
+                            <TickCircleIcon />
+                          </TableCell>
+                        );
+                      } else {
+                        return (
+                          <TableCell key={uuidv4()} align="center">
+                            {' '}
+                            -{' '}
+                          </TableCell>
+                        );
+                      }
                     })}
                   </TableRow>
                 );
