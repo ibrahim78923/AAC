@@ -18,9 +18,9 @@ export const Header = (props: any) => {
     handleSubmitForApproval,
     handleSubmitForApprove,
     handleClickOpen,
+    user,
   } = useHeader();
   if (isLoading || isFetching) return <Skeleton />;
-
   return (
     <>
       <Box
@@ -50,24 +50,25 @@ export const Header = (props: any) => {
               Submit For Approval
             </Button>
           )}
-          {data?.data?.status === CONTRACT_STATUS?.PENDING_APPROVAL && (
-            <>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={handleSubmitForApprove}
-              >
-                approve
-              </Button>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={handleClickOpen}
-              >
-                Reject
-              </Button>
-            </>
-          )}
+          {data?.data?.status === CONTRACT_STATUS?.PENDING_APPROVAL &&
+            data?.data?.approver?._id === user?._id && (
+              <>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={handleSubmitForApprove}
+                >
+                  approve
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={handleClickOpen}
+                >
+                  Reject
+                </Button>
+              </>
+            )}
 
           <SingleDropdownButton dropdownOptions={dropdownOptions} />
         </Box>

@@ -3,27 +3,32 @@ import { Box, Button, useTheme } from '@mui/material';
 import { AddCircleIcon } from '@/assets/icons';
 import { AssociationsDrawer } from './AssociationsDrawer';
 import { SingleAssociationsTicket } from './SingleAssociationsTicket';
-import { NoAssociationFoundImage } from '@/assets/images';
 import { useAssociations } from './useAssociations';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
 
 export const Associations = () => {
   const theme: any = useTheme();
-  const { associationsList, openDrawer, setOpenDrawer, isLoading, isError } =
-    useAssociations();
+  const {
+    associationsList,
+    openDrawer,
+    setOpenDrawer,
+    isLoading,
+    isError,
+    isFetching,
+  } = useAssociations();
   return (
     <>
       <Box>
-        {isLoading ? (
+        {isLoading || isFetching ? (
           <SkeletonTable />
-        ) : associationsList?.length === 0 || !!!associationsList ? (
+        ) : isError ? (
+          <ApiErrorState />
+        ) : !!!associationsList?.length ? (
           <>
             <NoData
-              image={NoAssociationFoundImage}
               message={
-                isError
-                  ? 'Something went wrong'
-                  : 'Make approved purchases by sending the order to your stakeholders for approval'
+                'Make approved purchases by sending the order to your stakeholders for approval'
               }
             >
               {!isError && (

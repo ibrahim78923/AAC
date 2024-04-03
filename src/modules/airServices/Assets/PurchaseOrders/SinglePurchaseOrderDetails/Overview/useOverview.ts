@@ -15,8 +15,11 @@ export const useOverview = () => {
   const theme = useTheme();
   const router = useRouter();
   const purchaseOrderId = router?.query?.purchaseOrderId;
-  const { data, isLoading, isFetching } =
-    useGetPurchaseOrderOverviewQuery(purchaseOrderId);
+  const { data, isLoading, isFetching, isError } =
+    useGetPurchaseOrderOverviewQuery(purchaseOrderId, {
+      refetchOnMountOrArgChange: true,
+      skip: !!!purchaseOrderId,
+    });
   const purchaseOrderData = data?.data;
   const purchaseOrderDetailData = data?.data?.purchaseDetails;
   const itemName = data?.data?.productDetails?.find(
@@ -57,5 +60,6 @@ export const useOverview = () => {
     isFetching,
     handleRowClick,
     rowData,
+    isError,
   };
 };

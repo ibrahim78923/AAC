@@ -53,7 +53,8 @@ export const Header = (props: any) => {
                   variant="outlined"
                   onClick={() => handleAddToInventory?.()}
                   disabled={
-                    data?.data?.status === PURCHASE_ORDER_STATUS?.CLOSED
+                    data?.data?.status === PURCHASE_ORDER_STATUS?.CLOSED ||
+                    data?.data?.status === PURCHASE_ORDER_STATUS?.ORDERED
                   }
                 >
                   Add to Inventory

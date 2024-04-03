@@ -1,7 +1,10 @@
-import { Box, Skeleton, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { overviewData } from './Overview.data';
 import { styles } from './Overview.style';
 import { useOverview } from './useOverview';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import ApiErrorState from '@/components/ApiErrorState';
+
 export const Overview = () => {
   const {
     theme,
@@ -10,8 +13,11 @@ export const Overview = () => {
     approverName,
     isLoading,
     isFetching,
+    isError,
   } = useOverview();
-  if (isLoading || isFetching) return <Skeleton />;
+
+  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isError) return <ApiErrorState />;
   return (
     <div>
       {overviewData({ contractData, contractItemData, approverName })?.map(
