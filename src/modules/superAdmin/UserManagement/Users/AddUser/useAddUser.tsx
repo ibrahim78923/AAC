@@ -196,7 +196,6 @@ const useAddUser = (useActionParams?: any) => {
         '_id',
         'crn',
         'companyName',
-        'products',
         'role',
         'organization',
         'email',
