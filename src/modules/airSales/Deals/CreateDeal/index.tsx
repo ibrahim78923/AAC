@@ -15,9 +15,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 import dayjs from 'dayjs';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { enqueueSnackbar } from 'notistack';
 
 const CreateDeal = ({ open, onClose }: any) => {
-  const [postDeals] = usePostDealsMutation();
+  const [postDeals, { isLoading: isCreateDealLodaing }] =
+    usePostDealsMutation();
 
   const methods = useForm<any>({
     resolver: yupResolver(validationSchema),
@@ -30,10 +32,24 @@ const CreateDeal = ({ open, onClose }: any) => {
   const onSubmit = async (values: any) => {
     const [closeDate] = values?.closeDate;
     values.closeDate = dayjs(closeDate)?.toISOString();
+    values.products = [
+      {
+        productId: values?.products,
+        quantity: 1,
+        unitDiscount: 0,
+      },
+    ];
     try {
       await postDeals({ body: values })?.unwrap();
+      enqueueSnackbar('Deal created successfully', {
+        variant: 'success',
+      });
       reset();
-    } catch (error) {}
+    } catch (error) {
+      enqueueSnackbar('Error while creating deal', {
+        variant: 'error',
+      });
+    }
     onClose();
   };
 
@@ -48,6 +64,7 @@ const CreateDeal = ({ open, onClose }: any) => {
       okText="Create"
       isOk
       submitHandler={handleSubmit(onSubmit)}
+      isLoading={isCreateDealLodaing}
     >
       <FormProvider methods={methods}>
         <Grid container spacing={1}>

@@ -1,3 +1,4 @@
+import { ROLES } from '@/constants/strings';
 import {
   useGetCategoriesAgentDropdownQuery,
   useGetCategoriesRequesterDropdownQuery,
@@ -41,10 +42,10 @@ const useVisibilityAction = (props: any) => {
     setAnchorEl?.(false);
   };
   const apiQueryRequester = useGetCategoriesRequesterDropdownQuery({
-    params: { limit: 50, role: 'ORG_REQUESTER' },
+    params: { limit: 50, role: ROLES?.ORG_REQUESTER },
   });
   const apiQueryAgent = useGetCategoriesAgentDropdownQuery({
-    params: { limit: 50, role: 'ORG_AGENT' },
+    params: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
   });
 
   return {

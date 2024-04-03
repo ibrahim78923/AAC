@@ -14,10 +14,11 @@ import {
   useDeleteContactsMutation,
   useGetDealsQuery,
   useGetQuoteByIdQuery,
+  useGetTaxCalculationsQuery,
   usePostAddbuyerInfoMutation,
   usePutSubmitQuoteMutation,
-  // usePostAddbuyerInfoMutation,
   useUpdateQuoteMutation,
+  useUpdateSubmitEmailQuoteMutation,
 } from '@/services/airSales/quotes';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
@@ -29,6 +30,10 @@ const useUpdateQuote = () => {
   if (router?.query?.data) {
     quoteId = router?.query?.data;
   }
+  const param = {
+    applyOn: 'quotes',
+  };
+  const { data: taxCalculation } = useGetTaxCalculationsQuery(param);
 
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
@@ -44,6 +49,7 @@ const useUpdateQuote = () => {
   const [deleteContacts, { isLoading: isContactDeleteLoading }] =
     useDeleteContactsMutation();
   const [putSubmitQuote] = usePutSubmitQuoteMutation();
+  const [updateSubmitEmailQuote] = useUpdateSubmitEmailQuoteMutation();
 
   const [selectedBuyerContactIds, setSelectedBuyerContactIds] = useState<
     string | null
@@ -114,7 +120,6 @@ const useUpdateQuote = () => {
   const handleSubmitBtn = async () => {
     try {
       putSubmitQuote({
-        id: quoteId,
         body: { id: quoteId, isSubmitted: true },
       });
       enqueueSnackbar('Save as draft submit later', {
@@ -135,7 +140,6 @@ const useUpdateQuote = () => {
       });
       setSelectedCompanyIds(null);
       handleDeleteModal(null);
-      // setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -150,7 +154,6 @@ const useUpdateQuote = () => {
         variant: 'success',
       });
       setDeleteContactModalId(null);
-      // setIsActionsDisabled(true);
       handleContactDeleteModal(null);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
@@ -323,6 +326,9 @@ const useUpdateQuote = () => {
     handleSubmitBtn,
     setPage,
     setPageLimit,
+    updateSubmitEmailQuote,
+    quoteId,
+    taxCalculation,
   };
 };
 
