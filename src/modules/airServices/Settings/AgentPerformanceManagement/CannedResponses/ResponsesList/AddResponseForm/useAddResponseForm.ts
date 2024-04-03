@@ -76,7 +76,7 @@ export const useAddResponseForm = (props: any) => {
       successSnackbar('Response Added Successfully');
       closeDrawer();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
   const submitUpdateResponse = async (data: any) => {
@@ -88,7 +88,7 @@ export const useAddResponseForm = (props: any) => {
       successSnackbar('Response Updated Successfully!');
       closeDrawer();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {
