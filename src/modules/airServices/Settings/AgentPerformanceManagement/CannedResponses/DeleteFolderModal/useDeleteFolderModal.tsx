@@ -1,6 +1,5 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useDeleteCannedResponseMutation } from '@/services/airServices/settings/agent-performance-management/canned-responses';
-import { enqueueSnackbar } from 'notistack';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useState } from 'react';
 
 export const useDeleteFolderModal = (props: any) => {
@@ -19,20 +18,13 @@ export const useDeleteFolderModal = (props: any) => {
       queryParams: deleteParams,
     };
     try {
-      const response: any = await deleteCannedResponseTrigger(
+      await deleteCannedResponseTrigger(
         deleteCannedResponseParameter,
       )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Folder deleted successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Folder deleted successfully');
       closeCannedResponseDeleteModal?.();
     } catch (error: any) {
-      enqueueSnackbar(
-        error?.data?.message?.error ?? 'Business Hour not deleted',
-        {
-          variant: NOTISTACK_VARIANTS?.ERROR,
-        },
-      );
+      errorSnackbar();
       closeCannedResponseDeleteModal?.();
     }
   };

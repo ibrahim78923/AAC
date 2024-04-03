@@ -1,7 +1,7 @@
 import { AlertModals } from '@/components/AlertModals';
-import { ALERT_MODALS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 import { useDeleteResponsesMutation } from '@/services/airServices/settings/agent-performance-management/canned-responses';
-import { enqueueSnackbar } from 'notistack';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 export const DeleteResponseModal = ({
   deleteModal,
   setDeleteModal,
@@ -18,18 +18,12 @@ export const DeleteResponseModal = ({
       queryParams: deleteParams,
     };
     try {
-      const response: any = await deleteResponsesTrigger(
-        deleteResponsesParameter,
-      )?.unwrap();
-      enqueueSnackbar(response?.message ?? 'Deleted successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      await deleteResponsesTrigger(deleteResponsesParameter)?.unwrap();
+      successSnackbar('Deleted successfully!');
       setSelectedData([]);
       setDeleteModal(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar();
       setDeleteModal(false);
     }
   };

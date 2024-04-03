@@ -9,6 +9,7 @@ export const DeleteSoftware = (props: any) => {
       type="delete"
       open={deleteModalOpen}
       loading={deleteSoftwareStatus?.isLoading}
+      disableCancelBtn={deleteSoftwareStatus?.isLoading}
       handleClose={() => setDeleteModalOpen(false)}
       handleSubmitBtn={deleteSoftware}
       message="Are you sure  want to delete this Software ?"

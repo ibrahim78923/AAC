@@ -1,5 +1,11 @@
 import { DATE_TIME_FORMAT } from '@/constants';
-import { fullName, fullNameInitial, generateImage } from '@/utils/avatarUtils';
+import {
+  formatFileSize,
+  fullName,
+  fullNameInitial,
+  generateImage,
+  truncateText,
+} from '@/utils/avatarUtils';
 import { Avatar, Box, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -22,8 +28,14 @@ export const ConversationCard = (props: any) => {
       my={2}
       boxShadow={1}
     >
-      <Box display={'flex'} gap={1} justifyContent={'space-between'}>
-        <Box display={'flex'} gap={1}>
+      <Box
+        display={'flex'}
+        gap={2}
+        justifyContent={'space-between'}
+        flexWrap={'wrap'}
+        alignItems={'center'}
+      >
+        <Box display={'flex'} flex={0.33} gap={1} alignItems={'center'}>
           <Avatar
             sx={{
               width: 40,
@@ -62,7 +74,32 @@ export const ConversationCard = (props: any) => {
             </Typography>
           </Box>
         </Box>
-        <Box display={'flex'} gap={1.5}>
+        <Box
+          display={'flex'}
+          flex={0.33}
+          flexWrap={'wrap'}
+          alignItems={'center'}
+          justifyContent={'center'}
+          gap={1}
+        >
+          <Avatar
+            src={generateImage(data?.attachments?.fileUrl)}
+            sx={{
+              width: 40,
+              height: 40,
+              backgroundColor: 'primary.light',
+            }}
+          />
+          <Box>
+            <Typography variant="body2" color="slateBlue.main">
+              {truncateText(data?.attachments?.orignalName)}
+            </Typography>
+            <Typography variant="body3" color="grey.500">
+              {formatFileSize(data?.attachments?.fileSize)}
+            </Typography>
+          </Box>
+        </Box>
+        <Box display={'flex'} flex={0.33} justifyContent={'flex-end'} gap={1.5}>
           <Box
             onClick={() =>
               setSelectedConversationType({
@@ -119,7 +156,7 @@ export const ConversationCard = (props: any) => {
           />
         </Box>
       </Box>
-      <Box mt={1} fontWeight={600}>
+      <Box mt={1.5} fontWeight={600} maxHeight={'15vh'} overflow={'auto'}>
         <Box dangerouslySetInnerHTML={{ __html: data?.html }}></Box>
       </Box>
     </Box>

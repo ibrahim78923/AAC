@@ -1,4 +1,5 @@
 import { RHFAutocompleteAsync, RHFTextField } from '@/components/ReactHookForm';
+import { Box } from '@mui/material';
 import * as Yup from 'yup';
 
 // products table data
@@ -15,7 +16,9 @@ export const productsTableColumns: any = [
     id: 'description',
     isSortable: true,
     header: 'Description',
-    cell: (info: any) => info?.getValue(),
+    cell: (info: any) => (
+      <Box dangerouslySetInnerHTML={{ __html: info?.getValue() }}></Box>
+    ),
   },
   {
     accessorFn: (row: any) => row?.quantity,
@@ -57,13 +60,13 @@ export const getDataArray = (QuoteData: any) => {
   ];
 };
 
-export const productTotalDetails = [
+export const productTotalDetails = (subtotal: any, unitDiscount: any) => [
   {
     title: 'Subtotal',
-    value: '£75',
+    value: `£${subtotal}`,
     detail: [
       { title: 'Tax', value: '20%' },
-      { title: 'Unit Discount', value: '30 GBP' },
+      { title: 'Unit Discount', value: `${unitDiscount} GBP` },
     ],
   },
 ];

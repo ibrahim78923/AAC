@@ -7,10 +7,10 @@ import * as Yup from 'yup';
 import { softwareStatusOptions, softwareTypeOptions } from '../Software.data';
 
 export const upsertSoftwareFormValidationSchema: any = Yup?.object()?.shape({
-  name: Yup?.string()?.required('Name is required'),
+  name: Yup?.string()?.trim()?.required('Name is required'),
   description: Yup?.string(),
-  type: Yup?.string()?.required('Type is Required'),
-  status: Yup?.string()?.required('Status is Required'),
+  type: Yup?.mixed()?.nullable()?.required('Type is required'),
+  status: Yup?.mixed()?.nullable()?.required('Status is required'),
   publisher: Yup?.string(),
   category: Yup?.string(),
 });
@@ -20,7 +20,7 @@ export const upsertSoftwareFormDefaultValues = (data?: any) => {
     name: data?.name ?? '',
     description: data?.details?.description ?? '',
     status: data?.status ?? null,
-    type: data?.type ?? '',
+    type: data?.type ?? null,
     publisher: data?.details?.publisher ?? '',
     category: data?.details?.category ?? '',
     managedBy: data?.managedByDetails ?? null,
