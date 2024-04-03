@@ -44,6 +44,7 @@ export const WorkflowSchedule = (props: any) => {
               label="Schedule"
               size="small"
               placeholder="Select"
+              required
               options={scheduleOptions}
               fullWidth
             />

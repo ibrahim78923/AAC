@@ -17,7 +17,6 @@ export const UpsertSalesWorkflow = () => {
     control,
     watch,
     isLoading,
-    saveDraftLoading,
   } = useUpsertSalesWorkflow();
   return (
     <Box>
@@ -25,10 +24,7 @@ export const UpsertSalesWorkflow = () => {
         methods={salesMethod}
         onSubmit={handleSubmit(handleFormSubmit)}
       >
-        <WorkflowHeader
-          watch={watch}
-          isLoading={isLoading || saveDraftLoading}
-        />
+        <WorkflowHeader watch={watch} isLoading={isLoading} />
         <Grid container>
           <WorkflowSchedule watch={watch} setValue={setValue} />
           <WorkflowRunAndTrigger palette={palette} />

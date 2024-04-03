@@ -1,7 +1,11 @@
 import * as Yup from 'yup';
 export const salesSchema: any = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
-  schedule: Yup?.string(),
+  schedule: Yup?.string()?.when('type', {
+    is: (type: any) => type === 'SCHEDULED',
+    then: (schema: any) => schema?.required('Required'),
+    otherwise: (schema: any) => schema?.notRequired(),
+  }),
   scheduleMonth: Yup?.date(),
   scheduleDay: Yup?.string(),
   scheduleDate: Yup?.date(),
@@ -69,10 +73,28 @@ export const workflowTypes = {
   eventBase: 'EVENT_BASE',
   scheduled: 'SCHEDULED',
 };
-export const fieldTypes = {
+export const workflowFields = {
   object: 'object',
   objectId: 'objectId',
   date: 'date',
   number: 'number',
   string: 'string',
+  name: 'Name',
+  lostReason: 'Lost Reason',
+  updateQuoteName: 'Update Quote Name',
+  title: 'Title',
+  salesOwner: 'Sales Owner',
+  createdBy: 'Created By',
+  updatedBy: 'Updated By',
+  setDealPipeline: 'Set Deal Pipeline',
+  selectDeal: 'Select deal',
+  setDealOwner: 'Set Deal Owner',
+  addLineItem: 'Add line item',
+  setAssignedTo: 'Set Assigned to',
+  isEmpty: 'is empty',
+  isNotEmpty: 'is not empty',
+  deal: 'deal',
+  contact: 'contact',
+  product: 'product',
+  user: 'user',
 };

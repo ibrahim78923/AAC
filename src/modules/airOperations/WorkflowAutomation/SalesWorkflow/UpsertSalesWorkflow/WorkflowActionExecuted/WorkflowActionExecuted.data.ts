@@ -40,20 +40,20 @@ export const actionsExecutedFields = (
   const keyOptions = actionKeys[moduleType] || [];
   const watchKey = watch(`actions.${index}.fieldName`);
   let component = RHFTextField;
-  let componentProps: any = {};
+  let componentProps: any = { placeholder: 'Type here' };
   if (moduleType === actionName?.deals) {
     if (watchKey === actionName?.setDealPipeline) {
       (component = RHFAutocompleteAsync),
         (componentProps = {
           apiQuery: dealsDropdown,
           externalParams: { meta: false },
-          placeholder: 'Select',
+          placeholder: 'Select Deal',
         });
     } else if (watchKey === actionName?.setDealStage) {
       (component = RHFAutocomplete),
         (componentProps = {
           options: setDealStageOption,
-          placeholder: 'Select',
+          placeholder: 'Select Stage',
         });
     } else if (watchKey === actionName?.setAmount) {
       (component = RHFTextField),
@@ -72,7 +72,7 @@ export const actionsExecutedFields = (
         (componentProps = {
           apiQuery: contactDropdown,
           externalParams: { limit: 50 },
-          placeholder: 'Select',
+          placeholder: 'Select Contact',
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
         });
@@ -80,20 +80,20 @@ export const actionsExecutedFields = (
       (component = RHFAutocomplete),
         (componentProps = {
           options: setPriorityOption,
-          placeholder: 'Select',
+          placeholder: 'Select Priority',
         });
     } else if (watchKey === actionName?.addLineItem) {
       (component = RHFAutocompleteAsync),
         (componentProps = {
           apiQuery: productDropdown,
           externalParams: { limit: 50 },
-          placeholder: 'Select',
+          placeholder: 'Select Product',
         });
     } else if (watchKey === actionName?.setBillingFrequency) {
       (component = RHFAutocomplete),
         (componentProps = {
           options: setBillOption,
-          placeholder: 'Select',
+          placeholder: 'Select Frequency',
         });
     }
   } else if (moduleType === actionName?.salesTasks) {
@@ -101,32 +101,32 @@ export const actionsExecutedFields = (
       (component = RHFAutocomplete),
         (componentProps = {
           options: setTaskTypeOption,
-          placeholder: 'Select',
+          placeholder: 'Select Type',
         });
     } else if (watchKey === actionName?.setPriority) {
       (component = RHFAutocomplete),
         (componentProps = {
           options: setPriorityOption,
-          placeholder: 'Select',
+          placeholder: 'Select Priority',
         });
     } else if (watchKey === actionName?.setTaskStatus) {
       (component = RHFAutocomplete),
         (componentProps = {
           options: setTaskStatusOption,
-          placeholder: 'Select',
+          placeholder: 'Select Status',
         });
     } else if (watchKey === actionName?.selectDeal) {
       (component = RHFAutocompleteAsync),
         (componentProps = {
           apiQuery: dealsDropdown,
           externalParams: { meta: false },
-          placeholder: 'Select',
+          placeholder: 'Select Deal',
         });
     } else if (watchKey === actionName?.associateWithRecords) {
       (component = RHFAutocomplete),
         (componentProps = {
           options: associateOption,
-          placeholder: 'Select',
+          placeholder: 'Select Record',
         });
     } else if (watchKey === actionName?.setAssignedTo) {
       (component = RHFAutocompleteAsync),
@@ -134,7 +134,7 @@ export const actionsExecutedFields = (
           apiQuery: userDropdown,
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
-          placeholder: 'Select',
+          placeholder: 'Select User',
         });
     } else if (watchKey === actionName?.setDueDate) {
       (component = RHFDatePicker),
@@ -146,7 +146,7 @@ export const actionsExecutedFields = (
       (component = RHFAutocomplete),
         (componentProps = {
           options: reminderOption,
-          placeholder: 'Select',
+          placeholder: 'Select Reminder',
         });
     } else if (watchKey === actionName?.addNote) {
       (component = RHFTextField),
@@ -162,7 +162,7 @@ export const actionsExecutedFields = (
       gridLength: 6,
       componentProps: {
         name: `actions.${index}.fieldName`,
-        placeholder: 'Select',
+        placeholder: 'Select Action',
         options: keyOptions,
       },
       component: RHFAutocomplete,

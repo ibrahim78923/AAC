@@ -1,17 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  fieldTypes,
+  workflowFields,
   salesSchema,
   salesValues,
-  workflowTypes,
 } from './UpsertSalesWorkflow.data';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import {
-  usePostSalesWorkflowMutation,
-  usePostSaveDraftWorkflowMutation,
-} from '@/services/airOperations/workflow-automation/sales-workflow';
+import { usePostSalesWorkflowMutation } from '@/services/airOperations/workflow-automation/sales-workflow';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
@@ -23,16 +19,20 @@ export const useUpsertSalesWorkflow = () => {
     resolver: yupResolver(salesSchema),
   });
   const { reset, watch, handleSubmit, setValue, control } = salesMethod;
-  const scheduleType = watch('type');
   const [postSalesWorkflowTrigger, { isLoading }] =
     usePostSalesWorkflowMutation();
-  const [postSaveDraftWorkflowTrigger, { isLoading: saveDraftLoading }] =
-    usePostSaveDraftWorkflowMutation();
+  const fieldTypeValues = (action: any) => {
+    return action?.fieldValue instanceof Date
+      ? workflowFields?.date
+      : typeof action?.fieldValue === workflowFields?.string &&
+          !isNaN(Date?.parse(action?.fieldValue))
+        ? workflowFields?.number
+        : typeof action?.fieldValue === workflowFields?.string
+          ? workflowFields?.string
+          : typeof action?.fieldValue === workflowFields?.object &&
+            workflowFields?.objectId;
+  };
   const handleFormSubmit = async (data: any) => {
-    const successSnackbarMessage =
-      scheduleType === workflowTypes?.eventBase
-        ? 'Workflow Enabled Successfully'
-        : 'Workflow Saved as Draft Successfully';
     const time = dayjs(data?.time)?.format(TIME_FORMAT?.API);
     const modifiedData = {
       title: data?.title,
@@ -69,33 +69,55 @@ export const useUpsertSalesWorkflow = () => {
         data?.groups?.map((group: any) => ({
           ...group,
           conditions: group?.conditions?.map((condition: any) => ({
-            ...condition,
+            fieldName: condition?.fieldName,
             fieldValue: condition?.fieldValue?._id
               ? condition?.fieldValue?._id
               : condition?.fieldValue,
-            fieldType:
-              condition?.fieldValue instanceof Date
-                ? fieldTypes?.date
-                : typeof condition?.fieldValue === fieldTypes?.string &&
-                    !isNaN(Date?.parse(condition?.fieldValue))
-                  ? fieldTypes?.number
-                  : typeof condition?.fieldValue === fieldTypes?.string
-                    ? fieldTypes?.string
-                    : typeof condition?.fieldValue === fieldTypes?.object &&
-                      fieldTypes?.objectId,
+            fieldType: fieldTypeValues(condition),
+            collectionName:
+              (condition?.fieldName === workflowFields?.name ||
+                condition?.fieldName === workflowFields?.lostReason ||
+                condition?.fieldName === workflowFields?.updateQuoteName ||
+                condition?.fieldName === workflowFields?.title) &&
+              (condition?.condition === workflowFields?.isEmpty ||
+                condition?.condition === workflowFields?.isNotEmpty)
+                ? workflowFields?.deal
+                : (condition?.fieldName === workflowFields?.salesOwner ||
+                      condition?.fieldName === workflowFields?.createdBy ||
+                      condition?.fieldName === workflowFields?.updatedBy) &&
+                    (condition?.condition === workflowFields?.isEmpty ||
+                      condition?.condition === workflowFields?.isNotEmpty)
+                  ? workflowFields?.contact
+                  : '',
           })),
           conditionType: group?.conditionType?.value,
         })) ?? [],
       groupCondition: data?.groupCondition,
-      actions: [...data?.actions],
+      actions: data?.actions?.map((action: any) => ({
+        fieldName: action?.fieldName,
+        fieldValue: action?.fieldValue?._id
+          ? action?.fieldValue?._id
+          : action?.fieldValue,
+        fieldType: fieldTypeValues(action),
+        collectionName:
+          action?.fieldName === workflowFields?.setDealPipeline ||
+          action?.fieldName === workflowFields?.selectDeal
+            ? workflowFields?.deal
+            : action?.fieldName === workflowFields?.setDealOwner
+              ? workflowFields?.contact
+              : action?.fieldName === workflowFields?.addLineItem
+                ? workflowFields?.product
+                : action?.fieldName === workflowFields?.setAssignedTo
+                  ? workflowFields?.user
+                  : '',
+      })),
     };
-    const response: any =
-      scheduleType === workflowTypes?.eventBase
-        ? await postSalesWorkflowTrigger(modifiedData)
-        : await postSaveDraftWorkflowTrigger(modifiedData);
+    const response: any = await postSalesWorkflowTrigger(modifiedData);
     try {
       response;
-      successSnackbar(response?.data?.message && successSnackbarMessage);
+      successSnackbar(
+        response?.data?.message && 'Workflow Enabled Successfully',
+      );
       reset();
       back();
     } catch (e) {
@@ -112,6 +134,5 @@ export const useUpsertSalesWorkflow = () => {
     watch,
     control,
     isLoading,
-    saveDraftLoading,
   };
 };
