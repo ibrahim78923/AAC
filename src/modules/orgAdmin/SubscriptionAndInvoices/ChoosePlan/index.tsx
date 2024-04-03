@@ -180,8 +180,6 @@ const ChoosePlan = () => {
                     Everything your sales team need to work better and together.
                   </Typography>
                 </TableCell>
-                {/* default free  */}
-                {/* <TableCell component="th">Free Plan</TableCell> */}
                 {getData?.length
                   ? getData?.map((choosePlan: any) => {
                       return (
@@ -203,7 +201,7 @@ const ChoosePlan = () => {
                           </Typography>
                           {choosePlan?.planType?.name === 'Free' ? null : (
                             <>
-                              {parsedManageData.planData?.planTypeId ===
+                              {parsedManageData?.planData?.planTypeId ===
                               choosePlan?.planType?._id ? (
                                 <PermissionsGuard
                                   permissions={[
