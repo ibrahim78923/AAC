@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material';
 import { RHFAutocomplete } from '@/components/ReactHookForm';
-import { andRunOptions, eventOptions } from '../UpsertEventBasedWorkflow.data';
+import { andRunOptions, eventOptions } from '../UpsertRulesWorkflow.data';
 
 export const WorkflowRunAndTrigger = (props: any) => {
   const { palette } = props;

@@ -9,7 +9,6 @@ export const useTicketsHeader = (props: any) => {
     totalRecords,
     page,
     setPage,
-    listData,
   } = props;
 
   const [deleteTrigger, deleteStatus] = useDeleteWorkflowMutation();
@@ -22,7 +21,6 @@ export const useTicketsHeader = (props: any) => {
       successSnackbar('Workflow deleted successfully');
       const newPage = selectedAction?.length === totalRecords ? 1 : page;
       setPage?.(newPage);
-      await listData?.(newPage);
       setDeleteWorkflow(false);
       setSelectedAction([]);
     } catch (err: any) {

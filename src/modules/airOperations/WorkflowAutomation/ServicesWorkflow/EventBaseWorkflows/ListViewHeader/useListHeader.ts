@@ -21,7 +21,6 @@ export const useListHeader = (props: any) => {
       setSelectedAction([]);
       const newPage = selectedAction?.length === totalRecords ? 1 : page;
       setPage?.(newPage);
-      // await listData?.(newPage);
       setDeleteWorkflow(false);
     } catch (err: any) {
       errorSnackbar();

@@ -75,7 +75,6 @@ export const WorkflowRunAndTrigger = (props: any) => {
               size="small"
               placeholder="Select"
               required
-              // multiple
               label="Event"
               options={eventOptions}
               getOptionLabel={({ label }: { label: string }) => label}
