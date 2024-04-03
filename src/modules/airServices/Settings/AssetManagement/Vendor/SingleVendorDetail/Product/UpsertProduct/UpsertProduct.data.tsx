@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 export const upsertProductValidationSchema = Yup?.object()?.shape({
   productCatalog: Yup?.object()?.required('Required'),
   price: Yup?.number()
+    ?.min(1)
     ?.typeError('Price should be number')
     ?.required('Required'),
   years: Yup?.string()?.required('Required'),
@@ -17,8 +18,11 @@ export const upsertProductValidationSchema = Yup?.object()?.shape({
 
 export const upsertProductDefaultValues = (data?: any) => {
   return {
-    productCatalog: data?.vendorproductcatalogsDetails ?? null,
-    price: data?.price ?? '',
+    productCatalog: !!Object?.keys(data?.vendorproductcatalogsDetails ?? {})
+      ?.length
+      ? data?.vendorproductcatalogsDetails
+      : null,
+    price: data?.price ?? 0,
     years: data?.yrs ?? '',
     months: data?.months ?? '',
     quantity: data?.quantity ?? 0,
@@ -65,7 +69,7 @@ export const upsertProductDataArray = (
       size: 'small',
       required: true,
       disabled: editData?.length === 0 ? false : true,
-      fullWidth: true,
+      placeholder: '---Choose---',
       apiQuery: apiQueryProductCatalog,
       externalParams: { meta: false, limit: 50, page: 1 },
       getOptionLabel: (option: any) => option?.name,
@@ -76,7 +80,7 @@ export const upsertProductDataArray = (
     id: 2786,
     componentProps: {
       name: 'price',
-      label: 'Price',
+      label: 'Price (£)',
       type: 'number',
       size: 'small',
       fullWidth: true,
