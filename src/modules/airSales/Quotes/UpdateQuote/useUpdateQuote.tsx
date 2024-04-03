@@ -17,7 +17,6 @@ import {
   useGetTaxCalculationsQuery,
   usePostAddbuyerInfoMutation,
   usePutSubmitQuoteMutation,
-  // usePostAddbuyerInfoMutation,
   useUpdateQuoteMutation,
   useUpdateSubmitEmailQuoteMutation,
 } from '@/services/airSales/quotes';
@@ -141,7 +140,6 @@ const useUpdateQuote = () => {
       });
       setSelectedCompanyIds(null);
       handleDeleteModal(null);
-      // setIsActionsDisabled(true);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
         variant: 'error',
@@ -156,7 +154,6 @@ const useUpdateQuote = () => {
         variant: 'success',
       });
       setDeleteContactModalId(null);
-      // setIsActionsDisabled(true);
       handleContactDeleteModal(null);
     } catch (error: any) {
       enqueueSnackbar('An error occured', {
@@ -175,16 +172,6 @@ const useUpdateQuote = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
 
   const handleStepNext = async () => {
-    // const input: any = document.getElementById('pdf-content');
-    // Specify the id of the element you want to convert to PDF
-    // html2canvas(input).then((canvas) => {
-    //   const imgData = canvas.toDataURL('image/png');
-    //   const pdf = new jsPDF();
-    //   pdf?.addImage(imgData, 'PNG', 0, 0);
-    //   pdf.save('downloaded-file.pdf');
-    //   // Specify the name of the downloaded PDF file
-    // });
-
     setActiveStep((prev: any) => prev + 1);
   };
   const handleStepBack = () => {

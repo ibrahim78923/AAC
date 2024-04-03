@@ -13,11 +13,7 @@ import {
 import CommonDrawer from '@/components/CommonDrawer';
 import { useGetDealsActionPreviewQuery } from '@/services/airSales/deals';
 
-import {
-  // AccordianDetailsData,
-  // ShareAccordianData,
-  ShareData,
-} from './ShareMyDine.data';
+import { ShareData } from './ShareMyDine.data';
 
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -36,27 +32,6 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
   const { data: DealsActionData }: any = useGetDealsActionPreviewQuery({
     id: selectedTableIds[0],
   });
-
-  // const newData = [DealsActionData?.data]?.map((obj) => {
-  //   return [
-  //     {
-  //       id: '1',
-  //       name: 'company name',
-  //       data: obj?.companies,
-  //     },
-  //     {
-  //       id: '2',
-  //       name: 'contact Name',
-  //       data: obj?.contacts,
-  //     },
-  //     {
-  //       id: '3',
-  //       name: 'product name',
-  //       data: obj?.products,
-  //     },
-  //   ];
-  // });
-  // console.log(newData, 'newData');
 
   return (
     <>
@@ -254,9 +229,6 @@ const ShareMyDine = ({ open, onClose, selectedTableIds }: any) => {
                         <Typography sx={styles?.accordianText(theme)}>
                           {data?.name}
                         </Typography>
-                        {/* <Typography sx={styles?.accordianEmail(theme)}>
-                            {data?.email ?? 'N/A'}
-                          </Typography> */}
                       </Stack>
                       <Typography
                         sx={{

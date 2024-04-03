@@ -83,12 +83,12 @@ const useDealTab = () => {
   const dealListApiUrl = dealViewsData?.data?.map((obj: any) => {
     const dateStart = obj?.apiUrl?.match(/dateStart=([^&]*)/)[1];
     const dateEnd = obj?.apiUrl?.match(/dateEnd=([^&]*)/)[1];
-    let dealPiplineId;
+    let dealPipelineId;
     let dealOwnerId;
     let dealStageId;
 
-    if (obj?.apiUrl?.match(/dealPiplineId=([^&]*)/)) {
-      dealPiplineId = obj?.apiUrl?.match(/dealPiplineId=([^&]*)/)[1];
+    if (obj?.apiUrl?.match(/dealPipelineId=([^&]*)/)) {
+      dealPipelineId = obj?.apiUrl?.match(/dealPipelineId=([^&]*)/)[1];
     }
     if (obj?.apiUrl?.match(/dealOwnerId=([^&]*)/)) {
       dealOwnerId = obj?.apiUrl?.match(/dealOwnerId=([^&]*)/)[1];
@@ -100,7 +100,7 @@ const useDealTab = () => {
       dateStart,
       dateEnd,
       name: obj?.name,
-      ...(dealPiplineId && { dealPiplineId }),
+      ...(dealPipelineId && { dealPipelineId }),
       ...(dealOwnerId && { dealOwnerId }),
       ...(dealStageId && { dealStageId }),
     };

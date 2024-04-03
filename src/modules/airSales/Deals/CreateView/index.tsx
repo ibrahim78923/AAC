@@ -42,7 +42,6 @@ const CreateView = ({ open, onClose }: any) => {
       apiUrl: values?.apiUrl,
       sharedWith: values?.sharedWith,
     };
-    // console.log(obj, 'values');
 
     try {
       createViewDeals({ body: obj })?.unwrap();

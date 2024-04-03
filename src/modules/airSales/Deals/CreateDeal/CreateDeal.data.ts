@@ -17,7 +17,6 @@ export const validationSchema = Yup?.object()?.shape({
     ?.min(0, 'please Enter positive value')
     ?.positive('Please enter a positive number')
     ?.required('Please enter a number'),
-  // addLineItemId: Yup.string().optional(),
 });
 
 export const defaultValues = {

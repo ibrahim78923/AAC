@@ -9,8 +9,6 @@ const RestoreDealModal = ({
   handlePermanantDeleteRetore,
 }: any) => {
   const { restoreLoading } = useRestore();
-  // console.log(restoreLoading,'restoreLoading');
-
   return (
     <>
       <AlertModals
