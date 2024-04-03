@@ -19,7 +19,7 @@ export default function useAssociations() {
 
   const router = useRouter();
 
-  const associationsInventoryId = router.query.inventoryId;
+  const associationsInventoryId = router?.query?.inventoryId;
 
   const [deleteInventoryAssociationListTrigger, { isLoading }] =
     useDeleteInventoryAssociationListMutation();
