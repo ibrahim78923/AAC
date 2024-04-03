@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import useAuth from '@/hooks/useAuth';
+import { ROLES } from '@/constants/strings';
 
 export const Header = () => {
   const {
@@ -51,7 +52,7 @@ export const Header = () => {
             gap: 2.4,
           }}
         >
-          {user?.role === 'ORG_EMPLOYEE' && (
+          {user?.role === ROLES?.ORG_EMPLOYEE && (
             <Button
               variant="outlined"
               color="secondary"
