@@ -6,7 +6,7 @@ const { GET_ASSET_TYPE, POST_ASSET_TYPE, PATCH_ASSET_TYPE, EDIT_ASSET_TYPE } =
   END_POINTS;
 export const assetTypeAPI = baseAPI?.injectEndpoints({
   endpoints: (builder) => ({
-    getAssetType: builder.query({
+    getAssetTypeFields: builder.query({
       query: (param) => ({
         url: `${GET_ASSET_TYPE}`,
         method: 'GET',
@@ -42,7 +42,7 @@ export const assetTypeAPI = baseAPI?.injectEndpoints({
 });
 
 export const {
-  useGetAssetTypeQuery,
+  useGetAssetTypeFieldsQuery,
   usePostAssetTypeMutation,
   usePatchAssetTypeMutation,
   usePatchEditAssetTypeMutation,
