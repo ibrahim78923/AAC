@@ -82,6 +82,7 @@ export const ContactsColumns = (
               selectedRow?.length === info?.table?.options?.data?.length
             }
             onChange={(event) => handleSelectAllClick(event, rows)}
+            disabled={rows?.length === 0}
           />
         );
       },

@@ -1,17 +1,11 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
-
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
 import TanstackTable from '@/components/Table/TanstackTable';
-
 import AttachmentsEditorDrawer from './AttachmentsEditorDrawer';
-
 import useAttachments from './useAttachments';
-
 import { columns } from './Attachments.data';
-
 import { styles } from '../Associations.style';
-
 import { PlusSharedIcon } from '@/assets/icons';
 
 const Attachments = ({ contactId }: any) => {
@@ -26,7 +20,7 @@ const Attachments = ({ contactId }: any) => {
     handleCloseDrawer,
     methodsAttachments,
     handleAddAttachmentSubmit,
-    loadingAddCompanyAccount,
+    loadingAddAttachment,
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,
@@ -87,7 +81,7 @@ const Attachments = ({ contactId }: any) => {
         onClose={handleCloseDrawer}
         methods={methodsAttachments}
         handleSubmit={handleAddAttachmentSubmit}
-        loading={loadingAddCompanyAccount}
+        loading={loadingAddAttachment}
       />
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}

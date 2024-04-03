@@ -30,8 +30,8 @@ export const upsertConversationFormDefaultValues = (data?: any) => {
       data?.conversationType === TICKET_CONVERSATIONS_TYPE?.REPLY
         ? ''
         : data?.html
-        ? data?.html
-        : '',
+          ? data?.html
+          : '',
     attachments: null,
     from: data?.from ?? '',
   };

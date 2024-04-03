@@ -16,6 +16,7 @@ import {
   contactsValidationSchema,
 } from './CreateContactsdata';
 import useAuth from '@/hooks/useAuth';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useCreateContacts = () => {
   const { user }: any = useAuth();
@@ -86,7 +87,10 @@ const useCreateContacts = () => {
       }
     } catch (error: any) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
   const submitCreateContact = (closeDrawer: any) =>

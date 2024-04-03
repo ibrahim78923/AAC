@@ -33,7 +33,7 @@ const useAttachments = (contactId: any) => {
     resolver: yupResolver(attachmentsValidationSchema),
     defaultValues: attachmentsDefaultValues,
   });
-  const [postAttachment, { isLoading: loadingAddCompanyAccount }] =
+  const [postAttachment, { isLoading: loadingAddAttachment }] =
     usePostAttachmentMutation();
   const {
     handleSubmit: handleMethodAddAttachment,
@@ -118,7 +118,7 @@ const useAttachments = (contactId: any) => {
     handleCloseDrawer,
     methodsAttachments,
     handleAddAttachmentSubmit,
-    loadingAddCompanyAccount,
+    loadingAddAttachment,
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,

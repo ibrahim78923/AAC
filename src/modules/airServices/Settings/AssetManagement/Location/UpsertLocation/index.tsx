@@ -37,8 +37,8 @@ const UpsertLocation = () => {
                 !!childId
                   ? 'Edit child location'
                   : !!parentId && type === LOCATION_TYPE?.PARENT
-                  ? 'Edit location'
-                  : `Add new ${type} location`
+                    ? 'Edit location'
+                    : `Add new ${type} location`
               }
               canMovedBack
               moveBack={() => moveToLocationPage?.()}

@@ -22,9 +22,11 @@ import { DATE_FORMAT } from '@/constants';
 
 const useDetails = () => {
   const router = useRouter();
-  const { data: dataGetContactById } = useGetContactByIdQuery(
-    router?.query?.contactId,
-  );
+  const {
+    data: dataGetContactById,
+    isLoading: loadingContactById,
+    isFetching: fetchingContactById,
+  } = useGetContactByIdQuery(router?.query?.contactId);
   const { user }: any = useAuth();
 
   const { data: ContactOwners } = useGetOrganizationUsersQuery(
@@ -63,6 +65,14 @@ const useDetails = () => {
   const { handleSubmit, setValue } = methodsDetails;
 
   const contactData = dataGetContactById?.data;
+
+  const contactName = () => {
+    let name = '';
+    if (dataGetContactById && contactData) {
+      name = `${contactData?.firstName} ${contactData?.lastName}`;
+    }
+    return name;
+  };
 
   useEffect(() => {
     if (contactData) {
@@ -135,6 +145,10 @@ const useDetails = () => {
     contactOwnerData,
     contactStatusData,
     lifeCycleStagesData,
+    contactName,
+    loadingContactById,
+    fetchingContactById,
+    contactData,
   };
 };
 
