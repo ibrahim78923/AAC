@@ -81,7 +81,6 @@ const ProfilMenu = () => {
       >
         <MenuItem>
           <Box sx={{ gap: 1, display: 'flex', alignItems: 'center' }}>
-            {/* <Image src={AvatarImage} alt="Avatar" /> */}
             <Avatar
               src={generateImage(user?.avatar?.url)}
               sx={{ width: 30, height: 30 }}
