@@ -8,6 +8,16 @@ export const styles = {
       border: `1px solid ${theme?.palette?.custom?.off_white_two}`,
     },
   }),
+  planActiveChip: {
+    fontSize: `14px`,
+    lineHeight: `1.42857`,
+    color: `success.main`,
+    backgroundColor: `success.lighter`,
+    padding: `4px 12px`,
+    borderRadius: `16px`,
+    width: 'fit-content',
+    margin: '0 auto',
+  },
   tableHead: (theme: any) => ({
     '& th.MuiTableCell-root': {
       backgroundColor: '#F9FAFB',

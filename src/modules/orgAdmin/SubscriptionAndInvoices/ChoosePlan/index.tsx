@@ -210,16 +210,9 @@ const ChoosePlan = () => {
                                     ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_BUY_PLAN,
                                   ]}
                                 >
-                                  <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={() => {
-                                      setActivePlanToBuy(choosePlan),
-                                        setIsBuyPlan(true);
-                                    }}
-                                  >
+                                  <Box sx={styles?.planActiveChip}>
                                     Subscribed
-                                  </Button>
+                                  </Box>
                                 </PermissionsGuard>
                               ) : (
                                 <PermissionsGuard
@@ -291,22 +284,26 @@ const ChoosePlan = () => {
                       return (
                         // eslint-disable-next-line
                         <TableCell key={index} sx={styles?.userIncludes}>
-                          <PermissionsGuard
-                            permissions={[
-                              ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_USER,
-                            ]}
-                          >
-                            {item?.defaultUsers === 0 ? (
-                              <Counter inputValue={0} disabled />
-                            ) : (
-                              <CounterMaxUser
-                                defaultUsers={item?.defaultUsers}
-                                setMaxAdditionalUsers={setMaxAdditionalUsers}
-                                mainId={activePlanToBuy?._id}
-                                mapId={item?._id}
-                              />
-                            )}
-                          </PermissionsGuard>
+                          {item?.planType?.name === 'Free' ? (
+                            '-'
+                          ) : (
+                            <PermissionsGuard
+                              permissions={[
+                                ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_USER,
+                              ]}
+                            >
+                              {item?.defaultUsers === 0 ? (
+                                <Counter inputValue={0} disabled />
+                              ) : (
+                                <CounterMaxUser
+                                  defaultUsers={item?.defaultUsers}
+                                  setMaxAdditionalUsers={setMaxAdditionalUsers}
+                                  mainId={activePlanToBuy?._id}
+                                  mapId={item?._id}
+                                />
+                              )}
+                            </PermissionsGuard>
+                          )}
                         </TableCell>
                       );
                     })
@@ -317,31 +314,33 @@ const ChoosePlan = () => {
                 <TableCell sx={styles?.sideHeader}>
                   Max Additional Storage
                 </TableCell>
-                {/* default  free */}
-                {/* <TableCell sx={styles?.sideHeader}>-</TableCell> */}
                 {getData?.length
                   ? getData?.map((item: any, index: any) => {
                       return (
                         // eslint-disable-next-line
                         <TableCell key={index} sx={styles?.userIncludes}>
-                          <PermissionsGuard
-                            permissions={[
-                              ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_STORAGE,
-                            ]}
-                          >
-                            {item?.defaultStorage === 0 ? (
-                              <Counter inputValue={0} disabled />
-                            ) : (
-                              <CounterAdditionalStorage
-                                defaultUsers={item?.defaultStorage}
-                                setMaxAdditionalStorage={
-                                  setMaxAdditionalStorage
-                                }
-                                mainId={activePlanToBuy?._id}
-                                mapId={item?._id}
-                              />
-                            )}
-                          </PermissionsGuard>
+                          {item?.planType?.name === 'Free' ? (
+                            '-'
+                          ) : (
+                            <PermissionsGuard
+                              permissions={[
+                                ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_STORAGE,
+                              ]}
+                            >
+                              {item?.defaultStorage === 0 ? (
+                                <Counter inputValue={0} disabled />
+                              ) : (
+                                <CounterAdditionalStorage
+                                  defaultUsers={item?.defaultStorage}
+                                  setMaxAdditionalStorage={
+                                    setMaxAdditionalStorage
+                                  }
+                                  mainId={activePlanToBuy?._id}
+                                  mapId={item?._id}
+                                />
+                              )}
+                            </PermissionsGuard>
+                          )}
                         </TableCell>
                       );
                     })
