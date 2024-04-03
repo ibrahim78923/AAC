@@ -36,7 +36,7 @@ export const useResponsesList = () => {
       await lazyGetResponsesListTrigger(getResponsesListParameter)?.unwrap();
       successSnackbar('Canned Responses Retrieved successfully');
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {

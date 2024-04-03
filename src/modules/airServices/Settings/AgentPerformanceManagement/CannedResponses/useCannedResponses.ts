@@ -34,7 +34,7 @@ export const useCannedResponses = () => {
       )?.unwrap();
       successSnackbar('Canned Responses Retrieved successfully');
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {

@@ -39,8 +39,8 @@ export const useCreateNewFolder = (props: any) => {
       successSnackbar('Folder Created Successfully!');
       closeCreateNewFolderModal();
       reset();
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
   };
   const submitUpdateCannedResponse = async (data: any) => {
@@ -50,7 +50,7 @@ export const useCreateNewFolder = (props: any) => {
       closeCreateNewFolderModal();
       reset();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {
