@@ -20,6 +20,7 @@ import useViewDetails from './useViewDetails';
 import dayjs from 'dayjs';
 import { DATE_TIME_FORMAT } from '@/constants';
 import { IMG_URL } from '@/config';
+import { v4 as uuidv4 } from 'uuid';
 
 const ViewDetails = () => {
   const { theme, viewDeal, isLoading, id } = useViewDetails();
@@ -114,14 +115,37 @@ const ViewDetails = () => {
               <Typography variant="body2" sx={{ fontWeight: 600 }}>
                 Products
               </Typography>
-              <Box sx={styles?.noproductBox}>
-                <Typography
-                  variant="body3"
-                  sx={{ color: theme?.palette?.grey[900] }}
-                >
-                  No products to show
-                </Typography>
-              </Box>
+              {viewDeal?.products?.length === 0 ? (
+                <Box sx={styles?.noproductBox}>
+                  <Typography
+                    variant="body3"
+                    sx={{ color: theme?.palette?.grey[900] }}
+                  >
+                    No products to show
+                  </Typography>
+                </Box>
+              ) : (
+                <>
+                  {viewDeal?.products?.map((item: any) => {
+                    return (
+                      <Box sx={styles?.salesBox} key={uuidv4()}>
+                        <Typography
+                          variant="body3"
+                          sx={styles?.salesTextBox(theme)}
+                        >
+                          {item.name}
+                        </Typography>
+                        <Typography
+                          variant="body3"
+                          sx={styles?.salesHeading(theme)}
+                        >
+                          {`£ ${item?.unitPrice}`}
+                        </Typography>
+                      </Box>
+                    );
+                  })}
+                </>
+              )}
             </Box>
           )}
         </Grid>
