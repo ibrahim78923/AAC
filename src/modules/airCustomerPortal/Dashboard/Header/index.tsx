@@ -9,6 +9,7 @@ import { AIR_CUSTOMER_PORTAL, AIR_SERVICES } from '@/constants';
 import { useRouter } from 'next/router';
 import { AIR_CUSTOMER_PORTAL_DASHBOARD_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import useAuth from '@/hooks/useAuth';
 
 export const Header = () => {
   const {
@@ -22,6 +23,8 @@ export const Header = () => {
     push,
   }: any = useDashboard();
   const router = useRouter();
+
+  const { user }: any = useAuth();
 
   return (
     <>
@@ -48,16 +51,18 @@ export const Header = () => {
             gap: 2.4,
           }}
         >
-          <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={
-              <ArrowBackIcon color={'secondary'} sx={{ cursor: 'pointer' }} />
-            }
-            onClick={() => router?.push(AIR_SERVICES?.DASHBOARD)}
-          >
-            revert
-          </Button>
+          {user?.role === 'ORG_EMPLOYEE' && (
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={
+                <ArrowBackIcon color={'secondary'} sx={{ cursor: 'pointer' }} />
+              }
+              onClick={() => router?.push(AIR_SERVICES?.DASHBOARD)}
+            >
+              Revert
+            </Button>
+          )}
           <Button
             id="demo-customized-button"
             aria-controls={open ? 'demo-customized-menu' : undefined}
