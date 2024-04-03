@@ -3,9 +3,11 @@ import { getSession } from '@/utils';
 
 const useEditProfile = () => {
   const { user }: any = getSession();
-  const { data: getUserData } = useGetUsersByIdQuery(user?._id);
+  const { data: getUserData, isLoading: profileDataLoading } =
+    useGetUsersByIdQuery(user?._id);
   return {
     getUserData,
+    profileDataLoading,
   };
 };
 

@@ -5,9 +5,10 @@ import Profile from './Profile';
 import Security from './Security';
 import { useState } from 'react';
 import useEditProfile from './useEditProfile';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 
 const EditProfile = () => {
-  const { getUserData } = useEditProfile();
+  const { getUserData, profileDataLoading } = useEditProfile();
   interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -55,23 +56,28 @@ const EditProfile = () => {
         phone={getUserData?.data?.phoneNumber}
         role={getUserData?.data?.role}
         editBtn={false}
+        isLoading={profileDataLoading}
       />
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
-          <Tab label="Profile" {...a11yProps(0)} />
-          <Tab label="Security" {...a11yProps(1)} />
-        </Tabs>
-      </Box>
-      <CustomTabPanel value={value} index={0}>
-        <Profile />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <Security />
-      </CustomTabPanel>
+      {profileDataLoading ? (
+        <SkeletonTable />
+      ) : (
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="Profile" {...a11yProps(0)} />
+            <Tab label="Security" {...a11yProps(1)} />
+          </Tabs>
+          <CustomTabPanel value={value} index={0}>
+            <Profile />
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
+            <Security />
+          </CustomTabPanel>
+        </Box>
+      )}
     </Box>
   );
 };
