@@ -8,12 +8,13 @@ import {
   Badge,
   Divider,
 } from '@mui/material';
-import { NotificationAvatarImage, NotificationImage } from '@/assets/images';
+import { NotificationImage } from '@/assets/images';
 import { v4 as uuidv4 } from 'uuid';
 import useNotificationDropDown from './useNotificationDropDown';
 import dayjs from 'dayjs';
 import NoData from '@/components/NoData';
 import SkeletonComponent from '@/components/CardSkeletons';
+import { generateImage } from '@/utils/avatarUtils';
 
 const NotificationDropdown = () => {
   const theme = useTheme();
@@ -102,7 +103,7 @@ const NotificationDropdown = () => {
                             onClick={() => handleSeenNotification(item?._id)}
                           >
                             <Image
-                              src={item?.image ?? NotificationAvatarImage}
+                              src={generateImage(item?.performedByAvatar?.url)}
                               width={32}
                               height={32}
                               alt="notification-avatar"

@@ -51,6 +51,14 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    updateQuoteSubmision: builder.mutation({
+      query: (body: any) => ({
+        url: `${END_POINTS?.QUOTE_SUBMIT_WITH_EMAIL}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: TAG,
+    }),
 
     deleteQuotes: builder.mutation({
       query: (id: any) => ({
@@ -200,6 +208,31 @@ export const quotesAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+    updateSubmitEmailQuote: builder.mutation({
+      query: ({ body }: any) => ({
+        url: `${END_POINTS?.QUOTE_SUBMIT_WITH_EMAIL}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: TAG,
+    }),
+    getTaxCalculations: builder.query({
+      query: (params: any) => ({
+        url: `${END_POINTS?.TAX_CALCULATION}`,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
+    postAttachmentQuote: builder.mutation({
+      query: ({ body }: any) => ({
+        url: END_POINTS?.POST_ATTACHMENT,
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -229,4 +262,8 @@ export const {
   useDeleteContactsMutation,
   useGetSalesProductlineItemQuery,
   usePutSubmitQuoteMutation,
+  useUpdateSubmitEmailQuoteMutation,
+  useUpdateQuoteSubmisionMutation,
+  useGetTaxCalculationsQuery,
+  usePostAttachmentQuoteMutation,
 } = quotesAPI;

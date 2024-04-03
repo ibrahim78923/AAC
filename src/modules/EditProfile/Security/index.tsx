@@ -30,11 +30,13 @@ import { CopyIcon, DownloadIcon } from '@/assets/icons';
 import { useChangePasswordMutation } from '@/services/auth';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { LoadingButton } from '@mui/lab';
 
 const Security = () => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isVerifyCode, setIsVerifyCode] = useState<boolean>(false);
-  const [changePassword] = useChangePasswordMutation();
+  const [changePassword, { isLoading: changePasswordLoading }] =
+    useChangePasswordMutation();
 
   const theme = useTheme();
 
@@ -47,6 +49,7 @@ const Security = () => {
     defaultValues: profileSecurityDefaultValues,
   });
 
+  const { handleSubmit, reset } = profileSecurityForm;
   const onSubmit = async (values: any) => {
     const payload = {
       currentPassword: values.CurrentPassword,
@@ -57,7 +60,8 @@ const Security = () => {
       enqueueSnackbar('Password Change Successfully', {
         variant: NOTISTACK_VARIANTS?.SUCCESS,
       });
-    } catch (error) {
+      reset();
+    } catch (error: any) {
       const errMsg = error?.data?.message;
       const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
       enqueueSnackbar(errMessage ?? 'Error occurred', {
@@ -65,8 +69,6 @@ const Security = () => {
       });
     }
   };
-
-  const { handleSubmit } = profileSecurityForm;
 
   return (
     <Box>
@@ -87,7 +89,7 @@ const Security = () => {
             methods={profileSecurityForm}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Grid container spacing={4}>
+            <Grid container spacing={2}>
               {profileSecurityDataArray?.map((item: any) => (
                 <Grid item xs={12} md={item?.md} key={uuidv4()}>
                   <item.component {...item.componentProps} size={'small'}>
@@ -102,14 +104,6 @@ const Security = () => {
                 </Grid>
               ))}
             </Grid>
-            {/* {isMatchPassword && (
-              <Typography
-                variant="body2"
-                sx={{ color: theme?.palette?.error?.main }}
-              >
-                password not match
-              </Typography>
-            )} */}
             <Divider sx={{ marginTop: '30px' }} />
 
             <Box
@@ -125,9 +119,13 @@ const Security = () => {
               >
                 Cancel
               </Button>
-              <Button type="submit" variant="contained">
+              <LoadingButton
+                type="submit"
+                variant="contained"
+                loading={changePasswordLoading}
+              >
                 Save
-              </Button>
+              </LoadingButton>
             </Box>
           </FormProvider>
         </AccordionDetails>

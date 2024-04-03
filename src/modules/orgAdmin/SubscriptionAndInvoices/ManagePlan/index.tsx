@@ -28,11 +28,15 @@ import { useAppSelector } from '@/redux/store';
 
 const ManagePlan = () => {
   const router = useRouter();
-  const [value, setValue] = useState('');
 
   const parsedManageData = useAppSelector(
     (state) => state?.subscriptionAndInvoices?.selectedPlanData,
   );
+
+  const defaultValues =
+    parsedManageData?.billingCycle === 'MONTHLY' ? 'paidMonthly' : '';
+
+  const [value, setValue] = useState<any>(defaultValues);
 
   const [updateSubscription] = useUpdateSubscriptionMutation({});
 
@@ -66,6 +70,9 @@ const ManagePlan = () => {
       });
     }
   };
+  const peruserPrice = parsedManageData?.planData?.additionalPerUserPrice || 0;
+  const perStoragePrice =
+    parsedManageData?.planData?.additionalStoragePrice || 0;
 
   const planPrice =
     parsedManageData?.planData?.planPrice ||
@@ -74,15 +81,17 @@ const ManagePlan = () => {
     0;
   const additionalUsers =
     (parsedManageData?.additionalUsers || 0) *
-      parsedManageData?.planData?.additionalPerUserPrice ||
-    parsedManageData?.plans?.additionalPerUserPrice;
+      (parsedManageData?.planData?.additionalPerUserPrice || 0) ||
+    parsedManageData?.plans?.additionalPerUserPrice ||
+    0;
+
   const additionalStorage =
     (parsedManageData?.additionalStorage || 0) *
       parsedManageData?.planData?.additionalStoragePrice ||
-    parsedManageData?.plans?.additionalStoragePrice;
+    parsedManageData?.plans?.additionalStoragePrice ||
+    0;
   const planDiscount = parsedManageData?.planDiscount || 0;
   const planTax = 0.2; // By default 20% discount
-
   const convertedPlanDiscount = planDiscount / 100;
   const totalCostBeforeDiscount =
     planPrice + additionalUsers + additionalStorage;
@@ -106,7 +115,7 @@ const ManagePlan = () => {
             <PlaneIcon />
           </Box>
           <Typography variant="h6" sx={{ fontWeight: '600' }}>
-            Sales
+            {parsedManageData?.productName || '--'}
           </Typography>
           <Box sx={styles?.cardHeaderAction}>
             <PermissionsGuard
@@ -140,7 +149,7 @@ const ManagePlan = () => {
               sx={{ color: 'secondary.main', mr: '24px' }}
             >
               <Box>Plan</Box>
-              <Box sx={{ mt: '12px' }}>Growth</Box>
+              <Box sx={{ mt: '12px' }}>{parsedManageData?.planTypeName}</Box>
             </Typography>
 
             <Box sx={styles?.planSelectionForm}>
@@ -151,6 +160,7 @@ const ManagePlan = () => {
                     <Select
                       labelId="billingCycle"
                       value={value}
+                      defaultValue="monthly"
                       label="Age"
                       onChange={handleChange}
                     >
@@ -170,6 +180,7 @@ const ManagePlan = () => {
                     label="Max Additional User"
                     type="number"
                     fullWidth
+                    defaultValue={parsedManageData?.planData?.defaultUsers}
                   />
                 </Grid>
                 <Grid item xs={4}>
@@ -177,6 +188,7 @@ const ManagePlan = () => {
                     label="Additional Storage"
                     type="number"
                     fullWidth
+                    defaultValue={parsedManageData?.planData?.defaultStorage}
                   />
                 </Grid>
               </Grid>
@@ -195,7 +207,7 @@ const ManagePlan = () => {
             <PlaneIcon />
           </Box>
           <Typography variant="h6" sx={{ fontWeight: '600' }}>
-            Sales
+            {parsedManageData?.planTypeName}
           </Typography>
           <Box sx={styles?.cardHeaderAction}>
             <Chip label={'Paid Monthly'} color="primary" />
@@ -205,7 +217,7 @@ const ManagePlan = () => {
         <Box sx={styles?.divider}></Box>
 
         <Typography variant="h6" sx={{ fontWeight: '600' }}>
-          Growth Plan
+          {/* {parsedManageData?.planTypeName} */}
         </Typography>
 
         <Box sx={styles?.planTableRow}>
@@ -216,16 +228,16 @@ const ManagePlan = () => {
           <Box sx={styles?.planTableTd}>
             {parsedManageData?.additionalUsers} Additional Users{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (£ 15/user)
+              (£ {peruserPrice}/user)
             </Box>
           </Box>
           <Box sx={styles?.planTableTh}>£ {additionalUsers || 0}</Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
-            Additional Storage{' '}
+            {parsedManageData?.additionalStorage} Additional Storage{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (£ 1/GB)
+              (£ {perStoragePrice}/GB)
             </Box>
           </Box>
           <Box sx={styles?.planTableTh}>£ {additionalStorage || 0}</Box>

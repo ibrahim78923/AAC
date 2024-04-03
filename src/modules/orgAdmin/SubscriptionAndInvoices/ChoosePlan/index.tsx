@@ -19,6 +19,7 @@ import {
   useGetCRMPlanListQuery,
   useGetProductFeaturesQuery,
   useGetProductPlanListProductIdQuery,
+  usePatchSubscriptionPlanMutation,
   usePostSubscriptionPlanMutation,
 } from '@/services/orgAdmin/subscription-and-invoices';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,11 +28,16 @@ import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/perm
 import { useAppSelector } from '@/redux/store';
 import { enqueueSnackbar } from 'notistack';
 import { AlertModals } from '@/components/AlertModals';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 const ChoosePlan = () => {
   const router = useRouter();
 
   const [isBuyPlan, setIsBuyPlan] = useState(false);
   const [activePlanToBuy, setActivePlanToBuy] = useState<any>();
+
+  const [maxAdditionalUsers, setMaxAdditionalUsers] = useState();
+  const [maxAdditionalStorage, setMaxAdditionalStorage] = useState();
 
   const parsedManageData = useAppSelector(
     (state) => state?.subscriptionAndInvoices?.selectedPlanData,
@@ -50,27 +56,58 @@ const ChoosePlan = () => {
 
   const [getData, setGetData] = useState<any>([]);
 
-  const [postSubscriptionPlan] = usePostSubscriptionPlanMutation();
+  const freePlanIndex = getData?.findIndex(
+    (plan: any) => plan?.planType?.name === 'Free',
+  );
+  if (freePlanIndex !== -1 && freePlanIndex !== 0) {
+    const freePlan = getData?.splice(freePlanIndex, 1)[0];
+    getData?.unshift(freePlan);
+  }
 
+  const [postSubscriptionPlan, { isLoading: PostSubscriptionLoading }] =
+    usePostSubscriptionPlanMutation();
+  const [patchSubscriptionPlan, { isLoading: PatchSubscriptionLoading }] =
+    usePatchSubscriptionPlanMutation();
   const onSubmit = async () => {
     const payload = {
       planId: activePlanToBuy?._id,
-      additionalUsers: 1,
-      additionalStorage: 2,
-      planDiscount: 0,
-      billingDate: '2023-10-20',
+      additionalUsers: maxAdditionalUsers,
+      additionalStorage: maxAdditionalStorage,
+      planDiscount: 0.2,
+      billingDate: dayjs(Date.now()).format(DATE_FORMAT?.API),
       status: 'ACTIVE',
       billingCycle: 'MONTHLY',
     };
 
-    try {
-      await postSubscriptionPlan({ body: payload }).unwrap();
-      enqueueSnackbar('Request Successful', {
-        variant: 'success',
-      });
-      setIsBuyPlan(false);
-    } catch (error: any) {
-      enqueueSnackbar('Something went wrong !', { variant: 'error' });
+    if (parsedManageData?.orgPlanId) {
+      try {
+        await patchSubscriptionPlan({
+          body: payload,
+          organizationPlanId: parsedManageData?.orgPlanId,
+        })?.unwrap();
+        enqueueSnackbar('Plan Update Successful', {
+          variant: 'success',
+        });
+        setIsBuyPlan(false);
+        router.push(
+          `${orgAdminSubcriptionInvoices?.back_subscription_invoices}`,
+        );
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      }
+    } else {
+      try {
+        await postSubscriptionPlan({ body: payload })?.unwrap();
+        enqueueSnackbar('Request Successful', {
+          variant: 'success',
+        });
+        setIsBuyPlan(false);
+        router.push(
+          `${orgAdminSubcriptionInvoices?.back_subscription_invoices}`,
+        );
+      } catch (error: any) {
+        enqueueSnackbar('Something went wrong !', { variant: 'error' });
+      }
     }
   };
 
@@ -98,10 +135,15 @@ const ChoosePlan = () => {
         message={'Are you sure you want to buy this plan ?'}
         type={'Confirmation'}
         open={isBuyPlan}
-        submitBtnText="Buy Plan"
+        submitBtnText={parsedManageData?.orgPlanId ? 'Update Plan' : 'Buy Plan'}
         cancelBtnText="Cancel"
         handleClose={() => setIsBuyPlan(false)}
         handleSubmitBtn={onSubmit}
+        loading={
+          parsedManageData?.orgPlanId
+            ? PatchSubscriptionLoading
+            : PostSubscriptionLoading
+        }
       />
 
       <Box sx={{ display: 'flex', alignItems: 'center', mb: '27px' }}>
@@ -138,8 +180,6 @@ const ChoosePlan = () => {
                     Everything your sales team need to work better and together.
                   </Typography>
                 </TableCell>
-                {/* default free  */}
-                <TableCell component="th">Free Plan</TableCell>
                 {getData?.length
                   ? getData?.map((choosePlan: any) => {
                       return (
@@ -151,16 +191,6 @@ const ChoosePlan = () => {
                   : null}
               </TableRow>
               <TableRow>
-                {/* default  free */}
-                <TableCell width={300} sx={styles?.planBox} key={uuidv4()}>
-                  <Box>
-                    <Typography variant="h3">
-                      <Box>Free Trial</Box>
-                      <Box component={'span'}>1 Month</Box>
-                    </Typography>
-                  </Box>
-                </TableCell>
-
                 {getData?.length
                   ? getData?.map((choosePlan: any) => {
                       return (
@@ -169,35 +199,45 @@ const ChoosePlan = () => {
                             £{choosePlan?.planPrice}
                             <Box component={'span'}>/Month</Box>
                           </Typography>
-                          <PermissionsGuard
-                            permissions={[
-                              ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_BUY_PLAN,
-                            ]}
-                          >
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() => {
-                                setActivePlanToBuy(choosePlan),
-                                  setIsBuyPlan(true);
-                              }}
-                            >
-                              Buy Plan
-                            </Button>
-                          </PermissionsGuard>
+                          {choosePlan?.planType?.name === 'Free' ? null : (
+                            <>
+                              {parsedManageData?.planData?.planTypeId ===
+                              choosePlan?.planType?._id ? (
+                                <PermissionsGuard
+                                  permissions={[
+                                    ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_BUY_PLAN,
+                                  ]}
+                                >
+                                  <Box sx={styles?.planActiveChip}>
+                                    Subscribed
+                                  </Box>
+                                </PermissionsGuard>
+                              ) : (
+                                <PermissionsGuard
+                                  permissions={[
+                                    ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_BUY_PLAN,
+                                  ]}
+                                >
+                                  <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => {
+                                      setActivePlanToBuy(choosePlan),
+                                        setIsBuyPlan(true);
+                                    }}
+                                  >
+                                    Buy Plan
+                                  </Button>
+                                </PermissionsGuard>
+                              )}
+                            </>
+                          )}
                         </TableCell>
                       );
                     })
                   : null}
               </TableRow>
               <TableRow sx={styles?.planDetailText}>
-                <TableCell key={uuidv4()}>
-                  <Typography variant="body2">
-                    Essential tools to put your customers first and deliver
-                    authethic services
-                  </Typography>
-                </TableCell>
-
                 {getData?.length
                   ? getData?.map((choosePlan: any) => {
                       return (
@@ -212,10 +252,6 @@ const ChoosePlan = () => {
               </TableRow>
               <TableRow>
                 <TableCell sx={styles?.sideHeader}>Users</TableCell>
-                {/* default  free */}
-                <TableCell key={uuidv4()} sx={styles?.userIncludes}>
-                  <Typography variant="h6">Includes 1 users</Typography>
-                </TableCell>
 
                 {getData?.length
                   ? getData?.map((choosePlan: any) => {
@@ -241,26 +277,31 @@ const ChoosePlan = () => {
                 <TableCell sx={styles?.sideHeader}>
                   Max Additional Users
                 </TableCell>
-                {/* default  free */}
-                <TableCell sx={styles?.sideHeader}>-</TableCell>
                 {getData?.length
-                  ? getData?.map((item: any) => {
+                  ? getData?.map((item: any, index: any) => {
                       return (
-                        <TableCell key={uuidv4()} sx={styles?.userIncludes}>
-                          <PermissionsGuard
-                            permissions={[
-                              ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_USER,
-                            ]}
-                          >
-                            {item?.defaultUsers === 0 ? (
-                              <Counter inputValue={0} disabled />
-                            ) : (
-                              <Counter
-                                inputValue={0}
-                                defaultUsers={item?.defaultUsers}
-                              />
-                            )}
-                          </PermissionsGuard>
+                        // eslint-disable-next-line
+                        <TableCell key={index} sx={styles?.userIncludes}>
+                          {item?.planType?.name === 'Free' ? (
+                            '-'
+                          ) : (
+                            <PermissionsGuard
+                              permissions={[
+                                ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_USER,
+                              ]}
+                            >
+                              {item?.defaultUsers === 0 ? (
+                                <Counter inputValue={0} disabled />
+                              ) : (
+                                <CounterMaxUser
+                                  defaultUsers={item?.defaultUsers}
+                                  setMaxAdditionalUsers={setMaxAdditionalUsers}
+                                  mainId={activePlanToBuy?._id}
+                                  mapId={item?._id}
+                                />
+                              )}
+                            </PermissionsGuard>
+                          )}
                         </TableCell>
                       );
                     })
@@ -271,73 +312,114 @@ const ChoosePlan = () => {
                 <TableCell sx={styles?.sideHeader}>
                   Max Additional Storage
                 </TableCell>
-                {/* default  free */}
-                <TableCell sx={styles?.sideHeader}>-</TableCell>
                 {getData?.length
-                  ? getData?.map((item: any) => {
+                  ? getData?.map((item: any, index: any) => {
                       return (
-                        <TableCell key={uuidv4()} sx={styles?.userIncludes}>
-                          <PermissionsGuard
-                            permissions={[
-                              ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_STORAGE,
-                            ]}
-                          >
-                            {item?.defaultStorage === 0 ? (
-                              <Counter inputValue={0} disabled />
-                            ) : (
-                              <Counter
-                                inputValue={0}
-                                fixedText="GB"
-                                inputWidth="74px"
-                              />
-                            )}
-                          </PermissionsGuard>
+                        // eslint-disable-next-line
+                        <TableCell key={index} sx={styles?.userIncludes}>
+                          {item?.planType?.name === 'Free' ? (
+                            '-'
+                          ) : (
+                            <PermissionsGuard
+                              permissions={[
+                                ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_ADD_ADDITIONAL_STORAGE,
+                              ]}
+                            >
+                              {item?.defaultStorage === 0 ? (
+                                <Counter inputValue={0} disabled />
+                              ) : (
+                                <CounterAdditionalStorage
+                                  defaultUsers={item?.defaultStorage}
+                                  setMaxAdditionalStorage={
+                                    setMaxAdditionalStorage
+                                  }
+                                  mainId={activePlanToBuy?._id}
+                                  mapId={item?._id}
+                                />
+                              )}
+                            </PermissionsGuard>
+                          )}
                         </TableCell>
                       );
                     })
                   : null}
               </TableRow>
+
               {featuresData?.data?.productfeatures?.map((feature: any) => {
                 return (
                   <TableRow key={uuidv4()}>
                     <TableCell sx={styles?.salesActivities}>
                       <Typography variant="h6">{feature?.name}</Typography>
                     </TableCell>
-                    <TableCell component="th">-</TableCell>
                     {getData?.map((planFeature: any) => {
-                      return planFeature?.planProductFeatures?.map(
-                        (planFeatureId: any) => {
-                          return (
-                            <>
-                              {planFeatureId?.featureId === feature?._id ? (
-                                <TableCell align="center">
-                                  <TickCircleIcon />
-                                </TableCell>
-                              ) : (
-                                <TableCell align="center">-</TableCell>
-                              )}
-                            </>
-                          );
-                        },
-                      );
+                      const isFeatureIncluded =
+                        planFeature?.planProductFeatures?.some(
+                          (row: any) => row?.featureId === feature?._id,
+                        );
+                      if (isFeatureIncluded) {
+                        return (
+                          <TableCell key={uuidv4()} align="center">
+                            <TickCircleIcon />
+                          </TableCell>
+                        );
+                      } else {
+                        return (
+                          <TableCell key={uuidv4()} align="center">
+                            {' '}
+                            -{' '}
+                          </TableCell>
+                        );
+                      }
                     })}
                   </TableRow>
                 );
               })}
-
-              {/* <TableRow >
-        <TableCell sx={styles?.salesActivities}>
-          <Typography variant="h6">rfrr</Typography>
-        </TableCell>
-        <TableCell align="center">
-          <TickCircleIcon />
-        </TableCell>
-
-      </TableRow> */}
             </TableBody>
           </Table>
         </TableContainer>
       )}
+    </>
+  );
+};
+
+const CounterMaxUser = ({
+  defaultUsers,
+  mapId,
+  mainId,
+  setMaxAdditionalUsers,
+}: any) => {
+  const [value, setValue] = useState<any>(defaultUsers);
+  useEffect(() => {
+    if (mapId === mainId) {
+      setMaxAdditionalUsers(value);
+    }
+  }, [mainId, value]);
+  return (
+    <>
+      <Counter value={value} setValue={setValue} inputValue={0} />
+    </>
+  );
+};
+const CounterAdditionalStorage = ({
+  defaultUsers,
+  mapId,
+  mainId,
+  setMaxAdditionalStorage,
+}: any) => {
+  const [value, setValue] = useState<any>(defaultUsers);
+  useEffect(() => {
+    if (mapId === mainId) {
+      setMaxAdditionalStorage(value);
+    }
+  }, [mainId, value]);
+  return (
+    <>
+      <Counter
+        value={value}
+        setValue={setValue}
+        inputValue={0}
+        fixedText="GB"
+      />
     </>
   );
 };

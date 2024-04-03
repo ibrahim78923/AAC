@@ -30,6 +30,7 @@ import { useEffect, useState } from 'react';
 import { getActivePermissionsSession, setActiveAccountSession } from '@/utils';
 // import { IMG_URL } from '@/config';
 import useAuth from '@/hooks/useAuth';
+import { generateImage } from '@/utils/avatarUtils';
 
 const ProductSuite = () => {
   const theme = useTheme();
@@ -200,8 +201,7 @@ const ProductSuite = () => {
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     {product?.logo && (
                       <Image
-                        // src={`${IMG_URL}${product?.logo?.url}`}
-                        src={``}
+                        src={generateImage(product?.logo?.url)}
                         width={25}
                         height={25}
                         alt="product"
