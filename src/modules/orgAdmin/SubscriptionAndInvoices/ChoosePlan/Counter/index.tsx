@@ -11,7 +11,7 @@ const Counter: FC<any> = ({
   setValue,
 }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseInt(event.target.value);
+    const newValue = parseInt(event?.target?.value);
     setValue(isNaN(newValue) ? 0 : newValue);
   };
 

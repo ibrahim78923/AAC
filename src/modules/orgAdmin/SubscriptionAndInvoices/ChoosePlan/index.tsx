@@ -28,6 +28,8 @@ import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/perm
 import { useAppSelector } from '@/redux/store';
 import { enqueueSnackbar } from 'notistack';
 import { AlertModals } from '@/components/AlertModals';
+import dayjs from 'dayjs';
+import { DATE_FORMAT } from '@/constants';
 const ChoosePlan = () => {
   const router = useRouter();
 
@@ -66,14 +68,13 @@ const ChoosePlan = () => {
     usePostSubscriptionPlanMutation();
   const [patchSubscriptionPlan, { isLoading: PatchSubscriptionLoading }] =
     usePatchSubscriptionPlanMutation();
-
   const onSubmit = async () => {
     const payload = {
       planId: activePlanToBuy?._id,
       additionalUsers: maxAdditionalUsers,
       additionalStorage: maxAdditionalStorage,
-      planDiscount: 0,
-      billingDate: '2023-10-20',
+      planDiscount: 0.2,
+      billingDate: dayjs(Date.now()).format(DATE_FORMAT?.API),
       status: 'ACTIVE',
       billingCycle: 'MONTHLY',
     };
@@ -83,7 +84,7 @@ const ChoosePlan = () => {
         await patchSubscriptionPlan({
           body: payload,
           organizationPlanId: parsedManageData?.orgPlanId,
-        }).unwrap();
+        })?.unwrap();
         enqueueSnackbar('Plan Update Successful', {
           variant: 'success',
         });
@@ -96,7 +97,7 @@ const ChoosePlan = () => {
       }
     } else {
       try {
-        await postSubscriptionPlan({ body: payload }).unwrap();
+        await postSubscriptionPlan({ body: payload })?.unwrap();
         enqueueSnackbar('Request Successful', {
           variant: 'success',
         });
@@ -285,8 +286,6 @@ const ChoosePlan = () => {
                 <TableCell sx={styles?.sideHeader}>
                   Max Additional Users
                 </TableCell>
-                {/* default  free */}
-                {/* <TableCell sx={styles?.sideHeader}>-</TableCell> */}
                 {getData?.length
                   ? getData?.map((item: any, index: any) => {
                       return (
