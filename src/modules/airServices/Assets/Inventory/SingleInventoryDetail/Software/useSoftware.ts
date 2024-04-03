@@ -30,7 +30,8 @@ export const useSoftware = () => {
       successSnackbar(res?.message ?? 'Record deleted Successfully');
       setOpenDeleteModal(false);
     } catch (err: any) {
-      errorSnackbar(err?.message);
+      errorSnackbar(err?.data?.message);
+      setOpenDeleteModal(false);
     }
   };
   return {
