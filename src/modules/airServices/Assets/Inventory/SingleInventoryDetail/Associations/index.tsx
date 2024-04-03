@@ -1,5 +1,5 @@
-import { Button, useTheme, Box, Typography, Chip } from '@mui/material';
-import { Fragment, useEffect, useState } from 'react';
+import { Button, Box, Typography, Chip } from '@mui/material';
+import { Fragment } from 'react';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NoData from '@/components/NoData';
@@ -10,67 +10,32 @@ import { NewIncident } from './NewIncident';
 import { NoAssociationFoundImage } from '@/assets/images';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { AlertModals } from '@/components/AlertModals';
-import {
-  useDeleteInventoryAssociationListMutation,
-  useLazyGetAssociationListQuery,
-} from '@/services/airServices/assets/inventory/single-inventory-details/associations';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
-import { useRouter } from 'next/router';
+import useAssociations from './useAssociations';
+
 export const Associations = () => {
-  const theme: any = useTheme();
-  const [openDialog, setOpenDialog] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [openNewIncident, setNewIncident] = useState(false);
-  const [openExistingIncident, setExistingIncident] = useState(false);
-  const [InventoryIncidentId, setInventoryIncidentId] = useState('');
-  const [hoveredItemId, setHoveredItemId] = useState(null);
-  const router = useRouter();
-  const associationsInventoryId = router.query.inventoryId;
+  const {
+    getInventoryListData,
+    theme,
+    setOpenDialog,
+    lazyGetIncidentStatus,
+    handleMouseOver,
+    hoveredItemId,
+    setHoveredItemId,
+    handleMouseLeave,
+    handleDelete,
+    isDeleteModalOpen,
+    handleCloseDeleteModal,
+    handleConfirmDelete,
+    isLoading,
+    openDialog,
+    setNewIncident,
+    setExistingIncident,
+    openNewIncident,
+    openExistingIncident,
+  } = useAssociations();
 
-  const [deleteInventoryAssociationListTrigger, { isLoading }] =
-    useDeleteInventoryAssociationListMutation();
-  const handleMouseOver = (itemId: any) => {
-    setHoveredItemId(itemId);
-  };
-
-  const [lazyGetIncidentTrigger, lazyGetIncidentStatus] =
-    useLazyGetAssociationListQuery();
-  const getIncidentListData = async () => {
-    const getIncidentParams = new URLSearchParams();
-    getIncidentParams?.append('inventoryId', associationsInventoryId + '');
-
-    const getInventoryParameters = {
-      params: getIncidentParams,
-    };
-    await lazyGetIncidentTrigger(getInventoryParameters)?.unwrap();
-  };
-  const getInventoryListData =
-    lazyGetIncidentStatus?.data?.data?.associationList;
-
-  useEffect(() => {
-    getIncidentListData();
-  }, [lazyGetIncidentTrigger?.toString(), openExistingIncident]);
-  const handleMouseLeave = () => {
-    setHoveredItemId(null);
-  };
-  const handleCloseDeleteModal = () => {
-    setIsDeleteModalOpen(false);
-  };
-  const handleDelete = (id: any) => {
-    setIsDeleteModalOpen(true);
-    setInventoryIncidentId(id);
-  };
-  const handleConfirmDelete = async () => {
-    try {
-      await deleteInventoryAssociationListTrigger({
-        id: associationsInventoryId,
-        ticketId: InventoryIncidentId,
-      }).unwrap();
-    } catch (error) {}
-    setIsDeleteModalOpen(false);
-    setHoveredItemId(null);
-  };
   return (
     <Fragment>
       {getInventoryListData?.length <= 0 ? (
