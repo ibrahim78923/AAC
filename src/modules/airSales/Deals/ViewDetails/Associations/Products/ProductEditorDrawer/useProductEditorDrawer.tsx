@@ -21,7 +21,7 @@ const useProductsEditorDrawer = ({
   const [createAssociation] = useCreateAssociationMutation();
 
   const methodsProducts = useForm({
-    resolver: yupResolver(productsValidationSchema),
+    resolver: yupResolver<any>(productsValidationSchema),
     defaultValues: async () => {
       if (openDrawer !== 'Add' && selectedProduct) {
         const {
@@ -29,20 +29,20 @@ const useProductsEditorDrawer = ({
           sku,
           purchasePrice,
           category,
-          associate,
           description,
           isActive,
           unitPrice,
+          file,
         } = selectedProduct;
         return {
           name,
           sku,
-          purchasePrice,
+          purchasePrice: purchasePrice || null,
           category,
           description,
-          associate,
           isActive,
-          unitPrice,
+          unitPrice: unitPrice || null,
+          file,
         };
       }
       return productsDefaultValues;

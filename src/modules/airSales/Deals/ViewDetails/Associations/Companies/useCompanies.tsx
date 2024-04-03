@@ -1,8 +1,8 @@
 import { useState } from 'react';
-
 import { useTheme } from '@mui/material';
 import { useDeleteAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { enqueueSnackbar } from 'notistack';
+import { NOTISTACK_VARIANTS } from '@/constants/strings';
 
 const useCompanies = (dealId: any) => {
   const theme = useTheme();
@@ -25,11 +25,15 @@ const useCompanies = (dealId: any) => {
           companyId: companyRecord?._id,
         },
       })?.unwrap();
-      enqueueSnackbar('Record Deleted Successfully', { variant: 'success' });
+      enqueueSnackbar('Record Deleted Successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
       setIsOpenAlert(false);
     } catch (error: any) {
       const errMsg = error?.data?.message;
-      enqueueSnackbar(errMsg ?? 'Error occurred', { variant: 'error' });
+      enqueueSnackbar(errMsg ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
   };
 

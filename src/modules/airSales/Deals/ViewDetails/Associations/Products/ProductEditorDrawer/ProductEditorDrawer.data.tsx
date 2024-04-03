@@ -8,23 +8,20 @@ import {
 import * as Yup from 'yup';
 export const productsValidationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
-  sku: Yup?.string(),
   purchasePrice: Yup?.number()?.required('Field is Required'),
-  category: Yup?.string(),
-  description: Yup?.string(),
   unitPrice: Yup?.number()?.required('Field is Required'),
 });
 
 export const productsDefaultValues = {
   name: '',
-  sku: '',
   purchasePrice: null,
-  category: '',
-  description: '',
   unitPrice: null,
-  file: '',
+  sku: '',
+  category: '',
+  associate: '',
+  description: '',
   isActive: false,
-  // upload: '',
+  file: '',
 };
 
 export const productsDataArray = [
