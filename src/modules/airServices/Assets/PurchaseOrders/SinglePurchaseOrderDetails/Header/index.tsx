@@ -43,7 +43,7 @@ export const Header = (props: any) => {
                     handleReceived?.();
                   }}
                   disabled={
-                    data?.data?.status !== PURCHASE_ORDER_STATUS?.ORDERED
+                    data?.data?.status === PURCHASE_ORDER_STATUS?.RECEIVED
                   }
                 >
                   Received item
@@ -53,7 +53,7 @@ export const Header = (props: any) => {
                   variant="outlined"
                   onClick={() => handleAddToInventory?.()}
                   disabled={
-                    data?.data?.status === PURCHASE_ORDER_STATUS?.ORDERED
+                    data?.data?.status === PURCHASE_ORDER_STATUS?.CLOSED
                   }
                 >
                   Add to Inventory
