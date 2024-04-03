@@ -23,7 +23,7 @@ const AssignModalBox = ({ open, onClose, seletedId }: any) => {
     >
       <FormProvider methods={methods}>
         <Grid container spacing={2}>
-          {RestoreModalData(UserListData, seletedId)?.map((obj: any) => (
+          {RestoreModalData(UserListData)?.map((obj: any) => (
             <Grid item xs={12} key={uuidv4()}>
               <obj.component
                 fullWidth

@@ -96,7 +96,7 @@ export const CreateViewData = (dealPipelineId: string | null) => {
         row: false,
         options: [
           { label: 'Private', value: 'PRIVATE' },
-          { label: 'My Teams (worked)', value: 'MYTEAMS' },
+          { label: 'My Teams (worked)', value: 'MY_TEAMS' },
           { label: 'Everyone', value: 'EVERYONE' },
         ],
       },
