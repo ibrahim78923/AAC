@@ -24,7 +24,7 @@ import { styles } from './DialogSendToCustomer.style';
 import { AIR_SALES } from '@/routesConstants/paths';
 import useUpdateQuote from '../useUpdateQuote';
 import {
-  // usePostAttachmentQuoteMutation,
+  usePostAttachmentQuoteMutation,
   useUpdateQuoteSubmisionMutation,
 } from '@/services/airSales/quotes';
 import { DATE_FORMAT } from '@/constants';
@@ -40,7 +40,7 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
   const { handleSubmit } = methods;
   const { quoteId, dataGetQuoteById } = useUpdateQuote();
   const [updateQuoteSubmision] = useUpdateQuoteSubmisionMutation();
-  // const [postAttachmentQuote] = usePostAttachmentQuoteMutation(); used in future
+  const [postAttachmentQuote] = usePostAttachmentQuoteMutation(); //used in future
 
   const onSubmit = async (values: { email: string }) => {
     const invoice: any = new jsPDF('portrait', 'px', 'a1');
@@ -49,48 +49,58 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
         #quote-invoice {
             margin: 10px;
             width: 95.8%;
-        }
-    `;
+        }`;
     document.head.appendChild(style);
-
     invoice.html(document.getElementById('quote-invoice')).then(() => {
-      // const pdfBlob = invoice.output('dataurl');
-      invoice.save('quote-invoice.pdf');
-
+      const pdfBlob = invoice.output('blob');
       document.head.removeChild(style);
-    });
-    // const formData = new FormData();
-    //   formData.append('fileUrl', pdfBlob, 'invoice.pdf');
-    //   formData.append('module', pdfBlob, 'invoice.pdf');
-    //   formData.append('recordType', pdfBlob, 'invoice.pdf');
-    //   formData.append('recordId', pdfBlob, 'invoice.pdf');
 
-    const body = {
-      id: quoteId,
-      isSubmitted: true,
-      email: values?.email,
-      quoteNumber: dataGetQuoteById?.data?.createdBy?._id,
-      validTill: dayjs(dataGetQuoteById?.data?.expiryDate)?.format(
-        DATE_FORMAT?.API,
-      ),
-    };
-    try {
-      await updateQuoteSubmision(body)
-        ?.unwrap()
-        ?.then((data) => {
-          if (data) {
-            enqueueSnackbar('Quote sent successfully', {
-              variant: 'success',
-            });
-            onClose();
-            router?.push(AIR_SALES?.QUOTES);
-          }
+      const formData = new FormData();
+      formData.append('fileUrl', pdfBlob);
+      formData.append('module', 'CONTACT');
+      formData.append('recordType', 'deals');
+      formData.append('recordId', quoteId);
+      const body = {
+        id: quoteId,
+        isSubmitted: true,
+        email: values?.email,
+        quoteNumber: dataGetQuoteById?.data?.createdBy?._id,
+        validTill: dayjs(dataGetQuoteById?.data?.expiryDate)?.format(
+          DATE_FORMAT?.API,
+        ),
+      };
+
+      try {
+        postAttachmentQuote({ body: formData })
+          ?.unwrap()
+          .then((res: any) => {
+            if (res?.data) {
+              const newData = {
+                ...body,
+                contentUrl: {
+                  filePath: res?.data?.fileUrl,
+                  fileName: res?.data?.originalName,
+                },
+              };
+              updateQuoteSubmision(newData)
+                ?.unwrap()
+                ?.then((data) => {
+                  if (data?.data) {
+                    enqueueSnackbar('Quote sent successfully', {
+                      variant: 'success',
+                    });
+                    onClose();
+                    router?.push(AIR_SALES?.QUOTES);
+                  }
+                });
+            }
+          });
+      } catch (error) {
+        enqueueSnackbar('Error while updating quote', {
+          variant: 'error',
         });
-    } catch (error) {
-      enqueueSnackbar('Quote not sent', {
-        variant: 'error',
-      });
-    }
+      }
+    });
   };
 
   return (

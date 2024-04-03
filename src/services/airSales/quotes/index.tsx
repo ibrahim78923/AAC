@@ -227,9 +227,9 @@ export const quotesAPI = baseAPI.injectEndpoints({
 
     postAttachmentQuote: builder.mutation({
       query: ({ body }: any) => ({
-        url: END_POINTS?.QUOTE,
+        url: END_POINTS?.POST_ATTACHMENT,
         method: 'POST',
-        body: body,
+        body,
       }),
       invalidatesTags: TAG,
     }),

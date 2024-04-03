@@ -16,7 +16,6 @@ import {
 import { styles } from './StepBuyerInfo.style';
 import Image from 'next/image';
 import { AlertModals } from '@/components/AlertModals';
-// import useUpdateQuote from '../useUpdateQuote';
 import useUpdateQuote from '../useUpdateQuote';
 
 const StepBuyerInfo = ({
