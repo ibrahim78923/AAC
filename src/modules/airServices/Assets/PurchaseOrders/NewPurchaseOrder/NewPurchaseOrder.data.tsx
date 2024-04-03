@@ -27,11 +27,8 @@ const purchaseDetailSchema = yup?.object()?.shape({
 });
 // form validation schema
 export const validationSchema: any = yup?.object()?.shape({
-  orderName: yup?.string()?.required('Order Name Required'),
-  orderNumber: yup
-    ?.number()
-    ?.positive('Greater than zero')
-    ?.typeError('Not a number'),
+  orderName: yup?.string()?.required('Order Name is Required'),
+  orderNumber: yup?.string()?.required('Order Number is Required'),
   vendor: yup?.object()?.required('Vendor is Required'),
   currency: yup?.string()?.required('Currency is Required'),
   department: yup?.object()?.nullable(),
@@ -51,7 +48,7 @@ export const validationSchema: any = yup?.object()?.shape({
 
 export const defaultValues = (data?: any) => ({
   orderName: data?.orderName ?? '',
-  orderNumber: data?.orderNumber ?? 0,
+  orderNumber: data?.orderNumber ?? '',
   vendor: data?.vendorDetails ?? null,
   currency: data?.currency ?? '',
   department: data?.departmentDetails ?? null,
@@ -115,7 +112,6 @@ export const newPurchaseFieldsFunction = (
           min: 0,
         },
       },
-      type: 'number',
     },
   },
   {
