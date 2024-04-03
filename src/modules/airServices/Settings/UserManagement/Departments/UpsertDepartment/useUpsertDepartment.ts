@@ -86,5 +86,6 @@ export const useUpsertDepartment = (props: any) => {
     userList,
     method,
     updateDepartmentStatus,
+    selectedDepartment,
   };
 };

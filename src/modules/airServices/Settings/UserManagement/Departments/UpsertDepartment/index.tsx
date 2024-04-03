@@ -13,6 +13,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { departmentFormFields } from './UpsertDepartment.data';
 import { FormProvider } from '@/components/ReactHookForm';
 import { useUpsertDepartment } from './useUpsertDepartment';
+import { Attachments } from '@/components/Attachments';
+import { AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
 
 export const UpsertDepartment = (props: any) => {
   const { openUpsertModal, selectedDepartment } = props;
@@ -62,6 +64,28 @@ export const UpsertDepartment = (props: any) => {
               </Grid>
             ))}
           </Grid>
+          {!!selectedDepartment?._id && (
+            <>
+              <Typography
+                variant="body1"
+                fontWeight={500}
+                color="slateBlue.main"
+                mb={2}
+              >
+                {' '}
+                Attachments{' '}
+              </Typography>
+              <Box maxHeight={'20vh'}>
+                <Attachments
+                  recordId={selectedDepartment?._id}
+                  permissionKey={[
+                    AIR_SERVICES_SETTINGS_USER_MANAGEMENT_PERMISSIONS?.EDIT_DEPARTMENT,
+                  ]}
+                  colSpan={{ sm: 12, lg: 12 }}
+                />
+              </Box>
+            </>
+          )}
         </DialogContent>
         <DialogActions sx={{ paddingTop: `0.5rem !important` }}>
           <Button

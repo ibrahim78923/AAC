@@ -15,10 +15,14 @@ export const useDeleteInventory = (props: any) => {
     getInventoryListData,
     isMoveBack = false,
   } = props;
+
   const [deleteInventoryTrigger, deleteInventoryStatus] =
     useDeleteInventoryMutation();
+
   const router = useRouter();
+
   const { makePath } = usePath();
+
   const deleteInventory = async () => {
     const deleteParams = new URLSearchParams();
 
@@ -38,6 +42,7 @@ export const useDeleteInventory = (props: any) => {
         selectedInventoryLists?.length === totalRecords ? 1 : page;
       setPage?.(newPage);
       await getInventoryListData?.(newPage);
+
       router?.push(
         makePath({
           path: AIR_SERVICES?.ASSETS_INVENTORY,
