@@ -11,9 +11,9 @@ export const editProfileValidationSchema = Yup.object().shape({
   companyName: Yup.string(),
   jobTitle: Yup.string(),
   language: Yup.string(),
-  twitterUrl: Yup.string(),
-  facebookUrl: Yup.string(),
-  linkedInUrl: Yup.string(),
+  linkedInUrl: Yup.string().url('Please enter a valid URL').optional(),
+  facebookUrl: Yup.string().url('Please enter a valid URL').optional(),
+  twitterUrl: Yup.string().url('Please enter a valid URL').optional(),
 });
 
 export const editProfileDataArray = [
