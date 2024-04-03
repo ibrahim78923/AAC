@@ -6,14 +6,14 @@ import {
 import { useGetCompanyContactsQuery } from '@/services/common-APIs';
 import { getSession } from '@/utils';
 import {
-  // useCompanyUpdateMutation,
+  useGetAllCompaniesQuery,
+  useCompanyUpdateMutation,
   usePostCompaniesMutation,
 } from '@/services/commonFeatures/companies';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { useCreateAssociationMutation } from '@/services/airSales/deals/view-details/association';
 import { PAGINATION } from '@/config';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 const useCompaniesEditorDrawer = ({
@@ -22,8 +22,6 @@ const useCompaniesEditorDrawer = ({
   dealId,
   companyRecord,
 }: any) => {
-  const [searchTicket, setSearchTicket] = useState('');
-  const [defaultValue, setDefaultValue] = useState('new-Company');
   const { user }: any = getSession();
   const params = {
     page: PAGINATION?.PAGE_COUNT,
@@ -33,15 +31,28 @@ const useCompaniesEditorDrawer = ({
 
   const { data: getCompanyContacts } = useGetCompanyContactsQuery(params);
 
+  const companyParams = {
+    page: PAGINATION?.PAGE_COUNT,
+    limit: PAGINATION?.PAGE_LIMIT,
+  };
+  const { data: getAllCompanies } = useGetAllCompaniesQuery(companyParams);
+
+  const overAllCompaniesData = getAllCompanies?.data?.companies;
+
+  const companyOptions = overAllCompaniesData?.map((item: any) => ({
+    value: item?._id,
+    label: `${item?.name}`,
+  }));
+
   const [postCompanies, { isLoading: postCompanyLoading }] =
     usePostCompaniesMutation();
-  // const [CompanyUpdate] = useCompanyUpdateMutation();
+  const [CompanyUpdate] = useCompanyUpdateMutation();
   const [createAssociation] = useCreateAssociationMutation();
 
-  const methodsCompanies = useForm({
+  const methodsCompanies = useForm<any>({
     resolver: yupResolver(companiesValidationSchema),
     defaultValues: async () => {
-      if (openDrawer !== 'Add' && companyRecord) {
+      if (openDrawer === 'View' && companyRecord) {
         const {
           domain,
           name,
@@ -57,6 +68,7 @@ const useCompaniesEditorDrawer = ({
           linkedInUrl,
         } = companyRecord;
         return {
+          company: 'new-Company',
           domain,
           name,
           ownerId,
@@ -97,13 +109,12 @@ const useCompaniesEditorDrawer = ({
     formData?.append('recordId', dealId);
     try {
       const response =
-        // openDrawer === 'Edit'
-        //   ? await CompanyUpdate({
-        //       body: formData,
-        //       Id: companyRecord?._id,
-        //     }).unwrap()
-        //   :
-        await postCompanies({ body: formData })?.unwrap();
+        watchCompany === 'existing-Company'
+          ? await CompanyUpdate({
+              body: formData,
+              id: values?.chooseCompany,
+            }).unwrap()
+          : await postCompanies({ body: formData })?.unwrap();
       if (response?.data) {
         try {
           await createAssociation({
@@ -140,11 +151,8 @@ const useCompaniesEditorDrawer = ({
     methodsCompanies,
     getCompanyContacts,
     watchCompany,
-    searchTicket,
-    setSearchTicket,
     postCompanyLoading,
-    defaultValue,
-    setDefaultValue,
+    companyOptions,
   };
 };
 

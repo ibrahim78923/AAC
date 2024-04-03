@@ -100,14 +100,16 @@ const Contacts = ({ contactsData, dealId, isLoading, handleSearch }: any) => {
           dealId={dealId}
         />
       )}
-      <AlertModals
-        message={"You're about to remove a record. Are you Sure?"}
-        type={'delete'}
-        open={isOpenAlert}
-        handleClose={handleCloseAlert}
-        handleSubmitBtn={deleteContactHandler}
-        isLoading={contactLoading}
-      />
+      {isOpenAlert && (
+        <AlertModals
+          message={"You're about to remove a record. Are you Sure?"}
+          type={'delete'}
+          open={isOpenAlert}
+          handleClose={handleCloseAlert}
+          handleSubmitBtn={deleteContactHandler}
+          loading={contactLoading}
+        />
+      )}
     </Box>
   );
 };

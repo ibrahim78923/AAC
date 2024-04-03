@@ -20,8 +20,21 @@ export const associationAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ['DEALS_ASSOCIATION'],
     }),
+    postAttachments: builder.mutation({
+      query: ({ body }: any) => {
+        return {
+          url: END_POINTS?.POST_ATTACHMENT,
+          method: 'POST',
+          body: body,
+        };
+      },
+      invalidatesTags: ['DEALS_ATTACHMENTS'],
+    }),
   }),
 });
 
-export const { useCreateAssociationMutation, useDeleteAssociationMutation } =
-  associationAPI;
+export const {
+  useCreateAssociationMutation,
+  useDeleteAssociationMutation,
+  usePostAttachmentsMutation,
+} = associationAPI;
