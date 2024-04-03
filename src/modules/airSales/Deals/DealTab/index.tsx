@@ -18,6 +18,7 @@ import DealsActions from '../DealsActions';
 import { AIR_SERVICES } from '@/constants';
 import {
   CutomizeIcon,
+  DeleteIcon,
   FilterIcon,
   GridViewIcon,
   ListViewIcon,
@@ -68,6 +69,7 @@ const DealsTab = () => {
     handleDealCustomize,
     setViewColumns,
     viewColumns,
+    deleteDealLoading,
   } = useDealTab();
   const theme = useTheme();
 
@@ -128,6 +130,15 @@ const DealsTab = () => {
               permissions={[AIR_SALES_DEALS_PERMISSIONS?.DELETE_DEAL]}
             >
               <Button
+                className="small"
+                variant="outlined"
+                color="inherit"
+                startIcon={<DeleteIcon />}
+                onClick={handleDeleteModal}
+              >
+                Delete
+              </Button>
+              {/* <Button
                 variant="outlined"
                 color="inherit"
                 className="small"
@@ -135,7 +146,7 @@ const DealsTab = () => {
                 sx={{ width: { xs: '100%', sm: '100px' } }}
               >
                 Delete
-              </Button>
+              </Button> */}
             </PermissionsGuard>
           ) : (
             <DealsActions
@@ -269,6 +280,7 @@ const DealsTab = () => {
           open={isDelete}
           onClose={handleDeleteModal}
           handleSubmitBtn={handleDeleteDeals}
+          loading={deleteDealLoading}
         />
       )}
       {isAssign && (

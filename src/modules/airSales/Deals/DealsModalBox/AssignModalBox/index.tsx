@@ -12,7 +12,6 @@ const AssignModalBox = ({ open, onClose, seletedId }: any) => {
     seletedId,
     onClose,
   );
-
   return (
     <ScheduleModals
       type={'assign'}

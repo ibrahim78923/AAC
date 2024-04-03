@@ -24,6 +24,9 @@ const Tasks = () => {
     setDeleteWorkflow,
     dropdownOptions,
     setSelectedAction,
+    totalRecords,
+    page,
+    isError,
   } = useTasks();
   return (
     <>
@@ -40,6 +43,10 @@ const Tasks = () => {
         dropdownOptions={dropdownOptions}
         selectedAction={selectedAction}
         setSelectedAction={setSelectedAction}
+        totalRecords={totalRecords}
+        page={page}
+        setPage={setPage}
+        listData={listData}
       />
       <TanstackTable
         data={listData}
@@ -48,6 +55,7 @@ const Tasks = () => {
         isFetching={isFetching}
         isSuccess={isSuccess}
         isLoading={isLoading}
+        isError={isError}
         setLimit={setLimit}
         setPage={setPage}
         count={taskData?.meta?.pages}
