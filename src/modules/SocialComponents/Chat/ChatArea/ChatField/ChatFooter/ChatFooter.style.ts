@@ -43,11 +43,11 @@ export const styles = {
       padding: '0px 10px',
     };
   },
-  chatTextarea: () => {
+  chatTextarea: (theme: any) => {
     return {
       width: '100%',
-      '& .css-1d3z3hw-MuiOutlinedInput-notchedOutline': {
-        border: '0px',
+      '& .MuiOutlinedInput-notchedOutline': {
+        border: `0px solid ${theme?.palette?.common?.white} !important`,
       },
     };
   },

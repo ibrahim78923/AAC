@@ -316,6 +316,7 @@ const ChatBox = ({
                 >
                   <CharmTickIcon isRead={item?.isRead} />
                 </Box>
+
                 {!item?.isDeleted && (
                   <Box sx={styles?.chatReactionWrapper(theme)}>
                     {item?.reactions?.map((emoji: any) => (
@@ -329,18 +330,22 @@ const ChatBox = ({
                     ))}
                   </Box>
                 )}
-                {item?._id === activeChat && (
-                  <Box sx={styles?.sendReaction(theme)}>
-                    {customEmojis?.map((emoji: any) => (
-                      <Box
-                        key={uuidv4()}
-                        onClick={() => handelSendReaction(emoji, item)}
-                        dangerouslySetInnerHTML={{
-                          __html: emoji,
-                        }}
-                      />
-                    ))}
-                  </Box>
+                {!item?.isDeleted && (
+                  <>
+                    {item?._id === activeChat && (
+                      <Box sx={styles?.sendReaction(theme)}>
+                        {customEmojis?.map((emoji: any) => (
+                          <Box
+                            key={uuidv4()}
+                            onClick={() => handelSendReaction(emoji, item)}
+                            dangerouslySetInnerHTML={{
+                              __html: emoji,
+                            }}
+                          />
+                        ))}
+                      </Box>
+                    )}
+                  </>
                 )}
               </Box>
               <Box

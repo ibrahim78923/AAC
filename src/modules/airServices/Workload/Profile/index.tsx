@@ -1,4 +1,11 @@
-import { Avatar, Box, Menu, Tooltip, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  CircularProgress,
+  Menu,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { Fragment } from 'react';
 import { IMG_URL } from '@/config';
 import Search from '@/components/Search';
@@ -19,6 +26,7 @@ export const Profile = ({ selected, setSelected }: any) => {
     id,
     debouncedSearch,
     handleClose,
+    usersExtraStatus,
   } = useProfile({
     setSelected,
   });
@@ -115,7 +123,17 @@ export const Profile = ({ selected, setSelected }: any) => {
             width={'100%'}
             label={'Search Here'}
           />
-          {!usersExtra?.length ? (
+          {usersExtraStatus?.isLoading || usersExtraStatus?.isFetching ? (
+            <Box
+              width={'100%'}
+              height={'100%'}
+              display={'flex'}
+              justifyContent={'center'}
+              alignItems={'center'}
+            >
+              <CircularProgress />
+            </Box>
+          ) : !usersExtra?.length ? (
             <NoData message="No data is available" image={AssociationsImage} />
           ) : (
             usersExtra?.map((item: any) => (

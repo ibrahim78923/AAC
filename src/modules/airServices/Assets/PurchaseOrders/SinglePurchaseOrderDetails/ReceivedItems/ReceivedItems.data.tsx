@@ -3,12 +3,14 @@ import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 export const addItemValidationSchemaOne = Yup?.object()?.shape({
   receivedItem: Yup?.array()?.of(
-    Yup?.object()?.shape({
-      itemName: Yup?.string(),
-      received: Yup?.number()?.required('Required'),
-      quantity: Yup?.string(),
-      pending: Yup?.string(),
-    }),
+    Yup?.object()
+      ?.shape({
+        itemName: Yup?.string(),
+        received: Yup?.number()?.required('Required'),
+        quantity: Yup?.string(),
+        pending: Yup?.string(),
+      })
+      ?.nullable(),
   ),
 });
 
