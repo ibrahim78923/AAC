@@ -27,7 +27,7 @@ const useInvoices = () => {
     if (index === -1) {
       setSelectedRows([...selectedRows, row]);
     } else {
-      const updatedRows = selectedRows.filter(
+      const updatedRows = selectedRows?.filter(
         (selectedRow: any) => selectedRow?._id !== row?._id,
       );
       setSelectedRows(updatedRows);
