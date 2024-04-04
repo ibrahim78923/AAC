@@ -4,7 +4,7 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { actionsOptions } from '../UpsertEventBasedWorkflow.data';
+import { actionsOptions } from '../UpsertRulesWorkflow.data';
 
 const statusOptions = ['Open', 'Pending', 'Resolved', 'Closed'];
 const priority = ['HIGH', 'MEDIUM', 'LOW', 'URGENT'];
@@ -50,10 +50,10 @@ export const actionsData = ({
     selectedLabel === optionsConstant?.impact
       ? priority
       : selectedLabel === optionsConstant?.source
-        ? sourcesOptions
-        : selectedLabel === optionsConstant?.type
-          ? typeOptions
-          : statusOptions;
+      ? sourcesOptions
+      : selectedLabel === optionsConstant?.type
+      ? typeOptions
+      : statusOptions;
   let valueComponent;
   const apiQuery = useApiQuery(selectedLabel);
   if (

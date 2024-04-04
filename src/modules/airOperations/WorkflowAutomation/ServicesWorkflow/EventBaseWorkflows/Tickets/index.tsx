@@ -24,6 +24,9 @@ const Tickets = () => {
     setDeleteWorkflow,
     dropdownOptions,
     setSelectedAction,
+    totalRecords,
+    page,
+    isError,
   } = useTickets();
   return (
     <>
@@ -40,6 +43,10 @@ const Tickets = () => {
         dropdownOptions={dropdownOptions}
         selectedAction={selectedAction}
         setSelectedAction={setSelectedAction}
+        totalRecords={totalRecords}
+        page={page}
+        setPage={setPage}
+        listData={listData}
       />
       <TanstackTable
         data={listData}
@@ -48,6 +55,7 @@ const Tickets = () => {
         isFetching={isFetching}
         isSuccess={isSuccess}
         isLoading={isLoading}
+        isError={isError}
         setLimit={setLimit}
         setPage={setPage}
         count={ticketsData?.meta?.pages}

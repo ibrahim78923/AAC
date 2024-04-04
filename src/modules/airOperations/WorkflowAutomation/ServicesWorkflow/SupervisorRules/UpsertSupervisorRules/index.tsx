@@ -1,11 +1,11 @@
 import { Box, Grid, Skeleton } from '@mui/material';
 import { FormProvider } from '@/components/ReactHookForm';
-import { useUpsertSupervisorRules } from './useUpsertEventBasedWorkflow';
+import { useRulesWorkflow } from './useRulesWorkflow';
 import { WorkflowConditions } from './WorkflowConditions';
 import { WorkflowHeader } from './WorkflowHeader';
 import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
 import { WorkflowActionExecuted } from './WorkflowActionExecuted';
-import { rulesWorkflowDataArray } from './UpsertEventBasedWorkflow.data';
+import { rulesWorkflowDataArray } from './UpsertRulesWorkflow.data';
 
 export const UpsertSupervisorRules = () => {
   const {
@@ -22,7 +22,7 @@ export const UpsertSupervisorRules = () => {
     isLoading,
     isFetching,
     handleSaveAsDraft,
-  } = useUpsertSupervisorRules();
+  } = useRulesWorkflow();
   if (isLoading || isFetching) return <Skeleton />;
   return (
     <Box>
