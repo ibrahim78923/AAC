@@ -5,11 +5,15 @@ import {
   upsertConversationFormValidationSchema,
 } from './UpsertConversation.data';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { usePostConversationMutation } from '@/services/airServices/tickets/single-ticket-details/conversation';
+import {
+  useEditTicketConversationNoteMutation,
+  usePostConversationMutation,
+} from '@/services/airServices/tickets/single-ticket-details/conversation';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
 import useAuth from '@/hooks/useAuth';
 import {
+  MODULE_TYPE,
   TICKET_CONVERSATIONS_CONTENT_TYPE,
   TICKET_CONVERSATIONS_RESPONSE_TYPE,
 } from '@/constants/strings';
@@ -19,6 +23,7 @@ import { CannedResponsesList } from '../CannedResponsesList';
 import { AIR_SERVICES } from '@/constants';
 import { useTheme } from '@mui/material';
 import { findAttributeValues } from '@/utils/file';
+import { usePostAttachmentsMutation } from '@/services/airServices/tickets/attachments';
 
 export const useUpsertConversation = (props: any) => {
   const [selectedResponseType, setSelectedResponseType] = useState<any>({});
@@ -30,7 +35,10 @@ export const useUpsertConversation = (props: any) => {
 
   const [postConversationTrigger, postConversationStatus] =
     usePostConversationMutation();
-
+  const [editTicketConversationNoteTrigger, editTicketConversationNoteStatus] =
+    useEditTicketConversationNoteMutation();
+  const [postAttachmentsTrigger, postAttachmentsStatus] =
+    usePostAttachmentsMutation();
   const methods = useForm<any>({
     defaultValues: upsertConversationFormDefaultValues?.({
       conversationType: selectedConversationType?.conversationType,
@@ -70,8 +78,8 @@ export const useUpsertConversation = (props: any) => {
     formData?.attachments !== null &&
       conversationFormData?.append('attachments', formData?.attachments);
 
-    if (!!selectedConversationType?.conversationId) {
-      editConversation?.(conversationFormData);
+    if (!!selectedConversationType?._id) {
+      editConversation?.({ ...formData, articleIds });
       return;
     }
 
@@ -91,15 +99,27 @@ export const useUpsertConversation = (props: any) => {
   };
 
   const editConversation = async (formData: any) => {
+    const body = {
+      id: selectedConversationType?._id,
+      html: formData?.html,
+      recordId: ticketId,
+      recipients: [formData?.recipients],
+      type: selectedConversationType?.conversationType,
+      subject: selectedConversationType?.conversationType,
+      ...(!!formData?.articleIds?.length
+        ? { articlesIds: formData?.articleIds }
+        : {}),
+    };
     const apiDataParameter = {
-      body: formData,
+      body,
     };
 
     try {
-      await postConversationTrigger(apiDataParameter)?.unwrap();
-      reset?.();
+      await editTicketConversationNoteTrigger(apiDataParameter)?.unwrap();
       closeConversationDrawer?.();
-      successSnackbar('');
+      await submitAttachment?.(formData);
+      reset?.();
+      successSnackbar('Conversation updated successfully');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -156,6 +176,27 @@ export const useUpsertConversation = (props: any) => {
     return null;
   };
 
+  const submitAttachment = async (data: any) => {
+    const attachmentFormData = new FormData();
+
+    attachmentFormData?.append('fileUrl', data?.attachments);
+    attachmentFormData?.append(
+      'recordId',
+      selectedConversationType?._id as string,
+    );
+    attachmentFormData?.append('module', MODULE_TYPE?.ASSETS);
+
+    const postAttachmentParameter = {
+      body: attachmentFormData,
+    };
+
+    try {
+      await postAttachmentsTrigger(postAttachmentParameter)?.unwrap();
+      successSnackbar('Attachment Added Successfully!');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
   const upsertConversationFormFields = upsertConversationFormFieldsDynamic?.(
     selectedConversationType,
     setSelectedResponseType,
@@ -170,5 +211,7 @@ export const useUpsertConversation = (props: any) => {
     selectedResponseType,
     setSelectedResponseType,
     openResponseTypeModal,
+    editTicketConversationNoteStatus,
+    postAttachmentsStatus,
   };
 };
