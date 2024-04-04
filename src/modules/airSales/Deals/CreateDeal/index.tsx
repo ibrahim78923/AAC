@@ -20,7 +20,6 @@ import { enqueueSnackbar } from 'notistack';
 const CreateDeal = ({ open, onClose }: any) => {
   const [postDeals, { isLoading: isCreateDealLodaing }] =
     usePostDealsMutation();
-
   const methods = useForm<any>({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
@@ -32,15 +31,19 @@ const CreateDeal = ({ open, onClose }: any) => {
   const onSubmit = async (values: any) => {
     const [closeDate] = values?.closeDate;
     values.closeDate = dayjs(closeDate)?.toISOString();
-    values.products = [
-      {
-        productId: values?.products,
-        quantity: 1,
-        unitDiscount: 0,
-      },
-    ];
+    const products = values?.products?.map((id: string) => ({
+      productId: id,
+      quantity: 1,
+      unitDiscount: 0,
+    }));
+    delete values.products;
+    const obj = {
+      products,
+      ...values,
+    };
+
     try {
-      await postDeals({ body: values })?.unwrap();
+      await postDeals({ body: obj })?.unwrap();
       enqueueSnackbar('Deal created successfully', {
         variant: 'success',
       });
