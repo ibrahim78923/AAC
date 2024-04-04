@@ -24,6 +24,7 @@ const Attachments = ({ contactId }: any) => {
     isOpenAlert,
     handleOpenAlert,
     handleCloseAlert,
+    attachmentData,
   } = useAttachments(contactId);
   const tableColumns = columns(handleOpenDrawer, handleOpenAlert);
 
@@ -38,7 +39,8 @@ const Attachments = ({ contactId }: any) => {
       <Grid container spacing={2}>
         <Grid item md={4} sx={styles?.countBox}>
           <Typography sx={styles?.associationCount(theme)} variant="body3">
-            02
+            {dataGetAttachment?.data?.attachments?.length < 10 && '0'}
+            {dataGetAttachment?.data?.attachments?.length}
           </Typography>
 
           <Typography variant="subtitle2">Attachments</Typography>
@@ -75,6 +77,7 @@ const Attachments = ({ contactId }: any) => {
           />
         </Grid>
       </Grid>
+
       <AttachmentsEditorDrawer
         title={drawerTitle}
         isOpen={openDrawer}
@@ -82,7 +85,9 @@ const Attachments = ({ contactId }: any) => {
         methods={methodsAttachments}
         handleSubmit={handleAddAttachmentSubmit}
         loading={loadingAddAttachment}
+        attachmentData={attachmentData}
       />
+
       <AlertModals
         message={"You're about to remove a record. Are you Sure?"}
         type={'delete'}

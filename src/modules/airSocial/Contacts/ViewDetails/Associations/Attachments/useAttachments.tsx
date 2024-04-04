@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material';
 import { useGetContactAssociationsQuery } from '@/services/commonFeatures/contacts';
 import { useForm } from 'react-hook-form';
-import { usePostAttachmentMutation } from '@/services/airServices/assets/purchase-orders/single-purchase-order-details/attachments';
+import { usePostAttachmentMutation } from '@/services/commonFeatures/contacts/associations';
 import {
   attachmentsDefaultValues,
   attachmentsValidationSchema,
@@ -41,8 +41,10 @@ const useAttachments = (contactId: any) => {
   } = methodsAttachments;
   const [drawerTitle, setDrawerTitle] = useState('Add');
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [attachmentData, setAttachmentData] = useState();
   const handleOpenDrawer = (title: any, data: any) => {
     setDrawerTitle(title);
+    setAttachmentData(data);
     // if (title === 'Add') {
     //   console.log('Add open');
     // }
@@ -74,9 +76,10 @@ const useAttachments = (contactId: any) => {
   // Add Attachment
   const onSubmitAddAttachment = async (values: any) => {
     const formData = new FormData();
-    formData?.append('fileUrl', values?.fileUrl);
-    formData?.append('module', 'CONTACT');
+    formData?.append('fileUrl', values?.attachment);
     formData?.append('recordId', contactId);
+    formData?.append('module', 'CONTACT');
+    formData?.append('recordType', 'contacts');
     try {
       await postAttachment(formData)?.unwrap();
       handleCloseDrawer();
@@ -124,6 +127,7 @@ const useAttachments = (contactId: any) => {
     handleCloseAlert,
     postAttachment,
     theme,
+    attachmentData,
   };
 };
 
