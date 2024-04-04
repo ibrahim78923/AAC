@@ -38,7 +38,7 @@ export const useSubWorkflowConditions = (props: any) => {
     fields?.forEach((_, subIndex) => {
       setValue(`groups.${index}.conditions.${subIndex}.fieldName`, '');
       setValue(`groups.${index}.conditions.${subIndex}.condition`, '');
-      setValue(`groups.${index}.conditions.${subIndex}.fieldValue`, '');
+      setValue(`groups.${index}.conditions.${subIndex}.fieldValue`, null);
     });
   }, [moduleType]);
   return {

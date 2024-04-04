@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 export const salesSchema: any = Yup?.object()?.shape({
   title: Yup?.string()?.required('Required'),
   schedule: Yup?.string()?.when('type', {
-    is: (type: any) => type === 'SCHEDULED',
+    is: (type: any) => type === workflowTypes?.scheduled,
     then: (schema: any) => schema?.required('Required'),
     otherwise: (schema: any) => schema?.notRequired(),
   }),
@@ -24,7 +24,7 @@ export const salesSchema: any = Yup?.object()?.shape({
         Yup?.object()?.shape({
           fieldName: Yup?.string()?.required('Required'),
           condition: Yup?.string()?.required('Required'),
-          fieldValue: Yup?.mixed()?.nullable()?.required('Required'),
+          fieldValue: Yup?.mixed()?.required('Required'),
         }),
       ),
     }),
@@ -32,7 +32,7 @@ export const salesSchema: any = Yup?.object()?.shape({
   actions: Yup?.array()?.of(
     Yup?.object()?.shape({
       fieldName: Yup?.string()?.required('Required'),
-      fieldValue: Yup?.mixed()?.nullable()?.required('Required'),
+      fieldValue: Yup?.mixed()?.required('Required'),
     }),
   ),
 });

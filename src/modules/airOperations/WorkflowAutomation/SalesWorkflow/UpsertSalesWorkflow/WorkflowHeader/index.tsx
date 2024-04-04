@@ -7,15 +7,14 @@ import { TestWorkflow } from '../TestWorkflow';
 import { useWorkflowHeader } from './useWorkflowHeader';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
-import { RHFTextField } from '@/components/ReactHookForm';
+import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 
-const SCHEDULE = 'SCHEDULED';
 export const WorkflowHeader = (props: any) => {
+  const { isLoading, saveLoading, setValidation } = props;
   const {
     handleMoveBack,
     openWorkflowModal,
     setOpenWorkflowModal,
-    scheduleWorkflow,
     handleCancel,
   } = useWorkflowHeader(props);
   return (
@@ -41,17 +40,16 @@ export const WorkflowHeader = (props: any) => {
           >
             Cancel
           </LoadingButton>
-          {scheduleWorkflow === SCHEDULE && (
-            <LoadingButton
-              startIcon={<GrayBookIcon />}
-              variant="outlined"
-              color="secondary"
-              loading={props?.isLoading}
-              type="submit"
-            >
-              Save as Draft
-            </LoadingButton>
-          )}
+          <LoadingButton
+            startIcon={<GrayBookIcon />}
+            variant="outlined"
+            color="secondary"
+            loading={saveLoading}
+            onClick={() => setValidation(false)}
+            type="submit"
+          >
+            Save as Draft
+          </LoadingButton>
           <PermissionsGuard
             permissions={[
               AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.TEST_WORKFLOW,
@@ -59,8 +57,8 @@ export const WorkflowHeader = (props: any) => {
           >
             <LoadingButton
               startIcon={<CopyIcon />}
-              variant={scheduleWorkflow === SCHEDULE ? 'contained' : 'outlined'}
-              color={scheduleWorkflow === SCHEDULE ? 'primary' : 'secondary'}
+              variant={'outlined'}
+              color={'secondary'}
               onClick={() => setOpenWorkflowModal(true)}
             >
               Test Workflow
@@ -71,16 +69,15 @@ export const WorkflowHeader = (props: any) => {
               AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.ENABLE_NOW,
             ]}
           >
-            {scheduleWorkflow !== SCHEDULE && (
-              <LoadingButton
-                startIcon={<WhiteBookIcon />}
-                variant="contained"
-                type="submit"
-                loading={props?.isLoading}
-              >
-                Enable
-              </LoadingButton>
-            )}
+            <LoadingButton
+              startIcon={<WhiteBookIcon />}
+              variant="contained"
+              type="submit"
+              loading={isLoading}
+              onClick={() => setValidation(true)}
+            >
+              Create
+            </LoadingButton>
           </PermissionsGuard>
         </Box>
       </Box>
@@ -91,6 +88,11 @@ export const WorkflowHeader = (props: any) => {
           label="Title"
           placeholder="Title"
           required
+        />
+        <RHFEditor
+          name="description"
+          label="Description"
+          style={{ minHeight: 200 }}
         />
       </Box>
       <TestWorkflow

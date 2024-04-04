@@ -40,7 +40,7 @@ export const useWorkflowActionExecuted = (props: any) => {
   useEffect(() => {
     fields?.forEach((_, index) => {
       setValue(`actions.${index}.fieldName`, '');
-      setValue(`actions.${index}.fieldValue`, '');
+      setValue(`actions.${index}.fieldValue`, null);
     });
   }, [moduleType]);
   return {

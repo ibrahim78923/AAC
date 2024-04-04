@@ -23,6 +23,6 @@ export const weekOptions = [
   'Sunday',
 ];
 export const radioOptions = [
-  { value: 'EVENT_BASE', label: 'Enable Now' },
+  { value: 'EVENT_BASE', label: 'Event Base' },
   { value: 'SCHEDULED', label: 'Schedule' },
 ];

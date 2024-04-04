@@ -42,6 +42,7 @@ export const workflowConditionsGroupDataArray = (index: any) => [
       label: 'Condition Type',
       size: 'small',
       placeholder: 'Select',
+      required: true,
       options: conditionTypeOptions,
       getOptionLabel: (option: any) => option?.label,
     },
