@@ -413,7 +413,7 @@ const OrganizationCard = () => {
                   </center>
                   <Grid container spacing={1} sx={{ paddingTop: '1rem' }}>
                     {dataArray?.map((item: any) => (
-                      <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                      <Grid item xs={12} md={item?.md} key={item?.name}>
                         {item?.componentProps?.name === 'compositeAddress' && (
                           <Box position="relative">
                             <InputAdornment
