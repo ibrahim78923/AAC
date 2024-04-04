@@ -112,18 +112,6 @@ export const createDealData = ({ dealPipelineId }: any) => {
       ],
       component: RHFSelect,
     },
-    // {
-    //   componentProps: {
-    //     name: 'products',
-    //     label: 'Add Line Item',
-    //     select: true,
-    //   },
-    //   options: salesProduct?.data?.salesproducts?.map((item: any) => ({
-    //     value: item?._id,
-    //     label: `${item?.name}`,
-    //   })) ?? [{ label: '', value: '' }],
-    //   component: RHFSelect,
-    // },
     {
       componentProps: {
         name: 'products',
