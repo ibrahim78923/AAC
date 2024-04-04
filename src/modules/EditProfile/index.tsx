@@ -6,9 +6,12 @@ import Security from './Security';
 import { useState } from 'react';
 import useEditProfile from './useEditProfile';
 import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import { generateImage } from '@/utils/avatarUtils';
+import useUsersDetails from '@/modules/orgAdmin/Users/UsersDetails/useUsersDetails';
 
 const EditProfile = () => {
   const { getUserData, profileDataLoading } = useEditProfile();
+  const { handleChangeImg } = useUsersDetails();
   interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -57,6 +60,12 @@ const EditProfile = () => {
         role={getUserData?.data?.role}
         editBtn={false}
         isLoading={profileDataLoading}
+        src={`${
+          getUserData?.data?.avatar
+            ? generateImage(getUserData?.data?.avatar?.url)
+            : ''
+        }`}
+        handleChangeImg={(e: any) => handleChangeImg(e, getUserData?.data?._id)}
       />
       {profileDataLoading ? (
         <SkeletonTable />

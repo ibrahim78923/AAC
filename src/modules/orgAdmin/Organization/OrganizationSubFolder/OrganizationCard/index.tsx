@@ -2,7 +2,7 @@ import React from 'react';
 
 import Image from 'next/image';
 
-import { Grid, Box, Typography, Skeleton } from '@mui/material';
+import { Grid, Box, Typography, Skeleton, Button } from '@mui/material';
 
 import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
@@ -38,6 +38,7 @@ const OrganizationCard = () => {
     onSubmit,
     methods,
     data,
+    handleCloseDrawer,
   } = useOrganizationCard();
 
   const { data: productsData, isLoading } = useGetAllProductsQuery({});
@@ -49,59 +50,6 @@ const OrganizationCard = () => {
 
   return (
     <>
-      <CommonDrawer
-        isDrawerOpen={isOpenDrawer}
-        onClose={() => {
-          setIsOpenDrawer(false);
-        }}
-        title="Edit Info"
-        okText="Update"
-        isOk={true}
-        footer={true}
-        submitHandler={handleSubmit(onSubmit)}
-      >
-        <Box sx={{ paddingTop: '1rem' }}>
-          <center>
-            <Box sx={{ position: 'relative' }}>
-              <Box
-                sx={{
-                  border: `1px solid ${theme?.palette?.grey[700]}`,
-                  borderRadius: '100px',
-                  width: '120px',
-                  height: '120px',
-                  boxShadow:
-                    '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
-                }}
-              >
-                <Image
-                  src={ComLogoImage}
-                  alt="NO image"
-                  style={{ borderRadius: '100px' }}
-                />
-              </Box>
-              <Box sx={{ position: 'absolute', right: '165px', bottom: 0 }}>
-                <AddPenIcon />
-              </Box>
-            </Box>
-          </center>
-          <FormProvider methods={methods}>
-            <Grid container spacing={1} sx={{ paddingTop: '1rem' }}>
-              {dataArray?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={uuidv4()}>
-                  <item.component {...item?.componentProps} size={'small'}>
-                    {item?.componentProps?.select &&
-                      item?.options?.map((option: any) => (
-                        <option key={uuidv4()} value={uuidv4()}>
-                          {option?.label}
-                        </option>
-                      ))}
-                  </item.component>
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      </CommonDrawer>
       <Box sx={{ paddingTop: '5px' }}>
         <Grid container spacing={2}>
           <Grid item lg={6} md={12} sm={12} xs={12}>
@@ -250,17 +198,10 @@ const OrganizationCard = () => {
                         }}
                         sx={styles?.editSection}
                       >
-                        <Image src={EditImage} alt="edit" />
-                        <Typography
-                          variant="body3"
-                          sx={{
-                            fontWeight: 500,
-                            lineHeight: '18px',
-                            color: `${theme?.palette?.primary?.main}`,
-                          }}
-                        >
+                        <Button className="small" sx={{ gap: 1 }}>
+                          <Image src={EditImage} alt="edit" />
                           Edit Info
-                        </Typography>
+                        </Button>
                       </Box>
                     </Box>
                   </PermissionsGuard>
@@ -419,6 +360,58 @@ const OrganizationCard = () => {
           </Grid>
         </Grid>
       </Box>
+      {isOpenDrawer && (
+        <CommonDrawer
+          isDrawerOpen={isOpenDrawer}
+          onClose={handleCloseDrawer}
+          title="Edit Info"
+          okText="Update"
+          isOk={true}
+          footer={true}
+          submitHandler={handleSubmit(onSubmit)}
+        >
+          <Box sx={{ paddingTop: '1rem' }}>
+            <center>
+              <Box sx={{ position: 'relative' }}>
+                <Box
+                  sx={{
+                    border: `1px solid ${theme?.palette?.grey[700]}`,
+                    borderRadius: '100px',
+                    width: '120px',
+                    height: '120px',
+                    boxShadow: `0px 2px 4px -2px ${theme?.palette?.custom?.dark_shade_green}, 5px 5px 9px -2px ${theme?.palette?.custom?.shade_grey}`,
+                  }}
+                >
+                  <Image
+                    src={ComLogoImage}
+                    alt="NO image"
+                    style={{ borderRadius: '100px' }}
+                  />
+                </Box>
+                <Box sx={{ position: 'absolute', right: '165px', bottom: 0 }}>
+                  <AddPenIcon />
+                </Box>
+              </Box>
+            </center>
+            <FormProvider methods={methods}>
+              <Grid container spacing={1} sx={{ paddingTop: '1rem' }}>
+                {dataArray?.map((item: any) => (
+                  <Grid item xs={12} md={item?.md} key={uuidv4()}>
+                    <item.component {...item?.componentProps} size={'small'}>
+                      {item?.componentProps?.select &&
+                        item?.options?.map((option: any) => (
+                          <option key={uuidv4()} value={uuidv4()}>
+                            {option?.label}
+                          </option>
+                        ))}
+                    </item.component>
+                  </Grid>
+                ))}
+              </Grid>
+            </FormProvider>
+          </Box>
+        </CommonDrawer>
+      )}
     </>
   );
 };
