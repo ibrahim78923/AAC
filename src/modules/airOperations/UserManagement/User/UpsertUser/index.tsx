@@ -5,14 +5,19 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { USER_MANAGEMENT } from '@/constants/strings';
 import { useUser } from '../useUser';
 
-function UpsertUser({ isDrawerOpen, title, okText, setIsDrawerOpen }: any) {
+function UpsertUser({
+  isDrawerOpen,
+  title,
+  okText,
+  setIsDrawerOpen,
+  usersData,
+  methods,
+  handleSubmit,
+  submit,
+}: any) {
   const {
-    methods,
-    handleSubmit,
-    submit,
     disabled,
     setDisabled,
-    usersData,
     departmentDropdown,
     rolesDropdown,
     patchProductUsersStatus,
@@ -46,6 +51,9 @@ function UpsertUser({ isDrawerOpen, title, okText, setIsDrawerOpen }: any) {
           addUsersListStatus?.isLoading || patchProductUsersStatus?.isLoading
         }
         isDisabled={
+          addUsersListStatus?.isLoading || patchProductUsersStatus?.isLoading
+        }
+        disabledCancelBtn={
           addUsersListStatus?.isLoading || patchProductUsersStatus?.isLoading
         }
       >

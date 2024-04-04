@@ -4,12 +4,12 @@ import {
   moveToCategoryDefaultValues,
   moveToCategoryValidationSchema,
 } from './MoveToCategory.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+
 import {
   useLazyGetCategoriesDropdownQuery,
   usePatchServiceCatalogMutation,
 } from '@/services/airServices/settings/service-management/service-catalog';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 const useMoveToCategory = (prop: any) => {
   const [patchServiceCatalogTrigger] = usePatchServiceCatalogMutation();
@@ -28,17 +28,11 @@ const useMoveToCategory = (prop: any) => {
 
     const patchServiceCatalogParameter = { body };
     try {
-      const response = await patchServiceCatalogTrigger(
-        patchServiceCatalogParameter,
-      )?.unwrap();
+      await patchServiceCatalogTrigger(patchServiceCatalogParameter)?.unwrap();
 
-      enqueueSnackbar(response?.data?.message ?? 'Service Move Successfully!', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      successSnackbar('Service Move Successfully!');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
     setOpen(false);
     setSelectedCheckboxes([]);

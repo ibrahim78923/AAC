@@ -31,10 +31,12 @@ export default function useAddToInventoryDrawer(props: any) {
   const router = useRouter();
   const [search, setSearch] = useState('');
   const { purchaseOrderId } = router?.query;
-
+  const receivedItem = 0;
   const { setIsADrawerOpen } = props;
-  const [postPurchaseOrderTrigger] = usePostAssetPurchaseOrderMutation();
-  const [patchNewInventoryTrigger] = usePatchAddToPurchaseOrderMutation();
+  const [postPurchaseOrderTrigger, { isLoading: postPurchaseOrderIsLoading }] =
+    usePostAssetPurchaseOrderMutation();
+  const [patchNewInventoryTrigger, { isLoading: patchNewInventoryIsLoading }] =
+    usePatchAddToPurchaseOrderMutation();
 
   const methodsTwo = useForm({
     defaultValues: addToInventoryItemStatusDefaultValuesFunction(),
@@ -70,7 +72,7 @@ export default function useAddToInventoryDrawer(props: any) {
       refetchOnMountOrArgChange: true,
       skip: !!!purchaseOrderId,
     });
-  const purchaseOrderDetail = data?.data;
+  const purchaseOrderDetail: any = data?.data;
 
   const handleRadioChange = (event: { target: { value: string } }) => {
     setToShow(event?.target?.value === 'Add New');
@@ -103,12 +105,12 @@ export default function useAddToInventoryDrawer(props: any) {
         body: putAddToPurchaseOrderParameter,
       })?.unwrap();
       successSnackbar('Item Added to Inventory  Successfully');
+      setIsADrawerOpen(false);
+      setSelectedAssetId?.(null);
+      methodsNo?.reset();
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
     }
-    setIsADrawerOpen(false);
-    setSelectedAssetId?.(null);
-    methodsNo?.reset();
   });
   const submitHandlerTwo = handleSubmitTwo(async (data: any) => {
     const inventoryData = [];
@@ -131,13 +133,12 @@ export default function useAddToInventoryDrawer(props: any) {
     try {
       await postPurchaseOrderTrigger(postPurchaseOrderParameter)?.unwrap();
       successSnackbar('Item Added to Inventory  Successfully');
-    } catch (error) {
-      errorSnackbar();
+      setIsADrawerOpen(false);
+      setBoolVariable(true);
+      methodsTwo?.reset();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
-
-    setIsADrawerOpen(false);
-    setBoolVariable(true);
-    methodsTwo?.reset();
   });
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
   const apiQueryLocations = useLazyGetLocationsDropdownQuery();
@@ -191,5 +192,8 @@ export default function useAddToInventoryDrawer(props: any) {
     apiQueryLocations,
     apiQueryDepartment,
     fields,
+    receivedItem,
+    postPurchaseOrderIsLoading,
+    patchNewInventoryIsLoading,
   };
 }

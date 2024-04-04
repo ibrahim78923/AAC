@@ -64,7 +64,7 @@ export default function useTicketInfoCard({
       setOpenDeleteModal(false);
       await getValueTicketsListData?.(newPage);
     } catch (error: any) {
-      errorSnackbar();
+      errorSnackbar(error?.data?.message);
       setOpenDeleteModal(false);
     }
   };

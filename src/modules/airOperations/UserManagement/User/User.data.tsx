@@ -19,6 +19,7 @@ export const userList = (
   selectedUserList: any,
   setSelectedUserList: any,
   setIsDrawerOpen: any,
+  setTabData: any,
 ) => [
   {
     accessorFn: (row: any) => row?._id,
@@ -83,7 +84,10 @@ export const userList = (
               color: 'blue.dull_blue',
               cursor: 'pointer',
             }}
-            onClick={() => setIsDrawerOpen(info.getValue(), true)}
+            onClick={() => {
+              setIsDrawerOpen(true);
+              setTabData(info.row?.original);
+            }}
           >
             {fullNameInitial(
               info?.row?.original?.user?.firstName,
@@ -97,6 +101,13 @@ export const userList = (
         )}
       </Box>
     ),
+  },
+  {
+    accessorFn: (row: any) => row?.team?.email,
+    id: 'email',
+    isSortable: true,
+    header: 'Email',
+    cell: (info: any) => info?.getValue(),
   },
   {
     accessorFn: (row: any) => row?.team?.name,

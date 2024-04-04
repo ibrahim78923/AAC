@@ -9,6 +9,7 @@ import {
   Typography,
   Button,
   Avatar,
+  CircularProgress,
 } from '@mui/material';
 
 import { useTheme } from '@mui/material';
@@ -29,13 +30,24 @@ import { useEffect, useState } from 'react';
 import { getActivePermissionsSession, setActiveAccountSession } from '@/utils';
 // import { IMG_URL } from '@/config';
 import useAuth from '@/hooks/useAuth';
+import { generateImage } from '@/utils/avatarUtils';
 
 const ProductSuite = () => {
   const theme = useTheme();
-  const { setActiveProduct, setPermissions, isPermissions } = useAuth();
+  const {
+    setActiveProduct,
+    setPermissions,
+    isPermissions,
+    authMeLoadingState,
+  } = useAuth();
   const router = useRouter();
-  const { data: accountsData } = useGetAuthAccountsQuery({});
-  const [PostAuthAccountSelect] = usePostAuthAccountSelectMutation();
+  const {
+    data: accountsData,
+    refetch,
+    isFetching: postAuthAccountSelectFetching,
+  } = useGetAuthAccountsQuery({});
+  const [PostAuthAccountSelect, { isLoading }] =
+    usePostAuthAccountSelectMutation();
   const [selectedProduct, setSelectedProduct] = useState<any>([]);
 
   const findModulePermissionKey = async (product: any, id: string) => {
@@ -85,6 +97,9 @@ const ProductSuite = () => {
     }
   }, [isPermissions, permissions]);
 
+  useEffect(() => {
+    refetch();
+  }, []);
   return (
     <Box
       sx={{
@@ -143,83 +158,96 @@ const ProductSuite = () => {
           },
         }}
       >
-        {accountsData?.data?.map((product: any) => (
-          <Grid item xs={12} sm={6} md={6} lg={3} key={uuidv4()}>
-            <Card
-              className="card-hover-color cursor-pointer"
-              sx={{
-                boxShadow: 'none',
-                borderRadius: '6px',
-                '&:hover': {
-                  transition: '0.3s',
-                  outline: `1.5px solid ${theme?.palette?.primary?.main}`,
-                  boxShadow: '0px 1px 1px -1px',
-                },
-                height: '270px',
-              }}
-            >
-              <CardActionArea
-                disableRipple
+        {authMeLoadingState || isLoading || postAuthAccountSelectFetching ? (
+          <Box
+            sx={{ marginTop: '200px', width: '100%' }}
+            display={'flex'}
+            justifyContent={'center'}
+            alignContent={'center'}
+          >
+            <CircularProgress />
+          </Box>
+        ) : (
+          accountsData?.data?.map((product: any) => (
+            <Grid item xs={12} sm={6} md={6} lg={3} key={uuidv4()}>
+              <Card
+                className="card-hover-color cursor-pointer"
                 sx={{
-                  display: 'flex',
-                  color: theme?.palette?.custom?.charcoal_gray,
-                  pt: 4,
-                  justifyContent: 'center',
-                  flexDirection: 'column',
+                  boxShadow: 'none',
+                  borderRadius: '6px',
                   '&:hover': {
-                    '.MuiCardActionArea-focusHighlight': {
-                      opacity: '0',
-                    },
+                    transition: '0.3s',
+                    outline: `1.5px solid ${theme?.palette?.primary?.main}`,
+                    boxShadow: '0px 1px 1px -1px',
                   },
+                  height: '270px',
                 }}
               >
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {product?.logo && (
-                    <Image
-                      // src={`${IMG_URL}${product?.logo?.url}`}
-                      src={``}
-                      width={25}
-                      height={25}
-                      alt="product"
-                    />
-                  )}
-                  <Typography variant="h5" sx={{ marginLeft: '20px' }}>
-                    {product?.name}
-                  </Typography>
-                </Box>
-
-                <CardContent
+                <CardActionArea
+                  disableRipple
                   sx={{
-                    display: 'block',
-                    padding: '0px',
-                    color: theme?.palette?.custom?.main,
+                    display: 'flex',
+                    color: theme?.palette?.custom?.charcoal_gray,
+                    pt: 4,
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    '&:hover': {
+                      '.MuiCardActionArea-focusHighlight': {
+                        opacity: '0',
+                      },
+                    },
                   }}
                 >
-                  {product?.accounts?.map((account: any) => (
-                    <Box
-                      sx={{
-                        marginTop: '15px',
-                      }}
-                      key={uuidv4()}
-                    >
-                      <Typography
-                        variant="body2"
-                        color="inherit"
-                        onClick={() => {
-                          findModulePermissionKey(product?.name, account?._id);
-                          setActiveProduct(product);
-                          setActiveAccountSession(account);
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {product?.logo && (
+                      <Image
+                        src={generateImage(product?.logo?.url)}
+                        width={25}
+                        height={25}
+                        alt="product"
+                      />
+                    )}
+                    <Typography variant="h5" sx={{ marginLeft: '20px' }}>
+                      {product?.name}
+                    </Typography>
+                  </Box>
+
+                  <CardContent
+                    sx={{
+                      display: 'block',
+                      padding: '0px',
+                      color: theme?.palette?.custom?.main,
+                    }}
+                  >
+                    {product?.accounts?.map((account: any) => (
+                      <Box
+                        sx={{
+                          marginTop: '15px',
                         }}
+                        key={uuidv4()}
                       >
-                        {account?.company?.accountName}
-                      </Typography>
-                    </Box>
-                  ))}
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        ))}
+                        <Typography
+                          variant="body2"
+                          color="inherit"
+                          onClick={() => {
+                            findModulePermissionKey(
+                              product?.name,
+                              account?._id,
+                            );
+                            setActiveProduct(product);
+                            setActiveAccountSession(account);
+                          }}
+                        >
+                          {account?.company?.accountName}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          ))
+        )}
         {/* 
         {products?.map((product: any) => (
           <Grid item xs={12} sm={6} md={6} lg={3} key={uuidv4()}>

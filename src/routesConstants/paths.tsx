@@ -11,7 +11,6 @@ const DASHBOARD_ROOT_PAGE = '/dashboard';
 const SOCIAL_ROOT_PAGE = '/social-components';
 const AIR_SOCIAL_PAGE = '/air-social';
 const AIR_SALES_PAGE = '/air-sales';
-
 // ======================================================================
 
 export const PATH_AUTH = {
@@ -50,6 +49,8 @@ export const SUPER_ADMIN_SETTINGS: any = {
   PRODUCT_FEATURES: '/product-features',
   PRODUCTS: '/products',
   QUICK_LINKS: '/quick-links',
+  QUICK_LINKS_GROUP: '/quick-links/get-group-quick-links',
+  NEWS_EVENTS: 'news-and-events',
 };
 
 export const SOCIAL_FEATURES = {
@@ -87,7 +88,7 @@ export const AIR_SALES = {
 export const SUPER_ADMIN_PLAN_MANAGEMENT: any = {
   PLAN_MANAGEMENT: '/plan',
   PLAN_TYPE_LIST: 'plan/plan-type-list',
-  PRODUCT_FEATURES: 'product-features?page=1&limit=10',
+  PRODUCT_FEATURES: 'product-features',
   ADD_PLAN: '/super-admin/plan-management/add-plan',
   PLAN_MANAGEMENT_GRID: '/super-admin/plan-management',
 };

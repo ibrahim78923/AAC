@@ -41,8 +41,7 @@ export const useProfile = (props: any) => {
     try {
       const res: any = await patchProfileDetailTrigger(payload)?.unwrap();
       successSnackbar(res?.message ?? 'Account Details Update Successfully');
-      handleMoveBack();
-      reset();
+      reset(profileDefaultValues(null));
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
@@ -55,7 +54,7 @@ export const useProfile = (props: any) => {
 
   const handleCancel = () => {
     handleMoveBack();
-    reset();
+    reset(profileDefaultValues(null));
   };
 
   const { handleSubmit, reset } = profileMethods;
@@ -63,7 +62,6 @@ export const useProfile = (props: any) => {
 
   return {
     profileMethods,
-    reset,
     handleSubmitProfile,
     isLoading,
     handleCancel,

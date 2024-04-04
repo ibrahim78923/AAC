@@ -7,8 +7,7 @@ import {
 } from './AddHoliday.data';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { usePostHolidayMutation } from '@/services/airServices/settings/service-management/business-hours';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 export const useAddHoliday = (props: any) => {
   const {
     setHolidaysData,
@@ -39,9 +38,7 @@ export const useAddHoliday = (props: any) => {
       setHolidaysData((pervState: any) =>
         pervState ? [...pervState, newData] : [newData],
       );
-      enqueueSnackbar('Holiday Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Holiday Added Successfully');
       closeHolidayModal();
       return;
     }
@@ -54,14 +51,10 @@ export const useAddHoliday = (props: any) => {
     };
     try {
       await postHolidayTrigger(postHolidayParameter)?.unwrap();
-      enqueueSnackbar('Holiday Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Holiday Added Successfully');
       closeHolidayModal();
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message?.[0] ?? 'Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   });
   return {

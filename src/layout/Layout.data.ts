@@ -442,7 +442,7 @@ export const AirOperationsRoutes: any = [
   {
     key: AIR_OPERATION?.WORK_FLOW,
     icon: WorkFlowAutomationImage,
-    label: 'Workflow',
+    label: 'Workflow Automation',
     role: 'AIR_OPERATIONS',
     permissions: Permissions?.AIR_OPERATIONS_WORKFLOWS,
   },
@@ -548,13 +548,8 @@ export const LowerSuperAdminRoutes = [
         permissions: Permissions?.SETTING_NEWS_EVENTS,
       },
       {
-        key: '/super-admin/settings/module-creation',
-        label: 'Module Creation',
-        permissions: Permissions?.SETTING_MODULE_CREATION,
-      },
-      {
         key: '/super-admin/settings/product-list',
-        label: 'Product List',
+        label: 'Module Creation',
         permissions: Permissions?.SETTING_PRODUCT_LIST,
       },
       {
@@ -715,7 +710,7 @@ export const ProfileDropDown = [
   },
   {
     label: 'Change Password',
-    key: '/change-password',
+    key: '/edit-profile',
   },
   {
     label: 'Delegate',

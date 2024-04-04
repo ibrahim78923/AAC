@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { userList } from './User.data';
 import {
   useGetProductUserListQuery,
@@ -14,7 +14,6 @@ import { useLazyGetDepartmentDropdownQuery } from '@/services/airServices/ticket
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import {
-  upsertUserData,
   upsertUserDefaultValues,
   upsertUserValidationSchema,
 } from './UpsertUser/UpsertUser.data';
@@ -30,8 +29,9 @@ export const useUser = () => {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(PAGINATION?.CURRENT_PAGE);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
-  const [setUserData] = useState<any[]>(upsertUserData);
+  const [setUserData] = useState<any[]>();
   const [disabled, setDisabled] = useState(true);
+  const [tabData, setTabData] = useState({});
 
   const param = {
     page: page,
@@ -43,12 +43,12 @@ export const useUser = () => {
 
   const usersData = data?.data?.usercompanyaccounts;
   const metaData = data?.data?.meta;
-
   const userListColumn = userList(
     usersData,
     selectedUserList,
     setSelectedUserList,
     setIsDrawerOpen,
+    setTabData,
   );
 
   const departmentDropdown = useLazyGetDepartmentDropdownQuery();
@@ -57,9 +57,12 @@ export const useUser = () => {
 
   const methods: any = useForm({
     resolver: yupResolver(upsertUserValidationSchema),
-    defaultValues: upsertUserDefaultValues,
+    defaultValues: upsertUserDefaultValues(tabData),
   });
   const { handleSubmit, reset } = methods;
+  useEffect(() => {
+    reset(upsertUserDefaultValues(tabData));
+  }, [isDrawerOpen]);
   const [patchProductUsersTrigger, patchProductUsersStatus] =
     usePatchProductUsersMutation();
   const [addListUsers, addUsersListStatus] = usePostProductUserListMutation();

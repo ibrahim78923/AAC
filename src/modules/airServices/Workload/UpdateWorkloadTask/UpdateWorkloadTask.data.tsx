@@ -6,6 +6,7 @@ import {
   RHFTextField,
   RHFTimePicker,
 } from '@/components/ReactHookForm';
+import { ROLES } from '@/constants/strings';
 import { pxToRem } from '@/utils/getFontValue';
 import * as Yup from 'yup';
 
@@ -17,10 +18,10 @@ export const validationSchema: any = Yup?.object()?.shape({
   departmentId: Yup?.mixed()?.nullable()?.required('Required'), //3
   assignTo: Yup?.mixed()?.nullable(), //4
   status: Yup.string()?.required('Required'), //5
-  startDate: Yup?.date(), //6
-  startDateTime: Yup?.date(), //7
-  endDate: Yup?.date(), //8
-  endDateTime: Yup?.date(), //9
+  startDate: Yup?.date()?.nullable(), //6
+  startDateTime: Yup?.date()?.nullable(), //7
+  endDate: Yup?.date()?.nullable(), //8
+  endDateTime: Yup?.date()?.nullable(), //9
   plannedEffort: Yup?.string(), //10
 });
 
@@ -89,6 +90,7 @@ export const getWorkloadDataArray = ({
         apiQuery: apiQueryAssignTo,
         getOptionLabel: (option: any) =>
           option?.firstName + ' ' + option?.lastName,
+        externalParams: { role: ROLES?.ORG_EMPLOYEE, limit: 50 },
       },
       component: RHFAutocompleteAsync,
     },

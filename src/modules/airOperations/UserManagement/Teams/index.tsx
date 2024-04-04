@@ -11,8 +11,6 @@ import { AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS } from '@/constants/pe
 export const Teams = () => {
   const {
     teamListColumn,
-    isDrawerOpen,
-    setIsDrawerOpen,
     deleteModal,
     setDeleteModal,
     isTeamDrawerOpen,
@@ -26,7 +24,9 @@ export const Teams = () => {
     setPageLimit,
     setPage,
     submitDeleteModal,
-    deleteTeamUsersStatus,
+    deleteStatus,
+    isEditDrawerOpen,
+    setIsEditDrawerOpen,
   } = useTeams();
 
   return (
@@ -63,15 +63,15 @@ export const Teams = () => {
           okText={'Save'}
         />
         <UpsertTeams
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
+          isDrawerOpen={isEditDrawerOpen}
+          setIsDrawerOpen={setIsEditDrawerOpen}
           title={'Edit Team'}
           okText={'Save'}
         />
         {deleteModal && (
           <AgentConversionDelete
             message={'Are you sure you want to delete this Team?'}
-            loading={deleteTeamUsersStatus?.isLoading}
+            deleteStatus={deleteStatus}
             open={deleteModal?.val}
             handleClose={() => {
               setDeleteModal(false);

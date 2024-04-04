@@ -1,19 +1,18 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { enqueueSnackbar } from 'notistack';
 import {
   upsertProductValidationSchema,
   upsertProductDefaultValues,
   upsertProductDataArray,
 } from './UpsertProduct.data';
 import { useEffect, useState } from 'react';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import {
   useLazyGetProductVendorDropdownQuery,
   usePostProductVendorMutation,
   usePutProductVendorMutation,
 } from '@/services/airServices/settings/asset-management/vendor/single-vendor-details/product';
 import { useRouter } from 'next/router';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useUpsertProduct = (props: any) => {
   const { setUpsertProductModal, editData, setEditData } = props;
@@ -33,8 +32,6 @@ export const useUpsertProduct = (props: any) => {
     usePutProductVendorMutation();
   const dropdownData = useLazyGetProductVendorDropdownQuery();
 
-  const isLoading = postProductVendorProgress?.isLoading;
-  const isEditLoading = putProductVendorProgress?.isLoading;
   const upsertProductFields = upsertProductDataArray(dropdownData, editData);
 
   const isSubmit = async (data: any) => {
@@ -50,17 +47,14 @@ export const useUpsertProduct = (props: any) => {
     try {
       const res: any =
         await postProductVendorTrigger(productVendorData)?.unwrap();
-      enqueueSnackbar(res?.message ?? 'Product Added Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar(res?.message ?? 'Product Added Successfully');
+      setUpsertProductModal(false);
+      setEditData([]);
+      reset(upsertProductDefaultValues());
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      setUpsertProductModal(false);
+      errorSnackbar(error?.data?.message);
     }
-    setUpsertProductModal(false);
-    setEditData([]);
-    reset(upsertProductDefaultValues());
   };
 
   const editSubmit = async (data: any) => {
@@ -75,17 +69,14 @@ export const useUpsertProduct = (props: any) => {
     try {
       const res: any =
         await putProductVendorTrigger(productVendorData)?.unwrap();
-      enqueueSnackbar(res?.message ?? 'Product Edit Successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar(res?.message ?? 'Product Edit Successfully');
+      setUpsertProductModal(false);
+      setEditData([]);
+      reset(upsertProductDefaultValues());
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.message ?? 'Something went wrong!', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      setUpsertProductModal(false);
+      errorSnackbar(error?.data?.message);
     }
-    setUpsertProductModal(false);
-    setEditData([]);
-    reset(upsertProductDefaultValues());
   };
 
   useEffect(() => {
@@ -102,9 +93,9 @@ export const useUpsertProduct = (props: any) => {
     isSubmit,
     editSubmit,
     handleCancel,
-    isLoading,
-    isEditLoading,
     catalogId,
     upsertProductFields,
+    putProductVendorProgress,
+    postProductVendorProgress,
   };
 };

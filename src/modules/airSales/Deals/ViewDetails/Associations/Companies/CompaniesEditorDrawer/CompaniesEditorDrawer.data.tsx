@@ -1,9 +1,4 @@
-import {
-  RHFDatePicker,
-  RHFSelect,
-  RHFTextField,
-  RHFTimePicker,
-} from '@/components/ReactHookForm';
+import { RHFSelect, RHFTextField } from '@/components/ReactHookForm';
 
 import * as Yup from 'yup';
 
@@ -14,18 +9,20 @@ export const companiesValidationSchema = Yup?.object()?.shape({
 });
 
 export const companiesDefaultValues = {
+  company: 'new-Company',
   domain: '',
-  name: '',
-  ownerId: '',
-  industry: '',
-  type: '',
-  noOfEmloyee: 0,
-  totalRevenue: 0,
-  city: '',
-  postalCode: '',
-  address: '',
-  description: '',
-  linkedInUrl: '',
+  // commented for future use porpuse
+  // name: '',
+  // ownerId: '',
+  // industry: '',
+  // type: '',
+  noOfEmloyee: null,
+  totalRevenue: null,
+  // city: '',
+  // postalCode: '',
+  // address: '',
+  // description: '',
+  // linkedInUrl: '',
 };
 
 export const companiesDataArray = (getCompanyContacts: any) => {
@@ -168,26 +165,6 @@ export const companiesDataArray = (getCompanyContacts: any) => {
       componentProps: {
         name: 'linkedInUrl',
         label: 'LinkdIn Company Page',
-        placeholder: 'Enter here',
-        fullWidth: true,
-      },
-    },
-    {
-      md: 6,
-      component: RHFDatePicker,
-      componentProps: {
-        name: 'dateOfJoining',
-        label: 'Date of Joining',
-        placeholder: 'Enter here',
-        fullWidth: true,
-      },
-    },
-    {
-      md: 6,
-      component: RHFTimePicker,
-      componentProps: {
-        name: 'time',
-        label: 'Time of Joining',
         placeholder: 'Enter here',
         fullWidth: true,
       },

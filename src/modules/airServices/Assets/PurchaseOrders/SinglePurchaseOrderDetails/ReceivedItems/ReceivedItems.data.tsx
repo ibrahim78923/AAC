@@ -1,13 +1,16 @@
 import { RHFTextField } from '@/components/ReactHookForm';
+import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 export const addItemValidationSchemaOne = Yup?.object()?.shape({
   receivedItem: Yup?.array()?.of(
-    Yup?.object()?.shape({
-      itemName: Yup?.string(),
-      received: Yup?.number()?.required('Required'),
-      quantity: Yup?.string(),
-      pending: Yup?.string(),
-    }),
+    Yup?.object()
+      ?.shape({
+        itemName: Yup?.string(),
+        received: Yup?.number()?.required('Required'),
+        quantity: Yup?.string(),
+        pending: Yup?.string(),
+      })
+      ?.nullable(),
   ),
 });
 
@@ -41,18 +44,14 @@ export const itemDetailColumns = [
 export const itemDetailFormFieldsFunction = (
   control: any,
   name: any,
+  fields: any,
   index: any,
 ) => {
-  // const quantityValue = useWatch({
-  //   control,
-  //   name: `${name}.${index}.quantity`,
-  // });
-  // const itemName = useWatch({ control, name: `${name}.${index}.itemName` });
-  // const pendingValue = useWatch({ control, name: `${name}.${index}.pending` });
+  const item = fields[index];
   return [
     {
       id: 1,
-      // data: <Typography variant="body1">{itemName}</Typography>,
+      data: <Typography variant="body1">{item?.itemName}</Typography>,
     },
     {
       id: 2,
@@ -67,11 +66,11 @@ export const itemDetailFormFieldsFunction = (
     },
     {
       id: 3,
-      // data: <Typography variant="body1">{quantityValue}</Typography>,
+      data: <Typography variant="body1">{item?.quantity}</Typography>,
     },
     {
       id: 4,
-      // data: <Typography variant="body1">{pendingValue}</Typography>,
+      data: <Typography variant="body1">{item?.pending}</Typography>,
     },
   ];
 };

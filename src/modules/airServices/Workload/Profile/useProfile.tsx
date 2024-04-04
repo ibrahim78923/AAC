@@ -1,4 +1,5 @@
-import { useLazyGetAssignToQuery } from '@/services/airServices/workload';
+import { ROLES } from '@/constants/strings';
+import { useLazyGetAssignToAgentsQuery } from '@/services/airServices/workload';
 import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 
@@ -8,15 +9,19 @@ export default function useProfile({ setSelected }: any) {
   const [anchorEl, setAnchorEl] = useState<any>(null);
   const [searchBy, setSearchBy] = useState('');
 
-  const [usersTrigger, usersStatus] = useLazyGetAssignToQuery();
-  const [usersExtraTrigger, usersExtraStatus] = useLazyGetAssignToQuery();
+  const [usersTrigger, usersStatus] = useLazyGetAssignToAgentsQuery();
+  const [usersExtraTrigger, usersExtraStatus] = useLazyGetAssignToAgentsQuery();
 
   useEffect(() => {
-    usersTrigger?.({ params: { search: '' } });
+    usersTrigger?.({
+      params: { search: '', role: ROLES?.ORG_EMPLOYEE },
+    });
   }, []);
 
   useEffect(() => {
-    usersExtraTrigger?.({ params: { search: searchBy } });
+    usersExtraTrigger?.({
+      params: { search: searchBy, role: ROLES?.ORG_EMPLOYEE },
+    });
   }, [searchBy]);
 
   const debouncedSearch = debounce((value: any) => {
@@ -39,9 +44,14 @@ export default function useProfile({ setSelected }: any) {
 
   useEffect(() => {
     setUsers(usersStatus?.data?.slice(0, MAX_LIMIT));
-    setUsersExtra(
-      usersExtraStatus?.data?.slice(MAX_LIMIT, usersStatus?.data?.length),
-    );
+    if (usersStatus?.data?.length > MAX_LIMIT) {
+      setUsersExtra(
+        usersExtraStatus?.data?.slice(MAX_LIMIT, usersStatus?.data?.length),
+      );
+    }
+    if (searchBy?.length) {
+      setUsersExtra(usersExtraStatus?.data);
+    }
   }, [usersStatus?.data, usersExtraStatus?.data]);
 
   return {
@@ -55,5 +65,6 @@ export default function useProfile({ setSelected }: any) {
     id,
     debouncedSearch,
     handleClose,
+    usersExtraStatus,
   };
 }

@@ -11,8 +11,12 @@ import { debouncedSearch } from '@/utils';
 import { useGetProductsQuery } from '@/services/superAdmin/billing-invoices';
 import { enqueueSnackbar } from 'notistack';
 import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { useRouter } from 'next/router';
+import { AUTH } from '@/constants';
 
 const useSignup = () => {
+  const { push } = useRouter();
+
   const [isStepComplete, setIsStepComplete] = useState<boolean>(false);
   const methodsSignup = useForm({
     resolver: yupResolver(validationSchema),
@@ -73,6 +77,9 @@ const useSignup = () => {
     try {
       const response: any = await signUpValue({ user }).unwrap();
       if (response?.data) {
+        // bypassing the ig varification in future routing should be done on successful varification
+        push(AUTH.LOGIN);
+
         try {
           await authCompanyVerification({ email: { email: email } }).unwrap();
         } catch (error: any) {

@@ -20,7 +20,6 @@ const PlanCard: FC<PlanCardI> = ({
   billOn,
   type,
   handleBillingDetail,
-  id,
   plan,
 }) => {
   const dispatch: any = useAppDispatch();
@@ -28,7 +27,7 @@ const PlanCard: FC<PlanCardI> = ({
   return (
     <Box sx={styles?.planCard}>
       <Box sx={styles?.planStatus}>
-        {status === 'active' && <Box sx={styles?.planActiveChip}>Active</Box>}
+        {plan?.orgPlanId && <Box sx={styles?.planActiveChip}>Active</Box>}
       </Box>
 
       <Box sx={styles?.planIcon}>{icon}</Box>
@@ -59,38 +58,59 @@ const PlanCard: FC<PlanCardI> = ({
         direction={'row'}
         sx={styles?.planActions}
       >
-        <PermissionsGuard
-          permissions={[
-            ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_VIEW_BILLING_DETAILS,
-          ]}
-        >
-          <Button variant="contained" onClick={() => handleBillingDetail(id)}>
-            Billing Details
-          </Button>
-        </PermissionsGuard>
-        <PermissionsGuard
-          permissions={[
-            ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_MANAGE_PLAN,
-          ]}
-        >
+        {plan?.orgPlanId ? (
+          <>
+            <PermissionsGuard
+              permissions={[
+                ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_VIEW_BILLING_DETAILS,
+              ]}
+            >
+              <Button
+                variant="contained"
+                onClick={() => handleBillingDetail(plan?.orgPlanId)}
+              >
+                Billing Details
+              </Button>
+            </PermissionsGuard>
+            <PermissionsGuard
+              permissions={[
+                ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS?.SUBSCRIPTION_MANAGE_PLAN,
+              ]}
+            >
+              <Link
+                href={{
+                  pathname: `${orgAdminSubcriptionInvoices?.manage_plan}`,
+                }}
+              >
+                <Button
+                  variant="outlined"
+                  sx={styles?.buttonOutlineGrey}
+                  onClick={() => {
+                    dispatch(setSelectedPlanData(plan));
+                  }}
+                >
+                  Manage Plan
+                </Button>
+              </Link>
+            </PermissionsGuard>
+          </>
+        ) : (
           <Link
             href={{
-              pathname: `${orgAdminSubcriptionInvoices.manage_plan}`,
-              // query: { data: JSON?.stringify(plan) },
+              pathname: `${orgAdminSubcriptionInvoices?.choose_plan}`,
             }}
-            // as={`${orgAdminSubcriptionInvoices.manage_plan}`}
           >
             <Button
-              variant="outlined"
-              sx={styles?.buttonOutlineGrey}
+              variant="contained"
               onClick={() => {
                 dispatch(setSelectedPlanData(plan));
               }}
+              fullWidth
             >
-              Manage Plan
+              Subscribe
             </Button>
           </Link>
-        </PermissionsGuard>
+        )}
       </Stack>
     </Box>
   );

@@ -3,9 +3,8 @@ import { useTheme } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { defaultValues, validationSchema } from './DetailTaskDrawer.data';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
 import { usePatchTaskByIdMutation } from '@/services/airServices/tickets/single-ticket-details/tasks';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
 
 export const useDetailTaskDrawer = (props: any) => {
   const { isDrawerOpen, taskDetail, onClose } = props;
@@ -17,18 +16,14 @@ export const useDetailTaskDrawer = (props: any) => {
   const [patchMutation, { isLoading }] = usePatchTaskByIdMutation();
   const onSubmitDrawer = async (data: any) => {
     try {
-      const res: any = await patchMutation({
+      await patchMutation({
         data,
         id: taskDetail?._id,
       })?.unwrap();
-      enqueueSnackbar(res?.message ?? 'Task updated successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      successSnackbar('Task updated successfully');
       onClose(false);
     } catch (error: any) {
-      enqueueSnackbar(error?.data?.error ?? 'An error occurred', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar(error?.data?.message);
     }
   };
   useEffect(() => {

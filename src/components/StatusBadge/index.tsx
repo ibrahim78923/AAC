@@ -46,9 +46,15 @@ const StatusBadge = (props: BadgeStatusI) => {
         colors.bgColor = theme?.palette?.custom?.bluish_gray;
         colors.color = theme?.palette?.common?.white;
         break;
+      case 'PAID':
+      case 'PUBLISHED':
+      case 'DRAFT':
+        colors.bgColor = theme?.palette?.grey[400];
+        colors.color = theme?.palette?.slateBlue?.main;
+        break;
       default:
         colors.bgColor = theme?.palette?.custom?.bluish_gray;
-        colors.color = theme?.palette?.success?.main;
+        colors.color = theme?.palette?.common?.white;
     }
     return colors;
   };

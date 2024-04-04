@@ -22,6 +22,9 @@ export const User = () => {
     setPageLimit,
     setPage,
     metaData,
+    methods,
+    handleSubmit,
+    submit,
   } = useUser();
   return (
     <Box>
@@ -29,8 +32,18 @@ export const User = () => {
         selectedUserList={selectedUserList}
         setSelectedUserList={setSelectedUserList}
         setSearch={setSearch}
+        methods={methods}
       />
       <Box mt={'0.75rem'}>
+        <UpsertUser
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+          title={'User View'}
+          okText={'Save'}
+          methods={methods}
+          handleSubmit={handleSubmit}
+          submit={submit}
+        />
         <PermissionsGuard
           permissions={[
             AIR_OPERATIONS_USER_MANAGEMENT_USERS_PERMISSIONS?.USER_LIST,
@@ -53,12 +66,6 @@ export const User = () => {
             pageLimit={metaData?.limit}
           />
         </PermissionsGuard>
-        <UpsertUser
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
-          title={'User View'}
-          okText={'Save'}
-        />
       </Box>
     </Box>
   );

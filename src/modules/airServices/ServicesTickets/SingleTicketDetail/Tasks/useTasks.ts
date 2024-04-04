@@ -18,10 +18,13 @@ export const useTasks = () => {
   const getTaskParam = new URLSearchParams();
   getTaskParam?.append('page', page + '');
   getTaskParam?.append('limit', pageLimit + '');
+  getTaskParam?.append('meta', true + '');
+
   const getTaskParameter = {
     queryParams: getTaskParam,
     id: ticketId,
   };
+
   const [
     lazyGetTicketsTrigger,
     { data, isLoading, isError, isFetching, isSuccess },

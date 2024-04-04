@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
 
 import Search from '@/components/Search';
 import { AlertModals } from '@/components/AlertModals';
@@ -15,13 +15,11 @@ import { styles } from '../Associations.style';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_DEALS_PERMISSIONS } from '@/constants/permission-keys';
 
-const Contacts = ({ contactsData, dealId }: any) => {
+const Contacts = ({ contactsData, dealId, isLoading, handleSearch }: any) => {
   const {
     theme,
     isOpenAlert,
     setIsOpenAlert,
-    searchName,
-    setSearchName,
     openDrawer,
     setOpenDrawer,
     handleCloseAlert,
@@ -41,13 +39,18 @@ const Contacts = ({ contactsData, dealId }: any) => {
     >
       <Grid container spacing={2}>
         <Grid item md={4} xs={12} sx={styles?.countBox}>
-          <Typography sx={styles?.associationCount(theme)} variant="body3">
-            {contactsData?.length < 10
-              ? `0${contactsData?.length}`
-              : contactsData?.length}
-          </Typography>
-
-          <Typography variant="h5">Contacts</Typography>
+          {isLoading ? (
+            <Skeleton variant="text" height={40} width={120} />
+          ) : (
+            <>
+              <Typography sx={styles?.associationCount(theme)} variant="body3">
+                {contactsData?.length < 10
+                  ? `0${contactsData?.length}`
+                  : contactsData?.length}
+              </Typography>
+              <Typography variant="h5">Contacts</Typography>
+            </>
+          )}
         </Grid>
         <Grid item md={8} xs={12}>
           <Box
@@ -59,10 +62,8 @@ const Contacts = ({ contactsData, dealId }: any) => {
             }}
           >
             <Search
-              searchBy={searchName}
-              setSearchBy={setSearchName}
-              label="Search By Name"
-              size="medium"
+              placeholder="Search By Name"
+              onChange={({ target }) => handleSearch(target.value)}
             />
             <PermissionsGuard
               permissions={[
@@ -99,14 +100,16 @@ const Contacts = ({ contactsData, dealId }: any) => {
           dealId={dealId}
         />
       )}
-      <AlertModals
-        message={"You're about to remove a record. Are you Sure?"}
-        type={'delete'}
-        open={isOpenAlert}
-        handleClose={handleCloseAlert}
-        handleSubmitBtn={deleteContactHandler}
-        isLoading={contactLoading}
-      />
+      {isOpenAlert && (
+        <AlertModals
+          message={"You're about to remove a record. Are you Sure?"}
+          type={'delete'}
+          open={isOpenAlert}
+          handleClose={handleCloseAlert}
+          handleSubmitBtn={deleteContactHandler}
+          loading={contactLoading}
+        />
+      )}
     </Box>
   );
 };

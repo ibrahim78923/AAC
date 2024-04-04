@@ -1,10 +1,11 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
+import { ROLES } from '@/constants/strings';
 import {
   useGetCategoriesAgentDropdownQuery,
   useGetCategoriesRequesterDropdownQuery,
   usePatchServiceCatalogMutation,
 } from '@/services/airServices/settings/service-management/service-catalog';
-import { enqueueSnackbar } from 'notistack';
+import { errorSnackbar, successSnackbar } from '@/utils/api';
+
 import { useState } from 'react';
 const useVisibilityAction = (props: any) => {
   const { handleCloseVisibility, setAnchorEl, id } = props;
@@ -28,20 +29,11 @@ const useVisibilityAction = (props: any) => {
 
     const patchServiceCatalogParameter = { body };
     try {
-      const response = await patchServiceCatalogTrigger(
-        patchServiceCatalogParameter,
-      )?.unwrap();
+      await patchServiceCatalogTrigger(patchServiceCatalogParameter)?.unwrap();
 
-      enqueueSnackbar(
-        response?.data?.message ?? 'Service Visibility Updated ',
-        {
-          variant: NOTISTACK_VARIANTS?.SUCCESS,
-        },
-      );
-    } catch (error) {
-      enqueueSnackbar('Something went wrong', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      successSnackbar('Service Visibility Updated ');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
     onClose?.();
   };
@@ -50,10 +42,10 @@ const useVisibilityAction = (props: any) => {
     setAnchorEl?.(false);
   };
   const apiQueryRequester = useGetCategoriesRequesterDropdownQuery({
-    params: { limit: 50, role: 'ORG_REQUESTER' },
+    params: { limit: 50, role: ROLES?.ORG_REQUESTER },
   });
   const apiQueryAgent = useGetCategoriesAgentDropdownQuery({
-    params: { limit: 50, role: 'ORG_AGENT' },
+    params: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
   });
 
   return {

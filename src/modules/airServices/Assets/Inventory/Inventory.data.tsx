@@ -1,7 +1,7 @@
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 import { AIR_SERVICES, DATE_FORMAT } from '@/constants';
 import { ASSET_IMPACT, ASSET_TYPE, TIME_PERIODS } from '@/constants/strings';
-import { fullName } from '@/utils/avatarUtils';
+import { fullName, truncateText } from '@/utils/avatarUtils';
 import { Checkbox, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
@@ -179,7 +179,7 @@ export const inventoryListsColumnsFunction: any = (
         color="custom.bright"
         sx={{ cursor: 'pointer' }}
       >
-        {info?.getValue()}
+        {truncateText(info?.getValue())}
       </Typography>
     ),
   },
@@ -188,14 +188,14 @@ export const inventoryListsColumnsFunction: any = (
     id: 'assetType',
     header: 'Asset Type',
     isSortable: true,
-    cell: (info: any) => info?.getValue()?.name ?? '--',
+    cell: (info: any) => truncateText(info?.getValue()?.name),
   },
   {
     accessorFn: (row: any) => row?.locationDetails,
     id: 'locationId',
     isSortable: true,
     header: 'Location',
-    cell: (info: any) => info?.getValue()?.locationName ?? '--',
+    cell: (info: any) => truncateText(info?.getValue()?.locationName),
   },
   {
     accessorFn: (row: any) => row?.userDetails,
@@ -210,7 +210,7 @@ export const inventoryListsColumnsFunction: any = (
     id: 'departmentId',
     isSortable: true,
     header: 'Department',
-    cell: (info: any) => info?.getValue()?.name ?? '--',
+    cell: (info: any) => truncateText(info?.getValue()?.name),
   },
   {
     accessorFn: (row: any) => row?.impact,

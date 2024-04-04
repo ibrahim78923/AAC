@@ -40,7 +40,7 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
     }),
     postSaveDraftWorkflow: builder?.mutation({
       query: (body) => ({
-        url: OPERATION?.SAVE_DRAFT_WORKFLOW,
+        url: OPERATION?.SAVE_WORKFLOW,
         method: 'POST',
         body,
       }),
@@ -86,6 +86,13 @@ export const salesWorkflowAPI = baseAPI?.injectEndpoints({
       transformResponse,
       providesTags: [TAG_ONE],
     }),
+    cloneWorkflow: builder?.mutation({
+      query: (id) => ({
+        url: `${OPERATION?.CLONE_WORKFLOW}/${id}`,
+        method: 'POST',
+      }),
+      invalidatesTags: [TAG],
+    }),
   }),
 });
 
@@ -99,4 +106,5 @@ export const {
   useLazyGetProductsDropdownListQuery,
   usePostSaveDraftWorkflowMutation,
   useLazyGetUserDropdownListQuery,
+  useCloneWorkflowMutation,
 } = salesWorkflowAPI;

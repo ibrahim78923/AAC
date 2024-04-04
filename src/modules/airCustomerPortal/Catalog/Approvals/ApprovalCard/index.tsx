@@ -111,18 +111,20 @@ export const ApprovalCard = (props: any) => {
             <Button
               variant="contained"
               color="success"
-              onClick={() =>
-                setApproval?.({ ...data, state: TICKET_APPROVALS?.APPROVE })
-              }
+              onClick={(e: any) => {
+                e?.stopPropagation();
+                setApproval?.({ ...data, state: TICKET_APPROVALS?.APPROVE });
+              }}
             >
               Approve
             </Button>
             <Button
               variant="contained"
               color="error"
-              onClick={() =>
-                setApproval?.({ ...data, state: TICKET_APPROVALS?.REJECT })
-              }
+              onClick={(e: any) => {
+                e?.stopPropagation();
+                setApproval?.({ ...data, state: TICKET_APPROVALS?.REJECT });
+              }}
             >
               Reject
             </Button>

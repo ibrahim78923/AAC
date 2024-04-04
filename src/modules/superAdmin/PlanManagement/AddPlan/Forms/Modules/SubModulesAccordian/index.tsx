@@ -12,11 +12,24 @@ import { RHFMultiCheckbox } from '@/components/ReactHookForm';
 import { FormProvider } from '@/components/ReactHookForm';
 import { v4 as uuidv4 } from 'uuid';
 
-const SubModulesAccordion = ({ subModules, methods, handleSubmit }: any) => {
+const SubModulesAccordion = ({
+  subModules,
+  methods,
+  handleSubmit,
+  selectedSubModule,
+  handleChangeSubModule,
+}: any) => {
   return (
     <>
       {subModules?.map((item: any) => (
-        <Accordion sx={{ p: 0 }} key={uuidv4()}>
+        <Accordion
+          sx={{ p: 0 }}
+          key={uuidv4()}
+          expanded={selectedSubModule === item?.name?.toLowerCase()}
+          onChange={() => {
+            handleChangeSubModule(item?.name?.toLowerCase());
+          }}
+        >
           <AccordionSummary
             aria-controls="panel2a-content"
             id="panel2a-header"
@@ -33,7 +46,7 @@ const SubModulesAccordion = ({ subModules, methods, handleSubmit }: any) => {
                   name="permissionSlugs"
                   options={item?.permissions?.map((item: any) => ({
                     label: item?.name,
-                    value: item?.slug,
+                    value: `${item?.productId}:${item?.slug}`,
                   }))}
                   GridView={3}
                 />

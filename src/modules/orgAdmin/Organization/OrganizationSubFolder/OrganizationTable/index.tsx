@@ -15,7 +15,6 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import {
   FormProvider,
   RHFCheckbox,
-  RHFDropZone,
   RHFSelect,
   RHFTextField,
 } from '@/components/ReactHookForm';
@@ -34,7 +33,6 @@ import { AddPenIcon } from '@/assets/icons';
 import { v4 as uuidv4 } from 'uuid';
 
 import { styles } from './OrganizationTable.style';
-import CommonModal from '@/components/CommonModal';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { ORG_ADMIN_ORGANIZATION_PERMISSIONS } from '@/constants/permission-keys';
 import useAuth from '@/hooks/useAuth';
@@ -59,8 +57,6 @@ const OrganizationTable = () => {
     getRowValues,
     isGetRowValues,
     deleteOrganizationCompany,
-    imageHandler,
-    setImageHandler,
     value,
     setValue,
     drawerHeading,
@@ -75,6 +71,9 @@ const OrganizationTable = () => {
     handlePageChange,
     isLoading,
     addressLength,
+    handleImageChange,
+    imagePreview,
+    reset,
   } = useOrganizationTable();
   const { user }: any = useAuth();
 
@@ -88,6 +87,11 @@ const OrganizationTable = () => {
         isDrawerOpen={isOpenDrawer}
         onClose={() => {
           setIsOpenDrawer(false);
+          if (drawerHeading === 'Edit Company') {
+            null;
+          } else {
+            reset();
+          }
         }}
         title={`${drawerHeading}`}
         okText={drawerHeading === 'Edit Company' ? 'Update' : 'Add'}
@@ -110,20 +114,36 @@ const OrganizationTable = () => {
                     boxShadow:
                       '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
                   }}
-                ></Box>
-                <Box
-                  onClick={() => {
-                    setImageHandler(true);
-                  }}
-                  sx={{
-                    position: 'absolute',
-                    right: '165px',
-                    bottom: 0,
-                    cursor: 'pointer',
-                  }}
                 >
-                  <AddPenIcon />
+                  {imagePreview && (
+                    <Image
+                      src={imagePreview}
+                      alt="selected"
+                      width={120}
+                      height={120}
+                      style={{ borderRadius: '50%' }}
+                    />
+                  )}
                 </Box>
+                <input
+                  hidden={true}
+                  id="upload-group-image"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e: any) => handleImageChange(e)}
+                />
+                <label htmlFor="upload-group-image">
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      right: '165px',
+                      bottom: 0,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <AddPenIcon />
+                  </Box>
+                </label>
               </Box>
             </center>
             <Typography variant="h5">Products</Typography>
@@ -216,18 +236,7 @@ const OrganizationTable = () => {
                 </Grid>
               ))}
             </Grid>
-            <CommonModal
-              open={imageHandler}
-              handleClose={() => setImageHandler(false)}
-              handleCancel={() => setImageHandler(false)}
-              handleSubmit={() => setImageHandler(false)}
-              title="Upload Logo"
-              footer={true}
-              okText="Add"
-              cancelText="Cancel"
-            >
-              <RHFDropZone name="logoUrl" />
-            </CommonModal>
+
             {isToggled && (
               <Grid container spacing={2} sx={{ paddingTop: '1rem' }}>
                 <Grid item xs={12}>
@@ -236,6 +245,7 @@ const OrganizationTable = () => {
                     label="Flat/Unit"
                     fullWidth={true}
                     select={false}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -244,6 +254,7 @@ const OrganizationTable = () => {
                     label="Building Name"
                     fullWidth={true}
                     select={false}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -252,6 +263,7 @@ const OrganizationTable = () => {
                     label="Building Number"
                     fullWidth={true}
                     select={false}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -260,6 +272,7 @@ const OrganizationTable = () => {
                     label="Street Name"
                     fullWidth={true}
                     select={false}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -268,19 +281,14 @@ const OrganizationTable = () => {
                     label="Town/City"
                     fullWidth={true}
                     select={false}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <RHFSelect
-                    name="country"
-                    label="Country"
-                    fullWidth={true}
-                    select={true}
-                    options={[
-                      { value: 'United Kingdom', label: 'United Kingdom' },
-                      { value: 'Pakistan', label: 'Pakistan' },
-                    ]}
-                  />
+                  <RHFSelect name="country" label="Country" size="small">
+                    <option value="Pakistan">{'Pakistan'}</option>
+                    <option value="Uk">{'Uk'}</option>
+                  </RHFSelect>
                 </Grid>
               </Grid>
             )}

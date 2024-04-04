@@ -42,8 +42,8 @@ export const useRejectStatus = (props: any) => {
     try {
       await patchContractRejectTrigger(putContractSubmitReject)?.unwrap();
       successSnackbar('Contract was  Rejected');
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
     }
     handleClose?.();
   };

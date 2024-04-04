@@ -9,14 +9,18 @@ import { useUserHeader } from './useUserHeader';
 export const UserHeader = (props: any) => {
   const { selectedUserList } = props;
   const {
-    isDrawerOpen,
-    setIsDrawerOpen,
+    isAddDrawerOpen,
+    setIsAddDrawerOpen,
     deleteModal,
     setDeleteModal,
     userDropdownOptions,
     submitDeleteModal,
     search,
     setSearch,
+    methods,
+    handleSubmit,
+    submit,
+    loading,
   } = useUserHeader(props);
 
   return (
@@ -43,15 +47,18 @@ export const UserHeader = (props: any) => {
         <Button
           startIcon={<CirclePlusIcon />}
           variant="contained"
-          onClick={() => setIsDrawerOpen(true)}
+          onClick={() => setIsAddDrawerOpen(true)}
         >
           Add User
         </Button>
         <UpsertUser
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
+          isDrawerOpen={isAddDrawerOpen}
+          setIsDrawerOpen={setIsAddDrawerOpen}
           title={'Add User'}
           okText={'Add'}
+          methods={methods}
+          handleSubmit={handleSubmit}
+          submit={submit}
         />
         {deleteModal && (
           <AgentConversionDelete
@@ -61,6 +68,7 @@ export const UserHeader = (props: any) => {
               setDeleteModal(false);
             }}
             submitDeleteModal={submitDeleteModal}
+            loading={loading}
           />
         )}
       </Box>

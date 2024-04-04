@@ -33,6 +33,7 @@ const AddPlanForm = ({
   selectProductSuite,
   setSelectProductSuite,
   isSuccess,
+  editPlan,
 }: any) => {
   const {
     formDefaultValuesFunction,
@@ -86,12 +87,13 @@ const AddPlanForm = ({
             item
             xs={12}
             md={item?.md}
-            key={uuidv4()}
+            // eslint-disable-next-line
+            key={index}
             sx={{
               paddingTop: (index === 0 || index === 1) && '0px !important',
             }}
           >
-            {selectProductSuite === 'CRM' && index === 0 && (
+            {selectProductSuite === 'CRM' && index === 0 && !isSuccess && (
               <RHFMultiSearchableSelect
                 size="small"
                 name={planLabelRender}
@@ -101,13 +103,24 @@ const AddPlanForm = ({
               />
             )}
 
+            {selectProductSuite === 'CRM' && index === 0 && isSuccess && (
+              <>
+                <label style={{ marginTop: '20px' }}>Suite</label>
+                <TextField
+                  value={editPlan?.planProducts?.map((item: any) => item?.name)}
+                  disabled={isSuccess}
+                  fullWidth
+                />
+              </>
+            )}
+
             {selectProductSuite === 'product' && index === 0 && (
               <RHFSelect
                 name={planLabelRender}
                 label={planNameRender}
                 size="small"
-                required={true}
                 disabled={isSuccess}
+                required={true}
               >
                 {productsOptions?.map((option: any) => (
                   <option key={uuidv4()} value={option?.value}>
@@ -124,14 +137,21 @@ const AddPlanForm = ({
                   <Autocomplete
                     value={crmValue}
                     onChange={(event, newValue) => {
-                      if (typeof newValue === 'string') {
+                      if (
+                        typeof newValue === 'string' &&
+                        !/^\d+$/.test(newValue)
+                      ) {
                         setCrmValue({
-                          label: newValue,
+                          label: newValue?.toLowerCase(),
                         });
-                      } else if (newValue && newValue?.inputValue) {
+                      } else if (
+                        newValue &&
+                        newValue?.inputValue &&
+                        !/^\d+$/.test(newValue?.inputValue)
+                      ) {
                         // Create a new value from the user input
                         setCrmValue({
-                          label: newValue?.inputValue,
+                          label: newValue?.inputValue?.toLowerCase(),
                         });
                       } else {
                         setCrmValue(newValue);
@@ -143,11 +163,17 @@ const AddPlanForm = ({
                       const { inputValue } = params;
                       // Suggest the creation of a new value
                       const isExisting = options?.some(
-                        (option) => inputValue === option.label,
+                        (option) =>
+                          inputValue?.toLowerCase() ===
+                          option?.label?.toLowerCase(),
                       );
-                      if (inputValue !== '' && !isExisting) {
+                      if (
+                        inputValue !== '' &&
+                        !isExisting &&
+                        !/^\d+$/.test(inputValue)
+                      ) {
                         filtered?.push({
-                          inputValue,
+                          inputValue: inputValue?.toLowerCase(),
                           label: `Add "${inputValue}"`,
                         });
                       }

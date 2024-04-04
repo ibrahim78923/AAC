@@ -6,7 +6,6 @@ import useUpdateQuote from '../../useUpdateQuote';
 
 const BuyerCompany = () => {
   const { dataGetQuoteById } = useUpdateQuote();
-
   return (
     <>
       <Box sx={styles?.card}>
@@ -15,23 +14,26 @@ const BuyerCompany = () => {
             OM
           </Avatar>
           <Box>
-            <Typography variant="h6" sx={styles?.title}>
-              {dataGetQuoteById?.data?.name ?? 'N/A'}
-            </Typography>
-            <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {dataGetQuoteById?.data?.deal[0]?.companies[0]?.address ?? 'N/A'}
-            </Typography>
-            <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {` ${dataGetQuoteById?.data?.deal[0]?.companies[0]?.city} | ${dataGetQuoteById?.data?.deal[0]?.companies[0]?.postalCode}`}
-            </Typography>
-            <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {dataGetQuoteById?.data?.deal[0]?.companies[0]?.owner
-                ?.phoneNumber ?? 'N/A'}
-            </Typography>
-            <Typography variant="body3" sx={styles?.infoSubtitle}>
-              {dataGetQuoteById?.data?.deal[0]?.companies[0]?.owner?.email ??
-                'N/A'}
-            </Typography>
+            {dataGetQuoteById?.data?.buyerCompany?.map((item: any) => (
+              <>
+                <Typography variant="h6" sx={styles?.title}>
+                  {item?.name ?? 'N/A'}
+                </Typography>
+                <Typography variant="body3" sx={styles?.infoSubtitle}>
+                  {item?.address ?? 'N/A'}
+                </Typography>
+
+                <Typography variant="body3" sx={styles?.infoSubtitle}>
+                  {` ${item?.city} | ${item?.postalCode}`}
+                </Typography>
+                <Typography variant="body3" sx={styles?.infoSubtitle}>
+                  {item?.phoneNumber ?? 'N/A'}
+                </Typography>
+                <Typography variant="body3" sx={styles?.infoSubtitle}>
+                  {item?.email ?? 'N/A'}
+                </Typography>
+              </>
+            ))}
           </Box>
         </Box>
       </Box>

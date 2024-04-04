@@ -1,9 +1,10 @@
 import { Permissions } from '@/constants/permissions';
 import Layout from '@/layout';
-import Invoices from '@/modules/airSales/Invoices';
+import CreateInvoice from '@/modules/airSales/Invoices/CreateInvoice';
+// import CreateInvoice from '@/modules/airSales/Invoices/CreateInvoice';
 
 const CreateInvoicesPage = () => {
-  return <Invoices />;
+  return <CreateInvoice />;
 };
 
 export default CreateInvoicesPage;

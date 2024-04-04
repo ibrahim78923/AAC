@@ -1,11 +1,62 @@
-import CreateRules from './CreateRules';
+import { Box, Grid, Skeleton } from '@mui/material';
+import { FormProvider } from '@/components/ReactHookForm';
+import { useRulesWorkflow } from './useRulesWorkflow';
+import { WorkflowConditions } from './WorkflowConditions';
+import { WorkflowHeader } from './WorkflowHeader';
+import { WorkflowRunAndTrigger } from './WorkflowRunAndTrigger';
+import { WorkflowActionExecuted } from './WorkflowActionExecuted';
+import { rulesWorkflowDataArray } from './UpsertRulesWorkflow.data';
 
-const UpsertSupervisorRules = () => {
+export const UpsertSupervisorRules = () => {
+  const {
+    rulesMethod,
+    handleFormSubmit,
+    register,
+    handleSubmit,
+    palette,
+    moduleType,
+    control,
+    watch,
+    setValue,
+    postWorkflowProgress,
+    isLoading,
+    isFetching,
+    handleSaveAsDraft,
+  } = useRulesWorkflow();
+  if (isLoading || isFetching) return <Skeleton />;
   return (
-    <>
-      <CreateRules />
-    </>
+    <Box>
+      <FormProvider
+        methods={rulesMethod}
+        onSubmit={handleSubmit(handleFormSubmit)}
+      >
+        <WorkflowHeader
+          postWorkflowProgress={postWorkflowProgress}
+          handleSaveAsDraft={handleSaveAsDraft}
+        />
+        <Grid container spacing={2}>
+          {rulesWorkflowDataArray?.map((item: any) => (
+            <Grid item xs={12} md={item?.md} key={item?.id}>
+              <item.component {...item?.componentProps} size={'small'} />
+            </Grid>
+          ))}
+        </Grid>
+        <Grid container>
+          <WorkflowRunAndTrigger
+            palette={palette}
+            register={register}
+            watch={watch}
+          />
+        </Grid>
+        <WorkflowConditions
+          control={control}
+          moduleType={moduleType}
+          watch={watch}
+          setValue={setValue}
+        />
+        <WorkflowActionExecuted watch={watch} setValue={setValue} />
+      </FormProvider>
+    </Box>
   );
 };
-
 export default UpsertSupervisorRules;

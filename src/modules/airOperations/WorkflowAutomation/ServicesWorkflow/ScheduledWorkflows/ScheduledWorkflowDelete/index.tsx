@@ -1,9 +1,9 @@
 import { AlertModals } from '@/components/AlertModals';
-import { ALERT_MODALS_TYPE, NOTISTACK_VARIANTS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
+import { ALERT_MODALS_TYPE } from '@/constants/strings';
 
 export const ScheduledWorkflowDelete = (props: any) => {
-  const { deleteWorkflow, setDeleteWorkflow } = props;
+  const { deleteWorkflow, setDeleteWorkflow, handleDelete, deleteStatus } =
+    props;
   return (
     <>
       <AlertModals
@@ -11,12 +11,9 @@ export const ScheduledWorkflowDelete = (props: any) => {
         handleClose={() => setDeleteWorkflow(false)}
         message="Are you sure you want to delete this item?"
         type={ALERT_MODALS_TYPE?.DELETE}
-        handleSubmitBtn={() => {
-          enqueueSnackbar('Workflow deleted successfully', {
-            variant: NOTISTACK_VARIANTS?.SUCCESS,
-          });
-          setDeleteWorkflow(false);
-        }}
+        handleSubmitBtn={handleDelete}
+        loading={deleteStatus?.isLoading}
+        disableCancelBtn={deleteStatus?.isLoading}
       />
     </>
   );

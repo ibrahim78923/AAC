@@ -7,7 +7,7 @@ import {
 } from './UpdateWorkloadTask.data';
 import { useEffect } from 'react';
 import {
-  useLazyGetAssignToQuery,
+  useLazyGetAssignToAgentsQuery,
   useLazyGetDepartmentDropdownQuery,
   usePatchTaskMutation,
 } from '@/services/airServices/workload';
@@ -19,11 +19,19 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
     defaultValues: getWorkloadDefaultValues?.(dataGet?.extendedProps?.data),
   });
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, getValues } = methods;
 
   const [patchTaskTrigger] = usePatchTaskMutation();
 
   const onSubmit = async (data: any) => {
+    const { plannedEffort } = getValues();
+    if (plannedEffort?.trim() !== '' && !/^\d+h\d+m$/?.test(plannedEffort)) {
+      errorSnackbar(
+        'Invalid format for Planned Effort. Please use format like 1h10m',
+      );
+      return;
+    }
+
     const patchTaskParameter = {
       data: {
         ...data,
@@ -39,8 +47,8 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
       await patchTaskTrigger(patchTaskParameter)?.unwrap();
       successSnackbar('Task Updated Successfully');
       onClose(false);
-    } catch (error) {
-      errorSnackbar();
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
       onClose(false);
     }
   };
@@ -50,7 +58,7 @@ export const useUpdateWorkloadTask = ({ onClose, dataGet }: any) => {
   }, [dataGet, reset]);
 
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
-  const apiQueryAssignTo = useLazyGetAssignToQuery();
+  const apiQueryAssignTo = useLazyGetAssignToAgentsQuery();
 
   const workloadDataArray = getWorkloadDataArray({
     apiQueryDepartment,

@@ -18,6 +18,7 @@ import {
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
+import { useCloneServicesWorkflowMutation } from '@/services/airOperations/workflow-automation/services-workflow';
 
 export const useTickets = () => {
   const theme = useTheme();
@@ -31,8 +32,13 @@ export const useTickets = () => {
   const [switchLoading, setSwitchLoading] = useState<any>({});
   const EDIT_WORKFLOW = 'edit';
   const selectedId = selectedAction?.map((item: any) => item?._id);
-  const [getWorkflowListTrigger, { data, isLoading, isFetching, isSuccess }] =
-    useLazyGetWorkflowListQuery();
+  const [
+    getWorkflowListTrigger,
+    { data, isLoading, isFetching, isSuccess, isError },
+  ] = useLazyGetWorkflowListQuery();
+
+  const totalRecords = data?.data?.workFlows;
+
   const workflowParams = {
     page,
     limit,
@@ -40,6 +46,7 @@ export const useTickets = () => {
     module: SCHEMA_KEYS?.TICKETS,
     type: MODULES?.EVENT_BASE,
   };
+
   const handleWorkflow = async () => {
     await getWorkflowListTrigger(workflowParams);
   };
@@ -98,16 +105,34 @@ export const useTickets = () => {
     if (actionType === ACTIONS_TYPES?.DELETE) {
       setDeleteWorkflow(true);
     } else if (actionType === ACTIONS_TYPES?.EDIT) {
-      router?.push({
-        pathname: AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW,
-        query: {
-          action: EDIT_WORKFLOW,
-          id: selectedId,
-        },
-      });
+      if (selectedAction?.length > 1) {
+        errorSnackbar(`Can't update multiple records`);
+      } else {
+        router?.push({
+          pathname: AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW,
+          query: {
+            action: EDIT_WORKFLOW,
+            id: selectedId,
+          },
+        });
+      }
     }
   };
-  const dropdownOptions = EventBaseWorkflowActionsDropdown(handleActionClick);
+
+  const [workflowCloneTrigger] = useCloneServicesWorkflowMutation();
+  const handleCloneWorkflow = async () => {
+    try {
+      await workflowCloneTrigger(selectedId).unwrap();
+      successSnackbar('Workflow Clone Successfully');
+    } catch (error) {
+      errorSnackbar();
+    }
+  };
+
+  const dropdownOptions = EventBaseWorkflowActionsDropdown(
+    handleActionClick,
+    handleCloneWorkflow,
+  );
   return {
     ticketsListsColumns,
     isLoading,
@@ -130,5 +155,7 @@ export const useTickets = () => {
     dropdownOptions,
     listData,
     setSelectedAction,
+    totalRecords,
+    isError,
   };
 };

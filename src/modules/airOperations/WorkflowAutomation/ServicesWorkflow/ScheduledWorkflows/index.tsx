@@ -1,10 +1,10 @@
 import HorizontalTabs from '@/components/Tabs/HorizontalTabs';
 import { Box, useTheme } from '@mui/material';
-import { scheduledWorkflowTabsData } from './ScheduledWorkflow.data';
 import Tickets from './Tickets';
 import Assets from './Assets';
 import Tasks from './Tasks';
 import Meetings from './Meetings';
+import { scheduledWorkflowTabsData } from './ScheduledWorkflow.data';
 
 const ScheduledWorkflows = () => {
   const theme = useTheme();

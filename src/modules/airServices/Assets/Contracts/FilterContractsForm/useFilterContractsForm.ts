@@ -34,10 +34,10 @@ export const useFilterContractsForm = (props: any) => {
       closeInventoryFilterForm();
       return;
     }
-    setPage(1);
-    setContractFilterLists(contractFilteredFields);
+    setPage?.(1);
+    setContractFilterLists?.(contractFilteredFields);
     closeInventoryFilterForm();
-    setIsDrawerOpen(false);
+    setIsDrawerOpen?.(false);
   };
   const closeInventoryFilterForm = () => {
     reset();
@@ -46,7 +46,7 @@ export const useFilterContractsForm = (props: any) => {
 
   const resetContractFilterForm = async () => {
     if (!!Object?.keys(contractFilterLists)?.length) {
-      setContractFilterLists({});
+      setContractFilterLists?.({});
     }
     reset();
     setIsDrawerOpen?.(false);

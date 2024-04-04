@@ -1,25 +1,24 @@
 import { Checkbox } from '@mui/material';
-import { enqueueSnackbar } from 'notistack';
-import { NOTISTACK_VARIANTS, REQUESTORS_STATUS } from '@/constants/strings';
+import { REQUESTORS_STATUS } from '@/constants/strings';
 import { AntSwitch } from '@/components/AntSwitch';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { fullName } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
+import { warningSnackbar } from '@/utils/api';
 
 export const salesWorkflowActionDropdownDynamic = (
   selectedSalesWorkflowLists: any,
   setDeleteWorkflow: any,
   handleEditWorkflow: any,
+  handleClone: any,
 ) => [
   {
     id: 1,
     title: 'Edit',
     handleClick: (closeMenu: any) => {
       if (selectedSalesWorkflowLists?.length > 1) {
-        enqueueSnackbar('Please select only one workflow', {
-          variant: NOTISTACK_VARIANTS?.WARNING,
-        });
+        warningSnackbar('Please select only one workflow');
         closeMenu?.();
         return;
       }
@@ -34,9 +33,12 @@ export const salesWorkflowActionDropdownDynamic = (
     id: 2,
     title: 'Clone',
     handleClick: (closeMenu: any) => {
-      enqueueSnackbar('Workflow clone successfully', {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      });
+      if (selectedSalesWorkflowLists?.length > 1) {
+        warningSnackbar('Please select only one workflow to proceed.');
+        closeMenu?.();
+        return;
+      }
+      handleClone?.();
       closeMenu?.();
     },
     permissionKey: [AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.CLONE],

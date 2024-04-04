@@ -58,12 +58,17 @@ const usePurchaseOrders = () => {
   };
 
   const getPurchaseOrderListDataExport = async (type: any) => {
-    const exportInventoryParams = new URLSearchParams();
+    const additionalParams = [
+      ['page', page + ''],
+      ['limit', pageLimit + ''],
+      ['search', searchValue],
+      ['exportType', type],
+    ];
 
-    exportInventoryParams?.append('exportType', type);
-    exportInventoryParams?.append('page', page + '');
-    exportInventoryParams?.append('limit', pageLimit + '');
-    exportInventoryParams?.append('search', searchValue);
+    const exportInventoryParams: any = buildQueryParams(
+      additionalParams,
+      purchaseOrderFilter,
+    );
 
     const getInventoryExportParameter = {
       queryParams: exportInventoryParams,

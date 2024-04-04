@@ -12,16 +12,23 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
 const Associations = (props: any) => {
-  const { selected } = props;
+  const { selected, viewDeal } = props;
 
   const sectionId = useSearchParams().get('section-id');
-  const { assocaitionData } = useAssociations(selected);
+  const {
+    assocaitionData,
+    isLoading,
+    handleContactSearch,
+    handleComapanySearch,
+  } = useAssociations(selected);
+
   const router = useRouter();
   useEffect(() => {
     if (sectionId) {
       router.push('/air-sales/deals/view-details?tab-value=2#companies');
     }
   }, [sectionId]);
+
   return (
     <Box sx={styles?.horizontalTabsBox}>
       <Typography variant="h4">Associations </Typography>
@@ -31,22 +38,42 @@ const Associations = (props: any) => {
             <Contacts
               contactsData={assocaitionData?.contacts}
               dealId={selected}
+              isLoading={isLoading}
+              handleSearch={handleContactSearch}
             />
           </Grid>
           <Grid item xs={12}>
             <Tickets />
           </Grid>
           <Grid item xs={12} id="companies">
-            <Companies />
+            <Companies
+              companiesData={assocaitionData?.companies}
+              dealId={selected}
+              isLoading={isLoading}
+              handleSearch={handleComapanySearch}
+            />
           </Grid>
           <Grid item xs={12}>
-            <Products />
+            <Products
+              productsData={assocaitionData?.products}
+              viewDeal={viewDeal}
+              isLoading={isLoading}
+              dealId={selected}
+            />
           </Grid>
           <Grid item xs={12}>
-            <Quotes />
+            <Quotes
+              quotesData={assocaitionData?.quotes}
+              isLoading={isLoading}
+              dealId={selected}
+            />
           </Grid>
           <Grid item xs={12}>
-            <Attachments />
+            <Attachments
+              attachmentsData={assocaitionData?.attachments}
+              isLoading={isLoading}
+              dealId={selected}
+            />
           </Grid>
         </Grid>
       </Box>

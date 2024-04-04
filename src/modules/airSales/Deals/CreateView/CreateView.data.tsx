@@ -11,24 +11,24 @@ import useDealTab from '../DealTab/useDealTab';
 
 export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
-  dealPiplineId: Yup?.string()?.required('Field is Required'),
+  dealPipelineId: Yup?.string()?.required('Field is Required'),
   dealOwnerId: Yup?.string()?.required('Field is Required'),
   sharedWith: Yup?.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
   name: '',
-  dealPiplineId: '',
+  dealPipelineId: '',
   dealOwnerId: '',
   dealStageId: '',
   sharedWith: '',
 };
 
-export const CreateViewData = (dealPiplineId: string | null) => {
+export const CreateViewData = (dealPipelineId: string | null) => {
   const { pipelineData } = useDealTab();
   const { data: UserListData } = useGetUsersListQuery({ role: 'ORG_EMPLOYEE' });
   const filteredStages = pipelineData?.data?.dealpipelines?.find(
-    (obj: { _id: string }) => obj?._id === dealPiplineId,
+    (obj: { _id: string }) => obj?._id === dealPipelineId,
   )?.stages;
 
   return [
@@ -44,7 +44,7 @@ export const CreateViewData = (dealPiplineId: string | null) => {
     },
     {
       componentProps: {
-        name: 'dealPiplineId',
+        name: 'dealPipelineId',
         label: 'Deal Pipline',
         select: true,
       },
@@ -96,8 +96,8 @@ export const CreateViewData = (dealPiplineId: string | null) => {
         row: false,
         options: [
           { label: 'Private', value: 'PRIVATE' },
-          { label: 'My Teams (worked)', value: 'my teams' },
-          { label: 'Everyone', value: 'everyone' },
+          { label: 'My Teams (worked)', value: 'MY_TEAMS' },
+          { label: 'Everyone', value: 'EVERYONE' },
         ],
       },
       component: RHFRadioGroup,

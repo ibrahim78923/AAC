@@ -29,7 +29,8 @@ export const useContract = () => {
       successSnackbar(res?.message ?? 'Record deleted Successfully');
       setOpenDeleteModal(false);
     } catch (err: any) {
-      errorSnackbar(err?.message ?? `Something went wrong`);
+      errorSnackbar(err?.data?.message);
+      setOpenDeleteModal(false);
     }
   };
   return {
