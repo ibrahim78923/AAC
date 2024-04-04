@@ -7,13 +7,10 @@ import * as Yup from 'yup';
 
 export const upsertProductValidationSchema = Yup?.object()?.shape({
   productCatalog: Yup?.object()?.required('Required'),
-  price: Yup?.number()
-    ?.min(1)
-    ?.typeError('Price should be number')
-    ?.required('Required'),
-  years: Yup?.string()?.required('Required'),
-  months: Yup?.string()?.required('Required'),
-  quantity: Yup?.number()?.typeError('Quantity should be number'),
+  price: Yup?.number()?.min(1)?.typeError('Enter Number')?.required('Required'),
+  years: Yup?.string(),
+  months: Yup?.string(),
+  quantity: Yup?.number()?.typeError('Enter Number'),
 });
 
 export const upsertProductDefaultValues = (data?: any) => {
