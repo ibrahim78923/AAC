@@ -379,8 +379,7 @@ const OrganizationCard = () => {
                     borderRadius: '100px',
                     width: '120px',
                     height: '120px',
-                    boxShadow:
-                      '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
+                    boxShadow: `0px 2px 4px -2px ${theme?.palette?.custom?.dark_shade_green}, 5px 5px 9px -2px ${theme?.palette?.custom?.shade_grey}`,
                   }}
                 >
                   <Image
