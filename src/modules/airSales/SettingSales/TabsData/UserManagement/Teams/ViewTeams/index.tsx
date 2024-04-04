@@ -54,10 +54,10 @@ const ViewTeams = (props: any) => {
           {teamData?.data?.accounts?.map((item: any) => (
             <MemberDetails
               key={uuidv4()}
-              img={item?.img}
+              img={item?.user?.avatar?.url}
               name={`${item?.user?.firstName ?? 'N/A'} ${item?.user?.lastName}`}
               email={item?.user?.email ?? 'N/A'}
-              designation={item?.user?.designation ?? 'N/A'}
+              designation={item?.user?.jobTitle ?? 'N/A'}
             />
           ))}
         </Box>
