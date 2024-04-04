@@ -93,7 +93,6 @@ export const upsertProductDataArray = (
       label: 'Warranty/Validity',
       size: 'small',
       placeholder: 'Yrs',
-      required: true,
       options: warrantyValidityYrsOptions,
     },
     component: RHFAutocomplete,
