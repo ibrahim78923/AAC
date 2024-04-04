@@ -100,13 +100,17 @@ const UpdateQuote = () => {
                       Save & Continue
                     </Button>
                   )}
-                  <Button
-                    onClick={handleStepNext}
-                    variant="outlined"
-                    sx={styles?.btnBack}
-                  >
-                    Next
-                  </Button>
+                  {activeStep !== 2 && activeStep !== 3 && activeStep !== 4 ? (
+                    <></>
+                  ) : (
+                    <Button
+                      onClick={handleStepNext}
+                      variant="outlined"
+                      sx={styles?.btnBack}
+                    >
+                      Next
+                    </Button>
+                  )}
                 </>
               )}
 

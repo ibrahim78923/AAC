@@ -51,14 +51,14 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
             width: 95.8%;
         }`;
     document.head.appendChild(style);
-    invoice.html(document.getElementById('quote-invoice')).then(() => {
-      const pdfBlob = invoice.output('blob');
+    invoice.html(document.getElementById('quote-invoice'))?.then(() => {
+      const pdfBlob = invoice?.output('blob');
       document.head.removeChild(style);
 
       const formData = new FormData();
       formData.append('fileUrl', pdfBlob);
-      formData.append('module', 'CONTACT');
-      formData.append('recordType', 'deals');
+      formData.append('module', 'QUOTE');
+      formData.append('recordType', 'quotes');
       formData.append('recordId', quoteId);
       const body = {
         id: quoteId,
@@ -84,7 +84,7 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
               };
               updateQuoteSubmision(newData)
                 ?.unwrap()
-                ?.then((data) => {
+                ?.then((data: any) => {
                   if (data?.data) {
                     enqueueSnackbar('Quote sent successfully', {
                       variant: 'success',
