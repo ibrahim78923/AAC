@@ -1,13 +1,20 @@
-import { Box, Skeleton, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { overviewData } from './Overview.data';
 import { styles } from './Overview.style';
 import { useOverview } from './useOverview';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SERVICES_ASSETS_INVENTORY_PERMISSIONS } from '@/constants/permission-keys';
 
+import ApiErrorState from '@/components/ApiErrorState';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+
 export const Overview = () => {
-  const { theme, inventoryData, isLoading, isFetching } = useOverview();
-  if (isLoading || isFetching) return <Skeleton />;
+  const { theme, inventoryData, isLoading, isFetching, isError } =
+    useOverview();
+
+  if (isLoading || isFetching) return <SkeletonTable />;
+  if (isError) return <ApiErrorState />;
+
   return (
     <Box>
       <PermissionsGuard

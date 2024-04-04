@@ -15,6 +15,7 @@ export const NewIncident = ({ openDrawer }: any) => {
     onClose,
     postTicketStatus,
   } = useNewIncident();
+
   return (
     <CommonDrawer
       isDrawerOpen={openDrawer}

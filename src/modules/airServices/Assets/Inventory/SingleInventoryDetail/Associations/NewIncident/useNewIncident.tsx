@@ -45,6 +45,7 @@ export const useNewIncident = () => {
   );
 
   const { handleSubmit, reset } = methods;
+
   const onSubmit = async (formData: any) => {
     const newIncidentTicketFormData = new FormData();
     newIncidentTicketFormData?.append('requester', formData?.requester?._id);
@@ -107,6 +108,7 @@ export const useNewIncident = () => {
       errorSnackbar(error?.data?.message);
     }
   };
+
   useEffect(() => {
     reset(() => newIncidentsDefaultValuesFunction(data?.data));
   }, [data, reset]);

@@ -6,8 +6,9 @@ import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { addAssociationsButtonDynamic } from './Associations.data';
 
-export default function useAssociations() {
+const useAssociations = () => {
   const theme: any = useTheme();
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -23,12 +24,14 @@ export default function useAssociations() {
 
   const [deleteInventoryAssociationListTrigger, { isLoading }] =
     useDeleteInventoryAssociationListMutation();
+
   const handleMouseOver = (itemId: any) => {
     setHoveredItemId(itemId);
   };
 
   const [lazyGetIncidentTrigger, lazyGetIncidentStatus] =
     useLazyGetAssociationListQuery();
+
   const getIncidentListData = async () => {
     const getIncidentParams = new URLSearchParams();
     getIncidentParams?.append('inventoryId', associationsInventoryId + '');
@@ -36,7 +39,9 @@ export default function useAssociations() {
     const getInventoryParameters = {
       params: getIncidentParams,
     };
-    await lazyGetIncidentTrigger(getInventoryParameters)?.unwrap();
+    try {
+      await lazyGetIncidentTrigger(getInventoryParameters)?.unwrap();
+    } catch (error) {}
   };
 
   const getInventoryListData =
@@ -44,7 +49,8 @@ export default function useAssociations() {
 
   useEffect(() => {
     getIncidentListData();
-  }, [lazyGetIncidentTrigger?.toString(), openExistingIncident]);
+  }, [openExistingIncident]);
+
   const handleMouseLeave = () => {
     setHoveredItemId(null);
   };
@@ -60,7 +66,7 @@ export default function useAssociations() {
       await deleteInventoryAssociationListTrigger({
         id: associationsInventoryId,
         ticketId: InventoryIncidentId,
-      }).unwrap();
+      })?.unwrap();
       successSnackbar('Association Detached Successfully!');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
@@ -68,6 +74,10 @@ export default function useAssociations() {
     setIsDeleteModalOpen(false);
     setHoveredItemId(null);
   };
+  const addAssociationsButton = addAssociationsButtonDynamic?.(
+    setNewIncident,
+    setExistingIncident,
+  );
 
   return {
     getInventoryListData,
@@ -88,5 +98,8 @@ export default function useAssociations() {
     setExistingIncident,
     openNewIncident,
     openExistingIncident,
+    addAssociationsButton,
   };
-}
+};
+
+export default useAssociations;
