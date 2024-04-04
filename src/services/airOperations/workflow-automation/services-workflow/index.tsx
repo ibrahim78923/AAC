@@ -27,13 +27,11 @@ export const servicesWorkflowAPI = baseAPI?.injectEndpoints({
       providesTags: [TAG],
     }),
     deleteWorkflow: builder?.mutation({
-      query: (params: any) => {
-        const selectedId = params?.ids.join('&ids=');
-        return {
-          url: `${OPERATION_WORKFLOW}?ids=${selectedId}`,
-          method: 'DELETE',
-        };
-      },
+      query: (params: any) => ({
+        url: `${OPERATION?.OPERATION_WORKFLOW}`,
+        method: 'DELETE',
+        params,
+      }),
       invalidatesTags: [TAG],
     }),
     updateWorkflow: builder?.mutation({

@@ -32,8 +32,13 @@ export const useAssets = () => {
   const [switchLoading, setSwitchLoading] = useState<any>({});
   const EDIT_WORKFLOW = 'edit';
   const selectedId = selectedAction?.map((item: any) => item?._id);
-  const [getWorkflowListTrigger, { data, isLoading, isFetching, isSuccess }] =
-    useLazyGetWorkflowListQuery();
+  const [
+    getWorkflowListTrigger,
+    { data, isLoading, isFetching, isSuccess, isError },
+  ]: any = useLazyGetWorkflowListQuery();
+
+  const totalRecords = data?.data?.workFlows;
+
   const workflowParams = {
     page,
     limit,
@@ -102,7 +107,7 @@ export const useAssets = () => {
         errorSnackbar(`Can't update multiple records`);
       } else {
         router?.push({
-          pathname: AIR_OPERATIONS?.UPSERT_EVENT_BASED_WORKFLOW,
+          pathname: AIR_OPERATIONS?.UPSERT_SCHEDULE_WORKFLOW,
           query: {
             action: EDIT_WORKFLOW,
             id: selectedId,
@@ -146,5 +151,8 @@ export const useAssets = () => {
     setDeleteWorkflow,
     dropdownOptions,
     setSelectedAction,
+    totalRecords,
+    page,
+    isError,
   };
 };
