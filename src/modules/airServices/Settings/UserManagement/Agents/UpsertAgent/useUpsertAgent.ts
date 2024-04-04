@@ -12,7 +12,7 @@ import {
   validationSchemaAgentFields,
 } from './UpsertAgent.data';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-import { ROLE } from '@/constants/strings';
+import { ROLES } from '@/constants/strings';
 import useAuth from '@/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { AIR_SERVICES } from '@/constants';
@@ -57,7 +57,7 @@ export const useUpsertAgent = (props: any) => {
       email: formData?.email,
       departmentId: formData?.departmentId?._id,
       permissionsRole: formData?.permissionsRole?._id,
-      role: ROLE?.ORG_AGENT,
+      role: ROLES?.ORG_EMPLOYEE,
       timezone: formData?.timezone,
     };
 

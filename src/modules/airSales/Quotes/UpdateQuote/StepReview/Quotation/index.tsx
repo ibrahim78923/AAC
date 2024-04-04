@@ -3,7 +3,7 @@ import { styles } from './Quotation.style';
 import useUpdateQuote from '../../useUpdateQuote';
 
 const Quotation = () => {
-  const { dataGetQuoteById } = useUpdateQuote();
+  const { dataGetQuoteById, taxCalculation } = useUpdateQuote();
 
   const sum = dataGetQuoteById?.data?.products?.reduce(
     (accumulator: any, currentValue: any) =>
@@ -16,7 +16,18 @@ const Quotation = () => {
       accumulator + currentValue?.unitDiscount * currentValue?.quantity,
     0,
   );
+  const taxCalculationPerc = taxCalculation?.data?.taxCalculations;
+  const gettingDiscount = dataGetQuoteById?.data?.products[0]?.unitDiscount;
 
+  let totalPercentage = 0;
+  if (taxCalculationPerc && Array.isArray(taxCalculationPerc)) {
+    for (const tax of taxCalculationPerc) {
+      totalPercentage += tax.percentage;
+    }
+  }
+  const percentageOfSubtotal = sum * (totalPercentage / 100);
+
+  const FinalTotal = percentageOfSubtotal - gettingDiscount;
   return (
     <Box sx={styles?.box}>
       <Box sx={styles?.bRow}>
@@ -25,8 +36,10 @@ const Quotation = () => {
       </Box>
 
       <Box sx={styles?.bRow}>
-        <Box sx={styles?.bHead}>V.A.T</Box>
-        <Box sx={styles?.bCell}>20%</Box>
+        <Box sx={styles?.bHead}>
+          {taxCalculation?.data?.taxCalculations[1]?.name}
+        </Box>
+        <Box sx={styles?.bCell}>{totalPercentage}</Box>
       </Box>
 
       <Box sx={styles?.bRow}>
@@ -36,7 +49,7 @@ const Quotation = () => {
 
       <Box sx={styles?.bRowTotal}>
         <Box sx={styles?.bHead}>Total</Box>
-        <Box sx={styles?.bHead}>£{sum - unitDiscount}</Box>
+        <Box sx={styles?.bHead}>£{FinalTotal}</Box>
       </Box>
 
       <Box sx={styles?.signatureCard}>

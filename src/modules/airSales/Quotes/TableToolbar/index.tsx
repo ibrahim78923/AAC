@@ -12,6 +12,7 @@ import { TableToolbarI } from './TableToolbar.interface';
 import { styles } from './TableToolbar.style';
 import { AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { useRouter } from 'next/router';
 
 const TableToolbar: FC<TableToolbarI> = ({
   setSearchValue,
@@ -30,7 +31,8 @@ const TableToolbar: FC<TableToolbarI> = ({
     handleActionsDropdown,
     handleActionsDropdownClose,
   } = useQuotes();
-
+  const router = useRouter();
+  const { status } = router.query;
   return (
     <Box sx={styles?.tableToolbar}>
       <Box>
@@ -89,7 +91,10 @@ const TableToolbar: FC<TableToolbarI> = ({
                 AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.EDIT_QUOTE,
               ]}
             >
-              <MenuItem disabled={!rowId} onClick={handleEditQuote}>
+              <MenuItem
+                disabled={status == 'published' || !rowId}
+                onClick={handleEditQuote}
+              >
                 Edit
               </MenuItem>
             </PermissionsGuard>
@@ -98,7 +103,10 @@ const TableToolbar: FC<TableToolbarI> = ({
                 AIR_SALES_QUOTES_MANAGE_QUOTES_PERMISSIONS?.VIEW_QUOTE,
               ]}
             >
-              <MenuItem disabled={!rowId} onClick={handleViewQuote}>
+              <MenuItem
+                disabled={status == 'published' || !rowId}
+                onClick={handleViewQuote}
+              >
                 View
               </MenuItem>
             </PermissionsGuard>

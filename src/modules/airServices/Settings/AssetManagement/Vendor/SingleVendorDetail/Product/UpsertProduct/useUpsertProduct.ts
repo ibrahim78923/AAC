@@ -52,6 +52,7 @@ export const useUpsertProduct = (props: any) => {
       setEditData([]);
       reset(upsertProductDefaultValues());
     } catch (error: any) {
+      setUpsertProductModal(false);
       errorSnackbar(error?.data?.message);
     }
   };
@@ -73,6 +74,7 @@ export const useUpsertProduct = (props: any) => {
       setEditData([]);
       reset(upsertProductDefaultValues());
     } catch (error: any) {
+      setUpsertProductModal(false);
       errorSnackbar(error?.data?.message);
     }
   };
