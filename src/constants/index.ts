@@ -33,6 +33,7 @@ export const DATE_TIME_FORMAT = {
   DMMMY: 'D MMM, YYYY',
   DMDHMA: 'ddd, MMM D, YYYY, h:mm A',
   WDM: 'dddd, DD MMMM',
+  MMMM: 'MMMM',
 };
 
 export const VALIDATION_CONSTANT = {
