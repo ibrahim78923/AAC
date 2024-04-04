@@ -27,7 +27,8 @@ const useAddRole = () => {
   const disabled = query?.type === 'view';
   const { useLazyGetPermissionsRolesByIdQuery, usePostPermissionRoleMutation } =
     rolesAndRightsAPI;
-  const [postPermissionRole] = usePostPermissionRoleMutation();
+  const [postPermissionRole, { isLoading: loadingAddRole }] =
+    usePostPermissionRoleMutation();
 
   const [trigger, { data: viewPerdetails }] =
     useLazyGetPermissionsRolesByIdQuery();
@@ -121,33 +122,39 @@ const useAddRole = () => {
       productId: productVal,
     });
 
-  const [updateRoleRights] = useUpdateRoleRightsMutation();
+  const [updateRoleRights, { isLoading: loadingUpdateRole }] =
+    useUpdateRoleRightsMutation();
 
   const onSubmit = async (values: any) => {
     values.status = values.status ? 'ACTIVE' : 'INACTIVE';
-
-    if (query?.type === 'add') {
-      values.organizationId = user?.organization?._id;
-      postPermissionRole({ body: values });
-    } else {
-      updateRoleRights({ id: roleId, body: values });
+    try {
+      if (query?.type === 'add') {
+        values.organizationId = user?.organization?._id;
+        await postPermissionRole({ body: values });
+      } else {
+        await updateRoleRights({ id: roleId, body: values });
+      }
+      navigate.push({
+        pathname: ORG_ADMIN?.ROLES_AND_RIGHTS,
+        query: { type: 'add' },
+      });
+      enqueueSnackbar(
+        `${
+          query?.type === 'add'
+            ? `Role has been Added successfully`
+            : `Information Updated successfully`
+        }`,
+        {
+          variant: NOTISTACK_VARIANTS?.SUCCESS,
+        },
+      );
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
     }
-
-    navigate.push({
-      pathname: ORG_ADMIN?.ROLES_AND_RIGHTS,
-      query: { type: 'add' },
-    });
-
-    enqueueSnackbar(
-      `${
-        query?.type === 'add'
-          ? `Role has been Added successfully`
-          : `Information Updated successfully`
-      }`,
-      {
-        variant: NOTISTACK_VARIANTS?.SUCCESS,
-      },
-    );
   };
   return {
     productPermissionsData,
@@ -165,6 +172,8 @@ const useAddRole = () => {
     theme,
     selectAllPermissions,
     getModulePermissions,
+    loadingAddRole,
+    loadingUpdateRole,
   };
 };
 

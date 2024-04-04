@@ -4,7 +4,7 @@ import {
   RHFTextField,
 } from '@/components/ReactHookForm';
 import { AIR_SERVICES } from '@/constants';
-import { ROLE } from '@/constants/strings';
+import { ROLES } from '@/constants/strings';
 import { errorSnackbar } from '@/utils/api';
 import { RemoveRedEyeOutlined } from '@mui/icons-material';
 
@@ -126,7 +126,7 @@ export const upsertWorkloadScheduleFormFieldsDynamic = (
       multiple: true,
       apiQuery: apiQueryAgent,
       placeholder: 'Choose Agent',
-      externalParams: { limit: 50, role: ROLE?.ORG_AGENT },
+      externalParams: { limit: 50, role: ROLES?.ORG_EMPLOYEE },
       getOptionLabel: (option: any) =>
         `${option?.firstName} ${option?.lastName}`,
     },

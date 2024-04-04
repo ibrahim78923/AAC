@@ -23,7 +23,7 @@ const ListViewHeader = (props: any) => {
     setDeleteWorkflow,
     deleteWorkflow,
   } = props;
-  const { handleDelete } = useListHeader(props);
+  const { handleDelete, deleteStatus } = useListHeader(props);
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -90,6 +90,7 @@ const ListViewHeader = (props: any) => {
         deleteWorkflow={deleteWorkflow}
         setDeleteWorkflow={setDeleteWorkflow}
         handleDelete={handleDelete}
+        deleteStatus={deleteStatus}
       />
     </>
   );

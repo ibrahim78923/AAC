@@ -38,7 +38,7 @@ const useAttachmentsEditorDrawer = ({ setOpenDrawer, dealId }: any) => {
               attachmentId: response?.data?._id,
             },
           }).unwrap();
-          enqueueSnackbar(`Contact Added Successfully`, {
+          enqueueSnackbar(`Attachment Added Successfully`, {
             variant: NOTISTACK_VARIANTS?.SUCCESS,
           });
           setOpenDrawer(false);

@@ -710,7 +710,7 @@ export const ProfileDropDown = [
   },
   {
     label: 'Change Password',
-    key: '/change-password',
+    key: '/edit-profile',
   },
   {
     label: 'Delegate',
