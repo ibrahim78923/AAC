@@ -33,8 +33,12 @@ export const useTasks = () => {
   const EDIT_WORKFLOW = 'edit';
   const selectedId = selectedAction?.map((item: any) => item?._id);
 
-  const [getWorkflowListTrigger, { data, isLoading, isFetching, isSuccess }] =
-    useLazyGetWorkflowListQuery();
+  const [
+    getWorkflowListTrigger,
+    { data, isLoading, isFetching, isSuccess, isError },
+  ]: any = useLazyGetWorkflowListQuery();
+  const totalRecords = data?.data?.workFlows;
+
   const workflowParams = {
     page,
     limit,
@@ -149,5 +153,7 @@ export const useTasks = () => {
     selectedAction,
     tasksListsColumns,
     setSelectedAction,
+    totalRecords,
+    isError,
   };
 };

@@ -116,7 +116,7 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
       : null,
     module: SCHEMA_KEYS?.TICKETS,
     groupCondition: singleWorkflowData?.groupCondition ?? '',
-    groups: singleWorkflowData?.groups?.map((group: any) => {
+    groups: singleWorkflowData?.groups?.map((group: any, gIndex: any) => {
       return {
         name: group?.name ?? '',
         conditionType: group?.conditionType
@@ -124,11 +124,16 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
               (item: any) => item?.value === group?.conditionType,
             )
           : null,
-        conditions: group?.conditions?.map((condition: any) => {
+        conditions: group?.conditions?.map((condition: any, cIndex: any) => {
           return {
             fieldName: condition?.fieldName ?? '',
             condition: condition?.condition ?? '',
-            fieldValue: condition?.fieldValue ?? null,
+            fieldValue:
+              condition?.fieldType === 'objectId'
+                ? singleWorkflowData[
+                    `${condition?.fieldName}${gIndex}${cIndex}`
+                  ]
+                : condition?.fieldValue,
           };
         }),
       };
@@ -160,9 +165,7 @@ export const rulesWorkflowValues: any = (singleWorkflowData: any) => {
       ? Object?.entries(singleWorkflowData?.actionValues)?.map(
           ([actionName, actionData]: any) => ({
             fieldName: actionName
-              ? actionsOptions?.find(
-                  (item: any) => item?.value === singleWorkflowData?.fieldName,
-                )
+              ? actionsOptions?.find((item: any) => item?.value)
               : null,
             fieldValue: actionData,
           }),

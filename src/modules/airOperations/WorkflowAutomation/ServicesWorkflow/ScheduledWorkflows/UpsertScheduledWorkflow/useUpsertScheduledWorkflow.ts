@@ -26,6 +26,20 @@ export const useUpsertScheduledWorkflow = () => {
     date: 'Date',
     objectId: 'objectId',
   };
+
+  const collectionNameData = {
+    agent: 'agent',
+    assignToAgent: 'Assign to Agent',
+    selectDepartment: 'selectDepartment',
+    department: 'department',
+    setDepartmentAs: 'Set Department as',
+    location: 'location',
+    addRequester: 'addRequester',
+    requester: 'requester',
+    setCategoryAs: 'Set Category as',
+    category: 'category',
+  };
+
   const router = useRouter();
   const pageActionType = router?.query?.action;
   const singleId = router?.query?.id;
@@ -44,6 +58,7 @@ export const useUpsertScheduledWorkflow = () => {
     },
   );
   const singleWorkflowData = data?.data;
+
   const scheduledWorkflowMethod = useForm({
     defaultValues: scheduledWorkflowValues(singleWorkflowData),
     resolver: validation ? yupResolver(scheduledWorkflowSchema) : undefined,
@@ -69,12 +84,46 @@ export const useUpsertScheduledWorkflow = () => {
     }
   };
 
+  function getCollectionName(fieldName: any): any {
+    const fieldLabel = fieldName?.label || fieldName;
+    switch (fieldLabel) {
+      case collectionNameData?.agent:
+        return collectionNameData?.agent;
+      case collectionNameData?.assignToAgent:
+        return collectionNameData?.agent;
+      case collectionNameData?.selectDepartment:
+        return collectionNameData?.department;
+      case collectionNameData?.setDepartmentAs:
+        return collectionNameData?.department;
+      case collectionNameData?.location:
+        return collectionNameData?.location;
+      case collectionNameData?.addRequester:
+        return collectionNameData?.requester;
+      case collectionNameData?.setCategoryAs:
+        return collectionNameData?.category;
+      default:
+        return '';
+    }
+  }
+
   const mapGroup = (group: any, typeData: any) => ({
     ...group,
     conditions: group?.conditions?.map((condition: any) => ({
       ...condition,
-      fieldValue: condition?.fieldValue?._id,
+      fieldValue:
+        condition?.fieldName &&
+        [
+          collectionNameData?.agent,
+          collectionNameData?.selectDepartment,
+          collectionNameData?.setDepartmentAs,
+          collectionNameData?.location,
+          collectionNameData?.addRequester,
+          collectionNameData?.setCategoryAs,
+        ].includes(condition?.fieldName)
+          ? condition?.fieldValue?._id
+          : condition?.fieldValue,
       fieldType: mapField(condition, typeData),
+      collectionName: getCollectionName(condition?.fieldName),
     })),
     conditionType: group?.conditionType?.value,
   });
@@ -82,7 +131,20 @@ export const useUpsertScheduledWorkflow = () => {
   const mapAction = (action: any, typeData: any) => ({
     ...action,
     fieldName: action?.fieldName?.value,
+    fieldValue:
+      action?.fieldName &&
+      [
+        collectionNameData?.agent,
+        collectionNameData?.selectDepartment,
+        collectionNameData?.setDepartmentAs,
+        collectionNameData?.location,
+        collectionNameData?.addRequester,
+        collectionNameData?.setCategoryAs,
+      ].includes(action?.fieldName)
+        ? action?.fieldValue?._id
+        : action?.fieldValue,
     fieldType: mapField(action, typeData),
+    collectionName: getCollectionName(action?.fieldName),
   });
 
   const [postWorkflowTrigger] = usePostServicesWorkflowMutation();

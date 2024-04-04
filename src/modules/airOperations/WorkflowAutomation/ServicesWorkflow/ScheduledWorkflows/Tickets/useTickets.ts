@@ -32,8 +32,12 @@ export const useTickets = () => {
   const [switchLoading, setSwitchLoading] = useState<any>({});
   const EDIT_WORKFLOW = 'edit';
   const selectedId = selectedAction?.map((item: any) => item?._id);
-  const [getWorkflowListTrigger, { data, isLoading, isFetching, isSuccess }] =
-    useLazyGetWorkflowListQuery();
+  const [
+    getWorkflowListTrigger,
+    { data, isLoading, isFetching, isSuccess, isError },
+  ]: any = useLazyGetWorkflowListQuery();
+  const totalRecords = data?.data?.workFlows;
+
   const workflowParams = {
     page,
     limit,
@@ -149,5 +153,7 @@ export const useTickets = () => {
     dropdownOptions,
     listData,
     setSelectedAction,
+    totalRecords,
+    isError,
   };
 };

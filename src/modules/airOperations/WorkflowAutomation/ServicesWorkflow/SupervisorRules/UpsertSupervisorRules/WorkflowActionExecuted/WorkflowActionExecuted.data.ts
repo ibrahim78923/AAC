@@ -4,7 +4,7 @@ import {
   RHFDatePicker,
   RHFTextField,
 } from '@/components/ReactHookForm';
-import { actionsOptions } from '../UpsertEventBasedWorkflow.data';
+import { actionsOptions } from '../UpsertRulesWorkflow.data';
 
 const statusOptions = ['Open', 'Pending', 'Resolved', 'Closed'];
 const priority = ['HIGH', 'MEDIUM', 'LOW', 'URGENT'];

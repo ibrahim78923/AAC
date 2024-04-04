@@ -88,7 +88,7 @@ export const KnowledgeBaseTicketDetail = () => {
                 </Typography>
               )}
               <Grid item>
-                <Typography variant="h4">Related Tickets</Typography>
+                <Typography variant="h4">Related Articles</Typography>
                 <Box
                   height={showFeedbackField ? '14rem' : '33rem'}
                   overflow={'scroll'}
@@ -110,6 +110,7 @@ export const KnowledgeBaseTicketDetail = () => {
                               mt={0.5}
                               key={item?.id}
                               onClick={() => handleRelatedArticles(item?._id)}
+                              sx={{ cursor: 'pointer' }}
                             >
                               <DocumentTextIcon />
                               <Typography color="secondary">
