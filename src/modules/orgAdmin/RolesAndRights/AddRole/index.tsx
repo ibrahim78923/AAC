@@ -21,6 +21,7 @@ import { addUsersArrayData } from '../RoleAndRights.data';
 import useAddRole from './useAddRole';
 
 import { ArrowBack } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
 
 const AddRole = () => {
   const {
@@ -36,6 +37,8 @@ const AddRole = () => {
     viewPerdetails,
     getModulePermissions,
     selectAllPermissions,
+    loadingAddRole,
+    loadingUpdateRole,
   } = useAddRole();
 
   const { watch } = methods;
@@ -55,8 +58,8 @@ const AddRole = () => {
           {query?.type === 'add'
             ? 'Add New Role'
             : query?.type === 'edit'
-            ? 'Edit Role'
-            : 'Role Details'}
+              ? 'Edit Role'
+              : 'Role Details'}
         </Typography>
       </Box>
       <Box sx={{ my: 3 }}>
@@ -130,13 +133,16 @@ const AddRole = () => {
               >
                 Cancel
               </Button>
-              <Button
+              <LoadingButton
                 type="submit"
                 variant="contained"
                 onClick={handleSubmit(onSubmit)}
+                loading={
+                  query?.type === 'add' ? loadingAddRole : loadingUpdateRole
+                }
               >
                 {query?.type === 'add' ? 'Add' : 'Update'}
-              </Button>
+              </LoadingButton>
             </Box>
           )}
         </FormProvider>

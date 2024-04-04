@@ -24,6 +24,9 @@ const Assets = () => {
     dropdownOptions,
     selectedAction,
     setSelectedAction,
+    totalRecords,
+    page,
+    isError,
   } = useAssets();
   return (
     <>
@@ -40,6 +43,10 @@ const Assets = () => {
         dropdownOptions={dropdownOptions}
         selectedAction={selectedAction}
         setSelectedAction={setSelectedAction}
+        totalRecords={totalRecords}
+        page={page}
+        setPage={setPage}
+        listData={listData}
       />
       <TanstackTable
         data={listData}
@@ -48,6 +55,7 @@ const Assets = () => {
         isFetching={isFetching}
         isSuccess={isSuccess}
         isLoading={isLoading}
+        isError={isError}
         setPageLimit={setLimit}
         setPage={setPage}
         count={assetsData?.meta?.pages}

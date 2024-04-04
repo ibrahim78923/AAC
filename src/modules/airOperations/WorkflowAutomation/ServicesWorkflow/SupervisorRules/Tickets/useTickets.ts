@@ -35,7 +35,8 @@ export const useTickets = () => {
   const [
     getWorkflowListTrigger,
     { data, isLoading, isFetching, isSuccess, isError },
-  ] = useLazyGetWorkflowListQuery();
+  ]: any = useLazyGetWorkflowListQuery();
+  const totalRecords = data?.data?.workFlows;
   const workflowParams = {
     page,
     limit,
@@ -150,5 +151,6 @@ export const useTickets = () => {
     listData,
     setSelectedAction,
     isError,
+    totalRecords,
   };
 };

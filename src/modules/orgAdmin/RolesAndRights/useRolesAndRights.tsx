@@ -10,7 +10,7 @@ import { NOTISTACK_VARIANTS } from '@/constants/strings';
 const useRolesAndRights = () => {
   const navigate = useRouter();
   const theme = useTheme();
-  const { user } = getSession();
+  const { user }: any = getSession();
   const [isOpenAddUserDrawer, setIsOpenAddUserDrawer] = useState(false);
   const [isOpenFilterDrawer, setIsOpenFilterDrawer] = useState(false);
   const [pageLimit, setPageLimit] = useState(PAGINATION?.PAGE_LIMIT);
@@ -65,12 +65,20 @@ const useRolesAndRights = () => {
     });
   };
 
-  const updateStatus = (id: any, val: any) => {
+  const updateStatus = async (id: any, val: any) => {
     const status = val?.target?.checked ? 'ACTIVE' : 'INACTIVE';
-    updateRoleRights({ id, body: { status: status } });
-    enqueueSnackbar('User updated successfully', {
-      variant: NOTISTACK_VARIANTS?.SUCCESS,
-    });
+    try {
+      await updateRoleRights({ id, body: { status: status } });
+      enqueueSnackbar('User updated successfully', {
+        variant: NOTISTACK_VARIANTS?.SUCCESS,
+      });
+    } catch (error: any) {
+      const errMsg = error?.data?.message;
+      const errMessage = Array?.isArray(errMsg) ? errMsg[0] : errMsg;
+      enqueueSnackbar(errMessage ?? 'Error occurred', {
+        variant: NOTISTACK_VARIANTS?.ERROR,
+      });
+    }
   };
 
   return {

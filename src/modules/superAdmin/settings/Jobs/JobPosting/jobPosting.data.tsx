@@ -248,6 +248,13 @@ export const columns = (
   };
 
   const isSelected = (id: any) => selectedRow?.indexOf(id) !== -1;
+  const categoryConstants = {
+    Sales: 'SALES',
+    Marketing: 'MARKETING',
+    Services: 'SERVICES',
+    Operations: 'OPERATIONS',
+  };
+
   return [
     {
       accessorFn: (row: any) => row._id,
@@ -306,15 +313,15 @@ export const columns = (
       header: 'Category',
       cell: (info: any) => {
         const category =
-          info?.getValue() === 'SALES'
+          info?.getValue() === categoryConstants?.Sales
             ? 'Sales'
-            : info?.getValue() === 'MARKETING'
-            ? 'Marketing'
-            : info?.getValue() === 'SERVICES'
-            ? 'Services'
-            : info?.getValue() === 'OPERATIONS'
-            ? 'Operations'
-            : 'Loyalty Program';
+            : info?.getValue() === categoryConstants?.Marketing
+              ? 'Marketing'
+              : info?.getValue() === categoryConstants?.Services
+                ? 'Services'
+                : info?.getValue() === categoryConstants?.Operations
+                  ? 'Operations'
+                  : 'Loyalty Program';
         return <>{category}</>;
       },
     },

@@ -25,6 +25,8 @@ const Tickets = () => {
     dropdownOptions,
     setSelectedAction,
     isError,
+    page,
+    totalRecords,
   } = useTickets();
   return (
     <>
@@ -41,6 +43,10 @@ const Tickets = () => {
         dropdownOptions={dropdownOptions}
         selectedAction={selectedAction}
         setSelectedAction={setSelectedAction}
+        totalRecords={totalRecords}
+        page={page}
+        setPage={setPage}
+        listData={listData}
       />
       <TanstackTable
         data={listData}

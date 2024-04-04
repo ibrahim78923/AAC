@@ -8,6 +8,7 @@ import {
   Typography,
   Grid,
   Box,
+  Skeleton,
 } from '@mui/material';
 
 import { FormProvider, RHFMultiCheckbox } from '@/components/ReactHookForm';
@@ -48,7 +49,10 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
       setExpandedAccordion(isExpanded ? accordionId : '');
     };
 
-  const { data, isSuccess } = useGetProductsFeaturesQuery({ id: accordianId });
+  const { data, isSuccess, isLoading } = useGetProductsFeaturesQuery(
+    { id: accordianId },
+    { skip: isNullOrEmpty(accordianId) },
+  );
   let productFeatures: any;
   if (isSuccess) {
     productFeatures = data;
@@ -104,40 +108,44 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
             </AccordionSummary>
             <AccordionDetails>
               <Grid container>
-                {!isNullOrEmpty(productFeatures?.data?.productfeatures)
-                  ? productFeatures?.data?.productfeatures?.map((item: any) => {
-                      return (
-                        <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
-                          <Box sx={{ width: 'max-content', display: 'flex' }}>
-                            <FormProvider
-                              methods={methods}
-                              onSubmit={handleSubmit}
-                            >
-                              <RHFMultiCheckbox
-                                name="features"
-                                label="Features"
-                                options={[
-                                  {
-                                    label: item?.name,
-                                    value: item?._id,
-                                  },
-                                ]}
-                              />
-                            </FormProvider>
-                            <Box
-                              sx={{ cursor: 'pointer' }}
-                              onClick={() => {
-                                handleOpenFeaturesModal();
-                                setFeatureName(item?.name);
-                              }}
-                            >
-                              <AddPlusPrimaryIcon />
-                            </Box>
+                {!isNullOrEmpty(productFeatures?.data?.productfeatures) ? (
+                  productFeatures?.data?.productfeatures?.map((item: any) => {
+                    return (
+                      <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
+                        <Box sx={{ width: 'max-content', display: 'flex' }}>
+                          <FormProvider
+                            methods={methods}
+                            onSubmit={handleSubmit}
+                          >
+                            <RHFMultiCheckbox
+                              name="features"
+                              label="Features"
+                              options={[
+                                {
+                                  label: item?.name,
+                                  value: item?._id,
+                                },
+                              ]}
+                            />
+                          </FormProvider>
+                          <Box
+                            sx={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              handleOpenFeaturesModal();
+                              setFeatureName(item?.name);
+                            }}
+                          >
+                            <AddPlusPrimaryIcon />
                           </Box>
-                        </Grid>
-                      );
-                    })
-                  : 'No Data'}
+                        </Box>
+                      </Grid>
+                    );
+                  })
+                ) : isLoading ? (
+                  <Skeleton variant="rectangular" width="100%" height={150} />
+                ) : (
+                  'No Data'
+                )}
               </Grid>
             </AccordionDetails>
           </Accordion>
@@ -181,40 +189,44 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
             </AccordionSummary>
             <AccordionDetails>
               <Grid container>
-                {!isNullOrEmpty(productFeatures?.data?.productfeatures)
-                  ? productFeatures?.data?.productfeatures?.map((item: any) => {
-                      return (
-                        <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
-                          <Box sx={{ width: 'max-content', display: 'flex' }}>
-                            <FormProvider
-                              methods={methods}
-                              onSubmit={handleSubmit}
-                            >
-                              <RHFMultiCheckbox
-                                name="features"
-                                label="Features"
-                                options={[
-                                  {
-                                    label: item?.name,
-                                    value: item?._id,
-                                  },
-                                ]}
-                              />
-                            </FormProvider>
-                            <Box
-                              sx={{ cursor: 'pointer' }}
-                              onClick={() => {
-                                handleOpenFeaturesModal();
-                                setFeatureName(item?.name);
-                              }}
-                            >
-                              <AddPlusPrimaryIcon />
-                            </Box>
+                {!isNullOrEmpty(productFeatures?.data?.productfeatures) ? (
+                  productFeatures?.data?.productfeatures?.map((item: any) => {
+                    return (
+                      <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
+                        <Box sx={{ width: 'max-content', display: 'flex' }}>
+                          <FormProvider
+                            methods={methods}
+                            onSubmit={handleSubmit}
+                          >
+                            <RHFMultiCheckbox
+                              name="features"
+                              label="Features"
+                              options={[
+                                {
+                                  label: item?.name,
+                                  value: item?._id,
+                                },
+                              ]}
+                            />
+                          </FormProvider>
+                          <Box
+                            sx={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              handleOpenFeaturesModal();
+                              setFeatureName(item?.name);
+                            }}
+                          >
+                            <AddPlusPrimaryIcon />
                           </Box>
-                        </Grid>
-                      );
-                    })
-                  : 'No Data'}
+                        </Box>
+                      </Grid>
+                    );
+                  })
+                ) : isLoading ? (
+                  <Skeleton variant="rectangular" width="100%" height={150} />
+                ) : (
+                  'No Data'
+                )}
               </Grid>
             </AccordionDetails>
           </Accordion>
@@ -223,14 +235,10 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
         // : planManagement?.addPlanForm?.productId?.map((feature: string) => ())
         <Accordion
           expanded={
-            expandedAccordion === (type === 'add')
-              ? planManagement?.addPlanForm?.productId
-              : planManagement?.addPlanForm?.productId[0]
+            expandedAccordion === planManagement?.addPlanForm?.productId
           }
           onChange={handleExpandAccordionChange(
-            type === 'add'
-              ? planManagement?.addPlanForm?.productId
-              : planManagement?.addPlanForm?.productId[0],
+            planManagement?.addPlanForm?.productId,
           )}
           key={uuidv4()}
           disableGutters
@@ -274,40 +282,42 @@ const PlanFeatures = ({ methods, handleSubmit }: any) => {
           </AccordionSummary>
           <AccordionDetails>
             <Grid container>
-              {!isNullOrEmpty(productFeatures?.data?.productfeatures)
-                ? productFeatures?.data?.productfeatures?.map((item: any) => {
-                    return (
-                      <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
-                        <Box sx={{ width: 'max-content', display: 'flex' }}>
-                          <FormProvider
-                            methods={methods}
-                            onSubmit={handleSubmit}
-                          >
-                            <RHFMultiCheckbox
-                              name="features"
-                              label="Features"
-                              options={[
-                                {
-                                  label: item?.name,
-                                  value: item?._id,
-                                },
-                              ]}
-                            />
-                          </FormProvider>
-                          <Box
-                            sx={{ cursor: 'pointer' }}
-                            onClick={() => {
-                              handleOpenFeaturesModal();
-                              setFeatureName(item?.name);
-                            }}
-                          >
-                            <AddPlusPrimaryIcon />
-                          </Box>
+              {!isNullOrEmpty(productFeatures?.data?.productfeatures) ||
+              isNullOrEmpty(accordianId) ? (
+                productFeatures?.data?.productfeatures?.map((item: any) => {
+                  return (
+                    <Grid item xs={12} sm={6} lg={4} xl={3} key={uuidv4()}>
+                      <Box sx={{ width: 'max-content', display: 'flex' }}>
+                        <FormProvider methods={methods} onSubmit={handleSubmit}>
+                          <RHFMultiCheckbox
+                            name="features"
+                            label="Features"
+                            options={[
+                              {
+                                label: item?.name,
+                                value: item?._id,
+                              },
+                            ]}
+                          />
+                        </FormProvider>
+                        <Box
+                          sx={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            handleOpenFeaturesModal();
+                            setFeatureName(item?.name);
+                          }}
+                        >
+                          <AddPlusPrimaryIcon />
                         </Box>
-                      </Grid>
-                    );
-                  })
-                : 'No Data'}
+                      </Box>
+                    </Grid>
+                  );
+                })
+              ) : isLoading ? (
+                <Skeleton variant="rectangular" width="100%" height={150} />
+              ) : (
+                'No Data'
+              )}
             </Grid>
           </AccordionDetails>
         </Accordion>

@@ -23,7 +23,7 @@ const TicketsHeader = (props: any) => {
     setDeleteWorkflow,
     deleteWorkflow,
   } = props;
-  const { handleDelete } = useTicketsHeader(props);
+  const { handleDelete, deleteStatus } = useTicketsHeader(props);
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'}>
@@ -90,6 +90,7 @@ const TicketsHeader = (props: any) => {
         deleteWorkflow={deleteWorkflow}
         setDeleteWorkflow={setDeleteWorkflow}
         handleDelete={handleDelete}
+        deleteStatus={deleteStatus}
       />
     </>
   );

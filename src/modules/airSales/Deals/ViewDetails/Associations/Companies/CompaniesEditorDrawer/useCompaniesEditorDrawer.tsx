@@ -23,6 +23,7 @@ const useCompaniesEditorDrawer = ({
   companyRecord,
 }: any) => {
   const { user }: any = getSession();
+  const defaultCompany = 'new-Company';
   const params = {
     page: PAGINATION?.PAGE_COUNT,
     limit: PAGINATION?.PAGE_LIMIT,
@@ -68,7 +69,7 @@ const useCompaniesEditorDrawer = ({
           linkedInUrl,
         } = companyRecord;
         return {
-          company: 'new-Company',
+          company: defaultCompany,
           domain,
           name,
           ownerId,
