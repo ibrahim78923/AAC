@@ -76,7 +76,7 @@ export const actionsExecutedFields = (
           getOptionLabel: (option: any) =>
             fullName(option?.firstName, option?.lastName),
         });
-    } else if (watchKey === 'Set Priority') {
+    } else if (watchKey === actionName?.setPriority) {
       (component = RHFAutocomplete),
         (componentProps = {
           options: setPriorityOption,
