@@ -6,7 +6,8 @@ import { usePatchExistingIncidentMutation } from '@/services/airServices/assets/
 import { useRouter } from 'next/router';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 
-export const useExistingIncident = ({ onClose }: any) => {
+export const useExistingIncident = (props: any) => {
+  const { setIsOpenDrawer } = props;
   const theme: any = useTheme();
   const router = useRouter();
 
@@ -72,10 +73,14 @@ export const useExistingIncident = ({ onClose }: any) => {
         associationExistingParams,
       )?.unwrap();
       successSnackbar(response?.message);
-      onClose(false);
+      onClose();
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }
+  };
+
+  const onClose = () => {
+    setIsOpenDrawer?.(false);
   };
 
   return {
@@ -93,5 +98,6 @@ export const useExistingIncident = ({ onClose }: any) => {
     setPage,
     metaData,
     isLoading,
+    onClose,
   };
 };

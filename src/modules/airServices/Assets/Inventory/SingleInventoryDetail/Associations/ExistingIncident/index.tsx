@@ -15,7 +15,8 @@ import CustomPagination from '@/components/CustomPagination';
 import { truncateText } from '@/utils/avatarUtils';
 import { CheckboxCheckedIcon, CheckboxIcon } from '@/assets/icons';
 
-export const ExistingIncident = ({ openDrawer, onClose }: any) => {
+export const ExistingIncident = (props: any) => {
+  const { openDrawer } = props;
   const {
     handleSubmit,
     setSearchBy,
@@ -28,12 +29,13 @@ export const ExistingIncident = ({ openDrawer, onClose }: any) => {
     setPage,
     metaData,
     isLoading,
-  } = useExistingIncident({ onClose });
+    onClose,
+  } = useExistingIncident(props);
 
   return (
     <CommonDrawer
       isDrawerOpen={openDrawer}
-      onClose={() => onClose(false)}
+      onClose={() => onClose?.()}
       title={'Associate Existing Incident'}
       okText={'Associate'}
       isOk

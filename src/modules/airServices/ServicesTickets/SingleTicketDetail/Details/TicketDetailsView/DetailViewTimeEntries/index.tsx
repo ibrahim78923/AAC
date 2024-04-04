@@ -13,6 +13,7 @@ import { DATE_TIME_FORMAT, TIME_FORMAT } from '@/constants';
 import StopWatch from './StopWatch';
 import { fullName, generateImage } from '@/utils/avatarUtils';
 import SkeletonForm from '@/components/Skeletons/SkeletonForm';
+import { ERROR_TIME } from '@/constants/api-mapped';
 
 const DetailViewTimeEntries = (data: any) => {
   const {
@@ -100,16 +101,18 @@ const DetailViewTimeEntries = (data: any) => {
                   Add Time
                 </Button>
               </PermissionsGuard>
-              <DetailTicketDrawer
-                isDrawerOpen={isDrawerOpen}
-                setIsDrawerOpen={setIsDrawerOpen}
-                data={data}
-                start={start}
-                pause={pause}
-                reset={reset}
-                setIsIconVisible={setIsIconVisible}
-                isLoading={isLoading}
-              />
+              {isDrawerOpen && (
+                <DetailTicketDrawer
+                  isDrawerOpen={isDrawerOpen}
+                  setIsDrawerOpen={setIsDrawerOpen}
+                  data={data}
+                  start={start}
+                  pause={pause}
+                  reset={reset}
+                  setIsIconVisible={setIsIconVisible}
+                  isLoading={isLoading}
+                />
+              )}
             </Box>
           </Box>
         </Box>
@@ -117,7 +120,9 @@ const DetailViewTimeEntries = (data: any) => {
         <Box sx={styles?.timeEnterInnerBox}>
           <Typography variant="body1"> Total Time track</Typography>
           <Typography variant="body1" component="span" sx={{ ml: '4rem' }}>
-            {timeEntryData?.data?.totalTimeTrack ?? '-'}
+            {timeEntryData?.data?.totalTimeTrack === ERROR_TIME?.NAN_HOUR_MIN
+              ? '0h0m'
+              : timeEntryData?.data?.totalTimeTrack}
           </Typography>
         </Box>
         <Box
@@ -145,7 +150,7 @@ const DetailViewTimeEntries = (data: any) => {
                 </Box>
 
                 <Box display="flex" mt={'1rem'} mb={'2rem'}>
-                  <Typography variant="body1"> Total Time track</Typography>
+                  <Typography variant="body1"> Time tracker </Typography>
                   <Typography
                     variant="body1"
                     component="span"

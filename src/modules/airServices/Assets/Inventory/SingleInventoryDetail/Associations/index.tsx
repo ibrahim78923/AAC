@@ -152,12 +152,15 @@ export const Associations = () => {
         />
       )}
       {openNewIncident && (
-        <NewIncident openDrawer={openNewIncident} onClose={setNewIncident} />
+        <NewIncident
+          openDrawer={openNewIncident}
+          setIsOpenDrawer={setNewIncident}
+        />
       )}
       {openExistingIncident && (
         <ExistingIncident
           openDrawer={openExistingIncident}
-          onClose={setExistingIncident}
+          setIsOpenDrawer={setExistingIncident}
         />
       )}
     </Fragment>

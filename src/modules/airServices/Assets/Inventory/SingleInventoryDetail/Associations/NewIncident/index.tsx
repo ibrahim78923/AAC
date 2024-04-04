@@ -2,19 +2,17 @@ import CommonDrawer from '@/components/CommonDrawer';
 import { FormProvider } from '@/components/ReactHookForm';
 import { Grid, Box } from '@mui/material';
 import { useNewIncident } from './useNewIncident';
-import SkeletonForm from '@/components/Skeletons/SkeletonForm';
 
-export const NewIncident = ({ openDrawer }: any) => {
+export const NewIncident = (props: any) => {
+  const { openDrawer } = props;
   const {
     handleSubmit,
     onSubmit,
     methods,
     newIncidentFormFields,
-    isLoading,
-    isFetching,
     onClose,
     postTicketStatus,
-  } = useNewIncident();
+  } = useNewIncident(props);
 
   return (
     <CommonDrawer
@@ -30,21 +28,17 @@ export const NewIncident = ({ openDrawer }: any) => {
       disabledCancelBtn={postTicketStatus?.isLoading}
       submitHandler={handleSubmit(onSubmit)}
     >
-      {isLoading || isFetching ? (
-        <SkeletonForm />
-      ) : (
-        <Box mt={1}>
-          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-            <Grid container spacing={2}>
-              {newIncidentFormFields?.map((item: any) => (
-                <Grid item xs={12} md={item?.md} key={item?.id}>
-                  <item.component {...item?.componentProps} size={'small'} />
-                </Grid>
-              ))}
-            </Grid>
-          </FormProvider>
-        </Box>
-      )}
+      <Box mt={1}>
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2}>
+            {newIncidentFormFields?.map((item: any) => (
+              <Grid item xs={12} md={item?.md} key={item?.id}>
+                <item.component {...item?.componentProps} size={'small'} />
+              </Grid>
+            ))}
+          </Grid>
+        </FormProvider>
+      </Box>
     </CommonDrawer>
   );
 };

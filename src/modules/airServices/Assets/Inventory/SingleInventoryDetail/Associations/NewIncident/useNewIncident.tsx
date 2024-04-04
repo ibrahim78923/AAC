@@ -5,12 +5,9 @@ import {
 } from './NewIncident.data';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { errorSnackbar, makeDateTime, successSnackbar } from '@/utils/api';
 import { MODULE_TYPE, TICKET_TYPE } from '@/constants/strings';
 import {
-  useGetTicketsByIdQuery,
   useLazyGetAgentDropdownQuery,
   useLazyGetAssociateAssetsDropdownQuery,
   useLazyGetCategoriesDropdownQuery,
@@ -18,31 +15,24 @@ import {
   useLazyGetRequesterDropdownQuery,
   usePostTicketsMutation,
 } from '@/services/airServices/tickets';
-import { useRouter } from 'next/router';
-import usePath from '@/hooks/usePath';
-export const useNewIncident = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const { makePath } = usePath();
-  const ticketId = searchParams?.get('ticketId');
 
-  const getSingleTicketParameter = {
-    pathParam: {
-      ticketId,
-    },
-  };
+import { useRouter } from 'next/router';
+
+import { usePatchExistingIncidentMutation } from '@/services/airServices/assets/inventory/single-inventory-details/associations';
+
+export const useNewIncident = (props: any) => {
+  const { setIsOpenDrawer } = props;
+
+  const router = useRouter();
+
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
+  const [existingIncidentTrigger, existingIncidentStatus] =
+    usePatchExistingIncidentMutation();
+
   const methods: any = useForm<any>({
     resolver: yupResolver(newIncidentValidationSchema),
     defaultValues: newIncidentsDefaultValuesFunction(),
   });
-  const { data, isLoading, isFetching, isError } = useGetTicketsByIdQuery(
-    getSingleTicketParameter,
-    {
-      refetchOnMountOrArgChange: true,
-      skip: !!!ticketId,
-    },
-  );
 
   const { handleSubmit, reset } = methods;
 
@@ -67,7 +57,7 @@ export const useNewIncident = () => {
       newIncidentTicketFormData?.append('impact', formData?.impact?._id);
     !!formData?.agent &&
       newIncidentTicketFormData?.append('agent', formData?.agent?._id);
-    (!!formData?.plannedEndDate || !!data?.plannedEndTime) &&
+    (!!formData?.plannedEndDate || !!formData?.plannedEndTime) &&
       newIncidentTicketFormData?.append(
         'plannedEndDate',
         makeDateTime(
@@ -87,14 +77,9 @@ export const useNewIncident = () => {
         'associateAssets',
         formData?.associatesAssets?.map((asset: any) => asset?._id),
       );
-    newIncidentTicketFormData?.append(
-      'moduleType',
-      data?.data?.[0]?.moduleType ?? MODULE_TYPE?.TICKETS,
-    );
-    newIncidentTicketFormData?.append(
-      'ticketType',
-      data?.data?.[0]?.ticketType ?? TICKET_TYPE?.INC,
-    );
+    newIncidentTicketFormData?.append('moduleType', MODULE_TYPE?.TICKETS);
+    newIncidentTicketFormData?.append('ticketType', TICKET_TYPE?.INC);
+
     const postTicketParameter = {
       body: newIncidentTicketFormData,
     };
@@ -109,9 +94,21 @@ export const useNewIncident = () => {
     }
   };
 
-  useEffect(() => {
-    reset(() => newIncidentsDefaultValuesFunction(data?.data));
-  }, [data, reset]);
+  const associateIncident = async () => {
+    const associationExistingParams = {
+      id: 'associationsInventoryId',
+      ticketIds: 'checkedIds',
+    };
+
+    try {
+      const response = await existingIncidentTrigger(
+        associationExistingParams,
+      )?.unwrap();
+      successSnackbar(response?.message);
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
 
   const apiQueryDepartment = useLazyGetDepartmentDropdownQuery();
   const apiQueryRequester = useLazyGetRequesterDropdownQuery();
@@ -129,12 +126,7 @@ export const useNewIncident = () => {
   );
 
   const onClose = () => {
-    router?.push(
-      makePath({
-        path: router?.pathname,
-        skipQueries: ['ticketAction'],
-      }),
-    );
+    setIsOpenDrawer?.(false);
     reset?.();
   };
 
@@ -143,10 +135,9 @@ export const useNewIncident = () => {
     onSubmit,
     methods,
     newIncidentFormFields,
-    isLoading,
-    isFetching,
-    isError,
     onClose,
     postTicketStatus,
+    associateIncident,
+    existingIncidentStatus,
   };
 };

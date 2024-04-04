@@ -11,7 +11,6 @@ import { addAssociationsButtonDynamic } from './Associations.data';
 const useAssociations = () => {
   const theme: any = useTheme();
 
-  const [openDialog, setOpenDialog] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [openNewIncident, setNewIncident] = useState(false);
   const [openExistingIncident, setExistingIncident] = useState(false);
@@ -49,7 +48,7 @@ const useAssociations = () => {
 
   useEffect(() => {
     getIncidentListData();
-  }, [openExistingIncident]);
+  }, []);
 
   const handleMouseLeave = () => {
     setHoveredItemId(null);
@@ -57,10 +56,12 @@ const useAssociations = () => {
   const handleCloseDeleteModal = () => {
     setIsDeleteModalOpen(false);
   };
+
   const handleDelete = (id: any) => {
     setIsDeleteModalOpen(true);
     setInventoryIncidentId(id);
   };
+
   const handleConfirmDelete = async () => {
     try {
       await deleteInventoryAssociationListTrigger({
@@ -82,7 +83,6 @@ const useAssociations = () => {
   return {
     getInventoryListData,
     theme,
-    setOpenDialog,
     lazyGetIncidentStatus,
     handleMouseOver,
     hoveredItemId,
@@ -93,7 +93,6 @@ const useAssociations = () => {
     handleCloseDeleteModal,
     handleConfirmDelete,
     isLoading,
-    openDialog,
     setNewIncident,
     setExistingIncident,
     openNewIncident,
