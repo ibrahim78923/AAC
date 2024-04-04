@@ -204,3 +204,7 @@ export const DATE_RANGE = {
   START_DATE: 0,
   END_DATE: 1,
 };
+
+export const PLAN_CALCULATIONS = {
+  PLAN_DISCOUNT: 0.2,
+};

@@ -13,10 +13,23 @@ import { ViewInvoicesI } from './ViewInvoices.interface';
 import { CloseModalIcon, LogoIcon } from '@/assets/icons';
 import { styles } from './ViewInvoices.style';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { invoiceProducData } from '@/mock/modules/SubscriptionAndInvoices';
 import { AvatarImage } from '@/assets/images';
+import usePlanCalculations from '../../usePlanCalculations';
+import { PLAN_CALCULATIONS } from '@/constants';
 
-const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
+const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
+  const dataArray = [invoiceData];
+
+  const planCalculations = usePlanCalculations({
+    additionalDefaultUser: invoiceData?.plans?.defaultUsers,
+    additionalDefaultStorage: invoiceData?.plans?.defaultStorage,
+    additionalUserPrice: invoiceData?.plans?.additionalPerUserPrice,
+    additionalStoragePrice: invoiceData?.plans?.additionalStoragePrice,
+    planDefaultPrice: invoiceData?.plans?.planPrice,
+    planDefaultDiscount: 0,
+    PLAN_CALCULATIONS,
+  });
+
   const columns: any = [
     {
       accessorFn: (row: any) => row?.id,
@@ -33,7 +46,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
           <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
             {info.getValue()}
           </Box>
-          <Box>{info?.row?.original?.plan}</Box>
+          <Box>{invoiceData?.plans?.name}</Box>
         </>
       ),
       header: 'Product/Suite',
@@ -44,16 +57,18 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       id: 'planPrice',
       isSortable: true,
       header: 'Plan Price',
-      cell: (info: any) => <>£ {info?.getValue()}</>,
+      cell: () => <>£ {invoiceData?.plans?.planPrice}</>,
     },
     {
       accessorFn: (row: any) => row?.additionalUsers,
       id: 'additionalUsers',
       isSortable: true,
       header: 'Additional Users',
-      cell: (info: any) => (
+      cell: () => (
         <>
-          {info?.getValue()} (*£15) = £{info?.getValue() * 15}
+          {invoiceData?.plans?.defaultUsers} (*£
+          {invoiceData?.plans?.additionalPerUserPrice}) = £
+          {planCalculations?.additionalUsers}
         </>
       ),
     },
@@ -62,9 +77,11 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       id: 'additionalStorage',
       isSortable: true,
       header: 'Additional Storage',
-      cell: (info: any) => (
+      cell: () => (
         <>
-          {info?.getValue()} (*£15) = £{info?.getValue() * 15}
+          {invoiceData?.plans?.defaultStorage} (*£
+          {invoiceData?.plans?.additionalStoragePrice}) = £
+          {planCalculations?.additionalStorage}
         </>
       ),
     },
@@ -73,8 +90,10 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       id: 'discount',
       isSortable: true,
       header: 'Discount(%)',
-      cell: (info: any) => (
-        <Box sx={{ fontWeight: '800' }}>{info?.getValue()} %</Box>
+      cell: () => (
+        <Box sx={{ fontWeight: '800' }}>
+          {planCalculations?.discountApplied} %
+        </Box>
       ),
     },
     {
@@ -82,9 +101,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       id: 'subTotal',
       isSortable: true,
       header: 'Subtotal',
-      cell: (info: any) => (
-        <Box sx={{ fontWeight: '800' }}>£ {info?.getValue()}</Box>
-      ),
+      cell: () => <Box sx={{ fontWeight: '800' }}>£ {''}</Box>,
     },
   ];
 
@@ -196,7 +213,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
           {/* Product Table */}
           <Box sx={styles?.productCont}>
             <Box sx={styles?.productHeading}>Products</Box>
-            <TanstackTable columns={columns} data={invoiceProducData} />
+            <TanstackTable columns={columns} data={dataArray} />
           </Box>
 
           {/* Voucher Card*/}
@@ -223,12 +240,12 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
                   (Vat 20%)
                 </Box>
               </Box>
-              <Box sx={styles?.vValue}>£ 27</Box>
+              <Box sx={styles?.vValue}>£ {planCalculations?.taxAmount}</Box>
             </Box>
             <Divider sx={{ borderColor: 'custom.off_white_one', my: '6px' }} />
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>Total Cost</Box>
-              <Box sx={styles?.vValue}>£ 162</Box>
+              <Box sx={styles?.vValue}>£ {planCalculations?.finalPrice}</Box>
             </Box>
           </Box>
 
