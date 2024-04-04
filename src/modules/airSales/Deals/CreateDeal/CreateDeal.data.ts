@@ -1,4 +1,5 @@
 import {
+  RHFMultiCheckbox,
   RHFSelect,
   RHFSwitchableDatepicker,
   RHFTextField,
@@ -12,11 +13,6 @@ export const validationSchema = Yup?.object()?.shape({
   name: Yup?.string()?.required('Field is Required'),
   dealPipelineId: Yup?.string()?.required('Field is Required'),
   dealStageId: Yup?.string()?.required('Field is Required'),
-  amount: Yup?.number()
-    ?.typeError('Please enter a valid number')
-    ?.min(0, 'please Enter positive value')
-    ?.positive('Please enter a positive number')
-    ?.required('Please enter a number'),
 });
 
 export const defaultValues = {
@@ -24,6 +20,7 @@ export const defaultValues = {
   dealPipelineId: '',
   ownerId: '',
   dealStageId: '',
+  products: [],
 };
 export const createDealData = ({ dealPipelineId }: any) => {
   const userRole = 'ORG_EMPLOYEE';
@@ -77,6 +74,7 @@ export const createDealData = ({ dealPipelineId }: any) => {
         label: 'Amount',
         placeholder: 'Enter Amount',
         type: 'number',
+        InputProps: { inputProps: { min: 0 } },
       },
       component: RHFTextField,
     },
@@ -84,7 +82,7 @@ export const createDealData = ({ dealPipelineId }: any) => {
       componentProps: {
         name: 'closeDate',
         label: 'Close Date',
-        placeholder: 'Monday, January 30, 2023',
+        placeholder: 'MM/DD/YYYY',
       },
       component: RHFSwitchableDatepicker,
     },
@@ -114,17 +112,33 @@ export const createDealData = ({ dealPipelineId }: any) => {
       ],
       component: RHFSelect,
     },
+    // {
+    //   componentProps: {
+    //     name: 'products',
+    //     label: 'Add Line Item',
+    //     select: true,
+    //   },
+    //   options: salesProduct?.data?.salesproducts?.map((item: any) => ({
+    //     value: item?._id,
+    //     label: `${item?.name}`,
+    //   })) ?? [{ label: '', value: '' }],
+    //   component: RHFSelect,
+    // },
     {
       componentProps: {
         name: 'products',
+        GridView: 6,
+        isCheckBox: true,
         label: 'Add Line Item',
-        select: true,
+        required: true,
+        options: salesProduct?.data?.salesproducts?.map((item: any) => ({
+          value: item?._id,
+          label: item?.name,
+        })),
+        fullWidth: true,
       },
-      options: salesProduct?.data?.salesproducts?.map((item: any) => ({
-        value: item?._id,
-        label: `${item?.name}`,
-      })) ?? [{ label: '', value: '' }],
-      component: RHFSelect,
+      component: RHFMultiCheckbox,
+      md: 12,
     },
     {
       componentProps: {
