@@ -147,9 +147,10 @@ export const useUpsertScheduledWorkflow = () => {
     collectionName: getCollectionName(action?.fieldName),
   });
 
-  const [postWorkflowTrigger] = usePostServicesWorkflowMutation();
+  const [postWorkflowTrigger, postWorkflowProgress] =
+    usePostServicesWorkflowMutation();
   const [updateWorkflowTrigger] = useUpdateWorkflowMutation();
-  const [saveWorkflowTrigger] = useSaveWorkflowMutation();
+  const [saveWorkflowTrigger, saveWorkflowProgress] = useSaveWorkflowMutation();
 
   const handleApiCall = async (body: any) => {
     try {
@@ -244,5 +245,7 @@ export const useUpsertScheduledWorkflow = () => {
     isFetching,
     isLoading,
     setValidation,
+    saveWorkflowProgress,
+    postWorkflowProgress,
   };
 };

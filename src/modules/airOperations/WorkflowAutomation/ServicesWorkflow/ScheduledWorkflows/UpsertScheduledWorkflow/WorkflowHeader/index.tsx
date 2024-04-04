@@ -5,10 +5,20 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TestWorkflow } from '../TestWorkflow';
 import { useWorkflowHeader } from './useWorkflowHeader';
 
-export const WorkflowHeader = ({ setValidation }: any) => {
+export const WorkflowHeader = ({
+  setValidation,
+  saveWorkflowProgress,
+  postWorkflowProgress,
+}: any) => {
   const { handleMoveBack, openWorkflowModal, setOpenWorkflowModal, action } =
     useWorkflowHeader();
   const EDIT_WORKFLOW = 'edit';
+  const mainTitle = {
+    edit: 'Edit Scheduled Workflow',
+    createButton: 'Create Scheduled Workflow',
+    update: 'Update',
+    create: 'Create',
+  };
   return (
     <Box>
       <Box
@@ -20,9 +30,7 @@ export const WorkflowHeader = ({ setValidation }: any) => {
       >
         <PageTitledHeader
           title={
-            action === EDIT_WORKFLOW
-              ? 'Edit Scheduled Workflow'
-              : 'Create Scheduled Workflow'
+            action === EDIT_WORKFLOW ? mainTitle?.edit : mainTitle?.createButton
           }
           canMovedBack
           moveBack={handleMoveBack}
@@ -41,6 +49,7 @@ export const WorkflowHeader = ({ setValidation }: any) => {
             variant="outlined"
             color="secondary"
             type="submit"
+            disabled={saveWorkflowProgress?.isLoading}
             onClick={() => setValidation(false)}
           >
             Save as Draft
@@ -49,9 +58,10 @@ export const WorkflowHeader = ({ setValidation }: any) => {
             startIcon={<WhiteBookIcon />}
             variant="contained"
             type="submit"
+            disabled={postWorkflowProgress?.isLoading}
             onClick={() => setValidation(true)}
           >
-            {action === EDIT_WORKFLOW ? 'Update' : 'Create'}
+            {action === EDIT_WORKFLOW ? mainTitle?.update : mainTitle?.create}
           </LoadingButton>
         </Box>
       </Box>

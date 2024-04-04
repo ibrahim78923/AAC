@@ -14,9 +14,10 @@ import {
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useRulesWorkflow = () => {
+  const [validation, setValidation] = useState(false);
   const typeData = {
     string: 'string',
     number: 'number',
@@ -143,72 +144,48 @@ export const useRulesWorkflow = () => {
     collectionName: getCollectionName(action?.fieldName),
   });
 
-  const { reset, watch, register, handleSubmit, setValue, control, getValues } =
+  const { reset, watch, register, handleSubmit, setValue, control } =
     rulesMethod;
 
   const [postWorkflowTrigger, postWorkflowProgress] =
     usePostServicesWorkflowMutation();
   const [updateWorkflowTrigger] = useUpdateWorkflowMutation();
-  const [saveWorkflowTrigger] = useSaveWorkflowMutation();
+  const [saveWorkflowTrigger, saveWorkflowProgress] = useSaveWorkflowMutation();
 
-  const handleFormSubmit = async (data: any) => {
-    if (pageActionType === EDIT_WORKFLOW) {
-      const { options, ...rest } = data;
-      const body = {
-        ...rest,
-        id: singleId,
-        runType: data?.runType?.value,
-        groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
-        actions: data?.actions?.map((action: any) =>
-          mapAction(action, typeData),
-        ),
-      };
-      try {
-        await updateWorkflowTrigger(body).unwrap();
-        successSnackbar('Workflow Update Successfully');
-        reset();
-        movePage();
-        return options;
-      } catch (error) {
-        errorSnackbar();
-      }
-    } else {
-      const { options, ...rest } = data;
-      const body = {
-        ...rest,
-        runType: data?.runType?.value,
-        groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
-        actions: data?.actions?.map((action: any) =>
-          mapAction(action, typeData),
-        ),
-      };
-      try {
+  const handleApiCall = async (body: any) => {
+    try {
+      let successMessage = '';
+      if (pageActionType === EDIT_WORKFLOW) {
+        await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
+        successMessage = 'Workflow Update Successfully';
+      } else if (!validation) {
+        await saveWorkflowTrigger(body).unwrap();
+        successMessage = 'Workflow Save Successfully';
+      } else {
         await postWorkflowTrigger(body).unwrap();
-        successSnackbar('Workflow Enabled Successfully');
-        reset();
-        movePage();
-        return options;
-      } catch (error) {
-        errorSnackbar();
+        successMessage = 'Workflow Create Successfully';
       }
+      successSnackbar(successMessage);
+      reset();
+      movePage();
+    } catch (error) {
+      errorSnackbar();
     }
   };
 
-  const handleSaveAsDraft = async (data: any) => {
-    const title = getValues('title');
-    if (!title) {
-      errorSnackbar('Title is required');
-      return;
-    } else {
-      try {
-        await saveWorkflowTrigger(data)?.unwrap();
-        successSnackbar('Workflow Updated Successfully');
-        reset();
-        movePage();
-      } catch (error) {
-        errorSnackbar();
-      }
-    }
+  const handleFormSubmit = async (data: any) => {
+    const { options, ...rest } = data;
+    const body = {
+      ...rest,
+      events: [data?.events?.value],
+      runType: data?.runType?.value,
+      groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
+      actions: data?.actions?.map((action: any) => mapAction(action, typeData)),
+    };
+    await handleApiCall(body);
+    return {
+      options,
+    };
   };
 
   useEffect(() => {
@@ -230,6 +207,7 @@ export const useRulesWorkflow = () => {
     postWorkflowProgress,
     isLoading,
     isFetching,
-    handleSaveAsDraft,
+    setValidation,
+    saveWorkflowProgress,
   };
 };

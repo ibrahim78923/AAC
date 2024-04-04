@@ -5,10 +5,20 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TestWorkflow } from '../TestWorkflow';
 import { useWorkflowHeader } from './useWorkflowHeader';
 
-export const WorkflowHeader = ({ handleSaveAsDraft }: any) => {
+export const WorkflowHeader = ({
+  setValidation,
+  saveWorkflowProgress,
+  postWorkflowProgress,
+}: any) => {
   const { handleMoveBack, openWorkflowModal, setOpenWorkflowModal, action } =
     useWorkflowHeader();
   const EDIT_WORKFLOW = 'edit';
+  const mainTitle = {
+    edit: 'Edit Event Base Workflow',
+    createButton: 'Create Event Base Workflow',
+    update: 'Update',
+    create: 'Create',
+  };
   return (
     <Box>
       <Box
@@ -20,9 +30,7 @@ export const WorkflowHeader = ({ handleSaveAsDraft }: any) => {
       >
         <PageTitledHeader
           title={
-            action === EDIT_WORKFLOW
-              ? 'Edit Event Base Workflow'
-              : 'Create Event Base Workflow'
+            action === EDIT_WORKFLOW ? mainTitle?.edit : mainTitle?.createButton
           }
           canMovedBack
           moveBack={handleMoveBack}
@@ -40,7 +48,9 @@ export const WorkflowHeader = ({ handleSaveAsDraft }: any) => {
             startIcon={<GrayBookIcon />}
             variant="outlined"
             color="secondary"
-            onClick={handleSaveAsDraft}
+            type="submit"
+            disabled={saveWorkflowProgress?.isLoading}
+            onClick={() => setValidation(false)}
           >
             Save as Draft
           </LoadingButton>
@@ -48,8 +58,10 @@ export const WorkflowHeader = ({ handleSaveAsDraft }: any) => {
             startIcon={<WhiteBookIcon />}
             variant="contained"
             type="submit"
+            disabled={postWorkflowProgress?.isLoading}
+            onClick={() => setValidation(true)}
           >
-            {action === EDIT_WORKFLOW ? 'Update' : 'Create'}
+            {action === EDIT_WORKFLOW ? mainTitle?.update : mainTitle?.create}
           </LoadingButton>
         </Box>
       </Box>

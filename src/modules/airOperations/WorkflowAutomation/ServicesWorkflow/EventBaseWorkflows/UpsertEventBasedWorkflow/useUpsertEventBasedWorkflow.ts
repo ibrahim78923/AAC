@@ -14,9 +14,10 @@ import {
 } from '@/services/airOperations/workflow-automation/services-workflow';
 import { useRouter } from 'next/router';
 import { AIR_OPERATIONS } from '@/constants';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useUpsertEventBasedWorkflow = () => {
+  const [validation, setValidation] = useState(false);
   const typeData = {
     string: 'string',
     number: 'number',
@@ -63,7 +64,7 @@ export const useUpsertEventBasedWorkflow = () => {
     resolver: yupResolver(eventBasedWorkflowSchema),
   });
 
-  const { reset, watch, register, handleSubmit, setValue, control, getValues } =
+  const { reset, watch, register, handleSubmit, setValue, control } =
     eventMethod;
 
   const mapField = (field: any, typeData: any) => {
@@ -147,70 +148,45 @@ export const useUpsertEventBasedWorkflow = () => {
     collectionName: getCollectionName(action?.fieldName),
   });
 
-  const [postWorkflowTrigger] = usePostServicesWorkflowMutation();
+  const [postWorkflowTrigger, postWorkflowProgress] =
+    usePostServicesWorkflowMutation();
   const [updateWorkflowTrigger] = useUpdateWorkflowMutation();
-  const [saveWorkflowTrigger] = useSaveWorkflowMutation();
+  const [saveWorkflowTrigger, saveWorkflowProgress] = useSaveWorkflowMutation();
 
-  const handleFormSubmit = async (data: any) => {
-    if (pageActionType === EDIT_WORKFLOW) {
-      const { options, ...rest } = data;
-      const body = {
-        ...rest,
-        id: singleId,
-        events: [data?.events?.value],
-        runType: data?.runType?.value,
-        groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
-        actions: data?.actions?.map((action: any) =>
-          mapAction(action, typeData),
-        ),
-      };
-      try {
-        await updateWorkflowTrigger(body).unwrap();
-        successSnackbar('Workflow Update Successfully');
-        reset();
-        movePage();
-        return options;
-      } catch (error) {
-        errorSnackbar();
-      }
-    } else {
-      const { options, ...rest } = data;
-      const body = {
-        ...rest,
-        events: [data?.events?.value],
-        runType: data?.runType?.value,
-        groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
-        actions: data?.actions?.map((action: any) =>
-          mapAction(action, typeData),
-        ),
-      };
-      try {
-        await postWorkflowTrigger(body).unwrap();
-        successSnackbar('Workflow Enabled Successfully');
-        reset();
-        movePage();
-        return options;
-      } catch (error) {
-        errorSnackbar();
-      }
-    }
-  };
-
-  const handleSaveAsDraft = async () => {
-    const title = getValues('title');
-    const description = getValues('description');
-    const body = {
-      title: title,
-      description: description,
-    };
+  const handleApiCall = async (body: any) => {
     try {
-      await saveWorkflowTrigger(body)?.unwrap();
-      successSnackbar('Workflow Saved Successfully');
+      let successMessage = '';
+      if (pageActionType === EDIT_WORKFLOW) {
+        await updateWorkflowTrigger({ ...body, id: singleId }).unwrap();
+        successMessage = 'Workflow Update Successfully';
+      } else if (!validation) {
+        await saveWorkflowTrigger(body).unwrap();
+        successMessage = 'Workflow Save Successfully';
+      } else {
+        await postWorkflowTrigger(body).unwrap();
+        successMessage = 'Workflow Create Successfully';
+      }
+      successSnackbar(successMessage);
       reset();
       movePage();
     } catch (error) {
-      errorSnackbar('Fill all other field');
+      errorSnackbar();
     }
+  };
+
+  const handleFormSubmit = async (data: any) => {
+    const { options, ...rest } = data;
+    const body = {
+      ...rest,
+      events: [data?.events?.value],
+      runType: data?.runType?.value,
+      groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
+      actions: data?.actions?.map((action: any) => mapAction(action, typeData)),
+    };
+    await handleApiCall(body);
+    return {
+      options,
+    };
   };
 
   useEffect(() => {
@@ -231,6 +207,8 @@ export const useUpsertEventBasedWorkflow = () => {
     control,
     isLoading,
     isFetching,
-    handleSaveAsDraft,
+    setValidation,
+    postWorkflowProgress,
+    saveWorkflowProgress,
   };
 };

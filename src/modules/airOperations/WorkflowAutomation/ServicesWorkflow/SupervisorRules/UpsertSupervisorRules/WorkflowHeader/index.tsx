@@ -7,7 +7,8 @@ import { useWorkflowHeader } from './useWorkflowHeader';
 
 export const WorkflowHeader = ({
   postWorkflowProgress,
-  handleSaveAsDraft,
+  setValidation,
+  saveWorkflowProgress,
 }: any) => {
   const { handleMoveBack, openWorkflowModal, setOpenWorkflowModal, action } =
     useWorkflowHeader();
@@ -44,7 +45,8 @@ export const WorkflowHeader = ({
             startIcon={<GrayBookIcon />}
             variant="outlined"
             color="secondary"
-            onClick={handleSaveAsDraft}
+            onClick={() => setValidation(false)}
+            disabled={saveWorkflowProgress?.isLoading}
           >
             Save as Draft
           </LoadingButton>
@@ -52,6 +54,7 @@ export const WorkflowHeader = ({
             startIcon={<WhiteBookIcon />}
             variant="contained"
             type="submit"
+            onClick={() => setValidation(true)}
             disabled={postWorkflowProgress?.isLoading}
           >
             {action === EDIT_WORKFLOW ? mainTitle?.update : mainTitle?.create}
