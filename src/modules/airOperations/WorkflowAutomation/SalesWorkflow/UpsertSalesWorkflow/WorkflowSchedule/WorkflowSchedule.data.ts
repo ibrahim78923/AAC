@@ -1,17 +1,17 @@
 export const scheduleTypes = {
-  schedule: 'Schedule',
+  schedule: 'SCHEDULED',
   annually: 'Annually',
   monthly: 'Monthly',
   weekly: 'Weekly',
   daily: 'Daily',
-  customRange: 'Custom Range',
+  customRange: 'Custom',
 };
 export const scheduleOptions = [
   'Daily',
   'Weekly',
   'Monthly',
   'Annually',
-  'Custom Range',
+  'Custom',
 ];
 export const weekOptions = [
   'Monday',
@@ -23,6 +23,6 @@ export const weekOptions = [
   'Sunday',
 ];
 export const radioOptions = [
-  { value: 'Enable Now', label: 'Enable Now' },
-  { value: 'Schedule', label: 'Schedule' },
+  { value: 'EVENT_BASE', label: 'Event Base' },
+  { value: 'SCHEDULED', label: 'Schedule' },
 ];

@@ -1,19 +1,20 @@
-import { NOTISTACK_VARIANTS } from '@/constants/strings';
-import { enqueueSnackbar } from 'notistack';
 import { useFieldArray } from 'react-hook-form';
-import { salesValues } from '../../UpsertSalesWorkflow.data';
+import { useEffect } from 'react';
+import {
+  useLazyGetContactDropdownListQuery,
+  useLazyGetDealDropdownListQuery,
+} from '@/services/airOperations/workflow-automation/sales-workflow';
+import { errorSnackbar, warningSnackbar } from '@/utils/api';
 
 export const useSubWorkflowConditions = (props: any) => {
-  const { control, index, parentField, removeParent } = props;
+  const { control, index, parentField, removeParent, setValue, watch } = props;
   const { fields, remove, append } = useFieldArray({
     control,
-    name: `workflowConditions.${index}.conditions`,
+    name: `groups.${index}.conditions`,
   });
   const handleDeleteClick = (subIndex: any) => {
     if (parentField?.length === 2 && fields?.length < 2) {
-      enqueueSnackbar('Cannot Delete', {
-        variant: NOTISTACK_VARIANTS?.WARNING,
-      });
+      warningSnackbar('Cannot Delete');
       return;
     }
     if (fields?.length > 1) {
@@ -25,16 +26,26 @@ export const useSubWorkflowConditions = (props: any) => {
   };
   const handleAppend = () => {
     if (fields?.length < 10) {
-      append(salesValues?.workflowConditions?.[0]?.conditions);
+      append({ fieldName: '', condition: '', fieldValue: null });
     } else {
-      enqueueSnackbar('Condition limit exceeds', {
-        variant: NOTISTACK_VARIANTS?.ERROR,
-      });
+      errorSnackbar('Condition limit exceeds');
     }
   };
+  const dealDropdown = useLazyGetDealDropdownListQuery();
+  const contactDropdown = useLazyGetContactDropdownListQuery();
+  const moduleType = watch('module');
+  useEffect(() => {
+    fields?.forEach((_, subIndex) => {
+      setValue(`groups.${index}.conditions.${subIndex}.fieldName`, '');
+      setValue(`groups.${index}.conditions.${subIndex}.condition`, '');
+      setValue(`groups.${index}.conditions.${subIndex}.fieldValue`, null);
+    });
+  }, [moduleType]);
   return {
     fields,
     handleAppend,
     handleDeleteClick,
+    dealDropdown,
+    contactDropdown,
   };
 };
