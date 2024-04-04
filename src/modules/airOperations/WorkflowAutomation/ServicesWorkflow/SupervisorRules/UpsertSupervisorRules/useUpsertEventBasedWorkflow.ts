@@ -96,7 +96,6 @@ export const useUpsertSupervisorRules = () => {
       const body = {
         ...rest,
         id: singleId,
-        events: [data?.events?.value],
         runType: data?.runType?.value,
         groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
         actions: data?.actions?.map((action: any) =>
@@ -116,7 +115,6 @@ export const useUpsertSupervisorRules = () => {
       const { options, ...rest } = data;
       const body = {
         ...rest,
-        events: [data?.events?.value],
         runType: data?.runType?.value,
         groups: data?.groups?.map((group: any) => mapGroup(group, typeData)),
         actions: data?.actions?.map((action: any) =>

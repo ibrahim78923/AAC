@@ -21,7 +21,7 @@ export const UpsertScheduledWorkflow = () => {
     setValue,
     isLoading,
     isFetching,
-    handleSaveAsDraft,
+    setValidation,
   } = useUpsertScheduledWorkflow();
 
   if (isLoading || isFetching) return <Skeleton />;
@@ -33,7 +33,7 @@ export const UpsertScheduledWorkflow = () => {
         onSubmit={handleSubmit(handleFormSubmit)}
       >
         <Box mb={2}>
-          <WorkflowHeader handleSaveAsDraft={handleSaveAsDraft} />
+          <WorkflowHeader setValidation={setValidation} />
         </Box>
         <Grid container spacing={2}>
           {scheduledWorkflowDataArray?.map((item: any) => (

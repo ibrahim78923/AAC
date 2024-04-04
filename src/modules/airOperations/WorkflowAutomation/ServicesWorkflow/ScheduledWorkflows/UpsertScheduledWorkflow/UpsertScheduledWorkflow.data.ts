@@ -12,12 +12,6 @@ export const andRunOptions = [
   { value: 'RECURRENT', label: 'Recurring, for the same record' },
 ];
 
-export const eventOptions = [
-  { value: 'created', label: 'When a record is created' },
-  { value: 'updated', label: 'When a record is updated' },
-  { value: 'deleted', label: 'When a record is deleted' },
-];
-
 export const conditionTypeOptions = [
   { value: 'AND', label: 'Match ALL condition in this group' },
   { value: 'OR', label: 'Match ANY condition in this group' },
@@ -52,7 +46,6 @@ export const scheduledWorkflowSchema = Yup?.object()?.shape({
   description: Yup.string(),
   runType: Yup.mixed().nullable().required('Required'),
   module: Yup.string().required('Required'),
-  events: Yup.mixed().nullable().required('Required'),
   groups: Yup?.array()?.of(
     Yup?.object()?.shape({
       name: Yup?.string()?.required('Required'),
@@ -132,11 +125,6 @@ export const scheduledWorkflowValues: any = (singleWorkflowData: any) => {
       endDate: new Date(),
       key: 'selection',
     },
-    events: singleWorkflowData?.events?.[0]
-      ? eventOptions?.find(
-          (item: any) => item?.value === singleWorkflowData?.events?.[0],
-        )
-      : null,
     runType: singleWorkflowData?.runType
       ? andRunOptions?.find(
           (item: any) => item?.value === singleWorkflowData?.runType,

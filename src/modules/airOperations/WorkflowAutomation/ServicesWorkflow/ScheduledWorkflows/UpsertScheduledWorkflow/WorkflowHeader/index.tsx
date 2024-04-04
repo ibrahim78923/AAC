@@ -5,7 +5,7 @@ import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TestWorkflow } from '../TestWorkflow';
 import { useWorkflowHeader } from './useWorkflowHeader';
 
-export const WorkflowHeader = ({ handleSaveAsDraft }: any) => {
+export const WorkflowHeader = ({ setValidation }: any) => {
   const { handleMoveBack, openWorkflowModal, setOpenWorkflowModal, action } =
     useWorkflowHeader();
   const EDIT_WORKFLOW = 'edit';
@@ -40,7 +40,8 @@ export const WorkflowHeader = ({ handleSaveAsDraft }: any) => {
             startIcon={<GrayBookIcon />}
             variant="outlined"
             color="secondary"
-            onClick={handleSaveAsDraft}
+            type="submit"
+            onClick={() => setValidation(false)}
           >
             Save as Draft
           </LoadingButton>
@@ -48,6 +49,7 @@ export const WorkflowHeader = ({ handleSaveAsDraft }: any) => {
             startIcon={<WhiteBookIcon />}
             variant="contained"
             type="submit"
+            onClick={() => setValidation(true)}
           >
             {action === EDIT_WORKFLOW ? 'Update' : 'Create'}
           </LoadingButton>

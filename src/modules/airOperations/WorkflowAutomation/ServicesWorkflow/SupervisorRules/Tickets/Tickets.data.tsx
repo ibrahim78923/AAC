@@ -190,14 +190,23 @@ export const listsColumnsFunction = (
     cell: (info: any) => dayjs(info?.getValue())?.format(DATE_TIME_FORMAT?.UI),
   },
   {
-    accessorFn: (row: any) => row?.updatedAt,
-    id: 'updatedAt',
-    isSortable: false,
+    accessorFn: (row: any) => row?.activity,
+    id: 'activity',
+    isSortable: true,
     header: 'Last Activity',
-    cell: (info: any) =>
-      fullName(
-        info?.getValue()?.type ? info?.getValue()?.type + ' ' + 'by' : null,
-        info?.getValue()?.user?.firstName + info?.getValue()?.user?.lastName,
-      ),
+    cell: (info: any) => {
+      const capitalizeFirstLetter = (type: any) =>
+        type.charAt(0).toUpperCase() + type.slice(1);
+      const type = info?.getValue()?.type;
+      const capitalizedType = type
+        ? capitalizeFirstLetter(type.toLowerCase())
+        : '';
+      return fullName(
+        capitalizedType ? capitalizedType + ' by' : null,
+        info?.getValue()?.user?.firstName +
+          ' ' +
+          info?.getValue()?.user?.lastName,
+      );
+    },
   },
 ];

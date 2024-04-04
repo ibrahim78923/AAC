@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material';
 import { RHFAutocomplete } from '@/components/ReactHookForm';
-import { andRunOptions, eventOptions } from '../UpsertEventBasedWorkflow.data';
+import { andRunOptions } from '../UpsertEventBasedWorkflow.data';
 
 export const WorkflowRunAndTrigger = (props: any) => {
   const { palette } = props;
@@ -29,18 +29,6 @@ export const WorkflowRunAndTrigger = (props: any) => {
           </Typography>
         </Box>
         <Grid container p={1.5} spacing={2}>
-          <Grid item md={6} xs={10}>
-            <RHFAutocomplete
-              name="events"
-              size="small"
-              placeholder="Select"
-              required
-              // multiple
-              label="Event"
-              options={eventOptions}
-              getOptionLabel={({ label }: { label: string }) => label}
-            />
-          </Grid>
           <Grid item md={6} xs={12} p={1.5}>
             <RHFAutocomplete
               name="runType"
