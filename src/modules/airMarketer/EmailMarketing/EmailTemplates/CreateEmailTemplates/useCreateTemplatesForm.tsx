@@ -14,10 +14,12 @@ const useCreateTemplatesForm = () => {
   const [alignment, setAlignment] = useState<string | null>('left');
   const [dynamicFields, setDynamicFields] = useState([...dynamicallyFormArray]);
   const theme = useTheme<Theme>();
-  const LoyaltyToken = 'Loyalty Token';
-  const Credits = 'Credits';
-  const Voucher = 'Voucher';
-
+  const templateContants = {
+    giftCard: 'GiftCard',
+    LoyaltyToken: 'Loyalty Token',
+    Credits: 'Credits',
+    Voucher: 'Voucher',
+  };
   const addField = (type: any) => {
     // Create a mapping function to translate the type to form configuration
     const mapTypeToConfig = (type: any) => {
@@ -108,9 +110,7 @@ const useCreateTemplatesForm = () => {
     onSubmit,
     alignment,
     handleAlignment,
-    LoyaltyToken,
-    Credits,
-    Voucher,
+    templateContants,
   };
 };
 

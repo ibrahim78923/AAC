@@ -63,7 +63,6 @@ const TaxCalculation = () => {
     loadingUpdateTax,
     setPageLimit,
     setPage,
-    handlePageChange,
     selectedRow,
     setSelectedRow,
     setIsActionsDisabled,
@@ -233,12 +232,14 @@ const TaxCalculation = () => {
             columns={getTableColumns}
             data={dataGetTaxCalculation?.data?.taxCalculations}
             isLoading={loagingGetTaxCalculation}
-            isPagination
+            currentPage={dataGetTaxCalculation?.data?.meta?.page}
             count={dataGetTaxCalculation?.data?.meta?.pages}
+            pageLimit={dataGetTaxCalculation?.data?.meta?.limit}
             totalRecords={dataGetTaxCalculation?.data?.meta?.total}
-            onPageChange={handlePageChange}
             setPage={setPage}
             setPageLimit={setPageLimit}
+            onPageChange={(page: any) => setPage(page)}
+            isPagination
           />
         </Box>
       </PermissionsGuard>

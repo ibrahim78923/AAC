@@ -8,8 +8,11 @@ import { DragIcon } from '@/assets/icons';
 
 import { v4 as uuidv4 } from 'uuid';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import SkeletonTable from '@/components/Skeletons/SkeletonTable';
+import useDealTab from '../DealTab/useDealTab';
 
 const DealCustomize = ({ open, onClose }: any) => {
+  const { customizeLoading } = useDealTab();
   const {
     handleChackboxChange,
     handleUpdateColumns,
@@ -38,80 +41,92 @@ const DealCustomize = ({ open, onClose }: any) => {
       submitHandler={handleUpdateColumns}
       okText="Save"
       title="Customize Columns"
+      isLoading={customizeLoading}
     >
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable
-          key={uuidv4()}
-          droppableId={`columnWrapper`}
-          direction="vertical"
-        >
-          {(provided) => (
-            <Box
-              sx={{ userSelect: 'none', width: '100%' }}
-              ref={provided?.innerRef}
-              {...provided?.droppableProps}
-            >
-              <Box sx={{ paddingTop: '1rem', width: '100%' }}>
-                <Grid container>
-                  {order?.map((col: any, i: number) => (
-                    <Draggable
-                      key={col?.slug}
-                      draggableId={col?.slug}
-                      index={i}
-                    >
-                      {(provided) => (
-                        <Box
-                          ref={provided?.innerRef}
-                          {...provided?.draggableProps}
-                          {...provided?.dragHandleProps}
-                          sx={{
-                            cursor: 'grabbing',
-                            width: '100%',
-                          }}
-                        >
-                          <Grid item xs={12} key={col?.slug}>
-                            <Box
-                              sx={{
-                                ...styles?.column(theme?.palette, col?.active),
-                                width: '100%',
-                              }}
-                            >
+      {customizeLoading ? (
+        <SkeletonTable />
+      ) : (
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable
+            key={uuidv4()}
+            droppableId={`columnWrapper`}
+            direction="vertical"
+          >
+            {(provided) => (
+              <Box
+                sx={{ userSelect: 'none', width: '100%' }}
+                ref={provided?.innerRef}
+                {...provided?.droppableProps}
+              >
+                <Box sx={{ paddingTop: '1rem', width: '100%' }}>
+                  <Grid container>
+                    {order?.map((col: any, i: number) => (
+                      <Draggable
+                        key={col?.slug}
+                        draggableId={col?.slug}
+                        index={i}
+                      >
+                        {(provided) => (
+                          <Box
+                            ref={provided?.innerRef}
+                            {...provided?.draggableProps}
+                            {...provided?.dragHandleProps}
+                            sx={{
+                              cursor: 'grabbing',
+                              width: '100%',
+                            }}
+                          >
+                            <Grid item xs={12} key={col?.slug}>
                               <Box
                                 sx={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  gap: 2,
-                                  flex: 1,
+                                  ...styles?.column(
+                                    theme?.palette,
+                                    col?.active,
+                                  ),
+                                  width: '100%',
                                 }}
                               >
-                                <DragIcon />
-                                <FormControlLabel
-                                  key={col?.slug}
-                                  checked={selected?.includes(col?.slug)}
-                                  classes={{
-                                    root: '_root',
-                                    label: '_label',
+                                <Box
+                                  sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 2,
+                                    flex: 1,
                                   }}
-                                  name={col?.attributes}
-                                  onChange={({ target }: any) =>
-                                    handleChackboxChange(target.checked, col, i)
-                                  }
-                                  control={<Checkbox />}
-                                  label={col?.slug}
-                                />
+                                >
+                                  <DragIcon />
+                                  <FormControlLabel
+                                    key={col?.slug}
+                                    checked={selected?.includes(col?.slug)}
+                                    classes={{
+                                      root: '_root',
+                                      label: '_label',
+                                    }}
+                                    name={col?.attributes}
+                                    onChange={({ target }: any) =>
+                                      handleChackboxChange(
+                                        target.checked,
+                                        col,
+                                        i,
+                                      )
+                                    }
+                                    control={<Checkbox />}
+                                    label={col?.slug}
+                                  />
+                                </Box>
                               </Box>
-                            </Box>
-                          </Grid>
-                        </Box>
-                      )}
-                    </Draggable>
-                  ))}
-                </Grid>
+                            </Grid>
+                          </Box>
+                        )}
+                      </Draggable>
+                    ))}
+                  </Grid>
+                </Box>
               </Box>
-            </Box>
-          )}
-        </Droppable>
-      </DragDropContext>
+            )}
+          </Droppable>
+        </DragDropContext>
+      )}
     </CommonDrawer>
   );
 };

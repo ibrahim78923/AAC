@@ -34,9 +34,7 @@ const CreateTemplatesForm = () => {
     onSubmit,
     alignment,
     handleAlignment,
-    LoyaltyToken,
-    Credits,
-    Voucher,
+    templateContants,
   } = useCreateForm();
   return (
     <Grid sx={styles.mainDiv(theme)}>
@@ -114,12 +112,14 @@ const CreateTemplatesForm = () => {
                         key={uuidv4()}
                         sx={{
                           paddingTop:
-                            index === 4 && headerValue === 'GiftCard'
+                            index === 4 &&
+                            headerValue === templateContants?.giftCard
                               ? '0px !important'
                               : (index === 4 || index === 3) &&
-                                (headerValue === LoyaltyToken ||
-                                  headerValue === Credits ||
-                                  headerValue === Voucher)
+                                (headerValue ===
+                                  templateContants?.LoyaltyToken ||
+                                  headerValue === templateContants?.Credits ||
+                                  headerValue === templateContants?.Voucher)
                               ? '0px !important'
                               : index != 0
                               ? '20px !important'

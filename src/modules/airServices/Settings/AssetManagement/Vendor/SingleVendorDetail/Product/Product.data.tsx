@@ -30,7 +30,9 @@ export const productColumns = (
     isSortable: true,
     header: 'Warranty/Validity',
     cell: (info: any) =>
-      `${info?.row?.original?.months} Months  ${info?.row?.original?.yrs} Yrs`,
+      `${!!info?.row?.original?.yrs ? info?.row?.original?.yrs : '0'} Yrs  ${
+        !!info?.row?.original?.months ? info?.row?.original?.months : '0'
+      } Months`,
   },
   {
     accessorFn: (row: any) => row?.quantity,

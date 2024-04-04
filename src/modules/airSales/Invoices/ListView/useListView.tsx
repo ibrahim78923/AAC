@@ -75,7 +75,7 @@ const useListView = () => {
     const { creationDate, ...others } = values;
     setFilterParams(() => {
       const updatedParams = { ...others };
-      if (creationDate !== null) {
+      if (creationDate != null) {
         updatedParams.creationDate = dayjs(creationDate).format(
           DATE_FORMAT.API,
         );
@@ -138,7 +138,13 @@ const useListView = () => {
     try {
       await updateInvoice({ id: id, body: payLoad })?.unwrap();
       enqueueSnackbar(
-        `This job is ${status === 'OPEN' ? 'open' : 'close'} now`,
+        `This invoice is ${
+          status === 'PAID'
+            ? 'Paid'
+            : status === 'DRAFT'
+            ? 'Draft'
+            : 'Published'
+        } now`,
         {
           variant: 'success',
         },

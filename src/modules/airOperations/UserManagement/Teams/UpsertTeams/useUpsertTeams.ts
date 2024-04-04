@@ -38,7 +38,7 @@ export const useUpsertTeams = (setIsDrawerOpen: any) => {
     }
   };
   const handleClose = () => {
-    setIsDrawerOpen(false);
+    setIsDrawerOpen({ val: false });
     reset?.();
   };
 

@@ -7,7 +7,7 @@ import { AgentConversionDelete } from '../../AgentConversionDelete';
 import { useUserHeader } from './useUserHeader';
 
 export const UserHeader = (props: any) => {
-  const { selectedUserList, methods, handleSubmit, submit } = props;
+  const { selectedUserList } = props;
   const {
     isAddDrawerOpen,
     setIsAddDrawerOpen,
@@ -17,6 +17,10 @@ export const UserHeader = (props: any) => {
     submitDeleteModal,
     search,
     setSearch,
+    methods,
+    handleSubmit,
+    submit,
+    loading,
   } = useUserHeader(props);
 
   return (
@@ -64,6 +68,7 @@ export const UserHeader = (props: any) => {
               setDeleteModal(false);
             }}
             submitDeleteModal={submitDeleteModal}
+            loading={loading}
           />
         )}
       </Box>

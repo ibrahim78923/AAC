@@ -1,4 +1,3 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Grid, Button, Divider, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -7,17 +6,51 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
 import {
   editProfileDataArray,
-  editProfileDefaultValues,
   editProfileValidationSchema,
 } from './Profile.data';
+import useEditProfile from '@/modules/EditProfile/useEditProfile';
+import { useUpdateUsersMutation } from '@/services/superAdmin/user-management/users';
+import { enqueueSnackbar } from 'notistack';
+import { LoadingButton } from '@mui/lab';
 
 const Profile = () => {
+  const { getUserData } = useEditProfile();
+  const [updateUsers, { isLoading }] = useUpdateUsersMutation();
+
+  const defaultProfileData: any = {
+    firstName: getUserData?.data?.firstName,
+    lastName: getUserData?.data?.lastName,
+    email: getUserData?.data?.email,
+    WorkPhoneNumber: getUserData?.data?.phoneNumber,
+    phoneNumber: getUserData?.data?.phoneNumber,
+    jobTitle: getUserData?.data?.jobTitle,
+    companyName: getUserData?.data?.organization?.name,
+    twitterUrl: getUserData?.data?.twitterUrl,
+    linkedInUrl: getUserData?.data?.linkedInUrl,
+    facebookUrl: getUserData?.data?.facebookUrl,
+    language: getUserData?.data?.language,
+  };
+
   const methodsCreateNewTicketForm = useForm({
     resolver: yupResolver(editProfileValidationSchema),
-    defaultValues: editProfileDefaultValues,
+    defaultValues: defaultProfileData,
   });
 
-  const onSubmit = () => {};
+  const onSubmit = async (values: any) => {
+    delete values['WorkPhoneNumber'];
+    delete values['companyName'];
+
+    try {
+      await updateUsers({ id: getUserData?.data?._id, body: values })?.unwrap();
+      enqueueSnackbar('User profile updated successfully', {
+        variant: 'success',
+      });
+    } catch (error: any) {
+      enqueueSnackbar(error?.data?.message, {
+        variant: 'error',
+      });
+    }
+  };
 
   const { handleSubmit } = methodsCreateNewTicketForm;
 
@@ -27,7 +60,7 @@ const Profile = () => {
         methods={methodsCreateNewTicketForm}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Grid container spacing={4}>
+        <Grid container spacing={2}>
           {editProfileDataArray?.map((item: any) => (
             <Grid item xs={12} md={item?.md} key={uuidv4()}>
               {item?.componentProps?.heading && (
@@ -35,7 +68,13 @@ const Profile = () => {
                   {item?.componentProps?.heading}
                 </Typography>
               )}
-              <item.component {...item.componentProps} size={'small'}>
+              <item.component
+                {...item.componentProps}
+                size={'small'}
+                disabled={
+                  item?.componentProps?.name === 'companyName' ? true : false
+                }
+              >
                 {item?.componentProps?.select
                   ? item?.options?.map((option: any) => (
                       <option key={option?.value} value={option?.value}>
@@ -60,9 +99,9 @@ const Profile = () => {
           >
             Cancel
           </Button>
-          <Button type="submit" variant="contained">
+          <LoadingButton type="submit" variant="contained" loading={isLoading}>
             Save
-          </Button>
+          </LoadingButton>
         </Box>
       </FormProvider>
     </Box>

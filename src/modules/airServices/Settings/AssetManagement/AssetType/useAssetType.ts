@@ -1,5 +1,5 @@
 import { PAGINATION } from '@/config';
-import { useGetAssetTypeQuery } from '@/services/airServices/settings/asset-management/asset-type';
+import { useGetAssetTypeFieldsQuery } from '@/services/airServices/settings/asset-management/asset-type';
 import { useState } from 'react';
 
 export const useAssetType = () => {
@@ -26,7 +26,7 @@ export const useAssetType = () => {
     meta: true,
   };
 
-  const { data, isLoading, isFetching } = useGetAssetTypeQuery(param);
+  const { data, isLoading, isFetching } = useGetAssetTypeFieldsQuery(param);
   const assetTypeData = data?.data?.assettypes;
   const metaData = data?.data?.meta;
 
