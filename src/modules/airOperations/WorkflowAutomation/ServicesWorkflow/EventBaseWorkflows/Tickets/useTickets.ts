@@ -32,8 +32,13 @@ export const useTickets = () => {
   const [switchLoading, setSwitchLoading] = useState<any>({});
   const EDIT_WORKFLOW = 'edit';
   const selectedId = selectedAction?.map((item: any) => item?._id);
-  const [getWorkflowListTrigger, { data, isLoading, isFetching, isSuccess }] =
-    useLazyGetWorkflowListQuery();
+  const [
+    getWorkflowListTrigger,
+    { data, isLoading, isFetching, isSuccess, isError },
+  ] = useLazyGetWorkflowListQuery();
+
+  const totalRecords = data?.data?.workFlows;
+
   const workflowParams = {
     page,
     limit,
@@ -41,6 +46,7 @@ export const useTickets = () => {
     module: SCHEMA_KEYS?.TICKETS,
     type: MODULES?.EVENT_BASE,
   };
+
   const handleWorkflow = async () => {
     await getWorkflowListTrigger(workflowParams);
   };
@@ -149,5 +155,7 @@ export const useTickets = () => {
     dropdownOptions,
     listData,
     setSelectedAction,
+    totalRecords,
+    isError,
   };
 };

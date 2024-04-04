@@ -132,7 +132,7 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
         )
       : SCHEMA_KEYS?.TICKETS,
     groupCondition: singleWorkflowData?.groupCondition ?? '',
-    groups: singleWorkflowData?.groups?.map((group: any) => {
+    groups: singleWorkflowData?.groups?.map((group: any, gIndex: number) => {
       return {
         name: group?.name ?? '',
         conditionType: group?.conditionType
@@ -140,11 +140,16 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
               (item: any) => item?.value === group?.conditionType,
             )
           : null,
-        conditions: group?.conditions?.map((condition: any) => {
+        conditions: group?.conditions?.map((condition: any, cIndex: number) => {
           return {
             fieldName: condition?.fieldName ?? '',
             condition: condition?.condition ?? '',
-            fieldValue: condition?.fieldValue ?? null,
+            fieldValue:
+              condition?.fieldType === 'objectId'
+                ? singleWorkflowData[
+                    `${condition?.fieldName}${gIndex}${cIndex}`
+                  ]
+                : condition?.fieldValue,
           };
         }),
       };
@@ -176,9 +181,7 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
       ? Object?.entries(singleWorkflowData?.actionValues)?.map(
           ([actionName, actionData]: any) => ({
             fieldName: actionName
-              ? actionsOptions?.find(
-                  (item: any) => item?.value === singleWorkflowData?.fieldName,
-                )
+              ? actionsOptions?.find((item: any) => item?.value)
               : null,
             fieldValue: actionData,
           }),
@@ -186,6 +189,7 @@ export const eventBasedWorkflowValues: any = (singleWorkflowData: any) => {
       : [{ fieldName: null, fieldValue: null }],
   };
 };
+
 export const EventBasedWorkflowDataArray = [
   {
     componentProps: {
