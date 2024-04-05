@@ -3,16 +3,25 @@ import { useAppDispatch } from '@/redux/store';
 import { useGetAuthMyAccountQuery } from '@/services/auth';
 
 import {
+  getActivePermissionsSession,
   getActiveProductSession,
   getSession,
+  isNullOrEmpty,
   isTokenValidationCheck,
   setActiveAccountSession,
   setActivePermissionsSession,
   setActiveProductSession,
   setSession,
+  stringArraysEqual,
 } from '@/utils';
 
-import { createContext, useEffect, useReducer, ReactNode } from 'react';
+import {
+  createContext,
+  useEffect,
+  useReducer,
+  ReactNode,
+  useState,
+} from 'react';
 
 const initialState = {
   isAuthenticated: false,
@@ -32,6 +41,8 @@ const AuthContext = createContext({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setActiveProduct: (res: any) => Promise.resolve(),
   setPermissions: () => Promise.resolve(),
+  authMeLoadingState: Boolean,
+  currentPermissions: [],
 });
 
 //TODO:second step make methods for reducers this will be used globally
@@ -100,25 +111,25 @@ function AuthProvider({ children }: { children: ReactNode }) {
   //TODO:reducer to keep an eye on specific called reducer function which method from handler called
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
   const {
     data: permissionsData,
     refetch,
     isLoading: authMeLoadingState,
-  } = useGetAuthMyAccountQuery({}, { skip: !state?.isPermissions });
+  } = useGetAuthMyAccountQuery({});
 
-  if (state?.isPermissions) {
-    setActivePermissionsSession(
-      permissionsData?.data?.account?.role?.permissions,
-    );
-  }
-  useEffect(() => {
-    if (permissionsData?.data?.account?.role?.permissions) {
-      setActivePermissionsSession(
-        permissionsData?.data?.account?.role?.permissions,
-      );
-    }
-  }, [permissionsData]);
   // const [logoutTrigger] = useLogoutMutation();
+  const permissionsFromApi = permissionsData?.data?.account?.role?.permissions;
+  if (
+    (isNullOrEmpty(permissionsArray) ||
+      !stringArraysEqual(permissionsFromApi, permissionsArray)) &&
+    state?.isAuthenticated &&
+    permissionsFromApi
+  ) {
+    setPermissionsArray(permissionsFromApi);
+    setActivePermissionsSession(permissionsFromApi);
+  }
 
   const appDispatch = useAppDispatch();
 
@@ -221,10 +232,13 @@ function AuthProvider({ children }: { children: ReactNode }) {
     setSession(null);
     setActivePermissionsSession(null);
     setActiveAccountSession(null);
+    setPermissionsArray([]);
     dispatch({ type: 'LOGOUT' });
     appDispatch({ type: 'auth/logout' });
   };
-
+  const currentPermissions = !isNullOrEmpty(permissionsArray)
+    ? permissionsArray
+    : getActivePermissionsSession();
   return (
     <AuthContext.Provider
       value={{
@@ -235,6 +249,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
         setActiveProduct,
         setPermissions,
         authMeLoadingState,
+        currentPermissions,
       }}
     >
       {children}
