@@ -4,11 +4,11 @@ import {
   useUpdateSettingsQuickLinkMutation,
 } from '@/services/superAdmin/settings/quick-links';
 import { enqueueSnackbar } from 'notistack';
-// import useAuth from '@/hooks/useAuth';
+import useAuth from '@/hooks/useAuth';
+import { EQuickLinksType, EQUICKLINKSROLES } from '@/constants';
 
 const useLinkDropDown = () => {
-  // const user = useAuth();
-  // console.log('user::: ', user);
+  const user: any = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [checkedItems, setCheckedItems] = useState<any[]>([]);
   const [toggleView, setToggleView] = useState(false);
@@ -28,9 +28,17 @@ const useLinkDropDown = () => {
     setToggleView(!toggleView);
   };
 
-  const { data, isLoading, isFetching } = useGetUserQuickLinksQuery({
-    type: 'SUPER_ADMIN',
-  });
+  const payload: any = {
+    type: EQuickLinksType?.PRODUCT,
+    productId: user?.product?._id,
+  };
+  // Login as SUPER_ADMIN & ORG_ADMIN
+  if (user?.product?.name === EQUICKLINKSROLES?.SUPER_ADMIN) {
+    payload.type = EQuickLinksType?.SUPER_ADMIN;
+  } else if (user?.product == null) {
+    payload.type = EQuickLinksType?.ORG_ADMIN;
+  }
+  const { data, isLoading, isFetching } = useGetUserQuickLinksQuery(payload);
   const userQuickLinks = data?.data?.quickLinks || [];
   const quickLinksIds = data?.data?.quickLinksIds || [];
 
@@ -49,10 +57,18 @@ const useLinkDropDown = () => {
   const [saveQuickLinks, { isLoading: loadingSaveQuickLinks }] =
     useUpdateSettingsQuickLinkMutation();
   const handleSubmitSaveQuickLinks = async () => {
-    const payload = {
-      type: 'SUPER_ADMIN',
+    const payload: any = {
+      type: EQuickLinksType?.PRODUCT,
+      productId: user?.product?._id,
       quickLinksIds: checkedItems,
     };
+    // Login as SUPER_ADMIN & ORG_ADMIN
+    if (user?.product?.name === EQUICKLINKSROLES?.SUPER_ADMIN) {
+      payload.type = EQuickLinksType?.SUPER_ADMIN;
+    } else if (user?.product == null) {
+      payload.type = EQuickLinksType?.ORG_ADMIN;
+    }
+
     try {
       await saveQuickLinks({ body: payload })?.unwrap();
       handleClose();
