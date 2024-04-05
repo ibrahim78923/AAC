@@ -54,6 +54,24 @@ export const settingsQuickLinksAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: TAG,
     }),
+
+    getUserQuickLinks: builder.query({
+      query: (params) => ({
+        url: SUPER_ADMIN_SETTINGS?.USER_SETTINGS_QUICK_LINK,
+        method: 'GET',
+        params: params,
+      }),
+      providesTags: TAG,
+    }),
+
+    updateSettingsQuickLink: builder.mutation({
+      query: ({ body }: any) => ({
+        url: SUPER_ADMIN_SETTINGS?.UPDATE_USER_SETTINGS_QUICK_LINK,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: TAG,
+    }),
   }),
 });
 
@@ -64,4 +82,6 @@ export const {
   useUpdateQuickLinkMutation,
   usePostQuickLinkMutation,
   useDeleteQuickLinkMutation,
+  useGetUserQuickLinksQuery,
+  useUpdateSettingsQuickLinkMutation,
 } = settingsQuickLinksAPI;
