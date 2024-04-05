@@ -36,7 +36,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
     invoiceDiscountPercent * (planCalculations?.discountedPriceBeforeTax / 100);
   const total =
     planCalculations?.discountedPriceBeforeTax - invoiceDiscountAmount;
-  const discountAmount = (total * PLAN_CALCULATIONS?.PLAN_DISCOUNT).toFixed(2);
+  const discountAmount = (total * PLAN_CALCULATIONS?.PLAN_DISCOUNT)?.toFixed(2);
   const NetAmount = Number(total) + Number(discountAmount);
 
   const columns: any = [

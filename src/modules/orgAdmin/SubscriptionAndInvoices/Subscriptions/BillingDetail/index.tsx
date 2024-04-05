@@ -93,10 +93,10 @@ const BillingDetail: FC<BillingDetailI> = ({
                           planCalculations?.additionalStorage
                         }
                         planDiscount={planDiscount}
-                        discount={discount.toFixed(2)}
-                        tax={taxAmount.toFixed(2)}
-                        subTotal={subTotalAfterDiscount.toFixed(2)}
-                        totalCost={NetAmount.toFixed(2)}
+                        discount={discount?.toFixed(2)}
+                        tax={taxAmount?.toFixed(2)}
+                        subTotal={subTotalAfterDiscount?.toFixed(2)}
+                        totalCost={NetAmount?.toFixed(2)}
                       />
                     </Box>
                   </>
