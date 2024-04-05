@@ -21,7 +21,6 @@ const useOrganizationCard = () => {
 
   const methods = useForm<any>({
     resolver: yupResolver(validationSchema),
-    // defaultValues: defaultValues,
   });
 
   const { handleSubmit, reset, watch, setValue } = methods;

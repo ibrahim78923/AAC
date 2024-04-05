@@ -8,10 +8,6 @@ export const validationSchema = Yup?.object()?.shape({
     .email('Invalid email format')
     .required('Field is Required'),
   phoneNo: Yup.string().required('Field is Required'),
-  // postCode: Yup.string()
-  //   .matches(/^[0-9]+$/, 'Post code must contain only digits')
-  //   .required('Field is Required'),
-  // compositeAddress: Yup.string()?.required('Field is Required'),
 });
 
 export const defaultValues = {
