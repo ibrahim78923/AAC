@@ -195,6 +195,8 @@ export const Quick_Links_Routes = {
   DOCUMENT: '/social-components/my-documents',
   CHAT: '/social-components/chat',
   EMAIL: '/social-components/email',
+  COMPANIES: '/social-components/companies',
+  MEETINGS: '/social-components/meetings',
 };
 
 export const productSuiteName = {

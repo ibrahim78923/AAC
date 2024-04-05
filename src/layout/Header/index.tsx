@@ -32,8 +32,8 @@ import { styles } from './Header.style';
 
 import { v4 as uuidv4 } from 'uuid';
 import { generateImage } from '@/utils/avatarUtils';
-
-const role = 'super-admin';
+import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
+import { ROLES } from '@/constants/strings';
 
 const Header = (props: any) => {
   const { handleDrawerToggle } = props;
@@ -44,6 +44,9 @@ const Header = (props: any) => {
 
   const [searchValue, SetSearchValue] = useState<string>('');
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [innerBoxesRendered, setInnerBoxesRendered] = useState(false);
+
+  const role = user?.role;
 
   const handleClickOpen = () => {
     setIsOpenModal(true);
@@ -112,25 +115,37 @@ const Header = (props: any) => {
             alignItems: 'center',
           }}
         >
-          {role && (
-            <Box sx={styles?.quickLinkBox(theme)}>
+          {role !== ROLES?.SUPER_ADMIN && (
+            <Box sx={styles?.quickLinkBox(theme, innerBoxesRendered)}>
               {!isNullOrEmpty(QuickLinkData) &&
                 QuickLinkData?.map((image) => (
-                  <Box key={uuidv4()} sx={styles?.innerQuickLinkBox(theme)}>
-                    <Link href={image?.path}>
-                      <Image
-                        src={image?.icon}
-                        alt="logo"
-                        width={18}
-                        height={18}
-                      />
-                    </Link>
-                  </Box>
+                  <PermissionsGuard
+                    key={uuidv4()}
+                    permissions={image?.permissions}
+                  >
+                    <Box
+                      sx={styles?.innerQuickLinkBox(theme)}
+                      onLoad={() => {
+                        if (!innerBoxesRendered) {
+                          setInnerBoxesRendered(true);
+                        }
+                      }}
+                    >
+                      <Link href={image?.path}>
+                        <Image
+                          src={image?.icon}
+                          alt="logo"
+                          width={18}
+                          height={18}
+                        />
+                      </Link>
+                    </Box>
+                  </PermissionsGuard>
                 ))}
             </Box>
           )}
           {role && <SocialIconsDropdown />}
-          {role && <AccountMenu />}
+          {role !== ROLES?.SUPER_ADMIN && <AccountMenu />}
 
           <LinkDropdown />
           <NotificationDropdown />

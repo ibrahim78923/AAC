@@ -1,6 +1,7 @@
 import { setAuthTokens } from '@/redux/slices/auth/slice';
 import { useAppDispatch } from '@/redux/store';
 import { useGetAuthMyAccountQuery } from '@/services/auth';
+import { clearApiCache } from '@/services/base-api';
 
 import {
   getActivePermissionsSession,
@@ -22,6 +23,7 @@ import {
   ReactNode,
   useState,
 } from 'react';
+import { useDispatch } from 'react-redux';
 
 const initialState = {
   isAuthenticated: false,
@@ -132,6 +134,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const appDispatch = useAppDispatch();
+  const dispatchClearCache = useDispatch();
 
   useEffect(() => {
     const initialize = () => {
@@ -235,6 +238,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     setPermissionsArray([]);
     dispatch({ type: 'LOGOUT' });
     appDispatch({ type: 'auth/logout' });
+    dispatchClearCache(clearApiCache());
   };
   const currentPermissions = !isNullOrEmpty(permissionsArray)
     ? permissionsArray
