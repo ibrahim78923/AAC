@@ -4,7 +4,6 @@ import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
 import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
-import { IMG_URL } from '@/config';
 import { generateImage } from '@/utils/avatarUtils';
 import Image from 'next/image';
 
@@ -50,9 +49,7 @@ export const AllDealColumns = ({
             {info?.row?.original?.dealOwner?.avatar?.url && (
               <Image
                 alt="user"
-                src={generateImage(
-                  IMG_URL + info?.row?.original?.dealOwner?.avatar?.url,
-                )}
+                src={generateImage(info?.row?.original?.dealOwner?.avatar?.url)}
                 width={20}
                 height={20}
               />
