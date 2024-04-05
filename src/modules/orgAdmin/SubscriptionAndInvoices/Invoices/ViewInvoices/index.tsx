@@ -253,7 +253,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
               <Box sx={styles?.vValue}>£ {invoiceDiscountAmount}</Box>
             </Box>
             {/* total  */}
-            <Box sx={styles?.vRow}>
+            {/* <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
                 Total{' '}
                 <Box
@@ -262,7 +262,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
                 ></Box>
               </Box>
               <Box sx={styles?.vValue}>£ {total}</Box>
-            </Box>
+            </Box> */}
             {/* total  */}
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>

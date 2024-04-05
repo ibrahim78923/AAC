@@ -156,7 +156,7 @@ const InvoiceCard = ({
   discount,
   tax,
   totalCost,
-  subTotal,
+  // subTotal,
 }: any) => {
   const theme = useTheme();
   return (
@@ -248,7 +248,7 @@ const InvoiceCard = ({
         </Box>
       </Box>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+      {/* <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
         <Typography variant="caption">
           <Typography variant="overline" sx={{ textTransform: 'capitalize' }}>
             <em>Sub Total</em>
@@ -257,7 +257,7 @@ const InvoiceCard = ({
         <Box sx={{ ml: 'auto' }}>
           <Typography variant="overline">{subTotal}</Typography>
         </Box>
-      </Box>
+      </Box> */}
 
       <Box sx={{ display: 'flex', alignItems: 'center', my: '15px' }}>
         <Typography variant="caption">

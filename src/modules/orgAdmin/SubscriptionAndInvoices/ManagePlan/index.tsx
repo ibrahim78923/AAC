@@ -147,7 +147,6 @@ const ManagePlan = () => {
               <Grid container spacing={3}>
                 <Grid item xs={4}>
                   <FormControl fullWidth>
-                    {/* <InputLabel id='Billing Cycle'>Billing Cycle</InputLabel> */}
                     <CustomLabel label={'Billing Cycle'} />
                     <Select
                       labelId="billingCycle"
@@ -250,17 +249,16 @@ const ManagePlan = () => {
           </Box>
         </Box>
 
-        <Box sx={styles?.planTableRow}>
+        {/* <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>
             Total{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              {/* ({planCalculations?.planDiscount} %) */}
             </Box>
           </Box>
           <Box sx={styles?.planTableTh}>
-            £ {(planCalculations?.discountApplied || 0).toFixed(2)}
+            £ {(planCalculations?.discountApplied || 0)?.toFixed(2)}
           </Box>
-        </Box>
+        </Box> */}
 
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>
