@@ -118,7 +118,7 @@ export const createDealData = ({ dealPipelineId }: any) => {
         GridView: 6,
         isCheckBox: true,
         label: 'Add Line Item',
-        required: true,
+        // required: true,
         options: salesProduct?.data?.salesproducts?.map((item: any) => ({
           value: item?._id,
           label: item?.name,

@@ -100,6 +100,7 @@ const UpdateQuote = () => {
                       Save & Continue
                     </Button>
                   )}
+
                   {activeStep !== 2 && activeStep !== 3 && activeStep !== 4 ? (
                     <></>
                   ) : (

@@ -1,12 +1,11 @@
+import React from 'react';
 import { Avatar, Box, Checkbox, Typography, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-import React from 'react';
 import { AvatarImage } from '@/assets/images';
 import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { IMG_URL } from '@/config';
-// import useDealTab from '../useDealTab';
 
 export const AllDealColumns = ({
   selectedRows,
@@ -22,12 +21,14 @@ export const AllDealColumns = ({
   activeColumns: any;
 }) => {
   const theme = useTheme();
+  const router = useRouter();
   const DEAL_ATTRIBUTES = {
     DEAL_OWNER: 'dealOwner',
     DEAL_NAME: 'name',
     DEAL_CLOSEDATE: 'closeDate',
     DEAL_CREATEDAT: 'createdAt',
   };
+
   const activeColumnsData = (attribute: any, info: any) => {
     const navigate = useRouter();
     if (attribute?.includes(DEAL_ATTRIBUTES?.DEAL_OWNER)) {
@@ -38,8 +39,8 @@ export const AllDealColumns = ({
             sx={{ background: theme?.palette?.custom?.dim_grey }}
             src={
               info?.row?.original?.dealOwner?.avatar?.url
-                ? IMG_URL + info?.row?.original?.dealOwner?.avatar?.url
-                : AvatarImage?.src
+                ? IMG_URL + info.row.original.dealOwner.avatar.url
+                : AvatarImage?.src || ''
             }
           >
             {info?.row?.original?.dealOwner?.name?.charAt(0) ?? '-'}
@@ -97,6 +98,7 @@ export const AllDealColumns = ({
         checked={selectedRows?.includes(original?._id)}
         onChange={({ target }) => {
           handleSelectSingleCheckBox(target?.checked, original?._id);
+          router.push(`?dealOwnerId=${original?.dealOwner?._id}`);
         }}
       />
     ),

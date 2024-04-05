@@ -79,7 +79,7 @@ const DialogSendToCustomer: FC<DialogSendToCustomerI> = ({ open, onClose }) => {
                 ...body,
                 contentUrl: {
                   filePath: res?.data?.fileUrl,
-                  fileName: res?.data?.originalName,
+                  fileName: res?.data?.orignalName,
                 },
               };
               updateQuoteSubmision(newData)
