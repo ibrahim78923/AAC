@@ -21,8 +21,6 @@ import {
   PhoneImage,
   UserImage,
   EditImage,
-  ComLogoImage,
-  OrcaloLogoImage,
 } from '@/assets/images';
 import { AddPenIcon, EditPenBorderedIcon } from '@/assets/icons';
 
@@ -50,6 +48,9 @@ const OrganizationCard = () => {
     addressVal,
     isToggled,
     setIsToggled,
+    loadingUpdateOrganization,
+    handleImageChange,
+    imagePreview,
   } = useOrganizationCard();
 
   const { data: productsData, isLoading } = useGetAllProductsQuery({});
@@ -77,7 +78,48 @@ const OrganizationCard = () => {
             >
               <Grid container spacing={2}>
                 <Grid item lg={3} md={4} sm={12} xs={12}>
-                  <Box
+                  <Box sx={{ position: 'relative' }}>
+                    <Box
+                      sx={{
+                        border: `1px solid ${theme?.palette?.grey[700]}`,
+                        borderRadius: '100px',
+                        width: '120px',
+                        height: '120px',
+                        boxShadow:
+                          '0px 2px 4px -2px #1018280F, 5px 5px 9px -2px #1018281A',
+                      }}
+                    >
+                      {imagePreview && (
+                        <Image
+                          src={imagePreview}
+                          alt="selected"
+                          width={120}
+                          height={120}
+                          style={{ borderRadius: '50%' }}
+                        />
+                      )}
+                    </Box>
+                    <input
+                      hidden={true}
+                      id="upload-group-image"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e: any) => handleImageChange(e)}
+                    />
+                    <label htmlFor="upload-group-image">
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          right: '142px',
+                          bottom: 0,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <AddPenIcon />
+                      </Box>
+                    </label>
+                  </Box>
+                  {/* <Box
                     sx={{
                       display: 'flex',
                       justifyContent: 'center',
@@ -85,7 +127,7 @@ const OrganizationCard = () => {
                     }}
                   >
                     <Image src={OrcaloLogoImage} alt="Logo" />
-                  </Box>
+                  </Box> */}
                 </Grid>
                 <Grid item lg={6} md={4} sm={6} xs={12}>
                   <Box
@@ -380,6 +422,7 @@ const OrganizationCard = () => {
           isOk={true}
           footer={true}
           submitHandler={handleSubmit(onSubmit)}
+          isLoading={loadingUpdateOrganization}
         >
           <Box sx={{ paddingTop: '1rem' }}>
             <FormProvider methods={methods}>
@@ -387,7 +430,7 @@ const OrganizationCard = () => {
                 <SkeletonTable />
               ) : (
                 <>
-                  <center>
+                  {/* <center>
                     <Box sx={{ position: 'relative' }}>
                       <Box
                         sx={{
@@ -410,8 +453,8 @@ const OrganizationCard = () => {
                         <AddPenIcon />
                       </Box>
                     </Box>
-                  </center>
-                  <Grid container spacing={1} sx={{ paddingTop: '1rem' }}>
+                  </center> */}
+                  <Grid container spacing={1.5}>
                     {dataArray?.map((item: any) => (
                       <Grid item xs={12} md={item?.md} key={item?.name}>
                         {item?.componentProps?.name === 'compositeAddress' && (
@@ -466,7 +509,7 @@ const OrganizationCard = () => {
                             ))}
                         </item.component>
                         {isToggled && (
-                          <Grid item container spacing={2} mt={1}>
+                          <Grid item container spacing={1.5}>
                             {item?.componentProps?.name ===
                               'compositeAddress' &&
                               item?.subData?.map((data: any) => (
