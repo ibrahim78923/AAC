@@ -70,6 +70,7 @@ const DealsTab = () => {
     setViewColumns,
     viewColumns,
     deleteDealLoading,
+    setSelectedRows,
   } = useDealTab();
   const theme = useTheme();
 
@@ -286,6 +287,7 @@ const DealsTab = () => {
       {isAssign && (
         <AssignModalBox
           seletedId={selectedRows}
+          setSelectedRows={setSelectedRows}
           open={isAssign}
           onClose={handleAssignModal}
         />
