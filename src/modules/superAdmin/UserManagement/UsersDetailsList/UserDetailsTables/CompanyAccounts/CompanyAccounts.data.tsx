@@ -1,12 +1,11 @@
-import { Box, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 
 import { SwitchBtn } from '@/components/SwitchButton';
 
 import { LogoIcon } from '@/assets/icons';
-import { IMG_URL } from '@/config';
-import Image from 'next/image';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { SUPER_ADMIN_USER_MANAGEMENT_PERMISSIONS } from '@/constants/permission-keys';
+import { generateImage } from '@/utils/avatarUtils';
 
 export const companyData: any = [
   {
@@ -56,11 +55,9 @@ export const companyColumns: any = (handleStatusUpdate: any) => [
     cell: (info: any) => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         {info?.getValue()?.logo ? (
-          <Image
-            src={`${IMG_URL}${info?.getValue()?.logo?.url}`}
-            alt="product img missing"
-            width={30}
-            height={38}
+          <Avatar
+            src={generateImage(info?.getValue()?.logo?.url)}
+            sx={{ width: 30, height: 30 }}
           />
         ) : (
           <LogoIcon />
