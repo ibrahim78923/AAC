@@ -103,7 +103,7 @@ const Modules = ({
   }));
   return (
     <div>
-      {isLoading?.isLoading || updatePlanLoading?.isLoading ? (
+      {isLoading?.isLoading || updatePlanLoading ? (
         <Box
           sx={{
             display: 'flex',

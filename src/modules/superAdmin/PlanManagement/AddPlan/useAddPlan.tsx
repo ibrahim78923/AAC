@@ -78,6 +78,7 @@ export const useAddPlan = () => {
     useUpdatePlanMangementMutation();
   const router: any = useRouter();
   const { query } = router;
+  const [checkQuery, setCheckQuery] = useState(query?.type);
   let parsedRowData: any;
   if (router?.query?.data) {
     parsedRowData = JSON.parse(router?.query?.data);
@@ -255,7 +256,7 @@ export const useAddPlan = () => {
       setCrmValue(parsedRowData?.name);
     }
 
-    if (singlePlan && query.type === 'edit') {
+    if (singlePlan && checkQuery === 'edit') {
       const tempData = [...singlePlan?.data?.planProductPermissions];
       setPermissionSlugs(
         'permissionSlugs',
@@ -430,6 +431,7 @@ export const useAddPlan = () => {
             })?.unwrap());
         if (res) {
           router?.push(SUPER_ADMIN_PLAN_MANAGEMENT?.PLAN_MANAGEMENT_GRID);
+          setCheckQuery('');
           enqueueSnackbar(
             parsedRowData
               ? 'Plan Updated Successfully'
