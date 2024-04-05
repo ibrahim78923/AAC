@@ -1,10 +1,7 @@
-import { Box, Typography } from '@mui/material';
-
+import { Avatar, Box, Typography } from '@mui/material';
 import { SwitchBtn } from '@/components/SwitchButton';
-
 import { LogoIcon } from '@/assets/icons';
-import Image from 'next/image';
-// import { IMG_URL } from '@/config';
+import { generateImage } from '@/utils/avatarUtils';
 
 export const companyColumns: any = (handleStatusUpdate: any) => [
   {
@@ -15,12 +12,9 @@ export const companyColumns: any = (handleStatusUpdate: any) => [
     cell: (info: any) => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         {info?.getValue()?.logo ? (
-          <Image
-            src={``}
-            // src={`${IMG_URL}${info?.getValue()?.logo?.url}`}
-            alt="product img missing"
-            width={30}
-            height={38}
+          <Avatar
+            src={generateImage(info?.getValue()?.logo?.url)}
+            sx={{ width: 30, height: 30 }}
           />
         ) : (
           <LogoIcon />

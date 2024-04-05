@@ -1,72 +1,100 @@
 import * as Yup from 'yup';
 export const salesSchema: any = Yup?.object()?.shape({
-  schedule: Yup?.string(),
+  title: Yup?.string()?.required('Required'),
+  schedule: Yup?.string()?.when('type', {
+    is: (type: any) => type === workflowTypes?.scheduled,
+    then: (schema: any) => schema?.required('Required'),
+    otherwise: (schema: any) => schema?.notRequired(),
+  }),
   scheduleMonth: Yup?.date(),
   scheduleDay: Yup?.string(),
   scheduleDate: Yup?.date(),
-  scheduleTime: Yup?.date(),
-  scheduleDateRange: Yup?.object(),
-  scheduleWorkflow: Yup?.string(),
-  moduleType: Yup?.string(),
-  trigger: Yup?.string()?.required('Required'),
-  andRun: Yup?.string()?.required('Required'),
-  workflowConditions: Yup?.array()?.of(
+  time: Yup?.date(),
+  custom: Yup?.object(),
+  type: Yup?.string(),
+  module: Yup?.string()?.required('Required'),
+  events: Yup?.mixed()?.nullable()?.required('Required'),
+  runType: Yup?.mixed()?.nullable()?.required('Required'),
+  groupCondition: Yup?.string(),
+  groups: Yup?.array()?.of(
     Yup?.object()?.shape({
       name: Yup?.string()?.required('Required'),
-      conditionType: Yup?.string(),
-      logicGate: Yup?.string(),
+      conditionType: Yup?.mixed()?.required('Required'),
       conditions: Yup?.array()?.of(
         Yup?.object()?.shape({
-          condition1: Yup?.string()?.required('Required'),
-          condition2: Yup?.string()?.required('Required'),
-          condition3: Yup?.string()?.required('Required'),
-          condition4: Yup?.string()?.required('Required'),
+          fieldName: Yup?.string()?.required('Required'),
+          condition: Yup?.string()?.required('Required'),
+          fieldValue: Yup?.mixed()?.required('Required'),
         }),
       ),
     }),
   ),
-  actionsExecuted: Yup?.array()?.of(
+  actions: Yup?.array()?.of(
     Yup?.object()?.shape({
-      action1: Yup?.string()?.required('Required'),
-      action2: Yup?.string()?.required('Required'),
-      action3: Yup?.string()?.required('Required'),
-      action4: Yup?.string()?.required('Required'),
+      fieldName: Yup?.string()?.required('Required'),
+      fieldValue: Yup?.mixed()?.required('Required'),
     }),
   ),
 });
 
 export const salesValues = {
-  scheduleWorkflow: 'Enable Now',
-  schedule: '',
+  title: '',
+  type: 'EVENT_BASE',
+  schedule: 'DAILY',
   scheduleMonth: new Date(),
-  scheduleDay: '',
+  scheduleDay: 'Monday',
   scheduleDate: new Date(),
-  scheduleTime: new Date(),
-  scheduleDateRange: {
+  time: new Date(),
+  custom: {
     startDate: new Date(),
     endDate: new Date(),
     key: 'selection',
   },
-  moduleType: 'Deals',
-  trigger: '',
-  andRun: '',
-  workflowConditions: [
+  module: 'DEALS',
+  events: null,
+  runType: null,
+  groupCondition: 'OR',
+  groups: [
     {
       name: '',
-      conditionType: 'Match ALL condition in this group',
-      logicGate: 'and',
-      conditions: [
-        { condition1: '', condition2: '', condition3: '', condition4: '' },
-      ],
+      conditionType: null,
+      conditions: [{ fieldName: '', condition: '', fieldValue: null }],
     },
     {
       name: '',
-      conditionType: 'Match ALL condition in this group',
-      logicGate: 'and',
-      conditions: [
-        { condition1: '', condition2: '', condition3: '', condition4: '' },
-      ],
+      conditionType: null,
+      conditions: [{ fieldName: '', condition: '', fieldValue: null }],
     },
   ],
-  actionsExecuted: [{ action1: '', action2: '', action3: '', action4: '' }],
+  actions: [{ fieldName: '', fieldValue: null }],
+};
+
+export const workflowTypes = {
+  eventBase: 'EVENT_BASE',
+  scheduled: 'SCHEDULED',
+};
+export const workflowFields = {
+  object: 'object',
+  objectId: 'objectId',
+  date: 'date',
+  number: 'number',
+  string: 'string',
+  name: 'Name',
+  lostReason: 'Lost Reason',
+  updateQuoteName: 'Update Quote Name',
+  title: 'Title',
+  salesOwner: 'Sales Owner',
+  createdBy: 'Created By',
+  updatedBy: 'Updated By',
+  setDealPipeline: 'Set Deal Pipeline',
+  selectDeal: 'Select deal',
+  setDealOwner: 'Set Deal Owner',
+  addLineItem: 'Add line item',
+  setAssignedTo: 'Set Assigned to',
+  isEmpty: 'is empty',
+  isNotEmpty: 'is not empty',
+  deal: 'deal',
+  contact: 'contact',
+  product: 'product',
+  user: 'user',
 };

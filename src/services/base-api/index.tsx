@@ -121,6 +121,7 @@ export const TAGS = [
   'TICKETS_CONVERSATION',
   'TICKETS_CONVERSATION_ARTICLES',
   'LOCATION_DROPDOWN',
+  'PERMISSIONS',
 ];
 
 const baseQuery = fetchBaseQuery({
