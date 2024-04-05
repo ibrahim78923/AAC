@@ -39,6 +39,8 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
   let tax;
 
   let netAmout;
+  let invoiceDiscountAmount;
+  let TaxAmountOfSubtotal;
 
   const columns = (data: any) => {
     planPrice = data?.plans?.planPrice;
@@ -59,10 +61,13 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
 
     invoiceDiscount = data?.invoiceDiscount;
 
+    invoiceDiscountAmount = (invoiceDiscount / 100) * subtotalAfterDiscount;
+
     total =
       subtotalAfterDiscount - (invoiceDiscount / 100) * subtotalAfterDiscount;
 
-    tax = data?.vat;
+    tax = 20;
+    TaxAmountOfSubtotal = (tax / 100) * total;
 
     netAmout = total + (tax / 100) * total;
 
@@ -155,9 +160,9 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
     });
     onClose();
   };
-  const TaxAmountOfSubtotal =
-    (isGetRowValues?.row?.original?.vat / 100) *
-    isGetRowValues?.row?.original?.subTotal;
+  // const TaxAmountOfSubtotal =
+  //   (isGetRowValues?.row?.original?.vat / 100) *
+  //   isGetRowValues?.row?.original?.subTotal;
   // const findAmountAfterTax =
   //   (isGetRowValues?.row?.original?.vat / 100) *
   //   isGetRowValues?.row?.original?.subTotal +
@@ -320,14 +325,14 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
                 </Typography>
               </Box>
               <Box sx={styles?.vValue}>
-                (£ {isGetRowValues?.row?.original?.invoiceDiscount})
+                (£ {invoiceDiscountAmount?.toFixed(2)})
               </Box>
             </Box>
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
                 Tax{' '}
                 <Typography sx={{ fontWeight: '400', fontSize: '12px' }}>
-                  (Vat {isGetRowValues?.row?.original?.vat}%)
+                  ({tax}%)
                 </Typography>
               </Box>
               <Box sx={styles?.vValue}>£ {TaxAmountOfSubtotal?.toFixed(2)}</Box>
@@ -335,7 +340,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
             <Divider sx={{ borderColor: 'custom.off_white_one', my: '6px' }} />
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>Total Cost</Box>
-              <Box sx={styles?.vValue}>£ {netAmout}</Box>
+              <Box sx={styles?.vValue}>£ {netAmout?.toFixed(2)}</Box>
             </Box>
           </Box>
 
