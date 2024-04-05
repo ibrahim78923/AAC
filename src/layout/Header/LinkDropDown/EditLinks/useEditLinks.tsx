@@ -1,12 +1,16 @@
 import { useGetQuickLinksQuery } from '@/services/superAdmin/settings/quick-links';
 
 const useEditLinks = () => {
-  const { data: dataGetQuickLinks, isLoading: loagingGetQuickLinks } =
-    useGetQuickLinksQuery({});
+  const { data, isLoading, isFetching } = useGetQuickLinksQuery({});
+
+  const activeQuickLinksData = data?.data?.quicklinks?.filter(
+    (item: any) => item.isActive,
+  );
 
   return {
-    dataGetQuickLinks,
-    loagingGetQuickLinks,
+    activeQuickLinksData,
+    isLoading,
+    isFetching,
   };
 };
 

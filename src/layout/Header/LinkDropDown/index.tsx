@@ -40,6 +40,7 @@ const LinkDropdown = () => {
         }}
         sx={{
           marginTop: '20px',
+          '& .MuiPaper-root': { width: '460px' },
         }}
       >
         {!toggleView ? (

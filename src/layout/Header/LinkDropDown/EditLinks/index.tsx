@@ -1,18 +1,24 @@
 import React from 'react';
 import Image from 'next/image';
-import { Box, Button, Grid, Typography } from '@mui/material';
-import { ArrowSquareLeftImage, DeleteImage } from '@/assets/images';
+import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
+import { ArrowSquareLeftImage } from '@/assets/images';
 import { PlusIcon } from '@/assets/icons';
 import { styles } from './QuickLinks.style';
-import { isNullOrEmpty } from '@/utils';
 import useEditLinks from './useEditLinks';
 import LinkCheckbox from './LinkCheckbox';
+import { v4 as uuidv4 } from 'uuid';
+import useLinkDropDown from '../useLinkDropDown';
+import Loader from '@/components/Loader';
 
 const EditLinks = ({ toggleView }: any) => {
+  const skeletonArr = [1, 2, 3, 4, 5, 6];
   const {
-    dataGetQuickLinks,
-    // handleCheckboxChange,
-  } = useEditLinks();
+    checkedItems,
+    handleCheckboxChange,
+    handleSubmitSaveQuickLinks,
+    loadingSaveQuickLinks,
+  } = useLinkDropDown();
+  const { activeQuickLinksData, isLoading, isFetching } = useEditLinks();
 
   return (
     <>
@@ -47,12 +53,10 @@ const EditLinks = ({ toggleView }: any) => {
             gap: 2,
           }}
         >
-          <Image src={DeleteImage} alt="delete-icon" />
-
           <Button
             variant="contained"
             sx={{ minWidth: '0px', gap: 1, height: '32px' }}
-            onClick={toggleView}
+            onClick={handleSubmitSaveQuickLinks}
           >
             <PlusIcon />
             <Typography>Save</Typography>
@@ -62,20 +66,26 @@ const EditLinks = ({ toggleView }: any) => {
 
       <Box sx={{ p: '10px 20px 20px', maxHeight: '190px', overflowY: 'auto' }}>
         <Grid container spacing={2} sx={{ maxWidth: '480px' }}>
-          {!isNullOrEmpty(dataGetQuickLinks) &&
-            dataGetQuickLinks?.data?.quicklinks?.map((link: any) => (
-              <Grid item xs={6} key={link?._id}>
-                <LinkCheckbox
-                  label={link?.name}
-                  name={link?._id}
-                  // id={link?._id}
-                  // onChange={handleCheckboxChange}
-                  isActive={link?.isActive}
-                />
-              </Grid>
-            ))}
+          {isLoading || isFetching
+            ? skeletonArr.map(() => (
+                <Grid item xs={6} key={uuidv4()}>
+                  <Skeleton variant="rounded" height={40} />
+                </Grid>
+              ))
+            : activeQuickLinksData?.map((link: any) => (
+                <Grid item xs={6} key={link?._id}>
+                  <LinkCheckbox
+                    label={link?.name}
+                    name={link?._id}
+                    quickLinkIds={checkedItems}
+                    onChange={handleCheckboxChange}
+                  />
+                </Grid>
+              ))}
         </Grid>
       </Box>
+
+      <Loader isLoading={loadingSaveQuickLinks} />
     </>
   );
 };

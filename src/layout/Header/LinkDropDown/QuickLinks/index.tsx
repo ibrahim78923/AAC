@@ -5,17 +5,21 @@ import {
   Button,
   Grid,
   ListItemText,
+  Skeleton,
   Typography,
   useTheme,
 } from '@mui/material';
-import { DeleteImage, QuickLinkImage } from '@/assets/images';
 import { PlusIcon } from '@/assets/icons';
 import { styles } from './QuickLinks.style';
-import { isNullOrEmpty } from '@/utils';
-import { QuickLinksData } from './QuickLinks.data';
+import useLinkDropDown from '../useLinkDropDown';
+import { v4 as uuidv4 } from 'uuid';
+import Link from 'next/link';
+import { QuickLinkImage, SettingQuickImage } from '@/assets/images';
 
 const QuickLinks = ({ toggleView }: any) => {
+  const skeletonArr = [1, 2, 3, 4, 5, 6];
   const theme = useTheme();
+  const { userQuickLinks, isLoading, isFetching } = useLinkDropDown();
   return (
     <>
       <Box
@@ -55,7 +59,7 @@ const QuickLinks = ({ toggleView }: any) => {
             gap: 2,
           }}
         >
-          <Image src={DeleteImage} alt="delete-icon" />
+          {/* <Image src={DeleteImage} alt="delete-icon" /> */}
 
           <Button
             variant="contained"
@@ -68,19 +72,31 @@ const QuickLinks = ({ toggleView }: any) => {
       </Box>
       <Box sx={{ p: '10px 20px 20px' }}>
         <Grid container spacing={2} sx={{ maxWidth: '480px' }}>
-          {!isNullOrEmpty(QuickLinksData) &&
-            QuickLinksData?.map((item) => (
-              <Grid item xs={6} key={item.name}>
-                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                  <Image src={item?.logo} alt="link" />
-                  <ListItemText
-                    primary={item?.name}
-                    primaryTypographyProps={{ variant: 'body2' }}
-                    sx={{ color: theme?.palette?.grey[600] }}
-                  />
-                </Box>
-              </Grid>
-            ))}
+          {isLoading || isFetching
+            ? skeletonArr?.map(() => (
+                <Grid item xs={6} key={uuidv4()}>
+                  <Skeleton variant="rounded" height={22} />
+                </Grid>
+              ))
+            : userQuickLinks?.map((item: any) => (
+                <Grid item xs={6} key={item._id}>
+                  <Box
+                    component={Link}
+                    href={item?.url}
+                    sx={{ display: 'flex', gap: 1, alignItems: 'center' }}
+                  >
+                    <Image src={SettingQuickImage} alt="link" />
+                    <ListItemText
+                      primary={item?.name}
+                      primaryTypographyProps={{ variant: 'body2' }}
+                      sx={{
+                        color: theme?.palette?.grey[600],
+                        textTransform: 'capitalize',
+                      }}
+                    />
+                  </Box>
+                </Grid>
+              ))}
         </Grid>
       </Box>
     </>
