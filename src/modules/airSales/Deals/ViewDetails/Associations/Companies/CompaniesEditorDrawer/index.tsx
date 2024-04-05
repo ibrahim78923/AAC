@@ -48,10 +48,7 @@ const CompaniesEditorDrawer = (props: any) => {
         isLoading={postCompanyLoading}
       >
         <Box sx={{ pt: 2 }}>
-          <FormProvider
-            methods={methodsCompanies}
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <FormProvider methods={methodsCompanies}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <RHFRadioGroup

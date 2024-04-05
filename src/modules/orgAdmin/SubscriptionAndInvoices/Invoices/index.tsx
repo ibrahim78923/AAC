@@ -33,10 +33,11 @@ const Invoices = () => {
     FilterInvoiceFilters,
     handleSubmit,
     getRowValues,
-    isChecked,
     invoicesTableData,
     setSearchByInvoices,
     searchByInvoices,
+    data,
+    selectedRows,
   } = useInvoices();
 
   return (
@@ -46,11 +47,15 @@ const Invoices = () => {
           <Grid container>
             <Grid item xs={12} sm={6} md={6} lg={3}>
               <Box sx={styles?.invoicesHeaderLabel}>Invoices Due</Box>
-              <Box sx={styles?.invoicesHeaderValue}>1</Box>
+              <Box sx={styles?.invoicesHeaderValue}>
+                {data?.data?.widget?.countInvoiceDue}
+              </Box>
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={9}>
               <Box sx={styles?.invoicesHeaderLabel}>Total Balance Due</Box>
-              <Box sx={styles?.invoicesHeaderValue}>£ 1,234.11</Box>
+              <Box sx={styles?.invoicesHeaderValue}>
+                £ {data?.data?.widget?.countInvoiceDue}
+              </Box>
             </Grid>
           </Grid>
         </Box>
@@ -77,7 +82,7 @@ const Invoices = () => {
               onClick={handleActionsClick}
               sx={styles?.actionButton}
               endIcon={<DropdownIcon />}
-              disabled={!isChecked}
+              disabled={selectedRows?.length === 1 ? false : true}
             >
               Actions
             </Button>
@@ -131,11 +136,14 @@ const Invoices = () => {
             {/* </Box> */}
           </Box>
         </Box>
-
         <TanstackTable columns={getRowValues} data={invoicesTableData} />
       </Box>
 
-      <ViewInvoices open={openViewInvoice} onClose={handleCloseViewInvoice} />
+      <ViewInvoices
+        open={openViewInvoice}
+        onClose={handleCloseViewInvoice}
+        invoiceData={selectedRows ? selectedRows[0] : {}}
+      />
       <PayInvoice open={openPayInvoice} onClose={handleClosePayInvoice} />
 
       <CommonDrawer

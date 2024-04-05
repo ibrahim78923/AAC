@@ -40,7 +40,7 @@ const useEditForm = (
     additionalStorage: isGetRowValues?.cell?.row?.original?.additionalStorage,
     discount: isGetRowValues?.cell?.row?.original?.planDiscount,
     billingCycle: isGetRowValues?.cell?.row?.original?.billingCycle,
-    date: new Date(),
+    date: new Date(isGetRowValues?.cell?.row?.original?.billingDate),
   };
 
   const methods: any = useForm({
@@ -92,6 +92,13 @@ const useEditForm = (
   const productId = watch('product');
   const planTypeId = watch('planType');
   const organizationId = watch('clientName');
+  const billingCycle = watch('billingCycle');
+
+  if (billingCycle === 'MONTHLY' && !isEditModal) {
+    const currentDate = new Date();
+    currentDate?.setMonth(currentDate?.getMonth() + 1);
+    setValue('date', currentDate);
+  }
 
   let planData: any;
   let isSuccessPlan: any;

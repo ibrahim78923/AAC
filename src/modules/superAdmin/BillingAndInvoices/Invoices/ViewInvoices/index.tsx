@@ -63,7 +63,10 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
       header: 'Additional Users',
       cell: (info: any) => (
         <>
-          {info?.getValue()} (*£15) = £ {info?.getValue() * 15}
+          {info?.getValue()} (*£
+          {info?.row?.original?.plans?.additionalPerUserPrice}) = £{' '}
+          {info?.getValue() *
+            info?.row?.original?.plans?.additionalPerUserPrice}
         </>
       ),
     },
@@ -74,12 +77,14 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
       header: 'Additional Storage',
       cell: (info: any) => (
         <>
-          {info?.getValue()} (*£15) = £{info.getValue() * 15}
+          {info?.getValue()} (*£
+          {info?.row?.original?.plans?.additionalStoragePrice}) = £
+          {info.getValue() * info?.row?.original?.plans?.additionalStoragePrice}
         </>
       ),
     },
     {
-      accessorFn: (row: any) => row?.invoiceDiscount,
+      accessorFn: (row: any) => row?.details?.planDiscount,
       id: 'discount',
       isSortable: true,
       header: 'Discount(%)',
@@ -105,6 +110,13 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
     });
     onClose();
   };
+  const TaxAmountOfSubtotal =
+    (isGetRowValues?.row?.original?.vat / 100) *
+    isGetRowValues?.row?.original?.subTotal;
+  const findAmountAfterTax =
+    (isGetRowValues?.row?.original?.vat / 100) *
+      isGetRowValues?.row?.original?.subTotal +
+    isGetRowValues?.row?.original?.subTotal;
 
   return (
     <Dialog
@@ -273,16 +285,12 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
                   (Vat {isGetRowValues?.row?.original?.vat}%)
                 </Typography>
               </Box>
-              <Box sx={styles?.vValue}>
-                £ {isGetRowValues?.row?.original?.vat}
-              </Box>
+              <Box sx={styles?.vValue}>£ {TaxAmountOfSubtotal?.toFixed(2)}</Box>
             </Box>
             <Divider sx={{ borderColor: 'custom.off_white_one', my: '6px' }} />
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>Total Cost</Box>
-              <Box sx={styles?.vValue}>
-                £ {isGetRowValues?.row?.original?.total}
-              </Box>
+              <Box sx={styles?.vValue}>£ {findAmountAfterTax}</Box>
             </Box>
           </Box>
 

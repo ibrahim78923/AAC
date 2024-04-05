@@ -11,13 +11,14 @@ export const UpsertSalesWorkflow = () => {
   const {
     salesMethod,
     handleFormSubmit,
-    register,
     handleSubmit,
     palette,
-    moduleType,
     setValue,
     control,
     watch,
+    isLoading,
+    saveLoading,
+    setValidation,
   } = useUpsertSalesWorkflow();
   return (
     <Box>
@@ -25,21 +26,22 @@ export const UpsertSalesWorkflow = () => {
         methods={salesMethod}
         onSubmit={handleSubmit(handleFormSubmit)}
       >
-        <WorkflowHeader watch={watch} />
+        <WorkflowHeader
+          watch={watch}
+          isLoading={isLoading}
+          saveLoading={saveLoading}
+          setValidation={setValidation}
+        />
         <Grid container>
-          <WorkflowSchedule
-            register={register}
-            watch={watch}
-            setValue={setValue}
-          />
-          <WorkflowRunAndTrigger palette={palette} register={register} />
+          <WorkflowSchedule watch={watch} setValue={setValue} />
+          <WorkflowRunAndTrigger palette={palette} />
         </Grid>
         <WorkflowConditions
           control={control}
-          moduleType={moduleType}
+          setValue={setValue}
           watch={watch}
         />
-        <WorkflowActionExecuted />
+        <WorkflowActionExecuted watch={watch} setValue={setValue} />
       </FormProvider>
     </Box>
   );
