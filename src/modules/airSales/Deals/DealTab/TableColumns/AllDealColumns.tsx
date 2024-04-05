@@ -1,11 +1,12 @@
 import React from 'react';
-import { Avatar, Box, Checkbox, Typography, useTheme } from '@mui/material';
+import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-import { AvatarImage } from '@/assets/images';
 import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
 import { IMG_URL } from '@/config';
+import { generateImage } from '@/utils/avatarUtils';
+import Image from 'next/image';
 
 export const AllDealColumns = ({
   selectedRows,
@@ -34,7 +35,7 @@ export const AllDealColumns = ({
     if (attribute?.includes(DEAL_ATTRIBUTES?.DEAL_OWNER)) {
       return (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar
+          {/* <Avatar
             alt="user"
             sx={{ background: theme?.palette?.custom?.dim_grey }}
             src={
@@ -44,7 +45,28 @@ export const AllDealColumns = ({
             }
           >
             {info?.row?.original?.dealOwner?.name?.charAt(0) ?? '-'}
-          </Avatar>
+          </Avatar> */}
+          <>
+            {info?.row?.original?.dealOwner?.avatar?.url && (
+              <Image
+                alt="user"
+                src={generateImage(
+                  IMG_URL + info?.row?.original?.dealOwner?.avatar?.url,
+                )}
+                width={20}
+                height={20}
+              />
+            )}
+            <Typography
+              variant="h5"
+              sx={{
+                marginLeft: '20px',
+                background: theme?.palette?.custom?.dim_grey,
+              }}
+            >
+              {info?.row?.original?.dealOwner?.name?.charAt(0) ?? ''}
+            </Typography>
+          </>
           <Box>
             <Typography component="p" variant="body3" fontWeight={500}>
               {info?.row?.original?.dealOwner?.name ?? 'N/A'}
