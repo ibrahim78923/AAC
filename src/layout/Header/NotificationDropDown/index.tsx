@@ -96,6 +96,7 @@ const NotificationDropdown = () => {
                             sx={{
                               display: 'flex',
                               padding: '15px 0px 15px 10px',
+                              alignItems: 'center',
                               gap: 1,
                               backgroundColor:
                                 !item?.seen && theme?.palette?.grey[100],
@@ -113,7 +114,7 @@ const NotificationDropdown = () => {
                                 variant="body2"
                                 sx={{ color: theme?.palette?.grey[600] }}
                               >
-                                {`You have received a notification from ${item?.performedByName}`}
+                                {`${item?.performedByName} updates ${item?.module}`}
                                 {item?.message}
                               </Typography>
                               <Typography

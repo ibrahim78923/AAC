@@ -19,12 +19,13 @@ import { styles } from './ManagePlan.style';
 import { orgAdminSubcriptionInvoices } from '@/routesConstants/paths';
 import { useUpdateSubscriptionMutation } from '@/services/orgAdmin/subscription-and-invoices';
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from '@/constants';
+import { DATE_FORMAT, PLAN_CALCULATIONS } from '@/constants';
 import { enqueueSnackbar } from 'notistack';
 import Link from 'next/link';
 import { ORG_ADMIN_SUBSCRIPTION_AND_INVOICE_PERMISSIONS } from '@/constants/permission-keys';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { useAppSelector } from '@/redux/store';
+import usePlanCalculations from '../usePlanCalculations';
 
 const ManagePlan = () => {
   const router = useRouter();
@@ -48,12 +49,25 @@ const ManagePlan = () => {
     planId: parsedManageData?.planId,
     additionalUsers: parsedManageData?.additionalUsers,
     additionalStorage: parsedManageData?.additionalStorage,
-    billingDate: dayjs(parsedManageData?.billingDate).format(DATE_FORMAT?.API),
+    billingDate: dayjs(parsedManageData?.billingDate)?.format(DATE_FORMAT?.API),
     status: parsedManageData?.status,
     //TODO:We will only send billing cycle monthly as discussed
     billingCycle: 'MONTHLY',
     planDiscount: 1,
   };
+
+  const planCalculations = usePlanCalculations({
+    additionalDefaultUser: parsedManageData?.additionalUsers,
+    additionalDefaultStorage: parsedManageData?.additionalStorage,
+    additionalUserPrice: parsedManageData?.planData?.additionalPerUserPrice,
+    additionalStoragePrice: parsedManageData?.planData?.additionalStoragePrice,
+    planDefaultPrice:
+      parsedManageData?.planData?.planPrice ||
+      parsedManageData?.planPrice ||
+      parsedManageData?.plans?.planPrice,
+    planDefaultDiscount: parsedManageData?.planDiscount,
+    PLAN_CALCULATIONS,
+  });
 
   const handleUpdateSubscription = async () => {
     try {
@@ -70,36 +84,6 @@ const ManagePlan = () => {
       });
     }
   };
-  const peruserPrice = parsedManageData?.planData?.additionalPerUserPrice || 0;
-  const perStoragePrice =
-    parsedManageData?.planData?.additionalStoragePrice || 0;
-
-  const planPrice =
-    parsedManageData?.planData?.planPrice ||
-    parsedManageData?.planPrice ||
-    parsedManageData?.plans?.planPrice ||
-    0;
-  const additionalUsers =
-    (parsedManageData?.additionalUsers || 0) *
-      (parsedManageData?.planData?.additionalPerUserPrice || 0) ||
-    parsedManageData?.plans?.additionalPerUserPrice ||
-    0;
-
-  const additionalStorage =
-    (parsedManageData?.additionalStorage || 0) *
-      parsedManageData?.planData?.additionalStoragePrice ||
-    parsedManageData?.plans?.additionalStoragePrice ||
-    0;
-  const planDiscount = parsedManageData?.planDiscount || 0;
-  const planTax = 0.2; // By default 20% discount
-  const convertedPlanDiscount = planDiscount / 100;
-  const totalCostBeforeDiscount =
-    planPrice + additionalUsers + additionalStorage;
-  const discountedPriceBeforeTax =
-    totalCostBeforeDiscount - totalCostBeforeDiscount * convertedPlanDiscount;
-  const discountApplied = totalCostBeforeDiscount - discountedPriceBeforeTax;
-  const taxAmount = discountedPriceBeforeTax * planTax;
-  const finalPrice = discountedPriceBeforeTax + taxAmount;
 
   useEffect(() => {
     if (Object.keys(parsedManageData)?.length === 0) {
@@ -216,40 +200,44 @@ const ManagePlan = () => {
 
         <Box sx={styles?.divider}></Box>
 
-        <Typography variant="h6" sx={{ fontWeight: '600' }}>
-          {/* {parsedManageData?.planTypeName} */}
-        </Typography>
-
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>Plan Price</Box>
-          <Box sx={styles?.planTableTh}>£ {planPrice}</Box>
+          <Box sx={styles?.planTableTh}>£ {planCalculations?.planPrice}</Box>
         </Box>
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
             {parsedManageData?.additionalUsers} Additional Users{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (£ {peruserPrice}/user)
+              (£ {planCalculations?.perUserPrice}/user)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ {additionalUsers || 0}</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {planCalculations?.additionalUsers || 0}
+          </Box>
         </Box>
+
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTd}>
             {parsedManageData?.additionalStorage} Additional Storage{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              (£ {perStoragePrice}/GB)
+              (£ {planCalculations?.perStoragePrice}/GB)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ {additionalStorage || 0}</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {planCalculations?.additionalStorage || 0}
+          </Box>
         </Box>
+
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>
             Discount{' '}
             <Box component="span" sx={{ fontSize: '12px' }}>
-              ({planDiscount} %)
+              ({planCalculations?.planDiscount} %)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>-£ {discountApplied || 0}</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {planCalculations?.discountApplied || 0}
+          </Box>
         </Box>
 
         <Box sx={styles?.planTableRow}>
@@ -259,14 +247,18 @@ const ManagePlan = () => {
               (Vat 20%)
             </Box>
           </Box>
-          <Box sx={styles?.planTableTh}>£ {taxAmount || 0}</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {planCalculations?.taxAmount || 0}
+          </Box>
         </Box>
 
         <Box sx={styles?.divider}></Box>
 
         <Box sx={styles?.planTableRow}>
           <Box sx={styles?.planTableTdBold}>Total Cost</Box>
-          <Box sx={styles?.planTableTh}>£ {finalPrice || 0}</Box>
+          <Box sx={styles?.planTableTh}>
+            £ {planCalculations?.finalPrice || 0}
+          </Box>
         </Box>
       </Box>
       <PermissionsGuard

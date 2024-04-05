@@ -271,3 +271,5 @@ export { default as UserProfileVectorImage } from './modules/airCallCenter/CallM
 export { default as CardBGBubbles } from './modules/airCallCenter/CallMetrices/card-bg-bubbles.png';
 export { default as SmsMockImage } from './modules/airMarketer/SmsMarketing/sms-mock.png';
 export { default as TwillioImage } from './modules/airMarketer/SmsMarketing/twillio.png';
+export { default as PageNotFoundImage } from './shared/page-Not-found.png';
+export { default as ComingSoonImage } from './shared/coming-soon.png';
