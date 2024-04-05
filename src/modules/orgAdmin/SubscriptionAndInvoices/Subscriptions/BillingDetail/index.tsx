@@ -50,37 +50,58 @@ const BillingDetail: FC<BillingDetailI> = ({
         <>
           {data?.data?.invoices?.length ? (
             <>
-              {data?.data?.invoices?.map((data: any) => (
-                <>
-                  <Box key={uuidv4()}>
-                    <InvoiceCard
-                      productName={parsedManageData?.productName} // product name
-                      planType={data?.details?.plantypes}
-                      billingCycle={''}
-                      payment={data?.payment}
-                      billingDate={data?.billingDate}
-                      dueDate={data?.dueDate}
-                      planPrice={data?.details?.plans?.planPrice}
-                      defaultUsers={parsedManageData?.planData?.defaultUsers}
-                      defaultStorage={
-                        parsedManageData?.planData?.defaultStorage
-                      }
-                      additionalUser={parsedManageData?.additionalUsers}
-                      additionalStorage={parsedManageData?.additionalStorage}
-                      additionalPerUserPrice={planCalculations?.perUserPrice}
-                      additionalStoragePrice={planCalculations?.perStoragePrice}
-                      calculatedUserPrice={planCalculations?.additionalUsers}
-                      calculatedStoragePrice={
-                        planCalculations?.additionalStorage
-                      }
-                      planDiscount={planCalculations?.planDiscount}
-                      discount={data?.details?.planDiscount}
-                      tax={data?.vat}
-                      totalCost={data?.total}
-                    />
-                  </Box>
-                </>
-              ))}
+              {data?.data?.invoices?.map((data: any) => {
+                const planDiscount = data?.details?.planDiscount;
+                const subbTotal =
+                  data?.details?.plans?.planPrice +
+                  planCalculations?.additionalUsers +
+                  planCalculations?.additionalStorage;
+                const subTotalAfterDiscount =
+                  subbTotal - (planDiscount / 100) * subbTotal;
+
+                const discount = (planDiscount / 100) * subbTotal;
+
+                const taxPercent = PLAN_CALCULATIONS?.PLAN_DISCOUNT;
+                const taxAmount = taxPercent * subTotalAfterDiscount;
+
+                const NetAmount =
+                  Number(subTotalAfterDiscount) + Number(taxAmount);
+
+                return (
+                  <>
+                    <Box key={uuidv4()}>
+                      <InvoiceCard
+                        productName={parsedManageData?.productName}
+                        planType={data?.details?.plantypes}
+                        billingCycle={''}
+                        payment={data?.payment}
+                        billingDate={data?.billingDate}
+                        dueDate={data?.dueDate}
+                        planPrice={data?.details?.plans?.planPrice}
+                        defaultUsers={parsedManageData?.planData?.defaultUsers}
+                        defaultStorage={
+                          parsedManageData?.planData?.defaultStorage
+                        }
+                        additionalUser={parsedManageData?.additionalUsers}
+                        additionalStorage={parsedManageData?.additionalStorage}
+                        additionalPerUserPrice={planCalculations?.perUserPrice}
+                        additionalStoragePrice={
+                          planCalculations?.perStoragePrice
+                        }
+                        calculatedUserPrice={planCalculations?.additionalUsers}
+                        calculatedStoragePrice={
+                          planCalculations?.additionalStorage
+                        }
+                        planDiscount={planDiscount}
+                        discount={discount.toFixed(2)}
+                        tax={taxAmount.toFixed(2)}
+                        subTotal={subTotalAfterDiscount.toFixed(2)}
+                        totalCost={NetAmount.toFixed(2)}
+                      />
+                    </Box>
+                  </>
+                );
+              })}
             </>
           ) : (
             <>
@@ -135,6 +156,7 @@ const InvoiceCard = ({
   discount,
   tax,
   totalCost,
+  subTotal,
 }: any) => {
   const theme = useTheme();
   return (
@@ -225,6 +247,18 @@ const InvoiceCard = ({
           <Typography variant="overline">{discount}</Typography>
         </Box>
       </Box>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', mt: '15px' }}>
+        <Typography variant="caption">
+          <Typography variant="overline" sx={{ textTransform: 'capitalize' }}>
+            <em>Sub Total</em>
+          </Typography>{' '}
+        </Typography>
+        <Box sx={{ ml: 'auto' }}>
+          <Typography variant="overline">{subTotal}</Typography>
+        </Box>
+      </Box>
+
       <Box sx={{ display: 'flex', alignItems: 'center', my: '15px' }}>
         <Typography variant="caption">
           <Typography variant="overline" sx={{ textTransform: 'capitalize' }}>
