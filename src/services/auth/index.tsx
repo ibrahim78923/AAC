@@ -8,6 +8,7 @@ export const authAPI = baseAPI.injectEndpoints({
         method: 'POST',
         body: credentials,
       }),
+      invalidatesTags: ['PERMISSIONS'],
     }),
 
     signUp: builder.mutation({
@@ -88,7 +89,7 @@ export const authAPI = baseAPI.injectEndpoints({
         url: `${END_POINTS?.AUTH_MY_ACCOUNT}`,
         method: 'GET',
       }),
-      providesTags: ['companies', 'ACCOUNTS'],
+      providesTags: ['companies', 'ACCOUNTS', 'PERMISSIONS'],
     }),
   }),
 });

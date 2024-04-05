@@ -23,7 +23,7 @@ export const newsAndEventsDateFiltersDataArray = [
       select: true,
     },
     options: [
-      { value: 'Active', label: 'Active' },
+      { value: 'active', label: 'active' },
       { value: 'inactive', label: 'inactive' },
     ],
     component: RHFSelect,

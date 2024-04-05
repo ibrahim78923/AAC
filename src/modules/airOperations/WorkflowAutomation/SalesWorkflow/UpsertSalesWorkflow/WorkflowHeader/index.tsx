@@ -1,26 +1,20 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Cancel } from '@mui/icons-material';
-import {
-  CopyIcon,
-  EditBlackIcon,
-  GrayBookIcon,
-  WhiteBookIcon,
-} from '@/assets/icons';
+import { CopyIcon, GrayBookIcon, WhiteBookIcon } from '@/assets/icons';
 import { PageTitledHeader } from '@/components/PageTitledHeader';
 import { TestWorkflow } from '../TestWorkflow';
 import { useWorkflowHeader } from './useWorkflowHeader';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS } from '@/constants/permission-keys';
+import { RHFEditor, RHFTextField } from '@/components/ReactHookForm';
 
-const SCHEDULE = 'Schedule';
 export const WorkflowHeader = (props: any) => {
+  const { isLoading, saveLoading, setValidation } = props;
   const {
     handleMoveBack,
     openWorkflowModal,
     setOpenWorkflowModal,
-    scheduleWorkflow,
-    handleSaveDefault,
     handleCancel,
   } = useWorkflowHeader(props);
   return (
@@ -46,16 +40,16 @@ export const WorkflowHeader = (props: any) => {
           >
             Cancel
           </LoadingButton>
-          {scheduleWorkflow === SCHEDULE && (
-            <LoadingButton
-              startIcon={<GrayBookIcon />}
-              variant="outlined"
-              color="secondary"
-              onClick={handleSaveDefault}
-            >
-              Save as Draft
-            </LoadingButton>
-          )}
+          <LoadingButton
+            startIcon={<GrayBookIcon />}
+            variant="outlined"
+            color="secondary"
+            loading={saveLoading}
+            onClick={() => setValidation(false)}
+            type="submit"
+          >
+            Save as Draft
+          </LoadingButton>
           <PermissionsGuard
             permissions={[
               AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.TEST_WORKFLOW,
@@ -63,8 +57,8 @@ export const WorkflowHeader = (props: any) => {
           >
             <LoadingButton
               startIcon={<CopyIcon />}
-              variant={scheduleWorkflow === SCHEDULE ? 'contained' : 'outlined'}
-              color={scheduleWorkflow === SCHEDULE ? 'primary' : 'secondary'}
+              variant={'outlined'}
+              color={'secondary'}
               onClick={() => setOpenWorkflowModal(true)}
             >
               Test Workflow
@@ -75,23 +69,31 @@ export const WorkflowHeader = (props: any) => {
               AIR_OPERATIONS_WORKFLOWS_SALES_WORKFLOW_PERMISSIONS?.ENABLE_NOW,
             ]}
           >
-            {scheduleWorkflow !== SCHEDULE && (
-              <LoadingButton
-                startIcon={<WhiteBookIcon />}
-                variant="contained"
-                type="submit"
-              >
-                Enable
-              </LoadingButton>
-            )}
+            <LoadingButton
+              startIcon={<WhiteBookIcon />}
+              variant="contained"
+              type="submit"
+              loading={isLoading}
+              onClick={() => setValidation(true)}
+            >
+              Create
+            </LoadingButton>
           </PermissionsGuard>
         </Box>
       </Box>
-      <Box display={'flex'} alignItems={'center'} gap={1} py={1}>
-        <Typography variant="h4" color="slateBlue.main">
-          Dummy Title Workflow - 09 May 2023, 10:50:12 GMT+05:00
-        </Typography>
-        <EditBlackIcon />
+      <Box py={2} maxWidth={{ md: '54%', xs: '100%' }}>
+        <RHFTextField
+          name="title"
+          size="small"
+          label="Title"
+          placeholder="Title"
+          required
+        />
+        <RHFEditor
+          name="description"
+          label="Description"
+          style={{ minHeight: 200 }}
+        />
       </Box>
       <TestWorkflow
         openWorkflowModal={openWorkflowModal}
