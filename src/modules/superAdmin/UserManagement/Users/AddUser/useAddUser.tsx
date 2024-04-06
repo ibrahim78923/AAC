@@ -36,7 +36,6 @@ const useAddUser = (useActionParams?: any) => {
   const userDetail = isOpenAddUserDrawer?.data?.data;
   const initialTab = 0;
   const tabTitle = tabVal === initialTab ? 'COMPANY_OWNER' : 'SUPER_ADMIN';
-
   // for super admin form methods
   const superAdminValues: any = {
     firstName: '',
@@ -212,12 +211,12 @@ const useAddUser = (useActionParams?: any) => {
           reset(),
           setIsOpenAddUserDrawer({ ...isOpenAddUserDrawer, drawer: false }))
         : pathName === SUPER_ADMIN?.USERS_LIST
-        ? (await postUserEmployee({
-            id: organizationId,
-            body: values,
-          })?.unwrap(),
-          setIsOpenAdduserDrawer(false))
-        : await updateUsers({ id: updateUserId, body: values })?.unwrap();
+          ? (await postUserEmployee({
+              id: organizationId,
+              body: values,
+            })?.unwrap(),
+            setIsOpenAdduserDrawer(false))
+          : await updateUsers({ id: updateUserId, body: values })?.unwrap();
 
       enqueueSnackbar(
         `User ${

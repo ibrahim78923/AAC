@@ -53,23 +53,6 @@ export const addUsersArray = [
   },
   {
     componentProps: {
-      name: 'adminRoleId',
-      label: 'Admin Role',
-      fullWidth: true,
-      select: true,
-      required: true,
-    },
-    options: [
-      { value: 'pakistan', label: 'Pakistan' },
-      { value: 'India', label: 'India' },
-      { value: 'uk', label: 'UK' },
-      { value: 'us', label: 'US' },
-    ],
-    component: RHFSelect,
-    md: 12,
-  },
-  {
-    componentProps: {
       name: 'postCode',
       label: 'Post Code',
       required: true,

@@ -3,6 +3,7 @@ import { RHFMultiCheckbox, RHFSelect } from '@/components/ReactHookForm';
 import RHFTextField from '@/components/ReactHookForm/RHFTextField';
 import useUserManagement from '../../useUserManagement';
 import * as Yup from 'yup';
+import { useGetSuperAdminRolesQuery } from '@/services/superAdmin/user-management/users';
 
 export const CompanyOwnerValidationSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -64,6 +65,8 @@ export const companyOwnerDefaultValues = {
 
 export const addUsersArray = () => {
   const { products: productsList } = useUserManagement();
+  const { data: superAdminRoles } = useGetSuperAdminRolesQuery();
+
   return [
     {
       componentProps: {
@@ -109,12 +112,10 @@ export const addUsersArray = () => {
         select: true,
         required: true,
       },
-      options: [
-        { value: 'pakistan', label: 'Pakistan' },
-        { value: 'India', label: 'India' },
-        { value: 'uk', label: 'UK' },
-        { value: 'us', label: 'US' },
-      ],
+      options: superAdminRoles?.data?.map((item: any) => ({
+        value: item?._id,
+        label: item?.name,
+      })),
       component: RHFSelect,
       toShow: ['SUPER_ADMIN', 'COMPANY_OWNER'],
       md: 12,
