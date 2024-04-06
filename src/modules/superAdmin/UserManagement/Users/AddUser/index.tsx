@@ -107,8 +107,8 @@ const AddUser = ({
                       isOpenAddUserDrawer?.type === 'view' ||
                       item.componentProps.name === 'companyName' ||
                       (isOpenAddUserDrawer?.type === 'edit' &&
-                        item.componentProps.name === 'crn') ||
-                      item.componentProps.name === 'email'
+                        (item.componentProps.name === 'crn' ||
+                          item.componentProps.name === 'email'))
                         ? true
                         : false
                     }
