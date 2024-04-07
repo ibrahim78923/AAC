@@ -88,7 +88,9 @@ export const useAddItemsToInventory = (props: any) => {
   const apiQueryLocation = useLazyGetLocationsDropdownForPurchaseOrderQuery?.();
 
   const addItemsToInventoryCountFormFields =
-    addItemsToInventoryCountFormFieldsDynamic?.(getValues);
+    addItemsToInventoryCountFormFieldsDynamic?.(
+      addToItemsInventoryDetails?.data?.data?.addedItems,
+    );
   const addItemsToInventoryFormFields = addItemsToInventoryFormFieldsDynamic?.(
     watchAddInventoryMethod,
     apiQueryDepartment,
