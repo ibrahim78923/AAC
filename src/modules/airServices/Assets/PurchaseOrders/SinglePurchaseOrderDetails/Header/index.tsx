@@ -64,7 +64,7 @@ export const Header = (props: any) => {
 
           {data?.data?.status !== PURCHASE_ORDER_STATUS?.OPEN && (
             <Button color="secondary" variant="outlined">
-              {data?.data?.status}
+              {data?.data?.status ?? '----'}
             </Button>
           )}
 

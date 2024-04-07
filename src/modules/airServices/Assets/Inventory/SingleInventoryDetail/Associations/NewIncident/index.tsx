@@ -12,6 +12,7 @@ export const NewIncident = (props: any) => {
     newIncidentFormFields,
     onClose,
     postTicketStatus,
+    existingIncidentStatus,
   } = useNewIncident(props);
 
   return (
@@ -23,9 +24,15 @@ export const NewIncident = (props: any) => {
       isOk
       cancelText={'Cancel'}
       footer
-      isLoading={postTicketStatus?.isLoading}
-      isDisabled={postTicketStatus?.isLoading}
-      disabledCancelBtn={postTicketStatus?.isLoading}
+      isLoading={
+        postTicketStatus?.isLoading || existingIncidentStatus?.isLoading
+      }
+      isDisabled={
+        postTicketStatus?.isLoading || existingIncidentStatus?.isLoading
+      }
+      disabledCancelBtn={
+        postTicketStatus?.isLoading || existingIncidentStatus?.isLoading
+      }
       submitHandler={handleSubmit(onSubmit)}
     >
       <Box mt={1}>

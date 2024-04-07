@@ -24,6 +24,7 @@ export const useNewIncident = (props: any) => {
   const { setIsOpenDrawer } = props;
 
   const router = useRouter();
+  const { inventoryId } = router?.query;
 
   const [postTicketTrigger, postTicketStatus] = usePostTicketsMutation();
   const [existingIncidentTrigger, existingIncidentStatus] =
@@ -85,8 +86,10 @@ export const useNewIncident = (props: any) => {
     };
 
     try {
-      await postTicketTrigger(postTicketParameter)?.unwrap();
+      const response: any =
+        await postTicketTrigger(postTicketParameter)?.unwrap();
       successSnackbar('Incident Associated Successfully');
+      await associateIncident?.(response?.data?._id);
       reset();
       onClose();
     } catch (error: any) {
@@ -94,10 +97,10 @@ export const useNewIncident = (props: any) => {
     }
   };
 
-  const associateIncident = async () => {
+  const associateIncident = async (ticketId: any) => {
     const associationExistingParams = {
-      id: 'associationsInventoryId',
-      ticketIds: 'checkedIds',
+      id: inventoryId,
+      ticketIds: [ticketId],
     };
 
     try {

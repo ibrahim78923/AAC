@@ -2,6 +2,7 @@ import { TICKET_APPROVALS } from '@/constants/strings';
 import {
   useGetAllApprovalsTicketsQuery,
   usePatchApprovalTicketsMutation,
+  usePostApprovalTicketsRemindersMutation,
 } from '@/services/airServices/tickets/single-ticket-details/approvals';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
 import { useRouter } from 'next/router';
@@ -16,6 +17,8 @@ export const useApprovals = () => {
   const { ticketId } = router?.query;
 
   const [patchApprovalTicketsTrigger] = usePatchApprovalTicketsMutation();
+  const [postApprovalTicketsRemindersTrigger] =
+    usePostApprovalTicketsRemindersMutation();
   const getApprovalsTicketsParameter = {
     queryParams: {
       id: ticketId,
@@ -36,7 +39,7 @@ export const useApprovals = () => {
 
   const updateRequestApprovalStatus = async (approval: any) => {
     if (approval?.state === TICKET_APPROVALS?.REMINDER) {
-      successSnackbar?.('Reminder send successfully');
+      await sendReminderForTicketApproval?.();
       return;
     }
     const patchParameterData = {
@@ -50,6 +53,15 @@ export const useApprovals = () => {
     try {
       await patchApprovalTicketsTrigger(patchParameterData)?.unwrap();
       successSnackbar?.('Request cancelled successfully');
+    } catch (error: any) {
+      errorSnackbar(error?.data?.message);
+    }
+  };
+
+  const sendReminderForTicketApproval = async () => {
+    try {
+      await postApprovalTicketsRemindersTrigger({})?.unwrap();
+      successSnackbar('Reminder Send Successfully');
     } catch (error: any) {
       errorSnackbar(error?.data?.message);
     }

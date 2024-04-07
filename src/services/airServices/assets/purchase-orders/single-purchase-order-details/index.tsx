@@ -86,6 +86,49 @@ export const singlePurchaseOrderAPI = baseAPI?.injectEndpoints({
       }),
       providesTags: [TAG],
     }),
+    getPurchaseOrderByIdForAddToInventory: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.ASSETS_PURCHASEORDER_DETAIL}/${apiDataParameter?.pathParams?.purchaseOrderId}`,
+        method: 'GET',
+      }),
+      providesTags: [TAG],
+    }),
+    getDepartmentDropdownForPurchaseOrder: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_DEPARTMENT}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data?.departments;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getLocationsDropdownForPurchaseOrder: builder?.query({
+      query: ({ params }: any) => ({
+        url: `${END_POINTS?.DROPDOWN_LOCATION}`,
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: any) => {
+        if (response) return response?.data;
+      },
+      providesTags: [TAG_FOUR],
+    }),
+    getAllAssetsListForAddInventory: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.ASSETS_INVENTORY}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
+    getAllAssetsListForUpdateInventory: builder?.query({
+      query: (apiDataParameter: any) => ({
+        url: `${END_POINTS?.DROPDOWN_ALL_ASSETS}`,
+        method: 'GET',
+        params: apiDataParameter?.queryParams,
+      }),
+    }),
   }),
 });
 
@@ -99,4 +142,9 @@ export const {
   usePatchAddToPurchaseOrderMutation,
   usePatchAddToItemMutation,
   useGetAddToPurchaseOrderByIdForReceivedItemsQuery,
+  useGetPurchaseOrderByIdForAddToInventoryQuery,
+  useLazyGetDepartmentDropdownForPurchaseOrderQuery,
+  useLazyGetLocationsDropdownForPurchaseOrderQuery,
+  useGetAllAssetsListForAddInventoryQuery,
+  useGetAllAssetsListForUpdateInventoryQuery,
 } = singlePurchaseOrderAPI;
