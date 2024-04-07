@@ -1,6 +1,5 @@
-import Image from 'next/image';
-import { Box, Typography, useTheme } from '@mui/material';
-import { UserAvatarImage } from '@/assets/images';
+import { Avatar, Box, Typography, useTheme } from '@mui/material';
+import { generateImage } from '@/utils/avatarUtils';
 
 const MemberDetails = (props: any) => {
   const theme = useTheme();
@@ -23,12 +22,13 @@ const MemberDetails = (props: any) => {
             gap: 1.5,
           }}
         >
-          <Image
-            src={props?.img ?? UserAvatarImage}
+          {/* <Image
+            src={gene}
             alt="img"
             width={40}
             height={40}
-          />
+          /> */}
+          <Avatar src={generateImage(props?.img)}></Avatar>
           <Box sx={{ display: 'grid' }}>
             <Typography
               variant="body3"

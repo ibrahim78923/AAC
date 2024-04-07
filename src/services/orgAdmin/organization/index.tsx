@@ -1,4 +1,4 @@
-import { organization } from '@/routesConstants/endpoints';
+import { END_POINTS, organization } from '@/routesConstants/endpoints';
 import { baseAPI } from '@/services/base-api';
 
 export const organizationAPI = baseAPI.injectEndpoints({
@@ -28,6 +28,13 @@ export const organizationAPI = baseAPI.injectEndpoints({
     getOrganizationById: builder.query({
       query: ({ id }: any) => ({
         url: `${organization.GET_ORGANIZATION_ACCOUNT_ID}/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['Organization'],
+    }),
+    getOrganizationDetailsById: builder.query({
+      query: ({ id }: any) => ({
+        url: `${END_POINTS?.ORGANIZATION}/${id}`,
         method: 'GET',
       }),
       providesTags: ['Organization'],
@@ -72,6 +79,7 @@ export const {
   useDeleteOrganizationMutation,
   useGetOrganizationByIdQuery,
   useGetOrganizationMainIdQuery,
+  useLazyGetOrganizationDetailsByIdQuery,
   useUpdateOrganizationStatusMutation,
   useGetAllProductsQuery,
 } = organizationAPI;

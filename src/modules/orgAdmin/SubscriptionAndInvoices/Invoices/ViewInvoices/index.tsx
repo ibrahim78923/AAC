@@ -13,10 +13,32 @@ import { ViewInvoicesI } from './ViewInvoices.interface';
 import { CloseModalIcon, LogoIcon } from '@/assets/icons';
 import { styles } from './ViewInvoices.style';
 import TanstackTable from '@/components/Table/TanstackTable';
-import { invoiceProducData } from '@/mock/modules/SubscriptionAndInvoices';
 import { AvatarImage } from '@/assets/images';
+import usePlanCalculations from '../../usePlanCalculations';
+import { DATE_FORMAT, PLAN_CALCULATIONS } from '@/constants';
+import dayjs from 'dayjs';
 
-const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
+const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, invoiceData }) => {
+  const dataArray = [invoiceData];
+
+  const planCalculations = usePlanCalculations({
+    additionalDefaultUser: invoiceData?.details?.additionalUsers,
+    additionalDefaultStorage: invoiceData?.details?.additionalStorage,
+    additionalUserPrice: invoiceData?.plans?.additionalPerUserPrice,
+    additionalStoragePrice: invoiceData?.plans?.additionalStoragePrice,
+    planDefaultPrice: invoiceData?.plans?.planPrice,
+    planDefaultDiscount: invoiceData?.details?.planDiscount,
+    PLAN_CALCULATIONS,
+  });
+
+  const invoiceDiscountPercent = invoiceData?.invoiceDiscount;
+  const invoiceDiscountAmount =
+    invoiceDiscountPercent * (planCalculations?.discountedPriceBeforeTax / 100);
+  const total =
+    planCalculations?.discountedPriceBeforeTax - invoiceDiscountAmount;
+  const discountAmount = (total * PLAN_CALCULATIONS?.PLAN_DISCOUNT)?.toFixed(2);
+  const NetAmount = Number(total) + Number(discountAmount);
+
   const columns: any = [
     {
       accessorFn: (row: any) => row?.id,
@@ -33,7 +55,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
           <Box sx={{ fontWeight: '500', color: 'blue.dull_blue' }}>
             {info.getValue()}
           </Box>
-          <Box>{info?.row?.original?.plan}</Box>
+          <Box>{invoiceData?.plans?.name}</Box>
         </>
       ),
       header: 'Product/Suite',
@@ -44,16 +66,18 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       id: 'planPrice',
       isSortable: true,
       header: 'Plan Price',
-      cell: (info: any) => <>£ {info?.getValue()}</>,
+      cell: () => <>£ {invoiceData?.plans?.planPrice}</>,
     },
     {
       accessorFn: (row: any) => row?.additionalUsers,
       id: 'additionalUsers',
       isSortable: true,
       header: 'Additional Users',
-      cell: (info: any) => (
+      cell: () => (
         <>
-          {info?.getValue()} (*£15) = £{info?.getValue() * 15}
+          {invoiceData?.details?.additionalUsers} * (£
+          {invoiceData?.plans?.additionalPerUserPrice}) = £
+          {planCalculations?.additionalUsers}
         </>
       ),
     },
@@ -62,9 +86,11 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       id: 'additionalStorage',
       isSortable: true,
       header: 'Additional Storage',
-      cell: (info: any) => (
+      cell: () => (
         <>
-          {info?.getValue()} (*£15) = £{info?.getValue() * 15}
+          {invoiceData?.details?.additionalStorage} * (£
+          {invoiceData?.plans?.additionalStoragePrice}) = £
+          {planCalculations?.additionalStorage}
         </>
       ),
     },
@@ -73,8 +99,8 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       id: 'discount',
       isSortable: true,
       header: 'Discount(%)',
-      cell: (info: any) => (
-        <Box sx={{ fontWeight: '800' }}>{info?.getValue()} %</Box>
+      cell: () => (
+        <Box sx={{ fontWeight: '800' }}>{planCalculations?.planDiscount} %</Box>
       ),
     },
     {
@@ -82,8 +108,10 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
       id: 'subTotal',
       isSortable: true,
       header: 'Subtotal',
-      cell: (info: any) => (
-        <Box sx={{ fontWeight: '800' }}>£ {info?.getValue()}</Box>
+      cell: () => (
+        <Box sx={{ fontWeight: '800' }}>
+          £ {planCalculations?.discountedPriceBeforeTax}
+        </Box>
       ),
     },
   ];
@@ -147,23 +175,27 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
                   R
                 </Avatar>
                 <Box>
-                  <Typography sx={styles?.userName}>Olivia Rhye</Typography>
-                  <Box sx={styles?.orgName}>Extreme Commerce</Box>
+                  <Typography sx={styles?.userName}>--</Typography>
+                  <Box sx={styles?.orgName}>
+                    {invoiceData?.organizations?.name}
+                  </Box>
                 </Box>
               </Box>
               <Box>
                 <Typography variant="body3" sx={styles?.cardLeftText}>
-                  123 Street Address
+                  {invoiceData?.organizations?.address?.street}
                 </Typography>
                 <Typography variant="body3" sx={styles?.cardLeftText}>
-                  City | State | Zip Code
+                  {invoiceData?.organizations?.address?.city} |{' '}
+                  {invoiceData?.organizations?.address?.state} |{' '}
+                  {invoiceData?.organizations?.address?.postalCode}
                 </Typography>
-                <Typography variant="body3" sx={styles?.cardLeftText}>
+                {/* <Typography variant="body3" sx={styles?.cardLeftText}>
                   Phone No
                 </Typography>
                 <Typography variant="body3" sx={styles?.cardLeftText}>
                   Company Email
-                </Typography>
+                </Typography> */}
               </Box>
             </Box>
           </Box>
@@ -172,22 +204,29 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
             <Grid container spacing={'16px'}>
               <Grid item xs={3}>
                 <Box sx={styles?.invoiceInfoTitle}>
-                  Invoice No: <Box component="span">Doc-3</Box>
+                  Invoice No:{' '}
+                  <Box component="span">{invoiceData?.invoiceNo}</Box>
                 </Box>
               </Grid>
               <Grid item xs={3}>
                 <Box sx={styles?.invoiceInfoTitle}>
-                  Invoice Date: <Box component="span">April 9,2023</Box>
+                  Invoice Date:{' '}
+                  <Box component="span">
+                    {dayjs(invoiceData?.updatedAt).format(DATE_FORMAT?.API)}
+                  </Box>
                 </Box>
               </Grid>
               <Grid item xs={3}>
                 <Box sx={styles?.invoiceInfoTitle}>
-                  Due Date: <Box component="span">April 27,2023</Box>
+                  Due Date:{' '}
+                  <Box component="span">
+                    {dayjs(invoiceData?.dueDate).format(DATE_FORMAT?.API)}
+                  </Box>
                 </Box>
               </Grid>
               <Grid item xs={3}>
                 <Box sx={styles?.invoiceInfoTitle}>
-                  Prepared By: <Box component="span">Adil Khan</Box>
+                  Prepared By: <Box component="span">Auto Generated</Box>
                 </Box>
               </Grid>
             </Grid>
@@ -196,7 +235,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
           {/* Product Table */}
           <Box sx={styles?.productCont}>
             <Box sx={styles?.productHeading}>Products</Box>
-            <TanstackTable columns={columns} data={invoiceProducData} />
+            <TanstackTable columns={columns} data={dataArray} />
           </Box>
 
           {/* Voucher Card*/}
@@ -208,11 +247,23 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
                   component="span"
                   sx={{ fontWeight: '500', fontSize: '14px' }}
                 >
-                  (10%)
+                  ({invoiceDiscountPercent}%)
                 </Box>
               </Box>
-              <Box sx={styles?.vValue}>(£ 10)</Box>
+              <Box sx={styles?.vValue}>£ {invoiceDiscountAmount}</Box>
             </Box>
+            {/* total  */}
+            {/* <Box sx={styles?.vRow}>
+              <Box sx={styles?.vLabel}>
+                Total{' '}
+                <Box
+                  component="span"
+                  sx={{ fontWeight: '500', fontSize: '14px' }}
+                ></Box>
+              </Box>
+              <Box sx={styles?.vValue}>£ {total}</Box>
+            </Box> */}
+            {/* total  */}
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>
                 Tax{' '}
@@ -220,15 +271,15 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose }) => {
                   component={'span'}
                   sx={{ fontWeight: '400', fontSize: '12px' }}
                 >
-                  (Vat 20%)
+                  ({PLAN_CALCULATIONS?.PLAN_DISCOUNT * 100} %)
                 </Box>
               </Box>
-              <Box sx={styles?.vValue}>£ 27</Box>
+              <Box sx={styles?.vValue}>£ {discountAmount}</Box>
             </Box>
             <Divider sx={{ borderColor: 'custom.off_white_one', my: '6px' }} />
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>Total Cost</Box>
-              <Box sx={styles?.vValue}>£ 162</Box>
+              <Box sx={styles?.vValue}>£ {NetAmount}</Box>
             </Box>
           </Box>
 

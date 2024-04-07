@@ -84,6 +84,7 @@ export const dataArray = (
   _: any,
   AdditionalStorageValue: any,
   AdditionalUsereValue: any,
+  isSuccess: any,
 ) => {
   const { data: planTypeData } = useGetPlanTypesQuery<any>({
     refetchOnMountOrArgChange: true,
@@ -116,6 +117,7 @@ export const dataArray = (
         select: true,
         placeholder: 'Enter Plan Type',
         required: true,
+        disabled: isSuccess,
       },
       options: planType,
       component: RHFSelect,
