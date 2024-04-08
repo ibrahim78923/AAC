@@ -142,3 +142,5 @@ export const baseAPI = createApi({
   tagTypes: TAGS,
   endpoints: () => ({}),
 });
+
+export const clearApiCache = baseAPI.util.resetApiState;

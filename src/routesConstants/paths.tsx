@@ -51,6 +51,8 @@ export const SUPER_ADMIN_SETTINGS: any = {
   QUICK_LINKS: '/quick-links',
   QUICK_LINKS_GROUP: '/quick-links/get-group-quick-links',
   NEWS_EVENTS: 'news-and-events',
+  USER_SETTINGS_QUICK_LINK: '/quick-links/get-user-settings-quick-links',
+  UPDATE_USER_SETTINGS_QUICK_LINK: '/quick-links/user-settings-quick-links',
 };
 
 export const SOCIAL_FEATURES = {

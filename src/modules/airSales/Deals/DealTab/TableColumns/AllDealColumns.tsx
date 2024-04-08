@@ -1,12 +1,11 @@
-import { Avatar, Box, Checkbox, Typography, useTheme } from '@mui/material';
+import React from 'react';
+import { Box, Checkbox, Typography, useTheme } from '@mui/material';
 import dayjs from 'dayjs';
 import { DATE_FORMAT } from '@/constants';
-import React from 'react';
-import { AvatarImage } from '@/assets/images';
 import { useRouter } from 'next/router';
 import { AIR_SALES } from '@/routesConstants/paths';
-import { IMG_URL } from '@/config';
-// import useDealTab from '../useDealTab';
+import { generateImage } from '@/utils/avatarUtils';
+import Image from 'next/image';
 
 export const AllDealColumns = ({
   selectedRows,
@@ -22,28 +21,49 @@ export const AllDealColumns = ({
   activeColumns: any;
 }) => {
   const theme = useTheme();
+  const router = useRouter();
   const DEAL_ATTRIBUTES = {
     DEAL_OWNER: 'dealOwner',
     DEAL_NAME: 'name',
     DEAL_CLOSEDATE: 'closeDate',
     DEAL_CREATEDAT: 'createdAt',
   };
+
   const activeColumnsData = (attribute: any, info: any) => {
     const navigate = useRouter();
     if (attribute?.includes(DEAL_ATTRIBUTES?.DEAL_OWNER)) {
       return (
         <Box sx={{ display: 'flex', gap: '5px' }}>
-          <Avatar
+          {/* <Avatar
             alt="user"
             sx={{ background: theme?.palette?.custom?.dim_grey }}
             src={
               info?.row?.original?.dealOwner?.avatar?.url
-                ? IMG_URL + info?.row?.original?.dealOwner?.avatar?.url
-                : AvatarImage?.src
+                ? IMG_URL + info.row.original.dealOwner.avatar.url
+                : AvatarImage?.src || ''
             }
           >
             {info?.row?.original?.dealOwner?.name?.charAt(0) ?? '-'}
-          </Avatar>
+          </Avatar> */}
+          <>
+            {info?.row?.original?.dealOwner?.avatar?.url && (
+              <Image
+                alt="user"
+                src={generateImage(info?.row?.original?.dealOwner?.avatar?.url)}
+                width={20}
+                height={20}
+              />
+            )}
+            <Typography
+              variant="h5"
+              sx={{
+                marginLeft: '20px',
+                background: theme?.palette?.custom?.dim_grey,
+              }}
+            >
+              {info?.row?.original?.dealOwner?.name?.charAt(0) ?? ''}
+            </Typography>
+          </>
           <Box>
             <Typography component="p" variant="body3" fontWeight={500}>
               {info?.row?.original?.dealOwner?.name ?? 'N/A'}
@@ -97,6 +117,7 @@ export const AllDealColumns = ({
         checked={selectedRows?.includes(original?._id)}
         onChange={({ target }) => {
           handleSelectSingleCheckBox(target?.checked, original?._id);
+          router.push(`?dealOwnerId=${original?.dealOwner?._id}`);
         }}
       />
     ),

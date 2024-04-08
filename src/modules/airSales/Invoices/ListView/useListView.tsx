@@ -142,8 +142,8 @@ const useListView = () => {
           status === 'PAID'
             ? 'Paid'
             : status === 'DRAFT'
-            ? 'Draft'
-            : 'Published'
+              ? 'Draft'
+              : 'Published'
         } now`,
         {
           variant: 'success',
