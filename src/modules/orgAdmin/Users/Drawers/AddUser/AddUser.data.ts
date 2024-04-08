@@ -15,6 +15,7 @@ export const superAdminValidationSchema = Yup.object().shape({
       /^[A-Za-z\s]+$/,
       'Only alphabetic characters and spaces are allowed',
     ),
+  adminRoleId: Yup.string().required('Field is Required'),
   email: Yup.string()
     .required('Field is Required')
     .email('Invalid email address'),
@@ -48,6 +49,23 @@ export const addUsersArray = [
       fullWidth: true,
     },
     component: RHFTextField,
+    md: 12,
+  },
+  {
+    componentProps: {
+      name: 'adminRoleId',
+      label: 'Admin Role',
+      fullWidth: true,
+      select: true,
+      required: true,
+    },
+    options: [
+      { value: 'pakistan', label: 'Pakistan' },
+      { value: 'India', label: 'India' },
+      { value: 'uk', label: 'UK' },
+      { value: 'us', label: 'US' },
+    ],
+    component: RHFSelect,
     md: 12,
   },
   {
