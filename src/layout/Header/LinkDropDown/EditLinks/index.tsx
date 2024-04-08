@@ -4,21 +4,25 @@ import { Box, Button, Grid, Skeleton, Typography } from '@mui/material';
 import { ArrowSquareLeftImage } from '@/assets/images';
 import { PlusIcon } from '@/assets/icons';
 import { styles } from './QuickLinks.style';
-import useEditLinks from './useEditLinks';
 import LinkCheckbox from './LinkCheckbox';
 import { v4 as uuidv4 } from 'uuid';
 import useLinkDropDown from '../useLinkDropDown';
 import Loader from '@/components/Loader';
+import NoData from '@/components/NoData';
 
 const EditLinks = ({ toggleView }: any) => {
   const skeletonArr = [1, 2, 3, 4, 5, 6];
   const {
+    activeQuickLinksData,
+    loadingAcitiveQuickLinks,
+    fetchingAcitiveQuickLinks,
+
     checkedItems,
     handleCheckboxChange,
     handleSubmitSaveQuickLinks,
     loadingSaveQuickLinks,
   } = useLinkDropDown();
-  const { activeQuickLinksData, isLoading, isFetching } = useEditLinks();
+  // const { activeQuickLinksData, isLoading, isFetching } = useEditLinks();
 
   return (
     <>
@@ -65,23 +69,29 @@ const EditLinks = ({ toggleView }: any) => {
       </Box>
 
       <Box sx={{ p: '10px 20px 20px', maxHeight: '190px', overflowY: 'auto' }}>
-        <Grid container spacing={2} sx={{ maxWidth: '480px' }}>
-          {isLoading || isFetching
-            ? skeletonArr.map(() => (
-                <Grid item xs={6} key={uuidv4()}>
-                  <Skeleton variant="rounded" height={40} />
-                </Grid>
-              ))
-            : activeQuickLinksData?.map((link: any) => (
-                <Grid item xs={6} key={link?._id}>
-                  <LinkCheckbox
-                    label={link?.name}
-                    name={link?._id}
-                    quickLinkIds={checkedItems}
-                    onChange={handleCheckboxChange}
-                  />
-                </Grid>
-              ))}
+        <Grid container spacing={2}>
+          {loadingAcitiveQuickLinks || fetchingAcitiveQuickLinks ? (
+            skeletonArr.map(() => (
+              <Grid item xs={6} key={uuidv4()}>
+                <Skeleton variant="rounded" height={40} />
+              </Grid>
+            ))
+          ) : activeQuickLinksData?.length !== 0 ? (
+            activeQuickLinksData?.map((link: any) => (
+              <Grid item xs={6} key={link?._id}>
+                <LinkCheckbox
+                  label={link?.name}
+                  name={link?._id}
+                  quickLinkIds={checkedItems}
+                  onChange={handleCheckboxChange}
+                />
+              </Grid>
+            ))
+          ) : (
+            <Grid item xs={12}>
+              <NoData height="192px" />
+            </Grid>
+          )}
         </Grid>
       </Box>
 
