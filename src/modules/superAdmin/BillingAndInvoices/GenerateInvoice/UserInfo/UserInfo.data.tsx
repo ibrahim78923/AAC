@@ -1,6 +1,6 @@
-import { Box, Input, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
-export const columns = (setDiscountValue: any, discountValue: any) => {
+export const columns = () => {
   return [
     {
       accessorFn: (row: any) => row?.id,
@@ -37,45 +37,21 @@ export const columns = (setDiscountValue: any, discountValue: any) => {
       id: 'additionalUsers',
       isSortable: true,
       header: 'Additional Users',
-      cell: (info: any) => (
-        <>
-          {info?.getValue()} (*£15) = £{info?.getValue() * 15}
-        </>
-      ),
+      cell: (info: any) => <>{info?.getValue()}</>,
     },
     {
       accessorFn: (row: any) => row?.details?.additionalStorage,
       id: 'additionalStorage',
       isSortable: true,
       header: 'Additional Storage',
-      cell: (info: any) => (
-        <>
-          {info?.getValue()} (*£15) = £{info?.getValue() * 15}
-        </>
-      ),
+      cell: (info: any) => <>{info?.getValue()}</>,
     },
     {
-      accessorFn: (row: any) => row?.invoiceDiscount,
+      accessorFn: (row: any) => row?.details?.planDiscount,
       id: 'discount',
       isSortable: true,
       header: 'Discount(%)',
-      cell: (info: any) => (
-        <Box sx={{ fontWeight: '800' }}>
-          <Input
-            // value={info?.getValue()}
-            value={info?.getValue() && discountValue}
-            placeholder="20"
-            type="number"
-            onChange={(newValue) => setDiscountValue(newValue?.target?.value)}
-            sx={{
-              border: '1px solid #E5E7EB',
-              borderRadius: '8px',
-              padding: '5px 10px',
-              '&.MuiInput-root::before': { borderBottom: '0' },
-            }}
-          />
-        </Box>
-      ),
+      cell: (info: any) => <>{info?.getValue()}</>,
     },
     {
       accessorFn: (row: any) => row?.subTotal,
