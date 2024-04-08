@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
+  CircularProgress,
   MenuItem,
   Popover,
   Tooltip,
@@ -67,7 +68,7 @@ const TabToolbar = () => {
     (state: any) => state?.task?.selectedTaskIds,
   );
 
-  const { data: taskData } = useGetTaskDetailsQuery({
+  const { data: taskData, isLoading } = useGetTaskDetailsQuery({
     id: selectedTaskIds?.length === 1 && selectedTaskIds[0],
   });
 
@@ -201,11 +202,16 @@ const TabToolbar = () => {
                     item?.name === 'changeStatus');
                 return (
                   <MenuItem
-                    disabled={isAbleToEdit}
+                    disabled={isLoading ? true : isAbleToEdit}
                     onClick={menuFunctionsToRender[item?.name]}
                     key={item?.item}
                   >
-                    {item?.item}
+                    <>
+                      {item?.item}{' '}
+                      {item?.name === 'edit'
+                        ? isLoading && <CircularProgress size={15} />
+                        : ''}
+                    </>
                   </MenuItem>
                 );
               })}
