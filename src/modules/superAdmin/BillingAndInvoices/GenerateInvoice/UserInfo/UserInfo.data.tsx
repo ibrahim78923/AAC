@@ -4,12 +4,10 @@ export const columns = (EditInvoice: any) => {
   const planPrice = EditInvoice?.plans?.planPrice;
 
   const totalAdditionalUserPrice =
-    EditInvoice?.details?.additionalUsers *
-    EditInvoice?.plans?.additionalPerUserPrice;
+    EditInvoice?.details?.sumAdditionalUsersPrices;
 
   const totalAdditionalStoragePrice =
-    EditInvoice?.details?.additionalStorage *
-    EditInvoice?.plans?.additionalStoragePrice;
+    EditInvoice?.details?.sumAdditionalStoragePrices;
 
   const planDiscount = EditInvoice?.details?.planDiscount;
 

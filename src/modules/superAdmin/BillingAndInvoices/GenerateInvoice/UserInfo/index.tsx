@@ -79,12 +79,10 @@ const UserInfo = () => {
   const planPrice = EditInvoice?.plans?.planPrice;
 
   const totalAdditionalUserPrice =
-    EditInvoice?.details?.additionalUsers *
-    EditInvoice?.plans?.additionalPerUserPrice;
+    EditInvoice?.details?.sumAdditionalUsersPrices;
 
   const totalAdditionalStoragePrice =
-    EditInvoice?.details?.additionalStorage *
-    EditInvoice?.plans?.additionalStoragePrice;
+    EditInvoice?.details?.sumAdditionalStoragePrices;
 
   const planDiscount = EditInvoice?.details?.planDiscount;
 
@@ -99,10 +97,10 @@ const UserInfo = () => {
   const total =
     subtotalAfterDiscount - (invoiceDiscount / 100) * subtotalAfterDiscount;
 
-  const tax = 20;
+  const tax = EditInvoice?.tax;
   const TaxAmountOfSubtotal = (tax / 100) * total;
 
-  const netAmout = total + (tax / 100) * total;
+  const netAmout = EditInvoice?.netAmount;
 
   return (
     <Box>

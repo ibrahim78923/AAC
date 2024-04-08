@@ -45,11 +45,9 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
   const columns = (data: any) => {
     planPrice = data?.plans?.planPrice;
 
-    totalAdditionalUserPrice =
-      data?.details?.additionalUsers * data?.plans?.additionalPerUserPrice;
+    totalAdditionalUserPrice = data?.details?.sumAdditionalUsersPrices;
 
-    totalAdditionalStoragePrice =
-      data?.details?.additionalStorage * data?.plans?.additionalStoragePrice;
+    totalAdditionalStoragePrice = data?.details?.sumAdditionalStoragePrices;
 
     planDiscount = data?.details?.planDiscount;
 
@@ -61,15 +59,15 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
 
     invoiceDiscount = data?.invoiceDiscount;
 
-    invoiceDiscountAmount = (invoiceDiscount / 100) * subtotalAfterDiscount;
+    invoiceDiscountAmount = (invoiceDiscount / 100) * data?.details?.subTotal;
 
     total =
       subtotalAfterDiscount - (invoiceDiscount / 100) * subtotalAfterDiscount;
 
-    tax = 20;
+    tax = data?.tax;
     TaxAmountOfSubtotal = (tax / 100) * total;
 
-    netAmout = total + (tax / 100) * total;
+    netAmout = data?.netAmount;
 
     return [
       {
