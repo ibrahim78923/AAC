@@ -346,7 +346,6 @@ export const useAddPlan = () => {
     enqueueSnackbar('Plan Features Details Added Successfully', {
       variant: 'success',
     });
-    reset();
   };
 
   const onSubmitPlanModulesHandler = async (values: any) => {

@@ -114,7 +114,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
         header: 'Additional Users',
         cell: (info: any) => (
           <>
-            {info?.getValue()} (*£
+            {info?.getValue()} *(£
             {info?.row?.original?.plans?.additionalPerUserPrice}) = £{' '}
             {totalAdditionalUserPrice}
           </>
@@ -127,7 +127,7 @@ const ViewInvoices: FC<ViewInvoicesI> = ({ open, onClose, isGetRowValues }) => {
         header: 'Additional Storage',
         cell: (info: any) => (
           <>
-            {info?.getValue()} (*£
+            {info?.getValue()} *(£
             {info?.row?.original?.plans?.additionalStoragePrice}) = £
             {totalAdditionalStoragePrice}
           </>
