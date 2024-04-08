@@ -10,13 +10,14 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Typography } from '@mui/material';
 import * as Yup from 'yup';
 export const upsertServiceValidationSchema = Yup?.object()?.shape({
-  itemName: Yup?.string()?.required(),
+  itemName: Yup?.string()?.required('Item Name is Required'),
   cost: Yup?.number()
-    ?.transform((value: any) => (isNaN(value) ? undefined : value))
     ?.nullable()
     ?.typeError('Not a number')
     ?.positive('Greater than 0'),
-  serviceCategory: Yup?.mixed()?.nullable(),
+  serviceCategory: Yup?.mixed()
+    ?.nullable()
+    ?.required('Service Category is Required'),
   estimatedDelivery: Yup?.string(),
   description: Yup?.string()?.nullable(),
   assetType: Yup?.string()?.nullable(),
@@ -24,56 +25,58 @@ export const upsertServiceValidationSchema = Yup?.object()?.shape({
     ?.nullable()
     ?.when('assetType', {
       is: (value: any) => value === 'HardWare/Consumable',
-      then: (schema: any) => schema?.required(),
+      then: (schema: any) => schema?.required('Asset Category is Required'),
       otherwise: (schema) => schema,
     }),
   software: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
       is: (value: any) => value === 'software',
-      then: (schema: any) => schema?.required(),
+      then: (schema: any) => schema?.required('Software is Required'),
       otherwise: (schema) => schema,
     }),
   agentVisibilty: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
       is: (value: any) => value === 'software',
-      then: (schema: any) => schema?.required(),
+      then: (schema: any) => schema?.required('Agent Visibility is Required'),
       otherwise: (schema) => schema,
     }),
   requestedFor: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
       is: (value: any) => value === 'software',
-      then: (schema: any) => schema?.required(),
+      then: (schema: any) => schema?.required('Requested For is Required'),
       otherwise: (schema) => schema,
     }),
   selectAgentVisibility: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
       is: (value: any) => value === 'HardWare/Consumable',
-      then: (schema: any) => schema?.required(),
+      then: (schema: any) => schema?.required('Agent Visibility is Required'),
       otherwise: (schema) => schema,
     }),
   product: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
       is: (value: any) => value === 'HardWare/Consumable',
-      then: (schema: any) => schema?.required(),
+      then: (schema: any) => schema?.required('Product is Required'),
       otherwise: (schema) => schema,
     }),
   requesterVisibilty: Yup?.mixed()
     ?.nullable()
     ?.when('assetType', {
       is: (value: any) => value === 'HardWare/Consumable',
-      then: (schema: any) => schema?.required(),
+      then: (schema: any) =>
+        schema?.required('Requester Visibility is Required'),
       otherwise: (schema) => schema,
     }),
   fileUrl: Yup?.mixed()?.nullable(),
 });
+
 export const upsertServiceDefaultValues = {
   itemName: '',
-  cost: '',
+  cost: 0,
   serviceCategory: null,
   estimatedDelivery: '',
   description: '',
@@ -131,6 +134,7 @@ export const upsertServiceData = (apiServiceCategoryQuery: any) => [
       apiQuery: apiServiceCategoryQuery,
       placeholder: 'Choose Category',
       getOptionLabel: (option: any) => option?.categoryName,
+      required: true,
     },
     component: RHFAutocompleteAsync,
     md: 6,

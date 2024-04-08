@@ -1,12 +1,10 @@
 import useAuth from '@/hooks/useAuth';
-
 import {
   useGetTicketsTimeEntriesByIdQuery,
   usePostTicketsTimeMutation,
   usePutTicketsTimeMutation,
 } from '@/services/airServices/tickets/single-ticket-details/details';
 import { errorSnackbar, successSnackbar } from '@/utils/api';
-
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useStopwatch } from 'react-timer-hook';
@@ -25,7 +23,9 @@ export const useDetailViewTimeEntries = (data: any) => {
   const toggleView = () => {
     setIsIconVisible(!isIconVisible);
   };
+
   const { ticketId } = router?.query;
+
   const {
     totalSeconds,
     seconds,
@@ -42,6 +42,7 @@ export const useDetailViewTimeEntries = (data: any) => {
       ticketId,
     },
   };
+
   const {
     data: timeEntryData,
     isLoading,
@@ -62,6 +63,7 @@ export const useDetailViewTimeEntries = (data: any) => {
     setCheckId(true);
     setHasExecuted(true);
   }
+
   const handleSubmit = async () => {
     pause();
     if (isCheckId === true) {
@@ -73,11 +75,10 @@ export const useDetailViewTimeEntries = (data: any) => {
       const putTicketParameter = {
         body: upDateData,
       };
+
       try {
         await putTicketParameterTrigger(putTicketParameter)?.unwrap();
-
-        successSnackbar(' ticket Time upDated successfully');
-
+        successSnackbar('Ticket Time Updated Successfully!');
         reset();
       } catch (error: any) {
         errorSnackbar(error?.data?.message);
@@ -100,10 +101,10 @@ export const useDetailViewTimeEntries = (data: any) => {
     const putTicketParameter = {
       body: postData,
     };
+
     try {
       await postTicketsTimeTrigger(putTicketParameter)?.unwrap();
-
-      successSnackbar(' ticket Time Added successfully');
+      successSnackbar('Ticket Time Added Successfully!');
       setIsDrawerOpen(false);
     } catch (error: any) {
       errorSnackbar(error?.data?.message);

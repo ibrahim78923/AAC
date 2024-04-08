@@ -16,13 +16,11 @@ export const Overview = () => {
     purchaseOrderData,
     purchaseOrderDetailData,
     orderStatus,
-    itemName,
     handleDownload,
     uniqueNumber,
     isLoading,
     isFetching,
     handleRowClick,
-    rowData,
     isError,
   } = useOverview();
 
@@ -66,13 +64,7 @@ export const Overview = () => {
         </Typography>
         <TanstackTable
           data={purchaseOrderDetailData}
-          columns={overviewTableColumns(
-            handleRowClick,
-            purchaseOrderDetailData,
-            itemName,
-            theme,
-            orderStatus,
-          )}
+          columns={overviewTableColumns(handleRowClick, theme, orderStatus)}
         />
       </Box>
       <Box m={'1rem 3rem 0 0'}>
@@ -92,8 +84,6 @@ export const Overview = () => {
             orderStatus={orderStatus}
             handleDownload={handleDownload}
             uniqueNumber={uniqueNumber}
-            itemName={itemName}
-            rowData={rowData}
           />
         )}
       </Box>

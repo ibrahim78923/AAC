@@ -1,20 +1,18 @@
 import { PURCHASE_ORDER_STATUS } from '@/constants/strings';
+import { truncateText } from '@/utils/avatarUtils';
 import { Typography } from '@mui/material';
 
 export const overviewTablePdfColumns: any = (
-  singlePurchaseOrderDetailData: any,
-  purchaseOrderDetailData: any,
-  itemName: any,
   theme: any,
   orderStatus: string,
 ) => {
   const columns = [
     {
-      accessorFn: (row: any) => row?.itemName,
+      accessorFn: (row: any) => row?.name,
       id: 'itemName',
-      cell: () => (
+      cell: (info: any) => (
         <Typography color={theme?.palette?.blue?.dull_blue}>
-          {itemName}
+          {info?.getValue()}
         </Typography>
       ),
       header: 'Item Name',
@@ -23,80 +21,51 @@ export const overviewTablePdfColumns: any = (
       accessorFn: (row: any) => row?.description,
       id: 'description',
       header: 'Description',
-      cell: () => {
-        return (
-          <Typography>
-            {singlePurchaseOrderDetailData?.description?.slice?.(0, 30)}
-          </Typography>
-        );
-      },
+      cell: (info: any) => truncateText(info?.getValue()),
     },
     {
       accessorFn: (row: any) => row?.costPerItem,
       id: 'costPerItem',
       header: 'Cost Per Item',
-      cell: () => {
-        return (
-          <Typography>{singlePurchaseOrderDetailData?.costPerItem}</Typography>
-        );
-      },
+      cell: (info: any) => info?.getValue(),
     },
   ];
   if (orderStatus === PURCHASE_ORDER_STATUS?.RECEIVED) {
-    columns.push(
+    columns?.push(
       {
         accessorFn: (row: any) => row?.receivedVsOrdered,
         id: 'receivedVsOrdered',
         header: 'Received Vs Ordered',
-        cell: () => (
-          <Typography>
-            {`${singlePurchaseOrderDetailData?.received}/${singlePurchaseOrderDetailData?.quantity}`}
-          </Typography>
-        ),
+        cell: (info: any) =>
+          `${info?.row?.original?.received} / ${info?.row?.original?.quantity}`,
       },
       {
         accessorFn: (row: any) => row?.quantity,
         id: 'pending',
         header: 'Pending',
-        cell: () => {
-          return (
-            <Typography>{singlePurchaseOrderDetailData?.quantity}</Typography>
-          );
-        },
+        cell: (info: any) => info?.getValue(),
       },
     );
   } else {
-    columns.push({
+    columns?.push({
       accessorFn: (row: any) => row?.quantity,
       id: 'quantity',
       header: 'Quantity',
-      cell: () => {
-        return (
-          <Typography>{singlePurchaseOrderDetailData?.quantity}</Typography>
-        );
-      },
+      cell: (info: any) => info?.getValue(),
     });
   }
-  columns.push(
+  columns?.push(
     {
       accessorFn: (row: any) => row?.taxRate,
       id: 'taxRate',
       header: 'Tax Rate (%)',
-      cell: () => {
-        return (
-          <Typography>{singlePurchaseOrderDetailData?.taxRate}</Typography>
-        );
-      },
+      cell: (info: any) => info?.getValue(),
     },
     {
       accessorFn: (row: any) => row?.total,
       id: 'total',
       header: 'Total ()',
-      cell: () => (
-        <Typography>
-          {purchaseOrderDetailData?.map((item: any) => item?.total)}
-        </Typography>
-      ),
+      cell: (info: any) => info?.getValue(),
     },
   );
 

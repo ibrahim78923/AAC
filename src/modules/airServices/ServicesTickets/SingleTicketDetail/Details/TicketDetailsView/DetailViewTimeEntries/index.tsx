@@ -150,7 +150,7 @@ const DetailViewTimeEntries = (data: any) => {
                 </Box>
 
                 <Box display="flex" mt={'1rem'} mb={'2rem'}>
-                  <Typography variant="body1"> Time tracker </Typography>
+                  <Typography variant="body1"> Time Tracker </Typography>
                   <Typography
                     variant="body1"
                     component="span"

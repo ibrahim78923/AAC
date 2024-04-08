@@ -91,7 +91,7 @@ const useUpsertService = () => {
     );
     upsertServiceFormData?.append('estimatedDelivery', data?.estimatedDelivery);
     upsertServiceFormData?.append('description', data?.description);
-    !!data?.fileUrl !== null &&
+    data?.fileUrl !== null &&
       upsertServiceFormData?.append('fileUrl', data?.fileUrl);
     !!data?.selectAssetsCategories?.length &&
       upsertServiceFormData?.append(

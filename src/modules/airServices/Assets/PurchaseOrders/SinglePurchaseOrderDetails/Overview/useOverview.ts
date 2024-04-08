@@ -6,9 +6,7 @@ import { useEffect, useState } from 'react';
 
 export const useOverview = () => {
   const [openOverviewModal, setOpenOverviewModal] = useState(false);
-  const [rowData, setRowData] = useState(null);
-  const handleRowClick = (rowData: any) => {
-    setRowData(rowData);
+  const handleRowClick = () => {
     setOpenOverviewModal(true);
   };
 
@@ -22,9 +20,6 @@ export const useOverview = () => {
     });
   const purchaseOrderData = data?.data;
   const purchaseOrderDetailData = data?.data?.purchaseDetails;
-  const itemName = data?.data?.productDetails?.find(
-    (detail: any) => detail?.vendorproductcatalogsDetails,
-  )?.vendorproductcatalogsDetails?.name;
 
   const orderStatus = data?.data?.status;
 
@@ -52,14 +47,12 @@ export const useOverview = () => {
     theme,
     purchaseOrderData,
     purchaseOrderDetailData,
-    itemName,
     orderStatus,
     handleDownload,
     uniqueNumber,
     isLoading,
     isFetching,
     handleRowClick,
-    rowData,
     isError,
   };
 };
