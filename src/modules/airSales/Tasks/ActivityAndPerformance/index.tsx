@@ -1,22 +1,30 @@
 import React from 'react';
 import { Button, ButtonGroup, useTheme } from '@mui/material';
-import { RecycleIcon } from '@/assets/icons';
-import DrawerComp from '../Drawer';
 import Insights from './Insight';
 import Feed from './Feed';
 import { useTask } from '../useTask';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS } from '@/constants/permission-keys';
+import CommonDrawer from '@/components/CommonDrawer';
 
-const ActivityAndPerformance = () => {
+const ActivityAndPerformance = ({
+  isOpenCollapsAndExpand,
+  setIsOpenCollapsAndExpand,
+  moduleId,
+}: any) => {
   const theme = useTheme();
-  const { counter, handleInsightsBtnClick, handleFeedBtnClick } = useTask();
+  const { counter, handleInsightsBtnClick, handleFeedBtnClick }: any =
+    useTask();
+
   return (
-    <DrawerComp
+    <CommonDrawer
+      isDrawerOpen={isOpenCollapsAndExpand}
+      onClose={() => setIsOpenCollapsAndExpand(false)}
       title=""
-      color="secondary"
-      btnVariant="contained"
-      btnIcon={<RecycleIcon />}
+      okText="Save"
+      isOk={true}
+      footer={false}
+      submitHandler={() => setIsOpenCollapsAndExpand(false)}
     >
       <ButtonGroup size="small" sx={{ mb: '24px' }}>
         <PermissionsGuard
@@ -49,8 +57,8 @@ const ActivityAndPerformance = () => {
         </PermissionsGuard>
       </ButtonGroup>
       {counter === 0 && <Insights />}
-      {counter === 1 && <Feed />}
-    </DrawerComp>
+      {counter === 1 && <Feed moduleId={moduleId} />}
+    </CommonDrawer>
   );
 };
 

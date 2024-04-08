@@ -154,6 +154,7 @@ const useCreateTask = ({ creationMode }: any) => {
     getCreateTaskData,
     methodsFilter,
     onSubmitHandler,
+    taskData,
   };
 };
 

@@ -35,6 +35,7 @@ import { AlertModals } from '@/components/AlertModals';
 import { enqueueSnackbar } from 'notistack';
 import PermissionsGuard from '@/GuardsAndPermissions/PermissonsGuard';
 import { AIR_SALES_TASK_MANAGE_TASK_PERMISSIONS } from '@/constants/permission-keys';
+import ActivityAndPerformance from '../../ActivityAndPerformance';
 
 const TabToolbar = () => {
   const dispatch: any = useAppDispatch();
@@ -43,6 +44,9 @@ const TabToolbar = () => {
   const [deleteIsLoading, setDeleteIsLoading] = useState(false);
 
   const [isEditColumnOpen, setIsEditColumnOpen] = useState(false);
+
+  const [isOpenCollapsAndExpand, setIsOpenCollapsAndExpand] =
+    useState<any>(false);
 
   const [isCreateTaskDrawerOpen, setIsCreateTaskDrawerOpen] = useState(false);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
@@ -113,7 +117,10 @@ const TabToolbar = () => {
       setIsCreateTaskDrawerOpen(true);
       handleClose();
     },
-    viewActivity: () => alert('viewActivity'),
+    viewActivity: () => {
+      setIsOpenCollapsAndExpand(true);
+      handleClose();
+    },
     changeStatus: () => {
       setIsChangeStatusModalOpen(true);
       handleClose();
@@ -300,6 +307,12 @@ const TabToolbar = () => {
             handleClose={() => setIsDeleteModalOpen(false)}
             handleSubmitBtn={deleteTaskHandler}
             loading={deleteIsLoading}
+          />
+
+          <ActivityAndPerformance
+            setIsOpenCollapsAndExpand={setIsOpenCollapsAndExpand}
+            isOpenCollapsAndExpand={isOpenCollapsAndExpand}
+            moduleId={taskData?.data?._id}
           />
         </Box>
       </Box>
