@@ -52,7 +52,7 @@ const UserInfo = () => {
   const day = inputDate.getUTCDate().toString().padStart(2, '0');
   const formattedDateString = `${year}-${month}-${day}`;
 
-  const getDiscountValues = columns();
+  const getDiscountValues = columns(EditInvoice);
 
   const handleUpdate = async () => {
     const updateInvoicePayload = {
@@ -75,9 +75,32 @@ const UserInfo = () => {
       });
     }
   };
-  const TaxAmountOfSubtotal = (EditInvoice?.vat / 100) * EditInvoice?.subTotal;
-  const findAmountAfterTax =
-    (EditInvoice?.vat / 100) * EditInvoice?.subTotal + EditInvoice?.subTotal;
+
+  const planPrice = EditInvoice?.plans?.planPrice;
+
+  const totalAdditionalUserPrice =
+    EditInvoice?.details?.sumAdditionalUsersPrices;
+
+  const totalAdditionalStoragePrice =
+    EditInvoice?.details?.sumAdditionalStoragePrices;
+
+  const planDiscount = EditInvoice?.details?.planDiscount;
+
+  const subtotalBeforeDiscount =
+    planPrice + totalAdditionalUserPrice + totalAdditionalStoragePrice;
+
+  const subtotalAfterDiscount =
+    subtotalBeforeDiscount - (planDiscount / 100) * subtotalBeforeDiscount;
+
+  const invoiceDiscount = EditInvoice?.invoiceDiscount;
+
+  const total =
+    subtotalAfterDiscount - (invoiceDiscount / 100) * subtotalAfterDiscount;
+
+  const tax = EditInvoice?.tax;
+  const TaxAmountOfSubtotal = (tax / 100) * total;
+
+  const netAmout = EditInvoice?.netAmount;
 
   return (
     <Box>
@@ -242,7 +265,7 @@ const UserInfo = () => {
             <Divider sx={{ borderColor: 'custom.off_white_one', my: '6px' }} />
             <Box sx={styles?.vRow}>
               <Box sx={styles?.vLabel}>Total Cost</Box>
-              <Box sx={styles?.vValue}>£ {findAmountAfterTax}</Box>
+              <Box sx={styles?.vValue}>£ {netAmout?.toFixed(2)}</Box>
             </Box>
           </Box>
         </>
